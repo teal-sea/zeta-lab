@@ -9,7 +9,7 @@ measure `c2 dw` shows the difficulty is somewhere else, and isolates it.
     -D(y, s) = int c2(w) cosh(y w) cos(s w) dw
 
 is the Fourier transform of the measure `c2(w) cosh(y w) dw` on `[-1,1]`,
-which is **positive** — `c2 = g * g` is the autocorrelation of a
+which is **positive**, `c2 = g * g` is the autocorrelation of a
 nonnegative window and `cosh > 0`.  So by Bochner, `K_y := -D(y, .)` is
 positive definite.  Measured: min eigenvalue `1.03e-08` over 200 random
 Gram matrices and `-6.06e-16` (numerical zero) over the binding
@@ -48,7 +48,7 @@ statement `B + R/400 >= sum_{a,p} D(y, x_a - t_p)`.
 `k > 1` it is *not* `k` times that: on ten pairs at the window positions
 `B = 0.151406` against `k Shq/2 = 0.337542`, and on six coincident pairs
 `B = 26.536840` against `0.202525`.  The 2026-08-12 finding that slack
-additivity is "false and signed" is exactly this — the additive budget was
+additivity is "false and signed" is exactly this, the additive budget was
 an artifact of the decomposition, and `B` has no additivity to fail.  A
 per-pair accounting was trying to bound a non-additive quantity by an
 additive one, which is why `cluster_sdp`'s factor 1.99 could never have
@@ -132,12 +132,12 @@ def budget(ts, y: float) -> float:
 
 
 def cross(xs, ts, y: float) -> float:
-    """`- sum_{a,p} D(y, x_a - t_p)` — the only term that can be negative."""
+    """`- sum_{a,p} D(y, x_a - t_p)`, the only term that can be negative."""
     return -sum(damage(y, x - t) for x in xs for t in ts)
 
 
 def repulsion(xs) -> float:
-    """`sum_{a<b} phi_r(x_a - x_b)^2 >= 0` — a sum of squares."""
+    """`sum_{a<b} phi_r(x_a - x_b)^2 >= 0`, a sum of squares."""
     return sum(phi_r(xs[a] - xs[b]) ** 2
                for a in range(len(xs)) for b in range(a + 1, len(xs)))
 
@@ -161,7 +161,7 @@ def slack_direct(xs, ts, y: float) -> float:
 
 def pd_min_eigenvalue(y: float = 0.5, trials: int = 120, nmax: int = 12,
                       seed: int = 7) -> float:
-    """Min eigenvalue of `[K_y(u_i - u_j)]` — Bochner says `>= 0`."""
+    """Min eigenvalue of `[K_y(u_i - u_j)]`: Bochner says `>= 0`."""
     import numpy as np
     rng = random.Random(seed)
     worst = 1e9
@@ -177,7 +177,7 @@ def pd_min_eigenvalue(y: float = 0.5, trials: int = 120, nmax: int = 12,
 
 
 def budget_is_shq_at_k_one(ys=(0.1, 0.3, 0.5), t: float = 3.7) -> float:
-    """`B({t}, y) = Shq(y)/2` — the k=1 budget, recovered."""
+    """`B({t}, y) = Shq(y)/2`, the k=1 budget, recovered."""
     return max(abs(budget([t], y) - shq(y) / 2) for y in ys)
 
 

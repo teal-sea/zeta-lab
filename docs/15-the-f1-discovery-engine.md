@@ -1,4 +1,4 @@
-# 15 — The F1 Discovery Engine
+# 15. The F1 Discovery Engine
 **Building the Polya-Hilbert Operator Computationally**
 
 If the Riemann Hypothesis is true because the zeros are the eigenvalues of a physical, geometrical operator (the Polya-Hilbert conjecture), how do we actually find that operator? 
@@ -11,7 +11,7 @@ Deninger postulated an infinite-dimensional dynamical system where:
 - The **Operator** ($\Theta$) acts on the cohomology $H^1$.
 - The **Trace Formula** equates the geometric trace (sum over primes) to the spectral trace (sum over zeros).
 
-In `discovery/01_f1_geometry.py`, we built the software scaffolding for this. We defined `F1Space` (to hold prime orbits) and `Cohomology` (to hold the operator matrix). Any candidate operator we invent must pass the `gate_1_check`—proving that its spectral trace matches the geometric trace of the primes.
+In `discovery/01_f1_geometry.py`, we built the software scaffolding for this. We defined `F1Space` (to hold prime orbits) and `Cohomology` (to hold the operator matrix). Any candidate operator we invent must pass the `gate_1_check`, proving that its spectral trace matches the geometric trace of the primes.
 
 ## 2. The Primordial Instrument (`02_acoustic_f1_matrix.py`)
 To build an operator that is deeply structural, we interpreted the operator as a **Graph Laplacian** (an acoustic wave equation) acting on an Arithmetic Graph.

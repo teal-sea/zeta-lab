@@ -1,4 +1,4 @@
-"""``harness.protocol`` — four instrument roles, one battery, one department.
+"""``harness.protocol``, four instrument roles, one battery, one department.
 
 This module is **domain-agnostic on purpose**, in the same strict sense as
 :mod:`ontology.schema` and :mod:`ontology.registry`: it imports nothing from
@@ -13,23 +13,23 @@ ways that a machine can check without knowing whether the claim is true. Each
 role below is one of them, and each was abstracted from an instrument this
 repository already ran by hand before the abstraction existed.
 
-* :class:`Subject` — a thing a claim can be evaluated against. The genuine
+* :class:`Subject`, a thing a claim can be evaluated against. The genuine
   article is one; so is every rival.
 * :class:`Rival` is not a separate protocol but a *role*: a
   :class:`Subject` that shares whatever structure the claim leans on and yet
   lacks the property the claim purports to explain. **If the claim holds for a
-  rival, it explains nothing** — whatever it is detecting is not the thing that
+  rival, it explains nothing**, whatever it is detecting is not the thing that
   distinguishes the target. This is the sharpest of the four, because it needs
   no threshold and no statistics: it is a modus tollens.
-* :class:`Decoy` — a substitution that replaces the substantive input with
+* :class:`Decoy`, a substitution that replaces the substantive input with
   something structurally similar and substantively empty. If a measurement
   barely moves when the input is swapped for a decoy, the measurement was
   never reading the input. (Ablation.)
-* :class:`Surrogate` — a generator that reproduces the observation from no
+* :class:`Surrogate`, a generator that reproduces the observation from no
   substantive input at all. If a null model matches the observed statistic,
   the observation is a property of the model class, not a discovery. (Null
   control.)
-* :class:`Lesion` — a planted, known violation. Applied to the subject, it
+* :class:`Lesion`, a planted, known violation. Applied to the subject, it
   gives a detector something it *must* notice. A detector that misses a
   planted violation cannot be credited with having found nothing; its silence
   measures its blindness, not the world. (Detector power.)
@@ -54,7 +54,7 @@ Typing style
 The roles are :class:`typing.Protocol` classes, so a department may implement
 them with plain objects and owes no import to this module. The ``*_reasons``
 functions report **every** violation at once, because a battery with three
-problems should not need three runs to find them — the same convention
+problems should not need three runs to find them, the same convention
 :func:`ontology.registry.domain_reasons` follows.
 """
 
@@ -127,7 +127,7 @@ class Subject(Protocol):
 
     Both the genuine article and every rival are subjects; the difference is
     the role each plays in a :class:`Battery`, not the interface. ``payload``
-    returns whatever the department's claim functions expect to receive — a
+    returns whatever the department's claim functions expect to receive, a
     mapping of callables, an array, a model object. This module never looks
     inside it.
     """
@@ -153,7 +153,7 @@ class Decoy(Protocol):
 
     An optional ``probe`` attribute declares a payload this decoy understands,
     for the audit's "does this instrument do anything at all" check. It is not
-    required — the audit also tries the department's own target payload — but
+    required, the audit also tries the department's own target payload, but
     declaring it is the cheapest way to say what shape you expect. It was
     undocumented until 2026-08-09 and the audit read it anyway, which graded
     honest domain-faithful instruments as inert; ``docs/23`` §8.6 has the
@@ -216,7 +216,7 @@ class Lesion(Protocol):
 
 
 #: A claim is any predicate over a payload. It returns truthy when the claimed
-#: structure is present. It is never asked whether the claim is *true* — only
+#: structure is present. It is never asked whether the claim is *true*, only
 #: whether it fires.
 ClaimOutcome = Callable[[Any], Any]
 
@@ -235,8 +235,8 @@ class NamedDetector:
     audit measures them instead of trusting them.
 
     ``fires`` is a predicate over payloads of the shape the department's
-    lesions produce. ``probe`` is a *clean* payload of that shape — the
-    lesion host with nothing planted — so that specificity can be measured
+    lesions produce. ``probe`` is a *clean* payload of that shape, the
+    lesion host with nothing planted, so that specificity can be measured
     alongside power: a detector that fires on the clean probe is an alarm
     that is always on, and an alarm that is always on has perfect
     sensitivity and no information. ``None`` means the battery target's
@@ -265,7 +265,7 @@ class Battery:
     and lack the property at issue. ``decoys``, ``surrogates`` and ``lesions``
     supply ablation, null control and power calibration respectively.
 
-    A battery is not valid unless it could fail — see :func:`battery_reasons`.
+    A battery is not valid unless it could fail, see :func:`battery_reasons`.
     """
 
     name: str
@@ -285,7 +285,7 @@ class Battery:
             ("lesion", self.lesions),
         ):
             for member in members:
-                lines.append(f"  {role}: {member.name} — {member.describe()}")
+                lines.append(f"  {role}: {member.name}, {member.describe()}")
         if self.notes:
             lines.append(f"  notes: {self.notes}")
         return "\n".join(lines)
@@ -314,11 +314,11 @@ class BatteryVerdict:
 
     def summary(self) -> str:
         if self.errors:
-            return f"{self.claim}: inconclusive — {len(self.errors)} subject(s) raised"
+            return f"{self.claim}: inconclusive, {len(self.errors)} subject(s) raised"
         if not self.target:
             return f"{self.claim}: does not fire for the target"
         if self.shared_with:
-            return f"{self.claim}: shared with {', '.join(self.shared_with)} — distinguishes nothing"
+            return f"{self.claim}: shared with {', '.join(self.shared_with)}, distinguishes nothing"
         return f"{self.claim}: distinguishes the target from {len(self.rivals)} rival(s)"
 
 
@@ -411,7 +411,7 @@ class NullBandVerdict:
     :class:`NullVerdict` compares against one draw per surrogate with a
     distance tolerance. For a deterministic surrogate that is exact; for a
     distributional null it is a gate whose pass probability under the null
-    nobody measured — the failure mode this repository's own red-team
+    nobody measured, the failure mode this repository's own red-team
     report records as W3/W4. This verdict replaces the distance with an
     exceedance count over a stated number of draws, so a reader can see
     both the band and how well it was sampled.
@@ -444,7 +444,7 @@ class NullBandVerdict:
 
     @property
     def survives(self) -> bool:
-        """True when no null draw reaches the observation — and only worth
+        """True when no null draw reaches the observation, and only worth
         quoting alongside ``total_draws``, which is why ``summary`` states
         both."""
         return self.total_draws > 0 and all(
@@ -453,7 +453,7 @@ class NullBandVerdict:
 
     def summary(self) -> str:
         if self.total_draws == 0:
-            return f"{self.statistic}: no null draws — this measured nothing"
+            return f"{self.statistic}: no null draws, this measured nothing"
         exceeded = sum(self.exceedances.values())
         lo, hi = self.band  # type: ignore[misc]
         return (
@@ -470,7 +470,7 @@ class DetectorVerdict:
     :class:`PowerVerdict` measures sensitivity only, which leaves a hole a
     constant-``True`` detector walks straight through: it "notices" every
     planted violation and earns a perfect power report while carrying no
-    information at all. ``false_alarm`` closes the hole — the detector is
+    information at all. ``false_alarm`` closes the hole, the detector is
     also shown the clean probe, and one that fires there has power in no
     meaningful sense, whatever its lesion record says.
     """
@@ -496,14 +496,14 @@ class DetectorVerdict:
 
     def summary(self) -> str:
         if self.false_alarm:
-            return f"{self.detector}: fires on the clean probe — its alarms carry no information"
+            return f"{self.detector}: fires on the clean probe, its alarms carry no information"
         if self.blind_to:
             return f"{self.detector}: blind to {', '.join(self.blind_to)}"
         return f"{self.detector}: noticed all {len(self.fired)} planted violation(s), quiet when clean"
 
 
 # ---------------------------------------------------------------------------
-# Validation — every violation reported at once
+# Validation, every violation reported at once
 # ---------------------------------------------------------------------------
 
 _SUBJECT_METHODS: Final = ("describe", "payload")
@@ -601,8 +601,8 @@ class ReferenceClaim:
     A battery that returns the same answer for everything is useless in a way
     that is invisible from any single run: one that never distinguishes looks
     exactly like a strict referee, and one that always distinguishes looks
-    exactly like a subject full of real structure. Two reference claims — one
-    the battery must kill, one it must pass — pin the instrument in both
+    exactly like a subject full of real structure. Two reference claims, one
+    the battery must kill, one it must pass, pin the instrument in both
     directions, and the conformance test re-derives them rather than trusting
     the label.
     """
@@ -634,7 +634,7 @@ class Department:
       measured against the declared instrument instead of whatever a caller
       happens to pass (``compiler/FINDINGS.md`` §8 records why).
     * ``scope`` states, in one sentence, exactly what surviving this battery
-      justifies — and therefore what it does not. The pattern is the compiler
+      justifies, and therefore what it does not. The pattern is the compiler
       department's evidence strings, generalised: a verdict that travels
       without its scope gets read as more than it is.
     * ``provenance`` declares who authored the battery content and under
@@ -662,7 +662,7 @@ class Department:
         if self.scope:
             lines.append(f"  scope: {self.scope}")
         for detector in self.detectors:
-            lines.append(f"  detector: {detector.name} — {detector.describe()}")
+            lines.append(f"  detector: {detector.name}, {detector.describe()}")
         if self.provenance is not None:
             lines.append(f"  provenance: {self.provenance.describe()}")
         lines.append(self.battery.describe())
@@ -681,7 +681,7 @@ def department_reasons(department: Department) -> tuple[str, ...]:
     elif not str(department.door).endswith(".md"):
         reasons.append(f"department door {department.door!r} is not a document")
     if department.battery is None:
-        reasons.append("department declares no battery — that makes it a probe, not a department")
+        reasons.append("department declares no battery, that makes it a probe, not a department")
     else:
         reasons.extend(f"battery: {reason}" for reason in battery_reasons(department.battery))
 
@@ -733,7 +733,7 @@ def validate_department(department: Department) -> None:
 
 
 # ---------------------------------------------------------------------------
-# The registry — the entire coupling between this package and its subjects
+# The registry, the entire coupling between this package and its subjects
 # ---------------------------------------------------------------------------
 
 _LOCK = threading.Lock()
@@ -817,7 +817,7 @@ def run_ablation(
     """Measure on the target, then on the target with each decoy substituted.
 
     ``payload`` defaults to the target's, but may be given explicitly: the four
-    instruments legitimately consume different objects — a rival is handed the
+    instruments legitimately consume different objects, a rival is handed the
     whole subject interface, while an ablation usually acts on the one input
     whose substance is in question. Forcing a single payload type across all
     four would make the protocol tidier and the departments dishonest.
@@ -907,9 +907,9 @@ def run_detector(battery: Battery, detector: NamedDetector, *, payload: Any = No
 
     The clean probe is, in order of preference: ``payload`` if given, the
     detector's own ``probe`` if declared, else the battery target's payload.
-    The detector is shown the clean probe first — a detector that fires
+    The detector is shown the clean probe first, a detector that fires
     there is an alarm that is always on, and the lesion columns of its
-    verdict are then decoration — and then the same probe with each lesion
+    verdict are then decoration, and then the same probe with each lesion
     planted in it.
     """
     validate_battery(battery)

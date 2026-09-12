@@ -1,0 +1,302 @@
+{
+ "metamerism": {
+  "wheel_1": 1763,
+  "wheel_2": 347,
+  "wheel_3": 175,
+  "wheel_4": 125,
+  "wheel_5": 1763,
+  "wheel_6": 49,
+  "wheels_1_and_5_together": 1763,
+  "full_dft_distinct": 4096,
+  "subsets": 4096,
+  "largest_metamer_class_wheel_5": {
+   "size": 24,
+   "cardinality": 6,
+   "examples": [
+    [
+     0,
+     1,
+     2,
+     6,
+     7,
+     8
+    ],
+    [
+     0,
+     1,
+     3,
+     6,
+     7,
+     9
+    ],
+    [
+     0,
+     1,
+     4,
+     5,
+     8,
+     9
+    ],
+    [
+     0,
+     1,
+     4,
+     6,
+     7,
+     10
+    ]
+   ]
+  },
+  "wheel_5_colour_classes_mixing_set_classes": 639,
+  "wheel_5_colour_classes": 1763
+ },
+ "orbifold": {
+  "card_3": {
+   "spearman_radius_vs_f1": 0.9545,
+   "distinct_f1_per_radius": {
+    "0": 1,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 2,
+    "5": 1,
+    "6": 1
+   },
+   "function_of_radius": false
+  },
+  "card_4": {
+   "spearman_radius_vs_f1": 0.913,
+   "distinct_f1_per_radius": {
+    "0": 1,
+    "1": 1,
+    "2": 5,
+    "3": 4,
+    "4": 6,
+    "5": 2,
+    "6": 3,
+    "7": 1,
+    "8": 1
+   },
+   "function_of_radius": false
+  },
+  "card_6": {
+   "spearman_radius_vs_f1": 0.9166,
+   "distinct_f1_per_radius": {
+    "0": 1,
+    "1": 1,
+    "2": 5,
+    "3": 6,
+    "4": 6,
+    "5": 4,
+    "6": 3,
+    "7": 2,
+    "8": 1,
+    "9": 1
+   },
+   "function_of_radius": false
+  }
+ },
+ "crt": {
+  "injective": true,
+  "wheel_4_classes": [
+   [
+    0,
+    3,
+    6,
+    9
+   ],
+   [
+    1,
+    4,
+    7,
+    10
+   ],
+   [
+    2,
+    5,
+    8,
+    11
+   ]
+  ],
+  "wheel_3_classes": [
+   [
+    0,
+    4,
+    8
+   ],
+   [
+    1,
+    5,
+    9
+   ],
+   [
+    2,
+    6,
+    10
+   ],
+   [
+    3,
+    7,
+    11
+   ]
+  ],
+  "distinct_triad_patterns": 24,
+  "octatonic_is_union_of_two_dim7_cosets": true
+ },
+ "perceptual_search": {
+  "oklch_fixed": {
+   "sethares": {
+    "best_affine": 0.5662,
+    "fifths_any_rotation_max": 0.5662,
+    "fifths_rotation_min": 0.5662,
+    "hill_climb_best": 0.5662,
+    "hill_climb_map": [
+     1,
+     6,
+     11,
+     4,
+     9,
+     2,
+     7,
+     0,
+     5,
+     10,
+     3,
+     8
+    ],
+    "hill_climb_is_affine": true,
+    "null_mean": 0.0004,
+    "null_sd": 0.1327,
+    "null_max": 0.4749,
+    "null_frac_ge_hill": 0.0
+   },
+   "tenney": {
+    "best_affine": 0.627,
+    "fifths_any_rotation_max": 0.627,
+    "fifths_rotation_min": 0.627,
+    "hill_climb_best": 0.627,
+    "hill_climb_map": [
+     6,
+     1,
+     8,
+     3,
+     10,
+     5,
+     0,
+     7,
+     2,
+     9,
+     4,
+     11
+    ],
+    "hill_climb_is_affine": true,
+    "null_mean": 0.0004,
+    "null_sd": 0.133,
+    "null_max": 0.5249,
+    "null_frac_ge_hill": 0.0
+   },
+   "ordinal": {
+    "best_affine": 0.627,
+    "fifths_any_rotation_max": 0.627,
+    "fifths_rotation_min": 0.627,
+    "hill_climb_best": 0.627,
+    "hill_climb_map": [
+     0,
+     7,
+     2,
+     9,
+     4,
+     11,
+     6,
+     1,
+     8,
+     3,
+     10,
+     5
+    ],
+    "hill_climb_is_affine": true,
+    "null_mean": -0.0005,
+    "null_sd": 0.1329,
+    "null_max": 0.5385,
+    "null_frac_ge_hill": 0.0
+   }
+  },
+  "hsl": {
+   "sethares": {
+    "best_affine": 0.4876,
+    "fifths_any_rotation_max": 0.4876,
+    "fifths_rotation_min": 0.4876,
+    "hill_climb_best": 0.5058,
+    "hill_climb_map": [
+     1,
+     6,
+     11,
+     5,
+     9,
+     2,
+     7,
+     0,
+     4,
+     10,
+     3,
+     8
+    ],
+    "hill_climb_is_affine": false,
+    "null_mean": -0.0003,
+    "null_sd": 0.1337,
+    "null_max": 0.4539,
+    "null_frac_ge_hill": 0.0
+   },
+   "tenney": {
+    "best_affine": 0.5474,
+    "fifths_any_rotation_max": 0.5474,
+    "fifths_rotation_min": 0.5474,
+    "hill_climb_best": 0.5474,
+    "hill_climb_map": [
+     11,
+     4,
+     9,
+     2,
+     7,
+     0,
+     5,
+     10,
+     3,
+     8,
+     1,
+     6
+    ],
+    "hill_climb_is_affine": true,
+    "null_mean": 0.0003,
+    "null_sd": 0.1338,
+    "null_max": 0.4894,
+    "null_frac_ge_hill": 0.0
+   },
+   "ordinal": {
+    "best_affine": 0.5474,
+    "fifths_any_rotation_max": 0.5474,
+    "fifths_rotation_min": 0.5474,
+    "hill_climb_best": 0.5474,
+    "hill_climb_map": [
+     11,
+     6,
+     1,
+     8,
+     3,
+     10,
+     5,
+     0,
+     7,
+     2,
+     9,
+     4
+    ],
+    "hill_climb_is_affine": true,
+    "null_mean": 0.0004,
+    "null_sd": 0.1339,
+    "null_max": 0.4807,
+    "null_frac_ge_hill": 0.0
+   }
+  }
+ }
+}

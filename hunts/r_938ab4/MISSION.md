@@ -1,4 +1,4 @@
-# Hunt R-938AB4 — what `reNum_mem` and `imNumOverY_mem` actually enclose
+# Hunt R-938AB4: what `reNum_mem` and `imNumOverY_mem` actually enclose
 
 Run `bbe76b9a-ccf3-4d53-bfe9-6480334f4648`, opened 2026-08-17.
 
@@ -26,7 +26,7 @@ live in `hunts/frontier_math/*.py` and `lean/ZetaLean/` and were not touched.
 
 The bar is the repository's: the Lean arm counts nothing with a `sorry`, and
 axioms must stay `propext` / `Classical.choice` / `Quot.sound`. A statement
-that compiles is not thereby a statement with content — the cautionary
+that compiles is not thereby a statement with content, the cautionary
 example is the run-4df2ee65 finding that `r_comp_mem` was true, zero-sorry
 and vacuous at every box in the table. Instantiability at a real box from
 `o9boxes` is therefore part of the deliverable, not a nicety.

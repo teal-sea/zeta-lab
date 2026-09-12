@@ -1,4 +1,4 @@
-"""``dossier.status`` — four kinds of support, kept apart on purpose.
+"""``dossier.status``, four kinds of support, kept apart on purpose.
 
 This module exists to make one mistake impossible to write down: collapsing
 "we checked it numerically", "every step carried an enclosure", "a paper says
@@ -8,12 +8,12 @@ Those four are not degrees of the same thing. They fail differently, they are
 falsified by different evidence, and one of them can be true while another is
 false without any contradiction:
 
-* a formula can be **numerically checked** to forty digits and still be false
-  — this repository's house rule, and the theorem behind it, are in ``docs/08``;
+* a formula can be **numerically checked** to forty digits and still be false,
+  this repository's house rule, and the theorem behind it, are in ``docs/08``;
 * an **enclosure** proves a numeric statement about a finite computation and
   says nothing about the general case;
 * the **literature** can support a statement that the local definitions do not
-  actually instantiate — the citation is about a different object;
+  actually instantiate, the citation is about a different object;
 * a **kernel-checked** proof is about the Lean statement, which may not be the
   statement anyone meant.
 
@@ -78,7 +78,7 @@ class CertifiedStatus(StrEnum):
 class LiteratureStatus(StrEnum):
     """What does the published record say?
 
-    ``UNLOCATED`` is the absence of a lookup, never evidence of novelty — the
+    ``UNLOCATED`` is the absence of a lookup, never evidence of novelty, the
     same rule ``ontology/README.md`` states for the knownness detector.
     """
 
@@ -130,7 +130,7 @@ _AXIS_TYPES: Final[dict[str, type[StrEnum]]] = {
 }
 
 #: Values that assert something positive, per axis. Used only to refuse an
-#: unsupported assertion (see :func:`support_reasons`) — never to compute an
+#: unsupported assertion (see :func:`support_reasons`), never to compute an
 #: aggregate score.
 _ASSERTIVE: Final[dict[str, frozenset[str]]] = {
     "numeric": frozenset({NumericStatus.AGREES_TO_TOLERANCE}),
@@ -179,8 +179,8 @@ class Support:
     def __bool__(self) -> bool:  # pragma: no cover - the raise is the point
         raise TypeError(
             "Support has no truth value on purpose: a dossier is not 'verified' "
-            "or 'unverified'. Name the axis you mean — .numeric, .certified, "
-            ".literature or .formal — and read its status."
+            "or 'unverified'. Name the axis you mean .numeric, .certified, "
+            ".literature or .formal, and read its status."
         )
 
     def record(self, axis: str) -> AxisRecord:
@@ -195,7 +195,7 @@ class Support:
             rec = self.record(axis)
             line = f"  {axis:<11} {rec.status}"
             if rec.detail:
-                line += f" — {rec.detail}"
+                line += f", {rec.detail}"
             if rec.artifact:
                 line += f"  [{rec.artifact}]"
             lines.append(line)

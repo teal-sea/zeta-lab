@@ -1,0 +1,10 @@
+One file per Erdős problem, named for its number: `Erdos/359.lean`, module
+`Erdos.«359»` (a numeric component is not a legal Lean identifier, so an
+import has to write the French quotes: `import Erdos.«359»`).
+
+This placeholder is not decoration. The `Erdos` library target in
+`../lakefile.toml` uses the glob `Erdos.+`, and Lake resolves that by walking
+the `Erdos/` directory; if the directory does not exist, `lake build Erdos`
+fails with "no such file or directory" rather than building nothing. Git does
+not track empty directories, so without this file a fresh clone has no
+`Erdos/` at all. Delete it only once real problem files live here.

@@ -2,8 +2,8 @@
 
 Level 6a hardened the pentadiagonal caps at theta_full = 0.02 on the seven
 probe depths only, and named the full ladder as compute.  This module runs
-the same machinery — ``EnclosedPenta`` (ball kernels, directed endpoints,
-DP total inflated 1 + 1e-9) — over the complete level-4/5 geometric depth
+the same machinery, ``EnclosedPenta`` (ball kernels, directed endpoints,
+DP total inflated 1 + 1e-9), over the complete level-4/5 geometric depth
 ladder (60+ cells), with the pair-charge fraction eta taken one-sided per
 cell: the maximum of the measured-optimal eta over every probe depth that
 touches the cell's bracket (eta is measured on its adversary family, as at
@@ -58,7 +58,7 @@ def run(theta: float = 0.02, nu_p: float = 1.0):
         print(f"    y={y}: eta = {eta:.4f}", flush=True)
     # the probe cells of level 6a were 1% wide; an 18%-wide cell dilates
     # cap/slack (worst y2 sups against shallow-lip slack) by ~(ratio)^2,
-    # which is fatal at combined margins of a few percent — the ladder must
+    # which is fatal at combined margins of a few percent, the ladder must
     # be fine enough that the cell dilation stays inside the margins.
     cells = ep.depth_ladder(ratio=1.05, deep_ratio=1.012, deep_from=0.09)
     print(f"  {len(cells)} depth cells", flush=True)

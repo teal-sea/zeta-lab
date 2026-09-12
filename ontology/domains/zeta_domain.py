@@ -1,4 +1,4 @@
-"""ontology.domains.zeta_domain — the only module that knows what is studied.
+"""ontology.domains.zeta_domain, the only module that knows what is studied.
 
 Everything above this file in ``discovery/`` is domain-agnostic: it counts
 candidates, verdicts and conversion rates and would work unchanged for a
@@ -12,7 +12,7 @@ Honest scope, restated because this is the file where it would be easiest to
 lose. Nothing here is evidence for the Riemann Hypothesis. A candidate that
 survives every screen is a *lead*: a number that a finite computation failed to
 kill, whose ``proof_gap`` field says in words what is missing before it could be
-a theorem. The expected outcome — the one the funnel exists to measure — is
+a theorem. The expected outcome, the one the funnel exists to measure, is
 ``known``, and the second most likely is ``trivial``.
 
 What the generators mine
@@ -31,11 +31,11 @@ What the generators mine
                           tightest Weil margin, the smallest normalised zero
                           gap, the largest Mertens ratio, the most nearly
                           degenerate Jensen polynomial
-``zeta_finite_field``     the universe where RH is a theorem — Hasse ratios and
+``zeta_finite_field``     the universe where RH is a theorem: Hasse ratios and
                           Sato-Tate moments over curves mod p, so a "discovery"
                           is checkable against known truth
 ``zeta_structural``       universal claims over enumerated families, each with a
-                          control the predicate *fails* — these are the ones the
+                          control the predicate *fails*, these are the ones the
                           counterexample battery must adjudicate
 ``zeta_legendre_weil``    the Riemann-Weil explicit formula localised to
                           Legendre intervals [n², (n+1)²]: the identity
@@ -67,7 +67,7 @@ property here rather than a promise.
 Nothing is dropped without a trace
 ----------------------------------
 A payload a generator builds and does not emit never enters the funnel, so it
-appears in no conversion rate — the pipeline can only count what it is shown.
+appears in no conversion rate, the pipeline can only count what it is shown.
 Every generator therefore inherits :class:`_RecordingGenerator` and keeps the
 reasons in ``refused``, cleared at the start of each pass: schema refusals, ties
 in an extremal search, integer-relation hunts that found nothing significant.
@@ -168,7 +168,7 @@ UNCERTAINTY_GUARD: Final[int] = 5
 
 #: Extra digits every comparison is carried out at. ``mpmath`` re-rounds to the
 #: *ambient* precision, so subtracting two values that agree to 25 digits at the
-#: default 15 gives exactly zero — a screen that runs at ambient precision
+#: default 15 gives exactly zero, a screen that runs at ambient precision
 #: cannot fail, and a screen that cannot fail is a defect, not a reassurance.
 GUARD_DIGITS: Final[int] = 25
 
@@ -224,7 +224,7 @@ def _dedup_digits(value: Any, uncertainty: Any, ceiling: int = 9) -> int:
     """Identity resolution the error bar actually supports.
 
     The schema refuses ``dedup_digits`` above the digits a constant's error
-    bound determines — you may not hash digits you did not measure. This is the
+    bound determines, you may not hash digits you did not measure. This is the
     domain side of that contract.
     """
     with mp.workdps(60):
@@ -236,7 +236,7 @@ def _dedup_digits(value: Any, uncertainty: Any, ceiling: int = 9) -> int:
 
 
 def _loglog_exponent(xs: Sequence[float], ys: Sequence[float]) -> float:
-    """Least-squares slope of ``log y`` against ``log x`` — the fitted exponent."""
+    """Least-squares slope of ``log y`` against ``log x``, the fitted exponent."""
     lx = np.log(np.asarray(xs, dtype=float))
     ly = np.log(np.asarray(ys, dtype=float))
     design = np.vstack([lx, np.ones_like(lx)]).T
@@ -255,7 +255,7 @@ class Route:
 
     ``compute`` returns the *claimed* number: the value for a ``constant``, the
     defect for a ``relation``. ``escalates`` says whether raising ``dps`` buys
-    real digits — a float64 statistic does not, and pretending otherwise would
+    real digits, a float64 statistic does not, and pretending otherwise would
     make the stability screen vacuous. ``cross_check`` is a second, genuinely
     independent route where the laboratory has one.
     """
@@ -303,7 +303,7 @@ def _weil_probe(n_points: int, dps: int) -> tuple[dict[str, Any], ...]:
             "W": _f(row["W"]),
             "scale": _f(row["scale"]),
             "margin": _f(row["margin"]),
-            # absolute, on W — *not* on the (dimensionless) margin
+            # absolute, on W, *not* on the (dimensionless) margin
             "noise_floor": _f(row["noise_floor"]),
             "dps_used": _i(row["dps_used"]),
         }
@@ -420,7 +420,7 @@ def _route_defect_lambda1_closed_form(params: Mapping[str, Any], dps: int) -> An
     from zeta.li import li_closed_form_lambda1
 
     # Two rules, both load-bearing. The subtraction happens at a precision that
-    # can *see* the difference — at the ambient 15 digits two values agreeing to
+    # can *see* the difference, at the ambient 15 digits two values agreeing to
     # 25 differ by exactly zero, and a defect that cannot be nonzero is not a
     # measurement. And the reference side is evaluated with guard digits, so the
     # recorded defect is the error of the route under test rather than the
@@ -442,7 +442,7 @@ def _route_defect_gamma0_vs_Xi0(params: Mapping[str, Any], dps: int) -> Any:
 
 
 def _lambda1_pslq_closed_form(dps: int) -> Any:
-    """(2 + gamma - 2 log 2 - log pi) / 2 — the expression PSLQ returns."""
+    """(2 + gamma - 2 log 2 - log pi) / 2, the expression PSLQ returns."""
     with mp.workdps(dps + 10):
         return (2 + mp.euler - 2 * mp.log(2) - mp.log(mp.pi)) / 2
 
@@ -473,7 +473,7 @@ def _route_defect_ff_trace_surjectivity(params: Mapping[str, Any], dps: int) -> 
 #: archimedean quadrature at escalated precision costs ~15 s per interval, and
 #: every funnel-running test in every xdist worker would otherwise pay it
 #: again; this is the repo's standard data/ cache pattern. **If zeta/weil.py's
-#: numerical internals change, delete this file** — stale sides would let the
+#: numerical internals change, delete this file**, stale sides would let the
 #: screens "pass" against numbers the code no longer produces.
 _LEGENDRE_SIDES_CACHE: Final[Path] = (
     Path(__file__).resolve().parents[2] / "data" / "legendre_weil_sides.json"
@@ -746,7 +746,7 @@ class _RecordingGenerator(BaseGenerator):
     has a wrong denominator.** A payload the schema refuses, or one killed by an
     internal guard (a tie in an extremal search, a search space with fewer than
     two members), is real work that produced no candidate, and the funnel cannot
-    see it — a candidate that was never yielded never enters the pipeline, so it
+    see it, a candidate that was never yielded never enters the pipeline, so it
     appears in no conversion rate at all.
 
     Every such drop is appended to :attr:`refused` with its reason, and the list
@@ -765,7 +765,7 @@ class _RecordingGenerator(BaseGenerator):
 
 
 # ---------------------------------------------------------------------------
-# Generator 1 — constants
+# Generator 1, constants
 # ---------------------------------------------------------------------------
 
 
@@ -777,8 +777,8 @@ class ConstantsGenerator(_RecordingGenerator):
     ``1e-(dps+3)``, and the float64 statistics claim their own standard error.
 
     Nothing is pre-filtered here. A quantity indistinguishable from zero is not
-    a constant candidate — the schema is right that a vanishing measurement is a
-    relation — but the honest place for that refusal is the funnel, which counts
+    a constant candidate, the schema is right that a vanishing measurement is a
+    relation, but the honest place for that refusal is the funnel, which counts
     the payload ``invalid`` *against this generator*. Silently declining to emit
     it would hide a generator defect instead of measuring it.
     """
@@ -928,7 +928,7 @@ class ConstantsGenerator(_RecordingGenerator):
 
 
 # ---------------------------------------------------------------------------
-# Generator 2 — asymptotics
+# Generator 2, asymptotics
 # ---------------------------------------------------------------------------
 
 #: Sample grids are module constants so that a fit is reproducible to the point,
@@ -1153,7 +1153,7 @@ class AsymptoticsGenerator(_RecordingGenerator):
 
 
 # ---------------------------------------------------------------------------
-# Generator 3 — relations, including an integer-relation hunt
+# Generator 3, relations, including an integer-relation hunt
 # ---------------------------------------------------------------------------
 
 #: The basis the PSLQ hunt searches over, as ``(name, value factory)``.
@@ -1260,7 +1260,7 @@ class RelationsGenerator(_RecordingGenerator):
             label="lambda_1 by Cauchy integral versus its closed form",
         )
 
-        # 2. the Jensen normalisation against Xi(0) — true, and trivially so
+        # 2. the Jensen normalisation against Xi(0), true, and trivially so
         started = time.perf_counter()
         defect = _route_defect_gamma0_vs_Xi0({}, dps)
         yield from self._emit(
@@ -1421,7 +1421,7 @@ class RelationsGenerator(_RecordingGenerator):
 
 
 # ---------------------------------------------------------------------------
-# Generator 4 — extremal records
+# Generator 4, extremal records
 # ---------------------------------------------------------------------------
 
 
@@ -1429,7 +1429,7 @@ class ExtremalGenerator(_RecordingGenerator):
     """Record holders, each with the runner-up that makes the record falsifiable.
 
     ``n_searched`` sits in the claim, so extending a search produces a *new*
-    candidate rather than silently overwriting the old one — a record over a
+    candidate rather than silently overwriting the old one, a record over a
     larger set is a different and stronger statement.
     """
 
@@ -1454,7 +1454,7 @@ class ExtremalGenerator(_RecordingGenerator):
         margins = sorted(row["margin"] for row in rows)
         best, runner_up = margins[0], margins[1]
         # The record is about *one* member of the family, so the noise floor
-        # recorded beside it must be that member's own — and it must be on the
+        # recorded beside it must be that member's own, and it must be on the
         # same scale as the number it is compared with. ``positivity_probe``
         # reports ``margin = W/scale`` (dimensionless) but ``noise_floor`` as an
         # absolute bound on ``W``; pairing them directly compares two different
@@ -1656,7 +1656,7 @@ class ExtremalGenerator(_RecordingGenerator):
 
 
 # ---------------------------------------------------------------------------
-# Generator 5 — the universe where RH is a theorem
+# Generator 5, the universe where RH is a theorem
 # ---------------------------------------------------------------------------
 
 FINITE_FIELD_PRIMES: Final[tuple[int, ...]] = (503, 1009, 4001)
@@ -1731,7 +1731,7 @@ class FiniteFieldGenerator(_RecordingGenerator):
                 lab_object="zeta.finitefield.sato_tate_histogram",
                 parameters={"p": p},
                 # The point counts are exact integers, but the number claimed
-                # is ``max|a_p| / (2 sqrt p)`` — a float64 division. Recording
+                # is ``max|a_p| / (2 sqrt p)``, a float64 division. Recording
                 # this as ``exact`` would assert that the claim carries infinite
                 # effort, which is both false and unpromotable.
                 precision=Precision(kind="float64", backend="python-float"),
@@ -1838,7 +1838,7 @@ def _emit_relation(
 
 
 # ---------------------------------------------------------------------------
-# Generator 6 — structural claims (the ones the battery must adjudicate)
+# Generator 6, structural claims (the ones the battery must adjudicate)
 # ---------------------------------------------------------------------------
 
 #: Predicate strings that :class:`CounterexampleBatteryScreen` knows how to
@@ -1858,7 +1858,7 @@ class StructuralGenerator(_RecordingGenerator):
     """Universal claims over enumerated families, each with a failing control.
 
     The schema refuses a structural claim with no control on which the predicate
-    returned ``False`` — a property everything satisfies distinguishes nothing.
+    returned ``False``, a property everything satisfies distinguishes nothing.
     That refusal is this repository's counterexample battery, generalised, and
     the controls here are computed rather than asserted.
     """
@@ -2066,7 +2066,7 @@ class StructuralGenerator(_RecordingGenerator):
 
 
 # ---------------------------------------------------------------------------
-# Generator 7 — the Weil explicit formula on Legendre intervals
+# Generator 7, the Weil explicit formula on Legendre intervals
 # ---------------------------------------------------------------------------
 
 
@@ -2079,13 +2079,13 @@ class LegendreWeilGenerator(_RecordingGenerator):
     evaluation of ``explicit_formula_sides`` per interval feeds up to three
     observations:
 
-    * the two sides agree within the truncation budget — an *instance of a
+    * the two sides agree within the truncation budget, an *instance of a
       theorem*, which the catalogue is expected to recognise as ``known``;
     * the Λ-mass the zeros-plus-pole side assigns to the interval is strictly
-      positive — primes detected; for every n this generator can reach that
+      positive, primes detected; for every n this generator can reach that
       is finitely verified, so again ``known``;
     * only under ``context["legendre_mass_constant"]``: the Λ-mass of the
-      widest interval as a measured constant no catalogue tabulates — a
+      widest interval as a measured constant no catalogue tabulates, a
       designed survivor, opt-in for the same reason ``xi_points`` is.
 
     Nothing here is progress on Legendre's conjecture: the truncated zero
@@ -2175,7 +2175,7 @@ class LegendreWeilGenerator(_RecordingGenerator):
                     "note": (
                         "every term Lambda(k) k^(-1/2) g(log k) is non-negative, "
                         "so positivity says exactly that a prime power lies in "
-                        f"({n * n}, {(n + 1) ** 2}) — finitely verifiable, and verified"
+                        f"({n * n}, {(n + 1) ** 2}), finitely verifiable, and verified"
                     ),
                 },
                 route="legendre_detection_defect",
@@ -2188,7 +2188,7 @@ class LegendreWeilGenerator(_RecordingGenerator):
             emitted_any = True
 
         # 3. the Λ-mass of the widest harvested interval, as a plain measured
-        #    constant: escalates, cross-checks, and is in no catalogue — so it
+        #    constant: escalates, cross-checks, and is in no catalogue, so it
         #    reaches ``survives`` by construction. Emitted only when the
         #    operator asks (the ``xi_points`` precedent): the default pass is
         #    designed to yield no survivor, and a flag that manufactures one
@@ -2433,7 +2433,7 @@ class NumericSanityScreen(BaseScreen):
             # not a refutation, and the schema is right to refuse a refutation
             # whose defect is inside its own tolerance. Building one anyway
             # produced a malformed ScreenResult, which the funnel turns into a
-            # FunnelError that kills the whole run — so the near-boundary case,
+            # FunnelError that kills the whole run, so the near-boundary case,
             # the only interesting one, used to abort the pipeline.
             return _stopped(
                 self.name,
@@ -2534,7 +2534,7 @@ class PrecisionStabilityScreen(BaseScreen):
     A candidate is re-derived from its own provenance at strictly higher working
     precision. If it moves by more than the error bar it claimed, the error bar
     was fiction and the observation is numerical noise. The refutation is only
-    recorded if it *persists* at a second, higher escalation — a failure that
+    recorded if it *persists* at a second, higher escalation, a failure that
     vanishes when precision rises is arithmetic, not mathematics, and the schema
     refuses it as a refutation.
 
@@ -2845,9 +2845,9 @@ class HighPrecisionScreen(BaseScreen):
 class IndependentMethodScreen(BaseScreen):
     """Cross-check by a second route that shares nothing but the object itself.
 
-    Where the laboratory has two implementations — the Cauchy and the literal
+    Where the laboratory has two implementations, the Cauchy and the literal
     definition of lambda_n, the Mellin and Cauchy routes to the Jensen
-    coefficients, two implementations of Xi — this screen runs the other one.
+    coefficients, two implementations of Xi, this screen runs the other one.
     Where it has only one, it says so and decides nothing: an unavailable
     cross-check is not a passed cross-check.
     """
@@ -2976,16 +2976,16 @@ class CounterexampleBatteryScreen(BaseScreen):
 
     ``AGENTS.md``: a claimed structural property that "explains" RH must be run
     against both zeta and the Davenport-Heilbronn function, which satisfies the
-    functional equation, has real coefficients and a real Hardy-style Z — and
+    functional equation, has real coefficients and a real Hardy-style Z, and
     violates RH. A property f also satisfies distinguishes nothing.
 
     Three outcomes, all recorded:
 
     * the predicate **fails for zeta** under the battery's own independent
-      re-expression — the claim is refuted, with the disagreement escalated;
-    * the predicate **holds for both** — the claim is not refuted, but it has no
+      re-expression, the claim is refuted, with the disagreement escalated;
+    * the predicate **holds for both**, the claim is not refuted, but it has no
       discriminating power, and this screen says so in the record it passes on;
-    * the predicate **has no interface-level analogue** — ``inconclusive`` with
+    * the predicate **has no interface-level analogue**, ``inconclusive`` with
       reason ``dependency_unavailable``. Silence would let an unadjudicated
       structural claim reach ``survives``, which is exactly what the gate exists
       to prevent.
@@ -3501,8 +3501,8 @@ ZETA_FACTS: Final[tuple[KnownFact, ...]] = (
     KnownFact(
         id="legendre-interval-primes-finite-range",
         statement=(
-            "Legendre's conjecture — a prime between n^2 and (n+1)^2 for every "
-            "n — is open in general, but for every n with (n+1)^2 <= 4e18 the "
+            "Legendre's conjecture, a prime between n^2 and (n+1)^2 for every "
+            "n, is open in general, but for every n with (n+1)^2 <= 4e18 the "
             "interval provably contains a prime: direct enumeration for small "
             "n, and for 2n+1 > 1476 the tabulated maximal prime gaps below "
             "4e18. Detecting primes in such an interval, by any instrument, "

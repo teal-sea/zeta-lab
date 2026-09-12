@@ -1,9 +1,9 @@
-"""``harness.preregistration`` — contamination as a derived fact, not a declaration.
+"""``harness.preregistration``, contamination as a derived fact, not a declaration.
 
 :mod:`harness.provenance` says it plainly: "a provenance record is a
 declaration, and nothing here can verify that a declaration is true". A
 producer who writes ``results_visible_when_authored=False`` over work whose
-criteria were chosen after the data was seen is, today, undetectable — the
+criteria were chosen after the data was seen is, today, undetectable, the
 audit reads the annotation, not the contamination. :data:`SHAM_MODES`
 records the same limit under ``contaminated-preregistration``: *only a
 truthful declaration is catchable*.
@@ -19,7 +19,7 @@ graded against exists:
     written while that evidence was visible. Nobody had to admit anything.
 
 That makes the W2 failure mode a set membership over digests, and criteria
-drift a digest inequality — two facts a checker recomputes from the artifacts
+drift a digest inequality, two facts a checker recomputes from the artifacts
 rather than reading off a flag.
 
 A second mode, and the sharper one
@@ -29,7 +29,7 @@ by nothing, and names the countermeasure itself: *"no mechanical check can know
 what was meant to be there; pin the lesion set in tests"*. That is exactly what
 a criteria digest is, once the roster of instruments is inside the criteria.
 Remove the smallest-magnitude lesion and the roster digests differently, so the
-criteria applied are no longer the criteria frozen — mechanically, without
+criteria applied are no longer the criteria frozen, mechanically, without
 anyone having to notice which lesion went missing.
 
 Two things this does **not** mean, and both matter:
@@ -42,7 +42,7 @@ Two things this does **not** mean, and both matter:
   audit has no access to.* An audit sees one battery at one moment. Only a
   record from before can say what that battery used to be.
 * What changes is the *kind* of thing preregistration is. "Pin the lesion set
-  in tests" is a convention — it holds while everyone remembers. A digest that
+  in tests" is a convention, it holds while everyone remembers. A digest that
   moves is a mechanism. The gap between those two is the whole contribution
   here, and it is a small one; it should not be described as anything larger.
 
@@ -56,7 +56,7 @@ producer. A producer that fabricates its ``evidence_visible_at_freeze`` list,
 or backdates ``frozen_at``, or freezes criteria it never intended to apply, is
 outside mechanical reach exactly as before. This moves the trust boundary from
 "the producer's summary of its own conduct" to "the producer's record of which
-artifacts existed when" — a narrower, more awkward thing to lie about, because
+artifacts existed when", a narrower, more awkward thing to lie about, because
 the digests are checkable against any copy of the artifacts anyone else holds.
 It does not remove the boundary, and nothing here should be read as though it
 did. The honest claim is: a *silent* contamination now requires a *deliberate*
@@ -137,7 +137,7 @@ def digest(obj: Any) -> str:
     """Stable content digest: ``sha256:`` over canonical JSON.
 
     Order-independent for mappings, deterministic across processes and
-    machines, and refusing ``NaN``/``Infinity`` — a digest that silently
+    machines, and refusing ``NaN``/``Infinity``, a digest that silently
     depended on dict insertion order would let the same evidence look like two
     different artifacts, which is the one thing a digest must not do.
     """
@@ -180,7 +180,7 @@ class Preregistration:
         ``already_existing_evidence`` takes either payloads or digest strings:
         anything already carrying the :data:`DIGEST_PREFIX` is taken as a
         digest, everything else is digested here. Passing the payloads is the
-        better habit — it is one fewer place for a hand-written string to be
+        better habit, it is one fewer place for a hand-written string to be
         wrong.
         """
         visible = tuple(
@@ -211,9 +211,9 @@ def derived_findings(
     Two findings, both mechanical, neither consulting any declaration:
 
     * the evidence a report was computed against was *already visible* when
-      the criteria were frozen — the W2 failure mode, as set membership;
+      the criteria were frozen, the W2 failure mode, as set membership;
     * the criteria actually applied do not digest to the criteria that were
-      frozen — post-hoc drift, as a digest inequality.
+      frozen, post-hoc drift, as a digest inequality.
     """
     findings: list[tuple[str, str]] = []
     visible = tuple(prereg.evidence_visible_at_freeze)
@@ -258,7 +258,7 @@ class Divergence:
     This object is the headline of the whole experiment, and the only case
     that separates a gate which recomputes from a gate which reads
     annotations. ``diverges`` is true exactly when a producer declared itself
-    clean — :func:`harness.provenance.contamination_reasons` found nothing —
+    clean :func:`harness.provenance.contamination_reasons` found nothing,
     while the digests show the criteria were frozen with this evidence already
     visible, or show criteria other than the frozen ones being applied. Every
     other combination is a case both gates get right, and therefore measures
@@ -267,7 +267,7 @@ class Divergence:
     The limit, stated so it travels with the result: the digests compared here
     are supplied by the producer. A producer that fabricates its own
     ``evidence_visible_at_freeze`` list defeats this exactly as it defeats the
-    declaration it replaces. What changed is *what a lie has to look like* — a
+    declaration it replaces. What changed is *what a lie has to look like*, a
     false digest is checkable against any other copy of the artifacts, and a
     false ``False`` is not. That is a narrower trust boundary, not the absence
     of one, and no reading of this record should say otherwise.

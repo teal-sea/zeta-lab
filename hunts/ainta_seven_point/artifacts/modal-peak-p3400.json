@@ -1,0 +1,88 @@
+{
+ "floor_float": 0.003469942585928755,
+ "jobs": [
+  {
+   "grid": 4000,
+   "target": "34689/10000000",
+   "cutoff": 47594,
+   "pressure": 3400,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 4000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "c2c33499409955505456b20814ec1a6822c3d452be66ef6288643da3880ec1fe",
+    "nodes": 1065093,
+    "pruned": 532911,
+    "splits": 532182,
+    "maximum_depth": 51,
+    "initial_boxes": 729,
+    "elapsed_seconds": 192.160780425
+   },
+   "seconds": 192,
+   "m_cap": 294,
+   "phi_at_cap": 0.673029024245895
+  },
+  {
+   "grid": 4000,
+   "target": "34697/10000000",
+   "cutoff": 47594,
+   "pressure": 3400,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 4000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "c2c33499409955505456b20814ec1a6822c3d452be66ef6288643da3880ec1fe",
+    "nodes": 1112733,
+    "pruned": 556731,
+    "splits": 556002,
+    "maximum_depth": 57,
+    "initial_boxes": 729,
+    "elapsed_seconds": 313.752804583
+   },
+   "seconds": 314,
+   "m_cap": 294,
+   "phi_at_cap": 0.6730295534796927
+  },
+  {
+   "grid": 4000,
+   "target": "34701/10000000",
+   "cutoff": 47594,
+   "pressure": 3400,
+   "outcome": "REFUSED-AT-GRID",
+   "message": "7-point certificate failed at a terminal cell: box=((4185, 4185), (7958, 7958), (7947, 7947), (4168, 4168), (7907, 7907), (4181, 4181)), lower=0x1.c55e626d6da3bp-9",
+   "seconds": 167,
+   "m_cap": 294,
+   "phi_at_cap": 0.6730298180969038
+  },
+  {
+   "grid": 8000,
+   "target": "34697/10000000",
+   "cutoff": 95188,
+   "pressure": 3400,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 8000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "662b4fbc9bc60a6d2680b71e6c626661eaeef511f86f5261c063ae29ab7a6da6",
+    "nodes": 1114059,
+    "pruned": 557394,
+    "splits": 556665,
+    "maximum_depth": 57,
+    "initial_boxes": 729,
+    "elapsed_seconds": 325.919538638
+   },
+   "seconds": 326,
+   "m_cap": 294,
+   "phi_at_cap": 0.6730295534796927
+  }
+ ]
+}

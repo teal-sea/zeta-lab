@@ -1,4 +1,4 @@
-"""Tests for zeta.inverse — Wu–Sprung reconstruction and the battery verdict.
+"""Tests for zeta.inverse: Wu–Sprung reconstruction and the battery verdict.
 
 Every literal was measured in this environment before being asserted.  The
 module's story, in test order:
@@ -8,7 +8,7 @@ module's story, in test order:
    finite-difference forward solve returns 1, 3, 5, … within 5e-4.
 2. The mean densities are *derived*: (1/2π)log(E/2π) matches finite
    differences of rs_theta, and the DH density (1/2π)log(5E/2π) matches
-   finite differences of dh_theta — including the conductor-5 constant a
+   finite differences of dh_theta, including the conductor-5 constant a
    first guess got wrong by exactly log √5.
 3. The pipeline scores: smooth well ≈ 0.22 mean gaps for ζ (0.18 for DH),
    mollified fractal correction is a small improvement at its calibrated
@@ -16,7 +16,7 @@ module's story, in test order:
    ~1e-4 gaps (measured 1.2e-4 for ζ, 2.5e-4 for DH).
 4. The battery verdict (docs/09 gate #3): the *identical* pipeline
    manufactures an equally good Hamiltonian for the RH-violating
-   Davenport–Heilbronn ordinates — and for a fully synthetic ladder.
+   Davenport–Heilbronn ordinates, and for a fully synthetic ladder.
    Existence of a potential distinguishes nothing; only properties could.
 """
 
@@ -97,9 +97,9 @@ def test_dh_battery_verdict():
 
 
 def test_refinement_hits_synthetic_ladder():
-    """Manufacturing works for a made-up spectrum too — the strongest form
+    """Manufacturing works for a made-up spectrum too, the strongest form
     of the existence-proves-nothing point.  (First-order iteration needs
-    the seed's spectrum within roughly a gap of the targets — the Wu–Sprung
+    the seed's spectrum within roughly a gap of the targets, the Wu–Sprung
     seed provides exactly that; here the harmonic ladder does.)"""
     targets = np.array([1.4, 3.2, 5.5, 6.8, 9.3, 11.1])  # perturbed 2n+1
     seed = lambda xs: np.asarray(xs, float) ** 2

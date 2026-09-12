@@ -1,0 +1,1 @@
+target=1913/500000=0.0038260 ACCEPTED nodes=907537 depth=58 wall=439s

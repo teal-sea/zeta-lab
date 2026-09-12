@@ -200,7 +200,7 @@ def test_theta_one_diverges_at_every_eps(duals):
 def test_theta_star_is_0995_at_every_eps(duals):
     """The measured headline: cap <= slack at theta = 0.995 at every
     probe depth for eps in {1/8, 1/16, 1/32}, and the next grid theta
-    (0.999) fails at the deep end — same grid point as the eps = 0 box
+    (0.999) fails at the deep end, same grid point as the eps = 0 box
     at every ramp fraction tried."""
     for eps, bd in duals.items():
         for y in YS:

@@ -1,9 +1,9 @@
-"""Tests for ``ontology.domains.zeta_domain`` — the laboratory's plug-in.
+"""Tests for ``ontology.domains.zeta_domain``, the laboratory's plug-in.
 
 What these tests are and are not. They check that the generators emit
 well-formed, re-derivable candidates; that the screens kill what they claim to
 kill and admit what they cannot see; that the counterexample battery actually
-runs on a structural claim; and that the seam holds — that the bookkeeping half
+runs on a structural claim; and that the seam holds, that the bookkeeping half
 of ``ontology/`` still knows nothing about the subject.
 
 **No test here is evidence for the Riemann Hypothesis, and none of them is
@@ -49,7 +49,7 @@ STAGES_NO_KNOWN = tuple(s for s in STAGES if s != "knownness")
 
 
 # ---------------------------------------------------------------------------
-# fixtures — the laboratory work is done once per worker, not once per test
+# fixtures, the laboratory work is done once per worker, not once per test
 # ---------------------------------------------------------------------------
 
 
@@ -128,7 +128,7 @@ def _agnostic_files() -> list[Path]:
     The package directory also holds numbered experiment scripts
     (``01_f1_geometry.py`` and friends).  Their stems are not valid Python
     identifiers, so they cannot be imported as modules of the package and are
-    not part of its API surface — the agnostic seam does not cover them, and
+    not part of its API surface, the agnostic seam does not cover them, and
     they are subject-matter scripts by design.
     """
     return sorted(
@@ -306,7 +306,7 @@ def test_every_recorded_route_can_actually_re_derive_its_quantity(all_candidates
 
     Running and returning a finite number is not the property claimed: a route
     that returned 42 would satisfy that. What the record has to support is
-    re-deriving *the number it wrote down*, inside the error bar it claimed —
+    re-deriving *the number it wrote down*, inside the error bar it claimed,
     so that is what is checked, from the round-tripped record rather than from
     the live object.
     """
@@ -361,7 +361,7 @@ def test_generators_are_deterministic_under_a_fixed_seed(generator_name) -> None
     """Ids and claims are not enough: the draws live in the *evidence*.
 
     A generator whose RNG ignored the seed would still produce identical ids
-    and identical claims here — the seed appears in the claim as text, and the
+    and identical claims here, the seed appears in the claim as text, and the
     sampled objects appear only in the evidence. Comparing the evidence is what
     makes this test able to fail.
     """
@@ -466,7 +466,7 @@ def test_every_generator_records_the_payloads_it_built_and_did_not_emit() -> Non
     """A generator that drops its failures silently has a wrong denominator.
 
     A payload that never leaves the generator never enters the funnel, so it
-    appears in no conversion rate at all — the pipeline cannot count what it
+    appears in no conversion rate at all, the pipeline cannot count what it
     was never shown. Every generator therefore keeps a ``refused`` list, and it
     is reset per pass so it always describes the run that just happened.
     """
@@ -493,7 +493,7 @@ def test_an_extremal_search_too_small_to_have_a_record_leaves_a_trace() -> None:
 
 
 def test_an_integer_relation_hunt_that_finds_nothing_leaves_a_trace() -> None:
-    """The common case — PSLQ finds nothing significant — must be recorded."""
+    """The common case, PSLQ finds nothing significant, must be recorded."""
     gen = Z.RelationsGenerator()
     assert gen.pslq_notes == [], "pslq_notes must exist before the first pass"
     assert gen.refused == []
@@ -759,7 +759,7 @@ def test_a_hair_outside_a_proved_range_is_inconclusive_not_a_broken_verdict(
 
     A refutation whose defect is inside its own tolerance is unearned, so the
     schema refuses it, ``ScreenResult.validate`` raises, and ``run_funnel``
-    turns that into a ``FunnelError`` that kills the run — taking every
+    turns that into a ``FunnelError`` that kills the run, taking every
     candidate behind it out of the funnel. The only interesting range check,
     the one that lands a hair outside a proved bound, must therefore be
     recorded as *inconclusive*, not as a refutation the schema will reject.

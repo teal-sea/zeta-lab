@@ -1,0 +1,98 @@
+{
+  "status": "exact constructed point configurations, not zeta zeros",
+  "epsilon": "1/16",
+  "p_lower_bound_on_support": "21/65",
+  "q_support": [
+    "-1/4",
+    "1/4"
+  ],
+  "q_lower_bound_on_support": "42/65",
+  "common_eigenvalues": [
+    "15/16",
+    "15/16",
+    "17/16",
+    "17/16"
+  ],
+  "configurations": [
+    {
+      "points_for_rescaled_density": [
+        0,
+        2,
+        8,
+        12
+      ],
+      "matrix_checks": {
+        "size": 4,
+        "moments": {
+          "1": "4",
+          "2": "257/64",
+          "3": "259/64",
+          "4": "67073/16384"
+        },
+        "star_sum": "66049/16384",
+        "entry_fourth_sum": "40960337/10240000",
+        "identities": {
+          "3": {
+            "direct_distinct_sum": "0",
+            "partition_inversion": "0",
+            "reduced_formula": "0",
+            "deliberately_wrong_simplification": "-4",
+            "wrong_minus_exact": "-4"
+          },
+          "4": {
+            "direct_distinct_sum": "-9/320000",
+            "partition_inversion": "-9/320000",
+            "reduced_formula": "-9/320000",
+            "deliberately_wrong_simplification": "-255/16384",
+            "wrong_minus_exact": "-159087/10240000"
+          }
+        }
+      }
+    },
+    {
+      "points_for_rescaled_density": [
+        0,
+        14,
+        56,
+        84
+      ],
+      "matrix_checks": {
+        "size": 4,
+        "moments": {
+          "1": "4",
+          "2": "257/64",
+          "3": "259/64",
+          "4": "67073/16384"
+        },
+        "star_sum": "66049/16384",
+        "entry_fourth_sum": "1871795057/467943424",
+        "identities": {
+          "3": {
+            "direct_distinct_sum": "0",
+            "partition_inversion": "0",
+            "reduced_formula": "0",
+            "deliberately_wrong_simplification": "-4",
+            "wrong_minus_exact": "-4"
+          },
+          "4": {
+            "direct_distinct_sum": "-225/14623232",
+            "partition_inversion": "-225/14623232",
+            "reduced_formula": "-225/14623232",
+            "deliberately_wrong_simplification": "-255/16384",
+            "wrong_minus_exact": "-7275855/467943424"
+          }
+        }
+      }
+    }
+  ],
+  "quadrature_decimal_precision": 45,
+  "fourier_quadrature_defects": {
+    "0": "0.0",
+    "2": "2.08809742976e-53",
+    "6": "0.0",
+    "12": "0.0",
+    "42": "0.0",
+    "56": "0.0",
+    "84": "0.0"
+  }
+}

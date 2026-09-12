@@ -62,7 +62,7 @@ def _check_interpreter() -> list[str]:
     print(f"  version         {sys.version.split()[0]}")
     expected = os.path.join(REPO_ROOT, ".venv", "bin", "python")
     if os.path.realpath(sys.executable) == os.path.realpath(expected):
-        print("  venv            yes — the repo's own .venv, as AGENTS.md requires")
+        print("  venv            yes, the repo's own .venv, as AGENTS.md requires")
     elif os.path.exists(expected):
         print(f"  venv            NO. This repo has one at {expected}")
         print("                  Prefer it; results here are not comparable otherwise.")
@@ -137,7 +137,7 @@ def _check_plotting() -> None:
         print(f"  pyplot already imported, backend {matplotlib.get_backend()}")
         print("  If that is interactive, figures will not render headless.")
     else:
-        print("  pyplot not yet imported — good.")
+        print("  pyplot not yet imported, good.")
     print('  Always: import matplotlib; matplotlib.use("Agg") BEFORE pyplot.')
     print("  zeta/plots.py does this already; your own cells must too.")
 
@@ -188,7 +188,7 @@ def _where_to_write() -> None:
     print("  stating what it may and may not touch. Write MISSION.md first.")
     print("\n  May write:      hunts/<yours>/, one new docs/NN-*.md, figures/")
     print("  May NOT write:  zeta/, ontology/, harness/ without explicit")
-    print("                  permission — a hunt borrowing the zeta battery is")
+    print("                  permission, a hunt borrowing the zeta battery is")
     print("                  the correct relationship, not a deficiency.")
     print("  Not a department: a hunt whose rivals are the zeta department's")
     print("                  rivals cannot become one by growing.")
@@ -202,14 +202,14 @@ def _rules() -> None:
     print("                  something open, the correct inference is a bug.")
     print("  reserved word   'certified' belongs to zeta/rigor.py alone, and is")
     print("                  banned anywhere under hunts/ *including in a")
-    print("                  sentence disclaiming it* — the check is lexical.")
+    print("                  sentence disclaiming it*, the check is lexical.")
     print("                  -> tests/test_hunt_probe_discipline.py")
     print("  hunt vocabulary banned: verified, confirmed, definitively, proves.")
     print("                  allowed: measured, observed, consistent with.")
     print("  every claim     numerically checked by a test, or explicitly hedged")
     print("                  at the point of use. No exceptions.")
     print("  the battery     any structural property that 'explains' RH must be")
-    print("                  run through zeta.epstein.battery — the")
+    print("                  run through zeta.epstein.battery, the")
     print("                  Davenport-Heilbronn function satisfies the")
     print("                  functional equation, has real coefficients and a")
     print("                  real Z, and violates RH. A claim it also passes")

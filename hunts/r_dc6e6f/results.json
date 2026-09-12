@@ -1,0 +1,629 @@
+{
+  "summary": {
+    "guard": "scripts/make_context.py --check",
+    "target_miss": "public functions added under compiler/ \u2014 likewise unscanned (B02)",
+    "status": "settled",
+    "controls": {
+      "control_1_clean_baseline": "pass (exit 0, CONTEXT.md up to date)",
+      "control_2_undo_clean": "pass (all 22 resets quiet, exit 0)",
+      "positive_controls_fired": "5/5"
+    },
+    "curated_compiler_mutants": {
+      "total": 17,
+      "fired": 0,
+      "detection_rate_pct": 0.0
+    },
+    "exhaustive_symbol_census": {
+      "total_symbols": 37,
+      "fired": 0,
+      "detection_rate_pct": 0.0,
+      "breakdown": {
+        "functions": "0/17 fired",
+        "classes": "0/7 fired",
+        "constants": "0/13 fired"
+      }
+    },
+    "compiler_package_inventory": {
+      "module_count": 3,
+      "public_function_count": 17,
+      "public_class_count": 7,
+      "constant_count": 13,
+      "total_public_symbols": 37,
+      "fixture_count": 10,
+      "fixtures": [
+        "host_src.ll",
+        "host_tgt.ll",
+        "mul2_add_src.ll",
+        "mul2_add_tgt.ll",
+        "sdiv2_add_src.ll",
+        "sdiv2_add_tgt.ll",
+        "slt_src.ll",
+        "slt_sub_tgt.ll",
+        "udiv4_add_src.ll",
+        "udiv4_add_tgt.ll"
+      ],
+      "doc_files": [
+        "FINDINGS.md"
+      ]
+    }
+  },
+  "curated_results": [
+    {
+      "id": "M01",
+      "category": "public function added under compiler/",
+      "description": "compiler/catalog.py: append public function def new_catalog_probe(): pass (__all__ untouched)",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/catalog.py",
+      "rationale": "compiler/ is not in make_context.py scanned targets, so CONTEXT.md is unchanged"
+    },
+    {
+      "id": "M02",
+      "category": "public function added under compiler/",
+      "description": "compiler/catalog.py: append public function and add to __all__",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/catalog.py",
+      "rationale": "compiler/ is not scanned even when __all__ is updated"
+    },
+    {
+      "id": "M03",
+      "category": "public function added under compiler/",
+      "description": "compiler/semantics.py: append public function def new_semantics_probe(): pass (__all__ untouched)",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/semantics.py",
+      "rationale": "compiler/ is not scanned, so CONTEXT.md ignores added semantics functions"
+    },
+    {
+      "id": "M04",
+      "category": "public function added under compiler/",
+      "description": "compiler/semantics.py: append public function and add to __all__",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/semantics.py",
+      "rationale": "compiler/ is not scanned even with updated __all__"
+    },
+    {
+      "id": "M05",
+      "category": "public function added under compiler/",
+      "description": "compiler/__init__.py: append public function def new_init_probe(): pass",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/__init__.py",
+      "rationale": "compiler/__init__.py is not scanned"
+    },
+    {
+      "id": "M06",
+      "category": "public class or constant in compiler/",
+      "description": "compiler/catalog.py: add class ProbeCatalogClass (and add to __all__)",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/catalog.py",
+      "rationale": "compiler/ classes are unindexed"
+    },
+    {
+      "id": "M07",
+      "category": "public class or constant in compiler/",
+      "description": "compiler/semantics.py: add class ProbeSemanticsClass (and add to __all__)",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/semantics.py",
+      "rationale": "compiler/ classes are unindexed"
+    },
+    {
+      "id": "M08",
+      "category": "public class or constant in compiler/",
+      "description": "compiler/semantics.py: add uppercase constant PROBE_COMPILER_CONSTANT = 100",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/semantics.py",
+      "rationale": "compiler/ uppercase constants are unindexed"
+    },
+    {
+      "id": "M09",
+      "category": "in-place modification or rename in compiler/",
+      "description": "compiler/catalog.py: rename instruction_count -> probe_inst_count in place and in __all__",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/catalog.py",
+      "rationale": "in-place function rename in unscanned package passes silently"
+    },
+    {
+      "id": "M10",
+      "category": "in-place modification or rename in compiler/",
+      "description": "compiler/semantics.py: rename backend_status -> probe_backend_status in place and in __all__",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/semantics.py",
+      "rationale": "in-place function rename in unscanned package passes silently"
+    },
+    {
+      "id": "M11",
+      "category": "in-place modification or rename in compiler/",
+      "description": "compiler/catalog.py: modify docstring first line of load_ir",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/catalog.py",
+      "rationale": "docstring edits in unscanned packages are unindexed"
+    },
+    {
+      "id": "M12",
+      "category": "in-place modification or rename in compiler/",
+      "description": "compiler/semantics.py: modify signature of refinement() in place",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/semantics.py",
+      "rationale": "signature modifications in unscanned package produce zero diff in CONTEXT.md"
+    },
+    {
+      "id": "M13",
+      "category": "module or documentation under compiler/",
+      "description": "compiler/optimizer.py: create new module with public functions and docstring",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/optimizer.py",
+      "rationale": "new module under compiler/ is ignored by make_context.py"
+    },
+    {
+      "id": "M14",
+      "category": "module or documentation under compiler/",
+      "description": "compiler/fixtures/probe_fixture.ll: create new LLVM IR fixture",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/fixtures/probe_fixture.ll",
+      "rationale": "compiler/fixtures/ is unscanned"
+    },
+    {
+      "id": "M15",
+      "category": "module or documentation under compiler/",
+      "description": "compiler/FINDINGS.md: edit title and body content",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/FINDINGS.md",
+      "rationale": "compiler/FINDINGS.md is not in docs/*.md, so doc_index ignores it"
+    },
+    {
+      "id": "M16",
+      "category": "line count changes in compiler/",
+      "description": "compiler/catalog.py: append 20 blank lines (pure line count tell)",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/catalog.py",
+      "rationale": "per-module line counts in CONTEXT.md only cover scanned packages, not compiler/"
+    },
+    {
+      "id": "M17",
+      "category": "line count changes in compiler/",
+      "description": "compiler/semantics.py: delete 30 lines (pure line count tell)",
+      "expected_fired": false,
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "target_file": "compiler/semantics.py",
+      "rationale": "compiler/ line count is not recorded in CONTEXT.md"
+    },
+    {
+      "id": "P01",
+      "category": "positive control (scanned package)",
+      "description": "zeta/core.py: append public function def probe_zeta_fn(): pass (and add to __all__)",
+      "expected_fired": true,
+      "fired": true,
+      "diff_lines": 3,
+      "token_in_diff": true,
+      "target_file": "zeta/core.py",
+      "rationale": "zeta/ is a primary scanned package; public symbol addition fires guard"
+    },
+    {
+      "id": "P02",
+      "category": "positive control (scanned package)",
+      "description": "harness/departments/compiler_department.py: append public function and add to __all__",
+      "expected_fired": true,
+      "fired": true,
+      "diff_lines": 3,
+      "token_in_diff": true,
+      "target_file": "harness/departments/compiler_department.py",
+      "rationale": "harness/departments/ is scanned by make_context.py; symbol addition fires guard"
+    },
+    {
+      "id": "P03",
+      "category": "positive control (scanned package)",
+      "description": "docs/probe_test_doc.md: create new markdown documentation file",
+      "expected_fired": true,
+      "fired": true,
+      "diff_lines": 1,
+      "token_in_diff": true,
+      "target_file": "docs/probe_test_doc.md",
+      "rationale": "docs/*.md is scanned by doc_index(); new file fires guard"
+    },
+    {
+      "id": "P04",
+      "category": "positive control (scanned package)",
+      "description": "scripts/99_probe_script.py: create new script file",
+      "expected_fired": true,
+      "fired": true,
+      "diff_lines": 1,
+      "token_in_diff": true,
+      "target_file": "scripts/99_probe_script.py",
+      "rationale": "scripts/*.py is scanned by script_index(); new script fires guard"
+    },
+    {
+      "id": "P05",
+      "category": "positive control (scanned package)",
+      "description": "tests/test_probe_case.py: create new test file",
+      "expected_fired": true,
+      "fired": true,
+      "diff_lines": 3,
+      "token_in_diff": true,
+      "target_file": "tests/test_probe_case.py",
+      "rationale": "tests/test_*.py is scanned by test_counts(); new test file fires guard"
+    }
+  ],
+  "census_results": [
+    {
+      "id": "E_FN_01",
+      "symbol": "load_ir",
+      "type": "function",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_02",
+      "symbol": "instruction_count",
+      "type": "function",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_03",
+      "symbol": "claim_no_more_instructions",
+      "type": "function",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_04",
+      "symbol": "agreement_fraction_of",
+      "type": "function",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_05",
+      "symbol": "claim_exhaustive_agreement",
+      "type": "function",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_06",
+      "symbol": "claim_model_refinement",
+      "type": "function",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_07",
+      "symbol": "random_mutant",
+      "type": "function",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CLS_08",
+      "symbol": "Transformation",
+      "type": "class",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CLS_09",
+      "symbol": "LesionSpec",
+      "type": "class",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_10",
+      "symbol": "FIXTURES",
+      "type": "constant",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_11",
+      "symbol": "TARGET",
+      "type": "constant",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_12",
+      "symbol": "RIVALS",
+      "type": "constant",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_13",
+      "symbol": "LESION_HOST",
+      "type": "constant",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_14",
+      "symbol": "LESIONS",
+      "type": "constant",
+      "module": "compiler/catalog.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_15",
+      "symbol": "available_backends",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_16",
+      "symbol": "backend_status",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_17",
+      "symbol": "i8",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_18",
+      "symbol": "index_of",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_19",
+      "symbol": "output_table",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_20",
+      "symbol": "agreement",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_21",
+      "symbol": "agreement_fraction",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_22",
+      "symbol": "model_output_table",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_23",
+      "symbol": "refinement",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_FN_24",
+      "symbol": "model_matches_clang",
+      "type": "function",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CLS_25",
+      "symbol": "SemanticsUnavailable",
+      "type": "class",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CLS_26",
+      "symbol": "IRRejected",
+      "type": "class",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CLS_27",
+      "symbol": "ModelUnsupported",
+      "type": "class",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CLS_28",
+      "symbol": "AgreementReport",
+      "type": "class",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CLS_29",
+      "symbol": "RefinementReport",
+      "type": "class",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_30",
+      "symbol": "OPT_LEVELS",
+      "type": "constant",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_31",
+      "symbol": "DOMAIN_SIZE",
+      "type": "constant",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_32",
+      "symbol": "EVIDENCE_EXHAUSTIVE_I8",
+      "type": "constant",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_33",
+      "symbol": "EVIDENCE_MODEL_I8",
+      "type": "constant",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_34",
+      "symbol": "BACKEND",
+      "type": "constant",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_35",
+      "symbol": "BACKEND_REASON",
+      "type": "constant",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_36",
+      "symbol": "POISON",
+      "type": "constant",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    },
+    {
+      "id": "E_CONST_37",
+      "symbol": "UB",
+      "type": "constant",
+      "module": "compiler/semantics.py",
+      "fired": false,
+      "diff_lines": 0,
+      "token_in_diff": false
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """THE SHOWSTOPPER: reconstruct the primes from the zeros of ζ(s).
 
-Von Mangoldt's explicit formula (1895) — for x > 1, with ρ = 1/2 + iγ
+Von Mangoldt's explicit formula (1895), for x > 1, with ρ = 1/2 + iγ
 running over the non-trivial zeros in conjugate pairs,
 
     ψ₀(x) = x − Σ_ρ x^ρ/ρ − log 2π − ½·log(1 − x⁻²)
@@ -9,7 +9,7 @@ running over the non-trivial zeros in conjugate pairs,
 
 where ψ(x) = Σ_{p^k ≤ x} log p is the Chebyshev prime-power staircase
 (ψ₀ = ψ with jumps halved).  Every zero contributes one smooth harmonic in
-log x — yet the sum of these waves develops a JUMP of height log p at every
+log x, yet the sum of these waves develops a JUMP of height log p at every
 prime power and is flat everywhere else.  The primes are the interference
 pattern of the zeros.
 
@@ -114,7 +114,7 @@ def section_jumps(x: float, g: np.ndarray) -> None:
         print(f"    {n:>5} {kind:>10} {lam:>10.4f} {jump:>10.4f}   {verdict}")
     print()
     print("    The cosine sum jumps by log p exactly at the prime powers and is")
-    print("    flat in between — the zeros KNOW where the primes are.  (The slight")
+    print("    flat in between, the zeros KNOW where the primes are.  (The slight")
     print("    overshoot at the largest primes is Gibbs oscillation at finite N.)")
     print()
 
@@ -168,7 +168,7 @@ def section_spectrum(x: float, g: np.ndarray, n_peaks: int = 20) -> tuple:
     print()
     print(f"    {hits}/{len(peaks)} detected peaks are prime powers; peak height "
           "approaches Λ(n)/√n.")
-    print("    Nothing was told about primes — only the zeros went in.")
+    print("    Nothing was told about primes, only the zeros went in.")
     print()
     return u, spec
 
@@ -268,7 +268,7 @@ def main() -> None:
     t0 = time.time()
     g = _get_gammas(args.zeros)
     print("=" * 78)
-    print("PRIMES OUT OF ZEROS — VON MANGOLDT'S EXPLICIT FORMULA, LIVE")
+    print("PRIMES OUT OF ZEROS: VON MANGOLDT'S EXPLICIT FORMULA, LIVE")
     print("=" * 78)
     print(f"Input: the first {g.size} zeros of ζ  (γ_1 = {g[0]:.6f} … "
           f"γ_{g.size} = {g[-1]:.2f}).  Nothing else.")

@@ -12,7 +12,7 @@ enclosure.
 
 Two facts do the work:
 
-* `hornerR sinhL (t*t)` is exactly `shcPartial 11 t` — the same eleven terms,
+* `hornerR sinhL (t*t)` is exactly `shcPartial 11 t`: the same eleven terms,
   written in Horner form with `x = t²` rather than as a sum over `k`;
 * `2 / 23!` is below the package's widening budget `RB = 1/10^21`, so the one
   ulp of `EIv.widen` already covers the truncation.

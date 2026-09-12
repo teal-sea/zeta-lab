@@ -1,0 +1,64 @@
+
+==> <archive>/.venv/bin/python <archive>/src/certify_bloch.py certificates.npz
+certificate file: <archive>/src/certificates.npz
+profile: fine
+Arb verification at 40 digits;  K = 320, 9016 candidate rows per block
+
+(A)  |a_3| <= [3.28877762819 +/- 6.87e-13]
+     used downstream as C = [3.2888000 +/- 2e-12]   (Chen--Gauthier: 4.2, Bonk: 5)
+
+(B)  Phi(-1,0) >= sqrt3/4 + [0.0149407644273 +/- 4.65e-14]
+     Chen--Gauthier Lemma 6 gives 0.00548;  ratio [2.72642 +/- 3.14e-6]
+
+     pooled minorant:  phi >= [0.06315164797 +/- 4.94e-12] + [0.050937971 +/- 3.72e-10] b2 + [0.0092163198 +/- 2.87e-11] b3
+(C)  B >= sqrt3/4 + [0.0114402996202 +/- 3.94e-15]
+        = [0.444453001512 +/- 4.16e-13]
+
+  guaranteed lower end of the enclosure: [0.0114402996201961 +/- 3.01e-17]
+  OK  L > 0.0113
+  OK  L > 0.011
+  OK  L > 0.0003
+  OK  L > 0.0002
+
+  displayed minorant  Phi >= [0.49616400 +/- 1e-13] + [0.05093800 +/- 1e-13] b2 + [0.009216400 +/- 3e-13] b3   on |b2|<=1, |b3|<=C
+     validity margin (must be <= 0): [-5.756091347e-8 +/- 4.90e-18]
+     its own region minimum: [0.01143984820 +/- 3.36e-13]  (full-precision value [0.0114402996202 +/- 3.94e-15])
+
+  min_theta R(theta) >= [0.41491575 +/- 4.17e-9]  (needed: > |c|, and |c| < 0.2141)
+
+  improvement factor over Chen--Gauthier +2e-4: [57.2015 +/- 1.91e-6]
+  gap to Ahlfors--Grunsky [0.47186200 +/- 3e-13]: [0.027408998 +/- 4.88e-10]   (Chen--Gauthier: [0.038649298 +/- 1.08e-10])
+
+PASS: all assertions applicable to the fine certificate verified
+
+==> <archive>/.venv/bin/python <archive>/src/certify_bloch.py certificates_coarse.npz
+certificate file: <archive>/src/certificates_coarse.npz
+profile: coarse
+Arb verification at 40 digits;  K = 260, 5676 candidate rows per block
+
+(A)  |a_3| <= [3.29102479849 +/- 2.31e-12]
+     used downstream as C = [3.2911000 +/- 2e-12]   (Chen--Gauthier: 4.2, Bonk: 5)
+
+(B)  Phi(-1,0) >= sqrt3/4 + [0.0150346379669 +/- 4.55e-14]
+     Chen--Gauthier Lemma 6 gives 0.00548;  ratio [2.74355 +/- 2.93e-6]
+
+     pooled minorant:  phi >= [0.06310813275 +/- 7.97e-13] + [0.050942703 +/- 2.42e-11] b2 + [0.0092302631 +/- 4.12e-11] b3
+(C)  B >= sqrt3/4 + [0.0113729923988 +/- 3.77e-14]
+        = [0.444385694291 +/- 5.70e-14]
+
+  guaranteed lower end of the enclosure: [0.0113729923988376 +/- 3.49e-17]
+  OK  L > 0.0113
+  OK  L > 0.011
+  OK  L > 0.0003
+  OK  L > 0.0002
+
+  displayed fine-profile minorant: SKIPPED (not applicable to profile coarse)
+
+  min_theta R(theta) >= [0.41480041 +/- 2.92e-9]  (needed: > |c|, and |c| < 0.2141)
+
+  improvement factor over Chen--Gauthier +2e-4: [56.8650 +/- 3.81e-5]
+  gap to Ahlfors--Grunsky [0.47186200 +/- 3e-13]: [0.027476306 +/- 2.92e-10]   (Chen--Gauthier: [0.038649298 +/- 1.08e-10])
+
+PASS: all assertions applicable to the coarse certificate verified
+
+ALL FIXED-RADIUS CERTIFICATES VERIFIED

@@ -1,4 +1,4 @@
-# RESULTS — gate-5 property 6 is VACUOUS
+# RESULTS: gate-5 property 6 is VACUOUS
 
 **Verdict: VACUOUS.** Two of the three preregistered boxes were decided for
 all four functions, and in both of them all three RH-violating rivals satisfy

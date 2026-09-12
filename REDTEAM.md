@@ -1,4 +1,4 @@
-# Red-team report — moments programme
+# Red-team report: moments programme
 
 **Date:** 2026-08-04
 **Scope:** the moments build sequence `6814f9d..9bd6dd3` (module `zeta/moments.py`,
@@ -13,7 +13,7 @@ judgment and *estimates*, flagged as such.
 ninth-increment "pre-registered attack" was not a severe test (now correctly
 withdrawn in `9bd6dd3`); the observed pattern is most plausibly a generic
 consequence of a heavy-tailed value distribution, and the decisive next step is
-a matched null model plus the Davenport–Heilbronn control — not exposure
+a matched null model plus the Davenport–Heilbronn control, not exposure
 scaling.
 
 ---
@@ -39,7 +39,7 @@ scaling.
 - Commit `9bd6dd3` was reviewed: it accurately relabels the attack as
   retrospective and strips the falsification claim from docstrings, docs, and
   dataclass names' documentation. The numerical tables are unchanged, which is
-  correct — the data was never the problem.
+  correct, the data was never the problem.
 
 Two minor pin gaps (cheap to close, optional):
 
@@ -59,16 +59,16 @@ they were.
 Severity is about how much the weakness limits what may be inferred, not about
 code quality. "Status" reflects the tree at `9bd6dd3`.
 
-### W1 (high, open) — the pattern is expected, not anomalous
+### W1 (high, open): the pattern is expected, not anomalous
 
 Selberg's central limit theorem makes log|ζ(½+it)| approximately
 N(0, ½·log log T), so |ζ|^{2k} is approximately log-normal, and moments of a
 log-normal field are tail-dominated: the 2k-th moment is carried by values near
-exp(2kσ²) occupying measure (log T)^{−k²+o(1)} — precisely Soundararajan's
+exp(2kσ²) occupying measure (log T)^{−k²+o(1)}, precisely Soundararajan's
 (2009) measure-of-large-values heuristic and the Keating–Snaith /
-Fyodorov–Hiary–Keating picture. Both halves of the candidate pattern —
+Fyodorov–Hiary–Keating picture. Both halves of the candidate pattern,
 concentration rising with k and height, *and* pooled windows recovering the
-aggregate — are generic to any heavy-tailed integrand with a finite mean
+aggregate, are generic to any heavy-tailed integrand with a finite mean
 (concentration = large variance; pooled recovery = law of large numbers). No
 zeta-specific content has been demonstrated.
 **Fix:** reframe as instrument calibration against known theory. The only
@@ -76,7 +76,7 @@ defensible object is a *residual relative to a matched null* (§3, A1). Nothing
 enters the `conjectures/` ledger unless it deviates quantitatively from that
 null.
 
-### W2 (high, addressed in `9bd6dd3`) — pre-registration was contaminated
+### W2 (high, addressed in `9bd6dd3`): pre-registration was contaminated
 
 Window 0 at each attack height reproduces the `--replicate` window measured
 before the gates were fixed (`scripts/14_moment_experiment.py`, window layout in
@@ -92,20 +92,20 @@ thresholds derived from theory or a held-out calibration set; report each
 gate's estimated pass probability under the boring null as part of the
 protocol.
 
-### W3 (high, open) — the monotonicity gate has almost no power
+### W3 (high, open): the monotonicity gate has almost no power
 
 Strict increase of a median across 3 heights passes an exchangeable
 no-height-effect null with probability 1/6 per moment (see §4), and passes the
 *theoretically expected* null (Selberg variance growing like ½·log log T) with
-probability near 1 — so passing carries almost no information under either
+probability near 1, so passing carries almost no information under either
 hypothesis. The statistic also saturates (96.5→99.0→99.1): the information
 lives in the complement, and each median is the midpoint of 4 correlated
 windows.
 **Fix:** replace with a quantitative slope test on log(1 − share) against
-log log T with null-calibrated bands, over more heights and windows — or drop
+log log T with null-calibrated bands, over more heights and windows, or drop
 the gate.
 
-### W4 (high, open) — pooled-ratio gates are simultaneously underpowered and miscalibrated
+### W4 (high, open): pooled-ratio gates are simultaneously underpowered and miscalibrated
 
 At 10⁶, individual 8th-moment window ratios span 0.5831–1.4362 over 4 windows.
 A pooled-of-4 ratio then fluctuates enough that the 15% gate would reject
@@ -116,19 +116,19 @@ smaller than ~15–30%. A meaningful 15% test at 10⁶ needs on the order of
 **Fix:** block-bootstrap intervals respecting the correlation length; state
 power against a specified alternative; scale windows-per-height accordingly.
 
-### W5 (high, open) — no matched null model, and the repo's own DH control was skipped
+### W5 (high, open): no matched null model, and the repo's own DH control was skipped
 
 The identical pipeline has not been run on (a) a log-correlated Gaussian
 surrogate, (b) CUE characteristic polynomials, or (c) the Davenport–Heilbronn
-`Z_dh` — despite the standing counterexample-battery rule (AGENTS.md; docs/09
+`Z_dh`: despite the standing counterexample-battery rule (AGENTS.md; docs/09
 gate #3). Note: a naive *iid* log-normal prediction over-predicts concentration
 (top-1% share ≈ 0.98 for k=2 at 10⁵ vs. measured 0.67), which proves grid
-correlation and finite-window truncation matter — so only a simulated,
+correlation and finite-window truncation matter, so only a simulated,
 covariance-matched null run through the same code can settle whether the
 numbers are fully explained.
 **Fix:** run A1–A3 of §3.
 
-### W6 (medium, open) — consecutive windows barely probe window luck
+### W6 (medium, open): consecutive windows barely probe window luck
 
 The 4 "offset" windows per height are consecutive, covering one contiguous
 stretch. log|ζ| is log-correlated, so adjacent windows share low-frequency
@@ -137,7 +137,7 @@ and the attack samples one neighborhood per height, not the height band.
 **Fix:** randomized or decade-spread offsets (anchors c·10^j for several random
 c ∈ [1,10)); quantify inter-window correlation from the null simulation.
 
-### W7 (medium, partially addressed) — the 10⁴ pooled row is suspiciously perfect, and its exposure normalization drifts
+### W7 (medium, partially addressed): the 10⁴ pooled row is suspiciously perfect, and its exposure normalization drifts
 
 All four pooled ratios at 10⁴ sit within 6×10⁻⁴ of one despite ~18% block CV
 for the 8th moment at that height; each such agreement is roughly a 10⁻² –10⁻³
@@ -153,25 +153,25 @@ window start.
 **Status after delivery:** the implementation audit and shifted-anchor run are
 complete with no bug found; see §6. Exact-zero exposure remains open.
 
-### W8 (medium, open) — "top 1% of grid intervals" is not a peak count
+### W8 (medium, open): "top 1% of grid intervals" is not a peak count
 
 One physical peak spans ~20–60 grid intervals at 128 points/gap, so the top 1%
 of intervals (7,680 at replicate resolution) is a few hundred clustered runs
 inside perhaps 10–100 peaks. The quantity that actually governs 8th-moment
-estimator stability — the number of dominating peaks per window, plausibly
-under 10 — is never reported. An 8-block sample CV of a heavy-tailed quantity
+estimator stability, the number of dominating peaks per window, plausibly
+under 10, is never reported. An 8-block sample CV of a heavy-tailed quantity
 is itself extremely noisy; "76.81%" mostly encodes which block held the big
 spike and its decimals are false precision.
 **Fix:** count actual local maxima above a threshold (e.g. |Z| > (log T)^θ);
 report effective dominating-peak counts and top-m-peak shares; bootstrap the
 block CV or drop its decimals.
 
-### W9 (low, open) — quadrature/evaluator audits miss the regime that carries the result
+### W9 (low, open): quadrature/evaluator audits miss the regime that carries the result
 
 Nested-grid drift <1.1e-6 was established on one window at 10⁵, but the 8th
 moment at 10⁶ is carried almost entirely (99.12% median top-1%) by intervals
 whose neighborhoods were never re-audited at finer spacing; the evaluator's
-pointwise relative error — amplified 8× in the 8th power — was not
+pointwise relative error, amplified 8× in the 8th power, was not
 characterized across 10⁴–10⁶. Related: the k=1,2 "theorem controls" are not
 peak-dominated, so they validate normalization only and cannot catch
 high-moment-specific failure modes; passing them lends the protocol specious
@@ -185,7 +185,7 @@ gates do and do not control.
 
 ## 3. Ranked attacks (strongest first)
 
-**A1 — matched log-correlated Gaussian null (do this before anything else
+**A1, matched log-correlated Gaussian null (do this before anything else
 computational).** Simulate a stationary Gaussian log-field with variance
 ½·log log T and a log-decaying covariance calibrated to log|ζ|, exponentiate,
 and run the *identical* grid/window/block/gate pipeline. If the null reproduces
@@ -194,35 +194,35 @@ own simulation bands, the observation is fully explained: record that and stop.
 Byproduct: exact pass probabilities for every gate, replacing hand-set
 tolerances and superseding the estimates in §4.
 
-**A2 — CUE characteristic-polynomial null.** Sample |Λ_N(θ)| at
+**A2: CUE characteristic-polynomial null.** Sample |Λ_N(θ)| at
 N = round(log(T/2π)) matched to each height, same pipeline. The A1/A2
 comparison separates RMT-generic behavior from arithmetic content (the a_k
-factor's tail effect) — the only place a zeta-specific signal could live.
+factor's tail effect), the only place a zeta-specific signal could live.
 
-**A3 — Davenport–Heilbronn control via `zeta.epstein`.** Run the
+**A3: Davenport–Heilbronn control via `zeta.epstein`.** Run the
 concentration/block half of the pipeline on `Z_dh` (no CFKRS polynomial exists,
 so test concentration and pooling stability). If the pattern appears for a
-function that violates RH — it almost certainly will — it distinguishes nothing
+function that violates RH, it almost certainly will, it distinguishes nothing
 structural. This is the repo's own mandatory gate and is currently skipped.
 
-**A4 — quantitative pre-registered prediction on held-out windows.** From
+**A4, quantitative pre-registered prediction on held-out windows.** From
 Selberg/Soundararajan plus the A1 simulation, derive *numeric* predictions with
 bands for (a) 1 − (top-1% share) as a function of (k, log log T, window length)
 and (b) window-ratio variance; pre-register the numbers; evaluate on fresh,
 randomly-offset, never-touched windows. Predicting values is a severe test;
 predicting a monotone ordering across 3 heights is not.
 
-**A5 — direct distributional test of the mechanism.** Anderson–Darling/KS of
+**A5, direct distributional test of the mechanism.** Anderson–Darling/KS of
 sampled log|Z| against N(0, ½·log log T) per window, plus the empirical measure
-of {t : |ζ| > V} against Soundararajan's heuristic — tests log-normality at
+of {t : |ζ| > V} against Soundararajan's heuristic, tests log-normality at
 every quantile instead of one coarse monotone summary.
 
-**A6 — block-bootstrap calibration of the existing statistics.** Honest
+**A6, block-bootstrap calibration of the existing statistics.** Honest
 intervals on pooled ratios and CVs, stated gate power, and the required
-windows-per-height (~(CV/tolerance)²) for a decisive 8th-moment test at 10⁶ —
+windows-per-height (~(CV/tolerance)²) for a decisive 8th-moment test at 10⁶,
 quantifying exactly how far the 4-window diagnostic falls short.
 
-**A7 — randomized-offset replication; exposure scaling last.** Random offsets
+**A7, randomized-offset replication; exposure scaling last.** Random offsets
 across each decade genuinely test window luck. The originally planned
 exposure-scaling attack goes last if at all: its expected outcome (pooled error
 shrinking roughly like inverse square root of exposure past the tail-dominance
@@ -260,7 +260,7 @@ one-half", pending A1/A6.
 
 1. **Literature audit** (unchanged from HANDOFF step 2): finite-height
    high-moment concentration, block/window variance, CFKRS vs. extreme-value
-   tails — Selberg CLT, Soundararajan 2009, Keating–Snaith,
+   tails: Selberg CLT, Soundararajan 2009, Keating–Snaith,
    Fyodorov–Hiary–Keating, Radziwiłł–Soundararajan, Arguin et al. Expected
    outcome given W1: "known heuristic, illustrated at finite height."
 2. **A1** (Gaussian null) → **A3** (DH control) → **A2** (CUE), all through the
@@ -271,7 +271,7 @@ one-half", pending A1/A6.
 4. Cheap hygiene, any time: close the two pin gaps (§1); investigate the 10⁴
    pooled row (W7); report dominating-peak counts (W8).
 5. Ledger decision comes after 1–3, per HANDOFF step 5. Under W1 the default
-   expectation is "explained by known theory — no entry."
+   expectation is "explained by known theory, no entry."
 
 Standing framing (unchanged): nothing above is evidence for or against RH;
 agreement with CFKRS proves neither CFKRS nor novelty; any apparent RH

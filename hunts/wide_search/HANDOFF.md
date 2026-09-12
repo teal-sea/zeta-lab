@@ -1,4 +1,4 @@
-# HANDOFF — `wide_search`
+# HANDOFF: `wide_search`
 
 Written for an agent starting cold. Read `MISSION.md` for scope,
 `RESULTS-xiprime.md` for the finished piece, `RESULTS-higher-derivatives.md`
@@ -11,21 +11,21 @@ for the blocked one. This file is the operating state.
   (`hunt/pair-ceiling-reproduction`, `6bc5869`, the ceiling reproduction).
   Nothing this hunt owns is sitting unpushed.
 - Everything this hunt owns is under `hunts/wide_search/`:
-  - `xiprime.py` — the instrument. Takes a pair-correlation form factor, returns
+  - `xiprime.py`: the instrument. Takes a pair-correlation form factor, returns
     `1/c`, `H`, `Hd`, and the optimal window. Its zeta control reproduces the
     source paper's Theorem D to 10 digits.
-  - `pair_ceiling.py` — reads the public `LawN256.lean` and recomputes the
+  - `pair_ceiling.py`: reads the public `LawN256.lean` and recomputes the
     ceiling data from the enclosures with exact rationals. Takes the path to
     that file as its one argument; reports the scale, the worst interior row,
     `D(1)`, the stability coefficient, the simple fraction, and whether the
     underlying certificate artifact was supplied.
-  - `probe.py` — the four standing controls (precision response, rival battery,
+  - `probe.py`: the four standing controls (precision response, rival battery,
     null band). `precision_response` is calibrated in both directions: zeta(2)
     settles to 41 digits, a random value to 0.
   - `RESULTS-xiprime.md`, `RESULTS-pair-ceiling.md`,
     `RESULTS-higher-derivatives.md`, `MISSION.md`.
 
-## The source paper — get it first, it is not in the repo
+## The source paper: get it first, it is not in the repo
 
 *More than two thirds of the zeros of the Riemann zeta function lie on the
 critical line*, author "Claude", dated 10 August 2026. Public PDF:
@@ -72,7 +72,7 @@ Reproduce in one line from the repo root:
     .venv/bin/python -c "import sys; sys.path.insert(0,'hunts/wide_search'); \
       from xiprime import optimise; print(optimise(kernel='xiprime')['H'])"
 
-## THREAD 1 (partly closed, still worth the most) — can zeta's 0.6725 move?
+## THREAD 1 (partly closed, still worth the most): can zeta's 0.6725 move?
 
 **Read `RESULTS-pair-ceiling.md` before spending anything here.** The cheap
 half of this thread is done and the answer was the one predicted below: the
@@ -94,7 +94,7 @@ Framing, worked out but barely begun:
   admissible window simultaneously, and different windows are different
   compressions of the *same* Weil form. Does the joint constraint set beat the
   best single member? Formulate "minimise `s_1/N` over configurations consistent
-  with the known `(tr, ||.||_F^2)` for all windows" and solve it — it looks like
+  with the known `(tr, ||.||_F^2)` for all windows" and solve it, it looks like
   an SDP/LP.
 - A clean proof that the joint problem **collapses** to the single-window one is
   an equally good answer, and is what I would bet on.
@@ -142,7 +142,7 @@ thread. Do not re-run the scalar-moment version.
 
 > **Worked 2026-08-11 by `hunts/frontier_math/`** (see its
 > `RESULTS-frontier-math.md`): at the pair-*measure* level the LP reduces
-> exactly to 2 − sup D and descends to the single-window optimum — the
+> exactly to 2 − sup D and descends to the single-window optimum, the
 > measure relaxation collapses, so what the interval measures is
 > configuration realizability. The attempted constructive residue was a
 > Cheer–Goldston gap-rigidity transplant, now withdrawn: it used
@@ -153,7 +153,7 @@ thread. Do not re-run the scalar-moment version.
 > law artifact (`cert_N256_blk_b128m.json`, available on request per
 > RESULTS-pair-ceiling.md) is the natural starting point.
 
-## THREAD 2 (open, blocked) — closed form for `F_k`, `k >= 2`
+## THREAD 2 (open, blocked): closed form for `F_k`, `k >= 2`
 
 Prior art that nearly went unnoticed: **Ji Bian, *The Pair Correlation of Zeros
 of xi^(kappa)(s)*, PhD thesis, Univ. of Rochester, 2008, advisor Gonek.** Never
@@ -175,7 +175,7 @@ So a closed form or a real tail bound is required, and either would repair a gap
 Bian flagged himself. The exact rational check grid (his Fig. 10.1, `kappa`
 1..4, `i` 1..11) is tabulated in `RESULTS-higher-derivatives.md`, together with
 his proved stabilisation lemma `C_{j,i} = C_{i-2,i}` for `j >= i-2`. The
-`kappa=1` row is reproduced exactly by the closed form above — that is what
+`kappa=1` row is reproduced exactly by the closed form above, that is what
 fixes the normalisation.
 
 **Do not fit coefficients to that grid and call it a derivation.** Eleven
@@ -206,7 +206,7 @@ much less striking than k=1.
   `gh auth switch --user teal-sea`, then switch back.
 - The lexical ban under `hunts/` is machine-enforced by
   `tests/test_hunt_probe_discipline.py` on the reserved word that
-  `zeta/rigor.py` owns — which this file therefore cannot spell. It is a
+  `zeta/rigor.py` owns, which this file therefore cannot spell. It is a
   case-insensitive *substring* match, so it also catches the word with a
   negating prefix, and it applies inside a sentence disclaiming it. Writing this
   bullet the obvious way failed the suite; see `CLAUDE.md` for the term itself.

@@ -57,7 +57,7 @@ def _fmt(v, digits: int = 6) -> str:
 
 
 def step1_theta_modularity(dps: int) -> None:
-    print("STEP 1 — theta modularity:  θ(1/x) − √x·θ(x)  ≡ 0")
+    print("STEP 1, theta modularity:  θ(1/x) − √x·θ(x)  ≡ 0")
     print("        (Poisson summation; both sides summed directly)")
     print()
     print(f"  {'x':>8}   {'θ(x)':>24}   {'|θ(1/x) − √x·θ(x)|':>20}")
@@ -69,7 +69,7 @@ def step1_theta_modularity(dps: int) -> None:
 
 
 def step2_mellin(dps: int) -> None:
-    print("STEP 2 — Riemann's symmetric integral formula")
+    print("STEP 2: Riemann's symmetric integral formula")
     print("        Λ(s) = π^(−s/2)Γ(s/2)ζ(s)  =  1/(s(s−1)) + ∫_1^∞ (x^(s/2−1)+x^((1−s)/2−1)) ω(x) dx")
     print()
     print(f"  {'s':>12}   {'Λ(s) direct':>24}   {'Λ(s) theta-Mellin':>24}   {'|residual|':>12}")
@@ -82,14 +82,14 @@ def step2_mellin(dps: int) -> None:
         res = abs(rhs - lhs)
         print(f"  {_fmt(s, 6):>12}   {_fmt(lhs, 14):>24}   {_fmt(rhs, 14):>24}   {_fmt(res, 3):>12}")
     print()
-    print("  The right-hand side is symmetric under s ↦ 1−s by inspection —")
+    print("  The right-hand side is symmetric under s ↦ 1−s by inspection:")
     print("  1/(s(s−1)) is symmetric and the two powers of x trade places.  That")
     print("  symmetry, transported through the equality above, IS the functional equation.")
     print()
 
 
 def step3_functional_equation(dps: int) -> None:
-    print("STEP 3 — functional equation:  ξ(s) − ξ(1−s)  ≡ 0")
+    print("STEP 3, functional equation:  ξ(s) − ξ(1−s)  ≡ 0")
     print()
     print(f"  {'s':>14}   {'ξ(s)':>26}   {'|ξ(s) − ξ(1−s)|':>18}")
     print("  " + "-" * 64)
@@ -129,12 +129,12 @@ def main() -> None:
           f"{args.dps} digits)")
     print("=" * 78)
     print("(a residual printed as 0.0 is below the 10^-dps resolution of the")
-    print(" returned values — the identity holds to every digit carried)")
+    print(" returned values, the identity holds to every digit carried)")
     print()
     step1_theta_modularity(args.dps)
     step2_mellin(args.dps)
     step3_functional_equation(args.dps)
-    print(f"All three identities hold to ~1e-{args.dps} — the functional equation")
+    print(f"All three identities hold to ~1e-{args.dps}, the functional equation")
     print("is the theta modular relation, pushed through a Mellin transform.")
     print(f"[{time.time() - t0:.1f} s]")
 

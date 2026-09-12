@@ -27,7 +27,7 @@ THE THREE STRUCTURAL FACTS, all measured here:
 1. ``K`` and ``W_y`` are cosine transforms of the SAME nonnegative weight:
    ``K u = int c2 w cos(u w) dw`` and ``W_y s = int c2 w cosh(y w) cos(s w) dw``
    (the master identity), and ``2 Shq y = 4 int c2 w sinh^2(y w) dw``.  So the
-   whole gap is one integral against ``c2 dw`` — ``gap_spectral`` below.
+   whole gap is one integral against ``c2 dw``, ``gap_spectral`` below.
 2. ``K`` is positive definite (its spectral density is ``c2 >= 0``) AND
    pointwise nonnegative, because it is a square.  The second fact is the
    load-bearing one: EVERY off-diagonal pair contributes ``>= 0``, so pairs
@@ -38,15 +38,15 @@ THE THREE STRUCTURAL FACTS, all measured here:
 
 WHAT THE CONVEX RELAXATION SAYS: NO.  Relaxing the n unit atoms to a
 nonnegative measure of mass n gives a convex QP whose minimum lower-bounds
-the truth.  Mass may be sent to infinity as dust — spread thin it pays no
-energy, and ``W_y -> 0`` so it collects no damage — which makes the infimum
+the truth.  Mass may be sent to infinity as dust, spread thin it pays no
+energy, and ``W_y -> 0`` so it collects no damage, which makes the infimum
 over the line exactly
 
     inf gap = [C*(n) + 2 Shq y]/A^2 - n/200,  C*(n) = inf over nu >= 0, |nu| <= n.
 
 ``C*(n)`` saturates at ``C* = -0.038776`` once ``n >= 5.99``, so from ``n = 6``
 the relaxed infimum is the straight line ``0.114022 - n/200``: it crosses zero
-at ``n = 23`` and falls without bound.  The minimiser is not a configuration —
+at ``n = 23`` and falls without bound.  The minimiser is not a configuration,
 peak mass ``2.07819``, fractional, with the excess as dust.  The mechanism is
 structural, not numerical: ``- n A^2`` is the self-energy of n unit atoms, and
 a diffuse measure of the same mass keeps the subtraction while paying none of
@@ -59,7 +59,7 @@ WHAT DOES CLOSE IT: integrality used per damage window.  The damage
 at ``y = 1/2``) recurring near ``2 pi k``, and ``D_y = 0`` on ``|s| <= 6.065``.
 Two points inside one window are within the window width of each other, so
 ``m`` points in one window pay ``>= (kappa/200) m (m-1)`` into the quadratic
-term while collecting at most ``4 D_k m`` of damage — and ``m`` is an INTEGER.
+term while collecting at most ``4 D_k m`` of damage, and ``m`` is an INTEGER.
 Maximising ``4 D_k m - (kappa/200) m (m-1)`` over integers and summing over
 windows gives, with no separation hypothesis and no dependence on n:
 
@@ -215,7 +215,7 @@ _W_NODES, _W_WEIGHTS = _gauss()
 
 
 def gap_spectral(xs: Sequence[float], y: float, t: float, nodes: int = 600) -> float:
-    """The gap as ONE integral against ``c2 dw`` — the single-functional form.
+    """The gap as ONE integral against ``c2 dw``, the single-functional form.
 
     ``gap = (1/A^2) int c2 w [ (|F w|^2 - n)/200 + 4 cosh(y w) Re(F w e^{-i t w})
     + 4 sinh^2(y w) ] dw`` with ``F w = sum_j e^{i x_j w}``.
@@ -360,7 +360,7 @@ def grid_objective(masses: Sequence[float], grid: Sequence[float], y: float,
     """The same objective as ``relaxed_minimum`` evaluated at given masses.
 
     For integer masses this equals ``gap_kernel`` of the configuration that
-    repeats each grid point that many times — which is what makes the relaxed
+    repeats each grid point that many times, which is what makes the relaxed
     value a lower bound for the integer one.
     """
     mv = np.asarray(masses, dtype=float)
@@ -388,7 +388,7 @@ def adversary_design(n: int, y: float, t: float = 0.0, reach: float = 60.0) -> n
     """The configuration the structure predicts the adversary wants.
 
     Fill the damage windows outward from the centre, giving window ``k`` the
-    multiplicity that maximises ``4 D_k m - (A^2/200) m (m-1)`` — the integer
+    multiplicity that maximises ``4 D_k m - (A^2/200) m (m-1)``, the integer
     trade with coincident points, whose pair price is ``K(0) = A^2``.
     """
     wins = damage_windows(y, s_max=reach)
@@ -407,7 +407,7 @@ def atomic_minimum(n: int, y: float, t: float = 0.0, seed: int = 0,
     """Minimise the gap over n-point configurations (multistart L-BFGS).
 
     Structured starts place points on the damage peaks with the multiplicity
-    the integer trade prefers — the family the adversary actually wants —
+    the integer trade prefers, the family the adversary actually wants,
     plus random starts and, optionally, a warm start grown from the best
     ``n-1`` point configuration.
     """
@@ -708,7 +708,7 @@ def audit() -> None:  # pragma: no cover - console output
         val, cstar, masses, _ = relaxed_infimum(n, 0.5)
         print(f"  {n:>3} {r.value:>12.6f} {val:>12.6f} {cstar:>12.6f} "
               f"{masses.max():>10.5f} {masses.sum():>10.4f}")
-    print("  'on a grid' is mass exactly n on a finite grid — a valid lower bound")
+    print("  'on a grid' is mass exactly n on a finite grid, a valid lower bound")
     print("  for on-grid configurations; 'inf over R' lets the excess mass leave as")
     print("  dust, which is what the relaxation is really worth.  From n = 6 it is")
     print("  the straight line 0.114022 - n/200: negative from n = 23, no floor.")

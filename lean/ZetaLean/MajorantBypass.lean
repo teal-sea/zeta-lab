@@ -35,7 +35,7 @@ the general fact and the concrete majorant, both unconditional.
 
 `powerMajorant` is exactly the shape the display asserts, and
 `powerMajorant_step` shows it satisfies the recurrence with **equality** at
-`B · (1 + log X)²` — the factorial denominator is built so that
+`B · (1 + log X)²`: the factorial denominator is built so that
 `(j+1)(2j)(2j+1)` is precisely the ratio `denominator(j+1)/denominator(j)`.
 
 What remains open is therefore one hypothesis, `A_j(X) ≤ powerMajorant …`,

@@ -1,4 +1,4 @@
-"""Hunt r_f7cd45 — which structural properties of zeta actually discriminate.
+"""Hunt r_f7cd45, which structural properties of zeta actually discriminate.
 
 Runs six claimed structural properties of zeta through gate #3 of
 ``docs/09-new-ontologies.md``, as executed by ``zeta.epstein.battery``: each
@@ -101,7 +101,7 @@ def claim_zeros_on_critical_line(iface: dict) -> bool:
 
 def claim_complete_multiplicativity(iface: dict) -> bool:
     """Claim: "the Dirichlet coefficients are completely multiplicative:
-    a_{mn} = a_m a_n for *all* m, n" — strictly stronger than
+    a_{mn} = a_m a_n for *all* m, n", strictly stronger than
     :func:`zeta.epstein.claim_multiplicativity`, which only quantifies over
     coprime pairs."""
     tol = mp.mpf(COEFF_TOL)
@@ -367,12 +367,12 @@ def main() -> int:
         results.update(json.loads(out_path.read_text()))
 
     if args.stage in (None, 1):
-        print("stage 1 — the five properties of issue #21")
+        print("stage 1, the five properties of issue #21")
         results.update(run_stage1())
     if args.stage in (None, 2):
-        print("stage 2a — precision audit at the box height (instrument check)")
+        print("stage 2a, precision audit at the box height (instrument check)")
         results.update(run_precision_audit())
-        print("stage 2b — the sixth property, preregistered boxes")
+        print("stage 2b, the sixth property, preregistered boxes")
         results.update(run_stage2(results))
 
     out_path.write_text(json.dumps(results, indent=2) + "\n")

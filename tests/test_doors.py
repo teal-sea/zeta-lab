@@ -5,13 +5,13 @@ test that the page's command still works.  Until now only the discover door
 paid the second half (``test_script_13_discovery_run.py``); the learn and
 refute doors were promises.  This file collects the debt:
 
-* **fast** — every ``scripts/…`` command named in the doors README table
+* **fast**: every ``scripts/…`` command named in the doors README table
   points at a file that exists (a renamed script would otherwise break a
   door silently), and the ``interactive_lab`` page honours its stated
   contract (single file, parses as HTML, no external scripts);
-* **slow** — the learn and refute door commands actually run to exit 0.
+* **slow**: the learn and refute door commands actually run to exit 0.
   The certify door's command is a Lean build (its own toolchain, checked by
-  CI on ``lean/``), and the adopt door's command *is* the pytest suite —
+  CI on ``lean/``), and the adopt door's command *is* the pytest suite,
   neither can be usefully re-run from inside a test here.
 """
 
@@ -38,7 +38,7 @@ def _door_script_commands() -> list[str]:
 
 def test_the_doors_readme_names_only_scripts_that_exist():
     commands = _door_script_commands()
-    assert commands, "the doors README stopped naming any script — table moved?"
+    assert commands, "the doors README stopped naming any script, table moved?"
     for rel in commands:
         assert os.path.isfile(os.path.join(REPO_ROOT, rel)), rel
 

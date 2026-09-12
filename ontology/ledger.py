@@ -1,21 +1,21 @@
-"""ontology.ledger — the append-only log the whole funnel is measured from.
+"""ontology.ledger, the append-only log the whole funnel is measured from.
 
 Domain-agnostic, like the rest of this layer: it stores records, it does not
 know what they are about.
 
 Two streams, one directory
 --------------------------
-* **candidates** — ``ledger.jsonl``, one :class:`~ontology.schema.Candidate`
+* **candidates**, ``ledger.jsonl``, one :class:`~ontology.schema.Candidate`
   per line, exactly the format :func:`ontology.schema.read_jsonl` reads. The
   log is append-only and the *last* record for an id wins
   (:func:`~ontology.schema.latest_by_id`), so a candidate that is generated,
   checkpointed and then decided appears two or three times and counts once.
-* **runs** — ``ledger.runs.jsonl``, one funnel-run record per line.
+* **runs**: ``ledger.runs.jsonl``, one funnel-run record per line.
 
 The second stream exists because of a gap the schema states about itself
 (``discovery/README.md`` §7.1): *a candidate record needs a candidate*, so a
 lead source that ran for an hour and emitted nothing leaves no trace in the
-first stream — and every conversion rate computed without it has the wrong
+first stream, and every conversion rate computed without it has the wrong
 denominator. Run records carry the invocation counts, the zero-yield ones
 included, and are written twice (``state="started"`` then ``state="finished"``)
 so that a run which died mid-way is still in the denominator.
@@ -88,7 +88,7 @@ LEDGER_ENV_VAR: Final[str] = "DISCOVERY_LEDGER"
 #: The tag that marks a line in the run stream, so a mixed file is still safe.
 RUN_RECORD_TYPE: Final[str] = "funnel_run"
 
-#: Derived from ``__file__`` — never from a working directory, and never
+#: Derived from ``__file__``, never from a working directory, and never
 #: hard-coded, so no machine-local path is baked into a committed file.
 DEFAULT_LEDGER_DIR: Final[Path] = Path(__file__).resolve().parent.parent / "conjectures"
 DEFAULT_LEDGER_PATH: Final[Path] = DEFAULT_LEDGER_DIR / "ledger.jsonl"
@@ -158,7 +158,7 @@ class LedgerView:
     """An immutable snapshot: what the metrics layer is handed.
 
     Reading is separated from the store so that a report can be computed from a
-    hand-built set of records with no file anywhere — which is how the metrics
+    hand-built set of records with no file anywhere, which is how the metrics
     arithmetic is pinned by the test suite.
     """
 
@@ -174,7 +174,7 @@ class LedgerView:
         """Collapse the run stream: last record per ``run_id`` wins.
 
         A run appears as ``started`` and then as ``finished``. A run that only
-        ever appears as ``started`` died, and stays visible as such — that is
+        ever appears as ``started`` died, and stays visible as such, that is
         the point of writing the first record.
         """
         by_id: dict[str, Mapping[str, Any]] = {}
@@ -230,7 +230,7 @@ class Ledger:
         """Append one funnel-run record to the run stream.
 
         The run stream is what puts *zero-yield* work into the denominator, so
-        a record with no candidates in it is not an edge case — it is the
+        a record with no candidates in it is not an edge case, it is the
         common one, and it is refused only if it has no ``run_id``.
         """
         if not isinstance(record, Mapping):

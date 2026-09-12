@@ -11,27 +11,27 @@ the chain had said so:
 - **theta_full** retains the on-line internal mass of the paper's
   Frobenius/incidence framework,
       R = sum_{i != j} omega^2(x_i - x_j),   omega = Phi2/Phi2(0),
-  where Phi2 = FT(phi^2) — the grid bilinear form B(z, w) is
+  where Phi2 = FT(phi^2), the grid bilinear form B(z, w) is
   proportional to Phi2(z - w) (LAW D), so the mass the retention protects
   is measured in **omega^2**;
 - **c_u** is the Cheer-Goldston bucket floor, computed with the
   Montgomery-Taylor kernel g, which `transplant_lemma.py` measures to be
   exactly the normalised squared transform of the window itself,
-  g = (phihat / phihat(0))^2 — i.e. **(FT phi)^2, not (FT phi^2)^2**.
+  g = (phihat / phihat(0))^2, i.e. **(FT phi)^2, not (FT phi^2)^2**.
 
 These are not the same function.  FT(phi^2) = phihat * phihat, so omega
 is a self-convolution where g is a square; the two agree at 0 by
 normalisation and diverge immediately after.  Measured ratio omega^2/g
 across the bucket region: 1.02 at u = 0.3, 1.12 at 0.6, 1.70 at 0.9,
-0.66 at 1.5.  Their zeros are close but distinct — omega's first zero at
-u = 1.1208 against lambda_1 = 1.0573, a 6% difference — and both zero
+0.66 at 1.5.  Their zeros are close but distinct, omega's first zero at
+u = 1.1208 against lambda_1 = 1.0573, a 6% difference, and both zero
 sets are NON-arithmetic, so both kernels support a live floor (unlike the
 hunt window, whose omega is arithmetic to 1e-4 and whose floor is 0).
 
 THE CONSEQUENCE.  The floor that belongs with theta_full is the one
 computed in omega^2, not in g.  This module computes both on the same
 resolution ladder and reports the conservative reading.  It does not
-settle which pairing the upstream chain actually requires — that is the
+settle which pairing the upstream chain actually requires, that is the
 residual T3, now stated sharply enough to be answerable from the paper:
 the base constant H and the coefficient 2 come from the upstream count,
 and whether that count's discarded mass is an omega^2 sum or a g sum is a

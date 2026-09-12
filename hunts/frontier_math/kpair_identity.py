@@ -37,10 +37,10 @@ on-line atoms at its own top window peak.  There are only **two** such
 positions (`+/- 6.517`), because the window peaks decay like `1/s^2`
 (`D_j s_j^2 -> 2 cos^2(1/sqrt2)(cosh y - 1)`).  So either
 
-* the centres **spread**, and `damage/k` decays with `k` — measured
+* the centres **spread**, and `damage/k` decays with `k`, measured
   `dam/gain` 1.0420 at `k = 1, 2` falling to 0.2483 at `k = 12`
   (:func:`stack_seen_by_every_pair`); or
-* the centres **stack**, keeping `damage/k` at the maximum — and then the
+* the centres **stack**, keeping `damage/k` at the maximum, and then the
   inter-pair term turns strongly positive, `+1.7556` per ordered
   coincident pair, because `D(2y,0) + D(0,0) = -(ghat(2y)^2 + A^2) < 0`
   enters with a minus sign (:func:`stacked_centres`).
@@ -70,7 +70,7 @@ an exact identity, i.e. hardened-grade evidence with the mechanism named.
 What it does refute is the reading that `cluster_sdp.multi_pair_requirement`'s
 factor 1.99 is an obstruction to the *statement*: that factor compares a
 per-pair damage charge against a measured joint budget floor, and the
-identity shows the per-pair charge is unreachable for `k >= 3` — the two
+identity shows the per-pair charge is unreachable for `k >= 3`, the two
 sides are maximised by different configurations.  Nothing here is
 evidence about RH.
 
@@ -231,7 +231,7 @@ def stack_seen_by_every_pair(ks=(1, 2, 4, 6, 8, 12), ms=(1, 3, 7, 8, 12, 20),
                              y: float = 0.5) -> list:
     """`m` atoms at 0; centres on the stack's own damage windows.
 
-    Every pair is damaged by the same stack at once — the strongest
+    Every pair is damaged by the same stack at once, the strongest
     simultaneous-damage placement available.  `dam/gain` is the diagnostic:
     it peaks at `k = 1, 2` and falls thereafter, because the later pairs
     can only be placed on smaller window peaks.
@@ -273,7 +273,7 @@ def stacked_centres(ks=(1, 2, 4, 8), ms=(1, 7, 8, 12), y: float = 0.5) -> list:
     return rows
 
 
-#: `D(2y,0) + D(0,0)` at `y = 1/2` — the coincident-centre shield, per
+#: `D(2y,0) + D(0,0)` at `y = 1/2`, the coincident-centre shield, per
 #: ordered pair, entering `slack_k` with the opposite sign.
 COINCIDENT_SHIELD = -(damage(1.0, 0.0) + damage(0.0, 0.0))
 

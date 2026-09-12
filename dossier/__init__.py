@@ -1,11 +1,11 @@
-"""``dossier`` — an experiment in representing mathematical research state.
+"""``dossier``, an experiment in representing mathematical research state.
 
 **Status: experiment, side project, probe.** Not a platform, not a framework,
 not a replacement for Mathlib, and not a claim about RH. It exists to test one
 question, on one worked example:
 
-    Can mathematical research state — intent, definitions, provenance,
-    evidence, failed attempts, proof obligations and verification status — be
+    Can mathematical research state, intent, definitions, provenance,
+    evidence, failed attempts, proof obligations and verification status, be
     represented in a structured form that helps an agent perform and *resume*
     rigorous mathematical work?
 

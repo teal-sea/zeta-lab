@@ -1,13 +1,13 @@
-"""``harness.departments.compiler_department`` — department #3: LLVM IR rewrites.
+"""``harness.departments.compiler_department``, department #3: LLVM IR rewrites.
 
-The first department whose subject shares no vocabulary with the mathematics —
-programs, not functions — and therefore the sharpest test the harness's claim
+The first department whose subject shares no vocabulary with the mathematics,
+programs, not functions, and therefore the sharpest test the harness's claim
 to generality has had. It spent its first day as an unregistered candidate:
 ``compiler/FINDINGS.md`` records the PROVISIONAL verdict and the two measured
 blockers, and the admission addendum at its end records what cleared them. In
 short: the concrete backend was blind to the poison class (`has_power` False
 on the subject's central hazard), so ``compiler.semantics`` gained a second
-backend — an exhaustive poison-aware model of the supported subset — that sees
+backend, an exhaustive poison-aware model of the supported subset, that sees
 the ``nsw`` lesion as 32768 poison violations and is cross-checked against
 compiled output at every defined point; and the conformance suite's three
 zeta-shaped payload assumptions were generalised per FINDINGS §7, reviewed on
@@ -21,24 +21,24 @@ mappings that came out strained, is in the findings document.
 
 The mapping, in one paragraph each
 ----------------------------------
-* **Subject** — a :class:`compiler.catalog.Transformation`: one source program,
+* **Subject**, a :class:`compiler.catalog.Transformation`: one source program,
   one proposed replacement. The genuine article is a rewrite that agrees with
   its source everywhere in the enumerated domain.
-* **Rival** — a rewrite that shares every cheap property the target has, and is
+* **Rival**: a rewrite that shares every cheap property the target has, and is
   wrong. All three are transformations competent people have written on
   purpose: divide-by-two as a shift, unsigned-divide as an arithmetic shift, and
   signed comparison via the sign bit of a difference. Each matches the target's
   instruction count exactly, so any claim resting on size is shared with them.
-* **Decoy** — a substitution acting on **the set of inputs the verdict was
+* **Decoy**: a substitution acting on **the set of inputs the verdict was
   measured over**. The substantive input to a test-based claim about a program
   is which inputs were tested; a verdict that does not move when a diverse input
   set is swapped for a degenerate one of the same size was never reading it.
   This is the department's sharpest instrument in practice: it turns "our tests
   pass" into a measurement rather than a reassurance.
-* **Surrogate** — a candidate drawn from an unguided mutation generator: the
+* **Surrogate**, a candidate drawn from an unguided mutation generator: the
   same *kind* of generator a search would use, with the part that is supposed to
   know what it is doing removed.
-* **Lesion** — a planted corruption of a rewrite already shown to agree
+* **Lesion**: a planted corruption of a rewrite already shown to agree
   everywhere, at magnitudes spanning four orders. One of them is invisible to
   the only backend installed, on purpose.
 """
@@ -113,7 +113,7 @@ RIVALS: tuple[RewriteSubject, ...] = tuple(
 
 
 # ---------------------------------------------------------------------------
-# Decoys — substitutions on the input set a verdict was measured over
+# Decoys, substitutions on the input set a verdict was measured over
 # ---------------------------------------------------------------------------
 
 
@@ -148,20 +148,20 @@ DECOYS: tuple[InputSetDecoy, ...] = (
     InputSetDecoy(
         name="narrow_input_window",
         mode="narrow",
-        _description="the same number of test inputs, all crowded into [0, 7] — a "
+        _description="the same number of test inputs, all crowded into [0, 7], a "
         "verdict that does not move was reading the count of tests, not their reach",
     ),
     InputSetDecoy(
         name="constant_input_set",
         mode="constant",
-        _description="the same number of test inputs, all of them zero — the "
+        _description="the same number of test inputs, all of them zero, the "
         "degenerate suite that every transformation passes",
     ),
 )
 
 
 # ---------------------------------------------------------------------------
-# Surrogates — candidates from a generator with no idea what it is doing
+# Surrogates, candidates from a generator with no idea what it is doing
 # ---------------------------------------------------------------------------
 
 
@@ -194,7 +194,7 @@ SURROGATES: tuple[UnguidedMutationSurrogate, ...] = tuple(
 
 
 # ---------------------------------------------------------------------------
-# Lesions — planted violations of a rewrite known to agree everywhere
+# Lesions, planted violations of a rewrite known to agree everywhere
 # ---------------------------------------------------------------------------
 
 
@@ -245,7 +245,7 @@ def agreement_over(transformation: catalog.Transformation):
 def concrete_detector(transformation: Any) -> bool:
     """Fires when the exhaustive concrete run notices a disagreement.
 
-    Kept — with its measured blindness — after the model detector arrived: a
+    Kept, with its measured blindness, after the model detector arrived: a
     detector whose power is known to stop at the poison class is still a
     detector, and the power difference between the two *is* the measurement
     of what rung 2 added. ``run_power`` with this one reports
@@ -259,14 +259,14 @@ def model_detector(transformation: Any) -> bool:
     """Fires when the poison-aware model finds a refinement violation.
 
     The detector the poison lesion demanded: it sees value disagreements, the
-    poison class, and immediate UB, all with respect to the model — quote
+    poison class, and immediate UB, all with respect to the model, quote
     :data:`compiler.semantics.EVIDENCE_MODEL_I8` with any verdict built on it.
     """
     return not semantics.refinement(transformation.source, transformation.target).refines
 
 
 def unguided_agreement(transformation: Any) -> float:
-    """Agreement fraction over the whole domain — the statistic the nulls test."""
+    """Agreement fraction over the whole domain, the statistic the nulls test."""
     return semantics.agreement(transformation.source, transformation.target).fraction
 
 
@@ -281,7 +281,7 @@ DETECTORS: tuple[NamedDetector, ...] = (
         fires=concrete_detector,
         probe=catalog.LESION_HOST,
         note=(
-            "exhaustive compiled agreement over all 65536 i8 pairs — blind to the "
+            "exhaustive compiled agreement over all 65536 i8 pairs, blind to the "
             "nsw poison lesion by the nature of compiled output, and declared "
             "anyway because the blindness is the measurement"
         ),
@@ -291,7 +291,7 @@ DETECTORS: tuple[NamedDetector, ...] = (
         fires=model_detector,
         probe=catalog.LESION_HOST,
         note=(
-            "poison-aware model refinement over the same domain — the backend the "
+            "poison-aware model refinement over the same domain, the backend the "
             "poison lesion demanded; sees all four lesions at their declared "
             "magnitudes"
         ),
@@ -316,12 +316,12 @@ BATTERY = Battery(
         "decoys ablate the input set rather than the program, because the "
         "substantive input to a test-based verdict is which inputs were tested. "
         "One lesion is invisible to the only backend installed; that is measured, "
-        "not hidden — see compiler/FINDINGS.md."
+        "not hidden, see compiler/FINDINGS.md."
     ),
 )
 
 #: The calibration claims. The first is real, true of the target, and true
-#: of every rival — the compiler domain's version of a property everything in
+#: of every rival, the compiler domain's version of a property everything in
 #: the room happens to share. The second and third are ones the rivals lack,
 #: measured by the two independent backends respectively.
 REFERENCE_CLAIMS: tuple[ReferenceClaim, ...] = (
@@ -331,7 +331,7 @@ REFERENCE_CLAIMS: tuple[ReferenceClaim, ...] = (
         distinguishes=False,
         note=(
             "true of the target and of all three rivals, whose instruction counts "
-            "match it exactly — shorter code is not evidence of a correct rewrite, "
+            "match it exactly, shorter code is not evidence of a correct rewrite, "
             "and this claim is here to make that a measurement rather than a maxim"
         ),
     ),
@@ -342,7 +342,7 @@ REFERENCE_CLAIMS: tuple[ReferenceClaim, ...] = (
         note=(
             "the target returns the same value as its source at all 65536 i8 pairs "
             "and every rival does not. This is agreement over an enumerated finite "
-            "domain — not equivalence, not refinement, and blind to poison: see "
+            "domain, not equivalence, not refinement, and blind to poison: see "
             "compiler.semantics.EVIDENCE_EXHAUSTIVE_I8"
         ),
     ),
@@ -352,7 +352,7 @@ REFERENCE_CLAIMS: tuple[ReferenceClaim, ...] = (
         distinguishes=True,
         note=(
             "the target refines its source under the poison-aware model and every "
-            "rival does not — the second backend's verdict, independent of clang, "
+            "rival does not, the second backend's verdict, independent of clang, "
             "and the one that can see the poison class: see "
             "compiler.semantics.EVIDENCE_MODEL_I8"
         ),

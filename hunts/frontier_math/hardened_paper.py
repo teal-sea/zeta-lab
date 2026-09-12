@@ -10,7 +10,7 @@ THE FIELD.  The paper's incidence kernel is
     Phi2(z) = s(z + sqrt2) + s(z - sqrt2),    s(u) = sin(u/2)/u,
     A = Phi2(0) = 2 sin(sqrt2/2)/sqrt2 = 0.9187253698...,
 
-a TWO-term trigonometric form — one term friendlier than the T1 window's
+a TWO-term trigonometric form, one term friendlier than the T1 window's
 three-term sc assembly, and far from the hunt window's ramp^2 assembly
 whose interval-argument radii amplified by ~1.8e5 and forced a
 mean-value fallback (`hardened_direct`).  Here the interval-argument
@@ -55,7 +55,7 @@ WHAT IS DIRECTED WHICH WAY (identical to hardened_band):
 * Same-band repulsion K_k: LOWER endpoint of min omega^2 over
   [0, width] on an interval cover, widths rounded UP.
 * Slack 8 sigma^2 + 8 sigma^4: LOWER endpoint of the sigma^2 ball,
-  deflated by (1 - 1e-9) — both sides of the verdict are one-sided.
+  deflated by (1 - 1e-9), both sides of the verdict are one-sided.
 * The closed-form 1/g^2 tail: C_im/A rounded UP (edge = cos(sqrt2/2)
   here, the paper window's phi^2(1/2); the T1 window had cos^2), the
   band period P rounded DOWN, then 4 C^2 (1/G^2 + 1/(P G)) rounded UP.
@@ -231,7 +231,7 @@ class HardenedPaper:
 
         Pass 1 covers (0, G] in cells of width ``coarse``.  A cell whose
         f enclosure has a nonpositive UPPER endpoint contributes nothing
-        anywhere — f <= 0 throughout it, not merely at a grid point —
+        anywhere, f <= 0 throughout it, not merely at a grid point,
         so the off-band allowance is 0 as long as every cell outside the
         candidate runs is of that kind, which is what pass 1 records.
 
@@ -302,7 +302,7 @@ class HardenedPaper:
         + |Phi2||Phi2''|).  For every off-band coarse cell this compares
         the LOWER endpoint of q at the cell centre against the UPPER
         endpoint of (1/8)|q''| h^2 over the whole cell, h = ``coarse``.
-        A ratio above 1 everywhere excludes an unresolved interior dip —
+        A ratio above 1 everywhere excludes an unresolved interior dip,
         the statement :meth:`scan` gets for free from the cover; the two
         agreeing is the cross-check.
         """
@@ -451,7 +451,7 @@ class HardenedPaper:
         """theta above which double occupancy of the worst band pays:
         it pays when c = 1 - theta < c* = F_1/(2 K_1), i.e. for
         theta > 1 - c*.  (The T1 modules print this with "below";
-        their own numbers — m* = 8 at theta = 0.9989 > 0.9919 — show
+        their own numbers, m* = 8 at theta = 0.9989 > 0.9919, show
         the profitable side is ABOVE the threshold.)  Directed so that
         the hardened threshold is LOWER than the float one (F up,
         K down): a lower threshold concedes multiplicity earlier."""
@@ -517,11 +517,11 @@ def singular_branch_vs_mpmath(dps: int = 40):
 
     Points inside the series disc |u| < 1, real and complex, including
     a crossing of u = 0.  The comparison runs at mpmath precision
-    (exact ball midpoints via man_exp — a double-precision detour would
+    (exact ball midpoints via man_exp, a double-precision detour would
     drown the 1e-38 radii in conversion noise), and the closed-form
     REFERENCE gets 45 guard digits on top of ``dps``: at u ~ 1e-8 the
     s'' closed form cancels ~24 digits (terms ~1/u^3 summing to -1/24),
-    so a dps-40 reference would be wrong at 1e-26 — an error of the
+    so a dps-40 reference would be wrong at 1e-26, an error of the
     oracle, not of the ball.  The defect must be <= the radius: a
     reference outside its ball is a critical defect, not a tolerance
     issue.
@@ -557,7 +557,7 @@ def cross_backend_spot_check(hb: HardenedPaper, dps: int = 40):
     The points are actual band centres from the hardened scan.  The
     comparison runs at mpmath precision (exact ball midpoints via
     man_exp).  A midpoint-to-mpmath distance beyond the enclosure
-    radius is a critical defect and is reported as such — never
+    radius is a critical defect and is reported as such, never
     widened away.
     """
     from mpmath import mp, mpc, sqrt

@@ -1,0 +1,533 @@
+{
+  "summary": {
+    "total_mutants": 20,
+    "primary_guard_fired_count": 2,
+    "any_numbering_guard_fired_count": 12,
+    "declared_miss_detected_by_primary": false,
+    "declared_miss_detected_by_any_guard": false,
+    "content_drift_detected_by_any_guard": false
+  },
+  "mutants": [
+    {
+      "id": "M01",
+      "name": "duplicate_leading_number",
+      "category": "guard_primary_lesion",
+      "description": "Add 05-b.md alongside 05-de-bruijn-newman.md in docs/",
+      "test_no_two_docs_share_a_number": true,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M02",
+      "name": "rename_doc_preserve_number_bare_refs_only",
+      "category": "declared_miss",
+      "description": "Rename 08-why-it-is-hard.md -> 08-spectral-gap.md (bare docs/08 refs remain)",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": false,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M03",
+      "name": "rename_doc_preserve_number_dangling_fullname_ref",
+      "category": "boundary_filename_ref",
+      "description": "Rename 05-de-bruijn-newman.md -> 05-dbn.md leaving 05-de-bruijn-newman.md refs intact",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": true,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M04",
+      "name": "rename_doc_preserve_number_fullname_refs_updated",
+      "category": "declared_miss",
+      "description": "Rename 05-de-bruijn-newman.md -> 05-dbn.md and update all refs to 05-dbn.md",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": false,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M05",
+      "name": "content_replaced_completely_content_drift",
+      "category": "content_drift",
+      "description": "Replace body of 08-why-it-is-hard.md with banana bread recipe while keeping H1 title",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": false,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M06",
+      "name": "h1_title_changed_in_place",
+      "category": "content_drift",
+      "description": "Change H1 in 08-why-it-is-hard.md to '# 08: Banana Bread Recipe'",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": false,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M07",
+      "name": "filename_slug_changed_title_unchanged",
+      "category": "declared_miss",
+      "description": "Rename 08-why-it-is-hard.md -> 08-hardness-of-rh.md, keep H1 '# 08: Why it is hard'",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": false,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M08",
+      "name": "doc_number_changed_creates_gap",
+      "category": "number_sequence",
+      "description": "Rename 08-why-it-is-hard.md -> 99-why-it-is-hard.md",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": true,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": true,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M09",
+      "name": "doc_number_changed_collides",
+      "category": "guard_primary_lesion",
+      "description": "Rename 08-why-it-is-hard.md -> 07-why-it-is-hard.md (now two 07 docs)",
+      "test_no_two_docs_share_a_number": true,
+      "test_the_course_has_no_gap": true,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": true,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M10",
+      "name": "doc_number_3_digits",
+      "category": "format_lesion",
+      "description": "Rename 08-why-it-is-hard.md -> 008-why-it-is-hard.md (fails regex ^\\d{2}-)",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": true,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": true,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M11",
+      "name": "doc_number_1_digit",
+      "category": "format_lesion",
+      "description": "Rename 08-why-it-is-hard.md -> 8-why-it-is-hard.md (fails regex ^\\d{2}-)",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": true,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": true,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M12",
+      "name": "bare_ref_to_nonexistent_doc",
+      "category": "reference_integrity",
+      "description": "Add bare reference to phantom number in 00-orientation.md",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": true,
+      "make_context_check_fires": false,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M13",
+      "name": "full_ref_to_nonexistent_doc",
+      "category": "reference_integrity",
+      "description": "Add full reference to phantom filename in 00-orientation.md",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": true,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": false,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M14",
+      "name": "doc_deleted_leaving_gap_and_dangling_refs",
+      "category": "lifecycle",
+      "description": "Delete 08-why-it-is-hard.md",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": true,
+      "test_every_full_filename_ref_resolves": true,
+      "test_every_bare_number_ref_resolves": true,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M15",
+      "name": "valid_doc_added_at_end",
+      "category": "valid_addition",
+      "description": "Add 28-future-work.md extending 00..27 sequence",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": false,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M16",
+      "name": "non_md_file_in_docs",
+      "category": "untracked_file_type",
+      "description": "Add 08-notes.txt in docs/ (non .md extension)",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": false,
+      "overall_numbering_suite_fired": false,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M17",
+      "name": "nested_subdirectory_doc",
+      "category": "unscanned_hierarchy",
+      "description": "Add extra/08-extra.md in a nested docs/ subdirectory",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": false,
+      "make_context_check_fires": false,
+      "overall_numbering_suite_fired": false,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M18",
+      "name": "non_docs_file_dangling_bare_ref",
+      "category": "multilingual_scanning",
+      "description": "Add comment referencing docs:99 in test_docs_numbering.py",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": true,
+      "make_context_check_fires": false,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M19",
+      "name": "doc_filename_with_underscores",
+      "category": "format_lesion",
+      "description": "Rename 08-why-it-is-hard.md -> 08_why_it_is_hard.md (fails regex ^\\d{2}-)",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": true,
+      "test_every_full_filename_ref_resolves": true,
+      "test_every_bare_number_ref_resolves": true,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    },
+    {
+      "id": "M20",
+      "name": "stale_doc_ref_in_context_md",
+      "category": "generated_index_drift",
+      "description": "Add reference to docs:99 in CONTEXT.md",
+      "test_no_two_docs_share_a_number": false,
+      "test_the_course_has_no_gap": false,
+      "test_every_full_filename_ref_resolves": false,
+      "test_every_bare_number_ref_resolves": true,
+      "make_context_check_fires": true,
+      "overall_numbering_suite_fired": true,
+      "matches_expected_primary": true
+    }
+  ],
+  "guard_census": [
+    {
+      "file": "tests/test_claim_attribution.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Contains static quotes from historical docs/12; does not read live docs files."
+    },
+    {
+      "file": "tests/test_compiler_candidate.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_core.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_criteria.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_department_conformance.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_discovery_funnel.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_discovery_knownness.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_discovery_schema.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_discovery_zeta_domain.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_docs_numbering.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Checks doc numbering uniqueness, 00..N gaps, and ref resolution; does not read doc body or title."
+    },
+    {
+      "file": "tests/test_doors.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Executes shell commands quoted in docs/doors/*.md; does not read general docs/*.md."
+    },
+    {
+      "file": "tests/test_dossier_hardy_z.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_epstein.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_finitefield.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_guard_ledger.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Tests guard ledger conformance and smallest mutants; mocks DOCS for numbering test."
+    },
+    {
+      "file": "tests/test_harness_demo.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_harness_independence.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_harness_integrity.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_harness_promotion.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_harness_protocol.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_harness_referee_department.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_harness_zeta_department.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_heatflow.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_hunt_probe_discipline.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_inverse.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_leeyang.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_li.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_plots.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_pub1_status.py",
+      "mentions_docs": true,
+      "scans_doc_content": true,
+      "reads_doc_titles": false,
+      "notes": "Reads single item-3 row in docs/27 for specific grade string against OBLIGATIONS.md."
+    },
+    {
+      "file": "tests/test_reading_of_record.py",
+      "mentions_docs": true,
+      "scans_doc_content": true,
+      "reads_doc_titles": false,
+      "notes": "Reads reading of record table row in docs/27."
+    },
+    {
+      "file": "tests/test_relations.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_repo_hygiene.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_rigor.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_rigor_weil.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_rogue_lab_controls.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_rung3_ball_assembly.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    },
+    {
+      "file": "tests/test_weil.py",
+      "mentions_docs": true,
+      "scans_doc_content": false,
+      "reads_doc_titles": false,
+      "notes": "Mentions docs in comments or docstrings."
+    }
+  ]
+}

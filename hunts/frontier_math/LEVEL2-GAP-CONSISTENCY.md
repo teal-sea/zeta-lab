@@ -9,7 +9,7 @@ marked two-gap words*, and a kill control that *duplicates one off-line pair
 independently in overlapping cells*. All three are delivered here, and they
 repair the two defects `SIGNED-INCIDENCE-LAW.md` recorded against itself:
 
-- level 1's per-cell envelope was **n-extensive** — n cells could each sit at
+- level 1's per-cell envelope was **n-extensive**, n cells could each sit at
   the floor, so one off-line pair's budgeted negativity grew with the number
   of on-line zeros;
 - level 1's exclusion used the **exactness** of the family's declarations, so
@@ -17,7 +17,7 @@ repair the two defects `SIGNED-INCIDENCE-LAW.md` recorded against itself:
 
 Both had one cause: level 1 used only the *diagonal* of LAW D. Used
 off-diagonal, LAW D says every incidence value is one fixed analytic kernel
-evaluated at an argument the configuration's gaps determine — so a declared
+evaluated at an argument the configuration's gaps determine, so a declared
 correlation *is* a declared gap, and a marked word cannot choose its own
 outer value. The resulting caps are declaration-free, which is what makes
 the exclusion robust.
@@ -39,7 +39,7 @@ toolbox:
   exactly (`rho'(x) = 140 x^3 (1-x)^3`, so `||rho'||_inf = 35/16` at `x = 1/2`
   and `||rho''||_1 = 2 rho'(1/2) = 35/8`).
 - **the unconditional local zero-density bound** `N(t+1) - N(t) <= A_0
-  log(t+3)` (classical, Titchmarsh Theorem 9.2) — the same input the paper's
+  log(t+3)` (classical, Titchmarsh Theorem 9.2), the same input the paper's
   own Proposition 4.2 uses for its tail. Write `nu` for the max number of
   distinct on-line zeros in a unit interval, so `nu <= A_0 log T`. `A_0` is
   left symbolic; this hunt does not pin its value.
@@ -60,7 +60,7 @@ the second because `phi^2 >= 0` is continuous with interval support. Hence:
   measured at `L = 8`, `c = 0.99` buys `g <= 0.0719`, `c = 0.9` buys
   `g <= 0.2305`, `c = 0.5` buys `g <= 0.5557`.
 - **a marked two-gap word is not free.** For three consecutive on-line zeros
-  the outer correlation must be `omega(g1 + g2)` — not any independently
+  the outer correlation must be `omega(g1 + g2)`, not any independently
   chosen value. The natural independent guess `omega(g1) omega(g2)` is
   refuted with residual `0.13228305` at `(g1, g2) = (0.7, 1.3)`
   (`omega(2.0) = +0.0710` against the product `-0.0613`).
@@ -112,7 +112,7 @@ family's defeat of the recovery coefficient requires `n -> infinity`.
 
 The family's on-line block has `R(P) = n(n-1)`: every pair of its `n` on-line
 labels is *fully* correlated. LAW G says full correlation means zero gap, so
-that cross mass is available only from a single point of multiplicity `n` —
+that cross mass is available only from a single point of multiplicity `n`,
 which the paper charges to the index side at the flat cost 4, not to the rank
 side as `n` simple zeros. Measured, with `n = 50`:
 
@@ -134,7 +134,7 @@ using `nu <= A_0 log T`. No perturbation of the family's declared numbers
 evades this: it bounds the quantity, not the declaration. That is the
 epsilon-robust exclusion level 1 could not give.
 
-The bound is a function of `nu` and is honest about it — at `L = 8`,
+The bound is a function of `nu` and is honest about it, at `L = 8`,
 `nu = 3` excludes every `m >= 2` (m = 2 needs 9 per label against a cap of
 6.83; m = 10 needs 201, an excess of 29.5x), while `nu = 8` excludes `m = 10`
 (11.0x) but not `m = 2`. The correct reading is not "the family is dead at
@@ -173,14 +173,14 @@ not attempted here.
 
 | control | instrument | measured |
 |---|---|---|
-| float mirror vs mpmath closed form | `float_vs_mpmath_defect` | `4.5e-7` — bulk scans are the same function as the precision path |
+| float mirror vs mpmath closed form | `float_vs_mpmath_defect` | `4.5e-7`, bulk scans are the same function as the precision path |
 | majorants really majorise | `majorant_control` | worst slack `+0.0117` (real), `+0.0315` (depth); never negative over 400 samples x 3 depths |
 | caps never exceeded | `cap_scan` | worst excess `-5.41` (on-line), `-29.44` (cross) over 40 random configurations at measured `nu` |
-| the scan has power (decoy) | `decoy_cap` | a cap planted 4x too small is violated in 11/12 configurations — the pass is not vacuous |
+| the scan has power (decoy) | `decoy_cap` | a cap planted 4x too small is violated in 11/12 configurations, the pass is not vacuous |
 | collapse saturation (lesion) | `collapse_saturation` | `R_i -> n-1` exactly at zero spacing, `6x` short by spacing 0.1 |
 | n-independence | `cross_aggregate` | aggregate mass flat across `n = 20, 80, 240` at fixed density |
 | duplication cheat | `duplication_cheat` | accepted by level 1, rejected by level 2 past `n = 72`, margin growing linearly |
-| rival (Davenport–Heilbronn depth) | `dh_rival_two_gap` | depth `0.30851718`, inflation `E(y) = 1.19539`, cap `31.856` — the rival obeys the laws, as a kernel lemma must |
+| rival (Davenport–Heilbronn depth) | `dh_rival_two_gap` | depth `0.30851718`, inflation `E(y) = 1.19539`, cap `31.856`, the rival obeys the laws, as a kernel lemma must |
 
 ## Reproduction
 
@@ -203,6 +203,6 @@ LAW G supplies the missing ingredient it was waiting on: gap words are now
 constrained objects rather than free declarations, and consecutive words
 overlap in a determined way. The open question is whether a potential
 `V(g)` exists with `2 Re(Bhat^2)` bounded below by a telescoping difference
-along the ordered configuration — which would convert these per-point caps
+along the ordered configuration, which would convert these per-point caps
 into a genuine additive floor, the thing an actual strengthened rank–trace
 inequality would need.

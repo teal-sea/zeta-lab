@@ -1,11 +1,11 @@
-"""Department #5 (referee) — the audits beyond structural conformance.
+"""Department #5 (referee), the audits beyond structural conformance.
 
 The conformance suite already runs this department like any other. What is
 pinned here is the anatomy: that the 431cc74 reconstruction fails for
 exactly the reason the original was a sham (the label leak, nothing else),
 that the measured lesion magnitudes are real numbers derived at import,
 that the unguided-bundle null is conditioned on structural validity (the
-null class worth beating), and that the recursion closes — the audit grades
+null class worth beating), and that the recursion closes, the audit grades
 the department that carries it, and no meta-meta-layer exists or is needed.
 """
 
@@ -73,7 +73,7 @@ def test_the_audit_separates_what_structure_cannot() -> None:
 def test_the_sham_reconstruction_is_caught_by_the_label_leak_alone() -> None:
     """The sham's precise anatomy, pinned: its calibration re-derives (the
     leak-reading claim really does 'distinguish'), its co-designed detector
-    really has mechanical power — every check a sham author could co-design
+    really has mechanical power, every check a sham author could co-design
     passes. What catches it is the one thing its author could not hide: the
     payload asymmetry the label leak *is*."""
     sham = R.build_sham_431cc74()
@@ -81,7 +81,7 @@ def test_the_sham_reconstruction_is_caught_by_the_label_leak_alone() -> None:
     assert report.grade == HOLLOW
     assert report.check("payload-symmetry").status == FAIL
     assert "virtual_a_p" in report.check("payload-symmetry").evidence
-    # The co-designed parts pass — that is what made it dangerous.
+    # The co-designed parts pass, that is what made it dangerous.
     assert report.check("calibration-rederived").status == PASS
     assert report.check("detector-specificity").status == PASS
     assert report.check("detector-power").status == PASS
@@ -124,14 +124,14 @@ def test_ablation_moves_when_the_calibration_content_is_stripped() -> None:
 
 
 def test_the_unguided_null_is_conditioned_on_structural_validity() -> None:
-    """The null class worth beating is 'validates, with random content' —
+    """The null class worth beating is 'validates, with random content',
     every sham this department hunts validates too. A null that mostly
     failed at the door would flatter the audit by never reaching it (the
     same reason the compiler department keeps its mutants compilable)."""
     for surrogate in R.SURROGATES:
         bundle = surrogate.sample()
         assert department_reasons(bundle) == (), (
-            f"{surrogate.name} produced a structurally invalid bundle — a weak null"
+            f"{surrogate.name} produced a structurally invalid bundle, a weak null"
         )
 
 
@@ -142,7 +142,7 @@ def test_no_unguided_bundle_reproduces_the_specimen_pass_count() -> None:
     # The luck floor, pinned as a *margin* rather than an absolute count.
     # It was `<= 12.0` against a 16-check audit; the 2026-08-09 build took the
     # audit to 19 checks and the nulls rose to 12-13 with it, which is
-    # arithmetic and not erosion — as a fraction they went from 12/16 = 0.75
+    # arithmetic and not erosion, as a fraction they went from 12/16 = 0.75
     # to 13/19 = 0.68, i.e. the separation got *better*. An absolute pin would
     # have had to be raised on every future check and would have hidden the
     # day the separation genuinely shrank; a margin does not.
@@ -171,8 +171,8 @@ def test_the_referee_department_does_not_survive_its_own_audit() -> None:
     """The recursion bit back, and the result is recorded rather than reframed.
 
     This test asserted ``CALIBRATED`` until 2026-08-09. Then the audit grew
-    ``detector-claim-agreement`` — the mechanical form of the countermeasure
-    that ``SHAM_MODES["detector-is-the-claim"]`` had been carrying as prose —
+    ``detector-claim-agreement``: the mechanical form of the countermeasure
+    that ``SHAM_MODES["detector-is-the-claim"]`` had been carrying as prose,
     and the first thing it flagged was this department. It is right on the
     facts: the referee's declared detector is the integrity audit as a
     predicate ("fires when a bundle's grade is not CALIBRATED") and its
@@ -181,7 +181,7 @@ def test_the_referee_department_does_not_survive_its_own_audit() -> None:
     department measures for its detector is its claim measuring itself.
 
     Whether that is fatal or benign is exactly the judgment the audit cannot
-    make — the mode has a second conjunct, "the lesion family was chosen to
+    make, the mode has a second conjunct, "the lesion family was chosen to
     be exactly what it looks for", and only the first is visible from this
     layer (``docs/23`` §8). The department's own module docstring already
     called this "the recursion, and also where it stops"; what is new is that

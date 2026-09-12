@@ -1,0 +1,730 @@
+{
+ "20240402_sweagent_gpt4": {
+  "status": 200,
+  "n_repos": 12,
+  "n_repos_agreeing": 0,
+  "n_repos_totals_agreeing": 0,
+  "rows": {
+   "astropy/astropy": {
+    "published_resolved": 6,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 95,
+    "split_total": 22,
+    "totals_agree": false
+   },
+   "django/django": {
+    "published_resolved": 60,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 850,
+    "split_total": 231,
+    "totals_agree": false
+   },
+   "matplotlib/matplotlib": {
+    "published_resolved": 7,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 184,
+    "split_total": 34,
+    "totals_agree": false
+   },
+   "mwaskom/seaborn": {
+    "published_resolved": null,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": null,
+    "split_total": 2,
+    "totals_agree": false
+   },
+   "pallets/flask": {
+    "published_resolved": null,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": null,
+    "split_total": 1,
+    "totals_agree": false
+   },
+   "psf/requests": {
+    "published_resolved": 4,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 44,
+    "split_total": 8,
+    "totals_agree": false
+   },
+   "pydata/xarray": {
+    "published_resolved": 1,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 110,
+    "split_total": 22,
+    "totals_agree": false
+   },
+   "pylint-dev/pylint": {
+    "published_resolved": 2,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 57,
+    "split_total": 10,
+    "totals_agree": false
+   },
+   "pytest-dev/pytest": {
+    "published_resolved": 5,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 119,
+    "split_total": 19,
+    "totals_agree": false
+   },
+   "scikit-learn/scikit-learn": {
+    "published_resolved": 10,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 229,
+    "split_total": 32,
+    "totals_agree": false
+   },
+   "sphinx-doc/sphinx": {
+    "published_resolved": 4,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 187,
+    "split_total": 44,
+    "totals_agree": false
+   },
+   "sympy/sympy": {
+    "published_resolved": 13,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 386,
+    "split_total": 75,
+    "totals_agree": false
+   }
+  }
+ },
+ "20241029_OpenHands-CodeAct-2.1-sonnet-20241022": {
+  "status": 200,
+  "n_repos": 12,
+  "n_repos_agreeing": 12,
+  "n_repos_totals_agreeing": 12,
+  "rows": {
+   "astropy/astropy": {
+    "published_resolved": 10,
+    "recounted_resolved": 10,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "django/django": {
+    "published_resolved": 128,
+    "recounted_resolved": 128,
+    "agree": true,
+    "published_total": 231,
+    "split_total": 231,
+    "totals_agree": true
+   },
+   "matplotlib/matplotlib": {
+    "published_resolved": 17,
+    "recounted_resolved": 17,
+    "agree": true,
+    "published_total": 34,
+    "split_total": 34,
+    "totals_agree": true
+   },
+   "mwaskom/seaborn": {
+    "published_resolved": 0,
+    "recounted_resolved": 0,
+    "agree": true,
+    "published_total": 2,
+    "split_total": 2,
+    "totals_agree": true
+   },
+   "pallets/flask": {
+    "published_resolved": 1,
+    "recounted_resolved": 1,
+    "agree": true,
+    "published_total": 1,
+    "split_total": 1,
+    "totals_agree": true
+   },
+   "psf/requests": {
+    "published_resolved": 4,
+    "recounted_resolved": 4,
+    "agree": true,
+    "published_total": 8,
+    "split_total": 8,
+    "totals_agree": true
+   },
+   "pydata/xarray": {
+    "published_resolved": 12,
+    "recounted_resolved": 12,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "pylint-dev/pylint": {
+    "published_resolved": 3,
+    "recounted_resolved": 3,
+    "agree": true,
+    "published_total": 10,
+    "split_total": 10,
+    "totals_agree": true
+   },
+   "pytest-dev/pytest": {
+    "published_resolved": 9,
+    "recounted_resolved": 9,
+    "agree": true,
+    "published_total": 19,
+    "split_total": 19,
+    "totals_agree": true
+   },
+   "scikit-learn/scikit-learn": {
+    "published_resolved": 23,
+    "recounted_resolved": 23,
+    "agree": true,
+    "published_total": 32,
+    "split_total": 32,
+    "totals_agree": true
+   },
+   "sphinx-doc/sphinx": {
+    "published_resolved": 18,
+    "recounted_resolved": 18,
+    "agree": true,
+    "published_total": 44,
+    "split_total": 44,
+    "totals_agree": true
+   },
+   "sympy/sympy": {
+    "published_resolved": 40,
+    "recounted_resolved": 40,
+    "agree": true,
+    "published_total": 75,
+    "split_total": 75,
+    "totals_agree": true
+   }
+  }
+ },
+ "20250807_openhands_gpt5": {
+  "status": 200,
+  "n_repos": 12,
+  "n_repos_agreeing": 12,
+  "n_repos_totals_agreeing": 12,
+  "rows": {
+   "astropy/astropy": {
+    "published_resolved": 13,
+    "recounted_resolved": 13,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "django/django": {
+    "published_resolved": 177,
+    "recounted_resolved": 177,
+    "agree": true,
+    "published_total": 231,
+    "split_total": 231,
+    "totals_agree": true
+   },
+   "matplotlib/matplotlib": {
+    "published_resolved": 24,
+    "recounted_resolved": 24,
+    "agree": true,
+    "published_total": 34,
+    "split_total": 34,
+    "totals_agree": true
+   },
+   "mwaskom/seaborn": {
+    "published_resolved": 1,
+    "recounted_resolved": 1,
+    "agree": true,
+    "published_total": 2,
+    "split_total": 2,
+    "totals_agree": true
+   },
+   "pallets/flask": {
+    "published_resolved": 1,
+    "recounted_resolved": 1,
+    "agree": true,
+    "published_total": 1,
+    "split_total": 1,
+    "totals_agree": true
+   },
+   "psf/requests": {
+    "published_resolved": 3,
+    "recounted_resolved": 3,
+    "agree": true,
+    "published_total": 8,
+    "split_total": 8,
+    "totals_agree": true
+   },
+   "pydata/xarray": {
+    "published_resolved": 17,
+    "recounted_resolved": 17,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "pylint-dev/pylint": {
+    "published_resolved": 4,
+    "recounted_resolved": 4,
+    "agree": true,
+    "published_total": 10,
+    "split_total": 10,
+    "totals_agree": true
+   },
+   "pytest-dev/pytest": {
+    "published_resolved": 15,
+    "recounted_resolved": 15,
+    "agree": true,
+    "published_total": 19,
+    "split_total": 19,
+    "totals_agree": true
+   },
+   "scikit-learn/scikit-learn": {
+    "published_resolved": 27,
+    "recounted_resolved": 27,
+    "agree": true,
+    "published_total": 32,
+    "split_total": 32,
+    "totals_agree": true
+   },
+   "sphinx-doc/sphinx": {
+    "published_resolved": 28,
+    "recounted_resolved": 28,
+    "agree": true,
+    "published_total": 44,
+    "split_total": 44,
+    "totals_agree": true
+   },
+   "sympy/sympy": {
+    "published_resolved": 49,
+    "recounted_resolved": 49,
+    "agree": true,
+    "published_total": 75,
+    "split_total": 75,
+    "totals_agree": true
+   }
+  }
+ },
+ "20250902_atlassian-rovo-dev": {
+  "status": 200,
+  "n_repos": 12,
+  "n_repos_agreeing": 12,
+  "n_repos_totals_agreeing": 12,
+  "rows": {
+   "astropy/astropy": {
+    "published_resolved": 14,
+    "recounted_resolved": 14,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "django/django": {
+    "published_resolved": 183,
+    "recounted_resolved": 183,
+    "agree": true,
+    "published_total": 231,
+    "split_total": 231,
+    "totals_agree": true
+   },
+   "matplotlib/matplotlib": {
+    "published_resolved": 26,
+    "recounted_resolved": 26,
+    "agree": true,
+    "published_total": 34,
+    "split_total": 34,
+    "totals_agree": true
+   },
+   "mwaskom/seaborn": {
+    "published_resolved": 1,
+    "recounted_resolved": 1,
+    "agree": true,
+    "published_total": 2,
+    "split_total": 2,
+    "totals_agree": true
+   },
+   "pallets/flask": {
+    "published_resolved": 1,
+    "recounted_resolved": 1,
+    "agree": true,
+    "published_total": 1,
+    "split_total": 1,
+    "totals_agree": true
+   },
+   "psf/requests": {
+    "published_resolved": 7,
+    "recounted_resolved": 7,
+    "agree": true,
+    "published_total": 8,
+    "split_total": 8,
+    "totals_agree": true
+   },
+   "pydata/xarray": {
+    "published_resolved": 19,
+    "recounted_resolved": 19,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "pylint-dev/pylint": {
+    "published_resolved": 5,
+    "recounted_resolved": 5,
+    "agree": true,
+    "published_total": 10,
+    "split_total": 10,
+    "totals_agree": true
+   },
+   "pytest-dev/pytest": {
+    "published_resolved": 17,
+    "recounted_resolved": 17,
+    "agree": true,
+    "published_total": 19,
+    "split_total": 19,
+    "totals_agree": true
+   },
+   "scikit-learn/scikit-learn": {
+    "published_resolved": 28,
+    "recounted_resolved": 28,
+    "agree": true,
+    "published_total": 32,
+    "split_total": 32,
+    "totals_agree": true
+   },
+   "sphinx-doc/sphinx": {
+    "published_resolved": 31,
+    "recounted_resolved": 31,
+    "agree": true,
+    "published_total": 44,
+    "split_total": 44,
+    "totals_agree": true
+   },
+   "sympy/sympy": {
+    "published_resolved": 52,
+    "recounted_resolved": 52,
+    "agree": true,
+    "published_total": 75,
+    "split_total": 75,
+    "totals_agree": true
+   }
+  }
+ },
+ "20251127_openhands_claude-opus-4-5": {
+  "status": 200,
+  "n_repos": 12,
+  "n_repos_agreeing": 12,
+  "n_repos_totals_agreeing": 12,
+  "rows": {
+   "astropy/astropy": {
+    "published_resolved": 12,
+    "recounted_resolved": 12,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "django/django": {
+    "published_resolved": 185,
+    "recounted_resolved": 185,
+    "agree": true,
+    "published_total": 231,
+    "split_total": 231,
+    "totals_agree": true
+   },
+   "matplotlib/matplotlib": {
+    "published_resolved": 26,
+    "recounted_resolved": 26,
+    "agree": true,
+    "published_total": 34,
+    "split_total": 34,
+    "totals_agree": true
+   },
+   "mwaskom/seaborn": {
+    "published_resolved": 1,
+    "recounted_resolved": 1,
+    "agree": true,
+    "published_total": 2,
+    "split_total": 2,
+    "totals_agree": true
+   },
+   "pallets/flask": {
+    "published_resolved": 1,
+    "recounted_resolved": 1,
+    "agree": true,
+    "published_total": 1,
+    "split_total": 1,
+    "totals_agree": true
+   },
+   "psf/requests": {
+    "published_resolved": 6,
+    "recounted_resolved": 6,
+    "agree": true,
+    "published_total": 8,
+    "split_total": 8,
+    "totals_agree": true
+   },
+   "pydata/xarray": {
+    "published_resolved": 18,
+    "recounted_resolved": 18,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "pylint-dev/pylint": {
+    "published_resolved": 5,
+    "recounted_resolved": 5,
+    "agree": true,
+    "published_total": 10,
+    "split_total": 10,
+    "totals_agree": true
+   },
+   "pytest-dev/pytest": {
+    "published_resolved": 17,
+    "recounted_resolved": 17,
+    "agree": true,
+    "published_total": 19,
+    "split_total": 19,
+    "totals_agree": true
+   },
+   "scikit-learn/scikit-learn": {
+    "published_resolved": 30,
+    "recounted_resolved": 30,
+    "agree": true,
+    "published_total": 32,
+    "split_total": 32,
+    "totals_agree": true
+   },
+   "sphinx-doc/sphinx": {
+    "published_resolved": 30,
+    "recounted_resolved": 30,
+    "agree": true,
+    "published_total": 44,
+    "split_total": 44,
+    "totals_agree": true
+   },
+   "sympy/sympy": {
+    "published_resolved": 57,
+    "recounted_resolved": 57,
+    "agree": true,
+    "published_total": 75,
+    "split_total": 75,
+    "totals_agree": true
+   }
+  }
+ },
+ "20251215_livesweagent_claude-opus-4-5": {
+  "status": 200,
+  "n_repos": 12,
+  "n_repos_agreeing": 12,
+  "n_repos_totals_agreeing": 12,
+  "rows": {
+   "astropy/astropy": {
+    "published_resolved": 11,
+    "recounted_resolved": 11,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "django/django": {
+    "published_resolved": 190,
+    "recounted_resolved": 190,
+    "agree": true,
+    "published_total": 231,
+    "split_total": 231,
+    "totals_agree": true
+   },
+   "matplotlib/matplotlib": {
+    "published_resolved": 25,
+    "recounted_resolved": 25,
+    "agree": true,
+    "published_total": 34,
+    "split_total": 34,
+    "totals_agree": true
+   },
+   "mwaskom/seaborn": {
+    "published_resolved": 1,
+    "recounted_resolved": 1,
+    "agree": true,
+    "published_total": 2,
+    "split_total": 2,
+    "totals_agree": true
+   },
+   "pallets/flask": {
+    "published_resolved": 1,
+    "recounted_resolved": 1,
+    "agree": true,
+    "published_total": 1,
+    "split_total": 1,
+    "totals_agree": true
+   },
+   "psf/requests": {
+    "published_resolved": 7,
+    "recounted_resolved": 7,
+    "agree": true,
+    "published_total": 8,
+    "split_total": 8,
+    "totals_agree": true
+   },
+   "pydata/xarray": {
+    "published_resolved": 19,
+    "recounted_resolved": 19,
+    "agree": true,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "pylint-dev/pylint": {
+    "published_resolved": 6,
+    "recounted_resolved": 6,
+    "agree": true,
+    "published_total": 10,
+    "split_total": 10,
+    "totals_agree": true
+   },
+   "pytest-dev/pytest": {
+    "published_resolved": 17,
+    "recounted_resolved": 17,
+    "agree": true,
+    "published_total": 19,
+    "split_total": 19,
+    "totals_agree": true
+   },
+   "scikit-learn/scikit-learn": {
+    "published_resolved": 30,
+    "recounted_resolved": 30,
+    "agree": true,
+    "published_total": 32,
+    "split_total": 32,
+    "totals_agree": true
+   },
+   "sphinx-doc/sphinx": {
+    "published_resolved": 32,
+    "recounted_resolved": 32,
+    "agree": true,
+    "published_total": 44,
+    "split_total": 44,
+    "totals_agree": true
+   },
+   "sympy/sympy": {
+    "published_resolved": 57,
+    "recounted_resolved": 57,
+    "agree": true,
+    "published_total": 75,
+    "split_total": 75,
+    "totals_agree": true
+   }
+  }
+ },
+ "20250805_openhands-Qwen3-Coder-480B-A35B-Instruct": {
+  "status": 200,
+  "n_repos": 12,
+  "n_repos_agreeing": 0,
+  "n_repos_totals_agreeing": 12,
+  "rows": {
+   "astropy/astropy": {
+    "published_resolved": 10,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "django/django": {
+    "published_resolved": 165,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 231,
+    "split_total": 231,
+    "totals_agree": true
+   },
+   "matplotlib/matplotlib": {
+    "published_resolved": 20,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 34,
+    "split_total": 34,
+    "totals_agree": true
+   },
+   "mwaskom/seaborn": {
+    "published_resolved": 1,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 2,
+    "split_total": 2,
+    "totals_agree": true
+   },
+   "pallets/flask": {
+    "published_resolved": 1,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 1,
+    "split_total": 1,
+    "totals_agree": true
+   },
+   "psf/requests": {
+    "published_resolved": 6,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 8,
+    "split_total": 8,
+    "totals_agree": true
+   },
+   "pydata/xarray": {
+    "published_resolved": 17,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 22,
+    "split_total": 22,
+    "totals_agree": true
+   },
+   "pylint-dev/pylint": {
+    "published_resolved": 3,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 10,
+    "split_total": 10,
+    "totals_agree": true
+   },
+   "pytest-dev/pytest": {
+    "published_resolved": 15,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 19,
+    "split_total": 19,
+    "totals_agree": true
+   },
+   "scikit-learn/scikit-learn": {
+    "published_resolved": 27,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 32,
+    "split_total": 32,
+    "totals_agree": true
+   },
+   "sphinx-doc/sphinx": {
+    "published_resolved": 30,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 44,
+    "split_total": 44,
+    "totals_agree": true
+   },
+   "sympy/sympy": {
+    "published_resolved": 53,
+    "recounted_resolved": 0,
+    "agree": false,
+    "published_total": 75,
+    "split_total": 75,
+    "totals_agree": true
+   }
+  }
+ }
+}

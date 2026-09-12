@@ -1,6 +1,7 @@
 # MISSION: is Lambda_DH exactly Delta^2/2, or is the gap real?
 
-**Opened 2026-08-18. Hunt #52.** Nothing in this directory is a result until
+**Opened 2026-08-18. Hunt #119** (renumbered from #52 on 2026-09-12).
+Nothing in this directory is a result until
 the case log in `hunts/README.md` says how it ended. Probe discipline as in
 `hunts/lambda_dh_bounds/MISSION.md`: the strongest words used here are
 *measured* (one float route), *observed*, *decided* (an enclosure whose exact

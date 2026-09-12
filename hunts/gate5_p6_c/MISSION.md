@@ -1,4 +1,4 @@
-# Hunt: gate-5 property 6 — does "no zeros in a box off the critical line" distinguish?
+# Hunt: gate-5 property 6, does "no zeros in a box off the critical line" distinguish?
 
 **Status when this file was committed: nothing has been computed.** The
 parameters below were fixed before a single truth value was produced. The
@@ -66,7 +66,7 @@ built to answer that directly rather than to gamble one box.
 
 The instrument: hold the σ-band fixed and vary only the height window. If
 the verdict flips between two windows of the *same* band, then the property
-as stated has no truth value — the box is a free parameter carrying the
+as stated has no truth value, the box is a free parameter carrying the
 answer.
 
 ### The σ-bands
@@ -88,15 +88,15 @@ already tested by property 5.
 
 ### The height windows
 
-- **W1 = [85.5, 85.9]** — the literature-anchored window. Declared
+- **W1 = [85.5, 85.9]**: the literature-anchored window. Declared
   non-blind: Spira (*Math. Comp.* 1994) and this repository both place a
   Davenport–Heilbronn zero at 0.808517 + 85.699348·i inside it. Its job is
   to realise the "a rival fails" pole of the well-posedness question, not to
   supply a verdict.
-- **W2 = [10.0, 14.0]** — blind. Chosen as a width-4 window at low height,
+- **W2 = [10.0, 14.0]**: blind. Chosen as a width-4 window at low height,
   where the boundary is short and the module's forced step is longest, hence
   cheapest. I do not know where any rival's zeros are in it.
-- **W3 = [40.0, 44.0]** — blind, a second width-4 window at middling height,
+- **W3 = [40.0, 44.0]**: blind, a second width-4 window at middling height,
   to check whether whatever W2 reports is typical rather than an accident of
   one window.
 
@@ -109,7 +109,7 @@ already tested by property 5.
 | B3 | [0.7, 0.9] | [40.0, 44.0] | 8.4 | yes |
 | B4 | [1.05, 1.55] | [10.0, 14.0] | 9.0 | yes |
 
-Total boundary length 27, against the prior attempt's 20.6 — but spread
+Total boundary length 27, against the prior attempt's 20.6, but spread
 over four boxes, three of which sit at heights where the Epstein evaluation
 is roughly half the cost it has at t = 86, and only one of which sits high.
 
@@ -148,7 +148,7 @@ as an observation about `zeta/epstein.py`, not as a defect this hunt fixes.
 
 - If zeta's count is non-zero on any box, that box is discarded and said to
   be discarded, not repaired into agreement.
-- If the flip-test does not flip — every box agreeing on one verdict — I
+- If the flip-test does not flip, every box agreeing on one verdict, I
   report that single verdict and say the well-posedness question came back
   negative, rather than adding boxes until it flips.
 - If the Epstein arm does not finish inside budget, the hunt reports

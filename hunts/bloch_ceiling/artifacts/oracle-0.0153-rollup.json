@@ -1,0 +1,53 @@
+{
+ "target": 0.0153,
+ "sectors": {
+  "0": {
+   "cells_done": 1600,
+   "cells_expected": 1600,
+   "terminal_boxes": 270744,
+   "reference_boxes": 270744,
+   "ratio_to_reference": 1.0,
+   "core_seconds": 27593.0,
+   "all_cells_accepted": true
+  },
+  "1": {
+   "cells_done": 1600,
+   "cells_expected": 1600,
+   "terminal_boxes": 292931,
+   "reference_boxes": 292931,
+   "ratio_to_reference": 1.0,
+   "core_seconds": 32551.3,
+   "all_cells_accepted": true
+  }
+ },
+ "refused_cells": [],
+ "records_at_other_targets_skipped": 38400,
+ "missing_sectors": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23
+ ],
+ "all_24_sectors_accepted": false,
+ "total_terminal_boxes": 563675,
+ "total_reference_boxes": 11443518,
+ "total_core_seconds": 60144.3
+}

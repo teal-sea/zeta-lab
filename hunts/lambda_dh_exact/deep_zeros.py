@@ -1,6 +1,6 @@
 """Deep off-line zeros of the Davenport-Heilbronn function: a screen by height.
 
-Hunt #52, phase 2.  The question the hunt asks is whether the crowding shave
+Hunt #119, phase 2.  The question the hunt asks is whether the crowding shave
 vanishes along a sequence of zeros whose depth `y0 = beta - 1/2` approaches
 `Delta = 0.62036249819`.  Bombieri and Ghosh (Russian Math. Surveys 66:2
 (2011) 221-270, Theorem 7 and section 6) determined `sigma(tau_+, 1) =

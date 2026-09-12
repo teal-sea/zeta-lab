@@ -52,7 +52,7 @@ Measured here because the k=1 table stops at depth 1/2
   windows, and the profile `Dam/y'^2` grows mildly with depth
   (`1.759e-2 -> 2.073e-2` at window 0).
 * the far-field constant `sup Dam(y',s)(s^2-2)/y'^2` is `0.6636` at
-  depth 1 on `[8,400]` — the proved `637/1000` of `Wt_tail_le` (stated
+  depth 1 on `[8,400]`, the proved `637/1000` of `Wt_tail_le` (stated
   for depth <= 1/2) is EXCEEDED at depth 1 and cannot be borrowed as-is.
 
 Nothing here is proved; every number is a scan-grade measurement in double
@@ -74,8 +74,8 @@ __all__ = [
     "kpair", "dam", "signed_field", "four_slack_two_species",
     "four_slack_general", "identity_residual", "identity_residual_general",
     "d_zero_is_minus_kpair", "no_damage_radius", "depth1_windows",
-    "far_constant", "centre_gas_row", "LANDSCAPE_RECORD", "NAMED_GAPS",
-    "report",
+    "far_constant", "centre_gas_row", "centre_gas_row_closed",
+    "LANDSCAPE_RECORD", "NAMED_GAPS", "report",
 ]
 
 
@@ -232,7 +232,7 @@ def depth1_windows(y: float = 1.0, s_lo: float = 4.0, s_hi: float = 62.0,
 
 def far_constant(y: float, lo: float = 8.0, hi: float = 400.0,
                  step: float = 5e-3) -> float:
-    """`sup Dam(y,s)*(s^2-2)/y^2` on [lo, hi] — the Wt-style constant."""
+    """`sup Dam(y,s)*(s^2-2)/y^2` on [lo, hi], the Wt-style constant."""
     sup, s = 0.0, lo
     while s <= hi:
         sup = max(sup, dam(y, s) * (s * s - 2) / y ** 2)
@@ -249,17 +249,62 @@ def centre_gas_row(lam: float, y: float = 0.5, dmax: int = 200) -> float:
     **The distance index runs over d >= 1 once, not over both signs**, and
     that is correct: the two-species form sums over ORDERED pairs, and the
     factor 4 already carries it. Verified against the form itself rather
-    than argued — the net centre-centre cost per centre computed directly
+    than argued, the net centre-centre cost per centre computed directly
     from `four_slack_two_species` on a `2*pi` lattice converges to this
     value from below (0.099826 at k=21, 0.107251 at k=51, 0.110325 at
     k=101, against 0.114013 here).
 
     An earlier version of this docstring said "(both neighbours)". It was a
     misleading gloss on correct arithmetic, and it cost a wrong entry in
-    NAMED_GAPS G4 — see that entry.
+    NAMED_GAPS G4, see that entry.
     """
     return sum(4 * dam(2 * y, d * lam) - 4 * kpair(d * lam)
                for d in range(1, dmax + 1))
+
+
+def centre_gas_row_closed(y: float = 0.5) -> float:
+    """The uniform-lattice centre-gas row at the critical `2*pi` spacing,
+    in closed form.
+
+    `centre_gas_row`'s summand is not a new object.  `Kpair(u) = Qre(0,u)^2
+    = -D(0,u) = kernel(0,u)` (this is `d_zero_is_minus_kpair`), and
+    `Dam(2y,s) = -kernel(2y,s)` wherever the rectification is inactive, so
+    at `y = 1/2` the summand is
+
+        4*Dam(1,s) - 4*Kpair(s) = -4*[kernel(0,s) + kernel(1,s)] = -4*kappa(s)
+
+    with `kappa` exactly `counting_lemma.kappa`.  The two modules had been
+    summing the same kernel without either saying so.
+
+    `counting_lemma` already carries the Poisson collapse for that kernel:
+    `c2` is supported on `[-1,1]` and vanishes at the endpoints, so summing
+    at spacing exactly `2*pi` kills every alias and
+
+        sum_{d in Z} kappa(2*pi*d) = 2*c2(0).
+
+    Splitting off `d = 0` gives this row in closed form:
+
+        row(2*pi) = -4*c2(0) + 2*kappa(0) = 0.11433003938654052...
+
+    Two facts make the transfer legitimate rather than formal.  The
+    rectification `max(0, .)` in `dam` never binds on this lattice (`D(1,
+    2*pi*d) > 0` for every `d` checked to 200), so no clipping breaks the
+    band-limitedness Poisson needs.  And `kappa(2*pi*d)` decays only like
+    `1/d`, which is why the truncated `centre_gas_row` approaches this value
+    from below as `O(1/dmax)` rather than reaching it.
+
+    Scope, stated because it is the whole point: this is the UNIFORM lattice
+    at the critical spacing, not the configuration extremum.  T1 in
+    `K2-TWO-SPECIES.md` asks for a bound over all centre configurations and
+    that remains an optimisation obligation.  What is no longer an
+    optimisation obligation is the uniform-lattice value itself.
+    """
+    if y != 0.5:
+        raise ValueError(
+            "the closed form is derived at y = 1/2, where the summand is "
+            "exactly -4*kappa; no other depth is claimed")
+    import counting_lemma as cl
+    return -4 * cl.C2_ZERO + 2 * cl.kappa(0.0)
 
 
 LANDSCAPE_RECORD = {
@@ -271,6 +316,13 @@ LANDSCAPE_RECORD = {
     "far_constant": {0.5: 0.621997, 1.0: 0.663592, "proved_le_half": 0.637},
     "centre_gas": {"worst_uniform_lam": 6.285, "row": 0.114045,
                    "budget_floor_per_centre": 0.12986, "ratio": 0.878,
+                   "row_is_truncated": "0.114045 and 0.878 are the dmax=200 "
+                                       "readings. kappa(2*pi*d) decays like "
+                                       "1/d, so they understate by 2.85e-4 "
+                                       "and the understatement flatters the "
+                                       "margin. Exact at 2*pi: row "
+                                       "0.11433003938654052, ratio 0.88041 "
+                                       "(centre_gas_row_closed).",
                    "convention": "d >= 1 once; the x4 factor carries the "
                                  "ordered-pair sum. Checked against "
                                  "four_slack_two_species, which converges "

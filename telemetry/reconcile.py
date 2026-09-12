@@ -1,4 +1,4 @@
-"""``telemetry.reconcile`` — where the run record and git disagree.
+"""``telemetry.reconcile``, where the run record and git disagree.
 
 The archaeology found this repository has strong provenance at the head
 (decisions in prose) and at the tail (claim, grade, commit) and nothing joining
@@ -6,7 +6,7 @@ them. This module checks the join it now has, and reports **every** way it can
 be broken rather than a single verdict.
 
 There is deliberately no aggregate and no score. ``findings`` is a tuple of
-sentences a reader can dispute — the same output shape
+sentences a reader can dispute, the same output shape
 ``harness/independence.py`` and ``harness/protocol.py`` chose, for the same
 reason: a boolean here would be read as "provenance is fine".
 
@@ -14,7 +14,7 @@ Severities are advice about reading order, not authority:
 
 ``defect``   the record and the repository contradict each other.
 ``gap``      something was never captured. Common, and not an error by itself.
-``note``     legal and worth seeing — a run that produced three commits, say.
+``note``     legal and worth seeing, a run that produced three commits, say.
 
 One caution that matters in this repository: this clone may be **shallow**, and
 `git` cannot distinguish "this commit does not exist" from "this commit is not
@@ -142,7 +142,7 @@ def reconcile(
                     "multi_commit_run",
                     "note",
                     f"run {run_id} produced {len(shas)} commits "
-                    f"({', '.join(s[:8] for s in shas)}) — legal, recorded so it is "
+                    f"({', '.join(s[:8] for s in shas)}), legal, recorded so it is "
                     f"not read as a duplicate",
                     run_id=run_id,
                 )
@@ -201,7 +201,7 @@ def reconcile(
                     + (f"/{run.outcome}" if run.outcome else "")
                     + " with no commit recorded and none declaring it"
                     + (
-                        " — consistent with its stated outcome"
+                        ", consistent with its stated outcome"
                         if run.outcome == "no-change"
                         else ""
                     ),
@@ -226,7 +226,7 @@ def reconcile(
                     "prompt_local_only",
                     "gap",
                     f"run {run_id}: prompt {ref.digest[:12]}… is referenced but its "
-                    f"text is not in this checkout's store — expected on any fresh "
+                    f"text is not in this checkout's store, expected on any fresh "
                     f"clone, since the store is gitignored by design. The digest "
                     f"still verifies for whoever holds the text",
                     run_id=run_id,

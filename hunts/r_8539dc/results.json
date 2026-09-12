@@ -1,0 +1,118 @@
+{
+ "hunt": "r_8539dc",
+ "run_id": "9698c990-e812-4890-94d8-f30a65b820af",
+ "issue": "https://github.com/teal-sea/zeta-lab/issues/123",
+ "date": "2026-08-23",
+ "functionals": {
+  "A": "max_t (f*f)(t) / (int f)^2 -- what the published verification cell computes; its outer abs() is a no-op because int_{-1/2}^{1/2} f*f = (int f)^2 > 0 forces max_t f*f(t) > 0",
+  "B": "max_t |f*f(t)| / (int f)^2 -- what the inequality 'max |f*f(t)| >= C (int f)^2' defines"
+ },
+ "exact_recomputation": {
+  "height_sequence_3": {
+   "n": 400,
+   "sum_a": 28.2842712469,
+   "max_b_index": 176,
+   "min_b_index": 215,
+   "max_b_float": 1.4556427953167044,
+   "min_b_float": -4.334046524215783,
+   "A_exact_num_digits": 24,
+   "negative_side_dominates": true,
+   "label": "B.3 construction (n=400), published as C_3 <= 1.4557",
+   "A_max_ff_over_int2": "1.455642795374540494110788362985",
+   "B_max_abs_ff_over_int2": "4.334046524387984273610361795864",
+   "A_float": 1.4556427953745406,
+   "B_float": 4.334046524387984,
+   "B_minus_A_float": 2.878403729013444
+  },
+  "height_sequence_4": {
+   "n": 150,
+   "sum_a": 17.4226087914,
+   "max_b_index": 108,
+   "min_b_index": 56,
+   "max_b_float": 1.4861291878339964,
+   "min_b_float": -1.4855494700705878,
+   "A_exact_num_digits": 22,
+   "negative_side_dominates": false,
+   "label": "B.3' construction (n=150), published as C_3' <= 1.4688",
+   "A_max_ff_over_int2": "1.468762069741021809514483638412",
+   "B_max_abs_ff_over_int2": "1.468762069741021809514483638412",
+   "A_float": 1.4687620697410217,
+   "B_float": 1.4687620697410217,
+   "B_minus_A_float": 0.0
+  }
+ },
+ "published_sources": {
+  "colab": {
+   "repo": "google-deepmind/alphaevolve_results",
+   "file": "mathematical_results.ipynb",
+   "pre_correction_statement": "B.3: max_{-1/2<=t<=1/2} |f*f(t)| >= C_3 (int f)^2, with C_3 <= 1.4581 attributed to Vinuesa's thesis p.75, improved by AlphaEvolve to 1.4557",
+   "pre_correction_code": "C_upper_bound = abs(2 * len(height_sequence_3) * np.max(convolution_3) / (np.sum(height_sequence_3)**2))",
+   "correction_commit": "39d0c63",
+   "correction_date": "2025-12-19",
+   "correction_message": "Fixed typo in third autocorrelation inequality. Now the colab contains both versions of the problem, with the corresponding AlphaEvolve constructions",
+   "height_sequence_3_changed_by_correction": false,
+   "post_correction": "B.3 restated as |max_t f*f(t)| >= C_3 (int f)^2 (1.4581 -> 1.4557, sequence unchanged); a new section adds C_3' with max_t |f*f(t)| >= C_3' (int f)^2 (1.4993 -> 1.4688) and a new 150-step sequence"
+  },
+  "paper": {
+   "arxiv": "2511.02864",
+   "versions": {
+    "v1": "2025-11-03",
+    "v2": "2025-12-15",
+    "v3": "2025-12-22"
+   },
+   "v1_problem_statement": "one constant only: max_t |f*f(t)| >= C (int f)^2; prior 1.45810 cited to matolcsi-vinuesa; AlphaEvolve 1.4557",
+   "corrected_in": "v2 (2025-12-15)",
+   "v2_v3_problem_statement": "split into (a) max_t |f*f(t)| >= C_3 (int f)^2 and (b) |max_t f*f(t)| >= C_3' (int f)^2; prior bounds 1.4993 (matolcsi-vinuesa) and 1.45810 (vinuesageneralized); AlphaEvolve 1.4688 and 1.4557",
+   "note": "the 1.45810 citation was moved from matolcsi-vinuesa to vinuesageneralized as part of the correction"
+  },
+  "problem_page": {
+   "repo": "google-deepmind/alphaevolve_repository_of_problems",
+   "file": "problems/4.html",
+   "last_repo_push": "2026-07-11",
+   "state": "still states only max_t |f*f(t)| >= C (int f)^2, with no bounds and no sibling page; its comments field reads: 'This is one of two very similar optimization problems, both of which have been studied in the literature, with some results for one problem incorrectly attributed to another. We will update the references on this problem (and add its sibling) soon.'",
+   "issue_1_state": "open as of 2026-08-23"
+  }
+ },
+ "convention_of_each_prior_bound": {
+  "1.4993": {
+   "functional": "B = max |f*f|",
+   "source": "Matolcsi & Vinuesa 2010, J. Math. Anal. Appl. 372(2) 439-447",
+   "per": "arXiv:2511.02864 v2/v3 Problem (third-auto)(a)"
+  },
+  "1.45810": {
+   "functional": "A = |max f*f| = max f*f",
+   "source": "Vinuesa, generalized (thesis 2009 p.75, per the colab)",
+   "per": "arXiv:2511.02864 v2/v3 Problem (third-auto)(b); v1 misattributed this number to Matolcsi-Vinuesa"
+  },
+  "1.5098": {
+   "functional": "A, restricted to non-negative f (that is problem C_1)",
+   "source": "Matolcsi & Vinuesa 2010"
+  }
+ },
+ "verdict": {
+  "premise_of_issue_123_confirmed": "the reporter is right about the original artifacts: the n=400 sequence gives 1.45564... under A and 4.33404... under B, so 1.4557 was stated against A while the printed inequality defined B",
+  "premise_of_issue_123_outdated": "the claim that no corrected table has appeared is false; the paper was corrected in v2 on 2025-12-15 and the colab on 2025-12-19",
+  "improvement_survives": "yes, once each number is read against its own functional: 1.4557 < 1.4581 under A, and 1.4688 < 1.4993 under B; nothing was withdrawn and no number moved",
+  "residual_defects": [
+   "the primed and unprimed labels are swapped between the paper and the colab: the paper's C_3 is max|f*f| (1.4993 -> 1.4688) while the colab's C_3 is |max f*f| (1.4581 -> 1.4557), and each calls the other one primed",
+   "problems/4.html in alphaevolve_repository_of_problems still carries only the max|f*f| statement, with no sibling page and no bounds, nine months after its own comment promised both",
+   "issue #1, where the report was made, is still open, so a reader who arrives by that route is not told the fix landed elsewhere"
+  ]
+ },
+ "headline_table": [
+  {
+   "construction": "height_sequence_3 (n=400)",
+   "published_as": "C_3 <= 1.4557",
+   "A_exact": "1.455642795374540494110788362985",
+   "B_exact": "4.334046524387984273610361795864",
+   "matches_published_under": "A"
+  },
+  {
+   "construction": "height_sequence_4 (n=150)",
+   "published_as": "C_3' <= 1.4688",
+   "A_exact": "1.468762069741021809514483638412",
+   "B_exact": "1.468762069741021809514483638412",
+   "matches_published_under": "A and B, which coincide on this construction"
+  }
+ ]
+}

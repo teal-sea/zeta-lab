@@ -1,4 +1,4 @@
-"""ontology.domains.zeta_history — settled claims, replayed against the funnel.
+"""ontology.domains.zeta_history, settled claims, replayed against the funnel.
 
 The harness lives in :mod:`ontology.historical_cases` and knows nothing about
 the subject. This file is the subject-matter half: it turns four famous claims,
@@ -36,16 +36,16 @@ What each candidate is made of
 ------------------------------
 Every observation is computed from the laboratory, not typed in:
 
-* ``gauss_prime_counts`` — ``zeta.explicit.pi_true`` against
+* ``gauss_prime_counts``: ``zeta.explicit.pi_true`` against
   ``zeta.explicit.Li``, fitted in two windows over 10^3..10^6, which is the
   range of the tables Gauss actually worked from;
-* ``montgomery_pair`` — ``zeta.statistics.pair_correlation`` of 2000 unfolded
+* ``montgomery_pair``: ``zeta.statistics.pair_correlation`` of 2000 unfolded
   ordinates against ``zeta.statistics.montgomery_prediction``;
-* ``mertens`` — ``zeta.criteria.mertens_array`` up to 10^6, with a seeded
+* ``mertens``: ``zeta.criteria.mertens_array`` up to 10^6, with a seeded
   random +-1 walk as the control the predicate fails on;
-* ``li_criterion`` — ``zeta.li.li_coefficients`` for n <= 40, with a symmetric
+* ``li_criterion``: ``zeta.li.li_coefficients`` for n <= 40, with a symmetric
   quadruple of zeros placed *off* the line as the control;
-* ``pslq_coincidence`` — ``mpmath.pslq`` run at ten digits against
+* ``pslq_coincidence``: ``mpmath.pslq`` run at ten digits against
   ``zeta.core.Xi(1)``, which finds a six-term integer relation that reproduces
   the value to twelve digits and is wrong at the thirteenth.
 """
@@ -189,7 +189,7 @@ def _candidate(kind: CandidateKind, claim, evidence, provenance, label: str) -> 
 # ---------------------------------------------------------------------------
 
 #: The two fitting windows, in the range of the tables Gauss worked from. The
-#: total span is 10^3, far above the schema's minimum of 4 — which is the point:
+#: total span is 10^3, far above the schema's minimum of 4, which is the point:
 #: the schema refuses a rate fitted over a range that never doubles, and Gauss's
 #: evidence comfortably clears that bar. Each window is a set of block
 #: boundaries, so the fit is over counts he could have written down.
@@ -413,7 +413,7 @@ def _mertens_scan() -> dict[str, Any]:
 def _random_walk_control(seed: int) -> dict[str, Any]:
     """A +-1 walk of the same length: same scale, no multiplicative structure.
 
-    This is the control the schema demands — a family member the predicate
+    This is the control the schema demands, a family member the predicate
     *fails* on. It is also the reason nobody should have believed the
     conjecture: a square-root-scale sum with independent signs exceeds sqrt(x)
     somewhere in a million steps essentially always, and the law of the iterated
@@ -729,7 +729,7 @@ def build_honest_twin() -> Candidate:
     laboratory computes rather than what an integer-relation hunt guessed. It
     exists to keep the negative control from being vacuous: "the spurious one
     was refuted" says nothing unless a candidate of the same shape can get
-    through, and this one does — reaching ``survives``, which is a lead and not
+    through, and this one does, reaching ``survives``, which is a lead and not
     a result, and whose own ``proof_gap`` says so.
 
     ``Xi(1)`` is not in the catalogue, so with the catalogue emptied it behaves

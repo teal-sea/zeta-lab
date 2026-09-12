@@ -1,0 +1,605 @@
+{
+ "local": {
+  "environment": "Apple Silicon, CPython 3.14.0, python-flint 0.9.0, numpy 2.5.2 (NOT the archive's pinned 3.12/2.5.1; CI installs the pin)",
+  "runs": [
+   {
+    "sector": 1,
+    "eta": 0.7,
+    "setup_seconds": 0.95,
+    "initial_scan_seconds": 10.78,
+    "open_cells": {
+     "0.0153": 1592,
+     "0.0153040536": 1592
+    },
+    "cells": [
+     {
+      "cell": 1599,
+      "box": [
+       0.65,
+       0.6666666666666666,
+       0.9750000000000001,
+       1.0
+      ],
+      "initial_lower_gain": -0.06938154895843907,
+      "rank": 0,
+      "t0.0153": {
+       "ok": true,
+       "terminal": 1110,
+       "open": 0,
+       "seconds": 30.538,
+       "current_gain": 0.0153
+      },
+      "t0.0153040536": {
+       "ok": true,
+       "terminal": 1112,
+       "open": 0,
+       "seconds": 30.955,
+       "current_gain": 0.0153040536
+      }
+     },
+     {
+      "cell": 1559,
+      "box": [
+       0.6333333333333333,
+       0.65,
+       0.9750000000000001,
+       1.0
+      ],
+      "initial_lower_gain": -0.0668676865694588,
+      "rank": 1,
+      "t0.0153": {
+       "ok": true,
+       "terminal": 847,
+       "open": 0,
+       "seconds": 24.313,
+       "current_gain": 0.0153
+      },
+      "t0.0153040536": {
+       "ok": true,
+       "terminal": 850,
+       "open": 0,
+       "seconds": 25.877,
+       "current_gain": 0.0153040536
+      }
+     },
+     {
+      "cell": 1519,
+      "box": [
+       0.6166666666666667,
+       0.6333333333333333,
+       0.9750000000000001,
+       1.0
+      ],
+      "initial_lower_gain": -0.06455737958731816,
+      "rank": 2,
+      "t0.0153": {
+       "ok": true,
+       "terminal": 820,
+       "open": 0,
+       "seconds": 25.612,
+       "current_gain": 0.0153
+      },
+      "t0.0153040536": {
+       "ok": true,
+       "terminal": 821,
+       "open": 0,
+       "seconds": 25.647,
+       "current_gain": 0.0153040536
+      }
+     }
+    ]
+   },
+   {
+    "sector": 17,
+    "eta": 0.7,
+    "setup_seconds": 1.05,
+    "initial_scan_seconds": 13.1,
+    "open_cells": {
+     "0.0153": 1600,
+     "0.0153040536": 1600,
+     "0.015316": 1600
+    },
+    "cells": [
+     {
+      "cell": 1599,
+      "box": [
+       0.65,
+       0.6666666666666666,
+       0.9750000000000001,
+       1.0
+      ],
+      "initial_lower_gain": -0.07144538491615249,
+      "rank": 0,
+      "t0.0153": {
+       "ok": true,
+       "terminal": 6820,
+       "open": 0,
+       "seconds": 190.451,
+       "current_gain": 0.0153
+      },
+      "t0.0153040536": {
+       "ok": true,
+       "terminal": 6888,
+       "open": 0,
+       "seconds": 216.545,
+       "current_gain": 0.0153040536
+      },
+      "t0.015316": {
+       "ok": true,
+       "terminal": 7106,
+       "open": 0,
+       "seconds": 228.264,
+       "current_gain": 0.015316
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "github_actions": {
+  "run_id": 32738568410,
+  "runner": "ubuntu-latest standard, 4 vCPU, 4 worker processes",
+  "environment": "the archive's requirements.txt: python-flint 0.9.0, numpy 2.5.1, scipy 1.18.0, CPython 3.12",
+  "shard": {
+   "sector": 17,
+   "shard": 0,
+   "nshard": 41,
+   "target": 0.0153040536,
+   "eta": 0.7,
+   "positivity_margin": 0.0009368552313214638,
+   "near_gain": 0.015304053698947197,
+   "near_clears_target": true
+  },
+  "cells": 40,
+  "terminal_boxes": 14182,
+  "core_seconds": 1419.3,
+  "seconds_per_box": 0.10008,
+  "wall_seconds": 718.2,
+  "cells_refused": 0,
+  "cell_1599_terminal_boxes": 6888,
+  "cell_1599_local_terminal_boxes": 6888,
+  "note": "the two agree exactly, which is the machine-independence the per-cell sharding relies on",
+  "per_cell": [
+   {
+    "sector": 17,
+    "cell": 0,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 192,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 25.357
+   },
+   {
+    "sector": 17,
+    "cell": 164,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 1020,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 133.66
+   },
+   {
+    "sector": 17,
+    "cell": 328,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 128,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 16.519
+   },
+   {
+    "sector": 17,
+    "cell": 492,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.314
+   },
+   {
+    "sector": 17,
+    "cell": 656,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 32,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 4.134
+   },
+   {
+    "sector": 17,
+    "cell": 820,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 72,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 9.248
+   },
+   {
+    "sector": 17,
+    "cell": 984,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 128,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 16.511
+   },
+   {
+    "sector": 17,
+    "cell": 1148,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.157
+   },
+   {
+    "sector": 17,
+    "cell": 1312,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.069
+   },
+   {
+    "sector": 17,
+    "cell": 1476,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 4.575
+   },
+   {
+    "sector": 17,
+    "cell": 41,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 466,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 60.887
+   },
+   {
+    "sector": 17,
+    "cell": 205,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 512,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 66.599
+   },
+   {
+    "sector": 17,
+    "cell": 369,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 128,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 16.667
+   },
+   {
+    "sector": 17,
+    "cell": 533,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.389
+   },
+   {
+    "sector": 17,
+    "cell": 697,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 32,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 4.176
+   },
+   {
+    "sector": 17,
+    "cell": 861,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 128,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 16.607
+   },
+   {
+    "sector": 17,
+    "cell": 1025,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 108,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 13.931
+   },
+   {
+    "sector": 17,
+    "cell": 1189,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.169
+   },
+   {
+    "sector": 17,
+    "cell": 1353,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 108,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 14.141
+   },
+   {
+    "sector": 17,
+    "cell": 1517,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 116,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 14.926
+   },
+   {
+    "sector": 17,
+    "cell": 82,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 693,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 90.835
+   },
+   {
+    "sector": 17,
+    "cell": 246,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 430,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 55.728
+   },
+   {
+    "sector": 17,
+    "cell": 410,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 123,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 16.168
+   },
+   {
+    "sector": 17,
+    "cell": 574,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 33,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 4.203
+   },
+   {
+    "sector": 17,
+    "cell": 738,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 32,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 4.051
+   },
+   {
+    "sector": 17,
+    "cell": 902,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 128,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 16.561
+   },
+   {
+    "sector": 17,
+    "cell": 1066,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.113
+   },
+   {
+    "sector": 17,
+    "cell": 1230,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.102
+   },
+   {
+    "sector": 17,
+    "cell": 1394,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 76,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 9.918
+   },
+   {
+    "sector": 17,
+    "cell": 1558,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 340,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 33.317
+   },
+   {
+    "sector": 17,
+    "cell": 123,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 1024,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 134.672
+   },
+   {
+    "sector": 17,
+    "cell": 287,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 253,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 32.835
+   },
+   {
+    "sector": 17,
+    "cell": 451,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.2
+   },
+   {
+    "sector": 17,
+    "cell": 615,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 32,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 4.069
+   },
+   {
+    "sector": 17,
+    "cell": 779,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.433
+   },
+   {
+    "sector": 17,
+    "cell": 943,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 128,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 16.308
+   },
+   {
+    "sector": 17,
+    "cell": 1107,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.142
+   },
+   {
+    "sector": 17,
+    "cell": 1271,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 8.203
+   },
+   {
+    "sector": 17,
+    "cell": 1435,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 64,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 6.084
+   },
+   {
+    "sector": 17,
+    "cell": 1599,
+    "target": 0.0153040536,
+    "eta": 0.7,
+    "ok": true,
+    "terminal": 6888,
+    "open": 0,
+    "gain": 0.0153040536,
+    "seconds": 486.319
+   }
+  ]
+ }
+}

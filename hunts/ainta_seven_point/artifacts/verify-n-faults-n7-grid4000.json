@@ -1,0 +1,95 @@
+{
+  "script": "hunts/ainta_seven_point/verify_n_faults.py",
+  "verifier": "hunts/ainta_seven_point/verify_n.py, installed into the pinned upstream clone (040c5e8) beside kernel.py and rounding.py",
+  "n": 7,
+  "grid": 4000,
+  "pressure": 3000,
+  "true_target": "19/5000",
+  "false_target": "38263/10000000",
+  "recorded_infimum": "0.003826 <= inf <= 0.0038262312115073",
+  "derived_cutoff_cells": 46316,
+  "planted_bad_cutoff_cells": 36144,
+  "runs": [
+    {
+      "label": "control-false",
+      "target": "38263/10000000",
+      "outcome": "REFUSED",
+      "nodes": 488210,
+      "pressure_pruned": 1753,
+      "interval_pruned": 174096,
+      "tangent_pruned": 68551,
+      "maximum_depth": 66,
+      "cutoff_cells": 46316,
+      "refuting_cell_gaps": [
+        1.046,
+        1.99,
+        1.986,
+        1.0415,
+        1.97725,
+        1.045
+      ],
+      "wall_seconds": 45.8
+    },
+    {
+      "label": "prune-ignores-target",
+      "target": "38263/10000000",
+      "outcome": "ACCEPTED",
+      "nodes": 288557,
+      "pressure_pruned": 19552,
+      "interval_pruned": 80909,
+      "tangent_pruned": 44182,
+      "maximum_depth": 37,
+      "cutoff_cells": 36144,
+      "refuting_cell_gaps": null,
+      "wall_seconds": 26.2
+    },
+    {
+      "label": "inflated-kernel-table",
+      "target": "38263/10000000",
+      "outcome": "ACCEPTED",
+      "nodes": 875,
+      "pressure_pruned": 367,
+      "interval_pruned": 435,
+      "tangent_pruned": 0,
+      "maximum_depth": 2,
+      "cutoff_cells": 46316,
+      "refuting_cell_gaps": null,
+      "wall_seconds": 0.3
+    },
+    {
+      "label": "inflated-coefficient",
+      "target": "38263/10000000",
+      "outcome": "ACCEPTED",
+      "nodes": 804083,
+      "pressure_pruned": 2225,
+      "interval_pruned": 279548,
+      "tangent_pruned": 120633,
+      "maximum_depth": 42,
+      "cutoff_cells": 46316,
+      "refuting_cell_gaps": null,
+      "wall_seconds": 67.9
+    },
+    {
+      "label": "dropped-box",
+      "target": "38263/10000000",
+      "outcome": "ACCEPTED",
+      "nodes": 751449,
+      "pressure_pruned": 2165,
+      "interval_pruned": 278673,
+      "tangent_pruned": 95250,
+      "maximum_depth": 34,
+      "cutoff_cells": 46316,
+      "refuting_cell_gaps": null,
+      "wall_seconds": 67.0
+    }
+  ],
+  "faults_detected": [
+    "prune-ignores-target",
+    "inflated-kernel-table",
+    "inflated-coefficient",
+    "dropped-box"
+  ],
+  "faults_blind": [],
+  "problems": [],
+  "finished_utc": "2026-08-31T14:37:57Z"
+}

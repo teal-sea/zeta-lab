@@ -1,4 +1,4 @@
-# RESULTS — frontier math after the 10 August 2026 paper
+# RESULTS: frontier math after the 10 August 2026 paper
 
 **Status: CLEAN KILL. The unconditional candidates `0.6725124`, `0.672529`,
 and `0.6725318` are withdrawn. Gate 0 failed: the zero-side summand uses
@@ -54,7 +54,7 @@ joint formulation keeping cross-window information. Formulated here
   0.6794 → 0.6776 → 0.6765 → 0.6756 → 0.6750823
   (X = 40, 80, 160, 320, 640 with J = 5X and ε = 0.4/X at the truncation
   floor ~1/(π²X); the last rung costs ~78 min), consistent with convergence
-  to the paper's 0.6725007 from above and with nothing in between — the
+  to the paper's 0.6725007 from above and with nothing in between, the
   residual 2.6e-3 at X = 640 tracks the ε-band rather than any gap, since
   D climbs 1.3206 → 1.324918 toward the MT constant 1.3274993. Two
   independent corroborations: the paper scopes Theorem D's optimality to
@@ -62,21 +62,21 @@ joint formulation keeping cross-window information. Formulated here
   remark records 1993 numerics that the pure-frequency problem attains the
   MT constant.
 - **Consequence**: the ceiling gap (0.6725007, 0.68185) is *not* about the
-  pair measure at all — it measures what configuration realizability
+  pair measure at all, it measures what configuration realizability
   (ordered real sequences) adds beyond measure positivity. CG's 1993
   improvement (§3 below) is the constructive half of that statement.
 
 ## 2. The λ > 1 sieve wall, quantified
 
 The paper's §4 machinery is support-agnostic; only the prime-side second
-moment caps λ at 1 (its §7.5(a)). The tempting unconditional route — bound
+moment caps λ at 1 (its §7.5(a)). The tempting unconditional route, bound
 the off-diagonal prime sums by the Selberg-sieve upper bound
-Σ_{n≤N} Λ(n)Λ(n+h) ≤ C·𝔖(h)·N with classical C — **fails structurally**:
+Σ_{n≤N} Λ(n)Λ(n+h) ≤ C·𝔖(h)·N with classical C, **fails structurally**:
 for X = T^λ, λ > 1, the off-diagonal and expected-value terms are each of
 scale x/T · N = T^{λ−1}·N and cancel to O(N) only under Hardy–Littlewood
 with error; a sieve constant C multiplies the x-scale term, so the loss is
 (C−1)·T^{λ−1}·N/log T, unbounded relative to N for any fixed C > 1. Only
-C = 1 + o(1) — HL itself — closes it. This makes Remark 1.1's wall
+C = 1 + o(1), HL itself, closes it. This makes Remark 1.1's wall
 ("0.70 needs support ≈ 1.04") mechanism-explicit: no constant-factor upper
 bound on prime pair correlations, however sharp, opens the band.
 
@@ -127,7 +127,7 @@ bound.
 
 The floor is 22× smaller than CG's because the unconditional census is
 thinner (ν_on = 0.6725 vs 0.83625: the adversary has fewer gaps to place,
-mean gap 1.49 vs 1.20, so the length constraint pinches less — but
+mean gap 1.49 vs 1.20, so the length constraint pinches less, but
 all-gaps-beyond-d is still infeasible: 1.99782 × 0.6725 = 1.336 > 1).
 
 Taper, truncation, census, bootstrap, and exact-LP work cannot repair the
@@ -138,19 +138,19 @@ failed algebraic implication. They are closed as moot for this candidate.
 Chirre–Gonçalves–de Laat's RH-conditional 0.6792 uses two zero-side facts:
 (i) F(α) ≥ 0 for all α, (ii) the g ≥ 0 diagonal-isolation drop. For (i),
 **no RH is needed**: BGSTB 2023 (arXiv:2306.04799, Theorem 1) show the
-weighted form factor is nonnegative unconditionally — the conjugate-closure
+weighted form factor is nonnegative unconditionally, the conjugate-closure
 of the zero multiset makes it an integral of |Σ_ρ x^ρ/(1−(ρ−(½+it))²)|²;
 the Cauchy weight's strip (poles at ±2i) covers every pair of strip zeros
 (total imaginary displacement < 1 < 2). We re-derived this before finding
 it; it is *known*, and recorded here so the next session does not re-derive
 it either. What does **not** transfer is (ii): for the paper's machinery
 the analogue would be running its inertia counting against a kernel with
-ĝ ≤ 0 outside [−1,1] — which is not the Gram matrix of any window family
+ĝ ≤ 0 outside [−1,1], which is not the Gram matrix of any window family
 (autocorrelations are ≥ 0), so its §4 does not apply as written. That is
 the single obstruction. The prize if it falls, measured by the LP with the
 out-of-band constraint added (`configuration_lp.py`, BGSTB positivity as
 data): the class value at (X=80, J=320) is 0.6863 and still descending
-with X — consistent with landing near CGdL's 0.6792 for ζ unconditionally.
+with X, consistent with landing near CGdL's 0.6792 for ζ unconditionally.
 
 ## 5. WITHDRAWN AS A ZETA INPUT: the gap-distribution LP
 
@@ -165,7 +165,7 @@ converges in two rounds).
 **A control earned its keep here, twice.** The first implementation
 assigned bins to partition cells by bin midpoint; a bin straddling a cell
 edge was credited wholesale to one cell, so the chain count n_I could
-exceed reality and the floor came out invalidly high — including a
+exceed reality and the floor came out invalidly high, including a
 conditional value of 0.6728294 that would have "beaten" Cheer–Goldston.
 The bin-width ladder caught it (the floor *fell* under refinement; a real
 quantity rises toward a tight relaxation). After snapping cell edges onto
@@ -189,12 +189,12 @@ These values are ordered-real-configuration optimization outputs only. They
 do not yield an unconditional zeta bound. The former unconditional candidate
 **0.672529 is withdrawn**. The grid-locked edge optimisation had
 completed for the unconditional census: at edges (1.035, 1.085, 1.900) the
-floor is monotone under fixed-cell refinement — 1.4371e-5 (h = 0.005),
-1.4710e-5 (0.0025), 1.4988e-5 (0.00125) — so the trend value is
+floor is monotone under fixed-cell refinement: 1.4371e-5 (h = 0.005),
+1.4710e-5 (0.0025), 1.4988e-5 (0.00125), so the trend value is
 the arithmetic trend was 0.6725307, but no bound survives. The matching
 conditional search was interrupted mid-run (HANDOFF has the resume note). The
 conditional lane's verdict is honest: the generalised LP has not so far
-beaten the 1993 constant once the discretisation is done correctly — CG's
+beaten the 1993 constant once the discretisation is done correctly: CG's
 hand-tuned edges were good, and the inflation that briefly suggested
 otherwise was an artifact. The floor's extreme sensitivity to the cell
 edge nearest λ₂ (a shift of 0.005 moves the level-2 kernel minimum by a
@@ -205,7 +205,7 @@ kernel should focus.
 ## 6. Lanes deliberately left
 
 - **Conditional CG improvement**: our coarse edge grid reaches 0.6727450,
-  *below* CG's hand-tuned 0.6727534 — their 1993 optimisation stands; a
+  *below* CG's hand-tuned 0.6727534, their 1993 optimisation stands; a
   joint kernel-and-buckets optimisation (not just edges) is the open lane
   for "the best result attainable from Montgomery's theorem", which CG pose
   explicitly and which remains open.

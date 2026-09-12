@@ -11,9 +11,9 @@ upgraded to a certificate.
 
 Two layers:
 
-* `Interval` — closed rational intervals `[lo, hi]` regarded as sets of reals
+* `Interval`: closed rational intervals `[lo, hi]` regarded as sets of reals
   via `Interval.contains`, with sound `exact` / `add` / `neg` / `sub` / `mul`.
-* `ComplexInterval` — axis-aligned rational rectangles in `ℂ`, componentwise
+* `ComplexInterval`: axis-aligned rational rectangles in `ℂ`, componentwise
   on `re` / `im`, with the complex product routed through the real layer via
   `Complex.mul_re` / `Complex.mul_im`.
 

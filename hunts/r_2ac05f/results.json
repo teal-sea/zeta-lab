@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "question": "which kappa=2 form-factor table is right, higher_xi's or fkappa's",
+  "method": "independent recomputation of R_kappa = P + D log Q_kappa in a formal Dirichlet word algebra; pairing calibrated on the Farmer-Gonek kappa=1 row",
+  "external_control": {
+    "row": "kappa = 1, Farmer-Gonek arXiv:0803.0425 closed form",
+    "indices_checked": 11,
+    "passes": true,
+    "derived": [
+      "1",
+      "-4",
+      "4",
+      "0",
+      "4/3",
+      "0",
+      "16/45",
+      "0",
+      "8/105",
+      "0",
+      "64/4725"
+    ],
+    "expected": [
+      "1",
+      "-4",
+      "4",
+      "0",
+      "4/3",
+      "0",
+      "16/45",
+      "0",
+      "8/105",
+      "0",
+      "64/4725"
+    ]
+  },
+  "kappa_2": {
+    "this_probe": [
+      "1",
+      "-8",
+      "24",
+      "-32",
+      "64/3",
+      "-64/3",
+      "1216/45",
+      "-256/15",
+      "1088/63",
+      "-11776/945",
+      "42496/4725"
+    ],
+    "higher_xi_C2_EXACT": [
+      "1",
+      "-8",
+      "24",
+      "-32",
+      "64/3",
+      "-64/3",
+      "1216/45",
+      "-256/15",
+      "1088/63",
+      "-11776/945",
+      "42496/4725"
+    ],
+    "fkappa_corrected_row_2": [
+      "1",
+      "-4",
+      "4",
+      "-16",
+      "52/3",
+      "16/3",
+      "208/45",
+      "-64/15",
+      "-40/63",
+      "-32/945",
+      "3424/4725"
+    ],
+    "bian_figure_10_1_row_2": [
+      "1",
+      "-4",
+      "4",
+      "-16",
+      "28",
+      "16",
+      "544/45",
+      "-512/45",
+      "-104/63",
+      "-416/945",
+      "6688/1575"
+    ],
+    "agrees_with_higher_xi": true,
+    "agrees_with_fkappa": false,
+    "first_disagreement_with_fkappa": 2
+  },
+  "multiplicity_witness": {
+    "statement": "the x^1 coefficient of Qhat_kappa is kappa*g, so the first arithmetic coefficient q_1 of R_kappa is kappa * (Lambda log), and C_{kappa,2} = -4 kappa",
+    "qhat_x1": {
+      "1": {
+        "(0,)": "-1"
+      },
+      "2": {
+        "(0,)": "-2"
+      },
+      "3": {
+        "(0,)": "-3"
+      }
+    },
+    "C_kappa_2_derived": {
+      "1": "-4",
+      "2": "-8",
+      "3": "-12"
+    }
+  },
+  "verdict": "higher_xi"
+}

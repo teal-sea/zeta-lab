@@ -9,7 +9,7 @@ import ZetaLean.DHCertSupport
 /-!
 # Dirichlet terms through the ball layer
 
-`ZetaLean.Ball` builds the arithmetic — centre-plus-radius, its soundness, and
+`ZetaLean.Ball` builds the arithmetic, centre-plus-radius, its soundness, and
 the exponential tower.  This file points it at the thing the rung-3 certificate
 actually evaluates: `m^{-s}` for a natural `m` and an `s` ranging over a ball.
 
@@ -17,7 +17,7 @@ It is the ball counterpart of `IntervalCExp.dirichletTermBox2` and
 `DHCertSupport.contains_cpow_mul_coarsen`, and it deliberately reuses the
 *rectangle* layer's `Interval.logQ` unchanged.  There is no rotation in a real
 logarithm, so a ball buys nothing there; `ofRealInterval` converts once, exactly,
-and every subsequent operation — where the value does rotate — is a ball.
+and every subsequent operation, where the value does rotate, is a ball.
 
 Measured consequence of that split, over all 215 sites of
 `lean/cert/rung3_plan2.json` (`scripts/65_rung3_full_validation.py`):

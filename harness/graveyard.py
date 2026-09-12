@@ -1,11 +1,11 @@
-"""``harness.graveyard`` — killed results as first-class records.
+"""``harness.graveyard``, killed results as first-class records.
 
 The specification's claim (`docs/reviews/2026-08-11-decision-memo-next-phase.md`,
 "The UI should celebrate killed results") is that a withdrawn result with its
 cause, its catcher, its regression test and its permanent guard communicates
 more scientific credibility than a page of fifty finds. This repository has
-been living that claim in prose — CLEAN-KILL reports, HANDOFF withdrawal
-records, ROADMAP "negative results recorded as failures" — but prose kills
+been living that claim in prose: CLEAN-KILL reports, HANDOFF withdrawal
+records, ROADMAP "negative results recorded as failures", but prose kills
 scatter, and a scattered kill is a kill someone will re-derive.
 
 A :class:`KilledResult` is the memo's card, typed:
@@ -15,7 +15,7 @@ A :class:`KilledResult` is the memo's card, typed:
 
 The validation carries the ethic: ``why`` and ``caught_by`` are mandatory (a
 kill without a mechanism is gossip), and a record with no regression test,
-no formal obstruction and no recurrence guard is *storable but loud* —
+no formal obstruction and no recurrence guard is *storable but loud*,
 :func:`unguarded` surfaces it, because a failure nothing now prevents is a
 failure scheduled to recur. Deleting a record is never the fix for its
 appearing in that list.
@@ -48,7 +48,7 @@ class KilledResult:
     ``name`` identifies the claim; ``status`` is its terminal state
     (``withdrawn`` for a claim taken back, ``closed`` for a route proven
     dead); ``why`` is the mechanism of failure; ``caught_by`` is what
-    actually caught it — an instrument, a control, a counterexample, a
+    actually caught it, an instrument, a control, a counterexample, a
     person. ``regression_test`` and ``formal_obstruction`` are repository
     paths when they exist; ``recurrence_guard`` says in prose what now
     prevents the same failure, or is empty and loud. ``record`` points at
@@ -68,7 +68,7 @@ class KilledResult:
         if self.status not in ("withdrawn", "closed"):
             raise GraveyardError(
                 f"grave {self.name!r}: status must be 'withdrawn' or "
-                f"'closed', not {self.status!r} — the graveyard holds only "
+                f"'closed', not {self.status!r}, the graveyard holds only "
                 "the dead"
             )
         for field_name in ("name", "why", "caught_by"):
@@ -98,7 +98,7 @@ class KilledResult:
             f"REGRESSION TEST      {self.regression_test or 'NONE'}",
             f"FORMAL OBSTRUCTION   {self.formal_obstruction or 'NONE'}",
             "CAN THIS FAILURE RECUR?  "
-            + (self.recurrence_guard or ("guarded by the above" if self.guarded else "YES — nothing prevents it")),
+            + (self.recurrence_guard or ("guarded by the above" if self.guarded else "YES, nothing prevents it")),
         ]
         if self.record:
             lines.append(f"RECORD               {self.record}")

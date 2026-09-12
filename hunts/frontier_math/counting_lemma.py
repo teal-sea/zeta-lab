@@ -35,7 +35,7 @@ every one with `j >= 2`; `slack >= k Shq/2 - f` fails on none.
 
 The three steps are `sum D <= m j D_1`, `R/400 >= m(m-1) g^2/800`, and
 `sum_{p<q} kappa >= j(j-1) kappa(W)/2`, the last needing `kappa`
-nonincreasing on `[0, w_max]` — measured, `1.75562102` down to
+nonincreasing on `[0, w_max]`, measured, `1.75562102` down to
 `1.62023918` with no interior minimum (:func:`kappa_is_nonincreasing`).
 
 So the site is safe as soon as `k Shq(y)/2 >= f`.  A two-species square completion
@@ -43,11 +43,11 @@ makes `f` bounded above, and closes iff
 
     D_1^2  <=  4 (g^2/800) (kappa(W)/2) = 2 (g^2/800) kappa(W),
 
-which holds at **1.932855e-05 vs 3.169087e-03 — a margin of 164.0x**
+which holds at **1.932855e-05 vs 3.169087e-03, a margin of 164.0x**
 (:func:`am_gm_margin`).  Maximising `f` over integers
 (:func:`window_occupancy`):
 
-    j = 1:  +7.321459e-03  (at m = 3 — exactly the k=1 optimum)
+    j = 1:  +7.321459e-03  (at m = 3, exactly the k=1 optimum)
     j = 2:  -1.595834e+00  (at m = 5)
     j = 3:  -4.809467e+00  (at m = 7)
 
@@ -61,7 +61,7 @@ cannot crowd.
 **The two clusters are not in the same place.**  Damage needs
 `|x_a - t_p| >= 6.0653`, so a "site" is an atom cluster of diameter
 `<= w_max` and a pair cluster of diameter `<= w_max` separated by about
-the peak distance `6.517` — not one interval holding both.
+the peak distance `6.517`, not one interval holding both.
 
 ## 2. The critical-lattice limit
 
@@ -179,7 +179,7 @@ def budget(ts, y: float = 0.5) -> float:
 # --- 1. the counting lemma -------------------------------------------------
 
 def am_gm_margin() -> dict:
-    """`D_1^2 <= 4 (gamma^2/800) (kappa(w_max)/2)` — the closure condition."""
+    """`D_1^2 <= 4 (gamma^2/800) (kappa(w_max)/2)`, the closure condition."""
     lhs = D_ONE ** 2
     rhs = 4 * ATOM_RELIEF * (KAPPA_W / 2)
     return {"lhs": lhs, "rhs": rhs, "holds": lhs <= rhs, "margin": rhs / lhs,
@@ -192,7 +192,7 @@ def site_value(m: int, j: int) -> float:
 
     `slack >= k Shq(y)/2 - site_value`, so a positive value must be
     covered by `k Shq(y)/2` and a negative one is safe outright.  This is
-    NOT a bound on the adversary's gain, and it does NOT pair with `B` —
+    NOT a bound on the adversary's gain, and it does NOT pair with `B`,
     `B` already absorbs `sum_{p<q} kappa`, which this subtracts again
     (coordinator defect #22).
     """
@@ -210,7 +210,7 @@ def window_occupancy(js=(1, 2, 3), m_max: int = 40) -> list:
 
 
 def kappa_is_nonincreasing(n: int = 200) -> dict:
-    """`kappa` nonincreasing on `[0, w_max]` — the step `f` needs."""
+    """`kappa` nonincreasing on `[0, w_max]`, the step `f` needs."""
     vals = [kappa(W_MAX * i / n) for i in range(n + 1)]
     return {"start": vals[0], "end": vals[-1], "min": min(vals),
             "nonincreasing": all(vals[i] >= vals[i + 1] - 1e-14
@@ -218,7 +218,7 @@ def kappa_is_nonincreasing(n: int = 200) -> dict:
 
 
 def site_lower_bound(m: int, j: int, y: float = 0.5) -> float:
-    """`k Shq(y)/2 - f(m,j)` — the bound `slack` must clear."""
+    """`k Shq(y)/2 - f(m,j)`, the bound `slack` must clear."""
     return j * (_gh(2 * y, 0.0).real ** 2 - _A2) / 2 - site_value(m, j)
 
 

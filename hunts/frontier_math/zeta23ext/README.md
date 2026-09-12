@@ -1,4 +1,4 @@
-# Zeta23Ext — extension package scaffold (STATUS: SCAFFOLD, NOTHING CLAIMED)
+# Zeta23Ext, extension package scaffold (STATUS: SCAFFOLD, NOTHING CLAIMED)
 
 A Lean 4 package depending on the source paper's formalization
 (`anthropics/zeta-23-lean`, pinned by commit; toolchain and Mathlib pin
@@ -9,20 +9,20 @@ its pieces are kernel-checked.
 in this package counts until it compiles with zero sorrys under the
 pinned toolchain. As of the scaffold commit:
 
-- `Zeta23Ext/Composition.lean` — the composition skeleton, kernel-checked
+- `Zeta23Ext/Composition.lean`: the composition skeleton, kernel-checked
   earlier today against current Mathlib on the theorem-proving service
   (axioms: propext, Classical.choice, Quot.sound). Included verbatim; it
   imports only Mathlib. **Rebuilt locally 2026-08-12 under Mathlib
   `v4.33.0-rc2`: builds clean, zero `sorry`, same three axioms.** Since it
   imports only Mathlib, that test is decisive for this module.
-- `Zeta23Ext/GridIncidence.lean` — the grid-incidence law, same provenance.
+- `Zeta23Ext/GridIncidence.lean`: the grid-incidence law, same provenance.
   It did **not** build under `v4.33.0-rc2` at two `rw` sites (lines 109, 290);
   ported in batch 2 and now builds, 18 declarations on the three standard
   axioms (`lean/ARISTOTLE-RUNS.md`).
 
 **The port is DONE. Every module in this package builds under Mathlib
 `v4.33.0-rc2`** (measured 2026-08-12 by dropping each into `lean/` as a
-scratch target against its already-compiled Mathlib, building, deleting —
+scratch target against its already-compiled Mathlib, building, deleting,
 minutes, and it never requires compiling Mathlib for this package):
 
 | module | first verdict | now |
@@ -55,7 +55,7 @@ and it declares no Mathlib requirement of its own (Mathlib arrives through
 the `Zeta23` dependency), so the older "this package pins v4.28.0" line
 described what the service proved against, not what the tree says.
 
-**A defect the survey found, independent of the port — now FIXED.** All
+**A defect the survey found, independent of the port, now FIXED.** All
 eight `BandCert/` modules carried `import RequestProject.X`, the proving
 service's own project-local namespace, while `Zeta23Ext.lean` imports
 `Zeta23Ext.BandCert.Main`. The package could not have assembled at any pin:
@@ -67,19 +67,19 @@ attempted to notice. All eight now import `Zeta23Ext.BandCert.X`.
 **Planned modules** (from the reconnaissance report in
 `../PROOF-LEDGER.md` and the zeta-23-lean mapping; not yet written):
 
-1. `Bridge.lean` — restate Composition on the upstream repo's types
+1. `Bridge.lean`: restate Composition on the upstream repo's types
    (`Matrix (Fin (P.d T)) _ ℂ`, `RHLinalg.rtrace/frobSq/posIndex`,
    `ZeroBlockData`), forking at `rank_trace_mult` where the upstream
    pipeline discards `tr(PQ)`.
-2. `Census.lean` — the gap-census counting function on `ZeroConfig`,
+2. `Census.lean`: the gap-census counting function on `ZeroConfig`,
    plus its seam to `N0simple` (the nu input; one-sided by the LP
    floor's measured monotonicity in nu).
-3. `FloorCert.lean` — **LANDED** (theorem-proving service, project
+3. `FloorCert.lean`: **LANDED** (theorem-proving service, project
    029bed09; sorry-free, no `native_decide`, axioms propext /
    Classical.choice / Quot.sound). `MTKernel.theoremA` is the LP bound by
    explicit rational weak duality for any cost dominating the four
    rational kernel bounds; `B1`-`B4` prove those bounds about the genuine
-   Montgomery-Taylor kernel (`Real.sin`, `Real.sqrt 2`, `π` — not a
+   Montgomery-Taylor kernel (`Real.sin`, `Real.sqrt 2`, `π`, not a
    rational surrogate), via from-scratch Taylor machinery with explicit
    truncation error and interval covers; `MTKernel.corollary` combines
    them: every admissible configuration pays at least
@@ -87,12 +87,12 @@ attempted to notice. All eight now import `Zeta23Ext.BandCert.X`.
    = 5.021172019e-6. Constants cross-checked identical to
    `../lp_certificate.py`. One comment reworded for the hunts/ lexical
    rules; no proof content altered.
-4. `BandCert/` — **LANDED, PARTLY** (theorem-proving service, project
+4. `BandCert/`: **LANDED, PARTLY** (theorem-proving service, project
    7fb5612e; 8 modules, 2280 lines, sorry-free chain
    Iv -> Leaves -> Phi -> Check -> Cap -> Data -> Verify -> Main).
    Read the split carefully, it is the honest part:
 
-   * **Unconditional**: `cap_le_slack` — the recorded certificate's
+   * **Unconditional**: `cap_le_slack`, the recorded certificate's
      arithmetic closes at the four depths 1/50, 1/10, 3/10, 49/100, by
      kernel `decide`; `cap` is defined with the TRUE band quantities
      (`bandSupR` the genuine supremum of the field over a band,
@@ -103,7 +103,7 @@ attempted to notice. All eight now import `Zeta23Ext.BandCert.X`.
      (Taylor enclosures, argument reduction, the s(u) series branch).
    * **Conditional**: `band_dual_verdict` carries H1 (Im-majorant), H2
      (spacing/repulsion beyond G) and H3 (the dual layer) as named
-     hypotheses. H3 is the substantive one — it says the dual's cap
+     hypotheses. H3 is the substantive one, it says the dual's cap
      really does bound `D - (1-theta) R` for every configuration. That
      reduction is OURS, on paper, not yet formalised; the Lean file is
      honest about it rather than hiding it inside the arithmetic.
@@ -117,9 +117,9 @@ attempted to notice. All eight now import `Zeta23Ext.BandCert.X`.
    done (see the port table above); the chain builds, `Verify` alone
    taking 1513 s.
 
-5. `RetentionHypothesis.lean` — theta = 995/1000 as a NAMED hypothesis
+5. `RetentionHypothesis.lean`: theta = 995/1000 as a NAMED hypothesis
    (`of_literature` style) until H3 above is discharged.
-5. `Main.lean` — the conditional endgame: clone of upstream
+5. `Main.lean`, the conditional endgame: clone of upstream
    `thmD_mult2_abstract` carrying the census term through the full
    explicit error ledger, concluding
    `(H + 2*theta*c_u - eps) * N <= N0simple` given the retention
@@ -139,7 +139,7 @@ established that the first is **not new** - see the correction inside
 item 6.  Both files remain useful to the chain; the framing of item 6 as
 research-grade was the coordinator's error and is retracted.
 
-6. `PairEnergy.lean` — **PROVED, SHARP, AND NOT NEW** (project 481e49bf; 785 lines,
+6. `PairEnergy.lean`: **PROVED, SHARP, AND NOT NEW** (project 481e49bf; 785 lines,
    36 theorems, sorry-free, standard axioms).  For the bandlimited
    kernel c2 = g*g of the paper window, every k, and ALL real depths and
    positions:
@@ -168,16 +168,16 @@ research-grade was the coordinator's error and is retracted.
    spectral-theorem-free route here is formalisation engineering, not
    new mathematics.  Keep the file, cite the paper, claim nothing.
 
-7. `EForm/` — **PARTIAL, WITH THE OBSTRUCTION NAMED** (project 00643d5e;
+7. `EForm/`: **PARTIAL, WITH THE OBSTRUCTION NAMED** (project 00643d5e;
    5 modules, ~1200 lines, sorry-free, standard axioms).  The single-pair
    retention inequality at the exact constants theta = 199/200:
-   * `retention_gap` — an EXACT reduction of the problem for every n,
+   * `retention_gap`: an EXACT reduction of the problem for every n,
      configuration, shift and depth;
-   * `retention_le_three` — the target inequality proved at the exact
+   * `retention_le_three`: the target inequality proved at the exact
      constants for n <= 3 on-line points, uniformly in shift and depth;
-   * `Icross_localized` — damage localisation: a single on-line point
+   * `Icross_localized`, damage localisation: a single on-line point
      does no damage at all outside an explicit region;
-   * `retention_of_few_near` — the inequality for ARBITRARY n provided
+   * `retention_of_few_near`: the inequality for ARBITRARY n provided
      at most three offsets are damaging.
    Not obtained: the unrestricted statement, and no counterexample - it
    "looks robustly true".  The obstruction is recorded exactly: any

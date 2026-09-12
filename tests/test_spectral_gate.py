@@ -1,4 +1,4 @@
-"""Tests for zeta.spectral_gate — the falsifiers for a claimed zero spectrum.
+"""Tests for zeta.spectral_gate, the falsifiers for a claimed zero spectrum.
 
 Two things need pinning here, and the second matters as much as the first: that
 each gate rejects what it is meant to reject, and that the gate set is not

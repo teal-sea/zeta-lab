@@ -81,7 +81,7 @@ Formalization of the theorem of
 
 Everything under `Aristotle/` arrived from an external prover and counts for
 nothing until it passes the static refusal scan and `lake build` on this
-repository's own toolchain — the rule of `lean/proof_adapter.py`.  Several
+repository's own toolchain, the rule of `lean/proof_adapter.py`.  Several
 needed local repair to build against the `v4.33.0-rc2` pin; each such file says
 so in its header.
 

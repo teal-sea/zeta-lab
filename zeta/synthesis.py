@@ -11,7 +11,7 @@ Riemann's formula says S is exactly what a synthesizer patch looks like:
 one partial per zero.  On RH every ρ − ½ is purely imaginary, so every
 partial is a pure tone cos(γu + φ) with a *constant* envelope and amplitude
 1/|ρ|.  A zero off the line at Re ρ = β > ½ is a partial whose envelope
-swells like e^{(β−½)u} — a note that grows without bound.
+swells like e^{(β−½)u}, a note that grows without bound.
 
 That converts RH into a statement an audio engineer would recognise:
 
@@ -25,13 +25,13 @@ closed form:
 so the primes play at a constant RMS of √P = 0.2149… .  This module measures
 P three independent ways (`power_report`): a Λ-sieve on the prime side, a
 sum over cached zero ordinates plus a density tail on the zero side, and the
-closed form.  They agree — which is a check on the implementations and on
+closed form.  They agree, which is a check on the implementations and on
 nothing else.
 
 **The wall, stated plainly.**  This is a genuine equivalence, not a route to
 a proof.  Proving finite mean power from the prime side means expanding S²
 into Σ Λ(n)Λ(m) correlations, i.e. controlling the variance of primes in
-short intervals — and by Goldston–Montgomery that control is *equivalent* to
+short intervals, and by Goldston–Montgomery that control is *equivalent* to
 the pair correlation of the zeros.  The audio framing reaches Montgomery's
 program in three steps and then stops exactly where everything else does.
 No agreement computed here is evidence for RH (Littlewood; `docs/08`); a
@@ -134,7 +134,7 @@ def mean_power_zero_side(n_zeros: int = 1000) -> dict[str, Any]:
     """2·Σ_{γ>0} 1/(¼+γ²) over cached ordinates, plus a density tail estimate.
 
     The tail uses the Riemann–von Mangoldt density dN ≈ (1/2π)log(γ/2π)dγ:
-    ∫_T^∞ 2/γ² dN = (log(T/2π) + 1)/(πT).  It is an estimate, not a bound —
+    ∫_T^∞ 2/γ² dN = (log(T/2π) + 1)/(πT).  It is an estimate, not a bound,
     labelled as such in the returned dict.
     """
     from .explicit import first_zeros

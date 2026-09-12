@@ -1,0 +1,115 @@
+{
+  "run_id": "78c499b4-bc7d-4e1a-9efa-47571547b826",
+  "date": "2026-08-24",
+  "arm": "E",
+  "serves": {"run": "872d7dce-5f49-4e7c-8fcf-f470fd066e6f", "hunt": "hunts/r_c7f779"},
+  "kind": "literature-search",
+  "status": "settled",
+  "verdict": "untouched-and-live",
+  "verdict_gloss": "No published work applies a Cohn-Elkies/Delsarte certificate to a target of the form max(0, band-limited) minus a band-limited square, and no published theorem decides whether the LP value equals the one-dimensional lattice value for such a target. The route is not known-dead: neither a priori killer applies. It is not known-live either: the published dimension-1 sharpness theorem is restricted to completely monotone potentials.",
+
+  "search": {
+    "backends_used": [
+      "Claude Code WebSearch (10 queries, listed in RESULTS.md section 1)",
+      "Claude Code WebFetch (7 pages)",
+      "arXiv Atom API via curl, https://export.arxiv.org/api/query?id_list=... (14 preprints resolved for exact title/authors/date/journal_ref/DOI)",
+      "pdftotext -layout locally on 2 fetched PDFs (arXiv:1603.05202, the CNRS/INSMI CKMRV overview)"
+    ],
+    "backends_not_used": [
+      "MathSciNet", "zbMATH", "Google Scholar",
+      "ontology/knownness.py and its OEIS/arXiv/zbMATH backends"
+    ],
+    "repo_reference_file_checked": {
+      "path": "references/papers.md",
+      "grep": "cohn|elkies|delsarte|packing|viazovska|carneiro|beurling|selberg",
+      "hits": 0,
+      "note": "none of this literature is currently tracked in this tree"
+    }
+  },
+
+  "findings": {
+    "part1a_route_applied_to_this_f": {
+      "answer": "not to this f; the same test-function class has been used in the same dimension against the same object",
+      "closest_prior_art": "arXiv:2310.01913",
+      "why": "Carneiro-Milinovich-Ramos bound a one-dimensional pair functional over the zeros of zeta using the Cohn-Elkies test-function class explicitly 'going beyond the usual class of bandlimited functions', with sign conditions on the transform (ghat(alpha) <= 0 for |alpha| >= 1), solved by SDP."
+    },
+    "part1a_lp_tight_in_dim1": {
+      "packing": "sharp in dimension 1, trivially (Cohn PCMI Lecture 5, Exercise 4.1; Li arXiv:2206.09876 calls d=1 trivial)",
+      "energy": "sharp in dimension 1 for completely monotone potentials, by explicit magic functions (Cohn-Kumar, JAMS 20 (2007)), construction relying on a variant of the Whittaker-Shannon sampling formula",
+      "applies_to_parent_f": false,
+      "reason": "the parent's f oscillates and changes sign; it is not a completely monotone function of squared distance"
+    },
+    "part1b_nonbandlimited_positive_part": {
+      "is_nonbandlimitedness_an_obstruction": false,
+      "reason": "the Cohn-Kumar energy LP majorises completely monotone potentials, which are not band-limited; the auxiliary function is not band-limited either",
+      "mature_technology_for_awkward_targets": "Beurling-Selberg (sgn, indicators, x_+ via Graham-Vaaler, wide even classes via Gaussian subordination, arXiv:1008.4969)",
+      "why_it_does_not_transfer": "Beurling-Selberg constrains the SUPPORT of the transform and optimises L1 error; the parent constrains the SIGN of the transform with no support restriction. Different cones, different extremisers.",
+      "published_obstruction_for_positive_part_targets": null,
+      "found_nothing_on": "one-sided approximation to max(0, D) with D band-limited, under either constraint class"
+    },
+    "part2_sharpness_theorem": {
+      "criterion_is_published": true,
+      "criterion_packing": "f proves a sharp bound for a lattice Lambda iff f(x) = 0 for all x in Lambda\\{0} and fhat(t) = 0 for all t in Lambda*\\{0} (Cohn, PCMI notes, Lecture 5)",
+      "criterion_energy": "f(x) = p(|x|) for x in Lambda\\{0} and fhat(y) = 0 for y in Lambda*\\{0}, to second order (CKMRV eqs 1.2-1.3)",
+      "strong_duality": "proved for the Cohn-Elkies LP by Cohn, de Laat, Salmon (arXiv:2206.15373); for Turan and Delsarte on Euclidean space by Kolountzakis, Lev, Matolcsi (arXiv:2510.10172), with tiling-type relations between primal extremal functions and dual extremal measures",
+      "theorem_deciding_lp_equals_lattice_for_general_f": null,
+      "why_none_can_exist": "in dimension 1 the equidistant lattice is not always the ground state for non-convex potentials: Ventevogel-Nijboer's phi(x) = (1+x^4)^{-1} has a non-equidistant minimiser at high density, so 'LP value equals lattice value in dimension 1' is false as a general statement"
+    },
+    "actionable_transfer": {
+      "what": "discrete-reduction dual bounds",
+      "source": "Rupert Li, Adv. Math. 460 (2024) 110043, arXiv:2206.09876",
+      "why": "maps feasible points of the infinite-dimensional Cohn-Elkies LP into a finite-dimensional problem, then solves the dual; a dual-feasible point is a LOWER bound on the LP value and proves non-sharpness when it exceeds the target",
+      "relevance": "the parent's kill condition 1 needs a lower bound on V that carries content; a truncated primal solve only ever gives a relaxation, which is why 37fb06a9's 0.0541015 sat below the achievability floor 0.05716501969327026",
+      "related": ["Cohn-Triantafillou (modular forms, d = 12,16,20,28,32)", "arXiv:2607.11319 (d = 36)"]
+    }
+  },
+
+  "not_found": [
+    "any paper applying a Cohn-Elkies/Delsarte certificate to a target of the form max(0, D) - K with D band-limited",
+    "any paper on one-sided approximation to the positive part of a band-limited function",
+    "any published obstruction specific to positive-part targets",
+    "any theorem asserting LP value = lattice value in dimension 1 outside the completely monotone class",
+    "any dual-bound computation for a one-dimensional ENERGY linear program (all published discrete-reduction duals are for packing in d >= 3)"
+  ],
+  "not_found_caveat": "one web-search backend, no MathSciNet and no zbMATH. These are 'not found by the searches recorded here', not 'do not exist'.",
+
+  "derived_here_not_prior_art": [
+    {
+      "id": "R1",
+      "claim": "A differentiable majorant G cannot touch f at an upward kink of max(0,D): G >= f with equality at s0 forces G'(s0) <= f'(s0-) and G'(s0) >= f'(s0+), which are incompatible when the derivative jumps up. In the parametrisation G(s) = -int mu(w) cos(sw) dw, G is differentiable when int w mu(w) dw < infinity and real-analytic when mu has compact support, so a bounded frequency grid can never achieve contact at a kink.",
+      "consequence": "This does not bite for the lattice: run 37fb06a9 section 2 measured P = 0 on the critical lattice out to d = 4000, i.e. every multiple of 2*pi lies inside a depth-1 damage window, so f is smooth exactly where complementary slackness demands contact.",
+      "cheap_check_for_parent": "confirm D(1, 2*pi*d) > 0 strictly, not merely >= 0",
+      "verified_numerically_here": false
+    },
+    {
+      "id": "R2",
+      "claim": "Transporting the published sharpness criterion to Lambda = 2*pi*Z: the dual lattice is (1/(2*pi))Z and Ghat is carried by w = 2*pi*|xi|, so the condition Ghat = 0 on Lambda*\\{0} becomes mu(w) = 0 for every nonzero integer w. If V equals the lattice value L/2 = 0.05716501969327026, an optimal mu charges no positive integer and the optimal G touches f on all of 2*pi*Z\\{0}.",
+      "usable_direction": "contrapositive: if a well-conditioned solve returns an optimal mu that charges the integers, or an optimal G whose contact set is not 2*pi*Z\\{0}, then V is strictly above the lattice value",
+      "verified_numerically_here": false
+    }
+  ],
+
+  "sources": [
+    {"key": "cohn-elkies-2003", "authors": ["Henry Cohn", "Noam Elkies"], "title": "New upper bounds on sphere packings I", "venue": "Annals of Mathematics 157 (2003) 689-714", "arxiv": "math/0110009", "doi": "10.4007/annals.2003.157.689", "role": "the LP framework itself; continuous analogue of the Delsarte LP"},
+    {"key": "cohn-kumar-2007", "authors": ["Henry Cohn", "Abhinav Kumar"], "title": "Universally optimal distribution of points on spheres", "venue": "J. Amer. Math. Soc. 20 (2007) 99-148", "arxiv": "math/0607446", "doi": "10.1090/S0894-0347-06-00546-7", "role": "the energy LP; the dimension-1 magic-function proof that Z is universally optimal, via a Whittaker-Shannon variant"},
+    {"key": "ckmrv-2022", "authors": ["Henry Cohn", "Abhinav Kumar", "Stephen D. Miller", "Danylo Radchenko", "Maryna Viazovska"], "title": "Universal optimality of the E8 and Leech lattices and interpolation formulas", "venue": "Annals of Mathematics 196 (2022)", "arxiv": "1902.05438", "role": "sharp LP bounds for energy; the tightness conditions (1.2)-(1.3); attributes dimension-1 optimality to Ventevogel-Nijboer"},
+    {"key": "cohn-pcmi-2016", "authors": ["Henry Cohn"], "title": "Packing, coding, and ground states", "venue": "PCMI 2014 lecture notes", "arxiv": "1603.05202", "role": "the quotable sharpness criterion (Lecture 5) and the statement that LP bounds seem not to be sharp except in dimensions 1, 2, 8, 24"},
+    {"key": "radchenko-overview", "authors": ["Danylo Radchenko"], "title": "Universal optimality and Fourier interpolation", "venue": "CNRS/INSMI overview of CKMRV", "url": "https://www.insmi.cnrs.fr/sites/institut_insmi/files/download-file/univopt-overview.pdf", "role": "explicit statement that Cohn-Kumar proved dimension-1 universal optimality by constructing magic functions meeting the LP tightness conditions"},
+    {"key": "cmr-2023", "authors": ["Emanuel Carneiro", "Micah B. Milinovich", "Antonio Pedro Ramos"], "title": "Fourier optimization and Montgomery's pair correlation conjecture", "arxiv": "2310.01913", "role": "closest prior art: Cohn-Elkies test-function class, beyond band-limited, on a one-dimensional pair functional over the zeros of zeta, solved by SDP"},
+    {"key": "cms-2019", "authors": ["Emanuel Carneiro", "Micah B. Milinovich", "Kannan Soundararajan"], "title": "Fourier optimization and prime gaps", "venue": "Comment. Math. Helv. 94 (2019) 533-568", "arxiv": "1708.04122", "doi": "10.4171/CMH/467", "role": "the Fourier-optimization programme in analytic number theory"},
+    {"key": "dir-2025", "authors": ["Mithun Kumar Das", "Tolibjon Ismoilov", "Antonio Pedro Ramos"], "title": "Fourier optimization and pair correlation problems", "arxiv": "2502.05106", "role": "generic framework for pair correlation of sequences via two Fourier extremal problems"},
+    {"key": "clv-2013", "authors": ["Emanuel Carneiro", "Friedrich Littmann", "Jeffrey D. Vaaler"], "title": "Gaussian subordination for the Beurling-Selberg extremal problem", "venue": "Trans. Amer. Math. Soc. 365 (2013) 3493-3534", "arxiv": "1008.4969", "doi": "10.1090/S0002-9947-2013-05716-9", "role": "mature technology for majorising non-band-limited targets, but under a SUPPORT constraint, not a transform-sign constraint"},
+    {"key": "cds-2022", "authors": ["Henry Cohn", "David de Laat", "Andrew Salmon"], "title": "Three-point bounds for sphere packing", "arxiv": "2206.15373", "role": "proved the absence of a duality gap for the Cohn-Elkies linear program (attribution quoted in arXiv:2206.09876)"},
+    {"key": "klm-2025", "authors": ["Mihail N. Kolountzakis", "Nir Lev", "Mate Matolcsi"], "title": "The Turan and Delsarte problems and their duals", "arxiv": "2510.10172", "role": "weak and strong duality in the continuous setting, existence of primal and dual extremisers, tiling-type relations between extremal functions and extremal measures"},
+    {"key": "git-2020", "authors": ["Dmitry Gorbachev", "Valerii Ivanov", "Sergey Tikhonov"], "title": "On the existence of an extremal function in the Delsarte extremal problem", "venue": "Mediterr. J. Math. 17 (2020)", "doi": "10.1007/s00009-020-01626-z", "related_arxiv": "2407.04410", "role": "existence of the Delsarte extremiser"},
+    {"key": "ventevogel-nijboer", "authors": ["W. J. Ventevogel", "B. R. A. Nijboer"], "title": "On the configuration of a one-dimensional system of interacting particles with minimum potential energy per particle", "venue": "Physica A 92 (1978) 343-361; 98 (1979) 274-288; 99 (1979) 569-580", "role": "the load-bearing obstruction: in dimension 1 the equidistant lattice is NOT always the ground state; phi(x) = (1+x^4)^{-1} is the counterexample"},
+    {"key": "edwin-2025", "authors": ["Roni Edwin"], "title": "Distribution of points on the real line under a class of repulsive potentials", "venue": "Pure and Applied Mathematics Quarterly 21 (2025) 2321ff", "arxiv": "2405.11428", "doi": "10.4310/PAMQ.251222233001", "role": "modern proof of clustered (non-equidistant) 1D ground states for (1+x^alpha)^{-1}, alpha > 2 even"},
+    {"key": "bst-2025", "authors": ["Laurent Betermin", "Ladislav Samaj", "Igor Travenec"], "title": "Equidistant versus bipartite ground states for 1D classical fluids at fixed particle density", "venue": "Analysis and Mathematical Physics 15 (2025) 88", "arxiv": "2502.16639", "role": "second-order transition from equidistant to bipartite 1D ground state at a critical spacing"},
+    {"key": "li-2024", "authors": ["Rupert Li"], "title": "Dual linear programming bounds for sphere packing via discrete reductions", "venue": "Advances in Mathematics 460 (2024) 110043", "arxiv": "2206.09876", "doi": "10.1016/j.aim.2024.110043", "role": "THE actionable transfer: finite-dimensional dual bounds that lower-bound an infinite-dimensional Cohn-Elkies LP and prove non-sharpness"},
+    {"key": "jumagulov-2026", "authors": ["Rifat Jumagulov"], "title": "A dual linear programming bound for sphere packing in dimension 36", "arxiv": "2607.11319", "role": "latest application of the dual-bound method, following Cohn-Triantafillou"},
+    {"key": "hardin-tenpas", "authors": ["Douglas P. Hardin", "Nathaniel J. Tenpas"], "title": "Universally optimal periodic configurations in the plane", "arxiv": "2307.15822", "role": "section 2.7 reviews an alternate, periodic-approach proof of the universal optimality of Z"}
+  ],
+
+  "bears_on_rh": false,
+  "reserved_word_used": false
+}

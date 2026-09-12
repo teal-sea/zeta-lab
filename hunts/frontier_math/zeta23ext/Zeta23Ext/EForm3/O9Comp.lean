@@ -7,7 +7,7 @@ import Zeta23Ext.BandCert.Leaves
 evaluates on each box: the removable branch `R = Qim/y` and the real part
 `Qre`.  They are the same composition `Phi.lean` performs, carried through the
 `/y` variants so that `y = 0` is an ordinary point rather than a removable
-singularity — which is what lets the 2-D route cover the full
+singularity, which is what lets the 2-D route cover the full
 `[28/5, 60] × [0, 1/2]` box without the depth-reduction lemma.
 
 **These are `Bool`/`EIv`-level definitions only.**  They compute enclosures;
@@ -20,7 +20,7 @@ means something.
 
 The leaves come from `Leaves.lean` unchanged.  `shcSmall` is `sinh v / v`,
 which `sinhCoshSmall` already evaluates internally on its way to `sinh`
-(`O9-2D-STATUS.md` §3), so the removable branch needs no new arithmetic here —
+(`O9-2D-STATUS.md` §3), so the removable branch needs no new arithmetic here,
 only a new truncation lemma later, on the soundness side.
 -/
 
@@ -44,7 +44,7 @@ namespace Retention
 
 open BandDual
 
-/-- `sinh v / v` on the small range — the removable branch's leaf. -/
+/-- `sinh v / v` on the small range, the removable branch's leaf. -/
 def shcSmall (a : EIv) : EIv := EIv.widen (hornerI sinhL (EIv.sqr a)) 1
 
 /-- The shared sub-expressions of both compositions over one box.
@@ -113,8 +113,8 @@ def qreIv (sLo sHi yLo yHi : ℤ) : EIv :=
 The negation is not cosmetic.  `Phi2 (s + iy)` has real part `Qre` and
 imaginary part **`-Qim`**, so `Im(num/den)/y` is `-Qim/y` and the negation puts
 it back.  `O9-2D-STATUS.md` §6 records that the first draft had this sign
-wrong, that no cell verdict could ever have detected it — `R` enters only
-squared — and that it was caught only by an independent evaluation.  A quantity
+wrong, that no cell verdict could ever have detected it, `R` enters only
+squared, and that it was caught only by an independent evaluation.  A quantity
 that enters only squared has no self-check, so it needs an external one.
 -/
 def rIv (sLo sHi yLo yHi : ℤ) : EIv :=

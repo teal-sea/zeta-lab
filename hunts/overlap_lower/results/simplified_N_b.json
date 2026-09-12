@@ -1,0 +1,23 @@
+{
+  "environment": {
+    "numpy": "2.5.2",
+    "platform": "Darwin",
+    "python": "3.14.0"
+  },
+  "front": "simplified",
+  "rows": [
+    {
+      "N": 20000,
+      "R": 20,
+      "seconds": 58.69,
+      "status": "ok",
+      "value": 0.3749610674420113
+    }
+  ],
+  "seconds_total": 58.69,
+  "white_reference": {
+    "N": 80000,
+    "R": 20,
+    "value": 0.375169005340707
+  }
+}

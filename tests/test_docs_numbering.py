@@ -1,17 +1,17 @@
 """Doc numbers are unique, and every reference to one resolves.
 
 This file exists because of a real incident. On 2026-08-10 a session working
-against a read-only snapshot of the tree added a second document numbered 21 —
+against a read-only snapshot of the tree added a second document numbered 21,
 ``21-the-local-positivity-attempt.md`` alongside the existing
-``21-forward-deployed-verification.md`` — and nothing in the suite noticed. The
+``21-forward-deployed-verification.md``: and nothing in the suite noticed. The
 tree carried two documents numbered 21 until a human spotted it.
 
 (Doc filenames are written here without their ``docs/`` prefix on purpose:
 with it, the examples below would match this file's own regexes.)
 
-``AGENTS.md`` already states the rule the collision broke — "keep
+``AGENTS.md`` already states the rule the collision broke, "keep
 cross-references consistent with actual filenames … a bare ``docs/08`` always
-means ``08-why-it-is-hard.md``" — and the repo has been here before: the
+means ``08-why-it-is-hard.md``", and the repo has been here before: the
 detector-strength findings once shared a number with ``08`` and had to be moved
 to ``22``. A prose rule that has already been violated twice is a rule that
 wants a test.
@@ -110,7 +110,7 @@ def test_no_two_docs_share_a_number() -> None:
 def test_the_course_has_no_gap_that_hides_a_lost_document() -> None:
     """Numbers run 00..N with no hole.
 
-    A hole is not automatically wrong — a doc can be withdrawn — but it is
+    A hole is not automatically wrong, a doc can be withdrawn, but it is
     always worth a deliberate decision rather than an accident, and every hole
     to date has been one of the two collisions being resolved.
     """
@@ -136,6 +136,55 @@ def test_every_full_filename_reference_to_a_doc_resolves() -> None:
                 rel = os.path.relpath(path, REPO_ROOT)
                 dangling.setdefault(rel, set()).add(ref)
     assert not dangling, f"references to docs that do not exist: {dangling}"
+
+
+def test_every_doc_heading_carries_its_own_number() -> None:
+    """A document's H1 must agree with its filename.
+
+    Added 2026-09-05, after `30-prime-zeta-rightmost-zeros.md` was found opening
+    with `# 28: The rightmost zeros of the prime zeta function`. Nothing above
+    could see it: the filenames were unique, the course had no gap, and every
+    citation resolved. Only the text a reader actually sees was wrong, and it
+    named a document that exists and is about something else, which is worse
+    than naming nothing. Four other documents carried no number at all, so a
+    reader arriving from a citation could not confirm they had landed right.
+
+    The form is `# NN. Title`. The separator is fixed rather than tolerant on
+    purpose: a rule that accepts four spellings is a rule nobody can apply from
+    memory, and the repository has two collisions on record from exactly that.
+    """
+    wrong: dict[str, str] = {}
+    for number, (name,) in sorted(_numbered_docs().items()):
+        with open(os.path.join(DOCS, name), encoding="utf-8") as fh:
+            heading = next((ln for ln in fh if ln.startswith("# ")), "")
+        if not heading:
+            wrong[name] = "no H1 heading at all"
+        elif not heading.startswith(f"# {number}. "):
+            wrong[name] = heading.strip()
+    assert not wrong, (
+        "these documents' headings disagree with their filenames; a heading is "
+        f"what a reader sees, so it is the citation that matters most: {wrong}"
+    )
+
+
+def test_the_docs_index_lists_every_document() -> None:
+    """`docs/README.md` is the index, and an index that omits is worse than none.
+
+    An index nobody has to update is the only kind that stays true, and this
+    one is hand-written, so it gets a test instead. A document absent from the
+    index is unreachable for a reader who starts where the front page sends
+    them, which is the failure that put 88 hunt documents and the whole working
+    paper off the public site while they sat in a public tree.
+    """
+    index_path = os.path.join(DOCS, "README.md")
+    assert os.path.isfile(index_path), "docs/README.md, the document index, is missing"
+    with open(index_path, encoding="utf-8") as fh:
+        index = fh.read()
+    missing = [
+        name for (name,) in (v for _, v in sorted(_numbered_docs().items()))
+        if name not in index
+    ]
+    assert not missing, f"documents absent from docs/README.md: {missing}"
 
 
 def test_every_bare_number_reference_names_a_document_that_exists() -> None:

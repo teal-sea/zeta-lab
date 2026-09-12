@@ -1,4 +1,4 @@
-# Hunt R-233ABE — results
+# Hunt R-233ABE: results
 
 **Status: settled. Both threads closed, zero `sorry`s, axioms unchanged, no
 statement weakened.**
@@ -77,8 +77,8 @@ The route is the one the discovering run recorded, with `delta` fixed at
 4. **The transfer** (`exceptionalPointwise_subset`): on the high range,
    `|ω n − log log N| ≥ |ω n − log log n| − (log log N − log log n)
    > ε log log n − log 2 ≥ ε log log N − (ε+1) log 2`, and once
-   `(ε+1) log 2 ≤ (ε/2) log log N` — which happens eventually, since
-   `log log N → ∞` — that is at least `(ε/2) log log N`. So the pointwise
+   `(ε+1) log 2 ≤ (ε/2) log log N`: which happens eventually, since
+   `log log N → ∞`: that is at least `(ε/2) log log N`. So the pointwise
    exceptional set sits inside the low range together with
    `exceptional N (ε/2)`, and `hardy_ramanujan` at `ε/2` finishes it.
 
@@ -99,7 +99,7 @@ Build completed successfully (8699 jobs).
 
 `grep -c sorry` over the edited file: **0**. `#print axioms` on all five new
 public statements plus `hardy_ramanujan` itself:
-`[propext, Classical.choice, Quot.sound]` — the standard three, unchanged from
+`[propext, Classical.choice, Quot.sound]`: the standard three, unchanged from
 what the file carried before.
 
 The repository's hunt-discipline tests are green:
@@ -110,8 +110,8 @@ The repository's hunt-discipline tests are green:
 **One thing a green targeted build does not say.** `lake build` over the whole
 package does *not* succeed in this container: `ZetaLean.Pub1.CertL2` and
 `ZetaLean.Pub1.CertAtoms` log failures. Neither imports anything from
-`ZetaLean.HardyRamanujan` — checked by `grep` over their import closure, which
-runs `Mathlib`, `Pub1.CertDefs`, `Pub1.CertBounds` and `Pub1.Aristotle.O` —
+`ZetaLean.HardyRamanujan`: checked by `grep` over their import closure, which
+runs `Mathlib`, `Pub1.CertDefs`, `Pub1.CertBounds` and `Pub1.Aristotle.O`,
 so neither can be a consequence of this run's edit. What this run did *not*
 establish is why they fail: both modules are expensive, one carries
 `maxHeartbeats 4000000`, and re-running them to capture the error was not a
@@ -121,7 +121,7 @@ and flagged to the operator.
 
 ## Environment note, since it cost most of the wall clock
 
-The container arrived with **no Lean toolchain at all** — `lake` was not on
+The container arrived with **no Lean toolchain at all**, `lake` was not on
 `PATH` and `~/.elan` did not exist, so the addendum's
 `cd lean && lake exe cache get` failed silently with "command not found" and
 exit status 0 through the pipe. `elan` installed cleanly from
@@ -147,7 +147,7 @@ list for the next run in this file: the mathematics compiled as designed.
 
 This says nothing about ζ and nothing about RH (`docs/08`). It says nothing
 about novelty either: no literature search was run, and the Hardy–Ramanujan
-theorem is a 1917 result. What is original here is provenance — this
+theorem is a 1917 result. What is original here is provenance, this
 laboratory's Lean development of it, now stated in Mathlib's vocabulary and in
 the pointwise form. External verification remains pending, as it does for
 every claim this laboratory publishes.
@@ -156,7 +156,7 @@ every claim this laboratory publishes.
 
 - **`ArithmeticFunction.cardFactors` (`Ω`, with multiplicity).** The same
   normal order `log log n` holds for `Ω`, and the standard route is
-  `Ω n − ω n = O(1)` on average — `∑_{n ≤ N} (Ω n − ω n) = O(N)` by summing
+  `Ω n − ω n = O(1)` on average, `∑_{n ≤ N} (Ω n − ω n) = O(N)` by summing
   over prime powers `p^k ≤ N` with `k ≥ 2`. That is a self-contained
   double-count in the style of `sum_omega_eq_sum_div` already in the file, and
   it would put a second Mathlib-named arithmetic function under the theorem.

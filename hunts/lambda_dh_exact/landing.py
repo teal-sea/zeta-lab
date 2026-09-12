@@ -1,4 +1,4 @@
-"""Hunt #52, phase 2: landing times measured, the shave law fitted, the
+"""Hunt #119, phase 2: landing times measured, the shave law fitted, the
 extrapolation to the strip edge.
 
 Run from the repo root:

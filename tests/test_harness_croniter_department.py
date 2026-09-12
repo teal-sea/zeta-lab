@@ -1,16 +1,16 @@
-"""Department #4 (croniter) — the audits beyond structural conformance.
+"""Department #4 (croniter), the audits beyond structural conformance.
 
 ``tests/test_department_conformance.py`` already checks this department the
 same way it checks the other three. This file pins what conformance cannot
 see (the sham-battery lesson: structure catches *missing* instruments, not
 *empty* ones):
 
-1. the vendored subject is byte-pinned — a silent edit to the frozen source
+1. the vendored subject is byte-pinned, a silent edit to the frozen source
    changes every verdict's meaning and must fail loudly;
 2. every instrument does real work: rivals genuinely disagree with the
    oracle, lesions change measured behavior, decoys collapse a real
    measurement, surrogates fail to reproduce the observation;
-3. payloads expose behavior only — no field a claim could read as a label
+3. payloads expose behavior only, no field a claim could read as a label
    (the ``virtual_a_p`` counter-lesson, pinned here as in the finite-field
    department);
 4. the lesion fingerprint is bounded: the re-emission lesion makes iteration
@@ -50,7 +50,7 @@ def test_the_vendored_subject_is_byte_pinned() -> None:
     path = _REPO_ROOT / "harness/departments/croniter_fixtures/frozen_croniter.py"
     assert hashlib.sha256(path.read_bytes()).hexdigest() == FROZEN_SHA256, (
         "frozen_croniter.py changed: the department's verdicts are about a "
-        "different implementation now — re-pin deliberately or revert"
+        "different implementation now, re-pin deliberately or revert"
     )
 
 
@@ -71,7 +71,7 @@ def test_each_rival_disagrees_on_at_least_one_probe() -> None:
                     diffs += 1
             except Exception:
                 diffs += 1
-        assert diffs >= 1, f"{rival.name} never disagrees — it is not a rival"
+        assert diffs >= 1, f"{rival.name} never disagrees, it is not a rival"
 
 
 def test_detector_has_power_over_all_three_lesions() -> None:
@@ -89,7 +89,7 @@ def test_lesion_magnitudes_are_measured_not_asserted() -> None:
 def test_the_reemission_lesion_is_measured_boundedly() -> None:
     """The nth-overlap lesion makes iteration jump backward; a naive
     iterate-until-stop measurement would hang on it (it did, twice, before
-    this bound existed — once in calibration, once in this department's own
+    this bound existed, once in calibration, once in this department's own
     first draft). Measuring its magnitude must terminate fast."""
     lesion = next(l for l in LESIONS if l.name == "nth-overlap-reemission")
     t0 = time.time()
@@ -117,7 +117,7 @@ def test_no_surrogate_reproduces_oracle_agreement() -> None:
 
 def test_payloads_expose_behavior_only() -> None:
     """A claim receives a bare callable. There is no mapping, no label, no
-    attribute that names which implementation it is — a claim that wants to
+    attribute that names which implementation it is, a claim that wants to
     tell the target from a rival has to measure dates."""
     for subject in (TARGET, *RIVALS):
         payload = subject.payload()
@@ -141,6 +141,6 @@ def test_the_department_is_listed_and_the_protocol_untouched() -> None:
 def test_honest_scope_is_stated_on_the_door() -> None:
     door = (_REPO_ROOT / DEPARTMENT.door).read_text(encoding="utf-8")
     assert "does not measure" in door and "outside team" in door, (
-        "the door must state the open half of known gap #1 — ingestion is "
+        "the door must state the open half of known gap #1, ingestion is "
         "measured, outside adoption is not"
     )

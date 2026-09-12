@@ -1,0 +1,36 @@
+{
+  "identity": "sum_Q Lambda_Q(s) = (sqrt(d)/pi)^s Gamma(s) * w * zeta(s) L(s, chi_D)",
+  "discriminant": -23,
+  "classes": [
+    [
+      1,
+      1,
+      6
+    ],
+    [
+      2,
+      -1,
+      3
+    ],
+    [
+      2,
+      1,
+      3
+    ]
+  ],
+  "point": "0.8+85.7i",
+  "rows": [
+    {
+      "dps": 20,
+      "lhs_sum_over_classes": "1.45391457839e-34",
+      "rhs_zeta_times_L": "8.90368899839e-58",
+      "relative_defect": "1.63294e+23"
+    },
+    {
+      "dps": 60,
+      "lhs_sum_over_classes": "8.90368899839e-58",
+      "rhs_zeta_times_L": "8.90368899839e-58",
+      "relative_defect": "5.35793e-17"
+    }
+  ]
+}

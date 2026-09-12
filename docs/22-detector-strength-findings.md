@@ -1,8 +1,9 @@
-# Computational Alarm Systems for the Riemann Hypothesis:
-## Stress-Testing Equivalences against the Davenport-Heilbronn Imposter
+# 22. Computational alarm systems for the Riemann Hypothesis
+
+## Stress-testing equivalences against the Davenport-Heilbronn imposter
 
 **Abstract**
-The Riemann Hypothesis (RH) possesses numerous mathematically equivalent statements (Li's Criterion, Weil Positivity, Mertens' Conjecture, etc.). While all such statements must technically fail for functions violating RH, their utility as computational detectors varies wildly. This paper evaluates the practical "detection strength" of these criteria by deploying them against the Davenport-Heilbronn (DH) function—a canonical L-function imposter that mimics the Riemann Zeta function but possesses zeros off the critical line. We demonstrate that while some criteria (like Li's) are computationally inert, others (like Weil Positivity and Mertens) can be dynamically tuned to rapidly flag structural anomalies.
+The Riemann Hypothesis (RH) possesses numerous mathematically equivalent statements (Li's Criterion, Weil Positivity, Mertens' Conjecture, etc.). While all such statements must technically fail for functions violating RH, their utility as computational detectors varies wildly. This paper evaluates the practical "detection strength" of these criteria by deploying them against the Davenport-Heilbronn (DH) function, a canonical L-function imposter that mimics the Riemann Zeta function but possesses zeros off the critical line. We demonstrate that while some criteria (like Li's) are computationally inert, others (like Weil Positivity and Mertens) can be dynamically tuned to rapidly flag structural anomalies.
 
 ---
 

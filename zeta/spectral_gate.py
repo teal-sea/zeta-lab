@@ -4,16 +4,16 @@ A construction that projects some operator onto a finite basis and reports
 eigenvalues near the critical line is making a claim that is very easy to make
 by accident.  Three failure modes account for most of them:
 
-* the eigenvalues are **cutoff artifacts** — they move when the basis grows,
+* the eigenvalues are **cutoff artifacts**, they move when the basis grows,
   because the underlying operator has continuous spectrum and the discreteness
   came from truncation, not from the mathematics;
 * the eigenvalues are only checked against *"on the critical line"*, which for
   a self-adjoint or antisymmetric construction is true before any computation
   runs and therefore tests nothing;
-* the **arithmetic is not load-bearing** — the same spectrum appears when the
+* the **arithmetic is not load-bearing**, the same spectrum appears when the
   primes are replaced by an arbitrary set, so the construction never touched
   the zeta function at all;
-* the primes are present but only as **decoration** — the spectrum reacts to
+* the primes are present but only as **decoration**, the spectrum reacts to
   the primes *and* to the order they were listed in, which means the entries
   are indexed by list position rather than by a place.  This one is invisible
   to the ablation gate, since swapping the primes out moves such a spectrum
@@ -28,7 +28,7 @@ Nothing here can provide evidence for the Riemann Hypothesis.  Passing all
 four gates means a construction has survived the cheapest ways of being
 wrong; it is a licence to keep working, not a result.  In particular a
 construction can pass every gate and still be a rediscovery of the explicit
-formula, which already reconstructs zeros from primes (``scripts/03``) — see
+formula, which already reconstructs zeros from primes (``scripts/03``), see
 :func:`spectral_gate` for what that verdict does and does not license.
 """
 
@@ -139,7 +139,7 @@ def target_defect(
 ) -> tuple[float, tuple[float, ...]]:
     """Largest relative error of the lowest frequencies against the ordinates.
 
-    Compared against the *values* 14.1347, 21.0220, 25.0109, ... — never
+    Compared against the *values* 14.1347, 21.0220, 25.0109, ..., never
     against "lies on the critical line", which an antisymmetric or self-adjoint
     construction satisfies by algebra before any arithmetic is involved.
     """

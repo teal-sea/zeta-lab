@@ -1,6 +1,6 @@
 # A machine-audited candidate improvement to the Cheer–Goldston refinement slot of the two-thirds theorem
 
-**Zeta Lab — August 2026.  Working paper: candidate result, external review invited.**
+**Zeta Lab, August 2026.  Working paper: candidate result, external review invited.**
 
 ## Statement
 
@@ -23,20 +23,20 @@ mass and c_u the census floor of the Montgomery–Taylor kernel at density
 (c_u ≥ 5.021172019×10⁻⁶, §"What is kernel-checked" item 0); the
 retention is hardened, with its certificate arithmetic kernel-checked
 and its reduction still on paper.  The improvement is
-+1.0×10⁻⁵ — small, but the point of this paper is not its size; the
++1.0×10⁻⁵, small, but the point of this paper is not its size; the
 point is the audit trail, which we believe is unusually complete for a
 two-day, single-operator, consumer-hardware project, and which is
 published in full.
 
 **This is a candidate, not a theorem, and we name why.**  Three
 load-bearing steps are not yet established in the generality the
-argument needs.  These are mathematical gaps — missing quantifiers and
-an unresolved transfer — not a request for anyone's blessing:
+argument needs.  These are mathematical gaps, missing quantifiers and
+an unresolved transfer, not a request for anyone's blessing:
 
 1. ~~**Depth-uniformity of the retention.**~~  **CLOSED** for the
    single-pair layer at θ = 0.995 (`depth_uniform.py`): eighteen cells
-   tile (0, ½] exactly, and the shallow end — which no ladder of cells
-   can reach — is closed by homogeneity instead, since the damage scales
+   tile (0, ½] exactly, and the shallow end, which no ladder of cells
+   can reach, is closed by homogeneity instead, since the damage scales
    as y², the square completion is convex through the origin, and
    slack/y² is bounded below by its own limit at 0.  One finite
    inequality for an interval with no smallest point.  Grade: hardened
@@ -45,12 +45,12 @@ an unresolved transfer — not a request for anyone's blessing:
    folds into item 2.  The superseded statement of this gap:  The retention bound is
    established at four sampled depths y ∈ {0.02, 0.1, 0.3, 0.49}.  An
    off-line zero pair sits at an arbitrary y ∈ (0, ½).  Until the bound
-   is quantified over all y, the hypothesis the composition consumes —
-   `D ≥ θ·R` for *every* admissible configuration — does not follow.
+   is quantified over all y, the hypothesis the composition consumes,
+   `D ≥ θ·R` for *every* admissible configuration, does not follow.
    The machinery to close it exists in this repository at an earlier
    window (`counting_bound.py` quantifies over depth *cells* rather
    than points) and is being ported.
-2. **Multi-pair universality — OPEN, and the obvious route is now
+2. **Multi-pair universality: OPEN, and the obvious route is now
    refuted.**  The joint verdict is established over a tested set of
    configurations (320 randomised ones opened nothing, and the search
    rediscovered the binding family blind), not over all of them.  We
@@ -58,9 +58,9 @@ an unresolved transfer — not a request for anyone's blessing:
    pairs before the positive-part clipping, so `max(0, Σ) ≤ Σ max(0, ·)`
    should push the joint cap under a sum of single-pair caps.  That is
    false twice over.  The field-level inequality holds exactly, but does
-   not survive the square completion — a coincident stack collects k
+   not survive the square completion, a coincident stack collects k
    times the damage while paying the internal charge once, with excess
-   `[2Σ_{i<j}F_iF_j − (k−1)(cK)²]/(4cK)` — and, decisively, from four
+   `[2Σ_{i<j}F_iF_j − (k−1)(cK)²]/(4cK)`: and, decisively, from four
    pairs on a unit lattice (three at float grade; the k = 3 line sits
    inside the float-vs-hardened gap) the *sum of single-pair caps
    already exceeds the budget* while the joint verdict closes with 40 %
@@ -77,7 +77,7 @@ an unresolved transfer — not a request for anyone's blessing:
 
        E[F_on + F_p]  ≥  θ·E[F_on] + (1−θ)·n + 4k,
 
-   for all finite on-line sets and pair configurations — a bandlimited
+   for all finite on-line sets and pair configurations, a bandlimited
    nonnegative-kernel statement in two exponential sums.  That is the
    remaining mathematics.
 3. ~~**The finite-grid → asymptotic transfer.**~~  **RESOLVED**, with a
@@ -90,7 +90,7 @@ an unresolved transfer — not a request for anyone's blessing:
    drown: it is a fixed constant against o(1) errors, so the composed
    statement is the same logical type as the source's own ε-form.
    **But it is not numerically effective at any reachable height.**  The
-   crossover — where the error budget falls below the improvement — sits
+   crossover, where the error budget falls below the improvement, sits
    at T ≈ 10^(1.7×10⁶).  The shape is `T₀ ≈ exp(38.5/ε)` for an
    ε-improvement, and it is inherited from the *source's* o(1)
    coefficients, not introduced by the transplant.  The dominant term is
@@ -106,7 +106,7 @@ kernel-checked as detailed below.  We do not treat "not yet formalised"
 as "not yet mathematics"; the three items above are the actual
 obstructions, and when they close we will say so plainly.
 The fresh-clone adversarial audit that first named these
-obligations exactly — and found two instrument defects on the way —
+obligations exactly, and found two instrument defects on the way,
 is [`EXTERNAL-AUDIT-2026-08-12.md`](EXTERNAL-AUDIT-2026-08-12.md).
 
 ## What is kernel-checked (Lean 4 + Mathlib, sorry-free, standard axioms)
@@ -117,8 +117,8 @@ were specified by us, the proofs machine-found and kernel-checked.  None
 uses `native_decide` or floating point.
 
 0. **The census floor** (`zeta23ext/Zeta23Ext/FloorCert.lean`).  For the
-   genuine Montgomery–Taylor kernel — built from `Real.sin`,
-   `Real.sqrt 2`, `π`, not a rational surrogate — the census LP's value
+   genuine Montgomery–Taylor kernel, built from `Real.sin`,
+   `Real.sqrt 2`, `π`, not a rational surrogate, the census LP's value
    is at least F = 5.021172019×10⁻⁶, by explicit rational weak duality
    plus four kernel bounds proved with from-scratch Taylor machinery
    (explicit truncation error, no `native_decide`, no floating point).
@@ -128,8 +128,8 @@ uses `native_decide` or floating point.
 0b. **The retention certificate's arithmetic**
    (`zeta23ext/Zeta23Ext/BandCert/`).  The recorded band-dual
    certificate closes at its four depths, with `cap` defined by the
-   *genuine* band supremum and infimum of ω² — the recorded numbers
-   enter only as one-sided bounds, so the statement cannot be vacuous —
+   *genuine* band supremum and infimum of ω², the recorded numbers
+   enter only as one-sided bounds, so the statement cannot be vacuous,
    together with "no band was missed" as a property of the cover.  The
    reduction of the retention to that certificate is carried as an
    explicit named hypothesis (`H3`) rather than hidden: that step is
@@ -147,8 +147,8 @@ uses `native_decide` or floating point.
    multiplicatively?" analogy: it is exact arithmetic.
 
 2. **The grid-incidence law** (`law_d_incidence.lean`).  For even,
-   bounded, measurable φ supported in [−½, ½] — continuity NOT assumed;
-   the paper's window jumps at the box edge —
+   bounded, measurable φ supported in [−½, ½], continuity NOT assumed;
+   the paper's window jumps at the box edge,
 
        Σ_{n∈ℤ} φ̂(x−n) φ̂(y−n)  =  2π · FT(φ²)(x−y),
 
@@ -156,7 +156,7 @@ uses `native_decide` or floating point.
    found a *better proof than we asked for* (polarised Parseval on
    ℝ/2πℤ instead of Poisson summation, so bounded-measurable suffices)
    and it *refuted a hypothesis gap in our own submission*, exhibiting
-   a counterexample showing evenness is necessary — included in the
+   a counterexample showing evenness is necessary, included in the
    file as `grid_incidence_needs_even`.
 
 ## What is measured and interval-hardened
@@ -164,7 +164,7 @@ uses `native_decide` or floating point.
 - **The window identification.**  The paper's Theorem D window carries
   the cos(√2·) profile on φ² (its §7.1: "Writing φ²(u) = v(u/L)…",
   maximiser v*(s) = cos(√2 s)).  Its incidence kernel is then exactly
-  the Montgomery–Taylor kernel — the mass kernel and the floor kernel
+  the Montgomery–Taylor kernel, the mass kernel and the floor kernel
   coincide by construction, dissolving a pairing ambiguity that our own
   earlier window choice had created (and which cost us a conservative
   reading until caught).  The paper's functional (7.3), implemented
@@ -175,15 +175,15 @@ uses `native_decide` or floating point.
   band dual and multi-pair joint layer; pure box and ramp-mollified
   window (every allowed ramp fraction; the ramp costs margin, never the
   verdict); float and ball arithmetic (python-flint acb, both sides of
-  every comparison enclosed, no Lipschitz blankets — the hardened caps
+  every comparison enclosed, no Lipschitz blankets, the hardened caps
   are *tighter* than float).  An independent adversary hunt sandwiches
   the same grid point.
 - **The identification dictionary.**  On explicit truncated-grid
   matrices: Gram = ω under LAW D normalisation; u·Q_p·u equals the
   chain's damage field W to 5×10⁻⁵; the pair Frobenius surplus equals
   the chain's slack(y) with trQ_p = 2 and one positive eigenvalue per
-  pair measured; pair-pair cross traces measured NEGATIVE — the last
-  place a hole could hide — and covered by the composition's 4-per-pair
+  pair measured; pair-pair cross traces measured NEGATIVE, the last
+  place a hole could hide, and covered by the composition's 4-per-pair
   cushion.  End-to-end, gross and sharp inequalities hold on all
   configurations including adversarial placements derived from the
   field itself, and the measured worst adversary (0.0796) sits under
@@ -199,8 +199,8 @@ uses `native_decide` or floating point.
 The prime-side evaluation of tr G̃ and tr G̃² and the Theorem B density
 are the source paper's theorems.  We use them as published.  A referee
 of this candidate needs to check our composition against the paper's
-§4–6 units and o(N) accounting — our finite-grid measurements of
-exactly that bookkeeping are in `closing_bookkeeping.py` — and needs to
+§4–6 units and o(N) accounting, our finite-grid measurements of
+exactly that bookkeeping are in `closing_bookkeeping.py`, and needs to
 check nothing else that our ledger does not already expose.
 
 ## The defect ledger, or why we believe the rest
@@ -239,7 +239,7 @@ combined.
 ## Invitation
 
 We are seeking exactly one thing: adversarial review.  The fastest way
-to make this a theorem — or to add a tenth line to the defect ledger —
+to make this a theorem, or to add a tenth line to the defect ledger,
 is for someone who knows the source paper's §4–6 to read
 `TRANSPLANT-LEMMA.md` top to bottom against it.  Both outcomes are
 wins; the ledger is built to survive either.

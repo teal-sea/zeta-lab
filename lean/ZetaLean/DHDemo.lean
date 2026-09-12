@@ -16,15 +16,15 @@ point `s₀ = 3/2 + 3i`: coefficient boxes from `kappaI`, term boxes from
 tail radius `2/5` from `DH_tail_bound`'s expression, and
 `DH_mem_of_partial_enclosure` to conclude
 
-* `DH_demo_enclosure` — `DH (3/2 + 3i)` lies in a computed rational
+* `DH_demo_enclosure`: `DH (3/2 + 3i)` lies in a computed rational
   rectangle, kernel-checked with no oracle input anywhere; and
-* `DH_demo_ne_zero` — that rectangle excludes the origin, so
+* `DH_demo_ne_zero`: that rectangle excludes the origin, so
   `DH (3/2 + 3i) ≠ 0`: the first kernel-certified fact about a *value* of
   the Davenport-Heilbronn function.
 
 The point is deliberately tame (`K = 2`, ten series terms, tail `2/5`): the
 theorem is the template.  Scaling the same instantiation to the oracle point
-`0.808517 + 85.699348i` needs no new mathematics — only the offline kernel
+`0.808517 + 85.699348i` needs no new mathematics, only the offline kernel
 compute priced in `HANDOFF.md` (weeks, per the measured `norm_num` cost per
 term), or a faster certified evaluation to be formalized first.
 -/
@@ -212,12 +212,12 @@ theorem DH_demo_enclosure : (demoB.inflate (2 / 5)).contains (DH demoPt) := by
 `ZetaLean/DHTailBound2.lean`'s corrections at the same `K = 2`: the
 partial-sum box gains the trapezoid endpoint `dhBlock/2` and the closed-form
 integral `−dhAnti`, and the certified tail radius drops from `2/5` to
-`1/10` — the `K^{-(σ+2)}` exponent demonstrated at the smallest possible
+`1/10`: the `K^{-(σ+2)}` exponent demonstrated at the smallest possible
 scale (the true order-2 radius here is ≈ 0.008; `1/10` is what survives the
 deliberately crude norm bounds below).  The corrections cost five extra
 `demoTerm` boxes at `m = 11 … 14`, reused for both `dhBlock` and `dhAnti`
 via `m^{1-s₀} = m·m^{-s₀}`, plus the exact Gaussian rational
-`(5(1−s₀))⁻¹ = −2/185 + (12/185)i` — the template for the oracle-point
+`(5(1−s₀))⁻¹ = −2/185 + (12/185)i`: the template for the oracle-point
 offline run. -/
 
 /-- The `K = 2` block box: `Σ_j c_j (10+j)^{-s₀}`, `j = 1 … 4`. -/
@@ -359,7 +359,7 @@ private lemma demoAnti_contains : demoAnti.contains (dhAnti demoPt ((2 : ℕ) : 
 set_option maxRecDepth 100000 in
 /-- **The order-2 pipeline, end to end at the demo point.**  The corrected
 centre box, inflated by `1/10` (versus `2/5` at order 0 with the same
-`K = 2`), contains `DH (3/2 + 3i)` — every correction term kernel-checked,
+`K = 2`), contains `DH (3/2 + 3i)`: every correction term kernel-checked,
 no oracle input anywhere.  This is the exact template of the oracle-point
 offline run priced in `HANDOFF.md`. -/
 theorem DH_demo2_enclosure : (demoB2.inflate (1 / 10)).contains (DH demoPt) := by
@@ -426,7 +426,7 @@ theorem DH_demo2_enclosure : (demoB2.inflate (1 / 10)).contains (DH demoPt) := b
 
 set_option maxRecDepth 100000 in
 set_option maxHeartbeats 4000000 in
-/-- **`DH (3/2 + 3i) ≠ 0`, kernel-checked** — the enclosure stays away from
+/-- **`DH (3/2 + 3i) ≠ 0`, kernel-checked**, the enclosure stays away from
 the origin, so the first certified fact about a DH *value* follows. -/
 theorem DH_demo_ne_zero : DH demoPt ≠ 0 := by
   have h := normLower_le_norm DH_demo_enclosure

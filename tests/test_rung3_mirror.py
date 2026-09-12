@@ -1,9 +1,9 @@
-"""Tests for scripts/61_rung3_mirror.py — the bit-exact mirror of the Lean
+"""Tests for scripts/61_rung3_mirror.py, the bit-exact mirror of the Lean
 rational interval layer used to stage the rung-3 certificate.
 
 The mirror exists so that certificate generation can precompute every box
 value in Python and emit it as a literal the Lean kernel then *checks*.  A
-wrong mirror value therefore cannot weaken the certificate — the emitted
+wrong mirror value therefore cannot weaken the certificate, the emitted
 equality lemma simply fails to compile.  What it can do is waste hours of
 kernel time before failing, so the mirror is pinned here two ways:
 
@@ -15,7 +15,7 @@ kernel time before failing, so the mirror is pinned here two ways:
 
 2. **The measured dead end** (HANDOFF, 2026-08-10).  Boxed-`s` evaluation
    of the DH partial sum has width that grows like the sum of per-term
-   variations — no cancellation — so it can never certify a *lower* bound
+   variations, no cancellation, so it can never certify a *lower* bound
    on a segment box, at any subdivision that keeps the term count finite.
    `test_boxed_s_width_cannot_certify_a_lower_bound` pins that with
    numbers, which is why the certificate goes the max-modulus + Cauchy +
@@ -57,7 +57,7 @@ def _contains(box, lo_val, hi_val=None) -> bool:
 
 
 def test_mirror_logQ_encloses_the_true_log():
-    """`logQ n k q` must contain `log q` — the binary reduction, mirrored."""
+    """`logQ n k q` must contain `log q`, the binary reduction, mirrored."""
     with mp.workdps(40):
         for m in (2, 3, 7, 41, 350, 1201):
             k = m.bit_length()
@@ -75,7 +75,7 @@ def test_the_log_order_sets_the_width_and_the_exp_order_does_not():
     split (`dirichletTermBox2 nLog nExp`): the *log* order sets the width,
     while the *exp* order only sets the size of the literals.
 
-    This pins the mechanism, not a particular constant — the shipped choice
+    This pins the mechanism, not a particular constant, the shipped choice
     (`nLog = 32`) is recorded in HANDOFF and can move without breaking this.
     """
     m, k = 350, 350 .bit_length()
@@ -196,7 +196,7 @@ def test_boxed_s_width_cannot_certify_a_lower_bound():
 
     Boxed-`s` evaluation of the DH partial sum accumulates one variation per
     term with no cancellation, so its width dwarfs the lower-bound headroom
-    (~eps' = 5e-4) at any usable box extent — the reason the certificate
+    (~eps' = 5e-4) at any usable box extent, the reason the certificate
     routes lower bounds through Cauchy + the mean value theorem instead, and
     upper bounds (which width only inflates) through boxed evaluation.
     """
@@ -214,7 +214,7 @@ def test_boxed_s_width_cannot_certify_a_lower_bound():
     # measured ~0.04 at 5K = 60 terms and 2w = 1/2048: ~80x the headroom a
     # lower-bound certificate would have to beat, and this is the *easy* end
     assert width > 10 * eps, (
-        f"partial-sum box width {width:.3g} at 5K={5 * K} terms, 2w=1/2048 — "
+        f"partial-sum box width {width:.3g} at 5K={5 * K} terms, 2w=1/2048, "
         "if this ever became small the direct lower-bound route would reopen"
     )
     # the wall is structural: per-term variations add, so width grows with K

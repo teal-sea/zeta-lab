@@ -1,0 +1,16 @@
+effective target: 191 / 50000 = 0.00382
+certificate=seven-point
+verified=True
+target=F6 >= 19/5000
+grid=4000
+precision_bits=128
+kernel_table_sha256=a9992300d2bf71665aa2b6bd2727e798624cd297103bb200c7f0ca2baea55a2c
+nodes=786421
+pruned=393575
+splits=392846
+maximum_depth=43
+initial_boxes=729
+elapsed_seconds=1158.1068916250078
+details={'pressure_pruned': 3087, 'interval_pruned': 269676, 'tangent_pruned': 120812, 'second_derivative_table_sha256': 'db0327b0265e0f31d0c4d9815711d51552bf11b3f21648504aa7eb0a1b09ba52', 'surviving_gap_components_cells': '[3808,4780];[7218,9371];[10563,44917]', 'surviving_gap_components_count': 3}
+wall_seconds=1158.2
+.venv/bin/python gohms.py  209.71s user 5.70s system 18% cpu 19:19.00 total

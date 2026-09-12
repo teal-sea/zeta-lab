@@ -1,0 +1,29 @@
+{
+  "run_id": "8f7f8367-3047-4ecf-a210-7f1aa1c3e430",
+  "status": "settled",
+  "conclusion": "The Krenn-Gu 8x3 instance contains exactly 252 edge-weight variables. Operating under the H x S2 symmetric quotient reduces the system to just 8 variables and 70 equations; elimination on this reduced ideal via Groebner basis completes in <5s and returns [1], definitively ruling out any symmetric complex witness.",
+  "confidence": "Absolute for the H x S2 symmetric case. The 6x3 calibration gate perfectly reproduced the known verdict, and the 8x3 elimination is mathematically exact and extremely cheap due to the massive symmetry reduction.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "The existence of 57 H x S2 pair orbits and the stabilizer group H = S2 wr S4.",
+      "source": "hunts/r_322dae/RESULTS.md",
+      "effect": "Allowed correctly constructing the 8-variable working quotient and parameterizing the pair orbits."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Unrestricted elimination",
+      "why_it_might_matter": "This run prices and proves the absence of a symmetric witness; the full unrestricted certificate for 8x3 requires either closing all unrestricted branches or proving that a general witness implies a symmetric one.",
+      "first_step": "Scale the sparse algebraic sieve (from r_044dd2) using the 57 exact pair-orbit support skeletons."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "Fast symmetric polynomial quotient evaluator",
+      "why_reusable": "Automatically reducing an N-variable polynomial system down to its symmetry orbits avoids combinatorial explosion in Groebner basis.",
+      "first_step": "Extract the edge_orbit and color_pair_orbit logic into a generalized graph-symmetry sympy adapter."
+    }
+  ],
+  "notes_for_operator": "The directive to update the originating ledger under `harness/departments/` could not be fulfilled as no such Krenn-Gu ledger exists there (the framework appears completely deprecated as per `VERDICT.md`). I proceeded with the rest of the mission."
+}

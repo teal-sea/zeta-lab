@@ -1,10 +1,10 @@
-"""Integer-relation probes on the zero ordinates — the ℚ-independence face.
+"""Integer-relation probes on the zero ordinates, the ℚ-independence face.
 
 It is conjectured (and used, e.g. throughout Rubinstein–Sarnak prime-race
 theory under the name LI, "Linear Independence") that the positive ordinates
 γ₁ < γ₂ < … of the non-trivial zeros are linearly independent over ℚ.  Not
 even a single instance is proven: no one can rule out γ₂/γ₁ ∈ ℚ.  A relation,
-if one existed, would be a spectacular structural fact — and several known
+if one existed, would be a spectacular structural fact, and several known
 theorems (on Mertens-sum oscillation, on prime races) would lose their
 standard proofs.
 
@@ -57,7 +57,7 @@ def _needed_dps(n_values: int, max_coeff: int, guard: int = 40) -> int:
     pigeonhole argument guarantees *accidental* combinations with
     |Σ aᵢγᵢ| as small as roughly scale·B^{−(n−1)}; if PSLQ's internal
     tolerance (≈ 10^−dps) is looser than that floor, it terminates on such
-    an accident and reports a junk "relation" — observed directly in this
+    an accident and reports a junk "relation", observed directly in this
     repo's first n=20 run: coefficients ~7·10⁵, residual 4.4·10⁻¹⁰⁴,
     unchanged on recomputation at dps 300, i.e. the pigeonhole floor for
     n=20, B=10⁶ on values of scale ~10².  Forty digits of guard puts the
@@ -75,7 +75,7 @@ def pslq_sanity(dps: int = 60) -> dict[str, Any]:
     Plants γ₃ = γ₁ + γ₂ − (γ₁ + γ₂ − γ₃) style relations directly:
     the vector (γ₁, γ₂, γ₁+γ₂, 2γ₁−3γ₂) admits the independent relations
     (1, 1, −1, 0) and (2, −3, 0, −1); PSLQ must return one of them (any
-    integer combination of the two is also valid — the check verifies the
+    integer combination of the two is also valid, the check verifies the
     returned vector annihilates the input to working precision and is not
     the zero vector).
     """
@@ -109,7 +109,7 @@ def zero_relation_search(
     """Search for an integer relation among the first ``n_zeros`` ordinates.
 
     Returns a dict with ``relation`` (None expected), the exclusion
-    statement parameters, and ``floor_ratio`` = dps_used / dps_needed — a
+    statement parameters, and ``floor_ratio`` = dps_used / dps_needed, a
     run with ratio < 1 is underpowered and says nothing; the function
     raises rather than emit such a result.
     """
@@ -141,7 +141,7 @@ def zero_relation_search(
             if residual < mpf(10) ** (-dps + 15):
                 status = "candidate"
                 statement = (
-                    "RELATION CANDIDATE — treat as a bug until confirmed "
+                    "RELATION CANDIDATE, treat as a bug until confirmed "
                     "at double precision (see confirm_relation)"
                 )
             else:
@@ -149,7 +149,7 @@ def zero_relation_search(
                 statement = (
                     f"PSLQ terminated on a pigeonhole accident (residual "
                     f"{mp.nstr(residual, 3)} >> 10^{-dps + 15}); the search "
-                    f"excludes nothing — rerun with dps >= {needed + 60}"
+                    f"excludes nothing, rerun with dps >= {needed + 60}"
                 )
         result: dict[str, Any] = {
             "n_zeros": n_zeros,
@@ -177,7 +177,7 @@ def constants_relation_search(
     """Search for relations linking ordinates to the classical constants.
 
     Vector: (γ₁, …, γ_n, π, log 2, log 3, γ_Euler, 1).  A hit would tie a
-    zero ordinate to the classical constant ring — nothing of the sort is
+    zero ordinate to the classical constant ring, nothing of the sort is
     known or expected.  Same exclusion semantics as
     :func:`zero_relation_search`.
     """

@@ -1,4 +1,4 @@
-"""Tests for :mod:`zeta.statistics` — unfolding, spacings, GUE, Montgomery.
+"""Tests for :mod:`zeta.statistics`, unfolding, spacings, GUE, Montgomery.
 
 Everything numeric here is checked against either
   * published constants (the first ten zero ordinates, ζ special values),
@@ -56,7 +56,7 @@ FIRST_TEN = np.array(
     ]
 )
 
-T_MAX = 10000.0  # 10142 zeros — the module default
+T_MAX = 10000.0  # 10142 zeros, the module default
 
 
 def gammas_with_unfolded_image(u: np.ndarray) -> np.ndarray:
@@ -140,7 +140,7 @@ def test_riemann_siegel_theta_asymptotic() -> None:
     [(100.0, 2e-7), (1000.0, 2e-8), (10000.0, 2e-10)],
 )
 def test_riemann_siegel_z_matches_mpmath(t0: float, tol: float) -> None:
-    """Measured max error: 4.6e-8, 4.6e-9, 2.9e-11 — tolerances are ~5×, not 20×."""
+    """Measured max error: 4.6e-8, 4.6e-9, 2.9e-11, tolerances are ~5×, not 20×."""
     mp.dps = 25
     ts = t0 + np.linspace(0.0, 3.0, 15)
     ref = np.array([float(siegelz(t)) for t in ts])
@@ -202,7 +202,7 @@ def test_zeros_are_strictly_increasing(gammas: np.ndarray) -> None:
 
 
 def test_zero_count_matches_riemann_von_mangoldt(gammas: np.ndarray) -> None:
-    """N(T) = θ(T)/π + 1 + S(T) — exact; mpmath.backlunds supplies S(T).
+    """N(T) = θ(T)/π + 1 + S(T), exact; mpmath.backlunds supplies S(T).
 
     A single missed (or spurious) zero anywhere below T shows up here.  A ladder
     of 34 heights spaced 300 apart, not a handful: a miss that is compensated by
@@ -218,7 +218,7 @@ def test_no_zero_is_missing_anywhere(gammas: np.ndarray) -> None:
     """S(γₙ) = n − 1 − θ(γₙ)/π must hover around ½ across the whole range.
 
     A single missed zero shifts every later value by exactly 1, so block means
-    are a sensitive, oracle-free completeness check over *all* 10142 zeros —
+    are a sensitive, oracle-free completeness check over *all* 10142 zeros,
     not just at the heights where ``backlunds`` was sampled.  (½, not 0, because
     S evaluated at a zero is the average of the two one-sided limits.)
     """
@@ -236,7 +236,7 @@ def test_adaptive_gap_refinement_actually_recovers_lost_zeros() -> None:
 
     At ``samples_per_spacing`` = 14 and T ≤ 10⁴ the coarse sign-change scan is
     already complete, so the refinement branch was dead code as far as the
-    suite was concerned — disabling it entirely left all tests green.  Here the
+    suite was concerned, disabling it entirely left all tests green.  Here the
     grid is deliberately crippled (3 samples per mean spacing) so that the
     coarse pass provably loses zeros, and the refinement must recover *every*
     one of them.
@@ -257,7 +257,7 @@ def test_adaptive_gap_refinement_actually_recovers_lost_zeros() -> None:
     assert np.all(np.diff(refined) > 0.0)  # merge/dedup must not duplicate roots
     # the recovered roots are genuine zeros, not artefacts of the finer grid.
     # Above t = 50 (the polish cutoff used here) |Z| at every root is ≤ 8.5e-12;
-    # below it the *series* is weak — |Z(γ₁)| = 7.7e-5 even though γ₁ is exact —
+    # below it the *series* is weak, |Z(γ₁)| = 7.7e-5 even though γ₁ is exact,
     # so the residual there measures the RS truncation, not the root.
     above = refined[refined > 50.0]
     assert np.max(np.abs(riemann_siegel_z(above))) < 1e-10
@@ -279,7 +279,7 @@ def test_zeros_index_match_mpmath_zetazero(gammas: np.ndarray) -> None:
 def test_zero_cache_is_keyed_by_the_actual_t_max() -> None:
     """Regression: ``int(round(t_max))`` in the cache filename made 59.0 and
     59.4 share one file, so the second request silently returned the first
-    answer — missing γ₁₃ = 59.3470.  Two different heights, two different
+    answer, missing γ₁₃ = 59.3470.  Two different heights, two different
     answers, in either call order.
     """
     mp.dps = 25
@@ -406,7 +406,7 @@ def test_gue_gap_matches_an_independent_fredholm_determinant() -> None:
     the eigenvalue product and the spline interpolation all at once.
 
     (``errstate``: numpy 2.5's ``det`` raises spurious divide/overflow FP flags
-    from inside LAPACK even for this well-conditioned matrix — cond = 4.6 — and
+    from inside LAPACK even for this well-conditioned matrix, cond = 4.6, and
     returns the right answer regardless.)
     """
     m = 200
@@ -422,15 +422,15 @@ def test_gue_gap_matches_an_independent_fredholm_determinant() -> None:
 
 
 def test_gue_cubic_repulsion_coefficient_is_pi_squared_over_nine() -> None:
-    """F(s) → (π²/9)s³ as s → 0 for the exact GUE law — a closed form that the
+    """F(s) → (π²/9)s³ as s → 0 for the exact GUE law, a closed form that the
     whole Fredholm/spline pipeline has to reproduce with nothing fitted.
 
     (p(s) = (π²/3)s² + O(s⁴), so F(s) = (π²/9)s³.  The 2×2 Wigner surmise gets
-    32/(3π²) = 1.0808 instead, a 1.4 % different constant — so this test can
+    32/(3π²) = 1.0808 instead, a 1.4 % different constant, so this test can
     tell the exact law from the surmise, which is the point.)
 
-    Measured F(s)/s³ − π²/9: 1.6e-6, 2.2e-5, 8.7e-5 at s = 0.0025, 0.005, 0.01
-    — the residual is the genuine O(s²) term of the expansion (it quadruples
+    Measured F(s)/s³ − π²/9: 1.6e-6, 2.2e-5, 8.7e-5 at s = 0.0025, 0.005, 0.01,
+    the residual is the genuine O(s²) term of the expansion (it quadruples
     when s doubles), not error, which the last assertion checks.
     """
     devs = {}
@@ -441,7 +441,7 @@ def test_gue_cubic_repulsion_coefficient_is_pi_squared_over_nine() -> None:
     assert 3.0 < devs[0.01] / devs[0.005] < 5.0
 
     assert abs(float(wigner_surmise_gue_cdf(0.01)) / 0.01**3 - 32.0 / (3 * np.pi**2)) < 2e-4
-    # the two constants really are different — the test above is not vacuous
+    # the two constants really are different, the test above is not vacuous
     assert abs(np.pi**2 / 9.0 - 32.0 / (3 * np.pi**2)) > 0.01
 
 
@@ -506,7 +506,7 @@ def test_pair_correlation_estimator_is_unbiased(gammas: np.ndarray) -> None:
     """Poisson control through the real ``pair_correlation``.
 
     Uncorrelated levels have R₂ ≡ 1 at every r, so the estimator's edge/window
-    normalisation 1/(Δ·(L − r)) must return a flat 1 — otherwise the dip the
+    normalisation 1/(Δ·(L − r)) must return a flat 1, otherwise the dip the
     zeros show near r = 0 could be an artefact of the normalisation rather than
     the correlation hole.  Measured over 6 seeds: mean 0.996–1.046, and the
     *minimum* over all 30 bins never drops below 0.91, whereas the zeros'
@@ -644,8 +644,8 @@ def test_form_factor_of_a_poisson_process_is_flat(gammas: np.ndarray) -> None:
     already-unfolded points, on the grounds that building γ's with a prescribed
     unfolded image "is not possible".  It is: θ/π is strictly monotone, so
     Newton inverts it (``gammas_with_unfolded_image``, accurate to 5e-12).  So
-    the control now exercises the real code path — same function, same
-    unfolding, same smoothing — and the only difference is the input process.
+    the control now exercises the real code path, same function, same
+    unfolding, same smoothing, and the only difference is the input process.
 
     Measured ramp-band K: 0.98 for Poisson (theory 1, no ramp) vs 0.13 for the
     zeros.  Seed-to-seed spread over 6 seeds: 0.84–1.08.
@@ -684,8 +684,8 @@ def test_zero_ordinates_slicing_and_cache(gammas: np.ndarray) -> None:
 def test_ks_statistic_shrinks_with_height(gammas: np.ndarray) -> None:
     """Montgomery–Odlyzko convergence, at *matched sample size*.
 
-    The obvious version of this test — γ < 1000 (648 spacings) against
-    γ > 2000 (8624 spacings) — is worthless: the KS statistic of a *correct*
+    The obvious version of this test, γ < 1000 (648 spacings) against
+    γ > 2000 (8624 spacings), is worthless: the KS statistic of a *correct*
     model already falls like 1/√n, and 1/√648 = 0.039 is essentially the whole
     of the observed D_low = 0.046.  It would pass with no height dependence at
     all.  So take equally many spacings from the bottom and the top.
@@ -703,7 +703,7 @@ def test_ks_statistic_shrinks_with_height(gammas: np.ndarray) -> None:
 def test_spacing_variance_rises_towards_gue_with_height(gammas: np.ndarray) -> None:
     """The honest picture: at γ < 10⁴ the zeros are *more rigid* than GUE.
 
-    Var(s) = 0.1542 over the whole range against the GUE value 0.1800 — 14 %
+    Var(s) = 0.1542 over the whole range against the GUE value 0.1800: 14 %
     low, and a real finite-height effect rather than a bug.  This test pins the
     number and its direction of travel (deciles: 0.1442 → 0.1578), and is
     sample-size-free, unlike a KS statistic.

@@ -44,7 +44,7 @@ mechanism.**  At ``theta = 1`` the internal charge is multiplied by zero, so
 nothing bounds ``D``: m zeros stacked on the top damage band give
 ``D = m * f_max -> infinity`` at no cost.  The statement "inside by 4.7x
 even at theta = 1" is therefore about the configuration selected while
-charging ``R`` at full weight (c = 1) and then reporting ``D`` on it — the
+charging ``R`` at full weight (c = 1) and then reporting ``D`` on it, the
 `mt_chain` convention, and the number reproduces (D = 0.02976 vs slack
 0.14234 at y = 0.49, i.e. 0.2091 slack = 4.78x inside).  Read literally,
 with the charge switched off, ``sup_X D`` is unbounded.  The honest repair
@@ -62,8 +62,8 @@ slack only below ``d* = 0.200`` grid units = 0.0318 mean gaps at y = 0.49
   multiplicity beat it; the n = 3..6 optima keep the same pair and park the
   extra zeros on far bands (+-31.7, +-38.1) at a net loss, so they decay
   back to n = 2 (0.1863, 0.1851, 0.1764, 0.1627 slack for n = 3, 4, 5, 6).
-* the free one-zero-per-band harvest — the whole damage envelope, taken at
-  zero charge — is 0.325 to 0.335 of the slack across 0.02 <= y <= 0.49,
+* the free one-zero-per-band harvest, the whole damage envelope, taken at
+  zero charge, is 0.325 to 0.335 of the slack across 0.02 <= y <= 0.49,
   worst (0.3348) at y = 0.49.  So even a charge-free adversary restricted
   to simple, band-separated zeros stays 2.99x inside at every depth probed.
 * the largest theta for which the searched sup stays under the slack is
@@ -74,7 +74,7 @@ slack only below ``d* = 0.200`` grid units = 0.0318 mean gaps at y = 0.49
 slack vanishes like sigma^2, but the damage vanishes at the *same* rate
 (both are O(sinh(y/2)^2) to leading order), so ``D_bands / slack`` is
 nearly depth-free (0.3252 at y = 0.02 vs 0.3348 at y = 0.49), while the
-multiplicity term, being quadratic in the damage, vanishes *faster* — hence
+multiplicity term, being quadratic in the damage, vanishes *faster*, hence
 theta* -> 1 as y -> 0.
 
 WHY THE ADVERSARY FAILS (three measured reasons)
@@ -82,7 +82,7 @@ WHY THE ADVERSARY FAILS (three measured reasons)
 1. **Near-miss, not coincidence.**  The damage bands sit almost exactly on
    the zeros of ``omega2`` (band peaks 6.907 / 12.895 / 19.070 at y = 0.49
    against omega2 zeros 7.0422 / 12.9509 / 19.1060), which is why band
-   riding is cheap at all — but the miss is real and grows with depth
+   riding is cheap at all, but the miss is real and grows with depth
    (0.135 at y = 0.49 vs 0.052 at y = 0.3), leaving a small residual charge
    at every band pair (omega2 = 0.0019 at the +-band separation 13.81,
    0.011 to 0.023 at adjacent-band separations).
@@ -90,7 +90,7 @@ WHY THE ADVERSARY FAILS (three measured reasons)
    origin (omega2(1) = 0.930, omega2(2) = 0.744, omega2(4) = 0.273) while a
    damage band is only ~1 grid unit wide.  A second zero placed inside a
    band therefore pays essentially the full 2c and collects at most
-   f_max = 0.0151 — self-defeating by a factor ~130 at c = 1.  Splitting the
+   f_max = 0.0151, self-defeating by a factor ~130 at c = 1.  Splitting the
    stack does not help: moving apart by 1 unit saves 7% of the charge and
    loses most of the damage.
 3. **The harvest is bounded and the charge is not.**  Band damage decays
@@ -320,7 +320,7 @@ def band_lattice_family(y: float, c: float, Kmax: int = 40,
     """Two-sided band ladders: top-K, every-other, every-third, irregular.
 
     Each family is also swept over a rigid sub-band phase offset, since the
-    band maxima and the omega2 zeros are near-arithmetic but not equal — a
+    band maxima and the omega2 zeros are near-arithmetic but not equal, a
     small rigid shift can trade damage against internal charge.
     """
     bands, _ = band_table(y)
@@ -538,7 +538,7 @@ def theta_star(y: float, lo: float = 1e-10, hi: float = 3.0, iters: int = 28):
 def lesion_no_repulsion(y: float = 0.49, m: int = 40):
     """Planted fault: with omega2 deleted, the search must break the trade.
 
-    m zeros stacked on the top band, charged at zero — the detector-power
+    m zeros stacked on the top band, charged at zero, the detector-power
     control for everything above.  If this does not exceed the slack the
     search is blind and no other row in the audit means anything.
     """
@@ -554,7 +554,7 @@ def naive_relaxation_is_vacuous(y: float = 0.49, c: float = 1.0,
 
     With multiplicities m_x >= 0 on a grid, R = m^T O m - |m|_1 agrees with
     the true R at integer m and is convex, so the relaxed max is a genuine
-    upper bound — but fractional m makes the self-charge negative and the
+    upper bound, but fractional m makes the self-charge negative and the
     bound overshoots by two orders of magnitude.  Recorded so that no later
     session spends a day on this dual.
     """

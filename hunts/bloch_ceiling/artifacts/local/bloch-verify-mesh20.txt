@@ -1,0 +1,46 @@
+positivity box  0: Re f >= +0.023948373707
+positivity box  1: Re f >= +0.022434097326
+positivity box  2: Re f >= +0.020912096477
+positivity box  3: Re f >= +0.019388785763
+positivity box  4: Re f >= +0.017862618126
+positivity box  5: Re f >= +0.016334969924
+positivity box  6: Re f >= +0.014804713698
+positivity box  7: Re f >= +0.013271976383
+positivity box  8: Re f >= +0.011738148283
+positivity box  9: Re f >= +0.010201660395
+positivity box 10: Re f >= +0.008663077843
+positivity box 11: Re f >= +0.007121606595
+positivity box 12: Re f >= +0.005579182154
+positivity box 13: Re f >= +0.004034279143
+positivity box 14: Re f >= +0.002486007561
+positivity box 15: Re f >= +0.000936855231
+uniform positivity margin: +0.000936855231
+near moment slope margin: [0.0331790701855 +/- 3.62e-14]
+near centre: |c| <= [0.136904745959 +/- 1.74e-13] < min R [0.436558987993 +/- 1.84e-13]
+near moment gain: [0.0153040536989472 +/- 1.85e-18]
+away sector  0: gain=0.017812680157
+away sector  1: gain=0.017400206768
+away sector  2: gain=0.016717406166
+away sector  3: gain=0.016270023690
+away sector  4: gain=0.016027198611
+away sector  5: gain=0.015898059316
+away sector  6: gain=0.015866072532
+away sector  7: gain=0.015898059316
+away sector  8: gain=0.016027198611
+away sector  9: gain=0.016270023690
+away sector 10: gain=0.016717406166
+away sector 11: gain=0.017400206768
+away sector 12: gain=0.017821389424
+away sector 13: gain=0.017400206768
+away sector 14: gain=0.016717406166
+away sector 15: gain=0.016270023690
+away sector 16: gain=0.016027198611
+away sector 17: gain=0.015898059316
+away sector 18: gain=0.015866072532
+away sector 19: gain=0.015898059316
+away sector 20: gain=0.016027198611
+away sector 21: gain=0.016270023690
+away sector 22: gain=0.016717406166
+away sector 23: gain=0.017400206768
+away minimum: (0.01586607253195821, 6, (0.01586607253195821, 0.017345969641243686, (np.float64(2.9845130209103035), np.float64(2.9845130209103035))))
+MESH RESULT: gain=0.015304053699; PASS > 0.0153

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Probe R-03A798 — what the hunt lexical guard actually reads.
+"""Probe R-03A798, what the hunt lexical guard actually reads.
 
 The question handed to this hunt was whether
 ``tests/test_hunt_probe_discipline.py::test_no_hunt_claims_the_reserved_word``
@@ -74,7 +74,7 @@ DOCUMENTED_BANS = ("verified", "confirmed", "definitively", "proves")
 
 _HUNTS_PATH = re.compile(r'"hunts"|/\s*"hunts"|_HUNTS\b')
 _READS_BYTES = re.compile(r"read_text|read_bytes|open\(")
-#: `"word" in text`, `"word" not in sources`, ... — the shape a lexical scan takes.
+#: `"word" in text`, `"word" not in sources`, ..., the shape a lexical scan takes.
 _LEXICAL_CMP = re.compile(r'"([^"\n]{2,40})"\s+(?:not\s+)?in\s+(\w*(?:text|source|sources|body|content|page|log|readme)\w*)')
 
 

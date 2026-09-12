@@ -1,0 +1,14 @@
+certificate=three-point
+verified=true
+target=epsilon_4 >= 221/1000000
+grid=16000
+precision_bits=128
+kernel_table_sha256=e19c06374eaf6dfa04a4de0bc0083ba6570cb62cb0888852ddef42bb0f279387
+initial_boxes=1
+nodes=7157
+pruned=3579
+splits=3578
+maximum_depth=32
+elapsed_seconds=0.402739
+certified_epsilon=0.000221
+domain=u>=0, v>=0, u+v<=4

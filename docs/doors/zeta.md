@@ -1,6 +1,6 @@
 # Department: `zeta`
 
-The Riemann zeta function and RH — department #1, and the worked example every
+The Riemann zeta function and RH, department #1, and the worked example every
 later department should copy.
 
 **Declared in** `harness/departments/zeta_department.py`.
@@ -13,8 +13,8 @@ identity exposed as a measured *defect* rather than assumed: θ and modularity,
 the functional equation, Hardy's Z and sign changes, the explicit formula, GUE
 statistics, heat flow on Ξ and the de Bruijn–Newman constant, Weil positivity,
 Li's criterion and Jensen hyperbolicity, the four equivalence faces, and the
-Davenport–Heilbronn counterexample. Curves over 𝔽_p — the RH that is a
-theorem — are [department #2](finitefield.md).
+Davenport–Heilbronn counterexample. Curves over 𝔽_p, the RH that is a
+theorem, are [department #2](finitefield.md).
 
 Modules: `zeta.core`, `zeta.zeros`, `zeta.explicit`, `zeta.statistics`,
 `zeta.heatflow`, `zeta.weil`, `zeta.epstein`, `zeta.rigor`, `zeta.li`,
@@ -48,10 +48,22 @@ the labels:
 | Claim | Expected | Why |
 |---|---|---|
 | `claim_functional_equation` | **rejected** | true of ζ *and* of every rival; a symmetry shared with functions that violate RH cannot be why RH holds |
-| `claim_multiplicativity` | **distinguishes** | the fingerprint of an Euler product; false for every rival |
+| `claim_multiplicativity` | **distinguishes** | the fingerprint of an Euler product; false for every rival *in this department's list* |
 
 Together they pin the battery in both directions. A referee that has only ever
 said "no" has not been shown to work.
+
+**One row above is narrower than it reads, and the qualifier is load-bearing.**
+`zeta.epstein.battery` gained a third rival on 2026-08-21, the symmetric
+shifted product `W_a(s) = ζ(s+a)ζ(s−a)`, which *does* have a scalar Euler
+product and still has zeros off its own critical line. Against the live rival
+set `claim_multiplicativity` therefore no longer distinguishes; against this
+department's list, which predates the addition and is not being extended
+(`harness/VERDICT.md`), it still does. Both readings are pinned in
+`tests/test_epstein.py`. `docs/09` §5.1 has the construction and the scope
+caveat, which matters: the shifted product is outside the Selberg class, so a
+claim it shares is shown to be blind to a shift rather than shown to be
+irrelevant.
 
 ### One instrument that does *not* qualify, and why
 
@@ -65,7 +77,7 @@ Measured across the four subjects at n_max = 60:
 |---|---|---|
 | ζ | 1 | 1.03e−32 |
 | Davenport–Heilbronn | 1 | 0.993 |
-| Epstein (2,1,3) | **0** | *undefined — raises* |
+| Epstein (2,1,3) | **0** | *undefined, raises* |
 | Epstein (1,1,6) | 2 | 1.76 |
 
 The form 2x² + xy + 3y² does not represent 1, so that Epstein series has

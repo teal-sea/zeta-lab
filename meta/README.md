@@ -1,4 +1,4 @@
-# `meta/` — the second laboratory
+# `meta/`: the second laboratory
 
 This repository studies a mathematical object. It also, increasingly, studies the
 research system attempting to study it. This directory holds the second kind of
@@ -29,7 +29,7 @@ An increase in that ratio matters even if humans never leave the loop. A
 
 Two record types, both in `interventions.jsonl`, one JSON object per line.
 
-**An intervention** — a human did something that materially changed the research
+**An intervention**, a human did something that materially changed the research
 process. Five things are recorded, and four of them are the interesting ones:
 
 | field | why |
@@ -45,7 +45,7 @@ process. Five things are recorded, and four of them are the interesting ones:
 and `oracle` are architectural skepticism working, `human` and `outsider` are it
 failing to.
 
-**A meta-observation** — something learned about the research system by doing
+**A meta-observation**, something learned about the research system by doing
 ordinary research. It must name the work it arose from (`arose_from`) and must
 either support or undercut something stated. A meta-observation attached to no
 actual work is an opinion.
@@ -74,7 +74,7 @@ self-validating*.
    `Support`: a single number would let a caller ask "are we autonomous yet" as
    though it were one question.
 2. **A ratio must name its numerator.** `ratio()` refuses until the caller says
-   which externally checkable output class it means — kernel-checked theorems,
+   which externally checkable output class it means, kernel-checked theorems,
    accepted upstream contributions, pinned measurements. "Research output" is not
    a number.
 3. **Claiming automation costs a named artefact.** `automatability=automated`
@@ -103,8 +103,8 @@ because a baseline taken later would be taken after the lessons:
 
 - **14 interventions, 4 meta-observations.**
 - By category: automatable 8, assistable 0, domain-judgment 2,
-  **owner-authority 4** — so **6 scarce-judgment interventions**.
-- By what noticed: human 10, oracle 2, outsider 1, test 1 — **architecture caught
+  **owner-authority 4**, so **6 scarce-judgment interventions**.
+- By what noticed: human 10, oracle 2, outsider 1, test 1, **architecture caught
   3 of 14 (21%)**.
 - By automation status: 6 `automated` (all closed during that same session), 1
   `designed`, 3 `speculative`, 4 `no`.
@@ -121,7 +121,7 @@ producing about itself all along.
 model rather than by mechanism, and proposes one sorting principle: **a model
 belongs wherever its output is checked against an oracle that is not a model,
 and not where the only check is another model's agreement.** That is the
-standing rule about cross-checks turned on the system itself — agents drawn from
+standing rule about cross-checks turned on the system itself, agents drawn from
 the same weights are not independent instruments, and their agreement is nearly
 free.
 
@@ -136,7 +136,7 @@ itself to be wrong. Proposal, not a decision.
 
 `meta/operator-functions.md` decomposes what is left after the automatable gaps
 are subtracted, into four functions: **severity calibration**, **scope discipline
-on negative results**, **skepticism routing**, and **authority** — the last of
+on negative results**, **skepticism routing**, and **authority**, the last of
 which is not a gap and is recorded as permanently open.
 
 The reframe that makes this measurable: you do not automate judgment, you measure
@@ -150,11 +150,11 @@ Three guards, and the first is the one that matters:
    `resolved_by=system` is refused outright. Without this the record is a progress
    report, and it is the same co-designed-verification failure the audit has.
 2. `unresolved` is not scorable. An open disagreement is not a draw.
-3. No aggregate calibration score — reported per function, because averaging
+3. No aggregate calibration score, reported per function, because averaging
    severity against scope would hide which one transferred.
 
-**Baseline: the system is 0 for 4 against the operator** on scored judgment calls
-— severity of a disclosure, scope of a negative result, the premise of a
+**Baseline: the system is 0 for 4 against the operator** on scored judgment calls,
+severity of a disclosure, scope of a negative result, the premise of a
 prioritisation argument, and the claim that the operator's contribution is mostly
 friction. Four is a starting line, not a sample.
 
@@ -167,10 +167,10 @@ friction. Four is a starting line, not a sample.
 **This ledger samples interruptions to running sessions. It therefore cannot see
 research design.**
 
-Everything decided before a session exists — the honest-scope rule, the reserved
+Everything decided before a session exists, the honest-scope rule, the reserved
 word, reference claims in both directions, the four control roles, the
 counterexample battery, the mirror pattern, blind authoring with honest controls,
-preregistration by digest — is invisible here, and all of it is load-bearing for
+preregistration by digest, is invisible here, and all of it is load-bearing for
 whatever a session produces. A decomposition drawn from this log alone concluded
 that the operator's role was mostly friction, which is an artifact of the sampling
 frame. The correction is recorded in `operator-functions.md` §0.
@@ -178,8 +178,8 @@ frame. The correction is recorded in `operator-functions.md` §0.
 The consequence for the metric: **the ratio this directory measures can improve
 while the function that matters goes unmeasured.** Friction removal moves it;
 research design does not appear in it at all. Any serious use of these numbers has
-to sample the design record too — `ROADMAP.md`'s decisions, the harness admission
-rules, the pre-registrations — and not only this file.
+to sample the design record too, `ROADMAP.md`'s decisions, the harness admission
+rules, the pre-registrations, and not only this file.
 
 This is the same failure the laboratory keeps finding in its own audit: an
 instrument sees what it was built to sample, and reading its silence as absence is
@@ -189,5 +189,5 @@ how four hollow batteries were graded calibrated.
 
 Not a dashboard, not a KPI, not a burndown. If it starts being used to show
 progress rather than to measure a ratio, it has become the thing it was built to
-prevent — and the first symptom will be `suspicions()` returning nothing while
+prevent, and the first symptom will be `suspicions()` returning nothing while
 the ledger grows.

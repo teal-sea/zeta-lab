@@ -6,7 +6,7 @@ call (``cg_transplant.bucket_floor``).  That number is "scipy said so".
 This module converts it into a statement a Lean 4 file can check by pure
 rational arithmetic: an explicit dual-feasible point with exact rational
 coordinates whose dual objective F_RAT is, by weak duality, a lower bound
-for the LP value — no simplex run, no floating point, only finitely many
+for the LP value, no simplex run, no floating point, only finitely many
 comparisons of fractions.
 
 THE PRIMAL (from ``cg_transplant.bucket_floor``; x in R^6, x >= 0):
@@ -53,7 +53,7 @@ Hence all four bounds needed are LOWER bounds.  (r_a, r_b enter columns
 1-2 directly; r_h, r_j are lower bounds on interval minima, i.e. "g >= r
 on the whole interval", which is the natural one-sided statement for
 interval arithmetic.)  Note h and j appear on the right of dual rows 4
-and 6, so shrinking them TIGHTENS dual feasibility — the dual point
+and 6, so shrinking them TIGHTENS dual feasibility, the dual point
 below is feasible against the rational r_h, r_j, not just the sampled
 table values, and that is checked exactly.
 
@@ -72,16 +72,16 @@ THE CERTIFICATE (all exact rationals, stated in full below):
             / 3153949737350000000000000000000000000
           = 5.021172019015776e-06,
 
-a shortfall of 7.0e-12 against the scipy reading 5.021179e-6 — a valid
+a shortfall of 7.0e-12 against the scipy reading 5.021179e-6, a valid
 lower bound need not be the optimum, and this one gives up 1.4e-6 of the
 value in relative terms.
 
 WHAT IS EXACT AND WHAT IS NOT.  ``audit()`` checks the dual feasibility
 inequalities and the value identity for F_RAT entirely in ``fractions.
-Fraction`` — that part is finite rational arithmetic end to end.  The
+Fraction``, that part is finite rational arithmetic end to end.  The
 four kernel lower bounds are checked here numerically (mpmath dps 40 at
 the points; a 600001-point numpy grid plus an analytic slope bound on
-the intervals) — those four inequalities about an explicit sin/cos
+the intervals), those four inequalities about an explicit sin/cos
 expression are exactly the lemmas the future Lean file must supply; on
 the Python side they are measured with stated margins, not established.
 Nothing in this file claims the LP models anything about zeta: the
@@ -123,7 +123,7 @@ from reconnect import H_PINNED, HardenedGTable  # noqa: E402
 # Pinned floating-point data from this session's n = 600001 run
 # ---------------------------------------------------------------------------
 
-#: optimize_edges(H_PINNED, table=HardenedGTable(n=600001)) — the edges
+#: optimize_edges(H_PINNED, table=HardenedGTable(n=600001)), the edges
 #: behind the ladder reading c_u(g) = 5.021179e-6 (kernel_pairing.py).
 EDGES = (0.934579827137746, 1.0395927961701252,
          1.3539506700128414, 1.9978157969309793)
@@ -142,7 +142,7 @@ DUAL_SCIPY = (0.0004703013651243636,
               -0.00011278657072480917)
 
 # ---------------------------------------------------------------------------
-# The rational certificate — every constant exact
+# The rational certificate, every constant exact
 # ---------------------------------------------------------------------------
 
 #: nu as the pinned decimal (H_PINNED = 0.6725007037 exactly).
@@ -159,7 +159,7 @@ R_H = Fraction(185, 10**6)      # <= min g on [c, d]
 R_J = Fraction(398, 10**6)      # <= min g on [2b, 2c]
 
 #: the dual point (limit_denominator(10^6) of the scipy dual, y then
-#: re-derived exactly and rounded DOWN at denominator 5*10^15 — see
+#: re-derived exactly and rounded DOWN at denominator 5*10^15, see
 #: rationalize_dual()).
 U1 = Fraction(-212, 900565)
 U2 = Fraction(-79, 700438)
@@ -351,7 +351,7 @@ def audit(skip_scipy: bool = False):
     Order: (1) the stated F_RAT is exactly Y*NU_R + U1 + U2*NU_R and is
     positive; (2) the stated dual point is exactly feasible in Q against
     the rational data; (3) the four kernel lower bounds hold numerically
-    with positive margins (these are the future Lean lemmas — measured
+    with positive margins (these are the future Lean lemmas, measured
     here, not established); (4) unless skipped, scipy reproduces the
     pinned primal/dual with strong duality, and the primal optimum sits
     above float(F_RAT).  Raises AssertionError on any failure.
@@ -395,7 +395,7 @@ def audit(skip_scipy: bool = False):
 
     print("  conclusion: for every x >= 0 meeting the two constraint rows")
     print("  with the rational data above, cost(x) >= F_RAT, provided the")
-    print("  four kernel inequalities hold — finite rational arithmetic")
+    print("  four kernel inequalities hold, finite rational arithmetic")
     print("  plus four one-variable trig lemmas.  The LP's own standing")
     print("  (withdrawn transplant) is unchanged; see cg_transplant.py.")
     return {"F_RAT": F_RAT, "gap": F_RAT - TARGET}

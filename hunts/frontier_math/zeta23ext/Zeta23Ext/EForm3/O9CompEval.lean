@@ -6,8 +6,8 @@ import Zeta23Ext.EForm3.O9Comp
 The leaf round-trip (`O9RoundTrip.lean`) pins the transcendental leaves against
 `o9_leaves_kernel.py`. It does **not** pin the compositions built on top of
 them, and `rIv`/`qreIv` stack roughly twenty further interval operations. The
-defect that refuted the first O9 table — a Python model narrower than the
-kernel — can recur at this level, and nothing would catch it.
+defect that refuted the first O9 table, a Python model narrower than the
+kernel, can recur at this level, and nothing would catch it.
 
 So these `#eval`s exist to be compared, integer for integer, against
 `o9_leaf2d.qre_iv` and `o9_leaf2d.r_iv` on the same boxes. Same discipline as

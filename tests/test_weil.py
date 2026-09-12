@@ -1,11 +1,11 @@
 """
-Tests for zeta.weil — the Riemann–Weil explicit formula and Weil positivity.
+Tests for zeta.weil, the Riemann–Weil explicit formula and Weil positivity.
 
 The load-bearing tests here are the explicit-formula agreement tests: the
 convention implemented in ``zeta/weil.py`` (factor placement of the pole,
 archimedean and prime terms) was *calibrated* by requiring the zero side
 (computed from cached, independently verified zeros) to match the arithmetic
-side (Γ-factors, primes, quadrature — no zeros) across three unrelated
+side (Γ-factors, primes, quadrature, no zeros) across three unrelated
 test-function families.  These tests re-run that calibration.
 
 Measured on this machine (tolerances below are set to roughly 2–10x the
@@ -25,7 +25,7 @@ measured error, so a real regression fails):
   log-margin slope (a-scan):  -199.79051 vs -γ₁² = -199.79045 (2.8e-7 rel)
   Backlund envelope:          max |N - RvM| = 0.984 over T ≤ 1e4, Q ≥ 5.49
   ψ(x)/x for x ≤ 1e5:         max 1.03883 < 1.04 (Rosser–Schoenfeld)
-  Fejér prime-sum support:    n_max = 54 (b=2), 20 (b=1.5) — finite, exact
+  Fejér prime-sum support:    n_max = 54 (b=2), 20 (b=1.5), finite, exact
 """
 
 from __future__ import annotations
@@ -180,7 +180,7 @@ def test_explicit_formula_gaussian_a001(res_g001):
 
 
 def test_explicit_formula_gaussian_a0002(res_g0002):
-    # wide h: 88 zeros contribute, prime term is ~5e-26 — a genuinely
+    # wide h: 88 zeros contribute, prime term is ~5e-26, a genuinely
     # different balance of terms from a = 0.01.  Measured 7.9e-32.
     assert float(res_g0002["agreement"]) < 1e-30
     assert float(res_g0002["zero_side"]) == pytest.approx(3.5667624107582642, rel=1e-14)
@@ -188,7 +188,7 @@ def test_explicit_formula_gaussian_a0002(res_g0002):
 
 def test_docs10_table_numbers_pinned(res_g001):
     # docs/10 §2 prints this exact decomposition for the Gaussian a = 0.01
-    # pair and says the tests pin every quoted number — this test is that pin
+    # pair and says the tests pin every quoted number, this test is that pin
     # (audit addition; every literal below re-measured independently first).
     with mp.workdps(30):
         assert abs(
@@ -220,14 +220,14 @@ def test_explicit_formula_autocorrelation_members():
         res = explicit_formula_sides(h, g, dps=30)
         assert float(res["agreement"]) < 1e-28  # measured 1.4e-30
         # this member has h(0) = 0: pole term is negative, prime term
-        # positive — positivity is carried entirely by the zeros.
+        # positive, positivity is carried entirely by the zeros.
         assert res["pole_term"] < 0 < res["prime_term"]
         assert res["zero_side"] > 0
 
 
 def test_explicit_formula_gamma1_annihilating_member():
     # [1,2,1] at spacing 2: |f̂(r)|² ∝ |1+e^{2ir}|⁴ and 2γ₁ ≈ 9π, so h
-    # nearly annihilates γ₁ — the zero side is a *1e-17-sized* sum led by
+    # nearly annihilates γ₁, the zero side is a *1e-17-sized* sum led by
     # γ₂, yet the arithmetic side matches to 2.5e-40 absolute (measured).
     with mp.workdps(30):
         h, g = autocorrelation_pair([1, 2, 1], spacing=2.0, sigma="0.3")
@@ -252,7 +252,7 @@ def test_explicit_formula_fejer_within_tail_bound(res_fejer15, res_fejer2):
 
 def test_fejer_tail_estimate_accounts_for_residual(res_fejer15, res_fejer2):
     # measured |Δ - est|/est: 1.7e-5 (b=1.5), 2.0e-4 (b=2).  After adding
-    # the estimate back, the two sides agree to ~1.5e-6 relative — the
+    # the estimate back, the two sides agree to ~1.5e-6 relative, the
     # "6 significant digits after accounting for the tail" claim.
     for res in (res_fejer15, res_fejer2):
         diff = float(res["abs_diff"])
@@ -284,7 +284,7 @@ def test_gaussian_tail_bound_negligible(res_g001):
 def test_backlund_envelope_empirical():
     # The tail bound leans on |N(T) - RvM(T)| <= 0.137 log T +
     # 0.443 log log T + 4.35.  Verify empirically over the cached zeros:
-    # measured max gap 0.984, min Q 5.49 — enormous slack.
+    # measured max gap 0.984, min Q 5.49, enormous slack.
     from zeta.statistics import zero_ordinates
     from zeta.zeros import riemann_von_mangoldt
 
@@ -511,7 +511,7 @@ def test_pole_term_of_even_analytic_h_is_real():
 def test_pole_term_rejects_non_even_h():
     # Schwarz reflection makes h(i/2) + h(-i/2) real for ANY h that is
     # real-valued on the reals, so a wrong (non-even) h can only be caught
-    # by comparing h(r) with h(-r) directly — which _pole_term now does.
+    # by comparing h(r) with h(-r) directly, which _pole_term now does.
     with mp.workdps(25):
         with pytest.raises(ValueError):
             _pole_term(lambda r: mp.e ** (-((r - 1) ** 2)))

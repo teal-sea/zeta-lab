@@ -1,0 +1,37 @@
+{
+  "environment": {
+    "numpy": "2.5.2",
+    "platform": "Darwin",
+    "python": "3.14.0"
+  },
+  "front": "sine",
+  "rows": [
+    {
+      "N": 1000,
+      "R": 10,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 546,
+      "final_residual": null,
+      "seconds": 17.54,
+      "sine_factor": 4.0,
+      "status": "ok",
+      "value": 0.37212920302009456
+    },
+    {
+      "N": 1000,
+      "R": 10,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 546,
+      "final_residual": null,
+      "seconds": 17.94,
+      "sine_factor": 8.0,
+      "status": "ok",
+      "value": 0.37212751139084344
+    }
+  ],
+  "seconds_total": 35.48
+}

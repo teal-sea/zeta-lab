@@ -1,0 +1,730 @@
+{
+  "meta_mutants_total": 16,
+  "meta_mutants_fired": 0,
+  "meta_detection_rate": "0.0%",
+  "positive_controls_total": 4,
+  "positive_controls_fired": 4,
+  "positive_detection_rate": "100.0%",
+  "meta_symbols_total": 32,
+  "exhaustive_mutants_total": 32,
+  "exhaustive_mutants_fired": 0,
+  "exhaustive_detection_rate": "0.0%",
+  "curated_battery": [
+    {
+      "id": "M01",
+      "name": "public function appended to meta/ledger.py",
+      "category": "meta_public_function",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M02",
+      "name": "public function appended to meta/evals/asymmetry.py",
+      "category": "meta_public_function",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M03",
+      "name": "public async function appended to meta/ledger.py",
+      "category": "meta_public_function",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M04",
+      "name": "public class renamed in place in meta/ledger.py",
+      "category": "meta_inplace_rename",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M05",
+      "name": "public function load_ledger renamed in place in meta/ledger.py",
+      "category": "meta_inplace_rename",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M06",
+      "name": "public uppercase constant LEDGER_PATH renamed in place in meta/ledger.py",
+      "category": "meta_inplace_rename",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M07",
+      "name": "public class appended to meta/ledger.py",
+      "category": "meta_class_addition",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M08",
+      "name": "public uppercase constant appended to meta/ledger.py",
+      "category": "meta_constant_addition",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M09",
+      "name": "public uppercase constant appended to meta/evals/asymmetry.py",
+      "category": "meta_constant_addition",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M10",
+      "name": "new module meta/new_framework.py added",
+      "category": "meta_new_module",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M11",
+      "name": "new module meta/evals/new_eval_metric.py added",
+      "category": "meta_new_module",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M12",
+      "name": "new markdown document meta/meta_methodology.md added",
+      "category": "meta_doc",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M13",
+      "name": "meta/README.md title changed in place",
+      "category": "meta_doc",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M14",
+      "name": "5 blank lines appended to meta/ledger.py",
+      "category": "meta_formatting",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M15",
+      "name": "meta/ledger.py module docstring first line modified",
+      "category": "meta_docstring",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M16",
+      "name": "docstring added to empty meta/evals/__init__.py",
+      "category": "meta_docstring",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "M17",
+      "name": "public function appended to zeta/core.py (positive control)",
+      "category": "positive_control",
+      "fired": true,
+      "exit_code": 1,
+      "diff_lines": 11,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is stale \u2014 run: python scripts/make_context.py"
+    },
+    {
+      "id": "M18",
+      "name": "public function appended to ontology/schema.py (positive control)",
+      "category": "positive_control",
+      "fired": true,
+      "exit_code": 1,
+      "diff_lines": 11,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is stale \u2014 run: python scripts/make_context.py"
+    },
+    {
+      "id": "M19",
+      "name": "public function appended to harness/protocol.py (positive control)",
+      "category": "positive_control",
+      "fired": true,
+      "exit_code": 1,
+      "diff_lines": 11,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is stale \u2014 run: python scripts/make_context.py"
+    },
+    {
+      "id": "M20",
+      "name": "new doc docs/99-positive-control-doc.md added (positive control)",
+      "category": "positive_control",
+      "fired": true,
+      "exit_code": 1,
+      "diff_lines": 10,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is stale \u2014 run: python scripts/make_context.py"
+    }
+  ],
+  "exhaustive_battery": [
+    {
+      "id": "EX_01",
+      "name": "constant POSITIVE_CONTROLS in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_02",
+      "name": "constant SOUND in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_03",
+      "name": "constant UNSOUND in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_04",
+      "name": "constant UNDECIDED in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_05",
+      "name": "class Artifact in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_06",
+      "name": "function render_department in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_07",
+      "name": "function build_artifacts in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_08",
+      "name": "constant CHECKER_SYSTEM_MESSAGE in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_09",
+      "name": "function detection_rate in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_10",
+      "name": "function false_confidence_rate in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_11",
+      "name": "function specificity in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_12",
+      "name": "function undecided_rate in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_13",
+      "name": "function blind_spot_detection in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_14",
+      "name": "function positive_control_detection in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_15",
+      "name": "function audit_baseline in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_16",
+      "name": "function checker_verdict in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_17",
+      "name": "function asymmetry_dataset in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_18",
+      "name": "function asymmetry_e0 in meta/evals/asymmetry.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_19",
+      "name": "constant LEDGER_PATH in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_20",
+      "name": "class Category in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_21",
+      "name": "class Automatability in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_22",
+      "name": "class CaughtBy in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_23",
+      "name": "class Intervention in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_24",
+      "name": "class MetaObservation in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_25",
+      "name": "class OperatorFunction in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_26",
+      "name": "class Resolution in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_27",
+      "name": "class Party in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_28",
+      "name": "class Judgment in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_29",
+      "name": "class Ledger in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_30",
+      "name": "function load in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_31",
+      "name": "function validate in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    },
+    {
+      "id": "EX_32",
+      "name": "function iter_sessions in meta/ledger.py",
+      "category": "meta_exhaustive_symbol",
+      "fired": false,
+      "exit_code": 0,
+      "diff_lines": 0,
+      "token_in_diff": false,
+      "guard_output": "CONTEXT.md is up to date."
+    }
+  ],
+  "meta_symbols_census": [
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "constant",
+      "name": "POSITIVE_CONTROLS",
+      "lineno": 130
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "constant",
+      "name": "SOUND",
+      "lineno": 132
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "constant",
+      "name": "UNSOUND",
+      "lineno": 133
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "constant",
+      "name": "UNDECIDED",
+      "lineno": 134
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "class",
+      "name": "Artifact",
+      "lineno": 145
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "render_department",
+      "lineno": 222
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "build_artifacts",
+      "lineno": 270
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "constant",
+      "name": "CHECKER_SYSTEM_MESSAGE",
+      "lineno": 309
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "detection_rate",
+      "lineno": 388
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "false_confidence_rate",
+      "lineno": 399
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "specificity",
+      "lineno": 414
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "undecided_rate",
+      "lineno": 429
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "blind_spot_detection",
+      "lineno": 439
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "positive_control_detection",
+      "lineno": 457
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "audit_baseline",
+      "lineno": 480
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "checker_verdict",
+      "lineno": 506
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "asymmetry_dataset",
+      "lineno": 535
+    },
+    {
+      "file": "meta/evals/asymmetry.py",
+      "type": "function",
+      "name": "asymmetry_e0",
+      "lineno": 559
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "constant",
+      "name": "LEDGER_PATH",
+      "lineno": 45
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "Category",
+      "lineno": 48
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "Automatability",
+      "lineno": 63
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "CaughtBy",
+      "lineno": 72
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "Intervention",
+      "lineno": 88
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "MetaObservation",
+      "lineno": 129
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "OperatorFunction",
+      "lineno": 160
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "Resolution",
+      "lineno": 174
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "Party",
+      "lineno": 181
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "Judgment",
+      "lineno": 189
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "class",
+      "name": "Ledger",
+      "lineno": 239
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "function",
+      "name": "load",
+      "lineno": 413
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "function",
+      "name": "validate",
+      "lineno": 433
+    },
+    {
+      "file": "meta/ledger.py",
+      "type": "function",
+      "name": "iter_sessions",
+      "lineno": 440
+    }
+  ]
+}

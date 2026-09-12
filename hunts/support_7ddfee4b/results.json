@@ -1,0 +1,282 @@
+{
+  "k2_witness": {
+    "A": [
+      1,
+      5,
+      7,
+      11
+    ],
+    "S": [
+      2,
+      3
+    ],
+    "admissible": true,
+    "pair_sums": {
+      "1+11": 12,
+      "1+5": 6,
+      "1+7": 8,
+      "5+11": 16,
+      "5+7": 12,
+      "7+11": 18
+    },
+    "power_of_two_fibres": [
+      [
+        1,
+        7
+      ],
+      [
+        5,
+        11
+      ]
+    ],
+    "primitive": true,
+    "residues_mod_3": {
+      "1": 1,
+      "11": 2,
+      "5": 2,
+      "7": 1
+    }
+  },
+  "max_over_subsets": [
+    {
+      "N": 1500,
+      "g_N": 2,
+      "g_S": [
+        2
+      ],
+      "g_witness": [
+        1,
+        3
+      ],
+      "gstar_N": 2,
+      "gstar_S": [
+        2
+      ],
+      "gstar_witness": [
+        1,
+        3
+      ],
+      "k": 1,
+      "two_to_k": 2
+    },
+    {
+      "N": 1500,
+      "g_N": 4,
+      "g_S": [
+        2,
+        3
+      ],
+      "g_witness": [
+        1,
+        5,
+        7,
+        11
+      ],
+      "gstar_N": 4,
+      "gstar_S": [
+        2,
+        3
+      ],
+      "gstar_witness": [
+        1,
+        5,
+        7,
+        11
+      ],
+      "k": 2,
+      "two_to_k": 4
+    },
+    {
+      "N": 1500,
+      "g_N": 5,
+      "g_S": [
+        2,
+        3,
+        5
+      ],
+      "g_witness": [
+        1,
+        3,
+        7,
+        17,
+        47
+      ],
+      "gstar_N": 5,
+      "gstar_S": [
+        2,
+        3,
+        5
+      ],
+      "gstar_witness": [
+        1,
+        19,
+        31,
+        89,
+        161
+      ],
+      "k": 3,
+      "two_to_k": 8
+    }
+  ],
+  "measured_loss_ratio": [
+    {
+      "g_N/g_N(k-1)": 2.0,
+      "gstar_N/gstar_N(k-1)": 2.0,
+      "k": 2
+    },
+    {
+      "g_N/g_N(k-1)": 1.25,
+      "gstar_N/gstar_N(k-1)": 1.25,
+      "k": 3
+    }
+  ],
+  "omission": [
+    {
+      "A": [
+        1,
+        4,
+        7,
+        10,
+        13,
+        16,
+        19,
+        22
+      ],
+      "S": [
+        2,
+        5,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        29,
+        41
+      ],
+      "admissible": true,
+      "claim_bound_p_minus_1": 2,
+      "k": 10,
+      "p_in_S": false,
+      "p_omitted": 3,
+      "refutes_claim": true,
+      "size": 8
+    },
+    {
+      "A": [
+        1,
+        6,
+        11,
+        16,
+        21,
+        26,
+        31,
+        36
+      ],
+      "S": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        31,
+        37,
+        47,
+        67
+      ],
+      "admissible": true,
+      "claim_bound_p_minus_1": 4,
+      "k": 11,
+      "p_in_S": false,
+      "p_omitted": 5,
+      "refutes_claim": true,
+      "size": 8
+    },
+    {
+      "A": [
+        1,
+        8,
+        15,
+        22,
+        29,
+        36,
+        43,
+        50,
+        57,
+        64
+      ],
+      "S": [
+        2,
+        3,
+        5,
+        11,
+        13,
+        17,
+        19,
+        23,
+        29,
+        31,
+        37,
+        43,
+        79,
+        107
+      ],
+      "admissible": true,
+      "claim_bound_p_minus_1": 6,
+      "k": 14,
+      "p_in_S": false,
+      "p_omitted": 7,
+      "refutes_claim": true,
+      "size": 10
+    },
+    {
+      "A": [
+        1,
+        12,
+        23,
+        34,
+        45,
+        56,
+        67,
+        78,
+        89,
+        100,
+        111,
+        122,
+        133,
+        144
+      ],
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        13,
+        17,
+        19,
+        23,
+        29,
+        37,
+        41,
+        61,
+        67,
+        79,
+        89,
+        101,
+        167,
+        211,
+        233,
+        277
+      ],
+      "admissible": true,
+      "claim_bound_p_minus_1": 10,
+      "k": 20,
+      "p_in_S": false,
+      "p_omitted": 11,
+      "refutes_claim": true,
+      "size": 14
+    }
+  ]
+}

@@ -82,8 +82,8 @@ Quantitatively, `IsNear y s` fails as soon as `|Φ₂(s)| ≥ Shq y / 2 + √(Sh
 a threshold of order `y` (about `0.11` at `y = 1/2`).  The criterion therefore covers a
 configuration with arbitrarily many on-line points, provided all but three of them avoid both
 the neighbourhoods of the zeros of `Φ₂` and the far region `|xⱼ - t| ≳ 1/y`, where `Φ₂` itself
-is small.  (Points in the far region do in fact almost no damage — the damage decays like
-`1/s²` — but that decay is not proved here, see `README.md`.)
+is small.  (Points in the far region do in fact almost no damage, the damage decays like
+`1/s²`: but that decay is not proved here, see `README.md`.)
 
 The hypotheses `hx`, `hy0` and `hy1` are part of the problem statement; the proof does not use
 them. -/

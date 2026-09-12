@@ -1,7 +1,7 @@
 """O9 as a leaf file: generate it, and pre-validate every cell in the
 arithmetic the kernel will actually run.
 
-`RETENTION-PROBLEM.md` §4 states O9 — the damage cap table on
+`RETENTION-PROBLEM.md` §4 states O9, the damage cap table on
 `[28/5, 60] x [0, 1/2]`.  `window_table.py` sized it at 196 cells using Arb
 balls at 128 bits.  Arb is *not* what the kernel runs: `BandCert` works in
 **fixed-point integer arithmetic at scale `2^64`**, and a cell that Arb
@@ -25,7 +25,7 @@ From `Iv.lean`, with `SO = 2^64` and `Iv = <lo, hi>` denoting
     neg a     = <-a.hi, -a.lo>
     mul a b   = <flo (min of 4 products), fhi (max of 4 products)>
     sqr a     = sign-split, as in the source
-    mulInt, divInt, widen, ofQ, ofInt, div — all as written
+    mulInt, divInt, widen, ofQ, ofInt, div, all as written
 
 From `Phi.lean`: `CIv` add/sub/mul/mulR/div/ofR, and `phiC` itself,
 
@@ -39,21 +39,21 @@ which `phiC_mem` proves encloses `Phi2(X + i Y)`.  Since
 coefficients, `D(y,s) = -Re[Phi2(s + i y)^2]`, so the damage enclosure is
 `phiC` at `(s, y)`, squared by `CIv.mul`, real part negated.
 
-## LEAF CAVEAT — corrected 2026-08-15 (R-2926E4)
+## LEAF CAVEAT, corrected 2026-08-15 (R-2926E4)
 
 An earlier version of this module computed the transcendental leaves with
 **Arb** and argued the prediction safe because every cell passed with
 margin.  That argument is **refuted**, twice over: `decide +kernel`
 refuted the Arb-model table on 7 of 9 chunks (`O9-2D-STATUS.md` §0), and
 `hunts/r_2926e4/probe.py` measured that **85 of the 344 Arb-model cells
-fail outright on the kernel's own leaves** — including a cell whose
+fail outright on the kernel's own leaves**, including a cell whose
 recorded Arb margin was `9.21e16` ulp, `2.5e7x` the minimum offered as
 evidence of safety.  No threshold on that margin separates safe
 predictions from unsafe ones; the failure mode is modelling a checker
 with tighter arithmetic than the checker has.
 
-`leaves()` therefore now computes with `o9_leaves_kernel.kernel_leaves`
-— the same coefficient lists, `hornerI`, `widen`, constants and
+`leaves()` therefore now computes with `o9_leaves_kernel.kernel_leaves`,
+the same coefficient lists, `hornerI`, `widen`, constants and
 `sinCosIv` reduction as `BandCert/Leaves.lean`, pinned integer-for-
 integer by `tests/test_o9_leaves_kernel.py`.  The Arb path survives as
 `leaves_arb()` for comparison only, and predicts nothing.
@@ -63,7 +63,7 @@ integer by `tests/test_o9_leaves_kernel.py`.  The Arb path survives as
 `window_table.py` sized this at **196 cells** using Arb balls at 128 bits.
 The Arb model at `2^-64` fixed point gave **344** (max depth 20).  On the
 kernel's own leaves it is **476 cells** (max depth 22, every one decided,
-smallest margin `3.12e8` ulp `= 1.69e-11`) — the 344 was itself **38%
+smallest margin `3.12e8` ulp `= 1.69e-11`), the 344 was itself **38%
 low**, for the reason in the LEAF CAVEAT above.  Each correction had the
 same direction: a tighter model than the checker undercounts the
 checker's work.  476 sits above `BandCert`'s existing `62..248`, still
@@ -73,7 +73,7 @@ One structural detail decides termination.  The walk must be seeded by
 cutting `[28/5, 60]` at **every window endpoint** before subdividing:
 bisection alone never lands on an endpoint (they are rationals with
 denominator `10^4`, the midpoints are dyadic), so a cell straddling a
-window boundary shrinks forever without deciding — 768 cells with 18
+window boundary shrinks forever without deciding: 768 cells with 18
 undecided at depth 40.  With the cuts, 344 and none undecided.
 
 ## A dependency this table rests on, which is easy to miss
@@ -82,7 +82,7 @@ undecided at depth 40.  With the cuts, 344 and none undecided.
 damage outside the windows" is an **equality at every window endpoint**, so
 with the windows taken as the exact damage support the complement does not
 close: 404 leaves and a depth wall.  This table closes anyway, and the
-reason is not that the fixed-point arithmetic is better — it is that §4's
+reason is not that the fixed-point arithmetic is better, it is that §4's
 recorded `I_k` are decimal-rounded **outward**, so they strictly contain the
 true support:
 
@@ -104,9 +104,9 @@ this table would stop closing.  `test_o9_leaf.py` pins it.
 kernel leaves that route measures **1939 cells** (`hunts/r_2926e4/`
 RESULTS §"the 2-D route", 598 -> 1939), against this module's **476**.
 
-The 2-D route is still the stronger artifact — it does not need the
+The 2-D route is still the stronger artifact, it does not need the
 depth reduction `D(y,s)/y^2 <= 4 D(1/2,s)`, which is measured and
-unproved — but the trade is now about `4x` the cells, not the `1.13x`
+unproved, but the trade is now about `4x` the cells, not the `1.13x`
 recorded when both figures were Arb-grade.  What that lemma is worth in
 leaves is a decision for whoever builds the Lean file; the earlier
 "take the 2-D route for 45 leaves" advice understated its cost.
@@ -138,7 +138,7 @@ __all__ = [
 SO = 1 << 64
 
 #: Cells on the kernel's own leaves (`window_table.N_CELLS` is the
-#: Arb-grade 196; the Arb-model 344 was itself 38% low — see LEAF CAVEAT).
+#: Arb-grade 196; the Arb-model 344 was itself 38% low, see LEAF CAVEAT).
 N_CELLS_KERNEL = 476
 
 
@@ -244,7 +244,7 @@ def civ_div(a, b):
 
 
 # ---------------------------------------------------------------------------
-# leaves — kernel mirror by default; Arb path kept for comparison only
+# leaves, kernel mirror by default; Arb path kept for comparison only
 # ---------------------------------------------------------------------------
 
 def _arb():
@@ -281,7 +281,7 @@ def _cell_ball(lo: F, hi: F):
 def leaves(lo: F, hi: F, y: F):
     """Everything `phiC` needs, computed the way the kernel computes it.
 
-    Delegates to `o9_leaves_kernel.kernel_leaves` (imported lazily —
+    Delegates to `o9_leaves_kernel.kernel_leaves` (imported lazily,
     that module imports this one for `Iv`).  See LEAF CAVEAT.
     """
     from o9_leaves_kernel import kernel_leaves
@@ -348,7 +348,7 @@ S_LO, S_HI = F(28, 5), F(60)
 
 #: The TRUE damage support, measured by `window_table.windows()`.  S4's
 #: `WINDOWS` are decimal-rounded OUTWARD past these, and that implicit
-#: widening (~2e-05) is what makes the complement decidable — see the
+#: widening (~2e-05) is what makes the complement decidable, see the
 #: module docstring.
 TRUE_SUPPORT = [
     (F('6.065319'), F('7.051319')), (F('12.234289'), F('13.199859')),
@@ -443,7 +443,7 @@ def validate(table=None) -> dict:
 _HEADER = """import Zeta23Ext.BandCert.Phi
 
 /-!
-# O9 leaf data — the damage cap table on `[28/5, 60]` at `y = 1/2`
+# O9 leaf data, the damage cap table on `[28/5, 60]` at `y = 1/2`
 
 Generated by `hunts/frontier_math/o9_leaf.py`.  Each cell records
 `lo`, `hi` (scaled by `2^64`) and the integer `target` it must not exceed;

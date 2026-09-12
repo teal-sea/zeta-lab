@@ -388,7 +388,7 @@ was the pre-registered expectation and changes nothing above.
   MISSION.md kill condition 2 fired and the finding is reclassified as a
   rediscovery. The adjudication, the verbatim sources and the
   statement-by-statement ownership map are in `PRIOR-ART.md`; the
-  corrected public page is `docs/28-prime-zeta-rightmost-zeros.md`. The
+  corrected public page is `docs/30-prime-zeta-rightmost-zeros.md`. The
   paragraph that follows is **false as to novelty**. It is quoted rather
   than deleted, because editing a record to match a later finding is
   editing evidence; it is quoted rather than left as running text, so that

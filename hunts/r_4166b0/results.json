@@ -1,0 +1,2126 @@
+{
+  "hunt": "R-4166B0 (#109)",
+  "read_date": "2026-08-24",
+  "artifact": {
+    "repo": "ethereum/soundcalc",
+    "pin": "d9078d64c9c3ae15b0931f6d249b2dc073194f15"
+  },
+  "units": [
+    "Airbender",
+    "Miden",
+    "OpenVM",
+    "OpenVM2",
+    "Pico",
+    "RISC0",
+    "SP1",
+    "Venus",
+    "ZisK",
+    "zkDTVM"
+  ],
+  "field_agreement_total": {
+    "per_unit": {
+      "RISC0": {
+        "checked": 7,
+        "agreeing": 7
+      },
+      "Miden": {
+        "checked": 5,
+        "agreeing": 5
+      },
+      "OpenVM": {
+        "checked": 9,
+        "agreeing": 9
+      },
+      "SP1_at_latest_release": {
+        "checked": 30,
+        "agreeing": 30
+      }
+    },
+    "checked": 51,
+    "agreeing": 51,
+    "note": "SP1's 30 fields were derived at two vendor refs and agree at both; they are counted once here."
+  },
+  "stage0_self_reproduction": {
+    "soundcalc_pin": "d9078d64c9c3ae15b0931f6d249b2dc073194f15",
+    "reports_checked_in": [
+      "airbender.md",
+      "dummywhir.md",
+      "miden.md",
+      "openvm.md",
+      "openvm2.md",
+      "pico.md",
+      "risc0.md",
+      "sp1.md",
+      "summary.md",
+      "venus.md",
+      "zisk.md",
+      "zkdtvm.md"
+    ],
+    "reports_regenerated": [
+      "airbender.md",
+      "dummywhir.md",
+      "openvm.md",
+      "openvm2.md",
+      "pico.md",
+      "sp1.md",
+      "summary.md",
+      "venus.md",
+      "zisk.md",
+      "zkdtvm.md"
+    ],
+    "reports_not_regenerated": [
+      "miden.md",
+      "risc0.md"
+    ],
+    "units_skipped_by_loader": {
+      "Miden": "num_constraints",
+      "RISC0": "num_constraints"
+    },
+    "byte_identical_after_rerun": true,
+    "dirty_files": [],
+    "undeclared_dependency": {
+      "module": "toml",
+      "declared_in_pyproject": false,
+      "note": "pyproject.toml sets dependencies = []; `python3 -m soundcalc` raises ModuleNotFoundError on a clean interpreter."
+    },
+    "verdict": "reproduces"
+  },
+  "pins": [
+    {
+      "unit": "Airbender",
+      "kind": "commit",
+      "repo": "matter-labs/zksync-airbender",
+      "ref": "632d19b946d23180c2548626cbff4dbcce8ddb04",
+      "cited_in": "airbender.toml header 'Commit:'",
+      "resolves": false
+    },
+    {
+      "unit": "Miden",
+      "kind": "commit",
+      "repo": "0xMiden/miden-vm",
+      "ref": "fde5256c7ea99112e7dc2677b4c57ad824f63dcb",
+      "cited_in": "miden.toml header, air/src/options.rs#L47",
+      "resolves": true
+    },
+    {
+      "unit": "RISC0",
+      "kind": "commit",
+      "repo": "risc0/risc0",
+      "ref": "ebc18c770c4dd5a8e8dfdca1297edb181848405f",
+      "cited_in": "risc0.toml header, risc0/zkp/src/docs/soundness.ipynb",
+      "resolves": true
+    },
+    {
+      "unit": "OpenVM",
+      "kind": "commit",
+      "repo": "openvm-org/stark-backend",
+      "ref": "0c33328916d95047325b60a8044ecf9468db84bb",
+      "cited_in": "openvm.toml, app circuit num_queries",
+      "resolves": true
+    },
+    {
+      "unit": "OpenVM",
+      "kind": "commit",
+      "repo": "openvm-org/stark-backend",
+      "ref": "972f5dbecb6ab3ff7e3e978e9087235ad17c1de9",
+      "cited_in": "openvm.toml, leaf and internal circuits",
+      "resolves": true
+    },
+    {
+      "unit": "SP1",
+      "kind": "tag",
+      "repo": "succinctlabs/sp1",
+      "ref": "v6.1.0",
+      "cited_in": "sp1.toml version = \"6.1.0\"",
+      "resolves": true
+    },
+    {
+      "unit": "Pico",
+      "kind": "branch",
+      "repo": "brevis-network/pico",
+      "ref": "soundcalc",
+      "cited_in": "pico.toml header",
+      "resolves": true
+    },
+    {
+      "unit": "ZisK",
+      "kind": "branch",
+      "repo": "0xPolygonHermez/pil2-proofman",
+      "ref": "pre-develop-0.17.0",
+      "cited_in": "regenerate_zisk_config.sh step 4",
+      "resolves": false
+    }
+  ],
+  "derivations": {
+    "RISC0": {
+      "verdict": "match",
+      "fields_checked": 7,
+      "fields_agreeing": 7,
+      "per_field": {
+        "rho": {
+          "toml": 0.25,
+          "source": 0.25
+        },
+        "trace_length": {
+          "toml": 2097152,
+          "source": 2097152
+        },
+        "num_queries": {
+          "toml": 50,
+          "source": 50
+        },
+        "num_columns": {
+          "toml": 279,
+          "source": 279
+        },
+        "opening_points": {
+          "toml": 9,
+          "source": 9
+        },
+        "batch_size": {
+          "toml": 283,
+          "source": 283
+        }
+      },
+      "agree": {
+        "rho": true,
+        "trace_length": true,
+        "num_queries": true,
+        "num_columns": true,
+        "opening_points": true,
+        "batch_size": true,
+        "fri_schedule_lands_on_early_stop": true
+      },
+      "documented_deviations": [
+        "air_max_degree = 4 while the notebook sets max_degree = 5; the TOML states the reason at the point of use (DEEP-ALI uses d-1).",
+        "fri_early_stop_degree derived arithmetically, not read from the notebook."
+      ],
+      "self_flagged_unverified": [
+        "hash_size_bits (TOML comment: 'TODO: check if that is actually true')"
+      ],
+      "missing_required_key": "num_constraints",
+      "artifact": {
+        "url": "https://raw.githubusercontent.com/risc0/risc0/ebc18c770c4dd5a8e8dfdca1297edb181848405f/risc0/zkp/src/docs/soundness.ipynb",
+        "status": 200,
+        "present": true,
+        "bytes": 38669,
+        "sha256": "c3a92d6373ed35a00b995d3e3f2cea0c4902f5f813933d115e3b1fde74d5acf8",
+        "path": "data/risc0_soundness_pinned.ipynb"
+      }
+    },
+    "Miden": {
+      "verdict": "match",
+      "fields_checked": 5,
+      "fields_agreeing": 5,
+      "per_field": {
+        "num_queries": {
+          "toml": 27,
+          "source": 27
+        },
+        "rho": {
+          "toml": 0.125,
+          "source": 0.125
+        },
+        "grinding_query_phase": {
+          "toml": 16,
+          "source": 16
+        },
+        "field": {
+          "toml": "Goldilocks^2",
+          "source": "Goldilocks^2"
+        },
+        "fri_folding_factor": {
+          "toml": [
+            4
+          ],
+          "source": [
+            4
+          ]
+        }
+      },
+      "agree": {
+        "num_queries": true,
+        "rho": true,
+        "grinding_query_phase": true,
+        "field": true,
+        "fri_folding_factor": true
+      },
+      "documented_deviations": [
+        "fri_early_stop_degree = 128 while the cited constant sets fri_remainder_max_degree = 127; the TOML states the reason."
+      ],
+      "self_flagged_unverified": [
+        "trace_length, num_columns, batch_size, opening_points -- the TOML marks each 'XXX need to check ... by running the prover' or 'XXX ???'.",
+        "hash_size_bits (TOML comment: 'TODO: check if that is actually true')."
+      ],
+      "missing_required_key": "num_constraints",
+      "artifact": {
+        "url": "https://raw.githubusercontent.com/0xMiden/miden-vm/fde5256c7ea99112e7dc2677b4c57ad824f63dcb/air/src/options.rs",
+        "status": 200,
+        "present": true,
+        "bytes": 10257,
+        "sha256": "a262d057cc589e53124d3f9c01d55e3593ea184c27b78d1dd7f34b8faeb34431",
+        "path": "data/miden_options_pinned.rs"
+      }
+    },
+    "OpenVM": {
+      "verdict": "match",
+      "fields_checked": 9,
+      "fields_agreeing": 9,
+      "per_field": {
+        "app.num_queries": {
+          "toml": 193,
+          "source": 193
+        },
+        "app.grinding_batching_phase": {
+          "toml": 20,
+          "source": 20
+        },
+        "app.grinding_query_phase": {
+          "toml": 20,
+          "source": 20
+        },
+        "leaf.num_queries": {
+          "toml": 193,
+          "source": 193
+        },
+        "leaf.grinding_batching_phase": {
+          "toml": 20,
+          "source": 20
+        },
+        "leaf.grinding_query_phase": {
+          "toml": 20,
+          "source": 20
+        },
+        "internal.num_queries": {
+          "toml": 118,
+          "source": 118
+        },
+        "internal.grinding_batching_phase": {
+          "toml": 16,
+          "source": 16
+        },
+        "internal.grinding_query_phase": {
+          "toml": 20,
+          "source": 20
+        }
+      },
+      "agree": {
+        "app.num_queries": true,
+        "app.grinding_batching_phase": true,
+        "app.grinding_query_phase": true,
+        "leaf.num_queries": true,
+        "leaf.grinding_batching_phase": true,
+        "leaf.grinding_query_phase": true,
+        "internal.num_queries": true,
+        "internal.grinding_batching_phase": true,
+        "internal.grinding_query_phase": true
+      },
+      "values_reproduce_from": {
+        "repo": "openvm-org/stark-backend",
+        "ref": "0c33328916d95047325b60a8044ecf9468db84bb",
+        "function": "standard_fri_params_with_100_bits_security",
+        "arms": {
+          "1": {
+            "log_final_poly_len": 0,
+            "num_queries": 193,
+            "commit_proof_of_work_bits": 20,
+            "query_proof_of_work_bits": 20
+          },
+          "2": {
+            "log_final_poly_len": 0,
+            "num_queries": 118,
+            "commit_proof_of_work_bits": 16,
+            "query_proof_of_work_bits": 20
+          }
+        }
+      },
+      "per_circuit_reproduces": {
+        "app": true,
+        "leaf": true,
+        "internal": true
+      },
+      "citations": [
+        {
+          "circuit": "app",
+          "ref": "0c33328916d95047325b60a8044ecf9468db84bb",
+          "line": 183,
+          "fn": "standard_fri_params_with_100_bits_security",
+          "log_blowup": 1,
+          "text_at_cited_line": "num_queries: 193,",
+          "value_in_cited_function_arm": 193,
+          "toml_num_queries": 193,
+          "cited_line_carries_the_value": true,
+          "cited_arm_matches_toml": true
+        },
+        {
+          "circuit": "leaf",
+          "ref": "972f5dbecb6ab3ff7e3e978e9087235ad17c1de9",
+          "line": 65,
+          "fn": "standard_fri_params_with_100_bits_conjectured_security",
+          "log_blowup": 1,
+          "text_at_cited_line": "1 => FriParameters {",
+          "value_in_cited_function_arm": 100,
+          "toml_num_queries": 193,
+          "cited_line_carries_the_value": false,
+          "cited_arm_matches_toml": false
+        },
+        {
+          "circuit": "internal",
+          "ref": "972f5dbecb6ab3ff7e3e978e9087235ad17c1de9",
+          "line": 71,
+          "fn": "standard_fri_params_with_100_bits_conjectured_security",
+          "log_blowup": 2,
+          "text_at_cited_line": "2 => FriParameters {",
+          "value_in_cited_function_arm": 44,
+          "toml_num_queries": 118,
+          "cited_line_carries_the_value": false,
+          "cited_arm_matches_toml": false
+        }
+      ],
+      "stale_citations": [
+        "leaf",
+        "internal"
+      ],
+      "note": "The values reproduce. Two of the three citations point at a superseded commit and a differently-named function whose arms carry different, LOWER query counts. The TOML uses the higher counts, so the citation is stale, not the number.",
+      "artifacts": {
+        "a": {
+          "url": "https://raw.githubusercontent.com/openvm-org/stark-backend/0c33328916d95047325b60a8044ecf9468db84bb/crates/stark-sdk/src/config/fri_params.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 15624,
+          "sha256": "1ab1166c24618c37e65042d44198c0ee67d1faf7aedf122073084923490f37aa",
+          "path": "data/openvm_fri_params_0c333289.rs"
+        },
+        "b": {
+          "url": "https://raw.githubusercontent.com/openvm-org/stark-backend/972f5dbecb6ab3ff7e3e978e9087235ad17c1de9/crates/stark-sdk/src/config/fri_params.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 4796,
+          "sha256": "1ecd04bf0e270fbeece3e1ab4cb6dc6a2e9b58fe33e98dadc54b69e3c693d66c",
+          "path": "data/openvm_fri_params_972f5dbe.rs"
+        }
+      }
+    },
+    "SP1_at_generation_tree": {
+      "verdict": "match",
+      "ref": "b69a2db2",
+      "constants_read": {
+        "CORE_LOG_BLOWUP": 2,
+        "RECURSION_LOG_BLOWUP": 2,
+        "SHRINK_LOG_BLOWUP": 3,
+        "SP1_PROOF_OF_WORK_BITS": 16,
+        "SP1_SHRINK_WRAP_POW_BITS": 22,
+        "SP1_TARGET_BITS_OF_SECURITY": 100,
+        "CORE_LOG_STACKING_HEIGHT": 21,
+        "CORE_MAX_LOG_ROW_COUNT": 22,
+        "RECURSION_LOG_TRACE_AREA": 27,
+        "SHRINK_LOG_TRACE_AREA": 25,
+        "SHRINK_LOG_STACKING_HEIGHT": 18,
+        "SHRINK_MAX_LOG_ROW_COUNT": 19,
+        "RECURSION_LOG_STACKING_HEIGHT": 20,
+        "RECURSION_MAX_LOG_ROW_COUNT": 21,
+        "BATCH_GRINDING_BITS": 5,
+        "ELEMENT_THRESHOLD": 402653184
+      },
+      "fields_checked": 30,
+      "fields_agreeing": 30,
+      "per_field": {
+        "core.blowup_factor": {
+          "toml": 4,
+          "derived": 4
+        },
+        "core.rho": {
+          "toml": 0.25,
+          "derived": 0.25
+        },
+        "core.trace_length": {
+          "toml": 4194304,
+          "derived": 4194304
+        },
+        "core.dense_length": {
+          "toml": 2097152,
+          "derived": 2097152
+        },
+        "core.dense_batch": {
+          "toml": 193,
+          "derived": 193
+        },
+        "core.num_queries": {
+          "toml": 124,
+          "derived": 124
+        },
+        "core.fri_folding_factors": {
+          "toml": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "derived": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        "core.fri_early_stop_degree": {
+          "toml": 4,
+          "derived": 4
+        },
+        "core.grinding_batching_phase": {
+          "toml": 5,
+          "derived": 5
+        },
+        "core.grinding_query_phase": {
+          "toml": 16,
+          "derived": 16
+        },
+        "compress.blowup_factor": {
+          "toml": 4,
+          "derived": 4
+        },
+        "compress.rho": {
+          "toml": 0.25,
+          "derived": 0.25
+        },
+        "compress.trace_length": {
+          "toml": 2097152,
+          "derived": 2097152
+        },
+        "compress.dense_length": {
+          "toml": 1048576,
+          "derived": 1048576
+        },
+        "compress.dense_batch": {
+          "toml": 128,
+          "derived": 128
+        },
+        "compress.num_queries": {
+          "toml": 124,
+          "derived": 124
+        },
+        "compress.fri_folding_factors": {
+          "toml": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "derived": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        "compress.fri_early_stop_degree": {
+          "toml": 4,
+          "derived": 4
+        },
+        "compress.grinding_batching_phase": {
+          "toml": 5,
+          "derived": 5
+        },
+        "compress.grinding_query_phase": {
+          "toml": 16,
+          "derived": 16
+        },
+        "shrink.blowup_factor": {
+          "toml": 8,
+          "derived": 8
+        },
+        "shrink.rho": {
+          "toml": 0.125,
+          "derived": 0.125
+        },
+        "shrink.trace_length": {
+          "toml": 524288,
+          "derived": 524288
+        },
+        "shrink.dense_length": {
+          "toml": 262144,
+          "derived": 262144
+        },
+        "shrink.dense_batch": {
+          "toml": 128,
+          "derived": 128
+        },
+        "shrink.num_queries": {
+          "toml": 94,
+          "derived": 94
+        },
+        "shrink.fri_folding_factors": {
+          "toml": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "derived": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        "shrink.fri_early_stop_degree": {
+          "toml": 8,
+          "derived": 8
+        },
+        "shrink.grinding_batching_phase": {
+          "toml": 5,
+          "derived": 5
+        },
+        "shrink.grinding_query_phase": {
+          "toml": 22,
+          "derived": 22
+        }
+      },
+      "agree": {
+        "core.blowup_factor": true,
+        "core.rho": true,
+        "core.trace_length": true,
+        "core.dense_length": true,
+        "core.dense_batch": true,
+        "core.num_queries": true,
+        "core.fri_folding_factors": true,
+        "core.fri_early_stop_degree": true,
+        "core.grinding_batching_phase": true,
+        "core.grinding_query_phase": true,
+        "compress.blowup_factor": true,
+        "compress.rho": true,
+        "compress.trace_length": true,
+        "compress.dense_length": true,
+        "compress.dense_batch": true,
+        "compress.num_queries": true,
+        "compress.fri_folding_factors": true,
+        "compress.fri_early_stop_degree": true,
+        "compress.grinding_batching_phase": true,
+        "compress.grinding_query_phase": true,
+        "shrink.blowup_factor": true,
+        "shrink.rho": true,
+        "shrink.trace_length": true,
+        "shrink.dense_length": true,
+        "shrink.dense_batch": true,
+        "shrink.num_queries": true,
+        "shrink.fri_folding_factors": true,
+        "shrink.fri_early_stop_degree": true,
+        "shrink.grinding_batching_phase": true,
+        "shrink.grinding_query_phase": true
+      },
+      "not_checked_needs_a_build": {
+        "fields": [
+          "core.trace_columns",
+          "core.num_constraints",
+          "compress.trace_columns",
+          "compress.num_constraints",
+          "shrink.trace_columns",
+          "shrink.num_constraints",
+          "*.lookups.num_lookups_M",
+          "*.lookups.num_columns_S"
+        ],
+        "why": "gen_soundcalc_toml.rs derives these from machine.shape() at runtime; the only documented route is `cargo run --release -p sp1-prover --bin gen_soundcalc_toml`, which this run does not do (compute discipline: no heavy builds here)."
+      },
+      "artifacts": [
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/b69a2db2/crates/primitives/src/fri_params.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 1791,
+          "sha256": "4dc24214ff0b5ab8e364b6bed6c35ec20a29b60deec45b11890fb830490d2c95",
+          "path": "data/sp1_b69a2db2_fri_params.rs",
+          "vendor_path": "crates/primitives/src/fri_params.rs"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/b69a2db2/crates/prover/src/components.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 7250,
+          "sha256": "ab85c8679c431076d921c382afdc0f5cddbcdfaf28a423e54b61e30851b3efc7",
+          "path": "data/sp1_b69a2db2_components.rs",
+          "vendor_path": "crates/prover/src/components.rs"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/b69a2db2/crates/verifier/src/compressed/config.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 102,
+          "sha256": "3bbf92b6e47c197831814ecf1a84a9fac7134fe54729fe904f25a014ba4d4b06",
+          "path": "data/sp1_b69a2db2_config.rs",
+          "vendor_path": "crates/verifier/src/compressed/config.rs"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/b69a2db2/slop/crates/basefold/src/verifier.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 17929,
+          "sha256": "2df9176c9ca8e4e1feb64317818a06d5f877bd137c2102a8c49e7e0cab029620",
+          "path": "data/sp1_b69a2db2_verifier.rs",
+          "vendor_path": "slop/crates/basefold/src/verifier.rs"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/b69a2db2/crates/core/executor/src/opts.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 7753,
+          "sha256": "82ecf8ffebdea9a8f09455b39456b145b8804843eff598904dd2b60d79ab7a9a",
+          "path": "data/sp1_b69a2db2_opts.rs",
+          "vendor_path": "crates/core/executor/src/opts.rs"
+        }
+      ]
+    },
+    "SP1_at_latest_release": {
+      "verdict": "match",
+      "ref": "v6.4.0",
+      "constants_read": {
+        "CORE_LOG_BLOWUP": 2,
+        "RECURSION_LOG_BLOWUP": 2,
+        "SHRINK_LOG_BLOWUP": 3,
+        "SP1_PROOF_OF_WORK_BITS": 16,
+        "SP1_SHRINK_WRAP_POW_BITS": 22,
+        "SP1_TARGET_BITS_OF_SECURITY": 100,
+        "CORE_LOG_STACKING_HEIGHT": 21,
+        "CORE_MAX_LOG_ROW_COUNT": 22,
+        "RECURSION_LOG_TRACE_AREA": 27,
+        "SHRINK_LOG_TRACE_AREA": 25,
+        "SHRINK_LOG_STACKING_HEIGHT": 18,
+        "SHRINK_MAX_LOG_ROW_COUNT": 19,
+        "RECURSION_LOG_STACKING_HEIGHT": 20,
+        "RECURSION_MAX_LOG_ROW_COUNT": 21,
+        "BATCH_GRINDING_BITS": 5,
+        "ELEMENT_THRESHOLD": 402653184
+      },
+      "fields_checked": 30,
+      "fields_agreeing": 30,
+      "per_field": {
+        "core.blowup_factor": {
+          "toml": 4,
+          "derived": 4
+        },
+        "core.rho": {
+          "toml": 0.25,
+          "derived": 0.25
+        },
+        "core.trace_length": {
+          "toml": 4194304,
+          "derived": 4194304
+        },
+        "core.dense_length": {
+          "toml": 2097152,
+          "derived": 2097152
+        },
+        "core.dense_batch": {
+          "toml": 193,
+          "derived": 193
+        },
+        "core.num_queries": {
+          "toml": 124,
+          "derived": 124
+        },
+        "core.fri_folding_factors": {
+          "toml": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "derived": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        "core.fri_early_stop_degree": {
+          "toml": 4,
+          "derived": 4
+        },
+        "core.grinding_batching_phase": {
+          "toml": 5,
+          "derived": 5
+        },
+        "core.grinding_query_phase": {
+          "toml": 16,
+          "derived": 16
+        },
+        "compress.blowup_factor": {
+          "toml": 4,
+          "derived": 4
+        },
+        "compress.rho": {
+          "toml": 0.25,
+          "derived": 0.25
+        },
+        "compress.trace_length": {
+          "toml": 2097152,
+          "derived": 2097152
+        },
+        "compress.dense_length": {
+          "toml": 1048576,
+          "derived": 1048576
+        },
+        "compress.dense_batch": {
+          "toml": 128,
+          "derived": 128
+        },
+        "compress.num_queries": {
+          "toml": 124,
+          "derived": 124
+        },
+        "compress.fri_folding_factors": {
+          "toml": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "derived": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        "compress.fri_early_stop_degree": {
+          "toml": 4,
+          "derived": 4
+        },
+        "compress.grinding_batching_phase": {
+          "toml": 5,
+          "derived": 5
+        },
+        "compress.grinding_query_phase": {
+          "toml": 16,
+          "derived": 16
+        },
+        "shrink.blowup_factor": {
+          "toml": 8,
+          "derived": 8
+        },
+        "shrink.rho": {
+          "toml": 0.125,
+          "derived": 0.125
+        },
+        "shrink.trace_length": {
+          "toml": 524288,
+          "derived": 524288
+        },
+        "shrink.dense_length": {
+          "toml": 262144,
+          "derived": 262144
+        },
+        "shrink.dense_batch": {
+          "toml": 128,
+          "derived": 128
+        },
+        "shrink.num_queries": {
+          "toml": 94,
+          "derived": 94
+        },
+        "shrink.fri_folding_factors": {
+          "toml": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "derived": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        "shrink.fri_early_stop_degree": {
+          "toml": 8,
+          "derived": 8
+        },
+        "shrink.grinding_batching_phase": {
+          "toml": 5,
+          "derived": 5
+        },
+        "shrink.grinding_query_phase": {
+          "toml": 22,
+          "derived": 22
+        }
+      },
+      "agree": {
+        "core.blowup_factor": true,
+        "core.rho": true,
+        "core.trace_length": true,
+        "core.dense_length": true,
+        "core.dense_batch": true,
+        "core.num_queries": true,
+        "core.fri_folding_factors": true,
+        "core.fri_early_stop_degree": true,
+        "core.grinding_batching_phase": true,
+        "core.grinding_query_phase": true,
+        "compress.blowup_factor": true,
+        "compress.rho": true,
+        "compress.trace_length": true,
+        "compress.dense_length": true,
+        "compress.dense_batch": true,
+        "compress.num_queries": true,
+        "compress.fri_folding_factors": true,
+        "compress.fri_early_stop_degree": true,
+        "compress.grinding_batching_phase": true,
+        "compress.grinding_query_phase": true,
+        "shrink.blowup_factor": true,
+        "shrink.rho": true,
+        "shrink.trace_length": true,
+        "shrink.dense_length": true,
+        "shrink.dense_batch": true,
+        "shrink.num_queries": true,
+        "shrink.fri_folding_factors": true,
+        "shrink.fri_early_stop_degree": true,
+        "shrink.grinding_batching_phase": true,
+        "shrink.grinding_query_phase": true
+      },
+      "not_checked_needs_a_build": {
+        "fields": [
+          "core.trace_columns",
+          "core.num_constraints",
+          "compress.trace_columns",
+          "compress.num_constraints",
+          "shrink.trace_columns",
+          "shrink.num_constraints",
+          "*.lookups.num_lookups_M",
+          "*.lookups.num_columns_S"
+        ],
+        "why": "gen_soundcalc_toml.rs derives these from machine.shape() at runtime; the only documented route is `cargo run --release -p sp1-prover --bin gen_soundcalc_toml`, which this run does not do (compute discipline: no heavy builds here)."
+      },
+      "artifacts": [
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/v6.4.0/crates/primitives/src/fri_params.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 1791,
+          "sha256": "4dc24214ff0b5ab8e364b6bed6c35ec20a29b60deec45b11890fb830490d2c95",
+          "path": "data/sp1_v6.4.0_fri_params.rs",
+          "vendor_path": "crates/primitives/src/fri_params.rs"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/v6.4.0/crates/prover/src/components.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 7344,
+          "sha256": "f65de7167613219ac9e8923d52b1b8da825e953e3fbe14955726183d6654d33b",
+          "path": "data/sp1_v6.4.0_components.rs",
+          "vendor_path": "crates/prover/src/components.rs"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/v6.4.0/crates/verifier/src/compressed/config.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 102,
+          "sha256": "3bbf92b6e47c197831814ecf1a84a9fac7134fe54729fe904f25a014ba4d4b06",
+          "path": "data/sp1_v6.4.0_config.rs",
+          "vendor_path": "crates/verifier/src/compressed/config.rs"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/v6.4.0/slop/crates/basefold/src/verifier.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 17929,
+          "sha256": "2df9176c9ca8e4e1feb64317818a06d5f877bd137c2102a8c49e7e0cab029620",
+          "path": "data/sp1_v6.4.0_verifier.rs",
+          "vendor_path": "slop/crates/basefold/src/verifier.rs"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/succinctlabs/sp1/v6.4.0/crates/core/executor/src/opts.rs",
+          "status": 200,
+          "present": true,
+          "bytes": 12006,
+          "sha256": "863e58daac35efeb283c7b324218b7949643f7bf16e87d944cf3e8546011f6fb",
+          "path": "data/sp1_v6.4.0_opts.rs",
+          "vendor_path": "crates/core/executor/src/opts.rs"
+        }
+      ]
+    }
+  },
+  "freshness": {
+    "versions": {
+      "Airbender": {
+        "vendor_repo": "matter-labs/zksync-airbender",
+        "named_in_toml": "commit 632d19b9 (header: Created 2026-02-24)",
+        "vendor_latest_release": "v0.5.2",
+        "vendor_latest_release_date": "2025-12-19T10:58:50Z"
+      },
+      "Miden": {
+        "vendor_repo": "0xMiden/miden-vm",
+        "named_in_toml": "commit fde5256c (2025-08-29)",
+        "vendor_latest_release": "v0.29.2",
+        "vendor_latest_release_date": "2026-08-20T21:07:46Z"
+      },
+      "OpenVM": {
+        "vendor_repo": "openvm-org/openvm",
+        "named_in_toml": "1.5.0",
+        "vendor_latest_release": "v2.0.2",
+        "vendor_latest_release_date": "2026-08-14T23:23:17Z"
+      },
+      "OpenVM2": {
+        "vendor_repo": "openvm-org/openvm",
+        "named_in_toml": "2.0.0",
+        "vendor_latest_release": "v2.0.2",
+        "vendor_latest_release_date": "2026-08-14T23:23:17Z"
+      },
+      "Pico": {
+        "vendor_repo": "brevis-network/pico",
+        "named_in_toml": "branch `soundcalc` (no commit recorded)",
+        "vendor_latest_release": "v2.1.2",
+        "vendor_latest_release_date": "2026-08-17T10:15:45Z"
+      },
+      "RISC0": {
+        "vendor_repo": "risc0/risc0",
+        "named_in_toml": "commit ebc18c77 notebook (dated September 2024)",
+        "vendor_latest_release": "v3.0.6",
+        "vendor_latest_release_date": "2026-07-17T22:29:16Z"
+      },
+      "SP1": {
+        "vendor_repo": "succinctlabs/sp1",
+        "named_in_toml": "6.1.0",
+        "vendor_latest_release": "v6.4.0",
+        "vendor_latest_release_date": "2026-08-12T14:35:52Z"
+      },
+      "Venus": {
+        "vendor_repo": "cysic-labs/venus",
+        "named_in_toml": "0.1.6",
+        "vendor_latest_release": "v0.2.5",
+        "vendor_latest_release_date": "2026-08-12T04:49:04Z"
+      },
+      "ZisK": {
+        "vendor_repo": "0xPolygonHermez/zisk",
+        "named_in_toml": "0.16.1",
+        "vendor_latest_release": "v1.1.0-alpha",
+        "vendor_latest_release_date": "2026-08-18T00:57:45Z"
+      },
+      "zkDTVM": {
+        "vendor_repo": null,
+        "named_in_toml": "0.8.0",
+        "vendor_latest_release": null,
+        "note": "zkdtvm_v080.toml names `zkdtvm-suite/whir_config_koalabear_ext5.json` as its runtime source of truth; no public repository under AntChainOpenLabs carries that file."
+      }
+    },
+    "Airbender": {
+      "verdict": "unchanged",
+      "hand_interventions": 1,
+      "intervention": "move the single `protocol_family` key from [zkevm] into the first [[circuits]] table",
+      "vendor_output_loads_unmodified": false,
+      "skip_reason_unmodified": "protocol_family",
+      "vendor_header": [
+        "# Created: 2026-04-20",
+        "# Commit:  b4817570fc43da8d789846d48719478122701037"
+      ],
+      "airbender_md_identical": true,
+      "summary_md_identical": true,
+      "artifact": {
+        "url": "https://raw.githubusercontent.com/matter-labs/zksync-airbender/dev/tools/pow_config_generator/airbender.toml",
+        "status": 200,
+        "present": true,
+        "bytes": 2196,
+        "sha256": "7b6cfbd8694b3cf27ae2232a8f10ac24e096fa421929f19fafacffb945dd8175",
+        "path": "data/airbender_vendor_dev.toml"
+      }
+    },
+    "SP1": {
+      "verdict": "unchanged",
+      "scope": "the constant-derived fields only; the shape-derived fields need a build and were not checked",
+      "constants_changed": {},
+      "constants_compared": [
+        "BATCH_GRINDING_BITS",
+        "CORE_LOG_BLOWUP",
+        "CORE_LOG_STACKING_HEIGHT",
+        "CORE_MAX_LOG_ROW_COUNT",
+        "ELEMENT_THRESHOLD",
+        "RECURSION_LOG_BLOWUP",
+        "RECURSION_LOG_STACKING_HEIGHT",
+        "RECURSION_LOG_TRACE_AREA",
+        "RECURSION_MAX_LOG_ROW_COUNT",
+        "SHRINK_LOG_BLOWUP",
+        "SHRINK_LOG_STACKING_HEIGHT",
+        "SHRINK_LOG_TRACE_AREA",
+        "SHRINK_MAX_LOG_ROW_COUNT",
+        "SP1_PROOF_OF_WORK_BITS",
+        "SP1_SHRINK_WRAP_POW_BITS",
+        "SP1_TARGET_BITS_OF_SECURITY"
+      ],
+      "generator_present_at_named_version": false,
+      "generator_present_at_latest": true
+    },
+    "Miden": {
+      "verdict": "unable-to-regenerate",
+      "cited_file_present_at_latest_release": false,
+      "cited_file_status_at_latest_release": 404,
+      "last_commits_touching_cited_file": [
+        {
+          "date": "2026-01-22T19:53:06Z",
+          "sha": "114e50c5",
+          "subject": "chore: move ExecutionOptions to `miden-processor`, and ProvingOptions to `miden-prover`"
+        },
+        {
+          "date": "2026-01-18T13:38:48Z",
+          "sha": "c1b11e5c",
+          "subject": "fix: replace ErrorContext (#2544)"
+        },
+        {
+          "date": "2026-01-06T14:27:32Z",
+          "sha": "033e374e",
+          "subject": "chore: remove `ExecutionOptionsError::CoreTraceFragmentSizeNotPowerOfTwo`"
+        },
+        {
+          "date": "2026-01-05T19:57:38Z",
+          "sha": "674bd275",
+          "subject": "feat: add validation of core_trace_fragment_size (#2528)"
+        },
+        {
+          "date": "2026-01-02T19:41:57Z",
+          "sha": "0083f515",
+          "subject": "refactor: migrate underlying proving system to Plonky3 (#2472)"
+        }
+      ],
+      "artifact": {
+        "url": "https://raw.githubusercontent.com/0xMiden/miden-vm/v0.29.2/air/src/options.rs",
+        "status": 404,
+        "present": false
+      }
+    },
+    "RISC0": {
+      "verdict": "unchanged",
+      "blob_sha_at_pinned_commit": "c8c12fed0a51cdcadfb6defb651b39389bf3721c",
+      "blob_sha_at_latest_release": "c8c12fed0a51cdcadfb6defb651b39389bf3721c",
+      "commits_ever_touching_the_file": [
+        {
+          "date": "2024-09-12T23:40:03Z",
+          "sha": "ebc18c77",
+          "subject": "Adding python notebook for soundness (#2314)"
+        }
+      ],
+      "scope": "This says the CITED ARTIFACT is unchanged. It does not say the vendor's prover parameters are unchanged: the artifact is a September 2024 notebook that has never been revised, while the vendor has shipped several major versions since."
+    },
+    "ZisK": {
+      "verdict": "unable-to-regenerate",
+      "script": "soundcalc/zkvms/zisk/regenerate_zisk_config.sh",
+      "pinned_branch": "pre-develop-0.17.0",
+      "pinned_branch_exists": false,
+      "nearest_surviving_branches": [
+        "pre-develop-0.16.1",
+        "pre-develop-0.17.0-v2",
+        "pre-develop-0.18.0",
+        "pre-develop-0.19.0",
+        "pre-develop-0.19.0-traces"
+      ],
+      "total_branches_on_remote": 417,
+      "unpinned_inputs": [
+        "`rustup default stable` -- a moving toolchain",
+        "`git clone --branch pre-develop-0.17.0` -- a branch, not a commit (and it is gone)",
+        "`wget .../zisk-provingkey-0.16.0.tar.gz` -- a proving key whose version (0.16.0) is not the version zisk.toml declares (0.16.1)"
+      ],
+      "vendor_latest_release": "v1.1.0-alpha"
+    }
+  },
+  "venus_identity_claim": {
+    "claim": "Cross-validated against ZisK upstream - identical soundness parameters. (venus.toml header)",
+    "verdict": "claim-does-not-hold",
+    "circuits": 44,
+    "circuits_differing_numerically": [
+      "Final"
+    ],
+    "circuits_differing_by_label_only": [
+      "SpecifiedRanges",
+      "VirtualTable0",
+      "VirtualTable1"
+    ],
+    "differences": {
+      "Final": {
+        "batch_size": {
+          "venus": 158,
+          "zisk": 139
+        },
+        "gap_to_radius": {
+          "venus": 0.0036666666666666666,
+          "zisk": 0.003333333333333333
+        },
+        "lookups": {
+          "venus": [
+            {
+              "name": "Connection_gprod_[1]",
+              "logup_type": "univariate",
+              "rows_L": 65536,
+              "rows_T": 65536,
+              "num_columns_S": 2,
+              "num_lookups_M": 33,
+              "grinding_bits_lookup": 0
+            }
+          ],
+          "zisk": [
+            {
+              "name": "Connection_gprod_[1]",
+              "logup_type": "univariate",
+              "rows_L": 65536,
+              "rows_T": 65536,
+              "num_columns_S": 2,
+              "num_lookups_M": 24,
+              "grinding_bits_lookup": 0
+            }
+          ]
+        },
+        "num_columns": {
+          "venus": 135,
+          "zisk": 114
+        },
+        "num_columns_fixed": {
+          "venus": 55,
+          "zisk": 46
+        },
+        "num_columns_witness": {
+          "venus": 80,
+          "zisk": 68
+        },
+        "num_constraints": {
+          "venus": 161,
+          "zisk": 154
+        },
+        "proof_size": {
+          "venus": "335.21 KB",
+          "zisk": "327.71 KB"
+        }
+      }
+    },
+    "regime_totals_venus": [
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "112"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "113"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "93"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "80"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "63"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "71"
+      ],
+      [
+        "JBR",
+        "128"
+      ]
+    ],
+    "regime_totals_zisk": [
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "112"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "113"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "93"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "111"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "94"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "80"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "63"
+      ],
+      [
+        "JBR",
+        "128"
+      ],
+      [
+        "UDR",
+        "71"
+      ],
+      [
+        "JBR",
+        "128"
+      ]
+    ],
+    "published_security_bits_affected": false,
+    "why_not_soundness_impacting": "Every per-regime TOTAL is identical between the two reports (UDR 63 / JBR 128 on the differing circuit, and each system's headline is 128 bits JBR). The differing component is ALI, which is not the binding term -- the query phase binds at 63/128. Venus's own numbers follow from Venus's own parameters; what fails is the header's equivalence claim, not either published figure."
+  },
+  "controls": [
+    {
+      "fault": "risc0-num_queries-51",
+      "expected": "mismatch",
+      "observed": "mismatch",
+      "detected": true
+    },
+    {
+      "fault": "miden-num_queries-28",
+      "expected": "mismatch",
+      "observed": "mismatch",
+      "detected": true
+    },
+    {
+      "fault": "sp1-core-num_queries-123",
+      "expected": "mismatch",
+      "observed": "mismatch",
+      "detected": true
+    },
+    {
+      "fault": "openvm-internal-num_queries-117",
+      "expected": "mismatch",
+      "observed": "mismatch",
+      "detected": true
+    },
+    {
+      "fault": "airbender-toml-num_queries+1",
+      "expected": "does-not-reproduce",
+      "observed": "does-not-reproduce",
+      "detected": true
+    },
+    {
+      "fault": "venus-given-zisk-circuits",
+      "expected": "claim-holds",
+      "observed": "claim-holds",
+      "detected": true
+    }
+  ]
+}

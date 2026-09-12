@@ -1,0 +1,49 @@
+{
+  "run_id": "e09a7f8a-fbcc-4a1f-8fe8-1b6a624c4dba",
+  "status": "settled",
+  "conclusion": "637/1000 does survive at depth 1: an Arb pass at 96 bits over s in [37.0135, 400] bounds sup Dam(1,s)*(s^2-2) by 0.6317735, margin +0.0052 against the constant, at an enclosure cost of 1.00005 over the float scan. The 0.6636 in K2-TWO-SPECIES.md is a range mismatch, since it is a sup over s in [8,400] while 637/1000 is only asserted for s >= 37.0135, and both starred rows are attained near s = 12.7 where the proved envelope Wt(w)*w is 0.705.",
+  "confidence": "Lean hard on the withdrawal of the constant's failure. The range mismatch is a fact about two written statements and needs no numerics to check: Wt_tail_le's hypothesis is 1368 <= w and the scan's argmax is w = 157.4. The depth-1 bound itself is enclosure-carrying over [37.0135, 400] and the enclosure is only 1.00005x the float scan, so it is not an interval artifact. Lean less on two things: s > 400 has no enclosure at depth 1 and is float-grade only, and the break depths (1.0494, and 0.9727 for Qim_far_sq) are double-precision scans backed by a closed form that agrees to five digits but is itself derived here rather than proved.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "ball_field.D_enclosure and its Arb-at-96-bits ghat, including the documented halving convention ghat(z) = (phi(w+) + phi(w-))/2 and the Taylor branch for small |w|",
+      "source": "hunts/r_a97060/ball_field.py (run 2026-08-17)",
+      "effect": "the entire hardened half of this run. Writing a correct outward enclosure of Dam(y,s) from scratch, with the phi(0) division-by-a-straddling-ball problem handled, would have consumed the whole budget; instead the depth ladder cost 96 s of compute and no derivation. The brief named this as the first step and it was the right one."
+    },
+    {
+      "what": "the precomputed-envelope pattern proposed by run 78b4ce8e (build one ball envelope on a fine grid, answer queries by running-maximum lookup)",
+      "source": "R-A7C12F brief, reusable capabilities",
+      "effect": "considered and NOT used, reported here because the brief asks. It is the wrong shape for this question: there are no overlapping query boxes, just one supremum over one interval, so adaptive bisection on a coarse grid (refine only where the running bound exceeds 0.50) did the same job in 45,030 cells instead of a uniform fine grid. The pattern's stated precondition, many overlapping queries against one expensive field, is what makes it pay, and it was absent here."
+    },
+    {
+      "what": "the Lean statements of Wt, Wt_tail_le, Qim_far_sq and base_poly_le, read as source rather than as quoted",
+      "source": "hunts/frontier_math/zeta23ext/Zeta23Ext/EForm3/FarField.lean, Counting.lean",
+      "effect": "settled the question before any computation ran. Wt_tail_le has no depth variable, so the whole 'does it survive at depth 1' framing was answerable by reading four lines. The numerics then went to the question that was actually open, which is whether the constant's VALUE still dominates at depth 1."
+    }
+  ],
+  "threads": [
+    {
+      "what": "the other starred entry of the same table: no_damage's 28/5 shrinking to 5.3984 at depth 1",
+      "why_it_might_matter": "it was produced by the same scan in the same session as the far row, and the far row turned out to be a range artifact rather than a correction. If this one is too, the depth-1 landscape carries no corrections at all and the k >= 3 brief loses a stated obstruction. If it is real, it is the only surviving one and deserves to be stated alone rather than as one of two.",
+      "first_step": "read no_damage's Lean statement for its own y hypothesis, then bound D(1,s) from above on s in [28/5, 6.0653] with ball_field.D_enclosure and check whether the sign change at 5.3984 falls inside or outside the range that lemma claims"
+    },
+    {
+      "what": "a depth-1 Wt: re-fit base_poly_le's cubic majorant with cosh(1/2) and sinh(1/2) in place of cosh(1/4) and sinh(1/4)",
+      "why_it_might_matter": "it is the only thing between the measured 0.6318 and a proved depth-1 far row, and it would restore the tail s > 400 that this run left unenclosed. Bounded work: four coefficients and one nlinarith, on a route FarField.lean already walks once.",
+      "first_step": "recompute the four coefficients by FarField.lean's own route, check the resulting Wt1(w)*w limit against the measured limsup 4 sinh(1/2)^2 cos(1/sqrt2)^2 = 0.62777, and find the threshold w at which it drops under a clean rational"
+    },
+    {
+      "what": "two_species.far_constant's scan range [8, 400] is a bare default with no comment saying which lemma's range it corresponds to",
+      "why_it_might_matter": "that undocumented 8 is what turned a sound measurement into a recorded refutation, and the same function is the one a k >= 3 pass would call next",
+      "first_step": "one docstring line naming s >= 37.0135 as the range 637/1000 applies to. Left undone because hunts/frontier_math/ is outside this hunt's write scope."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a 'quantifier diff' check that reads the hypotheses off a cited Lean lemma and compares them against the range or parameters a Python scan actually sweeps",
+      "why_reusable": "this whole thread existed because a scan over s in [8,400] was compared against a constant proved for s >= 37.0135, and the mismatch survived eight days and became a declared dependency of another run. The tree cites Lean lemmas from Python docstrings and markdown tables constantly (Wt_tail_le, no_damage, energy_F_ge, the O8 floor), and nothing mechanical ever compares a citation's hypotheses with the caller's domain. It is a lexical check on the lemma's binders, not a proof step, so it is cheap.",
+      "first_step": "nothing yet, record it. Two live instances exist (this row and the 28/5 row beside it); building the checker before a third would be the mistake the design-discipline rule names. If the 28/5 thread also turns out to be a range artifact, that is the third and the case is made."
+    }
+  ],
+  "notes_for_operator": "CLOSE THE LOOP could not be completed as written, and the reason is structural rather than a miss. The brief's premise is that a function in harness/ returned this task, but it came from the thread roster (threads.json R-A7C12F, recorded by run 78b4ce8e); the far constant appears nowhere in any ledger under harness/departments/. Before this commit the generators returned exactly two open items, rf-c003-window (no blind attack) and tests/test_doors.py (undemonstrated guard), neither of which is this task. So there was no generator output for this run's item to disappear from. What was done instead: the claim is now entered in review_ledger.py as k2-far-constant-depth1 with this run's white-box AttackOutcome appended, so the attack is on the record where attacks belong. standing_reasons now says the claim has no recorded blind attack, which is true and is the honest state to leave it in rather than a failure to close. If the intent is that thread-sourced tasks should also close into a ledger, that routing decision belongs to Fulcrum and is named here rather than acted on."
+}

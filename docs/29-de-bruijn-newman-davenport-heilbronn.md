@@ -1,9 +1,15 @@
-# The de Bruijn-Newman constant of the Davenport-Heilbronn function
+# 29. The de Bruijn-Newman constant of the Davenport-Heilbronn function
 
-Hunt #50 (`hunts/lambda_dh_bounds/`) produced the first quantitative bounds,
-from either side, on the de Bruijn-Newman constant of the Davenport-Heilbronn
-function, and one corollary that is sharper than the bracket itself: the
-constant strictly exceeds zeta's, unconditionally. This page is the reading
+Hunt #61 (`hunts/lambda_dh_bounds/`) produced, so far as the literature search
+recorded in `hunts/lambda_dh_bounds/NOVELTY.md` reaches, the first quantitative
+bounds, from either side, on the de Bruijn-Newman constant of a Dirichlet
+series with a Riemann-type functional equation whose Riemann hypothesis is
+false, and one corollary that is sharper than the bracket itself: the constant
+strictly exceeds zeta's, unconditionally. The hedge and the scope are both
+load-bearing and are `NOVELTY.md`'s own adopted wording: Stopple
+(arXiv:1301.3158) already has an unconditional quantitative bound on a
+non-zeta constant of this type, so "first quantitative bounds on the
+Davenport-Heilbronn function" would be false as stated. This page is the reading
 course for that record. The evidence lives in the hunt directory; every number
 here is pinned by `tests/test_lambda_dh_separation.py` or by the hunt's own
 result files.

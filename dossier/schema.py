@@ -1,10 +1,10 @@
-"""``dossier.schema`` — what an AI agent needs in order to resume rigorous work.
+"""``dossier.schema``, what an AI agent needs in order to resume rigorous work.
 
 **This is an experiment and a side project.** It is not a platform, not a
 replacement for Mathlib, and not a claim about RH. It tests one question:
 
-    Can mathematical research state — intent, definitions, provenance,
-    evidence, failed attempts, proof obligations and verification status — be
+    Can mathematical research state, intent, definitions, provenance,
+    evidence, failed attempts, proof obligations and verification status, be
     represented in a structured form that helps an agent perform and *resume*
     rigorous mathematical work?
 
@@ -12,15 +12,15 @@ The design premise is a failure mode this repository already knows about in
 another guise: `AGENTS.md` devotes a whole section to name collisions in the
 laboratory, where one identifier means three unrelated things depending on the
 module. Those are naming traps a *person* rereads a docstring to escape. An agent resuming cold has no such reflex, and
-the expensive version of the mistake is not a wrong import — it is a
+the expensive version of the mistake is not a wrong import, it is a
 definition that is formally impeccable and denotes the wrong object.
 
 Hence the two load-bearing pieces here:
 
-* :class:`Intent` — what the object is *for*, in prose, before any formula.
+* :class:`Intent`, what the object is *for*, in prose, before any formula.
   A definition can be checked; an intent can only be stated, and stating it is
   what makes a later mismatch visible.
-* :class:`SemanticObligation` — a property the definition must have *in order
+* :class:`SemanticObligation`, a property the definition must have *in order
   to be the intended object*, each carrying its own evidence. This is the
   answer to "formally valid, semantically wrong": the obligations are where a
   wrong-but-well-typed definition gets caught.
@@ -38,7 +38,7 @@ the two must not be confused. If you want to record "here is a lead that might
 be new", that is :mod:`ontology`, and it already exists.
 
 The one thing not reused is identity. :func:`ontology.schema.content_hash`
-canonicalises a *claim* — it demands a candidate kind, prefixes ids with
+canonicalises a *claim*, it demands a candidate kind, prefixes ids with
 ``cand-``, and rounds numbers to a dedup tolerance because two runs asserting
 the same number should collide. None of that applies to a dossier, whose
 identity is over prose and which is not a candidate. Borrowing it would have
@@ -88,7 +88,7 @@ class DossierError(Exception):
 
 
 class Confidence(StrEnum):
-    """How settled is this piece — not how true, how *settled here*."""
+    """How settled is this piece, not how true, how *settled here*."""
 
     SETTLED = "settled"
     WORKING = "working"
@@ -101,7 +101,7 @@ class Intent:
 
     ``purpose`` is prose on purpose: it is the thing a formula cannot carry.
     ``distinguishes_from`` names the objects this one is most likely to be
-    confused with — the field exists because the recurring expensive error in
+    confused with, the field exists because the recurring expensive error in
     this repository's own history is a name collision, not an arithmetic slip.
     """
 
@@ -133,7 +133,7 @@ class RejectedAlternative:
 
     The most valuable field in the schema for an agent resuming cold, and the
     one a human would never write unprompted. Without it the next pass
-    re-derives the same dead end, and — worse — may adopt it, because a
+    re-derives the same dead end, and, worse, may adopt it, because a
     rejected alternative usually looks reasonable.
     """
 
@@ -184,14 +184,14 @@ class OpenQuestion:
     hours after external evidence satisfied it, because nothing coupled that
     evidence to recorded status (see ``dossier/subjects/`` for the example and
     its tests). An open question has exactly the same failure shape one level
-    up — ``what_would_settle_it`` can be satisfied while the record still says
-    "open" — so it gets the same fix: an explicit field to write the answer
+    up, ``what_would_settle_it`` can be satisfied while the record still says
+    "open", so it gets the same fix: an explicit field to write the answer
     into, rather than deleting or silently editing the question once it stops
     being open. Left ``""`` (the default), the question is open. A non-blank
     value is a claim that it no longer is, and per this schema's
     history-keeping convention (never erase a superseded record, add the
     correction next to it) the question and ``what_would_settle_it`` stay in
-    place as the record of what was asked and what would have answered it —
+    place as the record of what was asked and what would have answered it,
     ``resolution`` is what did.
     """
 
@@ -232,7 +232,7 @@ class Dossier:
 def dossier_id(dossier: Dossier) -> str:
     """A stable id for the *identity* of the object, not its research state.
 
-    Keyed on the name, the intent's purpose and the definition statement — the
+    Keyed on the name, the intent's purpose and the definition statement, the
     three things that make it this object. Evidence, obligations and open
     questions deliberately do not enter: they change as work proceeds, and an
     id that changed with them would make the record untraceable across exactly
@@ -326,7 +326,7 @@ def dossier_reasons(dossier: Dossier) -> tuple[str, ...]:
         if question.resolution and not question.resolution.strip():
             reasons.append(
                 f"open question {question.question[:40]!r}: resolution is set "
-                "but blank — leave it '' if still open, or write the answer"
+                "but blank, leave it '' if still open, or write the answer"
             )
 
     reasons += list(support_reasons(dossier.support))

@@ -12,11 +12,11 @@ import ZetaLean.PrimeSimplex
 analytic input still missing from the formal tree.  This file supplies the
 two elementary bounds every candidate route needs:
 
-* `theta_le_mul_log_four` — the classical bound
+* `theta_le_mul_log_four`: the classical bound
   `θ(X) = ∑_{p ≤ X} log p ≤ X · log 4`, re-expressed over this tree's index
   set from Mathlib's `Chebyshev.theta_le_log4_mul_x` (reuse, not
   re-derivation: Mathlib already owns the Erdős primorial argument);
-* `theta_sq_le` — the weighted form
+* `theta_sq_le`: the weighted form
   `∑_{p ≤ X} (log p)² ≤ log X · (X · log 4)`, which Mathlib does not have.
 
 Both sums run over `primeCandidates X`, the exact index set of

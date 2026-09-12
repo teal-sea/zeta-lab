@@ -1,0 +1,290 @@
+# formalization.yaml v0.4 for the Palomar Registry submission of the
+# Zeta Lab source-admissible strong closure.
+version: "v0.4"
+
+project:
+  name: "Zeta Lab: source-admissible strong closure for the F1 window functional"
+  description: >-
+    A variational identity for the Fredholm operator A = I + T on the interval
+    I = [-1/2, 1/2], where T is convolution against the Farmer-Gonek-Lee
+    pair-correlation form factor F1(x) = |x| - 4x^2 + sum_k a_k |x|^(2k+3) with
+    a_k = 2^(2k+3) k! / (2k+2)!. Let w = A^(-1)1 and c* = <1, A^(-1)1>. Over the
+    source-admissible class of scalar profiles v(s) = phi(Ls)^2 induced by even,
+    radially nonincreasing C^2 windows supported exactly on [-L/2, L/2] with
+    0 <= phi <= 1 and uniform L^1 bounds on phi'' and (phi^2)'', the supremum of
+    <1,v>^2 / <Av,v> equals c*, and the infimum of the reciprocal quotient
+    <Av,v> / <1,v>^2 equals 1/c*.
+    The upper bound <1,v>^2 <= c* <Av,v> is energy Cauchy-Schwarz. It holds for
+    every v, it is classical, and it is not the content of this result. The
+    content is the reverse inequality over the constrained class: c* is the
+    value of the unconstrained variational problem, and the identity says that
+    imposing evenness, radial monotonicity, an exact compact support, the
+    amplitude ceiling 0 <= phi <= 1 and uniform L^1 bounds on the second
+    derivatives does not lower the supremum. That direction is proved by
+    exhibiting an explicit endpoint-tapered family inside the class, indexed by
+    the scale L, whose quotient converges to c*. Both orientations are
+    advertised because the orientation is load-bearing: it is the quotient with
+    <1,v>^2 in the numerator whose supremum is c*, and the supporting
+    development also proves that the two are not interchangeable. The advertised
+    statement is existential in the profile and in the two uniform constants, so
+    it carries its own non-vacuity: an IsLUB or IsGLB assertion over the image
+    of an empty class is unsatisfiable in the reals, so the theorem cannot hold
+    unless the class is populated by the constants for which it is stated.
+    Audience. The kernel F1 is the pair-correlation form factor and the window
+    class is the generalized, load-bearing class of Section 7.1 of the cited
+    paper rather than a convenient flat-topped realization, so the constrained
+    supremum settled here is the quantity that a critical-line proportion
+    argument built on that framework optimizes; analytic number theorists
+    working on the proportion of zeros of the Riemann zeta function on the
+    critical line, and on pair correlation of its zeros, are the audience for
+    which the exact value of that supremum over the admissible class, rather
+    than a bound on it, is the relevant fact. The statement is also a closure
+    result for a constrained admissible class in the variational theory of
+    Fredholm integral operators (MSC 45B05, 49R05) and can be read there
+    without reference to its origin. What the theorem itself asserts is bounded
+    by the scope field below: it is a statement about a Fredholm operator on an
+    interval and a class of test profiles, and it is evidence for nothing
+    beyond that.
+  authors:
+    - "Thomas Lince"
+  license: "MIT"
+  responsible_maintainers:
+    - "Thomas Lince"
+
+classification:
+  arxiv: ["math.NT", "math.CA"]
+  msc2020: ["45B05", "49R05", "11M26"]
+
+sources:
+  - title: >-
+      Source-admissible strong closure for the Farmer-Gonek-Lee window
+      functional: the supremum of <1,v>^2/<Av,v> over the compactly supported
+      monotone admissible class is exactly <1, A^(-1)1>
+    type: original-proof
+    relationship: other
+    note: >-
+      The identity is a result of this laboratory. The cited paper below
+      supplies the setting that is analyzed, namely the form factor, the
+      admissible window class and the induced scalar profile; it does not state
+      or prove this supremum identity. An informal companion note by the same
+      author, "The Optimal Bandwidth-One Window Functional for the xi-prime
+      Pair-Correlation Method" (Zeta Lab, August 2026), presents the same
+      mathematics and names these Lean declarations in its formal-verification
+      section; at the time of this submission that note is in preparation and
+      not yet publicly posted. Originality here is a claim about provenance
+      only. No literature search for prior art on this identity has been run and
+      no claim of novelty is made.
+  - title: >-
+      More than two thirds of the zeta zeros are simple and on the critical line
+    authors:
+      - "L. Alpoge"
+      - "R. Furman"
+    contributors:
+      - name: "Claude (Anthropic)"
+        role: >-
+          the official record for arXiv:2608.13637 states that the proof was
+          discovered autonomously by Claude (Anthropic) and verified and
+          communicated by the listed authors
+    type: "paper"
+    id: "arXiv:2608.13637"
+    location: "https://www-cdn.anthropic.com/95c246936988e43127bc6b2ceb7077c1dad2d68e.pdf"
+    relationship: background
+    note: >-
+      Supplies the setting, not the result. The cited edition is the revised
+      version dated 11 August 2026, 17 pages, linked from
+      https://www.anthropic.com/research/riemann-zeta and retrieved 2026-08-17,
+      with SHA-256
+      19f827bee5834d61aa6dd756cdaea582492703ddbfd6bdc2058de10b93f7e814.
+      The admissible class formalized here is not that edition's profile class:
+      it is the stricter compactly supported monotone window class of the
+      earlier edition dated 10 August 2026, 35 pages, retrieved 2026-08-16 from
+      https://www-cdn.anthropic.com/564f962e60643842f5fcb4a17c9dbc8f608f1c37.pdf
+      with SHA-256
+      6792988e6cd0e17690621ce898abd5d534f98407741bc7cb14bbe7d07c77d72f,
+      in its Section 7.1, p. 20, together with the induced scalar profile of its
+      equation (7.3). The supremum identity proved here is not a theorem of
+      either edition, and nothing in this submission formalizes, restates or
+      depends on that paper's zero-proportion conclusion.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: >-
+      Pub 1 source-admissible strong closure: exact-rational evidence package
+      (in-repository working document)
+    type: "other"
+    location: "hunts/wide_search/RESULTS-xiprime-admissible-closure.md"
+    relationship: background
+    note: >-
+      The laboratory's own informal development, pinned in this repository at
+      the submitted commit. It records the exact rational trial polynomial and
+      the strict-concavity bound behind the radial-monotonicity condition of the
+      admissible class.
+
+related_formalizations:
+  - id: "https://github.com/anthropics/zeta-23-lean"
+    relationship: independent
+    note: >-
+      The Lean development accompanying the cited paper, at commit
+      ce196b66685e96f874850a2836e183feccebef2a. It formalizes generic xi-prime
+      window-functional and trace-assembly machinery over its own WindowProfile
+      class and verifies the displayed flat and quartic instances. It does not
+      contain the supremum identity proved here, and this submission neither
+      imports from it nor depends on it.
+
+status:
+  scope: >-
+    Formalized: the three advertised declarations, unconditionally against
+    pinned Mathlib v4.33.0-rc2. pub1_strong_closure and
+    pub1_strong_closure_reciprocal assume only IsProfile w, which says that w is
+    a bounded continuous solution of Aw = 1, that is, it names the object the
+    statement is about rather than imposing a further condition on it.
+    pub1_strong_closure_exists carries no hypothesis at all, so no advertised
+    statement can be vacuous.
+    Not formalized, and deliberately outside the advertised statements. The
+    attained maximum over the wider C^2(I) profile class is not itself a
+    formalized statement; only the supremum over the stricter class is, and over
+    that class the value is approached and not attained. The formalized
+    regularity statement is second-order differentiability of w on the open
+    interval (-1/2, 1/2); the upgrade to the closed interval used for attainment
+    in the informal companion note is a short classical mean-value argument and
+    is not formalized. Nothing here formalizes any statement about the Riemann
+    zeta function, its zeros, the proportion of zeros on the critical line, or
+    the Riemann Hypothesis, and the cited paper's realization theorem is neither
+    used nor reproved. No numerical value, enclosure or certificate for c* is
+    part of any advertised statement; the exact-rational certificates in the
+    repository are separate artifacts and are not submitted here. Lean does not
+    verify the interpretation of the Farmer-Gonek-Lee form factor, historical
+    attributions, or novelty relative to the literature.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude (Anthropic)", "Aristotle (Harmonic)"]
+      framework: "Zeta Lab, github.com/teal-sea/zeta-lab"
+      tool_setup: >-
+        The mathematical decomposition and every Lean statement were specified
+        by the laboratory. Proofs of the named subgoals were machine-found
+        through the Harmonic Aristotle service and checked by the Lean kernel;
+        the modules under ZetaLean/Pub1/Aristotle/ are what that service
+        returned. Assembly, auditing, obligation tracking and this
+        Challenge/Solution submission surface were done by Claude agents running
+        in Claude Code against this repository. No step uses native_decide and
+        no step uses floating point.
+      cost:
+        wall_time: >-
+          The development ran across agent sessions from 2026-08-12 to
+          2026-08-16, when the last of its four analytic obligations was
+          discharged and the result became unconditional. The Palomar submission
+          surface was added on 2026-08-21.
+        spend_usd: "not tracked"
+        hardware: "local machine plus hosted API services"
+      prompting_notes: >-
+        The working pattern was statement-first: the laboratory fixed each Lean
+        statement and its hypotheses, then requested a proof of exactly that
+        statement, then audited what came back. On a neighbouring item the same
+        service refuted a hypothesis gap in the laboratory's own submission by
+        exhibiting a counterexample, which ships in the tree rather than being
+        removed.
+  spend_usd: "not tracked"
+  notes: >-
+    Human direction, machine proof search, kernel checking, and an explicit
+    obligation ledger. Every analytic fact the argument consumes was carried as
+    a named field of the StrongClosureData interface until it was discharged, so
+    that a conditional result could not be read as an unconditional one. The
+    status of that interface is tracked in ZetaLean/Pub1/OBLIGATIONS.md. The
+    derivations and computations supporting these results were directed and
+    verified within an AI-assisted computational mathematics framework operated
+    by Thomas Lince at Zeta Lab.
+
+fidelity:
+  divergences: >-
+    The formalization is not a literal transcription of the L^2 Fredholm
+    presentation used in the informal companion note, and the differences are
+    deliberate. It works with continuous functions on I under the pairing given
+    by the integral over I rather than on an L^2 quotient space; completeness is
+    never needed, since the Cauchy-Schwarz half is algebra and the limit half
+    needs only boundedness. It obtains w by a Banach fixed point rather than by
+    inverting an operator on that quotient space. It derives the interior
+    second-derivative identity by splitting the integral at t = s rather than
+    through distribution theory. These are mathematically equivalent
+    formulations of the same argument, chosen to avoid formalizing quotient-space
+    machinery the proof does not require.
+    One further modelling choice is internal to the development: the defining
+    equation for the profile is stated with a clamped kernel,
+    clampedKernel s t = F1(clamp s - clamp t), which on I x I is exactly
+    F1(s-t) and off I repeats the boundary values. F1 is not entire and its row
+    mass is bounded by 4/9 only for s in I, while the Schur and Banach
+    fixed-point lemmas require a hypothesis holding for every real s. The
+    clamped kernel makes those lemmas applicable without changing the quadratic
+    form or the equation on I.
+
+review:
+  status: "self-assessed"
+  notes: >-
+    No external mathematical review has been performed. Internal checks that
+    were performed and are recorded in the repository: the development is
+    sorry-free and uses no theorem-specific axioms, and each advertised
+    declaration was confirmed by #print axioms to depend on exactly propext,
+    Classical.choice and Quot.sound; the four analytic obligations of the
+    StrongClosureData interface are tracked individually in
+    ZetaLean/Pub1/OBLIGATIONS.md and each is discharged; the advertised
+    existential form is quantified over every parameter so that it cannot be
+    vacuous; and a stale status row that understated this item's grade for three
+    days was corrected in the open rather than swept, as recorded in
+    docs/27-state-of-the-transplant.md.
+    On the submission surface itself: Challenge.lean imports Mathlib alone and
+    restates the needed definitions verbatim in a fresh namespace, Solution.lean
+    reproduces that definition block byte for byte before bridging it to the
+    development, and the three advertised statements are textually identical in
+    the two modules.
+    The mathematics under lean/ at the submitted commit is unchanged from the
+    tree pinned by the informal companion note, which cites this repository at
+    tag xi-prime-ceiling-support-v1, commit
+    197cee922270a3ceba7c21de0a21dd816a29adad. Between that commit and the
+    submitted one the only file changed under lean/ is
+    ZetaLean/HardyRamanujantheorem.lean, which is not in the import closure of
+    any advertised declaration.
+
+alignment:
+  namespace: "ZetaLean.Palomar"
+  statements:
+    - source: >-
+        Source-admissible strong closure, supremum orientation, for an
+        arbitrary profile w
+      lean: "ZetaLean.Palomar.pub1_strong_closure"
+      module: "Solution"
+      status: "proved"
+      note: >-
+        Universally quantified in w, with IsProfile w as the hypothesis fixing
+        which w is meant rather than a further condition on it. In the
+        development this is ZetaLean.Pub1.pub1_strong_closure.
+    - source: >-
+        Source-admissible strong closure, reciprocal orientation, for an
+        arbitrary profile w
+      lean: "ZetaLean.Palomar.pub1_strong_closure_reciprocal"
+      module: "Solution"
+      status: "proved"
+      note: >-
+        The other orientation, advertised because the orientation is
+        load-bearing and the supporting development also proves that the two
+        are not interchangeable. In the development this is
+        ZetaLean.Pub1.pub1_strong_closure_reciprocal.
+    - source: >-
+        Source-admissible strong closure, both orientations, with the profile
+        and the uniform constants existentially quantified
+      lean: "ZetaLean.Palomar.pub1_strong_closure_exists"
+      module: "Solution"
+      status: "proved"
+      note: >-
+        The hypothesis-free form: it additionally asserts that a profile
+        exists, so it is not implied by the two above, which are quantified
+        over w. In the development this is
+        ZetaLean.Pub1.pub1_strong_closure_exists; the Solution module restates
+        each of the three over its own verbatim copies of the definitions and
+        discharges them.
+acknowledgements: >-
+  Lean 4 and Mathlib. The Harmonic Aristotle service, which found the proofs of
+  the named subgoals collected under ZetaLean/Pub1/Aristotle/. The authors of
+  the cited paper, whose admissible window class is the object analyzed here.

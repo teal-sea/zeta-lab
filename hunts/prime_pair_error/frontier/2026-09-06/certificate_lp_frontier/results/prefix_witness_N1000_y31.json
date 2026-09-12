@@ -1,0 +1,27 @@
+{
+ "N": 1000,
+ "y": 31,
+ "basis": "prefix {1..y}, c = mu",
+ "cells_above_y_with_mass": 17,
+ "closed_form_rates_verified_exactly": true,
+ "full_transfer_gain": -150.15840543457333,
+ "full_transfer_min_nu": -68.38840719590824,
+ "full_transfer_feasible": false,
+ "theta_lp_gain_float": -0.0,
+ "theta_lp_cells_moved": 0,
+ "theta_lp_cells_full": 0,
+ "rationalized_theta_denominator": 1000,
+ "rationalized_gain_interval": [
+  "0.0",
+  "0.0"
+ ],
+ "rationalized_gain_mid": 0.0,
+ "rationalized_nu_min_lower_endpoint": 0.6931471805599453,
+ "rationalized_feasible_by_enclosure": true,
+ "rationalized_moment_identities_exact": true,
+ "positive_gain_cells": {},
+ "negative_gain_cells_count": 16,
+ "rough_spike_T_gain": 0.0,
+ "rough_spike_cells": [],
+ "seconds": 0.3449978828430176
+}

@@ -1,4 +1,4 @@
-"""Li coefficients for the Davenport-Heilbronn function — a detector control.
+"""Li coefficients for the Davenport-Heilbronn function, a detector control.
 
 Li's criterion says lambda_n >= 0 for every n >= 1 if and only if all zeros of
 xi lie on the critical line.  (For the Davenport-Heilbronn function below the
@@ -18,7 +18,7 @@ This script does three things:
     that code path against `zeta.li.li_coefficients`* before trusting it.
 2.  Runs it on F and reports the coefficients.
 3.  Predicts, from the off-line zero itself, the n at which negativity must
-    eventually appear — and shows that it lies far outside any n reachable
+    eventually appear, and shows that it lies far outside any n reachable
     here.
 
 The outcome is a negative result about the *detector*, not about F: Li

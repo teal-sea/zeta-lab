@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hunt R-4218D4 — the arithmetic of the Mertens constant propagation.
+"""Hunt R-4218D4, the arithmetic of the Mertens constant propagation.
 
 This script is not a proof of anything. Every inequality it evaluates is
 also carried, symbolically and with zero sorrys, by the three Lean files

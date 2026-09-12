@@ -1,0 +1,38 @@
+{
+  "box": {
+    "h1": 0.015,
+    "h2": 0.015,
+    "p1": 0.381,
+    "p2": 0.381,
+    "q1": -0.02,
+    "q2": 0.02
+  },
+  "environment": {
+    "numpy": "2.5.2",
+    "platform": "Darwin",
+    "python": "3.14.0"
+  },
+  "front": "full",
+  "rows": [
+    {
+      "N": 1000,
+      "R": 40,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 2106,
+      "final_residual": null,
+      "seconds": 75.92,
+      "sine_factor": 4.0,
+      "status": "ok",
+      "value": 0.3720741264354443
+    }
+  ],
+  "seconds_total": 75.92,
+  "white_reference": {
+    "N": 25000,
+    "R": 10,
+    "T": 7000,
+    "value": 0.37905
+  }
+}

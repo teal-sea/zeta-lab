@@ -1,4 +1,4 @@
-# START HERE — the honest state of the frontier_math hunt
+# START HERE: the honest state of the frontier_math hunt
 
 Written 2026-08-13 as a handoff, because the working record grew to **29
 markdown files and 8131 lines** and buried the one thing that matters.
@@ -61,7 +61,7 @@ Grade **hardened** = measured many ways with controls that have power;
    instruments agree, plus an exact-rational certificate and a
    from-definitions reproduction (`salvage_audit.py`, 7/7).
    This is the real result of the session.
-2. **`ghat(z) = Phi2(-i z)`** — the `BandCert` and `EForm3` arms compute
+2. **`ghat(z) = Phi2(-i z)`**: the `BandCert` and `EForm3` arms compute
    one function. Residual exactly `0.0`. Puts 7 of 12 Road A obligations
    on machinery that already compiles.
 3. **The `k`-pair identity** (residual `4.21e-17`) and its three-term Gram
@@ -71,7 +71,7 @@ Grade **hardened** = measured many ways with controls that have power;
 ## 4. What is open
 
 * **`k >= 2` (blocker 2 proper).** THE research question. All four of its
-  named sub-worries were measured and none binds — unbounded crowding,
+  named sub-worries were measured and none binds, unbounded crowding,
   decaying budget, the counting question, shared-`R`. What is missing is
   a *proof*, and there is no route with a schedule.
 * **O9 soundness, the last step.** No longer "nothing compiled": the
@@ -120,8 +120,8 @@ sequenced behind that.
 
 ## 7. What went wrong in the session that produced this
 
-Stated plainly so it is not repeated: the bottom line — *we have not moved
-the constant* — was never surfaced in one place. It was true throughout
+Stated plainly so it is not repeated: the bottom line, *we have not moved
+the constant*, was never surfaced in one place. It was true throughout
 and buried under working record. A large share of the session went into
 correcting my own errors and re-sizing the same table three times. The
 markdown sprawl is self-inflicted. This file exists to replace it.

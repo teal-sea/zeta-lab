@@ -1,6 +1,6 @@
 # Guide: see the machinery run
 
-**For you if** you want real intuition and real numerics about ζ — to watch the
+**For you if** you want real intuition and real numerics about ζ, to watch the
 theorems occur rather than read that they hold.
 
 **First command:**

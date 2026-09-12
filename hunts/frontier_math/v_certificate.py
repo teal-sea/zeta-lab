@@ -1,4 +1,4 @@
-"""Level 7, phase 1: the pointwise-in-v certificate — LAW N and the joint cap.
+"""Level 7, phase 1: the pointwise-in-v certificate, LAW N and the joint cap.
 
 THE TARGET.  Level 6b's joint verdict (worst pinch margin +0.0704) rests on
 a greedy measured on-line adversary.  The named theorem object is the joint
@@ -24,7 +24,7 @@ because every unit phasor e^{i(x_j - m)v} (m the midpoint) has argument in
 |v| <= V_f <= pi/S is at least  kappa_00 n^2, with kappa_00 =
 (2/(aL)^2) int_0^{V_f} K cos^2(vS/2) dv.  Since the total spectral mass is
 exactly n + R, the internal mass obeys  R >= kappa_00 n^2 - n: density is
-self-defeating IN v — the v-space form of the level-3/4 packing quadratic,
+self-defeating IN v, the v-space form of the level-3/4 packing quadratic,
 and the exact reason a spectrally-concentrated adversary (the sub-critical
 lattice that defeats any naive pointwise-in-v budget, see
 :func:`pointwise_form_obstruction`) pays for its own count.
@@ -32,7 +32,7 @@ lattice that defeats any naive pointwise-in-v budget, see
 THE SAFE CELL (exact).  For on-line points and pair ordinates in a common
 span-S window, arg(F_on conj(F_p)) is within [-vS, vS], so the cross
 integrand 2 Re(F_on conj(F_p)) is >= 0 on |v| <= pi/(2S): the band where a
-dense pair cluster hides its spectral mass cannot be attacked at all —
+dense pair cluster hides its spectral mass cannot be attacked at all,
 level 6b's chi collapse, pointwise.
 
 THE THREE-ZONE DECOMPOSITION (all one-sided).  On-line zeros are split by
@@ -45,7 +45,7 @@ v1, m_I + m_II = 1):
   the LOW-PASS kernel W_I(g, y) = (1/(aL)^2) int K m_I 4 cos(gv) cosh(yv) dv
   summed over pair centres; bounded by the level-4 chain counting DP with
   internal charge rho (1-theta) K_delta.  LAW M fixes int W_I dg =
-  4 pi b/(a^2 L) at every depth AND every taper — the mean is not
+  4 pi b/(a^2 L) at every depth AND every taper, the mean is not
   attackable, only the band-limited ripple is, and the ripple is small
   and 1/g^2-summable (smooth taper, no boundary terms).
 - ZONE N-II (the rest of the band): per-cell Cauchy-Schwarz against the
@@ -61,12 +61,12 @@ v1, m_I + m_II = 1):
     J_cap = DP_I + M_II/((1-rho)(1-theta)) + (1-rho)(1-theta)/(4 kappa_00)
             + DP_mid + err_far,
 
-minimised over the (v1, rho) ladder — each choice is one-sided, so the min
+minimised over the (v1, rho) ladder, each choice is one-sided, so the min
 is.
 
 THE DIRECT ROUTE (:meth:`VCertificate.direct_cap`).  Level 6b's originally
-named object — the level-4 chain counting dual on the damage field summed
-over pair centres, f(g) = (-(sum_r 2 W(g - t_r, y_r)))_+ , at full charge —
+named object, the level-4 chain counting dual on the damage field summed
+over pair centres, f(g) = (-(sum_r 2 W(g - t_r, y_r)))_+ , at full charge,
 turns out to dominate the v-route almost everywhere once the positive part
 is taken of the JOINT field (clipping per pair would discard the
 coincident-pair shielding and reproduce the separable accounting's
@@ -398,7 +398,7 @@ class VCertificate:
         ts = [t for t, _ in pairs]
         lo, hi = min(ts) - self.G_mid, max(ts) + self.G_mid
         c = 1 - theta
-        # the positive part of the JOINT field — clipping per pair instead
+        # the positive part of the JOINT field, clipping per pair instead
         # would discard the coincident-pair shielding and reproduce the
         # separable accounting's looseness
         n = int((hi - lo) / fine) + 1
@@ -575,7 +575,7 @@ def greedy_joint_profit(vc: VCertificate, pairs, theta=0.02, kmax=40,
     """The level-6b greedy joint adversary (lower bound on J), for the
     domination control.  The extended variant (halfext=8, kmax=100,
     minsp=1/16) is the seam kill control: at nu_p = 1.3, y = 0.49 it
-    extracts 7.23 with 18 zeros against a budget of 35.1 — the truth
+    extracts 7.23 with 18 zeros against a budget of 35.1, the truth
     sits far inside the budget where both bounds fail."""
     rec = Recovery(vc.L, vc.w)
     ts = [t for t, _ in pairs]

@@ -1,4 +1,4 @@
-# MISSION: the director run — the laboratory pointed at itself and at five programs
+# MISSION: the director run, the laboratory pointed at itself and at five programs
 
 **Agent persona:** the Directorate (an internal organization with deliberately
 conflicting roles, not one agent)
@@ -53,13 +53,13 @@ authority from its title.
 
 ## Files
 
-- `PROGRAMS.md` — the competing research programs, their theses, objections,
+- `PROGRAMS.md`: the competing research programs, their theses, objections,
   falsification tests, and the initial budget allocation.
-- `CLAIMS.md` — the claim ledger: ID → origin → evidence → attacks → controls
+- `CLAIMS.md`, the claim ledger: ID → origin → evidence → attacks → controls
   → replication → knownness → formal status → disposition.
-- `GRAVEYARD.md` — what died, what killed it, what it cost, what it generalizes.
-- `INTERVENTIONS.md` — where the system needed a human, and the substitution
+- `GRAVEYARD.md`: what died, what killed it, what it cost, what it generalizes.
+- `INTERVENTIONS.md`: where the system needed a human, and the substitution
   attempted instead.
-- `artifacts/` — raw measurement output from the run's probes.
+- `artifacts/`: raw measurement output from the run's probes.
 
 Nothing in this directory is a result. `hunts/README.md` states why.

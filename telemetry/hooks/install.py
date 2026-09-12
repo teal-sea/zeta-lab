@@ -9,12 +9,12 @@
 Why an installer rather than a documented snippet: the whole point of this
 package is to remove operational bookkeeping from the operator's memory, and a
 twelve-line copy-paste block is bookkeeping. It is also the piece most likely to
-be typed slightly wrong, and a hook wired slightly wrong fails silently —
+be typed slightly wrong, and a hook wired slightly wrong fails silently,
 which is the failure mode this repository catalogues rather than tolerates.
 
 ## What it writes, and what it deliberately does not
 
-`.claude/settings.local.json` — **gitignored and per-checkout**. Enabling
+`.claude/settings.local.json`: **gitignored and per-checkout**. Enabling
 telemetry in one worktree therefore cannot follow a merge into anyone else's
 session. The tracked `.claude/settings.json` is never touched; that file is
 shared, and a shared file is not where an opt-in belongs.
@@ -102,7 +102,7 @@ def load(path: Path) -> dict:
     except json.JSONDecodeError as exc:
         raise SystemExit(
             f"{path} is not valid JSON ({exc}). A malformed settings file "
-            f"silently disables every setting in it — fix it before installing."
+            f"silently disables every setting in it, fix it before installing."
         )
 
 
@@ -131,7 +131,7 @@ def cmd_install(settings_path: Path, replace: bool) -> int:
         groups = hooks.setdefault(event, [])
         mine = [g for g in groups if is_ours(g)]
         if mine and not replace:
-            print(f"  {event}: already wired — left alone")
+            print(f"  {event}: already wired, left alone")
             continue
         if mine:
             groups[:] = [g for g in groups if not is_ours(g)]
@@ -146,7 +146,7 @@ def cmd_install(settings_path: Path, replace: bool) -> int:
     if changed:
         print(f"  wired: {', '.join(changed)}")
     print(f"  wrote: {settings_path}")
-    print("\nHooks fire on the NEXT session in this worktree — not this one.")
+    print("\nHooks fire on the NEXT session in this worktree, not this one.")
     print("If they do not fire, open /hooks once (that reloads config) or restart.")
     return 0
 
@@ -170,7 +170,7 @@ def cmd_uninstall(settings_path: Path) -> int:
         settings.pop("hooks", None)
     settings_path.write_text(json.dumps(settings, indent=2) + "\n", encoding="utf-8")
     print(f"  removed: {', '.join(removed) or '(nothing was wired)'}")
-    print("  existing run records are untouched — a run that happened, happened")
+    print("  existing run records are untouched, a run that happened, happened")
     return 0
 
 
@@ -186,7 +186,7 @@ def cmd_git_hook(root: Path, force: bool) -> int:
         return 1
     target = root / ".git" / "hooks" / "prepare-commit-msg"
     if target.exists():
-        print(f"REFUSED: {target} already exists — not overwriting someone's hook")
+        print(f"REFUSED: {target} already exists, not overwriting someone's hook")
         return 1
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text((HOOK_DIR / "prepare-commit-msg").read_text(encoding="utf-8"),

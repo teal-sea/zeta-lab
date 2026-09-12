@@ -1,0 +1,43 @@
+{
+  "run_id": "0897a5a7-0dec-4236-84f3-fd548eb101d7",
+  "status": "not-settled",
+  "conclusion": "Erdos #126 is not settleable at scout cost and the scout died on a pre-registered kill condition (suggestive finite data, no iterable lemma, no exp(o(k)) reduction). Two things survive: the positivity mismatch is resolved (f(n-1) <= f0(n) <= f(n), so the Formal Conjectures Finset Nat statement is faithful for the limit and wrong for pinned finite values, f(2)=1 vs f0(2)=0), and arm 3 points the wrong way -- a rigorous composition law would refute the conjecture rather than prove it, since g(1)=2 plus supermultiplicativity gives g(k) >= 2^k by Fekete.",
+  "confidence": "High on the two survivors and low on everything numeric. The positivity inequality is a four-line proof, checked independently by exhaustive subset search over [0,40]. The Fekete direction argument is elementary and self-contained. The g(k) table is exact only inside a bounded universe: every value is a rigorous LOWER bound on g(k) with a re-verified witness, no upper bound on g(k) is established anywhere, and seven points of a monotonically falling k-th root cannot distinguish a limit of 1 from a limit of 1.3. Do not let anyone read the table as evidence for or against the conjecture.",
+  "operator_decision_required": null,
+  "inherited": [],
+  "threads": [
+    {
+      "what": "The measured sequence g(k) >= 2, 4, 5, 6, 8, 10, 11 for k = 1..7 may already be tabulated.",
+      "why_it_might_matter": "If it is a known OEIS sequence, its literature names the best known constructions and would say immediately whether these lower bounds are sharp or badly weak, which is the difference between a dead scout and a mispriced one.",
+      "first_step": "Query OEIS for 2,4,5,6,8,10,11 with the smooth-pair-sum description; the repo already has an OEIS backend behind ontology/knownness.py."
+    },
+    {
+      "what": "Every optimal witness lives below 50 while the search box went to 200,000; widening the box 60x changed not one row.",
+      "why_it_might_matter": "A proof that optima normalise into [1, C^k] would convert this bounded search into an exact computation of g(k), supplying the upper-bound half that the whole approach currently lacks.",
+      "first_step": "Re-run the search with N = 2^(k+2) for k <= 6 and check whether every maximum is still attained; if so, look for a scaling/shifting normalisation argument."
+    },
+    {
+      "what": "S omitting the prime 2 caps |A| at 2 by parity; the same pigeonhole against the pairing r <-> -r mod p may cap |A| when any small p is omitted.",
+      "why_it_might_matter": "It is the only clean iterable statement this run found, and a family of such caps is the shape an anti-composition argument would need.",
+      "first_step": "Prove |A| <= p-1 when p not in S, by pigeonhole on residue classes mod p paired r <-> -r, and check it against the measured table."
+    },
+    {
+      "what": "The choice of the k-element prime set S was frozen to the first k primes in arm 1 and sampled only at k=3 in arm 2.",
+      "why_it_might_matter": "g(k) is a maximum over ALL k-subsets, so this is the one frozen constant with genuine trade shape: optimising S per k could in principle change the growth rate rather than a constant.",
+      "first_step": "At k=4, search all 70 subsets of the first 8 primes at N=5000 and see whether any beats 6."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "An 'inverse the extremal function before running the arms' step in the brief template: when a brief asks for an asymptotic bound on a minimum over unbounded sets, first state the inverse staircase and restate the conjecture as its growth rate.",
+      "why_reusable": "Doing this once turned three unrelated-sounding arms (p-adic pruning, S-unit cliques, composition gadgets) into three measurements of one integer sequence g(k), made them directly comparable, and exposed within minutes that arm 3 was a refutation search rather than a proof route. That last point would not have been visible from the original formulation and would have consumed the whole budget.",
+      "first_step": "Add one line to the brief generator's prize-scout template: 'if the target is an asymptotic bound on an extremal function, name its inverse and state the conjecture as a growth rate before allocating arms.'"
+    },
+    {
+      "what": "A direction check on any proposed promotion criterion: before funding a search for a structure X, ask what X being found would prove.",
+      "why_reusable": "This brief listed 'a rigorous composition law' as a promotion criterion, and a composition law here refutes the conjecture. A cheap explicit check catches promotion criteria that point away from the goal, which is a class of mispricing no amount of compute recovers from.",
+      "first_step": "In the brief generator, require each promotion criterion to carry a one-line 'what it would establish, and in which direction' field, and refuse a criterion that leaves it blank."
+    }
+  ],
+  "notes_for_operator": "Three things. (1) Hunt number: the brief assigned #90, but #90 was already occupied by amtopa_ceiling, landed at commit 6eb3408 before this run started. Per the brief's instruction I did not renumber silently -- this hunt is Hunt #91 in hunts/README.md. (2) CLOSE THE LOOP had nothing to close. The brief records Source: operator, Reference: prize:erdos-126:bounded-scout, so no harness/departments/ function returned this task. I enumerated the ledger anyway: harness.review.standing_reasons reports exactly two claims whose review is not standing, rf-c003-window and k2-far-constant-depth1, both wanting a blind attack, and neither touches Erdos #126. Appending an AttackOutcome to either would have recorded an attack that did not happen, so I appended nothing and those two items remain open. The CLOSE THE LOOP boilerplate should probably be conditional on the brief actually having a ledger source. (3) Budget: the run came in well under the 30 minute cap; the expensive part was 115 seconds of clique search. The cheap thing that produced the two survivors was thinking about the direction of the composition arm, not compute."
+}

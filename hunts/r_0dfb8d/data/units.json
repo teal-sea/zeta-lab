@@ -1,0 +1,24 @@
+{
+ "selected_at": "2026-08-24",
+ "rule": "six phase-one units: three with tags.checked true, three without, spread across submission dates from 2024-04 to 2025-12",
+ "units": [
+  "20240402_sweagent_gpt4",
+  "20241029_OpenHands-CodeAct-2.1-sonnet-20241022",
+  "20250807_openhands_gpt5",
+  "20250902_atlassian-rovo-dev",
+  "20251127_openhands_claude-opus-4-5",
+  "20251215_livesweagent_claude-opus-4-5"
+ ],
+ "checked_flag_at_selection": {
+  "20240402_sweagent_gpt4": true,
+  "20241029_OpenHands-CodeAct-2.1-sonnet-20241022": true,
+  "20250807_openhands_gpt5": true,
+  "20250902_atlassian-rovo-dev": false,
+  "20251127_openhands_claude-opus-4-5": "absent (metadata.yaml has no tags.checked key)",
+  "20251215_livesweagent_claude-opus-4-5": false
+ },
+ "supplementary": [
+  "20250805_openhands-Qwen3-Coder-480B-A35B-Instruct"
+ ],
+ "supplementary_rule": "added after the preregistered six, once the archive-wide availability probe showed a 2025-08 entry answering none of three probe keys: swept all 500 documented keys so the logs-unavailable claim rests on 500 requests rather than 3"
+}

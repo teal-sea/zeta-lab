@@ -16,7 +16,7 @@ is evidence about RH.
 not a schedule".  One line was left on the table: **`D(0,tau) =
 -Kpair(tau)` exactly** (`Qim` vanishes at depth 0), so `Psi` splits into a
 `Kpair` gain and a doubled-depth damage, and the whole `k`-pair slack
-becomes a TWO-SPECIES system — centres are atoms of a second kind, with
+becomes a TWO-SPECIES system, centres are atoms of a second kind, with
 the SAME repulsion kernel at 400x the rate and the SAME window damage at
 doubled depth (`two_species.py`, identity residuals 1.1e-14 equal-depth,
 3.6e-15 general-depth).  The k=1 proof's three pillars (window
@@ -79,13 +79,13 @@ gaps `tau`, all `y in (0, 1/2]`:
 * **depth uniformity for free**: every deficit piece is convex in
   `v = y^2` and vanishes at `v = 0` (signed caps are `[a*v - b]^+` with
   `b = Kpair >= 0`), the budget floor is the kernel-checked O8 row plus a
-  v-free `Kpair` term — the same section-6 argument as the k=1 proof.
+  v-free `Kpair` term, the same section-6 argument as the k=1 proof.
 
 The mechanism at the binding cells, named: at `tau ~ 2*pi` (the
 difference-resonance) BOTH sign-ladders of windows merge
 (`I_{j+1}` against `tau + I_j` and `-I_j` against `tau - I_{j+1}`) while
 the centre pair takes its own depth-`2y` damage at the depth-1 window
-peak — three charges stack.  What pays for them: the other centre's NEAR
+peak, three charges stack.  What pays for them: the other centre's NEAR
 ZONE sits exactly on the first window, where the signed atom field is
 `~ -0.85`, so the resonance that stacks the charges also poisons the
 richest windows.  The unsigned pass closes without using that fact; the
@@ -107,9 +107,9 @@ Controls (`k2_closure.py`, `test_k2_closure.py`):
 * **Unequal depths (`y_1 != y_2`).**  Measured `slack >= 0` on a 9x9
   depth grid at the binding taus (weakest values approach 0 only as both
   depths do, which is the trivial scaling).  The proof route written
-  down: every piece is convex in `(v_1, v_2)` — the centre-pair charge
+  down: every piece is convex in `(v_1, v_2)`, the centre-pair charge
   via `Dam(y_1+y_2,tau) <= 2(v_1+v_2)*prof_1(tau)` and
-  `(y_1-y_2)^2 <= |v_1 - v_2|` — so the vertex argument would finish it,
+  `(y_1-y_2)^2 <= |v_1 - v_2|`: so the vertex argument would finish it,
   BUT the honest convex majorant at the `(1/4, 0)` vertex is too fat by
   ~0.015 (the exact vertex value closes at +0.0091; the majorant does
   not).  A sharper majorant or a monotone 2-D cell table is the named
@@ -117,7 +117,7 @@ Controls (`k2_closure.py`, `test_k2_closure.py`):
 * **`k >= 3`.**  Open.  Section 5 states what the two-species frame
   reduces it to.
 * **Hardening.**  Every sup is a scan.  The obligation is the interval
-  pass over the same finitely many cells — exactly the O9-table
+  pass over the same finitely many cells, exactly the O9-table
   technology, in the tau dimension.
 
 ## 5. The uniform-k reduction (direction with measured obligations)
@@ -133,9 +133,72 @@ atom problem:
   `1,1,2,1,1,2,3` pattern at step `2*pi` reaches 0.1200); mixed depth
   relieves (ratio 0.878 -> 0.578 at y = 0.3).  The gas extremum is an
   optimisation obligation, not a formula.
+
+  **Amended 2026-08-20: the uniform-lattice value is now a formula.**
+  The row's summand at `y = 1/2` is exactly `-4*kappa(s)`, with `kappa`
+  the same kernel `counting_lemma.py` sums, `Kpair(u) = kernel(0,u)`
+  by `d_zero_is_minus_kpair`, and `Dam(1,s) = -kernel(1,s)` wherever the
+  rectification is idle, which on this lattice is everywhere (0 clips in
+  `d = 1..200`). `counting_lemma` already carries the Poisson collapse
+  `sum_{d in Z} kappa(2*pi*d) = 2*c2(0)`, so splitting off `d = 0`:
+
+      row(2*pi) = -4*c2(0) + 2*kappa(0) = 0.11433003938654052...
+
+  Two consequences. The recorded `0.1140` is a `dmax = 200` truncation of
+  a `1/d`-decaying sum: it approaches the closed form **from below** and
+  understates by `2.85e-4`, which flatters the margin. Corrected, the
+  ratio against the per-centre budget is `0.88041`, not `0.878`, still
+  below 1, so nothing downstream breaks. And the two modules had been
+  summing the same kernel with neither one saying so.
+
+  **Attacked 2026-08-20, and it survived.** `lattice_extremality.py`
+  maximised the per-centre cost over `P`-periodic configurations with
+  `m = 2..6` centres per period, 300 Nelder-Mead restarts, at the
+  one-sided convention `centre_gas_row` uses. Every `m` returned to the
+  uniform `2*pi` lattice; the residual shortfalls (`3.6e-6` at worst) are
+  optimiser tolerance, with the returned offsets multiples of `6.2832`.
+  Three structured families were also swept directly, with no optimiser
+  in the loop: alternating gaps (strict symmetric maximum at the lattice),
+  dimers (monotone in separation up to `2*pi`), and vacancies (every
+  density below, deficit diluting from `3.59e-2` at 4 slots to `9.48e-3`
+  at 13).
+
+  The negative result is worth exactly what the detector's power is worth,
+  so that is measured rather than asserted: perturbations the optimiser
+  resolves at `1e-6` move the objective by `1e-2`, four orders larger. A
+  search that could not discriminate would also have found nothing.
+
+  This raises no rung. Lattice extremality remains unproved, the family
+  searched is small and explicitly cannot express aperiodic or multi-scale
+  structure, and a counterexample would most plausibly live there. Read
+  `lattice_extremality.NAMED_GAPS` (L1-L6) before quoting any of it.
+
+  **Route, 2026-08-20.** `LATTICE-EXTREMALITY-ROUTE.md` turns the search
+  into an argument. The per-centre cost has an exact structure-factor form
+  in which every non-zero-frequency term is a subtraction, `kappa_hat` is
+  supported on `[-1,1]`, is positive inside (provably: `c2` is the
+  autocorrelation of a strictly positive function) and vanishes at `+-1`.
+  The `2*pi` lattice is the unique configuration whose only non-zero
+  frequency mass sits on that zero, so it pays no penalty and attains the
+  bound, and Newton's identities give uniqueness. This closes the case
+  `rho >= 1/(2*pi)`. The rectification gap, open when this paragraph was
+  first written, is now closed by an explicit majorant
+  `v = K_1(0)*(sin(x/2)/(x/2))^2`, so no side hypothesis is needed. One
+  real gap remains: the sparse side `rho < 1/(2*pi)`, where the bound is
+  vacuous. That gap is now narrowed: it has exactly one possible route
+  (a density-independent bound, forced by linearity), and that route is
+  infeasible at bandwidth 1 by a rigidity argument, short by 29%. Not a completed proof, and the majorant's two inequalities are
+  verified numerically rather than enclosed.
+
+  What this does **not** do is discharge T1. T1 asks for a bound over all
+  centre configurations; this is the uniform lattice at one spacing.
+  Lattice extremality still has no proof (G4's withdrawal removed its only
+  recorded counterexample, it did not supply one). Measured grade: every
+  number here is double precision, and `2*c2(0)` is quoted from
+  `counting_lemma`, not re-derived.
 * **(T2/A) the atoms.**  Per-atom extraction is bounded by the SIGNED
   field, `4*[sum_p D(y, x-t_p)]^+`, and the mirror trick caps it by
-  `2*sum_j c_j + tails ~ 0.062` per atom UNCONDITIONALLY in `k` — but on
+  `2*sum_j c_j + tails ~ 0.062` per atom UNCONDITIONALLY in `k`: but on
   the gas's own worst lattice the signed field is negative at every rich
   window (`-0.85` at the k=1 peak), which is why the measured binding
   configurations (`k_trend.WITNESS_K12`, `shared_repulsion` n=5/k=23)
@@ -146,7 +209,7 @@ atom problem:
 This reframes `EXTREMALITY_CONJECTURE` (the lattice extremum lives in the
 spacing parameter): for the GAS the statement is now a concrete
 one-parameter sum to bound; for the joint problem section 8 of
-`K2-ROUTE.md` stands — occupancy combinatorics carry the difficulty.
+`K2-ROUTE.md` stands, occupancy combinatorics carry the difficulty.
 
 ## 6. Honest scope
 
@@ -221,8 +284,8 @@ that is the only recorded evidence against lattice extremality: under three
 readings of the pattern it measures `0.0666` (gaps, averaged over centres),
 `0.0902` (gaps, maximised over centres) and `-1.3600` (site multiplicities),
 against `0.1143` for the uniform lattice in the same normalisation.  Three
-searches — exhaustive periodic occupancy for periods up to 14, free periodic
-with up to 8 free positions in a free period, and free finite `k` — all
+searches, exhaustive periodic occupancy for periods up to 14, free periodic
+with up to 8 free positions in a free period, and free finite `k`, all
 returned the uniform `2*pi` lattice, with a planted-fault ladder that first
 fires at 1.20x damage against a 1.18x measured margin.  The discrepancy is
 recorded, not adjudicated: `0.1200` may be a per-centre maximum rather than

@@ -1,4 +1,4 @@
-"""Tests for ``telemetry/`` — the run registry.
+"""Tests for ``telemetry/``, the run registry.
 
 Every test runs against a ``tmp_path`` root and, where git is needed, against a
 throwaway repository created inside ``tmp_path``. **Nothing here reads or
@@ -547,7 +547,7 @@ def test_a_prompt_absent_from_this_clone_is_a_gap_not_a_defect(
     """The store is gitignored, so every fresh clone is in this state.
 
     Reporting it as a defect would make `reconcile --strict` fail on a clean
-    checkout — a guard firing on correct behaviour. Caught by verifying a
+    checkout, a guard firing on correct behaviour. Caught by verifying a
     trial merge, not by inspection.
     """
     root = tmp_path / "tel"
@@ -675,7 +675,7 @@ def test_the_cli_records_a_reconstructed_run_when_it_cites_a_source(
 
 
 # ---------------------------------------------------------------------------
-# the hook installer — opt-in, per-worktree, and refusing what it should refuse
+# the hook installer, opt-in, per-worktree, and refusing what it should refuse
 # ---------------------------------------------------------------------------
 
 
@@ -744,7 +744,7 @@ def test_uninstall_removes_ours_and_leaves_theirs(repo: Path) -> None:
 def test_the_git_hook_refuses_while_another_worktree_of_the_clone_exists(
     repo: Path, tmp_path: Path
 ) -> None:
-    """`.git/hooks` is shared across worktrees — the one blast radius that crosses
+    """`.git/hooks` is shared across worktrees, the one blast radius that crosses
     the isolation boundary, so it stays a deliberate act."""
     other = tmp_path / "sibling"
     subprocess.run(["git", "worktree", "add", "-q", "--detach", str(other)],
@@ -773,7 +773,7 @@ def test_a_malformed_settings_file_stops_the_installer_loudly(repo: Path) -> Non
 
 
 def _run_session_start(root: Path, payload: dict) -> dict | None:
-    """Invoke the hook as the harness does — JSON on stdin — and fold the record."""
+    """Invoke the hook as the harness does, JSON on stdin, and fold the record."""
     hook = Path(__file__).resolve().parents[1] / "telemetry" / "hooks" / "session_start.py"
     proc = subprocess.run(
         [sys.executable, str(hook)],

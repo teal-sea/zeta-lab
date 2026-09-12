@@ -1,0 +1,420 @@
+{
+  "restatement": {
+    "g": "g(k) = max{ n : some n-set of positive integers has |P(A)| <= k }",
+    "equivalence": "f(n)/log n -> oo  <=>  g(k) = exp(o(k))  <=>  g(k)^(1/k) -> 1",
+    "note": "f and g are inverse non-decreasing staircases: |P(A)| <= k for some n-set iff f(n) <= k iff n <= g(k). g(k) is finite for every k exactly because the classical bound f(n) >> log n holds."
+  },
+  "arm0_positivity_mismatch": {
+    "universe": [
+      0,
+      40
+    ],
+    "f_bounded": {
+      "1": 0,
+      "2": 1,
+      "3": 2,
+      "4": 2,
+      "5": 3
+    },
+    "f0_bounded": {
+      "1": 0,
+      "2": 0,
+      "3": 2,
+      "4": 2,
+      "5": 3
+    },
+    "inequality_a_holds": true,
+    "inequality_b_holds": true,
+    "note": "f(n-1) <= f0(n) <= f(n) is proved in the docstring, not measured; the table is a bounded-universe consistency check (upper bounds on both f and f0, since the universe is capped)."
+  },
+  "arm1_padic_pruning": [
+    {
+      "k": 1,
+      "S": [
+        2
+      ],
+      "N": 200000,
+      "g_lower": 2,
+      "witness": [
+        1,
+        3
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true,
+      "seconds": 0.35
+    },
+    {
+      "k": 2,
+      "S": [
+        2,
+        3
+      ],
+      "N": 100000,
+      "g_lower": 4,
+      "witness": [
+        1,
+        5,
+        7,
+        11
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true,
+      "seconds": 1.47
+    },
+    {
+      "k": 3,
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "N": 60000,
+      "g_lower": 5,
+      "witness": [
+        1,
+        3,
+        7,
+        17,
+        47
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true,
+      "seconds": 5.9
+    },
+    {
+      "k": 4,
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "N": 30000,
+      "g_lower": 6,
+      "witness": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        13
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true,
+      "seconds": 13.01
+    },
+    {
+      "k": 5,
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "N": 20000,
+      "g_lower": 8,
+      "witness": [
+        1,
+        2,
+        5,
+        9,
+        13,
+        19,
+        23,
+        31
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true,
+      "seconds": 22.18
+    },
+    {
+      "k": 6,
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13
+      ],
+      "N": 12000,
+      "g_lower": 10,
+      "witness": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        9,
+        13,
+        19,
+        23,
+        47
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true,
+      "seconds": 31.8
+    },
+    {
+      "k": 7,
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        17
+      ],
+      "N": 6000,
+      "g_lower": 11,
+      "witness": [
+        1,
+        3,
+        5,
+        6,
+        7,
+        11,
+        15,
+        19,
+        21,
+        29,
+        49
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true,
+      "seconds": 32.27
+    }
+  ],
+  "arm2_prime_choice": [
+    {
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "N": 20000,
+      "g_lower": 5,
+      "witness": [
+        1,
+        3,
+        7,
+        17,
+        47
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true
+    },
+    {
+      "S": [
+        2,
+        3,
+        7
+      ],
+      "N": 20000,
+      "g_lower": 5,
+      "witness": [
+        1,
+        3,
+        5,
+        11,
+        13
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true
+    },
+    {
+      "S": [
+        2,
+        5,
+        7
+      ],
+      "N": 20000,
+      "g_lower": 4,
+      "witness": [
+        1,
+        3,
+        7,
+        13
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true
+    },
+    {
+      "S": [
+        2,
+        3,
+        13
+      ],
+      "N": 20000,
+      "g_lower": 5,
+      "witness": [
+        1,
+        2,
+        7,
+        11,
+        25
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true
+    },
+    {
+      "S": [
+        3,
+        5,
+        7
+      ],
+      "N": 20000,
+      "g_lower": 2,
+      "witness": [
+        1,
+        2
+      ],
+      "witness_verified": true,
+      "exhaustive_in_universe": true
+    }
+  ],
+  "arm3_composition": {
+    "g_lower_bounds": {
+      "1": 2,
+      "2": 4,
+      "3": 5,
+      "4": 6,
+      "5": 8,
+      "6": 10,
+      "7": 11
+    },
+    "kth_root_of_lower_bound": {
+      "1": 2.0,
+      "2": 2.0,
+      "3": 1.71,
+      "4": 1.5651,
+      "5": 1.5157,
+      "6": 1.4678,
+      "7": 1.4085
+    },
+    "supermultiplicativity_tests": [
+      {
+        "k1": 1,
+        "k2": 1,
+        "g_k1": 2,
+        "g_k2": 2,
+        "product": 4,
+        "g_k1_plus_k2_lower": 4,
+        "supermultiplicative_consistent_with_data": true
+      },
+      {
+        "k1": 1,
+        "k2": 2,
+        "g_k1": 2,
+        "g_k2": 4,
+        "product": 8,
+        "g_k1_plus_k2_lower": 5,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 1,
+        "k2": 3,
+        "g_k1": 2,
+        "g_k2": 5,
+        "product": 10,
+        "g_k1_plus_k2_lower": 6,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 1,
+        "k2": 4,
+        "g_k1": 2,
+        "g_k2": 6,
+        "product": 12,
+        "g_k1_plus_k2_lower": 8,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 1,
+        "k2": 5,
+        "g_k1": 2,
+        "g_k2": 8,
+        "product": 16,
+        "g_k1_plus_k2_lower": 10,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 1,
+        "k2": 6,
+        "g_k1": 2,
+        "g_k2": 10,
+        "product": 20,
+        "g_k1_plus_k2_lower": 11,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 2,
+        "k2": 2,
+        "g_k1": 4,
+        "g_k2": 4,
+        "product": 16,
+        "g_k1_plus_k2_lower": 6,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 2,
+        "k2": 3,
+        "g_k1": 4,
+        "g_k2": 5,
+        "product": 20,
+        "g_k1_plus_k2_lower": 8,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 2,
+        "k2": 4,
+        "g_k1": 4,
+        "g_k2": 6,
+        "product": 24,
+        "g_k1_plus_k2_lower": 10,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 2,
+        "k2": 5,
+        "g_k1": 4,
+        "g_k2": 8,
+        "product": 32,
+        "g_k1_plus_k2_lower": 11,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 3,
+        "k2": 3,
+        "g_k1": 5,
+        "g_k2": 5,
+        "product": 25,
+        "g_k1_plus_k2_lower": 10,
+        "supermultiplicative_consistent_with_data": false
+      },
+      {
+        "k1": 3,
+        "k2": 4,
+        "g_k1": 5,
+        "g_k2": 6,
+        "product": 30,
+        "g_k1_plus_k2_lower": 11,
+        "supermultiplicative_consistent_with_data": false
+      }
+    ],
+    "direction_note": "A rigorous composition law would refute the conjecture, not prove it: g(1) = 2 plus supermultiplicativity gives g(k) >= 2^k by Fekete, i.e. f(n) <= log_2 n + O(1). Proving f(n)/log n -> oo requires an anti-composition theorem."
+  },
+  "verdict": {
+    "scout": "killed on a pre-registered kill condition",
+    "which": "the brief kills the scout on 'suggestive finite data'. That is what arm 1 produced: exact maxima inside a bounded universe, with no iterable lemma and no exp(o(k)) reduction.",
+    "kept": [
+      "arm 0 is settled: the Formal Conjectures positivity mismatch is benign for the limit statement (f(n-1) <= f0(n) <= f(n)) and NOT benign for pinned finite values (f(2)=1 vs f0(2)=0).",
+      "the inverse restatement: the conjecture is exactly g(k)^(1/k) -> 1.",
+      "arm 3 points the wrong way: a rigorous composition law refutes the conjecture rather than proving it, so it is not a promotion route."
+    ],
+    "not_established": "no upper bound on g(k) is proved here. Every g value is a maximum inside [1, N] only; a witness with a larger element would raise it."
+  },
+  "seconds_total": 115.74
+}

@@ -1,4 +1,4 @@
-"""Li's criterion and Jensen polynomials — the real-rootedness lane.
+"""Li's criterion and Jensen polynomials, the real-rootedness lane.
 
 This is the corner of the subject where RH is restated as *"a sequence of
 explicit numbers is nonnegative"* or *"a sequence of explicit polynomials has
@@ -20,9 +20,9 @@ Two criteria live here.
         λ_n = Σ_ρ [ 1 − (1 − 1/ρ)^n ],
 
     the sum running over all nontrivial zeros, symmetrically in ρ ↔ 1−ρ.  Both
-    sides are implemented independently — :func:`li_coefficient` with
+    sides are implemented independently :func:`li_coefficient` with
     ``method="cauchy"`` never touches a zero, ``method="zeros"`` never touches
-    ξ — and their agreement is the load-bearing test of the module.
+    ξ, and their agreement is the load-bearing test of the module.
 
     The generating function that makes the first method practical: substituting
     s = 1/(1−z) (which maps |z| < 1 onto Re s > 1/2),
@@ -32,7 +32,7 @@ Two criteria live here.
     derived in :func:`li_coefficients` and *verified* against the literal
     derivative definition in the tests.  So λ_n = n·[z^n] log ξ(1/(1−z)), and
     the Taylor coefficients come from one Cauchy/trapezoid pass around a
-    circle — spectrally accurate, and free of the catastrophic cancellation
+    circle, spectrally accurate, and free of the catastrophic cancellation
     that symbolic n-th derivatives of s^{n−1} log ξ(s) suffer.
 
     Calibration point:  λ_1 = 1 + γ/2 − log(4π)/2 = 0.02309570896612103381…
@@ -50,9 +50,9 @@ Two criteria live here.
 
     Since ξ(1/2+z) is even, F(w) := 8·ξ(1/2+√w) = Σ γ(n) w^n/n! is entire of
     order 1/2 in w, and RH says exactly that its zeros w = −γ² are all real
-    (and negative).  Pólya's classical criterion — a real entire function of
+    (and negative).  Pólya's classical criterion, a real entire function of
     genus 0 or 1 lies in the Laguerre–Pólya class iff *all* of its Jensen
-    polynomials are hyperbolic (have only real roots) — therefore gives
+    polynomials are hyperbolic (have only real roots), therefore gives
 
         RH  ⟺  J^{d,n} is hyperbolic for every d ≥ 1 and every n ≥ 0.
 
@@ -61,7 +61,7 @@ Two criteria live here.
     J^{d,n} would refute RH.  GORZ (2019) proved that for each fixed d, all but
     finitely many n give a hyperbolic J^{d,n}, and that the roots of J^{d,n},
     suitably renormalised, converge as n → ∞ to the roots of the Hermite
-    polynomial H_d — the "GUE side" of the picture, since Hermite roots are the
+    polynomial H_d, the "GUE side" of the picture, since Hermite roots are the
     zeros whose empirical measure is the semicircle law.
     :func:`hyperbolicity_scan` produces the (d, n) table; the honest reading of
     an all-``True`` table is "no violation found", never "evidence for RH"
@@ -74,8 +74,8 @@ A name collision to know about
 attribute: after ``import zeta.li``, ``zeta.li`` is the module, not the
 function.  Nothing in the package accesses the function that way (every user
 imports it by name), and the tests pin that ``zeta.explicit.li`` keeps working,
-but import this module explicitly — ``import zeta.li as li_lane`` or
-``from zeta.li import li_coefficients`` — and never rely on ``from zeta import
+but import this module explicitly, ``import zeta.li as li_lane`` or
+``from zeta.li import li_coefficients``: and never rely on ``from zeta import
 li`` meaning either one.
 
 Conventions and honesty
@@ -171,16 +171,16 @@ def _real_checked(value, work: int, tol_digits: int, label: str, scale=None) -> 
     λ_300 at dps = 20   132           2.4e-45       1.7e-120     1.4e-30
     ==================  ============  ============  ===========  ===========
 
-    The naive tolerance rejects *both*.  The reason is not that c_n is small —
+    The naive tolerance rejects *both*.  The reason is not that c_n is small,
     c_n = λ_n/n is 0.87 at n = 50 and 1.73 at n = 300, so the naive scale is
     ~1 in both rows.  It is that the naive scale is blind to the r^{−n}
     division: at r = 1/2 and n = 300 that multiplies the round-off of the DFT
-    sum by 2^300 = 2.037e90, and the measured ratio floor/naive is 8.246e89 —
+    sum by 2^300 = 2.037e90, and the measured ratio floor/naive is 8.246e89,
     which is 2^300 times max|log ξ|/|Re c_n| = 0.7010/1.7323, i.e. the
     amplification exactly, up to an O(1) factor.
     The scaled tolerance accepts both rows with 14 and 15 orders of margin
     (1.5e14 and 6.0e14), and the resulting λ_50 = 43.5310964883…,
-    λ_300 = 519.7019656192… are correct — they match the zero side (to 1.4e-8
+    λ_300 = 519.7019656192… are correct, they match the zero side (to 1.4e-8
     at n = 50) and the asymptotic.
     """
     re, im = mp.re(value), mp.im(value)
@@ -200,7 +200,7 @@ def _roots_of_unity(n_points: int) -> list:
     Building this table is what turns the O(N·n_max) coefficient extraction
     from thousands of transcendental evaluations into thousands of table
     look-ups plus one complex multiplication each.  Measured for
-    ``li_coefficients(300, dps=20)`` — which rounds the request up to the cache
+    ``li_coefficients(300, dps=20)``: which rounds the request up to the cache
     step and so actually runs ``_li_cauchy(304, 20, 0.5)``: 132 working digits,
     751 nodes, 228 304 coefficient terms, ~9 s.  (The numbers for a bare
     ``_li_cauchy(300, …)`` are 131 digits and 744 nodes; both are pinned by
@@ -218,7 +218,7 @@ def _unwrapped_log(values: Sequence) -> list:
     inside the radius range this module admits: the supremum of |arg ξ| on
     |z| = r is 0.0102 at r = 0.3, 0.0311 at r = 0.5, 0.117 at r = 0.7, at least
     **1.282** at r = 0.9 (1024 nodes; 256 nodes see 1.266 and a 64-node sample
-    only 1.100 — the sup is not resolved by coarse sampling), 1.987 at r = 0.92,
+    only 1.100, the sup is not resolved by coarse sampling), 1.987 at r = 0.92,
     and it keeps climbing towards :data:`RADIUS_MAX`.  An earlier version
     guarded with ``|arg| < π/2`` and marked the branch unreachable; it is in
     fact reached from r ≈ 0.915 up, i.e. the guard rejected legitimate radii.
@@ -230,9 +230,9 @@ def _unwrapped_log(values: Sequence) -> list:
 
     Two conditions are checked rather than assumed:
 
-    * **no undersampling** — consecutive nodes must move arg by less than π/2,
+    * **no undersampling**: consecutive nodes must move arg by less than π/2,
       otherwise the 2π ambiguity cannot be resolved;
-    * **zero winding** — continuing past the last node must land back on node 0
+    * **zero winding**: continuing past the last node must land back on node 0
       with no accumulated 2π.  A nonzero winding number would mean ξ∘(1/(1−z))
       has a zero inside the circle, which contradicts :data:`RADIUS_MAX`; it is
       a genuine alarm, not a numerical nuisance.
@@ -267,7 +267,7 @@ def _unwrapped_log(values: Sequence) -> list:
 
 #: Cached tables are computed and stored at n_max rounded up to a multiple of
 #: this, so that a session asking for 9, 17, 24 and 44 coefficients leaves four
-#: files (16, 32, 32, 48) rather than four *different* ones — and the 24-request
+#: files (16, 32, 32, 48) rather than four *different* ones, and the 24-request
 #: is served from the 32-table.  The extra work is negligible next to the cost
 #: of the first evaluation.
 _CACHE_STEP: int = 16
@@ -359,7 +359,7 @@ def _li_cauchy(n_max: int, dps: int, radius) -> list[mpf]:
     R = mp.mpf(radius)
     if not (0 < R < RADIUS_MAX):
         raise ValueError(
-            f"radius must lie in (0, {RADIUS_MAX:.6f}) — beyond that the disk "
+            f"radius must lie in (0, {RADIUS_MAX:.6f}), beyond that the disk "
             "is no longer unconditionally free of images of zeta zeros"
         )
     decay = float(mp.log10(1 / R))            # digits lost to the 1/R^n division
@@ -390,7 +390,7 @@ def _li_cauchy(n_max: int, dps: int, radius) -> list[mpf]:
 
 
 def _phi(t):
-    """arg(1 − 1/ρ) for ρ = 1/2 + it — the angle that drives the zero sum.
+    """arg(1 − 1/ρ) for ρ = 1/2 + it, the angle that drives the zero sum.
 
     1 − 1/ρ = ((t² − 1/4) + it)/(t² + 1/4), whose modulus is *exactly* 1 when
     Re ρ = 1/2 (|ρ − 1| = |ρ| there).  So on RH every zero contributes a point
@@ -461,7 +461,7 @@ def _li_zeros(
 
         head + k·f_n(T) + tail − f_n(T)(k − 1/2)  =  head + tail + f_n(T)/2,
 
-    which is what the code computes — the k drops out identically.  (The
+    which is what the code computes, the k drops out identically.  (The
     residual of that cancellation is Σ_{γ_{n_zeros}<γ≤T}[f_n(γ) − f_n(T)], of
     size |f_n'(T)|·(T − γ), which is one of the two oscillating error terms
     tabulated in :func:`li_coefficients`.)  So the −1/2 is not a claim about
@@ -476,7 +476,7 @@ def _li_zeros(
     with mp.workdps(work):
         g_last = gammas[-1]
         # Midpoint truncation height: the smooth count ϑ(T)/π + 1 equals
-        # n_zeros + 1/2 there.  S_T below is therefore −1/2 by construction —
+        # n_zeros + 1/2 there.  S_T below is therefore −1/2 by construction,
         # NOT because N(T) = n_zeros (it often is not; see the docstring), but
         # because that is the k-independent form of the boundary term.
         target = mp.pi * (mp.mpf(n_zeros) - mp.mpf(1) / 2)
@@ -515,7 +515,7 @@ def li_coefficients(
 
     Two independent implementations.
 
-    ``method="cauchy"`` — *no zeros are used*.  Substitute s = 1/(1−z).  Since
+    ``method="cauchy"``: *no zeros are used*.  Substitute s = 1/(1−z).  Since
     |z| < 1 ⟺ |1 − 1/s| < 1 ⟺ Re s > 1/2, the unit z-disk is the right half of
     the critical strip and beyond.  From the Hadamard product
     log ξ(s) = log ξ(0) + Σ_ρ log(1 − s/ρ) one computes, with w_ρ = 1 − 1/ρ,
@@ -529,18 +529,18 @@ def li_coefficients(
         **λ_n = n · [z^n] log ξ(1/(1−z))**,
 
     and the Taylor coefficients are extracted by one equispaced trapezoid pass
-    around |z| = ``radius`` — the Cauchy integral, which for an analytic
+    around |z| = ``radius``, the Cauchy integral, which for an analytic
     integrand converges geometrically.  The identity itself is *verified*, not
     assumed: :func:`li_generating_function_defect` compares this against the
     literal n-th-derivative definition.
 
     The disk |z| ≤ r is **unconditionally** free of images of zeta zeros for
     r < 1 − 1/γ₁ = 0.92925… (:data:`RADIUS_MAX`), because |1 − 1/ρ| ≥ 1 − 1/|ρ|
-    and |ρ| ≥ |Im ρ| ≥ γ₁ = 14.1347… for every nontrivial zero — no appeal to
+    and |ρ| ≥ |Im ρ| ≥ γ₁ = 14.1347… for every nontrivial zero, no appeal to
     RH anywhere.  ξ is entire and nonvanishing there, so a single-valued
     analytic branch of log ξ exists on the disk.  It is **not** the principal
     branch throughout that range: the sampled max of |arg ξ| on |z| = r is
-    0.0311 at r = 0.5 but 1.266 at r = 0.9 (256 nodes; 1024 nodes give 1.282 —
+    0.0311 at r = 0.5 but 1.266 at r = 0.9 (256 nodes; 1024 nodes give 1.282,
     the sup is not resolved by coarse sampling) and 1.987 at r = 0.92, so
     :func:`_unwrapped_log` builds the analytic branch by continuity from
     z = r (where ξ is real and positive) and checks the winding number is 0.
@@ -554,7 +554,7 @@ def li_coefficients(
     below the round-off floor; round-off is amplified by r^{−n}, i.e.
     n·log₁₀(1/r) digits, which the working precision carries explicitly.
 
-    ``method="zeros"`` — *ξ is never evaluated*.  The zero side
+    ``method="zeros"``: *ξ is never evaluated*.  The zero side
 
         λ_n = Σ_ρ [1 − (1 − 1/ρ)^n] = Σ_{γ>0} 2(1 − cos(n φ(γ))),
         φ(t) = arg((t² − 1/4) + it) = arctan(t/(t² − 1/4)),
@@ -581,7 +581,7 @@ def li_coefficients(
     ==========  =======  ==========================  ==================
 
     Two honest readings of that table.  (i) The discrepancy has the *same sign
-    for every n* — it is a multiple of f_n(T) — but its sign in ``n_zeros`` is
+    for every n*, it is a multiple of f_n(T), but its sign in ``n_zeros`` is
     not fixed: at n_zeros = 400 the zero side overshoots.  (ii) It shrinks with
     ``n_zeros`` only *on average*: 800 zeros beat 1000 here.  The residual is
     ∫_T^∞ f_n'(t) S(t) dt plus the mismatch between f_n(T) and f_n at the last
@@ -639,7 +639,7 @@ def li_generating_function_defect(n: int, dps: int = DPS_DEFAULT, radius="0.4") 
     The literal definition is differentiated by mpmath's Cauchy-integral
     differentiator (``mp.diff(..., method='quad')``) applied to
     s ↦ s^{n−1} log ξ(s) at s = 1; the generating-function value comes from
-    :func:`li_coefficients`.  Identically zero — this is the numerical proof
+    :func:`li_coefficients`.  Identically zero, this is the numerical proof
     that the substitution s = 1/(1−z) reproduces Li's definition and not some
     neighbouring normalisation.
 
@@ -681,7 +681,7 @@ def li_asymptotic(n: int) -> float:
 
     **Hedge.**  The constant term is quoted as +1 from the literature
     (Bombieri–Lagarias 1999; Voros 2006), and the true remainder is an
-    *oscillating* term — the resonance of the individual zeros — of size
+    *oscillating* term, the resonance of the individual zeros, of size
     O(√n log n) on RH.  Our own measurement cannot separate a constant from
     that oscillation.  Measured on this machine for the computed λ_n:
 
@@ -714,9 +714,9 @@ def li_positivity_scan(
     Each row is ``{'n', 'lambda_n', 'positive', 'margin', 'margin_digits',
     'asymptotic', 'relative_to_asymptotic'}`` where
 
-    * ``margin`` = float(λ_n) — the signed distance to the boundary λ = 0 that
+    * ``margin`` = float(λ_n), the signed distance to the boundary λ = 0 that
       Li's criterion cares about;
-    * ``margin_digits`` = log₁₀(λ_n) + dps — how many decimal digits separate
+    * ``margin_digits`` = log₁₀(λ_n) + dps, how many decimal digits separate
       the value from the *absolute* floor 10^{−dps}.  A small or negative
       ``margin_digits`` would mean the computation cannot decide the sign.
       Note the Cauchy path's error is *relative*, ≈|λ_n|·10^{−dps}, so for
@@ -729,7 +729,7 @@ def li_positivity_scan(
     RH (``docs/08``): by Littlewood's theorem finite computation cannot be, and
     Li's criterion is an equivalence over *all* n.
 
-    **And on ``method="zeros"`` it says even less than that — it cannot say
+    **And on ``method="zeros"`` it says even less than that, it cannot say
     anything else.**  That route is ``head + tail + boundary`` where
     ``head = Σ 2(1 − cos nφ(γ)) ≥ 0`` termwise, ``tail = ∫ f_n·dN/dt ≥ 0``, and
     ``boundary = −f_n(T)·S_T = +f_n(T)/2 ≥ 0`` because the route feeds it
@@ -757,7 +757,7 @@ def li_positivity_scan(
                 "lambda_n": value,
                 "positive": bool(value > 0),
                 # the zeros route sums nonnegative pieces, so its `positive`
-                # column cannot read False — see the docstring
+                # column cannot read False, see the docstring
                 "can_report_negative": method != "zeros",
                 "margin": float(value),
                 "margin_digits": digits,
@@ -792,13 +792,13 @@ def _gamma_integral(n_max: int, dps: int) -> list[mpf]:
 
     Every I_k is the integral of a *positive* integrand, so there is no
     cancellation anywhere except the mild 1/2 − J_0/4 at n = 0 and the
-    J_{n−1} − J_n/4 differences, where J_n/J_{n−1} = O((log n)²/n²) — no
+    J_{n−1} − J_n/4 differences, where J_n/J_{n−1} = O((log n)²/n²), no
     cancellation at all for n ≳ 3.  Measured against the independent Cauchy
-    path (:func:`_gamma_cauchy`): the two return **bit-identical** values —
+    path (:func:`_gamma_cauchy`): the two return **bit-identical** values,
     n ≤ 20 at dps = 30 and 50, and n ≤ 12 over the whole radius grid
     {4, 10, 30, 100, 300} at dps = 30 and 80, all pinned by the tests.  Against
     a dps = 110 reference of this same path the max relative error over n ≤ 12
-    is 9.222e-32 / 1.303e-51 / 1.022e-81 at dps = 30 / 50 / 80 — i.e. the only
+    is 9.222e-32 / 1.303e-51 / 1.022e-81 at dps = 30 / 50 / 80, i.e. the only
     error is the final rounding to ``dps``.
 
     The shared profile e^{u/4}ω(e^u) is memoised across the n_max+2
@@ -866,7 +866,7 @@ def _gamma_cauchy_nodes(n_max: int, work: int, radius) -> int:
     Why this exists: the previous rule was the radius-blind ``2·n_max + 40``,
     and it **silently lost digits**.  Measured against :func:`_gamma_integral`
     at dps = 80, that rule gave 2.36e-57 relative error at n_max = 12, R = 300
-    (64 nodes) and 2.92e-35 at n_max = 4, R = 300 (48 nodes) — a function
+    (64 nodes) and 2.92e-35 at n_max = 4, R = 300 (48 nodes), a function
     asked for 80 digits returning 34.  The derived count asks for 112 and 102
     nodes there and the output becomes bit-identical again.  At the default
     R = 30 the floor still wins throughout dps = 30, and from n_max = 20 up at
@@ -899,13 +899,13 @@ def _gamma_cauchy(n_max: int, dps: int, radius: Any = 30) -> list[mpf]:
     count has to grow with both the working precision and the radius
     (:func:`_gamma_cauchy_nodes`).
 
-    Two measurements, and they say different things — the first is the one that
+    Two measurements, and they say different things, the first is the one that
     matters, the second is why the guard digits are what they are.
 
     * **At the settings this function actually uses**, the radius is irrelevant:
       the output is *bit-identical* to :func:`_gamma_integral` for every radius
       in {4, 10, 30, 100, 300} at dps = 30 and dps = 80, for n_max ∈
-      {4, 12, 20, 30} — the whole 40-cell grid, pinned by
+      {4, 12, 20, 30}, the whole 40-cell grid, pinned by
       ``test_gamma_cauchy_radius_independence``.  (With the old radius-blind
       node count three of those cells lost up to 45 digits; see
       :func:`_gamma_cauchy_nodes`.)
@@ -934,7 +934,7 @@ def _gamma_cauchy(n_max: int, dps: int, radius: Any = 30) -> list[mpf]:
 
     **Cancellation audit, and the radius ceiling it exposes.**  ``work`` is
     ``dps + 20 + ⌈2.6·n_max⌉``, a rule calibrated at R ≈ 30, and it is *blind to
-    the radius* — so for a large enough circle the coefficients drown in the
+    the radius*, so for a large enough circle the coefficients drown in the
     round-off of the DFT sum.  Every coefficient is therefore checked against
     the round-off floor max|F|·R^{−n}·10^{−work} before being returned, and the
     function raises rather than quietly handing back garbage.  Measured spare
@@ -979,8 +979,8 @@ def _gamma_cauchy(n_max: int, dps: int, radius: Any = 30) -> list[mpf]:
             # max|F|·10^{−work}; dividing by R^n carries it up to
             # max|F|·R^{−n}·10^{−work}.  The coefficient is only good to
             # ``dps`` digits if that floor sits ``dps`` decades below it.  This
-            # is the check that ``work = dps + 20 + 2.6·n_max`` — a rule
-            # calibrated at R ≈ 30 — is still adequate at the radius asked for.
+            # is the check that ``work = dps + 20 + 2.6·n_max``, a rule
+            # calibrated at R ≈ 30, is still adequate at the radius asked for.
             floor = biggest * inv * mp.mpf(10) ** (-work)
             if value == 0 or floor > abs(value) * mp.mpf(10) ** (-dps):
                 raise ValueError(
@@ -1007,7 +1007,7 @@ def xi_taylor_coefficients(
     This is the Griffin–Ono–Rolen–Zagier normalisation, whose usual statement
     is (−1 + 4z²)·Λ(1/2+z) = Σ γ(n) z^{2n}/n! with Λ = π^{−s/2}Γ(s/2)ζ(s).
     The two agree because ξ = ½s(s−1)Λ and (1/2+z)(z−1/2) = z² − 1/4, so
-    (−1+4z²)Λ(1/2+z) = 4(z²−1/4)·2ξ(1/2+z)/(z²−1/4) = 8ξ(1/2+z) — a factor
+    (−1+4z²)Λ(1/2+z) = 4(z²−1/4)·2ξ(1/2+z)/(z²−1/4) = 8ξ(1/2+z), a factor
     the module *derives* rather than quotes.
 
     All γ(n) are positive (ξ(1/2+z) has a Maclaurin series in z² with positive
@@ -1019,15 +1019,15 @@ def xi_taylor_coefficients(
         γ(10) = 1.6323380490301419585e-17
         γ(25) = 5.8107957154993911706e-46
 
-    ``method="integral"`` (default) uses Riemann's Mellin representation —
+    ``method="integral"`` (default) uses Riemann's Mellin representation,
     positive integrands, no radius, no aliasing (see :func:`_gamma_integral`).
     ``method="cauchy"`` is the independent second path (:func:`_gamma_cauchy`),
-    Cauchy integration of 8·ξ(1/2+√w) — no Mellin representation, no ω.  The
+    Cauchy integration of 8·ξ(1/2+√w), no Mellin representation, no ω.  The
     two share nothing but ξ itself, and they return **bit-identical** values
     over the whole grid the tests pin: n_max ∈ {4, 12, 20, 30} × dps ∈ {30, 80}
     × radius ∈ {4, 10, 30, 100, 300}, plus n ≤ 20 at dps = 30 and 50 on the
-    default circle.  A third, wholly independent route — Riemann's ω′ form of
-    the Ξ integral — reproduces γ(0…8) to 9.2e-32 relative and the committed
+    default circle.  A third, wholly independent route: Riemann's ω′ form of
+    the Ξ integral, reproduces γ(0…8) to 9.2e-32 relative and the committed
     n = 128 table to 4.7e-32 (``tests/test_li.py``).
 
     Cached under ``data/li_gamma_*.json``.
@@ -1119,7 +1119,7 @@ def _to_rational(x):
     The ``isinstance`` guard is load-bearing, not defensive: ``mp.mpf(x)`` on a
     value that is *already* an mpf **re-rounds it to the ambient precision**.
     Doing that here silently replaced every coefficient by its 15-digit
-    rounding before the "exact" Sturm count ran — which turned the near-miss
+    rounding before the "exact" Sturm count ran, which turned the near-miss
     control X² − 2X + (1 + 10^{−36}) into the perfect square (X−1)², i.e. into a
     *hyperbolic* verdict.  ``tests/test_li.py`` pins that control.
     """
@@ -1135,7 +1135,7 @@ def _balance(coeffs: Sequence) -> tuple[list, Any]:
 
     s = (|a_0|/|a_d|)^{1/d} is the classical root-magnitude estimate; after the
     substitution the coefficients are normalised by their largest.  A positive
-    scaling is a bijection of the real line, so hyperbolicity is untouched —
+    scaling is a bijection of the real line, so hyperbolicity is untouched,
     but the conditioning of the root finder improves enormously: measured on
     J^{16,0}, the raw coefficients span 10^28.5 and the ones already normalised
     by :func:`jensen_polynomial` span 10^5.9 (for J^{8,0}: 10^13.8 → 10^2.4).
@@ -1159,7 +1159,7 @@ def is_hyperbolic(
     method: str = "both",
     tol: float | None = None,
 ) -> dict:
-    """Is a real polynomial *hyperbolic* — i.e. are all of its roots real?
+    """Is a real polynomial *hyperbolic*, i.e. are all of its roots real?
 
     ``poly_coeffs`` is in **ascending** order (``poly_coeffs[j]`` multiplies
     ``X**j``), matching :func:`jensen_polynomial`.
@@ -1171,20 +1171,20 @@ def is_hyperbolic(
 
     Two tests, and by default both are run:
 
-    ``"roots"``  — mpmath's Durand–Kerner on the balanced polynomial; hyperbolic
+    ``"roots"``: mpmath's Durand–Kerner on the balanced polynomial; hyperbolic
     iff max |Im root| / max |root| < ``tol`` (default 10^{−dps/2}).  This is a
     *tolerance* test, and a tolerance test can be fooled by a complex pair with
     a tiny imaginary part.  ``max_rel_imag`` is reported so the caller can see
     how far from the boundary the verdict was.
 
-    ``"sturm"``  — exact.  An ``mpf`` is a dyadic rational, so the polynomial
+    ``"sturm"``: exact.  An ``mpf`` is a dyadic rational, so the polynomial
     held in memory converts to ℚ[X] *without error*; sympy's Sturm-sequence
     real-root count on its square-free part is then a decision procedure.
     ``n_real_exact`` is that count.  **Caveat, stated plainly**: this certifies
     the rational polynomial actually in memory, whose coefficients differ from
     the true γ(n) by ~10^{−dps}; the conclusion transfers to the true
     polynomial only when the roots are separated by more than that
-    perturbation, which ``min_gap`` quantifies — the smallest gap between
+    perturbation, which ``min_gap`` quantifies, the smallest gap between
     consecutive root real parts *divided by the largest root modulus*, i.e. a
     scale-free (relative) separation, computed in the balanced variable.
 
@@ -1194,7 +1194,7 @@ def is_hyperbolic(
     ``method="both"`` (default) runs both and sets ``agree``; the returned
     ``hyperbolic`` is then the exact (Sturm) verdict.
 
-    Control: ``is_hyperbolic([1, 0, 1])`` — the polynomial X² + 1 — returns
+    Control: ``is_hyperbolic([1, 0, 1])``, the polynomial X² + 1, returns
     ``hyperbolic=False``, ``max_abs_imag=1.0``, ``n_real_exact=0``.
     """
     coeffs = list(poly_coeffs)
@@ -1252,12 +1252,12 @@ def is_hyperbolic(
         # feeding ``scaled`` to Sturm made the "exact" branch decide a
         # different polynomial from the one the caller passed.  Measured
         # (2026-08-11): X² − 2X + (1 + 10^{−45}), which has no real root,
-        # came back ``hyperbolic=True, n_real_exact=1`` at dps 15 and 20 — and
+        # came back ``hyperbolic=True, n_real_exact=1`` at dps 15 and 20, and
         # ``agree=True``, because the root finder was fooled identically, so
         # the disagreement flag could not fire.  ``_to_rational``'s guard
         # prevented a *second* re-rounding; the first one happened here.
         # X ↦ sX with s > 0 is a bijection of the real line, so the Sturm count
-        # needs no balancing at all — only the root finder does.
+        # needs no balancing at all, only the root finder does.
         with mp.workdps(work):
             rats = [_to_rational(c) for c in coeffs]
         poly = sympy.Poly(sum(r * X ** j for j, r in enumerate(rats)), X)
@@ -1295,7 +1295,7 @@ def hyperbolicity_scan(
     method: str = "roots",
     d_min: int = 1,
 ) -> list[dict]:
-    """The (d, n) hyperbolicity table — "the infinite Routh table", made finite.
+    """The (d, n) hyperbolicity table, "the infinite Routh table", made finite.
 
     For every degree d in ``d_min … d_max`` and every shift n in ``0 … n_max``,
     build J^{d,n} (in the normalised variable, see :func:`jensen_polynomial`)
@@ -1304,10 +1304,10 @@ def hyperbolicity_scan(
 
     **Pólya's criterion is an equivalence**, so a single ``False`` here would
     *refute* RH.  Correspondingly, an all-``True`` table means only "no
-    violation found in this range" — never support for RH (``docs/08``).
+    violation found in this range", never support for RH (``docs/08``).
     Measured on this machine at ``dps=30``: every (d, n) with 1 ≤ d ≤ 16 and
     0 ≤ n ≤ 25 (416 rows, ~41 s) is hyperbolic, with relative max |Im root| ≤
-    3.722e-104 and smallest relative root gap 0.04316 — the roots come out real
+    3.722e-104 and smallest relative root gap 0.04316, the roots come out real
     to far beyond the working precision, and well separated, which is what
     "comfortably hyperbolic" looks like.
 
@@ -1359,15 +1359,15 @@ def jensen_roots_vs_gue(
     """Compare the roots of J^{d,n} with the roots of the Hermite polynomial H_d.
 
     Griffin–Ono–Rolen–Zagier (2019) prove that, for fixed d, a suitable affine
-    renormalisation of J^{d,n} converges as n → ∞ to H_d — so the Jensen roots
+    renormalisation of J^{d,n} converges as n → ∞ to H_d, so the Jensen roots
     approach the Hermite roots, whose empirical measure is the semicircle law
     and which are the classical "GUE side" of this picture (the Hermite
     polynomials are the orthogonal polynomials of the Gaussian Unitary
     Ensemble weight e^{−x²}).
 
     Because the theorem's normalisation is affine, this function compares
-    *standardised* root vectors — each shifted to mean 0 and scaled to unit
-    standard deviation — which removes the normalisation entirely and leaves
+    *standardised* root vectors, each shifted to mean 0 and scaled to unit
+    standard deviation, which removes the normalisation entirely and leaves
     only the shape.  Returns ``{'d', 'n', 'roots', 'roots_standardised',
     'hermite_roots', 'hermite_standardised', 'max_deviation',
     'rms_deviation'}``.

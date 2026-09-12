@@ -1,0 +1,54 @@
+{
+  "run_id": "f3ab3e34-70e9-4861-a883-ed38b3d16dcd",
+  "status": "not-settled",
+  "conclusion": "Erdos #126 reduces in four elementary lines to a solution count for the unit equation: g(k) <= 2 + N(k+1) where N(r) bounds solutions of x+y=1 in a rank-r subgroup of Q*, so N(r)=exp(o(r)) implies the conjecture, and the known N(r) <= 2^{8r+8} is the same exponential wall the 1934 theorem sits at. The recommended program is not the reduction itself (its first step is a famous open problem strictly stronger than #126) but the m-base-point version, where each extra element of A adds a free simultaneous unit equation that no existing counting argument uses.",
+  "confidence": "Lemma 2 and its corollary are proved here and machine-checked on a witness as exact rationals; lean on them fully, but note the reduction is almost certainly folklore inside the Gyory-Stewart-Tijdeman method and is not claimed as new. The literature rows (g(k) <= 2^k from Erdos-Suranyi, GST 1986, Erdos-Stewart-Tijdeman 1988, Beukers-Schlickewei 2^{8r+8}) come from search summaries and arXiv:2602.07545 because erdosproblems.com/126 returned HTTP 403; treat them as cited, not verified at source. The ranking of chains is judgment, not theorem.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "the f <-> g staircase inversion and the g_N(k) table (2,4,5,6,8,10,11 for k=1..7)",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "removed the need to re-derive the reformulation; the table replicated independently at N=200..400, which showed its search boxes were 100-1000x larger than needed rather than 60x"
+    },
+    {
+      "what": "the composition-law refutation direction (g(1)=2 + supermultiplicativity => g(k) >= 2^k by Fekete)",
+      "source": "hunts/r_186989/RESULTS.md sec 4",
+      "effect": "audited and confirmed; carried into this arm's refutation-flag list unchanged"
+    },
+    {
+      "what": "the arm-2 witness A={1,3,7,13}, S={2,5,7}",
+      "source": "hunts/r_186989/RESULTS.md sec 3",
+      "effect": "refutes that same hunt's loose thread 3 (|A| <= p-1 for p not in S) at p=3 with |A|=4"
+    }
+  ],
+  "threads": [
+    {
+      "what": "the Erdos-Suranyi proof of g(k) <= 2^k was not reconstructed",
+      "why_it_might_matter": "chain C (descent with a saving, aiming at g(k) <= (2-delta)^k) cannot start without it, and it is the only deliverable in reach of a short run",
+      "first_step": "obtain the proof from Erdos-Suranyi 'Topics in the Theory of Numbers' or a paper reproducing it, then locate which branch of its dichotomy is wasteful"
+    },
+    {
+      "what": "whether Lemma 2 is written down in the literature",
+      "why_it_might_matter": "decides whether the reduction may be presented as an observation or must be cited",
+      "first_step": "read Gyory-Stewart-Tijdeman 1986 'On prime factors of sums of integers' and check whether the c log|A| bound is derived this way"
+    },
+    {
+      "what": "no search has ever looked at g(k) above k=7, while the interval construction proves g(k) >= (1+o(1)) k log k / 2 (g(12) >= 20, g(22) >= 40)",
+      "why_it_might_matter": "the open question is the range [k log k, 2^k] and nobody has data in it; a construction beating k log k would be the first information about the true growth since 1988",
+      "first_step": "search for valid A beating {1..m} at k = 8..12 with a real max-clique solver rather than branch-and-bound over an interval"
+    },
+    {
+      "what": "erdosproblems.com blocks WebFetch with HTTP 403",
+      "why_it_might_matter": "every Erdos-problem brief in this lab will hit it, and a run that cannot read the problem page reads secondary sources instead",
+      "first_step": "check whether the site has a JSON API or a git mirror of its problem texts"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a shared exhaustive max-clique / smooth-sum probe, currently reimplemented in both r_186989 and this run",
+      "why_reusable": "any additive-combinatorics hunt in this lab needs 'largest subset of [1,N] whose pairwise sums lie in a multiplicative set'; two runs wrote it independently in two days",
+      "first_step": "lift the 30-line branch-and-bound from hunts/support_f3ab3e34/probe.py once a third consumer appears, not before"
+    }
+  ],
+  "notes_for_operator": "The brief and r_186989 both quote 3*2^{k-1} as the state of the art; the literature quotes 2^k and, more importantly, has had the log-scale result in the harder two-set form since 1986. Briefs for classical problems should carry the post-1934 literature or the arm spends its first third rediscovering it. Also: the two chains worth funding differ by an order of magnitude in ambition (C is a bounded run, B is a research programme), which is an allocation call and therefore Fulcrum's, not mine."
+}

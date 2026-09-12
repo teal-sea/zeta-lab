@@ -1,4 +1,4 @@
-# 21 — Forward-deployed verification: can a report refuse a crossing?
+# 21. Forward-deployed verification: can a report refuse a crossing?
 
 **Status when this file was committed: pre-registration only. No result in it.**
 Everything below §5 was written before the gate existed, before any case was
@@ -26,7 +26,7 @@ A banner is advice. Nothing in the tree consumes a grade in order to **refuse**
 anything. This document asks whether the pairing can become a boundary:
 
 > Can an existing verification report decide whether a claim is permitted to
-> cross from candidate information into promoted information — and does the
+> cross from candidate information into promoted information, and does the
 > **verifier's own** integrity materially change that decision while the
 > claim's own numbers are held fixed?
 
@@ -50,7 +50,7 @@ failure mode under study:
 | contamination and dependence as declared data | `harness/provenance.py` |
 | planted battery corruptions (the lesion principle, one level up) | `harness/shams.py` |
 | refusal to aggregate independent axes | `dossier/status.py` `Support.__bool__` |
-| a promotion refusal on **process** grounds with green numbers | `ontology/funnel.py:1027-1052` — `survives` needs every required screen to have run *and* verification effort above generation effort |
+| a promotion refusal on **process** grounds with green numbers | `ontology/funnel.py:1027-1052`, `survives` needs every required screen to have run *and* verification effort above generation effort |
 
 That last row deserves emphasis: a forward gate keyed on verifier quality
 **already exists** in the discovery arm. Anyone proposing "a claim cannot
@@ -58,11 +58,11 @@ promote itself" as a new capability should be shown `funnel.py:71-76` first.
 
 ### The two gaps, both named by the shipped code itself
 
-**Gap 1 — integrity is advisory.** `report_claim()` returns a report;
+**Gap 1, integrity is advisory.** `report_claim()` returns a report;
 `ClaimReport.dangerous` renders text. No caller refuses a crossing. The
 enforcement delta is, honestly priced, close to one conditional.
 
-**Gap 2 — contamination is declared, not derived.** `harness/provenance.py`
+**Gap 2, contamination is declared, not derived.** `harness/provenance.py`
 says it outright: *"a provenance record is a declaration, and nothing here can
 verify that a declaration is true."* `contamination_reasons` fires only when
 `results_visible_when_authored is True`. `docs/20` §4 records the same limit in
@@ -76,13 +76,13 @@ Gap 2 is the interesting one. Gap 1 is plumbing.
 
 Two files, deliberately small.
 
-* `harness/preregistration.py` — a `Preregistration` carrying
+* `harness/preregistration.py`: a `Preregistration` carrying
   `evidence_visible_at_freeze`: the digests of evidence artifacts that already
   existed when the criteria were frozen. `derived_contamination_reasons`
   recomputes contamination from digests instead of reading a boolean, and
   `declared_vs_derived` reports the **divergence** between what a provenance
   record declares and what its artifacts imply.
-* `harness/promotion.py` — `decide()`, returning an ALLOW/BLOCK `Decision` with
+* `harness/promotion.py`: `decide()`, returning an ALLOW/BLOCK `Decision` with
   every reason at once as machine-readable codes; a `Boundary` on disk whose
   `audit()` reconciles `promoted/` against `decisions/`; and `NaiveGate`, the
   mandatory null control.
@@ -125,7 +125,7 @@ Frozen before implementation. All are assertions.
   `decide` → ALLOW (a report declared dirty out of caution whose artifacts are
   clean). Guards against a gate that is merely stricter.
 - **S3** Every BLOCK reason independently reproduces its own BLOCK under
-  `recheck(..., only=code)` — a reason string that cannot re-derive its verdict
+  `recheck(..., only=code)`: a reason string that cannot re-derive its verdict
   is a caption.
 - **S4** `(verdict == "BLOCK") == bool(reasons)` holds for every input,
   including malformed, `None`, and garbage.
@@ -165,8 +165,8 @@ edited after seeing results; if one fires, it is reported as fired.
   this condition mandatory, not optional.
 - **K7** Making the contaminated and blind cases green requires perturbing the
   claim's numbers.
-- **K8** The gate sits on no path anyone must traverse — not in
-  `register_department`, not in the funnel, not in CI — and is therefore
+- **K8** The gate sits on no path anyone must traverse, not in
+  `register_department`, not in the funnel, not in CI, and is therefore
   decoration.
 - **K9** Total genuinely-new logic exceeds ~300 lines while the enforcement
   delta over `harness/integrity.py` remains a single conditional. The pitch must
@@ -223,14 +223,14 @@ it, and any write-up that blurs those is overclaiming.
 K6 kills this work if a human checklist catches everything the gate catches.
 That comparison is only fair if the checklist is written before anyone knows
 which cases the gate wins, so it is frozen here, in the same commit as the
-criteria, and it is written to be **as strong as I can make it** — a rival
+criteria, and it is written to be **as strong as I can make it**, a rival
 built to lose is the sham this repository already refuses (`docs/09` gate #3).
 
 > **The reviewer's checklist.** For each promoted claim, ask:
 > 1. Is the outcome distinguishing, and does the battery's integrity grade say
 >    `CALIBRATED`?
-> 2. Were the pass criteria — thresholds, windows, the lesion roster, the rival
->    roster — fixed before the runs they judge, and can you see where that was
+> 2. Were the pass criteria, thresholds, windows, the lesion roster, the rival
+>    roster, fixed before the runs they judge, and can you see where that was
 >    recorded?
 > 3. Is the evidence this report was computed on still the evidence in the tree?
 
@@ -248,7 +248,7 @@ The measurable form of that claim, and the only one that counts:
 - **P2** The gate earns something over prose only on cases the checklist-holder
   misses *while holding the artifacts*. If they catch everything, K6 fires.
 - **P3** A case where the reviewer must answer "I cannot tell from here" is the
-  interesting cell — it is where the mechanism supplies information rather than
+  interesting cell, it is where the mechanism supplies information rather than
   discipline.
 
 Recorded prediction: the reviewer catches the case with a false declaration
@@ -277,7 +277,7 @@ verifier's artifacts vary. Measured by `tests/test_harness_promotion.py`:
 
 **S2 holds, twice.** The last two rows are divergences: the naive gate allows,
 the real gate blocks, and both blocks rest on a recomputed digest. The block
-survives replacing the provenance record with a maximally flattering one — no
+survives replacing the provenance record with a maximally flattering one, no
 declared field participates. That is the one property separating this gate from
 the sham, and it is the only reason the work continued.
 
@@ -286,7 +286,7 @@ lying: the audit is honest, the declarations are true, and the audit is simply
 structurally unable to know what was removed. The frozen roster
 `['large','medium','small']` no longer matches the applied `['large','medium']`.
 The audit's own pin (`test_the_audit_is_blind_to_a_silently_dropped_hardest_lesion`)
-still passes unchanged, as it should — **the audit is not fixed**. A record from
+still passes unchanged, as it should, **the audit is not fixed**. A record from
 before supplies a prior state one audit of one battery at one moment cannot have.
 
 ### 10.2 Conditions that failed
@@ -354,7 +354,7 @@ The reviewers also found two things the gate does not check at all: the criteria
 freeze the rosters but not the *detector*, so a detector swapped after seeing
 results leaves no trace; and one reviewer noticed the roster magnitudes differed
 from the in-tree specimen's, inferring a lesion that may have been dropped
-*before* the criteria were frozen — which this mechanism cannot catch by
+*before* the criteria were frozen, which this mechanism cannot catch by
 construction, since the digest would be frozen around the already-weakened set.
 
 ### 10.4 The held-out sham, and the gate's inherited blindness
@@ -366,18 +366,18 @@ party author a hollow battery trying to pass the audit, without seeing
 battery graded **`CALIBRATED` on the first attempt, with zero adaptation
 iterations**, passing all 19 conformance tests. Three findings:
 
-1. **Strawman rivals** — nothing requires a rival to be *near* the target, so
+1. **Strawman rivals**: nothing requires a rival to be *near* the target, so
    `anything AND target_only_property` distinguishes. An explicitly astrological
    claim renders as `distinguishes` under a `CALIBRATED` banner.
-2. **The detector is the claim, negated** — identical on 29/29 payloads;
+2. **The detector is the claim, negated**: identical on 29/29 payloads;
    `detector-power` and `detector-specificity` both pass while the detector
    carries no information independent of the claim.
-3. **`UNKNOWN` does not block `CALIBRATED`** — using callables rather than
+3. **`UNKNOWN` does not block `CALIBRATED`**: using callables rather than
    mappings makes `payload-symmetry` return `UNKNOWN`, which the top grade
    tolerates. Default-open, in the audit.
 
-Neither (1) nor (2) is in `SHAM_MODES`. Per §8's own scoring rule — *"every mode
-they find that the catalog lacks is a real hole"* — these are holes.
+Neither (1) nor (2) is in `SHAM_MODES`. Per §8's own scoring rule, *"every mode
+they find that the catalog lacks is a real hole"*, these are holes.
 
 **And the consequence for this work is the worst result in this document:**
 
@@ -401,14 +401,14 @@ countermeasure moved from a convention ("pin the lesion set in tests") to a
 mechanism (a digest that moves). That is real and it is small.
 
 Not EARNED NEXT EXPERIMENT: S2′ failed, the blind axis added nothing, the gate
-inherits every blind spot of the audit beneath it — demonstrably, on a held-out
-sham — and against a legible criteria record a human reviewer performs as well.
+inherits every blind spot of the audit beneath it, demonstrably, on a held-out
+sham, and against a legible criteria record a human reviewer performs as well.
 The enforcement delta remains close to one conditional, honestly priced.
 
 `docs/20` §6.4 predicted: *"A lying provenance record defeats the audit; another
 referee layer would not change that, only move it."* That prediction stands. The
 lie now has to be a false digest instead of a false boolean, and a false digest
-is checkable by anyone holding the artifacts — the boundary moved, and moving it
+is checkable by anyone holding the artifacts, the boundary moved, and moving it
 was the whole contribution. It did not disappear, and this document should not be
 cited as though it had.
 
@@ -416,5 +416,5 @@ The next experiment worth running is not a bigger gate. It is the one the held-o
 sham exposed: **`SHAM_MODES` is missing at least two modes, and a `CALIBRATED`
 grade can be obtained on the first attempt by an outsider.** Until a rival's
 *nearness* to its target is something the audit measures rather than assumes,
-every layer built on top of that grade — this one included — inherits a referee
+every layer built on top of that grade, this one included, inherits a referee
 that an afternoon's work can hollow out.

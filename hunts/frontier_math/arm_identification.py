@@ -26,7 +26,7 @@ branch of `Phi2`.
 The single-pair (`k = 1`) retention chain is closed at hardened grade
 (ledger 2026-08-13); its one substantial remaining formalisation
 obligation was described as "a two-variable interval table over
-`[28/5, 60] x [0, 1/2]` — the analogue of the BandCert leaf tables".
+`[28/5, 60] x [0, 1/2]`: the analogue of the BandCert leaf tables".
 Under the identification it is not the *analogue* of those tables, it is
 an *instance* of them.  Specifically `BandCert.Phi.phiC_mem` already
 gives, sorry-free,
@@ -72,20 +72,20 @@ A_CONST = SQ2 * math.sin(1 / SQ2)
 
 
 def ghat(z: complex) -> complex:
-    """`int_{-1/2}^{1/2} cos(sqrt2 u) cosh(z u) du` — EForm3's transform."""
+    """`int_{-1/2}^{1/2} cos(sqrt2 u) cosh(z u) du`: EForm3's transform."""
     zp, zm = z + 1j * SQ2, z - 1j * SQ2
     return cmath.sinh(zp / 2) / zp + cmath.sinh(zm / 2) / zm
 
 
 def sfun(u: complex) -> complex:
-    """`s(u) = sin(u/2)/u`, `s(0) = 1/2` — BandCert's `sfunC`."""
+    """`s(u) = sin(u/2)/u`, `s(0) = 1/2`: BandCert's `sfunC`."""
     if u == 0:
         return 0.5 + 0j
     return cmath.sin(u / 2) / u
 
 
 def phi2(z: complex) -> complex:
-    """`Phi2(z) = s(z + sqrt2) + s(z - sqrt2)` — BandCert's paper field."""
+    """`Phi2(z) = s(z + sqrt2) + s(z - sqrt2)`: BandCert's paper field."""
     return sfun(z + SQ2) + sfun(z - SQ2)
 
 

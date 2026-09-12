@@ -6,7 +6,7 @@ What modification of the world would preserve the appearance of this result whil
 ## Findings
 The claim asserts that block-positivity transplants to the pinned upstream zero side. The stated assumptions reveal that the upstream zero side analytically requires the un-conjugated transpose `u u^T`.
 
-If an implementation or numerical control mistakenly computes the conjugate transpose `u u^*` (as the stated assumption hints), it constructs a Gram matrix that is positive semi-definite by definition. This modification of the world perfectly preserves the *appearance* of the result—any block-positivity scan will pass unconditionally. 
+If an implementation or numerical control mistakenly computes the conjugate transpose `u u^*` (as the stated assumption hints), it constructs a Gram matrix that is positive semi-definite by definition. This modification of the world perfectly preserves the *appearance* of the result, any block-positivity scan will pass unconditionally. 
 
 However, this makes the *interpretation* strictly false. The actual upstream zero side requires `u u^T`. For an off-line root $\gamma = \alpha + i\beta$, the vector $u = \hat{\phi}(\gamma - \tau)$ is complex ($u = x + iy$). The pairing of such a root with its conjugate yields:
 

@@ -1,0 +1,253 @@
+# Hunt #80 section 5: the away branch of Wikstrom's Bloch dichotomy, at a
+# target above the published 0.0153, on the author's own verifier.
+#
+# Why this is a workflow and not a Modal app. The first attempt ran the same
+# computation on preemptible containers as one long serial shard per sector. A
+# shard reached cell 25 of 100 after 2620 s, was preempted, restarted at cell 0,
+# and did that three times over: six hours, no verdict, and the money is gone.
+# GitHub-hosted standard runners on a public repository bill zero, run 20 jobs
+# in parallel, give 4 vCPU each, and **are not preempted**. The instrument was
+# the problem, not the mathematics.
+#
+# Three properties carry the fix, and each is a rule in CLAUDE.md's compute
+# discipline:
+#
+#  * every cell's verdict is written to the artifact the moment it finishes, so
+#    a job that dies costs the cells it had not reached and nothing else;
+#  * every process stops on its own wall budget, well inside `timeout-minutes`,
+#    so a shard that was underestimated ends cleanly with partial results
+#    instead of being killed mid-write;
+#  * `mode: sweep` re-runs the plan against the artifacts already collected and
+#    does only the cells still missing, so an underestimate costs a second pass
+#    rather than the run.
+#
+# Sharding is per initial cell. `branch_verify`'s recursion on a box depends on
+# nothing but that box, so the union over a sector's 1600 cells is exactly the
+# box set his `branch_verify(initial_grid=(40,40))` builds, and the per-sector
+# terminal count is comparable box for box against the archive's reference
+# logs. That comparison is this run's own cross-check, and it also sidesteps the
+# `--max-boxes` frontier refusal that stops the archive's documented command in
+# eight sectors (RESULTS.md section 3, finding 4).
+#
+# How a run is launched. `workflow_dispatch` only reaches a workflow file that
+# is already on the default branch, and this one is not, so the trigger is a
+# push on the hunt branch, the same way `three-point.yml` drives its Lean build.
+# The parameters live in `hunts/bloch_ceiling/ci_run.json`, committed beside
+# this file, so each launch is a reviewable diff rather than a form somebody
+# filled in. `"mode": "off"` emits an empty matrix, so an ordinary commit on
+# this branch does not fire 219 jobs by accident.
+name: bloch-higher
+
+on:
+  push:
+    branches: [ "hunt/bloch-higher" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: bloch-higher-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  BLOCH_SRC: ${{ github.workspace }}/.upstream/bloch/zenodo-bloch-computations/src
+
+jobs:
+  plan:
+    name: plan the shards
+    runs-on: ubuntu-latest
+    # Five would do for the plan itself. The sweep's skip list is what needs the
+    # rest: it pulls every artifact of every prior run, and the away branch is
+    # 340 of them across two runs, one download apiece.
+    timeout-minutes: 20
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      count: ${{ steps.plan.outputs.count }}
+      mode: ${{ steps.plan.outputs.mode }}
+      target: ${{ steps.plan.outputs.target }}
+      budget: ${{ steps.plan.outputs.budget }}
+      nproc: ${{ steps.plan.outputs.nproc }}
+      prior_run_id: ${{ steps.plan.outputs.prior_run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - id: plan
+        run: |
+          python hunts/bloch_ceiling/ci_plan.py config \
+            --file hunts/bloch_ceiling/ci_run.json >> "$GITHUB_OUTPUT"
+      - run: |
+          echo "mode **${{ steps.plan.outputs.mode }}**, target ${{ steps.plan.outputs.target }}, ${{ steps.plan.outputs.count }} jobs, ${{ steps.plan.outputs.nproc }} processes each, ${{ steps.plan.outputs.budget }} s budget" >> "$GITHUB_STEP_SUMMARY"
+
+      # The skip list is built ONCE here, not in each shard. Downloading both
+      # prior runs' ~340 artifacts from 121 sweep jobs would be forty thousand
+      # API calls against a 1,000-per-hour token, which is a rate-limit failure
+      # dressed up as a flaky run. Compacted to the four fields the worker
+      # reads, so the shards parse a small file instead of seven megabytes.
+      - name: one skip list for every sweep shard
+        if: steps.plan.outputs.mode == 'sweep' && steps.plan.outputs.prior_run_id != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p prior
+          for r in $(echo "${{ steps.plan.outputs.prior_run_id }}" | tr ',' ' '); do
+            gh run download "$r" --repo "${{ github.repository }}" \
+              --dir "prior/$r" --pattern 'bloch-away-*' || true
+          done
+          python - <<'PY'
+          import glob, json
+          seen, kept = set(), 0
+          with open("prior.jsonl", "w", encoding="utf-8") as out:
+              for p in glob.glob("prior/**/*.jsonl", recursive=True):
+                  for line in open(p, encoding="utf-8"):
+                      try:
+                          r = json.loads(line)
+                      except ValueError:
+                          continue
+                      if "cell" not in r or not r.get("ok"):
+                          continue
+                      key = (r["sector"], r["cell"], r["target"])
+                      if key in seen:
+                          continue
+                      seen.add(key)
+                      out.write(json.dumps({"sector": r["sector"], "cell": r["cell"],
+                                            "target": r["target"], "ok": True}) + "\n")
+                      kept += 1
+          print(f"skip list: {kept} accepted cells")
+          PY
+          wc -c prior.jsonl
+
+      - uses: actions/upload-artifact@v4
+        if: steps.plan.outputs.mode == 'sweep' && steps.plan.outputs.prior_run_id != ''
+        with:
+          name: bloch-prior-skiplist
+          path: prior.jsonl
+          retention-days: 14
+
+  away:
+    name: ${{ matrix.job.name }}
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    # The 1020 s budget is what ends a shard; this only catches one that hangs.
+    # It has to leave room for the cell a process was already inside when the
+    # budget expired, because the check is between cells and the most expensive
+    # single cell in the run is 6,888 boxes, about 690 s on a standard runner.
+    # 1020 + 690 + setup is a little under 30 minutes, so 35 is the safe number.
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        job: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: the archive, cached by its own sha256
+        id: archive
+        uses: actions/cache@v4
+        with:
+          path: .upstream/bloch
+          key: bloch-archive-bdaa1ff347043a00733ca40d5db46c5418810d1f4e5c472d0bcb9de48ef408e7
+
+      - name: fetch and verify the archive
+        run: bash hunts/bloch_ceiling/fetch_upstream.sh
+
+      - name: the archive's own pinned environment
+        run: |
+          python -m pip install --quiet --disable-pip-version-check \
+            -r .upstream/bloch/zenodo-bloch-computations/requirements.txt
+          python -c "import flint, numpy, scipy; print(flint.__version__, numpy.__version__, scipy.__version__)"
+
+      # One artifact, built once by the plan job over every prior run. It lands
+      # in `skip/`, deliberately NOT in `out/`: `out/*` is what this job uploads
+      # and what the roll-up reads back, and a skip list sitting in there would
+      # be re-read as if it were shard output.
+      - name: cells already accepted by the runs so far
+        if: needs.plan.outputs.mode == 'sweep' && needs.plan.outputs.prior_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: bloch-prior-skiplist
+          path: skip
+
+      - name: the away shard
+        run: |
+          mkdir -p out
+          SKIP=""
+          if [ -f skip/prior.jsonl ]; then SKIP="--skip-done skip/prior.jsonl"; fi
+          python hunts/bloch_ceiling/ci_away_shard.py \
+            --sector "${{ matrix.job.sector }}" \
+            --shard  "${{ matrix.job.shard }}" \
+            --nshard "${{ matrix.job.nshard }}" \
+            --target "${{ matrix.job.target }}" \
+            --nproc  "${{ needs.plan.outputs.nproc }}" \
+            --budget "${{ needs.plan.outputs.budget }}" \
+            --out "out/${{ matrix.job.name }}.jsonl" $SKIP \
+            | tee "out/${{ matrix.job.name }}.log"
+
+      - name: what this shard did
+        if: always()
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import glob, json, os
+          rows = []
+          for p in glob.glob("out/*.jsonl"):
+              for line in open(p, encoding="utf-8"):
+                  try: rows.append(json.loads(line))
+                  except ValueError: pass
+          b = sum(r["terminal"] for r in rows); s = sum(r["seconds"] for r in rows)
+          bad = [r for r in rows if not r["ok"]]
+          print(f"| cells | boxes | core-seconds | s/box | refused |")
+          print(f"|---|---|---|---|---|")
+          print(f"| {len(rows)} | {b} | {s:.0f} | {s/b:.5f} | {len(bad)} |" if b else "| 0 | 0 | 0 | - | 0 |")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bloch-away-${{ matrix.job.name }}
+          path: out/*
+          retention-days: 14
+          if-no-files-found: warn
+
+  rollup:
+    name: roll up every shard
+    needs: [plan, away]
+    # `always()` rather than `success()`: a shard that ran out of budget is a
+    # partial result to roll up, not a reason to throw the run away.
+    if: always() && needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          path: collected
+          pattern: bloch-away-*
+          merge-multiple: true
+      - name: per-sector verdict against the archive's reference counts
+        run: |
+          python hunts/bloch_ceiling/ci_plan.py collect --dir collected \
+            --target "${{ needs.plan.outputs.target }}" --out rollup.json | tee rollup.txt
+          {
+            echo '```'
+            cat rollup.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bloch-higher-rollup
+          path: |
+            rollup.json
+            rollup.txt
+          retention-days: 30

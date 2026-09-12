@@ -10,13 +10,13 @@ import Mathlib
 The objects of `hunts/wide_search/admissible_closure.py` and
 `hunts/wide_search/certify_bound.py`, transcribed without rounding:
 
-* `cK` — the six exact rational coefficients of the trial polynomial `u`;
-* `aK` — the kernel coefficients, `aK 0 = 1` for the `|x|` term and
+* `cK`: the six exact rational coefficients of the trial polynomial `u`;
+* `aK`: the kernel coefficients, `aK 0 = 1` for the `|x|` term and
   `aK k = a_k = 2^(2k+1)(k-1)!/(2k)!` for `1 ≤ k ≤ 20`;
-* `truncKernel` — the `M = 20` truncation `F₁^(M)`;
-* `r0Poly` — the exact residual `r₀ = 1 - A₀u`, a degree-52 rational polynomial
+* `truncKernel`: the `M = 20` truncation `F₁^(M)`;
+* `r0Poly`: the exact residual `r₀ = 1 - A₀u`, a degree-52 rational polynomial
   with 27 nonzero coefficients;
-* `atomInt m n` — the atomic integral `∫_I |x-t|^m t^n dt`.
+* `atomInt m n`: the atomic integral `∫_I |x-t|^m t^n dt`.
 
 Nothing here is approximate.  Every literal is the exact rational produced by the
 evidence scripts.

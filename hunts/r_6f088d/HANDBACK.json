@@ -1,0 +1,21 @@
+{
+  "run_id": "bc87fba6-95d1-4ce0-a9ef-c7e364c95bcb",
+  "status": "settled",
+  "conclusion": "The root module load failure in zeta23ext was caused by 17 colliding declarations (including Retention.Aconst and Retention.c2) across EForm, EForm2, and EForm3 in the un-scoped Retention namespace. The collision is resolved by sub-namespacing arms or importing only the active EForm3 arm, while mathematical duplication remains across the independent iterations.",
+  "confidence": "Exact: demonstrated mechanically via AST symbol parsing across 64 modules and isolated Lean 4 compiler error reproduction.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Common core extraction for Retention constants",
+      "why_it_might_matter": "Extracting Aconst, c2, and g into a shared Zeta23Ext.RetentionCore eliminates duplication across EForm, EForm2, and EForm3.",
+      "first_step": "Create Zeta23Ext/RetentionCore.lean and point EForm, EForm2, and EForm3 to it."
+    },
+    {
+      "what": "Global namespace scoping for PairEnergy.lean",
+      "why_it_might_matter": "PairEnergy currently declares Aconst and c2 at the root level, which could collide with upstream modules.",
+      "first_step": "Wrap PairEnergy.lean in namespace Zeta23Ext.PairEnergy."
+    }
+  ],
+  "core_candidates": [],
+  "notes_for_operator": "Hunt #46 was assigned in the brief but was already occupied on disk by r_b9552d/; recorded as Hunt #49 in hunts/README.md per standing collision instructions."
+}

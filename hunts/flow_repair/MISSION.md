@@ -1,4 +1,4 @@
-# MISSION: Repairing the counterexample — the heat flow clock on Davenport–Heilbronn
+# MISSION: Repairing the counterexample, the heat flow clock on Davenport–Heilbronn
 
 **Agent Persona:** The Hunter (unsupervised-fun edition, second outing)
 **Scope:** `hunts/flow_repair/` only. Nothing outside this directory is
@@ -7,9 +7,9 @@ modified except the case-log entry in `hunts/README.md`.
 ## Objective
 
 The lab's two showpiece arms have never met. `zeta/heatflow.py` runs the
-de Bruijn–Newman flow H_t = exp(−t∂²)H₀ on the Riemann Ξ — where increasing
+de Bruijn–Newman flow H_t = exp(−t∂²)H₀ on the Riemann Ξ, where increasing
 t pulls complex zero pairs onto the real axis, Λ is the last landing time,
-and RH ⟺ Λ = 0. `zeta/epstein.py` owns the Davenport–Heilbronn function —
+and RH ⟺ Λ = 0. `zeta/epstein.py` owns the Davenport–Heilbronn function,
 zeta's functional equation, real coefficients, a real Hardy Z, **and zeros
 off the critical line**. The flow has only ever been pointed at the function
 that (as far as anyone knows) needs no repair.
@@ -17,7 +17,7 @@ that (as far as anyone knows) needs no repair.
 Point it at the one that provably does. The hunt asks one question:
 
 > **How long does the backward-heat flow take to repair the
-> Davenport–Heilbronn counterexample — pair by pair, measured, with the
+> Davenport–Heilbronn counterexample, pair by pair, measured, with the
 > collision times read off a quantity that is analytic through the
 > collision?**
 
@@ -31,7 +31,7 @@ fails RH, and *in flow time* it fails it barely.
 ## The construction (derived in the probe, not recalled)
 
 F(s) = (π/5)^{−(s+1)/2} Γ((s+1)/2) f(s) is entire with F(s) = F(1−s) and no
-pole terms (unlike ζ — the counterexample is *cleaner* here). The Mellin
+pole terms (unlike ζ, the counterexample is *cleaner* here). The Mellin
 split of Σ n aₙ e^{−πn²x/5} at x = 1 should give
 
     Ξ_DH(z) := F(1/2 + iz) = ∫₀^∞ Φ_DH(u) cos(zu) du,
@@ -48,11 +48,11 @@ of H₀^{DH} at distance y₀ = β − 1/2 from the axis.
 
 `probe.py` → `results.json` + `flow_repair.png`. Vocabulary: *measured,
 observed, decided*; the reserved enclosure word appears nowhere in this
-directory (everything here is the accurate/float-of-mpmath regime — this
+directory (everything here is the accurate/float-of-mpmath regime, this
 hunt makes no enclosure claims at all).
 
 1. **Route agreement at t = 0.** H^{DH}(z, 0) by quadrature vs
-   `zeta.epstein.completed_dh(1/2 + iz)` by Hurwitz zeta — two code paths
+   `zeta.epstein.completed_dh(1/2 + iz)` by Hurwitz zeta, two code paths
    sharing nothing. Constants (c, a) fitted and snapped to rationals.
 2. **Contour moments through the collision.** For a circle around a pair,
    p_k = (1/2πi)∮ z^k H'/H dz gives N = p₀ (must be an integer, must be 2),
@@ -67,8 +67,8 @@ hunt makes no enclosure claims at all).
    re-polished in-tree by `mp.findroot` on `dh_f` from the literature seed
    before use, with a winding-number identity check.
 4. **Null control (the surrogate).** The N-body zero dynamics
-   ż_k = 2Σ_{j≠k} 1/(z_k − z_j) — no arithmetic in it, just the measured
-   t = 0 zero configuration — integrated in the collision-safe variable
+   ż_k = 2Σ_{j≠k} 1/(z_k − z_j), no arithmetic in it, just the measured
+   t = 0 zero configuration, integrated in the collision-safe variable
    Q = Δ_pair/4 (dQ/dt = 2 − 4Q Σ_w 1/((x−w)² − Q), analytic through
    Q = 0). If this predicts the PDE's t\* to ~1%, the repair time is
    generic zero-geometry, not arithmetic.
@@ -79,7 +79,7 @@ hunt makes no enclosure claims at all).
 6. **Lesions.** (a) A contour deliberately clipping one pair member: the
    integer-winding check must refuse, loudly. (b) After landing, the two
    newborn real zeros form a close pair invisible to a default
-   mean-spacing/20 sign scan — measure how long past t\* the standard
+   mean-spacing/20 sign scan, measure how long past t\* the standard
    instrument stays blind (hunt #3's blind spot, now with a clock on it).
 7. **Precision response.** t\* re-measured at three working precisions and
    two contour node counts; Δ(0) against −4y₀² from the 50-digit pinned
@@ -112,9 +112,9 @@ Predictions this hunt can lose on:
   8 + 16y₀²Σ_w 1/((x−w)²+y₀²) + (mirror terms) ≈ 9–10 for pair 1.
 - **P3.** The ODE null control reproduces each PDE t\* to ~1%: the repair
   clock reads *zero geometry*, not arithmetic.
-- **P4.** The survey's max — the measured lower bound for Λ_DH — comes from
+- **P4.** The survey's max, the measured lower bound for Λ_DH, comes from
   **pair 5** (height 240.4), not the famous pair 1, at t\* ≈ 0.06 ± 0.005.
-- **P5.** Λ_DH ≥ max t\* ≈ 0.06, which sits *inside* [0, 0.2] — the interval
+- **P5.** Λ_DH ≥ max t\* ≈ 0.06, which sits *inside* [0, 0.2], the interval
   that bounded Λ_ζ before and after Rodgers–Tao. In flow time, the
   counterexample is closer to satisfying RH than ζ was known to be to
   either side of it for most of a century. Gate-#3 moral, quantified: "Λ is
@@ -127,7 +127,7 @@ Repo-wide rules (`.venv` python, `mp.workdps`, Agg before pyplot, honest
 scope). Λ_DH here is a *defined quantity for a rival function*; measuring
 it neither supports nor threatens RH (Littlewood, `docs/08`), and a
 measured collision time is a lower bound for a sup over infinitely many
-quadruples — the probe measures nine and claims nothing about the tail.
+quadruples, the probe measures nine and claims nothing about the tail.
 All numbers are the accurate regime: mpmath floats with measured
 cross-route defects, no enclosures. If a computation here appears to settle
 anything open, the correct inference is a bug.

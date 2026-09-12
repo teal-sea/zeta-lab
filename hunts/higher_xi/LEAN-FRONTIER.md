@@ -268,7 +268,7 @@ separate formal obligation.
     absolute `D`. Recorded as a dead route, with its mechanism.
 
     *What survives, and it is what the mathematics consumes.* Nothing
-    downstream uses the recurrence — `RAMS2-CLUSTER.md` §6 consumes only the
+    downstream uses the recurrence, `RAMS2-CLUSTER.md` §6 consumes only the
     endpoint display. The display survives domination, so the gate becomes a
     plain domination against an explicit majorant:
 
@@ -277,7 +277,7 @@ separate formal obligation.
     \]
 
     which satisfies the insertion recurrence **with equality** at
-    `B(1+\log X)^2` — the factorial denominator is built so that
+    `B(1+\log X)^2`: the factorial denominator is built so that
     `(j+1)(2j)(2j+1)` is exactly `denominator(j+1)/denominator(j)`. So the
     tightness that defeats `hprime` on the true masses is precisely the
     equality the majorant enjoys. Kernel-checked in
@@ -286,7 +286,7 @@ separate formal obligation.
     `distinctPrimeLogMass_le_of_dominated`.
 
     Both derivation routes then proved `A_j <= M_j` on paper, by integral
-    comparison in log coordinates — the argument
+    comparison in log coordinates, the argument
     `RAMS1-ATTACK.md` §4.2 already sketches. Route A gives `D = \log 16
     = 2.7726`; route B gives `D = 60\log 4 = 83.18`. Route A is the one to
     formalise. Every intermediate inequality of both chains was verified
@@ -294,12 +294,12 @@ separate formal obligation.
     `r_1` with margin, so the retarget is not a weakening of the endpoint.
 
     **The remaining formal obligation is therefore exactly one hypothesis**,
-    `hdom : A_j(X) <= powerMajorant c B X j` — a domination, not tight, and
+    `hdom : A_j(X) <= powerMajorant c B X j`, a domination, not tight, and
     strictly weaker than `hprime`. Its Lean cost is real analysis: an Abel
     comparison against `\int_0^V te^tg(t)\,dt` and the exact identity
     `\int_0^V te^tE_j(V-t)\,dt = E_{j+1}(V)` by Fubini on a triangle.
 
-    **Both chains are captured in full in `HPRIME-ROUTES.md`** — every lemma
+    **Both chains are captured in full in `HPRIME-ROUTES.md`**, every lemma
     with its formalisation cost, every numeric margin, and both obstruction
     arguments including route B's measured impossibility of any subset-local
     charging scheme (it crosses at `X ~ 2e4` and diverges like `sqrt(X)/log X`).

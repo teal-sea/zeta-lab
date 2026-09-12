@@ -1,0 +1,16 @@
+{
+  "run_id": "902a2bb3-cc64-4f4a-936d-7b58fe5482ad",
+  "status": "settled",
+  "conclusion": "make_context.py --check is structurally blind to length-neutral in-place helper renames across all 49 modules declaring __all__ (0/299 unexported private symbols detected, 0.0%), because module_api filters strictly by __all__ and line count is unchanged. In non-__all__ modules, detection is 100% (4/4), and any edit altering line count is 100% detected via the line-count tell.",
+  "confidence": "High. Measured across all 67 scanned repository modules on 25 curated mutants and 305 exhaustive symbol mutations in an isolated sandbox with clean baseline and undo controls.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Public top-level definitions in __all__ modules that are omitted from __all__ are omitted from CONTEXT.md.",
+      "why_it_might_matter": "Developers adding public functions might forget to export them in __all__, leaving them absent from the machine-readable index.",
+      "first_step": "Consider adding an opt-in lint rule in make_context.py that checks if any non-underscore top-level definition in an __all__ module is missing from __all__."
+    }
+  ],
+  "core_candidates": [],
+  "notes_for_operator": ""
+}

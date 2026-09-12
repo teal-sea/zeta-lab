@@ -1,4 +1,4 @@
-"""Tests for zeta.heatflow — heat flow on Ξ and the de Bruijn–Newman constant.
+"""Tests for zeta.heatflow, heat flow on Ξ and the de Bruijn–Newman constant.
 
 Every tolerance here is one that was measured on this machine, not guessed.
 Where a check is only good to k digits, the test says so.
@@ -31,7 +31,7 @@ from zeta.heatflow import (
 
 
 def _xi_oracle(T, guard=60):
-    """ξ(1/2 + iT) computed from scratch with mpmath — independent of zeta.heatflow."""
+    """ξ(1/2 + iT) computed from scratch with mpmath, independent of zeta.heatflow."""
     with mp.workdps(mp.dps + guard):
         s = mp.mpf(1) / 2 + 1j * mp.mpmathify(T)
         return mp.mpmathify(
@@ -61,7 +61,7 @@ def test_phi_is_even_relative_where_meaningful():
     """Φ(u) = Φ(−u) for the *unfolded* series, judged RELATIVELY.
 
     The absolute defect sits at the rounding floor (~2e-41 at dps = 40) for every
-    u, including u = 2 where Φ(2) ≈ 9e-4059 — so an absolute-tolerance assertion
+    u, including u = 2 where Φ(2) ≈ 9e-4059, so an absolute-tolerance assertion
     out there cannot fail and proves nothing.  The relative defect is the quantity
     that can fail; measured at dps = 40 it is 7.5e-41 (u=0.1), 5.0e-38 (u=0.37),
     1.0e-34 (u=0.5), and it blows past 1 by u ≈ 0.9.
@@ -88,7 +88,7 @@ def test_phi_is_positive_and_exactly_even_after_folding():
     """REGRESSION: Phi() used to return negative garbage for u <~ −0.85.
 
     ``Phi(-1.0)`` returned −2.73e-41 where the true value is +5.10e-70, and
-    ``Phi(-3.0)`` returned −1.36e-39 where the truth is +1.7e-222046 — despite the
+    ``Phi(-3.0)`` returned −1.36e-39 where the truth is +1.7e-222046, despite the
     docstring promising strict positivity.  Folding through the exact identity
     Φ(u) = Φ(−u) fixes it and makes evenness bit-exact.
     """
@@ -101,17 +101,17 @@ def test_phi_is_positive_and_exactly_even_after_folding():
 def test_phi_matches_nsum_on_the_left_half_line():
     """Folded Phi agrees with a *properly provisioned* mpmath.nsum oracle, u < 0.
 
-    REGRESSION — of the test itself.  The oracle used to run at a flat dps = 120,
+    REGRESSION, of the test itself.  The oracle used to run at a flat dps = 120,
     but the unfolded series at u < 0 cancels ~π e^{4|u|}/ln 10 digits: 369 of them
     at u = −1.4, where the dps-120 nsum returned −3.2e-220 against a true value of
-    +6.4e-363 — the old oracle was pure noise there and the assertion compared the
+    +6.4e-363, the old oracle was pure noise there and the assertion compared the
     module against garbage.  The oracle needs dps = 40 + (digits cancelled), per u.
 
     Tolerance is modelled, not guessed: at dps = 40 the exponent argument
     π n² e^{4|u|} carries an absolute error ≈ π e^{4|u|}·10^{−40}, which becomes
     the relative error of the result, so the per-u bound is
     (1 + π e^{4|u|})·10^{−38} (two digits of slack).  Measured: 5.1e-41 (u=−0.3),
-    1.1e-40 (−0.7), 2.1e-39 (−1.0), 1.2e-38 (−1.4) — that last one exceeds the old
+    1.1e-40 (−0.7), 2.1e-39 (−1.0), 1.2e-38 (−1.4), that last one exceeds the old
     blanket 1e-38, so the flat tolerance was also wrong.
     """
     for u in [-0.3, -0.7, -1.0, -1.4]:
@@ -314,7 +314,7 @@ def test_heat_equation_residual_is_small():
     """∂H/∂t + ∂²H/∂z² = 0 (backward heat equation).
 
     Measured residuals at dps = 30, h = 1e-6: 1.6e-18, 1.0e-18, 3.4e-19.
-    Asserted at 1e-14 — the finite-difference floor, not the quadrature floor.
+    Asserted at 1e-14, the finite-difference floor, not the quadrature floor.
     """
     for z, t in [(3, 0), (10, 0.2), (28, -0.1), (5, 0.5)]:
         assert heat_equation_residual(z, t, dps=30) < mp.mpf(10) ** -14
@@ -477,7 +477,7 @@ def test_polynomial_forward_flow_repels_backward_collides():
 
 
 def test_polynomial_quadratic_closed_form():
-    """p = x²−1 under exp(−tD²) is x²−1−2t, roots ±√(1+2t) — a closed-form check."""
+    """p = x²−1 under exp(−tD²) is x²−1−2t, roots ±√(1+2t), a closed-form check."""
     ts = [0.0, 0.25, 1.0, 4.0]
     res = polynomial_heat_flow([-1.0, 1.0], ts)
     for t, row in zip(ts, res["roots_exact"]):
@@ -501,6 +501,44 @@ def test_polynomial_wrong_sign_would_fail():
 def test_polynomial_rejects_repeated_roots():
     with pytest.raises(ValueError, match="distinct"):
         polynomial_heat_flow([1.0, 1.0], [0.0])
+
+
+@pytest.mark.parametrize("offset", [-10000.0, 10000.0, 1000000.0])
+def test_polynomial_translation_preserves_collisions_and_gaps(offset):
+    """A change of origin must not invent a collision, even at time zero."""
+    roots = np.arange(-2.0, 3.0)
+    times = [-0.6, 0.0, 0.1]
+    base = polynomial_heat_flow(roots, times, ode_steps_per_unit_t=200)
+    moved = polynomial_heat_flow(roots + offset, times, ode_steps_per_unit_t=200)
+    assert base["all_real"].tolist() == [False, True, True]
+    np.testing.assert_array_equal(moved["all_real"], base["all_real"])
+    assert moved["collision_t"] == base["collision_t"] == -0.6
+    for field in ["min_gap", "spread", "max_abs_imag"]:
+        np.testing.assert_allclose(moved[field], base[field], rtol=0, atol=1e-12)
+    np.testing.assert_array_equal(moved["roots_exact"][1], roots + offset)
+    assert moved["max_ode_error"] < 1e-10
+
+
+def test_polynomial_shifted_quintic_against_exact_algebra():
+    """An independent rational polynomial gives five explicit real roots."""
+    import sympy as sp
+
+    x = sp.Symbol("x")
+    p = x * (x**2 - 1) * (x**2 - 4)
+    t = sp.Rational(1, 10)
+    evolved = sp.expand(p - t * sp.diff(p, x, 2) + t**2 / 2 * sp.diff(p, x, 4))
+    assert evolved == x**5 - 7*x**3 + sp.Rational(38, 5)*x
+    assert sp.Poly(evolved, x).count_roots(-sp.oo, sp.oo) == 5
+    exact = sorted(float(r.evalf(50)) for r in sp.solve(evolved, x))
+    offset = 10000.0
+    result = polynomial_heat_flow(
+        np.arange(-2.0, 3.0) + offset, [0.1], ode_steps_per_unit_t=200
+    )
+    assert result["all_real"].tolist() == [True]
+    assert result["collision_t"] is None
+    np.testing.assert_allclose(
+        result["roots_exact"][0], np.array(exact) + offset, rtol=0, atol=1e-10
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -530,7 +568,7 @@ def test_lambda_facts_bounds_are_attributed_to_the_right_papers():
     Λ ≥ −1.1e-11 and Csordas-Smith-Varga (Constr. Approx. 10, 1994) with
     Λ > −1.15e-11.  Those papers prove −5.895e-9 and −4.379e-6 respectively; the
     −1.1e-11 figure is Saouter-Gourdon-Demichel (Math. Comp. 80, 2011), which was
-    missing entirely.  The old list was also internally incoherent — it made 1993
+    missing entirely.  The old list was also internally incoherent, it made 1993
     stronger than Odlyzko's 2000 bound of −2.7e-9.
     """
     hist = lambda_facts()["history"]
@@ -559,7 +597,7 @@ def test_lambda_facts_bounds_are_attributed_to_the_right_papers():
 def test_H0_RELATION_matches_the_fitted_result():
     """The exported constant must agree with what H0_vs_Xi actually measures.
 
-    ``H0_RELATION`` was in ``__all__`` but referenced by nothing — it could have
+    ``H0_RELATION`` was in ``__all__`` but referenced by nothing, it could have
     drifted out of sync with the fit without any test noticing.
     """
     res = H0_vs_Xi(dps=40)

@@ -1,4 +1,4 @@
-"""ontology.schema — the ontology of the discovery funnel.
+"""ontology.schema, the ontology of the discovery funnel.
 
 This module is **domain-agnostic on purpose**. It contains no knowledge of the
 laboratory it serves: no subject-matter vocabulary, no imports from the science
@@ -11,13 +11,13 @@ The design in one paragraph
 ---------------------------
 An observation enters the funnel as a :class:`Candidate`: a ``kind`` (one of
 five, each defined by a *decision procedure* rather than by a word), a
-``claim`` (the identity-bearing content — what is being asserted), an
+``claim`` (the identity-bearing content, what is being asserted), an
 ``evidence`` mapping (the support: windows, tolerances, controls, counts), a
 :class:`Provenance` record that must make the observation re-derivable months
 later, optional typed ``related_to`` graph links, and a :class:`Verdict` whose
 status defaults to ``open``. The candidate's
 ``id`` is a content hash of ``(schema major, kind, canonicalised claim)`` and of
-nothing else — so the same observation found twice by two different generators
+nothing else, so the same observation found twice by two different generators
 at two different precisions is recognised as one candidate, which is exactly
 what makes per-generator conversion rates measurable.
 
@@ -25,7 +25,7 @@ Three rules the rest of the package depends on
 ----------------------------------------------
 1. **A category is a function.** ``accepts(kind, claim, evidence)`` is total and
    discriminating; ``kind_reasons`` says *why* a payload was refused. A payload
-   that no kind accepts is not a candidate — it is a note.
+   that no kind accepts is not a candidate, it is a note.
 2. **Failure is first-class.** ``already-known`` is a terminal status with its
    own detector, and so are ``refuted``, ``trivial`` and ``inconclusive``. Each
    has entry criteria enforced by :func:`validate_verdict`; a status cannot be
@@ -260,7 +260,7 @@ def _canon(value: Any, digits: int) -> str:
     * mappings are emitted with keys sorted (insertion order is not meaning);
     * sequences keep their order (order *is* meaning in a claim);
     * ``int`` is exact, ``float``/``Decimal``/decimal-looking ``str`` are
-      rounded to ``digits`` significant digits — so "exactly one million" and
+      rounded to ``digits`` significant digits, so "exactly one million" and
       "one million, measured" are different claims, on purpose;
     * ``bool`` and ``None`` are their JSON spellings.
     """
@@ -312,7 +312,7 @@ def content_hash(
     """Stable content id: ``cand-`` + 128 bits of SHA-256 over the claim.
 
     Deliberately independent of generator, precision, seed, revision, time,
-    label, evidence and verdict — two runs that assert the same thing collide,
+    label, evidence and verdict, two runs that assert the same thing collide,
     and that collision is the point.
     """
     payload = canonical_claim(kind, claim, digits).encode("utf-8")
@@ -327,7 +327,7 @@ def same_claim(
     """Do two candidates assert the same thing?
 
     ``digits=None`` compares at the coarser of the two records' own
-    ``dedup_digits`` — the honest resolution, since neither record can be
+    ``dedup_digits``: the honest resolution, since neither record can be
     sharpened after the fact. Hash equality implies ``same_claim``; the
     converse fails only when the two were recorded at different resolutions,
     which is why the metrics layer should use this function and not ``==`` on
@@ -356,7 +356,7 @@ def _claim_triple(
 
 
 # ---------------------------------------------------------------------------
-# Candidate kinds — each one a decision procedure
+# Candidate kinds, each one a decision procedure
 # ---------------------------------------------------------------------------
 
 
@@ -804,7 +804,7 @@ def classify(
     The five kinds are pairwise exclusive by construction: their required key
     sets are never both contained in the intersection of their allowed key
     sets, and claim keys are checked strictly. ``None`` is the common and
-    correct answer for a vague observation — it means "this is not a
+    correct answer for a vague observation, it means "this is not a
     candidate", not "this is a new kind".
     """
     hits = [k for k in CandidateKind if accepts(k, claim, evidence)]
@@ -831,7 +831,7 @@ def claim_keys(
 
 
 # ---------------------------------------------------------------------------
-# Verdicts — including, and especially, the unflattering ones
+# Verdicts, including, and especially, the unflattering ones
 # ---------------------------------------------------------------------------
 
 
@@ -1030,7 +1030,7 @@ def verdict_reasons(verdict: Verdict) -> tuple[str, ...]:
         ):
             bad.append(
                 "survives: checks_run must include all of "
-                f"{list(REQUIRED_SURVIVAL_CHECKS)} — you may not survive a check "
+                f"{list(REQUIRED_SURVIVAL_CHECKS)}, you may not survive a check "
                 "that never ran"
             )
         base, verified = ev.get("effort"), ev.get("verified_effort")
@@ -1043,7 +1043,7 @@ def verdict_reasons(verdict: Verdict) -> tuple[str, ...]:
         gap = ev.get("proof_gap")
         if not isinstance(gap, str) or not gap.strip():
             bad.append(
-                "survives: needs proof_gap — what is missing before this could be "
+                "survives: needs proof_gap, what is missing before this could be "
                 "a theorem. A survivor is a lead, not a result"
             )
 
@@ -1475,7 +1475,7 @@ class Candidate:
 
     # -- convenience ------------------------------------------------------
     def with_verdict(self, verdict: Verdict) -> "Candidate":
-        """The same candidate — same id — with a new verdict appended later."""
+        """The same candidate, same id, with a new verdict appended later."""
         return replace(self, verdict=verdict)
 
     def reasons(self) -> tuple[str, ...]:
@@ -1611,9 +1611,9 @@ def match_known(
 
     Two match modes, both evidenced:
 
-    * **statement** — every key of an entry appears among the candidate's own
+    * **statement**: every key of an entry appears among the candidate's own
       identity strings (see :func:`claim_keys`);
-    * **value** — the candidate is a ``constant`` and agrees with the entry to
+    * **value**: the candidate is a ``constant`` and agrees with the entry to
       within the candidate's *own* error bound plus the entry's. Matching to
       the digits you actually determined is a strong test; matching to two
       digits is not, which is why the candidate's uncertainty, not a generous

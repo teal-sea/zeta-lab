@@ -1,4 +1,4 @@
-# Level 4: the counting dual — theta > 0, configuration-free
+# Level 4: the counting dual, theta > 0, configuration-free
 
 ## Disposition
 
@@ -28,7 +28,7 @@ configuration `X`:
   `K_delta = min over [0, delta] of omega^2`;
 - adjacent-cell pairs are within `2 delta`, so each pays at least
   `K_{2delta}`;
-- non-adjacent payments are dropped — one-sided in the adversary's favour.
+- non-adjacent payments are dropped, one-sided in the adversary's favour.
 
 With `F_j >= sup over cell j of f+` (`f = -2W` is the damage) and
 `c = 1 - theta`, the adversary's value is at most
@@ -43,7 +43,7 @@ the cell chain. The chain term is what secures: without it (equivalently,
 `delta` past the first zero of `omega`, where `K_{2delta} = 0`) the bound's
 free density is `1/delta` and the securing scan fails by an order of magnitude
 (`test_chain_charge_beats_the_plain_bound`: 19.2 vs the plain bound at
-`y = 0.45`). At `theta = 1` every charge vanishes and the cap is infinite —
+`y = 0.45`). At `theta = 1` every charge vanishes and the cap is infinite,
 matching level 3's dense-regime failure exactly.
 
 ## One-sided cells (the "one-sided continuum cell bounds")
@@ -59,7 +59,7 @@ Cauchy–Schwarz Lipschitz constants:
 
 so `f+ <= 4 (Sbar^2 - Cund^2)+ / (aL)^2` holds on the whole `(g, y)` cell.
 The sup-evaluation grid (step 0.0125, inflation ~2–4% of `|S|`) is
-decoupled from the capacity partition `delta` — coupling them was the first
+decoupled from the capacity partition `delta`, coupling them was the first
 implementation's fatal looseness. Beyond the fine region the far tail uses
 the *depth-scaled* majorant
 
@@ -69,7 +69,7 @@ psi_S = (c_rho/w) sinh(yL/2) + 4 y cosh(yL/2) + y^2 aL sinh(yL/2)
 ```
 
 (`||(phi^2 sinh(y.))''||_1` via the paper's (2.13) norms), which vanishes
-linearly in `y` — a depth-blind tail majorant would silently fail the
+linearly in `y`, a depth-blind tail majorant would silently fail the
 shallow depth cells, where the slack vanishes too. The depth ladder is
 geometric with ratio 1.18 refined to 1.04 from `y = 0.09`, and the slack is
 always evaluated at the shallow lip of each depth cell while damage is
@@ -81,8 +81,8 @@ The first implementation *failed its own projection control*: the measured
 level-3 lattice adversary exceeded the "bound" at two depths. The leak was
 a factor-2 error in the damage (`f = -2W` carries factor 4 against the
 `C/S` split, not 2) hidden inside otherwise-plausible margins. The control
-that caught it is the hierarchy's own level-4 row — *projection to every
-lower level must reproduce its controls* — and it is now a permanent test
+that caught it is the hierarchy's own level-4 row, *projection to every
+lower level must reproduce its controls*, and it is now a permanent test
 (`test_bound_dominates_level3_adversaries`). A bound that had only been
 compared against its own cells would have shipped wrong.
 
@@ -100,7 +100,7 @@ compared against its own cells would have shipped wrong.
   The level-2 `+-g*` cluster and the single-point LAW I reduction are also
   dominated (tests).
 - **Lesion**: dropping the Lipschitz inflation produces genuine sup
-  violations (0.115 / 0.347 / 0.725 at the three probe depths) — the
+  violations (0.115 / 0.347 / 0.725 at the three probe depths), the
   inflation is load-bearing, not decorative.
 - **Tightness**: at `y = 0.1` the cap is within 39% of the measured
   adversary; at `y = 0.45` within 2.7x. The looseness is concentrated at
@@ -120,7 +120,7 @@ of each pair's `8 sigma^2 + 8 sigma^4` slack:
 Stacked pairs (coincident ordinates) are positive (+8.94, +25.58), so
 pair-density concentration is self-defeating, as on-line density was. The
 remaining step is the pair-pair analogue of this module's cell bound at
-combined depths `y ± y'` — the same machinery, one more layer — and it
+combined depths `y ± y'`, the same machinery, one more layer, and it
 stays **named, not claimed**.
 
 ## What is and is not delivered
@@ -133,7 +133,7 @@ coverage.
 
 Not delivered, named in promotion order: (i) the arb-enclosure pass over
 the same finitely many cells (evaluation is double precision with the
-inflation margins doing the one-sided work — the binding margins are ~10%
+inflation margins doing the one-sided work, the binding margins are ~10%
 relative, far above float noise, but the enclosure pass is what the
 graduation pipeline requires); (ii) the theta gap 0.1 → 0.9 (the moment
 problem over the psd kernel `FT[omega^2] >= 0`, which the counting bound

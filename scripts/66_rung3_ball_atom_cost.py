@@ -1,26 +1,26 @@
 """Which ball obligations the kernel can actually discharge, and at what cost.
 
 Rung 3's history has two measured dead ends about *evaluation*, both found the
-same way — by trying it rather than estimating it:
+same way, by trying it rather than estimating it:
 
 * HANDOFF negative result #2 (rectangles): one `dirichletTermBox` literal
   equality took ~8 min and then exceeded simp's step limit.
 * This script's finding (balls): asking `norm_num` to unfold a whole
-  `dirichletTermBallB` is worse still — **stack overflow after 376 s**.
+  `dirichletTermBallB` is worse still, **stack overflow after 376 s**.
 
 The first diagnosis was wrong, and the correction is recorded here rather than
 swept.  This docstring originally blamed `Nat.sqrt` for not reducing under
 `norm_num`; in fact Mathlib has an extension for exactly that
 (`Mathlib.Tactic.NormNum.NatSqrt`, verified directly on the 127-bit literal from
 the failing goal).  The real blocker was the `Int.toNat` inside `sqrtUpperQ`
-hiding the literal from the extension — with `Int.toNat` in the simp set the
+hiding the literal from the extension, with `Int.toNat` in the simp set the
 same `mulA` atom discharges in ~6.5 s.
 
 The design decision survives its own corrected diagnosis, but as a cost choice
 rather than an impossibility: ~6.5 s per computed-sqrt atom against ~0.55 s per
 literal-bounds atom is ~12x, across ~78k obligations.  So the generator emits
 `ComplexBall.mul` with the modulus bounds supplied as literals, discharging
-`norm_centre_le`'s one rational inequality per product — the design
+`norm_centre_le`'s one rational inequality per product, the design
 `ZetaLean.Ball` was built for ("moduli are arguments, not computations").  The
 recursive tower (`expCrB`, `sqIter`, `powIB`, `expSumCB`, `mulA`) remains the
 soundness story, not the evaluated one.

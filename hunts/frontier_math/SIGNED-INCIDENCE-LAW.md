@@ -5,15 +5,15 @@
 `INTERACTION-CONTROL-REPORT.md` closed with: *"No decimal search should run
 before level 1 below has an unconditional zeta constraint that excludes the
 obstruction family."* This report delivers that constraint. Three signed
-incidence laws — a diagonal law, a subgrid envelope, and a depth floor with a
-strip cap — hold unconditionally for the actual zeros of zeta read through
+incidence laws, a diagonal law, a subgrid envelope, and a depth floor with a
+strip cap, hold unconditionally for the actual zeros of zeta read through
 the pinned paper's own window/grid interface, and every member of the exact
 obstruction family (both the scalar family and its moment-matched dilution)
 violates at least one of them at every bandwidth and every placement, with
 exact integer margins where the violation is sharpest.
 
 Nothing here is evidence about RH, and no proportion moves. The laws hold for
-any conjugate-closed multiset in the open strip — the Davenport–Heilbronn
+any conjugate-closed multiset in the open strip, the Davenport–Heilbronn
 off-line zero satisfies them too, as a structural lemma must (a lemma failing
 on the rival would be a bug, and passing distinguishes nothing). What changes
 is the *adversary's* freedom: the family that forced every universal recovery
@@ -31,7 +31,7 @@ the strip.
   C³ ramps, `supp phi = [-L/2, L/2]`, `1 <= w <= L/8`), critical Gabor grid
   `tau_k` at spacing `h = 2pi/L`, evaluation vectors
   `u_rho = (phihat(gamma_rho - tau_k))_k`, summands `m_rho u u^T` (transpose,
-  not conjugate transpose — the corrected reading that `CLEAN-KILL-REPORT.md`
+  not conjugate transpose, the corrected reading that `CLEAN-KILL-REPORT.md`
   pinned), normalisation `aL^2` (its (4.4)).
 - Family under exclusion: `interaction_obstruction.ScalarFamily(m)` (one
   off-line pair with evaluation scalars `im, -im` against `n = 2m^2 + 2`
@@ -52,10 +52,10 @@ alias-free:
 sum_{k in Z} phihat(z - tau_k) phihat(z' - tau_k) = L * Phi2(z - z').
 ```
 
-The paper states its Lemma 2.2 for real arguments; the proof — Poisson
+The paper states its Lemma 2.2 for real arguments; the proof: Poisson
 summation plus the support observation that the only surviving dual frequency
 is 0, because `H = phi_z * phi_{z'}` is supported in `[-L, L]` and vanishes at
-the endpoints — never uses reality, and the paper's own Appendix B records
+the endpoints, never uses reality, and the paper's own Appendix B records
 numerical checks of the identity "at both real and complex arguments". The
 consequence it never draws: taking `z' = z`,
 
@@ -64,9 +64,9 @@ sum_{k in Z} phihat(z - tau_k)^2 = a L^2     for EVERY z in C.
 ```
 
 The *bilinear* self-incidence of every zero equals `+m_rho` per unit
-multiplicity in the paper's normalisation — at every depth, at every
-position. (The quantity that explodes like `X^{|2beta-1|}` for deep pairs —
-the paper's Remark 5.10 — is the *Hermitian* mass `sum |phihat|^2 =
+multiplicity in the paper's normalisation, at every depth, at every
+position. (The quantity that explodes like `X^{|2beta-1|}` for deep pairs,
+the paper's Remark 5.10, is the *Hermitian* mass `sum |phihat|^2 =
 L*Phi2(2iy)`; the bilinear square is rigid.) A pair `{rho, 1-conj(rho)}`
 therefore contributes bilinear trace exactly `+2 m_rho`, like two on-line
 zeros. The paper's §6 says explicitly that "nothing is assumed about the
@@ -114,7 +114,7 @@ sigma(y) < sinh(L/4)      for every zero at bandwidth L.
 
 An off-line pair whose cross column reaches `|Im Bhat| = m` needs
 `sigma(y) >= m` by LAW E, hence depth `y >= y_min(m) := inf{y : sigma^2(y) >=
-m^2}` — and is impossible at ANY placement once `m >= sigma(1/2^-)`.
+m^2}`, and is impossible at ANY placement once `m >= sigma(1/2^-)`.
 
 ## What is from the paper and what is new
 
@@ -125,8 +125,8 @@ Lemma 2.2 holds at complex arguments. New here: the complex statement used
 structurally; the bilinear/Hermitian split (rigid diagonal vs `X^{|2beta-1|}`
 mass); the alias-free imaginary-mass identity; the subgrid two-sided
 envelope; the depth floor and cap; and the assembly into an exclusion of the
-pinned obstruction family. All of it is elementary — Poisson summation and
-support arithmetic — which is the point: it was available to the paper's
+pinned obstruction family. All of it is elementary: Poisson summation and
+support arithmetic, which is the point: it was available to the paper's
 interface all along and simply not retained.
 
 ## The exclusion, wall by wall
@@ -139,7 +139,7 @@ from `incidence_law.py`.
 |---|---|---|---|
 | W1 (cap) | `sigma(y) < sigma(1/2^-) <= sinh(L/4)` at every placement | every member with `m >= sigma(1/2^-)`: at `L = 8`, `sigma(1/2^-) = 1.315`, so **every `m >= 2`** dies at every placement; the theta -> 0 defeat needed `m -> infinity` | `m - 1.315` at `L = 8` |
 | W2 (diagonal) | full grid: bilinear pair trace `= +2 m_rho` (LAW D) | the bad pair's declared `-2m^2` on the full grid, every `m >= 1` | exact integer `2m^2 + 2` (= 4 at `m = 1`, 202 at the report's pinned `m = 10`) |
-| W3 (strictness) | on a proper subgrid, on-line self- and mutual incidences sit strictly below 1 (omitted-tail positivity) | the family's on-line declarations (`P = n` exactly, mutual incidence exactly 1), on every truncation — so the family cannot escape W2 by truncating | measured deficits `> 0` at every probe; e.g. `1.2e-3` for a zero one window-length inside a half grid |
+| W3 (strictness) | on a proper subgrid, on-line self- and mutual incidences sit strictly below 1 (omitted-tail positivity) | the family's on-line declarations (`P = n` exactly, mutual incidence exactly 1), on every truncation, so the family cannot escape W2 by truncating | measured deficits `> 0` at every probe; e.g. `1.2e-3` for a zero one window-length inside a half grid |
 | W4 (depth floor) | `sigma(y) >= m` forces `y >= y_min(m)` | constrains any near-family configuration: at `L = 8` even `m = 1` owes depth `y >= 0.4154` of an available `0.5` | `depth_floor(1) = 0.41537...` |
 
 The moment-matched dilution reuses the identical bad block
@@ -156,7 +156,7 @@ coefficient was `theta <= 3/(2m^2+1)` for every abstract `m`, driving
 theta  >=  3 / (2 sigma^2(1/2^-) + 1)
 ```
 
-— measured `0.6729` at `L = 8`, `2.68e-2` at `L = 16`, `7.55e-4` at `L = 24`.
+- measured `0.6729` at `L = 8`, `2.68e-2` at `L = 16`, `7.55e-4` at `L = 24`.
 Exponentially small in `L`, but nonzero, explicit, and now the adversary pays
 *depth* for every unit of negativity, which is the currency the level-2 mass
 accounting can charge (below).
@@ -171,11 +171,11 @@ session, and none of the exclusion above uses them.
 - **Littlewood's lemma** plus the unconditional second moment of
   `zeta(1/2+it)` gives `sum_{T < gamma <= 2T} m_rho (beta - 1/2)^+ <<
   T log log T`; in kernel-depth units `b = yL` at bandwidth `L = lambda l`
-  this reads `sum m_rho b_rho <= (lambda/2)(log log T + O(1)) N(T, 2T)` —
+  this reads `sum m_rho b_rho <= (lambda/2)(log log T + O(1)) N(T, 2T)`,
   the average depth per zero is `O(log log T)` kernel units.
 - **Zero-density** (Ingham's `N(sigma, T) << T^{3(1-sigma)/(2-sigma)}
   log^5 T` suffices; sharper is known): cells at fixed depth `y >= delta`
-  carry `O(T^{1-c(delta)})` pairs — power-small mass exactly where LAW E
+  carry `O(T^{1-c(delta)})` pairs, power-small mass exactly where LAW E
   permits the most negativity.
 
 Together with LAW E these say: negative incidence mass requires depth, depth
@@ -196,13 +196,13 @@ the level-2 "marked two-gap words with projective consistency" analysis needs.
   of level 2, and pretending otherwise would repeat the mistake that
   `CLEAN-KILL-REPORT.md` exists to prevent.
   *(Delivered 2026-08-11: `LEVEL2-GAP-CONSISTENCY.md` supplies it by
-  bounding the quantity rather than the declaration — `R(P) <= n kappa(nu)`
-  for any real configuration — and also removes the n-extensivity of the
+  bounding the quantity rather than the declaration, `R(P) <= n kappa(nu)`
+  for any real configuration, and also removes the n-extensivity of the
   per-cell floor below.)*
 - **The laws do not distinguish zeta from anything.** They hold for every
   conjugate-closed multiset in the open strip (measured on the
   Davenport–Heilbronn off-line zero, defect `2.7e-14`). Gate #3 does not
-  apply because no RH-explaining structure is claimed — but it was checked
+  apply because no RH-explaining structure is claimed, but it was checked
   anyway, in the direction it must hold.
 
 ## Controls ledger
@@ -210,10 +210,10 @@ the level-2 "marked two-gap words with projective consistency" analysis needs.
 | control | instrument | measured |
 |---|---|---|
 | truncation ladder (LAW D, real + deep diagonal; LAW E) | `audit_identities` | defects descend `1.7e-13 -> 5.4e-19` (K = 150, 300, 600 at dps 25); tail rate consistent with `K^-3` |
-| lesion (grid stretched by 65/64: aliasing returns) | `audit_identities` | defect `0.3038`, flat across the ladder — does not respond to refinement, the artifact-vs-real signature |
+| lesion (grid stretched by 65/64: aliasing returns) | `audit_identities` | defect `0.3038`, flat across the ladder, does not respond to refinement, the artifact-vs-real signature |
 | decoy (diagonal planted wrong by `aL^2/64`) | `audit_identities` | refuted at exactly the planted offset |
 | translation invariance | `audit_identities` | shifted grid, same defect floor |
-| envelope floors on random subgrids | `envelope_scan` | worst margins `+3.3e-4` (floor), `+6.7e-3` (ceiling), `+1.8e-2` (cross) over 60 trials — no violation, and the floor is nearly attained, so the envelope is not slack |
+| envelope floors on random subgrids | `envelope_scan` | worst margins `+3.3e-4` (floor), `+6.7e-3` (ceiling), `+1.8e-2` (cross) over 60 trials, no violation, and the floor is nearly attained, so the envelope is not slack |
 | strictness on proper subgrids | `online_subgrid_strictness` | deficits strictly positive at every probe |
 | exact family margins | `family_margins` | integer `2m^2 + 2`; `m_cap(L=8) = 1.315`; `depth_floor(1) = 0.4154` |
 | rival (Davenport–Heilbronn off-line zero, pinned digits) | `dh_rival_check` | LAW D defect `2.7e-14` at true depth `0.30851718...`; `sigma^2 = 0.4615` |

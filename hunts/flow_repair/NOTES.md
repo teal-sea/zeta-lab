@@ -1,4 +1,4 @@
-# NOTES — what the probe measured
+# NOTES: what the probe measured
 
 Run of 2026-08-07, `probe.py`, raw numbers in `results.json`. Probe
 language throughout: *measured*, *observed*. Everything here is the
@@ -8,11 +8,11 @@ enclosure claims are made anywhere in this hunt.
 ## 0. The instrument is telling the truth (stage `validate`, `pair1` t=0)
 
 - **Route agreement.** H₀^{DH}(z) by Φ_DH-quadrature vs
-  `zeta.epstein.completed_dh(1/2+iz)` by Hurwitz zeta — two code paths
-  sharing nothing — agree to **7.2e-41 worst** over real and complex probes
+  `zeta.epstein.completed_dh(1/2+iz)` by Hurwitz zeta, two code paths
+  sharing nothing, agree to **7.2e-41 worst** over real and complex probes
   at dps 40. The constants in H₀(z) = c·Ξ_DH(a·z) fitted from the data:
   |c − 1| = 4.2e-42, |a − 1| = 2.0e-18 (stencil-limited). So (c, a) = (1, 1):
-  the DH flow normalisation is *cleaner* than ζ's H₀(z) = (1/8)Ξ(z/2) —
+  the DH flow normalisation is *cleaner* than ζ's H₀(z) = (1/8)Ξ(z/2),
   no pole terms, no factor 8, no z/2.
 - **Φ_DH evenness** (the functional equation in disguise): raw unfolded
   series both sides, relative defect ≤ 4.2e-51 for |u| ≤ 0.5 at dps 50.
@@ -28,7 +28,7 @@ enclosure claims are made anywhere in this hunt.
 ## 1. The headline: the repair times, measured
 
 The backward-heat flow H_t = exp(−t∂²)H₀ pulls each off-line quadruple of
-the Davenport–Heilbronn Ξ onto the real axis at a landing time t\* — read
+the Davenport–Heilbronn Ξ onto the real axis at a landing time t\*, read
 off as the root of the pair discriminant Δ(t) = 2q₂ − q₁² (contour
 moments), which is analytic through the collision. Every t\* is a lower
 bound for Λ_DH := inf{t : H_t^{DH} real-rooted}, the DH analogue of the
@@ -50,7 +50,7 @@ de Bruijn–Newman constant.
 Balanzario–Sánchez-Ortiz 2007, each re-polished in-tree by `mp.findroot`
 on `dh_f` with a unit winding check before use.)
 
-**Measured lower bound: Λ_DH ≥ 0.0576518, attained by pair 5** — not the
+**Measured lower bound: Λ_DH ≥ 0.0576518, attained by pair 5**, not the
 famous pair 1, which comes third. Prediction P4 (the crown goes to the
 height-240 quadruple, the deepest β in the surveyed list) held; the other
 deep pairs, 6 and 9, land at 0.0447 and 0.0427, well behind.
@@ -60,7 +60,7 @@ here bounds Λ_DH from above; the measured maximum is a floor, not the
 constant. And the strip confinement −1 < Re s < 2 (pinned by the |aₙ|
 argument in `zeta/epstein.py`) means every DH pair sits at y₀ < 1.5, so
 no *single* pair can land later than y₀²/2 < 1.125 under dynamics in
-which every zeta-like neighbour accelerates the landing — an observation
+which every zeta-like neighbour accelerates the landing, an observation
 about the surveyed mechanism, not a theorem about the sup.
 
 ## 2. Predictions, settled
@@ -82,7 +82,7 @@ about the surveyed mechanism, not a theorem about the sup.
 - **P4 (pair 5 wins): held.** t\*₅ = 0.0576518, inside the pre-registered
   0.06 ± 0.005 band.
 - **P5 (the moral): held.** Λ_DH ≥ 0.0576518 sits comfortably inside
-  [0, 0.2] — the interval that bracketed Λ_ζ before Rodgers–Tao proved
+  [0, 0.2], the interval that bracketed Λ_ζ before Rodgers–Tao proved
   Λ_ζ ≥ 0 and after Polymath 15 pushed the upper bound to 0.22. Measured
   in flow time, the counterexample's RH-failure is *smaller than ζ's own
   historical uncertainty about which side of RH it sits on*. A structural
@@ -96,8 +96,8 @@ For each pair, the probe censused the t = 0 zero configuration in a ±40
 window (line zeros by phase-refined sign scan; total strip count by
 argument principle; **the accounting closed exactly in all five windows**:
 line + 2·quadruples = strip, e.g. 49 + 4 = 53 at pair 1), then integrated
-the bare N-body dynamics ż_k = 2Σ 1/(z_k − z_j) — no Dirichlet series, no
-character, no conductor, just the measured starting positions — in the
+the bare N-body dynamics ż_k = 2Σ 1/(z_k − z_j), no Dirichlet series, no
+character, no conductor, just the measured starting positions, in the
 collision-safe variable Q = Δ/4 with the universal identity
 dQ/dt = 2 − 4Q Σ_a 1/((x−a)² − Q).
 
@@ -110,22 +110,22 @@ dQ/dt = 2 − 4Q Σ_a 1/((x−a)² − Q).
 | 5 | 0.05766565 | 0.05765184 | +0.024% |
 
 Sub-0.04% across the board, sign scattering with the truncation knobs
-(window ±40, density-model tail, RK4 step) — the ~1% target of P3 beaten
+(window ±40, density-model tail, RK4 step), the ~1% target of P3 beaten
 by a factor of ~25. **The flow-repair time contains no information about
 the Davenport–Heilbronn function beyond where its zeros start.** Any
 entire function with the same zero layout would repair on the same clock.
 Λ-style quantities measure a configuration's geometry; what would be
-special about ζ (if RH holds) is that its configuration needs no repair —
+special about ζ (if RH holds) is that its configuration needs no repair,
 a restatement of RH, not an explanation. This is docs/18's
 position-sensitivity lesson meeting docs/09's gate #3 on the flow axis.
 
 ## 4. Lesions: the refusals fire, and the newborn pair hides
 
-- **Clipped contour** (circle around one member of the pair): refused —
+- **Clipped contour** (circle around one member of the pair): refused,
   `contour holds N=1 zeros, expected 2`. The moment machinery cannot be
   silently fed half a pair.
 - **Grazing contour** (radius exactly y₀, passing through both zeros):
-  winding came back ≈ 1.8e9 — grotesquely non-integer — and was refused.
+  winding came back ≈ 1.8e9, grotesquely non-integer, and was refused.
   Both failure modes are loud, never quiet.
 - **Post-landing blindness, with a clock.** Just after the landing the
   two newborn real zeros sit closer than the default sign-scan grid
@@ -134,7 +134,7 @@ position-sensitivity lesson meeting docs/09's gate #3 on the flow axis.
   the pair; by t = 1.03·t\* (gap/step = 1.38) all five do. The repair is
   invisible to the standard instrument for the first ~1–3% of t\* past
   the landing, while the contour count N = 2 never wavers. Sign scans
-  bound from below; the argument principle decides — the same moral as
+  bound from below; the argument principle decides, the same moral as
   hunt #3, now on the other side of a collision.
 
 ## 5. Precision response: the standing rule, passed flat
@@ -151,8 +151,8 @@ function was found; adjacent work exists (generalized Newman constants
 for other families; the de Bruijn/Newman/Ki–Kim–Lee flow theory; the
 Rodgers–Tao lower bound and the Polymath 15 upper bound for ζ; Spira's
 and Balanzario–Sánchez-Ortiz's DH zero computations, which supplied the
-survey seeds). The measurement itself — Λ_DH ≥ 0.0577, repair times for
-nine off-line quadruples, the null-control agreement — appears
+survey seeds). The measurement itself: Λ_DH ≥ 0.0577, repair times for
+nine off-line quadruples, the null-control agreement, appears
 unpublished as of this search. One search is a check, not a survey; the
 numbers above are measurements made for this tree, with no novelty claim
 attached.
@@ -169,10 +169,10 @@ their universality on a non-polynomial (DH) case. Both added to
 
 ## Standing-checklist accounting
 
-- **Rival**: this hunt runs *on* the rival — and the rival-as-validation
+- **Rival**: this hunt runs *on* the rival, and the rival-as-validation
   leg (§0) makes the instrument reproduce ζ's sibling module first.
 - **Decoy/surrogate**: the arithmetic-free N-body integration (§3) is the
-  matched null, and it *explains the effect* — the honest outcome for a
+  matched null, and it *explains the effect*, the honest outcome for a
   quantity that was always geometry.
 - **Lesion**: run (§4); both refusals fire; the blind window is measured.
 - **Precision response**: run (§5), spread zero.

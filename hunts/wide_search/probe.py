@@ -6,7 +6,7 @@ is measured the same way every time and the measurement is recorded rather
 than remembered.
 
 The one non-obvious instrument is :func:`precision_response`. The laboratory's
-standing rule — earned three times in a single day, per `ROADMAP.md` — is that
+standing rule, earned three times in a single day, per `ROADMAP.md`, is that
 *an artifact does not respond to added precision; a real quantity does*. Its
 converse signature matters just as much: a discrepancy that refuses to move
 under **every** convergence knob points at a mis-bound constant rather than at
@@ -24,7 +24,7 @@ from mpmath import mp
 
 
 # --------------------------------------------------------------------------
-# control 4 — precision response
+# control 4, precision response
 # --------------------------------------------------------------------------
 
 
@@ -40,7 +40,7 @@ def precision_response(
     caller's precision is restored on exit.
 
     The returned dict carries the ladder, the successive absolute and relative
-    movements, and ``settled_digits`` — the number of leading decimal digits
+    movements, and ``settled_digits``, the number of leading decimal digits
     that stopped moving between the last two rungs. No verdict is returned:
     what counts as "settled" depends on what the quantity is being used for,
     and a helper that decided that for the caller would be deciding the
@@ -84,7 +84,7 @@ def precision_response(
 
 
 # --------------------------------------------------------------------------
-# control 1 — rival
+# control 1, rival
 # --------------------------------------------------------------------------
 
 
@@ -111,7 +111,7 @@ def rival_check(claim_fn: Callable[[dict], Any], dps: int = 30) -> dict[str, Any
 
 
 # --------------------------------------------------------------------------
-# control 2/3 — surrogate and lesion
+# control 2/3, surrogate and lesion
 # --------------------------------------------------------------------------
 
 
@@ -127,7 +127,7 @@ def null_band(
     a number. Returns the null's quantiles so a claim of "unusual" acquires a
     denominator. `ROADMAP.md` records the calibration that makes this
     non-optional: against a null of random non-factoring sequences,
-    Davenport-Heilbronn sits at the **27th percentile** — typical, not exotic.
+    Davenport-Heilbronn sits at the **27th percentile**, typical, not exotic.
     """
     import numpy as np
 

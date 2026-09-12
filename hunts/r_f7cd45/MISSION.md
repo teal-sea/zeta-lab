@@ -1,4 +1,4 @@
-# Hunt r_f7cd45 — which structural properties of ζ actually discriminate
+# Hunt r_f7cd45: which structural properties of ζ actually discriminate
 
 Publishes the artifact queued by
 [issue #21](https://github.com/teal-sea/zeta-lab/issues/21): a partial
@@ -16,8 +16,8 @@ Davenport–Heilbronn function and the discriminant −23 Epstein zetas also
 satisfy cannot be the load-bearing step of an RH proof, because it is
 ungrantable to nothing.
 
-Five of the six were reported in issue #21. The sixth — "in a box strictly off
-the critical line the completed function has no zeros" — ran to a 50-minute
+Five of the six were reported in issue #21. The sixth, "in a box strictly off
+the critical line the completed function has no zeros", ran to a 50-minute
 timeout there and is the open part.
 
 ## Scope

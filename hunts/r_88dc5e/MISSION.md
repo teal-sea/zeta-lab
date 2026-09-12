@@ -1,4 +1,4 @@
-# Hunt r_88dc5e — the two-mode arithmetic, and retiring the dead-weight seam lemmas
+# Hunt r_88dc5e: the two-mode arithmetic, and retiring the dead-weight seam lemmas
 
 **Run:** 40c2efbc-2ed1-4de3-a762-fc57524791f6 · **Case log:** Hunt #47
 
@@ -26,10 +26,10 @@ case-log entry. Not `hunts/frontier_math/*.py` (two other runs live there), not
 
 Two new modules, both zero-sorry, standard axioms only:
 
-* `EForm3/O9Bridge.lean` — `Re Phi2 (s + iy) = Qre y s` and
+* `EForm3/O9Bridge.lean`: `Re Phi2 (s + iy) = Qre y s` and
   `Im Phi2 (s + iy) = -Qim y s` for `y ≠ 0`, and the two enclosures read back
   against `Qre` and `Qim` rather than against `BandDual.Phi2`.
-* `EForm3/O9Modes.lean` — the two-mode arithmetic itself, plus
+* `EForm3/O9Modes.lean`: the two-mode arithmetic itself, plus
   `dam_le_box0`, the bound instantiated at the first recorded row from the
   kernel's own chunk verdict.
 

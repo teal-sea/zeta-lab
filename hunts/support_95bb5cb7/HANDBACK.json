@@ -1,0 +1,54 @@
+{
+  "run_id": "95bb5cb7-15fe-44ef-bddf-453e791d2946",
+  "status": "settled",
+  "conclusion": "The size dichotomy cannot close, and the failure point is exact: the controlled-interval horn delivers log g(k) = o(k) if and only if max(A) = rad(S)^{o(1)}, pinned from both sides (Rankin upper, simplex-volume lower), and no optimisation over S, scale or split moves that threshold. The other horn cannot supply it, because after the only available normalisation the height of a primitive admissible set of sub-extremal size is unbounded (explicit witnesses up to 5.6e14 for k=2, |A|=3), the clique yields only a four-term S-unit relation for which no height theorem exists, and even an abc-optimal three-term bound would land at rad(S)^{1+o(1)}, one full power of the radical too high.",
+  "confidence": "Lean on the threshold lemma and the height obstruction hard: both are rigorous (Rankin and the simplex volume are unconditional; the height witnesses are exhaustive enumerations re-verified by full trial division). Lean less hard on the arity paragraph, where the Evertse-Schlickewei-Schmidt and Erdos-Stewart-Tijdeman bounds are cited from standard literature and were not re-derived or re-checked against sources in this run. The audit correction to r_186989 (a k=3 extremal witness with max element 475, not <50) is a direct computation and is solid.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "the g(k) restatement (f(n)/log n -> infinity iff g(k) = exp(o(k))) and the seven witnesses for k=1..7",
+      "source": "hunts/r_186989/RESULTS.md sections 1 and 3",
+      "effect": "gave the coordinate the whole run works in, and supplied the witness table this run re-verified and then corrected"
+    },
+    {
+      "what": "the Fekete/composition observation (a composition law would refute, not prove)",
+      "source": "hunts/r_186989/RESULTS.md section 4",
+      "effect": "re-checked and confirmed; removed composition search from consideration as a proof route for this arm"
+    },
+    {
+      "what": "the doors discipline (active constraints, frozen-constant inventory, information class)",
+      "source": "CLAUDE.md, 'Door analysis: what every ceiling hunt owes'",
+      "effect": "forced the frozen-constant table that identified the counting step as the door with no trade shape, which is where the brief expected the gain"
+    }
+  ],
+  "threads": [
+    {
+      "what": "height theorems for four-term S-unit equations x1+x2 = x3+x4",
+      "why_it_might_matter": "it is the exact missing object for Erdos 126 under this arm: the clique supplies four-term relations and every height theorem in the literature is three-term",
+      "first_step": "literature search for any height bound (even conditional on abc) for four-term S-unit equations with a non-degeneracy hypothesis a clique can supply"
+    },
+    {
+      "what": "whether extremal-size admissible sets have bounded height",
+      "why_it_might_matter": "if extremal sets provably live in [1, rad(S)^C] then g(k) becomes exactly computable, which is the missing upper-bound half of r_186989's second loose thread",
+      "first_step": "run the sum-bounded ladder at k=4,5 with a real clique solver and watch whether the extremal sets stop moving as the cutoff grows"
+    },
+    {
+      "what": "the epsilon staircase, max A = rad(S)^epsilon over ALL extremal witnesses rather than one",
+      "why_it_might_matter": "epsilon -> 0 is exactly the conjecture in the one coordinate Lemma 2 says matters; the k=3 entry rose from 1.13 to 1.81 the moment we enumerated all extremal witnesses instead of one",
+      "first_step": "recompute epsilon at k=4..7 over all extremal witnesses; the shape of the rise is the datum"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a sum-bounded (rather than element-bounded) exhaustive enumerator for additive-clique problems",
+      "why_reusable": "for any problem whose constraint is on pairwise sums, bounding the sums is the exhaustive universe and bounding the elements is not; r_186989's element-bounded search reported one witness per k and the file generalised a false claim from it",
+      "first_step": "generalise the three-sums parametrisation in probe.py (a set of size 3 is determined by its three sums) into a solver that grows sets level by level inside a sum cutoff"
+    },
+    {
+      "what": "a rigorous two-sided log-Psi sandwich helper (Rankin upper, simplex-volume lower)",
+      "why_reusable": "any smooth-number counting argument in this tree can be checked for whether it is merely unproven or actually false in a given parameter regime; the lower bound is what turned this run's verdict from 'we could not prove it' into 'it is false above c = 1/2'",
+      "first_step": "lift psi_simplex_bounds from probe.py into a small utility with a test pinning it against exact Psi for small k"
+    }
+  ],
+  "notes_for_operator": "The parent asked for a dichotomy and gets a negative with a number attached: the gap is one power of rad(S), not an exponential, which is why the arm looks tempting and why it still cannot close. One correction to a sibling hunt is included (r_186989's 'every optimal witness has elements < 50'); it was not edited, only reported here, per scope. Routing note: the arity obstruction is a literature question, not a compute question, and would be answered faster by a search pass than by another probe."
+}

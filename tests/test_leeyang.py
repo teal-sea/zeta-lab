@@ -1,15 +1,15 @@
-"""Tests for zeta.leeyang — the Lee–Yang / GHS reading of Φ.
+"""Tests for zeta.leeyang, the Lee–Yang / GHS reading of Φ.
 
 Every literal was measured in this environment before being asserted.
 
 1. The free-energy normalization is *derived*: ∫Φ(u)e^{hu}du = ¼·ξ(½+h/2),
    with the ratio constant to machine zero across h.  That constancy is the
-   whole content — a fitted constant that drifted with h would mean the
+   whole content, a fitted constant that drifted with h would mean the
    identity is wrong.
 2. Two independent routes to G‴(w) agree to ~5e-5 relative: a stencil on ξ
    itself, and the RH-assuming Hadamard zero-sum.  This cross-check is what
    caught a sign-flipped stencil during development, so it is pinned.
-3. ``mp.diff`` on ξ returns ~0 — the same internal-rounding trap as ``dh_f``.
+3. ``mp.diff`` on ξ returns ~0, the same internal-rounding trap as ``dh_f``.
    Pinned as a regression so the hand-rolled stencil is never "simplified"
    back to it.
 4. The verdict: GHS holds for ζ *and* for Davenport–Heilbronn, so the
@@ -40,7 +40,15 @@ def test_free_energy_normalization_is_one_quarter():
     assert n["spread"] < 1e-12          # constant across h, not fitted
 
 
+@pytest.mark.slow
 def test_two_routes_to_third_derivative_agree():
+    # Marked slow 2026-08-23: measured at 631s in CI, over half the fast tier's
+    # entire wall time. Under `-n auto` a single test of that length sets the
+    # floor for the whole run, so the tier drifted to 19 minutes against the
+    # ~115s CLAUDE.md documents, and the next pull request to add any work
+    # tipped it past the 30-minute job cap. The cross-check itself is unchanged
+    # and still runs, in the slow tier, which is where a three-point
+    # high-precision stencil sweep belongs.
     for w in (1.0, 5.0, 20.0):
         a = log_xi_third_derivative(w)
         b = ghs_zero_sum(w)
@@ -48,6 +56,8 @@ def test_two_routes_to_third_derivative_agree():
         assert a < 0 and b < 0          # sign convention pinned by agreement
 
 
+@pytest.mark.slow
+# Marked slow 2026-08-24: measured at 767s in CI. Same high-precision xi machinery as the sibling already moved; under -n auto it set the floor of the whole fast tier.
 def test_mp_diff_on_xi_is_the_documented_trap():
     """Regression: the obvious derivative silently vanishes."""
     from zeta.core import xi
@@ -72,7 +82,7 @@ def test_phi_is_positive_and_log_concave():
 
 
 def test_zero_sum_truncation_bias_is_conservative():
-    """More zeros must make the sum MORE negative, never less — the omitted
+    """More zeros must make the sum MORE negative, never less, the omitted
     terms have sign -12w/gamma^4, so truncation cannot manufacture a pass."""
     few = ghs_zero_sum(5.0, n_zeros=200)
     many = ghs_zero_sum(5.0, n_zeros=2000)

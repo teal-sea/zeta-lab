@@ -1,0 +1,20 @@
+{
+  "N": 5000,
+  "R": 20,
+  "denom": 10000000,
+  "dual_feasible": true,
+  "environment": {
+    "numpy": "2.5.2",
+    "platform": "Darwin",
+    "python": "3.14.0"
+  },
+  "exact_value_den": 85734419175833600000000000000,
+  "exact_value_float": 0.37399241331212807,
+  "exact_value_num": 32064022331483600094826232573,
+  "float_lp_value": 0.3739966049729149,
+  "front": "certificate",
+  "gap_to_float_lp": -4.191660786856399e-06,
+  "seconds_total": 1.25,
+  "sum_y_den": 1,
+  "sum_y_num": 1
+}

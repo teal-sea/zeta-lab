@@ -1,4 +1,4 @@
-"""Tests for zeta.factorization — Gate 4 as a decision statistic.
+"""Tests for zeta.factorization: Gate 4 as a decision statistic.
 
 Every literal was measured in this environment before being asserted.
 

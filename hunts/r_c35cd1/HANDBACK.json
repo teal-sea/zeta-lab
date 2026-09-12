@@ -1,0 +1,21 @@
+{
+  "run_id": "573e58e7-6216-43c0-b8e8-30693936febd",
+  "status": "settled",
+  "conclusion": "scripts/make_context.py --check does not detect test files whose names do not match test_*.py (such as tests/mutant_helper.py or tests/conftest.py), because test_counts() uses a shallow TESTS.glob('test_*.py') and filters AST nodes strictly by def test_*. Across a 25-specimen battery, 0/20 non-test_*.py files, subdirectories, non-code assets, and helper edits were caught (0.0%), while 3/3 in-scope test modifications were 100% caught.",
+  "confidence": "High. Measured on a 25-mutant battery in an isolated sandbox with baseline and undo controls, verified by AST code analysis of scripts/make_context.py, and supported by a census of all 87 items in tests/ and 79 historical git paths.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "tests/fixtures/rung3_ball_term_kernel.json is unindexed in CONTEXT.md",
+      "why_it_might_matter": "Test data assets are invisible to agents reading CONTEXT.md",
+      "first_step": "Evaluate adding a test fixtures subsection to scripts/make_context.py"
+    },
+    {
+      "what": "test_counts() uses shallow glob rather than recursive glob",
+      "why_it_might_matter": "Nested test files in subdirectories would be silently omitted from CONTEXT.md",
+      "first_step": "Consider switching TESTS.glob to TESTS.rglob in scripts/make_context.py"
+    }
+  ],
+  "core_candidates": [],
+  "notes_for_operator": ""
+}

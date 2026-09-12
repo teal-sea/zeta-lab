@@ -9,7 +9,7 @@ for **every** `n` under one hypothesis: consecutive offsets separated by
 `d >= 4` (`Retention.retention_separated_of_le`), plus the unconditional case
 `n <= 3` (`retention_le_three`).  Separation cannot close the general case,
 because real zero gaps have no positive lower bound.  This module attacks the
-opposite end — the case where the offsets *coincide* — where everything is in
+opposite end, the case where the offsets *coincide*, where everything is in
 closed form and nothing has to be estimated.
 
 ## The exact objects
@@ -35,7 +35,7 @@ The third term is what EForm3 throws away when it uses `E[F] >= n`
 (`energy_F_ge`).  It is the **repulsion**: two offsets at distance v relax the
 damage budget by `phi_r(v)^2/400`, and a coincident pair by the maximum
 `A^2/400 = 2.1101e-03`.  (*) is pure algebra from lemmas that are already in
-the Lean tree — see `LEMMA_A` below — and every measurement here is an
+the Lean tree, see `LEMMA_A` below, and every measurement here is an
 evaluation of it.
 
 ## What the measurements say
@@ -46,7 +46,7 @@ evaluation of it.
   `kappa2 = psi''(s*)/A^2 - L2/(100 A) = +4.3612e-02` per unit `g^2`, of which
   the repulsion supplies only 1.7% (`-7.7499e-04`); the rest is the curvature
   of the damage peak.  So the repulsion is not what protects the coincident
-  case at second order — the smallness of `D` relative to `Shq/2` is.
+  case at second order, the smallness of `D` relative to `Shq/2` is.
 * **The trade wins at every multiplicity.**  For `m` coincident offsets the
   damage is `m D` (linear) and the repulsion relief is `m(m-1) A^2/800`
   (quadratic), so the slack is a quadratic in `m` with positive leading
@@ -56,13 +56,13 @@ evaluation of it.
   `m* = 2.5835` with margin `0.12659` (`y = 1/2`).
 * **The worst case is only half near-coincident.**  Over the prescribed grid
   (`x_j = j g`, `g` in [0,8], `m` in 2..8, worst placement) the worst
-  configuration is `(g, m, y) = (0, 3, 1/2)` — total coincidence, inside the
-  region the `d >= 4` hypothesis excludes — but it beats the worst member of
+  configuration is `(g, m, y) = (0, 3, 1/2)`, total coincidence, inside the
+  region the `d >= 4` hypothesis excludes, but it beats the worst member of
   the same grid with `g >= 4` by only 1.95%.  Over *all* configurations the
   worst is a hybrid: triples on the two innermost damage windows plus one
   offset per window elsewhere, which has `0` gaps *and* `2 pi` gaps.  So the
-  separation hypothesis is not backwards — it does exclude the true worst
-  case — but what it excludes is barely worse than what it keeps.
+  separation hypothesis is not backwards, it does exclude the true worst
+  case, but what it excludes is barely worse than what it keeps.
 * **The general case does not need the separation hypothesis.**  Because the
   damage lives in windows of width `<= 0.98601` recurring at spacing `2 pi`,
   the configuration problem decouples window by window, and the resulting
@@ -85,8 +85,8 @@ evaluation of it.
 the constants each one needs.  The load-bearing arithmetic fact is that the
 cluster lemma (`LEMMA_B`) closes **with the constants EForm3 already has** as
 long as the cluster diameter is at most `rho* = 1.7208`
-(`cluster_diameter_threshold`), and would reach `rho* = 4.4859` — past the
-separation threshold 4 — if the uniform damage cap `383/10000` were sharpened
+(`cluster_diameter_threshold`), and would reach `rho* = 4.4859`, past the
+separation threshold 4, if the uniform damage cap `383/10000` were sharpened
 to `2.19041e-02` (`109/5000` would do; the true maximum is `1.75857e-02`).
 
 Nothing here is a result and nothing here is evidence about RH; this is a
@@ -250,7 +250,7 @@ def phi_r(v):
 
 
 def q_laplace(a):
-    """`Qre a 0 = int g(u) cosh(a u) du` — the *other* transform.
+    """`Qre a 0 = int g(u) cosh(a u) du`, the *other* transform.
 
     Naming trap: `Shq y = q_laplace(2y)^2 - A^2` uses this one (a real
     argument), while the repulsion uses `phi_r` (an imaginary argument).
@@ -291,7 +291,7 @@ def second_moment():
 
 
 def _second_moment_quad() -> float:
-    """`L2` again, by quadrature — the closed form above is checked against it."""
+    """`L2` again, by quadrature, the closed form above is checked against it."""
     return float(_quad(lambda u: math.cos(SQRT2 * u) * u * u, -0.5, 0.5)[0])
 
 
@@ -437,7 +437,7 @@ def _edge(y: float, peak: float, direction: float, reach: float) -> float:
 
 
 def no_damage_radius(y: float) -> float:
-    """The largest `R` with `Qim^2 <= Qre^2` on `|s| <= R` — the true `no_damage`.
+    """The largest `R` with `Qim^2 <= Qre^2` on `|s| <= R`, the true `no_damage`.
 
     EForm3's `no_damage` establishes the statement for `28/5 = 5.6`; the truth
     at `y = 1/2` is `6.0653`, the left edge of the innermost damage window.
@@ -913,7 +913,7 @@ def worst_over_all_configurations(y: float = 0.5, count: int = 300,
 
     The ladder bound keeps falling with `m`, but the cross-window relief of a
     real configuration grows like `m^2`, so the attained worst case has a
-    finite optimal size — measured at `m = 50` for `y = 1/2`.
+    finite optimal size, measured at `m = 50` for `y = 1/2`.
     """
     if sizes is None:
         sizes = list(range(1, 41)) + [45, 50, 55, 60, 70, 80, 100, 150, 200]
@@ -1015,7 +1015,7 @@ def separated_worst(y: float = 0.5, count: int = 300) -> dict:
 
 
 def peak_damage_coefficient(y: float) -> float:
-    """`max_s D(y,s) / y^2` — the sharp version of EForm3's `uniform_damage`.
+    """`max_s D(y,s) / y^2`, the sharp version of EForm3's `uniform_damage`.
 
     Measured to increase with `y` on `(0, 1/2]`, from `1.6473e-02` in the
     limit to `1.7586e-02` at `y = 1/2`, so `y = 1/2` is the binding depth for
@@ -1031,8 +1031,8 @@ def separated_consistency(y: float = 0.5, draws: int = 40, n: int = 12,
     Checks the two Lean statements the separated theorem rests on, as
     measurements: every offset's damage is under `uniform_damage`, and every
     configuration's total damage is under `separated_damage`.  The draws
-    include the extremal separated configuration — one offset on each of the
-    innermost window peaks, both sides, whose gaps are all `>= 2 pi - 1` — so
+    include the extremal separated configuration, one offset on each of the
+    innermost window peaks, both sides, whose gaps are all `>= 2 pi - 1`, so
     the comparison is not made only against easy cases.
     """
     rng = np.random.default_rng(seed)

@@ -1,0 +1,32 @@
+{
+  "run_id": "cccb40e0-8a63-4110-b3e2-b9019ae4d2e4",
+  "status": "settled",
+  "conclusion": "The guard test_no_hunt_claims_the_reserved_word explicitly whitelists only .py, .md, and .json files. Every other file format (including .txt, .lean, .sh, .toml, .yaml, .csv, .rst, .tex, .html, .jsonl, and extensionless files) is skipped entirely, allowing overclaims in those formats to pass undetected.",
+  "confidence": "High on all empirical measurements. The real guard source was executed unmodified via pytest against 40 distinct file specimens in an isolated sandbox with empty-specimen and clean-baseline controls, and an exhaustive census was performed over all 447 files currently under hunts/.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Lean proof files (.lean) in hunts/ are completely unscanned by the guard, even though 68 such files exist under hunts/frontier_math/.",
+      "why_it_might_matter": "An overclaim authored inside a .lean docstring, comment, or theorem name within a hunt escapes lexical detection completely.",
+      "first_step": "Decide whether .lean should be added to the scanned suffix set in tests/test_hunt_probe_discipline.py."
+    },
+    {
+      "what": "JSON Lines (.jsonl) telemetry and log files are not scanned because path.suffix.lower() evaluates to '.jsonl'.",
+      "why_it_might_matter": "Structured probe telemetry and run logs increasingly use JSON Lines and would pass without inspection.",
+      "first_step": "Include .jsonl and .ndjson in the scanned suffix whitelist."
+    },
+    {
+      "what": "Compound extensions like .json.bak and .py.tmp bypass the guard.",
+      "why_it_might_matter": "Temporary or backup probe dumps containing overclaims are ignored by the guard.",
+      "first_step": "Check whether any suffix in path.suffixes matches the whitelist rather than only path.suffix."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "Isolated sandbox battery harness for measuring file-type and extension coverage of lexical guards.",
+      "why_reusable": "Provides a clean, reproducible pattern to test lexical and structural repository guards against arbitrary file formats without polluting the live checkout or triggering false alarms in parallel sessions.",
+      "first_step": "Extract the sandbox runner pattern into a shared test utility if further guard coverage probes are needed."
+    }
+  ],
+  "notes_for_operator": "Hunt #51 entry added to hunts/README.md. The known miss was demonstrated and recorded in harness/departments/guard_ledger.py."
+}

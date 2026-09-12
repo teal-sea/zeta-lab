@@ -352,7 +352,7 @@ def attack_a3(ell: int = 8) -> dict[str, object]:
 # --------------------------------------------------------------------------
 
 def upper_range_partial_sum(a: np.ndarray, x: float, W: int) -> float:
-    """``x^2 sum_{x<n<=W} |a(n)|^2 n^{-2}`` — section 4's W-independent claim."""
+    """``x^2 sum_{x<n<=W} |a(n)|^2 n^{-2}``, section 4's W-independent claim."""
 
     n = np.arange(1, W + 1, dtype=float)
     mask = n > x

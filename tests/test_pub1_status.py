@@ -5,17 +5,17 @@ still carries analytic obligations. `docs/27` §2 quotes that status in the
 kernel-checked table, which is the page a reader consults to learn what grade
 each piece of the transplant holds.
 
-On 2026-08-17 they disagreed. The obligations had closed over 2026-08-14/16 —
+On 2026-08-17 they disagreed. The obligations had closed over 2026-08-14/16,
 `strongClosureData_final` holds with no analytic or membership hypothesis, so
 `pub1_strong_closure` assumes only `IsProfile w` and `pub1_strong_closure_exists`
-assumes nothing at all — and `OBLIGATIONS.md` said `status: CLOSED`, while the
+assumes nothing at all, and `OBLIGATIONS.md` said `status: CLOSED`, while the
 `docs/27` row still said **Conditional** and named four hypotheses that no
 longer existed.
 
 Nothing had gone wrong with the mathematics, and this instance pointed the
 harmless way: the stale row *under*claimed. That is exactly why it is worth a
-guard. The same drift pointing the other direction — a row saying
-*unconditional* after an obligation reopened — is a false claim about what a
+guard. The same drift pointing the other direction, a row saying
+*unconditional* after an obligation reopened, is a false claim about what a
 proof assumes, which is the one kind of error this tree treats as critical.
 A guard that only fires in the expensive direction would have to know which
 direction it was in; this one just requires the two files to agree.
@@ -26,7 +26,7 @@ rather than being mapped to whichever grade seems likelier.
 
 Scope, stated so nobody reads more into a green run than it earns: this checks
 that two files agree about one word. It says nothing about whether the closure
-is correct, whether the Lean proof is sound, or whether the axioms are clean —
+is correct, whether the Lean proof is sound, or whether the axioms are clean,
 `#print axioms` and the kernel say that, not this. Stdlib and pytest only, so
 it runs in the cheap tier.
 """
@@ -48,7 +48,7 @@ DOC27 = REPO / "docs" / "27-state-of-the-transplant.md"
 #: The token is matched **bolded**, not as a bare word, and that detail is
 #: load-bearing twice over. First, `Conditional` is a substring of
 #: `Unconditional`, so a naive containment test reports a correct row as
-#: carrying both grades — the guard's own first draft did exactly that.
+#: carrying both grades, the guard's own first draft did exactly that.
 #: Second, the row's prose legitimately mentions the grade it used to carry;
 #: only the bolded token is the row's *claim*, so only it is checked.
 _KNOWN_STATUSES = {
@@ -59,8 +59,11 @@ _KNOWN_STATUSES = {
 #: Any bolded grade token in the row, however it is spelled.
 _GRADE_TOKEN = re.compile(r"\*\*(Un)?[Cc]onditional\*\*")
 
+#: The separator tolerates both the comma the house style now uses and the em
+#: dash the heading carried before it, so this guard survives a punctuation
+#: sweep without going quiet about the status it exists to check.
 _STATUS_LINE = re.compile(
-    r"^#\s*Pub 1 strong closure\s*—\s*status:\s*(?P<status>[A-Z]+)\s*$"
+    r"^#\s*Pub 1 strong closure\s*[,—]\s*status:\s*(?P<status>[A-Z]+)\s*$"
 )
 
 #: The `docs/27` table row that quotes the status.
@@ -76,7 +79,7 @@ def _declared_status() -> str:
             return match.group("status")
     raise AssertionError(
         f"{OBLIGATIONS.name} declares no status heading. The guard reads the "
-        "line '# Pub 1 strong closure — status: <STATUS>'; if that heading was "
+        "line '# Pub 1 strong closure, status: <STATUS>'; if that heading was "
         "reworded, reword this guard with it rather than deleting it."
     )
 
@@ -99,7 +102,7 @@ def test_the_declared_status_is_one_this_guard_understands() -> None:
     assert status in _KNOWN_STATUSES, (
         f"{OBLIGATIONS.name} declares status {status!r}, which this guard does "
         f"not know how to check against docs/27. Known: "
-        f"{sorted(_KNOWN_STATUSES)}. Add it here deliberately — do not let an "
+        f"{sorted(_KNOWN_STATUSES)}. Add it here deliberately, do not let an "
         "unknown status pass as though it had been verified."
     )
 
@@ -136,7 +139,7 @@ def test_the_unconditional_theorems_still_carry_the_names_the_doc_cites() -> Non
     """`docs/27` names Lean theorems; a rename must not leave the doc pointing at nothing.
 
     This is deliberately a *name* check and not a proof check. It cannot tell
-    whether `pub1_strong_closure` proves what the row says it proves — only
+    whether `pub1_strong_closure` proves what the row says it proves, only
     the kernel does that. It catches the cheaper and commoner failure: the doc
     citing an identifier that no longer exists.
     """

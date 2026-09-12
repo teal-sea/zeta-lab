@@ -1,0 +1,77 @@
+{
+  "box": {
+    "h1": 0.015,
+    "h2": 0.015,
+    "p1": 0.381,
+    "p2": 0.381,
+    "q1": -0.02,
+    "q2": 0.02
+  },
+  "environment": {
+    "numpy": "2.5.2",
+    "platform": "Darwin",
+    "python": "3.14.0"
+  },
+  "front": "full",
+  "rows": [
+    {
+      "N": 250,
+      "R": 10,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 546,
+      "final_residual": null,
+      "seconds": 2.19,
+      "sine_factor": 4.0,
+      "status": "ok",
+      "value": 0.3668210634253385
+    },
+    {
+      "N": 500,
+      "R": 10,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 546,
+      "final_residual": null,
+      "seconds": 5.89,
+      "sine_factor": 4.0,
+      "status": "ok",
+      "value": 0.3696271642632772
+    },
+    {
+      "N": 1000,
+      "R": 10,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 546,
+      "final_residual": null,
+      "seconds": 17.53,
+      "sine_factor": 4.0,
+      "status": "ok",
+      "value": 0.37212920302009456
+    },
+    {
+      "N": 2000,
+      "R": 10,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 546,
+      "final_residual": null,
+      "seconds": 71.8,
+      "sine_factor": 4.0,
+      "status": "ok",
+      "value": 0.37506720867327886
+    }
+  ],
+  "seconds_total": 97.41,
+  "white_reference": {
+    "N": 25000,
+    "R": 10,
+    "T": 7000,
+    "value": 0.37905
+  }
+}

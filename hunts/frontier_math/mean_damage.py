@@ -1,7 +1,7 @@
 """ROAD B, step 1: the damage functional has negative total integral.
 
 The `k >= 2` case needed a quantitative form of "only two positions carry
-the top damage peak" — a bound on how many pair centres can each collect
+the top damage peak", a bound on how many pair centres can each collect
 near-maximal damage from one on-line configuration.  There is a sharper
 and much more elementary statement available, and it is exact.
 
@@ -21,7 +21,7 @@ transform of `w -> c2(w) cosh(y w)`, which is continuous and supported on
 
 Measured against quadrature at five depths: the truncation to `|s| <= S`
 agrees with `-2 pi c2(0)` to `O(1/S)` and the `y`-dependence of the
-truncated integral is `1.2e-05` across `y in [0.05, 0.5]` — flat, as the
+truncated integral is `1.2e-05` across `y in [0.05, 0.5]`, flat, as the
 identity says (:func:`integral_ladder`).
 
 ## What it buys
@@ -41,7 +41,7 @@ digits for coincident and for spread atom sets alike
 
 This is the shape the `k >= 2` argument wants: the damage side is not
 merely bounded per pair, it is *negative on average per pair*, so the
-adversary pays for every centre it places off a window — and the windows
+adversary pays for every centre it places off a window, and the windows
 are what the `k = 1` accounting already controls.
 
 ## What it does NOT do
@@ -115,7 +115,7 @@ def integral_of_damage(y, S: float = 2000.0):
 
 
 def integral_ladder(ys=(0.05, 0.1, 0.25, 0.4, 0.5), S: float = 2000.0):
-    """The truncated integral by depth — must be flat in `y`."""
+    """The truncated integral by depth, must be flat in `y`."""
     target = -2 * mp.pi * c2_zero()
     rows = []
     for y in ys:

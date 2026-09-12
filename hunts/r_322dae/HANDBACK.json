@@ -1,0 +1,29 @@
+{
+  "run_id": "6fb7250b-e698-4555-8146-49b9081000f3",
+  "status": "settled",
+  "conclusion": "The 6x3 census checksum of 15 matchings, 3375 triples, and 8 S6 x S3 orbits is verified. For the 8x3 frontier, 105 matchings and 1157625 monochromatic matching triples partition into exactly 31 S8 x S3 orbits with exact stabilizer counts and unique partition coverage proved.",
+  "confidence": "Exact. The 31 orbit counts and sizes are verified both constructively via exhaustive disjoint partition and theoretically via Burnside fixed-point evaluation over S8 x S3 conjugacy classes.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "Krenn-Gu 6x3 certificate orbit count of 8 orbits over 3375 triples",
+      "source": "algal/krenn-gu-6x3-certificate",
+      "effect": "Provided the baseline ground-truth calibration for the permutation action and stabilizer quotient logic."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Exact support and algebraic sieving over the 31 S8 x S3 target-matching branches",
+      "why_it_might_matter": "The 31 classes exhaust the choice of one supported monochromatic matching per colour without imposing symmetry on the remaining 252-variable equation system.",
+      "first_step": "Use each canonical triple as a twelve-entry support skeleton, impose all 6561 equation necessities, and learn independently checked algebraic no-goods from every returned support."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "Vectorised permutation table orbit partitioner for Sn x S3 matching actions",
+      "why_reusable": "Generalizes to arbitrary n x d matching and hypergraph isomorphism class census problems with minimal memory and sub-second execution.",
+      "first_step": "Package get_perfect_matchings and compute_orbit_census as parameterized utilities."
+    }
+  ],
+  "notes_for_operator": ""
+}

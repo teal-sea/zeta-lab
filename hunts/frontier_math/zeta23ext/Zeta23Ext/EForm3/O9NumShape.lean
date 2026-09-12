@@ -29,7 +29,7 @@ content:
   `Im num / y`. For `y ≠ 0` the extension and the quotient agree and
   `imOverYShape_eq_im_div` proves it. At `y = 0` they do not: `Im num = 0`
   there, so `Im num / y` is `0` by Lean's division convention, while the
-  enclosed real is the limit — and `imOverYShape_pi_zero_pos` exhibits a point
+  enclosed real is the limit, and `imOverYShape_pi_zero_pos` exhibits a point
   where that limit is positive. `imOverYShape_ne_im_div_at_zero` is the
   mismatch, stated as a mismatch rather than hedged.
 
@@ -47,8 +47,8 @@ enclose `c*c + dOverY*dOverY` where it encloses `c*c + d*d`, `d = dOverY·y`).
 Nothing in this file rescued them, and nothing in this file needs them:
 `rIv_mem_phi2` below reaches `Phi2` through `r_comp_mem'` and `rIv_mem_box`,
 and `qreIv_mem_phi2` reaches it through `qre_comp_mem` and `qreIv_mem_box`.
-They were dead weight in the strict sense — nothing downstream was stated in
-terms of them — and both were **retired on 2026-08-18** at no reproof cost.
+They were dead weight in the strict sense, nothing downstream was stated in
+terms of them, and both were **retired on 2026-08-18** at no reproof cost.
 
 ## Instantiability
 
@@ -87,7 +87,7 @@ theorem half_pt (s y : ℝ) :
   push_cast
   ring
 
-/-- **`Re num`, componentwise** — and this is exactly the shape `reNum_mem`
+/-- **`Re num`, componentwise**, and this is exactly the shape `reNum_mem`
 encloses, once its three abstract constants are the true ones. -/
 theorem numC_re_eq (s y : ℝ) :
     (numC ((s : ℂ) + (y : ℂ) * Complex.I)).re
@@ -155,7 +155,7 @@ noncomputable def imOverYShape (s y : ℝ) : ℝ :=
       * Real.sin (Real.sqrt 2 / 2) * Real.sqrt 2)
     * ((2:ℤ):ℝ)
 
-/-- **`imNumOverY` encloses `imOverYShape`** — the shape, unconditionally. -/
+/-- **`imNumOverY` encloses `imOverYShape`**, the shape, unconditionally. -/
 theorem imNumOverY_mem_shape {sLo sHi yLo yHi : ℤ} {s y : ℝ}
     (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
     (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
@@ -191,7 +191,7 @@ theorem imNumOverY_mem_numC {sLo sHi yLo yHi : ℤ} {s y : ℝ}
 
 /-! ## Why `y ≠ 0` cannot be dropped
 
-Not "the proof needs it" — the statement is false without it, and the rest of
+Not "the proof needs it", the statement is false without it, and the rest of
 this section is the witness. -/
 
 /-- `Im num` vanishes on the real axis. -/
@@ -238,8 +238,8 @@ theorem imOverYShape_pi_zero_pos : 0 < imOverYShape Real.pi 0 := by
 
 /-- **The identification fails at `y = 0`**, and this is the witness.
 
-`Im num / 0` is `0` — `Im num` vanishes on the real axis and Lean's division
-sends `0/0` to `0` — while `imNumOverY` encloses the removable limit, which
+`Im num / 0` is `0`: `Im num` vanishes on the real axis and Lean's division
+sends `0/0` to `0`, while `imNumOverY` encloses the removable limit, which
 `imOverYShape_pi_zero_pos` shows is not `0` at `s = π`. So `y ≠ 0` is not an
 artefact of the proof of `imOverYShape_eq_im_div`; it is the exact hypothesis
 the statement needs. -/
@@ -304,7 +304,7 @@ theorem qreIv_mem_phi2 {sLo sHi yLo yHi : ℤ} {s y : ℝ}
   rw [hsplit]
   convert hbox using 2 <;> ring
 
-/-- **`rIv` encloses `−Im Phi2 (s + i y) / y`** — the removable branch `R`. -/
+/-- **`rIv` encloses `−Im Phi2 (s + i y) / y`**, the removable branch `R`. -/
 theorem rIv_mem_phi2 {sLo sHi yLo yHi : ℤ} {s y : ℝ}
     (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
     (hy : EIv.mem (some ⟨yLo, yHi⟩) y)

@@ -71,7 +71,7 @@ def test_ball_cpow_encloses_every_sampled_point_of_a_segment(sre, sim):
 
 
 def test_the_enclosing_ball_of_a_segment_is_exact_in_radius():
-    """A degenerate rectangle's minimal ball has radius half the segment length —
+    """A degenerate rectangle's minimal ball has radius half the segment length,
     so switching `s` to a ball costs no enclosure at the input."""
     half = F(3, 1000)
     b = ball.from_box(F(1, 2), F(1, 2), F(10) - half, F(10) + half)
@@ -138,6 +138,6 @@ def test_a_deliberately_broken_ball_is_caught():
         b = ball.cpowBox(101, S)
         bad = any(not _contains(b, _true_cpow(101, sre, sim + half * F(j, 4)))
                   for j in range(-4, 5))
-        assert bad, "thinned radii still enclosed everything — the check has no power"
+        assert bad, "thinned radii still enclosed everything, the check has no power"
     finally:
         ball.cmul = orig

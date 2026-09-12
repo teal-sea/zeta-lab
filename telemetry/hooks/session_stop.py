@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Stop hook — close the run this session opened. Opt-in; see README.md.
+"""Stop hook, close the run this session opened. Opt-in; see README.md.
 
 If no marker exists the session was not instrumented, and that is left as it
 is: inventing a run for a session nobody observed would be exactly the
 fabrication this system refuses. Same swallow-everything rule as the start
-hook — telemetry never blocks a session.
+hook, telemetry never blocks a session.
 """
 
 from __future__ import annotations

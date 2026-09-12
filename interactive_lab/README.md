@@ -1,9 +1,9 @@
-# interactive_lab — browser visualizations
+# interactive_lab: browser visualizations
 
 Standalone HTML pages that animate what the laboratory computes. They are
 illustrations, not results: nothing here is measured, tested for mathematical
 content, or cited by any claim. The numbers they display are hard-coded from
-the ground-truth values pinned in `tests/` — if a page and the suite ever
+the ground-truth values pinned in `tests/`, if a page and the suite ever
 disagree, the suite is right.
 
 | Page | What it shows | Open with |

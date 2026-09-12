@@ -1,0 +1,1144 @@
+{
+ "galois_conjugate_holds_all_subsets": true,
+ "norm_is_integer_all_subsets": true,
+ "interval_vector_formula_holds_all_subsets": true,
+ "set_classes": 224,
+ "norm_distribution_over_set_classes": {
+  "0": 18,
+  "1": 84,
+  "4": 41,
+  "9": 22,
+  "13": 36,
+  "16": 9,
+  "25": 6,
+  "36": 3,
+  "37": 4,
+  "64": 1
+ },
+ "distinct_norms": 10,
+ "unit_set_classes": [
+  {
+   "prime_form": [
+    0
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1
+   ],
+   "name": "semitone"
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    9,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    7,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    7,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    9,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    7,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    6,
+    7
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    6,
+    7,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    6,
+    7,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    3,
+    6,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    6,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    7,
+    8,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    6,
+    7,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    6,
+    7,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    6,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    6,
+    8,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    6,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    7,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    7,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    4,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    5,
+    6
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    5,
+    6,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    5,
+    6,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    5,
+    7,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    6
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    6,
+    7
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    2,
+    6,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    4,
+    6,
+    7
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    4,
+    6,
+    7,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    4,
+    6,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    4,
+    7
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    4,
+    7,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    4,
+    7,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    5,
+    6,
+    8,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    5,
+    6,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    5,
+    7,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    5,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    6,
+    7
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    6,
+    7,
+    10
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    6,
+    8,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    6,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    7,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    7,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    3,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    4
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    4,
+    5
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    4,
+    5,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    4,
+    6,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    4,
+    6,
+    9
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    4,
+    7
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    4,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    5,
+    6
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    5,
+    7
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    5,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    1,
+    6
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    2,
+    4,
+    6,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    2,
+    4,
+    7,
+    9
+   ],
+   "name": "pentatonic"
+  },
+  {
+   "prime_form": [
+    0,
+    2,
+    4,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    2,
+    5,
+    8
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    2,
+    6
+   ],
+   "name": ""
+  },
+  {
+   "prime_form": [
+    0,
+    3,
+    6
+   ],
+   "name": "diminished"
+  },
+  {
+   "prime_form": [
+    0,
+    3,
+    7
+   ],
+   "name": "minor triad"
+  },
+  {
+   "prime_form": [
+    0,
+    4
+   ],
+   "name": "major third"
+  },
+  {
+   "prime_form": [
+    0,
+    5
+   ],
+   "name": ""
+  }
+ ],
+ "grey_set_classes_count": 18,
+ "named_chords": {
+  "minor triad": {
+   "norm": 1,
+   "chroma2_chromatic": 0.267949,
+   "chroma2_fifths": 3.732051,
+   "iv": [
+    0,
+    0,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  "augmented": {
+   "norm": 0,
+   "chroma2_chromatic": 0.0,
+   "chroma2_fifths": 0.0,
+   "iv": [
+    0,
+    0,
+    0,
+    3,
+    0,
+    0
+   ]
+  },
+  "diminished": {
+   "norm": 1,
+   "chroma2_chromatic": 1.0,
+   "chroma2_fifths": 1.0,
+   "iv": [
+    0,
+    0,
+    2,
+    0,
+    0,
+    1
+   ]
+  },
+  "sus2/sus4": {
+   "norm": 4,
+   "chroma2_chromatic": 0.535898,
+   "chroma2_fifths": 7.464102,
+   "iv": [
+    0,
+    1,
+    0,
+    0,
+    2,
+    0
+   ]
+  },
+  "pentatonic": {
+   "norm": 1,
+   "chroma2_chromatic": 0.071797,
+   "chroma2_fifths": 13.928203,
+   "iv": [
+    0,
+    3,
+    2,
+    1,
+    4,
+    0
+   ]
+  },
+  "dim7": {
+   "norm": 0,
+   "chroma2_chromatic": 0.0,
+   "chroma2_fifths": 0.0,
+   "iv": [
+    0,
+    0,
+    4,
+    0,
+    0,
+    2
+   ]
+  },
+  "whole tone": {
+   "norm": 0,
+   "chroma2_chromatic": 0.0,
+   "chroma2_fifths": 0.0,
+   "iv": [
+    0,
+    6,
+    0,
+    6,
+    0,
+    3
+   ]
+  },
+  "cluster 3": {
+   "norm": 4,
+   "chroma2_chromatic": 7.464102,
+   "chroma2_fifths": 0.535898,
+   "iv": [
+    2,
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "octatonic": {
+   "norm": 0,
+   "chroma2_chromatic": 0.0,
+   "chroma2_fifths": 0.0,
+   "iv": [
+    4,
+    4,
+    8,
+    4,
+    4,
+    4
+   ]
+  },
+  "hexatonic": {
+   "norm": 0,
+   "chroma2_chromatic": 0.0,
+   "chroma2_fifths": 0.0,
+   "iv": [
+    3,
+    0,
+    3,
+    6,
+    3,
+    0
+   ]
+  },
+  "tritone": {
+   "norm": 0,
+   "chroma2_chromatic": 0.0,
+   "chroma2_fifths": 0.0,
+   "iv": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ]
+  },
+  "major third": {
+   "norm": 1,
+   "chroma2_chromatic": 1.0,
+   "chroma2_fifths": 1.0,
+   "iv": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  "semitone": {
+   "norm": 1,
+   "chroma2_chromatic": 3.732051,
+   "chroma2_fifths": 0.267949,
+   "iv": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "distinct_interval_vectors": 200,
+ "norm_values_shared_by_different_interval_vectors": 9,
+ "trichord_norms": {
+  "[0, 1, 2]": 4,
+  "[0, 1, 3]": 13,
+  "[0, 1, 4]": 1,
+  "[0, 1, 5]": 4,
+  "[0, 1, 6]": 1,
+  "[0, 2, 4]": 16,
+  "[0, 2, 5]": 13,
+  "[0, 2, 6]": 1,
+  "[0, 2, 7]": 4,
+  "[0, 3, 6]": 1,
+  "[0, 3, 7]": 1,
+  "[0, 4, 8]": 0
+ },
+ "max_norm": 64,
+ "max_norm_classes": [
+  [
+   0,
+   1,
+   2,
+   3,
+   5,
+   10
+  ]
+ ]
+}

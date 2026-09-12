@@ -1,0 +1,69 @@
+{
+  "run_id": "d5d5ccae-17eb-441e-adc0-42fe52b77420",
+  "status": "not-settled",
+  "conclusion": "The S-unit arm has a sound two-line injectivity lemma (fix two base elements a>b of A; x -> (a+x, b+x) injects A minus {a,b} into the solutions of U-W=a-b in positive S-smooth U,W), so g(k) <= 2 + max_d N_S(d), and the implication runs the right way (solution-count bound => g bound => Erdos #126, not the reverse). But the strongest applicable theorem, Evertse's 3*7^{d+2s}, gives g(k) <= 2 + 3*7^{2k+3} ~ 1029*49^k, which is weaker than the 1934 Erdos-Turan 3*2^{k-1} and Erdos-Suranyi 2^k by a factor about 24.5^k. Measurement shows the slack is in the theorem, not the route: at k=7 the quantity Evertse bounds by 7.0e14 has measured value 96, against the elementary ceiling 128.",
+  "confidence": "High on the lemma and on the arithmetic of the comparison: the lemma is elementary and self-contained, Evertse's and Beukers-Schlickewei's statements were read off the Beukers-Schlickewei paper itself rather than from memory, and the smooth-number counter reproduces Lehmer's published Stormer table exactly for k=1..8. Medium on the claim that three-or-more base elements are strictly worse: the linear-dependence argument is solid, but we did not exhaust nonlinear gadgets. Low on any extrapolation of the measured growth of max_d N_S(d): eight points cannot separate k^3.2 from 1.6^k, and the box-truncated counts are lower bounds only, so nothing in column 4 of the results table is an upper bound on g(k). We did not establish that the lemma is new; given Gyory-Stewart-Tijdeman 1986 it may well be in the literature, and we do not claim otherwise.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "Exact witnesses g_N(k) >= 2,4,5,6,8,10,11 for k=1..7 with explicit maximal sets",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "Gave the extremal sets at which the lemma's tightness could be measured; all seven were re-verified from scratch by trial division here rather than trusted, and all seven passed."
+    },
+    {
+      "what": "The inversion f(n)/log n -> infinity <=> g(k) = exp(o(k))",
+      "source": "hunts/r_186989/RESULTS.md section 1",
+      "effect": "Made the whole arm a statement about one integer sequence, so the unit-equation bound could be compared directly against 2^k without re-deriving the equivalence."
+    },
+    {
+      "what": "r_186989's door analysis naming the S-unit counting bound as the top-ranked door it could not open",
+      "source": "hunts/r_186989/RESULTS.md, 'The doors', item 3",
+      "effect": "This run walked through that door and put the number on it: the required improvement is from base 49 to base below 2."
+    },
+    {
+      "what": "Beukers-Schlickewei Theorem 1.1 (2^{8r+8}) and the quoted Evertse bound 3*7^{d+2s}",
+      "source": "F. Beukers and H.P. Schlickewei, 'The equation x+y=1 in finitely generated groups', Acta Arith. 78 (1996), sections 1",
+      "effect": "Supplied the two candidate theorems and settled which one applies; the paper's own introduction quotes Evertse, which is how the coefficient-tolerant version was found."
+    },
+    {
+      "what": "Lehmer's Stormer counts 1,4,10,23,40,68,108,167 for consecutive smooth pairs",
+      "source": "classical, via the d=1 column",
+      "effect": "External oracle that validated the smooth-number enumerator; without it the box-truncated counts would have had no independent check."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Whether the two-element injectivity lemma already appears in Gyory-Stewart-Tijdeman 1986",
+      "why_it_might_matter": "If it does, this run's contribution is the measurement and the door-numbering, not the lemma, and the write-up should say so.",
+      "first_step": "Read section 2 of Gyory, Stewart, Tijdeman, 'On prime factors of sums of integers I' (1986) and look for |A| <= 2 + N_S(d)."
+    },
+    {
+      "what": "The true growth rate of max_d N_S(d) in k",
+      "why_it_might_matter": "It is the quantity the route needs to be subexponential. If it is provably exponential, the route dies regardless of how good unit-equation theorems get.",
+      "first_step": "Extend the sweep from d <= 40 to d <= 10^4 at k <= 8 with the same smooth-number set, one loop in probe.py, and fit."
+    },
+    {
+      "what": "Every measured extremal witness contains a pair whose difference has a small solution count",
+      "why_it_might_matter": "That is precisely the missing combinatorial lemma of RESULTS section 7 in observed form; if it is forced, #126 reduces to Stormer-type counts.",
+      "first_step": "Add the constraint 'no pair with N_S(a-b) small' to r_186989's clique search at k=5,6 and see whether any admissible set survives."
+    },
+    {
+      "what": "A higher-arity gadget whose coefficients are themselves S-units",
+      "why_it_might_matter": "It would restore Evertse's cheaper S-based accounting at arity 3+, where the extra unknowns might buy more than they cost.",
+      "first_step": "Search admissible A for triples whose pairwise differences are S-smooth, and check whether they occur in the known witnesses."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A small S-smooth-number service: enumerate all S-smooth integers below X for a given prime set, with pair-difference counting on top",
+      "why_reusable": "Three separate Erdos-126 arms have now needed exactly this, and it is also the primitive behind Stormer, abc-triple and S-unit work generally. Each run has rewritten it. It has an external oracle built in (Lehmer's table), which is rare.",
+      "first_step": "Lift the twenty lines of smooth_numbers/count_diff from hunts/support_d5d5ccae/probe.py into a shared helper with the Lehmer table as its pinned test."
+    },
+    {
+      "what": "A quantitative-theorem lookup habit: read the exponent off the source paper, not off a search summary",
+      "why_reusable": "A web search returned 2^{8(r+2)} for the Beukers-Schlickewei bound; the paper says 2^{8r+8}, and more importantly its introduction carries the Evertse bound that actually applied here and that no search surfaced. The five minutes spent opening the PDF changed which theorem the arm used.",
+      "first_step": "Nothing to build. Worth one line in whatever brief text tells a run to 'apply the strongest quantitative theorem'."
+    }
+  ],
+  "notes_for_operator": "The parent asked for one of three deliverables and gets the third (standard S-unit bounds are quantitatively too weak) with a usable version of the second (the missing lemma is named in RESULTS section 7). The number worth carrying back to the parent is the required improvement: Evertse's base 49 must drop below 2 to beat 1934, and to exp(o(k)) to settle #126, while the best known lower bound on unit-equation solution counts is exp((4+o(1))(s/log s)^{1/2}) and the measured Stormer data looks polynomial. So the route is not refuted, it is starved. If the parent is deciding whether to fund a further S-unit lane, the honest read is that the lane's success condition is an improvement to a 1984 Diophantine theorem that has stood for forty years, which is not a lane this laboratory can open at hunt cost."
+}

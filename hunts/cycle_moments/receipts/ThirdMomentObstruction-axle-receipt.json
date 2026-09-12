@@ -1,0 +1,49 @@
+{
+  "source_path": "hunts/cycle_moments/ThirdMomentObstruction.lean",
+  "source_sha256": "61d0bc606ceb3a04dc623c83bb10af895cc83a32f640c3c575f16731627b7b69",
+  "environment": "lean-4.33.0",
+  "response": {
+    "content": "import Mathlib\n\nnamespace CycleMoments.ThirdMomentObstruction\n\ndef eigenvalues (b : \u211d) : Fin 3 \u2192 \u211d := ![b + 2, b + 2, -2*b]\n\ndef moment (b : \u211d) (j : \u2115) : \u211d :=\n  \u2211 i : Fin 3, eigenvalues b i ^ j\n\ndef discrepancy (b : \u211d) : \u211d := moment b 3 - 3*moment b 2 + 8\n\ndef slack (b : \u211d) : \u211d := moment b 2 - 8\n\ntheorem pair_norm_difference (b : \u211d) (hb : 0 \u2264 b) :\n    Real.sqrt (1 + b/2) ^ 2 - Real.sqrt (b/2) ^ 2 = 1 := by\n  rw [Real.sq_sqrt (by linarith : 0 \u2264 1 + b/2),\n    Real.sq_sqrt (by linarith : 0 \u2264 b/2)]\n  ring\n\ntheorem first_moment (b : \u211d) : moment b 1 = 4 := by\n  simp [moment, eigenvalues, Fin.sum_univ_three]\n  ring\n\ntheorem second_moment (b : \u211d) : moment b 2 = 6*b^2 + 8*b + 8 := by\n  simp [moment, eigenvalues, Fin.sum_univ_three]\n  ring\n\ntheorem third_moment (b : \u211d) :\n    moment b 3 = -6*b^3 + 12*b^2 + 24*b + 16 := by\n  simp [moment, eigenvalues, Fin.sum_univ_three]\n  ring\n\ntheorem fourth_moment (b : \u211d) :\n    moment b 4 = 18*b^4 + 16*b^3 + 48*b^2 + 64*b + 32 := by\n  simp [moment, eigenvalues, Fin.sum_univ_three]\n  ring\n\ntheorem discrepancy_formula (b : \u211d) : discrepancy b = -6*b^2*(b+1) := by\n  rw [discrepancy, second_moment, third_moment]\n  ring\n\ntheorem slack_formula (b : \u211d) : slack b = 6*b^2 + 8*b := by\n  rw [slack, second_moment]\n  ring\n\ntheorem discrepancy_negative (b : \u211d) (hb : 0 < b) : discrepancy b < 0 := by\n  rw [discrepancy_formula]\n  have hsq : 0 < b^2 := sq_pos_of_pos hb\n  have hnext : 0 < b+1 := by linarith\n  nlinarith [mul_pos hsq hnext]\n\ntheorem slack_positive (b : \u211d) (hb : 0 < b) : 0 < slack b := by\n  rw [slack_formula]\n  positivity\n\ntheorem cubic_dominates_slack (b : \u211d) (hb : 0 \u2264 b) :\n    b/2 * slack b \u2264 -discrepancy b := by\n  rw [slack_formula, discrepancy_formula]\n  have hnonneg : 0 \u2264 b^2*(3*b+2) := by positivity\n  nlinarith\n\n#print axioms pair_norm_difference\n#print axioms first_moment\n#print axioms second_moment\n#print axioms third_moment\n#print axioms fourth_moment\n#print axioms discrepancy_formula\n#print axioms slack_formula\n#print axioms discrepancy_negative\n#print axioms slack_positive\n#print axioms cubic_dominates_slack\n\nend CycleMoments.ThirdMomentObstruction\n\n",
+    "failed_declarations": [],
+    "lean_messages": {
+      "errors": [],
+      "infos": [
+        "-:62:0-62:6: info: 'CycleMoments.ThirdMomentObstruction.pair_norm_difference' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+        "-:63:0-63:6: info: 'CycleMoments.ThirdMomentObstruction.first_moment' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+        "-:64:0-64:6: info: 'CycleMoments.ThirdMomentObstruction.second_moment' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+        "-:65:0-65:6: info: 'CycleMoments.ThirdMomentObstruction.third_moment' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+        "-:66:0-66:6: info: 'CycleMoments.ThirdMomentObstruction.fourth_moment' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+        "-:67:0-67:6: info: 'CycleMoments.ThirdMomentObstruction.discrepancy_formula' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+        "-:68:0-68:6: info: 'CycleMoments.ThirdMomentObstruction.slack_formula' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+        "-:69:0-69:6: info: 'CycleMoments.ThirdMomentObstruction.discrepancy_negative' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+        "-:70:0-70:6: info: 'CycleMoments.ThirdMomentObstruction.slack_positive' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+        "-:71:0-71:6: info: 'CycleMoments.ThirdMomentObstruction.cubic_dominates_slack' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+      ],
+      "warnings": []
+    },
+    "okay": true,
+    "timings": {
+      "parse_ms": 534,
+      "total_ms": 540
+    },
+    "tool_messages": {
+      "errors": [],
+      "infos": [],
+      "warnings": []
+    },
+    "info": {
+      "request_id": "c1a4eafa-bf50-4760-b7a7-cef8219477bb",
+      "environment": "lean-4.33.0",
+      "total_request_time_ms": 607,
+      "queue_time_ms": 3,
+      "execution_time_ms": 603,
+      "cached_response": false,
+      "_executor_commit_sha": "c7ff197",
+      "_executor_docker_image_id": "sha256:8c1dafc5e514f26944925383401c14fd48333d1dd9a2c77336e820c1b1e239b7",
+      "_executor_artifact_sha256": "72572061366e799abb214789ee4f0506a29da445bc4e176c05b7d75182e6af6c",
+      "environment_wait_time_us": 10,
+      "environment_total_time_us": 600646,
+      "environment_pool_size": 64
+    }
+  }
+}

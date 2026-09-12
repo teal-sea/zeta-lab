@@ -1,0 +1,38 @@
+diff --git a/src/verify_local_tables.cpp b/src/verify_local_tables.cpp
+index 9715bb8..c342d35 100644
+--- a/src/verify_local_tables.cpp
++++ b/src/verify_local_tables.cpp
+@@ -353,10 +353,22 @@ int main(int argc, char** argv) {
+         for (int i = 0; i < Q; ++i)
+             std::cout << components[i].size() << (i + 1 == Q ? '\n' : ',');
+ 
++        std::size_t shard = 0;
++        std::size_t shard_count = 1;
++        if (argc >= 7) {
++            shard = static_cast<std::size_t>(std::stoull(argv[5]));
++            shard_count = static_cast<std::size_t>(std::stoull(argv[6]));
++            if (shard_count == 0 || shard >= shard_count)
++                throw std::runtime_error("bad shard specification");
++        }
++        std::cout << "shard=" << shard << "/" << shard_count << "\n";
++
+         Stats stats;
+         std::vector<Box> stack;
+         stack.reserve(1024);
+-        for (const auto& root : initial) {
++        for (std::size_t root_index = 0; root_index < initial.size(); ++root_index) {
++            if (shard_count > 1 && (root_index % shard_count) != shard) continue;
++            const Box& root = initial[root_index];
+             stack.clear();
+             stack.push_back(root);
+             while (!stack.empty()) {
+@@ -475,7 +487,8 @@ int main(int argc, char** argv) {
+             }
+         }
+ 
+-        std::cout << "VERIFIED=true nodes=" << stats.nodes
++        std::cout << "SHARD_VERIFIED=true shard=" << shard << "/" << shard_count
++                  << " nodes=" << stats.nodes
+                   << " pruned=" << stats.pruned
+                   << " splits=" << stats.splits
+                   << " convex=" << stats.convex

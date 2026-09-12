@@ -1,0 +1,54 @@
+{
+  "run_id": "7ddfee4b-7099-450a-93d9-114facea1b93",
+  "status": "settled",
+  "conclusion": "The suggested claim is false for every prime: omitting an odd prime p from S caps the number of occupied residue classes mod p, not |A| (counterexample: any A inside 1 + pZ), and only p = 2 caps |A|, at 2. The descent the arm asked for exists (g*(k) <= 2^k for primitive A, by deleting one odd prime, tight at k = 1, 2) but its per-prime loss provably cannot go below 2: the residue relaxation that parity, residue classes, prime deletion and the power-of-2 lemma all factor through has optimum exactly 2^k.",
+  "confidence": "Lean hard on the refutation and on the descent lemma: both are short proofs with explicit witnesses re-verified by trial division. Lean hard on the obstruction too, but only for what it says, which is that no bound below 2^k follows from (R1)+(R2); it says nothing about g(k) itself. The one place not to lean is the general case: Theorem 4 covers primitive sets only, and the divisible part A_p = {a : p | a} escapes the descent because (S, pA) is admissible whenever (S, A) is. Nothing here improves the classical 3*2^(k-1).",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "power-of-2 lemma: a,b,c with all pairwise sums powers of 2 is impossible",
+      "source": "hunts/r_186989/RESULTS.md section 4",
+      "effect": "used verbatim as the base case of the descent (Theorem 3) and as condition (R2) of the relaxation; saved re-deriving it"
+    },
+    {
+      "what": "the loose thread proposing |A| <= p-1 when p is not in S",
+      "source": "hunts/r_186989/RESULTS.md, loose threads",
+      "effect": "this run's assigned target; refuted, with the correct statement supplied in its place"
+    },
+    {
+      "what": "bounded clique search g_N(k) = 2,4,5,... and the k=2 witness {1,5,7,11}",
+      "source": "hunts/r_186989/RESULTS.md section 3",
+      "effect": "reproduced independently and reused: {1,5,7,11} is primitive, so it proves g*(2) = 4 = 2^2 exactly, which is what makes the descent bound tight and the obstruction sharp"
+    },
+    {
+      "what": "the Fekete / composition-law argument that supermultiplicativity would refute #126",
+      "source": "hunts/r_186989/RESULTS.md section 4",
+      "effect": "kept me from reading g*(2) = 2^2 as encouraging; it is the direction a refutation would come from"
+    }
+  ],
+  "threads": [
+    {
+      "what": "Bound g(k) in terms of g*(k) (general vs primitive admissible sets)",
+      "why_it_might_matter": "it is the only gap between this file's self-contained descent and the classical Erdos-Turan bound; closing it would give g(k) <= C*2^k by a two-page induction",
+      "first_step": "take A extremal minimising sum over a,p of v_p(a) and decide whether A_p and A minus A_p can both be non-empty at the optimum; the measured witness {1,3,7,17,47} says yes, so a bound is needed, not a normalisation"
+    },
+    {
+      "what": "How special is the power-of-2 graph {a+b = 2^t}",
+      "why_it_might_matter": "condition (R2) uses only triangle-freeness, and the real graph is far sparser; it is the cheapest place where the relaxation is loose",
+      "first_step": "bound the edge count of that graph on [1,N] and rerun Theorem 5's upper proof with it in place of clique-size-2; expect at most a factor 2, so time-box it"
+    },
+    {
+      "what": "Decide g*(3) outright",
+      "why_it_might_matter": "Theorem 4 caps it at 8 and search finds 5; a hand proof that it is 5 would be the first measured per-prime loss strictly below 2 with an upper bound attached",
+      "first_step": "finitely many residue patterns mod {3,5} times the power-of-2 pairing; enumerate them against the CRT constraint"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A small exact max-clique-under-a-number-theoretic-predicate probe (bitset branch and bound over [1,N] with a pluggable edge test)",
+      "why_reusable": "r_186989 wrote one, this run wrote a second, and both are the same twenty lines with a different predicate; the next additive-combinatorics hunt will write a third",
+      "first_step": "if a third hunt needs it, lift the bitset search from hunts/support_7ddfee4b/probe.py into a shared exploratory utility with the edge predicate as an argument"
+    }
+  ],
+  "notes_for_operator": "The arm's question had a clean answer in both directions, so this was cheap. The useful shape for briefing the next Erdos-126 arm: the residue/parity/deletion family of arguments is now closed by proof at 2^k, so any further arm on this problem should be either the g -> g* gap (small, self-contained, and the only remaining elementary gap) or the S-unit counting door, and not a fourth pass over residue classes."
+}

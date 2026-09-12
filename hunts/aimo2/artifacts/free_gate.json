@@ -1,0 +1,23 @@
+{
+  "8B only (qwen3-8b:low) [BINDING]|leave-problem-out": {
+    "beats": false,
+    "const": 10,
+    "n": 10,
+    "null95": 0.9,
+    "pred": 9
+  },
+  "all 7 models pooled|leave-model-out": {
+    "beats": false,
+    "const": 65,
+    "n": 70,
+    "null95": 0.929,
+    "pred": 63
+  },
+  "all 7 models pooled|leave-problem-out": {
+    "beats": false,
+    "const": 65,
+    "n": 70,
+    "null95": 0.914,
+    "pred": 65
+  }
+}

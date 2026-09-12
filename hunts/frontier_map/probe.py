@@ -4,13 +4,13 @@ Four controls, per MISSION.md. Nothing in here decides anything; each
 function returns its measurements and the caller (or RESULTS) records them.
 
 1. cross-check: the numeric zeta curve against the paper's closed form
-   (eq. 7.4), pointwise over the whole band — an independent analytic route
+   (eq. 7.4), pointwise over the whole band, an independent analytic route
    that was not used to build the optimiser.
 2. lesion: the same comparison against a deliberately mis-set closed form
    (the sqrt(2) in eq. 7.4 replaced by 1.5, a ~6 percent wound). The
    comparison must light up here, or an agreeing cross-check means nothing.
 3. convergence response: the two lambda = 1 constants re-run up a
-   basis/quadrature ladder, reporting settled digits — the laboratory's
+   basis/quadrature ladder, reporting settled digits, the laboratory's
    precision-response rule applied to the map's two headline points.
 4. monotonicity: H(lambda) must not decrease on a refinement grid strictly
    between the map's samples; a violation would say interpolation on the
@@ -53,7 +53,7 @@ def crosscheck_zeta_curve(lams: list[float] | None = None) -> dict[str, Any]:
 
 
 def _wounded_closed(lam: float) -> float:
-    """Eq. (7.4) with its sqrt(2) mis-set to 1.5 — the planted fault."""
+    """Eq. (7.4) with its sqrt(2) mis-set to 1.5, the planted fault."""
     theta = lam / 1.5
     t = math.tan(theta)
     c = 1.5 * t / (1.0 + theta * t)

@@ -1,0 +1,49 @@
+{
+  "run_id": "6e60277e-c708-492a-b021-34381d30d827",
+  "status": "settled",
+  "conclusion": "The Delsarte LP for kissing numbers has no headroom in its degree: sweeping degree 1-30 in dimensions 3-24, the value stops moving by degree 14 at the latest, and the sweep rediscovers the published degrees 6 and 10 for E8 and Leech on its own. The binding free parameter is instead the node set used to discretise the semi-infinite sign condition, and that discretisation is a relaxation whose optimum sat strictly below the true kissing number at every node count tested, up to 20000 nodes in dimension 24 and 40000 in dimension 8.",
+  "confidence": "Lean on the reproduction and the soundness finding; be careful with the ceiling table's fourth decimal. The two exact certificates were rebuilt from contact structure and reproduce 240 and 196560 to 4e-14 and 1.7e-11 relative, which is a real check against a value that is a theorem elsewhere; five planted faults fire, including one that breaks only the coefficient sign condition and is invisible to the interval scan. The soundness finding is a directly checkable number (196505.76 at 600 nodes for a quantity that is exactly 196560). Everything is float grade, no ball arithmetic anywhere, so each row of the ceiling table is a bracket rather than a bound, and the n=3 saturation degree of 27 may be the 1e-6 tolerance chasing noise.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "the planted-fault ladder discipline: a no-violation verdict may not be reported until faults have been planted and seen to fire",
+      "source": "run 37fb06a9 core candidate, restated in this brief; the same discipline is visible in hunts/ainta_seven_point",
+      "effect": "changed the shape of the probe: the ladder is run before the sweep and its failure prints a warning over the results. It caught a real error in this run, the first control asserted that a node-grid LP solution is admissible, and it is not, which is how the soundness finding in section 2 was found rather than assumed."
+    },
+    {
+      "what": "the exact kissing numbers of E8 and Leech, 240 and 196560, used as the non-model oracle",
+      "source": "literature (Odlyzko-Sloane 1979; Levenshtein 1979)",
+      "effect": "removed the need for any external reference table: the two dimensions where the LP is exactly tight anchor the whole sweep, so the reproduction step could be checked without consulting a printed coefficient list."
+    }
+  ],
+  "threads": [
+    {
+      "what": "adaptive node placement at the known contact values instead of Chebyshev clustering",
+      "why_it_might_matter": "the entire soundness problem is the cost of the node count m; the discretisation error decays only like m^-2 with Chebyshev nodes, so reaching a negligible repair penalty currently costs tens of thousands of nodes",
+      "first_step": "re-run node_sweep(24, 10, ...) with nodes concentrated near {-1/2, -1/4, 0, 1/4} and compare the sup of f at equal m"
+    },
+    {
+      "what": "the n=3 row saturates at degree 27, against 14 or below for every other dimension",
+      "why_it_might_matter": "it is the only counterexample to the headline of section 3, that degree saturates early",
+      "first_step": "re-run dimension 3 at m=20000 with the saturation tolerance at 1e-9 and see whether the saturation degree drops"
+    },
+    {
+      "what": "the three-point Bachoc-Vallentin SDP, and the Cohn-Elkies packing SDP, are the untouched half of the family issue #110 names",
+      "why_it_might_matter": "this run's result is that the two-point LP has no degree headroom, which is precisely the argument for measuring the ceiling of the method that might",
+      "first_step": "reproduce the Bachoc-Vallentin dimension-4 kissing bound of 24 and sweep its two degree parameters"
+    },
+    {
+      "what": "a rung-2 version of this hunt",
+      "why_it_might_matter": "the repair (f -> f - sup f) is exactly the shape that ball arithmetic can carry end to end, so the repaired value could become an enclosure-carrying bound rather than a float one",
+      "first_step": "recompute sup_on_interval with zeta/rigor.py enclosures and rationalise the LP coefficients before the repair"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a semi-infinite-LP repair instrument: given a polynomial certificate solved on a finite node set, verify the sign condition off that node set and return the repaired value (f(1) - M)/(f_0 - M) plus the bracket [node optimum, repaired value]",
+      "why_reusable": "every semi-infinite programme this lab has touched or will touch (Delsarte LP, Cohn-Elkies, Bachoc-Vallentin, Weil-positivity probes in zeta/weil.py) is solved by discretising a continuum of constraints, and the discretisation is always a relaxation in the same direction. The instrument turns 'the grid may have been too coarse' from a fatal objection into an explicit price, and it is subject-agnostic: it takes a basis-evaluation callable and an interval, nothing else.",
+      "first_step": "lift sup_on_interval and repaired_bound out of hunts/r_6f0f63/probe.py into a small module taking (basis_matrix_fn, interval) and returning the bracket; the first live consumer is the positivity probe in zeta/weil.py, which currently reports a sampled minimum"
+    }
+  ],
+  "notes_for_operator": "CLOSE THE LOOP did not apply as written. This task came from GitHub issue #110, not from a function in harness/: no entry in review_ledger.py, guard_ledger.py or graveyard_ledger.py concerns sphere packing, kissing numbers or semi-infinite programming, and scripts/70_lab_state.py returns nothing about this run. Rather than fabricate an AttackOutcome against a claim this laboratory never made, the loop was closed where the task actually opened, with a comment on issue #110. If the brief generator believes this task came from a ledger, that belief is wrong and the generator is the thing to look at. Second note: running scripts/70_lab_state.py writes figures/lab_state.html, which is untracked and outside this hunt's scope, so it was deliberately not committed. Third: the run exceeded its 30-minute budget, by roughly 20 minutes, almost all of it in writing the artifacts rather than computing; the probe itself runs in 7 seconds."
+}

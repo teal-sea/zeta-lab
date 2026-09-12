@@ -46,13 +46,13 @@ set_option grind.warning false
 
 Main results:
 
-* `retention_gap` — the exact gap identity.
-* `retention_of_damage` — the retention inequality holds as soon as the total damage
+* `retention_gap`: the exact gap identity.
+* `retention_of_damage`: the retention inequality holds as soon as the total damage
   `∑_j (Qim² - Qre²)` is at most `Shq y / 2`.
-* `retention_separated_of_le` — the retention inequality for **every** `n`, every `t` and every
+* `retention_separated_of_le`: the retention inequality for **every** `n`, every `t` and every
   `y ∈ [0, 1/2]`, provided consecutive offsets are separated by any `d ≥ 4`.
-* `retention_separated` — the case `d = 2π` asked for in `PROBLEM.md`.
-* `retention_le_three` — the case `n ≤ 3`, with no separation hypothesis.
+* `retention_separated`: the case `d = 2π` asked for in `PROBLEM.md`.
+* `retention_le_three`: the case `n ≤ 3`, with no separation hypothesis.
 -/
 
 namespace Retention

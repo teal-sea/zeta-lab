@@ -1,4 +1,4 @@
-"""Tests for ``ontology.knownness`` — the already-known gate.
+"""Tests for ``ontology.knownness``, the already-known gate.
 
 The gate is only worth having if it is hard to fool in the flattering
 direction, so most of what is pinned here is a *refusal*: a spurious relation
@@ -446,7 +446,7 @@ class TestSafeEval:
 
 
 # ---------------------------------------------------------------------------
-# 2. closed-form identification — the positive case
+# 2. closed-form identification, the positive case
 # ---------------------------------------------------------------------------
 
 
@@ -510,7 +510,7 @@ class TestIdentifyKnownConstants:
 
 
 # ---------------------------------------------------------------------------
-# 3. closed-form identification — the refusals
+# 3. closed-form identification, the refusals
 # ---------------------------------------------------------------------------
 
 
@@ -607,7 +607,7 @@ class TestIdentifyRefuses:
     def test_a_high_precision_literal_supplies_its_own_headroom(self):
         report = K.identify_constant(LAMBDA1_TEXT, base_digits=15)
         assert report.identified is True
-        # the literal carries 39 digits, so that is the ceiling — not the 40 the
+        # the literal carries 39 digits, so that is the ceiling, not the 40 the
         # caller asked for. The escalation never uses digits nobody wrote down.
         assert report.escalated_digits == 39
         assert report.match.digits_confirmed >= 30
@@ -1365,7 +1365,7 @@ class TestFoundMustCiteSomething:
     """``found`` is the claim that manufactures a terminal ``known`` verdict.
 
     ``not_found`` was already required to name the sources it consulted, but
-    ``found`` — the stronger claim — was not required to cite anything, so a
+    ``found``, the stronger claim, was not required to cite anything, so a
     backend could make the gate emit a verdict that ``verdict_reasons``
     refuses, which aborts a funnel run three layers away.
     """

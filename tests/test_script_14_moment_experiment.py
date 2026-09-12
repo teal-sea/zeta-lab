@@ -1,19 +1,19 @@
-"""Tests for ``scripts/14_moment_experiment.py`` — locally generated moments.
+"""Tests for ``scripts/14_moment_experiment.py``, locally generated moments.
 
 The script makes four kinds of claim, and each is pinned here rather than
 trusted:
 
-* **the constants** — ``c_k`` is re-derived from an Euler product and the
+* **the constants**: ``c_k`` is re-derived from an Euler product and the
   Keating--Snaith ratio on every run.  ``a_2 = 6/pi^2`` and ``c_2 = 1/(2 pi^2)``
   are theorems, so they are checked against closed forms, not against the
   script's own cross-check;
-* **the calibration** — the measured 2nd moment must agree with the difference
+* **the calibration**: the measured 2nd moment must agree with the difference
   of Ingham's two-term global main term across the chosen window.  This is a
   numerical instrument test, not a short-interval theorem;
-* **the pairwise thresholds** — Cauchy--Schwarz is checked algebraically and the
+* **the pairwise thresholds**: Cauchy--Schwarz is checked algebraically and the
   output must not promote a two-moment consistency condition into a reachability
   claim about either moment alone;
-* **the honest-scope statements** — the output must label local comparisons as
+* **the honest-scope statements**: the output must label local comparisons as
   diagnostics and say that nothing settles RH. A console whose caveats can be
   deleted without a test failing will eventually have them deleted.
 

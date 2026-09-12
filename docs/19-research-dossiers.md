@@ -1,12 +1,12 @@
-# 19 — Research dossiers: an experiment in AI-native mathematical state
+# 19. Research dossiers: an experiment in AI-native mathematical state
 
-*A side project, and a probe rather than a department — see §6, which is the
+*A side project, and a probe rather than a department, see §6, which is the
 most useful part of this document because it is the part that says no.*
 
 ## 1. The question
 
-Can mathematical research state — intent, definitions, provenance, evidence,
-failed attempts, proof obligations and verification status — be represented in
+Can mathematical research state, intent, definitions, provenance, evidence,
+failed attempts, proof obligations and verification status, be represented in
 a structured form that helps an agent perform and **resume** rigorous
 mathematical work?
 
@@ -21,7 +21,7 @@ share a name; `zeta.explicit.li` is the logarithmic integral while `zeta/li.py`
 is Li's criterion, and importing one shadows the other.
 
 A person escapes those by rereading a docstring. An agent resuming cold has no
-such reflex — and the expensive version of the error is not a wrong import. It
+such reflex, and the expensive version of the error is not a wrong import. It
 is a definition that is **formally impeccable and denotes the wrong object**.
 
 Hardy's Z is the sharpest available example, and it is why the worked example
@@ -30,7 +30,7 @@ is Hardy Z and not something more impressive:
 | candidate | real on the line? | same zeros? | usable? |
 | --- | --- | --- | --- |
 | `Z(t) = e^{iϑ(t)}ζ(½+it)` | yes | yes | **yes** |
-| `\|ζ(½+it)\|` | yes | yes | **no** — never negative, so no sign change to bisect |
+| `\|ζ(½+it)\|` | yes | yes | **no**, never negative, so no sign change to bisect |
 
 The rejected candidate passes every obvious check. It is real, it is even, it
 vanishes at exactly the right points, and it is useless, because the entire
@@ -42,7 +42,7 @@ purpose is the sign change" cannot catch it.
 ### 3.1 Intent is data
 
 `dossier.schema.Intent` carries, in prose and before any formula, what the
-object is *for* — plus `distinguishes_from`, the list of things it is most
+object is *for*, plus `distinguishes_from`, the list of things it is most
 likely to be confused with. A definition can be checked against a formula; the
 intent can only be stated, and stating it is what makes a later mismatch
 visible.
@@ -58,7 +58,7 @@ field an agent must read.
 
 | axis | what it means | how it fails |
 | --- | --- | --- |
-| `numeric` | a computation agreed at the sample points | agreement to forty digits is compatible with falsity — `docs/08` |
+| `numeric` | a computation agreed at the sample points | agreement to forty digits is compatible with falsity, `docs/08` |
 | `certified` | every step carried an enclosure | proves something about a *finite* computation only |
 | `literature` | the published record | the citation may be about a different object |
 | `formal` | a proof kernel accepted it | the Lean statement may not be the statement meant |
@@ -69,13 +69,13 @@ There is no `is_verified`, no score, and no ordering. `Support.__bool__`
 that keeps it that way.
 
 The axes are not decoration. In the Hardy Z dossier they first read
-`agrees-to-tolerance / not-attempted / standard / stated-unchecked` — measured
+`agrees-to-tolerance / not-attempted / standard / stated-unchecked`: measured
 but not proved, no enclosure ever run, textbook in the literature, and a
 complete Lean proof that nothing had watched a kernel accept. (That fourth
 value did not exist when this was written; see §5b.1.) Since 2026-08-07 the
 fourth axis reads `proved`: a watched `lake build` accepted the five lemmas,
 and the record carries the observation's date and toolchain. The upgrade
-exposed the schema's next gap in live use — the record stayed
+exposed the schema's next gap in live use, the record stayed
 `stated-unchecked` for hours after the first green root build, because
 nothing coupled build evidence to recorded status. The coupling now exists
 as tests (`tests/test_dossier_hardy_z.py`): a PROVED record must cite a
@@ -89,10 +89,10 @@ weighting across the four axes that nobody can defend.
 
 `dossier_reasons` reports every problem at once and refuses:
 
-- a dossier with **no intent** — a formula with no way to tell if it is the right formula;
-- a dossier with **no discriminating obligation** — an obligation nothing plausible fails is a tautology dressed as a check;
-- an axis **asserting support with no artifact** — an assertion nobody can re-derive is decoration;
-- a **rejected alternative with no reason**, and an **open question with no `what_would_settle_it`** — both are what an agent resuming cannot act on.
+- a dossier with **no intent**, a formula with no way to tell if it is the right formula;
+- a dossier with **no discriminating obligation**, an obligation nothing plausible fails is a tautology dressed as a check;
+- an axis **asserting support with no artifact**, an assertion nobody can re-derive is decoration;
+- a **rejected alternative with no reason**, and an **open question with no `what_would_settle_it`**, both are what an agent resuming cannot act on.
 
 `RejectedAlternative` is the field a human would never write unprompted and the
 one an agent most needs: without it the next pass re-derives the same dead end
@@ -101,17 +101,17 @@ reasonable.
 
 ## 5. What was actually measured
 
-Not asserted — run, in `tests/test_dossier_hardy_z.py`:
+Not asserted, run, in `tests/test_dossier_hardy_z.py`:
 
 - The two definitions in this tree agree. `e^{iϑ(t)}ζ(½+it)` versus
-  `Λ(½+it) / (π^{-¼}·|Γ(¼+it/2)|)` — the route the Lean draft takes — agree to
+  `Λ(½+it) / (π^{-¼}·|Γ(¼+it/2)|)`, the route the Lean draft takes, agree to
   **3.4e-31** at dps = 30 across seven ordinates.
 - A **convention question got settled by that check.** The Lean draft's
   docstring says it uses the completed zeta "to avoid needing a continuous
   branch of log Γ". That is right, and the dossier now records *why*: dividing
   by the positive real `π^{-¼}|Γ|` leaves `(Γ/|Γ|)·π^{-it/2}·ζ`, and `Γ/|Γ|` is
   an honest complex number that required no branch to form. The branch is
-  needed only when ϑ is wanted as a real, continuous phase counter — for Gram
+  needed only when ϑ is wanted as a real, continuous phase counter, for Gram
   points and N(T). Defining Z and counting zeros are different requirements,
   and only the second one needs the branch.
 - The rejected alternative was **run alongside** the accepted one and shown to
@@ -136,7 +136,7 @@ nothing here watched a kernel accept them. None of the four original
 | value | why it was wrong |
 | --- | --- |
 | `not-attempted` | denies work that plainly exists |
-| `stated-with-sorry` | false — there is no `sorry` |
+| `stated-with-sorry` | false, there is no `sorry` |
 | `failed` | a lie |
 | `proved` | asserts that a kernel accepted something nobody watched it accept |
 
@@ -161,7 +161,7 @@ Five lemmas are proved about `hardyZ`:
 And **nothing about the sign of Z.** The word "sign" does not appear in the
 file.
 
-That is the one discriminating obligation in the dossier — the only property
+That is the one discriminating obligation in the dossier, the only property
 separating Z from `|ζ(½+it)|`, which satisfies *every other row of that table*.
 A formalisation can be complete about realness, evenness, magnitude, zero
 locations and continuity, and still not have said the thing that makes the
@@ -169,7 +169,7 @@ object worth defining.
 
 This is not an error and nobody was misled: the ordering is defensible, since
 `continuous_hardyZ` is exactly the groundwork an intermediate-value argument
-needs, and the missing piece is two numeric bounds — which is what
+needs, and the missing piece is two numeric bounds, which is what
 `lean/ZetaLean/Rigor.lean` exists for. But it is the first thing this
 experiment surfaced that was not already known to whoever wrote it, and it was
 surfaced by the schema's own structure: obligations carry per-axis status, and
@@ -177,15 +177,15 @@ one column of that table was empty in exactly the row marked discriminating.
 
 Pinned by
 `tests/test_dossier_hardy_z.py::test_the_discriminating_obligation_is_the_one_lean_does_not_cover`,
-which fails the moment Lean gains a sign lemma — a test designed to be deleted.
+which fails the moment Lean gains a sign lemma, a test designed to be deleted.
 
 Against §7's list, this is a partial answer to item 4 and no answer at all to
 items 1, 2, 3 or 5. It found a **coverage gap**, prospectively, not an error.
 
 ## 6. The finding that matters: this is a probe, not a department
 
-`harness/README.md` states the admission rule — **no department without a
-battery** — and `validate_battery` enforces it structurally. The honest
+`harness/README.md` states the admission rule, **no department without a
+battery**, and `validate_battery` enforces it structurally. The honest
 question is whether this work can meet it. It cannot yet, and the reason is
 worth more than the code.
 
@@ -193,13 +193,13 @@ A battery needs rivals: things that **share the claimed structure and lack the
 property**. Ask what a rival to a *dossier* is, and two answers appear, both
 unsatisfactory:
 
-1. **A rival dossier** — e.g. one built for `|ζ(½+it)|` with Hardy Z's intent.
+1. **A rival dossier**: e.g. one built for `|ζ(½+it)|` with Hardy Z's intent.
    This is a genuine modus tollens and it works; the essence of it is already
    in `test_Z_changes_sign_but_the_rejected_alternative_does_not`. But the
    thing being killed is a claim about **ζ**, adjudicated by **the zeta
    department's** subject matter. The dossier layer contributed the bookkeeping,
    not the refutation.
-2. **A malformed dossier** — one with no discriminating obligation, or
+2. **A malformed dossier**: one with no discriminating obligation, or
    asserting support with no artifact. `dossier_reasons` catches all of those.
    But that is a unit test of a validator wearing a battery's clothes. Decoys,
    surrogates and lesions built this way would all be testing *my own code*
@@ -217,7 +217,7 @@ in no department table. It is a probe, and it is labelled one in every file.
 
 **What would make it a department.** The subject would have to become
 *representations of research state* rather than the mathematics being
-represented — and then a rival is a competing representation that carries the
+represented, and then a rival is a competing representation that carries the
 same fields and loses something the dossier claims to preserve. Concretely: a
 flat "notes.md" and a `verified: bool` record, run through the same resumption
 task, where the dossier is claimed to preserve what they drop. That is a
@@ -227,7 +227,7 @@ anything. Until then, the rule stands and this stays a probe.
 
 ## 7. Before extracting this into its own project
 
-Not a roadmap — a list of things that would have to be *demonstrated*, since
+Not a roadmap, a list of things that would have to be *demonstrated*, since
 right now the honest summary is "one schema, one example, no evidence it
 helps":
 
@@ -241,7 +241,7 @@ helps":
    is only worth anything if `certified` can be flipped by actually running an
    enclosure and `formal` by actually building the Lean file. Until then the
    four axes are an honest vocabulary, not an honest measurement.
-4. **A dossier that catches a real error.** Partially answered — see §5b.2,
+4. **A dossier that catches a real error.** Partially answered, see §5b.2,
    where the record made visible that the formalisation covers every
    obligation except the discriminating one. That is a coverage gap found
    prospectively, which is more than the retrospective `|ζ|` example, and less

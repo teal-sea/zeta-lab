@@ -16,7 +16,7 @@ the whole strip 0 < Im s < T, wherever their real parts are:
     N(T) = 1 + θ(T)/π + S(T),      S(T) = (1/π) arg ζ(1/2 + iT).
 
 If the number of sign changes of Z on (0, T) equals N(T), every unit of the
-strip count is accounted for by a simple critical-line zero — i.e. RH holds
+strip count is accounted for by a simple critical-line zero, i.e. RH holds
 up to height T, as a finite theorem, not statistics.
 """
 
@@ -95,7 +95,7 @@ def main() -> None:
             worst = max(
                 abs(zs[k] - mp.im(mp.zetazero(k + 1))) for k in range(n_check)
             )
-        print(f"Oracle check: first {n_check} ordinates vs mpmath.zetazero — "
+        print(f"Oracle check: first {n_check} ordinates vs mpmath.zetazero, "
               f"max |Δγ| = {mp.nstr(worst, 3)}")
         print()
 
@@ -114,10 +114,10 @@ def main() -> None:
         print(f"==> ALL {res['N_T']} zeros of ζ with 0 < Im s < {args.T:g} are "
               "SIMPLE and lie EXACTLY")
         print("    on the critical line Re s = 1/2.  RH is verified up to this "
-              "height —")
+              "height:")
         print("    a finite proof for this range (modulo the floating-point "
               "sign")
-        print("    evaluations of Z — this scan is not interval arithmetic), "
+        print("    evaluations of Z, this scan is not interval arithmetic), "
               "not statistics.")
     else:
         print(f"COUNTS DISAGREE: {res['n_sign_changes']} sign changes vs "

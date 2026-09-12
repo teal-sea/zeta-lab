@@ -1,0 +1,16 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "ZetaLean.Palomar.pub1_strong_closure",
+    "ZetaLean.Palomar.pub1_strong_closure_reciprocal",
+    "ZetaLean.Palomar.pub1_strong_closure_exists"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

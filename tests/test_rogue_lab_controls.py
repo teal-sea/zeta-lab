@@ -10,7 +10,7 @@ here is the part that must never regress:
 * the dust-torus "calibration" is a two-parameter affine fit that works
   equally well when the geometry is replaced by noise (docs/17 case 1);
 * the Dirichlet xp "imposter gauntlet" is a realness detector: any real
-  coefficient sequence — including the true Davenport-Heilbronn one —
+  coefficient sequence, including the true Davenport-Heilbronn one,
   yields a real antisymmetric matrix and therefore a purely imaginary
   spectrum (docs/17 case 2);
 * the Sierra-Townsend discretization has an equally spaced ladder

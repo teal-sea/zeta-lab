@@ -1,4 +1,4 @@
-# BRIDGE-SPEC — the composition restated on upstream's own objects
+# BRIDGE-SPEC: the composition restated on upstream's own objects
 
 **Sprint 1 draft, 2026-08-12.** Lane 1 step 2 of `PIPELINE.md`. This is the
 specification a later session turns into an Aristotle submission for
@@ -88,7 +88,7 @@ Three things are deliberate:
 3. **Multiplicities are ℕ upstream and ℝ in Lemma R.** `ZeroBlockData.m` is
    `ι → ℕ` with `one_le_m`; `Pmat`/`rank_trace_mult` take `m : ι → ℝ` with
    `0 ≤ m j`. The coercion `fun z => (D.m z : ℝ)` and the discharge of
-   `hm` from `one_le_m` are part of the obligation, not an afterthought —
+   `hm` from `one_le_m` are part of the obligation, not an afterthought,
    a cast mismatch here is the most likely way a generated proof ends up
    proving something adjacent to what is needed.
 

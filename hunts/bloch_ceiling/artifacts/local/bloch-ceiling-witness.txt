@@ -1,0 +1,9 @@
+Arb precision: 50 decimal digits
+witness: even polynomial of degree 44, kappa=99971/100000
+near-zero H(t) on [0,1/10000]: [[0.000207716384568 +/- 2.03e-16], [0.000579938558632 +/- 3.16e-16]]
+annulus boxes evaluated: 53302 (33051 terminal)
+largest terminal upper enclosure for (1-|z|^2)^2|p(z)|^2: [0.999999989425 +/- 2.22e-13]
+fixed-radius ceiling witness: Phi_even - sqrt(3)/4 <= [0.01519720970909415 +/- 1.07e-19]
+target comparison: [0.01519720970909415 +/- 1.07e-19] < [0.015200000000000000000000000000000000000000000000000 +/- 1.44e-54]
+PASS: the fixed-radius approach is rigorously capped below +0.0152
+timeout 280 .venv/bin/python src/certify_fixed_radius_ceiling.py  3.46s user 0.02s system 99% cpu 3.491 total

@@ -43,7 +43,7 @@ a corollary of a 2022 theorem on almost periodic functions
 
 **Body:**
 
-While adjudicating prior art for hunt #35 (`hunts/prime_zeta_rightmost/`)
+While adjudicating prior art for hunt #60 (`hunts/prime_zeta_rightmost/`)
 we noticed that two published results, which do not cite each other, are the
 two directions of one statement, and that one paper's open conjecture is the
 other paper's theorem.
@@ -98,7 +98,7 @@ hypothesis-by-hypothesis specialization, and a gap analysis of the bridge
 (two harmless technicalities noted: max versus sup on an open condition, and
 sigma_T being undefined for small T). Section 10 records why our own search
 missed both papers, which is the more transferable lesson.
-`docs/28-prime-zeta-rightmost-zeros.md` is the public reading-course page,
+`docs/30-prime-zeta-rightmost-zeros.md` is the public reading-course page,
 rewritten to lead with the prior art.
 
 **What is not claimed.** Nothing here bears on the Riemann Hypothesis: every

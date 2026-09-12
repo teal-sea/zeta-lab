@@ -7,7 +7,7 @@ capabilities, because you cannot automate what you cannot state.
 ## The question
 
 The laboratory currently uses models in one role: the experimenter. Agents run
-hunts, write instruments, compute. Almost everything else is mechanical —
+hunts, write instruments, compute. Almost everything else is mechanical,
 the funnel's generators, the battery, the integrity audit, the promotion gate.
 The obvious question is why, and the obvious answer is "no reason, we should
 do more of it". That answer is too fast.
@@ -70,7 +70,7 @@ persuasive here, which is exactly what makes it a good target.
 **3. Standing adversarial review.** The director run's skeptics found six real
 defects in recorded claims, two of them in controls that could not fire. That
 worked, and it is currently a one-off event rather than a standing process. The
-oracle is partial — a skeptic can be wrong — but every defect it proposes is
+oracle is partial, a skeptic can be wrong, but every defect it proposes is
 independently reproducible before it is written down, which is the discipline
 that made the original run count.
 
@@ -89,7 +89,7 @@ obviously escape that, and nothing currently measures whether it does.
 **Volume conjecture generation.** Dead twice, on the record. Programme P4 was
 retired by its own pre-registered falsification test (fewer than 3 of 60
 candidates surviving a five-minute attack). The same mistake was repeated on
-2026-08-11 — a fan-out generating several hundred candidate propositions across
+2026-08-11, a fan-out generating several hundred candidate propositions across
 fourteen territories, abandoned as the wrong altitude before it finished, on
 operator instruction. The failure mode is specific: models generate
 plausible-*shaped* statements, and plausible-shaped is exactly what the funnel

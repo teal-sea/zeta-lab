@@ -3,11 +3,11 @@
 > A computational laboratory for the Riemann zeta function: verified numerics,
 > runnable demonstrations, and a written course covering the Riemann Hypothesis
 > from the harmonic series to the research frontier. It is an instrument for
-> building intuition, **not** a proof attempt — nothing computed here is
+> building intuition, **not** a proof attempt, nothing computed here is
 > evidence for RH, and `docs/08` explains why no computation could be.
 
 The generated public record of what is established, candidate or withdrawn is
-at <https://zeta-record.vercel.app>, built from this tree on every push.
+at <https://zeta.teal-sea.com>, built from this tree on every push.
 
 Everything is Python + mpmath/Arb, tested against independent oracles. The
 organising idea: theta is the heat kernel, Poisson summation gives its modular
@@ -18,18 +18,21 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 
 ## Start here
 
-- [README.md](README.md): front door — the door switchboard, quickstart, repo map.
+- [README.md](README.md): front door, the door switchboard and quickstart.
+- [docs/README.md](docs/README.md): the index of all thirty-seven documents.
+- [docs/36-what-you-can-run.md](docs/36-what-you-can-run.md): the runnable
+  demonstrations, the figure gallery, the repository map, the limitations.
 - [docs/doors/README.md](docs/doors/README.md): one short page per way in
   (learn / refute / certify / discover / adopt) plus one per department. One
   spine, several doors: start here rather than reading README top to bottom.
-- [AGENTS.md](AGENTS.md): operating context for coding agents — setup, house
+- [AGENTS.md](AGENTS.md): operating context for coding agents, setup, house
   rules, naming traps, honest-scope policy. Read before changing anything.
-- [ROADMAP.md](ROADMAP.md): the decisions — strategic bet, deliberate
+- [ROADMAP.md](ROADMAP.md): the decisions, strategic bet, deliberate
   non-goals, known gaps, next build. Read before planning work.
 - [CONTEXT.md](CONTEXT.md): generated index of the full API, docs, scripts and
   test counts. Regenerate with `python scripts/make_context.py`.
 - [references/mathlib-open-targets.md](references/mathlib-open-targets.md):
-  generated from Mathlib's own `docs/1000.yaml` — the famous theorems it
+  generated from Mathlib's own `docs/1000.yaml`, the famous theorems it
   records as wanted and unbuilt. The upstream track for `lean/`; judgment
   lives in ROADMAP.md. Regenerate with `python scripts/mathlib_gaps.py`.
 
@@ -44,7 +47,7 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - [docs/06-hilbert-polya-and-gue.md](docs/06-hilbert-polya-and-gue.md): the spectral dream and random-matrix statistics.
 - [docs/07-equivalences-and-criteria.md](docs/07-equivalences-and-criteria.md): statements equivalent to RH.
 - [docs/08-why-it-is-hard.md](docs/08-why-it-is-hard.md): what each known technique provably cannot do.
-- [docs/22-detector-strength-findings.md](docs/22-detector-strength-findings.md): how much a detector can actually see — power, measured.
+- [docs/22-detector-strength-findings.md](docs/22-detector-strength-findings.md): how much a detector can actually see, power, measured.
 - [docs/09-new-ontologies.md](docs/09-new-ontologies.md): what "RH needs new mathematics" means.
 - [docs/10-trace-formulas-and-connes.md](docs/10-trace-formulas-and-connes.md): explicit formula as a trace formula.
 - [docs/11-f1-and-the-missing-geometry.md](docs/11-f1-and-the-missing-geometry.md): the field with one element; Deninger.
@@ -53,16 +56,16 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - [docs/14-how-new-mathematics-gets-invented.md](docs/14-how-new-mathematics-gets-invented.md): eleven ways new mathematics has been invented, scored against the Frobenius gap.
 - [docs/15-the-f1-discovery-engine.md](docs/15-the-f1-discovery-engine.md): the F1 discovery engine.
 - [docs/16-poisson-cokernel-plan.md](docs/16-poisson-cokernel-plan.md): the cokernel plan, and the experiment that closed the matrix route.
-- [docs/17-the-falsification-harness.md](docs/17-the-falsification-harness.md): **the methods retrospective** — five claims of zero structure arrived in one day and the existing controls refuted all five. Start here for the validation methodology.
+- [docs/17-the-falsification-harness.md](docs/17-the-falsification-harness.md): **the methods retrospective**, five claims of zero structure arrived in one day and the existing controls refuted all five. Start here for the validation methodology.
 - [docs/18-five-longshots.md](docs/18-five-longshots.md): five longshot probes, each run to its wall.
-- [docs/19-research-dossiers.md](docs/19-research-dossiers.md): the dossier probe — representing research state; §6 is why it is not a department.
+- [docs/19-research-dossiers.md](docs/19-research-dossiers.md): the dossier probe, representing research state; §6 is why it is not a department.
 
 ## The referee (`harness/`)
 
 - [harness/README.md](harness/README.md): the falsification protocol with the
-  subject factored out. Four instrument roles — rivals (share the structure,
+  subject factored out. Four instrument roles, rivals (share the structure,
   lack the property), decoys (ablation), surrogates (null control), lesions
-  (detector power) — bundled into a `Battery`; a `Department` is a battery plus
+  (detector power), bundled into a `Battery`; a `Department` is a battery plus
   a door plus reference claims with known verdicts.
 - The admission rule: **no department without a battery.** A battery with no
   rival, with neither decoy nor surrogate, or with no lesion is refused,
@@ -82,20 +85,20 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - How well it actually works ([docs/23](docs/23-rival-distance-and-detector-independence.md)):
   measured, not argued. Six independent parties given only the public contract
   built batteries that grade CALIBRATED while certifying transparently absurd
-  claims — **six for six**. Two are now caught; four use one mode whose obvious
+  claims, **six for six**. Two are now caught; four use one mode whose obvious
   mechanical fix is measured to invert on this repository's own honest
   departments. Read it before treating a CALIBRATED grade as meaning much. The
   corpus is in `harness/blind_authoring_2026_08_09/`.
 - Entry point for a claim of your own: [docs/doors/refute.md](docs/doors/refute.md).
 
-## Probes — not departments (`dossier/`, `hunts/`)
+## Probes: not departments (`dossier/`, `hunts/`)
 
 - The admission rule is **no department without a battery**. Work whose claims
   nothing in this tree can falsify is a *probe*, and probes are kept where
   nobody will mistake one for a result. Two live ones:
 - [dossier/README.md](dossier/README.md) + [docs/19-research-dossiers.md](docs/19-research-dossiers.md):
-  an experiment in representing research state — intent, definitions, rejected
-  alternatives, semantic obligations, evidence — so an agent can resume rigorous
+  an experiment in representing research state, intent, definitions, rejected
+  alternatives, semantic obligations, evidence, so an agent can resume rigorous
   work. Keeps four *independent* support axes (numeric / certified / literature
   / formal) and refuses to aggregate them; `Support.__bool__` raises. One worked
   example (Hardy Z), run with `scripts/50_dossier.py`.
@@ -108,7 +111,7 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 ## The conjecture factory (`ontology/`)
 
 - [ontology/README.md](ontology/README.md): design document for the discovery
-  funnel — five candidate kinds, six verdict states, the deduplication contract,
+  funnel, five candidate kinds, six verdict states, the deduplication contract,
   what the schema cannot express, and the historical validation. A pipeline that
   logs itself so the conversion rate per generator can be measured: on a fresh
   ledger, 26 candidates → 20 already known, 1 trivial, 5 inconclusive, 0
@@ -125,10 +128,10 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - Lean 4 + Mathlib package `ZetaLean`: theorems kernel-checked, never
   measured; zero `sorry`s required to count. Rungs 1 (ground-truth values and
   the zero-free half-plane) and 2 (the κ derivation) are done; rung 3, the
-  Davenport–Heilbronn theorem, is mathematics-complete — analytic half,
+  Davenport–Heilbronn theorem, is mathematics-complete, analytic half,
   square-contour minimum-modulus criterion, certified interval `exp`/`log`
   and complex `exp`, `n^{-s}` enclosures, tail bounds at three orders
-  (`K^{-σ}`, `K^{-(σ+1)}`, `K^{-(σ+2)}` — the steeper two cut the required
+  (`K^{-σ}`, `K^{-(σ+1)}`, `K^{-(σ+2)}`, the steeper two cut the required
   certified terms ~800×), and worked instances (`DH(3/2 + 3i) ≠ 0`; the
   order-2 pipeline end to end). What is left is one ~half-day offline
   kernel run, priced in `HANDOFF.md`. Build: `cd lean && lake build`.

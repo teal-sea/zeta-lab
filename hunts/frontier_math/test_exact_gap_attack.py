@@ -2,14 +2,14 @@
 
 Five families, in the order the module's claims are made:
 
-(a) **the form**.  The gap by three independent routes — closed forms, the
+(a) **the form**.  The gap by three independent routes, closed forms, the
     single functional against ``c2 dw``, and the two energies it is defined
-    from — must agree, and must agree with the existing quadrature
+    from, must agree, and must agree with the existing quadrature
     evaluators in ``spectral_gap.py``, on eight configurations including
     coincident points and a tight cluster;
 (b) **the kernel**.  ``K = phiR^2`` must be numerically PSD on a fine grid
     (it is a square of a transform, so anything else is a bug), pointwise
-    nonnegative, and decreasing across the first period — the three facts
+    nonnegative, and decreasing across the first period, the three facts
     the closing argument rests on;
 (c) **the relaxation is a lower bound, and it is too weak**.  The convex QP
     must lower-bound every integer configuration supported on its grid; and
@@ -18,7 +18,7 @@ Five families, in the order the module's claims are made:
 (d) **planted faults**.  A wrong coefficient in the identity must break the
     route agreement; inflated damage and a degraded cluster price must each
     turn the window bound negative, and the inflated-damage case must come
-    with an explicit configuration that really is negative — a bound that
+    with an explicit configuration that really is negative, a bound that
     could not say no would be worthless;
 (e) **the small cases against Lean**.  For ``n <= 3`` the extension package
     has a kernel-checked retention theorem with no separation hypothesis

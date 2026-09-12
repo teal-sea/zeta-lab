@@ -1,4 +1,4 @@
-"""Department #3, pinned — the compiler department's wiring, backends and limits.
+"""Department #3, pinned, the compiler department's wiring, backends and limits.
 
 Every number this department reports is measured here rather than trusted from
 a declaration, in the repository's usual habit. History worth knowing when
@@ -10,8 +10,8 @@ second, poison-aware backend, and the conformance suite gained the ``probe``
 convention of FINDINGS §7. Three groups of tests below carry that history:
 
 * ``test_the_concrete_detector_remains_blind_to_the_poison_lesion`` still
-  asserts rung 1's blindness — the arrival of a detector that sees the lesion
-  does not un-measure the one that cannot — and the model tests beside it
+  asserts rung 1's blindness, the arrival of a detector that sees the lesion
+  does not un-measure the one that cannot, and the model tests beside it
   assert the new backend sees exactly what was invisible.
 * The two-backend cross-checks pin the model against compiled output at every
   defined point of every fixture, and pin the model's rival disagreement
@@ -83,7 +83,7 @@ def test_backend_status_names_the_absent_backends_too() -> None:
 def test_without_clang_the_concrete_claim_raises_and_the_model_still_answers() -> None:
     """Self-attack: strip the PATH and confirm each backend fails honestly.
 
-    The clang-based claim must raise rather than answer — a missing detector is
+    The clang-based claim must raise rather than answer, a missing detector is
     not a pass. The model is pure Python and cannot be switched off by the
     environment, so it must keep answering; an environment-proof backend is
     exactly what the dormant-cross-check lesson in ROADMAP.md asks for.
@@ -193,7 +193,7 @@ def test_feeding_a_rival_in_as_the_target_does_not_distinguish() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Ablation — the instrument that turns "our tests pass" into a measurement
+# Ablation, the instrument that turns "our tests pass" into a measurement
 # ---------------------------------------------------------------------------
 
 
@@ -245,7 +245,7 @@ def test_no_unguided_mutant_reproduces_the_targets_agreement() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Detector power — including the blind spot, pinned as a number
+# Detector power, including the blind spot, pinned as a number
 # ---------------------------------------------------------------------------
 
 
@@ -268,8 +268,8 @@ def test_the_concrete_detector_remains_blind_to_the_poison_lesion() -> None:
 
     The predecessor of this test carried the instruction to delete it when a
     refinement backend arrived. The backend arrived; the *blindness of the
-    concrete run* did not go anywhere — a compiled binary still returns the
-    wrapped value, so its tables still agree — and un-pinning it would let
+    concrete run* did not go anywhere, a compiled binary still returns the
+    wrapped value, so its tables still agree, and un-pinning it would let
     someone read rung 1 verdicts as covering the poison class again.
     """
     spec = next(s for s in catalog.LESIONS if s.name == "nsw_flag_on_a_wrapping_shift")
@@ -286,7 +286,7 @@ def test_the_model_sees_the_poison_lesion_the_binary_cannot() -> None:
 
     Same lesioned program as the blindness test above: the concrete tables
     agree exactly, and the model reports refinement failure on precisely half
-    the domain, all of it in the poison class — 32768 poison violations, zero
+    the domain, all of it in the poison class: 32768 poison violations, zero
     value violations. The two backends are not disagreeing; they are answering
     different questions, and only one of them can ask this one.
     """
@@ -345,7 +345,7 @@ def test_every_lesion_violates_refinement_by_exactly_its_declared_magnitude(spec
     """The model closes the two-units gap FINDINGS §3 recorded.
 
     ``magnitude`` was defined as the share of the domain on which the candidate
-    stops being a valid stand-in — a property of the violation, chosen so the
+    stops being a valid stand-in, a property of the violation, chosen so the
     poison lesion's size stayed reportable while no detector could see it. The
     model measures exactly that quantity, for all four lesions, including the
     one whose concrete disagreement is zero.
@@ -395,7 +395,7 @@ def test_the_department_is_registered() -> None:
 def test_the_lesions_and_surrogates_fit_the_generalised_audit_natively() -> None:
     """What the three ``conformance_leak`` tests this replaces documented.
 
-    The shared audit used to call ``lesion.apply(())`` and ``len(sample)`` —
+    The shared audit used to call ``lesion.apply(())`` and ``len(sample)``,
     zeta's payload shapes. It now asks the instrument for a ``probe`` and
     checks ``apply(probe) != probe``. The shapes that could not fit the old
     audit are pinned here so the generalisation cannot be quietly reverted:
@@ -415,9 +415,9 @@ def test_the_lesions_and_surrogates_fit_the_generalised_audit_natively() -> None
 def test_the_strengthened_lesion_rule_catches_an_identity_lesion() -> None:
     """The reason the §7 change is a strengthening and not an accommodation.
 
-    ``len(apply(())) > 0`` — the old rule — is satisfied by a lesion that
-    returns its input untouched; ``apply(probe) != probe`` — the rule the
-    conformance suite now applies — is not.
+    ``len(apply(())) > 0``, the old rule, is satisfied by a lesion that
+    returns its input untouched; ``apply(probe) != probe``, the rule the
+    conformance suite now applies, is not.
     """
 
     class IdentityLesion:
@@ -437,7 +437,7 @@ def test_the_strengthened_lesion_rule_catches_an_identity_lesion() -> None:
 
 
 # ---------------------------------------------------------------------------
-# The two backends check each other — the rigor.py habit, imported whole
+# The two backends check each other, the rigor.py habit, imported whole
 # ---------------------------------------------------------------------------
 
 
@@ -491,7 +491,7 @@ def test_the_candidate_never_claims_a_reserved_or_overstated_word() -> None:
     """``certified`` belongs to ``zeta/rigor.py``; the rest are upgrades of evidence.
 
     Docstrings are exempt because this package's docstrings *discuss* the words
-    in order to disclaim them — ``compiler/semantics.py`` says in prose that it
+    in order to disclaim them, ``compiler/semantics.py`` says in prose that it
     may not borrow ``certified``, and a scan that failed on that sentence would
     be punishing the disclaimer. What is scanned is everything a caller could
     read back as a verdict: identifiers, and every string literal that is not a

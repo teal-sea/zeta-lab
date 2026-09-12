@@ -1,12 +1,12 @@
-"""Department #6: statistical model evaluation — claims about distributions.
+"""Department #6: statistical model evaluation, claims about distributions.
 
 The claim under referee here is the commonest one in applied machine
 learning: **"model B genuinely improves on the baseline."** Every earlier
-department judges deterministic subjects with deterministic instruments —
+department judges deterministic subjects with deterministic instruments,
 one run settles a claim. This subject is different in kind: the measurement
 is a draw from a distribution, the oracle is weak (there is no calendar
 arithmetic for "genuine skill"), and the canonical failure modes are not
-wrong code but wrong *protocols* — test contamination, selection on the
+wrong code but wrong *protocols*, test contamination, selection on the
 evaluation set, a crippled baseline. That difference is why this department
 exists: it attacks the single-run assumption the other five never test.
 
@@ -16,26 +16,26 @@ A subject is a *comparison*: a candidate pipeline, a baseline, and the
 pair's own evaluation protocol. The task is a fixed synthetic regression
 (eight features, two informative, seeded noise), so every number below is
 reproducible and no external dataset is involved. Payloads expose behavior
-only — three callables, never a score a claim could read as a label:
+only, three callables, never a score a claim could read as a label:
 
-* ``reported_improvement()`` — the pair's own protocol's verdict;
-* ``candidate_fresh_mse(seed)`` — the candidate, rebuilt per its own recipe
+* ``reported_improvement()``: the pair's own protocol's verdict;
+* ``candidate_fresh_mse(seed)``: the candidate, rebuilt per its own recipe
   on a *freshly drawn* training set, evaluated on fresh test data;
-* ``baseline_fresh_mse(seed)`` — same for its baseline.
+* ``baseline_fresh_mse(seed)``: same for its baseline.
 
 The rivals all *report* an improvement and have none:
 
-* **memorizer-leak** — the candidate memorizes rows; its protocol evaluates
+* **memorizer-leak**: the candidate memorizes rows; its protocol evaluates
   on rows it was shown (test contamination). Reported: near-perfect.
   Fresh: baseline-level.
-* **seed-hacked** — best of 40 random linear predictors, selected on the
+* **seed-hacked**: best of 40 random linear predictors, selected on the
   evaluation set itself. Reported: positive by selection. Fresh: nothing.
-* **crippled-baseline** — a junk candidate beating a deliberately broken
+* **crippled-baseline**: a junk candidate beating a deliberately broken
   baseline (constant far from the data). Reported: enormous. Fresh: junk.
 
 The distinguishing reference claim measures against the department's own
-honest oracle — the mean predictor's fresh mse, computed by department code
-that never calls any subject — on three fresh draws. The killed claim is
+honest oracle, the mean predictor's fresh mse, computed by department code
+that never calls any subject, on three fresh draws. The killed claim is
 "reports an improvement on its own benchmark", true of everything in the
 room: **a green number on a self-chosen benchmark distinguishes nothing.**
 
@@ -43,7 +43,7 @@ What this department forced out of the shared layer
 ---------------------------------------------------
 ``run_nulls`` compares an observation against **one draw per surrogate**
 with a distance tolerance. For deterministic surrogates that is exact; for
-a distributional null it is the REDTEAM.md W3/W4 failure — a gate whose
+a distributional null it is the REDTEAM.md W3/W4 failure, a gate whose
 pass probability under the null nobody measured. This subject's null (the
 multiple-comparison distribution: apparent improvement of best-of-N junk
 selected on the evaluation set, on data with **no signal at all**) is
@@ -58,10 +58,10 @@ Instrument honesty rules observed (the sham-battery lessons):
 
 * payloads expose behavior only;
 * the honest oracle never calls a subject;
-* lesion magnitudes are the planted contamination *fraction* — a property
+* lesion magnitudes are the planted contamination *fraction*, a property
   of the violation, not of any detector (compiler FINDINGS §3(b));
 * the generalization-gap detector's blindness at small contamination is
-  measured and pinned, not hidden — the direct row-overlap scan sits next
+  measured and pinned, not hidden, the direct row-overlap scan sits next
   to it exactly as the compiler's model backend sits next to its concrete
   one, and the power difference is the measurement.
 """
@@ -92,7 +92,7 @@ NOISE_SCALE = 1.0
 N_ROWS = 64
 RIDGE_LAMBDA = 1e-3
 
-#: Seeds for the distinguishing claim's fresh draws — fixed, so the claim is
+#: Seeds for the distinguishing claim's fresh draws, fixed, so the claim is
 #: deterministic, and disjoint from every subject's own-protocol seed.
 FRESH_SEEDS: tuple[int, ...] = (101, 211, 307)
 
@@ -104,7 +104,7 @@ FRESH_SEEDS: tuple[int, ...] = (101, 211, 307)
 FRESH_MARGIN = 0.9
 
 #: Planted contamination fractions (share of evaluation rows leaked into
-#: training). 0.03125 is 2 rows of 64 — deliberately below what the
+#: training). 0.03125 is 2 rows of 64, deliberately below what the
 #: generalization-gap detector can see, so its blindness is measured.
 LESION_FRACTIONS: tuple[float, ...] = (0.03125, 0.25, 0.75)
 
@@ -137,7 +137,7 @@ __all__ = [
 
 def draw_dataset(seed: int, *, rows: int = N_ROWS, signal: bool = True):
     """One draw of the task: features, targets. ``signal=False`` removes the
-    relationship entirely — the null world for the selection surrogate."""
+    relationship entirely, the null world for the selection surrogate."""
     rng = np.random.default_rng(seed)
     X = rng.normal(size=(rows, N_FEATURES))
     noise = rng.normal(scale=NOISE_SCALE, size=rows)
@@ -146,7 +146,7 @@ def draw_dataset(seed: int, *, rows: int = N_ROWS, signal: bool = True):
 
 
 def ridge_fit(X: np.ndarray, y: np.ndarray) -> np.ndarray:
-    """Closed-form ridge weights — the genuine candidate's recipe."""
+    """Closed-form ridge weights, the genuine candidate's recipe."""
     n = X.shape[1]
     return np.linalg.solve(X.T @ X + RIDGE_LAMBDA * np.eye(n), X.T @ y)
 
@@ -163,7 +163,7 @@ def mean_predictor_mse(y_train: np.ndarray, y_eval: np.ndarray) -> float:
 def oracle_fresh_mean_mse(seed: int) -> float:
     """The department's oracle: the mean predictor's mse on a fresh draw.
 
-    Department code, not payload — the analogue of the calendar oracle in
+    Department code, not payload, the analogue of the calendar oracle in
     department #4. It never calls, imports, or executes any subject.
     """
     X_train, y_train = draw_dataset(seed)
@@ -173,7 +173,7 @@ def oracle_fresh_mean_mse(seed: int) -> float:
 
 
 # ---------------------------------------------------------------------------
-# Subjects: comparisons — candidate, baseline, and their own protocol
+# Subjects: comparisons, candidate, baseline, and their own protocol
 # ---------------------------------------------------------------------------
 
 
@@ -292,7 +292,7 @@ def _junk_weights(seed: int) -> np.ndarray:
 
     1. selecting best-of-40 *unconstrained* random predictors on the full
        evaluation set gave the "sham" genuine skill (measured fresh mse
-       ratios 0.47-0.67, inside the margin) — selection on signal-bearing
+       ratios 0.47-0.67, inside the margin), selection on signal-bearing
        data is weak training;
     2. shrinking the selection slice to 6 rows changed nothing, because in
        this task ~36% of small random weight vectors genuinely beat the
@@ -302,7 +302,7 @@ def _junk_weights(seed: int) -> np.ndarray:
     A rival must lack the property the way finitefield's counterfeits lack
     theirs: by construction. These candidates read only the uninformative
     features, so no selection procedure can extract transferable skill from
-    them — whatever improvement they report is protocol, which is the point.
+    them, whatever improvement they report is protocol, which is the point.
     """
     rng = np.random.default_rng(seed)
     weights = rng.normal(scale=_JUNK_SCALE, size=(_N_CANDIDATES, N_FEATURES))
@@ -327,7 +327,7 @@ def _seedhack_own() -> float:
 
 def _seedhack_fresh_candidate(seed: int) -> float:
     X_test, y_test = draw_dataset(seed + 5000)
-    # Same recipe: select on whatever slice is handed to it — but a fresh
+    # Same recipe: select on whatever slice is handed to it, but a fresh
     # protocol scores the winner on rows it never saw.
     X_sel, y_sel = draw_dataset(seed)
     w = _select_on(X_sel[:_SELECTION_ROWS], y_sel[:_SELECTION_ROWS], _junk_weights(_OWN_SEED))
@@ -362,7 +362,7 @@ RIVALS: tuple[_Comparison, ...] = (
     _Comparison(
         "memorizer-leak",
         "a lookup table shown the evaluation rows and their labels: test "
-        "contamination as a subject — near-perfect reported, nothing fresh",
+        "contamination as a subject, near-perfect reported, nothing fresh",
         _memorizer_own,
         _memorizer_fresh_candidate,
         _genuine_fresh_baseline,
@@ -394,7 +394,7 @@ RIVALS: tuple[_Comparison, ...] = (
 def claim_reports_improvement(payload: dict) -> bool:
     """Fires when the pair's own protocol reports any improvement at all.
 
-    True of the target and of every rival — the calibration claim the
+    True of the target and of every rival, the calibration claim the
     battery must kill: a green number on a self-chosen benchmark
     distinguishes nothing.
     """
@@ -433,7 +433,7 @@ class _LabelShuffleDecoy:
 
     def describe(self) -> str:
         return (
-            "permutes the labels against the features — every marginal moment "
+            "permutes the labels against the features, every marginal moment "
             "survives, the relationship does not"
         )
 
@@ -461,7 +461,7 @@ class _NoiseLabelDecoy:
 def ridge_improvement_on(dataset) -> float:
     """The ablation measure: in-sample ridge improvement over the mean.
 
-    Under either decoy this must collapse toward zero — a pipeline whose
+    Under either decoy this must collapse toward zero, a pipeline whose
     measured improvement does not move when the labels are shuffled was
     never reading the relationship.
     """
@@ -481,7 +481,7 @@ class _SelectionNullSurrogate:
     Each ``sample()`` call advances a seeded stream and returns one draw of
     the *apparent improvement* a selection-on-eval protocol reports in a
     world with no signal whatsoever. The distribution of these draws is the
-    luck floor for any reported improvement — and it is irreducibly a
+    luck floor for any reported improvement, and it is irreducibly a
     distribution, which is what forced ``run_null_band`` into the protocol.
     """
 
@@ -492,7 +492,7 @@ class _SelectionNullSurrogate:
     def describe(self) -> str:
         return (
             "one draw of best-of-40 junk selected on its own evaluation set, on "
-            "data with no signal — the multiple-comparison luck distribution"
+            "data with no signal, the multiple-comparison luck distribution"
         )
 
     def sample(self) -> dict:
@@ -533,7 +533,7 @@ CLEAN_PROTOCOL: dict = {"leak_fraction": 0.0}
 @dataclass(frozen=True)
 class _ContaminationLesion:
     name: str
-    magnitude: float  # the leaked fraction of evaluation rows — the violation's own size
+    magnitude: float  # the leaked fraction of evaluation rows, the violation's own size
     probe: Any = field(default_factory=lambda: dict(CLEAN_PROTOCOL))
 
     def describe(self) -> str:
@@ -582,7 +582,7 @@ def _run_protocol(protocol: dict, seed: int = _SEED_TASK) -> tuple[float, float]
 
 #: The gap detector's threshold, placed against the measured response:
 #: leaking 75% of evaluation rows produces a reported-minus-fresh gap of
-#: ~0.75, 25% gives ~0.25, and 2 rows (3.125%) gives ~0.03 — comfortably
+#: ~0.75, 25% gives ~0.25, and 2 rows (3.125%) gives ~0.03, comfortably
 #: below. 0.1 therefore fires on the two large leaks and is measurably
 #: blind to the smallest, which is the point: a contamination detector's
 #: floor should be a number, not a hope.
@@ -591,7 +591,7 @@ GAP_THRESHOLD = 0.1
 
 def gap_detector(protocol: dict) -> bool:
     """Fires when reported improvement exceeds fresh improvement by more
-    than :data:`GAP_THRESHOLD` — the generalization-gap signature of a
+    than :data:`GAP_THRESHOLD`, the generalization-gap signature of a
     contaminated protocol. Behavioral, and measurably blind below its floor."""
     reported, fresh = _run_protocol(protocol)
     return (reported - fresh) > GAP_THRESHOLD
@@ -599,7 +599,7 @@ def gap_detector(protocol: dict) -> bool:
 
 def overlap_scan(protocol: dict) -> bool:
     """Fires when any evaluation row is literally present in the training
-    set the protocol assembles. Direct and exact — the analogue of the zeta
+    set the protocol assembles. Direct and exact, the analogue of the zeta
     department's off-line scan: it reads the violation itself, so its full
     power is the baseline the behavioral detector is measured against."""
     seed = _SEED_TASK
@@ -621,7 +621,7 @@ DETECTORS = (
         fires=overlap_scan,
         probe=dict(CLEAN_PROTOCOL),
         note=(
-            "exact train/eval row-duplication scan — full power down to one "
+            "exact train/eval row-duplication scan, full power down to one "
             "leaked row, and blind in principle to any contamination that is "
             "not literal duplication"
         ),
@@ -632,7 +632,7 @@ DETECTORS = (
         probe=dict(CLEAN_PROTOCOL),
         note=(
             f"reported-minus-fresh improvement above {GAP_THRESHOLD}: behavioral, "
-            "catches contamination however it entered — and measurably blind "
+            "catches contamination however it entered, and measurably blind "
             "below its floor (2 leaked rows of 64 do not move the gap)"
         ),
     ),
@@ -653,7 +653,7 @@ BATTERY = Battery(
     notes=(
         "every rival reports an improvement and has none: contamination, "
         "selection-on-eval, and a crippled baseline. The null is a "
-        "distribution, not a value — see run_null_band, which this "
+        "distribution, not a value, see run_null_band, which this "
         "department forced into the protocol."
     ),
 )
@@ -665,7 +665,7 @@ REFERENCE_CLAIMS = (
         distinguishes=False,
         note=(
             "true of the target and of all three rivals: a green number on a "
-            "self-chosen benchmark distinguishes nothing — the battery must "
+            "self-chosen benchmark distinguishes nothing, the battery must "
             "kill this"
         ),
     ),
@@ -684,7 +684,7 @@ DEPARTMENT = Department(
     name=DEPARTMENT_NAME,
     summary=(
         "statistical model evaluation: whether a reported improvement is skill "
-        "or protocol — the first department whose measurements are draws from "
+        "or protocol, the first department whose measurements are draws from "
         "a distribution"
     ),
     battery=BATTERY,

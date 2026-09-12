@@ -33,7 +33,7 @@ round-trip against the thing it claims to mirror can only ever confirm itself.*
 The leaf caveat was written down honestly before any build existed, and stayed
 un-measured for exactly as long as nothing forced the comparison.
 
-## 3. What the correction costs — measured, both models, same generator
+## 3. What the correction costs: measured, both models, same generator
 
 | inflation | Arb-model cells | kernel-grade cells | ratio |
 |---|---|---|---|
@@ -55,7 +55,7 @@ Where the width goes, on one box (`s ∈ [6.1, 6.2]`, `y ∈ [0, 1/4]`):
 | `shc` | 0.7x |
 
 So the entire defect lives in the **trig leaves through the argument
-reduction**. The hyperbolic leaves were never the problem — `y ≤ 1/2` keeps
+reduction**. The hyperbolic leaves were never the problem, `y ≤ 1/2` keeps
 `y/2` inside the small-argument range where no reduction happens. `shc` is
 *narrower* in the kernel, because the Arb version padded by `2^-160` on top of
 its series tail while `hornerI` is tight.
@@ -67,8 +67,8 @@ At `1.20x` inflation: **699 cells, 0 undecided, max depth 18**, worst margin
 closes with 0 undecided.
 
 `o9_scoping.max_inflation` is `1.3945x` and that is a wall on **inflation**, not
-on cell count. The corrected table needs **no extra inflation at all** — `1.20x`
-still closes — so §7's budget is untouched and the surplus recorded there
+on cell count. The corrected table needs **no extra inflation at all**, `1.20x`
+still closes, so §7's budget is untouched and the surplus recorded there
 stands. The route is not dead. It is twice as large as advertised.
 
 Kernel reduction cost remains a non-issue: `O9-2D-STATUS.md` §0 measured ~22 s
@@ -85,8 +85,8 @@ refuted on 7 of 9 chunks now decides completely, with no `sorry`, no
 control pins the transcendentals; it says nothing about the ~20 further
 interval operations `rIv` and `qreIv` stack on top of them, and the defect that
 refuted the first table could recur at exactly that level. So
-`EForm3/O9CompEval.lean` `#eval`s both compositions on five boxes — including
-two that reach `y = 0` and one at `s ≈ 56` — and they agree with
+`EForm3/O9CompEval.lean` `#eval`s both compositions on five boxes, including
+two that reach `y = 0` and one at `s ≈ 56`, and they agree with
 `o9_leaf2d.qre_iv` / `r_iv` **10 of 10, integer for integer**. Only then was
 the table believed.
 
@@ -98,16 +98,16 @@ re-decides the table. §5 below is what that green build does *not* say.
 **The table is consistent; it is not yet sound.** `decide +kernel` establishes
 that each recorded box passes the test `o9Box` states, in the kernel's own
 arithmetic. It does **not** establish that passing that test implies
-`Dam y s ≤ c·y²`, because the `_mem` seam lemmas — `rIv_mem`, `qreIv_mem`,
-`sqrScaled_mem`, and the truncation lemma for `shcSmall` — are unwritten. Those
+`Dam y s ≤ c·y²`, because the `_mem` seam lemmas, `rIv_mem`, `qreIv_mem`,
+`sqrScaled_mem`, and the truncation lemma for `shcSmall`: are unwritten. Those
 are what connect an enclosure to the quantity it encloses.
 
 Two are mechanical, following `phiC_mem`. Two are not:
 
 - **The `y = 0` split.** `phiC_mem` carries the hypothesis `y ≠ 0` and the 2-D
   boxes reach `y = 0` by construction. It should be written first, as a case
-  split — at `y = 0`, `Qim = 0` so `Dam = -Qre² ≤ 0` with no arithmetic at all
-  — so the side condition never comes under pressure to be weakened.
+  split, at `y = 0`, `Qim = 0` so `Dam = -Qre² ≤ 0` with no arithmetic at all,
+  so the side condition never comes under pressure to be weakened.
 - **The `shcSmall` truncation lemma.** The genuinely new one:
   `sinh_taylor`'s bound divided by `|v|` blows up exactly where this branch is
   used, so it cannot be borrowed.
@@ -115,4 +115,4 @@ Two are mechanical, following `phiC_mem`. Two are not:
 **Status: O9 open.** Its table now decides at kernel grade, on leaves and
 compositions pinned to the kernel's own arithmetic, and a plain build of the
 `EForm3` chain re-decides it. What remains is soundness, and until it lands, a
-green build means the table is self-consistent — not that O9 holds.
+green build means the table is self-consistent, not that O9 holds.

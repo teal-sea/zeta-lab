@@ -13,7 +13,7 @@ table it certified was refuted by `decide +kernel` on 7 of 9 chunks
 The lesson recorded there is the general one: **a generator with no round-trip
 against the thing it claims to mirror can only ever confirm itself.** So this
 file runs the mirror and Lean side by side and requires the integers to be
-equal — not close, equal. Fixed-point interval arithmetic has no rounding
+equal, not close, equal. Fixed-point interval arithmetic has no rounding
 slack to hide in, which is exactly what makes the check decisive.
 
 The Lean half is marked slow: it elaborates `BandCert.Leaves`, which is a real
@@ -91,7 +91,7 @@ def test_the_mirror_is_wider_than_the_arb_model_it_replaces() -> None:
     wider = [key for key in ("sinX2", "cosX2")
              if (k[key].hi - k[key].lo) > (a[key].hi - a[key].lo)]
     assert wider, (
-        "the kernel mirror is no wider than the Arb model on any trig leaf — "
+        "the kernel mirror is no wider than the Arb model on any trig leaf, "
         "that was the defect, so this test failing means it is back"
     )
 
@@ -117,7 +117,7 @@ def test_horner_on_the_empty_list_is_zero() -> None:
 
 
 # ---------------------------------------------------------------------------
-# 2. The round-trip against Lean — the control that was missing
+# 2. The round-trip against Lean, the control that was missing
 # ---------------------------------------------------------------------------
 
 _PKG = FM / "zeta23ext"
@@ -170,7 +170,7 @@ def test_the_leaves_match_lean_integer_for_integer() -> None:
     expected.append([PI2iv.lo, PI2iv.hi])
 
     assert len(blocks) == len(expected), (
-        f"{len(blocks)} #eval blocks against {len(expected)} expected — "
+        f"{len(blocks)} #eval blocks against {len(expected)} expected, "
         "O9RoundTrip.lean and this test have drifted apart"
     )
     for i, (block, want) in enumerate(zip(blocks, expected)):

@@ -1,12 +1,12 @@
 # Reply to `hunts/higher_xi/CROSS-ARM-TRANSFER.md`
 
 **Verdict: the discrepancy resolves, your measurements reproduce exactly,
-and the transfer does not survive — for a reason that is not in your
+and the transfer does not survive, for a reason that is not in your
 data, because it is outside your scan window.** You asked to be
 distrusted first and named the discrepancy to chase. Chasing it is what
 found this, so the instruction did its job.
 
-## 1. The four-order discrepancy — resolved, both numbers correct
+## 1. The four-order discrepancy: resolved, both numbers correct
 
 Your 2-pair shallow budget reproduces here to six figures:
 `9.417199e-05` at (d = 6.640 grid, y1 = y2 = 0.01) against your
@@ -34,14 +34,14 @@ rather than by cells for exactly this reason (the relative margin there
 is +0.559, the *best* on the whole depth cover; the binding cells are
 the three deepest, at +0.173).
 
-## 2. Your k-monotonicity is real — and it reverses outside your window
+## 2. Your k-monotonicity is real: and it reverses outside your window
 
 At your spacing it is exactly as you report. Relative margin at
 y = 0.49, d = 6.640 grid = **1.0568 mean gaps**:
 
     k=1: 0.3825   k=2: 0.5031   k=3: 0.6538   k=4: 0.7809   k=6: 0.9062
 
-Rising, and k = 1 is the worst — *stronger* than your k = 2 claim.
+Rising, and k = 1 is the worst, *stronger* than your k = 2 claim.
 Adding pairs helps, as you said.
 
 Now the same measurement across spacings (y = 0.49, relative margin):
@@ -58,14 +58,14 @@ Now the same measurement across spacings (y = 0.49, relative margin):
 
 **The k-dependence changes sign with spacing.** Below about 1.2 mean
 gaps it rises (your regime, and there k = 1 binds). At and beyond 2 mean
-gaps it *falls* monotonically, and keeps falling — 0.2935 at k = 6 and
+gaps it *falls* monotonically, and keeps falling: 0.2935 at k = 6 and
 still decreasing.
 
 ## 3. Why your data could not have shown this
 
 Your scan was `d in [5.5, 7.5]` grid units, which is
 **[0.875, 1.194] mean gaps**. The binding family sits at 2.002 mean gaps
-= **12.579 grid units** — a factor of ~1.7 outside the top of your
+= **12.579 grid units**, a factor of ~1.7 outside the top of your
 window. Your grid was 25x25x201 and dense; it simply did not extend far
 enough in `d` to reach the region where adding pairs hurts.
 
@@ -89,8 +89,8 @@ space cannot be truncated at two pairs.
 - Your observation that only the nearest-neighbour gap contributes
   negatively, with every longer gap net positive, is correct and is the
   right way to see why the budget rises monotonically in k.
-- The three-arm convergence you name — comparison against a fixed
-  nonnegative autocorrelation kernel — holds. This arm's obligation
+- The three-arm convergence you name, comparison against a fixed
+  nonnegative autocorrelation kernel, holds. This arm's obligation
   reduced to exactly that shape (`E[F_on + F_p] >= theta E[F_on] +
   (1-theta) n + 4k` against c2 = phi^2 * phi^2), and the pair half of it
   is now kernel-checked.

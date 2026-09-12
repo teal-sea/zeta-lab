@@ -1,4 +1,4 @@
-# 13 — Moments: External Windows, Finite Estimates, Honest Scorecards
+# 13. Moments: External Windows, Finite Estimates, Honest Scorecards
 
 The moments programme starts with a data contract, not a formula. The lab's
 local cache reaches only the low thousands in height; the external tables that
@@ -246,7 +246,7 @@ part of that digest, the scorecard can mechanically require its second through
 eighth moments to come from the identical sample contract.
 
 Binary floats are rejected at this boundary. At the `10^22` landmark, even the
-sample abscissae—not only the imported zeros—must remain decimal offsets.
+sample abscissae, not only the imported zeros, must remain decimal offsets.
 
 ---
 
@@ -435,7 +435,7 @@ instrument/normalization diagnostic, not a test of a global conjecture.
 it generates its own samples at a modest height with
 `zeta.statistics.riemann_siegel_z` and measures the finite moments directly.
 Throughput on an M1 iMac is `≈2.8e5` samples/second at `t ~ 1e6`, so a window of
-width `2e5` at spacing `5e-3` — forty million samples — sweeps in about
+width `2e5` at spacing `5e-3`, forty million samples, sweeps in about
 two minutes.
 
 The calibration uses the 2nd moment, whose two-term global asymptotic is

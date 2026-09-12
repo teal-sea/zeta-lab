@@ -1,0 +1,68 @@
+{
+  "status": "exploratory mask selection, not preregistered; no LP used",
+  "description": "Compared the unmasked carry and five small-prime masks at p=17 and R=20000. Used analytic upper caps on masks. Selected mask 2,3,5,7 for the reported R=100000 sequence. Failed unmasked case and other masks retained here.",
+  "rows": [
+    {
+      "mask": [],
+      "number_of_repairs": 29,
+      "analytic_tail_cap": 1,
+      "C_at_R_20000": "1.05690626077454717",
+      "change_from_start": "-0.00110114323439"
+    },
+    {
+      "mask": [
+        2
+      ],
+      "number_of_repairs": 28,
+      "analytic_tail_cap": 1,
+      "C_at_R_20000": "1.05570447522273291",
+      "change_from_start": "0.000100642317422"
+    },
+    {
+      "mask": [
+        2,
+        3
+      ],
+      "number_of_repairs": 36,
+      "analytic_tail_cap": 2,
+      "C_at_R_20000": "1.05570411219337706",
+      "change_from_start": "0.000101005346778"
+    },
+    {
+      "mask": [
+        2,
+        3,
+        5
+      ],
+      "number_of_repairs": 36,
+      "analytic_tail_cap": 4,
+      "C_at_R_20000": "1.05671458428724425",
+      "change_from_start": "-0.000909466747089"
+    },
+    {
+      "mask": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "number_of_repairs": 161,
+      "analytic_tail_cap": 8,
+      "C_at_R_20000": "1.05506458112005025",
+      "change_from_start": "0.000740536420105"
+    },
+    {
+      "mask": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "number_of_repairs": 219,
+      "analytic_tail_cap": 16,
+      "C_at_R_20000": "1.05536127153328455",
+      "change_from_start": "0.00044384600687"
+    }
+  ]
+}

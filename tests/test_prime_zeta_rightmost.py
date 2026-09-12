@@ -1,4 +1,4 @@
-"""Pins for every number stated in docs/28-prime-zeta-rightmost-zeros.md.
+"""Pins for every number stated in docs/30-prime-zeta-rightmost-zeros.md.
 
 Two kinds of pin, matching how the doc sources its figures:
 
@@ -41,7 +41,7 @@ sys.path.insert(0, str(HUNT))
 import decide  # noqa: E402
 import instrument  # noqa: E402
 
-DOC = Path(__file__).resolve().parents[1] / "docs" / "28-prime-zeta-rightmost-zeros.md"
+DOC = Path(__file__).resolve().parents[1] / "docs" / "30-prime-zeta-rightmost-zeros.md"
 
 PREC_BITS = 120
 K = 120

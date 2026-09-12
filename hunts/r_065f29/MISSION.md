@@ -1,4 +1,4 @@
-# R-065F29 — the white-box attack on `urms2-0.51`
+# R-065F29: the white-box attack on `urms2-0.51`
 
 ## The question
 

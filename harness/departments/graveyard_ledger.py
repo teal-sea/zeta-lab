@@ -1,4 +1,4 @@
-"""The repository's graveyard — the opening graves, entered from the records.
+"""The repository's graveyard, the opening graves, entered from the records.
 
 Machinery in :mod:`harness.graveyard`; this file names the dead. Every entry
 below is transcribed from a landed record (HANDOFF's withdrawal records,

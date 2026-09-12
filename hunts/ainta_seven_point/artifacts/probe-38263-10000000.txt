@@ -1,0 +1,1 @@
+target=38263/10000000=0.0038263 REFUTED-AT-GRID: 7-point certificate failed at a terminal cell: box=((4184, 4184), (7960, 7960), (7944, 7944), (4166, 4166), (7909, 7909), (4180, 4180)), lower=0x1.f4099a0352d62 wall=121s

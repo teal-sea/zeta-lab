@@ -1,0 +1,717 @@
+{
+  "features": [
+    {
+      "feature_idx": 0,
+      "name": "model_id",
+      "type": {
+        "dtype": "large_string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 1,
+      "name": "dataset_id",
+      "type": {
+        "dtype": "large_string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 2,
+      "name": "problem_id",
+      "type": {
+        "dtype": "large_string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 3,
+      "name": "original_problem",
+      "type": {
+        "dtype": "large_string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 4,
+      "name": "permutation_type",
+      "type": {
+        "dtype": "large_string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 5,
+      "name": "permutation_source",
+      "type": {
+        "dtype": "large_string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 6,
+      "name": "base_accuracy",
+      "type": {
+        "dtype": "float64",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 7,
+      "name": "permuted_accuracy",
+      "type": {
+        "dtype": "float64",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 8,
+      "name": "absolute_accuracy_decay",
+      "type": {
+        "dtype": "float64",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 9,
+      "name": "relative_accuracy_decay",
+      "type": {
+        "dtype": "float64",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 10,
+      "name": "n_base_predictions",
+      "type": {
+        "dtype": "int64",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 11,
+      "name": "n_permuted_predictions",
+      "type": {
+        "dtype": "int64",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 12,
+      "name": "n_detrimental_permutations",
+      "type": {
+        "dtype": "int64",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 13,
+      "name": "permutations_causing_decay",
+      "type": {
+        "dtype": "large_string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 14,
+      "name": "model_is_robust",
+      "type": {
+        "dtype": "bool",
+        "_type": "Value"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "row_idx": 0,
+      "row": {
+        "model_id": "lukealonso/GLM-5.1-NVFP4:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "1acac0",
+        "original_problem": "Triangle $ABC$ has side length $AB = 20$ and circumradius $R = 26$. Let $D$ be the foot of the perpendicular from $C$ to the line $AB$. What is the greatest possible length of segment $CD$?",
+        "permutation_type": "[\"distract\", \"domain\", \"expert_no_solution\", \"expert_perturbations\", \"rename\", \"rephrase\", \"typos\"]",
+        "permutation_source": "[\"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"expert_no_solution\", \"expert_perturbations\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\"]",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 1.0,
+        "absolute_accuracy_decay": 0.0,
+        "relative_accuracy_decay": 0.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 70,
+        "n_detrimental_permutations": 0,
+        "permutations_causing_decay": "[]",
+        "model_is_robust": true
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 1,
+      "row": {
+        "model_id": "lukealonso/GLM-5.1-NVFP4:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "71beb6",
+        "original_problem": "For a positive integer $n$, let $S(n)$ denote the sum of the digits of $n$ in base 10. Compute $S(S(1)+S(2)+\\cdots+S(N))$ with $N=10^{100}-2$.",
+        "permutation_type": "[\"distract\", \"domain\", \"expert_no_solution\", \"expert_perturbations\", \"rename\", \"rephrase\", \"typos\"]",
+        "permutation_source": "[\"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"expert_no_solution\", \"expert_perturbations\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\"]",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 1.0,
+        "absolute_accuracy_decay": 0.0,
+        "relative_accuracy_decay": 0.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 70,
+        "n_detrimental_permutations": 0,
+        "permutations_causing_decay": "[]",
+        "model_is_robust": true
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 2,
+      "row": {
+        "model_id": "lukealonso/GLM-5.1-NVFP4:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "a1d40b",
+        "original_problem": "The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\geq 1$. There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?",
+        "permutation_type": "[\"distract\", \"domain\", \"expert_no_solution\", \"expert_perturbations\", \"rename\", \"rephrase\", \"typos\"]",
+        "permutation_source": "[\"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"expert_no_solution\", \"expert_perturbations\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\"]",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 1.0,
+        "absolute_accuracy_decay": 0.0,
+        "relative_accuracy_decay": 0.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 70,
+        "n_detrimental_permutations": 0,
+        "permutations_causing_decay": "[]",
+        "model_is_robust": true
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 3,
+      "row": {
+        "model_id": "lukealonso/GLM-5.1-NVFP4:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "bbd91e",
+        "original_problem": "Alice writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\geq 11$. Bob then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Bob erased is $S$. What is the remainder when $n \\times S$ is divided by $997$?",
+        "permutation_type": "[\"distract\", \"domain\", \"expert_no_solution\", \"expert_perturbations\", \"rename\", \"rephrase\", \"typos\"]",
+        "permutation_source": "[\"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"expert_no_solution\", \"expert_perturbations\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\"]",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 1.0,
+        "absolute_accuracy_decay": 0.0,
+        "relative_accuracy_decay": 0.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 70,
+        "n_detrimental_permutations": 0,
+        "permutations_causing_decay": "[]",
+        "model_is_robust": true
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 4,
+      "row": {
+        "model_id": "gpt-5.2-2025-12-11:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "1acac0",
+        "original_problem": "Triangle $ABC$ has side length $AB = 20$ and circumradius $R = 26$. Let $D$ be the foot of the perpendicular from $C$ to the line $AB$. What is the greatest possible length of segment $CD$?",
+        "permutation_type": "[\"distract\", \"distract\", \"domain\", \"domain\", \"expert_no_solution\", \"expert_perturbations\", \"rename\", \"rename\", \"rephrase\", \"rephrase\", \"typos\", \"typos\"]",
+        "permutation_source": "[\"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"expert_no_solution\", \"expert_perturbations\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\"]",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 1.0,
+        "absolute_accuracy_decay": 0.0,
+        "relative_accuracy_decay": 0.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 120,
+        "n_detrimental_permutations": 0,
+        "permutations_causing_decay": "[]",
+        "model_is_robust": true
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 5,
+      "row": {
+        "model_id": "gpt-5.2-2025-12-11:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "1fce4b",
+        "original_problem": "Find the three-digit number $n$ such that writing any other three-digit number $10^{2024}$ times in a row and $10^{2024}+2$ times in a row results in two numbers divisible by $n$.",
+        "permutation_type": "[\"distract\", \"distract\", \"domain\", \"domain\", \"expert_no_solution\", \"expert_perturbations\", \"rename\", \"rename\", \"rephrase\", \"rephrase\", \"typos\", \"typos\"]",
+        "permutation_source": "[\"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"expert_no_solution\", \"expert_perturbations\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\"]",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 1.0,
+        "absolute_accuracy_decay": 0.0,
+        "relative_accuracy_decay": 0.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 120,
+        "n_detrimental_permutations": 0,
+        "permutations_causing_decay": "[]",
+        "model_is_robust": true
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 6,
+      "row": {
+        "model_id": "gpt-5.2-2025-12-11:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "bbd91e",
+        "original_problem": "Alice writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\geq 11$. Bob then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Bob erased is $S$. What is the remainder when $n \\times S$ is divided by $997$?",
+        "permutation_type": "[\"distract\", \"distract\", \"domain\", \"domain\", \"expert_no_solution\", \"expert_perturbations\", \"rename\", \"rename\", \"rephrase\", \"rephrase\", \"typos\", \"typos\"]",
+        "permutation_source": "[\"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"expert_no_solution\", \"expert_perturbations\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\", \"gemini-3.1-pro-preview:low\", \"gpt-5.2-2025-12-11:low\"]",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 1.0,
+        "absolute_accuracy_decay": 0.0,
+        "relative_accuracy_decay": 0.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 120,
+        "n_detrimental_permutations": 0,
+        "permutations_causing_decay": "[]",
+        "model_is_robust": true
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 7,
+      "row": {
+        "model_id": "huikang-gpt-oss-120b-aimo3:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "bbd91e",
+        "original_problem": "Alice writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\geq 11$. Bob then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Bob erased is $S$. What is the remainder when $n \\times S$ is divided by $997$?",
+        "permutation_type": "[\"distract\", \"domain\", \"expert_no_solution\", \"expert_perturbations\", \"rename\", \"rephrase\", \"typos\"]",
+        "permutation_source": "[\"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"expert_no_solution\", \"expert_perturbations\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\"]",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 1.0,
+        "absolute_accuracy_decay": 0.0,
+        "relative_accuracy_decay": 0.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 70,
+        "n_detrimental_permutations": 0,
+        "permutations_causing_decay": "[]",
+        "model_is_robust": true
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 8,
+      "row": {
+        "model_id": "Qwen/Qwen3.5-397B-A17B-FP8:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "1fce4b",
+        "original_problem": "Find the three-digit number $n$ such that writing any other three-digit number $10^{2024}$ times in a row and $10^{2024}+2$ times in a row results in two numbers divisible by $n$.",
+        "permutation_type": "[\"distract\", \"domain\", \"expert_no_solution\", \"expert_perturbations\", \"rename\", \"rephrase\", \"typos\"]",
+        "permutation_source": "[\"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"expert_no_solution\", \"expert_perturbations\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\", \"gpt-5.2-2025-12-11:low\"]",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 1.0,
+        "absolute_accuracy_decay": 0.0,
+        "relative_accuracy_decay": 0.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 67,
+        "n_detrimental_permutations": 0,
+        "permutations_causing_decay": "[]",
+        "model_is_robust": true
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 9,
+      "row": {
+        "model_id": "gpt-oss-120b:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "71beb6",
+        "original_problem": "For a positive integer $n$, let $S(n)$ denote the sum of the digits of $n$ in base 10. Compute $S(S(1)+S(2)+\\cdots+S(N))$ with $N=10^{100}-2$.",
+        "permutation_type": "rephrase",
+        "permutation_source": "gpt-5.2-2025-12-11:low",
+        "base_accuracy": 0.7,
+        "permuted_accuracy": 0.0,
+        "absolute_accuracy_decay": 0.7,
+        "relative_accuracy_decay": 1.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 10,
+        "permutations_causing_decay": "[{\"question\": \"For a positive integer $n$, define $S(n)$ as the sum of the base-10 digits of $n$. Find $S(S(1)+S(2)+\\\\cdots+S(N))$ where $N=10^{100}-2$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"For a positive integer $n$, define $S(n)$ as the sum of the base-10 digits of $n$. Find the value of $S\\\\!\\\\left(S(1)+S(2)+\\\\cdots+S(N)\\\\right)$ where $N=10^{100}-2$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"For a positive integer \\\\(n\\\\), define \\\\(S(n)\\\\) as the sum of the base-10 digits of \\\\(n\\\\). Find \\\\(S\\\\big(S(1)+S(2)+\\\\cdots+S(N)\\\\big)\\\\) where \\\\(N=10^{100}-2\\\\).\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"For a positive integer \\\\(n\\\\), define \\\\(S(n)\\\\) as the sum of the base-10 digits of \\\\(n\\\\). With \\\\(N=10^{100}-2\\\\), find \\\\(S\\\\!\\\\big(S(1)+S(2)+\\\\cdots+S(N)\\\\big)\\\\).\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"For a positive integer \\\\(n\\\\), define \\\\(S(n)\\\\) to be the sum of the base-10 digits of \\\\(n\\\\). Find \\\\(S\\\\big(S(1)+S(2)+\\\\cdots+S(N)\\\\big)\\\\) where \\\\(N=10^{100}-2\\\\).\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Let $n$ be a positive integer, and define $S(n)$ as the sum of the base-10 digits of $n$. Find the value of $S\\\\!\\\\big(S(1)+S(2)+\\\\cdots+S(N)\\\\big)$ where $N=10^{100}-2$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Let $n$ be a positive integer, and define $S(n)$ as the sum of the base-10 digits of $n$. Find the value of $S\\\\big(S(1)+S(2)+\\\\cdots+S(N)\\\\big)$ where $N=10^{100}-2$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Let $n$ be a positive integer, and define $S(n)$ as the sum of the base-10 digits of $n$. Find the value of $S\\\\big(S(1)+S(2)+\\\\cdots+S(N)\\\\big)$ where $N=10^{100}-2$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Let $n$ be a positive integer, and define $S(n)$ as the sum of the base-10 digits of $n$. For $N = 10^{100}-2$, find the value of  \\r\\n\\\\[\\nS\\\\big(S(1)+S(2)+\\\\cdots+S(N)\\\\big).\\n\\\\]\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Let $n$ be a positive integer, and define $S(n)$ as the sum of the base-10 digits of $n$. For $N=10^{100}-2$, determine the value of\\n\\\\[\\nS\\\\bigl(S(1)+S(2)+\\\\cdots+S(N)\\\\bigr).\\n\\\\]\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 10,
+      "row": {
+        "model_id": "huikang-gpt-oss-120b-aimo3:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "a1d40b",
+        "original_problem": "The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\geq 1$. There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 0.0,
+        "absolute_accuracy_decay": 1.0,
+        "relative_accuracy_decay": 1.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$.There are $N$ positive integers $n$ strictly less than $10^101$ such that $n^2 + (n+1)^2$ and $F_{n-1}F_n + F_nF_{n+1}$ are multiples of 5, but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 11,
+      "row": {
+        "model_id": "Qwen/Qwen3.5-397B-A17B-FP8:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "057f8a",
+        "original_problem": "Three airline companies operate flights from Dodola island. Each company has a different schedule of departures. The first company departs every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer d for which it is true that there will be d consecutive days without a flight from Dodola island, regardless of the departure times of the various airlines",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 0.6,
+        "permuted_accuracy": 0.0,
+        "absolute_accuracy_decay": 0.6,
+        "relative_accuracy_decay": 1.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"Three airline companies operate flights from Dodola island. Each company has a different schedule of departures. The first company departs every 100 days, the second every 120 days, and the third every 150 days. Over a full synchronized cycle of 600 days, the system registers a cumulative total of at least 21.0 individual departures. What is the greatest positive integer d for which it is true that there will be d consecutive days without a flight from Dodola island, regardless of the departure times of the various airlines.\", \"variant_accuracy\": 0.0, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 12,
+      "row": {
+        "model_id": "Qwen/Qwen3.5-397B-A17B-FP8:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "057f8a",
+        "original_problem": "Three airline companies operate flights from Dodola island. Each company has a different schedule of departures. The first company departs every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer d for which it is true that there will be d consecutive days without a flight from Dodola island, regardless of the departure times of the various airlines",
+        "permutation_type": "rephrase",
+        "permutation_source": "gpt-5.2-2025-12-11:low",
+        "base_accuracy": 0.6,
+        "permuted_accuracy": 0.0,
+        "absolute_accuracy_decay": 0.6,
+        "relative_accuracy_decay": 1.0,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 10,
+        "permutations_causing_decay": "[{\"question\": \"Three airline companies run flights departing from Dodola island, and each follows its own departure interval. The first company has a flight every 100 days, the second every 120 days, and the third every 150 days. Determine the greatest positive integer \\\\(d\\\\) such that, no matter how the airlines\u2019 departure days are offset, there will always be \\\\(d\\\\) consecutive days with no flight leaving Dodola island.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three airline companies run flights departing from Dodola island, and each follows its own departure interval. The first company leaves every 100 days, the second leaves every 120 days, and the third leaves every 150 days. What is the largest positive integer \\\\(d\\\\) such that, no matter how the airlines\u2019 departure days are scheduled, there will be \\\\(d\\\\) days in a row with no flight leaving Dodola island?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three airline companies run flights departing from Dodola island, and each follows its own departure timetable. The first company has a flight every 100 days, the second every 120 days, and the third every 150 days. Determine the greatest positive integer \\\\(d\\\\) such that, no matter how the different airlines\u2019 departure days are arranged, there will always be \\\\(d\\\\) consecutive days with no flight leaving Dodola island.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three airline companies run flights departing from Dodola island, each following its own departure cycle. The first company leaves every 100 days, the second every 120 days, and the third every 150 days. What is the largest positive integer \\\\(d\\\\) such that, no matter how the airlines\u2019 departure times are arranged, there will be \\\\(d\\\\) consecutive days with no flight leaving Dodola island?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three airlines run flights departing from Dodola island, and each follows its own departure cycle. Airline 1 leaves every 100 days, Airline 2 every 120 days, and Airline 3 every 150 days. Determine the largest positive integer \\\\(d\\\\) such that, no matter how the airlines\u2019 departure days are offset, there must exist \\\\(d\\\\) consecutive days with no flight leaving Dodola island.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three airlines run flights departing from Dodola island, and each follows its own departure cycle. The first airline leaves every 100 days, the second every 120 days, and the third every 150 days. Determine the largest positive integer \\\\(d\\\\) such that, no matter how the airlines\u2019 departure dates are offset, there will always be \\\\(d\\\\) consecutive days with no flight departing from Dodola island.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three airlines run flights departing from Dodola island, and each follows its own departure cycle. The first airline leaves once every 100 days, the second once every 120 days, and the third once every 150 days. Determine the largest positive integer \\\\(d\\\\) such that, no matter how the airlines\u2019 departure days are arranged, there must be \\\\(d\\\\) consecutive days with no flights leaving Dodola island.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three airlines run flights departing from Dodola island, each on its own timetable. The first airline has a departure every 100 days, the second every 120 days, and the third every 150 days. Determine the largest positive integer d such that, no matter how the airlines\u2019 departure times are arranged, there will always be d consecutive days with no flight leaving Dodola island.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three airlines run flights out of Dodola island, and each follows its own departure cycle. Airline 1 leaves every 100 days, airline 2 leaves every 120 days, and airline 3 leaves every 150 days. Determine the largest positive integer \\\\(d\\\\) such that, no matter how the airlines\u2019 departure days are arranged, there will always be \\\\(d\\\\) consecutive days with no flight departing from Dodola island.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three airlines run flights out of Dodola island, and each follows its own departure cycle. The first airline has a flight every 100 days, the second every 120 days, and the third every 150 days. Determine the largest positive integer \\\\(d\\\\) such that, no matter how the airlines\u2019 departure schedules are offset, there will always be \\\\(d\\\\) consecutive days with no flight leaving Dodola island.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rephrase\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 13,
+      "row": {
+        "model_id": "qwen3-8b:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "a1d40b",
+        "original_problem": "The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\geq 1$. There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 0.1,
+        "absolute_accuracy_decay": 0.9,
+        "relative_accuracy_decay": 0.9,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$.There are $N$ positive integers $n$ strictly less than $10^101$ such that $n^2 + (n+1)^2$ and $F_{n-1}F_n + F_nF_{n+1}$ are multiples of 5, but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.1, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 14,
+      "row": {
+        "model_id": "Qwen/Qwen3.5-397B-A17B-FP8:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "bbd91e",
+        "original_problem": "Alice writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\geq 11$. Bob then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Bob erased is $S$. What is the remainder when $n \\times S$ is divided by $997$?",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 0.1,
+        "absolute_accuracy_decay": 0.9,
+        "relative_accuracy_decay": 0.9,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"Alice writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\\\geq 7$. Bob then erases 6 of them. The mean of the remaining numbers is $22724/61$. The sum of the numbers Bob erased is $S$. What is the remainder when $n \\\\times S$ is divided by $1693$?\", \"variant_accuracy\": 0.1, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 15,
+      "row": {
+        "model_id": "Qwen/Qwen3.5-397B-A17B-FP8:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "057f8a",
+        "original_problem": "Three airline companies operate flights from Dodola island. Each company has a different schedule of departures. The first company departs every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer d for which it is true that there will be d consecutive days without a flight from Dodola island, regardless of the departure times of the various airlines",
+        "permutation_type": "domain",
+        "permutation_source": "gpt-5.2-2025-12-11:low",
+        "base_accuracy": 0.6,
+        "permuted_accuracy": 0.1,
+        "absolute_accuracy_decay": 0.5,
+        "relative_accuracy_decay": 0.833333,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 9,
+        "permutations_causing_decay": "[{\"question\": \"Three airline companies operate flights from Dodola island. Each company has a different schedule of departures. The first company departs every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer d for which it is true that there will be d consecutive days without a flight from Dodola island, regardless of the departure times of the various airlines\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three cargo elevators service a high-rise warehouse. Each elevator has a different maintenance-test schedule: the first runs a test every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer \\\\(d\\\\) for which it is true that there will be \\\\(d\\\\) consecutive days with no maintenance test in the building, regardless of how the test days of the three elevators are initially scheduled?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three cargo shipping companies operate departures from Port Selaro. Each company follows a different departure cycle: the first company departs every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer \\\\(d\\\\) for which it is guaranteed that there will be \\\\(d\\\\) consecutive days with no ship departing from Port Selaro, regardless of how the companies\u2019 departure days are scheduled?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three cargo shipping companies operate departures from Port Senda. Each company has a different fixed interval between departures: the first company sends a ship every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer \\\\(d\\\\) for which it is guaranteed that there will be \\\\(d\\\\) consecutive days with no ship departing from Port Senda, regardless of how the companies\u2019 departure schedules are offset?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three cargo trucking companies service a remote warehouse. Each company follows its own fixed pickup cycle: the first sends a truck every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer \\\\(d\\\\) such that, no matter how the three companies choose their starting pickup days, there will always be \\\\(d\\\\) consecutive days during which no truck arrives at the warehouse?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three factories along a river discharge treated water into a monitoring station on different cycles. The first factory discharges every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer \\\\(d\\\\) for which it is true that there will be \\\\(d\\\\) consecutive days with no discharge reaching the monitoring station, regardless of the starting days of the various factories\u2019 cycles?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three independent courier services operate pickups from a remote warehouse. Each service has its own fixed schedule: the first schedules a pickup every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer \\\\(d\\\\) such that, no matter how the starting pickup days of the three services are chosen, there will always be \\\\(d\\\\) consecutive days with no pickup from the warehouse?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three maintenance contractors service a remote research outpost. Each contractor visits on a fixed cycle: the first returns every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer \\\\(d\\\\) such that, no matter how the three schedules are offset (i.e., regardless of the initial visit days), there will always be \\\\(d\\\\) consecutive days with no contractor visit to the outpost?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Three shipping companies send cargo ships from Pelora Harbor. Each company follows its own fixed schedule: the first sends a ship every 100 days, the second every 120 days, and the third every 150 days. What is the greatest positive integer \\\\(d\\\\) such that, no matter how the companies choose their initial departure days, there will always be \\\\(d\\\\) consecutive days with no cargo ship departing from Pelora Harbor?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 16,
+      "row": {
+        "model_id": "gpt-oss-120b:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "a1d40b",
+        "original_problem": "The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\geq 1$. There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?",
+        "permutation_type": "distract",
+        "permutation_source": "gpt-5.2-2025-12-11:low",
+        "base_accuracy": 0.9,
+        "permuted_accuracy": 0.2,
+        "absolute_accuracy_decay": 0.7,
+        "relative_accuracy_decay": 0.777778,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 8,
+        "permutations_causing_decay": "[{\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$ (as a minor note, the recursion may be checked mod 5 using the repeating Pisano period). There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"distract\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$ (as a side note, someone has written the first few values $0,1,1,2,3,5,8$ in the margin, but you do not need them). There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"distract\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$ (for reference, the first few terms are $0,1,1,2,3,5,8,\\\\dots$). There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"distract\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$ (note that $10^{101}$ is a 1 followed by 101 zeros in base 10). There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"distract\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$ (note that for $n=5$ this gives $F_5=5$). There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"distract\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$ (note that the first few terms are $0,1,1,2,3,5$, although this list will not be needed). There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"distract\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$ (so, for example, $F_2=1$ and $F_3=2$). There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"distract\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$. There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not; for bookkeeping, suppose each such $n$ is written in base $10$ (with any leading zeros ignored). How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"distract\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 17,
+      "row": {
+        "model_id": "gpt-oss-120b:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "bbd91e",
+        "original_problem": "Alice writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\geq 11$. Bob then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Bob erased is $S$. What is the remainder when $n \\times S$ is divided by $997$?",
+        "permutation_type": "rename",
+        "permutation_source": "gpt-5.2-2025-12-11:low",
+        "base_accuracy": 0.8,
+        "permuted_accuracy": 0.2,
+        "absolute_accuracy_decay": 0.6,
+        "relative_accuracy_decay": 0.75,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 8,
+        "permutations_causing_decay": "[{\"question\": \"Carla writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\\\ge 11$. Daniel then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Daniel erased is $S$. What is the remainder when $n \\\\times S$ is divided by $997$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Carla writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\\\geq 11$. Daniel then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Daniel erased is $T$. What is the remainder when $n \\\\times T$ is divided by $997$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Carmen writes all positive integers from \\\\(1\\\\) to \\\\(n\\\\) on the board for some positive integer \\\\(n \\\\ge 11\\\\). Diego then erases ten of them. The mean of the remaining numbers is \\\\(3000/37\\\\). The sum of the numbers Diego erased is \\\\(T\\\\). What is the remainder when \\\\(n \\\\times T\\\\) is divided by \\\\(997\\\\)?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Clara writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\\\geq 11$. Daniel then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Daniel erased is $S$. What is the remainder when $n \\\\times S$ is divided by $997$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Diana writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\\\geq 11$. Eric then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Eric erased is $T$. What is the remainder when $n \\\\times T$ is divided by $997$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Harper writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\\\geq 11$. Jordan then erases ten of them. The mean of the remaining numbers is $\\\\frac{3000}{37}$. The sum of the numbers Jordan erased is $T$. What is the remainder when $n \\\\times T$ is divided by $997$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Maya writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\\\geq 11$. Ethan then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Ethan erased is $S$. What is the remainder when $n \\\\times S$ is divided by $997$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Nora writes all positive integers from $1$ to $n$ on the board for some positive integer $n \\\\geq 11$. Ethan then erases ten of them. The mean of the remaining numbers is $3000/37$. The sum of the numbers Ethan erased is $S$. What is the remainder when $n \\\\times S$ is divided by $997$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 18,
+      "row": {
+        "model_id": "Qwen/Qwen3.5-397B-A17B-FP8:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "a1d40b",
+        "original_problem": "The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\geq 1$. There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 0.3,
+        "absolute_accuracy_decay": 0.7,
+        "relative_accuracy_decay": 0.7,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$.There are $N$ positive integers $n$ strictly less than $10^101$ such that $n^2 + (n+1)^2$ and $F_{n-1}F_n + F_nF_{n+1}$ are multiples of 5, but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.3, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 19,
+      "row": {
+        "model_id": "gpt-oss-120b:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "a1d40b",
+        "original_problem": "The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\geq 1$. There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 0.9,
+        "permuted_accuracy": 0.3,
+        "absolute_accuracy_decay": 0.6,
+        "relative_accuracy_decay": 0.666667,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$.There are $N$ positive integers $n$ strictly less than $10^101$ such that $n^2 + (n+1)^2$ and $F_{n-1}F_n + F_nF_{n+1}$ are multiples of 5, but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.3, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 20,
+      "row": {
+        "model_id": "huikang-gpt-oss-120b-aimo3:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "1fce4b",
+        "original_problem": "Find the three-digit number $n$ such that writing any other three-digit number $10^{2024}$ times in a row and $10^{2024}+2$ times in a row results in two numbers divisible by $n$.",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 0.9,
+        "permuted_accuracy": 0.3,
+        "absolute_accuracy_decay": 0.6,
+        "relative_accuracy_decay": 0.666667,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"Find $4$-digit number $n$ such that writing any $2$-digit number $10 ^ 2024$ times in a row and $10^2024+2$ times in a row results in two numbers divisible by $n$. \", \"variant_accuracy\": 0.3, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 21,
+      "row": {
+        "model_id": "gemini-3.1-pro-preview:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "88c219",
+        "original_problem": "For positive integers $x_1,\\ldots, x_n$ define $G(x_1, \\ldots, x_n)$ to be the sum of their $\\frac{n(n-1)}{2}$ pairwise greatest common divisors. We say that an integer $n \\geq 2$ is \\emph{artificial} if there exist $n$ different positive integers $a_1, ..., a_n$ such that \n\\[a_1 + \\cdots + a_n = G(a_1, \\ldots, a_n) +1.\\]\nFind the sum of all artificial integers $m$ in the range $2 \\leq m \\leq 40$.",
+        "permutation_type": "rename",
+        "permutation_source": "gemini-3.1-pro-preview:low",
+        "base_accuracy": 0.8,
+        "permuted_accuracy": 0.3,
+        "absolute_accuracy_decay": 0.5,
+        "relative_accuracy_decay": 0.625,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 7,
+        "permutations_causing_decay": "[{\"question\": \"For positive integers $y_1,\\\\ldots, y_k$ define $H(y_1, \\\\ldots, y_k)$ to be the sum of their $\\\\frac{k(k-1)}{2}$ pairwise greatest common divisors. We say that an integer $k \\\\geq 2$ is \\\\emph{peculiar} if there exist $k$ different positive integers $b_1, \\\\ldots, b_k$ such that \\n\\\\[b_1 + \\\\cdots + b_k = H(b_1, \\\\ldots, b_k) +1.\\\\]\\nFind the sum of all peculiar integers $p$ in the range $2 \\\\leq p \\\\leq 40$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gemini-3.1-pro-preview:low\"}, {\"question\": \"For positive integers $y_1,\\\\ldots, y_k$ define $H(y_1, \\\\ldots, y_k)$ to be the sum of their $\\\\frac{k(k-1)}{2}$ pairwise greatest common divisors. We say that an integer $k \\\\geq 2$ is \\\\emph{synthetic} if there exist $k$ different positive integers $b_1, ..., b_k$ such that \\n\\\\[b_1 + \\\\cdots + b_k = H(b_1, \\\\ldots, b_k) +1.\\\\]\\nFind the sum of all synthetic integers $p$ in the range $2 \\\\leq p \\\\leq 40$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gemini-3.1-pro-preview:low\"}, {\"question\": \"For positive integers $y_1,\\\\ldots, y_k$ define $H(y_1, \\\\ldots, y_k)$ to be the sum of their $\\\\frac{k(k-1)}{2}$ pairwise greatest common divisors. We say that an integer $k \\\\geq 2$ is \\\\emph{synthetic} if there exist $k$ different positive integers $b_1, \\\\dots, b_k$ such that \\n\\\\[b_1 + \\\\cdots + b_k = H(b_1, \\\\ldots, b_k) +1.\\\\]\\nFind the sum of all synthetic integers $p$ in the range $2 \\\\leq p \\\\leq 40$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gemini-3.1-pro-preview:low\"}, {\"question\": \"For positive integers $y_1,\\\\ldots, y_k$ define $H(y_1, \\\\ldots, y_k)$ to be the sum of their $\\\\frac{k(k-1)}{2}$ pairwise greatest common divisors. We say that an integer $k \\\\geq 2$ is \\\\emph{synthetic} if there exist $k$ different positive integers $b_1, \\\\ldots, b_k$ such that \\n\\\\[b_1 + \\\\cdots + b_k = H(b_1, \\\\ldots, b_k) +1.\\\\]\\nFind the sum of all synthetic integers $p$ in the range $2 \\\\leq p \\\\leq 40$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gemini-3.1-pro-preview:low\"}, {\"question\": \"For positive integers $y_1,\\\\ldots, y_k$ define $H(y_1, \\\\ldots, y_k)$ to be the sum of their $\\\\frac{k(k-1)}{2}$ pairwise greatest common divisors. We say that an integer $k \\\\geq 2$ is \\\\emph{synthetic} if there exist $k$ different positive integers $b_1, \\\\ldots, b_k$ such that \\n\\\\[b_1 + \\\\cdots + b_k = H(b_1, \\\\ldots, b_k) +1.\\\\]\\nFind the sum of all synthetic integers $p$ in the range $2 \\\\leq p \\\\leq 40$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gemini-3.1-pro-preview:low\"}, {\"question\": \"For positive integers $y_1,\\\\ldots, y_k$ define $H(y_1, \\\\ldots, y_k)$ to be the sum of their $\\\\frac{k(k-1)}{2}$ pairwise greatest common divisors. We say that an integer $k \\\\geq 2$ is \\\\emph{synthetic} if there exist $k$ different positive integers $b_1, \\\\ldots, b_k$ such that \\n\\\\[b_1 + \\\\cdots + b_k = H(b_1, \\\\ldots, b_k) +1.\\\\]\\nFind the sum of all synthetic integers $p$ in the range $2 \\\\leq p \\\\leq 40$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gemini-3.1-pro-preview:low\"}, {\"question\": \"For positive integers $y_1,\\\\ldots, y_k$ define $H(y_1, \\\\ldots, y_k)$ to be the sum of their $\\\\frac{k(k-1)}{2}$ pairwise greatest common divisors. We say that an integer $k \\\\geq 2$ is \\\\emph{synthetic} if there exist $k$ different positive integers $b_1, \\\\ldots, b_k$ such that \\n\\\\[b_1 + \\\\cdots + b_k = H(b_1, \\\\ldots, b_k) +1.\\\\]\\nFind the sum of all synthetic integers $q$ in the range $2 \\\\leq q \\\\leq 40$.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gemini-3.1-pro-preview:low\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 22,
+      "row": {
+        "model_id": "gpt-oss-120b:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "1fce4b",
+        "original_problem": "Find the three-digit number $n$ such that writing any other three-digit number $10^{2024}$ times in a row and $10^{2024}+2$ times in a row results in two numbers divisible by $n$.",
+        "permutation_type": "domain",
+        "permutation_source": "gpt-5.2-2025-12-11:low",
+        "base_accuracy": 0.8,
+        "permuted_accuracy": 0.3,
+        "absolute_accuracy_decay": 0.5,
+        "relative_accuracy_decay": 0.625,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 7,
+        "permutations_causing_decay": "[{\"question\": \"A digital billboard displays a three-digit advertisement code \\\\(x\\\\) (with \\\\(x\\\\neq n\\\\)) by concatenating the same three-digit block over and over with no separators. Find the three-digit number \\\\(n\\\\) such that, no matter which other three-digit code \\\\(x\\\\) is chosen, the billboard number formed by repeating \\\\(x\\\\) exactly \\\\(10^{2024}\\\\) times in a row and the billboard number formed by repeating \\\\(x\\\\) exactly \\\\(10^{2024}+2\\\\) times in a row are both divisible by \\\\(n\\\\).\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"A factory uses three-digit batch codes. Let \\\\(n\\\\) be a three-digit number with the property that for any other three-digit batch code \\\\(b\\\\neq n\\\\), if the printer produces one long label by writing \\\\(b\\\\) exactly \\\\(10^{2024}\\\\) times in a row (concatenating the digits), and also produces another long label by writing \\\\(b\\\\) exactly \\\\(10^{2024}+2\\\\) times in a row, then both resulting labels represent integers divisible by \\\\(n\\\\). Determine \\\\(n\\\\).\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Find the three-digit number \\\\(n\\\\) such that, for any other three-digit identification code \\\\(ABC\\\\) (interpreted as a number), the long serial number formed by concatenating \\\\(ABC\\\\) exactly \\\\(10^{2024}\\\\) times in a row, and the long serial number formed by concatenating \\\\(ABC\\\\) exactly \\\\(10^{2024}+2\\\\) times in a row, are both divisible by \\\\(n\\\\).\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"In a digital archiving system, a \u201crecord ID\u201d is any three-digit number (other than a fixed three-digit number \\\\(n\\\\)). The system can form a long archive code by concatenating the same record ID repeatedly. Determine the three-digit number \\\\(n\\\\) such that, for every possible three-digit record ID different from \\\\(n\\\\), both of the following concatenated archive codes are divisible by \\\\(n\\\\):\\n\\n- the code formed by writing the ID \\\\(10^{2024}\\\\) times in a row;\\n- the code formed by writing the ID \\\\(10^{2024}+2\\\\) times in a row.\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"In a factory, every product is labeled with a three-digit identification code \\\\(m\\\\) (where \\\\(m\\\\) can be any three-digit code different from a certain unknown three-digit code \\\\(n\\\\)). A labeling machine can print the same code \\\\(m\\\\) repeatedly with no spaces, forming one long integer (for example, printing \\\\(m=314\\\\) five times produces \\\\(314314314314314\\\\)).  \\n\\nFind the three-digit number \\\\(n\\\\) such that, for every three-digit code \\\\(m\\\\neq n\\\\), the integer formed by printing \\\\(m\\\\) exactly \\\\(10^{2024}\\\\) times in a row and the integer formed by printing \\\\(m\\\\) exactly \\\\(10^{2024}+2\\\\) times in a row are both divisible by \\\\(n\\\\).\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"In a logistics system, a three-digit warehouse code \\\\(n\\\\) is used as a divisibility check. For any other three-digit code \\\\(x\\\\neq n\\\\), form two long shipment IDs by concatenating the code \\\\(x\\\\) exactly \\\\(10^{2024}\\\\) times in a row, and also by concatenating \\\\(x\\\\) exactly \\\\(10^{2024}+2\\\\) times in a row (with no separators). Find the three-digit number \\\\(n\\\\) such that both shipment IDs are divisible by \\\\(n\\\\) for every choice of \\\\(x\\\\neq n\\\\).\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"In a warehouse, each crate is labeled with a three-digit code \\\\(x\\\\) (any three-digit number other than \\\\(n\\\\)). A supervisor prints labels by repeating the same code \\\\(x\\\\) back-to-back with no spaces to form one long integer (for example, printing \\\\(314\\\\) three times gives \\\\(314314314\\\\)). Find the three-digit number \\\\(n\\\\) such that, no matter which other three-digit code \\\\(x\\\\) is chosen, the integer formed by printing \\\\(x\\\\) exactly \\\\(10^{2024}\\\\) times in a row and the integer formed by printing \\\\(x\\\\) exactly \\\\(10^{2024}+2\\\\) times in a row are both divisible by \\\\(n\\\\).\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 23,
+      "row": {
+        "model_id": "gemini-3.1-pro-preview:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "1acac0",
+        "original_problem": "Triangle $ABC$ has side length $AB = 20$ and circumradius $R = 26$. Let $D$ be the foot of the perpendicular from $C$ to the line $AB$. What is the greatest possible length of segment $CD$?",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 0.4,
+        "absolute_accuracy_decay": 0.6,
+        "relative_accuracy_decay": 0.6,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"Triangle $ABC$ has side length $AB= 3.6637070583121503$, and circumradius $R= 8$. The inradius is at least 1.7168782655900072. Let $D$ be the foot of the perpendicular from $C$ to the line $AB$. so what is the greatest possible length of segment $CD$?\", \"variant_accuracy\": 0.4, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 24,
+      "row": {
+        "model_id": "gemini-3.1-pro-preview:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "a1d40b",
+        "original_problem": "The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\geq 1$. There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 0.4,
+        "absolute_accuracy_decay": 0.6,
+        "relative_accuracy_decay": 0.6,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\\\geq 1$.There are $N$ positive integers $n$ strictly less than $10^101$ such that $n^2 + (n+1)^2$ and $F_{n-1}F_n + F_nF_{n+1}$ are multiples of 5, but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?\", \"variant_accuracy\": 0.4, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 25,
+      "row": {
+        "model_id": "Qwen/Qwen3.5-397B-A17B-FP8:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "480182",
+        "original_problem": "Let $ABC$ be a triangle with $BC=108$, $CA=126$, and $AB=39$. Point $X$ lies on segment $AC$ such that $BX$ bisects $\\angle CBA$. Let $\\omega$ be the circumcircle of triangle $ABX$. Let $Y$ be a point on $\\omega$ different from $X$ such that $CX=CY$. Line $XY$ meets $BC$ at $E$. The length of the segment $BE$ can be written as $\\frac{m}{n}$, where $m$ and $n$ are coprime positive integers. Find $m+n$.",
+        "permutation_type": "expert_no_solution",
+        "permutation_source": "expert_no_solution",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 0.4,
+        "absolute_accuracy_decay": 0.6,
+        "relative_accuracy_decay": 0.6,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 1,
+        "permutations_causing_decay": "[{\"question\": \"Let $ABC$ be a triangle with $BC=401$, $CA=190$, and $AB=77$. Point $X$ lies on segment $AC$ such that $BX$ bisects $\\\\angle CBA$. Let $\\\\omega$ be the circumcircle of triangle $ABX$. Let $Y$ be a point on $\\\\omega$ different from $X$ such that $CX=CY$. Line $XY$ meets $BC$ at $E$. The length of the segment $BE$ can be written as $\\\\frac{m}{n}$, where $m$ and $n$ are coprime positive integers. Find $m+n$.\", \"variant_accuracy\": 0.4, \"n_predictions\": 10, \"permutation_type\": \"expert_no_solution\", \"permutation_source\": \"expert_no_solution\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 26,
+      "row": {
+        "model_id": "gpt-oss-120b:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "a1d40b",
+        "original_problem": "The Fibonacci numbers are defined as follows: $F_0 = 0$, $F_1 = 1$, and $F_{n+1} = F_n + F_{n-1}$ for $n \\geq 1$. There are $N$ positive integers $n$ strictly less than $10^{101}$ such that $n^2 + (n+1)^2$ is a multiple of 5 but $F_{n-1}^2 + F_n^2$ is not. How many prime factors does $N$ have, counted with multiplicity?",
+        "permutation_type": "domain",
+        "permutation_source": "gpt-5.2-2025-12-11:low",
+        "base_accuracy": 0.9,
+        "permuted_accuracy": 0.4,
+        "absolute_accuracy_decay": 0.5,
+        "relative_accuracy_decay": 0.555556,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 6,
+        "permutations_causing_decay": "[{\"question\": \"A communications lab labels its test beacons with a recursive \u201cpulse count\u201d sequence defined by \\\\(P_0=0\\\\), \\\\(P_1=1\\\\), and \\\\(P_{n+1}=P_n+P_{n-1}\\\\) for \\\\(n\\\\ge 1\\\\). For a beacon with ID number \\\\(n\\\\), the lab computes two diagnostics:\\n\\n- the \u201cpower check\u201d \\\\(n^2+(n+1)^2\\\\),\\n- the \u201cpulse check\u201d \\\\(P_{n-1}^2+P_n^2\\\\).\\n\\nThere are \\\\(N\\\\) positive integers \\\\(n\\\\) strictly less than \\\\(10^{101}\\\\) such that the power check is a multiple of \\\\(5\\\\) but the pulse check is not a multiple of \\\\(5\\\\). How many prime factors does \\\\(N\\\\) have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"A communications protocol uses a signal-strength sequence defined by \\\\(S_0=0\\\\), \\\\(S_1=1\\\\), and \\\\(S_{n+1}=S_n+S_{n-1}\\\\) for \\\\(n\\\\ge 1\\\\). Consider all positive integer time steps \\\\(n\\\\) with \\\\(n<10^{101}\\\\) such that the combined energy reading \\\\(n^2+(n+1)^2\\\\) is a multiple of \\\\(5\\\\), but the combined signal power \\\\(S_{n-1}^2+S_n^2\\\\) is not a multiple of \\\\(5\\\\). Let \\\\(N\\\\) be the number of such time steps \\\\(n\\\\). How many prime factors does \\\\(N\\\\) have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"A communications system uses a reference sequence \\\\(F_n\\\\) defined by \\\\(F_0=0\\\\), \\\\(F_1=1\\\\), and \\\\(F_{n+1}=F_n+F_{n-1}\\\\) for \\\\(n\\\\ge 1\\\\). For a positive integer time index \\\\(n\\\\) (with \\\\(n<10^{101}\\\\)), the system flags \\\\(n\\\\) as \u201cType A\u201d if the power reading \\\\(n^2+(n+1)^2\\\\) is a multiple of \\\\(5\\\\), but the reference power \\\\(F_{n-1}^2+F_n^2\\\\) is not a multiple of \\\\(5\\\\). Let \\\\(N\\\\) be the number of such flagged indices \\\\(n\\\\). How many prime factors does \\\\(N\\\\) have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"A robotics lab programs a sequence of calibration pulses \\\\(P_n\\\\) by the rules \\\\(P_0=0\\\\), \\\\(P_1=1\\\\), and \\\\(P_{n+1}=P_n+P_{n-1}\\\\) for \\\\(n\\\\ge 1\\\\). For how many positive integer time-stamps \\\\(n\\\\) with \\\\(n<10^{101}\\\\) (call this count \\\\(N\\\\)) does the lab observe that \\\\(n^2+(n+1)^2\\\\) is divisible by \\\\(5\\\\), but \\\\(P_{n-1}^2+P_n^2\\\\) is not divisible by \\\\(5\\\\)? How many prime factors does \\\\(N\\\\) have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"A robotics lab uses a calibration sequence defined by \\\\(F_0=0\\\\), \\\\(F_1=1\\\\), and \\\\(F_{n+1}=F_n+F_{n-1}\\\\) for \\\\(n\\\\ge 1\\\\). For a positive integer \u201ccycle number\u201d \\\\(n\\\\) with \\\\(n<10^{101}\\\\), the lab checks two diagnostics:\\n\\n- the power draw on consecutive cycles, \\\\(n^2+(n+1)^2\\\\), is a multiple of 5, but  \\n- the squared-signal diagnostic from the calibration sequence, \\\\(F_{n-1}^2+F_n^2\\\\), is not a multiple of 5.\\n\\nLet \\\\(N\\\\) be the number of cycle numbers \\\\(n\\\\) that pass the first check but fail the second. How many prime factors does \\\\(N\\\\) have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"A spacecraft telemetry system uses a checksum sequence defined by \\\\(C_0=0\\\\), \\\\(C_1=1\\\\), and \\\\(C_{n+1}=C_n+C_{n-1}\\\\) for \\\\(n\\\\ge 1\\\\). For a positive integer time index \\\\(n\\\\) with \\\\(n<10^{101}\\\\), the system flags the time index if \\\\(n^2+(n+1)^2\\\\) is a multiple of \\\\(5\\\\) but \\\\(C_{n-1}^2+C_n^2\\\\) is not a multiple of \\\\(5\\\\). Let \\\\(N\\\\) be the number of flagged time indices. How many prime factors does \\\\(N\\\\) have, counted with multiplicity?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"domain\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 27,
+      "row": {
+        "model_id": "gpt-oss-120b:low",
+        "dataset_id": "aimo-2025-reference",
+        "problem_id": "1acac0",
+        "original_problem": "Triangle $ABC$ has side length $AB = 20$ and circumradius $R = 26$. Let $D$ be the foot of the perpendicular from $C$ to the line $AB$. What is the greatest possible length of segment $CD$?",
+        "permutation_type": "rename",
+        "permutation_source": "gpt-5.2-2025-12-11:low",
+        "base_accuracy": 1.0,
+        "permuted_accuracy": 0.5,
+        "absolute_accuracy_decay": 0.5,
+        "relative_accuracy_decay": 0.5,
+        "n_base_predictions": 10,
+        "n_permuted_predictions": 10,
+        "n_detrimental_permutations": 5,
+        "permutations_causing_decay": "[{\"question\": \"Triangle $QRS$ has side length $QR = 20$ and circumradius $R = 26$. Let $T$ be the foot of the perpendicular from $S$ to the line $QR$. What is the greatest possible length of segment $ST$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Triangle $QRS$ has side length $QR = 20$ and circumradius $R = 26$. Let $T$ be the foot of the perpendicular from $S$ to the line $QR$. What is the greatest possible length of segment $ST$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Triangle $QRS$ has side length $QR = 20$ and circumradius $R = 26$. Let $T$ be the foot of the perpendicular from $S$ to the line $QR$. What is the greatest possible length of segment $ST$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Triangle $QRS$ has side length $QR = 20$ and circumradius $R = 26$. Let $T$ be the foot of the perpendicular from $S$ to the line $QR$. What is the greatest possible length of segment $ST$?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}, {\"question\": \"Triangle \\\\(PQR\\\\) has side length \\\\(PQ = 20\\\\) and circumradius \\\\(R = 26\\\\). Let \\\\(S\\\\) be the foot of the perpendicular from \\\\(R\\\\) to the line \\\\(PQ\\\\). What is the greatest possible length of segment \\\\(RS\\\\)?\", \"variant_accuracy\": 0.0, \"n_predictions\": 1, \"permutation_type\": \"rename\", \"permutation_source\": \"gpt-5.2-2025-12-11:low\"}]",
+        "model_is_robust": false
+      },
+      "truncated_cells": []
+    }
+  ],
+  "num_rows_total": 28,
+  "num_rows_per_page": 100,
+  "partial": false
+}

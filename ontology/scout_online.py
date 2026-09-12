@@ -1,9 +1,9 @@
-"""``ontology.scout_online`` — the scout's networked half: OEIS and arXiv.
+"""``ontology.scout_online``, the scout's networked half: OEIS and arXiv.
 
 :mod:`ontology.scout` collides candidates with the corpora on disk; this
 module asks the two services a laboratory can query without credentials.
 Both are :class:`ontology.knownness.LiteratureBackend` implementations, so
-they plug into ``check_literature`` unchanged — and both keep the contract
+they plug into ``check_literature`` unchanged, and both keep the contract
 that makes the scout trustworthy:
 
 * **OEIS** (:class:`OeisBackend`) is the one place a machine may say
@@ -16,13 +16,13 @@ that makes the scout trustworthy:
   abstract matching your words is a paper to read, not prior art
   established; hits ride in ``detail`` as leads for a human, exactly like
   the local corpus backend.
-* **zbMATH Open** (:class:`ZbMathBackend`) — the reviewing database's free
+* **zbMATH Open** (:class:`ZbMathBackend`), the reviewing database's free
   public API (api.zbmath.org, no credentials since 2021). Same rule as
   arXiv: reviewed-literature leads with zbMATH identifiers, never
-  ``FOUND`` — a search hit in a review database is still a lexical hit.
+  ``FOUND``: a search hit in a review database is still a lexical hit.
 
 Failure is honest by construction: a query that never reached the service
-returns ``UNKNOWN`` with ``online=False`` and the error named —
+returns ``UNKNOWN`` with ``online=False`` and the error named,
 ``knownness`` refuses an *online* backend returning ``UNKNOWN``, and a
 backend that could not connect was not online, whatever it hoped. Nothing
 here can emit a novelty claim; every label passes ``funnel_label`` at
@@ -201,9 +201,9 @@ class OeisBackend(LiteratureBackend):
             sources_queried=("OEIS",),
             detail=(
                 "OEIS returned entries but none contains the queried terms "
-                "verbatim — leads, not findings: " + "; ".join(leads)
+                "verbatim, leads, not findings: " + "; ".join(leads)
                 if verified
-                else "OEIS text search — lexical leads only, never a match: "
+                else "OEIS text search, lexical leads only, never a match: "
                 + "; ".join(leads)
             ),
         )
@@ -255,7 +255,7 @@ class ArxivBackend(LiteratureBackend):
             )
         if leads:
             detail = (
-                f"{len(leads)} arXiv candidate(s) for {terms!r} — papers to "
+                f"{len(leads)} arXiv candidate(s) for {terms!r}, papers to "
                 "read, not prior art established: " + "; ".join(leads)
             )
         else:
@@ -327,7 +327,7 @@ class ZbMathBackend(LiteratureBackend):
         if leads:
             detail = (
                 f"zbMATH Open reports {total} result(s) for {terms!r}; the "
-                f"first {len(leads)} — reviewed literature to read, not "
+                f"first {len(leads)}, reviewed literature to read, not "
                 "prior art established: " + "; ".join(leads)
             )
         else:

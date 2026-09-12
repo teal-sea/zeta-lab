@@ -1,0 +1,93 @@
+{
+  "format": 1,
+  "orbit": 18,
+  "support_input": {
+    "path": "hunts/r_044dd2/artifacts/orbit18-support-07.json",
+    "sha256": "99ca09cdd698df58a10dff5379e24b8f583ef01d018c47651a5db825a72f4bad"
+  },
+  "support_size": 138,
+  "target_indices": [
+    0,
+    1,
+    2
+  ],
+  "target_colorings": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ]
+  ],
+  "target_terms": 4500,
+  "target_degree": 12,
+  "max_relation_terms": 4,
+  "all_relation_term_histogram": {
+    "3": 180,
+    "4": 575,
+    "5": 999,
+    "6": 711,
+    "7": 617,
+    "8": 414,
+    "9": 557,
+    "10": 365,
+    "11": 390,
+    "12": 259,
+    "13": 353,
+    "14": 172,
+    "15": 169,
+    "16": 180,
+    "17": 174,
+    "18": 46,
+    "19": 76,
+    "20": 62,
+    "21": 24,
+    "22": 62,
+    "23": 30,
+    "24": 37,
+    "26": 17,
+    "27": 24,
+    "28": 36,
+    "30": 9,
+    "34": 20
+  },
+  "retained_relations": 755,
+  "reachable_monomials": 96319,
+  "relation_multiples": 184997,
+  "processed_monomials": 96319,
+  "queued_monomials": 0,
+  "closure_complete": true,
+  "modular_prime": 2147483647,
+  "modular_membership": false,
+  "modular_rank": 59284,
+  "modular_residual_terms": 4216,
+  "exact_membership": false,
+  "exact_rank": 59284,
+  "exact_residual_terms": 4216,
+  "status": "NO_FIXED_DEGREE_MEMBERSHIP",
+  "interpretation": "exact absence in this retained fixed-degree span; not evidence of realizability"
+}

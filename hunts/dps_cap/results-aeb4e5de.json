@@ -1,0 +1,50 @@
+{
+  "quantity": "abs(epstein_completed(s, form, dps=D))",
+  "s": "0.8+85.7i",
+  "form": [
+    2,
+    1,
+    3
+  ],
+  "runs": [
+    {
+      "dps": 20,
+      "magnitude": "3.3924673495700062842e-34",
+      "log10_magnitude": "-33.4694843235",
+      "seconds": 0.938
+    },
+    {
+      "dps": 60,
+      "magnitude": "1.617452632377969598172515e-58",
+      "log10_magnitude": "-57.7911684289",
+      "seconds": 4.047
+    }
+  ],
+  "ladder": [
+    {
+      "dps": 30,
+      "magnitude": "3.949351782875608518008793e-44",
+      "log10_magnitude": "-43.4034741804",
+      "seconds": 1.376
+    },
+    {
+      "dps": 40,
+      "magnitude": "1.642018067183009830273884e-54",
+      "log10_magnitude": "-53.7846220686",
+      "seconds": 2.052
+    },
+    {
+      "dps": 80,
+      "magnitude": "1.617452632377971296327251e-58",
+      "log10_magnitude": "-57.7911684289",
+      "seconds": 8.388
+    },
+    {
+      "dps": 100,
+      "magnitude": "1.617452632377971296327251e-58",
+      "log10_magnitude": "-57.7911684289",
+      "seconds": 11.66
+    }
+  ],
+  "ladder_note": "dps 80 and 100 agree to every digit printed, so the converged magnitude is 1.617452632377971296327251e-58.  Everything at or below dps 40 is the working-precision noise floor: it falls by one order per digit of dps, which is the signature of roundoff and not of a quantity being resolved.  dps 60 is the first rung on the ladder that is the number rather than the floor, and it agrees with the converged value to 13 digits.  See print_check.py for why abs() must be taken inside a workdps block: outside one it is evaluated at mpmath's default 15 digits and silently truncates the answer to 16."
+}

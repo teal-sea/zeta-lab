@@ -1,8 +1,8 @@
-# Results — the detection power of `tests/test_doors.py`
+# Results: the detection power of `tests/test_doors.py`
 
 **Status: settled, at the level a mutation battery can settle it.** Ten
 mutants built, ten run, one null control. The guard's power against this
-battery is **5/10**, and the five it misses are not scattered — they are one
+battery is **5/10**, and the five it misses are not scattered, they are one
 structural gap plus its consequences.
 
 Nothing here is evidence for or against RH (`docs/08`). Nothing here is a
@@ -22,24 +22,24 @@ non-zero exit below is attributable to the mutant and not to the container.
 
 | id | mutant | fast | slow | caught |
 |---|---|---|---|---|
-| M1 | doors README names a script that does not exist | **caught** | — | ✅ |
-| M2 | a door's script renamed on disk, README stale | **caught** | — | ✅ |
+| M1 | doors README names a script that does not exist | **caught** |, | ✅ |
+| M2 | a door's script renamed on disk, README stale | **caught** |, | ✅ |
 | M3 | a door *page* names a missing script; README untouched | escaped | escaped | ❌ |
 | M4 | a command quoted only by a door page exits non-zero | escaped | escaped | ❌ |
 | M5 | the README refute row's command exits non-zero | escaped | **caught** | ✅ |
 | M6 | a README row's command replaced by one naming no script | escaped | escaped | ❌ |
 | M7 | the certify door's Lean command misspelled | escaped | escaped | ❌ |
 | M8 | the adopt door's pytest command names a missing test file | escaped | escaped | ❌ |
-| M9 | an `interactive_lab` page loads code from another host | **caught** | — | ✅ |
-| M10 | an `interactive_lab` page loses its `<title>` | **caught** | — | ✅ |
+| M9 | an `interactive_lab` page loads code from another host | **caught** |, | ✅ |
+| M10 | an `interactive_lab` page loses its `<title>` | **caught** |, | ✅ |
 
 M1, M2 fail on `test_the_doors_readme_names_only_scripts_that_exist`;
 M9, M10 on `test_interactive_lab_pages_are_single_file_and_script_free`;
 M5 on `test_the_refute_door_command_runs`. Raw exit statuses, durations and
 failing node names are in `results.json`.
 
-The five escapes were also applied **simultaneously** to one tree. That tree
-— five broken doors at once — passes the fast tier in 0.2 s and the slow tier
+The five escapes were also applied **simultaneously** to one tree. That tree,
+five broken doors at once, passes the fast tier in 0.2 s and the slow tier
 in 27.1 s, both green. The escape is measured, not inferred from reading the
 source.
 
@@ -57,12 +57,12 @@ source.
   field of view entirely (M6, M7, M8). The `assert commands` line only checks
   that the table names *some* script, so losing one row costs nothing. The
   certify door (a Lean build) and the adopt door (a pytest invocation) are
-  never checked at all — neither for existence nor for exit status.
+  never checked at all, neither for existence nor for exit status.
 
 **Existence and exit status are different checks with different reach.** Of
 the five doors, existence of a `scripts/*.py` target is checked for three
-(learn, refute, discover) and exit status for two (learn, refute). M5 —
-the ledger's own named mutant, "a command that exits non-zero" — is invisible
+(learn, refute, discover) and exit status for two (learn, refute). M5,
+the ledger's own named mutant, "a command that exits non-zero", is invisible
 to the fast tier and caught only by the slow tier, so a contributor running
 `-m "not slow"` (the tier `AGENTS.md` recommends for a green check before
 changing anything) does not detect it.
@@ -77,7 +77,7 @@ None of this is a defect report against `tests/test_doors.py`. A guard's
 scope is bounded by its misses, and until now this one's misses were the
 empty tuple because nobody had looked.
 
-## Proposed ledger amendment — reported, not applied
+## Proposed ledger amendment: reported, not applied
 
 `harness/departments/guard_ledger.py` is in the demoted half of `harness/`
 (`harness/VERDICT.md`), and a hunt may not promote its own claim. The record
@@ -87,13 +87,13 @@ this measurement would support, for an operator to apply or refuse:
 fired           True
 demonstrated_by hunts/r_cb5ffe/probe.py  (5/10 against a ten-mutant battery)
 scope           the commands in the docs/doors/README.md *table* that name a
-                scripts/*.py path — existence for all of them, exit status for
+                scripts/*.py path, existence for all of them, exit status for
                 two (learn, refute); plus the two interactive_lab contract
                 clauses. Door pages themselves are never read.
 known_misses    a command quoted inside a door page rather than in the README
                   table (learn.md's scripts/03_primes_from_zeros.py is
                   entirely unguarded)
-                a README row whose command names no scripts/*.py path — the
+                a README row whose command names no scripts/*.py path, the
                   certify door (Lean) and the adopt door (pytest) are checked
                   neither for existence nor for exit status
                 a README row deleted or emptied: only the whole table going
@@ -111,7 +111,7 @@ known_misses    a command quoted inside a door page rather than in the README
   "command that exits non-zero" mutant fails at once rather than part-way
   through. A mutant that fails *late* would be caught by the same assertion,
   so this makes the guard's job easier, not harder.
-* Cost control: the slow tier was run three times, not eleven — on the null
+* Cost control: the slow tier was run three times, not eleven, on the null
   control, on M5, and on the combined five-escape tree. A mutant whose fast
   verdict is "caught" needs no slow verdict, and the combined tree gives the
   five escapes their slow verdicts in one run.
@@ -119,7 +119,7 @@ known_misses    a command quoted inside a door page rather than in the README
   its first run in this container and 2.0 s on every run after, in the
   worktree included: `zeta` is pip-installed editable from the main checkout,
   so a worktree shares that checkout's warm `data/` cache. No mutant here
-  touches `zeta/`, so this changes no catch/escape verdict — but a timing
+  touches `zeta/`, so this changes no catch/escape verdict, but a timing
   measured in a hunt worktree is not independent of the main checkout, and
   anything that mutated `zeta/` in a worktree might not take effect at all.
 
@@ -131,7 +131,7 @@ known_misses    a command quoted inside a door page rather than in the README
   command (`--dry-run`) is unmeasured here.
 * **Only one `interactive_lab` page exists** (`prime_genesis.html`), so M9 and
   M10 measure the contract check against a single page. Whether the loop
-  would catch a second page's violation is untested — it iterates, so it
+  would catch a second page's violation is untested, it iterates, so it
   presumably would, but "presumably" is what this hunt exists to replace.
 * **No mutant was built for the `<title>`-present-but-empty case**, or for a
   page loading code via `<link rel=modulepreload>`, `<iframe>` or an inline
@@ -148,14 +148,14 @@ known_misses    a command quoted inside a door page rather than in the README
   and nothing in the tree runs it. *Why it might matter:* it is the second
   command a new reader types, and the first one nobody checks. *First step:*
   add it to the README table, or widen `_door_script_commands()` to glob
-  `docs/doors/*.md` instead of reading only the README — a one-line change
+  `docs/doors/*.md` instead of reading only the README, a one-line change
   that would have caught M3 and M4.
 * **The certify and adopt doors are wholly unchecked.** *Why it might
   matter:* `docs/doors/README.md` states the cost of a purpose as "a guide
   page plus a test that the page's command still works", and two of the five
   do not pay it. *First step:* a cheap existence check on the non-script
-  commands too — that `lean/lakefile` exists and the named test files exist
-  — which is static and costs no runtime.
+  commands too, that `lean/lakefile` exists and the named test files exist,
+  which is static and costs no runtime.
 * **The fast/slow split hides the ledger's own named mutant.** M5 is exactly
   the mutant the guard record names, and `-m "not slow"` misses it. *Why it
   might matter:* the fast tier is what `AGENTS.md` tells a fresh clone to run.

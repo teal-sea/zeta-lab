@@ -367,7 +367,7 @@ class RampedBandDual:
 
     def bands(self, y: float):
         """One-sided band list [(lo, hi, F_up)] on g > 0: membership on
-        the raw grid (singleton groups kept — strictly safer than
+        the raw grid (singleton groups kept, strictly safer than
         paper_chain, which dropped them), F_up raised by the pointwise
         quadrature error AND the LOCAL error-inflated slope margin."""
         if y in self._band_cache:
@@ -519,7 +519,7 @@ class RampedBandDual:
 
 
 def c_psi(psi_coeffs=PSI7, n: int = 96) -> float:
-    """int_0^1 (1 - Psi(t)^2) dt — the constant in the O(eps) field bound."""
+    """int_0^1 (1 - Psi(t)^2) dt, the constant in the O(eps) field bound."""
     t, w = _gauss(n, 0.0, 1.0)
     return float(np.sum(w * (1.0 - np.polyval(psi_coeffs, t) ** 2)))
 

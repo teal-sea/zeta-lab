@@ -1,4 +1,4 @@
-"""discovery — the funnel: generate, screen, verify, and log the whole thing.
+"""discovery, the funnel: generate, screen, verify, and log the whole thing.
 
 The package is built around a seam. ``ontology.schema``, ``registry``,
 ``ledger``, ``funnel`` and ``metrics`` are **domain-agnostic**: they know about

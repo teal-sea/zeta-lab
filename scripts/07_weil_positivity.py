@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""The Riemann–Weil explicit formula, balanced live — then Weil positivity probed.
+"""The Riemann–Weil explicit formula, balanced live, then Weil positivity probed.
 
 The mathematics
 ---------------
@@ -20,14 +20,14 @@ with the truncation-tail bounds that account for the residual.
 
 **Weil positivity criterion** (Weil 1952/1972): RH ⟺ W(h) := Σ_ρ h(γ_ρ) ≥ 0
 for every admissible h of positive type (h = |f̂|² on the real axis).  The
-script then evaluates W over parametrised families of positive-type pairs —
-from the arithmetic side, no zeros used — and reports how close W comes to 0:
+script then evaluates W over parametrised families of positive-type pairs,
+from the arithmetic side, no zeros used, and reports how close W comes to 0:
 the near-tightness structure is controlled by the first zero γ₁ = 14.1347…,
 because a test function concentrating on the zero-free gap (−γ₁, γ₁) makes
 W = 2h(γ₁)(1 + o(1)) → 0⁺ (Gaussians: log W has slope −γ₁² in a).
 
 Honest scope (docs/08): every computed W ≥ 0 reflects the computationally
-verified zeros; it is NOT evidence for RH.  A true W < 0 would disprove RH —
+verified zeros; it is NOT evidence for RH.  A true W < 0 would disprove RH,
 a computed one would, per the house rule, almost certainly be a bug.
 """
 
@@ -56,7 +56,7 @@ def _fmt(x, n: int = 12) -> str:
 
 
 def section_balance(gamma_max: float, balance_digits: list[float]) -> None:
-    print("1)  THE FORMULA BALANCES, LIVE  —  zeros on the left, primes + Γ on the right")
+    print("1)  THE FORMULA BALANCES, LIVE, zeros on the left, primes + Γ on the right")
     print(f"    (zero side: cached verified ordinates γ ≤ {gamma_max:g}; "
           "arithmetic side: no zeros anywhere)")
     print()
@@ -96,7 +96,7 @@ def section_balance(gamma_max: float, balance_digits: list[float]) -> None:
 
 
 def section_probe(families: list[str], n_points: int, dps: int) -> dict:
-    print("2)  POSITIVITY PROBE  —  W(h) from the arithmetic side only (no zeros used)")
+    print("2)  POSITIVITY PROBE: W(h) from the arithmetic side only (no zeros used)")
     print("    RH  ⟺  W(h) ≥ 0 for every positive-type h;  here W is measured over families,")
     print("    with automatic precision escalation until each sign is certified.")
     print()
@@ -120,13 +120,13 @@ def section_probe(families: list[str], n_points: int, dps: int) -> dict:
     print("    " + "-" * 76)
     all_pos = tightest is not None and tightest["positive"]
     print(f"    all {n_total} probes:  W ≥ 0 everywhere"
-          if all_pos else "    WARNING: an unresolved/negative W appeared — investigate")
+          if all_pos else "    WARNING: an unresolved/negative W appeared, investigate")
     print()
     return {"tightest": tightest, "n_total": n_total, "all_positive": all_pos}
 
 
 def section_tightness(full: bool) -> dict:
-    print("3)  NEAR-TIGHTNESS  —  what controls the approach to W = 0")
+    print("3)  NEAR-TIGHTNESS, what controls the approach to W = 0")
     if full:
         rep = near_tightness_report(dps=40)
     else:
@@ -148,7 +148,7 @@ def section_tightness(full: bool) -> dict:
     if rep["fejer_scan"]:
         print("    Fejér cross-check:  W·b² hovers at Σ_γ γ⁻² "
               f"= {rep['sum_inv_gamma_sq_partial']:.5f} (partial, γ < 10⁴), of which")
-        print(f"    the single lowest zero contributes 1/γ₁² — a "
+        print(f"    the single lowest zero contributes 1/γ₁², a "
               f"{100 * rep['gamma1_share_of_sum']:.1f}% share:")
         for d in rep["fejer_scan"]:
             print(f"      b = {d['b']:.1f}:  W·b² = {d['W_times_b2']:.5f},  "
@@ -171,7 +171,7 @@ def main() -> None:
             "probe the Weil positivity criterion (RH <=> W(h) >= 0 for every "
             "positive-type h): evaluate W(h) zero-free over parametrised "
             "families, certify each sign, and report the near-tightness "
-            "structure — the margin collapses like 2 exp(-a gamma1^2), i.e. "
+            "structure, the margin collapses like 2 exp(-a gamma1^2), i.e. "
             "the first zero gamma1 = 14.1347... controls the infimum.  "
             "Positivity observed here reflects the verified zeros and is NOT "
             "evidence for RH (docs/08)."
@@ -210,11 +210,11 @@ def main() -> None:
           "(each sign certified above its noise floor).")
     with mp.workdps(int(tight["dps_used"])):
         print(f"  • Tightest margin: W = {_fmt(tight['W'], 6)} at "
-              f"{tight['family']} parameter {tight['param']:g} — "
+              f"{tight['family']} parameter {tight['param']:g}, "
               f"{mp.nstr(mp.mpf(rep['max_cancellation_digits']), 3)} digits of cancellation,")
     print(f"    controlled by the first zero at γ₁ = {GAMMA1:.12f}: "
           f"W ≈ 2h(γ₁), share {rep['gamma1_share_at_tightest']:.6f}.")
-    print("  • The infimum 0 is approached, never attained — and none of this is "
+    print("  • The infimum 0 is approached, never attained, and none of this is "
           "evidence for RH (docs/08).")
     print(f"[{time.time() - t0:.1f} s]")
 

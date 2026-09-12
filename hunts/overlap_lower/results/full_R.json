@@ -1,0 +1,64 @@
+{
+  "box": {
+    "h1": 0.015,
+    "h2": 0.015,
+    "p1": 0.381,
+    "p2": 0.381,
+    "q1": -0.02,
+    "q2": 0.02
+  },
+  "environment": {
+    "numpy": "2.5.2",
+    "platform": "Darwin",
+    "python": "3.14.0"
+  },
+  "front": "full",
+  "rows": [
+    {
+      "N": 1000,
+      "R": 5,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 286,
+      "final_residual": null,
+      "seconds": 9.83,
+      "sine_factor": 4.0,
+      "status": "ok",
+      "value": 0.37111664132401034
+    },
+    {
+      "N": 1000,
+      "R": 10,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 546,
+      "final_residual": null,
+      "seconds": 17.57,
+      "sine_factor": 4.0,
+      "status": "ok",
+      "value": 0.37212920302009456
+    },
+    {
+      "N": 1000,
+      "R": 20,
+      "T": 300,
+      "converged": false,
+      "cut_rounds": 25,
+      "cuts": 1066,
+      "final_residual": null,
+      "seconds": 35.04,
+      "sine_factor": 4.0,
+      "status": "ok",
+      "value": 0.3721489130642919
+    }
+  ],
+  "seconds_total": 62.43,
+  "white_reference": {
+    "N": 25000,
+    "R": 10,
+    "T": 7000,
+    "value": 0.37905
+  }
+}

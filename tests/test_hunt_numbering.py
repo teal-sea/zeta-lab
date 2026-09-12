@@ -31,7 +31,7 @@ import pytest
 _REPO_ROOT = Path(__file__).resolve().parents[1]
 _CASE_LOG = _REPO_ROOT / "hunts" / "README.md"
 
-#: `### Hunt #47: title (`dir/`)` and the em-dash variant `### Hunt #41 — title`.
+#: `### Hunt #47: title (`dir/`)` and the em-dash variant `### Hunt #41, title`.
 _ENTRY = re.compile(r"^###\s+Hunt\s+#(\d+)\s*[:—-]", re.MULTILINE)
 
 
@@ -51,6 +51,29 @@ def test_the_case_log_is_where_hunt_numbers_are_declared() -> None:
     assert len(numbers) >= 20, (
         f"only {len(numbers)} hunt numbers parsed from the case log; the entry "
         "heading format probably changed and this guard is no longer reading it"
+    )
+
+
+def test_every_hunt_heading_is_one_the_guard_can_read() -> None:
+    """An unreadable heading is a number the guard cannot see.
+
+    Found 2026-08-23: `### Hunt AIMO-2 (#77): ...` carried its number where the
+    pattern above does not look, so #77 was invisible, a later session took #78
+    believing 77 taken and 78 free, and the duplicate the guard then reported was
+    enabled by the entry it could not parse. So: every `### Hunt` heading must
+    parse, or this fails naming the heading rather than its downstream symptom.
+    """
+    text = _CASE_LOG.read_text(encoding="utf-8")
+    headings = [
+        line.strip() for line in text.splitlines() if line.startswith("### Hunt")
+    ]
+    unreadable = [h for h in headings if not _ENTRY.match(h)]
+    assert not unreadable, (
+        "case-log headings the numbering guard cannot parse (write them as "
+        "'### Hunt #N: title (`dir/`)'): " + "; ".join(unreadable)
+    )
+    assert len(headings) == sum(len(v) for v in _numbers().values()), (
+        "the guard parsed a different number of entries than there are headings"
     )
 
 

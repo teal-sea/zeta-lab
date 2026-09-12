@@ -1,4 +1,4 @@
-"""Tests for zeta.finitefield — the blueprint universe, where RH is a theorem.
+"""Tests for zeta.finitefield, the blueprint universe, where RH is a theorem.
 
 Every number asserted here was computed and cross-checked in this environment
 first.  The structure follows the module's story:
@@ -10,12 +10,12 @@ first.  The structure follows the module's story:
    associative, distributive, Fermat's little theorem in the form
    ``u^{p^2-1} = 1``).
 2. **The counting.**  ``count_points`` against a literal enumeration of all
-   ``p^2`` pairs (x, y) — exhaustively, for every nonsingular curve over every
+   ``p^2`` pairs (x, y), exhaustively, for every nonsingular curve over every
    prime up to 43 (7 968 curves in the fast tier; 19 968 up to 61 once the
    slow tier is included).  Plus a genuinely independent oracle: Gauss's two-squares theorem for
    ``y^2 = x^3 - x`` (:func:`zeta.finitefield.gauss_trace`), agreeing over all
    301 primes below 2000 and at p = 10009.  The pinned value from
-   ``docs/09-new-ontologies.md`` section 1.1 — p = 1009, N = 1040, a_p = -30 —
+   ``docs/09-new-ontologies.md`` section 1.1, p = 1009, N = 1040, a_p = -30,
    is reproduced.
 3. **RH, form one (Hasse).**  Zero violations of ``|a_p| <= 2 sqrt p`` over
    1 279 678 curves (every curve over p = 101, 503 and 1009), checked in exact
@@ -26,7 +26,7 @@ first.  The structure follows the module's story:
    dps = 30 over the whole survey, so the tolerance is not doing the work.
 5. **Lefschetz.**  ``N_2`` from the eigenvalue formula
    ``p^2 + 1 - (alpha^2 + alphabar^2)`` against a brute-force enumeration over
-   an explicitly constructed F_{p^2} — exhaustively for p = 5, 7, 11 by the
+   an explicitly constructed F_{p^2}, exhaustively for p = 5, 7, 11 by the
    literal ``p^4``-pair double loop, and up to p = 199 by tabulated
    enumeration.  Because both of the module's methods share one presentation of
    F_{p^2}, the same count is done again in a *second* presentation
@@ -39,7 +39,7 @@ first.  The structure follows the module's story:
    ``sum a_p^2 = (p-1)^2 (p+1)``, and Deuring's theorem that every trace in the
    Hasse interval is attained.  The FFT sweep behind those statistics recovers
    integers from float64, so its exact row identities are re-derived here in
-   pure Python and its guard is shown to *fire* on a one-unit corruption —
+   pure Python and its guard is shown to *fire* on a one-unit corruption,
    rounding residuals alone would not catch a mis-rounding, and the test says
    so explicitly.
 """
@@ -138,7 +138,7 @@ def test_chi_table_matches_the_euler_criterion():
 
     ``_chi_table`` is built by squaring every residue; ``legendre_symbol``
     computes ``a^{(p-1)/2} mod p``.  Two different routes, asserted equal for
-    *every* residue of six primes — the table is the hot path of every point
+    *every* residue of six primes, the table is the hot path of every point
     count in the module, so it gets its own direct check rather than being
     tested only through its consequences.
     """
@@ -262,7 +262,7 @@ def test_number_of_nonsingular_curves_is_p_squared_minus_p():
 def test_count_points_equals_brute_force_exhaustively():
     """The headline oracle: character sum vs enumerating all p^2 pairs (x, y).
 
-    Every nonsingular curve over every prime up to 43 — 7 968 curves.
+    Every nonsingular curve over every prime up to 43: 7 968 curves.
     """
     n = 0
     for p in SMALL_PRIMES:
@@ -290,7 +290,7 @@ def test_docs_09_pinned_value():
 
 
 def test_gauss_two_squares_oracle():
-    """a_p for y^2 = x^3 - x from Gauss's theorem — no point counting at all.
+    """a_p for y^2 = x^3 - x from Gauss's theorem, no point counting at all.
 
     p = A^2 + B^2 with A odd and A + B = 1 mod 4 gives a_p = 2A (and a_p = 0
     for p = 3 mod 4).  Agreement over all 301 primes below 2000.
@@ -383,7 +383,7 @@ def test_zeta_equals_exp_of_the_counting_series():
 
     Measured exactly 0.0 at dps = 30 and dps = 50 with n_max = 60, for six
     curves spanning p = 7 to 10007.  With n_max = 40 at dps = 50 the truncation
-    tail 10^-41/41 = 2.4e-43 becomes visible — asserted, so the test would
+    tail 10^-41/41 = 2.4e-43 becomes visible, asserted, so the test would
     notice if the series were being silently over-truncated.
     """
     curves = [(1, 1, 101), (-1, 0, 1009), (0, 1, 997), (3, 5, 53), (2, 3, 7), (0, 2, 10007)]
@@ -400,7 +400,7 @@ def test_zeta_equals_exp_of_the_counting_series():
 
 
 def test_curve_functional_equation_Z_of_one_over_pT():
-    """Z(1/(pT)) = Z(T) — under T = p^{-s} this is exactly s <-> 1-s.
+    """Z(1/(pT)) = Z(T), under T = p^{-s} this is exactly s <-> 1-s.
 
     The identity is algebraic (the numerator is self-reciprocal), so the defect
     is pure round-off at the requested precision.  Measured worst case over six
@@ -453,8 +453,8 @@ def test_hasse_holds_for_every_curve_over_the_small_primes():
 def test_hasse_holds_for_over_a_million_curves():
     """Every curve over p = 101, 503, 1009: 1 279 678 of them, zero violations.
 
-    This is RH for those 1 279 678 curves, checked by counting.  It cannot fail
-    — Hasse's theorem — so a failure here means a bug in this module.
+    This is RH for those 1 279 678 curves, checked by counting.  It cannot fail,
+    Hasse's theorem, so a failure here means a bug in this module.
     """
     total = 0
     for p in (101, 503, 1009):
@@ -556,7 +556,7 @@ def test_critical_line_deviation_tracks_the_requested_precision():
 
     Over the 862-curve survey the worst ``|Re s - 1/2|`` is 8.47e-22 at
     dps = 10, 9.86e-32 at dps = 20, 1.15e-41 at dps = 30 and 7.78e-62 at
-    dps = 50 — i.e. it falls by ten orders of magnitude for every ten digits
+    dps = 50, i.e. it falls by ten orders of magnitude for every ten digits
     requested, which is what a genuine round-off measurement does.  (Most
     individual curves give exactly 0.0; only the maximum over a large sample
     exposes the scale, which is why this test needs the whole survey.)
@@ -611,7 +611,7 @@ def test_lefschetz_N2_against_brute_force_over_Fp2_literal_double_loop():
 
     ``method="pairs"`` is the literal double loop over all p^4 pairs (x, y) in
     F_{p^2} x F_{p^2}, using only the explicit field arithmetic of
-    ``fp2_mul`` — no zeta function, no eigenvalues, no Weil theory.  Run
+    ``fp2_mul``: no zeta function, no eigenvalues, no Weil theory.  Run
     exhaustively over every nonsingular curve for p = 5, 7, 11 (172 curves).
     """
     n = 0
@@ -658,7 +658,7 @@ def _mul_ct_d(u, v, p, c, d):
 
 
 def _count_fp2_general(a, b, p, c, d):
-    """``#E(F_{p^2})`` in the ``t^2 = ct + d`` model — no module code at all."""
+    """``#E(F_{p^2})`` in the ``t^2 = ct + d`` model, no module code at all."""
     squares: dict[tuple[int, int], int] = {}
     for y0 in range(p):
         for y1 in range(p):
@@ -683,7 +683,7 @@ def test_lefschetz_N2_in_a_second_model_of_Fp2():
     confirm nothing.  Here F_{p^2} is built as ``F_p[t]/(t^2 - c t - d)`` with
     a random irreducible quadratic (``c != 0`` in general), the counting is
     done by code local to this test, and the answer must still be
-    ``p^2 + 1 - (alpha^2 + alphabar^2)`` — exhaustively for p = 5, 7, 11, 13.
+    ``p^2 + 1 - (alpha^2 + alphabar^2)``: exhaustively for p = 5, 7, 11, 13.
     """
     n = 0
     cs = []
@@ -706,7 +706,7 @@ def test_N2_equals_N1_times_the_quadratic_twist_count():
     """A third, purely arithmetic route to N_2: ``N_2 = N_1 * N_1(twist)``.
 
     ``#E(F_{p^2}) = (p+1)^2 - a_p^2 = (p+1-a_p)(p+1+a_p)``, and ``p+1+a_p`` is
-    the point count of the quadratic twist over F_p — which this test obtains
+    the point count of the quadratic twist over F_p, which this test obtains
     by *counting the twist*, not by negating a_p.  So the identity is checked
     against two genuine F_p point counts.
     """
@@ -787,8 +787,8 @@ def test_row_invariants_match_a_straight_integer_computation():
     For each ``a``: ``sum_b a_p(a,b) = 0`` and
     ``sum_b a_p(a,b)^2 = p * sum_v c_v^2 - p^2``, with
     ``c_v = #{x : x^3 + a x = v}``.  Here both sides are recomputed in pure
-    Python integers — the character sums ``sum_x chi(x^3+ax+b)`` are formed
-    term by term, with no FFT and no numpy — and compared with
+    Python integers, the character sums ``sum_x chi(x^3+ax+b)`` are formed
+    term by term, with no FFT and no numpy, and compared with
     ``_row_invariants``.
     """
     import zeta.finitefield as ff
@@ -818,7 +818,7 @@ def test_fft_integer_recovery_guard_actually_fires():
     ``np.rint`` alone proves nothing: an FFT error of 0.9 rounds to the *wrong*
     integer while leaving a residual of only 0.1, well under the 0.25 slack
     threshold.  So the recovery is verified against the exact row identities
-    instead — corrupt a single entry by 1 and ``_verify_trace_rows`` must raise.
+    instead, corrupt a single entry by 1 and ``_verify_trace_rows`` must raise.
     """
     import zeta.finitefield as ff
 
@@ -893,7 +893,7 @@ def test_sato_tate_moments_approach_the_semicircle():
     """mean((a_p/2 sqrt p)^{2k}) -> C_k/4^k = 1/4, 1/8, 5/64 (Catalan/4^k).
 
     The second moment is *exactly* ``(p^2-1)/(4p^2)``, from the closed form
-    ``sum a_p^2 = (p-1)^2 (p+1)`` — so its deviation from 1/4 is exactly
+    ``sum a_p^2 = (p-1)^2 (p+1)``: so its deviation from 1/4 is exactly
     ``1/(4p^2)``.  Measured here: all three deviations scale the same way,
 
         p = 101:  2.45e-5, 1.84e-5, 1.39e-5    (1/(4p^2) = 2.451e-5)
@@ -1000,9 +1000,9 @@ def test_a_stale_cache_is_rejected_not_trusted(tmp_path, monkeypatch):
     """CLAUDE.md: "stale numbers will pass".  Here they must not.
 
     The cache is keyed on p alone, so a table written by earlier code would be
-    trusted forever unless something checks it.  A damaged table — one curve
+    trusted forever unless something checks it.  A damaged table, one curve
     moved from trace t to trace t+2, which keeps the total count and the
-    (already zero) sum but breaks ``sum a_p^2 = (p-1)^2 (p+1)`` — must be
+    (already zero) sum but breaks ``sum a_p^2 = (p-1)^2 (p+1)``, must be
     detected and recomputed, not returned.
     """
     import json

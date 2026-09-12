@@ -17,8 +17,8 @@ capped at 1 by the Rudnick-Sarnak / Montgomery support restriction
 certificate is empty for lambda <= 1/2.
 
 This module computes the whole landscape H(lambda) for the two kernels the
-machinery accepts unconditionally — Montgomery's F (zeta) and
-Farmer-Gonek-Lee's F_1 (xi') — and assembles it, together with the ceilings
+machinery accepts unconditionally: Montgomery's F (zeta) and
+Farmer-Gonek-Lee's F_1 (xi'), and assembles it, together with the ceilings
 and prior-art bars that box the method in, into one machine-readable map and
 one figure. The optimiser is `hunts/wide_search/xiprime.optimise`, reused
 rather than forked; its zeta control reproduces the paper's Theorem D to 10
@@ -60,7 +60,7 @@ from xiprime import optimise  # noqa: E402  (hunts/wide_search/xiprime.py)
 
 
 # --------------------------------------------------------------------------
-# the closed form (paper eq. 7.4) — the independent route for the zeta curve
+# the closed form (paper eq. 7.4), the independent route for the zeta curve
 # --------------------------------------------------------------------------
 
 
@@ -104,7 +104,7 @@ def onset(kernel: str, lo: float = 0.4, hi: float = 0.9, tol: float = 1e-10) -> 
     Bisection on the optimal H(lambda), which is monotone increasing in
     lambda (the pair term enters as lambda F(lambda .), and enlarging the
     band only enlarges the feasible family; monotonicity is also measured,
-    not assumed — see probe.py).
+    not assumed, see probe.py).
     """
 
     def h(lam: float) -> float:
@@ -123,7 +123,7 @@ def onset(kernel: str, lo: float = 0.4, hi: float = 0.9, tol: float = 1e-10) -> 
 
 
 # --------------------------------------------------------------------------
-# the fixed points of the map: ceilings, bars, walls — data, with sources
+# the fixed points of the map: ceilings, bars, walls, data, with sources
 # --------------------------------------------------------------------------
 
 #: Every entry is (value, source, standing caveat or ""). "paper" is the
@@ -231,7 +231,7 @@ REFERENCE_BARS: dict[str, dict[str, Any]] = {
 }
 
 #: paper Remark 1.1: bandwidths the same route would need for higher
-#: proportions — the structural wall, verbatim from the source.
+#: proportions, the structural wall, verbatim from the source.
 STRUCTURAL_WALL = [
     {"target": 0.70, "required_bandwidth": 1.04},
     {"target": 0.80, "required_bandwidth": 1.26},
@@ -381,7 +381,7 @@ def render_figure(m: dict[str, Any], path: Path) -> None:
     ax.set_ylabel("proportion of zeros, simple and on the critical line")
     ax.set_title(
         "The frontier map: unconditional proportions from bandwidth-one pair correlation\n"
-        "(curves computed here; bars and wall from the 10 Aug 2026 paper — a map of a method, "
+        "(curves computed here; bars and wall from the 10 Aug 2026 paper, a map of a method, "
         "not evidence about RH)",
         fontsize=10,
     )

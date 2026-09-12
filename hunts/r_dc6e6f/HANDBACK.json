@@ -1,0 +1,27 @@
+{
+  "run_id": "61886f15-7945-40e8-b230-bcd7a4cd9ba1",
+  "status": "settled",
+  "conclusion": "The guard scripts/make_context.py --check is 100% blind to additions and modifications under compiler/ because the package is completely omitted from the scanned directory targets in scripts/make_context.py. Across 17 curated compiler mutants and an exhaustive census of all 37 public symbols in compiler/, zero mutations were detected (0.0% detection rate) while positive controls in scanned packages were 100% caught.",
+  "confidence": "Exact: measured under two-stage controls (clean baseline reproduction and post-mutant undo verification) across 22 curated mutants and an exhaustive AST symbol census of all functions, classes, and constants in compiler/.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Unscanned top-level packages in make_context.py",
+      "why_it_might_matter": "meta/, interactive_lab/, publication/, and mathlib-wishlist/ are similarly unindexed in CONTEXT.md.",
+      "first_step": "Decide whether top-level utility and candidate packages should be indexed under a dedicated section in scripts/make_context.py."
+    },
+    {
+      "what": "Exclusion of compiler/ from CONTEXT_FLAT.md",
+      "why_it_might_matter": "Full repository dumps created via --flat omit compiler/ semantics and catalog definitions.",
+      "first_step": "Add compiler/ to build_flat() groups in scripts/make_context.py if candidate departments belong in full dumps."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "Package-level AST mutation and guard sensitivity test helper",
+      "why_reusable": "Future boundary audits for lexical and structural guards across repository packages can reuse the AST symbol extraction and sandbox diff verification pipeline.",
+      "first_step": "Factor the Sandbox and symbol census logic into tests/mutant_helper.py."
+    }
+  ],
+  "notes_for_operator": "Settled under budget with zero failures. Added Hunt #57 case-log entry to hunts/README.md and recorded the outcome in harness/departments/guard_ledger.py."
+}

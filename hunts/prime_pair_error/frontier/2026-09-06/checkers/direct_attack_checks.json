@@ -1,0 +1,28 @@
+{
+  "date":"2026-09-06","python":"3.13.5","numpy":"2.3.5",
+  "scope":"No new upper bound or proof of RH. Finite identities and a counterfeit-sequence diagnostic.",
+  "exact_factorial_exponents":{"integer_prime_exponent_checks":66,"largest_N":1000},
+  "factorization":{"all_divisor_identities_through":100000,"max_divisor_error":3.552713678800501e-15,"factorial_rows":[
+    {"N":2,"factorial_residual":3.3306690738754696e-16,"R_divisor_residual":4.440892098500626e-16},
+    {"N":3,"factorial_residual":4.440892098500626e-16,"R_divisor_residual":4.440892098500626e-16},
+    {"N":10,"factorial_residual":1.7763568394002505e-15,"R_divisor_residual":0.0},
+    {"N":100,"factorial_residual":0.0,"R_divisor_residual":0.0},
+    {"N":1000,"factorial_residual":9.094947017729282e-13,"R_divisor_residual":4.547473508864641e-13},
+    {"N":10000,"factorial_residual":1.4551915228366852e-11,"R_divisor_residual":9.094947017729282e-12},
+    {"N":100000,"factorial_residual":2.3283064365386963e-10,"R_divisor_residual":2.3283064365386963e-10}]},
+  "spectral_response":{"precision_decimal_digits":55,"rows":[
+    {"label":"first_critical_zero","N":100,"beta":0.5,"gamma":14.134725141734695,"abs_zeta":3.6932220491828213e-56,"input_amplitude":10.0,"compensated_output_abs":0.011790157299878456,"EM_error":4.009702447092267e-06,"N3_times_EM_error":4.009702447092267},
+    {"label":"first_critical_zero","N":1000,"beta":0.5,"gamma":14.134725141734695,"abs_zeta":3.6932220491828213e-56,"input_amplitude":31.622776601683793,"compensated_output_abs":0.0011786343381458536,"EM_error":4.007963354001192e-09,"N3_times_EM_error":4.007963354001192},
+    {"label":"first_critical_zero","N":10000,"beta":0.5,"gamma":14.134725141734695,"abs_zeta":3.6932220491828213e-56,"input_amplitude":100.0,"compensated_output_abs":0.00011786305256537105,"EM_error":4.007945967105052e-12,"N3_times_EM_error":4.007945967105052},
+    {"label":"same_height_beta_3_4_NOT_a_zero","N":100,"beta":0.75,"gamma":14.134725141734695,"abs_zeta":0.17951310577431737,"input_amplitude":31.622776601683793,"compensated_output_abs":5.669207632953894,"EM_error":4.0336604060186895e-06,"N3_times_EM_error":4.033660406018689},
+    {"label":"same_height_beta_3_4_NOT_a_zero","N":1000,"beta":0.75,"gamma":14.134725141734695,"abs_zeta":0.17951310577431737,"input_amplitude":177.82794100389228,"compensated_output_abs":31.922949781334626,"EM_error":4.031930566667261e-09,"N3_times_EM_error":4.031930566667262},
+    {"label":"same_height_beta_3_4_NOT_a_zero","N":10000,"beta":0.75,"gamma":14.134725141734695,"abs_zeta":0.17951310577431737,"input_amplitude":1000.0,"compensated_output_abs":179.51322372934155,"EM_error":4.03191327181935e-12,"N3_times_EM_error":4.0319132718193496},
+    {"label":"real_power_3_4_NOT_a_zero","N":100,"beta":0.75,"gamma":0.0,"abs_zeta":3.4412853869452227,"input_amplitude":31.622776601683793,"compensated_output_abs":108.82362400899494,"EM_error":5.012808248164937e-09,"N3_times_EM_error":0.005012808248164937},
+    {"label":"real_power_3_4_NOT_a_zero","N":1000,"beta":0.75,"gamma":0.0,"abs_zeta":3.4412853869452227,"input_amplitude":177.82794100389228,"compensated_output_abs":611.9567572672466,"EM_error":5.0130187072774535e-12,"N3_times_EM_error":0.005013018707277454},
+    {"label":"real_power_3_4_NOT_a_zero","N":10000,"beta":0.75,"gamma":0.0,"abs_zeta":3.4412853869452227,"input_amplitude":1000.0,"compensated_output_abs":3441.2853931952227,"EM_error":5.013020812072754e-15,"N3_times_EM_error":0.0050130208120727545}],"note":"Only the first parameter is a numerical zero. The others are controls."},
+  "countermodel":{"N":2000000,"n0":10000,"beta":0.75,"gamma":3.0,"c":0.1,"offset":93.4079923889567,"max_tracking_error":19.52036150218919,"rows":[
+    {"N":100000,"weighted_total":99520.18538658309,"remainder":-479.8146134169074,"specified_drift_plus_offset":-468.8345625904767,"tracking_error":10.98005082643067,"sqrtN":316.22776601683796,"second_moment_over_NlogN":0.9078164946163895},
+    {"N":300000,"weighted_total":301358.3704431043,"remainder":1358.3704431043006,"specified_drift_plus_offset":1363.5191153988708,"tracking_error":5.148672294570133,"sqrtN":547.7225575051662,"second_moment_over_NlogN":0.9249990276980399},
+    {"N":1000000,"weighted_total":997485.7897912093,"remainder":-2514.210208790726,"specified_drift_plus_offset":-2506.0833793426864,"tracking_error":8.126829448039643,"sqrtN":1000.0,"second_moment_over_NlogN":0.9250980537872551},
+    {"N":2000000,"weighted_total":2004854.9858159984,"remainder":4854.9858159984,"specified_drift_plus_offset":4867.527459353674,"tracking_error":12.541643355274573,"sqrtN":1414.213562373095,"second_moment_over_NlogN":0.9334845244666659}],"first_checked_divisor_identity_failure":{"n":10007,"divisor_sum_minus_log_n":-9.211040127090456},"note":"Counterexample to generic norm/local-divisibility assumptions only; NOT actual primes."}
+}
