@@ -278,3 +278,45 @@ recorded numbers.
 
 Eleven further proposals are on the board, judged and unanswered. Scheduling them is the
 operator's decision.
+
+## 2026-09-12, the rank-3 continuation, run as a handover test under a Routine
+
+**Estimate written before the run.** The board's own record prices the roles: a prove attempt
+on the CLI's default model averaged $1.40 over 18 attempts, a prove on sonnet $0.85 over 5, a
+verify on sonnet $0.32 over 13, a map on sonnet $1.03 over 2. One seeded item, `w-rank3-estimate`
+(sonnet, 80 turns, `max_attempts` 3), plus whatever its walls propose and the judge passes, at
+roughly one verify per handback. Priced at about $1.50 per work session with its verify, so
+the $40 authorized for this continuation buys 25 to 30 sessions. Both caps are cumulative over
+the board's record, which already holds 38 attempts and $35.63: `--max-invocations 68` (30 new
+sessions, all roles) and `--max-usd 75.63` ($40 new), first to bind stops launches.
+
+**What is different from the 2026-09-10 rounds.** The eleven judged proposals from those
+rounds stay untouched; they are the operator's to confirm. `--auto-advance` confirms a judged
+proposal only when it routes to an original ticket that is still open, and every original on
+the board is satisfied, so without a new ticket auto-advance confirms nothing. The seeded item is
+that ticket, and it asks the doors table's rank-3 question directly: an unconditional estimate
+of the moments at `2 <= q <= R_0`, along one of the four scoped routes, with the exponent gap
+stated, or a wall naming the specific missing estimate. `--only w-rank3-estimate` keeps launches
+inside that family. The run is owned by a Routine that clones both repositories fresh each
+firing and restores the board and trunk from `claude/lab-architecture-review-7onuom` (Ostoyae
+`bin/campaign`), which is the handover Ostoyae issue 58 asked for and had never run.
+
+**What it tests and what it does not.** Whether a campaign makes an authorized transition
+(confirm, launch, land) with no person present, and whether what lands changes the doors table
+or the walls section of `HANDOFF.md`. It does not test selection against a human: the
+operator's sealed picks were not provided before launch, so no claim that the engine chose
+better can follow from it. A green check is not a result; the outcome is read from
+`RANK3_ESTIMATE.md` and `results_rank3_estimate.json` against the certainty ladder.
+
+```runmanifest
+id: prime_pair_error-2026-09-12-rank3-continuation
+hunt: prime_pair_error
+started: 2026-09-12
+finished: open
+ran:
+  - <ostoyae>/bin/campaign --repo https://github.com/teal-sea/zeta-lab --board boards/prime-pair-error.json --branch claude/lab-architecture-review-7onuom --only w-rank3-estimate --auto-advance --max-invocations 68 --max-usd 75.63
+outcome: open; the board's last_run and attempts[] carry the record as it lands
+artifacts:
+  - boards/prime-pair-error.json (attempts[] appended, never edited)
+  - hunts/prime_pair_error/RANK3_ESTIMATE.md, rank3_estimate_probe.py, results_rank3_estimate.json (if the item lands)
+```
