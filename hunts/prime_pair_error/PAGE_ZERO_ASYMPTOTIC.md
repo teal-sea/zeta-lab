@@ -45,8 +45,13 @@ Grade: derived, one route, finite checks in section 6, a corollary of the existi
 with no new arithmetic input (section 4 says exactly what is used). Conditional on a zero
 that may not exist; nothing about the zeros of \(\zeta\); no power saving; the fixed
 target's exponent constant \(2c_0\) is unchanged. The novelty of (T) was not searched;
-what is claimed is that this hunt produced it. Independent read: see the note at the end
-of this document.
+what is claimed is that this hunt produced it. **Not independently read.** One reader,
+the author. A fresh-context check was started twice on 2026-09-12 and did not report
+(the first run failed on an output limit before writing anything, the second had not
+written a file when this was committed). The places a defect would most likely hide are
+step (a) of the proof of Theorem 2.1, whether every input of the chain really holds with
+the model's datum below or above the threshold, and the matching in (2); the numerics of
+section 3 are the least likely, being measured.
 
 ## 1. The binding estimate and its dependencies, reconstructed
 
