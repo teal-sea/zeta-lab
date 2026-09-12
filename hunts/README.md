@@ -299,8 +299,8 @@ numerical falsifier, which #110 ran but did not commit. Either answer closes the
 
 ### Hunt #119: the bandwidth dial was physical all along (`short_interval/`)
 
-**Status: open, brief and reading only. Three findings, two routes closed, no
-mathematics attempted.** Opened 2026-09-12 after Biao Wang's arXiv:2609.07918
+**Status: open, brief and reading only. Three findings, three routes closed
+(two on analysis, one on literature search), no mathematics attempted.** Opened 2026-09-12 after Biao Wang's arXiv:2609.07918
 (posted 2026-09-07) reached the laboratory five days late and by way of an
 unsolicited email rather than any mechanism in this tree. Wang proves
 unconditionally that zeros in `(T, T + T^theta]`, `0 < theta < 1`, are simple
@@ -395,6 +395,27 @@ all** for Baluyot, Goldston, Suriajaya and Turnage-Butterbaugh, whose Lemma 5
 is the arithmetic engine of this whole line of work; and
 `hunts/frontier_map/RESULTS-frontier-map.md` should record that its landscape
 now has a theorem attached at each bandwidth.
+
+**Two literature searches, run the same day and logged in full in
+`RESULTS.md` §4** (34 and 21 query strings, about fifty papers opened,
+citation graphs from Semantic Scholar). *Xi-prime in short intervals:* **not
+in the literature** as a function of theta, conditional or unconditional;
+the near-miss is Conrey 1983 and Rezvyakova 2005/2006, who already work in
+sub-dyadic windows `U = T (log T)^(-10)` with simple on-line proportion
+about `0.413` at `k = 1`, so the honest claim if the route succeeds is "first
+power-length statement, as a function of theta", never "first
+short-interval". The `xi'` prime side has **no published statement**; it
+exists only as Lean code (`anthropics/formal-math`, `zeta23/Zeta23/XiPrime/`,
+`XiEF` and `CoeffMoments`, dyadic, every `lambda < 1`), citing an unpublished
+write-up, and that pair is what a short-interval theorem must localize the
+way Wang localized BGSTB's Lemmas 3 to 5. *Upper bounds on `F` beyond the
+band:* **none unconditionally** beyond `F <= F(0) ~ log T`; under RH the best
+integrated bound (Carneiro-Chandee-Chirre-Milinovich arXiv:2108.09258 Thm 10)
+is `7/8 + (5/4) delta + ...`, which tends to `7/8` and not to zero because
+delta spikes in `F` past the band cannot be ruled out. The obstruction past
+`alpha = 1` is prime-pair correlations at second order, blocked by parity in
+every sieve. **So the band-edge door is priced and shut**, and the price is
+kept so the next person to derive it knows why it does not open.
 
 Nothing here bears on RH (`docs/08`).
 

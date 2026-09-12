@@ -6,13 +6,13 @@ bears on RH (`docs/08-why-it-is-hard.md`).
 Read `CLAUDE.md` and `ALIGNMENT.md` first. Then read §3, §4 and §5, which are
 three findings established on the day the hunt opened, before any compute was
 spent, and which between them killed the plan the hunt was opened for and
-reordered everything else. The routes are §6 to §8, ranked.
+reordered everything else. The live routes are §6 and §7, ranked; §8 is a priced door that the literature shuts.
 
 ```huntspec
 id: short_interval
 question: Wang's short-interval bound is the laboratory's own bandwidth landscape evaluated at lambda = theta. Given that, what does this tree hold on that axis that nobody else does, and what is the band edge worth?
 frontier: the zeta landscape 2 - lambda/2 - (1/sqrt 2) cot(lambda/sqrt 2) is already computed in hunts/frontier_map/frontier.py from the source paper's eq. (7.4), agrees with Wang's c(theta) to 1e-16 and dies at 0.5501939647441547; the xi-prime landscape is computed on the same grid, sits 0.11 to 0.20 higher at every bandwidth, dies at 0.51332, and has no short-interval counterpart in the literature; the bandwidth-one configuration ceiling is 0.6818286874638 against a window optimum of 0.6725007036794116, and the bandwidth-theta ceiling is computed nowhere
-proposed_attack: audit whether Wang's Theorem 2.2 supplies the arithmetic input the xi-prime functional consumes, since that is the one place the tree holds something the field does not; compute the bandwidth-theta configuration ceiling as the stopping criterion for everything else; and price the band edge rather than treating it as a wall
+proposed_attack: audit whether Wang's Theorem 2.2 supplies the arithmetic input the xi-prime functional consumes, since that is the one place the tree holds something the field does not; and compute the bandwidth-theta configuration ceiling as the stopping criterion for everything else
 dead_routes:
   - substituting c(theta) into the affine bridges Phi_3 and Phi_4: the certificate's cost is proportional to the second moment, which diverges like 1/theta, so the gain is negative below theta 0.808 and no re-optimization repairs it; the bridges are also band-width-one and dyadic (section 4)
   - re-optimizing the certificate's window shape at each bandwidth: measured worth about lambda^3/180, and at the vacuity threshold the whole optimal-versus-flat advantage is 3.2e-4 (section 5)
@@ -20,6 +20,7 @@ dead_routes:
   - proving the landscape optimal at bandwidth theta: Wang's Proposition 4.1 already is that statement, since the Euler-Lagrange condition differentiates to f'' + 2f = 0 at every interval length
   - converting out-of-band POSITIVITY into an unconditional certificate: closed by hunt #118 on 2026-09-06; positivity is a lower bound on F and this method needs an upper one, so it is wrong-signed information
   - closing the cycle_moments quartic route on second and third moments alone: a matched finite fourth-moment bound is required and is not established
+  - buying bandwidth beyond one with an upper bound on F past the band edge: priced in section 8 and closed by literature search the same day; the only T-independent bounds are RH-conditional integrated bounds that tend to 7/8 rather than to zero as the sliver shrinks, because delta spikes in F beyond the band cannot be ruled out, and the sieve route is blocked by parity at second order
 required_oracles:
   - the published statements of arXiv:2609.07918 and arXiv:2609.02882, read directly
   - Alpoge-Furman Remark 7.1's two published xi-prime figures, as the calibration for any F_1 landscape computed here
@@ -30,7 +31,7 @@ kill_conditions:
   - the xi-prime derivation's deterministic corrections turn out to have been established by a dyadic average that does not survive a T^theta block, and no route recovers them
   - the bandwidth-theta configuration ceiling collapses onto the landscape, leaving no room for any certificate
   - the n-point family rebuilt at bandwidth theta does not exceed the landscape anywhere in (0.5501939647441547, 1)
-  - no unconditional constant upper bound on F beyond the band is reachable, closing section 8
+  - no unconditional constant upper bound on F beyond the band is reachable: FIRED 2026-09-12 on literature search, section 8
 agents_may:
   - search
   - derive
@@ -211,28 +212,24 @@ n-point family whose bandwidth-one share of it is `2.4e-4` is worth roughly
 `4e-5`. **There is nothing to re-optimize. Wang's `c(theta)` already is the
 re-optimization.**
 
-## 6. Route one: the xi-prime arm, unoccupied as far as was checked
+## 6. Route one: the xi-prime arm, and the search that says it is open
 
 **The best bet here, and the only place the tree holds something the field
-does not.**
+does not. A literature search was run on 2026-09-12 and is recorded in
+`RESULTS.md` §4; its verdict and its one near-miss are below.**
 
 `hunts/frontier_map/frontier.py` computes the landscape for **two** kernels:
 Montgomery's `F(x) = |x|` for zeta, and Farmer-Gonek-Lee's
 
     F_1(x) = |x| - 4x^2 + sum_{k>=1} ((k-1)!/(2k)!) (2|x|)^(2k+1)
 
-for `xi'`, which is this tree's own line of work. **Wang does only zeta.** He
-does not mention `xi'`, `F_1`, or Farmer-Gonek-Lee. **What was searched, per
-the novelty rule in `CLAUDE.md`:** three papers. Farmer-Gonek-Lee (JLMS 2014)
-is RH-conditional and full-range; Alpöge-Furman Remark 7.1 is unconditional
-and dyadic; Wang is zeta only. Nothing beyond those three was searched, so
-"unoccupied" means unoccupied in those three and in this tree, and the hunt
-owes a real prior-art pass before any stronger word.
+for `xi'`, which is this tree's own line of work. **Wang does only zeta.** His
+paper contains no derivative of any kind.
 
 Measured in `landscape.py`, with the `F_1` implementation calibrated against
 **two published figures** from Alpöge-Furman Remark 7.1 (flat window at
-bandwidth 1 giving `0.858384` against their `0.85838`, and `0.929192` against
-their `0.92919`), so a mis-transcribed series would have been caught:
+bandwidth 1 giving `0.858384` against their `0.85838`, and `0.929192`
+against their `0.92919`), so a mis-transcribed series would have been caught:
 
 | bandwidth | zeta | xi-prime | difference |
 |---|---|---|---|
@@ -242,34 +239,112 @@ their `0.92919`), so a mis-transcribed series would have been caught:
 | 0.55 | -0.000570 | +0.130262 | +0.1308 |
 | 0.50 | -0.165957 | -0.052054 | +0.1139 |
 
-**Vacuity thresholds: zeta `0.55019`, xi-prime `0.51332`.** So a
-short-interval `xi'` statement would be non-vacuous in a range where Wang's is
-not, and carries constants 0.11 to 0.20 higher throughout. The zeta control at
-the same settings is off by `+1.2e-5` from a value known exactly, which is the
-error bar on every `xi'` figure above. In particular the `xi'` solve's
-`0.868660` against the laboratory's quartic-certificate `0.8686415005` is a
-`+1.9e-5` gap that is **method error, not a free gain**; the control proves it.
+**Vacuity thresholds: zeta `0.55019`, xi-prime `0.51332`.** The zeta control
+at the same settings is off by `+1.2e-5` from a value known exactly, which is
+the error bar on every `xi'` figure above; the `xi'` solve's `0.868660`
+against the laboratory's quartic-certificate `0.8686415005` is a `+1.9e-5`
+gap that is **method error, not a free gain**, and the control proves it.
 
-**Does Wang's Theorem 2.2 supply the input?** The argued answer is yes and the
-arithmetic is not the obstruction. `F_1` has exactly one arithmetic term, the
-`|x|` that is Montgomery's; the `-4x^2` and the series carry no `Lambda(n)`
-and are a deterministic transfer from zeta zeros to `xi'` zeros. Theorem 2.2
-delivers that one arithmetic term on `supp g` in `(-lambda, lambda)` with
-error `o(HL)`, and the `xi'` zero count in the same interval has the same
-`HL/2pi` normalization, so the same `o(HL)` suffices.
+### 6.1 What the literature holds (searched 2026-09-12)
 
-**The audit that gates this, and it is the same hazard as §4.** The
-deterministic corrections in the `xi'` derivation were established by a
-**dyadic average**. Grep the `xi'` derivation for every division by
-`N(T, 2T)` and every step that averages over `[T, 2T]`, and verify each
-yields `o(HL)` with the block replaced by `T^theta`. That is where a
-`T^(1-theta)` hides. Second and smaller risk: unconditionally there is no
-Rolle interlacing between `xi` and `xi'` zeros, so any step pairing them needs
-the source paper's index bookkeeping rather than RH.
+Thirty-four query strings, four citation-graph lookups, and about twenty-five
+papers opened; the full log is in `RESULTS.md` §4. **Verdict: no paper states
+a proportion of simple, or critical, zeros of `xi'` (or of any `xi^(k)` or
+`zeta^(k)`) in `(T, T + T^theta]` as a function of theta, conditional or
+unconditional.** Specifically:
 
-**If that audit passes, that is the deliverable of this hunt.** If it fails,
-the failure is a scope boundary on the whole `xi'` arm and worth writing down,
-because the tree currently has no statement either way.
+- Farmer, Gonek and Lee (JLMS 90 (2014), arXiv:0803.0425) assume RH
+  throughout, state `F_1` for the cumulative range `0 < gamma <= T` only, and
+  mention short intervals once, in a bibliography entry. Semantic Scholar
+  lists nineteen papers citing them; none concerns short intervals for `xi'`.
+- Alpöge-Furman's `xi'` result is Remark 7.1 (the lab's own
+  `hunts/wide_search/RESULTS-xiprime.md` says 7.3, which is the subsection it
+  sits under; see §11), is dyadic `(T, 2T)`, and cites Farmer-Gonek-Lee only
+  as the RH-conditional comparator, never as an input.
+- Chirre, Gonçalves and de Laat (arXiv:1810.08843, Corollary 7) give `0.8825`
+  simple and `0.9412` distinct for `xi'` **under RH**, full range. Any
+  conditional short-interval `xi'` curve is compared against that at
+  `theta -> 1`.
+- Of the 191 `math.NT` listings from 2026-09-05 to 2026-09-12, Wang's is the
+  only short-interval zero paper and none concerns derivatives. Semantic
+  Scholar reports zero citations of Wang and one of Lamzouri (Wang).
+
+**The near-miss that fixes the wording.** Conrey (JNT 17 (1983), as restated
+by Rezvyakova) and Rezvyakova (Izv. Math. 69 (2005) and 70 (2006)) already
+work in **sub-dyadic windows** `(T, T + U]` with `U = T (log(T/2 pi))^(-10)`:
+on-line proportion of `xi^(k)` zeros above `1 - (3/5) k^(-2)`, and
+**simple on-line proportion above `1 - ((e^2 + 2)/16) k^(-2)`**, uniformly in
+`k` up to `(1/2) log log T / log log log T`. At `k = 1` that is about `0.413`.
+So "first short-interval statement for `xi'`" would be **false**. The correct
+claim, if the route succeeds, is **"first power-length statement, `T^theta`
+with `theta < 1`, and first as a function of theta"**, with Rezvyakova's
+`0.413` in log-power windows and Conrey's `0.79874` at full range as the
+comparanda. Write it that way from the start.
+
+Also absent, and worth knowing: Steuding (Acta Math. Hungar. 96 (2002)) and
+Karatsuba (1984) give positive proportions of simple critical zeros
+(`H >= T^0.552`) and odd-order zeros (`H >= T^(27/82+eps)`) of **zeta** in
+power-length intervals by Levinson and Selberg methods, with no explicit
+theta-curve; no Levinson-method `xi'` analogue in short intervals was found.
+Ki and Lee (2012) and Das and Pujahari (arXiv:2104.10243) treat `zeta^(k)` in
+`(T, T + T^a]`, `a > 1/2`, but only horizontal-distribution sums, not on-line
+or simple proportions.
+
+### 6.2 What a short-interval xi-prime theorem has to rebuild, exactly
+
+**The `xi'` prime side has no published statement.** Alpöge-Furman's Remark
+7.1 says only "the argument of §§4-6 gives, unconditionally". Their §5 is
+written for zeta. The unconditional `xi'` input exists **only as Lean code**
+in `anthropics/formal-math`, subdirectory `zeta23/Zeta23/XiPrime/` (the
+repository formerly at `anthropics/zeta-23-lean`; update the citation in
+`lean/bridge/README.md` and `BRIDGE.md` accordingly, see §11), whose
+docstrings cite an accompanying write-up labelled `[XF']` that is **not
+public**. What those docstrings specify:
+
+- The coefficient family replacing `-Lambda(n)`: `b_N = C(N; L_T)` with
+  `L_T = l/2 + i pi/4`, density `D_1` given as a power series
+  (`Defs.D1`), hypotheses (H1) to (H3) on partial sums proved as
+  `xiCoeffFamily_hyps` via one analytic input, Mertens.
+- `XiEF`, the entrywise explicit formula for `xi'`: the zero-side Gram entry
+  equals the prime-side main term up to
+  `|E_kl| <= C T^(-delta) (min(1, |tau_k - tau_l|^(-2)) + 1/T)` with
+  `delta = (1 - 3 lambda/4)/2 > 0` for every fixed `lambda <= 1`.
+- `CoeffMoments`, the two prime-side moments:
+  `(1 - delta) N <= tr M <= (1 + delta) N` and
+  `||M||_F^2 <= (kappa + delta) N`, `N = N(T, 2T)`, from the
+  Montgomery-Vaughan Hilbert inequality. **This is the `xi'` analogue of
+  BGSTB's Lemma 5**, and it is proved for the dyadic window at every
+  `lambda` in `(0, 1)` (`xiDeriv_fixedLamBounds`).
+- Also proved there: all zeros of `xi'` lie in `0 < Re s < 1`, and the local
+  count `N_xi'(t + 1) - N_xi'(t) << log(t + 3)`.
+
+**So the task is now concrete.** Localize `XiEF` and `CoeffMoments` from
+`(T, 2T)` to `(T, T + T^theta]` exactly as Wang localized BGSTB's Lemmas 3, 4
+and 5, supply the `xi'` local count in the short window, and feed the result
+to Lamzouri's Proposition 2.1, which applies to any finite
+conjugation-invariant multiset and so to the `xi'` zeros in `I` once a
+short-interval `F_1` formula with band `(-lambda, lambda)`, `lambda < theta`,
+exists. The arithmetic term of `F_1` is the single `|x|` that is Montgomery's,
+and Wang's Theorem 2.2 delivers exactly that on the narrowed band; the
+`-4x^2` and the series are a deterministic transfer from zeta zeros to `xi'`
+zeros carrying no `Lambda(n)`.
+
+**The audit that gates this, and it is the same hazard as §4.** Those
+deterministic corrections were established by a **dyadic average**. Read
+`Zeta23/XiPrime/` for every division by `N(T, 2T)` and every step that
+averages over `[T, 2T]`, and verify each yields `o(HL)` with the block
+replaced by `T^theta`. That is where a `T^(1-theta)` hides. Second and
+smaller risk: unconditionally there is no Rolle interlacing between `xi` and
+`xi'` zeros, so any step pairing them needs the source's index bookkeeping
+rather than RH. **If the audit passes, that is the deliverable of this
+hunt.** If it fails, the failure is a scope boundary on the whole `xi'` arm
+and worth writing down, because the tree currently has no statement either
+way.
+
+Hardy's `Z'` is formalized in the same tree (`hardyW_simple_on_line`,
+`0.85838 / 0.92919`) and is equally absent from the short-interval
+literature; it is a second target of the same shape and should be mentioned
+in the same paper if the first succeeds.
 
 **Do not conflate the two constants both called `c*`.** The zeta one has
 kernel `|alpha|`, `1/c*_1 = 1.3274992963205884`, and is Wang's. The `xi'` one
@@ -286,9 +361,14 @@ ceiling is `0.6818286874638` against a window optimum of `0.6725007036794116`,
 a headroom of `0.00933` that no window reaches, and `Phi_3`, `Phi_4` and the
 `0.675142509660254` family saturation all live inside it.
 
-**The bandwidth-theta configuration ceiling is computed nowhere.** It is the
-number that bounds this tree's entire remaining program on this axis, and
-competitors' too. `Zeta23.PairCeiling.ceiling_law256` is the template and
+**The bandwidth-theta configuration ceiling is computed nowhere**, and the
+search in §6.1 confirms it: Alpöge-Furman §7.2 and `Zeta23/PairCeiling/`
+certify a ceiling only for bandwidth-one certificates for zeta
+(`p_0 <= 0.6818287`, with interval-arithmetic enclosure hypotheses rather
+than a kernel check), nothing for bandwidth below one, nothing for `xi'` at
+any bandwidth, and Wang's paper contains no ceiling or optimality remark at
+all. It is the number that bounds this tree's entire remaining program on
+this axis, and competitors' too. `Zeta23.PairCeiling.ceiling_law256` is the template and
 `hunts/frontier_math/configuration_lp.py` is the machinery, whose band data
 `R2hat(alpha) = delta(alpha) + |alpha|` on `[-1,1]` is exactly the object that
 has to become `[-theta, theta]`.
@@ -304,28 +384,20 @@ ceiling law is a **cap**, which is the kind of statement this laboratory is
 unusually good at producing and nobody else is producing. Nothing in it should
 be harder in Mathlib than what the source development already did.
 
-## 8. Route three: the band edge has a finite price, and nobody has priced it
+## 8. The band edge: priced, then closed by the literature
 
-**Largest prize, lowest probability, and the one that is not a
-short-interval question at all.** Recorded here because it fell out of
-thinking about the bandwidth axis, and it should probably become its own hunt
-or a GitHub issue rather than living in this one.
+**Status: the kill condition for this route fired on 2026-09-12, on a
+documented literature search, before any compute.** The pricing stands as a
+measured fact about what a constant upper bound on `F` beyond the band would
+be worth. The bound does not exist, and the search says why.
 
-`hunts/outband_certificate/RESULTS.md` states the laboratory's reason for
+**The price.** `hunts/outband_certificate/RESULTS.md` states the reason for
 bandwidth one: "`F` has no unconditional upper bound outside the band, so
-bandwidth one is forced". **That names the missing input. It does not price
-it.** Note also the direction, which hunts #110 and #118 got the other way
-round: those priced out-of-band **positivity**, a lower bound, and positivity
-is wrong-signed information for this method. What the method needs beyond the
-band is an **upper** bound, because the out-of-band contribution enters as
-`integral F(alpha) (f correlated with f)(alpha) dalpha` and the
-autocorrelation of the nonnegative `f = eta^2` is nonnegative.
-
-Priced in `landscape.py`, by minimizing
+bandwidth one is forced". That names the input without pricing it. Priced in
+`landscape.py` by minimizing
 `integral f^2 + double-integral_{|u-v|<=1} |u-v| f f + B double-integral_{|u-v|>1} f f`
-over `f` on `[-L/2, L/2]` with `integral f = 1`, and checking the minimizer's
-sign, because a sign-changing minimizer is outside Lamzouri's class and its
-value is not a bound:
+over `f` on `[-L/2, L/2]` with `integral f = 1`, checking the minimizer's sign
+because a sign-changing minimizer is outside Lamzouri's class:
 
 | F <= B | L = 1.05 | L = 1.10 | L = 1.20 |
 |---|---|---|---|
@@ -334,30 +406,81 @@ value is not a bound:
 | 6 | 0.697810 | 0.710023 | 0.718168 |
 | 20 | 0.686561 | sign-changing | sign-changing |
 
-Baseline `0.672508` at this discretization. **Every admissible cell with
-`B <= 6` exceeds the entire bandwidth-one ceiling headroom of `0.00933`**, and
-`B = 20` on a sliver of width `0.05` still gains `0.0142`, which is about
-sixty times the `Phi_3` gain. The mechanism is that the shadow price of
-bandwidth is linear, in closed form
-`c'(1) = (1/2) cot^2(1/sqrt 2) = (3/2 - H)^2 = 0.6847550854111`, while the
-out-of-band autocorrelation mass of a stretched window is quadratically
-small, so the optimal extension is strictly positive for **any** finite `B`.
+Baseline `0.672508`. A constant `B` of any finite size on any sliver beyond
+the band would be worth more than the whole bandwidth-one headroom of
+`0.00933`, because the shadow price of bandwidth is linear,
+`c'(1) = (3/2 - H)^2 = 0.6847550854111`, while the out-of-band mass of a
+stretched window is quadratically small. **That is what the input would buy.
+Here is why it is not available.**
 
-**So the required input is not the pair correlation conjecture beyond the
-band. It is an unconditional `integral_1^(1+delta) F(alpha) dalpha <= B delta`
-for some finite `B` and some `delta > 0`.**
+**What the literature holds, searched 2026-09-12.** Twenty-one query strings
+and twenty-three papers, listed in `RESULTS.md` §4.
 
-**What is not established, and it is the whole question.** Positive
-definiteness gives only `F(alpha) <= F(0)`, which grows like `log T` and is
-therefore not a constant. So the trivial route does not supply an admissible
-`B`, and an averaged unconditional statement about `F` beyond the band is
-genuinely hard: if it were easy it would have been done in the 1980s. The
-cheapest kill, in order: read the Fourier-optimization and "three integrals"
-literature (arXiv:2502.05106 and arXiv:2108.09258) for any unconditional upper
-bound on averages of `F` beyond 1; then check whether the nonzero prime-pair
-terms enter Montgomery's identity with a controllable sign for
-`1 < alpha < 1 + delta`. If both fail, the door is shut and the reason is
-publishable as a scope caveat, which is an acceptable outcome.
+*Unconditionally:* nothing past `alpha = 1` beyond `F >= 0` (positive
+definiteness) and `F(alpha) <= F(0) ~ log T`. Baluyot, Goldston, Suriajaya
+and Turnage-Butterbaugh (arXiv:2306.04799) stop at `alpha = 1` and state
+nothing beyond it. No paper found even states an unconditional averaged bound
+past 1.
+
+*Under RH:* integrated bounds exist and are `T`-independent. Goldston's Notes
+(math/0412313) Lemma 1: `integral_B^{B+1} F <= 3` for any `B`. Carneiro,
+Chandee, Chirre and Milinovich, arXiv:2108.09258 ("a tale of three
+integrals"), Theorem 10: `integral_1^{1+delta} F <= 7/8 + (5/4) delta + O(delta^2) + o(1)`.
+**But that bound tends to `7/8`, not to zero, as `delta -> 0`.** In their own
+words, equation (2.27): "we cannot rule out the existence of delta spikes in
+`F(alpha)` for `|alpha| >= 1`". Every known upper-bound argument drops the
+phases `T^{i alpha (gamma - gamma')}` by absolute value and is therefore
+location-blind, so it cannot see below the spike mass. The pricing above
+needs a bound of the shape `B delta`, and no bound of that shape exists under
+any hypothesis short of Hardy-Littlewood itself. Pointwise, even
+`F(alpha) << 1` just past 1 is carried as an unproved hypothesis by
+Heath-Brown (Acta Arith. 41 (1982)) and by Goldston and Suriajaya
+(arXiv:2205.06503), who write of it "there is probably no hope of proving
+any of these conjectures at present".
+
+*Chirre, Goncalves and de Laat's `0.6792` under RH* (arXiv:1810.08843, Lemma
+8) uses **only** `F >= 0` beyond the band plus the Cohn-Elkies constraint
+`ghat <= 0` for `|x| >= 1`. No upper bound on `F` beyond 1 is assumed or used
+there, nor in Carneiro-Chandee-Littmann-Milinovich (arXiv:1406.5462).
+
+**The precise obstruction, and it is not RH.** Past `alpha = 1` the quantity
+`F(alpha) - alpha` is the difference of two terms each of size about
+`T^alpha`, whose cancellation to within `O(T log T)` requires the prime-pair
+correlations `sum_n Lambda(n) Lambda(n+h)` to relative error
+`O(T^{1-alpha} log T)`, uniformly in `h`. Montgomery said so in 1973. A sieve
+upper bound gives those correlations to a constant factor `c` (4 by
+Bombieri-Davenport, 3.2996 by Lichtman arXiv:2109.02851, and never below 2 by
+parity), which leaves a residual `(c - 1) T^alpha` against a main term
+`T log T`: for `alpha = 1.05` and `log T = 100` the residual is already 1.4
+times the main term at `c = 2`. So the sieve route fails unconditionally and
+under RH alike, and BGSTB's technique cannot cross `alpha = 1` in the
+upper-bound direction because what it needs there is not a zero-free-region
+fact but a prime-pair fact at second order. The same shape appears on the
+prime side: every unconditional variance bound for primes in short intervals
+(Brun-Titchmarsh, Zaccagnini) is of the `H^2 x` shape, and what the form
+factor needs is `H x log(x/H)`.
+
+**The one-line kill for any future attempt.** Any argument that never uses
+the phases beyond `|alpha| <= 1` proves the same bound at `b = 0` as at
+`b = 1`. But `integral_{-delta/2}^{delta/2} F >= 1 + o(1)` for every fixed
+`delta` by Montgomery's theorem. So no phase-dropping argument can give
+`B delta < 1`. Apply this to any draft before reading further.
+
+**Assessment, marked as such:** probability that an unconditional
+`T`-independent bound `integral_1^{1+delta} F <= B delta` appears by known
+methods within a lab-scale effort, about 2%; a pointwise `F <= B` on
+`(1, 1+delta)` under RH, about 1%. Feeding the RH-conditional CCCM bound back
+into a simple-zero argument cannot exceed the Chirre-Goncalves-de Laat
+optimum, since it is derived from the same three facts that certificate
+already optimizes over.
+
+**One definitional note the tree should carry.** BGSTB's Theorem 1 is about a
+*modified* form factor, summed over complex zeros with weight
+`w(u) = 4/(4 - u^2)`, which agrees with Montgomery's only under RH. Lamzouri
+and Wang use exactly that modified object, so the lab's certificates are
+consistent; but "BGSTB proved `F >= 0` unconditionally" should be read as
+being about the modified `F`, and for Montgomery's own `F` the nonnegativity
+is the older positive-definiteness fact.
 
 ## 9. Leads
 
@@ -373,6 +496,12 @@ publishable as a scope caveat, which is an acceptable outcome.
   only whether it is positive. Low expectation. Note it competes with §6 for
   the same headline and loses, since `xi'` reaches `0.5133` with machinery
   that already exists.
+- **Alpöge-Furman Remark 6.1 already states the flat-window landscape**,
+  `H(lambda) = 2 - 1/lambda - lambda/3`, with the sentence "no `lambda < 1`
+  improves the constants". That is §5's flat-window identity in the source
+  paper, and it is the sentence Wang's Theorem 2.2 gives a second reading to:
+  no `lambda < 1` improves the constants *for the full range*, and every
+  `lambda < 1` is exactly what a shorter range costs.
 - **Two unread unconditional moment-bound papers** that may bear on
   `cycle_moments`'s blocker: arXiv:2609.11619 (Hagen) and arXiv:2609.01101
   (Durkan, Karak, Mahatab). Shape unchecked.
@@ -430,6 +559,14 @@ Small, real, none of them this hunt's mathematics:
 4. **`hunts/frontier_map/RESULTS-frontier-map.md` should record that its
    landscape now has a theorem attached at each bandwidth**, citing Wang. One
    paragraph, not a new claim.
+5. **`hunts/wide_search/RESULTS-xiprime.md` cites the `xi'` figures as
+   Alpöge-Furman "Remark 7.3".** They are Remark 7.1, which sits under
+   subsection 7.3; the paper's own §1.3 and the Lean `formalization.yaml` both
+   say 7.1. Fix the citation.
+6. **The Lean dependency has moved.** `lean/bridge/README.md` and `BRIDGE.md`
+   cite `anthropics/zeta-23-lean`; the development now lives at
+   `anthropics/formal-math`, subdirectory `zeta23/`. Update the citation and
+   check the pinned revision still resolves.
 
 ## 12. Scope
 
@@ -464,15 +601,18 @@ measured version, ranked by shadow price.
 
 **Active constraint.** One: **bandwidth**. Its shadow price is known in closed
 form, `(3/2 - H)^2 = 0.6847550854111` per unit at bandwidth 1, and §3 is the
-news that it is a physical parameter rather than a free dial. Its door is §8.
+news that it is a physical parameter rather than a free dial. Its door is §8,
+and §8 is shut.
 
 **Frozen-constant inventory**, with what relaxing each trades against.
 
 1. **The band edge at 1.** Frozen by the absence of an unconditional upper
-   bound on `F` beyond it, not by choice. Priced in §8: worth more than
-   everything else here combined, at a probability the brief states honestly.
-   Genuine trade shape: it spends an out-of-band bound of any finite quality
-   to buy linear band width.
+   bound on `F` beyond it, not by choice. Priced in §8 as worth more than
+   everything else here combined, **and shut by the literature the same day**:
+   the required input is a prime-pair fact at second order, blocked by
+   parity, and even under RH the best integrated bound tends to `7/8` rather
+   than to zero. The price is recorded so the next person to derive this door
+   knows what is behind it and why it will not open.
 2. **The kernel.** The zeta arm is fixed to `F(alpha) = |alpha|`. The tree also
    computes the `F_1` landscape and Wang does not, so this is the frozen choice
    where the tree holds something the field does not. §6. Changes the
@@ -491,7 +631,8 @@ news that it is a physical parameter rather than a free dial. Its door is §8.
    survives at bandwidth theta is unchecked and cheap to check, though §5
    bounds the prize.
 
-**Information class.** Doors 1 and 2 leave the class; 3, 4 and 5 stay inside
-it and are therefore under the configuration ceiling, which is itself a
-bandwidth-one number and unmeasured at bandwidth theta. That measurement is
-§7 and it is the stopping criterion for the whole axis.
+**Information class.** Door 1 would leave the class and is shut. Door 2
+leaves the class and is open. Doors 3, 4 and 5 stay inside it and are
+therefore under the configuration ceiling, which is itself a bandwidth-one
+number and unmeasured at bandwidth theta. That measurement is §7 and it is
+the stopping criterion for the whole axis.

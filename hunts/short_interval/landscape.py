@@ -36,7 +36,11 @@ published number or a known limit rather than trusted on its own.
    arbitrarily thin sliver beyond the band is worth more than the whole
    remaining bandwidth-one headroom. Note the direction: hunts #110 and #118
    priced out-of-band *positivity*, a lower bound, which is the wrong-signed
-   information for this method.
+   information for this method. **A literature search on 2026-09-12 then
+   closed the door** (``MISSION.md`` section 8, ``RESULTS.md`` section 4.2):
+   no such upper bound exists unconditionally, and under RH the best
+   integrated bound tends to 7/8 rather than to zero as the sliver shrinks.
+   The price stands as a measured fact about an input that is not available.
 
 House rule: run with the repository virtualenv.
 
