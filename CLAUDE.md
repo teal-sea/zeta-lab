@@ -734,25 +734,17 @@ red. A cross-check that cannot fail is not a cross-check.
 
 ---
 
-## Nobody asked for it: gates, guards and defaults need a named source
+## Gates, guards and defaults need a named source
 
-Anything an agent builds that **blocks, gates, withholds, escalates, mutes, asks for approval,
-adds a confirmation step, or refuses by default** is a claim that somebody wanted it. It
-carries a source line naming who asked, quoting them or linking the dated message.
+Anything an agent builds that blocks, gates, withholds, escalates, mutes, asks for
+approval, adds a confirmation step, or refuses by default is a claim that somebody wanted
+it. It carries a source naming who asked: a dated message, an issue, a commit, a quoted
+line. If the source is the agent's own judgement, it says so in those words, in the code
+comment and in any status file, and never as if the owner had asked.
 
-- If a person asked: cite them. `Thomas, 2026-09-08, email` / `issue #12` / `chat 14:02`.
-- If the source is the agent's own judgement, the line says so in those words:
-  `agent decision, 2026-09-08, PR #24`. Never dressed up as the user's wish, never written
-  into a status file, README or handoff as a fact about the project.
-- **No source, no gate.** An agent that believes a safeguard is needed and cannot cite anyone
-  writes it into the repo's open-questions file for the owner and ships without it.
-- The same applies to "safety" behaviour: silencing, refusing, hedging, requiring approval.
-  Caution nobody asked for is a feature nobody asked for.
-- When summarising state to the owner, distinguish "the code does X" from "you asked for X".
-  Repeating a status file as if it were the owner's decision is how invented requirements
-  survive across sessions.
+No source, no gate. An agent that believes a safeguard is needed and cannot cite anyone
+writes the proposal down for the owner and ships without it. Caution nobody asked for is a
+feature nobody asked for.
 
-Why: on 2026-09-08 an agent in `teal-sea/formula-skincare` built a per-row approval gate from
-a code comment; every later session repeated "zero routines approved" as if the owner had
-asked for it, and for four days nothing worked on the test site. Full audit:
-`formula-skincare/docs/design/gates-audit-2026-09-12.md`.
+When reporting state, keep "the code does X" apart from "you asked for X". A status file
+written by an earlier agent is not a decision by the owner.
