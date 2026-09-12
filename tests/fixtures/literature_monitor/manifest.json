@@ -1,0 +1,134 @@
+{
+  "21e2bd5e02c5a9a6": {
+    "file": "q-davenport-heilbronn-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:\"Davenport-Heilbronn\" AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "2bfa1eea3df3469c": {
+    "file": "q-mollifier-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:mollifier AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "4969b1f5d2b0093b": {
+    "file": "q-simple-zeros-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:\"simple zeros\" AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "5ec50dcba3f1c748": {
+    "file": "q-short-intervals-zeta-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:\"short intervals\" AND all:zeta AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "6212acfdbe9cdfb3": {
+    "file": "q-critical-line-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "abs:\"critical line\" AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "632047dcc77e240c": {
+    "file": "q-li-criterion-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:\"Li's criterion\" AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "828611b4f7ffdf93": {
+    "file": "q-pair-correlation-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:\"pair correlation\" AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "9cc907334b39f119": {
+    "file": "q-form-factor-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:\"form factor\" AND all:zeta AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "a96aeaa3e5fb562d": {
+    "file": "q-simple-critical-zeros-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:\"simple critical zeros\" AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "f05d43a5f519ee97": {
+    "file": "q-zeros-of-the-riemann-zeta-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:\"zeros of the Riemann zeta\" AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  },
+  "f8f9b215824bc882": {
+    "file": "q-de-bruijn-newman-start0-PLACEHOLDER.xml",
+    "params": {
+      "max_results": "100",
+      "search_query": "all:\"de Bruijn-Newman\" AND (cat:math.NT OR cat:math.CA OR cat:math.SP OR cat:cs.LO)",
+      "sortBy": "submittedDate",
+      "sortOrder": "descending",
+      "start": "0"
+    },
+    "placeholder": true,
+    "status": 200
+  }
+}

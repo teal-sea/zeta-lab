@@ -1,0 +1,44 @@
+# The standing literature watch. See meta/literature-monitor.md for the
+# incident that asked for it: a paper on the lab's exact subject sat on arXiv
+# for five days until a stranger emailed about it.
+#
+# Weekdays only, because arXiv does not announce on weekends and an empty
+# weekend run is indistinguishable from a broken one (brief, section 2). The
+# daily mailing goes out at roughly 00:00 UTC Monday to Friday; 06:00 UTC is
+# six hours after the latest announcement and one hour before full.yml's
+# 07:00, so the two never compete for the same cron minute and a failure here
+# is visible on its own badge rather than folded into the nightly.
+#
+# No `push` trigger on purpose: the job opens issues, and a run per commit
+# would open the same issue set from every branch. Dedup would catch it, but
+# dedup is a floor, not a license.
+name: literature monitor
+
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"   # 06:00 UTC, Monday to Friday
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  monitor:
+    name: arXiv watch, one issue per new paper
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # Standard library only: no install step, nothing to cache. The script
+      # reads GITHUB_TOKEN at call time from the environment and never prints
+      # it. It exits non-zero on any query that did not complete, so a red run
+      # means "did not look", never "nothing new".
+      - name: run the monitor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/literature_monitor.py

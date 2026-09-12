@@ -1283,6 +1283,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/70_lab_state.py`, 70_lab_state.py, the read-only research-state view, rendered from artifacts.
 - `scripts/71_contribution_check.py`, Check that an external research hunt carries the lab's review contract.
 - `scripts/check_secrets.py`, Refuse to publish a credential. Scans git objects for secret patterns.
+- `scripts/literature_monitor.py`, A standing literature watch on the lab's own subject. arXiv to GitHub issues.
 - `scripts/make_context.py`, Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py`, Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py`, Which of Mathlib's 1000 famous theorems are still unformalized.
@@ -1296,7 +1297,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2120 test functions across 107 files (the collected count differs where tests are parametrised):
+2152 test functions across 108 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1357,6 +1358,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_leeyang.py`, 7
 - `tests/test_lesion_sets_are_pinned.py`, 4
 - `tests/test_li.py`, 56
+- `tests/test_literature_monitor.py`, 32
 - `tests/test_meta_evals.py`, 17
 - `tests/test_meta_ledger.py`, 24
 - `tests/test_moments.py`, 26

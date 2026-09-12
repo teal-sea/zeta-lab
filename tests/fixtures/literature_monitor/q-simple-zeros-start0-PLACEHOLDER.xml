@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <link href="http://arxiv.org/api/query?search_query=all%3A%22simple%20zeros%22%20AND%20%28cat%3Amath.NT%20OR%20cat%3Amath.CA%20OR%20cat%3Amath.SP%20OR%20cat%3Acs.LO%29" rel="self" type="application/atom+xml"/>
+  <title type="html">PLACEHOLDER, NOT A RECORDING</title>
+  <id>http://arxiv.org/api/placeholder</id>
+  <updated>2026-09-12T00:00:00-04:00</updated>
+  <opensearch:totalResults xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">102</opensearch:totalResults>
+  <opensearch:startIndex xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">0</opensearch:startIndex>
+  <opensearch:itemsPerPage xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">100</opensearch:itemsPerPage>
+  <entry>
+    <id>http://arxiv.org/abs/2609.02882v2</id>
+    <updated>2026-09-10T00:00:00Z</updated>
+    <published>2026-09-02T00:00:00Z</published>
+    <title>PLACEHOLDER title for Lamzouri, arXiv:2609.02882 (v2 as of 2026-09-12)</title>
+    <summary>  PLACEHOLDER abstract. Replace this file with a real recording.
+</summary>
+    <author>
+      <name>Youness Lamzouri</name>
+    </author>
+    <link href="http://arxiv.org/abs/2609.02882v2" rel="alternate" type="text/html"/>
+    <link title="pdf" href="http://arxiv.org/pdf/2609.02882v2" rel="related" type="application/pdf"/>
+    <arxiv:primary_category xmlns:arxiv="http://arxiv.org/schemas/atom" term="math.NT" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.NT" scheme="http://arxiv.org/schemas/atom"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.00001v1</id>
+    <updated>2026-08-20T00:00:00Z</updated>
+    <published>2026-08-20T00:00:00Z</published>
+    <title>PLACEHOLDER older paper, outside the window</title>
+    <summary>  PLACEHOLDER abstract.
+</summary>
+    <author>
+      <name>Nobody</name>
+    </author>
+    <link href="http://arxiv.org/abs/2608.00001v1" rel="alternate" type="text/html"/>
+    <link title="pdf" href="http://arxiv.org/pdf/2608.00001v1" rel="related" type="application/pdf"/>
+    <arxiv:primary_category xmlns:arxiv="http://arxiv.org/schemas/atom" term="math.NT" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.NT" scheme="http://arxiv.org/schemas/atom"/>
+  </entry>
+</feed>
