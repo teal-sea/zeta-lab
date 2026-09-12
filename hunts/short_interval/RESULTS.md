@@ -442,6 +442,106 @@ gh workflow run hunt-short-interval-ceiling.yml --ref <branch> \
 Not dispatched. Nothing in this section is a result, and nothing here bears
 on RH (`docs/08`).
 
+## 9. Enclosed bandwidth-theta constants
+
+**Run 2026-09-12, manifest `short_interval-2026-09-12-enclose-theta` in
+`RUNS.md`. Every number below is printed by that run and stored in
+`artifacts/enclose-theta.json`.** This discharges condition 5 of the gate in
+`MISSION.md` §6.2, "bandwidth-theta decimals must be enclosed by ball
+arithmetic before any number is stated", and it does so one rung stronger
+than the condition asks: the bounds are **exact rationals plus a proved tail
+bound**, with no floating point on the load-bearing path. Ball arithmetic
+(Arb via `python-flint` 0.9.0, cross-checked against `mpmath.iv`, both with
+exact endpoint extraction) enters only the zeta control, where Wang's
+`c(theta)` is transcendental.
+
+**Grade: hardened.** Not kernel-checked. Nothing here bears on RH.
+
+**What is bounded, and what is not.** For an even polynomial window `v` on
+`[-1/2, 1/2]` with rational coefficients, every integral in
+
+    R_theta(v) = [ int v^2 + theta iint F(theta (s-s')) v v ] / ( theta (int v)^2 )
+
+is an exact rational, for both `F(x) = |x|` (zeta) and Farmer-Gonek-Lee's
+`F_1` (xi'), the latter truncated at `k = M = 20` with the omitted tail bounded
+above by `theta^(2M+3) rho_M (int v^2)/(int v)^2`, `rho_M = 45088768/2828846926`
+(about `1.6e-20`), the geometric majorant of `hunts/wide_search/
+certify_bound.py` carrying the extra `theta^(2M+3)` because
+`|theta (s-s')| <= theta <= 1`, and Cauchy-Schwarz on `|I| = 1` in place of
+any positivity assumption on `v`. The bound `2 - R_theta(v)` is a valid lower
+bound on the optimum for **every** admissible `v`, so the table below states
+**lower bounds for one degree-6 even polynomial window each, and not the
+optimum**. The window at each bandwidth is the degree-6 minimizer from a
+4 x 4 float linear solve, normalized to `v(0) = 1` and rounded to
+denominators at most 1000; how it was chosen carries no proof weight and a
+poor choice only loosens the bound. The zeta column shows how little that
+costs: the degree-6 polynomial sits within `6e-12` of Wang's optimum at every
+bandwidth.
+
+Bounds are truncated downward at twelve decimals, never rounded. The
+`c(theta)` column is the lower end of the Arb enclosure, truncated at ten.
+
+| theta | zeta, this window | Wang `c(theta)`, enclosed | `c(theta) - bound` | xi', this window | xi' window `(c1, c2, c3)`, `v = 1 + c1 s^2 + c2 s^4 + c3 s^6` |
+|---|---|---|---|---|---|
+| 1.00 | 0.672500703679 | 0.6725007036 | 1.5e-13 | **0.868641500514** | -38/121, -2954/785, -678/695 |
+| 0.95 | 0.635679331247 | 0.6356793312 | 3.6e-15 | **0.837728309542** | -128/715, -2192/739, -565/834 |
+| 0.90 | 0.593101699738 | 0.5931016997 | 8.7e-16 | **0.797031595529** | -5/72, -1943/844, -436/947 |
+| 0.85 | 0.543729667389 | 0.5437296673 | 8.5e-15 | **0.745633583872** | 3/238, -350/199, -264/863 |
+| 0.80 | 0.486267332286 | 0.4862673322 | 8.3e-17 | **0.682544134733** | 66/971, -895/677, -103/519 |
+| 0.75 | 0.419075012975 | 0.4190750129 | 1.6e-15 | **0.606552171231** | 25/251, -464/475, -33/263 |
+| 0.70 | 0.340046373600 | 0.3400463736 | 1.1e-13 | **0.516050543399** | 20/179, -304/429, -32/415 |
+| 0.65 | 0.246428847416 | 0.2464288474 | 6.0e-13 | **0.408816402390** | 107/981, -68/135, -33/719 |
+| 0.60 | 0.134554281899 | 0.1345542819 | 6.0e-12 | **0.281713596967** | 57/592, -169/483, -26/987 |
+| 0.55 | -0.000577327056 | -0.0005773271 | 2.5e-12 | **0.130258286830** | 37/477, -31/131, -1/69 |
+
+The zeta row at `0.55` is negative, as Wang's curve is there (`theta_0 =
+0.55019`), and is recorded because the control must hold at a vacuous
+bandwidth as well as a useful one. The tail bound is `1.6e-20` at `theta = 1`
+and falls to `1.1e-31` at `0.55`; it never touches the twelfth decimal.
+
+**Controls, all passed in the same run.**
+
+1. **Zeta against Wang's closed form, exactly.** At every theta the rational
+   bound is `<=` the lower end of the enclosure of `c(theta) = 2 - theta/2 -
+   cot(theta/sqrt 2)/sqrt 2`, and the upper end minus the bound is at most
+   `6.0e-12`, against the `1e-3` the control demands. The enclosure width is
+   `1e-30`. Had the bound exceeded `c(theta)` anywhere the instrument would be
+   wrong, since `c(theta)` is the optimum over all windows.
+2. **The published windows at `theta = 1`, xi'.** The source paper's quartic
+   `1 - (7/100)(2s)^2 - (51/200)(2s)^4` gives `0.868640515166 >= 0.86864`,
+   and the flat window gives `0.858384054709 >= 0.85838` (Alpoge-Furman
+   Remark 7.1). Both are exact rational comparisons.
+3. **The float landscape lies above the enclosed bounds.** `landscape.py`'s
+   optimal-window values, which are over all windows and carry a
+   discretization error of order `1e-5`, exceed the polynomial bounds by
+   `+3.7e-6` at `0.55` (`0.130262`), `+4.4e-6` at `0.60` (`0.281718`) and
+   `+9.9e-6` at `0.80` (`0.682554`). Positive, and small, as they must be.
+
+Also checked by the run: the exact moment matrices `iint |s-t|^m s^(2i)
+t^(2j)` agree with sympy at six entries; the flat window gives
+`R = 1/theta + theta/3` for zeta exactly at every theta; and the degree-6 xi'
+bound at `theta = 1` sits `1.6e-11` below the laboratory's full-window
+`H* = 0.8686415005` (`hunts/wide_search/RESULTS-xiprime.md`), below it as a
+one-window bound must be. The `theta = 0.75` and `0.90` rows agree with the
+float `H*` column of that file's lambda table (`0.6065522`, `0.7970316`) to
+the digits it prints.
+
+**What this changes in §6.2.** Condition 5 is met for the ten bandwidths
+above. What the paper may state, once the localization is written, is
+"at least `0.281713` of the zeros of `xi'` in `(T, T + T^0.6]` are simple and
+on the line", and likewise per row, each as a bound and not as the constant.
+The optimum at each theta is still float grade; enclosing it would need the
+`certify_bound.py` two-sided argument with the coercivity constant `9/5`
+re-derived at bandwidth theta, which nothing here does.
+
+Reproduce, from the repo root, in about two seconds:
+
+```bash
+.venv/bin/python hunts/short_interval/enclose_theta.py
+```
+
+Exit code 0 iff every control passes.
+
 ## The doors
 
 Preliminary: this hunt has measured no ceiling of its own, so the inventory is

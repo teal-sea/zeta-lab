@@ -1,0 +1,541 @@
+{
+  "grade": "hardened: exact rationals for every integral plus a proved upper bound on the series tail; no floating point on the load-bearing path. Ball arithmetic is used only to enclose Wang's transcendental c(theta) in the zeta control.",
+  "functional": "R = [int v^2 + lambda iint F(lambda(s-s')) v v] / (lambda (int v)^2); bound = 2 - R",
+  "tail_bound": "lambda^(2M+3) rho_M int v^2 / (int v)^2 with M = 20, rho_M = 45088768/2828846926917599723269509375",
+  "rigor_backend": "python-flint",
+  "rigor_available_backends": [
+    "mpmath.iv",
+    "python-flint"
+  ],
+  "moment_selfcheck_sympy": [
+    {
+      "m": 1,
+      "i": 0,
+      "j": 0,
+      "value": "1/3",
+      "agrees_with_sympy": true
+    },
+    {
+      "m": 2,
+      "i": 0,
+      "j": 0,
+      "value": "1/6",
+      "agrees_with_sympy": true
+    },
+    {
+      "m": 3,
+      "i": 1,
+      "j": 0,
+      "value": "11/840",
+      "agrees_with_sympy": true
+    },
+    {
+      "m": 5,
+      "i": 1,
+      "j": 2,
+      "value": "103/524160",
+      "agrees_with_sympy": true
+    },
+    {
+      "m": 7,
+      "i": 3,
+      "j": 3,
+      "value": "1163/1033224192",
+      "agrees_with_sympy": true
+    },
+    {
+      "m": 11,
+      "i": 2,
+      "j": 1,
+      "value": "43/474240",
+      "agrees_with_sympy": true
+    }
+  ],
+  "rows": [
+    {
+      "theta": "1/1",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-1/1",
+        "1/6",
+        "-2/183"
+      ],
+      "R_exact_truncated_series": "15144771342505/11408496700887",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "7672222059269/11408496700887",
+      "lower_bound_truncated_down": "0.672500703679",
+      "int_v2_over_int_v_squared": "11478398068130/11408496700887",
+      "control_wang": {
+        "c_theta_enclosure_lower": "0.672500703679411645734379790803",
+        "c_theta_enclosure_upper": "0.672500703679411645734379790804",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 1.5372248525458205e-13,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "1/1",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-38/121",
+        "-2954/785",
+        "-678/695"
+      ],
+      "R_exact_truncated_series": "178933798374814797407905277535669243234485420635696742525302/158158354275959845866631421205142364312140378147104106303125",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "5687359946701267791804104704/353552054720189429870025825538557792179815969125",
+      "tail_upper_bound_float": 1.6086343922403158e-20,
+      "lower_bound_exact": "500782866129446872854126174092548896843039765705675810049804/576512710747853631707398406328422166686189120342669806846875",
+      "lower_bound_truncated_down": "0.868641500514",
+      "int_v2_over_int_v_squared": "22073967305399026728025/21871671099379843530997",
+      "control_lab_optimum": {
+        "H_star_float": 0.8686415005297671,
+        "bound_le_H_star": true,
+        "H_star_minus_bound_float": 1.570178683907405e-11
+      }
+    },
+    {
+      "theta": "19/20",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-361/400",
+        "49/361",
+        "-7/870"
+      ],
+      "R_exact_truncated_series": "13498059366857522888003/9893612019526745770260",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "6289164672195968652517/9893612019526745770260",
+      "lower_bound_truncated_down": "0.635679331247",
+      "int_v2_over_int_v_squared": "18688921585923597589/18597015074298394305",
+      "control_wang": {
+        "c_theta_enclosure_lower": "0.635679331247602518781917984085",
+        "c_theta_enclosure_upper": "0.635679331247602518781917984086",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 3.5670708298879585e-15,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "19/20",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-128/715",
+        "-2192/739",
+        "-565/834"
+      ],
+      "R_exact_truncated_series": "6478095818234507798340255826788944792540375852410327713891465251588495609605491618433183447586608425810901/5573650181297441577008982269185196346067625361791832659066880000000000000000000000000000000000000000000000",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "1648793447267202257624732217596487511609841626858142561118936226137441054719407/934463191769311734843974463304979266151208364277760000000000000000000000000000000000000000000000000",
+      "tail_upper_bound_float": 1.764428456668666e-21,
+      "lower_bound_exact": "175873371170907471730156602573042558475631978421214294303372162042242486887674579520699983925649964392512724089/209940823495536966067338332139309062368547221960825696824852480000000000000000000000000000000000000000000000000",
+      "lower_bound_truncated_down": "0.837728309542",
+      "int_v2_over_int_v_squared": "526192431597913038861763/523738490581143114366615"
+    },
+    {
+      "theta": "9/10",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-81/100",
+        "48/439",
+        "-3/515"
+      ],
+      "R_exact_truncated_series": "4049846026138072012363/2878563450809190946230",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "1707280875480309880097/2878563450809190946230",
+      "lower_bound_truncated_down": "0.593101699738",
+      "int_v2_over_int_v_squared": "160550957443323073823/159920191711621719235",
+      "control_wang": {
+        "c_theta_enclosure_lower": "0.593101699738590040531868196077",
+        "c_theta_enclosure_upper": "0.593101699738590040531868196078",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 8.652698430766987e-16,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "9/10",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-5/72",
+        "-1943/844",
+        "-436/947"
+      ],
+      "R_exact_truncated_series": "60643751297151994184976652670436724469443114209773817785129132650241147042364386166753279/50411757342762208644987002081874984199571386981655955314636230468750000000000000000000000",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "14547448193094747550020813574275925317238398663574766392821/84518995876866755230638525181287477758175134658813476562500000000000000000000000",
+      "tail_upper_bound_float": 1.7212045697145405e-22,
+      "lower_bound_exact": "45403132628860838108637202296421021217322277194172953246477445833455703538409594213857493131/56965285797321295768835312352518732145515667289271229505538940429687500000000000000000000000",
+      "lower_bound_truncated_down": "0.797031595529",
+      "int_v2_over_int_v_squared": "19466698565271247941735/19424356517303016416423"
+    },
+    {
+      "theta": "17/20",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-289/400",
+        "87/1000",
+        "-2/483"
+      ],
+      "R_exact_truncated_series": "2751298392321574198019/1889277238375316194548",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "1027256084429058191077/1889277238375316194548",
+      "lower_bound_truncated_down": "0.543729667389",
+      "int_v2_over_int_v_squared": "27869921570178839725/27783488799637002861",
+      "control_wang": {
+        "c_theta_enclosure_lower": "0.543729667389876054424317602082",
+        "c_theta_enclosure_upper": "0.543729667389876054424317602083",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 8.500507709658611e-15,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "17/20",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "3/238",
+        "-350/199",
+        "-264/863"
+      ],
+      "R_exact_truncated_series": "3006242510884672708424453897314287936742211463323433376596006748537471588780885790762761586107895850427/2396622288537167373904663898855115393072842814013341696000000000000000000000000000000000000000000000000",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "3075344081898157118654928195889422672058639220842109709785011102896174419/208941846902760828636911736092394087756394659840000000000000000000000000000000000000000000000000",
+      "tail_upper_bound_float": 1.4718660371224666e-23,
+      "lower_bound_exact": "105004241409304541434253117624181600510893130311779157405856999632415542057140955480516129235461058594713519/140825525674443954890638050696726580496960243751423958056960000000000000000000000000000000000000000000000000",
+      "lower_bound_truncated_down": "0.745633583872",
+      "int_v2_over_int_v_squared": "14982026467957396697/14968386982161363465"
+    },
+    {
+      "theta": "4/5",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-16/25",
+        "57/835",
+        "-1/347"
+      ],
+      "R_exact_truncated_series": "2947043164743015305975/1946871615841057167548",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "946700066939099029121/1946871615841057167548",
+      "lower_bound_truncated_down": "0.486267332286",
+      "int_v2_over_int_v_squared": "2439481756502550707143/2433589519801321459435",
+      "control_wang": {
+        "c_theta_enclosure_lower": "0.486267332286377068099854542716",
+        "c_theta_enclosure_upper": "0.486267332286377068099854542717",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 8.275503629083624e-17,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "4/5",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "66/971",
+        "-895/677",
+        "-103/519"
+      ],
+      "R_exact_truncated_series": "3627605856303038656787189393928877564922700407988218498128920704716549015598509747589670917/2753493268307824505320093462971119929984382034095528013224907226685900241136550903320312500",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "2713378986542217860822650478133225968285249684961562198016/2500567724636271541717551596466587159136988502456944161167484708130359649658203125",
+      "tail_upper_bound_float": 1.0851051782398341e-24,
+      "lower_bound_exact": "13804051096896123049050244927028237958872207811894577431146603390931956867428909154400124015987/20224408055720970991576086485522875885735286040431653257136943580007937271147966384887695312500",
+      "lower_bound_truncated_down": "0.682544134733",
+      "int_v2_over_int_v_squared": "16333593994970449640454543/16328198892761050354780435",
+      "control_landscape": {
+        "landscape_float_value": 0.682554,
+        "landscape_minus_bound_float": 9.865266162488545e-06,
+        "landscape_above_bound": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "3/4",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-9/16",
+        "28/531",
+        "-1/510"
+      ],
+      "R_exact_truncated_series": "181626902021109660283/114886476911814456420",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "48146051802519252557/114886476911814456420",
+      "lower_bound_truncated_down": "0.419075012975",
+      "int_v2_over_int_v_squared": "1918328652644935139/1914774615196907607",
+      "control_wang": {
+        "c_theta_enclosure_lower": "0.419075012975424333734553610698",
+        "c_theta_enclosure_upper": "0.419075012975424333734553610699",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 1.5572398647647211e-15,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "3/4",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "25/251",
+        "-464/475",
+        "-33/263"
+      ],
+      "R_exact_truncated_series": "10354745352384025903718264966674928967271452276988033871296569257713723093/7431024785143843502897052514485895100422631157638165229795435714969600000",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "260635669893423020636284187451252481317/3853877651231706996186176956149284663387144648680136499003392000",
+      "tail_upper_bound_float": 6.762946141015228e-26,
+      "lower_bound_exact": "118163487376562379452020209898161071483263046381397653175873770631475017267187/194811745767331001271949128719762225952679698428642139664317142703643033600000",
+      "lower_bound_truncated_down": "0.606552171231",
+      "int_v2_over_int_v_squared": "572431196325490053817825/572374941338699266585597"
+    },
+    {
+      "theta": "7/10",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-49/100",
+        "1/25",
+        "-1/771"
+      ],
+      "R_exact_truncated_series": "2445154205167171075/1473025611245973642",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "500897017324776209/1473025611245973642",
+      "lower_bound_truncated_down": "0.340046373600",
+      "int_v2_over_int_v_squared": "737542835316862505/736512805622986821",
+      "control_wang": {
+        "c_theta_enclosure_lower": "0.340046373600555224029915889967",
+        "c_theta_enclosure_upper": "0.340046373600555224029915889968",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 1.0750986141782241e-13,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "7/10",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "20/179",
+        "-304/429",
+        "-32/415"
+      ],
+      "R_exact_truncated_series": "24629462031315086201713009811526295937990226815150987629748924022505501478403341171587/16597237811407675672534237098285352197694177195429801940917968750000000000000000000000",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "70107005949719169582342010983861290835485195447888113/20140807899357201782215491404512290709108114242553710937500000000000000000000000",
+      "tail_upper_bound_float": 3.480843782436188e-27,
+      "lower_bound_exact": "77427722867162396895933397518539028400142082615303967432867540957988327786001688547377/150039029815125388079709503368499583867155361846685409545898437500000000000000000000000",
+      "lower_bound_truncated_down": "0.516050543399",
+      "int_v2_over_int_v_squared": "1792542263577698437/1792501438186309041"
+    },
+    {
+      "theta": "13/20",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-169/400",
+        "18/605",
+        "-1/1000"
+      ],
+      "R_exact_truncated_series": "8031041895743103792387/4579820946479706313100",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "1128599997216308833813/4579820946479706313100",
+      "lower_bound_truncated_down": "0.246428847416",
+      "int_v2_over_int_v_squared": "320598016839914681/320267199054524917",
+      "control_wang": {
+        "c_theta_enclosure_lower": "0.246428847417396991417978328080",
+        "c_theta_enclosure_upper": "0.246428847417396991417978328081",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 5.977059252994281e-13,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "13/20",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "107/981",
+        "-68/135",
+        "-33/719"
+      ],
+      "R_exact_truncated_series": "8175604568741742804177538619744868888238813879292440832900686928503396943386460524698047978737440486261691/5138064885174695536311605653130775011103826984234210850242560000000000000000000000000000000000000000000000",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "5863558457231455814861585261626561227984725064125803643797650882733/40777947128905320091647842151625819708279845027840000000000000000000000000000000000000000000000",
+      "tail_upper_bound_float": 1.437923895162219e-28,
+      "lower_bound_exact": "1898874782253314034674888107943191322002721252255645029327592076672542757021543339352355788910495436885969673/4644810656197924764825691510430220610037859593747726608619274240000000000000000000000000000000000000000000000",
+      "lower_bound_truncated_down": "0.408816402390",
+      "int_v2_over_int_v_squared": "66068851912259606240425/66068449672614455018277"
+    },
+    {
+      "theta": "3/5",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-9/25",
+        "10/463",
+        "-1/1000"
+      ],
+      "R_exact_truncated_series": "7293292409205596201338/3909678174195472975725",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "526063939185349750112/3909678174195472975725",
+      "lower_bound_truncated_down": "0.134554281899",
+      "int_v2_over_int_v_squared": "52167902557553065619/52129042322606306343",
+      "control_wang": {
+        "c_theta_enclosure_lower": "0.134554281905059061493271773309",
+        "c_theta_enclosure_upper": "0.134554281905059061493271773310",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 5.986305682182412e-12,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "3/5",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "57/592",
+        "-169/483",
+        "-26/987"
+      ],
+      "R_exact_truncated_series": "1125849647733144135385013097171274706102578978593866124873577570501989306193319954/655216526037951277505305835898802045616231001374245579427224583923816680908203125",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "2674917843987460517555554530939651489792/581226665042971054071343256571995354278215017984621226787567138671875",
+      "tail_upper_bound_float": 4.602193954383871e-30,
+      "lower_bound_exact": "508729870505651254090064364205718939761660492254844622474060598025117164894166936/1805840669324109618490233157477186125722783003787554889640887267887592315673828125",
+      "lower_bound_truncated_down": "0.281713596967",
+      "int_v2_over_int_v_squared": "352972219757728307975/352970407331984780811",
+      "control_landscape": {
+        "landscape_float_value": 0.281718,
+        "landscape_minus_bound_float": 4.403032412199817e-06,
+        "landscape_above_bound": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "11/20",
+      "kernel": "zeta",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-121/400",
+        "7/459",
+        "0/1"
+      ],
+      "R_exact_truncated_series": "14215998562356163/7105948053143940",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "0/1",
+      "tail_upper_bound_float": 0.0,
+      "lower_bound_exact": "-4102456068283/7105948053143940",
+      "lower_bound_truncated_down": "-0.000577327056",
+      "int_v2_over_int_v_squared": "23083333215689/23071259912805",
+      "control_wang": {
+        "c_theta_enclosure_lower": "-0.000577327053328220962349985731",
+        "c_theta_enclosure_upper": "-0.000577327053328220962349985730",
+        "enclosure_backend": "python-flint (cross-checked against mpmath.iv)",
+        "bound_le_lower_end": true,
+        "gap_upper_end_minus_bound_float": 2.4849605562155356e-12,
+        "within_1e-3": true,
+        "pass": true
+      }
+    },
+    {
+      "theta": "11/20",
+      "kernel": "xiprime",
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "37/477",
+        "-31/131",
+        "-1/69"
+      ],
+      "R_exact_truncated_series": "263936519976614887621200675509172779151736746216366440303455261417684567534263299457195896465465900513/141162021533546053329080988713952072792523301365271494656000000000000000000000000000000000000000000000",
+      "series_truncation_M": 20,
+      "tail_upper_bound": "27384386293741676873887729273108468595525481267969457108107591611/250868553717211894552173042564461549875026670387200000000000000000000000000000000000000000000000",
+      "tail_upper_bound_float": 1.091583057660162e-31,
+      "lower_bound_exact": "1489455275429337456040592915279500494021996133726559464596259383862710253194595917660432521340958420493/11434629701283658800133442096542354283552066705573963366400000000000000000000000000000000000000000000000",
+      "lower_bound_truncated_down": "0.130258286830",
+      "int_v2_over_int_v_squared": "13431476744912329772235/13431408177215111500703",
+      "control_landscape": {
+        "landscape_float_value": 0.130262,
+        "landscape_minus_bound_float": 3.7131695895332153e-06,
+        "landscape_above_bound": true,
+        "pass": true
+      }
+    }
+  ],
+  "published_windows_theta_1": {
+    "quartic": {
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "-7/25",
+        "-102/25",
+        "0/1"
+      ],
+      "R_exact_truncated_series": "19442920847111495846114696129375251169664944/17185449105924921711661381451509864630809375",
+      "tail_upper_bound": "207002533888/12870384001694002593704690420625",
+      "lower_bound_truncated_down": "0.868640515166",
+      "published": "5429/6250",
+      "bound_ge_published": true,
+      "pass": true
+    },
+    "flat": {
+      "window_coefficients_s_monomials": [
+        "1/1",
+        "0/1",
+        "0/1",
+        "0/1"
+      ],
+      "R_exact_truncated_series": "13098933826073121122356269051304/11474028441970193843930770959375",
+      "tail_upper_bound": "45088768/2828846926917599723269509375",
+      "lower_bound_truncated_down": "0.858384054709",
+      "published": "42919/50000",
+      "bound_ge_published": true,
+      "pass": true
+    }
+  },
+  "all_controls_pass": true,
+  "command": ".venv/bin/python hunts/short_interval/enclose_theta.py"
+}

@@ -97,3 +97,28 @@ artifacts:
 
 The workflow was written and **not dispatched**. Nothing ran on GitHub Actions
 for this hunt, and nothing ran on the operator's machines.
+
+## 2026-09-12, enclose_theta.py: condition 5 of the gate
+
+No estimate was needed: the run is exact rational arithmetic over 4 x 4
+quadratic forms with series order `M = 20`, and it completes in about two
+seconds on one core of this container. Nothing ran on Actions and nothing ran
+on the operator's machines. `python-flint` 0.9.0 was installed into the
+container's `.venv` for the Arb control enclosure (`rigor.BACKEND` went from
+`mpmath.iv` to `python-flint`); the load-bearing bounds do not use it.
+
+```runmanifest
+id: short_interval-2026-09-12-enclose-theta
+hunt: short_interval
+started: 2026-09-12T23:26Z
+finished: 2026-09-12T23:27Z
+ran:
+  - .venv/bin/pip install python-flint
+  - .venv/bin/python hunts/short_interval/enclose_theta.py
+  - .venv/bin/python -m pytest -q -n0 tests/test_hunt_probe_discipline.py tests/test_huntspec.py tests/test_hunt_doors.py
+outcome: exact-rational lower bounds with a proved series-tail bound for one degree-6 even polynomial window at each of ten bandwidths 1.00 to 0.55, both kernels; zeta bounds sit at most 6.0e-12 below Wang's c(theta) enclosed by Arb and never above it; the source paper's quartic and flat windows at theta 1 reproduce 0.86864 and 0.85838 exactly; the float landscape exceeds the xi' bounds by 3.7e-6, 4.4e-6 and 9.9e-6 at 0.55, 0.60 and 0.80; xi' bound at theta 1 is 0.868641500514 and at 0.55 is 0.130258286830; the three test files pass, 39 passed and 3 pre-existing xfails in other hunts
+artifacts:
+  - hunts/short_interval/enclose_theta.py
+  - hunts/short_interval/artifacts/enclose-theta.json
+  - hunts/short_interval/RESULTS.md
+```
