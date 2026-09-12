@@ -731,3 +731,20 @@ red. A cross-check that cannot fail is not a cross-check.
 - N(100) = 29 zeros with 0 < γ < 100. Ξ(0) = 0.4971207781…
 - θ(1/x) = √x·θ(x) and ξ(s) = ξ(1−s) hold to working precision (measured
   defects ~1e-30 at dps=30).
+
+---
+
+## Gates, guards and defaults need a named source
+
+Anything an agent builds that blocks, gates, withholds, escalates, mutes, asks for
+approval, adds a confirmation step, or refuses by default is a claim that somebody wanted
+it. It carries a source naming who asked: a dated message, an issue, a commit, a quoted
+line. If the source is the agent's own judgement, it says so in those words, in the code
+comment and in any status file, and never as if the owner had asked.
+
+No source, no gate. An agent that believes a safeguard is needed and cannot cite anyone
+writes the proposal down for the owner and ships without it. Caution nobody asked for is a
+feature nobody asked for.
+
+When reporting state, keep "the code does X" apart from "you asked for X". A status file
+written by an earlier agent is not a decision by the owner.
