@@ -12,7 +12,7 @@ reordered everything else. The live routes are §6 and §7, ranked; §8 is a pri
 id: short_interval
 question: Wang's short-interval bound is the laboratory's own bandwidth landscape evaluated at lambda = theta. Given that, what does this tree hold on that axis that nobody else does, and what is the band edge worth?
 frontier: the zeta landscape 2 - lambda/2 - (1/sqrt 2) cot(lambda/sqrt 2) is already computed in hunts/frontier_map/frontier.py from the source paper's eq. (7.4), agrees with Wang's c(theta) to 1e-16 and dies at 0.5501939647441547; the xi-prime landscape is computed on the same grid, sits 0.11 to 0.20 higher at every bandwidth, dies at 0.51332, and has no short-interval counterpart in the literature; the bandwidth-one configuration ceiling is 0.6818286874638 against a window optimum of 0.6725007036794116, and the bandwidth-theta ceiling is computed nowhere
-proposed_attack: the gate passed, so write the short-interval xi-prime theorem along the eight-step outline in AUDIT-dyadic.md section 6, localizing the kernel-checked xi-prime second moment by Wang's Montgomery-Vaughan and grid-end arguments, with the bandwidth-theta constants enclosed by ball arithmetic before any number is stated; and compute the bandwidth-theta configuration ceiling as the stopping criterion
+proposed_attack: the gate passed, so write the short-interval xi-prime theorem along the eight-step outline in AUDIT-dyadic.md section 6, localizing the kernel-checked xi-prime second moment by Wang's Montgomery-Vaughan and grid-end arguments, with the bandwidth-theta constants enclosed by ball arithmetic before any number is stated; the bandwidth-theta configuration ceiling needs the PairCeiling construction rebuilt with the band as a parameter, since the measure-level LP in this tree reproduces the window optimum and not the ceiling
 dead_routes:
   - substituting c(theta) into the affine bridges Phi_3 and Phi_4: the certificate's cost is proportional to the second moment, which diverges like 1/theta, so the gain is negative below theta 0.808 and no re-optimization repairs it; the bridges are also band-width-one and dyadic (section 4)
   - re-optimizing the certificate's window shape at each bandwidth: measured worth about lambda^3/180, and at the vacuity threshold the whole optimal-versus-flat advantage is 3.2e-4 (section 5)
@@ -29,7 +29,7 @@ required_oracles:
   - Lean 4 kernel with zero sorrys, for anything stated as a theorem
 kill_conditions:
   - the xi-prime derivation's deterministic corrections turn out to have been established by a dyadic average that does not survive a T^theta block: CHECKED 2026-09-12 and did not fire, the corrections enter through a range-free arithmetic identity, see AUDIT-dyadic.md
-  - the bandwidth-theta configuration ceiling collapses onto the landscape, leaving no room for any certificate
+  - the bandwidth-theta configuration ceiling collapses onto the landscape, leaving no room for any certificate: NOT TESTABLE with any instrument in this tree, the measure-level LP measures the window optimum and the PairCeiling certificate is not public, see section 7
   - the n-point family rebuilt at bandwidth theta does not exceed the landscape anywhere in (0.5501939647441547, 1)
   - no unconditional constant upper bound on F beyond the band is reachable: FIRED 2026-09-12 on literature search, section 8
 agents_may:
@@ -389,25 +389,42 @@ a headroom of `0.00933` that no window reaches, and `Phi_3`, `Phi_4` and the
 **The bandwidth-theta configuration ceiling is computed nowhere**, and the
 search in §6.1 confirms it: Alpöge-Furman §7.2 and `Zeta23/PairCeiling/`
 certify a ceiling only for bandwidth-one certificates for zeta
-(`p_0 <= 0.6818287`, with interval-arithmetic enclosure hypotheses rather
-than a kernel check), nothing for bandwidth below one, nothing for `xi'` at
-any bandwidth, and Wang's paper contains no ceiling or optimality remark at
-all. It is the number that bounds this tree's entire remaining program on
-this axis, and competitors' too. `Zeta23.PairCeiling.ceiling_law256` is the template and
-`hunts/frontier_math/configuration_lp.py` is the machinery, whose band data
-`R2hat(alpha) = delta(alpha) + |alpha|` on `[-1,1]` is exactly the object that
-has to become `[-theta, theta]`.
+(`p_0 <= 0.6818287`), nothing below one, nothing for `xi'`, and Wang has no
+ceiling or optimality remark at all.
 
-Compute it **before** funding anything else in §7 or §9. A prediction offered
-to be falsified: the ceiling headroom scales like `theta^3` the way the window
-headroom does (§5), giving about `0.0015` at `theta = 0.55`. If that is right,
-the short-interval n-point program is not worth funding, and establishing that
-cheaply is the point of computing the ceiling first.
+**Built 2026-09-12, and the control revealed the brief pointed at the wrong
+instrument.** `ceiling_theta.py` parameterizes `configuration_lp.py` by band
+width; the band edge was a literal `1` in exactly two places, both now
+`theta`. At `theta = 1` it reduces to the original to the last bit and
+reproduces all six recorded in-band rungs to `1e-12`. But its ladder
+extrapolates to `0.6740762`, which is the Montgomery-Taylor window optimum
+within the method error, **not** the configuration ceiling `0.6818287`, and
+it is `0.0078` short of it. `hunts/frontier_math/RESULTS-frontier-math.md`
+§1 already says why: this LP is the measure-level dual, its type structure
+eliminates exactly, and the `0.0093` gap to the ceiling "measures what
+configuration realizability adds beyond measure positivity". The ceiling is
+the simple fraction of an extremal law on marked periodic configurations
+(`Zeta23/PairCeiling/LawN256.lean`), whose exact-rational certificate is not
+public, and **nothing in this tree recomputes it**
+(`hunts/wide_search/RESULTS-pair-ceiling.md`). So a theta sweep of this LP
+can only measure convergence to `c(theta)`, which §3 has in closed form; at
+`theta = 0.55` it descends to the `p_1 >= 0` floor, consistent with zero
+headroom over the landscape, as it must. The workflow
+`hunt-short-interval-ceiling.yml` is written and **deliberately not
+dispatched**, because it would spend free compute to confirm a closed form.
+The estimate is in `RUNS.md` regardless, as the compute discipline requires.
 
-This is also the most valuable formalization target here. A theta-indexed
-ceiling law is a **cap**, which is the kind of statement this laboratory is
-unusually good at producing and nobody else is producing. Nothing in it should
-be harder in Mathlib than what the source development already did.
+**What measuring the real bandwidth-theta ceiling needs.** A column-generation
+primal over realizable configurations with the form-factor data cut at
+`theta N`, that is, the `PairCeiling` construction itself rebuilt with the
+band as a parameter. That is a different and larger build than the one this
+brief asked for, and it starts from a certificate that is not public. The
+`theta^3` headroom prediction is therefore **untestable with any instrument
+in this tree today** and stays open. It is still the stopping criterion for
+the n-point program on this axis, and still the most valuable formalization
+target, for the reason given before: a cap is what this laboratory produces
+and nobody else does. But it is a build, not a run, and §6 does not wait on
+it.
 
 ## 8. The band edge: priced, then closed by the literature
 

@@ -1,0 +1,144 @@
+# Hunt `short_interval`, MISSION.md section 7: the configuration LP of
+# hunts/frontier_math/configuration_lp.py with the band [-1, 1] replaced by
+# [-theta, theta], one job per theta, checkpointed per rung, on free runners.
+#
+# Manual trigger only: this is research compute, not CI, and CLAUDE.md's compute
+# discipline puts it here rather than on the operator's machines. The estimate
+# is in hunts/short_interval/RUNS.md: the worst cell (theta = 1, six rungs to
+# X = 320) measured 255 s on a 4-core container, so every job sits under the
+# 20-minute cap with a factor of two to spare. The X = 480 rung prices at about
+# 26 minutes at theta = 1 and is NOT in the default ladder; pass it through
+# `rungs` only if you accept the cap.
+#
+# Read the control job's output before the table. At theta = 1 this LP lands on
+# the Montgomery-Taylor record 0.6725007, not on the configuration ceiling
+# 0.6818287 (frontier_math/RESULTS-frontier-math.md section 1), and the script
+# says which of the two it reproduced.
+name: hunt-short-interval-ceiling
+
+on:
+  workflow_dispatch:
+    inputs:
+      thetas:
+        description: 'JSON list of band half-widths theta, one job each'
+        required: false
+        default: '[1.0, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55]'
+      rungs:
+        description: 'comma-separated truncation X ladder (J = 200 at 40, 4X above)'
+        required: false
+        default: '40,80,120,160,240,320'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hunt-short-interval-ceiling-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.m.outputs.matrix }}
+    steps:
+      - id: m
+        run: echo "matrix=${{ inputs.thetas }}" >> "$GITHUB_OUTPUT"
+
+  # The theta = 1 control: reduction to configuration_lp.solve, the recorded
+  # in-band ladder rung by rung, and the extrapolated value against both the
+  # configuration ceiling and the Montgomery-Taylor record.
+  control:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: install
+        run: python -m pip install --quiet --disable-pip-version-check "numpy>=2.0" "scipy>=1.14"
+      - name: control at theta = 1
+        run: |
+          python -u hunts/short_interval/ceiling_theta.py --control \
+            --rungs "${{ inputs.rungs }}" 2>&1 | tee control.log
+          { echo "### control, theta = 1"; echo '```'; cat control.log; echo '```'; } \
+            >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: control-theta-1.00
+          path: |
+            control.log
+            hunts/short_interval/artifacts/ceiling-theta-1.00.json
+          if-no-files-found: warn
+
+  ladder:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        theta: ${{ fromJSON(needs.setup.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: install
+        run: python -m pip install --quiet --disable-pip-version-check "numpy>=2.0" "scipy>=1.14"
+      - name: ladder at theta = ${{ matrix.theta }}
+        run: |
+          python -u hunts/short_interval/ceiling_theta.py \
+            --theta ${{ matrix.theta }} --rungs "${{ inputs.rungs }}" 2>&1 \
+            | tee "ladder-${{ matrix.theta }}.log"
+      # if: always(), so a job killed at the cap still hands back the rungs it
+      # checkpointed (CLAUDE.md compute discipline, rule 4).
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ceiling-theta-${{ matrix.theta }}
+          path: |
+            ladder-${{ matrix.theta }}.log
+            hunts/short_interval/artifacts/ceiling-theta-*.json
+          if-no-files-found: warn
+
+  collect:
+    needs: [ladder, control]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: install
+        run: python -m pip install --quiet --disable-pip-version-check "numpy>=2.0" "scipy>=1.14"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ceiling-theta-*
+          path: dl
+          merge-multiple: true
+      - name: the table
+        run: |
+          mkdir -p hunts/short_interval/artifacts
+          find dl -name 'ceiling-theta-*.json' -exec cp {} hunts/short_interval/artifacts/ \;
+          ls hunts/short_interval/artifacts
+          python -u hunts/short_interval/ceiling_theta.py --collect 2>&1 | tee table.log
+          { echo "### ceiling as a function of theta"; echo '```'; cat table.log; echo '```'; } \
+            >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ceiling-theta-table
+          path: |
+            table.log
+            hunts/short_interval/artifacts/ceiling-theta-table.json
+          if-no-files-found: warn
