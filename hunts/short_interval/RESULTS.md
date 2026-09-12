@@ -71,11 +71,11 @@ At `theta = 0.55` the whole window-shape game is therefore worth about `9e-4`,
 and an n-point family whose bandwidth-one share of it is `2.4e-4` is worth
 roughly `4e-5`. **Wang's `c(theta)` already is the re-optimization.**
 
-## 4. Two literature searches, run 2026-09-12, recorded per the novelty rule
+## 4. What was checked on 2026-09-12, recorded in full
 
 `CLAUDE.md`: where a search has actually been run, say what was searched and
-what it found. Both searches below were run by delegated sessions with web
-access; every query string and every paper opened is listed so that each
+what it found. §4.1 and §4.2 are literature searches and §4.3 is the gating
+audit of the Lean development. All three were run by delegated sessions; every query string and every paper opened is listed so that each
 absence is a documented absence rather than an unrun check. The arXiv API
 returned HTTP 503 or 429 for most of the day, so the API queries listed as
 unrun were substituted by the arXiv web search UI and listing pages.
@@ -273,6 +273,37 @@ where `integral_(-delta/2)^(delta/2) F >= 1 + o(1)`.
 Goldston-Gonek 1990, Goldston-Gonek-Montgomery 2001, Heath-Brown 1982,
 Saffari-Vaughan 1977, Halberstam-Richert.
 
+### 4.3 The gate: the dyadic audit of the xi-prime development
+
+**Verdict: PASS WITH CONDITIONS.** Full report in `AUDIT-dyadic.md`, kept
+verbatim. Read against `anthropics/formal-math` commit `fbdc36bb` and Wang
+arXiv:2609.07918v1, statement by statement down to the interface
+propositions, with 35 proof steps, 10 interface statements and 7 definitions
+inventoried by file and line and each classified. No step uses the dyadic
+structure to produce a main term. Every dyadic use is either cosmetic or an
+error absorption with a named exponent: `c = lambda` for the seven
+Montgomery-Vaughan and grid-end remainders (one mechanism, Wang's own
+condition `lambda < theta`), `c = lambda/2` for three remainders implied by
+it, `c = 1/2` for the end strips with `D0 = sqrt T` (free for
+`theta > 0.51332`, or re-choose `D0`), `c = 0` for `O(log T)`, and pure
+height power savings elsewhere.
+
+**The hazard the brief named is refuted.** The corrections in
+`D_1(s) = s - 4s^2 + ...` reach the certificate only through hypothesis (H3),
+an arithmetic identity with no interval and no `2T` anywhere under `Coeff/`.
+
+**A correction to the brief's framing, now applied in `MISSION.md` §6.2.**
+The kernel-checked development uses no zeta pair-correlation input and no
+transfer from zeta zeros; it treats `xi'` zeros directly. Wang's Theorem 2.2
+is therefore the template for localizing the `xi'` second moment, not an
+input to it.
+
+**What is missing is two statements, not an argument**: the short-window
+zero count `N_xi'(T, T+H) = H L/2pi + O(H + log T)` and the two short-window
+`mu`-integrals, each a corollary of lemmas already in the tree. The seven
+conditions and the eight-step proof outline are in `MISSION.md` §6.2 and
+`AUDIT-dyadic.md` §6. The Hardy `Z'` arm carries the same verdict verbatim.
+
 ## 5. Two readings withdrawn the same day
 
 Recorded rather than deleted.
@@ -328,11 +359,98 @@ every step so that error is visible rather than assumed. Anything needing more
 than four digits should be re-run on the repository's numpy path or with ball
 arithmetic.
 
+## 8. Ceiling computation, built and not yet run
+
+**Built 2026-09-12, control run locally, sweep not dispatched.** Every number
+in this section comes from the two runs in `RUNS.md`'s manifest
+`short_interval-2026-09-12-ceiling-theta-control` or from the file cited
+beside it.
+
+**What was built.** `ceiling_theta.py` is `hunts/frontier_math/
+configuration_lp.py` with the band `[-1, 1]` replaced by `[-theta, theta]`.
+The band edge was a literal `1` in exactly two places of the original, the
+alpha grid `arange(J+1)/J` and the out-of-band start `1.0 + ...`; both are
+now `theta`, the data row `R2hat(alpha) = delta(alpha) + |alpha|` keeps its
+form, and there is no window or Fourier-support cap in this LP to move (the
+window is its dual). The solver is copied rather than imported because the
+original is another hunt's cited instrument, and the copy returns the dual
+marginals on the data rows, which the original discards. One JSON per theta,
+checkpointed per rung, in `artifacts/`; `--collect` prints the table. The
+workflow `.github/workflows/hunt-short-interval-ceiling.yml` runs one job per
+theta on the default grid `1.0, 0.95, ..., 0.55`, each on the six-rung ladder
+`X = 40 ... 320` that `outband_intake` recorded, each under the 20-minute cap
+by the estimate in `RUNS.md` (worst cell 255 s here), plus a control job and
+a collect job.
+
+**The control result, and it changes what §7 of `MISSION.md` can buy.** Three
+checks ran at `theta = 1`:
+
+1. The solver reduces to `configuration_lp.solve`: same value to the last
+   bit at `X = 40, J = 200`.
+2. All six recorded in-band rungs (`outband_intake/artifacts/
+   lane-a-control-inband*.json`) reproduce to `1e-12`.
+3. The ladder `0.6793882, 0.6775676, 0.6768963, 0.6764627, 0.6759394,
+   0.6756339` extrapolates by `refit.py`'s free fit `a + b X^(-p)` to
+   `0.6740762` (`p = 0.584`). That is `+0.0016` above the Montgomery-Taylor
+   record `0.6725007036794116`, inside the `0.0018` method error, and
+   `-0.0078` below the configuration ceiling `0.6818286874638`, **which is
+   not reproduced**.
+
+This is not a defect in the parameterization. It is what
+`hunts/frontier_math/RESULTS-frontier-math.md` §1 measured for this LP at
+bandwidth one: the type structure eliminates exactly, the value is `2 - sup D`,
+the Montgomery-Taylor dual, and "the ceiling gap (0.6725007, 0.68185) is *not*
+about the pair measure at all, it measures what configuration realizability
+adds beyond measure positivity". `outband_intake/inband_control.py` already
+uses that known limit as its calibration. The ceiling `0.6818286874638` is the
+simple fraction of an extremal **law on marked periodic configurations**
+(`Zeta23/PairCeiling/LawN256.lean`), whose exact-rational certificate is not
+public and which nothing in this tree recomputes
+(`hunts/wide_search/RESULTS-pair-ceiling.md`). So `MISSION.md` §7 names the
+right object and the wrong machinery: the measure-level LP has **zero
+headroom over the landscape at every bandwidth**, and the theta sweep built
+here can only measure how it converges to Wang's `c(theta)`, which is a
+control on the landscape and not the ceiling.
+
+Measured at `theta = 0.55`, where `c(0.55) = -0.000577`: the ladder descends
+`0.0581590 -> 0.0103512` at `X = 320` and extrapolates to `0.000689`, that is,
+to the floor `p_1 >= 0` the LP carries, consistent with zero headroom there
+too. The ratio column `(value - c(theta)) / 0.00932798` that §7 asks for is
+therefore, for this instrument, a measure of discretization residual
+(`0.17` at `theta = 1`, `0.14` at `0.55`, both extrapolated) and says nothing
+about whether the *configuration* headroom scales like `theta^3`. That
+prediction stays open.
+
+**What measuring the ceiling at bandwidth theta actually needs**, stated so the
+next session does not rebuild this file: a primal over realizable
+configurations, that is, a law on marked periodic configurations of period
+`N` whose form factor matches `j/N` for `j <= theta N` and minimises the simple
+fraction, the `LawN256` construction with the data cut at `theta`. That is a
+column-generation problem over configurations, not a band parameter, and its
+bandwidth-one instance is the one the authors built with a private artifact.
+The workflow and the collect table here stay useful for it only as the
+landscape control every such run should carry.
+
+**Dispatch**, if the landscape control is wanted on Actions anyway:
+
+```bash
+gh workflow run hunt-short-interval-ceiling.yml --ref <branch>
+gh workflow run hunt-short-interval-ceiling.yml --ref <branch> \
+  -f thetas='[1.0, 0.8, 0.6]' -f rungs='40,80,120,160'      # a cheaper grid
+```
+
+Not dispatched. Nothing in this section is a result, and nothing here bears
+on RH (`docs/08`).
+
 ## The doors
 
 Preliminary: this hunt has measured no ceiling of its own, so the inventory is
 what §1 to §4 expose. `MISSION.md` §13 carries the full version with the
-information-class column; the ranked summary is:
+information-class column. **Active constraint at the optimum**: one,
+bandwidth, with shadow price `c'(1) = (3/2 - H)^2 = 0.6847550854111` per unit
+at bandwidth one (`MISSION.md` §13); §8 adds that the measure-level LP has no
+active constraint beyond the band data at any theta, which is why it sits on
+the landscape. The ranked frozen-constant summary is:
 
 1. **The band edge at 1**, frozen by the absence of an unconditional upper
    bound on `F` beyond it rather than by choice. Priced as worth more than
@@ -342,8 +460,10 @@ information-class column; the ranked summary is:
    rather than to zero. Would leave the information class; does not open.
 2. **The kernel**, fixed to `|alpha|` on the zeta arm while the tree also
    computes the `F_1` landscape that Wang does not. Leaves the class.
-3. **The dyadic counting range**, frozen in the Lean bridge by what was
-   available to formalize. Stays in the class.
+3. **The dyadic counting range**, frozen in the Lean development by what
+   was available to formalize. For the `xi'` arm, priced exactly by §4.3:
+   two exponent conditions, two missing statements, forty touch points, no
+   mathematics in the way. Stays in the class.
 4. **The window shape.** Closed by the measurement in §3, and listed so
    nobody opens it again.
 5. **The window's single frequency `sqrt 2`.** `hunts/amtopa_ceiling` proved

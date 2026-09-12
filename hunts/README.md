@@ -299,8 +299,9 @@ numerical falsifier, which #110 ran but did not commit. Either answer closes the
 
 ### Hunt #119: the bandwidth dial was physical all along (`short_interval/`)
 
-**Status: open, brief and reading only. Three findings, three routes closed
-(two on analysis, one on literature search), no mathematics attempted.** Opened 2026-09-12 after Biao Wang's arXiv:2609.07918
+**Status: open. Three findings, three routes closed (two on analysis, one on
+literature search), and the gate on the surviving route passed with
+conditions. No new mathematics attempted; the proof outline is written.** Opened 2026-09-12 after Biao Wang's arXiv:2609.07918
 (posted 2026-09-07) reached the laboratory five days late and by way of an
 unsolicited email rather than any mechanism in this tree. Wang proves
 unconditionally that zeros in `(T, T + T^theta]`, `0 < theta < 1`, are simple
@@ -416,6 +417,24 @@ delta spikes in `F` past the band cannot be ruled out. The obstruction past
 `alpha = 1` is prime-pair correlations at second order, blocked by parity in
 every sieve. **So the band-edge door is priced and shut**, and the price is
 kept so the next person to derive it knows why it does not open.
+
+**The gate passed, 2026-09-12, with conditions** (`hunts/short_interval/AUDIT-dyadic.md`,
+kept verbatim). A statement-by-statement audit of `anthropics/formal-math`
+at commit `fbdc36bb` inventoried every dyadic use in the `xi'` development
+(35 proof steps, 10 interface statements, 7 definitions) and found none that
+uses the dyadic structure to produce a main term: every use is cosmetic or an
+absorption with a named exponent, the exponents being exactly Wang's own
+condition `lambda < theta` and the end-strip condition `theta > 1/2` (free in
+the whole non-vacuous range). **The hazard the brief named is refuted**: the
+`D_1` corrections enter through a range-free arithmetic identity. One
+framing correction to the brief: the development uses no zeta
+pair-correlation input at all, so Wang's Theorem 2.2 is the template for
+localizing the `xi'` second moment, not an input to it. Missing are two
+statements whose proofs already exist (the short-window zero count and the
+short-window `mu`-integrals), and the bandwidth-theta constants must be
+enclosed by ball arithmetic before any number is stated. The eight-step
+proof outline, each step naming the Lean lemma it localizes, is in the
+audit's §6.
 
 Nothing here bears on RH (`docs/08`).
 

@@ -12,7 +12,7 @@ reordered everything else. The live routes are §6 and §7, ranked; §8 is a pri
 id: short_interval
 question: Wang's short-interval bound is the laboratory's own bandwidth landscape evaluated at lambda = theta. Given that, what does this tree hold on that axis that nobody else does, and what is the band edge worth?
 frontier: the zeta landscape 2 - lambda/2 - (1/sqrt 2) cot(lambda/sqrt 2) is already computed in hunts/frontier_map/frontier.py from the source paper's eq. (7.4), agrees with Wang's c(theta) to 1e-16 and dies at 0.5501939647441547; the xi-prime landscape is computed on the same grid, sits 0.11 to 0.20 higher at every bandwidth, dies at 0.51332, and has no short-interval counterpart in the literature; the bandwidth-one configuration ceiling is 0.6818286874638 against a window optimum of 0.6725007036794116, and the bandwidth-theta ceiling is computed nowhere
-proposed_attack: audit whether Wang's Theorem 2.2 supplies the arithmetic input the xi-prime functional consumes, since that is the one place the tree holds something the field does not; and compute the bandwidth-theta configuration ceiling as the stopping criterion for everything else
+proposed_attack: the gate passed, so write the short-interval xi-prime theorem along the eight-step outline in AUDIT-dyadic.md section 6, localizing the kernel-checked xi-prime second moment by Wang's Montgomery-Vaughan and grid-end arguments, with the bandwidth-theta constants enclosed by ball arithmetic before any number is stated; and compute the bandwidth-theta configuration ceiling as the stopping criterion
 dead_routes:
   - substituting c(theta) into the affine bridges Phi_3 and Phi_4: the certificate's cost is proportional to the second moment, which diverges like 1/theta, so the gain is negative below theta 0.808 and no re-optimization repairs it; the bridges are also band-width-one and dyadic (section 4)
   - re-optimizing the certificate's window shape at each bandwidth: measured worth about lambda^3/180, and at the vacuity threshold the whole optimal-versus-flat advantage is 3.2e-4 (section 5)
@@ -28,7 +28,7 @@ required_oracles:
   - interval or ball arithmetic for any constant entering a claimed inequality
   - Lean 4 kernel with zero sorrys, for anything stated as a theorem
 kill_conditions:
-  - the xi-prime derivation's deterministic corrections turn out to have been established by a dyadic average that does not survive a T^theta block, and no route recovers them
+  - the xi-prime derivation's deterministic corrections turn out to have been established by a dyadic average that does not survive a T^theta block: CHECKED 2026-09-12 and did not fire, the corrections enter through a range-free arithmetic identity, see AUDIT-dyadic.md
   - the bandwidth-theta configuration ceiling collapses onto the landscape, leaving no room for any certificate
   - the n-point family rebuilt at bandwidth theta does not exceed the landscape anywhere in (0.5501939647441547, 1)
   - no unconditional constant upper bound on F beyond the band is reachable: FIRED 2026-09-12 on literature search, section 8
@@ -290,56 +290,81 @@ Ki and Lee (2012) and Das and Pujahari (arXiv:2104.10243) treat `zeta^(k)` in
 `(T, T + T^a]`, `a > 1/2`, but only horizontal-distribution sums, not on-line
 or simple proportions.
 
-### 6.2 What a short-interval xi-prime theorem has to rebuild, exactly
+### 6.2 The gate, run 2026-09-12: passed with conditions
 
-**The `xi'` prime side has no published statement.** Alpöge-Furman's Remark
-7.1 says only "the argument of §§4-6 gives, unconditionally". Their §5 is
-written for zeta. The unconditional `xi'` input exists **only as Lean code**
-in `anthropics/formal-math`, subdirectory `zeta23/Zeta23/XiPrime/` (the
-repository formerly at `anthropics/zeta-23-lean`; update the citation in
-`lean/bridge/README.md` and `BRIDGE.md` accordingly, see §11), whose
-docstrings cite an accompanying write-up labelled `[XF']` that is **not
-public**. What those docstrings specify:
+The audit is `AUDIT-dyadic.md` in this directory, kept verbatim. It read
+every statement the headline theorem `xiDeriv_simple_on_line` depends on in
+`anthropics/formal-math` at commit `fbdc36bb`, listed every place the dyadic
+range enters (35 proof steps, 10 interface statements, 7 definitions),
+classified each, and compared each against how Wang localized the same step
+for zeta. **Verdict: PASS WITH CONDITIONS. No step uses the dyadic structure
+to produce a main term.** Every use is cosmetic or an error absorption with a
+named exponent, and the hidden `T^(1-theta)` this brief warned about lives in
+exactly two places, both of which are the conditions below rather than
+obstructions.
 
-- The coefficient family replacing `-Lambda(n)`: `b_N = C(N; L_T)` with
-  `L_T = l/2 + i pi/4`, density `D_1` given as a power series
-  (`Defs.D1`), hypotheses (H1) to (H3) on partial sums proved as
-  `xiCoeffFamily_hyps` via one analytic input, Mertens.
-- `XiEF`, the entrywise explicit formula for `xi'`: the zero-side Gram entry
-  equals the prime-side main term up to
-  `|E_kl| <= C T^(-delta) (min(1, |tau_k - tau_l|^(-2)) + 1/T)` with
-  `delta = (1 - 3 lambda/4)/2 > 0` for every fixed `lambda <= 1`.
-- `CoeffMoments`, the two prime-side moments:
-  `(1 - delta) N <= tr M <= (1 + delta) N` and
-  `||M||_F^2 <= (kappa + delta) N`, `N = N(T, 2T)`, from the
-  Montgomery-Vaughan Hilbert inequality. **This is the `xi'` analogue of
-  BGSTB's Lemma 5**, and it is proved for the dyadic window at every
-  `lambda` in `(0, 1)` (`xiDeriv_fixedLamBounds`).
-- Also proved there: all zeros of `xi'` lie in `0 < Re s < 1`, and the local
-  count `N_xi'(t + 1) - N_xi'(t) << log(t + 3)`.
+**A correction to the way this brief framed the route.** An earlier draft
+said Wang's Theorem 2.2 supplies the arithmetic `|x|` term of `F_1` on the
+narrowed band and the rest is a deterministic transfer from zeta zeros. That
+is not how the kernel-checked development is built. **It uses no zeta
+pair-correlation input and no transfer at all.** It treats the zeros of `xi'`
+directly, with its own explicit formula (`XiEF`), its own second moment
+(`CoeffMoments`), its own zero count, and the density
+`D_1(s) = s - 4s^2 + sum d_k s^(2k+3)` enters through one range-free
+arithmetic identity, hypothesis (H3), where the `s` and the corrections are
+one object. So Wang's Theorem 2.2 is the **template** for the localization,
+not an input to it: the `xi'` second moment must itself be localized, by
+Wang's Montgomery-Vaughan and grid-end arguments, and the audit shows every
+one of those steps has an exact counterpart that localizes for the same
+reason. Write the paper as "localization of the kernel-checked `xi'` second
+moment along Wang's route".
 
-**So the task is now concrete.** Localize `XiEF` and `CoeffMoments` from
-`(T, 2T)` to `(T, T + T^theta]` exactly as Wang localized BGSTB's Lemmas 3, 4
-and 5, supply the `xi'` local count in the short window, and feed the result
-to Lamzouri's Proposition 2.1, which applies to any finite
-conjugation-invariant multiset and so to the `xi'` zeros in `I` once a
-short-interval `F_1` formula with band `(-lambda, lambda)`, `lambda < theta`,
-exists. The arithmetic term of `F_1` is the single `|x|` that is Montgomery's,
-and Wang's Theorem 2.2 delivers exactly that on the narrowed band; the
-`-4x^2` and the series are a deterministic transfer from zeta zeros to `xi'`
-zeros carrying no `Lambda(n)`.
+**The hazard this brief named is refuted.** The corrections in `D_1` reach
+the certificate only through (H3), an arithmetic identity for
+`sum_{N <= e^y} |C(N; L_T)|^2 / N` whose only `T`-dependence is the scalar
+`l(T)` inside `L_T`. No height average, no interval, no `2T` anywhere under
+`Coeff/`. They carry no hidden factor.
 
-**The audit that gates this, and it is the same hazard as §4.** Those
-deterministic corrections were established by a **dyadic average**. Read
-`Zeta23/XiPrime/` for every division by `N(T, 2T)` and every step that
-averages over `[T, 2T]`, and verify each yields `o(HL)` with the block
-replaced by `T^theta`. That is where a `T^(1-theta)` hides. Second and
-smaller risk: unconditionally there is no Rolle interlacing between `xi` and
-`xi'` zeros, so any step pairing them needs the source's index bookkeeping
-rather than RH. **If the audit passes, that is the deliverable of this
-hunt.** If it fails, the failure is a scope boundary on the whole `xi'` arm
-and worth writing down, because the tree currently has no statement either
-way.
+**The seven conditions**, each with what it costs:
+
+1. **Bandwidth `lambda < theta`.** Wang's own condition, appearing in seven
+   places through one mechanism, the Montgomery-Vaughan and grid-end
+   remainders of size `l^4 X`, absorbed against `H l` iff `lambda < theta`.
+   Theorem at every fixed `lambda < theta`, constant by `lambda -> theta`
+   via continuity of `kappaXi`, exactly as the tree does at 1.
+2. **End strips.** With the padding `D0 = sqrt T` the surrendered strips cost
+   `sqrt T log T`, absorbed iff `theta > 1/2`; free in the whole range
+   `theta > 0.51332`. Or take `D0 = T^beta` with `lambda/4 < beta < theta`,
+   which changes one frozen constant.
+3. **Short-window zero count.** `N_xi'(T, T+H) = H L/2pi + O(H + log T)` is
+   not stated in the tree, but every intermediate is: the half-contour
+   identity at good heights, the `Y` bound, the gamma side, the local count.
+   Two new lemmas, the window count and the short-window `mu`-integrals, are
+   corollaries. A statement is missing, not an argument.
+4. **Grid bookkeeping.** `d_H = floor(L H/2pi)`, the end strips at `T` and
+   `T + H`, and `T <= tau_k <= T + H`; every downstream use is an upper bound
+   and holds a fortiori.
+5. **Constants.** The tree's decimals are fixed at bandwidth near 1 and do
+   not transfer. Bandwidth-theta decimals come from `landscape.py`
+   (`0.130262` at `0.55`, `0.281718` at `0.60`, `0.682554` at `0.80`) and
+   **must be enclosed by ball arithmetic before any number is stated**.
+6. **Denominator.** The natural statement is against `N_xi'(T, T + T^theta)`.
+   Against the zeta count it needs Wang's (1.2). The cumulative
+   `N_xi'(T) = N(T) + O(log T)` appears only in docstrings and is not a
+   theorem here; do not quote it as one.
+7. **Framing**, as above.
+
+**The eight-step proof outline**, mirroring Wang's sections and naming the
+Lean lemma each step localizes, is §6 of `AUDIT-dyadic.md`. The
+formalization footprint is about forty touch points across the files listed
+there, with `Coeff/`, `Window.lean`, `ZeroSide.lean`, `MV/` and `WeilEF/`
+untouched; the audit suggests making the range a second parameter `(T, U)`
+with `U = 2T` recovering the current tree, so "never hard-code `2T`" becomes
+enforced by the type.
+
+**What the gate does not claim.** That the Lean localization is small; any
+constant, since none is enclosed at bandwidth theta; novelty beyond §6.1's
+search; anything about RH.
 
 Hardy's `Z'` is formalized in the same tree (`hardyW_simple_on_line`,
 `0.85838 / 0.92919`) and is equally absent from the short-interval
@@ -617,10 +642,13 @@ and §8 is shut.
    computes the `F_1` landscape and Wang does not, so this is the frozen choice
    where the tree holds something the field does not. §6. Changes the
    information class.
-3. **The dyadic counting range.** Frozen in the Lean bridge by what was
-   available to formalize. Relaxing costs the re-derivation of `S8`, `S9` and
-   `S15` against a `T^theta` denominator, and §4 and §6 both say that is where
-   a hidden `T^(1-theta)` would be found. Same information class.
+3. **The dyadic counting range.** Frozen in the Lean development by what
+   was available to formalize. For the `xi'` arm the audit in
+   `AUDIT-dyadic.md` prices the door exactly: two named exponent conditions,
+   two missing statements whose proofs already exist, and about forty
+   bookkeeping touch points, with no mathematics in the way. For the n-point
+   bridges (`S8`, `S9`, `S15`) it remains unaudited and §4 stands. Same
+   information class.
 4. **The window shape.** Measured in §5 to be worth about `lambda^3/180`, and
    `3.2e-4` at the threshold. **This door is closed by measurement**, and it is
    listed so nobody opens it again.
