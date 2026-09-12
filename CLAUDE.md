@@ -3,17 +3,18 @@
 A computational laboratory for the Riemann zeta function and RH. Read
 `README.md` for the front door and `docs/00-orientation.md` for scope.
 
-`ROADMAP.md` carries the project's decisions, deliberate non-goals, known gaps
-and the next planned build. Read it before proposing or planning work.
+`ROADMAP.md` carries the project's current decisions and links their dated
+history. Read it before proposing or planning work.
 
-`ALIGNMENT.md` covers what an agent here is expected to do when it disagrees,
-why producing a result is not the same as establishing it, and which decisions
-are not an agent's to make. It is short and it is not optional. Disagreeing is
-part of it.
+`ALIGNMENT.md` is the current research mandate and evidence discipline. Its
+2026-09-12 owner-directed clarification permits original mathematics toward
+RH and useful intermediate results. Read it before treating an old non-goal,
+a failed attempt or a failure catalogue as a prohibition on research.
 
-This file is the single source of operating context for **any** coding agent
-working in this repository (Claude Code, Codex, Cursor, Aider, …). `CLAUDE.md`
-is a pointer to this file; do not duplicate content between them.
+This is the shared operating context for any coding agent working in this
+repository (Claude Code, Codex, Cursor, Aider, ...). In this checkout
+`AGENTS.md` is a symlink to `CLAUDE.md`; edit this shared text rather than
+creating divergent instructions for different agents.
 
 ## Setup (first run in a fresh clone)
 
@@ -224,6 +225,14 @@ forgetting the others, observations become issues, leads go to the roster
 in `fulcrum`. This is a working
 strategy, not a proven optimal policy.
 
+**Constructive search and scoped challenge.** Within a mission that permits
+breadth, compare distinct mechanisms before giving one family automatic
+priority. Give plausible candidates bounded construction time and challenge
+the actual result, not a generic label for its technique. Immediate
+counterexamples still stop invalid work. Use `ALIGNMENT.md` sections 4 and 5
+to distinguish a refuted candidate, a restricted-class obstruction, an
+unresolved attempt and an allocation pause. Rejection is not the objective.
+
 **The economic objective: maximize valuable output per monetary unit of input.**
 This is *not* "minimize tokens". Money is the input and valuable output is the
 objective; models, tokens, extra agents, verification, formalization,
@@ -293,12 +302,16 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   central habit: every number in a docstring is pinned by `tests/`; identities
   are exposed as measured *defect* functions (`functional_equation_defect`,
   `theta_modular_defect`, ...), not assumed.
-- **Honest-scope rule & Phase II Objective**: Zeta Lab is a computational and formal workbench.
-  Phase II's explicit Research Objective is to **produce one externally verified mathematical statement that humanity didn't previously know** (e.g. a new theorem, counterexample, bound, equivalence, or robust conjecture).
-  However, it still makes no claims to advance RH itself. Nothing here is evidence for RH (Littlewood's theorem, `docs/08`). Never
-  write language implying a computation settles or supports RH; the sanctioned
-  framing for the sign-change verification is "proof for the finite range,
-  modulo the correctness of the floating-point sign evaluations".
+- **Honest scope and research objective.** Zeta Lab is a computational and
+  formal workbench for original mathematics toward RH and useful intermediate
+  results, as authorized in `ALIGNMENT.md` section 0. Proof attempts and
+  formalization of new mathematics are permitted. Do not present a finite
+  computation, a favorable plot or model agreement as a uniform RH result.
+  A stronger theorem must retain its exact hypotheses, target, remainder
+  terms and reviewed implication chain. A conjecture remains a conjecture.
+  Numerical sign scans must state their range and whether the sign and
+  completeness checks were rigorous; unvalidated floating-point signs are
+  not silently upgraded to a finite-range theorem.
 - **Original is not novel, and the lab may claim original** (director's ruling,
   2026-08-13). These are two different claims and conflating them was costing
   the laboratory its own output:
@@ -323,15 +336,12 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   result, full stop, and the front of the house should say so. The certainty
   ladder below still governs *how strongly* it may be phrased; the ladder grades
   confidence, it does not decide authorship. Refutations count as output too,
-  a route closed with a witness is a result, not an absence of one.
-- **The certainty ladder** (amended 2026-08-12; replaces the blunt "an
-  apparent settlement is a bug" heuristic, which treated a kernel-checked
-  proof and an eyeballed number alike). When a computation appears to
-  settle something open, the correct FIRST inference is still a bug -- the
-  `hunts/frontier_math` ledger records nine defects in two days caught by
-  exactly that reflex -- but the inference is *discharged* by climbing the
-  ladder, and a claim may then carry the strongest language its rung has
-  earned:
+  within the exact scope their evidence establishes.
+- **The certainty ladder.** An unexpected result must be checked for bugs,
+  missing assumptions, unsupported limiting arguments and shared failure
+  modes. Neither acceptance nor dismissal is automatic. Retain a finding as
+  a candidate while those questions remain, then state the strongest status
+  the actual checks establish:
   1. *measured* -- one route, float grade. Say "measured", "observed".
   2. *hardened* -- independent routes agree and/or ball-arithmetic
      enclosures carry every step (`rigor.py` grade). Say "hardened",
@@ -347,6 +357,9 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
      carries *pending external verification* until a qualified outside
      reader has walked the chain, and that footnote is small because the
      work is done and the waiting is somebody else's.
+  Ordinary mathematical derivations must also state their assumptions and
+  review status. They do not become kernel-checked through numerical
+  agreement, and a numerical check does not replace their proof.
   A composite claim takes the grade of its WEAKEST step: a chain of
   theorems glued by one measured step is a candidate and is called one.
   The reserved words stay reserved ("certified" to `zeta/rigor.py` and
@@ -388,12 +401,15 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   repo is *accurate*, which is a different and weaker claim. Say which one you
   mean. Non-rigorous cross-checks (mpmath `nzeros`, `backlunds`) must stay
   flagged as such in the returned dict.
-- **The counterexample battery is a standing test.** Any claimed structural
-  property that "explains" RH must be run through `zeta.epstein.battery`
-  (ζ and the Davenport–Heilbronn function behind one interface): f satisfies
-  the functional equation, has real coefficients and a real Hardy-style Z,
-  and violates RH, a claim f also passes distinguishes nothing (docs/09,
-  gate #3; docs/08 §4.1).
+- **The counterexample battery is a standing test.** A claimed structural
+  explanation of RH must be challenged against the applicable
+  `zeta.epstein.battery` rivals. Compare the complete hypotheses, including
+  arithmetic and normalization. A rival satisfying all hypotheses but not
+  the conclusion refutes that implication. A rival passing a shared
+  intermediate lemma does not by itself refute an argument that uses
+  additional structure; identify and test the distinguishing step. A failed
+  or unavailable rival computation is not evidence that the rival was
+  excluded. See `ALIGNMENT.md` section 5 and `docs/08` section 4.
 
 ## Layout
 
@@ -488,10 +504,12 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   department: a dossier has no negative controls of its own, and a
   department whose battery belongs to another department is not a department
   (`docs/19-research-dossiers.md` §6).
-- `hunts/`: exploratory studies, not departments and not results. The one
-  place a claim may be recorded before any control has been run against it.
-  A hunt cannot become a department by growing, for the same reason
-  `dossier/` cannot. Read `hunts/README.md` before adding one.
+- `hunts/`: exploratory studies, not departments. A claim may be recorded
+  before controls run, but its location neither proves nor disproves it.
+  Keep its measured, derived, reviewed or formal status explicit and follow
+  `ALIGNMENT.md`; a hunt cannot promote its own unreviewed claim. Read
+  `hunts/README.md` for the directory conventions, not as a blanket denial
+  that a hunt can produce mathematics.
 - Package: `meta/`, **the second laboratory**: evidence about the research
   system rather than about ζ. `ledger.py` is the intervention ledger, what a
   human had to do that the machinery could not, with the missing capability
@@ -630,9 +648,13 @@ So every hunt that measures a ceiling MUST end its RESULTS.md with a section nam
 3. **The information class**: whether each door stays inside the data the current
    family reads (and so under its configuration ceiling) or requires reading more.
 
-The follow-up hunt goes through the top-ranked door. Maxing the given parameters and
-unlocking new ones are one flywheel; a lab that only does the first referees races
-that other people keep winning.
+A measured optimum is not automatically a proved ceiling. State the candidate,
+parameter range, information class and proof status before closing a route.
+Compare its proposed next door with other permitted mechanisms using the
+current complete argument; do not give the top-ranked door of the most recent
+hunt automatic priority over the rest of the mission. Maxing parameters and
+unlocking new ones can support each other, but neither replaces constructive
+breadth or the owner's allocation decision.
 
 ## Compute discipline
 
