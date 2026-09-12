@@ -46,9 +46,26 @@ whose baseline (1) is the classical \(N^3L^{-C}\), moved to the corrected target
 with the major-arc cutoff \(R=\exp(\sigma\sqrt\ell)\) that the model and its
 progression input make available.
 
-Grade: derived, one route, finite checks in section 8, not yet independently
-read. No power saving, no statement about exceptional zeros beyond what the
+Grade: derived, one route, finite checks in section 8, independently read.
+No power saving, no statement about exceptional zeros beyond what the
 inputs carry, nothing about the zeros of \(\zeta\).
+
+**Independent check, 2026-09-12** (attempt `a-0078`,
+`ARC_SPLIT_BUDGET_REVIEW.md`). No defect in any of the five sections. It
+verified (2) and (3) to floating-point precision on its own toy model,
+recomputed sections 3 and 5 against the cited equations including the
+account of \(R^7\) becoming \(R^2\) and both budgets' optima
+(\(\gamma/43\) for the old one at its own optimum, \(\gamma/240\) as stated,
+\(2\gamma/3\) here), confirmed that on the minor arcs the document cites
+`UPPER_BOUND.md` and nothing of the divisor approximant, and re-derived the
+quadratic piece of 4.1 in full with its three ranges and the consistency
+check against `SIEGEL_UNIFORMITY.md` (23). Two things it checked at the
+level of orders rather than symbol by symbol, and said so: the auxiliary
+sieve-tail bound \(\sum_{m>X,\,g\mid m}\phi(m)^{-2}\ll g\,\phi(g)^{-2}X^{-1}\ell^{O(1)}\)
+in the \(m>\sqrt N\) range, and the constants of the linear pieces. Neither
+is a binding term, so an error there confined to logarithmic factors would
+not change (S\('\)); both are named here so that they are redone if 4.1 is
+ever consumed by something that binds on them.
 
 ## 1. Notation, and the identity that makes (22) non-intrinsic
 
@@ -447,4 +464,5 @@ approximant of the previous chain is not refuted; it is unused. The refuted
 candidate is the cross term with the model remainder as a lever on the
 exponent. No fixed power saving, no novelty claim, no statement about
 exceptional zeros beyond the inputs, nothing about the zeros of \(\zeta\).
-Awaits an independent read of sections 3 to 5, in particular 4.1.
+Sections 3 to 5 have had an independent read (`ARC_SPLIT_BUDGET_REVIEW.md`);
+the two order-level steps of 4.1 it names are recorded at the top.
