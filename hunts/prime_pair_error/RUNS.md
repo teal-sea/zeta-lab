@@ -278,3 +278,71 @@ recorded numbers.
 
 Eleven further proposals are on the board, judged and unanswered. Scheduling them is the
 operator's decision.
+
+## Round 4, 2026-09-10, orchestrated by an attended cloud session
+
+Eight of the eleven were confirmed and two landed before the round was reshaped.
+
+`a-0039` measured the cross term Sigma_cross(q) at eight moduli and seven cutoffs to 10^6. The
+ratio to its proved ceiling stays in roughly [-0.25, 0.43], closer to zero than to one, and is
+not monotone in N. `RANK3_CROSS_TERM_MEASURE.md`, `results_rank3_cross_term_probe.json`.
+
+`a-0040` found that the O(N^3) transfer cost in `RANK3_ROUTE_D.md` section 6 is slack added to
+an already valid upper bound. (D10) bounds the full-circle integral and is derived before the
+transfer step appears; the arc integral is at most the full-circle integral because the
+integrand is nonnegative; so (D11) holds without its third term, and the sum over 2 <= q <= R_0
+that section 6 priced at N^3 is not a cost of anything. Checked by the orchestrator against
+(23) in `UPPER_BOUND.md`, where U_Q enters as an upper-bound term, and numerically at four
+(N, q, a) pairs chosen independently of the attempt's own six. `RANK3_ARC_TRANSFER.md`. This
+removes an obstruction from the hunt's bookkeeping. It proves nothing new about E(N).
+
+Consequences on the board. `w-rank3-transfer-refine` refines a step that does not need to exist
+and is rejected. `w-rank3-crossterm-asymptotic` is subsumed by `w-route-d-cross-term`, which the
+judge had rejected on the strength of the obstruction that no longer exists; the rejection is
+overturned and the item confirmed. Edges e-0006 and e-0007 were reasoned from the same
+obstruction and are rejected. `w-rank3-route-a-delta-uniform`, proposed by `a-0040`, is the
+one remaining named requirement for the U side of rank 3 and is confirmed.
+
+Seven items remain and none depends on another, so concurrency is 7. Estimate, before launch:
+the two proves this round cost $2.89 together, about $1.45 each, so seven proves are about
+$10.15; seven verifies at the measured $0.35 would add $2.45; about $12.60 in total against
+$11.48 of headroom under the $50 cap. The runner is bound at `--max-usd 50`, so the cap binds
+during the verify pass and one or two verdicts will wait for the operator.
+
+Actuals. Fourteen attempts landed: seven judges, five proves done, two walled. Stopped at the
+$50 cap with $52.34 spent, the overshoot being cells already in flight; 54 attempts on the
+record. The two walls, `w-sw-pin-c1` and `w-mean-square-bv-hybrid`, are one wall: WebSearch and
+WebFetch were denied inside the cell because `OSTOYAE_WEB` was neither set nor passed through
+`sandbox.env_passthrough`. That is the orchestrator's miss, about $2.50 of the cap.
+
+What landed. `RANK3_CROSS_TERM_CANCELLATION.md` (a-0048): for prime q an exact identity
+Sigma_cross(q) = Sigma_diag(q)/(q-1) - E(q), E(q) >= 0, by character orthogonality; its
+consequence Sigma_cross <= Sigma_diag/(q-1) was checked by the orchestrator against a-0039's
+independent measurement on all 42 prime-q rows. It fails for composite squarefree q and says so.
+`RANK3_INTEGRATED_BDH.md` (a-0043): the integrated mean-value theorem cannot hold at the claimed
+strength, sum_b T(q,b) >> N^2, so that route is closed. `RANK3_ROUTE_A.md` (a-0049): no
+unconditional closing route for Route A. `RANK3_QUARTIC_LITERATURE.md` and
+`RANK3_QUARTIC_HEIGHT.md` (a-0044, a-0047): the Z side, negative, with the arc-restricted
+quartic moment of F_N at q below N^{2/5} named as the remaining object.
+
+Together: a weight on sum_b T(q,b) worse than about 1/q cannot reach N^{2+eps} (a-0043), and
+1/q is exactly what a-0048 delivers at prime q. The one remaining U-side question is the
+extension to composite squarefree q, `w-cross-term-composite-q`. Nine proposals await the
+operator. Every grade above is derived and measured, one route each.
+
+## Round 5, 2026-09-10, section 8 of issue 58 executed
+
+Five items with typed dependencies, web access passed through and used. Eleven attempts,
+$9.28; 65 on the record, $61.62 total. All five landed and were judged.
+
+`CANDIDATE_ENERGY.md` (a-0058): the only Energy(N) meeting all of section 8's constraints with
+an exact domination is E_corr(N) itself, a block-average identity proved by linear algebra with
+no arithmetic input. `CHALLENGE.md` (a-0062): the same identity holds on a Davenport-Heilbronn
+sequence, so it distinguishes nothing about zeta. `SCALE_TRANSITION.md` (a-0061): the dyadic
+transition fails at scale 0. `S8_CONTROL.md` (a-0057): the instrument, and a finding that the
+chain never pins Tao and Teraevaeinen's constant c_0. `ENDPOINT_HALF.md` (a-0059): Remark 2.8
+breaks the chain at the Bonferroni cutoff at exactly kappa = 1/2; retuning that cutoff gives
+E_corr(N) <<_kappa N^3 exp(-c_kappa (log N)^kappa) for every fixed kappa < 1/2, from 1/10.
+Threshold checked by the orchestrator: log D_0 = 2 (log N)^{kappa + 1/2}. It rests on
+Remark 2.8 as its authors state it, not on a worked proof. Every grade: derived and measured,
+one route each.
