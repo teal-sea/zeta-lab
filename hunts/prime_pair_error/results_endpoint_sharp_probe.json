@@ -1,0 +1,151 @@
+{
+  "N": 1000000,
+  "Z": 50,
+  "primes": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    19,
+    23,
+    29,
+    31,
+    37,
+    41,
+    43,
+    47
+  ],
+  "V_Z": 0.1387040926358504,
+  "H_Z": 1.6616465170157964,
+  "true_count": 138745,
+  "rows": [
+    {
+      "approximant": "beta-sieve",
+      "s": 2.0,
+      "D0": 2500.0,
+      "support_size": 42,
+      "max_support": 546,
+      "coeffs_in_pm1": true,
+      "one_sided": true,
+      "l1_error": 56560,
+      "l1_error_over_NV": 0.40777455751425407,
+      "e_minus_s": 0.1353352832366127,
+      "ratio_error_to_NVe-s": 3.013069081189446
+    },
+    {
+      "approximant": "beta-sieve",
+      "s": 3.0,
+      "D0": 125000.0,
+      "support_size": 632,
+      "max_support": 29670,
+      "coeffs_in_pm1": true,
+      "one_sided": true,
+      "l1_error": 6024,
+      "l1_error_over_NV": 0.04343058582860443,
+      "e_minus_s": 0.049787068367863944,
+      "ratio_error_to_NVe-s": 0.8723266352561052
+    },
+    {
+      "approximant": "beta-sieve",
+      "s": 4.0,
+      "D0": 6250000.0,
+      "support_size": 2728,
+      "max_support": 1452990,
+      "coeffs_in_pm1": true,
+      "one_sided": true,
+      "l1_error": 426,
+      "l1_error_over_NV": 0.003071286448038759,
+      "e_minus_s": 0.01831563888873418,
+      "ratio_error_to_NVe-s": 0.16768655828478285
+    },
+    {
+      "approximant": "beta-sieve",
+      "s": 5.0,
+      "D0": 312500000.0,
+      "support_size": 8422,
+      "max_support": 72089070,
+      "coeffs_in_pm1": true,
+      "one_sided": true,
+      "l1_error": 0,
+      "l1_error_over_NV": 0.0,
+      "e_minus_s": 0.006737946999085467,
+      "ratio_error_to_NVe-s": 0.0
+    },
+    {
+      "approximant": "beta-sieve",
+      "s": 6.0,
+      "D0": 15625000000.0,
+      "support_size": 17358,
+      "max_support": 3728692110,
+      "coeffs_in_pm1": true,
+      "one_sided": true,
+      "l1_error": 0,
+      "l1_error_over_NV": 0.0,
+      "e_minus_s": 0.0024787521766663585,
+      "ratio_error_to_NVe-s": 0.0
+    },
+    {
+      "approximant": "Bonferroni",
+      "m": 1,
+      "D0": 50,
+      "support_size": 16,
+      "one_sided": false,
+      "l1_error": 800387,
+      "l1_error_over_NV": 5.77046419316056,
+      "H_Z_e_over_m": 4.516823532526303
+    },
+    {
+      "approximant": "Bonferroni",
+      "m": 2,
+      "D0": 2500,
+      "support_size": 121,
+      "one_sided": true,
+      "l1_error": 355914,
+      "l1_error_over_NV": 2.565994941002974,
+      "H_Z_e_over_m": 2.2584117662631513
+    },
+    {
+      "approximant": "Bonferroni",
+      "m": 3,
+      "D0": 125000,
+      "support_size": 576,
+      "one_sided": false,
+      "l1_error": 94239,
+      "l1_error_over_NV": 0.6794247971284616,
+      "H_Z_e_over_m": 1.5056078441754341
+    },
+    {
+      "approximant": "Bonferroni",
+      "m": 4,
+      "D0": 6250000,
+      "support_size": 1941,
+      "one_sided": true,
+      "l1_error": 15886,
+      "l1_error_over_NV": 0.11453158805996182,
+      "H_Z_e_over_m": 1.1292058831315757
+    },
+    {
+      "approximant": "Bonferroni",
+      "m": 5,
+      "D0": 312500000,
+      "support_size": 4944,
+      "one_sided": false,
+      "l1_error": 1268,
+      "l1_error_over_NV": 0.00914176341810598,
+      "H_Z_e_over_m": 0.9033647065052606
+    },
+    {
+      "approximant": "Bonferroni",
+      "m": 6,
+      "D0": 15625000000,
+      "support_size": 9949,
+      "one_sided": true,
+      "l1_error": 8,
+      "l1_error_over_NV": 5.7676740808239617e-05,
+      "H_Z_e_over_m": 0.7528039220877171
+    }
+  ]
+}

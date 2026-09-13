@@ -1,0 +1,370 @@
+{
+ "context": "Checks whether the 3|q vs 3-nmid-q split visible in results_rank3_fourth_moment_probe.json (N=20000, q=3,6 give Z*_(q)/(phi(q)N^3)~1.4846 vs q=5,7,10 etc ~1.523-1.526) is a finite-N artifact of N=20000=2^5*5^4 (coprime to 3) or persists as N grows / at N not coprime to 3. RANK3_QUARTIC_TOOLS.md Section 2's claim that all squarefree q>=3 match 'to at least four digits' is not correct as stated for q=3,6 at N=20000; this script checks whether it is approximately correct in the N->infinity limit (a genuine single constant, slow to converge for q|3) or whether 3|q is a permanently distinct case.",
+ "experiment_A_N_sweep_3div_vs_not": {
+  "Q_LIST": [
+   3,
+   5,
+   6,
+   10
+  ],
+  "N_SWEEP": [
+   4000,
+   8000,
+   16000,
+   32000,
+   64000,
+   128000
+  ],
+  "rows": [
+   {
+    "q": 3,
+    "mu_q": -1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 188273160697.9192,
+    "Z_star_over_phi_q_N3": 1.4708840679524937,
+    "N": 4000
+   },
+   {
+    "q": 5,
+    "mu_q": -1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 386242187259.50867,
+    "Z_star_over_phi_q_N3": 1.5087585439824558,
+    "N": 4000
+   },
+   {
+    "q": 6,
+    "mu_q": 1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 188340371192.33337,
+    "Z_star_over_phi_q_N3": 1.4714091499401045,
+    "N": 4000
+   },
+   {
+    "q": 10,
+    "mu_q": 1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 386250547218.18115,
+    "Z_star_over_phi_q_N3": 1.5087912000710202,
+    "N": 4000
+   },
+   {
+    "q": 3,
+    "mu_q": -1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 1516108187308.9429,
+    "Z_star_over_phi_q_N3": 1.4805744016688895,
+    "N": 8000
+   },
+   {
+    "q": 5,
+    "mu_q": -1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 3111219250899.457,
+    "Z_star_over_phi_q_N3": 1.5191500248532506,
+    "N": 8000
+   },
+   {
+    "q": 6,
+    "mu_q": 1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 1516400004461.0134,
+    "Z_star_over_phi_q_N3": 1.4808593793564584,
+    "N": 8000
+   },
+   {
+    "q": 10,
+    "mu_q": 1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 3111255519629.5566,
+    "Z_star_over_phi_q_N3": 1.5191677341941194,
+    "N": 8000
+   },
+   {
+    "q": 3,
+    "mu_q": -1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 12286317798858.492,
+    "Z_star_over_phi_q_N3": 1.4997946531809683,
+    "N": 16000
+   },
+   {
+    "q": 5,
+    "mu_q": -1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 25212760229840.07,
+    "Z_star_over_phi_q_N3": 1.5388647601220746,
+    "N": 16000
+   },
+   {
+    "q": 6,
+    "mu_q": 1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 12287591252054.586,
+    "Z_star_over_phi_q_N3": 1.4999501040105696,
+    "N": 16000
+   },
+   {
+    "q": 10,
+    "mu_q": 1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 25212920133918.793,
+    "Z_star_over_phi_q_N3": 1.5388745198925045,
+    "N": 16000
+   },
+   {
+    "q": 3,
+    "mu_q": -1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 96734386367352.94,
+    "Z_star_over_phi_q_N3": 1.4760495966698142,
+    "N": 32000
+   },
+   {
+    "q": 5,
+    "mu_q": -1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 198525507372491.56,
+    "Z_star_over_phi_q_N3": 1.5146294202613186,
+    "N": 32000
+   },
+   {
+    "q": 6,
+    "mu_q": 1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 96739783775908.28,
+    "Z_star_over_phi_q_N3": 1.4761319545884442,
+    "N": 32000
+   },
+   {
+    "q": 10,
+    "mu_q": 1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 198526180796298.16,
+    "Z_star_over_phi_q_N3": 1.514634558077226,
+    "N": 32000
+   },
+   {
+    "q": 3,
+    "mu_q": -1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 783780482045338.4,
+    "Z_star_over_phi_q_N3": 1.4949426308542983,
+    "N": 64000
+   },
+   {
+    "q": 5,
+    "mu_q": -1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 1608528116967522.5,
+    "Z_star_over_phi_q_N3": 1.5340119523692346,
+    "N": 64000
+   },
+   {
+    "q": 6,
+    "mu_q": 1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 783803688210223.9,
+    "Z_star_over_phi_q_N3": 1.4949868931011656,
+    "N": 64000
+   },
+   {
+    "q": 10,
+    "mu_q": 1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 1608531016247710.8,
+    "Z_star_over_phi_q_N3": 1.534014717338286,
+    "N": 64000
+   },
+   {
+    "q": 3,
+    "mu_q": -1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 6253315756433004.0,
+    "Z_star_over_phi_q_N3": 1.4909066573221692,
+    "N": 128000
+   },
+   {
+    "q": 5,
+    "mu_q": -1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 1.28338357000103e+16,
+    "Z_star_over_phi_q_N3": 1.5299124360096812,
+    "N": 128000
+   },
+   {
+    "q": 6,
+    "mu_q": 1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 6253414114889545.0,
+    "Z_star_over_phi_q_N3": 1.4909301078056205,
+    "N": 128000
+   },
+   {
+    "q": 10,
+    "mu_q": 1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 1.2833848048100614e+16,
+    "Z_star_over_phi_q_N3": 1.529913908016755,
+    "N": 128000
+   }
+  ]
+ },
+ "experiment_B_second_N_full_qlist": {
+  "N": 21000,
+  "rows": [
+   {
+    "q": 2,
+    "mu_q": -1,
+    "phi_q": 1,
+    "div3": false,
+    "Z_star_q": 7969556554165.666,
+    "Z_star_over_phi_q_N3": 0.8605503243889068
+   },
+   {
+    "q": 3,
+    "mu_q": -1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 27392366211532.797,
+    "Z_star_over_phi_q_N3": 1.4789097403915774
+   },
+   {
+    "q": 4,
+    "mu_q": 0,
+    "phi_q": 2,
+    "div3": false,
+    "Z_star_q": 28154792556171.113,
+    "Z_star_over_phi_q_N3": 1.520073024304671
+   },
+   {
+    "q": 5,
+    "mu_q": -1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 56214500548531.64,
+    "Z_star_over_phi_q_N3": 1.5175062236403098
+   },
+   {
+    "q": 6,
+    "mu_q": 1,
+    "phi_q": 2,
+    "div3": true,
+    "Z_star_q": 27394714633861.688,
+    "Z_star_over_phi_q_N3": 1.4790365313606353
+   },
+   {
+    "q": 7,
+    "mu_q": -1,
+    "phi_q": 6,
+    "div3": false,
+    "Z_star_q": 84436155995597.5,
+    "Z_star_over_phi_q_N3": 1.519565129676376
+   },
+   {
+    "q": 8,
+    "mu_q": 0,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 56309585112342.234,
+    "Z_star_over_phi_q_N3": 1.520073024304671
+   },
+   {
+    "q": 9,
+    "mu_q": 0,
+    "phi_q": 6,
+    "div3": true,
+    "Z_star_q": 84464377668513.34,
+    "Z_star_over_phi_q_N3": 1.520073024304671
+   },
+   {
+    "q": 10,
+    "mu_q": 1,
+    "phi_q": 4,
+    "div3": false,
+    "Z_star_q": 56214795128239.42,
+    "Z_star_over_phi_q_N3": 1.5175141757974144
+   },
+   {
+    "q": 12,
+    "mu_q": 0,
+    "phi_q": 4,
+    "div3": true,
+    "Z_star_q": 56309585112342.23,
+    "Z_star_over_phi_q_N3": 1.520073024304671
+   },
+   {
+    "q": 15,
+    "mu_q": 1,
+    "phi_q": 8,
+    "div3": true,
+    "Z_star_q": 112607237573470.28,
+    "Z_star_over_phi_q_N3": 1.5199119637926557
+   },
+   {
+    "q": 16,
+    "mu_q": 0,
+    "phi_q": 8,
+    "div3": false,
+    "Z_star_q": 112619170224684.47,
+    "Z_star_over_phi_q_N3": 1.520073024304671
+   },
+   {
+    "q": 18,
+    "mu_q": 0,
+    "phi_q": 6,
+    "div3": true,
+    "Z_star_q": 84464377668513.34,
+    "Z_star_over_phi_q_N3": 1.520073024304671
+   },
+   {
+    "q": 20,
+    "mu_q": 0,
+    "phi_q": 8,
+    "div3": false,
+    "Z_star_q": 112619170224684.47,
+    "Z_star_over_phi_q_N3": 1.520073024304671
+   },
+   {
+    "q": 25,
+    "mu_q": 0,
+    "phi_q": 20,
+    "div3": false,
+    "Z_star_q": 281547925561711.1,
+    "Z_star_over_phi_q_N3": 1.5200730243046707
+   },
+   {
+    "q": 30,
+    "mu_q": -1,
+    "phi_q": 8,
+    "div3": true,
+    "Z_star_q": 112607277283001.64,
+    "Z_star_over_phi_q_N3": 1.5199124997705653
+   }
+  ]
+ }
+}

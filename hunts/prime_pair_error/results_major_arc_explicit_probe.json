@@ -1,0 +1,160 @@
+{
+ "I_rho_bounds": {
+  "zeros_used": 60,
+  "gamma_max": 163.030709687182,
+  "worst_ratio_stationary_regime_vs_Nbeta_over_sqrt_gamma": 0.06423492249900023,
+  "worst_ratio_far_regime_vs_Nbeta_over_gamma": 1.009917825059463,
+  "n_rows": 480,
+  "sample_rows": [
+   {
+    "N": 10000,
+    "N_theta": 0.0,
+    "gamma": 14.134725141734695,
+    "abs_I": 7.084078277499261,
+    "regime": "far",
+    "ratio_to_bound": 1.0013149933498542
+   },
+   {
+    "N": 10000,
+    "N_theta": 0.0,
+    "gamma": 21.022039638771556,
+    "abs_I": 4.736716130256759,
+    "regime": "far",
+    "ratio_to_bound": 0.9957543424786618
+   },
+   {
+    "N": 10000,
+    "N_theta": 0.0,
+    "gamma": 25.01085758014569,
+    "abs_I": 4.018454348218701,
+    "regime": "far",
+    "ratio_to_bound": 1.005049893956151
+   },
+   {
+    "N": 10000,
+    "N_theta": 0.0,
+    "gamma": 30.424876125859512,
+    "abs_I": 3.313109631853323,
+    "regime": "far",
+    "ratio_to_bound": 1.0080095014052934
+   },
+   {
+    "N": 10000,
+    "N_theta": 0.0,
+    "gamma": 32.93506158773919,
+    "abs_I": 3.0414931468549966,
+    "regime": "far",
+    "ratio_to_bound": 1.00171764110356
+   },
+   {
+    "N": 10000,
+    "N_theta": 0.0,
+    "gamma": 37.586178158825675,
+    "abs_I": 2.6384992211904454,
+    "regime": "far",
+    "ratio_to_bound": 0.9917110179958687
+   },
+   {
+    "N": 1000000,
+    "N_theta": 100.0,
+    "gamma": 153.0246938111989,
+    "abs_I": 1.2862745986878243,
+    "regime": "stationary",
+    "ratio_to_bound": 0.015911621994083726
+   },
+   {
+    "N": 1000000,
+    "N_theta": 100.0,
+    "gamma": 156.11290929423788,
+    "abs_I": 1.2752850530763062,
+    "regime": "stationary",
+    "ratio_to_bound": 0.01593406843973961
+   },
+   {
+    "N": 1000000,
+    "N_theta": 100.0,
+    "gamma": 157.59759181759406,
+    "abs_I": 1.2786613739667672,
+    "regime": "stationary",
+    "ratio_to_bound": 0.01605204374476544
+   },
+   {
+    "N": 1000000,
+    "N_theta": 100.0,
+    "gamma": 158.8499881714205,
+    "abs_I": 1.2715615591242628,
+    "regime": "stationary",
+    "ratio_to_bound": 0.01602621569613688
+   },
+   {
+    "N": 1000000,
+    "N_theta": 100.0,
+    "gamma": 161.18896413759603,
+    "abs_I": 1.2721025318399322,
+    "regime": "stationary",
+    "ratio_to_bound": 0.016150641205118436
+   },
+   {
+    "N": 1000000,
+    "N_theta": 100.0,
+    "gamma": 163.030709687182,
+    "abs_I": 1.2697064501880775,
+    "regime": "stationary",
+    "ratio_to_bound": 0.01621205376601845
+   }
+  ]
+ },
+ "explicit_formula": {
+  "N": 2000,
+  "T": 400.0,
+  "zeros_with_gamma_le_T": 202,
+  "rows": [
+   {
+    "N_theta": 0.0,
+    "abs_F": 1994.451579978079,
+    "abs_pred": 1992.6905633794788,
+    "abs_defect": 1.7610165986002357,
+    "defect_over_scale": 0.006096255022119394,
+    "abs_zero_sum": 7.309436620521199
+   },
+   {
+    "N_theta": 0.5,
+    "abs_F": 1273.3238769330967,
+    "abs_pred": 1273.3515055096464,
+    "abs_defect": 4.478905907126651,
+    "defect_over_scale": 0.010336662982667477,
+    "abs_zero_sum": 7.662406096794083
+   },
+   {
+    "N_theta": 2.0,
+    "abs_F": 14.7280526317587,
+    "abs_pred": 16.465575035851856,
+    "abs_defect": 1.7618724346140002,
+    "defect_over_scale": 0.002033072579854687,
+    "abs_zero_sum": 16.465575035851824
+   },
+   {
+    "N_theta": 5.0,
+    "abs_F": 14.776791690184755,
+    "abs_pred": 14.047846891746014,
+    "abs_defect": 1.7662672528210144,
+    "defect_over_scale": 0.0010190719401295344,
+    "abs_zero_sum": 14.047846891746008
+   }
+  ]
+ },
+ "plancherel": {
+  "N": 3000,
+  "r": 7,
+  "theta_times_rN": 3.0,
+  "sum_reduced_a_abs_W_sq": 778595.3308600268,
+  "r_over_phi_times_sum_chi_abs_V_sq": 119611.47552243099,
+  "abs_W_at_theta_sq": 23.859991324837374,
+  "r_times_abs_W_class0_sq": 659007.7153286106,
+  "identity_lhs_all": 778619.1908513516,
+  "identity_rhs_all": 778619.1908510416,
+  "identity_relative_defect": 3.9815869640494967e-13,
+  "note": "exact identity over all a and all classes; the toy's Z = 7 does not exceed r, so class 0 mod 7 is not small here, unlike the document's setting r < Z"
+ },
+ "elapsed_s": 35.89206290245056
+}

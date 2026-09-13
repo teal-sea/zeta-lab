@@ -1,0 +1,132 @@
+{
+ "note": "measured at fixed N without an exceptional zero; C_N = 0 and E_corr = E",
+ "identity_G_equals_FF_minus_HH_plus_Rmod_minus_kappa": {
+  "N": 2000,
+  "Z": 7,
+  "max_abs_defect": 1.0186340659856796e-10,
+  "max_abs_G": 79927.37040677325,
+  "kappa": 5483.718564307059,
+  "sign_convention": "kappa = d_N - sum a(n)^2, entering with a minus sign"
+ },
+ "arc_split": {
+  "N": 8000,
+  "grid": 524288,
+  "y": 89,
+  "E_from_h_space": 619793358.9092871,
+  "J_ms_from_h_space": 697237916.6666191,
+  "J_ms_from_grid": 697237916.6666174,
+  "parseval_relative_defect": 2.3936306586564027e-15,
+  "D_tail_N_y": 64544657.57421376,
+  "D_tail_over_N2": 1.00851027459709,
+  "sqrtE_minus_sqrtJ_over_sqrtDtail": -0.1879038436822524,
+  "N3": 512000000000.0,
+  "splits": [
+   {
+    "Q": 3,
+    "measure_major": 0.00162506103515625,
+    "measure_major_over_2Q2_over_N": 0.7222493489583334,
+    "int_major_G2": 25500885.64626789,
+    "int_minor_G2": 671737031.0203495,
+    "int_minor_F4": 60420887481.439384,
+    "int_minor_F4_over_N3_over_Q": 0.3540286375865589,
+    "int_minor_F4_over_N3_L6_over_Q": 6.718817990390944e-07,
+    "int_minor_mainpoly2": 61820236481.59993,
+    "int_minor_mainpoly2_over_N3_over_Q2": 1.086683844403124,
+    "sup_minor_F2_over_N2_over_Q": 0.7396300786647728
+   },
+   {
+    "Q": 6,
+    "measure_major": 0.005702972412109375,
+    "measure_major_over_2Q2_over_N": 0.6336636013454862,
+    "int_major_G2": 44944990.31092501,
+    "int_minor_G2": 652292926.3556924,
+    "int_minor_F4": 13059877022.83459,
+    "int_minor_F4_over_N3_over_Q": 0.15304543386134287,
+    "int_minor_F4_over_N3_L6_over_Q": 2.904523265080118e-07,
+    "int_minor_mainpoly2": 13215350948.56761,
+    "int_minor_mainpoly2_over_N3_over_Q2": 0.9292043635711601,
+    "sup_minor_F2_over_N2_over_Q": 0.38065503652819255
+   },
+   {
+    "Q": 12,
+    "measure_major": 0.02239990234375,
+    "measure_major_over_2Q2_over_N": 0.6222195095486112,
+    "int_major_G2": 70300553.80029225,
+    "int_minor_G2": 626937362.8663251,
+    "int_minor_F4": 5811911111.045349,
+    "int_minor_F4_over_N3_over_Q": 0.13621666666512539,
+    "int_minor_F4_over_N3_L6_over_Q": 2.5851439499917955e-07,
+    "int_minor_mainpoly2": 5642566400.428644,
+    "int_minor_mainpoly2_over_N3_over_Q2": 1.5869718001205562,
+    "sup_minor_F2_over_N2_over_Q": 0.33172146216817777
+   },
+   {
+    "Q": 24,
+    "measure_major": 0.08872222900390625,
+    "measure_major_over_2Q2_over_N": 0.6161265903049046,
+    "int_major_G2": 144138617.23468542,
+    "int_minor_G2": 553099299.431932,
+    "int_minor_F4": 2598767757.687475,
+    "int_minor_F4_over_N3_over_Q": 0.1218172386416004,
+    "int_minor_F4_over_N3_L6_over_Q": 2.3118690626399364e-07,
+    "int_minor_mainpoly2": 2230789243.7286186,
+    "int_minor_mainpoly2_over_N3_over_Q2": 2.509637899194696,
+    "sup_minor_F2_over_N2_over_Q": 0.3844543081353822
+   },
+   {
+    "Q": 48,
+    "measure_major": 0.35300445556640625,
+    "measure_major_over_2Q2_over_N": 0.6128549575805664,
+    "int_major_G2": 323431988.48498625,
+    "int_minor_G2": 373805928.18163115,
+    "int_minor_F4": 932818172.8339591,
+    "int_minor_F4_over_N3_over_Q": 0.08745170370318367,
+    "int_minor_F4_over_N3_L6_over_Q": 1.6596738730991199e-07,
+    "int_minor_mainpoly2": 559945025.487457,
+    "int_minor_mainpoly2_over_N3_over_Q2": 2.519752614693557,
+    "sup_minor_F2_over_N2_over_Q": 0.18747432814360943
+   }
+  ]
+ },
+ "tail_mean_square": {
+  "N": 8000,
+  "rows": [
+   {
+    "R": 5,
+    "sum_h_tail_sq": 1268.7758115167144,
+    "N_times_T_R": 1282.6923572626913,
+    "ratio_to_N_T_R": 0.9891505194778931,
+    "ratio_to_large_sieve_bound_2N_T_R": 0.49457525973894656
+   },
+   {
+    "R": 10,
+    "sum_h_tail_sq": 112.56799856684665,
+    "N_times_T_R": 120.65532022565488,
+    "ratio_to_N_T_R": 0.9329716945453963,
+    "ratio_to_large_sieve_bound_2N_T_R": 0.46648584727269815
+   },
+   {
+    "R": 20,
+    "sum_h_tail_sq": 46.69656254569648,
+    "N_times_T_R": 52.03878644650535,
+    "ratio_to_N_T_R": 0.897341497263766,
+    "ratio_to_large_sieve_bound_2N_T_R": 0.448670748631883
+   },
+   {
+    "R": 40,
+    "sum_h_tail_sq": 9.587849623580006,
+    "N_times_T_R": 12.088742319217143,
+    "ratio_to_N_T_R": 0.7931221768486588,
+    "ratio_to_large_sieve_bound_2N_T_R": 0.3965610884243294
+   },
+   {
+    "R": 80,
+    "sum_h_tail_sq": 1.592185519561689,
+    "N_times_T_R": 2.4347515061002536,
+    "ratio_to_N_T_R": 0.6539416920258511,
+    "ratio_to_large_sieve_bound_2N_T_R": 0.32697084601292553
+   }
+  ]
+ },
+ "elapsed_s": 2.7762420177459717
+}

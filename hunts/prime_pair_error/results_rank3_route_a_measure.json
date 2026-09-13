@@ -1,0 +1,172 @@
+{
+ "definition": "S(N) = sum_{q=2}^{R0} mu(q)^2 sum_{b mod q, gcd(b,q)=1} T(q,b), T(q,b) = sum_{t=1}^N Delta(t;q,b)^2 + sum_{t=1}^{N-1}[Delta(N;q,b)-Delta(t;q,b)]^2, Delta(t;q,b) = psi(t;q,b) - t/phi(q); R0 = floor(floor(sqrt(N)/3)/log(N)).",
+ "context": "RANK3_ARC_TRANSFER.md (T6) reduces rank 3's U-side, unconditionally, to exactly S(N); the target is S(N) = O_eps(N^{2+eps}). RANK3_MEAN_VALUE_TOOLS.md Section 5 prices the best unconditional tool found (Barban-Davenport-Halberstam, summed crudely over t) at O(N^{5/2}); RANK3_BDH_VERIFY.md confirms no stronger citable theorem closes the remaining N^{1/2} gap. This script measures S(N) itself, from the true von Mangoldt function; it does not prove or disprove the target.",
+ "experiment_1_true_R0": {
+  "N_ladder": [
+   20000,
+   60000,
+   150000,
+   400000,
+   1000000,
+   2000000
+  ],
+  "rows": [
+   {
+    "N": 20000,
+    "R0": 4,
+    "S_measured": 104266379.89160119,
+    "S_over_N2": 0.260665949729003,
+    "S_over_N2p5": 0.0018431866067780969,
+    "S_over_N3": 1.3033297486450149e-05,
+    "S_over_crude_E1_bound": 0.006580155433785811
+   },
+   {
+    "N": 60000,
+    "R0": 7,
+    "S_measured": 4999107762.102712,
+    "S_over_N2": 1.388641045028531,
+    "S_over_N2p5": 0.0056691033270085,
+    "S_over_N3": 2.3144017417142185e-05,
+    "S_over_crude_E1_bound": 0.018030857291803995,
+    "empirical_local_exponent_vs_prev_N": 3.522685662842828
+   },
+   {
+    "N": 150000,
+    "R0": 10,
+    "S_measured": 26519016489.10464,
+    "S_over_N2": 1.1786229550713174,
+    "S_over_N2p5": 0.003043191384299323,
+    "S_over_N3": 7.857486367142115e-06,
+    "S_over_crude_E1_bound": 0.009889111687056348,
+    "empirical_local_exponent_vs_prev_N": 1.8210406064640017
+   },
+   {
+    "N": 400000,
+    "R0": 16,
+    "S_measured": 618601018653.0829,
+    "S_over_N2": 3.866256366581768,
+    "S_over_N2p5": 0.006113088068262646,
+    "S_over_N3": 9.66564091645442e-06,
+    "S_over_crude_E1_bound": 0.018732995186469682,
+    "empirical_local_exponent_vs_prev_N": 3.2111587396942562
+   },
+   {
+    "N": 1000000,
+    "R0": 24,
+    "S_measured": 10409877835750.988,
+    "S_over_N2": 10.409877835750988,
+    "S_over_N2p5": 0.010409877835750989,
+    "S_over_N3": 1.0409877835750989e-05,
+    "S_over_crude_E1_bound": 0.031395503481622365,
+    "empirical_local_exponent_vs_prev_N": 3.0809543533531745
+   },
+   {
+    "N": 2000000,
+    "R0": 32,
+    "S_measured": 53254632532427.37,
+    "S_over_N2": 13.313658133106841,
+    "S_over_N2p5": 0.009414177948319278,
+    "S_over_N3": 6.6568290665534205e-06,
+    "S_over_crude_E1_bound": 0.028676106650091016,
+    "empirical_local_exponent_vs_prev_N": 2.3549538903434013
+   }
+  ]
+ },
+ "experiment_2a_fixed_Q_varying_N": {
+  "Q": 8,
+  "N_sweep": [
+   20000,
+   60000,
+   150000,
+   400000,
+   1000000,
+   2000000
+  ],
+  "rows": [
+   {
+    "N": 20000,
+    "S_measured": 407223361.8426739,
+    "S_over_N2": 1.0180584046066847
+   },
+   {
+    "N": 60000,
+    "S_measured": 4999107762.102712,
+    "S_over_N2": 1.388641045028531,
+    "empirical_local_exponent_vs_prev_N": 2.2825640294360525
+   },
+   {
+    "N": 150000,
+    "S_measured": 19657805580.81121,
+    "S_over_N2": 0.8736802480360538,
+    "empirical_local_exponent_vs_prev_N": 1.4943019649278713
+   },
+   {
+    "N": 400000,
+    "S_measured": 156581397476.4527,
+    "S_over_N2": 0.9786337342278294,
+    "empirical_local_exponent_vs_prev_N": 2.1156602844502475
+   },
+   {
+    "N": 1000000,
+    "S_measured": 1776095492381.3184,
+    "S_over_N2": 1.7760954923813184,
+    "empirical_local_exponent_vs_prev_N": 2.6504652065315106
+   },
+   {
+    "N": 2000000,
+    "S_measured": 3503368556256.3086,
+    "S_over_N2": 0.8758421390640772,
+    "empirical_local_exponent_vs_prev_N": 0.9800336176526446
+   }
+  ]
+ },
+ "experiment_2b_fixed_N_varying_Q": {
+  "N": 400000,
+  "Q_checkpoints": [
+   4,
+   8,
+   12,
+   16,
+   20,
+   25,
+   30
+  ],
+  "rows": [
+   {
+    "Q": 4,
+    "S_measured": 33625867131.45717
+   },
+   {
+    "Q": 8,
+    "S_measured": 156581397476.4527,
+    "empirical_local_exponent_vs_prev_Q": 2.2192694476681765
+   },
+   {
+    "Q": 12,
+    "S_measured": 290972152178.15063,
+    "empirical_local_exponent_vs_prev_Q": 1.5282488351747479
+   },
+   {
+    "Q": 16,
+    "S_measured": 618601018653.0829,
+    "empirical_local_exponent_vs_prev_Q": 2.621758578554814
+   },
+   {
+    "Q": 20,
+    "S_measured": 975644210129.5629,
+    "empirical_local_exponent_vs_prev_Q": 2.0419029432429365
+   },
+   {
+    "Q": 25,
+    "S_measured": 1405587090802.249,
+    "empirical_local_exponent_vs_prev_Q": 1.6362219271420575
+   },
+   {
+    "Q": 30,
+    "S_measured": 1875804044212.5593,
+    "empirical_local_exponent_vs_prev_Q": 1.5828206078805498
+   }
+  ]
+ },
+ "runtime_seconds": 13.888101816177368
+}
