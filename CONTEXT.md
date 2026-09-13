@@ -1280,6 +1280,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/64_rung3_grid_centre.py`, Step 2: the grid sites and the centre, in both arithmetics.
 - `scripts/65_rung3_full_validation.py`, Every site of plan v2 through ball arithmetic, the sampled claim made whole.
 - `scripts/66_rung3_ball_atom_cost.py`, Which ball obligations the kernel can actually discharge, and at what cost.
+- `scripts/67_rung3_ball_atom_budget.py`, What the ball-emission certificate actually costs, in atoms rather than terms.
 - `scripts/70_lab_state.py`, 70_lab_state.py, the read-only research-state view, rendered from artifacts.
 - `scripts/71_contribution_check.py`, Check that an external research hunt carries the lab's review contract.
 - `scripts/check_secrets.py`, Refuse to publish a credential. Scans git objects for secret patterns.
