@@ -299,9 +299,10 @@ numerical falsifier, which #110 ran but did not commit. Either answer closes the
 
 ### Hunt #119: the bandwidth dial was physical all along (`short_interval/`)
 
-**Status: open. Three findings, three routes closed (two on analysis, one on
-literature search), and the gate on the surviving route passed with
-conditions. No new mathematics attempted; the proof outline is written.** Opened 2026-09-12 after Biao Wang's arXiv:2609.07918
+**Status: open, draft stage. Three findings, three routes closed (two on
+analysis, one on literature search), the gate on the surviving route passed
+and held under adversarial re-audit, the proof drafted with zero asserted
+steps, and its constants enclosed at hardened grade. Not refereed.** Opened 2026-09-12 after Biao Wang's arXiv:2609.07918
 (posted 2026-09-07) reached the laboratory five days late and by way of an
 unsolicited email rather than any mechanism in this tree. Wang proves
 unconditionally that zeros in `(T, T + T^theta]`, `0 < theta < 1`, are simple
@@ -435,6 +436,33 @@ short-window `mu`-integrals), and the bandwidth-theta constants must be
 enclosed by ball arithmetic before any number is stated. The eight-step
 proof outline, each step naming the Lean lemma it localizes, is in the
 audit's §6.
+
+**The audit was attacked and held, and the proof was drafted, same day.**
+`AUDIT-dyadic-adversarial.md`: a second session told to break the verdict
+opened all 78 citations (all correct), built the import graph and grepped
+every reachable file for the range, re-derived every exponent, and confirmed
+the verdict, while rewording two conditions (the grid size is consumed
+two-sidedly by `riemann_sum_monotone` and `tau_d_gt`; the interface consumes
+the count to within `O(log T)` of the `mu`-integral, not Wang's form) and
+listing eight corrections to the outline. `PROOF-DRAFT.md`, 2131 lines,
+follows the outline with those corrections folded in: 14 statements used
+from the kernel-checked dyadic tree, 26 new short-window statements with
+proofs written at the level of Wang's paper, **zero asserted**, the constant
+carried as a symbol. `enclose_theta.py` supplies that constant at hardened
+grade: exact rationals plus a proved series tail, no floating point on the
+load-bearing path, for one degree-6 polynomial window per bandwidth, with the
+zeta control sitting within `6e-12` of Wang's closed form at all ten
+bandwidths and the source paper's published `xi'` figures reproduced from
+below. The `xi'` lower bounds run from `0.868641500514` at `theta = 1` to
+`0.130258286830` at `0.55`. Not a result: not refereed, not kernel-checked
+beyond the quoted statements, and the optimum at each bandwidth stays float
+grade. A Lean port would touch about forty places and must thread the range
+through `PrimeSide.Setting`, per the draft's §12.
+
+**Route two re-scoped.** `ceiling_theta.py` parameterized the measure-level
+LP by band width and its control showed that LP reproduces the window
+optimum, not the configuration ceiling, whose certificate is not public;
+the workflow is written and deliberately not dispatched.
 
 Nothing here bears on RH (`docs/08`).
 

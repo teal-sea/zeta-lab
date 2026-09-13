@@ -34,7 +34,7 @@ Proposition 2.1".
 | Tag | Steps and lemmas carrying it |
 |---|---|
 | `[KERNEL-CHECKED, DYADIC]` | 1 (definitions); 3a (block inequality); 3b Lemma 3.3 (grid sum); 4 (explicit formula, special case); 5b-i (re-expansion, Dirichlet-kernel bound); 6.0 (Poisson identity, taper decay, MV Hilbert inequality, Chebyshev-Mertens, (H1)-(H3), the diagonal law and its partial summation); 6f-ii (window limits W1-W3); 7.1 (moment transfer algebra); 7.3 and 8 (continuity W4, the window functional). 14 items. |
-| `[NEW STATEMENT, PROOF WRITTEN HERE]` | 2.1, 2.2, 2.3, 2.4; 3.2, 3.4, 3.5, 3.6; 5.1, 5.2, 5.3, 5.4; 6.1, 6.2, 6.3, 6.4, 6.5, 6.6; 7.2, 7.3, 7.4; Theorem A and Theorem B. 23 items. |
+| `[NEW STATEMENT, PROOF WRITTEN HERE]` | 1.2 (two-sided floor); 2.1, 2.2, 2.3 (contour form), 2.3′ (the two count forms), 2.4; 3.2, 3.4, 3.5, 3.6; 5.1, 5.2, 5.3, 5.4; 6.1, 6.2, 6.3, 6.4, 6.5, 6.6 (including the `lam1` restatement); 7.2, 7.3, 7.3′ (the `λ → θ⁻` device), 7.4; Theorem A and Theorem B. 26 items. |
 | `[ASSERTED]` | **None.** |
 
 Two remarks on the count, so that "none" is read correctly.
@@ -2045,8 +2045,10 @@ listed occurrence by occurrence in §6.0); `PrimeSideA/Basic.lean:876-890`
 `prop_trace_mu`); `PrimeSideA/EndsE1.lean:262-266` (`tau_d_gt`),
 `EndsWeighted.lean:218-229`, `Defs/LeafIntegrals.lean:25, 51, 77`;
 `CrossMuPCore.lean:151` (`hvol`); the `ThmE/PPChi.lean` layer
-(`diag_estimate_chi:520-525`, `O1_bound_chi:615-640`), `PrimeSideB/PPKernel.lean`,
-`PPOffDiag.lean`, `MuMu.lean:71`, and `PP.lean`'s two `MV_four` endpoints;
+(`diag_estimate_chi:520-525`, `O1_bound_chi:615-640`) and `ThmE/PrimeSideChi.lean`
+(the twisted prime side it sits in), `PrimeSideB/PPKernel.lean`,
+`PPOffDiag.lean`, `MuMu.lean:71`, `XiPrime/PrimeSide/Concrete.lean:62-66, 96`
+(`PPInput`, `intMu2 := ∫_T^{2T} μ²`), and `PP.lean`'s two `MV_four` endpoints;
 `Transfer.lean`'s `d_le`, `tau_lt_two_T` and its four `N` comparisons
 (`:378, 425, 736, 784`), `Transfer/W.lean:306, 333, 337`; `Defs.lean:209-210`
 (`lam1`) or, instead, `Traces.lean:60-64` and `Moments.lean:81-109`
@@ -2060,6 +2062,60 @@ regime; `ThmD/Limit.lean:73-78` and `Window.lean:345, 364-373` (the endpoint
 stands: make the range `(T, U)` a parameter with `U = 2T` recovering the tree,
 so that "never hard-code `2T`" is enforced by the type; the re-audit adds that
 the parameter must reach `Setting`, not stop at `Params`.
+
+---
+
+## 13. Revision after the adversarial re-audit
+
+`AUDIT-dyadic-adversarial.md` (2026-09-12, section D) re-checked every
+citation of the gating audit, confirmed PASS WITH CONDITIONS, and corrected
+two conditions and eight points of the outline. Every Lean fact it names was
+opened at commit `fbdc36bb` before the corresponding edit. What changed in
+this document, in the order of section D:
+
+1. **Step 2, statement shape (condition 3).** Lemma 2.3 now states
+   `|N_{ξ′}(T,T+H) − ∫_T^{T+H} μ| ≤ C log T` and proves it from the contour
+   chain alone; Corollary 2.3′ derives the `prop_trace` form
+   `|N_H − H ℓ_H/2π| ≤ C log T` and Wang's (1.2). The `H²/T` moved to
+   Lemma 2.1 where it belongs. `prop_trace_W` (`Trace.lean:184-188`) and
+   `rvm_evBound` (`Moments.lean:110`) are quoted as the consumers.
+2. **Step 6a.** Proposition 6.1 now also records the tree's own route,
+   `riemann_sum_monotone` (`Basic.lean:876-890`) inside `prop_trace_mu`
+   (`PrimeSideA.lean:137-150`), localized with `d_H = ⌊H/h⌋`; and the Poisson
+   route's bound `(R)` names Lemma 1.2 as the place the lower floor
+   inequality is load-bearing.
+3. **Step 6b.** Lemma 6.2 cites `tau_d_gt` (`EndsE1.lean:262-266`),
+   `sum_psiA_shift_right` (`EndsWeighted.lean:218-229`) and the three leaf
+   integrals (`Defs/LeafIntegrals.lean:25, 51, 77`) at the lines that use them.
+4. **Step 6d.** Proposition 6.4 cites the `ThmE/PPChi.lean` layer
+   (`diag_estimate_chi:520-525` quoted; `O1_bound_chi:615-640`; `Aminus`,
+   `Cm/Sm/Cp/Sp`, `MV_four`, `Mform_cos_cos_ph`), `ThmE/PrimeSideChi.lean`,
+   `PrimeSideB/PPKernel.lean`, `PPOffDiag.lean:40`, `MuMu.lean:71`, and says
+   which `T` is the range length and which the endpoint. §12's "to touch"
+   list carries the omitted files.
+5. **`Setting.T`.** A paragraph in §6.0 lists, occurrence by occurrence, which
+   `p.T` become `H` and which stay `T`, with `eT` in `reexpansionGeom_of` as
+   the pin; §12 says the `(T, U)` parameter must reach `Setting`.
+6. **Step 7.** The `λ → θ⁻` device is Lemma 7.3′, `[NEW STATEMENT, PROOF
+   WRITTEN HERE]`, with `eps_form_of_approx` (`ThmD/Limit.lean:73-78`) and
+   `exists_lt_one_pos` (`Window.lean:345`) quoted as the endpoint-`1`
+   originals it replaces; continuity from `continuousOn_kappaXi` (`:338-341`,
+   `:391`, `:395`).
+7. **Step 6f, `lam1`.** Proposition 6.6 says that (ii)-(iv) are a
+   restatement of `TracesBoundsXi.ratio`/`frhat` and of `momentsW_of_family`'s
+   `hc` with `λ_{1,H} = L/ℓ_H` for `Params.lam1`, and why nothing downstream
+   changes (`tendsto_cRatio_cWin` takes any `lam1f → λ`).
+8. **Ordering.** Corollary 2.4 and the introduction of §5 cite
+   `Transfer.lean:378, 425, 736, 784` as the four closes against
+   `T l/4π ≤ N`, replaced by `H l/4π ≤ N_H`.
+
+Also: Lemma 1.2 (both floor inequalities) added to §1; condition 4 restated
+in the Status section and in table 0.3; the Hardy arm (§11) cites
+`Transfer/W.lean:306, 333, 337` and `Hardy/ZFunction.lean:339-366`. The
+Status table went from 23 to 26 `[NEW STATEMENT]` items (Lemma 1.2,
+Corollary 2.3′, Lemma 7.3′); the 14 `[KERNEL-CHECKED, DYADIC]` items and the
+zero `[ASSERTED]` items are unchanged. No tag was softened. Nothing in the
+re-audit changed an exponent, a condition on `θ`, or the constant.
 
 ---
 
