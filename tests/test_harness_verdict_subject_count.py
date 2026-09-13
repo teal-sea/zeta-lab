@@ -63,13 +63,14 @@ SUBJECT_FINGERPRINTS = {
     "compiler": re.compile(r"\bcompiler\b"),
 }
 
-#: Every file that quotes the gate's subject count as a current figure.
+#: Every page that quotes the gate's subject count. The detailed roadmap was
+#: preserved under history when the current guidance was clarified.
 QUOTERS = (
     Path("harness") / "VERDICT.md",
     Path("harness") / "gate-evidence" / "HARNESS-GATE-V4-2026-08-13.md",
     Path("README.md"),
     Path("CLAUDE.md"),
-    Path("ROADMAP.md"),
+    Path("history/research-guidance-2026-09-12/ROADMAP.md"),
     Path("docs") / "doors" / "adopt.md",
 )
 

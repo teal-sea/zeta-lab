@@ -1,0 +1,73 @@
+{
+  "status": "PASS",
+  "N": 32,
+  "numerical_threads": 1,
+  "time_cap_seconds": 30,
+  "scope": "finite algebra; prediction uses finite C2, not original E_corr",
+  "local_factors": [
+    {
+      "prime": 2,
+      "good_residues": 1,
+      "factor": "2"
+    },
+    {
+      "prime": 3,
+      "good_residues": 6,
+      "factor": "9/8"
+    },
+    {
+      "prime": 5,
+      "good_residues": 52,
+      "factor": "65/64"
+    },
+    {
+      "prime": 7,
+      "good_residues": 186,
+      "factor": "217/216"
+    },
+    {
+      "prime": 11,
+      "good_residues": 910,
+      "factor": "1001/1000"
+    }
+  ],
+  "sharp_region_size": 10416,
+  "crt_checks": [
+    {
+      "divisor": 2,
+      "count": 9176,
+      "remainder_over_scale": "143/1536"
+    },
+    {
+      "divisor": 3,
+      "count": 7985,
+      "remainder_over_scale": "13781/110592"
+    },
+    {
+      "divisor": 6,
+      "count": 7020,
+      "remainder_over_scale": "2791/110592"
+    }
+  ],
+  "proper_prime_powers": [
+    4,
+    8,
+    9,
+    16,
+    25,
+    27,
+    32
+  ],
+  "four_form_identity_defect": "0.0",
+  "centered_expansion_defect": "0.0",
+  "toy_conductor": 3,
+  "toy_beta": "0.99",
+  "Q": "14643.518651402791615487391429092961263719546952429",
+  "I": "15124.065569192498112331772885100377336259671996511",
+  "B": "17058.112541427209603105011539166188179375434106018",
+  "elapsed_seconds": 0.198966,
+  "sha256": {
+    "artifacts/four_form_sieve/check.py": "a0cd7978ce97e29df94edf85bbad4287bcee9c7771b9829aadeb8b15002789ea",
+    "FOUR_FORM_SIEVE_ATTEMPT.md": "68bb2960d8fb243b79102c4e26d82bf354d006ab3aee99c54d2f4c8082262dfa"
+  }
+}
