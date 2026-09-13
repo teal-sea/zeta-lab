@@ -7,9 +7,12 @@ re-derive the numbers rather than take them. Every number claimed in a
 docstring is pinned by a test, identities are exposed as measured *defect*
 functions rather than assumed, and the Lean arm is checked by a proof kernel.
 
-**Nothing here is evidence for the Riemann Hypothesis, and no computation
-could be.** That is a theorem, not modesty: `docs/08-why-it-is-hard.md` has
-Littlewood's, and the failure catalogue for every obvious route.
+**Original mathematics toward RH and useful intermediate results is the
+research objective.** Attempting a proof is allowed; claiming success requires
+the complete checked argument. Finite numerical agreement does not settle RH,
+but rigorous finite certificates and computational discovery can contribute
+to proofs within their stated scope. See [ALIGNMENT.md](ALIGNMENT.md) and
+[the scoped failure catalogue](docs/08-why-it-is-hard.md).
 
 The public reading surface is <https://zeta.teal-sea.com>: what has been
 established, what is still a candidate, and what was withdrawn. Every figure on
@@ -129,12 +132,14 @@ of the certificate figures above, and it moves only when its ledger does.
 
 ## Negative controls, and one framework that did not earn its keep
 
-The practice is load-bearing and stays: a claim is worth something only if a
-**rival**, an object sharing the structure the claim leans on but lacking the
-property, fails it. For ζ that rival is the Davenport–Heilbronn function, which
-has the functional equation, real coefficients and a real Hardy Z, **and violates
-RH**. `zeta.epstein.battery` runs a claimed property against it and two Epstein
-zetas; `docs/09` gate #3 is the rule, and it needs no framework.
+The control practice stays: challenge a proposed implication with a rival that
+satisfies its complete hypotheses but lacks its conclusion. The
+Davenport-Heilbronn function shares important analytic symmetries with zeta
+and has off-critical zeros; `zeta.epstein.battery` exposes it and other rivals.
+Passing a shared intermediate lemma does not invalidate an argument using
+additional arithmetic. The proof must justify that extra structure, and a
+failed rival computation does not count as excluding the rival.
+See `ALIGNMENT.md` section 5 and `docs/08` section 4.
 
 `harness/` generalized that into a subject-independent framework with pluggable
 departments. In August 2026 it was tested against the practice it was meant to
@@ -178,31 +183,29 @@ backlog file, see the [open issues](https://github.com/teal-sea/zeta-lab/issues)
 
 ## What this is (and is not)
 
-This is an instrument for building intuition and numerics about RH: for
-seeing the theorems happen, checking that formulas mean what you think they
-mean, and calibrating what "evidence" is worth in this subject. Zeta Lab
-reconstructs, tests, connects, and falsifies ideas around RH, without claiming
-to advance RH. House rule, from `docs/00-orientation.md`: *if a computation
-here appears to settle something, the correct inference is that there is a
-bug.*
+This is an instrument for exploration, proof attempts and formal mathematics
+around zeta, RH and useful intermediate questions. It reconstructs, tests,
+connects, challenges and develops ideas. The current mandate is in
+`ALIGNMENT.md`; the previous blanket ban on RH attempts is superseded.
+Constructive research and careful verification support each other.
 
 There are two certainty regimes, and they are not the same claim. The numerical
 machinery in `zeta/` is *accurate*, and `zeta/rigor.py` alone may say
 *certified*, for quantities whose every step carried an enclosure. `lean/` is
 the second: a Lean 4 + Mathlib project whose theorems are checked by a proof
 kernel rather than measured, and nothing there counts until it compiles with
-zero `sorry`s.
+zero `sorry`s. Ordinary mathematical derivations state their assumptions and
+review status separately. No result is upgraded by a policy change.
 
 ## Pointers
 
-- [`ROADMAP.md`](ROADMAP.md) records the *decisions*: why the work went this
-  way, what is deliberately not being attempted, the known gaps, and the next
-  build. Read it before planning anything.
-- [`AGENTS.md`](AGENTS.md) is the operating context for a coding agent (Claude
-  Code, Codex, Cursor, …): setup, house rules, the naming traps, and how to run
-  the suite. `CLAUDE.md` is a symlink to it.
-- [`ALIGNMENT.md`](ALIGNMENT.md) covers what an agent here is expected to do
-  when it disagrees, and which decisions are not an agent's to make.
+- [`ROADMAP.md`](ROADMAP.md) records current project decisions and links the
+  preserved dated history. Read it before planning work.
+- [`AGENTS.md`](AGENTS.md) is the shared operating context for coding agents:
+  setup, house rules, naming traps and tests. It links to `CLAUDE.md`, so both
+  agent entry points read the same instructions.
+- [`ALIGNMENT.md`](ALIGNMENT.md) states the research mandate, evidence rules,
+  scoped treatment of negative conclusions and owner-reserved decisions.
 - [`CONTEXT.md`](CONTEXT.md) is the generated index of the public API, the
   document list, the script list and test counts. Regenerate it with
   `.venv/bin/python scripts/make_context.py`; never edit it by hand.
