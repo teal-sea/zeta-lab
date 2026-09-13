@@ -1,0 +1,461 @@
+{
+  "scope": "finite exact checks and enclosures of the recorded joint candidate against the reviewed baseline; no optimality, asymptotic, novelty or RH claim",
+  "checks": {
+    "exact_log_series_contains_interval_log": {
+      "ok": true,
+      "checked": "n=1..3000 and four larger",
+      "violations": []
+    },
+    "g0_period_30030": {
+      "ok": true,
+      "min_scaled": 0,
+      "min_cover_scaled": 3,
+      "den": 3,
+      "mass": "39"
+    },
+    "gstar_period_2310": {
+      "ok": true,
+      "min_scaled": 0,
+      "min_cover_scaled": 1,
+      "den": 1,
+      "mass": "15"
+    },
+    "amplitudes_reconstruct": {
+      "ok": true,
+      "selected_starts": [
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        29,
+        31,
+        32
+      ],
+      "composite_starts": [
+        18,
+        24,
+        25,
+        32
+      ],
+      "sum_y": "701/108",
+      "H": "701/36",
+      "repair_cells": 172,
+      "baseline_distinct_cells": 411,
+      "repair_sum": "19471/108",
+      "max_denominator": 108
+    },
+    "finite_seed_rebuilds_exactly": {
+      "ok": true,
+      "coefficients": 662,
+      "balanced": true,
+      "mass": "56345/108",
+      "common_denominator": 108,
+      "baseline_mass": "2641/3"
+    },
+    "masked_carry_suprema": {
+      "ok": true,
+      "period_cells": 3390240,
+      "sup_all_equal_3": true,
+      "min_range": [
+        -3,
+        -3
+      ]
+    },
+    "recorded_prefix_coverage": {
+      "ok": true,
+      "lifted_min": "1",
+      "cells": 99999,
+      "negative_seed_cells": 640,
+      "first_negative_cell": 275,
+      "early_weights_match": true,
+      "baseline_early_weights_match": true,
+      "cells_at_exactly_one": 292
+    },
+    "tail_samples": {
+      "ok": true,
+      "points": 66,
+      "seed_nonnegative": true,
+      "lifted_at_least_one": true
+    },
+    "leading_constants": {
+      "ok": true,
+      "C_new_exact_lower": "1.047623931379267860580006972148025253682",
+      "C_new_exact_upper": "1.047623931379267860580006972148025253683",
+      "C_old_exact_lower": "1.048663663793220628233678560567956282917",
+      "C_old_exact_upper": "1.048663663793220628233678560567956282917",
+      "exact_width_new": "6.2989e-40",
+      "separation_exact": true,
+      "separation_interval": true,
+      "decrease_at_least": "0.001039732413952767653671588",
+      "recorded_inside": true,
+      "kappa_D_lower": "0.9775740115175238925327759",
+      "recorded_interval_consistent": true,
+      "eighty_digit": "1.04762393137926786058000697214802525368254518492814667222092"
+    },
+    "prime_exponent_identities": {
+      "ok": true,
+      "count": 1532
+    },
+    "B_N_majorizes_psi_N_directly": {
+      "ok": true,
+      "cutoffs": 14
+    },
+    "comparisons_reproduced": {
+      "ok": true,
+      "rows": 4
+    },
+    "composite_starts_use_only_finite_facts": {
+      "ok": true,
+      "starts": [
+        18,
+        24,
+        25,
+        32
+      ]
+    }
+  },
+  "reproduced": {
+    "C_new": "1.04762393137926786058000697214802525368254518492814667222092",
+    "C_new_enclosure_decimal": [
+      "1.04762393137926786058000697214802525368219369",
+      "1.04762393137926786058000697214802525368282358"
+    ],
+    "C_new_exact_enclosure_width": "6.29886e-40",
+    "C_old_enclosure_decimal": [
+      "1.04866366379322062823367856056795628291673959",
+      "1.04866366379322062823367856056795628291749"
+    ],
+    "decrease_at_least": "0.001039732413952767653671588",
+    "finite_coefficient_mass": "56345/108",
+    "tail_coefficient": "701/36",
+    "tail_allowance_coefficient": "3505/12",
+    "repairs": 172,
+    "negative_seed_cells_below_R": 640
+  },
+  "direct_majorant_samples": [
+    {
+      "N": 10000,
+      "B_minus_psi": "438.426131948"
+    },
+    {
+      "N": 1000000,
+      "B_minus_psi": "47806.5044378"
+    },
+    {
+      "N": 108622,
+      "B_minus_psi": "5175.29865262"
+    },
+    {
+      "N": 125906,
+      "B_minus_psi": "5899.84412445"
+    },
+    {
+      "N": 235130,
+      "B_minus_psi": "10955.9868029"
+    },
+    {
+      "N": 336003,
+      "B_minus_psi": "15725.7293064"
+    },
+    {
+      "N": 527925,
+      "B_minus_psi": "24757.1093285"
+    },
+    {
+      "N": 537685,
+      "B_minus_psi": "25342.3327388"
+    },
+    {
+      "N": 631226,
+      "B_minus_psi": "30032.0389916"
+    },
+    {
+      "N": 679636,
+      "B_minus_psi": "32372.0797804"
+    },
+    {
+      "N": 902775,
+      "B_minus_psi": "42728.2852536"
+    },
+    {
+      "N": 928066,
+      "B_minus_psi": "43796.0171582"
+    },
+    {
+      "N": 939273,
+      "B_minus_psi": "44380.6180709"
+    },
+    {
+      "N": 998554,
+      "B_minus_psi": "47689.4843953"
+    }
+  ],
+  "comparisons": [
+    {
+      "N": 10000,
+      "new_B": "10451.82282521072267081841",
+      "old_B": "10459.22386859922363274267",
+      "new_U": "23306.7576614720110876948",
+      "old_U": "32136.72737222913085503397",
+      "B_gain": "7.40104338850096",
+      "U_gain": "8829.96971075712",
+      "agrees_with_recorded": true
+    },
+    {
+      "N": 1000000,
+      "new_B": "1047393.101933457055064438",
+      "old_B": "1048404.28108351189913951",
+      "new_U": "1073772.851493831924699914",
+      "old_U": "1091902.469300756900409004",
+      "B_gain": "1011.17915005484",
+      "U_gain": "18129.617806925",
+      "agrees_with_recorded": true
+    },
+    {
+      "N": 100000000,
+      "new_B": "104761533.4078582666402996",
+      "old_B": "104865246.8121780397901858",
+      "new_U": "104811178.4918927636786094",
+      "old_U": "104941780.3428234106329404",
+      "B_gain": "103713.404319773",
+      "U_gain": "130601.850930647",
+      "agrees_with_recorded": true
+    },
+    {
+      "N": 1000000000000,
+      "new_B": "1047623928494.224714748372",
+      "old_B": "1048663660482.43472854572",
+      "new_U": "1047624067612.598254297156",
+      "old_U": "1048663848158.419404231508",
+      "B_gain": "1039731988.21001",
+      "U_gain": "1039780545.82115",
+      "agrees_with_recorded": true
+    }
+  ],
+  "composite_starts": {
+    "18": {
+      "indices": [
+        18,
+        19,
+        36,
+        38,
+        54,
+        57,
+        90,
+        95,
+        108,
+        114,
+        126,
+        133,
+        180,
+        190,
+        252,
+        266,
+        270,
+        285,
+        342,
+        378,
+        399,
+        540,
+        570,
+        630,
+        665,
+        684,
+        756,
+        798,
+        1026,
+        1260,
+        1330,
+        1710,
+        1890,
+        1995,
+        2052,
+        2394,
+        3420,
+        3780,
+        3990,
+        4788,
+        5130,
+        7182,
+        10260,
+        11970,
+        14364,
+        23940,
+        35910,
+        71820
+      ],
+      "nonzero_terms": 48,
+      "mass": "48",
+      "sup": 3
+    },
+    "24": {
+      "indices": [
+        24,
+        25,
+        48,
+        50,
+        72,
+        75,
+        120,
+        125,
+        144,
+        150,
+        168,
+        175,
+        240,
+        250,
+        336,
+        350,
+        360,
+        375,
+        504,
+        525,
+        600,
+        720,
+        750,
+        840,
+        875,
+        1008,
+        1050,
+        1200,
+        1680,
+        1750,
+        1800,
+        2520,
+        2625,
+        3000,
+        3600,
+        4200,
+        5040,
+        5250,
+        6000,
+        8400,
+        9000,
+        12600,
+        18000,
+        21000,
+        25200,
+        42000,
+        63000,
+        126000
+      ],
+      "nonzero_terms": 48,
+      "mass": "48",
+      "sup": 3
+    },
+    "25": {
+      "indices": [
+        25,
+        26,
+        50,
+        52,
+        75,
+        78,
+        125,
+        130,
+        150,
+        156,
+        175,
+        182,
+        250,
+        260,
+        350,
+        364,
+        375,
+        390,
+        525,
+        546,
+        650,
+        750,
+        780,
+        875,
+        910,
+        1050,
+        1092,
+        1300,
+        1750,
+        1820,
+        1950,
+        2625,
+        2730,
+        3250,
+        3900,
+        4550,
+        5250,
+        5460,
+        6500,
+        9100,
+        9750,
+        13650,
+        19500,
+        22750,
+        27300,
+        45500,
+        68250,
+        136500
+      ],
+      "nonzero_terms": 48,
+      "mass": "48",
+      "sup": 3
+    },
+    "32": {
+      "indices": [
+        32,
+        33,
+        64,
+        66,
+        96,
+        99,
+        160,
+        165,
+        192,
+        198,
+        224,
+        231,
+        320,
+        330,
+        448,
+        462,
+        480,
+        495,
+        672,
+        693,
+        960,
+        990,
+        1056,
+        1120,
+        1155,
+        1344,
+        1386,
+        2112,
+        2240,
+        2310,
+        3168,
+        3360,
+        3465,
+        5280,
+        6336,
+        6720,
+        6930,
+        7392,
+        10560,
+        14784,
+        15840,
+        22176,
+        31680,
+        36960,
+        44352,
+        73920,
+        110880,
+        221760
+      ],
+      "nonzero_terms": 48,
+      "mass": "48",
+      "sup": 3
+    }
+  },
+  "seconds": 38.24923704100365,
+  "all_ok": true
+}
