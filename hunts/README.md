@@ -70,6 +70,20 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Paid-shortfall construction (`paid_shortfall/`)
+
+**Status: explicit bound and finite comparison, with the leading gap retained.**
+An early-truncated finite balanced lift has a complete paid-tail bound:
+at square-root coefficient support, repair costs at most order
+`sqrt(N) log N` for a fixed seed. The factorial remainder is also included.
+The construction retains its old leading constant above one, so its excess
+over `N` is still linear. At `N=14` and support at most three, exact primal
+and dual witnesses show that replacing raw logarithmic caps by perfect-power
+caps removes the optimal excess `log(2)/2`. The displayed derivations and
+bounded checker distinguish this finite arithmetic improvement from a
+uniform estimate. The run checked 768 truncation cases and 3,072 inequalities
+on two interval backends at two precisions. No RH or novelty claim.
+
 ### Positivity on attainable quotients (`quotient_certificate/`, 2026-09-07)
 
 **Status: finite improvement and correction; no asymptotic result.** Requiring
