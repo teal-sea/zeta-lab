@@ -1,0 +1,18 @@
+{
+  "claim_id": "paid-shortfall-early-lift-and-n14",
+  "software": [
+    {"name": "python", "version": "3.14.0"},
+    {"name": "python-flint", "version": "0.9.0"},
+    {"name": "mpmath", "version": "1.3.0"}
+  ],
+  "execution_artifacts": ["hunts/paid_shortfall/construction.py"],
+  "mathematics": {
+    "assertion_tested": "Finite exact lift, capacity and primal/dual identities; complete factorial and paid-tail inequalities for two fixed seeds",
+    "coefficient_domain": "Exact rational coefficients and prime-log vectors, directed logarithm enclosures evaluated on rational endpoints",
+    "conventions": "Natural logarithm, L(x)=log(floor(x)!), Q_N={floor(N/d):2<=d<=N}; K is the last included zero-based lift level; R=6^(K+1)",
+    "inputs": ["base6 seed {1:1,2:-1,3:-1,6:-1}", "Chebyshev30 seed {1:1,2:-1,3:-1,5:-1,30:1}", "N14 coefficients {1:1,2:-1,3:-3/2} and exact capped dual"],
+    "bounds": {"N": "Every integer 2 through 128, plus 1296", "K": [0, 1, 2], "floor_and_capacity_integers": "1 through 1296", "decimal_precision_requests": [35, 70], "seed_periods": [6, 30]},
+    "non_claims": ["Finite checks do not prove the all-N lemma", "The fixed leading excess remains linear", "No uniform bound for psi(N)-N, RH conclusion, or novelty claim", "The N14 raw optimum is restricted to coefficient support j<=3"]
+  },
+  "randomness": {"used": false, "generator": "", "seed": null}
+}

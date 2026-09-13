@@ -654,11 +654,19 @@ class TestEscalationMechanics:
         assert strict.provisional[0].survived_escalation is True
         assert strict.provisional[0].confidence is K.IdentificationConfidence.UNCONFIRMED
 
-    def test_a_provider_that_ignores_the_requested_precision_is_caught(self):
+    @pytest.mark.parametrize("ambient_dps", [15, 60, 80])
+    def test_a_provider_that_ignores_the_requested_precision_is_caught(self, ambient_dps):
         """The escalation also catches a *provider* that does not escalate."""
-        lazy = K.identify_constant(provider=lambda d: mpf(1) / 7)  # ignores d
-        assert lazy.identified is False
-        assert lazy.n_rejected >= 1
+        def low_precision_provider(requested_dps):
+            # Deliberately ignore the request even in a high-precision caller.
+            with mp.workdps(15):
+                return mpf(1) / 7
+
+        with mp.workdps(ambient_dps):
+            lazy = K.identify_constant(provider=low_precision_provider)
+            assert lazy.identified is False
+            assert lazy.n_rejected >= 1
+            assert mp.dps == ambient_dps
 
     def test_identification_evaluates_to_its_own_value(self):
         report = K.identify_constant(provider=lambda1_provider)

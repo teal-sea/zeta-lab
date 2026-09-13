@@ -1,0 +1,1 @@
+{"status": "PASS", "counts": {"seeds": 2, "seed_period_rows": 36, "floor_rows": 7776, "base6_deficit_rows": 3888, "truncation_cases": 768, "cap_integers": 1296}, "numeric_inequalities": 3072, "output": "hunts/paid_shortfall/computations/check-001/results.json"}

@@ -1,0 +1,140 @@
+{
+  "schema_version": 2,
+  "claim_id": "paid-shortfall-early-lift-and-n14",
+  "repository": {
+    "commit": "a3acc741396940273ec388548d52752f839593c3",
+    "dirty": true
+  },
+  "command": [
+    ".venv/bin/python",
+    "hunts/paid_shortfall/construction.py",
+    "--output",
+    "hunts/paid_shortfall/computations/check-001/results.json"
+  ],
+  "environment": {
+    "software": [
+      {
+        "name": "runner-python",
+        "version": "3.14.0"
+      },
+      {
+        "name": "python",
+        "version": "3.14.0"
+      },
+      {
+        "name": "python-flint",
+        "version": "0.9.0"
+      },
+      {
+        "name": "mpmath",
+        "version": "1.3.0"
+      }
+    ],
+    "hardware": "macOS-26.6.2-arm64-arm-64bit-Mach-O"
+  },
+  "mathematics": {
+    "assertion_tested": "Finite exact lift, capacity and primal/dual identities; complete factorial and paid-tail inequalities for two fixed seeds",
+    "coefficient_domain": "Exact rational coefficients and prime-log vectors, directed logarithm enclosures evaluated on rational endpoints",
+    "conventions": "Natural logarithm, L(x)=log(floor(x)!), Q_N={floor(N/d):2<=d<=N}; K is the last included zero-based lift level; R=6^(K+1)",
+    "inputs": [
+      "base6 seed {1:1,2:-1,3:-1,6:-1}",
+      "Chebyshev30 seed {1:1,2:-1,3:-1,5:-1,30:1}",
+      "N14 coefficients {1:1,2:-1,3:-3/2} and exact capped dual"
+    ],
+    "bounds": {
+      "N": "Every integer 2 through 128, plus 1296",
+      "K": [
+        0,
+        1,
+        2
+      ],
+      "floor_and_capacity_integers": "1 through 1296",
+      "decimal_precision_requests": [
+        35,
+        70
+      ],
+      "seed_periods": [
+        6,
+        30
+      ]
+    },
+    "non_claims": [
+      "Finite checks do not prove the all-N lemma",
+      "The fixed leading excess remains linear",
+      "No uniform bound for psi(N)-N, RH conclusion, or novelty claim",
+      "The N14 raw optimum is restricted to coefficient support j<=3"
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-09-13T23:43:56.736590+00:00",
+    "runtime_seconds": 3.136056,
+    "exit_status": 0,
+    "status": "completed",
+    "timeout_seconds": 60.0,
+    "max_output_bytes": 1048576,
+    "resource_limits": {
+      "memory_bytes": null,
+      "cpu_seconds": null,
+      "max_cores": null,
+      "max_threads": 1
+    },
+    "missing_results": [],
+    "invalid_results": []
+  },
+  "execution_artifacts": [
+    "hunts/paid_shortfall/construction.py"
+  ],
+  "input_artifacts": [
+    {
+      "path": "hunts/paid_shortfall/construction.py",
+      "sha256": "75de17d3864bcacaf33439bf27677226993b9fc1dae531ba6a75f834dbb5340f",
+      "sha256_after": "75de17d3864bcacaf33439bf27677226993b9fc1dae531ba6a75f834dbb5340f"
+    }
+  ],
+  "output_directory": "hunts/paid_shortfall/computations/check-001",
+  "declared_results": [
+    "hunts/paid_shortfall/computations/check-001/results.json"
+  ],
+  "outputs": [
+    {
+      "path": "hunts/paid_shortfall/computations/check-001/stdout.txt",
+      "sha256": "441b60980f5037b20aefeccb919671ceb23a86b7eaedb77df68771de7f744cdb",
+      "kind": "log"
+    },
+    {
+      "path": "hunts/paid_shortfall/computations/check-001/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "log"
+    },
+    {
+      "path": "hunts/paid_shortfall/computations/check-001/results.json",
+      "sha256": "2fcfcb0ef76d0a637f936bea94b10743a6a8d74ab250e095ebe9d538144406c8",
+      "kind": "result"
+    }
+  ],
+  "checks": [
+    {
+      "check": "input hashes unchanged",
+      "passed": true
+    },
+    {
+      "check": "process exited successfully within enforced limits",
+      "passed": true
+    },
+    {
+      "check": "declared result files are present and regular",
+      "passed": true
+    }
+  ],
+  "result": "Run completed; mathematical assertion requires interpretation and review.",
+  "residual_risks": [
+    "Command success does not establish the mathematical interpretation.",
+    "Only listed input artifacts are pinned; external dependencies need recorded versions.",
+    "The thread cap uses conventional environment variables; a child program may ignore them."
+  ]
+}

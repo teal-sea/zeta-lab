@@ -27,6 +27,7 @@ import os
 from fractions import Fraction
 
 import mpmath as mp
+import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PKG = os.path.join(
@@ -41,6 +42,16 @@ STATED_MASS = Fraction(2641, 3)
 STATED_TAIL = 15
 STATED_REPAIRS = 537
 STATED_NEGATIVE_CELLS = 705
+
+
+@pytest.fixture(autouse=True)
+def _restore_mpmath_precision():
+    """Keep the preserved checker's precision for the test, then restore it."""
+    saved_mp_prec, saved_iv_prec = mp.mp.prec, mp.iv.prec
+    try:
+        yield
+    finally:
+        mp.mp.prec, mp.iv.prec = saved_mp_prec, saved_iv_prec
 
 
 def _checker():
