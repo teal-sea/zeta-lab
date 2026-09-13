@@ -1297,7 +1297,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2120 test functions across 107 files (the collected count differs where tests are parametrised):
+2138 test functions across 112 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1308,6 +1308,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_check_secrets.py`, 5
 - `tests/test_chroma_hue.py`, 18
 - `tests/test_claim_attribution.py`, 6
+- `tests/test_combined_weight_baseline_review.py`, 3
 - `tests/test_compiler_candidate.py`, 32
 - `tests/test_contribution_check.py`, 3
 - `tests/test_core.py`, 97
@@ -1326,6 +1327,8 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_dossier_schema.py`, 37
 - `tests/test_epstein.py`, 52
 - `tests/test_explicit.py`, 45
+- `tests/test_factorial_direct_bn.py`, 4
+- `tests/test_factorial_full_cost.py`, 5
 - `tests/test_factorial_pilot_archive.py`, 7
 - `tests/test_factorization.py`, 13
 - `tests/test_finitefield.py`, 53
@@ -1351,6 +1354,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_huntspec.py`, 16
 - `tests/test_interface_dps_is_honoured.py`, 3
 - `tests/test_inverse.py`, 8
+- `tests/test_joint_correction_candidate.py`, 5
 - `tests/test_krenn_gu_polynomial_sieve.py`, 4
 - `tests/test_krenn_gu_support_frontier.py`, 11
 - `tests/test_lab_state.py`, 1
@@ -1384,6 +1388,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_relations.py`, 7
 - `tests/test_repo_hygiene.py`, 7
 - `tests/test_research_checkpoint_archive.py`, 11
+- `tests/test_research_recovery_archive.py`, 1
 - `tests/test_review.py`, 12
 - `tests/test_rigor.py`, 54
 - `tests/test_rigor_weil.py`, 17

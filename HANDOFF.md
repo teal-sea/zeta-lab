@@ -1,5 +1,15 @@
 # HANDOFF: session records and continuation state
 
+## 2026-09-13: research preservation and reconciliation
+
+[Recovery record](hunts/prime_pair_error/RECOVERY_2026_09_13.md): restored
+missing factorial experiments and reviews, older prime-pair attempts, the
+uncommitted four-form note, PAGE_ZERO's two original patches, and the
+interrupted Davenport-Heilbronn hunt. Source bytes are hash-pinned. Preserving
+them does not promote their claims. The September 12 prime-pair frontier below
+remains the continuation point for that campaign; other research tracks and
+remaining export gaps are explicitly distinguished in the recovery record.
+
 ## 2026-09-12: prime-pair-error frontier recomputed
 
 Read `hunts/prime_pair_error/FRONTIER_2026_09_12.md` before resuming this

@@ -2,6 +2,17 @@
 
 This directory preserves the frontier work produced during the 2026-09-06 continuation of `hunts/prime_pair_error` before the next agent phase.
 
+## Reconciliation, 2026-09-13
+
+The missing source files from PRs #196, #199 and #200 have been restored:
+`factorial_direct_bn/`, `factorial_full_cost/`,
+`certificate_route_test/BASELINE_REVIEW.md` and its `review/` directory, and
+`joint_correction_candidate/` with its original archive and review. The four
+associated tests are restored too. These reviews cover only the objects they
+name, not the later adaptive packages. See
+[`../../RECOVERY_2026_09_13.md`](../../RECOVERY_2026_09_13.md) for exact source
+commits and the distinction between archival integrity and mathematical review.
+
 ## Canonical status
 
 - The parent hunt remains the canonical public record for established/reviewed work.
