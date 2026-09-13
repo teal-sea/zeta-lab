@@ -1,0 +1,87 @@
+{
+  "base_revision": "2da62eb9842db72d4f6bad09c6f13efe384d6ab7",
+  "block_case": {
+    "K": 18,
+    "M": 9,
+    "N": 256,
+    "Q": 5,
+    "U": 9,
+    "V": 9,
+    "distinct_prime_slope_pairs_checked": 6,
+    "independent_float_quadratures": [
+      4275.793843799594,
+      5.80101207278272
+    ],
+    "kernel_integers_checked": 513,
+    "kernel_max_error": "1.693600255e-50",
+    "kernel_zero": "0.8645833333333333333333333",
+    "maximum_progression_bucket": 1,
+    "minor_intervals": 10,
+    "nonpaired_minor": "-658.9808677576317595821904",
+    "nonpaired_off_diagonal": "-291.812015672280047787743",
+    "nonpaired_r0_contribution": "-367.1688520853517117944473",
+    "paired_full_circle": "6052.262143061712682484557",
+    "paired_minor": "4934.774711557214461570158",
+    "prime_absolute_kernel_completion": "6713.508572862427739574547",
+    "prime_coefficients_nonzero": 7,
+    "prime_fourth_full_circle": "5627.584916553354076071702",
+    "prime_fourth_minor": "4275.793843799582701987967",
+    "prime_fourth_off_diagonal": "-589.7222819705046762823585",
+    "prime_fourth_r0_contribution": "4865.516125770087378270326",
+    "proper_power_coefficients_nonzero": 1,
+    "proper_power_fourth_minor": "5.801012072782721918086901",
+    "quad_evaluations": 2772,
+    "quad_reported_absolute_errors": [
+      3.381734134865334e-07,
+      6.44041716933188e-14
+    ],
+    "raw_pairs": 16,
+    "status": "passed"
+  },
+  "decimal_precision": 50,
+  "elapsed_seconds": 0.392611,
+  "fourier_blocks_completed": 1,
+  "fourier_blocks_requested": 1,
+  "identity_cases": [
+    {
+      "N": 36,
+      "U": 4,
+      "V": 4,
+      "identities_checked": 36,
+      "proper_prime_powers_in_identity": 7,
+      "status": "passed",
+      "unique_prime_support_cases": 3
+    },
+    {
+      "N": 256,
+      "U": 9,
+      "V": 9,
+      "identities_checked": 256,
+      "proper_prime_powers_in_identity": 16,
+      "status": "passed",
+      "unique_prime_support_cases": 16
+    },
+    {
+      "N": 625,
+      "U": 13,
+      "V": 13,
+      "identities_checked": 625,
+      "proper_prime_powers_in_identity": 22,
+      "status": "passed",
+      "unique_prime_support_cases": 31
+    }
+  ],
+  "identity_cutoffs_completed": 3,
+  "identity_cutoffs_requested": [
+    36,
+    256,
+    625
+  ],
+  "numerical_threads": 1,
+  "processes": 1,
+  "proof_sha256": "e0aea60d1ddc3557bbafe0e087c81fd78ce76b5626dc3eb8bd4200f63a5b767b",
+  "scope": "bounded identities and finite quadrature, no asymptotic inference",
+  "script_sha256": "afb3b238d9c8c3a3fdaee751b84d933f9790f942ae72b428e72f210ab9ab5dbd",
+  "status": "passed",
+  "wall_limit_seconds": 60
+}
