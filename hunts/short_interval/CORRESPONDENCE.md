@@ -145,6 +145,14 @@ the ten operators arise as a C2 over a conjugate pair giving C4, rotated by
 45 degrees to C4 x C4, with four further rotations. He puts the number of
 people who understand the loss at between one and about ten.
 
+Later on 2026-09-14 he copied the operator on a status update to his own
+group list saying his programme is "done but not reviewed" and that its
+constraints "force RH" together with three physical constants. The one
+theorem page it links carries the status line "CLOSED; GENERIC; EXACT;
+RH-FREE", lists RH among what it does not close, and contains no Lean.
+Nothing here rests on any of it; an RH claim is read in this tree in one
+form only, a Lean file that builds.
+
 Recording what was not used is part of the credit, not a qualification of it.
 The two things above are real, and this laboratory is better off for both.
 
