@@ -304,7 +304,9 @@ analysis, one on literature search), the gate on the surviving route passed
 and held under adversarial re-audit, the proof drafted with zero asserted
 steps, and its constants enclosed at hardened grade. Not refereed.** Opened 2026-09-12 after Biao Wang's arXiv:2609.07918
 (posted 2026-09-07) reached the laboratory five days late and by way of an
-unsolicited email rather than any mechanism in this tree. Wang proves
+unsolicited email from Luke Kenneth Casson Leighton, a member of the public,
+rather than any mechanism in this tree (`short_interval/CORRESPONDENCE.md`
+records his two contributions and what was not adopted). Wang proves
 unconditionally that zeros in `(T, T + T^theta]`, `0 < theta < 1`, are simple
 and on the line in proportion at least `c(theta) = 2 - C_theta` and distinct in
 proportion at least `3/2 - C_theta/2`, with

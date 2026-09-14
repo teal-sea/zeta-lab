@@ -53,8 +53,12 @@ Biao Wang (Yunnan University) posted arXiv:2609.07918 on 2026-09-07: zeros in
 `(T, T + T^theta]` are simple and on the critical line in proportion at least
 `c(theta)`, and distinct in proportion at least `d(theta) = (1 + c(theta))/2`,
 unconditionally, for every fixed `0 < theta < 1`. The laboratory did not
-notice for five days and then heard about it from a stranger's email. The
-companion brief `meta/literature-monitor.md` covers that half.
+notice for five days and then heard about it from an unsolicited email
+from Luke Kenneth Casson Leighton, a member of the public with no prior
+connection to this laboratory, writing through the contact form on
+`zeta.teal-sea.com`. `CORRESPONDENCE.md` records what he contributed, in both
+parts, and what was not adopted; the companion brief
+`meta/literature-monitor.md` covers the half that is this tree's failure.
 
 Provenance, because this tree is in it: an internal research version of Claude
 produced the original argument, Alpöge and Furman verified and published it

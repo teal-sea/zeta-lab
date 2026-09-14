@@ -9,6 +9,12 @@ entries open the ledger:
   Gaussian-integer witness (``tr(P₁Q′) = −2``, the ``9 ≥ 13`` contradiction),
   the regression test, and the kernel-checked obstruction. The conformance
   test pins that every cited artifact still exists.
+* **The outside generalization**, entered 2026-09-14: the same claim, attacked
+  from outside the laboratory by a member of the public who had read the
+  published kill and recognized the failure mode from independent work. The
+  claim was already withdrawn, so this outcome withdraws nothing; what it adds
+  is the general rule, and the credit for stating it.
+  ``hunts/short_interval/CORRESPONDENCE.md`` is the record.
 * **The open case**: the URMS2 0.51 theorem (main, 2026-08-11). Its briefs
   are generatable from this record today; ``standing_reasons`` lists what is
   missing, recorded outcomes from attackers who are not the author, and
@@ -139,6 +145,36 @@ OUTCOMES: tuple[AttackOutcome, ...] = (
             "hunts/frontier_math/BLIND-ATTACK-REPORT.md",
         ),
         claim_withdrawn=True,
+    ),
+    AttackOutcome(
+        claim_name="blockpos-0.672529",
+        role="white-box",
+        attacker=(
+            "Luke Kenneth Casson Leighton, with an instance of ChatGPT he "
+            "calls C.A.T., unsolicited, via the zeta.teal-sea.com contact "
+            "form, 2026-09-08 and 2026-09-09"
+        ),
+        findings=(
+            "the generalization, which this ledger did not have: do not "
+            "square, Hermitianize, or pass to a positive quadratic object "
+            "until the signed or oriented carrier has been discharged, "
+            "because x -> x^2, T -> T T* and u u^T -> u u* each quotient out "
+            "the sign, orientation, conjugation or phase datum the intended "
+            "theorem still depends on",
+            "Re(B^2) and |B|^2 are materially different invariants: the "
+            "second has positivity built in, the first retains phase",
+            "the general form, premature non-faithful reduction: a proof "
+            "carries a signed object T and replaces it too early by F(T) "
+            "with F(T_1) = F(T_2) although T_1 != T_2 on the datum needed "
+            "downstream; the repair is to keep a faithful carrier until "
+            "every sign-sensitive statement is discharged, then scalarize",
+            "reported independently hitting the same failure mode in "
+            "unrelated work, and then again in their own work days after "
+            "writing, which is why the rule is recorded rather than agreed "
+            "with",
+        ),
+        artifacts=("hunts/short_interval/CORRESPONDENCE.md",),
+        claim_withdrawn=False,
     ),
     AttackOutcome(
         claim_name="blockpos-0.672529",
