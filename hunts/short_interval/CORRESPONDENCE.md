@@ -81,6 +81,28 @@ watch the laboratory did not have. The incident is recorded in
 `meta/interventions.jsonl` as an intervention caught by an outsider, with the
 missing capability named.
 
+### 3. His reply of 2026-09-14
+
+The laboratory's account of what came of his mail went out on 2026-09-14
+and he answered the same afternoon. Three things in the answer bear on this
+tree; the rest is recorded in the operator's vault.
+
+- **A second literature watch exists.** He found Wang's paper because C.A.T.
+  searches arXiv hourly and notifies him, and he offered to have it email
+  the operator as well. That is an outside feed with a measured hit that
+  this tree's own monitor (`meta/literature-monitor.md`, weekday mornings)
+  did not have. Whether to accept it is the operator's decision and is not
+  taken here; it is noted as a door the monitor's brief did not list.
+- **A guard of the same shape as ours.** He reports that assistant-written
+  Lean repeatedly drops or reintroduces the imaginary part of a real
+  quantity, and that he now runs a Lean AST walker that bans specific
+  patterns and keywords before anything executes. This tree's lexical tests
+  under `hunts/` are the same idea applied to prose. Neither is evidence
+  for the other; the convergence is worth a line.
+- **Palomar.** He has no GitHub account and asked whether the registry
+  accepts submissions from other people with attribution, and for
+  procedural help. Not answered here and not this hunt's to answer.
+
 ## What was not adopted, stated plainly
 
 Leighton's larger programme, a ten-by-ten Verlinde or generalized-Chebyshev
@@ -92,6 +114,14 @@ an RCFT modular torus and a golden-spiral holonomy condition. No such
 connection was checked, and this record neither endorses nor refutes it. His
 repositories are `gitlab.com/d12rg/d12rg_riemann`,
 `gitlab.com/d12rg/d12rg_hypergroup` and `gitlab.com/d12rg/d12rg-hypergroup-lean`.
+
+His 2026-09-14 reply adds three more claims, recorded as his and unchecked:
+that Erkki Brandas has peer-reviewed work carrying the same information loss
+under squaring; that he has derived c, mu_0 and Z_0 from first principles by
+a method that turns out to use eigenvalues of underlying matrices; and that
+the ten operators arise as a C2 over a conjugate pair giving C4, rotated by
+45 degrees to C4 x C4, with four further rotations. He puts the number of
+people who understand the loss at between one and about ten.
 
 Recording what was not used is part of the credit, not a qualification of it.
 The two things above are real, and this laboratory is better off for both.
