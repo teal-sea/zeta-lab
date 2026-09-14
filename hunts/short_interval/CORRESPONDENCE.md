@@ -110,13 +110,20 @@ Its account of `hunts/higher_xi` was checked against the tree and is
 accurate: the `xi'''/xi''` identity and the rational `Q(z)` are where it
 says, and its "N=3 jet" typing, `U + d/ds log(U^2 + U')`, is that hunt's
 identity restated, already checked symbolically by `resummed_bridge.py`.
-The message attaches a 920-line audit note and a solver script that were
-not read here. Its headline claim, that this tree contains the basis of
-de Vries' formula for the fine-structure constant, has no counterpart in
-this repository: nothing here concerns a physical constant, and the
-operator's reply says the laboratory will not assess it. Recorded so that
-a later reader who finds the claim quoted elsewhere knows it was seen and
-where the line was drawn.
+The message attaches a 920-line audit note and a solver script, both read
+in full. The note is more careful than the covering email: its own ledger
+marks the proposed link between this tree's jet and the correspondent's
+"DVJ" object as open, and says a match on dimension or Jordan form alone
+should be rejected. The overlap it establishes is that a second-order
+Taylor jet has three coefficients, which is true of every smooth function.
+The headline claim, that this tree contains the basis of de Vries'
+formula for the fine-structure constant, has no counterpart here: nothing
+in this repository concerns a physical constant. The solver was run once
+in this tree's venv; its root gives 1/alpha = 137.035999096, inside the
+CODATA 2018 uncertainty and about four standard deviations from CODATA
+2022. The operator's reply says the laboratory will not assess it.
+Recorded so that a later reader who finds the claim quoted elsewhere
+knows it was seen, read, and where the line was drawn.
 
 ## What was not adopted, stated plainly
 
