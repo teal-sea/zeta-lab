@@ -70,6 +70,19 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Paid-shortfall scaling (`paid_shortfall_scaling/`)
+
+**Status: explicit identities and finite arithmetic improvement; uniform rate open.**
+The perfect-power cap has an exact signed factorial-sum formula and a
+deficit-dependent saving bound. For old fixed-seed square-root-support lifts,
+the saving is at most order `N^(1/4) log N`. An explicit balanced Mobius-prefix
+family has bounded coefficient mass and complete localized repair costs.
+At `N=36864`, excluding composites witnessed by primes 2,3,5,7 lowers its
+full excess over N from 877.252193 to 220.982190, with coefficients unchanged.
+Five fixed cutoffs are checked with two interval implementations at two
+precisions. No extrapolated exponent, RH claim, or novelty claim.
+See [derivations and the remaining obligation](paid_shortfall_scaling/RESULTS.md).
+
 ### Paid-shortfall construction (`paid_shortfall/`)
 
 **Status: explicit bound and finite comparison, with the leading gap retained.**
