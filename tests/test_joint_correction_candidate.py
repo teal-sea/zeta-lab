@@ -32,9 +32,6 @@ import os
 import zipfile
 from fractions import Fraction
 
-import mpmath as mp
-import pytest
-
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTIER = os.path.join(REPO_ROOT, "hunts", "prime_pair_error", "frontier", "2026-09-06")
 PKG = os.path.join(FRONTIER, "joint_correction_candidate")
@@ -56,16 +53,6 @@ STATED_H = Fraction(701, 36)
 STATED_REPAIRS = 172
 STATED_NEGATIVE_CELLS = 640
 STATED_STARTS = [17, 18, 19, 23, 24, 25, 29, 31, 32]
-
-
-@pytest.fixture(autouse=True)
-def _restore_mpmath_precision():
-    """Keep the preserved checker's precision for the test, then restore it."""
-    saved_mp_prec, saved_iv_prec = mp.mp.prec, mp.iv.prec
-    try:
-        yield
-    finally:
-        mp.mp.prec, mp.iv.prec = saved_mp_prec, saved_iv_prec
 
 
 def _sha256(data: bytes) -> str:
