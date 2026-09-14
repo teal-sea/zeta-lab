@@ -103,6 +103,21 @@ tree; the rest is recorded in the operator's vault.
   accepts submissions from other people with attribution, and for
   procedural help. Not answered here and not this hunt's to answer.
 
+### 4. The repository walkthrough, 2026-09-14
+
+Later the same day he sent C.A.T.'s walkthrough of this public repository.
+Its account of `hunts/higher_xi` was checked against the tree and is
+accurate: the `xi'''/xi''` identity and the rational `Q(z)` are where it
+says, and its "N=3 jet" typing, `U + d/ds log(U^2 + U')`, is that hunt's
+identity restated, already checked symbolically by `resummed_bridge.py`.
+The message attaches a 920-line audit note and a solver script that were
+not read here. Its headline claim, that this tree contains the basis of
+de Vries' formula for the fine-structure constant, has no counterpart in
+this repository: nothing here concerns a physical constant, and the
+operator's reply says the laboratory will not assess it. Recorded so that
+a later reader who finds the claim quoted elsewhere knows it was seen and
+where the line was drawn.
+
 ## What was not adopted, stated plainly
 
 Leighton's larger programme, a ten-by-ten Verlinde or generalized-Chebyshev
