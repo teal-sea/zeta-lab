@@ -83,6 +83,18 @@ Five fixed cutoffs are checked with two interval implementations at two
 precisions. No extrapolated exponent, RH claim, or novelty claim.
 See [derivations and the remaining obligation](paid_shortfall_scaling/RESULTS.md).
 
+### Paid-shortfall saturation (`paid_shortfall_saturation/`)
+
+**Status: five finite local-cap identities, no general rate claim.**
+For the unchanged selected balanced prefixes at the five fixed cutoffs, every
+ordinary composite in the local repair interval is exposed by testing primes
+through its square-root bound, while every prime power remains. The saturated
+cap equals the exact Mangoldt weight in each local range. Exact prime-log
+vectors and two interval routes price the factorial discrepancy, repair,
+removed composite overpayment, zero remaining cap surplus, and the complete
+total. No asymptotic, RH, or novelty claim.
+See [the finite diagnostic](paid_shortfall_saturation/MISSION.md).
+
 ### Paid-shortfall construction (`paid_shortfall/`)
 
 **Status: explicit bound and finite comparison, with the leading gap retained.**
