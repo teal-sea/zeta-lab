@@ -1,0 +1,150 @@
+{
+  "schema_version": 2,
+  "claim_id": "paid-shortfall-scaling-01",
+  "repository": {
+    "commit": "ede65513873d609e13a11bdc486d181bce1a54ce",
+    "dirty": true
+  },
+  "command": [
+    ".venv/bin/python",
+    "hunts/paid_shortfall_scaling/scaling.py",
+    "--output",
+    "hunts/paid_shortfall_scaling/computations/check-001/results.json"
+  ],
+  "environment": {
+    "software": [
+      {
+        "name": "runner-python",
+        "version": "3.14.0"
+      },
+      {
+        "name": "python",
+        "version": "3.14.0"
+      },
+      {
+        "name": "python-flint",
+        "version": "0.9.0"
+      },
+      {
+        "name": "mpmath",
+        "version": "1.3.0"
+      }
+    ],
+    "hardware": "macOS-26.6.2-arm64-arm-64bit-Mach-O"
+  },
+  "mathematics": {
+    "assertion_tested": "Exact cap-mass compression and averaging identities; complete costs of balanced-prefix, averaged-prefix, selected-prefix and base6 families on five fixed cutoffs",
+    "coefficient_domain": "Rational floor coefficients and prime-log vectors, with directed logarithm enclosures",
+    "conventions": "Natural logs, exact integer roots, Q_N={floor(N/d):2<=d<=N}, y=floor(sqrt N), cutoff range max(2,ceil(y/2))<=h<=y",
+    "inputs": [
+      "Explicit balanced Mobius prefixes and their uniform average",
+      "Complete-cost selection over a finite prefix family",
+      "Perfect-power capacity u(d)=log(d)/r(d) and raw log(d) capacity"
+    ],
+    "bounds": {
+      "N": [
+        144,
+        576,
+        2304,
+        9216,
+        36864
+      ],
+      "cap_identity_N": "all integers 0 through 256",
+      "averaging_identity_N": [
+        16,
+        36,
+        64,
+        144
+      ],
+      "maximum_candidate_cutoffs": 97,
+      "precision_requests": [
+        35,
+        70
+      ]
+    },
+    "non_claims": [
+      "No uniform growth exponent or RH claim",
+      "No novelty or best prime-counting bound claim",
+      "The supplemental profile note is not tested by this run",
+      "Decimal summaries are rounded displays; exact rational enclosure endpoints are separately retained"
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-09-14T00:21:57.084779+00:00",
+    "runtime_seconds": 7.182455,
+    "exit_status": 0,
+    "status": "completed",
+    "timeout_seconds": 60.0,
+    "max_output_bytes": 1048576,
+    "resource_limits": {
+      "memory_bytes": null,
+      "cpu_seconds": null,
+      "max_cores": null,
+      "max_threads": 1
+    },
+    "missing_results": [],
+    "invalid_results": []
+  },
+  "execution_artifacts": [
+    "hunts/paid_shortfall_scaling/scaling.py",
+    "hunts/paid_shortfall/construction.py"
+  ],
+  "input_artifacts": [
+    {
+      "path": "hunts/paid_shortfall_scaling/scaling.py",
+      "sha256": "36cdeecba88e35f9c7d06c4bcb2a4c4a0ec7b919ee39dccc6ecf825b47c60215",
+      "sha256_after": "36cdeecba88e35f9c7d06c4bcb2a4c4a0ec7b919ee39dccc6ecf825b47c60215"
+    },
+    {
+      "path": "hunts/paid_shortfall/construction.py",
+      "sha256": "75de17d3864bcacaf33439bf27677226993b9fc1dae531ba6a75f834dbb5340f",
+      "sha256_after": "75de17d3864bcacaf33439bf27677226993b9fc1dae531ba6a75f834dbb5340f"
+    }
+  ],
+  "output_directory": "hunts/paid_shortfall_scaling/computations/check-001",
+  "declared_results": [
+    "hunts/paid_shortfall_scaling/computations/check-001/results.json"
+  ],
+  "outputs": [
+    {
+      "path": "hunts/paid_shortfall_scaling/computations/check-001/stdout.txt",
+      "sha256": "b5d5a700e36bb6ec9a7706db816f671c6a627af0300ac5c1272ca65b25c997c6",
+      "kind": "log"
+    },
+    {
+      "path": "hunts/paid_shortfall_scaling/computations/check-001/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "log"
+    },
+    {
+      "path": "hunts/paid_shortfall_scaling/computations/check-001/results.json",
+      "sha256": "40a27116515de84c4a9c782ca7796969d4b0b59093b7200d415ef4613a6d4f3a",
+      "kind": "result"
+    }
+  ],
+  "checks": [
+    {
+      "check": "input hashes unchanged",
+      "passed": true
+    },
+    {
+      "check": "process exited successfully within enforced limits",
+      "passed": true
+    },
+    {
+      "check": "declared result files are present and regular",
+      "passed": true
+    }
+  ],
+  "result": "Run completed; mathematical assertion requires interpretation and review.",
+  "residual_risks": [
+    "Command success does not establish the mathematical interpretation.",
+    "Only listed input artifacts are pinned; external dependencies need recorded versions.",
+    "The thread cap uses conventional environment variables; a child program may ignore them."
+  ]
+}
