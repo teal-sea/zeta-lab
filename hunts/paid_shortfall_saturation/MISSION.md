@@ -10,9 +10,10 @@ powers of a tested divisor exposes every ordinary composite and assigns it
 zero local capacity. Prime powers retain their perfect-power capacity. The
 diagnostic checks this finite statement against the independently factored
 Mangoldt vector, then prices the exact factorial discrepancy, exact repair,
-removed ordinary-composite overpayment, remaining prime-power surplus, and
-complete total. It records exact prime-log coefficient vectors separately from
-the two directed logarithm-enclosure evaluations.
+removed ordinary-composite overpayment, positive surplus
+`S = sum_{d<=N} Lambda(d)(W_d-1)_+`, and complete total. It records exact
+prime-log coefficient vectors separately from the two directed
+logarithm-enclosure evaluations.
 
 This is finite evidence only. It makes no asymptotic, RH, or novelty claim.
 

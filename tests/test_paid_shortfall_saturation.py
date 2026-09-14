@@ -42,15 +42,30 @@ def test_selected_cases_preserve_source_choice_and_exact_cost_identities(N, sele
     assert case["selected_support"] == selected_y
     assert case["local_repair_limit_X"] == N // selected_y
     vectors = case["exact_logarithmic_vectors"]
-    assert vectors["remaining_prime_power_surplus"] == {}
+    assert vectors["saturation_repair_residual"] == {}
     assert Q.S.BASE.combine(
-        (1, vectors["exact_mangoldt_repair"]),
+        (1, vectors["P_Lambda_exact_repair"]),
         (1, vectors["residual_composite_overpayment_removed"]),
     ) == vectors["perfect_power_repair"]
+    psi = Q.S.cost_case(N, case["coefficients"], Q.S.sieve(N)[2])["psi"]
+    factorial = Q.S.cost_case(N, case["coefficients"], Q.S.sieve(N)[2])["factorial"]
+    total = Q.S.BASE.combine((1, factorial), (1, vectors["P_Lambda_exact_repair"]))
     assert Q.S.BASE.combine(
-        (1, vectors["factorial_minus_N"]),
-        (1, vectors["exact_mangoldt_repair"]),
-    ) == vectors["full_total_minus_N"]
+        (1, psi), (1, vectors["surplus_S"])
+    ) == total
+    assert Q.S.BASE.combine(
+        (1, psi), (-1, vectors["P_Lambda_exact_repair"]), (1, vectors["surplus_S"])
+    ) == factorial
+
+
+def test_N144_has_a_positive_exact_surplus_S_vector():
+    vectors = Q.selected_case(144)["exact_logarithmic_vectors"]
+    assert vectors["surplus_S"] == {
+        2: F(2, 55),
+        3: F(8, 385),
+        7: F(387, 385),
+        11: F(387, 385),
+    }
 
 
 def test_both_interval_routes_enclose_the_same_selected_case_expressions():

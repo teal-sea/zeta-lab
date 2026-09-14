@@ -105,6 +105,18 @@ def repair_vector(N, coefficients, selected_y, cap):
     return repair, nonzero_deficits
 
 
+def mangoldt_weight_vectors(N, coefficients):
+    """Return P_Lambda and S from every d <= N with exact weights W_d."""
+    S.BASE.natural(N, 2)
+    p_lambda, surplus_S = {}, {}
+    for d in range(2, N + 1):
+        W_d = S.BASE.floor_sum(coefficients, N // d)
+        mangoldt = S.BASE.mangoldt_vector(d)
+        p_lambda = S.BASE.combine((1, p_lambda), (max(F(0), 1 - W_d), mangoldt))
+        surplus_S = S.BASE.combine((1, surplus_S), (max(F(0), W_d - 1), mangoldt))
+    return p_lambda, surplus_S
+
+
 def selected_case(N):
     """Price the unchanged selected prefix with a fully saturated local cap."""
     support_limit = isqrt(N)
@@ -129,22 +141,29 @@ def selected_case(N):
     assert deficit_count == exact_deficit_count == saturated_deficit_count
     assert perfect_power_repair == source_case["penalties"]["perfect_power"]
     assert saturated_repair == exact_mangoldt_repair
+    p_lambda, surplus_S = mangoldt_weight_vectors(N, coefficients)
+    assert p_lambda == exact_mangoldt_repair
     removed_composite_overpayment = S.BASE.combine(
         (1, perfect_power_repair), (-1, saturated_repair)
     )
-    remaining_prime_power_surplus = S.BASE.combine(
+    saturation_repair_residual = S.BASE.combine(
         (1, saturated_repair), (-1, exact_mangoldt_repair)
     )
     assert S.BASE.nonnegative_coefficients(removed_composite_overpayment)
-    assert remaining_prime_power_surplus == {}
+    assert saturation_repair_residual == {}
     total = S.BASE.combine((1, factorial), (1, saturated_repair))
-    assert total == S.BASE.combine((1, factorial), (1, exact_mangoldt_repair))
+    psi = source_case["psi"]
+    assert total == S.BASE.combine((1, factorial), (1, p_lambda))
+    assert total == S.BASE.combine((1, psi), (1, surplus_S))
+    assert factorial == S.BASE.combine((1, psi), (-1, p_lambda), (1, surplus_S))
     expressions = {
         "factorial_minus_N": (-N, factorial),
+        "psi_minus_N": (-N, psi),
         "perfect_power_repair": (0, perfect_power_repair),
-        "exact_mangoldt_repair": (0, exact_mangoldt_repair),
+        "P_Lambda_exact_repair": (0, p_lambda),
         "residual_composite_overpayment_removed": (0, removed_composite_overpayment),
-        "remaining_prime_power_surplus": (0, remaining_prime_power_surplus),
+        "saturation_repair_residual": (0, saturation_repair_residual),
+        "surplus_S": (0, surplus_S),
         "full_total_minus_N": (-N, total),
     }
     return {
@@ -157,6 +176,11 @@ def selected_case(N):
         "coefficients": coefficients,
         "nonzero_deficit_terms": deficit_count,
         "local_saturation": saturation,
+        "exact_vector_definitions": {
+            "P_Lambda_exact_repair": "sum_{d<=N} Lambda(d) (1-W_d)_+",
+            "surplus_S": "sum_{d<=N} Lambda(d) (W_d-1)_+",
+            "W_d": "floor_sum(coefficients, floor(N/d))",
+        },
         "exact_logarithmic_vectors": {key: vector for key, (_, vector) in expressions.items()},
         "expressions": expressions,
     }
