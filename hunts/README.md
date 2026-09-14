@@ -70,6 +70,16 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Finite paid-surplus construction (`paid_surplus_obstruction/`)
+
+**Status: exact finite construction, independent challenge pending.**
+At `N=144`, rational coefficients supported through 12, with harmonic balance,
+coverage through `q=5`, and mass `119/20`, satisfy `W_d<=1` at every prime
+power. The fully saturated paid cost is exactly `psi(144)` and its positive
+surplus is zero. The factorial discrepancy and complete repair are separately
+priced in [the argument and checks](paid_surplus_obstruction/RESULTS.md).
+This does not supply a scale-dependent family or a uniform bound.
+
 ### Paid-shortfall scaling (`paid_shortfall_scaling/`)
 
 **Status: explicit identities and finite arithmetic improvement; uniform rate open.**
