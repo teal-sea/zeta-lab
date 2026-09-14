@@ -1,5 +1,26 @@
 {
   "worktree": {
     "bgIsolation": "none"
+  },
+  "permissions": {
+    "deny": [
+      "mcp__Gmail__send_message",
+      "mcp__Gmail__reply",
+      "mcp__Gmail__forward"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__Gmail__send_message|mcp__Gmail__reply|mcp__Gmail__forward",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s' '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"The agent does not send outbound mail. Thomas is the final gate on everything that goes out under his name (brain: meta/ai-working-preferences.md, Outbound communication). Write the message with mcp__Gmail__create_draft, show him the full text, and stop: he sends it from Gmail. Set 2026-09-14 after a reply went out without his approval.\"}}'",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
   }
 }
