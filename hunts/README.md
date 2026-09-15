@@ -2921,3 +2921,15 @@ the named obligation. Not closed: `s > 400` has no depth-1 enclosure (the
 tail composes through the very lemma that fails), and the table's other
 starred row (`no_damage`'s `28/5`) was not examined. Nothing bears on RH
 (`docs/08`).
+
+### depth_bound_selfterm/
+
+**Status: measured.** Dual kernel `dual-x80.json` data[1]: $r(0)=0.125$,
+$S(y)<r(0)$ first at $y \approx 0.9198925$, $S(y)<0$ first at $y \approx 0.9528774$,
+numpy and `mp.workdps(40)` agree. In-band control (data[0], $z$ empty) has no
+crossing on $[0, 1.5]$; $S$ rises ($1.012$ at $y=0.9$, $1.526$ at $y=1.0$).
+Whether $y \approx 0.92$ is a depth an off-line zero can reach is unresolved:
+the kernel's LP is unfolded (`configuration_lp.py` line 3), so the raw range
+$(0,1/2)$ does not apply, and a factor 2 in the pair convention is open.
+Strip mass forces a crossing at large $y$; the content is where.
+Nothing bears on RH (`docs/08`).
