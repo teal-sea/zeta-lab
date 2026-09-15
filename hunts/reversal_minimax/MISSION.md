@@ -61,3 +61,12 @@ No heavy computation is needed for the counting audit. Small finite checks
 and exact rational arithmetic run locally; no larger search is authorized
 by this amendment. Publication and changes to the registered proofs remain
 outside scope.
+
+## Research-target record, 2026-09-05
+
+The operator requested a durable description of the proposed next research
+target before ending the session. `RESEARCH_TARGET.md` records the ambition
+of a compounding improvement toward 80%, the limitations of the capped
+assembly, and the first test for new higher-correlation information. This
+addition documents a proposal; it does not start that investigation or alter
+the historical reversal and counting evidence above.
