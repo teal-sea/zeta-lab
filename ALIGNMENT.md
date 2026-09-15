@@ -131,6 +131,26 @@ negative conclusion overreaches, correct the conclusion without erasing its
 underlying experiment. Neither reopening a route nor choosing it for a trial
 claims that it will succeed.
 
+### 5.1 No global "there is no route to RH" verdict
+
+Do not turn a finite search, a literature survey, a failed campaign, or a set
+of scoped obstructions into the statement that there is no route to RH. Such
+a statement would quantify over mathematical constructions that were never
+examined and is not established by this repository.
+
+If the searched candidates do not currently supply a proof path, report the
+bounded fact instead: **no route was established in the searched set under the
+stated inputs**. Then distinguish (a) routes actually refuted, (b) restricted
+classes with proved obstructions, (c) unresolved or underexplored mechanisms,
+and (d) routes not searched in the assignment. When the mission asks for
+breadth, propose or test materially different constructive mechanisms rather
+than converting absence of a current proof into a global no-route verdict.
+
+Historical files under `history/` are archival evidence, not current
+instructions or a current frontier map. Their old prohibitions and broad
+route-closure language were superseded by this mandate. Cite them only for the
+specific dated experiment, source note, or scoped result being discussed.
+
 ## Where the rest lives
 
 `AGENTS.md` supplies the operating context; `CONTRIBUTING.md` and
