@@ -1,6 +1,6 @@
 # 38. One form per discriminant, and what an adversary did to the write-up
 
-**Hunt #119, `hunts/euler_defect_axis/`.** The measurements and the doors are
+**Hunt #124, `hunts/euler_defect_axis/`.** The measurements and the doors are
 in `hunts/euler_defect_axis/RESULTS.md`; the audit that rewrote it is in
 `AUDIT.md`; the repair it proposes to files a hunt may not touch is in
 `PROPOSAL.md`. This page is the front door.

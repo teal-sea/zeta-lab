@@ -71,3 +71,19 @@ artifacts:
   statement is also the more useful one: the tail of the list is rigid, the head
   is not, and the quantity needs a couple of hundred composites before it orders
   anything reliably.
+
+- **Renumbered #119 to #124, 2026-09-16.** `main` landed `lambda_dh_exact` as
+  Hunt #119 on 2026-09-10, the same day this hunt took #119 from a base that was
+  by then 130 commits behind. The landed number wins and this one moved.
+  `tests/test_hunt_numbering.py` exists on `main` and is the right guard, and it
+  structurally cannot catch this: it checks that the numbers printed in one copy
+  of the case log are unique, and both copies were internally consistent. The
+  collision existed only in their union, which nothing reads until a merge.
+  Its own docstring already records the same failure twice, once from "a session
+  working from a branch 101 commits behind". This is the third instance.
+
+  Worth the contrast: the `docs/` numbers this branch took the same day, 37
+  through 40, did **not** collide, because `scripts/science_preflight.py` reports
+  the next free doc number rather than validating the file you already have.
+  A guard that computes the next free value survives a stale base. A guard that
+  checks the current file for internal consistency does not.

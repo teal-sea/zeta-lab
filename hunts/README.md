@@ -110,7 +110,7 @@ the same mathematics with `kappa` cached once per process, a factor of six from 
 
 Nothing bears on RH (`docs/08`).
 
-### Hunt #119: one form per discriminant, not forty-one (`euler_defect_axis/`, 2026-09-10)
+### Hunt #124: one form per discriminant, not forty-one (`euler_defect_axis/`, 2026-09-10)
 
 **Status: settled, correction.** The composite-line discriminator is defined for a
 Dirichlet series with `a(1) = 1`, and a binary quadratic form represents 1 exactly when
