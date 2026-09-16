@@ -1291,6 +1291,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/palomar_precheck.py`, Pre-flight check of a Palomar Registry submission.
 - `scripts/pub1_certify_display.py`, Publication-safe display values for the Pub 1 xi' ceiling certificate.
 - `scripts/science_preflight.py`, Preflight for a session running this lab from an outside environment.
+- `scripts/cloud_setup.sh`, Build this tree's numerical toolchain, for a Claude Code cloud environment's setup script.
 - `scripts/install_hooks.sh`, Install the pre-push secret guard into this checkout.
 - `scripts/ledger_sync.sh`, Sync the private discovery ledger between machines.
 - `scripts/palomar_stage.sh`, Stage a Palomar submission: verify everything checkable, then print the exact
