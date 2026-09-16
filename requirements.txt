@@ -49,3 +49,5 @@ inspect_ai>=0.3.250
 # dependency, and it is needed only to *run* an eval, never to test one.
 # Credentials go in a gitignored .env at the repo root, never in the tree.
 anthropic>=0.60
+# scripts/palomar_correspondence.py and its test; see issue #225
+pyyaml
