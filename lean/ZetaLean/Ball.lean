@@ -200,6 +200,78 @@ theorem contains_mul {x y : ComplexBall} {a b : ℂ} {ux uy : ℚ}
   push_cast [mul]
   linarith
 
+/-! ### Reciprocal -/
+
+/-- A reciprocal ball centred at the exact Gaussian-rational inverse.  The
+caller supplies the output radius; `contains_inv` checks it against a rational
+lower bound for the input centre's norm. -/
+def inv (x : ComplexBall) (r : ℚ) : ComplexBall :=
+  let d := x.cre ^ 2 + x.cim ^ 2
+  ⟨x.cre / d, -x.cim / d, r⟩
+
+theorem centre_inv {x : ComplexBall} (h : x.cre ^ 2 + x.cim ^ 2 ≠ 0) (r : ℚ) :
+    (x.inv r).centre = x.centre⁻¹ := by
+  apply Complex.ext
+  · rw [Complex.inv_re]
+    simp [inv, centre, Complex.normSq_apply]
+    push_cast
+    field_simp
+  · rw [Complex.inv_im]
+    simp [inv, centre, Complex.normSq_apply]
+    push_cast
+    field_simp
+
+/-- Sound reciprocal enclosure.  If `l ≤ ‖centre‖`, `rad < l`, and
+`rad / (l * (l - rad)) ≤ R`, then the ball with exact inverse centre and
+radius `R` contains every reciprocal. -/
+theorem contains_inv {x : ComplexBall} {z : ℂ} {l R : ℚ}
+    (hx : x.contains z) (hl0 : 0 ≤ l) (hl : (l : ℝ) ≤ ‖x.centre‖)
+    (hgap : x.rad < l)
+    (hR : x.rad / (l * (l - x.rad)) ≤ R) :
+    (x.inv R).contains z⁻¹ := by
+  have hrad : (0 : ℝ) ≤ (x.rad : ℝ) := rad_nonneg_of_contains hx
+  have hgap' : (x.rad : ℝ) < (l : ℝ) := by exact_mod_cast hgap
+  have hlpos : (0 : ℝ) < (l : ℝ) := lt_of_le_of_lt hrad hgap'
+  have hcpos : 0 < ‖x.centre‖ := lt_of_lt_of_le hlpos hl
+  have hc0 : x.centre ≠ 0 := norm_pos_iff.mp hcpos
+  have hzlower : (l : ℝ) - (x.rad : ℝ) ≤ ‖z‖ := by
+    have hrev := norm_sub_norm_le x.centre z
+    rw [norm_sub_rev] at hrev
+    have hx' : ‖z - x.centre‖ ≤ (x.rad : ℝ) := hx
+    linarith
+  have hzlpos : 0 < (l : ℝ) - (x.rad : ℝ) := sub_pos.mpr hgap'
+  have hzpos : 0 < ‖z‖ := lt_of_lt_of_le hzlpos hzlower
+  have hz0 : z ≠ 0 := norm_pos_iff.mp hzpos
+  have hd : x.cre ^ 2 + x.cim ^ 2 ≠ 0 := by
+    intro hzero
+    have hs := norm_centre_sq x
+    rw [hzero] at hs
+    norm_num at hs
+    exact hc0 hs
+  rw [contains, centre_inv hd]
+  rw [inv_sub_inv' hz0 hc0, norm_mul, norm_mul, norm_inv, norm_inv]
+  have hnum : ‖x.centre - z‖ ≤ (x.rad : ℝ) := by
+    rw [norm_sub_rev]
+    exact hx
+  have hzinv : ‖z‖⁻¹ ≤ ((l : ℝ) - (x.rad : ℝ))⁻¹ :=
+    (inv_le_inv₀ hzpos hzlpos).2 hzlower
+  have hcinv : ‖x.centre‖⁻¹ ≤ ((l : ℝ))⁻¹ := (inv_le_inv₀ hcpos hlpos).2 hl
+  have h1 : ‖z‖⁻¹ * ‖x.centre - z‖ ≤
+      (((l : ℝ) - (x.rad : ℝ))⁻¹) * (x.rad : ℝ) :=
+    mul_le_mul hzinv hnum (norm_nonneg _) (inv_nonneg.mpr hzlpos.le)
+  have h2 : ‖z‖⁻¹ * ‖x.centre - z‖ * ‖x.centre‖⁻¹ ≤
+      (((l : ℝ) - (x.rad : ℝ))⁻¹) * (x.rad : ℝ) * ((l : ℝ))⁻¹ :=
+    mul_le_mul h1 hcinv (inv_nonneg.mpr (norm_nonneg _))
+      (mul_nonneg (inv_nonneg.mpr hzlpos.le) hrad)
+  have hRq : ((x.rad : ℝ) / ((l : ℝ) * ((l : ℝ) - (x.rad : ℝ)))) ≤ (R : ℝ) := by
+    exact_mod_cast hR
+  calc
+    ‖z‖⁻¹ * ‖x.centre - z‖ * ‖x.centre‖⁻¹
+        ≤ (((l : ℝ) - (x.rad : ℝ))⁻¹) * (x.rad : ℝ) * ((l : ℝ))⁻¹ := h2
+    _ = (x.rad : ℝ) / ((l : ℝ) * ((l : ℝ) - (x.rad : ℝ))) := by
+      field_simp [ne_of_gt hlpos, ne_of_gt hzlpos] <;> ring
+    _ ≤ (R : ℝ) := hRq
+
 /-! ### Outward rounding
 
 `Interval.coarsen` rounds endpoints outward; the ball analogue rounds the

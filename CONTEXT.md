@@ -1281,8 +1281,11 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/65_rung3_full_validation.py`, Every site of plan v2 through ball arithmetic, the sampled claim made whole.
 - `scripts/66_rung3_ball_atom_cost.py`, Which ball obligations the kernel can actually discharge, and at what cost.
 - `scripts/67_rung3_ball_atom_budget.py`, What the ball-emission certificate actually costs, in atoms rather than terms.
+- `scripts/68_rung3_ball_tower_pilot.py`, Emit and time one staged prime exponential tower for rung 3.
+- `scripts/69_rung3_ball_generate.py`, Ball-certificate backend for ``60_rung3_generate.py``.
 - `scripts/70_lab_state.py`, 70_lab_state.py, the read-only research-state view, rendered from artifacts.
 - `scripts/71_contribution_check.py`, Check that an external research hunt carries the lab's review contract.
+- `scripts/72_rung3_ball_compile.py`, Resumable compile driver for sharded rung-3 ball certificates.
 - `scripts/check_secrets.py`, Refuse to publish a credential. Scans git objects for secret patterns.
 - `scripts/make_context.py`, Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py`, Generate every figure of the zeta laboratory into ``figures/``.
@@ -1297,7 +1300,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2181 test functions across 118 files (the collected count differs where tests are parametrised):
+2220 test functions across 124 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1400,7 +1403,13 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_rigor_weil.py`, 17
 - `tests/test_rogue_lab_controls.py`, 7
 - `tests/test_rung3_ball_assembly.py`, 7
+- `tests/test_rung3_ball_atom_budget.py`, 4
+- `tests/test_rung3_ball_cert_support.py`, 1
+- `tests/test_rung3_ball_compile.py`, 15
+- `tests/test_rung3_ball_generator.py`, 8
 - `tests/test_rung3_ball_mirror.py`, 7
+- `tests/test_rung3_ball_shards.py`, 7
+- `tests/test_rung3_ball_tower_pilot.py`, 4
 - `tests/test_rung3_mirror.py`, 9
 - `tests/test_rung3_mirror_matches_kernel.py`, 4
 - `tests/test_scout.py`, 12
