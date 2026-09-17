@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      BLOCH_ARCHIVE: ${{ runner.temp }}/bloch-computations-1.0.0.zip
+      BLOCH_ARCHIVE: /tmp/bloch-computations-1.0.0.zip
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
