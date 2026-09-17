@@ -16,27 +16,37 @@ instead of terms over all 215 sites of `lean/cert/rung3_plan2.json`:
     centre        1       10,233       278        1,169
     TOTAL       215      549,149
 
-**549k atoms, 7.1x the 77,675 terms the old figure counted.** At the measured
-0.55 s per atom that is ~84 core-hours serial, against the ~25 core-hours that
-has been quoted since 2026-08-10. Roughly 3.4x, and the difference is entirely
-that primes were priced as if they were composites.
+**549k atoms, 7.1x the 77,675 terms the old figure counted.** Primes contribute
+`30 x 15,608 = 468,240` tower atoms; the remaining 80,909 are composite products
+plus kappa multiplies.
 
-That is affordable but it is not free, and where it runs matters. On GitHub
-Actions, which `CLAUDE.md` names as the default compute for this repository,
-20 parallel jobs put it near 4 wall-hours; it must not run on a laptop.
+Tower atoms were measured on the staged prime-tower pilot (script 68), minus
+the import baseline, as CPU seconds (`user + sys`):
 
-**The load-bearing caveat.** 0.55 s/atom was measured on *composite* atoms: one
-coarsened product of two 64-bit-coarsened literal balls
-(`scripts/66_rung3_ball_atom_cost.py`). Tower atoms have not been measured, and
-they are not obviously the same: early Taylor terms carry smaller literals,
-which should be cheaper, while `expSumCB`'s accumulator carries the widest ones
-in the tower, which may not be. Since primes contribute
-`30 x 15,608 = 468,240` of the 549,149 atoms, **85% of this estimate rests on a
-rate that has never been measured**, and the staged prime tower is precisely the
-shape that produced the rectangle layer's negative result #2. Treat the number
-as a planning figure with one pilot outstanding, not as a cost model.
+    WALL 29.599/30.225/30.344
+    USER 39.352/40.123/40.225
+    SYS  2.230/2.119/2.216
+    import WALL 4.561/4.567/4.567
+    import USER 3.075/3.097/3.120
+    import SYS  1.498/1.481/1.458
 
-Run: python3 scripts/67_rung3_ball_atom_budget.py [--sec-per-atom S]
+Mean net CPU is 37.512 s / 30 atoms = 1.2504 CPU-s per tower atom. Composite
+atoms stay at the previously measured 0.55 s. Mixed serial CPU cost:
+
+    468,240 * 1.2504 + 80,909 * 0.55 = 175.0 core-hours.
+
+That 175.0 core-hours is the measured atom-only serial CPU estimate, before
+per-module import and assembly overhead. It is not total production cost.
+Core-hours also do not establish wall clock without a measured placement.
+
+Whole-file evidence is recorded separately and is **not** this cost model.
+An unsharded B site at K=17 took WALL 305.410, USER 1369.406, SYS 16.260.
+A grid site at K=85 took WALL 2580.664, USER 6628.916, SYS 60.079. Unsharded
+centre (~138 MB) caused sustained memory pressure on a 32 GB machine and was
+aborted. Full-file scaling is nonlinear; do not price the 215-site run from
+those whole-file walls.
+
+Run: python3 scripts/67_rung3_ball_atom_budget.py
 """
 from __future__ import annotations
 
@@ -51,6 +61,39 @@ NEXP, KE = 20, 10
 TOWER_MULS = NEXP + KE
 OLD_TERM_COUNT = 77675
 OLD_CORE_HOURS = 25.0
+
+# Staged tower pilot, three runs, then the matching import baseline.
+TOWER_PILOT_WALL = (29.599, 30.225, 30.344)
+TOWER_PILOT_USER = (39.352, 40.123, 40.225)
+TOWER_PILOT_SYS = (2.230, 2.119, 2.216)
+IMPORT_WALL = (4.561, 4.567, 4.567)
+IMPORT_USER = (3.075, 3.097, 3.120)
+IMPORT_SYS = (1.498, 1.481, 1.458)
+MEAN_NET_CPU_S = 37.512
+TOWER_SEC_PER_ATOM = MEAN_NET_CPU_S / TOWER_MULS  # 1.2504
+OTHER_SEC_PER_ATOM = 0.55
+
+WHOLE_FILE_B_K17 = {"label": "B K17", "K": 17,
+                    "wall": 305.410, "user": 1369.406, "sys": 16.260}
+WHOLE_FILE_GRID_K85 = {"label": "grid K85", "K": 85,
+                       "wall": 2580.664, "user": 6628.916, "sys": 60.079}
+
+
+def net_cpu_samples() -> list[float]:
+    return [
+        (user + sys) - (iu + isu)
+        for user, sys, iu, isu in zip(
+            TOWER_PILOT_USER, TOWER_PILOT_SYS, IMPORT_USER, IMPORT_SYS)
+    ]
+
+
+def mean_net_cpu_s() -> float:
+    samples = net_cpu_samples()
+    return round(sum(samples) / len(samples), 3)
+
+
+def tower_sec_per_atom() -> float:
+    return mean_net_cpu_s() / TOWER_MULS
 
 
 def _sieve(n: int) -> bytearray:
@@ -76,16 +119,15 @@ def site_atoms(K: int, prime: bytearray) -> tuple[int, int, int]:
     return primes * TOWER_MULS + composites + kappa_muls, primes, composites
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--sec-per-atom", type=float, default=0.55)
-    args = ap.parse_args()
+def plan_sites() -> list[tuple[str, dict]]:
+    return ([("big", b) for b in PLAN["big"]["boxes"]]
+            + [("grid", g) for g in PLAN["grid"]]
+            + [("centre", PLAN["centre"])])
 
-    sites = ([("big", b) for b in PLAN["big"]["boxes"]]
-             + [("grid", g) for g in PLAN["grid"]]
-             + [("centre", PLAN["centre"])])
+
+def plan_atom_counts() -> dict:
+    sites = plan_sites()
     prime = _sieve(5 * max(s["K"] for _, s in sites) + 5)
-
     by: dict[str, list[int]] = {}
     total = 0
     for kind, s in sites:
@@ -96,24 +138,69 @@ def main() -> None:
         d[1] += atoms
         d[2] += pr
         d[3] += co
+    tower_atoms = sum(v[2] for v in by.values()) * TOWER_MULS
+    other_atoms = total - tower_atoms
+    return {
+        "by_kind": {
+            kind: {"sites": n, "atoms": a, "primes": pr, "composites": co}
+            for kind, (n, a, pr, co) in by.items()
+        },
+        "sites": sum(v[0] for v in by.values()),
+        "atoms": total,
+        "tower_atoms": tower_atoms,
+        "other_atoms": other_atoms,
+        "primes": sum(v[2] for v in by.values()),
+        "composites": sum(v[3] for v in by.values()),
+    }
 
+
+def serial_core_hours(
+    tower_atoms: int,
+    other_atoms: int,
+    *,
+    tower_rate: float = TOWER_SEC_PER_ATOM,
+    other_rate: float = OTHER_SEC_PER_ATOM,
+) -> float:
+    return (tower_atoms * tower_rate + other_atoms * other_rate) / 3600
+
+
+def main(argv: list[str] | None = None) -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--sec-per-tower-atom", type=float, default=TOWER_SEC_PER_ATOM)
+    ap.add_argument("--sec-per-atom", type=float, default=OTHER_SEC_PER_ATOM,
+                    help="seconds per non-tower atom (composites + kappa)")
+    args = ap.parse_args(argv)
+
+    counts = plan_atom_counts()
     print(f"{'kind':8s} {'sites':>6s} {'atoms':>12s} {'primes':>9s} {'composites':>11s}")
-    for kind, (n, a, pr, co) in by.items():
-        print(f"{kind:8s} {n:6d} {a:12,d} {pr:9,d} {co:11,d}")
-    print(f"{'TOTAL':8s} {sum(v[0] for v in by.values()):6d} {total:12,d}")
+    for kind, row in counts["by_kind"].items():
+        print(f"{kind:8s} {row['sites']:6d} {row['atoms']:12,d} "
+              f"{row['primes']:9,d} {row['composites']:11,d}")
+    print(f"{'TOTAL':8s} {counts['sites']:6d} {counts['atoms']:12,d}")
 
-    tower_share = sum(v[2] for v in by.values()) * TOWER_MULS / total
-    hours = total * args.sec_per_atom / 3600
+    hours = serial_core_hours(
+        counts["tower_atoms"], counts["other_atoms"],
+        tower_rate=args.sec_per_tower_atom, other_rate=args.sec_per_atom)
     print()
-    print(f"atoms per old 'term': {total / OLD_TERM_COUNT:.1f}x "
-          f"({total:,} against {OLD_TERM_COUNT:,})")
-    print(f"serial at {args.sec_per_atom}s/atom: {hours:.1f} core-hours "
-          f"(old figure {OLD_CORE_HOURS:.0f}, ratio {hours / OLD_CORE_HOURS:.1f}x)")
-    for c in (4, 16, 20, 64):
-        print(f"  {c:2d}-way: {hours / c:6.1f} wall-hours")
+    print(f"atoms per old 'term': {counts['atoms'] / OLD_TERM_COUNT:.1f}x "
+          f"({counts['atoms']:,} against {OLD_TERM_COUNT:,})")
+    print(f"tower atoms: {counts['tower_atoms']:,} at "
+          f"{args.sec_per_tower_atom} CPU-s/atom "
+          f"(mean net CPU {MEAN_NET_CPU_S}s / {TOWER_MULS})")
+    print(f"other atoms: {counts['other_atoms']:,} at "
+          f"{args.sec_per_atom} s/atom")
+    print(f"serial CPU: {hours:.1f} core-hours "
+          f"(atom-only estimate before per-module import and assembly "
+          f"overhead; not total production cost; "
+          f"old figure {OLD_CORE_HOURS:.0f}, ratio {hours / OLD_CORE_HOURS:.1f}x)")
     print()
-    print(f"UNMEASURED: {tower_share:.0%} of these atoms are tower atoms, and the "
-          f"{args.sec_per_atom}s rate was measured on composite atoms only.")
+    print("WHOLE-FILE evidence (not the sharded cost model; "
+          "full-file scaling is nonlinear):")
+    for row in (WHOLE_FILE_B_K17, WHOLE_FILE_GRID_K85):
+        print(f"  {row['label']} WALL={row['wall']:.3f} "
+              f"USER={row['user']:.3f} SYS={row['sys']:.3f}")
+    print("  unsharded centre (~138 MB) caused sustained memory pressure "
+          "on 32GB and was aborted.")
 
 
 if __name__ == "__main__":

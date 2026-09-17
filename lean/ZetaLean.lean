@@ -6,6 +6,7 @@ import ZetaLean.IntervalExp
 import ZetaLean.IntervalCExp
 import ZetaLean.Ball
 import ZetaLean.BallTerm
+import ZetaLean.BallCertSupport
 import ZetaLean.DirichletEval
 import ZetaLean.OracleDH
 import ZetaLean.DavenportHeilbronn

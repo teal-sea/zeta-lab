@@ -27,13 +27,20 @@ and the obligation that still bites, `eps' + L*h/2 <= beta`, the hypothesis of
 Usage:
   .venv/bin/python scripts/60_rung3_generate.py PLAN.json OUTDIR [--only ID]
                                                 [--beta measured|plan]
+                                                [--arith ball|rect]
+                                                [--shard] [--max-bytes N]
+
+``--shard`` writes ``C{id}.lean`` plus ``C{id}/`` modules so a large site stays
+under 2 MB per file, and a compact ``C{id}.manifest.json`` with the exact
+relative compile order and same-site import dependencies.  ``--max-bytes``
+implies ``--shard``. The default cap is 2,000,000 bytes.
 """
 from __future__ import annotations
 
+import argparse
 import importlib.util
 import json
 import pathlib
-import sys
 from fractions import Fraction
 
 _here = pathlib.Path(__file__).resolve().parent
@@ -131,7 +138,7 @@ def kL_of(m: int) -> int:
     return m.bit_length()
 
 
-def emit_site(site: dict, kind: str) -> tuple[str, dict]:
+def emit_site_rect(site: dict, kind: str) -> tuple[str, dict]:
     sid = site["id"]
     K = site["K"]
     N = 5 * K
@@ -369,11 +376,74 @@ def emit_site(site: dict, kind: str) -> tuple[str, dict]:
     return "\n".join(lines), stats
 
 
-def main() -> None:
-    plan_path, outdir = sys.argv[1], pathlib.Path(sys.argv[2])
-    only = sys.argv[sys.argv.index("--only") + 1] if "--only" in sys.argv else None
-    beta_from_plan = ("--beta" in sys.argv
-                      and sys.argv[sys.argv.index("--beta") + 1] == "plan")
+_BALL_BACKEND = None
+
+
+def _ball_backend():
+    global _BALL_BACKEND
+    if _BALL_BACKEND is None:
+        spec = importlib.util.spec_from_file_location(
+            "rung3_ball_generate", _here / "69_rung3_ball_generate.py")
+        assert spec is not None and spec.loader is not None
+        backend = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(backend)
+        _BALL_BACKEND = backend
+    return _BALL_BACKEND
+
+
+def emit_site(site: dict, kind: str, arith: str = "ball") -> tuple[str, dict]:
+    """Emit one site, using balls by default and retaining rectangles as control."""
+    if arith == "rect":
+        return emit_site_rect(site, kind)
+    if arith != "ball":
+        raise ValueError(f"unknown arithmetic backend: {arith}")
+    return _ball_backend().emit_site_ball(site, kind)
+
+
+def emit_site_modules(
+    site: dict,
+    kind: str,
+    arith: str = "ball",
+    max_bytes: int | None = None,
+) -> tuple[list[tuple[str, str]], dict]:
+    """Emit one site as importable Lean modules under a per-file size cap."""
+    if arith != "ball":
+        raise ValueError("sharded emission is only implemented for --arith ball")
+    backend = _ball_backend()
+    if max_bytes is None:
+        return backend.emit_site_ball_modules(site, kind)
+    return backend.emit_site_ball_modules(site, kind, max_bytes=max_bytes)
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    """Parse generator CLI arguments. Missing flag values exit instead of IndexError."""
+    ap = argparse.ArgumentParser(
+        description="Generate the rung-3 certificate Lean files from a plan JSON.",
+        allow_abbrev=False,
+    )
+    ap.add_argument("plan")
+    ap.add_argument("outdir", type=pathlib.Path)
+    ap.add_argument("--only", default=None, metavar="ID")
+    ap.add_argument("--beta", default="measured", metavar="MODE")
+    ap.add_argument("--arith", choices=("ball", "rect"), default="ball")
+    ap.add_argument("--shard", action="store_true")
+    ap.add_argument("--max-bytes", type=int, default=None, metavar="N")
+    args = ap.parse_args(argv)
+    if args.max_bytes is not None:
+        args.shard = True
+    if args.shard and args.arith != "ball":
+        raise SystemExit("sharded emission requires --arith ball")
+    return args
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = parse_args(argv)
+    plan_path, outdir = args.plan, args.outdir
+    only = args.only
+    beta_from_plan = args.beta == "plan"
+    arith = args.arith
+    shard = args.shard
+    max_bytes = args.max_bytes
     plan = json.loads(pathlib.Path(plan_path).read_text())
     outdir.mkdir(parents=True, exist_ok=True)
     sites = []
@@ -405,7 +475,24 @@ def main() -> None:
     for site, kind in sites:
         if only and site["id"] != only:
             continue
-        text, stats = emit_site(site, kind)
+        if shard:
+            files, stats = emit_site_modules(
+                site, kind, arith=arith, max_bytes=max_bytes)
+            for rel, text in files:
+                dest = outdir / rel
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_text(text)
+                print(f"{rel} bytes={len(text.encode('utf-8'))}", flush=True)
+            backend = _ball_backend()
+            man = backend.write_site_manifest(outdir, files, stats)
+            print(f"{man.name} modules={stats['n_files']}", flush=True)
+            print(f"C{site['id']} kind={kind} K={site['K']} "
+                  f"normLower={float(stats['normLower']):.6g} "
+                  f"normBound={float(stats['normBound']):.6g} "
+                  f"n_files={stats['n_files']} "
+                  f"max_file_bytes={stats['max_file_bytes']}", flush=True)
+            continue
+        text, stats = emit_site(site, kind, arith=arith)
         (outdir / f"C{site['id']}.lean").write_text(text)
         print(f"C{site['id']}.lean kind={kind} K={site['K']} "
               f"normLower={float(stats['normLower']):.6g} "
