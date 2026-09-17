@@ -80,6 +80,7 @@ supplies the candidate bracket `217/200 < Lambda_minus <= 567009/320000`.
 The odd theta normalization is checked against a separate Hurwitz-zeta route; the plus cosine normalization is now stated and checked the same way.
 No RH, novelty or formal-proof claim. See [the argument](dh_minus_heat/RESULTS.md)
 and its executable checker; the lower-bound quadrature uses Arb only.
+An exact residue-orbit corollary shows the nonresidue permutation `n->2n mod 5` swaps the plus/minus heat class up to global scale, with a SymPy enumeration check.
 
 ### Finite paid-surplus construction (`paid_surplus_obstruction/`)
 
