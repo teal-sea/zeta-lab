@@ -145,3 +145,30 @@ governance subset passes 58 with 3 expected xfails; `contribution_check`
 passes 21 with 2 deselected; context, secret-tree, and whitespace checks pass.
 No load-bearing argument changed, so no new review was ordered; the recorded
 Muse, Gemini, and Claude Opus reviews still match the merged revision.
+
+## Plus-normalization repair (2026-09-17)
+
+Defect: the packet derived the minus odd kernel and sine flow but left the
+plus function used in `Lambda_plus <= 1/2` implicit. Repair states
+`tau_plus=sqrt(1+phi^2)-phi`, `tau_minus=-phi-sqrt(1+phi^2)`,
+`a_tau=(1,tau,-tau,-1,0)` mod 5, `D_tau`, `F_tau` in the narrow frame
+`s=1/2+iz`; derives `ahat=-i a/sqrt(5)`,
+`omega_plus(1/x)=+x^(3/2)omega_plus(x)`, real even `g_plus`,
+`F_plus(1/2+iz)=4 integral g_plus cos`, and cosine flow `H_plus,t`, while
+retaining the minus sine flow as `H_minus,t` (rest of packet: `H_t`).
+`Lambda_plus <= 1/2` (narrow, `<= 2` wide) is tied to the plus strip and
+`H_plus,t`. Bounds, frames, and the x4 conversion are unchanged; the local
+collision caveat is unchanged. Helpers generalized minimally
+(`parameter_plus`, optional `tau`/`wave` args, `heat_plus_mp` wrapper);
+`verify.py` gains `even_theta_transform` and
+`plus_zero_time_cosine_identity` checks, `test_heat.py` gains the matching
+two tests. Status stays reviewed conventional argument with
+enclosure-carrying numerical steps; no novelty or RH claim.
+
+Ran:
+  - .venv/bin/python -m hunts.dh_minus_heat.verify
+  - .venv/bin/python -m pytest -q -n0 hunts/dh_minus_heat/test_heat.py
+  - huntspec/doors/probe/docs-numbering subset, contribution_check,
+    make_context --check, secret tree, git diff --check
+Outcome: plus modular sign and zero-time cosine identity pass; all bounds
+unchanged.

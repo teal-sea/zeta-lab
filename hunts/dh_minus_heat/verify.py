@@ -90,6 +90,17 @@ def verify():
         assert abs(zero-ref) < mp.mpf('1e-45')
         checks.append({'name': 'zero_time_Hurwitz_identity', 'dps': 55,
                        'absolute_defect': mp.nstr(abs(zero-ref), 12)})
+        tau_plus = pilot.parameter_plus()
+        plus_defect = abs(pilot.theta(1/x, 24, tau=tau_plus)
+                          - x**mp.mpf('1.5')*pilot.theta(x, 24, tau=tau_plus))
+        assert plus_defect < mp.mpf('1e-45')
+        checks.append({'name': 'even_theta_transform', 'dps': 55,
+                       'absolute_defect': mp.nstr(plus_defect, 12)})
+        plus_zero = pilot.heat_plus_mp(z, mp.mpf(0), nmax=24)
+        plus_ref = pilot.completed(mp.mpf('0.5')+1j*z, tau=tau_plus)
+        assert abs(plus_zero-plus_ref) < mp.mpf('1e-45')
+        checks.append({'name': 'plus_zero_time_cosine_identity', 'dps': 55,
+                       'absolute_defect': mp.nstr(abs(plus_zero-plus_ref), 12)})
     lesion = odd_ball.rouche(DISKS[0]['centre'], RADIUS, nmax=2)
     assert not lesion['decided']
     checks.append({'name': 'underresolved_series_refuses', 'nmax': 2,
