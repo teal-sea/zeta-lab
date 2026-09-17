@@ -93,3 +93,16 @@ def test_the_learn_door_command_runs():
 def test_the_refute_door_command_runs():
     """docs/doors/refute.md: the gate-3 battery exits 0."""
     _run_door("23_gate_3_battery.py", timeout=600)
+
+
+@pytest.mark.slow
+def test_the_evaluate_door_command_runs():
+    """docs/doors/evaluate.md: public grader controls all pass."""
+    proc = subprocess.run(
+        ["uv", "run", "--directory", "environments/bloch_certificate", "bloch-smoke"],
+        capture_output=True,
+        text=True,
+        cwd=REPO_ROOT,
+        timeout=180,
+    )
+    assert proc.returncode == 0, proc.stdout[-2000:] + proc.stderr[-2000:]
