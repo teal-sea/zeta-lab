@@ -200,6 +200,7 @@ secret tree clean; whitespace clean.
 id: dh-residue-orbit-2026-09-17-corollary1
 hunt: dh_minus_heat
 started: 2026-09-17T23:00:41Z
+finished: 2026-09-17T23:05:16Z
 ran:
   - .venv/bin/python -m pytest -q -n0 hunts/dh_minus_heat/test_heat.py
   - .venv/bin/python -m pytest -q -n0 tests/test_huntspec.py tests/test_doors.py tests/test_hunt_doors.py tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py
