@@ -150,6 +150,42 @@ def test_precision_context_is_restored_on_success_and_failure():
     assert iv.dps == before_iv
 
 
+def test_residue_orbit_is_exact_nonresidue_permutation():
+    """Exact unit-orbit corollary: n -> 2n mod 5 swaps the plus/minus class.
+
+    SymPy exact simplification plus complete enumeration over Z/5Z; no
+    float assigns this identity. The wrong-permutation lesion (r=3 in
+    place of r=2) must fail, so the check can fail meaningfully.
+    """
+    import sympy as sp
+
+    phi = (1 + sp.sqrt(5)) / 2
+    tau_plus = sp.sqrt(1 + phi**2) - phi
+    tau_minus = -phi - sp.sqrt(1 + phi**2)
+    assert sp.simplify(tau_plus * tau_minus + 1) == 0
+    a_plus = {0: sp.Integer(0), 1: sp.Integer(1), 2: tau_plus,
+              3: -tau_plus, 4: sp.Integer(-1)}
+    a_minus = {0: sp.Integer(0), 1: sp.Integer(1), 2: tau_minus,
+               3: -tau_minus, 4: sp.Integer(-1)}
+    for n in range(5):
+        assert sp.simplify(tau_plus * a_minus[n] - a_plus[(2 * n) % 5]) == 0
+    for r in (1, 2, 3, 4):
+        for n in range(5):
+            if r == 1:
+                expect = a_plus[n]
+            elif r == 2:
+                expect = tau_plus * a_minus[n]
+            elif r == 3:
+                expect = -tau_plus * a_minus[n]
+            else:
+                expect = -a_plus[n]
+            assert sp.simplify(a_plus[(r * n) % 5] - expect) == 0
+    lesion = [n for n in range(5)
+              if sp.simplify(tau_plus * a_minus[n] - a_plus[(3 * n) % 5]) != 0]
+    assert lesion, "wrong-permutation lesion must be detectable"
+    assert 1 in lesion
+
+
 def test_written_margin_exact_and_frame_factor():
     from fractions import Fraction as F
     margin = F('1e-7')*F('.015')-F('1e-14')-F('1e-14')*F('2.35')/2

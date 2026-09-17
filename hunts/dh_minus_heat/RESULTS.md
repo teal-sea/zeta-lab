@@ -301,6 +301,43 @@ Fourier calculation, Mellin representation, Rouche theorem and strip
 contraction are existing mathematics; any original contribution here is the
 explicit new application and reproducible numerical packet, subject to review.
 
+## 7. Residue-orbit corollary (exact algebra)
+
+Let `phi=(1+sqrt(5))/2`, `tau_plus=sqrt(1+phi^2)-phi`,
+`tau_minus=-phi-sqrt(1+phi^2)`, and `a_tau=(0,1,tau,-tau,-1)` on
+residues mod 5. The following hold exactly, by simplification plus
+complete enumeration over `Z/5Z` (see
+`test_residue_orbit_is_exact_nonresidue_permutation`; no float assigns
+this identity):
+
+1. `tau_plus*tau_minus=-1`, since with `s=sqrt(1+phi^2)` the product
+   is `-(s^2-phi^2)=-1`.
+2. For every `n mod 5`, `tau_plus*a_minus(n)=a_plus(2n mod 5)`.
+3. The full unit action `r in (Z/5Z)^*` on `a_plus` is: `r=1` gives
+   `a_plus(n)`; `r=2` gives `tau_plus*a_minus(n)`; `r=3` gives
+   `-tau_plus*a_minus(n)` (because `3=-2 mod 5` and `a` is odd);
+   `r=4` gives `-a_plus(n)` (because `4=-1 mod 5` and `a` is odd).
+4. Nonzero global scaling multiplies `D_tau`, `F_tau`, and `H_tau,t`
+   pointwise but moves no zero and changes no threshold, so the unit
+   orbit has exactly two zero/heat classes up to scale: residues
+   `{1,4}` give the plus class, nonresidues `{2,3}` give the minus class.
+5. With the reviewed enclosed separation
+   `Lambda_plus<=1/2<217/200<Lambda_minus`, the de Bruijn-Newman
+   threshold is therefore not invariant under the nonresidue
+   permutation `n->2n mod 5`, even though the coefficient multiset is
+   unchanged up to the global scale `tau_plus`. This is scoped to the
+   conductor-five pair. It does not prove root-number sign alone causes
+   the gap, a general statement for other conductors, novelty, or
+   anything about RH.
+6. This matches the finite-Fourier signs already proved in section 1:
+   plus eigenvalue `-i/sqrt(5)` (even cosine class) versus minus
+   `+i/sqrt(5)` (odd sine class). The nonresidue action switches the
+   modular/even-cosine versus odd-sine class for this pair, without a
+   general causal claim beyond it.
+
+Verification level: ordinary algebraic corollary of the reviewed and
+enclosed separation. Not kernel-checked; no novelty claim.
+
 Sources:
 [1] https://arxiv.org/html/2005.05142v2 - Dobner, extended Selberg class, version 2
 

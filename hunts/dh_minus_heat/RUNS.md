@@ -172,3 +172,46 @@ Ran:
     make_context --check, secret tree, git diff --check
 Outcome: plus modular sign and zero-time cosine identity pass; all bounds
 unchanged.
+
+## Residue-orbit corollary (2026-09-17)
+
+Exact algebraic follow-up, no numerics changed. Added RESULTS section 7
+(residue-orbit corollary: `tau_plus*tau_minus=-1`,
+`tau_plus*a_minus(n)=a_plus(2n mod 5)`, full unit-action classification,
+two zero/heat classes up to scale, threshold non-invariance under the
+nonresidue permutation, finite-Fourier-sign match), one SymPy exact
+enumeration test with a wrong-permutation lesion in `test_heat.py`, and
+one sentence in the hunt README entry. The doors stays last. Bounds,
+frames, and verification level unchanged: ordinary algebraic corollary
+of the reviewed/enclosed separation, not kernel-checked, no novelty claim.
+
+Ran:
+  - .venv/bin/python -m pytest -q -n0 hunts/dh_minus_heat/test_heat.py
+  - .venv/bin/python -m pytest -q -n0 tests/test_huntspec.py tests/test_doors.py tests/test_hunt_doors.py tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py
+  - .venv/bin/python scripts/71_contribution_check.py hunts/dh_minus_heat
+  - .venv/bin/python scripts/make_context.py --check
+  - .venv/bin/python scripts/check_secrets.py --tree hunts/dh_minus_heat
+  - git diff --check
+Outcome: hunt 15 passed; governance subset 51 passed, 3 xfailed;
+contribution_check 21 passed, 2 deselected, PASS; context up to date;
+secret tree clean; whitespace clean.
+
+```runmanifest
+id: dh-residue-orbit-2026-09-17-corollary1
+hunt: dh_minus_heat
+started: 2026-09-17T23:00:41Z
+finished: 2026-09-17T23:05:16Z
+ran:
+  - .venv/bin/python -m pytest -q -n0 hunts/dh_minus_heat/test_heat.py
+  - .venv/bin/python -m pytest -q -n0 tests/test_huntspec.py tests/test_doors.py tests/test_hunt_doors.py tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py
+  - .venv/bin/python scripts/71_contribution_check.py hunts/dh_minus_heat
+  - .venv/bin/python scripts/make_context.py --check
+  - .venv/bin/python scripts/check_secrets.py --tree hunts/dh_minus_heat
+  - git diff --check
+artifacts:
+  - hunts/dh_minus_heat/RESULTS.md
+  - hunts/dh_minus_heat/test_heat.py
+  - hunts/README.md
+  - hunts/dh_minus_heat/RUNS.md
+outcome: exact residue-orbit corollary documented with SymPy enumeration check; all gates green, numerical bounds unchanged
+```
