@@ -18,34 +18,54 @@ def parameter():
     return -phi - mp.sqrt(1 + phi * phi)
 
 
-def dirichlet(s):
-    tau = parameter()
+def parameter_plus():
+    phi = (1 + mp.sqrt(5)) / 2
+    return mp.sqrt(1 + phi * phi) - phi
+
+
+def _resolve_tau(tau):
+    return parameter() if tau is None else tau
+
+
+def dirichlet(s, tau=None):
+    tau = _resolve_tau(tau)
     return sum(a * mp.zeta(s, mp.mpf(n) / 5)
                for n, a in enumerate([0, 1, tau, -tau, -1]) if n) / 5**s
 
 
-def completed(s):
-    return (5 / mp.pi)**((s + 1) / 2) * mp.gamma((s + 1) / 2) * dirichlet(s)
+def completed(s, tau=None):
+    tau = _resolve_tau(tau)
+    return (5 / mp.pi)**((s + 1) / 2) * mp.gamma((s + 1) / 2) * dirichlet(s, tau)
 
 
-def theta(x, nmax=18):
-    tau = parameter()
+def theta(x, nmax=18, tau=None):
+    tau = _resolve_tau(tau)
     a = [0, 1, tau, -tau, -1]
     return mp.fsum(n * a[n % 5] * mp.exp(-mp.pi * n*n*x/5)
                    for n in range(1, nmax + 1))
 
 
-def heat_mp(z, t, nmax=18, upper=4):
-    tau = parameter()
+def heat_mp(z, t, nmax=18, upper=4, tau=None, wave='sin'):
+    tau = _resolve_tau(tau)
+    if wave not in ('sin', 'cos'):
+        raise ValueError("wave must be 'sin' or 'cos'")
     a = [0, 1, tau, -tau, -1]
     coeff = [(n, n*a[n % 5]) for n in range(1, nmax + 1) if a[n % 5]]
 
     def integrand(u):
         q = mp.exp(-mp.pi * mp.exp(2*u) / 5)
         omega = mp.fsum(c * q**(n*n) for n, c in coeff)
-        return 4 * mp.exp(t*u*u + 3*u/2) * omega * mp.sin(z*u)
+        kernel = mp.cos(z*u) if wave == 'cos' else mp.sin(z*u)
+        return 4 * mp.exp(t*u*u + 3*u/2) * omega * kernel
 
     return mp.quad(integrand, [0, mp.mpf('0.5'), 1, 2, upper])
+
+
+def heat_plus_mp(z, t, nmax=18, upper=4, tau=None):
+    """Cosine heat integral for the plus (even-kernel) function."""
+    if tau is None:
+        tau = parameter_plus()
+    return heat_mp(z, t, nmax=nmax, upper=upper, tau=tau, wave='cos')
 
 
 def heat_grid(order=240):

@@ -23,6 +23,26 @@ def test_odd_modular_sign():
         assert abs(left-right) > mp.mpf('0.01')
 
 
+def test_plus_zero_time_matches_completed_series():
+    with mp.workdps(40):
+        tau = pilot.parameter_plus()
+        z = mp.mpc('2', '0.4')
+        value = pilot.heat_plus_mp(z, mp.mpf(0))
+        reference = pilot.completed(mp.mpf('0.5') + 1j*z, tau=tau)
+        assert abs(value-reference) < mp.mpf('1e-34')
+        assert abs(value+reference) > mp.mpf('0.01')
+
+
+def test_even_modular_sign():
+    with mp.workdps(40):
+        tau = pilot.parameter_plus()
+        x = mp.mpf('1.2')
+        left = pilot.theta(1/x, tau=tau)
+        right = x**mp.mpf('1.5') * pilot.theta(x, tau=tau)
+        assert abs(left-right) < mp.mpf('1e-35')
+        assert abs(left+right) > mp.mpf('0.01')
+
+
 def test_ball_matches_independent_zero_time_value():
     from hunts.dh_minus_heat import odd_ball
     from flint import acb, arb, ctx

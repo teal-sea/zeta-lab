@@ -77,7 +77,7 @@ independent model reviews completed.** A rational disk at narrow heat time `217/
 a Taylor/Rouche inequality at three Arb precisions, including all theta and
 integration tails. A simpler Euler-phase calculation on Arb and mpmath.iv
 supplies the candidate bracket `217/200 < Lambda_minus <= 567009/320000`.
-The odd theta normalization is checked against a separate Hurwitz-zeta route.
+The odd theta normalization is checked against a separate Hurwitz-zeta route; the plus cosine normalization is now stated and checked the same way.
 No RH, novelty or formal-proof claim. See [the argument](dh_minus_heat/RESULTS.md)
 and its executable checker; the lower-bound quadrature uses Arb only.
 

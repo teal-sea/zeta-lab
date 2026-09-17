@@ -7,8 +7,11 @@ a kernel-checked result, and no novelty claim is made.
 
 ## Candidate result
 
-For `phi=(1+sqrt(5))/2` and `tau_minus=-phi-sqrt(1+phi^2)`, use the
-period-five real coefficients `(1,tau_minus,-tau_minus,-1,0)`. In the narrow
+For `phi=(1+sqrt(5))/2` put `tau_plus=sqrt(1+phi^2)-phi` and
+`tau_minus=-phi-sqrt(1+phi^2)`, so `tau_plus=-1/tau_minus`. For either
+choice `tau`, use the period-five real coefficients
+`a_tau=(1,tau,-tau,-1,0)` mod 5, with `D_tau`, `F_tau`, `omega_tau`,
+`g_tau`, `H_{plus,t}`, `H_{minus,t}` defined in section 1. In the narrow
 coordinate `s=1/2+iz`, the calculation supports
 
     217/200 < Lambda_minus <= 567009/320000 = 1.771903125.
@@ -17,6 +20,10 @@ The wide coordinate `s=(1+iz)/2` multiplies heat times by four:
 
     217/50 < Lambda_minus_wide <= 567009/80000 = 7.0876125.
 
+In the same narrow frame, the plus function supports
+`Lambda_plus <= 1/2` (section 6), hence `Lambda_plus_wide <= 2` in the
+wide frame by the same unchanged factor of four.
+
 The lower step uses two explicit disks, not a finite scan upgraded into a
 uniform zero statement. The upper step uses a zero-free half-plane argument
 and de Bruijn's strip contraction theorem. That theorem allows a complex
@@ -24,17 +31,20 @@ Hermitian kernel; it does not require a real even kernel.[1]
 
 ## 1. Fourier and Mellin normalization
 
-Let `a` denote either real coefficient pattern, and define
+Fix `phi=(1+sqrt(5))/2`, `tau_plus=sqrt(1+phi^2)-phi`,
+`tau_minus=-phi-sqrt(1+phi^2)`. For either `tau`, let
+`a_tau=(1,tau,-tau,-1,0)` mod 5, and define
 
-    omega(x) = sum_{n>=1} n a(n) exp(-pi n^2 x/5),
-    D(s) = sum_{n>=1} a(n)n^(-s),
-    F(s) = (5/pi)^((s+1)/2) Gamma((s+1)/2) D(s).
+    omega_tau(x) = sum_{n>=1} n a_tau(n) exp(-pi n^2 x/5),
+    D_tau(s) = sum_{n>=1} a_tau(n)n^(-s),
+    F_tau(s) = (5/pi)^((s+1)/2) Gamma((s+1)/2) D_tau(s).
 
-The series for D is absolutely convergent for `Re(s)>1`. Its expression
-`5^(-s) sum_{r=1}^4 a(r) zeta(s,r/5)` continues it; the residues at 1 cancel.
-The Mellin transform gives
+All of section 1 works in the narrow frame `s=1/2+iz`. The series for
+`D_tau` is absolutely convergent for `Re(s)>1`. Its expression
+`5^(-s) sum_{r=1}^4 a_tau(r) zeta(s,r/5)` continues it; the residues at 1
+cancel. The Mellin transform gives
 
-    F(s) = integral_0^infty omega(x) x^((s-1)/2) dx.
+    F_tau(s) = integral_0^infty omega_tau(x) x^((s-1)/2) dx.
 
 To determine the sign, use the finite Fourier transform
 `ahat(b)=sum_{c mod5}a(c) exp(-2pi i bc/5)/5`. Put
@@ -45,26 +55,50 @@ To determine the sign, use the finite Fourier transform
 
 The eigenvector equation is `w*tau^2+2v*tau-w=0`. Since `v/w=phi` and
 `v^2+w^2=5/4`, its two roots are the stated `tau_plus` and `tau_minus`.
-For the minus root, `v+tau_minus*w=-sqrt(5)/2`, hence
-`ahat=+i*a/sqrt(5)`. Poisson summation applied to
+For the plus root, `v+tau_plus*w=+sqrt(5)/2`, hence
+`ahat=-i*a/sqrt(5)`. Poisson summation applied to
 `x exp(-pi t x^2/5)` gives
 
-    omega(x) = i sqrt(5) x^(-3/2) sum_{n>=1} n ahat(n) exp(-pi n^2/(5x)),
-    omega(1/x) = -x^(3/2) omega(x).
+    omega_plus(x) = -i sqrt(5) x^(-3/2) sum_{n>=1} n ahat(n) exp(-pi n^2/(5x)),
+    omega_plus(1/x) = +x^(3/2) omega_plus(x).
 
-Consequently `g(u)=exp(3u/2)omega(exp(2u))` is real and odd. Splitting
-the Mellin integral at 1 and substituting `x=exp(2u)` yields
+Consequently `g_plus(u)=exp(3u/2)omega_plus(exp(2u))` is real and even.
+Splitting the Mellin integral at 1 and substituting `x=exp(2u)` yields
 
-    F(1/2+iz) = 4i integral_0^infty g(u) sin(zu) du.
+    F_plus(1/2+iz) = 4 integral_0^infty g_plus(u) cos(zu) du.
+
+Define the plus heat flow by
+
+    H_plus,t(z) = 4 integral_0^infty exp(tu^2) g_plus(u) cos(zu) du.
+
+Thus `H_plus,0=F_plus(1/2+iz)`. Its whole-line Fourier kernel is the real
+even function `K_plus(u)=2 g_plus(u)`.
+
+For the minus root, `v+tau_minus*w=-sqrt(5)/2`, hence
+`ahat=+i*a/sqrt(5)`. Poisson summation gives
+
+    omega_minus(x) = i sqrt(5) x^(-3/2) sum_{n>=1} n ahat(n) exp(-pi n^2/(5x)),
+    omega_minus(1/x) = -x^(3/2) omega_minus(x).
+
+Consequently `g_minus(u)=exp(3u/2)omega_minus(exp(2u))` is real and odd.
+Splitting the Mellin integral at 1 and substituting `x=exp(2u)` yields
+
+    F_minus(1/2+iz) = 4i integral_0^infty g_minus(u) sin(zu) du.
 
 Define
 
-    H_t(z) = 4 integral_0^infty exp(tu^2) g(u) sin(zu) du.
+    H_minus,t(z) = 4 integral_0^infty exp(tu^2) g_minus(u) sin(zu) du.
 
-Thus `H_0=-i F(1/2+iz)`. Its whole-line Fourier kernel is `K(u)=-2i g(u)`:
-`K(u)=conj(K(-u))`. The sign and factor are pinned against an independent
-Hurwitz-zeta evaluation and by the odd modular identity. The coefficients
-are bounded by `M=abs(tau_minus)`, which is greater than one.
+Thus `H_minus,0=-i F_minus(1/2+iz)`. Its whole-line Fourier kernel is
+`K_minus(u)=-2i g_minus(u)`: `K_minus(u)=conj(K_minus(-u))`. The rest of
+this packet writes `H_t`, `g`, `omega`, `F`, `D` for the minus objects
+`H_minus,t`, `g_minus`, `omega_minus`, `F_minus`, `D_minus`. The sign and
+factor are pinned against an independent Hurwitz-zeta evaluation and by
+the odd modular identity; the plus sign and cosine identity are pinned by
+the `even_theta_transform` and `plus_zero_time_cosine_identity` checks in
+`verify.py` and the two new tests in `test_heat.py`. The minus
+coefficients are bounded by `M=abs(tau_minus)`, which is greater than one;
+the plus coefficients satisfy `abs(a_n)<=1` since `0<tau_plus<1`.
 
 At positive infinity, `g(u)` decays as a polynomial exponential times
 `exp(-pi exp(2u)/5)`; at negative infinity use oddness. This proves the
@@ -243,10 +277,15 @@ That comparison does not need the inherited first-function bound. At
 
 Both Arb and mpmath.iv enclose this strict inequality in
 `first_comparison.json`. First-term domination and the plus functional
-equation put all first-function zeros in a narrow z-strip of half-width one.
-The same de Bruijn contraction gives
+equation put all zeros of `F_plus`, hence of `H_plus,0`, in a narrow
+z-strip of half-width one. The same de Bruijn contraction applied to the
+plus cosine flow `H_plus,t` gives
 
-    Lambda_plus <= 1/2 < 217/200 < Lambda_minus.
+    Lambda_plus <= 1/2 < 217/200 < Lambda_minus,
+
+in the narrow frame, i.e. `Lambda_plus_wide <= 2` by the same unchanged
+factor of four. `Lambda_plus` here is the threshold of `H_plus,t`, not of
+the generic or minus flow.
 
 Thus the two conductor-five heat constants are separated by this packet if
 the ordinary analytic argument and enclosed computations survive review. The
@@ -283,7 +322,8 @@ most open to sharpening. Neither constraint says the current bracket is exact.
 ### Frozen-constant inventory
 
 The frozen constants are the narrow frame `s=1/2+iz`, heat multiplier
-`exp(tu^2)`, `tau_minus=-phi-sqrt(1+phi^2)`, the time-one centre and radius,
+`exp(tu^2)`, `tau_plus=sqrt(1+phi^2)-phi`,
+`tau_minus=-phi-sqrt(1+phi^2)`, the time-one centre and radius,
 the coarse Rouche bounds `1e-14`, `0.015`, and `2.35`, theta cutoffs 24, 26,
 and 28, integration cutoffs 4 and 7/2, phase cutoff 10000, and strip abscissa
 `953/400`. The first-function comparison freezes `sigma=3/2` and `N=20`.
