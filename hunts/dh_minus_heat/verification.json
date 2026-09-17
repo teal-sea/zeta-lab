@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-09-17T17:55:03.558198+00:00",
+  "frame": "narrow s=1/2+iz",
+  "checks": [
+    {
+      "name": "time_one_heat_derivative_0",
+      "dps": 55,
+      "reference_real": "-0.0000000000000019661767059857567856544527964173882885517950184773",
+      "reference_imag": "0.0000000000000044915719143324596718008204502808062816928838272505",
+      "overlap": true,
+      "reference_grade": "floating-point quadrature, not an enclosure"
+    },
+    {
+      "name": "time_one_heat_derivative_1",
+      "dps": 55,
+      "reference_real": "0.003938273208579137454554652131304053963986592131994",
+      "reference_imag": "0.014705575600944740778709900680368905173611815048803",
+      "overlap": true,
+      "reference_grade": "floating-point quadrature, not an enclosure"
+    },
+    {
+      "name": "time_217_over_200_heat_derivative_0",
+      "dps": 55,
+      "reference_real": "-0.0000000000000041976938021389702962343527203956228796188989601898",
+      "reference_imag": "6.8520074069056790101138305971494344900789353427428e-16",
+      "overlap": true,
+      "reference_grade": "floating-point quadrature, not an enclosure"
+    },
+    {
+      "name": "time_217_over_200_heat_derivative_1",
+      "dps": 55,
+      "reference_real": "0.00012629456414126127614466982335377730405031410907006",
+      "reference_imag": "0.0028604866899191410724035061098933487337677507181628",
+      "overlap": true,
+      "reference_grade": "floating-point quadrature, not an enclosure"
+    },
+    {
+      "name": "odd_theta_transform",
+      "dps": 55,
+      "absolute_defect": "1.01957882312e-56"
+    },
+    {
+      "name": "zero_time_Hurwitz_identity",
+      "dps": 55,
+      "absolute_defect": "1.44190219957e-56"
+    },
+    {
+      "name": "underresolved_series_refuses",
+      "nmax": 2,
+      "decided": false
+    },
+    {
+      "name": "displaced_centre_refuses",
+      "decided": false
+    }
+  ],
+  "written_margins": {
+    "time_one": "5999913/4000000000000000",
+    "time_217_over_200": "559961/2000000000000000"
+  },
+  "narrow_bracket": {
+    "strict_lower": "217/200",
+    "upper": "567009/320000"
+  },
+  "wide_bracket": {
+    "strict_lower": "217/50",
+    "upper": "567009/80000"
+  },
+  "first_function_upper_narrow": "1/2",
+  "seconds": 5.509547291032504,
+  "source_sha256": {
+    "odd_ball.py": "6e209b21ad92033c23beab3e8ee46dd85271a30dcf8e290e5a46aebe9ba37fb1",
+    "phase_bound.py": "125fc8b5c4b7d77ed6807924116e9818df48aefb5b138fc0a40c974cfe55b485",
+    "pilot.py": "8e0f859609937cb59cb2855db21e7687f219caec8eea0de4c26c7db69d5831c6",
+    "test_heat.py": "d0614bf8b5b559b65eb366258c70e56d95f71d02e7f322c0adeea97ba6f81612",
+    "verify.py": "7e77288a546d43ee1a2441e42ef764b2f5151980a973bb908d60211eab905c15"
+  }
+}
