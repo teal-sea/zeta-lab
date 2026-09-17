@@ -1,7 +1,7 @@
 [project]
 name = "bloch-certificate"
 description = "Archive-backed Bloch certificate reproduction and near-branch target calibration"
-version = "0.1.0"
+version = "0.1.1"
 requires-python = ">=3.12,<3.13"
 license = "MIT"
 authors = [{name = "Thomas Lince"}]
