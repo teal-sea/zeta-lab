@@ -25,6 +25,12 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Default depth 1 leaves the clone shallow, and guards that read
+          # history then refuse to answer rather than guess: the Hardy Z
+          # dossier staleness check skipped on every CI run for five days
+          # for exactly this reason (issues #218, #219).
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -42,6 +48,12 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Default depth 1 leaves the clone shallow, and guards that read
+          # history then refuse to answer rather than guess: the Hardy Z
+          # dossier staleness check skipped on every CI run for five days
+          # for exactly this reason (issues #218, #219).
+          fetch-depth: 0
 
       - name: cache elan and lake
         uses: actions/cache@v4

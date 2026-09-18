@@ -28,6 +28,7 @@ import pytest
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+pytest.importorskip("yaml", reason="palomar_correspondence needs pyyaml")
 import palomar_correspondence as pc  # noqa: E402
 
 # The commit whose record was refused, and the fix that followed it.
