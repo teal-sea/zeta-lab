@@ -221,6 +221,37 @@ def test_compile_records_timing_peak_rss_and_site_result(tmp_path):
     assert summary["result"].endswith("results/Cmem.json")
 
 
+def test_separate_output_root_links_olean_beside_source(tmp_path):
+    _write_fake_lake(tmp_path)
+    modules = ["Clink/Base.lean", "Clink/Primes.lean"]
+    man = _site(tmp_path, "Clink", modules)
+    results = _run(tmp_path, [man])
+    assert results[0]["status"] == "ok"
+    src_olean = tmp_path / "gen" / "Clink" / "Base.olean"
+    out_olean = tmp_path / "out" / "Clink" / "Base.olean"
+    assert out_olean.is_file()
+    assert src_olean.is_file()
+    assert src_olean.read_bytes() == out_olean.read_bytes()
+    assert results[0]["modules"][0]["root_olean"].endswith("Clink/Base.olean")
+
+
+def test_resume_relinks_source_olean_for_skipped_module(tmp_path):
+    _write_fake_lake(tmp_path)
+    modules = ["Crelink/Base.lean", "Crelink.lean"]
+    man = _site(tmp_path, "Crelink", modules)
+    first = _run(tmp_path, [man])
+    assert first[0]["status"] == "ok"
+    src_olean = tmp_path / "gen" / "Crelink" / "Base.olean"
+    assert src_olean.is_file()
+    src_olean.unlink()
+    (tmp_path / "log").write_text("")
+    second = _run(tmp_path, [man])
+    assert second[0]["status"] == "ok"
+    assert [m["status"] for m in second[0]["modules"]] == ["skipped", "skipped"]
+    assert src_olean.is_file()
+    assert _load(tmp_path / "log") == []
+
+
 def test_peak_rss_bytes_converts_linux_kib_and_darwin_bytes(monkeypatch):
     assert drv.peak_rss_bytes(None) is None
     monkeypatch.setattr(drv.sys, "platform", "darwin")
