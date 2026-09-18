@@ -1,13 +1,13 @@
 [project]
 name = "bloch-certificate"
 description = "Archive-backed Bloch certificate reproduction and near-branch target calibration"
-version = "0.1.1"
+version = "0.1.2"
 requires-python = ">=3.12,<3.13"
 license = "MIT"
 authors = [{name = "Thomas Lince"}]
 readme = "README.md"
 tags = ["math", "tool-use", "eval", "certificate-verification"]
-dependencies = ["verifiers==0.2.1", "python-flint==0.9.0", "numpy==2.5.1", "scipy==1.18.0"]
+dependencies = ["verifiers==0.2.1", "datasets==5.0.1", "python-flint==0.9.0", "numpy==2.5.1", "scipy==1.18.0"]
 
 [dependency-groups]
 dev = ["pytest>=8,<10"]
@@ -20,7 +20,7 @@ build-backend = "hatchling.build"
 packages = ["bloch_certificate"]
 
 [tool.hatch.build.targets.sdist]
-include = ["bloch_certificate", "tests", "README.md", "MISSION.md", "LICENSE", "THIRD_PARTY.md", "pyproject.toml"]
+include = ["bloch_certificate", "tests", "README.md", "pyproject.toml"]
 
 [project.scripts]
 bloch-prepare = "bloch_certificate.cli:main_prepare"

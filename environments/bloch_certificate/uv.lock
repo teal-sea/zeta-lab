@@ -143,9 +143,10 @@ wheels = [
 
 [[package]]
 name = "bloch-certificate"
-version = "0.1.1"
+version = "0.1.2"
 source = { editable = "." }
 dependencies = [
+    { name = "datasets" },
     { name = "numpy" },
     { name = "python-flint" },
     { name = "scipy" },
@@ -159,6 +160,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "datasets", specifier = "==5.0.1" },
     { name = "numpy", specifier = "==2.5.1" },
     { name = "python-flint", specifier = "==0.9.0" },
     { name = "scipy", specifier = "==1.18.0" },
