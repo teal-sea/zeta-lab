@@ -194,6 +194,41 @@ def test_lean_argv_is_root_then_absolute_source_and_olean():
         pass
 
 
+def test_compile_records_timing_peak_rss_and_site_result(tmp_path):
+    _write_fake_lake(tmp_path)
+    modules = ["Cmem/Base.lean", "Cmem.lean"]
+    man = _site(tmp_path, "Cmem", modules)
+    results = _run(tmp_path, [man])
+    assert results[0]["status"] == "ok"
+    assert isinstance(results[0]["elapsed"], float) and results[0]["elapsed"] >= 0
+    rec = results[0]["modules"][0]
+    assert isinstance(rec["elapsed"], float) and rec["elapsed"] >= 0
+    if hasattr(os, "wait4"):
+        assert isinstance(rec["user"], float) and rec["user"] >= 0
+        assert isinstance(rec["system"], float) and rec["system"] >= 0
+        assert isinstance(rec["peak_rss_bytes"], int) and rec["peak_rss_bytes"] > 0
+        assert results[0]["peak_rss_bytes"] == max(
+            m["peak_rss_bytes"] for m in results[0]["modules"])
+        assert results[0]["user"] == sum(m["user"] for m in results[0]["modules"])
+        assert results[0]["system"] == sum(m["system"] for m in results[0]["modules"])
+    ckpt = json.loads(
+        (tmp_path / "out" / "checkpoints" / "Cmem" / "Cmem__Base.lean.ok.json"
+         ).read_text())
+    assert ckpt["peak_rss_bytes"] == rec["peak_rss_bytes"]
+    summary = json.loads((tmp_path / "out" / "results" / "Cmem.json").read_text())
+    assert summary["status"] == "ok"
+    assert summary["peak_rss_bytes"] == results[0]["peak_rss_bytes"]
+    assert summary["result"].endswith("results/Cmem.json")
+
+
+def test_peak_rss_bytes_converts_linux_kib_and_darwin_bytes(monkeypatch):
+    assert drv.peak_rss_bytes(None) is None
+    monkeypatch.setattr(drv.sys, "platform", "darwin")
+    assert drv.peak_rss_bytes(4096) == 4096
+    monkeypatch.setattr(drv.sys, "platform", "linux")
+    assert drv.peak_rss_bytes(4096) == 4096 * 1024
+
+
 def test_compile_runs_modules_in_manifest_order(tmp_path):
     _write_fake_lake(tmp_path)
     modules = [

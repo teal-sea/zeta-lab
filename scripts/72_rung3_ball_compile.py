@@ -245,13 +245,29 @@ def _atomic_write_json(path: Path, payload: dict) -> None:
     os.replace(tmp, path)
 
 
-def _wait_module(proc: subprocess.Popen) -> tuple[int, float | None, float | None]:
+def peak_rss_bytes(ru_maxrss: int | None) -> int | None:
+    """Convert wait4 ru_maxrss to bytes. Linux reports KiB; macOS reports bytes."""
+    if ru_maxrss is None:
+        return None
+    if sys.platform == "darwin":
+        return int(ru_maxrss)
+    return int(ru_maxrss) * 1024
+
+
+def _wait_module(
+    proc: subprocess.Popen,
+) -> tuple[int, float | None, float | None, int | None]:
     if hasattr(os, "wait4"):
         _, status, ru = os.wait4(proc.pid, 0)
         proc.returncode = os.waitstatus_to_exitcode(status)
-        return proc.returncode, float(ru.ru_utime), float(ru.ru_stime)
+        return (
+            proc.returncode,
+            float(ru.ru_utime),
+            float(ru.ru_stime),
+            peak_rss_bytes(int(ru.ru_maxrss)),
+        )
     returncode = proc.wait()
-    return returncode, None, None
+    return returncode, None, None, None
 
 
 def _run_module(
@@ -275,7 +291,7 @@ def _run_module(
         with open(log_path, "wb") as log:
             proc = subprocess.Popen(
                 argv, cwd=str(cwd), env=env, stdout=log, stderr=subprocess.STDOUT)
-            returncode, user, system = _wait_module(proc)
+            returncode, user, system, peak = _wait_module(proc)
     except OSError as exc:
         raise CompileError(f"failed to invoke lake env lean: {exc}") from exc
     finally:
@@ -289,20 +305,42 @@ def _run_module(
         "elapsed": elapsed,
         "user": user,
         "system": system,
+        "peak_rss_bytes": peak,
         "log": str(log_path),
     }
 
 
 def _skip_record(rel: str, previous: dict | None, ckpt: Path) -> dict:
+    previous = previous or {}
     return {
         "path": rel,
         "status": "skipped",
         "returncode": 0,
-        "elapsed": previous.get("elapsed") if previous else None,
-        "user": previous.get("user") if previous else None,
-        "system": previous.get("system") if previous else None,
+        "elapsed": previous.get("elapsed"),
+        "user": previous.get("user"),
+        "system": previous.get("system"),
+        "peak_rss_bytes": previous.get("peak_rss_bytes"),
         "checkpoint": str(ckpt),
     }
+
+
+def _numeric_sum(records: list[dict], key: str) -> float | None:
+    vals = [r[key] for r in records if isinstance(r.get(key), (int, float))]
+    return float(sum(vals)) if vals else None
+
+
+def _numeric_max(records: list[dict], key: str) -> int | float | None:
+    vals = [r[key] for r in records if isinstance(r.get(key), (int, float))]
+    return max(vals) if vals else None
+
+
+def write_site_result(output_root: Path, result: dict) -> Path:
+    """Persist the site compile record next to checkpoints."""
+    root = result["root"]
+    path = Path(output_root) / "results" / f"{root}.json"
+    result["result"] = str(path)
+    _atomic_write_json(path, result)
+    return path
 
 
 def compile_site(
@@ -348,6 +386,7 @@ def compile_site(
     in_flight: dict = {}
     site_failed = False
     stopped = False
+    t0 = time.perf_counter()
 
     def pick_ready() -> list[str]:
         return [
@@ -378,6 +417,7 @@ def compile_site(
             "elapsed": ran["elapsed"],
             "user": ran["user"],
             "system": ran["system"],
+            "peak_rss_bytes": ran["peak_rss_bytes"],
             "source": rel,
             "olean": str(olean_abs),
             "argv": ran["argv"],
@@ -394,6 +434,7 @@ def compile_site(
                 "elapsed": ran["elapsed"],
                 "user": ran["user"],
                 "system": ran["system"],
+                "peak_rss_bytes": ran["peak_rss_bytes"],
                 "source": rel,
                 "olean": str(olean_abs),
                 "bytes": size,
@@ -450,13 +491,19 @@ def compile_site(
         status = "failed"
     elif len(completed) != len(order):
         status = "failed"
-    return {
+    result = {
         "root": root,
         "status": status,
         "manifest": str(manifest_path),
         "modules": records,
         "lean_path": env["LEAN_PATH"],
+        "elapsed": time.perf_counter() - t0,
+        "user": _numeric_sum(records, "user"),
+        "system": _numeric_sum(records, "system"),
+        "peak_rss_bytes": _numeric_max(records, "peak_rss_bytes"),
     }
+    write_site_result(output_root, result)
+    return result
 
 
 def compile_manifests(
@@ -528,9 +575,30 @@ def compile_manifests(
     return [results_by_path[str(path)] for path in paths]
 
 
+def _fmt_rss(peak) -> str:
+    if not isinstance(peak, (int, float)):
+        return "na"
+    if peak >= 1024 * 1024:
+        return f"{peak / (1024 * 1024):.1f}MiB"
+    if peak >= 1024:
+        return f"{peak / 1024:.1f}KiB"
+    return f"{int(peak)}B"
+
+
 def _print_result(result: dict) -> None:
     root = result.get("root", "?")
-    print(f"{root} status={result.get('status')}", flush=True)
+    extra = ""
+    elapsed = result.get("elapsed")
+    if isinstance(elapsed, (int, float)):
+        extra += f" elapsed={elapsed:.3f}"
+    user = result.get("user")
+    system = result.get("system")
+    if isinstance(user, (int, float)):
+        extra += f" user={user:.3f}"
+    if isinstance(system, (int, float)):
+        extra += f" system={system:.3f}"
+    extra += f" peak_rss={_fmt_rss(result.get('peak_rss_bytes'))}"
+    print(f"{root} status={result.get('status')}{extra}", flush=True)
     for rec in result.get("modules", []):
         user = rec.get("user")
         system = rec.get("system")
@@ -539,6 +607,7 @@ def _print_result(result: dict) -> None:
             extra += f" user={user:.3f}"
         if system is not None:
             extra += f" system={system:.3f}"
+        extra += f" peak_rss={_fmt_rss(rec.get('peak_rss_bytes'))}"
         elapsed = rec.get("elapsed")
         elapsed_s = f"{elapsed:.3f}" if isinstance(elapsed, (int, float)) else "na"
         print(
