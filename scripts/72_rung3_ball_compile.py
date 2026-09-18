@@ -11,9 +11,11 @@ input and ``-o`` paths are absolute files derived from that parent, the
 output root, and the relative manifest entry, because a relative input is
 not resolved against ``--root``.  The manifest itself stays relative and
 traversal-safe.  ``LEAN_PATH`` always contains the generated source root.
-``lake`` is invoked only as ``lake env lean ...``; this driver never runs
-``lake build``, never installs a toolchain, and never deletes sources or
-oleans.
+Same-root imports still load ``SOURCE_ROOT/module.olean``, not an olean
+that lives only under ``--output-root``, so every successful olean is also
+linked next to its source.  ``lake`` is invoked only as ``lake env lean ...``;
+this driver never runs ``lake build``, never installs a toolchain, and never
+deletes sources or oleans.
 
 Each successful module is checkpointed atomically under ``--output-root``
 with status, return code, byte count, and a SHA-256 of the source.  A later
@@ -157,6 +159,31 @@ def checkpoint_path(output_root: Path, root: str, module_path: str) -> Path:
 def olean_path(output_root: Path, module_path: str) -> Path:
     rel = str(Path(module_path).with_suffix(".olean")).replace("\\", "/")
     return resolve_inside(output_root, rel)
+
+
+def root_olean_path(source_root: Path, module_path: str) -> Path:
+    rel = str(Path(module_path).with_suffix(".olean")).replace("\\", "/")
+    return resolve_inside(source_root, rel)
+
+
+def ensure_root_olean(source_root: Path, module_path: str, olean_abs: Path) -> Path:
+    """Make SOURCE_ROOT/module.olean exist. Lean --root ignores LEAN_PATH for it."""
+    olean_abs = Path(olean_abs)
+    if not olean_abs.is_file():
+        raise CompileError(f"olean missing: {olean_abs}")
+    visible = root_olean_path(source_root, module_path)
+    if visible.resolve() == olean_abs.resolve():
+        return visible
+    visible.parent.mkdir(parents=True, exist_ok=True)
+    if visible.exists() or visible.is_symlink():
+        if visible.is_file() and os.path.samefile(visible, olean_abs):
+            return visible
+        visible.unlink()
+    try:
+        os.link(olean_abs, visible)
+    except OSError:
+        os.symlink(olean_abs, visible)
+    return visible
 
 
 def lean_argv(
@@ -441,6 +468,8 @@ def compile_site(
                 "sha256": digest,
             })
             record["checkpoint"] = str(ckpt)
+            record["root_olean"] = str(
+                ensure_root_olean(source_root, rel, olean_abs))
         return record
 
     with ThreadPoolExecutor(max_workers=module_jobs) as pool:
@@ -458,6 +487,7 @@ def compile_site(
                     dep_rebuilt = any(dep in rebuilt for dep in graph[path])
                     if not dep_rebuilt and checkpoint_is_verified(
                             previous, source_abs, olean_abs):
+                        ensure_root_olean(source_root, path, olean_abs)
                         completed[path] = _skip_record(path, previous, ckpt)
                         scheduled = True
                         continue
