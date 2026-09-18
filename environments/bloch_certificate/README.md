@@ -2,9 +2,9 @@
 
 A model gets read-only access to Frank Wikström's published Bloch certificate
 verifier. It must reproduce two archived certificate values, reproduce the
-published near-branch target, and calibrate the highest decimal target accepted
-by the shipped near branch. Reward comes from the archive's own Arb verifier,
-not an LLM judge.
+published near-branch target, and find an accepted decimal target within
+`1e-10` below the shipped near-branch cutoff. Reward comes from the archive's
+own Arb verifier, not an LLM judge.
 
 This is a public seed environment from Zeta Lab Hunt #80. It is deliberately
 small: four public calibration rows, no hidden test claim, no Lean rung, and no
@@ -48,17 +48,32 @@ same positivity check, lower floor, and strict upper cutoff.
 
 ## Run
 
+Install the published Hub version:
+
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -e environments/bloch_certificate
+prime env install thomas-lince/bloch-certificate@latest
+bloch-prepare
+bloch-smoke
+vf-eval bloch-certificate --model <provider/model> -n 4 -r 1
+```
+
+Or, from either this standalone source directory or the package directory in
+the Zeta Lab repository:
+
+```bash
+python3.12 -m venv .venv
+.venv/bin/pip install -e .
 .venv/bin/bloch-prepare
 .venv/bin/bloch-smoke
-.venv/bin/vf-eval bloch-certificate   --env-dir-path environments   --model <provider/model> -n 4 -r 1
+.venv/bin/vf-eval bloch-certificate --model <provider/model> -n 4 -r 1
 ```
 
 `bloch-prepare` downloads once into `~/.cache/bloch-certificate/` and verifies
 the digest. `load_environment()` also prepares a missing default archive.
 `bloch-smoke` runs four positive and four negative controls without a model.
+Python 3.12 is intentionally required because that is the interpreter pinned by
+the upstream archive and exercised by this package's CI. Support is not claimed
+for an interpreter the certificate has not been replayed under.
 
 ## What the evidence means
 
