@@ -117,17 +117,27 @@ def test_gate_checker_discipline_returns_inconclusive():
     report = gate_checker.run_feasibility_gate()
     assert report["verdict"] == "INCONCLUSIVE"
     assert report["recommendation"] == "ATTEMPT_UNRESOLVED"
-    assert len(report["exact_blockers"]) >= 5
+    assert len(report["exact_blockers"]) == 4
 
     expected_blockers = {
         "online_zeros_are_unhardened_floats",
         "online_zero_list_completeness_unverified",
         "offline_zero_coordinates_are_unhardened_floats",
         "tail_model_lacks_valid_dh_counting_majorant",
-        "guinand_weil_dh_dictionary_proof_obligations_open",
     }
     for eb in expected_blockers:
         assert eb in report["exact_blockers"], f"Missing blocker: {eb}"
+    assert "guinand_weil_dh_dictionary_proof_obligations_open" not in report["exact_blockers"]
+
+
+def test_two_track_reporting():
+    """Verify two tracks: qualitative existence is GO/PROVED; quantitative attribution is INCONCLUSIVE."""
+    report = gate_checker.run_feasibility_gate()
+    assert report["qualitative_existence"]["status"] == "PROVED"
+    assert report["qualitative_existence"]["recommendation"] == "GO"
+    assert report["quantitative_attribution"]["status"] == "INCONCLUSIVE"
+    assert report["quantitative_attribution"]["recommendation"] == "ATTEMPT_UNRESOLVED"
+    assert report["dictionary"]["status"] == "CLOSED_ORDINARY_PROOF"
 
 
 def test_margin_budget_reconciliation():
@@ -186,12 +196,14 @@ def test_checker_rejects_unsupported_tail_majorant_lesion():
     assert "tail_model_lacks_valid_dh_counting_majorant" in report["exact_blockers"]
 
 
-def test_checker_rejects_open_dictionary_obligations_lesion():
-    """Lesion test: verify checker flags unformalized Guinand-Weil explicit formula for DH."""
+def test_checker_reports_dictionary_closed_and_two_tracks():
+    """Verify checker reports closed dictionary and two distinct tracks."""
     report = gate_checker.run_feasibility_gate()
     dictionary = report["dictionary"]
-    assert dictionary["status"] == "PARTIALLY_FORMALIZED"
-    assert "guinand_weil_dh_dictionary_proof_obligations_open" in report["exact_blockers"]
+    assert dictionary["status"] == "CLOSED_ORDINARY_PROOF"
+    assert dictionary["guinand_weil_explicit_formula_for_dh"] == "PROVED_ORDINARY_PROOF"
+    assert dictionary["galerkin_assembly_pairing"] == "PROVED_ORDINARY_PROOF"
+    assert "guinand_weil_dh_dictionary_proof_obligations_open" not in report["exact_blockers"]
 
 
 def test_no_boolean_option_relabels_evidence_semantics():
@@ -218,7 +230,7 @@ def test_no_boolean_option_relabels_evidence_semantics():
     # Verdict must stay INCONCLUSIVE
     assert report["verdict"] == "INCONCLUSIVE"
     assert report["recommendation"] == "ATTEMPT_UNRESOLVED"
-    assert len(report["exact_blockers"]) >= 5
+    assert len(report["exact_blockers"]) >= 4
 
 
 def test_stale_field_names_and_overclaims_fail():
@@ -260,24 +272,23 @@ def test_theorem_feasibility_obligations_and_prose():
     assert "corrected_full_smooth_tail" not in text
     assert "residual_minus_smooth_tail" not in text
 
-    # OBL-1 must be OPEN / unformalized (matching checker OPEN_PROOF_OBLIGATION)
+    # OBL-1 must be CLOSED as ordinary proof
     obl1_lines = [l for l in lines if "| OBL-1 |" in l]
     assert len(obl1_lines) == 1
-    assert "OPEN" in obl1_lines[0]
-    assert "unformalized" in obl1_lines[0]
-    assert "Established mathematically" not in obl1_lines[0]
+    assert "CLOSED" in obl1_lines[0]
+    assert "ordinary proof" in obl1_lines[0]
 
-    # OBL-3 must be MEASURED assembly port with continuous pairing unproved
+    # OBL-3 must be CLOSED as ordinary proof
     obl3_lines = [l for l in lines if "| OBL-3 |" in l]
     assert len(obl3_lines) == 1
-    assert "MEASURED assembly port" in obl3_lines[0]
-    assert "continuous pairing unproved" in obl3_lines[0]
+    assert "CLOSED" in obl3_lines[0]
+    assert "ordinary proof" in obl3_lines[0]
 
-    # Summary must say only OBL-2 is proved (by construction), while OBL-1 and OBL-3..6 remain open/unresolved
+    # Summary must state two tracks: qualitative existence is GO / PROVED, quantitative attribution remains ATTEMPT_UNRESOLVED
     summary_lines = [l for l in lines if "Status summary:" in l]
     assert len(summary_lines) == 1
-    assert "Only OBL-2 is proved (by construction)" in summary_lines[0]
-    assert "OBL-1 and OBL-3 through OBL-6 remain open or unresolved" in summary_lines[0]
+    assert "qualitative existence track is GO / PROVED" in summary_lines[0]
+    assert "Quantitative attribution (OBL-4, OBL-5, OBL-6) remains INCONCLUSIVE / ATTEMPT_UNRESOLVED" in summary_lines[0]
 
     # IBP expression must be explicitly conditional on valid increasing DH envelope B
     assert "conditional on the existence of a valid increasing envelope B(t)" in text

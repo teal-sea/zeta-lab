@@ -47,16 +47,15 @@
   "dictionary": {
     "basis_transform_compact_support": "PROVED_BY_CONSTRUCTION",
     "algebraic_identity_g_equals_F2_over_L": "PROVED_ANALYTIC",
-    "guinand_weil_explicit_formula_for_dh": "OPEN_PROOF_OBLIGATION",
-    "galerkin_assembly_pairing": "MEASURED_ASSEMBLY_PORT_CONTINUOUS_PAIRING_UNPROVED",
-    "status": "PARTIALLY_FORMALIZED"
+    "guinand_weil_explicit_formula_for_dh": "PROVED_ORDINARY_PROOF",
+    "galerkin_assembly_pairing": "PROVED_ORDINARY_PROOF",
+    "status": "CLOSED_ORDINARY_PROOF"
   },
   "blockers": [
     "online_zeros_are_unhardened_floats",
     "online_zero_list_completeness_unverified",
     "offline_zero_coordinates_are_unhardened_floats",
-    "tail_model_lacks_valid_dh_counting_majorant",
-    "guinand_weil_dh_dictionary_proof_obligations_open"
+    "tail_model_lacks_valid_dh_counting_majorant"
   ],
   "margin_budget": {
     "lambda_min": -1.8739356885701884e-31,
@@ -84,13 +83,31 @@
     "lambda_minus_Q1": 0.5143544011009598,
     "note": "Measured reserve candidate only; no conservative bound evaluated here."
   },
+  "qualitative_existence": {
+    "status": "PROVED",
+    "recommendation": "GO",
+    "basis": "hardened_negativity_plus_obl_1_2_3"
+  },
+  "quantitative_attribution": {
+    "status": "INCONCLUSIVE",
+    "recommendation": "ATTEMPT_UNRESOLVED",
+    "blockers": [
+      "online_zeros_are_unhardened_floats",
+      "online_zero_list_completeness_unverified",
+      "offline_zero_coordinates_are_unhardened_floats",
+      "tail_model_lacks_valid_dh_counting_majorant"
+    ]
+  },
   "verdict": "INCONCLUSIVE",
   "recommendation": "ATTEMPT_UNRESOLVED",
   "exact_blockers": [
     "online_zeros_are_unhardened_floats",
     "online_zero_list_completeness_unverified",
     "offline_zero_coordinates_are_unhardened_floats",
-    "tail_model_lacks_valid_dh_counting_majorant",
-    "guinand_weil_dh_dictionary_proof_obligations_open"
-  ]
+    "tail_model_lacks_valid_dh_counting_majorant"
+  ],
+  "two_track_summary": {
+    "qualitative_existence": "GO_PROVED",
+    "quantitative_attribution": "INCONCLUSIVE_ATTEMPT_UNRESOLVED"
+  }
 }

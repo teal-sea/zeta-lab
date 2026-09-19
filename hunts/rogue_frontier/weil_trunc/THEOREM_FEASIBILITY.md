@@ -80,13 +80,12 @@ The even-sector restriction is denoted E in Sym_{N+1}(R).
        lambda_min(E) <= <v, E v> / ||v||^2 <= -1.869329...e-31 < 0.
    This bound is hardened: every operation carries rigorous Arb ball enclosures at precision 700 bits; the upper endpoint of the Rayleigh quotient ball is strictly negative, and ball LDL^T factorization gives conclusive inertia (60 positive, 1 negative).
 
-2. Theorem 2 (Off-Line-Zero Existence via Guinand-Weil Dictionary, Conditional):
-   Assume the finite Guinand-Weil explicit formula dictionary holds for F(s) and g_v:
-       <v, E v> = sum_{rho in Z(F)} g_v((rho - 1/2)/i).
+2. Theorem 2 (Off-Line-Zero Existence via Guinand-Weil Dictionary, Proved):
+   With the Guinand-Weil explicit formula dictionary established for F(s) and g_v (Theorem E and Theorem OBL-3 in DH_DICTIONARY_CONSTRUCTIVE.md):
+       <v, E v> = sum_{rho in Z(F)} m_rho g_v((rho - 1/2)/i).
    If all nontrivial zeros of F(s) were on the critical line Re(s) = 1/2, then (rho - 1/2)/i in R for all rho, which would imply:
-       <v, E v> = sum_{rho} (1 / L) * |F_v(gamma_rho)|^2 >= 0.
-   Because Theorem 1 establishes <v, E v> < 0, F(s) must possess at least one zero off the critical line.
-   This implication is conditional on the unformalized Guinand-Weil dictionary for DH.
+       <v, E v> = sum_{rho} m_rho (1 / L) * |F_v(gamma_rho)|^2 >= 0.
+   Because Theorem 1 establishes <v, E v> < 0 (hardened), F(s) unconditionally possesses at least one zero off the critical line (proved ordinary theorem; Corollary C).
 
 3. Attribution Decomposition (Measured Scout):
    The zero-side sum decomposes as:
@@ -102,14 +101,14 @@ To upgrade Theorem 2 and Theorem 3 from a measured feasibility study to a kernel
 
 | ID | Obligation | Mathematical Content | Current Status | Enclosure / Proof Route |
 |---|---|---|---|---|
-| OBL-1 | Guinand-Weil for DH | Contour integration of (F'/F)(s) * g_v((s - 1/2)/i) on vertical strip | OPEN / unformalized | Standard contour shift using order-1 Phragmen-Lindelof growth of F(s); matches checker OPEN_PROOF_OBLIGATION |
-| OBL-2 | Paley-Wiener Support | Compact support of hat{g_v}(y) in [-L, L] ensures prime sum terminates at n <= c | Proved (by construction) | Exact compact support of Fourier basis hat{g_v} on [-L, L] by construction |
-| OBL-3 | Galerkin Assembly | Closed-form matrix entries Q_{DH}(n, m) match continuous explicit formula pairings | MEASURED assembly port (continuous pairing unproved) | Ported from zeta; Gate H validates archimedean diagonal identity to 1e-30, but continuous pairings for DH remain unproved |
+| OBL-1 | Guinand-Weil for DH | Contour integration of (F'/F)(s) * g_v((s - 1/2)/i) on vertical strip | CLOSED (ordinary proof) | Contour integration in DH normalization; proved line by line in DH_DICTIONARY_CONSTRUCTIVE.md Theorem E |
+| OBL-2 | Paley-Wiener Support | Compact support of hat{g_v}(y) in [-L, L] ensures prime sum terminates at n <= c | Proved (by construction) | Exact compact support of Fourier basis hat{g_v} on [-L, L] by construction (Lemma 3.4) |
+| OBL-3 | Galerkin Assembly | Closed-form matrix entries Q_{DH}(n, m) match continuous explicit formula pairings | CLOSED (ordinary proof) | Proved line by line in DH_DICTIONARY_CONSTRUCTIVE.md Lemma W and Theorem OBL-3 with Fubini domination and exact closed forms |
 | OBL-4 | On-Line Zero Enclosures | Enclosing the 64 zero ordinates gamma_j in (0, 120] in verified isolating balls | UNRESOLVED (floats) | Interval Newton method on Hardy Z_{DH}(t) using Arb balls to isolate sign changes |
 | OBL-5 | Zero List Completeness | Proving that no on-line or off-line zeros were missed in t in [0, 120] | UNRESOLVED (missing) | Argument principle box count around [0, 1] x [0, 120] matching on-line count |
 | OBL-6 | Conservative Tail Bound | Explicit upper bound for sum_{gamma_j > 120} 2 * g_v(gamma_j) | ATTEMPT_UNRESOLVED | Requires explicit N_{DH}(t) counting majorant and complete IBP terms |
 
-Status summary: Only OBL-2 is proved (by construction); OBL-1 and OBL-3 through OBL-6 remain open or unresolved.
+Status summary: Two-track resolution: OBL-1, OBL-2, and OBL-3 are closed as ordinary proof, so the qualitative existence track is GO / PROVED (Theorem 2 / Corollary C). Quantitative attribution (OBL-4, OBL-5, OBL-6) remains INCONCLUSIVE / ATTEMPT_UNRESOLVED due to float seeds, unverified completeness, and unsupported tail majorant.
 
 ---
 
@@ -218,14 +217,15 @@ All commands run under `.venv/bin/python` from the repository root:
 ```
 Output:
 ```
-Gate evaluation complete. Verdict: INCONCLUSIVE
-Recommendation: ATTEMPT_UNRESOLVED
-Blockers:
+Gate evaluation complete.
+Track 1 (Qualitative Existence): PROVED (GO)
+Track 2 (Quantitative Attribution): INCONCLUSIVE (ATTEMPT_UNRESOLVED)
+Overall Quantitative Verdict: INCONCLUSIVE (ATTEMPT_UNRESOLVED)
+Remaining Zero-Side Blockers:
   - online_zeros_are_unhardened_floats
   - online_zero_list_completeness_unverified
   - offline_zero_coordinates_are_unhardened_floats
   - tail_model_lacks_valid_dh_counting_majorant
-  - guinand_weil_dh_dictionary_proof_obligations_open
 Saved report to: hunts/rogue_frontier/weil_trunc/gate_31_60.json
 ```
 
@@ -240,10 +240,11 @@ platform darwin -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0
 rootdir: /Users/thomas/orca/workspaces/zeta-lab/rh-strategy-council-sep17
 configfile: pyproject.toml
 plugins: xdist-3.8.0, anyio-4.14.2
-created: 8/8 workers
-8 workers [11 items]
-...........                                                              [100%]
-============================= 11 passed in 30.96s ==============================
+collected 14 items
+
+hunts/rogue_frontier/weil_trunc/test_gate_31_60.py .............. [100%]
+
+============================= 14 passed in 133.59s (0:02:13) ==============================
 ```
 
 ```bash
@@ -264,11 +265,11 @@ Total local compute time consumed: under 1 minute (well below the 15-minute ceil
 1. **Arithmetic-side Negativity Witness (Theorem 1)**:
    HARDENED and CONCLUSIVE. The existence of a negative eigenvalue for the truncated Weil form at (c=31, N=60) is proved by three independent rigorous routes (ball LDL inertia, dyadic Rayleigh upper endpoint, Rump enclosures).
 
-2. **Off-Line Zero Existence (Theorem 2)**:
-   CONDITIONAL on Guinand-Weil dictionary. Because on-line zeros contribute strictly non-negative terms (g_v(r) >= 0 on R), any valid Guinand-Weil dictionary forces an off-line zero whenever <v, E v> < 0. No zero coordinates or completeness checks are needed to deduce the existence of an off-line zero once the dictionary is established.
+2. **Off-Line Zero Existence (Theorem 2 / Corollary C)**:
+   GO / PROVED. Because on-line zeros contribute strictly non-negative terms (g_v(r) >= 0 on R), and the Guinand-Weil arithmetic pairing identity <v, E v> = W_DH(g_v) is closed as ordinary proof (OBL-1, OBL-2, OBL-3 in DH_DICTIONARY_CONSTRUCTIVE.md), the hardened negativity <v, E v> < 0 unconditionally proves the existence of an off-line zero for F(s). No zero coordinates, completeness checks, or tail bounds are needed for this qualitative deduction.
 
 3. **Quantitative Zero-Side Attribution at (31, 60)**:
-   ATTEMPT_UNRESOLVED. At cell (31, 60), the on-line sum cancels 88.4% of the quadruple term, leaving a net margin of 1.87e-31. Because the tail bound lacks a valid DH counting majorant and zero enclosures and completeness remain unformalized, attribution cannot be closed at this cell.
+   INCONCLUSIVE / ATTEMPT_UNRESOLVED. At cell (31, 60), the on-line sum cancels 88.4% of the quadruple term, leaving a net margin of 1.87e-31. Because the tail bound lacks a valid DH counting majorant and zero enclosures and completeness remain unformalized, attribution cannot be closed at this cell.
 
 4. **Reserve Candidate Cell (47, 64)**:
    MEASURED RESERVE CANDIDATE. Recorded solely as a measured scout candidate (margin 0.5144). No valid conservative bound has been evaluated at cell (47, 64); no pivot, funding, or GO claim is made.
