@@ -14,6 +14,14 @@ on:
   schedule:
     - cron: "0 7 * * *"   # 07:00 UTC daily
   workflow_dispatch:
+    inputs:
+      lean_only:
+        description: >-
+          Verify only the lean arm. The numerical full suite is skipped, so a
+          Lean build dispatched by hand does not run beside heavy numerics.
+          Off by default: the nightly and an ordinary dispatch are unchanged.
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -21,6 +29,9 @@ permissions:
 jobs:
   full-suite:
     name: full suite including slow
+    # Skipped only when a dispatch explicitly asks for the lean arm alone.
+    # On the schedule `inputs` is empty, so this is true and the job runs.
+    if: ${{ !inputs.lean_only }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -94,11 +105,10 @@ jobs:
 
       - name: the axioms behind the Mertens chain
         # A band in a theorem statement is only worth what the theorem rests
-        # on, and `lake build` does not check that. `PrintMertensAxioms.lean`
-        # has existed since hunt r_4218d4 with an instruction to run it by
-        # hand; nothing mechanical ever did, so the constants moved twice
-        # without the axiom set being re-read. The oleans are already built by
-        # the step above, so this costs seconds.
+        # on, and `lake build` does not check that; `#print axioms` does.
+        # `hunts/r_4218d4/PrintMertensAxioms.lean` already names the
+        # statements to audit. The oleans are built by the step above, so
+        # this costs seconds.
         working-directory: lean
         run: |
           set -o pipefail
