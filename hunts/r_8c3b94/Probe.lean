@@ -142,10 +142,10 @@ section ThisTree
 #check @ZetaLean.HardyRamanujan.hardy_ramanujan_pointwise
 #check @ZetaLean.HardyRamanujan.hardy_ramanujan_cardDistinctFactors
 #check @ZetaLean.HardyRamanujan.omega_eq_cardDistinctFactors
-#check @ZetaLean.HardyRamanujan.sum_sq_dev_le          -- Turán, 113 (275 when this ran)
+#check @ZetaLean.HardyRamanujan.sum_sq_dev_le          -- Turán, 93 (275 when this ran)
 #check @ZetaLean.HardyRamanujan.second_moment_upper    -- the k = 2 moment
 #check @ZetaLean.HardyRamanujan.card_dvd_pair          -- the k = 2 pair count
-#check @ZetaLean.Mertens.mertens_second_theorem        -- band 10 (16 when this ran)
+#check @ZetaLean.Mertens.mertens_second_theorem        -- band 9 (16 when this ran)
 #check @ZetaLean.Mertens.mertens_first_theorem         -- band log 4 + 3
 
 end ThisTree

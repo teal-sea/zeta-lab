@@ -13,13 +13,14 @@ import ZetaLean.Mertensstheorems
 Mertens's second theorem with an explicit constant, on top of the first
 theorem proved in `ZetaLean.Mertensstheorems`:
 
-* `mertens_second_theorem`: `|∑_{p ≤ N} 1/p − log log N| ≤ 10` for every
+* `mertens_second_theorem`: `|∑_{p ≤ N} 1/p − log log N| ≤ 9` for every
   natural `N` (the sum over primes `p ≤ N`; for `N ≤ 1` both sides are
   interpreted with Mathlib's `log 0 = 0` and the bound is trivial).
 
 The proof is the classical partial summation against
-`A(n) = ∑_{p ≤ n} log p / p = log n + O(1)`, where the `O(1)` band is
-`mertens_first_theorem` (`|A(n) − log n| ≤ log 4 + 3`):
+`A(n) = ∑_{p ≤ n} log p / p = log n + O(1)`, where the `O(1)` band is the
+first theorem taken one side at a time, as
+`−4 ≤ A(n) − log n ≤ log 4 + 3/2` (`mertens_first_bracket`):
 
 * `sum_inv_primes_eq` is the discrete Abel identity
   `∑_{p ≤ N} 1/p = A(N)/log N + ∑_{n=2}^{N−1} A(n)(1/log n − 1/log(n+1))`,
@@ -29,28 +30,37 @@ The proof is the classical partial summation against
   `(v−u)/v ≤ log v − log u ≤ (v−u)/u`, the gap being controlled by
   `∑ 1/n²` (Mathlib's `sum_Ioc_inv_sq_le_sub`).
 
-The constant `10` is explicit and still not optimal (the classical
-bound for the same error is Mertens's own `≤ 4`).  It replaces the `16`
-this file previously carried, and before that a `76`.
+The constant `9` is explicit and still not optimal (the classical bound
+for the same error is Mertens's own `≤ 4`).  It replaces the `16` this
+file carried until the two steps below, and before that a `76`.
 
-Where `10` comes from.  The Mertens band `c = log 4 + 3` of the first
-theorem enters twice, once through the boundary term `A(N)/log N` and
-once through the telescoped tail.  But the two contributions are
-`c · (1/log N)` and `c · (1/log 2 − 1/log N)`, so the `1/log N` cancels
-exactly and together they are `c/log 2 ≤ 4.4 · 1.443 < 6.35`, not twice
-that.  The `16` came from weakening each of the two to `6.35` on its own
-before adding them.  That weakening is the whole of the change here: no
-estimate in the argument moved, and the two sides now read
+Two separate pieces of slack came out, in that order.
 
-    S − loglog N ≤ 1 − loglog 2 + c/log 2 < 1 + 1 + 6.35 = 8.35,
-    S − loglog N ≥ 1 − loglog 2 − 4 − c/log 2 > 1 + 0 − 4 − 6.35 = −9.35.
+**The cancellation.**  The first theorem's band enters twice, once
+through the boundary term `A(N)/log N` and once through the telescoped
+tail, but the two contributions are `c · (1/log N)` and
+`c · (1/log 2 − 1/log N)`: the `1/log N` cancels exactly, so together
+they are `c/log 2`, not twice that.  The file used to weaken each of
+them separately before adding.  Fixing only that, with the symmetric
+`c = log 4 + 3`, gives `8.35` above and `−9.35` below, so a band of `10`.
 
-The slack that is left, largest first: the lower side's `4`, from
+**The asymmetry.**  `mertens_first_theorem` is a symmetric `log 4 + 3`,
+but its proof gives `−4 ≤ A(n) − log n ≤ log 4 + 3/2`, and the two sides
+of the second theorem use opposite halves.  Taking the halves through
+`mertens_first_bracket` instead gives
+
+    S − loglog N ≤ 1 − loglog 2 + (log 4 + 3/2)/log 2 < 1 + 1 + 4.17 = 6.17,
+    S − loglog N ≥ 1 − loglog 2 − 4 − 4/log 2 > 1 + 0 − 4 − 5.78 = −8.78,
+
+so `9`, and the lower side is now the whole of the constraint: the upper
+side would allow `7`.
+
+The slack that is left on the binding side, largest first: the `4` from
 `∑ 1/n²` against the quadratic gap in the logarithm bracket; the `3`
-inside `c`, which bounds a prime-power correction whose limit is
-`0.7553…`; and `loglog 2`, bounded here in `(−1, 0)` when it is
-`−0.3665…`.  The band is also still symmetric while the argument is not:
-only the lower side needs `10`, the upper side gives `8.35`.
+inside the first theorem's own `−4`, which bounds a prime-power
+correction whose limit is `0.7553…`; and `loglog 2`, bounded here in
+`(−1, 0)` when it is `−0.3665…`.  None of those is a cancellation, so
+none of them is free the way the two steps above were.
 -/
 
 namespace ZetaLean.Mertens
@@ -182,11 +192,12 @@ theorem sum_inv_sq_Ico_le_one {N : ℕ} (hN : 2 ≤ N) :
 
 /-! ## Mertens's second theorem -/
 
-/-- Mertens's second theorem with the explicit constant `10`, for `N ≥ 2`:
-`|∑_{p ≤ N} 1/p − log log N| ≤ 10`.  The argument gives `8.35` above and
-`−9.35` below; `10` is the band that covers both. -/
+/-- Mertens's second theorem with the explicit constant `9`, for `N ≥ 2`:
+`|∑_{p ≤ N} 1/p − log log N| ≤ 9`.  The argument gives `6.17` above and
+`−8.78` below; `9` is the band that covers both, and only the lower side
+needs it. -/
 theorem mertens_second_theorem_of_two_le {N : ℕ} (hN : 2 ≤ N) :
-    |(∑ p ∈ Ioc 0 N with p.Prime, ((p : ℝ))⁻¹) - log (log N)| ≤ 10 := by
+    |(∑ p ∈ Ioc 0 N with p.Prime, ((p : ℝ))⁻¹) - log (log N)| ≤ 9 := by
   -- numeric groundwork
   have hlg : (0.6931471803 : ℝ) < log 2 := log_two_gt_d9
   have hll : log 2 < (0.6931471808 : ℝ) := log_two_lt_d9
@@ -200,33 +211,39 @@ theorem mertens_second_theorem_of_two_le {N : ℕ} (hN : 2 ≤ N) :
   have hlog4 : log 4 = 2 * log 2 := by
     rw [show (4 : ℝ) = 2 ^ 2 by norm_num, log_pow]
     norm_num
-  have hc17 : log 4 + 3 ≤ (4.4 : ℝ) := by rw [hlog4]; linarith
+  have hcu : log 4 + 3 / 2 ≤ (2.887 : ℝ) := by rw [hlog4]; linarith
   have hL2neg : log (log 2) < 0 := log_neg hlog2 (by linarith)
   have hL2gt : (-1 : ℝ) < log (log 2) := by
     have h := one_sub_inv_le_log_of_pos hlog2
     linarith
-  -- The Mertens band reaches the answer exactly once, as `c/log 2`.  The
-  -- boundary term contributes `c/log N` and the telescoped tail
-  -- `c (1/log 2 − 1/log N)`; both are carried unweakened below so that the
-  -- `1/log N` cancels, and only their sum is estimated here.
-  have hcinv2 : (log 4 + 3) * (log 2)⁻¹ ≤ 6.35 := by
-    calc (log 4 + 3) * (log 2)⁻¹ ≤ 4.4 * 1.443 :=
-          mul_le_mul hc17 hinv2.le hinvpos.le (by norm_num)
-      _ ≤ 6.35 := by norm_num
-  -- the boundary term `A(N)/log N = 1 + O(c/log N)`, kept unweakened
-  have hAN := mertens_first_theorem (N := N) (by omega)
-  obtain ⟨hANl, hANu⟩ := abs_le.mp hAN
+  -- Each side of the first theorem's bracket reaches the answer exactly
+  -- once, as its own constant over `log 2`.  The boundary term contributes
+  -- `c/log N` and the telescoped tail `c (1/log 2 − 1/log N)`; both are
+  -- carried unweakened below so that the `1/log N` cancels, and only their
+  -- sum is estimated here.  The two `c`s are different, which is the point:
+  -- the upper side never sees the `4` and the lower side never sees `log 4`.
+  have hcu_inv2 : (log 4 + 3 / 2) * (log 2)⁻¹ ≤ 4.17 := by
+    calc (log 4 + 3 / 2) * (log 2)⁻¹ ≤ 2.887 * 1.443 :=
+          mul_le_mul hcu hinv2.le hinvpos.le (by norm_num)
+      _ ≤ 4.17 := by norm_num
+  have hcl_inv2 : (4 : ℝ) * (log 2)⁻¹ ≤ 5.78 := by
+    calc (4 : ℝ) * (log 2)⁻¹ ≤ 4 * 1.443 :=
+          mul_le_mul_of_nonneg_left hinv2.le (by norm_num)
+      _ ≤ 5.78 := by norm_num
+  -- the boundary term `A(N)/log N = 1 + O(1/log N)`, kept unweakened
+  have hANu := sum_log_div_prime_sub_log_le (N := N) (by omega)
+  have hANl := neg_four_le_sum_log_div_prime_sub_log (N := N) (by omega)
   have hEq : (∑ p ∈ Ioc 0 N with p.Prime, log p / p) / log N - 1
       = ((∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N) * (log (N : ℝ))⁻¹ := by
     rw [sub_mul, mul_inv_cancel₀ hlogN.ne', div_eq_mul_inv]
   have hHead_ub : (∑ p ∈ Ioc 0 N with p.Prime, log p / p) / log N - 1
-      ≤ (log 4 + 3) * (log (N : ℝ))⁻¹ := by
+      ≤ (log 4 + 3 / 2) * (log (N : ℝ))⁻¹ := by
     rw [hEq]
     exact mul_le_mul_of_nonneg_right hANu hinvN0
-  have hHead_lb : -((log 4 + 3) * (log (N : ℝ))⁻¹)
+  have hHead_lb : -(4 * (log (N : ℝ))⁻¹)
       ≤ (∑ p ∈ Ioc 0 N with p.Prime, log p / p) / log N - 1 := by
     rw [hEq]
-    have h1 : (-(log 4 + 3)) * (log (N : ℝ))⁻¹
+    have h1 : (-4 : ℝ) * (log (N : ℝ))⁻¹
         ≤ ((∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N) * (log (N : ℝ))⁻¹ :=
       mul_le_mul_of_nonneg_right hANl hinvN0
     linarith
@@ -235,7 +252,7 @@ theorem mertens_second_theorem_of_two_le {N : ℕ} (hN : 2 ≤ N) :
       (∑ p ∈ Ioc 0 n with p.Prime, log p / p)
           * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹)
         ≤ (log (log ((n : ℝ) + 1)) - log (log n))
-          + (log 4 + 3) * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹) := by
+          + (log 4 + 3 / 2) * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹) := by
     intro n hn
     rw [mem_Ico] at hn
     have hn2 : (2 : ℝ) ≤ (n : ℝ) := by exact_mod_cast hn.1
@@ -245,14 +262,13 @@ theorem mertens_second_theorem_of_two_le {N : ℕ} (hN : 2 ≤ N) :
       have := inv_anti₀ hx hxy
       linarith
     have hup := mul_inv_sub_inv_le hx hxy
-    have hA := mertens_first_theorem (N := n) (by omega)
-    obtain ⟨-, hAu⟩ := abs_le.mp hA
+    have hAu := sum_log_div_prime_sub_log_le (N := n) (by omega)
     have h1 := mul_le_mul_of_nonneg_right hAu hd0
     linarith [h1, hup]
   -- termwise lower bound on the Abel sum
   have hterm_lb : ∀ n ∈ Ico 2 N,
       (log (log ((n : ℝ) + 1)) - log (log n)) - 4 * (((n : ℝ)) ^ 2)⁻¹
-          - (log 4 + 3) * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹)
+          - 4 * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹)
         ≤ (∑ p ∈ Ioc 0 n with p.Prime, log p / p)
             * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹) := by
     intro n hn
@@ -277,8 +293,7 @@ theorem mertens_second_theorem_of_two_le {N : ℕ} (hN : 2 ≤ N) :
       have h1 : (((n : ℝ))⁻¹) ^ 2 = (((n : ℝ)) ^ 2)⁻¹ := by rw [inv_pow]
       nlinarith [hΔ, hΔ0, hninv0, h1]
     have hlow := log_sub_log_le_mul_add hxhalf hxy hsq
-    have hA := mertens_first_theorem (N := n) (by omega)
-    obtain ⟨hAl, -⟩ := abs_le.mp hA
+    have hAl := neg_four_le_sum_log_div_prime_sub_log (N := n) (by omega)
     have h1 := mul_le_mul_of_nonneg_right hAl hd0
     linarith [h1, hlow]
   -- the two telescoped sums
@@ -301,30 +316,30 @@ theorem mertens_second_theorem_of_two_le {N : ℕ} (hN : 2 ≤ N) :
   have hB_ub : ∑ n ∈ Ico 2 N, (∑ p ∈ Ioc 0 n with p.Prime, log p / p)
         * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹)
       ≤ (log (log (N : ℝ)) - log (log 2))
-        + (log 4 + 3) * ((log 2)⁻¹ - (log (N : ℝ))⁻¹) := by
+        + (log 4 + 3 / 2) * ((log 2)⁻¹ - (log (N : ℝ))⁻¹) := by
     calc ∑ n ∈ Ico 2 N, (∑ p ∈ Ioc 0 n with p.Prime, log p / p)
           * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹)
         ≤ ∑ n ∈ Ico 2 N, ((log (log ((n : ℝ) + 1)) - log (log n))
-            + (log 4 + 3) * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹)) :=
+            + (log 4 + 3 / 2) * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹)) :=
           sum_le_sum hterm_ub
       _ = (∑ n ∈ Ico 2 N, (log (log ((n : ℝ) + 1)) - log (log n)))
-          + (log 4 + 3)
+          + (log 4 + 3 / 2)
             * ∑ n ∈ Ico 2 N, ((log (n : ℝ))⁻¹ - (log ((n : ℝ) + 1))⁻¹) := by
           rw [sum_add_distrib, ← mul_sum]
       _ = (log (log (N : ℝ)) - log (log 2))
-          + (log 4 + 3) * ((log 2)⁻¹ - (log (N : ℝ))⁻¹) := by
+          + (log 4 + 3 / 2) * ((log 2)⁻¹ - (log (N : ℝ))⁻¹) := by
           rw [hLtel, hdtel]
   have hsqsum := sum_inv_sq_Ico_le_one hN
   have hB_lb : (log (log (N : ℝ)) - log (log 2)) - 4
-        - (log 4 + 3) * ((log 2)⁻¹ - (log (N : ℝ))⁻¹)
+        - 4 * ((log 2)⁻¹ - (log (N : ℝ))⁻¹)
       ≤ ∑ n ∈ Ico 2 N, (∑ p ∈ Ioc 0 n with p.Prime, log p / p)
           * ((log n)⁻¹ - (log ((n : ℝ) + 1))⁻¹) := by
     have hchain : ∑ n ∈ Ico 2 N, ((log (log ((n : ℝ) + 1)) - log (log n))
           - 4 * (((n : ℝ)) ^ 2)⁻¹
-          - (log 4 + 3) * ((log (n : ℝ))⁻¹ - (log ((n : ℝ) + 1))⁻¹))
+          - 4 * ((log (n : ℝ))⁻¹ - (log ((n : ℝ) + 1))⁻¹))
         = (log (log (N : ℝ)) - log (log 2))
           - 4 * (∑ n ∈ Ico 2 N, (((n : ℝ)) ^ 2)⁻¹)
-          - (log 4 + 3) * ((log 2)⁻¹ - (log (N : ℝ))⁻¹) := by
+          - 4 * ((log 2)⁻¹ - (log (N : ℝ))⁻¹) := by
       rw [sum_sub_distrib, sum_sub_distrib, ← mul_sum, ← mul_sum, hLtel, hdtel]
     have hmono := sum_le_sum hterm_lb
     rw [hchain] at hmono
@@ -333,16 +348,16 @@ theorem mertens_second_theorem_of_two_le {N : ℕ} (hN : 2 ≤ N) :
   -- conclusion
   rw [sum_inv_primes_eq hN, abs_le]
   constructor
-  · linarith [hHead_lb, hB_lb, hcinv2, hL2neg]
-  · linarith [hHead_ub, hB_ub, hcinv2, hL2gt]
+  · linarith [hHead_lb, hB_lb, hcl_inv2, hL2neg]
+  · linarith [hHead_ub, hB_ub, hcu_inv2, hL2gt]
 
 /-- **Mertens's second theorem**, prime-reciprocal form, with the explicit
-constant `10`: for every natural `N`,
-`|∑_{p ≤ N} 1/p − log log N| ≤ 10`.  The sum runs over primes `p ≤ N`.
+constant `9`: for every natural `N`,
+`|∑_{p ≤ N} 1/p − log log N| ≤ 9`.  The sum runs over primes `p ≤ N`.
 For `N ≤ 1` the sum is empty and `log (log N) = 0` under Mathlib's
 convention `log 0 = 0`, `log 1 = 0`, so the bound is trivial there. -/
 theorem mertens_second_theorem (N : ℕ) :
-    |(∑ p ∈ Ioc 0 N with p.Prime, ((p : ℝ))⁻¹) - log (log N)| ≤ 10 := by
+    |(∑ p ∈ Ioc 0 N with p.Prime, ((p : ℝ))⁻¹) - log (log N)| ≤ 9 := by
   by_cases hN : 2 ≤ N
   · exact mertens_second_theorem_of_two_le hN
   · rw [not_le] at hN
