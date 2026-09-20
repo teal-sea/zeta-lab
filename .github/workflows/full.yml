@@ -92,6 +92,37 @@ jobs:
             lean/.lake
           key: lean-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.toml', 'lean/lake-manifest.json') }}
 
+      - name: the axioms behind the Mertens chain
+        # A band in a theorem statement is only worth what the theorem rests
+        # on, and `lake build` does not check that. `PrintMertensAxioms.lean`
+        # has existed since hunt r_4218d4 with an instruction to run it by
+        # hand; nothing mechanical ever did, so the constants moved twice
+        # without the axiom set being re-read. The oleans are already built by
+        # the step above, so this costs seconds.
+        working-directory: lean
+        run: |
+          set -o pipefail
+          lake env lean ../hunts/r_4218d4/PrintMertensAxioms.lean 2>&1 | tee axioms.txt
+          # A guard that matches nothing must fail loudly rather than pass.
+          printed=$(grep -c 'depends on axioms' axioms.txt || true)
+          echo "axiom lines printed: ${printed}"
+          if [ "${printed}" -lt 11 ]; then
+            echo "::error::the axiom audit printed only ${printed} lines; it is not reading what it thinks it is"
+            exit 1
+          fi
+          if grep -qi 'sorry' axioms.txt; then
+            echo "::error::a sorry appears in the Mertens axiom audit"
+            exit 1
+          fi
+          # Joined and space-squeezed so a pretty-printer line break cannot
+          # turn a real mismatch into a silent pass.
+          joined=$(tr '\n' ' ' < axioms.txt | tr -s ' ')
+          want="'ZetaLean.Mertens.mertens_second_theorem' depends on axioms: [propext, Classical.choice, Quot.sound]"
+          case "${joined}" in
+            *"${want}"*) echo "mertens_second_theorem: the three standard axioms, nothing else" ;;
+            *) echo "::error::mertens_second_theorem does not rest on exactly [propext, Classical.choice, Quot.sound]"; exit 1 ;;
+          esac
+
       - name: no sorrys in the certified arm
         working-directory: lean
         run: |
