@@ -389,7 +389,8 @@ theorem mertens_first_bracket {N : ℕ} (hN : 1 ≤ N) :
   rcases eq_or_lt_of_le hN with hN1 | hN2
   · -- N = 1: both sums are empty or zero
     subst hN1
-    have h0 : (∑ p ∈ Ioc 0 1 with p.Prime, log p / p) - log ((1 : ℕ) : ℝ) = 0 := by
+    have h0 : (∑ p ∈ (Ioc 0 1 : Finset ℕ) with p.Prime, log p / p)
+        - log ((1 : ℕ) : ℝ) = 0 := by
       have hset : (Ioc 0 1 : Finset ℕ) = {1} := by
         ext x
         simp only [mem_Ioc, mem_singleton]
