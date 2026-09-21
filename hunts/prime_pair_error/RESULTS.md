@@ -942,11 +942,12 @@ one log power below. Measured Ptot/B falls 0.87, 0.69, 0.60 at N = 100, 1000,
 10000, approaching the limiting 1/4 from above; finite ratios are diagnostics,
 not the constants. Retired is ONLY this explicit majorant construction, not the
 true signed sum Sigma_2, not signed pairings generally, and not multi-prime
-mechanisms. The joint D_N target is unmoved because Sig1 has no accepted bound.
+mechanisms. The joint D_N target remains unproved; no accepted estimate here supplies the required full signed cancellation.
 
-Evidence classes, kept apart. Ordinary reviewed derivation plus finite exact
-rational checks (Classes A/B) and measured float diagnostics (Class C); no
-kernel check and no novelty claim. Standard identities (Lambda = mu * log,
+Evidence classes, kept apart. Ordinary reviewed derivation plus Class A exact
+finite rational checks, Class B high-precision non-enclosing numerical checks
+(not exact), and Class C measured float diagnostics; no kernel check and no
+novelty claim. Standard identities (Lambda = mu * log,
 hyperbola partition, Stirling/harmonic expansions) are assembly, not discovery.
 The conditional smooth zero-mode R_eta stays explicitly hypothetical: a C^1
 continuum profile under a hypothetical off-critical zero, lacking prime-power
@@ -963,10 +964,12 @@ superseded, not current.
 
 Doors of this mechanism. Binding: the absolute-value step |mu| <= 1 with the
 floor majorant, which discards the mu signs; frozen: p = 2 only, this
-head/tail/cutoff assembly. Inside this family there is no further door: the
-majorant is pinned Theta(N log^3 N) from above and below. Beating it requires
-reading what this family discards: mu signs (signed pairing), more primes, or
-an accepted Sig1 bound.
+head/tail/cutoff assembly. The majorant is pinned Theta(N log^3 N) from above
+and below, so evaluating this fixed explicit majorant more accurately cannot
+change its proved order; that is a statement about this majorant, not a
+universal closure of the pairing family. Beating it requires reading what this
+family discards: mu signs (signed pairing), more primes, or an accepted Sig1
+bound.
 
 ## The doors
 
