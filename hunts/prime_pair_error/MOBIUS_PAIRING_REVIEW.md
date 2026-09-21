@@ -59,7 +59,7 @@ The integer summation interval $\mathcal{I}_b = (U, V] \cap \mathbb{Z}$ is parti
 
 **Proof of Disjointness and Exhaustion**:
 - The odd integers in $(U, V]$ split at $F$. If $m \le F$, $m \in \mathcal{A}_{\mathrm{odd,low}}$. If $m > F$, since $m > U$, $m > \max(U, F) = \mathrm{LO}$, so $m \in \mathcal{A}_{\mathrm{odd,high}}$.
-- Every even integer $a \in (U, V]$ has the form $a = 2t$ with $U/2 < t \le V/2 = F$ (since $a \le V \implies t \le \lfloor V/2 \rfloor = F$).
+- Every even integer $a \in (U, V]$ has the form $a = 2t$ with $U/2 < t \le \lfloor V/2 \rfloor = F$ (since $a \le V \implies t \le V/2$, and $t$ integer gives $t \le \lfloor V/2 \rfloor = F$; corrected 2026-09-20: $V/2 = F$ is false for odd $V$).
   - If $t \le U$, then $a \in \mathcal{A}_{\mathrm{even,head}}$.
   - If $t > U$, then $U < t \le F$. If $t$ is odd, $a \in \mathcal{A}_{\mathrm{even,mid,odd}}$. If $t$ is even, $a \in \mathcal{A}_{\mathrm{even,mid,even}}$.
 - These classes partition the evens. Since odds and evens are disjoint, the five sets partition $(U, V] \cap \mathbb{Z}$.
@@ -76,7 +76,7 @@ Summing all terms proves the identity $\mathcal{M}_b = P_b + T_b + H_b + Z_b \eq
 
 ### 3.3 Boundary and Vacuous Ranges
 - **$N \le 11$**: For $N \le 11$, $M = \lfloor N/2 \rfloor \le 5$, $U = \lfloor \sqrt{M} \rfloor \le 2$. For $b = 2$, $V = \lfloor M/2 \rfloor \le 2 = U$. Hence $(U, V] = \emptyset$, and the sum is vacuously $0 = 0$.
-- **$F \le U$**: When $F \le U$, the interval $(U, F]$ is empty. Thus $\mathcal{A}_{\mathrm{odd,low}} = \emptyset$ ($P_b = 0$), $\mathcal{A}_{\mathrm{even,mid,odd}} = \emptyset$, and $\mathcal{A}_{\mathrm{even,mid,even}} = \emptyset$ ($Z_b = 0$). Also $\mathrm{LO} = U$, so $T_b$ contains all odds in $(U, V]$. Every even $2t \le V$ satisfies $t \le V/2 = F \le U$, so $H_b$ contains all evens in $(U, V]$. Hence $\mathcal{M}_b = T_b + H_b$ holds with zero defect.
+- **$F \le U$**: When $F \le U$, the interval $(U, F]$ is empty. Thus $\mathcal{A}_{\mathrm{odd,low}} = \emptyset$ ($P_b = 0$), $\mathcal{A}_{\mathrm{even,mid,odd}} = \emptyset$, and $\mathcal{A}_{\mathrm{even,mid,even}} = \emptyset$ ($Z_b = 0$). Also $\mathrm{LO} = U$, so $T_b$ contains all odds in $(U, V]$. Every even $2t \le V$ satisfies $t \le \lfloor V/2 \rfloor = F \le U$ (corrected 2026-09-20: $V/2 = F$ is false for odd $V$), so $H_b$ contains all evens in $(U, V]$. Hence $\mathcal{M}_b = T_b + H_b$ holds with zero defect.
 
 ### 3.4 Rigorous Proof of the Gate $ab > Y$ via Integer Inequalities
 The claim $Y \le \sqrt{N} + 1$ is known to fail at integers $N = K^2 + 2K$ (where $Y = K + 2 > \sqrt{N} + 1$). The gate $ab > Y = N/K$ does not depend on that false upper bound.
@@ -94,10 +94,12 @@ By definition of the floor function:
 Therefore:
 $$2(U + 1) K > 2 \sqrt{\frac{N-1}{2}} (\sqrt{N} - 1) = \sqrt{2(N-1)} (\sqrt{N} - 1) = \sqrt{2} N \sqrt{1 - \frac{1}{N}} \left(1 - \frac{1}{\sqrt{N}}\right).$$
 For $N \ge 36$:
-$$\sqrt{1 - \frac{1}{N}} \ge \sqrt{\frac{35}{36}} \approx 0.9859, \qquad 1 - \frac{1}{\sqrt{N}} \ge 1 - \frac{1}{6} = \frac{5}{6} \approx 0.8333.$$
-Multiplying by $\sqrt{2} \approx 1.4142$:
-$$\sqrt{2} \cdot 0.9859 \cdot 0.8333 \approx 1.1619 > 1.$$
-Hence $2(U + 1) K > 1.1619 N > N$ for all $N \ge 36$.
+$$\sqrt{1 - \frac{1}{N}} \ge \sqrt{\frac{35}{36}}, \qquad 1 - \frac{1}{\sqrt{N}} \ge \frac{5}{6}.$$
+Hence $2(U+1)K/N > \sqrt{2}\cdot\sqrt{35/36}\cdot(5/6)$. Both sides are positive, so
+squaring is exact (no lower bound is read off rounded decimals; corrected 2026-09-20):
+$$\left(\sqrt{2}\cdot\sqrt{\frac{35}{36}}\cdot\frac{5}{6}\right)^2 = 2\cdot\frac{35}{36}\cdot\frac{25}{36} = \frac{875}{648} > 1,$$
+verified in exact `Fraction` arithmetic. Therefore
+$\sqrt{2}\cdot\sqrt{35/36}\cdot(5/6) > 1$ and $2(U + 1) K > N$ for all $N \ge 36$.
 
 **Finite Integer Check for $12 \le N \le 35$**:
 For $12 \le N \le 35$, $K \in \{3, 4, 5\}$:
@@ -272,3 +274,10 @@ To bring [`MOBIUS_PAIRING.md`](file:///Users/thomas/orca/workspaces/zeta-lab/sig
    - Replace $b \le U/2$ with the exact integer cutoff $b \le b^* = \lfloor M / [2(U+1)] \rfloor$.
 
 With these repairs documented, the core combinatorial identity and the mathematical verdict to halt this specific pairing construction are **ACCEPTED**.
+
+**Author integration note (2026-09-20):** the §7 repair spec is incorporated in the
+author file (R_eta discussion, constants 1/48 and 1/192, exact cutoff b*, restricted
+per-b theta, proper-prime-power wording, proof/check scope distinction). Review-side
+typos corrected in place above (two $V/2 = F$ occurrences, exact radical inequality);
+all prior review corrections and the provenance retraction are otherwise preserved
+verbatim.

@@ -1,6 +1,6 @@
 # Mobius Prime Pairing (p = 2) Inside Sigma_2: Exact Identity, Complete Boundary, No Asymptotic Gain
 
-Base: `a626c916a0082e59b2c4c0eca83035e948160d3e`. Date: 2026-09-20.
+Base: `b8bb28c4de357827be0bdad95a5e9b40d9c4e669` (author file at `3d5c666634766357e2c6484afb0e6fbd4c8f2540`; review at §7 repair spec incorporated 2026-09-20). Date: 2026-09-20.
 Scope: one concrete pairing only. No survey, no further construction after this mechanism.
 Prior pairing work in this hunt: none (narrow grep over `hunts/prime_pair_error/*.md` for
 pairing / opposite-sign / mu(pm) returns only unrelated sign mentions in arc-split and
@@ -45,9 +45,9 @@ paired classes gives P_b; the remaining classes give T_b, H_b, Z_b. On mid-even-
 4 | m gives mu(m) = 0 termwise, so Z_b = 0. Q.E.D.
 
 Preserved structure. b-side prime powers (log 4, log 8, log 9, ...) are untouched (b
-is fixed by the pairing). a-side prime powers and squares contribute exact zeros via
-mu = 0 on both sides of the identity (e.g. m = 9, 25, 49 in tails; m divisible by 4
-in Z_b). p-divisibility (p = 2): m even in range is either head (partner below range),
+is fixed by the pairing). a-side proper prime powers (exponent >= 2, not primes
+themselves) contribute exact zeros via mu = 0 on both sides of the identity
+(e.g. m = 9, 25, 49 in tails; m divisible by 4 in Z_b). p-divisibility (p = 2): m even in range is either head (partner below range),
 a paired partner (m = 2t with t odd in range), or a proved zero (4 | m). Floor jumps
 are inside w and never smoothed: the difference below keeps them exactly.
 
@@ -80,27 +80,29 @@ Pre-pairing baseline with the same majorants: |M_b| <= B_b = sum_{U<a<=V} N/(ab)
 Weighted totals: B(N) = sum_b log b * B_b, Ptot(N) = sum_b log b * (P^maj+T^maj+H^maj);
 |Sig2| <= Ptot(N) versus |Sig2| <= B(N).
 
-Order accounting (harmonic sums; measured confirmation in results_mobius_pairing.json).
-P^maj main term is ~(1/4)(N/b) log(V/U): constant-factor drop against B_b's
-(N/b) log(V/U) on the paired odds, because each pair now carries half weight N/(2mb)
-over roughly half the odds. The +1 floor costs total O(N log^2 N); the tail T^maj is
-Theta((N/b)) per b, Theta(N log^2 N) overall; the head H^maj is O(N log^2 N). Hence
+Declared majorants, audited asymptotics (review §4; finite-N ratios in
+results_mobius_pairing.json approach from below and are diagnostics, not the constants):
 
-Ptot(N) = c_p N log^3 N + O(N log^2 N),  B(N) = c_0 N log^3 N + O(N log^2 N),
+B(N) = (1/48) N log^3 N + O(N log^2 N),  Ptot(N) = (1/192) N log^3 N + O(N log^2 N).
 
-with 0 < c_p < c_0 (measured Ptot/B = 0.60 at N = 10000, 0.69 at N = 1000,
-0.87 at N = 100; exactly 1.0 at N <= 36 where every paired range is vacuous and the
-identity reduces to an odd/even split with zero gain). The pairing buys a constant
-factor on a non-sharp trivial majorant only. No exponent and no log power is improved.
+Measured Ptot/B = 0.60 at N = 10000, 0.69 at N = 1000, 0.87 at N = 100 against the
+asymptotic 1/4; exactly 1.0 at N <= 36 where every paired range is vacuous and the
+identity reduces to an odd/even split with zero gain. This is a factor-of-four
+asymptotic leading-constant reduction only. No exponent and no log power is improved.
 
-The boundary pays back a fixed positive fraction of the term count but not the whole
-leading constant: the measured unpaired-term fraction falls from 1.0 (N <= 36) to 0.43
-at N = 10000, and tail+head majorants are
-provably Theta(N log^2 N) in the same framework, i.e. one log power below the leading
-N log^3 N term. So the obstruction is precise: within absolute-value majorants this
-pairing cannot go below order N log^3 N, because the paired main term itself is
-Theta(N log^3 N) from below (restrict b <= sqrt(U): odd-low harmonic range stays
-~(1/4) log N wide, sum_b (log b)/b over that range is Theta(log^2 N)).
+Non-vacuous range is exactly b <= b* = floor(M / [2(U+1)]) (F > U iff b <= b*).
+Per-b Theta(N/b) behavior of the tail is asserted only on this restricted range; no
+uniform theta is asserted at empty endpoints (for b > b*, P^maj_b = 0 and
+T^maj_b + H^maj_b = B_b exactly, and that strip contributes only O(N log N)).
+The boundary totals T^maj + H^maj with the +1 floor costs are Theta(N log^2 N), one
+log power below the main term, so the boundaries do not repay the entire leading
+gain; the paired majorant itself remains Theta(N log^3 N) from below (summed paired
+main over b <= b* gives (1/192) N log^3 N - O(N log^2 N)).
+
+Scope of the lower bound: it pins this chosen absolute-value majorant only. It does
+not bound the true signed sum Sig2 (whose mu(a) signs can cancel), and it does not
+constrain every p=2 technique (signed pairings, multi-prime mechanisms, or any
+estimate that does not pass through |mu| <= 1 with this floor majorant).
 
 Combination with the principal term: D_N = S_smooth + Sig1 + sum_b log b (P_b+T_b+H_b)
 exactly. S_smooth = N(log Y + H_K - 2 - gamma) is preserved untouched in closed form.
@@ -111,25 +113,42 @@ FINAL_ACCEPTANCE section 4). Therefore the joint target
 
 ## 4. Verdict on this mechanism
 
-This is a proved obstruction to this particular p = 2 Sig2 pairing under
-absolute-value majorants, not a failed estimate: the identity is exact, the majorant
-comparison is apples-to-apples, and the paired majorant is pinned at Theta(N log^3 N)
-from above and below. It is not a claim about any other pairing or method, and it
-does not assert that any bound is false. Stop this construction here.
+Retire only this explicit majorant construction: the declared absolute-value
+majorant for this p = 2 Sig2 pairing is pinned at Theta(N log^3 N) from above and
+below (leading constants 1/48 baseline, 1/192 paired), so it cannot advance the
+D_N target. This is not a failed estimate (the identity is exact and the comparison
+apples-to-apples), and it is not a claim about any other pairing or method: the true
+signed Sig2, general signed pairings, and multi-prime mechanisms are unconstrained,
+and no bound is asserted false. Stop this construction here.
 
-Smooth-diagnostic relation: the measured ratios |S_smooth + Sig1|/N^{3/4} (0.17 at
-N = 400, 0.75 at N = 1000) concern Type I versus the smooth term only. The pairing
-lives in Sig2 under disjoint hypotheses (exact sign flip plus |mu| <= 1), so that
-diagnostic neither supports nor tests it; conversely the pairing leaves Sig1
-untouched and cannot explain that diagnostic.
+Relation to the conditional smooth zero-mode R_eta (review §5; SIGNED_MEAN_RENEWAL
+§8): R_eta is constructed conditionally on a hypothetical off-critical zero
+rho = beta + i gamma with beta > 1/2, and shows macroscopic scale-renewal properties
+alone cannot rule out such a mode. It is a C^1 continuum profile: it lacks genuine
+discrete prime-power jumps (the true R has jump log p at each p^k) and lacks any
+discrete mu convolution, so it cannot instantiate Sig2, which directly evaluates
+mu(a). Its failure to instantiate refutes no generic intermediate lemma of the
+hyperbola decomposition, and nothing here claims every conceivable RH proof must use
+mu. Conversely, the majorant obstruction above is unconditional and assumes no
+off-critical zero. The earlier empirical Type I ratios |S_smooth + Sig1|/N^{3/4}
+(0.17 at N = 400, 0.75 at N = 1000) are superseded by this paragraph for purposes of
+this memo.
 
 ## 5. Evidence
 
-`mobius_pairing_check.py` (repo .venv, N <= 10000, predicted < 60 s: ~20k exact
+Scope distinction: the general-N claim (identity for all N >= 4) rests on the
+combinatorial proof in §1, not on machine checks. The exact tests below cover only
+the listed finite cutoffs. Ownership: `mobius_pairing_check.py` and
+`results_mobius_pairing.json` are author-worker artifacts (dispatch producing
+3d5c666); `mobius_pairing_independent_check.py` and
+`results_mobius_pairing_independent.json` are independent review-worker artifacts;
+both run under the repo .venv and neither imports the other.
+
+`mobius_pairing_check.py` (N <= 10000, predicted < 60 s: ~20k exact
 Fraction terms at the largest N): per-b exact rational identity M_b = P_b+T_b+H_b
 (zero Fraction defect), ab > Y gate asserted per pair, mu(2m) = -mu(m) asserted on
-odd squarefree m with mu(2m) = 0 on even m, square/nonsquare/prime-power mu spot
-checks, missing-head/missing-tail/wrong-sign lesions (exact nonzero defects),
+odd squarefree m with mu(2m) = 0 on even m, square/nonsquare/proper-prime-power mu
+spot checks, missing-head/missing-tail/wrong-sign lesions (exact nonzero defects),
 before/after per-b prime-log coefficient match, bound totals B(N) vs Ptot(N) and
 unpaired-term fractions. Outputs `results_mobius_pairing.json`. Observed: all exact
 checks pass with zero defect; all three lesions detected; Ptot/B from 1.0 (N <= 36,
@@ -158,4 +177,19 @@ $ git add hunts/prime_pair_error/MOBIUS_PAIRING.md \
     hunts/prime_pair_error/mobius_pairing_check.py \
     hunts/prime_pair_error/results_mobius_pairing.json
 $ git commit -m "prime_pair_error: exact p=2 Mobius pairing in Sigma_2 ..."
+```
+
+Author integration rerun (2026-09-20, base b8bb28c; JSONs backed up to /tmp and
+restored afterward, so evidence files are byte-identical and unstaged):
+```
+$ .venv/bin/python hunts/prime_pair_error/mobius_pairing_check.py
+  exit 0, elapsed 0.84s; zero Fraction defect; lesions 11/5/2 at N=100, 39/17/20
+  at N=400 (exact, nonzero); Ptot/B 0.60 at N=10000.
+$ .venv/bin/python hunts/prime_pair_error/mobius_pairing_independent_check.py
+  exit 0, 0.46s; 15794 pairs over 20 cutoffs; global min gate margin 3 (at N=15).
+$ .venv/bin/python -c "from fractions import Fraction; ..."  # radical check
+  (sqrt(2)*sqrt(35/36)*5/6)^2 = 875/648 > 1 -> strict gate inequality exact.
+$ grep -i "impossib|every.*pairing|all.*technique|cannot be" MOBIUS_PAIRING.md
+  one match: line 104 "does not constrain every p=2 technique" (scoping negation).
+$ git status --short  # only the two scoped docs modified; checkers/JSONs untouched.
 ```
