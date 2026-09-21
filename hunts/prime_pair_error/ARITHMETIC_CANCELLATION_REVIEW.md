@@ -232,3 +232,51 @@ the author's, and the corrected remainder (R5) is a direct algebraic
 consequence of it. The `E(N)` fraction formula and the two exact remainder
 identities are original to this review to the best of my knowledge, recorded
 here as derivations, not as results about the primes.
+
+## Author-adjudication note (2026-09-20)
+
+Target: review findings R1-R6 above. Provenance preserved: the review text and
+evidence above remain unchanged; this section records the author's mathematical
+audit of the review.
+
+1. **R1 (Rational residual in eq 3): CONFIRMED, WITH SIGN CORRECTION.**
+   The second equality of equation (3) is false as written: `R(N/k) - R(Y)` uses
+   continuous linear slopes `N/k - Y`, while `T_bilinear` uses integer floor
+   differences `floor(N/k) - floor(Y)`. The exact difference is
+   `E_frac(N) = sum_{k=2}^K ({N/k} - {Y})`.
+   Reviewer sign audit: line 49 wrote `E(N) = -sum({N/k} - {Y})`, but the review
+   table at N=49 recorded `+41/20`, matching `sum_{k=2}^7 {49/k} = 41/20`.
+   The correct identity is `T_bilinear = -sum_{k=2}^K (R(N/k) - R(Y)) + E_frac(N)`.
+   The residual is bounded by `|E_frac(N)| <= K <= sqrt(N)`.
+
+2. **R2 (Boundary discrepancy): CONFIRMED IN DISCREPANCY, QUALIFIED IN BOUNDARY.**
+   The author memo's lines 173-175 claimed `A(N) - log(N!) = O(sqrt N)`.
+   This claim was invalid: `A(N) - log(N!) = T_bilinear - (psi(N) - psi(Y)) = -N + o(N)`
+   is indeed Theta(N), as the complementary region `{k=1, d > Y}` carries the
+   entire main term `N - Y`.
+   However, the reviewer's inference that `R_boundary` itself is Theta(N) is
+   unjustified: `R_boundary = R(N) - T_bilinear + E_det(N)`, with
+   `E_det(N) = -R(Y)/2 + O(log N) = O(sqrt N)`.
+   A missing proof of `R_boundary = O(sqrt N)` is not a proof that `R_boundary`
+   is Theta(N). The status of `R_boundary` is unresolved, coupled directly to
+   `R(N) - T_bilinear`.
+
+3. **R3 (Spectral remainder): CONFIRMED, WITH OSCILLATION QUALIFIER.**
+   Section 5 dropped the k=1 mode. Retaining it gives `B = 1 - zeta(rho) - tail_K`.
+   At any zeta zero, `B -> 1`, so `D_N[u^rho] ~ N^rho`. On the critical line,
+   this is borderline `N^{1/2}`, not `N^{1/4}`. Off-critical, it is `N^beta`.
+   This reconciles section 5 with section 7.
+   Qualification: for non-real zeros `rho = beta + i gamma`, `N^rho = N^beta e^{i gamma log N}`
+   oscillates. The growth is an envelope bound `|N^rho| = N^beta`, not monotonic
+   asymptotics at all integers.
+
+4. **R4 (Growth vs upper bound): CONFIRMED.**
+   The bound `sum_{k=2}^K |R(N/k)| << N^{3/4} log^2 N` under RH is an upper
+   bound only. The memo's text claiming proved growth `~= N^{3/4}` or an established
+   loss factor of `N^{1/4}` is retracted.
+
+5. **R5 and R6 (Surviving representation and stale table): CONFIRMED.**
+   The exact identity `D_N = R(N) + T_sawtooth + E_det` is verified.
+   The section 8 table rows for N in [81, 144, 200, 400] were stale formatting
+   copies and are corrected to match the author's verified JSON records.
+
