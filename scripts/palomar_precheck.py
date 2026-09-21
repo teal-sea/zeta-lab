@@ -36,8 +36,15 @@ Zeta Lab's submissions (project and metadata both derived, pass neither):
     python3 scripts/palomar_precheck.py . lean/bridge/comparator-v2.json
 """
 import json,os,re,subprocess,sys
-try: import yaml
-except ImportError: sys.exit("pip install pyyaml")
+try:
+    import yaml
+except ImportError as exc:  # pragma: no cover - environment guard
+    # NOT sys.exit(). SystemExit raised while pytest imports this module is a
+    # fatal collection error: one missing optional dependency then reports
+    # exit 3 with ZERO tests collected, instead of skipping the one file that
+    # needs it (issue #225, reproduced 2026-09-16). Raising ImportError lets
+    # an importer skip, and a command-line run still ends on the same advice.
+    raise ImportError("this module needs pyyaml: pip install pyyaml") from exc
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 import palomar_correspondence as corr
 

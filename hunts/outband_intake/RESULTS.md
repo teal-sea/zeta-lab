@@ -1,5 +1,19 @@
 # outband_intake: the information is worth between 0.005 and 0.009, and no known certificate can spend it
 
+> **Superseded on 2026-09-06 by hunt #118 (`../outband_certificate/`), and the
+> headline verdict below is the part that fell.** That hunt closed this thread as
+> a **ceiling**, not a gap: every unconditional argument in the field takes its
+> positivity from Weil's Hermitian form, which makes the on-line block a definite
+> Gram matrix, its kernel positive-definite, its transform nonnegative, and the
+> out-of-band positivity worth **exactly zero** to it. The range priced below is
+> the worth of the information to the RH-conditional pointwise class, which is
+> also why it lands on a conditional value. The measurements are unaffected and
+> reproduce to the digit in `../outband_certificate/RESULTS.md` sections 1 to 7;
+> what fails is "gap rather than a wall". The two inputs that would reopen the
+> question are named in section 8 there, and both are larger results than the
+> record being chased. `HANDOFF.md` files the closure under Walls. The front
+> door, `docs/35-the-unspent-fact.md`, carries the same correction.
+
 **Verdict: the kill condition did NOT fire, and the hunt found a gap rather than a wall.**
 The unconditional out-of-band positivity of Baluyot, Goldston, Suriajaya and
 Turnage-Butterbaugh (arXiv:2306.04799, Theorem 1) is worth between about `+0.005`

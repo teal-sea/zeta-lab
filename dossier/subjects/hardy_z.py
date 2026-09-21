@@ -203,6 +203,7 @@ def build() -> Dossier:
                         status=FormalStatus.PROVED,
                         detail=(
                             "hardyZ_is_real: kernel run observed 2026-08-13, "
+                            "re-observed 2026-09-16, CI run 35095988548, job 'lean arm, zero sorrys' green at 85efdcb, "
                             "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                             "root import wired"
                         ),
@@ -263,6 +264,7 @@ def build() -> Dossier:
                         status=FormalStatus.PROVED,
                         detail=(
                             "abs_hardyZ_eq_abs_zeta: kernel run observed 2026-08-13, "
+                            "re-observed 2026-09-16, CI run 35095988548, job 'lean arm, zero sorrys' green at 85efdcb, "
                             "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                             "root import wired"
                         ),
@@ -314,6 +316,7 @@ def build() -> Dossier:
                         status=FormalStatus.PROVED,
                         detail=(
                             "hardyZ_even: kernel run observed 2026-08-13, "
+                            "re-observed 2026-09-16, CI run 35095988548, job 'lean arm, zero sorrys' green at 85efdcb, "
                             "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                             "root import wired"
                         ),
@@ -354,9 +357,13 @@ def build() -> Dossier:
                     "lemmas, hardyZ_is_real, abs_hardyZ_eq_abs_zeta, hardyZ_even, "
                     "hardyZ_zero_iff, continuous_hardyZ, accepted by the kernel in a "
                     "watched run: lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
-                    "observed 2026-08-13. The root import has wired ZetaLean.HardyZ "
-                    "since 150ac05 (whose build compiled it for the first time); the "
-                    "file itself is unchanged since d11f297. 'Proved' is a statement "
+                    "observed 2026-08-13, re-observed 2026-09-16 in CI run 35095988548, "
+                    "job 'lean arm, zero sorrys', green at 85efdcb. The root import "
+                    "has wired ZetaLean.HardyZ since 150ac05 (whose build compiled it "
+                    "for the first time). The file changed once since d11f297, in "
+                    "7b86bc9 on 2026-09-05, and that change is one em dash becoming a "
+                    "colon inside a doc comment: no lemma, statement or proof was "
+                    "touched, and the re-observation above postdates it. 'Proved' is a statement "
                     "about these five lemmas, not the dossier: the discriminating sign "
                     "obligation remains not-attempted, so the formalisation is still "
                     "complete about everything except the thing that makes Z worth "

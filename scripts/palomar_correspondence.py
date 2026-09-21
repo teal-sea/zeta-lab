@@ -55,8 +55,13 @@ import sys
 
 try:
     import yaml
-except ImportError:  # pragma: no cover - environment guard
-    sys.exit("pip install pyyaml")
+except ImportError as exc:  # pragma: no cover - environment guard
+    # NOT sys.exit(). SystemExit raised while pytest imports this module is a
+    # fatal collection error: one missing optional dependency then reports
+    # exit 3 with ZERO tests collected, instead of skipping the one file that
+    # needs it (issue #225, reproduced 2026-09-16). Raising ImportError lets
+    # an importer skip, and a command-line run still ends on the same advice.
+    raise ImportError("this module needs pyyaml: pip install pyyaml") from exc
 
 PAIRS = "lean/palomar-pairs.json"
 
