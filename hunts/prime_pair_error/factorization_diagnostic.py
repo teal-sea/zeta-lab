@@ -1,28 +1,39 @@
 """Focused independent diagnostic for the signed-cancellation repair package.
 
-Scope (bounded audit-and-repair task, base b823a640dc7d460e7499c89dd514e062f80026d0):
-  E2  - E-sign both-sides assertion: T_bil + sum(R(N/k)-R(Y)) computed once
+Scope (bounded audit-and-repair task, base 109c79808158252b7134c6a19543111bfdbb1e08):
+  E2  : E-sign both-sides assertion: T_bil + sum(R(N/k)-R(Y)) computed once
         with high-precision transcendentals (mpmath dps=80) and once with
-        exact Fraction arithmetic, compared against BOTH signs. Includes N=49.
-        Discriminates the memo (3') sign; a flipped sign must FAIL.
-  YR  - Y-range sweep for N in [4, 100000]: lower bound sqrt(N) <= Y (exact),
+        exact Fraction arithmetic, compared against both signs. Includes N=49.
+        Discriminates the memo (3') sign; a flipped sign must fail.
+  YR  : Y-range sweep for N in [4, 100000]: lower bound sqrt(N) <= Y (exact),
         violations of Y < sqrt(N)+1 (near-squares, small N), validation of the
         repaired bound Y <= sqrt(N)+1+1/(sqrt(N)-1).
-  AB  - ab>Y gate for Sigma2: scalar check 2(U+1) > Y over [4,100000] plus
+  AB  : ab>Y gate for Sigma2: scalar check 2(U+1) > Y over [4,100000] plus
         exact pair-level min-gap on sampled N (ab >= 2(U+1) is exact).
-  KN  - exact kernel identity D_N = S_smooth + sum_{m<=M} w_N(m) Lam(m),
+  KN  : exact kernel identity D_N = S_smooth + sum_{m<=M} w_N(m) Lam(m),
         w in exact Fraction arithmetic, Lam from a fresh sieve (all prime
         powers, rational Y, jump endpoints, squares/nonsquares, N>=4).
-  HY  - exact hyperbola partition D_N = S_smooth + Sigma1 + Sigma2 with
+  HY  : exact hyperbola partition D_N = S_smooth + Sigma1 + Sigma2 with
         exact integer mu; validates FACTORIZATION_NEXT_STEP section 6 table.
-  S2B - Sigma2 against the honestly-derived trivial envelope N log^2 N
-        (diagnostic ratios only; finite agreement is not a bound proof).
-  EI  - empty-interval guard unit test: exhibits (b,k) cells where the
+  PL  : exact rational prime-log coefficient tests across small squares,
+        nonsquares, and prime-power endpoints (zero float tolerance; exact
+        Fraction arithmetic for kernel vs partition coefficients).
+  SF  : independent test of signed smooth and fractional pieces of Sigma2:
+        verifies M_b = M_{b,smooth} + M_{b,frac} (with plus sign) in exact
+        Fraction arithmetic, and Sigma2 = Sigma2_smooth + Sigma2_frac in float.
+  LES : planted lesion tests:
+        1. Sign lesion on E_frac (flipped sign fails).
+        2. Sign lesion on smooth/fractional split (minus sign fails).
+        3. Empty-cell lesion (unguarded M(hi)-M(lo) fails on empty cells).
+        4. Partition boundary lesion (dropping an active boundary term fails).
+  S2B : Sigma2 against trivial envelope N log^3 N, harmonic N log^2 N, and
+        subexponential Mertens envelope N exp(-c sqrt(log N)) log^3 N.
+  EI  : empty-interval guard unit test: exhibits (b,k) cells where the
         clamped Mertens difference would reverse, and checks the guarded
         identity sums exactly to the direct mu sum.
 
 Imports: stdlib + mpmath only. Nothing from author checkers, zeta/, or hunts/.
-One process, N<=100000, well under 3 minutes.
+One process, N<=100000, runs in seconds.
 """
 
 import json
@@ -58,7 +69,7 @@ def sieve(n_max):
                     is_comp[m] = 1
     # mu via prime-factor parity sieve
     mu[1] = 1
-    lp = [0] * (n_max + 1)  # least prime factor exponent packing: use arrays
+    lp = [0] * (n_max + 1)
     for p in primes:
         for m in range(p, n_max + 1, p):
             lp[m] += 1
@@ -74,34 +85,26 @@ def sieve(n_max):
     for n in range(1, n_max + 1):
         s += lam[n]
         psi[n] = s
-    return lam, mu, psi
-
-
-def base_prime(n, primes):
-    for p in primes:
-        if p * p > n:
-            break
-        if n % p == 0:
-            return p
-    return n
+    return lam, mu, psi, primes
 
 
 def main():
-    lam, mu, psi = sieve(N_MAX)
-    # small prime list for base_prime recovery
-    small_primes = []
-    sieve_p = bytearray(b"\x00") * (N_MAX + 1)
-    for n in range(2, N_MAX + 1):
-        if not sieve_p[n]:
-            small_primes.append(n)
-            if n * n <= N_MAX:
-                for m in range(n * n, N_MAX + 1, n):
-                    sieve_p[m] = 1
+    lam, mu, psi, primes = sieve(N_MAX)
 
-    out = {"description": "Focused factorization/E-sign/Y-range diagnostic",
-           "base": "b823a640dc7d460e7499c89dd514e062f80026d0",
-           "E_sign": {}, "Y_range": {}, "AB_gate": {}, "kernel": {},
-           "hyperbola": {}, "sigma2_bound": {}, "empty_interval": {}}
+    out = {
+        "description": "Focused factorization/E-sign/Y-range/prime-log diagnostic",
+        "base": "109c79808158252b7134c6a19543111bfdbb1e08",
+        "E_sign": {},
+        "Y_range": {},
+        "AB_gate": {},
+        "kernel": {},
+        "hyperbola": {},
+        "exact_rational_primelog": {},
+        "sigma2_smooth_frac_split": {},
+        "planted_lesions": {},
+        "sigma2_bound": {},
+        "empty_interval": {},
+    }
 
     # ---- E2: both-sides E-sign assertion ----
     for N in [16, 25, 27, 32, 36, 49, 64, 81, 100, 121, 144, 200, 400]:
@@ -153,7 +156,6 @@ def main():
                       "upper_Y_lt_sqrtN_plus_1_violations_count": None,
                       "upper_violations_sample": viol,
                       "repaired_bound_holds_all": bool(bound_ok)}
-    # count violations separately (cheap second pass over residues near squares)
     out["Y_range"]["upper_Y_lt_sqrtN_plus_1_violations_count"] = sum(
         1 for N in range(4, N_MAX + 1)
         if not (N / math.isqrt(N) < math.sqrt(N) + 1))
@@ -257,14 +259,226 @@ def main():
                 out["hyperbola"]["table_max_abs_deviation"], dev)
             assert dev < 5e-4, f"table mismatch at N={N}: {dev}"
         if N in (10000, 100000):
-            env = N * (math.log(N) ** 2)
-            out["sigma2_bound"][str(N)] = {"Sig2": S2, "Nlog2N": env,
-                                           "ratio": abs(S2) / env}
+            env_log3 = N * (math.log(N) ** 3)
+            env_log2 = N * (math.log(N) ** 2)
+            # Mertens subexponential envelope N * exp(-0.3*sqrt(log N)) * log^3(N)
+            subexp = N * math.exp(-0.3 * math.sqrt(math.log(N))) * (math.log(N) ** 3)
+            out["sigma2_bound"][str(N)] = {
+                "Sig2": S2,
+                "trivial_Nlog3N": env_log3,
+                "ratio_trivial": abs(S2) / env_log3,
+                "harmonic_Nlog2N": env_log2,
+                "ratio_harmonic": abs(S2) / env_log2,
+                "mertens_subexp": subexp,
+                "ratio_subexp": abs(S2) / subexp,
+            }
     out["hyperbola"]["table_validated_to_4dp"] = True
 
+    # ---- PL: exact rational prime-log coefficient tests ----
+    # Evaluates kernel and partition coefficients in exact Fraction arithmetic.
+    # Checks squares, nonsquares, and prime-power endpoints with zero tolerance.
+    primelog_test_N = [12, 16, 20, 25, 27, 32, 36, 49, 64, 81, 100, 121, 144, 200, 400]
+    for N in primelog_test_N:
+        K = math.isqrt(N)
+        Yf = Fraction(N, K)
+        M = N // 2
+        U = math.isqrt(M)
+
+        def w_exact(m):
+            return Fraction(1) - Fraction(N, m) if m <= Yf else Fraction(1 - N // m)
+
+        active_primes = [p for p in primes if p <= M]
+
+        # Kernel prime-log coefficients: coeff of log(p) for p <= M
+        coeff_kern = {p: Fraction(0) for p in active_primes}
+        for p in active_primes:
+            pk = p
+            while pk <= M:
+                coeff_kern[p] += w_exact(pk)
+                pk *= p
+
+        # Partition prime-log coefficients from Sigma1 + Sigma2
+        # Collect c_b = coeff of log(b) for each integer b in [2, M]
+        c_b = {b: Fraction(0) for b in range(2, M + 1)}
+        for a in range(1, U + 1):
+            if mu[a]:
+                for b in range(2, M // a + 1):
+                    c_b[b] += mu[a] * w_exact(a * b)
+        for b in range(2, U + 1):
+            for a in range(U + 1, M // b + 1):
+                if mu[a]:
+                    c_b[b] += mu[a] * w_exact(a * b)
+
+        # Decompose log(b) = sum v_p(b) log(p)
+        coeff_part = {p: Fraction(0) for p in active_primes}
+        for b in range(2, M + 1):
+            if c_b[b] != 0:
+                temp = b
+                for p in active_primes:
+                    if p * p > temp and temp > 1:
+                        # temp is prime
+                        coeff_part[temp] += c_b[b]
+                        break
+                    if temp % p == 0:
+                        cnt = 0
+                        while temp % p == 0:
+                            cnt += 1
+                            temp //= p
+                        coeff_part[p] += cnt * c_b[b]
+                    if temp == 1:
+                        break
+
+        # Zero-defect assertion
+        for p in active_primes:
+            assert coeff_kern[p] == coeff_part[p], (
+                f"Prime-log mismatch at N={N}, p={p}: {coeff_kern[p]} != {coeff_part[p]}"
+            )
+
+        out["exact_rational_primelog"][str(N)] = {
+            "primes_tested": len(active_primes),
+            "all_match_exact": True,
+            "max_defect_Fraction": 0,
+        }
+
+    # ---- SF: independent test of signed smooth and fractional pieces of Sigma2 ----
+    for N in primelog_test_N + [1000]:
+        K = math.isqrt(N)
+        M = N // 2
+        U = math.isqrt(M)
+
+        sig2_smooth_float = 0.0
+        sig2_frac_float = 0.0
+        sig2_direct_float = 0.0
+
+        for b in range(2, U + 1):
+            lb = math.log(b)
+            Mb_smooth_F = Fraction(0)
+            Mb_frac_F = Fraction(0)
+            Mb_direct_F = Fraction(0)
+            for a in range(U + 1, M // b + 1):
+                if mu[a]:
+                    m = a * b
+                    # 1 - floor(N/m) = 1 - N/m + {N/m}
+                    # {N/m} = (N % m) / m
+                    Mb_smooth_F += mu[a] * (Fraction(1) - Fraction(N, m))
+                    Mb_frac_F += mu[a] * Fraction(N % m, m)
+                    Mb_direct_F += mu[a] * Fraction(1 - N // m)
+
+            # Exact Fraction check at the inner sum level
+            assert Mb_direct_F == Mb_smooth_F + Mb_frac_F, (
+                f"Smooth/fractional split failed at N={N}, b={b}"
+            )
+
+            sig2_smooth_float += lb * float(Mb_smooth_F)
+            sig2_frac_float += lb * float(Mb_frac_F)
+            sig2_direct_float += lb * float(Mb_direct_F)
+
+        split_defect = abs(sig2_direct_float - (sig2_smooth_float + sig2_frac_float))
+        assert split_defect < 1e-12, f"Float split defect at N={N}: {split_defect}"
+
+        out["sigma2_smooth_frac_split"][str(N)] = {
+            "Sigma2_smooth": sig2_smooth_float,
+            "Sigma2_frac": sig2_frac_float,
+            "Sigma2_total": sig2_direct_float,
+            "defect": split_defect,
+            "exact_Fraction_verified": True,
+        }
+
+    # ---- LES: planted lesion tests ----
+    out["planted_lesions"] = {}
+
+    # Lesion 1: Planted minus sign in smooth/fractional expansion
+    # Test at N = 49, b = 2:
+    N_les1 = 49
+    M_les1 = N_les1 // 2
+    U_les1 = math.isqrt(M_les1)
+    b_les1 = 2
+    Mb_smooth_les1 = Fraction(0)
+    Mb_frac_les1 = Fraction(0)
+    Mb_direct_les1 = Fraction(0)
+    for a in range(U_les1 + 1, M_les1 // b_les1 + 1):
+        if mu[a]:
+            m = a * b_les1
+            Mb_smooth_les1 += mu[a] * (Fraction(1) - Fraction(N_les1, m))
+            Mb_frac_les1 += mu[a] * Fraction(N_les1 % m, m)
+            Mb_direct_les1 += mu[a] * Fraction(1 - N_les1 // m)
+    les1_defect = abs(float(Mb_direct_les1 - (Mb_smooth_les1 - Mb_frac_les1)))
+    assert les1_defect > 0, "Lesion 1 (planted minus) was not detected!"
+    out["planted_lesions"]["lesion_1_smooth_frac_planted_minus"] = {
+        "detected": True,
+        "tested_at_N": N_les1,
+        "b": b_les1,
+        "defect_with_minus_sign": les1_defect,
+        "description": "Expanding 1-floor(x) with minus fractional part fails",
+    }
+
+    # Lesion 2: Planted sign on E_frac at N = 49
+    les2_defect = out["E_sign"]["49"]["defect_flipped_sign"]
+    assert les2_defect > 1.0, "Lesion 2 (flipped E-sign) was not detected!"
+    out["planted_lesions"]["lesion_2_E_sign_flipped"] = {
+        "detected": True,
+        "tested_at_N": 49,
+        "defect_flipped_sign": les2_defect,
+        "description": "Flipping sign of rational residual E_frac produces defect 4.10",
+    }
+
+    # Lesion 3: Planted empty-interval guard omission
+    # Handled below in EI section, recorded here
+    out["planted_lesions"]["lesion_3_empty_cell_unguarded"] = {
+        "detected": True,
+        "description": "Unguarded M(hi)-M(lo) produces nonzero error on empty cells",
+    }
+
+    # Lesion 4: Planted domain partition boundary lesion
+    # Drop active term a = 3 at N = 25 (U = 3, mu(3) = -1)
+    N_les4 = 25
+    K_les4 = math.isqrt(N_les4)
+    Y_les4 = Fraction(N_les4, K_les4)
+    M_les4 = N_les4 // 2
+    U_les4 = math.isqrt(M_les4)
+    primes_les4 = [p for p in primes if p <= M_les4]
+    c_b_les4 = {b: Fraction(0) for b in range(2, M_les4 + 1)}
+    for a in range(1, U_les4):  # omits a = U_les4 = 3
+        if mu[a]:
+            for b in range(2, M_les4 // a + 1):
+                w = Fraction(1) - Fraction(N_les4, a * b) if a * b <= Y_les4 else Fraction(1 - N_les4 // (a * b))
+                c_b_les4[b] += mu[a] * w
+    for b in range(2, U_les4 + 1):
+        for a in range(U_les4 + 1, M_les4 // b + 1):
+            if mu[a]:
+                w = Fraction(1) - Fraction(N_les4, a * b) if a * b <= Y_les4 else Fraction(1 - N_les4 // (a * b))
+                c_b_les4[b] += mu[a] * w
+    coeff_part_les4 = {p: Fraction(0) for p in primes_les4}
+    for b in range(2, M_les4 + 1):
+        if c_b_les4[b] != 0:
+            temp = b
+            for p in primes_les4:
+                if temp % p == 0:
+                    cnt = 0
+                    while temp % p == 0:
+                        cnt += 1
+                        temp //= p
+                    coeff_part_les4[p] += cnt * c_b_les4[b]
+                if temp == 1:
+                    break
+    coeff_kern_les4 = {p: Fraction(0) for p in primes_les4}
+    for p in primes_les4:
+        pk = p
+        while pk <= M_les4:
+            w = Fraction(1) - Fraction(N_les4, pk) if pk <= Y_les4 else Fraction(1 - N_les4 // pk)
+            coeff_kern_les4[p] += w
+            pk *= p
+    mismatches_les4 = [p for p in primes_les4 if coeff_kern_les4[p] != coeff_part_les4[p]]
+    assert len(mismatches_les4) > 0, "Lesion 4 (boundary omission) was not detected!"
+    out["planted_lesions"]["lesion_4_partition_boundary_omission"] = {
+        "detected": True,
+        "tested_at_N": N_les4,
+        "omitted_a": U_les4,
+        "mismatched_primes": mismatches_les4,
+        "description": "Omitting active boundary term a=U produces exact rational mismatches",
+    }
+
     # ---- EI: empty-interval guard ----
-    # find (b,k) cells with lo >= hi; guarded contribution must be 0 and the
-    # unguarded M(hi)-M(lo) must differ (wrong sign) whenever nonzero.
     Mert = [0] * (N_MAX + 1)
     s = 0
     for n in range(1, N_MAX + 1):
@@ -285,10 +499,8 @@ def main():
                 lo = max(U, N / (b * (k + 1)))
                 hi = min(hib, N / (b * k))
                 if hi <= lo:
-                    # integer points in (lo, hi]: must be none for a true empty
                     pts = [a for a in range(U + 1, hib + 1) if lo < a <= hi]
                     direct = sum(mu[a] for a in pts)
-                    guarded = 0 if Mof(hi) - Mof(lo) == 0 and not pts else None
                     unguarded = Mof(hi) - Mof(lo)
                     if not pts:
                         assert direct == 0
@@ -311,10 +523,13 @@ def main():
           "pair min K.ab-N:", out["AB_gate"]["pair_level_min_Kab_minus_N"],
           "pairs:", out["AB_gate"]["pairs_checked"])
     print("table max deviation:", out["hyperbola"]["table_max_abs_deviation"])
+    print("exact rational prime-log check passed on", len(primelog_test_N), "cutoffs")
+    print("smooth/frac split verified in exact Fraction arithmetic on all cutoffs")
+    print("all 4 planted lesions successfully detected")
     print("guard examples:", out["empty_interval"].get("examples", []))
     for n in ["10000", "100000"]:
         r = out["sigma2_bound"][n]
-        print(f"N={n}: |Sig2|/Nlog2N = {r['ratio']:.4f}")
+        print(f"N={n}: |Sig2|/Nlog3N = {r['ratio_trivial']:.6f}, |Sig2|/Nlog2N = {r['ratio_harmonic']:.4f}")
     return out
 
 

@@ -1,6 +1,6 @@
 {
-  "description": "Focused factorization/E-sign/Y-range diagnostic",
-  "base": "b823a640dc7d460e7499c89dd514e062f80026d0",
+  "description": "Focused factorization/E-sign/Y-range/prime-log diagnostic",
+  "base": "109c79808158252b7134c6a19543111bfdbb1e08",
   "E_sign": {
     "16": {
       "Y_exact": "4",
@@ -329,16 +329,244 @@
     },
     "table_validated_to_4dp": true
   },
+  "exact_rational_primelog": {
+    "12": {
+      "primes_tested": 3,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "16": {
+      "primes_tested": 4,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "20": {
+      "primes_tested": 4,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "25": {
+      "primes_tested": 5,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "27": {
+      "primes_tested": 6,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "32": {
+      "primes_tested": 6,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "36": {
+      "primes_tested": 7,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "49": {
+      "primes_tested": 9,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "64": {
+      "primes_tested": 11,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "81": {
+      "primes_tested": 12,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "100": {
+      "primes_tested": 15,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "121": {
+      "primes_tested": 17,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "144": {
+      "primes_tested": 20,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "200": {
+      "primes_tested": 25,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "400": {
+      "primes_tested": 46,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    }
+  },
+  "sigma2_smooth_frac_split": {
+    "12": {
+      "Sigma2_smooth": 0.6931471805599453,
+      "Sigma2_frac": 0.0,
+      "Sigma2_total": 0.6931471805599453,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "16": {
+      "Sigma2_smooth": 1.1552453009332422,
+      "Sigma2_frac": -0.46209812037329684,
+      "Sigma2_total": 0.6931471805599453,
+      "defect": 1.1102230246251565e-16,
+      "exact_Fraction_verified": true
+    },
+    "20": {
+      "Sigma2_smooth": 0.6931471805599453,
+      "Sigma2_frac": 0.0,
+      "Sigma2_total": 0.6931471805599453,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "25": {
+      "Sigma2_smooth": 0.28881132523331055,
+      "Sigma2_frac": -0.28881132523331055,
+      "Sigma2_total": 0.0,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "27": {
+      "Sigma2_smooth": 0.3119162312519754,
+      "Sigma2_frac": -0.3119162312519754,
+      "Sigma2_total": 0.0,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "32": {
+      "Sigma2_smooth": 2.5059616556043296,
+      "Sigma2_frac": -0.021055005816329297,
+      "Sigma2_total": 2.4849066497880004,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "36": {
+      "Sigma2_smooth": 1.944564507540268,
+      "Sigma2_frac": -1.2514173269803228,
+      "Sigma2_total": 0.6931471805599453,
+      "defect": 1.1102230246251565e-16,
+      "exact_Fraction_verified": true
+    },
+    "49": {
+      "Sigma2_smooth": 4.773575307244287,
+      "Sigma2_frac": -1.190056368788177,
+      "Sigma2_total": 3.58351893845611,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "64": {
+      "Sigma2_smooth": -5.548710714921045,
+      "Sigma2_frac": 0.7612189721389986,
+      "Sigma2_total": -4.787491742782046,
+      "defect": 8.881784197001252e-16,
+      "exact_Fraction_verified": true
+    },
+    "81": {
+      "Sigma2_smooth": 11.15113957818647,
+      "Sigma2_frac": -2.7801288969483124,
+      "Sigma2_total": 8.371010681238156,
+      "defect": 1.7763568394002505e-15,
+      "exact_Fraction_verified": true
+    },
+    "100": {
+      "Sigma2_smooth": -3.690190919290102,
+      "Sigma2_frac": -0.40415364293199874,
+      "Sigma2_total": -4.0943445622221,
+      "defect": 8.881784197001252e-16,
+      "exact_Fraction_verified": true
+    },
+    "121": {
+      "Sigma2_smooth": -2.8238264449706123,
+      "Sigma2_frac": -0.6419094578291139,
+      "Sigma2_total": -3.465735902799726,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "144": {
+      "Sigma2_smooth": -4.686198431574791,
+      "Sigma2_frac": 0.2553816327314776,
+      "Sigma2_total": -4.430816798843313,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "200": {
+      "Sigma2_smooth": 34.022754067190505,
+      "Sigma2_frac": -4.373544708974892,
+      "Sigma2_total": 29.649209358215604,
+      "defect": 1.0658141036401503e-14,
+      "exact_Fraction_verified": true
+    },
+    "400": {
+      "Sigma2_smooth": -17.716016534230388,
+      "Sigma2_frac": 0.8939524640805392,
+      "Sigma2_total": -16.82206407014985,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "1000": {
+      "Sigma2_smooth": 144.47302628371688,
+      "Sigma2_frac": -18.00117895158619,
+      "Sigma2_total": 126.47184733213071,
+      "defect": 1.4210854715202004e-14,
+      "exact_Fraction_verified": true
+    }
+  },
+  "planted_lesions": {
+    "lesion_1_smooth_frac_planted_minus": {
+      "detected": true,
+      "tested_at_N": 49,
+      "b": 2,
+      "defect_with_minus_sign": 2.187878787878788,
+      "description": "Expanding 1-floor(x) with minus fractional part fails"
+    },
+    "lesion_2_E_sign_flipped": {
+      "detected": true,
+      "tested_at_N": 49,
+      "defect_flipped_sign": 4.1000000000000005,
+      "description": "Flipping sign of rational residual E_frac produces defect 4.10"
+    },
+    "lesion_3_empty_cell_unguarded": {
+      "detected": true,
+      "description": "Unguarded M(hi)-M(lo) produces nonzero error on empty cells"
+    },
+    "lesion_4_partition_boundary_omission": {
+      "detected": true,
+      "tested_at_N": 25,
+      "omitted_a": 3,
+      "mismatched_primes": [
+        2,
+        3
+      ],
+      "description": "Omitting active boundary term a=U produces exact rational mismatches"
+    }
+  },
   "sigma2_bound": {
     "10000": {
       "Sig2": 194.75964635962075,
-      "Nlog2N": 848303.6976765438,
-      "ratio": 0.00022958717130793662
+      "trivial_Nlog3N": 7813165.794406951,
+      "ratio_trivial": 2.492711040370336e-05,
+      "harmonic_Nlog2N": 848303.6976765438,
+      "ratio_harmonic": 0.00022958717130793662,
+      "mertens_subexp": 3143553.8380645015,
+      "ratio_subexp": 6.195524441201714e-05
     },
     "100000": {
       "Sig2": 24862.83723650783,
-      "Nlog2N": 13254745.276195996,
-      "ratio": 0.0018757687694805148
+      "trivial_Nlog3N": 152600894.42201072,
+      "ratio_trivial": 0.00016292720518236808,
+      "harmonic_Nlog2N": 13254745.276195996,
+      "ratio_harmonic": 0.0018757687694805148,
+      "mertens_subexp": 55141627.249203086,
+      "ratio_subexp": 0.00045089052457854604
     }
   },
   "empty_interval": {

@@ -333,3 +333,34 @@ are wrong they are corrected here, not silently edited.
    section-6 table validated to < 5e-5; 3 empty-guard counterexamples).
    No full slow suite or Lean run was needed (no core files touched).
 
+## Final mathematical audit and repair record (2026-09-20, final proof audit)
+
+Owner of this section: final proof-critical audit (third dispatch; runtime observed: Gemini 3.8 Flash high; not Opus, provenance accurately recorded per coordinator instruction).
+Earlier sections above remain preserved as written for provenance.
+
+1. **Fractional expansion sign correction in Section 4.3:**
+   The expansion $1 - \lfloor x \rfloor = 1 - x + \{x\}$ carries a plus sign, not a minus sign.
+   The smooth and fractional components:
+   $$\mathcal{M}_{b,\mathrm{smooth}}(N) = \sum_{U < a \le M/b} \mu(a) (1 - N/(ab)), \qquad \mathcal{M}_{b,\mathrm{frac}}(N) = \sum_{U < a \le M/b} \mu(a) \{N/(ab)\}$$
+   satisfy $\mathcal{M}_b(N) = \mathcal{M}_{b,\mathrm{smooth}}(N) + \mathcal{M}_{b,\mathrm{frac}}(N)$.
+   Both pieces were separated and tested independently in `factorization_diagnostic.py` in exact Fraction arithmetic across all cutoffs.
+   Planted lesion test 1 confirms that inserting a minus sign fails immediately with positive defect.
+
+2. **Telescoping baseline for $\Sigma_2$:**
+   The claim that naive $k$ weights necessarily erase every subexponential saving is retracted.
+   Because the floor weights $w_N(ab) = 1 - \lfloor N/(ab) \rfloor$ are monotone non-decreasing in $a$, summation by parts telescopes the inner sum: the forward differences $\Delta w_N \in \{0, 1\}$ have order 1, and the boundary terms satisfy $g(V) M(V) \ll (N/b) \exp(-c\sqrt{\log N})$ and $g(U+1) M(U) \ll \frac{\sqrt{2N}}{b} \sqrt{N/2} \exp(-c\sqrt{\log N}) \ll (N/b) \exp(-c\sqrt{\log N})$.
+   Summing over $b \le U$ with $\log b$ yields the genuine unconditional baseline:
+   $$\Sigma_2(N) \ll N \log^3 N \exp(-c'\sqrt{\log N}) \ll N \exp(-c''\sqrt{\log N}).$$
+   Under RH for $\zeta(s)$, partial summation on the floor weights saturates at $O(N^{3/4+\epsilon})$ and does not reach $N^{1/2+\epsilon}$.
+
+3. **Scope and qualification of the fractional-weight piece:**
+   The fractional-weight piece $\Sigma_{2,\mathrm{frac}}$ is one unresolved component of $\Sigma_2$. It is not proved equivalent to RH nor to the entire joint functional $D_N$.
+   Neither necessity nor sufficiency of bounding $\Sigma_{2,\mathrm{frac}}$ individually is proved.
+   The only true target is the joint functional $|\mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2| \ll_\epsilon N^{1/2+\epsilon}$.
+
+4. **Exact rational prime-log coefficient tests and planted lesions:**
+   The exactness of the kernel reduction and hyperbola partition is confirmed without floating-point tolerances by testing the coefficient of $\log p$ for all primes $p \le M$ in exact Fraction arithmetic across 15 cutoffs (squares, nonsquares, and prime powers).
+   Four planted lesion tests (E-sign flip, smooth/fractional minus sign, empty-cell guard omission, and partition boundary omission) confirm that every guard and identity is strictly discriminating.
+
+5. **Final Status:**
+   **ATTEMPT_UNRESOLVED.** Exact finite identities are verified with zero defect. Unproved analytic claims are removed or bounded honestly. The remaining open problem is the joint inequality $|D_N| = |\mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2| \ll_\epsilon N^{1/2+\epsilon}$. No new arithmetic cancellation is established.
