@@ -7,7 +7,11 @@
 - The review file and the reviewer's own checks (`formula_review_checks.py`,
   `results_formula_review_checks.json`) were not edited, not re-run and not committed by the
   author.
-- **The revised proofs have not been reviewed.** Nothing below claims otherwise.
+- Review record: original review at `95ae36b`; targeted follow-up review at `3006ef2`
+  (appended to the review file), which cleared the core formula (Proposition 3) and the
+  conditional Theorem 4 and raised residual findings F1 to F3 in section 10. The three
+  exact edits answering F1 to F3 (closeout at the end of this file) were checked by the
+  coordinator afterwards; **no further reviewer run has occurred on them.**
 
 ## Summary
 
@@ -196,3 +200,20 @@ that completeness is **not** proved. Nothing load-bearing depends on the list.
 
 `formula_repair_checks.py` (main venv, about 3 s): C1 to C8 all pass; results in
 `results_formula_repair_checks.json`. The reviewer's scripts were not run.
+
+## Closeout of follow-up findings F1 to F3 (review of `3006ef2`)
+
+All three are in section 10; none touches Proposition 3 or Theorem 4. Each was accepted as
+the reviewer stated it.
+
+| finding | artifact changed | exact correction |
+|---|---|---|
+| F1 truncation constant | yes | Adaptation 1 now writes `log(x T) = (2 - beta_0 + epsilon_1) log x` exactly, so the term is `C_1 (2 - beta_0 + epsilon_1)^2 x^{1 + beta_0 - epsilon_1} log^2 x`, valid for all `T_{n_k}` as defined; the unjustified factor 4 is removed and the reason it is not inherited from section 7 is stated. `o(x^{1 + beta_0})` kept for each fixed `epsilon_1 > 0`. |
+| F2 quantifiers | yes | (MISSING) now posits a sequence `x_{n_k} -> infinity` along which both the phase condition and the competitor bound hold for every `k`. The conclusion is stated along the floor integers `N_{n_k} = floor(x_{n_k})`, with the strict margin `1 + beta_0 > Theta + Theta_chi` kept. The old wording (unbounded sequence, bound for infinitely many `n`) is recorded as insufficient. No stronger unconditional result is inferred. |
+| F3 explicitness | yes | Only the phase condition is explicit in `gamma_0, phi_0`; the sequence is purely existential and no closed form is supplied under (MISSING). The closed form `exp((2 pi n - phi_0)/gamma_0)` is attributed to Theorem 4's conditional (H-ISO) construction only. |
+
+Status after closeout: Proposition 3 is a useful intermediate lemma with exact hypotheses;
+Theorem 4 stays conditional on (H-ISO) and (H-TRANSFER); the unconditional extension in
+section 10 remains unresolved, pending (MISSING) plus the margin. The cited-not-inspected
+`S(T, chi)` bound caveat stands unchanged and is not needed for the core formula. These
+edits were checked by the coordinator; no further reviewer run has occurred.

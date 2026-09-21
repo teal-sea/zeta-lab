@@ -10,8 +10,11 @@ and are **not proof**. Nothing here is kernel-checked and nothing here claims to
 independent reviewer, whose findings are recorded verbatim in
 `THEOREM_B_FORMULA_REVIEW.md`. Five substantive objections (R1 to R5) were raised. This
 revision responds to all five; `AUTHOR_RESPONSE.md` lists each one, whether it was accepted
-or rejected, the mathematical reason, and the exact change made. **The revised proofs below
-have not themselves been reviewed.** Objections resolved here were resolved by the author.
+or rejected, the mathematical reason, and the exact change made. The revision (commit
+`3006ef2`) then received a targeted follow-up review, appended to the same file, which
+cleared the core formula (Proposition 3) and the conditional Theorem 4 and raised three
+residual findings F1 to F3, all in section 10. Those three exact edits were made afterwards
+and checked by the coordinator; **no further reviewer run has occurred on them.**
 
 Date: 2026-09-20. Original commit: `95ae36b9c09c0cf28844e40e50f7fceac2f95cfb`
 (base `f402358c6c3f3c838605e71dd97cb6401a6963f0`). Revised the same day after review.
@@ -624,13 +627,20 @@ is one inequality, and it can be written down exactly.
 
 **(MISSING).** *There exist `epsilon_1 > 0`, `delta in (0, 1)`, a nontrivial zero
 `rho_0 = beta_0 + i gamma_0` with `beta_0 > Theta_chi - eta` for a given small `eta > 0`,
-and an unbounded sequence `x_n` with `cos(gamma_0 log x_n + phi_0) >= 1 - delta/4`, such
-that with `T_n = x_n^{1 - beta_0 + epsilon_1}`*
+and a sequence `x_{n_k} -> infinity` (as `k -> infinity`) along which, for every `k`, BOTH
+the phase condition `cos(gamma_0 log x_{n_k} + phi_0) >= 1 - delta/4` AND, with
+`T_{n_k} = x_{n_k}^{1 - beta_0 + epsilon_1}`, the competitor bound*
 
-    | sum_{0 < |gamma'| <= T_n,  rho' not in {rho_0, conj(rho_0)}} m(rho') c(rho') x_n^{1 + rho'} |
-        <=  (1 - delta) . 2 m_0 |c_0| x_n^{1 + beta_0}
+    | sum_{0 < |gamma'| <= T_{n_k},  rho' not in {rho_0, conj(rho_0)}} m(rho') c(rho') x_{n_k}^{1 + rho'} |
+        <=  (1 - delta) . 2 m_0 |c_0| x_{n_k}^{1 + beta_0}
 
-*for infinitely many n.*
+*hold.*
+
+The earlier wording (an unbounded sequence `x_n` with the competitor bound for infinitely
+many `n`) was insufficient: the unboundedness could come entirely from indices where the
+bound fails, so the good indices need not escape to infinity. The form above requires the
+good subsequence itself to tend to infinity, which is what the `o(1)` terms, the growth of
+`T_{n_k}` and the integer transfer below all use.
 
 **What (MISSING) buys, and at what cost.** The first version of this file said sections
 7(a), 7(d) and 7(e) then "go through verbatim". They do not, and the reviewer was right to
@@ -638,16 +648,20 @@ stop there. Two adaptations are needed, and neither is free.
 
 *Adaptation 1, the truncation error (7a).* Section 7 fixes `epsilon_1 = g/2`, a quantity
 defined by (H-ISO), which is absent here. Use instead the `epsilon_1 > 0` that (MISSING)
-supplies, and the estimate is unchanged in form: with `T_n = x_n^{1 - beta_0 + epsilon_1}`
-and `x_n >= 4`,
+supplies. With `T_{n_k} = x_{n_k}^{1 - beta_0 + epsilon_1}` one has exactly
+`log(x_{n_k} T_{n_k}) = (2 - beta_0 + epsilon_1) log x_{n_k}`, so for every `k` with
+`x_{n_k} >= 4` and `T_{n_k} >= 4` (all large `k`)
 
-    C_1 x_n^2 T_n^{-1} log^2(x_n T_n) <= 4 C_1 x_n^{1 + beta_0 - epsilon_1} log^2 x_n
-                                       = o( x_n^{1 + beta_0} )
+    C_1 x_{n_k}^2 T_{n_k}^{-1} log^2(x_{n_k} T_{n_k})
+        = C_1 (2 - beta_0 + epsilon_1)^2 x_{n_k}^{1 + beta_0 - epsilon_1} log^2 x_{n_k}
+        = o( x_{n_k}^{1 + beta_0} )
 
-for any `epsilon_1 > 0`. Combining with the `(1 - delta)` competitor bound and the
+for each fixed `epsilon_1 > 0`. The factor 4 of section 7 is not inherited: there it came
+from `T <= x`, which the (H-ISO) gap supplies, and `(2 - beta_0 + epsilon_1)^2` exceeds 4
+whenever `epsilon_1 > beta_0`. Combining with the `(1 - delta)` competitor bound and the
 `(1 - delta/4)` phase bound leaves a surviving main term
 
-    |I(x_n)| >= (3 delta / 4) . 2 m_0 |c_0| x_n^{1 + beta_0} (1 + o(1)).
+    |I(x_{n_k})| >= (3 delta / 4) . 2 m_0 |c_0| x_{n_k}^{1 + beta_0} (1 + o(1)).
 
 So 7(a) adapts in two lines, but it does so with (MISSING)'s `epsilon_1`, not 7's.
 
@@ -673,16 +687,20 @@ the transfer step fails even though (H-TRANSFER) holds. So either
   which `Theta < 1` makes non-vacuous for every `Theta`, without making it checkable for a
   given `eta`.
 
-With either, (MISSING) yields `E(N_n) >> N_n^{1 + 2 Theta_chi - 2 eta}` along the sequence
-it names, unconditionally on (H-ISO). (H-ISO) implies (MISSING) with `delta` close to 1 for
+With either, and keeping the strict margin `1 + beta_0 > Theta + Theta_chi`, (MISSING)
+yields `E(N_{n_k}) >> N_{n_k}^{1 + 2 Theta_chi - 2 eta}` along the corresponding floor
+integers `N_{n_k} = floor(x_{n_k})`, unconditionally on (H-ISO). This is a conditional
+implication from the unproved (MISSING); no stronger unconditional result is inferred. (H-ISO) implies (MISSING) with `delta` close to 1 for
 all large `n`, which is precisely how Theorem 4 is proved, and in that case `beta_0`
 **equals** `Theta_chi`, so `eta` may be taken to be 0 and Adaptation 2 is vacuous.
 
 **(MISSING) is an existence statement.** It asserts that some zero, some `epsilon_1`, some
 `delta` and some unbounded sequence exist. It exhibits none of them. Any statement derived
-from it is therefore existential too: the sequence `x_n` is explicit as a formula in
-`gamma_0` and `phi_0`, and those are not known numbers. No constructive or effective claim
-is made here, and the word "explicit" in Theorem 4 carries exactly that weight and no more.
+from it is therefore existential too. Only the phase condition is explicit in `gamma_0` and
+`phi_0` (which are not known numbers); the sequence `x_{n_k}` satisfying it is purely
+existential, and no closed form is supplied under (MISSING). The closed form
+`x_n = exp((2 pi n - phi_0)/gamma_0)` belongs to Theorem 4's conditional construction under
+(H-ISO), not to (MISSING). No constructive or effective claim is made here.
 
 **Why (MISSING) is hard, stated honestly.**
 
@@ -749,7 +767,7 @@ do not have that input and do not claim a route to it.
 Grades, per the repository's certainty ladder:
 
 - Lemma 0, Lemma 1, section 5 polar structure, Proposition 3: *derived*, hypotheses stated,
-  reviewed once in their previous form, with this revision unreviewed.
+  reviewed at `95ae36b` and again, targeted, at `3006ef2`; the follow-up cleared them.
 - Theorem 4: *derived and conditional*. Its composite grade is that of its weakest step,
   which is its hypothesis (H-ISO); it is a conditional theorem and is called one.
 - Section 10's unconditional variant: *unresolved attempt*, with the missing analytic input
@@ -770,8 +788,15 @@ steps (a) to (e), the Defect 3 framing, and the attribution spot-checks it ran. 
 five substantive objections. All five are answered in `AUTHOR_RESPONSE.md`: four were
 accepted and the artifact changed; the fifth was accepted in part, with the part rejected
 argued there rather than quietly dropped. The review's own open item, that the primary
-source for (F1) had not been reached, is closed in section 8. **This revision has not been
-reviewed.**
+source for (F1) had not been reached, is closed in section 8. The revision at `3006ef2`
+received a targeted follow-up review (appended to the same file), which confirmed the
+primary (F1) reduction and cleared Proposition 3 and the conditional Theorem 4, and raised
+three residual findings F1 to F3 in section 10. The three exact edits answering them
+(exact truncation constant, subsequence quantifiers in (MISSING), explicitness wording) were
+made afterwards and checked by the coordinator; **no further reviewer run has occurred.**
+The classical bound `S(T, chi) << log(q(T+2))` (used only for (F2-low), the divergence
+claim) remains cited, not inspected, as stated in section 8; it is not needed for the core
+formula.
 
 ---
 
