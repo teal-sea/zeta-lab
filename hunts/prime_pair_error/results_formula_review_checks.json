@@ -1,0 +1,60 @@
+{
+  "note": "NOT proof. Independent second-method spot checks; dps=30.",
+  "mp_dps": 30,
+  "R_double_pole_cauchy": {
+    "A_minus_1": "3.23078e-38",
+    "B_minus_nu_closed": "9.86076e-32",
+    "nu_closed": "(0.643831644563 + 0.0j)",
+    "passes": true
+  },
+  "R_mu1_limits": {
+    "mu1": "(-0.474099413336 + 0.0j)",
+    "gaps_h_1e4_1e6_1e8": [
+      "2.59543e-8",
+      "2.59543e-12",
+      "2.59543e-16"
+    ],
+    "passes": true
+  },
+  "R_real_line_scan": {
+    "n_points": 399,
+    "min_value": "0.33412327",
+    "sign_changes": [],
+    "passes": true
+  },
+  "R_coefficient_identity": {
+    "n_ordinates": 21,
+    "identity_max_residual": "3.08149e-33",
+    "abs_c_times_gamma_first_last": [
+      0.4915184035639592,
+      0.49983045028238177
+    ],
+    "passes": true
+  },
+  "F_grouped_series_lemma1": {
+    "rows": [
+      {
+        "s": "0.5",
+        "gap": "0.0030429",
+        "tail_scale": "0.00304316",
+        "L_minus_lower": "0.187974",
+        "passes": true
+      },
+      {
+        "s": "0.9",
+        "gap": "7.10584e-5",
+        "tail_scale": "7.10691e-5",
+        "L_minus_lower": "0.117727",
+        "passes": true
+      },
+      {
+        "s": "1.5",
+        "gap": "2.53575e-7",
+        "tail_scale": "2.53639e-7",
+        "L_minus_lower": "0.0575216",
+        "passes": true
+      }
+    ],
+    "passes": true
+  }
+}
