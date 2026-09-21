@@ -280,3 +280,56 @@ audit of the review.
    The section 8 table rows for N in [81, 144, 200, 400] were stale formatting
    copies and are corrected to match the author's verified JSON records.
 
+## Correction and acceptance record (2026-09-20, repair dispatch)
+
+Owner of this section: the repair worker (second dispatch). Earlier sections
+above are preserved as written, including the adjudication note; where they
+are wrong they are corrected here, not silently edited.
+
+1. **E-sign: my R1 had a text/table inconsistency, now fixed on both sides.**
+   R1 line 49 stated `E(N) = T_bil + sum(R diffs) = -sum({N/k} - {Y})` while
+   the R1 table printed the script's `e_frac = +sum({N/k} - {Y})`
+   (e.g. `+41/20` at N = 49). The exact relation, asserted both sides
+   independently (mpmath dps-80 transcendentals versus exact `Fraction`
+   arithmetic, flipped sign discriminated) in
+   `results_factorization_diagnostic.json` at 13 cutoffs including N = 49, is
+   `T_bil + sum_{k=2}^K (R(N/k) - R(Y)) = -sum_{k=2}^K ({N/k} - {Y})`
+   (`-41/20` at N = 49). The candidate memo (3$'$) carried the same sign the
+   other way (`+ E_frac`) and is corrected to minus in this repair.
+2. **Misattribution corrected: this review never asserted `R_boundary = Theta(N)`.**
+   The record: R2 asserted the *discrepancy* `A(N) - log(N!)` is Theta(N)
+   (exact identity plus main term `N - Y`, measured ratio near `-1` across
+   three decades), and that bounding `R_boundary` is *equivalent* to bounding
+   `R(N) - T_bilinear`. The sentence "Two terms of (2), not one, are
+   unbounded" meant "not elementarily bounded", i.e. unresolved, and is
+   hereby reworded to exactly that. No proof that `R_boundary` is large was
+   given or is claimed; its status is unresolved, coupled to
+   `R(N) - T_bilinear`. The adjudication's "reviewer's inference" sentence is
+   corrected accordingly.
+3. **Acceptance of the repaired package (base `b823a64`, repair commit below).**
+   Proved exact identities (each re-derived and machine-checked): candidate
+   (2) with (8)-(16); sign-corrected (3$'$); `A - log(N!) = T_bil - (psi(N) -
+   psi(Y))`; `R_b = R(N) - T_bil + E_det` with `E_det = -R(Y)/2 + O(log N)`;
+   collapsed `D_N = R(N) + T_saw + E_det`; spectral `B = 1 - zeta(rho) -
+   tail_K`; hyperbola absence-of-remainder lemma and the
+   `D_N = S + Sigma_1 + Sigma_2` partition; guarded Mertens-cell identity.
+   Genuine baselines now on record: `|T_saw| <= psi(Y)/2 << sqrt(N)`;
+   `E_det = O(sqrt N)`; `T_bil`, `R_b << N log N exp(-c sqrt(log N))`
+   unconditional; `Sigma_2 << N log^2 N` unconditional (logs retained);
+   RH upper envelope `sum|R| << N^{3/4} log^2 N`.
+   Remaining estimate: the joint `|D_N| << N^{1/2+eps}`, equivalently the
+   signed bilinear/frac-piece cancellation; the fractional-weight piece
+   `sum mu(a){N/(ab)}` is its analytic core.
+   Any new cancellation obtained: none. The surviving content is a correct
+   reformulation (candidate identity plus exact factorization) preserved as
+   attempt unresolved; the factorization method as a whole is not closed.
+   Commands run (one process, ~2.5 min total numerical compute, N <= 100000):
+   `.venv/bin/python hunts/prime_pair_error/independent_arithmetic_cancellation_check.py`
+   (prior dispatch, ~40 s) and
+   `.venv/bin/python hunts/prime_pair_error/factorization_diagnostic.py`
+   (~110 s: E-sign discrimination at 13 N; Y sweep 4..100000 with 314
+   documented `Y < sqrt(N)+1` violations; `2(U+1) - Y` minimum 0.5;
+   pair-level `Kab - N` minimum 3 over 30.8M pairs; kernel/partition defects;
+   section-6 table validated to < 5e-5; 3 empty-guard counterexamples).
+   No full slow suite or Lean run was needed (no core files touched).
+

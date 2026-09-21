@@ -16,7 +16,12 @@ Let $N \ge 4$ be an integer. Define
 \[
 K = \lfloor\sqrt{N}\rfloor, \qquad Y = \frac{N}{K}.
 \]
-Then $K \le \sqrt{N} < K + 1$ and $\sqrt{N} \le Y < \sqrt{N} + 1$.
+Then $K \le \sqrt{N} < K + 1$ and $\sqrt{N} \le Y$, with the valid upper
+bound $Y = N/K < N/(\sqrt{N} - 1) = \sqrt{N} + 1 + 1/(\sqrt{N} - 1)$ for
+$N \ge 4$ (corrected 2026-09-20: $Y < \sqrt{N} + 1$ is false; e.g. $N = 8$
+gives $Y = 4 > \sqrt{8} + 1$, and every $N = m^2 - 1$ gives
+$Y = m + 1 > \sqrt{N} + 1$; 314 violations in $4 \le N \le 100000$, see
+`results_factorization_diagnostic.json`).
 The von Mangoldt function $\Lambda(n)$ is supported on all prime powers $n = p^m$ ($m \ge 1$),
 with $\psi(x) = \sum_{n \le x} \Lambda(n)$ and $R(x) = \psi(x) - x$.
 The target quantity isolated in `SIGNED_MEAN_RENEWAL.md` equation (17) is
@@ -43,14 +48,21 @@ Because $\sum_{Y < d \le N/k} 1 = \lfloor N/k \rfloor - \lfloor Y \rfloor$ uses 
 while $R(N/k) - R(Y) = (\psi(N/k) - \psi(Y)) - (N/k - Y)$ uses continuous linear slopes,
 the relation to the prime-counting error $R$ is
 \[
-\mathcal{T}_{\mathrm{bilinear}}(N, K) = -\sum_{k=2}^K \big( R(N/k) - R(Y) \big) + \mathcal{E}_{\mathrm{frac}}(N, K),
+\mathcal{T}_{\mathrm{bilinear}}(N, K) = -\sum_{k=2}^K \big( R(N/k) - R(Y) \big) - \mathcal{E}_{\mathrm{frac}}(N, K),
 \tag{3'}
 \]
 where the exact rational discrepancy is
 \[
 \mathcal{E}_{\mathrm{frac}}(N, K) = \sum_{k=2}^K \left( \left\{ \frac{N}{k} \right\} - \{ Y \} \right).
 \]
-Since $0 \le \{x\} < 1$, $|\mathcal{E}_{\mathrm{frac}}(N, K)| < K \le \sqrt{N}$ is unconditionally bounded.
+Indeed $\lfloor x \rfloor = x - \{x\}$, so
+$\mathcal{T}_{\mathrm{bilinear}} + \sum_{k=2}^K (R(N/k) - R(Y))
+= \sum_{k=2}^K (\{Y\} - \{N/k\}) = -\mathcal{E}_{\mathrm{frac}}$.
+(Corrected 2026-09-20: the repair draft had $+$ here; at $N = 49$,
+$\mathcal{E}_{\mathrm{frac}} = \sum_{k=2}^7 \{49/k\} = 41/20$ while
+$\mathcal{T}_{\mathrm{bilinear}} + \sum (R - R(Y)) = -41/20$, both sides
+checked independently in `results_factorization_diagnostic.json`.)
+Since $0 \le \{x\} < 1$, $|\mathcal{E}_{\mathrm{frac}}(N, K)| < K - 1 < K \le \sqrt{N}$ is unconditionally bounded.
 2. **The signed sawtooth correlation:**
 \[
 \mathcal{T}_{\mathrm{sawtooth}}(N, K) := -\sum_{d \le Y} \Lambda(d) \left( \left\{ \frac{N}{d} \right\} - \frac{1}{2} \right),
@@ -142,7 +154,11 @@ Substituting (14), (15), and (16) into (13) proves the candidate identity (2) wi
 \[
 D_N = \mathcal{T}_{\mathrm{bilinear}}(N, K) + \mathcal{T}_{\mathrm{sawtooth}}(N, K) + \mathcal{R}_{\mathrm{boundary}}(N, K).
 \]
-This algebraic match has been verified independently to $10^{-12}$ at $N=100000$ and $10^{-38}$ on small $N$.
+This algebraic match agrees independently with defect at most $6 \times 10^{-12}$
+at $N \le 100000$ (independent checker, float-$\psi$ accumulation dominated)
+and $5 \times 10^{-16}$ at $N = 400$; the author's dps-40 checker reports
+defects below $10^{-35}$ on $N \le 400$. Finite agreement is diagnostic, not
+a proof of the exact identity; the proof is the algebra of (13)-(16).
 
 ---
 
@@ -178,6 +194,14 @@ The candidate replaces the scalar definition of $D_N$ with three structured comp
    \]
    where $E_{\mathrm{det}}(N) = \mathcal{S}_{\mathrm{smooth}}(N, K) - \log(N!) + N - \frac{1}{2}\psi(Y) = -\frac{1}{2}R(Y) + O(\log N) = O(\sqrt{N})$.
    Hence bounding $\mathcal{R}_{\mathrm{boundary}}$ is algebraically coupled to bounding $R(N) - \mathcal{T}_{\mathrm{bilinear}}$.
+   The form $E_{\mathrm{det}}(N) = -\frac12 R(Y) + O(\log N)$ follows from
+   Stirling $\log(N!) = N\log N - N + \frac12\log N + \frac12\log 2\pi + O(1/N)$
+   and $H_K = \log K + \gamma + 1/(2K) + O(1/K^2)$: since $YK = N$,
+   $\mathcal{S}_{\mathrm{smooth}} = N\log N - 2N + N/(2K) + O(1/K)$-times-$N$
+   with the $O(N/K^2) = O(Y/K) = O(1)$ remainder, and $N/(2K) - \psi(Y)/2
+   = -R(Y)/2$, giving $E_{\mathrm{det}} = -R(Y)/2 - \frac12\log N
+   - \frac12\log 2\pi + O(1)$. By Chebyshev $|R(Y)| \ll Y \ll \sqrt{N}$,
+   $E_{\mathrm{det}} = O(\sqrt{N})$ unconditionally.
 
 ---
 
@@ -186,8 +210,8 @@ The candidate replaces the scalar definition of $D_N$ with three structured comp
 | Component | Baseline bound (justified) | Conjectured bound (target) | Status / Proof mechanism |
 |---|---|---|---|
 | $\mathcal{T}_{\mathrm{sawtooth}}(N, K)$ | $O(\sqrt{N})$ | $O(N^{1/4+\epsilon})$ | **Established unconditionally at $O(\sqrt{N})$.** Trivial absolute bound: $|\psi_0(x)| \le 1/2 \implies |\mathcal{T}_{\mathrm{sawtooth}}| \le \frac{1}{2}\psi(Y) \ll \sqrt{N}$. Improvement requires Vinogradov-type exponential sums. |
-| $\mathcal{R}_{\mathrm{boundary}}(N, K)$ | $O(N \exp(-c\sqrt{\log N}))$ | $O(\sqrt{N})$ | **Unresolved (algebraically coupled).** Satisfies $\mathcal{R}_{\mathrm{boundary}} = R(N) - \mathcal{T}_{\mathrm{bilinear}} + E_{\mathrm{det}}(N)$ with $E_{\mathrm{det}} = O(\sqrt{N})$. It is bounded by $O(\sqrt{N})$ if and only if $R(N) - \mathcal{T}_{\mathrm{bilinear}} = O(\sqrt{N})$. |
-| $\mathcal{T}_{\mathrm{bilinear}}(N, K)$ | $O(N \exp(-c\sqrt{\log N}))$ | $O_\epsilon(N^{1/2+\epsilon})$ | **Unresolved.** Upper bound under RH: $\sum_{k=2}^K |R(N/k)| \ll N^{3/4}\log^2 N$. Retaining signed cancellation across $k$ is mandatory. |
+| $\mathcal{R}_{\mathrm{boundary}}(N, K)$ | $O(N \log N \exp(-c\sqrt{\log N}))$ | $O(\sqrt{N})$ | **Unresolved (algebraically coupled).** Satisfies $\mathcal{R}_{\mathrm{boundary}} = R(N) - \mathcal{T}_{\mathrm{bilinear}} + E_{\mathrm{det}}(N)$ with $E_{\mathrm{det}} = O(\sqrt{N})$. It is bounded by $O(\sqrt{N})$ if and only if $R(N) - \mathcal{T}_{\mathrm{bilinear}} = O(\sqrt{N})$. The baseline follows from the $R(N)$ and $\mathcal{T}_{\mathrm{bilinear}}$ baselines below; logs are retained. |
+| $\mathcal{T}_{\mathrm{bilinear}}(N, K)$ | $O(N \log N \exp(-c\sqrt{\log N}))$ | $O_\epsilon(N^{1/2+\epsilon})$ | **Unresolved.** From (3$'$) and the inherited unconditional $\\|R(x)\\| \ll x\exp(-c\sqrt{\log x})$: $\sum_{k=2}^K \\|R(N/k)\\| \ll N\log N \exp(-c_1\sqrt{\log N})$, plus $(K-1)\\|R(Y)\\| + K$. Upper bound under RH: $\sum_{k=2}^K |R(N/k)| \ll N^{3/4}\log^2 N$. Retaining signed cancellation across $k$ is mandatory. |
 
 ### Baseline bounds details:
 - **$\mathcal{T}_{\mathrm{sawtooth}}$:**
@@ -195,8 +219,11 @@ The candidate replaces the scalar definition of $D_N$ with three structured comp
   \[
   |\mathcal{T}_{\mathrm{sawtooth}}(N, K)| \le \frac{1}{2} \sum_{d \le Y} \Lambda(d) = \frac{1}{2} \psi(Y).
   \]
-  Since $Y = N/K \le \sqrt{N} + 1$, Chebyshev's bound $\psi(Y) \le 1.04 Y$ gives
-  $|\mathcal{T}_{\mathrm{sawtooth}}| \le 0.52 \sqrt{N} + O(1)$. This is already within the target unconditionally.
+  With the inherited Chebyshev bound $\psi(Y) \ll Y$ and $Y \ll \sqrt{N}$,
+  $|\mathcal{T}_{\mathrm{sawtooth}}| \le \frac12\psi(Y) \ll \sqrt{N}$.
+  (Corrected 2026-09-20: the draft cited $Y \le \sqrt{N} + 1$ and the
+  constants $1.04$, $0.52$ without valid ranges; both are removed and no
+  explicit constant is claimed.) This is already within the target unconditionally.
 - **$\mathcal{R}_{\mathrm{boundary}}$:**
   Because $\mathcal{R}_{\mathrm{boundary}} = R(N) - \mathcal{T}_{\mathrm{bilinear}} + E_{\mathrm{det}}(N)$
   with $E_{\mathrm{det}}(N) = -\frac{1}{2}R(Y) + O(\log N) \ll \sqrt{N}$,
@@ -245,7 +272,9 @@ Notice the crucial analytical features:
    at the target scale, not $N^{1/4}$.
    Off-critical with $\Re\rho = \beta > 1/2$, the mode produces $|D_N[u^\rho]| \sim N^\beta \gg \sqrt{N}$.
    For non-real zeros $\rho = \beta + i\gamma$, the mode $N^\rho = N^\beta e^{i\gamma\log N}$ oscillates;
-   the bound is an envelope, not monotonic growth at every integer.
+   the bound is an envelope $|N^\rho| = N^\beta$, not monotonic growth at every integer.
+   For a real exponent $\rho = \beta$ the mode $N^\beta$ would instead grow monotonically;
+   no real zero is asserted to exist.
    This reconciles Section 5 with Section 7.
 
 ---
@@ -258,7 +287,9 @@ to the decomposition (2) yields the exact relation
 D_N = R(N) + \mathcal{T}_{\mathrm{sawtooth}}(N, K) + E_{\mathrm{det}}(N).
 \tag{18}
 \]
-Since $|\mathcal{T}_{\mathrm{sawtooth}}| \le 0.52\sqrt{N} + O(1)$ and $|E_{\mathrm{det}}| = |-\frac{1}{2}R(Y) + O(\log N)| \ll \sqrt{N}$
+Since $|\mathcal{T}_{\mathrm{sawtooth}}| \le \frac12\psi(Y) \ll \sqrt{N}$ and
+$|E_{\mathrm{det}}| = |-\frac{1}{2}R(Y) + O(\log N)| \ll \sqrt{N}$ (by Chebyshev
+$|R(Y)| \le \psi(Y) + Y \ll Y \ll \sqrt{N}$)
 are unconditionally bounded by $O(\sqrt{N})$, we recover $D_N = R(N) + O(\sqrt{N})$.
 Therefore:
 1. Bounding $|D_N| \ll_\epsilon N^{1/2+\epsilon}$ is equivalent to bounding $|R(N)| \ll_\epsilon N^{1/2+\epsilon}$.
@@ -299,7 +330,7 @@ That diagnostic satisfies:
 
 ## 8. Falsifiable small-case diagnostic for Muse
 
-Verified independent values reproducing the author's JSON records (`results_arithmetic_cancellation_candidate.json`):
+Independent values agreeing with the author's JSON records (`results_arithmetic_cancellation_candidate.json`) to the displayed decimals (diagnostic agreement, not a proof):
 
 | $N$ | $K$ | $R(N)$ | $D_N$ | $R(N) - D_N$ | $\mathcal{T}_{\mathrm{bilinear}}$ | $\mathcal{T}_{\mathrm{sawtooth}}$ | $\mathcal{R}_{\mathrm{boundary}}$ | Algebraic defect |
 |---|---|---|---|---|---|---|---|---|
@@ -326,7 +357,7 @@ Candidate decomposition (2):
    the decomposition does not eliminate $R(N)$ semantically. Rather, it partitions $D_N$ into a short-range
    sawtooth term $\mathcal{T}_{\mathrm{sawtooth}}$ and the coupled difference $R(N) - \mathcal{T}_{\mathrm{bilinear}}$.
 3. **Identification of structure:** It separates the short-range fractional correlation $\mathcal{T}_{\mathrm{sawtooth}}$
-   (bounded by $0.52\sqrt{N}$) from the multi-scale hyperbolic remainder $\mathcal{T}_{\mathrm{bilinear}}$.
+   (bounded by $\frac12\psi(Y) \ll \sqrt{N}$) from the multi-scale hyperbolic remainder $\mathcal{T}_{\mathrm{bilinear}}$.
 
 ---
 
