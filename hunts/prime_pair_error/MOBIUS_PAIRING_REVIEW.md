@@ -1,6 +1,6 @@
 # Independent Review: Mobius Prime Pairing (p = 2) Inside Sigma_2
 
-- **Target**: [`hunts/prime_pair_error/MOBIUS_PAIRING.md`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/MOBIUS_PAIRING.md)
+- **Target**: [`hunts/prime_pair_error/MOBIUS_PAIRING.md`](MOBIUS_PAIRING.md)
 - **Base Commit**: `425e4f46355c1f68bce3ed064b818de7f265feb3` (repair of prior review dispatch; author files remain strictly read-only at `3d5c666634766357e2c6484afb0e6fbd4c8f2540`)
 - **Date**: 2026-09-20
 - **Reviewer**: Gemini 3.8 Flash (High), operating as an independent verification worker
@@ -13,7 +13,7 @@
 
 **Verdict: ACCEPT (with recorded minimal repair specification for Section 4).**
 
-The core mathematical claims in [`MOBIUS_PAIRING.md`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/MOBIUS_PAIRING.md) are confirmed:
+The core mathematical claims in [`MOBIUS_PAIRING.md`](MOBIUS_PAIRING.md) are confirmed:
 1. The finite combinatorial identity $\mathcal{M}_b = P_b + T_b + H_b + Z_b$ with $Z_b \equiv 0$ is proved for all $N \ge 4$ by the five-way partition of $(U, V]$. It is machine-checked with zero rational defect across all 20 tested cutoffs $N \in [12, 10000]$.
 2. The gate $ab > Y$ holds for all $N \ge 12$ by the integer inequality $2(U+1)K - N \ge 3 > 0$, producing the exact floor drop $\Delta(m, b) = \lfloor N/(2mb) \rfloor - \lfloor N/(mb) \rfloor \le 0$ with floor-jump majorant $|\Delta(m, b)| \le N/(2mb) + 1$.
 3. Under the declared absolute-value majorants, both the baseline $B(N)$ and the paired total $P_{\mathrm{tot}}(N)$ are asymptotically $\Theta(N \log^3 N)$. Specifically, $B(N) = c_0 N \log^3 N + O(N \log^2 N)$ with $c_0 = 1/48$, and $P_{\mathrm{tot}}(N) = c_p N \log^3 N + O(N \log^2 N)$ with $c_p = 1/192 = c_0 / 4$.
@@ -21,7 +21,7 @@ The core mathematical claims in [`MOBIUS_PAIRING.md`](file:///Users/thomas/orca/
 5. The paired majorant is bounded below by $\Omega(N \log^3 N)$, establishing that this explicit $p = 2$ absolute-value majorant cannot produce an asymptotic saving toward the $D_N \ll N^{1/2+\epsilon}$ target.
 
 **Historical Correction and Provenance Retraction**:
-The initial review draft cited an ephemeral path (`scratch/independent_pairing_check.py`) that was not part of the committed repository tree, and cited an invalid upper bound $Y \le \sqrt{N} + 1$. That provenance statement is hereby explicitly retracted. The independent verification is now fully reproducible via the committed script [`hunts/prime_pair_error/mobius_pairing_independent_check.py`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/mobius_pairing_independent_check.py) and its durable evidence file [`hunts/prime_pair_error/results_mobius_pairing_independent.json`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/results_mobius_pairing_independent.json).
+The initial review draft cited an ephemeral path (`scratch/independent_pairing_check.py`) that was not part of the committed repository tree, and cited an invalid upper bound $Y \le \sqrt{N} + 1$. That provenance statement is hereby explicitly retracted. The independent verification is now fully reproducible via the committed script [`hunts/prime_pair_error/mobius_pairing_independent_check.py`](mobius_pairing_independent_check.py) and its durable evidence file [`hunts/prime_pair_error/results_mobius_pairing_independent.json`](results_mobius_pairing_independent.json).
 
 ### Strongest Justified Statement
 > The exact $p = 2$ Mobius pairing identity inside $\Sigma_2$ is established by combinatorial partition for all $N \ge 4$, with zero rational defect verified across 20 cutoffs up to $N = 10000$. Under the declared absolute-value majorants, the pairing achieves an exact factor-of-4 drop in the leading constant ($1/48 \to 1/192$) while preserving the asymptotic order $\Theta(N \log^3 N)$, with boundary terms provably $\Theta(N \log^2 N)$. This establishes an exact obstruction to this specific pairing majorant. It does not bound the true signed sum $\Sigma_2$, does not limit general signed pairings or multi-prime mechanisms, and does not imply an RH impossibility result.
@@ -111,7 +111,7 @@ For $12 \le N \le 35$, $K \in \{3, 4, 5\}$:
   - $N \in [25, 31] \implies M \ge 12, U \ge 3 \implies 2(U+1)K \ge 2(4)(5) = 40 > N$ (margin $\ge 9$).
   - $N \in [32, 35] \implies M \ge 16, U = 4 \implies 2(U+1)K \ge 2(5)(5) = 50 > N$ (margin $\ge 15$).
 
-The minimum margin across all $N \ge 12$ is exactly $3$ (at $N = 15$). Furthermore, all 387 near-square cases ($N = K^2 - 1, K^2, K^2 + 1, K^2 + 2K$ for $3 \le K \le 100$) were verified with strictly positive margin in [`mobius_pairing_independent_check.py`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/mobius_pairing_independent_check.py).
+The minimum margin across all $N \ge 12$ is exactly $3$ (at $N = 15$). Furthermore, all 387 near-square cases ($N = K^2 - 1, K^2, K^2 + 1, K^2 + 2K$ for $3 \le K \le 100$) were verified with strictly positive margin in [`mobius_pairing_independent_check.py`](mobius_pairing_independent_check.py).
 Hence $ab \ge 2(U + 1) > Y$ holds unconditionally for all $N \ge 12$.
 
 Because $ab > Y$, the kernel reduces to $w(x) = 1 - \lfloor N/x \rfloor$. The paired weight difference is:
@@ -204,10 +204,10 @@ $$\frac{c_p}{c_0} = \frac{1/192}{1/48} = \frac{1}{4} = 0.25.$$
 
 ## 5. Audit of the Specific Omission: Relation to $R_\eta$
 
-In Section 4 ("Smooth-diagnostic relation"), the memo referenced an empirical Type I numerical ratio ($|S_{\mathrm{smooth}} + \Sigma_1| / N^{3/4}$) rather than evaluating the conditional smooth zero-mode $R_\eta$ from [`SIGNED_MEAN_RENEWAL.md`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/SIGNED_MEAN_RENEWAL.md) (Section 8).
+In Section 4 ("Smooth-diagnostic relation"), the memo referenced an empirical Type I numerical ratio ($|S_{\mathrm{smooth}} + \Sigma_1| / N^{3/4}$) rather than evaluating the conditional smooth zero-mode $R_\eta$ from [`SIGNED_MEAN_RENEWAL.md`](SIGNED_MEAN_RENEWAL.md) (Section 8).
 
 ### 5.1 The Construction of $R_\eta$
-In [`SIGNED_MEAN_RENEWAL.md`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/SIGNED_MEAN_RENEWAL.md), $R_\eta(u) = \Psi_\eta(u) - u$ is constructed conditionally under the hypothesis that there exists an off-critical zero $\rho = \beta + i\gamma$ with $\zeta(\rho) = 0$ and $\beta > 1/2$.
+In [`SIGNED_MEAN_RENEWAL.md`](SIGNED_MEAN_RENEWAL.md), $R_\eta(u) = \Psi_\eta(u) - u$ is constructed conditionally under the hypothesis that there exists an off-critical zero $\rho = \beta + i\gamma$ with $\zeta(\rho) = 0$ and $\beta > 1/2$.
 It satisfies:
 1. Positivity: $\Psi_\eta(1) = 0$ and $\Psi_\eta(u) \ge 0$ for all $u \ge 1$.
 2. Monotonicity: $\Psi_\eta'(u) \ge 1/2 > 0$, so $\Psi_\eta$ is strictly increasing.
@@ -235,7 +235,7 @@ Despite satisfying every macroscopic and scale-renewal condition, $R_\eta(u) = -
 All checks were executed independently using the repository environment (`.venv/bin/python`) on the local testbed.
 
 ### 6.1 Reproduction of Author's Checker
-The author's script [`mobius_pairing_check.py`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/mobius_pairing_check.py) was executed independently:
+The author's script [`mobius_pairing_check.py`](mobius_pairing_check.py) was executed independently:
 ```bash
 $ .venv/bin/python hunts/prime_pair_error/mobius_pairing_check.py
 ```
@@ -244,7 +244,7 @@ $ .venv/bin/python hunts/prime_pair_error/mobius_pairing_check.py
 - **Planted Lesions**: All three planted lesions detected with positive defects (`missing_head` = 11, `missing_tail` = 5, `wrong_sign` = 2 at $N = 100$; 39, 17, 20 at $N = 400$).
 
 ### 6.2 Independent Check Script and Durable Evidence
-An independent clean-room script was written and committed to [`hunts/prime_pair_error/mobius_pairing_independent_check.py`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/mobius_pairing_independent_check.py). It does not import author code or data.
+An independent clean-room script was written and committed to [`hunts/prime_pair_error/mobius_pairing_independent_check.py`](mobius_pairing_independent_check.py). It does not import author code or data.
 ```bash
 $ .venv/bin/python hunts/prime_pair_error/mobius_pairing_independent_check.py
 ```
@@ -257,16 +257,16 @@ $ .venv/bin/python hunts/prime_pair_error/mobius_pairing_independent_check.py
 - **Planted Lesions**: Verified four lesions with strictly positive rational defects:
   - $N = 100$: `missing_head` = 11, `missing_tail` = 5, `wrong_sign` = 2, `tail_even_inclusion` = 8.
   - $N = 400$: `missing_head` = 39, `missing_tail` = 17, `wrong_sign` = 20, `tail_even_inclusion` = 21.
-- **Durable Evidence Saved**: Written to [`hunts/prime_pair_error/results_mobius_pairing_independent.json`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/results_mobius_pairing_independent.json).
+- **Durable Evidence Saved**: Written to [`hunts/prime_pair_error/results_mobius_pairing_independent.json`](results_mobius_pairing_independent.json).
 
 ---
 
 ## 7. Minimal Repair Specification for the Author File
 
-To bring [`MOBIUS_PAIRING.md`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/MOBIUS_PAIRING.md) to complete archival alignment, the author should incorporate the following minimal repairs in Section 4:
+To bring [`MOBIUS_PAIRING.md`](MOBIUS_PAIRING.md) to complete archival alignment, the author should incorporate the following minimal repairs in Section 4:
 
 1. **Replace the paragraph "Smooth-diagnostic relation"** with an explicit discussion of $R_\eta$:
-   - Acknowledge that the conditional smooth zero-mode $R_\eta$ from [`SIGNED_MEAN_RENEWAL.md`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error/SIGNED_MEAN_RENEWAL.md) (Section 8) demonstrates that macroscopic properties alone cannot rule out an off-critical spectral mode.
+   - Acknowledge that the conditional smooth zero-mode $R_\eta$ from [`SIGNED_MEAN_RENEWAL.md`](SIGNED_MEAN_RENEWAL.md) (Section 8) demonstrates that macroscopic properties alone cannot rule out an off-critical spectral mode.
    - Clarify that $R_\eta$ lacks discrete prime-power jumps and discrete Mobius convolution, and therefore cannot instantiate $\Sigma_2$.
    - Note that the inability of $R_\eta$ to instantiate $\Sigma_2$ does not refute the hyperbola decomposition, and the majorant obstruction does not assume an off-critical zero exists.
 2. **Explicitly state the leading constants and cutoff**:

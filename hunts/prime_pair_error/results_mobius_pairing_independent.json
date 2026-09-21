@@ -1,7 +1,7 @@
 {
   "title": "Independent machine verification of p=2 Mobius pairing inside Sigma_2",
   "description": "Clean-room reproduction: exact rational identity, gate inequalities, lesions, majorants",
-  "elapsed_s": 0.5402102470397949,
+  "elapsed_s": 0.43126916885375977,
   "total_pairs_checked": 15794,
   "global_min_gate_margin": 3,
   "near_square_stress_checks_count": 387,

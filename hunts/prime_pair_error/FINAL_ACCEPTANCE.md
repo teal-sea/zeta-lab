@@ -2,7 +2,7 @@
 
 Date: 2026-09-20.
 Runtime observed: Gemini 3.8 Flash high (provenance accurately recorded; not Opus, per coordinator notice).
-Scope: Bounded audit, repair, and final acceptance of package files under [`hunts/prime_pair_error`](file:///Users/thomas/orca/workspaces/zeta-lab/signed-cancellation-sep20/hunts/prime_pair_error).
+Scope: Bounded audit, repair, and final acceptance of package files under [`hunts/prime_pair_error`](.).
 Base commit: `109c79808158252b7134c6a19543111bfdbb1e08`.
 
 ---

@@ -81,7 +81,7 @@ Weighted totals: B(N) = sum_b log b * B_b, Ptot(N) = sum_b log b * (P^maj+T^maj+
 |Sig2| <= Ptot(N) versus |Sig2| <= B(N).
 
 Declared majorants, audited asymptotics (review §4; finite-N ratios in
-results_mobius_pairing.json approach from below and are diagnostics, not the constants):
+results_mobius_pairing.json approach from above and are diagnostics, not the constants):
 
 B(N) = (1/48) N log^3 N + O(N log^2 N),  Ptot(N) = (1/192) N log^3 N + O(N log^2 N).
 
