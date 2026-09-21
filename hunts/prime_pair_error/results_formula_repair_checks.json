@@ -266,5 +266,91 @@
       }
     ],
     "passes": true
+  },
+  "C7_no_real_zeros": {
+    "n_terms": 20000,
+    "rows": [
+      {
+        "s": "0.05",
+        "grouped_series_partial": "0.156746284241",
+        "L_via_hurwitz": "0.349042697044",
+        "gap": "0.192296",
+        "tail_bound": "0.192297",
+        "gap_within_tail_bound": true,
+        "negative_brackets": 0,
+        "lower_bound_1_minus_2^-s": "0.0340636710752",
+        "L_exceeds_lower_bound": true
+      },
+      {
+        "s": "0.25",
+        "grouped_series_partial": "0.388564415425",
+        "L_via_hurwitz": "0.409862518899",
+        "gap": "0.0212981",
+        "tail_bound": "0.0212983",
+        "gap_within_tail_bound": true,
+        "negative_brackets": 0,
+        "lower_bound_1_minus_2^-s": "0.159103584746",
+        "L_exceeds_lower_bound": true
+      },
+      {
+        "s": "0.5",
+        "grouped_series_partial": "0.479506730062",
+        "L_via_hurwitz": "0.480867557697",
+        "gap": "0.00136083",
+        "tail_bound": "0.00136085",
+        "gap_within_tail_bound": true,
+        "negative_brackets": 0,
+        "lower_bound_1_minus_2^-s": "0.292893218813",
+        "L_exceeds_lower_bound": true
+      },
+      {
+        "s": "0.75",
+        "grouped_series_partial": "0.545750910491",
+        "L_via_hurwitz": "0.545837859635",
+        "gap": "8.69491e-5",
+        "tail_bound": "8.69513e-5",
+        "gap_within_tail_bound": true,
+        "negative_brackets": 0,
+        "lower_bound_1_minus_2^-s": "0.405396442499",
+        "L_exceeds_lower_bound": true
+      },
+      {
+        "s": "0.95",
+        "grouped_series_partial": "0.593333811289",
+        "L_via_hurwitz": "0.593343441483",
+        "gap": "9.63019e-6",
+        "tail_bound": "9.6305e-6",
+        "gap_within_tail_bound": true,
+        "negative_brackets": 0,
+        "lower_bound_1_minus_2^-s": "0.482367538079",
+        "L_exceeds_lower_bound": true
+      },
+      {
+        "s": "1.5",
+        "grouped_series_partial": "0.703968222188",
+        "L_via_hurwitz": "0.703968244869",
+        "gap": "2.26805e-8",
+        "tail_bound": "2.26816e-8",
+        "gap_within_tail_bound": true,
+        "negative_brackets": 0,
+        "lower_bound_1_minus_2^-s": "0.646446609407",
+        "L_exceeds_lower_bound": true
+      }
+    ],
+    "all_brackets_positive": true,
+    "lower_bound_holds_on_grid": true,
+    "all_gaps_within_tail_bound": true,
+    "passes": true
+  },
+  "C8_zero_ordinate_provenance": {
+    "source": "results_landau_zero_probe.json",
+    "t_max_scanned": "60.0",
+    "scan_step": 0.25,
+    "n_listed": 21,
+    "max_abs_L_at_listed_ordinates": "1.56635e-14",
+    "rvm_predicted_count_to_t_max": "22.6144",
+    "count_minus_prediction": "-1.61436",
+    "completeness_proved": false,
+    "passes": true
   }
 }

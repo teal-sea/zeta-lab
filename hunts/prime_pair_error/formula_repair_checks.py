@@ -303,6 +303,114 @@ def check_truncation_height(beta0: float = 0.6):
 
 
 # ---------------------------------------------------------------------------
+# C7. Lemma 1: no real zeros of L(s, chi3) in (0, 1)
+# ---------------------------------------------------------------------------
+
+
+def check_no_real_zeros(n_terms: int = 20000):
+    """Lemma 1 says L(s, chi3) = sum_k [(3k+1)^-s - (3k+2)^-s] >= 1 - 2^-s > 0 for s > 0.
+
+    Two things are checked, neither of which is the proof:
+      (i) the grouped series agrees with the continuation used elsewhere in
+          this file, which is what makes the rearrangement in Lemma 1 the
+          same function;
+      (ii) every bracket is positive and L(s) >= 1 - 2^-s on a grid of s.
+    The proof is in section 1 and does not depend on these numbers.
+    """
+    rows = []
+    all_brackets_positive = True
+    bound_holds = True
+    tail_respected = True
+    for s_float in ("0.05", "0.25", "0.5", "0.75", "0.95", "1.5"):
+        s = mp.mpf(s_float)
+        total = mp.mpf(0)
+        neg_brackets = 0
+        for k in range(n_terms):
+            term = mp.power(3 * k + 1, -s) - mp.power(3 * k + 2, -s)
+            if term <= 0:
+                neg_brackets += 1
+            total += term
+        direct = L(s)
+        gap = abs(total - direct)
+        lower = 1 - mp.power(2, -s)
+        # Each omitted bracket is int_{3k+1}^{3k+2} s t^{-s-1} dt <= s (3k+1)^{-s-1},
+        # so the omitted tail is at most (3 n_terms - 2)^{-s} / 3.  For small s
+        # this is large: the grouped series converges very slowly there, which
+        # is a property of the series and not a discrepancy.
+        tail_bound = mp.power(3 * n_terms - 2, -s) / 3
+        all_brackets_positive = all_brackets_positive and neg_brackets == 0
+        bound_holds = bound_holds and (direct >= lower)
+        tail_respected = tail_respected and (gap <= tail_bound)
+        rows.append(
+            {
+                "s": s_float,
+                "grouped_series_partial": mp.nstr(total, 12),
+                "L_via_hurwitz": mp.nstr(direct, 12),
+                "gap": mp.nstr(gap, 6),
+                "tail_bound": mp.nstr(tail_bound, 6),
+                "gap_within_tail_bound": bool(gap <= tail_bound),
+                "negative_brackets": neg_brackets,
+                "lower_bound_1_minus_2^-s": mp.nstr(lower, 12),
+                "L_exceeds_lower_bound": bool(direct >= lower),
+            }
+        )
+    return {
+        "n_terms": n_terms,
+        "rows": rows,
+        "all_brackets_positive": all_brackets_positive,
+        "lower_bound_holds_on_grid": bound_holds,
+        "all_gaps_within_tail_bound": tail_respected,
+        "passes": bool(all_brackets_positive and bound_holds and tail_respected),
+    }
+
+
+# ---------------------------------------------------------------------------
+# C8. provenance audit of the inherited zero ordinates
+# ---------------------------------------------------------------------------
+
+
+def check_zero_ordinate_provenance():
+    """Audit results_landau_zero_probe.json, which the reviewer flagged as unaudited.
+
+    (i) re-evaluate |L(1/2 + i gamma)| at each listed ordinate;
+    (ii) compare the count to the Riemann-von Mangoldt prediction (F2-low),
+         N(T, chi) ~ (T/2pi) log(qT/2pi) - T/2pi - chi(-1)/8, at the scan's
+         stated height.
+
+    This is NOT a completeness proof.  A step-0.25 sign-change scan can miss a
+    close pair of ordinates and this check cannot see that.  It establishes
+    only that the listed ordinates sit on genuine zeros and that the count is
+    not obviously short.
+    """
+    data = json.loads(ZEROS_JSON.read_text(encoding="utf-8"))
+    gammas = [mp.mpf(str(z["im"])) for z in data["located_zeros"]]
+    t_max = mp.mpf(str(data["t_max_scanned"]))
+    worst = mp.mpf(0)
+    rows = []
+    def L_complex(s):
+        return mp.power(3, -s) * (mp.zeta(s, mp.mpf(1) / 3) - mp.zeta(s, mp.mpf(2) / 3))
+
+    for g in gammas:
+        val = abs(L_complex(mp.mpc(mp.mpf(1) / 2, g)))
+        worst = max(worst, val)
+        rows.append({"gamma": mp.nstr(g, 12), "abs_L_at_half_plus_i_gamma": mp.nstr(val, 6)})
+    q = mp.mpf(3)
+    two_pi = 2 * mp.pi
+    predicted = (t_max / two_pi) * mp.log(q * t_max / two_pi) - t_max / two_pi + mp.mpf(1) / 8
+    return {
+        "source": ZEROS_JSON.name,
+        "t_max_scanned": mp.nstr(t_max, 6),
+        "scan_step": float(data["scan_step"]),
+        "n_listed": len(gammas),
+        "max_abs_L_at_listed_ordinates": mp.nstr(worst, 6),
+        "rvm_predicted_count_to_t_max": mp.nstr(predicted, 6),
+        "count_minus_prediction": mp.nstr(len(gammas) - predicted, 6),
+        "completeness_proved": False,
+        "passes": bool(worst < mp.mpf(10) ** (-10) and abs(len(gammas) - predicted) < 3),
+    }
+
+
+# ---------------------------------------------------------------------------
 
 
 def main() -> None:
@@ -318,6 +426,8 @@ def main() -> None:
         "C4_mu1_residue_at_s_0": check_mu1(),
         "C5_coefficient_decay": check_coefficient_decay(),
         "C6_truncation_height": check_truncation_height(),
+        "C7_no_real_zeros": check_no_real_zeros(),
+        "C8_zero_ordinate_provenance": check_zero_ordinate_provenance(),
     }
     OUT_JSON.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
     for key, val in results.items():

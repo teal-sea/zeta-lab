@@ -1,13 +1,20 @@
 # Repair of the sharp-cutoff character-weighted explicit formula
 
-Status: **useful intermediate lemma, plus a conditional strengthening of Theorem B.**
-Grade: *measured and derived*, reviewed by nobody but its author. The derivations below
-are ordinary analytic number theory with their hypotheses stated; the numerical checks in
-section 9 are floating-point sanity checks and are **not proof**. Nothing here is
-kernel-checked. An independent reviewer owns the attack on this argument; this file does
-not claim review.
+Status: **useful intermediate lemma with exact hypotheses, plus a conditional
+strengthening of Theorem B.**
+Grade: *measured and derived*, with hypotheses stated. The derivations below are ordinary
+analytic number theory; the numerical checks in section 9 are floating-point sanity checks
+and are **not proof**. Nothing here is kernel-checked and nothing here claims to be.
 
-Date: 2026-09-20. Base commit: `f402358c6c3f3c838605e71dd97cb6401a6963f0`.
+**Review status.** The first version of this file (commit `95ae36b`) was attacked by an
+independent reviewer, whose findings are recorded verbatim in
+`THEOREM_B_FORMULA_REVIEW.md`. Five substantive objections (R1 to R5) were raised. This
+revision responds to all five; `AUTHOR_RESPONSE.md` lists each one, whether it was accepted
+or rejected, the mathematical reason, and the exact change made. **The revised proofs below
+have not themselves been reviewed.** Objections resolved here were resolved by the author.
+
+Date: 2026-09-20. Original commit: `95ae36b9c09c0cf28844e40e50f7fceac2f95cfb`
+(base `f402358c6c3f3c838605e71dd97cb6401a6963f0`). Revised the same day after review.
 
 ---
 
@@ -29,13 +36,18 @@ It does **not**:
 - modify THEOREM_B_SEQUENCE.md, which is left as the record of the failed argument;
 - reopen the hunt's completed numerical passes.
 
-The only new files are this one, `formula_repair_checks.py` and its results JSON.
+The only new files are this one, `formula_repair_checks.py` and its results JSON, plus
+`AUTHOR_RESPONSE.md`.
 
 What is claimed, in one sentence: **the defective expansion is replaced by a truncated
-formula with an explicit two-parameter remainder, derived from facts the hunt has already
-inherited; that formula supports the resonance argument under an explicitly stated
-isolation hypothesis, and the exact inequality still missing in the unconditional case is
-written down in section 10.**
+formula whose remainder is shape-explicit in `x` and `T` up to one absolute constant
+inherited from (F1), derived from a primary source checked for this revision; that formula
+supports the resonance argument under an explicitly stated isolation hypothesis, and the
+exact inequality still missing in the unconditional case is written down in section 10.**
+
+"Shape-explicit" is deliberate. `C_1` below is the implied constant of Montgomery and
+Vaughan's Theorem 12.10 at `q = 3`; it is absolute and finite but no numerical value for it
+is computed or claimed here, so no bound in this file is numerically effective.
 
 ---
 
@@ -50,15 +62,43 @@ It is **odd**: `chi(-1) = chi(2) = -1`. `Lambda` is von Mangoldt.
 
 **Endpoint convention.** Every sum `sum_{m <= x}` is closed at `x`. Hence `psi(., chi)` and
 `I` are right-continuous, and `I` jumps by `-Lambda(x) chi(x) x / 2` at each prime power
-`x`. This matters: the inherited fact (F1) below is quoted in RESULTS.md in its
-right-continuous form, which differs from Montgomery and Vaughan's midpoint statement by
-`Lambda(x) chi(x) / 2` at prime powers. No half-jump correction is therefore needed
-anywhere in this file, and none is silently applied.
+`x`. Montgomery and Vaughan state the explicit formula for the **midpoint** normalization
+`psi_0(x, chi) = (psi(x^+, chi) + psi(x^-, chi))/2` (verified against the primary source;
+see section 8). The two differ by `Lambda(x) chi(x) / 2` at prime powers and nowhere else,
+and `|Lambda(x) chi(x)/2| <= (log x)/2`, which is inside the `C_1 log x` term of (F1). The
+right-continuous form used here is therefore legitimate as an **upper bound** of the stated
+shape, which is all Proposition 3 uses. No half-jump correction is applied anywhere in this
+file, and none is needed. (Step 1 of section 6 integrates `psi`, and the two normalizations
+differ on a finite set in any bounded range, so the integral does not see the difference at
+all; only Step 2 does.)
 
 `rho' = beta' + i gamma'` runs over the nontrivial zeros of `L(s, chi)`, with multiplicity
 `m(rho')`. `Theta_chi = sup beta'`. By the functional equation zeros pair as
 `rho' <-> 1 - conj(rho')`, so `Theta_chi >= 1/2`. `Theta = sup Re rho` over the zeros of
 `zeta`.
+
+**Lemma 1 (no real zeros).** *`L(s, chi_3) > 0` for every real `s > 0`. In particular
+`L(s, chi_3)` has no zero in `(0, 1)`, and every nontrivial zero has `gamma' != 0`.*
+
+*Proof.* For real `s > 0` the partial sums of `chi_3(n)` are bounded by 1 and `n^{-s}`
+decreases to 0, so `sum_{n >= 1} chi_3(n) n^{-s}` converges by Dirichlet's test; it
+converges locally uniformly on `Re s > 0` and so agrees there with the entire function
+`L(s, chi_3)` by analytic continuation from `Re s > 1`. Because the series converges, any
+subsequence of its partial sums has the same limit; taking `S_{3k}` and using
+`chi_3(3k) = 0` gives the grouped form
+
+    L(s, chi_3) = sum_{k >= 0} [ (3k+1)^{-s} - (3k+2)^{-s} ].
+
+Each bracket is positive for `s > 0` since `t -> t^{-s}` is strictly decreasing, and the
+`k = 0` bracket equals `1 - 2^{-s}`. Hence `L(s, chi_3) >= 1 - 2^{-s} > 0`. QED
+
+This is used in exactly one place: it lets the truncation `|gamma'| <= T` in Proposition 3
+be written inclusively without ambiguity, because for `chi_3` the index sets
+`{|gamma'| <= T}` and `{0 < |gamma'| <= T}` coincide. The reviewer was right that the first
+version of this file used the two notations interchangeably without saying why they agree.
+Check C7 in section 9 exhibits the grouped identity numerically. Lemma 1 is **not** needed
+for Proposition 3 itself: Proposition 3 is stated with the inclusive index set, which is
+what (F1) supplies whether or not a real zero exists.
 
 Write
 
@@ -86,10 +126,17 @@ For `|gamma'| >= 1`, using `|rho' - 1| >= |gamma'|`, `|rho'| <= sqrt(2) |gamma'|
 
     |c(rho')| >= |gamma'| / (2 sqrt(10) |gamma'|^2) >= 1 / (7 |gamma'|),
 
-and by Riemann and von Mangoldt for `L(s, chi)` (inherited fact (F2) below) the zeros in
-`[T, 2T]` number `asymptotically T log T`, so dyadic summation gives
+and by the Riemann and von Mangoldt zero count for `L(s, chi)` in its **two-sided** form
+(fact (F2-low) below, Montgomery and Vaughan Corollary 14.6 together with the classical
+bound on `S(T, chi)`),
 
-    sum_{0 < |gamma'| <= T} 1 / |gamma'|  >>  log^2 T  ->  infinity.
+    N(2T, chi) - N(T, chi) = (T / 2 pi) log(2 q T / pi e) + O(log qT) >> T log T
+
+for `T` large. Each of those `>> T log T` zeros has `|gamma'| <= 2T`, so contributes at
+least `1/(14T)` to `sum |c(rho')|`, and the dyadic block `[T, 2T]` contributes `>> log T`.
+Summing over `log_2 T` dyadic blocks,
+
+    sum_{0 < |gamma'| <= T} |c(rho')|  >>  log^2 T  ->  infinity.
 
 Hence `sum_{rho'} |c(rho')| = infinity` and (*) is **not** absolutely convergent. This is
 the load-bearing error. The numerator `rho' - 1` was dropped when the size of the
@@ -97,8 +144,8 @@ coefficient was estimated; `|c(rho')| ~ 1/(2|gamma'|)`, not `~ 1/|gamma'|^2`.
 
 **Defect 2 (a real misstatement, but not the fatal one).** The dyadic zero count is also
 misstated in that section. However, the conclusion it was invoked to support, namely
-`sum_{rho'} 1 / |rho'(rho' + 1)| < infinity`, is in fact **true** by (F2), so repairing the
-count alone does not rescue (*). Appendix B lumps these two; separating them is a
+`sum_{rho'} 1 / |rho'(rho' + 1)| < infinity`, is in fact **true** by the upper bound
+(F2-up) alone, so repairing the count does not rescue (*). Appendix B lumps these two; separating them is a
 refinement, and it identifies which one the repair must route around.
 
 Consequence: the sum over zeros must be **truncated**, and truncation forces an error term
@@ -143,7 +190,7 @@ from `I(N)` to `T(N)` has room, and is the same regime RESULTS.md section 18 wor
 
 *For all real `x >= 4` and all real `T >= 4`,*
 
-    I(x) = sum_{0 < |gamma'| <= T} m(rho') c(rho') x^{rho' + 1} + E(x, T),
+    I(x) = sum_{|gamma'| <= T} m(rho') c(rho') x^{rho' + 1} + E(x, T),
 
     c(rho') = (rho' - 1) / (2 rho' (rho' + 1)),
 
@@ -153,23 +200,30 @@ from `I(N)` to `T(N)` has room, and is the same regime RESULTS.md section 18 wor
 
 *where `C_1` is the absolute implied constant of (F1) at modulus 3 and*
 
-    C_2 = sum_{rho'} 4 / |rho' (rho' + 1)| < infinity.
+    C_2 = sum_{rho'} 4 m(rho') / |rho' (rho' + 1)| < infinity.
 
-*The sum is over nontrivial zeros with multiplicity, in conjugate pairs, so it is real.
-`T` is unrestricted above 4: no admissible-height condition is needed, because (F1) as
-inherited holds for arbitrary `T`. All polar contributions (the `mu_1 x` term at `s = 0`,
+*The index set is inclusive: **every** nontrivial zero with `|gamma'| <= T` is summed,
+counted with its multiplicity `m(rho')`, which is exactly what the residue computation
+behind (F1) produces. For `chi_3` this set contains no real zero, by Lemma 1, so it
+coincides with `{0 < |gamma'| <= T}`; the proposition does not depend on that. Zeros occur
+in conjugate pairs and the truncation is symmetric, so the sum is real.*
+
+*`T` is unrestricted above 4: no admissible-height condition is needed, because (F1) as
+verified in section 8 holds for every `T >= 2` (Montgomery and Vaughan obtain this by
+choosing a nearby good height `T_1` in `[T, T+1]` and bounding the intervening zeros; the
+statement the reader gets is uniform in `T`). All polar contributions (the `mu_1 x` term at `s = 0`,
 the `log x + nu` term at the `s = -1` pole/trivial-zero collision, and the trivial-zero
 tail) are of size `O(x)` and are absorbed into the `O(x log x)` remainder rather than
 dropped; they are derived separately in section 5 and are available explicitly for any use
 that needs them.*
 
-### Theorem 4 (conditional constructive oscillation) [candidate]
+### Theorem 4 (conditional oscillation along a closed-form sequence) [candidate]
 
 *Assume (H-ISO) and (H-TRANSFER). Put `c_0 = c(rho_0)`, `phi_0 = arg c_0`, and*
 
     x_n = exp( (2 pi n - phi_0) / gamma_0 ),     N_n = floor(x_n).
 
-*Then*
+*Then, for all sufficiently large `n`,*
 
     I(x_n) = 2 m_0 |c_0| x_n^{1 + beta_0} ( 1 + O( x_n^{-g/2} log^2 x_n ) ),
 
@@ -179,9 +233,17 @@ that needs them.*
 
 *along that sequence, with no epsilon loss, where `x_{n+1} / x_n = exp(2 pi / gamma_0)`.*
 
-*This is strictly stronger than Theorem B (`Omega(N^{1 + 2 Theta_chi - eps})` along an
-unspecified sequence) in two ways: the epsilon is removed, and the sequence is explicit.
-It is strictly weaker in one: Theorem B is unconditional and this is not.*
+*"Sufficiently large" is not decoration: the proof needs `x_n >= 4` and needs the height
+`T(x_n) = x_n^{1 - beta_0 + g/2}` to satisfy `T(x_n) >= max(4, |gamma_0|)`, so that
+Proposition 3 applies and the witness pair lies inside the truncation. Both hold for every
+`n >= n_0(beta_0, gamma_0, g)`, and `n_0` is computable from those three numbers.*
+
+*This is stronger than Theorem B (`Omega(N^{1 + 2 Theta_chi - eps})` along an unspecified
+sequence) in two ways: the epsilon is removed, and the sequence is written down. It is
+weaker in one, and the weakness is decisive: Theorem B is unconditional and this is not.
+The sequence is explicit **only as a function of the hypothetical witness zero `rho_0`**
+supplied by (H-ISO); since (H-ISO) is an existence hypothesis and no zero is exhibited, no
+sequence of real numbers is exhibited either. Section 10 keeps that distinction.*
 
 ---
 
@@ -290,11 +352,16 @@ which is the coefficient named in section 1. Multiplicity is carried through unc
 
 ## 6. Proof of Proposition 3
 
-Inherited fact (F1), at modulus 3, right-continuous form, arbitrary `T >= 2`, absolute
-constant `C_1`:
+Fact (F1), at modulus 3, right-continuous form, every `T >= 2` and every `x >= 4`, absolute
+constant `C_1`, with the index set inclusive and zeros counted with multiplicity:
 
-    psi(x, chi) = - sum_{|gamma'| <= T} x^{rho'} / rho' + E_0(x, T),
+    psi(x, chi) = - sum_{|gamma'| <= T} m(rho') x^{rho'} / rho' + E_0(x, T),
     |E_0(x, T)| <= C_1 ( x T^{-1} log^2(xT) + log x ).
+
+Section 8 derives this from the primary source (Montgomery and Vaughan Theorem 12.10),
+which was inspected for this revision; the derivation is three crude majorizations and is
+written out there rather than assumed. Multiplicity is written explicitly here because the
+first version of this file carried it in Proposition 3 but suppressed it in this step.
 
 *Step 1: integrate.* `psi(t, chi) = 0` for `t < 2`, so `psi_1(x, chi) = integral_2^x psi(t, chi) dt`.
 Integrating the truncated sum term by term (a finite sum),
@@ -303,12 +370,12 @@ Integrating the truncated sum term by term (a finite sum),
 
 hence
 
-    psi_1(x, chi) = - sum_{|gamma'| <= T} ( x^{rho'+1} - 2^{rho'+1} ) / ( rho'(rho'+1) ) + E_1,
+    psi_1(x, chi) = - sum_{|gamma'| <= T} m(rho') ( x^{rho'+1} - 2^{rho'+1} ) / ( rho'(rho'+1) ) + E_1,
     |E_1| <= C_1 ( x^2 log^2(xT) / (2T) + x log x ).
 
 *Step 2: the sharp term.* Multiply (F1) by `-x/2`:
 
-    -(x/2) psi(x, chi) = (x/2) sum_{|gamma'| <= T} x^{rho'} / rho' + E_2,    E_2 = -(x/2) E_0(x, T),
+    -(x/2) psi(x, chi) = (x/2) sum_{|gamma'| <= T} m(rho') x^{rho'} / rho' + E_2,    E_2 = -(x/2) E_0(x, T),
 
 so that `|E_2| <= (x/2) C_1 ( x T^{-1} log^2(xT) + log x ) = C_1 ( x^2 log^2(xT) / (2T) + (x log x)/2 )`.
 
@@ -326,11 +393,11 @@ The leftover constant from Step 1 is
 
 and since `0 < beta' < 1` gives `|2^{rho'+1}| = 2^{beta'+1} <= 4`,
 
-    |B(T)| <= sum_{rho'} 4 / |rho'(rho'+1)| = C_2 < infinity,
+    |B(T)| <= sum_{rho'} 4 m(rho') / |rho'(rho'+1)| = C_2 < infinity,
 
 uniformly in `T`. Finiteness: for `|gamma'| >= 1`, `|rho'| >= |gamma'|` and
-`|rho' + 1| >= |gamma'|`, so the terms are `<= 4/gamma'^2`, and (F2) gives convergence by
-dyadic summation. For `|gamma'| < 1` there are finitely many zeros (F2), each with
+`|rho' + 1| >= |gamma'|`, so the terms are `<= 4 m(rho')/gamma'^2`, and (F2-up) gives
+convergence by dyadic summation. For `|gamma'| < 1` there are finitely many zeros (F2-up), each with
 `|rho'| >= delta_0 > 0` because `L(0, chi_3) = 1/3 != 0` and `L` is analytic near 0.
 
 Collecting, with `E = E_1 + E_2 + B(T)`,
@@ -357,6 +424,12 @@ Assume (H-ISO). Set `epsilon_1 = g/2` and, for each `x`, the height
 
 Note `beta_0 >= 1/2` (functional equation), so `T <= x` and `log(xT) <= 2 log x` for `x >= 4`.
 
+*Threshold.* Proposition 3 needs `x >= 4` and `T(x) >= 4`, and step (c) needs the witness
+pair inside the truncation, that is `T(x) >= |gamma_0|`. Since `1 - beta_0 + g/2 > 0`, both
+hold for all `x >= x_0` with `x_0 = x_0(beta_0, gamma_0, g)` explicit. Everything below is
+asserted for `x >= x_0` only, and "for all sufficiently large `n`" in Theorem 4 means
+`x_n >= x_0`.
+
 *(a) Truncation error.* From Proposition 3,
 
     C_1 x^2 T^{-1} log^2(xT) <= 4 C_1 x^{1 + beta_0 - epsilon_1} log^2 x,
@@ -367,7 +440,8 @@ and `2C_1 x log x + C_2 = o(x^{1+beta_0})` since `beta_0 > 0`.
 
     |c(rho')| <= ( |1 - beta'| + |gamma'| ) / ( 2 |gamma'|^2 ) <= 1 / |gamma'|,
 
-and the finitely many zeros with `|gamma'| < 1` contribute a bounded amount. So by (F2)
+and the finitely many zeros with `|gamma'| < 1` contribute a bounded amount. So by (F2-up),
+counting with multiplicity,
 
     sum_{|gamma'| <= T} m(rho') |c(rho')| << log^2 T << log^2 x.
 
@@ -378,8 +452,10 @@ Therefore
         << x^{1 + beta_0 - g} log^2 x.
 
 *Note, and it is the reason the unconditional case is hard.* That competitor bound used
-`beta_c < beta_0` and nothing else. The weighted mass `sum_{|gamma'| <= T} |c(rho')|` is
-`asymptotically log^2 T`, which **grows with x**. The set of zeros that can compete with the
+`beta_c < beta_0` and nothing else. The weighted mass `sum_{|gamma'| <= T} m(rho') |c(rho')|`
+is of order `log^2 T`: at most, by (F2-up), and at least, by (F2-low) and the computation in
+Defect 1. So it **grows with x** and the growth is not an artifact of a lossy upper bound.
+The set of zeros that can compete with the
 witness is not finite and does not stay finite as `x -> infinity`. Section 10 returns to this.
 
 *(c) Witness.* The conjugate pair `rho_0, conj(rho_0)` contributes
@@ -398,9 +474,15 @@ Also `c_0 != 0`, since `c(rho') = 0` only at `rho' = 1`, which is not a zero.
 `I(x) - I(N) = (x - N) psi(N, chi)/2 = O(N)`, negligible against `N^{1+beta_0}` since
 `beta_0 > 0`. This is the same step RESULTS.md section 18 uses.
 
-*(e) To E(N).* Theorem A (RESULTS.md section 17, unconditional):
+*(e) To E(N).* Theorem A (RESULTS.md section 17, unconditional) reads
 
-    T(N) = I(N) + O( N^{Theta + Theta_chi} log^4 N + N log N ).
+    T(N) = I(N) + O( N^{Theta + Theta_chi} log^4 N ).
+
+The `+ N log N` that the first version of this file attached to Theorem A is not part of
+Theorem A; it appears in RESULTS.md section 18, where Theorem A is combined with the
+section 15 estimate (E3). Adding it only weakens the statement, so nothing downstream
+breaks, but the attribution was wrong and is corrected here. Step (e) needs only Theorem
+A's own error term.
 
 Under (H-TRANSFER), `Theta < Theta_chi = beta_0 <= 1`, so `Theta < 1` and
 `Theta + Theta_chi < 1 + beta_0` with margin `1 - Theta > 0`. Hence
@@ -420,18 +502,69 @@ which is the direction the hunt's original objective needed.
 
 ## 8. External inputs
 
-Used as published; not re-derived here.
+Used as published. (F1) and (F2-low) were checked against the primary source for this
+revision, because the reviewer could not reach it and the first version of this file relied
+on an inherited paraphrase.
 
-- **(F1)** Montgomery and Vaughan, *Multiplicative Number Theory I*, Theorems 12.5 and
-  12.10, in the right-continuous form quoted at RESULTS.md section 17. Arbitrary `T >= 2`.
-  This is the only nontrivial analytic input to Proposition 3.
-- **(F2)** Riemann and von Mangoldt zero-counting for `L(s, chi)`: the number of zeros with
-  ordinate in `[t, t+1]` is `O(log(|t|+2))`; hence
-  `sum_{0 < |gamma'| <= T} 1/|gamma'| << log^2 T`. RESULTS.md section 17. Used for both the
-  convergence of `C_2` and the competitor bound, and (in the reverse direction, via dyadic
-  summation) for the divergence in section 2.
+**(F1) Montgomery and Vaughan, *Multiplicative Number Theory I*, Theorem 12.10.** Verified
+2026-09-20 against the author-hosted chapter (R. C. Vaughan, Penn State, chapter 12,
+"Explicit formulae", pp. 397 to 418). The theorem as printed: let `c > 1` be a constant;
+suppose `x >= c`, `T >= 2`, and `chi` is a primitive character mod `q > 1`. Then
+
+    psi_0(x, chi) = - sum_{rho, |gamma| <= T} x^rho / rho
+                    - (1/2) log(x - 1) - (chi(-1)/2) log(x + 1) + C(chi) + R(x, T; chi),
+    C(chi) = (L'/L)(1, chi) + log(q / 2 pi) - C_0,
+    R(x, T; chi) << (log x) min(1, x / (T <x>)) + (x/T) log^2(q x T),
+
+where `<x>` is the distance from `x` to the nearest prime power other than `x` itself, and
+`psi_0` is the midpoint normalization. Five things needed checking and all five check out
+for `chi_3`:
+
+1. *Hypotheses.* `x >= c > 1` and `T >= 2`, nothing more. Take `c = 2`. There is **no**
+   restriction `T <= x` and no admissible-height condition; Lemma 12.7 (a nearby `T_1` in
+   `[T, T+1]` with `L'/L(sigma +- i T_1, chi) << log^2 qT` uniformly for `-1 <= sigma <= 2`)
+   is what buys that, and it is internal to the proof.
+2. *Normalization.* `psi_0` is the midpoint form, as section 1 says; the half-jump is
+   `<= (log x)/2`.
+3. *Index set.* `|gamma| <= T`, inclusive, over all nontrivial zeros; multiplicity enters
+   intrinsically because the sum arises as residues of `-(L'/L)(s, chi) x^s / s`. Montgomery
+   and Vaughan's proof of Theorem 14.5 explicitly guards against a real zero in `(0,1)`, so
+   a real zero is a live possibility in general and the inclusive index set is the honest
+   one. Lemma 1 above settles the question for `chi_3` specifically.
+4. *Trivial zeros.* The same proof carries `kappa = 0` or `1` as `chi(-1) = 1` or `-1`, and
+   the trivial-zero tail `sum_{1 <= k < (K+kappa)/2} x^{kappa-2k}/(2k-kappa)`. For odd
+   `chi` this puts the trivial zeros at the **odd** negative integers, independently
+   confirming section 5.
+5. *Error shape.* `min(1, x/(T<x>)) <= 1` always, so the first term is `<= log x` uniformly
+   in `x`, **including at prime powers** where `<x>` could otherwise be small. For `q = 3`
+   and `x, T >= 2`, `log(3xT) <= 2 log(xT)`, so `log^2(qxT) <= 4 log^2(xT)`. For odd `chi`
+   the two logarithms collapse: `-(1/2)log(x-1) + (1/2)log(x+1) = (1/2) log((x+1)/(x-1))`,
+   which is `<= (1/2) log 3` for `x >= 2`, and `C(chi_3)` is an absolute constant. Both are
+   `<= const . log x` for `x >= 2`.
+
+Collecting 2 and 5 gives (F1) as used in section 6, with an absolute `C_1`, for `x >= 2`
+and `T >= 2`. The load-bearing conclusion: **Proposition 3 does not need to be made
+conditional, and neither its coefficient nor the shape of its remainder changes.** What
+changed is the index set, the multiplicity notation, and this provenance.
+
+- **(F2-up)** Zero counting, upper bound: the number of zeros of `L(s, chi)` with ordinate
+  in `[t, t+1]` is `O(log(|t|+2))`; hence `sum_{0 < |gamma'| <= T} m(rho')/|gamma'| << log^2 T`.
+  RESULTS.md section 17. Used for the convergence of `C_2` and for the competitor bound in
+  section 7(b). An upper bound suffices for both.
+- **(F2-low)** Zero counting, two-sided: Montgomery and Vaughan, *MNT I*, Theorem 14.5 and
+  Corollary 14.6 (verified 2026-09-20 against chapter 14, "Zeros", pp. 452 to 462):
+  `N(T, chi) = (T/2 pi) log(qT / 2 pi) - T/2 pi + S(T, chi) - S(0, chi) - chi(-1)/8 + O(1/(T+1))`
+  for primitive `chi` mod `q > 1`, where `S(T, chi) = (1/pi) arg L(1/2 + iT, chi)`, and
+  zeros with `gamma = 0` or `gamma = T` are counted with weight `1/2`. Combined with the
+  classical `S(T, chi) << log(q(T+2))` this gives
+  `N(2T, chi) - N(T, chi) >> T log T`. **Caveat, stated because it is the one gap in this
+  verification:** Corollary 14.6 was read in the primary source, but the bound on
+  `S(T, chi)` was not located in the extracted chapter text and is cited from the standard
+  literature rather than from an inspected page. The divergence in Defect 1 rests on that
+  citation. Nothing else in this file uses (F2-low).
 - **Theorem A**, RESULTS.md section 17: `T(N) = I(N) + O(N^{Theta+Theta_chi} log^4 N)`.
-  Unconditional. Used only in step (e).
+  Unconditional. Used only in step (e). The additional `N log N` term seen in RESULTS.md
+  section 18 comes from (E3) of section 15, not from Theorem A.
 - **Theorem B**, RESULTS.md section 18. Quoted for comparison. Unchanged.
 - **(R7)**, REFEREE.md section 4: independent re-derivation of the Mellin transform
   `G(s)`. The transform is used as the starting point of section 5 only.
@@ -442,16 +575,22 @@ Used as published; not re-derived here.
   for `chi_3`), used in section 5 to derive `h(-1)` in closed form.
 
 `chi_3` zero ordinates used in the numerical checks come from
-`results_landau_zero_probe.json` (21 zeros to height about 60), produced by an earlier pass
-of this hunt. They are used only to test identities, never as evidence for a claim.
+`results_landau_zero_probe.json` (21 ordinates in `(0, 60]`, from a sign-change scan of step
+0.25), produced by an earlier pass of this hunt. They are used only to test identities,
+never as evidence for a claim. The reviewer noted that their provenance had not been
+audited. Check C8 audits it two ways: it re-evaluates `|L(1/2 + i gamma)|` at each listed
+ordinate, and it compares the count to what (F2-low) predicts. Neither is a completeness
+proof. A scan of step 0.25 can miss a close pair, and C8 cannot detect that; it establishes
+only that the listed ordinates are near genuine zeros and that the list is not obviously
+short. No claim in this file depends on the list being complete.
 
 ---
 
 ## 9. Reproducible checks. NOT PROOF.
 
 `hunts/prime_pair_error/formula_repair_checks.py`, results in
-`hunts/prime_pair_error/results_formula_repair_checks.json`. Six checks, `mp.dps = 60`,
-about half a second total. Every check is a finite floating-point evaluation of an identity
+`hunts/prime_pair_error/results_formula_repair_checks.json`. Eight checks, `mp.dps = 60`,
+about three seconds total. Every check is a finite floating-point evaluation of an identity
 at finitely many points; none of them proves anything, and the script says so in its header.
 
 | # | what | result |
@@ -462,17 +601,26 @@ at finitely many points; none of them proves anything, and the script says so in
 | C4 | `mu_1 = -(1/2)(L'/L)(0, chi_3)` | `-0.474099413336`, gap `2.60e-30` |
 | C5 | `1/(2 rho) - 1/(rho(rho+1)) = c(rho)` at 21 located zeros; size of `|c|` | residual `1.22e-63`; `|c(rho)| . gamma` runs `0.4915 -> 0.4998`, i.e. `-> 1/2`, confirming `|c| ~ 1/(2 gamma)` and **not** `~ 1/gamma^2` |
 | C6 | truncation-error ratio `x^2 log^2(xT)/T` against `x^{1+beta_0}`, `beta_0 = 0.6` | with `T = x^{0.1}`: `1.6e3 -> 2.6e43` (diverges). With `T = x^{0.45} = x^{1-beta_0+0.05}`: `112 -> 0.073` (decays) |
+| C7 | Lemma 1: grouped series vs continuation, bracket positivity, `L(s) >= 1 - 2^{-s}` at `s = 0.05, ..., 1.5` | no negative bracket in 20000 terms at any `s`; every gap inside the provable tail bound `(3N-2)^{-s}/3` (at `s = 0.5`, gap `1.361e-3` vs bound `1.361e-3`); lower bound holds at all six `s` |
+| C8 | provenance audit of the 21 inherited ordinates | `max |L(1/2 + i gamma)| = 1.57e-14` over the list; count 21 against the Riemann and von Mangoldt prediction `22.61` to height 60, difference `-1.61`. **Completeness not proved** |
 
-C5 is the direct numerical statement of Defect 1. C6 is the direct numerical statement of
-Defect 3: the source document's choice of height makes the error term beat the signal, and
-the admissible range fixes it.
+C5 illustrates the size estimate behind Defect 1 at 21 ordinates (taken on the critical
+line) and nothing more; the divergence itself is the analytic argument of section 2, which
+rests on the two-sided count (F2-low). C6 illustrates Defect 3: with the source document's
+height the error *bound* exceeds the signal, so that estimate cannot establish resonance,
+and the admissible range removes the obstruction. It says nothing about the size of the
+actual error. C7 illustrates Lemma 1 and does not prove it; note in
+particular that the grouped series converges slowly for small `s`, so C7 asks only that the
+truncation gap stay inside a tail bound proved on the spot, not that it be tiny. C8 answers
+the reviewer's provenance question in the two directions a cheap check can answer it, and
+records in the results JSON that it does not establish completeness.
 
 ---
 
 ## 10. The exact remaining gap
 
-Theorem 4 is conditional. What is missing for an unconditional constructive statement is
-one inequality, and it can be written down exactly.
+Theorem 4 is conditional. What is missing for an unconditional statement of the same shape
+is one inequality, and it can be written down exactly.
 
 **(MISSING).** *There exist `epsilon_1 > 0`, `delta in (0, 1)`, a nontrivial zero
 `rho_0 = beta_0 + i gamma_0` with `beta_0 > Theta_chi - eta` for a given small `eta > 0`,
@@ -484,15 +632,63 @@ that with `T_n = x_n^{1 - beta_0 + epsilon_1}`*
 
 *for infinitely many n.*
 
-Given (MISSING), sections 7(a), 7(d) and 7(e) go through verbatim and yield
-`E(N_n) >> N_n^{1 + 2 Theta_chi - 2 eta}` along an explicit sequence, unconditionally.
-(H-ISO) implies (MISSING) with `delta` close to 1 for all large `n`, which is precisely how
-Theorem 4 is proved.
+**What (MISSING) buys, and at what cost.** The first version of this file said sections
+7(a), 7(d) and 7(e) then "go through verbatim". They do not, and the reviewer was right to
+stop there. Two adaptations are needed, and neither is free.
+
+*Adaptation 1, the truncation error (7a).* Section 7 fixes `epsilon_1 = g/2`, a quantity
+defined by (H-ISO), which is absent here. Use instead the `epsilon_1 > 0` that (MISSING)
+supplies, and the estimate is unchanged in form: with `T_n = x_n^{1 - beta_0 + epsilon_1}`
+and `x_n >= 4`,
+
+    C_1 x_n^2 T_n^{-1} log^2(x_n T_n) <= 4 C_1 x_n^{1 + beta_0 - epsilon_1} log^2 x_n
+                                       = o( x_n^{1 + beta_0} )
+
+for any `epsilon_1 > 0`. Combining with the `(1 - delta)` competitor bound and the
+`(1 - delta/4)` phase bound leaves a surviving main term
+
+    |I(x_n)| >= (3 delta / 4) . 2 m_0 |c_0| x_n^{1 + beta_0} (1 + o(1)).
+
+So 7(a) adapts in two lines, but it does so with (MISSING)'s `epsilon_1`, not 7's.
+
+*Adaptation 2, the transfer (7e), and this one is a genuine restriction.* Step (e) needs
+
+    1 + beta_0 > Theta + Theta_chi
+
+and nothing weaker: that is the exact margin at which Theorem A's error
+`N^{Theta + Theta_chi} log^4 N` stays below the signal `N^{1 + beta_0}`. Section 7 gets it
+from `beta_0 = Theta_chi` exactly, which is (H-ISO)'s doing. Here `beta_0` is only known to
+exceed `Theta_chi - eta`, so the margin is implied by
+
+    1 + Theta_chi - eta >= Theta + Theta_chi,   that is,   eta <= 1 - Theta.
+
+**(H-TRANSFER) does not supply this for arbitrary `eta`.** `Theta < Theta_chi` gives
+`Theta < 1`, hence `1 - Theta > 0` and the permissible range of `eta` is non-empty; but
+`eta` is quantified before `Theta` in the statement of (MISSING), and for `eta > 1 - Theta`
+the transfer step fails even though (H-TRANSFER) holds. So either
+
+- state the margin `1 + beta_0 > Theta + Theta_chi` as an additional hypothesis of the
+  unconditional statement, or
+- restrict to `eta <= 1 - Theta` (equivalently, `Theta <= 1 - eta`), which is sufficient and
+  which `Theta < 1` makes non-vacuous for every `Theta`, without making it checkable for a
+  given `eta`.
+
+With either, (MISSING) yields `E(N_n) >> N_n^{1 + 2 Theta_chi - 2 eta}` along the sequence
+it names, unconditionally on (H-ISO). (H-ISO) implies (MISSING) with `delta` close to 1 for
+all large `n`, which is precisely how Theorem 4 is proved, and in that case `beta_0`
+**equals** `Theta_chi`, so `eta` may be taken to be 0 and Adaptation 2 is vacuous.
+
+**(MISSING) is an existence statement.** It asserts that some zero, some `epsilon_1`, some
+`delta` and some unbounded sequence exist. It exhibits none of them. Any statement derived
+from it is therefore existential too: the sequence `x_n` is explicit as a formula in
+`gamma_0` and `phi_0`, and those are not known numbers. No constructive or effective claim
+is made here, and the word "explicit" in Theorem 4 carries exactly that weight and no more.
 
 **Why (MISSING) is hard, stated honestly.**
 
-1. The competing set grows. Section 7(b) established
-   `sum_{|gamma'| <= T} |c(rho')| asymptotically log^2 T`, so the number of zeros that can
+1. The competing set grows. Section 7(b) and Defect 1 together establish
+   that `sum_{|gamma'| <= T} m(rho') |c(rho')|` is bounded above and below by constant
+   multiples of `log^2 T`, so the number of zeros that can
    interfere with the witness at height `T_n` is unbounded as `n -> infinity`. This is a
    direct consequence of Defect 1: because `|c| ~ 1/(2|gamma'|)` rather than
    `1/|gamma'|^2`, the weighted mass diverges. THEOREM_B_SEQUENCE.md treats the
@@ -509,8 +705,9 @@ Theorem 4 is proved.
    contradicts analyticity of the Mellin transform in a half-plane. That is what
    RESULTS.md section 18 already does, and it is why Theorem B carries an epsilon and an
    unspecified sequence. **The non-constructivity is not an accident of the write-up; it is
-   what that method yields.** Recovering constructiveness appears to need either (H-ISO) or
-   a genuinely new mechanism, and I do not have one.
+   what that method yields.** An actually exhibited sequence would need an exhibited
+   witness zero (which (H-ISO) only posits) or a genuinely new mechanism, and I do not have
+   one.
 
 **Claims from the source document that remain unproved and are not asserted here.** The
 "any `delta > 0`" aside on the truncation height (refuted as stated; see Defect 3 and C6);
@@ -521,11 +718,19 @@ alignment against the full competitor set (this is exactly (MISSING)).
 
 ## 11. Disposition
 
-**Proposition 3 is a useful intermediate lemma and I believe it is correct as stated.** It
-replaces a divergent formula with a convergent one carrying an explicit two-parameter
-remainder, it recovers the same zero coefficients `c(rho')`, it needs only (F1) and (F2)
-which this hunt already inherits, and it fixes the admissible height range that the source
+**Proposition 3 is a useful intermediate lemma with exact hypotheses, and I believe it is
+correct as stated.** Its hypotheses are: `x >= 4`, `T >= 4`, `chi = chi_3`, and (F1) in the
+form verified against Montgomery and Vaughan Theorem 12.10 in section 8. Its conclusion is
+the displayed identity with the remainder bound, `C_1` absolute but not numerically
+evaluated here and `C_2` finite by (F2-up). It replaces a divergent formula with a
+convergent one carrying a remainder of explicit shape in `x` and `T`, it recovers the same
+zero coefficients `c(rho')`, and it fixes the admissible height range that the source
 argument got wrong.
+
+The one place a reviewer should look hardest is section 8's reduction of Montgomery and
+Vaughan's error term to `C_1(x T^{-1} log^2(xT) + log x)`. That reduction is crude by
+design (it throws away `min(1, x/(T<x>))` entirely), and if it is wrong, Proposition 3's
+remainder is wrong with it. Everything else in the proof is elementary.
 
 **It is not a complete repair of the sequence argument.** The payoff standard in the brief
 asks for a usable error regime *with all competitors handled*. Proposition 3 supplies the
@@ -534,17 +739,39 @@ this is therefore "a formula with valid error but insufficient for resonance", w
 useful intermediate lemma, not a complete sequence repair. Theorem 4 is the best justified
 intermediate result I can support, and it is explicitly conditional.
 
+**The rest of the sequence argument is an unresolved attempt, and the missing input is
+analytic, not bookkeeping.** Section 10 names it: an inequality bounding the full competitor
+sum at height `T_n` against the witness term, for infinitely many `n`, without an isolation
+hypothesis. The obstruction is that the competing set grows like `log^2 T` in weighted mass
+(both bounds now established), so no fixed finite phase-approximation argument reaches it. I
+do not have that input and do not claim a route to it.
+
 Grades, per the repository's certainty ladder:
 
-- Lemma 0, section 5 polar structure, Proposition 3, Theorem 4: *derived, hypotheses stated,
-  reviewed by nobody*. The composite grade of Theorem 4 is that of its weakest step, which
-  is its hypothesis (H-ISO): it is a conditional theorem and is called one.
+- Lemma 0, Lemma 1, section 5 polar structure, Proposition 3: *derived*, hypotheses stated,
+  reviewed once in their previous form, with this revision unreviewed.
+- Theorem 4: *derived and conditional*. Its composite grade is that of its weakest step,
+  which is its hypothesis (H-ISO); it is a conditional theorem and is called one.
+- Section 10's unconditional variant: *unresolved attempt*, with the missing analytic input
+  written out and the margin `1 + beta_0 > Theta + Theta_chi` stated exactly.
 - Section 9: *measured*, float grade, one route, small finite ranges.
-- Nothing here is enclosure-carrying or kernel-checked.
+- Nothing here is enclosure-carrying or kernel-checked, and no claim in this file is
+  numerically effective.
 
 No novelty is claimed. No literature search for prior art on this specific repair was run;
 the ingredients are standard and the write-up makes no originality claim beyond "this hunt
-produced this".
+produced this". The only literature contact made for this revision was to the primary
+source for (F1) and (F2-low), recorded in section 8.
+
+**Review record.** Reviewed once, in the `95ae36b` form, by an independent reviewer
+(`THEOREM_B_FORMULA_REVIEW.md`). That review cleared Lemma 0, the section 5 residue
+computations (re-derived by an independent contour method), the structure of Theorem 4's
+steps (a) to (e), the Defect 3 framing, and the attribution spot-checks it ran. It raised
+five substantive objections. All five are answered in `AUTHOR_RESPONSE.md`: four were
+accepted and the artifact changed; the fifth was accepted in part, with the part rejected
+argued there rather than quietly dropped. The review's own open item, that the primary
+source for (F1) had not been reached, is closed in section 8. **This revision has not been
+reviewed.**
 
 ---
 
