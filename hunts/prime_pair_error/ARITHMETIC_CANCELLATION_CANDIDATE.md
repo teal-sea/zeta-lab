@@ -255,7 +255,7 @@ Notice the crucial analytical features:
    By Euler summation, $\sum_{k=1}^K k^{-\rho} = \frac{K^{1-\rho}}{1-\rho} + \zeta(\rho) + \text{tail}_K$,
    where $\text{tail}_K = O(K^{-\beta})$.
    Crucially, $\sum_{k=2}^K k^{-\rho} = \sum_{k=1}^K k^{-\rho} - 1$.
-   When testing the pure power mode $g(u) = u^\rho$ in the functional $D_N$, we find
+   When testing the pure power mode $g(u) = u^\rho$ for fixed $\rho$ with $0 < \Re\rho < 1$ in the functional $D_N$, we find
    \[
    D_N[u^\rho] = N \int_{N/K}^\infty u^{\rho-2}\,du - \sum_{k=2}^K (N/k)^\rho = N^\rho B(\rho),
    \]
@@ -268,8 +268,8 @@ Notice the crucial analytical features:
    \[
    D_N[u^\rho] \sim N^\rho.
    \]
-   On the critical line ($\Re\rho = 1/2$), this remainder has magnitude $N^{1/2}/|\rho|$, which is borderline
-   at the target scale, not $N^{1/4}$.
+   On the critical line ($\Re\rho = 1/2$), this remainder has magnitude $|D_N[u^\rho]| = N^{1/2}|B(\rho)| \sim N^{1/2}$, which is borderline
+   at the target scale, not $N^{1/4}$. (The $1/|\rho|$ factor belongs to the explicit-formula coefficient $N^\rho/\rho$ of $R$ itself, not to the pure mode tested here.)
    Off-critical with $\Re\rho = \beta > 1/2$, the mode produces $|D_N[u^\rho]| \sim N^\beta \gg \sqrt{N}$.
    For non-real zeros $\rho = \beta + i\gamma$, the mode $N^\rho = N^\beta e^{i\gamma\log N}$ oscillates;
    the bound is an envelope $|N^\rho| = N^\beta$, not monotonic growth at every integer.

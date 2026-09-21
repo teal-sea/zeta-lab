@@ -2,13 +2,13 @@
 
 ## 1. Orientation and Purpose
 
-This document records the constructive next step in the arithmetic investigation of the Riemann-Weil signed functional $D_N$.
+This document records the constructive next step in the arithmetic investigation of $D_N$, the defined signed prime-counting functional.
 
 Following the independent review and author adjudication in `ARITHMETIC_CANCELLATION_REVIEW.md` and `ARITHMETIC_CANCELLATION_CANDIDATE.md`, we depart from the scale-by-scale bilinear sums $\mathcal{T}_{\mathrm{bilinear}}$ and address the full signed functional directly. Rather than postulating separate remainder bounds, we substitute the exact truncated Mobius convolution $\Lambda = \mu * \log$ into the entire functional $D_N$, retain all coupled boundary and principal terms, and establish an exact two-piece Dirichlet hyperbola decomposition without remainder leakage.
 
 The central finding is twofold:
 1. The full functional $D_N$ is an exact finite linear combination of $\Lambda(m)$ for $m \le N/2$ plus a completely explicit smooth baseline $\mathcal{S}_{\mathrm{smooth}}(N, K)$.
-2. Substituting $\Lambda = \mu * \log$ yields an exact partition $D_N = \mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2$. The Type I sum $\Sigma_1$ carries the order $N \log N$ and order $N$ scale matching $\mathcal{S}_{\mathrm{smooth}}$, while the Type II inner sums expand explicitly into interval differences of the Mertens function $M(t) = \sum_{a \le t} \mu(a)$ (with empty-interval guards required; see section 4.2). The exact joint target of this route is $|\mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2| \ll_\epsilon N^{1/2+\epsilon}$. No equivalence is claimed between bounds on individual pieces ($\Sigma_1$ alone, $\Sigma_2$ alone) and RH: only $\zeta(s)$ is involved here (no Dirichlet L-functions), and necessity of Mertens-strength input for any individual piece is not proved. (Corrected 2026-09-20: the draft claimed an equivalence with the Mertens square-root bound and invoked Dirichlet L-functions; both removed.)
+2. Substituting $\Lambda = \mu * \log$ yields an exact partition $D_N = \mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2$. Formal intuition only (no priced proof): the Type I sum $\Sigma_1$ formally matches the scale of $\mathcal{S}_{\mathrm{smooth}}$. The Type II inner sums expand explicitly into interval differences of the Mertens function $M(t) = \sum_{a \le t} \mu(a)$ (with empty-interval guards required; see section 4.2). The exact joint target of this route is $|\mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2| \ll_\epsilon N^{1/2+\epsilon}$. No equivalence is claimed between bounds on individual pieces ($\Sigma_1$ alone, $\Sigma_2$ alone) and RH: only $\zeta(s)$ is involved here (no Dirichlet L-functions), and necessity of Mertens-strength input for any individual piece is not proved. (Corrected 2026-09-20: the draft claimed an equivalence with the Mertens square-root bound and invoked Dirichlet L-functions; both removed.)
 
 ---
 
@@ -117,7 +117,9 @@ We now evaluate the bounds on $\Sigma_2$:
   Summing over $b \in [2, U]$ with weight $\log b$, we have the exact partition:
   $$\Sigma_2(N) = \Sigma_{2,\mathrm{smooth}}(N) + \Sigma_{2,\mathrm{frac}}(N)$$
   Both pieces are verified independently in exact rational Fraction arithmetic in `factorization_diagnostic.py`.
-- **Genuine Unconditional Baseline via Monotone Telescoping:**
+- **Proposed subexponential baseline via monotone telescoping (needs review, not accepted):**
+  (Downgraded 2026-09-20 per coordinator instruction; no replacement derivation is attempted in this correction. The derivation as written does not rigorously handle uniformity over the active jump ranges, the change of the exponential constant across $b$, the $V$-endpoint cases, and small $N$.)
+  The proposal was:
   Notice that $g(a) = 1 - \lfloor N/(ab) \rfloor$ is a monotone non-decreasing function of $a$ on $U < a \le V = \lfloor M/b \rfloor$. Discrete summation by parts (Abel summation) yields:
   $$\mathcal{M}_b(N) = g(V) M(V) - g(U+1) M(U) - \sum_{a=U+1}^{V-1} M(a) [g(a+1) - g(a)]$$
   Because $g$ is monotone, the forward differences $\Delta g(a) = g(a+1) - g(a) \ge 0$ telescope: their sum is $g(V) - g(U+1) \le \lfloor N/((U+1)b) \rfloor \le \sqrt{2N}/b$.
@@ -128,30 +130,24 @@ We now evaluate the bounds on $\Sigma_2$:
   Every term in the telescoped representation carries the subexponential factor. Summing over $b \le U$ with $\log b$:
   $$\sum_{b=2}^U \frac{\log b}{b} \ll \log^2 U \ll \log^2 N$$
   Therefore, with logs and constants tracked honestly:
-  $$\Sigma_2(N) \ll N \log^3 N \exp(-c'\sqrt{\log N}) \ll N \exp(-c''\sqrt{\log N}) \qquad \text{(unconditional baseline).}$$
-  The claim that naive $k$ weights necessarily erase the subexponential saving applies only to untelescoped absolute bounding. Telescoping replaces $k$ weights by forward differences of order 1, preserving the subexponential saving.
-- **Conditional Baseline under RH for Zeta:**
-  Assuming RH for $\zeta(s)$, $M(t) \ll_\epsilon t^{1/2+\epsilon}$.
-  Inserted into the telescoped Abel sum:
-  1. $|g(V) M(V)| \ll (N/b)^{1/2+\epsilon}$.
-  2. $|g(U+1) M(U)| \ll \frac{\sqrt{N}}{b} U^{1/2+\epsilon} \ll \frac{N^{3/4+\epsilon/2}}{b}$.
-  3. The jump sum gives $\sum_{k=2}^K (N/(bk))^{1/2+\epsilon} \ll \frac{N^{1/2+\epsilon}}{b^{1/2+\epsilon}} K^{1/2-\epsilon} \ll \frac{N^{3/4+\epsilon/2}}{b^{1/2}}$.
-  Summing over $b \le U$ with $\log b$ yields $\Sigma_2(N) \ll_\epsilon N^{7/8+\epsilon}$ (or $N^{3/4+\epsilon}$ with dyadic dissection).
-  Crucially, this does not reach the target $N^{1/2+\epsilon}$. Even full Mertens-strength input on the floor weights leaves an $N^{1/4}$ gap above $N^{1/2}$.
+  $$\Sigma_2(N) \ll N \log^3 N \exp(-c'\sqrt{\log N}) \ll N \exp(-c''\sqrt{\log N}) \qquad \text{(NOT accepted: see downgrade note above).}$$
+  End of proposal. The justified unconditional bound remains the elementary $\Sigma_2 \ll N \log^3 N$.
+- **Conditional baselines: no individual RH-strength bound is established in this note.**
+  No derivation here prices $\Sigma_1$ or $\Sigma_2$ individually at any $N^{7/8+\epsilon}$-, $N^{3/4+\epsilon}$-, or $N^{1/2+\epsilon}$-scale under RH; the $b,k$ ranges were not handled consistently in the removed attempts, and no replacement exponent is invented. The inherited RH implication for the joint $D_N$ is separate and is kept below.
 - **Status of the Fractional-Weight Piece:**
   In the split $\Sigma_2 = \Sigma_{2,\mathrm{smooth}} + \Sigma_{2,\mathrm{frac}}$, the fractional-weight piece $\Sigma_{2,\mathrm{frac}} = \sum_{b=2}^U \log b \sum_{U < a \le M/b} \mu(a) \{N/(ab)\}$ is one unresolved component of $\Sigma_2$. It is not proved equivalent to RH, nor is bounding it proved equivalent to bounding the joint target $D_N$. It remains an unpriced component whose individual bound is not established.
 - **Valid Conditional Implication for the Joint Target:**
   RH implies $|R(x)| \ll x^{1/2}\log^2 x$ (von Koch, inherited leaf), whence via the unconditional identity $D_N = R(N) + O(\sqrt{N})$ the joint bound $|D_N| \ll N^{1/2}\log^2 N$ follows directly. This implication is established; it routes through the renewal identity, not through individual bounds on $\Sigma_1$ or $\Sigma_2$.
 
 **The Precise Obstruction (restated):**
-The floor weights $w_N(ab) = 1 - \lfloor N/(ab) \rfloor$ are monotone, so discrete partial summation against $M(t)$ applies and preserves the unconditional subexponential bound $\Sigma_2 \ll N \exp(-c''\sqrt{\log N})$. The obstruction is that floor-weight partial summation under RH saturates at $O(N^{3/4+\epsilon})$, leaving an $N^{1/4}$ gap above the target $N^{1/2+\epsilon}$. Reaching $N^{1/2+\epsilon}$ cannot be achieved by bounding $\Sigma_1$ and $\Sigma_2$ separately through cumulative Mertens estimates: it requires joint cancellation in the full sum $\mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2$. The exact joint target is $|\mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2| \ll_\epsilon N^{1/2+\epsilon}$.
+The estimates attempted in this note do not establish the required joint bound $|\mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2| \ll_\epsilon N^{1/2+\epsilon}$. No lower bound for $\Sigma_2$ was proved, and no saturation, impossibility, or individual non-boundedness claim is made: sharper estimates or different decompositions are not ruled out. The exact joint inequality above is retained as the open target.
 
 ---
 
 ## 5. Endpoints, Prime Powers, and Smoothing Costs
 
 1. **Prime Powers at Endpoints:**
-   In $D_N$, the arithmetic convolution runs only up to $M = \lfloor N/2 \rfloor$. Thus, whether $N$ itself is a prime or prime power has no direct effect on the summation range of $\Lambda(m)$. The only endpoint sensitivity arises at $Y = N/K$. Because $Y$ is rational, the split between $m \le Y$ and $m > Y$ in $w_N(m)$ is exact and introduces no fractional error.
+   In $D_N$, the arithmetic convolution runs only up to $M = \lfloor N/2 \rfloor$. Thus, whether $N$ itself is a prime or prime power has no direct effect on the summation range of $\Lambda(m)$. Endpoint sensitivity is present at every cutoff: the integer floors $K$, $M$, $U$, the branch split at rational $Y$, and the prime powers entering $\Lambda(m)$ and $\mu(a)$ sums at each range end. The split between $m \le Y$ and $m > Y$ in $w_N(m)$ is over integers against rational $Y$, hence exact with no fractional error; this removes only the $Y$-branch error, not the other cutoffs.
 2. **Smooth Tail Integral:**
    The infinite tail $N \int_Y^\infty R(u)/u^2 \, du$ is completely resolved into $K \psi(Y) - N \sum_{m \le Y} \Lambda(m)/m$ plus smooth terms. There is no truncation error or discarded tail remainder.
 3. **Smoothing Cost:**

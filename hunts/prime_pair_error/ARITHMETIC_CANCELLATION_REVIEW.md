@@ -364,3 +364,7 @@ Earlier sections above remain preserved as written for provenance.
 
 5. **Final Status:**
    **ATTEMPT_UNRESOLVED.** Exact finite identities are verified with zero defect. Unproved analytic claims are removed or bounded honestly. The remaining open problem is the joint inequality $|D_N| = |\mathcal{S}_{\mathrm{smooth}} + \Sigma_1 + \Sigma_2| \ll_\epsilon N^{1/2+\epsilon}$. No new arithmetic cancellation is established.
+
+## Current-verdict note (2026-09-20, closure dispatch)
+
+The analytic assertions added to this review after the repair dispatch (including any baselines stronger than the elementary bounds and any "zero defect" phrasing applied beyond the Class A finite cases) are worker assertions, not coordinator acceptance. Per `FINAL_ACCEPTANCE.md` sections 1-4 as corrected this dispatch: "zero defect" covers only the stated Class A finite cases (E-frac values at 13 cutoffs, prime-log matches at 15 cutoffs, smooth/fractional split cells, 4 planted lesions); kernel and partition identities were checked in floats (Class C) with no exact kernel verification; general identities rest on the written derivations plus inherited integral/PNT facts. Proposed finer baselines are not accepted. Current verdict: preserved unresolved attempt; no new cancellation estimate for $D_N$.
