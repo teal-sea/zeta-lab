@@ -28,6 +28,7 @@ separate repository; this one holds the record, not the presentation of it.
 | [refute](docs/doors/refute.md) | test a claim about the zeros against the control battery | `.venv/bin/python scripts/23_gate_3_battery.py` |
 | [certify](docs/doors/certify.md) | Lean proofs and interval enclosures | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
 | [discover](docs/doors/discover.md) | run the conjecture funnel and see its measured hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
+| [evaluate](docs/doors/evaluate.md) | run an LLM against a proof-backed grader rather than an LLM judge | `uv run --directory environments/bloch_certificate bloch-smoke` |
 | [contribute](docs/doors/contribute.md) | clone the lab, run a bounded agent hunt and return checkable findings | `.venv/bin/python scripts/71_contribution_check.py hunts/<short-name>` |
 | [adopt](docs/doors/adopt.md) | *(demoted, read `harness/VERDICT.md` first)* the validation framework and why it was frozen | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py` |
 

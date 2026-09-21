@@ -1,0 +1,44 @@
+name: Bloch environment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "environments/bloch_certificate/**"
+      - ".github/workflows/bloch-environment.yml"
+  pull_request:
+    paths:
+      - "environments/bloch_certificate/**"
+      - ".github/workflows/bloch-environment.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bloch-environment-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  archive-backed-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BLOCH_ARCHIVE: /tmp/bloch-computations-1.0.0.zip
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+          enable-cache: true
+          cache-dependency-glob: environments/bloch_certificate/uv.lock
+      - name: Install the pinned environment
+        run: uv sync --directory environments/bloch_certificate --frozen --group dev
+      - name: Build distributable artifacts
+        run: uv build environments/bloch_certificate
+      - name: Exercise the archive-backed reward controls
+        run: uv run --directory environments/bloch_certificate bloch-smoke
+      - name: Run adversarial and integration tests
+        run: |
+          uv run --directory environments/bloch_certificate pytest -q \
+            -o addopts='' tests

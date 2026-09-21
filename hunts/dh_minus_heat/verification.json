@@ -1,0 +1,88 @@
+{
+  "timestamp": "2026-09-17T18:20:53.554988+00:00",
+  "frame": "narrow s=1/2+iz",
+  "checks": [
+    {
+      "name": "time_one_heat_derivative_0",
+      "dps": 55,
+      "reference_real": "-0.0000000000000019661767059857567856544527964173882885517950184773",
+      "reference_imag": "0.0000000000000044915719143324596718008204502808062816928838272505",
+      "overlap": true,
+      "reference_grade": "floating-point quadrature, not an enclosure"
+    },
+    {
+      "name": "time_one_heat_derivative_1",
+      "dps": 55,
+      "reference_real": "0.003938273208579137454554652131304053963986592131994",
+      "reference_imag": "0.014705575600944740778709900680368905173611815048803",
+      "overlap": true,
+      "reference_grade": "floating-point quadrature, not an enclosure"
+    },
+    {
+      "name": "time_217_over_200_heat_derivative_0",
+      "dps": 55,
+      "reference_real": "-0.0000000000000041976938021389702962343527203956228796188989601898",
+      "reference_imag": "6.8520074069056790101138305971494344900789353427428e-16",
+      "overlap": true,
+      "reference_grade": "floating-point quadrature, not an enclosure"
+    },
+    {
+      "name": "time_217_over_200_heat_derivative_1",
+      "dps": 55,
+      "reference_real": "0.00012629456414126127614466982335377730405031410907006",
+      "reference_imag": "0.0028604866899191410724035061098933487337677507181628",
+      "overlap": true,
+      "reference_grade": "floating-point quadrature, not an enclosure"
+    },
+    {
+      "name": "odd_theta_transform",
+      "dps": 55,
+      "absolute_defect": "1.01957882312e-56"
+    },
+    {
+      "name": "zero_time_Hurwitz_identity",
+      "dps": 55,
+      "absolute_defect": "1.44190219957e-56"
+    },
+    {
+      "name": "even_theta_transform",
+      "dps": 55,
+      "absolute_defect": "0.0"
+    },
+    {
+      "name": "plus_zero_time_cosine_identity",
+      "dps": 55,
+      "absolute_defect": "1.05095779535e-56"
+    },
+    {
+      "name": "underresolved_series_refuses",
+      "nmax": 2,
+      "decided": false
+    },
+    {
+      "name": "displaced_centre_refuses",
+      "decided": false
+    }
+  ],
+  "written_margins": {
+    "time_one": "5999913/4000000000000000",
+    "time_217_over_200": "559961/2000000000000000"
+  },
+  "narrow_bracket": {
+    "strict_lower": "217/200",
+    "upper": "567009/320000"
+  },
+  "wide_bracket": {
+    "strict_lower": "217/50",
+    "upper": "567009/80000"
+  },
+  "first_function_upper_narrow": "1/2",
+  "seconds": 5.407825375034008,
+  "source_sha256": {
+    "odd_ball.py": "6e209b21ad92033c23beab3e8ee46dd85271a30dcf8e290e5a46aebe9ba37fb1",
+    "phase_bound.py": "125fc8b5c4b7d77ed6807924116e9818df48aefb5b138fc0a40c974cfe55b485",
+    "pilot.py": "a0244f08148380f51bb5d5d8599ae5adcf3b4108bb9e0ad0bcf801afd66b34e7",
+    "test_heat.py": "b97ab0d0ddcb72c61d6e1495c13ad72a81ab65eb41e80291414a8e032829e52c",
+    "verify.py": "ffea61ce13481a7a663df2102835d4a7a0df3601021c742a4aae240c69b92304"
+  }
+}

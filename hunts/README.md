@@ -70,6 +70,18 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
+
+**Status: candidate ordinary argument with enclosure-carrying numerical steps;
+independent model reviews completed.** A rational disk at narrow heat time `217/200` passes
+a Taylor/Rouche inequality at three Arb precisions, including all theta and
+integration tails. A simpler Euler-phase calculation on Arb and mpmath.iv
+supplies the candidate bracket `217/200 < Lambda_minus <= 567009/320000`.
+The odd theta normalization is checked against a separate Hurwitz-zeta route; the plus cosine normalization is now stated and checked the same way.
+No RH, novelty or formal-proof claim. See [the argument](dh_minus_heat/RESULTS.md)
+and its executable checker; the lower-bound quadrature uses Arb only.
+An exact residue-orbit corollary shows the nonresidue permutation `n->2n mod 5` swaps the plus/minus heat class up to global scale, with a SymPy enumeration check.
+
 ### Finite paid-surplus construction (`paid_surplus_obstruction/`)
 
 **Status: exact finite construction, independent challenge pending.**
