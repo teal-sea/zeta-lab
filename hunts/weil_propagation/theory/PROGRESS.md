@@ -114,3 +114,16 @@ Next: RESULTS.md.
   negative from 27.74). Refined crossings from epstein_crossing.json
   (N = 128): odd (27.7412, 27.7417], even (29.3037, 29.3042].
 - Both PENDING placeholders replaced; grading and line 5 updated.
+
+## 2026-09-23, milestone 8: numerics e404a81 incorporated; bounded desk attempt
+
+- Corrected the Epstein even-sector reading: (b) fails first (29.3042),
+  (a) later (29.3179), N = 128 (their epstein_mu2_cross.json). zeta: all
+  234 cells hardened, mu2/lambda2 = 0.6394-0.6430 for c >= 5 (confirmed).
+- Precision artifact found and corrected: 2<c,e2>^2 ~ 1e-63 was noise at
+  dps 60; true value ~0.2 mu2^2 (check L at dps 120/200). The near-radical
+  reading in s6 is withdrawn as evidence.
+- Section 8: lambda1 = -Phi/(2||u||^2), phi1 = u/||u||,
+  mu2/lambda2 = 1 - <phi1,e2>^2 (measured to 6 digits); even edge
+  amplitude fixed by the odd floor via the CCM/CvS commutator identity
+  (bound saturated). No (U-S) mechanism found; attempt unresolved.

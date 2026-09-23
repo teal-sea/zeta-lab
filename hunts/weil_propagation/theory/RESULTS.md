@@ -2,9 +2,9 @@
 
 1. **Strongest candidate was C2 (Levy-Markov + pole); as a positivity/propagation mechanism it is now refuted (line 3), and no candidate survives. What stands is its structural part, Proposition M. Grade: ordinary argument, unreviewed (checked by nobody outside this session).** With the pole term removed, the zeta Weil form on any window is exactly a jump Dirichlet form minus a constant C_ℓ. The jumps are the digamma Levy density ½K(|u|), K(x) = 2e^{−x/2}/(1 − e^{−2x}), plus jumps ±log n at rate Λ(n)/√n, killed outside the window; C_ℓ = log π − ψ(1/4) + Σ_{log n<ℓ} 2Λ(n)/√n up to terms that vanish as ℓ grows (exact form in §2.6). Λ ≥ 0 (Markov), together with the irreducibility hypothesis (K continuous and strictly positive on (0, ℓ]), makes the pole-free operator's ground state simple and a.e. positive on every window.
 2. **What it would give.** Simplicity transfers to the even sector of the full form with the pole by rank-one interlacing. This needs neither condition (a) nor positivity. The bottom is min(r₁, μ_k) over pole-free even eigenvalues μ_k with an eigenvector orthogonal to the pole vector c = cosh((x−x₀)/2), where r₁ is the smallest secular root. Simplicity fails only on a tie r₁ = μ_k, or a degenerate such μ_k below r₁. **Grade: derivation, not measured.** Evenness (even bottom below odd bottom) is not obtained. Positivity reduces exactly to (a), at most one even Dirichlet eigenvalue below C_ℓ, plus (b), a scalar pole-capacity inequality (derivation). **As a propagation lemma, (a)+(b) is a reformulation of RH (even sector), not progress** in the mission's sense. The output is the unconditional Proposition M. **Measured** at (c, N) = (13, 24) and (31, 32): (b) is 1.1e6 and 1.6e6 times tighter than (a), and (a)'s own margin is 3.5e−37 and 6.5e−63. The Poincaré attempt on (a) (§6) is unresolved.
-3. **What refutes it: Epstein (1,1,6), a rival that satisfies C2's hypotheses, refutes C2 as a positivity/propagation mechanism (hardened, via numerics).** On every window where it matters, Epstein has one pole, a positive Levy density (Γ(s) = sum of the a = 1/4 and 3/4 kernels), and Λ_Q(n) ≥ 0 for all n ≤ 47. That last fact is re-checked here in exact arithmetic (check J): for n ≤ 29 every nonzero Λ_Q(n) is enclosed strictly positive, and the first negative is n = 48. Its Weil form is nevertheless negative from c = 28 (odd sector) and c = 29.5 (even sector), at N = 64 and N = 128, on every half-integer window up to 48 (hardened ball LDLᵀ inertia; numerics commit 3a799d8, `epstein_N64.json`, `epstein_N128.json`, confirmed here). The Dedekind zeta of Q(√−23) is positive on all 93 windows with the same blocks (control). The argument principle finds an off-line zero at 0.953260 + 16.290216i (measured, dps 20), where the negative even ground state peaks (frequency 16.71). **The odd sector goes negative first (28 < 29.5): concrete evidence that "even bottom below odd bottom" fails for a Markov + one-pole form.** Proposition M (pole-free simplicity, and even-sector simplicity of the full form by interlacing) is a separate claim, not refuted by negativity, and stays graded as a derivation. **Which condition breaks (numerics commit 3b76739, `epstein_polefree.json`, N = 64; inertias hardened, eigenvalues float-grade): even sector, condition (a).** The pole-free even form goes from one negative eigenvalue at c = 29 (μ₂ = +0.0415) to two at c = 29.5 (μ₂ = −0.0142), while the full even form turns negative in (29.3037, 29.3042] at N = 128. The single pole pays for one negative Markov direction, and Epstein develops a second. (b) is not evaluated in their JSON. **Odd sector: the odd pole capacity.** The pole-free odd form stays positive through c = 30 (μ₁ ≈ +0.065) while the full odd form is negative from (27.7412, 27.7417] at N = 128. So the first failure, the odd one, is the negative odd pole term, not the Markov part. DH and W_a remain outside C2's hypotheses (signed jumps and no pole; two poles). Separately: C1 (propagation through entering atoms) is refuted at every band N = 64 … 256. DH's sign flips at hardened brackets c*(N) ∈ [30.617, 30.818], inside the step (29, 31), where no atom with nonzero weight enters (numerics `crossing.json`; Λ_f(30) = 0 here). For the continuum form this holds provided the continuum crossing lies above c = 29: the N-ladder indicates about 30.61 (measured) but does not establish it. C3 (norm-level ground-state transport) is refuted by DH (measured).
+3. **What refutes it: Epstein (1,1,6), a rival that satisfies C2's hypotheses, refutes C2 as a positivity/propagation mechanism (hardened, via numerics).** On every window where it matters, Epstein has one pole, a positive Levy density (Γ(s) = sum of the a = 1/4 and 3/4 kernels), and Λ_Q(n) ≥ 0 for all n ≤ 47. That last fact is re-checked here in exact arithmetic (check J): for n ≤ 29 every nonzero Λ_Q(n) is enclosed strictly positive, and the first negative is n = 48. Its Weil form is nevertheless negative from c = 28 (odd sector) and c = 29.5 (even sector), at N = 64 and N = 128, on every half-integer window up to 48 (hardened ball LDLᵀ inertia; numerics commit 3a799d8, `epstein_N64.json`, `epstein_N128.json`, confirmed here). The Dedekind zeta of Q(√−23) is positive on all 93 windows with the same blocks (control). The argument principle finds an off-line zero at 0.953260 + 16.290216i (measured, dps 20), where the negative even ground state peaks (frequency 16.71). **The odd sector goes negative first (28 < 29.5): concrete evidence that "even bottom below odd bottom" fails for a Markov + one-pole form.** Proposition M (pole-free simplicity, and even-sector simplicity of the full form by interlacing) is a separate claim, not refuted by negativity, and stays graded as a derivation. **Which condition breaks (numerics commit 3b76739, `epstein_polefree.json`, N = 64; inertias hardened, eigenvalues float-grade): even sector: the pole capacity (b) fails first, then (a).** Corrected by numerics commit e404a81 (`epstein_mu2_cross.json`): at N = 128 the full even form turns negative in (29.3037, 29.3042], while the pole-free even form gains its second negative eigenvalue (μ₂ < 0) only in (29.3174, 29.3179]; at N = 64 the pair is 29.3413 and 29.3555. The half-unit grid I first read had both in one step, and my earlier "(a) fails" reading is withdrawn. **Odd sector: the odd pole capacity.** The pole-free odd form stays positive through c = 30 (μ₁ ≈ +0.065) while the full odd form is negative from (27.7412, 27.7417] at N = 128. So the first failure, the odd one, is the negative odd pole term, not the Markov part. DH and W_a remain outside C2's hypotheses (signed jumps and no pole; two poles). Separately: C1 (propagation through entering atoms) is refuted at every band N = 64 … 256. DH's sign flips at hardened brackets c*(N) ∈ [30.617, 30.818], inside the step (29, 31), where no atom with nonzero weight enters (numerics `crossing.json`; Λ_f(30) = 0 here). For the continuum form this holds provided the continuum crossing lies above c = 29: the N-ladder indicates about 30.61 (measured) but does not establish it. C3 (norm-level ground-state transport) is refuted by DH (measured).
 4. **New or known:** the Markov reading of the full Weil form, primes included, and the prime-entry kink formula are original to this session. They were not in the 10 sources read, and one web search found nothing. Suzuki (arXiv:2606.09096 s5) uses a Dirichlet form for the archimedean part only, and only for small windows. The fixed-window dilation formula is Suzuki's s4.2. Novelty is not established: the search was shallow.
-5. **Next step.** No propagation mechanism survives in the searched set. **Refuted:** C1, C3, and C2 as a mechanism. **Obstructed:** comparison-type Poincaré bounds (measured, §6). **Named (exact, §7.1):** the step that Epstein (1,1,6) and W_a fail and Dedekind ζ_{Q(√−23)} passes is the semilocal unitary decomposition (U-S). Its two parts are atoms only at prime powers (Epstein fails at n = 6) and unitary local roots, |s_k(p)| ≤ degree (Epstein fails at n = 8, W_a at n = 2). The candidate that uses it, C4 (§7), is the Connes-Consani semilocal Sonin program restricted to windows. It is not original, and the bounded attempt is unresolved and paused. No rival satisfying its hypotheses exists, so it can only be tested by building its first instance, S = {∞, 2} on windows c ∈ [2, 3). There the conclusion is already known (Zhu), and what must be built is the semilocal trace remainder. A side result: local-factor flattening in the collar is vacuous (ordinary argument). From numerics (commit 3b76739): Epstein breaks (a) in the even sector and the odd pole capacity in the odd sector (§4 C2). Their ζ μ₂-tracking run (their RESULTS s9.4) is committed and not yet incorporated here.
+5. **Next step.** No propagation mechanism survives in the searched set. **Refuted:** C1, C3, and C2 as a mechanism. **Obstructed:** comparison-type Poincaré bounds (measured, §6). **Named (exact, §7.1):** the step that Epstein (1,1,6) and W_a fail and Dedekind ζ_{Q(√−23)} passes is the semilocal unitary decomposition (U-S). Its two parts are atoms only at prime powers (Epstein fails at n = 6) and unitary local roots, |s_k(p)| ≤ degree (Epstein fails at n = 8, W_a at n = 2). The candidate that uses it, C4 (§7), is the Connes-Consani semilocal Sonin program restricted to windows. It is not original, and the bounded attempt is unresolved and paused. No rival satisfying its hypotheses exists, so it can only be tested by building its first instance, S = {∞, 2} on windows c ∈ [2, 3). There the conclusion is already known (Zhu), and what must be built is the semilocal trace remainder. A side result: local-factor flattening in the collar is vacuous (ordinary argument). From numerics (commits 3b76739, e404a81): Epstein breaks the even pole capacity (b) first (29.3042) and (a) later (29.3179), and the odd pole capacity in the odd sector; ζ holds (a) on all 234 cells with μ₂/λ₂ = 0.639 … 0.643 (hardened inertias). The Epstein/Dedekind pair differs in the prime block, and check K shows that means support, the local power sums and unitarity together, not support alone. **Bounded desk attempt (§8):** no mechanism from (U-S) pins μ₂/λ₂ or bounds the boundary trace by the margin; attempt unresolved. What it found (derivation, measured to six digits): the Weil ground state is u/‖u‖ with u = (A°)^{−1}c, the floor is −Φ/(2‖u‖²), and μ₂/λ₂ = 1 − ⟨φ₁,e₂⟩². The even edge amplitude is fixed by the odd floor through an exact commutator identity (CCM/CvS), which is arithmetic-free and weakens as ℓ grows. It also corrected a precision artifact in §6.
 
 Study of 2026-09-23, branch `teal-sea/weil-propagation-theory`. Nothing
 here is a claim about RH. Grades follow the `AGENTS.md` ladder: *measured*,
@@ -241,10 +241,11 @@ then gives:
   r₁. If a simple c-orthogonal μ_k lies below r₁, the bottom is still
   simple, but its eigenvector e_k changes sign. Neither condition (a) nor
   positivity is needed.
-  Measured caution: e₂ is orthogonal to c to 2⟨c, e₂⟩² = 4.4e−63
-  (c = 13) and 4.2e−113 (c = 31), so half of the coincidence is nearly
-  realised. The other half fails by a factor of about 1e6 (λ₁(Q) = 3.1e−43
-  against μ₂ = 3.5e−37 at c = 13), so the bottom is simple in both cells.
+  Measured: ⟨c, e₂⟩ is small but not nearly zero on its own scale.
+  2⟨c, e₂⟩² = 2.8e−74 at c = 13 (dps 120) and 9.0e−126 at c = 31
+  (dps 200), about 0.2 μ₂² (check L). An earlier dps-60/110 reading of
+  4.4e−63 / 4.2e−113 was a precision artifact. With λ₁(Q) = 3.1e−43 against
+  μ₂ = 3.5e−37 at c = 13, the bottom is simple in both cells.
 - **Even-sector positivity:** Q_e ≥ 0 ⟺ (a) μ₂(Q°_e) ≥ 0, and (b)
   μ₁ ≥ 0 or Φ_ℓ := 1 + 2⟨c, (A°_e)^{−1} c⟩ ≤ 0.
 - **Under RH:** on every window the killed zeta process has at most one
@@ -290,8 +291,9 @@ lab's hardened ones (`hunts/rogue_frontier/weil_trunc/RESULTS.md` s8.1).
 | H | same ratio for DH toward the crossing | 11.4, 14.1, 18.4, 13.5, 17.8 at c = 13, 20, 25, 29, 30 (N = 60); ζ 20.3, 20.7, 18.3 at c = 25, 29, 31 (N = 32). **This sampling stops short of DH's crossing at N = 60** (c*(64) = 30.818, so c*(60) is above 30.8); the matched-N reading is in §5 |
 | J | Epstein (1,1,6): Λ_Q(n), n ≤ 60, exact | exact rational coefficients in the log-prime basis, signs by `mpmath.iv` enclosure (hardened): nonzero for n ≤ 29 only at 4, 6, 8, 9, 12, 16, 18, 23, 25, 26, 27, all strictly positive; every other n ≤ 47 an exact zero; first negative n = 48; no undecided sign |
 | K | separating step (U-S), exact, n ≤ 60 | Dedekind Q(√−23): no composite atoms, all \|s_k(p)\| ≤ 2. Epstein (1,1,6): composite atoms 6, 12, 18, 26, 39, 48, 52, 58; s₃(2) = s₃(3) = 6 > 2 (§7.1) |
+| L | §8 identities, dps 120 / 200, c = 13 / 31 | λ₁ = −Φ/(2‖u‖²) to 6 digits; \|⟨φ₁, u/‖u‖⟩\| = 1.0 (12 digits); μ₂/λ₂ = 1 − ⟨φ₁,e₂⟩² to 1e−6; commutator identity residual 2e−100 / 2e−167; odd-margin bound on μ₀ saturated; 2⟨c,e₂⟩² = 2.8e−74 / 9.0e−126 (corrects row I) |
 | Ep | Epstein (1,1,6) window scan (numerics, commit 3a799d8, confirmed in their JSONs) | c ∈ [2, 48] step ½, N = 64 and 128: odd sector first negative at c = 28 (positive at 27.5), even first negative at 29.5 (positive at 29), negative at every later window, all ball LDLᵀ conclusive (hardened). Dedekind ζ_{Q(√−23)}, N = 64: positive on all 93 windows. Off-line zero 0.953260474794661 + 16.2902157203904i, box count 1 in [0.51, 1.3]×[14, 20], residual 1.43e−32 at dps 20 (measured; near that routine's dps-20 noise floor per `zeta/epstein.py`) |
-| I | Poincaré attempt (§6) | comparison bound 0.579 / 0.443 against required gap 5.850 / 8.782 at c = 13 / 31; true gap equals the requirement to 6.0e−38 / 7.4e−64 relative; 2⟨c,e₂⟩² = 4.4e−63 / 4.2e−113; Weil ground state overlaps 0.52 / 0.43 with e₁ and 0.60 / 0.60 with e₂ |
+| I | Poincaré attempt (§6) | comparison bound 0.579 / 0.443 against required gap 5.850 / 8.782 at c = 13 / 31; true gap equals the requirement to 6.0e−38 / 7.4e−64 relative; 2⟨c,e₂⟩² = 4.4e−63 / 4.2e−113 at dps 60 / 110, **precision artifacts** (check L: 2.8e−74 / 9.0e−126 at dps 120 / 200); Weil ground state overlaps 0.52 / 0.43 with e₁ and 0.60 / 0.60 with e₂ |
 
 ## 4. Candidate propagation lemmas
 
@@ -442,12 +444,17 @@ two routes).**
 | 30 | (64, 1) | (63, 2) | (63, 1) | (64, 0) |
 | 34, 40, 48 | (64, 1) | (63, 2) | (63, 1) | (63, 1) |
 
-- **Even sector: condition (a) fails.** The killed Epstein jump process
-  acquires a second even eigenvalue below C_ℓ between c = 29 and 29.5,
-  the same half-unit step in which the full even form turns negative
-  (refined: (29.3037, 29.3042] at N = 128). The single pole pays for one
-  negative Markov direction; Epstein develops a second. Condition (b) is
-  not evaluated in their JSON.
+- **Even sector: the pole capacity (b) fails first, then (a)**
+  (corrected; numerics commit e404a81, `epstein_mu2_cross.json`,
+  bisection on ball LDLᵀ inertia to 2^-10). At N = 128 the full even form
+  turns negative in (29.3037, 29.3042], but the killed Epstein jump
+  process acquires its second even eigenvalue below C_ℓ (μ₂ < 0) only in
+  (29.3174, 29.3179]. At N = 64 the pair is (29.3408, 29.3413] and
+  (29.3550, 29.3555]. So on a window interval of width about 0.014 in c,
+  (a) still holds and the single pole cannot pay for the one negative
+  Markov direction; after that, Epstein also develops a second one. My
+  first reading, "(a) fails", came from the half-unit grid, which puts
+  both changes in the same step, and is withdrawn.
 - **Odd sector: the odd pole capacity fails, not Q°_o ≥ 0.** The
   pole-free odd form is positive at every window through c = 30 and
   negative only by c = 34. The full odd form is negative from
@@ -457,9 +464,35 @@ two routes).**
   The failure of "even bottom below odd bottom" recorded above is
   therefore caused by the pole.
 
-The attribution to (a) and to the odd pole capacity uses the equivalences
-of §2.6 (derivation). The inertias are hardened. The numerics worker's own
-reading (their RESULTS s9.3) agrees.
+The attribution to (b)-then-(a) and to the odd pole capacity uses the
+equivalences of §2.6 (derivation). The inertias are hardened. The numerics
+worker's reading (their RESULTS s9.3, commit e404a81) agrees.
+
+**ζ holds (a) with a fixed ratio** (numerics e404a81, their s9.4,
+`zeta_pole_N64.json` and `zeta_pole_N128.json`, confirmed here). On
+117 windows c ∈ [2, 60] at N = 64 and 128 (234 cells):
+
+- the full even form is positive definite at every cell, with ball LDLᵀ
+  inertia (N+1, 0);
+- the pole-free even form has exactly one negative eigenvalue at every
+  cell, inertia (N, 1). That is the shape Proposition M plus positivity
+  require. **Hardened.**
+- μ₂/λ₂ lies in [0.6394, 0.6430] for c ≥ 5 at both N (measured; 0.88 at
+  c = 2).
+
+§8 derives μ₂/λ₂ ≈ 1 − ⟨φ₁, e₂⟩² and checks it to 1e−6.
+
+**What the Epstein/Dedekind pair isolates.** Numerics' reading (their
+s9.3) is that the two differ only in the prime block. Check K sharpens
+which features of the prime block differ, all exactly:
+
+- Dedekind's atoms sit on prime powers; Epstein has composite atoms.
+- The local power sums differ at the primes themselves (Λ_Q(2) = 0
+  against Λ_K(2) = 2 log 2).
+- Epstein's towers violate the unitarity bound (s₃ = 6 at n = 8 and 27).
+
+So the matched pair shows that the prime block decides the sign here. It
+does not isolate support alone from the other features of (U-S).
 
 Any C2-based argument must therefore use more of the Euler product. Candidates: prime-power support, and the local-factor
 identity (Σ_k p^{−|k|/2} δ_{k log p}) ∗ Φ_p = (1 − 1/p) δ₀ with
@@ -615,13 +648,19 @@ by more than about 1e−37 (c = 13) cannot establish (a). Condition (a) is
 saturated to the eigenvalue scale, so it can only come from an identity
 that exhibits the saturating direction, not from an inequality with slack.
 
-*The saturating direction (measured, check I).* The Poincaré extremal is
-e₂, the second pole-free eigenvector. It is orthogonal to the pole vector
-to 2⟨c, e₂⟩² = 4.4e−63 (c = 13) and 4.2e−113 (c = 31). That is exactly
-what a CCM near-radical vector must satisfy. k_λ = E(h_λ) with ∫h = 0
-(Riemann's vanishing-integral condition, CCM s7 Lemma 7.1) has transform
-nearly vanishing at ±i/2, i.e. ⟨k_λ, c⟩ ≈ 0, and Q(k_λ) ≈ 0 (CCM s8
-item 2; Connes 2602.04022 s6.4). The first pole-free eigenvector carries
+*The saturating direction (measured, checks I and L; corrected).* The
+Poincaré extremal is e₂, the second pole-free eigenvector. I first
+reported it orthogonal to the pole vector to 2⟨c, e₂⟩² = 4.4e−63
+(c = 13) and 4.2e−113 (c = 31). **Those values were precision artifacts**
+(dps 60 and 110 cannot resolve them). At dps 120 and 200 the values are
+2.8e−74 and 9.0e−126, about 0.2 μ₂², while ‖W e₂‖ is stable. So
+⟨c, e₂⟩ scales like μ₂, which is what c = A°u with u = (A°)^{−1}c
+forces (⟨c, e₂⟩ = μ₂⟨u, e₂⟩). It is not evidence of a near-radical
+vector. The near-radical reading below is therefore **withdrawn as
+evidence**; it remains only a hypothesis. For the record, the hypothesis
+was: k_λ = E(h_λ) with ∫h = 0 (Riemann's vanishing-integral condition,
+CCM s7 Lemma 7.1) has transform nearly vanishing at ±i/2, and
+Q(k_λ) ≈ 0 (CCM s8 item 2; Connes 2602.04022 s6.4). The first pole-free eigenvector carries
 the pole almost entirely: 2⟨c, e₁⟩² = 5.883 against μ₁ = −5.850, so
 Q(e₁) = +0.033 (c = 13). The Weil ground state mixes the two (overlaps
 0.52 with e₁, 0.60 with e₂).
@@ -633,14 +672,10 @@ Q(e₁) = +0.033 (c = 13). The Weil ground state mixes the two (overlaps
   comparison or Poincaré bounds.
 - **Paused by allocation** after the allotted hour.
 - **Reduction obtained:** (a) holds iff the near-null directions of Q°
-  orthogonal to φ° have nonnegative energy. If e₂ is a CCM near-radical
-  vector (measured orthogonality supports it; not proved), then (a) is
-  CCM's missing step 2 at the eigenvalue scale, the same place the
-  Connes program is stuck.
-
-This identification is itself a finding. C2's condition (a) and CCM's
-step 2 are the same obstacle seen from two sides (derivation plus
-measurement, not a theorem).
+  orthogonal to φ° have nonnegative energy. Whether e₂ is a CCM
+  near-radical vector, which would make (a) CCM's missing step 2 at the
+  eigenvalue scale, is an open hypothesis. The orthogonality first
+  offered as support was a precision artifact (above).
 
 ## 7. C4: a candidate that uses multiplicativity itself (bounded attempt, about one hour)
 
@@ -768,7 +803,120 @@ only be tested by building its first instance, not by a rival.
 - Not a restatement of RH: C4 is a stronger structural inequality whose
   per-S instances are open. Only its union over all S implies RH.
 
-## 8. Threads (observations, not pursued)
+## 8. Does (U-S) pin μ₂/λ₂ away from 0, or bound the boundary trace by the margin? (bounded desk attempt)
+
+Supervisor-allocated, under 45 minutes, 2026-09-23. Even sector throughout.
+Notation: Q_e = A°_e + 2cc^T, pole-free eigenpairs (μ_k, e_k),
+u := (A°_e)^{−1} c, and Φ := 1 + 2⟨c, u⟩ (the pole capacity of (b)).
+
+### 8.1 What the floor and μ₂/λ₂ are (derivation; measured to six digits)
+
+Since c_k := ⟨c, e_k⟩ = μ_k⟨u, e_k⟩, the secular function of §2.6 is
+exactly
+
+    f(λ) = 1 + 2Σ_k c_k²/(μ_k − λ) = Φ + 2λ‖u‖² + 2λ² Σ_k ⟨u,e_k⟩²/(μ_k − λ).
+
+In ζ's regime λ₁ ≪ μ₂ ≪ μ₃ (the first inequality measured, μ₂/λ₁ ≥ 3e5
+for c ≥ 5; μ₃ ≫ μ₂ assumed, not measured), the leading orders give:
+
+    λ₁ ≈ −Φ / (2‖u‖²),     φ₁ ≈ u/‖u‖,     μ₂/λ₂ ≈ 1 − ⟨u,e₂⟩²/‖u‖² = 1 − ⟨φ₁, e₂⟩².
+
+**Check L** (dps 120 and 200):
+
+| c, N | λ₁ | −Φ/(2‖u‖²) | \|⟨φ₁, u/‖u‖⟩\| | μ₂/λ₂ | 1 − ⟨φ₁,e₂⟩² |
+|---|---|---|---|---|---|
+| 13, 24 | 3.07456e−43 | 3.07456e−43 (Φ = −1.98e−43) | 1.0 (12 digits) | 0.642248 | 0.642247 |
+| 31, 32 | 4.04821e−69 | 4.04821e−69 (Φ = −2.45e−69) | 1.0 (12 digits) | 0.643923 | 0.643923 |
+
+Readings:
+
+- **The Weil ground state is the pole-free resolvent of the pole
+  vector,** and the floor is the pole-capacity deficit over 2‖u‖².
+  Condition (b) *is* the floor equation, which is why it is the tight
+  condition for ζ.
+- Numerics' constant μ₂/λ₂ = 0.639 … 0.643 on c ∈ [5, 60] (hardened
+  inertias, measured ratio) says the ground state keeps about 36% of its
+  squared mass on the second pole-free eigenvector at every window.
+- Pinning μ₂/λ₂ ≥ κ > 0 is the same as ⟨φ₁, e₂⟩² ≤ 1 − κ.
+
+### 8.2 The boundary trace: an exact identity, arithmetic-free
+
+The full Weil matrix E in the basis {−N, …, N} has the CvS form
+q_ii = a_i, q_ij = (b_i − b_j)/(i − j) (CCM Lemma 5.1; CvS Prop 4.2).
+Hence DE − ED = |β⟩⟨η| − |η⟩⟨β|, with D = diag(n), η = (1, …, 1) and
+β = (b_n), b_n = n E_{0n} (CvS (5.3), CCM Lemma 5.2(ii)). For the even
+ground state (⟨β, φ₁⟩ = 0 by parity):
+
+    (E − λ₁) Dφ₁ = −μ₀ β,     μ₀ = ⟨η, φ₁⟩  (the numerics worker's edge amplitude),
+
+so
+
+    |μ₀| ≤ ‖Dφ₁‖ (λ₁^odd − λ₁) / |⟨f₁^odd, β⟩|.
+
+The identity is CCM's Lemma 5.4(i) in shifted form and is not new. The
+bound is a one-line corollary (ordinary argument).
+
+**Check L:**
+
+- identity residual 2.3e−100 (c = 13) and 2.1e−167 (c = 31);
+- the bound is **saturated**, bound/|μ₀| = 1.0 at both cells. So
+  (E_odd − λ₁)^{−1}β is carried by the odd ground state, and Dφ₁ is
+  proportional to f₁^odd to that accuracy. The derivative of the even
+  ground state is the odd ground state (measured, not proved);
+- values: μ₀ = 3.83e−21 and 5.05e−34; λ₁^odd/λ₁ = 1.8e3 and 2.1e3;
+  ⟨f₁^odd, β⟩ = 1.9e−19 and 2.8e−32.
+
+So the even boundary trace is fixed by the **odd** margin:
+μ₀ ≈ ‖Dφ₁‖(λ₁^odd − λ₁)/⟨f₁^odd, β⟩. With the edge law
+dλ₁/dL = −κμ₀², the relative decay rate of the even floor is
+κ‖Dφ₁‖²(λ₁^odd − λ₁)²/(λ₁⟨f₁^odd, β⟩²).
+
+### 8.3 Answer: no mechanism found (attempt unresolved)
+
+- **Both targets are eigenvector-level functionals of the whole interior
+  operator.** They are the angle ⟨φ₁, e₂⟩ between the Weil ground state
+  and the second pole-free eigenvector; the odd floor; and the overlap
+  ⟨f₁^odd, β⟩. (U-S) constrains which atoms exist and the local
+  structure of each prime tower. I found no argument that passes from
+  the support of the jump measure to eigenvector angles or odd/even floor
+  ratios at the eigenvalue scale.
+- **The identities of 8.1 and 8.2 are arithmetic-free.** They hold for
+  any real distribution of CvS type, DH included. So they cannot be the
+  mechanism; they only relocate the question onto the quantities named.
+- **The odd-floor transfer points the wrong way.** The odd/even floor
+  ratio grows with the window (Zhu Table 1: about 10^{2.07L+1.32}; here
+  1.8e3 at c = 13 and 2.1e3 at c = 31). So bounding μ₀ by the odd margin
+  gets weaker relative to λ₁ as ℓ grows, not stronger.
+- **Epstein, for contrast** (numerics' `epstein_polefree.json`,
+  float-grade): μ₂/λ₂ = 0.808, 0.758, 0.733 and 0.701 at c = 27, 28,
+  28.5 and 29, falling toward its (a)-failure at 29.318. There λ₁ is not
+  ≪ μ₂, so 8.1's relation does not apply. No Dedekind series of μ₂/λ₂
+  exists, so whether (U-S) correlates with the ratio is untested.
+- **Smallest informative check** (for numerics, if wanted): μ₂/λ₂ and
+  λ₁^odd/λ₁ for Dedekind ζ_{Q(√−23)} and Epstein on c ∈ [10, 29] at
+  matched N. If Dedekind tracks ζ's 0.64 while Epstein's ratio drifts
+  well before its crossing, the ratio is a (U-S)-sensitive *observable*.
+  That would still not be a mechanism.
+
+*Status (ALIGNMENT s5).*
+
+- **Attempt unresolved.** It is not obstructed: no theorem found rules
+  out a (U-S) mechanism.
+- **Paused by allocation.**
+- **Grades:**
+  - 8.1: derivation to leading order (μ₃ ≫ μ₂ assumed), with measured
+    agreement to six digits;
+  - 8.2: identity from CCM/CvS (not new) plus an ordinary-argument bound;
+    the saturation is measured;
+  - 8.3's negative: a scoped statement about what was searched in the
+    time allotted, not a proof.
+
+**A correction this round forced.** §6's claim that e₂ is orthogonal to
+the pole to about 1e−63 was a precision artifact (§6, corrected). The
+true overlap scales like μ₂, as u = (A°)^{−1}c forces, so it offered no
+support for a near-radical reading.
+
+## 9. Threads (observations, not pursued)
 
 - **Boundary mass.** At fixed N the ratio φ_N(0)²/λ_N stays within 11-24
   for ζ over λ from 1e−8 to 1e−60 (check G). §5 shows it is the log-rate
@@ -788,7 +936,7 @@ only be tested by building its first instance, not by a rival.
 - **Yoshida 1992 unread.** The primary text should be read before any
   claim that leans on the exact form of his result.
 
-## 9. Grading summary
+## 10. Grading summary
 
 - Proposition M, its Corollary, and the collar criterion: ordinary
   arguments, unreviewed. They rely on standard theorems: Beurling-Deny,
@@ -817,18 +965,24 @@ only be tested by building its first instance, not by a rival.
   ordinary arguments, unreviewed. The candidate is the Connes-Consani
   program, not original. Attempt unresolved, paused by allocation. No
   rival satisfying its hypotheses exists in the tree.
+- §8: λ₁ = −Φ/(2‖u‖²), φ₁ = u/‖u‖ and μ₂/λ₂ = 1 − ⟨φ₁,e₂⟩² are
+  derivations to leading order, measured to six digits at two cells. The
+  commutator identity is CCM/CvS; the odd-margin bound on μ₀ is an
+  ordinary argument, measured to be saturated. Answer to "does (U-S) pin
+  μ₂/λ₂ or bound the boundary trace?": no mechanism found; attempt
+  unresolved.
 - §6: the ground-state representation is an ordinary argument. The
-  comparison-bound shortfall and the orthogonality 2⟨c, e₂⟩² ≈ 1e−63 are
-  measured (float, dps 60 and 110, N = 24 and 32). The identification of
-  e₂ with a CCM near-radical vector is a hypothesis supported by that
-  measurement, not a theorem.
+  comparison-bound shortfall is measured. The earlier orthogonality
+  2⟨c, e₂⟩² ≈ 1e−63 was a precision artifact, corrected by check L:
+  ≈ 0.2 μ₂². The near-radical identification is an open hypothesis with
+  no measured support.
 - Originality: the Levy-Markov decomposition of the full Weil form and the
   kink formula were produced here. Novelty was searched only in the 10
   sources above plus one web search, which found no match.
 
-## 10. Reproduction
+## 11. Reproduction
 
-    .venv/bin/python hunts/weil_propagation/theory/checks.py        # all checks A-K, about 3 min, writes checks.json
+    .venv/bin/python hunts/weil_propagation/theory/checks.py        # all checks A-L, about 3 min, writes checks.json
     .venv/bin/python hunts/weil_propagation/theory/checks.py J K    # only the named checks, merged into checks.json
 
 - **Check J:** the Epstein (1,1,6) Λ_Q signs.

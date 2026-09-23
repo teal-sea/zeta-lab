@@ -25,6 +25,9 @@ Checks (numbering follows RESULTS.md section 3):
      Markov hypothesis on the windows where numerics finds it negative).
   K. The separating step (U-S) for Dedekind Q(sqrt -23) and Epstein (1,1,6):
      composite atoms and local power sums, exactly.
+  L. mu2/lambda2 = 1 - <phi1, e2>^2 check, the pole overlap of e2 at higher
+     precision, and the commutator identity bounding the even edge amplitude
+     mu0 by the odd floor.
 
 Run from the repo root:  .venv/bin/python hunts/weil_propagation/theory/checks.py
 Writes checks.json beside this file.
@@ -477,6 +480,68 @@ def check_K(nmax=60):
     return out
 
 
+# ---------------------------------------------------------------------------
+# L. (i) mu2/lambda2 against 1 - <phi1, e2>^2 and the pole overlap at two
+#        precisions (the dps-60 value of 2<c,e2>^2 in check I is a precision
+#        artifact); (ii) the CvS commutator identity (E - lam) D phi = -mu0 beta
+#        and the bound |mu0| <= ||D phi|| (lam1_odd - lam) / |<f1_odd, beta>|.
+# ---------------------------------------------------------------------------
+
+
+def check_L(cells=((13, 24, 120), (31, 32, 200))):
+    out = []
+    for c, N, dps in cells:
+        with mp.workdps(dps):
+            T, evQ, vQ = _ground(mp.mpf(c), N, pole=True)
+            _, ev0, v0 = _ground(mp.mpf(c), N, pole=False)
+            W = _w02_even(T, N)
+            phi, e2 = mp.matrix(vQ[0]), mp.matrix(v0[1])
+            ov = mp.fsum(phi[i] * e2[i] for i in range(N + 1))
+            # full (2N+1) basis, indices -N..N
+            M = 2 * N + 1
+            E = mp.matrix(M)
+            for i in range(M):
+                for j in range(i, M):
+                    E[i, j] = E[j, i] = T.entry(i - N, j - N)
+            u = mp.matrix(M, 1)
+            u[N] = phi[0]
+            for k in range(1, N + 1):
+                u[N + k] = u[N - k] = phi[k] / mp.sqrt(2)
+            lam = evQ[0]
+            mu0 = mp.fsum(u[i] for i in range(M))
+            Du = mp.matrix([(i - N) * u[i] for i in range(M)])
+            beta = mp.matrix([(i - N) * E[N, i] if i != N else 0 for i in range(M)])  # b_j = j q_{0j}
+            lhs = (E - lam * mp.eye(M)) * Du
+            resid = mp.norm(lhs + mu0 * beta) / mp.norm(lhs)
+            # odd sector: lowest eigenpair of the odd block, overlap with beta
+            O = T.odd_matrix()
+            evO, vO = G.eigsy_sorted(O)
+            f1 = mp.matrix(M, 1)
+            for k in range(1, N + 1):
+                f1[N + k] = vO[0][k - 1] / mp.sqrt(2)
+                f1[N - k] = -vO[0][k - 1] / mp.sqrt(2)
+            fb = mp.fsum(f1[i] * beta[i] for i in range(M))
+            bound = mp.norm(Du) * abs(evO[0] - lam) / abs(fb)
+            # pole vector c_vec with W = 2 c c^T, u = (E0)^{-1} c, capacity Phi
+            E0 = T.even_matrix() - W
+            cvec = W[:, 0] / mp.sqrt(2 * W[0, 0])
+            uvec = mp.lu_solve(E0, cvec)
+            Phi = 1 + 2 * mp.fsum(cvec[i] * uvec[i] for i in range(N + 1))
+            nu2 = mp.fsum(uvec[i] ** 2 for i in range(N + 1))
+            align = abs(mp.fsum(phi[i] * uvec[i] for i in range(N + 1))) / mp.sqrt(nu2)
+            out.append({"c": c, "N": N, "dps": dps,
+                        "pole capacity Phi": f(Phi, 6), "-Phi/(2||u||^2)": f(-Phi / (2 * nu2), 6),
+                        "|<phi1, u/||u||>|": f(align, 12),
+                        "mu2/lam2": f(ev0[1] / evQ[1], 6), "1-<phi1,e2>^2": f(1 - ov ** 2, 6),
+                        "2<c,e2>^2 (dps %d)" % dps: f((e2.T * W * e2)[0], 4),
+                        "lam1_even": f(lam, 5), "lam1_odd": f(evO[0], 5),
+                        "mu0": f(mu0, 5), "||(E-lam)D phi + mu0 beta||/||.||": f(resid, 3),
+                        "||D phi||": f(mp.norm(Du), 5), "|<f1_odd,beta>|": f(abs(fb), 5),
+                        "bound ||D phi|| (lam1_odd-lam)/|<f1_odd,beta>|": f(bound, 5),
+                        "bound/|mu0|": f(bound / abs(mu0), 5)})
+    return out
+
+
 def _run_C():
     out = []
     for q, p in ((3, 3), (4, 2), (5, 5), (7, 7)):
@@ -509,6 +574,7 @@ CHECKS = {
     "I": ("I_poincare", check_I),
     "J": ("J_epstein_lambda_sign", check_J),
     "K": ("K_separating_step", check_K),
+    "L": ("L_ratio_and_boundary_identity", check_L),
 }
 
 
