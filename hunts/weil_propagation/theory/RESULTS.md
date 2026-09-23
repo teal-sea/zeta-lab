@@ -4,7 +4,7 @@
 2. **What it would give.** Simplicity transfers to the even sector of the full form with the pole by rank-one interlacing. This needs neither condition (a) nor positivity. The bottom is min(r₁, μ_k) over pole-free even eigenvalues μ_k with an eigenvector orthogonal to the pole vector c = cosh((x−x₀)/2), where r₁ is the smallest secular root. Simplicity fails only on a tie r₁ = μ_k, or a degenerate such μ_k below r₁. **Grade: derivation, not measured.** Evenness (even bottom below odd bottom) is not obtained. Positivity reduces exactly to (a), at most one even Dirichlet eigenvalue below C_ℓ, plus (b), a scalar pole-capacity inequality (derivation). **As a propagation lemma, (a)+(b) is a reformulation of RH (even sector), not progress** in the mission's sense. The output is the unconditional Proposition M. **Measured** at (c, N) = (13, 24) and (31, 32): (b) is 1.1e6 and 1.6e6 times tighter than (a), and (a)'s own margin is 3.5e−37 and 6.5e−63. The Poincaré attempt on (a) (§6) is unresolved.
 3. **What refutes it: Epstein (1,1,6), a rival that satisfies C2's hypotheses, refutes C2 as a positivity/propagation mechanism (hardened, via numerics).** On every window where it matters, Epstein has one pole, a positive Levy density (Γ(s) = sum of the a = 1/4 and 3/4 kernels), and Λ_Q(n) ≥ 0 for all n ≤ 47. That last fact is re-checked here in exact arithmetic (check J): for n ≤ 29 every nonzero Λ_Q(n) is enclosed strictly positive, and the first negative is n = 48. Its Weil form is nevertheless negative from c = 28 (odd sector) and c = 29.5 (even sector), at N = 64 and N = 128, on every half-integer window up to 48 (hardened ball LDLᵀ inertia; numerics commit 3a799d8, `epstein_N64.json`, `epstein_N128.json`, confirmed here). The Dedekind zeta of Q(√−23) is positive on all 93 windows with the same blocks (control). The argument principle finds an off-line zero at 0.953260 + 16.290216i (measured, dps 20), where the negative even ground state peaks (frequency 16.71). **The odd sector goes negative first (28 < 29.5): concrete evidence that "even bottom below odd bottom" fails for a Markov + one-pole form.** Proposition M (pole-free simplicity, and even-sector simplicity of the full form by interlacing) is a separate claim, not refuted by negativity, and stays graded as a derivation. **[PENDING, numerics `epstein_polefree.py`: which of (a) μ₂(Q°_e) ≥ 0 or (b) the pole capacity fails for Epstein at c = 29.5 (even), and which odd-sector condition (Q°_o ≥ 0, or 1 − 2⟨s, (A°_o)^{−1} s⟩ ≥ 0) fails at c = 28. Not guessed here.]** DH and W_a remain outside C2's hypotheses (signed jumps and no pole; two poles). Separately: C1 (propagation through entering atoms) is refuted at every band N = 64 … 256. DH's sign flips at hardened brackets c*(N) ∈ [30.617, 30.818], inside the step (29, 31), where no atom with nonzero weight enters (numerics `crossing.json`; Λ_f(30) = 0 here). For the continuum form this holds provided the continuum crossing lies above c = 29: the N-ladder indicates about 30.61 (measured) but does not establish it. C3 (norm-level ground-state transport) is refuted by DH (measured).
 4. **New or known:** the Markov reading of the full Weil form, primes included, and the prime-entry kink formula are original to this session. They were not in the 10 sources read, and one web search found nothing. Suzuki (arXiv:2606.09096 s5) uses a Dirichlet form for the archimedean part only, and only for small windows. The fixed-window dilation formula is Suzuki's s4.2. Novelty is not established: the search was shallow.
-5. **Next step.** No propagation mechanism survives in the searched set. **Refuted:** C1, C3, and C2 as a mechanism. **Obstructed:** comparison-type Poincaré bounds (measured, §6). The controls locate what any next candidate must use: Dedekind ζ of Q(√−23) (Euler product, one pole, Λ ≥ 0) stays positive where Epstein (no Euler product, one pole, Λ ≥ 0 on these windows) fails. So the separating input is multiplicativity itself, not Λ ≥ 0 or the pole count. Examples are prime-power support and the degree-1 local-factor identity of §4 C2. Any such candidate must be run against Epstein (1,1,6) and W_a before it is developed. Pending from numerics: which of (a)/(b) fails for Epstein, and μ₂ tracking for ζ. The Poincaré attempt (§6) stays paused.
+5. **Next step.** No propagation mechanism survives in the searched set. **Refuted:** C1, C3, and C2 as a mechanism. **Obstructed:** comparison-type Poincaré bounds (measured, §6). **Named (exact, §7.1):** the step that Epstein (1,1,6) and W_a fail and Dedekind ζ_{Q(√−23)} passes is the semilocal unitary decomposition (U-S). Its two parts are atoms only at prime powers (Epstein fails at n = 6) and unitary local roots, |s_k(p)| ≤ degree (Epstein fails at n = 8, W_a at n = 2). The candidate that uses it, C4 (§7), is the Connes-Consani semilocal Sonin program restricted to windows. It is not original, and the bounded attempt is unresolved and paused. No rival satisfying its hypotheses exists, so it can only be tested by building its first instance, S = {∞, 2} on windows c ∈ [2, 3). There the conclusion is already known (Zhu), and what must be built is the semilocal trace remainder. A side result: local-factor flattening in the collar is vacuous (ordinary argument). Pending from numerics: which of (a)/(b) fails for Epstein, and μ₂ tracking for ζ.
 
 Study of 2026-09-23, branch `teal-sea/weil-propagation-theory`. Nothing
 here is a claim about RH. Grades follow the `AGENTS.md` ladder: *measured*,
@@ -289,6 +289,7 @@ lab's hardened ones (`hunts/rogue_frontier/weil_trunc/RESULTS.md` s8.1).
 | G | ζ boundary mass φ_N(0)²/λ_N | 12.6 … 24.2 while λ ranges over 5.9e−8 … 2.8e−60 (c = 3 … 20) |
 | H | same ratio for DH toward the crossing | 11.4, 14.1, 18.4, 13.5, 17.8 at c = 13, 20, 25, 29, 30 (N = 60); ζ 20.3, 20.7, 18.3 at c = 25, 29, 31 (N = 32). **This sampling stops short of DH's crossing at N = 60** (c*(64) = 30.818, so c*(60) is above 30.8); the matched-N reading is in §5 |
 | J | Epstein (1,1,6): Λ_Q(n), n ≤ 60, exact | exact rational coefficients in the log-prime basis, signs by `mpmath.iv` enclosure (hardened): nonzero for n ≤ 29 only at 4, 6, 8, 9, 12, 16, 18, 23, 25, 26, 27, all strictly positive; every other n ≤ 47 an exact zero; first negative n = 48; no undecided sign |
+| K | separating step (U-S), exact, n ≤ 60 | Dedekind Q(√−23): no composite atoms, all \|s_k(p)\| ≤ 2. Epstein (1,1,6): composite atoms 6, 12, 18, 26, 39, 48, 52, 58; s₃(2) = s₃(3) = 6 > 2 (§7.1) |
 | Ep | Epstein (1,1,6) window scan (numerics, commit 3a799d8, confirmed in their JSONs) | c ∈ [2, 48] step ½, N = 64 and 128: odd sector first negative at c = 28 (positive at 27.5), even first negative at 29.5 (positive at 29), negative at every later window, all ball LDLᵀ conclusive (hardened). Dedekind ζ_{Q(√−23)}, N = 64: positive on all 93 windows. Off-line zero 0.953260474794661 + 16.2902157203904i, box count 1 in [0.51, 1.3]×[14, 20], residual 1.43e−32 at dps 20 (measured; near that routine's dps-20 noise floor per `zeta/epstein.py`) |
 | I | Poincaré attempt (§6) | comparison bound 0.579 / 0.443 against required gap 5.850 / 8.782 at c = 13 / 31; true gap equals the requirement to 6.0e−38 / 7.4e−64 relative; 2⟨c,e₂⟩² = 4.4e−63 / 4.2e−113; Weil ground state overlaps 0.52 / 0.43 with e₁ and 0.60 / 0.60 with e₂ |
 
@@ -609,7 +610,133 @@ This identification is itself a finding. C2's condition (a) and CCM's
 step 2 are the same obstacle seen from two sides (derivation plus
 measurement, not a theorem).
 
-## 7. Threads (observations, not pursued)
+## 7. C4: a candidate that uses multiplicativity itself (bounded attempt, about one hour)
+
+Supervisor-allocated, 2026-09-23. The rule was: name the step that
+Epstein (1,1,6) and W_a fail and Dedekind ζ_{Q(√−23)} passes before
+developing anything, or stop.
+
+### 7.1 The step, named first
+
+**(U-S) Semilocal unitary decomposition.** On a window of length
+ℓ = log c:
+
+1. the Weil distribution has atoms only at prime powers;
+2. for each p, the tower Λ(p^k)/log p =: s_k(p) equals Σ_j α_{j,p}^k with
+   every |α_{j,p}| = 1.
+
+A necessary, exactly checkable consequence of (2) is |s_k(p)| ≤ d, the
+degree.
+
+| object | composite atoms | \|s_k(p)\| ≤ d? | (U-S) | window sign |
+|---|---|---|---|---|
+| ζ | none | s_k = 1 | passes | positive where checked |
+| Dedekind ζ_{Q(√−23)}, d = 2 | none (n ≤ 60) | split p = 2, 3, 13: s_k = 2; inert p = 5, 7, 11: s_k = 0, 2; ramified 23: s₁ = 1 | **passes** | positive on all 93 windows (numerics, 3a799d8) |
+| Epstein (1,1,6), d = 2 | **6, 12, 18, 26** (n ≤ 29; also 39, 48, 52, 58) | **s₃(2) = 6 and s₃(3) = 6** (n = 8, 27) | **fails**, inside its negative windows (c ≥ 28 uses n ≤ 27) | negative from c = 28 |
+| W_a, a = 1/4, d = 2 | none | **s₁(2) = 2^{1/4} + 2^{−1/4} = 2.0303**, and p^{ka} + p^{−ka} > 2 for every p, k | **fails** at n = 2 | must turn negative somewhere (§4 C2) |
+| DH | 6, 12, 14, 18, … | not a local-factor tower | fails | negative from c ≈ 30.62 |
+
+Grade: exact arithmetic, check K. Rational coefficients in the log-prime
+basis for Dedekind and Epstein, n ≤ 60. W_a is closed form from
+Λ_W(n) = Λ(n)(n^a + n^{−a}), `zeta/epstein.py`.
+
+*Where the step is used.* Connes' semilocal trace formula
+(arXiv:math/9811068, s VII Thm 4, stated for any global field) writes
+Σ_{v∈S} W_v as the geometric side of the trace of the scaling action of
+the S-idele class group on L²(X_S), with S = {∞} ∪ {p ≤ c}. Part (1) of
+(U-S) is what lets the window's distribution *be* such a sum:
+
+- **Epstein fails here.** Its composite atoms (6 = 2·3 appears as soon as
+  c > 6) are not the local term of any place.
+
+Part (2) is what makes the scaling action, twisted by the local
+characters, **unitary**. Only then is a Sonin-type term
+Tr(ϑ_S(g) Π ϑ_S(g)^*) a nonnegative quantity for g ∗ g^*:
+
+- **W_a fails here.** Its local data are the non-unitary quasi-characters
+  |·|_p^{±1/4}, and its form is 2B_ζ(e^{a·}g, e^{−a·}g) (§4 C2): a pairing
+  of two different vectors, not a diagonal trace.
+- **Dedekind passes both.** It is GL₁ over K with the trivial character,
+  or over ℚ the unitary pair (1, χ_{−23}).
+
+### 7.2 The candidate
+
+**C4 (semilocal Sonin positivity on windows).** Let S ⊇ {∞} ∪ {p ≤ c}
+satisfy (U-S). Let g be supported in a window of length ℓ = log c, with ĝ
+vanishing at ±i/2 and 0. Then
+
+    W_S(g ∗ g^*)  ≥  Tr(ϑ_S(g) Π_S ϑ_S(g)^*) − R_S(g),
+
+where Π_S is a semilocal Sonin projection and R_S is a remainder of
+bounded rank.
+
+- For S = {∞} (support in (1/2, 2)) this is Connes-Consani
+  arXiv:2006.13771 Thm 6.11, with R = c|ĝ(0)|², 13 < c < 17. Its proof
+  uses numerically identified prolate data (their s6).
+- The step of §7.1 is used exactly once: the trace term is nonnegative
+  because ϑ_S is unitary, and it equals the geometric side because the
+  distribution is a sum over places.
+
+*Would give:* positivity (with the vanishing conditions, which cost
+nothing for RH by their Appendix C) on every window covered by S. Adding
+places one at a time, this is their stated plan (Intro), which would give
+RH.
+
+*Not original.* This is the Connes-Consani program restricted to windows.
+Added here: the rival accounting above, and §7.3.
+
+*Rival test: exhausted, not passed.* DH, Epstein and W_a all fail (U-S),
+so **none of them tests C4**. Any object that satisfies (U-S) together
+with a functional equation and one pole lies in the tempered,
+Selberg-class-like family, where RH is conjectured. So no rival that
+satisfies C4's hypotheses exists in this tree, and none is known. C4 can
+only be tested by building its first instance, not by a rival.
+
+### 7.3 What the hour produced
+
+1. **Local-factor flattening in the collar is vacuous (ordinary argument,
+   unreviewed; original).** Grow [0, ℓ] to [0, ℓ + δ] and take
+   δ ≤ log p ≤ ℓ. For a collar function h, put
+   v = −p^{1/2} h(· + log p), which lies in H_ℓ because its support is
+   inside (ℓ − log p, ℓ + δ − log p] ⊂ [0, ℓ]. Then m_p ∗ v = v + h, so
+   m_p ∗ v ≡ h modulo H_ℓ. The Schur complement of §2.4 is intrinsic to
+   the quotient H_{ℓ+δ}/H_ℓ, so S(m_p ∗ v) = S(h). The flattening identity (§4 C2), which
+   collapses the p-tower, therefore adds no information about propagation.
+   With C1, multiplicativity can act through neither the entering atoms
+   nor the collar. It has to act through the spectral structure of the
+   interior form, which is where C4 puts it.
+2. **At a finite place the Sonin structure factorizes, for product
+   cutoffs (derivation, unreviewed).** On ℚ_p with the self-dual measure,
+   1_{ℤ_p} is its own Fourier transform, so time and frequency limiting to
+   ℤ_p are the same projection P_p. For P = P_∞ ⊗ P_T and
+   P̂ = P̂_∞ ⊗ P_T (T = S ∖ {∞}, P_T = ⊗_{p∈T} P_p):
+
+       Π_S = S_∞ ⊗ P_T + 1 ⊗ (1 − P_T).
+
+   All the uncertainty (prolate) content is archimedean. The finite places
+   act only through the quotient by Γ_S, the sum over S-units in the map
+   E_S, which is where the Euler product enters. **Caveat:** Connes'
+   semilocal formula (arXiv:2602.04022 (22)) cuts off by the global module
+   |x|_S, not by product balls, and that does not factor. Which cutoff can
+   carry a positivity mechanism is open.
+3. **First open instance located.** S = {∞, 2}, windows c ∈ [2, 3). Weil
+   positivity itself is already proved there (Zhu arXiv:2608.24827,
+   support ≤ 1.6), so this instance tests the *mechanism*, not the
+   conclusion. What is needed is the semilocal analogue of the
+   Connes-Consani trace remainder δ(ρ) (their eqs. (8), (10)) and of its
+   Toeplitz/prolate analysis (their s6). Not attempted within the bound.
+
+*Status (ALIGNMENT s5).*
+
+- Attempt unresolved; paused by allocation.
+- The separating step is named and checked (exact).
+- The candidate is an existing program with its first open instance
+  located.
+- No new estimate.
+- Not a restatement of RH: C4 is a stronger structural inequality whose
+  per-S instances are open. Only its union over all S implies RH.
+
+## 8. Threads (observations, not pursued)
 
 - **Boundary mass.** At fixed N the ratio φ_N(0)²/λ_N stays within 11-24
   for ζ over λ from 1e−8 to 1e−60 (check G). §5 shows it is the log-rate
@@ -629,7 +756,7 @@ measurement, not a theorem).
 - **Yoshida 1992 unread.** The primary text should be read before any
   claim that leans on the exact form of his result.
 
-## 8. Grading summary
+## 9. Grading summary
 
 - Proposition M, its Corollary, and the collar criterion: ordinary
   arguments, unreviewed. They rely on standard theorems: Beurling-Deny,
@@ -651,6 +778,11 @@ measurement, not a theorem).
   fails for Epstein is pending.
 - C3 refuted at norm scale (measured inputs). The boundary-mass variant is
   a reformulation (§5).
+- C4 (§7): the separating step (U-S) is checked exactly (check K). The
+  collar-flattening negative and the finite-place factorization are
+  ordinary arguments, unreviewed. The candidate is the Connes-Consani
+  program, not original. Attempt unresolved, paused by allocation. No
+  rival satisfying its hypotheses exists in the tree.
 - §6: the ground-state representation is an ordinary argument. The
   comparison-bound shortfall and the orthogonality 2⟨c, e₂⟩² ≈ 1e−63 are
   measured (float, dps 60 and 110, N = 24 and 32). The identification of
@@ -660,7 +792,7 @@ measurement, not a theorem).
   kink formula were produced here. Novelty was searched only in the 10
   sources above plus one web search, which found no match.
 
-## 9. Reproduction
+## 10. Reproduction
 
     .venv/bin/python hunts/weil_propagation/theory/checks.py    # about 2 min, writes checks.json
 

@@ -23,6 +23,8 @@ Checks (numbering follows RESULTS.md section 3):
      and the pole overlaps of the first two pole-free eigenvectors.
   J. Epstein (1,1,6): exact sign of Lambda_Q(n), n <= 60 (the rival's
      Markov hypothesis on the windows where numerics finds it negative).
+  K. The separating step (U-S) for Dedekind Q(sqrt -23) and Epstein (1,1,6):
+     composite atoms and local power sums, exactly.
 
 Run from the repo root:  .venv/bin/python hunts/weil_propagation/theory/checks.py
 Writes checks.json beside this file.
@@ -388,6 +390,93 @@ def check_J(nmax=60, form=(1, 1, 6)):
                 [(n, lo[:12], hi[:12]) for n, _, lo, hi in rows if n <= 31]}
 
 
+# ---------------------------------------------------------------------------
+# K. The separating step (U-S): prime-power support + unitary local roots
+# ---------------------------------------------------------------------------
+
+
+def _lambda_exact(a, nmax):
+    """Exact Lambda(n) = sum_p q_{n,p} log p (Fractions) from Dirichlet
+    coefficients a[1..nmax] with a[1] = 1, by the log-derivative recursion."""
+    from fractions import Fraction
+
+    def factor(n):
+        out, d = {}, 2
+        while d * d <= n:
+            while n % d == 0:
+                out[d] = out.get(d, 0) + 1
+                n //= d
+            d += 1
+        if n > 1:
+            out[n] = out.get(n, 0) + 1
+        return out
+
+    lam = {1: {}}
+    for n in range(2, nmax + 1):
+        v = {q: Fraction(a[n]) * e for q, e in factor(n).items()} if a[n] else {}
+        for d in range(2, n):
+            if n % d == 0 and a[n // d]:
+                for q, c in lam[d].items():
+                    v[q] = v.get(q, Fraction(0)) - c * a[n // d]
+        lam[n] = {q: c for q, c in v.items() if c != 0}
+    return lam, factor
+
+
+def _kronecker_m23(n):
+    """Kronecker symbol (-23 / n) for n >= 1 (completely multiplicative)."""
+    def at_prime(q):
+        if q == 23:
+            return 0
+        if q == 2:
+            return 1  # -23 = 1 mod 8
+        return 1 if pow(-23 % q, (q - 1) // 2, q) == 1 else -1
+    out, n0, d = 1, n, 2
+    while d * d <= n0:
+        while n0 % d == 0:
+            out *= at_prime(d)
+            n0 //= d
+        d += 1
+    if n0 > 1:
+        out *= at_prime(n0)
+    return out
+
+
+def check_K(nmax=60):
+    """For each object, list (i) atoms at non-prime-powers, (ii) for each prime
+    p the power sums s_k = Lambda(p^k)/log p, which for a local factor with
+    roots alpha_j are sum_j alpha_j^k; unitarity |alpha_j| = 1 forces
+    |s_k| <= degree.  Dedekind zeta of Q(sqrt -23) = zeta * L(chi_{-23})
+    (a_n = sum_{d|n} chi(d)); Epstein (1,1,6) from representation counts."""
+    from fractions import Fraction
+    sys.path.insert(0, str(ROOT))
+    from zeta.epstein import epstein_representation_count as rep
+
+    objs = {}
+    aK = {n: sum(_kronecker_m23(d) for d in range(1, n + 1) if n % d == 0) for n in range(1, nmax + 1)}
+    objs["dedekind Q(sqrt-23)"] = ({n: Fraction(aK[n], aK[1]) for n in aK}, 2)
+    r = {n: rep(n, (1, 1, 6)) for n in range(1, nmax + 1)}
+    objs["epstein (1,1,6)"] = ({n: Fraction(r[n], r[1]) for n in r}, 2)
+    out = {}
+    for name, (a, deg) in objs.items():
+        lam, factor = _lambda_exact(a, nmax)
+        composite = [n for n in range(2, nmax + 1) if lam[n] and len(factor(n)) > 1]
+        towers, viol = {}, []
+        for q in (2, 3, 5, 7, 11, 13, 23):
+            ks, k, pk = [], 1, q
+            while pk <= nmax:
+                c = lam[pk].get(q, Fraction(0)) if set(lam[pk]) <= {q} else None
+                ks.append(str(c) if c is not None else "mixed")
+                if c is not None and abs(c) > deg:
+                    viol.append((q, k, str(c)))
+                k += 1
+                pk *= q
+            towers[q] = ks
+        out[name] = {"degree": deg, "composite atoms n<=%d" % nmax: composite,
+                     "power sums s_k = Lambda(p^k)/log p": towers,
+                     "|s_k| > degree (unitarity violated)": viol}
+    return out
+
+
 if __name__ == "__main__":
     res = {}
     res["A_dh_arithmetic"] = check_A()
@@ -430,4 +519,6 @@ if __name__ == "__main__":
         print("I", r)
     res["J_epstein_lambda_sign"] = check_J()
     print("J", res["J_epstein_lambda_sign"])
+    res["K_separating_step"] = check_K()
+    print("K", res["K_separating_step"])
     (HERE / "checks.json").write_text(json.dumps(res, indent=1))

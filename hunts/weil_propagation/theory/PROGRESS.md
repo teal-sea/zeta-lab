@@ -81,3 +81,17 @@ Next: RESULTS.md.
   pole). Proposition M kept separate (derivation). Odd-first crossing
   recorded as evidence against even-below-odd for Markov + one pole.
   Which of (a)/(b) fails: placeholder, pending numerics epstein_polefree.py.
+
+## 2026-09-23, milestone 5: bounded multiplicativity attempt (C4)
+
+- Separating step named before development: (U-S) = prime-power support +
+  unitary local roots (|s_k(p)| <= degree). Check K (exact, n <= 60):
+  Dedekind Q(sqrt -23) passes; Epstein fails (composite atom 6; s_3 = 6 at
+  n = 8, 27); W_a fails (s_1(2) = 2.0303); DH fails.
+- C4 = Connes-Consani semilocal Sonin program restricted to windows (not
+  original). Produced: collar flattening is vacuous (Schur complement
+  intrinsic to the quotient); Sonin projection factorizes at finite places
+  for product cutoffs (caveat: Connes uses module cutoffs); first open
+  instance S = {inf, 2}, c in [2, 3). Status: unresolved, paused.
+- Epstein (a)/(b) placeholder NOT filled: numerics has not committed
+  epstein_polefree yet (branch head still 3a799d8).
