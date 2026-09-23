@@ -1,8 +1,8 @@
 1. **Found:** no transport quantity measured here breaks where DH turns negative: the zero-extended DH ground state continues smoothly (1 − overlap ≤ 2e-7 per unit c on 29 ≤ c′ ≤ 31.5, i.e. through the crossing at c ≈ 30.65), the arch/prime split of dλ/dL is smooth, and dλ/dL ≈ −κμ₀² (μ₀ the band-N edge amplitude, κ = O(1) but basis-dependent) holds straight through the crossing.
 2. **Found:** DH's continuum Weil form is negative on every window c ≥ 30.617188 (hardened cell (30.617188, N = 256) plus nesting), strictly between the coefficients n = 30 and 31, so positivity is lost with no new arithmetic term entering; c*(N) = 30.818, 30.696, 30.647, 30.629, 30.617 for N = 64..256, extrapolating to ≈ 30.61.
 3. **Grade:** crossing brackets, zeta controls and all 196 grid eigenvalues are hardened (ball Rayleigh quotients, ball LDLᵀ, Temple); the continuum consequences add a two-line nesting argument (ordinary, unreviewed); transports, decompositions, the edge law and the zero-side split are measured.
-4. **What refutes it:** of the seven candidates in s4, five hold for DH across 30 → 31 (1, 3, 4, 6, 7), one is false outright for DH (5) and one fails at finite N for a basis reason (2), so none is a propagation mechanism; the only quantity that changes sign at c* is the zero-side balance (off-line quadruple Q₁ ≈ −1.28e-28 overtaking the on-line sum), which is RH-analogue information, not a transport estimate.
-5. **Next step:** propagation would need an Euler-product bound on the ground state's boundary trace (band-N proxy μ₀) by its margin, μ₀² ≲ λ/(κδ), which DH violates at c*; stated without an estimate that is a reformulation, so the next move is theory's (does the Euler product constrain that boundary trace?), plus one numerics job worth funding: a boundary-adapted basis (s7).
+4. **What refutes it:** of my seven candidates (s4), five hold for DH across 30 → 31, one is false for DH, one fails at finite N, so none is a mechanism; and the theory worker's C2 ("Markov + one pole") is refuted by Epstein (1,1,6), whose form is negative on every window c ≥ 27.7417 although Λ_Q ≥ 0 below 48, with its off-line zero 0.953 + 16.290i located independently and the Dedekind control positive (s9, hardened).
+5. **Next step:** whatever keeps zeta positive is more than Λ ≥ 0 plus a pole: Epstein breaks C2's condition (a) at c ≈ 29.3 while zeta holds it with μ₂/λ₂ ≈ 0.64 on c ∈ [5, 60] (s9.4); theory should find what in the Euler product pins that ratio, or bounds the ground state's boundary trace (band-N proxy μ₀) by its margin; one numerics job is worth funding (boundary-adapted basis, s7).
 
 # RESULTS: ground-state transport across window size (numerics worker)
 
@@ -333,3 +333,186 @@ estimates and actuals in `RUNS.md`):
     $P precision_check.py
     $P factA_check.py
     $P summarize.py                               # summary.json
+
+## 9. Theory handoff: C2 against Epstein (1,1,6), and zeta's pole-free spectrum
+
+Handoff from the theory worker (branch `teal-sea/weil-propagation-theory`,
+commit 7d9636b, candidate C2 "Levy-Markov + pole"): C2 is outside DH's reach
+(DH's jump measure is signed at n = 3 and DH has no pole), so the live
+control is ζ_Q for Q = x² + xy + 6y² (discriminant −23, class number 3),
+which has a pole, off-line zeros, a Γ(s) factor with positive Lévy density,
+and Λ_Q(n) ≥ 0 for every n ≤ 47. Task A: its window floor on c ∈ [2, 48].
+Task B: zeta's pole-free μ₂ against the full form's λ₁, λ₂ on c ∈ [2, 60].
+Conventions as in the theory worker's s0; everything below is in the CCM
+basis of s0 here.
+
+### 9.1 The Epstein assembly, and why it can be trusted
+
+No new closed forms. The lab's completion is
+(√23/2π)^s Γ(s) ζ_Q(s) (`zeta.epstein.epstein_completed`, validated there by
+the class-group identity), which equals 23^{s/2} Γ_R(s) Γ_R(s+1) ζ_Q(s)/2.
+By the duplication formula its archimedean density is
+log 23 + [Re ψ(1/4 + ir/2) − log π] + [Re ψ(3/4 + ir/2) − log π], so the
+matrix is the weil_trunc zeta block (a = 1/4, pole block included; the
+completion has simple poles at 0 and 1) plus the DH archimedean block
+(a = 3/4) plus log(23/5)·I plus the prime block of Λ_Q
+(`wp_common.epstein_matrices`). Checks:
+
+| check | result |
+|---|---|
+| density identity (duplication formula) at r = 0.3, 7, 55.5 | 0, 4e-31, 8e-31 |
+| normalisation: `epstein_zeta(3)` against the direct sum Σ r_Q(n) n^{-3} | agree to 4e-10 (the tail estimate of the direct sum) |
+| Λ_Q from my recursion against `zeta.epstein.log_derivative_coefficients` | identical; first negative Λ_Q(48) = −7.742 |
+| **control**: Dedekind zeta of Q(√−23) = ζ(s)L(s, χ₋₂₃), same completion, pole and archimedean blocks, coefficients from the class-group sum (1,1,6) + 2·(2,1,3) | Λ_K = Λ(n)(1 + χ(p)^k) to 2e-59; **positive definite in both sectors on all 93 windows c ∈ [2, 48]** (N = 64, ball LDLᵀ conclusive everywhere; smallest λ 8.6e-8 even, 6.8e-5 odd) |
+
+The control is the load-bearing one: an error in the shared archimedean,
+pole or conductor blocks would show in a GRH function with an Euler
+product, and it does not. What differs between the two runs is the prime
+block alone.
+
+### 9.2 Task A result: the Epstein form goes negative well below c = 48
+
+Grid c ∈ [2, 48] step 1/2, N = 64 and 128, both sectors (`epstein_scan.py`,
+`epstein_N64.json`, `epstein_N128.json`): ball LDLᵀ inertia conclusive at
+all 372 (cell, sector) pairs and a conclusive Temple bracket at every one.
+At both N the odd sector is negative at every grid window from c = 28 on
+and the even sector from c = 29.5 on, with exactly one negative eigenvalue
+per sector and no return to positivity on the grid. Bisection to 2^-10
+with every step a conclusive ball LDLᵀ sign, and the negative end also
+carried by a ball Rayleigh upper bound < 0 (`epstein_crossing.py`):
+
+| N | sector | last positive c | first negative c | λ_min at first negative (ball RQ) | Dedekind there |
+|---|---|---|---|---|---|
+| 64 | odd | 27.804688 | 27.805176 | −7.932242799e-7 | positive definite |
+| 128 | odd | 27.741211 | 27.741699 | −1.292835817e-6 | positive definite |
+| 64 | even | 29.340820 | 29.341309 | −1.236643810e-6 | positive definite |
+| 128 | even | 29.303711 | 29.304199 | −4.219861683e-6 | positive definite |
+
+By Fact B the N = 128 odd row makes the continuum Epstein form negative on
+every window c ≥ 27.741699, and every such window below 48 has Λ_Q(n) ≥ 0
+for all n ≤ c. Depth grows to λ_min = −0.898 (even) and −1.065 (odd) at
+c = 48, N = 128. Grade: **hardened** (two rigorous routes per sign) plus the
+nesting argument.
+
+**Where the negative states point.** The even negative ground states have
+their coefficient mass peaked at frequency 16.7 to 18.5 (c ≥ 29.5), and the
+odd ones at 15.3 to 16.6 once deep (c ≥ 34); the mode spacing there is
+2π/L ≈ 1.6 to 1.9. At the marginal odd windows (c = 28 to 30) the state is
+the bulk low-frequency one (peak 1.9), as for DH at (31, 60). Independent
+check with code that shares nothing with the Galerkin route
+(`epstein_offline.py`: the lattice-sum completion and the lab's
+argument-principle counter): **exactly one zero of the completed ζ_Q in
+[0.51, 1.3] × [14, 20]**, polished by findroot to
+
+    ρ₁ = 0.953260474794661 + 16.2902157203904 i,   |Λ_Q(ρ₁)| = 1.4e-32 (dps 20),
+
+an off-line zero at δ = β − 1/2 = 0.453, exactly where the beams point.
+Grade: the zero count is measured (float argument principle, integrality
+guard 1e-6); the root is measured.
+
+Two more boxes, same route: **no zeros in [0.51, 1.3] × [0.5, 7] and none in
+[0.51, 1.3] × [7, 14]** (159 s and 273 s). So ρ₁ is the only zero of the
+completed ζ_Q with 0.51 ≤ σ ≤ 1.3 and 0.5 ≤ t ≤ 20: the lowest off-line zero
+in that strip, in the role DH's first pair at 85.7 played for DH (measured;
+zeros with 1/2 < σ < 0.51 or σ > 1.3 are outside what these boxes check).
+
+### 9.3 Which part of C2 breaks (`epstein_polefree.py`, N = 64)
+
+The theory worker's reduction: Q_e ≥ 0 ⟺ (a) μ₂(Q°_e) ≥ 0 and (b) the even
+pole capacity; Q_o ≥ 0 ⟺ Q°_o ≥ 0 and the odd pole capacity (the odd pole
+term is negative). Ball LDLᵀ inertia of the pole-free and full Epstein
+matrices, conclusive at every cell:
+
+| c | even full | even pole-free | odd full | odd pole-free |
+|---|---|---|---|---|
+| 27 | (65, 0) | (64, 1): μ₁ = −7.22, μ₂ = +0.497 | (64, 0) | (64, 0) |
+| 28 | (65, 0) | (64, 1) | (63, 1) | (64, 0) |
+| 29 | (65, 0) | (64, 1): μ₂ = +0.0415 | (63, 1) | (64, 0) |
+| 29.5 | (64, 1) | **(63, 2)**: μ₂ = −0.0142 | (63, 1) | (64, 0) |
+| 30 | (64, 1) | (63, 2) | (63, 1) | (64, 0) |
+| 34, 40, 48 | (64, 1) | (63, 2) | (63, 1) | (63, 1) |
+
+- **Even sector: condition (a) fails.** The killed Epstein jump process
+  acquires a second even eigenvalue below C_ℓ at c ≈ 29.3, which is exactly
+  where the full even form goes negative (interlacing μ₁ ≤ λ₁ ≤ μ₂ holds at
+  every cell). Markov structure plus one pole does not stop it.
+- **Odd sector: the odd pole capacity fails first.** The pole-free odd form
+  stays positive until c ≈ 34 while the full odd form is negative from
+  27.74, so the odd crossing is the negative odd pole term; C2's Markov
+  structure is not what is tested there.
+
+**Verdict on C2 (per the supervisor's criterion): refuted as a propagation
+mechanism.** Every hypothesis it uses holds for ζ_Q on windows c < 48
+(nonnegative jump measure, Γ-class Lévy density, one pole) and the form
+goes negative at c = 27.74 (odd) and 29.30 (even). Proposition M's
+unconditional structural consequences are not touched by this; only the
+use of "Markov + one pole" to carry positivity forward is. Any C2-based
+argument must use more of the Euler product than Λ ≥ 0 on the window.
+
+### 9.4 Task B: zeta's pole-free μ₂ against λ₁, λ₂ (`zeta_pole.py`)
+
+Even sector, c ∈ [2, 60] step 1/2 (117 windows), N = 64 and 128
+(`zeta_pole_N64.json`, `zeta_pole_N128.json`). E is the full matrix, E° = E − W02
+the pole-free one from the same assembly; λ₁, λ₂ of E and μ₁, μ₂ of E° as
+ball Rayleigh quotients of inverse-iteration vectors (μ₁ shifted at the
+lowest approximate eigenvalue).
+
+| c | λ₁ (N=128) | λ₂ (N=128) | μ₁ | μ₂/λ₂ N=64 | μ₂/λ₂ N=128 | μ₂/λ₁ (N=128) |
+|---|---|---|---|---|---|---|
+| 2 | 1.330e-3 | 0.661 | −1.286 | 0.88087 | 0.88086 | 4.4e2 |
+| 3 | 5.55e-8 | 1.46e-3 | −2.171 | 0.6481 | 0.64812 | 1.7e4 |
+| 5 | 9.68e-18 | 5.01e-12 | −3.334 | 0.63945 | 0.63949 | 3.3e5 |
+| 10 | 1.74e-43 | 2.45e-36 | −5.119 | 0.6399 | 0.63987 | 9.0e6 |
+| 13 | 3.30e-59 | 1.29e-51 | −5.851 | 0.64019 | 0.64019 | 2.5e7 |
+| 20 | 2.18e-96 | 5.98e-88 | −7.216 | 0.64094 | 0.64052 | 1.8e8 |
+| 30 | 2.15e-138 | 6.49e-130 | −8.659 | 0.64172 | 0.64088 | 1.9e8 |
+| 40 | 5.88e-163 | 1.33e-154 | −9.824 | 0.64222 | 0.64118 | 1.4e8 |
+| 60 | 1.21e-192 | 2.31e-184 | −11.679 | 0.64299 | 0.64163 | 1.2e8 |
+
+- **μ₂ tracks λ₂ at a nearly fixed ratio.** μ₂/λ₂ = 0.6394 to 0.6430 on
+  every window with c ≥ 5 at both N, drifting up slowly with c; N = 64 and
+  N = 128 agree to 0.001 even where λ₂ itself differs by 64 orders of
+  magnitude between the two bases (c = 60). So the ratio is basis-stable
+  while the eigenvalues are nowhere near N-converged for c ≳ 15 (measured).
+  It confirms the theory worker's 0.64 at c = 13 and 31 and extends it to
+  [5, 60]. Below c = 5 the ratio is larger (0.88 at c = 2).
+- **Interlacing μ₁ ≤ λ₁ ≤ μ₂ ≤ λ₂ holds at all 234 (c, N) cells** (midpoint
+  comparison), and μ₂/λ₁ ranges from 4e2 (c = 2) to 2e8: condition (a)'s
+  margin μ₂ sits 2.6 to 8.3 orders of magnitude above λ₁, so for zeta, as the theory worker
+  measured at two cells, the even pole capacity (b) is the tight condition
+  and (a) holds with room, on this whole range.
+- **Hardened at every one of the 234 cells**: the full even form is
+  positive definite (ball LDLᵀ inertia (N+1, 0)), and the pole-free even
+  form has exactly one negative eigenvalue (inertia (N, 1)), which is the
+  shape Proposition M plus positivity require. 1600 bits sufficed for
+  c ≲ 30 at N = 128; the other cells were redone at 3200 bits
+  (`zeta_pole_fixup.py`), all conclusive.
+- Set against 9.3: Epstein breaks exactly the condition that zeta satisfies
+  with room here. Its μ₂ crosses zero at c ≈ 29.3 while zeta's μ₂ stays at
+  0.64 λ₂ > 0. Whatever keeps zeta's μ₂ positive is not "Λ ≥ 0 on the
+  window plus one pole", since Epstein has both.
+
+Grade for 9.4: measured (ball upper bounds for all four eigenvalues,
+inverse-iteration vectors with residuals recorded; interlacing on
+midpoints), except the inertia statements, which are hardened where the
+ball LDLᵀ is conclusive.
+
+### 9.5 Observations raised, not pursued
+
+- `zeta/epstein.py` (`claim_euler_product_positivity` docstring) says the
+  principal Epstein form fails at n = 48 "(−19.88)". The lab's own
+  `log_derivative_coefficients` gives Λ_Q(48) = −7.742; −19.879 is
+  Λ_Q(144), the most negative value for n ≤ 200. The first-failure index
+  48 is right; the quoted value belongs to another n. Issue candidate
+  (outside this hunt's write scope).
+- Where ζ_Q's first off-line zero sits relative to all on-line zeros, and
+  whether the even and odd crossings are both carried by ρ₁ through the
+  dictionary (as DH's was by its first pair), is the natural next check.
+  It needs Epstein on-line zeros to ~T = 60 and the odd-sector dictionary.
+
+Reproduction (from this directory, each under 10 minutes):
+
+    $P epstein_scan.py 64; $P epstein_scan.py 128; $P epstein_scan.py 64 dedekind
+    $P epstein_crossing.py; $P epstein_polefree.py
+    $P epstein_offline.py; $P epstein_offline.py 0.51,1.3,7,14; $P epstein_offline.py 0.51,1.3,0.5,7
+    $P zeta_pole.py 64; $P zeta_pole.py 128

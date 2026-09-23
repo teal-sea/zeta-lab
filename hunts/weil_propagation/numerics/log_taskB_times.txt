@@ -1,0 +1,6 @@
+zeta_pole 64 exit=0
+zeta_pole 128 pass 1 exit=142
+zeta_pole 128 pass 2 exit=0
+zeta_pole 128 pass 3 exit=0
+fixup pass 1 exit=0
+fixup pass 2 exit=0

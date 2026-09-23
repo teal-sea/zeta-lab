@@ -23,11 +23,12 @@ Unit costs from 2-5 cell smoke runs in the scratchpad (DH N=128 c in
 | `factA_check.py` extra rungs N' = 512, 768, 1024 (DH) | build ~N'^2 entry calls at 400 bits; ~10-60 s per rung, < 1 GB | 3 rungs | ~2 min | |
 | Task A `epstein_scan.py 64`, `128` (handoff from theory, 2026-09-23) | Epstein (1,1,6) both sectors at 400 bits: probe (c = 47, N = 128) 3.2 s for two sectors with double assembly; one assembly per cell, ~1.5 s (N=128), ~0.5 s (N=64) | 93 c in [2, 48] step 1/2 | ~1 min + ~2.5 min | 57 s + (N=128 running, ~4.5 s per cell: ~7 min) |
 | Task A `epstein_crossing.py` | bisection to 2^-10 per (N, sector), ~13 solves + 2 ball LDL | <= 4 (N, sector) | ~1 min | |
-| Task B `zeta_pole.py 64`, `128` | zeta at 900 bits + ball LDL at 1600: first run 1.4 s per cell (N=64); mu_1 by approximate spectrum adds ~0.3 s (N=64), ~2.3 s (N=128) | 117 c in [2, 60] step 1/2 | ~3 min + ~10 min (N=128 in two resumable runs under the 580 s guard) | 164 s (first N=64 run, mu_1 defect: rerun) |
+| Task B `zeta_pole.py 64`, `128` | zeta at 900 bits + ball LDL at 1600: first run 1.4 s per cell (N=64); mu_1 by approximate spectrum adds ~0.3 s (N=64), ~2.3 s (N=128) | 117 c in [2, 60] step 1/2 | ~3 min + ~10 min (N=128 in two resumable runs under the 580 s guard) | 164 s (first N=64 run, mu_1 defect: rerun), rerun ~200 s; N=128 580 s (guard) + ~150 s |
 | Task A control `epstein_scan.py 64 dedekind` | same as Epstein N=64 | 93 c | ~1 min | 59 s |
 | Task A `epstein_offline.py` (box count [0.51,1.3]x[14,20] + findroot) | epstein_completed 1.1 s per evaluation at dps 20; ~100-200 boundary samples; findroot ~20 evaluations per seed | 1 box, <= 4 seeds | ~5 min | 242 s + 16 s |
-| Task A `epstein_offline.py` lower boxes [0.51,1.3]x[0.5,7] and x[7,14] (two runs) | as above, perimeter ~15 each | 2 boxes | ~4 min each | |
-| Task A `epstein_crossing.py` | as estimated above | 4 (N, sector) | ~5 min | |
+| Task A `epstein_offline.py` lower boxes [0.51,1.3]x[0.5,7] and x[7,14] (two runs) | as above, perimeter ~15 each | 2 boxes | ~4 min each | 159 s, 273 s |
+| Task A `epstein_crossing.py` | as estimated above | 4 (N, sector) | ~5 min | ~4 min |
+| Task B `zeta_pole_fixup.py 128` (ball LDL at 3200 bits where 1600 was inconclusive) | one build at 3200 bits + two LDL, ~8-10 s per cell | 55 cells | ~8 min, two resumable passes | one pass, under the 580 s guard |
 
 Both handoff tasks sit under the 10-minute, few-GB local limit, so no CI
 proposal is needed for them.

@@ -1,7 +1,8 @@
 """Collect the numbers RESULTS.md quotes from the run JSONs into summary.json.
 
 No computation of the form happens here; this only reads grid_*.json,
-crossing.json, edge_*.json, repro.json, precision_check.json and factA_check.json.
+crossing.json, edge_*.json, repro.json, precision_check.json, factA_check.json,
+and the theory-handoff files (epstein_crossing.json, epstein_offline.json, zeta_pole_N*.json).
 """
 
 from __future__ import annotations
@@ -140,6 +141,28 @@ def main():
                                              "dev_over_missing_norm": float(m(r["rq_minus_lam_c"]) / m(r["one_minus_proj_norm2"]))}
                                          for n, r in v["rows"].items()}}
                             for k, v in fa["cases"].items()}
+    # theory handoff (s9)
+    ec = load("epstein_crossing.json")
+    if ec:
+        s["epstein_crossing"] = {k: {q: v[q] for q in ("c_pos_float", "c_neg_float", "lam1_at_c_neg",
+                                                       "hardened_negative_two_routes", "dedekind_n_neg_at_c_neg")}
+                                 for k, v in ec["runs"].items()}
+    eo = load("epstein_offline.json")
+    if eo:
+        s["epstein_offline"] = {"boxes": eo["boxes"], "roots": [r for r in eo["roots"] if "root" in r]}
+    for N in (64, 128):
+        zp = load(f"zeta_pole_N{N}.json")
+        if zp:
+            cells = zp["cells"]
+            r5 = [v["mu2_over_lam2"] for k, v in cells.items() if Fraction(k) >= 5]
+            s[f"zeta_pole_N{N}"] = {
+                "n_cells": len(cells),
+                "mu2_over_lam2_c_ge_5": [min(r5), max(r5)],
+                "mu2_over_lam1": [min(v["mu2_over_lam1"] for v in cells.values()), max(v["mu2_over_lam1"] for v in cells.values())],
+                "interlacing_all": all(v["interlacing_mid"] for v in cells.values()),
+                "full_pd_all_hardened": all(v["inertia_full_at_0"][2] and v["inertia_full_at_0"][1] == 0 for v in cells.values()),
+                "polefree_one_negative_all_hardened": all(v["inertia_polefree_at_0"][2] and v["inertia_polefree_at_0"][1] == 1 for v in cells.values()),
+            }
     with open(os.path.join(HERE, "summary.json"), "w") as f:
         json.dump(s, f, indent=1)
     print(json.dumps({k: v for k, v in s.items() if not k.startswith("grid")}, indent=1)[:6000])

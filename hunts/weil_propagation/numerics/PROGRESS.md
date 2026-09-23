@@ -18,3 +18,12 @@
 Open item: `hunts/README.md` has no case-log entry for `weil_propagation`,
 was missing; supervisor approved one entry, committed (402c1cd, e46cf90);
 `tests/test_hunt_probe_discipline.py` passes (7/7).
+
+## Theory handoff (C2), 2026-09-23 afternoon
+
+- [x] Task A: Epstein (1,1,6) window floor c in [2, 48], N = 64, 128, both
+  sectors, hardened; crossings 27.74 (odd) and 29.30 (even) at N = 128;
+  Dedekind control positive; off-line zero 0.953 + 16.290i by argument
+  principle; C2 refuted as a propagation mechanism (RESULTS s9.2, s9.3).
+- [x] Task B: zeta mu_2 (pole-free) vs lambda_1, lambda_2 on c in [2, 60],
+  N = 64, 128; mu_2/lambda_2 = 0.639..0.643, all inertias hardened (s9.4).
