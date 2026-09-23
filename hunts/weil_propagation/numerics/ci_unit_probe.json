@@ -1,0 +1,70 @@
+{
+ "units": [
+  {
+   "kind": "dh",
+   "c": "61/2",
+   "N": 256,
+   "prec": 600,
+   "hf_prec": 600,
+   "seconds": {
+    "assemble": 0.31,
+    "project": 0.07,
+    "eigen": 3.05,
+    "hf": 0.82,
+    "profile": 0.01
+   },
+   "total_s": 4.3,
+   "sanity": {
+    "lam_constrained": "[1.3445339e-29 +/- 4.38e-39]",
+    "lam_unconstrained": "[7.3509755e-30 +/- 3.77e-38]",
+    "constrained_ge_unconstrained": true,
+    "mu0_of_constrained_vector": "[+/- 3.49e-177]"
+   },
+   "note": "cost probe of one unit; outputs are sanity checks, not results"
+  },
+  {
+   "kind": "dh",
+   "c": "61/2",
+   "N": 512,
+   "prec": 600,
+   "hf_prec": 600,
+   "seconds": {
+    "assemble": 0.74,
+    "project": 0.29,
+    "eigen": 17.9,
+    "hf": 2.45,
+    "profile": 0.02
+   },
+   "total_s": 21.4,
+   "sanity": {
+    "lam_constrained": "[9.9218241e-30 +/- 1.93e-38]",
+    "lam_unconstrained": "[4.9848269e-30 +/- 3.74e-38]",
+    "constrained_ge_unconstrained": true,
+    "mu0_of_constrained_vector": "[+/- 9.08e-177]"
+   },
+   "note": "cost probe of one unit; outputs are sanity checks, not results"
+  },
+  {
+   "kind": "zeta",
+   "c": "61/2",
+   "N": 256,
+   "prec": 2000,
+   "hf_prec": 3600,
+   "seconds": {
+    "assemble": 2.64,
+    "project": 0.22,
+    "eigen": 16.42,
+    "hf": 17.7,
+    "profile": 0.04
+   },
+   "total_s": 37.0,
+   "sanity": {
+    "lam_constrained": "[6.8431467e-153 +/- 1.56e-161]",
+    "lam_unconstrained": "[6.5835175e-153 +/- 1.61e-161]",
+    "constrained_ge_unconstrained": true,
+    "mu0_of_constrained_vector": "[+/- 8.42e-599]"
+   },
+   "note": "cost probe of one unit; outputs are sanity checks, not results"
+  }
+ ]
+}

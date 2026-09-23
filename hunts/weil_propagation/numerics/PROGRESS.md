@@ -27,3 +27,12 @@ was missing; supervisor approved one entry, committed (402c1cd, e46cf90);
   principle; C2 refuted as a propagation mechanism (RESULTS s9.2, s9.3).
 - [x] Task B: zeta mu_2 (pole-free) vs lambda_1, lambda_2 on c in [2, 60],
   N = 64, 128; mu_2/lambda_2 = 0.639..0.643, all inertias hardened (s9.4).
+
+## Last items, 2026-09-23
+
+- [x] CI job proposal for the boundary-adapted basis written in RUNS.md
+  (unit measured with ci_unit_probe.py; ~2.6 runner-hours; question,
+  checkpointing and kill result stated). Not run locally.
+- [x] Theory C4 prerequisite (U-S) checked exactly from coefficients
+  (us_check.py): Dedekind passes both parts, Epstein fails at n = 6 and 8
+  (RESULTS s10).

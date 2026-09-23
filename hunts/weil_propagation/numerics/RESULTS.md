@@ -548,3 +548,29 @@ Reproduction (from this directory, each under 10 minutes):
     $P epstein_crossing.py; $P epstein_polefree.py; $P epstein_mu2_cross.py
     $P epstein_offline.py; $P epstein_offline.py 0.51,1.3,7,14; $P epstein_offline.py 0.51,1.3,0.5,7
     $P zeta_pole.py 64; $P zeta_pole.py 128; $P zeta_pole_fixup.py 128
+
+## 10. Theory's C4 prerequisite (U-S), checked from coefficients
+
+Theory RESULTS s7.1 (branch `teal-sea/weil-propagation-theory`, commit
+8188609) names the step Dedekind ζ_{Q(√−23)} passes and Epstein (1,1,6)
+fails: (1) atoms only at prime powers; (2) unitary local roots, checkable
+as |s_k(p)| ≤ d with s_k(p) = Λ(p^k)/log p and d = 2. My own
+implementation (`us_check.py`, `us_check.json`) uses exact arithmetic.
+Every Λ(n) is kept as a rational combination of log p, so "Λ(n) = 0"
+means all rational coefficients vanish. It covers n ≤ 200, with
+coefficients from `zeta.epstein.epstein_representation_count`.
+
+| | Dedekind Q(√−23) | Epstein (1,1,6) |
+|---|---|---|
+| composite atoms, n ≤ 200 | none | 31; first **n = 6**; ≤ 60: 6, 12, 18, 26, 39, 48, 52, 58 |
+| prime-power atoms off the log p axis | none | none |
+| towers s_k(p) | split p (2, 3, 13, …): 2; inert p (5, 7, 11, …): 0 for odd k, 2 for even k; ramified 23: s₁ = 1 | s_k(2) = 0, 2, **6**, 2, 0, 2, 0 (k = 1..7); s_k(3) = 0, 2, **6**, 2 |
+| \|s_k(p)\| > 2 | never | exactly twice for n ≤ 200: **n = 8** (s₃(2) = 6) and n = 27 (s₃(3) = 6) |
+| (1) and (2) | **both pass** | **both fail**, at n = 6 and n = 8 as claimed |
+
+Grade: exact arithmetic, an independent implementation of theory's check
+K; it agrees with their table entry for entry on the overlap (n ≤ 60).
+Both failures sit inside Epstein's negative windows (c ≥ 27.74 contains
+n = 6, 8 and 27), consistent with the reading in s9.3. As theory notes,
+this makes (U-S) the separating step for this pair. It does not test C4,
+because no available rival satisfies (U-S).
