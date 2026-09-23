@@ -67,3 +67,17 @@ Next: RESULTS.md.
   weil_propagation case-log entry in hunts/README.md lives on the numerics
   branch (commit e46cf90), by supervisor ruling. Not a defect; it clears
   on merge. The reserved-word test passes.
+
+## 2026-09-23, milestone 4: Epstein control result
+
+- Numerics commit 3a799d8 read via git show (read-only). Confirmed in
+  epstein_N64/N128.json: odd first negative c = 28, even c = 29.5, every
+  later window to 48 negative, all LDL conclusive; dedekind_N64.json
+  positive on all 93 windows; epstein_offline.json root
+  0.953260474794661 + 16.2902157203904i, residual 1.43e-32 at dps 20.
+- Check J (exact, log-prime basis + mpmath.iv): Lambda_Q(n) >= 0 for all
+  n <= 47, first negative n = 48; nonzero n <= 29 all strictly positive.
+- C2 refuted as a positivity mechanism (rival satisfies H1-H3 and one
+  pole). Proposition M kept separate (derivation). Odd-first crossing
+  recorded as evidence against even-below-odd for Markov + one pole.
+  Which of (a)/(b) fails: placeholder, pending numerics epstein_polefree.py.

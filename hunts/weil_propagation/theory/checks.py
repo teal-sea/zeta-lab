@@ -21,6 +21,8 @@ Checks (numbering follows RESULTS.md section 3):
      short of c*(60); see RESULTS.md for the matched-N reading).
   I. Poincare attempt: comparison bound against the gap condition (a) needs,
      and the pole overlaps of the first two pole-free eigenvectors.
+  J. Epstein (1,1,6): exact sign of Lambda_Q(n), n <= 60 (the rival's
+     Markov hypothesis on the windows where numerics finds it negative).
 
 Run from the repo root:  .venv/bin/python hunts/weil_propagation/theory/checks.py
 Writes checks.json beside this file.
@@ -327,6 +329,65 @@ def check_I(cells=((13, 24, 60), (31, 32, 110))):
     return out
 
 
+# ---------------------------------------------------------------------------
+# J. Epstein (1,1,6): sign of Lambda_Q(n), exactly
+# ---------------------------------------------------------------------------
+
+
+def check_J(nmax=60, form=(1, 1, 6)):
+    """Lambda_Q(n) from -Z'/Z with a_n = r_Q(n)/r_Q(1), computed EXACTLY as a
+    rational combination of log p (the log p are linearly independent over Q,
+    so an exact zero is detected exactly), then enclosed with mpmath.iv for
+    the sign.  Independent of galerkin.dh_lambda_coeffs and of the numerics
+    worker's code; shares only zeta.epstein.epstein_representation_count."""
+    from fractions import Fraction
+    from mpmath import iv
+    sys.path.insert(0, str(ROOT))
+    from zeta.epstein import epstein_representation_count as rep
+
+    r = {n: rep(n, form) for n in range(1, nmax + 1)}
+    a = {n: Fraction(r[n], r[1]) for n in r}
+
+    def factor(n):
+        out, d = {}, 2
+        while d * d <= n:
+            while n % d == 0:
+                out[d] = out.get(d, 0) + 1
+                n //= d
+            d += 1
+        if n > 1:
+            out[n] = out.get(n, 0) + 1
+        return out
+
+    lam = {1: {}}
+    for n in range(2, nmax + 1):
+        v = {p: a[n] * e for p, e in factor(n).items()} if a[n] else {}
+        for d in range(2, n):
+            if n % d == 0 and a[n // d]:
+                for p, q in lam[d].items():
+                    v[p] = v.get(p, Fraction(0)) - q * a[n // d]
+        lam[n] = {p: q for p, q in v.items() if q != 0}
+    iv.dps = 30
+    rows, first_neg, exact_zero = [], None, []
+    for n in range(2, nmax + 1):
+        if not lam[n]:
+            exact_zero.append(n)
+            continue
+        enc = sum((iv.mpf(q.numerator) / q.denominator) * iv.log(p) for p, q in lam[n].items())
+        sign = 1 if enc.a > 0 else (-1 if enc.b < 0 else 0)
+        rows.append((n, sign, str(enc.a), str(enc.b)))
+        if sign < 0 and first_neg is None:
+            first_neg = n
+    undecided = [n for n, sg, _, _ in rows if sg == 0]
+    neg_le29 = [n for n, sg, _, _ in rows if sg < 0 and n <= 29]
+    return {"form": list(form), "r_Q(1)": r[1], "nmax": nmax,
+            "exact zeros (n)": exact_zero,
+            "negative n <= 29": neg_le29, "first negative n": first_neg,
+            "undecided signs": undecided,
+            "Lambda_Q(n) enclosures, n<=31 nonzero":
+                [(n, lo[:12], hi[:12]) for n, _, lo, hi in rows if n <= 31]}
+
+
 if __name__ == "__main__":
     res = {}
     res["A_dh_arithmetic"] = check_A()
@@ -367,4 +428,6 @@ if __name__ == "__main__":
     res["I_poincare"] = check_I()
     for r in res["I_poincare"]:
         print("I", r)
+    res["J_epstein_lambda_sign"] = check_J()
+    print("J", res["J_epstein_lambda_sign"])
     (HERE / "checks.json").write_text(json.dumps(res, indent=1))
