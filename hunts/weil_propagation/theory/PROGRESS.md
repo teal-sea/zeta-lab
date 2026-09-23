@@ -22,3 +22,25 @@ The new arithmetic at that step is identical for zeta and DH.
 
 Next: derivations (dilation identity, prime-entry kink, Schur collar),
 numerical checks, candidates, RESULTS.md.
+
+## 2026-09-23, milestone 2: derivations and checks (checks.py, checks.json)
+
+- Kink at a prime-power entry: slope of lambda_min(L) jumps by
+  -Lambda(q) q^{-1/2} (2/L) (sum_n u_n)^2 (exact at finite N); measured
+  agreement 4e-9 to 6e-8 relative at q = 3, 4, 5, 7.
+- DH lattice step 30 -> 31 adds no arithmetic: Lambda_f(30) = 0 (all
+  multiples of 5 vanish), and the n = 31 atom sits at the window edge with
+  weight 0 at c = 31.
+- Dilation identity (fixed window) matches zeta/weil.py Fejer values to
+  5e-16 .. 2e-21 at dps 30.
+- Pole-free zeta form: one negative even eigenvalue, positive ground state
+  (min/max 0.80 at c=13, 0.71 at c=31); its 2nd eigenvalue sits at
+  0.64 lambda_2(Q), about 1e6 above lambda_1(Q).
+- DH ground state moves 7.7e-3 in norm across 30 -> 31 while lambda flips
+  sign; zeta moves 4.4e-3.
+- Structural finding (derivation): with the pole removed, the zeta Weil
+  form on any window is a jump Dirichlet form (Levy measure: archimedean
+  kernel + atoms 2 Lambda(n) n^{-1/2} at +-log n) minus a constant; uses
+  Lambda >= 0. DH's jump measure is signed.
+
+Next: RESULTS.md.
