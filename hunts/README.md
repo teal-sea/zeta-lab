@@ -77,7 +77,10 @@ window of length `L = log c`, together with the Euler product, can be carried
 to `L + delta`. Every candidate transport is tested against
 Davenport-Heilbronn, whose form turns negative at `c = 31`
 (`rogue_frontier/weil_trunc/` s8), and a candidate that also holds for DH is
-refuted. Numerics in `weil_propagation/numerics/RESULTS.md`. No RH claim.
+refuted. Two workers: measurement of ground-state transport between windows
+in `weil_propagation/numerics/` and literature plus candidate lemmas in
+`weil_propagation/theory/` (branch `teal-sea/weil-propagation-theory`).
+No RH claim.
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
