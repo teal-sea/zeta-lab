@@ -1,0 +1,113 @@
+{
+  "cell": {
+    "c": 31,
+    "N": 60
+  },
+  "arithmetic_side": {
+    "even_inertia_at_0": [
+      60,
+      1,
+      true
+    ],
+    "even_inertia_conclusive": true,
+    "rayleigh_upper_endpoint": "[-1.86932959505855770742150633616288353067704267275579586028216872909291024014058329570351012157638093821289468752776203546722647279910525352406720095191844666226543661480185336159094749439225565444870919465663449e-31 +/- 1.64e-241]",
+    "rayleigh_upper_strictly_negative": true,
+    "rump_min_strictly_negative": true,
+    "status": "HARDENED"
+  },
+  "zero_side": {
+    "online_zeros": {
+      "count": 64,
+      "cutoff_T": 120,
+      "partial_sum": "5.9537305394552589099e-29",
+      "input_format": "float_seeds_bisection",
+      "is_enclosed_intervals": false,
+      "is_complete_verified": false,
+      "status": "UNRESOLVED_FLOAT"
+    },
+    "offline_quadruple": {
+      "quadruple_term": "-6.7349893158445329017e-29",
+      "coordinates": {
+        "gamma": 85.69934848537758,
+        "delta": 0.3085171824566374
+      },
+      "is_enclosed_interval_box": false,
+      "status": "UNRESOLVED_FLOAT"
+    },
+    "tail_model": {
+      "prior_defective_estimate": "2.956330061e-30",
+      "corrected_mean_density_integral": "6.724835888e-30",
+      "candidate_tail_bound": "7.11215466e-26",
+      "model_type": "multipole_envelope_unsupported_majorant",
+      "is_conservative_analytic_bound": false,
+      "status": "ATTEMPT_UNRESOLVED",
+      "unresolved_reason": "No explicit counting-function majorant valid for Davenport-Heilbronn is established from local primary sources; real-axis envelope G_env does not bound off-line zeros."
+    }
+  },
+  "dictionary": {
+    "basis_transform_compact_support": "PROVED_BY_CONSTRUCTION",
+    "algebraic_identity_g_equals_F2_over_L": "PROVED_ANALYTIC",
+    "guinand_weil_explicit_formula_for_dh": "PROVED_ORDINARY_PROOF",
+    "galerkin_assembly_pairing": "PROVED_ORDINARY_PROOF",
+    "status": "CLOSED_ORDINARY_PROOF"
+  },
+  "blockers": [
+    "online_zeros_are_unhardened_floats",
+    "online_zero_list_completeness_unverified",
+    "offline_zero_coordinates_are_unhardened_floats",
+    "tail_model_lacks_valid_dh_counting_majorant"
+  ],
+  "margin_budget": {
+    "lambda_min": -1.8739356885701884e-31,
+    "offline_quadruple_Q1": -6.734989315844533e-29,
+    "online_partial_sum_T120": 5.953730539455259e-29,
+    "lambda_minus_Q1": 6.716249958958831e-29,
+    "ratio_absQ1_to_abslam": 359.4034393455266,
+    "ratio_online_to_absQ1": 0.8839999976612719,
+    "cancellation_ratio": 0.8839999976612719,
+    "unexplained_residual_at_T120": 7.625194195035724e-30,
+    "residual_fraction_of_Q1": 0.113217613828977,
+    "heuristic_diagnostic_residual_minus_mean_density_integral": 9.003583070357245e-31,
+    "net_margin_at_crossing": 1.8739356885701884e-31,
+    "budget_status": "MARGINAL_CROSSING_SENSITIVE"
+  },
+  "reserve_candidate": {
+    "cell": {
+      "c": 47,
+      "N": 64
+    },
+    "status": "MEASURED_RESERVE_CANDIDATE",
+    "lambda_min": -0.3163028530760613,
+    "offline_quadruple_Q1": -0.8306572541770211,
+    "online_partial_sum_T120": 0.49306094266292594,
+    "lambda_minus_Q1": 0.5143544011009598,
+    "note": "Measured reserve candidate only; no conservative bound evaluated here."
+  },
+  "qualitative_existence": {
+    "status": "PROVED",
+    "recommendation": "GO",
+    "basis": "hardened_negativity_plus_obl_1_2_3"
+  },
+  "quantitative_attribution": {
+    "status": "INCONCLUSIVE",
+    "recommendation": "ATTEMPT_UNRESOLVED",
+    "blockers": [
+      "online_zeros_are_unhardened_floats",
+      "online_zero_list_completeness_unverified",
+      "offline_zero_coordinates_are_unhardened_floats",
+      "tail_model_lacks_valid_dh_counting_majorant"
+    ]
+  },
+  "verdict": "INCONCLUSIVE",
+  "recommendation": "ATTEMPT_UNRESOLVED",
+  "exact_blockers": [
+    "online_zeros_are_unhardened_floats",
+    "online_zero_list_completeness_unverified",
+    "offline_zero_coordinates_are_unhardened_floats",
+    "tail_model_lacks_valid_dh_counting_majorant"
+  ],
+  "two_track_summary": {
+    "qualitative_existence": "GO_PROVED",
+    "quantitative_attribution": "INCONCLUSIVE_ATTEMPT_UNRESOLVED"
+  }
+}
