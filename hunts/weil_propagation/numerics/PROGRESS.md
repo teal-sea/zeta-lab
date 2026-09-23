@@ -11,8 +11,9 @@
 - [x] Task 2 grids done for DH and zeta, N=64,128 (grid_*.json); all 196 cells hardened (Temple + LDL).
 - [x] DH crossing located (crossing.json): c*(N) = 30.818, 30.696, 30.647, 30.629, 30.617 for N = 64..256, both ends hardened, zeta positive at each c_neg. Below 31: no new coefficient enters.
 - [x] Task 3/4 drafted in RESULTS.md (sections 0-5, 7, 8).
-- [ ] Zeta edge ladder and precision check running; then section 6, summary.json, final test run.
-- [ ] Task 4: candidate relations tested on DH; RESULTS.md.
+- [x] Zeta edge ladder, precision check, Fact A basis-size check (factA_check.py), section 6, summary.json.
+- [x] Final: tests/test_hunt_probe_discipline.py run before the last commit (see final commit message).
+- [x] Task 4: seven candidates tested on DH (RESULTS.md s4); five-line summary at the top of RESULTS.md.
 
 Open item: `hunts/README.md` has no case-log entry for `weil_propagation`,
 was missing; supervisor approved one entry, committed (402c1cd, e46cf90);

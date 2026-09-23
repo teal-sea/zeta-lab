@@ -1,7 +1,7 @@
 """Collect the numbers RESULTS.md quotes from the run JSONs into summary.json.
 
 No computation of the form happens here; this only reads grid_*.json,
-crossing.json, edge_*.json, repro.json and precision_check.json.
+crossing.json, edge_*.json, repro.json, precision_check.json and factA_check.json.
 """
 
 from __future__ import annotations
@@ -132,6 +132,14 @@ def main():
     p = load("precision_check.json")
     if p:
         s["precision_check"] = {k: {"prec_x2": v["prec_x2"], "eps_x2^-24": v["eps_x2^-24"]} for k, v in p["cells"].items()}
+    fa = load("factA_check.json")
+    if fa:
+        s["factA_check"] = {k: {"lam_c": v["lam_c"][:18],
+                                "rows": {n: {"rel_to_lam_c": r["rel_to_lam_c"],
+                                             "one_minus_proj_norm2": r["one_minus_proj_norm2"][:12],
+                                             "dev_over_missing_norm": float(m(r["rq_minus_lam_c"]) / m(r["one_minus_proj_norm2"]))}
+                                         for n, r in v["rows"].items()}}
+                            for k, v in fa["cases"].items()}
     with open(os.path.join(HERE, "summary.json"), "w") as f:
         json.dump(s, f, indent=1)
     print(json.dumps({k: v for k, v in s.items() if not k.startswith("grid")}, indent=1)[:6000])

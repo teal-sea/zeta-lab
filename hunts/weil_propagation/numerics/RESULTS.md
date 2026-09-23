@@ -1,10 +1,10 @@
-# RESULTS: ground-state transport across window size (numerics worker)
+1. **Found:** no transport quantity measured here breaks where DH turns negative: the zero-extended DH ground state continues smoothly (1 − overlap ≤ 2e-7 per unit c), the arch/prime split of dλ/dL is smooth, and dλ/dL ≈ −κμ₀² (μ₀ the band-N edge amplitude, κ = O(1) but basis-dependent) holds straight through the crossing.
+2. **Found:** DH's continuum Weil form is negative on every window c ≥ 30.617188 (hardened cell (30.617188, N = 256) plus nesting), strictly between the coefficients n = 30 and 31, so positivity is lost with no new arithmetic term entering; c*(N) = 30.818, 30.696, 30.647, 30.629, 30.617 for N = 64..256, extrapolating to ≈ 30.61.
+3. **Grade:** crossing brackets, zeta controls and all 196 grid eigenvalues are hardened (ball Rayleigh quotients, ball LDLᵀ, Temple); the continuum consequences add a two-line nesting argument (ordinary, unreviewed); transports, decompositions, the edge law and the zero-side split are measured.
+4. **What refutes it:** all seven candidates in s4 either hold for DH across 30 → 31 or fail at finite N for a basis reason, so none is a propagation mechanism; the only quantity that changes sign at c* is the zero-side balance (off-line quadruple Q₁ ≈ −1.28e-28 overtaking the on-line sum), which is RH-analogue information, not a transport estimate.
+5. **Next step:** propagation would need an Euler-product bound on the ground state's boundary trace (band-N proxy μ₀) by its margin, μ₀² ≲ λ/(κδ), which DH violates at c*; stated without an estimate that is a reformulation, so the next move is theory's (does the Euler product constrain that boundary trace?), plus one numerics job worth funding: a boundary-adapted basis (s7).
 
-1. **Found:** no transport quantity measured here breaks where DH turns negative. The zero-extended DH ground state continues smoothly (1 − overlap ≤ 2e-7 per unit c), the arch/prime split of dλ/dL is smooth, and dλ/dL ≈ −κ μ₀² (κ ≈ 1.0 to 1.3, μ₀ = edge amplitude) holds straight through the crossing.
-2. **Found:** DH's continuum Weil form is negative on every window c ≥ 30.6172 (1st negative cell at N = 256), strictly between the coefficients n = 30 and 31, so positivity is lost with no new arithmetic term entering; c*(N) = 30.818, 30.696, 30.647, 30.629, 30.617 for N = 64, 96, 128, 192, 256.
-3. **Grade:** crossing brackets, zeta controls and every DH grid λ are hardened (ball Rayleigh quotients, ball LDLᵀ, Temple); the continuum consequences use a two-line nesting argument (ordinary, unreviewed); transports, decompositions, the edge law and the zero-side split are measured.
-4. **What refutes it:** every candidate below holds for DH across 30 → 31 or fails for a basis reason, so none is a propagation mechanism; the only quantity that changes sign at c* is the zero-side balance (off-line quadruple Q₁ ≈ −1.28e-28 overtaking the on-line sum), which is RH-equivalent information.
-5. **Next step:** a propagation argument would have to bound the ground state's edge amplitude by its margin (μ₀² ≲ λ/(κδ)), which DH violates at c*; as stated that is a reformulation, so the next move belongs to theory (does the Euler product constrain the boundary trace of the window ground state?), not to more numerics.
+# RESULTS: ground-state transport across window size (numerics worker)
 
 Worker: numerics, branch `teal-sea/weil-propagation`, 2026-09-23. Scope and
 kill-control: `../MISSION.md`, brief: `BRIEF.md`. Nothing here is a claim
@@ -111,9 +111,17 @@ Readings (measured):
 - **At finite N the ZE projection is not exact, and for zeta the error
   swamps λ.** For DH the projection's energy differs from λ(c) by up to
   7e-29, the same size as the changes being measured; for zeta by up to
-  10^10 times λ (N = 128) and 10^13 times λ (N = 64). The continuum identity is exact (Fact A), so this is the
-  band-N projection, and it is why ZE energies are not used below as
-  numbers, only overlaps.
+  10^10 times λ (N = 128) and 10^13 times λ (N = 64). Checked rather than
+  assumed (`factA_check.py`): projecting v(30, 64) into window 31 at
+  N′ = 64 .. 1024, the deviation falls as −13.9%, −21.2%, −9.8%, −9.2%,
+  −8.2%, −6.5%, −5.1% of λ(30) and equals the missing norm 1 − ‖Gᵀv‖²
+  times a coefficient 7.5 .. 8.4 (N′ ≥ 256) that grows like log N′ (the archimedean
+  weight at the band edge does the same). Two more DH cases give the same
+  coefficient (7.6 to 7.7 at N′ = 256, 384). So the deviation is the
+  truncated tail of a function with jumps, going to 0 as the missing
+  norm does (Parseval), not a window-dependent term in the assembly:
+  Fact A survives the basis-size check (measured). ZE energies are still
+  not used below as numbers at finite N, only overlaps.
 
 ## 3. Task 3: what drives the change (decomposition)
 
@@ -202,12 +210,12 @@ zeros above 120 plus farther off-line pairs. Float ordinates: measured.)
 | # | candidate | range tested | grade | on DH | verdict |
 |---|---|---|---|---|---|
 | 1 | λ_∞(c′) ≤ λ_∞(c) for c′ ≥ c | all c (argument) | ordinary argument (Fact B), unreviewed | holds (it must) | not a mechanism; points the wrong way |
-| 2 | λ(c, N) nonincreasing in c at fixed N | c ∈ [29, 32], N = 64, 128 | hardened counterexamples | fails: DH N=128 λ(31.25) = −8.2301e-30 < λ(31.3125) = −8.2211e-30 < λ(31.375) = −8.2162e-30; DH N=64 three steps in [31.44, 31.63]; zeta N=64 four steps (e.g. 30.0625 → 30.125), zeta N=128 one (31.875 → 31.9375) | false at finite N (band-edge effect); only the continuum statement 1 is true |
+| 2 | λ(c, N) nonincreasing in c at fixed N | c ∈ [29, 32], N = 64, 128 | hardened counterexamples | fails: DH N=128 λ(31.25) = −8.2301e-30 < λ(31.3125) = −8.2211e-30 < λ(31.375) = −8.2162e-30; DH N=64 three steps in [31.44, 31.63]; zeta N=64 four steps (e.g. 30.0625 → 30.125), zeta N=128 one (31.875 → 31.9375) | false at finite N; the DH increases sit exactly where μ₀ crosses 0 (N=128: μ₀ = 2.8e-15, 5.5e-16, −1.8e-15 over 31.25 .. 31.375), i.e. the edge law's own prediction dλ/dL → 0; zeta's increases sit at no μ₀ zero and are the band-edge effect of the unsaturated form (s5); only the continuum statement 1 is true |
 | 3 | ZE ground-state continuity, 1 − overlap ≤ ~2e-7 per unit c | [29, 31.94], both N | measured, exact vectors in balls | holds through c* | holds for DH: refuted as a mechanism |
 | 4 | DIL energy bound R_c′(v(c)) ≤ λ(c) + C ΔL² (C ≈ 0.05 DH, 2.6e-4 zeta) | all pairs | measured (balls) | holds | an upper bound; holds for DH; useless by 22+ orders |
 | 5 | positivity can be lost only where a new coefficient n enters | DH c ∈ [30, 31] | hardened negativity + Fact B | fails: λ_∞ < 0 on [30.6172, 31), data n ≤ 30 | refuted |
 | 6 | margin/rate propagation: λ(L + δ) ≥ λ(L) e^{−Kδ} with K the locally observed log-rate, or any rule reading only λ(L) and dλ/dL | c ∈ [29, 32] | measured | at c = 30.25, N = 128, DH has 110 more orders of margin than zeta (4.07e-29 vs 3.37e-139) and a slower log-rate (K = 124 vs zeta's grid median 199), then crosses 0.013 later in L | refuted: the margin and its rate give no warning |
-| 7 | edge law: dλ/dL = −κ μ₀², κ = O(1) | DH grids; DH N-ladders 32..256 at c = 13.5, 20.5, 30.5, 31.5; zeta (s6) | measured | holds through c* (κ ∈ [1.04, 1.29] at N=128 where \|μ₀\| is not near a zero of μ₀) | holds for DH: refuted as a mechanism; κ is not N-stable (s5) |
+| 7 | edge law: dλ/dL = −κ μ₀², κ = O(1) | DH grids; N-ladders 32..256 at c = 13.5, 20.5, 30.5 (both kinds) and 31.5 (DH) | measured | holds through c* (κ ∈ [1.04, 1.29] at N=128 away from zeros of μ₀); zeta at saturation κ ≈ 1.3 to 1.5 | holds for DH and zeta alike: structural, refuted as a mechanism; κ itself is basis-dependent (s5) |
 
 Candidate 7 is the closest thing to a transport relation the data show, so
 it deserves its reading. λ decreases at a rate set by the squared value of
@@ -237,7 +245,13 @@ and DH shows it cannot come from anything DH shares.
   (1.06e-11, 8.5e-12, 8.0e-12, 7.8e-12, 7.7e-12, 7.7e-12). So the band-N
   edge amplitude is a proxy for a continuum boundary quantity that tends
   to zero slowly with N; the invariant is dλ/dL, and "κ ≈ 1.2" fails the
-  basis-size check as a constant.
+  basis-size check as a constant. Zeta on the same ladders: κ = 1.70, 1.52,
+  1.56, 1.46, 1.50 (c = 13.5, N = 64 .. 256) and 1.19, 1.20, 1.51, 1.45,
+  1.42 (c = 20.5), i.e. flatter than DH once saturated; at c = 30.5 zeta
+  only saturates near N = 256 (λ = 2.6e-69, 5.0e-103, 1.7e-125, 8.0e-140,
+  3.1e-152, 6.6e-153 for N = 32 .. 256) and κ settles from scatter
+  (3.55, 0.58, 2.34) to 1.15, 1.27, 1.31. The fine-grid zeta scatter
+  (κ from 0.03 to 5.6 at N = 128) is the unsaturated regime.
 - **Zeta is far from N-saturation at c ≈ 30.** λ(31, 60) = 4.8e-100,
   λ(31, 128) = 2.9e-141. Zeta numbers at fixed N describe the band-N form,
   whose c-dependence mixes window growth (down) with the band edge
@@ -252,9 +266,26 @@ and DH shows it cannot come from anything DH shares.
 - The HF stencil truncation O(ε²) is not inside the balls; `precision_check.py`
   moves ε by 2^-24 and doubles precision (s6).
 
-## 6. Zeta hardening, zeta edge ladder, precision response
+## 6. Hardening coverage, precision response, basis-size response
 
-(filled from `grid_zeta_*`, `edge_zeta.json`, `precision_check.json`)
+- **Hardening**: all 196 grid cells (DH and zeta, N = 64 and 128) carry a
+  conclusive Temple bracket whose ball LDLᵀ step also proves the reported
+  eigenvalue is the minimum (`hardened` blocks; `meta.hardened_all` true in
+  all four grids). Lower and upper ends agree to all 20 printed digits
+  everywhere (residuals 1e-57 to 1e-181). The crossing table (s3.2) and
+  its zeta controls are hardened as stated there.
+- **Precision response** (`precision_check.json`; doubling the working
+  precision, and moving the HF stencil ε by 2^-24, the one error not
+  carried in a ball): largest relative change of λ, μ₀ and dλ/dL at DH
+  (30.5, 128), DH (31.25, 128), zeta (30.5, 64), zeta (30.5, 128) is
+  8e-91 (precision) and 7e-13 (stencil; DH (31.25, 128), where dλ/dL is
+  itself small, 5e-31). None of the quantities moves: they are not
+  precision artifacts.
+- **Basis-size response**: λ(c, N) ladders (`edge_*.json`, the record's
+  ladders), c*(N) (s3.2), Fact A (s2) and κ (s5). The quantities used as
+  findings (signs, c*(N) brackets, dλ/dL, overlaps) respond to N the way a
+  converging quantity does; κ as a constant and the finite-N ZE energy do
+  not, and are reported as basis-dependent.
 
 ## 7. The doors
 
@@ -275,6 +306,19 @@ would unfreeze:
    basis adapted to the log-symbol archimedean part), which is new
    information beyond the band-N family.
 
+**Proposed job (not run; too large for the laptop by the brief's limits).**
+A boundary-trace study: for c on [29, 31] step 1/32 and DH and zeta,
+compute the window ground state in a basis of edge-vanishing functions
+(e.g. sin(πk y/L) products) at N up to 1024 with 3000 to 6000 bits for
+zeta, and measure whether the continuum boundary behaviour
+f_L(y) ~ A(L)·φ(y) near y = 0 has an amplitude A(L) with
+dλ/dL = −K·A(L)² for a basis-independent K. Estimate from the unit costs
+here (N = 1024 assembly 3 s at 400 bits, eigen-solve and LDL growing as
+N³): ~30 s per DH cell and ~10 min per zeta cell at 6000 bits, so
+~130 cells ≈ 12 to 20 runner-hours: a GitHub Actions matrix of 20 jobs,
+one c-slice each, checkpointing per cell. Only worth funding if theory
+first says what A(L) should be compared against.
+
 ## 8. Reproduction
 
 From the worktree root (all runs single-process, under 10 minutes each,
@@ -287,4 +331,5 @@ estimates and actuals in `RUNS.md`):
     $P crossing.py 64 96 128 192 256
     $P edge.py dh; $P edge.py zeta
     $P precision_check.py
+    $P factA_check.py
     $P summarize.py                               # summary.json
