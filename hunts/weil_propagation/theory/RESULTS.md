@@ -1,7 +1,7 @@
 # RESULTS: theory worker, Weil positivity propagation across window size
 
 1. **Strongest candidate, C2 (Levy-Markov + pole). Grade: ordinary argument, unreviewed (checked by nobody outside this session).** With the pole term removed, the zeta Weil form on any window is exactly a jump Dirichlet form minus a constant C_ℓ. The jumps are the digamma Levy density ½K(|u|), K(x) = 2e^{−x/2}/(1 − e^{−2x}), plus jumps ±log n at rate Λ(n)/√n, killed outside the window; C_ℓ = log π − ψ(1/4) + Σ_{log n<ℓ} 2Λ(n)/√n up to terms that vanish as ℓ grows (exact form in §2.6). Λ ≥ 0 (Markov), together with the irreducibility hypothesis (K continuous and strictly positive on (0, ℓ]), makes the pole-free operator's ground state simple and a.e. positive on every window.
-2. **What it would give.** Simplicity transfers to the even sector of the full form with the pole by rank-one interlacing. This needs neither condition (a) nor positivity; it fails only if the smallest secular root equals an eigenvalue μ_k of the pole-free even operator whose eigenvector is orthogonal to the pole vector c = cosh((x−x₀)/2). **Grade: derivation, not measured.** Evenness (even bottom below odd bottom) is not obtained. Positivity reduces exactly to (a), at most one even Dirichlet eigenvalue below C_ℓ, plus (b), a scalar pole-capacity inequality (derivation). **Measured** at (c, N) = (13, 24) and (31, 32): (b) is 1.1e6 and 1.6e6 times tighter than (a), and (a)'s own margin is 3.5e−37 and 6.5e−63. The Poincaré attempt on (a) (§6) is unresolved.
+2. **What it would give.** Simplicity transfers to the even sector of the full form with the pole by rank-one interlacing. This needs neither condition (a) nor positivity. The bottom is min(r₁, μ_k) over pole-free even eigenvalues μ_k with an eigenvector orthogonal to the pole vector c = cosh((x−x₀)/2), where r₁ is the smallest secular root. Simplicity fails only on a tie r₁ = μ_k, or a degenerate such μ_k below r₁. **Grade: derivation, not measured.** Evenness (even bottom below odd bottom) is not obtained. Positivity reduces exactly to (a), at most one even Dirichlet eigenvalue below C_ℓ, plus (b), a scalar pole-capacity inequality (derivation). **As a propagation lemma, (a)+(b) is a reformulation of RH (even sector), not progress** in the mission's sense. The output is the unconditional Proposition M. **Measured** at (c, N) = (13, 24) and (31, 32): (b) is 1.1e6 and 1.6e6 times tighter than (a), and (a)'s own margin is 3.5e−37 and 6.5e−63. The Poincaré attempt on (a) (§6) is unresolved.
 3. **What refutes it.** DH lies outside C2's hypotheses: its jump measure is signed (Λ_f(3) = −0.312) and it has no pole. **So DH does not test C2 at all.** Neither does the lab's Euler-product rival W_a = ζ(s+a)ζ(s−a), which is Markov but has two pole directions. **C2 has so far faced no rival that satisfies its hypotheses.** It stays a candidate until the Epstein (1,1,6) control runs (one pole, Λ_Q ≥ 0 for n ≤ 47; handed to numerics): a negative Epstein window form below c = 48 refutes "Markov + one pole". Separately: C1 (propagation through entering atoms) is refuted at every band N = 64 … 256. DH's sign flips at hardened brackets c*(N) ∈ [30.617, 30.818], inside the step (29, 31), where no atom with nonzero weight enters (numerics `crossing.json`; Λ_f(30) = 0 here). For the continuum form this holds provided the continuum crossing lies above c = 29: the N-ladder indicates about 30.61 (measured) but does not establish it. C3 (norm-level ground-state transport) is refuted by DH (measured).
 4. **New or known:** the Markov reading of the full Weil form, primes included, and the prime-entry kink formula are original to this session. They were not in the 10 sources read, and one web search found nothing. Suzuki (arXiv:2606.09096 s5) uses a Dirichlet form for the archimedean part only, and only for small windows. The fixed-window dilation formula is Suzuki's s4.2. Novelty is not established: the search was shallow.
 5. **Next step.** Numerics (handed off): the Epstein (1,1,6) floor for c ≤ 48, and μ₂ against λ₁, λ₂ over c ∈ [2, 60]. Theory: the Poincaré attempt (§6) shows the extremal of (a) is e₂, the second pole-free eigenvector, which is orthogonal to the pole to 2⟨c,e₂⟩² = 4.4e−63 (measured). That points to CCM's near-radical vectors, so the next step is to show that the near-radical subspace orthogonal to the Perron-Frobenius state has nonnegative pole-free energy: CCM step 2 at the eigenvalue scale.
@@ -133,7 +133,12 @@ h = 1e−6), measured jump against predicted jump:
 
 For ζ, Λ ≥ 0 and the ground state is reflection-even (φ(0) = φ(ℓ)), so
 **every entering prime power makes the decrease steeper**; each entry adds
-50-80% to the slope in these cells. An entering prime never helps
+50-80% to the slope in these N = 16 cells. That magnitude is band-specific.
+The numerics worker finds the band-N edge amplitude μ₀ falling and κ rising
+with N, with κμ₀² stable. So the continuum edge value may vanish slowly,
+the finite-N formula (exact) is the operative one, and the continuum line
+is a limiting form whose edge factor must be read as the N-stable
+combination, not as a pointwise value. An entering prime never helps
 positivity at first order. For DH, atoms with Λ_f(n) < 0 do the opposite.
 
 ### 2.4 The admissible space: the collar criterion
@@ -229,9 +234,13 @@ then gives:
   consecutive μ_k with ⟨c, e_k⟩ ≠ 0), together with every μ_k whose
   eigenvector is orthogonal to c. μ₁ is simple and ⟨c, e₁⟩ > 0 (both e₁
   and c are positive), so the smallest root lies strictly above μ₁ and is
-  simple. λ₁(Q_e) is therefore simple **unless that smallest root equals
-  some μ_k whose eigenvector e_k is orthogonal to c**: that is the
-  nongeneric coincidence. Neither condition (a) nor positivity is needed.
+  simple. Hence λ₁(Q_e) = min(r₁, μ_k : e_k ⊥ c), with r₁ the smallest
+  root. Since μ₁ is simple with ⟨c, e₁⟩ > 0, every c-orthogonal μ_k has
+  k ≥ 2. **The nongeneric coincidence, exactly:** either r₁ equals a
+  c-orthogonal μ_k (a tie), or a *degenerate* c-orthogonal μ_k lies below
+  r₁. If a simple c-orthogonal μ_k lies below r₁, the bottom is still
+  simple, but its eigenvector e_k changes sign. Neither condition (a) nor
+  positivity is needed.
   Measured caution: e₂ is orthogonal to c to 2⟨c, e₂⟩² = 4.4e−63
   (c = 13) and 4.2e−113 (c = 31), so half of the coincidence is nearly
   realised. The other half fails by a factor of about 1e6 (λ₁(Q) = 3.1e−43
@@ -295,8 +304,8 @@ atoms satisfy 𝒫.
 vacuously. DH is positive at (30, N) for every N ≤ 128 (hardened) and
 negative at (31, 60) (hardened). **Refuted at the lattice level.** The
 numerics worker's bisection puts the flip strictly inside the step. Hardened
-brackets from their `crossing.json`, positive at c_pos and negative at
-c_neg:
+brackets from their `crossing.json` (branch `teal-sea/weil-propagation`,
+commit 75865a7), positive at c_pos and negative at c_neg:
 
 | N | c_pos | c_neg |
 |---|---|---|
@@ -474,8 +483,9 @@ through DH's crossing, with κμ₀² N-stable and κ alone not
 (numerics RESULTS s4 row 7, s5). They ask whether the Euler product, via
 the Markov structure of §2.6, bounds μ₀² ≲ λ/(κδ).
 
-*Matched-N data* (their `grid_*_N128.json`, λ₁ and μ₀ as stored; the ratio
-is my arithmetic on their numbers):
+*Matched-N data* (their `grid_*_N128.json` on branch
+`teal-sea/weil-propagation`, commit 75865a7; λ₁ and μ₀ as stored; the
+ratio is my arithmetic on their numbers):
 
 | c | 29 | 30 | 30.5 | 30.625 | 30.6875 | 31.5 |
 |---|---|---|---|---|---|---|

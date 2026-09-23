@@ -62,3 +62,8 @@ Next: RESULTS.md.
   Status: attempt unresolved, non-sharp bounds obstructed (measured),
   paused by allocation; (a) identified with CCM step 2 at eigenvalue scale
   (hypothesis supported by measurement).
+- Expected test failure on this branch: tests/test_hunt_probe_discipline.py
+  ::test_every_hunt_directory_is_covered_by_the_case_log fails because the
+  weil_propagation case-log entry in hunts/README.md lives on the numerics
+  branch (commit e46cf90), by supervisor ruling. Not a defect; it clears
+  on merge. The reserved-word test passes.
