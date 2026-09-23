@@ -1,0 +1,3 @@
+dh 64 exit=0 22s
+dh 128 exit=0 74s
+zeta 64 exit=0 74s

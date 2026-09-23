@@ -367,3 +367,49 @@ def save(path: str, d) -> None:
     with open(tmp, "w") as f:
         json.dump(d, f, indent=1)
     os.replace(tmp, path)
+
+
+# ---------------------------------------------------------------------------
+# Hellmann-Feynman derivative in the dilation picture
+# ---------------------------------------------------------------------------
+
+
+def hf_eps_prec(kind: str, N: int):
+    """Stencil half-width (as a power of 2) and precision for hf_derivative.
+
+    Truncation error is O(eps^2) (not in the ball); cancellation error is
+    ~2^-prec / eps (in the ball). Both are kept far below |lambda|:
+    DH |lambda| >~ 1e-35 here, zeta |lambda| down to ~1e-200 at N = 256.
+    """
+    if kind == "dh":
+        return 64, 600
+    if N <= 128:
+        return 250, 1600
+    return 420, 3600
+
+
+def hf_derivative(c, N: int, kind: str, v: arb_mat) -> dict:
+    """d lambda / dL = v^T (dE/dL) v at fixed coefficient vector v (the
+    dilation picture), by a central difference at c +- 2^-k, split into the
+    pole, arch and prime pieces. Valid only when no coefficient index n lies
+    in [c - eps, c + eps] (callers use non-integer c)."""
+    k, prec = hf_eps_prec(kind, N)
+    eps = fmpq(1, 2**k)
+    c0 = cq(c)
+    parts, Ls = {}, []
+    for sgn in (1, -1):
+        bt = EN.BallTruncation(c0 + sgn * eps, N, kind=kind, prec=prec)
+        comp = components(bt, check=False)
+        Ls.append(bt.L)
+        for name in ("pole", "arch", "prime"):
+            if comp[name] is None:
+                continue
+            ctx.prec = prec
+            parts.setdefault(name, []).append(quad(comp[name], v))
+    ctx.prec = prec
+    dL = Ls[0] - Ls[1]
+    out = {name: (a - b) / dL for name, (a, b) in parts.items()}
+    out["total"] = sum(out.values(), arb(0))
+    out["_eps_pow2"] = k
+    out["_prec"] = prec
+    return out
