@@ -17,7 +17,10 @@ Checks (numbering follows RESULTS.md section 3):
   E. The fixed-window (dilation) formula against zeta/weil.py.
   F. Ground-state transport across the lattice step 30 -> 31.
   G. Relative boundary mass phi_N(0)^2 / lambda_N of the zeta ground state.
-  H. The same ratio for DH approaching its crossing.
+  H. The same ratio for DH approaching its crossing (N = 60 sampling stops
+     short of c*(60); see RESULTS.md for the matched-N reading).
+  I. Poincare attempt: comparison bound against the gap condition (a) needs,
+     and the pole overlaps of the first two pole-free eigenvectors.
 
 Run from the repo root:  .venv/bin/python hunts/weil_propagation/theory/checks.py
 Writes checks.json beside this file.
@@ -280,6 +283,50 @@ def check_H(cells=(("dh", 13, 32, 50), ("dh", 20, 60, 60), ("dh", 25, 60, 60),
     return out
 
 
+# ---------------------------------------------------------------------------
+# I. Poincare attempt: crude comparison bound vs the gap condition (a) needs,
+#    and the pole overlaps of the first two pole-free eigenvectors
+# ---------------------------------------------------------------------------
+
+
+def _w02_even(T, N):
+    W = mp.matrix(N + 1)
+    W[0, 0] = T.w02(0, 0)
+    for k in range(1, N + 1):
+        W[0, k] = W[k, 0] = mp.sqrt(2) * T.w02(0, k)
+    for j in range(1, N + 1):
+        for k in range(j, N + 1):
+            W[j, k] = W[k, j] = T.w02(j, k) + T.w02(j, -k)
+    return W
+
+
+def check_I(cells=((13, 24, 60), (31, 32, 110))):
+    out = []
+    for c, N, dps in cells:
+        with mp.workdps(dps):
+            T, evQ, vQ = _ground(mp.mpf(c), N, pole=True)
+            _, ev0, v0 = _ground(mp.mpf(c), N, pole=False)
+            L = T.L
+            e1, e2, phi = mp.matrix(v0[0]), mp.matrix(v0[1]), mp.matrix(vQ[0])
+            vals = []
+            for i in range(801):
+                y = L * i / 800
+                vals.append(abs(e1[0] / mp.sqrt(L) + mp.fsum(
+                    e1[k] * mp.sqrt(2 / L) * mp.cos(2 * mp.pi * k * y / L) for k in range(1, N + 1))))
+            K = lambda x: 2 * mp.e ** (-x / 2) / (1 - mp.e ** (-2 * x))
+            W = _w02_even(T, N)
+            rq = lambda x: (x.T * W * x)[0]
+            ip = lambda a, b: mp.fsum(a[i] * b[i] for i in range(N + 1))
+            out.append({"c": c, "N": N, "mu1(Q0)": f(ev0[0], 8), "mu2(Q0)": f(ev0[1], 5),
+                        "needed gap D = -mu1": f(-ev0[0], 8), "true gap mu2-mu1": f(ev0[1] - ev0[0], 12),
+                        "max phi0^2 (grid)": f(max(vals) ** 2, 5), "K(L)/2": f(K(L) / 2, 5),
+                        "comparison bound (K(L)/2)/max phi0^2": f((K(L) / 2) / max(vals) ** 2, 5),
+                        "pole energy 2<c,e1>^2": f(rq(e1), 6), "pole energy 2<c,e2>^2": f(rq(e2), 4),
+                        "pole energy of Weil ground state": f(rq(phi), 5),
+                        "|<phiQ,e1>|": f(abs(ip(phi, e1)), 5), "|<phiQ,e2>|": f(abs(ip(phi, e2)), 5)})
+    return out
+
+
 if __name__ == "__main__":
     res = {}
     res["A_dh_arithmetic"] = check_A()
@@ -317,4 +364,7 @@ if __name__ == "__main__":
     res["H_boundary_mass_dh"] = check_H()
     for r in res["H_boundary_mass_dh"]:
         print("H", r)
+    res["I_poincare"] = check_I()
+    for r in res["I_poincare"]:
+        print("I", r)
     (HERE / "checks.json").write_text(json.dumps(res, indent=1))

@@ -1,10 +1,10 @@
 # RESULTS: theory worker, Weil positivity propagation across window size
 
-1. **Strongest candidate (C2, Levy-Markov + pole):** with its pole term removed, the zeta Weil form on any window is exactly the Dirichlet form of a symmetric jump process (digamma Levy density plus jumps of size ±log n at rate Λ(n)/√n) killed outside the window, minus the constant C_ℓ = log π − ψ(1/4) + Σ_{log n<ℓ} 2Λ(n)/√n (the last sum being the whole ℓ-dependence of C_ℓ as ℓ → ∞). Λ ≥ 0 makes it Markov, so its ground state is simple and positive on every window.
-2. **What it would give:** unconditionally, a simple even-sector Weil ground state on every window (outside one nongeneric coincidence), which is half of the first missing step in the Connes-Consani-Moscovici program. Propagation becomes two conditions: (a) the killed process has at most one even Dirichlet eigenvalue below C_ℓ; (b) a scalar pole-capacity inequality. Measured, (b) is about 1e6 tighter than (a). Both are exact reformulations, and (a)'s margin is also doubly-exponentially small, so the reduction is not yet a proof route.
-3. **What refutes it:** DH cannot: Λ_f(3) = −0.312 < 0 makes its jump measure signed, and DH has no pole. The live rival is Epstein (1,1,6). It has a pole, off-line zeros and Λ_Q ≥ 0 for every n ≤ 47. If its window form goes negative below c = 48, every mechanism that uses only "Markov + one pole" is refuted. Separately, C1 (propagation driven by the atoms that enter) is refuted by DH: the 30→31 step adds no arithmetic at all (Λ_f(30) = 0, and atom 31 has zero weight at c = 31), yet the sign flips. C3 (local ground-state transport) is also refuted by DH.
+1. **Strongest candidate, C2 (Levy-Markov + pole). Grade: ordinary argument, unreviewed (checked by nobody outside this session).** With the pole term removed, the zeta Weil form on any window is exactly a jump Dirichlet form minus a constant C_ℓ. The jumps are the digamma Levy density ½K(|u|), K(x) = 2e^{−x/2}/(1 − e^{−2x}), plus jumps ±log n at rate Λ(n)/√n, killed outside the window; C_ℓ = log π − ψ(1/4) + Σ_{log n<ℓ} 2Λ(n)/√n up to terms that vanish as ℓ grows (exact form in §2.6). Λ ≥ 0 (Markov), together with the irreducibility hypothesis (K continuous and strictly positive on (0, ℓ]), makes the pole-free operator's ground state simple and a.e. positive on every window.
+2. **What it would give.** Simplicity transfers to the even sector of the full form with the pole by rank-one interlacing. This needs neither condition (a) nor positivity; it fails only if the smallest secular root equals an eigenvalue μ_k of the pole-free even operator whose eigenvector is orthogonal to the pole vector c = cosh((x−x₀)/2). **Grade: derivation, not measured.** Evenness (even bottom below odd bottom) is not obtained. Positivity reduces exactly to (a), at most one even Dirichlet eigenvalue below C_ℓ, plus (b), a scalar pole-capacity inequality (derivation). **Measured** at (c, N) = (13, 24) and (31, 32): (b) is 1.1e6 and 1.6e6 times tighter than (a), and (a)'s own margin is 3.5e−37 and 6.5e−63. The Poincaré attempt on (a) (§6) is unresolved.
+3. **What refutes it.** DH lies outside C2's hypotheses: its jump measure is signed (Λ_f(3) = −0.312) and it has no pole. **So DH does not test C2 at all.** Neither does the lab's Euler-product rival W_a = ζ(s+a)ζ(s−a), which is Markov but has two pole directions. **C2 has so far faced no rival that satisfies its hypotheses.** It stays a candidate until the Epstein (1,1,6) control runs (one pole, Λ_Q ≥ 0 for n ≤ 47; handed to numerics): a negative Epstein window form below c = 48 refutes "Markov + one pole". Separately: C1 (propagation through entering atoms) is refuted at every band N = 64 … 256. DH's sign flips at hardened brackets c*(N) ∈ [30.617, 30.818], inside the step (29, 31), where no atom with nonzero weight enters (numerics `crossing.json`; Λ_f(30) = 0 here). For the continuum form this holds provided the continuum crossing lies above c = 29: the N-ladder indicates about 30.61 (measured) but does not establish it. C3 (norm-level ground-state transport) is refuted by DH (measured).
 4. **New or known:** the Markov reading of the full Weil form, primes included, and the prime-entry kink formula are original to this session. They were not in the 10 sources read, and one web search found nothing. Suzuki (arXiv:2606.09096 s5) uses a Dirichlet form for the archimedean part only, and only for small windows. The fixed-window dilation formula is Suzuki's s4.2. Novelty is not established: the search was shallow.
-5. **Next step:** the numerics worker computes the Epstein (1,1,6) window floor for c ≤ 48, and tracks μ₂ of the pole-free zeta form against λ₁, λ₂ of the full form over c ∈ [2, 60]. On the theory side, try a spectral-gap (Poincaré) bound for the Doob-transformed killed process, which is the single estimate C2 is missing.
+5. **Next step.** Numerics (handed off): the Epstein (1,1,6) floor for c ≤ 48, and μ₂ against λ₁, λ₂ over c ∈ [2, 60]. Theory: the Poincaré attempt (§6) shows the extremal of (a) is e₂, the second pole-free eigenvector, which is orthogonal to the pole to 2⟨c,e₂⟩² = 4.4e−63 (measured). That points to CCM's near-radical vectors, so the next step is to show that the near-radical subspace orthogonal to the Perron-Frobenius state has nonnegative pole-free energy: CCM step 2 at the eigenvalue scale.
 
 Study of 2026-09-23, branch `teal-sea/weil-propagation-theory`. Nothing
 here is a claim about RH. Grades follow the `AGENTS.md` ladder: *measured*,
@@ -192,13 +192,21 @@ Re ψ(1/4 + it/2) − ψ(1/4), Gauss's representation as in Zhu (9). As
 ℓ → ∞, C_ℓ − A_ℓ → log π − ψ(1/4), which recovers Zhu's symbol
 Ψ_L = ψ_ℓ − C_ℓ.
 
-**Proposition M (ordinary argument, unreviewed).** Take ζ and any window I,
-and let Q° = Q − P (pole removed). Then 𝓔 is an irreducible Dirichlet form
-on L²(I): a pure jump form, with killing from jumps that leave I. It is
-Markov because the jump measure (½K(|u|)du plus atoms Λ(n)n^{−1/2} at
-u = ±log n) is nonnegative, which is exactly **Λ(n) ≥ 0**. It is
-irreducible because K > 0. Q° = 𝓔 − C_ℓ has discrete spectrum, since P is
-bounded rank-2 on L²(I) (CCM Thm 3.6). Consequences:
+**Proposition M (ordinary argument, unreviewed; checked by nobody outside
+this session).** Take ζ and any window I, and let Q° = Q − P (pole
+removed). The hypotheses used are:
+
+- (H1) **Λ(n) ≥ 0 for every n**, so the jump measure (½K(|u|)du plus atoms
+  Λ(n)n^{−1/2} at u = ±log n) is nonnegative;
+- (H2) **irreducibility**: the digamma Levy density ½K(|u|) is continuous
+  and strictly positive for 0 < |u| ≤ ℓ, so every pair of points of I is
+  joined by a jump of positive intensity;
+- (H3) the form domain is that of the archimedean part. P, the atoms and
+  the constant are bounded on L²(I), and Q has discrete spectrum
+  (CCM Thm 3.6; Suzuki s4.1 for the compact embedding).
+
+Under (H1)-(H3), 𝓔 is an irreducible Dirichlet form on L²(I): a pure jump
+form, with killing from jumps that leave I. Q° = 𝓔 − C_ℓ. Consequences:
 
 - Its semigroup is positivity improving (the Beurling-Deny criterion, then
   irreducibility, via the same Dirichlet-form route as Suzuki s5.2).
@@ -215,9 +223,19 @@ the centre x₀, and no cross term (Zhu Lemma 6.1). Rank-one interlacing
 then gives:
 
 - μ₁(Q°) ≤ λ₁(Q_e) ≤ μ₂(Q°_e) ≤ λ₂(Q_e).
-- **Simplicity:** λ₁(Q_e) is simple whenever ⟨c, e₂⟩ ≠ 0, and otherwise
-  unless one exact coincidence occurs. This holds on every window,
-  unconditionally.
+- **Simplicity of the full form's even bottom (derivation, not
+  measured).** The eigenvalues of Q_e are the roots of the secular function
+  f(λ) = 1 + 2 Σ_k ⟨c, e_k⟩² / (μ_k − λ) (one in each gap between
+  consecutive μ_k with ⟨c, e_k⟩ ≠ 0), together with every μ_k whose
+  eigenvector is orthogonal to c. μ₁ is simple and ⟨c, e₁⟩ > 0 (both e₁
+  and c are positive), so the smallest root lies strictly above μ₁ and is
+  simple. λ₁(Q_e) is therefore simple **unless that smallest root equals
+  some μ_k whose eigenvector e_k is orthogonal to c**: that is the
+  nongeneric coincidence. Neither condition (a) nor positivity is needed.
+  Measured caution: e₂ is orthogonal to c to 2⟨c, e₂⟩² = 4.4e−63
+  (c = 13) and 4.2e−113 (c = 31), so half of the coincidence is nearly
+  realised. The other half fails by a factor of about 1e6 (λ₁(Q) = 3.1e−43
+  against μ₂ = 3.5e−37 at c = 13), so the bottom is simple in both cells.
 - **Even-sector positivity:** Q_e ≥ 0 ⟺ (a) μ₂(Q°_e) ≥ 0, and (b)
   μ₁ ≥ 0 or Φ_ℓ := 1 + 2⟨c, (A°_e)^{−1} c⟩ ≤ 0.
 - **Under RH:** on every window the killed zeta process has at most one
@@ -256,7 +274,8 @@ lab's hardened ones (`hunts/rogue_frontier/weil_trunc/RESULTS.md` s8.1).
 | E | fixed-window formula vs `zeta/weil.py` | agreement 5e−16 … 2e−21 |
 | F | ground-state transport 30 → 31 | DH (N = 60): ‖v₃₁ − v₃₀‖ = 7.7e−3, λ: +1.37e−28 → −1.87e−31. ζ (N = 32): ‖Δ‖ = 4.4e−3, λ: 4.38e−69 → 4.05e−69. Rayleigh quotient of the transported old ground state at the new window: 5.2e−5 (DH), 6.8e−8 (ζ) |
 | G | ζ boundary mass φ_N(0)²/λ_N | 12.6 … 24.2 while λ ranges over 5.9e−8 … 2.8e−60 (c = 3 … 20) |
-| H | same ratio for DH toward the crossing | 11.4, 14.1, 18.4, 13.5, 17.8 at c = 13, 20, 25, 29, 30; ζ 20.3, 20.7, 18.3 at c = 25, 29, 31 |
+| H | same ratio for DH toward the crossing | 11.4, 14.1, 18.4, 13.5, 17.8 at c = 13, 20, 25, 29, 30 (N = 60); ζ 20.3, 20.7, 18.3 at c = 25, 29, 31 (N = 32). **This sampling stops short of DH's crossing at N = 60** (c*(64) = 30.818, so c*(60) is above 30.8); the matched-N reading is in §5 |
+| I | Poincaré attempt (§6) | comparison bound 0.579 / 0.443 against required gap 5.850 / 8.782 at c = 13 / 31; true gap equals the requirement to 6.0e−38 / 7.4e−64 relative; 2⟨c,e₂⟩² = 4.4e−63 / 4.2e−113; Weil ground state overlaps 0.52 / 0.43 with e₁ and 0.60 / 0.60 with e₂ |
 
 ## 4. Candidate propagation lemmas
 
@@ -274,7 +293,22 @@ atoms satisfy 𝒫.
 
 *DH test.* Across c = 30 → 31 no atom gains weight (§2.5), so any 𝒫 holds
 vacuously. DH is positive at (30, N) for every N ≤ 128 (hardened) and
-negative at (31, 60) (hardened). **Refuted at the lattice level.**
+negative at (31, 60) (hardened). **Refuted at the lattice level.** The
+numerics worker's bisection puts the flip strictly inside the step. Hardened
+brackets from their `crossing.json`, positive at c_pos and negative at
+c_neg:
+
+| N | c_pos | c_neg |
+|---|---|---|
+| 64 | 30.817383 | 30.818359 |
+| 96 | 30.695312 | 30.696289 |
+| 128 | 30.646484 | 30.647461 |
+| 192 | 30.628906 | 30.629883 |
+| 256 | 30.616211 | 30.617188 |
+
+ζ is conclusively positive at every c_neg (ball LDLᵀ). By their nesting
+argument (Fact B, ordinary), DH's continuum form is negative for every
+c ≥ 30.617188.
 
 For the continuum form, DH's floor is:
 
@@ -284,19 +318,19 @@ For the continuum form, DH's floor is:
   pole term simply absent);
 - negative at log 31.
 
-So a first crossing ℓ* ≤ log 31 exists. Unless ℓ* is exactly log n for a
-DH atom n, a neighbourhood of ℓ* is atom-free and refutes C1 without any
-lattice caveat. The lattice data (positive through N = 256 at c = 29 and
-30) put ℓ* in (log 30, log 31]. That is consistent, not established.
+So a first crossing ℓ* ≤ log 30.617188 exists. DH has no atom with nonzero
+weight in (29, 31). If ℓ* > log 29, the step from ℓ* to log 30.617188 is
+atom-free, and C1 is refuted for the continuum form with no lattice caveat.
+The N-ladder of c*(N) extrapolates to about 30.61 (numerics, measured),
+which supports ℓ* > log 29 but does not establish it.
 
 *Kink formula (§2.3):* for ζ, each entering atom only steepens the
 decrease. **Scoped obstruction:** the Euler product cannot drive
 propagation through the atoms that enter. It has to act through the
 interior block and the interior-collar coupling (§2.4).
 
-*Smallest check.* Already done here (checks A, B). For the numerics
-worker: λ_60(c) on a fine grid c ∈ [30, 31] locates the lattice crossing
-inside the atom-free step.
+*Smallest check.* Done: checks A and B here, and the numerics worker's
+`crossing.json` for the location.
 
 *Restatement of RH?* Not applicable: refuted.
 
@@ -325,23 +359,53 @@ Markov direction (μ₁ = −5.85 at c = 13).
 *DH test.* DH violates the hypothesis on every window with c > 3, since
 Λ_f(3) = −0.312: its jump measure is signed and there is no Markov
 structure. It also has no pole, so its analogue of (a)+(b) is μ₁ ≥ 0,
-which fails at c = 31 with exactly one negative eigenvalue. **Not refuted
-by DH.**
+which fails at c = 31 with exactly one negative eigenvalue. **This means DH
+does not test C2 at all.** It is not a pass. C2 has so far faced no rival
+that satisfies its hypotheses.
 
-*Second rival, required before anything is built on C2.* Epstein
-Q = (1,1,6), discriminant −23. It has a pole, off-line zeros, and
-Λ_Q(n) ≥ 0 for every n ≤ 47 (first negative at n = 48; measured here from
-`zeta.epstein.epstein_representation_count`). Its Γ(s) factor also gives
-a positive Levy density. If its window form goes negative at some c < 48,
-then "Markov + one pole + Γ-class" does not propagate positivity, and any
-C2-based argument must use more of the Euler product (prime-power support,
-the local-factor identity (Σ_k p^{−|k|/2} δ_{k log p}) ∗ Φ_p = (1 − 1/p) δ₀).
+*The lab's Euler-product rival does not test it either, and shows what is
+load-bearing.* W_a(s) = ζ(s+a)ζ(s−a), a = 1/4 (`zeta/epstein.py`; it
+killed Euler-product positivity in `hunts/epp_herglotz/RESULTS.md`). Its
+zeros are ρ ± a, so its explicit formula is ζ's applied to g·2cosh(ax):
+D_{W_a}(x) = 2cosh(ax)·D_ζ(x) (derivation). Consequences:
+
+- Its jump measure is K(|u|)cosh(au) plus atoms Λ(n)(n^a + n^{−a})n^{−1/2},
+  all nonnegative, so it is Markov: (H1) and (H2) hold.
+- Its pole part is 2cosh((½+a)x) + 2cosh((½−a)x), i.e. **two** positive
+  pole directions in the even sector.
+- All its zeros are off its critical line. It is positive on small windows
+  (Bombieri Thm 12's argument goes through, since the archimedean density
+  only doubles near 0). By Weil's criterion applied to W_a (a standard
+  argument, not checked for W_a here), it must turn negative on some
+  window.
+
+So Markov structure plus an Euler product plus a functional equation do not
+propagate positivity. C2 survives only through its **one-pole** hypothesis,
+which W_a violates.
+
+*The control that matches C2's hypotheses:* Epstein Q = (1,1,6),
+discriminant −23. It has one pole, off-line zeros, a Γ(s) factor (positive
+Levy density), and Λ_Q(n) ≥ 0 for n ≤ 47 (first negative at n = 48). That
+is recorded earlier in `hunts/epp_herglotz/RESULTS.md` and re-measured here.
+Handed to the numerics worker by the supervisor, 2026-09-23. It is decisive
+only if its window form turns negative below c = 48. This tree does not
+locate its first off-line zero (`hunts/gate5_p6_a/RESULTS.md`), so the
+test may come back uninformative (crossing above 48). **C2 stays a
+candidate until that control runs.**
+
+If Epstein turns negative below c = 48, then "Markov + one pole + Γ-class"
+does not propagate positivity, and any C2-based argument must use more of
+the Euler product. Candidates: prime-power support, and the local-factor
+identity (Σ_k p^{−|k|/2} δ_{k log p}) ∗ Φ_p = (1 − 1/p) δ₀ with
+Φ_p = (1 + 1/p)δ₀ − p^{−1/2}(δ_{log p} + δ_{−log p}), which holds exactly
+for degree-1 local factors.
 
 *Smallest checks.*
 
-1. Numerics: an Epstein (1,1,6) Galerkin assembly, with Γ(s) = Γ(s/2)Γ((s+1)/2)2^{s−1}/√π so the archimedean block is the sum of the a = 1/4 and a = 3/4 kernels; its floor for c ≤ 48.
-2. For ζ over c ∈ [2, 60] at converged N: μ₂(Q°_e), λ₁(Q_e), λ₂(Q_e) and Φ_ℓ. The question is whether μ₂(Q°) tracks λ₂(Q) at a fixed ratio (0.64 in both measured cells).
+1. Numerics (handed off): an Epstein (1,1,6) Galerkin assembly, with Γ(s) = Γ(s/2)Γ((s+1)/2)2^{s−1}/√π so the archimedean block is the sum of the a = 1/4 and a = 3/4 kernels; its floor for c ≤ 48.
+2. Numerics (handed off): for ζ over c ∈ [2, 60] at converged N, μ₂(Q°_e), λ₁(Q_e), λ₂(Q_e) and Φ_ℓ. The question is whether μ₂(Q°) tracks λ₂(Q) at a fixed ratio (0.64 in both measured cells).
 3. Sign-definiteness of the pole-free ground state at more cells.
+4. Optional, cheap once (1) exists: W_a's window form, built from the same blocks (archimedean a' = 1/8 and 3/8, pole blocks for cosh((½ ± a)x), atoms Λ(n)(n^a + n^{−a})n^{−1/2}). It locates where two poles stop sufficing.
 
 *Restatement of RH?* The propagation form (a)+(b) is an **exact
 reformulation**, with no new estimate. What is new is the structure: a
@@ -372,12 +436,12 @@ for Γ((s+1)/2) are not worked out).
 
 - Across 30 → 31 (N = 60), DH's ground state moves 7.7e−3 in norm, against
   4.4e−3 for ζ.
-- Its boundary ratio is 17.8 at c = 30, against about 20 for ζ, and it
-  shows no precursor at c = 13 … 30.
 - Yet its λ flips sign.
 
-The hypothesis holds with ε ≈ 1e−2 and R ≈ 20, and the conclusion fails.
-**Refuted at the lattice level.** Quantitatively, the transported old
+The norm hypothesis holds with ε ≈ 1e−2, and the conclusion fails.
+**Refuted at the lattice level** for norm transport. For the boundary-mass
+version, see §5: at matched N = 128 it is a reformulation of the
+log-derivative of λ, not an independent datum. Quantitatively, the transported old
 ground state has Rayleigh quotient 5.2e−5 (DH) and 6.8e−8 (ζ) at the new
 window, 10²³ and 10⁶¹ times λ. A transport statement that carries
 positivity must be accurate to about √λ in norm (1e−14 for DH, 1e−34 for
@@ -402,15 +466,121 @@ route "sees" the off-line zero before, at, or after the sign flip.
 *Restatement of RH?* At norm scale: refuted. At eigenvalue scale: yes, a
 reformulation with no new estimate.
 
-## 5. Threads (observations, not pursued)
+## 5. Does the Euler product bound the boundary trace? (the numerics worker's question)
 
-- **Boundary mass.** φ_N(0)²/λ_N stays within 11-24 for both ζ and DH
-  while λ spans 52 orders of magnitude (checks G, H). The one-mode test of
-  §2.4 would explain an O(√λ) boundary value heuristically. The ratio is
-  Euler-product-blind and gives no warning of the DH crossing. There may
-  be a Hadamard-type identity dλ/dℓ ≈ −κ φ(0)φ(ℓ) (measured
-  κ ≈ 1.6 … 2.4 at N = 16). No exact identity was found: the archimedean
-  kernel is not local.
+The numerics worker measures an edge law dλ/dL = −κμ₀², with μ₀ = Σu_k the
+band-N edge amplitude (so φ_N(0)² = μ₀²/L) and κ ≈ 1.0 … 1.3. It holds
+through DH's crossing, with κμ₀² N-stable and κ alone not
+(numerics RESULTS s4 row 7, s5). They ask whether the Euler product, via
+the Markov structure of §2.6, bounds μ₀² ≲ λ/(κδ).
+
+*Matched-N data* (their `grid_*_N128.json`, λ₁ and μ₀ as stored; the ratio
+is my arithmetic on their numbers):
+
+| c | 29 | 30 | 30.5 | 30.625 | 30.6875 | 31.5 |
+|---|---|---|---|---|---|---|
+| DH μ₀²/λ | 39 | 72 | 226 | 1210 | λ < 0 | λ < 0 |
+| ζ μ₀²/λ | 166 | 193 | 186 | 190 | 193 | 180 |
+
+Readings:
+
+1. With the edge law, μ₀²/λ = −(1/κ) d ln λ/dL. The ratio *is* the
+   relative decay rate of λ. A bound μ₀² ≤ Rλ is the log-derivative bound
+   that the numerics worker's candidate 6 already tested, and it is
+   equivalent to a lower bound on λ. **Reformulation, not an estimate**
+   (ordinary argument given the measured edge law).
+2. DH's ratio sits **below** ζ's until c ≈ 30.4: 101 at c = 30.25 (their
+   s3.3 table) against ζ's ≈ 190, and 226 at c = 30.5. It then diverges
+   within the last ΔL ≈ 0.013 before the crossing. So it gives no usable early warning, and
+   no threshold R separates ζ from DH ahead of time (measured). My
+   N = 60 reading in check H ("no precursor at c ≤ 30") was correct but
+   stopped short of c*(60).
+3. **Does Λ ≥ 0 bound it? No, not by itself.** W_a has Λ ≥ 0, an Euler
+   product and the functional equation, and it must cross somewhere (§4
+   C2). At a transversal crossing (μ₀ ≠ 0 where λ = 0, as the numerics
+   worker observes for DH) the ratio diverges. So the Markov structure
+   cannot bound μ₀²/λ unless the one-pole structure is used. Grade:
+   ordinary argument, conditional on Weil's criterion for W_a and on
+   transversality. DH lies outside the hypothesis (signed jumps).
+   Epstein (1,1,6) is the pending control.
+4. What the Markov structure *does* control: the pole-free ground state
+   φ°, which is positive and flat (min/max 0.71 … 0.80, max φ°² ≈ 1.2 …
+   1.4 × 1/ℓ). The Weil ground state is instead the resolvent
+   (A° − λ)^{−1} c at a spectral parameter inside the doubly-exponentially
+   thin gap (μ₁, μ₂). Its boundary trace relative to λ is set by the
+   secular balance (b), not by Markovianity (derivation).
+
+## 6. The Poincaré attempt for condition (a) (about one hour, supervisor-allocated)
+
+*Ground-state representation (exact, ordinary argument).* Write
+𝓔(f) = ½∬ j(y−z)(f(y)−f(z))² dy dz + ∫ κ f², and let φ° > 0 be the
+Perron-Frobenius ground state, 𝓔(φ°, ·) = m₁⟨φ°, ·⟩ with
+m₁ = μ₁ + C_ℓ. For f = φ°u the cross terms telescope:
+
+    𝓔(φ°u) − m₁‖φ°u‖² = ½ ∬ j(y−z) φ°(y) φ°(z) (u(y) − u(z))² dy dz.
+
+Expand (φ°(y)u(y) − φ°(z)u(z))² = φ°(y)φ°(z)(u(y)−u(z))² +
+(φ°(y) − φ°(z))(φ°(y)u(y)² − φ°(z)u(z)²); the second group is
+𝓔(φ°, φ°u²) = m₁‖φ°u‖². So μ₂ − μ₁ is the spectral gap of the Doob-
+transformed process (kernel j φ°φ°, reference measure π = φ°² dy), and
+
+    (a)  ⟺  gap_e(ℓ) ≥ D_ℓ := −μ₁(Q°)     (Poincaré inequality for the conditioned process).
+
+*The simplest comparison bound (computed, check I).* Var_π(u) =
+½∬φ°²(y)φ°²(z)(u(y)−u(z))² (π normalised). Discarding the atoms, which is
+legitimate since they are nonnegative jumps, gives
+
+    gap ≥ inf_{y,z} j(y−z)/(φ°(y)φ°(z)) ≥ (K(ℓ)/2) / max φ°².
+
+| c, N | required D_ℓ | comparison bound | true gap μ₂ − μ₁ | relative margin of (a) |
+|---|---|---|---|---|
+| 13, 24 | 5.8497 | 0.579 | 5.8497 (+3.5e−37) | 6.0e−38 |
+| 31, 32 | 8.7819 | 0.443 | 8.7819 (+6.5e−63) | 7.4e−64 |
+
+The comparison bound is short by factors of 10 and 20. More to the point,
+the true gap exceeds the requirement by a relative 6e−38 and 7e−64.
+**Scoped obstruction (measured, restricted class):** any Poincaré or
+comparison inequality whose ratio to the true gap is bounded away from 1
+by more than about 1e−37 (c = 13) cannot establish (a). Condition (a) is
+saturated to the eigenvalue scale, so it can only come from an identity
+that exhibits the saturating direction, not from an inequality with slack.
+
+*The saturating direction (measured, check I).* The Poincaré extremal is
+e₂, the second pole-free eigenvector. It is orthogonal to the pole vector
+to 2⟨c, e₂⟩² = 4.4e−63 (c = 13) and 4.2e−113 (c = 31). That is exactly
+what a CCM near-radical vector must satisfy. k_λ = E(h_λ) with ∫h = 0
+(Riemann's vanishing-integral condition, CCM s7 Lemma 7.1) has transform
+nearly vanishing at ±i/2, i.e. ⟨k_λ, c⟩ ≈ 0, and Q(k_λ) ≈ 0 (CCM s8
+item 2; Connes 2602.04022 s6.4). The first pole-free eigenvector carries
+the pole almost entirely: 2⟨c, e₁⟩² = 5.883 against μ₁ = −5.850, so
+Q(e₁) = +0.033 (c = 13). The Weil ground state mixes the two (overlaps
+0.52 with e₁, 0.60 with e₂).
+
+*Status (ALIGNMENT s5).*
+
+- **Attempt unresolved:** (a) was not established.
+- **Restricted class obstructed (measured, not proved):** non-sharp
+  comparison or Poincaré bounds.
+- **Paused by allocation** after the allotted hour.
+- **Reduction obtained:** (a) holds iff the near-null directions of Q°
+  orthogonal to φ° have nonnegative energy. If e₂ is a CCM near-radical
+  vector (measured orthogonality supports it; not proved), then (a) is
+  CCM's missing step 2 at the eigenvalue scale, the same place the
+  Connes program is stuck.
+
+This identification is itself a finding. C2's condition (a) and CCM's
+step 2 are the same obstacle seen from two sides (derivation plus
+measurement, not a theorem).
+
+## 7. Threads (observations, not pursued)
+
+- **Boundary mass.** At fixed N the ratio φ_N(0)²/λ_N stays within 11-24
+  for ζ over λ from 1e−8 to 1e−60 (check G). §5 shows it is the log-rate
+  of λ. A Hadamard-type domain derivative for the Weil operator, whose
+  principal part is half the logarithmic Laplacian (Suzuki (4.6)), would
+  explain why κμ₀² is N-stable while κ and μ₀ are not. The continuum
+  trace should be a log-weighted boundary quantity. Not derived here, and
+  no log-Laplacian source was read.
 - **Krein-Langer continuation.** Suzuki identifies g_ζ as a screw function
   exactly under RH. Window positivity is then the Krein-Langer continuation
   problem from an interval, whose continuous Schur-parameter description is
@@ -422,7 +592,7 @@ reformulation with no new estimate.
 - **Yoshida 1992 unread.** The primary text should be read before any
   claim that leans on the exact form of his result.
 
-## 6. Grading summary
+## 8. Grading summary
 
 - Proposition M, its Corollary, and the collar criterion: ordinary
   arguments, unreviewed. They rely on standard theorems: Beurling-Deny,
@@ -435,15 +605,23 @@ reformulation with no new estimate.
   numerically confirmed.
 - All eigenvalue data in §2.6 and §3: measured at float grade, except the
   DH signs at c = 30, 31, which are hardened (lab record).
-- C1 refuted at the lattice level (hardened inputs); continuum refutation
-  conditional as stated. C2 open, exact reformulation plus an
-  unconditional structural result. C3 refuted at norm scale (measured
-  inputs).
+- C1 refuted at every N = 64 … 256 (hardened inputs, the numerics
+  worker's brackets); continuum refutation conditional on ℓ* > log 29.
+- C2 open: an exact reformulation plus an unconditional structural result
+  (ordinary argument, unreviewed). It has faced no rival satisfying its
+  hypotheses; the Epstein control is pending.
+- C3 refuted at norm scale (measured inputs). The boundary-mass variant is
+  a reformulation (§5).
+- §6: the ground-state representation is an ordinary argument. The
+  comparison-bound shortfall and the orthogonality 2⟨c, e₂⟩² ≈ 1e−63 are
+  measured (float, dps 60 and 110, N = 24 and 32). The identification of
+  e₂ with a CCM near-radical vector is a hypothesis supported by that
+  measurement, not a theorem.
 - Originality: the Levy-Markov decomposition of the full Weil form and the
   kink formula were produced here. Novelty was searched only in the 10
   sources above plus one web search, which found no match.
 
-## 7. Reproduction
+## 9. Reproduction
 
     .venv/bin/python hunts/weil_propagation/theory/checks.py    # about 2 min, writes checks.json
 

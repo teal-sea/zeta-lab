@@ -44,3 +44,21 @@ numerical checks, candidates, RESULTS.md.
   Lambda >= 0. DH's jump measure is signed.
 
 Next: RESULTS.md.
+
+## 2026-09-23, milestone 3: supervisor review applied, Poincare attempt
+
+- Correction to milestone 1: the effective entering set at DH's 30 -> 31
+  step is empty (Lambda_f(30) = 0; the n = 31 atom has zero weight at the
+  edge), not "n = 31 with zeta's weight".
+- Summary lines now carry grades in words; Proposition M hypotheses
+  (H1)-(H3) stated; the nongeneric coincidence named; DH stated to be
+  outside C2's hypotheses (does not test it); W_a added as the Euler-product
+  rival (two poles, also outside); Epstein (1,1,6) pending with numerics.
+- Numerics worker's crossing brackets and N = 128 edge data cited from
+  their JSONs (read-only, not recomputed).
+- Section 6: Poincare attempt. Ground-state representation exact;
+  comparison bound short by 10x-20x; (a) saturated to 6e-38 / 7e-64
+  relative; extremal e2 orthogonal to the pole to 2<c,e2>^2 ~ 1e-63.
+  Status: attempt unresolved, non-sharp bounds obstructed (measured),
+  paused by allocation; (a) identified with CCM step 2 at eigenvalue scale
+  (hypothesis supported by measurement).
