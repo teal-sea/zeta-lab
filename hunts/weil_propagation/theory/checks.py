@@ -14,6 +14,10 @@ Checks (numbering follows RESULTS.md section 3):
      against the predicted jump -Lambda(q) q^{-1/2} (2/L) (sum_n u_n)^2.
   D. Perron-Frobenius structure of the pole-free zeta form, and the
      sign structure of the DH ground state, as a function of y on [0, L].
+  E. The fixed-window (dilation) formula against zeta/weil.py.
+  F. Ground-state transport across the lattice step 30 -> 31.
+  G. Relative boundary mass phi_N(0)^2 / lambda_N of the zeta ground state.
+  H. The same ratio for DH approaching its crossing.
 
 Run from the repo root:  .venv/bin/python hunts/weil_propagation/theory/checks.py
 Writes checks.json beside this file.
@@ -256,6 +260,26 @@ def check_G(cells=((3, 16), (3, 32), (6, 16), (6, 32), (10, 24), (13, 24), (13, 
     return out
 
 
+# ---------------------------------------------------------------------------
+# H. Boundary mass ratio for DH approaching the crossing, and for zeta
+# ---------------------------------------------------------------------------
+
+
+def check_H(cells=(("dh", 13, 32, 50), ("dh", 20, 60, 60), ("dh", 25, 60, 60),
+                   ("dh", 29, 60, 60), ("dh", 30, 60, 60), ("dh", 31, 60, 60),
+                   ("zeta", 25, 32, 110), ("zeta", 29, 32, 110), ("zeta", 31, 32, 110))):
+    out = []
+    for kind, c, N, dps in cells:
+        with mp.workdps(dps):
+            T, ev, vec = _ground(mp.mpf(c), N, kind=kind)
+            v = vec[0]
+            S = v[0] + mp.sqrt(2) * mp.fsum(v[1:])
+            out.append({"kind": kind, "c": c, "N": N, "lambda_1": f(ev[0], 5),
+                        "phi_N(0)^2": f(S * S / T.L, 5),
+                        "phi_N(0)^2/lambda_1": f(S * S / T.L / ev[0], 5)})
+    return out
+
+
 if __name__ == "__main__":
     res = {}
     res["A_dh_arithmetic"] = check_A()
@@ -290,4 +314,7 @@ if __name__ == "__main__":
     res["G_boundary_mass"] = check_G()
     for r in res["G_boundary_mass"]:
         print("G", r)
+    res["H_boundary_mass_dh"] = check_H()
+    for r in res["H_boundary_mass_dh"]:
+        print("H", r)
     (HERE / "checks.json").write_text(json.dumps(res, indent=1))
