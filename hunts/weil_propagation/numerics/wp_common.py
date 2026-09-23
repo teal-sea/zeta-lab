@@ -413,3 +413,106 @@ def hf_derivative(c, N: int, kind: str, v: arb_mat) -> dict:
     out["_eps_pow2"] = k
     out["_prec"] = prec
     return out
+
+
+# ---------------------------------------------------------------------------
+# sector-aware matrices from split blocks, and the Epstein (1,1,6) rival
+# ---------------------------------------------------------------------------
+
+
+def sector_matrix(bt, sector: str, S=None, archdiag=None, P=None, R=None, pole=False) -> arb_mat:
+    """Like _matrix_from, for the even or odd sector."""
+    b = copy.copy(bt)
+    z = [arb(0)] * (bt.N + 1)
+    b._S = S if S is not None else z
+    b._archdiag = archdiag if archdiag is not None else z
+    b._P = P if P is not None else z
+    b._R = R if R is not None else z
+    if not pole:
+        b.kind = "dh"
+    return arb_mat(b.even_matrix() if sector == "even" else b.odd_matrix())
+
+
+EPSTEIN_FORM = (1, 1, 6)
+EPSTEIN_CONDUCTOR = 23  # |D|; completion (sqrt 23 / 2 pi)^s Gamma(s) zeta_Q(s)
+
+
+def dedekind_m23_count(n: int) -> int:
+    """Coefficient numerator of the Dedekind zeta of Q(sqrt(-23)):
+    zeta_K = (zeta_(1,1,6) + zeta_(2,1,3) + zeta_(2,-1,3)) / w with w = 2
+    (the class-group identity zeta.epstein.epstein_class_group_defect checks),
+    and (2,-1,3) represents the same integers as (2,1,3)."""
+    from zeta.epstein import epstein_representation_count as rep
+
+    return rep(n, (1, 1, 6)) + 2 * rep(n, (2, 1, 3))
+
+
+def epstein_lambda_coeffs(nmax: int, form=EPSTEIN_FORM):
+    """(n, Lambda_Q(n)) in balls, n = 2..nmax, for f = zeta_Q / r_Q(1).
+
+    a_n = r_Q(n) / r_Q(1) from zeta.epstein.epstein_representation_count
+    (exact integers); Lambda_Q by the same log-derivative recursion as
+    galerkin.dh_lambda_coeffs: a_n log n = sum_{d | n} Lambda_Q(d) a_{n/d}.
+    """
+    from zeta.epstein import epstein_representation_count
+
+    rep = (lambda n, _f: dedekind_m23_count(n)) if form == "dedekind-23" else epstein_representation_count
+    r1 = rep(1, form)
+    a = {n: fmpq(rep(n, form), r1) for n in range(1, nmax + 1)}
+    lam = {1: arb(0)}
+    out = []
+    for n in range(2, nmax + 1):
+        s = arb(a[n]) * arb(n).log()
+        for d in range(2, n):
+            if n % d == 0:
+                s -= lam[d] * arb(a[n // d])
+        lam[n] = s
+        out.append((n, s))
+    return out
+
+
+def epstein_matrices(c, N: int, prec: int, with_pole: bool = True, form=EPSTEIN_FORM) -> dict:
+    """Truncated Weil matrix of zeta_Q, Q = x^2 + xy + 6y^2, composed from the
+    validated weil_trunc blocks.
+
+    Completion (sqrt(23)/(2 pi))^s Gamma(s) zeta_Q(s) (zeta.epstein.epstein_completed)
+    = 23^{s/2} Gamma_R(s) Gamma_R(s+1) zeta_Q(s) / 2, so the archimedean
+    density is log 23 + [Re psi(1/4 + ir/2) - log pi] + [Re psi(3/4 + ir/2) - log pi]
+    (duplication formula; checked numerically in epstein.py). In matrix terms:
+    the zeta block (a = 1/4, its pole block W02 included: zeta_Q's completion
+    has simple poles at s = 0, 1) + the DH archimedean block (a = 3/4, constant
+    -log(pi/5) + psi(3/4)) + log(23/5) I + the prime block of Lambda_Q(n), n <= c.
+    Returns {"even": arb_mat, "odd": arb_mat} from one assembly.
+    """
+    c0 = cq(c)
+    btz = EN.BallTruncation(c0, N, kind="zeta", prec=prec)
+    btd = EN.BallTruncation(c0, N, kind="dh", prec=prec)
+    shift = (arb(EPSTEIN_CONDUCTOR) / 5).log()
+    coeffs = [(arb(q).log(), lam / arb(q).sqrt(), q) for q, lam in epstein_lambda_coeffs(int(c0), form)]
+    P, R = _prime_seqs(btz, coeffs)
+    ctx.prec = prec
+    out = {}
+    for sector in ("even", "odd"):
+        M = sector_matrix(btz, sector, S=btz._S, archdiag=btz._archdiag, pole=with_pole)
+        M = M + sector_matrix(btd, sector, S=btd._S, archdiag=btd._archdiag)
+        n = M.nrows()
+        M = M + arb_mat(n, n, [shift if i == j else 0 for i in range(n) for j in range(n)])
+        out[sector] = M + sector_matrix(btz, sector, P=P, R=R)
+    return out
+
+
+def eig_near(A: arb_mat, sigma, iters: int = 8):
+    """Eigenpair of A nearest sigma: shifted inverse iteration on the midpoint;
+    returns (ball Rayleigh quotient, exact unit vector)."""
+    n = A.nrows()
+    B = A.mid() - arb_mat(n, n, [arb(sigma) if i == j else 0 for i in range(n) for j in range(n)]).mid()
+    x = _mid_unit(arb_mat(n, 1, [arb(1 + ((i * 7919) % 97) / 97.0) for i in range(n)]))
+    for _ in range(iters):
+        x = _mid_unit(B.solve(x, algorithm="approx"))
+    return rq(A, x), x
+
+
+def approx_spectrum(A: arb_mat, k: int = 3):
+    """Lowest k eigenvalues of the midpoint matrix, float grade (acb eig approx)."""
+    ev = A.mid().eig(algorithm="approx")
+    return sorted(float(e.real.mid()) for e in ev)[:k]

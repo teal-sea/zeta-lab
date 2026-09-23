@@ -1,0 +1,31 @@
+{
+ "meta": {
+  "form": [
+   1,
+   1,
+   6
+  ],
+  "dps": 20,
+  "note": "Independent route: does zeta_(1,1,6) have an off-line zero where its\nnegative Weil ground states point (t ~ 16 to 18)?"
+ },
+ "boxes": {
+  "[0.51,1.3]x[14,20]": {
+   "count": 1,
+   "elapsed_s": 241.7
+  }
+ },
+ "roots": [
+  {
+   "seed": [
+    0.7,
+    16.5
+   ],
+   "root": [
+    "0.953260474794661",
+    "16.2902157203904"
+   ],
+   "abs_value": "1.43e-32",
+   "elapsed_s": 16.3
+  }
+ ]
+}
