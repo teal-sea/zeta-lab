@@ -105,3 +105,12 @@ Next: RESULTS.md.
   cleanly. The case-log test now passes on this branch.
 - test_hunt_probe_discipline, test_docs_numbering, test_doors: 18 passed;
   make_context --check clean.
+
+## 2026-09-23, milestone 7: placeholders filled from numerics 3b76739
+
+- epstein_polefree.json read via git show: even sector breaks (a)
+  (pole-free inertia (64,1) at c = 29 -> (63,2) at 29.5); odd sector breaks
+  the odd pole capacity (pole-free odd (64,0) through c = 30, full odd
+  negative from 27.74). Refined crossings from epstein_crossing.json
+  (N = 128): odd (27.7412, 27.7417], even (29.3037, 29.3042].
+- Both PENDING placeholders replaced; grading and line 5 updated.

@@ -2,9 +2,9 @@
 
 1. **Strongest candidate was C2 (Levy-Markov + pole); as a positivity/propagation mechanism it is now refuted (line 3), and no candidate survives. What stands is its structural part, Proposition M. Grade: ordinary argument, unreviewed (checked by nobody outside this session).** With the pole term removed, the zeta Weil form on any window is exactly a jump Dirichlet form minus a constant C_ℓ. The jumps are the digamma Levy density ½K(|u|), K(x) = 2e^{−x/2}/(1 − e^{−2x}), plus jumps ±log n at rate Λ(n)/√n, killed outside the window; C_ℓ = log π − ψ(1/4) + Σ_{log n<ℓ} 2Λ(n)/√n up to terms that vanish as ℓ grows (exact form in §2.6). Λ ≥ 0 (Markov), together with the irreducibility hypothesis (K continuous and strictly positive on (0, ℓ]), makes the pole-free operator's ground state simple and a.e. positive on every window.
 2. **What it would give.** Simplicity transfers to the even sector of the full form with the pole by rank-one interlacing. This needs neither condition (a) nor positivity. The bottom is min(r₁, μ_k) over pole-free even eigenvalues μ_k with an eigenvector orthogonal to the pole vector c = cosh((x−x₀)/2), where r₁ is the smallest secular root. Simplicity fails only on a tie r₁ = μ_k, or a degenerate such μ_k below r₁. **Grade: derivation, not measured.** Evenness (even bottom below odd bottom) is not obtained. Positivity reduces exactly to (a), at most one even Dirichlet eigenvalue below C_ℓ, plus (b), a scalar pole-capacity inequality (derivation). **As a propagation lemma, (a)+(b) is a reformulation of RH (even sector), not progress** in the mission's sense. The output is the unconditional Proposition M. **Measured** at (c, N) = (13, 24) and (31, 32): (b) is 1.1e6 and 1.6e6 times tighter than (a), and (a)'s own margin is 3.5e−37 and 6.5e−63. The Poincaré attempt on (a) (§6) is unresolved.
-3. **What refutes it: Epstein (1,1,6), a rival that satisfies C2's hypotheses, refutes C2 as a positivity/propagation mechanism (hardened, via numerics).** On every window where it matters, Epstein has one pole, a positive Levy density (Γ(s) = sum of the a = 1/4 and 3/4 kernels), and Λ_Q(n) ≥ 0 for all n ≤ 47. That last fact is re-checked here in exact arithmetic (check J): for n ≤ 29 every nonzero Λ_Q(n) is enclosed strictly positive, and the first negative is n = 48. Its Weil form is nevertheless negative from c = 28 (odd sector) and c = 29.5 (even sector), at N = 64 and N = 128, on every half-integer window up to 48 (hardened ball LDLᵀ inertia; numerics commit 3a799d8, `epstein_N64.json`, `epstein_N128.json`, confirmed here). The Dedekind zeta of Q(√−23) is positive on all 93 windows with the same blocks (control). The argument principle finds an off-line zero at 0.953260 + 16.290216i (measured, dps 20), where the negative even ground state peaks (frequency 16.71). **The odd sector goes negative first (28 < 29.5): concrete evidence that "even bottom below odd bottom" fails for a Markov + one-pole form.** Proposition M (pole-free simplicity, and even-sector simplicity of the full form by interlacing) is a separate claim, not refuted by negativity, and stays graded as a derivation. **[PENDING, numerics `epstein_polefree.py`: which of (a) μ₂(Q°_e) ≥ 0 or (b) the pole capacity fails for Epstein at c = 29.5 (even), and which odd-sector condition (Q°_o ≥ 0, or 1 − 2⟨s, (A°_o)^{−1} s⟩ ≥ 0) fails at c = 28. Not guessed here.]** DH and W_a remain outside C2's hypotheses (signed jumps and no pole; two poles). Separately: C1 (propagation through entering atoms) is refuted at every band N = 64 … 256. DH's sign flips at hardened brackets c*(N) ∈ [30.617, 30.818], inside the step (29, 31), where no atom with nonzero weight enters (numerics `crossing.json`; Λ_f(30) = 0 here). For the continuum form this holds provided the continuum crossing lies above c = 29: the N-ladder indicates about 30.61 (measured) but does not establish it. C3 (norm-level ground-state transport) is refuted by DH (measured).
+3. **What refutes it: Epstein (1,1,6), a rival that satisfies C2's hypotheses, refutes C2 as a positivity/propagation mechanism (hardened, via numerics).** On every window where it matters, Epstein has one pole, a positive Levy density (Γ(s) = sum of the a = 1/4 and 3/4 kernels), and Λ_Q(n) ≥ 0 for all n ≤ 47. That last fact is re-checked here in exact arithmetic (check J): for n ≤ 29 every nonzero Λ_Q(n) is enclosed strictly positive, and the first negative is n = 48. Its Weil form is nevertheless negative from c = 28 (odd sector) and c = 29.5 (even sector), at N = 64 and N = 128, on every half-integer window up to 48 (hardened ball LDLᵀ inertia; numerics commit 3a799d8, `epstein_N64.json`, `epstein_N128.json`, confirmed here). The Dedekind zeta of Q(√−23) is positive on all 93 windows with the same blocks (control). The argument principle finds an off-line zero at 0.953260 + 16.290216i (measured, dps 20), where the negative even ground state peaks (frequency 16.71). **The odd sector goes negative first (28 < 29.5): concrete evidence that "even bottom below odd bottom" fails for a Markov + one-pole form.** Proposition M (pole-free simplicity, and even-sector simplicity of the full form by interlacing) is a separate claim, not refuted by negativity, and stays graded as a derivation. **Which condition breaks (numerics commit 3b76739, `epstein_polefree.json`, N = 64; inertias hardened, eigenvalues float-grade): even sector, condition (a).** The pole-free even form goes from one negative eigenvalue at c = 29 (μ₂ = +0.0415) to two at c = 29.5 (μ₂ = −0.0142), while the full even form turns negative in (29.3037, 29.3042] at N = 128. The single pole pays for one negative Markov direction, and Epstein develops a second. (b) is not evaluated in their JSON. **Odd sector: the odd pole capacity.** The pole-free odd form stays positive through c = 30 (μ₁ ≈ +0.065) while the full odd form is negative from (27.7412, 27.7417] at N = 128. So the first failure, the odd one, is the negative odd pole term, not the Markov part. DH and W_a remain outside C2's hypotheses (signed jumps and no pole; two poles). Separately: C1 (propagation through entering atoms) is refuted at every band N = 64 … 256. DH's sign flips at hardened brackets c*(N) ∈ [30.617, 30.818], inside the step (29, 31), where no atom with nonzero weight enters (numerics `crossing.json`; Λ_f(30) = 0 here). For the continuum form this holds provided the continuum crossing lies above c = 29: the N-ladder indicates about 30.61 (measured) but does not establish it. C3 (norm-level ground-state transport) is refuted by DH (measured).
 4. **New or known:** the Markov reading of the full Weil form, primes included, and the prime-entry kink formula are original to this session. They were not in the 10 sources read, and one web search found nothing. Suzuki (arXiv:2606.09096 s5) uses a Dirichlet form for the archimedean part only, and only for small windows. The fixed-window dilation formula is Suzuki's s4.2. Novelty is not established: the search was shallow.
-5. **Next step.** No propagation mechanism survives in the searched set. **Refuted:** C1, C3, and C2 as a mechanism. **Obstructed:** comparison-type Poincaré bounds (measured, §6). **Named (exact, §7.1):** the step that Epstein (1,1,6) and W_a fail and Dedekind ζ_{Q(√−23)} passes is the semilocal unitary decomposition (U-S). Its two parts are atoms only at prime powers (Epstein fails at n = 6) and unitary local roots, |s_k(p)| ≤ degree (Epstein fails at n = 8, W_a at n = 2). The candidate that uses it, C4 (§7), is the Connes-Consani semilocal Sonin program restricted to windows. It is not original, and the bounded attempt is unresolved and paused. No rival satisfying its hypotheses exists, so it can only be tested by building its first instance, S = {∞, 2} on windows c ∈ [2, 3). There the conclusion is already known (Zhu), and what must be built is the semilocal trace remainder. A side result: local-factor flattening in the collar is vacuous (ordinary argument). Pending from numerics: which of (a)/(b) fails for Epstein, and μ₂ tracking for ζ.
+5. **Next step.** No propagation mechanism survives in the searched set. **Refuted:** C1, C3, and C2 as a mechanism. **Obstructed:** comparison-type Poincaré bounds (measured, §6). **Named (exact, §7.1):** the step that Epstein (1,1,6) and W_a fail and Dedekind ζ_{Q(√−23)} passes is the semilocal unitary decomposition (U-S). Its two parts are atoms only at prime powers (Epstein fails at n = 6) and unitary local roots, |s_k(p)| ≤ degree (Epstein fails at n = 8, W_a at n = 2). The candidate that uses it, C4 (§7), is the Connes-Consani semilocal Sonin program restricted to windows. It is not original, and the bounded attempt is unresolved and paused. No rival satisfying its hypotheses exists, so it can only be tested by building its first instance, S = {∞, 2} on windows c ∈ [2, 3). There the conclusion is already known (Zhu), and what must be built is the semilocal trace remainder. A side result: local-factor flattening in the collar is vacuous (ordinary argument). From numerics (commit 3b76739): Epstein breaks (a) in the even sector and the odd pole capacity in the odd sector (§4 C2). Their ζ μ₂-tracking run (their RESULTS s9.4) is committed and not yet incorporated here.
 
 Study of 2026-09-23, branch `teal-sea/weil-propagation-theory`. Nothing
 here is a claim about RH. Grades follow the `AGENTS.md` ladder: *measured*,
@@ -427,7 +427,39 @@ itself. The refutation touches neither Proposition M (a statement about
 simplicity, not sign) nor the reduction (a)+(b), which is an equivalence
 and so fails exactly when positivity does.
 
-**[PENDING, numerics `epstein_polefree.py`: which of (a) μ₂(Q°_e) ≥ 0 or (b) the pole capacity fails for Epstein at c = 29.5 (even), and which odd-sector condition (Q°_o ≥ 0, or 1 − 2⟨s, (A°_o)^{−1} s⟩ ≥ 0) fails at c = 28. Not guessed here.]**
+**Which condition breaks (numerics commit 3b76739; their
+`epstein_polefree.json` at N = 64, ball LDLᵀ inertia conclusive at every
+cell, so hardened; the eigenvalues quoted are float-grade approximations;
+refined crossings from their `epstein_crossing.json`, hardened negative by
+two routes).**
+
+| c | even, full | even, pole-free | odd, full | odd, pole-free |
+|---|---|---|---|---|
+| 27 | (65, 0) | (64, 1): μ₁ = −7.22, μ₂ = +0.497 | (64, 0) | (64, 0) |
+| 28 | (65, 0) | (64, 1) | (63, 1) | (64, 0): μ₁ = +0.0647 |
+| 29 | (65, 0) | (64, 1): μ₂ = +0.0415 | (63, 1) | (64, 0) |
+| 29.5 | (64, 1) | **(63, 2)**: μ₂ = −0.0142 | (63, 1) | (64, 0) |
+| 30 | (64, 1) | (63, 2) | (63, 1) | (64, 0) |
+| 34, 40, 48 | (64, 1) | (63, 2) | (63, 1) | (63, 1) |
+
+- **Even sector: condition (a) fails.** The killed Epstein jump process
+  acquires a second even eigenvalue below C_ℓ between c = 29 and 29.5,
+  the same half-unit step in which the full even form turns negative
+  (refined: (29.3037, 29.3042] at N = 128). The single pole pays for one
+  negative Markov direction; Epstein develops a second. Condition (b) is
+  not evaluated in their JSON.
+- **Odd sector: the odd pole capacity fails, not Q°_o ≥ 0.** The
+  pole-free odd form is positive at every window through c = 30 and
+  negative only by c = 34. The full odd form is negative from
+  (27.7412, 27.7417] at N = 128. So Epstein's first failure, the odd one,
+  is the negative odd pole term −2⟨f, s⟩² (the condition
+  1 − 2⟨s, (A°_o)^{−1} s⟩ ≥ 0); the Markov part is not what breaks first.
+  The failure of "even bottom below odd bottom" recorded above is
+  therefore caused by the pole.
+
+The attribution to (a) and to the odd pole capacity uses the equivalences
+of §2.6 (derivation). The inertias are hardened. The numerics worker's own
+reading (their RESULTS s9.3) agrees.
 
 Any C2-based argument must therefore use more of the Euler product. Candidates: prime-power support, and the local-factor
 identity (Σ_k p^{−|k|/2} δ_{k log p}) ∗ Φ_p = (1 − 1/p) δ₀ with
@@ -775,7 +807,9 @@ only be tested by building its first instance, not by a rival.
   a rival satisfying its hypotheses. Hardened negativity by numerics
   (3a799d8); Λ_Q ≥ 0 exact here (check J). Proposition M (simplicity) is
   a separate derivation, unreviewed, and is not affected. Which of (a)/(b)
-  fails for Epstein is pending.
+  fails for Epstein: (a) in the even sector and the odd pole capacity in
+  the odd sector (hardened inertia, numerics 3b76739; attribution by
+  derivation).
 - C3 refuted at norm scale (measured inputs). The boundary-mass variant is
   a reformulation (§5).
 - C4 (§7): the separating step (U-S) is checked exactly (check K). The
