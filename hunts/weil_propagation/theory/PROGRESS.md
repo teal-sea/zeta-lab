@@ -95,3 +95,13 @@ Next: RESULTS.md.
   instance S = {inf, 2}, c in [2, 3). Status: unresolved, paused.
 - Epstein (a)/(b) placeholder NOT filled: numerics has not committed
   epstein_polefree yet (branch head still 3a799d8).
+
+## 2026-09-23, milestone 6: reproducibility and case log
+
+- checks.py takes check letters (`checks.py J K`); J and K regenerate
+  checks.json content identically in about 1 s. RESULTS s10 updated.
+- hunts/README.md: applied numerics' case-log change (402c1cd + e46cf90)
+  byte for byte, so both branches carry the identical hunk and merge
+  cleanly. The case-log test now passes on this branch.
+- test_hunt_probe_discipline, test_docs_numbering, test_doors: 18 passed;
+  make_context --check clean.

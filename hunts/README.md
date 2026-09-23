@@ -70,6 +70,18 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Weil positivity propagation across window size (`weil_propagation/`, 2026-09-23)
+
+**Status: open.** Asks whether positivity of the truncated Weil form on a
+window of length `L = log c`, together with the Euler product, can be carried
+to `L + delta`. Every candidate transport is tested against
+Davenport-Heilbronn, whose form turns negative at `c = 31`
+(`rogue_frontier/weil_trunc/` s8), and a candidate that also holds for DH is
+refuted. Two workers: measurement of ground-state transport between windows
+in `weil_propagation/numerics/` and literature plus candidate lemmas in
+`weil_propagation/theory/` (branch `teal-sea/weil-propagation-theory`).
+No RH claim.
+
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
 **Status: candidate ordinary argument with enclosure-carrying numerical steps;

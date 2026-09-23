@@ -477,48 +477,53 @@ def check_K(nmax=60):
     return out
 
 
-if __name__ == "__main__":
-    res = {}
-    res["A_dh_arithmetic"] = check_A()
-    print("A", res["A_dh_arithmetic"])
-    res["B_edge_atom"] = check_B()
-    print("B", res["B_edge_atom"])
-    res["C_kink"] = []
+def _run_C():
+    out = []
     for q, p in ((3, 3), (4, 2), (5, 5), (7, 7)):
         with mp.workdps(45):
             Lam = mp.log(p)
-        r = check_C(q, Lam)
-        print("C", r)
-        res["C_kink"].append(r)
-    cells = [
-        ("zeta", 13, 24, False, 60),
-        ("zeta", 13, 24, True, 60),
-        ("zeta", 31, 32, False, 110),
-        ("zeta", 31, 32, True, 110),
-        ("dh", 13, 24, True, 40),
-        ("dh", 30, 60, True, 60),
-        ("dh", 31, 60, True, 60),
-    ]
-    res["D_perron_frobenius"] = check_D(cells)
-    for r in res["D_perron_frobenius"]:
-        print("D", r)
-    res["E_dilation_vs_weil_py"] = check_E()
-    for r in res["E_dilation_vs_weil_py"]:
-        print("E", r)
-    res["F_transport_30_31"] = check_F()
-    for r in res["F_transport_30_31"]:
-        print("F", r)
-    res["G_boundary_mass"] = check_G()
-    for r in res["G_boundary_mass"]:
-        print("G", r)
-    res["H_boundary_mass_dh"] = check_H()
-    for r in res["H_boundary_mass_dh"]:
-        print("H", r)
-    res["I_poincare"] = check_I()
-    for r in res["I_poincare"]:
-        print("I", r)
-    res["J_epstein_lambda_sign"] = check_J()
-    print("J", res["J_epstein_lambda_sign"])
-    res["K_separating_step"] = check_K()
-    print("K", res["K_separating_step"])
-    (HERE / "checks.json").write_text(json.dumps(res, indent=1))
+        out.append(check_C(q, Lam))
+    return out
+
+
+_D_CELLS = [
+    ("zeta", 13, 24, False, 60),
+    ("zeta", 13, 24, True, 60),
+    ("zeta", 31, 32, False, 110),
+    ("zeta", 31, 32, True, 110),
+    ("dh", 13, 24, True, 40),
+    ("dh", 30, 60, True, 60),
+    ("dh", 31, 60, True, 60),
+]
+
+#: letter -> (checks.json key, runner)
+CHECKS = {
+    "A": ("A_dh_arithmetic", check_A),
+    "B": ("B_edge_atom", check_B),
+    "C": ("C_kink", _run_C),
+    "D": ("D_perron_frobenius", lambda: check_D(_D_CELLS)),
+    "E": ("E_dilation_vs_weil_py", check_E),
+    "F": ("F_transport_30_31", check_F),
+    "G": ("G_boundary_mass", check_G),
+    "H": ("H_boundary_mass_dh", check_H),
+    "I": ("I_poincare", check_I),
+    "J": ("J_epstein_lambda_sign", check_J),
+    "K": ("K_separating_step", check_K),
+}
+
+
+if __name__ == "__main__":
+    # `checks.py` runs everything (about 3 min); `checks.py J K` runs only the
+    # named checks (J and K take seconds) and merges them into checks.json.
+    wanted = [a.upper() for a in sys.argv[1:]] or list(CHECKS)
+    unknown = [w for w in wanted if w not in CHECKS]
+    if unknown:
+        raise SystemExit(f"unknown check(s) {unknown}; choose from {''.join(CHECKS)}")
+    path = HERE / "checks.json"
+    res = json.loads(path.read_text()) if (sys.argv[1:] and path.exists()) else {}
+    for letter in wanted:
+        key, run = CHECKS[letter]
+        res[key] = run()
+        print(letter, res[key])
+    path.write_text(json.dumps({k: res[k] for k, _ in sorted(
+        ((v[0], None) for v in CHECKS.values())) if k in res}, indent=1))

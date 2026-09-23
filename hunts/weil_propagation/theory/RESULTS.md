@@ -794,9 +794,17 @@ only be tested by building its first instance, not by a rival.
 
 ## 10. Reproduction
 
-    .venv/bin/python hunts/weil_propagation/theory/checks.py    # about 2 min, writes checks.json
+    .venv/bin/python hunts/weil_propagation/theory/checks.py        # all checks A-K, about 3 min, writes checks.json
+    .venv/bin/python hunts/weil_propagation/theory/checks.py J K    # only the named checks, merged into checks.json
 
-Epstein coefficient signs: a 10-line loop over
-`zeta.epstein.epstein_representation_count(n, (1,1,6))` with the
-log-derivative recursion of `galerkin.dh_lambda_coeffs`; not saved as a
-script.
+- **Check J:** the Epstein (1,1,6) Λ_Q signs.
+  `check_J` computes each Λ_Q(n) exactly as a rational combination of
+  log p, from `zeta.epstein.epstein_representation_count`, and encloses the
+  sign with `mpmath.iv`.
+- **Check K:** the separating step (U-S) for Dedekind ζ_{Q(√−23)} and
+  Epstein, in exact arithmetic.
+- **Runtime and dependencies:** both run in about one second and use no
+  Galerkin assembly.
+- **External inputs:** the numerics worker's numbers quoted in §§3-5 and
+  §7 are read from their branch `teal-sea/weil-propagation` (commits
+  75865a7 and 3a799d8), not recomputed here.
