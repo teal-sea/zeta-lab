@@ -29,6 +29,7 @@ Unit costs from 2-5 cell smoke runs in the scratchpad (DH N=128 c in
 | Task A `epstein_offline.py` lower boxes [0.51,1.3]x[0.5,7] and x[7,14] (two runs) | as above, perimeter ~15 each | 2 boxes | ~4 min each | 159 s, 273 s |
 | Task A `epstein_crossing.py` | as estimated above | 4 (N, sector) | ~5 min | ~4 min |
 | Task B `zeta_pole_fixup.py 128` (ball LDL at 3200 bits where 1600 was inconclusive) | one build at 3200 bits + two LDL, ~8-10 s per cell | 55 cells | ~8 min, two resumable passes | one pass, under the 580 s guard |
+| Task A `epstein_mu2_cross.py` (bisect the pole-free even second eigenvalue's zero on [29, 29.5]) | one Epstein assembly + ball LDL per step, 0.5 s (N=64) to ~3 s (N=128) | 2 x 10 steps | ~1 min | < 1 min |
 
 Both handoff tasks sit under the 10-minute, few-GB local limit, so no CI
 proposal is needed for them.

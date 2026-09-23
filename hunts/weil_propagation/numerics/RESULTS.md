@@ -2,7 +2,7 @@
 2. **Found:** DH's continuum Weil form is negative on every window c ≥ 30.617188 (hardened cell (30.617188, N = 256) plus nesting), strictly between the coefficients n = 30 and 31, so positivity is lost with no new arithmetic term entering; c*(N) = 30.818, 30.696, 30.647, 30.629, 30.617 for N = 64..256, extrapolating to ≈ 30.61.
 3. **Grade:** crossing brackets, zeta controls and all 196 grid eigenvalues are hardened (ball Rayleigh quotients, ball LDLᵀ, Temple); the continuum consequences add a two-line nesting argument (ordinary, unreviewed); transports, decompositions, the edge law and the zero-side split are measured.
 4. **What refutes it:** of my seven candidates (s4), five hold for DH across 30 → 31, one is false for DH, one fails at finite N, so none is a mechanism; and the theory worker's C2 ("Markov + one pole") is refuted by Epstein (1,1,6), whose form is negative on every window c ≥ 27.7417 although Λ_Q ≥ 0 below 48, with its off-line zero 0.953 + 16.290i located independently and the Dedekind control positive (s9, hardened).
-5. **Next step:** whatever keeps zeta positive is more than Λ ≥ 0 plus a pole: Epstein breaks C2's condition (a) at c ≈ 29.3 while zeta holds it with μ₂/λ₂ ≈ 0.64 on c ∈ [5, 60] (s9.4); theory should find what in the Euler product pins that ratio, or bounds the ground state's boundary trace (band-N proxy μ₀) by its margin; one numerics job is worth funding (boundary-adapted basis, s7).
+5. **Next step:** whatever keeps zeta positive is more than Λ ≥ 0 plus a pole: Epstein's even pole capacity fails at c = 29.304 and C2's condition (a) at 29.318, while zeta holds (a) with μ₂/λ₂ ≈ 0.64 on c ∈ [5, 60] (s9.4), and the Epstein/Dedekind pair points at prime-power support (s9.3); theory should find what in the Euler product pins that ratio, or bounds the ground state's boundary trace (band-N proxy μ₀) by its margin; one numerics job is worth funding (boundary-adapted basis, s7).
 
 # RESULTS: ground-state transport across window size (numerics worker)
 
@@ -432,10 +432,15 @@ matrices, conclusive at every cell:
 | 30 | (64, 1) | (63, 2) | (63, 1) | (64, 0) |
 | 34, 40, 48 | (64, 1) | (63, 2) | (63, 1) | (63, 1) |
 
-- **Even sector: condition (a) fails.** The killed Epstein jump process
-  acquires a second even eigenvalue below C_ℓ at c ≈ 29.3, which is exactly
-  where the full even form goes negative (interlacing μ₁ ≤ λ₁ ≤ μ₂ holds at
-  every cell). Markov structure plus one pole does not stop it.
+- **Even sector: the pole capacity (b) fails first, then (a).** The full
+  even form turns negative at c = 29.3042 (N = 128; 29.3413 at N = 64),
+  while the killed Epstein jump process acquires its second even
+  eigenvalue below C_ℓ (μ₂ < 0) only at c = 29.3179 (N = 128; 29.3555 at
+  N = 64), bisected on the pole-free inertia to 2^-10
+  (`epstein_mu2_cross.py`, `epstein_mu2_cross.json`). So on
+  (29.304, 29.318] condition (a) still holds and the even pole capacity is
+  what breaks; from 29.318 on, (a) fails too. Interlacing μ₁ ≤ λ₁ ≤ μ₂
+  holds at every cell. Markov structure plus one pole stops neither.
 - **Odd sector: the odd pole capacity fails first.** The pole-free odd form
   stays positive until c ≈ 34 while the full odd form is negative from
   27.74, so the odd crossing is the negative odd pole term; C2's Markov
@@ -448,6 +453,19 @@ goes negative at c = 27.74 (odd) and 29.30 (even). Proposition M's
 unconditional structural consequences are not touched by this; only the
 use of "Markov + one pole" to carry positivity forward is. Any C2-based
 argument must use more of the Euler product than Λ ≥ 0 on the window.
+
+**What the Epstein/Dedekind pair isolates.** The two runs share the
+completion, the pole, the Γ(s) Lévy density and Λ ≥ 0 on every window
+below 48; they differ only in the prime block. Dedekind's atoms sit on
+prime powers alone (Λ_K(p^k) = log p (1 + χ₋₂₃(p)^k)), as an Euler product
+forces. Epstein's vanish at 2, 3, 5, 7, 11 but sit on composites and on
+higher powers of those primes (Λ_Q(4) = 1.386, Λ_Q(6) = 3.584,
+Λ_Q(8) = 4.159, Λ_Q(9) = 2.197, Λ_Q(12) = 4.970). One form is positive on
+every window, the other negative from 27.74. That is the prime-power-support
+condition the theory worker named as the next thing C2 would need
+(its s4, C2 "DH test"), now measured as the difference between a positive
+and a negative case. It is one matched pair, so it shows the condition
+matters here; it does not show that it suffices.
 
 ### 9.4 Task B: zeta's pole-free μ₂ against λ₁, λ₂ (`zeta_pole.py`)
 
@@ -487,9 +505,9 @@ lowest approximate eigenvalue).
   shape Proposition M plus positivity require. 1600 bits sufficed for
   c ≲ 30 at N = 128; the other cells were redone at 3200 bits
   (`zeta_pole_fixup.py`), all conclusive.
-- Set against 9.3: Epstein breaks exactly the condition that zeta satisfies
-  with room here. Its μ₂ crosses zero at c ≈ 29.3 while zeta's μ₂ stays at
-  0.64 λ₂ > 0. Whatever keeps zeta's μ₂ positive is not "Λ ≥ 0 on the
+- Set against 9.3: Epstein breaks the condition that zeta satisfies with
+  room here. Its μ₂ crosses zero at c = 29.318 (N = 128) while zeta's μ₂
+  stays at 0.64 λ₂ > 0. Whatever keeps zeta's μ₂ positive is not "Λ ≥ 0 on the
   window plus one pole", since Epstein has both.
 
 Grade for 9.4: measured (ball upper bounds for all four eigenvalues,
@@ -505,6 +523,20 @@ ball LDLᵀ is conclusive.
   Λ_Q(144), the most negative value for n ≤ 200. The first-failure index
   48 is right; the quoted value belongs to another n. Issue candidate
   (outside this hunt's write scope).
+- `zeta_pole_N64_firstrun_mu1defect.json` is the first Task B run at
+  N = 64, kept as the record of a defect: μ₁ came from inverse iteration at
+  a fixed shift −20, which converges slowly (ratio ≈ 0.7) and at small c
+  landed on the wrong eigenvalue (μ₁ > 0 at c = 2 while the ball LDLᵀ said
+  exactly one negative eigenvalue). Caught by the interlacing check (7
+  cells failed). The rerun uses the lowest approximate eigenvalue as the
+  shift; λ₁, λ₂, μ₂ and every inertia in the first run were unaffected.
+- The Dedekind control's floor sits far above zeta's: at (c, N) = (46, 64)
+  its even λ_min is 1.4e-7 against zeta's 1.4e-118 (same N). Dedekind has
+  everything C2 asks for plus a genuine Euler product, so the depth of
+  zeta's floor is not explained by C2's ingredients either. A plausible
+  reading (not tested): L(s, χ₋₂₃)'s own pole-free component sets the
+  Dedekind floor, as DH's did at 1e-10 near c = 13, which would say the
+  pole does the heavy lifting in zeta's depth. A thread for theory.
 - Where ζ_Q's first off-line zero sits relative to all on-line zeros, and
   whether the even and odd crossings are both carried by ρ₁ through the
   dictionary (as DH's was by its first pair), is the natural next check.
@@ -513,6 +545,6 @@ ball LDLᵀ is conclusive.
 Reproduction (from this directory, each under 10 minutes):
 
     $P epstein_scan.py 64; $P epstein_scan.py 128; $P epstein_scan.py 64 dedekind
-    $P epstein_crossing.py; $P epstein_polefree.py
+    $P epstein_crossing.py; $P epstein_polefree.py; $P epstein_mu2_cross.py
     $P epstein_offline.py; $P epstein_offline.py 0.51,1.3,7,14; $P epstein_offline.py 0.51,1.3,0.5,7
-    $P zeta_pole.py 64; $P zeta_pole.py 128
+    $P zeta_pole.py 64; $P zeta_pole.py 128; $P zeta_pole_fixup.py 128
