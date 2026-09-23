@@ -771,8 +771,8 @@ RH.
 Added here: the rival accounting above, and §7.3.
 
 *Rival test: exhausted, not passed.* DH, Epstein and W_a all fail (U-S)
-(DH and Epstein confirmed exactly to n ≤ 200 for Epstein, numerics
-8449c29), so **none of them tests C4. C4 is not yet DH- or
+(Epstein's failure confirmed exactly to n ≤ 200 by numerics 8449c29;
+DH and W_a as in the §7.1 table), so **none of them tests C4. C4 is not yet DH- or
 battery-tested.** Any object that satisfies (U-S) together
 with a functional equation and one pole lies in the tempered,
 Selberg-class-like family, where RH is conjectured. So no rival that
