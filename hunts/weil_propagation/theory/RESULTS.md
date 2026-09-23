@@ -707,6 +707,24 @@ Grade: exact arithmetic, check K. Rational coefficients in the log-prime
 basis for Dedekind and Epstein, n ≤ 60. W_a is closed form from
 Λ_W(n) = Λ(n)(n^a + n^{−a}), `zeta/epstein.py`.
 
+**Independent check (numerics commit 8449c29, their RESULTS s10,
+`us_check.py`, `us_check.json`; confirmed here).** A separate exact
+implementation (rational coefficients in the log-prime basis) over
+n ≤ 200:
+
+- **Dedekind Q(√−23):** no composite atoms and no tower violation. Both
+  parts of (U-S) pass.
+- **Epstein (1,1,6):** 31 composite atoms, the first at n = 6. Its tower
+  violations |s_k(p)| > 2 occur exactly at n = 8 (s₃(2) = 6) and
+  n = 27 (s₃(3) = 6).
+- It agrees with check K entry for entry on n ≤ 60.
+
+**Grade of the (U-S) coefficient statements: hardened for n ≤ 200 only**
+(two independent exact implementations). Beyond n = 200 nothing is
+claimed, and the windows used here need only n < 48. This grade covers
+the coefficient check. It does **not** cover the C4 implication below,
+which stays at its own rung.
+
 *Where the step is used.* Connes' semilocal trace formula
 (arXiv:math/9811068, s VII Thm 4, stated for any global field) writes
 Σ_{v∈S} W_v as the geometric side of the trace of the scaling action of
@@ -752,8 +770,10 @@ RH.
 *Not original.* This is the Connes-Consani program restricted to windows.
 Added here: the rival accounting above, and §7.3.
 
-*Rival test: exhausted, not passed.* DH, Epstein and W_a all fail (U-S),
-so **none of them tests C4**. Any object that satisfies (U-S) together
+*Rival test: exhausted, not passed.* DH, Epstein and W_a all fail (U-S)
+(DH and Epstein confirmed exactly to n ≤ 200 for Epstein, numerics
+8449c29), so **none of them tests C4. C4 is not yet DH- or
+battery-tested.** Any object that satisfies (U-S) together
 with a functional equation and one pole lies in the tempered,
 Selberg-class-like family, where RH is conjectured. So no rival that
 satisfies C4's hypotheses exists in this tree, and none is known. C4 can
@@ -960,7 +980,13 @@ support for a near-radical reading.
   derivation).
 - C3 refuted at norm scale (measured inputs). The boundary-mass variant is
   a reformulation (§5).
-- C4 (§7): the separating step (U-S) is checked exactly (check K). The
+- C4 (§7): the separating step (U-S) is hardened for n ≤ 200 only: two
+  independent exact implementations, check K here (n ≤ 60) and numerics'
+  `us_check.py` (8449c29, n ≤ 200), agreeing on the overlap. The C4
+  implication is not raised by this. It remains an unresolved attempt,
+  not DH- or battery-tested, because no available rival satisfies (U-S).
+- C4, other parts: the separating step's role (§7.1) is ordinary
+  argument. The
   collar-flattening negative and the finite-place factorization are
   ordinary arguments, unreviewed. The candidate is the Connes-Consani
   program, not original. Attempt unresolved, paused by allocation. No

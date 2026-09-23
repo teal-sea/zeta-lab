@@ -127,3 +127,11 @@ Next: RESULTS.md.
   mu2/lambda2 = 1 - <phi1,e2>^2 (measured to 6 digits); even edge
   amplitude fixed by the odd floor via the CCM/CvS commutator identity
   (bound saturated). No (U-S) mechanism found; attempt unresolved.
+
+## 2026-09-23, milestone 9: independent (U-S) check cited
+
+- numerics 8449c29 us_check.json (n <= 200, exact) confirmed via git show:
+  Dedekind passes both parts; Epstein 31 composite atoms (first n = 6),
+  tower violations exactly at n = 8 and 27. Agrees with check K on n <= 60.
+  (U-S) coefficient statements graded hardened for n <= 200 only; C4
+  implication unchanged, not DH/battery-tested.
