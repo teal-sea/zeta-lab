@@ -1,8 +1,43 @@
-1. **Built and evaluated: T_S for ζ on all nine mission cells, on the module form (Π_S = orthogonal projection onto Θ·range S_∞, CCM arXiv:2310.18423 Thm 4.6), as T_S = T_∞ (kernel/) + ΔT (this folder). No eigenvalue of T_S is below −0.02 on any cell. The smallest are 1.6e−3 to 3.5e−3, inside ΔT's error band of about 6e−3, so positive semidefiniteness holds at that resolution only (measured, float64).** Also built: the exact place-2 analysis, the refusal gate (W_a and the Epstein (1,1,6) tower refused, exact), and P_2 through E_S in closed form on the shared basis.
-2. **Main measurement: ΔT cancels the 2-adic atom up to a residual whose large eigenvalues do not grow with N. ΔT + Wp has 1, 2, 3 ± pairs beyond 0.1 at c = 2.2, 2.5, 2.9, identical at N = 8, 16 and 32 on the converged truncations, leading values stable to 1e−2 (c = 2.9: +0.48, −0.46, +0.38, −0.31, +0.17, −0.16); the next pairs are near 0.08.** With T_∞ alone the residual is Wp itself, whose multiplicity near ±0.49 grows with N (cutoff/). Grade: measured (ζ̂ hardened, two routes to 9e−14); not a proof of bounded rank. Exact companion: −Wp = log 2 (Gram(θ_S) − 3/2 I) on 2 < c < 4 (hardened against `galerkin.py`, 4.5e−40).
-3. **Structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt (HS² = K/2 + 1.07079 over Euler levels j ≤ K, against 2.23748 archimedean; ordinary argument plus measured partial sums).** Hence ΔT needs Sonin data across the Mellin band: at N = 32, 200 prolate modes were needed; 130 left spurious residual pairs.
+1. **Built and evaluated: T_S for ζ on all nine mission cells, on the module form (Π_S = orthogonal projection onto Θ·range S_∞, CCM arXiv:2310.18423 Thm 4.6), as T_S = T_∞ (kernel/) + ΔT (this folder). No eigenvalue of T_S is below −0.02 on any cell. The smallest are 1.5e−3 to 3.5e−3, inside ΔT's error band of 3.5e−3 to 8.2e−3 by (c, N) (corrected, see the notice below; was "about 6e−3"), so positive semidefiniteness holds at that resolution only (measured, float64).** Also built: the exact place-2 analysis, the refusal gate (W_a and the Epstein (1,1,6) tower refused, exact), and P_2 through E_S in closed form on the shared basis.
+2. **Main measurement: ΔT cancels the 2-adic atom up to a residual whose large eigenvalues do not grow with N. ΔT + Wp has 1, 2, 3 ± pairs beyond 0.1 at c = 2.2, 2.5, 2.9, identical at N = 8, 16 and 32 on the converged truncations, leading values stable to 1e−2 (c = 2.9: +0.48, −0.46, +0.38, −0.32, +0.17, −0.16; the fourth read −0.31 before the rerun of the notice below); the next pairs are near 0.08.** With T_∞ alone the residual is Wp itself, whose multiplicity near ±0.49 grows with N (cutoff/). Grade: measured (ζ̂ hardened, two routes to 9e−14); not a proof of bounded rank. Exact companion: −Wp = log 2 (Gram(θ_S) − 3/2 I) on 2 < c < 4 (hardened against `galerkin.py`, 4.5e−40).
+3. **Structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt (HS² = K/2 + 1.07079 over Euler levels j ≤ K, against 2.23748 archimedean; ordinary argument plus measured partial sums).** Hence ΔT needs Sonin data across the Mellin band: at N = 32, 200 prolate modes were needed; 130 left spurious residual pairs (rechecked under the Kmax rule of the notice below: stands).
 4. **Refuted: theory §7.3 item 2 (exact: time and frequency limiting to Z_2 differ, commute, and meet in 1_{Z_2}), and the literal Π_S of §7.3 has infinite trace on X_S (ordinary argument).** Positive control not exercised: Γ_C data cannot be realized over Q with S = {∞, 2}, since no idele class character of C_S is odd at ∞ and unramified at 2.
-5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved, with the measurement of line 2 pointing to a bounded remainder that is neither proved nor resolved below the 6e−3 band.** Open: R_S and its inertia (checker/'s), ΔT accurate below T_∞'s smallest eigenvalue (needs the exact v-side Gram of the b_n, §7), and a proof.
+5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved, with the measurement of line 2 pointing to a bounded remainder that is neither proved nor resolved below the 3.5e−3 to 8.2e−3 band.** Open: R_S and its inertia (checker/'s), ΔT accurate below T_∞'s smallest eigenvalue (needs the exact v-side Gram of the b_n, §7), and a proof.
+
+## Correction notice (2026-09-23, 23:20; rerun under 8dc8525)
+
+- **Claimed** (88d9dd1, §5b): at 200 modes and N = 32 the Gram probe "itself
+  fails (5.5e−1, the top modes' s-side norms are not captured)", so the error
+  there was substituted by agreement with N = 16, "at most 7e−3"; and ΔT's
+  error band was "about 6e−3" everywhere.
+- **Why it was wrong.** The 120-, 130- and 200-mode rows were computed with
+  the w-range fixed at [1, 2^10]. The asymptotic 1/w tail of ζ̂_n and b̂_n has
+  term ratio about (2n)²/(4π(m+1)W): at W = 2^10 that is 4.4, 5.2 and 12.3 for
+  n_max = 119, 129, 199. At 200 modes the truncated tail returned O(1) values
+  for the top modes and the probe, which swaps a Gram matrix for the identity,
+  amplified them. The 0.55 was that divergence, not uncaptured s-side norms.
+- **What replaces it.** `ta_prolate.kmax_for` (Kmax = 12, 12, 13 for 120, 130,
+  200 modes) and a guard in `hats_modes` that refuses a smaller Kmax (8dc8525,
+  `test_ta_kmax.py`); configurations 2, 3, 4 rerun. The 200-mode probe is
+  8.2e−3, 7.6e−3, 8.2e−3 at c = 2.2, 2.5, 2.9, above the 7e−3 substitute, and
+  it replaces it. The 200-mode values moved by at most 5.1e−4 (T_S lowest
+  three) and 1.0e−3 (ΔT + Wp leading eigenvalues); counts beyond ±0.1 are
+  unchanged. The 120- and 130-mode values moved by at most 5e−7 and 4e−5.
+- **ΔT's band per (c, N)** (probe on the most converged row, c = 2.2, 2.5,
+  2.9): N = 8 (80 modes) 3.8e−3, 3.5e−3, 3.8e−3; N = 16 (120 modes) 5.9e−3,
+  5.4e−3, 5.9e−3; N = 32 (200 modes) 8.2e−3, 7.6e−3, 8.2e−3. The probe grows
+  with nvec (6.3e−4 at 40 modes to 8.2e−3 at 200): it measures the Gram step
+  at a given truncation, not the truncation error in nvec, which the drift of
+  T_S's lowest eigenvalue across nvec shows is of order 1e−3 (c = 2.2:
+  5.7e−3, 3.5e−3 at 40, 80 modes, N = 8; 3.5e−3, 2.6e−3 at 80, 120, N = 16).
+- **Rechecked and standing.** "130 modes left spurious residual pairs" (line 3,
+  §5b): the pairs near 0.15 to 0.18 persist at Kmax 12 to 4e−5, so they are the
+  Mellin-band truncation §5b names, not the tail. "At N = 32 use at least 200
+  modes" (INTERFACE.md): stands for the same reason.
+- **Also corrected**: one headline value (c = 2.9, fourth residual eigenvalue
+  −0.3152, stated −0.31, now −0.32), the lowest T_S eigenvalue range (1.6e−3
+  became 1.5e−3 after the rerun), and the runtimes of §7 and §9 (146 s for the
+  whole run was Kmax-10 cost).
 
 # RESULTS: two_adic/, gap (b), P_2 through E_S and the assembly of T_S
 
@@ -232,7 +267,7 @@ kernel/ was routed at 22:10 (its INTERFACE.md s3, commit af756a5; read-only
 import of `kernel/sonin.py`). ΔT is computed in the Mellin variable
 (`ta_mellin.py` has the formulas): for each prolate mode, ζ̂_n(s) and
 b̂_n(s) = Σ_k (2^{−1/2+is})^k T_n(2^k; s), T_n(W; s) = ∫_W^∞ ζ_n(w) w^{−1/2−is} dw,
-from Gauss panels on [1, 2^10] (η_n in float64 through scipy's spherical
+from Gauss panels on [1, 2^Kmax], Kmax = `kmax_for(nvec)` = 10, 10, 12, 12, 13 for the five configurations below (η_n in float64 through scipy's spherical
 Bessel functions, agreeing with kernel/'s mpmath η_n to 7e−15) plus the
 asymptotic tail from φ̃_n's derivatives at 1. Densities ρ = ŵ^T G^{−1} conj ŵ
 with Gram matrices taken on the same s-quadrature plus the order-1/S tails
@@ -245,9 +280,9 @@ Tate to 1.4e−17, ‖ζ‖² against Plancherel to 6.7e−7, and both pieces of
 against a direct v-domain quadrature to 2.7e−8 and 2.2e−7 (run once, about
 150 s, not in the suite). The error of ΔT is set by the Gram matrices: the
 probe replacing Q_∞'s Gram by the exact identity moves ΔT by 3.5e−3 to
-5.9e−3 (up to 120 modes); at 200 modes the probe itself fails (5.5e−1,
-the top modes' s-side norms are not captured), and the error there is taken
-from agreement with N = 16 (at most 7e−3 on the leading residual values).
+5.9e−3 up to 130 modes and by 7.6e−3 to 8.2e−3 at 200 modes. (Corrected: 88d9dd1
+said the probe fails at 200 modes, 5.5e−1; that was the divergent Kmax-10
+tail, see the correction notice.)
 
 | nvec | S | N | c | T_∞ min eig | T_S lowest three | Gram probe | ΔT + Wp, largest in modulus | beyond ±0.1 |
 |---|---|---|---|---|---|---|---|---|
@@ -264,30 +299,30 @@ from agreement with N = 16 (at most 7e−3 on the leading residual values).
 | 120 | 1600 | 16 | 2.5 | 4.78e−04 | 0.0019, 0.0094, 0.0765 | 5.4e−03 | +0.438, −0.398, +0.216, −0.194, +0.075, −0.073 | 2+2 |
 | 120 | 1600 | 16 | 2.9 | 1.85e−04 | 0.0017, 0.0042, 0.0266 | 5.9e−03 | +0.484, −0.460, +0.371, −0.314, +0.170, −0.155 | 3+3 |
 | 130 | 1800 | 32 | 2.2 | 1.20e−03 | 0.0025, 0.0236, 0.1954 | 5.5e−03 | +0.317, −0.282, −0.179, −0.177, +0.150, +0.140 | 3+3 |
-| 130 | 1800 | 32 | 2.5 | 4.74e−04 | 0.0018, 0.0091, 0.0760 | 5.1e−03 | +0.438, −0.402, +0.223, −0.194, −0.152, −0.152 | 4+6 |
-| 130 | 1800 | 32 | 2.9 | 1.83e−04 | 0.0016, 0.0040, 0.0263 | 5.5e−03 | +0.484, −0.461, +0.376, −0.314, +0.170, −0.159 | 3+3 |
-| 200 | 2400 | 32 | 2.2 | 1.20e−03 | 0.0026, 0.0238, 0.1950 | 5.5e−01 | +0.316, −0.280, +0.090, −0.076, +0.027, −0.026 | 1+1 |
-| 200 | 2400 | 32 | 2.5 | 4.74e−04 | 0.0019, 0.0094, 0.0754 | 5.5e−01 | +0.437, −0.401, +0.222, −0.194, −0.076, +0.074 | 2+2 |
-| 200 | 2400 | 32 | 2.9 | 1.83e−04 | 0.0016, 0.0045, 0.0258 | 5.5e−01 | +0.484, −0.460, +0.376, −0.314, +0.169, −0.159 | 3+3 |
+| 130 | 1800 | 32 | 2.5 | 4.74e−04 | 0.0018, 0.0091, 0.0759 | 5.1e−03 | +0.438, −0.402, +0.223, −0.194, −0.152, −0.152 | 4+6 |
+| 130 | 1800 | 32 | 2.9 | 1.83e−04 | 0.0016, 0.0040, 0.0263 | 5.5e−03 | +0.484, −0.461, +0.376, −0.315, +0.170, −0.159 | 3+3 |
+| 200 | 2400 | 32 | 2.2 | 1.20e−03 | 0.0024, 0.0236, 0.1950 | 8.2e−03 | +0.316, −0.280, +0.090, −0.076, +0.028, −0.026 | 1+1 |
+| 200 | 2400 | 32 | 2.5 | 4.74e−04 | 0.0018, 0.0091, 0.0759 | 7.6e−03 | +0.438, −0.402, +0.222, −0.194, −0.076, +0.075 | 2+2 |
+| 200 | 2400 | 32 | 2.9 | 1.83e−04 | 0.0015, 0.0040, 0.0263 | 8.2e−03 | +0.484, −0.461, +0.376, −0.315, +0.169, −0.160 | 3+3 |
 
 Readings (all measured):
 
 - **T_S has no eigenvalue below −0.02 on any row**, and its lowest
-  eigenvalue (1.6e−3 to 3.5e−3 on the converged rows) sits inside the error
+  eigenvalue (1.5e−3 to 3.5e−3 on the converged rows) sits inside the error
   band. Its inertia is therefore 0 negative at the resolution −0.02 and not
-  resolved below about 6e−3. T_∞'s own lowest eigenvalue (1.8e−4 to 1.2e−3)
+  resolved below the row's band (3.5e−3 to 8.2e−3). T_∞'s own lowest eigenvalue (1.8e−4 to 1.2e−3)
   is below that band, so the comparison T_S against T_∞ at the bottom of the
   spectrum is not resolved either.
 - **The residual ΔT + Wp is N-independent at the top.** Its eigenvalues come
   in ± pairs whose sizes decay (c = 2.9: 0.47, 0.34, 0.16, 0.08); on the
   converged rows the count beyond ±0.1 is 1, 2, 3 pairs at c = 2.2, 2.5, 2.9
   for N = 8, 16, 32 alike, and the leading values agree across N = 16 and 32
-  to 7e−3. The count grows with c. The threshold 0.1 falls in a gap at every
+  to 7.4e−3. The count grows with c. The threshold 0.1 falls in a gap at every
   cell but the next pairs (about 0.075 to 0.09) are also stable, so the
   statement is about a decaying profile, not a sharp rank.
 - **Truncation matters.** At N = 32 with 130 modes (s up to about 260, the
   window band edge at c = 2.2 is about 255) spurious pairs near 0.15 to 0.18
-  appear and vanish at 200 modes: §6 in practice.
+  appear and vanish at 200 modes: §6 in practice (rechecked at Kmax 12: unchanged to 4e−5).
 - **Precision response.** kernel/ reports T_∞ at dps 40 and 60 agreeing to
   5.1e−39; ΔT is float64 with the truncation errors above, so the dps 40
   against 60 response of T_S is below its resolution and was not measured
@@ -342,10 +377,14 @@ finite (§5, item 1).
   compact with a c-dependent profile, which is what "bounded rank" in C4
   would need): not proved.
 - **Positive control** needs S ∋ 23 or the construction over Q(√−23).
-- **Cost** (measured on this laptop): 200 modes, S = 2400, all three cells
-  and N = 32 in 64 s for the Mellin data; the whole `ta_run_prolate.py` in
-  146 s. N = 64 would need about 400 modes and S about 4800, roughly 4 to 8
-  times that: still a local run.
+- **Cost** (measured on this laptop at the Kmax rule; corrected, 88d9dd1 said
+  64 s and 146 s, which was Kmax-10 cost): 200 modes, S = 2400, Kmax 13, all
+  three cells at N = 32 in 178 s (ζ_n on the 139,716 w-nodes alone 48 s; 2.5 GB
+  peak); 130 modes 52 s; 120 modes 193 s on a loaded machine; the whole
+  `ta_run_prolate.py` about 8 minutes. N = 64 would need about 400 modes
+  (Kmax 15, about 490,000 w-nodes, S about 4800): extrapolated from the
+  measured unit, not measured, about 30 minutes and several GB, a CI job
+  rather than a local run.
 
 ## 8. Grading and ALIGNMENT s5 status
 
@@ -359,7 +398,7 @@ finite (§5, item 1).
 | §5 items 1 to 6 | ordinary arguments, unreviewed; item 6 uses only the definition of C_S |
 | §5 grid implementation | tested on synthetic modes only |
 | §5b ζ̂_n | hardened (two routes, 8.8e−14) |
-| §5b T_S spectra, residual profile, counts | measured (float64, one route for the Gram matrices; error band about 6e−3) |
+| §5b T_S spectra, residual profile, counts | measured (float64, one route for the Gram matrices; error band 3.5e−3 to 8.2e−3 by (c, N)) |
 | §6 closed form for ⟨A_j, A_l⟩_HS and the divergence | ordinary argument, unreviewed; partial sums measured |
 
 Original to this session (novelty not searched): the identity of §3 in
@@ -381,5 +420,5 @@ only, not proved, and R_S is checker/'s.
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_local.py
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_es.py   # 13 s
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_ts.py   # 2 s
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_prolate.py   # 146 s, needs kernel/
+    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_prolate.py   # about 8 min, needs kernel/; arguments 0 to 4 rerun those configurations only
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 30 to 70 s

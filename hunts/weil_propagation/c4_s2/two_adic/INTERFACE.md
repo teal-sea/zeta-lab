@@ -31,10 +31,14 @@ parameters (W_a and the Epstein (1,1,6) tower are refused);
 (2) `arch_type`: `"Gamma_R"` accepted, `"Gamma_C"` raises `FrameworkLimit`
 (no idele class character of C_S is odd at ∞ and unramified at 2);
 (3) builds T_S = T_inf (kernel/) + ΔT and returns a float64 numpy array
-(ΔT is of measured grade, error band about 6e−3, RESULTS.md §5b);
+(ΔT is of measured grade, error band 3.5e−3 to 8.2e−3 by (c, N), RESULTS.md §5b
+and its correction notice; this line said "about 6e−3" before the Kmax rerun);
 `dry_run=True` stops after the checks. It never returns a number it did not
 compute. Defaults: nvec = max(80, 8N/L + 40) prolate modes and
-S = max(1200, 24πN/L); at N = 32 use at least 200 modes. The w-range
+S = max(1200, 24πN/L); at N = 32 use at least 200 modes (130 leave
+spurious residual pairs; rechecked under the Kmax rule, it stands). The
+default nvec at N = 32 is up to 364 modes (Kmax 15), by extrapolation well past the 10-minute
+local limit: pass nvec and S to `KernelProvider` explicitly. The w-range
 must satisfy 2^Kmax ≳ n_max²/(2π) (`ta_prolate.kmax_for`, guarded in
 `hats_modes`): the asymptotic tail in 1/w has term ratio about
 (2n)²/(4π(m+1)W) and diverges in practice below that (at W = 2^10 and
@@ -59,7 +63,9 @@ data set (`zeta`, `dedekind_Q_sqrt_m23`, `W_a_quarter`, `epstein_116_tower`,
 with keys `nvec`, `S`, `N`, `c`, `T_inf_eig_min`, `T_inf_eig_max`,
 `T_S_eig_low3`, `T_S_eig_max`, `T_S_n_below_m002`, `gram_sensitivity`,
 `resid_top8` (eigenvalues of ΔT + Wp largest in modulus, signed),
-`resid_n_above_01`, `resid_n_below_m01`, `seconds_hats`. Converged rows:
+`resid_n_above_01`, `resid_n_below_m01`, `seconds_hats`, and `Kmax` on the rows
+rerun under `kmax_for` (configurations 2 to 4; `seconds_by_config` records
+those reruns). Converged rows:
 (nvec, S) = (80, 1200) for N = 8 and 16, (120, 1600) for N = 16,
 (200, 2400) for N = 32. For checker/: R_S = Q − T_S with Q = Q_∞ − Wp, so
 R_S = R_∞ − (ΔT + Wp).
