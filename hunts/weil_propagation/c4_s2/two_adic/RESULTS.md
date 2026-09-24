@@ -2,9 +2,9 @@
 2. **Main measurement: ΔT cancels the 2-adic atom up to a residual whose large eigenvalues do not grow with N. ΔT + Wp has 1, 2, 3 ± pairs beyond 0.1 at c = 2.2, 2.5, 2.9, identical at N = 8, 16 and 32 on the converged truncations, leading values stable to 1e−2 (c = 2.9: +0.48, −0.46, +0.38, −0.32, +0.17, −0.16; the fourth read −0.31 before the rerun of the notice below); the next pairs are near 0.08.** With T_∞ alone the residual is Wp itself, whose multiplicity near ±0.49 grows with N (cutoff/). Grade: measured (ζ̂ hardened, two routes to 9e−14); not a proof of bounded rank. Exact companion: −Wp = log 2 (Gram(θ_S) − 3/2 I) on 2 < c < 4 (hardened against `galerkin.py`, 4.5e−40).
 3. **Structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt (HS² = K/2 + 1.07079 over Euler levels j ≤ K, against 2.23748 archimedean; ordinary argument plus measured partial sums).** Hence ΔT needs Sonin data across the Mellin band: at N = 32, 200 prolate modes were needed; 130 left spurious residual pairs (rechecked under the Kmax rule of the notice below: stands).
 4. **Refuted: theory §7.3 item 2 (exact: time and frequency limiting to Z_2 differ, commute, and meet in 1_{Z_2}), and the literal Π_S of §7.3 has infinite trace on X_S (ordinary argument).** Positive control not exercised: Γ_C data cannot be realized over Q with S = {∞, 2}, since no idele class character of C_S is odd at ∞ and unramified at 2.
-5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved, with the measurement of line 2 pointing to a bounded remainder that is neither proved nor resolved below the 3.5e−3 to 8.2e−3 band.** Open: R_S and its inertia (checker/'s), ΔT accurate below T_∞'s smallest eigenvalue (needs the exact v-side Gram of the b_n, §7), and a proof.
+5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved, with the measurement of line 2 pointing to a bounded remainder that is neither proved nor resolved below the 3.5e−3 to 8.2e−3 band.** Open: R_S and its inertia (checker/'s), ΔT accurate below Q's smallest eigenvalue (not met on c = 2.2, N = 8, §7b: the binding error is the number of prolate modes, 4.5e−3 then 1.6e−3 in spectral norm from 80 to 100 to 120 modes, not the Gram step; CI estimate there), and a proof.
 
-## Correction notice (2026-09-23, 23:20; rerun under 8dc8525)
+## Correction notice (2026-09-23, 23:20 and 23:45; reruns under 8dc8525)
 
 - **Claimed** (88d9dd1, §5b): at 200 modes and N = 32 the Gram probe "itself
   fails (5.5e−1, the top modes' s-side norms are not captured)", so the error
@@ -34,6 +34,15 @@
   §5b): the pairs near 0.15 to 0.18 persist at Kmax 12 to 4e−5, so they are the
   Mellin-band truncation §5b names, not the tail. "At N = 32 use at least 200
   modes" (INTERFACE.md): stands for the same reason.
+- **§7's accuracy diagnosis.** Claimed (88d9dd1): "the limiting error is the
+  Gram matrix of the b_n", to be removed by an exact v-side Gram. Measured on
+  c = 2.2, N = 8 (§7b, new): at fixed nvec the s-side Gram error falls about
+  eightfold per doubling of S and ΔT converges in S (1.1e−4 in spectral norm
+  from S = 2400 to 4800), while adding prolate modes at S = 4800 moves ΔT by
+  4.5e−3 (80 → 100) and 1.6e−3 (100 → 120). The limiting error is the mode
+  truncation. The Gram probe above does not see it, so on that cell the band
+  is at least 4.5e−3 in spectral norm at 80 modes; the other cells' nvec
+  response was not measured.
 - **Also corrected**: one headline value (c = 2.9, fourth residual eigenvalue
   −0.3152, stated −0.31, now −0.32), the lowest T_S eigenvalue range (1.6e−3
   became 1.5e−3 after the rerun), and the runtimes of §7 and §9 (146 s for the
@@ -364,13 +373,17 @@ finite (§5, item 1).
 
 ## 7. What is open, and the next step
 
-- **ΔT below the error band.** The limiting error is the Gram matrix of the
-  b_n. An exact route exists (derivation, not implemented): with |α| = 1,
+- **ΔT below the error band.** 88d9dd1 said here: "The limiting error is the
+  Gram matrix of the b_n." Corrected by §7b: at S = 4800 the Gram step is below
+  1.1e−4 and the mode truncation is the limiting error; the exact Gram route
+  below was not built and is kept as a reference. An exact route exists (derivation, not implemented): with |α| = 1,
   ‖(1 − P)Θ^{*−1}ζ‖² = ⟨ζ, |Θ|^{−2}ζ⟩ − ‖b 1_{[1,2)}‖², because the pieces of
   PΘ^{*−1}ζ on the dyadic shells [2^{−l}, 2^{1−l}) are rescaled copies of
   b on [1, 2) with weights 2^{−l}; ⟨ζ_i, |Θ|^{−2}ζ_j⟩ = 2 Σ_k 2^{−|k|/2}⟨ζ_i, D^k ζ_j⟩
-  needs only dilation correlations of the modes. That would bring ΔT to the
-  level of T_∞'s smallest eigenvalue (1.8e−4) and resolve T_S's inertia.
+  needs only dilation correlations of the modes. 88d9dd1 continued: "That
+  would bring ΔT to the level of T_∞'s smallest eigenvalue (1.8e−4) and
+  resolve T_S's inertia"; §7b shows it would not, since the mode truncation
+  (1.6e−3 from 100 to 120 modes) stays.
 - **R_S on the cells**: checker/'s (R_S = R_∞ − (ΔT + Wp) in this folder's
   terms). The numbers of §5b are the input.
 - **Why the top of ΔT + Wp is N-independent** (a candidate: the residual is
@@ -386,6 +399,63 @@ finite (§5, item 1).
   measured unit, not measured, about 30 minutes and several GB, a CI job
   rather than a local run.
 
+## 7b. The accuracy item on c = 2.2, N = 8 (`ta_gram_probe.py`, `ta_gram_probe.json`)
+
+Target: Q's lowest eigenvalue on this cell, 2.5738e−4 (checker/'s
+`checker_q_cells.json`, dps 40; the 2.33e−4 quoted for c = 2.2 is the N = 32
+value). The criterion was fixed in the script's docstring before the S = 4800
+runs were read. It is a spectral norm, so that Weyl's inequality turns it into
+an eigenvalue error:
+
+    band(80, 4800) = max( ‖ΔT(80, 4800) − ΔT(80, 2400)‖₂,  ‖ΔT(100, 4800) − ΔT(80, 4800)‖₂,  probe₂(80, 4800) ).
+
+| nvec | S | Kmax | probe, ‖·‖₂ | max \|G_z^s − I\| | T_S lowest | seconds |
+|---|---|---|---|---|---|---|
+| 80 | 1200 | 10 | 3.8e−3 | 8.9e−2 | 3.523e−3 | 15 |
+| 80 | 2400 | 10 | 4.9e−4 | 3.5e−2 | 3.500e−3 | 30 |
+| 80 | 4800 | 10 | 2.5e−5 | 8.4e−3 | 3.486e−3 | 107 |
+| 100 | 4800 | 11 | 1.2e−4 | 1.8e−2 | 3.001e−3 | 107 |
+| 120 | 4800 | 12 | 3.3e−4 | 2.8e−2 | 2.671e−3 | 516 wall, 161 CPU |
+
+Responses of ΔT, spectral norm: to S at 80 modes, 6.5e−4 (1200 → 2400) and
+1.1e−4 (2400 → 4800); to nvec at S = 4800, **4.5e−3 (80 → 100) and 1.6e−3
+(100 → 120)**, and the change from 80 to 120 modes is negative definite
+(adding modes lowers ΔT).
+
+**Outcome: not met.** band(80, 4800) = 4.5e−3, set by the nvec response,
+against 2.57e−4. Readings (all measured, float64):
+
+- The s-side Gram error is real but it is not the limit. For the ζ_n the exact
+  Gram is the identity, and max |G_z^s − I| falls 8.9e−2, 3.5e−2, 8.4e−3 as S
+  doubles; the probe falls about eightfold per doubling. With both Grams on the
+  same s-grid most of it cancels in ΔT, so ΔT moves less than the probe says.
+- The mode truncation is the binding error, of the shape §6 predicts: P F_S P is
+  not Hilbert-Schmidt, so nothing forces fast decay in nvec. T_S's lowest
+  eigenvalue falls by 4.85e−4, then 3.30e−4, per 20 modes, and stays positive
+  through 120 modes. Two differences do not establish a rate.
+- For §5b: on this cell the (80, 1200) row's error is at least 4.5e−3 in
+  spectral norm, above its probe (3.8e−3, max entry). The ±0.1 counts and the
+  leading residual values (a 1e−2 scale) are not affected, and T_S's lowest
+  eigenvalue moved by 8.2e−4 from 80 to 120 modes, far from the −0.02 of the
+  PSD statement. The nvec response of the other eight cells was not measured.
+- **Measured unit cost**, and a CI estimate for meeting the target. The exact
+  v-side Gram route of §7 was not built, because at S = 4800 the Gram step is
+  already below the target and the route leaves the mode truncation untouched.
+  `ProlateModes.zeta` costs 9.6e−5 s per w-node for all 80 modes together.
+  One (nvec, S = 4800) run costs 107 s at 80 and 100 modes, and 161 s CPU at
+  120 modes (1.9 GB peak). The 120-mode run took 516 s of wall time because
+  this laptop was loaded, which puts 140 modes and more past the 10-minute
+  local limit, so they were not run. Suppose the nvec response keeps its
+  measured ratio (0.36 per 20 modes, from two differences only). Then it
+  drops below 2.57e−4 between 140 and 160 modes, with a remaining tail near
+  1e−4 from 160. The runs that test this are nvec = 140, 160, 180, 200 at
+  S = 4800 (Kmax 12, 12, 12, 13), plus an S = 9600 check at 160 modes, since
+  the probe grows with nvec (2.5e−5, 1.2e−4, 3.3e−4 at 80, 100, 120). Scaled
+  from the measured CPU time, which grows roughly as nvec × w-nodes, each run
+  takes 3 to 7 CPU minutes and 2 to 4 GB: about 30 CPU minutes in all. That
+  is one GitHub Actions job, free for this public repository, and it needs
+  no paid provider. Estimate only; not run.
+
 ## 8. Grading and ALIGNMENT s5 status
 
 | statement | grade |
@@ -398,6 +468,7 @@ finite (§5, item 1).
 | §5 items 1 to 6 | ordinary arguments, unreviewed; item 6 uses only the definition of C_S |
 | §5 grid implementation | tested on synthetic modes only |
 | §5b ζ̂_n | hardened (two routes, 8.8e−14) |
+| §7b S- and nvec-responses of ΔT on c = 2.2, N = 8; target not met | measured (float64); the CI estimate is an extrapolation, not run |
 | §5b T_S spectra, residual profile, counts | measured (float64, one route for the Gram matrices; error band 3.5e−3 to 8.2e−3 by (c, N)) |
 | §6 closed form for ⟨A_j, A_l⟩_HS and the divergence | ordinary argument, unreviewed; partial sums measured |
 
@@ -421,4 +492,5 @@ only, not proved, and R_S is checker/'s.
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_es.py   # 13 s
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_ts.py   # 2 s
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_prolate.py   # about 8 min, needs kernel/; arguments 0 to 4 rerun those configurations only
+    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py 80 4800   # one (nvec, S) per process: 80 1200, 80 2400, 80 4800, 100 4800, 120 4800; 15 s to about 9 min
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 30 to 70 s

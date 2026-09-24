@@ -21,6 +21,7 @@ modules are imported by basename after putting this folder on `sys.path`
 | `ta_ts.delta_T_matrix(grid, zetas, alpha, L, N)` | (ΔT, M_inf, M_S) for a finite mode family on a grid | float64; exercised on synthetic modes only |
 | `ta_prolate.ProlateModes(nvec, dps)`, `hats_modes`, `delta_T_cells(pm, cells, N, S)` | kernel/'s prolate modes in float64; ζ̂_n, b̂_n; ΔT per cell | Mellin route, measured grade |
 | `ta_ts.KernelProvider(nvec=None, S=None)` | `T_inf_matrix` (kernel/'s moments JSON) and `delta_T` | the provider `T_S_matrix` uses by default |
+| `ta_gram_probe.run(nvec, S)` | on c = 2.2, N = 8: ΔT, the Gram probe, T_S's lowest eigenvalues, max \|G_z^s − I\| | measurement for RESULTS.md §7b |
 | `ta_hs.hs2_partial(K, alpha=1, dps=30)` | ‖P F_S P‖²_HS over Euler levels j ≤ K | closed form in Si |
 | `ta_local.local_report(K)` | exact local statements at 2 | sympy rationals |
 
@@ -32,7 +33,9 @@ parameters (W_a and the Epstein (1,1,6) tower are refused);
 (no idele class character of C_S is odd at ∞ and unramified at 2);
 (3) builds T_S = T_inf (kernel/) + ΔT and returns a float64 numpy array
 (ΔT is of measured grade, error band 3.5e−3 to 8.2e−3 by (c, N), RESULTS.md §5b
-and its correction notice; this line said "about 6e−3" before the Kmax rerun);
+and its correction notice; this line said "about 6e−3" before the Kmax rerun;
+on c = 2.2, N = 8 the mode truncation is larger, 4.5e−3 in spectral norm from
+80 to 100 modes, RESULTS.md §7b);
 `dry_run=True` stops after the checks. It never returns a number it did not
 compute. Defaults: nvec = max(80, 8N/L + 40) prolate modes and
 S = max(1200, 24πN/L); at N = 32 use at least 200 modes (130 leave
@@ -69,6 +72,10 @@ those reruns). Converged rows:
 (nvec, S) = (80, 1200) for N = 8 and 16, (120, 1600) for N = 16,
 (200, 2400) for N = 32. For checker/: R_S = Q − T_S with Q = Q_∞ − Wp, so
 R_S = R_∞ − (ΔT + Wp).
+
+`ta_gram_probe.json`: `c`, `N`, `Q_low` (checker/'s value), and `runs`
+keyed `"nvec,S"` with `nvec`, `S`, `Kmax`, `dT` (the matrix), `dT_probe_maxentry`,
+`dT_probe_norm2`, `TS_low3`, `gz_dev`, `gz_dev_diag_max`, `seconds`.
 
 ## Consumed (from kernel/, routed 2026-09-23 22:10)
 
