@@ -18,6 +18,15 @@ Weyl's inequality turns it into an eigenvalue error):
 The target is Q's lowest eigenvalue on the same cell, read from
 checker/checker_q_cells.json (2.5738e-4 at c = 2.2, N = 8; the 2.33e-4 quoted
 for c = 2.2 is the N = 32 value). Float64: measured grade.
+
+Added 2026-09-24, with the Modal runs (the formula above is unchanged).
+`merge_modal` copies modal/'s gram units (nvec 140, 160, 180, 200 at
+S = 4800 and 160 at S = 9600, tree 284eff6) into this JSON, each run with its
+source; `band_terms` applies the formula above at another nvec n, as the
+follow-up in BRIEF.md (7ee4121) names it: the nvec response n -> n + 20 at
+S = 4800, the S response at n (against S / 2 as above, else against 2 S, which
+is the 160-mode check 4800 against 9600), and probe_2(n, 4800). A term with no
+run to form it is None, and the band is then a lower bound.
 """
 
 from __future__ import annotations
@@ -41,6 +50,9 @@ import ta_ts as T  # noqa: E402
 
 C, N, NVEC = "2.2", 8, 80
 SS = (1200.0, 2400.0)
+MODAL_OUT = os.path.normpath(os.path.join(HERE, "..", "modal", "out"))
+MODAL_RUNS = ("140,4800", "160,4800", "180,4800", "200,4800", "160,9600")
+LOCAL_SOURCE = {"file": "two_adic/ta_gram_probe.py", "platform": "laptop, macOS arm64", "python": "3.13.14"}
 
 
 def q_low() -> float:
@@ -87,8 +99,70 @@ def run(nvec: int, S: float) -> dict:
     }
 
 
+def _modal(key: str) -> tuple[dict, str]:
+    nvec, S = key.split(",")
+    fname = f"gram_{nvec}_{S}.json"
+    with open(os.path.join(MODAL_OUT, fname)) as fh:
+        return json.load(fh), f"modal/out/{fname}"
+
+
+def _source(meta: dict, fname: str) -> dict:
+    m = meta["machine"]
+    return {"file": fname, "tree_commit": meta["tree_commit"], "platform": m["platform"],
+            "python": m["python"], "blas_core": meta.get("blas_core"),
+            "avx512": "AVX512F" in m["cpu_features"], "cpu_seconds": meta["cpu_seconds"],
+            "peak_rss_mib": meta["peak_rss_mib"]}
+
+
+def merge_modal(out: dict) -> dict:
+    """Copy modal/'s gram runs into `out` unchanged, each with its source; the
+    runs computed here get LOCAL_SOURCE. The 80-mode calibration unit is not
+    merged (the local run stays); its agreement is kept as modal_calibration.
+    Reads modal/out/ only. Idempotent."""
+    for key in MODAL_RUNS:
+        d, fname = _modal(key)
+        meta = d["meta"]
+        assert meta["status"] == "ok" and meta["guard_before"]["ok"] and meta["guard_after"]["ok"], key
+        assert (d["c"], d["N"], d["Q_low"]) == (out["c"], out["N"], out["Q_low"]), key
+        out["runs"][key] = dict(d["runs"][key], source=_source(meta, fname))
+    for r in out["runs"].values():
+        r.setdefault("source", LOCAL_SOURCE)
+    d, fname = _modal("80,4800")
+    ref, got = out["runs"]["80,4800"], d["runs"]["80,4800"]
+    scalars = ("dT_probe_maxentry", "dT_probe_norm2", "gz_dev", "gz_dev_diag_max")
+    out["modal_calibration"] = {
+        "run": "80,4800", "file": fname, "tree_commit": d["meta"]["tree_commit"],
+        "platform": d["meta"]["machine"]["platform"],
+        "max_abs_diff_dT": float(np.abs(np.array(ref["dT"]) - np.array(got["dT"])).max()),
+        "max_abs_diff_scalars": max([abs(ref[k] - got[k]) for k in scalars]
+                                    + [abs(x - y) for x, y in zip(ref["TS_low3"], got["TS_low3"])]),
+    }
+    return out
+
+
+def band_terms(runs: dict, nvec: int, S: int = 4800) -> dict:
+    """The three terms of the band at (nvec, S), spectral norms; None where no
+    run forms the term. 'band' is their max, a lower bound unless 'complete'."""
+    def dT(n, s):
+        k = f"{n},{int(s)}"
+        return np.array(runs[k]["dT"]) if k in runs else None
+
+    def n2(a, b):
+        return None if a is None or b is None else float(np.linalg.norm(a - b, 2))
+
+    here = dT(nvec, S)
+    s_resp = n2(here, dT(nvec, S / 2))
+    if s_resp is None:
+        s_resp = n2(dT(nvec, 2 * S), here)
+    terms = {"S": s_resp, "nvec": n2(dT(nvec + 20, S), here), "probe": runs[f"{nvec},{S}"]["dT_probe_norm2"]}
+    have = {k: v for k, v in terms.items() if v is not None}
+    return dict(terms, band=max(have.values()), binding=max(have, key=have.get),
+                complete=len(have) == 3)
+
+
 def main(argv=None) -> dict:
-    """Arguments: nvec S (one truncation per process, merged into the JSON)."""
+    """Arguments: nvec S (one truncation per process, merged into the JSON),
+    or --merge-modal (merge_modal: reads modal/out/, computes nothing)."""
     argv = sys.argv[1:] if argv is None else argv
     path = os.path.join(HERE, "ta_gram_probe.json")
     try:
@@ -99,7 +173,9 @@ def main(argv=None) -> dict:
     if "runs" not in out:
         out = {"c": C, "N": N, "runs": {}}
     out["Q_low"] = q_low()
-    if argv:
+    if argv and argv[0] == "--merge-modal":
+        merge_modal(out)
+    elif argv:
         nvec, S = int(argv[0]), float(argv[1])
         out["runs"][f"{nvec},{int(S)}"] = run(nvec, S)
     else:

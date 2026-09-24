@@ -1,8 +1,8 @@
-1. **Built and evaluated: T_S for ζ on all nine mission cells, on the module form (Π_S = orthogonal projection onto Θ·range S_∞, CCM arXiv:2310.18423 Thm 4.6), as T_S = T_∞ (kernel/) + ΔT (this folder). No eigenvalue of T_S is below −0.02 on any cell. The smallest are 1.5e−3 to 3.5e−3, inside ΔT's error band of 3.5e−3 to 8.2e−3 by (c, N) (corrected, see the notice below; was "about 6e−3"; that band is the Gram step, and the mode truncation is larger where measured, 4.5e−3 in spectral norm on c = 2.2, N = 8, §7b), so positive semidefiniteness holds at that resolution only (measured, float64).** Also built: the exact place-2 analysis, the refusal gate (W_a and the Epstein (1,1,6) tower refused, exact), and P_2 through E_S in closed form on the shared basis.
+1. **Built and evaluated: T_S for ζ on all nine mission cells, on the module form (Π_S = orthogonal projection onto Θ·range S_∞, CCM arXiv:2310.18423 Thm 4.6), as T_S = T_∞ (kernel/) + ΔT (this folder). No eigenvalue of T_S is below −0.02 on any cell. The smallest are 1.5e−3 to 3.5e−3, inside ΔT's error band of 3.5e−3 to 8.2e−3 by (c, N) (corrected, see the notice below; was "about 6e−3"; that band is the Gram step; on c = 2.2, N = 8, measured through 200 modes with Modal's runs, §7b's accuracy band stays above Q's lowest eigenvalue 2.57e−4 at every mode count, smallest 6.5e−4 at 140 modes, while T_S's lowest eigenvalue there, 2.298e−3 at 160 modes, clears that cell's complete band 9.6e−4), so positive semidefiniteness holds at that resolution only (measured, float64).** Also built: the exact place-2 analysis, the refusal gate (W_a and the Epstein (1,1,6) tower refused, exact), and P_2 through E_S in closed form on the shared basis.
 2. **Main measurement: ΔT cancels the 2-adic atom up to a residual whose large eigenvalues (beyond ±0.1) do not grow with N. ΔT + Wp has 1, 2, 3 ± pairs beyond 0.1 at c = 2.2, 2.5, 2.9, identical at N = 8, 16 and 32 on the delivered truncations (80, 1200), (120, 1600) and (200, 2400) (this said "converged" before checker/'s refinement; which rows are converged, and to what, is in the correction notice), leading values stable to 1e−2 (c = 2.9: +0.48, −0.46, +0.38, −0.32, +0.17, −0.16; the fourth read −0.31 before the rerun of the notice below); the next pairs are near 0.08.** With T_∞ alone the residual is Wp itself, whose multiplicity near ±0.49 grows with N (cutoff/). Grade: measured (ζ̂ hardened, two routes to 9e−14); not a proof of bounded rank. Exact companion: −Wp = log 2 (Gram(θ_S) − 3/2 I) on 2 < c < 4 (hardened against `galerkin.py`, 4.5e−40).
 3. **Structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt (HS² = K/2 + 1.07079 over Euler levels j ≤ K, against 2.23748 archimedean; ordinary argument plus measured partial sums).** Hence ΔT needs Sonin data across the Mellin band: at N = 32, 200 prolate modes were needed; 130 left spurious residual pairs (rechecked under the Kmax rule of the notice below: stands).
 4. **Refuted: theory §7.3 item 2 (exact: time and frequency limiting to Z_2 differ, commute, and meet in 1_{Z_2}), and the literal Π_S of §7.3 has infinite trace on X_S (ordinary argument).** Positive control not exercised: Γ_C data cannot be realized over Q with S = {∞, 2}, since no idele class character of C_S is odd at ∞ and unramified at 2.
-5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved. Line 2 covers only the eigenvalues of ΔT + Wp beyond ±0.1 and cannot see negative eigenvalues of R_S = Q − T_S of size 1e−2, so it is not evidence for bounded rank. checker/ measures those (its RESULTS line 2 and s7.3a): n_−(R_S) below −band is 4, 4, 3 (c = 2.2), 4, 9, 20 (2.5) and 4, 10, 20 (2.9) at N = 8, 16, 32; at c = 2.9 the N = 16 count is 10 at both 120 and 160 modes, its last pair 1.4 to 1.5 times the band, while at 2.2 and 2.5 the N = 16 count falls as modes rise (truncation). At c = 2.9 that measurement runs against bounded rank.** (Corrected: this line said line 2 points to a bounded remainder.) Open: R_S and its inertia (checker/'s), ΔT accurate below Q's smallest eigenvalue (not met on c = 2.2, N = 8, §7b: the binding error is the number of prolate modes, 4.5e−3 then 1.6e−3 in spectral norm from 80 to 100 to 120 modes, not the Gram step; CI estimate there), and a proof.
+5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved. Line 2 covers only the eigenvalues of ΔT + Wp beyond ±0.1 and cannot see negative eigenvalues of R_S = Q − T_S of size 1e−2, so it is not evidence for bounded rank. checker/ measures those (its RESULTS line 2 and s7.3a): n_−(R_S) below −band is 4, 4, 3 (c = 2.2), 4, 9, 20 (2.5) and 4, 10, 20 (2.9) at N = 8, 16, 32; at c = 2.9 the N = 16 count is 10 at both 120 and 160 modes, its last pair 1.4 to 1.5 times the band, while at 2.2 and 2.5 the N = 16 count falls as modes rise (truncation). At c = 2.9 that measurement runs against bounded rank.** (Corrected: this line said line 2 points to a bounded remainder.) Open: R_S and its inertia (checker/'s), ΔT accurate below Q's smallest eigenvalue (not met on c = 2.2, N = 8 at any mode count from 80 to 200 at S = 4800, §7b, measured with Modal's runs: the nvec response falls only to 3.5e−4 per 20 modes at 180 → 200, and from 160 modes the criterion's probe term binds; the 0.36-per-20-modes prediction is refuted; the next test, (200, 9600) and (220, 9600), is estimated there, not run), and a proof.
 
 ## Correction notice (2026-09-23, 23:20 and 23:45, and 2026-09-24, 00:30 after checker/'s refinement; reruns under 8dc8525)
 
@@ -404,7 +404,7 @@ finite (§5, item 1).
   needs only dilation correlations of the modes. 88d9dd1 continued: "That
   would bring ΔT to the level of T_∞'s smallest eigenvalue (1.8e−4) and
   resolve T_S's inertia"; §7b shows it would not, since the mode truncation
-  (1.6e−3 from 100 to 120 modes) stays.
+  (still 3.5e−4 per 20 modes at 180 → 200 modes) stays.
 - **R_S on the cells**: checker/'s (R_S = R_∞ − (ΔT + Wp) in this folder's
   terms). The numbers of §5b are the input.
 - **Why the top of ΔT + Wp is N-independent** (a candidate: the residual is
@@ -430,53 +430,132 @@ an eigenvalue error:
 
     band(80, 4800) = max( ‖ΔT(80, 4800) − ΔT(80, 2400)‖₂,  ‖ΔT(100, 4800) − ΔT(80, 4800)‖₂,  probe₂(80, 4800) ).
 
-| nvec | S | Kmax | probe, ‖·‖₂ | max \|G_z^s − I\| | T_S lowest | seconds |
-|---|---|---|---|---|---|---|
-| 80 | 1200 | 10 | 3.8e−3 | 8.9e−2 | 3.523e−3 | 15 |
-| 80 | 2400 | 10 | 4.9e−4 | 3.5e−2 | 3.500e−3 | 30 |
-| 80 | 4800 | 10 | 2.5e−5 | 8.4e−3 | 3.486e−3 | 107 |
-| 100 | 4800 | 11 | 1.2e−4 | 1.8e−2 | 3.001e−3 | 107 |
-| 120 | 4800 | 12 | 3.3e−4 | 2.8e−2 | 2.671e−3 | 516 wall, 161 CPU |
+At another nvec n the same three terms are taken at n (`band_terms`, as the
+follow-up in BRIEF.md names it): the nvec response n → n + 20 at S = 4800,
+the S response at n (against 2400 as above, or against 9600 where that is the
+run there is), and probe₂(n, 4800). A term with no run to form it is left out,
+and the band is then a lower bound.
+
+Runs 80 to 120 are this laptop's. The runs 140 to 200 at S = 4800 and 160 at
+S = 9600 are modal/'s units (tree 284eff6, Linux x86_64, Python 3.12;
+provenance and cost in `modal/RUNS.md`), merged unchanged by
+`ta_gram_probe.py --merge-modal`, each run carrying its source. Modal's copy of
+the (80, 4800) run reproduces the laptop's to 8.2e−15 (ΔT) and 7.6e−15 (the
+scalars): the same code on two machines, not a second route.
+
+| nvec | S | Kmax | probe, ‖·‖₂ | max \|G_z^s − I\| | T_S lowest | seconds | where |
+|---|---|---|---|---|---|---|---|
+| 80 | 1200 | 10 | 3.8e−3 | 8.9e−2 | 3.523e−3 | 15 | laptop |
+| 80 | 2400 | 10 | 4.9e−4 | 3.5e−2 | 3.500e−3 | 30 | laptop |
+| 80 | 4800 | 10 | 2.5e−5 | 8.4e−3 | 3.486e−3 | 107 | laptop |
+| 100 | 4800 | 11 | 1.2e−4 | 1.8e−2 | 3.001e−3 | 107 | laptop |
+| 120 | 4800 | 12 | 3.3e−4 | 2.8e−2 | 2.671e−3 | 516 wall, 161 CPU | laptop |
+| 140 | 4800 | 12 | 6.1e−4 | 3.7e−2 | 2.480e−3 | 274 (644 CPU) | Modal, SkylakeX |
+| 160 | 4800 | 12 | 9.6e−4 | 4.5e−2 | 2.298e−3 | 298 (637 CPU) | Modal, Haswell |
+| 180 | 4800 | 13 | 1.4e−3 | 5.2e−2 | 2.156e−3 | 471 (980 CPU) | Modal, Haswell |
+| 200 | 4800 | 13 | 1.8e−3 | 5.9e−2 | 2.074e−3 | 623 (1254 CPU) | Modal, SkylakeX |
+| 160 | 9600 | 12 | 1.2e−4 | 1.8e−2 | 2.299e−3 | 793 (1858 CPU) | Modal, SkylakeX |
+
+SkylakeX and Haswell are the OpenBLAS kernel families Modal's hosts selected
+(AVX-512 present and absent); a Modal row's seconds are `run()`'s wall time.
 
 Responses of ΔT, spectral norm: to S at 80 modes, 6.5e−4 (1200 → 2400) and
-1.1e−4 (2400 → 4800); to nvec at S = 4800, **4.5e−3 (80 → 100) and 1.6e−3
-(100 → 120)**, and the change from 80 to 120 modes is negative definite
-(adding modes lowers ΔT).
+1.1e−4 (2400 → 4800); at 160 modes, 1.8e−4 (4800 → 9600). To nvec at
+S = 4800, per 20 modes from 80 to 200: **4.5e−3, 1.6e−3, 1.22e−3, 6.5e−4,
+5.2e−4, 3.5e−4**, every one above the target.
 
-**Outcome: not met.** band(80, 4800) = 4.5e−3, set by the nvec response,
-against 2.57e−4. Readings (all measured, float64):
+| n | S term | nvec term, n → n + 20 | probe₂(n, 4800) | band(n, 4800) | binding |
+|---|---|---|---|---|---|
+| 80 | 1.1e−4 | 4.48e−3 | 2.5e−5 | 4.48e−3 | nvec |
+| 100 | no run | 1.60e−3 | 1.2e−4 | ≥ 1.60e−3 | nvec |
+| 120 | no run | 1.22e−3 | 3.3e−4 | ≥ 1.22e−3 | nvec |
+| 140 | no run | 6.49e−4 | 6.13e−4 | ≥ 6.49e−4 | nvec |
+| 160 | 1.82e−4 (against 9600) | 5.21e−4 | 9.59e−4 | 9.59e−4 | probe |
+| 180 | no run | 3.46e−4 | 1.36e−3 | ≥ 1.36e−3 | probe |
+| 200 | no run | no run (needs 220) | 1.80e−3 | ≥ 1.80e−3 | probe |
 
-- The s-side Gram error is real but it is not the limit. For the ζ_n the exact
-  Gram is the identity, and max |G_z^s − I| falls 8.9e−2, 3.5e−2, 8.4e−3 as S
-  doubles; the probe falls about eightfold per doubling. With both Grams on the
-  same s-grid most of it cancels in ΔT, so ΔT moves less than the probe says.
-- The mode truncation is the binding error, of the shape §6 predicts: P F_S P is
-  not Hilbert-Schmidt, so nothing forces fast decay in nvec. T_S's lowest
-  eigenvalue falls by 4.85e−4, then 3.30e−4, per 20 modes, and stays positive
-  through 120 modes. Two differences do not establish a rate.
+**Outcome: not met at any nvec from 80 to 200 at S = 4800.** Every band,
+complete or a lower bound, is above 2.57e−4, so the missing terms cannot change
+it. The band is complete at 80 (4.48e−3) and 160 (9.59e−4); the smallest is
+6.49e−4 at 140 modes, 2.5 times the target. Readings (all measured, float64,
+one route):
+
+- **The 0.36-per-20-modes prediction is refuted.** The last paragraph of this
+  section, written before the Modal runs, took the ratio of the first two nvec
+  responses (0.36) and predicted 5.7e−4 at 120 → 140 and 2.0e−4 at 140 → 160,
+  below the target, with a tail near 1e−4 from 160. Measured: 1.22e−3 and
+  6.5e−4; the single step 160 → 180 is 5.2e−4, and the step 180 → 200, 3.5e−4,
+  is still 1.35 times the target. The ratios per 20 modes are 0.76, 0.53, 0.80,
+  0.67. The response keeps falling, but six differences establish no rate, so
+  no crossing nvec is predicted here. Slow decay is what §6 allows (P F_S P is
+  not Hilbert-Schmidt, so nothing forces fast decay in nvec); that is a
+  reading, not a derivation of the rate.
+- **Which term binds.** Under the fixed criterion the nvec response binds
+  through 140 modes and the probe from 160: at S = 4800 the probe grows with
+  nvec and is above the target from 120 modes on (1.80e−3 at 200). The probe
+  overstates what S changes in ΔT. For the ζ_n the exact Gram is the identity,
+  and max |G_z^s − I| falls 8.9e−2, 3.5e−2, 8.4e−3 as S doubles at 80 modes;
+  with both Grams on the same s-grid most of it cancels in ΔT. At 160 modes the
+  S response (4800 against 9600) is 1.8e−4, below the target and 5.3 times
+  smaller than the probe there, and doubling S cut the probe 7.8-fold. The
+  criterion keeps the probe term, and the verdict does not depend on it: every
+  nvec response through 200 modes is above the target on its own. What the
+  target misses is still the mode truncation.
+- **Adding modes lowers ΔT.** Each 20-mode step from 120 → 140 on is negative
+  definite (largest eigenvalue −1.9e−4, −1.8e−4, −1.4e−4, −8.2e−5). The steps
+  80 → 100 and 100 → 120 are not (+4.6e−5, +3.1e−4), though 80 → 120 is, and
+  80 → 200 is, with largest eigenvalue −1.41e−3. T_S's lowest eigenvalue falls
+  from 3.486e−3 to 2.074e−3 over 80 to 200 modes (by 4.85e−4, 3.30e−4, 1.91e−4,
+  1.82e−4, 1.42e−4, 8.2e−5 per 20 modes) and stays positive; S = 9600 moves it
+  by 8.7e−7 at 160 modes. At 160 modes it exceeds the complete band by
+  1.34e−3, so on this cell its sign is resolved at that band's resolution
+  (Weyl applied to a measured band, which is not a bound); at 80 modes it lay
+  inside the band, by 1.0e−3.
 - For §5b: on this cell the (80, 1200) row's error is at least 4.5e−3 in
   spectral norm, above its probe (3.8e−3, max entry). The ±0.1 counts and the
   leading residual values (a 1e−2 scale) are not affected, and T_S's lowest
-  eigenvalue moved by 8.2e−4 from 80 to 120 modes, far from the −0.02 of the
-  PSD statement. The nvec response of the other eight cells was not measured.
-- **Measured unit cost**, and a CI estimate for meeting the target. The exact
-  v-side Gram route of §7 was not built, because at S = 4800 the Gram step is
-  already below the target and the route leaves the mode truncation untouched.
-  `ProlateModes.zeta` costs 9.6e−5 s per w-node for all 80 modes together.
-  One (nvec, S = 4800) run costs 107 s at 80 and 100 modes, and 161 s CPU at
-  120 modes (1.9 GB peak). The 120-mode run took 516 s of wall time because
-  this laptop was loaded, which puts 140 modes and more past the 10-minute
-  local limit, so they were not run. Suppose the nvec response keeps its
-  measured ratio (0.36 per 20 modes, from two differences only). Then it
-  drops below 2.57e−4 between 140 and 160 modes, with a remaining tail near
-  1e−4 from 160. The runs that test this are nvec = 140, 160, 180, 200 at
-  S = 4800 (Kmax 12, 12, 12, 13), plus an S = 9600 check at 160 modes, since
-  the probe grows with nvec (2.5e−5, 1.2e−4, 3.3e−4 at 80, 100, 120). Scaled
-  from the measured CPU time, which grows roughly as nvec × w-nodes × s-nodes
-  (the (200, 2400) row of §5b took 135 s CPU and 2.5 GB), each run takes 3 to
-  10 CPU minutes and 2 to 5 GB: about 40 CPU minutes in all. That
-  is one GitHub Actions job, free for this public repository, and it needs
-  no paid provider. Estimate only; not run.
+  eigenvalue moved by 1.45e−3 from (80, 1200) to (200, 4800), far from the
+  −0.02 of the PSD statement. The nvec response of the other eight cells was
+  not measured.
+- **Platform.** The differences from 140 modes on mix the two kernel families.
+  Their kernel sensitivity was not measured; checker/'s 200-mode unit moves by
+  at most 3.3e−7 when only the kernels change (`modal/out/`, Sandybridge
+  against the calibration unit), 9.5e−4 of the smallest difference used here.
+- **Cost against the estimate.** The estimate below (3 to 10 CPU minutes and
+  2 to 5 GB per run, about 40 CPU minutes) was on the laptop's scale. Modal,
+  4 vCPU per unit, measured 637 to 1858 CPU seconds and 1281 to 2064 MiB peak
+  per run, 5373 CPU seconds in all (89.5 minutes); its 80-mode calibration took
+  426 CPU seconds against 107 s of laptop wall, so the two scales differ. Money:
+  `modal/RUNS.md` §5.
+- **Next test (a proposal; not run, not requested).** band(200, 9600) in the
+  docstring's own shape (S against S/2, nvec 200 → 220) needs two runs,
+  (200, 9600) and (220, 9600), Kmax 13 both. Scaled from the Modal run times
+  (at 160 modes S = 9600 took 2.66 times S = 4800; 180 → 200 modes took 1.32
+  times at Kmax 13): about 1660 s and 2190 s, 3850 s in all, 0.34 USD at
+  `modal/RUNS.md`'s computed rate. It would say whether raising S with nvec
+  brings the probe term below the target while the nvec response, 3.5e−4 at
+  180 → 200 on S = 4800, keeps falling. Estimate only.
+- **Written before the Modal runs, kept as the record (its prediction is
+  graded above).** Measured unit cost, and a CI estimate for meeting the
+  target. The exact v-side Gram route of §7 was not built, because at
+  S = 4800 the Gram step is already below the target and the route leaves the
+  mode truncation untouched. `ProlateModes.zeta` costs 9.6e−5 s per w-node for
+  all 80 modes together. One (nvec, S = 4800) run costs 107 s at 80 and 100
+  modes, and 161 s CPU at 120 modes (1.9 GB peak). The 120-mode run took 516 s
+  of wall time because this laptop was loaded, which puts 140 modes and more
+  past the 10-minute local limit, so they were not run. Suppose the nvec
+  response keeps its measured ratio (0.36 per 20 modes, from two differences
+  only). Then it drops below 2.57e−4 between 140 and 160 modes, with a
+  remaining tail near 1e−4 from 160. The runs that test this are nvec = 140,
+  160, 180, 200 at S = 4800 (Kmax 12, 12, 13, 13; corrected 2026-09-24, this
+  said 12, 12, 12, 13, and `kmax_for(180)` is 13), plus an S = 9600 check at
+  160 modes, since the probe grows with nvec (2.5e−5, 1.2e−4, 3.3e−4 at 80,
+  100, 120). Scaled from the measured CPU time, which grows roughly as
+  nvec × w-nodes × s-nodes (the (200, 2400) row of §5b took 135 s CPU and
+  2.5 GB), each run takes 3 to 10 CPU minutes and 2 to 5 GB: about 40 CPU
+  minutes in all. That is one GitHub Actions job, free for this public
+  repository, and it needs no paid provider. Estimate only; the runs were
+  made on Modal instead (operator's approval, BRIEF.md follow-up).
 
 ## 8. Grading and ALIGNMENT s5 status
 
@@ -490,7 +569,7 @@ against 2.57e−4. Readings (all measured, float64):
 | §5 items 1 to 6 | ordinary arguments, unreviewed; item 6 uses only the definition of C_S |
 | §5 grid implementation | tested on synthetic modes only |
 | §5b ζ̂_n | hardened (two routes, 8.8e−14) |
-| §7b S- and nvec-responses of ΔT on c = 2.2, N = 8; target not met | measured (float64); the CI estimate is an extrapolation, not run |
+| §7b S- and nvec-responses of ΔT on c = 2.2, N = 8 through 200 modes (80 to 120 on the laptop, 140 to 200 and (160, 9600) on Modal); target not met at any nvec; the 0.36 prediction refuted | measured (float64, one route; Modal's calibration run reproduces the laptop's to 8.2e−15, same code); the next-run estimate is an extrapolation, not run |
 | §5b T_S spectra, residual profile, counts | measured (float64, one route for the Gram matrices; error band 3.5e−3 to 8.2e−3 by (c, N)) |
 | §6 closed form for ⟨A_j, A_l⟩_HS and the divergence | ordinary argument, unreviewed; partial sums measured |
 
@@ -517,4 +596,5 @@ measurement runs against bounded rank (checker/'s grade: measured, weakest step 
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_ts.py   # 2 s
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_prolate.py   # about 8 min, needs kernel/; arguments 0 to 4 rerun those configurations only
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py 80 4800   # one (nvec, S) per process: 80 1200, 80 2400, 80 4800, 100 4800, 120 4800; 15 s to about 9 min
+    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py --merge-modal   # merges modal/out/gram_*.json (140 to 200 at 4800, 160 at 9600); reads, computes nothing; the units themselves are modal/run_modal.py's
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 30 to 70 s
