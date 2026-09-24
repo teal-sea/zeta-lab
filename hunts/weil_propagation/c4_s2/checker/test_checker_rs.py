@@ -219,3 +219,39 @@ def test_theta_gram_is_three_halves_minus_sqrt2_H(c):
     with mp.workdps(40):
         X = mp.mpf(3) / 2 * mp.eye(17) - mp.sqrt(2) * H
     assert CP.entry_drift(G, X) < mp.mpf("1e-38")
+
+
+# ------------------------------- kernel/ milestone 2, verified independently
+
+
+def _m2():
+    with open(os.path.join(HERE, "checker_kernel_m2.json")) as fh:
+        return json.load(fh)
+
+
+def test_kernel_m2_arch_block_agrees():
+    """kernel/ arch_matrix against the checker's own quadrature route: equal
+    after rounding to dps 40 (both carry >= 10 guard digits)."""
+    for c, d in _m2()["arch_dev"].items():
+        assert mp.mpf(d) < mp.mpf("1e-39"), c
+
+
+def test_kernel_m2_best_constant_at_c2():
+    """kernel/: c*(N) = 12.43, 13.88, 14.56 at c = 2.0 (CC: best constant in
+    (13, 17) for the window log 2); R_inf negatives 2/1/0 at every N."""
+    J = _m2()["c2"]["2.0"]
+    for N, want in (("8", "12.43"), ("16", "13.88"), ("32", "14.56")):
+        assert abs(mp.mpf(J[N]["kappa_star"]) - mp.mpf(want)) < mp.mpf("0.005"), N
+        assert [J[N][f"{k}_inertia"][0] for k in ("full", "minus", "minus_zero")] == [2, 1, 0]
+
+
+def test_kernel_m2_archimedean_only_remainder_on_cells():
+    """kernel/: P - E has C1 negatives 1, 1, 2 and C2 negatives 0, 0, 1 at
+    c = 2.2, 2.5, 2.9; checked here at every N = 8, 16, 32 (stable)."""
+    J = _m2()["PmE"]
+    for c, c1, c2 in (("2.2", 1, 0), ("2.5", 1, 0), ("2.9", 2, 1)):
+        for N in ("8", "16", "32"):
+            assert J[c][N]["minus_inertia"][0] == c1, (c, N)
+            assert J[c][N]["minus_zero_inertia"][0] == c2, (c, N)
+            assert J[c][N]["full_inertia"][0] == 2, (c, N)
+            assert J[c][N]["full_inertia"][1] == 0, (c, N)

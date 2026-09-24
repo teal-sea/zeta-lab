@@ -3,7 +3,7 @@
 1. **T_S (S = {inf, 2}) has not reached the checker.** two_adic/'s `T_S_matrix` raises KernelUnavailable for zeta's data: its provider is unwired, and no folder exposes the `delta_T` it calls. So P1 to P5 on T_S and R_S = Q - T_S are **not run**; their 21 tests skip with that reason.
 2. **What was run against routed code passes.** kernel/'s T_inf (af756a5) is Hermitian and PSD at all five c. Placing 2 off in two_adic/'s builder gives T_inf exactly. Connes-Consani Thm 6.11, transcribed to the basis, holds at c = 1.5 and 1.9 (N = 8, 16) with margins about 1e38 times the dps 40/60 drift; the least constant it needs, **kappa_star = 7.42 (N = 8), 9.51 (N = 16)** at c = 1.9, stays below their 16.99. Grade: measured at two precisions.
 3. **Product-side remainder, independently measured: its negative index grows with N**, confirming cutoff/'s refutation of product-side C4. n_-(Q - T_inf) on the full space is **5, 7, 11** (c = 2.2), **7, 11, 19** (2.5) and **9, 15, 25** (2.9) at N = 8, 16, 32, with lambda_min tending to -sqrt2 log2 / 2 = -0.490. The checker's own atom block reproduces cutoff/'s shift-form counts (2, 3, 7 / 4, 8, 15 / 5, 11, 23). On S = {inf} (c < 2) the index is stable: 0 at c = 1.5, 2 at c = 1.9.
-4. **Kill-controls:** 1 passes (exact gate, hardened by numerics' `us_check`); 2 passes (two_adic/ refuses W_a, and refuses Epstein fed the checker's own exact 2-tower, at s_3(2) = 6); 3 **not exercised** (Gamma_C framework limit; the argument checked independently, s5.4); 4 not run (no T_S to lesion).
+4. **Kill-controls:** 1 passes (exact gate, hardened by numerics' `us_check`); 2 passes (two_adic/ refuses W_a, and refuses Epstein fed the checker's own exact 2-tower, at s_3(2) = 6); 3 **not exercised at S = {inf, 2}** (Gamma_C framework limit; the argument checked independently, s5.4). **That missing positive control limits any T_S result to zeta alone** (s5.6). 4 not run (no T_S to lesion). kernel/'s milestone 2 numbers are reproduced (s5.5).
 5. **Q** (phase 1): matches the CCM Galerkin matrix entrywise (one route, 5.5e-40 at dps 40), plus spot checks against `zeta.weil.weil_functional` on test functions (1e-18 to 4e-14). Q > 0 on every cell. ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2} (T_S not delivered); product-side C4 **refuted** on these cells (with cutoff/).
 
 Phase 1 of 2026-09-23, branch `teal-sea/weil-c4-s2`. Nothing here is a
@@ -228,9 +228,46 @@ exercised.** The Dedekind data at 2 are unitary (alpha = (1, 1),
 s_k(2) = 2), so this refusal is about the archimedean parity, not about
 the local data.
 
+### 5.5 kernel/ milestone 2, verified with the checker's Q
+
+`run_checker_kernel_m2.py` produces `checker_kernel_m2.json`.
+
+- **A block.** kernel/'s `arch_matrix` equals the checker's quadrature route
+  after rounding to dps 40, at c = 1.5, 2.2 and 2.9 (N = 32).
+- **Best constant at c = 2.0** (the full window log 2). kappa_star =
+  12.428, 13.878, 14.557 at N = 8, 16, 32. kernel/ reports 12.43, 13.88,
+  14.56. It is increasing in N, toward CC's interval (13, 17).
+  R_inf = P - E has 2/1/0 negatives on full/C1/C2 at every N.
+- **Archimedean-only remainder P - E on the mission cells.** Negatives on
+  full/C1/C2 are 2/1/0 at c = 2.2 and 2.5, and 2/2/1 at c = 2.9, the same
+  at N = 8, 16 and 32. This agrees with kernel/. The S = {inf} content of
+  C4 (bounded negative index) holds on these windows once the atom is
+  removed. The growth in s5.2 comes entirely from the atom at 2.
+
+### 5.6 Positive controls: what ran, and what that allows
+
+Forge's ruling (relayed 2026-09-23): S stays {inf, 2}. S is not extended
+to 23, and the construction is not moved to K.
+
+- **Ran:** zeta, the only object the construction is built for. Dedekind
+  zeta_{Q(sqrt -23)} was accepted by the checker's (U-S) gate (phase 1,
+  exact, n <= 200). Its unitary data at 2 (alpha = (1, 1)) pass two_adic/'s
+  validator.
+- **Not exercised at S = {inf, 2}:** the Dedekind positive control as a
+  trace-term build. The reason: no idele class character over Q is odd at
+  inf and unramified at 2 (s5.4; ordinary argument, elementary, checked
+  independently here, arithmetic pinned by a test).
+- **What this costs.** Kill-control 2 shows the builder refuses the rivals.
+  Nothing shows that it accepts, and behaves correctly on, a unitary
+  degree-2 object other than zeta. So any statement about T_S or R_S at
+  S = {inf, 2} is a statement about zeta alone. It cannot be read as
+  distinguishing (U-S) objects from non-(U-S) ones beyond the refusal
+  itself.
+
 ## 6. Reproduction
 
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_q.py   # ~3 min
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_rs.py  # ~8 min (shared laptop)
+    PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_kernel_m2.py  # ~3 min
     PYTHONPATH=$PWD <venv>/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/checker \
         tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # 8.3 min with routed providers, shared laptop
