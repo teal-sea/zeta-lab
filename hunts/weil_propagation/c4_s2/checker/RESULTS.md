@@ -279,7 +279,8 @@ At the phase 3 commits: 168 passed, 10 skipped (9 phase 1 tests that need dps 60
 N >= 16, 1 positive control), 3 strict xfail (phase 1 P3, s7.2). Once
 two_adic/ commits a change to a file T_S imports, the snapshot no longer
 matches: tests that serve T_S from it skip with that reason (by design), and
-the pins of the JSON files keep holding for the recorded inputs.
+the pins of the JSON files keep holding for the recorded inputs. (From
+2026-09-24 such a commit also turns one test red, s7.1.)
 
 ## 7. Phase 3: T_S and R_S = Q - T_S (tests in `test_checker_ts.py`, WRITTEN AFTER ROUTING)
 
@@ -345,9 +346,10 @@ beside it, both commits; `T_S` and `units` are unchanged.
 `checker_ts_cells.json` and `checker_lesion.json` keep the folder-rule
 digest they were built under, as records. A later commit that changes a
 closure file now turns `test_snapshot_key_is_the_built_commits_and_heads`
-red instead of letting the snapshot's tests skip. After: 183 passed, 10
-skipped, 3 xfailed (15 new tests; the 10 skips are phase 3's: 9 dps 60 units
-at N = 16 that were never built, and the Gamma_C positive control).
+red instead of letting the snapshot's tests skip. After: 184 passed, 10
+skipped, 3 xfailed (16 new tests; the 10 skips are the phase 1 tests that
+phase 3's snapshot does not serve: 9 need dps 60 units at N = 16, which were
+never built, and 1 is the Gamma_C positive control).
 
 ### 7.2 Responses of T_S (spectral norm of the difference, Weyl)
 

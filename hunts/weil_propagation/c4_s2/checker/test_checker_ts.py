@@ -241,6 +241,13 @@ def test_unresolvable_dynamic_import_raises(copy):
         copy.key()
 
 
+def test_re_compile_is_not_a_loader():
+    """compile() as a method (re.compile) loads nothing; exec() does."""
+    assert GLUE.imported_names("import re\nP = re.compile('x')\n") == {"re"}
+    with pytest.raises(GLUE.UnresolvedImport, match="exec"):
+        GLUE.imported_names("exec(open('f').read())\n")
+
+
 def test_missing_moments_json_raises(copy):
     copy.file("kernel/cells_dps60.json").unlink()
     with pytest.raises(RuntimeError, match="absent"):

@@ -102,8 +102,9 @@ TS_ROOT = f"{C4S2}/two_adic/ta_ts.py"
 TS_DATA = (f"{C4S2}/kernel/cells_dps40.json", f"{C4S2}/kernel/cells_dps60.json")
 _FOLDERS = (f"{C4S2}/two_adic", f"{C4S2}/kernel")
 # Calls that load code by a name or path an import statement does not show.
+# Not "compile": re.compile would match, and a code object runs only through exec.
 _LOADERS = {"spec_from_file_location", "module_from_spec", "exec_module", "run_path",
-            "run_module", "load_source", "exec", "compile"}
+            "run_module", "load_source", "exec"}
 
 
 class UnresolvedImport(RuntimeError):
