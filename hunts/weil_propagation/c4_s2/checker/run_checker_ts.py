@@ -202,7 +202,9 @@ def analyse(snap, probe_commit):
         refine = {8: spec_norm(t8 - u16[8:25, 8:25]), 16: spec_norm(u16 - t16)}
         rec["quadrature_response_N16"] = quad
         rec["refinement_response"] = {"8": refine[8], "16": refine[16], "32": None}
-        refine[32] = refine[16]  # proxy: (240, 2400, 32) not run locally (CI_UNITS)
+        refine[32] = refine[16]  # proxy, kept for s7.3; the real 240-mode response is in door_N32_200_vs_240
+        u32_key = unit_key(c, 32, 40, 240, 2400)
+        has32 = u32_key in T  # (240, 2400, 32): CI_UNITS, built on the cloud container 2026-09-24
         # the coarser direction: two_adic/ lists (80, 1200) as converged at N = 16 too
         rec["mode_response_80_to_120_N16"] = spec_norm(t16 - T[unit_key(c, 16, 40, 80, 1600)])
         rec["mode_response_80_to_120_N16_central_N8"] = spec_norm((t16 - T[unit_key(c, 16, 40, 80, 1600)])[8:25, 8:25])
@@ -273,6 +275,32 @@ def analyse(snap, probe_commit):
         disc["200_N32_on_n_le_16"] = {"low3": [float(x) for x in e[:3]], "n_minus_at_band16": k,
                                       "last_two_counted": [float(x) for x in e[max(0, k - 2):k]]}
         rec["modes_N16_S1600"] = disc
+        if has32:
+            # RESULTS s7.6, the door: the N = 32 row (200 modes) against 240 modes.
+            # Weyl: no eigenvalue of R_S moves more than weyl_response between the
+            # two builds. Counted at two thresholds: the s7.3 band (N = 16 proxy)
+            # and the band with the real N = 32 refinement response in it.
+            Q32 = to_np(Qfull).real
+            nn = np.arange(-32, 33)
+            dT32 = T[u32_key] - t32
+            resp = spec_norm(dT32)
+            hi = np.abs(nn) > 16
+            thr = {"band_s73": bands[32], "band_real": max(pr[(c, 32)], resp, quad)}
+            door = {"weyl_response": resp, "weyl_response_central_N16": spec_norm(dT32[np.ix_(~hi, ~hi)]),
+                    "weyl_response_top_half": spec_norm(dT32[np.ix_(hi, hi)]), **thr}
+            for nv in (200, 240):
+                w, V = np.linalg.eigh(Q32 - T[unit_key(c, 32, 40, nv, 2400)])
+                top = (V[np.abs(nn) > 16, :] ** 2).sum(0)
+                d = {"low3": [float(x) for x in w[:3]]}
+                for name, b in thr.items():
+                    neg = w < -b
+                    d[name] = {"n_minus": int(neg.sum()), "n_minus_top_half": int((neg & (top > 0.5)).sum()),
+                               "n_minus_resolved_half": int((neg & (top <= 0.5)).sum()),
+                               "n_undecided": int((abs(w) <= b).sum()),
+                               "negatives": [float(x) for x in w[neg]],
+                               "top_half_negatives": [float(x) for x in w[neg & (top > 0.5)]]}
+                door[str(nv)] = d
+            rec["door_N32_200_vs_240"] = door
         out["cells"][c] = rec
         print(c, "analysed", flush=True)
     with open(OUT, "w") as fh:
