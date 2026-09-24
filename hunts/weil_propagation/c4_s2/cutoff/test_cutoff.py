@@ -202,3 +202,41 @@ def test_json_matches_live_small_parts():
     for v in data["atom_two_route_dev"].values():
         assert v < 1e-37
     assert math.isclose(data["comparison_lemma_trials"]["kappa"], 33.97056274847714, rel_tol=1e-12)
+
+
+# --- numbers quoted in RESULTS.md that the tests above do not already pin ---
+
+
+def test_results_quoted_constants():
+    assert abs(math.sqrt(2) / 2 * math.log(2) - 0.4901) < 5e-5
+    r = C.comparison_lemma_trials(trials=400)
+    assert round(r["ratio_min"], 4) == 0.8099
+    assert round(r["ratio_max"], 4) == 1.1624
+    with mp.workdps(30):
+        quoted = {0.0: "0.08578643762690", 1.3: "0.62212024700620", 5.7: "2.47576743448401"}
+        for s, val in quoted.items():
+            assert abs(C.m_of_s(s) - mp.mpf(val)) < mp.mpf(10) ** -14
+        assert abs(C.m_of_s(14.1347) - mp.mpf("2.8171503962")) < mp.mpf(10) ** -10
+    data = json.loads(JSON_PATH.read_text())
+    (row,) = [r for r in data["eta_theta_check"] if r["s"] == 14.1347]
+    assert abs(complex(row["ratio_theta_over_eta"]).real - row["m_of_s"]) < 5e-11
+
+
+def test_results_quoted_json_values():
+    data = json.loads(JSON_PATH.read_text())
+    for row in data["eta_theta_check"]:
+        ratio = complex(row["ratio_theta_over_eta"])
+        assert abs(ratio.real - row["m_of_s"]) < 1e-9
+    assert max(data["atom_two_route_dev"].values()) < 5.1e-40
+    rows = {(r["c"], r["N"]): r for r in data["shift_form_cells"]}
+    collar = {(2.2, 8): 2.05, (2.2, 16): 3.99, (2.2, 32): 7.86, (2.5, 8): 4.14,
+              (2.5, 16): 8.04, (2.5, 32): 15.83, (2.9, 8): 5.93, (2.9, 16): 11.52,
+              (2.9, 32): 22.68}
+    for key, val in collar.items():
+        assert round(rows[key]["collar_fraction_times_dim"], 2) == val
+    maxeig = {(2.2, 8): 0.4911, (2.2, 16): 0.49997, (2.5, 8): 0.49999}
+    for key, val in maxeig.items():
+        assert abs(rows[key]["max_eig"] - val) < 5e-5
+    for key in collar:
+        if key not in maxeig:
+            assert round(rows[key]["max_eig"], 4) == 0.5
