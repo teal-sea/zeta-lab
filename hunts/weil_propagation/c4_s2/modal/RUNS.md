@@ -105,7 +105,72 @@ coordinator before the batch.
 
 ## 4. The batch estimate
 
-Written after the calibration, before the batch launches.
+Written after the calibration and the coordinator's answer, before any batch
+unit launches.
+
+### 4.1 The coordinator's ruling on the calibration miss (2026-09-24)
+
+Option B of the question in s3.1: (1) run one sensitivity probe on Modal,
+the checker calibration unit again with `OPENBLAS_CORETYPE=Sandybridge`
+(OpenBLAS's AVX kernels without FMA, so only last-digit arithmetic changes),
+compared Modal against Modal; (2) launch the two_adic family now, since its
+calibration passed at 8.2e-15; (3) launch the four checker units with the
+calibration threshold set to 1e-6 max abs **only if** the probe moves the
+checker unit by about 1e-7; if it moves it by less than 1e-10, hold the
+checker family and ask again. The threshold in the brief is 1e-10; the
+measured miss is 2.28e-7 / 1.98e-7 / 1.93e-7 (c = 2.2 / 2.5 / 2.9); `Gb`'s
+condition number is 3.9e9. A 1e-6 threshold, if adopted, is set after the
+measurement and is justified by the probe, not by checker/'s band. Until the
+probe says otherwise, "likely cause" stays the wording. Each checker output
+carries the calibration's spectral differences as a Weyl bound
+(`meta.calibration.weyl_bound` = 2.93e-7), so checker/ can flag any R_S
+eigenvalue within that distance of its threshold when it re-grades.
+
+### 4.2 Per-unit estimates, timeouts and the worst case
+
+Modal / laptop speed ratio from s3.1: **1.75** (checker unit) and **1.69**
+(gram unit); Modal is slower per unit (4 cores, AVX2, no AVX-512, against the
+laptop's M4). Estimates scale the Modal calibration time by the larger of
+two work ratios, taken from the grids the code builds (`ta_mellin.s_grid`,
+`ta_mellin.w_nodes` with `ta_prolate.kmax_for(nvec)`): complex exponentials
+(s-nodes x w-nodes) and the mode matmul (s-nodes x w-nodes x nvec). The
+prolate-mode setup in mpmath is not in the model, and checker/ s7.6 records
+that a scaling model already failed once (the 240-mode unit passed 9.2
+CPU-min on the loaded laptop against an estimate of 320 s). The timeouts,
+not the estimates, hold the cap: each is 3 to 4.6 times its estimate.
+
+Default rule (derived from `two_adic/ta_ts.py` lines 146 and 147,
+`KernelProvider.delta_T`): `nvec = max(80, int(8 N / L) + 40)`,
+`S = max(1200.0, 12.0 * 2 * math.pi * N / L)`, L = log c; at N = 32 it gives
+(280, 2266.10) at c = 2.9, (319, 2633.16) at 2.5, (364, 3060.08) at 2.2.
+S is passed as that float; the unit key uses `int(S)`, as `unit_key` does.
+Each unit builds all three cells at its (nvec, S).
+
+| unit | Kmax | estimate (s) | unit timeout (s) | container timeout (s) | bound (USD) |
+|---|---|---|---|---|---|
+| checker_200_2400_32_sandybridge (probe) | 13 | 605 | 1800 | 2400 | 0.296 |
+| gram_140_4800 | 12 | 523 | 2400 | 3000 | 0.370 |
+| gram_160_4800 | 12 | 597 | 2400 | 3000 | 0.370 |
+| gram_180_4800 | 13 | 969 | 3600 | 4200 | 0.518 |
+| gram_200_4800 | 13 | 1077 | 3600 | 4200 | 0.518 |
+| gram_160_9600 | 12 | 1921 | 7200 | 7800 | 0.963 |
+| checker_240_2400_32 | 14 | 896 | 3600 | 4200 | 0.518 |
+| checker_280_2266_32 | 14 | 976 | 3600 | 4200 | 0.518 |
+| checker_319_2633_32 | 14 | 1329 | 5400 | 6000 | 0.741 |
+| checker_364_3060_32 | 15 | 3260 | 14400 | 15000 | 1.852 |
+| **all ten** | | **12148** | | | **6.666** |
+
+- **Worst case = sum over units of container timeout x (4 cores x
+  0.0000131 + 32 GiB x 0.00000222) = 6.67 USD.** With the smoke and
+  calibration already spent (computed 0.06 USD), **6.73 USD against the
+  25 USD cap.** The 364-mode unit fits, and the coordinator accepted it.
+- Expected: 12148 s x (4 x 0.0000131 + 16 x 0.00000222) = **1.07 USD**
+  (the probe's estimate assumes the no-FMA kernels are 1.4x slower).
+- Memory, scaled from the calibration peaks (1.58 GiB checker, 0.85 GiB gram)
+  by w-nodes x nvec: at most about 9 GiB (364 modes), under the 16 GiB
+  request; the 32 GiB limit caps it.
+- Launch order: the probe and the five gram units now, in one detached app;
+  the four checker units only after the probe, per 4.1.
 
 ## 5. Unit log
 

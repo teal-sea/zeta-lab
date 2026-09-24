@@ -85,38 +85,60 @@ def S_rule(c: float, N: int) -> float:
     return max(1200.0, 12.0 * 2 * math.pi * N / math.log(c))
 
 
-def _checker(nv, S, N, role, timeout):
-    return {"kind": "checker", "args": {"nvec": nv, "S": S, "N": N}, "role": role, "timeout": timeout}
+def _checker(nv, S, N, role, timeout, env=None, tag=""):
+    return {"kind": "checker", "args": {"nvec": nv, "S": S, "N": N}, "role": role, "timeout": timeout,
+            "env": env or {}, "tag": tag}
 
 
 def _gram(nv, S, role, timeout):
-    return {"kind": "gram", "args": {"nvec": nv, "S": S}, "role": role, "timeout": timeout}
+    return {"kind": "gram", "args": {"nvec": nv, "S": S}, "role": role, "timeout": timeout, "env": {}, "tag": ""}
 
 
 def unit_name(u) -> str:
     a = u["args"]
     if u["kind"] == "checker":
-        return f"checker_{a['nvec']}_{int(a['S'])}_{a['N']}"
+        return f"checker_{a['nvec']}_{int(a['S'])}_{a['N']}" + (f"_{u['tag']}" if u.get("tag") else "")
     return f"gram_{a['nvec']}_{int(a['S'])}"
 
 
-# timeout: the unit's child-process limit in seconds (RUNS.md s3 derives each).
+# timeout: the unit's child-process limit in seconds (RUNS.md s3 and s4 derive each).
 CALIBRATION = [
     _checker(200, 2400, 32, "calibration: checker/checker_ts_snapshot.json unit 200|2400|32", 1800),
     _gram(80, 4800, "calibration: two_adic/ta_gram_probe.json run 80,4800", 1200),
 ]
+# The coordinator's option B (2026-09-24): the checker calibration unit again on
+# Modal with OpenBLAS's Sandybridge kernels (AVX, no FMA), so only last-digit
+# arithmetic changes. Compared Modal against Modal (RUNS.md s4).
+PROBE = [
+    _checker(200, 2400, 32, "sensitivity probe: calibration unit with OPENBLAS_CORETYPE=Sandybridge", 1800,
+             env={"OPENBLAS_CORETYPE": "Sandybridge"}, tag="sandybridge"),
+]
 BATCH = [
-    _checker(240, 2400, 32, "run_checker_ts.CI_UNITS: N = 32 against more modes", 5400),
-    _checker(nvec_rule(2.9, 32), S_rule(2.9, 32), 32, "default rule at c = 2.9 (the 280-mode check)", 5400),
-    _checker(nvec_rule(2.5, 32), S_rule(2.5, 32), 32, "default rule at c = 2.5", 7200),
+    _checker(240, 2400, 32, "run_checker_ts.CI_UNITS: N = 32 against more modes", 3600),
+    _checker(nvec_rule(2.9, 32), S_rule(2.9, 32), 32, "default rule at c = 2.9 (the 280-mode check)", 3600),
+    _checker(nvec_rule(2.5, 32), S_rule(2.5, 32), 32, "default rule at c = 2.5", 5400),
     _checker(nvec_rule(2.2, 32), S_rule(2.2, 32), 32, "default rule at c = 2.2", 14400),
     _gram(140, 4800, "two_adic/ RESULTS s7b nvec response", 2400),
     _gram(160, 4800, "two_adic/ RESULTS s7b nvec response", 2400),
     _gram(180, 4800, "two_adic/ RESULTS s7b nvec response", 3600),
     _gram(200, 4800, "two_adic/ RESULTS s7b nvec response", 3600),
-    _gram(160, 9600, "two_adic/ RESULTS s7b S check at 160 modes", 5400),
+    _gram(160, 9600, "two_adic/ RESULTS s7b S check at 160 modes", 7200),
 ]
-UNITS = {unit_name(u): u for u in CALIBRATION + BATCH}
+UNITS = {unit_name(u): u for u in CALIBRATION + PROBE + BATCH}
+
+# Measured 2026-09-24 (RUNS.md s3.1): the Modal calibration unit against the
+# laptop's checker/checker_ts_snapshot.json, per cell. The spectral norm is the
+# Weyl bound: no eigenvalue of R_S built from the Modal T_S moves further than
+# it from the laptop's. Carried in every checker output (coordinator, option B).
+CHECKER_CALIBRATION = {
+    "unit": "checker_200_2400_32",
+    "against": "checker/checker_ts_snapshot.json T_S[c|32|40|200|2400]",
+    "threshold_in_brief": 1e-10,
+    "max_abs_diff": {"2.2": 2.280653070840799e-07, "2.5": 1.9847203391876178e-07, "2.9": 1.9314087262856106e-07},
+    "spectral_diff": {"2.2": 2.3147772724067146e-07, "2.5": 2.630526854265409e-07, "2.9": 2.933789496755222e-07},
+    "weyl_bound": 2.933789496755222e-07,
+    "cond_Gb": 3875494354.4005446,
+}
 
 
 def unit_cost_bound(u) -> float:
@@ -248,6 +270,20 @@ elif kind == "gram":
 else:
     raise SystemExit("unknown kind " + kind)
 res["child_seconds"] = round(time.time() - t0, 1)
+try:  # the OpenBLAS kernel family actually loaded (numpy's bundled library)
+    import ctypes, glob, numpy
+    core = None
+    for lib in glob.glob(os.path.join(os.path.dirname(numpy.__file__), "..", "numpy.libs", "*openblas*")):
+        L = ctypes.CDLL(lib)
+        for sym in ("scipy_openblas_get_corename64_", "openblas_get_corename64_", "openblas_get_corename"):
+            f = getattr(L, sym, None)
+            if f is not None:
+                f.restype = ctypes.c_char_p
+                core = f().decode()
+                break
+    res["blas_core"] = core
+except Exception as e:
+    res["blas_core"] = "unread: " + type(e).__name__
 with open(out, "w") as fh:
     json.dump(res, fh)
 '''
@@ -300,7 +336,7 @@ def unit_remote(name: str, u: dict) -> dict:
     if done is not None:
         return done
     base = {"unit": name, "kind": u["kind"], "args": u["args"], "role": u["role"],
-            "unit_timeout_s": u["timeout"], "tree_commit": TREE_COMMIT,
+            "unit_timeout_s": u["timeout"], "tree_commit": TREE_COMMIT, "child_env": u.get("env", {}),
             "resources": {"cpu": list(CPU), "memory_mib": list(MEMORY_MIB), "threads": THREADS}}
     if _vol_read(mark_path) is not None:
         return dict(base, status="restarted", note="start marker present: an earlier attempt of this "
@@ -317,7 +353,8 @@ def unit_remote(name: str, u: dict) -> dict:
     t0 = time.time()
     try:
         p = subprocess.run([sys.executable, "-c", CHILD, u["kind"], json.dumps(u["args"]), tmp],
-                           cwd=REMOTE_TREE, capture_output=True, text=True, timeout=u["timeout"])
+                           cwd=REMOTE_TREE, capture_output=True, text=True, timeout=u["timeout"],
+                           env={**os.environ, **u.get("env", {})})
         status = "ok" if p.returncode == 0 else "failed"
         err = p.stderr[-4000:]
     except subprocess.TimeoutExpired as e:
@@ -370,9 +407,12 @@ def shaped(res: dict) -> dict:
         meta["route"] = ("run_checker_ts.build_unit(nvec, S, N): ta_prolate.delta_T_cells(ProlateModes(nvec, dps=20), "
                          "cells, N, S, alpha=1) + KernelProvider(nvec, S).T_inf_matrix(c, N, 40)")
         ukey = f"{a['nvec']}|{int(a['S'])}|{a['N']}"
+        meta["blas_core"] = p.get("blas_core")
+        meta["calibration"] = CHECKER_CALIBRATION
         return {"meta": meta, "T_S": p["T_S"],
                 "units": {ukey: {"role": res["role"], "seconds": p["child_seconds"], "kmax": p["kmax"],
                                  "diag": p["diag"], "S_exact": a["S"]}}}
+    meta["blas_core"] = p.get("blas_core")
     return {"c": p["c"], "N": p["N"], "Q_low": p["Q_low"], "runs": p["runs"], "meta": meta}
 
 
@@ -400,6 +440,8 @@ def _drive(names):
         f = unit_remote.with_options(timeout=int(u["timeout"] + MARGIN_S))
         calls[n] = f.spawn(n, u)
         print("spawned", n, calls[n].object_id, flush=True)
+        with open(RUNS, "a") as fh:
+            fh.write(f"| {n} | spawned {calls[n].object_id} | | | | | | {time.strftime('%Y-%m-%d %H:%M:%S %z')} |\n")
     results = {}
     while calls:
         for n in list(calls):
