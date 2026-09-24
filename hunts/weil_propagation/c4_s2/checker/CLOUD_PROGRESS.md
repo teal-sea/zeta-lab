@@ -10,3 +10,4 @@ started 2026-09-24T13:25:33Z
 2026-09-24T13:46:39Z prolate sweep config 4 (200,2400,N32) done in 463 s; ta_ts_prolate.json updated (write outside checker/ authorized by operator)
 2026-09-24T13:46:46Z prolate tate_check (old, new) = 8.753880183100264e-14 8.76303084312083e-14 in 2 s
 2026-09-24T13:47:14Z prolate sweep vs prior committed ta_ts_prolate.json: 18 rows, max change 1.4e-7 (T_S low3), gram_sensitivity 7.4e-8, no count moved; rows now carry Kmax. Unit 7 still running.
+2026-09-24T13:53:37Z unit 7 (240, 2400, 32, Kmax 14) done in 1339.2 s (22.3 min, against the ~20 min estimate); snapshot committed. Running --analyse 015895f.
