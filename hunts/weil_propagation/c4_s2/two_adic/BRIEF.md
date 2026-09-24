@@ -230,3 +230,23 @@ folder's tests plus `tests/test_hunt_probe_discipline.py` and
 `tests/test_docs_numbering.py`. Expect checker/'s snapshot-serving tests to
 go red after your commit: that is the guard working, and checker/ rebuilds
 after you. Say in `worker_done` which checker/ tests you saw fail and why.
+
+## Follow-up 4, 2026-09-24: your citations of checker/ went stale again
+
+*Added by the coordinator.* checker/ rebuilt its snapshot under your QR rho
+and re-graded (49db49f reading, 3e36fa4 analysis; its RESULTS lines 1 to 3
+and s7.8, which lists every changed, added and removed key of
+`checker_ts_cells.json`). `test_ta_checker_citations.py` fails again in
+`test_n_minus_of_R_S_below_band` and `test_N8_refinement`, and your RESULTS
+cite the old-route N = 32 reading (undecided in float64).
+
+Task, exactly as in follow-up 2: bring your citations of checker/ up to
+date in this folder only (RESULTS lines and paragraphs that cite checker/,
+INTERFACE if it does, the citation tests), and change no mathematical
+statement of your own. Where you cite the old-route reading, keep it as
+history with its commit (3dc0a74) and add the new one. Also check your s10
+prediction lines against checker/'s outcome (the falsifier passed on 280,
+319 and 364; the 240-mode row landed within 1e−2 at 2.9 and 2.5 but not at
+2.2) and say which predictions held, without rewording them. Same
+constraints as before: no closure-file edits, no runs beyond the tests,
+pathspec commits, no push, no em dashes.
