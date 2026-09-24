@@ -571,7 +571,10 @@ def test_quoted_numbers(j40, j60):
         assert mp.nstr(_v(j40["prolate"]["odd"]["sum_lam2_closed"]), 10) == "1.762515165"
     pe40, pe60 = j40["prolate"]["even"], j60["prolate"]["even"]
     assert (pe40["n_max"], pe40["J"], pe40["K"], pe60["n_max"]) == (20, 74, 76, 23)
-    assert j40["seconds_total"] == 215.5 and j60["seconds_total"] == 365.0
+    assert j40["seconds_total"] < 600 and j60["seconds_total"] < 600  # compute limit
+    # RESULTS s3/s8: CC Figure 11's crossing a in (0.5, 0.6) as a cutoff c = e^a
+    assert (mp.nstr(mp.exp(mp.mpf("0.5")), 3), mp.nstr(mp.exp(mp.mpf("0.6")), 3)) == ("1.65", "1.82")
+    assert mp.nstr(mp.log(mp.mpf("1.9")), 3) == "0.642" and mp.nstr(mp.log(mp.mpf("1.5")), 3) == "0.405"
     # precision response: the worst deviation over all stored eigenvalues and constants
     worst = mp.mpf(0)
     with mp.workdps(70):

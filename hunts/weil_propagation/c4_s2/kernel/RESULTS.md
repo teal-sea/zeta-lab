@@ -178,8 +178,10 @@ at every N):
 | 2.0 | 0.002550097 | 2/1/0 | see above | see above | see above |
 
 At c = 1.5, R_∞ ⪰ 0 already on the full space. At c = 1.9, λ_max(K_I) > 1,
-so the one remainder direction of Thm 6.11 is present below log 2, as CC's
-Figure 11 indicates. The positive part of R_∞'s spectrum accumulates at 0
+so the one remainder direction of Thm 6.11 is present below log 2. This
+agrees with CC's Figure 11 (PDF page 36, read off the plot, no printed
+number): their largest eigenvalue crosses 1 between a = 0.5 and 0.6, below
+log 1.9 = 0.642, and stays below 1 at log 1.5 = 0.405. The positive part of R_∞'s spectrum accumulates at 0
 like N^{−2} (for example 1.871e−4 at c = 1.5, N = 32). That is the
 essential spectrum of −E at high frequency (ε has the kink ε'(1+) > 0),
 not a remainder direction. What is N-stable is the inertia and the
@@ -237,9 +239,10 @@ files (INTERFACE §5).
   10^{−30} [test_json_recompute_N8]. The N = 32 check at c = 2 is marked slow.
 - **Truncations** (JSON `prolate`): 20 weighted prolates, 74 Taylor terms
   and a 76-function Legendre basis at dps 40; 23 prolates at dps 60.
-- **Runtime.** `run_cells.py --dps 40`: 215.5 s; `--dps 60`: 365.0 s,
-  single process on the operator laptop. The kernel test tier runs under
-  pytest `-n 2` (s9).
+- **Runtime.** One run each, single process on the operator laptop:
+  `run_cells.py --dps 40` about 216 s, `--dps 60` about 365 s, both under
+  the 600 s limit (the stored `seconds_total` is checked against that
+  limit). The kernel test tier runs under pytest `-n 2` (s9).
 
 ## 7. Grades
 
@@ -259,7 +262,8 @@ No prover was used; no statement is kernel-checked.
 ## 8. Threads (observations, not pursued)
 
 - **The window where each remainder direction appears.** For S = {∞}, the
-  first negative of R_∞ on C1 appears between c = 1.5 and 1.9. The second,
+  first negative of R_∞ on C1 appears between c = 1.5 and 1.9 (CC's
+  Figure 11 puts it between a = 0.5 and 0.6, that is c ≈ 1.65 to 1.82). The second,
   on C2, appears between 2.5 and 2.9. A bisection at N = 32 would locate
   both. This is the S = {∞} version of the mission's "bounded rank" count,
   and it gives two_adic/ a baseline.
