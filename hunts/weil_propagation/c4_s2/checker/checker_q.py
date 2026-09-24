@@ -307,6 +307,40 @@ def q_parts(c, N: int, dps: int = 40, method: str = "gl", with_error: bool = Fal
         return out
 
 
+def prime_block(c, N: int, dps: int = 40):
+    """The prime block alone, -sum_{n < c} Lambda(n) n^{-1/2} K(log n), closed form."""
+    N = int(N)
+    with mp.workdps(dps + 10):
+        c_ = mp.mpf(c)
+        L = mp.log(c_)
+        S = [mp.mpf(0)] + [_prime_sine(c_, L, k) for k in range(1, N + 1)]
+        Dg = [_prime_diag(c_, L, k) for k in range(N + 1)]
+        sgn = lambda k: S[k] if k >= 0 else -S[-k]
+        M = mp.matrix(2 * N + 1)
+        for i, a in enumerate(range(-N, N + 1)):
+            M[i, i] = Dg[abs(a)]
+            for j in range(i + 1, 2 * N + 1):
+                b = j - N
+                v = (sgn(a) - sgn(b)) / (mp.pi * (b - a))
+                M[i, j] = v
+                M[j, i] = v
+    with mp.workdps(dps):
+        return M * 1
+
+
+def shift_form(c, N: int, dps: int = 40):
+    """H = K(log 2)/2 = Re <f, D f> with D the shift by log 2 compressed to
+    [0, L]: the atom block is -sqrt(2) log 2 * H on c in (2, 3]. On
+    L^2[0, L] with L < 2 log 2, D maps L^2[0, L - log 2] isometrically onto
+    L^2[log 2, L] (orthogonal to it) and kills the middle, so H has spectrum
+    {-1/2, 0, 1/2} (derivation)."""
+    with mp.workdps(dps + 10):
+        M = prime_block(c, N, dps + 10)
+        H = -M / (mp.sqrt(2) * mp.log(2))
+    with mp.workdps(dps):
+        return H * 1
+
+
 def Q_matrix(c, N: int, dps: int = 40):
     """The checker's Q on the shared basis: F(f) = v^* Q v, index 0 is n = -N."""
     return q_parts(c, N, dps)["Q"]

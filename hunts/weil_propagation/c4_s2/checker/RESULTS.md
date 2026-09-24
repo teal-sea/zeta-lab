@@ -1,14 +1,15 @@
 # RESULTS: checker/ (independent verification and kill-controls)
 
-1. **Phase 1 built:** an independent Q on the shared basis, the property tests for T_S and R_S = Q - T_S (P1-P8, derived before reading kernel/ or two_adic/), and the exact (U-S) gate. **R_S is not measured yet:** T_S has not been routed, so the 36 provider tests skip with reason "NotRouted".
-2. **Q is hardened entrywise** (three routes agree). It matches the CCM Galerkin matrix to 5.5e-40 at dps 40, N = 32, on all five c. Against `zeta.weil.weil_functional` it agrees to 1e-18 (sin^4 bump), 4e-14 (sin^2 bump) and 3.5e-16 (Fejer, b = L/2), set by that oracle's own quadrature.
-3. **Q is positive on every cell (measured eigenvalues at dps 40 and 60, consistent with Zhu's theorem).** lambda_min at N = 32: **2.3258e-4** (c = 2.2), **1.046e-5** (2.5), **1.8681e-7** (2.9). It is nonincreasing in N, and dps 40 and 60 agree to better than 1e-20 relative.
-4. **The (U-S) gate works as the mission requires (exact arithmetic, n <= 200; hardened, because it agrees entry for entry with numerics' `us_check`).** Epstein (1,1,6) is rejected from **n = 6** (composite atom, the first of 31) and **n = 8** (s_3(2) = 6); W_a from **n = 2**. zeta and Dedekind Q(sqrt -23) are accepted throughout. On c in [2, 3) the window alone cannot see Epstein's failure; the place-mode gate, which reads the whole 2-tower, can.
-5. **Open:** phase 2 and 3 (T_S, R_S inertia, kill-controls 2 to 4) wait on routing. ALIGNMENT s5 status: **unresolved** (the construction under test has not been delivered to the checker yet).
+1. **T_S (S = {inf, 2}) has not reached the checker.** two_adic/'s `T_S_matrix` raises KernelUnavailable for zeta's data: its provider is unwired, and no folder exposes the `delta_T` it calls. So P1 to P5 on T_S and R_S = Q - T_S are **not run**; their 21 tests skip with that reason.
+2. **What was run against routed code passes.** kernel/'s T_inf (af756a5) is Hermitian and PSD at all five c. Placing 2 off in two_adic/'s builder gives T_inf exactly. Connes-Consani Thm 6.11, transcribed to the basis, holds at c = 1.5 and 1.9 (N = 8, 16) with margins about 1e38 times the dps 40/60 drift; the least constant it needs, **kappa_star = 7.42 (N = 8), 9.51 (N = 16)** at c = 1.9, stays below their 16.99. Grade: measured at two precisions.
+3. **Product-side remainder, independently measured: its negative index grows with N**, confirming cutoff/'s refutation of product-side C4. n_-(Q - T_inf) on the full space is **5, 7, 11** (c = 2.2), **7, 11, 19** (2.5) and **9, 15, 25** (2.9) at N = 8, 16, 32, with lambda_min tending to -sqrt2 log2 / 2 = -0.490. The checker's own atom block reproduces cutoff/'s shift-form counts (2, 3, 7 / 4, 8, 15 / 5, 11, 23). On S = {inf} (c < 2) the index is stable: 0 at c = 1.5, 2 at c = 1.9.
+4. **Kill-controls:** 1 passes (exact gate, hardened by numerics' `us_check`); 2 passes (two_adic/ refuses W_a, and refuses Epstein fed the checker's own exact 2-tower, at s_3(2) = 6); 3 **not exercised** (Gamma_C framework limit; the argument checked independently, s5.4); 4 not run (no T_S to lesion).
+5. **Q** (phase 1): matches the CCM Galerkin matrix entrywise (one route, 5.5e-40 at dps 40), plus spot checks against `zeta.weil.weil_functional` on test functions (1e-18 to 4e-14). Q > 0 on every cell. ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2} (T_S not delivered); product-side C4 **refuted** on these cells (with cutoff/).
 
 Phase 1 of 2026-09-23, branch `teal-sea/weil-c4-s2`. Nothing here is a
 claim about RH. Grades follow the `AGENTS.md` ladder. Every number above is
-pinned by a test in this folder (`test_checker_q.py`, `test_checker_gate.py`).
+pinned by a test in this folder (`test_checker_q.py`, `test_checker_gate.py`,
+`test_checker_rs.py`).
 
 ## 1. Q, built independently
 
@@ -116,8 +117,112 @@ relative fails.
 g-hat(-i/2) = 0, while their Theorem 1 (p. 2) says +i/2 and 0. Both
 reflected classes are reported (`INTERFACE.md`).
 
-## 5. Reproduction
+## 5. Phase 2: routed code (tests in `test_checker_rs.py`, WRITTEN AFTER ROUTING)
+
+Routed by the coordinator: kernel/ af756a5 (`sonin.T_inf_matrix`), two_adic/
+f1e912d and c7e9f57 (`ta_ts.T_S_matrix`, `ta_data.validate`), cutoff/
+22f6e1c. After routing, only `checker_glue.py` changed among the phase 1
+files. `test_checker_rs.py` is new and says so in its header; no phase 1
+property was edited.
+
+**Definition change.** The mission's product-ball Pi_S is superseded
+(cutoff/ and two_adic/: at 2, time- and frequency-limiting to Z_2 differ, and
+the product ball is not Gamma_S-invariant). two_adic/ now uses Pi_S = the
+orthogonal projection onto Theta(range S_inf) (CCM arXiv:2310.18423 s4). P2's
+derivation needs only that Pi_S is an orthogonal projection, so it still
+applies. P6 is unchanged.
+
+### 5.1 What ran, and against what
+
+| property / control | owner | status |
+|---|---|---|
+| P1, P2 for T_inf (c = 1.5, 1.9, 2.2, 2.5, 2.9, N = 8) | kernel/ | **pass**: Hermitian defect 0; lambda_min > 0 |
+| P3 for T_inf (N = 8, 16 are central blocks of N = 32) | kernel/ | **pass**: defect < 1e-35 |
+| P6 place 2 off = T_inf | two_adic/ | **pass**, exact (drift 0). The builder's `local_data=None` path, with kernel/'s module passed as the provider. |
+| P7 Connes-Consani Thm 6.11, c = 1.5, 1.9, N = 8, 16 | kernel/ (with checker Q) | **pass** (table 5.3) |
+| P1 to P5 for T_S, R_S = Q - T_S | two_adic/ | **not run**: `T_S_matrix` raises KernelUnavailable. Its provider is unwired, and it needs `provider.delta_T(c, N, dps, alpha, parity)`, which kernel/ does not expose. |
+| kill-control 1, (U-S) gate | checker/ | **pass** (s3) |
+| kill-control 2, refusal of non-unitary data | two_adic/ | **pass**: W_a refused (\|alpha\| != 1); Epstein refused at \|s_3(2)\| = 6 > 2, using the checker's own tower |
+| kill-control 3, Dedekind positive control | two_adic/ | **positive control not exercised**: FrameworkLimit for Gamma_C (s5.4) |
+| kill-control 4, lesion (optional) | | **not run**: there is no T_S to build with the gate bypassed |
+
+The refusal reads the tower outside the window. On c in [2, 3) the only
+atom is n = 2, where Epstein has s_1(2) = 0. two_adic/'s validator accepts
+the tower cut at k = 2 (alpha = +-1) and refuses the whole tower at n = 8.
+A window-only check could not refuse Epstein here.
+
+### 5.2 kernel/'s T_inf and the product-side remainder R = Q - T_inf
+
+Q is the checker's own. T_inf is kernel/'s, at dps 40. C1 = V_- (g-hat(-i/2) = 0)
+and C2 = V_- with v_0 = 0 as well. Inertia uses tol = 10 x the dps 40/60
+eigenvalue drift for N <= 16, and 1e-30 x max|R| at N = 32. No eigenvalue
+is undecided. H is the shift form of the atom at 2, from the checker's
+prime block: H = -prime / (sqrt2 log2).
+
+| c | N | T_inf lowest | R full: n_-, lowest | R on C1: n_-, lowest | R on C2: n_-, lowest | #eig(H) > 1/4 |
+|---|---|---|---|---|---|---|
+| 1.5 | 8 | 3.8014e-2 | 0, 2.4594e-3 | 0, 3.0019e-3 | 0, 3.0019e-3 | (no atom) |
+| 1.5 | 16 | 3.779e-2 | 0, 7.3218e-4 | 0, 7.4875e-4 | 0, 7.4875e-4 | (no atom) |
+| 1.5 | 32 | 3.7722e-2 | 0, 1.8629e-4 | 0, 1.8708e-4 | 0, 1.8708e-4 | (no atom) |
+| 1.9 | 8 | 4.0004e-3 | 2, -2.8389e-2 | 1, -2.8201e-2 | 0, 7.5225e-3 | (no atom) |
+| 1.9 | 16 | 3.941e-3 | 2, -3.6078e-2 | 1, -3.5818e-2 | 0, 1.8764e-3 | (no atom) |
+| 1.9 | 32 | 3.9251e-3 | 2, -3.9604e-2 | 1, -3.9307e-2 | 0, 4.6881e-4 | (no atom) |
+| 2.2 | 8 | 1.2324e-3 | 5, -0.30383 | 4, -0.27828 | 3, -0.27828 | 2 |
+| 2.2 | 16 | 1.2054e-3 | 7, -0.46471 | 6, -0.46465 | 5, -0.46416 | 3 |
+| 2.2 | 32 | 1.1984e-3 | 11, -0.48799 | 10, -0.48798 | 9, -0.48798 | 7 |
+| 2.5 | 8 | 4.9155e-4 | 7, -0.42746 | 6, -0.42676 | 5, -0.42676 | 4 |
+| 2.5 | 16 | 4.7756e-4 | 11, -0.48123 | 10, -0.48123 | 9, -0.48117 | 8 |
+| 2.5 | 32 | 4.7401e-4 | 19, -0.48857 | 18, -0.48857 | 17, -0.48857 | 15 |
+| 2.9 | 8 | 1.9171e-4 | 9, -0.4377 | 8, -0.43752 | 7, -0.43713 | 5 |
+| 2.9 | 16 | 1.8495e-4 | 15, -0.48113 | 14, -0.48113 | 13, -0.48113 | 11 |
+| 2.9 | 32 | 1.8323e-4 | 25, -0.48846 | 24, -0.48846 | 23, -0.48846 | 23 |
+
+For c < 2 this is R_inf = P - E exactly (no atom). Its negative index is
+stable in N: 0 at c = 1.5; 2, then 1 on C1, then 0 on C2 at c = 1.9. That
+is the S = {inf} content of CC's Theorems 1 and 6.11. For c in [2, 3), n_-
+grows with N on every space, and lambda_min approaches -sqrt2 log 2 / 2 =
+-0.4901. That is cutoff/'s decomposition -sqrt2 log2 H + (compact), seen
+through an independent Q and an independent atom block. **Product-side C4
+is refuted on these cells** (measured at two precisions, with an ordinary
+argument from cutoff/). The semilocal T_S is meant to cancel exactly this,
+and it is the object not yet delivered.
+
+### 5.3 Connes-Consani Thm 6.11 in the mission basis (P7)
+
+kappa = 4 gamma / log 2 = 16.99 (gamma = 2.94355, CC Lemma 6.10). kappa_star
+is the least kappa with R + kappa L v_0^2 >= 0 on C1. "Reflected C2" is
+int f e^{+y/2} = 0 with v_0 = 0 (their Theorem 1 as printed).
+
+| c | N | min on C1 of R + kappa L v_0^2 | min on C2 | min on reflected C2 | kappa_star | largest dps 40/60 drift |
+|---|---|---|---|---|---|---|
+| 1.5 | 8 | 3.0019e-3 | 3.0019e-3 | 3.0019e-3 | 0.0 | 2.9e-41 |
+| 1.5 | 16 | 7.4875e-4 | 7.4875e-4 | 7.4875e-4 | 0.0 | 5.2e-42 |
+| 1.9 | 8 | 7.5225e-3 | 7.5225e-3 | 7.5225e-3 | 7.422 | 5.3e-42 |
+| 1.9 | 16 | 1.8764e-3 | 1.8764e-3 | 1.8764e-3 | 9.51 | 5.4e-42 |
+
+The two reflected classes give identical minima, so the Thm 6.11 / Theorem 1
+sign discrepancy (s4) makes no difference here. kappa_star grows with N at
+c = 1.9 and stays below 16.99. CC's Remark 6.12 puts the best constant for
+the full window log 2 in (13, 17).
+
+### 5.4 Kill-control 3: the Gamma_C framework limit, checked independently
+
+Over Q with S = {inf, 2}, Gamma_S = {+-2^n} contains -1, embedded
+diagonally in R* x Q_2*. A character of C_S is trivial on it, so
+chi_inf(-1) chi_2(-1) = 1. A component odd at inf therefore needs
+chi_2(-1) = -1. That is impossible for chi_2 unramified at 2, since
+-1 is in Z_2^*. chi_{-23} is odd (negative discriminant) and unramified
+at 2 (chi(2) = +1, and 2 splits), so L(s, chi_{-23}) has no component on
+L^2(X_S). The argument holds (elementary; arithmetic pinned in
+`test_gamma_c_framework_limit_arithmetic`). The Dedekind control needs
+23 in S, or the construction over K = Q(sqrt -23). **Positive control not
+exercised.** The Dedekind data at 2 are unitary (alpha = (1, 1),
+s_k(2) = 2), so this refusal is about the archimedean parity, not about
+the local data.
+
+## 6. Reproduction
 
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_q.py   # ~3 min
+    PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_rs.py  # ~8 min (shared laptop)
     PYTHONPATH=$PWD <venv>/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/checker \
-        tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py                  # ~75 s
+        tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # 8.3 min with routed providers, shared laptop
