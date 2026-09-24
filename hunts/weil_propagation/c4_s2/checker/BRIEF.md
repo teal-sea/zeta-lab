@@ -221,3 +221,47 @@ changed, because two_adic/'s `test_ta_checker_citations.py` pins them.
 Constraints: your folder only; no Modal runs and nothing heavy locally;
 pathspec commits, no push, no em dashes; run your folder's tests plus
 `tests/test_hunt_probe_discipline.py` and `tests/test_docs_numbering.py`.
+
+## Follow-up 3, 2026-09-24: exact inertia for the c = 2.9 count
+
+*Added by the coordinator.* Operator request via Forge: harden the c = 2.9
+count (n_− = 4, 10, 20 at N = 8, 16, 32) on the matrices already produced.
+No new modes, no Modal (every unit here is seconds on the laptop).
+
+**What to compute.** For every c = 2.9 build in the current snapshot
+(digest b2e7787bce7a): (120, 1600, 16), (160, 1600, 16), and the five N = 32
+rows (200, 240, 280, 319, 364 modes), take the same float64 R_S = Q − T_S
+that produced your reported count. Its entries are exact dyadic rationals.
+Compute the inertia of R_S + band·I with no rounding: exact rational
+symmetric elimination (python-flint `fmpq_mat`, or your own LDL^T in
+`fmpq`), or ball arithmetic (`arb_mat`) with every pivot excluding zero.
+By Sylvester's law the negative count of R_S + band·I is the number of
+eigenvalues of R_S strictly below −band. Use your own stored band(c, N)
+from `checker_ts_cells.json`, not a re-derived one. For each counted
+negative, bracket its eigenvalue by bisecting the shift, and report its
+margin below −band. Also report the counts at 2x, 5x and 10x band, as a
+sensitivity row and not a new criterion. Report the count on the C4
+function class (ĝ vanishing at ±i/2 and 0) too if your code has that
+projection; otherwise state the codimension bound.
+
+**Pre-register first.** Commit the test (the shift, the band source, the
+margin report, what "holds" means) before any inertia is computed, as
+49db49f did. Confirm `rigor.available_backends()` lists python-flint.
+
+**Grade it honestly, whatever the numbers.** The exact inertia hardens the
+eigenvalue step of the stored matrix and nothing else. ΔT's band is a
+measured response that indicates and does not bound, so the composite count
+stays **measured, weakest step ΔT**. C4 (theory §7.2) states no rank bound,
+so no finite count refutes "bounded rank": what a count k establishes is
+that any remainder absorbing R_S on this construction needs rank >= k
+there (state the min-max argument you use, and grade it as an ordinary
+argument, unreviewed). Do not write "refuted" or round a rung up; the
+coordinator will say so to the operator. Say explicitly which negatives,
+if any, fail to stay below −band.
+
+Constraints: your folder only; nothing heavy locally; pathspec commits, no
+push, no em dashes. Under `hunts/` write "hardened" or "exact inertia"; the
+reserved word of `zeta/rigor.py` may not appear even in a disclaimer. Run
+your folder's tests plus `tests/test_hunt_probe_discipline.py` and
+`tests/test_docs_numbering.py`. List any changed key of
+`checker_ts_cells.json` in `worker_done` (two_adic/ pins some).
