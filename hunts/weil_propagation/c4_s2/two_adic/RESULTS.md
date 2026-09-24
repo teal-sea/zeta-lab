@@ -2,7 +2,7 @@
 2. **Main measurement: ΔT cancels the 2-adic atom up to a residual whose large eigenvalues (beyond ±0.1) do not grow with N. ΔT + Wp has 1, 2, 3 ± pairs beyond 0.1 at c = 2.2, 2.5, 2.9, identical at N = 8, 16 and 32 on the delivered truncations (80, 1200), (120, 1600) and (200, 2400) (this said "converged" before checker/'s refinement; which rows are converged, and to what, is in the correction notice), leading values stable to 1e−2 (c = 2.9: +0.48, −0.46, +0.38, −0.32, +0.17, −0.16; the fourth read −0.31 before the rerun of the notice below); the next pairs are near 0.08.** With T_∞ alone the residual is Wp itself, whose multiplicity near ±0.49 grows with N (cutoff/). Grade: measured (ζ̂ hardened, two routes to 9e−14); not a proof of bounded rank. Exact companion: −Wp = log 2 (Gram(θ_S) − 3/2 I) on 2 < c < 4 (hardened against `galerkin.py`, 4.5e−40).
 3. **Structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt (HS² = K/2 + 1.07079 over Euler levels j ≤ K, against 2.23748 archimedean; ordinary argument plus measured partial sums).** Hence ΔT needs Sonin data across the Mellin band: at N = 32, 200 prolate modes were needed; 130 left spurious residual pairs (rechecked under the Kmax rule of the notice below: stands).
 4. **Refuted: theory §7.3 item 2 (exact: time and frequency limiting to Z_2 differ, commute, and meet in 1_{Z_2}), and the literal Π_S of §7.3 has infinite trace on X_S (ordinary argument).** Positive control not exercised: Γ_C data cannot be realized over Q with S = {∞, 2}, since no idele class character of C_S is odd at ∞ and unramified at 2.
-5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved. Line 2 covers only the eigenvalues of ΔT + Wp beyond ±0.1 and cannot see negative eigenvalues of R_S = Q − T_S of size 1e−2, so it is not evidence for bounded rank. checker/ measures those (its RESULTS line 2 and s7.3a): n_−(R_S) below −band is 4, 4, 3 (c = 2.2), 4, 9, 20 (2.5) and 4, 10, 20 (2.9) at N = 8, 16, 32; at c = 2.9 the N = 16 count is 10 at both 120 and 160 modes, its last pair 1.4 to 1.5 times the band, while at 2.2 and 2.5 the N = 16 count falls as modes rise (truncation). At c = 2.9 that measurement runs against bounded rank.** (Corrected: this line said line 2 points to a bounded remainder.) Open: R_S and its inertia (checker/'s), ΔT accurate below Q's smallest eigenvalue (not met on c = 2.2, N = 8 at any mode count from 80 to 200 at S = 4800, §7b, measured with Modal's runs: the nvec response falls only to 3.5e−4 per 20 modes at 180 → 200, and from 160 modes the criterion's probe term binds; the 0.36-per-20-modes prediction is refuted; the next test, (200, 9600) and (220, 9600), is estimated there, not run), and a proof.
+5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved. Line 2 covers only the eigenvalues of ΔT + Wp beyond ±0.1 and cannot see negative eigenvalues of R_S = Q − T_S of size 1e−2, so it is not evidence for bounded rank. checker/ measures those (its RESULTS lines 2 and 3, s7.3a and s7.7): n_−(R_S) below −band is 4, 4 (c = 2.2), 4, 9 (2.5) and 4, 10 (2.9) at N = 8, 16; at c = 2.9 the N = 16 count is 10 at both 120 and 160 modes, its last pair 1.4 to 1.5 times the band, while at 2.2 and 2.5 the N = 16 count falls as modes rise (truncation). At c = 2.9 that measurement runs against bounded rank. At N = 32 the count is undecided on checker/'s route in float64: the 240-mode refinement moves T_S by 3.9e−2, 2.4e−2, 3.2e−2, more than every top-half depth of the 200-mode row, and sets the band; below it the 200 and 240-mode rows count 0, 2, 2 and 0, 5, 4, while the 240-mode row still holds 19 and 23 negatives (2.5, 2.9) at the old band, so the band rose and the negatives did not leave; the 280-mode row at c = 2.9 counts 22 but inverts a Gram matrix of condition 1.1e17, above 1/eps.** (Corrected: this line said line 2 points to a bounded remainder; until checker/'s N = 32 re-grade it quoted 3, 20, 20 at N = 32, counts at the earlier proxy band.) Open: R_S and its inertia (checker/'s), ΔT accurate below Q's smallest eigenvalue (not met on c = 2.2, N = 8 at any mode count from 80 to 200 at S = 4800, §7b, measured with Modal's runs: the nvec response falls only to 3.5e−4 per 20 modes at 180 → 200, and from 160 modes the criterion's probe term binds; the 0.36-per-20-modes prediction is refuted; the next test, (200, 9600) and (220, 9600), is estimated there, not run), and a proof.
 
 ## Correction notice (2026-09-23, 23:20 and 23:45, and 2026-09-24, 00:30 after checker/'s refinement; reruns under 8dc8525)
 
@@ -45,9 +45,9 @@
   response was not measured.
 - **Converged rows.** Claimed (88d9dd1, line 2, §5b, INTERFACE.md): (80, 1200)
   converged at N = 8 and 16, (120, 1600) at N = 16, (200, 2400) at N = 32.
-  checker/ measured otherwise (its RESULTS line 3 and s7.2, spectral norm of
-  the change of T_S): at N = 16, 80 → 120 modes moves T_S by 7.8e−2, 4.5e−2,
-  2.4e−2 at c = 2.2, 2.5, 2.9, so **(80, 1200) is not converged at N = 16**;
+  checker/ measured otherwise (its RESULTS line 1, line 3 before 8d66d09, and
+  s7.2, spectral norm of the change of T_S): at N = 16, 80 → 120 modes moves
+  T_S by 7.8e−2, 4.5e−2, 2.4e−2 at c = 2.2, 2.5, 2.9, so **(80, 1200) is not converged at N = 16**;
   120 → 160 moves it by 1.6e−2, 5.2e−3, 3.7e−3, so **(120, 1600) is converged
   to 1.6e−2 at c = 2.2** (above the 5.9e−3 probe) **and to within the probe at
   2.5 and 2.9**. At N = 8, checker/'s refinement of the (80, 1200) row against
@@ -55,9 +55,13 @@
   5.6e−3, above its probe (3.5e−3 to 3.8e−3); §7b's 80 → 100 at S = 4800 on
   c = 2.2 (4.5e−3) agrees in size. At N = 32, (200, 2400) has no measured
   refinement (checker/'s 240-mode unit ran past the 10-minute limit): its
-  convergence is not measured. Line 2's ±0.1 counts are measured on the
-  delivered rows only (at N = 16 the (80, 1200) and (120, 1600) rows give the
-  same counts); they were not recomputed at 160 modes.
+  convergence is not measured. (Updated 2026-09-24 after checker/'s s7.7: the
+  240-mode unit has since run on Modal and moves T_S by 3.9e−2, 2.4e−2,
+  3.2e−2 at c = 2.2, 2.5, 2.9; checker/ reads it as not a clean refinement,
+  T_S's lowest eigenvalue there being −7.3e−3 to −8.9e−3.) Line 2's ±0.1
+  counts are measured on the delivered rows only (at N = 16 the (80, 1200) and
+  (120, 1600) rows give the same counts); they were not recomputed at 160
+  modes.
 - **Line 5's reading.** Claimed (88d9dd1): line 2 points to a bounded
   remainder. Line 2 measures only eigenvalues of ΔT + Wp beyond ±0.1; the
   negative eigenvalues of R_S of size 1e−2 are checker/'s, and at c = 2.9 they
@@ -586,9 +590,11 @@ ALIGNMENT s5: theory §7.3 item 2 **refuted** (exact). The product-ball Π_S
 the module one). C4 on the module form at S = {∞, 2} **unresolved**: T_S is
 built and evaluated, T_S ≥ −0.02 on every cell, and the residual against the
 prime atom has an N-independent top beyond ±0.1. That top is not bounded
-rank of R_S: checker/ counts n_−(R_S) below −band at 4, 10, 20 (c = 2.9, N = 8,
-16, 32), the 4 → 10 step stable under 120 → 160 modes, and at c = 2.9 its
+rank of R_S: checker/ counts n_−(R_S) below −band at 4, 10 (c = 2.9, N = 8,
+16), the 4 → 10 step stable under 120 → 160 modes, and at c = 2.9 its
 measurement runs against bounded rank (checker/'s grade: measured, weakest step ΔT).
+At N = 32 the count is undecided on checker/'s route in float64 (its s7.7:
+the band rose past the negatives, and the negatives did not leave).
 
 ## 9. Reproduction
 

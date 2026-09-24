@@ -75,7 +75,9 @@ those reruns). Delivered rows: (nvec, S) = (80, 1200) for N = 8,
 measurement, RESULTS.md correction notice; this paragraph listed all four as
 "converged" before): (80, 1200) to about 5.6e−3 at N = 8 and **not** at
 N = 16 (80 → 120 modes moves T_S by up to 7.8e−2); (120, 1600) to 1.6e−2 at
-c = 2.2 and within the probe at 2.5 and 2.9; (200, 2400) not measured. For checker/: R_S = Q − T_S with Q = Q_∞ − Wp, so
+c = 2.2 and within the probe at 2.5 and 2.9; (200, 2400): checker/'s 240-mode
+refinement moves T_S by 3.9e−2, 2.4e−2, 3.2e−2 from it, and checker/ reads that
+row as not a clean refinement (its s7.7). For checker/: R_S = Q − T_S with Q = Q_∞ − Wp, so
 R_S = R_∞ − (ΔT + Wp).
 
 `ta_gram_probe.json`: `c`, `N`, `Q_low` (checker/'s value), and `runs`
