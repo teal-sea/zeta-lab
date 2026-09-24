@@ -30,6 +30,8 @@ Sections:
 5. A finite-dimensional check of the comparison lemma of RESULTS.md s4.
 6. The prime-atom form at n = 2 on the mission's shared basis, by a closed
    form and, independently, from the weil_trunc Galerkin code.
+7. The window compression of m: the Gram matrix of theta_S on the shared
+   basis by direct quadrature, against 3/2 I - sqrt2 H and the prime block.
 
 House rules: mpmath with explicit mp.workdps; sympy Rationals for the exact
 parts; numpy only for the random finite-dimensional sanity check.
@@ -438,10 +440,64 @@ def run_cells(path: Path | None = None) -> dict:
         "comparison_lemma_trials": comparison_lemma_trials(),
         "shift_form_cells": [shift_form_spectrum(c, N) for c in CELLS_C for N in CELLS_N],
         "atom_two_route_dev": {f"{c}_{N}": two_route_atom_dev(c, N) for c in CELLS_C for N in (8, 16)},
+        "theta_gram_atom_dev": [theta_gram_atom_dev(c, 2, 30) for c in CELLS_C],
     }
     if path is not None:
         Path(path).write_text(json.dumps(out, indent=1) + "\n")
     return out
+
+
+
+# ---------------------------------------------------------------------------
+# 7. the window compression of m: Gram of theta_S on the shared basis
+# ---------------------------------------------------------------------------
+
+
+def theta_gram_quadrature(c, N: int, dps: int = 30):
+    """<theta_S U_n, theta_S U_m> by direct quadrature, additive variable.
+
+    In the additive variable x = log u, theta_S g = g - 2^{-1/2} g(. - log 2)
+    (w_S theta_S = w_inf - 2^{-1/2} (dilation by 2), CCM Prop 4.6 proof).
+    U_n lives on [0, L]; its shift on [log 2, L + log 2].  Independent of
+    the closed form in shift_form_matrix.
+    """
+    with mp.workdps(dps):
+        L = mp.log(mp.mpf(c))
+        a = mp.log(2)
+        r = 1 / mp.sqrt(2)
+        ns = list(range(-N, N + 1))
+
+        def U(n, y):
+            return mp.expj(2 * mp.pi * n * y / L) / mp.sqrt(L)
+
+        def th(n, y):
+            v = mp.mpf(0)
+            if 0 <= y <= L:
+                v += U(n, y)
+            if a <= y <= L + a:
+                v -= r * U(n, y - a)
+            return v
+
+        pts = sorted({mp.mpf(0), a, L, L + a})
+        G = mp.matrix(2 * N + 1)
+        for i, n in enumerate(ns):
+            for j, m in enumerate(ns):
+                G[i, j] = mp.quad(lambda y: th(n, y) * mp.conj(th(m, y)), pts)
+        return G
+
+
+def theta_gram_atom_dev(c, N: int = 2, dps: int = 30) -> dict:
+    """Compare Gram(theta_S) with 3/2 I - sqrt2 H and with the galerkin prime block."""
+    with mp.workdps(dps):
+        G = theta_gram_quadrature(c, N, dps)
+        H = shift_form_matrix(c, N, dps)
+        P = galerkin_prime_block(c, N, dps)  # = -W_2
+        n = 2 * N + 1
+        d1 = max(abs(G[i, j] - ((mp.mpf(3) / 2 if i == j else 0) - mp.sqrt(2) * H[i, j]))
+                 for i in range(n) for j in range(n))
+        d2 = max(abs(P[i, j] - mp.log(2) * (G[i, j] - (mp.mpf(3) / 2 if i == j else 0)))
+                 for i in range(n) for j in range(n))
+        return {"c": c, "N": N, "dps": dps, "gram_vs_H": float(d1), "prime_block_vs_gram": float(d2)}
 
 
 if __name__ == "__main__":

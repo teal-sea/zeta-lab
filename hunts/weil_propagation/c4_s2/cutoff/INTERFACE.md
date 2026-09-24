@@ -30,5 +30,8 @@ folder builds no trace term. It holds the checks behind `RESULTS.md`.
   `n_above_quarter`, `n_below_minus_quarter`, `max_eig`, `min_eig`,
   `collar_fraction_times_dim` = (2N+1)(L − log 2)/L.
 - `atom_two_route_dev`: `"<c>_<N>"` → max entrywise |atom_matrix + galerkin_prime_block| at dps 40.
+- `theta_gram_atom_dev`: rows `c`, `N` (2), `dps` (30), `gram_vs_H` = max |Gram(theta_S) − (3/2 I − √2 H)|,
+  `prime_block_vs_gram` = max |galerkin prime block − log 2 (Gram(theta_S) − 3/2 I)|; Gram by direct quadrature
+  (`theta_gram_quadrature(c, N, dps)`).
 
-Runtime: `python cutoff.py` about 80 s on the laptop; the tests about the same with `-n 2`.
+Runtime: `python cutoff.py` about 100 s on the laptop; the tests about the same with `-n 2`.

@@ -240,3 +240,22 @@ def test_results_quoted_json_values():
     for key in collar:
         if key not in maxeig:
             assert round(rows[key]["max_eig"], 4) == 0.5
+
+
+# --- s3: the window compression of m is the atom ----------------------------
+
+
+@pytest.mark.parametrize("c", C.CELLS_C)
+def test_theta_gram_is_three_halves_minus_atom(c):
+    # measured at dps 30, N = 2: <= 5.9e-31 and <= 1.7e-31; tolerance 100x
+    r = C.theta_gram_atom_dev(c, 2, 30)
+    assert r["gram_vs_H"] < 6e-29
+    assert r["prime_block_vs_gram"] < 6e-29
+
+
+def test_theta_gram_json():
+    data = json.loads(JSON_PATH.read_text())
+    rows = data["theta_gram_atom_dev"]
+    assert [r["c"] for r in rows] == list(C.CELLS_C)
+    assert max(r["gram_vs_H"] for r in rows) < 6e-31
+    assert max(r["prime_block_vs_gram"] for r in rows) < 2e-31

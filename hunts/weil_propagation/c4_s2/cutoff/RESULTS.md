@@ -1,7 +1,7 @@
 1. **Verdict: gap, stated exactly, plus a bound, plus one refutation. The product-ball cutoff is not Γ_S-invariant, so it defines no operator on L²(X_S), the space where Connes' eq. (22) lives.** It yields a finite trace term in three readings only: taken on L²(A_S) it is the archimedean term T_∞ and the place 2 drops out; pushed to X_S with the open ball at 2 it is exactly the module term T^mod (Connes-Consani-Moscovici arXiv:2310.18423 Thm 4.6, used as published); pushed with the self-dual vector 1_{Z_2} it is a third term T^η. Theory §7.3's formula Π_S = S_∞ ⊗ P_2 + 1 ⊗ (1 − P_2) gives +∞ in every reading. Grade: ordinary argument, unreviewed, on cited theorems; local facts at 2 exact.
 2. **Refuted: C4 with the product-side trace term T_∞, on every window c ∈ (2, 3).** R_S = Q − T_∞ equals a Hilbert-Schmidt form minus √2 log 2 · H, where H, the n = 2 atom's shift form, has spectrum {−1/2, 0, 1/2} with infinite multiplicities. So R_S has infinite negative index and no bounded-rank remainder exists. Grade: ordinary argument, unreviewed, using Connes-Consani arXiv:2006.13771 Thm 4.7 as published. On the shared basis the count of eigenvalues of H above 1/4 grows as 2, 3, 7 (c = 2.2), 4, 8, 15 (c = 2.5), 5, 11, 23 (c = 2.9) at N = 8, 16, 32 (measured, dps 40; two independent routes to H agree to 5e−40 at N = 8 and 16).
 3. **Bound: κ^{−1} T_∞ ≤ T^mod ≤ κ T_∞ and the same for T^η, with κ = 17 + 12√2 ≈ 33.97.** κ is the ratio of the extremes of the 2-adic multiplier m(s) = |1 − 2^{−1/2−is}|² ∈ [3/2 − √2, 3/2 + √2] = [0.0858, 2.914]. Grade: the lemma is an ordinary argument, unreviewed; κ and the range of m are exact; the multiplier identities CCM (47) and (57) are hardened at S = {∞, 2} by two routes (relative agreement 7e−32 and 3e−22 at s = 0, dps 30).
-4. **Exact gap.** On X_S the module Sonin space equals the image of the product (open-ball) Sonin space, but the two trace terms use different projections onto it: T^mod the orthogonal one, the product side the oblique one θ_S S_∞ θ_S^{−1}. These coincide only if the archimedean Sonin space is invariant under the multiplier m, which would force S_1 = S_2 (ordinary argument; strictness of the Sonin chain not checked here). Theory §7.3 item 2's local claim is false: at 2, time and frequency limiting to Z_2 are different projections that commute with rank-one product (exact).
+4. **Exact gap.** On X_S the module Sonin space equals the image of the product (open-ball) Sonin space, but the two trace terms use different projections onto it: T^mod the orthogonal one, the product side the oblique one θ_S S_∞ θ_S^{−1}. These coincide only if the archimedean Sonin space is invariant under the multiplier m, which would force S_1 = S_2 (ordinary argument; strictness of the Sonin chain not checked here). Compressed to window functions the same multiplier is exactly the prime atom: Gram(θ_S) = 3/2 − W_2/log 2 on c ∈ (2, 4) (exact; three routes agree to 6e−31 at dps 30). Theory §7.3 item 2's local claim is false: at 2, time and frequency limiting to Z_2 are different projections that commute with rank-one product (exact).
 5. **Open (attempt unresolved):** whether T^mod, the only reading consistent with (22), leaves a bounded-rank R_S. That needs the semilocal analogue of the Connes-Consani function ε(ρ), which does not exist yet. If that analogue holds, T^mod − T_∞ = −W_2 + (ε_S − ε_∞), so the two terms differ on these windows by exactly the 2-adic atom (derivation, conditional). The matrix comparison on the mission cells was not computed because it needs kernel/'s S_∞ (cost in §6). ALIGNMENT s5: product-side construction **refuted**; module construction **unresolved**.
 
 # RESULTS: cutoff/, gap (c), product-ball cutoff against the module cutoff
@@ -156,6 +156,23 @@ Tr(ϑ(g) Π^obl ϑ(g)^*) = Tr(ϑ_∞(g) S_∞ ϑ_∞(g)^*) = T_∞(g). So readin
 and reading (X) are traces against two projections onto **the same
 subspace**: oblique (A) and orthogonal (X).
 
+**The same multiplier is the atom on window functions (exact).** In the
+additive variable θ_S g = g − 2^{−1/2} g(· − log 2) (CCM Prop 4.6 proof),
+so for g on the window ‖θ_S g‖² = (3/2)‖g‖² − √2 ⟨g, H g⟩ with H the shift
+form of §5. Hence on the window space
+
+    Gram(θ_S) = 3/2 − √2 H = 3/2 − W_2 / log 2      (2 < c < 4).
+
+The non-isometry of θ_S is what separates the orthogonal from the oblique
+projection, and compressed to window functions it is exactly the 2-adic
+atom. The trace terms see a different compression of the same multiplier,
+G = Π_Ŝ M_m Π_Ŝ on the Sonin space, which is not computed here. Checked by
+direct quadrature of Gram(θ_S) (N = 2, the three cells, dps 30) against
+3/2 − √2 H (at most 5.9e−31) and against the prime block of
+`weil_trunc/galerkin.py` (at most 1.7e−31): hardened, three routes.
+two_adic/ (commit f1e912d) found and pinned the same identity
+independently.
+
 **When they coincide.** In Mellin form Π^obl = M_a Π_Ŝ M_a^{−1}; it is
 self-adjoint iff Π_Ŝ commutes with M_m, m = |a|² = 3/2 − √2 cos(s log 2),
 i.e. iff S_1(ℝ) is invariant under D_2 + D_{1/2} (the unitary dilations by
@@ -300,6 +317,7 @@ by sympy in the tests instead.
 | trace terms of readings A, A', A'', A''', X'' (§1.3) | ordinary argument, unreviewed |
 | product Sonin space = module Sonin space after Γ (reading X) | ordinary argument on CCM Thm 4.6, used as published |
 | CCM (47), (57) at S = {∞, 2} | hardened (two routes, dps 30) |
+| Gram(θ_S) = 3/2 − W_2/log 2 on the window space, 2 < c < 4 | exact; hardened numerically (three routes, dps 30, N = 2) |
 | product side = oblique projection; coincidence iff M_m-invariance ⇒ S_1 = S_2 | ordinary argument, unreviewed |
 | T^mod − T_∞ = −W_2 + ⟨ε_S − ε_∞, ·⟩ | derivation, conditional on an unproved semilocal analogue of CC Thm 4.7 |
 | bound with κ = 17 + 12√2 | ordinary argument, unreviewed; constants exact |
@@ -326,5 +344,5 @@ comparison bound (§4) and the refutation of the product-side reading
 
 ## 9. Reproduction
 
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/cutoff/cutoff.py   # about 80 s, writes cutoff_cells.json
+    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/cutoff/cutoff.py   # about 100 s, writes cutoff_cells.json
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/cutoff tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py
