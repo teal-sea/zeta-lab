@@ -337,3 +337,81 @@ kernel family the child loaded.
 
 | unit | status | wall s | CPU s | peak MiB | computed cost USD | BLAS | landed |
 |---|---|---|---|---|---|---|---|
+| checker_80_1200_8 | spawned fc-01M3AD6RGP4B31ZSTGQDWBB9GB | | | | | | 2026-09-24 14:10:18 -0500 |
+| checker_80_1200_8 | ok | 39.3 | 100.1 | 471.7 | 0.0035 | SkylakeX | 2026-09-24 14:11:19 -0500 |
+
+### 7.4 Smoke and calibration results (2026-09-24 14:08 to 14:12 -0500)
+
+- **Smoke (app ap-ERd4Y6ruZrBdFLlCPZAujJ): PASS.** The image build checked
+  HEAD e2b46a5 and an empty whole-tree porcelain. In the container, before
+  and after importing `run_checker_ts`: HEAD e2b46a5, porcelain empty,
+  `ts_key()` = (`b2e7787bce7a...0eaa`, []), equal to the local call. Python
+  3.12.10, Linux 4.19 gVisor x86_64, glibc 2.36, 4 CPUs; numpy 2.5.1,
+  scipy 1.18.0, mpmath 1.3.0, python-flint 0.9.0, sympy 1.14.0. CPU model not
+  exposed ("unknown"); this host's numpy reports AVX-512 (X86_V4).
+- **Calibration (app ap-r0YfOJE3NKR8yfoGTpakcI): PASS.** `checker_80_1200_8`
+  on Modal (OpenBLAS SkylakeX, child 34.2 s, container 39.3 s, 100.1 CPU s,
+  472 MiB) against `out_rho/local_checker_80_1200_8.json` (laptop 41.3 s at
+  load average 24), all six row keys (three cells, dps 40 and 60):
+
+  | cell | max abs difference, dps 40 | dps 60 |
+  |---|---|---|
+  | 2.2 | 5.8e-15 | 5.8e-15 |
+  | 2.5 | 4.9e-15 | 4.9e-15 |
+  | 2.9 | 7.1e-15 | 7.1e-15 |
+
+  **Max 7.1e-15 against the threshold 1e-10: met.** The diagnostics agree:
+  cond_Fz 16.514603709784 both, cond_Fb 16.735960732146 both, cond_Gb
+  280.0923816279 both (relative 1e-13). Recorded in `run_modal_rho.py`
+  `CHECKER_CALIBRATION` and carried in every output's `meta.calibration`
+  (the calibration file was re-shaped from the Volume with `fetch --no-log`,
+  app ap-W1DBc8WmUr8jqNdJ9AizI0, no containers). This is the N = 8 unit at
+  cond_F about 17; no platform floor is measured here for the N = 16 and
+  N = 32 units.
+
+### 7.5 The batch estimate (written before launch)
+
+Speed: the QR route costs about what the inverse did on Modal. The old route
+has no Modal build of (80, 1200, 8); at the first follow-up's Modal / laptop
+ratio of 1.75 it would take 20.8 x 1.75 = 36 s, against 34.2 s measured now.
+two_adic/ regenerated (200, 2400) locally in 302 s under the QR route against
+246.8 s for checker/'s old build of the same unit (two SVDs of F added). The
+estimate takes the old unit times x 1.3: the first follow-up's Modal child
+times for the N = 32 units, and the laptop times x 1.75 for the N = 16 units.
+two_adic/ s10.5's estimate for the five N = 32 units (4980 s, 0.45 USD) is
+this at x 1.0.
+
+| unit | old time (s) | estimate (s) | unit timeout (s) | container timeout (s) | bound (USD) |
+|---|---|---|---|---|---|
+| checker_120_1600_16 | 73.7 laptop | 168 | 1200 | 1800 | 0.223 |
+| checker_200_2400_32 | 432.3 Modal | 562 | 2400 | 3000 | 0.371 |
+| checker_80_1600_16 | 28.5 laptop | 65 | 1200 | 1800 | 0.223 |
+| checker_120_1200_16 | 50.4 laptop | 115 | 1200 | 1800 | 0.223 |
+| checker_80_1200_16 | 20.8 laptop | 47 | 1200 | 1800 | 0.223 |
+| checker_160_1600_16 | 107.6 laptop | 245 | 1200 | 1800 | 0.223 |
+| checker_240_2400_32 | 887.3 Modal | 1153 | 3600 | 4200 | 0.519 |
+| checker_280_2266_32 | 843.9 Modal | 1097 | 3600 | 4200 | 0.519 |
+| checker_319_2633_32 | 1036.2 Modal | 1347 | 5400 | 6000 | 0.742 |
+| checker_364_3060_32 | 1784.1 Modal | 2319 | 10800 | 11400 | 1.410 |
+| **the ten** | | **7118** | | | **4.674** |
+
+- **Worst case = sum over units of container timeout x (4 cores x 1.314e-5 +
+  32 GiB x 2.22e-6) = 4.67 USD** for the ten. With the smoke and the
+  calibration unit (bound 0.334, computed about 0.005), **at most 5.01 USD for
+  batch 1, against the 24.26 USD remaining.** Every unit timeout is at least
+  3.1 times its estimate and at least 4.0 times the old unit's time; the
+  364-mode unit's is 6.1 times its old 1784 s (the brief asks for at least 3).
+- Expected: 7118 s x (4 x 1.314e-5 + 16 x 2.22e-6) = **0.63 USD**.
+- Memory: the first follow-up peaked at 5.0 GiB (364 modes), under the 16 GiB
+  request; the 32 GiB limit caps it.
+- Batch 2 (the default-rule rows at S/nvec^2 = 0.04) is not launched; it runs
+  only if the coordinator sends it.
+- Launch: all ten in one detached app (`batch`), each unit one Modal call,
+  landed into `out_rho/` as it returns and logged in s7.6.
+
+### 7.6 Unit log
+
+Same columns as s7.3.
+
+| unit | status | wall s | CPU s | peak MiB | computed cost USD | BLAS | landed |
+|---|---|---|---|---|---|---|---|

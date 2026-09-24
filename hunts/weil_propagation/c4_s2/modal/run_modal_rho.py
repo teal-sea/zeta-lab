@@ -113,10 +113,23 @@ BATCH = [
 ]
 UNITS = {unit_name(u): u for u in CALIBRATION + BATCH}
 
-# Filled after the calibration unit ran (RUNS.md s7.3) and carried in every
-# output's meta. Max abs only: the threshold is stated in max abs, and no
-# eigenvalue of T_S or R_S is computed here.
-CHECKER_CALIBRATION = None
+# Measured 2026-09-24 14:11 -0500 (RUNS.md s7.4, app ap-r0YfOJE3NKR8yfoGTpakcI)
+# and carried in every output's meta. Max abs only: the threshold is stated in
+# max abs, and no eigenvalue of T_S or R_S is computed here.
+CHECKER_CALIBRATION = {
+    "unit": "checker_80_1200_8",
+    "against": "out_rho/local_checker_80_1200_8.json (macOS arm64, Python 3.13.14, same code, digest b2e7787b)",
+    "threshold": CAL_TOL,
+    "max_abs_diff": {"2.2|8|40|80|1200": 5.773159728050814e-15, "2.2|8|60|80|1200": 5.773159728050814e-15,
+                     "2.5|8|40|80|1200": 4.884981308350689e-15, "2.5|8|60|80|1200": 4.884981308350689e-15,
+                     "2.9|8|40|80|1200": 7.105427357601002e-15, "2.9|8|60|80|1200": 7.105427357601002e-15},
+    "max": 7.105427357601002e-15,
+    "passed": True,
+    "note": "measured on the N = 8 unit only (cond_Fz 16.5, cond_Fb 16.7); no platform floor was measured for the "
+            "N = 16 and N = 32 units under the QR route (two_adic/ A3's 3e-12 is a perturbation proxy at "
+            "(200, 2400, 32), not a rebuild); the calibration of the first follow-up (modal/out/, digest "
+            "1dcab230) does not apply to these rows",
+}
 
 
 def unit_cost_bound(u) -> float:
