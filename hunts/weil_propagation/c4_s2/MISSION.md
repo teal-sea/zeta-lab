@@ -135,3 +135,14 @@ first five lines say, each graded:
 2. what R_S measures on these cells;
 3. how the kill-controls came out;
 4. what is still open.
+
+## Follow-up, 2026-09-24: the compute proposals on Modal
+
+*Added by the coordinator.* The operator approved running the two compute
+proposals of `c4_s2/RESULTS.md` line 4 (a) and (b) on Modal, with a hard cap
+of 25 USD: no GitHub Actions, no push, no workflow file. A fifth folder,
+`modal/`, runs them and records outputs and cost only (its `BRIEF.md`). The
+grading stays with the owners: checker/ re-grades the R_S counts from the new
+N = 32 rows, and two_adic/ grades its accuracy run (s7b), each in its own
+folder. The Limits above still hold for everything run on the laptop; Modal
+is the only place the new runs may execute.
