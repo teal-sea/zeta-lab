@@ -40,7 +40,13 @@ composite claim takes the grade of its weakest step.
 - **checker/'s snapshot guard now fails closed.** It keys on the blob hashes
   of the files T_S imports and refuses to build or serve while any of them
   is modified, the same fail-open shape `AGENTS.md` records for the secret
-  guard.
+  guard. Its first version keyed every non-test .py in both folders, so
+  two_adic/'s fd9b0bf (a file T_S never imports) made 20 property tests
+  skip. A guard that skips the suite it guards is the "5 skipped" trap in
+  `AGENTS.md`. It now keys the import closure of `ta_ts.py` (4f706cd,
+  88f93a8), and a changed closure file fails a test instead of skipping.
+  Final run of all four folders at 88f93a8: 343 passed, 10 skipped (dps 60
+  units never built at N = 16, and the positive control), 3 strict xfail.
 - **Found by checker/:** two_adic/'s interface listed (80, 1200) as converged
   at N = 16; it moves T_S by 7.8e−2 / 4.5e−2 / 2.4e−2 against 120 modes. The
   bands in line 1 include that refinement response where it was measured.
