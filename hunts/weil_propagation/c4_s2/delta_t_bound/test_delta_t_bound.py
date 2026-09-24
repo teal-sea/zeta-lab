@@ -151,7 +151,6 @@ def test_trunc_figures_quoted():
 # ------------------------------------------------------ the floor, measured
 
 
-@pytest.mark.slow
 def test_floor_mechanism():
     """RESULTS s3 (measured, float64, c = 2.9, N = 16): the negative directions of
     Q - kappa T_inf carry Q's Rayleigh quotients 4.2e-5, 4.4e-6 (Q's lowest

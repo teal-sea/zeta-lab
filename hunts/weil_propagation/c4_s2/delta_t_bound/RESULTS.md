@@ -1,8 +1,8 @@
 1. **ε does not exist on any build: `eps_upper` is null on all 33 builds in both bound folders, so there is no ε per cell at c = 2.9.** What it would have been made of: eps_trunc (bound_trunc/ 843544a: none; the truncation error is a difference of two divergent traces and the Sonin overlap on the prolate tail does not close), eps_quad (bound_quad/ 3be0dce: none; E2, the Gram under the s cutoff, does not close, ‖X‖ ≥ 9.2e9 on every N = 32 build; its one closed source E1 is 3.7e−3 at N = 8 and **9.2e−3 to 1.46e−2** at N = 32), and the assembler's own terms (Q, T_∞ and float64 rounding), which close at **1.2e−15 to 4.2e−15** per c = 2.9 build.
-2. **No count below −ε can be formed on any build; the c = 2.9 count 4, 10, 20 below −band (checker/ s7.9) stands at its grade. What survives is the mode-free floor of bound_trunc/'s Lemma 3: n_−(R_S) ≥ 2, 2, 2 at c = 2.9 (N = 8, 16, 32), ≥ 1, 1, 1 at 2.5, ≥ 0 at 2.2 on the full space, and ≥ 0 on C4's class V_4 at every cell** (exact inertia of Q − κT_∞ at dps 40, κ = (√2 − 1)⁴; the two negatives at c = 2.9, N = 32 are −1.0e−4 and −1.7e−5; the same counts as bound_trunc/'s own at 91ce087). They sit on Q's near-null directions, mostly outside V_4 (measured, s3). Lemma 3's upper half gives nothing: Q − κ^{−1}T_∞ is negative definite on every cell.
+2. **No count below −ε can be formed on any build; the c = 2.9 count 4, 10, 20 below −band (checker/ s7.9) stands at its grade. What survives is the mode-free floor of bound_trunc/'s Lemma 3: n_−(R_S) ≥ 2, 2, 2 at c = 2.9 (N = 8, 16, 32), ≥ 1, 1, 1 at 2.5, ≥ 0 at 2.2 on the full space, and ≥ 0 on C4's class V_4 at every cell** (exact inertia of Q − κT_∞ at dps 40, κ = (√2 − 1)⁴; the two negatives at c = 2.9, N = 32 are −1.0e−4 and −1.7e−5; the same counts as bound_trunc/'s own at 91ce087). They are concentrated on Q's near-null directions, with weights 0.44 and 0.93 in the complement of V_4 against 0.09 for a generic direction (measured, s3). Lemma 3's upper half gives nothing: Q − κ^{−1}T_∞ is negative definite on every cell.
 3. **Outcome 4 by the rule pre-registered at 81f0b47, on every cell and both spaces: no usable bound on ΔT; the steps that do not close are bound_trunc/'s Sonin overlap and bound_quad/'s E2.** The floor, by Addendum A (e174d19, fixed before those counts ran), reads "floor flat, upper bound open" on every cell: by Lemma 3 a remainder of rank below 2 is ruled out on the full space at c = 2.9, nothing is ruled out on C4's class, and the floor does not bear on the 4, 10, 20 count.
 4. **Grade.** Every count is exact (two rational routes that must agree) or ball arithmetic (V_4), on inputs of hardened accuracy; the assembler's rounding terms are exact rationals. Outcome 4 rests on the two folders' ordinary arguments, **unreviewed** (referee/ has committed no review at this commit). The floor is conditional on Lemma 3 (ordinary argument, unreviewed) and on kernel/'s unreviewed derivation of T_∞; weakest step Lemma 3. **This follow-up does not change the grade of 4, 10, 20: measured as a statement about R_S, weakest step ΔT.**
-5. **Open.** (a) The size a bound must have (post-hoc, s5): at c = 2.9 a uniform ε below **1.50e−2** on V_4 (1.52e−2 full) gives outcome 1, and s7.9's 20 at N = 32 survives only to **1.18e−2**; bound_quad/'s E1 alone is 9.2e−3 to 1.46e−2 there, and bound_trunc/'s Proposition 4 puts a closed bound along its route at 0.0975 to 0.2125 at N = 32, so the routes tried would not decide it even if they closed. (b) Outcome 2 is unreachable on these stored matrices for any ε (PREREG s6). (c) A defect found post-hoc in the pre-registered outcome-1 test (s5). (d) ALIGNMENT s5: **unresolved, paused by the box and by allocation**, not obstructed. Nothing here is a claim about RH.
+5. **Open.** (a) The size a bound must have (post-hoc, s5): at c = 2.9 a uniform ε below **1.50e−2** on V_4 (1.52e−2 full) gives outcome 1, and s7.9's 20 at N = 32 survives only to **1.18e−2**; bound_quad/'s E1 alone is 9.2e−3 to 1.46e−2 there, and bound_trunc/'s Proposition 4 puts a closed bound along its route at 0.0975 to 0.2125 at N = 32, so the routes tried would not decide it even if they closed. (b) Outcome 2 is unreachable on these stored matrices for any ε (PREREG s6). (c) A limitation found post-hoc in the pre-registered outcome-1 test: it cannot tell a rise of one eigenvalue from a rise of ten (s5). (d) ALIGNMENT s5: **unresolved, paused by the box and by allocation**, not obstructed. Nothing here is a claim about RH.
 
 # RESULTS: delta_t_bound/, the error bound on ΔT and the recount (assembler/)
 
@@ -59,7 +59,7 @@ F_N(c) = n_−(Q_mp − κ_lo T∞_mp + η_N I) ≤ n_−(R_S) and
 G_N(c) = n_−(Q_mp − K_hi T∞_mp − η_N I) ≥ n_−(R_S), conditional on Lemma 3,
 with Q from `checker_q.Q_matrix(c, N, 40)` and T_∞ from
 `kernel/sonin.T_inf_matrix(c, N, 40)` (read-only), κ_lo and K_hi rational
-brackets of κ = 17 − 12√2 and K = 17 + 12√2 to 2^−256, η_N ≤ 2.2e−26 covering
+brackets of κ = 17 − 12√2 and K = 17 + 12√2 to 12 · 2^−256, η_N ≤ 2.2e−26 covering
 the inputs' stated sizes.
 
 | c | F at N = 8, 16, 32 (full) | on V_4 | G (full / V_4) | negatives of Q − κT_∞ (N = 8, 16, 32) |
@@ -82,8 +82,8 @@ c = 2.9, N = 16 the two negative directions of Q − κT_∞ carry Q's Rayleigh
 quotients **4.2e−5 and 4.4e−6** (Q's lowest eigenvalues there are 2.1e−7 and
 3.9e−5) and weights **0.44 and 0.93** in the three-dimensional complement of
 V_4, against 3/33 = 0.09 for a generic direction [test_floor_mechanism].
-So the floor comes from Q's near-null directions, which C4's class mostly
-excludes; on V_4, Q exceeds κT_∞.
+So the floor comes from Q's near-null directions, which lie largely in the
+three directions C4's class removes; on V_4, Q exceeds κT_∞.
 
 **Reading (Addendum A.3, fixed before these counts):** with no ε, the
 combined bounds are the floor and the ceiling alone; L = F is flat in N and
@@ -102,7 +102,7 @@ It is one-sided: it cannot exclude negatives, so it is not evidence for C4.
   PIN_V4), and the falsification check fires at ε = 0 (builds at one N
   disagree about the count), as it should.
 
-## 5. Post-hoc (not in PREREG): the size a bound must have, and a defect in the rule
+## 5. Post-hoc (not in PREREG): the size a bound must have, and a limitation of the rule
 
 `assembler/crossover.py`, labelled post-hoc. With one ε for every build of
 c = 2.9, L*_N(ε) = max over builds of n_−(RL + εI), interlaced; the float64
@@ -121,14 +121,17 @@ profile is exact-checked at the edge.
   that the bounds on two N = 32 builds must sum to at least 4.950e−3, the
   distance between their stored ΔT (same line). Neither route tried comes
   near 1.50e−2 on the stored builds, even if it closed.
-- **A defect in the pre-registered outcome-1 test.** It fires on any rise of
-  L*_32 over L*_16, including 0, 0, 1: at uniform ε in [7.40e−2, 7.55e−2) on
-  V_4 ([1.14e−1, 1.21e−1) full) the rule would say outcome 1 because the
-  single deepest eigenvalue deepens with N, which interlacing allows without
-  any growth of the count. It does not bite here (ε is null). A successor
-  rule should require growth beyond what one eigenvalue can carry (for
-  example L*_32 − L*_16 ≥ 2, or growth at the band scale). Recorded for
-  referee/; the rule in PREREG (c) is not edited.
+- **A limitation of the pre-registered outcome-1 test.** It grades any rise
+  of L*_32 over L*_16 as outcome 1 and cannot tell a rise of one eigenvalue
+  from a rise of ten. At uniform ε in [7.40e−2, 7.55e−2) on V_4
+  ([1.14e−1, 1.21e−1) full) the counts are 0, 0, 1: the deepest negative
+  direction deepens with N, as interlacing guarantees, and no new negative
+  direction appears. The edge at 1.50e−2 above is also a rise of one
+  (8 to 9), so the figure that carries s7.9's growth is 1.18e−2, not
+  1.50e−2. It does not bite here (ε is null). A successor rule should
+  require a rise beyond what one eigenvalue can carry (for example
+  L*_32 − L*_16 ≥ 2, or growth at the band scale). Recorded for referee/;
+  the rule in PREREG (c) is not edited.
 
 ## 6. Grades
 
@@ -156,12 +159,12 @@ cutoff (bound_quad/: E2) do not close, so ε is null on all 33 builds and
 nothing is recounted below −ε (delta_t_bound/, outcome 4 by the rule
 pre-registered at 81f0b47).** The c = 2.9 count stays as checker/ s7.9
 states it: exact on the stored matrices, measured as a statement about R_S,
-weakest step ΔT; a uniform bound below 1.50e−2 would have decided it on
-C4's class, and bound_quad/'s one closed source is already 9.2e−3 to
-1.46e−2 at N = 32 (post-hoc). By bound_trunc/'s Lemma 3
-(T_S ≥ (√2 − 1)⁴ T_∞, ordinary argument, unreviewed), n_−(R_S) ≥ 2 at
-c = 2.9 and ≥ 1 at 2.5 at every N (exact inertia of Q − κT_∞ at dps 40), but
-only ≥ 0 on C4's class V_4, and this floor does not grow with N: it does not
+weakest step ΔT; its 20 at N = 32 survives a uniform bound only up to
+1.18e−2, and bound_quad/'s one closed source is already 9.2e−3 to 1.46e−2
+there (post-hoc). By bound_trunc/'s Lemma 3 (T_S ≥ (√2 − 1)⁴ T_∞, ordinary
+argument, unreviewed), on C4's class V_4 the mode-free floor n_−(R_S) ≥
+n_−(Q − κT_∞) is 0 at every cell (full space: 2 at c = 2.9, 1 at 2.5, 0 at
+2.2; exact inertia at dps 40), and it does not grow with N: it does not
 bear on the 4, 10, 20 count."
 
 ## 8. Reproduction
