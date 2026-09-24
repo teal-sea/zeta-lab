@@ -5,3 +5,4 @@ started 2026-09-24T13:25:33Z
 2026-09-24T13:32:22Z analyse(): adds door_N32_200_vs_240 (200 vs 240 modes at N = 32, counts at the s7.3 band and at the real-refinement band); s7.3 keys unchanged
 2026-09-24T13:32:52Z prolate sweep config 1 (80,1200,N8+16) done in 37 s; ta_ts_prolate.json updated (write outside checker/ authorized by operator)
 2026-09-24T13:35:32Z prolate sweep config 2 (120,1600,N16) done in 147 s; ta_ts_prolate.json updated (write outside checker/ authorized by operator)
+2026-09-24T13:38:52Z prolate sweep config 3 (130,1800,N32) done in 177 s; ta_ts_prolate.json updated (write outside checker/ authorized by operator)
