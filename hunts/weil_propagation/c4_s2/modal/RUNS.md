@@ -264,3 +264,76 @@ max(16 GiB, peak) x GiB rate)), not read from Modal's billing.
 - `modal app list` at 11:11 -0500: all six `c4s2-modal-compute` apps stopped,
   0 tasks; `claude-scie...` and `specimen-v1...` deployed and untouched. The
   Volume `c4s2-modal-out` is kept (12 results, 12 start markers).
+
+## 7. Follow-up 2 (2026-09-24): every checker/ unit under the QR rho
+
+BRIEF.md "Follow-up 2". two_adic/ replaced the explicit inverse in
+`ta_mellin.rho` by a QR of the Gram factor (c3dca00, eea7eab), so T_S's
+input digest moved from 1dcab230 to b2e7787b and checker/'s guard refuses
+every old row. This section rebuilds all eleven checker/ units on Modal.
+Sections 1 to 6 above are the record of the old route and are not edited;
+`modal/out/` and `test_modal_outputs.py` are untouched. Driver:
+`run_modal_rho.py` (a copy of `run_modal.py`'s machinery; the old file keeps
+its constants because its pins read them). Outputs: `modal/out_rho/`.
+No eigenvalue of T_S or R_S is computed here.
+
+### 7.1 The tree and the image
+
+- Tree: `git clone --no-local --depth 1 -b teal-sea/weil-c4-s2 <worktree>
+  <scratch>/tree_rho` at 14:02 -0500. `rev-parse HEAD` =
+  e2b46a5a82f365469a814f80c94b5232cf8bee46 (the branch HEAD, after eea7eab),
+  `status --porcelain --untracked-files=all` empty. Tarball as in s1:
+  `COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata -czf
+  <scratch>/tree_rho.tgz tree_rho` (47.7 MB), extracted to `/tree` at build
+  time; the build fails unless HEAD is e2b46a5 and the porcelain is empty.
+- Local T_S input digest (`checker_glue.ts_key()`, in this worktree and in the
+  clone): `b2e7787bce7a77db4a1a81b9311fc75a2b9326649b88a49883bd4d737ca70eaa`,
+  dirty list empty.
+- Image: as in s1 (debian_slim, Python 3.12, git, `safe.directory '*'`,
+  numpy 2.5.1, scipy 1.18.0, mpmath 1.3.0, python-flint 0.9.0, sympy 1.14.0,
+  the local venv's versions read again today; BLAS threads 4).
+- A new app, `c4s2-modal-rho`, and a new Volume, `c4s2-modal-rho-out`. The old
+  Volume `c4s2-modal-out` holds finished results and start markers under five
+  of the same unit names (`checker_200_2400_32`, `_240_`, `_280_`, `_319_`,
+  `_364_`), which `unit_remote` would return without computing.
+- Units: the seven of `run_checker_ts.UNITS` and the four N = 32 units of the
+  first follow-up, one Modal call each, all three cells per call, built by
+  `run_checker_ts.build_unit(nvec, S, N, dps_list)` with dps (40, 60) at
+  N = 8 and (40,) otherwise, as `snapshot()` builds them. The default-rule S
+  are passed as the same floats as in the first follow-up (s4.2).
+- Calibration, threshold fixed by the brief before the run: (80, 1200, 8) on
+  Modal against the same unit built locally with the new code
+  (`local_rho_calibration.py`, `out_rho/local_checker_80_1200_8.json`,
+  41.3 s on the laptop at load average 24; digest b2e7787b, HEAD e2b46a5),
+  max abs difference over all six row keys at most **1e-10**. If it misses,
+  the run stops and the question goes to the coordinator. The Modal
+  calibration unit is also the eleven's (80, 1200, 8) unit: one call serves
+  both.
+
+### 7.2 Rates, resources, and the bound before any call
+
+Rates read on 2026-09-24 at 14:05 -0500 with `modal billing rates`: CPU
+0.0473 USD per core-hour (1.314e-5 per core-second), memory 0.008 USD per
+GiB-hour (2.22e-6 per GiB-second), the same as s2. Per container, as before:
+`cpu=(4.0, 4.0)`, `memory=(16384, 32768)` MiB, so the bound rate is
+4 x 1.314e-5 + 32 x 2.22e-6 = **1.2367e-4 USD/s (0.445 USD/h)**. Container
+timeout = unit timeout + 600 s. A restarted input finds its start marker and
+computes nothing.
+
+| call | unit timeout (s) | container timeout (s) | bound (USD) |
+|---|---|---|---|
+| smoke (guard, versions, import chain) | | 900 | 0.111 |
+| checker_80_1200_8 (calibration, and unit 1 of 11) | 1200 | 1800 | 0.223 |
+| **total before the batch** | | | **0.334** |
+
+Remaining cap for both batches of this follow-up: 25 - 0.741 = 24.26 USD.
+
+### 7.3 Calibration log
+
+Appended by `run_modal_rho.py` as each call lands. Wall is the container
+function's wall time; cost is computed (wall x (4 cores x core rate +
+max(16 GiB, peak) x GiB rate)), not billed. The BLAS column is the OpenBLAS
+kernel family the child loaded.
+
+| unit | status | wall s | CPU s | peak MiB | computed cost USD | BLAS | landed |
+|---|---|---|---|---|---|---|---|
