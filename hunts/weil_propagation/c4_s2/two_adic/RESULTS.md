@@ -2,7 +2,7 @@
 2. **Main measurement: ΔT cancels the 2-adic atom up to a residual whose large eigenvalues (beyond ±0.1) do not grow with N. ΔT + Wp has 1, 2, 3 ± pairs beyond 0.1 at c = 2.2, 2.5, 2.9, identical at N = 8, 16 and 32 on the delivered truncations (80, 1200), (120, 1600) and (200, 2400) (this said "converged" before checker/'s refinement; which rows are converged, and to what, is in the correction notice), leading values stable to 1e−2 (c = 2.9: +0.48, −0.46, +0.38, −0.32, +0.17, −0.16; the fourth read −0.31 before the rerun of the notice below); the next pairs are near 0.08.** With T_∞ alone the residual is Wp itself, whose multiplicity near ±0.49 grows with N (cutoff/). Grade: measured (ζ̂ hardened, two routes to 9e−14); not a proof of bounded rank. Exact companion: −Wp = log 2 (Gram(θ_S) − 3/2 I) on 2 < c < 4 (hardened against `galerkin.py`, 4.5e−40).
 3. **Structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt (HS² = K/2 + 1.07079 over Euler levels j ≤ K, against 2.23748 archimedean; ordinary argument plus measured partial sums).** Hence ΔT needs Sonin data across the Mellin band: at N = 32, 200 prolate modes were needed; 130 left spurious residual pairs (rechecked under the Kmax rule of the notice below: stands).
 4. **Refuted: theory §7.3 item 2 (exact: time and frequency limiting to Z_2 differ, commute, and meet in 1_{Z_2}), and the literal Π_S of §7.3 has infinite trace on X_S (ordinary argument).** Positive control not exercised: Γ_C data cannot be realized over Q with S = {∞, 2}, since no idele class character of C_S is odd at ∞ and unramified at 2.
-5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved. Line 2 covers only the eigenvalues of ΔT + Wp beyond ±0.1 and cannot see negative eigenvalues of R_S = Q − T_S of size 1e−2, so it is not evidence for bounded rank. checker/ measures those (its RESULTS lines 2 and 3, s7.3a and s7.7): n_−(R_S) below −band is 4, 4 (c = 2.2), 4, 9 (2.5) and 4, 10 (2.9) at N = 8, 16; at c = 2.9 the N = 16 count is 10 at both 120 and 160 modes, its last pair 1.4 to 1.5 times the band, while at 2.2 and 2.5 the N = 16 count falls as modes rise (truncation). At c = 2.9 that measurement runs against bounded rank. At N = 32 the count is undecided on checker/'s route in float64: the 240-mode refinement moves T_S by 3.9e−2, 2.4e−2, 3.2e−2, more than every top-half depth of the 200-mode row, and sets the band; below it the 200 and 240-mode rows count 0, 2, 2 and 0, 5, 4, while the 240-mode row still holds 19 and 23 negatives (2.5, 2.9) at the old band, so the band rose and the negatives did not leave; the 280-mode row at c = 2.9 counts 22 but inverts a Gram matrix of condition 1.1e17, above 1/eps.** (Corrected: this line said line 2 points to a bounded remainder; until checker/'s N = 32 re-grade it quoted 3, 20, 20 at N = 32, counts at the earlier proxy band.) Open: R_S and its inertia (checker/'s), ΔT accurate below Q's smallest eigenvalue (not met on c = 2.2, N = 8 at any mode count from 80 to 200 at S = 4800, §7b, measured with Modal's runs: the nvec response falls only to 3.5e−4 per 20 modes at 180 → 200, and from 160 modes the criterion's probe term binds; the 0.36-per-20-modes prediction is refuted; the next test, (200, 9600) and (220, 9600), is estimated there, not run), and a proof.
+5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved. Line 2 covers only the eigenvalues of ΔT + Wp beyond ±0.1 and cannot see negative eigenvalues of R_S = Q − T_S of size 1e−2, so it is not evidence for bounded rank. checker/ measures those (its RESULTS lines 2 and 3, s7.3a and s7.7): n_−(R_S) below −band is 4, 4 (c = 2.2), 4, 9 (2.5) and 4, 10 (2.9) at N = 8, 16; at c = 2.9 the N = 16 count is 10 at both 120 and 160 modes, its last pair 1.4 to 1.5 times the band, while at 2.2 and 2.5 the N = 16 count falls as modes rise (truncation). At c = 2.9 that measurement runs against bounded rank. At N = 32 the count is undecided on checker/'s route in float64: the 240-mode refinement moves T_S by 3.9e−2, 2.4e−2, 3.2e−2, more than every top-half depth of the 200-mode row, and sets the band; below it the 200 and 240-mode rows count 0, 2, 2 and 0, 5, 4, while the 240-mode row still holds 19 and 23 negatives (2.5, 2.9) at the old band, so the band rose and the negatives did not leave; the 280-mode row at c = 2.9 counts 22 but inverts a Gram matrix of condition 1.1e17, above 1/eps.** Since follow-up 3 (s10) ρ no longer inverts: that condition comes from the cutoff S against nvec², not from the functions; ρ now solves against a QR factorization of the Gram factor, agrees with a 256-bit end-to-end reference to 6.8e−9 where the old inverse is off by 1.6e−2 (cond(G) = 2.6e15), and the 2.3e−7 laptop-to-Modal drift of the N = 32 row is reproduced by a last-bit perturbation of the samples under the old inverse (1.8e−7 to 2.2e−7) and falls to 3e−12 under the new route; measured. Every N = 32 row, and every T_S row checker/ serves, must be rebuilt under the new ρ (s10.5). (Corrected: this line said line 2 points to a bounded remainder; until checker/'s N = 32 re-grade it quoted 3, 20, 20 at N = 32, counts at the earlier proxy band.) Open: R_S and its inertia (checker/'s), ΔT accurate below Q's smallest eigenvalue (not met on c = 2.2, N = 8 at any mode count from 80 to 200 at S = 4800, §7b, measured with Modal's runs: the nvec response falls only to 3.5e−4 per 20 modes at 180 → 200, and from 160 modes the criterion's probe term binds; the 0.36-per-20-modes prediction is refuted; the next test, (200, 9600) and (220, 9600), is estimated there, not run), the N = 32 rows rebuilt under the new ρ (modal/ and checker/; s10.4 states what they should show), and a proof.
 
 ## Correction notice (2026-09-23, 23:20 and 23:45, and 2026-09-24, 00:30 after checker/'s refinement; reruns under 8dc8525)
 
@@ -577,6 +577,9 @@ one route):
 | §7b S- and nvec-responses of ΔT on c = 2.2, N = 8 through 200 modes (80 to 120 on the laptop, 140 to 200 and (160, 9600) on Modal); target not met at any nvec; the 0.36 prediction refuted | measured (float64, one route; Modal's calibration run reproduces the laptop's to 8.2e−15, same code); the next-run estimate is an extrapolation, not run |
 | §5b T_S spectra, residual profile, counts | measured (float64, one route for the Gram matrices; error band 3.5e−3 to 8.2e−3 by (c, N)) |
 | §6 closed form for ⟨A_j, A_l⟩_HS and the divergence | ordinary argument, unreviewed; partial sums measured |
+| §10 the condition of ρ's Gram matrices set by the cutoff S; the QR route of ρ against ρ_inv (A1), the platform-drift proxy (A3), T_S at (200, 1200) (A4) | measured (float64, one route) |
+| §10 exact G_z = I, cond(G_b exact) <= 33.97 | ordinary argument, unreviewed; the compression bound checked on a synthetic family |
+| §10 A2, the QR route against an end-to-end reference | hardened in the sense of two routes: kernel/'s closed form in Arb at 256 bits, independent of the w-quadrature, against the float64 route |
 
 Original to this session (novelty not searched): the identity of §3 in
 matrix form (first derived here, f1e912d; cutoff/ rechecked it by a third
@@ -604,7 +607,9 @@ the band rose past the negatives, and the negatives did not leave).
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_prolate.py   # about 8 min, needs kernel/; arguments 0 to 4 rerun those configurations only
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py 80 4800   # one (nvec, S) per process: 80 1200, 80 2400, 80 4800, 100 4800, 120 4800; 15 s to about 9 min
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py --merge-modal   # merges modal/out/gram_*.json (140 to 200 at 4800, 160 at 9600); reads, computes nothing; the units themselves are modal/run_modal.py's
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 30 to 70 s
+    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_rho_diag.py scan80   # also refine, lowdir, hats, nodes (10 to 55 s each); scan200 [npz] about 6 min
+    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_rho_check.py a1 80 1200   # a1 120 1600 (3 min), a1 200 2400 NPZ, a3 NPZ, a4 NPZ (20 to 40 s with the saved hats), a2 [cache] (3 min, 2 processes), gp NVEC S
+    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 30 to 90 s
 
 ## 10. Follow-up 3 (2026-09-24): rho without the explicit inverse
 
@@ -740,3 +745,140 @@ stated.
   3.16e−2) possible, because there the samples do not determine the Z
   projection. If the new route's T_S at (200, 1200) has no eigenvalue below
   −band(c, 32), this prediction is refuted.
+
+### 10.3 The fix, against the acceptance
+
+`ta_mellin.rho(hat_rows, *, factor)` takes the factor F (G = F* F), computes
+R from a Householder QR of F and returns ρ(s) = ||y(s)||² with R* y(s) =
+conj(ŵ(s)); G is never formed, so the arithmetic error grows like
+eps·cond(F), not eps·cond(F)². `factor` is keyword-only, so that a Gram
+matrix passed where a factor is expected raises instead of being used.
+`rho_inv` is the old route, unchanged, kept as the reference.
+`ta_prolate.gram_factor_s` and `ta_mellin.gram_factor_v` return the factors
+of `gram_s` and `gram_v`; `delta_T_cells`, `delta_T_mellin`,
+`ta_run_prolate` and `ta_gram_probe` pass factors, and `delta_T_cells`
+reports `cond_Fz` and `cond_Fb`. Only `ta_mellin.py` and `ta_prolate.py`
+changed in T_S's closure; the default rule in `ta_ts.py` did not (see A4).
+`ta_rho_check.py`, `ta_rho_check.json`, `test_ta_rho_check.py`; unit tests of
+the route itself in `test_ta_mellin.py` (against `rho_inv` at cond(G) = 1e6:
+1.1e−11 relative; against a 60-digit mpmath reference at cond(G) = 1e20:
+9.5e−8, where `rho_inv` is off by 1.0).
+
+- **A1, passed.** max_s |ρ − ρ_inv| against 10 eps cond(G) max|ρ|:
+
+  | truncation | cond(F_z), cond(F_b) | Z: deviation, ratio to eps cond(G) max ρ | B: deviation, ratio | ΔT change (spectral) |
+  |---|---|---|---|---|
+  | (80, 1200) | 16.5, 16.7 | 3.6e−14, 0.18 | 3.4e−14, 0.17 | <= 1.2e−14 (N = 8, 16) |
+  | (120, 1600) | 510, 517 | 8.6e−13, 0.004 | 5.9e−12, 0.027 | <= 2.7e−13 (N = 16) |
+  | (200, 2400) | 8.7e5, 6.2e4 | 2.0e−6, 0.0028 | 1.3e−8, 0.0036 | 1.8e−7 to 2.0e−7 (N = 32) |
+
+  The measured deviation is below the bound by a factor 55 to 3600. On the
+  delivered N = 32 row the two routes differ by about 2e−7 in ΔT, the size
+  of modal/'s platform drift.
+- **A2, passed at the case fixed in advance; the stopping point found.**
+  Against the end-to-end reference (kernel/'s closed-form ζ̂ at dps 30 on
+  every s-node, J and A at dps 30, Gram and solve in Arb at 256 bits), 64
+  s-nodes, deviation relative to max ρ_ref:
+
+  | (nvec, S) | cond(F_z) (cond(G_z)) | QR route | ρ_inv |
+  |---|---|---|---|
+  | (80, 300) | 5.1e7 (2.6e15) | **6.8e−9** (acceptance 1e−4) | 1.6e−2 |
+  | (80, 200) | 6.7e11 (4.5e23) | 1.4e−5 | 0.26 |
+  | (80, 150) | 3.8e14 (1.5e29) | 6.5e−2 | 0.92 |
+  | (80, 120) | 7.3e14 (5.3e29) | 0.21 | 16 |
+
+  The float64 samples differ from the reference by at most 3.0e−13 (ζ̂) and
+  1.8e−12 (J, A). My prediction at (80, 200), a deviation between 1e−3 and 1,
+  is refuted: 1.4e−5. The first-order bound cond(F)·δ overstates the error
+  there by about 5000. **The QR route survives cond(F) = 6.7e11 (cond(G) =
+  4.5e23) at 1.4e−5 and stops between that and cond(F) = 3.8e14; the old
+  route is off by 1.6e−2 already at cond(G) = 2.6e15.**
+- **A3, passed: the platform drift came from the inverse** (measured by a
+  proxy, not by a rebuild on the other platform). A relative perturbation of
+  2^−52 on every sample at (200, 2400), N = 32, moves ΔT by 1.8e−7 / 2.0e−7 /
+  2.2e−7 (c = 2.2 / 2.5 / 2.9) under the old route, the order of modal/'s
+  2.3e−7 to 2.9e−7, and by 2.9e−12 to 3.2e−12 under the new one. The
+  inverse that amplified it is G_z's (cond 7.6e11), not G_b's (3.9e9).
+- **A4, my prediction refuted in both halves.** At (200, 1200), N = 32
+  (S/nvec² = 0.03, cond(F_z) = 8.8e12, cond(F_b) = 1.4e8):
+
+  | c | T_S lowest, QR route | T_S lowest, ρ_inv | QR at (200, 2400) | ‖T_S(1200) − T_S(2400)‖₂, QR |
+  |---|---|---|---|---|
+  | 2.2 | +2.8e−3 | −1.3e−2 | +2.4e−3 | 5.6e−3 |
+  | 2.5 | +2.1e−3 | −1.5e−2 | +1.8e−3 | 6.2e−3 |
+  | 2.9 | +1.9e−3 | −1.6e−2 | +1.5e−3 | 8.0e−3 |
+
+  I predicted that ρ_inv would fail T_S >= 0 by order 1 and that the QR
+  route would leave eigenvalues below −band(c, 32). ρ_inv fails by 1.3e−2
+  to 1.6e−2, and the QR route's T_S is positive, with no eigenvalue below
+  −band, at cond(F_z) = 8.8e12, where A2 still reads 1e−5 or better. So the
+  determinacy criterion of s10.1 (cond(F)·δ well below 1) is pessimistic for
+  T_S, and the cutoff S moves T_S at 200 modes by 5.6e−3 to 8.0e−3 from
+  S/nvec² = 0.03 to 0.06, below band(c, 32). This is why the default rule in
+  `ta_ts.py` was left alone: the grid part of s10.1's decision is not
+  required at 200 modes; whether it is at 319 and 364 is s10.4.
+
+### 10.4 What the falsifier should show, and where the next constraint is
+
+The falsifier (BRIEF.md follow-up 3, run by modal/ and checker/): with the
+new ρ, T_S at 280 / 319 / 364 modes must have no eigenvalue below −band.
+
+- **Expected: it passes at 280 modes, and the order-10 failures at 319 and
+  364 are gone.** At the s-nodes ρ(s) w_s/2π is the diagonal of an
+  orthogonal projection, in [0, 1] (the QR route keeps it there to
+  eps·cond(F); `test_ta_mellin.py` pins it), so M_S is at most the window
+  basis's s-side Gram, about I, and T_S >= T_∞ − M_S cannot fall much below
+  −1. By A4's analogue (same S/nvec²), I
+  expect no eigenvalue below −band at 280.
+- **The next constraint, if 319 or 364 still fails at order 1e−2: the
+  samples against cond(F_z).** Those rows sit at S/nvec² = 0.026 and 0.023
+  with more modes than A4's 200; the scans (s10.1) put cond(G_z) there at
+  1e26 or more, so cond(F_z) near 1e13 to 1e15, the range where A2 found the
+  QR route stops (6.5e−2 at cond(F) = 3.8e14). `delta_T_cells` now reports
+  `cond_Fz` for every build: a row above about 1e14 is past the measured
+  stopping point. The remedy then is S (S/nvec² >= 0.04) or samples carried
+  at higher precision, not the solve.
+- **A prediction for checker/, not a measurement: the 240-mode row, and
+  band(c, 32) with it, will move.** band(c, 32) is the 240-mode refinement
+  response (3.9e−2 / 2.4e−2 / 3.2e−2), built with ρ_inv. That row's cond(G_z)
+  was never recorded; at S/nvec² = 0.042, interpolating the scans puts it well
+  above 1/eps (200 modes: 7.6e11 at 0.06 and 7.8e25 at 0.03), and A4 shows ρ_inv moving
+  T_S by order 1e−2 in that regime (−1.3e−2 to −1.6e−2 against +1.9e−3 to
+  +2.8e−3). Its lowest eigenvalues (−7.3e−3 to −8.9e−3, which checker/ s7.7
+  reads as the row being off by at least that much) fit an inverse artifact.
+  If the rebuilt 240-mode row stays within about 1e−2 of the 200-mode row,
+  band(c, 32) falls, and checker/'s N = 32 verdict is read again at its own
+  criterion.
+
+### 10.5 Inventory: what depends on ρ
+
+`ta_mellin.py` and `ta_prolate.py` are in T_S's import closure, so this
+commit changes checker/'s T_S input digest, and every row of checker/'s
+snapshot (N = 8, 16, 32) stops being served until checker/ rebuilds it.
+
+| artifact | depends on ρ | done |
+|---|---|---|
+| `ta_ts_prolate.json` (T_S rows (40, 800), (80, 1200), (120, 1600), (130, 1800), (200, 2400)) | yes | **regenerated locally** under the QR route (7 s, 14 s, 162 s, 137 s, 302 s). Every recorded scalar moves by at most 1.9e−15, 1.1e−14, 1.2e−13, 2.1e−13 and 1.5e−7 respectively; no count changes (T_S below −0.02, the residual counts beyond ±0.1); rows now carry `cond_Fz`, `cond_Fb` (8.7e5 and 6.2e4 at (200, 2400)) |
+| `ta_gram_probe.json` (local runs 80 to 120 at S up to 4800; modal/'s 140 to 200 at 4800 and 160 at 9600) | yes | **not regenerated**: at (80, 1200), (80, 4800), (100, 4800) the QR route moves its ΔT by at most 2.6e−14 and reproduces the committed dT to 1.1e−14 (cond(F) at most 17). Its other runs sit at S/nvec² >= 0.12, where s10.1's scans put cond(F) below about 1e3, so an expected change below 1e−10, under every digit §7b states; not measured |
+| `ta_rho_check.json` | uses both routes by design | written by this follow-up |
+| `ta_rho_diag.json`, `ta_ts_cells.json`, `ta_es_cells.json` | no (formed Gram matrices only; dry runs; closed forms) | none |
+| checker/'s snapshot and modal/'s `checker_*` units (not this folder's) | yes, through the digest | checker/ and modal/ rebuild |
+
+For modal/ (estimates from the unit wall times in modal/out/ and the
+calibration's cost, 0.055 USD for 613 s of wall time on the 4-CPU
+container, about 9e−5 USD per second):
+
+- **Needed:** the five N = 32 checker/ units under the new digest: (200, 2400)
+  432 s, (240, 2400) 887 s, (280, 2266) 844 s, (319, 2633) 1036 s,
+  (364, 3060) 1784 s of wall time, about 4980 s and 0.45 USD; the new
+  `cond_Fz`, `cond_Fb` diagnostics add a few seconds each. checker/'s N = 8
+  and 16 rows are its own local builds.
+- **Informative, optional:** the S response at N = 32 in the default-rule
+  regime, (280, 4532), about 1830 s (s-nodes x w-nodes 2.0e10 at the
+  measured 9e−8 s each), 0.17 USD.
+- **Not recommended:** the coordinator's step-1 cond(G_b) at 240 modes under
+  a finer grid and a raised Kmax (about 1250 s for the s-grid, 1110 s for the
+  w-grid, 1520 s for Kmax 15, 0.35 USD in all): the
+  80-mode refinement already reads four unchanged digits against a factor
+  1e3 to 1e9 from S alone. The gram-probe Modal runs: expected change below
+  1e−10, not worth a rerun.

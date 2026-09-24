@@ -9,7 +9,9 @@ computed once and reused for every (c, N). Recorded per (nvec, S, N, c):
                                is replaced by the exact identity (the z_n are
                                orthonormal): the error scale of Delta_T;
   resid_top8                   the 8 eigenvalues of Delta_T + Wp largest in modulus;
-  resid_n_above_01 / below     counts of eigenvalues of Delta_T + Wp beyond +-0.1.
+  resid_n_above_01 / below     counts of eigenvalues of Delta_T + Wp beyond +-0.1;
+  cond_Fz, cond_Fb             condition of the Gram factors (cond(G) = cond(F)^2;
+                               added with the QR route of ta_mellin.rho, RESULTS s10).
 Also zeta^ against kernel/'s closed-form Tate route (zeta_mellin_all).
 Float64 throughout: measured grade. Runtime about 5 minutes.
 """
@@ -62,9 +64,11 @@ def run_config(nvec: int, S: float, Ns, provider: T.KernelProvider) -> list[dict
     Z, B = TP.hats_modes(pm, s, 1.0)
     jz, jb = TP.jumps(pm, 1.0)
     A = pm.derivs[:, 0] * pm.norm
-    Gz = TP.gram_s(Z, sw, jz, S, A, 1.0)
-    Gb = TP.gram_s(B, sw, jb, S, A, 2.0)
-    rz, rzI, rb = TM.rho(Z, Gz), TM.rho(Z, np.eye(nvec)), TM.rho(B, Gb)
+    Fz = TP.gram_factor_s(Z, sw, jz, S, A, 1.0)
+    Fb = TP.gram_factor_s(B, sw, jb, S, A, 2.0)
+    rz, rzI, rb = TM.rho(Z, factor=Fz), TM.rho(Z, factor=np.eye(nvec)), TM.rho(B, factor=Fb)
+    cond_F = {k: float(v[0] / v[-1]) for k, v in (("cond_Fz", np.linalg.svd(Fz, compute_uv=False)),
+                                                  ("cond_Fb", np.linalg.svd(Fb, compute_uv=False)))}
     t_hats = time.time() - t0
     rows = []
     for N in Ns:
@@ -97,6 +101,7 @@ def run_config(nvec: int, S: float, Ns, provider: T.KernelProvider) -> list[dict
                     "resid_n_above_01": int((ed > 0.1).sum()),
                     "resid_n_below_m01": int((ed < -0.1).sum()),
                     "Kmax": TP.kmax_for(nvec),
+                    **cond_F,
                     "seconds_hats": round(t_hats, 1),
                 }
             )

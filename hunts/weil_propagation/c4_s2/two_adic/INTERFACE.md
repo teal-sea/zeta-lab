@@ -19,7 +19,11 @@ modules are imported by basename after putting this folder on `sys.path`
 | `ta_data.validate(data, degree=None, tol=None)` | `LocalData` or raises `NonUnitaryLocalData` | data = `("satake", alphas)` or `("tower", {k: s_k})` with `degree` |
 | `ta_ts.T_S_matrix(c, N, dps, local_data, arch_type="Gamma_R", s_inf=None)` | T_S matrix, or raises | see order of checks below |
 | `ta_ts.delta_T_matrix(grid, zetas, alpha, L, N)` | (ΔT, M_inf, M_S) for a finite mode family on a grid | float64; exercised on synthetic modes only |
-| `ta_prolate.ProlateModes(nvec, dps)`, `hats_modes`, `delta_T_cells(pm, cells, N, S)` | kernel/'s prolate modes in float64; ζ̂_n, b̂_n; ΔT per cell | Mellin route, measured grade |
+| `ta_prolate.ProlateModes(nvec, dps)`, `hats_modes`, `delta_T_cells(pm, cells, N, S)` | kernel/'s prolate modes in float64; ζ̂_n, b̂_n; ΔT per cell, and diagnostics `gram_z_offI`, `cond_Gb` (formed G_b, float64; saturates near 1e16 above 1/eps), `cond_Fz`, `cond_Fb` (the Gram factors, from singular values; cond(G) = cond(F)², reliable while cond(F) is well below 1/eps) | Mellin route, measured grade |
+| `ta_mellin.rho(hat_rows, *, factor)` | ρ(s) = x* G⁻¹ x, x = conj(ŵ(s)), for G = F* F, from a Householder QR of F and a triangular solve; G is never formed | since 2026-09-24 (RESULTS.md s10); `factor` is keyword-only so that a Gram matrix cannot be passed as a factor by mistake; arithmetic error grows like eps·cond(F) |
+| `ta_mellin.rho_inv(hat_rows, G)` | the route before 2026-09-24, `np.linalg.inv` of the formed G | kept as the reference; error grows like eps·cond(G) = eps·cond(F)² |
+| `ta_prolate.gram_factor_s(H, sw, J, S, A, dil)`, `ta_mellin.gram_factor_v(fns, Kmax, per_panel)` | F with `gram_s(...)` = F* F (weighted samples plus the two tail rows), resp. `gram_v(fns)` = F* F | `gram_s`, `gram_v` unchanged |
+| `ta_rho_diag` parts, `ta_rho_check` parts | the diagnosis of cond(G) (s10.1) and the acceptance runs of the QR route (s10.3) | one part per process; JSON below |
 | `ta_ts.KernelProvider(nvec=None, S=None)` | `T_inf_matrix` (kernel/'s moments JSON) and `delta_T` | the provider `T_S_matrix` uses by default |
 | `ta_gram_probe.run(nvec, S)` | on c = 2.2, N = 8: ΔT, the Gram probe, T_S's lowest eigenvalues, max \|G_z^s − I\| | measurement for RESULTS.md §7b |
 | `ta_gram_probe.merge_modal(out)` | copies modal/out/gram_*.json runs into `out` unchanged, with `source`; adds `modal_calibration` | reads only; idempotent |
@@ -70,7 +74,8 @@ with keys `nvec`, `S`, `N`, `c`, `T_inf_eig_min`, `T_inf_eig_max`,
 `resid_top8` (eigenvalues of ΔT + Wp largest in modulus, signed),
 `resid_n_above_01`, `resid_n_below_m01`, `seconds_hats`, and `Kmax` on the rows
 rerun under `kmax_for` (configurations 2 to 4; `seconds_by_config` records
-those reruns). Delivered rows: (nvec, S) = (80, 1200) for N = 8,
+those reruns). Since the regeneration of 2026-09-24 under the QR route of
+`rho` (RESULTS.md s10.5) every row also carries `cond_Fz`, `cond_Fb` and `Kmax`. Delivered rows: (nvec, S) = (80, 1200) for N = 8,
 (120, 1600) for N = 16, (200, 2400) for N = 32. Converged to what (checker/'s
 measurement, RESULTS.md correction notice; this paragraph listed all four as
 "converged" before): (80, 1200) to about 5.6e−3 at N = 8 and **not** at
@@ -106,3 +111,23 @@ The number of modes must cover the Mellin band of the window basis (about
 2πN/L, i.e. of order 100 modes at N = 32), not only the first few prolates:
 the semilocal time-frequency operator is not Hilbert-Schmidt (RESULTS.md s6).
 Also `T_inf_matrix(c, N, dps)` on the shared basis, since T_S = T_inf + ΔT.
+
+## JSON of follow-up 3 (RESULTS.md s10)
+
+`ta_rho_diag.json`: `toeplitz_cond_ratio` (33.97); `scan80`, `scan200` with
+`nvec`, `Smax`, `Kmax`, `hats`, `seconds`, `rows[]` of `S`, `S_over_nvec2`,
+and per family `z`, `b`: `eig_min`, `eig_max`, `cond_formed` (float64 G),
+`cond_F`, `cond_F_sq`; `refine` (`rows[]` with `label`, `s_per_panel`,
+`w_per_panel`, `Kmax`, `S`, `z`, `b`); `lowdir`; `hats_accuracy` (float64
+hats against kernel/'s closed form at dps 30: `nodes[]`, `max_abs`,
+`max_rel`); `node_counts[]`.
+
+`ta_rho_check.json`: `eps`; `A1` keyed `"nvec,S"` (`cond_Fz`, `cond_Fb`, per
+family `max_dev`, `max_rho`, `bound`, `ratio_to_eps_condG_rho`, and
+`dT_change_norm2` keyed `"c|N"`); `A2` keyed by S (`cond_Fz`,
+`new_max_rel_dev`, `old_max_rel_dev`, `sample_max_abs_dev`, `J_max_abs_dev`,
+`A_max_abs_dev`, `max_rho_ref`, `n_nodes`, `n_compared`); `A3` (`old`, `new`
+keyed by c: spectral change of ΔT under a 2^−52 relative perturbation);
+`A4` (`cond_Fz`, `cond_Fb`, `band`, `cells` keyed by c with `new_low3`,
+`old_low3`, `new_n_below_band`, `old_n_below_band`, `new_2400_low3`,
+`new_S_response_norm2`); `gram_probe_dependence` keyed `"nvec,S"`.

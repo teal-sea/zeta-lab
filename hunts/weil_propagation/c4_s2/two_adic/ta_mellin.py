@@ -35,6 +35,16 @@ slow for the suite, about 150 s): Plancherel for ||zeta||^2 (relative
 quadrature (2.7e-8 for zeta, 2.2e-7 for b). gram_v does not resolve the
 dilates D^{-k} of b beyond k of about 3 (its ||b||^2 is off by 1.2e-3);
 ta_prolate therefore takes Gram matrices on the s side.
+
+rho (follow-up 3, 2026-09-24). Every Gram matrix here is G = F^* F for a
+factor F of weighted samples (gram_factor_v; ta_prolate.gram_factor_s adds
+two tail rows), so cond(G) = cond(F)^2. rho takes F, never forms G, and
+solves against the R of a Householder QR of F: its arithmetic error grows
+like eps cond(F). rho_inv is the route before 2026-09-24 (np.linalg.inv of
+the formed G, error growing like eps cond(F)^2), kept as the reference.
+Neither can do better than the samples: with a relative sample error delta,
+the discretized projection is determined only while cond(F) delta << 1
+(RESULTS.md s10).
 """
 
 from __future__ import annotations
@@ -42,6 +52,7 @@ from __future__ import annotations
 import math
 
 import numpy as np
+from scipy.linalg import solve_triangular
 
 __all__ = [
     "EvenPoly",
@@ -49,7 +60,9 @@ __all__ = [
     "hats",
     "window_hat",
     "gram_v",
+    "gram_factor_v",
     "rho",
+    "rho_inv",
     "T_from_rho",
     "delta_T_mellin",
 ]
@@ -196,13 +209,33 @@ def gram_v(fns, Kmax: int = 14, per_panel: int = 12, tail_terms=None):
     fns: callables of a float array v >= 1. The neglected tail is bounded by
     the caller (for (1 - y^2)^2, |F xi| <= C v^-3, so it is below 1e-20 at Kmax = 14).
     """
+    F = gram_factor_v(fns, Kmax, per_panel)
+    return np.conj(F.T) @ F
+
+
+def gram_factor_v(fns, Kmax: int = 14, per_panel: int = 12) -> np.ndarray:
+    """F with gram_v(fns) = F^* F: rows sqrt(weight) f_j(w) on gram_v's nodes."""
     w, wt, _ = w_nodes(Kmax, 0.0, per_panel)
     V = np.stack([f(w) for f in fns])
-    return (np.conj(V) * wt) @ V.T
+    return (V * np.sqrt(wt)).T
 
 
-def rho(hat_rows: np.ndarray, G: np.ndarray) -> np.ndarray:
-    """rho_Q(s) = sum_ij (G^{-1})_ij w_i^(s) conj(w_j^(s))."""
+def rho(hat_rows: np.ndarray, *, factor: np.ndarray) -> np.ndarray:
+    """rho_Q(s) = sum_ij (G^{-1})_ij w_i^(s) conj(w_j^(s)) for G = F^* F, without forming G.
+
+    factor: F, shape (m, n) with m >= n and G = F^* F (gram_factor_v, or
+    ta_prolate.gram_factor_s). With G = R^* R from a Householder QR of F,
+    rho(s) = ||y(s)||^2 where R^* y(s) = conj(w^(s)), a triangular solve.
+    Keyword-only on purpose: a Gram matrix passed where F is expected would
+    otherwise be accepted silently. Raises LinAlgError if R is exactly singular.
+    """
+    R = np.linalg.qr(np.asarray(factor), mode="r")
+    Y = solve_triangular(R, np.conj(hat_rows), trans="C", lower=False, check_finite=False)
+    return np.sum(np.abs(Y) ** 2, axis=0)
+
+
+def rho_inv(hat_rows: np.ndarray, G: np.ndarray) -> np.ndarray:
+    """The route before 2026-09-24, kept as the reference: np.linalg.inv of the formed G."""
     Gi = np.linalg.inv(G)
     return np.real(np.einsum("is,ij,js->s", hat_rows, Gi, np.conj(hat_rows)))
 
@@ -233,10 +266,8 @@ def delta_T_mellin(xis, alpha: complex, L: float, N: int, S: float = 400.0, Kmax
     Z, B = np.array(Z), np.array(B)
     zf = [lambda v, xi=xi: xi.F(v) for xi in xis]
     bf = [lambda v, xi=xi: b_values(xi, v, alpha) for xi in xis]
-    Gz = gram_v(zf)
-    Gb = gram_v(bf)
-    M_inf = T_from_rho(rho(Z, Gz), s, sw, L, N)
-    M_S = T_from_rho(rho(B, Gb), s, sw, L, N)
+    M_inf = T_from_rho(rho(Z, factor=gram_factor_v(zf)), s, sw, L, N)
+    M_S = T_from_rho(rho(B, factor=gram_factor_v(bf)), s, sw, L, N)
     return M_inf - M_S, M_inf, M_S
 
 

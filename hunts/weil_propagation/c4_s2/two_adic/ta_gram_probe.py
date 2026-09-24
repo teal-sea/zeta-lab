@@ -68,13 +68,14 @@ def grams(pm: TP.ProlateModes, S: float):
     Z, B = TP.hats_modes(pm, s, 1.0)
     jz, jb = TP.jumps(pm, 1.0)
     A = pm.derivs[:, 0] * pm.norm
-    return s, sw, Z, B, TP.gram_s(Z, sw, jz, S, A, 1.0), TP.gram_s(B, sw, jb, S, A, 2.0)
+    return s, sw, Z, B, TP.gram_factor_s(Z, sw, jz, S, A, 1.0), TP.gram_factor_s(B, sw, jb, S, A, 2.0)
 
 
-def delta_T(s, sw, Z, B, Gz, Gb) -> np.ndarray:
+def delta_T(s, sw, Z, B, Fz, Fb) -> np.ndarray:
+    """Delta_T from the Gram factors (G = F^* F; F = I gives the exact G_z = I)."""
     L = math.log(float(C))
-    Mi = TM.T_from_rho(TM.rho(Z, Gz), s, sw, L, N)
-    Ms = TM.T_from_rho(TM.rho(B, Gb), s, sw, L, N)
+    Mi = TM.T_from_rho(TM.rho(Z, factor=Fz), s, sw, L, N)
+    Ms = TM.T_from_rho(TM.rho(B, factor=Fb), s, sw, L, N)
     return ((Mi - Ms) + (Mi - Ms).conj().T).real / 2
 
 
@@ -84,9 +85,10 @@ def run(nvec: int, S: float) -> dict:
     t0 = time.time()
     pm = TP.ProlateModes(nvec=nvec, dps=20)
     Tinf = T.KernelProvider().T_inf_matrix(C, N, 40)
-    s, sw, Z, B, Gz, Gb = grams(pm, S)
-    dT = delta_T(s, sw, Z, B, Gz, Gb)
-    dTI = delta_T(s, sw, Z, B, np.eye(nvec), Gb)
+    s, sw, Z, B, Fz, Fb = grams(pm, S)
+    Gz = np.conj(Fz.T) @ Fz
+    dT = delta_T(s, sw, Z, B, Fz, Fb)
+    dTI = delta_T(s, sw, Z, B, np.eye(nvec), Fb)
     return {
         "nvec": nvec, "S": S, "Kmax": TP.kmax_for(nvec),
         "dT": dT.tolist(),

@@ -16,6 +16,12 @@ rho from the Mellin transforms and Gram matrices (ta_mellin.rho). Gram
 matrices are taken on the same s-quadrature as rho (Plancherel), with the
 leading jump tail 2 J_i J_j / S added (J = value at u = 1+), so that each
 rho is the density of an actual projection in the discretized inner product.
+Since 2026-09-24 (RESULTS.md s10) rho receives the factor F of that Gram
+matrix (gram_factor_s, G = F^* F) and never forms G; delta_T_cells reports
+cond(F) for both families, since that Gram's condition is set by the cutoff
+S against nvec^2 (not by the functions: G_z = I exactly), and a build whose
+cond(F) times the samples' relative error is not small is not determined
+by its samples.
 Truncations: nvec modes, s in [-S, S], w in [1, 2^Kmax] plus asymptotic
 tails, Kmax from kmax_for(nvec) (guarded); nvec and S are varied in
 RESULTS s5b and the spread is the error bar.
@@ -154,21 +160,31 @@ def gram_s(H: np.ndarray, sw: np.ndarray, J: np.ndarray, S: float, A: np.ndarray
     return (np.conj(H) * sw) @ H.T / TWO_PI + (np.outer(J, J) + dil * np.outer(A, A)) / (math.pi * S)
 
 
+def gram_factor_s(H: np.ndarray, sw: np.ndarray, J: np.ndarray, S: float, A: np.ndarray, dil: float) -> np.ndarray:
+    """F with gram_s(H, sw, J, S, A, dil) = F^* F: the weighted samples and the two tail rows."""
+    return np.vstack([(H * np.sqrt(sw / TWO_PI)).T, math.sqrt(1.0 / (math.pi * S)) * np.asarray(J, dtype=complex)[None, :],
+                      math.sqrt(dil / (math.pi * S)) * np.asarray(A, dtype=complex)[None, :]])
+
+
 def delta_T_cells(pm: ProlateModes, cells, N: int, S: float = 300.0, alpha: float = 1.0, Kmax: int | None = None, width: float = 1.0, per_panel: int = 8):
     """{c: (Delta_T, M_inf, M_S)} on the shared basis for each c in cells, plus diagnostics."""
     s, sw = TM.s_grid(S, width=width, per_panel=per_panel)
     Z, B = hats_modes(pm, s, alpha, Kmax)
     jz, jb = jumps(pm, alpha)
     A = pm.derivs[:, 0] * pm.norm
-    Gz = gram_s(Z, sw, jz, S, A, 1.0)
-    Gb = gram_s(B, sw, jb, S, A, 1.0 / (1.0 - abs(alpha) ** 2 / 2.0))
-    rz = TM.rho(Z, Gz)
-    rb = TM.rho(B, Gb)
+    dil_b = 1.0 / (1.0 - abs(alpha) ** 2 / 2.0)
+    Fz = gram_factor_s(Z, sw, jz, S, A, 1.0)
+    Fb = gram_factor_s(B, sw, jb, S, A, dil_b)
+    Gz, Gb = np.conj(Fz.T) @ Fz, np.conj(Fb.T) @ Fb
+    rz = TM.rho(Z, factor=Fz)
+    rb = TM.rho(B, factor=Fb)
     out = {}
     for c in cells:
         L = math.log(float(c))
         Mi = TM.T_from_rho(rz, s, sw, L, N)
         Ms = TM.T_from_rho(rb, s, sw, L, N)
         out[c] = (Mi - Ms, Mi, Ms)
-    diag = {"gram_z_offI": float(np.abs(Gz - np.eye(pm.nvec)).max()), "cond_Gb": float(np.linalg.cond(Gb))}
+    sz, sb = (np.linalg.svd(F, compute_uv=False) for F in (Fz, Fb))
+    diag = {"gram_z_offI": float(np.abs(Gz - np.eye(pm.nvec)).max()), "cond_Gb": float(np.linalg.cond(Gb)),
+            "cond_Fz": float(sz[0] / sz[-1]), "cond_Fb": float(sb[0] / sb[-1])}
     return out, diag
