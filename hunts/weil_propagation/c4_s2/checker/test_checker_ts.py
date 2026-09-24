@@ -209,7 +209,8 @@ def test_cells_json_keyed_to_routed_inputs():
     assert m["routed_two_adic"] == "8dc8525" and m["probe_commit"] == "015895f"
     assert m["python"].endswith("/.venv/bin/python")  # the repo venv, on whichever machine ran it
     assert set(m["units"]) == {"80|1200|8", "120|1600|16", "200|2400|32", "80|1600|16",
-                               "120|1200|16", "80|1200|16", "160|1600|16"}
+                               "120|1200|16", "80|1200|16", "160|1600|16",
+                               "240|2400|32"}  # the CI unit, built on the cloud container 2026-09-24
 
 
 def test_band_per_row_is_the_largest_measured_response():
@@ -496,9 +497,40 @@ def test_rerun_matches_laptop_snapshot():
         new = json.load(fh)
     assert old["meta"]["ts_inputs_digest"].startswith("02f12c86")
     assert new["meta"]["ts_inputs_digest"].startswith("323b8a07")
-    assert sorted(old["T_S"]) == sorted(new["T_S"])
+    assert set(old["T_S"]) == set(new["T_S"]) - {k for k in new["T_S"] if k.endswith("|240|2400")}
     d = max(float(np.abs(np.array(old["T_S"][k]) - np.array(new["T_S"][k])).max()) for k in old["T_S"])
     assert "%.1e" % d == "2.3e-07"
     secs = {k: v["seconds"] for k, v in new["units"].items()}
     assert secs == {"80|1200|8": 33.5, "120|1600|16": 112.4, "200|2400|32": 427.3, "80|1600|16": 47.5,
-                    "120|1200|16": 86.5, "80|1200|16": 32.0, "160|1600|16": 136.7}
+                    "120|1200|16": 86.5, "80|1200|16": 32.0, "160|1600|16": 136.7,
+                    "240|2400|32": 1339.2}
+
+
+def test_door_N32_200_vs_240():
+    """RESULTS s7.7 (cloud, 2026-09-24): the s7.6 door. (240, 2400, 32) against
+    the (200, 2400, 32) row. The real N = 32 refinement response is 2.5 to 8.5
+    times the N = 16 proxy s7.3 used, and it does not stay in |n| > 16. Counts
+    below -band at the s7.3 band and at the band carrying the real response."""
+    J = _cells()["cells"]
+    resp = {"2.2": ("3.9e-02", "1.8e-02"), "2.5": ("2.4e-02", "2.3e-02"), "2.9": ("3.2e-02", "2.7e-02")}
+    counts = {  # (nvec, band): n_minus
+        "2.2": {"200": (3, 0), "240": (9, 0)},
+        "2.5": {"200": (20, 2), "240": (19, 5)},
+        "2.9": {"200": (20, 2), "240": (23, 4)},
+    }
+    for c in CELLS:
+        d = J[c]["door_N32_200_vs_240"]
+        assert ("%.1e" % d["weyl_response"], "%.1e" % d["weyl_response_central_N16"]) == resp[c], c
+        assert d["band_s73"] == J[c]["32"]["band"]
+        assert d["band_real"] == max(J[c]["32"]["probe"], d["weyl_response"], J[c]["quadrature_response_N16"])
+        assert d["band_real"] == d["weyl_response"]  # the real response is the largest term
+        ratio = d["weyl_response"] / J[c]["32"]["refinement_proxy"]
+        assert 2.4 < ratio < 8.6, (c, ratio)
+        for nv, (a, b) in counts[c].items():
+            assert (d[nv]["band_s73"]["n_minus"], d[nv]["band_real"]["n_minus"]) == (a, b), (c, nv)
+    # the two deepest negatives at 2.5 and 2.9 survive both builds at the real band
+    for c, lo in (("2.5", (-0.039, -0.026)), ("2.9", (-0.120, -0.045))):
+        d = J[c]["door_N32_200_vs_240"]
+        for nv in ("200", "240"):
+            neg = d[nv]["band_real"]["negatives"]
+            assert neg[0] < lo[0] + 0.005 and neg[1] < lo[1] + 0.005, (c, nv, neg)
