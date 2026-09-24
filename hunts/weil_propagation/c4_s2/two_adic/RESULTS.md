@@ -824,11 +824,19 @@ The falsifier (BRIEF.md follow-up 3, run by modal/ and checker/): with the
 new ρ, T_S at 280 / 319 / 364 modes must have no eigenvalue below −band.
 
 - **Expected: it passes at 280 modes, and the order-10 failures at 319 and
-  364 are gone.** At the s-nodes ρ(s) w_s/2π is the diagonal of an
-  orthogonal projection, in [0, 1] (the QR route keeps it there to
-  eps·cond(F); `test_ta_mellin.py` pins it), so M_S is at most the window
-  basis's s-side Gram, about I, and T_S >= T_∞ − M_S cannot fall much below
-  −1. By A4's analogue (same S/nvec²), I
+  364 are gone; the ground for that is A4's analogue, not a bound.**
+  (Corrected 2026-09-24, before the report to the coordinator: this bullet
+  first said that T_S >= T_∞ − M_S cannot fall much below −1 because the
+  leverages are at most 1. The leverage ρ(s) w_s/2π is at most 1 (the QR
+  route keeps it there to eps·cond(F); `test_ta_mellin.py` pins it), but
+  then M_S = Σ_s leverage(s) conj(V_m(s)) V_n(s) is bounded only by the
+  unweighted node sum, which is 2π/w_s = 35 to 124 times the window basis's
+  s-side Gram (about I). That allows eigenvalues down to about −124 and does
+  not exclude −14 to −37.) At (200, 1200), in the same S/nvec² regime,
+  ρ_inv put T_S's lowest eigenvalue at −1.3e−2 to −1.6e−2 and the QR route
+  at +1.9e−3 to +2.8e−3. A rebuilt 319 or 364-mode row could still fail at
+  order 1e−2 (past A2's stopping point, next bullet) or, less likely, by
+  more. By A4's analogue (same S/nvec²), I
   expect no eigenvalue below −band at 280.
 - **The next constraint, if 319 or 364 still fails at order 1e−2: the
   samples against cond(F_z).** Those rows sit at S/nvec² = 0.026 and 0.023
@@ -873,9 +881,16 @@ container, about 9e−5 USD per second):
   (364, 3060) 1784 s of wall time, about 4980 s and 0.45 USD; the new
   `cond_Fz`, `cond_Fb` diagnostics add a few seconds each. checker/'s N = 8
   and 16 rows are its own local builds.
+- **If a rebuilt 319 or 364-mode row fails at order 1e−2 (the grid part of
+  s10.1's decision, whose numbers s10.1 points here for):** the three
+  default-rule rows at S/nvec² = 0.04, (280, 3136) about 1150 s, (319, 4070)
+  about 1600 s, (364, 5300) about 3800 s (s-nodes x w-nodes 1.28e10,
+  1.77e10, 4.23e10 at the measured 8e−8 to 1e−7 s each), about 0.59 USD.
+  The 364-mode unit exceeds modal/'s 1800 s unit limit: it needs a longer
+  limit, or the hats split by s-range across units (each chunk of s is
+  independent in `hats_modes`).
 - **Informative, optional:** the S response at N = 32 in the default-rule
-  regime, (280, 4532), about 1830 s (s-nodes x w-nodes 2.0e10 at the
-  measured 9e−8 s each), 0.17 USD.
+  regime, (280, 4532), about 1830 s (s-nodes x w-nodes 2.04e10), 0.17 USD.
 - **Not recommended:** the coordinator's step-1 cond(G_b) at 240 modes under
   a finer grid and a raised Kmax (about 1250 s for the s-grid, 1110 s for the
   w-grid, 1520 s for Kmax 15, 0.35 USD in all): the

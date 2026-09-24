@@ -159,3 +159,21 @@ def test_regeneration_changes_against_the_previous_json():
     assert worst[(40, 800.0)] < 2e-15 and worst[(80, 1200.0)] < 1.1e-14
     assert worst[(120, 1600.0)] < 1.3e-13 and worst[(130, 1800.0)] < 2.2e-13
     assert 1.4e-7 < worst[(200, 2400.0)] < 1.6e-7
+
+
+def test_modal_estimates_node_products():
+    """s10.5's estimates: s-nodes x w-nodes of delta_T_cells' grids, and s10.4's 2 pi / w_s range."""
+    def prod(nvec, S, spp=8, wpp=12, K=None):
+        s, _ = TM.s_grid(S, width=1.0, per_panel=spp)
+        w, _, _ = TM.w_nodes(K or TP.kmax_for(nvec), S, wpp)
+        return s.size * w.size
+
+    for (nvec, S), v in {(280, 3136.0): 1.28e10, (319, 4070.0): 1.77e10, (364, 5300.0): 4.23e10,
+                         (280, 4532.0): 2.04e10}.items():
+        assert prod(nvec, S) == pytest.approx(v, rel=5e-3)
+    assert prod(240, 2400.0, spp=12) * 9e-8 == pytest.approx(1250, rel=1e-2)
+    assert prod(240, 2400.0, wpp=16) * 9e-8 == pytest.approx(1110, rel=1e-2)
+    assert prod(240, 2400.0, K=15) * 9e-8 == pytest.approx(1520, rel=1e-2)
+    _, sw = TM.s_grid(2400.0, width=1.0, per_panel=8)
+    r = 2 * np.pi / sw
+    assert r.min() == pytest.approx(34.6, rel=1e-2) and r.max() == pytest.approx(124.1, rel=1e-2)
