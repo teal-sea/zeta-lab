@@ -62,7 +62,11 @@ composite claim takes the grade of its weakest step.
   probe that changed only the BLAS kernels moved it by 3.3e−7 on Modal alone,
   so the threshold became 1e−6 after the measurement, recorded as such in
   `modal/RUNS.md`. two_adic/ and checker/ then graded their own units in
-  their own folders against criteria written before the runs.
+  their own folders against criteria written before the runs. checker/'s
+  re-grade made two_adic/'s citations of it stale (2 tests failed); two_adic/
+  refreshed them (aa5e3d3). Closing run of all five folders at aa5e3d3:
+  438 passed, 10 skipped, 6 xfailed (the 3 strict ones here, and 3 known
+  incomplete doors sections of other hunts in `tests/test_hunt_doors.py`).
 
 ## The doors
 
