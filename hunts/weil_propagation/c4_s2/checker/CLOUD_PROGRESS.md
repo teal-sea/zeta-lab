@@ -8,3 +8,4 @@ started 2026-09-24T13:25:33Z
 2026-09-24T13:38:52Z prolate sweep config 3 (130,1800,N32) done in 177 s; ta_ts_prolate.json updated (write outside checker/ authorized by operator)
 2026-09-24T13:46:08Z heartbeat: unit 7 (240, 2400, 32) still running, 15 min in; load 5.41 4.83 2.98
 2026-09-24T13:46:39Z prolate sweep config 4 (200,2400,N32) done in 463 s; ta_ts_prolate.json updated (write outside checker/ authorized by operator)
+2026-09-24T13:46:46Z prolate tate_check (old, new) = 8.753880183100264e-14 8.76303084312083e-14 in 2 s
