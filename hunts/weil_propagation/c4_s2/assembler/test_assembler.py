@@ -313,7 +313,7 @@ def test_run_routed_end_to_end_on_planted_bounds(tmp_path):
     d = out["decisions"]["2.9|full"]
     assert d["decision"]["outcome"] == 4 and d["agg"]["L"][8] == 4 and d["agg"]["has_bound"] == {8: True, 16: False, 32: False}
     assert out["decisions"]["2.2|V4"]["decision"]["outcome"] == 4
-    assert out["eps_grow_2.9_full"] == {"m": 4, "builds": {}}
+    assert out["eps_grow_2.9_full"] is None  # no bound at N = 16, 32: nothing to bracket
 
 
 # --------------------------------------------- 5. synthetic.json, as read

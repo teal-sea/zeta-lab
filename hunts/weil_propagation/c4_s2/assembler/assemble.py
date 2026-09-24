@@ -243,12 +243,32 @@ def fixed_terms(c: str, nv, S, N) -> dict:
 # ------------------------------------------------ the bound folders' JSON
 
 
-def load_bound(path: str) -> dict:
+def git_blob(commit: str, path: str) -> bytes:
+    """The bytes of path at commit (git show), so a routed file is read as
+    committed, never from a working tree another worker is editing."""
+    import subprocess
+
+    rel = os.path.relpath(os.path.abspath(path), _repo_root())
+    return subprocess.run(["git", "show", f"{commit}:{rel}"], capture_output=True, check=True, cwd=HERE).stdout
+
+
+def _repo_root() -> str:
+    import subprocess
+
+    return subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True,
+                          check=True, cwd=HERE).stdout.strip()
+
+
+def load_bound(path: str, commit: str | None = None) -> dict:
     """{(cell, N, nvec, S, Kmax): entry} from a bound folder's JSON (BRIEF
-    interface: a list of {c, N, nvec, S, Kmax, eps_upper, grade, assumptions}).
+    interface: a list of {c, N, nvec, S, Kmax, eps_upper, grade, assumptions}),
+    at ``commit`` if given, else from the working tree.
     eps is an exact fmpq, or None where eps_upper is null."""
-    with open(path) as fh:
-        raw = json.load(fh)
+    if commit is not None:
+        raw = json.loads(git_blob(commit, path))
+    else:
+        with open(path) as fh:
+            raw = json.load(fh)
     entries = raw["entries"] if isinstance(raw, dict) and "entries" in raw else raw
     if not isinstance(entries, list):
         raise TypeError(f"{path}: expected a list of entries")
@@ -478,16 +498,18 @@ def synthetic_decisions(out: dict) -> dict:
 
 
 def run_routed(out_path: str = ROUTED_JSON, trunc_path: str = TRUNC_JSON, quad_path: str = QUAD_JSON,
-               builds=None) -> dict:
+               builds=None, trunc_commit: str | None = None, quad_commit: str | None = None) -> dict:
     """Phase 2: eps from the two bound folders, the count, the outcome.
-    ``builds`` (default: all 33) restricts the run, for the planted test only."""
-    trunc = load_bound(trunc_path) if os.path.exists(trunc_path) else None
-    quad = load_bound(quad_path) if os.path.exists(quad_path) else None
+    ``builds`` (default: all 33) restricts the run, for the planted test only.
+    With a commit, a bound file is read as committed there (git show)."""
+    trunc = load_bound(trunc_path, trunc_commit) if (trunc_commit or os.path.exists(trunc_path)) else None
+    quad = load_bound(quad_path, quad_commit) if (quad_commit or os.path.exists(quad_path)) else None
     todo = [(c, nv, S, N) for c in CELLS for nv, S, N in BUILDS] if builds is None else list(builds)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     out = {"meta": {"kind": "routed", "ts_inputs_digest": DIGEST,
                     "snapshot_sha256": hashlib.sha256(open(RT.SNAP, "rb").read()).hexdigest(),
-                    "trunc_json_sha256": _sha(trunc_path), "quad_json_sha256": _sha(quad_path),
+                    "trunc_commit": trunc_commit, "quad_commit": quad_commit,
+                    "trunc_json_sha256": _sha(trunc_path, trunc_commit), "quad_json_sha256": _sha(quad_path, quad_commit),
                     "python": sys.executable, "numpy": np.__version__}, "builds": {}}
     if os.path.exists(out_path):  # resume only on the same snapshot and the same two bound files
         with open(out_path) as fh:
@@ -521,9 +543,13 @@ def run_routed(out_path: str = ROUTED_JSON, trunc_path: str = TRUNC_JSON, quad_p
         print(key, "eps", None if rec["eps"] is None else "%.3e" % rec["eps"]["float"],
               "L/U", None if cnt is None else (cnt["L"], cnt["U"]), rec["seconds"], "s", flush=True)
     out["decisions"] = routed_decisions(out)
-    m = out["decisions"]["2.9|full"]["agg"]["L"][16]
-    out["eps_grow_2.9_full"] = {"m": m, "builds": {build_key(c, nv, S, N): eps_grow(c, nv, S, N, m)
-                                                    for c, nv, S, N in todo if c == "2.9" and N == 32}}
+    agg29 = out["decisions"]["2.9|full"]["agg"]
+    if agg29["has_bound"][16] and agg29["has_bound"][32]:
+        m = agg29["L"][16]
+        out["eps_grow_2.9_full"] = {"m": m, "builds": {build_key(c, nv, S, N): eps_grow(c, nv, S, N, m)
+                                                        for c, nv, S, N in todo if c == "2.9" and N == 32}}
+    else:  # no bound at N = 16 or 32: m would be the trivial 0, so eps_grow says nothing
+        out["eps_grow_2.9_full"] = None
     out["meta"]["seconds"] = round(time.time() - t0, 1)
     _dump(out, out_path)
     return out
@@ -565,7 +591,9 @@ def _bound_rec(b: dict) -> dict:
     return r
 
 
-def _sha(path):
+def _sha(path, commit=None):
+    if commit is not None:
+        return hashlib.sha256(git_blob(commit, path)).hexdigest()
     return hashlib.sha256(open(path, "rb").read()).hexdigest() if os.path.exists(path) else None
 
 
@@ -574,8 +602,10 @@ if __name__ == "__main__":
     ap.add_argument("--synthetic", action="store_true")
     ap.add_argument("--routed", action="store_true")
     ap.add_argument("--cells", default=",".join(CELLS))
+    ap.add_argument("--trunc-commit", default=None)
+    ap.add_argument("--quad-commit", default=None)
     a = ap.parse_args()
     if a.synthetic:
         run_synthetic(cells=tuple(a.cells.split(",")))
     if a.routed:
-        run_routed()
+        run_routed(trunc_commit=a.trunc_commit, quad_commit=a.quad_commit)
