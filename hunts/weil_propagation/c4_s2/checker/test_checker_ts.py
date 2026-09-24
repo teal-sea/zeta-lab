@@ -23,6 +23,7 @@ tolerance source (phase 1 original: ebf0eae).
 
 from __future__ import annotations
 
+import functools
 import json
 import os
 import subprocess
@@ -123,19 +124,24 @@ def test_closure_at_head_is_exactly():
 
 
 def test_snapshot_key_is_the_built_commits_and_heads():
-    """The committed snapshot was built at 8dc8525. Its key is the closure
-    digest there, and HEAD's closure digest equals it (re-keyed 2026-09-24
-    from the folder rule after proving this). A two_adic/ or kernel/ commit
+    """The committed snapshot was rebuilt on 2026-09-24 (follow-up 2, s7.8)
+    from modal/out_rho, every unit built on Modal from the tree e2b46a5. Its
+    key is the closure digest there and at c3dca00 (where two_adic/ changed
+    rho), and HEAD's closure digest equals it. A two_adic/ or kernel/ commit
     that changes a closure file turns this red rather than letting the
-    snapshot's tests skip: rebuild with run_checker_ts.py."""
+    snapshot's tests skip: rebuild with run_checker_ts.py. (Until then the
+    snapshot was built at 8dc8525 under digest 1dcab230; it is at 3dc0a74.)"""
     with open(GLUE.TS_SNAPSHOT) as fh:
         meta = json.load(fh)["meta"]
-    assert meta["head_at_start"].startswith("8dc8525")
-    assert meta["rekey"]["built_commit"] == meta["head_at_start"]
-    built = GLUE.ts_closure("8dc8525")
+    assert meta["source"] == "modal/out_rho" and meta["routed_two_adic"] == "c3dca00"
+    assert meta["built_tree"].startswith("e2b46a5")
+    built = GLUE.ts_closure(meta["built_tree"])
+    routed = GLUE.ts_closure("c3dca00")
     head = GLUE.ts_closure("HEAD")
-    assert built[0] == head[0] == meta["ts_inputs_digest"]
-    assert built[1] == head[1] == meta["rekey"]["inputs"]
+    assert built[0] == routed[0] == head[0] == meta["ts_inputs_digest"]
+    assert meta["ts_inputs_digest"].startswith("b2e7787bce7a")
+    assert built[1] == head[1]
+    assert GLUE.ts_closure("8dc8525")[0].startswith("1dcab230")  # the old key, for the record
 
 
 # The same scan over a directory copy of HEAD's two_adic/ and kernel/ (tmp_path,
@@ -353,33 +359,49 @@ def _cells():
 
 
 def test_snapshot_matches_live_provider():
-    """One snapshot unit equals a live two_adic/ T_S_matrix call, bitwise
+    """One snapshot unit against a live two_adic/ T_S_matrix call
     (c = 2.2, N = 8, (80, 1200)): the snapshot route composes exactly as the
-    builder does. About 20 s."""
+    builder does. Bitwise until s7.8 (laptop rows); since then through the
+    laptop half of modal/'s calibration. About 20 s."""
     if GLUE._snapshot_rows("2.2", 8, 40) is None:
         pytest.skip("snapshot stale, dirty or absent (checker_glue.ts_key)")
     import numpy as np
 
+    import run_checker_ts as RT
+
     snap = np.array(GLUE._snapshot_rows("2.2", 8, 40))
     live = np.asarray(GLUE.T_S_live("2.2", 8, 40))
-    assert np.array_equal(snap, live)
+    # since s7.8 every snapshot row is a Modal build: the laptop build of the
+    # same unit (modal/out_rho, local calibration half) equals the live call
+    # bitwise, and the Modal row differs from it by the measured calibration
+    # (5.8e-15 at c = 2.2; 7.1e-15 over the unit, threshold 1e-10)
+    with open(os.path.join(RT.MODAL_OUT_RHO, RT.RHO_LOCAL_CALIBRATION)) as fh:
+        local = np.array(json.load(fh)["T_S"]["2.2|8|40|80|1200"])
+    assert np.array_equal(local, live)
+    assert "%.1e" % np.abs(snap - live).max() == "5.8e-15"
 
 
 def test_cells_json_keyed_to_routed_inputs():
+    """Since s7.8: rho by QR (two_adic/ c3dca00, also the probe's commit),
+    every unit from modal/out_rho, the reading committed at 49db49f. (Until
+    then: routed 8dc8525, probe 015895f; at 3dc0a74.)"""
     m = _cells()["meta"]
-    assert m["routed_two_adic"] == "8dc8525" and m["probe_commit"] == "015895f"
+    assert m["routed_two_adic"] == "c3dca00" and m["probe_commit"] == "c3dca00"
+    assert m["reading_commit"] == "49db49f" and m["source"] == "modal/out_rho"
     assert m["python"].startswith("/Users/thomas/zeta-lab/.venv/")
+    assert m["pending"] == [] and m["n32_pending"] == []
     assert set(m["units"]) == {"80|1200|8", "120|1600|16", "200|2400|32", "80|1600|16",
                                "120|1200|16", "80|1200|16", "160|1600|16",
-                               # merged from modal/out on 2026-09-24 (s7.7)
                                "240|2400|32", "280|2266|32", "319|2633|32", "364|3060|32"}
+    assert {u["source"]["file"].split("/")[-2] for u in m["units"].values()} == {"out_rho"}
 
 
 def test_band_per_row_is_the_largest_measured_response():
     """P1 exactly; band(c, N) = max(two_adic/'s probe for the row, the row's
     refinement response, the quadrature response at N = 16). At N = 32 the
-    refinement is (240, 2400), run on Modal and merged 2026-09-24 (s7.7); it
-    replaces the N = 16 proxy of 535882e, whose band is kept as a record."""
+    refinement response is the largest over the cell's admitted refined rows
+    (s7.8; until then the 240-mode row alone, s7.7, and before that the
+    N = 16 proxy of 535882e, which is kept as band_32_proxy)."""
     J = _cells()["cells"]
     for c in CELLS:
         r = J[c]
@@ -387,10 +409,9 @@ def test_band_per_row_is_the_largest_measured_response():
             x = r[N]
             assert x["T_S_herm_defect"] == 0, (c, N)
             assert x["band"] == max(x["probe"], x["refinement_response"], r["quadrature_response_N16"]), (c, N)
-        assert r["32"]["refinement_proxy"] is None
-        assert r["32"]["refinement_response"] == r["refinement_response"]["32"]
-        assert r["band_32_before_merge"] == max(r["32"]["probe"], r["16"]["refinement_response"],
-                                                r["quadrature_response_N16"])
+            assert x["refinement_response"] == r["refinement_response"][N], (c, N)
+        assert r["band_32_proxy"] == max(r["32"]["probe"], r["16"]["refinement_response"],
+                                         r["quadrature_response_N16"])
         assert r["band_cell"] == max(r[N]["band"] for N in ("8", "16", "32"))
 
 
@@ -413,8 +434,14 @@ def test_P3_holds_at_equal_settings_only():
     defect is the settings change, within the band of the cell."""
     J = _cells()["cells"]
     for c in CELLS:
-        assert J[c]["P3_same_settings_defect"] == 0, c
+        # 0 exactly on the old route's laptop rows; since s7.8 the two units ran on
+        # different OpenBLAS kernel families (SkylakeX, Haswell): 4.4e-15 to 6.2e-15
+        assert 0 <= J[c]["P3_same_settings_defect"] < 1e-14, c
         assert 0 < J[c]["P3_converged_rows_defect_norm"] <= J[c]["band_cell"], c
+    d = [J[c]["P3_same_settings_defect"] for c in CELLS]
+    assert ("%.1e" % min(d), "%.1e" % max(d)) == ("4.4e-15", "6.2e-15")
+    S = _snap()["units"]
+    assert S["80|1200|8"]["source"]["blas_core"] == "SkylakeX" and S["80|1200|16"]["source"]["blas_core"] == "Haswell"
 
 
 def test_dps_60_is_the_float64_floor():
@@ -430,12 +457,14 @@ def test_banded_P4_counts():
     """P4 at one threshold per cell (band_cell). The delivered rows use
     different settings per N and are not nested, so interlacing does not
     apply to them. Until 535882e (band_cell from the N = 16 proxy) the counts
-    were 1, 4, 3 / 4, 8, 20 / 4, 9, 20: a failure of banded P4 at 2.2. With
-    the N = 32 band measured (s7.7), band_cell is 3.9e-2 / 2.4e-2 / 3.2e-2
-    and the counts are 0, 0, 0 / 1, 2, 2 / 2, 2, 2: nondecreasing, and
-    bounded, at that threshold."""
+    were 1, 4, 3 / 4, 8, 20 / 4, 9, 20: a failure of banded P4 at 2.2. At the
+    old route's N = 32 band (s7.7) they were 0, 0, 0 / 1, 2, 2 / 2, 2, 2.
+    Under the QR rho (s7.8) band_cell is 3.0e-2 / 1.4e-2 / 8.2e-3 and the
+    counts are 0, 0, 0 / 2, 6, 8 / 4, 9, 20: nondecreasing on every cell,
+    growing at 2.5 and 2.9."""
     J = _cells()["cells"]
-    want = {"2.2": [0, 0, 0], "2.5": [1, 2, 2], "2.9": [2, 2, 2]}
+    assert ["%.1e" % J[c]["band_cell"] for c in CELLS] == ["3.0e-02", "1.4e-02", "8.2e-03"]
+    want = {"2.2": [0, 0, 0], "2.5": [2, 6, 8], "2.9": [4, 9, 20]}
     for c in CELLS:
         assert [J[c][N]["full"]["n_minus_at_band_cell"] for N in ("8", "16", "32")] == want[c], c
 
@@ -445,7 +474,8 @@ def test_T_S_removes_the_deep_product_side_negatives():
     below -band growing in N. R_S = Q - T_S: lambda_min above -0.13 on every
     row. Until 535882e the count was not smaller in general (c = 2.5,
     N = 32: 20 for R_S against 18 for Q - T_inf at the proxy band); at the
-    measured N = 32 band it is 2 against 17 (s7.7)."""
+    old route's N = 32 band it was 2 against 17 (s7.7); under the QR rho,
+    8 against 18 (s7.8)."""
     J = _cells()["cells"]
     for c in CELLS:
         ninf = [J[c][N]["R_inf_full"]["n_minus"] for N in ("8", "16", "32")]
@@ -453,26 +483,25 @@ def test_T_S_removes_the_deep_product_side_negatives():
         for N in ("8", "16", "32"):
             assert J[c][N]["R_inf_full"]["low3"][0] < -0.29, (c, N)
             assert J[c][N]["full"]["low3"][0] > -0.13, (c, N)
-    assert J["2.5"]["32"]["full"]["n_minus"] == 2 and J["2.5"]["32"]["R_inf_full"]["n_minus"] == 17
+    assert J["2.5"]["32"]["full"]["n_minus"] == 8 and J["2.5"]["32"]["R_inf_full"]["n_minus"] == 18
 
 
 def test_R_S_negative_count_below_band():
-    """n_-(R_S) below -band(c, N), full space: 4, 4, 0 at 2.2; 4, 9, 2 at
-    2.5; 4, 10, 2 at 2.9 (N = 8, 16, 32). At N = 32 the band is now the
-    measured (240, 2400) refinement response (s7.7); at the N = 16 proxy
-    band of 535882e the N = 32 counts were 3, 20, 20."""
+    """n_-(R_S) below -band(c, N), full space: 4, 4, 0 at 2.2; 4, 9, 8 at
+    2.5; 4, 10, 20 at 2.9 (N = 8, 16, 32), under the QR rho with the N = 32
+    band of s7.8. On the old route (s7.7) the N = 32 counts were 0, 2, 2,
+    and at the N = 16 proxy band of 535882e 3, 20, 20."""
     J = _cells()["cells"]
-    want = {"2.2": [4, 4, 0], "2.5": [4, 9, 2], "2.9": [4, 10, 2]}
+    want = {"2.2": [4, 4, 0], "2.5": [4, 9, 8], "2.9": [4, 10, 20]}
     for c in CELLS:
         assert [J[c][N]["full"]["n_minus"] for N in ("8", "16", "32")] == want[c], c
 
 
 def test_two_deep_negatives_at_2_9_on_every_class():
     """c = 2.9: the two lowest eigenvalues of R_S are below -3.7e-2 on every
-    class and every N. Against the largest band of the cell, now the
-    measured N = 32 band 3.16e-2 (it was 8.2e-3, and 4.5 times, at the proxy
-    band): the second sits 1.2 to 1.4 times below it, the first 2.1 to 3.8
-    times."""
+    class and every N. Against the largest band of the cell, under the QR rho
+    the probe 8.18e-3 at N = 32 (s7.8; 3.16e-2 on the old route, s7.7): the
+    second sits 4.6 to 5.6 times below it, the first 8.3 to 14.7 times."""
     J = _cells()["cells"]["2.9"]
     bc = J["band_cell"]
     r1, r2 = [], []
@@ -482,16 +511,16 @@ def test_two_deep_negatives_at_2_9_on_every_class():
             assert lo[1] < -0.037 and lo[1] < -bc, (N, cls)
             r1.append(-lo[0] / bc)
             r2.append(-lo[1] / bc)
-    assert ("%.1f" % min(r2), "%.1f" % max(r2)) == ("1.2", "1.4")
-    assert ("%.1f" % min(r1), "%.1f" % max(r1)) == ("2.1", "3.8")
+    assert ("%.1f" % min(r2), "%.1f" % max(r2)) == ("4.6", "5.6")
+    assert ("%.1f" % min(r1), "%.1f" % max(r1)) == ("8.3", "14.7")
 
 
 def test_top_half_split_of_the_negatives():
     """RESULTS s7.3: negatives of R_S (full) with more than half their weight
     on |n| > N/2, and the rest."""
     J = _cells()["cells"]
-    top = {"2.5": [2, 4, 0], "2.9": [2, 5, 0]}  # N = 32: 14 and 12 at the proxy band (535882e)
-    rest = {"2.5": [2, 5, 2], "2.9": [2, 5, 2]}
+    top = {"2.5": [2, 4, 2], "2.9": [2, 5, 12]}  # N = 32 on the old route (s7.7): 0 and 0
+    rest = {"2.5": [2, 5, 6], "2.9": [2, 5, 8]}
     for c in top:
         t = [J[c][N]["full_n_minus_top_half"] for N in ("8", "16", "32")]
         n = [J[c][N]["full"]["n_minus"] for N in ("8", "16", "32")]
@@ -548,6 +577,7 @@ def test_results_phase3_tables_match_json():
         assert row[1:6] == [g(r["quadrature_response_N16"]), g(r["mode_response_80_to_120_N16"]),
                             g(r["mode_response_80_to_120_N16_central_N8"]),
                             g(r["mode_response_120_to_160_N16"]), g(r["P3_converged_rows_defect_norm"])]
+        assert row[6] == "%.1e" % r["P3_same_settings_defect"] and row[7] == "%g" % r["dps60_float64_floor_N8"]
     rows = _table(text, "### 7.3 R_S", "### 7.3a")
     t2 = [r for r in rows if len(r) == 8]
     t3 = [r for r in rows if len(r) == 7]
@@ -616,7 +646,7 @@ def test_discriminator_resolved_coordinates():
     """RESULTS s7.3a (2): R_S on |n| <= N/2 at the row's band; and |n| <= 16
     at band(c, 16) for the 200-mode N = 32 build."""
     J = _cells()["cells"]
-    want = {"2.2": [2, 1, 0], "2.5": [2, 4, 2], "2.9": [2, 4, 2]}  # N = 32: 1, 6, 8 at the proxy band
+    want = {"2.2": [2, 1, 0], "2.5": [2, 4, 6], "2.9": [2, 4, 8]}  # N = 32 on the old route: 0, 2, 2
     for c in CELLS:
         assert [J[c][N]["resolved_half"]["n_minus"] for N in ("8", "16", "32")] == want[c], c
     fixed = {"2.2": 1, "2.5": 8, "2.9": 10}
@@ -665,7 +695,7 @@ def test_growth_at_2_9_survives_120_to_160_modes():
     assert ["%.1f" % (abs(x) / b) for x in pair] == ["1.5", "1.4"]
     assert [J["2.5"]["modes_N16_S1600"][k]["N16_n_minus"] for k in ("80_S1200", "120", "160")] == [10, 9, 8]
     assert [J["2.2"]["modes_N16_S1600"][k]["N16_n_minus"] for k in ("80_S1200", "120", "160")] == [5, 4, 3]
-    wb = {"2.2": [2, 2, 0], "2.5": [2, 5, 2], "2.9": [2, 5, 2]}  # N = 32 at the measured band (s7.7)
+    wb = {"2.2": [2, 2, 0], "2.5": [2, 5, 6], "2.9": [2, 5, 8]}  # N = 32 under the QR rho (s7.8)
     for c in CELLS:
         assert [J[c][N]["full"]["n_minus"] - J[c][N]["full_n_minus_top_half"] for N in ("8", "16", "32")] == wb[c]
 
@@ -688,15 +718,19 @@ def test_last_pair_counted_is_marginal():
 
 def test_what_sets_the_band():
     """RESULTS s7.3: the refinement response sets the band on every N = 8
-    and N = 32 row and at 2.2 for N = 16; the Gram probe sets it at 2.5 and
-    2.9 for N = 16. (At N = 32 the probe set it at 2.5 and 2.9 while the
-    N = 16 proxy stood in for the refinement, 535882e.)"""
+    row, at 2.2 for N = 16 and at 2.2 and 2.5 for N = 32 (the 240-mode row
+    at 2.2, the 319-mode row at 2.5); the Gram probe sets it at 2.5 and 2.9
+    for N = 16 and at 2.9 for N = 32 (s7.8). On the old route the 240-mode
+    response set it on every N = 32 row (s7.7)."""
     J = _cells()["cells"]
     for c in CELLS:
         for N in ("8", "16", "32"):
             x = J[c][N]
-            by_ref = N in ("8", "32") or c == "2.2"
+            by_ref = N == "8" or c == "2.2" or (N == "32" and c == "2.5")
             assert x["band"] == (x["refinement_response"] if by_ref else x["probe"]), (c, N)
+    m = {c: J[c]["modes_N32"] for c in CELLS}
+    assert J["2.2"]["32"]["band"] == m["2.2"]["builds"]["240"]["dT_vs_200"]
+    assert J["2.5"]["32"]["band"] == m["2.5"]["builds"]["319"]["dT_vs_200"]
 
 
 # ------------------------------------ s7.7: the Modal N = 32 rows (2026-09-24)
@@ -704,16 +738,27 @@ def test_what_sets_the_band():
 # Written after the s7.6 criterion's reading was committed (ee4a1ff) and after
 # the rows were analysed: these pin measured values, they do not test a
 # prediction. The merge tests read modal/out (read only) and the snapshot.
+# Since follow-up 2 (s7.8) they pin the OLD ROUTE's record (rho by
+# np.linalg.inv): the snapshot and cells JSON at 3dc0a74 (both last written
+# 8d66d09), read from git history, not the working tree.
+
+OLD = "3dc0a74"
+
+
+@functools.lru_cache(maxsize=None)
+def _old_json(name):
+    return json.loads(GLUE._git("show", f"{OLD}:{P}/checker/{name}"))
+
+
+def _old_cells():
+    return _old_json("checker_ts_cells.json")
+
+
+def _old_snap():
+    return _old_json("checker_ts_snapshot.json")
 
 MODAL_FILES = {"240|2400|32": "checker_240_2400_32.json", "280|2266|32": "checker_280_2266_32.json",
                "319|2633|32": "checker_319_2633_32.json", "364|3060|32": "checker_364_3060_32.json"}
-
-
-def _snap():
-    if not os.path.exists(GLUE.TS_SNAPSHOT):
-        pytest.skip("checker_ts_snapshot.json absent")
-    with open(GLUE.TS_SNAPSHOT) as fh:
-        return json.load(fh)
 
 
 def _modal(fname):
@@ -735,7 +780,7 @@ def test_merged_rows_are_the_modal_files_bitwise(ukey):
     source file and platform."""
     import hashlib
 
-    S = _snap()
+    S = _old_snap()
     raw, d = _modal(MODAL_FILES[ukey])
     u = S["units"][ukey]
     assert u["source"]["file"] == f"{P}/modal/out/{MODAL_FILES[ukey]}"
@@ -751,7 +796,7 @@ def test_merge_keeps_the_laptop_row_and_the_key():
     """The laptop (200, 2400, 32) rows are those of 535882e, bitwise; the meta
     keeps its build commit and re-key (so the fail-closed test still bites);
     the merge is recorded under the same digest."""
-    S = _snap()
+    S = _old_snap()
     old = json.loads(GLUE._git("show", f"535882e:{P}/checker/checker_ts_snapshot.json"))
     for k, v in old["T_S"].items():
         assert S["T_S"][k] == v, k
@@ -789,10 +834,7 @@ def test_merge_refuses_a_bad_modal_file(tmp_path, monkeypatch, plant):
 
 
 def _n32(c):
-    J = _cells()["cells"][c]
-    if "modes_N32" not in J:
-        pytest.skip("checker_ts_cells.json predates the Modal merge")
-    return J["modes_N32"]
+    return _old_cells()["cells"][c]["modes_N32"]
 
 
 def test_N32_band_replaces_the_proxy():
@@ -800,7 +842,7 @@ def test_N32_band_replaces_the_proxy():
     2.37e-2 / 3.16e-2, against the proxy band 1.59e-2 / 7.55e-3 / 8.18e-3
     (2.5 to 3.9 times it). The refinement response is 2.5 to 8.6 times the
     N = 16 response it replaces."""
-    J = _cells()["cells"]
+    J = _old_cells()["cells"]
     got = [("%.2e" % J[c]["32"]["band"], "%.2e" % J[c]["band_32_before_merge"]) for c in CELLS]
     assert got == [("3.92e-02", "1.59e-02"), ("2.37e-02", "7.55e-03"), ("3.16e-02", "8.18e-03")]
     r = [J[c]["32"]["band"] / J[c]["band_32_before_merge"] for c in CELLS]
@@ -884,7 +926,7 @@ def test_the_240_row_violates_P2_and_moves_the_low_block():
     0.99 / 0.06 / 0.29 on |n| > 16. At the eps * cond(Gb) estimate (1.1e-3,
     not measured) its counts range 0 / 4 to 6 / 4, all at most the N = 16
     counts."""
-    J = _cells()["cells"]
+    J = _old_cells()["cells"]
     low = [_n32(c)["builds"]["240"]["T_S_low"] for c in CELLS]
     assert ["%.1e" % x for x in low] == ["-7.3e-03", "-8.5e-03", "-8.9e-03"]
     blk = [_n32(c)["builds"]["240"]["dT_vs_200_N8_block"] for c in CELLS]
@@ -962,10 +1004,411 @@ def test_s7_7_quoted_numbers():
     low = [B[c]["200"]["T_S_low"] for c in CELLS]
     assert ("%.1e" % min(low), "%.1e" % max(low)) == ("1.5e-03", "2.4e-03")
     # Modal child seconds of the four merged units, and the optional unit's cost
-    S = _snap()
+    S = _old_snap()
     sec = [S["units"][k]["seconds"] for k in MODAL_FILES]
     assert ("%.0f" % min(sec), "%.0f" % max(sec)) == ("844", "1784")
     _, d240 = _modal(RT.MODAL_UNITS[0][2])
     wall = d240["meta"]["wall_seconds"]
     assert "%.0f" % wall == "890"
     assert "%.3f" % (wall * (4 * 0.0000131 + 16 * 0.00000222)) == "0.078"
+
+
+def _snap():
+    if not os.path.exists(GLUE.TS_SNAPSHOT):
+        pytest.skip("checker_ts_snapshot.json absent")
+    with open(GLUE.TS_SNAPSHOT) as fh:
+        return json.load(fh)
+
+
+# ------------------------------- s7.8: the rows under the QR rho (follow-up 2)
+#
+# The reading (band at N = 32, falsifier bins, determinacy gate, verdict rule,
+# platform flag) was committed at 49db49f before any eigenvalue of a rebuilt
+# row was computed. The rule tests below recompute each clause from the JSON's
+# own fields; the pins after them are measured values, not predictions.
+
+RHO_UNITS = ["80|1200|8", "120|1600|16", "200|2400|32", "80|1600|16", "120|1200|16", "80|1200|16",
+             "160|1600|16", "240|2400|32", "280|2266|32", "319|2633|32", "364|3060|32"]
+
+
+def _rho(ukey):
+    import run_checker_ts as RT
+
+    nv, S, N = next((nv, S, N) for nv, S, N, _ in RT.RHO_UNITS if f"{nv}|{int(S)}|{N}" == ukey)
+    path = os.path.join(RT.MODAL_OUT_RHO, RT.rho_file(nv, S, N))
+    if not os.path.exists(path):
+        pytest.skip(f"modal/out_rho/{os.path.basename(path)} absent")
+    with open(path, "rb") as fh:
+        raw = fh.read()
+    return (nv, S, N), raw, json.loads(raw)
+
+
+@pytest.mark.parametrize("ukey", RHO_UNITS)
+def test_rho_rows_are_the_out_rho_files_bitwise(ukey):
+    """Each unit of the rebuilt snapshot: its rows equal the out_rho file's
+    rows exactly, the file carries the snapshot's digest with the in-container
+    guard clean and the calibration passed, and the unit records its source
+    file, sha256, platform and tree."""
+    import hashlib
+
+    S = _snap()
+    _, raw, d = _rho(ukey)
+    u = S["units"][ukey]
+    assert u["source"]["file"] == f"{P}/modal/out_rho/{os.path.basename(u['source']['file'])}"
+    assert u["source"]["sha256"] == hashlib.sha256(raw).hexdigest()
+    assert u["source"]["platform"].startswith("Linux") and u["source"]["python"].startswith("3.12")
+    assert u["source"]["tree_commit"].startswith("e2b46a5") and u["source"]["calibration"]["passed"]
+    assert d["meta"]["ts_inputs_digest"] == S["meta"]["ts_inputs_digest"] == u["source"]["ts_inputs_digest"]
+    assert d["meta"]["guard_before"]["ok"] and d["meta"]["guard_after"]["ok"] and d["meta"]["status"] == "ok"
+    assert u["kmax"] == d["units"][ukey]["kmax"] and u["diag"] == d["units"][ukey]["diag"]
+    assert set(d["T_S"]) and all(S["T_S"][k] == v for k, v in d["T_S"].items())
+
+
+def test_rebuilt_snapshot_holds_only_out_rho_rows():
+    """No row of the old route survives in the rebuilt snapshot: every T_S key
+    belongs to a unit read from out_rho (six rows at N = 8, three otherwise)."""
+    S = _snap()
+    assert set(S["units"]) == set(RHO_UNITS)
+    want = sum(6 if u.endswith("|8") else 3 for u in RHO_UNITS)
+    assert len(S["T_S"]) == want
+    for k in S["T_S"]:
+        c, N, dps, nv, SS = k.split("|")
+        assert f"{nv}|{SS}|{N}" in S["units"], k
+
+
+@pytest.mark.parametrize("plant", ["digest", "status", "guard", "unit", "calibration", "S"])
+def test_rho_unit_refuses_a_bad_file(tmp_path, monkeypatch, plant):
+    """rho_unit refuses a file whose digest, status, guard, unit key,
+    calibration or S is not what build_unit on the same inputs would have
+    written; the untouched file passes."""
+    import run_checker_ts as RT
+
+    (nv, S, N), raw, d = _rho("280|2266|32")
+    digest = d["meta"]["ts_inputs_digest"]
+    if plant == "digest":
+        d["meta"]["ts_inputs_digest"] = "0" * 64
+    elif plant == "status":
+        d["meta"]["status"] = "timeout"
+    elif plant == "guard":
+        d["meta"]["guard_before"]["ok"] = False
+    elif plant == "unit":
+        d["units"] = {"280|2266|16": d["units"]["280|2266|32"]}
+    elif plant == "calibration":
+        d["meta"]["calibration"]["passed"] = False
+    else:
+        d["units"]["280|2266|32"]["S_exact"] = 2266.0
+    (tmp_path / "x.json").write_text(json.dumps(d))
+    monkeypatch.setattr(RT, "MODAL_OUT_RHO", str(tmp_path))
+    with pytest.raises(SystemExit, match="refused"):
+        RT.rho_unit("x.json", nv, S, N, digest)
+    (tmp_path / "y.json").write_bytes(raw)
+    assert RT.rho_unit("y.json", nv, S, N, digest)[0] == "280|2266|32"
+
+
+def _m32(c):
+    J = _cells()["cells"][c]
+    if "modes_N32" not in J:
+        pytest.skip("N = 32 pending in checker_ts_cells.json")
+    return J["modes_N32"]
+
+
+def test_s7_8_band_and_admission_as_read():
+    """Clauses 2 to 6 recomputed from the JSON: band_0 = max(probe, quadrature);
+    a refined row (240, the cell's default row) is admitted iff cond_F < 1e14
+    and T_S has no eigenvalue below -band_0; band(c, 32) = max(band_0, the
+    admitted rows' ||T_S(X) - T_S(200)||_2); the N = 32 row carries it."""
+    import run_checker_ts as RT
+
+    J = _cells()["cells"]
+    for c in CELLS:
+        r, m = J[c], _m32(c)
+        b0 = max(r["32"]["probe"], r["quadrature_response_N16"])
+        assert m["band_0"] == r["band_0_32"] == b0, c
+        assert r["band_32_proxy"] == max(r["32"]["probe"], r["16"]["refinement_response"],
+                                         r["quadrature_response_N16"]), c
+        adm = []
+        for nv in RT.REFINED[c]:
+            b = m["builds"].get(str(nv))
+            ok = b is not None and b["cond_F"] < 1e14 and b["T_S_low"] >= -b0
+            assert m["s7_6_verdict"][str(nv)]["admitted"] == ok, (c, nv)
+            if ok:
+                adm.append(str(nv))
+        assert m["admitted"] == adm, c
+        resp = [m["builds"][n]["dT_vs_200"] for n in adm]
+        assert m["band"] == max([b0] + resp) == r["32"]["band"], c
+        assert m["refinement_response"] == (max(resp) if resp else None) == r["refinement_response"]["32"], c
+        for name, b in m["builds"].items():
+            assert b["cond_F"] == max(b["cond_Fz"], b["cond_Fb"]), (c, name)
+            assert b["past_gate"] == (b["cond_F"] >= 1e14), (c, name)
+
+
+def test_s7_8_falsifier_bins_as_read():
+    """Clause 7: the bins, fixed before the run, recomputed from T_S's lowest
+    eigenvalue on every N = 32 build, at band_0 and at the old band(c, 32)."""
+    import run_checker_ts as RT
+
+    def bin_(low, band):
+        return ("pass" if low >= -band else "fails at order 1e-2" if low >= -0.1
+                else "fails at order 1e-1" if low >= -1 else "fails at order 1 or more")
+
+    old = _old_cells()["cells"]
+    for c in CELLS:
+        m = _m32(c)
+        assert m["old_band_32"] == old[c]["32"]["band"], c
+        for name, b in m["builds"].items():
+            assert b["P2_bin"] == bin_(b["T_S_low"], m["band_0"]) == RT.p2_bin(b["T_S_low"], m["band_0"]), (c, name)
+            assert b["P2_bin_at_old_band"] == bin_(b["T_S_low"], m["old_band_32"]), (c, name)
+
+
+def test_s7_8_verdict_rule_as_read():
+    """Clause 9: per admitted refined row, survives / falls / undecided against
+    the rebuilt N = 16 count outside the platform-undecided eigenvalues; the
+    cell survives or falls only if every admitted row does, else split."""
+    J = _cells()["cells"]
+    for c in CELLS:
+        m = _m32(c)
+        n16 = J[c]["16"]["full"]["n_minus"]
+        assert m["n_minus_N16"] == n16, c
+        labels = []
+        for name, v in m["s7_6_verdict"].items():
+            if not v["admitted"]:
+                assert v["label"] == "not admitted", (c, name)
+                continue
+            lo, hi = m["builds"][name]["n_minus_range"]
+            want = "survives" if lo > n16 else "falls" if hi <= n16 else "undecided"
+            assert v["label"] == want, (c, name)
+            labels.append(want)
+        cell = ("undecided, no admitted refinement" if not labels else "survives" if set(labels) == {"survives"}
+                else "falls" if set(labels) == {"falls"} else "split")
+        assert m["cell_verdict"] == cell, c
+
+
+def test_s7_8_platform_flag_as_read():
+    """Clause 10: flag = 3.2e-12 x max(1, cond_F / cond_F(200, 2400)); the
+    range of n_- is the count at -band -+ flag."""
+    for c in CELLS:
+        m = _m32(c)
+        for name, b in m["builds"].items():
+            assert b["platform_flag"] == 3.2e-12 * max(1.0, b["cond_F"] / m["cond_F_200"]), (c, name)
+            lo, hi = b["n_minus_range"]
+            assert lo <= b["n_minus"] <= hi, (c, name)
+
+
+def test_N8_N16_unmoved_by_the_QR_rho():
+    """Clause 11: every count at N = 8 and 16 (the delivered rows on all three
+    classes, the top-half and resolved-half splits, Q - T_inf, and the
+    discriminator builds at N = 16) equals the old route's (3dc0a74). The
+    delivered rows' listed eigenvalues move by at most 2.8e-14 (N = 8) and
+    2.1e-13 (N = 16); the bands by at most 3.5e-8, through the 160-mode build
+    (its eigenvalues move by 3.7e-8 to 4.7e-8), whose old Gram inverse had the
+    largest condition of the N = 16 builds. two_adic/ expected 1e-7 at most."""
+    J = _cells()["cells"]
+    for c in CELLS:
+        v = J[c]["vs_old_route"]
+        assert v["8"]["counts_equal"] and v["16"]["counts_equal"] and v["modes_N16_S1600"]["counts_equal"], c
+        assert v["8"]["undecided_lengths_equal"] and v["16"]["undecided_lengths_equal"], c
+    mx = lambda N, k: max(J[c]["vs_old_route"][N][k] for c in CELLS)  # noqa: E731
+    assert ("%.1e" % mx("8", "max_eig_change"), "%.1e" % mx("16", "max_eig_change")) == ("2.8e-14", "2.1e-13")
+    assert "%.1e" % max(mx("8", "band_change"), mx("16", "band_change")) == "3.5e-08"
+    m16 = [J[c]["vs_old_route"]["modes_N16_S1600"]["max_eig_change"] for c in CELLS]
+    assert ("%.1e" % min(m16), "%.1e" % max(m16)) == ("3.7e-08", "4.7e-08")
+    assert "%.1e" % max(J[c]["vs_old_route"]["mode_response_120_to_160_N16_change"] for c in CELLS) == "3.7e-08"
+    assert max(mx("8", "band_change"), mx("16", "band_change")) < 1e-7
+    cf = {k: max(u["diag"]["cond_Fz"], u["diag"]["cond_Fb"]) for k, u in _snap()["units"].items() if k.endswith("|16")}
+    assert max(cf, key=cf.get) == "160|1600|16" and "%.1e" % cf["160|1600|16"] == "4.4e+05"
+
+
+def test_N8_platform_calibration():
+    """Clause 10: the one cross-platform measurement on the QR route, the
+    (80, 1200, 8) unit, laptop against Modal: 7.1e-15 over its six rows."""
+    assert "%.1e" % _cells()["meta"]["platform_N8_local_vs_modal"] == "7.1e-15"
+
+
+# s7.8 outcome: measured values, pinned after the numbers (the rules they are read
+# by are the *_as_read tests above).
+
+BUILDS = ("200", "240", "280", "319", "364")
+
+
+def test_s7_8_falsifier_passes_everywhere():
+    """Clause 7: T_S has no eigenvalue below -band_0 on any of the fifteen
+    N = 32 builds, nor below the old band(c, 32); its lowest lies between
+    +1.09e-3 and +4.41e-3 (the old route: -13.6 to -36.6 at 319 and 364
+    modes). So no order-1e-2 failure, and batch 2 is not asked for."""
+    lows = []
+    for c in CELLS:
+        B = _m32(c)["builds"]
+        assert set(B) == set(BUILDS), c
+        for name, b in B.items():
+            assert b["P2_bin"] == b["P2_bin_at_old_band"] == "pass", (c, name)
+            lows.append(b["T_S_low"])
+    assert ("%.2e" % min(lows), "%.2e" % max(lows)) == ("1.09e-03", "4.41e-03")
+    old = [-_n32(c)["builds"][n]["T_S_low"] for c in CELLS for n in ("319", "364")]
+    assert ("%.1f" % min(old), "%.1f" % max(old)) == ("13.6", "36.6")
+
+
+def test_s7_8_determinacy_gate():
+    """Clause 4: cond_F is 8.7e5 / 1.1e9 / 1.9e13 / 2.1e13 / 2.1e13 for 200,
+    240, 280, 319 and 364 modes (the same on every cell: one unit serves the
+    three). None reaches 1e14; 280, 319 and 364 lie beyond A2's last clean
+    case, 6.7e11."""
+    want = ["8.7e+05", "1.1e+09", "1.9e+13", "2.1e+13", "2.1e+13"]
+    for c in CELLS:
+        B = _m32(c)["builds"]
+        assert ["%.1e" % B[n]["cond_F"] for n in BUILDS] == want, c
+        assert not any(B[n]["past_gate"] for n in BUILDS), c
+        assert [B[n]["beyond_A2_last_clean"] for n in BUILDS] == [False, False, True, True, True], c
+        assert all(v["admitted"] for v in _m32(c)["s7_6_verdict"].values()), c
+
+
+def test_s7_8_band_history_and_what_sets_it():
+    """band(c, 32): 2.97e-2 / 1.41e-2 / 8.18e-3 (the 240-mode response at 2.2,
+    the 319-mode response at 2.5, band_0 = the probe at 2.9, where 240 and
+    280 move T_S by 2.3e-3 and 4.95e-3). On the old route 3.92e-2 / 2.37e-2 /
+    3.16e-2; at the N = 16 proxy 1.59e-2 / 7.55e-3 / 8.18e-3. The probe moved
+    by at most 6.4e-8 at c3dca00."""
+    J, O = _cells()["cells"], _old_cells()["cells"]
+    assert ["%.2e" % J[c]["32"]["band"] for c in CELLS] == ["2.97e-02", "1.41e-02", "8.18e-03"]
+    assert ["%.2e" % O[c]["32"]["band"] for c in CELLS] == ["3.92e-02", "2.37e-02", "3.16e-02"]
+    assert ["%.2e" % J[c]["band_32_proxy"] for c in CELLS] == ["1.59e-02", "7.55e-03", "8.18e-03"]
+    m = _m32("2.9")
+    assert m["band"] == m["band_0"] == J["2.9"]["32"]["probe"]
+    assert ["%.2e" % m["builds"][n]["dT_vs_200"] for n in ("240", "280")] == ["2.26e-03", "4.95e-03"]
+    assert "%.1e" % max(abs(J[c]["32"]["probe"] - O[c]["32"]["probe"]) for c in CELLS) == "6.4e-08"
+    # two_adic/'s prediction "the 240-mode row comes within about 1e-2": 2.3e-3, 1.08e-2, 2.97e-2
+    r240 = [_m32(c)["builds"]["240"]["dT_vs_200"] for c in CELLS]
+    assert ["%.2e" % x for x in r240] == ["2.97e-02", "1.08e-02", "2.26e-03"]
+
+
+def test_s7_8_referent_and_weyl():
+    """Clauses 8 and 9: the delivered row's top-half negatives at the proxy
+    band are the old set (2 at 2.2, 14 at 2.5 from -1.83e-2 to -8.0e-3, 12 at
+    2.9 from -1.45e-2 to -1.21e-2), within 1e-6 of the old route's. At 2.9 no
+    response exceeds any depth; Weyl keeps 20 of the delivered row's
+    negatives under the 240-mode response and 10 under the 280-mode one. At
+    2.5 the 319-mode response exceeds 12 of the 14 depths, 240's exceeds 2."""
+    for c, n, lo, hi in (("2.5", 14, "-1.83e-02", "-8.01e-03"), ("2.9", 12, "-1.45e-02", "-1.21e-02")):
+        d = _m32(c)["top_half_depths_200_at_proxy_band"]
+        old = _n32(c)["top_half_depths_200_before_merge"]
+        assert len(d) == len(old) == n and max(abs(a - b) for a, b in zip(d, old)) < 1e-6, c
+        assert ("%.2e" % min(d), "%.2e" % max(d)) == (lo, hi), c
+    assert len(_m32("2.2")["top_half_depths_200_at_proxy_band"]) == 2
+    B = _m32("2.9")["builds"]
+    assert all(B[n]["top_half_depths_exceeded_by_dT"] == 0 for n in BUILDS)
+    assert (B["240"]["n_kept_by_weyl"], B["280"]["n_kept_by_weyl"]) == (20, 10)
+    B = _m32("2.5")["builds"]
+    assert (B["319"]["top_half_depths_exceeded_by_dT"], B["240"]["top_half_depths_exceeded_by_dT"]) == (12, 2)
+
+
+def test_s7_8_verdicts():
+    """Clause 9: 2.9 survives (240: 20, 280: 20, against 10); 2.5 falls (240:
+    6, 319: 5, against 9); 2.2 falls (0, 0, against 4). None is
+    platform-undecided."""
+    want = {"2.2": ("falls", {"240": 0, "364": 0}), "2.5": ("falls", {"240": 6, "319": 5}),
+            "2.9": ("survives", {"240": 20, "280": 20})}
+    for c, (cell, counts) in want.items():
+        m = _m32(c)
+        assert m["cell_verdict"] == cell, c
+        assert {n: m["builds"][n]["n_minus"] for n in counts} == counts, c
+        assert all(v["label"] == cell for v in m["s7_6_verdict"].values()), c
+        assert all(b["n_flagged"] == 0 and b["n_minus_range"] == [b["n_minus"]] * 2 for b in m["builds"].values()), c
+    assert [_m32(c)["n_minus_N16"] for c in CELLS] == [4, 9, 10]
+
+
+def test_s7_8_what_2_9_rests_on():
+    """At 2.9 the 240-mode row alone (below A2's last clean case) gives the
+    same band and the same 20; the last pair counted on the delivered, 240
+    and 280-mode builds sits at -1.03e-2 to -1.24e-2 (1.26 to 1.51 times the
+    band), the first not counted at -7.7e-3. The 280-mode row's response is
+    on the low modes (weight 0.0 on |n| > 16; its N = 8 block carries all of
+    it): an S change, as two_adic/'s A4 measured S = 1200 -> 2400 at 200
+    modes moving T_S by 5.6e-3 / 6.2e-3 / 8.0e-3."""
+    m = _m32("2.9")
+    B = m["builds"]
+    assert B["240"]["dT_vs_200"] < m["band_0"] and not B["240"]["beyond_A2_last_clean"]
+    assert B["240"]["sensitivity_n_minus_at_band_240_only"] == B["240"]["n_minus"] == 20
+    last = [x for n in ("200", "240", "280") for x in B[n]["last_two_counted"]]
+    assert ("%.2e" % max(last), "%.2e" % min(last)) == ("-1.03e-02", "-1.24e-02")
+    assert ("%.2f" % (-max(last) / m["band"]), "%.2f" % (-min(last) / m["band"])) == ("1.26", "1.51")
+    assert {"%.1e" % B[n]["first_not_counted"] for n in ("200", "240", "280")} == {"-7.7e-03"}
+    assert "%.1f" % B["280"]["dT_top_eigvec_weight_on_n_gt_16"] == "0.0"
+    assert abs(B["280"]["dT_vs_200_N8_block"] - B["280"]["dT_vs_200"]) < 1e-5
+    assert "%.2e" % B["280"]["dT_vs_200"] == "4.95e-03"
+    A4 = json.loads(GLUE._git("show", f"HEAD:{P}/two_adic/ta_rho_check.json"))["A4"]
+    assert ["%.1e" % A4["cells"][c]["new_S_response_norm2"] for c in CELLS] == ["5.6e-03", "6.2e-03", "8.0e-03"]
+    assert (A4["nvec"], A4["S"], A4["N"]) == (200, 1200.0, 32)
+
+
+def test_s7_8_what_2_5_rests_on():
+    """Sensitivity, not part of the reading: at the 240-mode band (1.08e-2)
+    the refined rows count 14 and 12, above 9; 8 and 7 of their eigenvalues
+    lie between -1.41e-2 and -1.08e-2. At the proxy band (7.55e-3) the count
+    drops from 20 on the delivered row to 14 on each refined build, top half
+    from 14 to 6 to 8. The band is set by the 319-mode row (cond_F 2.1e13,
+    S/nvec^2 = 0.026); the delivered row counts 8, one eigenvalue 1.8e-5
+    from -band. At 2.2 the proxy band counts 1 to 3."""
+    import run_checker_ts as RT
+
+    m = _m32("2.5")
+    B = m["builds"]
+    assert "%.2e" % m["sensitivity_band_240_only"] == "1.08e-02"
+    s240 = {n: B[n]["sensitivity_n_minus_at_band_240_only"] for n in ("240", "319")}
+    assert s240 == {"240": 14, "319": 12} and all(v > m["n_minus_N16"] for v in s240.values())
+    assert [s240[n] - B[n]["n_minus"] for n in ("240", "319")] == [8, 7]
+    assert B["200"]["n_minus_at_proxy_band"] == 20 and B["200"]["n_minus_top_half_at_proxy_band"] == 14
+    assert all(B[n]["n_minus_at_proxy_band"] == 14 for n in BUILDS[1:])
+    assert sorted({B[n]["n_minus_top_half_at_proxy_band"] for n in BUILDS[1:]}) == [6, 7, 8]
+    assert "%.2g" % (RT.MODAL_UNITS[2][1] / 319 ** 2) == "0.026"
+    assert B["200"]["n_minus"] == 8 and "%.1e" % B["200"]["min_gap_to_band"] == "1.8e-05"
+    p22 = [_m32("2.2")["builds"][n]["n_minus_at_proxy_band"] for n in BUILDS]
+    assert (min(p22), max(p22)) == (1, 3)
+
+
+def test_s7_8_platform():
+    """Clause 10: flags from 3.2e-12 (200 modes) to 7.7e-5 (319, the scaled
+    estimate); the smallest gap to -band is 1.8e-5 (the delivered row at 2.5).
+    two_adic/'s laptop build of (200, 2400, 32) on the QR route (A4) against
+    the Modal row: the three lowest T_S eigenvalues differ by at most 2.5e-12
+    (A3's proxy: 3.2e-12)."""
+    flags = [b["platform_flag"] for c in CELLS for b in _m32(c)["builds"].values()]
+    gaps = [b["min_gap_to_band"] for c in CELLS for b in _m32(c)["builds"].values()]
+    assert ("%.1e" % min(flags), "%.1e" % max(flags)) == ("3.2e-12", "7.7e-05")
+    assert "%.1e" % min(gaps) == "1.8e-05"
+    A4 = json.loads(GLUE._git("show", f"HEAD:{P}/two_adic/ta_rho_check.json"))["A4"]["cells"]
+    J = _cells()["cells"]
+    d = max(abs(a - b) for c in CELLS for a, b in zip(A4[c]["new_2400_low3"], J[c]["32"]["T_S_low3"]))
+    assert "%.1e" % d == "2.5e-12"
+
+
+def test_results_s7_8_table_matches_json():
+    """Every row of the RESULTS s7.8 table is the JSON value at the printed
+    precision."""
+    with open(os.path.join(HERE, "RESULTS.md")) as fh:
+        text = fh.read()
+    sec = text[text.index("Every N = 32 build at band(c, 32), and at the proxy band."):
+               text.index("**Outcome, by the reading.**")]
+    rows = [[x.strip() for x in r.strip().strip("|").split("|")] for r in sec.splitlines() if r.startswith("| 2.")]
+    assert len(rows) == 15
+    f = lambda x: "%.4g" % x  # noqa: E731
+    for r in rows:
+        b = _m32(r[0])["builds"][r[1]]
+        assert r[2] == "%.1e" % b["cond_F"] and r[3] == "%.2e" % b["T_S_low"] and r[4] == b["P2_bin"]
+        assert r[5] == "%.2e" % b["dT_vs_200"]
+        assert r[6] == f"{b['n_minus']} / {b['n_minus_top_half']}"
+        assert r[7] == f"{b['n_minus_at_proxy_band']} / {b['n_minus_top_half_at_proxy_band']}"
+        assert r[8] == (", ".join(f(v) for v in b["last_two_counted"]) or "none")
+
+
+def test_first_five_lines_quoted_numbers():
+    """RESULTS lines 1 to 5 as rewritten after s7.8."""
+    J = _cells()["cells"]
+    b816 = [J[c][N]["band"] for c in CELLS for N in ("8", "16")]
+    assert ("%.1e" % min(b816), "%.1e" % max(b816)) == ("5.3e-03", "1.6e-02")
+    assert ["%.1e" % J[c]["32"]["band"] for c in CELLS] == ["3.0e-02", "1.4e-02", "8.2e-03"]
+    ts = [J[c][N]["T_S_low3"][0] for c in CELLS for N in ("8", "16", "32")]
+    assert ("%.1e" % min(ts), "%.1e" % max(ts)) == ("1.5e-03", "3.5e-03")
+    B = _m32("2.9")["builds"]
+    assert [B[n]["n_minus"] for n in BUILDS] == [20, 20, 20, 20, 21]
+    assert "%.2e" % max(B[n]["dT_vs_200"] for n in BUILDS) == "4.95e-03"
+    assert "%.1e" % _m32("2.5")["sensitivity_band_240_only"] == "1.1e-02"
+    assert [J["2.9"][N]["full"]["n_minus"] for N in ("8", "16", "32")] == [4, 10, 20]
