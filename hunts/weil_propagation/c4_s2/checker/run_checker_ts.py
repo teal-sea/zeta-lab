@@ -250,17 +250,21 @@ def analyse(snap, probe_commit):
         # and the N = 8 central blocks of the same three builds, at band(c, 8)
         Q16 = to_np(CQ.central_block(Qfull, 16)).real
         disc = {}
-        for nv in (80, 120, 160):
-            R16 = Q16 - T[unit_key(c, 16, 40, nv, 1600)]
+        n16 = np.arange(-16, 17)
+        for nv, SS, key in ((80, 1600, "80"), (120, 1600, "120"), (160, 1600, "160"), (80, 1200, "80_S1200")):
+            R16 = Q16 - T[unit_key(c, 16, 40, nv, SS)]
             e16 = np.linalg.eigvalsh(R16)
             e8 = np.linalg.eigvalsh(R16[8:25, 8:25])
             k16 = int((e16 < -bands[16]).sum())
-            disc[str(nv)] = {"N16_low3": [float(x) for x in e16[:3]],
-                             "N16_n_minus": k16,
-                             "N16_last_two_counted": [float(x) for x in e16[max(0, k16 - 2):k16]],
-                             "N16_n_minus_at_band_cell": int((e16 < -rec["band_cell"]).sum()),
-                             "N8_block_low3": [float(x) for x in e8[:3]],
-                             "N8_block_n_minus": int((e8 < -bands[8]).sum())}
+            w16, V16 = np.linalg.eigh(R16)
+            top16 = (V16[np.abs(n16) > 8, :] ** 2).sum(0)
+            disc[key] = {"N16_low3": [float(x) for x in e16[:3]],
+                         "N16_n_minus_top_half": int(((w16 < -bands[16]) & (top16 > 0.5)).sum()),
+                         "N16_n_minus": k16,
+                         "N16_last_two_counted": [float(x) for x in e16[max(0, k16 - 2):k16]],
+                         "N16_n_minus_at_band_cell": int((e16 < -rec["band_cell"]).sum()),
+                         "N8_block_low3": [float(x) for x in e8[:3]],
+                         "N8_block_n_minus": int((e8 < -bands[8]).sum())}
         # |n| <= 16 of the N = 32 row at band(c, 16): the same coordinates and threshold
         # as the full N = 16 builds above, at the best resolution held (200, 2400)
         R32 = to_np(Qfull).real - T[unit_key(c, 32, 40, 200, 2400)]

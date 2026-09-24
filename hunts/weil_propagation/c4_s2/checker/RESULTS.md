@@ -1,10 +1,10 @@
 # RESULTS: checker/ (independent verification and kill-controls)
 
 1. **T_S reached the checker, and R_S = Q - T_S is measured on all nine cells; C4's prediction is not decided at this band** (two_adic/ 8dc8525, float64). The band per row is **5.3e-3 to 1.6e-2** (two_adic/'s probe, the checker's refinement and quadrature responses). That is above Q's lowest eigenvalues (1.9e-7 to 2.6e-4) and above T_S's own lowest (1.5e-3 to 3.5e-3), so T_S >= 0 is not decided at the band. Grade: measured.
-2. **T_S removes depth, not count.** lambda_min goes from -0.30 to -0.49 (Q - T_inf) to **-0.026 / -0.039 / -0.097 to -0.12** (c = 2.2 / 2.5 / 2.9). But n_-(R_S) below -band on the full space is **4, 4, 3** (2.2), **4, 9, 20** (2.5) and **4, 10, 20** (2.9) at N = 8, 16, 32. At N = 32, 14 and 12 of the 20 live on |n| > N/2, where Delta_T is least resolved. More modes lower the count at fixed N (5, 4, 3 / 10, 9, 8 / 12, 10, 10 at N = 16), yet on the resolved coordinates |n| <= N/2 it still grows at 2.5 and 2.9 (2, 4, 6 and 2, 4, 8). **The growth is measured and confounded with mode truncation**: P5 is not decided (s7.3a). Grade: measured, weakest step Delta_T.
+2. **T_S removes depth, not count.** lambda_min goes from -0.30 to -0.49 (Q - T_inf) to **-0.026 / -0.039 / -0.097 to -0.12** (c = 2.2 / 2.5 / 2.9). But n_-(R_S) below -band on the full space is **4, 4, 3** (2.2), **4, 9, 20** (2.5) and **4, 10, 20** (2.9) at N = 8, 16, 32. At N = 32, 14 and 12 of the 20 live on |n| > N/2, where Delta_T is least resolved. At N = 16 the count is 5, 4, 3 at c = 2.2 and 9 then 8 at 2.5 as modes go 120 -> 160: truncation, in part or whole. **At c = 2.9 it is 10 at both 120 and 160 modes**: the growth 4 -> 10 from N = 8 to 16 is measured at a resolved setting, on a last pair 1.4 to 1.5 times the band. The N = 32 counts are confounded with mode truncation (s7.3a). Grade: measured, weakest step Delta_T.
 3. **The provider's convergence claim fails at N = 16.** two_adic/ lists (80, 1200) as converged there. 80 -> 120 modes moves T_S by **7.8e-2 / 4.5e-2 / 2.4e-2** (spectral norm), 90 to 96 percent of it at |n| >= 12. 120 -> 160 moves it by **1.6e-2 / 5.2e-3 / 3.7e-3**. The 240-mode N = 32 unit ran past the 10-minute limit and is a CI proposal (s7.6).
 4. **Kill-controls:** 1 passes; 2 passes; 3 not exercised (Gamma_C framework limit). 4, the lesion, is **refused twice**: NonUnitaryLocalData at the gate, then NotImplementedError in `KernelProvider.delta_T` once the gate is bypassed. Below both guards (a formula never validated off |alpha| = 1), T_S has no eigenvalue below -band, and n_-(R) rises from 4 to 5 / 6 / 6 (s7.4).
-5. **Q** (phase 1) is unchanged: it matches the CCM Galerkin matrix entrywise (5.5e-40 at dps 40) and `zeta.weil.weil_functional` spot checks (1e-18 to 4e-14), and Q > 0 on every cell. ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2}; product-side C4 **refuted** on these cells (with cutoff/).
+5. **Q** (phase 1) is unchanged: it matches the CCM Galerkin matrix entrywise (5.5e-40 at dps 40) and `zeta.weil.weil_functional` spot checks (1e-18 to 4e-14), and Q > 0 on every cell. ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2}. At c = 2.9 the measured evidence runs against bounded rank (N = 8 -> 16, stable under refinement), but Delta_T is measured grade and the band indicates, it does not bound. Product-side C4 is **refuted** on these cells (with cutoff/).
 
 Phases 1 to 3 of 2026-09-23, branch `teal-sea/weil-c4-s2`. Nothing here is
 a claim about RH. Grades follow the `AGENTS.md` ladder. Every number above is
@@ -275,7 +275,7 @@ to 23, and the construction is not moved to K.
     PYTHONPATH=$PWD <venv>/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/checker \
         tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # 2 min
 
-At the phase 3 commits: 167 passed, 10 skipped (9 phase 1 tests that need dps 60 T_S at
+At the phase 3 commits: 168 passed, 10 skipped (9 phase 1 tests that need dps 60 T_S at
 N >= 16, 1 positive control), 3 strict xfail (phase 1 P3, s7.2). Once
 two_adic/ commits a change to a file T_S imports, the snapshot no longer
 matches: tests that serve T_S from it skip with that reason (by design), and
@@ -440,56 +440,64 @@ governs.
 
 Routed by the coordinator after the first read of s7.3: a count below -band
 that grows with N, mostly on |n| > N/2, is what under-resolved modes would
-produce. Two checks use only units already built.
+produce. Two checks, eigenvalues only, from units already built.
 
-**(1) More modes at fixed N = 16** (S = 1600, one threshold band(c, 16) for
-all three builds):
+**(1) Mode count at fixed N = 16.** One threshold, band(c, 16), for every
+build. (80, 1600) isolates the mode count at S = 1600.
 
-| c | band(c, 16) | 80 modes: n_-, lowest three | 120 modes: n_-, lowest three | 160 modes: n_-, lowest three | N = 8 block, band(c, 8): n_- at 80 / 120 / 160 |
+| c | build at N = 16 | n_- below -band(c, 16) | of them on \|n\| > 8 | lowest three | last two counted |
 |---|---|---|---|---|---|
-| 2.2 | 1.59e-02 | 5, -0.04624, -0.04189, -0.02596 | 4, -0.02602, -0.01936, -0.01934 | 3, -0.02651, -0.0168, -0.01621 | 4 / 2 / 2 |
-| 2.5 | 5.42e-03 | 10, -0.04027, -0.03368, -0.03277 | 9, -0.03914, -0.02481, -0.01788 | 8, -0.03985, -0.02518, -0.01747 | 4 / 4 / 4 |
-| 2.9 | 5.86e-03 | 12, -0.1142, -0.04648, -0.03398 | 10, -0.1127, -0.04522, -0.01806 | 10, -0.1133, -0.04592, -0.01834 | 4 / 4 / 4 |
+| 2.2 | (80, 1200) | 5 | 4 | -0.04566, -0.04125, -0.02608 | -0.02238, -0.02006 |
+| 2.2 | (120, 1600) | 4 | 2 | -0.02602, -0.01936, -0.01934 | -0.01934, -0.01634 |
+| 2.2 | (160, 1600) | 3 | 1 | -0.02651, -0.0168, -0.01621 | -0.0168, -0.01621 |
+| 2.2 | (80, 1600) | 5 | 4 | -0.04624, -0.04189, -0.02596 | -0.02237, -0.02014 |
+| 2.5 | (80, 1200) | 10 | 6 | -0.04036, -0.03367, -0.03273 | -0.01254, -0.009513 |
+| 2.5 | (120, 1600) | 9 | 4 | -0.03914, -0.02481, -0.01788 | -0.01151, -0.005946 |
+| 2.5 | (160, 1600) | 8 | 5 | -0.03985, -0.02518, -0.01747 | -0.008922, -0.008375 |
+| 2.5 | (80, 1600) | 10 | 6 | -0.04027, -0.03368, -0.03277 | -0.0125, -0.00961 |
+| 2.9 | (80, 1200) | 12 | 8 | -0.1143, -0.04659, -0.034 | -0.009739, -0.009137 |
+| 2.9 | (120, 1600) | 10 | 5 | -0.1127, -0.04522, -0.01806 | -0.008965, -0.007802 |
+| 2.9 | (160, 1600) | 10 | 5 | -0.1133, -0.04592, -0.01834 | -0.008883, -0.008285 |
+| 2.9 | (80, 1600) | 12 | 7 | -0.1142, -0.04648, -0.03398 | -0.009552, -0.009024 |
 
-The count falls as modes rise, at every cell (5, 4, 3 / 10, 9, 8 / 12, 10,
-10). The N = 8 block does not move (4 at 2.5 and 2.9 for every build).
+At c = 2.2 the count falls with every step (5, 4, 3): truncation. At 2.5 it
+falls from 120 to 160 modes (9 to 8): partly truncation. **At 2.9 it is 10
+at both 120 and 160 modes**, with 5 of them on |n| > 8 both times, where
+T_S moves only 3.7e-3 between the two (s7.2) and 160 is two_adic/'s own
+mode rule for N = 16. So at c = 2.9 the growth from 4 (N = 8) to 10
+(N = 16) is measured at a setting this test calls resolved. The last pair
+counted sits at -8.9e-3 and -8.3e-3, 1.4 to 1.5 times the band. The N = 8
+count is 4 at 2.5 and 2.9 in every build (the N = 8 blocks, s7.3 table).
 
-**(2) The resolved coordinates |n| <= N/2** (R_S restricted to them, band of
-the row):
+**(2) R_S compressed to span{U_n : |n| <= N/2}**, at the row's band, next to
+the weight-based split of s7.3:
 
-| c | N | \|n\| <= N/2: dim | n_- / undecided | lowest three | full space n_- |
-|---|---|---|---|---|---|
-| 2.2 | 8 | 9 | 2 / 1 | -0.02519, -0.01327, -0.002267 | 4 |
-| 2.2 | 16 | 17 | 1 / 6 | -0.02553, -0.01317, -0.005198 | 4 |
-| 2.2 | 32 | 33 | 1 / 20 | -0.02553, -0.01573, -0.01502 | 3 |
-| 2.5 | 8 | 9 | 2 / 1 | -0.03981, -0.014, -0.002505 | 4 |
-| 2.5 | 16 | 17 | 4 / 3 | -0.03905, -0.01978, -0.009967 | 9 |
-| 2.5 | 32 | 33 | 6 / 11 | -0.03898, -0.0241, -0.01631 | 20 |
-| 2.9 | 8 | 9 | 2 / 2 | -0.06871, -0.04266, -0.002535 | 4 |
-| 2.9 | 16 | 17 | 4 / 2 | -0.09499, -0.04441, -0.01088 | 10 |
-| 2.9 | 32 | 33 | 8 / 6 | -0.1123, -0.045, -0.01724 | 20 |
+| c | N | span{U_n : \|n\| <= N/2}: dim | n_- / undecided | lowest three | full space: n_- | weight-based: n_- mostly on \|n\| <= N/2 |
+|---|---|---|---|---|---|---|
+| 2.2 | 8 | 9 | 2 / 1 | -0.02519, -0.01327, -0.002267 | 4 | 2 |
+| 2.2 | 16 | 17 | 1 / 6 | -0.02553, -0.01317, -0.005198 | 4 | 2 |
+| 2.2 | 32 | 33 | 1 / 20 | -0.02553, -0.01573, -0.01502 | 3 | 1 |
+| 2.5 | 8 | 9 | 2 / 1 | -0.03981, -0.014, -0.002505 | 4 | 2 |
+| 2.5 | 16 | 17 | 4 / 3 | -0.03905, -0.01978, -0.009967 | 9 | 5 |
+| 2.5 | 32 | 33 | 6 / 11 | -0.03898, -0.0241, -0.01631 | 20 | 6 |
+| 2.9 | 8 | 9 | 2 / 2 | -0.06871, -0.04266, -0.002535 | 4 | 2 |
+| 2.9 | 16 | 17 | 4 / 2 | -0.09499, -0.04441, -0.01088 | 10 | 5 |
+| 2.9 | 32 | 33 | 8 / 6 | -0.1123, -0.045, -0.01724 | 20 | 8 |
 
-At c = 2.2 the resolved count is 2, 1, 1. At 2.5 and 2.9 it still grows
-(2, 4, 6 and 2, 4, 8), though less than on the full space (4, 9, 20 and 4,
-10, 20). The bands differ by row, so this table alone does not compare like
-with like.
-
-**One range, one threshold.** On |n| <= 16 at band(c, 16), the count for
-80, 120 and 160 modes (N = 16) and for the 200-mode N = 32 build restricted
-to |n| <= 16 is 5, 4, 3, 1 at c = 2.2; 10, 9, 8, 8 at 2.5; 12, 10, 10, 10 at
-2.9. At 2.2 it keeps falling. At 2.5 and 2.9 it stops falling, at twice and
-2.5 times the N = 8 count (4). At 2.9, 160 modes is two_adic/'s own rule for
-N = 16. The last pair counted sits at -6.7e-3 to -8.9e-3, only 1.2 to 1.6
+At c = 2.2 the compressed count is 2, 1, 1. At 2.5 and 2.9 it grows (2, 4, 6
+and 2, 4, 8), and so does the weight-based count (2, 5, 6 and 2, 5, 8). The
+bands differ by row. **One range, one threshold:** on |n| <= 16 at
+band(c, 16), the 80, 120 and 160-mode N = 16 builds and the 200-mode N = 32
+build give 5, 4, 3, 1 at c = 2.2; 10, 9, 8, 8 at 2.5; 12, 10, 10, 10 at 2.9.
+The last pair counted at 2.5 and 2.9 sits at -6.7e-3 to -8.9e-3, 1.2 to 1.6
 times the band.
 
-**Reading.** (1) shows mode truncation inflates the count. On one range at
-one threshold the count stops falling at 2.5 and 2.9 once modes reach 160
-to 200, and stays above the N = 8 count. That growth rests on a last pair
-barely outside a band that indicates and does not bound. The two checks do
-not separate growth from truncation. **The growth in n_-(R_S) is measured
-and confounded with mode truncation**; it is not read as an unbounded
-index. The door in s7.6 (more modes at N = 32, on CI) is what would
-separate them.
+**Reading.** From N = 8 to N = 16 at c = 2.9 the count grows 4 -> 10 and
+does not move under 120 -> 160 modes: measured, at a resolved setting by
+(1), on a last pair 1.4 to 1.5 times a band that indicates and does not
+bound. At 2.5 the same growth is partly truncation; at 2.2 it is
+truncation. The N = 32 counts (20) are **measured and confounded with mode
+truncation**: the N = 32 refinement is the door (s7.6).
 
 ### 7.4 Kill-control 4 (lesion, optional, labelled as such)
 

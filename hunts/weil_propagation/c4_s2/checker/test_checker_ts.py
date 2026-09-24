@@ -372,7 +372,7 @@ def test_results_phase3_tables_match_json():
         assert row[1:6] == [g(r["quadrature_response_N16"]), g(r["mode_response_80_to_120_N16"]),
                             g(r["mode_response_80_to_120_N16_central_N8"]),
                             g(r["mode_response_120_to_160_N16"]), g(r["P3_converged_rows_defect_norm"])]
-    rows = _table(text, "### 7.3", "### 7.4")
+    rows = _table(text, "### 7.3 R_S", "### 7.3a")
     t2 = [r for r in rows if len(r) == 8]
     t3 = [r for r in rows if len(r) == 7]
     und = [r for r in rows if len(r) == 4]
@@ -455,17 +455,44 @@ def test_results_discriminator_tables_match_json():
         text = fh.read()
     f = lambda x: "%.4g" % x  # noqa: E731
     rows = _table(text, "### 7.3a", "### 7.4")
-    d1 = [r for r in rows if len(r) == 6 and r[1].startswith(("1.", "5.", "6.", "7.", "8."))]
-    d2 = [r for r in rows if len(r) == 6 and r[1] in ("8", "16", "32")]
-    assert len(d1) == 3 and len(d2) == 9
+    key = {"(80, 1200)": "80_S1200", "(120, 1600)": "120", "(160, 1600)": "160", "(80, 1600)": "80"}
+    d1 = [r for r in rows if len(r) == 6 and r[1] in key]
+    d2 = [r for r in rows if len(r) == 7]
+    assert len(d1) == 12 and len(d2) == 9
     for row in d1:
-        m = J[row[0]]["modes_N16_S1600"]
-        for i, k in zip((2, 3, 4), ("80", "120", "160")):
-            assert row[i] == f"{m[k]['N16_n_minus']}, {', '.join(f(v) for v in m[k]['N16_low3'])}"
+        d = J[row[0]]["modes_N16_S1600"][key[row[1]]]
+        assert row[2] == str(d["N16_n_minus"]) and row[3] == str(d["N16_n_minus_top_half"])
+        assert row[4] == ", ".join(f(v) for v in d["N16_low3"])
+        assert row[5] == ", ".join(f(v) for v in d["N16_last_two_counted"])
     for row in d2:
-        h = J[row[0]][row[1]]["resolved_half"]
+        x = J[row[0]][row[1]]
+        h = x["resolved_half"]
         assert row[2] == str(h["dim"]) and row[3] == f"{h['n_minus']} / {h['n_undecided']}"
         assert row[4] == ", ".join(f(v) for v in h["low3"])
+        assert row[5] == str(x["full"]["n_minus"])
+        assert row[6] == str(x["full"]["n_minus"] - x["full_n_minus_top_half"])
+
+
+def test_growth_at_2_9_survives_120_to_160_modes():
+    """RESULTS line 2 and s7.3a: at c = 2.9, N = 16 holds 10 negatives below
+    -band(c, 16) at 120 and at 160 modes (5 on |n| > 8 both times), against 4
+    at N = 8 in every build; the last pair counted at 160 modes is -8.9e-3,
+    -8.3e-3, 1.4 to 1.5 times the band. At 2.5 the count falls 9 -> 8, at
+    2.2 5 -> 4 -> 3 (the (80, 1200) build first)."""
+    J = _cells()["cells"]
+    m = J["2.9"]["modes_N16_S1600"]
+    assert [m[k]["N16_n_minus"] for k in ("80_S1200", "120", "160")] == [12, 10, 10]
+    assert [m[k]["N16_n_minus_top_half"] for k in ("80_S1200", "120", "160")] == [8, 5, 5]
+    assert [m[k]["N8_block_n_minus"] for k in ("80", "120", "160")] == [4, 4, 4]
+    assert J["2.9"]["8"]["full"]["n_minus"] == 4
+    pair, b = m["160"]["N16_last_two_counted"], J["2.9"]["16"]["band"]
+    assert ["%.1e" % x for x in pair] == ["-8.9e-03", "-8.3e-03"]
+    assert ["%.1f" % (abs(x) / b) for x in pair] == ["1.5", "1.4"]
+    assert [J["2.5"]["modes_N16_S1600"][k]["N16_n_minus"] for k in ("80_S1200", "120", "160")] == [10, 9, 8]
+    assert [J["2.2"]["modes_N16_S1600"][k]["N16_n_minus"] for k in ("80_S1200", "120", "160")] == [5, 4, 3]
+    wb = {"2.2": [2, 2, 1], "2.5": [2, 5, 6], "2.9": [2, 5, 8]}
+    for c in CELLS:
+        assert [J[c][N]["full"]["n_minus"] - J[c][N]["full_n_minus_top_half"] for N in ("8", "16", "32")] == wb[c]
 
 
 def test_last_pair_counted_is_marginal():
