@@ -255,8 +255,40 @@ grade is "unreviewed derivation", said so.
 
 ## s6. The harness on synthetic ε (`synthetic.json`, before any bound)
 
-(Filled in the same commit as this file, from `assemble.py --synthetic`;
-pinned by `test_assembler.py`.)
+*Written after 81f0b47, when the pass finished (the heading was committed
+empty because the coordinator asked for this file as it stood). No ε was
+read. These are facts about the stored matrices at shifts that are not
+bounds.* Per build: ε = 0, band, 2 band (with V_4), and band plus the fixed
+terms, as pure shifts (`assemble.py --synthetic`, run in two sittings on
+the shared laptop). Pinned by `test_assembler.py`.
+
+1. **The harness reproduces checker/ s7.9.** At ε = band and 2 band, on all
+   eight c = 2.9 builds, full space and V_4, the counts are PIN_EXACT and
+   PIN_V4 of `checker/test_checker_inertia.py` (imported, not restated), on
+   matrices bitwise equal to s7.9's. On the delivered rows at 2.2 and 2.5 the
+   exact count at band equals checker/'s float count.
+2. **The fixed terms move nothing.** Q, T_∞ and the float64 roundings total
+   1.2e−15 to 4.5e−15 per build (r_add, the sum into T_S, is the largest,
+   ≤ 2.6e−15; e_Q ≤ 2.6e−37, e_T∞ ≤ 6.5e−28), and ε = band plus that total
+   gives the same L and U as band on every build.
+3. **Outcome 2 cannot occur on these matrices, for any ε.** At ε = 0,
+   n_−(RL) on the N = 32 builds is at least **27 / 26 / 25** at
+   c = 2.2 / 2.5 / 2.9 (V_4: 24 / 24 / 23), and on the N ≤ 16 builds at most
+   **13 / 13 / 14** (V_4: 10 / 11 / 13). U*_32 is at least the first and L*_16
+   at most the second for every ε ≥ 0, so U*_32 > L*_16 always: with a finite
+   ε the rule can say 1 or 3, never 2. The reason is in the data, not in the
+   rule: each stored N = 32 matrix has about twice as many negative
+   eigenvalues as an N = 16 one, most of them shallow, and a Weyl upper bound
+   cannot remove a negative eigenvalue of the matrix it is centred on.
+4. **The falsification check fires at ε = 0**, on every cell and both
+   spaces: builds at one N disagree about n_−(RL) (27 to 35 at c = 2.2,
+   N = 32), so 0 is not an error bound for all of them. At band and 2 band it
+   passes everywhere. The check works as intended.
+5. **Dry run of the rule (bands are not bounds; the 80-mode N = 16 builds
+   are not converged).** At ε = band, c = 2.9: L* = **3, 10, 20** on V_4
+   (4, 12, 21 full; the 80-mode N = 16 builds count 12), outcome 1. At
+   2 band: **2, 8, 8** (4, 9, 9), outcome 3, with 36 (37) undecided at
+   N = 32. At band, 2.5 and 2.2 give outcome 3 (V_4: 3, 9, 9 and 2, 5, 5).
 
 ## Addendum A (post-hoc: added after 81f0b47, at the coordinator's request): the mode-free floor
 

@@ -260,7 +260,8 @@ def load_bound(path: str) -> dict:
         eu = e.get("eps_upper")
         table[key] = {"eps": None if eu is None else dec_to_q(eu), "eps_upper": eu,
                       "grade": e.get("grade"), "assumptions": e.get("assumptions"),
-                      "why_null": (e.get("why") or e.get("reason")) if eu is None else None}
+                      "why_null": (e.get("why") or e.get("reason")) if eu is None else None,
+                      "blocking_step": e.get("blocking_step")}
     return table
 
 

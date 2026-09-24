@@ -363,3 +363,59 @@ def test_synthetic_invariants():
         # the fixed terms (Q, T_inf, float64 rounding) do not move any count
         assert xf["L"] == x1["L"] and xf["U"] == x1["U"]
         assert b["fixed"]["total"]["float"] < 1e-14 and b["symmetric_defect"] == 0.0
+
+
+# ----------------------------------------------------------------- pins
+# Added with synthetic.json and PREREG s6, after the numbers. Everything
+# above this section was committed at 81f0b47 / e174d19 before them.
+
+REACH = {  # (min n_- over N = 32 builds, max over N <= 16 builds) at eps = 0: full, V_4
+    "2.2": ((27, 13), (24, 10)), "2.5": ((26, 13), (24, 11)), "2.9": ((25, 14), (23, 13))}
+
+
+def _J(d):
+    return {int(k): v for k, v in d.items()}
+
+
+def test_s6_outcome_2_is_unreachable_on_these_matrices():
+    s = _synth()["builds"]
+    for c, ((f32, f16), (v32, v16)) in REACH.items():
+        e0 = {(nv, S, N): s[AS.build_key(c, nv, S, N)]["eps0"] for nv, S, N in AS.BUILDS}
+        assert min(r["L"] for b, r in e0.items() if b[2] == 32) == f32
+        assert max(r["L"] for b, r in e0.items() if b[2] <= 16) == f16
+        assert min(r["V4"]["L"] for b, r in e0.items() if b[2] == 32) == v32
+        assert max(r["V4"]["L"] for b, r in e0.items() if b[2] <= 16) == v16
+        assert f32 > f16 and v32 > v16
+    n32 = [s[AS.build_key("2.2", nv, S, N)]["eps0"]["L"] for nv, S, N in AS.BUILDS if N == 32]
+    assert (min(n32), max(n32)) == (27, 35)
+
+
+def test_s6_fixed_terms():
+    B = _synth()["builds"].values()
+    tot = [b["fixed"]["total"]["float"] for b in B]
+    assert ("%.1e" % min(tot), "%.1e" % max(tot)) == ("1.2e-15", "4.5e-15")
+    assert "%.1e" % max(b["fixed"]["r_add"]["float"] for b in B) == "2.6e-15"
+    assert max(b["fixed"]["r_add"]["float"] for b in B) == max(
+        max(b["fixed"][k]["float"] for b in B) for k in ("r_Q", "r_Tinf", "r_add", "r_sub", "r_mirror"))
+    assert max(b["fixed"]["e_Q"]["float"] for b in B) <= 2.6e-37
+    assert max(b["fixed"]["e_Tinf"]["float"] for b in B) <= 6.5e-28
+
+
+def test_s6_check_fires_at_zero_and_the_dry_run():
+    d = _synth()["decisions"]
+    for c in AS.CELLS:
+        for sp in ("full", "V4"):
+            assert d[f"eps0|{c}|{sp}"]["decision"]["outcome"] == "inconsistent"
+            assert not d[f"eps0|{c}|{sp}"]["agg"]["consistent"]
+            for sh in ("band_x1", "band_x2"):
+                assert d[f"{sh}|{c}|{sp}"]["agg"]["consistent"]
+    expect = {  # key: (L*_8, L*_16, L*_32), outcome, undecided at 32 (outcome 3 only)
+        "band_x1|2.9|V4": ((3, 10, 20), 1, None), "band_x1|2.9|full": ((4, 12, 21), 1, None),
+        "band_x2|2.9|V4": ((2, 8, 8), 3, 36), "band_x2|2.9|full": ((4, 9, 9), 3, 37),
+        "band_x1|2.5|V4": ((3, 9, 9), 3, 37), "band_x1|2.2|V4": ((2, 5, 5), 3, 49)}
+    for key, (L, out, und) in expect.items():
+        agg = _J(d[key]["agg"]["L"])
+        assert (agg[8], agg[16], agg[32]) == L and d[key]["decision"]["outcome"] == out, key
+        if und is not None:
+            assert d[key]["decision"]["undecided_at_32"] == und
+    assert d["band_x1|2.9|full"]["decision"]["first_step_rises"] is True
