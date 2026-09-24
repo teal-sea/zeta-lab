@@ -109,7 +109,7 @@ def test_results_table_matches_json(js):
 
 def test_stated_values_in_the_headline(js):
     r = _row(js, 200, 2400.0, 32, "2.9")
-    assert np.allclose(np.round(r["resid_top8"][:6], 2), [0.48, -0.46, 0.38, -0.31, 0.17, -0.16])
+    assert np.allclose(np.round(r["resid_top8"][:6], 2), [0.48, -0.46, 0.38, -0.32, 0.17, -0.16])  # -0.31 before the Kmax 13 rerun
     # the next pairs are near 0.08 and stable
     for c in COUNTS:
         k = COUNTS[c]
