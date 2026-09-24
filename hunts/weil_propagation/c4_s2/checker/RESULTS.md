@@ -322,6 +322,19 @@ about 7.5 min in total by a scaling model. Measured: (80, 1200, 8) 20.8 s,
 stopped at 16 min wall (9.2 min CPU, load average 8 to 9 on the shared
 laptop) under the 10-minute rule (s7.6).
 
+**Re-run on a second machine (2026-09-24).** Snapshot commit 11e4afb added
+two_adic/'s `ta_gram_probe.py`, a non-test `.py` and so a key input, although
+T_S never imports it. The key moved (02f12c86 to 323b8a07) and all seven units
+were rebuilt from scratch on a cloud Linux container (4 cores, Python 3.11,
+idle), routed commit and probe commit unchanged. Per-unit seconds: (80, 1200, 8)
+33.5, (120, 1600, 16) 112.4, (200, 2400, 32) 427.3, (80, 1600, 16) 47.5,
+(120, 1200, 16) 86.5, (80, 1200, 16) 32.0, (160, 1600, 16) 136.7. Every T_S
+entry agrees with the laptop snapshot to **2.3e-7** (max entry difference over
+all rows), four orders below the smallest band (5.3e-3). That is agreement
+across platforms and library builds, not float64 roundoff; its source was not
+traced. Every count and every quoted eigenvalue in s7.2 to s7.3a is unchanged
+at the precision quoted.
+
 ### 7.2 Responses of T_S (spectral norm of the difference, Weyl)
 
 | c | quadrature, N = 16 | 80 -> 120, N = 16 | same, its N = 8 block | 120 -> 160, N = 16 | P3, delivered rows | P3, equal settings | dps 60 drift, N = 8 |
@@ -476,8 +489,10 @@ with like.
 to |n| <= 16 is 5, 4, 3, 1 at c = 2.2; 10, 9, 8, 8 at 2.5; 12, 10, 10, 10 at
 2.9. At 2.2 it keeps falling. At 2.5 and 2.9 it stops falling, at twice and
 2.5 times the N = 8 count (4). At 2.9, 160 modes is two_adic/'s own rule for
-N = 16. The last pair counted sits at -7.4e-3 to -8.9e-3, only 1.2 to 1.6
-times the band.
+N = 16. The last pair counted sits at -6.7e-3 to -8.9e-3, only 1.2 to 1.6
+times the band. (Corrected 2026-09-24: the first write-up quoted -7.4e-3 as
+the upper end; the JSON it was pinned against already held -6.66e-3, and the
+test failed on it.)
 
 **Reading.** (1) shows mode truncation inflates the count. On one range at
 one threshold the count stops falling at 2.5 and 2.9 once modes reach 160

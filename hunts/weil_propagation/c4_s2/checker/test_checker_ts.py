@@ -207,7 +207,7 @@ def test_snapshot_matches_live_provider():
 def test_cells_json_keyed_to_routed_inputs():
     m = _cells()["meta"]
     assert m["routed_two_adic"] == "8dc8525" and m["probe_commit"] == "015895f"
-    assert m["python"].startswith("/Users/thomas/zeta-lab/.venv/")
+    assert m["python"].endswith("/.venv/bin/python")  # the repo venv, on whichever machine ran it
     assert set(m["units"]) == {"80|1200|8", "120|1600|16", "200|2400|32", "80|1600|16",
                                "120|1200|16", "80|1200|16", "160|1600|16"}
 
@@ -470,7 +470,7 @@ def test_results_discriminator_tables_match_json():
 
 def test_last_pair_counted_is_marginal():
     """RESULTS s7.3a: at 2.5 and 2.9 the last pair counted on |n| <= 16 (160
-    modes at N = 16, and the 200-mode N = 32 build) sits at -7.4e-3 to
+    modes at N = 16, and the 200-mode N = 32 build) sits at -6.7e-3 to
     -8.9e-3, 1.2 to 1.6 times band(c, 16)."""
     J = _cells()["cells"]
     vals, ratios = [], []
@@ -480,5 +480,25 @@ def test_last_pair_counted_is_marginal():
         for pair in (m["160"]["N16_last_two_counted"], m["200_N32_on_n_le_16"]["last_two_counted"]):
             vals += pair
             ratios += [abs(x) / b for x in pair]
-    assert ("%.1e" % max(vals), "%.1e" % min(vals)) == ("-7.4e-03", "-8.9e-03")
+    assert ("%.1e" % max(vals), "%.1e" % min(vals)) == ("-6.7e-03", "-8.9e-03")
     assert ("%.1f" % min(ratios), "%.1f" % max(ratios)) == ("1.2", "1.6")
+
+
+def test_rerun_matches_laptop_snapshot():
+    """RESULTS s7.1: the 2026-09-24 rebuild at key 323b8a07 agrees with the
+    laptop snapshot at 11e4afb (key 02f12c86) to 2.3e-7 in every entry, and
+    the quoted per-unit seconds are the ones the rebuild recorded."""
+    import numpy as np
+
+    rel = "hunts/weil_propagation/c4_s2/checker/checker_ts_snapshot.json"
+    old = json.loads(GLUE._git("show", f"11e4afb:{rel}"))
+    with open(GLUE.TS_SNAPSHOT) as fh:
+        new = json.load(fh)
+    assert old["meta"]["ts_inputs_digest"].startswith("02f12c86")
+    assert new["meta"]["ts_inputs_digest"].startswith("323b8a07")
+    assert sorted(old["T_S"]) == sorted(new["T_S"])
+    d = max(float(np.abs(np.array(old["T_S"][k]) - np.array(new["T_S"][k])).max()) for k in old["T_S"])
+    assert "%.1e" % d == "2.3e-07"
+    secs = {k: v["seconds"] for k, v in new["units"].items()}
+    assert secs == {"80|1200|8": 33.5, "120|1600|16": 112.4, "200|2400|32": 427.3, "80|1600|16": 47.5,
+                    "120|1200|16": 86.5, "80|1200|16": 32.0, "160|1600|16": 136.7}
