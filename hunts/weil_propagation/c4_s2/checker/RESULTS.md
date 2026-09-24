@@ -9,7 +9,7 @@
 Phases 1 to 3 of 2026-09-23, branch `teal-sea/weil-c4-s2`. Nothing here is
 a claim about RH. Grades follow the `AGENTS.md` ladder. Every number above is
 pinned by a test in this folder (`test_checker_q.py`, `test_checker_gate.py`,
-`test_checker_rs.py`, `test_checker_ts.py`).
+`test_checker_rs.py`, `test_checker_ts.py`, `test_checker_inertia.py`).
 
 ## 1. Q, built independently
 
@@ -273,6 +273,7 @@ to 23, and the construction is not moved to K.
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_ts.py --routed 8dc8525 --units 2 --analyse 015895f  # ~4 min + ~3 min
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_lesion.py   # ~1 min
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_ts.py --merge-modal --analyse 015895f  # ~1 min, reads modal/out
+    PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_inertia.py  # ~2 min, exact inertia at c = 2.9 (s7.9)
     PYTHONPATH=$PWD <venv>/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/checker \
         tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # 2 min
 
@@ -283,7 +284,9 @@ matches: tests that serve T_S from it skip with that reason (by design), and
 the pins of the JSON files keep holding for the recorded inputs. (From
 2026-09-24 such a commit also turns one test red, s7.1.)
 After the Modal merge (s7.7), the same command: 202 passed, 10 skipped, 3
-xfailed (18 new tests; the skips and xfails are those of s7.1).
+xfailed (18 new tests; the skips and xfails are those of s7.1). After
+follow-up 3 (s7.9): 270 passed, 10 skipped, 3 xfailed, the same skips and
+xfails; `test_checker_inertia.py` carries 34 of the passes.
 
 ## 7. Phase 3: T_S and R_S = Q - T_S (tests in `test_checker_ts.py`, WRITTEN AFTER ROUTING)
 
