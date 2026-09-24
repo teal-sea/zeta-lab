@@ -19,6 +19,10 @@ S = {∞, 2} on windows ℓ = log c with c ∈ [2, 3), and measure its remainder
   Q_∞ = P + A.
 - **T_S(f) = Tr(ϑ_S(f) Π_S ϑ_S(f)*)**, with the product-ball projection
   Π_S = S_∞ ⊗ P_2 + 1 ⊗ (1 − P_2) of theory §7.3 item 2.
+  *Amended 2026-09-24 by the coordinator:* this product-ball Π_S defines no
+  operator on X_S and has infinite trace there (cutoff/, two_adic/), so T_S
+  was built on the module form (CCM arXiv:2310.18423 Thm 4.6); see
+  `c4_s2/RESULTS.md` line 1. The text above is kept as approved.
 - **R_S := Q − T_S.** C4 says Q ≥ T_S − (a remainder of bounded rank). The
   operational content measured here is the inertia of R_S (how many negative
   eigenvalues, and whether that count is stable in N) and its lowest
