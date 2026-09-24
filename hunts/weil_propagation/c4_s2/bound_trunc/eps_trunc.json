@@ -1,0 +1,1244 @@
+{
+ "meta": {
+  "interface": "BRIEF.md: eps_trunc(c, N, nvec, S, Kmax) -> flint.arb",
+  "snapshot_digest": "b2e7787bce7a77db4a1a81b9311fc75a2b9326649b88a49883bd4d737ca70eaa",
+  "responses_note": "||T_S(a) - T_S(b)||_2 between stored builds at equal (c, N): a lower bound on eps_trunc(a) + eps_quad(a) + eps_trunc(b) + eps_quad(b)"
+ },
+ "entries": [
+  {
+   "c": "2.2",
+   "N": 8,
+   "nvec": 80,
+   "S": 1200,
+   "Kmax": 10,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 92.37604307034013,
+    "window_tail": 0.17200305201677765,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 16,
+   "nvec": 80,
+   "S": 1200,
+   "Kmax": 10,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 92.37604307034013,
+    "window_tail": 0.9999999999089103,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 16,
+   "nvec": 80,
+   "S": 1600,
+   "Kmax": 10,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 92.37604307034013,
+    "window_tail": 0.9999999999089103,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 16,
+   "nvec": 120,
+   "S": 1200,
+   "Kmax": 12,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 138.5640646055102,
+    "window_tail": 0.2894103855539484,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 16,
+   "nvec": 120,
+   "S": 1600,
+   "Kmax": 12,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 138.5640646055102,
+    "window_tail": 0.2894103855539484,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 16,
+   "nvec": 160,
+   "S": 1600,
+   "Kmax": 12,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 184.75208614068026,
+    "window_tail": 0.1681527175829677,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 32,
+   "nvec": 200,
+   "S": 2400,
+   "Kmax": 13,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 230.94010767585033,
+    "window_tail": 0.9999993060129316,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 32,
+   "nvec": 240,
+   "S": 2400,
+   "Kmax": 14,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 277.1281292110204,
+    "window_tail": 0.2684925287459007,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 32,
+   "nvec": 280,
+   "S": 2266,
+   "Kmax": 14,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 323.31615074619043,
+    "window_tail": 0.19839435588489868,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 32,
+   "nvec": 319,
+   "S": 2633,
+   "Kmax": 14,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 368.3494717429813,
+    "window_tail": 0.16474256659553937,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 32,
+   "nvec": 364,
+   "S": 3060,
+   "Kmax": 15,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 420.3109959700476,
+    "window_tail": 0.13757735271917212,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 8,
+   "nvec": 80,
+   "S": 1200,
+   "Kmax": 10,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 92.37604307034013,
+    "window_tail": 0.14262258378329132,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 16,
+   "nvec": 80,
+   "S": 1200,
+   "Kmax": 10,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 92.37604307034013,
+    "window_tail": 0.9999956003190239,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 16,
+   "nvec": 80,
+   "S": 1600,
+   "Kmax": 10,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 92.37604307034013,
+    "window_tail": 0.9999956003190239,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 16,
+   "nvec": 120,
+   "S": 1200,
+   "Kmax": 12,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 138.5640646055102,
+    "window_tail": 0.20782978202428876,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 16,
+   "nvec": 120,
+   "S": 1600,
+   "Kmax": 12,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 138.5640646055102,
+    "window_tail": 0.20782978202428876,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 16,
+   "nvec": 160,
+   "S": 1600,
+   "Kmax": 12,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 184.75208614068026,
+    "window_tail": 0.13666013023754453,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 32,
+   "nvec": 200,
+   "S": 2400,
+   "Kmax": 13,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 230.94010767585033,
+    "window_tail": 0.2972545292765931,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 32,
+   "nvec": 240,
+   "S": 2400,
+   "Kmax": 14,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 277.1281292110204,
+    "window_tail": 0.20087783914652363,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 32,
+   "nvec": 280,
+   "S": 2266,
+   "Kmax": 14,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 323.31615074619043,
+    "window_tail": 0.1601962817038876,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 32,
+   "nvec": 319,
+   "S": 2633,
+   "Kmax": 14,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 368.3494717429813,
+    "window_tail": 0.1345216418102464,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 32,
+   "nvec": 364,
+   "S": 3060,
+   "Kmax": 15,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 420.3109959700476,
+    "window_tail": 0.11565810927495432,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 8,
+   "nvec": 80,
+   "S": 1200,
+   "Kmax": 10,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 92.37604307034013,
+    "window_tail": 0.11739615383247919,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 16,
+   "nvec": 80,
+   "S": 1200,
+   "Kmax": 10,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 92.37604307034013,
+    "window_tail": 0.8763688044279221,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 16,
+   "nvec": 80,
+   "S": 1600,
+   "Kmax": 10,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 92.37604307034013,
+    "window_tail": 0.8763688044279221,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 16,
+   "nvec": 120,
+   "S": 1200,
+   "Kmax": 12,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 138.5640646055102,
+    "window_tail": 0.16404411022970122,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 16,
+   "nvec": 120,
+   "S": 1600,
+   "Kmax": 12,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 138.5640646055102,
+    "window_tail": 0.16404411022970122,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 16,
+   "nvec": 160,
+   "S": 1600,
+   "Kmax": 12,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 184.75208614068026,
+    "window_tail": 0.11514718912034051,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 32,
+   "nvec": 200,
+   "S": 2400,
+   "Kmax": 13,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 230.94010767585033,
+    "window_tail": 0.21249012446587523,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 32,
+   "nvec": 240,
+   "S": 2400,
+   "Kmax": 14,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 277.1281292110204,
+    "window_tail": 0.1602951255276696,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 32,
+   "nvec": 280,
+   "S": 2266,
+   "Kmax": 14,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 323.31615074619043,
+    "window_tail": 0.13132475286665582,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 32,
+   "nvec": 319,
+   "S": 2633,
+   "Kmax": 14,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 368.3494717429813,
+    "window_tail": 0.11308873568513375,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 32,
+   "nvec": 364,
+   "S": 3060,
+   "Kmax": 15,
+   "eps_upper": null,
+   "grade": "no bound: outcome 4 for bound_trunc/ (ordinary arguments, unreviewed)",
+   "assumptions": [],
+   "blocking_step": "DERIVATION.md s1.3, mechanism 2 (the Sonin overlap Pi_S Theta W_n)",
+   "reason": "No finite bound derived (DERIVATION.md s1.3, outcome 4). The truncation error is E_n = tau_f(R_n - Pi'_n) (identity A), a difference of two traces that are each +infinity (Lemma 1), so it can only be bounded through a cancellation. The part carried by Theta closes for a degree truncation (Lemma 2); the Sonin overlap, governed by S_inf F (1-P) D on the prolate tail with no decay in n, does not close: it needs a frequency-by-frequency localization of ran S_inf that is not available. Even closed with a density of order one, a bound of this shape is about window_tail(c, N, 2n/sqrt3), 0.098 to 1.0 on these builds (size_if_closed).",
+   "size_if_closed": {
+    "sigma_heuristic": 420.3109959700476,
+    "window_tail": 0.09750292432939969,
+    "note": "a heuristic size, not a bound on anything"
+   }
+  }
+ ],
+ "responses": {
+  "2.2|16": [
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     80,
+     1600
+    ],
+    "norm2": 0.000862149569313937
+   },
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     120,
+     1200
+    ],
+    "norm2": 0.0785346622613213
+   },
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     120,
+     1600
+    ],
+    "norm2": 0.07773337526551412
+   },
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.07018929886187487
+   },
+   {
+    "a": [
+     80,
+     1600
+    ],
+    "b": [
+     120,
+     1200
+    ],
+    "norm2": 0.07911079488878457
+   },
+   {
+    "a": [
+     80,
+     1600
+    ],
+    "b": [
+     120,
+     1600
+    ],
+    "norm2": 0.07830869569727707
+   },
+   {
+    "a": [
+     80,
+     1600
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.0708102303889733
+   },
+   {
+    "a": [
+     120,
+     1200
+    ],
+    "b": [
+     120,
+     1600
+    ],
+    "norm2": 0.0016234953512873436
+   },
+   {
+    "a": [
+     120,
+     1200
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.016592209459547293
+   },
+   {
+    "a": [
+     120,
+     1600
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.01590247011618285
+   }
+  ],
+  "2.2|32": [
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     240,
+     2400
+    ],
+    "norm2": 0.029737318065331603
+   },
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     280,
+     2266
+    ],
+    "norm2": 0.023116099579494672
+   },
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     319,
+     2633
+    ],
+    "norm2": 0.0215967366165066
+   },
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.021453137572195358
+   },
+   {
+    "a": [
+     240,
+     2400
+    ],
+    "b": [
+     280,
+     2266
+    ],
+    "norm2": 0.009843874851657426
+   },
+   {
+    "a": [
+     240,
+     2400
+    ],
+    "b": [
+     319,
+     2633
+    ],
+    "norm2": 0.01277369223553285
+   },
+   {
+    "a": [
+     240,
+     2400
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.012580524512387007
+   },
+   {
+    "a": [
+     280,
+     2266
+    ],
+    "b": [
+     319,
+     2633
+    ],
+    "norm2": 0.0033704768290736794
+   },
+   {
+    "a": [
+     280,
+     2266
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.0038559102415052925
+   },
+   {
+    "a": [
+     319,
+     2633
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.0037203857175954354
+   }
+  ],
+  "2.5|16": [
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     80,
+     1600
+    ],
+    "norm2": 0.0008302997201254351
+   },
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     120,
+     1200
+    ],
+    "norm2": 0.04564105186120076
+   },
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     120,
+     1600
+    ],
+    "norm2": 0.04461568283885501
+   },
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.04360061967598609
+   },
+   {
+    "a": [
+     80,
+     1600
+    ],
+    "b": [
+     120,
+     1200
+    ],
+    "norm2": 0.04638592101369905
+   },
+   {
+    "a": [
+     80,
+     1600
+    ],
+    "b": [
+     120,
+     1600
+    ],
+    "norm2": 0.04536017421326455
+   },
+   {
+    "a": [
+     80,
+     1600
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.04434235577968633
+   },
+   {
+    "a": [
+     120,
+     1200
+    ],
+    "b": [
+     120,
+     1600
+    ],
+    "norm2": 0.0017697045148507011
+   },
+   {
+    "a": [
+     120,
+     1200
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.005986723476250493
+   },
+   {
+    "a": [
+     120,
+     1600
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.005236643478295721
+   }
+  ],
+  "2.5|32": [
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     240,
+     2400
+    ],
+    "norm2": 0.010830728694258648
+   },
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     280,
+     2266
+    ],
+    "norm2": 0.01278749260731138
+   },
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     319,
+     2633
+    ],
+    "norm2": 0.014081695178257476
+   },
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.014875375926398204
+   },
+   {
+    "a": [
+     240,
+     2400
+    ],
+    "b": [
+     280,
+     2266
+    ],
+    "norm2": 0.002559213925166592
+   },
+   {
+    "a": [
+     240,
+     2400
+    ],
+    "b": [
+     319,
+     2633
+    ],
+    "norm2": 0.003995453416984244
+   },
+   {
+    "a": [
+     240,
+     2400
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.004675485622013801
+   },
+   {
+    "a": [
+     280,
+     2266
+    ],
+    "b": [
+     319,
+     2633
+    ],
+    "norm2": 0.0033845596904654297
+   },
+   {
+    "a": [
+     280,
+     2266
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.00400000959540819
+   },
+   {
+    "a": [
+     319,
+     2633
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.003925098120303783
+   }
+  ],
+  "2.9|16": [
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     80,
+     1600
+    ],
+    "norm2": 0.0007669313687971775
+   },
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     120,
+     1200
+    ],
+    "norm2": 0.024300806257915482
+   },
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     120,
+     1600
+    ],
+    "norm2": 0.02332089577079616
+   },
+   {
+    "a": [
+     80,
+     1200
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.02272350773734916
+   },
+   {
+    "a": [
+     80,
+     1600
+    ],
+    "b": [
+     120,
+     1200
+    ],
+    "norm2": 0.0249858015088504
+   },
+   {
+    "a": [
+     80,
+     1600
+    ],
+    "b": [
+     120,
+     1600
+    ],
+    "norm2": 0.02400700356270448
+   },
+   {
+    "a": [
+     80,
+     1600
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.022755035142114105
+   },
+   {
+    "a": [
+     120,
+     1200
+    ],
+    "b": [
+     120,
+     1600
+    ],
+    "norm2": 0.0019145588653414322
+   },
+   {
+    "a": [
+     120,
+     1200
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.0044590028828686
+   },
+   {
+    "a": [
+     120,
+     1600
+    ],
+    "b": [
+     160,
+     1600
+    ],
+    "norm2": 0.0036882878269204143
+   }
+  ],
+  "2.9|32": [
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     240,
+     2400
+    ],
+    "norm2": 0.002259684008217274
+   },
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     280,
+     2266
+    ],
+    "norm2": 0.004949844179900594
+   },
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     319,
+     2633
+    ],
+    "norm2": 0.004373205291164968
+   },
+   {
+    "a": [
+     200,
+     2400
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.004912346911865155
+   },
+   {
+    "a": [
+     240,
+     2400
+    ],
+    "b": [
+     280,
+     2266
+    ],
+    "norm2": 0.0028648137687252934
+   },
+   {
+    "a": [
+     240,
+     2400
+    ],
+    "b": [
+     319,
+     2633
+    ],
+    "norm2": 0.0026583592024615856
+   },
+   {
+    "a": [
+     240,
+     2400
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.0030685413109324076
+   },
+   {
+    "a": [
+     280,
+     2266
+    ],
+    "b": [
+     319,
+     2633
+    ],
+    "norm2": 0.0034753852875069294
+   },
+   {
+    "a": [
+     280,
+     2266
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.004152596109538724
+   },
+   {
+    "a": [
+     319,
+     2633
+    ],
+    "b": [
+     364,
+     3060
+    ],
+    "norm2": 0.004177288163774054
+   }
+  ]
+ }
+}

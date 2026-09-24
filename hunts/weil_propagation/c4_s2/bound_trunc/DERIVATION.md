@@ -186,12 +186,16 @@ research problem, not a three-hour task.
 closed by a density bound of order one on |s| > σ_n, the window basis
 limits ε. As a function on ℝ, f = Σ v_n U_n jumps at 0 and L by
 f(0) = L^{−1/2}Σ v_n, so |f̂(s)|² ≈ 4|f(0)|² sin²(sL/2)/s² at large s, and
-sup over unit v of (1/2π)∫_{|s|>σ}|f̂|² ds is about 2(2N + 1)/(πLσ). At
-c = 2.9 and σ_n = 2n/√3 that is about 0.1 on every stored build (0.11 at
-N = 8, n = 80; 0.09 at N = 32, n = 364), ten times the band. So a completed
-argument of this shape gives outcome 3 at best. (These sizes are estimates
-at this stage; section 2 computes the exact window quantity and a test pins
-it.)
+sup over unit v of (1/2π)∫_{|s|>σ}|f̂|² ds is about 2(2N + 1)/(πLσ) once σ
+is above the window band 2πN/L. At c = 2.9 and σ_n = 2n/√3 that estimate is
+about 0.1 (0.11 at N = 8, n = 80; 0.09 at N = 32, n = 364), ten times the
+band. So a completed argument of this shape gives outcome 3 at best.
+*Corrected at 18:15 the same day by the exact computation of s2.7:* the
+window quantity itself is 0.098 to 0.21 at c = 2.9, N = 32, 0.12 at N = 8,
+and up to 0.88 at c = 2.9 and 1.0 at c = 2.2 on the builds whose σ_n falls
+inside the window band (80 modes at N = 16; 200 modes at c = 2.2, N = 32).
+The sentence "about 0.1 on every stored build" first written here was wrong
+for those builds.
 
 **On the inputs the brief names.**
 - Prolate eigenvalue decay: enters only through λ-sized terms (Lemma 2 and
@@ -233,3 +237,148 @@ c = 2.2, the same at N = 8 and 16. So on its own it gives n_−(R_S) ≥ 2 at
 c = 2.9 (a remainder of rank below 2 is ruled out there), with no growth in
 N. It does not resolve the 4, 10, 20 count; it is a floor that no mode count
 can move. Milestone 3 pins it by exact inertia and extends it to N = 32.
+
+## 2. The derivation (milestone 2, for referee/)
+
+Section 1 argued in prose; this section states what is claimed, under which
+numbered assumptions, with each proof in one place. Every statement is an
+ordinary argument by this worker, **unreviewed**. Constants are closed forms
+or exact rationals; there is no numerical constant in any proof.
+
+### 2.1 Assumptions
+
+- **A1 (the objects).** H, P, F, D, Θ, ϑ(f) as in s0; D is unitary and
+  commutes with ϑ(f); a = 2^{−1/2}. S_∞ is the orthogonal projection of CC
+  arXiv:2006.13771 eq. 81 (1 − S_∞ = P + Q_∞, the ζ_j orthonormal). Π_S is
+  the orthogonal projection onto Θ(ran S_∞) (two_adic/ s5, the module form;
+  CCM arXiv:2310.18423 Thm 4.6, used as published, identifies ran Π_S with
+  the semilocal Sonin space).
+- **A2 (finiteness).** T_∞(f) = τ_f(S_∞) < ∞ for window functions f (CC
+  Thm 4.7). T_S(f) := τ_f(Π_S); its finiteness follows from Lemma 3 below.
+- **A3 (what is stored).** Before bound_quad/'s error sources, the ΔT that
+  two_adic/ stores at nvec = n is ΔT^(n) = τ_f(Q_∞^(n) − Q_S^(n)): ta_prolate's
+  ρ_∞ and ρ_S are the Mellin densities of those two finite-rank projections
+  (ta_mellin docstring; two_adic/ s5b). The stored T_S is kernel/'s T_∞ plus
+  that ΔT.
+- **A4 (the other matrices).** Q is checker/'s (`checker_q.Q_matrix`, dps 40)
+  and T_∞ is kernel/'s (`sonin.T_inf_matrix`, dps 40). Their distance to the
+  exact forms is assembler/'s to state (BRIEF.md); nothing here re-derives it.
+
+Standard facts used without comment: traces of positive operators add
+(values in [0, ∞]); Tr(AB) ≤ ‖A‖ Tr(B) and Tr(AB) ≥ Tr(B)/‖A^{−1}‖ for
+A, B ≥ 0, A invertible; Courant-Fischer min-max; Weyl's inequality.
+
+### 2.2 Identity A (uses A1, A3)
+
+Statement and proof: s1.1, items 1 to 4. The step that carries the weight is
+item 1, ran(1 − Π^(n)) = Θ*^{−1}(ran P ⊕ span{ζ_j}_{j<n}); it needs only
+that Θ*^{−1} maps ran P onto itself (Θ*^{−1} = Σ a^k D^{−k} and D^{−1}
+compresses supports toward 0) and the orthogonal decomposition
+Θ*^{−1}ζ_j = PΘ*^{−1}ζ_j + (1 − P)Θ*^{−1}ζ_j. Identity B is Gram-Schmidt.
+
+### 2.3 Lemma 1 (uses A1, A2)
+
+Statement and proof: s1.2. The only analytic input is
+τ_f(1 − P) = ∞, which is the Hilbert-Schmidt norm of a convolution operator
+restricted to a half-line.
+
+### 2.4 Lemma 2 and the prolate leak (uses A1)
+
+Lemma 2: s1.3. Add:
+
+**Lemma 2'.** Let θ_n be the largest principal angle between V_n (the first
+n even prolates) and L_n (even polynomials of degree < 2n); both have
+dimension n. Then for u ∈ U_n = ran P ⊖ V_n,
+‖P_{V_n} Θ* u‖ ≤ 2a sin θ_n ‖u‖.
+
+*Proof.* P_{V_n}Θ*u = −a P_{V_n}D^{−1}u since u ⊥ V_n. Its adjoint is
+−a P_{U_n} P D P_{V_n}. For v ∈ V_n write v = v_L + v_⊥ with v_L ∈ L_n and
+v_⊥ ⊥ L_n. PDv_L ∈ L_n (Lemma 2), so ‖P_{U_n}PDv_L‖ ≤ ‖P_{U_n}P_{L_n}‖‖v‖
+= sin θ_n ‖v‖; and ‖PDv_⊥‖ ≤ ‖v_⊥‖ ≤ sin θ_n ‖v‖ because ‖PD‖ ≤ 1. ∎
+
+sin θ_n is the norm of the block of kernel/'s Legendre coefficient matrix
+that maps the first n prolates onto P_{2k}, k ≥ n; enclosing it needs an
+enclosure of each prolate vector (a residual bound and a spectral gap). It
+was not computed: Lemma 2' controls only mechanism 1, and without mechanism
+2 it bounds nothing.
+
+### 2.5 The open step (why there is no bound)
+
+A bound ε_trunc would be a proof of:
+
+> **Open statement O.** For each stored build there is an explicit
+> ε(c, N, n) with |τ_f(R_n − Π'_n)| ≤ ε(c, N, n)‖f‖² on the window space.
+
+By Lemma 1 no proof of O can bound the two terms separately. A proof must
+pair them, and the pairing splits (s1.3) into mechanism 1, controlled by
+Lemma 2 and 2' up to λ-sized terms, and mechanism 2, the overlap of ΘW_n
+with Θ ran S_∞, which by the computation in s1.3 is
+−a⟨Fσ, (1 − P)Du⟩ up to λ-sized terms (σ ∈ ran S_∞, u ∈ U_n), an operator
+S_∞F(1 − P)D on U_n whose norm does not decay in n. O would follow from a
+bound on the τ_f-weighted size of that operator. Its natural route is a
+Mellin-frequency localization of F(1 − P)DU_n at |s| ≳ 2n/√3 combined with
+the window weight above that frequency; the second half is s2.7, the first
+half is the missing piece.
+
+### 2.6 Lemma 3 and the floor (uses A1, A2, A4)
+
+**Lemma 3.** κ T_∞ ≤ T_S ≤ κ^{−1} T_∞ as forms on window functions, with
+κ = ((1 − a)/(1 + a))² = (√2 − 1)⁴ = 17 − 12√2 and κ^{−1} = 17 + 12√2.
+
+*Proof.* s1.4. Two points a referee should check: (i) (Θσ_i) is a Riesz
+basis of ran Π_S and Π_S = Σ_ij |Θσ_i⟩(G^{−1})_ij⟨Θσ_j| with
+G = S_∞Θ*ΘS_∞ restricted to ran S_∞, (1 − a)² ≤ G ≤ (1 + a)²; (ii)
+ϑ(f)Θ = Θϑ(f), so ‖ϑ(f)ΘS_∞‖_HS lies between (1 − a) and (1 + a) times
+‖ϑ(f)S_∞‖_HS. (1 − a)²/(1 + a)² = (√2 − 1)²/(√2 + 1)² = (√2 − 1)⁴ since
+(√2 + 1)(√2 − 1) = 1. ∎
+
+(Lemma 3 also reproves A2's finiteness of T_S, the content of two_adic/ s5
+item 1, with the explicit constant 17 + 12√2 = 33.97.)
+
+**Corollary 3.1 (the floor).** Let κ_lo ≤ κ be rational, let Q̃ and T̃_∞ be
+the stored matrices, A := Q̃ − κ_lo T̃_∞, and let t ≥ 0 satisfy
+‖Q̃ − Q‖₂ + κ_lo‖T̃_∞ − T_∞‖₂ ≤ t on the window space (A4). If A has k
+eigenvalues strictly below −t, then the Galerkin compression of the exact
+R_S = Q − T_S has at least k negative eigenvalues.
+
+*Proof.* T_∞ ≥ 0 (a trace of positive operators), so by Lemma 3
+R_S ≤ Q − κT_∞ ≤ Q − κ_lo T_∞ = A + (Q − Q̃) − κ_lo(T_∞ − T̃_∞) ≤ A + t as
+forms on the window space. By min-max, λ_j(R_S) ≤ λ_j(A) + t < 0 for
+j ≤ k. ∎
+
+The stored A is rounded to float64 before its exact inertia is taken; the
+rounding enters t (`round_frob` in kappa_floor.json, at most 9.5e−16 in
+Frobenius norm, which bounds the spectral norm).
+
+**Corollary 3.2 (the other side).** R_S ≥ Q − κ^{−1}T_∞, so
+n_−(R_S) ≤ n_−(Q − 33.97 T_∞). Recorded for completeness; it is far too
+weak to bound the count from above usefully.
+
+### 2.7 The window-tail constant of mechanism 3 (closed form)
+
+With U_n centred on [−L/2, L/2] (a translation, which leaves |f̂| alone),
+Û_k(s) = 2L^{−1/2} sin(sL/2)/(s − κ_k), κ_k = 2πk/L, real. For
+f = Σ v_k U_k, (1/2π)∫_{|s|>σ}|f̂|² ds = v* M_σ v with
+
+    M_σ[k, l] = (2/(πL)) [ J(κ_k, κ_l; σ) + J(−κ_k, −κ_l; σ) ],
+    J(α, β; σ) = ∫_σ^∞ sin²(sL/2) / ((s − α)(s − β)) ds.
+
+Since sin²(sL/2) = sin²((s − κ)L/2) for every κ = κ_k (κL ∈ 2πℤ):
+for α ≠ β, J = (G(σ − β) − G(σ − α))/(α − β) with
+G(u) = (log|u| − Ci(L|u|))/2, the antiderivative of (1 − cos Lu)/(2u) on
+both sides of 0; for α = β, J = Lπ/4 + (1 − cos Lu₀)/(2u₀) − (L/2)Si(Lu₀),
+u₀ = σ − α. The window quantity of s1.3 is λ_max(M_σ).
+`eps_trunc.window_tail` evaluates it with mpmath at dps 30 and numpy's
+eigenvalue; a test checks it against direct quadrature of I − M_{[−σ, σ]}
+(agreement within 1e−11 on the three cases it runs). It is a size of a hypothetical bound, not a
+bound on anything, and it is graded measured.
+
+### 2.8 Grades
+
+| statement | grade |
+|---|---|
+| Identity A, Identity B, Lemmas 1, 2, 2', 3, Corollaries 3.1, 3.2 | ordinary argument, unreviewed |
+| no bound on the truncation error (outcome 4): statement O open | the obstruction is a missing lemma, not a counterexample; ALIGNMENT s5: unresolved |
+| exact inertia of the stored A = Q̃ − κ_lo T̃_∞ (kappa_floor.json) | exact, on the stored float64 matrices (two exact routes agree) |
+| n_−(R_S) ≥ 2 at c = 2.9 (N = 8, 16, 32), ≥ 1 at 2.5, ≥ 0 at 2.2, via Cor. 3.1 | composite: weakest step Lemma 3 (unreviewed), with Q and T_∞ at A4's grade |
+| window-tail constant (s2.7) | measured (closed form in mpmath, float eigenvalue, checked by quadrature) |
