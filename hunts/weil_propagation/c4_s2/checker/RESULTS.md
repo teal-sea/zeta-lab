@@ -1044,3 +1044,137 @@ proxy-band keys, the 2.9 verdict of the 240-mode row, `builds.280.n_minus`
 Grade of the outcome: measured, float64, one route, one platform for every
 row; the band indicates and does not bound. A composite claim takes its
 weakest step: at 2.9 that is the band (the probe), at 2.5 the 319-mode row.
+
+### 7.9 Follow-up 3 (2026-09-24): exact inertia of the stored c = 2.9 matrices
+
+Operator request via the coordinator (BRIEF follow-up 3 and its addendum):
+harden the c = 2.9 count (n_- = 4, 10, 20 at N = 8, 16, 32) on the matrices
+already produced. No new modes, no Modal. Code `run_checker_inertia.py`,
+tests `test_checker_inertia.py`, output `checker_inertia.json` (a new file).
+The snapshot and `checker_ts_cells.json` are read and not written, so no key
+of `checker_ts_cells.json` changes.
+
+**Reading, committed with its test before any inertia of a stored matrix was
+computed.** The pre-registered test is `test_the_count_holds`; the tests of
+group 2 of that file encode clauses 1 to 7.
+
+1. **The matrix.** Per build, R = Q - T_S formed in numpy exactly as
+   `run_checker_ts.analyse` forms it: Q is the checker's Q at dps 40 rounded
+   to float64 (its central block for N < 32), T_S the snapshot row (digest
+   b2e7787bce7a). numpy's eigh reads the lower triangle, so the matrix whose
+   inertia is computed is R's lower triangle mirrored. Every entry is a
+   float64, hence an exact dyadic rational, converted by
+   `float.as_integer_ratio` without rounding. The exact symmetry defect
+   max |R_ij - R_ji| is recorded; if it is not 0, the upper mirror is run at
+   the band as well and reported. A test rebuilds R, checks its sha256
+   against the JSON, and checks that its float64 eigenvalues give the stored
+   count.
+2. **Builds, band source, count source.** All eight c = 2.9 builds of the
+   snapshot: (80, 1200, 8); (120, 1600, 16), (160, 1600, 16); (200, 2400,
+   32), (240, 2400, 32), (280, 2266, 32), (319, 2633, 32), (364, 3060, 32).
+   The shift is the band stored in `checker_ts_cells.json`, read as a float64
+   and never re-derived: `cells['2.9']['8']['band']` = 5.3175684479389584e-3
+   at N = 8; `['16']['band']` = 5.8631887276274774e-3 for both N = 16 builds
+   (the one threshold of s7.3a (1)); `['modes_N32']['band']` =
+   8.179786419034496e-3 for every N = 32 build (one threshold per cell,
+   s7.8 clause 6; equal to `['32']['band']`). The float counts tested
+   against come from the same file: `['8']['full']['n_minus']`,
+   `['16']['full']['n_minus']`, `['modes_N16_S1600']['160']['N16_n_minus']`
+   and `['modes_N32']['builds'][nvec]['n_minus']`, that is 4; 10, 10; 20,
+   20, 20, 20, 21.
+3. **Exact inertia** of R + band I, by two routes over the rationals
+   (python-flint 0.9.0 `fmpq`; `rigor.available_backends()` lists
+   python-flint, and a test asserts it): (a) symmetric elimination with
+   diagonal pivoting, counting pivot signs (Sylvester's law of inertia), with
+   the congruence e_i -> e_i + e_j when every remaining diagonal entry is 0
+   and an off-diagonal one is not; (b) the characteristic polynomial and
+   Descartes' rule of signs, exact because every root of a symmetric
+   matrix's characteristic polynomial is real (the three counts must add up
+   to the dimension). The routes must agree at every shift evaluated; a
+   disagreement is a defect here and stops the run. By Sylvester,
+   n_-(R + band I) is the number of eigenvalues of R strictly below -band,
+   and n_0 the number exactly at it.
+4. **Brackets.** count_below(t) = n_-(R - t I), exactly; lambda_k (the k-th
+   smallest) lies in [lo, hi) exactly when count_below(lo) <= k - 1 and
+   count_below(hi) >= k. For k = 1 to n_- + 1 (every counted eigenvalue and
+   the first one not counted): seeds are the float64 eigenvalue plus and
+   minus 2^-41; each end is widened by doubling until the exact counts
+   confirm it; the shift is bisected until hi - lo <= 2^-40; and if -band
+   lies strictly inside, it is tested and becomes an end. Both routes
+   evaluate every end, and the seeds only save work. The margin below -band,
+   -band - lambda_k, lies in (-band - hi, -band - lo] and is reported as that
+   interval.
+5. **Sensitivity row**, reported and not a criterion: n_- of R + m band I for
+   m = 2, 5, 10, both routes.
+6. **The C4 class V_4** (theory s7.2: g-hat vanishing at +i/2, -i/2 and 0,
+   where g is the window function itself, the factor in g * g^*). By
+   `checker_q.transform_rows`, "plus" is (e^{L/2} - 1) L^{-1/2} / (1/2 + i
+   w_n) and "minus" a real multiple of its complex conjugate (w_n = 2 pi n /
+   L), so both vanish exactly when v is orthogonal to the real vectors
+   h_n = 1/(L^2 + 16 pi^2 n^2) and n h_n; "zero" is L^{1/2} v_0. So V_4 is
+   the complexification of a real subspace of codimension 3, and a real
+   symmetric form has the same inertia on both (derivation, elementary; a
+   test checks it against the dps 40 rows). V_4 is not the class s7.3 calls
+   V_-0 (g-hat(-i/2) = g-hat(0) = 0), which contains it with codimension 1.
+   Its basis Z keeps the coordinates |n| >= 2 free and solves for v_1 and
+   v_{-1} (v_0 = 0). Z's entries involve pi and L = log(29/10), so Z is
+   enclosed in arb balls, and In(Z^T (R + band I) Z) is computed by
+   elimination in ball arithmetic with every pivot required to exclude 0, at
+   256 bits and then at 512; otherwise the class count is reported as
+   undecided. It is reported at the band and at the three multiples, beside
+   the codimension bound n_-(R + band I) - 3 <= n_-(on V_4) <=
+   n_-(R + band I) (min-max, checked by a test), and beside a float64 count
+   on V_4 (QR of Z's midpoints, measured).
+7. **What "holds" means.** On a build, the count holds when the two routes
+   agree, n_0(R + band I) = 0, n_-(R + band I) equals the stored float count,
+   and every counted eigenvalue's bracket ends at or below -band
+   (lambda_k < hi <= -band). A counted negative **fails to stay below
+   -band** when its bracket does not end there, or when the exact count is
+   below the float count (the float-counted eigenvalues past the exact count
+   are then listed). An exact count above the float count is also a failure
+   and is reported as one.
+8. **Grade, fixed now in the addendum's wording.** If the count holds on
+   every build: *hardened on the stored matrices (exact inertia): the
+   negative count of the stored R_S at c = 2.9 is 4, 10, 20 at N = 8, 16, 32
+   (10 on the 160-mode N = 16 build, and 20, 20, 20, 21 on the refined
+   N = 32 builds); this hardens the inertia of the stored matrices, not of
+   the exact R_S, whose float64 assembly error (Delta_T) is still graded by
+   the band, so as a statement about R_S of the construction it stays
+   measured, weakest step Delta_T; the growth is evidence against bounded
+   rank on this construction, not a refutation, since C4 fixes no bound.* If
+   some fail, they are listed and the measured grade is kept. The V_4 count
+   takes the same grade (ball arithmetic on the stored matrices, for the
+   exact class at c = 29/10).
+9. **The min-max argument** (ordinary argument, unreviewed; written now).
+   Let A be Hermitian on a space of dimension n with k eigenvalues below 0,
+   and E any operator of rank r with v^*(A + E)v >= 0 for every v. Then
+   r >= k. Proof: the span W of the eigenvectors of A for its negative
+   eigenvalues has dimension k, and v^*Av < 0 for every nonzero v in W;
+   ker E has dimension n - r. If r < k, then dim W + dim ker E > n, so some
+   nonzero v lies in both, and v^*(A + E)v = v^*Av < 0, a contradiction. The
+   proof uses only that E vanishes on a subspace of codimension r, so E need
+   not be Hermitian or semidefinite. Application: C4 asks for a remainder E
+   with Q - T_S + E >= 0 as forms on the window's class, which the checker
+   writes R_S + E >= 0. A remainder of rank r on the whole function space
+   restricts to a form of rank at most r on span{U_n : |n| <= N}, and
+   positivity restricts too. So if the construction's exact R_S' satisfies
+   ||R_S' - R_S||_2 < |lambda_k| (lambda_k the k-th counted eigenvalue of
+   the stored R_S, bracketed in clause 4; the band is below |lambda_k| on
+   every counted eigenvalue exactly when the count holds), then by Weyl R_S'
+   has at least k eigenvalues below 0, and any remainder absorbing R_S' on
+   this construction has rank >= k there. **The proviso is not
+   established:** Delta_T's band is a measured response that indicates and
+   does not bound, which is why the composite stays measured. On V_4 the
+   same argument gives rank >= the V_4 count, and the codimension bound
+   gives at least k - 3 without the ball computation.
+
+**Visible when this reading was written.** The stored float counts and
+eigenvalues in `checker_ts_cells.json` (s7.3, s7.3a, s7.8): at N = 32 the
+last pair counted runs from -1.24e-2 to -8.4e-3, and `min_gap_to_band` from
+2.4e-4 (364 modes) to 5.6e-4; at N = 16 the last pair counted is -8.96e-3,
+-7.80e-3 (120 modes) and -8.88e-3, -8.28e-3 (160 modes); at N = 8 the float
+eigenvalues of s7.3. No exact inertia of a stored matrix had been computed,
+and no symmetry defect of R had been looked at. The routes were timed on a
+random 65 x 65 float64 matrix only (elimination 0.47 s, characteristic
+polynomial 0.03 s), and group 1 of `test_checker_inertia.py` ran on planted
+matrices (19 passed; the 9 reading tests skipped, no JSON).
