@@ -70,6 +70,10 @@ UNITS = [  # (nvec, S, N, role)
 # of 320 s. It is a CI proposal (RESULTS.md s7). N = 32 carries the N = 16
 # refinement response of the same cell as a stated proxy.
 CI_UNITS = [(240, 2400, 32, "mode_count_up")]
+# 2026-09-24: the cloud container stands in for the CI job (operator: no
+# GitHub Actions). CI_UNITS follow UNITS in the index space, so --units 7
+# builds (240, 2400, 32).
+ALL_UNITS = UNITS + CI_UNITS
 SNAP = GLUE.TS_SNAPSHOT
 OUT = os.path.join(HERE, "checker_ts_cells.json")
 
@@ -118,8 +122,8 @@ def snapshot(routed, only=None):
         if old["meta"].get("ts_inputs_digest") == digest:
             snap = old  # resume: same inputs
             snap["meta"]["routed_two_adic"] = routed
-    for i, (nv, S, N, role) in enumerate(UNITS):
-        if only is not None and i not in only:
+    for i, (nv, S, N, role) in enumerate(ALL_UNITS):
+        if (only is None and i >= len(UNITS)) or (only is not None and i not in only):
             continue
         ukey = f"{nv}|{S}|{N}"
         if ukey in snap["units"]:

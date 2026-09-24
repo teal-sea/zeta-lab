@@ -1,2 +1,3 @@
 started 2026-09-24T13:25:33Z
 2026-09-24T13:29:21Z venv ready; rigor.BACKEND = python-flint, available ['mpmath.iv', 'python-flint']
+2026-09-24T13:30:48Z units 0-6 already built by session_018f8 at key 323b8a07 (merged). Launching unit 7 (240, 2400, 32, Kmax 14), the RESULTS s7.6 door. Estimate: cloud (200,2400,32) took 427 s; x(240/200)^2 x2 for Kmax 13->14 gives ~20 min, rough (laptop scaling model failed here).
