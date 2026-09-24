@@ -82,7 +82,8 @@ measurement, RESULTS.md correction notice; this paragraph listed all four as
 N = 16 (80 → 120 modes moves T_S by up to 7.8e−2); (120, 1600) to 1.6e−2 at
 c = 2.2 and within the probe at 2.5 and 2.9; (200, 2400), under the QR route
 of `rho` (checker/ s7.8, 3e36fa4): to 3.0e−2 at c = 2.2 and 1.4e−2 at 2.5 (set by
-the 240 and the 319-mode refinement respectively) and within the probe (8.2e−3) at 2.9, where no
+the 240 and the 319-mode refinement respectively; the 319-mode row also
+changes S, to 2633, and lies beyond A2's last clean case, RESULTS.md s10.3) and within the probe (8.2e−3) at 2.9, where no
 refinement moves T_S by more than 4.95e−3. On the old route (checker/ s7.7,
 3dc0a74) its 240-mode refinement moved T_S by 3.9e−2, 2.4e−2, 3.2e−2, and
 checker/ read that row as not a clean refinement. For checker/: R_S = Q − T_S with Q = Q_∞ − Wp, so

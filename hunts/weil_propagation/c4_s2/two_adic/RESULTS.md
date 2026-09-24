@@ -66,7 +66,9 @@
   every refined row; the largest response, 2.97e−2, 1.41e−2, 4.95e−3 (the
   240, 319 and 280-mode rows), puts band(c, 32) at 2.97e−2, 1.41e−2 and, at
   2.9, the probe, 8.18e−3. So **(200, 2400) is converged to 3.0e−2 at
-  c = 2.2 and 1.4e−2 at 2.5, and to within the probe at 2.9**.) Line 2's ±0.1
+  c = 2.2 and 1.4e−2 at 2.5, and to within the probe at 2.9**; the 1.4e−2 is
+  set by the 319-mode row, which also changes S (2633) and lies beyond A2's
+  last clean case, s10.3.) Line 2's ±0.1
   counts are measured on the delivered rows only (at N = 16 the (80, 1200) and
   (120, 1600) rows give the same counts); they were not recomputed at 160
   modes.
