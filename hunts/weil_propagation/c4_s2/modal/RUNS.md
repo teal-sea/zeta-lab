@@ -10,9 +10,18 @@ Outputs and cost only; nothing here is graded.
   `git clone --no-local --depth 1 -b teal-sea/weil-c4-s2 <worktree> <scratch>/tree`,
   deepened by 3 commits, then `git checkout 284eff6`. `rev-parse HEAD` =
   284eff64b32cbcbd8b99f0198b129e90cc940623, `status --porcelain
-  --untracked-files=all` empty. It is copied into the image with
-  `add_local_dir(<scratch>/tree, /tree, copy=True)`, `.git` included, and
+  --untracked-files=all` empty. It enters the image as a tarball,
+  `COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata -czf <scratch>/tree.tgz tree`
+  (45.5 MB, `.git` included, symlinks kept), extracted to `/tree` at build
+  time with `--no-same-owner`; the build step fails unless HEAD is 284eff6
+  and `git status --porcelain --untracked-files=all` is empty.
   `PYTHONPATH=/tree`.
+- First route, abandoned: `add_local_dir(<scratch>/tree, /tree, copy=True)`.
+  It resolves symlinks, so `AGENTS.md` (a symlink to `CLAUDE.md`) arrived as a
+  file and the container's porcelain read ` T AGENTS.md`. checker_glue's own
+  guard passed there (digest equal, dirty list empty, since `AGENTS.md` is
+  outside T_S's inputs), but the whole-tree check in `run_modal.py` refused,
+  so nothing was computed on that image.
 - Local T_S input digest (`checker_glue.ts_key()` in this worktree, at
   284eff6 and at e43a7a9): `1dcab23022a36c1b75c1f23379c1549bf7be9d4be7f526a5257bb3004577fb9a`,
   dirty list empty.
@@ -22,7 +31,20 @@ Outputs and cost only; nothing here is graded.
   `pip_install` numpy 2.5.1, scipy 1.18.0, mpmath 1.3.0, python-flint 0.9.0,
   sympy 1.14.0 (the local venv's versions; sympy is imported by
   `two_adic/ta_data.py`). `requirements.txt` is not installed. BLAS threads
-  set to 8 (the reserved 4 physical cores).
+  set to 4: the container sees 4 CPUs.
+- **Smoke (2026-09-24, app ap-qeApZXN87zNOq1Z5uxkR8J): PASS.** In the
+  container: HEAD 284eff6, whole-tree porcelain empty, `ts_key()` =
+  (`1dcab230...fb9a`, []), equal to the local call; `import run_checker_ts`
+  and `import ta_gram_probe` both load (the latter reaches
+  `hunts/rogue_frontier/weil_trunc/galerkin.py` through `ta_es`), and the
+  tree is still clean after them. Container: Python 3.12.10, Linux 4.19
+  gVisor x86_64, glibc 2.36; `os.cpu_count()` = sched affinity = 4.
+  numpy 2.5.1, scipy 1.18.0, mpmath 1.3.0, python-flint 0.9.0, sympy 1.14.0
+  (equal to the local venv's; local Python is 3.13.14, macOS arm64).
+- **CPU model: not exposed.** gVisor's `/proc/cpuinfo` reads "unknown".
+  numpy's SIMD detection reports AVX, AVX2, FMA3, BMI2, VAES, VPCLMULQDQ,
+  X86_V3 and no AVX-512. Each unit's output records the same fields for its
+  own container, since Modal may place units on different hosts.
 
 ## 2. Rates and resources
 

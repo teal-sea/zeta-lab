@@ -5,7 +5,10 @@ records outputs and cost only. Grading belongs to checker/ and two_adic/.
 
 The image holds a standalone git clone of this branch checked out at
 284eff6 (TREE_COMMIT), so checker_glue's snapshot guard runs on a real, clean
-checkout. Every unit checks, inside the container, before and after its
+checkout. The clone enters the image as a tarball (C4S2_TREE_TGZ) extracted
+at build time: add_local_dir resolves symlinks, which turned AGENTS.md (a
+symlink to CLAUDE.md) into a file and left the tree dirty (RUNS.md s1). The
+build fails unless `git status` in the image is empty. Every unit checks, inside the container, before and after its
 build: HEAD is TREE_COMMIT, `git status --porcelain --untracked-files=all`
 is empty for the whole tree, and checker_glue.ts_key() returns LOCAL_DIGEST
 with an empty dirty list. A unit that fails the guard computes nothing.
@@ -22,12 +25,13 @@ input (a preemption, or a crash of the container) finds the marker, computes
 nothing and returns status "restarted". Retrying it is a decision for the
 operator, never automatic.
 
-Build the tree first (see RUNS.md), then, from the worktree root:
+Build the tree and its tarball first (RUNS.md s1), then, from the worktree
+root, with C4S2_TREE_TGZ=<scratch>/tree.tgz in the environment:
 
-    C4S2_TREE=<scratch>/tree modal run hunts/weil_propagation/c4_s2/modal/run_modal.py::smoke
-    C4S2_TREE=<scratch>/tree modal run hunts/weil_propagation/c4_s2/modal/run_modal.py::calibrate
-    C4S2_TREE=<scratch>/tree modal run --detach hunts/weil_propagation/c4_s2/modal/run_modal.py::batch --units a,b
-    C4S2_TREE=<scratch>/tree modal run hunts/weil_propagation/c4_s2/modal/run_modal.py::fetch
+    modal run hunts/weil_propagation/c4_s2/modal/run_modal.py::smoke
+    modal run hunts/weil_propagation/c4_s2/modal/run_modal.py::calibrate
+    modal run --detach hunts/weil_propagation/c4_s2/modal/run_modal.py::batch --units a,b
+    modal run hunts/weil_propagation/c4_s2/modal/run_modal.py::fetch
 
 The Modal CLI imports this file in its own interpreter, so numpy, mpmath and
 repository imports stay inside the remote functions and the child code.
@@ -55,7 +59,7 @@ REMOTE_TREE = "/tree"
 # (the larger of reservation and use); the limits cap use, so they cap cost.
 CPU = (4.0, 4.0)  # physical cores (request, limit)
 MEMORY_MIB = (16384, 32768)  # (request, limit)
-THREADS = "8"  # BLAS threads: 4 physical cores = 8 vCPU
+THREADS = "4"  # BLAS threads: the container sees 4 CPUs (smoke, RUNS.md s1)
 MARGIN_S = 600  # container timeout = unit timeout + MARGIN_S
 
 # Modal rates read from modal.com/pricing on 2026-09-24 (RUNS.md s2).
@@ -127,7 +131,7 @@ def computed_cost(wall_s: float, peak_gib: float) -> float:
 
 # --------------------------------------------------------------- the image
 
-_TREE = os.environ.get("C4S2_TREE", "")
+_TGZ = os.environ.get("C4S2_TREE_TGZ", "")
 
 image = (
     modal.Image.debian_slim(python_version="3.12")
@@ -139,9 +143,15 @@ image = (
           "MKL_NUM_THREADS": THREADS})
 )
 if modal.is_local():
-    if not (_TREE and os.path.isdir(os.path.join(_TREE, ".git"))):
-        raise SystemExit("set C4S2_TREE to the standalone clone at 284eff6 (RUNS.md s1)")
-    image = image.add_local_dir(_TREE, REMOTE_TREE, copy=True)
+    if not (_TGZ and os.path.isfile(_TGZ)):
+        raise SystemExit("set C4S2_TREE_TGZ to the tarball of the standalone clone at 284eff6 (RUNS.md s1)")
+    image = image.add_local_file(_TGZ, "/tmp/tree.tgz", copy=True).run_commands(
+        f"mkdir -p {REMOTE_TREE} && tar -xzf /tmp/tree.tgz -C {REMOTE_TREE} --strip-components=1 --no-same-owner",
+        "rm /tmp/tree.tgz",
+        f"test \"$(git -C {REMOTE_TREE} rev-parse HEAD)\" = {TREE_COMMIT}",
+        f"git -C {REMOTE_TREE} status --porcelain --untracked-files=all > /tmp/porcelain.txt; "
+        "cat /tmp/porcelain.txt; test ! -s /tmp/porcelain.txt",
+    )
 
 app = modal.App(APP_NAME, image=image)
 vol = modal.Volume.from_name(VOL_NAME, create_if_missing=True)
@@ -188,6 +198,12 @@ def _machine():
             info["cpu_model"] = next((ln.split(":", 1)[1].strip() for ln in fh if ln.startswith("model name")), None)
     except OSError:
         info["cpu_model"] = None
+    try:  # gVisor reports the model as "unknown"; numpy's SIMD detection still reads the flags
+        from numpy._core._multiarray_umath import __cpu_features__ as feats
+
+        info["cpu_features"] = sorted(k for k, v in feats.items() if v)
+    except ImportError:
+        info["cpu_features"] = None
     for p in ("/sys/fs/cgroup/cpu.max", "/sys/fs/cgroup/memory.max"):
         try:
             with open(p) as fh:
