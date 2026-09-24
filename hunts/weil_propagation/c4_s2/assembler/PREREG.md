@@ -257,3 +257,98 @@ grade is "unreviewed derivation", said so.
 
 (Filled in the same commit as this file, from `assemble.py --synthetic`;
 pinned by `test_assembler.py`.)
+
+## Addendum A (post-hoc: added after 81f0b47, at the coordinator's request): the mode-free floor
+
+Written 2026-09-24 after the PREREG commit, when the coordinator relayed that
+bound_trunc/ (4a0818f) finds no bound on the truncation error and bound_quad/
+(ab0f8fa) finds one source that does not close a priori, so every eps_upper
+is expected null (outcome 4 by (c), which already handles it). Fixed
+**before** any count below is run at N = 32 or at c = 2.5, 2.2. The only
+numbers of this kind seen: bound_trunc/'s float64 probe as its DERIVATION
+s1.4 prints it (2, 2 negatives at c = 2.9, N = 8, 16; 1 at 2.5; 0 at 2.2).
+Nothing in (a) to (f) above changes.
+
+**A.1 Source.** bound_trunc/ DERIVATION s1.4, Lemma 3 (ordinary argument,
+unreviewed until referee/ reviews it): with κ = (√2 − 1)⁴ = 17 − 12√2 and
+K = κ^{−1} = 17 + 12√2, κT_∞ ≤ T_S ≤ K T_∞ as forms on window functions.
+Galerkin compression keeps form inequalities, and A ≤ B gives
+λ_k(A) ≤ λ_k(B), so
+
+    n_−(Q − K T_∞) ≥ n_−(R_ex(c, N)) ≥ n_−(Q − κ T_∞)   (compressed to span_N).
+
+No ΔT, no prolate mode count, no stored float64 matrix enters.
+
+**A.2 The count, enclosure-carrying end to end** (`floor_count.py`, written
+after this section, in the same commit):
+
+- Inputs: Q_mp = `checker_q.Q_matrix(c, N, 40)` and T∞_mp =
+  `kernel/sonin.T_inf_matrix(c, N, 40)`, read-only imports, both mpmath at
+  dps 40, every entry an exact binary rational. Their accuracy is the stated
+  sizes of (a): Q hardened (checker/ s1, ≤ 5.5e−40 against CCM, pinned at
+  4e−39), T_∞ hardened (kernel/ s6, dps 40 against 60 ≤ 5.1e−39;
+  derivation unreviewed, kernel/ s7). η_N := (2N+1)(4e−39 + K_hi · 1e−29)
+  bounds the input error of Q − cT_∞ for every c ≤ K_hi.
+- Route 1, exact. κ_lo := 17 − 12 s and K_hi := 17 + 12 s with
+  s = (isqrt(2 · 4^256) + 1)/2^256 ≥ √2, so κ_lo ≤ κ and K_hi ≥ K, rationals.
+  T_∞,ex ≥ 0 (a trace of ϑ S_∞ ϑ* with S_∞ a projection, so its compression
+  is positive semidefinite), hence Q − κT_∞ ≤ Q − κ_lo T_∞ and
+  Q − K T_∞ ≥ Q − K_hi T_∞. With Weyl for η:
+
+      F_N(c) := n_−(Q_mp − κ_lo T∞_mp + η_N I)  ≤ n_−(R_ex(c, N)),
+      G_N(c) := n_−(Q_mp − K_hi T∞_mp − η_N I)  ≥ n_−(R_ex(c, N)),
+
+  each by `run_checker_inertia.inertia_both` (both rational routes).
+- Route 2, balls, a cross-check with κ and K as arb balls (no rational
+  rounding): `inertia_balls` of Q_mp − κT∞_mp ± η at 256 bits; it must agree
+  with route 1 wherever it decides.
+- V_4: the same two shifts on Z(c)^T(·)Z(c) by ball elimination (256, then
+  512 bits), the min-max fallback (F − 3, G) where undecided, labelled.
+- Reported, not judged: the exact brackets of every negative eigenvalue of
+  Q_mp − κ_lo T∞_mp (`run_checker_inertia.bracket`), and F at η ± δ,
+  δ = 1e−9.
+- Nine cells: c ∈ {2.2, 2.5, 2.9}, N ∈ {8, 16, 32}. Cost measured first:
+  `sonin.T_inf_matrix(2.9, 8, 40)` took 6.3 s on the shared laptop and
+  matches the moments route of `KernelProvider` to 4.6e−40; N = 32 is timed
+  before the batch. Checkpoint per cell.
+
+**A.3 What the numbers will mean.** F and G are further lower and upper
+bounds on the same n_−(R_ex(c, N)) that (b) bounds, valid **conditional on
+Lemma 3** (the lower half for F, the upper half for G). They enter the rule
+of (c) as
+
+    L_N ← max(L*_N, F_N),   U_N ← min(U*_N, G_N),
+
+then interlacing and the falsification check as in (b), and `decide()` runs
+on the result with every N counted as bounded (F and G exist at every N).
+The outcome so obtained is reported **separately** from the ΔT-bound
+outcome of (c) and labelled "conditional on Lemma 3"; it does not replace
+it. Readings, fixed now:
+
+1. **Floor grows** (F_32 > F_16 after interlacing, or L as combined): the
+   mode-free lower bound rises with N. Wording: "n_−(R_S) ≥ F_8, F_16, F_32
+   at N = 8, 16, 32 on this construction, conditional on Lemma 3 (bound_trunc/,
+   {review status}); this rules out any remainder of rank below F_32 and is
+   evidence against bounded rank that does not depend on ΔT; not a
+   refutation."
+2. **Growth excluded** (combined L_32 = L_16 and combined U_32 ≤ L_16):
+   growth from 16 to 32 excluded conditional on both halves of Lemma 3.
+   Expected unreachable, since K ≈ 34 makes Q − K T_∞ far from
+   semidefinite; stated so that the rule has no unassigned branch.
+3. **Floor flat, upper bound open** (the rest): "by Lemma 3, n_−(R_S) ≥
+   F_32 at c = 2.9 at every N here (a remainder of rank below F_32 is ruled
+   out), and the floor does not grow with N. It is one-sided: it cannot
+   exclude negatives, so it is not evidence for C4, and it does not resolve
+   the 4, 10, 20 count."
+
+Where the ΔT-bound outcome is 4, line 2 carries this reading after the
+outcome 4 sentence of (d), in one sentence, with F_8, F_16, F_32 at c = 2.9
+on V_4 (full space in parentheses), and the counts at 2.5 and 2.2.
+
+**A.4 Grade.** The count: exact inertia (route 1), ball arithmetic
+(route 2, V_4). The inputs: hardened accuracy, with η covering their
+stated sizes; the δ check shows no count moves unless they are wrong by
+far more than stated. The implication: Lemma 3, an ordinary argument whose
+grade is referee/'s review status, and T_∞ ≥ 0 by construction. Composite:
+weakest step Lemma 3's review status (and kernel/'s unreviewed T_∞
+derivation, which every statement about "T_S" here shares). Named in line 2.
