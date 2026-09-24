@@ -197,3 +197,11 @@ def test_every_checker_output_carries_the_calibration_bound(name):
     ref = _meta(_load("checker_200_2400_32_sandybridge"))["calibration"]
     m = _meta(_load(name))
     assert m["calibration"] == ref
+
+
+@pytest.mark.parametrize("name", PROBE + BATCH)
+def test_the_blas_kernel_is_recorded(name):
+    """Modal placed units on different hosts; the kernel family each child
+    loaded is recorded, since a kernel change alone moves a checker unit by
+    about 3e-7 (the probe). The calibration units predate the readout."""
+    assert _meta(_load(name))["blas_core"] in {"Sandybridge", "Haswell", "SkylakeX", "Zen", "Cooperlake", "SapphireRapids"}

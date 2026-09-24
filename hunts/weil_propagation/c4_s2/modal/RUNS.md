@@ -234,3 +234,33 @@ max(16 GiB, peak) x GiB rate)), not read from Modal's billing.
 | gram_180_4800 | ok | 475.9 | 980.4 | 1771.8 | 0.0418 | unknown | 2026-09-24 09:41:27 -0500 |
 | gram_200_4800 | ok | 627.9 | 1253.7 | 1822.1 | 0.0552 | unknown | 2026-09-24 09:44:00 -0500 |
 | gram_160_9600 | ok | 797.2 | 1858.2 | 2064.0 | 0.0701 | unknown | 2026-09-24 09:46:47 -0500 |
+| checker_280_2266_32 | ok | 846.6 | 1551.8 | 2559.1 | 0.0744 | unknown | 2026-09-24 09:55:26 -0500 |
+| checker_240_2400_32 | ok | 890.4 | 1665.3 | 2421.8 | 0.0783 | unknown | 2026-09-24 09:56:14 -0500 |
+| checker_319_2633_32 | ok | 1042.4 | 2204.9 | 2814.8 | 0.0916 | unknown | 2026-09-24 09:58:49 -0500 |
+| checker_364_3060_32 | ok | 1786.5 | 3697.3 | 5142.2 | 0.1571 | unknown | 2026-09-24 10:11:18 -0500 |
+
+## 6. Close-out (2026-09-24 11:12 -0500)
+
+- All 12 units landed with status ok; none timed out, none restarted.
+  Launches: calibration 09:22 (app ap-0JPiceMca78mFevFf9x2Mv), probe and
+  two_adic family 09:33:12 (ap-JRlZr1RjuHFd8xDrZ9Rz85), checker family
+  09:41 (ap-aqasUO4OPbf2wQ7SudOKcg), each after the commit of the estimate it
+  ran under (76d13a9 at 09:33:01, bb50c73 at 09:41:01). ap-6KyRUDzcVl1xoUQiVDAJuf
+  re-shaped two files from the Volume (no containers, no cost).
+- **Billed: 0.741 USD** (`modal billing report --for today`, all six apps of
+  this folder: 0.001 and 0.001 smoke, 0.055 calibration, 0.269 probe and
+  two_adic family, 0.415 checker family). Computed from the unit log above:
+  0.709 USD. Worst case written before launch: 6.73 USD. Cap: 25 USD.
+  `modal billing rates` reads 0.0473 USD per core-hour and 0.008 USD per
+  GiB-hour, the same as the pricing page in s2.
+- Estimates against actuals (child wall, s): gram 140 / 160 / 180 / 200 at
+  S = 4800: 523 / 597 / 969 / 1077 estimated, 275 / 300 / 473 / 625 actual;
+  gram (160, 9600): 1921, 795; checker 240 / 280 / 319 / 364: 896 / 976 /
+  1329 / 3260, 887 / 844 / 1036 / 1784. Peak memory at most 5.0 GiB (364
+  modes), under the 16 GiB request.
+- The OpenBLAS kernel family varied by host: SkylakeX for 6 batch units,
+  Haswell for 3 (RESULTS.md table). The calibration units predate the
+  readout.
+- `modal app list` at 11:11 -0500: all six `c4s2-modal-compute` apps stopped,
+  0 tasks; `claude-scie...` and `specimen-v1...` deployed and untouched. The
+  Volume `c4s2-modal-out` is kept (12 results, 12 start markers).
