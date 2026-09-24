@@ -149,3 +149,22 @@ Constraints for this follow-up:
 - Commit with pathspecs, your folder only. No push. No em dashes.
 - Run your folder's tests plus `tests/test_hunt_probe_discipline.py` and
   `tests/test_docs_numbering.py` before `worker_done`.
+
+## Follow-up 2, 2026-09-24: your citations of checker/ went stale
+
+*Added by the coordinator.* checker/ re-graded R_S at N = 32 after you
+finished (8d66d09, 3dc0a74; its RESULTS lines 1 to 3 and s7.7). Two tests in
+`test_ta_checker_citations.py` now fail against `checker/checker_ts_cells.json`
+(`test_n_minus_of_R_S_below_band`: c = 2.2 reads 4, 4, 0, not 4, 4, 3;
+`test_N8_refinement`: `refinement_response["32"]` is no longer None), and
+your RESULTS line 5 and line 589 still quote the old N = 32 counts
+(4, 4, 3 / 4, 9, 20 / 4, 10, 20).
+
+Task: bring your citations of checker/ up to date, in this folder only.
+Read checker/'s RESULTS lines 1 to 3 and s7.7 and its JSON; cite what it now
+says (the N = 8 and 16 counts are unchanged; at N = 32 the count is
+undecided on that route in float64, with the reasons checker/ gives), and
+update the two tests to pin the current checker/ values. Change no
+mathematical statement of your own. Same constraints as the first
+follow-up: no edits to T_S's import closure, no runs beyond the tests, your
+folder only, pathspec commits, no push, no em dashes.
