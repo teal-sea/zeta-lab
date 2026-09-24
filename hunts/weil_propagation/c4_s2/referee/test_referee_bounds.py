@@ -527,17 +527,12 @@ def test_eps_quad_fails_closed_below_the_window_band():
     eps_quad raises ValueError instead of returning a non-finite ball. That is
     fail-closed (no finite number escapes), which this test pins, and off the
     interface (the brief fixed the return type as flint.arb), which REVIEW.md
-    records. The configurations are this folder's plants (80, 150) and
+    records (the raise itself is recorded, not required, so the fix REVIEW.md
+    suggests keeps this green). The configurations are this folder's plants (80, 150) and
     (80, 200) at N = 32 (2 pi 32 / log 2.9 = 188.8; / log 2.2 = 255.0)."""
     fq = _quad_module().eps_quad
     for c, S in ((2.9, 150.0), (2.2, 150.0), (2.2, 200.0)):
         assert _no_finite_ball(fq, c, 32, 80, S, 10), (c, S)
-    raised = False
-    try:
-        fq(2.9, 32, 80, 150.0, 10)
-    except ValueError:
-        raised = True
-    assert raised, "eps_quad no longer raises here: update REVIEW.md finding 5"
 
 
 @pytest.mark.parametrize("which", ["trunc", "quad"])
@@ -654,3 +649,24 @@ def test_review_plant_numbers(plants):
     diag = plants["units"]
     assert diag["base_80_200"]["diag"]["cond_Fz"] == pytest.approx(6.7e11, rel=1e-2)
     assert diag["base_80_150"]["diag"]["cond_Fz"] == pytest.approx(3.84e14, rel=1e-2)
+
+
+def test_the_floor_count_by_a_float64_route():
+    """REVIEW.md s1 (assembler/'s floor). n_-(Q - kappa T_inf) in float64, with
+    T_inf by kernel/'s moments route (ta_ts.KernelProvider) instead of the
+    assembler's sonin.T_inf_matrix, and numpy eigvalsh instead of exact
+    inertia: 0, 1, 2 negative eigenvalues at c = 2.2, 2.5, 2.9 for N = 8, 16
+    and 32, the two at c = 2.9 near -1.0e-4 and -1.7e-5. Measured; it agrees
+    with the assembler's exact count (90b73e0)."""
+    sys.path.insert(0, RL.CHECKER)
+    import checker_q as CQ
+    import run_checker_ts as RT
+    kap = 17 - 12 * math.sqrt(2)
+    for N in (8, 16, 32):
+        for c, want in zip(RL.CELLS, (0, 1, 2)):
+            Q = RT.to_np(CQ.Q_matrix(c, N, 40)).real
+            w = np.linalg.eigvalsh(Q - kap * RL.T_inf(c, N))
+            assert int((w < 0).sum()) == want, (c, N, w[:3])
+            if want == 2:
+                assert w[0] == pytest.approx(-1.0e-4, rel=5e-2) and w[1] == pytest.approx(-1.65e-5, rel=5e-2)
+            assert w[want] > 1e-4  # the first nonnegative eigenvalue is well clear of 0

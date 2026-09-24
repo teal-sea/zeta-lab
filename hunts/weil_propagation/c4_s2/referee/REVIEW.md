@@ -84,6 +84,7 @@ assumption.
 | rule (c), outcome 2's chain | pass | U_32 ≤ L_16 ≤ n(16) ≤ n(32) ≤ U_32 |
 | outcome 1's test L*_32 > L*_16 | **pass for what it claims, limitation of wording** | finding 8 |
 | floor F_N = n_−(Q − κ_lo T_∞ + ηI) | pass | valid lower bound given Lemma 3, T_∞ ≥ 0 and η covering the stated input sizes |
+| the floor counts (0, 1, 2 at c = 2.2, 2.5, 2.9; the same at N = 8, 16, 32) | **pass, reproduced** | float64 eigenvalues of Q − κT_∞ with T_∞ by kernel/'s moments route (not the assembler's `sonin.T_inf_matrix`) give the same counts on all nine cells, the two at c = 2.9 near −1.0e−4 and −1.7e−5 (`test_the_floor_count_by_a_float64_route`; measured, a second route beside the assembler's exact one) |
 | outcome 4 on every cell | **pass** | both folders' eps_upper are null on all 33 builds; the rule's first branch |
 
 ## 2. Findings, in the order they were sent to the coordinator
@@ -160,7 +161,8 @@ change that keeps the modes) and W2 (s7b's width).
 | s7b width 2 against stored width 1 | pass | 4.8e−13 |
 | JSON entries cover every stored build (both folders) | **pass** | 33 entries each, keyed by S_exact, Kmax = kmax_for(nvec), nulls with reasons |
 | eps_upper ≥ the ball's upper end (both) | **skip** | every entry is null |
-| eps_quad fails closed below the window band | pass | finding 5 |
+| eps_quad fails closed below the window band | pass | finding 5 (no finite ball; the raise is recorded, not required) |
+| the floor count by a float64 route | pass | s1, assembler/ |
 | null entries match the functions (both) | **pass** | every null entry has a non-finite ball or a raise |
 | closing pieces E6, E7 against the plants | pass | s1 |
 | window_hat is real | pass | finding 7 |
