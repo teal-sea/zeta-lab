@@ -146,8 +146,11 @@ so ρ_Q ≥ 0 and (1/2π) ∫ ρ_Q = Tr Q = rank Q; (ii) Σ_{n ∈ ℤ} |V̂_n(s
   `solve_triangular(trans="C")`, sum of squares). A fact about provenance
   (checker/'s guard), not re-derived here.
 - **A5.** The computed leverages w_s ρ̃(s)/2π sum to at most nvec + 2 over
-  the s rows. Measured 78.99 at (80, 1200) (`bound_quad_gram.json`);
-  implied by Prop 5 wherever E6 closes; assumed at N = 32.
+  the s rows. For the exact discretized ρ the sum is
+  Tr(G_S^{−1}(G_S − T)) = nvec − Tr(G_S^{−1}T) ≤ nvec, T the two tail
+  rows' (positive semidefinite) part, so only the float error of ρ̃ is
+  assumed: implied by Prop 5 wherever E6 closes, assumed at N = 32.
+  Measured 78.99 at (80, 1200) (`bound_quad_gram.json`).
 - **A6.** numpy's LAPACK Householder QR and SVD are backward stable with
   ‖ΔF e_j‖₂ ≤ γ_{32 m n} ‖F e_j‖₂ (Higham, *Accuracy and Stability*, 2nd
   ed., Thm 19.4, whose constant is unspecified; 32 is fixed here and is an
@@ -252,6 +255,15 @@ alone moves by the probe ‖M_∞(G_S) − M_∞(I)‖ (`bound_quad_gram.json`:
 from 1200 to 2400 at 80 modes) because the discretizations of Q_∞ and Q_S
 partly cancel; nothing available here bounds that cancellation. Uses A1,
 A2, A6.
+
+**The ζ half is measurable, the b half is not.** For Q_∞ the exact Gram is
+I (A2), so D_c's ζ part on the grid is Σ_s w_s Σ_n |ζ̂_n(s)|² V̂V̂*/2π:
+no inverse and no pencil. Its E2 share is the probe above, a float64
+quantity; two_adic/ records its largest entry at (200, 2400), N = 32 as
+8.16e−3 / 7.55e−3 / 8.18e−3 (c = 2.2 / 2.5 / 2.9, `ta_ts_prolate.json`),
+and 8.18e−3 is checker/'s N = 32 band at c = 2.9. What has no handle is
+the b half (G_b,exact is not known on the grid; its s-side tails carry
+energy of order Σ_n A_n²/(πS)) and the cancellation between the halves.
 
 **Status of E2 (ALIGNMENT s5): unresolved, not obstructed.** Prop 3 is a
 statement about one route (a perturbation bound through the Gram pencil),

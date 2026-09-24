@@ -43,6 +43,8 @@ the interface keys `c, N, nvec, S, Kmax, eps_upper, grade, assumptions` and:
 
 - `eps_upper`: **null on every entry**; `why`: the E2 reason with this
   build's lower bound on ‖X‖;
+- `blocking_step`: the step that does not close (E2), read by
+  assembler/'s loader;
 - `parts_upper`: per source, a decimal string at or above the arb upper end,
   or null; `parts_reasons`: why each null source does not close;
   `parts_assumptions`: which numbered assumptions each piece uses;

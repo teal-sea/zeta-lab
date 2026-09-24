@@ -325,6 +325,8 @@ def build_json() -> list[dict]:
                 "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are "
                          "ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
                 "why": reasons["E2"],
+                "blocking_step": "E2: the projection taken in the inner product truncated to [-S, S] "
+                                 "(DERIVATION s2.3, Prop 3); unresolved, closing route not run by allocation",
                 "assumptions": sorted({a for k in ("E1", "E6", "E7") for a in ASSUMPTIONS[k]}),
                 "parts_upper": {k: (None if v is None else upper_str(v)) for k, v in parts.items()},
                 "parts_reasons": {k: reasons[k] for k in reasons if parts.get(k) is None},

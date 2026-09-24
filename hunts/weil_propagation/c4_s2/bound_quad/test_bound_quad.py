@@ -198,6 +198,19 @@ def test_E2_measured_size_at_N32_two_adic_A4():
     assert abs(band - 8.18e-3) < 1e-5
 
 
+def test_zeta_half_probe_is_the_N32_band():
+    """s2.3: two_adic/'s probe (largest entry of M_inf(G_S) - M_inf(I)) at (200, 2400), N = 32 is
+    8.16e-3 / 7.55e-3 / 8.18e-3; checker/'s N = 32 band at c = 2.9 is 8.18e-3."""
+    with open(os.path.join(TWO_ADIC, "ta_ts_prolate.json")) as fh:
+        rows = json.load(fh)["rows"]
+    p = {r["c"]: r["gram_sensitivity"] for r in rows if (r["nvec"], r["S"], r["N"]) == (200, 2400.0, 32)}
+    for c, v in (("2.2", 8.16e-3), ("2.5", 7.55e-3), ("2.9", 8.18e-3)):
+        assert abs(p[c] - v) < 0.005e-3
+    with open(os.path.join(C4S2, "checker", "checker_inertia.json")) as fh:
+        band = json.load(fh)["builds"]["200|2400|32"]["band"]
+    assert abs(band - p["2.9"]) < 1e-12
+
+
 def test_E1_against_checker_bands(js):
     """E1 alone is 0.70 x band at N = 8 and 1.13 to 1.78 x band on the N = 32 builds (c = 2.9)."""
     with open(os.path.join(C4S2, "checker", "checker_inertia.json")) as fh:
@@ -319,7 +332,7 @@ def test_E7_values(js):
     e7 = {(r["c"], r["N"], r["nvec"]): _f(r["parts_upper"]["E7"]) for r in js}
     assert abs(e7[("2.9", 8, 80)] - 3.282e-8) < 1e-10
     assert abs(e7[("2.9", 32, 364)] - 1.160e-6) < 1e-8
-    assert max(e7.values()) <= 3.5e-6
+    assert abs(max(e7.values()) - 3.405e-6) < 1e-9  # RESULTS: E7 <= 3.41e-6
 
 
 def test_no_s_node_sits_on_a_window_frequency():
