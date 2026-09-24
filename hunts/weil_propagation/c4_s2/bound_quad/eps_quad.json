@@ -1,0 +1,2096 @@
+[
+ {
+  "c": "2.2",
+  "N": 8,
+  "nvec": 80,
+  "S": 1200.0,
+  "Kmax": 10,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "5.077e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.048e-04",
+   "E7": "1.936e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "7.034e+01",
+  "s_nodes": 19200
+ },
+ {
+  "c": "2.5",
+  "N": 8,
+  "nvec": 80,
+  "S": 1200.0,
+  "Kmax": 10,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "4.333e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.380e-04",
+   "E7": "2.228e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "7.034e+01",
+  "s_nodes": 19200
+ },
+ {
+  "c": "2.9",
+  "N": 8,
+  "nvec": 80,
+  "S": 1200.0,
+  "Kmax": 10,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "3.703e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.766e-04",
+   "E7": "3.282e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "7.034e+01",
+  "s_nodes": 19200
+ },
+ {
+  "c": "2.2",
+  "N": 16,
+  "nvec": 80,
+  "S": 1200.0,
+  "Kmax": 10,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.045e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.048e-04",
+   "E7": "3.816e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "7.034e+01",
+  "s_nodes": 19200
+ },
+ {
+  "c": "2.5",
+  "N": 16,
+  "nvec": 80,
+  "S": 1200.0,
+  "Kmax": 10,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "8.836e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.380e-04",
+   "E7": "4.328e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "7.034e+01",
+  "s_nodes": 19200
+ },
+ {
+  "c": "2.9",
+  "N": 16,
+  "nvec": 80,
+  "S": 1200.0,
+  "Kmax": 10,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "7.496e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.766e-04",
+   "E7": "6.374e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 7.034e+01 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "7.034e+01",
+  "s_nodes": 19200
+ },
+ {
+  "c": "2.2",
+  "N": 16,
+  "nvec": 80,
+  "S": 1600.0,
+  "Kmax": 10,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 8.883e+00 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "5.700e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "8.898e-05",
+   "E7": "5.044e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 8.883e+00 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "8.883e+00",
+  "s_nodes": 25600
+ },
+ {
+  "c": "2.5",
+  "N": 16,
+  "nvec": 80,
+  "S": 1600.0,
+  "Kmax": 10,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 8.883e+00 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "4.845e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "1.035e-04",
+   "E7": "5.758e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 8.883e+00 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "8.883e+00",
+  "s_nodes": 25600
+ },
+ {
+  "c": "2.9",
+  "N": 16,
+  "nvec": 80,
+  "S": 1600.0,
+  "Kmax": 10,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 8.883e+00 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "4.126e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "1.202e-04",
+   "E7": "8.039e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 8.883e+00 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "8.883e+00",
+  "s_nodes": 25600
+ },
+ {
+  "c": "2.2",
+  "N": 16,
+  "nvec": 120,
+  "S": 1200.0,
+  "Kmax": 12,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 3.914e+06 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.567e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.358e-01",
+   "E7": "5.677e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 3.914e+06 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "3.914e+06",
+  "s_nodes": 19200
+ },
+ {
+  "c": "2.5",
+  "N": 16,
+  "nvec": 120,
+  "S": 1200.0,
+  "Kmax": 12,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 3.914e+06 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.326e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.740e-01",
+   "E7": "6.439e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 3.914e+06 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "3.914e+06",
+  "s_nodes": 19200
+ },
+ {
+  "c": "2.9",
+  "N": 16,
+  "nvec": 120,
+  "S": 1200.0,
+  "Kmax": 12,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 3.914e+06 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.125e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "3.184e-01",
+   "E7": "9.483e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 3.914e+06 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "3.914e+06",
+  "s_nodes": 19200
+ },
+ {
+  "c": "2.2",
+  "N": 16,
+  "nvec": 120,
+  "S": 1600.0,
+  "Kmax": 12,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.684e+04 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "8.550e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.324e-02",
+   "E7": "7.504e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.684e+04 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "1.684e+04",
+  "s_nodes": 25600
+ },
+ {
+  "c": "2.5",
+  "N": 16,
+  "nvec": 120,
+  "S": 1600.0,
+  "Kmax": 12,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.684e+04 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "7.267e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "2.701e-02",
+   "E7": "8.566e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.684e+04 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "1.684e+04",
+  "s_nodes": 25600
+ },
+ {
+  "c": "2.9",
+  "N": 16,
+  "nvec": 120,
+  "S": 1600.0,
+  "Kmax": 12,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.684e+04 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "6.188e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "3.139e-02",
+   "E7": "1.196e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.684e+04 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "1.684e+04",
+  "s_nodes": 25600
+ },
+ {
+  "c": "2.2",
+  "N": 16,
+  "nvec": 160,
+  "S": 1600.0,
+  "Kmax": 12,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 6.096e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.140e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "3.005e+01",
+   "E7": "9.964e-08"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 6.096e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "6.096e+09",
+  "s_nodes": 25600
+ },
+ {
+  "c": "2.5",
+  "N": 16,
+  "nvec": 160,
+  "S": 1600.0,
+  "Kmax": 12,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 6.096e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "9.689e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "3.492e+01",
+   "E7": "1.138e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 6.096e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "6.096e+09",
+  "s_nodes": 25600
+ },
+ {
+  "c": "2.9",
+  "N": 16,
+  "nvec": 160,
+  "S": 1600.0,
+  "Kmax": 12,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 6.096e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "8.251e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": "4.057e+01",
+   "E7": "1.589e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 6.096e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "6.096e+09",
+  "s_nodes": 25600
+ },
+ {
+  "c": "2.2",
+  "N": 32,
+  "nvec": 200,
+  "S": 2400.0,
+  "Kmax": 13,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.483e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.284e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "3.740e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.483e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 8.71e+05, cond(F_b) = 6.23e+04 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "1.483e+10",
+  "s_nodes": 38400
+ },
+ {
+  "c": "2.5",
+  "N": 32,
+  "nvec": 200,
+  "S": 2400.0,
+  "Kmax": 13,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.483e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.087e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "4.185e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.483e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 8.71e+05, cond(F_b) = 6.23e+04 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "1.483e+10",
+  "s_nodes": 38400
+ },
+ {
+  "c": "2.9",
+  "N": 32,
+  "nvec": 200,
+  "S": 2400.0,
+  "Kmax": 13,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.483e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "9.216e-03",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "5.520e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 1.483e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 8.71e+05, cond(F_b) = 6.23e+04 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "1.483e+10",
+  "s_nodes": 38400
+ },
+ {
+  "c": "2.2",
+  "N": 32,
+  "nvec": 240,
+  "S": 2400.0,
+  "Kmax": 14,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.416e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.541e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "4.481e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.416e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 1.14e+09, cond(F_b) = 2.21e+06 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "9.416e+10",
+  "s_nodes": 38400
+ },
+ {
+  "c": "2.5",
+  "N": 32,
+  "nvec": 240,
+  "S": 2400.0,
+  "Kmax": 14,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.416e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.304e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "5.013e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.416e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 1.14e+09, cond(F_b) = 2.21e+06 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "9.416e+10",
+  "s_nodes": 38400
+ },
+ {
+  "c": "2.9",
+  "N": 32,
+  "nvec": 240,
+  "S": 2400.0,
+  "Kmax": 14,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.416e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.106e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "6.613e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.416e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 1.14e+09, cond(F_b) = 2.21e+06 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "9.416e+10",
+  "s_nodes": 38400
+ },
+ {
+  "c": "2.2",
+  "N": 32,
+  "nvec": 280,
+  "S": 2266.1020257693895,
+  "Kmax": 14,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 4.642e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "2.031e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "5.853e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 4.642e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 1.9e+13, cond(F_b) = 4.14e+08 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "4.642e+10",
+  "s_nodes": 36256
+ },
+ {
+  "c": "2.5",
+  "N": 32,
+  "nvec": 280,
+  "S": 2266.1020257693895,
+  "Kmax": 14,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 4.642e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.717e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "3.405e-06"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 4.642e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 1.9e+13, cond(F_b) = 4.14e+08 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "4.642e+10",
+  "s_nodes": 36256
+ },
+ {
+  "c": "2.9",
+  "N": 32,
+  "nvec": 280,
+  "S": 2266.1020257693895,
+  "Kmax": 14,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 4.642e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.455e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "7.533e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 4.642e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 1.9e+13, cond(F_b) = 4.14e+08 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "4.642e+10",
+  "s_nodes": 36256
+ },
+ {
+  "c": "2.2",
+  "N": 32,
+  "nvec": 319,
+  "S": 2633.163333456407,
+  "Kmax": 14,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 2.081e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.684e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "7.362e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 2.081e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 2.09e+13, cond(F_b) = 4.37e+09 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "2.081e+10",
+  "s_nodes": 42128
+ },
+ {
+  "c": "2.5",
+  "N": 32,
+  "nvec": 319,
+  "S": 2633.163333456407,
+  "Kmax": 14,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 2.081e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.427e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "2.406e-06"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 2.081e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 2.09e+13, cond(F_b) = 4.37e+09 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "2.081e+10",
+  "s_nodes": 42128
+ },
+ {
+  "c": "2.9",
+  "N": 32,
+  "nvec": 319,
+  "S": 2633.163333456407,
+  "Kmax": 14,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 2.081e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.213e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "8.875e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 2.081e+10 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 2.09e+13, cond(F_b) = 4.37e+09 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "2.081e+10",
+  "s_nodes": 42128
+ },
+ {
+  "c": "2.2",
+  "N": 32,
+  "nvec": 364,
+  "S": 3060.0807085398565,
+  "Kmax": 15,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.237e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.401e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "9.003e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.237e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 2.06e+13, cond(F_b) = 7.66e+10 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "9.237e+09",
+  "s_nodes": 48960
+ },
+ {
+  "c": "2.5",
+  "N": 32,
+  "nvec": 364,
+  "S": 3060.0807085398565,
+  "Kmax": 15,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.237e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.190e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "9.670e-07"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.237e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 2.06e+13, cond(F_b) = 7.66e+10 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "9.237e+09",
+  "s_nodes": 48960
+ },
+ {
+  "c": "2.9",
+  "N": 32,
+  "nvec": 364,
+  "S": 3060.0807085398565,
+  "Kmax": 15,
+  "eps_upper": null,
+  "grade": "no bound (outcome 4 for this folder): E2 does not close; the pieces below are ordinary arguments with arb arithmetic, unreviewed, under the listed assumptions",
+  "why": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.237e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+  "assumptions": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9"
+  ],
+  "parts_upper": {
+   "E1": "1.013e-02",
+   "E2": null,
+   "E3": null,
+   "E4": null,
+   "E5": null,
+   "E6": null,
+   "E7": "1.160e-06"
+  },
+  "parts_reasons": {
+   "E2": "no bound: the stored projection is taken in the inner product truncated to [-S, S]; a perturbation bound through the Gram needs ||G_S^{-1} G_exact - I|| < 1, and the recorded diagnostics give it >= 9.237e+09 on this build (DERIVATION s2.3, Prop 3); only a recomputation with the exact Gram closes it (s2.8), not run",
+   "E3": "not bounded in the box: Gauss panels in w need Bernstein-ellipse bounds evaluated per panel and a propagation through the discretized projection (s2.4, s2.7)",
+   "E4": "not bounded in the box: the 1/w series is truncated at 14 derivatives and 25 terms with no remainder bound in the code (s2.4)",
+   "E5": "not bounded in the box: needs eigenvector residuals of kernel/'s Slepian solve (s2.4)",
+   "E6": "no bound: 2 eta + eta^2 >= 1 at cond(F_z) = 2.06e+13, cond(F_b) = 7.66e+10 (s2.5, Prop 5)"
+  },
+  "parts_assumptions": {
+   "E1": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "E2": [
+    "A1",
+    "A2",
+    "A6"
+   ],
+   "E6": [
+    "A1",
+    "A4",
+    "A6",
+    "A7"
+   ],
+   "E7": [
+    "A1",
+    "A5",
+    "A7",
+    "A8",
+    "A9"
+   ]
+  },
+  "e2_obstruction_lower": "9.237e+09",
+  "s_nodes": 48960
+ }
+]
