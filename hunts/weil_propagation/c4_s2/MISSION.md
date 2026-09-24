@@ -158,3 +158,21 @@ diagnoses and replaces that step with a stable route and pins it; modal/
 reruns the checker/ units under the new T_S digest; checker/ merges and
 re-grades the count. `modal/out/` stays as the record of the old route.
 Everything above still holds.
+
+## Follow-up, 2026-09-24 (evening): an error bound on ΔT
+
+*Added by the coordinator.* The operator approved replacing ΔT's response
+band with a proven bound ε ≥ ‖ΔT_exact − ΔT_stored‖ (spectral norm on the
+(2N+1)-dimensional space), carried by python-flint arb enclosures, and
+re-counting the negatives of the stored R_S below −ε by exact inertia at
+c = 2.9 (and 2.5, 2.2). Four new folders, each with its own `BRIEF.md`:
+`bound_trunc/` (the prolate-mode truncation tail), `bound_quad/` (the s
+cutoff, the w quadrature, the Gram step and float64 rounding),
+`assembler/` (combines them, recounts, writes `delta_t_bound/RESULTS.md`)
+and `referee/` (independent falsification tests written before it reads
+the others' code, and review of each derivation). Modal cap 25 USD for this
+follow-up, kept also under 25 USD cumulative (1.31 USD spent before it).
+The operator's grading ruling of the exact-inertia step holds: C4 fixes no
+rank bound, so no finite N refutes bounded rank; a growing count below −ε is
+evidence against it on this construction and rules out any remainder of
+rank below the count. Everything above still holds.
