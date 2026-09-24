@@ -157,3 +157,54 @@ that raises a timeout.
   batch's launch time recorded in it.
 - Every unit is in `out/` or recorded as timed out; total spend at or under
   25 USD; nothing of yours left running on Modal.
+
+## Follow-up 2, 2026-09-24: rebuild every checker/ unit under the fixed rho
+
+*Added by the coordinator.* MISSION.md follow-up 2. two_adic/ replaced the
+explicit inverse in `ta_mellin.rho` by a QR of the Gram factor (c3dca00,
+eea7eab; its RESULTS s10). T_S's input digest moved from 1dcab230 to
+**b2e7787bce7a**, so checker/'s guard now refuses every old snapshot row.
+Everything above in this brief still applies unless changed here.
+
+**What changes.**
+- Tree: a clean standalone clone at the current HEAD of
+  `teal-sea/weil-c4-s2` (at or after eea7eab), not 284eff6. The guard in
+  the container must report digest b2e7787bce7a... and an empty dirty list,
+  equal to the local call. If it does not, stop there.
+- Outputs go to **`modal/out_rho/`**. Do not edit or delete `modal/out/` or
+  its pins: it is the record of the old route. Pin the new outputs in a new
+  test file; extend `RUNS.md` with new sections, never rewrite the old ones.
+- **Do not compute any eigenvalue of T_S or R_S.** checker/ commits its
+  criterion reading before any eigenvalue is seen, as in ee4a1ff. Raw rows,
+  diagnostics already in `diag` (cond_Fz, cond_Fb), times and costs only.
+
+**Units (batch 1): all eleven checker/ units, one Modal call each, all three
+cells per call, built exactly as `run_checker_ts.build_unit` builds them
+(including dps (40, 60) at N = 8, as `snapshot()` does):**
+the seven of `run_checker_ts.UNITS` ((80, 1200, 8), (120, 1600, 16),
+(200, 2400, 32), (80, 1600, 16), (120, 1200, 16), (80, 1200, 16),
+(160, 1600, 16)) and the four N = 32 units of the first follow-up
+((240, 2400), (280, 2266.10), (319, 2633.16), (364, 3060.08), S as passed
+then). The N = 8 and 16 units are needed because the guard now refuses
+their old rows; they are cheap.
+
+**Calibration, threshold fixed now:** build (80, 1200, 8) locally with the
+new code (seconds to a minute) and on Modal, and compare: max abs difference
+at most **1e−10**. two_adic/'s A3 measured the platform-type drift under the
+new route at 3e−12; if the calibration misses 1e−10, stop and ask.
+
+**Estimate before launch, in RUNS.md:** two_adic/ s10.5 estimates the five
+N = 32 units at about 4980 s wall and 0.45 USD; add the N = 8 and 16 units
+from their old wall times. Set per-unit timeouts well above the old unit
+times (the 364-mode unit took 1784 s; give it at least 3x). Worst case at the
+timeouts must fit the remaining cap: **25 − 0.741 = 24.26 USD** for both
+batches together.
+
+**Batch 2 is not yours to decide.** If checker/ finds the falsifier fails at
+319 or 364 modes by about 1e−2, the coordinator will send the default-rule
+rows at S/nvec² = 0.04 (two_adic/ s10.5, about 0.59 USD). Do not run them
+unless asked.
+
+Close-out as before: stop only your own app, record the billed cost from
+`modal billing report --for today -r h --tz local --json`, commit with
+pathspecs, no push. Ownership this time: `modal/` only.
