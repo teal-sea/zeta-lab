@@ -1,7 +1,7 @@
 # RESULTS: checker/ (independent verification and kill-controls)
 
 1. **T_S was built and R_S = Q - T_S is measured on all nine cells; C4's prediction is not decided** (two_adic/ 8dc8525, float64). T_S removes the depth of Q - T_inf (lambda_min -0.30 to -0.49 becomes -0.026 / -0.039 / -0.12 at c = 2.2 / 2.5 / 2.9) but not provably the count. Grade: measured, weakest step Delta_T.
-2. **The N = 32 door (s7.6) ran on a cloud container (s7.7): the 200-mode N = 32 row is not converged.** 200 -> 240 modes moves T_S by **3.9e-2 / 2.4e-2 / 3.2e-2**, 2.5 to 8.5 times the N = 16 proxy s7.3 used, and 1.8e-2 to 2.7e-2 of it on |n| <= 16. Kmax 13 -> 14 accounts for at most 1.9e-7 of it; the whole step is the mode count. Grade: measured.
+2. **The N = 32 door (s7.6) ran on a cloud container (s7.7): the 200-mode N = 32 row is not converged.** 200 -> 240 modes moves T_S by **3.9e-2 / 2.4e-2 / 3.2e-2**, 2.5 / 4.5 / 8.6 times the N = 16 proxy s7.3 used, and 1.8e-2 to 2.7e-2 of it on |n| <= 16. Kmax 13 -> 14 accounts for at most 1.9e-7 of it; the whole step is the mode count. Grade: measured.
 3. **Counts at N = 32 are not stable under refinement.** Below the s7.3 band, n_-(R_S) goes 3 -> 9, 20 -> 19, 20 -> 23 (200 -> 240 modes). At the band that carries the real response, 0 -> 0, 2 -> 5, 2 -> 4, with 49 to 59 of 65 eigenvalues undecided. Only the two deepest negatives at 2.5 (-0.039, -0.026) and 2.9 (-0.12, -0.045) clear it in both builds. **P5 (bounded n_-) is not decided; the growth reported in s7.3 is not established.** Grade: measured.
 4. **Kill-controls:** 1 passes; 2 passes; 3 not exercised (Gamma_C framework limit); 4, the lesion, refused twice (s7.4). The phase 3 units reproduce across machines to 2.3e-7 and two_adic/'s prolate sweep to 1.4e-7 (s7.1, s7.7).
 5. **Q** matches the CCM Galerkin matrix to 5.5e-40 and Q > 0 on every cell (phase 1). ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2}; product-side C4 **refuted** on these cells (with cutoff/). Next: N = 32 at two_adic/'s own mode rule (280 to 364 modes), measured one-unit cost 22 min at 240.
@@ -501,7 +501,7 @@ barely outside a band that indicates and does not bound. The two checks do
 not separate growth from truncation. **The growth in n_-(R_S) is measured
 and confounded with mode truncation**; it is not read as an unbounded
 index. The door in s7.6 (more modes at N = 32, on CI) is what would
-separate them.
+separate them. (Run 2026-09-24, s7.7: it did not separate them.)
 
 ### 7.4 Kill-control 4 (lesion, optional, labelled as such)
 
@@ -577,11 +577,11 @@ stopped at 16 min), and `run_checker_kmax.py`, the 200-mode row at Kmax 14,
 N = 32. The new numbers are under `door_N32_200_vs_240` in
 `checker_ts_cells.json` and in `checker_kmax.json`.
 
-| c | \|\|T_S(240) - T_S(200)\|\|_2 | on \|n\| <= 16 | N = 16 proxy | Kmax 13 -> 14 at 200 modes | n_- at s7.3 band, 200 -> 240 | n_- at real band, 200 -> 240 |
-|---|---|---|---|---|---|---|
-| 2.2 | 3.9e-02 | 1.8e-02 | 1.59e-02 | 1.7e-07 | 3 -> 9 | 0 -> 0 |
-| 2.5 | 2.4e-02 | 2.3e-02 | 5.24e-03 | 1.6e-07 | 20 -> 19 | 2 -> 5 |
-| 2.9 | 3.2e-02 | 2.7e-02 | 3.69e-03 | 1.9e-07 | 20 -> 23 | 2 -> 4 |
+| c | \|\|T_S(240) - T_S(200)\|\|_2 | on \|n\| <= 16 | N = 16 proxy | ratio | Kmax 13 -> 14 at 200 modes | n_- at s7.3 band, 200 -> 240 | n_- at real band, 200 -> 240 | undecided at real band, 200 -> 240 |
+|---|---|---|---|---|---|---|---|---|
+| 2.2 | 3.9e-02 | 1.8e-02 | 1.59e-02 | 2.5 | 1.7e-07 | 3 -> 9 | 0 -> 0 | 59 -> 59 |
+| 2.5 | 2.4e-02 | 2.3e-02 | 5.24e-03 | 4.5 | 1.6e-07 | 20 -> 19 | 2 -> 5 | 53 -> 49 |
+| 2.9 | 3.2e-02 | 2.7e-02 | 3.69e-03 | 8.6 | 1.9e-07 | 20 -> 23 | 2 -> 4 | 52 -> 50 |
 
 "Real band" is max(probe, the 200 -> 240 response, the quadrature response),
 which here is the 200 -> 240 response itself.

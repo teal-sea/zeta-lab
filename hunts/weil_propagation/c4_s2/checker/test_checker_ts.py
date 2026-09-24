@@ -581,3 +581,30 @@ def test_cloud_run_seconds_and_prolate_rerun():
         d = max([d, abs(a["gram_sensitivity"] - b["gram_sensitivity"])]
                 + [abs(x - y) for x, y in zip(a["T_S_eig_low3"] + a["resid_top8"], b["T_S_eig_low3"] + b["resid_top8"])])
     assert "%.1e" % d == "1.4e-07"
+
+
+def test_results_door_table_matches_json():
+    """Every cell of the RESULTS s7.7 table is the JSON value at the printed format."""
+    J = _cells()["cells"]
+    path = os.path.join(HERE, "checker_kmax.json")
+    if not os.path.exists(path):
+        pytest.skip("checker_kmax.json absent")
+    with open(path) as fh:
+        K = json.load(fh)["cells"]
+    with open(os.path.join(HERE, "RESULTS.md")) as fh:
+        text = fh.read()
+    rows = [r for r in _table(text, "### 7.7", "What this decides") if r[0] in CELLS]
+    assert [r[0] for r in rows] == CELLS
+    e = lambda x: "%.1e" % x  # noqa: E731
+    for r in rows:
+        c = r[0]
+        d = J[c]["door_N32_200_vs_240"]
+        a, b = d["200"], d["240"]
+        want = [c, e(d["weyl_response"]), e(d["weyl_response_central_N16"]),
+                "%.2e" % J[c]["32"]["refinement_proxy"],
+                "%.1f" % (d["weyl_response"] / J[c]["32"]["refinement_proxy"]),
+                e(K[c]["kmax_response"]["full"]),
+                f"{a['band_s73']['n_minus']} -> {b['band_s73']['n_minus']}",
+                f"{a['band_real']['n_minus']} -> {b['band_real']['n_minus']}",
+                f"{a['band_real']['n_undecided']} -> {b['band_real']['n_undecided']}"]
+        assert r == want, (r, want)

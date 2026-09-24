@@ -81,7 +81,7 @@
    }
   },
   "probe_commit": "015895f",
-  "band_rule": "band(c, N) = max(two_adic/'s Gram probe for the delivered row, the refinement response ||T_S(more modes) - T_S(row)||_2, the quadrature response ||T_S(120, 1600) - T_S(120, 1200)||_2 at N = 16). Refinement: N = 8 row (80, 1200) against the central block of (160, 1600, 16); N = 16 row (120, 1600) against (160, 1600); N = 32 row: its own refinement (240, 2400) is a CI proposal, the N = 16 refinement response of the same cell is carried as a stated proxy. Weyl: no eigenvalue of R_S moves more than ||dT||_2 between the two builds. A refinement response indicates, it does not bound, the truncation error. band_cell(c) = max over N, used only where one threshold is needed across N (the monotonicity check).",
+  "band_rule": "band(c, N) = max(two_adic/'s Gram probe for the delivered row, the refinement response ||T_S(more modes) - T_S(row)||_2, the quadrature response ||T_S(120, 1600) - T_S(120, 1200)||_2 at N = 16). Refinement: N = 8 row (80, 1200) against the central block of (160, 1600, 16); N = 16 row (120, 1600) against (160, 1600); N = 32 row: the N = 16 refinement response of the same cell is carried as a stated proxy (the s7.3 tables); the real (240, 2400) response, built 2026-09-24, is door_N32_200_vs_240 (s7.7). Weyl: no eigenvalue of R_S moves more than ||dT||_2 between the two builds. A refinement response indicates, it does not bound, the truncation error. band_cell(c) = max over N, used only where one threshold is needed across N (the monotonicity check).",
   "eig_route": "numpy eigvalsh on float64 R = Q - T_S, Q rounded from dps 40; the rounding (1e-16 relative) is 13 orders below the band"
  },
  "cells": {

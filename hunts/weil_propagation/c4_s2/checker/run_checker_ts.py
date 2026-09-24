@@ -65,10 +65,11 @@ UNITS = [  # (nvec, S, N, role)
     # modes (the response of a row to refinement, not of a coarser row)
     (160, 1600, 16, "mode_count_up"),
 ]
-# Not run locally: (240, 2400, 32) at Kmax 14 was stopped at 16 min wall
-# (9.2 min CPU, load average 8 to 9 on the shared laptop), against an estimate
-# of 320 s. It is a CI proposal (RESULTS.md s7). N = 32 carries the N = 16
-# refinement response of the same cell as a stated proxy.
+# (240, 2400, 32) at Kmax 14 was stopped on the laptop at 16 min wall (9.2 min
+# CPU, load average 8 to 9) and proposed for CI (RESULTS.md s7.6). It ran on a
+# cloud container on 2026-09-24 in 1339 s (s7.7). The s7.3 band at N = 32 still
+# carries the N = 16 refinement response of the same cell as a stated proxy;
+# the real response is door_N32_200_vs_240.
 CI_UNITS = [(240, 2400, 32, "mode_count_up")]
 # 2026-09-24: the cloud container stands in for the CI job (operator: no
 # GitHub Actions). CI_UNITS follow UNITS in the index space, so --units 7
@@ -182,9 +183,9 @@ def analyse(snap, probe_commit):
                                   "refinement response ||T_S(more modes) - T_S(row)||_2, the quadrature "
                                   "response ||T_S(120, 1600) - T_S(120, 1200)||_2 at N = 16). Refinement: "
                                   "N = 8 row (80, 1200) against the central block of (160, 1600, 16); "
-                                  "N = 16 row (120, 1600) against (160, 1600); N = 32 row: its own refinement "
-                                  "(240, 2400) is a CI proposal, the N = 16 refinement response of the "
-                                  "same cell is carried as a stated proxy. Weyl: no eigenvalue of R_S moves more than ||dT||_2 between "
+                                  "N = 16 row (120, 1600) against (160, 1600); N = 32 row: the N = 16 refinement response of the "
+                                  "same cell is carried as a stated proxy (the s7.3 tables); the real (240, 2400) "
+                                  "response, built 2026-09-24, is door_N32_200_vs_240 (s7.7). Weyl: no eigenvalue of R_S moves more than ||dT||_2 between "
                                   "the two builds. A refinement response indicates, it does not bound, the "
                                   "truncation error. band_cell(c) = max over N, used only where one threshold "
                                   "is needed across N (the monotonicity check).",
