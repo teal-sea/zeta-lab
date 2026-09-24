@@ -173,3 +173,51 @@ Constraints for this follow-up:
   Commit with pathspecs, your folder only. No push. No em dashes.
 - Run your folder's tests plus `tests/test_hunt_probe_discipline.py` and
   `tests/test_docs_numbering.py` before `worker_done`.
+
+## Follow-up 2, 2026-09-24: rebuild under the fixed rho and re-grade
+
+*Added by the coordinator.* MISSION.md follow-up 2. two_adic/ replaced the
+explicit inverse in `ta_mellin.rho` by a QR of the Gram factor (c3dca00,
+eea7eab; its RESULTS s10: diagnosis, acceptance A1 to A4). T_S's input digest
+moved from 1dcab230 to **b2e7787bce7a**, so your guard refuses every old row
+(one test fails and 22 skip until you rebuild: the guard working). modal/ is
+rebuilding **all eleven** of your units under the new digest into
+`modal/out_rho/` (the seven `UNITS` and the four N = 32 units of s7.7), one
+file per unit, same shape as before, with no eigenvalue computed by anyone.
+Provenance and the calibration (7.1e−15 Modal against local) are in
+`modal/RUNS.md` s7.
+
+**Step 1, before any eigenvalue: commit your reading.** As in ee4a1ff:
+carry the s7.6 criterion and the s7.7 reading over to the new rows, and
+state in writing, before computing anything:
+- the band rule at N = 32 now that four refined rows exist (240, 280, 319,
+  364 modes), and which response replaces "the 240-mode refinement";
+- the P2 test on every N = 32 row (no eigenvalue of T_S below −band(c, 32)).
+  This is the falsifier two_adic/ fixed before the run: still failing by
+  order 10 means the fix did not work; failing by order 1e−2 at 319 or 364
+  means the next constraint is S (two_adic/ s10.5 predicts that case and
+  names batch 2, the default-rule rows at S/nvec² = 0.04);
+- the platform flag, now that the drift under the new route is 3e−12
+  (two_adic/ A3) and not 2.3e−7.
+Say what was visible when you wrote it.
+
+**Step 2, merge and rebuild.** Build a new `checker_ts_snapshot.json` under
+b2e7787bce7a from `modal/out_rho/` (provenance per unit). The old snapshot
+stays citable from git history (3dc0a74); say so where your RESULTS cite
+old numbers. Read `modal/` files; never edit them.
+
+**Step 3, re-grade.** Re-run every analysis that reads T_S (s7.2, s7.3,
+s7.3a, s7.7), at N = 8 and 16 as well as 32, with your existing rules.
+State whether the N = 8 and 16 counts moved (two_adic/ expects changes of
+order 1e−7 at most), apply the step 1 reading at N = 32, and say plainly
+whether the count at c = 2.5 and 2.9 survives, falls or stays undecided.
+Update your first five lines. Pin every new number by a test.
+
+**Step 4, report.** In `worker_done`, say whether the falsifier passed on
+each of 280, 319 and 364, and, if it failed by order 1e−2, ask for batch 2
+rather than running anything. List which keys of `checker_ts_cells.json`
+changed, because two_adic/'s `test_ta_checker_citations.py` pins them.
+
+Constraints: your folder only; no Modal runs and nothing heavy locally;
+pathspec commits, no push, no em dashes; run your folder's tests plus
+`tests/test_hunt_probe_discipline.py` and `tests/test_docs_numbering.py`.
