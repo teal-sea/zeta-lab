@@ -22,6 +22,8 @@ modules are imported by basename after putting this folder on `sys.path`
 | `ta_prolate.ProlateModes(nvec, dps)`, `hats_modes`, `delta_T_cells(pm, cells, N, S)` | kernel/'s prolate modes in float64; ζ̂_n, b̂_n; ΔT per cell | Mellin route, measured grade |
 | `ta_ts.KernelProvider(nvec=None, S=None)` | `T_inf_matrix` (kernel/'s moments JSON) and `delta_T` | the provider `T_S_matrix` uses by default |
 | `ta_gram_probe.run(nvec, S)` | on c = 2.2, N = 8: ΔT, the Gram probe, T_S's lowest eigenvalues, max \|G_z^s − I\| | measurement for RESULTS.md §7b |
+| `ta_gram_probe.merge_modal(out)` | copies modal/out/gram_*.json runs into `out` unchanged, with `source`; adds `modal_calibration` | reads only; idempotent |
+| `ta_gram_probe.band_terms(runs, nvec, S=4800)` | the §7b band's three terms at nvec (`S`, `nvec`, `probe`; None where no run forms one), `band`, `binding`, `complete` | `band` is a lower bound unless `complete` |
 | `ta_hs.hs2_partial(K, alpha=1, dps=30)` | ‖P F_S P‖²_HS over Euler levels j ≤ K | closed form in Si |
 | `ta_local.local_report(K)` | exact local statements at 2 | sympy rationals |
 
@@ -78,7 +80,11 @@ R_S = R_∞ − (ΔT + Wp).
 
 `ta_gram_probe.json`: `c`, `N`, `Q_low` (checker/'s value), and `runs`
 keyed `"nvec,S"` with `nvec`, `S`, `Kmax`, `dT` (the matrix), `dT_probe_maxentry`,
-`dT_probe_norm2`, `TS_low3`, `gz_dev`, `gz_dev_diag_max`, `seconds`.
+`dT_probe_norm2`, `TS_low3`, `gz_dev`, `gz_dev_diag_max`, `seconds`, and
+`source` (`file`, `platform`, `python`; for modal/'s runs also `tree_commit`,
+`blas_core`, `avx512`, `cpu_seconds`, `peak_rss_mib`). `modal_calibration`:
+modal/'s copy of run `80,4800` against the local one (`max_abs_diff_dT`,
+`max_abs_diff_scalars`, `file`, `tree_commit`, `platform`).
 
 ## Consumed (from kernel/, routed 2026-09-23 22:10)
 
