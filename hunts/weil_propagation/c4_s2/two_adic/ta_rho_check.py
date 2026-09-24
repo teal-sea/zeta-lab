@@ -51,7 +51,9 @@ OUT = os.path.join(HERE, "ta_rho_check.json")
 EPS = float(np.finfo(float).eps)
 CELLS = ("2.2", "2.5", "2.9")
 DELIVERED = {(80, 1200.0): (8, 16), (120, 1600.0): (16,), (200, 2400.0): (32,)}
-# band(c, 32): checker/ RESULTS.md s7.7 (the 240-mode refinement response), read-only
+# band(c, 32): checker/ RESULTS.md s7.7 (the 240-mode refinement response), read-only.
+# That is the old-route band (3dc0a74), the one A4's acceptance was written against;
+# checker/ s7.8 regraded the rows under the QR route (RESULTS.md s10.6).
 BAND32 = {"2.2": 3.92e-2, "2.5": 2.37e-2, "2.9": 3.16e-2}
 
 

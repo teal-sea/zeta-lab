@@ -2,7 +2,7 @@
 2. **Main measurement: ΔT cancels the 2-adic atom up to a residual whose large eigenvalues (beyond ±0.1) do not grow with N. ΔT + Wp has 1, 2, 3 ± pairs beyond 0.1 at c = 2.2, 2.5, 2.9, identical at N = 8, 16 and 32 on the delivered truncations (80, 1200), (120, 1600) and (200, 2400) (this said "converged" before checker/'s refinement; which rows are converged, and to what, is in the correction notice), leading values stable to 1e−2 (c = 2.9: +0.48, −0.46, +0.38, −0.32, +0.17, −0.16; the fourth read −0.31 before the rerun of the notice below); the next pairs are near 0.08.** With T_∞ alone the residual is Wp itself, whose multiplicity near ±0.49 grows with N (cutoff/). Grade: measured (ζ̂ hardened, two routes to 9e−14); not a proof of bounded rank. Exact companion: −Wp = log 2 (Gram(θ_S) − 3/2 I) on 2 < c < 4 (hardened against `galerkin.py`, 4.5e−40).
 3. **Structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt (HS² = K/2 + 1.07079 over Euler levels j ≤ K, against 2.23748 archimedean; ordinary argument plus measured partial sums).** Hence ΔT needs Sonin data across the Mellin band: at N = 32, 200 prolate modes were needed; 130 left spurious residual pairs (rechecked under the Kmax rule of the notice below: stands).
 4. **Refuted: theory §7.3 item 2 (exact: time and frequency limiting to Z_2 differ, commute, and meet in 1_{Z_2}), and the literal Π_S of §7.3 has infinite trace on X_S (ordinary argument).** Positive control not exercised: Γ_C data cannot be realized over Q with S = {∞, 2}, since no idele class character of C_S is odd at ∞ and unramified at 2.
-5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved. Line 2 covers only the eigenvalues of ΔT + Wp beyond ±0.1 and cannot see negative eigenvalues of R_S = Q − T_S of size 1e−2, so it is not evidence for bounded rank. checker/ measures those (its RESULTS lines 2 and 3, s7.3a and s7.7): n_−(R_S) below −band is 4, 4 (c = 2.2), 4, 9 (2.5) and 4, 10 (2.9) at N = 8, 16; at c = 2.9 the N = 16 count is 10 at both 120 and 160 modes, its last pair 1.4 to 1.5 times the band, while at 2.2 and 2.5 the N = 16 count falls as modes rise (truncation). At c = 2.9 that measurement runs against bounded rank. At N = 32 the count is undecided on checker/'s route in float64: the 240-mode refinement moves T_S by 3.9e−2, 2.4e−2, 3.2e−2, more than every top-half depth of the 200-mode row, and sets the band; below it the 200 and 240-mode rows count 0, 2, 2 and 0, 5, 4, while the 240-mode row still holds 19 and 23 negatives (2.5, 2.9) at the old band, so the band rose and the negatives did not leave; the 280-mode row at c = 2.9 counts 22 but inverts a Gram matrix of condition 1.1e17, above 1/eps.** Since follow-up 3 (s10) ρ no longer inverts: that condition comes from the cutoff S against nvec², not from the functions; ρ now solves against a QR factorization of the Gram factor, agrees with a 256-bit end-to-end reference to 6.8e−9 where the old inverse is off by 1.6e−2 (cond(G) = 2.6e15), and the 2.3e−7 laptop-to-Modal drift of the N = 32 row is reproduced by a last-bit perturbation of the samples under the old inverse (1.8e−7 to 2.2e−7) and falls to 3e−12 under the new route; measured. Every N = 32 row, and every T_S row checker/ serves, must be rebuilt under the new ρ (s10.5). (Corrected: this line said line 2 points to a bounded remainder; until checker/'s N = 32 re-grade it quoted 3, 20, 20 at N = 32, counts at the earlier proxy band.) Open: R_S and its inertia (checker/'s), ΔT accurate below Q's smallest eigenvalue (not met on c = 2.2, N = 8 at any mode count from 80 to 200 at S = 4800, §7b, measured with Modal's runs: the nvec response falls only to 3.5e−4 per 20 modes at 180 → 200, and from 160 modes the criterion's probe term binds; the 0.36-per-20-modes prediction is refuted; the next test, (200, 9600) and (220, 9600), is estimated there, not run), the N = 32 rows rebuilt under the new ρ (modal/ and checker/; s10.4 states what they should show), and a proof.
+5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved. Line 2 covers only the eigenvalues of ΔT + Wp beyond ±0.1 and cannot see negative eigenvalues of R_S = Q − T_S of size 1e−2, so it is not evidence for bounded rank. checker/ measures those (its RESULTS lines 2 and 3, s7.3a and s7.8): n_−(R_S) below −band is 4, 4 (c = 2.2), 4, 9 (2.5) and 4, 10 (2.9) at N = 8, 16; at c = 2.9 the N = 16 count is 10 at both 120 and 160 modes, its last pair 1.4 to 1.5 times the band, while at 2.2 and 2.5 the N = 16 count falls as modes rise (truncation). At c = 2.9 that measurement runs against bounded rank. At N = 32, on the rows rebuilt under this folder's QR ρ (checker/ s7.8, 3e36fa4, by a reading committed before any rebuilt row was analysed, 49db49f), the count at c = 2.9 is 20 on the delivered row and on the 240, 280 and 319-mode rows and 21 at 364, against 10 at N = 16, at a band the probe sets (8.2e−3) and no refinement moves T_S by more than 4.95e−3: the growth 4, 10, 20 survives there, and checker/ reads its P5 (n_−(R_S) the same at N = 8, 16, 32) as failing at the measured grade on c = 2.9. At 2.5 the refined rows count 6 and 5 against 9 at the band 1.4e−2 that the 319-mode row sets (falls; at the 240-mode row's band, 1.1e−2, they would count 14 and 12, so that verdict rests on the band rule), and at 2.2 every build counts 0 (falls). checker/'s grade: measured, float64, one route; the band indicates, it does not bound.** On the old ρ route (checker/ s7.7, 3dc0a74) the N = 32 count was undecided in float64: the 240-mode refinement moved T_S by 3.9e−2, 2.4e−2, 3.2e−2, more than every top-half depth of the 200-mode row, and set the band; below it the 200 and 240-mode rows counted 0, 2, 2 and 0, 5, 4, while the 240-mode row still held 19 and 23 negatives (2.5, 2.9) at the old band, so the band rose and the negatives did not leave; the 280-mode row at c = 2.9 counted 22 but inverted a Gram matrix of condition 1.1e17, above 1/eps. Since follow-up 3 (s10) ρ no longer inverts: that condition comes from the cutoff S against nvec², not from the functions; ρ now solves against a QR factorization of the Gram factor, agrees with a 256-bit end-to-end reference to 6.8e−9 where the old inverse is off by 1.6e−2 (cond(G) = 2.6e15), and the 2.3e−7 laptop-to-Modal drift of the N = 32 row is reproduced by a last-bit perturbation of the samples under the old inverse (1.8e−7 to 2.2e−7) and falls to 3e−12 under the new route; measured. Every T_S row checker/ serves has since been rebuilt under the new ρ (modal/out_rho, checker/ s7.8): no count at N = 8 or 16 moved, and the falsifier of s10.4 passes on all fifteen N = 32 builds, T_S's lowest eigenvalue between +1.09e−3 and +4.41e−3 (s10.6 checks s10.4's predictions against it). (Corrected: this line said line 2 points to a bounded remainder; until checker/'s first N = 32 re-grade (s7.7) it quoted 3, 20, 20 at N = 32, counts at the earlier proxy band; until follow-up 4 it cited s7.7's old-route reading as the current one.) Open: R_S and its inertia (checker/'s), ΔT accurate below Q's smallest eigenvalue (not met on c = 2.2, N = 8 at any mode count from 80 to 200 at S = 4800, §7b, measured with Modal's runs: the nvec response falls only to 3.5e−4 per 20 modes at 180 → 200, and from 160 modes the criterion's probe term binds; the 0.36-per-20-modes prediction is refuted; the next test, (200, 9600) and (220, 9600), is estimated there, not run), and a proof.
 
 ## Correction notice (2026-09-23, 23:20 and 23:45, and 2026-09-24, 00:30 after checker/'s refinement; reruns under 8dc8525)
 
@@ -58,7 +58,15 @@
   convergence is not measured. (Updated 2026-09-24 after checker/'s s7.7: the
   240-mode unit has since run on Modal and moves T_S by 3.9e−2, 2.4e−2,
   3.2e−2 at c = 2.2, 2.5, 2.9; checker/ reads it as not a clean refinement,
-  T_S's lowest eigenvalue there being −7.3e−3 to −8.9e−3.) Line 2's ±0.1
+  T_S's lowest eigenvalue there being −7.3e−3 to −8.9e−3.) (Updated again
+  2026-09-24 after checker/'s s7.8, 3e36fa4; the s7.7 numbers just above are
+  the old ρ route, citable at 3dc0a74. Rebuilt under the QR ρ, the 240-mode
+  row moves T_S by 2.97e−2, 1.08e−2, 2.3e−3 at c = 2.2, 2.5, 2.9, and T_S's
+  lowest eigenvalue there is +2.03e−3, +1.34e−3, +1.09e−3. checker/ admits
+  every refined row; the largest response, 2.97e−2, 1.41e−2, 4.95e−3 (the
+  240, 319 and 280-mode rows), puts band(c, 32) at 2.97e−2, 1.41e−2 and, at
+  2.9, the probe, 8.18e−3. So **(200, 2400) is converged to 3.0e−2 at
+  c = 2.2 and 1.4e−2 at 2.5, and to within the probe at 2.9**.) Line 2's ±0.1
   counts are measured on the delivered rows only (at N = 16 the (80, 1200) and
   (120, 1600) rows give the same counts); they were not recomputed at 160
   modes.
@@ -366,7 +374,9 @@ Readings (all measured):
   above 0.1 has an N-independent size. Whether R_S has bounded negative index
   depends on how this residual meets R_∞'s spectrum, which is checker/'s
   measurement: n_−(R_S) below −band grows 4 → 10 from N = 8 to 16 at c = 2.9
-  and holds at 10 under 120 → 160 modes (checker/ RESULTS line 2, s7.3a).
+  and holds at 10 under 120 → 160 modes (checker/ RESULTS line 2, s7.3a),
+  and is 20 at N = 32 on the rows rebuilt under the QR ρ (21 at 364 modes;
+  checker/ RESULTS line 3, s7.8).
 
 ## 6. The semilocal time-frequency operator is not Hilbert-Schmidt (`ta_hs.py`)
 
@@ -526,6 +536,8 @@ one route):
   Their kernel sensitivity was not measured; checker/'s 200-mode unit moves by
   at most 3.3e−7 when only the kernels change (`modal/out/`, Sandybridge
   against the calibration unit), 9.5e−4 of the smallest difference used here.
+  That unit, like the runs of this section, is on the old ρ route (checker/
+  s7.7, 3dc0a74); under the QR route the drift is of order 1e−12 (s10.3, A3).
 - **Cost against the estimate.** The estimate below (3 to 10 CPU minutes and
   2 to 5 GB per run, about 40 CPU minutes) was on the laptop's scale. Modal,
   4 vCPU per unit, measured 637 to 1858 CPU seconds and 1281 to 2064 MiB peak
@@ -580,6 +592,7 @@ one route):
 | §10 the condition of ρ's Gram matrices set by the cutoff S; the QR route of ρ against ρ_inv (A1), the platform-drift proxy (A3), T_S at (200, 1200) (A4) | measured (float64, one route) |
 | §10 exact G_z = I, cond(G_b exact) <= 33.97 | ordinary argument, unreviewed; the compression bound checked on a synthetic family |
 | §10 A2, the QR route against an end-to-end reference | hardened in the sense of two routes: kernel/'s closed form in Arb at 256 bits, independent of the w-quadrature, against the float64 route |
+| §10.6 s10.4's predictions against checker/'s rebuilt N = 32 rows | the outcome is checker/'s: measured, float64, one route, one platform |
 
 Original to this session (novelty not searched): the identity of §3 in
 matrix form (first derived here, f1e912d; cutoff/ rechecked it by a third
@@ -596,8 +609,15 @@ prime atom has an N-independent top beyond ±0.1. That top is not bounded
 rank of R_S: checker/ counts n_−(R_S) below −band at 4, 10 (c = 2.9, N = 8,
 16), the 4 → 10 step stable under 120 → 160 modes, and at c = 2.9 its
 measurement runs against bounded rank (checker/'s grade: measured, weakest step ΔT).
-At N = 32 the count is undecided on checker/'s route in float64 (its s7.7:
-the band rose past the negatives, and the negatives did not leave).
+At N = 32, on the rows rebuilt under this folder's QR ρ (checker/ s7.8,
+3e36fa4), the count at c = 2.9 is 20 on the delivered row and on the 240,
+280 and 319-mode rows (21 at 364), against 10 at N = 16, so the growth
+4, 10, 20 survives there and checker/ reads its P5 (n_−(R_S) the same at
+N = 8, 16, 32) as failing at the measured grade on c = 2.9; at 2.5 it
+falls (6 and 5 against 9, a verdict that rests on the band rule) and at 2.2
+every build counts 0. On the old ρ route (checker/ s7.7, 3dc0a74) the N = 32
+count was undecided in float64 (the band rose past the negatives, and the
+negatives did not leave).
 
 ## 9. Reproduction
 
@@ -820,6 +840,9 @@ the route itself in `test_ta_mellin.py` (against `rho_inv` at cond(G) = 1e6:
 
 ### 10.4 What the falsifier should show, and where the next constraint is
 
+*Checked against checker/'s outcome in s10.6 (follow-up 4). The text of this
+subsection is as committed at eea7eab.*
+
 The falsifier (BRIEF.md follow-up 3, run by modal/ and checker/): with the
 new ρ, T_S at 280 / 319 / 364 modes must have no eigenvalue below −band.
 
@@ -870,7 +893,7 @@ snapshot (N = 8, 16, 32) stops being served until checker/ rebuilds it.
 | `ta_gram_probe.json` (local runs 80 to 120 at S up to 4800; modal/'s 140 to 200 at 4800 and 160 at 9600) | yes | **not regenerated**: at (80, 1200), (80, 4800), (100, 4800) the QR route moves its ΔT by at most 2.6e−14 and reproduces the committed dT to 1.1e−14 (cond(F) at most 17). Its other runs sit at S/nvec² >= 0.12, where s10.1's scans put cond(F) below about 1e3, so an expected change below 1e−10, under every digit §7b states; not measured |
 | `ta_rho_check.json` | uses both routes by design | written by this follow-up |
 | `ta_rho_diag.json`, `ta_ts_cells.json`, `ta_es_cells.json` | no (formed Gram matrices only; dry runs; closed forms) | none |
-| checker/'s snapshot and modal/'s `checker_*` units (not this folder's) | yes, through the digest | checker/ and modal/ rebuild |
+| checker/'s snapshot and modal/'s `checker_*` units (not this folder's) | yes, through the digest | checker/ and modal/ rebuild (done: all eleven units in `modal/out_rho/`, 61ed0c1; checker/ s7.8, 3e36fa4) |
 
 For modal/ (estimates from the unit wall times in modal/out/ and the
 calibration's cost, 0.055 USD for 613 s of wall time on the 4-CPU
@@ -897,3 +920,35 @@ container, about 9e−5 USD per second):
   80-mode refinement already reads four unchanged digits against a factor
   1e3 to 1e9 from S alone. The gram-probe Modal runs: expected change below
   1e−10, not worth a rerun.
+
+### 10.6 s10.4 against checker/'s outcome (follow-up 4, 2026-09-24)
+
+checker/ rebuilt every T_S row under the QR route (`modal/out_rho/`,
+61ed0c1) and graded the N = 32 rows by a reading committed before any
+rebuilt row was analysed (49db49f; outcome 3e36fa4, its RESULTS s7.8). Each
+prediction of s10 that its outcome tests is quoted below as committed; the
+wording of s10.1 to s10.4 is unchanged. The outcome numbers are checker/'s
+(`checker_ts_cells.json`, pinned in `test_ta_checker_citations.py`), grade
+measured, float64, one route.
+
+| prediction, as committed (s10.4 unless stated) | checker/'s outcome | held? |
+|---|---|---|
+| "Expected: it passes at 280 modes, and the order-10 failures at 319 and 364 are gone" | passes on all fifteen N = 32 builds, at band_0 and at the old band(c, 32): T_S's lowest eigenvalue is +1.42e−3 to +2.40e−3 at 280 modes, +1.98e−3 to +2.87e−3 at 319 and +3.42e−3 to +4.41e−3 at 364 (the old route: −13.6 to −36.6 at 319 and 364) | **held** |
+| "By A4's analogue (same S/nvec²), I expect no eigenvalue below −band at 280." | none, on any cell | **held** |
+| "A rebuilt 319 or 364-mode row could still fail at order 1e−2 (past A2's stopping point, next bullet) or, less likely, by more." | no build fails in any bin, so checker/ did not ask for batch 2 (the default-rule rows at S/nvec² = 0.04) | did not occur |
+| "the scans (s10.1) put cond(G_z) there at 1e26 or more, so cond(F_z) near 1e13 to 1e15, the range where A2 found the QR route stops" | cond(F_z) = 1.9e13, 2.1e13, 2.1e13 at 280, 319, 364 modes (so cond(G_z) = cond(F_z)², 3.6e26 to 4.4e26); none reaches 1e14, so all three pass checker/'s determinacy gate, marked beyond A2's last clean case (6.7e11) | **held**; the next constraint and its remedy were stated for a failure at order 1e−2, which did not occur, so they are untested |
+| "A prediction for checker/, not a measurement: the 240-mode row, and band(c, 32) with it, will move." | the 240-mode response moved from 3.9e−2, 2.4e−2, 3.2e−2 to 2.97e−2, 1.08e−2, 2.3e−3 (c = 2.2, 2.5, 2.9), and band(c, 32) from 3.92e−2, 2.37e−2, 3.16e−2 to 2.97e−2, 1.41e−2, 8.18e−3 | **held** on every cell |
+| "Its lowest eigenvalues (−7.3e−3 to −8.9e−3, which checker/ s7.7 reads as the row being off by at least that much) fit an inverse artifact." | rebuilt, T_S's lowest eigenvalue on the 240-mode row is +2.03e−3, +1.34e−3, +1.09e−3 | **held** |
+| "If the rebuilt 240-mode row stays within about 1e−2 of the 200-mode row, band(c, 32) falls, and checker/'s N = 32 verdict is read again at its own criterion." | the 240-mode row is 2.3e−3 from the 200-mode row at 2.9 and 1.08e−2 at 2.5, but 2.97e−2 at 2.2; band(c, 32) fell on every cell, at 2.2 to the 240-mode response itself; the verdict was read again: the growth survives at 2.9 and falls at 2.5 and 2.2 | the expectation that the row stays within about 1e−2 **held at 2.9 and 2.5 and not at 2.2**, where checker/ s7.8 calls it refuted; at 2.2 the 240-mode response fell only from 3.9e−2 to 2.97e−2 |
+| s10.1: "checker/'s cond(G_b) of 1.1e17, 2.8e18 and 5.1e17 for the default-rule rows are therefore lower bounds, not values." | the rebuilt rows report cond(F_b) = 4.1e8, 4.4e9, 7.7e10 at 280, 319, 364 modes, so cond(G_b) = cond(F_b)² = 1.7e17, 1.9e19, 5.9e21, above each of the three; the rebuilt rows' formed cond(G_b), 2.9e17, 2.6e17, 1.2e18, are not values either (at 280 it exceeds cond(F_b)²) | **held** |
+
+Two statements of s10.3 meet the rebuilt rows as well. A3's proxy for the
+platform drift under the QR route (a 2^−52 perturbation of the samples moves
+ΔT by 2.9e−12 to 3.2e−12 at (200, 2400), N = 32) now has one cross-platform
+datum beside it: this folder's laptop build of that row (`ta_rho_check.json`,
+A4) against checker/'s Modal row, T_S's lowest eigenvalue differing by at
+most 2.3e−12, the proxy's size (checker/ s7.8 reports at most 2.5e−12 over
+the three lowest).
+And s10.3 left open "whether it is at 319 and 364" (the grid part of s10.1's
+decision): at 280, 319 and 364 modes, at S/nvec² = 0.029, 0.026, 0.023, the
+falsifier passes without it.
