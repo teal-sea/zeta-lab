@@ -79,6 +79,30 @@ nothing, so no unit can bill more than one container timeout.
 Laptop times: 246.8 s (checker/ snapshot, unit 200|2400|32) and 107.0 s
 (two_adic/ `ta_gram_probe.json`, run 80,4800).
 
+### 3.1 Calibration result (app ap-0JPiceMca78mFevFf9x2Mv, 2026-09-24 09:22 to 09:30 -0500)
+
+Both units ran with the guard passing before and after (HEAD 284eff6,
+whole-tree porcelain empty, digest `1dcab230...fb9a`). Computed cost of both:
+0.055 USD.
+
+| unit | child wall (s) | CPU (s) | peak (MiB) | laptop (s) | Modal / laptop | max abs difference | threshold |
+|---|---|---|---|---|---|---|---|
+| gram_80_4800 | 180.6 | 426.3 | 847 | 107.0 | 1.69 | **8.2e-15** (dT; every scalar field at most 7.6e-15; Kmax equal) | 1e-10: **met** |
+| checker_200_2400_32 | 432.3 | 976.4 | 1580 | 246.8 | 1.75 | **2.28e-7 / 1.98e-7 / 1.93e-7** (c = 2.2 / 2.5 / 2.9) | 1e-10: **not met** |
+
+The checker unit's differences, spectral norm: 2.3e-7, 2.6e-7, 2.9e-7, on
+entries up to 3.7 (relative 6e-8). Its diagnostics agree: `gram_z_offI`
+equal to 1e-16, `cond_Gb` 3875494354.4 here against 3875494350.7 locally
+(relative 1e-9). The gram unit's Gram matrix is well conditioned; this
+unit's `Gb` has condition number 3.9e9, and `ta_mellin.rho` inverts it
+(`np.linalg.inv`). A last-digit difference between the two platforms'
+arithmetic (macOS arm64 Accelerate, Python 3.13, against Linux x86_64
+OpenBLAS, Python 3.12) amplified by 3.9e9 is of order 1e-16 x 3.9e9 = 4e-7,
+the size observed. That is the likely cause; it is not demonstrated.
+
+**Per the brief, the run stopped here** and the question went to the
+coordinator before the batch.
+
 ## 4. The batch estimate
 
 Written after the calibration, before the batch launches.
@@ -91,3 +115,5 @@ max(16 GiB, peak) x GiB rate)), not read from Modal's billing.
 
 | unit | status | wall s | CPU s | peak MiB | computed cost USD | CPU model | landed |
 |---|---|---|---|---|---|---|---|
+| gram_80_4800 | ok | 184.5 | 426.3 | 846.6 | 0.0162 | unknown | 2026-09-24 09:25:26 -0500 |
+| checker_200_2400_32 | ok | 438.7 | 976.4 | 1580.2 | 0.0386 | unknown | 2026-09-24 09:29:45 -0500 |
