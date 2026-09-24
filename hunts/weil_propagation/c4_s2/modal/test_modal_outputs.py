@@ -7,7 +7,8 @@ two_adic/ in their own folders. What is pinned:
   284eff6 whose T_S input digest is the local one, with the guard passing in
   the container before (and, for a finished unit, after) the build; a unit
   that did not finish says so in its status (timed_out, restarted, ...);
-- the two calibration units match the committed local values
+- the two calibration units match the local values committed at 284eff6
+  (read with git show, since the owners merge these outputs afterwards)
   (checker/checker_ts_snapshot.json unit 200|2400|32, two_adic/
   ta_gram_probe.json run 80,4800): the two_adic unit to the brief's 1e-10;
   the checker unit to 1e-6, a threshold set on 2026-09-24 after it missed
@@ -53,6 +54,17 @@ FINISHED = ("ok",)
 NOT_FINISHED = ("timed_out", "restarted", "failed", "modal_error")
 
 
+def _at_tree(rel):
+    """A committed file as it was at TREE_COMMIT (git show), never the working
+    tree: the owners merge these outputs into their own files afterwards."""
+    import subprocess
+
+    top = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=HERE, capture_output=True,
+                         text=True, check=True).stdout.strip()
+    return json.loads(subprocess.run(["git", "show", f"{TREE_COMMIT}:hunts/weil_propagation/c4_s2/{rel}"],
+                                     cwd=top, capture_output=True, text=True, check=True).stdout)
+
+
 def _load(name):
     with open(os.path.join(OUT, f"{name}.json")) as fh:
         return json.load(fh)
@@ -78,8 +90,10 @@ def test_local_digest_is_the_tree_at_284eff6():
 
 def test_default_rule_is_two_adic_rule():
     """S_rule and nvec_rule of run_modal.py are ta_ts.py lines 146 and 147."""
-    with open(os.path.join(C4, "two_adic", "ta_ts.py"), encoding="utf-8") as fh:
-        lines = fh.read().splitlines()
+    import subprocess
+
+    lines = subprocess.run(["git", "show", f"{TREE_COMMIT}:hunts/weil_propagation/c4_s2/two_adic/ta_ts.py"],
+                           cwd=HERE, capture_output=True, text=True, check=True).stdout.splitlines()
     assert lines[145].strip() == "nvec = self.nvec or max(80, int(8 * N / L) + 40)"
     assert lines[146].strip() == "S = self.S or max(1200.0, 12.0 * 2 * math.pi * N / L)"
     for c, name in ((2.9, "checker_280_2266_32"), (2.5, "checker_319_2633_32"), (2.2, "checker_364_3060_32")):
@@ -139,8 +153,7 @@ def _max_abs(a, b):
 
 
 def test_checker_calibration_matches_the_local_snapshot():
-    with open(os.path.join(C4, "checker", "checker_ts_snapshot.json")) as fh:
-        snap = json.load(fh)["T_S"]
+    snap = _at_tree("checker/checker_ts_snapshot.json")["T_S"]
     got = _load("checker_200_2400_32")
     assert _meta(got)["status"] == "ok"
     for c in CELLS:
@@ -149,8 +162,7 @@ def test_checker_calibration_matches_the_local_snapshot():
 
 
 def test_gram_calibration_matches_the_local_probe():
-    with open(os.path.join(C4, "two_adic", "ta_gram_probe.json")) as fh:
-        ref = json.load(fh)["runs"]["80,4800"]
+    ref = _at_tree("two_adic/ta_gram_probe.json")["runs"]["80,4800"]
     got = _load("gram_80_4800")
     assert _meta(got)["status"] == "ok"
     r = got["runs"]["80,4800"]
@@ -171,8 +183,7 @@ def _diffs(A, B):
 def test_checker_threshold_change_is_what_the_probe_measured():
     """The checker calibration missed the brief's 1e-10, and the probe (only
     the BLAS kernels changed) moves the unit by the same order, 1e-7."""
-    with open(os.path.join(C4, "checker", "checker_ts_snapshot.json")) as fh:
-        snap = json.load(fh)["T_S"]
+    snap = _at_tree("checker/checker_ts_snapshot.json")["T_S"]
     cal, prb = _load("checker_200_2400_32"), _load("checker_200_2400_32_sandybridge")
     assert _meta(prb)["child_env"] == {"OPENBLAS_CORETYPE": "Sandybridge"}
     assert _meta(prb)["blas_core"] == "Sandybridge"
