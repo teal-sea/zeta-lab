@@ -121,3 +121,24 @@ def test_theta_spectrum_inside_the_cauchy_schwarz_band_and_reaches_it(cells):
         if r["N"] == 32:
             assert abs(mp.mpf(r["theta_gram_eig_min"]) - lo) < reach[r["c"]]
             assert abs(mp.mpf(r["theta_gram_eig_max"]) - hi) < reach[r["c"]]
+
+
+def test_every_cell_meets_the_two_route_and_identity_tolerances(cells):
+    for r in cells["cells"]:
+        assert mp.mpf(r["galerkin_dev"]) < mp.mpf("5e-39")
+        assert mp.mpf(r["identity_defect"]) < mp.mpf("1e-39")
+
+
+@mp.workdps(40)
+def test_results_table_matches_the_json(cells):
+    """The spectrum table in RESULTS.md s3 is the JSON, digit for digit (17 digits)."""
+    with open(os.path.join(HERE, "RESULTS.md"), encoding="utf-8") as fh:
+        rows = [ln for ln in fh if ln.startswith("| 2.")]
+    assert len(rows) == 9
+    for ln in rows:
+        parts = [p.strip().replace("−", "-") for p in ln.strip().strip("|").split("|")]
+        c, N = parts[0], int(parts[1])
+        r = next(x for x in cells["cells"] if x["c"] == c and x["N"] == N)
+        keys = ("theta_gram_eig_min", "theta_gram_eig_max", "prime_block_eig_min", "prime_block_eig_max")
+        for key, txt in zip(keys, parts[2:6]):
+            assert abs(mp.mpf(txt) - mp.mpf(r[key])) < mp.mpf("1e-16"), (c, N, key)

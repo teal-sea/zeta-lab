@@ -1,0 +1,241 @@
+{
+ "cells": [
+  {
+   "c": "2.2",
+   "N": 8,
+   "dps": 40,
+   "zeta": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   },
+   "dedekind_Q_sqrt_m23": {
+    "outcome": "framework_limit",
+    "message": "arch_type Gamma_C (the degree-2 data of Dedekind zeta_{Q(sqrt -23)}, Gamma_C(s) = Gamma_R(s) Gamma_R(s+1): one even and one odd archimedean component, both unramified at 2 with alpha = 1) cannot be realized over Q with S = {inf, 2}. A component of L^2(X_S) with archimedean parity eps is an idele class character chi = chi_inf (x) chi_2 trivial on Gamma_S = {+-2^n}; on -1 this forces (-1)^eps chi_2(-1) = 1, so an odd component needs chi_2 ramified at 2 and has no Satake parameter there. The odd piece L(s, chi_{-23}) needs 23 in S (or the construction over K = Q(sqrt -23) with its complex place). Positive control not exercised in this framework."
+   },
+   "W_a_quarter": {
+    "outcome": "refused_nonunitary",
+    "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+   },
+   "epstein_116_tower": {
+    "outcome": "refused_nonunitary",
+    "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
+   },
+   "place_2_off": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 16,
+   "dps": 40,
+   "zeta": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   },
+   "dedekind_Q_sqrt_m23": {
+    "outcome": "framework_limit",
+    "message": "arch_type Gamma_C (the degree-2 data of Dedekind zeta_{Q(sqrt -23)}, Gamma_C(s) = Gamma_R(s) Gamma_R(s+1): one even and one odd archimedean component, both unramified at 2 with alpha = 1) cannot be realized over Q with S = {inf, 2}. A component of L^2(X_S) with archimedean parity eps is an idele class character chi = chi_inf (x) chi_2 trivial on Gamma_S = {+-2^n}; on -1 this forces (-1)^eps chi_2(-1) = 1, so an odd component needs chi_2 ramified at 2 and has no Satake parameter there. The odd piece L(s, chi_{-23}) needs 23 in S (or the construction over K = Q(sqrt -23) with its complex place). Positive control not exercised in this framework."
+   },
+   "W_a_quarter": {
+    "outcome": "refused_nonunitary",
+    "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+   },
+   "epstein_116_tower": {
+    "outcome": "refused_nonunitary",
+    "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
+   },
+   "place_2_off": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   }
+  },
+  {
+   "c": "2.2",
+   "N": 32,
+   "dps": 40,
+   "zeta": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   },
+   "dedekind_Q_sqrt_m23": {
+    "outcome": "framework_limit",
+    "message": "arch_type Gamma_C (the degree-2 data of Dedekind zeta_{Q(sqrt -23)}, Gamma_C(s) = Gamma_R(s) Gamma_R(s+1): one even and one odd archimedean component, both unramified at 2 with alpha = 1) cannot be realized over Q with S = {inf, 2}. A component of L^2(X_S) with archimedean parity eps is an idele class character chi = chi_inf (x) chi_2 trivial on Gamma_S = {+-2^n}; on -1 this forces (-1)^eps chi_2(-1) = 1, so an odd component needs chi_2 ramified at 2 and has no Satake parameter there. The odd piece L(s, chi_{-23}) needs 23 in S (or the construction over K = Q(sqrt -23) with its complex place). Positive control not exercised in this framework."
+   },
+   "W_a_quarter": {
+    "outcome": "refused_nonunitary",
+    "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+   },
+   "epstein_116_tower": {
+    "outcome": "refused_nonunitary",
+    "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
+   },
+   "place_2_off": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 8,
+   "dps": 40,
+   "zeta": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   },
+   "dedekind_Q_sqrt_m23": {
+    "outcome": "framework_limit",
+    "message": "arch_type Gamma_C (the degree-2 data of Dedekind zeta_{Q(sqrt -23)}, Gamma_C(s) = Gamma_R(s) Gamma_R(s+1): one even and one odd archimedean component, both unramified at 2 with alpha = 1) cannot be realized over Q with S = {inf, 2}. A component of L^2(X_S) with archimedean parity eps is an idele class character chi = chi_inf (x) chi_2 trivial on Gamma_S = {+-2^n}; on -1 this forces (-1)^eps chi_2(-1) = 1, so an odd component needs chi_2 ramified at 2 and has no Satake parameter there. The odd piece L(s, chi_{-23}) needs 23 in S (or the construction over K = Q(sqrt -23) with its complex place). Positive control not exercised in this framework."
+   },
+   "W_a_quarter": {
+    "outcome": "refused_nonunitary",
+    "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+   },
+   "epstein_116_tower": {
+    "outcome": "refused_nonunitary",
+    "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
+   },
+   "place_2_off": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 16,
+   "dps": 40,
+   "zeta": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   },
+   "dedekind_Q_sqrt_m23": {
+    "outcome": "framework_limit",
+    "message": "arch_type Gamma_C (the degree-2 data of Dedekind zeta_{Q(sqrt -23)}, Gamma_C(s) = Gamma_R(s) Gamma_R(s+1): one even and one odd archimedean component, both unramified at 2 with alpha = 1) cannot be realized over Q with S = {inf, 2}. A component of L^2(X_S) with archimedean parity eps is an idele class character chi = chi_inf (x) chi_2 trivial on Gamma_S = {+-2^n}; on -1 this forces (-1)^eps chi_2(-1) = 1, so an odd component needs chi_2 ramified at 2 and has no Satake parameter there. The odd piece L(s, chi_{-23}) needs 23 in S (or the construction over K = Q(sqrt -23) with its complex place). Positive control not exercised in this framework."
+   },
+   "W_a_quarter": {
+    "outcome": "refused_nonunitary",
+    "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+   },
+   "epstein_116_tower": {
+    "outcome": "refused_nonunitary",
+    "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
+   },
+   "place_2_off": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   }
+  },
+  {
+   "c": "2.5",
+   "N": 32,
+   "dps": 40,
+   "zeta": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   },
+   "dedekind_Q_sqrt_m23": {
+    "outcome": "framework_limit",
+    "message": "arch_type Gamma_C (the degree-2 data of Dedekind zeta_{Q(sqrt -23)}, Gamma_C(s) = Gamma_R(s) Gamma_R(s+1): one even and one odd archimedean component, both unramified at 2 with alpha = 1) cannot be realized over Q with S = {inf, 2}. A component of L^2(X_S) with archimedean parity eps is an idele class character chi = chi_inf (x) chi_2 trivial on Gamma_S = {+-2^n}; on -1 this forces (-1)^eps chi_2(-1) = 1, so an odd component needs chi_2 ramified at 2 and has no Satake parameter there. The odd piece L(s, chi_{-23}) needs 23 in S (or the construction over K = Q(sqrt -23) with its complex place). Positive control not exercised in this framework."
+   },
+   "W_a_quarter": {
+    "outcome": "refused_nonunitary",
+    "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+   },
+   "epstein_116_tower": {
+    "outcome": "refused_nonunitary",
+    "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
+   },
+   "place_2_off": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 8,
+   "dps": 40,
+   "zeta": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   },
+   "dedekind_Q_sqrt_m23": {
+    "outcome": "framework_limit",
+    "message": "arch_type Gamma_C (the degree-2 data of Dedekind zeta_{Q(sqrt -23)}, Gamma_C(s) = Gamma_R(s) Gamma_R(s+1): one even and one odd archimedean component, both unramified at 2 with alpha = 1) cannot be realized over Q with S = {inf, 2}. A component of L^2(X_S) with archimedean parity eps is an idele class character chi = chi_inf (x) chi_2 trivial on Gamma_S = {+-2^n}; on -1 this forces (-1)^eps chi_2(-1) = 1, so an odd component needs chi_2 ramified at 2 and has no Satake parameter there. The odd piece L(s, chi_{-23}) needs 23 in S (or the construction over K = Q(sqrt -23) with its complex place). Positive control not exercised in this framework."
+   },
+   "W_a_quarter": {
+    "outcome": "refused_nonunitary",
+    "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+   },
+   "epstein_116_tower": {
+    "outcome": "refused_nonunitary",
+    "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
+   },
+   "place_2_off": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 16,
+   "dps": 40,
+   "zeta": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   },
+   "dedekind_Q_sqrt_m23": {
+    "outcome": "framework_limit",
+    "message": "arch_type Gamma_C (the degree-2 data of Dedekind zeta_{Q(sqrt -23)}, Gamma_C(s) = Gamma_R(s) Gamma_R(s+1): one even and one odd archimedean component, both unramified at 2 with alpha = 1) cannot be realized over Q with S = {inf, 2}. A component of L^2(X_S) with archimedean parity eps is an idele class character chi = chi_inf (x) chi_2 trivial on Gamma_S = {+-2^n}; on -1 this forces (-1)^eps chi_2(-1) = 1, so an odd component needs chi_2 ramified at 2 and has no Satake parameter there. The odd piece L(s, chi_{-23}) needs 23 in S (or the construction over K = Q(sqrt -23) with its complex place). Positive control not exercised in this framework."
+   },
+   "W_a_quarter": {
+    "outcome": "refused_nonunitary",
+    "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+   },
+   "epstein_116_tower": {
+    "outcome": "refused_nonunitary",
+    "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
+   },
+   "place_2_off": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   }
+  },
+  {
+   "c": "2.9",
+   "N": 32,
+   "dps": 40,
+   "zeta": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   },
+   "dedekind_Q_sqrt_m23": {
+    "outcome": "framework_limit",
+    "message": "arch_type Gamma_C (the degree-2 data of Dedekind zeta_{Q(sqrt -23)}, Gamma_C(s) = Gamma_R(s) Gamma_R(s+1): one even and one odd archimedean component, both unramified at 2 with alpha = 1) cannot be realized over Q with S = {inf, 2}. A component of L^2(X_S) with archimedean parity eps is an idele class character chi = chi_inf (x) chi_2 trivial on Gamma_S = {+-2^n}; on -1 this forces (-1)^eps chi_2(-1) = 1, so an odd component needs chi_2 ramified at 2 and has no Satake parameter there. The odd piece L(s, chi_{-23}) needs 23 in S (or the construction over K = Q(sqrt -23) with its complex place). Positive control not exercised in this framework."
+   },
+   "W_a_quarter": {
+    "outcome": "refused_nonunitary",
+    "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+   },
+   "epstein_116_tower": {
+    "outcome": "refused_nonunitary",
+    "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
+   },
+   "place_2_off": {
+    "outcome": "awaiting_kernel",
+    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+   }
+  }
+ ],
+ "hs2_P_FS_P": {
+  "archimedean": "2.23748483494183",
+  "partial_sums": {
+   "0": "0.405036507324151",
+   "8": "5.05214513978767",
+   "16": "9.07065292939199",
+   "24": "13.0707860340825",
+   "32": "17.0707867915102",
+   "40": "21.0707867953966"
+  },
+  "asymptote": "K/2 + 1.0707867954"
+ }
+}

@@ -67,6 +67,8 @@ def test_W_a_refused():
         D.validate(D.W_A_QUARTER)
     s1 = sympy.Integer(2) ** sympy.Rational(1, 4) + sympy.Integer(2) ** sympy.Rational(-1, 4)
     s2 = sympy.Integer(2) ** sympy.Rational(1, 2) + sympy.Integer(2) ** sympy.Rational(-1, 2)
+    # theory RESULTS s7.1 prints 2.0303; the value is 2.030103...
+    assert abs(float(s1) - 2.0301035302564356) < 1e-15
     with pytest.raises(D.NonUnitaryLocalData, match=r"\|s_1\(2\)\|"):
         D.validate(("tower", {1: s1, 2: s2}), degree=2)
 

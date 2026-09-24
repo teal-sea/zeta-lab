@@ -44,3 +44,9 @@ def test_increment_tends_to_one_half():
     with mp.workdps(30):
         inc = (H.hs2_partial(40) - H.hs2_partial(32)) / 8
         assert abs(inc - mp.mpf("0.5")) < mp.mpf("1e-9")
+
+
+@pytest.mark.parametrize("K,value", [(0, "0.405037"), (8, "5.052145"), (16, "9.070653"), (24, "13.070786"), (32, "17.070787"), (40, "21.070787")])
+def test_results_table_values(K, value):
+    with mp.workdps(30):
+        assert abs(H.hs2_partial(K) - mp.mpf(value)) < mp.mpf("1e-6")
