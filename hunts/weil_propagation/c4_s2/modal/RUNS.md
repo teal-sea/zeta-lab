@@ -415,3 +415,22 @@ Same columns as s7.3.
 
 | unit | status | wall s | CPU s | peak MiB | computed cost USD | BLAS | landed |
 |---|---|---|---|---|---|---|---|
+| checker_120_1600_16 | spawned fc-01M3ADC1Q11461A3V2SXW2WEHT | | | | | | 2026-09-24 14:13:11 -0500 |
+| checker_200_2400_32 | spawned fc-01M3ADC22VDPC856PTDBRT3WSK | | | | | | 2026-09-24 14:13:11 -0500 |
+| checker_80_1600_16 | spawned fc-01M3ADC28MWMEB521C0ZZTYJ0K | | | | | | 2026-09-24 14:13:12 -0500 |
+| checker_120_1200_16 | spawned fc-01M3ADC2DSR7BVAMBNJXG6JW12 | | | | | | 2026-09-24 14:13:12 -0500 |
+| checker_80_1200_16 | spawned fc-01M3ADC2KPFJPETGHPAXFT42E5 | | | | | | 2026-09-24 14:13:12 -0500 |
+| checker_160_1600_16 | spawned fc-01M3ADC2RRRGM5NEQ1Y6B7AWPD | | | | | | 2026-09-24 14:13:12 -0500 |
+| checker_240_2400_32 | spawned fc-01M3ADC34X549NPD78BTC2Q9GN | | | | | | 2026-09-24 14:13:12 -0500 |
+| checker_280_2266_32 | spawned fc-01M3ADC39S21KXZ0W9EKKYGHWP | | | | | | 2026-09-24 14:13:13 -0500 |
+| checker_319_2633_32 | spawned fc-01M3ADC3NJG7ANH70K917XHQ79 | | | | | | 2026-09-24 14:13:13 -0500 |
+| checker_364_3060_32 | spawned fc-01M3ADC40Y3B89CS0HE79PTBHV | | | | | | 2026-09-24 14:13:13 -0500 |
+| checker_80_1200_16 | ok | 43.3 | 97.6 | 474.9 | 0.0038 | Haswell | 2026-09-24 14:14:05 -0500 |
+| checker_80_1600_16 | ok | 63.9 | 144.2 | 530.3 | 0.0056 | Haswell | 2026-09-24 14:14:38 -0500 |
+| checker_120_1200_16 | ok | 104.5 | 234.5 | 782.0 | 0.0092 | Haswell | 2026-09-24 14:15:11 -0500 |
+| checker_120_1600_16 | ok | 127.5 | 283.4 | 852.5 | 0.0112 | Haswell | 2026-09-24 14:15:30 -0500 |
+| checker_160_1600_16 | ok | 154.8 | 345.1 | 935.8 | 0.0136 | Haswell | 2026-09-24 14:16:03 -0500 |
+| checker_200_2400_32 | ok | 432.7 | 983.6 | 1580.8 | 0.0381 | Haswell | 2026-09-24 14:20:34 -0500 |
+| checker_240_2400_32 | ok | 759.1 | 1627.7 | 2425.1 | 0.0669 | Haswell | 2026-09-24 14:26:04 -0500 |
+| checker_280_2266_32 | ok | 756.1 | 1454.1 | 2562.3 | 0.0666 | Haswell | 2026-09-24 14:26:06 -0500 |
+| checker_319_2633_32 | ok | 1382.0 | 2354.9 | 2812.9 | 0.1218 | Haswell | 2026-09-24 14:36:36 -0500 |
