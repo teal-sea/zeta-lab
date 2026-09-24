@@ -49,9 +49,13 @@ def snap():
 
 def test_json_has_every_build_with_null_and_reason(doc):
     """33 entries (11 builds x 3 c), the brief's keys, eps_upper null, a reason."""
+    snap = E._snapshot()
     want = {(c, N, nv, S) for c in E.CELLS for N, bl in E.BUILDS.items() for nv, S in bl}
-    got = {(e["c"], e["N"], e["nvec"], e["S"]) for e in doc["entries"]}
+    got = {(e["c"], e["N"], e["nvec"], e["S_key"]) for e in doc["entries"]}
     assert got == want and len(doc["entries"]) == 33
+    for e in doc["entries"]:  # S is the S the build used (bound_quad/ and referee/ key by it)
+        assert e["S"] == snap["units"][f"{e['nvec']}|{e['S_key']}|{e['N']}"]["S_exact"]
+        assert int(round(e["S"])) == e["S_key"]
     for e in doc["entries"]:
         assert {"c", "N", "nvec", "S", "Kmax", "eps_upper", "grade", "assumptions"} <= set(e)
         assert e["eps_upper"] is None
@@ -74,10 +78,10 @@ def test_eps_trunc_returns_no_finite_upper_end():
             for nv, S in bl:
                 eps = E.eps_trunc(c, N, nv, S, E.kmax_for(nv))
                 assert isinstance(eps, arb) and not eps.is_finite()
-    with pytest.raises(ValueError):
-        E.eps_trunc("2.9", 32, 200, 2400, 12)  # wrong Kmax
-    with pytest.raises(ValueError):
-        E.eps_trunc("2.7", 8, 80, 1200, 10)  # not a cell
+    # referee/'s calling convention (float c and S, S possibly the exact float of a default-rule row)
+    assert not E.eps_trunc(2.9, 32, 280, 2266.1020257693895, 14).is_finite()
+    assert not E.eps_trunc(2.2, 8, 100, 4800.0, 11).is_finite()  # not a stored build: still no bound
+    assert E.known_build(2.9, 32, 280, 2266.1020257693895, 14) and not E.known_build("2.9", 32, 200, 2400, 12)
 
 
 # ------------------------------------------------------------------ responses and the necessary inequality
@@ -128,7 +132,7 @@ def test_every_bound_dominates_every_response(doc):
         for e in (q if isinstance(q, list) else q.get("entries", [])):
             quad[(str(e["c"]), int(e["N"]), int(e["nvec"]), int(round(float(e["S"]))))] = e["eps_upper"]
 
-    mine = {(e["c"], e["N"], e["nvec"], e["S"]): up(e["eps_upper"]) for e in doc["entries"]}
+    mine = {(e["c"], e["N"], e["nvec"], e["S_key"]): up(e["eps_upper"]) for e in doc["entries"]}
     checked = 0
     for key, rows in doc["responses"].items():
         c, N = key.split("|")

@@ -433,7 +433,8 @@ hypothetical bound, not a bound on anything.
 
 **Proposition 4.** Let κ_N = 2πN/L, W(σ) := λ_max(M_σ), v_1 := (1, …, 1)/√(2N+1)
 and f_1 = Σ (v_1)_k U_k, the unit window with the largest jump at the window
-edges, |f_1(0)| = √((2N+1)/L) (for every unit v, |f(0)| = L^{−1/2}|Σ v_k|
+edges, |f_1(0)| = √((2N+1)/L) (in the [0, L] picture, which the translate
+above does not change: for every unit v, |f(0)| = |f(L)| = L^{−1/2}|Σ v_k|
 ≤ √((2N+1)/L)). For σ > κ_N:
 
 (a) W(σ) ≤ 4(2N + 1)/(πL(σ − κ_N)).

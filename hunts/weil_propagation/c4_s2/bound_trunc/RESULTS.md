@@ -77,7 +77,7 @@ vacuously; the test checks it for any finite entry, here or in bound_quad/.
 | statement | test |
 |---|---|
 | 33 null entries, keys, reasons, Kmax | `test_json_has_every_build_with_null_and_reason`, `test_kmax_matches_two_adic_and_the_stored_units` |
-| eps_trunc() has no finite upper end; unknown builds refused | `test_eps_trunc_returns_no_finite_upper_end` |
+| eps_trunc() has no finite upper end, at stored builds and elsewhere | `test_eps_trunc_returns_no_finite_upper_end` |
 | responses (4.950e−3, 4.177e−3, 3.688e−3, 7.853e−2, 2.974e−2) | `test_responses_recomputed_from_the_snapshot`, `test_response_values_quoted_in_results` |
 | the necessary inequality, triangle inequality explicit | `test_every_bound_dominates_every_response` |
 | κ, K, κ_lo, κ_hi | `test_kappa_and_K_enclosures` |

@@ -85,10 +85,10 @@ def known_build(c, N, nvec, S, Kmax) -> bool:
 def eps_trunc(c, N, nvec, S, Kmax) -> arb:
     """Upper bound on ||Delta_T_exact - Delta_T^(nvec)||_2 on the (2N+1)-dim window space.
 
-    Returns arb("inf") (no finite upper end): no bound is derived. Raises
-    ValueError for a build that is not one of the stored ones."""
-    if not known_build(c, N, nvec, S, Kmax):
-        raise ValueError(f"not a stored build: c={c}, N={N}, nvec={nvec}, S={S}, Kmax={Kmax}")
+    Returns arb("inf") (no finite upper end) for every argument: no bound is
+    derived at any configuration, stored or not (referee/ calls this with
+    float c and S, and with configurations that are not stored builds).
+    `known_build` says whether a configuration is one of the stored ones."""
     return arb("inf")
 
 
@@ -206,13 +206,20 @@ def sigma_heuristic(nvec) -> float:
 # ------------------------------------------------------------ the JSON
 
 
+def s_exact(snap, nvec, S, N) -> float:
+    """The S the stored build actually used (non-integer for the 280, 319, 364-mode rows),
+    as checker/'s snapshot records it; bound_quad/ and referee/ key entries by it."""
+    return float(snap["units"][f"{int(nvec)}|{int(S)}|{int(N)}"]["S_exact"])
+
+
 def entries(snap=None) -> list[dict]:
+    snap = snap or _snapshot()
     out = []
     for c in CELLS:
         for N, bl in BUILDS.items():
             for nvec, S in bl:
                 K = kmax_for(nvec)
-                out.append({"c": c, "N": N, "nvec": nvec, "S": S, "Kmax": K, "eps_upper": None,
+                out.append({"c": c, "N": N, "nvec": nvec, "S": s_exact(snap, nvec, S, N), "S_key": S, "Kmax": K, "eps_upper": None,
                             "grade": "no bound: outcome 4 for bound_trunc/, unresolved (paused by the box); ordinary arguments, unreviewed",
                             "assumptions": [], "blocking_step": BLOCKING_STEP, "reason": REASON,
                             "size_if_closed": dict(window_tail_report(c, N, sigma_heuristic(nvec)),

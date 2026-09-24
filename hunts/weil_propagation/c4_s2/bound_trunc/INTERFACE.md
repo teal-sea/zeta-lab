@@ -11,8 +11,8 @@ kernel/'s prolate machinery).
 
 | name | returns | notes |
 |---|---|---|
-| `eps_trunc(c, N, nvec, S, Kmax)` | `flint.arb` | **arb("inf"), a ball with no finite upper end, for every stored build**: no bound was derived (DERIVATION.md s1, s2.5; outcome 4, unresolved). Raises `ValueError` for anything that is not a stored build (c in {"2.2", "2.5", "2.9"}, the eleven (nvec, S, N) of BRIEF.md, Kmax = `kmax_for(nvec)`). |
-| `eps_trunc.json` | a **list** of 33 entries | keys `c` (string), `N`, `nvec`, `S` (int, as keyed in the brief), `Kmax`, `eps_upper` (**null** in every entry), `grade`, `assumptions` (empty: no number depends on any), plus `reason`, `blocking_step` and `size_if_closed` (Proposition 4 at σ_n = 2n/√3: a size, not a bound) |
+| `eps_trunc(c, N, nvec, S, Kmax)` | `flint.arb` | **arb("inf"), a ball with no finite upper end, for every stored build**: no bound was derived (DERIVATION.md s1, s2.5; outcome 4, unresolved). The same for any other configuration (no bound is derived anywhere); `known_build(c, N, nvec, S, Kmax)` says whether a configuration is one of the stored ones (c in {2.2, 2.5, 2.9} as string or float, the eleven (nvec, S, N) of BRIEF.md with S rounded down to an integer, Kmax = `kmax_for(nvec)`). |
+| `eps_trunc.json` | a **list** of 33 entries | keys `c` (string), `N`, `nvec`, `S` (the S the build used, a float: 2266.10…, 2633.16…, 3060.08… for 280, 319, 364 modes, as bound_quad/ and referee/ key it), `S_key` (the integer of the brief), `Kmax`, `eps_upper` (**null** in every entry), `grade`, `assumptions` (empty: no number depends on any), plus `reason`, `blocking_step` and `size_if_closed` (Proposition 4 at σ_n = 2n/√3: a size, not a bound) |
 
 `kmax_for(nvec)` restates `two_adic.ta_prolate.kmax_for`; a test pins the
 equality and the stored units' `kmax`.
