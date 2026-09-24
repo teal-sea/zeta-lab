@@ -62,7 +62,8 @@ V_- with v_0 = 0 as well (g-hat(0) = 0).
 Full values (25 digits, both precisions, and the calibration cells c = 1.5,
 1.9) are in `checker_q_cells.json`. An observation, not pursued: the lowest
 eigenvalue on V_-0 equals the second on V_- to all printed digits, on every
-cell.
+cell, because the second eigenvector on V_- has v_0 = 0 (measured: 7.5e-40
+at c = 2.9, N = 8; 5.8e-42 at c = 2.2, N = 16).
 
 ## 3. The (U-S) gate (kill-control 1)
 

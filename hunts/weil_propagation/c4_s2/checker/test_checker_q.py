@@ -313,3 +313,18 @@ def test_results_headline_numbers():
     assert max(mp.mpf(J[c]["galerkin_maxdev_N32_dps40"]) for c in J) <= mp.mpf("5.5e-40")
     assert max(mp.mpf(J[c]["drift_40_60_N32"]) for c in J) <= mp.mpf("3.95e-41")
     assert max(mp.mpf(J[c]["quad_err_dps40"]) for c in J) <= mp.mpf("1.1e-50")
+
+
+@pytest.mark.parametrize("c,N", [("2.9", 8), ("2.2", 16)])
+def test_second_minus_eigenvector_has_v0_zero(c, N):
+    """Measured: the second eigenvector of Q on V_- has v_0 = 0 (7.5e-40 and
+    5.8e-42 at dps 40), which is why min over V_- n {v_0 = 0} equals the
+    second eigenvalue on V_-. Also validates the class_bases/compress path
+    that P7 uses."""
+    M = CQ.Q_matrix(c, N, 40)
+    B = CP.class_bases(c, N, 40)["minus"]
+    with mp.workdps(40):
+        E, V = mp.eighe(CQ.compress(M, B, 40))
+        i = sorted(range(len(E)), key=lambda k: mp.re(E[k]))[1]
+        u = B * V[:, i]
+        assert abs(u[N]) < mp.mpf("1e-35")
