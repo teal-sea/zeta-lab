@@ -1,10 +1,10 @@
 # RESULTS: checker/ (independent verification and kill-controls)
 
-1. **T_S reached the checker, and R_S = Q - T_S is measured on all nine cells; C4's prediction is not decided at this band** (two_adic/ 8dc8525, float64). The band per row is **5.3e-3 to 1.6e-2** (two_adic/'s probe, the checker's refinement and quadrature responses). That is above Q's lowest eigenvalues (1.9e-7 to 2.6e-4) and above T_S's own lowest (1.5e-3 to 3.5e-3), so T_S >= 0 is not decided at the band. Grade: measured.
-2. **T_S removes depth, not count.** lambda_min goes from -0.30 to -0.49 (Q - T_inf) to **-0.026 / -0.039 / -0.097 to -0.12** (c = 2.2 / 2.5 / 2.9). But n_-(R_S) below -band on the full space is **4, 4, 3** (2.2), **4, 9, 20** (2.5) and **4, 10, 20** (2.9) at N = 8, 16, 32. At N = 32, 14 and 12 of the 20 live on |n| > N/2, where Delta_T is least resolved. At N = 16 the count is 5, 4, 3 at c = 2.2 and 9 then 8 at 2.5 as modes go 120 -> 160: truncation, in part or whole. **At c = 2.9 it is 10 at both 120 and 160 modes**: the growth 4 -> 10 from N = 8 to 16 is measured at a resolved setting, on a last pair 1.4 to 1.5 times the band. The N = 32 counts are confounded with mode truncation (s7.3a). Grade: measured, weakest step Delta_T.
-3. **The provider's convergence claim fails at N = 16.** two_adic/ lists (80, 1200) as converged there. 80 -> 120 modes moves T_S by **7.8e-2 / 4.5e-2 / 2.4e-2** (spectral norm), 90 to 96 percent of it at |n| >= 12. 120 -> 160 moves it by **1.6e-2 / 5.2e-3 / 3.7e-3**. The 240-mode N = 32 unit ran past the 10-minute limit and is a CI proposal (s7.6).
+1. **T_S reached the checker, and R_S = Q - T_S is measured on all nine cells; C4's prediction is not decided at this band** (two_adic/ 8dc8525, float64; the N = 32 refinement ran on Modal, merged 2026-09-24). The band per row is **5.3e-3 to 1.6e-2** at N = 8 and 16 and **2.4e-2 to 3.9e-2** at N = 32 (two_adic/'s probe, the checker's refinement and quadrature responses). That is above Q's lowest eigenvalues (1.9e-7 to 2.6e-4) and T_S's own (1.5e-3 to 3.5e-3), so T_S >= 0 is not decided at the band. two_adic/'s (80, 1200) is not converged at N = 16: 80 -> 120 modes moves T_S by 7.8e-2 / 4.5e-2 / 2.4e-2 (s7.2). Grade: measured.
+2. **T_S removes depth; the count grows from N = 8 to 16.** lambda_min goes from -0.30 to -0.49 (Q - T_inf) to **-0.026 / -0.039 / -0.097 to -0.12** (c = 2.2 / 2.5 / 2.9). n_-(R_S) below -band on the full space is **4, 4** (2.2), **4, 9** (2.5) and **4, 10** (2.9) at N = 8, 16. As modes go 120 -> 160 at N = 16 it runs 4, 3 at 2.2 and 9, 8 at 2.5: truncation, in part or whole. **At c = 2.9 it is 10 at both**: the growth 4 -> 10 is measured at a resolved setting, on a last pair 1.4 to 1.5 times the band (s7.3a). Grade: measured, weakest step Delta_T.
+3. **N = 32 is undecided on this route in float64** (s7.7). By the s7.6 criterion as read before the Modal rows were analysed (ee4a1ff), the N = 16 -> 32 growth (9 -> 20, 10 -> 20) **falls at c = 2.5 and is split at 2.9**: the 240-mode refinement moves T_S by **3.9e-2 / 2.4e-2 / 3.2e-2**, more than every top-half depth, and counts **0 / 5 / 4** below the new band; at 2.9 the default-rule 280-mode row counts 22, but it inverts a Gram matrix of condition 1.1e17 (> 1/eps) and moves T_S by 1.3. The negatives did not leave (19 and 23 at the old band): the band rose. The 319 and 364-mode rows fail T_S >= 0 by 14 to 37. No eigenvalue lies within the platform bound 6.3e-7 of -band. The door is two_adic/'s rho without an explicit inverse. Grade: measured, one route on two platforms.
 4. **Kill-controls:** 1 passes; 2 passes; 3 not exercised (Gamma_C framework limit). 4, the lesion, is **refused twice**: NonUnitaryLocalData at the gate, then NotImplementedError in `KernelProvider.delta_T` once the gate is bypassed. Below both guards (a formula never validated off |alpha| = 1), T_S has no eigenvalue below -band, and n_-(R) rises from 4 to 5 / 6 / 6 (s7.4).
-5. **Q** (phase 1) is unchanged: it matches the CCM Galerkin matrix entrywise (5.5e-40 at dps 40) and `zeta.weil.weil_functional` spot checks (1e-18 to 4e-14), and Q > 0 on every cell. ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2}. At c = 2.9 the measured evidence runs against bounded rank (N = 8 -> 16, stable under refinement), but Delta_T is measured grade and the band indicates, it does not bound. Product-side C4 is **refuted** on these cells (with cutoff/).
+5. **Q** (phase 1) is unchanged: it matches the CCM Galerkin matrix entrywise (5.5e-40 at dps 40) and `zeta.weil.weil_functional` spot checks (1e-18 to 4e-14), and Q > 0 on every cell. ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2}. At c = 2.9 the measured evidence runs against bounded rank from N = 8 to 16 (stable under refinement); N = 32 does not add to it either way. Delta_T is measured grade and the band indicates, it does not bound. Product-side C4 is **refuted** on these cells (with cutoff/).
 
 Phases 1 to 3 of 2026-09-23, branch `teal-sea/weil-c4-s2`. Nothing here is
 a claim about RH. Grades follow the `AGENTS.md` ladder. Every number above is
@@ -272,6 +272,7 @@ to 23, and the construction is not moved to K.
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_ts.py --routed 8dc8525 --units 0,1,3,4,5,6   # ~5 min
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_ts.py --routed 8dc8525 --units 2 --analyse 015895f  # ~4 min + ~3 min
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_lesion.py   # ~1 min
+    PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_ts.py --merge-modal --analyse 015895f  # ~1 min, reads modal/out
     PYTHONPATH=$PWD <venv>/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/checker \
         tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # 2 min
 
@@ -281,6 +282,8 @@ two_adic/ commits a change to a file T_S imports, the snapshot no longer
 matches: tests that serve T_S from it skip with that reason (by design), and
 the pins of the JSON files keep holding for the recorded inputs. (From
 2026-09-24 such a commit also turns one test red, s7.1.)
+After the Modal merge (s7.7), the same command: 202 passed, 10 skipped, 3
+xfailed (18 new tests; the skips and xfails are those of s7.1).
 
 ## 7. Phase 3: T_S and R_S = Q - T_S (tests in `test_checker_ts.py`, WRITTEN AFTER ROUTING)
 
@@ -383,13 +386,15 @@ never built, and 1 is the Gamma_C positive control).
 band(c, N) = max(two_adic/'s probe for the row, the row's refinement
 response, the quadrature response at N = 16). Refinement means the N = 8 row
 against the central block of (160, 1600, 16), and the N = 16 row against
-(160, 1600). The N = 32 row's own refinement (240 modes) was launched and
-killed at 16 min wall under the 10-minute rule, unfinished (s7.1). The
-N = 16 response of the same cell is carried in parentheses as a stated
-proxy. A refinement response indicates the truncation error; it does not
-bound it. What sets the band: the refinement response on every N = 8 row
-and at c = 2.2 for N = 16 and 32 (at N = 32 as the proxy); two_adic/'s
-Gram probe at c = 2.5 and 2.9 for N = 16 and 32. No row is called
+(160, 1600). The N = 32 row against (240, 2400), run on Modal and merged
+on 2026-09-24 (s7.7). Until then (535882e) the N = 16 response of the same
+cell stood in for it as a stated proxy, and the N = 32 band was 1.59e-2 /
+7.55e-3 / 8.18e-3; **the three N = 32 rows changed band** to 3.92e-2 /
+2.37e-2 / 3.16e-2, and no N = 8 or N = 16 row changed. A refinement
+response indicates the truncation error; it does not bound it. What sets
+the band: the refinement response on every N = 8 and N = 32 row and at
+c = 2.2 for N = 16; two_adic/'s Gram probe at c = 2.5 and 2.9 for N = 16.
+No row is called
 converged: the mode responses in s7.2 and s7.3a do not support it. Eigenvalues: numpy on float64 R = Q - T_S, with Q rounded from
 dps 40. Counts use -band. Eigenvalues with |lambda| <= band are undecided.
 
@@ -397,25 +402,25 @@ dps 40. Counts use -band. Eigenvalues with |lambda| <= band are undecided.
 |---|---|---|---|---|---|---|---|
 | 2.2 | 8 | (80, 1200) | 3.75e-03 | 5.58e-03 | 5.58e-03 | 3.52e-03 | 4, -0.3038 |
 | 2.2 | 16 | (120, 1600) | 5.85e-03 | 1.59e-02 | 1.59e-02 | 2.62e-03 | 6, -0.4647 |
-| 2.2 | 32 | (200, 2400) | 8.16e-03 | (1.59e-02) | 1.59e-02 | 2.45e-03 | 10, -0.488 |
+| 2.2 | 32 | (200, 2400) | 8.16e-03 | 3.92e-02 | 3.92e-02 | 2.45e-03 | 10, -0.488 |
 | 2.5 | 8 | (80, 1200) | 3.48e-03 | 5.55e-03 | 5.55e-03 | 2.81e-03 | 6, -0.4275 |
 | 2.5 | 16 | (120, 1600) | 5.42e-03 | 5.24e-03 | 5.42e-03 | 1.93e-03 | 10, -0.4812 |
-| 2.5 | 32 | (200, 2400) | 7.55e-03 | (5.24e-03) | 7.55e-03 | 1.76e-03 | 18, -0.4886 |
+| 2.5 | 32 | (200, 2400) | 7.55e-03 | 2.37e-02 | 2.37e-02 | 1.76e-03 | 17, -0.4886 |
 | 2.9 | 8 | (80, 1200) | 3.76e-03 | 5.32e-03 | 5.32e-03 | 2.55e-03 | 7, -0.4377 |
 | 2.9 | 16 | (120, 1600) | 5.86e-03 | 3.69e-03 | 5.86e-03 | 1.67e-03 | 12, -0.4811 |
-| 2.9 | 32 | (200, 2400) | 8.18e-03 | (3.69e-03) | 8.18e-03 | 1.50e-03 | 23, -0.4885 |
+| 2.9 | 32 | (200, 2400) | 8.18e-03 | 3.16e-02 | 3.16e-02 | 1.50e-03 | 23, -0.4885 |
 
 | c | N | full: n_- / undecided / n_+ | full: three lowest | V_-: n_- / undecided | V_-0: n_- / undecided | n_- on \|n\| > N/2 |
 |---|---|---|---|---|---|---|
 | 2.2 | 8 | 4 / 1 / 12 | -0.02691, -0.01452, -0.008617 | 4 / 0 | 3 / 0 | 2 |
 | 2.2 | 16 | 4 / 19 / 10 | -0.02602, -0.01936, -0.01934 | 4 / 18 | 3 / 18 | 2 |
-| 2.2 | 32 | 3 / 48 / 14 | -0.02569, -0.0176, -0.0173 | 3 / 47 | 3 / 46 | 2 |
+| 2.2 | 32 | 0 / 59 / 6 | -0.02569, -0.0176, -0.0173 | 0 / 58 | 0 / 57 | 0 |
 | 2.5 | 8 | 4 / 3 / 10 | -0.04015, -0.02129, -0.01329 | 4 / 2 | 4 / 1 | 2 |
 | 2.5 | 16 | 9 / 7 / 17 | -0.03914, -0.02481, -0.01788 | 9 / 6 | 9 / 5 | 4 |
-| 2.5 | 32 | 20 / 25 / 20 | -0.039, -0.02579, -0.01829 | 20 / 24 | 20 / 23 | 14 |
+| 2.5 | 32 | 2 / 53 / 10 | -0.039, -0.02579, -0.01829 | 2 / 52 | 2 / 51 | 0 |
 | 2.9 | 8 | 4 / 2 / 11 | -0.09654, -0.0456, -0.01307 | 4 / 1 | 4 / 1 | 2 |
 | 2.9 | 16 | 10 / 4 / 19 | -0.1127, -0.04522, -0.01806 | 10 / 3 | 9 / 3 | 5 |
-| 2.9 | 32 | 20 / 20 / 25 | -0.1203, -0.0451, -0.01726 | 20 / 19 | 20 / 18 | 12 |
+| 2.9 | 32 | 2 / 52 / 11 | -0.1203, -0.0451, -0.01726 | 2 / 51 | 2 / 50 | 0 |
 
 Undecided eigenvalues (all of them, per class, are in
 `checker_ts_cells.json` under `undecided`):
@@ -424,46 +429,51 @@ Undecided eigenvalues (all of them, per class, are in
 |---|---|---|---|
 | 2.2 | 8 | 5.58e-03 | -0.002301 |
 | 2.2 | 16 | 1.59e-02 | 9 negative of 19, from -0.01564 to 0.01554 |
-| 2.2 | 32 | 1.59e-02 | 26 negative of 48, from -0.01573 to 0.01401 |
+| 2.2 | 32 | 3.92e-02 | 29 negative of 59, from -0.02569 to 0.03439 |
 | 2.5 | 8 | 5.55e-03 | -0.002722, -0.001354, 0.001348 |
 | 2.5 | 16 | 5.42e-03 | 3 negative of 7, from -0.001489 to 0.004895 |
-| 2.5 | 32 | 7.55e-03 | 13 negative of 25, from -0.005818 to 0.007314 |
+| 2.5 | 32 | 2.37e-02 | 31 negative of 53, from -0.01829 to 0.02244 |
 | 2.9 | 8 | 5.32e-03 | -0.002539, -0.001979 |
 | 2.9 | 16 | 5.86e-03 | 2 negative of 4, from -0.001655 to 0.004036 |
-| 2.9 | 32 | 8.18e-03 | 10 negative of 20, from -0.007705 to 0.008137 |
+| 2.9 | 32 | 3.16e-02 | 28 negative of 52, from -0.01726 to 0.02983 |
 
 What this measures:
 
 - **T_S removes the depth of the product-side remainder.** Q - T_inf has
   lambda_min -0.30 to -0.49 and a negative count growing in N (4, 6, 10 /
-  6, 10, 18 / 7, 12, 23 at this band). R_S has lambda_min -0.026 / -0.039 /
+  6, 10, 17 / 7, 12, 23 at this band). R_S has lambda_min -0.026 / -0.039 /
   -0.097 to -0.12.
-- **It does not remove the count.** n_-(R_S) grows 4 -> 9 -> 20 at c = 2.5
-  and 4 -> 10 -> 20 at c = 2.9. At c = 2.5, N = 32 it exceeds the product
-  side (20 against 18). The same counts hold on V_- and V_-0, within one.
-  At c = 2.2 the count is 4, 4, 3, but the band there is 1.6e-2 and 48
-  eigenvalues are undecided at N = 32.
-- **Where the growth lives.** At N = 32, 14 (2.5) and 12 (2.9) of the 20
-  negatives have more than half their weight on |n| > N/2. That is where
-  every refinement response concentrates. The rest (6 and 8) have most
-  of their weight on |n| <= N/2 and grow too (2, 5, 6 and 2, 5, 8 over
-  N = 8, 16, 32).
+- **The count, from N = 8 to 16.** n_-(R_S) goes 4 -> 9 at c = 2.5 and
+  4 -> 10 at 2.9, the same on V_- and V_-0 within one; 4, 4 at 2.2.
+- **The count at N = 32 is not resolved.** At the measured N = 32 band it
+  is 0 / 2 / 2, with 59 / 53 / 52 eigenvalues undecided. At the proxy band
+  of 535882e it was 3 / 20 / 20, 14 (2.5) and 12 (2.9) of them with more
+  than half their weight on |n| > N/2; every one of those lies above the
+  measured band. The N = 16 to 32 growth is therefore not supported at
+  N = 32's own band, and not refuted either (s7.7).
+- **Where the N = 8 to 16 growth lives.** Negatives with most of their
+  weight on |n| <= N/2: 2, 5 at 2.5 and 2.9 (2, 2 at 2.2); at N = 32, 2
+  each (0 at 2.2), at the measured band.
 - **Two deep negatives at c = 2.9** (about -0.1 and -0.045, -0.07 and -0.038
-  on V_-0) sit below -3.7e-2 on every class and every N, 4.5 times the
-  largest band of the cell. A bounded count, measured.
+  on V_-0) sit below -3.7e-2 on every class and every N. Against the
+  largest band of the cell, now the measured N = 32 band 3.16e-2, the
+  second sits 1.2 to 1.4 times below it (4.5 times against the proxy band).
+  A bounded count, measured.
 - **Banded P4** (one threshold per cell, `band_cell` = the largest band of
-  the cell): nondecreasing at 2.5 and 2.9. At 2.2 it runs 1, 4, 3 (one
-  eigenvalue, -1.63e-2 at N = 16, against the threshold -1.59e-2). The
+  the cell, now the N = 32 band): 0, 0, 0 / 1, 2, 2 / 2, 2, 2,
+  nondecreasing on every cell. At the proxy band_cell of 535882e it ran
+  1, 4, 3 at 2.2, a failure of banded P4 asserted before the data. The
   delivered rows use different settings per N and are not nested, so
-  interlacing does not apply to them. This was asserted before the data
-  and failed at 2.2; it is pinned as measured.
+  interlacing does not apply to them.
 - **T_S >= 0** is not decided at the band: its lowest eigenvalue (1.5e-3 to
   3.5e-3) is inside every band. No eigenvalue of T_S lies below -band.
 
 **Grade of the whole: measured.** Q is measured at two precisions with an
 oracle; T_S rests on Delta_T (measured, one route, float64). The band is an
-indicator, not a bound, and at N = 32 it rests on a proxy. The weakest step
-governs.
+indicator, not a bound. At N = 32 it is a refinement response between two
+platforms (laptop 200 modes, Modal 240 modes: the same route, not an
+independent one) and the 240-mode row is itself off by at least 7.3e-3
+(s7.7). The weakest step governs.
 
 ### 7.3a Growth or truncation: two discriminators from units already built
 
@@ -505,17 +515,17 @@ the weight-based split of s7.3:
 |---|---|---|---|---|---|---|
 | 2.2 | 8 | 9 | 2 / 1 | -0.02519, -0.01327, -0.002267 | 4 | 2 |
 | 2.2 | 16 | 17 | 1 / 6 | -0.02553, -0.01317, -0.005198 | 4 | 2 |
-| 2.2 | 32 | 33 | 1 / 20 | -0.02553, -0.01573, -0.01502 | 3 | 1 |
+| 2.2 | 32 | 33 | 0 / 27 | -0.02553, -0.01573, -0.01502 | 0 | 0 |
 | 2.5 | 8 | 9 | 2 / 1 | -0.03981, -0.014, -0.002505 | 4 | 2 |
 | 2.5 | 16 | 17 | 4 / 3 | -0.03905, -0.01978, -0.009967 | 9 | 5 |
-| 2.5 | 32 | 33 | 6 / 11 | -0.03898, -0.0241, -0.01631 | 20 | 6 |
+| 2.5 | 32 | 33 | 2 / 21 | -0.03898, -0.0241, -0.01631 | 2 | 2 |
 | 2.9 | 8 | 9 | 2 / 2 | -0.06871, -0.04266, -0.002535 | 4 | 2 |
 | 2.9 | 16 | 17 | 4 / 2 | -0.09499, -0.04441, -0.01088 | 10 | 5 |
-| 2.9 | 32 | 33 | 8 / 6 | -0.1123, -0.045, -0.01724 | 20 | 8 |
+| 2.9 | 32 | 33 | 2 / 20 | -0.1123, -0.045, -0.01724 | 2 | 2 |
 
-At c = 2.2 the compressed count is 2, 1, 1. At 2.5 and 2.9 it grows (2, 4, 6
-and 2, 4, 8), and so does the weight-based count (2, 5, 6 and 2, 5, 8). The
-bands differ by row. **One range, one threshold:** on |n| <= 16 at
+At c = 2.2 the compressed count is 2, 1, 0. At 2.5 and 2.9 it goes 2, 4, 2
+(it was 2, 4, 6 and 2, 4, 8 at the N = 32 proxy band of 535882e), and so
+does the weight-based count (2, 5, 2). The bands differ by row. **One range, one threshold:** on |n| <= 16 at
 band(c, 16), the 80, 120 and 160-mode N = 16 builds and the 200-mode N = 32
 build give 5, 4, 3, 1 at c = 2.2; 10, 9, 8, 8 at 2.5; 12, 10, 10, 10 at 2.9.
 The last pair counted at 2.5 and 2.9 sits at -6.7e-3 to -8.9e-3, 1.2 to 1.6
@@ -525,8 +535,10 @@ times the band.
 does not move under 120 -> 160 modes: measured, at a resolved setting by
 (1), on a last pair 1.4 to 1.5 times a band that indicates and does not
 bound. At 2.5 the same growth is partly truncation; at 2.2 it is
-truncation. The N = 32 counts (20) are **measured and confounded with mode
-truncation**: the N = 32 refinement is the door (s7.6).
+truncation. **(3) N = 32 against more modes** is s7.7: the N = 32 counts
+of 20 at the proxy band do not survive the N = 32 row's own refinement
+response, which is larger than their depth; that refinement is itself
+not clean.
 
 ### 7.4 Kill-control 4 (lesion, optional, labelled as such)
 
@@ -580,13 +592,21 @@ rounding (1e-16 relative).
   default rule (364 / 319 / 280 modes, S = 24 pi N / L). If the 12 to 14
   top-half negatives at N = 32 move by more than their depth (about 1.2e-2
   to 1.8e-2), the growth is truncation. If they stay, P5 fails at the
-  measured grade on c = 2.5 and 2.9.
-- **CI proposal (GitHub Actions, not local):** units (240, 2400, 32) and the
-  default-rule rows at N = 32, all three cells per unit. Measured per-unit
-  cost: (200, 2400, 32) 246.8 s. (240, 2400, 32) exceeded 9.2 CPU-min and
-  did not finish, against a model estimate of 320 s, so the scaling model
-  does not hold at Kmax 14. A CI job should time one unit first. Each unit
-  checkpoints (`run_checker_ts.py --units`).
+  measured grade on c = 2.5 and 2.9. (Written 2026-09-23. It ran; the
+  outcome is s7.7.)
+- **Ran on Modal, not CI** (operator's approval, 2026-09-24): (240, 2400, 32)
+  and the three default-rule rows, all three cells per unit, 844 to 1784 s
+  each in the child process (`modal/RESULTS.md`). The laptop estimate had failed at Kmax 14.
+- **The door now is the route, not the mode count.** `ta_mellin.rho`
+  inverts Gb with `np.linalg.inv`, and cond(Gb) grows 3.9e9, 4.9e12, 1.1e17
+  as modes go 200, 240, 280 (s7.7). More modes on this route cannot resolve
+  N = 32 in float64. Evaluating rho without the explicit inverse (a
+  factorization, or that one step at higher precision) is two_adic/'s code;
+  reported to the coordinator, not fixed here. Optional, if the 200 -> 240
+  response is to be split into arithmetic and truncation: (240, 2400, 32)
+  again on Modal with the Sandybridge kernels, about 890 s and 0.078 USD
+  computed at the rates of `modal/RUNS.md` s2, as its first run. The grade below does not
+  need it.
 - **The positive control** needs 23 in S or the construction over
   K = Q(sqrt -23) (s5.4). Forge's ruling keeps S = {inf, 2}.
 
@@ -631,3 +651,94 @@ not moved after the numbers:
 
 Grade of everything in this section: measured, float64, one route. Modal and
 the laptop are the same route on two platforms, not independent routes.
+
+**What ran.** `run_checker_ts.py --merge-modal` copied the four Modal units
+into `checker_ts_snapshot.json` under the same T_S input digest (1dcab230),
+refusing any file whose status, in-container guard, digest or unit key is
+off (a test plants each). Each unit records its source file, sha256,
+platform (Linux x86_64, Python 3.12, OpenBLAS) and the calibration bounds.
+The laptop (200, 2400, 32) rows are unchanged since 535882e, and `T_S()`
+still serves them; the Modal builds of that unit are read from `modal/out`
+for the platform check only.
+
+**Every N = 32 build at one threshold, band(c, 32)** (3.92e-2 / 2.37e-2 /
+3.16e-2), and at the proxy band of 535882e (1.59e-2 / 7.55e-3 / 8.18e-3).
+Counts are n_- / top half (more than half the weight on |n| > 16).
+
+| c | build (nvec, S) | cond(Gb) | T_S lowest | \|\|T_S - T_S(200)\|\|_2 | at band(c, 32) | at the proxy band | last two counted |
+|---|---|---|---|---|---|---|---|
+| 2.2 | (200, 2400) laptop | 3.9e+09 | 2.45e-03 | 0.00e+00 | 0 / 0 | 3 / 2 | none |
+| 2.2 | (240, 2400) | 4.9e+12 | -7.35e-03 | 3.92e-02 | 0 / 0 | 9 / 6 | none |
+| 2.2 | (280, 2266) | 1.1e+17 | 4.60e-02 | 1.25e+00 | 20 / 8 | 25 / 9 | -0.04542, -0.04094 |
+| 2.2 | (319, 2633) | 2.8e+18 | -1.43e+01 | 1.81e+01 | 19 / 13 | 22 / 14 | -0.0489, -0.04533 |
+| 2.2 | (364, 3060) | 5.1e+17 | -2.22e+01 | 2.61e+01 | 25 / 12 | 27 / 14 | -0.06993, -0.05272 |
+| 2.5 | (200, 2400) laptop | 3.9e+09 | 1.76e-03 | 0.00e+00 | 2 / 0 | 20 / 14 | -0.039, -0.02579 |
+| 2.5 | (240, 2400) | 4.9e+12 | -8.45e-03 | 2.37e-02 | 5 / 1 | 19 / 8 | -0.02638, -0.02481 |
+| 2.5 | (280, 2266) | 1.1e+17 | 3.03e-02 | 1.09e+00 | 22 / 12 | 27 / 13 | -0.03662, -0.03215 |
+| 2.5 | (319, 2633) | 2.8e+18 | -1.36e+01 | 1.74e+01 | 22 / 12 | 27 / 15 | -0.03494, -0.02422 |
+| 2.5 | (364, 3060) | 5.1e+17 | -3.37e+01 | 3.73e+01 | 28 / 16 | 29 / 17 | -0.03457, -0.03406 |
+| 2.9 | (200, 2400) laptop | 3.9e+09 | 1.50e-03 | 0.00e+00 | 2 / 0 | 20 / 12 | -0.1203, -0.0451 |
+| 2.9 | (240, 2400) | 4.9e+12 | -8.93e-03 | 3.16e-02 | 4 / 2 | 23 / 13 | -0.03476, -0.03339 |
+| 2.9 | (280, 2266) | 1.1e+17 | 1.97e-02 | 1.32e+00 | 22 / 13 | 28 / 16 | -0.0356, -0.03353 |
+| 2.9 | (319, 2633) | 2.8e+18 | -1.41e+01 | 1.78e+01 | 20 / 12 | 26 / 16 | -0.04614, -0.04048 |
+| 2.9 | (364, 3060) | 5.1e+17 | -3.66e+01 | 3.99e+01 | 28 / 17 | 30 / 18 | -0.05155, -0.0404 |
+
+**Outcome, by the reading above.**
+
+- **Band.** The refinement response is 3.92e-2 / 2.37e-2 / 3.16e-2, 2.5 to
+  8.6 times the N = 16 response it replaces, and it sets band(c, 32) on
+  every cell. The laptop and Modal 200-mode rows differ by 2.3e-7 to
+  2.9e-7, nothing at this scale.
+- **Weyl clause.** The response exceeds the depth of every top-half negative
+  of the 200-mode row: 14 of 14 at 2.5 (from -1.83e-2 to -8.0e-3), 12 of 12
+  at 2.9 (from -1.45e-2 to -1.21e-2). It holds only the deepest eigenvalue
+  at 2.9 (-0.12) below -band.
+- **Recount.** 0 / 2 / 2 on the 200-mode row, 0 / 5 / 4 on the 240-mode
+  row, against 4 / 9 / 10 at N = 16.
+- **Platform.** No eigenvalue of any build lies within 6.32e-7 of -band (the
+  closest is 5.0e-4 away, 319 modes at 2.5; 5.9e-4 on the 240-mode row).
+  The laptop, Modal and Modal Sandybridge builds of the 200-mode unit give
+  the same counts at both bands, eigenvalues within 2.8e-7.
+- **Verdict.** c = 2.5: **falls** (240 modes: 5, at most 9; the 319-mode
+  row is not admitted, T_S lowest -13.6). c = 2.9: **split**. The 240-mode
+  row falls (4, at most 10); the 280-mode row passes P2 at the band (T_S
+  lowest +2.0e-2), so it is admitted, and survives (22). The reading does
+  not say how two admitted rows that disagree combine, so by the letter
+  c = 2.9 is **undecided**. c = 2.2 is outside the criterion: 0 on the 200
+  and 240-mode rows, the 364-mode row not admitted.
+
+**What "falls" means here.** The band rose past the negatives; the
+negatives did not leave. At the proxy band the 240-mode row still holds 19
+(2.5) and 23 (2.9) negatives, 8 and 13 of them on the top half. So the
+N = 16 to 32 growth is not supported at N = 32's own band, and it is not
+refuted: n_-(R_S) at N = 32 is undecided on this route in float64. P5's
+failure at c = 2.9 from N = 8 to 16 (s7.3a) is untouched; it rests on
+N = 16 rows.
+
+**Neither refined row is a clean refinement.** Measured; the conclusions
+drawn from the numbers are ordinary arguments, stated as such.
+
+- **240 modes.** T_S has lowest eigenvalue -7.3e-3 / -8.5e-3 / -8.9e-3.
+  Since T_S >= 0 (P2, elementary), this row is off by at least that much in
+  spectral norm (Weyl); the 200-mode row is positive (1.5e-3 to 2.4e-3). It
+  moves the N = 8 block by 1.6e-2 to 1.8e-2, 10 to 15 times what 120 -> 160
+  moved it at N = 16 (1.1e-3 to 1.7e-3), and at 2.5 and 2.9 the direction it
+  moves most carries weight 0.06 and 0.29 on |n| > 16 (0.99 at 2.2).
+  Top-frequency truncation does not have that shape. cond(Gb) is 4.9e12;
+  eps x cond(Gb) = 1.1e-3 is an estimate of its arithmetic floor (on the
+  200-mode unit the measured floor was 0.34 of that product), not a
+  measurement. At that floor the counts range 0 / 4 to 6 / 4, all at most
+  the N = 16 counts, so the verdict does not depend on it.
+- **The default-rule rows.** `ta_mellin.rho` inverts Gb with
+  `np.linalg.inv`; cond(Gb) is 1.1e17 (280), 2.8e18 (319) and 5.1e17
+  (364), above 1/eps = 4.5e15, where the float64 inverse is not determined
+  by Gb. T_S at 319 and 364 modes fails P2 by 13.6 to 36.6. At 280 it
+  passes P2 but moves T_S by 1.09 to 1.32 from the 200-mode row, 32 to 46
+  times the 240-mode step, and moves the N = 8 block by 9.1e-2 to 0.13.
+  **The 280-mode row that survives at c = 2.9 is this row.** Its eps x
+  cond(Gb) is 24: if the calibrated scaling holds there, every eigenvalue
+  lies inside its floor. That argument was not part of the reading fixed
+  before the numbers; with it, c = 2.9 falls on the same terms as 2.5.
+
+Grade of everything in s7.7: measured, float64, one route on two platforms.
+The door is s7.6's last bullet: rho without the explicit inverse.

@@ -32,6 +32,7 @@ changes which kernel/ JSON supplies T_inf before rounding to float64); the
 mode-count and quadrature responses replace it as the tolerance source.
 
     PYTHONPATH=$PWD <venv python> .../run_checker_ts.py --routed <hash> [--units 0,2] [--analyse <probe commit>]
+    PYTHONPATH=$PWD <venv python> .../run_checker_ts.py --merge-modal --analyse <probe commit>
 """
 
 from __future__ import annotations
@@ -69,11 +70,27 @@ UNITS = [  # (nvec, S, N, role)
 ]
 # Not run locally: (240, 2400, 32) at Kmax 14 was stopped at 16 min wall
 # (9.2 min CPU, load average 8 to 9 on the shared laptop), against an estimate
-# of 320 s. It is a CI proposal (RESULTS.md s7). N = 32 carries the N = 16
-# refinement response of the same cell as a stated proxy.
+# of 320 s. It ran on Modal on 2026-09-24 (MODAL_UNITS below, merge_modal);
+# until then N = 32 carried the N = 16 refinement response as a stated proxy.
 CI_UNITS = [(240, 2400, 32, "mode_count_up")]
 SNAP = GLUE.TS_SNAPSHOT
 OUT = os.path.join(HERE, "checker_ts_cells.json")
+
+# Follow-up of 2026-09-24: modal/ ran CI_UNITS and two_adic/'s default rule at
+# N = 32 on Modal (build_unit, tree 284eff6, same T_S input digest). merge_modal
+# copies those rows into the snapshot, read-only on modal/out, each unit marked
+# with its source file and platform. The laptop 200|2400|32 rows are kept; the
+# Modal builds of that unit are read from modal/out by the platform check only.
+MODAL_OUT = os.path.abspath(os.path.join(HERE, "..", "modal", "out"))
+MODAL_UNITS = [  # (nvec, S as passed, file, role); S is keyed as int(S)
+    (240, 2400, "checker_240_2400_32.json", "mode_count_up (CI_UNITS)"),
+    (280, 2266.1020257693895, "checker_280_2266_32.json", "default rule at c = 2.9"),
+    (319, 2633.163333456407, "checker_319_2633_32.json", "default rule at c = 2.5"),
+    (364, 3060.0807085398565, "checker_364_3060_32.json", "default rule at c = 2.2"),
+]
+MODAL_PLATFORM_ROWS = {"200_modal": "checker_200_2400_32.json",
+                       "200_modal_sandybridge": "checker_200_2400_32_sandybridge.json"}
+DEFAULT_ROW = {"2.2": 364, "2.5": 319, "2.9": 280}  # two_adic/'s rule nvec = int(8N/L) + 40
 
 
 def unit_key(c, N, dps, nv, S):
@@ -144,6 +161,76 @@ def snapshot(routed, only=None):
     return snap
 
 
+def modal_unit(fname, nv, S, digest):
+    """One modal/out checker file, checked before it may enter the snapshot:
+    status ok, the in-container guard clean before and after, the same T_S
+    input digest as here, exactly the unit and rows build_unit writes."""
+    import hashlib
+
+    path = os.path.join(MODAL_OUT, fname)
+    with open(path, "rb") as fh:
+        raw = fh.read()
+    d = json.loads(raw)
+    m = d["meta"]
+    ukey = f"{nv}|{int(S)}|32"
+    keys = {unit_key(c, 32, 40, nv, S) for c in CELLS}
+    problems = []
+    if m.get("status") != "ok":
+        problems.append(f"status {m.get('status')}")
+    if not (m["guard_before"]["ok"] and m["guard_after"]["ok"]):
+        problems.append("in-container guard not clean")
+    if not (m["ts_inputs_digest"] == m["guard_before"]["ts_inputs_digest"]
+            == m["guard_after"]["ts_inputs_digest"] == digest):
+        problems.append(f"digest {m['ts_inputs_digest'][:12]} != {digest[:12]}")
+    if set(d["units"]) != {ukey} or set(d["T_S"]) != keys:
+        problems.append(f"units {sorted(d['units'])}, rows {sorted(d['T_S'])}")
+    if any(np.array(d["T_S"][k]).shape != (65, 65) for k in keys & set(d["T_S"])):
+        problems.append("row shape")
+    if problems:
+        raise SystemExit(f"refused: {fname}: " + "; ".join(problems))
+    u = dict(d["units"][ukey])
+    u["source"] = {
+        "file": f"{GLUE.C4S2}/modal/out/{fname}", "sha256": hashlib.sha256(raw).hexdigest(),
+        "platform": m["machine"]["platform"], "python": m["machine"]["python"],
+        "blas_core": m.get("blas_core"), "numpy": m["versions"]["numpy"],
+        "tree_commit": m["tree_commit"], "ts_inputs_digest": m["ts_inputs_digest"],
+        "weyl_bound": m["calibration"]["weyl_bound"],
+        "arithmetic_floor_bound": m["calibration"]["arithmetic_floor_bound"]}
+    return ukey, u, {k: d["T_S"][k] for k in keys}
+
+
+def merge_modal():
+    """Merge the Modal N = 32 rows into the snapshot under the current digest.
+    Refuses on a dirty or moved T_S input, on a snapshot keyed elsewhere, and
+    on any file modal_unit refuses. Idempotent: a merged unit must be equal."""
+    digest = _guard()
+    with open(SNAP) as fh:
+        snap = json.load(fh)
+    if snap["meta"]["ts_inputs_digest"] != digest:
+        raise SystemExit(f"refused: snapshot keyed {snap['meta']['ts_inputs_digest'][:12]}, inputs {digest[:12]}")
+    files = []
+    for nv, S, fname, role in MODAL_UNITS:
+        ukey, u, rows = modal_unit(fname, nv, S, digest)
+        u["role"] = role
+        for k, v in rows.items():
+            if k in snap["T_S"] and snap["T_S"][k] != v:
+                raise SystemExit(f"refused: {k} already in the snapshot with other values")
+        snap["T_S"].update(rows)
+        snap["units"][ukey] = u
+        files.append(u["source"]["file"])
+    snap["meta"]["merge_modal"] = {
+        "date": "2026-09-24", "ts_inputs_digest": digest, "digest_equal": True, "files": files,
+        "laptop_rows": "200|2400|32 stays the laptop build (macOS arm64, Python 3.13); the Modal builds of "
+                       "that unit (calibration and Sandybridge probe) are read from modal/out, not merged",
+        "platform_note": "Modal rows: Linux x86_64 gVisor, Python 3.12, OpenBLAS; the same route as the laptop "
+                         "rows on another platform, not an independent route (modal/RUNS.md s3, s4)"}
+    _guard(digest)
+    with open(SNAP, "w") as fh:
+        json.dump(snap, fh)
+    print("merged:", ", ".join(files), flush=True)
+    return snap
+
+
 # ----------------------------------------------------------------- analysis
 
 
@@ -171,6 +258,71 @@ def probes(routed):
     return out
 
 
+def modes_n32(c, snap, T, Q, t32, u16, band, band_before, n16):
+    """RESULTS s7.7: every N = 32 build at one threshold, band(c, 32), and the
+    s7.6 criterion as read in s7.7 (committed ee4a1ff, before this ran).
+    Builds: the laptop 200-mode row, the two Modal builds of the same unit
+    (read from modal/out, not merged), 240 modes, and the default-rule rows."""
+    nn = np.arange(-32, 33)
+    builds = {"200": (t32, snap["units"]["200|2400|32"]["diag"]["cond_Gb"])}
+    for name, fname in MODAL_PLATFORM_ROWS.items():
+        with open(os.path.join(MODAL_OUT, fname)) as fh:
+            d = json.load(fh)
+        builds[name] = (np.array(d["T_S"][unit_key(c, 32, 40, 200, 2400)]), d["units"]["200|2400|32"]["diag"]["cond_Gb"])
+    for nv, S, _, _ in MODAL_UNITS:
+        builds[str(nv)] = (T[unit_key(c, 32, 40, nv, S)], snap["units"][f"{nv}|{int(S)}|32"]["diag"]["cond_Gb"])
+    src = snap["units"]["240|2400|32"]["source"]
+    flag = src["weyl_bound"] + src["arithmetic_floor_bound"]
+    w200, V200 = np.linalg.eigh(Q - t32)
+    top200 = (V200[np.abs(nn) > 16, :] ** 2).sum(0)
+    depths = w200[(w200 < -band_before) & (top200 > 0.5)]
+    out = {"band": band, "band_before_merge": band_before, "platform_flag": flag, "n_minus_N16": n16,
+           "top_half_depths_200_before_merge": [float(x) for x in depths], "builds": {}}
+    eig = {}
+    for name, (TS, cond) in builds.items():
+        w, V = np.linalg.eigh(Q - TS)
+        eig[name] = w
+        top = (V[np.abs(nn) > 16, :] ** 2).sum(0)
+        k = int((w < -band).sum())
+        ts = np.linalg.eigvalsh(TS)
+        dT = spec_norm(TS - t32)
+        wd, Vd = np.linalg.eigh(TS - t32)
+        vd = Vd[:, np.argmax(np.abs(wd))]
+        out["builds"][name] = {
+            "cond_Gb": float(cond), "T_S_low": float(ts[0]), "P2_at_band": bool(ts[0] >= -band),
+            "dT_vs_200": dT, "dT_vs_200_N8_block": spec_norm((TS - t32)[24:41, 24:41]),
+            "dT_top_eigvec_weight_on_n_gt_16": float((vd[np.abs(nn) > 16] ** 2).sum()),
+            "N16_block_vs_160_1600": spec_norm(TS[16:49, 16:49] - u16),
+            "n_minus": k, "n_minus_top_half": int(((w < -band) & (top > 0.5)).sum()),
+            "low3": [float(x) for x in w[:3]], "last_two_counted": [float(x) for x in w[max(0, k - 2):k]],
+            "first_not_counted": float(w[k]), "min_gap_to_band": float(np.abs(w + band).min()),
+            "n_flagged": int((np.abs(w + band) <= flag).sum()),
+            "n_minus_range": [int((w < -band - flag).sum()), int((w < -band + flag).sum())],
+            # an ESTIMATE, not a measurement: eps * cond(Gb), the scale on which a last-digit
+            # change reaches rho through inv(Gb); on the 200-mode unit the measured floor was
+            # 0.34 of it (2.93e-7 against 8.6e-7). Measured only for that unit.
+            "eps_cond_estimate": float(np.finfo(float).eps * cond),
+            "n_minus_range_at_eps_cond": [int((w < -band - np.finfo(float).eps * cond).sum()),
+                                          int((w < -band + np.finfo(float).eps * cond).sum())],
+            "n_minus_at_band_before_merge": int((w < -band_before).sum()),
+            "n_minus_top_half_at_band_before_merge": int(((w < -band_before) & (top > 0.5)).sum()),
+            "top_half_depths_exceeded_by_dT": int((np.abs(depths) < dT).sum()),
+            "n_kept_by_weyl": int((w200 < -band - dT).sum())}
+    p = ("200", "200_modal", "200_modal_sandybridge")
+    out["platform_200"] = {
+        "max_eig_diff": max(float(np.abs(eig[a] - eig[b]).max()) for a in p for b in p),
+        "counts_equal": len({out["builds"][a]["n_minus"] for a in p}) == 1,
+        "counts_equal_before_merge": len({out["builds"][a]["n_minus_at_band_before_merge"] for a in p}) == 1}
+    verdict = {}
+    for name in ("240", str(DEFAULT_ROW[c])):
+        b = out["builds"][name]
+        lo, hi = b["n_minus_range"]
+        label = "survives" if lo > n16 else ("falls" if hi <= n16 else "undecided")
+        verdict[name] = {"admitted": b["P2_at_band"], "label": label if b["P2_at_band"] else "not admitted"}
+    out["s7_6_verdict"] = verdict
+    return out
+
+
 def analyse(snap, probe_commit):
     T = {k: np.array(v) for k, v in snap["T_S"].items()}
     pr = probes(probe_commit)
@@ -181,8 +333,9 @@ def analyse(snap, probe_commit):
                                   "response ||T_S(120, 1600) - T_S(120, 1200)||_2 at N = 16). Refinement: "
                                   "N = 8 row (80, 1200) against the central block of (160, 1600, 16); "
                                   "N = 16 row (120, 1600) against (160, 1600); N = 32 row: its own refinement "
-                                  "(240, 2400) is a CI proposal, the N = 16 refinement response of the "
-                                  "same cell is carried as a stated proxy. Weyl: no eigenvalue of R_S moves more than ||dT||_2 between "
+                                  "(240, 2400), run on Modal and merged 2026-09-24 (merge_modal), which replaces the stated "
+                                  "proxy (the N = 16 refinement response of the same cell) whenever that unit is in the "
+                                  "snapshot. Weyl: no eigenvalue of R_S moves more than ||dT||_2 between "
                                   "the two builds. A refinement response indicates, it does not bound, the "
                                   "truncation error. band_cell(c) = max over N, used only where one threshold "
                                   "is needed across N (the monotonicity check).",
@@ -200,11 +353,18 @@ def analyse(snap, probe_commit):
         refine = {8: spec_norm(t8 - u16[8:25, 8:25]), 16: spec_norm(u16 - t16)}
         rec["quadrature_response_N16"] = quad
         rec["refinement_response"] = {"8": refine[8], "16": refine[16], "32": None}
-        refine[32] = refine[16]  # proxy: (240, 2400, 32) not run locally (CI_UNITS)
+        k240 = unit_key(c, 32, 40, 240, 2400)
+        merged = k240 in T  # (240, 2400, 32), run on Modal: the N = 32 row's own refinement
+        if merged:
+            refine[32] = spec_norm(T[k240] - t32)
+            rec["refinement_response"]["32"] = refine[32]
+        else:
+            refine[32] = refine[16]  # proxy: (240, 2400, 32) not run locally (CI_UNITS)
         # the coarser direction: two_adic/ lists (80, 1200) as converged at N = 16 too
         rec["mode_response_80_to_120_N16"] = spec_norm(t16 - T[unit_key(c, 16, 40, 80, 1600)])
         rec["mode_response_80_to_120_N16_central_N8"] = spec_norm((t16 - T[unit_key(c, 16, 40, 80, 1600)])[8:25, 8:25])
         rec["mode_response_120_to_160_N16"] = refine[16]
+        rec["mode_response_120_to_160_N16_central_N8"] = spec_norm((u16 - t16)[8:25, 8:25])
         rec["combined_response_N16_80_1200"] = spec_norm(t16 - T[unit_key(c, 16, 40, 80, 1200)])
         rec["P3_same_settings_defect"] = float(np.abs(t8 - T[unit_key(c, 16, 40, 80, 1200)][8:25, 8:25]).max())
         rec["P3_converged_rows_defect_norm"] = spec_norm(t8 - t16[8:25, 8:25])
@@ -214,6 +374,10 @@ def analyse(snap, probe_commit):
         for N, (nv, S) in SETTINGS.items():
             bands[N] = max(pr[(c, N)], refine[N], quad)
         rec["band_cell"] = max(bands.values())
+        band32_before = max(pr[(c, 32)], refine[16], quad)  # the proxy band of 535882e
+        if merged:
+            rec["band_32_before_merge"] = band32_before
+            rec["band_cell_before_merge"] = max(bands[8], bands[16], band32_before)
         for N, (nv, S) in SETTINGS.items():
             TS = T[unit_key(c, N, 40, nv, S)]
             band = bands[N]
@@ -222,8 +386,8 @@ def analyse(snap, probe_commit):
             R = Q - TS
             bases = CP.class_bases(c, N, 40)
             e_inf = np.linalg.eigvalsh(Q - Tinf)
-            r = {"probe": pr[(c, N)], "refinement_response": refine[N] if N < 32 else None,
-                 "refinement_proxy": refine[N] if N == 32 else None, "band": band,
+            r = {"probe": pr[(c, N)], "refinement_response": refine[N] if (N < 32 or merged) else None,
+                 "refinement_proxy": refine[N] if (N == 32 and not merged) else None, "band": band,
                  "T_S_herm_defect": float(np.abs(TS - TS.T).max()),
                  "T_S_low3": [float(x) for x in np.linalg.eigvalsh(TS)[:3]],
                  "Q_low3": [float(x) for x in np.linalg.eigvalsh(Q)[:3]],
@@ -275,6 +439,9 @@ def analyse(snap, probe_commit):
         disc["200_N32_on_n_le_16"] = {"low3": [float(x) for x in e[:3]], "n_minus_at_band16": k,
                                       "last_two_counted": [float(x) for x in e[max(0, k - 2):k]]}
         rec["modes_N16_S1600"] = disc
+        if merged:
+            rec["modes_N32"] = modes_n32(c, snap, T, to_np(Qfull).real, t32, u16, bands[32], band32_before,
+                                         rec["16"]["full"]["n_minus"])
         out["cells"][c] = rec
         print(c, "analysed", flush=True)
     with open(OUT, "w") as fh:
@@ -284,12 +451,19 @@ def analyse(snap, probe_commit):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--routed", required=True, help="two_adic/ commit routed by the coordinator")
+    ap.add_argument("--routed", default=None, help="two_adic/ commit routed by the coordinator (builds units)")
     ap.add_argument("--units", default=None, help="comma-separated indices into UNITS (run in pieces)")
+    ap.add_argument("--merge-modal", action="store_true",
+                    help="merge the modal/out N = 32 rows into the snapshot (no build)")
     ap.add_argument("--analyse", default=None, metavar="PROBE_COMMIT",
                     help="analyse after the snapshot step, reading two_adic/'s probe at this commit")
     a = ap.parse_args()
-    only = None if a.units is None else {int(x) for x in a.units.split(",")}
-    s = snapshot(a.routed, only)
+    if a.routed is None and not a.merge_modal:
+        ap.error("--routed or --merge-modal")
+    if a.routed is not None:
+        only = None if a.units is None else {int(x) for x in a.units.split(",")}
+        s = snapshot(a.routed, only)
+    if a.merge_modal:
+        s = merge_modal()
     if a.analyse:
         analyse(s, a.analyse)
