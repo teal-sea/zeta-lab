@@ -589,3 +589,45 @@ rounding (1e-16 relative).
   checkpoints (`run_checker_ts.py --units`).
 - **The positive control** needs 23 in S or the construction over
   K = Q(sqrt -23) (s5.4). Forge's ruling keeps S = {inf, 2}.
+
+### 7.7 The Modal N = 32 rows (follow-up, 2026-09-24)
+
+**Reading of the s7.6 criterion, committed before any eigenvalue of R_S on a
+Modal row was computed.** s7.6, written on 2026-09-23 before these runs
+existed: if the 12 to 14 top-half negatives at N = 32 move by more than their
+depth (about 1.2e-2 to 1.8e-2), the growth is truncation; if they stay, P5
+fails at the measured grade on c = 2.5 and 2.9. It is applied as follows and
+not moved after the numbers:
+
+1. **Band.** band(c, 32) = max(two_adic/'s probe for (200, 2400, 32), the
+   refinement response ||T_S(240, 2400) - T_S(200, 2400)||_2, the quadrature
+   response at N = 16). The refinement response replaces the N = 16 proxy.
+   No probe exists for the new rows (`ta_ts_prolate.json` holds N = 32 rows
+   only at (130, 1800) and (200, 2400)), so one threshold per cell serves
+   every N = 32 build, as band(c, 16) did in s7.3a (1).
+2. **Weyl clause.** ||T_S(X) - T_S(200, 2400)||_2 against the actual depths
+   of the 200-mode row's top-half negatives (14 at c = 2.5, 12 at 2.9), and
+   which of those depths it exceeds. An eigenvalue deeper than -band by more
+   than the response cannot cross -band (Weyl); a shallower one can.
+3. **Recount clause.** On every N = 32 build (laptop 200, Modal 200, Modal
+   200 with the Sandybridge kernels, 240, and the default-rule rows): n_-
+   below -band(c, 32), the top-half count, the lowest three, the last pair
+   counted. A top-half negative has moved by more than its depth when it is
+   no longer below -band(c, 32).
+4. **Verdict**, on the refined rows, against the N = 16 counts (9 at 2.5, 10
+   at 2.9): the count **survives** if it still exceeds the N = 16 count
+   outside the platform-undecided eigenvalues, **falls** if it is at most
+   the N = 16 count, and is **undecided** if the difference lives inside
+   flagged eigenvalues.
+5. **Which rows are refined rows.** (240, 2400), and the default-rule rows
+   (364, 3060) at 2.2, (319, 2633) at 2.5, (280, 2266) at 2.9, each only if
+   its T_S passes P2 at the band (no eigenvalue of T_S below -band(c, 32)),
+   the test s7.3 applied to every delivered row.
+6. **Platform flag.** An eigenvalue within 2.93e-7 + 3.39e-7 = 6.32e-7 of
+   -band(c, 32) is platform-undecided. That bound was measured on the
+   200-mode unit (cond_Gb 3.9e9). For units whose cond_Gb is larger it is a
+   floor, not a measurement. The three 200-mode builds are also
+   eigendecomposed directly.
+
+Grade of everything in this section: measured, float64, one route. Modal and
+the laptop are the same route on two platforms, not independent routes.
