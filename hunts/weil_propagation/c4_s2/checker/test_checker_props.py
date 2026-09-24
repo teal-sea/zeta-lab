@@ -136,6 +136,12 @@ def test_T_S_positive_semidefinite(c, N):
     assert la >= -_sign_tol(a, b, la, lb)
 
 
+@pytest.mark.xfail(strict=True, reason=(
+    "phase 3, after routing: T_S is float64 and two_adic/ delivers N = 8 at "
+    "(nvec, S) = (80, 1200) and N = 16 at (120, 1600), so P3 at this file's "
+    "1e-30 tolerance cannot hold (max entry defect 3.1e-3 to 5.3e-3). At equal "
+    "settings the defect is exactly 0: test_checker_ts.py::"
+    "test_P3_holds_at_equal_settings_only. Assertion unchanged since ebf0eae."))
 @pytest.mark.parametrize("c", CELLS)
 def test_T_S_galerkin_consistency(c):
     """P3: N = 8 is the central block of N = 16."""
