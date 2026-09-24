@@ -122,7 +122,21 @@
     "2.9": 2.933789496755222e-07
    },
    "weyl_bound": 2.933789496755222e-07,
-   "cond_Gb": 3875494354.4005446
+   "cond_Gb": 3875494354.4005446,
+   "probe_unit": "checker_200_2400_32_sandybridge",
+   "probe_max_abs_diff": {
+    "2.2": 2.838754467049398e-07,
+    "2.5": 3.008082023470138e-07,
+    "2.9": 3.2898375756929e-07
+   },
+   "probe_spectral_diff": {
+    "2.2": 2.9655489709398436e-07,
+    "2.5": 3.1547334342895173e-07,
+    "2.9": 3.387722280371593e-07
+   },
+   "arithmetic_floor_bound": 3.387722280371593e-07,
+   "threshold_applied": 1e-06,
+   "threshold_note": "1e-6 max abs set on 2026-09-24 after the measurement, justified by the probe (arithmetic alone moves this unit by up to 3.3e-7), not by checker/'s band"
   }
  },
  "T_S": {
