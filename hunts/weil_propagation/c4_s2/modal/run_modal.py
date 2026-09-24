@@ -138,6 +138,15 @@ CHECKER_CALIBRATION = {
     "spectral_diff": {"2.2": 2.3147772724067146e-07, "2.5": 2.630526854265409e-07, "2.9": 2.933789496755222e-07},
     "weyl_bound": 2.933789496755222e-07,
     "cond_Gb": 3875494354.4005446,
+    # the probe (RUNS.md s4.3): same unit on Modal with OPENBLAS_CORETYPE=Sandybridge,
+    # against the Modal calibration unit; only last-digit arithmetic differs
+    "probe_unit": "checker_200_2400_32_sandybridge",
+    "probe_max_abs_diff": {"2.2": 2.838754467049398e-07, "2.5": 3.008082023470138e-07, "2.9": 3.2898375756929e-07},
+    "probe_spectral_diff": {"2.2": 2.9655489709398436e-07, "2.5": 3.1547334342895173e-07, "2.9": 3.387722280371593e-07},
+    "arithmetic_floor_bound": 3.387722280371593e-07,
+    "threshold_applied": 1e-06,
+    "threshold_note": "1e-6 max abs set on 2026-09-24 after the measurement, justified by the probe "
+                      "(arithmetic alone moves this unit by up to 3.3e-7), not by checker/'s band",
 }
 
 
@@ -416,11 +425,14 @@ def shaped(res: dict) -> dict:
     return {"c": p["c"], "N": p["N"], "Q_low": p["Q_low"], "runs": p["runs"], "meta": meta}
 
 
-def _land(name: str, res: dict) -> dict:
+def _land(name: str, res: dict, log: bool = True) -> dict:
     os.makedirs(OUT, exist_ok=True)
     out = shaped(res)
     with open(os.path.join(OUT, f"{name}.json"), "w") as fh:
         json.dump(out, fh, indent=1)
+    if not log:
+        print("reshaped", name, flush=True)
+        return out
     peak = (res.get("peak_rss_mib") or 0) / 1024
     wall = res.get("wall_seconds") or 0.0
     line = (f"| {name} | {res.get('status')} | {wall} | {res.get('cpu_seconds')} | "
@@ -516,8 +528,10 @@ def batch(units: str = ""):
 
 
 @app.local_entrypoint()
-def fetch(units: str = ""):
-    """Land units from the Volume (for a dropped session): modal/out/<unit>.json."""
+def fetch(units: str = "", log: bool = True):
+    """Land units from the Volume (for a dropped session): modal/out/<unit>.json.
+    --no-log rewrites the files only (to re-apply shaped() to units already
+    logged), with no new line in RUNS.md."""
     names = [n.strip() for n in units.split(",") if n.strip()] or sorted(UNITS)
     for n in names:
         try:
@@ -525,4 +539,4 @@ def fetch(units: str = ""):
         except Exception as e:  # noqa: BLE001
             print("absent", n, type(e).__name__)
             continue
-        _land(n, json.loads(data))
+        _land(n, json.loads(data), log=log)

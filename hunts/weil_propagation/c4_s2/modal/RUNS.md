@@ -172,6 +172,42 @@ Each unit builds all three cells at its (nvec, S).
 - Launch order: the probe and the five gram units now, in one detached app;
   the four checker units only after the probe, per 4.1.
 
+### 4.3 The probe, and the checker threshold (2026-09-24 09:40 -0500)
+
+Estimate committed 09:33:01 (76d13a9); probe and gram units launched 09:33:12
+(app ap-JRlZr1RjuHFd8xDrZ9Rz85, the spawned rows in s5).
+
+The probe `checker_200_2400_32_sandybridge` ran with the guard passing before
+and after, and its child read OpenBLAS's kernel family as `Sandybridge` (the
+override took; the calibration unit predates this readout and records none).
+Against the Modal calibration unit, same image, same code, same inputs:
+
+| c | max abs, Modal vs Modal | spectral | max abs, probe vs laptop |
+|---|---|---|---|
+| 2.2 | 2.84e-7 | 2.97e-7 | 2.33e-7 |
+| 2.5 | 3.01e-7 | 3.15e-7 | 2.32e-7 |
+| 2.9 | 3.29e-7 | 3.39e-7 | 2.25e-7 |
+
+Changing only the BLAS kernels moves this unit by 2.8e-7 to 3.3e-7, the same
+order as the 1.9e-7 to 2.3e-7 cross-platform miss. **Shown by this probe:
+the checker unit reproduces only to about 3e-7 under last-digit changes in
+arithmetic**, consistent with `Gb`'s condition number 3.9e9 inverted in
+`ta_mellin.rho` (the probe shows the sensitivity; which step amplifies it is
+not isolated). `cond_Gb` itself reads 3875494700.2 in the probe, against
+3875494354.4 and 3875494350.7.
+
+**The checker calibration threshold is changed from 1e-10 (the brief) to
+1e-6 max abs, on 2026-09-24, after the measurement**, per the coordinator's
+option B. The justification is the probe (arithmetic alone moves the unit by
+up to 3.3e-7), not checker/'s band. At 1e-6 the calibration passes (2.28e-7).
+The two_adic calibration keeps 1e-10 (8.2e-15). Every checker output carries
+`meta.calibration`: the calibration's per-cell differences, its Weyl bound
+2.93e-7 (spectral, Modal against laptop) and the probe's 3.39e-7
+(`arithmetic_floor_bound`, Modal against Modal), so checker/ can flag any
+R_S eigenvalue within that distance of its threshold when it re-grades.
+
+The four checker units launch next, under the timeouts of 4.2.
+
 ## 5. Unit log
 
 Appended by `run_modal.py` as each unit lands. Wall is the container
@@ -182,3 +218,12 @@ max(16 GiB, peak) x GiB rate)), not read from Modal's billing.
 |---|---|---|---|---|---|---|---|
 | gram_80_4800 | ok | 184.5 | 426.3 | 846.6 | 0.0162 | unknown | 2026-09-24 09:25:26 -0500 |
 | checker_200_2400_32 | ok | 438.7 | 976.4 | 1580.2 | 0.0386 | unknown | 2026-09-24 09:29:45 -0500 |
+| checker_200_2400_32_sandybridge | spawned fc-01M39XBCX93VHSD92T79TANEE4 | | | | | | 2026-09-24 09:33:12 -0500 |
+| gram_140_4800 | spawned fc-01M39XBD8Z0M2TCM9FE3XB6X1D | | | | | | 2026-09-24 09:33:13 -0500 |
+| gram_160_4800 | spawned fc-01M39XBDDAEMZRRWS4VBTQCEA6 | | | | | | 2026-09-24 09:33:13 -0500 |
+| gram_180_4800 | spawned fc-01M39XBDS38BQ1KV7WNE8N5THH | | | | | | 2026-09-24 09:33:13 -0500 |
+| gram_200_4800 | spawned fc-01M39XBDXT24JNXZDY2RJ562FV | | | | | | 2026-09-24 09:33:13 -0500 |
+| gram_160_9600 | spawned fc-01M39XBE9XJEBM3KQCQJCC314T | | | | | | 2026-09-24 09:33:14 -0500 |
+| gram_140_4800 | ok | 278.0 | 643.6 | 1281.2 | 0.0244 | unknown | 2026-09-24 09:38:02 -0500 |
+| gram_160_4800 | ok | 303.3 | 636.8 | 1336.0 | 0.0267 | unknown | 2026-09-24 09:38:34 -0500 |
+| checker_200_2400_32_sandybridge | ok | 397.3 | 1017.9 | 1578.1 | 0.0349 | unknown | 2026-09-24 09:40:09 -0500 |
