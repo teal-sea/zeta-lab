@@ -14,3 +14,4 @@ started 2026-09-24T13:25:33Z
 2026-09-24T13:54:48Z analyse done (42 s). Door: ||T_S(240)-T_S(200)||_2 at N=32 = 3.9e-2 / 2.4e-2 / 3.2e-2 (c = 2.2/2.5/2.9), 2.5-8.5x the N=16 proxy; central |n|<=16 block moves 1.8e-2/2.3e-2/2.7e-2. n_- at s7.3 band: 3->9, 20->19, 20->23; at the real band: 0->0, 2->5, 2->4. Confound: 200 used Kmax 13, 240 Kmax 14.
 2026-09-24T13:55:12Z launching run_checker_kmax.py: (200, 2400, 32) at Kmax 14 to split the 200->240 step into Kmax and mode responses. Estimate 15-20 min.
 2026-09-24T13:56:53Z test_checker_ts.py: unit set and rerun pins updated for the 240 unit; test_door_N32_200_vs_240 added. 45 passed.
+2026-09-24T14:10:17Z heartbeat: Kmax-14 build still running, 15 min in
