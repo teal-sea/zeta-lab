@@ -1,10 +1,10 @@
 # RESULTS: checker/ (independent verification and kill-controls)
 
-1. **T_S reached the checker, and R_S = Q - T_S is measured on all nine cells; C4's prediction is not decided at this band** (two_adic/ 8dc8525, float64). The band per row is **5.3e-3 to 1.6e-2** (two_adic/'s probe, the checker's refinement and quadrature responses). That is above Q's lowest eigenvalues (1.9e-7 to 2.6e-4) and above T_S's own lowest (1.5e-3 to 3.5e-3), so T_S >= 0 is not decided at the band. Grade: measured.
-2. **T_S removes depth, not count.** lambda_min goes from -0.30 to -0.49 (Q - T_inf) to **-0.026 / -0.039 / -0.097 to -0.12** (c = 2.2 / 2.5 / 2.9). But n_-(R_S) below -band on the full space is **4, 4, 3** (2.2), **4, 9, 20** (2.5) and **4, 10, 20** (2.9) at N = 8, 16, 32. At N = 32, 14 and 12 of the 20 live on |n| > N/2, where Delta_T is least resolved. More modes lower the count at fixed N (5, 4, 3 / 10, 9, 8 / 12, 10, 10 at N = 16), yet on the resolved coordinates |n| <= N/2 it still grows at 2.5 and 2.9 (2, 4, 6 and 2, 4, 8). **The growth is measured and confounded with mode truncation**: P5 is not decided (s7.3a). Grade: measured, weakest step Delta_T.
-3. **The provider's convergence claim fails at N = 16.** two_adic/ lists (80, 1200) as converged there. 80 -> 120 modes moves T_S by **7.8e-2 / 4.5e-2 / 2.4e-2** (spectral norm), 90 to 96 percent of it at |n| >= 12. 120 -> 160 moves it by **1.6e-2 / 5.2e-3 / 3.7e-3**. The 240-mode N = 32 unit ran past the 10-minute limit and is a CI proposal (s7.6).
-4. **Kill-controls:** 1 passes; 2 passes; 3 not exercised (Gamma_C framework limit). 4, the lesion, is **refused twice**: NonUnitaryLocalData at the gate, then NotImplementedError in `KernelProvider.delta_T` once the gate is bypassed. Below both guards (a formula never validated off |alpha| = 1), T_S has no eigenvalue below -band, and n_-(R) rises from 4 to 5 / 6 / 6 (s7.4).
-5. **Q** (phase 1) is unchanged: it matches the CCM Galerkin matrix entrywise (5.5e-40 at dps 40) and `zeta.weil.weil_functional` spot checks (1e-18 to 4e-14), and Q > 0 on every cell. ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2}; product-side C4 **refuted** on these cells (with cutoff/).
+1. **T_S was built and R_S = Q - T_S is measured on all nine cells; C4's prediction is not decided** (two_adic/ 8dc8525, float64). T_S removes the depth of Q - T_inf (lambda_min -0.30 to -0.49 becomes -0.026 / -0.039 / -0.12 at c = 2.2 / 2.5 / 2.9) but not provably the count. Grade: measured, weakest step Delta_T.
+2. **The N = 32 door (s7.6) ran on a cloud container (s7.7): the 200-mode N = 32 row is not converged.** 200 -> 240 modes moves T_S by **3.9e-2 / 2.4e-2 / 3.2e-2**, 2.5 to 8.5 times the N = 16 proxy s7.3 used, and 1.8e-2 to 2.7e-2 of it on |n| <= 16. Kmax 13 -> 14 accounts for at most 1.9e-7 of it; the whole step is the mode count. Grade: measured.
+3. **Counts at N = 32 are not stable under refinement.** Below the s7.3 band, n_-(R_S) goes 3 -> 9, 20 -> 19, 20 -> 23 (200 -> 240 modes). At the band that carries the real response, 0 -> 0, 2 -> 5, 2 -> 4, with 49 to 59 of 65 eigenvalues undecided. Only the two deepest negatives at 2.5 (-0.039, -0.026) and 2.9 (-0.12, -0.045) clear it in both builds. **P5 (bounded n_-) is not decided; the growth reported in s7.3 is not established.** Grade: measured.
+4. **Kill-controls:** 1 passes; 2 passes; 3 not exercised (Gamma_C framework limit); 4, the lesion, refused twice (s7.4). The phase 3 units reproduce across machines to 2.3e-7 and two_adic/'s prolate sweep to 1.4e-7 (s7.1, s7.7).
+5. **Q** matches the CCM Galerkin matrix to 5.5e-40 and Q > 0 on every cell (phase 1). ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2}; product-side C4 **refuted** on these cells (with cutoff/). Next: N = 32 at two_adic/'s own mode rule (280 to 364 modes), measured one-unit cost 22 min at 240.
 
 Phases 1 to 3 of 2026-09-23, branch `teal-sea/weil-c4-s2`. Nothing here is
 a claim about RH. Grades follow the `AGENTS.md` ladder. Every number above is
@@ -564,3 +564,57 @@ rounding (1e-16 relative).
   checkpoints (`run_checker_ts.py --units`).
 - **The positive control** needs 23 in S or the construction over
   K = Q(sqrt -23) (s5.4). Forge's ruling keeps S = {inf, 2}.
+
+### 7.7 The door, run on a cloud container (2026-09-24)
+
+Operator-directed run on a cloud Linux container (4 cores, idle, rigor
+backend python-flint), branch `teal-sea/weil-c4-s2-cloud`, standing in for
+the CI job s7.6 proposed. Same key (323b8a07), routed commit 8dc8525, probe
+015895f. Units 0 to 6 were rebuilt by a parallel session (s7.1); this run
+added the CI unit (240, 2400, 32) at Kmax 14, **1339.2 s** (the laptop was
+stopped at 16 min), and `run_checker_kmax.py`, the 200-mode row at Kmax 14,
+949.2 s. The s7.3 tables are unchanged: they still use the N = 16 proxy at
+N = 32. The new numbers are under `door_N32_200_vs_240` in
+`checker_ts_cells.json` and in `checker_kmax.json`.
+
+| c | \|\|T_S(240) - T_S(200)\|\|_2 | on \|n\| <= 16 | N = 16 proxy | Kmax 13 -> 14 at 200 modes | n_- at s7.3 band, 200 -> 240 | n_- at real band, 200 -> 240 |
+|---|---|---|---|---|---|---|
+| 2.2 | 3.9e-02 | 1.8e-02 | 1.59e-02 | 1.7e-07 | 3 -> 9 | 0 -> 0 |
+| 2.5 | 2.4e-02 | 2.3e-02 | 5.24e-03 | 1.6e-07 | 20 -> 19 | 2 -> 5 |
+| 2.9 | 3.2e-02 | 2.7e-02 | 3.69e-03 | 1.9e-07 | 20 -> 23 | 2 -> 4 |
+
+"Real band" is max(probe, the 200 -> 240 response, the quadrature response),
+which here is the 200 -> 240 response itself.
+
+What this decides, against the criterion s7.6 set before the run:
+
+- **The negatives moved by more than their depth.** The response (2.4e-2 to
+  3.9e-2) exceeds the depth of every top-half negative at N = 32 (1.2e-2 to
+  1.8e-2). By s7.6 the growth is therefore not shown to be real. It is also
+  not shown to be truncation in the simple sense: the count below the s7.3
+  band did not fall with more modes (it rose at 2.2 and 2.9), and the new
+  negatives at 240 modes are deeper (to -0.035 at 2.9).
+- **The N = 32 row is not converged, and the error is not at the top
+  frequencies only.** At N = 16, 80 -> 120 modes moved the central N = 8
+  block by 4.3e-3 to 5.4e-3 (s7.2). At N = 32, 200 -> 240 moves the |n| <= 16 block by
+  1.8e-2 to 2.7e-2. So s7.3a's reading of the resolved coordinates at N = 32
+  inherits this error too.
+- **Kmax is not the cause** (1.9e-7 at most): the tail rule `kmax_for` is
+  adequate here, and the response is the mode count.
+- **What survives both builds at the real band:** two negatives at c = 2.5
+  (about -0.039 and -0.026, then -0.043 and -0.029) and two at c = 2.9
+  (about -0.12 and -0.045, then -0.118 and -0.048). A bounded number of deep
+  negatives, as at N = 8 and 16.
+
+The prolate sweep of two_adic/ (`ta_run_prolate.py`, all five configurations
+plus the Tate check, 17 s to 463 s per configuration) was re-run on the same
+container: its 18 rows agree with the committed ones to 1.4e-7 and no count
+moved. The rows now carry Kmax.
+
+Grade: measured. Weakest step: Delta_T, float64, one route, with a
+refinement response at N = 32 larger than the depths it is meant to resolve.
+
+**The next door.** N = 32 at two_adic/'s own rule nvec = 8N/L + 40 (364 /
+319 / 280 modes), where one unit serves only one cell. Measured cost here:
+(200, 2400, 32) 427 s, (240, 2400, 32) 1339 s. The rise is steep, so a 280
+to 364 mode unit should be timed on one cell before a sweep is estimated.

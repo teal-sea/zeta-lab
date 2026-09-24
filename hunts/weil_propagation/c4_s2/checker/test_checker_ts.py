@@ -552,3 +552,32 @@ def test_kmax_is_not_the_door_response():
         assert r["kmax_response"]["full"] < 2e-7, c
         assert abs(r["combined"]["full"] - J[c]["door_N32_200_vs_240"]["weyl_response"]) < 1e-12, c
         assert abs(r["mode_response"]["full"] - r["combined"]["full"]) < 1e-6, c
+
+
+def test_cloud_run_seconds_and_prolate_rerun():
+    """RESULTS s7.7: the Kmax unit took 949.2 s; two_adic/'s prolate sweep
+    re-run on the cloud container agrees with the rows committed at 11e4afb to
+    1.4e-7 (eigenvalues, Gram sensitivity, residual spectrum), with no count
+    moved."""
+    path = os.path.join(HERE, "checker_kmax.json")
+    if not os.path.exists(path):
+        pytest.skip("checker_kmax.json absent")
+    with open(path) as fh:
+        assert json.load(fh)["meta"]["seconds"] == 949.2
+    rel = f"{P}/two_adic/ta_ts_prolate.json"
+    old = json.loads(GLUE._git("show", f"11e4afb:{rel}"))["rows"]
+    with open(os.path.join(HERE, "..", "two_adic", "ta_ts_prolate.json")) as fh:
+        new = json.load(fh)["rows"]
+    k = lambda r: (r["nvec"], r["S"], r["N"], r["c"])  # noqa: E731
+    A, B = {k(r): r for r in old}, {k(r): r for r in new}
+    assert set(A) == set(B) and len(A) == 18
+    if any("Kmax" not in r for r in new):
+        pytest.skip("ta_ts_prolate.json is not the 2026-09-24 re-run")
+    d = 0.0
+    for key in A:
+        a, b = A[key], B[key]
+        for f in ("T_S_n_below_m002", "resid_n_above_01", "resid_n_below_m01"):
+            assert a[f] == b[f], (key, f)
+        d = max([d, abs(a["gram_sensitivity"] - b["gram_sensitivity"])]
+                + [abs(x - y) for x, y in zip(a["T_S_eig_low3"] + a["resid_top8"], b["T_S_eig_low3"] + b["resid_top8"])])
+    assert "%.1e" % d == "1.4e-07"

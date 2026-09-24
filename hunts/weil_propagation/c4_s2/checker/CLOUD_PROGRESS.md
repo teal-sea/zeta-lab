@@ -16,3 +16,4 @@ started 2026-09-24T13:25:33Z
 2026-09-24T13:56:53Z test_checker_ts.py: unit set and rerun pins updated for the 240 unit; test_door_N32_200_vs_240 added. 45 passed.
 2026-09-24T14:10:17Z heartbeat: Kmax-14 build still running, 15 min in
 2026-09-24T14:11:22Z Kmax split done (949 s): Kmax 13->14 at 200 modes moves T_S by <= 1.9e-7; the 200->240 response (2.4e-2 to 3.9e-2) is all mode count. Pinned.
+2026-09-24T14:17:23Z RESULTS.md: graded 5-line summary rewritten, s7.7 added (door run). Checker suite + probe discipline + docs numbering: 169 passed, 11 skipped (9 dps-60 N>=16 as before, 1 positive control, 1 gate cross-check: branch teal-sea/weil-propagation absent on the remote), 3 xfailed; make_context --check clean. DONE.
