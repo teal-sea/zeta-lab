@@ -27,10 +27,14 @@ derivatives at 0 drop out because p is even), each term integrated by the
 asymptotic series of int_W^inf e^{i a w} w^beta dw. Float64 (numpy): every
 output of this module is of measured grade.
 
-Independent checks (test_ta_mellin.py): zeta^ against Tate's local
-functional equation, M[F xi](z) = 2 Gamma(z) cos(pi z/2) (2 pi)^{-z} M[xi](1-z),
-in mpmath; ||zeta||^2 and ||b||^2 against Plancherel; and one entry of
-Delta_T against a direct v-domain quadrature of ||theta(g) w||^2.
+Checks. test_ta_mellin.py pins zeta^ against Tate's local functional
+equation, M[F xi](z) = 2 Gamma(z) cos(pi z/2) (2 pi)^{-z} M[xi](1-z), in
+mpmath, for xi = (1 - y^2)^2. Run once and recorded in RESULTS.md s5b (too
+slow for the suite, about 150 s): Plancherel for ||zeta||^2 (relative
+6.7e-7 at S = 400) and ||theta(g) w||^2 / ||w||^2 against a direct v-domain
+quadrature (2.7e-8 for zeta, 2.2e-7 for b). gram_v does not resolve the
+dilates D^{-k} of b beyond k of about 3 (its ||b||^2 is off by 1.2e-3);
+ta_prolate therefore takes Gram matrices on the s side.
 """
 
 from __future__ import annotations

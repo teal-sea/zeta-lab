@@ -19,6 +19,8 @@ modules are imported by basename after putting this folder on `sys.path`
 | `ta_data.validate(data, degree=None, tol=None)` | `LocalData` or raises `NonUnitaryLocalData` | data = `("satake", alphas)` or `("tower", {k: s_k})` with `degree` |
 | `ta_ts.T_S_matrix(c, N, dps, local_data, arch_type="Gamma_R", s_inf=None)` | T_S matrix, or raises | see order of checks below |
 | `ta_ts.delta_T_matrix(grid, zetas, alpha, L, N)` | (ΔT, M_inf, M_S) for a finite mode family on a grid | float64; exercised on synthetic modes only |
+| `ta_prolate.ProlateModes(nvec, dps)`, `hats_modes`, `delta_T_cells(pm, cells, N, S)` | kernel/'s prolate modes in float64; ζ̂_n, b̂_n; ΔT per cell | Mellin route, measured grade |
+| `ta_ts.KernelProvider(nvec=None, S=None)` | `T_inf_matrix` (kernel/'s moments JSON) and `delta_T` | the provider `T_S_matrix` uses by default |
 | `ta_hs.hs2_partial(K, alpha=1, dps=30)` | ‖P F_S P‖²_HS over Euler levels j ≤ K | closed form in Si |
 | `ta_local.local_report(K)` | exact local statements at 2 | sympy rationals |
 
@@ -28,8 +30,12 @@ parameters (W_a and the Epstein (1,1,6) tower are refused);
 `local_data=None` switches the place 2 off and returns kernel/'s T_inf;
 (2) `arch_type`: `"Gamma_R"` accepted, `"Gamma_C"` raises `FrameworkLimit`
 (no idele class character of C_S is odd at ∞ and unramified at 2);
-(3) kernel/ data: raises `KernelUnavailable` until S_∞ is routed. It never
-returns a number it did not compute. Local data at 2 for the controls are in
+(3) builds T_S = T_inf (kernel/) + ΔT and returns a float64 numpy array
+(ΔT is of measured grade, error band about 6e−3, RESULTS.md §5b);
+`dry_run=True` stops after the checks. It never returns a number it did not
+compute. Defaults: nvec = max(80, 8N/L + 40) prolate modes and
+S = max(1200, 24πN/L); at N = 32 use at least 200 modes (130 leave
+spurious residual pairs). Local data at 2 for the controls are in
 `ta_data`: `ZETA`, `DEDEKIND_Q_SQRT_M23`, `W_A_QUARTER`, `EPSTEIN_116_TOWER`.
 
 ## JSON
@@ -42,12 +48,25 @@ returns a number it did not compute. Local data at 2 for the controls are in
 `ta_ts_cells.json`: `cells[]` with keys `c`, `N`, `dps` and one entry per
 data set (`zeta`, `dedekind_Q_sqrt_m23`, `W_a_quarter`, `epstein_116_tower`,
 `place_2_off`), each `{outcome, message}` with outcome one of
-`refused_nonunitary`, `framework_limit`, `awaiting_kernel`, `matrix`;
+`refused_nonunitary`, `framework_limit`, `awaiting_kernel`, `matrix`
+(ζ and place 2 off are `matrix`);
 `hs2_P_FS_P` with `archimedean`, `partial_sums` (K → value), `asymptote`.
 
-## Consumed (from kernel/, not yet routed)
+`ta_ts_prolate.json`: `tate_check_max_abs`, `seconds_total`, and `rows[]`
+with keys `nvec`, `S`, `N`, `c`, `T_inf_eig_min`, `T_inf_eig_max`,
+`T_S_eig_low3`, `T_S_eig_max`, `T_S_n_below_m002`, `gram_sensitivity`,
+`resid_top8` (eigenvalues of ΔT + Wp largest in modulus, signed),
+`resid_n_above_01`, `resid_n_below_m01`, `seconds_hats`. Converged rows:
+(nvec, S) = (80, 1200) for N = 8 and 16, (120, 1600) for N = 16,
+(200, 2400) for N = 32. For checker/: R_S = Q − T_S with Q = Q_∞ − Wp, so
+R_S = R_∞ − (ΔT + Wp).
 
-The composition (RESULTS.md s5) needs S_∞ through its complement,
+## Consumed (from kernel/, routed 2026-09-23 22:10)
+
+Used as routed: kernel/INTERFACE.md §3 (`prolate_vectors`, `prolate_data`,
+`zeta_mellin_all` as the independent check, `form_from_moments` with the
+`moments` of `cells_dps40.json`). The composition (RESULTS.md s5) needs S_∞
+through its complement,
 1 − S_∞ = P + Q_∞ with Q_∞ the projection onto span{ζ_n} (Connes-Consani
 arXiv:2006.13771 Prop 4.5, eq. (81)), in either form:
 

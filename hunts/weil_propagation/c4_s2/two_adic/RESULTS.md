@@ -1,19 +1,19 @@
-1. **Built: the exact place-2 analysis, the refusal gate, P_2 through E_S as closed-form matrix entries on the shared basis, and the T_S assembly on the module form (Π_S = orthogonal projection onto Θ·range S_∞, CCM arXiv:2310.18423 Thm 4.6). T_S itself was not evaluated on any cell: kernel/'s S_∞ was not routed within the box.** `T_S_matrix` refuses W_a and the Epstein (1,1,6) tower (exact), stops on Γ_C with a stated reason, and raises `KernelUnavailable` for ζ instead of returning a number.
-2. **Key identity: on 2 < c < 4 the Weil prime block is −Wp = log 2 · (Gram(θ_S) − 3/2·I) (exact algebra; hardened: the closed form agrees with the independent `weil_trunc/galerkin.py` block to 4.5e−40 at dps 40 on every mission cell).** The Gram spectrum of θ_S fills [3/2 − 1/√2, 3/2 + 1/√2] (Cauchy-Schwarz bound; the ends are reached to 1e−18 at N = 32 for c = 2.5 and 2.9, measured). First derived and pinned here (f1e912d); cutoff/ rechecked it by direct quadrature as a third route (its commit e678d94).
-3. **New structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt.** Its HS² over Euler levels j ≤ K is K/2 + 1.07079 (closed form in Si; the partial sums are measured to 4e−9 at K = 40, dps 30), against 2.23748 for the archimedean P P̂ P. So ΔT = T_S − T_∞ needs Sonin data across the whole Mellin band of the window basis, not the first few prolates. Grade: ordinary argument (unreviewed) plus measured partial sums.
-4. **Rechecked and refuted: theory §7.3 item 2 (exact). Time and frequency limiting to Z_2 are different projections; they commute and their product has rank one. The literal Π_S = S_∞ ⊗ P_2 + 1 ⊗ (1 − P_2) has infinite trace on X_S (ordinary argument).** Positive control: Γ_C data (Dedekind ζ_{Q(√−23)}) cannot be realized over Q with S = {∞, 2}: no idele class character of C_S is odd at ∞ and unramified at 2. Not exercised (ordinary argument).
-5. **ALIGNMENT s5: §7.3 item 2 refuted (exact); the product-ball Π_S obstructed (infinite trace). T_S on the module form is unresolved: the construction is fixed and implemented up to kernel/'s data, and its evaluation is paused at the box.** Open: ΔT and R_S on the cells, which needs ξ_n up to the Mellin band (INTERFACE.md, "consumed").
+1. **Built and evaluated: T_S for ζ on all nine mission cells, on the module form (Π_S = orthogonal projection onto Θ·range S_∞, CCM arXiv:2310.18423 Thm 4.6), as T_S = T_∞ (kernel/) + ΔT (this folder). No eigenvalue of T_S is below −0.02 on any cell. The smallest are 1.6e−3 to 3.5e−3, inside ΔT's error band of about 6e−3, so positive semidefiniteness holds at that resolution only (measured, float64).** Also built: the exact place-2 analysis, the refusal gate (W_a and the Epstein (1,1,6) tower refused, exact), and P_2 through E_S in closed form on the shared basis.
+2. **Main measurement: ΔT cancels the 2-adic atom up to a residual whose large eigenvalues do not grow with N. ΔT + Wp has 1, 2, 3 ± pairs beyond 0.1 at c = 2.2, 2.5, 2.9, identical at N = 8, 16 and 32 on the converged truncations, leading values stable to 1e−2 (c = 2.9: +0.48, −0.46, +0.38, −0.31, +0.17, −0.16); the next pairs are near 0.08.** With T_∞ alone the residual is Wp itself, whose multiplicity near ±0.49 grows with N (cutoff/). Grade: measured (ζ̂ hardened, two routes to 9e−14); not a proof of bounded rank. Exact companion: −Wp = log 2 (Gram(θ_S) − 3/2 I) on 2 < c < 4 (hardened against `galerkin.py`, 4.5e−40).
+3. **Structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt (HS² = K/2 + 1.07079 over Euler levels j ≤ K, against 2.23748 archimedean; ordinary argument plus measured partial sums).** Hence ΔT needs Sonin data across the Mellin band: at N = 32, 200 prolate modes were needed; 130 left spurious residual pairs.
+4. **Refuted: theory §7.3 item 2 (exact: time and frequency limiting to Z_2 differ, commute, and meet in 1_{Z_2}), and the literal Π_S of §7.3 has infinite trace on X_S (ordinary argument).** Positive control not exercised: Γ_C data cannot be realized over Q with S = {∞, 2}, since no idele class character of C_S is odd at ∞ and unramified at 2.
+5. **ALIGNMENT s5: §7.3 item 2 refuted; product-ball Π_S obstructed; C4 on the module form at S = {∞, 2} unresolved, with the measurement of line 2 pointing to a bounded remainder that is neither proved nor resolved below the 6e−3 band.** Open: R_S and its inertia (checker/'s), ΔT accurate below T_∞'s smallest eigenvalue (needs the exact v-side Gram of the b_n, §7), and a proof.
 
 # RESULTS: two_adic/, gap (b), P_2 through E_S and the assembly of T_S
 
 Worker `two_adic/`, 2026-09-23, branch `teal-sea/weil-c4-s2`, time box
-21:10 to 00:10. Nothing here is a claim about RH. Positivity on c ∈ [2, 3)
+21:10 to 00:10, closed at about 22:45 with T_S evaluated. Nothing here is a claim about RH. Positivity on c ∈ [2, 3)
 is already known (Zhu arXiv:2608.24827); this folder builds the 2-adic half
 of the C4 trace term. Grades follow the `AGENTS.md` ladder. No
 kernel-checked statement is made (AXLE not attempted: nothing here reduced
 to a lemma small enough to be worth it within the box). Every number below is
-pinned by a test in this folder; raw values are in `ta_es_cells.json` and
-`ta_ts_cells.json`. The rejected cabinet attempt (`req-c4-s2-remainder/a1`)
+pinned by a test in this folder; raw values are in `ta_es_cells.json`,
+`ta_ts_cells.json` and `ta_ts_prolate.json`. The rejected cabinet attempt (`req-c4-s2-remainder/a1`)
 was read and not reused: its split of Q is superseded by §3's closed form.
 
 ## 0. Sources and conventions
@@ -220,11 +220,84 @@ Checks (`test_ta_ts.py`, float64): α = 0 gives ΔT = 0 exactly (measured
 agrees with an independent FFT route to 5.9e−16 relative. **The grid form
 does not suit real ζ_n**: ζ_n(v) oscillates like sin(2πv)/v, which a log
 grid cannot resolve beyond u of a few tens; the evaluation has to be done in
-the Mellin variable (§7).
+the Mellin variable, which is what §5b does.
 
-`T_S_matrix` on the mission cells (`ta_ts_cells.json`): ζ →
-`awaiting_kernel`; Dedekind with Γ_C → `framework_limit`; W_a and the
-Epstein tower → `refused_nonunitary`; place 2 off → `awaiting_kernel`.
+`T_S_matrix` on the mission cells (`ta_ts_cells.json`): ζ and place 2 off
+→ `matrix` (§5b); Dedekind with Γ_C → `framework_limit`; W_a and the
+Epstein tower → `refused_nonunitary`.
+
+## 5b. T_S for ζ on the mission cells (`ta_prolate.py`, `ta_run_prolate.py`)
+
+kernel/ was routed at 22:10 (its INTERFACE.md s3, commit af756a5; read-only
+import of `kernel/sonin.py`). ΔT is computed in the Mellin variable
+(`ta_mellin.py` has the formulas): for each prolate mode, ζ̂_n(s) and
+b̂_n(s) = Σ_k (2^{−1/2+is})^k T_n(2^k; s), T_n(W; s) = ∫_W^∞ ζ_n(w) w^{−1/2−is} dw,
+from Gauss panels on [1, 2^10] (η_n in float64 through scipy's spherical
+Bessel functions, agreeing with kernel/'s mpmath η_n to 7e−15) plus the
+asymptotic tail from φ̃_n's derivatives at 1. Densities ρ = ŵ^T G^{−1} conj ŵ
+with Gram matrices taken on the same s-quadrature plus the order-1/S tails
+(jump at u = 1 and the sin(2πv)/v oscillation). T_S = T_∞ (kernel/'s
+moments, dps 40) + ΔT.
+
+Checks: ζ̂_n against kernel/'s closed-form Tate route (`zeta_mellin_all`),
+max 8.8e−14 (hardened: two routes); on a synthetic ξ = (1 − y²)², ζ̂ against
+Tate to 1.4e−17, ‖ζ‖² against Plancherel to 6.7e−7, and both pieces of ΔT
+against a direct v-domain quadrature to 2.7e−8 and 2.2e−7 (run once, about
+150 s, not in the suite). The error of ΔT is set by the Gram matrices: the
+probe replacing Q_∞'s Gram by the exact identity moves ΔT by 3.5e−3 to
+5.9e−3 (up to 120 modes); at 200 modes the probe itself fails (5.5e−1,
+the top modes' s-side norms are not captured), and the error there is taken
+from agreement with N = 16 (at most 7e−3 on the leading residual values).
+
+| nvec | S | N | c | T_∞ min eig | T_S lowest three | Gram probe | ΔT + Wp, largest in modulus | beyond ±0.1 |
+|---|---|---|---|---|---|---|---|---|
+| 40 | 800 | 8 | 2.2 | 1.23e−03 | 0.0057, 0.0290, 0.2054 | 6.3e−04 | +0.321, −0.258, −0.089, +0.077, +0.035, +0.031 | 1+1 |
+| 40 | 800 | 8 | 2.5 | 4.92e−04 | 0.0050, 0.0130, 0.0825 | 7.3e−04 | +0.442, −0.387, +0.206, −0.184, +0.088, −0.060 | 2+2 |
+| 40 | 800 | 8 | 2.9 | 1.92e−04 | 0.0047, 0.0074, 0.0310 | 7.5e−04 | +0.488, −0.453, +0.363, −0.305, +0.174, −0.137 | 3+3 |
+| 80 | 1200 | 8 | 2.2 | 1.23e−03 | 0.0035, 0.0265, 0.2002 | 3.8e−03 | +0.318, −0.259, +0.074, −0.072, +0.025, +0.022 | 1+1 |
+| 80 | 1200 | 8 | 2.5 | 4.92e−04 | 0.0028, 0.0107, 0.0793 | 3.5e−03 | +0.439, −0.390, +0.204, −0.191, +0.077, −0.064 | 2+2 |
+| 80 | 1200 | 8 | 2.9 | 1.92e−04 | 0.0025, 0.0052, 0.0284 | 3.8e−03 | +0.485, −0.456, +0.360, −0.312, +0.171, −0.144 | 3+3 |
+| 80 | 1200 | 16 | 2.2 | 1.21e−03 | 0.0035, 0.0254, 0.1982 | 3.8e−03 | +0.318, −0.274, −0.087, +0.086, −0.060, −0.058 | 1+1 |
+| 80 | 1200 | 16 | 2.5 | 4.78e−04 | 0.0028, 0.0104, 0.0778 | 3.5e−03 | +0.439, −0.397, +0.217, −0.191, +0.078, −0.074 | 2+2 |
+| 80 | 1200 | 16 | 2.9 | 1.85e−04 | 0.0025, 0.0051, 0.0276 | 3.8e−03 | +0.485, −0.458, +0.372, −0.312, +0.171, −0.152 | 3+3 |
+| 120 | 1600 | 16 | 2.2 | 1.21e−03 | 0.0026, 0.0244, 0.1962 | 5.9e−03 | +0.317, −0.273, +0.086, −0.075, +0.029, +0.026 | 1+1 |
+| 120 | 1600 | 16 | 2.5 | 4.78e−04 | 0.0019, 0.0094, 0.0765 | 5.4e−03 | +0.438, −0.398, +0.216, −0.194, +0.075, −0.073 | 2+2 |
+| 120 | 1600 | 16 | 2.9 | 1.85e−04 | 0.0017, 0.0042, 0.0266 | 5.9e−03 | +0.484, −0.460, +0.371, −0.314, +0.170, −0.155 | 3+3 |
+| 130 | 1800 | 32 | 2.2 | 1.20e−03 | 0.0025, 0.0236, 0.1954 | 5.5e−03 | +0.317, −0.282, −0.179, −0.177, +0.150, +0.140 | 3+3 |
+| 130 | 1800 | 32 | 2.5 | 4.74e−04 | 0.0018, 0.0091, 0.0760 | 5.1e−03 | +0.438, −0.402, +0.223, −0.194, −0.152, −0.152 | 4+6 |
+| 130 | 1800 | 32 | 2.9 | 1.83e−04 | 0.0016, 0.0040, 0.0263 | 5.5e−03 | +0.484, −0.461, +0.376, −0.314, +0.170, −0.159 | 3+3 |
+| 200 | 2400 | 32 | 2.2 | 1.20e−03 | 0.0026, 0.0238, 0.1950 | 5.5e−01 | +0.316, −0.280, +0.090, −0.076, +0.027, −0.026 | 1+1 |
+| 200 | 2400 | 32 | 2.5 | 4.74e−04 | 0.0019, 0.0094, 0.0754 | 5.5e−01 | +0.437, −0.401, +0.222, −0.194, −0.076, +0.074 | 2+2 |
+| 200 | 2400 | 32 | 2.9 | 1.83e−04 | 0.0016, 0.0045, 0.0258 | 5.5e−01 | +0.484, −0.460, +0.376, −0.314, +0.169, −0.159 | 3+3 |
+
+Readings (all measured):
+
+- **T_S has no eigenvalue below −0.02 on any row**, and its lowest
+  eigenvalue (1.6e−3 to 3.5e−3 on the converged rows) sits inside the error
+  band. Its inertia is therefore 0 negative at the resolution −0.02 and not
+  resolved below about 6e−3. T_∞'s own lowest eigenvalue (1.8e−4 to 1.2e−3)
+  is below that band, so the comparison T_S against T_∞ at the bottom of the
+  spectrum is not resolved either.
+- **The residual ΔT + Wp is N-independent at the top.** Its eigenvalues come
+  in ± pairs whose sizes decay (c = 2.9: 0.47, 0.34, 0.16, 0.08); on the
+  converged rows the count beyond ±0.1 is 1, 2, 3 pairs at c = 2.2, 2.5, 2.9
+  for N = 8, 16, 32 alike, and the leading values agree across N = 16 and 32
+  to 7e−3. The count grows with c. The threshold 0.1 falls in a gap at every
+  cell but the next pairs (about 0.075 to 0.09) are also stable, so the
+  statement is about a decaying profile, not a sharp rank.
+- **Truncation matters.** At N = 32 with 130 modes (s up to about 260, the
+  window band edge at c = 2.2 is about 255) spurious pairs near 0.15 to 0.18
+  appear and vanish at 200 modes: §6 in practice.
+- **Precision response.** kernel/ reports T_∞ at dps 40 and 60 agreeing to
+  5.1e−39; ΔT is float64 with the truncation errors above, so the dps 40
+  against 60 response of T_S is below its resolution and was not measured
+  separately.
+- **What this says about C4 here.** Q = Q_∞ − Wp and T_S = T_∞ + ΔT, so
+  R_S = R_∞ − (ΔT + Wp). With T_∞ alone the prime atom leaves Wp in R_S with
+  growing multiplicity (cutoff/ line 2); with T_S the part of the residual
+  above 0.1 has an N-independent size. Whether R_S has bounded negative index
+  depends on how this residual meets R_∞'s spectrum, which is checker/'s
+  measurement.
 
 ## 6. The semilocal time-frequency operator is not Hilbert-Schmidt (`ta_hs.py`)
 
@@ -256,21 +329,23 @@ finite (§5, item 1).
 
 ## 7. What is open, and the next step
 
-- **ΔT and R_S on the cells.** Recipe (derivation, not implemented): in the
-  Mellin variable, ζ̂_n(s) = ∫_1^∞ ζ_n(v) v^{−1/2−is} dv follows from ξ_n on
-  [0, 1] by Tate's local functional equation (M[Fξ](z) = 2Γ(z)cos(πz/2)
-  (2π)^{−z} M[ξ](1 − z)) minus a finite integral over [0, 1]; the Mellin
-  transform of (1 − P)Θ^{*−1}ζ_n is ζ̂_n(s)/(1 − ᾱ2^{−1/2+is}) minus
-  Σ_{k≥1} (ᾱ 2^{−1/2} 2^{is})^k times the partial transforms over [1, 2^k],
-  the latter from the large-v expansion of Fξ_n once 2^k is large. Then
-  ΔT = ∫ (ρ_∞ − ρ_S)(s) conj(V̂_m) V̂_n ds/2π with ρ the Mellin diagonals of
-  Q_∞ and Q_S. Needs kernel/'s ξ_n and λ_n up to the band (INTERFACE.md,
-  "consumed"). Cost not estimated (nothing measured).
-- **Whether R_S = Q − T_S has bounded rank.** With §3, Q = Q_∞ +
-  log 2 (Gram(θ_S) − 3/2): C4 at S = {∞, 2} asks whether ΔT matches
-  log 2 (Gram(θ_S) − 3/2) up to bounded rank. cutoff/ refuted the variant
-  with T_∞ in place of T_S (its line 2), so everything rests on ΔT.
+- **ΔT below the error band.** The limiting error is the Gram matrix of the
+  b_n. An exact route exists (derivation, not implemented): with |α| = 1,
+  ‖(1 − P)Θ^{*−1}ζ‖² = ⟨ζ, |Θ|^{−2}ζ⟩ − ‖b 1_{[1,2)}‖², because the pieces of
+  PΘ^{*−1}ζ on the dyadic shells [2^{−l}, 2^{1−l}) are rescaled copies of
+  b on [1, 2) with weights 2^{−l}; ⟨ζ_i, |Θ|^{−2}ζ_j⟩ = 2 Σ_k 2^{−|k|/2}⟨ζ_i, D^k ζ_j⟩
+  needs only dilation correlations of the modes. That would bring ΔT to the
+  level of T_∞'s smallest eigenvalue (1.8e−4) and resolve T_S's inertia.
+- **R_S on the cells**: checker/'s (R_S = R_∞ − (ΔT + Wp) in this folder's
+  terms). The numbers of §5b are the input.
+- **Why the top of ΔT + Wp is N-independent** (a candidate: the residual is
+  compact with a c-dependent profile, which is what "bounded rank" in C4
+  would need): not proved.
 - **Positive control** needs S ∋ 23 or the construction over Q(√−23).
+- **Cost** (measured on this laptop): 200 modes, S = 2400, all three cells
+  and N = 32 in 64 s for the Mellin data; the whole `ta_run_prolate.py` in
+  146 s. N = 64 would need about 400 modes and S about 4800, roughly 4 to 8
+  times that: still a local run.
 
 ## 8. Grading and ALIGNMENT s5 status
 
@@ -282,23 +357,29 @@ finite (§5, item 1).
 | §3 cell spectra, band ends reached | measured, on hardened matrices |
 | §4 refusal outcomes | exact |
 | §5 items 1 to 6 | ordinary arguments, unreviewed; item 6 uses only the definition of C_S |
-| §5 implementation | tested on synthetic modes only; no T_S value produced |
+| §5 grid implementation | tested on synthetic modes only |
+| §5b ζ̂_n | hardened (two routes, 8.8e−14) |
+| §5b T_S spectra, residual profile, counts | measured (float64, one route for the Gram matrices; error band about 6e−3) |
 | §6 closed form for ⟨A_j, A_l⟩_HS and the divergence | ordinary argument, unreviewed; partial sums measured |
 
 Original to this session (novelty not searched): the identity of §3 in
 matrix form (first derived here, f1e912d; cutoff/ rechecked it by a third
 route, e678d94), the Hilbert-Schmidt divergence of §6, and the Γ_C
-framework limit. The
-objects are Connes', Connes-Consani's and Connes-Consani-Moscovici's.
+framework limit, the Mellin route for ΔT from prolate data and the
+measurement of §5b. The objects are Connes', Connes-Consani's and
+Connes-Consani-Moscovici's; S_∞ and T_∞ are kernel/'s.
 
 ALIGNMENT s5: theory §7.3 item 2 **refuted** (exact). The product-ball Π_S
 **obstructed** (infinite trace; no finite reading carries the place 2 except
-the module one). T_S on the module form **unresolved**: built to the point
-of kernel/'s data, evaluation **paused by allocation** at the box.
+the module one). C4 on the module form at S = {∞, 2} **unresolved**: T_S is
+built and evaluated, T_S ≥ −0.02 on every cell, and the residual against the
+prime atom has an N-independent top; bounded rank is measured in that sense
+only, not proved, and R_S is checker/'s.
 
 ## 9. Reproduction
 
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_local.py
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_es.py   # 13 s
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_ts.py   # 2 s
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 65 s
+    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_prolate.py   # 146 s, needs kernel/
+    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 30 to 70 s

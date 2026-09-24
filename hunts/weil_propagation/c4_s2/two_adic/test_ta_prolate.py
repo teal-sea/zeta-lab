@@ -90,3 +90,32 @@ def test_T_S_matrix_is_wired_to_kernel():
     assert np.linalg.eigvalsh(M).min() > -0.02
     off = T.T_S_matrix(2.5, 4, 40, None, "Gamma_R", s_inf=prov)
     assert np.abs(off - prov.T_inf_matrix(2.5, 4, 40)).max() == 0.0
+
+
+def test_results_table_matches_json(js):
+    """RESULTS.md s5b table is the JSON (4 decimals for T_S, 3 for residuals)."""
+    with open(os.path.join(HERE, "RESULTS.md"), encoding="utf-8") as fh:
+        rows = [ln for ln in fh if ln.startswith("| ") and ln.count("|") == 10 and ln[2].isdigit()]
+    assert len(rows) == len(js["rows"]) == 18
+    for ln in rows:
+        p = [x.strip().replace("−", "-") for x in ln.strip().strip("|").split("|")]
+        r = _row(js, int(p[0]), float(p[1]), int(p[2]), p[3])
+        assert abs(float(p[4]) - r["T_inf_eig_min"]) < 1e-5
+        assert np.allclose([float(x) for x in p[5].split(",")], r["T_S_eig_low3"], atol=6e-5)
+        assert np.allclose([float(x) for x in p[7].split(",")], r["resid_top8"][:6], atol=6e-4)
+        a, b = p[8].split("+")
+        assert (int(a), int(b)) == (r["resid_n_above_01"], r["resid_n_below_m01"])
+
+
+def test_stated_values_in_the_headline(js):
+    r = _row(js, 200, 2400.0, 32, "2.9")
+    assert np.allclose(np.round(r["resid_top8"][:6], 2), [0.48, -0.46, 0.38, -0.31, 0.17, -0.16])
+    # the next pairs are near 0.08 and stable
+    for c in COUNTS:
+        k = COUNTS[c]
+        nxt = np.abs(_row(js, 120, 1600.0, 16, c)["resid_top8"][2 * k : 2 * k + 2])
+        assert np.all((nxt > 0.07) & (nxt < 0.1)), (c, nxt)
+    # 130 modes at N = 32 leave spurious pairs that 200 modes remove
+    assert _row(js, 130, 1800.0, 32, "2.2")["resid_n_above_01"] == 3
+    lows = [x for r in js["rows"] if (r["nvec"], r["S"], r["N"]) in CONVERGED for x in r["T_S_eig_low3"][:1]]
+    assert 1.5e-3 < min(lows) and max(lows) < 3.6e-3

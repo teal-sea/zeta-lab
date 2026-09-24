@@ -31,8 +31,9 @@ families only: no number produced from a synthetic family is a value of T_S.
 
 T_S_matrix(c, N, dps, local_data, arch_type) validates the local data first
 (refusal of non-unitary data, mission kill-control 2), then the archimedean
-type, then asks for kernel/'s data and raises KernelUnavailable while kernel/
-has not delivered it. It never returns a number it cannot compute.
+type, then builds T_S = T_inf (kernel/) + Delta_T (ta_prolate.py, the Mellin
+route, float64). KernelUnavailable is kept for a provider that cannot supply
+S_inf. It never returns a number it cannot compute.
 """
 
 from __future__ import annotations
