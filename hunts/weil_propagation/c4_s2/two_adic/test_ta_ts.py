@@ -35,11 +35,9 @@ def test_gamma_C_is_a_framework_limit_not_a_number():
         T.T_S_matrix(2.5, 8, 40, D.DEDEKIND_Q_SQRT_M23, "Gamma_C")
 
 
-def test_zeta_waits_for_kernel():
-    with pytest.raises(T.KernelUnavailable, match="kernel/"):
-        T.T_S_matrix(2.5, 8, 40, D.ZETA, "Gamma_R")
-    with pytest.raises(T.KernelUnavailable):
-        T.T_S_matrix(2.5, 8, 40, None, "Gamma_R")
+def test_zeta_and_place_2_off_pass_the_checks():
+    assert T.T_S_matrix(2.5, 8, 40, D.ZETA, "Gamma_R", dry_run=True) == "ok"
+    assert T.T_S_matrix(2.5, 8, 40, None, "Gamma_R", dry_run=True) == "ok"
 
 
 def _synthetic(grid, n=4):

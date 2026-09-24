@@ -5,8 +5,8 @@
    "N": 8,
    "dps": 40,
    "zeta": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    },
    "dedekind_Q_sqrt_m23": {
     "outcome": "framework_limit",
@@ -21,8 +21,8 @@
     "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
    },
    "place_2_off": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    }
   },
   {
@@ -30,8 +30,8 @@
    "N": 16,
    "dps": 40,
    "zeta": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    },
    "dedekind_Q_sqrt_m23": {
     "outcome": "framework_limit",
@@ -46,8 +46,8 @@
     "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
    },
    "place_2_off": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    }
   },
   {
@@ -55,8 +55,8 @@
    "N": 32,
    "dps": 40,
    "zeta": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    },
    "dedekind_Q_sqrt_m23": {
     "outcome": "framework_limit",
@@ -71,8 +71,8 @@
     "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
    },
    "place_2_off": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    }
   },
   {
@@ -80,8 +80,8 @@
    "N": 8,
    "dps": 40,
    "zeta": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    },
    "dedekind_Q_sqrt_m23": {
     "outcome": "framework_limit",
@@ -96,8 +96,8 @@
     "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
    },
    "place_2_off": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    }
   },
   {
@@ -105,8 +105,8 @@
    "N": 16,
    "dps": 40,
    "zeta": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    },
    "dedekind_Q_sqrt_m23": {
     "outcome": "framework_limit",
@@ -121,8 +121,8 @@
     "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
    },
    "place_2_off": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    }
   },
   {
@@ -130,8 +130,8 @@
    "N": 32,
    "dps": 40,
    "zeta": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    },
    "dedekind_Q_sqrt_m23": {
     "outcome": "framework_limit",
@@ -146,8 +146,8 @@
     "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
    },
    "place_2_off": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    }
   },
   {
@@ -155,8 +155,8 @@
    "N": 8,
    "dps": 40,
    "zeta": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    },
    "dedekind_Q_sqrt_m23": {
     "outcome": "framework_limit",
@@ -171,8 +171,8 @@
     "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
    },
    "place_2_off": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    }
   },
   {
@@ -180,8 +180,8 @@
    "N": 16,
    "dps": 40,
    "zeta": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    },
    "dedekind_Q_sqrt_m23": {
     "outcome": "framework_limit",
@@ -196,8 +196,8 @@
     "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
    },
    "place_2_off": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    }
   },
   {
@@ -205,8 +205,8 @@
    "N": 32,
    "dps": 40,
    "zeta": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    },
    "dedekind_Q_sqrt_m23": {
     "outcome": "framework_limit",
@@ -221,8 +221,8 @@
     "message": "|s_3(2)| = 6 > d = 2: no unitary Satake parameters (necessary condition |s_k| <= d fails at n = 2^3 = 8)"
    },
    "place_2_off": {
-    "outcome": "awaiting_kernel",
-    "message": "kernel/ S_inf not routed: T_S needs the complement data of S_inf (zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
+    "outcome": "matrix",
+    "message": "built by T_S_matrix; values in ta_ts_prolate.json"
    }
   }
  ],

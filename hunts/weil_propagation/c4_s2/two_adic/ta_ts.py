@@ -93,42 +93,94 @@ def arch_components(arch_type: str, local: ta_data.LocalData) -> list[tuple[str,
     raise ValueError(f"unknown arch_type {arch_type!r}")
 
 
-def _kernel_provider():
-    """kernel/'s S_inf, consumed only through its INTERFACE.md.
+class KernelProvider:
+    """kernel/'s S_inf (read-only import, routed 2026-09-23) plus this folder's Delta_T.
 
-    Not wired: kernel/INTERFACE.md had not been routed to two_adic/ when this
-    was written. See two_adic/INTERFACE.md, section "consumed", for the exact
-    form needed.
+    T_inf_matrix: kernel/'s moments JSON (cells_dps40.json / cells_dps60.json)
+    for the mission cells, else sonin.T_inf_matrix. delta_T: ta_prolate's
+    Mellin route (float64). Both returned as numpy float arrays.
     """
-    raise KernelUnavailable(
-        "kernel/ S_inf not routed: T_S needs the complement data of S_inf "
-        "(zeta_n = normalized (1 - P) F xi_n on u >= 1, CC 2006.13771 eq. (81)) "
-        "and T_inf_matrix(c, N, dps); see two_adic/INTERFACE.md"
-    )
+
+    def __init__(self, nvec: int | None = None, S: float | None = None):
+        self.nvec = nvec
+        self.S = S
+
+    def T_inf_matrix(self, c, N: int, dps: int):
+        import json
+
+        import numpy as np
+        from mpmath import mp
+
+        kdir = os.path.normpath(os.path.join(HERE, "..", "kernel"))
+        if kdir not in sys.path:
+            sys.path.insert(0, kdir)
+        import sonin
+
+        path = os.path.join(kdir, f"cells_dps{60 if dps > 40 else 40}.json")
+        key = str(c)
+        with mp.workdps(max(dps, 40)):
+            try:
+                with open(path) as fh:
+                    m = json.load(fh)["moments"][key]
+                s = [mp.mpf(a) + mp.mpf(b) for a, b in zip(m["A_even"]["s"], m["E_even"]["s"])][: N + 1]
+                d = [mp.mpf(a) + mp.mpf(b) for a, b in zip(m["A_even"]["d"], m["E_even"]["d"])][: N + 1]
+                T = sonin.form_from_moments(s, d, N)
+            except (OSError, KeyError):
+                T = sonin.T_inf_matrix(float(c), N, dps)
+            return np.array([[float(T[i, j]) for j in range(2 * N + 1)] for i in range(2 * N + 1)])
+
+    def delta_T(self, c, N: int, dps: int, alpha, parity: str):
+        import math
+
+        import numpy as np
+
+        import ta_prolate as TP
+
+        if parity != "even":
+            raise FrameworkLimit("only the even sector is wired")
+        a = complex(alpha)
+        if abs(a.imag) > 0 or abs(abs(a.real) - 1) > 1e-12:
+            raise NotImplementedError("Delta_T is wired for real unitary alpha only (all mission data)")
+        L = math.log(float(c))
+        nvec = self.nvec or max(80, int(8 * N / L) + 40)
+        S = self.S or max(1200.0, 12.0 * 2 * math.pi * N / L)
+        pm = TP.ProlateModes(nvec=nvec, dps=20)
+        out, _ = TP.delta_T_cells(pm, [str(c)], N, S=S, alpha=a.real)
+        dT = out[str(c)][0]
+        return ((dT + dT.conj().T) / 2).real
 
 
-def T_S_matrix(c, N: int, dps: int, local_data, arch_type: str = "Gamma_R", s_inf=None):
+def _kernel_provider():
+    """kernel/'s S_inf through its INTERFACE.md s3 (routed by the coordinator)."""
+    return KernelProvider()
+
+
+def T_S_matrix(c, N: int, dps: int, local_data, arch_type: str = "Gamma_R", s_inf=None, dry_run: bool = False):
     """T_S on the shared basis, (2N+1) x (2N+1), S = {inf, 2}.
 
     local_data: ("satake", alphas) or ("tower", {k: s_k}, degree).
     Order of checks: (1) local data at 2 (NonUnitaryLocalData for W_a, the
     Epstein tower, any |alpha| != 1); local_data=None switches the place 2
     off and returns T_inf; (2) archimedean type (FrameworkLimit for Gamma_C);
-    (3) kernel/ data (KernelUnavailable until routed).
+    (3) kernel/ data (read-only import of kernel/sonin.py). dry_run=True
+    stops after the checks and returns "ok". The returned matrix is float64
+    (Delta_T is of measured grade; see RESULTS.md s5b).
     """
     if local_data is None:
         provider = s_inf if s_inf is not None else _kernel_provider()
-        return provider.T_inf_matrix(c, N, dps)
+        return "ok" if dry_run else provider.T_inf_matrix(c, N, dps)
     degree = None
     if isinstance(local_data, (tuple, list)) and len(local_data) == 3 and local_data[0] == "tower":
         local_data, degree = local_data[:2], int(local_data[2])
     local = ta_data.validate(local_data, degree=degree)
     comps = arch_components(arch_type, local)
     provider = s_inf if s_inf is not None else _kernel_provider()
+    if dry_run:
+        return "ok"
     T = None
     for parity, alpha in comps:
         Tinf = provider.T_inf_matrix(c, N, dps)
-        dT = provider.delta_T(c, N, dps, alpha, parity)
+        dT = provider.delta_T(c, N, dps, complex(alpha), parity)
         term = Tinf + dT
         T = term if T is None else T + term
     return T

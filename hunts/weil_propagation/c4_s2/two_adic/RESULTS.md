@@ -1,5 +1,5 @@
 1. **Built: the exact place-2 analysis, the refusal gate, P_2 through E_S as closed-form matrix entries on the shared basis, and the T_S assembly on the module form (Π_S = orthogonal projection onto Θ·range S_∞, CCM arXiv:2310.18423 Thm 4.6). T_S itself was not evaluated on any cell: kernel/'s S_∞ was not routed within the box.** `T_S_matrix` refuses W_a and the Epstein (1,1,6) tower (exact), stops on Γ_C with a stated reason, and raises `KernelUnavailable` for ζ instead of returning a number.
-2. **Key identity: on 2 < c < 4 the Weil prime block is −Wp = log 2 · (Gram(θ_S) − 3/2·I) (exact algebra; hardened: the closed form agrees with the independent `weil_trunc/galerkin.py` block to 4.5e−40 at dps 40 on every mission cell).** The Gram spectrum of θ_S fills [3/2 − 1/√2, 3/2 + 1/√2] (Cauchy-Schwarz bound; the ends are reached to 1e−18 at N = 32 for c = 2.5 and 2.9, measured). cutoff/ reached the same identity independently (commit b547d3b).
+2. **Key identity: on 2 < c < 4 the Weil prime block is −Wp = log 2 · (Gram(θ_S) − 3/2·I) (exact algebra; hardened: the closed form agrees with the independent `weil_trunc/galerkin.py` block to 4.5e−40 at dps 40 on every mission cell).** The Gram spectrum of θ_S fills [3/2 − 1/√2, 3/2 + 1/√2] (Cauchy-Schwarz bound; the ends are reached to 1e−18 at N = 32 for c = 2.5 and 2.9, measured). First derived and pinned here (f1e912d); cutoff/ rechecked it by direct quadrature as a third route (its commit e678d94).
 3. **New structural fact: the semilocal time-frequency operator P F_S P is not Hilbert-Schmidt.** Its HS² over Euler levels j ≤ K is K/2 + 1.07079 (closed form in Si; the partial sums are measured to 4e−9 at K = 40, dps 30), against 2.23748 for the archimedean P P̂ P. So ΔT = T_S − T_∞ needs Sonin data across the whole Mellin band of the window basis, not the first few prolates. Grade: ordinary argument (unreviewed) plus measured partial sums.
 4. **Rechecked and refuted: theory §7.3 item 2 (exact). Time and frequency limiting to Z_2 are different projections; they commute and their product has rank one. The literal Π_S = S_∞ ⊗ P_2 + 1 ⊗ (1 − P_2) has infinite trace on X_S (ordinary argument).** Positive control: Γ_C data (Dedekind ζ_{Q(√−23)}) cannot be realized over Q with S = {∞, 2}: no idele class character of C_S is odd at ∞ and unramified at 2. Not exercised (ordinary argument).
 5. **ALIGNMENT s5: §7.3 item 2 refuted (exact); the product-ball Π_S obstructed (infinite trace). T_S on the module form is unresolved: the construction is fixed and implemented up to kernel/'s data, and its evaluation is paused at the box.** Open: ΔT and R_S on the cells, which needs ξ_n up to the Mellin band (INTERFACE.md, "consumed").
@@ -65,8 +65,8 @@ vector, so the p-adic uncertainty is exact with a one-dimensional joint range.
 
 ## 2. The product-ball obstruction (graded result on its own)
 
-Ordinary argument, unreviewed, with cutoff/ reaching the same conclusions
-independently (its RESULTS lines 1 and 4):
+Ordinary argument, unreviewed. cutoff/ reached the same conclusions in its
+milestone 1 (its RESULTS lines 1 and 4):
 
 1. The product ball B = [−λ, λ] × Z_2 is not Γ_S-invariant (2B ≠ B), so
    multiplication by 1_B is not an operator on L²(X_S), where eq. (22) and
@@ -195,6 +195,8 @@ Derivations (ordinary arguments, unreviewed):
 3. **Only |Θ| matters.** Θ = W|Θ| with W unitary and both commuting with
    ϑ(g); trace is invariant under unitary conjugation, so T_{ΘV} = T_{|Θ|V}.
    T_S depends on α only through |1 − α 2^{−1/2−is}| on the critical line.
+   (For complex unitary α the twisted semilocal Fourier transform was not
+   rechecked here; every mission data set has real α.)
 4. **Place 2 off.** α = 0 (or `local_data=None`) gives Θ = 1, Q_S = Q_∞,
    ΔT = 0, T_S = T_∞.
 5. **The oblique projection carries no 2-adic content.** ΘS_∞Θ^{−1} has
@@ -226,7 +228,8 @@ Epstein tower → `refused_nonunitary`; place 2 off → `awaiting_kernel`.
 
 ## 6. The semilocal time-frequency operator is not Hilbert-Schmidt (`ta_hs.py`)
 
-With F_S = Θ F Θ^{−1} = U_2 F, U_2 = −aD + (1 − a²) Σ_{j≥0} a^j D^{−j},
+For real α (all mission data; F Θ = Θ^* F uses FD = D^{−1}F and a real),
+F_S = Θ F Θ^{−1} = U_2 F, U_2 = −aD + (1 − a²) Σ_{j≥0} a^j D^{−j},
 a = α/√2 (CCM Prop 4.7 (i)), P F_S P = Σ_{j≥−1} c_j A_j with A_j := P D^{−j} F P,
 whose kernel is K(2^j u v), K(t) = 2 t^{1/2} cos 2πt. Exactly,
 
@@ -274,7 +277,7 @@ finite (§5, item 1).
 | statement | grade |
 |---|---|
 | §1 local facts at 2; refutation of theory §7.3 item 2 | exact |
-| §2 product-ball obstruction, infinite trace of the literal Π_S | ordinary argument, unreviewed (cutoff/ independently) |
+| §2 product-ball obstruction, infinite trace of the literal Π_S | ordinary argument, unreviewed (cutoff/ reached the same) |
 | §3 closed form of C, Gram forms, −Wp = log 2 (Gram(θ_S) − 3/2) | exact algebra; closed form hardened (two routes) |
 | §3 cell spectra, band ends reached | measured, on hardened matrices |
 | §4 refusal outcomes | exact |
@@ -283,8 +286,9 @@ finite (§5, item 1).
 | §6 closed form for ⟨A_j, A_l⟩_HS and the divergence | ordinary argument, unreviewed; partial sums measured |
 
 Original to this session (novelty not searched): the identity of §3 in
-matrix form (cutoff/ found it independently the same evening), the
-Hilbert-Schmidt divergence of §6, and the Γ_C framework limit. The
+matrix form (first derived here, f1e912d; cutoff/ rechecked it by a third
+route, e678d94), the Hilbert-Schmidt divergence of §6, and the Γ_C
+framework limit. The
 objects are Connes', Connes-Consani's and Connes-Consani-Moscovici's.
 
 ALIGNMENT s5: theory §7.3 item 2 **refuted** (exact). The product-ball Π_S

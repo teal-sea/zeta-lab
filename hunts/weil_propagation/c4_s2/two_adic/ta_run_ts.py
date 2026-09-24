@@ -3,7 +3,8 @@
 T_S_matrix never returns a number it cannot compute, so each entry records
 the outcome class: "refused_nonunitary" (kill-control 2), "framework_limit"
 (Gamma_C over Q with S = {inf, 2}), "awaiting_kernel" (S_inf not routed), or
-"matrix" once kernel/ data are wired. Also records ||P F_S P||_HS^2 partial sums.
+"matrix" (checks passed; T_S_matrix builds it from kernel/'s data, values in
+ta_ts_prolate.json). Uses dry_run, so it is fast. Also records ||P F_S P||_HS^2 partial sums.
 """
 
 from __future__ import annotations
@@ -34,14 +35,14 @@ DATA = {
 def outcome(c: str, N: int, name: str) -> dict:
     data, arch = DATA[name]
     try:
-        M = T.T_S_matrix(c, N, 40, data, arch)
+        M = T.T_S_matrix(c, N, 40, data, arch, dry_run=True)
     except D.NonUnitaryLocalData as e:
         return {"outcome": "refused_nonunitary", "message": str(e)}
     except T.FrameworkLimit as e:
         return {"outcome": "framework_limit", "message": str(e)}
     except T.KernelUnavailable as e:
         return {"outcome": "awaiting_kernel", "message": str(e)}
-    return {"outcome": "matrix", "rows": M.rows}  # pragma: no cover
+    return {"outcome": "matrix", "message": "built by T_S_matrix; values in ta_ts_prolate.json"}
 
 
 def main() -> None:
