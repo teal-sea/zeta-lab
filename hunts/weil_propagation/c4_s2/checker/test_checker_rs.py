@@ -205,3 +205,17 @@ def test_results_tables_match_json():
         assert _close(cells[4], m_["min_plus_zero"])
         ks = mp.mpf(m_["kappa_star"])
         assert abs(mp.mpf(cells[5]) - ks) <= mp.mpf("1e-3") * (1 + abs(ks))
+
+
+@pytest.mark.parametrize("c", CELLS)
+def test_theta_gram_is_three_halves_minus_sqrt2_H(c):
+    """cutoff/ b547d3b and two_adic/: Gram(Theta_1) = 3/2 - W_2 / log 2. With D
+    (shift by log 2) unitary, Theta^* Theta = 3/2 - 2^{-1/2}(D + D^*), and
+    (D + D^*)/2 compressed to the window is the checker's H. two_adic/'s
+    ta_es.theta_gram against 3/2 I - sqrt2 H: measured 2.3e-41 at dps 40."""
+    ta_es = GLUE._import(GLUE.TWO_ADIC, "ta_es")
+    G = ta_es.theta_gram(c, 8, [1], 40)
+    H = CQ.shift_form(c, 8, 40)
+    with mp.workdps(40):
+        X = mp.mpf(3) / 2 * mp.eye(17) - mp.sqrt(2) * H
+    assert CP.entry_drift(G, X) < mp.mpf("1e-38")

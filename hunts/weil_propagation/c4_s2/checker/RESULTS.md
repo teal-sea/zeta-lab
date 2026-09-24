@@ -146,6 +146,14 @@ applies. P6 is unchanged.
 | kill-control 3, Dedekind positive control | two_adic/ | **positive control not exercised**: FrameworkLimit for Gamma_C (s5.4) |
 | kill-control 4, lesion (optional) | | **not run**: there is no T_S to build with the gate bypassed |
 
+Also checked: cutoff/'s Gram(Theta_1) = 3/2 - W_2/log 2. two_adic/'s
+`ta_es.theta_gram` equals 3/2 I - sqrt2 H, built from the checker's own
+atom block, to 2.3e-41 at dps 40 (c = 2.2, 2.5, 2.9; N = 8, 16). Not
+checked: two_adic/'s claims that T_S depends on alpha only through
+|1 - alpha 2^{-1/2-is}|, and that P F_S P is not Hilbert-Schmidt. The
+first needs T_S; the second needs its operator definitions, which the
+checker did not re-derive.
+
 The refusal reads the tower outside the window. On c in [2, 3) the only
 atom is n = 2, where Epstein has s_1(2) = 0. two_adic/'s validator accepts
 the tower cut at k = 2 (alpha = +-1) and refuses the whole tower at n = 8.
