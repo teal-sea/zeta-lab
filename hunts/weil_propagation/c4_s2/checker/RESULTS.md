@@ -1,6 +1,6 @@
 # RESULTS: checker/ (independent verification and kill-controls)
 
-1. **T_S reached the checker and R_S = Q - T_S is measured on all nine cells** (two_adic/ 8dc8525, float64). The band per row is **5.3e-3 to 1.6e-2** (two_adic/'s probe, the checker's refinement and quadrature responses). That is above Q's lowest eigenvalues (1.9e-7 to 2.6e-4) and above T_S's own lowest (1.5e-3 to 3.5e-3), so T_S >= 0 is not decided at the band. Grade: measured.
+1. **T_S reached the checker, and R_S = Q - T_S is measured on all nine cells; C4's prediction is not decided at this band** (two_adic/ 8dc8525, float64). The band per row is **5.3e-3 to 1.6e-2** (two_adic/'s probe, the checker's refinement and quadrature responses). That is above Q's lowest eigenvalues (1.9e-7 to 2.6e-4) and above T_S's own lowest (1.5e-3 to 3.5e-3), so T_S >= 0 is not decided at the band. Grade: measured.
 2. **T_S removes depth, not count.** lambda_min goes from -0.30 to -0.49 (Q - T_inf) to **-0.026 / -0.039 / -0.097 to -0.12** (c = 2.2 / 2.5 / 2.9). But n_-(R_S) below -band on the full space is **4, 4, 3** (2.2), **4, 9, 20** (2.5) and **4, 10, 20** (2.9) at N = 8, 16, 32. At N = 32, 14 and 12 of the 20 live on |n| > N/2, where Delta_T is least resolved. C4's bounded-rank prediction (P5) is **not supported and not decided** at 2.5 and 2.9. Grade: measured, weakest step Delta_T; the N = 32 refinement was not run.
 3. **The provider's convergence claim fails at N = 16.** two_adic/ lists (80, 1200) as converged there. 80 -> 120 modes moves T_S by **7.8e-2 / 4.5e-2 / 2.4e-2** (spectral norm), 90 to 96 percent of it at |n| >= 12. 120 -> 160 moves it by **1.6e-2 / 5.2e-3 / 3.7e-3**. The 240-mode N = 32 unit ran past the 10-minute limit and is a CI proposal (s7.6).
 4. **Kill-controls:** 1 passes; 2 passes; 3 not exercised (Gamma_C framework limit). 4, the lesion, is **refused twice**: NonUnitaryLocalData at the gate, then NotImplementedError in `KernelProvider.delta_T` once the gate is bypassed. Below both guards (a formula never validated off |alpha| = 1), T_S has no eigenvalue below -band, and n_-(R) rises from 4 to 5 / 6 / 6 (s7.4).
@@ -273,7 +273,13 @@ to 23, and the construction is not moved to K.
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_ts.py --routed 8dc8525 --units 2 --analyse 015895f  # ~4 min + ~3 min
     PYTHONPATH=$PWD <venv>/python hunts/weil_propagation/c4_s2/checker/run_checker_lesion.py   # ~1 min
     PYTHONPATH=$PWD <venv>/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/checker \
-        tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py
+        tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # 2 min
+
+At the phase 3 commits: 162 passed, 10 skipped (9 phase 1 tests that need dps 60 T_S at
+N >= 16, 1 positive control), 3 strict xfail (phase 1 P3, s7.2). Once
+two_adic/ commits a change to a file T_S imports, the snapshot no longer
+matches: tests that serve T_S from it skip with that reason (by design), and
+the pins of the JSON files keep holding for the recorded inputs.
 
 ## 7. Phase 3: T_S and R_S = Q - T_S (tests in `test_checker_ts.py`, WRITTEN AFTER ROUTING)
 
@@ -297,8 +303,11 @@ that diverges there) was deleted, and no entry of it was reused.
 - **Refusal:** building or serving refuses while `git status --porcelain`
   shows any of those files changed (modified, staged, deleted, renamed). A
   git error raises; it is never read as clean. Untracked files are not key
-  inputs. After each unit, every module actually loaded from two_adic/ or
-  kernel/ must be a clean tracked input, or the unit is refused.
+  inputs: the routed clause names tracked files, and an untracked module
+  matters only if T_S imports it. So after each unit, every module actually
+  loaded from two_adic/ or kernel/ must be a clean tracked input, or the
+  unit is refused. (Counting untracked `.py` as dirty stopped one run on
+  two_adic/'s new `ta_gram_probe.py`, which T_S never imports.)
 - **No live fallback:** `T_S()` raises `SnapshotUnavailable` (a `NotRouted`)
   instead of building live, so phase 1's tests skip with the reason.
 - **Route:** one `ta_prolate.delta_T_cells` call per (nvec, S, N) serves the
@@ -330,7 +339,8 @@ laptop) under the 10-minute rule (s7.6).
   280 at N = 32. The delivered rows (120 and 200) sit below it.
 - **P3** holds exactly (defect 0) when N = 8 and N = 16 use the same
   settings. Across the delivered rows it fails at phase 1's 1e-30
-  tolerance, by the settings change (3.7e-3 to 5.5e-3). That phase 1 test
+  tolerance, by the settings change: 3.7e-3 to 5.4e-3 in spectral norm
+  (the table), 3.1e-3 to 5.3e-3 as the largest entry. That phase 1 test
   is now a strict xfail with this reason; its assertion is unchanged since
   ebf0eae.
 - **dps:** T_S at dps 60 and dps 40 are bitwise equal at N = 8 (only T_inf
@@ -344,7 +354,8 @@ laptop) under the 10-minute rule (s7.6).
 band(c, N) = max(two_adic/'s probe for the row, the row's refinement
 response, the quadrature response at N = 16). Refinement means the N = 8 row
 against the central block of (160, 1600, 16), and the N = 16 row against
-(160, 1600). The N = 32 row's own refinement (240 modes) was not run. The
+(160, 1600). The N = 32 row's own refinement (240 modes) was launched and
+killed at 16 min wall under the 10-minute rule, unfinished (s7.1). The
 N = 16 response of the same cell is carried in parentheses as a stated
 proxy. A refinement response indicates the truncation error; it does not
 bound it. Eigenvalues: numpy on float64 R = Q - T_S, with Q rounded from

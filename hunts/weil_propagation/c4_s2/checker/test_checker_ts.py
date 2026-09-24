@@ -409,3 +409,14 @@ def test_results_phase3_tables_match_json():
         assert row[3] == f"{r['R_zeta']['n_below_band']} / {r['R_zeta']['n_in_band']}"
         assert row[4] == f"{r['R_les']['n_below_band']} / {r['R_les']['n_in_band']}"
         assert row[5] == str(r["R_les_against_2Q_zeta"]["n_below_band"])
+
+
+def test_P3_defect_ranges_quoted():
+    """RESULTS s7.2 and the phase 1 xfail reason: across the delivered rows the
+    P3 defect is 3.1e-3 to 5.3e-3 (largest entry) and 3.7e-3 to 5.4e-3
+    (spectral norm)."""
+    J = _cells()["cells"]
+    ent = [J[c]["P3_converged_rows_defect"] for c in CELLS]
+    nrm = [J[c]["P3_converged_rows_defect_norm"] for c in CELLS]
+    assert ("%.1e" % min(ent), "%.1e" % max(ent)) == ("3.1e-03", "5.3e-03")
+    assert ("%.1e" % min(nrm), "%.1e" % max(nrm)) == ("3.7e-03", "5.4e-03")
