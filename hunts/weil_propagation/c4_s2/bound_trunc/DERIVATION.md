@@ -32,12 +32,17 @@ Everything follows two_adic/ s0, s5 and kernel/ INTERFACE s3.
 
 ## 1. Feasibility (milestone 1)
 
-**Verdict: no bound on the truncation error is derivable along the route the
-brief names, and I see no route that closes inside the box. This is outcome
-4 for bound_trunc/.** Section 1.3 names the step that does not close.
+**Verdict: no bound on the truncation error was derived in the box. This is
+outcome 4 for bound_trunc/, and its ALIGNMENT s5 status is unresolved
+(paused by the box), not obstructed.** Two claims, kept apart (s2.5):
+(i) the limit of ΔT^(n) as n → ∞ is proven nowhere in the record (a gap,
+with where I looked); (ii) the Sonin-overlap operator S_∞F(1 − P)D on the
+prolate tail has a norm that does not decay in n, which blocks the route the
+brief names. (ii) kills that route; it is not a proof that no bound exists,
+which would need the effect bounded from below. Section 1.3 names the step.
 Section 1.4 gives a weaker, mode-free statement that still serves the count:
-a one-sided inequality T_S ≥ κ T_∞ with κ = (√2 − 1)⁴, which bounds n_−(R_S)
-from below without ΔT.
+T_S ≥ κ T_∞ with κ = (√2 − 1)⁴ (Lemma 3), so n_−(R_S) ≥ n_−(Q − κT_∞)
+without ΔT. The count itself is assembler/'s.
 
 ### 1.1 (a) What ΔT_exact is
 
@@ -178,11 +183,14 @@ small. The phase-space picture (mode j on the curve (2πw)² − s² ≈ (2j)²,
 Sonin space at s² > (2πw)², D^{−1} halving w at fixed s) puts it at
 |s| ≳ 2n/√3, but that is a heuristic. A bound needs a quantitative estimate
 of how ran S_∞ meets F(1 − P)DU_n, frequency by frequency, and S_∞ itself is
-defined through the whole mode family. **This is the step that does not
-close.** I found no available estimate of that kind, and deriving one is a
-research problem, not a three-hour task.
+defined through the whole mode family. **This is the step that did not
+close.** I found no available estimate of that kind in the box. That kills
+this route and says nothing about whether a bound exists by another one:
+showing that would need the overlap's effect on τ_f bounded from below,
+which I have not done.
 
-**Mechanism 3, the size any such bound would have.** Even with mechanism 2
+**Mechanism 3, the size any such bound would have** (Proposition 4, s2.7,
+states this with its dependence). Even with mechanism 2
 closed by a density bound of order one on |s| > σ_n, the window basis
 limits ε. As a function on ℝ, f = Σ v_n U_n jumps at 0 and L by
 f(0) = L^{−1/2}Σ v_n, so |f̂(s)|² ≈ 4|f(0)|² sin²(sL/2)/s² at large s, and
@@ -233,10 +241,14 @@ This uses no prolate truncation and no ΔT at all: only Q (checker/) and T_∞
 (kernel/), both at dps 40. A float64 probe of Q − κT_∞ from dps-30 matrices
 (this session, not yet pinned) gives **2 negative eigenvalues at c = 2.9**
 (−9.9e−5, −1.6e−5 at N = 8; −1.0e−4, −1.7e−5 at N = 16), 1 at c = 2.5, 0 at
-c = 2.2, the same at N = 8 and 16. So on its own it gives n_−(R_S) ≥ 2 at
-c = 2.9 (a remainder of rank below 2 is ruled out there), with no growth in
-N. It does not resolve the 4, 10, 20 count; it is a floor that no mode count
-can move. Milestone 3 pins it by exact inertia and extends it to N = 32.
+c = 2.2, the same at N = 8 and 16. **These are a labelled float probe
+(float64 eigenvalues of dps-30 matrices, this session, not pinned); the
+count belongs to assembler/** (its PREREG addendum e174d19, exact rational
+route, nine cells). If the probe holds there, the floor gives n_−(R_S) ≥ 2
+at c = 2.9, with no growth in N: it does not resolve the 4, 10, 20 count,
+and no mode count can move it. (An exact-inertia script written here before
+that allocation, 91ce087, was removed on the coordinator's instruction; git
+history keeps it.)
 
 ## 2. The derivation (milestone 2, for referee/)
 
@@ -302,7 +314,21 @@ enclosure of each prolate vector (a residual bound and a spectral gap). It
 was not computed: Lemma 2' controls only mechanism 1, and without mechanism
 2 it bounds nothing.
 
-### 2.5 The open step (why there is no bound)
+### 2.5 The open step (why there is no bound), in two separate claims
+
+**Claim (i), a gap in the record.** That ΔT^(n) → ΔT_exact as n → ∞ is
+proven nowhere I looked: two_adic/ RESULTS s5 (items 1 to 6), s5b, s6, s7,
+s7b and s10; the docstrings of `ta_prolate.py` and `ta_mellin.py`; kernel/
+INTERFACE s3 (which proves convergence of the z-sum on vectors supported in
+u ≤ X, a different statement); checker/ RESULTS s7.2, s7.3a, s7.8. For the
+two papers I used the record's statements of them (two_adic/ s0 for CCM
+arXiv:2310.18423 Thm 4.6, kernel/ INTERFACE s3 for CC arXiv:2006.13771
+Thm 4.7), not the papers themselves. Grade: a statement about the record.
+
+**Claim (ii), the route is blocked.** The overlap operator below has a norm
+that does not decay in n, and I have no estimate of its τ_f-effect. That
+blocks the route; it does not show the error fails to vanish. Status:
+unresolved (paused by the box).
 
 A bound ε_trunc would be a proof of:
 
@@ -322,8 +348,20 @@ half is the missing piece.
 
 ### 2.6 Lemma 3 and the floor (uses A1, A2, A4)
 
-**Lemma 3.** κ T_∞ ≤ T_S ≤ κ^{−1} T_∞ as forms on window functions, with
-κ = ((1 − a)/(1 + a))² = (√2 − 1)⁴ = 17 − 12√2 and κ^{−1} = 17 + 12√2.
+**Lemma 3.** κ T_∞ ≤ T_S ≤ K T_∞ as forms on window functions, with
+κ = ((1 − a)/(1 + a))² = (√2 − 1)⁴ = 17 − 12√2 and
+K = κ^{−1} = ((1 + a)/(1 − a))² = (√2 + 1)⁴ = 17 + 12√2.
+
+Enclosures (`eps_trunc.kappa_ball`, `K_ball`, arb at 53 bits):
+κ ∈ [0.02943725152286 ± 3.6e−15], K ∈ [33.9705627484771 ± 4.6e−14], and
+the rationals κ_lo = 2224215839029675522499/75557863725914323419136 <
+κ < κ_hi = 8896863356118702089999/302231454903657293676544 (width 12·2^{−80},
+`kappa_bounds`, from an integer square root).
+
+**The coordinator's question, answered in one line:** yes, the same argument
+gives the matching upper constant K = (√2 + 1)⁴ = 1/κ, under A1 and A2 only
+(the upper half of the proof below), hence R_S ≥ Q − K T_∞ and
+n_−(R_S) ≤ n_−(Q − K T_∞) on the window space (Corollary 3.2).
 
 *Proof.* s1.4. Two points a referee should check: (i) (Θσ_i) is a Riesz
 basis of ran Π_S and Π_S = Σ_ij |Θσ_i⟩(G^{−1})_ij⟨Θσ_j| with
@@ -346,15 +384,35 @@ R_S ≤ Q − κT_∞ ≤ Q − κ_lo T_∞ = A + (Q − Q̃) − κ_lo(T_∞ �
 forms on the window space. By min-max, λ_j(R_S) ≤ λ_j(A) + t < 0 for
 j ≤ k. ∎
 
-The stored A is rounded to float64 before its exact inertia is taken; the
-rounding enters t (`round_frob` in kappa_floor.json, at most 9.5e−16 in
-Frobenius norm, which bounds the spectral norm).
+If assembler/ rounds A to float64 before an exact inertia, that rounding
+enters t as well.
 
-**Corollary 3.2 (the other side).** R_S ≥ Q − κ^{−1}T_∞, so
-n_−(R_S) ≤ n_−(Q − 33.97 T_∞). Recorded for completeness; it is far too
-weak to bound the count from above usefully.
+**Corollary 3.2 (the other side).** R_S ≥ Q − K T_∞ with K = 17 + 12√2, so
+n_−(R_S) ≤ n_−(Q − K T_∞), by the same min-max step with the inequality
+reversed (and the errors of A4 entering with K in place of κ_lo). Whether it
+is sharp enough to matter is assembler/'s to measure.
 
-### 2.7 The window-tail constant of mechanism 3 (closed form)
+**Lemma 3' (a sharper lower form, stated, not built).** The proof of Lemma 3
+wastes a factor: Tr(M) = τ_f(ΘS_∞Θ*) is itself a trace functional of S_∞,
+and Tr(G^{−1}M) ≥ Tr(M)/‖G‖ with ‖G‖ ≤ (1 + a)². Since
+Θ*Θ = (1 + a²) − a(D + D^{−1}) commutes with ϑ(f),
+τ_f(ΘS_∞Θ*) = Φ_∞(k), k = (1 + a²)g − a(g(· − h) + g(· + h)), h = log 2,
+with g the autocorrelation and Φ_∞(k) = Tr(ϑ(k)S_∞) = W_∞(k) + ∫kε (CC
+Thm 4.7, kernel/ INTERFACE s3). So
+
+    T_S(f) ≥ [(1 + a²) T_∞(f) − a Φ_∞(g(· − h) + g(· + h))] / (1 + a)²,
+
+which dominates κT_∞: it keeps Tr(M) = τ_f(ΘS_∞Θ*) exactly where Lemma 3
+used Tr(M) ≥ (1 − a)²T_∞.
+Its matrix needs the archimedean form W_∞ at the shifted autocorrelation,
+which kernel/ does not build ("the shifted W_∞ matrix is not built here");
+the singular point of W_∞ moves to |x| = log 2, inside the window, and has to
+be regularised there. Not built in this box; a heuristic reading (the prime
+atom −Wp acts like the symbol −√2 log2 cos(s log 2), and T_∞ − this bound like
+σ(s)·2a(1 + cos(s log 2))/(1 + a)²) suggests it too gives a count that does
+not grow with N, which is why it was not pursued.
+
+### 2.7 Proposition 4: the window-tail constant of mechanism 3
 
 With U_n centred on [−L/2, L/2] (a translation, which leaves |f̂| alone),
 Û_k(s) = 2L^{−1/2} sin(sL/2)/(s − κ_k), κ_k = 2πk/L, real. For
@@ -370,8 +428,41 @@ both sides of 0; for α = β, J = Lπ/4 + (1 − cos Lu₀)/(2u₀) − (L/2)Si(
 u₀ = σ − α. The window quantity of s1.3 is λ_max(M_σ).
 `eps_trunc.window_tail` evaluates it with mpmath at dps 30 and numpy's
 eigenvalue; a test checks it against direct quadrature of I − M_{[−σ, σ]}
-(agreement within 1e−11 on the three cases it runs). It is a size of a hypothetical bound, not a
-bound on anything, and it is graded measured.
+(agreement within 1e−11 on the three cases it runs). It is a size of a
+hypothetical bound, not a bound on anything.
+
+**Proposition 4.** Let κ_N = 2πN/L, W(σ) := λ_max(M_σ), v_1 := (1, …, 1)/√(2N+1)
+and f_1 = Σ (v_1)_k U_k, the unit window with the largest jump at the window
+edges, |f_1(0)| = √((2N+1)/L) (for every unit v, |f(0)| = L^{−1/2}|Σ v_k|
+≤ √((2N+1)/L)). For σ > κ_N:
+
+(a) W(σ) ≤ 4(2N + 1)/(πL(σ − κ_N)).
+(b) W(σ) ≥ v_1* M_σ v_1, and v_1* M_σ v_1 = 2(2N + 1)/(πLσ)·(1 + O(κ_N/σ) + O(1/(Lσ))).
+(c) On the continuous windows Σ v_k = 0 (codimension 1, f continuous on ℝ),
+    W₀(σ) := sup (1/2π)∫_{|s|>σ}|f̂|² ≤ 4K₂/(3πL(σ − κ_N)³),
+    K₂ = Σ_k κ_k² = (2π/L)² N(N + 1)(2N + 1)/3.
+
+*Proof.* (a) For |s| > κ_N, |Σ v_k/(s − κ_k)| ≤ Σ|v_k|/(|s| − κ_N)
+≤ √(2N+1)/(|s| − κ_N), and sin² ≤ 1, so |f̂|² ≤ (4/L)(2N+1)/(|s| − κ_N)²;
+integrate over |s| > σ and divide by 2π. (b) The first inequality is the
+Rayleigh quotient. For the asymptotic form, f̂_1(s) = 2L^{−1/2} sin(sL/2)
+(Σ(v_1)_k)/s · (1 + O(κ_N/s)) and ∫_σ^∞ sin²(sL/2)/s² ds = 1/(2σ) + O(1/(Lσ²)).
+(c) With Σ v_k = 0, Σ v_k/(s − κ_k) = Σ v_kκ_k/(s(s − κ_k)), bounded by
+√K₂/(|s|(|s| − κ_N)) ≤ √K₂/(|s| − κ_N)² by Cauchy-Schwarz; integrate. ∎
+
+So the mass above σ comes from the jump of f at the window edges, and the
+worst window is the one with the largest jump. Measured on the stored builds
+at the heuristic σ_n = 2n/√3 (`size_if_closed` in eps_trunc.json): where
+σ_n > κ_N the top eigenvector of M_σ has overlap 0.94 to 0.999 with v_1,
+W(σ_n) = 0.098 to 0.30, and W₀(σ_n) on the continuous windows is 0.0025 to
+0.080 (at c = 2.9, N = 32: W = 0.21, 0.16, 0.13, 0.11, 0.098 and
+W₀ = 0.028, 0.012, 0.0063, 0.0040, 0.0025 for 200 to 364 modes). Where
+σ_n ≤ κ_N (80 modes at N = 16 for every c; 200 modes at c = 2.2, N = 32) the
+proposition does not apply, the heuristic overlap region contains window
+basis vectors outright and W(σ_n) is 0.88 to 1.0. For the allocation: a
+bound of mechanism 2's shape is limited by the edge jump; restricted to
+Σ v_k = 0 (which costs at most one eigenvalue in any count, by interlacing)
+the same shape is 8 to 39 times smaller at c = 2.9, N = 32.
 
 ### 2.8 Grades
 
@@ -379,6 +470,35 @@ bound on anything, and it is graded measured.
 |---|---|
 | Identity A, Identity B, Lemmas 1, 2, 2', 3, Corollaries 3.1, 3.2 | ordinary argument, unreviewed |
 | no bound on the truncation error (outcome 4): statement O open | the obstruction is a missing lemma, not a counterexample; ALIGNMENT s5: unresolved |
-| exact inertia of the stored A = Q̃ − κ_lo T̃_∞ (kappa_floor.json) | exact, on the stored float64 matrices (two exact routes agree) |
-| n_−(R_S) ≥ 2 at c = 2.9 (N = 8, 16, 32), ≥ 1 at 2.5, ≥ 0 at 2.2, via Cor. 3.1 | composite: weakest step Lemma 3 (unreviewed), with Q and T_∞ at A4's grade |
-| window-tail constant (s2.7) | measured (closed form in mpmath, float eigenvalue, checked by quadrature) |
+| the float probe of Q − κT_∞ (s1.4) | a labelled probe, not pinned; the count is assembler/'s |
+| Proposition 4 (a), (b), (c) | ordinary argument, unreviewed |
+| W(σ_n), W₀(σ_n), overlaps (s2.7) | measured (closed form in mpmath, float eigenvalues, checked by quadrature) |
+| Lemma 1's measured companion (s2.9) | measured (kernel/'s closed-form transforms, one window, one c) |
+
+### 2.9 Lemma 1's measured companion (`lemma1_companion.py`, `lemma1_companion.json`)
+
+One window, f = U_0 at c = 2.9 (unit norm), with the s-integral restricted
+to |s| ≤ 60, which holds w_f = 0.9899 of the window's mass. Per-mode
+contributions c_j = (1/2π)∫_{|s|≤60}|f̂|²|ζ̂_j|² ds use kernel/'s closed-form
+Mellin transforms (`sonin.zeta_mellin_all`, Tate's local functional
+equation at dps 20), a route independent of two_adic/'s w-quadrature.
+
+- The partial sums P(n) = Σ_{j<n} c_j, a lower bound for τ_f(Q_∞^(n)), are
+  3.162 at 80 modes and 4.251 at 240, and grow by 0.9900, 0.9910 and 0.9909
+  per unit of log n on [40, 80], [80, 160] and [120, 240]. The heuristic of
+  s1.2 predicts w_f = 0.9899 per unit of log n: each mode well above the
+  window's frequencies adds about w_f/j.
+- The Poisson form 4j/(s² + 4j²) reproduces c_j to a relative 0.47/j at
+  j = 20 and 0.27/j at j = 239.
+- Along the measured slope, τ_f(Q_∞^(n)) grows by about
+  w_f log(364/200) = 0.593 between 200 and 364 modes (P was measured to 240
+  modes; the 364-mode value is this extrapolation). Over the same five
+  stored c = 2.9, N = 32 builds, the stored ΔT's U_0 entry (T_S − T_∞ at
+  n = 0) stays between 5.06e−3 and 6.73e−3, a spread of 1.67e−3, 0.28 percent
+  of that growth.
+
+That is Lemma 1 in numbers: the stored ΔT is a small difference of two pieces,
+each of which diverges like log n. Grade: measured (one window, one c, float
+of mpmath values). It gives referee/ a falsifiable statement: a slope that
+flattened as n grows, or a Poisson form that stopped matching, would
+contradict the heuristic rate (not Lemma 1 itself, which is a proof).
