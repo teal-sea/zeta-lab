@@ -15,3 +15,4 @@ started 2026-09-24T13:25:33Z
 2026-09-24T13:55:12Z launching run_checker_kmax.py: (200, 2400, 32) at Kmax 14 to split the 200->240 step into Kmax and mode responses. Estimate 15-20 min.
 2026-09-24T13:56:53Z test_checker_ts.py: unit set and rerun pins updated for the 240 unit; test_door_N32_200_vs_240 added. 45 passed.
 2026-09-24T14:10:17Z heartbeat: Kmax-14 build still running, 15 min in
+2026-09-24T14:11:22Z Kmax split done (949 s): Kmax 13->14 at 200 modes moves T_S by <= 1.9e-7; the 200->240 response (2.4e-2 to 3.9e-2) is all mode count. Pinned.

@@ -534,3 +534,21 @@ def test_door_N32_200_vs_240():
         for nv in ("200", "240"):
             neg = d[nv]["band_real"]["negatives"]
             assert neg[0] < lo[0] + 0.005 and neg[1] < lo[1] + 0.005, (c, nv, neg)
+
+
+def test_kmax_is_not_the_door_response():
+    """RESULTS s7.7: 200 -> 240 modes also moves Kmax 13 -> 14. At fixed 200
+    modes, Kmax 13 -> 14 moves T_S by at most 1.9e-7; the whole step is the
+    mode count (run_checker_kmax.py, checker_kmax.json)."""
+    path = os.path.join(HERE, "checker_kmax.json")
+    if not os.path.exists(path):
+        pytest.skip("checker_kmax.json absent (run_checker_kmax.py)")
+    with open(path) as fh:
+        K = json.load(fh)
+    J = _cells()["cells"]
+    assert K["meta"]["kmax"] == 14 and K["meta"]["kmax_default"] == 13
+    for c in CELLS:
+        r = K["cells"][c]
+        assert r["kmax_response"]["full"] < 2e-7, c
+        assert abs(r["combined"]["full"] - J[c]["door_N32_200_vs_240"]["weyl_response"]) < 1e-12, c
+        assert abs(r["mode_response"]["full"] - r["combined"]["full"]) < 1e-6, c
