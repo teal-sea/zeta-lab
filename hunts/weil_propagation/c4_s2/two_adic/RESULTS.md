@@ -605,3 +605,138 @@ the band rose past the negatives, and the negatives did not leave).
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py 80 4800   # one (nvec, S) per process: 80 1200, 80 2400, 80 4800, 100 4800, 120 4800; 15 s to about 9 min
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py --merge-modal   # merges modal/out/gram_*.json (140 to 200 at 4800, 160 at 9600); reads, computes nothing; the units themselves are modal/run_modal.py's
     PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 30 to 70 s
+
+## 10. Follow-up 3 (2026-09-24): rho without the explicit inverse
+
+BRIEF.md "Follow-up 3" (32b8112). checker/ s7.7 found cond(G_b) of 3.9e9 to
+2.8e18 on the N = 32 rows and T_S failing T_S >= 0 by 14 to 37 at 319 and
+364 modes; `ta_mellin.rho` inverted G with `np.linalg.inv`. This section is
+written in the order the work was done: s10.1 (diagnosis) and s10.2 (the
+acceptance for the fix) were committed before `rho` was changed.
+
+### 10.1 Diagnosis: the cutoff S of the s-side Gram, not the functions
+
+`ta_rho_diag.py`, `ta_rho_diag.json`, `test_ta_rho_diag.py`. Measured,
+float64, one route, except where stated.
+
+**Which Gram.** T_S's Gram matrices are not `gram_v`'s. `ta_prolate.delta_T_cells`
+takes both on the s side (`gram_s`): G = (1/2π) H* W_s H + (J Jᵀ + dil A Aᵀ)/(πS)
+from the hats H on `s_grid(S, 1, 8)`. `gram_v` serves only the synthetic route
+`ta_mellin.delta_T_mellin`. The coordinator's trap (i) holds for `gram_s` all
+the same: G = F* F with F the weighted sample matrix plus two tail rows, so
+cond(G) = cond(F)².
+
+| row (nvec, S) | S/nvec² | s-nodes of G | w-nodes of the hats | gram_v's w-nodes (not on T_S's path) |
+|---|---|---|---|---|
+| (200, 2400) | 0.060 | 38400 | 139716 | 196596 |
+| (240, 2400) | 0.042 | 38400 | 241200 | 196596 |
+| (280, 2266) | 0.029 | 36256 | 238752 | 196596 |
+| (319, 2633) | 0.026 | 42128 | 245484 | 196596 |
+| (364, 3060) | 0.023 | 48960 | 454044 | 196596 |
+
+Every Gram is formed from far more nodes than functions; the node count is
+not the problem.
+
+**Not intrinsic.** The exact Gram matrices are well conditioned: G_z = I (the
+ζ_n are orthonormal on v >= 1), and cond(G_b) <= ((1 + 2^−1/2)/(1 − 2^−1/2))²
+cond(G_z) = 33.97, because b_n = K ζ_n with K the compression of Θ^{*−1} to
+x >= 0, whose singular values lie in [0.586, 3.414] (ordinary argument,
+unreviewed, in `ta_rho_diag.py`'s docstring; checked on a synthetic family on
+`ta_ts`'s grid, where the singular values fall inside that interval). On a
+grid that holds the modes, the s-side G_b agrees: cond 13.2 at 80 modes and
+S = 2400.
+
+**Produced by the quadrature: the cutoff S, not the resolution inside
+[−S, S].** cond(G) = cond(F)² (from the singular values of F; the formed
+float64 G reads the same below 1e14):
+
+| nvec | S | S/nvec² | cond(G_z) | cond(G_b) |
+|---|---|---|---|---|
+| 80 | 150 | 0.023 | 7.8e28 | 1.6e18 |
+| 80 | 200 | 0.031 | 4.5e23 | 5.3e14 |
+| 80 | 300 | 0.047 | 2.6e15 | 1.1e10 |
+| 80 | 600 | 0.094 | 5.6e6 | 2.9e6 |
+| 80 | 1200 | 0.19 | 273 | 280 |
+| 80 | 2400 | 0.38 | 4.6 | 13.2 |
+| 200 | 300 | 0.0075 | 1.1e30 | 1.4e30 |
+| 200 | 600 | 0.015 | 2.5e28 | 2.1e28 |
+| 200 | 1200 | 0.030 | 7.8e25 | 2.0e16 |
+| 200 | 2400 | 0.060 | 7.6e11 | 3.9e9 |
+
+At (80, 300), a finer s-grid (8 to 12 nodes per panel), a finer w-grid for
+the hats (12 to 16) and Kmax 10 to 11 each leave cond(G_z) = 2.577e15 and
+cond(G_b) = 1.084e10 unchanged to four digits; doubling S takes them to
+5.6e6 and 2.9e6. The lowest direction u of G_b at (80, 1200) has its s-energy
+rising towards the cutoff (8.4e−4, 5.0e−3, 7.9e−3, 1.1e−2 on |s| in [0, 100),
+[100, 500), [500, 1000), [1000, 1200]) and |A·u| = 2e−5: a combination whose
+norm lies mostly beyond S, which the order-1/S tail rows do not see. The
+controlling ratio is about S/nvec²: the span of nvec prolates holds
+combinations concentrated within about 1/nvec² of y = 1, whose transforms
+reach s of order nvec² (ordinary argument). The default rule
+(`KernelProvider`: nvec = 8N/L + 40, S = 24πN/L) keeps S proportional to
+nvec, so the ratio falls as N grows: 0.029, 0.026, 0.023 on the three
+default-rule rows.
+
+**What this changes in the record.**
+
+- G_z, whose condition nobody recorded, is the worse of the two: 7.6e11 at
+  (200, 2400) against G_b's 3.9e9, so eps × cond(G_z) = 1.7e−4 on the
+  delivered N = 32 row.
+- A float64 G formed from its samples reads its condition only below about
+  1e14; above 1/eps its eigenvalue ratio saturates near 1e16 (1.9e16 formed
+  against 7.8e25 at (200, 1200)). checker/'s cond(G_b) of 1.1e17, 2.8e18 and
+  5.1e17 for the default-rule rows are therefore lower bounds, not values.
+- The samples carry their own error: the float64 hats agree with kernel/'s
+  closed form (`zeta_mellin_all`, dps 30) to 5.2e−14 to 2.1e−13 absolute over
+  s in [−2400, 600] (relative 1.2e−13 at s = 0, 2.8e−11 at |s| = 2400). Call
+  the relative error of F δ. Any solve, however stable, determines the
+  discretized projection only while cond(F) δ is well below 1, and cond(F)
+  is about 1e13 for Z at S/nvec² = 0.03.
+
+**Decision.** The ill-conditioning is produced by the quadrature (the cutoff S
+of the s-side Gram relative to nvec²), not by the functions. The fix has two
+parts. (1) The solve: rho from a QR factorization of F, never forming G, so
+that the arithmetic error scales with cond(F) and not with cond(F)². (2) The
+grid: S must grow like nvec², and each build must report cond(F) for Z and B
+so that a row whose projection its samples do not determine can be refused.
+Part (2) raises the cost of the N = 32 rows; its numbers are in s10.3.
+
+### 10.2 Acceptance for the fix, fixed before it was run
+
+Written before the new `rho` was run on any case. Grades: measured unless
+stated.
+
+- **A1, agreement where the old route is sound.** At the delivered
+  truncations (80, 1200), (120, 1600), (200, 2400) (s-grid width 1, 8 nodes
+  per panel), for Z and for B: max_s |rho − rho_inv| <= 10 eps cond(G)
+  max_s |rho|, with cond(G) = cond(F)² from the singular values of F. The
+  measured ratio is reported, and so is the change of ΔT (spectral norm) on
+  each delivered (c, N).
+- **A2, an end-to-end raised-precision reference at an ill-conditioned
+  case.** (80, 300), Z: cond(G_z) = 2.6e15, near 1/eps. Reference: ζ̂ at all
+  4800 s-nodes from kernel/'s closed form at dps 30, J and A at dps 30, G and
+  the solve at 60 digits, rho on 64 of the s-nodes. Pass:
+  max |rho − rho_ref| <= 1e−4 max |rho_ref| on those nodes (prediction from
+  δ of order 1e−13 and cond(F_z) = 5.1e7: order 1e−5). Reported beside it:
+  rho_inv's deviation (prediction: order 1e−2 or more, since
+  eps cond(G_z) = 0.57). **Where it stops:** the same at (80, 200), cond(G_z)
+  = 4.5e23, cond(F_z) = 6.7e11; prediction: a deviation of order
+  cond(F_z) δ, between 1e−3 and 1. No pass criterion there; it is the
+  measured stopping point.
+- **A3, the platform drift.** At (200, 2400), N = 32: an entrywise relative
+  perturbation of 2^−52 (fixed seed) on Z, B, J and A, and the spectral change
+  of ΔT on c = 2.2, 2.5, 2.9, old route against new. Pass: the old route's
+  change lies between 1e−8 and 1e−5 (the order of modal/'s 2.3e−7 to 2.9e−7),
+  and the new route's is at least 100 times smaller. If the old route's
+  change does not reach that order, the drift is not shown to come from the
+  inverse. This is a proxy for the cross-platform rebuild, which needs
+  modal/.
+- **A4, the falsifier's regime, prediction recorded here.** (200, 1200),
+  N = 32, is the regime of the 280, 319 and 364-mode rows (S/nvec² = 0.03,
+  cond(G_z) = 7.8e25, cond(G_b) = 2.0e16), from hats already computed.
+  Prediction: rho_inv's T_S fails T_S >= 0 by order 1 or more; the new rho's
+  T_S has no eigenvalue below −1 (the leverages it sums are at most 1) but is
+  not clean, with eigenvalues below −band(c, 32) (3.92e−2 / 2.37e−2 /
+  3.16e−2) possible, because there the samples do not determine the Z
+  projection. If the new route's T_S at (200, 1200) has no eigenvalue below
+  −band(c, 32), this prediction is refuted.
