@@ -68,9 +68,12 @@ with keys `nvec`, `S`, `N`, `c`, `T_inf_eig_min`, `T_inf_eig_max`,
 `resid_top8` (eigenvalues of ΔT + Wp largest in modulus, signed),
 `resid_n_above_01`, `resid_n_below_m01`, `seconds_hats`, and `Kmax` on the rows
 rerun under `kmax_for` (configurations 2 to 4; `seconds_by_config` records
-those reruns). Converged rows:
-(nvec, S) = (80, 1200) for N = 8 and 16, (120, 1600) for N = 16,
-(200, 2400) for N = 32. For checker/: R_S = Q − T_S with Q = Q_∞ − Wp, so
+those reruns). Delivered rows: (nvec, S) = (80, 1200) for N = 8,
+(120, 1600) for N = 16, (200, 2400) for N = 32. Converged to what (checker/'s
+measurement, RESULTS.md correction notice; this paragraph listed all four as
+"converged" before): (80, 1200) to about 5.6e−3 at N = 8 and **not** at
+N = 16 (80 → 120 modes moves T_S by up to 7.8e−2); (120, 1600) to 1.6e−2 at
+c = 2.2 and within the probe at 2.5 and 2.9; (200, 2400) not measured. For checker/: R_S = Q − T_S with Q = Q_∞ − Wp, so
 R_S = R_∞ − (ΔT + Wp).
 
 `ta_gram_probe.json`: `c`, `N`, `Q_low` (checker/'s value), and `runs`

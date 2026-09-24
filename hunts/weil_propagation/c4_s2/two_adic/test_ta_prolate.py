@@ -27,7 +27,8 @@ import ta_run_prolate as R  # noqa: E402
 import ta_ts as T  # noqa: E402
 
 COUNTS = {"2.2": 1, "2.5": 2, "2.9": 3}
-CONVERGED = {(80, 1200.0, 8), (80, 1200.0, 16), (120, 1600.0, 16), (200, 2400.0, 32)}
+# the delivered rows; which are converged, and to what, is checker/'s measurement (RESULTS.md notice)
+DELIVERED = {(80, 1200.0, 8), (80, 1200.0, 16), (120, 1600.0, 16), (200, 2400.0, 32)}
 
 
 @pytest.fixture(scope="module")
@@ -58,9 +59,9 @@ def test_T_S_has_no_eigenvalue_below_minus_002(js):
         assert r["T_S_n_below_m002"] == 0, r
 
 
-def test_residual_has_bounded_count_beyond_01_on_converged_runs(js):
+def test_residual_has_bounded_count_beyond_01_on_delivered_runs(js):
     """Delta_T + Wp: 1, 2, 3 pairs beyond +-0.1 at c = 2.2, 2.5, 2.9, for N = 8, 16, 32."""
-    for (nvec, S, N) in CONVERGED:
+    for (nvec, S, N) in DELIVERED:
         for c, k in COUNTS.items():
             r = _row(js, nvec, S, N, c)
             assert (r["resid_n_above_01"], r["resid_n_below_m01"]) == (k, k), r
@@ -117,5 +118,5 @@ def test_stated_values_in_the_headline(js):
         assert np.all((nxt > 0.07) & (nxt < 0.1)), (c, nxt)
     # 130 modes at N = 32 leave spurious pairs that 200 modes remove
     assert _row(js, 130, 1800.0, 32, "2.2")["resid_n_above_01"] == 3
-    lows = [x for r in js["rows"] if (r["nvec"], r["S"], r["N"]) in CONVERGED for x in r["T_S_eig_low3"][:1]]
+    lows = [x for r in js["rows"] if (r["nvec"], r["S"], r["N"]) in DELIVERED for x in r["T_S_eig_low3"][:1]]
     assert 1.5e-3 < min(lows) and max(lows) < 3.6e-3
