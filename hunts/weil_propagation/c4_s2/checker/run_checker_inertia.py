@@ -71,7 +71,7 @@ import run_checker_ts as RT  # noqa: E402
 CELL = "2.9"
 C_EXACT = fmpq(29, 10)
 DIGEST = "b2e7787bce7a77db4a1a81b9311fc75a2b9326649b88a49883bd4d737ca70eaa"
-READING_COMMIT = None  # the pre-registration commit, filled in by the analysis commit
+READING_COMMIT = "50a104e"  # the pre-registration commit (test and s7.9 reading, before any inertia)
 OUT = os.path.join(HERE, "checker_inertia.json")
 CELLS_JSON = os.path.join(HERE, "checker_ts_cells.json")
 WIDTH = fmpq(1, 2 ** 40)
