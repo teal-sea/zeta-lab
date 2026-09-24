@@ -240,7 +240,35 @@ def analyse(snap, probe_commit):
                           "n_plus": pos, "undecided": [float(x) for x in e if abs(x) <= band],
                           "n_minus_at_band_cell": int((e < -rec["band_cell"]).sum()),
                           "dim": int(e.size)}
+            # discriminator (2): R_S compressed to the resolved coordinates |n| <= N/2
+            half = np.abs(nn) <= N // 2
+            eh = np.linalg.eigvalsh(R[np.ix_(half, half)])
+            r["resolved_half"] = {"dim": int(half.sum()), "low3": [float(x) for x in eh[:3]],
+                                  "n_minus": int((eh < -band).sum()), "n_undecided": int((abs(eh) <= band).sum())}
             rec[str(N)] = r
+        # discriminator (1): N = 16 at S = 1600, 80 / 120 / 160 modes, one threshold (band(c, 16));
+        # and the N = 8 central blocks of the same three builds, at band(c, 8)
+        Q16 = to_np(CQ.central_block(Qfull, 16)).real
+        disc = {}
+        for nv in (80, 120, 160):
+            R16 = Q16 - T[unit_key(c, 16, 40, nv, 1600)]
+            e16 = np.linalg.eigvalsh(R16)
+            e8 = np.linalg.eigvalsh(R16[8:25, 8:25])
+            k16 = int((e16 < -bands[16]).sum())
+            disc[str(nv)] = {"N16_low3": [float(x) for x in e16[:3]],
+                             "N16_n_minus": k16,
+                             "N16_last_two_counted": [float(x) for x in e16[max(0, k16 - 2):k16]],
+                             "N16_n_minus_at_band_cell": int((e16 < -rec["band_cell"]).sum()),
+                             "N8_block_low3": [float(x) for x in e8[:3]],
+                             "N8_block_n_minus": int((e8 < -bands[8]).sum())}
+        # |n| <= 16 of the N = 32 row at band(c, 16): the same coordinates and threshold
+        # as the full N = 16 builds above, at the best resolution held (200, 2400)
+        R32 = to_np(Qfull).real - T[unit_key(c, 32, 40, 200, 2400)]
+        e = np.linalg.eigvalsh(R32[16:49, 16:49])
+        k = int((e < -bands[16]).sum())
+        disc["200_N32_on_n_le_16"] = {"low3": [float(x) for x in e[:3]], "n_minus_at_band16": k,
+                                      "last_two_counted": [float(x) for x in e[max(0, k - 2):k]]}
+        rec["modes_N16_S1600"] = disc
         out["cells"][c] = rec
         print(c, "analysed", flush=True)
     with open(OUT, "w") as fh:

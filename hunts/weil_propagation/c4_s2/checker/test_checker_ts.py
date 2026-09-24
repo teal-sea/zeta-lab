@@ -420,3 +420,65 @@ def test_P3_defect_ranges_quoted():
     nrm = [J[c]["P3_converged_rows_defect_norm"] for c in CELLS]
     assert ("%.1e" % min(ent), "%.1e" % max(ent)) == ("3.1e-03", "5.3e-03")
     assert ("%.1e" % min(nrm), "%.1e" % max(nrm)) == ("3.7e-03", "5.4e-03")
+
+
+def test_discriminator_more_modes_at_N16():
+    """RESULTS s7.3a (1): at N = 16, S = 1600, one threshold band(c, 16), the
+    count below -band falls as modes rise (80, 120, 160); the N = 8 block's
+    count at 2.5 and 2.9 does not move."""
+    J = _cells()["cells"]
+    want = {"2.2": [5, 4, 3], "2.5": [10, 9, 8], "2.9": [12, 10, 10]}
+    for c in CELLS:
+        m = J[c]["modes_N16_S1600"]
+        assert [m[k]["N16_n_minus"] for k in ("80", "120", "160")] == want[c], c
+    for c in ("2.5", "2.9"):
+        m = J[c]["modes_N16_S1600"]
+        assert [m[k]["N8_block_n_minus"] for k in ("80", "120", "160")] == [4, 4, 4], c
+    assert [J["2.2"]["modes_N16_S1600"][k]["N8_block_n_minus"] for k in ("80", "120", "160")] == [4, 2, 2]
+
+
+def test_discriminator_resolved_coordinates():
+    """RESULTS s7.3a (2): R_S on |n| <= N/2 at the row's band; and |n| <= 16
+    at band(c, 16) for the 200-mode N = 32 build."""
+    J = _cells()["cells"]
+    want = {"2.2": [2, 1, 1], "2.5": [2, 4, 6], "2.9": [2, 4, 8]}
+    for c in CELLS:
+        assert [J[c][N]["resolved_half"]["n_minus"] for N in ("8", "16", "32")] == want[c], c
+    fixed = {"2.2": 1, "2.5": 8, "2.9": 10}
+    for c in CELLS:
+        assert J[c]["modes_N16_S1600"]["200_N32_on_n_le_16"]["n_minus_at_band16"] == fixed[c], c
+
+
+def test_results_discriminator_tables_match_json():
+    J = _cells()["cells"]
+    with open(os.path.join(HERE, "RESULTS.md")) as fh:
+        text = fh.read()
+    f = lambda x: "%.4g" % x  # noqa: E731
+    rows = _table(text, "### 7.3a", "### 7.4")
+    d1 = [r for r in rows if len(r) == 6 and r[1].startswith(("1.", "5.", "6.", "7.", "8."))]
+    d2 = [r for r in rows if len(r) == 6 and r[1] in ("8", "16", "32")]
+    assert len(d1) == 3 and len(d2) == 9
+    for row in d1:
+        m = J[row[0]]["modes_N16_S1600"]
+        for i, k in zip((2, 3, 4), ("80", "120", "160")):
+            assert row[i] == f"{m[k]['N16_n_minus']}, {', '.join(f(v) for v in m[k]['N16_low3'])}"
+    for row in d2:
+        h = J[row[0]][row[1]]["resolved_half"]
+        assert row[2] == str(h["dim"]) and row[3] == f"{h['n_minus']} / {h['n_undecided']}"
+        assert row[4] == ", ".join(f(v) for v in h["low3"])
+
+
+def test_last_pair_counted_is_marginal():
+    """RESULTS s7.3a: at 2.5 and 2.9 the last pair counted on |n| <= 16 (160
+    modes at N = 16, and the 200-mode N = 32 build) sits at -7.4e-3 to
+    -8.9e-3, 1.2 to 1.6 times band(c, 16)."""
+    J = _cells()["cells"]
+    vals, ratios = [], []
+    for c in ("2.5", "2.9"):
+        m = J[c]["modes_N16_S1600"]
+        b = J[c]["16"]["band"]
+        for pair in (m["160"]["N16_last_two_counted"], m["200_N32_on_n_le_16"]["last_two_counted"]):
+            vals += pair
+            ratios += [abs(x) / b for x in pair]
+    assert ("%.1e" % max(vals), "%.1e" % min(vals)) == ("-7.4e-03", "-8.9e-03")
+    assert ("%.1f" % min(ratios), "%.1f" % max(ratios)) == ("1.2", "1.6")
