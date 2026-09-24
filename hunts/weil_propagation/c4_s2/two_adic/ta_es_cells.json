@@ -1,0 +1,126 @@
+{
+ "meta": {
+  "what": "Gram(Theta_1) of theta_S and the Weil prime block on the CCM basis",
+  "bound_lo": "0.79289321881345253828",
+  "bound_hi": "2.2071067811865474617"
+ },
+ "cells": [
+  {
+   "c": "2.2",
+   "N": 8,
+   "dps": 40,
+   "theta_gram_eig_min": "0.80547231866512626227",
+   "theta_gram_eig_max": "2.19834594065960534",
+   "theta_gram_max_imag": "1.103e-52",
+   "prime_block_eig_min": "-0.48405651982368831518",
+   "prime_block_eig_max": "0.48140990413810388439",
+   "identity_defect": "5.7397e-42",
+   "galerkin_dev": "3.4438e-41",
+   "seconds": 0.22
+  },
+  {
+   "c": "2.2",
+   "N": 16,
+   "dps": 40,
+   "theta_gram_eig_min": "0.79293162516069561085",
+   "theta_gram_eig_max": "2.2070861900249982696",
+   "theta_gram_max_imag": "1.103e-52",
+   "prime_block_eig_min": "-0.49011479902870127557",
+   "prime_block_eig_max": "0.49010245048296641043",
+   "identity_defect": "7.8921e-42",
+   "galerkin_dev": "8.2508e-41",
+   "seconds": 0.91
+  },
+  {
+   "c": "2.2",
+   "N": 32,
+   "dps": 40,
+   "theta_gram_eig_min": "0.7928932191086785605",
+   "theta_gram_eig_max": "2.2071067810594631543",
+   "theta_gram_max_imag": "1.103e-52",
+   "prime_block_eig_min": "-0.49012907164618542305",
+   "prime_block_eig_max": "0.49012907152963846748",
+   "identity_defect": "7.8921e-42",
+   "galerkin_dev": "3.4008e-40",
+   "seconds": 4.45
+  },
+  {
+   "c": "2.5",
+   "N": 8,
+   "dps": 40,
+   "theta_gram_eig_min": "0.79290766300001662073",
+   "theta_gram_eig_max": "2.2070868817554631096",
+   "theta_gram_max_imag": "2.2938e-53",
+   "prime_block_eig_min": "-0.49011527849972268682",
+   "prime_block_eig_max": "0.49011905978708117682",
+   "identity_defect": "8.6096e-42",
+   "galerkin_dev": "9.1835e-41",
+   "seconds": 0.2
+  },
+  {
+   "c": "2.5",
+   "N": 16,
+   "dps": 40,
+   "theta_gram_eig_min": "0.79289321890453223808",
+   "theta_gram_eig_max": "2.2071067810637647722",
+   "theta_gram_max_imag": "2.2938e-53",
+   "prime_block_eig_min": "-0.49012907164916707735",
+   "prime_block_eig_max": "0.49012907167114191529",
+   "identity_defect": "8.6096e-42",
+   "galerkin_dev": "1.3919e-40",
+   "seconds": 0.83
+  },
+  {
+   "c": "2.5",
+   "N": 32,
+   "dps": 40,
+   "theta_gram_eig_min": "0.7928932188134524756",
+   "theta_gram_eig_max": "2.2071067811865475244",
+   "theta_gram_max_imag": "2.2938e-53",
+   "prime_block_eig_min": "-0.49012907173427359586",
+   "prime_block_eig_max": "0.49012907173427359586",
+   "identity_defect": "8.6096e-42",
+   "galerkin_dev": "3.9891e-40",
+   "seconds": 3.79
+  },
+  {
+   "c": "2.9",
+   "N": 8,
+   "dps": 40,
+   "theta_gram_eig_min": "0.79289323304064057629",
+   "theta_gram_eig_max": "2.2071067329704548945",
+   "theta_gram_max_imag": "4.2723e-53",
+   "prime_block_eig_min": "-0.49012903831342493183",
+   "prime_block_eig_max": "0.49012906187273827657",
+   "identity_defect": "1.1479e-41",
+   "galerkin_dev": "4.5918e-41",
+   "seconds": 0.24
+  },
+  {
+   "c": "2.9",
+   "N": 16,
+   "dps": 40,
+   "theta_gram_eig_min": "0.79289321881345310044",
+   "theta_gram_eig_max": "2.2071067811865471806",
+   "theta_gram_max_imag": "4.2723e-53",
+   "prime_block_eig_min": "-0.49012907173427335755",
+   "prime_block_eig_max": "0.49012907173427316275",
+   "identity_defect": "1.1479e-41",
+   "galerkin_dev": "4.4339e-40",
+   "seconds": 0.88
+  },
+  {
+   "c": "2.9",
+   "N": 32,
+   "dps": 40,
+   "theta_gram_eig_min": "0.7928932188134524756",
+   "theta_gram_eig_max": "2.2071067811865475244",
+   "theta_gram_max_imag": "4.2723e-53",
+   "prime_block_eig_min": "-0.49012907173427359586",
+   "prime_block_eig_max": "0.49012907173427359586",
+   "identity_defect": "1.1479e-41",
+   "galerkin_dev": "4.4339e-40",
+   "seconds": 4.31
+  }
+ ]
+}
