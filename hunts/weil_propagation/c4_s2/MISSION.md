@@ -146,3 +146,15 @@ grading stays with the owners: checker/ re-grades the R_S counts from the new
 N = 32 rows, and two_adic/ grades its accuracy run (s7b), each in its own
 folder. The Limits above still hold for everything run on the laptop; Modal
 is the only place the new runs may execute.
+
+## Follow-up 2, 2026-09-24: the rho fix, then N = 32 again
+
+*Added by the coordinator.* The operator approved the thread the Modal
+follow-up ended on: ΔT inverts its Gram matrix with `np.linalg.inv` in
+`two_adic/ta_mellin.rho`, and at N = 32 that matrix's condition passes 1/eps
+(1.1e17 to 2.8e18 at 280 to 364 modes). Same branch, same folders, same Modal
+cap (25 USD in total across both follow-ups; 0.741 spent). Order: two_adic/
+diagnoses and replaces that step with a stable route and pins it; modal/
+reruns the checker/ units under the new T_S digest; checker/ merges and
+re-grades the count. `modal/out/` stays as the record of the old route.
+Everything above still holds.

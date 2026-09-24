@@ -168,3 +168,65 @@ update the two tests to pin the current checker/ values. Change no
 mathematical statement of your own. Same constraints as the first
 follow-up: no edits to T_S's import closure, no runs beyond the tests, your
 folder only, pathspec commits, no push, no em dashes.
+
+## Follow-up 3, 2026-09-24: replace the explicit inverse in `ta_mellin.rho`
+
+*Added by the coordinator.* Approved by the operator (MISSION.md, follow-up
+2). checker/ s7.7 found that at N = 32 your default mode rule gives
+cond(Gb) = 1.1e17 / 2.8e18 / 5.1e17 at 280 / 319 / 364 modes (4.9e12 at 240,
+3.9e9 at 200), and T_S then fails T_S >= 0 by 14 to 37. `rho` computes
+G^{-1} with `np.linalg.inv`. Your task is to replace that step with a stable
+route, prove it on the cases that matter, and pin it.
+
+**Two traps, stated so you do not walk into them.** (i) `gram_v` forms
+G = V^* W V from weighted samples of the functions, so cond(G) is the
+square of the sample matrix's condition. A Cholesky or QR solve **on G**
+cannot recover what forming G in float64 already lost. A route that avoids
+squaring: QR (or SVD) of the weighted sample matrix W^{1/2} V^T itself, never
+forming G, with rho(s) as the squared norm of a triangular solve against the
+hats. (ii) "mpmath at raised dps for that step only" has the same flaw if G
+is still assembled in float64; raised precision helps only if the samples
+(and, where it matters, the hats) are carried at that precision. These are
+the coordinator's reading of the code, not a derivation: check them.
+
+**Step 1, diagnose before you fix, and commit the diagnosis first.** At
+200, 240, 280, 319 and 364 modes (N = 32 settings), report: the w-node count
+of `gram_v` against nvec; cond(Gb) at 240 with a refined `per_panel` and a
+raised Kmax; cond at 240 with the samples and Gb assembled in mpmath (dps 30
+or more). Decide from that whether the ill-conditioning is intrinsic to the
+functions or produced by the quadrature. If the quadrature is under-resolved,
+the fix includes `gram_v`'s grid, not only the solve. Anything that takes
+more than a few minutes locally: say which and its estimate, and ask; modal/
+can run it.
+
+**Step 2, fix.** Keep the old route under another name (for example
+`rho_inv`) as the reference; do not delete it.
+
+**Step 3, pin, with acceptance written before you run it:**
+- At 80, 120 and 200 modes the new rho agrees with `rho_inv` to about
+  cond(G) x eps x |rho| (state the measured value). If the 2.3e−7 platform
+  drift of `modal/RUNS.md` s3 came from that inverse, the new route should
+  shrink it; say whether it does, if you can test it cheaply.
+- At an ill-conditioned case (240 modes, or the largest you can afford), the
+  new route agrees with an independent reference carried at raised precision
+  end to end, on a subset of s-nodes if that is what fits.
+- Report the condition numbers the new route survives, and where it stops.
+- The falsifier, run later by modal/ and checker/, is stated here: with the
+  new rho, T_S at 280 / 319 / 364 modes must have no eigenvalue below
+  −band. Still failing by order 10 means the fix did not work; by order
+  1e−2 means the next constraint is elsewhere (say where you expect it).
+
+**Step 4, inventory.** `ta_mellin.py` is in T_S's import closure: your
+commit changes checker/'s T_S digest, so every snapshot row (N = 8, 16, 32)
+stops being served until rebuilt. List every committed artifact of yours
+that depends on `rho` (for example `ta_ts_prolate.json`, `ta_ts_cells.json`,
+`ta_gram_probe.json`), which you regenerated (a few minutes each, locally)
+and which need modal/ (with an estimate). Update RESULTS and INTERFACE.
+
+Constraints: your folder only; `ta_mellin.py` (and, only if Step 1 requires
+it, the other closure files) may now be edited, and nothing in kernel/.
+Nothing heavy locally. Pathspec commits, no push, no em dashes. Run your
+folder's tests plus `tests/test_hunt_probe_discipline.py` and
+`tests/test_docs_numbering.py`. Expect checker/'s snapshot-serving tests to
+go red after your commit: that is the guard working, and checker/ rebuilds
+after you. Say in `worker_done` which checker/ tests you saw fail and why.
