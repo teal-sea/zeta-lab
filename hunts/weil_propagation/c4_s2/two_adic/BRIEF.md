@@ -109,3 +109,43 @@ your folder. You use the product-ball cutoff.
   complete result; a fabricated number is not. Then `worker_done` once, with
   `--outcome succeeded` or `--outcome failed`, `--files-modified` and
   `--report-path`.
+
+## Follow-up, 2026-09-24: grade the Modal accuracy run (s7b)
+
+*Added by the coordinator.* The operator approved running your s7b compute
+proposal on Modal. `modal/` ran it; its outputs are in
+`hunts/weil_propagation/c4_s2/modal/out/gram_<nvec>_<S>.json`, one per
+(nvec, S), in the shape `ta_gram_probe.py` writes for one run: nvec 140, 160,
+180, 200 at S = 4800 and 160 at S = 9600, plus the calibration run 80 at
+S = 4800, which matches your committed `ta_gram_probe.json` entry to 8.2e−15.
+Provenance (tree 284eff6, versions, wall and CPU seconds, cost) is in
+`modal/RUNS.md`. Everything above in this brief still applies.
+
+Your task: **grade it, in this folder only.**
+
+1. Merge the new runs into `ta_gram_probe.json` in its existing shape, each
+   marked with its source (`modal/out/...`, tree 284eff6, platform). Read
+   `modal/` files; never edit them.
+2. Apply the criterion your script's docstring fixed before the S = 4800 runs
+   were read (s7b): the nvec response at S = 4800, the S response at 160
+   modes (4800 against 9600), and the probe. State whether ΔT's band on
+   c = 2.2, N = 8 now falls below Q's lowest eigenvalue there (2.5738e−4), at
+   which nvec, or that it does not. Your s7b extrapolation (the 0.36 ratio per
+   20 modes) was a prediction: say whether the new runs confirm or refute it.
+   Do not move the criterion after reading the numbers.
+3. Update RESULTS s7b, and your first five lines where they change (line 1's
+   band, line 5's open item), with grades: measured (float64, one route)
+   unless something is independently checked.
+4. Pin every new number with a test in this folder that reads
+   `ta_gram_probe.json` (and, for the merge, the `modal/out/` files).
+
+Constraints for this follow-up:
+- **Do not edit any file in T_S's import closure**: `ta_ts.py`,
+  `ta_prolate.py`, `ta_mellin.py`, `ta_data.py` (nor kernel/). checker/'s
+  snapshot guard keys on their blobs, and checker/ is merging new N = 32 rows
+  under the current digest right now. If a code change looks necessary, ask.
+- Nothing heavy locally (a few minutes at most); no new Modal runs. If the
+  grade needs another run, say which one and its estimate, and ask.
+- Commit with pathspecs, your folder only. No push. No em dashes.
+- Run your folder's tests plus `tests/test_hunt_probe_discipline.py` and
+  `tests/test_docs_numbering.py` before `worker_done`.
