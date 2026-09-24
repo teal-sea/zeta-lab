@@ -80,6 +80,11 @@ composite claim takes the grade of its weakest step.
   checker/ committed its reading (49db49f) before any rebuilt row was
   analysed (3e36fa4). The falsifier two_adic/ fixed in advance (T_S at 280,
   319 and 364 modes with no eigenvalue below −band) passed on every cell.
+  checker/'s re-grade again made two_adic/'s citations stale; two_adic/
+  refreshed them and graded its own s10.4 predictions (a799c3d, 506cbe9):
+  all held except the 240-mode row's move at c = 2.2 (2.97e−2, not about
+  1e−2). Closing run of all five folders at 506cbe9: 546 passed,
+  10 skipped, 6 xfailed (the same 3 strict here and 3 in other hunts).
 
 ## The doors
 
