@@ -86,7 +86,7 @@ converges super-exponentially on vectors supported in u ≤ X, because
 | n | 10 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|
 | X = √3 | 2.6e−5 | 1.0e−20 | 9.2e−41 | 8.9e−64 | 5.5e−89 |
-| X = 3 | 0.23 | 1.2e−10 | 3.9e−25 | 1.1e−42 | 1.8e−62 |
+| X = 3 | 0.23 | 1.2e−10 | 3.9e−25 | 1.1e−42 | 1.7e−62 |
 
 So for supports inside u ≤ X keep n < K with |η_K(X)|² below your target;
 `nvec = 60` covers X ≤ 3 at dps 40. For vectors with support beyond u = 3

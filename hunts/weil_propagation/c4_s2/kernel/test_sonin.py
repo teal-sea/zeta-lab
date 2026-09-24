@@ -55,6 +55,16 @@ def _phi(d, n, x):
     return mp.fsum(cf * P[k] for k, cf in zip(ks, coef))
 
 
+def _phi_all(d, x, nn):
+    """[phi~_n(x), n < nn] with one Legendre recurrence."""
+    ks = d["ks"]
+    P = [mp.mpf(1), x]
+    for k in range(1, ks[-1]):
+        P.append(((2 * k + 1) * x * P[k] - k * P[k - 1]) / (k + 1))
+    Pk = [P[k] for k in ks]
+    return [mp.fsum(cf * pk for cf, pk in zip(d["coef"][n], Pk)) for n in range(nn)]
+
+
 # ---------------------------------------------------------------------------
 # 1. prolate data against the source (CC s4, Lemma 5.4, Rem 4.6, footnote 7)
 # ---------------------------------------------------------------------------
@@ -144,12 +154,18 @@ def test_eps_basic_properties():
     assert abs(S.eps(mp.mpf("1.7"), 40) - S.eps(1 / mp.mpf("1.7"), 40)) < mp.mpf(10) ** -35
     d = S.prolate_data(40)
     rho = mp.mpf("1.6")
+    from mpmath.calculus.quadrature import GaussLegendre
+
     with mp.workdps(45):
-        direct = mp.fsum(
-            d["v"][n]
-            * mp.sqrt(rho)
-            * mp.quad(lambda x: _phi(d, n, x) * _phi(d, n, rho * x), [1 / rho, 1])
-            for n in range(d["n_max"])
+        nodes = GaussLegendre(mp).calc_nodes(6, mp.prec)
+        a, b = 1 / rho, mp.mpf(1)
+        xs = [(b - a) / 2 * (1 + t) + a for t, _ in nodes]
+        ws = [(b - a) / 2 * w for _, w in nodes]
+        n_max = d["n_max"]
+        p1 = [_phi_all(d, x, n_max) for x in xs]
+        p2 = [_phi_all(d, rho * x, n_max) for x in xs]
+        direct = mp.sqrt(rho) * mp.fsum(
+            d["v"][n] * mp.fsum(w * f1[n] * f2[n] for w, f1, f2 in zip(ws, p1, p2)) for n in range(n_max)
         )
         assert abs(direct - S.eps(rho, 40)) < mp.mpf(10) ** -30
 
@@ -379,14 +395,16 @@ def test_calibration_statements(j40):
 
 def test_mission_cell_statements(j40):
     mis = j40["mission"]
-    for c in ("2.2", "2.5", "2.9"):
+    expect = {"2.2": (2, 1, 0), "2.5": (2, 1, 0), "2.9": (2, 2, 1)}
+    for c, (nf, n1, n2) in expect.items():
         for N in ("8", "16", "32"):
             cell = mis[c][N]
             assert cell["T_inertia"][0] == 0
-            assert cell["R_full_inertia"][0] == 2
-            assert cell["R_C1_inertia"][0] == 1
-            assert cell["R_C2_inertia"][0] == 0
+            assert cell["R_full_inertia"][0] == nf
+            assert cell["R_C1_inertia"][0] == n1
+            assert cell["R_C2_inertia"][0] == n2
             assert _v(cell["thm611_low"]) < 0  # outside the support of Thm 6.11
+            assert (cell["cstar"] is None) == (n2 > 0)
 
 
 def test_json_moments_rebuild_T_inf(j40):
@@ -471,3 +489,114 @@ def test_window_projection_matrix():
     with mp.workdps(40):
         ev = mp.eighe(S1, eigvals_only=True)
         assert min(ev) > -mp.mpf(10) ** -30 and max(ev) < 1 + mp.mpf(10) ** -30
+
+
+# ---------------------------------------------------------------------------
+# 6. every number quoted in RESULTS.md and INTERFACE.md
+# ---------------------------------------------------------------------------
+
+
+def _get(j, path):
+    x = j
+    for k in path:
+        x = x[k] if not isinstance(x, list) else x[int(k)]
+    return x
+
+
+#: (json path, significant digits, stated string) for the dps-40 cells
+QUOTED = [
+    (("calibration", "2.0", "8", "K_top", 0), 7, "1.040345"),
+    (("calibration", "2.0", "16", "K_top", 0), 7, "1.046028"),
+    (("calibration", "2.0", "32", "K_top", 0), 7, "1.048814"),
+    (("calibration", "2.0", "8", "K_top", 1), 7, "0.6578403"),
+    (("calibration", "2.0", "16", "K_top", 1), 7, "0.6720548"),
+    (("calibration", "2.0", "32", "K_top", 1), 7, "0.6792478"),
+    (("calibration", "2.0", "8", "cstar"), 7, "12.42835"),
+    (("calibration", "2.0", "16", "cstar"), 7, "13.87771"),
+    (("calibration", "2.0", "32", "cstar"), 7, "14.55663"),
+    (("calibration", "2.0", "8", "R_C1_low", 0), 7, "-0.06921652"),
+    (("calibration", "2.0", "16", "R_C1_low", 0), 7, "-0.07804222"),
+    (("calibration", "2.0", "32", "R_C1_low", 0), 7, "-0.08222624"),
+    (("calibration", "1.5", "32", "T_low", 0), 7, "0.03772234"),
+    (("calibration", "1.9", "32", "T_low", 0), 7, "0.003925064"),
+    (("calibration", "2.0", "32", "T_low", 0), 7, "0.002550097"),
+    (("calibration", "1.5", "8", "cstar"), 4, "-93.13"),
+    (("calibration", "1.5", "16", "cstar"), 4, "-81.06"),
+    (("calibration", "1.5", "32", "cstar"), 4, "-75.26"),
+    (("calibration", "1.5", "8", "K_top", 0), 3, "0.807"),
+    (("calibration", "1.5", "16", "K_top", 0), 3, "0.827"),
+    (("calibration", "1.5", "32", "K_top", 0), 3, "0.837"),
+    (("calibration", "1.5", "32", "R_C1_low", 0), 4, "0.0001871"),
+    (("calibration", "1.9", "8", "R_C1_low", 0), 4, "-0.0282"),
+    (("calibration", "1.9", "16", "R_C1_low", 0), 4, "-0.03582"),
+    (("calibration", "1.9", "32", "R_C1_low", 0), 4, "-0.03931"),
+    (("calibration", "1.9", "8", "cstar"), 4, "7.422"),
+    (("calibration", "1.9", "16", "cstar"), 4, "9.51"),
+    (("calibration", "1.9", "32", "cstar"), 4, "10.49"),
+    (("calibration", "1.9", "8", "K_top", 0), 4, "1.023"),
+    (("calibration", "1.9", "16", "K_top", 0), 4, "1.03"),
+    (("calibration", "1.9", "32", "K_top", 0), 4, "1.033"),
+    (("mission", "2.2", "32", "T_low", 0), 7, "0.001198416"),
+    (("mission", "2.5", "32", "T_low", 0), 7, "0.0004740128"),
+    (("mission", "2.9", "32", "T_low", 0), 7, "0.0001832311"),
+    (("mission", "2.2", "32", "R_C1_low", 0), 7, "-0.1716829"),
+    (("mission", "2.5", "32", "R_C1_low", 0), 7, "-0.2981016"),
+    (("mission", "2.9", "32", "R_C1_low", 0), 7, "-0.4395782"),
+    (("mission", "2.9", "32", "R_C1_low", 1), 7, "-0.01635431"),
+    (("mission", "2.2", "32", "K_top", 0), 7, "1.068616"),
+    (("mission", "2.2", "32", "K_top", 1), 6, "0.811608"),
+    (("mission", "2.5", "32", "K_top", 0), 7, "1.082943"),
+    (("mission", "2.5", "32", "K_top", 1), 7, "0.9320488"),
+    (("mission", "2.9", "32", "K_top", 0), 6, "1.08903"),
+    (("mission", "2.9", "32", "K_top", 1), 7, "1.022986"),
+    (("prolate", "even", "eps1p_series"), 7, "22.99648"),
+    (("prolate", "odd", "lam", 0), 5, "0.99878"),
+    (("prolate", "odd", "lam", 1), 5, "-0.84956"),
+    (("prolate", "odd", "lam", 2), 5, "0.2074"),
+    (("prolate", "odd", "sum_lam2"), 10, "1.762515165"),
+    (("prolate", "odd", "eps1p_series"), 7, "16.73365"),
+]
+
+
+def test_quoted_numbers(j40, j60):
+    with mp.workdps(40):
+        for path, digits, stated in QUOTED:
+            assert mp.nstr(_v(_get(j40, path)), digits) == stated, path
+        cal = j40["calibration"]["2.0"]
+        k16, k32 = _v(cal["16"]["K_top"][0]), _v(cal["32"]["K_top"][0])
+        c16, c32 = _v(cal["16"]["cstar"]), _v(cal["32"]["cstar"])
+        assert mp.nstr(2 * k32 - k16, 6, strip_zeros=False) == "1.05160"
+        assert mp.nstr(2 * c32 - c16, 5) == "15.236"
+        assert mp.nstr(_v(j40["prolate"]["even"]["sum_lam2"]), 10) == "2.237484835"
+        assert mp.nstr(_v(j40["prolate"]["odd"]["sum_lam2_closed"]), 10) == "1.762515165"
+    pe40, pe60 = j40["prolate"]["even"], j60["prolate"]["even"]
+    assert (pe40["n_max"], pe40["J"], pe40["K"], pe60["n_max"]) == (20, 74, 76, 23)
+    assert j40["seconds_total"] == 215.5 and j60["seconds_total"] == 365.0
+    # precision response: the worst deviation over all stored eigenvalues and constants
+    worst = mp.mpf(0)
+    with mp.workdps(70):
+        for grp in ("calibration", "mission"):
+            for c in j40[grp]:
+                for N in ("8", "16", "32"):
+                    a, b = j40[grp][c][N], j60[grp][c][N]
+                    for key in ("T_low", "R_full_low", "R_C1_low", "R_C2_low", "K_top"):
+                        for x, y in zip(a[key], b[key]):
+                            worst = max(worst, abs(_v(x) - _v(y)))
+                    for key in ("cstar", "thm611_low"):
+                        if a[key] is not None:
+                            worst = max(worst, abs(_v(a[key]) - _v(b[key])))
+        assert mp.nstr(worst, 2) == "5.1e-39"
+
+
+def test_interface_eta_table():
+    """INTERFACE s3: |eta_n(X)| at dps 40, two significant digits."""
+    table = {
+        "sqrt3": ["2.6e-5", "1.0e-20", "9.2e-41", "8.9e-64", "5.5e-89"],
+        "3": ["0.23", "1.2e-10", "3.9e-25", "1.1e-42", "1.7e-62"],
+    }
+    with mp.workdps(40):
+        for key, row in table.items():
+            X = mp.sqrt(3) if key == "sqrt3" else mp.mpf(3)
+            et = S.eta_all(X, 40)
+            got = [mp.nstr(abs(et[k]), 2, strip_zeros=False) for k in (10, 20, 30, 40, 50)]
+            assert got == row, (key, got)
