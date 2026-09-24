@@ -34,8 +34,11 @@ parameters (W_a and the Epstein (1,1,6) tower are refused);
 (ΔT is of measured grade, error band about 6e−3, RESULTS.md §5b);
 `dry_run=True` stops after the checks. It never returns a number it did not
 compute. Defaults: nvec = max(80, 8N/L + 40) prolate modes and
-S = max(1200, 24πN/L); at N = 32 use at least 200 modes (130 leave
-spurious residual pairs). Local data at 2 for the controls are in
+S = max(1200, 24πN/L); at N = 32 use at least 200 modes. The w-range
+must satisfy 2^Kmax ≳ n_max²/(2π) (`ta_prolate.kmax_for`, guarded in
+`hats_modes`): the asymptotic tail in 1/w has term ratio about
+(2n)²/(4π(m+1)W) and diverges in practice below that (at W = 2^10 and
+n = 199 its terms reach about 1 against a first term of 4e−5). Local data at 2 for the controls are in
 `ta_data`: `ZETA`, `DEDEKIND_Q_SQRT_M23`, `W_A_QUARTER`, `EPSTEIN_116_TOWER`.
 
 ## JSON

@@ -59,7 +59,7 @@ def run_config(nvec: int, S: float, Ns, provider: T.KernelProvider) -> list[dict
     t0 = time.time()
     pm = TP.ProlateModes(nvec=nvec, dps=20)
     s, sw = TM.s_grid(S, width=2.0, per_panel=8)
-    Z, B = TP.hats_modes(pm, s, 1.0, Kmax=10)
+    Z, B = TP.hats_modes(pm, s, 1.0)
     jz, jb = TP.jumps(pm, 1.0)
     A = pm.derivs[:, 0] * pm.norm
     Gz = TP.gram_s(Z, sw, jz, S, A, 1.0)
@@ -96,6 +96,7 @@ def run_config(nvec: int, S: float, Ns, provider: T.KernelProvider) -> list[dict
                     "resid_top8": [float(x) for x in top],
                     "resid_n_above_01": int((ed > 0.1).sum()),
                     "resid_n_below_m01": int((ed < -0.1).sum()),
+                    "Kmax": TP.kmax_for(nvec),
                     "seconds_hats": round(t_hats, 1),
                 }
             )
@@ -103,14 +104,32 @@ def run_config(nvec: int, S: float, Ns, provider: T.KernelProvider) -> list[dict
     return rows
 
 
-def main() -> None:
+def main(argv=None) -> None:
+    """No argument: every configuration. With indices (0 .. 4) into CONFIGS:
+    recompute only those and merge into the existing JSON, so that each
+    process stays under the 10-minute local limit on a shared machine."""
+    argv = sys.argv[1:] if argv is None else argv
+    path = os.path.join(HERE, "ta_ts_prolate.json")
     t0 = time.time()
-    out = {"tate_check_max_abs": tate_check(), "rows": []}
     prov = T.KernelProvider()
-    for nvec, S, Ns in CONFIGS:
-        out["rows"].extend(run_config(nvec, S, Ns, prov))
-    out["seconds_total"] = round(time.time() - t0, 1)
-    with open(os.path.join(HERE, "ta_ts_prolate.json"), "w") as fh:
+    if not argv:
+        out = {"tate_check_max_abs": tate_check(), "rows": []}
+        for nvec, S, Ns in CONFIGS:
+            out["rows"].extend(run_config(nvec, S, Ns, prov))
+        out["seconds_total"] = round(time.time() - t0, 1)
+    else:
+        with open(path) as fh:
+            out = json.load(fh)
+        for i in (int(a) for a in argv):
+            nvec, S, Ns = CONFIGS[i]
+            new = run_config(nvec, S, Ns, prov)
+            keep = [r for r in out["rows"] if not (r["nvec"] == nvec and r["S"] == S)]
+            out["rows"] = keep + new
+        order = {(n, S): i for i, (n, S, _) in enumerate(CONFIGS)}
+        out["rows"].sort(key=lambda r: (order[(r["nvec"], r["S"])], r["N"], r["c"]))
+        out.setdefault("seconds_by_config", {})
+        out["seconds_by_config"][",".join(argv)] = round(time.time() - t0, 1)
+    with open(path, "w") as fh:
         json.dump(out, fh, indent=1)
 
 

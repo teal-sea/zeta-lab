@@ -17,7 +17,8 @@ matrices are taken on the same s-quadrature as rho (Plancherel), with the
 leading jump tail 2 J_i J_j / S added (J = value at u = 1+), so that each
 rho is the density of an actual projection in the discretized inner product.
 Truncations: nvec modes, s in [-S, S], w in [1, 2^Kmax] plus asymptotic
-tails; all three are varied in RESULTS s5b and the spread is the error bar.
+tails, Kmax from kmax_for(nvec) (guarded); nvec and S are varied in
+RESULTS s5b and the spread is the error bar.
 """
 
 from __future__ import annotations
@@ -86,8 +87,24 @@ def _tail_modes(pm: ProlateModes, W: float, s: np.ndarray, mmax: int, terms: int
     return out
 
 
-def hats_modes(pm: ProlateModes, s: np.ndarray, alpha: float = 1.0, Kmax: int = 10, per_panel: int = 12, chunk: int = 128):
+def kmax_for(nvec: int) -> int:
+    """Smallest Kmax >= 10 with 2^Kmax >= n_max^2 / (2 pi).
+
+    The tail series in 1/w built from phi~_n^(m)(1) has term ratio about
+    (2n)^2 / (4 pi (m+1) W) (phi~_n is close to sqrt(4n+1) P_2n); at
+    W = 2^10 and n = 199 its terms grow to 1e4 times the first before
+    turning, and a 15-term truncation returns O(1) garbage. The rule keeps
+    the ratio below 2/(m+1).
+    """
+    return max(10, int(math.ceil(math.log2(max(nvec - 1, 1) ** 2 / (2 * math.pi)))))
+
+
+def hats_modes(pm: ProlateModes, s: np.ndarray, alpha: float = 1.0, Kmax: int | None = None, per_panel: int = 12, chunk: int = 128):
     """(zeta^_n(s), b^_n(s)) for all modes, arrays (nvec, ns)."""
+    if Kmax is None:
+        Kmax = kmax_for(pm.nvec)
+    if (2 * (pm.nvec - 1)) ** 2 / (4 * math.pi * 2.0**Kmax) > 2.0:
+        raise ValueError(f"Kmax = {Kmax} too small for {pm.nvec} modes: the asymptotic tail diverges; use kmax_for(nvec)")
     s = np.asarray(s, dtype=float)
     w, wt, level = TM.w_nodes(Kmax, float(np.abs(s).max()), per_panel)
     Fw = pm.zeta(w) * wt[None, :]  # (nvec, nw)
@@ -137,7 +154,7 @@ def gram_s(H: np.ndarray, sw: np.ndarray, J: np.ndarray, S: float, A: np.ndarray
     return (np.conj(H) * sw) @ H.T / TWO_PI + (np.outer(J, J) + dil * np.outer(A, A)) / (math.pi * S)
 
 
-def delta_T_cells(pm: ProlateModes, cells, N: int, S: float = 300.0, alpha: float = 1.0, Kmax: int = 10, width: float = 1.0, per_panel: int = 8):
+def delta_T_cells(pm: ProlateModes, cells, N: int, S: float = 300.0, alpha: float = 1.0, Kmax: int | None = None, width: float = 1.0, per_panel: int = 8):
     """{c: (Delta_T, M_inf, M_S)} on the shared basis for each c in cells, plus diagnostics."""
     s, sw = TM.s_grid(S, width=width, per_panel=per_panel)
     Z, B = hats_modes(pm, s, alpha, Kmax)
