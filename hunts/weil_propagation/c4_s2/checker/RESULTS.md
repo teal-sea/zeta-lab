@@ -649,6 +649,10 @@ not moved after the numbers:
    floor, not a measurement. The three 200-mode builds are also
    eigendecomposed directly.
 
+Visible when this reading was written: each Modal unit's cond(Gb), and the
+first few entries of the first row of T_S for the 200, 240 and 280-mode units.
+No eigenvalue of T_S or R_S on a Modal row had been computed.
+
 Grade of everything in this section: measured, float64, one route. Modal and
 the laptop are the same route on two platforms, not independent routes.
 
