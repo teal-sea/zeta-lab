@@ -159,7 +159,11 @@ def test_E2_obstruction_is_far_above_one_on_every_build(js):
         ob = _f(r["e2_obstruction_lower"])
         assert ob > 3, (r["c"], r["N"], r["nvec"], ob)
     n32 = [_f(r["e2_obstruction_lower"]) for r in js if r["N"] == 32]
-    assert min(n32) > 9e9
+    assert min(n32) > 9.2e9 and max(n32) < 9.5e10
+    ob = {(r["nvec"], int(r["S"])): _f(r["e2_obstruction_lower"]) for r in js if r["c"] == "2.9"}
+    assert abs(ob[(120, 1600)] - 1.684e4) < 10 and abs(ob[(120, 1200)] - 3.914e6) < 1e3
+    assert abs(ob[(160, 1600)] - 6.096e9) < 1e6 and abs(ob[(280, 2266)] - 4.642e10) < 1e7
+    assert abs(ob[(200, 2400)] - 1.483e10) < 1e7
 
 
 def test_measured_gram_at_the_two_best_builds(gram):
@@ -167,7 +171,8 @@ def test_measured_gram_at_the_two_best_builds(gram):
     assert abs(g["Gz_eig_min"] - 0.0126) < 5e-4 and abs(g["Gz_eig_max"] - 3.44) < 1e-2
     assert abs(g["cond_Fz"] - 16.51) < 0.02  # the recorded diag, same build
     assert abs(g["leverage_sum_z"] - 78.99) < 0.01 and g["leverage_sum_z"] <= 82  # A5
-    assert 3.7e-3 < g["probe_norm"]["2.9"]["8"] < 4.3e-3
+    for c, v in (("2.2", 3.8e-3), ("2.5", 4.0e-3), ("2.9", 4.2e-3)):
+        assert abs(g["probe_norm"][c]["8"] - v) < 0.05e-3
     g2 = gram[(80, 1600.0)]
     assert abs(g2["cond_Fz"] - 5.3835) < 0.01
     assert abs(g2["Gz_eig_min"] - 0.091) < 5e-4 and abs(g2["Gz_eig_max"] - 2.64) < 1e-2
@@ -206,6 +211,19 @@ def test_E1_against_checker_bands(js):
     assert abs(min(n32) - 1.13) < 0.01 and abs(max(n32) - 1.78) < 0.01
 
 
+def test_quoted_constants_and_the_sample_sensitivity(gram):
+    """cond(G_b,exact) <= ((1 + 2^-1/2) / (1 - 2^-1/2))^2 = 33.97 (two_adic/ s10.1); the sample
+    sensitivity delta sqrt(nvec) cond(F_z) with delta = 1e-13 is of order 30 on the 280, 319 and
+    364-mode builds (s2.7); run_bound_quad.py took 903 s at a load average of 60 to 80."""
+    r = 2**-0.5
+    assert abs(((1 + r) / (1 - r)) ** 2 - 33.97) < 0.01
+    with open(E.SNAPSHOT) as fh:
+        units = json.load(fh)["units"]
+    sens = [1e-13 * math.sqrt(nv) * units[f"{nv}|{S}|32"]["diag"]["cond_Fz"] for nv, S in ((280, 2266), (319, 2633), (364, 3060))]
+    assert all(25 < x < 45 for x in sens)
+    assert abs(sum(r["seconds"] for r in gram.values()) - 903) < 1
+
+
 def test_unit_cost_record():
     with open(os.path.join(HERE, "bound_quad_unit.json")) as fh:
         u = json.load(fh)
@@ -219,6 +237,7 @@ def test_unit_cost_record():
     assert abs(g[364]["core_seconds_estimate"] - 2.2e6) < 0.1e6
     usd = g[280]["core_seconds_estimate"] / 3600 * u["usd_per_core_hour"]
     assert abs(usd - 9.4) < 0.1
+    assert abs(g[280]["core_seconds_estimate"] / 3600 - 200) < 2
 
 
 # ------------------------------------------------------------ E6
@@ -231,7 +250,22 @@ def test_E6_values_and_where_it_closes(js):
     assert abs(e[("2.9", 80, 1200)] - 2.766e-4) < 1e-6
     assert abs(e[("2.9", 80, 1600)] - 1.202e-4) < 1e-6
     assert abs(e[("2.9", 120, 1600)] - 3.139e-2) < 1e-4
-    assert e[("2.9", 160, 1600)] > 1
+    assert abs(e[("2.9", 120, 1200)] - 0.3184) < 1e-3
+    assert abs(e[("2.9", 160, 1600)] - 40.57) < 0.05
+
+
+def test_tail_rows_at_80_1200():
+    """s2.2, s2.3: sum_n A_n^2 / (pi S) = 3.38 and sum_n (J_n^2 + A_n^2) / (pi S) = 3.38 at (80, 1200);
+    A_n^2 / (4n + 1) spans 0.89 to 12."""
+    import ta_prolate as TP
+
+    pm = TP.ProlateModes(nvec=80, dps=20)
+    A = pm.derivs[:, 0] * pm.norm
+    jz, _ = TP.jumps(pm, 1.0)
+    assert abs((A**2).sum() / (math.pi * 1200) - 3.38) < 0.005
+    assert abs((A**2 + jz**2).sum() / (math.pi * 1200) - 3.38) < 0.01
+    r = A**2 / (4 * np.arange(80) + 1)
+    assert abs(r.min() - 0.89) < 0.01 and abs(r.max() - 12.0) < 0.05
 
 
 def test_E6_against_the_256_bit_reference_of_two_adic_s10_3():
@@ -247,6 +281,7 @@ def test_E6_against_the_256_bit_reference_of_two_adic_s10_3():
         b = E.rho_rel_error(case["n_nodes"] + 2, a2["nvec"], case["cond_Fz"])
         assert b is None or float(b.lower()) >= case["new_max_rel_dev"]
         assert b is None
+    assert abs(a2["300"]["sample_max_abs_dev"] - 3.0e-13) < 0.05e-13
 
 
 def test_prop5_dominates_a_high_precision_reference():

@@ -2,7 +2,10 @@
 
 Started 2026-09-24 17:35 -0500, time box 3 hours (BRIEF.md). Section 1 is the
 plan (milestone 1), committed before any bound was coded. Section 2 is the
-derivation (milestone 2). Numbers here are pinned in `test_bound_quad.py`.
+derivation (milestone 2). Numbers in section 2 are pinned in
+`test_bound_quad.py`. Section 1 is the plan as committed (ab0f8fa); its
+figures came from scratch measurements and are superseded where section 2
+re-measures them (s2.3, s2.8).
 
 ## 1. Plan: the sources, the route for each, and whether it closes
 
@@ -154,10 +157,11 @@ so ρ_Q ≥ 0 and (1/2π) ∫ ρ_Q = Tr Q = rank Q; (ii) Σ_{n ∈ ℤ} |V̂_n(s
 - **A8.** IEEE binary64, round to nearest (u = 2^−53); numpy's exp, log,
   sqrt and division err by at most 4 ulp per real component; BLAS sums in
   any order but without fast (Strassen-type) products.
-- **A9.** ΔT_exact is real symmetric (measured: the imaginary part of the
-  stored route's ΔT before the real part is taken is at most 2.5e−16 at
-  (80, 1200), N = 8), so taking the real part of the symmetrized stored
-  matrix does not add error (it is a contraction in spectral norm).
+- **A9.** ΔT_exact is real symmetric, so taking the real part of the
+  symmetrized stored matrix does not add error (it is a contraction in
+  spectral norm). Not derived here: two_adic/ and checker/ treat ΔT as
+  real, and a scratch run of the stored route at (80, 1200) during this
+  work saw an imaginary part at rounding level (not kept).
 
 ### 2.1 The decomposition (Prop 1)
 
@@ -198,7 +202,7 @@ Values (`eps_quad.json`, `parts_upper.E1`): **3.70e−3** at N = 8 (80, 1200,
 c = 2.9), **4.1e−3 to 1.1e−2** at N = 16, **9.2e−3 to 1.46e−2** at N = 32
 (c = 2.9). The factor nvec is the crude step: a sharp version needs the
 tail mass (1/2π) ∫_{|s| > S} ρ, which the heuristic tail energies
-Σ_n (J_n² + A_n²)/(πS) put near 3.4 at (80, 1200) instead of 80, but a
+Σ_n (J_n² + A_n²)/(πS) put at 3.38 at (80, 1200) instead of 80, but a
 bound on it needs enclosures of the hats beyond S (not done).
 
 ### 2.3 E2, the s discretization of the projection (Prop 3): does not close
@@ -240,11 +244,11 @@ Weyl's inequality for singular values).
 
 **This is not an artifact of a weak inequality.** At (80, 1200) the stored
 Gram has eigenvalues from 0.0126 to 3.44 where the exact one is I: the
-rank-2 tail rows overshoot (Σ_n A_n²/(πS) is about 3.4, since
-A_n² ≈ 4n + 1), and one combination of the modes keeps 98.7 % of its energy
+rank-2 tail rows overshoot (Σ_n A_n²/(πS) = 3.38, with A_n² of order
+4n + 1: the ratio is 0.89 to 12 over the 80 modes), and one combination of the modes keeps 98.7 % of its energy
 beyond S. The projections are different subspaces, and the Q_∞ part of ΔT
-alone moves by the probe ‖M_∞(G_S) − M_∞(I)‖ (`bound_quad_gram.json`,
-about 4e−3 at N = 8). The measured S responses of ΔT are smaller (6.5e−4
+alone moves by the probe ‖M_∞(G_S) − M_∞(I)‖ (`bound_quad_gram.json`:
+3.8e−3 / 4.0e−3 / 4.2e−3 at c = 2.2 / 2.5 / 2.9, N = 8). The measured S responses of ΔT are smaller (6.5e−4
 from 1200 to 2400 at 80 modes) because the discretizations of Q_∞ and Q_S
 partly cancel; nothing available here bounds that cancellation. Uses A1,
 A2, A6.
@@ -272,8 +276,8 @@ conditioned); it was not run, by allocation (its cost, s2.8).
 - **E5 (mode data).** Needs ‖ξ_n,stored − ξ_n‖ from eigenvector residuals
   and gaps of kernel/'s Slepian solve at dps 20, then the float64 rounding
   of the coefficients. Measured instead: the float64 hats agree with
-  kernel/'s closed form to 5.2e−14 to 3.0e−13 absolute (two_adic/ s10.1,
-  s10.3 A2).
+  kernel/'s closed form to 3.0e−13 absolute at (80, 300) (two_adic/ s10.3
+  A2).
 
 ### 2.5 E6, the QR and the triangular solve (Prop 5): closes where cond(F) is small
 
@@ -297,7 +301,7 @@ Values at c = 2.9: **2.77e−4** (80, 1200), **1.20e−4** (80, 1600),
 3.14e−2 (120, 1600), 0.32 (120, 1200), 41 (160, 1600); **no bound** on any
 N = 32 build (cond(F_z) = 8.7e5 to 2.1e13 puts 2η + η² above 1). The factor
 32 of A6 and the step ‖M_Q‖ ≤ L nvec make these loose; the measured
-deviations are far smaller (two_adic/ s10.3 A1: 3.6e−14 at (80, 1200)).
+deviations are far smaller (two_adic/ s10.3 A1).
 
 ### 2.6 E7, the rest of the rounding (Prop 6): closes
 
@@ -343,8 +347,9 @@ bits, at a load average near 60 on the shared laptop) is 2.2e−5 s per
 phase and 2.2e−7 s per (s, w, mode) product; at the stored grids that is
 2.2e4 core-seconds at (80, 1200), 7.2e5 at (280, 2266) (about 200
 core-hours, 9.4 USD at 0.0473 USD per core-hour) and 2.2e6 at (364, 3060),
-for step (1) alone, before the wider and finer grid (about 20 times the
-pairs). Section 1's first measurement (5.8e−5 s per phase, 2.4e−7 s per
+for step (1) alone, before the wider and finer grid (panels 4 times
+narrower and S′ about 4 times wider: about 16 times the s-nodes, and more
+w-nodes, since the w panels are sized to 2π + S′/w). Section 1's first measurement (5.8e−5 s per phase, 2.4e−7 s per
 product, a scratch run) is of the same order; timings on this machine move
 by a factor 2 to 5 with its load. It does not fit the box or the 25 USD
 cap, and it was not run (coordinator, 2026-09-24: no route (ii), nothing to
