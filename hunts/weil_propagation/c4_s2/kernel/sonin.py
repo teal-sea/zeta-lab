@@ -83,6 +83,7 @@ __all__ = [
     "eta_all",
     "sonin_z_all",
     "S_inf_window_matrix",
+    "zeta_mellin_all",
 ]
 
 #: Guard digits carried internally above the caller's dps.
@@ -370,6 +371,45 @@ def sonin_z_all(u, dps: int = 40, parity: int = 0, nvec: int = 60):
         for n, e in enumerate(et):
             ln = lam[n] if n < len(lam) else mp.mpf(0)
             out.append(mp.sqrt(u) * e / mp.sqrt(1 - ln**2))
+    return out
+
+
+def zeta_mellin_all(s, dps: int = 40, parity: int = 0, nvec: int = 60):
+    """[M_n(s), n < nvec], M_n(s) = int_1^inf zeta_n(v) v^{-1/2-is} dv
+    = int z_n(u) u^{-is} d*u (the Mellin transform F_mu of CC eq. 22).
+
+    Closed form, no quadrature: with z = 1/2 - is and
+    I_n(a) = int_0^1 phi~_n(x) x^a dx = sum_i coef[n][i] R_{k_i}(a),
+    R_k(a) = int_0^1 x^a P_k(x) dx by R_{k+2} = R_k (a - k)/(a + k + 3),
+    R_0 = 1/(a+1), R_1 = 1/(a+2) (Gradshteyn 7.126),
+      int_0^inf eta_n(v) v^{z-1} dv = 2 Gamma(z) cs(pi z/2) (2 pi)^{-z} I_n(-z)
+    (cs = cos for parity 0, sin for parity 1; Tate's local functional
+    equation, valid on 0 < Re z < 1), and int_0^1 eta_n v^{z-1} = lam_n I_n(z-1)
+    (CC eq. 74).  M_n = [first - second] / sqrt(1 - lam_n^2).
+    """
+    pv = prolate_vectors(dps, parity, nvec)
+    lam = prolate_data(dps, parity)["lam"]
+    with mp.workdps(dps + GUARD):
+        z = mp.mpf(1) / 2 - 1j * mp.mpmathify(s)
+        ks = pv["ks"]
+
+        def Rs(a):
+            out = []
+            r = 1 / (a + 1) if parity == 0 else 1 / (a + 2)
+            for k in ks:
+                out.append(r)
+                r = r * (a - k) / (a + k + 3)
+            return out
+
+        R1, R2 = Rs(-z), Rs(z - 1)
+        cs = mp.cos(mp.pi * z / 2) if parity == 0 else mp.sin(mp.pi * z / 2)
+        pref = 2 * mp.gamma(z) * cs * (2 * mp.pi) ** (-z)
+        out = []
+        for n, coef in enumerate(pv["coef"]):
+            ln = lam[n] if n < len(lam) else mp.mpf(0)
+            I1 = mp.fsum(cf * r for cf, r in zip(coef, R1))
+            I2 = mp.fsum(cf * r for cf, r in zip(coef, R2))
+            out.append((pref * I1 - ln * I2) / mp.sqrt(1 - ln**2))
     return out
 
 

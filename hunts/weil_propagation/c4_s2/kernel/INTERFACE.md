@@ -78,6 +78,23 @@ The projection, in L²(ℝ*_+, d*u):
 - Legendre coefficients: `prolate_vectors(dps, parity, nvec)["coef"]`,
   `["ks"]` (φ̃_n = Σ coef[n][i] P_{ks[i]}).
 
+**Mellin transforms of z_n.** `zeta_mellin_all(s, dps, parity, nvec)`
+returns [M_n(s)] with M_n(s) = ∫_1^∞ ζ_n(v) v^{−1/2−is} dv = ∫ z_n(u)
+u^{−is} d*u (CC's F_μ, eq. 22), in closed form (Tate's local functional
+equation for ∫_0^∞ η_n v^{z−1}, z = 1/2 − is, minus λ_n ∫_0^1 φ̃_n v^{z−1};
+the moments ∫_0^1 x^a P_k by a two-term recurrence). s may be complex with
+0 < Re z < 1. Checked against quadrature and against a direct integral
+(`test_zeta_mellin_closed_form`).
+
+**How many modes.** Two_adic/'s ΔT needs modes across the Mellin band of the
+window basis (about 2πN/L), not only the weighted ones.
+`prolate_vectors(dps, parity, nvec)` takes any nvec: nvec = 150 took about
+13 s at dps 40 (one measurement) and the vectors are orthonormal to
+10^{−40} (`test_many_modes_orthonormal`). For n at or beyond
+`prolate_data(dps)["n_max"]` (20 at dps 40, 23 at dps 60), λ_n is below
+10^{−(dps+25)} and is **not resolved**. Use η_n (`eta_all`) and z_n
+directly, never λ_n φ̃_n. There √(1 − λ_n²) = 1 to working precision.
+
 **Use the second form.** Σ_n |x_n⟩⟨x_n| = M_{1[u<1]} converges only
 slowly on window functions (their jump at the window edge), while the z-sum
 converges super-exponentially on vectors supported in u ≤ X, because

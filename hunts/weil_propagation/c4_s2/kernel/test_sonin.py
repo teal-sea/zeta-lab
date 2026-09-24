@@ -600,3 +600,65 @@ def test_interface_eta_table():
             et = S.eta_all(X, 40)
             got = [mp.nstr(abs(et[k]), 2, strip_zeros=False) for k in (10, 20, 30, 40, 50)]
             assert got == row, (key, got)
+
+
+def test_zeta_mellin_closed_form():
+    """zeta_mellin_all: (a) the moment recurrence R_k against quadrature,
+    (b) the Tate constant on xi = 1_[0,1], (c) the full M_n(s) against a direct
+    integral over [1, V] at s = 0.7 - 0.49i (Re z = 0.01, integrand ~ v^-2),
+    whose error falls like V^-2 (measured 2e-4 at V = 30, 5e-5 at V = 60)."""
+    from mpmath.calculus.quadrature import GaussLegendre
+
+    dps = 30
+    for par in (0, 1):
+        pv = S.prolate_vectors(dps, par, 10)
+        with mp.workdps(dps + 10):
+            a = mp.mpc("0.3", "0.7")
+            r = 1 / (a + 1) if par == 0 else 1 / (a + 2)
+            R = []
+            for k in pv["ks"]:
+                R.append(r)
+                r = r * (a - k) / (a + k + 3)
+            for n in (0, 3, 7):
+                I = mp.fsum(cf * x for cf, x in zip(pv["coef"][n], R))
+                q = mp.quad(lambda x: S.phi_tilde(n, x, dps, par) * x**a, [0, 0.5, 1])
+                assert abs(I - q) < mp.mpf(10) ** -38  # measured <= 1.2e-41
+    with mp.workdps(40):
+        z = mp.mpf("0.5") - 0.7j
+        lhs = (1 / mp.pi) * mp.gamma(z - 1) * mp.sin(mp.pi * (z - 1) / 2) * (2 * mp.pi) ** (1 - z)
+        rhs = 2 * mp.gamma(z) * mp.cos(mp.pi * z / 2) * (2 * mp.pi) ** (-z) / (1 - z)
+        assert abs(lhs - rhs) < mp.mpf(10) ** -38
+    dps = 20
+    with mp.workdps(25):
+        s = mp.mpc("0.7", "-0.49")
+        M = S.zeta_mellin_all(s, dps, 0, 2)
+        lam = S.prolate_data(dps, 0)["lam"]
+        nodes = GaussLegendre(mp).calc_nodes(4, mp.prec)
+        errs = {}
+        for V in (30, 60):
+            tot = [mp.mpc(0), mp.mpc(0)]
+            for j in range(1, V):
+                a_, b_ = mp.mpf(j), mp.mpf(j + 1)
+                for tt, w in nodes:
+                    v = (b_ - a_) / 2 * (1 + tt) + a_
+                    e = S.eta_all(v, dps, 0, 2)
+                    for n in (0, 1):
+                        tot[n] += (b_ - a_) / 2 * w * e[n] * v ** (-0.5 - 1j * s)
+            errs[V] = [abs(M[n] - tot[n] / mp.sqrt(1 - lam[n] ** 2)) for n in (0, 1)]
+        for n in (0, 1):
+            assert errs[60][n] < mp.mpf("1e-4")
+            assert errs[60][n] < errs[30][n] / 3
+
+
+def test_many_modes_orthonormal():
+    """prolate_vectors(40, 0, 150): Gram matrix of phi~_n on [0, 1] is the
+    identity to 10^-40 (spot checks across the range)."""
+    pv = S.prolate_vectors(40, 0, 150)
+    ks, c = pv["ks"], pv["coef"]
+    with mp.workdps(60):
+
+        def ip(a, b):
+            return mp.fsum(x * y / (2 * k + 1) for x, y, k in zip(a, b, ks))
+
+        for i, j in ((0, 0), (3, 100), (100, 100), (148, 149), (149, 149), (20, 21)):
+            assert abs(ip(c[i], c[j]) - (1 if i == j else 0)) < mp.mpf(10) ** -40

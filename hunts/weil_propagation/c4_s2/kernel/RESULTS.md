@@ -121,6 +121,16 @@ terms [test_projection_maps_into_sonin_space]. The compressed matrix
 [0, 1], with truncation tail below 10^{−45} at K = 20 (c = 2.5)
 [test_window_projection_matrix].
 
+For two_adic/'s composition through the Mellin variable, the transforms
+M_n(s) = ∫_1^∞ ζ_n(v) v^{−1/2−is} dv are given in closed form by Tate's local
+functional equation (`zeta_mellin_all`). They are checked three ways
+[test_zeta_mellin_closed_form]: the moment recurrence against quadrature
+to 10^{−38}, the Tate constant on 1_{[0,1]} to 10^{−38}, and a direct
+integral over [1, V], whose error falls like V^{−2} and is below 10^{−4} at
+V = 60. Any number of modes is available (`prolate_vectors`, orthonormal to
+10^{−40} for 150 modes [test_many_modes_orthonormal]). λ_n is resolved
+only for n below `n_max`; beyond it the interface uses η_n directly.
+
 ## 3. Calibration against CC (S = {∞}), measured
 
 Prolate data (CC s4, Rem 4.6, Lemma 5.4, footnote 7), dps 40:
