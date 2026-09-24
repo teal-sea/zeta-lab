@@ -141,14 +141,23 @@ class Eps:
         self.ft, self.fq = ft, fq
         self.cache = {}
 
+    raised: list = []
+
     def parts(self, c, N, nvec, S, Kmax):
+        """Changed after routing (2026-09-24): a ValueError from an eps function
+        (bound_quad/'s eps_quad raises one when S <= 2 pi N / L) is read as no
+        bound at that configuration and recorded in Eps.raised (REVIEW.md)."""
         key = (float(c), int(N), int(nvec), float(S), int(Kmax))
         if key not in self.cache:
-            with RL.arb_prec(128):
-                t = self.ft(float(c), int(N), int(nvec), float(S), int(Kmax))
-                q = self.fq(float(c), int(N), int(nvec), float(S), int(Kmax))
-            ut, uq = RL.arb_upper_q(t), RL.arb_upper_q(q)
-            self.cache[key] = (ut, uq)
+            out = []
+            for fn in (self.ft, self.fq):
+                try:
+                    with RL.arb_prec(128):
+                        out.append(RL.arb_upper_q(fn(float(c), int(N), int(nvec), float(S), int(Kmax))))
+                except ValueError as e:
+                    Eps.raised.append((key, fn.__name__, str(e)))
+                    out.append(None)
+            self.cache[key] = tuple(out)
         return self.cache[key]
 
     def total(self, *cfg):
@@ -490,3 +499,158 @@ def test_eps_upper_is_at_least_the_ball_upper_end(which, request, snap):
         n += 1
     if n == 0:
         pytest.skip(f"{which}: every entry is null")
+
+
+# ------------------------------------------- written after routing (phase 2)
+#
+# Everything below was written after the coordinator routed bound_trunc/,
+# bound_quad/ and assembler/ (phase 1 is 4875122). It pins the numbers of
+# REVIEW.md.
+
+
+def _quad_module():
+    if not os.path.exists(RL.BOUND_QUAD_PY):
+        pytest.skip("bound_quad/eps_quad.py not present")
+    return RL.load_module(RL.BOUND_QUAD_PY, "referee_eps_quad_mod")
+
+
+def _no_finite_ball(fn, *args):
+    try:
+        with RL.arb_prec(128):
+            return RL.arb_upper_q(fn(*args)) is None
+    except ValueError:
+        return True
+
+
+def test_eps_quad_fails_closed_below_the_window_band():
+    """REVIEW.md finding 5. Where S <= 2 pi N / L, Prop 2 (E1) has no bound, and
+    eps_quad raises ValueError instead of returning a non-finite ball. That is
+    fail-closed (no finite number escapes), which this test pins, and off the
+    interface (the brief fixed the return type as flint.arb), which REVIEW.md
+    records. The configurations are this folder's plants (80, 150) and
+    (80, 200) at N = 32 (2 pi 32 / log 2.9 = 188.8; / log 2.2 = 255.0)."""
+    fq = _quad_module().eps_quad
+    for c, S in ((2.9, 150.0), (2.2, 150.0), (2.2, 200.0)):
+        assert _no_finite_ball(fq, c, 32, 80, S, 10), (c, S)
+    raised = False
+    try:
+        fq(2.9, 32, 80, 150.0, 10)
+    except ValueError:
+        raised = True
+    assert raised, "eps_quad no longer raises here: update REVIEW.md finding 5"
+
+
+@pytest.mark.parametrize("which", ["trunc", "quad"])
+def test_null_entries_match_the_functions(which, request):
+    """Internal consistency: every JSON entry whose eps_upper is null has a
+    function value with no finite upper end (or a raise) at the same key."""
+    entries = request.getfixturevalue(f"{which}_json")
+    fn = request.getfixturevalue(f"eps_{which}")
+    n = 0
+    for e in entries:
+        if e["eps_upper"] is not None:
+            continue
+        n += 1
+        assert _no_finite_ball(fn, float(e["c"]), int(e["N"]), int(e["nvec"]), float(e["S"]), int(e["Kmax"])), e
+    assert n > 0
+
+
+def test_closing_pieces_of_eps_quad_against_the_plants(plants):
+    """bound_quad/'s pieces that close (Prop 5, E6; Prop 6, E7) against the plants
+    that exercise them at (80, 1200): the SVD route (under R, change <= 2 E6)
+    and the fsum assembly (change <= E7 plus the fsum route's own rounding,
+    taken as E7 again). Consistent by nine or more orders of magnitude."""
+    mod = _quad_module()
+    rows = {p["b"]: {(r["c"], r["N"]): r["spec"] for r in p["rows"]} for p in plants["pairs"]}
+    n = 0
+    for c in RL.CELLS:
+        for N in (8, 16):
+            parts = mod.eps_quad_parts(c, N, 80, 1200.0, 10)
+            e6, e7 = RL.arb_upper_q(parts["E6"]), RL.arb_upper_q(parts["E7"])
+            assert e6 is not None and e7 is not None
+            assert RL.to_q(rows["svd_80_1200"][(c, N)]) <= 2 * e6
+            assert RL.to_q(rows["fsum_80_1200"][(c, N)]) <= 2 * e7
+            n += 1
+    assert n == 6
+
+
+def test_window_hat_is_real():
+    """REVIEW.md finding 7 (closes assembler/ A2 = bound_quad/ A9): with
+    k = 2 pi n / L - s, V_n(s) = -2 sin(sL/2) / (k sqrt(L)) is real, so
+    M = (1/2pi) int rho V V^T is real symmetric for real rho. The computed
+    window_hat's imaginary part is at rounding level against its modulus."""
+    s, _ = RL.TM.s_grid(1200.0, width=1.0, per_panel=8)
+    for c in RL.CELLS:
+        L = math.log(c)
+        V = RL.TM.window_hat(L, 16, s)
+        k = 2 * math.pi * np.arange(-16, 17)[:, None] / L - s[None, :]
+        with np.errstate(divide="ignore", invalid="ignore"):
+            closed = -2 * np.sin(s[None, :] * L / 2) / (k * math.sqrt(L))
+        ok = np.abs(k) > 1e-9
+        assert np.abs(V.imag).max() <= 1e-12
+        assert np.abs(V.real[ok] - closed[ok]).max() <= 1e-12
+
+
+def test_lemma1_companion_by_a_second_route():
+    """REVIEW.md finding 3. run_companion_check.py (two_adic/'s float64 w-quadrature
+    hats) against bound_trunc/'s lemma1_companion.json (kernel/'s Tate closed
+    form): c_j agree to 1.1e-10 absolute for j < 160; the slopes of P(n) per
+    unit of log n are 0.98996 on [40, 80] and 0.99098 on [80, 160]."""
+    path = os.path.join(HERE, "referee_companion.json")
+    assert os.path.exists(path), "run run_companion_check.py"
+    mine = RL.load_json(path)
+    theirs_path = os.path.join(RL.C4, "bound_trunc", "lemma1_companion.json")
+    if not os.path.exists(theirs_path):
+        pytest.skip("bound_trunc/lemma1_companion.json not present")
+    theirs = RL.load_json(theirs_path)
+    a, b = np.array(mine["c_j"]), np.array(theirs["c_j"][: len(mine["c_j"])])
+    assert np.abs(a - b).max() < 1.1e-10
+    assert mine["slope_per_log_n"]["40-80"] == pytest.approx(0.98996, abs=1e-5)
+    assert mine["slope_per_log_n"]["80-160"] == pytest.approx(0.99098, abs=1e-5)
+    assert mine["w_f"] == pytest.approx(theirs["w_f"], abs=1e-12)
+
+
+def test_lemma3_sandwich_holds_on_every_stored_T_S(snap):
+    """REVIEW.md: every stored T_S lies strictly inside kappa T_inf <= T_S <= K T_inf
+    (bound_trunc/ Lemma 3), on all 33 (c, build) matrices: the smallest
+    eigenvalue of T_S - kappa T_inf is at least 1.09e-3 and that of
+    K T_inf - T_S at least 2.78e-3 (c = 2.9, 364 modes). Measured, float64
+    eigvalsh; a consistency check of the lemma with the data, not a proof."""
+    kap, K = 17 - 12 * math.sqrt(2), 17 + 12 * math.sqrt(2)
+    lo, hi = math.inf, math.inf
+    for (nv, S, N) in RL.STORED_BUILDS:
+        for c in RL.CELLS:
+            TS, Ti = RL.stored_TS(snap, c, N, nv, S), RL.T_inf(c, N)
+            lo = min(lo, np.linalg.eigvalsh(TS - kap * Ti)[0])
+            hi = min(hi, np.linalg.eigvalsh(K * Ti - TS)[0])
+    assert lo == pytest.approx(1.09e-3, abs=1e-5)
+    assert hi == pytest.approx(2.78e-3, abs=1e-5)
+
+
+def _pair(plants, a, b):
+    return next(p for p in plants["pairs"] if (p["a"], p["b"]) == (a, b))["rows"]
+
+
+def test_review_plant_numbers(plants):
+    """The plant magnitudes REVIEW.md states (max over c and N unless named)."""
+    mx = lambda a, b, N=None: max(r["spec"] for r in _pair(plants, a, b) if N is None or r["N"] == N)  # noqa: E731
+    mn = lambda a, b, N=None: min(r["spec"] for r in _pair(plants, a, b) if N is None or r["N"] == N)  # noqa: E731
+    assert mx("base_80_150", "pert_zw_80_150") == pytest.approx(2.41e-2, rel=1e-2)
+    assert mx("base_80_200", "pert_zw_80_200") == pytest.approx(5.19e-5, rel=1e-2)
+    assert mx("base_80_150", "pert_eps_80_150") == pytest.approx(7.36e-4, rel=1e-2)
+    assert mx("base_80_200", "pert_eps_80_200") == pytest.approx(2.74e-6, rel=1e-2)
+    assert mx("sq_80_1200", "terms40_80_1200") == pytest.approx(5.26e-9, rel=1e-2)
+    assert mn("sq_80_1200", "terms40_80_1200") == pytest.approx(4.59e-9, rel=1e-2)
+    assert mx("inv_80_200", "base_80_200") == pytest.approx(0.365, rel=1e-2)
+    assert mn("drop0_80_2400", "ref_80_2400") == pytest.approx(4.55e-2, rel=1e-2)
+    assert mx("drop10_80_2400", "ref_80_2400") == pytest.approx(7.82e-2, rel=1e-2)
+    assert mn("tr_60_2400", "ref_80_2400", 16) == pytest.approx(9.92e-2, rel=1e-2)
+    assert mx("tr_60_2400", "ref_80_2400", 32) == pytest.approx(0.146, rel=1e-2)
+    assert mx("km_40_1200_K8", "km_40_1200_K12") == pytest.approx(2.40e-8, rel=1e-2)
+    assert mx("km_40_1200_K10", "km_40_1200_K12") == pytest.approx(3.31e-13, rel=5e-2)
+    assert mx("sq_80_1200", "ref_80_2400") == pytest.approx(2.84e-3, rel=1e-2)
+    assert mx("base_80_150", "ref_80_2400") == pytest.approx(0.239, rel=1e-2)
+    assert len(plants["units"]) == 30 and len(plants["pairs"]) == 30
+    diag = plants["units"]
+    assert diag["base_80_200"]["diag"]["cond_Fz"] == pytest.approx(6.7e11, rel=1e-2)
+    assert diag["base_80_150"]["diag"]["cond_Fz"] == pytest.approx(3.84e14, rel=1e-2)
