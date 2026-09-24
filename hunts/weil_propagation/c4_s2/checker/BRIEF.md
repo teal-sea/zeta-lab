@@ -265,3 +265,15 @@ reserved word of `zeta/rigor.py` may not appear even in a disclaimer. Run
 your folder's tests plus `tests/test_hunt_probe_discipline.py` and
 `tests/test_docs_numbering.py`. List any changed key of
 `checker_ts_cells.json` in `worker_done` (two_adic/ pins some).
+
+*Addendum, same day, after the operator's answer (via Forge).* Also include
+the N = 8 build (80, 1200, 8), so all three counts (4, 10, 20) are covered.
+The operator agrees that no finite N refutes C4. Grade line 2, if every
+counted negative stays strictly below −band, as: hardened **on the stored
+matrices** (exact inertia): the negative count of the stored R_S at
+c = 2.9 is 4, 10, 20 at N = 8, 16, 32; this hardens the inertia of the
+stored matrices, not of the exact R_S, whose float64 assembly error (ΔT) is
+still graded by the band, so as a statement about R_S of the construction it
+stays measured, weakest step ΔT; the growth is evidence against bounded rank
+on this construction, not a refutation, since C4 fixes no bound. If some
+negatives fail: list them and keep the measured grade.
