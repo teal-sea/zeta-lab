@@ -434,3 +434,36 @@ Same columns as s7.3.
 | checker_240_2400_32 | ok | 759.1 | 1627.7 | 2425.1 | 0.0669 | Haswell | 2026-09-24 14:26:04 -0500 |
 | checker_280_2266_32 | ok | 756.1 | 1454.1 | 2562.3 | 0.0666 | Haswell | 2026-09-24 14:26:06 -0500 |
 | checker_319_2633_32 | ok | 1382.0 | 2354.9 | 2812.9 | 0.1218 | Haswell | 2026-09-24 14:36:36 -0500 |
+| checker_364_3060_32 | ok | 2124.0 | 4234.2 | 5149.7 | 0.1871 | Haswell | 2026-09-24 14:48:46 -0500 |
+
+### 7.7 Close-out (2026-09-24 14:50 -0500)
+
+- **All eleven units landed with status ok; none timed out, none
+  restarted.** Launches: smoke 14:08 (app ap-ERd4Y6ruZrBdFLlCPZAujJ),
+  calibration 14:10:18 (ap-r0YfOJE3NKR8yfoGTpakcI), the ten 14:13:10 to
+  14:13:13 (ap-02Httz7kqEjcIRljIdrBr3, detached), after the commit of the
+  estimate they ran under (82bb613 at 14:12:49). The last unit (364 modes)
+  landed 14:48:46. ap-W1DBc8WmUr8jqNdJ9AizI0 re-shaped the calibration file
+  from the Volume (no containers).
+- **Billed: 0.568 USD** (`modal billing report --for today -r h --tz local
+  --json`, read 14:49 -0500, the four `c4s2-modal-rho` apps: batch 0.5633,
+  calibration 0.0039, smoke 0.0004, fetch 0). Computed from the unit logs
+  (s7.3, s7.6): 0.527 USD. Worst case written before launch: 5.01 USD.
+  With the first follow-up's 0.741 USD, **1.309 USD of the 25 USD cap is
+  spent; 23.69 USD remains.**
+- Estimates against actuals (child wall, s): 120 / 160 at N = 16, S = 1600:
+  168 / 245 estimated, 123 / 148 actual; (80, 1600, 16) 65, 57;
+  (120, 1200, 16) 115, 99; (80, 1200, 16) 47, 40; (200, 2400, 32) 562, 428;
+  240 / 280 / 319 / 364 at N = 32: 1153 / 1097 / 1347 / 2319 estimated,
+  754 / 753 / 1378 / 2120 actual. Total 5935 s against 7118 estimated (the
+  calibration unit included, 34 s). Against the old route on Modal: 240 and
+  280 faster (887 and 844 s then), 319 and 364 slower (1036 and 1784 s then);
+  every unit ran on a Haswell OpenBLAS host except the calibration unit
+  (SkylakeX); the old N = 32 units ran on SkylakeX except 319 (Haswell). Peak memory at most
+  5.0 GiB (364 modes), under the 16 GiB request.
+- `modal app list` at 14:49 -0500: the four `c4s2-modal-rho` apps stopped,
+  0 tasks (each stopped when its entrypoint completed; no `modal app stop`
+  was needed); `claude-scie...` and `specimen-v1...` deployed and untouched.
+  The Volume `c4s2-modal-rho-out` is kept (11 results, 11 start markers);
+  deleting it is the operator's call.
+- Batch 2 (S/nvec^2 = 0.04) was not run.
