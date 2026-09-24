@@ -1,10 +1,10 @@
 # RESULTS: checker/ (independent verification and kill-controls)
 
 1. **T_S reached the checker, and R_S = Q - T_S is measured on all nine cells, now under two_adic/'s QR rho** (c3dca00; all eleven units rebuilt on Modal, s7.8). The band per row is **5.3e-3 to 1.6e-2** at N = 8 and 16 and **3.0e-2 / 1.4e-2 / 8.2e-3** at N = 32 (c = 2.2 / 2.5 / 2.9; two_adic/'s probe, the checker's refinement and quadrature responses). That is above Q's lowest eigenvalues (1.9e-7 to 2.6e-4) and T_S's own (1.5e-3 to 3.5e-3), so T_S >= 0 is not decided at the band; no eigenvalue of T_S lies below -band on any row. two_adic/'s (80, 1200) is not converged at N = 16: 80 -> 120 modes moves T_S by 7.8e-2 / 4.5e-2 / 2.4e-2 (s7.2). Grade: measured.
-2. **T_S removes depth; the count grows from N = 8 to 16.** lambda_min goes from -0.30 to -0.49 (Q - T_inf) to **-0.026 / -0.039 / -0.097 to -0.12** (c = 2.2 / 2.5 / 2.9). n_-(R_S) below -band on the full space is **4, 4** (2.2), **4, 9** (2.5) and **4, 10** (2.9) at N = 8, 16. As modes go 120 -> 160 at N = 16 it runs 4, 3 at 2.2 and 9, 8 at 2.5: truncation, in part or whole. **At c = 2.9 it is 10 at both**: the growth 4 -> 10 is measured at a resolved setting, on a last pair 1.4 to 1.5 times the band (s7.3a). Grade: measured, weakest step Delta_T.
-3. **N = 32 under the QR rho: the growth survives at c = 2.9 and falls at 2.5 and 2.2**, by the reading committed before any rebuilt row was analysed (49db49f, s7.8). At 2.9, n_-(R_S) below -band is **20** on the delivered row and on the 240, 280 and 319-mode rows (21 at 364), against 10 at N = 16: the band is the probe (8.2e-3), no refinement moves T_S by more than 4.95e-3, and none of the 12 top-half negatives (-1.45e-2 to -1.21e-2) is shallower than a response. At 2.5 the refined rows count 6 and 5 against 9, at the band 1.4e-2 that the 319-mode row sets; at the 240-mode row's band (1.1e-2) they would count 14 and 12, so that verdict rests on the band rule. At 2.2 every build counts 0. The falsifier passes on every N = 32 build (T_S lowest +1.1e-3 to +4.4e-3; the old route failed by 14 to 37). Grade: measured, float64, one route.
+2. **The c = 2.9 count is exact on the stored matrices (s7.9): n_-(R_S) below -band is 4, 10, 20 at N = 8, 16, 32** (10 on the 160-mode N = 16 build; 20, 20, 20, 21 on the 240, 280, 319 and 364-mode N = 32 builds). Two exact rational routes agree, and every counted eigenvalue is bracketed strictly below -band, the smallest margin 2.4e-4 (364 modes). Grade: **hardened on the stored matrices** (exact inertia); this hardens the inertia of the stored matrices, not of the exact R_S, whose float64 assembly error (Delta_T) is still graded by the band, so as a statement about R_S of the construction it stays **measured, weakest step Delta_T**; the growth is evidence against bounded rank on this construction, not a refutation, since C4 fixes no bound. **What it is made of:** at 2x band the count is **4, 8, 6** (2 to 8 on the N = 32 builds), at 5x band 2 and at 10x band 1 on every build, so the N = 16 to 32 growth lies entirely between -2 band and -band, while the N = 8 to 16 growth (4 to 8) survives at 2x. On the C4 class V_4 (g-hat = 0 at +i/2, -i/2 and 0) the count is **3, 8, 20** (ball arithmetic, same grade).
+3. **T_S removes depth; at N = 32 under the QR rho the growth survives at c = 2.9 and falls at 2.5 and 2.2**, by the reading committed before any rebuilt row was analysed (49db49f, s7.8). lambda_min goes from -0.30 to -0.49 (Q - T_inf) to **-0.026 / -0.039 / -0.097 to -0.12** (c = 2.2 / 2.5 / 2.9). At N = 8, 16, n_-(R_S) below -band is **4, 4** (2.2) and **4, 9** (2.5); as modes go 120 -> 160 at N = 16 it runs 4, 3 and 9, 8: truncation, in part or whole (s7.3a); at 2.9 it is 10 at both. At N = 32 at 2.9 the band is the probe (8.2e-3), no refinement moves T_S by more than 4.95e-3, and none of the 12 top-half negatives (-1.45e-2 to -1.21e-2) is shallower than a response. At 2.5 the refined rows count 6 and 5 against 9, at the band 1.4e-2 that the 319-mode row sets; at the 240-mode row's band (1.1e-2) they would count 14 and 12, so that verdict rests on the band rule. At 2.2 every build counts 0. The falsifier passes on every N = 32 build (T_S lowest +1.1e-3 to +4.4e-3; the old route failed by 14 to 37). Grade: measured, float64, one route.
 4. **Kill-controls:** 1 passes; 2 passes; 3 not exercised (Gamma_C framework limit). 4, the lesion, is **refused twice**: NonUnitaryLocalData at the gate, then NotImplementedError in `KernelProvider.delta_T` once the gate is bypassed. Below both guards (a formula never validated off |alpha| = 1), T_S has no eigenvalue below -band, and n_-(R) rises from 4 to 5 / 6 / 6 (s7.4).
-5. **Q** (phase 1) is unchanged: it matches the CCM Galerkin matrix entrywise (5.5e-40 at dps 40) and `zeta.weil.weil_functional` spot checks (1e-18 to 4e-14), and Q > 0 on every cell. ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2}. At c = 2.9 the measured evidence runs against bounded rank from N = 8 to 32 (4, 10, 20), stable under 120 -> 160 modes at N = 16 and on four refined builds at N = 32 (20, 20, 20, 21); at 2.5 and 2.2 the N = 32 count does not exceed N = 16's. Delta_T is measured grade and the band indicates, it does not bound. Product-side C4 is **refuted** on these cells (with cutoff/).
+5. **Q** (phase 1) is unchanged: it matches the CCM Galerkin matrix entrywise (5.5e-40 at dps 40) and `zeta.weil.weil_functional` spot checks (1e-18 to 4e-14), and Q > 0 on every cell. ALIGNMENT s5 status: **unresolved** for C4 at S = {inf, 2}. At c = 2.9 the evidence runs against bounded rank from N = 8 to 32 (4, 10, 20, exact on the stored matrices and measured as a statement about the construction), stable under 120 -> 160 modes at N = 16 and on four refined builds at N = 32 (20, 20, 20, 21). By min-max (ordinary argument, unreviewed, s7.9), any remainder absorbing R_S there needs rank >= 20 at N = 32 if the assembly error is below |lambda_20| = 1.2e-2 (1.48 band), a proviso that is not established; at 2x band the N = 32 count is 6, below N = 16's 8. At 2.5 and 2.2 the N = 32 count does not exceed N = 16's. Delta_T is measured grade and the band indicates, it does not bound. Product-side C4 is **refuted** on these cells (with cutoff/).
 
 Phases 1 to 3 of 2026-09-23, branch `teal-sea/weil-c4-s2`. Nothing here is
 a claim about RH. Grades follow the `AGENTS.md` ladder. Every number above is
@@ -1178,3 +1178,86 @@ and no symmetry defect of R had been looked at. The routes were timed on a
 random 65 x 65 float64 matrix only (elimination 0.47 s, characteristic
 polynomial 0.03 s), and group 1 of `test_checker_inertia.py` ran on planted
 matrices (19 passed; the 9 reading tests skipped, no JSON).
+
+**What ran.** `run_checker_inertia.py` (reading and test at 50a104e, output
+at 4b20a89), locally, 115 s in all: 0.1 s at N = 8, 0.8 s per N = 16
+build, 22 to 24 s per N = 32 build. R is bit-symmetric on every build
+(symmetry defect 0), so the upper-mirror clause was vacuous. Every seed was
+confirmed by the exact counts at the first try (two exact evaluations per
+eigenvalue, each by both routes, no widening and no bisection step), so
+every float64 eigenvalue of these matrices lies within 2^-41 = 4.5e-13 of
+the exact one. Grade of each number below: exact inertia (hardened) on the
+stored matrices; the V_4 counts by ball arithmetic, every pivot deciding at
+256 bits.
+
+**Outcome, by the pre-registered test.** Columns: the band (stored, clause
+2); the stored float count; the exact n_- / n_0 / n_+ of R + band I;
+lambda_1; lambda_k, the last counted eigenvalue (bracket midpoints; each
+bracket is at most 2^-40 wide); the margin below -band of lambda_k (the
+smallest margin of the build); how far lambda_{k+1} lies above -band; the
+sensitivity row (n_- at 2x / 5x / 10x band); and n_- on V_4 at 1x / 2x /
+5x / 10x band.
+
+| N | build (nvec, S) | band | float count | exact n_- / n_0 / n_+ | lambda_1 | lambda_k | margin of lambda_k | lambda_{k+1} above -band by | 2x / 5x / 10x | V_4: 1x / 2x / 5x / 10x |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 8 | (80, 1200) | 5.3176e-03 | 4 | 4 / 0 / 13 | -0.0965449044 | -1.084204e-02 | 5.524e-03 | 2.78e-03 | 4 / 2 / 1 | 3 / 2 / 1 / 1 |
+| 16 | (120, 1600) | 5.8632e-03 | 10 | 10 / 0 / 23 | -0.1126794656 | -7.801699e-03 | 1.939e-03 | 4.21e-03 | 8 / 2 / 1 | 8 / 8 / 1 / 1 |
+| 16 | (160, 1600) | 5.8632e-03 | 10 | 10 / 0 / 23 | -0.1133297846 | -8.284600e-03 | 2.421e-03 | 3.66e-03 | 8 / 2 / 1 | 8 / 8 / 1 / 1 |
+| 32 | (200, 2400) | 8.1798e-03 | 20 | 20 / 0 / 45 | -0.1203077259 | -1.213552e-02 | 3.956e-03 | 4.74e-04 | 6 / 2 / 1 | 20 / 5 / 1 / 0 |
+| 32 | (240, 2400) | 8.1798e-03 | 20 | 20 / 0 / 45 | -0.1202289997 | -1.083936e-02 | 2.660e-03 | 4.98e-04 | 6 / 2 / 1 | 20 / 6 / 1 / 0 |
+| 32 | (280, 2266) | 8.1798e-03 | 20 | 20 / 0 / 45 | -0.1206366446 | -1.028480e-02 | 2.105e-03 | 5.14e-04 | 8 / 2 / 1 | 20 / 8 / 1 / 0 |
+| 32 | (319, 2633) | 8.1798e-03 | 20 | 20 / 0 / 45 | -0.1206053421 | -8.735686e-03 | 5.559e-04 | 7.17e-04 | 2 / 2 / 1 | 20 / 2 / 1 / 0 |
+| 32 | (364, 3060) | 8.1798e-03 | 21 | 21 / 0 / 44 | -0.1208816525 | -8.417989e-03 | 2.382e-04 | 1.54e-03 | 6 / 2 / 1 | 20 / 6 / 1 / 0 |
+
+- **The count holds on all eight builds.** The two exact routes agree at
+  every shift evaluated, no eigenvalue lies exactly at -band, the exact
+  count equals the stored float count, and every counted eigenvalue lies
+  strictly below -band. **No counted negative fails.** The smallest margins
+  are 2.4e-4 (364 modes) and 5.6e-4 (319 modes), both N = 32 refined rows;
+  on the delivered rows the smallest margins are 5.5e-3, 1.9e-3 and 4.0e-3
+  at N = 8, 16, 32.
+- **Grade, as fixed in clause 8.** Hardened on the stored matrices (exact
+  inertia): the negative count of the stored R_S at c = 2.9 is 4, 10, 20 at
+  N = 8, 16, 32 (10 on the 160-mode N = 16 build, and 20, 20, 20, 21 on the
+  refined N = 32 builds); this hardens the inertia of the stored matrices,
+  not of the exact R_S, whose float64 assembly error (Delta_T) is still
+  graded by the band, so as a statement about R_S of the construction it
+  stays measured, weakest step Delta_T; the growth is evidence against
+  bounded rank on this construction, not a refutation, since C4 fixes no
+  bound.
+- **What the count is made of** (the sensitivity row, clause 5, not a
+  criterion). At 2x band the counts are 4 (N = 8), 8 and 8 (N = 16), and 6,
+  6, 8, 2, 6 on the five N = 32 builds; at 5x band 2 on every build, and at
+  10x band 1. So the growth from N = 8 to 16 persists at 2x band (4 to 8),
+  and **the growth from N = 16 to 32 does not**: 14 of the 20 negatives of
+  the delivered N = 32 row lie between -2 band and -band (12 to 18 on the
+  refined rows), and lambda_k sits at 1.48 band on the delivered row and at
+  1.03 to 1.33 band on the refined ones. At 5x band what remains are the two
+  deep negatives of s7.3 (about -0.1 and -0.045), and at 10x band the deeper
+  one.
+- **The C4 class V_4**: n_- is 3 at N = 8, 8 on both N = 16 builds and 20 on
+  all five N = 32 builds (the 21st negative of the 364-mode build is not on
+  V_4). Every count lies within the codimension bound (k - 3 to k) and
+  agrees with the float64 count on V_4; on the delivered rows it lies within
+  one of the float count on V_-0 of s7.3 (4, 9, 20), which contains V_4 with
+  codimension 1. At 2x band
+  it is 2, 8, 8 and 5, 6, 8, 2, 6; at 10x band 1 at N = 8 and 16 and 0 at
+  N = 32, so on V_4 at N = 32 no eigenvalue lies below -10 band. Grade: ball
+  arithmetic on the stored matrices, for the exact class at c = 29/10, with
+  the class derivation of clause 6 (elementary, checked at dps 40).
+- **The rank bound (clause 9 applied).** For the stored matrices themselves,
+  the min-max argument gives exactly: any E with R_S + E >= 0 on
+  span{U_n : |n| <= N} has rank at least 4, 10, 20 at N = 8, 16, 32, and at
+  least 3, 8, 20 when the inequality is asked only on V_4. For the
+  construction's R_S', rank >= k follows when ||R_S' - R_S||_2 < |lambda_k|:
+  1.08e-2 at N = 8, 7.80e-3 at N = 16 and 1.21e-2 at N = 32 on the delivered
+  rows (2.04, 1.33 and 1.48 band), 8.42e-3 on the 364-mode row. At an error
+  of up to 2x band the same argument gives only 4, 8, 6, and at up to 5x band
+  2 at every N. **Whether ||R_S' - R_S||_2 is below the band is not
+  established**: Delta_T's band is a measured response that indicates and
+  does not bound. This is the weakest step, and it is why the composite
+  stays measured.
+
+**Changed keys of `checker_ts_cells.json`: none.** The follow-up writes only
+the new file `checker_inertia.json`; the snapshot and the cells JSON are
+read. two_adic/'s `test_ta_checker_citations.py` pins nothing that moved.
