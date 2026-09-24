@@ -746,3 +746,123 @@ drawn from the numbers are ordinary arguments, stated as such.
 
 Grade of everything in s7.7: measured, float64, one route on two platforms.
 The door is s7.6's last bullet: rho without the explicit inverse.
+
+### 7.8 Follow-up 2 (2026-09-24): the rows under the QR rho
+
+two_adic/ replaced the explicit inverse in `ta_mellin.rho` by a QR of the
+Gram factor (c3dca00, eea7eab; its RESULTS s10). T_S's input digest moved
+from 1dcab230 to b2e7787bce7a (the closure digest is b2e7787bce7a at
+c3dca00, eea7eab, e2b46a5 and HEAD caef639; the guard reads it, dirty list
+empty). modal/ rebuilds all eleven units into `modal/out_rho/` (modal/RUNS.md
+s7). Everything in s7.1 to s7.7 above was measured on the old route; its
+snapshot and cells JSON stay citable from git history at 3dc0a74 (both last
+written at 8d66d09).
+
+**Reading, committed before any eigenvalue of T_S or R_S on a rebuilt row
+was computed.** The s7.6 criterion is carried over unchanged: if the 12 to 14
+top-half negatives at N = 32 move by more than their depth, the growth is
+truncation; if they stay, P5 fails at the measured grade on c = 2.5 and 2.9.
+The s7.7 reading is carried over with the changes marked *new*; none is moved
+after the numbers.
+
+1. **Probe and route.** two_adic/'s probe is read from `ta_ts_prolate.json`
+   at c3dca00, where it was regenerated under the QR route (015895f's rows are
+   the old route). N = 8 and 16 keep their band rule exactly (s7.3).
+2. **Refined rows at N = 32, per cell:** (240, 2400) and the cell's
+   default-rule row, (364, 3060) at 2.2, (319, 2633) at 2.5, (280, 2266) at
+   2.9 (s7.7 clause 5). The other two default-rule builds of each cell are
+   reported, not used for the band or the verdict. The delivered row stays
+   (200, 2400).
+3. **Row-independent band** (*new*, closes a circularity): band_0(c) =
+   max(probe(200, 2400, 32), quadrature response at N = 16). s7.7 tested P2
+   at a band that contained the 240-mode row's own response; since
+   lambda_min(T_S(X)) >= lambda_min(T_S(200)) - ||T_S(X) - T_S(200)||_2,
+   that test is vacuous for the row that sets the band. Admission is tested
+   at band_0.
+4. **Determinacy gate** (*new*; s7.7 used this kind of argument only after
+   the numbers, this one is fixed before them). cond_F(X) = max(cond_Fz,
+   cond_Fb) of the unit, as `delta_T_cells` reports it. A row with
+   cond_F >= 1e14 is past two_adic/'s measured stopping point (s10.4:
+   "a row above about 1e14"; A2: rho off by 1.4e-5 at cond(F) = 6.7e11 and by
+   6.5e-2 at 3.8e14). Such a row is reported, and neither sets the band nor
+   enters the verdict. A row between 6.7e11 and 1e14 is admitted and marked
+   "beyond A2's last clean case".
+5. **Admission:** a refined row is admitted when it passes the gate and P2 at
+   band_0 (lambda_min(T_S(X)) >= -band_0(c)).
+6. **The band at N = 32** (*new*: the response that replaces "the 240-mode
+   refinement"). band(c, 32) = max(band_0(c), ||T_S(X) - T_S(200, 2400)||_2
+   over the admitted refined rows X of the cell): the largest measured
+   response, as P1's rule has it at every N. The default-rule row's response
+   enters, following the N = 16 precedent (the delivered row against
+   two_adic/'s own rule, 160 modes); the 240-mode response stays in, as the
+   pure mode count at equal S. With no admitted refined row, band(c, 32) =
+   band_0(c) and the N = 32 verdict is "undecided, no admitted refinement".
+   One threshold per cell serves every N = 32 build (s7.7 clause 1).
+7. **The falsifier** (two_adic/ s10.4; P2 on every N = 32 build, the four
+   rebuilt refinements on all three cells), at band_0(c), in bins fixed now:
+   **pass**, lambda_min(T_S) >= -band_0; **fails at order 1e-2**,
+   -0.1 <= lambda_min < -band_0; **fails at order 1e-1**, -1 <= lambda_min
+   < -0.1; **fails at order 1 or more**, lambda_min < -1 (the old route gave
+   -13.6 to -36.6 at 319 and 364 modes): the fix did not work on that row.
+   If 280, 319 or 364 fails at order 1e-2 on any cell, `worker_done` asks
+   for two_adic/'s batch 2 (the default-rule rows at S/nvec^2 = 0.04) and
+   nothing is run here. Each result is also stated against the numbers
+   two_adic/ quoted before the run, the old band(c, 32) 3.92e-2 / 2.37e-2 /
+   3.16e-2; where the two thresholds disagree, both outcomes are said.
+   cond_Fz and cond_Fb are reported beside each result and move no bin.
+   two_adic/'s predictions, tested as written: 280 passes; the order-10
+   failures at 319 and 364 are gone, with order 1e-2 possible; the 240-mode
+   row comes within about 1e-2 of the 200-mode row and band(c, 32) falls.
+8. **The criterion's referent.** The rebuilt 200-mode row's top-half
+   negatives (more than half the weight on |n| > 16) below the proxy band
+   max(probe(200, 2400, 32), refinement response at N = 16, quadrature
+   response). Expected to be the old set (14 at 2.5 from -1.83e-2 to
+   -8.0e-3, 12 at 2.9 from -1.45e-2 to -1.21e-2), since A1 moves that row by
+   1.8e-7 to 2.0e-7; any change in the set is reported.
+9. **Weyl, recount and verdict, as s7.7 clauses 2 to 4.** Weyl: each admitted
+   row's ||T_S(X) - T_S(200)||_2 against those depths. Recount: on every
+   N = 32 build, n_- below -band(c, 32), the top-half count, the lowest three
+   and the last pair counted, and the same at the proxy band, so that "the
+   band rose" and "the negatives left" stay apart. Per admitted refined row,
+   against the rebuilt N = 16 count n16 (9 at 2.5 and 10 at 2.9 on the old
+   route): **survives** if the count exceeds n16 outside the
+   platform-undecided eigenvalues, **falls** if it is at most n16, and is
+   **undecided** otherwise. *New*, the gap s7.7 found: the cell's verdict is
+   survives if every admitted refined row survives, falls if every one
+   falls, and **split** otherwise, reported as undecided with the rows
+   named. c = 2.2 lies outside the criterion and is reported the same way.
+10. **Platform flag** (*new* size). The drift under the QR route is
+    3.2e-12 (two_adic/ A3: a 2^-52 relative perturbation of every sample
+    moves Delta_T by 2.9e-12 to 3.2e-12 at (200, 2400), N = 32; a proxy, not
+    a rebuild on another platform). flag(X) = 3.2e-12 x max(1, cond_F(X) /
+    cond_F(200, 2400)): the scaling is an estimate (the QR route's arithmetic
+    error grows like eps x cond(F), two_adic/ s10.3). The one cross-platform
+    measurement on the new route is (80, 1200, 8), 7.1e-15 (modal/RUNS.md
+    s7.4), and it is checked here against `out_rho/local_checker_80_1200_8.json`.
+    Every row of the new snapshot is a Modal build; no laptop build of
+    (200, 2400, 32) exists on the new route, so s7.7's three-build platform
+    check of that unit has no analogue and is dropped. An eigenvalue within
+    flag of -band is platform-undecided.
+11. **N = 8 and 16.** Every count and band is compared with the old cells
+    JSON (3dc0a74). "Moved" means an integer count changed; the largest change
+    of each band and of the listed eigenvalues is reported. two_adic/ expects
+    changes of 1e-7 at most (A1: Delta_T moves by at most 2.7e-13 there).
+12. **When the grade is final:** when all eleven units are in `out_rho/` or
+    recorded as timed out in modal/RUNS.md s7.6. Before that, N = 8 and 16
+    are analysed and N = 32 is marked pending.
+
+**Visible when this reading was written** (19:22 UTC): seven rebuilt units
+in `out_rho/`, (80, 1200, 8), (80, 1200, 16), (80, 1600, 16),
+(120, 1200, 16), (120, 1600, 16), (160, 1600, 16) and (200, 2400, 32), and
+`local_checker_80_1200_8.json`. Of these, one file (80, 1200, 16) was opened
+for its key names only: its unit diag carries `cond_Fz`, `cond_Fb`, `cond_Gb`
+and `gram_z_offI`, and its calibration block no longer carries
+`weyl_bound`. No T_S entry, cond value or eigenvalue of a rebuilt row was
+read. No 240, 280, 319 or 364-mode unit had landed. Read: two_adic/ RESULTS
+s10 in full (A1 to A4, including its own T_S lowest eigenvalues at
+(200, 1200) and (200, 2400) on the QR route) and modal/RUNS.md s7 to the
+unit log. The key names of the regenerated `ta_ts_prolate.json` were read,
+not its values.
+
+Grade of everything in s7.8: measured, float64, one route. The rebuilt rows
+are all Modal builds of one route; no independent route exists for Delta_T.
