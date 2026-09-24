@@ -5,7 +5,10 @@
    blobs of every T_S input, while the import reads the working tree; so a
    dirty input, a moved digest or a missing unit yields no snapshot rows,
    and T_S() raises instead of building live. A git error raises and is
-   never read as clean.
+   never read as clean. The inputs are the import closure of
+   two_adic/ta_ts.py plus kernel/'s two moments JSON (ts_closure,
+   2026-09-24); a committed change to them turns
+   test_snapshot_key_is_the_built_commits_and_heads red, not skipped.
 2. Pins of checker_ts_cells.json (run_checker_ts.py) and checker_lesion.json
    (run_checker_lesion.py). They skip, with the reason, while those files
    are absent.
@@ -49,6 +52,9 @@ P = GLUE.C4S2
     f" D {P}/kernel/sonin.py",
     f" M {P}/kernel/cells_dps40.json",
     f"R  {P}/two_adic/ta_old.py -> {P}/two_adic/ta_mellin.py",
+    # untracked, but shadows a name the closure imports (kernel/ precedes
+    # two_adic/ on sys.path once KernelProvider has run)
+    f"?? {P}/kernel/ta_mellin.py",
 ])
 def test_dirty_input_is_seen(line):
     assert GLUE.dirty_inputs(line) == [line]
@@ -62,6 +68,11 @@ def test_dirty_input_is_seen(line):
     f"?? {P}/two_adic/ta_gram_probe.py",
     f" M {P}/two_adic/test_ta_ts.py",
     f" M {P}/cutoff/anything.py",
+    # tracked, but outside the import closure of ta_ts.py
+    f" M {P}/two_adic/ta_gram_probe.py",
+    f" M {P}/two_adic/ta_hs.py",
+    f" M {P}/kernel/calibrate.py",
+    f"?? {P}/two_adic/ta_new_helper.py",
 ])
 def test_non_input_is_not_dirty(line):
     assert GLUE.dirty_inputs(line) == []
@@ -80,17 +91,160 @@ def test_untracked_module_actually_loaded_is_caught():
     assert out == [f"{P}/two_adic/ta_untracked_helper.py"]
 
 
+def test_loaded_module_outside_the_closure_is_caught():
+    """A tracked module the static scan did not reach, loaded during a build,
+    is refused too: the runtime check of the scan."""
+    import types
+
+    probe = types.ModuleType("ta_gram_probe")
+    probe.__file__ = os.path.join(GLUE.TWO_ADIC, "ta_gram_probe.py")
+    sonin = types.ModuleType("sonin")
+    sonin.__file__ = os.path.join(GLUE.KERNEL, "sonin.py")
+    assert GLUE.loaded_inputs_outside_key({"a": probe, "b": sonin}) == [f"{P}/two_adic/ta_gram_probe.py"]
+
+
 def test_git_error_raises_not_clean():
     with pytest.raises(subprocess.CalledProcessError):
         GLUE._git("rev-parse", "--verify", "no-such-revision-for-checker")
 
 
-def test_key_covers_the_modules_T_S_imports():
-    lines = GLUE._git("ls-tree", "-r", "--name-only", "HEAD", "--", f"{P}/two_adic", f"{P}/kernel").split()
-    ins = {os.path.basename(p) for p in lines if GLUE.ts_input(p)}
-    assert {"ta_ts.py", "ta_data.py", "ta_prolate.py", "ta_mellin.py", "sonin.py",
-            "cells_dps40.json", "cells_dps60.json"} <= ins
-    assert not any(n.startswith("test_") for n in ins)
+CLOSURE = ["kernel/cells_dps40.json", "kernel/cells_dps60.json", "kernel/sonin.py",
+           "two_adic/ta_data.py", "two_adic/ta_mellin.py", "two_adic/ta_prolate.py",
+           "two_adic/ta_ts.py"]
+
+
+def test_closure_at_head_is_exactly():
+    """ta_ts imports ta_data, and lazily (inside KernelProvider) sonin and
+    ta_prolate; ta_prolate imports sonin and ta_mellin. Equality, not a
+    subset: a module entering the closure fails this test."""
+    _, paths, _ = GLUE.ts_closure("HEAD")
+    assert [p.split(P + "/", 1)[1] for p in paths] == CLOSURE
+    assert f"{P}/two_adic/ta_gram_probe.py" not in paths
+
+
+def test_snapshot_key_is_the_built_commits_and_heads():
+    """The committed snapshot was built at 8dc8525. Its key is the closure
+    digest there, and HEAD's closure digest equals it (re-keyed 2026-09-24
+    from the folder rule after proving this). A two_adic/ or kernel/ commit
+    that changes a closure file turns this red rather than letting the
+    snapshot's tests skip: rebuild with run_checker_ts.py."""
+    with open(GLUE.TS_SNAPSHOT) as fh:
+        meta = json.load(fh)["meta"]
+    assert meta["head_at_start"].startswith("8dc8525")
+    assert meta["rekey"]["built_commit"] == meta["head_at_start"]
+    built = GLUE.ts_closure("8dc8525")
+    head = GLUE.ts_closure("HEAD")
+    assert built[0] == head[0] == meta["ts_inputs_digest"]
+    assert built[1] == head[1] == meta["rekey"]["inputs"]
+
+
+# The same scan over a directory copy of HEAD's two_adic/ and kernel/ (tmp_path,
+# never the tree itself), with git's blob ids, so a planted edit is measured
+# by the function ts_key uses.
+
+
+@pytest.fixture(scope="module")
+def head_blobs():
+    import subprocess
+
+    top = GLUE._git("rev-parse", "--show-toplevel").strip()
+    out = {}
+    for ln in GLUE._git("ls-tree", "-r", "HEAD", "--", f"{P}/two_adic", f"{P}/kernel").splitlines():
+        meta, path = ln.split("\t", 1)
+        out[path] = subprocess.run(["git", "cat-file", "blob", meta.split()[2]], cwd=top,
+                                   capture_output=True, check=True).stdout
+    return out
+
+
+class _Copy:
+    def __init__(self, root, blobs):
+        self.root = root
+        for p, b in blobs.items():
+            f = root / p
+            f.parent.mkdir(parents=True, exist_ok=True)
+            f.write_bytes(b)
+
+    def file(self, rel):
+        return self.root / P / rel
+
+    def key(self):
+        import hashlib
+
+        blobs = {}
+        for f in (self.root / P).rglob("*"):
+            if f.is_file():
+                b = f.read_bytes()
+                blobs[f.relative_to(self.root).as_posix()] = hashlib.sha1(b"blob %d\0" % len(b) + b).hexdigest()
+        return GLUE.closure(blobs, lambda p: (self.root / p).read_bytes())
+
+
+@pytest.fixture
+def copy(tmp_path, head_blobs):
+    return _Copy(tmp_path, head_blobs)
+
+
+def _plant(path, text):
+    path.write_text(path.read_text() + text)
+
+
+def test_directory_route_reproduces_the_git_key(copy):
+    assert copy.key()[:2] == GLUE.ts_closure("HEAD")[:2]
+
+
+def test_file_outside_the_closure_does_not_move_the_key(copy):
+    k0 = copy.key()[0]
+    _plant(copy.file("two_adic/ta_gram_probe.py"), "\nX_PLANTED = 1\n")
+    copy.file("two_adic/ta_new_helper.py").write_text("Y = 2\n")
+    _plant(copy.file("two_adic/RESULTS.md"), "\nplanted\n")
+    assert copy.key()[0] == k0
+
+
+def test_changed_blob_in_the_closure_moves_the_key(copy):
+    k0 = copy.key()[0]
+    _plant(copy.file("kernel/sonin.py"), "\n# planted\n")
+    assert copy.key()[0] != k0
+
+
+def test_planted_lazy_import_brings_its_module_into_the_key(copy):
+    """A new module imported inside a function (as KernelProvider imports
+    sonin) enters the closure, and from then on its own blob is keyed."""
+    copy.file("two_adic/ta_planted.py").write_text("Z = 3\n")
+    k0, paths0, _ = copy.key()
+    assert f"{P}/two_adic/ta_planted.py" not in paths0
+    _plant(copy.file("two_adic/ta_prolate.py"), "\n\ndef _planted():\n    import ta_planted\n    return ta_planted.Z\n")
+    k1, paths1, _ = copy.key()
+    assert k1 != k0 and set(paths1) - set(paths0) == {f"{P}/two_adic/ta_planted.py"}
+    copy.file("two_adic/ta_planted.py").write_text("Z = 4\n")
+    assert copy.key()[0] != k1
+
+
+def test_planted_import_is_followed_transitively(copy):
+    """ta_run_ts imports ta_hs: importing ta_run_ts from ta_prolate brings
+    both in."""
+    _plant(copy.file("two_adic/ta_prolate.py"), "\n\ndef _planted():\n    import ta_run_ts\n    return ta_run_ts\n")
+    _, paths, _ = copy.key()
+    assert {f"{P}/two_adic/ta_run_ts.py", f"{P}/two_adic/ta_hs.py"} <= set(paths)
+
+
+def test_loader_reached_transitively_raises(copy):
+    """ta_gram_probe -> ta_run_prolate -> ta_es, which loads a file by path
+    (spec_from_file_location). Importing the probe from ta_ts would put a
+    load the scan cannot name into T_S: the key raises instead of omitting it."""
+    _plant(copy.file("two_adic/ta_ts.py"), "\n\ndef _planted():\n    from ta_gram_probe import main\n    return main\n")
+    with pytest.raises(GLUE.UnresolvedImport, match=r"ta_es\.py:\d+: spec_from_file_location"):
+        copy.key()
+
+
+def test_unresolvable_dynamic_import_raises(copy):
+    _plant(copy.file("two_adic/ta_mellin.py"), "\n\ndef _planted(n):\n    return __import__(n)\n")
+    with pytest.raises(GLUE.UnresolvedImport, match="non-literal"):
+        copy.key()
+
+
+def test_missing_moments_json_raises(copy):
+    copy.file("kernel/cells_dps60.json").unlink()
+    with pytest.raises(RuntimeError, match="absent"):
+        copy.key()
 
 
 def _fake_snapshot(tmp_path, monkeypatch, digest="d0"):

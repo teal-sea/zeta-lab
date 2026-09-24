@@ -296,7 +296,7 @@ and `checker_glue.T_S` serves it. The earlier snapshot (an orphaned run from
 `two_adic/ta_prolate.py` was modified, its 200-mode entry built by a tail
 that diverges there) was deleted, and no entry of it was reused.
 
-- **Key:** a digest of the HEAD blobs of every file T_S imports or reads:
+- **Key (until 2026-09-24, see the re-key below):** a digest of the HEAD blobs of every file T_S imports or reads:
   the non-test `.py` files under two_adic/ and kernel/, and `kernel/*.json`.
   Commits of two_adic/'s RESULTS, INTERFACE or JSON do not move it (015895f
   did not).
@@ -321,6 +321,33 @@ about 7.5 min in total by a scaling model. Measured: (80, 1200, 8) 20.8 s,
 107.6 s. The (240, 2400, 32) unit at Kmax 14 was predicted at 320 s. It was
 stopped at 16 min wall (9.2 min CPU, load average 8 to 9 on the shared
 laptop) under the 10-minute rule (s7.6).
+
+**Re-keyed 2026-09-24: the key is T_S's import closure.** The folder rule
+above keyed every non-test `.py` under two_adic/ and kernel/, so two_adic/
+fd9b0bf, which adds `ta_gram_probe.py` (a file T_S never imports), moved the
+digest from 02f12c86 to 323b8a07 and the committed snapshot stopped being
+served. At aeacda0 the suite gave 158 passed, 23 skipped, 0 xfailed (21 "no
+snapshot unit" skips, the bitwise live-provider test, and the 3 strict xfails
+among them), against 168 / 10 / 3 at dab5f74. `checker_glue.ts_closure` now
+keys the import closure of `two_adic/ta_ts.py`, found by an AST scan that
+includes imports inside functions and follows names into both folders, plus
+`kernel/cells_dps40.json` and `cells_dps60.json`. At HEAD that is ta_ts,
+ta_data, ta_prolate, ta_mellin and kernel/sonin, pinned by exact equality. A
+module entering the closure or a changed blob in it moves the key, a file
+outside it does not, and a load the scan cannot name (a non-literal
+`__import__`, or `spec_from_file_location` as in ta_es) raises; planted edits
+in a temporary copy test all three. The dirty-tree refusal and
+`loaded_inputs_outside_key` read the same closure, and an untracked file
+shadowing a name the closure imports counts as dirty. The closure digest is
+1dcab230 both at 8dc8525, where the snapshot was built, and at c069f15, so
+only the snapshot's meta was rewritten: the new key, the folder-rule digest
+beside it, both commits; `T_S` and `units` are unchanged.
+`checker_ts_cells.json` and `checker_lesion.json` keep the folder-rule
+digest they were built under, as records. A later commit that changes a
+closure file now turns `test_snapshot_key_is_the_built_commits_and_heads`
+red instead of letting the snapshot's tests skip. After: 183 passed, 10
+skipped, 3 xfailed (15 new tests; the 10 skips are phase 3's: 9 dps 60 units
+at N = 16 that were never built, and the Gamma_C positive control).
 
 ### 7.2 Responses of T_S (spectral norm of the difference, Weyl)
 

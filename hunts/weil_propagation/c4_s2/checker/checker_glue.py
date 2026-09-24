@@ -13,7 +13,11 @@ Routed entry points (read-only use):
   array through ta_ts.KernelProvider(nvec, S) (Delta_T measured grade).
 
 Phase 3: T_S is served from a snapshot keyed to the HEAD blobs of its
-inputs, and refused while any input is dirty (see ts_key).
+inputs, and refused while any input is dirty (see ts_key). The inputs are
+the import closure of two_adic/ta_ts.py plus kernel/'s two moments JSON
+(ts_closure); until 2026-09-24 they were every non-test .py under
+two_adic/ and kernel/, which unkeyed the snapshot when two_adic/ committed
+ta_gram_probe.py, a file T_S never imports.
 
 Expected shapes (mission interface contract): Hermitian (2N+1) x (2N+1)
 mpmath matrices on U_n, n = -N..N, index 0 is n = -N, F(f) = v^* M v.
@@ -93,65 +97,147 @@ def _git(*args):
     return subprocess.run(["git", *args], cwd=top, capture_output=True, text=True, check=True).stdout
 
 
-def ts_input(path):
-    """True for a file T_S imports or reads: a non-test .py under two_adic/
-    or kernel/ (T_S imports ta_ts, ta_data, ta_prolate, ta_mellin, sonin and
-    nothing else outside the venv), or a kernel/*.json (T_inf's moments).
-    two_adic/'s RESULTS, INTERFACE and JSON outputs do not enter T_S."""
-    rel = path.split(C4S2 + "/", 1)[-1]
-    folder, _, name = rel.partition("/")
-    base = os.path.basename(name)
-    if folder not in ("two_adic", "kernel"):
-        return False
-    if base.endswith(".py"):
-        return not (base.startswith("test_") or base == "conftest.py")
-    return folder == "kernel" and base.endswith(".json")
+TS_ROOT = f"{C4S2}/two_adic/ta_ts.py"
+# Read by ta_ts.KernelProvider.T_inf_matrix (open(), not import).
+TS_DATA = (f"{C4S2}/kernel/cells_dps40.json", f"{C4S2}/kernel/cells_dps60.json")
+_FOLDERS = (f"{C4S2}/two_adic", f"{C4S2}/kernel")
+# Calls that load code by a name or path an import statement does not show.
+_LOADERS = {"spec_from_file_location", "module_from_spec", "exec_module", "run_path",
+            "run_module", "load_source", "exec", "compile"}
 
 
-def dirty_inputs(porcelain):
-    """Lines of `git status --porcelain` output naming a tracked T_S input in
-    any changed state (modified, staged, deleted, renamed). The snapshot key
-    reads HEAD while the import reads the working tree, so any such line
-    means the two can disagree. Untracked files are not inputs (the key and
-    this check cover tracked files); an untracked module that T_S actually
-    imports is caught by loaded_inputs_outside_key() after the build."""
+class UnresolvedImport(RuntimeError):
+    """A module in the T_S closure loads code the static scan cannot name.
+    Raised, never skipped: an unseen import would leave the key blind to it."""
+
+
+def imported_names(source, path="<source>"):
+    """Top-level module names a source imports anywhere: module level, inside
+    functions and try blocks (KernelProvider imports sonin and ta_prolate
+    lazily), relative imports, and __import__ / import_module with a literal
+    name. Raises UnresolvedImport on a non-literal dynamic import or a loader
+    call (spec_from_file_location, exec, ...); a SyntaxError propagates."""
+    import ast
+
+    names = set()
+    for node in ast.walk(ast.parse(source, filename=path)):
+        if isinstance(node, ast.Import):
+            names.update(a.name.split(".")[0] for a in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            if node.module:
+                names.add(node.module.split(".")[0])
+            if node.level:  # from . import x: x is a module of the same folder
+                names.update(a.name for a in node.names)
+        elif isinstance(node, ast.Call):
+            f = node.func
+            fn = f.id if isinstance(f, ast.Name) else f.attr if isinstance(f, ast.Attribute) else None
+            if fn in ("__import__", "import_module"):
+                a = node.args[0] if node.args else None
+                if not (isinstance(a, ast.Constant) and isinstance(a.value, str)):
+                    raise UnresolvedImport(f"{path}:{node.lineno}: {fn} with a non-literal name")
+                names.add(a.value.lstrip(".").split(".")[0])
+            elif fn in _LOADERS:
+                raise UnresolvedImport(f"{path}:{node.lineno}: {fn}() loads code the scan cannot see")
+    names.discard("__future__")
+    return names
+
+
+def closure(blobs, read):
+    """(digest, paths, names) of T_S's inputs in one tree.
+
+    blobs: {repo path: git blob id} for every file under two_adic/ and
+    kernel/; read(path) -> bytes. paths is the import closure of
+    two_adic/ta_ts.py (every .py under those folders it reaches by import,
+    a name found in both folders taking both) plus TS_DATA; names is every
+    top-level name those modules import, kept so that an untracked file
+    shadowing one of them counts as dirty. digest is the sha256 of the sorted
+    "path<TAB>blob" lines: a changed blob, or a module entering or leaving
+    the closure, moves it; a file outside the closure does not."""
+    import hashlib
+
+    by_name = {}
+    for p in blobs:
+        folder, _, rest = p.rpartition("/")
+        if folder in _FOLDERS and rest.endswith(".py"):
+            by_name.setdefault(rest[:-3], []).append(p)
+    missing = [p for p in (TS_ROOT, *TS_DATA) if p not in blobs]
+    if missing:
+        raise RuntimeError(f"T_S inputs absent from the tree: {missing}: refusing to key on them")
+    paths, names, todo = set(TS_DATA), set(), [TS_ROOT]
+    while todo:
+        p = todo.pop()
+        if p in paths:
+            continue
+        paths.add(p)
+        got = imported_names(read(p).decode("utf-8"), p)
+        names |= got
+        todo.extend(q for n in got for q in by_name.get(n, ()))
+    lines = sorted(f"{p}\t{blobs[p]}" for p in paths)
+    return hashlib.sha256("\n".join(lines).encode()).hexdigest(), sorted(paths), names
+
+
+def ts_closure(rev="HEAD"):
+    """closure() of the committed tree at rev, read with git ls-tree / git
+    show (nothing is checked out). The blob ids are git's own."""
+    import subprocess
+
+    blobs = {}
+    for ln in _git("ls-tree", "-r", rev, "--", *_FOLDERS).splitlines():
+        meta, path = ln.split("\t", 1)
+        blobs[path] = meta.split()[2]
+    top = _git("rev-parse", "--show-toplevel").strip()
+
+    def read(p):
+        return subprocess.run(["git", "cat-file", "blob", blobs[p]], cwd=top,
+                              capture_output=True, check=True).stdout
+
+    return closure(blobs, read)
+
+
+def dirty_inputs(porcelain, inputs=None):
+    """Lines of `git status --porcelain` output that touch T_S's inputs:
+    a closure path in any changed state (modified, staged, deleted, renamed),
+    or a file under two_adic/ or kernel/ named <name>.py for a name the
+    closure imports, which at run time would load in place of what the key
+    saw (an untracked kernel/ta_mellin.py, say). inputs = (paths, names),
+    default the HEAD closure. The key reads HEAD while the import reads the
+    working tree, so any such line means the two can disagree."""
+    if inputs is None:
+        inputs = ts_closure("HEAD")[1:]
+    paths, names = set(inputs[0]), inputs[1]
     bad = []
     for line in porcelain.splitlines():
-        if len(line) < 4 or line.startswith("??"):
+        if len(line) < 4:
             continue
         for p in line[3:].split(" -> "):
-            if ts_input(p.strip().strip('"')):
+            p = p.strip().strip('"')
+            folder, _, base = p.rpartition("/")
+            if p in paths or (folder in _FOLDERS and base.endswith(".py") and base[:-3] in names):
                 bad.append(line)
                 break
     return bad
 
 
 def _porcelain():
-    return _git("status", "--porcelain", "--untracked-files=all", "--",
-                f"{C4S2}/two_adic", f"{C4S2}/kernel")
+    return _git("status", "--porcelain", "--untracked-files=all", "--", *_FOLDERS)
 
 
 def ts_key():
-    """Digest of the HEAD blobs of every T_S input (ls-tree lines), plus the
-    list of inputs dirty in the working tree. A snapshot is valid only for
-    an equal digest and an empty dirty list."""
-    import hashlib
-
-    lines = _git("ls-tree", "-r", "HEAD", "--", f"{C4S2}/two_adic", f"{C4S2}/kernel").splitlines()
-    ins = sorted(ln for ln in lines if ts_input(ln.split("\t", 1)[1]))
-    if not ins:
-        raise RuntimeError("no T_S inputs found at HEAD: refusing to key a snapshot on nothing")
-    return hashlib.sha256("\n".join(ins).encode()).hexdigest(), dirty_inputs(_porcelain())
+    """(digest, dirty): the HEAD closure's digest and the porcelain lines
+    that touch it. A snapshot is valid only for an equal digest and an empty
+    dirty list."""
+    digest, paths, names = ts_closure("HEAD")
+    return digest, dirty_inputs(_porcelain(), (paths, names))
 
 
 def loaded_inputs_outside_key(modules=None):
-    """Modules loaded from two_adic/ or kernel/ that are not clean tracked
-    T_S inputs at HEAD (for example an untracked helper a module imports).
-    run_checker_ts.py refuses the unit if this is non-empty."""
+    """Modules loaded from two_adic/ or kernel/ that are not clean members of
+    the HEAD closure (an untracked helper, or a module the static scan did
+    not reach). run_checker_ts.py refuses the unit if this is non-empty: the
+    runtime check of the scan."""
     mods = sys.modules if modules is None else modules
-    tracked = set(_git("ls-tree", "-r", "--name-only", "HEAD", "--",
-                       f"{C4S2}/two_adic", f"{C4S2}/kernel").split())
-    dirty = " ".join(dirty_inputs(_porcelain()))
+    _, paths, names = ts_closure("HEAD")
+    dirty = " ".join(dirty_inputs(_porcelain(), (paths, names)))
     out = []
     for m in list(mods.values()):
         f = getattr(m, "__file__", None) or ""
@@ -159,7 +245,7 @@ def loaded_inputs_outside_key(modules=None):
         if not (f.startswith(TWO_ADIC + os.sep) or f.startswith(KERNEL + os.sep)):
             continue
         rel = C4S2 + "/" + os.path.relpath(f, os.path.join(HERE, "..")).replace(os.sep, "/")
-        if rel not in tracked or not ts_input(rel) or rel in dirty:
+        if rel not in paths or rel in dirty:
             out.append(rel)
     return sorted(out)
 

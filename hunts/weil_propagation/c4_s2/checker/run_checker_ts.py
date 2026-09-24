@@ -5,8 +5,10 @@ grade, error band a few 1e-3). This script snapshots it once per unit into
 checker_ts_snapshot.json and writes the analysis to checker_ts_cells.json.
 
 Fail closed. The snapshot is keyed to checker_glue.ts_key(): a digest of the
-HEAD blobs of every T_S input (non-test .py under two_adic/ and kernel/,
-kernel/*.json). Building refuses while any input is dirty in the working
+HEAD blobs of every T_S input (the import closure of two_adic/ta_ts.py, found
+by a static scan, plus kernel/cells_dps40.json and cells_dps60.json; until
+2026-09-24 every non-test .py under two_adic/ and kernel/, and kernel/*.json).
+Building refuses while any input is dirty in the working
 tree, and the key is re-read before every unit: a digest change or a dirty
 input stops the run. The 22:37 orphan (bare python3, keyed to HEAD while
 ta_prolate.py was modified) is the failure this closes.
