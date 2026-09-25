@@ -1,0 +1,595 @@
+"""Cheap numerical checks for the theory worker's RESULTS.md.
+
+Everything here reuses the replicated Galerkin assembly of
+``hunts/rogue_frontier/weil_trunc/galerkin.py`` (CCM arXiv:2511.22755
+eq. (3.10)-(3.16), validated there against quadrature and published values).
+No new assembly code is written; the checks only read matrices and
+eigenvectors.  Total runtime is a few minutes at most.
+
+Checks (numbering follows RESULTS.md section 3):
+
+  A. DH arithmetic across the lattice step c = 30 -> 31.
+  B. An atom at n = c has exactly zero weight in the window log c.
+  C. The slope kink of lambda_min(L) when a prime-power atom enters,
+     against the predicted jump -Lambda(q) q^{-1/2} (2/L) (sum_n u_n)^2.
+  D. Perron-Frobenius structure of the pole-free zeta form, and the
+     sign structure of the DH ground state, as a function of y on [0, L].
+  E. The fixed-window (dilation) formula against zeta/weil.py.
+  F. Ground-state transport across the lattice step 30 -> 31.
+  G. Relative boundary mass phi_N(0)^2 / lambda_N of the zeta ground state.
+  H. The same ratio for DH approaching its crossing (N = 60 sampling stops
+     short of c*(60); see RESULTS.md for the matched-N reading).
+  I. Poincare attempt: comparison bound against the gap condition (a) needs,
+     and the pole overlaps of the first two pole-free eigenvectors.
+  J. Epstein (1,1,6): exact sign of Lambda_Q(n), n <= 60 (the rival's
+     Markov hypothesis on the windows where numerics finds it negative).
+  K. The separating step (U-S) for Dedekind Q(sqrt -23) and Epstein (1,1,6):
+     composite atoms and local power sums, exactly.
+  L. mu2/lambda2 = 1 - <phi1, e2>^2 check, the pole overlap of e2 at higher
+     precision, and the commutator identity bounding the even edge amplitude
+     mu0 by the odd floor.
+
+Run from the repo root:  .venv/bin/python hunts/weil_propagation/theory/checks.py
+Writes checks.json beside this file.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+from mpmath import mp
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+sys.path.insert(0, str(ROOT / "hunts" / "rogue_frontier" / "weil_trunc"))
+import galerkin as G  # noqa: E402
+
+
+def f(x, d=6):
+    return mp.nstr(x, d)
+
+
+# ---------------------------------------------------------------------------
+# A. DH arithmetic across 30 -> 31
+# ---------------------------------------------------------------------------
+
+
+def check_A():
+    with mp.workdps(40):
+        lam = dict(G.dh_lambda_coeffs(40))
+        full = {n: lam.get(n, mp.mpf(0)) for n in range(2, 41)}
+        mult5 = {n: full[n] for n in range(5, 41, 5)}
+        neg = [n for n in range(2, 32) if full[n] < 0]
+        out = {
+            "Lambda_f(29)": f(full[29], 12),
+            "Lambda_f(30)": f(full[30], 12),
+            "Lambda_f(31)": f(full[31], 12),
+            "log(31)": f(mp.log(31), 12),
+            "Lambda_f(31)-log31": f(full[31] - mp.log(31), 3),
+            "max|Lambda_f(5m)|, 5m<=40": f(max(abs(v) for v in mult5.values()), 3),
+            "n<=31 with Lambda_f(n)<0": neg,
+            "Lambda_f(3)": f(full[3], 12),
+            "composite n<=31 with Lambda_f(n)!=0 and n not a prime power": [
+                n for n in range(2, 32)
+                if full[n] != 0 and len({p for p in range(2, n + 1)
+                                         if n % p == 0 and all(p % r for r in range(2, p))}) > 1
+            ],
+        }
+    return out
+
+
+# ---------------------------------------------------------------------------
+# B. The atom at n = c sits at y = L and carries zero weight
+# ---------------------------------------------------------------------------
+
+
+def check_B(N=12):
+    with mp.workdps(50):
+        T = G.Truncation(31, N, kind="dh")
+        # rebuild the prime sequences without the n = 31 atom
+        L = T.L
+        lam31 = dict(G.dh_lambda_coeffs(31))[31]
+        w = lam31 / mp.sqrt(31)
+        y = mp.log(31)
+        dP = max(abs(w * mp.sin(2 * mp.pi * k * y / L)) for k in range(N + 1))
+        dR = max(abs(w * 2 * (1 - y / L) * mp.cos(2 * mp.pi * k * y / L)) for k in range(N + 1))
+    return {"N": N, "max |P_k contribution of n=31|": f(dP, 3),
+            "max |R_k contribution of n=31|": f(dR, 3)}
+
+
+# ---------------------------------------------------------------------------
+# C. The kink at a prime-power entry
+# ---------------------------------------------------------------------------
+
+
+def _ground(c, N, kind="zeta", pole=True):
+    T = G.Truncation(c, N, kind=kind)
+    E = T.even_matrix()
+    if not pole and kind == "zeta":
+        # subtract the pole block W02 in even coordinates
+        Np = N + 1
+        W = mp.matrix(Np)
+        W[0, 0] = T.w02(0, 0)
+        for k in range(1, Np):
+            v = mp.sqrt(2) * T.w02(0, k)
+            W[0, k] = v
+            W[k, 0] = v
+        for j in range(1, Np):
+            for k in range(j, Np):
+                v = T.w02(j, k) + T.w02(j, -k)
+                W[j, k] = v
+                W[k, j] = v
+        E = E - W
+    ev, vec = G.eigsy_sorted(E)
+    return T, ev, vec
+
+
+def check_C(q, Lam, N=16, h=mp.mpf("1e-6")):
+    """Left/right slopes of lambda_min in L = log c at L0 = log q."""
+    with mp.workdps(45):
+        L0 = mp.log(q)
+        lam = {}
+        for s in (-2, -1, 0, 1, 2):
+            c = mp.e ** (L0 + s * h)
+            if s == 0:
+                c = mp.mpf(q)
+            _, ev, vec = _ground(c, N)
+            lam[s] = ev[0]
+            if s == 0:
+                v = vec[0]
+        # second-order one-sided differences
+        left = (3 * lam[0] - 4 * lam[-1] + lam[-2]) / (2 * h)
+        right = (-3 * lam[0] + 4 * lam[1] - lam[2]) / (2 * h)
+        S = v[0] + mp.sqrt(2) * mp.fsum(v[1:])
+        pred = -Lam / mp.sqrt(q) * (2 / L0) * S * S
+        return {"q": q, "N": N, "lambda_min(L0)": f(lam[0], 8),
+                "slope_left": f(left, 10), "slope_right": f(right, 10),
+                "jump_measured": f(right - left, 10), "jump_predicted": f(pred, 10),
+                "rel_dev": f(abs((right - left) - pred) / abs(pred), 3),
+                "phi_N(0)^2 = (sum u_n)^2 / L": f(S * S / L0, 8)}
+
+
+# ---------------------------------------------------------------------------
+# D. Perron-Frobenius structure
+# ---------------------------------------------------------------------------
+
+
+def _profile(v, L, npts=400):
+    """phi(y) on (0, L) from even coordinates; returns min, max, sign changes."""
+    N = len(v) - 1
+    vals = []
+    for i in range(1, npts):
+        y = L * i / npts
+        s = v[0] / mp.sqrt(L)
+        for k in range(1, N + 1):
+            s += v[k] * mp.sqrt(2 / L) * mp.cos(2 * mp.pi * k * y / L)
+        vals.append(s)
+    if sum(vals) < 0:
+        vals = [-x for x in vals]
+    changes = sum(1 for a, b in zip(vals, vals[1:]) if a * b < 0)
+    return min(vals), max(vals), changes
+
+
+def check_D(cells):
+    out = []
+    for kind, c, N, pole, dps in cells:
+        with mp.workdps(dps):
+            T, ev, vec = _ground(mp.mpf(c), N, kind=kind, pole=pole)
+            mn, mx, ch = _profile(vec[0], T.L)
+            nneg = sum(1 for e in ev if e < 0)
+            out.append({"kind": kind, "c": c, "N": N, "pole": pole,
+                        "lambda_1": f(ev[0], 6), "lambda_2": f(ev[1], 6),
+                        "n_negative_even": nneg,
+                        "ground_min_over_max": f(mn / mx, 4),
+                        "ground_sign_changes_on_grid": ch})
+    return out
+
+
+# ---------------------------------------------------------------------------
+# E. The dilation identity against zeta/weil.py (constants check)
+# ---------------------------------------------------------------------------
+
+
+def E_dilated_box(a):
+    """Q(f_a) for f = 1_{[-1,1]}/sqrt(2), f_a(x) = a^{-1/2} f(x/a), from the
+    fixed-window formula of RESULTS.md s2.2 (pole, archimedean, primes)."""
+    a = mp.mpf(a)
+    g = lambda y: (2 - abs(y)) / 2
+    pole = 16 * mp.sinh(a / 2) ** 2 / a
+    arch = -(mp.euler + mp.log(mp.pi) + mp.log(1 - mp.e ** (-4 * a)))
+    arch += mp.quad(lambda y: 2 * a * (mp.e ** (-2 * a * y) - mp.e ** (-a * y / 2) * g(y))
+                    / (1 - mp.e ** (-2 * a * y)), [0, 1, 2])
+    primes = mp.mpf(0)
+    for q, p in G.prime_powers_upto(float(mp.e ** (2 * a))):
+        if mp.log(q) < 2 * a:
+            primes -= 2 * mp.log(p) / mp.sqrt(q) * g(mp.log(q) / a)
+    return pole + arch + primes
+
+
+def check_E(avals=("0.3", "0.8", "1.2")):
+    sys.path.insert(0, str(ROOT))
+    from zeta.weil import fejer_pair, weil_functional
+    out = []
+    with mp.workdps(30):
+        for a in avals:
+            mine = E_dilated_box(a)
+            h, g = fejer_pair(a)
+            lab = 2 * mp.mpf(a) * weil_functional(h, g, dps=30)
+            out.append({"a": a, "E(a; box)": f(mine, 15), "2a*W_lab(fejer)": f(lab, 15),
+                        "abs_dev": f(abs(mine - lab), 3)})
+    return out
+
+
+# ---------------------------------------------------------------------------
+# F. Ground-state transport across the lattice step 30 -> 31
+# ---------------------------------------------------------------------------
+
+
+def check_F():
+    """Even coordinates are coordinates of the ground state dilated to [0,1]
+    (e_k(y) = sqrt(2/L) cos(2 pi k y / L) -> sqrt2 cos(2 pi k t)), so the
+    dilation transport of a ground state is the identity on coordinates."""
+    out = []
+    for kind, N, dps in (("dh", 60, 60), ("zeta", 32, 110)):
+        with mp.workdps(dps):
+            T30 = G.Truncation(30, N, kind=kind)
+            T31 = G.Truncation(31, N, kind=kind)
+            E30, E31 = T30.even_matrix(), T31.even_matrix()
+            ev30, V30 = G.eigsy_sorted(E30)
+            ev31, V31 = G.eigsy_sorted(E31)
+            v30 = mp.matrix(V30[0])
+            v31 = mp.matrix(V31[0])
+            ov = abs(mp.fsum(v30[i] * v31[i] for i in range(N + 1)))
+            sgn = 1 if mp.fsum(v30[i] * v31[i] for i in range(N + 1)) > 0 else -1
+            d = v31 - sgn * v30
+            rq = (v30.T * E31 * v30)[0]
+            out.append({"kind": kind, "N": N,
+                        "lambda_1(30)": f(ev30[0], 6), "lambda_1(31)": f(ev31[0], 6),
+                        "1-|<v30,v31>|": f(1 - ov, 4),
+                        "||v31 - v30||": f(mp.norm(d), 4),
+                        "Q_31(v30) (dilated old ground state as trial)": f(rq, 6)})
+    return out
+
+
+# ---------------------------------------------------------------------------
+# G. Relative boundary mass phi_N(0)^2 / lambda_N of the zeta ground state
+# ---------------------------------------------------------------------------
+
+
+def check_G(cells=((3, 16), (3, 32), (6, 16), (6, 32), (10, 24), (13, 24), (13, 32), (20, 32))):
+    out = []
+    for c, N in cells:
+        with mp.workdps(40 + 3 * c):
+            T, ev, vec = _ground(mp.mpf(c), N)
+            v = vec[0]
+            S = v[0] + mp.sqrt(2) * mp.fsum(v[1:])
+            out.append({"c": c, "N": N, "lambda_1": f(ev[0], 5),
+                        "phi_N(0)^2/lambda_1": f(S * S / T.L / ev[0], 5)})
+    return out
+
+
+# ---------------------------------------------------------------------------
+# H. Boundary mass ratio for DH approaching the crossing, and for zeta
+# ---------------------------------------------------------------------------
+
+
+def check_H(cells=(("dh", 13, 32, 50), ("dh", 20, 60, 60), ("dh", 25, 60, 60),
+                   ("dh", 29, 60, 60), ("dh", 30, 60, 60), ("dh", 31, 60, 60),
+                   ("zeta", 25, 32, 110), ("zeta", 29, 32, 110), ("zeta", 31, 32, 110))):
+    out = []
+    for kind, c, N, dps in cells:
+        with mp.workdps(dps):
+            T, ev, vec = _ground(mp.mpf(c), N, kind=kind)
+            v = vec[0]
+            S = v[0] + mp.sqrt(2) * mp.fsum(v[1:])
+            out.append({"kind": kind, "c": c, "N": N, "lambda_1": f(ev[0], 5),
+                        "phi_N(0)^2": f(S * S / T.L, 5),
+                        "phi_N(0)^2/lambda_1": f(S * S / T.L / ev[0], 5)})
+    return out
+
+
+# ---------------------------------------------------------------------------
+# I. Poincare attempt: crude comparison bound vs the gap condition (a) needs,
+#    and the pole overlaps of the first two pole-free eigenvectors
+# ---------------------------------------------------------------------------
+
+
+def _w02_even(T, N):
+    W = mp.matrix(N + 1)
+    W[0, 0] = T.w02(0, 0)
+    for k in range(1, N + 1):
+        W[0, k] = W[k, 0] = mp.sqrt(2) * T.w02(0, k)
+    for j in range(1, N + 1):
+        for k in range(j, N + 1):
+            W[j, k] = W[k, j] = T.w02(j, k) + T.w02(j, -k)
+    return W
+
+
+def check_I(cells=((13, 24, 60), (31, 32, 110))):
+    out = []
+    for c, N, dps in cells:
+        with mp.workdps(dps):
+            T, evQ, vQ = _ground(mp.mpf(c), N, pole=True)
+            _, ev0, v0 = _ground(mp.mpf(c), N, pole=False)
+            L = T.L
+            e1, e2, phi = mp.matrix(v0[0]), mp.matrix(v0[1]), mp.matrix(vQ[0])
+            vals = []
+            for i in range(801):
+                y = L * i / 800
+                vals.append(abs(e1[0] / mp.sqrt(L) + mp.fsum(
+                    e1[k] * mp.sqrt(2 / L) * mp.cos(2 * mp.pi * k * y / L) for k in range(1, N + 1))))
+            K = lambda x: 2 * mp.e ** (-x / 2) / (1 - mp.e ** (-2 * x))
+            W = _w02_even(T, N)
+            rq = lambda x: (x.T * W * x)[0]
+            ip = lambda a, b: mp.fsum(a[i] * b[i] for i in range(N + 1))
+            out.append({"c": c, "N": N, "mu1(Q0)": f(ev0[0], 8), "mu2(Q0)": f(ev0[1], 5),
+                        "needed gap D = -mu1": f(-ev0[0], 8), "true gap mu2-mu1": f(ev0[1] - ev0[0], 12),
+                        "max phi0^2 (grid)": f(max(vals) ** 2, 5), "K(L)/2": f(K(L) / 2, 5),
+                        "comparison bound (K(L)/2)/max phi0^2": f((K(L) / 2) / max(vals) ** 2, 5),
+                        "pole energy 2<c,e1>^2": f(rq(e1), 6), "pole energy 2<c,e2>^2": f(rq(e2), 4),
+                        "pole energy of Weil ground state": f(rq(phi), 5),
+                        "|<phiQ,e1>|": f(abs(ip(phi, e1)), 5), "|<phiQ,e2>|": f(abs(ip(phi, e2)), 5)})
+    return out
+
+
+# ---------------------------------------------------------------------------
+# J. Epstein (1,1,6): sign of Lambda_Q(n), exactly
+# ---------------------------------------------------------------------------
+
+
+def check_J(nmax=60, form=(1, 1, 6)):
+    """Lambda_Q(n) from -Z'/Z with a_n = r_Q(n)/r_Q(1), computed EXACTLY as a
+    rational combination of log p (the log p are linearly independent over Q,
+    so an exact zero is detected exactly), then enclosed with mpmath.iv for
+    the sign.  Independent of galerkin.dh_lambda_coeffs and of the numerics
+    worker's code; shares only zeta.epstein.epstein_representation_count."""
+    from fractions import Fraction
+    from mpmath import iv
+    sys.path.insert(0, str(ROOT))
+    from zeta.epstein import epstein_representation_count as rep
+
+    r = {n: rep(n, form) for n in range(1, nmax + 1)}
+    a = {n: Fraction(r[n], r[1]) for n in r}
+
+    def factor(n):
+        out, d = {}, 2
+        while d * d <= n:
+            while n % d == 0:
+                out[d] = out.get(d, 0) + 1
+                n //= d
+            d += 1
+        if n > 1:
+            out[n] = out.get(n, 0) + 1
+        return out
+
+    lam = {1: {}}
+    for n in range(2, nmax + 1):
+        v = {p: a[n] * e for p, e in factor(n).items()} if a[n] else {}
+        for d in range(2, n):
+            if n % d == 0 and a[n // d]:
+                for p, q in lam[d].items():
+                    v[p] = v.get(p, Fraction(0)) - q * a[n // d]
+        lam[n] = {p: q for p, q in v.items() if q != 0}
+    iv.dps = 30
+    rows, first_neg, exact_zero = [], None, []
+    for n in range(2, nmax + 1):
+        if not lam[n]:
+            exact_zero.append(n)
+            continue
+        enc = sum((iv.mpf(q.numerator) / q.denominator) * iv.log(p) for p, q in lam[n].items())
+        sign = 1 if enc.a > 0 else (-1 if enc.b < 0 else 0)
+        rows.append((n, sign, str(enc.a), str(enc.b)))
+        if sign < 0 and first_neg is None:
+            first_neg = n
+    undecided = [n for n, sg, _, _ in rows if sg == 0]
+    neg_le29 = [n for n, sg, _, _ in rows if sg < 0 and n <= 29]
+    return {"form": list(form), "r_Q(1)": r[1], "nmax": nmax,
+            "exact zeros (n)": exact_zero,
+            "negative n <= 29": neg_le29, "first negative n": first_neg,
+            "undecided signs": undecided,
+            "Lambda_Q(n) enclosures, n<=31 nonzero":
+                [(n, lo[:12], hi[:12]) for n, _, lo, hi in rows if n <= 31]}
+
+
+# ---------------------------------------------------------------------------
+# K. The separating step (U-S): prime-power support + unitary local roots
+# ---------------------------------------------------------------------------
+
+
+def _lambda_exact(a, nmax):
+    """Exact Lambda(n) = sum_p q_{n,p} log p (Fractions) from Dirichlet
+    coefficients a[1..nmax] with a[1] = 1, by the log-derivative recursion."""
+    from fractions import Fraction
+
+    def factor(n):
+        out, d = {}, 2
+        while d * d <= n:
+            while n % d == 0:
+                out[d] = out.get(d, 0) + 1
+                n //= d
+            d += 1
+        if n > 1:
+            out[n] = out.get(n, 0) + 1
+        return out
+
+    lam = {1: {}}
+    for n in range(2, nmax + 1):
+        v = {q: Fraction(a[n]) * e for q, e in factor(n).items()} if a[n] else {}
+        for d in range(2, n):
+            if n % d == 0 and a[n // d]:
+                for q, c in lam[d].items():
+                    v[q] = v.get(q, Fraction(0)) - c * a[n // d]
+        lam[n] = {q: c for q, c in v.items() if c != 0}
+    return lam, factor
+
+
+def _kronecker_m23(n):
+    """Kronecker symbol (-23 / n) for n >= 1 (completely multiplicative)."""
+    def at_prime(q):
+        if q == 23:
+            return 0
+        if q == 2:
+            return 1  # -23 = 1 mod 8
+        return 1 if pow(-23 % q, (q - 1) // 2, q) == 1 else -1
+    out, n0, d = 1, n, 2
+    while d * d <= n0:
+        while n0 % d == 0:
+            out *= at_prime(d)
+            n0 //= d
+        d += 1
+    if n0 > 1:
+        out *= at_prime(n0)
+    return out
+
+
+def check_K(nmax=60):
+    """For each object, list (i) atoms at non-prime-powers, (ii) for each prime
+    p the power sums s_k = Lambda(p^k)/log p, which for a local factor with
+    roots alpha_j are sum_j alpha_j^k; unitarity |alpha_j| = 1 forces
+    |s_k| <= degree.  Dedekind zeta of Q(sqrt -23) = zeta * L(chi_{-23})
+    (a_n = sum_{d|n} chi(d)); Epstein (1,1,6) from representation counts."""
+    from fractions import Fraction
+    sys.path.insert(0, str(ROOT))
+    from zeta.epstein import epstein_representation_count as rep
+
+    objs = {}
+    aK = {n: sum(_kronecker_m23(d) for d in range(1, n + 1) if n % d == 0) for n in range(1, nmax + 1)}
+    objs["dedekind Q(sqrt-23)"] = ({n: Fraction(aK[n], aK[1]) for n in aK}, 2)
+    r = {n: rep(n, (1, 1, 6)) for n in range(1, nmax + 1)}
+    objs["epstein (1,1,6)"] = ({n: Fraction(r[n], r[1]) for n in r}, 2)
+    out = {}
+    for name, (a, deg) in objs.items():
+        lam, factor = _lambda_exact(a, nmax)
+        composite = [n for n in range(2, nmax + 1) if lam[n] and len(factor(n)) > 1]
+        towers, viol = {}, []
+        for q in (2, 3, 5, 7, 11, 13, 23):
+            ks, k, pk = [], 1, q
+            while pk <= nmax:
+                c = lam[pk].get(q, Fraction(0)) if set(lam[pk]) <= {q} else None
+                ks.append(str(c) if c is not None else "mixed")
+                if c is not None and abs(c) > deg:
+                    viol.append((q, k, str(c)))
+                k += 1
+                pk *= q
+            towers[q] = ks
+        out[name] = {"degree": deg, "composite atoms n<=%d" % nmax: composite,
+                     "power sums s_k = Lambda(p^k)/log p": towers,
+                     "|s_k| > degree (unitarity violated)": viol}
+    return out
+
+
+# ---------------------------------------------------------------------------
+# L. (i) mu2/lambda2 against 1 - <phi1, e2>^2 and the pole overlap at two
+#        precisions (the dps-60 value of 2<c,e2>^2 in check I is a precision
+#        artifact); (ii) the CvS commutator identity (E - lam) D phi = -mu0 beta
+#        and the bound |mu0| <= ||D phi|| (lam1_odd - lam) / |<f1_odd, beta>|.
+# ---------------------------------------------------------------------------
+
+
+def check_L(cells=((13, 24, 120), (31, 32, 200))):
+    out = []
+    for c, N, dps in cells:
+        with mp.workdps(dps):
+            T, evQ, vQ = _ground(mp.mpf(c), N, pole=True)
+            _, ev0, v0 = _ground(mp.mpf(c), N, pole=False)
+            W = _w02_even(T, N)
+            phi, e2 = mp.matrix(vQ[0]), mp.matrix(v0[1])
+            ov = mp.fsum(phi[i] * e2[i] for i in range(N + 1))
+            # full (2N+1) basis, indices -N..N
+            M = 2 * N + 1
+            E = mp.matrix(M)
+            for i in range(M):
+                for j in range(i, M):
+                    E[i, j] = E[j, i] = T.entry(i - N, j - N)
+            u = mp.matrix(M, 1)
+            u[N] = phi[0]
+            for k in range(1, N + 1):
+                u[N + k] = u[N - k] = phi[k] / mp.sqrt(2)
+            lam = evQ[0]
+            mu0 = mp.fsum(u[i] for i in range(M))
+            Du = mp.matrix([(i - N) * u[i] for i in range(M)])
+            beta = mp.matrix([(i - N) * E[N, i] if i != N else 0 for i in range(M)])  # b_j = j q_{0j}
+            lhs = (E - lam * mp.eye(M)) * Du
+            resid = mp.norm(lhs + mu0 * beta) / mp.norm(lhs)
+            # odd sector: lowest eigenpair of the odd block, overlap with beta
+            O = T.odd_matrix()
+            evO, vO = G.eigsy_sorted(O)
+            f1 = mp.matrix(M, 1)
+            for k in range(1, N + 1):
+                f1[N + k] = vO[0][k - 1] / mp.sqrt(2)
+                f1[N - k] = -vO[0][k - 1] / mp.sqrt(2)
+            fb = mp.fsum(f1[i] * beta[i] for i in range(M))
+            bound = mp.norm(Du) * abs(evO[0] - lam) / abs(fb)
+            # pole vector c_vec with W = 2 c c^T, u = (E0)^{-1} c, capacity Phi
+            E0 = T.even_matrix() - W
+            cvec = W[:, 0] / mp.sqrt(2 * W[0, 0])
+            uvec = mp.lu_solve(E0, cvec)
+            Phi = 1 + 2 * mp.fsum(cvec[i] * uvec[i] for i in range(N + 1))
+            nu2 = mp.fsum(uvec[i] ** 2 for i in range(N + 1))
+            align = abs(mp.fsum(phi[i] * uvec[i] for i in range(N + 1))) / mp.sqrt(nu2)
+            out.append({"c": c, "N": N, "dps": dps,
+                        "pole capacity Phi": f(Phi, 6), "-Phi/(2||u||^2)": f(-Phi / (2 * nu2), 6),
+                        "|<phi1, u/||u||>|": f(align, 12),
+                        "mu2/lam2": f(ev0[1] / evQ[1], 6), "1-<phi1,e2>^2": f(1 - ov ** 2, 6),
+                        "2<c,e2>^2 (dps %d)" % dps: f((e2.T * W * e2)[0], 4),
+                        "lam1_even": f(lam, 5), "lam1_odd": f(evO[0], 5),
+                        "mu0": f(mu0, 5), "||(E-lam)D phi + mu0 beta||/||.||": f(resid, 3),
+                        "||D phi||": f(mp.norm(Du), 5), "|<f1_odd,beta>|": f(abs(fb), 5),
+                        "bound ||D phi|| (lam1_odd-lam)/|<f1_odd,beta>|": f(bound, 5),
+                        "bound/|mu0|": f(bound / abs(mu0), 5)})
+    return out
+
+
+def _run_C():
+    out = []
+    for q, p in ((3, 3), (4, 2), (5, 5), (7, 7)):
+        with mp.workdps(45):
+            Lam = mp.log(p)
+        out.append(check_C(q, Lam))
+    return out
+
+
+_D_CELLS = [
+    ("zeta", 13, 24, False, 60),
+    ("zeta", 13, 24, True, 60),
+    ("zeta", 31, 32, False, 110),
+    ("zeta", 31, 32, True, 110),
+    ("dh", 13, 24, True, 40),
+    ("dh", 30, 60, True, 60),
+    ("dh", 31, 60, True, 60),
+]
+
+#: letter -> (checks.json key, runner)
+CHECKS = {
+    "A": ("A_dh_arithmetic", check_A),
+    "B": ("B_edge_atom", check_B),
+    "C": ("C_kink", _run_C),
+    "D": ("D_perron_frobenius", lambda: check_D(_D_CELLS)),
+    "E": ("E_dilation_vs_weil_py", check_E),
+    "F": ("F_transport_30_31", check_F),
+    "G": ("G_boundary_mass", check_G),
+    "H": ("H_boundary_mass_dh", check_H),
+    "I": ("I_poincare", check_I),
+    "J": ("J_epstein_lambda_sign", check_J),
+    "K": ("K_separating_step", check_K),
+    "L": ("L_ratio_and_boundary_identity", check_L),
+}
+
+
+if __name__ == "__main__":
+    # `checks.py` runs everything (about 3 min); `checks.py J K` runs only the
+    # named checks (J and K take seconds) and merges them into checks.json.
+    wanted = [a.upper() for a in sys.argv[1:]] or list(CHECKS)
+    unknown = [w for w in wanted if w not in CHECKS]
+    if unknown:
+        raise SystemExit(f"unknown check(s) {unknown}; choose from {''.join(CHECKS)}")
+    path = HERE / "checks.json"
+    res = json.loads(path.read_text()) if (sys.argv[1:] and path.exists()) else {}
+    for letter in wanted:
+        key, run = CHECKS[letter]
+        res[key] = run()
+        print(letter, res[key])
+    path.write_text(json.dumps({k: res[k] for k, _ in sorted(
+        ((v[0], None) for v in CHECKS.values())) if k in res}, indent=1))

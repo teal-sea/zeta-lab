@@ -1,0 +1,187 @@
+{
+ "two_adic_facts": {
+  "K": 5,
+  "fourier_unitary": true,
+  "closed_time_is_projection": true,
+  "closed_freq_is_projection": true,
+  "closed_time_equals_freq": false,
+  "closed_time_freq_commute": true,
+  "closed_product_rank": 1,
+  "closed_product_range_is_1_Z2": true,
+  "closed_joint_kernel_dim": 0,
+  "open_time_freq_commute": false,
+  "open_joint_kernel_dim": 1,
+  "open_joint_kernel_is_sigma2": true,
+  "sigma2_fourier_fixed": true,
+  "sigma2_norm_sq": "3/4"
+ },
+ "eta_theta_check": [
+  {
+   "s": 0.0,
+   "eta_rel_dev": 2.6856613030564463e-22,
+   "theta_rel_dev": 6.942702118231911e-32,
+   "ratio_theta_over_eta": "(0.08578643762690495+0j)",
+   "m_of_s": 0.08578643762690495
+  },
+  {
+   "s": 1.3,
+   "eta_rel_dev": 3.7125788928815556e-21,
+   "theta_rel_dev": 1.871636641127681e-31,
+   "ratio_theta_over_eta": "(0.6221202470061956+4.430342876785655e-22j)",
+   "m_of_s": 0.6221202470061956
+  },
+  {
+   "s": 5.7,
+   "eta_rel_dev": 1.709770674002248e-17,
+   "theta_rel_dev": 1.6086778873371042e-31,
+   "ratio_theta_over_eta": "(2.47576743448401-1.5315739870581558e-17j)",
+   "m_of_s": 2.47576743448401
+  },
+  {
+   "s": 14.1347,
+   "eta_rel_dev": 1.5318719771466362e-11,
+   "theta_rel_dev": 2.2609465007586862e-15,
+   "ratio_theta_over_eta": "(2.8171503962369386+1.8203292532730403e-11j)",
+   "m_of_s": 2.8171503962760736
+  }
+ ],
+ "kappa_exact": "12*sqrt(2) + 17",
+ "comparison_lemma_trials": {
+  "kappa": 33.97056274847718,
+  "ratio_min": 0.809873376354932,
+  "ratio_max": 1.1623552698264095,
+  "trials": 400
+ },
+ "shift_form_cells": [
+  {
+   "c": 2.2,
+   "N": 8,
+   "dps": 40,
+   "dim": 17,
+   "n_above_quarter": 2,
+   "n_below_minus_quarter": 2,
+   "max_eig": 0.4911052331936588,
+   "min_eig": -0.4938051502545053,
+   "collar_fraction_times_dim": 2.0549913516248393
+  },
+  {
+   "c": 2.2,
+   "N": 16,
+   "dps": 40,
+   "dim": 33,
+   "n_above_quarter": 3,
+   "n_below_minus_quarter": 4,
+   "max_eig": 0.4999728426114238,
+   "min_eig": -0.499985439850036,
+   "collar_fraction_times_dim": 3.9891008590364527
+  },
+  {
+   "c": 2.2,
+   "N": 32,
+   "dps": 40,
+   "dim": 65,
+   "n_above_quarter": 7,
+   "n_below_minus_quarter": 8,
+   "max_eig": 0.49999999979124365,
+   "min_eig": -0.49999999991013777,
+   "collar_fraction_times_dim": 7.85731987385968
+  },
+  {
+   "c": 2.5,
+   "N": 8,
+   "dps": 40,
+   "dim": 17,
+   "n_above_quarter": 4,
+   "n_below_minus_quarter": 4,
+   "max_eig": 0.4999897864177318,
+   "min_eig": -0.49998592897733846,
+   "collar_fraction_times_dim": 4.13999644477749
+  },
+  {
+   "c": 2.5,
+   "N": 16,
+   "dps": 40,
+   "dim": 33,
+   "n_above_quarter": 8,
+   "n_below_minus_quarter": 8,
+   "max_eig": 0.4999999999355969,
+   "min_eig": -0.4999999999131795,
+   "collar_fraction_times_dim": 8.03646368692101
+  },
+  {
+   "c": 2.5,
+   "N": 32,
+   "dps": 40,
+   "dim": 65,
+   "n_above_quarter": 15,
+   "n_below_minus_quarter": 16,
+   "max_eig": 0.5,
+   "min_eig": -0.5,
+   "collar_fraction_times_dim": 15.829398171208053
+  },
+  {
+   "c": 2.9,
+   "N": 8,
+   "dps": 40,
+   "dim": 17,
+   "n_above_quarter": 5,
+   "n_below_minus_quarter": 6,
+   "max_eig": 0.49999998993985884,
+   "min_eig": -0.49999996590607393,
+   "collar_fraction_times_dim": 5.932672828298088
+  },
+  {
+   "c": 2.9,
+   "N": 16,
+   "dps": 40,
+   "dim": 33,
+   "n_above_quarter": 11,
+   "n_below_minus_quarter": 12,
+   "max_eig": 0.49999999999999956,
+   "min_eig": -0.4999999999999998,
+   "collar_fraction_times_dim": 11.516364901990404
+  },
+  {
+   "c": 2.9,
+   "N": 32,
+   "dps": 40,
+   "dim": 65,
+   "n_above_quarter": 23,
+   "n_below_minus_quarter": 22,
+   "max_eig": 0.5,
+   "min_eig": -0.5,
+   "collar_fraction_times_dim": 22.68374904937504
+  }
+ ],
+ "atom_two_route_dev": {
+  "2.2_8": 1.4815648403613426e-40,
+  "2.2_16": 3.264464902491094e-40,
+  "2.5_8": 8.609577764811676e-41,
+  "2.5_16": 1.5640732939407878e-40,
+  "2.9_8": 2.4250310704219554e-40,
+  "2.9_16": 5.007904399865458e-40
+ },
+ "theta_gram_atom_dev": [
+  {
+   "c": 2.2,
+   "N": 2,
+   "dps": 30,
+   "gram_vs_H": 3.944304526105059e-31,
+   "prime_block_vs_gram": 1.232595164407831e-31
+  },
+  {
+   "c": 2.5,
+   "N": 2,
+   "dps": 30,
+   "gram_vs_H": 2.7117093749069604e-31,
+   "prime_block_vs_gram": 1.7256332401442795e-31
+  },
+  {
+   "c": 2.9,
+   "N": 2,
+   "dps": 30,
+   "gram_vs_H": 5.9164567891575885e-31,
+   "prime_block_vs_gram": 1.4791141972893971e-31
+  }
+ ]
+}
