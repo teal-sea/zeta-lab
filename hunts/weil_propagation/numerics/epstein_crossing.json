@@ -1,0 +1,232 @@
+{
+ "meta": {
+  "note": "First window where the Epstein (1,1,6) form goes negative, per (N, sector).",
+  "prec": 400
+ },
+ "runs": {
+  "64|odd": {
+   "c_pos": "3559/128",
+   "c_pos_float": 27.8046875,
+   "n_neg_at_c_pos": 0,
+   "c_neg": "56945/2048",
+   "c_neg_float": 27.80517578125,
+   "n_neg_at_c_neg": 1,
+   "lam1_at_c_neg": "[-7.932242799e-7 +/- 4.04e-17]",
+   "rq_upper_at_c_neg": "-7.932242799e-7",
+   "hardened_negative_two_routes": true,
+   "dedekind_n_neg_at_c_neg": 0,
+   "positive_grid_cells_after_first_negative": [],
+   "path": [
+    [
+     "111/4",
+     0
+    ],
+    [
+     "223/8",
+     1
+    ],
+    [
+     "445/16",
+     1
+    ],
+    [
+     "889/32",
+     0
+    ],
+    [
+     "1779/64",
+     0
+    ],
+    [
+     "3559/128",
+     0
+    ],
+    [
+     "7119/256",
+     1
+    ],
+    [
+     "14237/512",
+     1
+    ],
+    [
+     "28473/1024",
+     1
+    ],
+    [
+     "56945/2048",
+     1
+    ]
+   ],
+   "elapsed_s": 3.4
+  },
+  "64|even": {
+   "c_pos": "30045/1024",
+   "c_pos_float": 29.3408203125,
+   "n_neg_at_c_pos": 0,
+   "c_neg": "60091/2048",
+   "c_neg_float": 29.34130859375,
+   "n_neg_at_c_neg": 1,
+   "lam1_at_c_neg": "[-1.236643810e-6 +/- 4.07e-16]",
+   "rq_upper_at_c_neg": "-1.236643810e-6",
+   "hardened_negative_two_routes": true,
+   "dedekind_n_neg_at_c_neg": 0,
+   "positive_grid_cells_after_first_negative": [],
+   "path": [
+    [
+     "117/4",
+     0
+    ],
+    [
+     "235/8",
+     1
+    ],
+    [
+     "469/16",
+     0
+    ],
+    [
+     "939/32",
+     1
+    ],
+    [
+     "1877/64",
+     0
+    ],
+    [
+     "3755/128",
+     0
+    ],
+    [
+     "7511/256",
+     0
+    ],
+    [
+     "15023/512",
+     1
+    ],
+    [
+     "30045/1024",
+     0
+    ],
+    [
+     "60091/2048",
+     1
+    ]
+   ],
+   "elapsed_s": 2.3
+  },
+  "128|odd": {
+   "c_pos": "28407/1024",
+   "c_pos_float": 27.7412109375,
+   "n_neg_at_c_pos": 0,
+   "c_neg": "56815/2048",
+   "c_neg_float": 27.74169921875,
+   "n_neg_at_c_neg": 1,
+   "lam1_at_c_neg": "[-1.292835817e-6 +/- 2.55e-16]",
+   "rq_upper_at_c_neg": "-1.292835817e-6",
+   "hardened_negative_two_routes": true,
+   "dedekind_n_neg_at_c_neg": 0,
+   "positive_grid_cells_after_first_negative": [],
+   "path": [
+    [
+     "111/4",
+     1
+    ],
+    [
+     "221/8",
+     0
+    ],
+    [
+     "443/16",
+     0
+    ],
+    [
+     "887/32",
+     0
+    ],
+    [
+     "1775/64",
+     0
+    ],
+    [
+     "3551/128",
+     1
+    ],
+    [
+     "7101/256",
+     0
+    ],
+    [
+     "14203/512",
+     0
+    ],
+    [
+     "28407/1024",
+     0
+    ],
+    [
+     "56815/2048",
+     1
+    ]
+   ],
+   "elapsed_s": 9.0
+  },
+  "128|even": {
+   "c_pos": "30007/1024",
+   "c_pos_float": 29.3037109375,
+   "n_neg_at_c_pos": 0,
+   "c_neg": "60015/2048",
+   "c_neg_float": 29.30419921875,
+   "n_neg_at_c_neg": 1,
+   "lam1_at_c_neg": "[-4.219861683e-6 +/- 1.43e-16]",
+   "rq_upper_at_c_neg": "-4.219861683e-6",
+   "hardened_negative_two_routes": true,
+   "dedekind_n_neg_at_c_neg": 0,
+   "positive_grid_cells_after_first_negative": [],
+   "path": [
+    [
+     "117/4",
+     0
+    ],
+    [
+     "235/8",
+     1
+    ],
+    [
+     "469/16",
+     1
+    ],
+    [
+     "937/32",
+     0
+    ],
+    [
+     "1875/64",
+     0
+    ],
+    [
+     "3751/128",
+     1
+    ],
+    [
+     "7501/256",
+     0
+    ],
+    [
+     "15003/512",
+     0
+    ],
+    [
+     "30007/1024",
+     0
+    ],
+    [
+     "60015/2048",
+     1
+    ]
+   ],
+   "elapsed_s": 9.2
+  }
+ }
+}

@@ -1,0 +1,55 @@
+33 {'inertia_full_at_0': (129, 0, True)} 3200
+67/2 {'inertia_full_at_0': (129, 0, True)} 3200
+34 {'inertia_full_at_0': (129, 0, True)} 3200
+69/2 {'inertia_full_at_0': (129, 0, True)} 3200
+35 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+71/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+36 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+73/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+37 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+75/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+38 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+77/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+39 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+79/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+40 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+81/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+41 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+83/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+42 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+85/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+43 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+87/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+44 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+89/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+45 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+91/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+46 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+93/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+47 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+95/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+48 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+97/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+49 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+99/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+50 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+101/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+51 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+103/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+52 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+105/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+53 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+107/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+54 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+109/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+55 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+111/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+56 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+113/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+57 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+115/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+58 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+117/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+59 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+119/2 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200
+60 {'inertia_full_at_0': (129, 0, True), 'inertia_polefree_at_0': (128, 1, True)} 3200

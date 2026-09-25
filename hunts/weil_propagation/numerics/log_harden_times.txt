@@ -1,0 +1,2 @@
+harden dh 64 exit=0 8s
+harden dh 128 exit=0 32s
