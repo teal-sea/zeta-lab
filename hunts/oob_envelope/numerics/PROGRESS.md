@@ -1,7 +1,13 @@
 # numerics PROGRESS (oob_envelope)
 
-K2 on Modal approved by the supervisor (one container, ~0.05 core-hour, as
-in `RUNS.md`); QUESTION cleared. Stage B remains unapproved.
+QUESTION: approve stage B on Modal? Stage A (measured) found R_H at
+L = 1.19 positive definite for T# = 350 to 525 (λ_min 5.78e-48 at T# = 500)
+and indefinite at T# = 320. Stage B makes T# = 500 enclosure-carrying:
+N = 500, GL-96, 384 bits, ≈ 3.2 core-hours in 50 units of ≈ 6.5 min
+(`RUNS.md`). Its positivity step must be a midpoint Cholesky with an Arb
+residual (Zhu Lemma 5.2), since interval LDL is undecided at cond ~1e48.
+
+K2 approved and run (terminal). Stage A approved and run (terminal).
 
 Stage A on Modal approved by the supervisor 2026-09-27 (stage A only; stage
 B needs a fresh approval after A). QUESTION cleared. Interim `RESULTS.md`
@@ -17,8 +23,8 @@ Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
 | 1. H with enclosures, L = 0.8, 1.0, 1.19 | done (separable); joint LP/SDP not done | enclosure-carrying | `envelope.json`, ca41ce2 |
 | 2a. K3 orthogonality | done, passes, lesion breaks it | measured (float64) | `k3.json`, commit after f1696cd |
 | 2b. L = 0.8 replication with H | done | leading block + all Zhu error terms enclosure-carrying; Q ≥ R_H step is ordinary derivation (theory lane) | `harden_L08_T100_sine16*.json` |
-| 3. L = 1.19 | stage A approved, starting | estimate | `RUNS.md`, `unit_cost.out` |
-| 4. K2 on a rival without Euler product | not started (after phase 3 answer) | | |
+| 3. L = 1.19 | stage A done: R_H positive definite for T# ≥ 350; stage B needs approval | measured | `stageA_L119_reduced.json`, `stage_a*.log` |
+| 4. K2 on Davenport-Heilbronn | done: valid gate inconclusive; lesion finds the off-line beam | measured (witness enclosure-grade, independent) | `k2_dh.json`, `k2.log` |
 
 ### Phase 2 result at L = 0.8, stated with its grade
 
@@ -142,3 +148,52 @@ Not done, optional: theory §1.7's sampled B_T at L = 0.8, T = 30..70.
   `oob-envelope-stages`, tag `stageA_L119`, log `stage_a.log`. This
   session owns it and watches it to a terminal state. Routing rule received:
   no compute on Ghost from now on; the reducer runs on Modal too.
+- 2026-09-27T18:52Z. **Stage A units: terminal, all 9 complete, no unit
+  failure** (one client heartbeat warning). Unit seconds: [0,80] 273,
+  [80,160] 267, [160,240] 316, [240,320] 401, [320,350] 146, [350,400] 323,
+  [400,450] 425, [450,500] 420, [500,525] 206; sum 2776 s = 0.77
+  core-hours, plus the reducer container (~2 min). Wall 535 s. **Actual
+  ≈ 0.8 core-hours against the 1.0 estimate.** First reduction (measured,
+  N = 360, 384 bits): eigenvalue nearest 0 is 3.37e-46 (T# 320),
+  1.65e-48 (350), 4.15e-48 (400), 5.17e-48 (450), 5.78e-48 (500),
+  6.00e-48 (525). Arb interval LDL undecided (304 to 306 of 360 pivots) at
+  cond ~1e48, so these do NOT exclude negative eigenvalues; T# = 320
+  violates the monotonicity of R_{T#}, which points to a negative
+  eigenvalue there. Reducer rerun on Modal with a midpoint LDL inertia
+  (two restarts: a glob matched the reducer's own output file; fixed). K2's
+  first launch failed at container import (path), no compute lost; relaunched.
+- 2026-09-27T18:56Z. **Stage A reduction, terminal** (Modal, 154 s).
+  Midpoint LDL inertia (384-bit, measured) at N = 360:
+
+  | T# | β* | negative eigenvalues | λ_min (inverse iteration) |
+  |---|---|---|---|
+  | 320 | 0.064 | 1 | (nearest-0 value 3.4e-46 is not the minimum) |
+  | 350 | 0.154 | 0 | 1.65e-48 |
+  | 400 | 0.288 | 0 | 4.15e-48 |
+  | 450 | 0.406 | 0 | 5.17e-48 |
+  | 500 | 0.511 | 0 | 5.78e-48 |
+  | 525 | 0.560 | 0 | 6.00e-48 |
+
+  Monotone in T# as R_{T#} must be. Grade: measured (no quadrature, tail
+  or coupling bound; N = 360 is 2N/x = 1.21, above the 1.15 that
+  converged at L = 0.8, but N-convergence at L = 1.19 is not checked).
+  **Total stage A spend ≈ 0.85 core-hours** (units 0.77, three reducer
+  containers ≈ 0.08, two startup failures ≈ 0), under the 1.0 estimate.
+- 2026-09-27T18:55Z. **K2, terminal** (Modal, 70 s, ≈ 0.02 core-hour).
+  L = (log 47)/2, N = 150, GL-32, 256 bits.
+  * Witness that Q_DH < 0 on this window (independent, not this code):
+    weil_trunc Arb LDL inertia at (c, N) = (47, 96) with two negative
+    eigenvalues, λ = −0.3163 at (47, 64), zero-side attribution to the
+    off-line pair 0.8085 + 85.699i (`hunts/rogue_frontier/weil_trunc/dhneg_log.md`).
+  * Normalization pin against weil_trunc/galerkin.py: κ to 4e-56, all
+    Λ_f(n), n ≤ 46, to 5e-55, supports identical. Archimedean term
+    Re ψ(3/4 + it/2) − log(π/5) as in weil_trunc SOURCE.md s4 (iii).
+  * **Valid envelope gate (the K2 test): inconclusive, as required.**
+    S_DH = Σ 2|Λ_f(n)|/√n = 25.59, so β* > 0 needs T# ≳ e^25.82 ≈ 1.6e11:
+    the valid pipeline returns no bound at all.
+  * Lesions (β* forced, invalid envelope; these cannot establish validity):
+    at T# = 150, β* forced to 0.5, the matrix code finds λ = −0.288 with
+    |F|² peaked at t = 84.5 and 76% of its mass within ±6 of 85.699, the
+    same beam weil_trunc found (−0.316, peak 84.5). Interval inertia was
+    undecided for all six forced rows and their nearest-0 values are
+    near-null directions, not read.
