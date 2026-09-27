@@ -20,13 +20,27 @@ Brief: `theory/BRIEF.md`. Output: `theory/RESULTS.md`.
   A 13-vertex "type" seen once was a float-merge artifact (two copies of one
   point 3e-17 apart). Components percolate once 5 enters the comb (L > 0.805):
   at L = 0.85 90% of samples exceed 3000 vertices, at L ≥ 0.9 all do.
+- Task 2 written (RESULTS.md §2): weak duality (Prop 2.1), strong duality
+  (Theorem 2, proof via strip positivity + chordal completion along the
+  order s(k) = k·ℓ + weighted box averaging), exact finite-component values
+  (Prop 2.2), duality_check.py (measured: L=0.6 N=20 0.90719 vs floor
+  0.90093 vs per-prime 1.12441; L=0.8 N=20 1.23295 vs 1.21914 vs 1.52205).
+- Supervisor note (2026-09-27): numerics per-prime D=128 values 1.52268,
+  2.97835, 3.76891 sit above the D=∞ limits 1.522051, 2.977298, 3.767084:
+  consistent with weak duality (§2.7). Answered the two asks: finite-measure
+  H with continuous part cannot lower the constant envelope even on tails
+  (Prop 2.3, Wiener + almost periods); pointwise envelopes are a different,
+  unresolved problem, with an exponential total-variation cost for long
+  lifts (Prop 2.4). Complex pole term derived and checked: 2|∫f cosh|² −
+  2|∫f sinh|² (§1.3, pole_check.py, agreement 1e-15; Lemma 1 check at
+  λ = 2L, 2L+0.3 gives 1e-15, in-band 2L−0.05 matches π(g(λ)+g(−λ))).
 
 ## Task status
 
 | # | task | status |
 |---|---|---|
 | 1 | out-of-band lemma + modified Theorem 1.1 | done (RESULTS §1) |
-| 2 | weak / strong duality for the optimal constant | in progress |
-| 3 | asymptotics of S*_L | not started |
+| 2 | weak / strong duality for the optimal constant | done (RESULTS §2) |
+| 3 | asymptotics of S*_L | in progress |
 | 4 | prior art and the current record | not started |
 | 5 | Liu's obstruction vs the out-of-band route | not started |
