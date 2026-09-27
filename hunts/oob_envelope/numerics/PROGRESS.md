@@ -1,7 +1,7 @@
 # numerics PROGRESS (oob_envelope)
 
-QUESTION: approve K2 on Modal (`k2_modal.py`, one container, ~0.05
-core-hour, estimate at the end of `RUNS.md`)?
+K2 on Modal approved by the supervisor (one container, ~0.05 core-hour, as
+in `RUNS.md`); QUESTION cleared. Stage B remains unapproved.
 
 Stage A on Modal approved by the supervisor 2026-09-27 (stage A only; stage
 B needs a fresh approval after A). QUESTION cleared. Interim `RESULTS.md`

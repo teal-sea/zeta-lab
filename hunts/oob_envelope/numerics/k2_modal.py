@@ -11,7 +11,12 @@ weil_trunc/galerkin.py and SOURCE.md s4):
 no pole term, Lambda_f from -f'/f with a_n = (1, kappa, -kappa, -1, 0) mod 5.
 DH has no Euler product, so the envelope is H = 0 and S_DH = sum 2|Lambda_f(n)|/sqrt n.
 
-Reports: (1) S_DH and the least T# at which beta* > 0 could hold,
+Witness (independent, enclosure-grade, not this code): weil_trunc's Arb LDL
+inertia (95, 2) at (c, N) = (47, 96) and lambda = -0.3163 at (47, 64),
+attributed by the zero-side dictionary to the off-line pair.
+
+Reports: (0) normalization pin of kappa and Lambda_f(n) against
+weil_trunc/galerkin.py; (1) S_DH and the least T# at which beta* > 0 could hold,
 beta*(T) <= log(5T/2pi) + 1/T - S_DH (an upper bound on any valid beta*,
 from Re digamma(3/4 + it/2) <= log(t/2) + 1/t for large t... used only to
 show infeasibility); (2) lambda_min and LDL inertia of R(T#) at T# = 100, 150
@@ -50,6 +55,18 @@ def run():
             if n % d == 0:
                 s -= lam[d] * pat[(n // d - 1) % 5]
         lam[n] = s
+    # normalization pin: kappa and every Lambda_f(n) against the independent
+    # weil_trunc implementation (mpmath, dps 60), which the DH negativity
+    # witness at c = 47 was computed with.
+    from mpmath import mp
+    import galerkin
+    with mp.workdps(60):
+        kap_ref = galerkin.dh_kappa()
+        ref = dict(galerkin.dh_lambda_coeffs(46))
+    pin = {"kappa_dev": abs(float((kappa - arb(mp.nstr(kap_ref, 55))).mid())),
+           "lambda_max_dev": max(abs(float((lam[n] - arb(mp.nstr(ref.get(n, mp.mpf(0)), 55))).mid()))
+                                 for n in range(2, 47)),
+           "lambda_support_match": sorted(n for n in lam if not lam[n].contains(0)) == sorted(n for n in ref if ref[n] != 0)}
     comb = []
     for n in range(2, 47):
         ln = arb(n).log()
@@ -72,7 +89,7 @@ def run():
     ha = arb(H.numerator) / H.denominator
     G, C = arb_mat(N, N), arb_mat(N, N)
     I = arb_mat(N, N, [1 if i == j else 0 for i in range(N) for j in range(N)])
-    out = {"L": L_STR, "N": N, "q": Q, "prec": PREC, "S_DH": float(S_DH.mid()),
+    out = {"L": L_STR, "N": N, "q": Q, "prec": PREC, "S_DH": float(S_DH.mid()), "pin": pin,
            "log_threshold_T": float((S_DH + (2 * arb.pi() / 5).log()).mid()), "rows": []}
     npan = int(max(CHECKS) / H)
     for k in range(npan):
@@ -103,6 +120,30 @@ def run():
                        "lam_near0": lm, "elapsed": time.time() - t_start}
                 out["rows"].append(row)
                 print(json.dumps(row), flush=True)
+    # localization: most negative eigenvector at the last checkpoint (beta
+    # forced 0.5) by shifted inverse iteration, then |F_v| on a t-grid.
+    R = C + arb("0.5") * (I - G)
+    sig = arb(-1)
+    Rs = R - sig * I
+    v = arb_mat(N, 1, [arb(1) / (1 + i) for i in range(N)])
+    for _ in range(8):
+        y = Rs.solve(v)
+        nrm = sum((y[i, 0] ** 2 for i in range(N)), arb(0)).sqrt()
+        v = arb_mat(N, 1, [y[i, 0] / nrm for i in range(N)])
+    Rv = R * v
+    lam_neg = sum((v[i, 0] * Rv[i, 0] for i in range(N)), arb(0))
+    prof = []
+    for kk in range(1, 601):
+        t = arb(kk) / 4
+        j = sph_j_all(K, arb((t * La).mid()))
+        F = sum((v[i, 0] * scale[i] * j[2 * i] for i in range(N)), arb(0))
+        prof.append((float(t.mid()), float((F * F).mid())))
+    tot = sum(p for _, p in prof)
+    near = sum(p for t, p in prof if abs(t - 85.699) <= 6)
+    out["localization"] = {"beta_forced": "0.5", "T": float(max(CHECKS)), "lam_most_negative": float(lam_neg.mid()),
+                           "argmax_t_F2": max(prof, key=lambda z: z[1])[0], "mass_within_6_of_85.699": near / tot}
+    print(json.dumps(out["localization"]), flush=True)
+    out["elapsed"] = time.time() - t_start
     return out
 
 
@@ -111,8 +152,10 @@ try:
 
     app = modal.App("oob-envelope-k2")
     image = (modal.Image.debian_slim(python_version="3.12")
-             .pip_install("python-flint==0.9.0")
-             .add_local_file(str(HERE / "assemble.py"), "/root/assemble.py"))
+             .pip_install("python-flint==0.9.0", "mpmath==1.3.0")
+             .add_local_file(str(HERE / "assemble.py"), "/root/assemble.py")
+             .add_local_file(str(HERE.parents[1] / "rogue_frontier" / "weil_trunc" / "galerkin.py"),
+                             "/root/galerkin.py"))
     vol = modal.Volume.from_name("oob-envelope-stages", create_if_missing=True)
 
     @app.function(image=image, cpu=1.0, memory=2048, timeout=3600, volumes={"/out": vol}, retries=1)
