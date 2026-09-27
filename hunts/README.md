@@ -78,6 +78,10 @@ Sigma2 sum with both multi-prime grouping and a Mertens level-set formula.
 The fixed-P asymptotic concerns one specified absolute-value majorant,
 not the true signed sum or all multi-prime methods. No RH proof, novelty
 claim, or change to earlier records. See [the attempt](mobius_orbits/RESULTS.md).
+The owner-directed [controlled-energy continuation](mobius_orbits/ENERGY.md)
+keeps an RH-equivalent approximation error nonincreasing by a compensated
+block update. A prescribed Mobius shell passes finite descent checks; the
+uniform quantitative decrease remains an explicit unproved inequality.
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 

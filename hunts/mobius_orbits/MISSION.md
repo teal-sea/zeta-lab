@@ -11,6 +11,25 @@ floor-level Mertens representation. Preserve the joint target
 `../prime_pair_error/FACTORIZATION_NEXT_STEP.md`. Work on Sigma2 alone
 cannot silently discharge the other terms. Keep all orbit boundaries.
 
+## Owner-directed continuation: keep the bound controlled
+
+The follow-up request asks for a constructive mechanism that prevents bound
+growth, rather than another report of a failed majorant. Compare the signed
+joint sum with a block residual-energy construction in the established
+Baez-Duarte criterion. Its target remains RH, not a simple-zero proportion.
+May add `energy_*.py`, `energy_*.json`, and `ENERGY*.md` in this directory.
+Earlier evidence stays unchanged; the old fixed-P kill condition closes
+only that majorant, not this continuation. Reuse existing Gram machinery
+read-only; do not run its large ladder. Test a predeclared Mobius shell
+witness at N=4,8,16,32,64 with ball arithmetic and a small independent
+comparison. A globally nonincreasing error is not convergence to zero:
+retain a named quantitative decrease inequality as unproved until proved.
+No full-suite rerun, heavy compute, paid job, public push or new campaign.
+The completed mathematical challenge may add a residual-matched fallback
+and a trace-based moment bound, on exactly the same five shells. Preserve
+the originally declared shell and compare, rather than retrofitting its
+reported values or claiming the adaptive direction is always better.
+
 ```huntspec
 id: mobius_orbits
 question: Can complete multi-prime Mobius orbits supply cancellation beyond the p=2 majorant in the RH-linked Sigma2 sum?
