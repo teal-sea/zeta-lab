@@ -276,3 +276,70 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# ------------------------------------------------------------ unit API (Modal)
+
+def panel_sums(L: Fraction, envs: list[str], N: int, q: int, h: Fraction, k0: int, k1: int):
+    """Partial sums over panels k0..k1-1 (panel k = [k h, (k+1) h]) of
+    G, C_Psi and C_H:env, each (1/pi) int That_n That_m (symbol) dt by the GL
+    rule. Same arithmetic as main(); returns a dict name -> arb_mat."""
+    La, ha = to_arb(L), to_arb(h)
+    sym = Symbol(L, {e: load_envelope(L, e.split(":")[0], int(e.split(":")[1])) for e in envs})
+    K = 2 * N - 1
+    nus = [arb(2 * i) + arb(1) / 2 for i in range(N)]
+    scale = [(-1) ** i * 2 * (La * nu).sqrt() for i, nu in enumerate(nus)]
+    gl = [arb.legendre_p_root(q, k, weight=True) for k in range(q)]
+    names = ["G", "Psi"] + [f"H:{e}" for e in envs]
+    acc = {nm: arb_mat(N, N) for nm in names}
+    for k in range(k0, k1):
+        a0 = ha * k
+        V, wts = [], {nm: [] for nm in names}
+        for x, w in gl:
+            t_gl = a0 + ha * (1 + x) / 2
+            xl = arb((t_gl * La).mid())
+            t = xl / La
+            ww = w * ha / 2 / arb.pi()
+            j = sph_j_all(K, xl)
+            V.append([scale[i] * j[2 * i] for i in range(N)])
+            wts["G"].append(ww)
+            wts["Psi"].append(ww * sym.psi(t))
+            for e in envs:
+                wts[f"H:{e}"].append(ww * sym.H(e, t))
+        VtT = arb_mat(q, N, [V[c][r] for c in range(q) for r in range(N)])
+        for nm in names:
+            Ws = arb_mat(N, q, [V[c][r] * wts[nm][c] for r in range(N) for c in range(q)])
+            acc[nm] += Ws * VtT
+    return acc
+
+
+def _enc(x: arb):
+    m, e = x.mid().man_exp()
+    rm, re_ = arb(x.rad()).man_exp()
+    return [str(m), int(e), str(rm), int(re_)]
+
+
+def _dec(v) -> arb:
+    m, e, rm, re_ = v
+    mid = arb(int(m)) * arb(2) ** int(e) if int(m) else arb(0)
+    rad = arb(int(rm)) * arb(2) ** int(re_) if int(rm) else arb(0)
+    return mid + arb(0, rad.upper()) if int(rm) else mid
+
+
+def encode_mats(acc: dict) -> dict:
+    """Lower triangles as exact dyadic midpoints plus radii (rounded outward)."""
+    return {nm: [[_enc(M[i, j]) for j in range(i + 1)] for i in range(M.nrows())] for nm, M in acc.items()}
+
+
+def decode_mats(d: dict) -> dict:
+    out = {}
+    for nm, rows in d.items():
+        N = len(rows)
+        M = arb_mat(N, N)
+        for i in range(N):
+            for j in range(i + 1):
+                v = _dec(rows[i][j])
+                M[i, j] = v
+                M[j, i] = v
+        out[nm] = M
+    return out
