@@ -165,3 +165,31 @@ check `modal app list` for the terminal state instead of the local exit.
 
 No further Modal run until a separate estimate and approval (K2 rerun,
 stage B).
+
+## Stage B (approved by Thomas, 2026-09-27: build, validate, execute)
+
+Code: `stage_b_modal.py` (units + reducer; positivity step 1 to 7 above,
+error terms are `harden.py` steps 2 and 3 called verbatim). Plan as
+estimated above: N = 500, GL-96, 384 bits, T# = 500, sine:16, 50 units of
+20 panels, ≈ 3.2 core-hours.
+
+### Validation on Modal (config `val`, L = 4/5, T# = 100, N = 96, GL-64, 256 bits)
+
+App ap-8ektPW0uhAr2FHdT1Tn6RJ, 2 units (12 s, 18 s) + reducer (1.6 s),
+wall 30 s. Result `stage_b_val_result.json` (volume readback).
+
+- Residual route, λ₀ = 0.99 λ_meas: λ_min(R_H) ≥ 1.14675686334e-17
+  (exact dyadic stored). r = 3.3e-76, e = 3.7e-42 (row sum of entry radius
+  + ε_Q), ε_B = 3.03e-44. λ₀ = 0.9999 λ_meas: ≥ 1.15822443198e-17.
+- Consistency: positive, below 1.158e-17 − ε_B (the LDL-proved value), and
+  the tight run lies above the referee's 1.1579e-17, below the measured
+  λ_meas = 1.15834026601e-17 (referee's midpoint Ritz value
+  1.15834026600857…e-17: agrees). The harden.py interval-LDL route on the
+  same unit data passes at 1.158e-17 (0 negative, 0 undecided).
+- Lesion that discriminates: midpoint Cholesky at 1.01 λ_meas fails
+  (negative pivot at index 29) in every row, so the step cannot pass above
+  λ_min(mid A).
+- Lesions that do NOT discriminate here (recorded, not claimed as passes):
+  dropping H or flipping its sign still leaves a positive form at L = 0.8,
+  T# = 100 (λ 1.150e-17, 1.141e-17), because H is small in band at this L.
+  The H-sign gate remains `envelope_check.py`.
