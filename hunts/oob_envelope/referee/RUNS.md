@@ -146,12 +146,12 @@ Initial image `im-NmG98aqP2NRUXZ7Dt7P8Ov` built in a reported 12.85 seconds.
 |---|---|---|---|
 | controls | `ap-NhsIKRPPAvEgmNaQlKQZDY` | completed, gate true; app stopped, zero tasks | `controls-a4feaac8775d4162b67d7b8aa6007804` |
 | leading160 | `ap-SQrnl1WJoJuZpHOMPUXByS` | completed, gate true; app stopped, zero tasks | `leading160-ef68634f3c3b48afa25b622dd08eec87` |
-| leading192 | `ap-9f0IwvcUOng9xbvYkzLnaU` | running; terminal readback pending | pending |
+| leading192 | `ap-9f0IwvcUOng9xbvYkzLnaU` | completed, gate true; app stopped, zero tasks | `leading192-ab7bc85aac7d460c9cb4c0345fcaab93` |
 | dh512 | not launched | pending | none |
 | dh768 | not launched | pending | none |
 
-Counts at this checkpoint: 3 launched, 2 successful, 0 failed,
-0 inconclusive, 1 running, 2 not launched. No retries.
+Counts at this checkpoint, before DH dispatch: 3 launched, 3 successful,
+0 failed, 0 inconclusive, 0 running, 2 not launched. No retries.
 
 All directories sit under the fixed revision on volume `oob-envelope-referee`.
 Controls manifest reports 5.646634578704834 seconds of unit work; all three
@@ -193,3 +193,17 @@ before the next launch arrived just after that launch. This ledger had still
 shown leading160 running at that instant. It is corrected here; before any
 DH launch, both terminal reconciliation and this written ledger will be
 updated. No failure or inconclusive result was ignored, and no unit reran.
+
+`leading192` completed in 115.78645706176758 seconds with gate true. It
+reproduces both shifted LDL decisions, K1 and the safe `1.1579e-17` endpoint.
+Its measured Ritz minimum has the same stored 85-digit string as leading160;
+this textual agreement is not an extra error enclosure. Its independent
+per-entry quadrature error is about `6.685e-67`; the tail and coupling balls
+have the same leading digits as leading160. All six files were downloaded
+under `outputs/leading192-ab7bc85aac7d460c9cb4c0345fcaab93/volume/leading192-ab7bc85aac7d460c9cb4c0345fcaab93/`.
+All five output hashes match the durable manifest. Matrix SHA-256:
+`a5b58509745a7327f9ac9c1913f54288348780eddadca52fa6a0e8007518dfab`;
+result SHA-256:
+`b55b5137714be31decd243bd43b08664b0a6c131b4507a5acb4798823a73fde6`.
+The app is stopped, zero tasks, at 14:21:47 America/Bogota. This record was
+written after readback and before dispatch of `dh512`.

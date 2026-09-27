@@ -1,18 +1,19 @@
 # Referee progress, 2026-09-27
 
-**Status: controls and leading160 PASS; leading192 running on Modal.**
+**Status: controls and both 96-mode enclosure resolutions PASS; K2 pending.**
 The degree-160/192 CC errors have conservative operator bounds below
 `2e-49`/`2e-61`; actual Arb budgets will be saved before matrix assembly.
 The safe endpoint is `1.1579e-17`, with coupling subtracted. Numerics has
 adopted this correction at `3132b7d`; theory repairs at `b447f0d` pass ordinary
-analytic readback. Independent K1 passes in leading160; K2 and the second
-enclosure resolution remain pending.
+analytic readback. Independent K1 passes in both leading units. K2 is the
+only remaining execution obligation in this approved batch.
 No local numerical test, smoke verifier,
 reducer, sweep, build, or Python import was run. No push or publication.
 
 The written review starts with five graded verdicts. Core support lemma and
 the finite-cosine split survive ordinary analytic review. The full L=0.8
-numerical enclosure remains UNRESOLVED pending independent execution.
+numerical enclosure now passes the two independent-quadrature resolutions,
+conditional on the explicitly reviewed analytic budgets, on the even sector.
 
 ## Findings requiring the authors' attention
 
@@ -63,8 +64,8 @@ coefficients and conductor, at two resolutions, measured grade.
 `run_modal.py` dispatches one approved unit and commits each unit's outputs
 to volume `oob-envelope-referee`. All numerical work, including eigenanalysis,
 stays inside the unit container. Five units are specified in RUNS.md.
-The source has only been read as text: it is unexecuted and may require a
-bounded repair after its first approved runtime check.
+The source was reviewed statically before launch. Controls and both leading
+units have now executed only on Modal, without a source repair or rerun.
 
 Source/approval commit `c65c66e` is the fixed run revision. `controls` completed
 in app `ap-NhsIKRPPAvEgmNaQlKQZDY`: independent S, K3 and three lesions pass
@@ -73,9 +74,10 @@ from volume and result hash matched. `leading160` completed in app
 `ap-SQrnl1WJoJuZpHOMPUXByS`: both shifted LDL gates, K1 and safe endpoint pass.
 All five output hashes, including the exact-dyadic matrix, match the volume
 readback; app stopped with zero tasks. Degree 192 then launched in
-`ap-9f0IwvcUOng9xbvYkzLnaU`. RUNS.md
-records the supervisor's timing update and the requirement to finish the
-written terminal reconciliation before any DH launch.
+`ap-9f0IwvcUOng9xbvYkzLnaU`, and completed with the same passed gates.
+All leading192 output hashes match volume readback; its app is stopped with
+zero tasks. RUNS.md records three successes, no failures or inconclusive
+units, and no active referee app before the next authorized `dh512` dispatch.
 
 ## Supervisor's Stage A update
 
