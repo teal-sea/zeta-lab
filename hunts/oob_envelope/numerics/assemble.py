@@ -105,31 +105,39 @@ class Symbol:
 
 def sph_j_all(K: int, x: arb, seed_every: int = 16) -> list[arb]:
     """j_0..j_K at x > 0 by the downward recurrence j_{n-1} = (2n+1)/x j_n - j_{n+1},
-    re-seeded with two Arb Bessel values every `seed_every` steps wherever
-    n < x + 20. In that oscillatory range the Arb radius of the recurrence
-    grows geometrically (it follows |c| r_n + r_{n+1}), so without re-seeding
-    the enclosures become useless at large x; re-seeding caps the growth."""
+    re-seeded with two Arb Bessel values every `seed_every` steps. The Arb
+    radius of the recurrence follows |c| r_n + r_{n+1}, which outgrows the
+    true solution in the oscillatory range n < x and near the turning point,
+    so without re-seeding the enclosures become useless at large x."""
     half = arb(1) / 2
     if not x.is_exact():
         raise ValueError("sph_j_all needs an exact argument (arb amplifies input radius ~e^x)")
 
     def exact(n):
-        # arb's Bessel J loses accuracy at large order for moderate x unless the
-        # working precision is raised; the result is a valid ball either way.
+        # arb's Bessel J loses accuracy at large order unless the working
+        # precision is raised (order 1259.5 at x = 540 needs ~1400 bits). Retry
+        # with more bits until the ball is relatively tight; valid ball either way.
         p0 = ctx.prec
-        ctx.prec = p0 + 512
+        extra = 512
         try:
-            v = x.bessel_j(arb(n) + half) * (arb.pi() / (2 * x)).sqrt()
+            while True:
+                ctx.prec = p0 + extra
+                v = x.bessel_j(arb(n) + half)
+                if v.is_finite() and not v.is_zero() and v.rel_accuracy_bits() >= p0 - 8:
+                    break
+                if extra >= 8192:
+                    break
+                extra *= 2
         finally:
             ctx.prec = p0
-        return v
+        return v * (arb.pi() / (2 * x)).sqrt()
 
     out = [arb(0)] * (K + 1)
     out[K], out[K - 1] = exact(K), exact(K - 1)
     xf = float(x.mid())
     n, since = K - 1, 0          # out[n], out[n+1] known; produce out[n-1]
     while n >= 1:
-        if n - 1 < xf + 20 and since >= seed_every and n >= 2:
+        if since >= seed_every and n >= 2:
             out[n - 1], out[n - 2] = exact(n - 1), exact(n - 2)
             n -= 2
             since = 0

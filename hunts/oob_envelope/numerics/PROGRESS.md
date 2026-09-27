@@ -1,5 +1,11 @@
 # numerics PROGRESS (oob_envelope)
 
+QUESTION: approve Modal run. Estimate in `RUNS.md`: stage A (measured scout,
+N = 360, ~1.0 core-hour, 10 units) then stage B only if A shows
+λ_min(R_H(500)) > 0 (hardened, N = 640, ~4.9 core-hours, 50 units); total
+~6 core-hours, units ≤ 7 min, per-unit checkpoints. Nothing launched. Also:
+approve stage A alone if you prefer to decide B after seeing it.
+
 Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
 `hunts/oob_envelope/numerics/`. Local runs capped at 10 min and 2 GB.
 
@@ -7,10 +13,46 @@ Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
 
 | phase | state | grade reached | rests on |
 |---|---|---|---|
-| 1. H with enclosures, L = 0.8, 1.0, 1.19 | started 2026-09-27 | none yet | |
-| 2. K3, then L = 0.8 replication with H | not started | | |
-| 3. L = 1.19 cost estimate, then stop and ask | not started | | |
-| 4. K2 on a rival without Euler product | not started | | |
+| 1. H with enclosures, L = 0.8, 1.0, 1.19 | done (separable); joint LP/SDP not done | enclosure-carrying | `envelope.json`, ca41ce2 |
+| 2a. K3 orthogonality | done, passes, lesion breaks it | measured (float64) | `k3.json`, commit after f1696cd |
+| 2b. L = 0.8 replication with H | done | leading block + all Zhu error terms enclosure-carrying; Q ≥ R_H step is ordinary derivation (theory lane) | `harden_L08_T100_sine16*.json` |
+| 3. L = 1.19 cost estimate | written, waiting for approval | estimate | `RUNS.md`, `unit_cost.out` |
+| 4. K2 on a rival without Euler product | not started (after phase 3 answer) | | |
+
+### Phase 2 result at L = 0.8, stated with its grade
+
+- **K3 (measured, float64, `k3.py`).** For 3 random smooth even f at
+  L = 0.8 and 1.19, every H frequency (all k log p with k > m_p) gives
+  (1/π)∫|F|² cos(λt) ≤ 5e-13 relative to ‖f‖² (the truncation floor), and the
+  whole H gives ≤ 3e-13. Planted in-band frequencies m_p log p reproduce the
+  time-domain autocorrelation g(λ) to 10 digits (nonzero, up to 0.14). Lesion:
+  one H term moved to 0.95·2L breaks the identity by exactly the predicted
+  b·g(0.95·2L). The in-band/out-of-band split itself is decided in Arb
+  (`envelope.py`, gaps logged per prime).
+- **Hardened leading block with all Zhu error terms (`harden.py`).**
+  L = 0.8, T# = 100, envelope sine:16 (S = 1.5552528467, enclosure-carrying),
+  β* = 1.2020, N = 96, GL-64 on panels of 1/2, 256-bit Arb:
+  quadrature radius (Bernstein ellipse ρ = 1 + √2, rectangle bounds for
+  Bessel, cosine and digamma) ≤ 5.8e-44 per entry, added to every entry;
+  node-shift term included; tail ε_D ≤ 2.8e-95; coupling ε_B ≤ 3.0e-44
+  (Schur test); Arb LDL of A − λ₀I passes at λ₀ = 1.158e-17 and provably
+  fails at 1.1585e-17. Hence λ_min(R_H) ≥ 1.158e-17 on all of L²_even[−0.8, 0.8]
+  (Zhu (13)). **K1 holds**: 1.158e-17 < 2.27e-17, and below the measured
+  window floor 1.656e-17.
+- **Same pipeline, Zhu's own configuration** (H = 0, T# = 200, N = 200):
+  λ_min(R) ≥ 1.02e-17, provably < 1.028e-17; his published λ₀ = 9e-18 also
+  passes. Calibration of the hardened pipeline.
+- **What Q ≥ 1.158e-17 ‖f‖² additionally rests on:** Q ≥ R_H, i.e. Zhu's
+  Theorem 1.1 with A_L replaced by S and H added in band [0, T#]. That is an
+  ordinary derivation (theory lane RESULTS §1, self-reviewed, no referee
+  yet). So the composite statement is a **candidate**, weakest step an
+  unrefereed ordinary derivation; the numerical steps are enclosure-carrying.
+  It sharpens Zhu's constant (8.9e-18) at the same support 1.6 with half the
+  matrix; it is not a new support.
+- **Measured-only numbers** (no quadrature/tail/coupling bound): the whole
+  λ_min(R_H) vs T# table in the log below and the N scan.
+
+Not done, optional: theory §1.7's sampled B_T at L = 0.8, T = 30..70.
 
 ## Log
 
@@ -77,3 +119,15 @@ Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
   precision, and it amplifies an input radius by about e^x, so the Bessel
   argument is snapped to an exact dyadic and the node shift (~1e-77) is
   recorded for the error budget.
+- 2026-09-27. K3 passes (details in Status). N scan at L = 0.8, sine:32
+  (measured): N = 32 reproduces N = 200 to all digits for T# ≤ 70, N = 40 for
+  T# ≤ 100. Hardened bounds need more (2N ≈ 2.4 x) because Zhu's tail bound
+  x^n/(2n+1)!! is crude near n ≈ x.
+- 2026-09-27. Hardened L = 0.8 results (Status). Two more implementation
+  traps met: acb digamma returns nan on wide boxes (replaced by a
+  center-plus-derivative bound, checked against a grid), and at L = 1.19
+  sizes arb's Bessel J needs up to ~1400 bits at order 1259.5 (seed call now
+  retries with more bits until the ball is relatively tight; the L = 0.8
+  hardened run reproduces unchanged after the fix).
+- 2026-09-27. Phase 3: unit costs measured, estimate in `RUNS.md`, QUESTION
+  at top. Stopped.
