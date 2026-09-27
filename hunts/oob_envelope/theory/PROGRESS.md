@@ -1,5 +1,7 @@
 # PROGRESS: theory worker, hunt oob_envelope
 
+STATUS: all five tasks done (RESULTS.md; last commit before this line: e62cac5). Open requests to numerics: λ_min(B_T) scan at L = 0.8, T ∈ [30, 70]; the H = 0 λ_min at T# = 200 from the same pipeline.
+
 Branch `teal-sea/oob-cert-theory`. Writes only in `hunts/oob_envelope/theory/`.
 Brief: `theory/BRIEF.md`. Output: `theory/RESULTS.md`.
 

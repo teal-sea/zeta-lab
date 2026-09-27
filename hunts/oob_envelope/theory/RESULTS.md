@@ -5,7 +5,15 @@ Every statement below carries its grade on the ladder of `AGENTS.md`. A proof
 here is an *ordinary derivation, self-reviewed*: it has not been refereed and
 it is not kernel-checked. Numbers from float64 scripts are *measured*.
 
-## Graded summary
+## Summary (five lines)
+
+1. **Task 1:** terms at frequencies `≥ 2L` (boundary included) leave Weil's window form unchanged for every complex `f ∈ L²[−L, L]`, so Zhu's reduction runs with any bound `S ≥ sup(P_L − H)` in place of `A_L`, but no `H` brings positivity below an `H`-free floor `T_res(L) ≥ 2π e^{S*_L}` (§1). [ordinary derivation, self-reviewed]
+2. **Task 2:** for every `L` the best out-of-band constant is exactly `λ_max` of the windowed comb operator, reached by explicit trigonometric `H` at rate `N^{−2}` (§2). [ordinary derivation, self-reviewed; float checks at `L = 0.6, 0.8` measured]
+3. **Task 3:** that constant is `e^L(1 + o(1))`, against `2e^L` per prime and Zhu's `4e^L`, so the threshold stays doubly exponential, asymptotically the fourth root of Zhu's (§3). [ordinary derivation, self-reviewed; table measured]
+4. **Task 4:** the device is not new (Burnol 2000 adds a support-edge cosine; Liu's Theorem B is its operator form), and the window record in half-width of `supp f` is `(log 2)/2` refereed, `17/16` (Liu) and `0.8` (Zhu) unrefereed (§4). [literature reading, scope stated]
+5. **Task 5:** Liu's obstruction concerns a unit-window localisation and does not touch the out-of-band reduction, whose reduced form is `β* I` plus a compact operator (§5). [ordinary derivation from the stated theorem, self-reviewed]
+
+### Expanded summary
 
 1. **Task 1, lemma and modified reduction.** For every complex `f ∈ L²`
    with `supp f ⊆ [-L, L]` and every `H = μ̂` with `μ` a finite measure
@@ -345,10 +353,11 @@ envelope bound `S`, and let `T# ≥ 15/4` be arbitrary, so that
    an integral operator with a continuous kernel band-limited to
    `[−T#, T#]`), so `σ_ess(R_{H,T#}) = {β*}`.
 
-Consequently the split points where `R_{H,T#} ⪰ 0` form an interval
-unbounded above, starting at `T_op(H) ≥ T_env(H)`, and below it the negative
-spectrum consists of finitely many eigenvalues, which is what an inertia
-count sees. **The endpoint `β* = 0`** (`T# = T_env`): the reduced form is
+Consequently the split points where `R_{H,T#} ⪰ 0` form a (possibly empty)
+interval unbounded above, starting at `T_op(H) ≥ T_env(H)`; nothing proved
+here says it is nonempty for a given `H`, so `T_op(H) = +∞` is allowed.
+Wherever `β* > 0`, the negative spectrum consists of finitely many
+eigenvalues, which is what an inertia count sees. **The endpoint `β* = 0`** (`T# = T_env`): the reduced form is
 then a compact form, the infimum of its Rayleigh quotients is at most `0`,
 and it yields no positive constant. Coercivity needs `β* > 0`, i.e.
 `T# > T_env(H)`, and no nonpositive eigenvalue. *Ordinary derivation,
@@ -393,6 +402,17 @@ simultaneous approximation with `τ_k log p ∈ 2πℤ + o(1)` for the finitely
 many primes `p < e^{2L}`; then `φ_k = e^{iτ_k x} φ` is weakly null and
 `⟨Pφ_k, φ_k⟩ → ⟨Pφ, φ⟩`. So `B_T ⪰ 0` forces `log(T/2π) ≥ λ_max(P)`. ∎
 *(Ordinary derivation, self-reviewed.)*
+
+**A proved bracket at `L = 0.8`, conditional on Zhu's computation.** Zhu's
+`H = 0` run at `T# = 150` (his §5.5 (a): `β* = 0.2241`,
+`λ_min ≥ 1.2 × 10^{−18}`, with the tail bound at `T# = 150` quoted in his
+§5.3) says `R_{0,150} ⪰ 0` on the whole window. Proposition 1.3 with `H = 0`
+gives `R_{0,150} ≤ B_{150}`, so `B_{150} ⪰ 0` and `T_res(0.8) ≤ 150`. With
+Proposition 1.4 and the Rayleigh value `λ_max(P) ≥ 1.2186` (Galerkin, float),
+`T_res(0.8) ∈ [≈ 21.3, 150]`. The heuristic `2T* ≈ 62` below and the numerics
+lane's sampled candidate near 65 both lie inside. Grades: the inclusion is an
+ordinary derivation; its upper end rests on Zhu's computer-assisted result
+(unrefereed), its lower end on a float Rayleigh value (measured).
 
 This recovers the barrier of Corollary 3 by a second route, and shows the
 floor applies to all `H` at once: the out-of-band freedom lowers `T_env`, but
@@ -529,7 +549,10 @@ against the remaining earlier points `U` by `u = M_UB M_BB⁺ v`. The new
 column is `w = M_k E_B M_BB⁺ v ∈ range(M_k)` (with `E_B` the coordinate
 inclusion of `B`), and `w* M_k⁺ w = v* M_BB⁺ v ≤ t`, so the extended matrix is
 positive semidefinite. (This is the standard completion argument for chordal
-patterns, Grone, Johnson, Sá and Wolkowicz 1984; the pattern here is a unit
+patterns: R. Grone, C. R. Johnson, E. M. Sá and H. Wolkowicz, *Positive
+definite completions of partial Hermitian matrices*, Linear Algebra Appl. 58
+(1984) 109–124; bibliographic data and statement checked against a secondary
+summary, paper not re-read. The pattern here is a unit
 interval graph on the real line through `s`, hence chordal, and the proof
 above is self-contained.)
 
@@ -586,7 +609,9 @@ Letting `N → ∞` and `t ↓ λ_max(P)` gives `S*_L ≤ λ_max(P)`. ∎
   Krein-type extension property for the ordered group `(ℤ^r, s)`: a function
   positive definite on every strip of width `2L` extends to a positive
   definite function on `ℤ^r`. In two or more dimensions with box-shaped
-  patterns the analogous extension fails (Rudin 1963); the irrational order
+  patterns the analogous extension is known to fail (W. Rudin, *The extension
+  problem for positive-definite functions*, Illinois J. Math. 7 (1963) 532–539;
+  bibliographic data checked, content as recalled, not re-read); the irrational order
   makes the problem one-dimensional.
 * The construction converts *any* upper bound `t` on `λ_max(P)` into an
   explicit `H`. Where `λ_max(P)` is not known in closed form, a
@@ -598,7 +623,8 @@ Letting `N → ∞` and `t ↓ λ_max(P)` gives `S*_L ≤ λ_max(P)`. ∎
 Join `x, y ∈ [−L, L]` when `y − x = ±log n` for a comb term `n`. `P` is the
 weighted adjacency operator of this graph against Lebesgue measure.
 
-**Proposition 2.2.** If every component is finite, then up to null sets
+**Proposition 2.2.** If every component has at most `K` vertices for some
+`K`, then up to null sets
 `[−L, L]` splits into finitely many families of translated base intervals,
 one family per combinatorial type `τ` with `k_τ` vertices and weighted
 adjacency matrix `A_τ`, and `P ≅ ⊕_τ A_τ ⊗ I_{L²(B_τ)}`. Hence
