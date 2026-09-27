@@ -1,6 +1,6 @@
 # PROGRESS: theory worker, hunt oob_envelope
 
-STATUS: holding for the referee, no compute. RESULTS.md last changed in 9f5bbc3. Caveats found on re-reading are listed below under "Caveats for the referee"; none is a contradiction.
+STATUS: holding, no compute. Referee REVIEW §3–§4 repairs applied to RESULTS.md (commit after fa6f450, see log); every change is marked **Correction** in RESULTS §1.3, §1.5, §1.7, §2.3, §2.4. Caveats 1–4 below are now incorporated there.
 
 Branch `teal-sea/oob-cert-theory`. Writes only in `hunts/oob_envelope/theory/`.
 Brief: `theory/BRIEF.md`. Output: `theory/RESULTS.md`.
@@ -51,7 +51,8 @@ Numerics RESULTS.md (read with git show at c53d379, nothing re-run):
 7. **A conditional tightening.** If steps a, b, e and f survive the referee,
    Proposition 1.3 (R_H ≤ B_T, self-reviewed) turns their T# = 100 result
    into B_100 ⪰ 0 on the even sector, so T_res(0.8) on that sector lies in
-   [≈ 21.3, 100].
+   [≈ 21.3, 100]. (Referee REVIEW §5: their full-space endpoint must read
+   1.158e-17 − ε_B, e.g. 1.1579e-17; the sign conclusion is unchanged.)
 8. **Stage A at L = 1.19** (measured, midpoint LDL): negative at T# = 320,
    positive from 350, with T_env ≈ 2π e^{3.8635} ≈ 299 for sine:16. The
    candidate operating point sits just above the envelope threshold and far
@@ -129,3 +130,14 @@ Numerics RESULTS.md (read with git show at c53d379, nothing re-run):
   test_doors.py::test_the_evaluate_door_command_runs failed once on a 90 s
   verifier timeout at load average ~50 and passed on rerun (63 s); this diff
   touches only hunts/oob_envelope/theory/. make_context.py --check: up to date.
+- Referee REVIEW (read in the referee worktree, 2026-09-27; nothing run).
+  Repairs in RESULTS.md: Theorem 2's cosine form restricted to 2N+1 ≥ max m,
+  with the referee's all-m quadratic bound in Step 3 (N=1, m=8 counterexample
+  acknowledged); analytic-strip hypothesis for the quadrature transfer
+  (finite cosine sums or an exponential moment); Zhu's threshold gap is O(1)
+  additive, not O(T_1^{-1}); ε_D/ε_B rescaling is a conservative bound, not an
+  identity; R′ and B_T defined by bounded symbols, Proposition 1.3 proved
+  without subtracting infinities; even-sector essential spectrum proved
+  (closes caveat 1); T_res bracket cites both of Zhu's sectors; overstated
+  consequence withdrawn; component census marked sampled; Lemma 1 scope
+  versus general Bohr almost periodic H stated.

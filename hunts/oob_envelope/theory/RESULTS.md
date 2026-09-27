@@ -13,6 +13,10 @@ it is not kernel-checked. Numbers from float64 scripts are *measured*.
 4. **Task 4:** the device is not new (Burnol 2000 adds a support-edge cosine; Liu's Theorem B is its operator form), and the window record in half-width of `supp f` is `(log 2)/2` refereed, `17/16` (Liu) and `0.8` (Zhu) unrefereed (§4). [literature reading, scope stated]
 5. **Task 5:** Liu's obstruction concerns a unit-window localisation and does not touch the out-of-band reduction, whose reduced form is `β* I` plus a compact operator (§5). [ordinary derivation from the stated theorem, self-reviewed]
 
+Corrections after the independent referee (REVIEW §3–§4, 2026-09-27) are
+marked **Correction** in §1.3, §1.5, §1.7, §2.3 and §2.4; none changes a
+theorem's conclusion.
+
 ### Expanded summary
 
 1. **Task 1, lemma and modified reduction.** For every complex `f ∈ L²`
@@ -191,6 +195,11 @@ one). The second term is `0` by Lemma 1. ∎
   near-maxima recur at arbitrarily large `t`. So for this class, restricting
   the envelope to `t ≥ T#` gains nothing. (A non-almost-periodic `H`, i.e. a
   measure `μ` with a continuous part, is outside this remark; see §1.6.)
+  **Correction (scope).** Lemma 1 is proved for transforms of finite
+  measures, which include the absolutely summable cosine series of the
+  brief. A general Bohr almost periodic `H` with spectrum in `|λ| ≥ 2L` would
+  need an approximation argument that is not given here; no construction in
+  this hunt needs it.
 
 ### 1.4 The modified one-stroke reduction
 
@@ -243,14 +252,14 @@ redone. Nothing below breaks the inequality `Q ≥ R_H`.
 
 | Zhu | content | status with `H` |
 |---|---|---|
-| Thm 1.1, threshold sentence | `β* > 0` above a unique threshold near `T_1` | unchanged with `A_L → S`, `T_1 → 2π e^S` |
+| Thm 1.1, threshold sentence | `β* > 0` above a unique threshold near `T_1` | unchanged with `A_L → S`, `T_1 → 2π e^S`. **Correction:** Zhu's "exceeds `T_1` by an `O(T_1^{−1})` amount" is a slip, inherited here at first: the threshold `T_0` solves `T_0 log(T_0/T_1) = 1`, so `T_0 − T_1 = 1 − 1/(2T_1) + O(T_1^{−2})`, an additive `O(1)` and a relative `O(T_1^{−1})` gap (his own 120.1 against 119.1 shows it; referee, REVIEW §4.3) |
 | Lemma 3.1 | archimedean envelope, `t ≥ 15/4` | unchanged; the comb bound `|P_L| ≤ A_L` is replaced by `P_L − H ≤ S`; `t ≥ 15/4` automatic |
 | Lemma 3.2 | `sup_t P_L = A_L` | still true, no longer binding: it bounds `P_L`, the reduction now needs a bound on `P_L − H` |
 | Remark 3.3 | the retracted `A_eff` substitution | not the same move: `A_eff` bounds `P_L` from below (wrong direction); `S` bounds `P_L − H` from above, and Corollary 1 is what licenses replacing `P_L` by `P_L − H` |
 | §4, split and Parseval | `∫_0^∞ = ∫_0^{T#} + ∫_{T#}^∞` | unchanged |
 | §4, row bound on `C_nm` | `≤ max_{[0,T#]}|Ψ_L − β*| · …` | **changed (a):** `max|Ψ_L + H − β*| ≤ max|Ψ_L − β*| + Σ_w|b_w|` |
 | §4, pole vector | super-exponential decay | unchanged (no `H`) |
-| §4, eq. (13), Gershgorin, Schur | two-block bound | unchanged as linear algebra; entry bounds inherit (a), so `ε_D`, `ε_B` grow by the factor `1 + Σ|b_w| / max|Ψ_L − β*|` |
+| §4, eq. (13), Gershgorin, Schur | two-block bound | unchanged as linear algebra; entry bounds inherit (a). **Correction:** only the `C`-part of `ε_D`, `ε_B` scales, by at most `1 + Σ|b_w| / max|Ψ_L − β*|`; the pole part is unchanged, so that factor times the old total is a conservative bound, not an identity (referee, REVIEW §3) |
 | §5.1 assembly | integrand `(Ψ_L − β*) T̂_n T̂_m` on `[0, T#]` | **changed (c):** the integrand is `(Ψ_L + H − β*) T̂_n T̂_m`. `H` is not zero on `[0, T#]`: Lemma 1 kills only the full-line integral |
 | §5.2 Lemma 5.1 | Bernstein ellipse in `|Im t| ≤ 0.4`, `|Ψ_L − β*| ≤ 20` there | **changed (b):** see below |
 | §5.3 tail and coupling | `max_{t≤T#}|T̂_400|`, row sums | changed only through (a) |
@@ -273,6 +282,15 @@ shrink the strip to `δ ≈ c/λ_max` with correspondingly narrower panels, or
 split `C = C^Ψ + C^H` and integrate `C^H` with a rule matched to its
 bandwidth, or keep `D` small. `H` also oscillates at frequency up to
 `λ_max`, which raises the node count per panel.
+
+**Correction (scope of (b)).** Lemma 1, Theorem 1′ and the real-axis tail
+and coupling bounds need only a finite measure `μ`. The ellipse method of
+Lemma 5.1 needs more: `H` must extend analytically to the strip used and be
+bounded there. Finite cosine sums, which is every construction in this hunt
+including the numerics lane's sine-kernel witnesses, are entire. A general
+`μ` qualifies if `∫ e^{δ|λ|} d|μ|(λ) < ∞`, and then
+`|H(t)| ≤ ∫ cosh(δλ) d|μ|(λ)` on `|Im t| ≤ δ`. Finite total variation alone
+gives neither (referee, REVIEW §4.2).
 
 **(d) An incidental constant in Zhu §4 (not caused by `H`).** As printed,
 the row bound
@@ -370,20 +388,33 @@ admissible with envelope bound `S` and `β* = κ − S` (either sign). For every
 
     R_{H,T#}(f) ≤ R′_{T#}(f) ≤ B_{T#}(f) ≤ Q(f),
 
-    R′_{T#}(f) := Q(f) − (1/2π) ∫_{|t|≥T#} (a(t) − κ) |F|² dt
-                = pole(f) + (1/2π) ∫_{|t|<T#} (a(t) − κ) |F|² dt + κ‖f‖² − ⟨Pf, f⟩,
-    B_T(f)     := Q(f) − (1/2π) ∫_{|t|≥T} log(|t|/T) |F|² dt.
+    R′_{T#}(f) := pole(f) + (1/2π) ∫_{|t|<T#} (a(t) − κ) |F|² dt + κ‖f‖² − ⟨Pf, f⟩,
+    B_T(f)     := pole(f) + (1/2π) ∫_ℝ (Ψ_L(t) − log(|t|/T)_+) |F|² dt.
+
+**Correction (definitions).** Both are finite for every `f ∈ W_L`: the first
+has a bounded retained symbol, and the symbol of the second is bounded
+because `a(t) − log(|t|/T)_+ → log(T/2π)` at infinity. When `Q(f) < ∞` they
+equal `Q(f) − (1/2π)∫_{|t|≥T#}(a − κ)|F|²` and
+`Q(f) − (1/2π)∫_{|t|≥T} log(|t|/T)|F|²`. The first version of this section
+defined them that way on all of `W_L`, which is `∞ − ∞` when
+`∫|F|² log(2 + |t|) = ∞` (referee, REVIEW §4.4).
 
 `R′` is the *operator split*: the comb is kept exactly, as the time-domain
 operator `P`, and only the archimedean term is cut at `T#`. `B_T` is Weil's
 form with the archimedean growth removed above `T`, a capping of the kind in
 Zhu §15, failed route (2).
 
-*Proof.* By Corollary 1, `Q − R_H = (1/2π)∫_{|t|≥T#} (a − (P_L − H) − β*)|F|²`,
-and `P_L − H ≤ S` there, so `Q − R_H ≥ (1/2π)∫_{|t|≥T#}(a − κ)|F|² = Q − R′`.
-Next, Zhu's Lemma 3.1 and `1/T# ≥ 1/|t|` give
-`a(t) − κ ≥ log(|t|/T#)` for `|t| ≥ T#`, so `Q − R′ ≥ Q − B`. Finally
-`log(|t|/T)_+ ≥ 0`. The second expression for `R′` is (2.1) with Parseval. ∎
+*Proof.* Each difference is an integral of a bounded function against
+`|F|²`, so no infinite quantities are subtracted. With `R_H` in its
+full-line form `pole + (1/2π)∫_{|t|<T#}(Ψ_L + H − β*)|F|² + β*‖f‖²`, and
+`⟨Pf, f⟩ = (1/2π)∫ P_L|F|² = (1/2π)∫ (P_L − H)|F|²` by (2.1) and Lemma 1,
+
+    R′ − R_H = (1/2π) ∫_{|t|≥T#} (S − (P_L − H)) |F|² ≥ 0,
+    B_T − R′_T = (1/2π) ∫_{|t|≥T} (a(t) − κ − log(|t|/T)) |F|² ≥ 0,
+    Q − B_T = (1/2π) ∫_{|t|≥T} log(|t|/T) |F|² ∈ [0, +∞].
+
+The first uses `P_L − H ≤ S` on `|t| ≥ T#`; the second uses Zhu's Lemma 3.1
+and `1/T ≥ 1/|t|`, which give `a(t) − κ ≥ log(|t|/T)` for `|t| ≥ T ≥ 15/4`. ∎
 
 **Proposition 1.4 (an H-independent floor).** `R′_T` and `B_T` are
 nondecreasing in `T`, so with `T′_op := inf{T : R′_T ⪰ 0}` and
@@ -403,11 +434,33 @@ many primes `p < e^{2L}`; then `φ_k = e^{iτ_k x} φ` is weakly null and
 `⟨Pφ_k, φ_k⟩ → ⟨Pφ, φ⟩`. So `B_T ⪰ 0` forces `log(T/2π) ≥ λ_max(P)`. ∎
 *(Ordinary derivation, self-reviewed.)*
 
+**Correction (the even sector).** Theorem 1′ and the numerics work on real
+even `f`, while Propositions 1.2 to 1.4 were stated on complex `W_L`. All of
+them hold on the even sector too. Every form here splits as
+`f ↦ form(Re f) + form(Im f)` (even symbols, the pole splitting of §1.3, and
+`P` real and symmetric), so nonnegativity on real even and on complex even
+functions agree, and the chain `T_op ≥ T′_op ≥ T_res` holds sector by sector
+with the same proofs. The last step needs `sup σ_ess(P|_even) = λ_max(P)`.
+Proof: with `φ` and `τ_k` as above, `ψ_k(x) = e^{iτ_k x} φ(x) + e^{−iτ_k x} φ(−x)`
+is even. `P` commutes with `x ↦ −x`, so the two diagonal terms of
+`⟨Pψ_k, ψ_k⟩` are equal and tend to `⟨Pφ, φ⟩`. The cross terms are
+integrals `∫ e^{2iτ_k x} g(x) dx` of `L¹` functions and tend to `0`
+(Riemann–Lebesgue), as does the cross term of `‖ψ_k‖²`, so
+`‖ψ_k‖² → 2‖φ‖²`; and `ψ_k ⇀ 0`. *(Ordinary derivation, self-reviewed;
+this closes the gap noted in `PROGRESS.md`.)*
+
 **A proved bracket at `L = 0.8`, conditional on Zhu's computation.** Zhu's
-`H = 0` run at `T# = 150` (his §5.5 (a): `β* = 0.2241`,
-`λ_min ≥ 1.2 × 10^{−18}`, with the tail bound at `T# = 150` quoted in his
-§5.3) says `R_{0,150} ⪰ 0` on the whole window. Proposition 1.3 with `H = 0`
-gives `R_{0,150} ≤ B_{150}`, so `B_{150} ⪰ 0` and `T_res(0.8) ≤ 150`. With
+`H = 0` runs at `T# = 150` cover both sectors: the even one in his §5.5 (a)
+(`β* = 0.2241`, `λ_min ≥ 1.2 × 10^{−18}`, with the tail bound at `T# = 150`
+quoted in his §5.3) and the odd one in his §6.2 (`Q ≥ 8.2 × 10^{−15}‖f‖²` on
+real odd `f` from the odd reduced matrix at `T# = 150`). So `R_{0,150} ⪰ 0`
+on both sectors, hence on `W_L`; on the even sector alone §5.5 (a) suffices.
+Proposition 1.3 with `H = 0` gives `R_{0,150} ≤ B_{150}`, so `B_{150} ⪰ 0`
+and `T_res(0.8) ≤ 150`. (**Correction:** the first version cited only
+§5.5 (a) for "the whole window".) If the numerics lane's `T# = 100` result
+survives review (their even-sector bound, which after the referee's REVIEW §5
+reads `1.158 × 10^{−17} − ε_B`), the same argument gives `T_res ≤ 100` on the
+even sector. With
 Proposition 1.4 and the Rayleigh value `λ_max(P) ≥ 1.2186` (Galerkin, float),
 `T_res(0.8) ∈ [≈ 21.3, 150]`. The heuristic `2T* ≈ 62` below and the numerics
 lane's sampled candidate near 65 both lie inside. Grades: the inclusion is an
@@ -436,8 +489,15 @@ Proposition 1.4 gives `T_res ≤ T#`.
 * Cost estimates must use `N ≈ eL · max(T_env e^{β*}, T_op)/2`, not
   `eL · T_env/2`. At `L = 0.8` the sampled finite blocks suggest that the
   operating point, not the envelope, binds (candidate `T#` near 65, where
-  `N ≈ 71`). Whatever `T_res` turns out to be, no `H` can go below it; a
-  better joint `H` helps only where the envelope is the binding height.
+  `N ≈ 71`). Whatever `T_res` turns out to be, no `H` can go below it.
+  **Correction:** the first version added that a better joint `H` "helps
+  only where the envelope is the binding height", which is too strong.
+  Above `T_res` a better `H` can still lower `T_op(H)` toward `T′_op` when
+  the gap `R′ − R_H` is what keeps `R_H` indefinite, and it raises `λ_min` at
+  a fixed `T#`: at `L = 0.8`, `T# = 200` the numerics lane has
+  `λ_min ∈ [1.02, 1.028] × 10^{−17}` with `H = 0` (enclosure-carrying by that
+  lane's account) against `1.42 × 10^{−17}` with per-prime `H` (measured,
+  `N = 200`).
 * At `L = 1.19`, `T* ≈ 68`. If the ratio `T_op/T* ≈ 2` carried over (not
   measured), the per-prime envelope (`2π e^{S_sep + 0.5} ≈ 450`) would bind,
   and the joint optimum (`≈ 150`) would sit near the resolution floor.
@@ -514,8 +574,18 @@ lie in `{ s(k) : k ∈ ℤ^r, |s(k)| ≥ 2L }`. Quantitatively: for every
 `t ≥ λ_max(P)` and every integer `N ≥ 1` there is such an `H_N`, with
 frequencies `s(k)` for `k ∈ [−2N, 2N]^r`, satisfying
 
-    S_L(H_N) ≤ t + Σ_{p^m < e^{2L}} (2 log p / p^{m/2}) (1 − cos(π m/(2N+2)))
-             ≤ t + (π² / (4(N+1)²)) Σ_{p^m < e^{2L}} m² log p / p^{m/2}.
+    S_L(H_N) ≤ t + Σ_{p^m < e^{2L}} (2 log p / p^{m/2}) (1 − ρ_N(m))
+             ≤ t + (π² / (4(N+1)²)) Σ_{p^m < e^{2L}} m² log p / p^{m/2},
+
+with `ρ_N(m)` the explicit lag-`m` autocorrelation of Step 3. When
+`2N + 1 ≥ m` for every exponent `m` in the comb, the middle term is also at
+most `Σ (2 log p/p^{m/2})(1 − cos(πm/(2N+2)))`. **Correction:** the first
+version printed that cosine form for every `N ≥ 1`. It fails once some
+exponent exceeds `2N + 1`: at `N = 1`, `m = 8` the weights live on
+`{−1, 0, 1}`, so `ρ_1(8) = 0` against `cos 2π = 1` (such exponents occur
+once `L > 4 log 2`). The quadratic bound holds for every `N ≥ 1` by the
+referee's argument, now in Step 3 (REVIEW §4.1). The identity of the infima
+and the `N^{−2}` rate are unaffected.
 
 The infimum is in general not attained (for a single prime it needs a
 Fejér limit, `D → ∞` in `probes/separable.py`).
@@ -568,8 +638,14 @@ matrix `[α_j β(j − j′) α_{j′}]`, `β = a ⋆ ã`; so `c` is positive de
 was specified with value `ψ(k)`, so `c(k) = ψ(k) ρ(k)` with
 `ρ(k) = Σ_{j−j′=k} α_j α_{j′} / Z`. For `k = m e_i` this is the
 one-dimensional ratio `ρ_N(m) = [(n−1−m) cos(πm/n) + sin(π(m+1)/n)/sin(π/n)]/n`,
-`n = 2N + 2`. Since `sin((m+1)x)/sin x = Σ_{q=0}^m cos((m − 2q)x) ≥ (m+1)cos(mx)`
-for `mx ≤ π`, `ρ_N(m) ≥ cos(πm/n)`.
+`n = 2N + 2`, valid for `0 ≤ m ≤ 2N + 1`; for `m ≥ 2N + 1` there are no
+pairs at that lag and `ρ_N(m) = 0`. For `m ≤ 2N + 1`,
+`sin((m+1)x)/sin x = Σ_{q=0}^m cos((m − 2q)x) ≥ (m+1) cos(mx)` because
+`|m − 2q| x ≤ mx < π`, so `ρ_N(m) ≥ cos(πm/n)`. For every `m ≥ 0` (the
+referee's argument, REVIEW §4.1): let `v` be the one-dimensional weight
+vector extended by zero and `S` the unit shift on `ℓ²(ℤ)`; then
+`2(1 − ρ_N(m))‖v‖² = ‖v − S^m v‖² ≤ m²‖v − Sv‖² = 2m²(1 − ρ_N(1))‖v‖²`, and
+`ρ_N(1) = cos(π/n)`, so `1 − ρ_N(m) ≤ m²(1 − cos(π/n)) ≤ π²m²/(8(N+1)²)`.
 
 *Step 4 (the nonnegative polynomial).* `μ(θ) := Σ_k c(k) e^{ik·θ}` is a real
 even trigonometric polynomial on `T^r`, and
@@ -587,7 +663,8 @@ so, with `Φ(θ) = Σ_{p^m} 2 w_{p^m} cos(m θ_i)` (the comb on the torus,
 *Step 5 (back to the line).* Put `H_N(t) = H̃_N(tℓ)`, a real even
 trigonometric polynomial whose frequencies are `s(k)` with `k ∉ K`, i.e.
 `|s(k)| ≥ 2L`: admissible. Evaluating Step 4 at `θ = tℓ` gives the bound on
-`sup_t (P_L − H_N)`, and `1 − ρ_N(m) ≤ 1 − cos(πm/(2N+2)) ≤ π²m²/(8(N+1)²)`.
+`sup_t (P_L − H_N)`, and `1 − ρ_N(m) ≤ π²m²/(8(N+1)²)` for every `m`
+(Step 3).
 Letting `N → ∞` and `t ↓ λ_max(P)` gives `S*_L ≤ λ_max(P)`. ∎
 
 *Remarks.*
@@ -647,9 +724,12 @@ x − 2 log 2 + log 3` with weights `(a, b, a)`, `a = w_2`, `b = w_3`, and
 (closed form; the float value agrees with the census). At `L = 0.8` the top
 type has 12 vertices and 13 edges (two triangles from `log 2 + log 2 = log 4`)
 and occupies 71.9% of the window; a 13-vertex "type" seen once in a random
-sample was two float copies of one point `3e−17` apart. These two values are
-exact eigenvalue problems of size 4 and 12, so they can be enclosed with
-ball arithmetic; that is for the numerics lane.
+sample was two float copies of one point `3e−17` apart. **Correction:** the
+census is sampled, so it does not prove that no other component type occurs
+(referee, REVIEW §4.4); a proof would enumerate the breakpoints of
+Proposition 2.2 exactly. Given the types, the two values are eigenvalue
+problems of size 4 and 12, which ball arithmetic can enclose; that is for
+the numerics lane.
 
 The regime ends soon after `5` enters the comb at `L = log 5 / 2 ≈ 0.8047`.
 Measured (200 base points, cap 2000 vertices): largest finite component 24
