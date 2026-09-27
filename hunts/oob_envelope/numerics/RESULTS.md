@@ -1,6 +1,8 @@
 # RESULTS: numerics lane (oob_envelope), interim
 
-Interim, 2026-09-27: phases 1, 2 and 4 done; L = 1.19 stage A done (measured), stage B awaiting approval.
+2026-09-27: phases 1, 2 and 4 done; the L = 0.8 bound passed independent
+referee review (b65ef69, `teal-sea/oob-cert-referee`). L = 1.19 is
+UNRESOLVED: stage A is measured only, stage B is not approved.
 Branch `teal-sea/oob-cert`, not pushed. Every grade uses the AGENTS.md ladder.
 
 ## Five-line graded summary
@@ -36,11 +38,18 @@ Branch `teal-sea/oob-cert`, not pushed. Every grade uses the AGENTS.md ladder.
    round-to-nearest float. `harden.py` now stores the exact dyadic lower
    endpoint and a decimal rounded down (edited, not yet rerun).
 4. **Composite at L = 0.8**: Q(f) ≥ 1.1579e-17 ‖f‖² for real even f with
-   supp f ⊆ [−0.8, 0.8]. *Candidate*: its weakest step is the ordinary
-   derivation Q ≥ R_H (theory lane RESULTS §1, self-reviewed, no referee
-   yet). K1 holds (below Zhu's 2.27e-17 upper bound and the measured
-   window floor 1.656e-17). Same support as Zhu (1.6); a sharper constant
-   (his 8.9e-18) with half the matrix, not a new window.
+   supp f ⊆ [−0.8, 0.8]. An **independently reviewed ordinary derivation**
+   (Q ≥ R_H, theory lane, referee PASS) combined with a **hardened
+   numerical step** (this lane's Arb/GL bound, reproduced by the referee's
+   independent Clenshaw–Curtis/Arb implementation at two resolutions, both
+   ≥ 1.1579e-17). Not kernel-checked; pending external verification.
+   Referee verdict: `hunts/oob_envelope/referee/REVIEW.md` at b65ef69 on
+   branch `teal-sea/oob-cert-referee`. Scope: even sector only; complex f
+   would also need the odd-sector bound. Not independently audited: this
+   lane's GL entry radii (the referee used its own quadrature instead).
+   K1 holds (below Zhu's 2.27e-17 upper bound and the measured window
+   floor 1.656e-17). Same support as Zhu (1.6); a sharper constant (his
+   8.9e-18) with half the matrix, not a new window.
 5. **L = 1.19 (support 2.38), stage A**: on the N = 360 leading block of
    R_H (sine:16), a 384-bit midpoint LDL has one negative pivot at
    T# = 320 and none from T# = 350 to 525 (λ ≈ 5.78e-48 at T# = 500).

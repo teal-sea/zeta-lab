@@ -1,9 +1,13 @@
 # numerics PROGRESS (oob_envelope)
 
-Waiting: stage B is NOT approved; waiting for the referee's independent
-gates before asking again. Referee REVIEW §5 (endpoint error) accepted and
-corrected: full-space bound at L = 0.8 is λ_min(R_H) ≥ 1.158e-17 − ε_B,
-outward-safe 1.1579e-17. Stage B endpoint chain audited in `RUNS.md`.
+HOLD. Stage B is NOT approved; no compute, local tests, push or PR.
+Referee final REVIEW.md (b65ef69, `teal-sea/oob-cert-referee`): PASS on
+the corrected L = 4/5 even-sector bound, λ_min(R_H) ≥ 1.1579e-17, via its
+own Clenshaw–Curtis/Arb implementation at two resolutions; five Modal units
+passed; K1, and K2/K3 plus all lesions at measured grade. Composite grade:
+independently reviewed ordinary derivation + hardened numerical step, not
+kernel-checked. Not independently audited: this lane's GL entry radii.
+L = 1.19 unresolved.
 
 Earlier stage B ask, kept for the record. Stage A, measured only: on the N = 360
 leading block of R_H at L = 1.19, a plain 384-bit midpoint LDL has one
@@ -39,7 +43,7 @@ Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
 |---|---|---|---|
 | 1. H with enclosures, L = 0.8, 1.0, 1.19 | done (separable); joint LP/SDP not done | enclosure-carrying | `envelope.json`, ca41ce2 |
 | 2a. K3 orthogonality | done, passes, lesion breaks it | measured (float64) | `k3.json`, commit after f1696cd |
-| 2b. L = 0.8 replication with H | done | leading block + all Zhu error terms enclosure-carrying; Q ≥ R_H step is ordinary derivation (theory lane) | `harden_L08_T100_sine16*.json` |
+| 2b. L = 0.8 replication with H | done; referee PASS (b65ef69) | hardened, independently reproduced (referee CC/Arb, two resolutions); Q ≥ R_H an independently reviewed ordinary derivation; composite not kernel-checked | `harden_L08_T100_sine16*.json`, referee `REVIEW.md` |
 | 3. L = 1.19 | stage A done: N = 360 block, midpoint LDL no negative pivot for T# ≥ 350, interval LDL undecided; stage B needs approval | measured | `stageA_L119_reduced.json` (volume readback), `RUNS.md` ledger |
 | 4. K2 on Davenport-Heilbronn | done: valid gate inconclusive; lesion finds the off-line beam | measured (witness enclosure-grade, independent) | `k2_dh.json` (identical to volume copy) |
 
@@ -226,3 +230,11 @@ Not done, optional: theory §1.7's sampled B_T at L = 0.8, T = 30..70.
   (acceptance_gate true, K3 on 10 functions, all three lesions detected,
   measured) and its leading-block assembly is in progress. Stage B still
   unapproved; no Ghost compute.
+- 2026-09-27. Referee final REVIEW.md at b65ef69 read (read-only `git show`).
+  Grades updated in RESULTS.md item 4 and the status table: the L = 0.8
+  composite is an independently reviewed ordinary derivation plus a hardened
+  numerical step reproduced by an independent implementation; not
+  kernel-checked; even sector only. The referee notes its implementation is
+  independent in construction and quadrature but shares python-flint with
+  this lane, and that this lane's GL entry radii were not audited. L = 1.19
+  unresolved; stage B unapproved. Holding.
