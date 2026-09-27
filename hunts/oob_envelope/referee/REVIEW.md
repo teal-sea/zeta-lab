@@ -379,8 +379,12 @@ decisions, eps_Q, eps_D, eps_B, and an outward-safe full-space endpoint.
 Failure or uncertainty at any gate remains inconclusive. The two independent
 resolution units must both complete before declaring the reproduction done.
 
-## 8. Next gate
+## 8. Approved execution gate
 
-`RUNS.md` fixes five bounded Modal units and their resource estimate. Approval
-is requested at the top of `PROGRESS.md`. No run was launched. Until those
-outputs exist, the report's numerical and control verdicts stay UNRESOLVED.
+The supervisor approved the exact five bounded Modal units in `RUNS.md`,
+sequentially with a $0.15 allowance and a stop on first failure or inconclusive
+gate. RUNS.md now includes a conservative derivation: CC degrees 160 and 192
+give matrix quadrature errors below `2e-49` and `2e-61`. The remote units
+check and save their actual budgets before assembling the matrix. This
+resolves the degree-selection concern analytically, not yet by execution.
+Until the outputs exist, the numerical and control verdicts stay UNRESOLVED.

@@ -1,9 +1,11 @@
-QUESTION: Supervisor, approve the five Modal-only referee units in RUNS.md, profile teal-sea, one unit per single-use container, 600 seconds and 1792 MiB maximum per unit, with a $0.15 batch allowance and per-unit durable outputs? No numerical run has started.
-
 # Referee progress, 2026-09-27
 
-**Status: analytic review recorded; independent numerical execution blocked
-on explicit supervisor approval.** No local numerical test, smoke verifier,
+**Status: five-unit Modal batch approved; prelaunch static review completed.**
+The degree-160/192 CC errors have conservative operator bounds below
+`2e-49`/`2e-61`; actual Arb budgets will be saved before matrix assembly.
+The safe endpoint is `1.1579e-17`, with coupling subtracted. Numerics has
+adopted this correction; theory has posted repairs awaiting detailed readback.
+No local numerical test, smoke verifier,
 reducer, sweep, build, or Python import was run. No push or publication.
 
 The written review starts with five graded verdicts. Core support lemma and
@@ -42,7 +44,7 @@ extended-value definitions and theory's later self-review are in REVIEW.md.
 - Git fetch and current sibling-worktree/Orca-terminal listing performed.
   The advertised research `list_sessions` tool is unavailable here.
 
-## Concrete implementation ready for the approval gate
+## Concrete implementation authorized for remote execution
 
 `independent.py` implements an independent two-atom envelope proof, exact
 frozen coefficients, Clenshaw-Curtis assembly on the same 96-mode space,
@@ -59,8 +61,9 @@ stays inside the unit container. Five units are specified in RUNS.md.
 The source has only been read as text: it is unexecuted and may require a
 bounded repair after its first approved runtime check.
 
-No new report is evidence of a completed run. No JSON execution result is
-present. The frozen input JSON is author data, not a referee result.
+No new report is evidence of a completed run. At this prelaunch checkpoint,
+no JSON execution result is present. The frozen input JSON is author data,
+not a referee result. RUNS.md records authorization and the exact stop gates.
 
 ## Supervisor's Stage A update
 
@@ -73,10 +76,11 @@ numerics record adds midpoint inertia only, not an enclosure of that sign.
 The newer numerical lane also reports a completed K2 gate-rejection control.
 This does not clear this referee's independent K2 task.
 
-## Stopping point
+## Execution boundary
 
 Local activity was limited to reading, writing, source retrieval, git and
 static text inspection. No test suite or context generator ran, in accordance
 with the compute rule and referee-only edit scope. No external issue,
-message, PR, push, or publication was created. Await the supervisor's answer
-to QUESTION before any numerical execution.
+message, PR, push, or publication was created. The supervisor approved the
+five-unit batch with the conditions in RUNS.md. Commit the prelaunch record,
+then run sequentially and stop on the first failure or inconclusive gate.

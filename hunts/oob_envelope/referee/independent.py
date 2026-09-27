@@ -395,6 +395,21 @@ def leading(order, bits, extra, checkpoint):
         if not arb(4).log() < 2*L < arb(5).log():
             raise ArithmeticError("prime-power endpoint comparison undecided")
         validate_zeta_support([2, 3, 4])
+        # Close the degree budget before the expensive matrix assembly.
+        # The strip is |Im t| <= 1/4; Re(1/4 +/- it/2) >= 1/8.
+        rho = 1 + arb(2).sqrt()
+        strip = arb(1)/4
+        M_symbol = arb(9)+2*(T+2)+arb.pi().log()+abs(beta)
+        M_symbol += sum((abs(c)*(lam*strip).cosh() for lam, c in comb+terms), arb(0))
+        M_entry = 2*L*(4*size-3)*(2*L*strip).exp()*M_symbol
+        eps_Q = 200*2*M_entry/(arb.pi()*(rho-1)*rho**order)
+        coarse_limit = {160: arb("2e-51"), 192: arb("2e-63")}[order]
+        if not M_entry < arb("5e6") or not eps_Q < coarse_limit:
+            raise ArithmeticError("Clenshaw-Curtis degree budget is inconclusive")
+        checkpoint({"phase": "quadrature_budget", "order": order,
+                    "M_entry": str(M_entry), "eps_Q_per_entry": str(eps_Q),
+                    "matrix_operator_error_bound": str(size*eps_Q),
+                    "coarse_entry_limit": str(coarse_limit)}, artifact="budget.json")
         nodes, weights = cc_arb(order)
         C = arb_mat(size, size)
         for panel in range(200):
@@ -415,14 +430,6 @@ def leading(order, bits, extra, checkpoint):
                             "panels_total": 200})
         poles = [(2*L*(4*k+1)).sqrt()*spherical_series(L/2, 2*k, modified=True)
                  for k in range(size)]
-        # Chebyshev interpolation remainder integrated over each panel.
-        # The strip is |Im t| <= 1/4; Re(1/4 +/- it/2) >= 1/8.
-        rho = 1 + arb(2).sqrt()
-        strip = arb(1)/4
-        M_symbol = arb(9)+2*(T+2)+arb.pi().log()+abs(beta)
-        M_symbol += sum((abs(c)*(lam*strip).cosh() for lam, c in comb+terms), arb(0))
-        M_entry = 2*L*(4*size-3)*(2*L*strip).exp()*M_symbol
-        eps_Q = 200*2*M_entry/(arb.pi()*(rho-1)*rho**order)
         arch_zero = arb(arb(1)/4).digamma()-arb.pi().log()
         arch_T = acb(arb(1)/4, T/2).digamma().real-arb.pi().log()
         real_bound = abs(arch_zero).max(abs(arch_T))+abs(beta)

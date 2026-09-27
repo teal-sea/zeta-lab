@@ -1,8 +1,10 @@
-# Referee run request, 2026-09-27
+# Referee approved run record, 2026-09-27
 
-**Not approved. No numerical run has started.** This estimate and its code
-are confined to the referee lane. The supervisor may approve or decline
-this exact batch without authorizing the L=1.19 campaign.
+**APPROVED by the supervisor on 2026-09-27; not yet launched.** Authorization
+is for these exact five units, sequentially, profile `teal-sea`, under
+20 core-hours and a $0.15 allowance. Stop on the first failure or inconclusive
+gate. Commit scoped source, brief and run record and review exact names and
+safety before launch. This does not authorize the L=1.19 campaign or reruns.
 
 ## Proposed units
 
@@ -37,7 +39,7 @@ rates, CPU is `$0.0000131/core-second` and memory is
 limit is `$0.050955`, rounded to **$0.06**. Rates were checked against the
 [official Modal pricing page](https://modal.com/pricing) on 2026-09-27.
 
-Request **a $0.15 batch allowance**, including initial image work and
+Approved **$0.15 batch allowance**, including initial image work and
 incidental storage/startup. This is an operational spending allowance,
 not a provider-enforced dollar cap. Image-build cost and provider-level
 infrastructure retries are not bounded by the five function timeouts.
@@ -67,11 +69,11 @@ The API settings follow [Modal's Function configuration](https://modal.com/docs/
 and [volume commit documentation](https://modal.com/docs/guide/volumes).
 Neither the application, image, nor volume has been created by this review.
 
-## Commands after explicit approval only
+## Approved dispatch
 
 From the repository root, use the referee commit hash as REVISION. Dispatch
 one unit at a time, inspect its returned terminal status, and stop on any
-failed or inconclusive gate. The example command is not executed:
+failed or inconclusive gate. Each actual dispatch is recorded below:
 
 ```sh
 MODAL_PROFILE=teal-sea modal run hunts/oob_envelope/referee/run_modal.py \
@@ -98,6 +100,44 @@ reducer or build is part of this plan.
 - Reproduction of the theorem's conclusion does not independently reproduce
   the author's tighter quoted error constants or validate their code.
 
-The new code has been read as text only. It has not been parsed, imported,
-smoke-tested, or executed. Static review cannot substitute for the proposed
-first runtime check.
+## Static prelaunch review and degree budget
+
+The source and initial request were committed as `1249b94`; BRIEF.md was
+already tracked on the base. The final prelaunch revision also records this
+approval, the following degree calculation, a cheap in-container budget gate,
+and an explicit `inconclusive` terminal status for false acceptance flags.
+Exact dispatch names are `controls`, `leading160`, `leading192`, `dh512`,
+`dh768`. They match both allowlist and dispatcher. No author code is imported.
+The local entrypoint imports only the Modal orchestration API and writes a
+receipt; all mathematics and acceptance checks execute in the remote unit.
+Retries are zero; single-use containers, one CPU, resource limits, profile
+guard, per-unit paths and volume commits were inspected as text.
+
+Ordinary analytic budget, to be checked with Arb inside each leading unit:
+there are 29 frozen high coefficients, each of absolute value below 2;
+their frequencies are below 18. The comb coefficient sum is below 3,
+`|beta|<2`, `log(pi)<2`, and `cosh(18/4)<46`. Consequently the strip symbol
+majorant is below 4000 and the entry majorant
+`2L(4N-3) exp(2L/4) M_symbol` is below `5e6`.
+With `rho=1+sqrt(2)`, the per-entry error is
+`400 M_entry/[pi (rho-1) rho^q] < 2e9/rho^q`.
+Since `rho^4=17+12sqrt(2)>33` and `33^2>1000`, degree 160 gives an entry
+error below `2e-51`, and degree 192 below `2e-63`. Multiplication by 96
+gives operator errors below `2e-49` and `2e-61`, respectively. Both are far
+below the target `1e-17` scale and the `1e-21` safe-rounding margin.
+These are conservative derivations, not local numerical test results.
+`budget.json` will record the actual enclosed errors before assembly.
+Arithmetic propagation and LDL can still be inconclusive and must pass.
+
+The author endpoint `1.158e-17` must lose `eps_B` in the two-block proof.
+The acceptance target is **1.1579e-17** after subtracting the independently
+bounded coupling. Numerics has adopted that correction in its latest RESULTS;
+this referee still requires its own completed enclosure before promotion.
+
+No local parsing, import, smoke test, Python execution or numerical reduction
+was performed. Static review cannot substitute for the first remote check.
+
+## Execution ledger
+
+No app IDs or terminal results yet. Counts: 0 launched, 0 successful,
+0 failed, 0 inconclusive, 5 pending. Volume readback pending.

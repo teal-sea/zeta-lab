@@ -2,7 +2,7 @@
 
 Use profile teal-sea. No numerical work takes place in the local entrypoint.
 Every invocation uses its own container and writes its own durable artifacts.
-This runner is unexecuted; approval is pending in PROGRESS.md.
+The five-unit authorization and stop conditions are recorded in RUNS.md.
 """
 
 from pathlib import Path
@@ -39,7 +39,6 @@ def execute(unit: str, revision: str):
     os.environ["OPENBLAS_NUM_THREADS"] = "1"
     os.environ["OMP_NUM_THREADS"] = "1"
     sys.path.insert(0, "/root")
-    import independent
 
     started = time.time()
     run_id = f"{unit}-{uuid.uuid4().hex}"
@@ -72,9 +71,29 @@ def execute(unit: str, revision: str):
     signal.alarm(570)
     result = None
     try:
+        import independent
         result = independent.run(unit, checkpoint)
+        if unit == "controls":
+            gate = (set(result["lesions_detected"]) ==
+                    {"inband", "one_prime_sign", "dropped_power"}
+                    and len(result["frequency_K3"]) == 2)
+        elif unit.startswith("leading"):
+            gate = (result["author_bracket_agreement"]
+                    and result["safe_endpoint_1_1579e_17"]
+                    and result["K1_full_bound"]
+                    and result["ldl"]["1.158e-17"]["status"] == "positive_definite"
+                    and result["ldl"]["1.1585e-17"]["status"] == "negative_pivot"
+                    and all((directory / f).is_file()
+                            for f in ("matrix.json", "ldl.json", "budget.json")))
+        else:
+            gate = (result["K2_negative_witness"]
+                    and result["domination_on_witness_measured"]
+                    and result["R_matrix_scalar_agreement"]
+                    and result["rejection_observed"]
+                    and not result["positive_result"])
+        result["acceptance_gate"] = bool(gate)
         write("result.json", result)
-        manifest["status"] = "completed"
+        manifest["status"] = "completed" if gate else "inconclusive"
     except BaseException as error:
         manifest["status"] = "failed"
         manifest["error_type"] = type(error).__name__
