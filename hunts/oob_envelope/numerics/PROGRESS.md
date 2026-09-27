@@ -1,5 +1,8 @@
 # numerics PROGRESS (oob_envelope)
 
+QUESTION: approve K2 on Modal (`k2_modal.py`, one container, ~0.05
+core-hour, estimate at the end of `RUNS.md`)?
+
 Stage A on Modal approved by the supervisor 2026-09-27 (stage A only; stage
 B needs a fresh approval after A). QUESTION cleared. Interim `RESULTS.md`
 written for the referee.
@@ -134,3 +137,8 @@ Not done, optional: theory §1.7's sampled B_T at L = 0.8, T = 30..70.
   points and a 1.2M-point grid; flipped-H and S → S_opt lesions fire), and
   `harden.py` now asserts the quadrature radius is inside every LDL entry.
   Stage B shrinks to N = 500 (tail arithmetic). Stage A approved.
+- 2026-09-27T18:43:33Z. **Stage A launched on Modal** (supervisor-approved,
+  stage A only): app ap-mucAZVkQ7RThKhLbUB9CuN, 9 units, volume
+  `oob-envelope-stages`, tag `stageA_L119`, log `stage_a.log`. This
+  session owns it and watches it to a terminal state. Routing rule received:
+  no compute on Ghost from now on; the reducer runs on Modal too.

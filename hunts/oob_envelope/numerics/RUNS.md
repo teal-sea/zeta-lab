@@ -92,3 +92,15 @@ the positivity step. Memory per container < 1 GB.
 ### Owner
 
 The session that launches it watches it to a terminal state (compute rule 5).
+
+## Proposed: K2 on Davenport-Heilbronn (`k2_modal.py`), one container
+
+L = (log 47)/2 = 1.925 (DH form negative there, λ ≈ −0.3, even sector, per
+`hunts/rogue_frontier/weil_trunc/dhneg_log.md`). H = 0, valid
+S_DH = Σ 2|Λ_f(n)|/√n; the job reports the least T# at which any valid β*
+could be positive (expected astronomically large, so the valid pipeline
+cannot return a bound). Lesion part: λ_min and LDL inertia of R(T#) at
+T# = 100, 150 (both past the off-line ordinate 85.7) with β* forced to 0.05,
+0.5, 2. N = 150, GL-32, panels 1/2, 256 bits: 9600 nodes × ~8 ms (Bessel
+K = 299) ≈ 80 s, products and six N = 150 LDLs ≈ 60 s. **≈ 0.05 core-hour**,
+one unit, result written to the volume and to `k2_dh.json`.
