@@ -70,6 +70,15 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Multi-prime Mobius orbits (`mobius_orbits/`)
+
+**Status: ordinary argument, independent model challenge completed.**
+Exact finite checks retain every incomplete orbit and compare the direct
+Sigma2 sum with both multi-prime grouping and a Mertens level-set formula.
+The fixed-P asymptotic concerns one specified absolute-value majorant,
+not the true signed sum or all multi-prime methods. No RH proof, novelty
+claim, or change to earlier records. See [the attempt](mobius_orbits/RESULTS.md).
+
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
 **Status: candidate ordinary argument with enclosure-carrying numerical steps;
