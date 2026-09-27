@@ -39,6 +39,23 @@ Brief: `theory/BRIEF.md`. Output: `theory/RESULTS.md`.
   eigenfunction), Collatz–Wielandt above and Rayleigh below; S_sep ~ 2e^L;
   A_L ~ 4e^L. Explicit lower bound ℓ(L) for every L. asymptotics_check.py
   (measured) shows S*/e^L = 0.548, 0.811, 1.079, 1.082 at L = 0.8, 1.19, 2, 4.
+- Supervisor note 2 (numerics, finite N=200 block, quadrature/tail/coupling
+  unbounded: per-prime H at L=0.8 negative eigenvalues at sampled T# ≤ 60,
+  none at sampled 65; T#=200 leading λ ≈ 1.42e-17). Added RESULTS §1.7: envelope
+  threshold vs operating point; Prop 1.2 (monotone, β*I + compact);
+  Prop 1.3 domination chain R_H ≤ R′ ≤ B_T ≤ Q (R′ = operator split with the
+  comb kept exact, B_T = archimedean-capped form); Prop 1.4 floor
+  T_op(H) ≥ T_res ≥ 2πe^{S*_L} for every H (essential spectrum + Dirichlet
+  modulation). Heuristic: T_res tracks T* (fake zeros below Nyquist).
+  Requested from numerics: λ_min(B_T) at L=0.8, T ∈ [30,70].
+- Tasks 4–5 written (RESULTS §4–5). Prior art: Burnol 2000 (math/0101068,
+  Théorème 3.7) already adds a support-edge cosine to the symbol: the device
+  is not novel. Liu Theorem B = operator split with κ = 7/2 (implies
+  λ_max(P) ≤ 2.5753 at L=17/16; our Galerkin 2.1665). Record: refereed
+  (log 2)/2; unrefereed 0.8 (Zhu), 1 and 17/16 (Liu). Desogus 2609.20367
+  claims RH: recorded as a claim only. Liu's obstruction: does not apply.
+  Search summary errors caught: Bombieri "log 2" and Burnol "√2" are
+  normalisation misreadings.
 
 ## Task status
 
@@ -47,5 +64,13 @@ Brief: `theory/BRIEF.md`. Output: `theory/RESULTS.md`.
 | 1 | out-of-band lemma + modified Theorem 1.1 | done (RESULTS §1) |
 | 2 | weak / strong duality for the optimal constant | done (RESULTS §2) |
 | 3 | asymptotics of S*_L | done (RESULTS §3) |
-| 4 | prior art and the current record | in progress |
-| 5 | Liu's obstruction vs the out-of-band route | not started |
+| 4 | prior art and the current record | done (RESULTS §4) |
+| 5 | Liu's obstruction vs the out-of-band route | done (RESULTS §5) |
+- Supervisor review (2026-09-27): §1.7 reworded to sampled finite-block
+  candidate language (no full-form positivity at 65, no T_res upper bound);
+  Prop 1.2 now states validity for β* of either sign and the β* = 0 endpoint
+  (compact form, no positive constant; coercivity needs β* > 0).
+- Gates: tests/test_hunt_probe_discipline.py and test_docs_numbering.py pass;
+  test_doors.py::test_the_evaluate_door_command_runs failed once on a 90 s
+  verifier timeout at load average ~50 and passed on rerun (63 s); this diff
+  touches only hunts/oob_envelope/theory/. make_context.py --check: up to date.

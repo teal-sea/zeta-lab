@@ -7,16 +7,17 @@ it is not kernel-checked. Numbers from float64 scripts are *measured*.
 
 ## Graded summary
 
-(Filled in as tasks close; see `PROGRESS.md` for status.)
-
 1. **Task 1, lemma and modified reduction.** For every complex `f ∈ L²`
    with `supp f ⊆ [-L, L]` and every `H = μ̂` with `μ` a finite measure
    carried by `|λ| ≥ 2L` (boundary included), `∫|F|²H = 0`; Zhu's
-   Theorem 1.1 holds with `A_L` replaced by any bound `S ≥ sup_{t≥T#}(P_L − H)`.
-   The proof of the inequality goes through unchanged; the computational
-   constants of his §4–§5 do not (four places, §1.5), and the reduction now
-   runs with `T#` near the window's resolution height, a regime Zhu never
-   tested (§1.6). *Ordinary derivation, self-reviewed.*
+   Theorem 1.1 holds with `A_L` replaced by any bound `S ≥ sup_{t≥T#}(P_L − H)`,
+   and four computational constants of his §4–§5 change (§1.1–1.5). The
+   binding height need not be the envelope threshold `2π e^S` (≈ 30 at
+   `L = 0.8`): every out-of-band reduced form is dominated by an `H`-free
+   archimedean-capped form, so no `H` can bring positivity below a floor
+   `T_res(L) ≥ 2π e^{S*_L}` (§1.7). *Ordinary derivation, self-reviewed.*
+   The numerics lane's sampled `N = 200` blocks put a candidate operating
+   point near 65 (measured; no full-form positivity proved).
 2. **Task 2, duality.** For every `L > 0`, `inf_H sup_t(P_L − H) = λ_max(P)`,
    the top of the windowed comb operator: weak duality for every
    finite-measure `H`, strong duality by an explicit trigonometric `H_N`
@@ -35,8 +36,20 @@ it is not kernel-checked. Numbers from float64 scripts are *measured*.
    plus an explicit lower bound `ℓ(L)` valid for every `L`. *Ordinary
    derivation, self-reviewed;* the table of §3.5 is measured (float64, one
    route; `S*_L/e^L` = 0.811, 1.079, 1.082 at `L` = 1.19, 2, 4).
-4. Task 4: pending.
-5. Task 5: pending.
+4. **Task 4, prior art and record.** The device is not new: Burnol 2000
+   (C. R. Acad. Sci. Paris 331, 423–428, arXiv:math/0101068, Théorème 3.7)
+   adds a cosine at the support-edge frequency to Weil's symbol, and Liu's
+   Theorem B realises the `λ_max(P)`-level constant as an operator split.
+   No prior instance found of Theorems 1′, 2, 3 or §1.7 (search scope in
+   §4.2). Record, half-width of `supp f`: refereed `(log 2)/2` (Yoshida 1992);
+   unrefereed computer-assisted `0.8` (Zhu) and `1`, `17/16` (Liu) (§4.1).
+   *Literature reading, scope stated; not a proof.*
+5. **Task 5, Liu's obstruction.** It does not touch the out-of-band route:
+   it concerns a unit-window localisation that loses the prime-power-8
+   interaction, whereas Theorem 1′ never localises and its reduced form is
+   `β* I` plus a compact operator, so Liu's modulated two-bump tests give
+   `R_H → β* > 0` (§5). *Ordinary derivation from Liu's stated theorem,
+   self-reviewed.*
 
 ## 0. Conventions
 
@@ -293,6 +306,143 @@ route moves into a regime Zhu never ran.
   on the torus for the envelope). Minimising `S` alone controls the matrix
   size, not the loss. This is a proposal for the numerics lane, not a
   measured result.
+
+### 1.7 Envelope threshold versus positivity operating point
+
+Two different heights govern the reduction.
+
+* **Envelope threshold** `T_env(H)`: the `T#` with `β* = 0`, i.e.
+  `log(T#/2π) − 1/T# = S`, about `2π e^S`.
+* **Operating point** `T_op(H) := inf{ T# : R_{H,T#} ⪰ 0 }`: where the
+  reduced form is nonnegative. A positivity proof with a positive constant
+  needs more, coercivity `R_{H,T#} ≥ c‖·‖²` with `c > 0`, which by
+  Proposition 1.2 forces `T# > T_env(H)`.
+
+**What the numerics lane has sampled** (relayed by the supervisor on
+2026-09-27, not read here). The evidence is a finite `N = 200` Legendre block
+of `R_H`, assembled with an Arb quadrature rule whose quadrature error, tail
+and coupling are not yet bounded, so everything in this paragraph concerns
+that finite block and is *measured*. Per-prime `H` at `L = 0.8`:
+`T_env ≈ 30`; LDL inertia of the block shows negative eigenvalues at the
+sampled split points up to `T# = 60` and none at the sampled `T# = 65`; at
+`T# = 200` the block's leading eigenvalue is about `1.42 × 10^{−17}`, below
+the K1 ceiling `2.27 × 10^{−17}`. So the finite block has a *candidate*
+operating point between the sampled values 60 and 65, about `2 T*`
+(`T* = 2π e^{1.6} ≈ 31.1`), while `T_env ≈ T*`. No positivity of the full
+reduced form at `T# = 65` is proved, and a negative eigenvalue of the block
+is a negative Rayleigh quotient of the full form only once its entries are
+enclosed.
+
+**Proposition 1.2 (the operating point is a threshold).** Fix `H` with
+envelope bound `S`, and let `T# ≥ 15/4` be arbitrary, so that
+`β* = log(T#/2π) − 1/T# − S` may have either sign.
+
+1. `Q ≥ R_{H,T#}`: the proof of Theorem 1′ uses only `Ψ_L + H ≥ β*` on
+   `|t| ≥ T#`, which holds for every such `T#`.
+2. `T# ↦ R_{H,T#}` is pointwise nondecreasing (the argument of the table
+   entry for Zhu §5.5(b), which needs the same inequality on `[T#, T#′]`).
+3. `R_{H,T#} − β* I` is compact on `W_L` (a pole form of rank at most 2 plus
+   an integral operator with a continuous kernel band-limited to
+   `[−T#, T#]`), so `σ_ess(R_{H,T#}) = {β*}`.
+
+Consequently the split points where `R_{H,T#} ⪰ 0` form an interval
+unbounded above, starting at `T_op(H) ≥ T_env(H)`, and below it the negative
+spectrum consists of finitely many eigenvalues, which is what an inertia
+count sees. **The endpoint `β* = 0`** (`T# = T_env`): the reduced form is
+then a compact form, the infimum of its Rayleigh quotients is at most `0`,
+and it yields no positive constant. Coercivity needs `β* > 0`, i.e.
+`T# > T_env(H)`, and no nonpositive eigenvalue. *Ordinary derivation,
+self-reviewed.*
+
+**Proposition 1.3 (every out-of-band reduction is dominated by two H-free
+forms).** Fix `T# ≥ 15/4`, put `κ = log(T#/2π) − 1/T#`, and let `H` be
+admissible with envelope bound `S` and `β* = κ − S` (either sign). For every
+`f ∈ W_L`,
+
+    R_{H,T#}(f) ≤ R′_{T#}(f) ≤ B_{T#}(f) ≤ Q(f),
+
+    R′_{T#}(f) := Q(f) − (1/2π) ∫_{|t|≥T#} (a(t) − κ) |F|² dt
+                = pole(f) + (1/2π) ∫_{|t|<T#} (a(t) − κ) |F|² dt + κ‖f‖² − ⟨Pf, f⟩,
+    B_T(f)     := Q(f) − (1/2π) ∫_{|t|≥T} log(|t|/T) |F|² dt.
+
+`R′` is the *operator split*: the comb is kept exactly, as the time-domain
+operator `P`, and only the archimedean term is cut at `T#`. `B_T` is Weil's
+form with the archimedean growth removed above `T`, a capping of the kind in
+Zhu §15, failed route (2).
+
+*Proof.* By Corollary 1, `Q − R_H = (1/2π)∫_{|t|≥T#} (a − (P_L − H) − β*)|F|²`,
+and `P_L − H ≤ S` there, so `Q − R_H ≥ (1/2π)∫_{|t|≥T#}(a − κ)|F|² = Q − R′`.
+Next, Zhu's Lemma 3.1 and `1/T# ≥ 1/|t|` give
+`a(t) − κ ≥ log(|t|/T#)` for `|t| ≥ T#`, so `Q − R′ ≥ Q − B`. Finally
+`log(|t|/T)_+ ≥ 0`. The second expression for `R′` is (2.1) with Parseval. ∎
+
+**Proposition 1.4 (an H-independent floor).** `R′_T` and `B_T` are
+nondecreasing in `T`, so with `T′_op := inf{T : R′_T ⪰ 0}` and
+`T_res := inf{T : B_T ⪰ 0}`,
+
+    T_op(H) ≥ T′_op ≥ T_res ≥ 2π e^{λ_max(P)} = 2π e^{S*_L}    for every admissible H.
+
+*Proof of the last inequality.* The symbol `a(t) − log(|t|/T)_+ − log(T/2π)`
+is bounded, continuous and tends to `0` at `±∞`; a Fourier multiplier with
+such a symbol, compressed to `W_L`, is compact (a norm limit of compressions
+with compactly supported symbols, which are Hilbert–Schmidt). So
+`B_T = log(T/2π) I − P + (compact)`, and by Weyl's theorem
+`inf σ_ess(B_T) = log(T/2π) − sup σ_ess(P)`. And `sup σ_ess(P) = λ_max(P)`:
+if `⟨Pφ, φ⟩ > λ_max − ε` with `‖φ‖ = 1`, choose `τ_k → ∞` by Dirichlet's
+simultaneous approximation with `τ_k log p ∈ 2πℤ + o(1)` for the finitely
+many primes `p < e^{2L}`; then `φ_k = e^{iτ_k x} φ` is weakly null and
+`⟨Pφ_k, φ_k⟩ → ⟨Pφ, φ⟩`. So `B_T ⪰ 0` forces `log(T/2π) ≥ λ_max(P)`. ∎
+*(Ordinary derivation, self-reviewed.)*
+
+This recovers the barrier of Corollary 3 by a second route, and shows the
+floor applies to all `H` at once: the out-of-band freedom lowers `T_env`, but
+the operating point can never go below `T_res(L)`, which depends on `Q` and
+the archimedean growth only.
+
+*Why `T_res` should track `T*` (heuristic, not proved).* Under RH,
+`Q(f) = Σ_γ 2|F(γ)|²`, and a Riemann-sum reading gives the zeros above `T`
+weight about `(1/π) log(t/2π) dt`; `B_T` then looks like the same sum with
+the zero density above `T` frozen at `ν(T) = log(T/2π)/2π`. A function of
+exponential type `L` can hide between zeros only where the density is below
+its Nyquist density `L/π`, that is below `T* = 2π e^{2L}`. So `B_T` should
+admit "fake zeros" (Zhu's phrase for his route (2)) unless `T` exceeds `T*`
+with some margin. The finite-block candidate near `2 T*` at `L = 0.8` is
+consistent with this reading. It is not a bound on `T_res`: that would need
+the full reduced form shown nonnegative at some `T#`, after which
+Proposition 1.4 gives `T_res ≤ T#`.
+
+**Consequences.**
+
+* Cost estimates must use `N ≈ eL · max(T_env e^{β*}, T_op)/2`, not
+  `eL · T_env/2`. At `L = 0.8` the sampled finite blocks suggest that the
+  operating point, not the envelope, binds (candidate `T#` near 65, where
+  `N ≈ 71`). Whatever `T_res` turns out to be, no `H` can go below it; a
+  better joint `H` helps only where the envelope is the binding height.
+* At `L = 1.19`, `T* ≈ 68`. If the ratio `T_op/T* ≈ 2` carried over (not
+  measured), the per-prime envelope (`2π e^{S_sep + 0.5} ≈ 450`) would bind,
+  and the joint optimum (`≈ 150`) would sit near the resolution floor.
+* `R′` is never worse than any `R_H` and needs no `H`, so none of the
+  quadrature cost of §1.5 (b). Its drawback is structural: `P` is a sum of
+  shifts and does not localise in Legendre order (Zhu §15, failed route (3),
+  `O(1)` coupling across any order cut), so passing from a finite block to
+  the whole space needs a Schur complement with `κI − P` inverted on the
+  complement. Liu's Theorem B does exactly that with `κ` replaced by `7/2`
+  (§4.2). The out-of-band `R_H` keeps Zhu's frequency split, with
+  super-exponentially small coupling, at the price of the gap
+  `R′ − R_H = (1/2π)∫_{|t|≥T#} (S − (P_L − H)) |F|² ≥ 0`.
+* At fixed `T#` the out-of-band gain can be spent on `β*` instead of on
+  matrix size (§3.6). At `T# = 200` the numerics lane's leading eigenvalue
+  with per-prime `H` is `1.42 × 10^{−17}`, against a true floor of about
+  `1.66 × 10^{−17}` (Zhu, measured); Zhu's `H = 0` run at the same `T#`
+  passed a Cholesky shift at `9 × 10^{−18}`, which bounds its `λ_min` only
+  from below. Whether `H` raised `λ_min` at fixed `T#` needs the `H = 0`
+  value from the same pipeline; the heuristic of §3.6 predicts it did.
+* **Request for the numerics lane:** `λ_min(B_T)` (or `λ_min(R′_T)`) on a
+  large Legendre basis at `L = 0.8` for `T ∈ [30, 70]`. The crossing is a
+  finite-block estimate of `T_res`, the floor for every `H`; if it sits near
+  the per-prime candidate, the per-prime `H` is already near the floor for
+  positivity at `L = 0.8`. Both would remain candidates until the blocks'
+  entries, tails and couplings are enclosed.
 
 ## 2. Task 2: the optimal constant (weak and strong duality)
 
@@ -735,3 +885,139 @@ thresholds are `2π e^{A_L} ≈ 7.4 × 10^3`, `2π e^{S_sep} ≈ 272` and
   `T# = 200`, `β* = log(200/2π) − 1/200 − S` is `0.513` with `A_L`, `1.933`
   with `S_sep` and `2.236` with `S*`, which shrinks the discarded tail. That
   is a suggestion, not a measured result.
+
+## 4. Task 4: prior art and the current record
+
+### 4.1 The record, in one normalization
+
+Normalization: additive variable `u = log x`, and `L` is the half-width of
+`supp f`. A multiplicative interval `[λ^{−1}, λ]` (measure `dx/x`) becomes
+`L = log λ`; the autocorrelation is supported in `[−2L, 2L]`, and Zhu's
+"support 1.6" means `2L = 1.6`. Liu uses the same form as Zhu (his eq. (1),
+normalised against Connes–Consani 2021, Appendix B, (149)–(154)).
+
+| source | status | half-width `L` | what exactly is proved |
+|---|---|---|---|
+| Yoshida 1992, *Adv. Stud. Pure Math.* 21, 281–325 | refereed | `(log 2)/2 ≈ 0.3466` | Theorem 1 (p. 310): strict positivity of the full Hermitian form on `K(a)`, `a = (log 2)/2`, no pole-vanishing condition, no numerical constant (as reported by Liu §1.1 and by Bombieri 2000 §1; not read directly, Project Euclid served no PDF). §6 (pp. 309–310) is a computer-assisted finite-to-infinite argument with tail and coupling estimates (per Liu). |
+| Bombieri 2000, *Rend. Lincei Mat. Appl.* (9) 11, 183–233, §12 Theorem 12 | refereed | below `(log 2)/2`, unspecified | `supp F` in an interval of length `|I| < log 2` gives `T[F ⋆ F(−x)] ≥ (log(1/|I|) − log log(1/|I|) − O(1))‖F‖²`; positive only for `|I|` small enough to beat the unspecified `O(1)` (abstract: "positive definite if t is sufficiently small") |
+| Burnol 2000, *C. R. Acad. Sci. Paris* 331, 423–428 (arXiv:math/0101068), Théorème 3.7 | refereed | `log c` for some `c ∈ (1, √2]`, not explicit | "Il existe c > 1 tel que Z(k) ≥ 0 pour toute fonction g de classe C^∞ à support dans [1/c, c]"; the English proof adds that "a further idea seems necessary to reach c = √2" |
+| Connes–Consani, arXiv:2006.13771 (*Selecta Math.* 27 (2021), no. 4, Paper 77), Theorem 1 | refereed | `(log 2)/2` | multiplicative support `[2^{−1/2}, 2^{1/2}]` with `ĝ(i/2) = 0` (and `ĝ(0) = 0` for the trace inequality); positivity of the archimedean functional credited to Yoshida |
+| Zhu, arXiv:2608.24827v2, Theorem 1.2, Corollary 6.3 | unrefereed preprint, computer-assisted | `0.8` | `Q(f) ≥ 8.9 × 10^{−18}‖f‖²` for all complex `f`; the v1 claim at `L = 1.19` is withdrawn in its §7 |
+| Liu, alphaXiv `2609.weil-positivity-riemann-zeta-bounds` (manuscript dated 14 Sep 2026; manuscript and reproduction files in the public GitHub repository of user `luciferyu666`, frozen commit `b6cd2183`, whose name contains the reserved word), Theorems A and B | unrefereed preprint, computer-assisted | `1` and `17/16 = 1.0625` | `Q(f) ≥ 2^{−151}‖f‖²` on `C_c^∞((−1, 1); ℂ)` and `Q(f) ≥ 2^{−49162}‖f‖²` on `C_c^∞((−17/16, 17/16); ℂ)` |
+| Desogus, arXiv:2609.20367v2 (20 Sep 2026) | unrefereed | (claims every `a`) | claims positivity in the real odd channel for every support radius and hence RH; recorded as a claim only, not evaluated, not a window record |
+
+**Current record.** Refereed: `L = (log 2)/2` (Yoshida 1992). Unrefereed and
+computer-assisted: `L = 17/16` (Liu), then `L = 0.8` (Zhu). A valid
+positivity bound at `L = 1.19` would exceed every window claim found,
+refereed or not. Liu's subtitle is quoted as the brief gives it; the full
+title contains the reserved word and is not reproduced.
+
+**Two normalization traps met on the way** (both from a search summary,
+both wrong on reading the sources): "Bombieri proves `L ≤ log 2`" (his
+hypothesis `|I| < log 2` is on the *total length* of `supp F`, so
+`L < (log 2)/2`, and positivity needs `|I|` small) and "Burnol proves
+`L ≤ √2`" (`√2` is his multiplicative endpoint `c`, so `L = log c ≤ (log 2)/2`,
+and he proves existence of some `c > 1` only).
+
+### 4.2 Has the out-of-band freedom been used before?
+
+**Yes, in its simplest form: Burnol 2000.** In the English proof of
+Théorème 3.7 (arXiv:math/0101068, p. 2), with `ε = 2 log c` the edge of the
+autocorrelation support, Burnol writes the symbol as
+`α(τ) = 8√2 cos(log(2)τ)/(1 + 4τ²) + h_+(τ)`, notes that
+`A_ε cos(ετ) + α(τ) ≥ 0` for all `τ` once `ε` is small and `A_ε` suitable,
+and uses `∫ cos(ετ)|ĝ(s)|² dτ/2π = Re(e^{ε/2} k(e^ε)) = 0` for `g` supported
+in `[1/c, c]`. That is Lemma 1 for a single cosine at the boundary
+frequency `2L`, used to make the archimedean-plus-pole symbol pointwise
+nonnegative (no primes are present at that support). The same proof also
+rewrites the pole term as a multiplier by an identity valid on the support
+`[1/2, 2]`. So the device is not novel.
+
+**Also related, but not the same use.**
+
+* Liu 2026, Theorem B keeps the comb as the bounded operator
+  `M = (7/2)I − Σ_n c_n J_{log n} = (7/2)I − P` and proves
+  `mI ⪯ M` with `m = 9617/10400`, that is `λ_max(P) ≤ 2.5753` at
+  `L = 17/16` (our Galerkin value there is `2.1665`, measured, consistent).
+  Only the archimedean term is cut, at `Ω = 256 > 2π e^{7/2} ≈ 208`. This is
+  the operator split `R′` of §1.7 with `κ` replaced by `7/2`, and it realises
+  the `λ_max(P)`-level constant without any out-of-band `H`. Compare his
+  Theorem A at `L = 1`, which uses Zhu's pointwise envelope with the full comb
+  mass and needs `Ω_0 = 2560`. Liu does not phrase this as a symbol
+  modification or compare it with pointwise envelopes; Theorem 2 and
+  Proposition 1.3 say how the two formulations relate.
+* Connes and van Suijlekom, arXiv:2511.23257, define their quadratic forms
+  by a distribution on the interval itself (the time-domain form of the same
+  fact) and use the Carathéodory–Fejér structure of positive Toeplitz
+  matrices for zero localisation, not for envelope constants.
+  Connes–Consani–Moscovici, arXiv:2511.22755, use an extension of
+  Carathéodory–Fejér for self-adjointness (abstract).
+* Suzuki, arXiv:2606.09096v3: screw-function framework; its Theorem 1.4 is
+  positivity for sufficiently small `a`; a text search found no out-of-band
+  modification.
+* Beurling–Selberg and Fourier optimisation on the zero side (Carneiro,
+  Chandee and Milinovich, *Math. Ann.* 356 (2013) 939–968, arXiv:1309.1526;
+  Carneiro, Milinovich and Soundararajan, *Comment. Math. Helv.* 94 (2019)
+  533–568, arXiv:1708.04122): the same Paley–Wiener duality used the other
+  way round, choosing band-limited test functions so that the prime side is
+  a finite sum. Not a modification of a Weil symbol outside the window's
+  band. (Abstracts only.)
+* Zhu's barrier (Lemma 3.2, Theorem 1.4, Remark 1.6) is stated for
+  pointwise envelopes of `P_L` itself and does not consider out-of-band
+  corrections.
+
+**Original versus novel.** Original to this lab: the systematic use of
+out-of-band corrections against the prime comb inside Zhu's reduction
+(Theorem 1′), strong duality with the windowed comb operator (Theorem 2),
+the asymptotic constant `e^L` (Theorem 3), and the domination chain and
+floor of §1.7. Novelty was searched as follows, and within that scope no
+prior instance of those four was found: one Perplexity query; three web
+searches; full texts of Bombieri 2000, Burnol 2000 (math/0101068), Connes–
+Consani (2006.13771), Connes–Consani–Moscovici (2511.22755), Connes–van
+Suijlekom (2511.23257), Suzuki (2606.09096v3), Liu (GitHub manuscript),
+Zhu (2608.24827v2 source); a keyword scan of Burnol 1998 (math/9809119);
+abstracts only for Desogus and the Carneiro papers; Yoshida 1992 not read.
+The basic device (a boundary-frequency cosine) is Burnol's.
+
+## 5. Task 5: does Liu's obstruction touch the out-of-band route?
+
+**What Liu proves** (§5, "Obstruction Theorem"). Fix a real `χ ∈ D_1`
+(smooth, supported in `(−1, 1)`, `‖χ‖ = 1`) and localise `f ∈ D_L` as
+`f_y(u) = χ(u) f(u + y)`. Put `L_χ(f) = ∫ Q(f_y) dy`, `E_χ = L_χ − Q` (the
+localisation error), `M_χ(f) = ∫ R_1(f_y) dy` with `R_1` the unit-window
+comparison of his Theorem A (tail above `Ω_0 = 2560` dropped to
+`β_0 = 1/16`), and `D_χ = M_χ − E_χ`, so that `Q = D_χ + S_χ` with
+`S_χ ≥ 0`. If `L > (log 8)/2`, there is a fixed two-bump `g` (bumps at
+`±(log 8)/2`) such that `f_k = e^{iT_k u} g`, `T_k = 2πk/log 8`, gives
+`D_χ(f_k)/‖f_k‖² → 1/16 − log 2/(2√2) < −1/8`; no fixed bounded compact
+self-adjoint `K_c` makes `D_χ + K_c ≥ 0`. The mechanism: every localised
+piece lives on a window of length 2 < log 8, so none sees the prime-power-8
+interaction between the two bumps, and `E_χ` carries the whole term
+`c_8 (1 − ρ_χ(log 8)) H_f(log 8)` with `ρ_χ(log 8) = 0`; modulation aligns
+the phase and kills everything compact. Liu's own scope: "This obstruction
+concerns the specified lower comparison. It does not give a negative Weil
+test ... It is also not an obstruction to every possible noncompact tail
+supplier or every positivity method."
+
+**Answer: no.** Three separate reasons.
+
+1. *No localisation.* Theorem 1′ works on the whole window. The envelope
+   `S ≥ sup(P_L − H)` contains every prime power with `log n < 2L`,
+   including 8 once `L > (log 8)/2`. The quantity that fails in Liu's
+   theorem, the localisation error `E_χ`, does not occur.
+2. *The opposite high-frequency behaviour.* `R_H − β* I` is compact
+   (Proposition 1.2), so along every weakly null normalised sequence, Liu's
+   `f_k` included, `R_H(f_k)/‖f_k‖² → β* > 0`. `H` is part of a bounded
+   symbol, not a compact correction of a failing comparison; above `T#` it is
+   absorbed into the pointwise bound `Ψ_L + H ≥ β*`.
+3. *Where the prime power 8 does enter our route:* through the window comb
+   operator, as the requirement `T# > 2π e^{S}` with `S ≥ λ_max(P)`
+   (Corollary 3, Proposition 1.4). It raises a threshold; it does not create
+   a negative limit.
+
+Scope: this settles whether Liu's stated obstruction applies to the
+out-of-band reduction. It does not exclude other failure modes; the
+constraint met so far is the sampled candidate operating point of §1.7. Liu's own Theorem B
+works at `L = 17/16 > (log 8)/2` with a non-localised decomposition,
+consistent with this answer. *Ordinary derivation from the paper's stated
+theorem, self-reviewed.*
