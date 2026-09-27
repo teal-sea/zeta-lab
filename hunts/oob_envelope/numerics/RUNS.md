@@ -104,3 +104,40 @@ T# = 100, 150 (both past the off-line ordinate 85.7) with β* forced to 0.05,
 0.5, 2. N = 150, GL-32, panels 1/2, 256 bits: 9600 nodes × ~8 ms (Bessel
 K = 299) ≈ 80 s, products and six N = 150 LDLs ≈ 60 s. **≈ 0.05 core-hour**,
 one unit, result written to the volume and to `k2_dh.json`.
+
+## Remote run ledger (Modal, profile teal-sea, 2026-09-27, all apps now stopped)
+
+| app | what | outcome | compute |
+|---|---|---|---|
+| ap-mucAZVkQ7RThKhLbUB9CuN | stage A: 9 units + first reducer | 9/9 units written to volume `oob-envelope-stages`; reducer ran; one client heartbeat warning | units 2776 container-s (273, 267, 316, 401, 146, 323, 425, 420, 206); reducer ≈ 110 s; wall 535 s |
+| ap-u5ihCmzqiW28DuFqefg6Tx | stage A reducer rerun 1 (adds midpoint inertia) | **failed** in seconds: the unit glob matched the reducer's own `stageA_L119_reduced.json` | ≈ 0 |
+| ap-G9iIG9H1qGBRi3h6GPtRmj | stage A reducer rerun 2 | success; wrote `stageA_L119_reduced.json` to the volume (read back with `modal volume get`) | wall 154 s |
+| ap-WbdVjMHe1JYCD0rXtfV4LO | K2 first launch (18:50:50Z) | **failed**: container import raised IndexError (repo path evaluated inside the container) and **crash-looped** until stopped from the CLI at about 18:59Z. I read the local "Runner failed" as the app being dead and did not check its state; that was the error. Logs: `k2_crashloop_ap-WbdVjMHe1JYCD0rXtfV4LO.log` (8 import tracebacks retrieved) | failed container starts only; upper bound 8.5 min wall, container time not reported by the CLI |
+| ap-unujT9tiLNIeJTQf2v1RKm | K2 relaunch (18:53:38Z, under the K2 approval, before the "do not rerun" message) | success; `k2_dh.json` identical to the volume copy | 70 s |
+
+Totals: stage A ≈ 0.85 core-hours (estimate 1.0); K2 ≈ 0.02 core-hour
+plus the crash-loop's failed starts (estimate 0.05). Dollar cost not read
+from Modal billing. Local log `k2.log` is interleaved: the crash-looping
+process kept writing at its old offset into the file the relaunch had
+truncated; it contains the successful run's output, but the authoritative
+record is `k2_dh.json`. Future launches use a fresh log file per app and
+check `modal app list` for the terminal state instead of the local exit.
+
+### Readback of remote outputs (exact grades)
+
+- `stageA_L119_reduced.json` (from the volume). N = 360 leading block of
+  R_H, L = 1.19, sine:16, 384 bits, **measured** (no quadrature, tail or
+  coupling bound). Midpoint LDL (plain 384-bit, measured): one negative
+  pivot at T# = 320, none at 350 to 525. Inverse iteration λ: 1.65e-48,
+  4.15e-48, 5.17e-48, 5.776e-48, 6.00e-48 at T# = 350, 400, 450, 500, 525.
+  Arb interval LDL: undecided (304 to 306 of 360 pivots) at every
+  checkpoint. So there is no enclosure-grade statement about the sign of
+  even this block, and none at all about the whole form.
+- `k2_dh.json` (volume copy identical). Measured. Valid gate: S_DH = 25.59,
+  β* > 0 needs T# ≳ e^25.82, so no bound (inconclusive, as required).
+  Forced-β lesion rows: interval LDL undecided in all six; shifted inverse
+  iteration at T# = 150, β forced 0.5: λ = −0.288, eigenvector beamed at
+  t = 84.5 (76% of |F|² within ±6 of 85.699).
+
+No further Modal run until a separate estimate and approval (K2 rerun,
+stage B).

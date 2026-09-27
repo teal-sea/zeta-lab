@@ -1,17 +1,29 @@
 # numerics PROGRESS (oob_envelope)
 
-QUESTION: approve stage B on Modal? Stage A (measured) found R_H at
-L = 1.19 positive definite for T# = 350 to 525 (λ_min 5.78e-48 at T# = 500)
-and indefinite at T# = 320. Stage B makes T# = 500 enclosure-carrying:
-N = 500, GL-96, 384 bits, ≈ 3.2 core-hours in 50 units of ≈ 6.5 min
-(`RUNS.md`). Its positivity step must be a midpoint Cholesky with an Arb
-residual (Zhu Lemma 5.2), since interval LDL is undecided at cond ~1e48.
+QUESTION: approve stage B on Modal? Stage A, measured only: on the N = 360
+leading block of R_H at L = 1.19, a plain 384-bit midpoint LDL has one
+negative pivot at T# = 320 and none at T# = 350 to 525 (inverse-iteration
+λ 5.78e-48 at T# = 500); Arb interval LDL is undecided, and nothing is
+claimed about the whole form. Stage B would make T# = 500
+enclosure-carrying: N = 500, GL-96, 384 bits, ≈ 3.2 core-hours in 50
+units of ≈ 6.5 min (`RUNS.md`). Its positivity step: midpoint Cholesky of
+(A − λ₀I) as exact dyadics, the Arb residual of A − λ₀I − L̃L̃ᵀ bounded by a
+row sum, plus the entry radii and quadrature radii; λ₀ chosen at 0.99× the
+N = 500 measured value, not fixed in advance (adding modes can only lower
+λ_min). Payoff if it closes: with theory's step d, a candidate positivity
+bound at support 2.38, pending referee.
 
-K2 approved and run (terminal). Stage A approved and run (terminal).
+All Modal apps are stopped; ledger with failures in `RUNS.md`. No Modal run
+until a separate approval (stage B, or any K2 rerun).
 
-Stage A on Modal approved by the supervisor 2026-09-27 (stage A only; stage
-B needs a fresh approval after A). QUESTION cleared. Interim `RESULTS.md`
-written for the referee.
+Correction (supervisor, 2026-09-27): commit ecc1491's subject says "R_H
+positive definite at L = 1.19"; that overstates it. The evidence is a
+measured midpoint LDL of the N = 360 block, interval LDL undecided.
+
+Hard rule since 2026-09-27 ~18:45Z: no compute on Ghost at all, including
+tests and scripts that read results. The lexical tests
+(`test_hunt_probe_discipline.py`, `test_docs_numbering.py`) ran before the
+rule; files added since were grep-checked for the reserved word.
 
 Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
 `hunts/oob_envelope/numerics/`. Local runs capped at 10 min and 2 GB.
@@ -23,8 +35,8 @@ Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
 | 1. H with enclosures, L = 0.8, 1.0, 1.19 | done (separable); joint LP/SDP not done | enclosure-carrying | `envelope.json`, ca41ce2 |
 | 2a. K3 orthogonality | done, passes, lesion breaks it | measured (float64) | `k3.json`, commit after f1696cd |
 | 2b. L = 0.8 replication with H | done | leading block + all Zhu error terms enclosure-carrying; Q ≥ R_H step is ordinary derivation (theory lane) | `harden_L08_T100_sine16*.json` |
-| 3. L = 1.19 | stage A done: R_H positive definite for T# ≥ 350; stage B needs approval | measured | `stageA_L119_reduced.json`, `stage_a*.log` |
-| 4. K2 on Davenport-Heilbronn | done: valid gate inconclusive; lesion finds the off-line beam | measured (witness enclosure-grade, independent) | `k2_dh.json`, `k2.log` |
+| 3. L = 1.19 | stage A done: N = 360 block, midpoint LDL no negative pivot for T# ≥ 350, interval LDL undecided; stage B needs approval | measured | `stageA_L119_reduced.json` (volume readback), `RUNS.md` ledger |
+| 4. K2 on Davenport-Heilbronn | done: valid gate inconclusive; lesion finds the off-line beam | measured (witness enclosure-grade, independent) | `k2_dh.json` (identical to volume copy) |
 
 ### Phase 2 result at L = 0.8, stated with its grade
 

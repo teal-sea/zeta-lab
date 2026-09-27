@@ -9,39 +9,54 @@ Branch `teal-sea/oob-cert`, not pushed. Every grade uses the AGENTS.md ladder.
    L = 0.8, 1.0, 1.19 (e.g. 1.5552528 and 3.8634773 with the sine kernel,
    D = 16, against A_L = 2.9420 and 7.0750). *Enclosure-carrying* (Arb,
    two independent proofs per prime). `envelope.json`, commit ca41ce2.
-2. **K3**: every H frequency is out of band and ∫|F|²H = 0 on random window
-   functions to 5e-13; planted in-band terms and a moved-in-band lesion break
-   it by exactly the predicted amounts. *Measured* (float64). `k3.json`.
-   **Sign gate**: Ψ + H stays above the envelope through the matrix code path;
-   flipped-H and S → S_opt lesions fire. *Measured*. `envelope_check.json`.
+2. **Controls, all measured.** K3: every H frequency is out of band and
+   ∫|F|²H = 0 on random window functions to 5e-13; in-band plants and a
+   moved-in-band lesion break it by the predicted amounts (`k3.json`). Sign
+   gate: Ψ + H stays above the envelope through the matrix code path;
+   flipped-H and S → S_opt lesions fire (`envelope_check.json`). K2 on
+   Davenport-Heilbronn at L = (log 47)/2, where the form is negative
+   (independent enclosure-grade witness): the valid pipeline returns no
+   bound (inconclusive, as required); a forced-β lesion finds λ = −0.288
+   beamed at the off-line ordinate (`k2_dh.json`).
 3. **Leading block at L = 0.8, T# = 100, H = sine:16, N = 96**: λ_min(R_H)
    ≥ 1.158e-17 on all of L²_even[−0.8, 0.8], with Zhu's two-block tail and
    coupling terms and a Bernstein-ellipse quadrature radius in every entry;
-   LDL provably fails at 1.1585e-17. *Enclosure-carrying*.
-   `harden_L08_T100_sine16*.json`, commit 58795ee.
+   LDL provably fails at 1.1585e-17. *Enclosure-carrying*
+   (`harden_L08_T100_sine16*.json`, 58795ee). Calibration: the same
+   pipeline in Zhu's configuration (H = 0, T# = 200, N = 200) gives
+   λ_min ≥ 1.02e-17, provably < 1.028e-17, and the measured R_150 floor
+   1.3564e-18 matches his 1.356e-18 (`harden_L08_T200_none.json`).
 4. **Composite at L = 0.8**: Q(f) ≥ 1.158e-17 ‖f‖² for real even f with
    supp f ⊆ [−0.8, 0.8]. *Candidate*: its weakest step is the ordinary
    derivation Q ≥ R_H (theory lane RESULTS §1, self-reviewed, no referee
    yet). K1 holds (below Zhu's 2.27e-17 upper bound and the measured
    window floor 1.656e-17). Same support as Zhu (1.6); a sharper constant
    (his 8.9e-18) with half the matrix, not a new window.
-5. **Calibration**: the same hardened pipeline in Zhu's configuration
-   (H = 0, T# = 200, N = 200) gives λ_min ≥ 1.02e-17 (< 1.028e-17 provably),
-   and the measured R_150 floor 1.3564e-18 matches his 1.356e-18.
-   *Enclosure-carrying* / *measured* respectively. `harden_L08_T200_none.json`,
-   `run_L08_N200.json`.
+5. **L = 1.19 (support 2.38), stage A**: on the N = 360 leading block of
+   R_H (sine:16), a 384-bit midpoint LDL has one negative pivot at
+   T# = 320 and none from T# = 350 to 525 (λ ≈ 5.78e-48 at T# = 500).
+   *Measured only*: no quadrature, tail or coupling bound, Arb interval LDL
+   undecided, nothing claimed about the whole form. Modal, ≈ 0.85
+   core-hours (`stageA_L119_reduced.json`, ledger in `RUNS.md`). Stage B
+   (enclosure-carrying) not approved.
 
 ## L = 1.19 (support 2.38), stage A: measured only
 
 Modal, 9 units, ≈ 0.85 core-hours (`stageA_L119_reduced.json`). Envelope
 sine:16 (S = 3.8634773, enclosure-carrying), N = 360, GL-64, 384 bits, no
-quadrature, tail or coupling bound. Midpoint LDL inertia: one negative
-eigenvalue at T# = 320; positive definite at T# = 350, 400, 450, 500, 525
-with λ_min = 1.65e-48, 4.15e-48, 5.17e-48, 5.78e-48, 6.00e-48, monotone
-as it must be. Zhu's valid-certificate estimate at this support needed
-N ≈ 1.4 to 2 × 10^4 (his §7); stage B would need N = 500. **This is not a
-positivity bound at support 2.38**: it is a measured sign of the reduced
-form, and the composite would also carry the unrefereed derivation of step d.
+quadrature, tail or coupling bound. On the N = 360 leading block, a plain
+384-bit midpoint LDL has one negative pivot at T# = 320 and none at
+T# = 350, 400, 450, 500, 525; inverse iteration gives λ = 1.65e-48,
+4.15e-48, 5.17e-48, 5.776e-48, 6.00e-48 there, monotone as R_{T#} must be.
+Arb interval LDL is undecided (304 to 306 of 360 pivots) at every
+checkpoint, so even the block's sign is measured, not enclosed, and
+**nothing is claimed about the whole form**. External consistency: Zhu's
+Table 3 upper bounds bracket the window floor, λ*(1.1) ≤ 2.78e-38 and
+λ*(1.2) ≤ 9.98e-49, and λ* decreases in L; the measured 5.8e-48 at 1.19
+sits between the two, as it must if the reduced form is below λ*(1.19).
+Zhu's valid-certificate estimate at this support needed N ≈ 1.4 to 2 × 10^4
+(his §7); stage B would need N = 500. **This is not a positivity bound at
+support 2.38.**
 
 ## K2: Davenport-Heilbronn at L = (log 47)/2
 
