@@ -147,6 +147,11 @@ def run():
     return out
 
 
+# the module is re-imported inside the container (at /root), where the repo
+# layout does not exist; only the local side needs the real path
+GALERKIN = (HERE.parents[1] / "rogue_frontier" / "weil_trunc" / "galerkin.py"
+            if len(HERE.parents) > 2 else Path("/root/galerkin.py"))
+
 try:
     import modal
 
@@ -154,8 +159,7 @@ try:
     image = (modal.Image.debian_slim(python_version="3.12")
              .pip_install("python-flint==0.9.0", "mpmath==1.3.0")
              .add_local_file(str(HERE / "assemble.py"), "/root/assemble.py")
-             .add_local_file(str(HERE.parents[1] / "rogue_frontier" / "weil_trunc" / "galerkin.py"),
-                             "/root/galerkin.py"))
+             .add_local_file(str(GALERKIN), "/root/galerkin.py"))
     vol = modal.Volume.from_name("oob-envelope-stages", create_if_missing=True)
 
     @app.function(image=image, cpu=1.0, memory=2048, timeout=3600, volumes={"/out": vol}, retries=1)

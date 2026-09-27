@@ -41,7 +41,12 @@ def ldl_mid_inertia(A):
 
 
 def reduce_units(directory, tag, out=None):
-    files = sorted(Path(directory).glob(f"{tag}_*.json"), key=lambda p: int(p.stem.split("_")[-2]))
+    def is_unit(p):  # tag_t0_t1.json; skips e.g. tag_reduced.json
+        parts = p.stem.split("_")
+        return parts[-1].isdigit() and parts[-2].isdigit()
+
+    files = sorted((p for p in Path(directory).glob(f"{tag}_*.json") if is_unit(p)),
+                   key=lambda p: int(p.stem.split("_")[-2]))
     acc, rows, t_prev = None, [], 0
     for f in files:
         d = json.loads(f.read_text())
