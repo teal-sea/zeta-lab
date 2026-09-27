@@ -1,6 +1,11 @@
 # numerics PROGRESS (oob_envelope)
 
-QUESTION: approve stage B on Modal? Stage A, measured only: on the N = 360
+Waiting: stage B is NOT approved; waiting for the referee's independent
+gates before asking again. Referee REVIEW §5 (endpoint error) accepted and
+corrected: full-space bound at L = 0.8 is λ_min(R_H) ≥ 1.158e-17 − ε_B,
+outward-safe 1.1579e-17. Stage B endpoint chain audited in `RUNS.md`.
+
+Earlier stage B ask, kept for the record. Stage A, measured only: on the N = 360
 leading block of R_H at L = 1.19, a plain 384-bit midpoint LDL has one
 negative pivot at T# = 320 and none at T# = 350 to 525 (inverse-iteration
 λ 5.78e-48 at T# = 500); Arb interval LDL is undecided, and nothing is
@@ -55,13 +60,16 @@ Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
   Bessel, cosine and digamma) ≤ 5.8e-44 per entry, added to every entry;
   node-shift term included; tail ε_D ≤ 2.8e-95; coupling ε_B ≤ 3.0e-44
   (Schur test); Arb LDL of A − λ₀I passes at λ₀ = 1.158e-17 and provably
-  fails at 1.1585e-17. Hence λ_min(R_H) ≥ 1.158e-17 on all of L²_even[−0.8, 0.8]
-  (Zhu (13)). **K1 holds**: 1.158e-17 < 2.27e-17, and below the measured
-  window floor 1.656e-17.
+  fails at 1.1585e-17. Hence, by Zhu (13), λ_min(R_H) ≥ 1.158e-17 − ε_B,
+  ε_B < 3.031e-44, on all of L²_even[−0.8, 0.8]; **outward-safe
+  λ_min(R_H) ≥ 1.1579e-17** (corrected per referee REVIEW §5; the earlier
+  "≥ 1.158e-17" dropped ε_B). **K1 holds**: 1.1579e-17 < 2.27e-17, and
+  below the measured window floor 1.656e-17.
 - **Same pipeline, Zhu's own configuration** (H = 0, T# = 200, N = 200):
-  λ_min(R) ≥ 1.02e-17, provably < 1.028e-17; his published λ₀ = 9e-18 also
-  passes. Calibration of the hardened pipeline.
-- **What Q ≥ 1.158e-17 ‖f‖² additionally rests on:** Q ≥ R_H, i.e. Zhu's
+  λ_min(R) ≥ 1.02e-17 − ε_B, ε_B < 1.5e-102, outward-safe ≥ 1.0199e-17;
+  λ_min(A) provably < 1.028e-17; his published λ₀ = 9e-18 also passes.
+  Calibration of the hardened pipeline.
+- **What Q ≥ 1.1579e-17 ‖f‖² additionally rests on:** Q ≥ R_H, i.e. Zhu's
   Theorem 1.1 with A_L replaced by S and H added in band [0, T#]. That is an
   ordinary derivation (theory lane RESULTS §1, self-reviewed, no referee
   yet). So the composite statement is a **candidate**, weakest step an

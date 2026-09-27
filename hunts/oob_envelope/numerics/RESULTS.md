@@ -18,15 +18,24 @@ Branch `teal-sea/oob-cert`, not pushed. Every grade uses the AGENTS.md ladder.
    (independent enclosure-grade witness): the valid pipeline returns no
    bound (inconclusive, as required); a forced-β lesion finds λ = −0.288
    beamed at the off-line ordinate (`k2_dh.json`).
-3. **Leading block at L = 0.8, T# = 100, H = sine:16, N = 96**: λ_min(R_H)
-   ≥ 1.158e-17 on all of L²_even[−0.8, 0.8], with Zhu's two-block tail and
-   coupling terms and a Bernstein-ellipse quadrature radius in every entry;
-   LDL provably fails at 1.1585e-17. *Enclosure-carrying*
+3. **Reduced form at L = 0.8, T# = 100, H = sine:16, N = 96**: the
+   leading block has λ_min(A) > 1.158e-17 (Arb LDL of A − λ₀I, quadrature
+   radius in every entry) and provably < 1.1585e-17; with Zhu's two-block
+   bound (13), λ_min(R_H) ≥ min(λ₀, β* − ε_D) − ε_B = 1.158e-17 − ε_B,
+   ε_B < 3.031e-44, on all of L²_even[−0.8, 0.8]. **Outward-safe endpoint:
+   λ_min(R_H) ≥ 1.1579e-17** (the referee's figure; any value up to
+   1.157999999999e-17 is also safe). *Enclosure-carrying*
    (`harden_L08_T100_sine16*.json`, 58795ee). Calibration: the same
    pipeline in Zhu's configuration (H = 0, T# = 200, N = 200) gives
-   λ_min ≥ 1.02e-17, provably < 1.028e-17, and the measured R_150 floor
-   1.3564e-18 matches his 1.356e-18 (`harden_L08_T200_none.json`).
-4. **Composite at L = 0.8**: Q(f) ≥ 1.158e-17 ‖f‖² for real even f with
+   λ_min(R) ≥ 1.02e-17 − ε_B with ε_B < 1.5e-102, **outward-safe ≥ 1.0199e-17**,
+   and λ_min(A) < 1.028e-17; the measured R_150 floor 1.3564e-18 matches
+   his 1.356e-18 (`harden_L08_T200_none.json`). Correction (referee REVIEW
+   §5): an earlier version quoted λ_min(R_H) ≥ 1.158e-17 and ≥ 1.02e-17,
+   which dropped ε_B; the code subtracted it but the quoted figure was the
+   10-digit display midpoint, and the JSON `lower_bound` field was a
+   round-to-nearest float. `harden.py` now stores the exact dyadic lower
+   endpoint and a decimal rounded down (edited, not yet rerun).
+4. **Composite at L = 0.8**: Q(f) ≥ 1.1579e-17 ‖f‖² for real even f with
    supp f ⊆ [−0.8, 0.8]. *Candidate*: its weakest step is the ordinary
    derivation Q ≥ R_H (theory lane RESULTS §1, self-reviewed, no referee
    yet). K1 holds (below Zhu's 2.27e-17 upper bound and the measured
@@ -89,7 +98,7 @@ Steps of the claim in line 4, each with its own grade:
 | c | Zhu Lemma 3.1 (digamma lower bound, t ≥ 15/4) | published, used as stated |
 | d | Q ≥ R_H | ordinary derivation, theory lane, self-reviewed, no referee |
 | e | λ_min(A) ≥ 1.158e-17, leading 96 × 96 block with quadrature radius | enclosure-carrying (`harden.py`) |
-| f | ε_D ≤ 2.8e-95, ε_B ≤ 3.0e-44 (Zhu (12), (13)) | enclosure-carrying |
+| f | ε_D ≤ 2.8e-95, ε_B < 3.031e-44 (Zhu (12), (13)); full space: λ_min(R_H) ≥ 1.158e-17 − ε_B > 1.1579e-17 | enclosure-carrying |
 
 Error budget of step e: GL-64 on 200 panels of width 1/2; per panel,
 Trefethen's Gauss bound (h/2)·64M/(15(ρ²−1)ρ^{128}), ρ = 1 + √2, with M

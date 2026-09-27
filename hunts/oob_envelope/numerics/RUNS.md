@@ -69,9 +69,33 @@ N = 500 (harden.py's own tail arithmetic at x = 595: ε_B ≈ 8e-88, against
 K = 999 interpolated ≈ 100 ms per node: 96 000 nodes ≈ 9 600 s; products
 1000 × 2 × 0.9 s ≈ 1 800 s. **≈ 3.2 core-hours.** Needs a fresh approval
 after stage A. Plus the final
-positivity step on one container: LDL in Arb, or, if interval LDL radii blow
-up at cond ~1e47, a midpoint Cholesky with an Arb residual (Zhu Lemma 5.2) in
-a few 640³ products: < 0.1 core-hour.
+positivity step on one container, < 0.1 core-hour.
+
+**Positivity step and endpoint (audited after referee REVIEW §5; stage A
+showed interval LDL undecided at cond ~1e48, so no interval LDL here).**
+
+1. Ã: the assembled N × N leading block as Arb balls; E_ij := rad(Ã_ij) +
+   ε_Q,ij bounds |A_ij − mid(Ã_ij)| for the exact block A.
+2. Measure first: midpoint inverse iteration on the N = 500 block gives
+   λ_meas (adding modes can only lower λ_min, so stage A's N = 360 value is
+   not used). Choose λ₀ = 0.99 λ_meas, an exact dyadic.
+3. L̃: 384-bit Cholesky of mid(Ã) − λ₀I, rounded to exact dyadics.
+4. Residual in `arb_mat`: Rres = mid(Ã) − λ₀I − L̃L̃ᵀ, every operand exact,
+   so Rres is a rigorous ball matrix; r := max_i Σ_j |Rres_ij|, taken as an
+   Arb upper bound. Then λ_min(mid(Ã) − λ₀I) ≥ −r (L̃L̃ᵀ ⪰ 0, Weyl).
+5. ‖A − mid(Ã)‖₂ ≤ e := max_i Σ_j E_ij (upper bound). Hence
+   λ_min(A) ≥ λ₀ − r − e (Weyl).
+6. Full space, Zhu (13): λ_min(R_H) ≥ min(λ₀ − r − e, β* − ε_D) − ε_B.
+7. **Report only the Arb lower endpoint** of step 6, as an exact dyadic
+   and as a decimal rounded down (`harden.py` now does this). Never a
+   float(), never a display midpoint.
+
+Acceptance: the endpoint of step 6 is positive. Expected sizes from the
+L = 0.8 run and stage A: r ~ 1e-110, e ~ 1e-60, ε_B ~ 1e-87, against
+λ₀ ~ 5.7e-48, so each subtraction is 12 or more orders below λ₀; every
+term is still written out and subtracted. Before any run, the reducer is
+also tested on the L = 0.8 case (N = 96), on Modal, where it must return an
+endpoint ≤ the LDL-based 1.158e-17 − ε_B and positive.
 Units: 50 containers × 20 panels (10 t-units each), ≈ 6.5 min each.
 
 **Total both stages ≈ 4.2 core-hours, under the 20 core-hour cap.** Wall time

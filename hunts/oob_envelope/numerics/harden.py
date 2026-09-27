@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 import time
 from fractions import Fraction
@@ -216,9 +217,22 @@ def main():
             best = lam0 if best is None or bool(lam0 > best) else best
     if best is not None:
         bound = best.min(beta - eps_D) - eps_B
-        out["lower_bound"] = float(bound.lower().mid())
-        out["lower_bound_arb"] = bound.str(10)
-        print("lambda_min(R_H) >=", bound.str(10))
+        # Report only an outward-safe endpoint. float() rounds to nearest and
+        # a 10-digit display shows the midpoint: both can sit above the true
+        # lower endpoint when eps_B is below one ulp (referee REVIEW s5).
+        m, e = bound.lower().man_exp()
+        lo = Fraction(int(m)) * Fraction(2) ** int(e)
+        out["lower_bound_exact"] = f"{lo.numerator}/{lo.denominator}"
+        if lo > 0:
+            digits = 12
+            p = digits - 1 - math.floor(math.log10(float(lo)))
+            k = math.floor(lo * Fraction(10) ** p)            # exact, rounds down
+            out["lower_bound_rounded_down"] = f"{k}e{-p}"     # k * 10^-p <= lo exactly
+        else:
+            out["lower_bound_rounded_down"] = "not positive"
+        out["lower_bound_terms"] = {"lambda0_passed": best.str(30), "eps_B": eps_B.str(20),
+                                    "beta_minus_epsD": (beta - eps_D).str(20)}
+        print("lambda_min(R_H) >=", out["lower_bound_rounded_down"])
     out["elapsed"] = time.time() - t0
     if args.out:
         Path(args.out).write_text(json.dumps(out, indent=1))
