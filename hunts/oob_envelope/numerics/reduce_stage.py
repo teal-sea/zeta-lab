@@ -16,6 +16,30 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from assemble import decode_mats, lam_min_inverse, ldl_inertia, load_envelope, to_arb  # noqa: E402
 
 
+def ldl_mid_inertia(A):
+    """LDL^T without pivoting on exact midpoints (radii dropped at every step,
+    i.e. plain 384-bit floating point). Measured grade: LDL of a symmetric
+    matrix is backward stable, error ~ 2^-prec * cond. Returns (n_neg, min |pivot|)."""
+    n = len(A)
+    a = [[arb(x.mid()) for x in row] for row in A]
+    neg, minabs = 0, None
+    for k in range(n):
+        d = a[k][k]
+        if d.is_zero():
+            return None, 0.0
+        if d < 0:
+            neg += 1
+        ad = float(abs(d).mid())
+        minabs = ad if minabs is None else min(minabs, ad)
+        inv = arb((1 / d).mid())
+        for i in range(k + 1, n):
+            li = arb((a[i][k] * inv).mid())
+            ai = a[i]
+            for j in range(k + 1, i + 1):
+                ai[j] = arb((ai[j] - li * a[j][k]).mid())
+    return neg, minabs
+
+
 def reduce_units(directory, tag, out=None):
     files = sorted(Path(directory).glob(f"{tag}_*.json"), key=lambda p: int(p.stem.split("_")[-2]))
     acc, rows, t_prev = None, [], 0
@@ -46,8 +70,10 @@ def reduce_units(directory, tag, out=None):
                 rec.update(lam=float(lam.mid()), lam_rad=float(lam.rad()))
             except ZeroDivisionError:
                 rec.update(lam=None)
-            neg, pos, und, _ = ldl_inertia([[R[i, j] for j in range(N)] for i in range(N)])
-            rec.update(n_neg=neg, undecided=und,
+            rowsR = [[R[i, j] for j in range(N)] for i in range(N)]
+            neg, pos, und, _ = ldl_inertia(rowsR)
+            mneg, mmin = ldl_mid_inertia(rowsR)
+            rec.update(n_neg=neg, undecided=und, mid_n_neg=mneg, mid_min_abs_pivot=mmin,
                        max_entry_rad=max(float(R[i, j].rad()) for i in range(N) for j in range(N)))
         rows.append(rec)
         print(json.dumps(rec), flush=True)
