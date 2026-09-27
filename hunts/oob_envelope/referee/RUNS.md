@@ -1,12 +1,12 @@
 # Referee approved run record, 2026-09-27
 
-**APPROVED by the supervisor on 2026-09-27; batch in progress.** Authorization
+**APPROVED batch completed: 5 successes, 0 failures, 0 inconclusive.** Authorization
 is for these exact five units, sequentially, profile `teal-sea`, under
 20 core-hours and a $0.15 allowance. Stop on the first failure or inconclusive
 gate. Commit scoped source, brief and run record and review exact names and
 safety before launch. This does not authorize the L=1.19 campaign or reruns.
 
-## Proposed units
+## Approved units and original estimate
 
 | unit | work | anticipated time, estimate only | hard input timeout |
 |---|---|---|---|
@@ -126,20 +126,22 @@ error below `2e-51`, and degree 192 below `2e-63`. Multiplication by 96
 gives operator errors below `2e-49` and `2e-61`, respectively. Both are far
 below the target `1e-17` scale and the `1e-21` safe-rounding margin.
 These are conservative derivations, not local numerical test results.
-`budget.json` will record the actual enclosed errors before assembly.
-Arithmetic propagation and LDL can still be inconclusive and must pass.
+`budget.json` records the actual enclosed errors saved before assembly.
+Arithmetic propagation and LDL passed in both leading units.
 
 The author endpoint `1.158e-17` must lose `eps_B` in the two-block proof.
 The acceptance target is **1.1579e-17** after subtracting the independently
 bounded coupling. Numerics has adopted that correction in its latest RESULTS;
-this referee still requires its own completed enclosure before promotion.
+this referee's two completed enclosures now support that corrected endpoint.
 
-No local parsing, import, smoke test, Python execution or numerical reduction
-was performed. Static review cannot substitute for the first remote check.
+No local numerical parsing/import, smoke test, Python computation or reduction
+was performed. The local Modal CLI imported orchestration code only.
 
 ## Execution ledger
 
 Fixed source revision: `c65c66efc3c8773c5af33cb0e0657262e34bf84b`.
+Source files are retained unchanged, including their prelaunch "unrun"
+annotations; the subsequent execution status is recorded here and in manifests.
 Initial image `im-NmG98aqP2NRUXZ7Dt7P8Ov` built in a reported 12.85 seconds.
 
 | unit | app ID | terminal/active state | durable unit directory |
@@ -148,10 +150,11 @@ Initial image `im-NmG98aqP2NRUXZ7Dt7P8Ov` built in a reported 12.85 seconds.
 | leading160 | `ap-SQrnl1WJoJuZpHOMPUXByS` | completed, gate true; app stopped, zero tasks | `leading160-ef68634f3c3b48afa25b622dd08eec87` |
 | leading192 | `ap-9f0IwvcUOng9xbvYkzLnaU` | completed, gate true; app stopped, zero tasks | `leading192-ab7bc85aac7d460c9cb4c0345fcaab93` |
 | dh512 | `ap-btXCifdZX2A2S973lxR5jA` | completed, gate true; app stopped, zero tasks | `dh512-0e120161c03047efb3d0555d704884bf` |
-| dh768 | not launched | pending | none |
+| dh768 | `ap-abCKDTvqdbI4OWIGmJ52fP` | completed, gate true; app stopped, zero tasks | `dh768-b5ac0f96eec044c18033fb24f7943230` |
 
-Counts at this checkpoint, before dh768 dispatch: 4 launched, 4 successful,
-0 failed, 0 inconclusive, 0 running, 1 not launched. No retries.
+Final counts: **5 launched, 5 successful, 0 failed, 0 inconclusive,
+0 running, 0 not launched, 0 retries**. Each input had its own container;
+apps were reconciled to stopped with zero tasks before the next launch.
 
 All directories sit under the fixed revision on volume `oob-envelope-referee`.
 Controls manifest reports 5.646634578704834 seconds of unit work; all three
@@ -220,3 +223,33 @@ Both output hashes match the manifest. Result SHA-256:
 `6f32ca6f2a288cdfe27d0c9c58a681c8cb34b8dda4e0231fe4a793372c1c00ec`.
 The app stopped at 14:23:22 America/Bogota with zero tasks. This written
 reconciliation precedes the final approved unit, `dh768`.
+
+`dh768` completed in 8.452404975891113 seconds with gate true, measured grade.
+It gives `Q=-0.31630285307558303`, `R=-0.7314173097420369`, and scalar
+adaptive `R=-0.7314173097419605`. The negative witness, domination and
+scalar/matrix agreement gates pass again. The three durable files are under
+`outputs/dh768-b5ac0f96eec044c18033fb24f7943230/volume/dh768-b5ac0f96eec044c18033fb24f7943230/`.
+Both output hashes match the manifest. Result SHA-256:
+`39b3d1994a16e3627f20ac8bbbf28561d7c5e716c15eb2b70ec1725381c31db4`.
+The app stopped at 14:24:57 America/Bogota with zero tasks.
+
+Final Modal app metadata for all five stopped apps is saved in
+`outputs/modal_terminal_apps.json`. Every unit has a receipt, durable
+manifest, result and volume readback; both leading units also have matrix,
+budget, progress and LDL artifacts, and both DH units have witness vectors.
+All 15 output-file hashes match their respective downloaded manifests.
+No numerical reducer or comparison script ran on Ghost.
+
+Resource closeout: each manifest's elapsed time is below its 570-second
+work alarm; the sum is below 230 seconds at one allocated core, hence below
+0.064 core-hour of input work. Applying the quoted CPU rate and full 1.75 GiB
+memory cap to that work gives a function-work estimate below $0.004.
+This excludes startup, the reported 12.85-second image build and storage;
+it is not a billing statement. No rerun or allowance increase was needed.
+The original $0.15 allowance and <20 core-hour ceiling were retained.
+
+Scientific closeout: both independent leading units support the corrected
+`1.1579e-17` lower bound on the even sector, subject to the explicit ordinary
+analytic budgets. K1 passes; K2, K3 and lesions pass at measured grade.
+No L=1.19 unit was authorized or run. Stage B remains a separate supervisor
+decision, with its quadrature/tail/coupling and interval-sign obligations open.

@@ -1,14 +1,17 @@
 1. **PASS, ordinary derivation:** the support lemma holds for complex and odd L2 functions, including frequency 2L; the pole term is unchanged (§2).
 2. **PASS with stated scope, ordinary derivation:** Q >= R_H and the finite-cosine reduction survive; tail constants and quadrature must be recomputed (§3).
 3. **PASS after repair, ordinary derivation:** b447f0d fixes the all-N estimate and analytic-strip scope; original defects are retained in §4.
-4. **UNRESOLVED, numerical claim:** independent 96-mode execution is in progress; numerics 3132b7d corrects the full-space endpoint to 1.1579e-17 (§5).
-5. **UNRESOLVED overall, controls:** independent K3 and all three lesions PASS at measured grade; independent K1 and K2 remain pending (§6).
+4. **PASS, hardened numerical step:** two CC/Arb resolutions give R_H >= 1.1579e-17 on the full even sector at L=4/5, with explicit quadrature, tail and coupling bounds (§5).
+5. **PASS, controls with separate grades:** K1 passes from both enclosures; independent DH K2 at two resolutions, K3 and all three planted lesions pass at measured grade (§6).
 
 # Independent referee review, 2026-09-27
 
-Primary verdict: **incomplete, with the independent numerical enclosure and
-K1/K2 still missing**. No counterexample to the finite-cosine reduction
-was found in this analytic pass. The numerical conclusion is not promoted.
+Primary verdict: **the corrected L=4/5 even-sector bound survives independent
+review and all five approved units pass**. The
+composite Q bound combines an independently reviewed ordinary derivation
+with a hardened numerical step. It is not kernel-checked. The L=1.19
+positivity claim remains UNRESOLVED; Stage A midpoint evidence does not
+bound the whole form.
 
 ## 1. Inputs, independence, and boundary
 
@@ -26,6 +29,7 @@ Pinned reviewed material:
 | hardened control result | `ed52a32`, `harden_L08_T100_sine16_control.json` | shifted LDL decisions and full-space accounting |
 | final readback | theory `fa6f450d57e94fab7fb3c931cf7f6c3afc07b337`; numerics `b9a25bae89c55471444def8e1b5cb2f9b5eac798` | later caveats, K2 and Stage A status; no author code read |
 | repair readback | theory `b447f0dab4c9fda3e2d66ece2cc7da043781e332`; numerics `3132b7daa5b54d9c4141f0e144bc9dc262a2855f` | repaired all-N proof and scope; corrected full-space endpoint |
+| final reporting correction | numerics `f779b27` | removes invalid two-sided bracket at L=1.19; ordinary monotonicity check accepted |
 | Zhu | [arXiv:2608.24827v2](https://arxiv.org/html/2608.24827v2), §§1–5 and parity statement | primary-source convention and reduction check |
 | DH normalization and old negative control | `hunts/rogue_frontier/weil_trunc/SOURCE.md` §4 and `dhneg_log.md` in this checkout | rival definition and reproduction target |
 
@@ -128,10 +132,11 @@ That specification is mathematically appropriate. The JSON does not expose
 the matrix entries or those radii, so its `pd: true` flags cannot independently
 verify the implementation's error insertion.
 
-**PASS as an ordinary analytic reduction for the finite-cosine witness;
-execution-level validation remains UNRESOLVED.**
+**PASS as an ordinary analytic reduction for the finite-cosine witness.**
+The independent even-sector execution now passes at L=4/5 (§5); this is not
+a validation of the author's unseen source or a uniform statement in L.
 
-## 4. Proof details requiring correction
+## 4. Original proof defects and reviewed repairs
 
 ### 4.1 Finite-N estimate in Theorem 2
 
@@ -231,11 +236,11 @@ The inspected author control JSON reports:
 
 | quantity | reported value or decision | referee status |
 |---|---|---|
-| S | `388813211679889/250000000000000` | frozen exact witness; independent proof prepared |
-| leading shift `1.158e-17` | positive pivots | reported, not replayed |
-| leading shift `1.1585e-17` | one negative pivot | reported, not replayed |
+| S | `388813211679889/250000000000000` | independently reconstructed and covered by an Arb kernel decomposition in both leading units |
+| leading shift `1.158e-17` | positive pivots | reproduced by both CC/Arb units |
+| leading shift `1.1585e-17` | one negative pivot | reproduced by both CC/Arb units |
 | largest quadrature error | about `5.764e-44` | reported, not independently bounded at this value |
-| tail deviation | about `2.757e-95` | reported, independent alternative bound prepared |
+| tail deviation | about `2.757e-95` | alternative independent bound below `2.256e-95` |
 | coupling | about `3.030e-44` | nonzero; must be subtracted |
 
 The original numerics RESULTS at ed52a32, lines 17–20 and 22–24, assert the exact full-space endpoint
@@ -255,7 +260,8 @@ minimum is below `1.158e-17`.
 states the safe endpoint `1.1579e-17`, on the even sector. It also corrects
 the H=0 calibration to `1.0199e-17`. The new endpoint serialization is
 reported edited but unrun; no author code was read and this review does not
-validate that edit. The scientific enclosure still needs independent replay.
+validate that edit. The independent replay described next closes the
+corrected scientific enclosure through a separate quadrature implementation.
 
 The new implementation encloses the same frozen witness with a two-atom
 kernel decomposition, reassembles the same 96-mode form, and tests both
@@ -264,16 +270,59 @@ bound. It cannot confirm the author's exact quoted quadrature radius merely
 by obtaining the same final sign. The distinction will be retained in the
 post-run verdict.
 
+### Independent 96-mode results
+
+Both approved units completed on source commit `c65c66e`, without a code
+repair or rerun. The exact rational frozen envelope passed the independent
+two-atom Arb proof in each unit. Both shifted LDL tests decided the same
+bracket as the author: the exact leading block satisfies
+`1.158e-17 < lambda_min(A) < 1.1585e-17`. The upper test has a negative pivot
+at index 36, after positive earlier pivots. The measured midpoint Ritz value
+is `1.1583402660085778616489630627792930825e-17` at the displayed precision;
+the two result files store the same longer decimal string.
+
+| independent bound | CC degree 160, 512 bits | CC degree 192, 640 bits |
+|---|---|---|
+| entry quadrature radius, rounded upward | `< 1.186e-54` | `< 6.685e-67` |
+| matrix operator quadrature error, rounded upward | `< 1.139e-52` | `< 6.418e-65` |
+| tail block deviation | `< 2.256e-95` | `< 2.256e-95` |
+| leading-to-tail coupling norm | `< 1.621e-46` | `< 1.621e-46` |
+| coupling-subtracted full even-sector bound | `> 1.1579e-17` | `> 1.1579e-17` |
+| K1 comparison with `2.27e-17` | PASS | PASS |
+
+The stored balls justify these outward decimal summaries. Each matrix
+contains the quadrature radius in every entry and carries series and Arb
+arithmetic errors. The exact dyadic midpoint/radius lower triangles,
+preassembly budgets, LDL decisions and results were downloaded from the
+durable volume and their hashes checked against each manifest. RUNS.md
+records the app IDs, paths, terminal states and hashes.
+
+The independent full-sector bound follows from
+`min(1.158e-17, beta-eps_D)-eps_B`, with the interval comparison against
+`1.1579e-17` passing in both runs. This is an enclosure-carrying numerical
+step conditional on the explicit ordinary analytic bounds in §7, which
+were reviewed here. Together with the reviewed reduction, it yields the
+same lower bound for Q on real even functions. It supplies no independent
+odd-sector numerical bound.
+
+The result JSON's top-level `grade: measured` describes its midpoint
+eigenanalysis; the separate LDL and `full_space_evidence` fields carry the
+enclosure claim. Eigenvalue-string agreement is corroboration, not the
+proof of the full-sector bound. These runs independently reproduce the
+author's eigenvalue bracket and corrected endpoint, not every author GL
+entry or its quoted `eps_Q_max`: their implementation was not inspected,
+and a high-precision author matrix is not part of the supplied evidence.
+
 ## 6. Controls and lesions
 
-| obligation | current evidence | required independent execution |
+| obligation | evidence and rationale | independent outcome |
 |---|---|---|
-| K1 | reported full-space bound is below the supplied `2.27e-17` ceiling | compare the independently obtained full-space bound, not a Ritz value used as a lower bound |
-| K2 | unfinished at ed52a32; b9a25ba reports a Modal gate-rejection control, discussed below | reconstruct DH coefficients on all integers, conductor 5, odd gamma factor, no pole, H=0; reproduce the negative witness and evaluate the reduced form on it |
-| K3 | ordinary support proof passes | deterministic random complex step functions, an odd step function, endpoint and every H frequency; compute exact overlap integrals numerically |
-| in-band lesion | normalized constant f gives defect `1/32` at `2L-1/20`, by direct overlap | recover that nonzero defect |
-| one-prime sign lesion | admissibility alone cannot catch it | negate p=2's correction and find failure of its per-prime nonnegative polynomial |
-| dropped power | removing 4 changes the form on the window | fail the prime-power inventory gate and detect the missing time-domain shift |
+| K1 | independent full even-sector bounds are below the supplied `2.27e-17` ceiling | PASS in both leading units; no Ritz value is used as a whole-form lower bound |
+| K2 | DH coefficients on all integers, conductor 5, odd gamma factor, no pole, H=0 | PASS measured at both resolutions; negative Q and R witnesses, independent scalar agreement |
+| K3 | ordinary support proof; complex, odd, constant and boundary tests | PASS measured in overlap and frequency representations at two cutoffs |
+| in-band lesion | normalized constant f gives defect `1/32` at `2L-1/20` | PASS measured: nonzero defect recovered in both representations |
+| one-prime sign lesion | admissibility alone cannot catch it | PASS measured: negating p=2 correction makes its per-prime envelope negative |
+| dropped power | removing 4 changes the form on the window | PASS: shared inventory gate rejects it; measured constant-window defect is positive |
 
 The brief's instruction that any mutant remaining positive proves a broken
 pipeline needs a precise interpretation. An altered form can genuinely
@@ -294,7 +343,7 @@ this check is measured rather than an enclosure claim.
 
 For the constant window test, deleting the n=4 term changes the normalized
 form by `log(2)*(1-log(4)/(2L)) > 0`. This is an exact derived expression;
-its numerical evaluation is still pending. The independent DH control also
+its numerical value is independently reproduced below. The independent DH control also
 checks the non-prime-power identity `Lambda_DH(6)=(1+kappa^2)log(6)`.
 
 K2's reference uses `width=log(47)` and hence this hunt's half-width
@@ -306,7 +355,8 @@ At `b9a25ba`, the numerical lane reports a completed Modal K2 run: the
 legitimate envelope gate returns no positive bound; forced-beta runs are
 explicitly invalid-envelope lesions. That is a useful gate-rejection
 control, not an independent validation of the whole enclosure pipeline.
-This referee's own negative-witness and reduction checks remain unrun.
+This referee's two independent negative-witness and reduction checks pass
+below, with their measured grade retained.
 
 **Independent controls execution, source c65c66e:** Modal app
 `ap-NhsIKRPPAvEgmNaQlKQZDY` completed the `controls` unit in 5.6466 seconds.
@@ -329,8 +379,21 @@ the volume; their source/result hashes agree with the local artifacts.
 For DH, Binet's formula at `3/4+it/2` bounds the archimedean deficit by
 `1/(9t)+3/(2t^2) <= 1/t` for `t >= 15/4`. Thus the proposed H=0 reduction
 uses `beta=log(5T/(2pi))-1/T-sum 2|Lambda_DH(n)|/sqrt(n)`, without borrowing
-the zeta pole or prime-power-only coefficient support. This derivation has
-not yet been numerically checked.
+the zeta pole or prime-power-only coefficient support. The first independent
+unit `dh512` passes: Q on the recovered witness is `-0.31630285307629097`,
+R is `-0.7314173097418135`, and scalar adaptive evaluation gives
+`-0.7314173097417971`. The negative beta also blocks a positive whole-form
+bound. This is measured negative-witness evidence, not just a resource or
+undecided-enclosure rejection.
+
+The final `dh768` unit also passes: Q is `-0.31630285307558303`, R is
+`-0.7314173097420369`, and the scalar adaptive value is
+`-0.7314173097419605`. Both resolutions recover the large negative witness
+and refuse a positive bound. Their saved witness vectors and result hashes
+were checked against volume readback. No positivity inference relies merely
+on the runner's hardcoded `positive_result: false`: the acceptance gate
+requires the observed negative Q and R values, domination, and scalar/matrix
+agreement. K2 is a measured PASS, not an interval proof of the DH integrals.
 
 ### Supervisor's later L=1.19 evidence update
 
@@ -354,13 +417,17 @@ lower comparison, not its upper bound. The L=1.1 upper bound does give a
 necessary upper ceiling on a valid L=1.19 lower bound. Remove the claimed
 two-sided bracket and the words asserting necessity of lying between the
 two upper bounds. No contradiction with the reported midpoint is claimed.
+**Repair accepted at f779b27:** the final numerics text keeps only the
+one-sided ceiling and explicitly withdraws the false bracket. The independent
+L=4/5 verdict does not settle L=1.19.
 
-## 7. Independent numerical budget derivation, unexecuted
+## 7. Independent numerical budget derivation and execution
 
 The live consumer is the same 96-mode claim. There is no general framework.
 `independent.py` contains the implementation; `run_modal.py` dispatches
 single units only. The formulas below are ordinary derivations supporting
-the proposed verifier and have not yet been checked numerically.
+the verifier. Both leading units now carry their interval evaluations;
+numerical agreement does not replace these analytic derivations.
 
 For a sine kernel of degree D use weights
 `a_j=sin(pi(j+1)/(D+2))`, `j=0,...,D`, and normalized correlations rho_k.
@@ -410,7 +477,7 @@ cut. Thus `sum_tail a_n^2 <= a_n0^2/(1-r^2) = U`. Completeness gives
 where V bounds the squared pole tail using the same majorant with x=L/2
 and an extra factor exp(L/2). The even pole is positive in the tail block.
 These are alternative operator-norm bounds to the author's Gershgorin/Schur
-constants. They prove the same two-block implication if the execution closes.
+constants. The two independent-quadrature executions close that implication.
 
 The real archimedean multiplier is monotone in |t|, by differentiating its
 convergent digamma series. Its absolute value on [0,T] is bounded by the
@@ -418,8 +485,8 @@ two endpoints, giving a sharper real-axis budget than the ellipse budget.
 
 The verifier records the enclosed matrix before LDL, then both shifted
 decisions, eps_Q, eps_D, eps_B, and an outward-safe full-space endpoint.
-Failure or uncertainty at any gate remains inconclusive. The two independent
-resolution units must both complete before declaring the reproduction done.
+Failure or uncertainty at any gate remains inconclusive. Both independent
+resolution units completed and passed before the numerical verdict changed.
 
 ## 8. Approved execution gate
 
@@ -428,5 +495,16 @@ sequentially with a $0.15 allowance and a stop on first failure or inconclusive
 gate. RUNS.md now includes a conservative derivation: CC degrees 160 and 192
 give matrix quadrature errors below `2e-49` and `2e-61`. The remote units
 check and save their actual budgets before assembling the matrix. This
-resolves the degree-selection concern analytically, not yet by execution.
-Until the outputs exist, the numerical and control verdicts stay UNRESOLVED.
+resolves the degree-selection concern analytically and now by both Arb
+executions. All five units completed with gate true; every app is stopped,
+all required artifacts are durable and read back, and there were no failures,
+inconclusive gates or reruns. See RUNS.md for the complete execution record.
+
+Remaining scope limits: the author GL implementation and its exact quoted
+quadrature radius were not independently audited; this review proves the
+corrected L=4/5 result through the new CC route. Symbolic steps remain
+ordinary reviewed derivations. K2/K3/lesions remain measured controls. The
+prior-art survey retains the source-verification limits noted in §4.
+At L=1.19, unresolved interval signs and absent quadrature, tail and coupling
+bounds still block any whole-form positivity verdict. No new paid unit is
+requested by this completed review.
