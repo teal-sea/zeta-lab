@@ -59,10 +59,14 @@ T# = 350, 400, 450, 500, 525; inverse iteration gives λ = 1.65e-48,
 4.15e-48, 5.17e-48, 5.776e-48, 6.00e-48 there, monotone as R_{T#} must be.
 Arb interval LDL is undecided (304 to 306 of 360 pivots) at every
 checkpoint, so even the block's sign is measured, not enclosed, and
-**nothing is claimed about the whole form**. External consistency: Zhu's
-Table 3 upper bounds bracket the window floor, λ*(1.1) ≤ 2.78e-38 and
-λ*(1.2) ≤ 9.98e-49, and λ* decreases in L; the measured 5.8e-48 at 1.19
-sits between the two, as it must if the reduced form is below λ*(1.19).
+**nothing is claimed about the whole form**. External consistency, one
+sided only: λ* is nonincreasing in L (nested windows), so Zhu's Table 3
+upper bound at L = 1.1 gives λ*(1.19) ≤ λ*(1.1) ≤ 2.78e-38, and the
+measured 5.8e-48 is consistent with λ_min(R_H) ≤ λ*(1.19). His bound at
+L = 1.2 (9.98e-49) bounds λ*(1.2) ≤ λ*(1.19) from above and so says
+nothing about λ*(1.19); no table value brackets it. (Correction, supervisor
+review: an earlier version claimed the two upper bounds bracket the
+L = 1.19 floor. They do not.)
 Zhu's valid-certificate estimate at this support needed N ≈ 1.4 to 2 × 10^4
 (his §7); stage B would need N = 500. **This is not a positivity bound at
 support 2.38.**

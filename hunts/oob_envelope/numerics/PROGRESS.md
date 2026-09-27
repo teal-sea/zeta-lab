@@ -217,3 +217,12 @@ Not done, optional: theory §1.7's sampled B_T at L = 0.8, T = 30..70.
     same beam weil_trunc found (−0.316, peak 84.5). Interval inertia was
     undecided for all six forced rows and their nearest-0 values are
     near-null directions, not read.
+- 2026-09-27. Correction recorded (supervisor review): RESULTS.md had said
+  Zhu's Table 3 upper bounds at L = 1.1 and 1.2 bracket the L = 1.19 window
+  floor. They do not: λ* is nonincreasing in L, so only
+  λ*(1.19) ≤ λ*(1.1) ≤ 2.78e-38 follows; the L = 1.2 value bounds
+  λ*(1.2) ≤ λ*(1.19) from above and constrains nothing here. Text fixed, no
+  rerun. Supervisor reports the referee's Modal controls unit passed
+  (acceptance_gate true, K3 on 10 functions, all three lesions detected,
+  measured) and its leading-block assembly is in progress. Stage B still
+  unapproved; no Ghost compute.
