@@ -147,11 +147,11 @@ Initial image `im-NmG98aqP2NRUXZ7Dt7P8Ov` built in a reported 12.85 seconds.
 | controls | `ap-NhsIKRPPAvEgmNaQlKQZDY` | completed, gate true; app stopped, zero tasks | `controls-a4feaac8775d4162b67d7b8aa6007804` |
 | leading160 | `ap-SQrnl1WJoJuZpHOMPUXByS` | completed, gate true; app stopped, zero tasks | `leading160-ef68634f3c3b48afa25b622dd08eec87` |
 | leading192 | `ap-9f0IwvcUOng9xbvYkzLnaU` | completed, gate true; app stopped, zero tasks | `leading192-ab7bc85aac7d460c9cb4c0345fcaab93` |
-| dh512 | not launched | pending | none |
+| dh512 | `ap-btXCifdZX2A2S973lxR5jA` | completed, gate true; app stopped, zero tasks | `dh512-0e120161c03047efb3d0555d704884bf` |
 | dh768 | not launched | pending | none |
 
-Counts at this checkpoint, before DH dispatch: 3 launched, 3 successful,
-0 failed, 0 inconclusive, 0 running, 2 not launched. No retries.
+Counts at this checkpoint, before dh768 dispatch: 4 launched, 4 successful,
+0 failed, 0 inconclusive, 0 running, 1 not launched. No retries.
 
 All directories sit under the fixed revision on volume `oob-envelope-referee`.
 Controls manifest reports 5.646634578704834 seconds of unit work; all three
@@ -207,3 +207,16 @@ result SHA-256:
 `b55b5137714be31decd243bd43b08664b0a6c131b4507a5acb4798823a73fde6`.
 The app is stopped, zero tasks, at 14:21:47 America/Bogota. This record was
 written after readback and before dispatch of `dh512`.
+
+`dh512` completed in 6.50263786315918 seconds with gate true, measured grade.
+On its unit-norm DH witness, `Q=-0.31630285307629097`,
+`R=-0.7314173097418135`; the independent adaptive scalar evaluation gives
+`R=-0.7314173097417971`. The H=0 reduction and negative-witness gates pass;
+`beta=-21.22492167124564`, so the essential floor also refuses positivity.
+This is a negative-control result, not an enclosure of the DH integrals.
+The witness, result and manifest were downloaded under
+`outputs/dh512-0e120161c03047efb3d0555d704884bf/volume/dh512-0e120161c03047efb3d0555d704884bf/`.
+Both output hashes match the manifest. Result SHA-256:
+`6f32ca6f2a288cdfe27d0c9c58a681c8cb34b8dda4e0231fe4a793372c1c00ec`.
+The app stopped at 14:23:22 America/Bogota with zero tasks. This written
+reconciliation precedes the final approved unit, `dh768`.

@@ -1,11 +1,13 @@
 # Referee progress, 2026-09-27
 
-**Status: controls and both 96-mode enclosure resolutions PASS; K2 pending.**
+**Status: four units PASS; final DH resolution pending.**
 The degree-160/192 CC errors have conservative operator bounds below
 `2e-49`/`2e-61`; actual Arb budgets will be saved before matrix assembly.
 The safe endpoint is `1.1579e-17`, with coupling subtracted. Numerics has
 adopted this correction at `3132b7d`; theory repairs at `b447f0d` pass ordinary
-analytic readback. Independent K1 passes in both leading units. K2 is the
+analytic readback. Independent K1 passes in both leading units. The first K2
+resolution passes at measured grade: DH Q is about -0.3163 and R about
+-0.7314, with scalar/matrix agreement. Its higher-resolution repeat is the
 only remaining execution obligation in this approved batch.
 No local numerical test, smoke verifier,
 reducer, sweep, build, or Python import was run. No push or publication.
@@ -76,8 +78,10 @@ All five output hashes, including the exact-dyadic matrix, match the volume
 readback; app stopped with zero tasks. Degree 192 then launched in
 `ap-9f0IwvcUOng9xbvYkzLnaU`, and completed with the same passed gates.
 All leading192 output hashes match volume readback; its app is stopped with
-zero tasks. RUNS.md records three successes, no failures or inconclusive
-units, and no active referee app before the next authorized `dh512` dispatch.
+zero tasks. `dh512` completed in `ap-btXCifdZX2A2S973lxR5jA`, app stopped,
+zero tasks; both witness/result hashes match volume readback. RUNS.md records
+four successes, no failures or inconclusive units, and no active referee app
+before the final authorized `dh768` dispatch.
 
 ## Supervisor's Stage A update
 
