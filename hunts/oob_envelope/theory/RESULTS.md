@@ -2,16 +2,36 @@
 
 Branch `teal-sea/oob-cert-theory`. Author: theory worker (Claude Code, Opus).
 Every statement below carries its grade on the ladder of `AGENTS.md`. A proof
-here is an *ordinary derivation, self-reviewed*: it has not been refereed and
-it is not kernel-checked. Numbers from float64 scripts are *measured*.
+here is an *ordinary derivation*; none is kernel-checked. The hunt's
+independent referee lane (a different model family) reviewed the proofs as of
+theory commit `b447f0d`: `hunts/oob_envelope/referee/REVIEW.md` at commit
+`b65ef69` on branch `teal-sea/oob-cert-referee`. Its verdict per result is in
+the status table below. That review does not move any claim up the ladder,
+and outside verification is pending. Numbers from float64 scripts are
+*measured*.
 
 ## Summary (five lines)
 
-1. **Task 1:** terms at frequencies `≥ 2L` (boundary included) leave Weil's window form unchanged for every complex `f ∈ L²[−L, L]`, so Zhu's reduction runs with any bound `S ≥ sup(P_L − H)` in place of `A_L`, but no `H` brings positivity below an `H`-free floor `T_res(L) ≥ 2π e^{S*_L}` (§1). [ordinary derivation, self-reviewed]
-2. **Task 2:** for every `L` the best out-of-band constant is exactly `λ_max` of the windowed comb operator, reached by explicit trigonometric `H` at rate `N^{−2}` (§2). [ordinary derivation, self-reviewed; float checks at `L = 0.6, 0.8` measured]
-3. **Task 3:** that constant is `e^L(1 + o(1))`, against `2e^L` per prime and Zhu's `4e^L`, so the threshold stays doubly exponential, asymptotically the fourth root of Zhu's (§3). [ordinary derivation, self-reviewed; table measured]
-4. **Task 4:** the device is not new (Burnol 2000 adds a support-edge cosine; Liu's Theorem B is its operator form), and the window record in half-width of `supp f` is `(log 2)/2` refereed, `17/16` (Liu) and `0.8` (Zhu) unrefereed (§4). [literature reading, scope stated]
-5. **Task 5:** Liu's obstruction concerns a unit-window localisation and does not touch the out-of-band reduction, whose reduced form is `β* I` plus a compact operator (§5). [ordinary derivation from the stated theorem, self-reviewed]
+1. **Task 1:** terms at frequencies `≥ 2L` (boundary included) leave Weil's window form unchanged for every complex `f ∈ L²[−L, L]`, so Zhu's reduction runs with any bound `S ≥ sup(P_L − H)` in place of `A_L`, but no `H` brings positivity below an `H`-free floor `T_res(L) ≥ 2π e^{S*_L}` (§1). [ordinary derivation; referee PASS, REVIEW §2–§3 and repair readback]
+2. **Task 2:** for every `L` the best out-of-band constant is exactly `λ_max` of the windowed comb operator, reached by explicit trigonometric `H` at rate `N^{−2}` (§2). [ordinary derivation; referee PASS after the b447f0d repair, REVIEW §4.1; float checks at `L = 0.6, 0.8` measured, not reproduced]
+3. **Task 3:** that constant is `e^L(1 + o(1))`, against `2e^L` per prime and Zhu's `4e^L`, so the threshold stays doubly exponential, asymptotically the fourth root of Zhu's (§3). [ordinary derivation; referee inspected it, no gap, prime number theorem input stated, REVIEW §4.4; table measured]
+4. **Task 4:** the device is not new (Burnol 2000 adds a support-edge cosine; Liu's Theorem B is its operator form), and the window record in half-width of `supp f` is `(log 2)/2` refereed, `17/16` (Liu) and `0.8` (Zhu) unrefereed (§4). [literature reading, scope stated; not independently cleared by the referee]
+5. **Task 5:** Liu's obstruction concerns a unit-window localisation and does not touch the out-of-band reduction, whose reduced form is `β* I` plus a compact operator (§5). [ordinary derivation from the stated theorem; the Liu-source translation was not independently cleared by the referee]
+
+### Referee status (REVIEW.md at `b65ef69`)
+
+| result | verdict in REVIEW.md | where |
+|---|---|---|
+| Lemma 1, Corollary 1, pole term for complex `f` (§1.1–1.3) | PASS, ordinary derivation | summary line 1, §2 |
+| Theorem 1′, `Q ≥ R_H` (§1.4), and the §1.5 table | PASS with stated scope; tail constants and quadrature are recomputed per witness; the threshold slip and the rescaling statement were corrected | line 2, §3, §4.3 |
+| Theorem 2 (§2.3) | the original all-`N` cosine step failed (`N = 1`, `m = 8`); PASS after the b447f0d repair; weak duality and the completion induction inspected, no gap | line 3, §4.1, §4.4, repair readback |
+| Proposition 2.3 (§2.6) | inspected, no gap | §4.4 |
+| Proposition 2.2 and the census (§2.4) | the uniform-size hypothesis is accepted; the census is sampled and does not prove type exhaustion | §1, §4.4 |
+| Theorem 3 (§3) | the model-operator proof was inspected, no gap, subject to the stated prime number theorem input; the §3.5 table was not reproduced | §4.4 |
+| §1.7 (Propositions 1.2 to 1.4, the `T_res` bracket) | the caveats were accepted as valid and the repairs pass ordinary analytic review; one wording point (`Q − B_T` is extended nonnegative, not a bounded integral) is corrected here | §4.4, repair readback |
+| Proposition 2.4, the §2.5 check, Corollary 3 | not separately addressed | none |
+| §4 prior art and record, §5 Liu's obstruction | not independently cleared; external-source status conditional | §4.4 |
+| numerics lane's `L = 0.8` bound, which uses Theorem 1′ as its step d | a composite of an independently reviewed ordinary derivation and a hardened numerical step (`R_H ≥ 1.1579 × 10^{−17}` on the full even sector, two CC/Arb resolutions); not kernel-checked. `L = 1.19`: UNRESOLVED | summary lines 4–5, §5 |
 
 Corrections after the independent referee (REVIEW §3–§4, 2026-09-27) are
 marked **Correction** in §1.3, §1.5, §1.7, §2.3 and §2.4; none changes a
@@ -27,7 +47,8 @@ theorem's conclusion.
    binding height need not be the envelope threshold `2π e^S` (≈ 30 at
    `L = 0.8`): every out-of-band reduced form is dominated by an `H`-free
    archimedean-capped form, so no `H` can bring positivity below a floor
-   `T_res(L) ≥ 2π e^{S*_L}` (§1.7). *Ordinary derivation, self-reviewed.*
+   `T_res(L) ≥ 2π e^{S*_L}` (§1.7). *Ordinary derivation; referee PASS
+   (REVIEW §2–§3; the §1.7 repairs in its repair readback).*
    The numerics lane's sampled `N = 200` blocks put a candidate operating
    point near 65 (measured; no full-form positivity proved).
 2. **Task 2, duality.** For every `L > 0`, `inf_H sup_t(P_L − H) = λ_max(P)`,
@@ -35,8 +56,8 @@ theorem's conclusion.
    finite-measure `H`, strong duality by an explicit trigonometric `H_N`
    within `(π²/(4(N+1)²)) Σ m² log p/p^{m/2}` of the floor (a completion
    argument on the order `k ↦ k·log p`); continuous parts of `μ` do not lower
-   the constant even on tails `t ≥ T` (§2.1–2.6). *Ordinary derivation,
-   self-reviewed.* Measured (float64): `λ_max(P) = 0.9009276` at `L = 0.6`
+   the constant even on tails `t ≥ T` (§2.1–2.6). *Ordinary derivation;
+   referee PASS after the b447f0d repair (REVIEW §4.1).* Measured (float64): `λ_max(P) = 0.9009276` at `L = 0.6`
    and `1.2191380` at `L = 0.8` (finite 4- and 12-vertex components), and
    the construction reaches `0.90719` and `1.23295` at `N = 20` against
    per-prime `1.12441` and `1.52205` (§2.4–2.5).
@@ -46,7 +67,8 @@ theorem's conclusion.
    out-of-band reduction still needs `T# > 2π exp((1 + o(1)) e^L)`: doubly
    exponential, asymptotically the fourth root of Zhu's threshold (§3.1–3.4),
    plus an explicit lower bound `ℓ(L)` valid for every `L`. *Ordinary
-   derivation, self-reviewed;* the table of §3.5 is measured (float64, one
+   derivation; the referee inspected it and found no gap (REVIEW §4.4);* the
+   table of §3.5 is measured (float64, one
    route; `S*_L/e^L` = 0.811, 1.079, 1.082 at `L` = 1.19, 2, 4).
 4. **Task 4, prior art and record.** The device is not new: Burnol 2000
    (C. R. Acad. Sci. Paris 331, 423–428, arXiv:math/0101068, Théorème 3.7)
@@ -55,13 +77,15 @@ theorem's conclusion.
    No prior instance found of Theorems 1′, 2, 3 or §1.7 (search scope in
    §4.2). Record, half-width of `supp f`: refereed `(log 2)/2` (Yoshida 1992);
    unrefereed computer-assisted `0.8` (Zhu) and `1`, `17/16` (Liu) (§4.1).
-   *Literature reading, scope stated; not a proof.*
+   *Literature reading, scope stated; not a proof; not independently
+   cleared by the referee (REVIEW §4.4).*
 5. **Task 5, Liu's obstruction.** It does not touch the out-of-band route:
    it concerns a unit-window localisation that loses the prime-power-8
    interaction, whereas Theorem 1′ never localises and its reduced form is
    `β* I` plus a compact operator, so Liu's modulated two-bump tests give
-   `R_H → β* > 0` (§5). *Ordinary derivation from Liu's stated theorem,
-   self-reviewed.*
+   `R_H → β* > 0` (§5). *Ordinary derivation from Liu's stated theorem;
+   the referee did not independently clear the Liu-source translation
+   (REVIEW §4.4).*
 
 ## 0. Conventions
 
@@ -378,8 +402,9 @@ Wherever `β* > 0`, the negative spectrum consists of finitely many
 eigenvalues, which is what an inertia count sees. **The endpoint `β* = 0`** (`T# = T_env`): the reduced form is
 then a compact form, the infimum of its Rayleigh quotients is at most `0`,
 and it yields no positive constant. Coercivity needs `β* > 0`, i.e.
-`T# > T_env(H)`, and no nonpositive eigenvalue. *Ordinary derivation,
-self-reviewed.*
+`T# > T_env(H)`, and no nonpositive eigenvalue. *Ordinary derivation;
+the §1.7 repairs pass the referee's ordinary analytic review (REVIEW, repair
+readback).*
 
 **Proposition 1.3 (every out-of-band reduction is dominated by two H-free
 forms).** Fix `T# ≥ 15/4`, put `κ = log(T#/2π) − 1/T#`, and let `H` be
@@ -404,8 +429,10 @@ operator `P`, and only the archimedean term is cut at `T#`. `B_T` is Weil's
 form with the archimedean growth removed above `T`, a capping of the kind in
 Zhu §15, failed route (2).
 
-*Proof.* Each difference is an integral of a bounded function against
-`|F|²`, so no infinite quantities are subtracted. With `R_H` in its
+*Proof.* The first two differences below are integrals of bounded functions
+against `|F|²`, and the third is an extended nonnegative quantity, so no
+infinite quantities are subtracted (wording corrected after the referee's
+repair readback). With `R_H` in its
 full-line form `pole + (1/2π)∫_{|t|<T#}(Ψ_L + H − β*)|F|² + β*‖f‖²`, and
 `⟨Pf, f⟩ = (1/2π)∫ P_L|F|² = (1/2π)∫ (P_L − H)|F|²` by (2.1) and Lemma 1,
 
@@ -432,7 +459,8 @@ if `⟨Pφ, φ⟩ > λ_max − ε` with `‖φ‖ = 1`, choose `τ_k → ∞` by
 simultaneous approximation with `τ_k log p ∈ 2πℤ + o(1)` for the finitely
 many primes `p < e^{2L}`; then `φ_k = e^{iτ_k x} φ` is weakly null and
 `⟨Pφ_k, φ_k⟩ → ⟨Pφ, φ⟩`. So `B_T ⪰ 0` forces `log(T/2π) ≥ λ_max(P)`. ∎
-*(Ordinary derivation, self-reviewed.)*
+*(Ordinary derivation. On the even sector it needs the correction below,
+which the referee's repair readback accepts.)*
 
 **Correction (the even sector).** Theorem 1′ and the numerics work on real
 even `f`, while Propositions 1.2 to 1.4 were stated on complex `W_L`. All of
@@ -446,8 +474,8 @@ is even. `P` commutes with `x ↦ −x`, so the two diagonal terms of
 `⟨Pψ_k, ψ_k⟩` are equal and tend to `⟨Pφ, φ⟩`. The cross terms are
 integrals `∫ e^{2iτ_k x} g(x) dx` of `L¹` functions and tend to `0`
 (Riemann–Lebesgue), as does the cross term of `‖ψ_k‖²`, so
-`‖ψ_k‖² → 2‖φ‖²`; and `ψ_k ⇀ 0`. *(Ordinary derivation, self-reviewed;
-this closes the gap noted in `PROGRESS.md`.)*
+`‖ψ_k‖² → 2‖φ‖²`; and `ψ_k ⇀ 0`. *(Ordinary derivation; this closes the
+gap noted in `PROGRESS.md`, and the referee's repair readback accepts it.)*
 
 **A proved bracket at `L = 0.8`, conditional on Zhu's computation.** Zhu's
 `H = 0` runs at `T# = 150` cover both sectors: the even one in his §5.5 (a)
@@ -455,17 +483,22 @@ this closes the gap noted in `PROGRESS.md`.)*
 quoted in his §5.3) and the odd one in his §6.2 (`Q ≥ 8.2 × 10^{−15}‖f‖²` on
 real odd `f` from the odd reduced matrix at `T# = 150`). So `R_{0,150} ⪰ 0`
 on both sectors, hence on `W_L`; on the even sector alone §5.5 (a) suffices.
-Proposition 1.3 with `H = 0` gives `R_{0,150} ≤ B_{150}`, so `B_{150} ⪰ 0`
-and `T_res(0.8) ≤ 150`. (**Correction:** the first version cited only
-§5.5 (a) for "the whole window".) If the numerics lane's `T# = 100` result
-survives review (their even-sector bound, which after the referee's REVIEW §5
-reads `1.158 × 10^{−17} − ε_B`), the same argument gives `T_res ≤ 100` on the
-even sector. With
-Proposition 1.4 and the Rayleigh value `λ_max(P) ≥ 1.2186` (Galerkin, float),
-`T_res(0.8) ∈ [≈ 21.3, 150]`. The heuristic `2T* ≈ 62` below and the numerics
-lane's sampled candidate near 65 both lie inside. Grades: the inclusion is an
-ordinary derivation; its upper end rests on Zhu's computer-assisted result
-(unrefereed), its lower end on a float Rayleigh value (measured).
+(**Correction:** the first version cited only §5.5 (a) for "the whole
+window".) Proposition 1.3 with `H = 0` gives `R_{0,150} ≤ B_{150}`, so
+`B_{150} ⪰ 0` and `T_res(0.8) ≤ 150`. With Proposition 1.4 and the Rayleigh
+value `λ_max(P) ≥ 1.2186` (Galerkin, float), `T_res(0.8) ∈ [≈ 21.3, 150]`.
+Grades: the inclusion is an ordinary derivation; its upper end rests on
+Zhu's computer-assisted result (unrefereed), its lower end on a float
+Rayleigh value (measured).
+
+**A tighter bracket on the even sector.** The referee has since reproduced
+the numerics lane's `T# = 100` result independently (REVIEW §5:
+`R_H ≥ 1.1579 × 10^{−17}` on the full even sector, hardened, two CC/Arb
+resolutions). With Proposition 1.3 this gives `B_{100} ⪰ 0` there, so on the
+even sector `T_res(0.8) ∈ [≈ 21.3, 100]`. Grades: the upper end is an ordinary
+derivation from a hardened premise, the lower end rests on the same float
+Rayleigh value (measured). The heuristic `2T* ≈ 62` below and the numerics
+lane's sampled candidate near 65 both lie inside.
 
 This recovers the barrier of Corollary 3 by a second route, and shows the
 floor applies to all `H` at once: the out-of-band freedom lowers `T_env`, but
@@ -708,7 +741,8 @@ adjacency matrix `A_τ`, and `P ≅ ⊕_τ A_τ ⊗ I_{L²(B_τ)}`. Hence
 `spec P = ∪_τ spec A_τ` and `λ_max(P) = max_τ λ_max(A_τ)`, attained with
 infinite multiplicity. (The type changes only where some `x + s(k)` crosses
 `±L`, finitely many breakpoints, so each base set is a finite union of
-intervals.) *Ordinary derivation, self-reviewed.*
+intervals.) *Ordinary derivation; the referee accepts the uniform-size
+hypothesis and notes that the census below is sampled (REVIEW §1, §4.4).*
 
 Measured census (float64 breadth-first search, points merged at `1e-9`;
 4000 random base points plus a grid of 160 001; one route):
@@ -923,8 +957,9 @@ this is `O(η(L/2) e^L + e^{L/2 + o(L)} + L) = e^L · O(e^{−c√L})`. Hence
   `λ_max(P) ≤ sup_x (Ph)(x)/h(x)`;
 * *lower bound* (Rayleigh): `λ_max(P) ≥ ⟨Ph, h⟩/‖h‖² ≥ inf_x (Ph)(x)/h(x)`.
 
-Both are `λ_mod(L)(1 + O(e^{−c√L}))`. ∎ *(Ordinary derivation,
-self-reviewed.)*
+Both are `λ_mod(L)(1 + O(e^{−c√L}))`. ∎ *(Ordinary derivation; the
+referee inspected it and found no gap, subject to the stated prime number
+theorem input, REVIEW §4.4.)*
 
 ### 3.4 Explicit bounds for every `L`, and the per-prime constant
 
@@ -1126,4 +1161,5 @@ out-of-band reduction. It does not exclude other failure modes; the
 constraint met so far is the sampled candidate operating point of §1.7. Liu's own Theorem B
 works at `L = 17/16 > (log 8)/2` with a non-localised decomposition,
 consistent with this answer. *Ordinary derivation from the paper's stated
-theorem, self-reviewed.*
+theorem; the referee did not independently clear the Liu-source translation
+(REVIEW §4.4).*

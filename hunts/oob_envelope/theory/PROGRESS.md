@@ -1,6 +1,6 @@
 # PROGRESS: theory worker, hunt oob_envelope
 
-STATUS: holding, no compute. Referee REVIEW §3–§4 repairs applied to RESULTS.md (commit after fa6f450, see log); every change is marked **Correction** in RESULTS §1.3, §1.5, §1.7, §2.3, §2.4. Caveats 1–4 below are now incorporated there.
+STATUS: holding, no compute. RESULTS.md now cites the referee's final REVIEW.md (b65ef69) per result, with no change of ladder grade (every proof stays an ordinary derivation, none kernel-checked). Earlier referee repairs: b447f0d.
 
 Branch `teal-sea/oob-cert-theory`. Writes only in `hunts/oob_envelope/theory/`.
 Brief: `theory/BRIEF.md`. Output: `theory/RESULTS.md`.
@@ -141,3 +141,11 @@ Numerics RESULTS.md (read with git show at c53d379, nothing re-run):
   (closes caveat 1); T_res bracket cites both of Zhu's sectors; overstated
   consequence withdrawn; component census marked sampled; Lemma 1 scope
   versus general Bohr almost periodic H stated.
+- Referee final verdict read (REVIEW.md at b65ef69 on teal-sea/oob-cert-referee,
+  git show only): PASS on Lemma 1, Theorem 1′ with scope, Theorem 2 after the
+  b447f0d repair; Theorem 3 and Proposition 2.3 inspected with no gap; §1.7
+  repairs pass ordinary analytic review; prior art, record and the Liu reading
+  not independently cleared; L = 0.8 even-sector R_H ≥ 1.1579e-17 reproduced
+  (hardened); L = 1.19 unresolved. RESULTS.md updated: header, status table,
+  grade labels, the Proposition 1.3 wording point, and the even-sector
+  bracket T_res(0.8) ∈ [≈21.3, 100]. No ladder upgrade.
