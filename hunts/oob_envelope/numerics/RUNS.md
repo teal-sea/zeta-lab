@@ -193,3 +193,23 @@ wall 30 s. Result `stage_b_val_result.json` (volume readback).
   dropping H or flipping its sign still leaves a positive form at L = 0.8,
   T# = 100 (λ 1.150e-17, 1.141e-17), because H is small in band at this L.
   The H-sign gate remains `envelope_check.py`.
+
+### Stage B run (L = 119/100, T# = 500), terminal
+
+| app | what | outcome | compute |
+|---|---|---|---|
+| ap-ikiEy2RRqhkbWbVwRYFErU | one-unit measurement, panels 980..1000 | success, 210 s (estimate 6.5 min) | 218 s wall |
+| ap-meQWMiDM3O33eRTJRUHoji | 50 units (unit 49 skipped: already on volume) + reducer | success, 50/50 unit files, one client heartbeat warning, no unit failure | units 4849 container-s (max 249 s), reducer 88 s, wall 502 s |
+
+Total stage B ≈ **1.4 core-hours** (estimate 3.2). All three stage B apps
+`stopped` in `modal app list`. Result read back from the volume:
+`stage_b_result.json`, log `stage_b.log`.
+
+Numbers (all in the JSON as Arb strings or exact dyadics):
+β* = 0.511253705003064…, ε_Q,max = 6.9e-66, node shift ≤ 7.3e-113,
+e = 2.29e-63, λ_meas = 5.77564879389e-48 (N = 500, GL-96; stage A N = 360,
+GL-64 gave 5.775648793894e-48, same to 12 digits), λ₀ = 0.99 λ_meas,
+r = 1.42e-113, ε_D = 1.8e-184, ε_B = 1.44e-87.
+**λ_min(R_H) ≥ 5.71789230595e-48** (decimal rounded down from the exact
+dyadic lower endpoint). Cholesky at 1.01 λ_meas fails (pivot 209), as it
+must.

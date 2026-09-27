@@ -1,6 +1,11 @@
 # numerics PROGRESS (oob_envelope)
 
-HOLD. Stage B is NOT approved; no compute, local tests, push or PR.
+HOLD after stage B (approved by Thomas 2026-09-27, run, terminal).
+Stage B: λ_min(R_H) ≥ 5.71789230595e-48 at L = 1.19, T# = 500, N = 500,
+enclosure-carrying single route, 1.4 core-hours on Modal (RESULTS item 6,
+RUNS ledger). Next door: referee's independent route at L = 1.19.
+
+Earlier HOLD text: Stage B was NOT approved; no compute, local tests, push or PR.
 Referee final REVIEW.md (b65ef69, `teal-sea/oob-cert-referee`): PASS on
 the corrected L = 4/5 even-sector bound, λ_min(R_H) ≥ 1.1579e-17, via its
 own Clenshaw–Curtis/Arb implementation at two resolutions; five Modal units

@@ -1,9 +1,39 @@
 # RESULTS: numerics lane (oob_envelope), interim
 
 2026-09-27: phases 1, 2 and 4 done; the L = 0.8 bound passed independent
-referee review (b65ef69, `teal-sea/oob-cert-referee`). L = 1.19 is
-UNRESOLVED: stage A is measured only, stage B is not approved.
+referee review (b65ef69, `teal-sea/oob-cert-referee`). L = 1.19 stage B
+done: an enclosure-carrying lower bound, one implementation, **not yet
+refereed** (item 6).
 Branch `teal-sea/oob-cert`, not pushed. Every grade uses the AGENTS.md ladder.
+
+## Item 6. L = 1.19 (support 2.38), stage B: candidate, hardened single route
+
+For real even f with supp f ⊆ [−1.19, 1.19] and H = sine:16:
+
+    λ_min(R_H(500)) ≥ 5.71789230595e-48,   so   Q(f) ≥ 5.71789230595e-48 ‖f‖²
+
+given Q ≥ R_H. Route: Arb GL-96 assembly of the N = 500 leading block
+(orders 0..998, 384 bits) with the Bernstein-ellipse radius ε_Q ≤ 6.9e-66
+in every entry; midpoint Cholesky of A − λ₀I snapped to exact dyadics and
+its residual enclosed in Arb (r ≤ 1.5e-113); entry uncertainty
+e ≤ 2.3e-63 by row sums; Zhu (13) with ε_D ≤ 1.8e-184, ε_B ≤ 1.5e-87.
+λ_min(R_H) ≥ min(λ₀ − r − e, β* − ε_D) − ε_B, only the Arb lower endpoint
+reported. `stage_b_modal.py`, `stage_b_result.json`, ledger in `RUNS.md`.
+
+Grades, weakest first:
+- Q ≥ R_H: ordinary derivation, referee PASS with stated scope (the
+  reduction is L-independent; the referee reviewed it at L = 4/5).
+- The numerical step: *enclosure-carrying*, one implementation (this
+  lane's GL radii, which the referee did not audit at L = 4/5 either). The
+  same code on Modal reproduces the reviewed L = 4/5 bracket
+  (≥ 1.15822443198e-17 at λ₀ = 0.9999 λ_meas, referee 1.1579e-17).
+- So the composite is a **candidate** positivity bound at support 2.38,
+  even sector only, not independently reproduced, not kernel-checked.
+  It needs the referee's independent CC/Arb route at L = 1.19 before it is
+  called hardened by independent routes.
+- Consistency (one-sided, K1 analogue): 5.7e-48 ≤ λ*(1.1) ≤ 2.78e-38 (Zhu
+  Table 3). N-convergence, measured: λ_meas at N = 500, GL-96 equals
+  stage A's N = 360, GL-64 value to 12 digits.
 
 ## Five-line graded summary
 
