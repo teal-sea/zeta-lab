@@ -1,6 +1,6 @@
 # RESULTS: numerics lane (oob_envelope), interim
 
-Interim, 2026-09-27: phases 1 and 2 at L = 0.8; L = 1.19 stage A running.
+Interim, 2026-09-27: phases 1, 2 and 4 done; L = 1.19 stage A done (measured), stage B awaiting approval.
 Branch `teal-sea/oob-cert`, not pushed. Every grade uses the AGENTS.md ladder.
 
 ## Five-line graded summary
@@ -30,6 +30,29 @@ Branch `teal-sea/oob-cert`, not pushed. Every grade uses the AGENTS.md ladder.
    and the measured R_150 floor 1.3564e-18 matches his 1.356e-18.
    *Enclosure-carrying* / *measured* respectively. `harden_L08_T200_none.json`,
    `run_L08_N200.json`.
+
+## L = 1.19 (support 2.38), stage A: measured only
+
+Modal, 9 units, ≈ 0.85 core-hours (`stageA_L119_reduced.json`). Envelope
+sine:16 (S = 3.8634773, enclosure-carrying), N = 360, GL-64, 384 bits, no
+quadrature, tail or coupling bound. Midpoint LDL inertia: one negative
+eigenvalue at T# = 320; positive definite at T# = 350, 400, 450, 500, 525
+with λ_min = 1.65e-48, 4.15e-48, 5.17e-48, 5.78e-48, 6.00e-48, monotone
+as it must be. Zhu's valid-certificate estimate at this support needed
+N ≈ 1.4 to 2 × 10^4 (his §7); stage B would need N = 500. **This is not a
+positivity bound at support 2.38**: it is a measured sign of the reduced
+form, and the composite would also carry the unrefereed derivation of step d.
+
+## K2: Davenport-Heilbronn at L = (log 47)/2
+
+The DH form is negative on this window (independent, enclosure-grade witness
+in `hunts/rogue_frontier/weil_trunc/dhneg_log.md`, λ = −0.3163, off-line
+pair at 85.699). DH normalization pinned to that code (κ to 4e-56, Λ_f(n)
+to 5e-55). The valid pipeline (H = 0, S_DH = 25.59) needs T# ≳ 1.6e11 for
+β* > 0, so it returns no bound: **inconclusive, as K2 requires**. With β*
+forced (an invalid envelope, lesion only), the matrix code finds λ = −0.288
+at T# = 150 with the eigenvector beamed at t = 84.5, matching weil_trunc.
+`k2_dh.json`, measured.
 
 ## The L = 0.8 replication, in full
 
@@ -84,7 +107,11 @@ $PY harden.py --env none --T 200 --N 200 --lam0 9e-18 1.02e-17 1.028e-17 \
 $PY summarize.py run_L08_N200.json
 ```
 
+Modal jobs (profile teal-sea): `modal run stage_modal.py` (stage A units then
+reducer; `--reduce-only` to rerun the reducer on the stored units) and
+`modal run k2_modal.py`.
+
 ## Not yet done
 
-L = 1.19 (stage A measured scout approved and running; stage B needs a fresh
-approval), K2, the joint LP/SDP envelope, theory §1.7's B_T scan.
+Stage B (enclosure-carrying L = 1.19, needs approval), N-convergence at
+L = 1.19, the joint LP/SDP envelope, theory §1.7's B_T scan.
