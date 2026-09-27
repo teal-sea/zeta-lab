@@ -1,5 +1,19 @@
 # Keep the bound controlled by construction
 
+## Disposition after owner redirection
+
+**Paused. No new uniform arithmetic estimate toward RH was established.**
+The controlled norm is standard approximation geometry; the tested update
+and explicit missing inequality do not make that inequality easier or
+prove its required lower bound. A passing algebra review is not a research
+advance on RH. Preserve the code and evidence, but do not expand this
+numerical ladder or treat the previous run as a solved research goal.
+The owner has invited a fresh search beyond the lab's frontier map.
+This is an allocation decision, not a refutation of the identities below
+or a theorem excluding the broader Nyman-Beurling method.
+
+## Preserved construction
+
 **Candidate: a cross-term-preserving block energy descent.**
 The error norm cannot increase. A concrete arithmetic inequality would force
 it to zero, but that inequality is not proved. This is not an RH solution.
