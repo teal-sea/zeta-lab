@@ -1,9 +1,62 @@
 # PROGRESS: theory worker, hunt oob_envelope
 
-STATUS: all five tasks done (RESULTS.md; last commit before this line: e62cac5). Open requests to numerics: λ_min(B_T) scan at L = 0.8, T ∈ [30, 70]; the H = 0 λ_min at T# = 200 from the same pipeline.
+STATUS: holding for the referee, no compute. RESULTS.md last changed in 9f5bbc3. Caveats found on re-reading are listed below under "Caveats for the referee"; none is a contradiction.
 
 Branch `teal-sea/oob-cert-theory`. Writes only in `hunts/oob_envelope/theory/`.
 Brief: `theory/BRIEF.md`. Output: `theory/RESULTS.md`.
+
+## Caveats for the referee (reading only, 2026-09-27)
+
+Own text (theory RESULTS.md at 9f5bbc3):
+
+1. **Sector mismatch in §1.7.** Theorem 1′ and the numerics work on real even
+   f; Propositions 1.2 to 1.4 are written on complex W_L. The chain
+   T_op ≥ T′_op ≥ T_res holds sector by sector with the same proofs, but the
+   last step T_res ≥ 2π e^{λ_max(P)} on the even sector needs
+   sup σ_ess(P restricted to even functions) = λ_max(P), which is not
+   written. Sketch: P commutes with x ↦ −x and preserves positivity, so a
+   nonnegative near-top vector on a finite piece of a component and its
+   reflection combine into an even vector with the same Rayleigh quotient;
+   then modulate by cos(τ_k x), whose cross terms vanish by Riemann–Lebesgue.
+2. **Definitions in Proposition 1.3.** R′ and B_T are written as Q minus a
+   tail integral, which is ∞ − ∞ when ∫|F|² log(2 + |t|) = ∞. Read them as
+   defined by their bounded-symbol forms: R′ by its second expression, B_T by
+   the symbol Ψ_L − log(|t|/T)_+, which is bounded. The inequalities then hold
+   for every f, and ≤ Q is trivial when Q(f) = +∞.
+3. **The bracket in §1.7.** "R_{0,150} ⪰ 0 on the whole window" cites only
+   Zhu §5.5 (a), which is the even sector; his odd sector at T# = 150 is §6.2.
+   On the even sector alone, T_res(0.8) ≤ 150 follows from §5.5 (a). Both are
+   his unrefereed computer-assisted results.
+4. **Overstatement in the §1.7 consequences.** "A better joint H helps only
+   where the envelope is the binding height" is too strong. Proposition 1.3
+   only says no H goes below T_res. A better H can still lower T_op(H) toward
+   T′_op, and it raises λ_min at fixed T#: at L = 0.8, T# = 200 the numerics
+   lane has λ_min ∈ [1.02e-17, 1.028e-17] with H = 0 (enclosure-carrying,
+   their line 5) against 1.42e-17 with per-prime H (measured, N = 200).
+
+Numerics RESULTS.md (read with git show at c53d379, nothing re-run):
+
+5. **Scope is right.** The claim Q ≥ 1.158e-17 ‖f‖² is for real even f only,
+   graded candidate because its step d is my self-reviewed Theorem 1′. It is
+   consistent with K1 and with the monotonicity of Proposition 1.2 (measured:
+   2.0e-18 at T# = 65, 1.16e-17 at 100, 1.42e-17 at 200). No contradiction
+   with Propositions 1.2 to 1.4.
+6. **For the referee to confirm in the step-e budget** (not errors found):
+   (a) the pole vector p of the rank-one term 2pp^T is not in the listed
+   quadrature budget; (b) whether the entry bound behind ε_D and ε_B carries
+   the factor (1/π)·T# from integrating over [0, T#], which Zhu's printed §4
+   row bound lacks (RESULTS §1.5 (d)); immaterial at 3e-44 against 1e-17, but
+   a correctness item; (c) the envelope bound and the assembled matrix must
+   use the same H (their sign gate addresses this).
+7. **A conditional tightening.** If steps a, b, e and f survive the referee,
+   Proposition 1.3 (R_H ≤ B_T, self-reviewed) turns their T# = 100 result
+   into B_100 ⪰ 0 on the even sector, so T_res(0.8) on that sector lies in
+   [≈ 21.3, 100].
+8. **Stage A at L = 1.19** (measured, midpoint LDL): negative at T# = 320,
+   positive from 350, with T_env ≈ 2π e^{3.8635} ≈ 299 for sine:16. The
+   candidate operating point sits just above the envelope threshold and far
+   above 2T* ≈ 136, which is the envelope-bound regime that §1.7 expected for
+   the per-prime H at this L. Consistency only.
 
 ## Log
 
