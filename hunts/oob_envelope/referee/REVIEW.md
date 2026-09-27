@@ -1,13 +1,13 @@
 1. **PASS, ordinary derivation:** the support lemma holds for complex and odd L2 functions, including frequency 2L; the pole term is unchanged (§2).
 2. **PASS with stated scope, ordinary derivation:** Q >= R_H and the finite-cosine reduction survive; tail constants and quadrature must be recomputed (§3).
-3. **FAIL as written, repairable proof details:** the all-N cosine estimate exceeds its valid range; the general measure class lacks an analytic-strip hypothesis (§4).
-4. **UNRESOLVED, numerical claim:** the 96-mode enclosure has not been independently executed; the displayed full-space endpoint omits the nonzero coupling subtraction (§5).
-5. **UNRESOLVED, controls:** reported K1 is consistent; independent K1/K2/K3 and planted-lesion executions await supervisor approval (§6).
+3. **PASS after repair, ordinary derivation:** b447f0d fixes the all-N estimate and analytic-strip scope; original defects are retained in §4.
+4. **UNRESOLVED, numerical claim:** independent 96-mode execution is in progress; numerics 3132b7d corrects the full-space endpoint to 1.1579e-17 (§5).
+5. **UNRESOLVED overall, controls:** independent K3 and all three lesions PASS at measured grade; independent K1 and K2 remain pending (§6).
 
 # Independent referee review, 2026-09-27
 
 Primary verdict: **incomplete, with the independent numerical enclosure and
-controls still missing**. No counterexample to the finite-cosine reduction
+K1/K2 still missing**. No counterexample to the finite-cosine reduction
 was found in this analytic pass. The numerical conclusion is not promoted.
 
 ## 1. Inputs, independence, and boundary
@@ -25,14 +25,16 @@ Pinned reviewed material:
 | envelope and initial hardened result | `57ef234` | original exact-rational witness and reported output |
 | hardened control result | `ed52a32`, `harden_L08_T100_sine16_control.json` | shifted LDL decisions and full-space accounting |
 | final readback | theory `fa6f450d57e94fab7fb3c931cf7f6c3afc07b337`; numerics `b9a25bae89c55471444def8e1b5cb2f9b5eac798` | later caveats, K2 and Stage A status; no author code read |
+| repair readback | theory `b447f0dab4c9fda3e2d66ece2cc7da043781e332`; numerics `3132b7daa5b54d9c4141f0e144bc9dc262a2855f` | repaired all-N proof and scope; corrected full-space endpoint |
 | Zhu | [arXiv:2608.24827v2](https://arxiv.org/html/2608.24827v2), §§1–5 and parity statement | primary-source convention and reduction check |
 | DH normalization and old negative control | `hunts/rogue_frontier/weil_trunc/SOURCE.md` §4 and `dhneg_log.md` in this checkout | rival definition and reproduction target |
 
 The later theory revision fixes two earlier defects: it allows an empty
 positivity interval, and it assumes a uniform bound on component sizes in
 Proposition 2.2. Those repairs are not charged against the current version.
-The final readback added no change to the theory RESULTS text or the L=0.8
-endpoint claim. It did add the caveats and numerical status changes below.
+The first final readback added only caveats and numerical status changes.
+The subsequent repair readback changes the proof and endpoint as detailed
+below. The rejected original claims remain recorded with their revisions.
 
 No theory, numerics, or rival implementation was read or imported. Only their
 prose and result data were read. The new implementation shares python-flint
@@ -45,9 +47,10 @@ tool is not exposed here; read-only Orca terminal listing and git worktree
 listing confirmed the sibling lanes. No messages, code, or state were
 written to those lanes. All new files are in this referee scope.
 
-**No numerical computation, test, verifier, reducer, or build has run in this
-review.** Source reading, git inspection, data extraction, and file writing
-are the only local operations. Numerical code below is prepared, unexecuted.
+**No numerical computation, test, verifier, reducer, or build has run locally.**
+The approved Modal batch uses source commit `c65c66e`; RUNS.md records every
+unit. Source reading, git inspection, data extraction, file writing, hashing
+and Modal orchestration are the only local operations.
 The initial no-compute-on-Ghost instruction is retained; the later reminder
 of a local resource allowance has not been used to launch local work.
 
@@ -202,6 +205,21 @@ argument on the even subspace needs the symmetrization/modulation step
 written out; it is not supplied by a complex modulation that leaves that
 subspace. None of these ancillary claims is needed for the L=0.8 split bound.
 
+### Repair readback at b447f0d
+
+The revised theorem uses `1-rho_N(m)` and the shift-norm quadratic bound
+for every N, restricting the cosine comparison to `m <= 2N+1`. That closes
+the N=1, m=8 defect. The strip hypothesis now distinguishes finite measures
+from finite cosine sums or exponential moments; the actual witness qualifies.
+The threshold expansion and pole-versus-symbol rescaling are corrected.
+The bounded-symbol definitions remove the infinity subtraction, and the
+even symmetrization of the modulation sequence supplies the missing weakly
+null sequence. The two-sector citation and sampled component census caveat
+are now explicit. These changes pass ordinary analytic review. The phrase
+that every difference has a bounded integrand should exclude the displayed
+`Q-B_T`, which the revised proof correctly treats as extended nonnegative.
+No numerical or kernel-checked grade is claimed for these repairs.
+
 ## 5. Numerical claim at L=4/5
 
 The target is the exact rational `sine:16` witness, `T=100`, and the first
@@ -220,7 +238,7 @@ The inspected author control JSON reports:
 | tail deviation | about `2.757e-95` | reported, independent alternative bound prepared |
 | coupling | about `3.030e-44` | nonzero; must be subtracted |
 
-Numerics RESULTS lines 17–20 and 22–24 assert the exact full-space endpoint
+The original numerics RESULTS at ed52a32, lines 17–20 and 22–24, assert the exact full-space endpoint
 `1.158e-17`. The displayed
 two-block proof only yields `1.158e-17 - eps_B` when the leading shift is
 that same number. The JSON's decimal `lower_bound` rounds away this loss;
@@ -233,9 +251,15 @@ safe outward-rounded replacement is `1.1579e-17`, conditional on the reported
 enclosures being valid. This observation does not allege that the true
 minimum is below `1.158e-17`.
 
+**Repair accepted at 3132b7d:** RESULTS now subtracts `eps_B` explicitly and
+states the safe endpoint `1.1579e-17`, on the even sector. It also corrects
+the H=0 calibration to `1.0199e-17`. The new endpoint serialization is
+reported edited but unrun; no author code was read and this review does not
+validate that edit. The scientific enclosure still needs independent replay.
+
 The new implementation encloses the same frozen witness with a two-atom
 kernel decomposition, reassembles the same 96-mode form, and tests both
-reported shifts. It uses its own, deliberately larger, quadrature error
+reported shifts. It uses its own independently derived quadrature error
 bound. It cannot confirm the author's exact quoted quadrature radius merely
 by obtaining the same final sign. The distinction will be retained in the
 post-run verdict.
@@ -283,6 +307,24 @@ legitimate envelope gate returns no positive bound; forced-beta runs are
 explicitly invalid-envelope lesions. That is a useful gate-rejection
 control, not an independent validation of the whole enclosure pipeline.
 This referee's own negative-witness and reduction checks remain unrun.
+
+**Independent controls execution, source c65c66e:** Modal app
+`ap-NhsIKRPPAvEgmNaQlKQZDY` completed the `controls` unit in 5.6466 seconds.
+The reconstructed unpadded sine-16 sum is
+`1.555252826719554395156823327133059661505079595438460442661392472215115356514794825835`;
+the exact frozen sum includes the two constant paddings and passes the
+independent moment/residual checks. These are measured results; the Arb
+envelope check belongs to the leading units.
+
+K3 gives zero computed overlap on all ten complex/odd/constant test windows
+at every out-of-band frequency, including the boundary. The in-band
+constant-window defect is `0.03125`. Both finite-frequency resolutions pass
+their measured analytic-tail comparison. The one-prime sign flip gives a
+negative envelope witness `-3.163357475943...`; dropping n=4 is rejected by
+the shared support gate and gives defect `0.092580913162...` on the constant
+test. All three lesions are detected. This is a measured PASS for K3 and
+lesions, not a matrix enclosure. Manifest and result were downloaded from
+the volume; their source/result hashes agree with the local artifacts.
 
 For DH, Binet's formula at `3/4+it/2` bounds the archimedean deficit by
 `1/(9t)+3/(2t^2) <= 1/t` for `t >= 15/4`. Thus the proposed H=0 reduction

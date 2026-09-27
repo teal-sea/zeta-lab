@@ -1,10 +1,12 @@
 # Referee progress, 2026-09-27
 
-**Status: five-unit Modal batch approved; prelaunch static review completed.**
+**Status: controls and leading160 PASS; leading192 running on Modal.**
 The degree-160/192 CC errors have conservative operator bounds below
 `2e-49`/`2e-61`; actual Arb budgets will be saved before matrix assembly.
 The safe endpoint is `1.1579e-17`, with coupling subtracted. Numerics has
-adopted this correction; theory has posted repairs awaiting detailed readback.
+adopted this correction at `3132b7d`; theory repairs at `b447f0d` pass ordinary
+analytic readback. Independent K1 passes in leading160; K2 and the second
+enclosure resolution remain pending.
 No local numerical test, smoke verifier,
 reducer, sweep, build, or Python import was run. No push or publication.
 
@@ -31,6 +33,8 @@ numerical enclosure remains UNRESOLVED pending independent execution.
 
 Other scoped caveats, the source threshold slip, pole budget, tail factor,
 extended-value definitions and theory's later self-review are in REVIEW.md.
+Items 1 to 3 have now been repaired in the author prose and reviewed;
+item 4 remains in numerics `3132b7d`.
 
 ## Exact readback
 
@@ -43,6 +47,7 @@ extended-value definitions and theory's later self-review are in REVIEW.md.
   as input, preserving source metadata.
 - Git fetch and current sibling-worktree/Orca-terminal listing performed.
   The advertised research `list_sessions` tool is unavailable here.
+- Repair readback: theory `b447f0d`, numerics `3132b7d`, prose only.
 
 ## Concrete implementation authorized for remote execution
 
@@ -61,9 +66,16 @@ stays inside the unit container. Five units are specified in RUNS.md.
 The source has only been read as text: it is unexecuted and may require a
 bounded repair after its first approved runtime check.
 
-No new report is evidence of a completed run. At this prelaunch checkpoint,
-no JSON execution result is present. The frozen input JSON is author data,
-not a referee result. RUNS.md records authorization and the exact stop gates.
+Source/approval commit `c65c66e` is the fixed run revision. `controls` completed
+in app `ap-NhsIKRPPAvEgmNaQlKQZDY`: independent S, K3 and three lesions pass
+at measured grade. App stopped with zero tasks; manifest/result downloaded
+from volume and result hash matched. `leading160` completed in app
+`ap-SQrnl1WJoJuZpHOMPUXByS`: both shifted LDL gates, K1 and safe endpoint pass.
+All five output hashes, including the exact-dyadic matrix, match the volume
+readback; app stopped with zero tasks. Degree 192 then launched in
+`ap-9f0IwvcUOng9xbvYkzLnaU`. RUNS.md
+records the supervisor's timing update and the requirement to finish the
+written terminal reconciliation before any DH launch.
 
 ## Supervisor's Stage A update
 

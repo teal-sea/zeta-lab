@@ -1,6 +1,6 @@
 # Referee approved run record, 2026-09-27
 
-**APPROVED by the supervisor on 2026-09-27; not yet launched.** Authorization
+**APPROVED by the supervisor on 2026-09-27; batch in progress.** Authorization
 is for these exact five units, sequentially, profile `teal-sea`, under
 20 core-hours and a $0.15 allowance. Stop on the first failure or inconclusive
 gate. Commit scoped source, brief and run record and review exact names and
@@ -67,7 +67,7 @@ also run on Modal and be separately budgeted if these outputs do not suffice.
 
 The API settings follow [Modal's Function configuration](https://modal.com/docs/sdk/py/latest/App)
 and [volume commit documentation](https://modal.com/docs/guide/volumes).
-Neither the application, image, nor volume has been created by this review.
+The application, image and volume were created by the approved first unit.
 
 ## Approved dispatch
 
@@ -139,5 +139,57 @@ was performed. Static review cannot substitute for the first remote check.
 
 ## Execution ledger
 
-No app IDs or terminal results yet. Counts: 0 launched, 0 successful,
-0 failed, 0 inconclusive, 5 pending. Volume readback pending.
+Fixed source revision: `c65c66efc3c8773c5af33cb0e0657262e34bf84b`.
+Initial image `im-NmG98aqP2NRUXZ7Dt7P8Ov` built in a reported 12.85 seconds.
+
+| unit | app ID | terminal/active state | durable unit directory |
+|---|---|---|---|
+| controls | `ap-NhsIKRPPAvEgmNaQlKQZDY` | completed, gate true; app stopped, zero tasks | `controls-a4feaac8775d4162b67d7b8aa6007804` |
+| leading160 | `ap-SQrnl1WJoJuZpHOMPUXByS` | completed, gate true; app stopped, zero tasks | `leading160-ef68634f3c3b48afa25b622dd08eec87` |
+| leading192 | `ap-9f0IwvcUOng9xbvYkzLnaU` | running; terminal readback pending | pending |
+| dh512 | not launched | pending | none |
+| dh768 | not launched | pending | none |
+
+Counts at this checkpoint: 3 launched, 2 successful, 0 failed,
+0 inconclusive, 1 running, 2 not launched. No retries.
+
+All directories sit under the fixed revision on volume `oob-envelope-referee`.
+Controls manifest reports 5.646634578704834 seconds of unit work; all three
+lesions and K3 pass, measured grade. `S_ideal` begins
+`1.5552528267195543951568233271330596615`; exact `S_frozen` matches the input.
+The result SHA-256 is
+`769a1e536737082ea44704e712c7a94f2274ac29870465443e744d325d7fad26`.
+Its downloaded file matches that durable manifest hash. Source and witness
+SHA-256 values also match the current scoped files. Readback is stored in
+`outputs/controls-a4feaac8775d4162b67d7b8aa6007804/volume/`.
+
+The first directory download to a nonexistent local destination produced a
+malformed local concatenation; it is retained as `directory-download-attempt.txt`.
+Downloading manifest and result individually fixed this file-I/O problem.
+No numerical unit was repeated and no numerical reducer was run locally.
+
+`leading160` completed in 93.07853555679321 seconds. The unit returned
+`acceptance_gate=true`, positive LDL at `1.158e-17`, and a negative pivot
+at `1.1585e-17` (index 36). The measured Ritz minimum begins
+`1.1583402660085778616489630627792930825e-17` and lies in the author bracket.
+The independent per-entry quadrature budget is approximately `1.186e-54`,
+tail budget `2.256e-95`, and coupling budget `1.621e-46`. K1 and the
+coupling-subtracted safe `1.1579e-17` endpoint pass. These rounded summaries
+are not endpoint enclosures; full balls are in result/budget JSON.
+
+All six durable files were downloaded under
+`outputs/leading160-ef68634f3c3b48afa25b622dd08eec87/volume/leading160-ef68634f3c3b48afa25b622dd08eec87/`.
+The manifest's hashes match all five output files, including the exact-dyadic
+matrix and LDL record. Matrix SHA-256:
+`4164ccbfe6ba8c96652274c2c0ac9224a74eaa69702b733347ff874fa3888640`;
+result SHA-256:
+`c51cc835b5238bbab5caad8e404de083a55bf48e9615268859f8ebe5c7b653b2`.
+Modal app metadata confirms stopped at 14:18:45 America/Bogota, zero tasks.
+
+Sequencing disclosure: degree 192 was launched only after reading the
+leading160 completed receipt, checking all durable output hashes, and seeing
+the app stopped. The supervisor's subsequent request to update this ledger
+before the next launch arrived just after that launch. This ledger had still
+shown leading160 running at that instant. It is corrected here; before any
+DH launch, both terminal reconciliation and this written ledger will be
+updated. No failure or inconclusive result was ignored, and no unit reran.
