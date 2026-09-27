@@ -1,0 +1,24 @@
+L=0.8 trial 0: ||f||^2 freq/time = 3.273142637130/3.273142637186; max|H freq| rel = 4.6e-14; full H rel = -2.6e-14; lesion rel = 3.481e-05 (expect 3.481e-05)
+     in-band p=2 lam=1.3863 (2L=1.6): freq +0.0044668183  time +0.0044668183
+     in-band p=3 lam=1.0986 (2L=1.6): freq +0.1360759804  time +0.1360759804
+L=0.8 trial 1: ||f||^2 freq/time = 0.261183440897/0.261183440945; max|H freq| rel = 4.8e-13; full H rel = -2.8e-13; lesion rel = 3.359e-04 (expect 3.359e-04)
+     in-band p=2 lam=1.3863 (2L=1.6): freq +0.0021847339  time +0.0021847339
+     in-band p=3 lam=1.0986 (2L=1.6): freq +0.0042233574  time +0.0042233574
+L=0.8 trial 2: ||f||^2 freq/time = 1.020796949179/1.020796949198; max|H freq| rel = 4.9e-14; full H rel = -2.6e-14; lesion rel = 3.525e-05 (expect 3.525e-05)
+     in-band p=2 lam=1.3863 (2L=1.6): freq +0.0008253201  time +0.0008253201
+     in-band p=3 lam=1.0986 (2L=1.6): freq -0.0085132217  time -0.0085132217
+L=1.19 trial 0: ||f||^2 freq/time = 0.018827037307/0.018827037312; max|H freq| rel = 3.1e-12; full H rel = -1.1e-11; lesion rel = 3.663e-03 (expect 3.663e-03)
+     in-band p=2 lam=2.0794 (2L=2.38): freq +0.0005924986  time +0.0005924986
+     in-band p=3 lam=2.1972 (2L=2.38): freq +0.0001502236  time +0.0001502236
+     in-band p=5 lam=1.6094 (2L=2.38): freq -0.0025381184  time -0.0025381184
+     in-band p=7 lam=1.9459 (2L=2.38): freq +0.0008039075  time +0.0008039075
+L=1.19 trial 1: ||f||^2 freq/time = 3.102891574479/3.102891574483; max|H freq| rel = 1.3e-14; full H rel = -4.7e-14; lesion rel = 2.832e-05 (expect 2.832e-05)
+     in-band p=2 lam=2.0794 (2L=2.38): freq +0.0024513577  time +0.0024513577
+     in-band p=3 lam=2.1972 (2L=2.38): freq +0.0002781294  time +0.0002781294
+     in-band p=5 lam=1.6094 (2L=2.38): freq +0.1198876738  time +0.1198876738
+     in-band p=7 lam=1.9459 (2L=2.38): freq +0.0115326304  time +0.0115326304
+L=1.19 trial 2: ||f||^2 freq/time = 3.369730587179/3.369730587180; max|H freq| rel = 4.3e-15; full H rel = -1.5e-14; lesion rel = 1.030e-05 (expect 1.030e-05)
+     in-band p=2 lam=2.0794 (2L=2.38): freq +0.0012284918  time +0.0012284918
+     in-band p=3 lam=2.1972 (2L=2.38): freq +0.0001186884  time +0.0001186884
+     in-band p=5 lam=1.6094 (2L=2.38): freq +0.0943197013  time +0.0943197013
+     in-band p=7 lam=1.9459 (2L=2.38): freq +0.0068451042  time +0.0068451042
