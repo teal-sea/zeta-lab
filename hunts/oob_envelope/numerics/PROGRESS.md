@@ -41,3 +41,39 @@ Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
   Joint LP/SDP (stretch) deferred until phase 2 shows whether the envelope
   threshold is the operating point at all (the reduced form may go negative
   well above it).
+- 2026-09-27. **Phase 2, L = 0.8 curve, N = 200 (measured).** `assemble.py`,
+  256-bit Arb throughout (no float64 anywhere in the matrix), GL-32 on panels
+  of width 1/2, one pass with cumulative sums. `run_L08_N200.json`. The Arb
+  radii below are radii of the assembled *quadrature-rule* matrix: quadrature
+  error, Legendre tail and two-block coupling are **not** bounded yet, so every
+  number here is measured, not a bound on Q.
+
+  Calibration against Zhu (H = 0): λ_min(R_150) = 1.3564e-18 (Zhu 1.356e-18),
+  λ_min(R_200) = 1.0277e-17 (Zhu: ≥ 9e-18 enclosure-carrying). K1 check: every
+  value below is ≤ 1.43e-17 < 2.27e-17, and below the window floor 1.656e-17.
+
+  | T# | β* (H=0) | λ_min H=0 | λ_min sine16 | λ_min sine32 | λ_min sine64 | neg. eigenvalues with H |
+  |---|---|---|---|---|---|---|
+  | 40 | <0 | n/a | 6.7e-17 | 9.7e-17 | 1.1e-16 | 3 |
+  | 50 | <0 | n/a | 2.2e-17 | 3.9e-17 | 4.8e-17 | 2 |
+  | 60 | <0 | n/a | -3.4e-18 | -1.6e-18 | -1.2e-18 | 1 |
+  | 65 | <0 | n/a | 1.23e-18 | 2.00e-18 | 2.20e-18 | 0 |
+  | 70 | <0 | n/a | 4.53e-18 | 4.85e-18 | 4.93e-18 | 0 |
+  | 80 | <0 | n/a | 8.06e-18 | 8.23e-18 | 8.28e-18 | 0 |
+  | 100 | <0 | n/a | 1.158e-17 | 1.163e-17 | 1.162e-17 | 0 |
+  | 120 | -0.001 | n/a | 1.253e-17 | 1.259e-17 | 1.261e-17 | 0 |
+  | 150 | 0.224 | 1.356e-18 | 1.338e-17 | 1.343e-17 | 1.345e-17 | 0 |
+  | 200 | 0.513 | 1.028e-17 | 1.419e-17 | 1.422e-17 | 1.423e-17 | 0 |
+
+  (At T# ≤ 50 the listed λ is the eigenvalue nearest 0, not the minimum; the
+  LDL inertia count is the decisive column.) Reading: the envelope threshold
+  (T# ≈ 30) is not the operating point, as theory warned: R_H is indefinite
+  up to T# = 60 and positive from T# = 65. With H the reduced form at T# = 100
+  already beats Zhu's T# = 200 floor. Next: K3, then the smallest N that
+  holds λ_min at T# = 65 to 80, then the hardened budget.
+
+  Implementation traps met (both fixed, both would have been silent in
+  mpmath): arb's Bessel J at large order needs +512 bits of working
+  precision, and it amplifies an input radius by about e^x, so the Bessel
+  argument is snapped to an exact dyadic and the node shift (~1e-77) is
+  recorded for the error budget.
