@@ -1,10 +1,8 @@
 # numerics PROGRESS (oob_envelope)
 
-QUESTION: approve Modal run. Estimate in `RUNS.md`: stage A (measured scout,
-N = 360, ~1.0 core-hour, 10 units) then stage B only if A shows
-λ_min(R_H(500)) > 0 (hardened, N = 640, ~4.9 core-hours, 50 units); total
-~6 core-hours, units ≤ 7 min, per-unit checkpoints. Nothing launched. Also:
-approve stage A alone if you prefer to decide B after seeing it.
+Stage A on Modal approved by the supervisor 2026-09-27 (stage A only; stage
+B needs a fresh approval after A). QUESTION cleared. Interim `RESULTS.md`
+written for the referee.
 
 Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
 `hunts/oob_envelope/numerics/`. Local runs capped at 10 min and 2 GB.
@@ -16,7 +14,7 @@ Worker: Claude Code, Opus. Branch `teal-sea/oob-cert`. Writes only in
 | 1. H with enclosures, L = 0.8, 1.0, 1.19 | done (separable); joint LP/SDP not done | enclosure-carrying | `envelope.json`, ca41ce2 |
 | 2a. K3 orthogonality | done, passes, lesion breaks it | measured (float64) | `k3.json`, commit after f1696cd |
 | 2b. L = 0.8 replication with H | done | leading block + all Zhu error terms enclosure-carrying; Q ≥ R_H step is ordinary derivation (theory lane) | `harden_L08_T100_sine16*.json` |
-| 3. L = 1.19 cost estimate | written, waiting for approval | estimate | `RUNS.md`, `unit_cost.out` |
+| 3. L = 1.19 | stage A approved, starting | estimate | `RUNS.md`, `unit_cost.out` |
 | 4. K2 on a rival without Euler product | not started (after phase 3 answer) | | |
 
 ### Phase 2 result at L = 0.8, stated with its grade
@@ -131,3 +129,8 @@ Not done, optional: theory §1.7's sampled B_T at L = 0.8, T = 30..70.
   hardened run reproduces unchanged after the fix).
 - 2026-09-27. Phase 3: unit costs measured, estimate in `RUNS.md`, QUESTION
   at top. Stopped.
+- 2026-09-27. Advisor-requested gates added. `envelope_check.py`: the sign
+  of H in the matrix code path is right (Ψ + H above the envelope at 4000 Arb
+  points and a 1.2M-point grid; flipped-H and S → S_opt lesions fire), and
+  `harden.py` now asserts the quadrature radius is inside every LDL entry.
+  Stage B shrinks to N = 500 (tail arithmetic). Stage A approved.

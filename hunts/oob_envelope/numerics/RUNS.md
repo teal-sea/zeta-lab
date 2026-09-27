@@ -49,21 +49,32 @@ before launch. Nothing below has been launched remotely.
 
 ### Stage A: measured scout (λ_min(R_H) vs T#, no error bounds)
 
-N = 360, q = 64, checkpoints T# = 300, 350, 400, 450, 500.
-Per node ≈ 45 ms (Bessel K = 719, interpolated) → 64 000 nodes ≈ 2 900 s;
-products ≈ 1000 × 2 × 0.4 s ≈ 800 s. **≈ 1.0 core-hour.**
-Units: 10 containers × 100 panels (50 t-units each), ≈ 6 min each.
+**Approved by the supervisor 2026-09-27 (stage A only).**
+N = 360, q = 64, prec 384, sine:16, panels of 1/2 on [0, 525].
+Checkpoints T# = 320, 350, 400, 450, 500, 525 (β* = 0.06 ... 0.56; 300 is
+dead since 2π e^S = 299.6). Units are t-ranges with checkpoints on their
+boundaries: [0,80], [80,160], [160,240], [240,320], [320,350], [350,400],
+[400,450], [450,500], [500,525], so 9 units, the largest 160 panels. Each
+returns the lower triangles of its partial sums G, C_Ψ, C_H (exact Arb
+midpoints plus radii) and writes them to a Modal volume on completion.
+Per node ≈ 45 ms (Bessel K = 719, interpolated from the measured 33 and
+151 ms) → 67 200 nodes ≈ 3 000 s; products ≈ 1050 × 3 × 0.2 s ≈ 630 s.
+**≈ 1.0 core-hour**; largest unit ≈ 10 min. The reduction (sums, LDL,
+inverse iteration at each checkpoint) runs locally, under 10 min.
 
 ### Stage B: hardened run (only if stage A shows λ_min(R_H(500)) > 0)
 
-N = 640, q = 96, prec 384. 96 000 nodes × 0.155 s ≈ 14 900 s; products
-1000 × 2 × 1.4 s ≈ 2 800 s. **≈ 4.9 core-hours.** Plus the final
+N = 500 (harden.py's own tail arithmetic at x = 595: ε_B ≈ 8e-88, against
+6.7e+08 at N = 400 and 2e-37 at N = 450), q = 96, prec 384. Bessel cost at
+K = 999 interpolated ≈ 100 ms per node: 96 000 nodes ≈ 9 600 s; products
+1000 × 2 × 0.9 s ≈ 1 800 s. **≈ 3.2 core-hours.** Needs a fresh approval
+after stage A. Plus the final
 positivity step on one container: LDL in Arb, or, if interval LDL radii blow
 up at cond ~1e47, a midpoint Cholesky with an Arb residual (Zhu Lemma 5.2) in
 a few 640³ products: < 0.1 core-hour.
 Units: 50 containers × 20 panels (10 t-units each), ≈ 6.5 min each.
 
-**Total both stages ≈ 6 core-hours, under the 20 core-hour cap.** Wall time
+**Total both stages ≈ 4.2 core-hours, under the 20 core-hour cap.** Wall time
 with 10 to 50 parallel containers: under 15 minutes per stage. Dollar cost
 not estimated here (Modal's current CPU rate not checked).
 

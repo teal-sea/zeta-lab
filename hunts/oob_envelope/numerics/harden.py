@@ -195,6 +195,8 @@ def main():
             v = C[i, j] + 2 * pvec[i] * pvec[j] + (beta if i == j else 0)
             row.append(v + arb(0, eps_Q[i][j]))
         rows.append(row)
+    # the quadrature radius must actually be inside every LDL input entry
+    assert all(bool(rows[i][j].rad() >= eps_Q[i][j]) for i in range(N) for j in range(N))
     out = {"L": str(L), "T": str(T), "env": args.env, "N": N, "q": args.q, "h": str(h), "prec": args.prec,
            "S": str(S.mid()) + " +/- " + str(S.rad()), "beta": float(beta.mid()),
            "eps_Q_max": float(max(max(r) for r in eps_Q)), "node_shift": float(shift.upper()),
