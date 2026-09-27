@@ -27,7 +27,14 @@ it is not kernel-checked. Numbers from float64 scripts are *measured*.
    and `1.2191380` at `L = 0.8` (finite 4- and 12-vertex components), and
    the construction reaches `0.90719` and `1.23295` at `N = 20` against
    per-prime `1.12441` and `1.52205` (§2.4–2.5).
-3. Task 3: pending.
+3. **Task 3, asymptotics.** `S*_L = e^L (1 + O(e^{−c√L}))` from the prime
+   number theorem with the classical error term (constant not effective),
+   against `S_sep ~ 2e^L` and Zhu's `A_L ~ 4e^L`. So every constant-envelope
+   out-of-band reduction still needs `T# > 2π exp((1 + o(1)) e^L)`: doubly
+   exponential, asymptotically the fourth root of Zhu's threshold (§3.1–3.4),
+   plus an explicit lower bound `ℓ(L)` valid for every `L`. *Ordinary
+   derivation, self-reviewed;* the table of §3.5 is measured (float64, one
+   route; `S*_L/e^L` = 0.811, 1.079, 1.082 at `L` = 1.19, 2, 4).
 4. Task 4: pending.
 5. Task 5: pending.
 
@@ -578,3 +585,153 @@ evaluation gives as `1.522051`, `2.977298`, `3.767084` (measured, one
 route). Every reported value lies above its limit, by `6 × 10^{−4}`,
 `1.1 × 10^{−3}` and `1.8 × 10^{−3}`, as it must: a per-prime enclosure below
 these numbers would contradict weak duality and would signal a bug.
+
+## 3. Task 3: asymptotics of `S*_L`
+
+### 3.1 Statement
+
+By Theorem 2, `S*_L = λ_max(P)`. Let `κ_L` be the unique root `> 1/2` of
+`κ tanh(κL) = 1/2` and put `λ_mod(L) = 1/(κ_L² − 1/4)`. Expanding
+`κ_L = 1/2 + δ` gives `δ e^{2κ_L L} = 1 + δ`, so `δ = e^{−L}(1 + O(L e^{−L}))`
+and
+
+    λ_mod(L) = e^L + 2L − 2 + O(L² e^{−L}).
+
+**Theorem 3.** As `L → ∞`,
+
+    S*_L = λ_max(P) = λ_mod(L) · (1 + O(e^{−c√L})) = e^L (1 + O(e^{−c√L}))
+
+for an absolute constant `c > 0`. The only arithmetic input is the prime
+number theorem with the de la Vallée Poussin error term,
+`ψ(u) = u + O(u e^{−c₀ √(log u)})`; with only `ψ(u) ~ u` the conclusion is
+`S*_L ~ e^L`. The constant is not made effective here.
+
+Companion facts (same input): `A_L = (4 + o(1)) e^L` (Zhu Theorem 1.4) and
+`S_sep = Σ_p λ_max(T_p) = (2 + o(1)) e^L` (§3.4). So the three envelope
+constants run `4 : 2 : 1` in units of `e^L`.
+
+**Corollary 3 (the barrier with out-of-band freedom).** Every application of
+Theorem 1′ with a constant envelope, for any finite-measure `H`, needs
+`T# > 2π e^{S*_L} = 2π exp((1 + o(1)) e^L)`. The threshold stays doubly
+exponential in `L`. Asymptotically it is the fourth root of Zhu's
+`T_1 = 2π exp((4 + o(1)) e^L)` and the square root of the per-prime
+threshold. *Proof:* Proposition 2.1 (all finite-measure `H`),
+Proposition 2.3 (tails), Theorem 3.
+
+### 3.2 The model operator
+
+Let `W(y) = Σ_{log n ≤ y} Λ(n)/√n` (a right-continuous step function, `W = 0`
+on `[0, log 2)`). Partial summation with `ψ(u) = u + E(u)` gives
+
+    W(y) = 2e^{y/2} − 1 + R(y),   R(y) = E(e^y) e^{−y/2} + ½ ∫_1^{e^y} E(u) u^{−3/2} du,
+
+so with the model `W_0(y) = 2(e^{y/2} − 1)`, whose density is `e^{y/2}`, the
+difference `D = W − W_0 = 1 + R` satisfies `D(0) = 0`,
+`|D(y)| ≤ C_0 e^{y/2}` for all `y ≥ 0` (Chebyshev), and
+`η(Y) := sup_{y ≥ Y} |D(y)| e^{−y/2} = O(e^{−c₁√Y})` (de la Vallée Poussin).
+
+The model operator `(Kh)(x) = ∫_{−L}^{L} e^{|x − x′|/2} h(x′) dx′` replaces
+the comb by its density. Since `(d²/dx² − 1/4) e^{|u|/2} = δ(u)`, `Kh`
+solves `(Kh)″ − (Kh)/4 = h` on `(−L, L)` with
+`(Kh)′(L) = (Kh)(L)/2` and `(Kh)′(−L) = −(Kh)(−L)/2`. For
+`h_L(x) = cosh(κ_L x)`, the function `λ_mod h_L` satisfies the same equation
+and boundary conditions (that is the defining equation of `κ_L`), and the
+difference of two solutions is `αe^{x/2} + βe^{−x/2}`, which the boundary
+conditions force to `0`. So `K h_L = λ_mod(L) h_L` exactly.
+
+### 3.3 Proof of Theorem 3
+
+For `x ∈ [−L, L]` write `(Ph)(x) = ∫_{(0, x+L]} h(x − y) dW(y) +
+∫_{(0, L−x]} h(x + y) dW(y)` and the same with `W_0` for `Kh`. With
+`h = h_L` and `κ = κ_L ∈ [1/2, 1]` (true for `L ≥ 0.55`), integration by
+parts against `D` (`D(0) = 0`) gives
+
+    (Ph)(x) − λ_mod h(x) = E_1(x) + E_2(x),
+    E_1(x) = h(−L) D(x + L) + ∫_0^{x+L} D(y) h′(x − y) dy,
+
+and `E_2` symmetric. Bound each piece relative to `h(x) ≥ e^{κ|x|}/2`, using
+`|D(y)| ≤ η(Y) e^{y/2}` for `y ≥ Y` and `≤ C_0 e^{y/2}` below:
+
+* boundary term: `≤ 2η(Y) e^{(κ + 1/2)L}` when `x + L ≥ Y`, and
+  `≤ 2C_0 e^{(κ + 1/2)Y}` otherwise (then `|x| ≥ L − Y`);
+* the part `y > x` of the integral: `≤ 2η(Y) e^{(κ+1/2)L}/(κ + 1/2)` plus
+  `2C_0 e^{(κ+1/2)Y}/(κ + 1/2)` from `y < Y`;
+* the part `y ≤ x`: `≤ 2κ C_0 L`.
+
+With `e^{(κ_L + 1/2)L} = e^L e^{δL} = e^L (1 + o(1))` and `Y = L/2`, all of
+this is `O(η(L/2) e^L + e^{L/2 + o(L)} + L) = e^L · O(e^{−c√L})`. Hence
+`|(Ph)(x)/h(x) − λ_mod(L)| ≤ λ_mod(L) · O(e^{−c√L})` uniformly on
+`[−L, L]`. Then:
+
+* *upper bound* (Collatz–Wielandt, valid because `P` preserves positivity):
+  `λ_max(P) ≤ sup_x (Ph)(x)/h(x)`;
+* *lower bound* (Rayleigh): `λ_max(P) ≥ ⟨Ph, h⟩/‖h‖² ≥ inf_x (Ph)(x)/h(x)`.
+
+Both are `λ_mod(L)(1 + O(e^{−c√L}))`. ∎ *(Ordinary derivation,
+self-reviewed.)*
+
+### 3.4 Explicit bounds for every `L`, and the per-prime constant
+
+* **Lower bound, fully explicit.** The Rayleigh quotient of
+  `h(x) = cosh(x/2)` is an exact finite sum:
+
+      S*_L ≥ ℓ(L) := 2 Σ_{log n < 2L} (Λ(n)/√n) [sinh(L − ½log n) + (L − ½log n) cosh(½log n)] / (L + sinh L),
+
+  valid for every `L > 0` (Rayleigh principle plus Theorem 2), with
+  `ℓ(L) ~ e^L`. By Corollary 3, `2π e^{ℓ(L)}` is a lower bound for the split
+  point of every constant-envelope out-of-band reduction.
+* **Upper bounds.** `S*_L ≤ S_sep(L)` for every `L` (weak duality one prime
+  at a time), and `S*_L ≤ sup_x (Ph)(x)/h(x)` for any positive `h`; with
+  `h = cosh(κ_L x)` this is a finite expression whose supremum over `x` can
+  be enclosed, and it is `e^L(1 + o(1))`.
+* **`S_sep ~ 2e^L`.** Interlacing with the leading `2 × 2` block gives
+  `λ_max(T_p) ≥ log p/√p`, so `S_sep ≥ Σ_{p < e^{2L}} log p/√p ~ 2e^L`. For
+  `p > e^L` only `k = 1` occurs and `λ_max(T_p) = log p/√p` exactly; for
+  `p ≤ e^L` the row-sum bound `λ_max(T_p) ≤ 2 log p/(√p − 1)` sums to
+  `O(e^{L/2})`. Hence `S_sep = (2 + o(1)) e^L`: the per-prime correction
+  halves every large prime's cosine and no more, while the joint optimum
+  halves the total again.
+
+### 3.5 Measured table
+
+`theory/asymptotics_check.py` (float64, one route, about 10 s). All columns
+divided by `e^L`; `gal` is the Galerkin value of `λ_max(P)` from below
+(`M = 800` cells), `cw` the Collatz–Wielandt ratio on a 20 001-point grid
+(an estimate of an upper bound, not an enclosure).
+
+| L | e^L | A_L | S_sep | gal (≈ S*_L) | ℓ(L) | cw | λ_mod |
+|---|---|---|---|---|---|---|---|
+| 0.80 | 2.226 | 1.322 | 0.684 | 0.548 | 0.476 | 0.645 | 0.960 |
+| 1.00 | 2.718 | 2.153 | 1.095 | 0.712 | 0.653 | 0.946 | 1.065 |
+| 1.19 | 3.287 | 2.152 | 1.146 | 0.811 | 0.782 | 0.961 | 1.134 |
+| 1.50 | 4.482 | 2.904 | 1.525 | 0.958 | 0.938 | 1.167 | 1.201 |
+| 2.00 | 7.389 | 3.300 | 1.770 | 1.079 | 1.069 | 1.192 | 1.232 |
+| 2.50 | 12.18 | 3.493 | 1.878 | 1.120 | 1.114 | 1.212 | 1.215 |
+| 3.00 | 20.09 | 3.744 | 2.003 | 1.120 | 1.117 | 1.227 | 1.178 |
+| 3.50 | 33.12 | 3.850 | 2.036 | 1.103 | 1.102 | 1.166 | 1.139 |
+| 4.00 | 54.60 | 3.911 | 2.054 | 1.082 | 1.082 | 1.110 | 1.103 |
+
+The ratio `gal/e^L` rises to about `1.12` and then falls toward `1`, as
+`λ_mod/e^L = 1 + (2L − 2)e^{−L} + …` predicts; the explicit bound `ℓ(L)` is
+within 1% of the Galerkin value from `L = 2` on. At `L = 1.19` the implied
+thresholds are `2π e^{A_L} ≈ 7.4 × 10^3`, `2π e^{S_sep} ≈ 272` and
+`2π e^{S*} ≈ 90`, against the resolution height `T* = 2π e^{2L} ≈ 68`.
+
+### 3.6 What this decides
+
+* The doubly exponential barrier keeps its shape (Corollary 3), as the
+  mission expected. The out-of-band freedom buys exactly a factor `4` in the
+  exponent's constant, asymptotically, and no constant envelope of any
+  finite-measure `H` can buy more.
+* The factor `4 → 1` splits as `4 → 2` (per prime, each large prime's cosine
+  halved) and `2 → 1` (joint: the optimal window function is
+  `≈ cosh(x/2)`, concentrated at both ends of the window, and correlates all
+  primes at once).
+* Practical note for `L = 1.19`. With `β* = 0.5` the per-prime split point is
+  `T# ≈ 2π e^{S_sep + 0.5} ≈ 450`, about `6.6 T*`, the same ratio as Zhu's
+  successful run at `L = 0.8` (`200/31`). So the §1.6 risk is smaller at
+  `L = 1.19` with the per-prime envelope than at `L = 0.8` with the joint one.
+  At `L = 0.8` the gain can instead be spent on `β*` at fixed `T#`: at
+  `T# = 200`, `β* = log(200/2π) − 1/200 − S` is `0.513` with `A_L`, `1.933`
+  with `S_sep` and `2.236` with `S*`, which shrinks the discarded tail. That
+  is a suggestion, not a measured result.

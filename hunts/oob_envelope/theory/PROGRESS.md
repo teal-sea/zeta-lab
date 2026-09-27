@@ -34,6 +34,11 @@ Brief: `theory/BRIEF.md`. Output: `theory/RESULTS.md`.
   lifts (Prop 2.4). Complex pole term derived and checked: 2|∫f cosh|² −
   2|∫f sinh|² (§1.3, pole_check.py, agreement 1e-15; Lemma 1 check at
   λ = 2L, 2L+0.3 gives 1e-15, in-band 2L−0.05 matches π(g(λ)+g(−λ))).
+- Task 3 written (RESULTS.md §3): S*_L = e^L(1+O(e^{-c√L})) via a two-sided
+  pointwise estimate of P on cosh(κ_L x) (model kernel e^{|x-x'|/2}, exact
+  eigenfunction), Collatz–Wielandt above and Rayleigh below; S_sep ~ 2e^L;
+  A_L ~ 4e^L. Explicit lower bound ℓ(L) for every L. asymptotics_check.py
+  (measured) shows S*/e^L = 0.548, 0.811, 1.079, 1.082 at L = 0.8, 1.19, 2, 4.
 
 ## Task status
 
@@ -41,6 +46,6 @@ Brief: `theory/BRIEF.md`. Output: `theory/RESULTS.md`.
 |---|---|---|
 | 1 | out-of-band lemma + modified Theorem 1.1 | done (RESULTS §1) |
 | 2 | weak / strong duality for the optimal constant | done (RESULTS §2) |
-| 3 | asymptotics of S*_L | in progress |
-| 4 | prior art and the current record | not started |
+| 3 | asymptotics of S*_L | done (RESULTS §3) |
+| 4 | prior art and the current record | in progress |
 | 5 | Liu's obstruction vs the out-of-band route | not started |
