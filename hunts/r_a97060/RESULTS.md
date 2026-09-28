@@ -189,6 +189,9 @@ you change `H` or the field.
    *First step:* re-run the full table with `exhaustive=True` in
    `probe.zone_trade` and diff the worst margins, one flag, one run, and the
    b&b's own admissible bound already makes it affordable.
+   *Decided:* `hunts/r_401bbf/` proves the prune removes nothing when every
+   pair charge is nonnegative (true here by construction) and diffs all
+   13,200 cells against exhaustive enumeration, max delta 1.1e-16.
 2. **The v-convexity transfer is now the weakest step, and it is the cheapest
    remaining one.** The table is enclosure-carrying at `v = 1/4`; the transfer
    to `y < 1/2` is prose. *Why it might matter:* until it is discharged the
@@ -215,5 +218,9 @@ you change `H` or the field.
    are depth-1/2 and unaffected, but a `k >= 3` pass that pushes depth up will
    meet it. *Why it might matter:* it is a proved constant going invalid, not
    a loose bound. *First step:* re-derive the depth-1 far constant with the
-   same ball layer; `ball_field.D_enclosure` takes the depth as an interval
-   already.
+ same ball layer; `ball_field.D_enclosure` takes the depth as an interval
+ already.
+ *Decided:* `hunts/r_a7c12f/` withdraws the refutation. `637/1000` is only
+ claimed for `s >= 37.0135` and holds there at depth 1 with enclosed margin
+ +0.0052; the `0.6636` was a supremum over `s in [8, 400]`, a different
+ range.
