@@ -213,3 +213,27 @@ r = 1.42e-113, ε_D = 1.8e-184, ε_B = 1.44e-87.
 **λ_min(R_H) ≥ 5.71789230595e-48** (decimal rounded down from the exact
 dyadic lower endpoint). Cholesky at 1.01 λ_meas fails (pivot 209), as it
 must.
+
+### Negative controls (Modal, 2026-09-27, after stage B)
+
+| app | what | outcome | compute |
+|---|---|---|---|
+| ap-TtQ0os4EX4HAAgTufDgD97 | `val` rerun with planted in-band lesions, L = 4/5, T# = 100 | success | units 20 s + 23 s, reducer 2 s |
+| ap-OuY0B2T8yRU4DsA21MDAIc | `val60`: L = 4/5, T# = 60, where R_H was measured indefinite | success | units 10 s + 10 s, reducer < 5 s |
+
+Results read back from the volume: `stageBval2_L08_result.json`,
+`stageBval60_L08_result.json`. Total ≈ 0.02 core-hours.
+
+- **T# = 60 negative control fires.** β* = 0.6845 > 0 there, so the valid
+  gate is open, yet the positivity step returns no bound: the midpoint
+  Cholesky of A itself breaks (pivot 19, −1.07), and the harden.py
+  interval LDL on the same data finds exactly one negative eigenvalue
+  (0 undecided). This matches the measured indefiniteness at T# = 60 in
+  `run_L08_N200.json`. So the step does refuse a form that is truly
+  indefinite, with every error term in place.
+- **Planted in-band constant (−2e-17 · G) fires**: no bound (pivot 19).
+- **Planted in-band cos(0.95·2L·t), amplitude ±1e-16: does not
+  discriminate.** λ moves in the 12th digit. The amplitude is too small
+  against the form's floor; recorded, not claimed as a pass.
+- Main row reproduced bit for bit (≥ 1.14675686334e-17 at 0.99 λ_meas;
+  ≥ 1.15822443198e-17 at 0.9999).
