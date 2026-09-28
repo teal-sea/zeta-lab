@@ -119,7 +119,7 @@ theorem four_point_bound_ratio :
 
 Local compile record only. No publication, no PR, no public claim. Pending external verification.
 
-Complete client stdout+stderr: `/Users/thomas/.hermes/cache/scratch/zeta-fourpoint-serial/logs/launch-20260928t220203.log`
+Complete client stdout+stderr: `<PRIVATE-LOCAL-SCRATCH>/zeta-fourpoint-serial/logs/launch-20260928t220203.log`
 
 ## Driver
 
@@ -129,7 +129,7 @@ Complete client stdout+stderr: `/Users/thomas/.hermes/cache/scratch/zeta-fourpoi
 - client exit 0
 - wall elapsed (incl. teardown): 920.9 s (bound 9600 s)
 - after teardown: none active
-- full client stdout+stderr: `/Users/thomas/.hermes/cache/scratch/zeta-fourpoint-serial/logs/launch-20260928t220203.log`
+- full client stdout+stderr: `<PRIVATE-LOCAL-SCRATCH>/zeta-fourpoint-serial/logs/launch-20260928t220203.log`
 - last receipt in log: 48 WholeLibrary
 - last saved image in log: `im-6OZMQf9oFxqLnic4UBo4mf`
 - FPVERIFY ok: True (client exit code alone is not proof; only FPVERIFY ok=True over all receipts is)

@@ -239,7 +239,16 @@ tree. No fresh Lean build of the integrated checkout is claimed.
 Six new regression tests check raw checksums, all 49 receipts and 48
 compiled-module records, all six axiom lines, both source manifests, and
 the current candidate's exact source bytes, and the displayed decimal
-improvement. The immutable raw report is
-the only new local-path hygiene exception, pinned to its exact SHA-256.
+improvement. Hermes subsequently published `958877c2`, sanitizing exactly
+three local filesystem paths in the report and log. Intake confirmed that
+the verification JSON and axiom output are unchanged and incorporated the
+sanitized copies. No new repository-hygiene exception is needed.
 Earlier launch logs and the incomplete saved-image lineage remain explicit
 limitations, not silently reconstructed evidence.
+
+After incorporating the sanitized evidence, the expanded governance and
+integration suite passes 364 tests with two slow tests deselected in 6.98
+seconds. The six evidence tests and four module-root tests now run in the
+ordinary dependency-free CI gate. Context freshness passes. The whitespace
+check passes outside the supplied build log, whose original whitespace is
+preserved along with its checksum.

@@ -12,7 +12,6 @@ below rather than hidden in the pattern.
 from __future__ import annotations
 
 import re
-import hashlib
 import subprocess
 from pathlib import Path
 
@@ -54,12 +53,6 @@ _PINNED_BLIND_MODULES = frozenset(
     f"harness/blind_authoring_2026_08_09/party{i:02d}/department.py" for i in range(1, 11)
 )
 
-# The original build report is hash-pinned evidence. Its two machine paths
-# identify the same raw log; changing them would alter the supplied record.
-_PINNED_FOUR_POINT_REPORT = (
-    "hunts/four_point_pressure/evidence/zeta-fourpoint-serial-result-final3.md"
-)
-
 
 def _tracked_text_files() -> list[Path]:
     tracked = subprocess.check_output(
@@ -91,7 +84,7 @@ def test_no_machine_local_path_outside_the_pinned_blind_modules() -> None:
     offenders = []
     for path in _tracked_text_files():
         rel = path.relative_to(_REPO_ROOT).as_posix()
-        if rel in _PINNED_BLIND_MODULES or rel == _PINNED_FOUR_POINT_REPORT:
+        if rel in _PINNED_BLIND_MODULES:
             continue
         try:
             text = path.read_text(encoding="utf-8")
@@ -99,14 +92,6 @@ def test_no_machine_local_path_outside_the_pinned_blind_modules() -> None:
             continue
         offenders += [f"{rel}:{line}: {hit}" for line, hit in _leaks(text)]
     assert not offenders, "machine-local paths in tracked files:\n" + "\n".join(offenders)
-
-
-def test_four_point_report_exception_is_hash_pinned():
-    report = _REPO_ROOT / _PINNED_FOUR_POINT_REPORT
-    assert hashlib.sha256(report.read_bytes()).hexdigest() == (
-        "5d0db33a76b90b6d9ea53f28376358d108c95196341c34ad02e3e4bdf43fdd46"
-    )
-    assert len(_leaks(report.read_text())) == 2
 
 
 def test_the_exception_is_real_and_still_pinned() -> None:
