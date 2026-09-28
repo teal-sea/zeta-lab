@@ -250,3 +250,7 @@ Active under Thomas's explicit four-core-hour Modal authorization.
 Derived odd orders, sinh pole, step-two tail ratios and parity cross-term
 cancellation in odd_derivation.md. Tiny local formula checks pass.
 Next gate: Zhu section 6.2 at L=4/5, T#=150, H=0. No main run yet.
+
+Odd validation gates passed. Zhu measured 9.11833845450e-15; sine:16
+T#=100 lower endpoint 9.41137741118e-15. T#=40 control is refused with
+an enclosed negative witness. Timing the last main unit next.

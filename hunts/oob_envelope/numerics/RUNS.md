@@ -277,3 +277,38 @@ and sinh integrals, orthonormality, double factorial indices and actual
 cut ratios pass. Maximum measured direct-integral defect 1.02e-56 at 55 dps.
 All four configurations have both tail ratios below one (largest 0.08807).
 The exact checks and measured checks are distinguished in check_odd.py.
+
+### Odd Zhu validation, terminal
+
+App ap-uvTBLRYDv5KdLXmzacpTWr, command:
+`modal run hunts/oob_envelope/numerics/stage_b_odd_modal.py --cfg zhu`.
+Six units 111.432 core-seconds, reducer 9.186 s; app wall 48 s.
+Volume readback odd_zhu_result.json; app confirmed stopped.
+Measured 9.11833845450e-15, source 9.1183e-15 (ratio 1.0000042173).
+Lower endpoint rounded down 9.02715506995e-15, above source 8.2065e-15.
+Wrong positive pole gives 6.40880126462e-10, a measured 70284.75-fold
+increase. The sign-direction check fires; positivity does not reject this
+wrong sign, as expected since it adds a positive rank-one matrix.
+The 1.01-times overshift is refused in both rows.
+
+### Odd envelope validation and negative control, terminal
+
+val: app ap-Lfjwjx0GIZ20PL1zZkL1AI, units 36.802 core-seconds, reducer
+1.781 s, wall 34 s; odd_val_result.json. Measured 9.50644182948e-15;
+lower endpoint 9.41137741118e-15. Wrong positive pole raises the measured
+floor to 7.36487811883e-10. Drop-H and flip-H stay positive
+(9.40521108856e-15 and 9.28959833914e-15), so these lesions do not
+discriminate at this window. The 1.01 overshift fails in all four rows.
+
+val40: app ap-mHTe5wmfzkcIiwJ9nSWS4c, units 11.322 core-seconds, reducer
+2.199 s, wall 21 s; odd_val40_result.json. The valid beta gate opens,
+but the main head is indefinite: a Schur witness has enclosed Rayleigh
+upper endpoint < -1.35054e-7 after quadrature error. No positive endpoint
+is returned. All three altered forms also fail, with enclosed negative
+witnesses. Their witnesses differ, so these values are not eigenvalue
+comparisons; the JSON pole comparison is unevaluated (null ratio) here.
+Both apps confirmed stopped. Validation total is below 0.05 timed core-hour.
+
+Next authorized run is ONLY main unit 49 (panels 980:1000). The even run
+timed that unit at 210 s; reserve 300 s for the odd pilot, then estimate
+the complete run from its actual duration before proceeding.
