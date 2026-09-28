@@ -1,0 +1,51 @@
+{
+  "volume": "oob-envelope-referee",
+  "directory": "/out/c65c66efc3c8773c5af33cb0e0657262e34bf84b/dh768-b5ac0f96eec044c18033fb24f7943230",
+  "manifest": {
+    "unit": "dh768",
+    "revision_label": "c65c66efc3c8773c5af33cb0e0657262e34bf84b",
+    "run_id": "dh768-b5ac0f96eec044c18033fb24f7943230",
+    "input_sha256": {
+      "independent.py": "45a2cc82df77a926cd7a6bf2a39f31e9d907a94f82bbec394c8c6aeb89c14bfd",
+      "frozen_envelope.json": "b854b5c30350d888f33c53141c2a1e800aae35ea57e6aec28e05210388b5aa34"
+    },
+    "python": "3.12.10",
+    "packages": {
+      "python-flint": "0.9.0",
+      "mpmath": "1.3.0",
+      "numpy": "2.2.6",
+      "scipy": "1.15.3"
+    },
+    "cpu_limit": 1,
+    "memory_limit_MiB": 1792,
+    "timeout_s": 600,
+    "profile_requested": "teal-sea",
+    "started_unix": 1790537086.4740417,
+    "status": "completed",
+    "elapsed_s": 8.452404975891113,
+    "output_sha256": {
+      "dh_witness.json": "df8ab66aa5809f217fda937d1d6fae992df743f6d21ca3c487df00878a38b2b9",
+      "result.json": "39b3d1994a16e3627f20ac8bbbf28561d7c5e716c15eb2b70ec1725381c31db4"
+    }
+  },
+  "result": {
+    "grade": "measured",
+    "L": "log(47)/2",
+    "N": 65,
+    "time_quadrature_order": 768,
+    "S_absolute_coefficients": 25.591652703258486,
+    "beta": -21.22492167124564,
+    "Q_rayleigh": -0.31630285307558303,
+    "R_rayleigh": -0.7314173097420369,
+    "R_scalar_adaptive": -0.7314173097419605,
+    "adaptive_reported_error": 2.275236039739744e-13,
+    "R_matrix_scalar_agreement": true,
+    "K2_negative_witness": true,
+    "domination_on_witness_measured": true,
+    "positive_result": false,
+    "rejection_observed": true,
+    "nonpositive_essential_floor": true,
+    "nonclaim": "Quadrature and floating errors are not rigorous enclosures.",
+    "acceptance_gate": true
+  }
+}

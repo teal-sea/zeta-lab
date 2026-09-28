@@ -1,0 +1,20 @@
+{
+  "grade": "measured",
+  "L": "log(47)/2",
+  "N": 65,
+  "time_quadrature_order": 512,
+  "S_absolute_coefficients": 25.591652703258486,
+  "beta": -21.22492167124564,
+  "Q_rayleigh": -0.31630285307629097,
+  "R_rayleigh": -0.7314173097418135,
+  "R_scalar_adaptive": -0.7314173097417971,
+  "adaptive_reported_error": 2.2752360397397623e-13,
+  "R_matrix_scalar_agreement": true,
+  "K2_negative_witness": true,
+  "domination_on_witness_measured": true,
+  "positive_result": false,
+  "rejection_observed": true,
+  "nonpositive_essential_floor": true,
+  "nonclaim": "Quadrature and floating errors are not rigorous enclosures.",
+  "acceptance_gate": true
+}

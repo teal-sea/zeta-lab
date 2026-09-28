@@ -1,0 +1,67 @@
+{
+  "volume": "oob-envelope-referee",
+  "directory": "/out/c65c66efc3c8773c5af33cb0e0657262e34bf84b/leading192-ab7bc85aac7d460c9cb4c0345fcaab93",
+  "manifest": {
+    "unit": "leading192",
+    "revision_label": "c65c66efc3c8773c5af33cb0e0657262e34bf84b",
+    "run_id": "leading192-ab7bc85aac7d460c9cb4c0345fcaab93",
+    "input_sha256": {
+      "independent.py": "45a2cc82df77a926cd7a6bf2a39f31e9d907a94f82bbec394c8c6aeb89c14bfd",
+      "frozen_envelope.json": "b854b5c30350d888f33c53141c2a1e800aae35ea57e6aec28e05210388b5aa34"
+    },
+    "python": "3.12.10",
+    "packages": {
+      "python-flint": "0.9.0",
+      "mpmath": "1.3.0",
+      "numpy": "2.2.6",
+      "scipy": "1.15.3"
+    },
+    "cpu_limit": 1,
+    "memory_limit_MiB": 1792,
+    "timeout_s": 600,
+    "profile_requested": "teal-sea",
+    "started_unix": 1790536790.424414,
+    "status": "completed",
+    "elapsed_s": 115.78645706176758,
+    "output_sha256": {
+      "budget.json": "dedf3339c2e2dd6ea396b7fb58ee55bf3ec5e1d621be48a378067232d60154ce",
+      "ldl.json": "02ae677a6359ce9d42092152c874e8c77dfa55e961894f5ade0ef71b8c1d72bc",
+      "matrix.json": "a5b58509745a7327f9ac9c1913f54288348780eddadca52fa6a0e8007518dfab",
+      "progress.json": "c2adc842b91c83f1533bf31d831daacfe89b6b5f6aa182e91a82fe1d105dcdd6",
+      "result.json": "b55b5137714be31decd243bd43b08664b0a6c131b4507a5acb4798823a73fde6"
+    }
+  },
+  "result": {
+    "grade": "measured",
+    "N": 96,
+    "T": "100",
+    "L": "4/5",
+    "S": "388813211679889/250000000000000",
+    "quadrature_order": 192,
+    "bits": 640,
+    "recurrence_extra": 160,
+    "lambda_min": "0.00000000000000001158340266008577861648963062779293082500303434019157675077872450127515859434284042944",
+    "next_eigenvalue": "0.00000000000531085944629050492611892844583240092751587237796892881169160189786085",
+    "author_bracket_agreement": true,
+    "K1_ritz_consistency_only": true,
+    "ldl": {
+      "1.158e-17": {
+        "status": "positive_definite"
+      },
+      "1.1585e-17": {
+        "status": "negative_pivot",
+        "index": 36,
+        "pivot": "[-0.2770442859562244715435983003985575 +/- 5.01e-35]"
+      }
+    },
+    "eps_Q_per_entry": "[6.68483484070366621702873518076153700441413384341027047533927549990239922151860108026671185024693878547984033876403087696613654402356367514735105514834688355913954784515910230593270460924187e-67 +/- 4.01e-256]",
+    "eps_D": "[2.25529470995667624072006946357239117679340701435655459639697137642365577101958249442140737585435410653732112561163146403430857667120010464307150238403335653915501570823940746855238017007676e-95 +/- 1.79e-284]",
+    "eps_B": "[1.620819185584336583668256391458538930420783251419854716349067480354583860469570588503654190457840785382522966930729471494271506634903476030640966566704699931875076013301578819890453581690584e-46 +/- 6.90e-236]",
+    "full_space_lower_bound": "[1.15799999999999999999999999998379180814415663416331743608541461069579216748580145283650932519645416139530429411496345809542159214617477033069270528505728493365096523969359033433295300068124924e-17 +/- 6.08e-210]",
+    "full_space_evidence": "enclosure-carrying conditional on analytic budgets",
+    "safe_endpoint_1_1579e_17": true,
+    "K1_full_bound": true,
+    "nonclaim": "Composite depends on analytic budgets and envelope proof.",
+    "acceptance_gate": true
+  }
+}
