@@ -188,3 +188,36 @@ reducer; `--reduce-only` to rerun the reducer on the stored units) and
 
 Stage B (enclosure-carrying L = 1.19, needs approval), N-convergence at
 L = 1.19, the joint LP/SDP envelope, theory §1.7's B_T scan.
+
+## Odd sector validation, 2026-09-28
+
+New odd-specific runner stage_b_odd_modal.py, derived in odd_derivation.md;
+the even runner is unchanged. The theory file's complex pole calculation
+and parity row were checked against Zhu v2 Lemma 6.1. Both multiplier and
+pole cross terms vanish as shown explicitly in odd_derivation.md section 1.
+Thus the weaker of valid odd and even bounds applies to all complex f.
+
+| odd configuration | measured head lambda_min | downward-rounded full-space lower endpoint |
+|---|---:|---:|
+| L=4/5, T#=150, H=0, N=200 | 9.11833845450e-15 | 9.02715506995e-15 |
+| L=4/5, T#=100, sine:16, N=96 | 9.50644182948e-15 | 9.41137741118e-15 |
+
+Zhu section 6.2 reports 9.1183e-15 measured and 8.2065e-15 as its lower
+bound. The measured ratio is 1.0000042173. Both validations use GL-64,
+h=1/2, 256 bits. JSON artifacts: odd_zhu_result.json, odd_val_result.json.
+The full-space steps carry Arb enclosures; the eigenvalue measurements do
+not. These are one route, pending independent reproduction.
+
+Controls: changing -2ss^T to +2ss^T raises the measured floors to
+6.40880126462e-10 and 7.36487811883e-10, respectively. The direction check
+fires, but a positive-pole lesion is not expected to be rejected by a
+positivity checker. At 1.01 times each measured eigenvalue, the shifted
+Cholesky fails. Dropping H or reversing H at T#=100 does NOT discriminate:
+the measured floors remain positive, 9.40521108856e-15 and
+9.28959833914e-15. These are recorded as non-firing lesions.
+
+The T#=40 control (L=4/5, sine:16, N=96) is refused despite a positive beta.
+Its head has an Arb-enclosed Rayleigh upper endpoint below -1.35054e-7,
+including quadrature error. This proves that reduced form is indefinite,
+not that the original Q is negative. All altered control forms at T#=40
+also have enclosed negative witnesses. Artifact: odd_val40_result.json.

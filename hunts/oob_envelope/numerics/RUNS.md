@@ -312,3 +312,19 @@ Both apps confirmed stopped. Validation total is below 0.05 timed core-hour.
 Next authorized run is ONLY main unit 49 (panels 980:1000). The even run
 timed that unit at 210 s; reserve 300 s for the odd pilot, then estimate
 the complete run from its actual duration before proceeding.
+
+### Odd main run estimate, written before launch
+
+Pilot app ap-ng9DiaREARkLBjGwtAMuO1 completed and stopped: unit 49,
+panels 980:1000, 223.455382 core-seconds, 229 s app wall. Checkpoint is already
+on the volume and will be skipped by the complete run.
+
+Conservative extrapolation: 50 * 223.455382 = 11172.769 core-seconds for all units
+(including the pilot once), plus 172.723 validation core-seconds, 180 s for
+the reducer, and 300 s startup/serialization allowance = 3.285 core-hours.
+This is below the authorized 4.0 core-hours. No parameter changes: N=500,
+T#=500, sine:16, GL-96, 384 bits, h=1/2. Launching all remaining units and
+the reducer in one foreground app, watching checkpoints and stopping the
+app at terminal state. Invocation:
+`modal run hunts/oob_envelope/numerics/stage_b_odd_modal.py --cfg B`.
+No claim yet about the main odd eigenvalue or lower endpoint.
