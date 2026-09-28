@@ -2,7 +2,7 @@
 
 1. **UNRESOLVED, independent enclosure:** CC-192/Arb assembly is being measured; no L=1.19 endpoint is awarded yet.
 2. **PASS, stated positivity argument:** exact symmetry and upper row-sum bounds justify the residual/Weyl implication; author code remains unread.
-3. **UNRESOLVED, infinite tail:** the independent norm formulas are derived below; their L=1.19 numerical bounds await the run.
+3. **PASS, infinite tail:** independent Arb evaluation gives eps_D <1.490e-184 and eps_B <1.553e-90 at x=595, first discarded order 1000.
 4. **UNRESOLVED, controls at this width:** earlier controls are useful but do not test L=1.19; a discriminating in-band lesion is planned.
 5. **PASS, K1 consistency:** the proposed endpoint is below 2.78e-38, Zhu Table 3's L=1.1 upper ceiling inherited by nested even windows.
 
@@ -83,6 +83,21 @@ They differ from the author's Gershgorin/Schur constants while bounding the
 same operator blocks. All these formulas are ordinary analytic derivations,
 not kernel-checked proofs.
 
+The repaired pilot passed the exact-envelope and budget checks. Outward
+upper bounds from its stored balls are:
+
+| quantity | independent bound |
+|---|---|
+| quadrature error per entry | <1.697e-64 |
+| tail deficit eps_D | <1.490e-184 |
+| coupling norm eps_B | <1.553e-90 |
+| pilot arithmetic error, maximum row sum | <1.005e-125 |
+
+These independently bounded tails are below the author's stated upper bounds
+1.8e-184 and 1.5e-87. We have not independently reproduced the author's
+particular GL quadrature radius, residual r or entry error e. The deciding
+independent matrix uses its own entry and quadrature errors throughout.
+
 ## Controls and scope
 
 The author's L=4/5,T=60 negative form and in-band constant lesion show
@@ -93,6 +108,16 @@ rejection. Those controls do not suffice by themselves at L=1.19 and its
 more severe conditioning. The independent run adds a deliberate in-band
 constant to the same assembled operator and requires both a negative
 Rayleigh enclosure and rejection by the factor proposal.
+
+Concretely, H -> H-c and S -> S+c imply beta -> beta-c, so the bounded
+reduced form changes by exactly -c I. We set c=1e-47 before reduction.
+The valid pointwise envelope and positive beta survive, while the Fourier
+support premise deliberately fails at frequency zero. Thus the sign check
+must confront an actually negative operator at the same spectral scale.
+This is an operator/factor control with an exact in-band interpretation,
+not a test of the author's input parser. An exact dyadic vector with an
+enclosed Rayleigh quotient supplies the negative evidence; mere Cholesky
+failure would not establish a negative form.
 
 For K1, zero extension nests the even test spaces, so the L=1.1 variational
 upper bound is also an upper bound at L=1.19. Zhu's Table 3 states
