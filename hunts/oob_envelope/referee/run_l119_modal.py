@@ -42,6 +42,12 @@ def execute(unit: str, revision: str):
         temp = folder / (artifact+".tmp")
         temp.write_text(json.dumps(payload, indent=2, allow_nan=False)+"\n")
         temp.replace(folder / artifact)
+        if unit.startswith("reduce_") and artifact in {"matrix.json", "factor.json"}:
+            import gzip
+            # Preserve raw JSON on the volume and a compact identical payload
+            # for local review. This is file compression, not a new result.
+            with gzip.open(folder / (artifact+".gz"), "wb", compresslevel=6) as stream:
+                stream.write((folder / artifact).read_bytes())
         volume.commit()
 
     def alarm(signum, frame):
@@ -72,7 +78,8 @@ def execute(unit: str, revision: str):
         signal.alarm(0)
         manifest["elapsed_s"] = time.time()-started
         manifest["output_sha256"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-                                      for p in folder.glob("*.json") if p.name != "manifest.json"}
+                                      for p in folder.iterdir()
+                                      if p.is_file() and p.name != "manifest.json" and not p.name.endswith(".tmp")}
         checkpoint(manifest, "manifest.json")
     return {"volume": "oob-envelope-referee", "directory": str(folder), "manifest": manifest}
 

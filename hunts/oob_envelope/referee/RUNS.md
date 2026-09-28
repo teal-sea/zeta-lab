@@ -317,3 +317,11 @@ entry balls, so no eigenvalue approximation is used as a proof. Required
 upper endpoints: 5.776e-48 before mutation and -4.224e-48 after mutation,
 plus rejection by the same Cholesky step. The 900-second reducer allocation
 already includes this work. This introduces no new panel or extra assembly.
+
+Reducer will require all 100 completed manifests, match each raw matrix's
+SHA-256 to its manifest, enforce the frozen assembly source hash, and prove
+exact panel coverage before using the data. Its assembled block and factor
+will be retained as raw JSON on the volume and lossless gzip files for local
+review. No assembly implementation changed after the batch began. The
+additional source changes affect reduction, artifact checks and outward
+summary assertions only.

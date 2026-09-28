@@ -89,6 +89,9 @@ def setup():
     at = acb(arb(1)/4, T/2).digamma().real-arb.pi().log()
     real_bound = abs(az).max(abs(at))+abs(beta)+sum((abs(c) for _, c in comb+terms), arb(0))
     eps_D, eps_B = tail_budget(L, T, SIZE, real_bound)
+    assert eps_Q < arb("1.697e-64")
+    assert eps_D < arb("1.490e-184")
+    assert eps_B < arb("1.553e-90")
     return L, T, beta, comb, terms, {"N": SIZE, "L": "119/100", "T": "500",
         "CC_degree": ORDER, "bits": BITS, "S_exact": w["S"], "envelope": env,
         "beta": str(beta), "M_entry": str(entry), "symbol_real_bound": str(real_bound),
@@ -222,15 +225,34 @@ def residual_bound(A, shift, checkpoint, make_witness=False):
 
 
 def reduce(paths, checkpoint):
+    import hashlib
     L, T, beta, comb, terms, budget, eps_Q, eps_D, eps_B = setup()
     checkpoint(budget, "budget.json")
     A = arb_mat(SIZE, SIZE)
     coverage = []
-    for path in paths:
-        data = json.loads(Path(path).read_text())
+    manifests = []
+    started = time.monotonic()
+    for index, path in enumerate(paths):
+        path = Path(path)
+        manifest = json.loads(path.with_name("manifest.json").read_text())
+        assert manifest["status"] == "completed"
+        assert manifest["input_sha256"]["l119.py"] == "1c7023130aa5685dcfb09ce0e56fd60c2dcd1c86f2f50ea2d5c27214f2d78217"
+        raw = path.read_bytes()
+        assert hashlib.sha256(raw).hexdigest() == manifest["output_sha256"]["matrix.json"]
+        data = json.loads(raw)
+        del raw
+        assert data["N"] == SIZE
         A += from_triangle(data)
         coverage += list(range(data["start"], data["stop"]))
+        manifests.append(manifest)
+        if index % 10 == 9:
+            checkpoint({"phase": "reduction", "units_loaded": index+1,
+                        "elapsed_s": time.monotonic()-started})
     assert sorted(coverage) == list(range(1000)), "missing or repeated panel"
+    checkpoint({"units": manifests, "unit_count": len(manifests),
+                "unit_core_seconds": sum(m["elapsed_s"] for m in manifests),
+                "panel_coverage": "exactly 0 through 999", "matrix_hashes_verified": True},
+               "assembly_manifest.json")
     poles = [(2*L*(4*k+1)).sqrt()*series(L/2, 2*k, True) for k in range(SIZE)]
     for i in range(SIZE):
         for j in range(i+1):
@@ -239,6 +261,8 @@ def reduce(paths, checkpoint):
                 v += beta
             A[i, j] = A[j, i] = v
     checkpoint({"N": SIZE, "triangle": serialize_matrix(A)}, "matrix.json")
+    checkpoint({"phase": "factor proposal", "units_loaded": len(paths),
+                "elapsed_s": time.monotonic()-started})
     evidence = residual_bound(A, "5.718e-48", checkpoint, make_witness=True)
     if not evidence["factor_exists"]:
         return {"status": "inconclusive", "evidence": evidence}
