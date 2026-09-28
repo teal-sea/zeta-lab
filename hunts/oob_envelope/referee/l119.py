@@ -230,6 +230,13 @@ def reduce(paths, checkpoint):
     import hashlib
     L, T, beta, comb, terms, budget, eps_Q, eps_D, eps_B = setup()
     checkpoint(budget, "budget.json")
+    nodes, weights = cc_arb(ORDER)
+    moment_checks = {}
+    for degree in (0, 2, 4, 16, 64, 128, 192):
+        defect = sum((weight*node**degree for node, weight in zip(nodes, weights)), arb(0))-arb(2)/(degree+1)
+        assert defect.overlaps(arb(0)), "CC polynomial moment mismatch"
+        moment_checks[str(degree)] = str(defect)
+    checkpoint({"exact_even_polynomial_moment_defects": moment_checks}, "quadrature_checks.json")
     A = arb_mat(SIZE, SIZE)
     coverage = []
     manifests = []
@@ -256,6 +263,7 @@ def reduce(paths, checkpoint):
                 "panel_coverage": "exactly 0 through 999", "matrix_hashes_verified": True},
                "assembly_manifest.json")
     poles = [(2*L*(4*k+1)).sqrt()*series(L/2, 2*k, True) for k in range(SIZE)]
+    assert poles[0].overlaps((2*L).sqrt()*(L/2).sinh()/(L/2))
     for i in range(SIZE):
         for j in range(i+1):
             v = A[i, j]+2*poles[i]*poles[j]+error_ball(eps_Q)
