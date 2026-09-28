@@ -169,6 +169,11 @@ a positive control on box B2. Not hardened: no enclosure carries these steps.
   ≈ 0.6822·t digit loss plus guard digits, which at t = 85.5 predicts ~58 and
   brackets the 60 measured here, and pin it with a test that the count at
   t ≈ 85.5 is stable between `dps = 60` and `dps = 100`.
+  *Landed:* the clamp is gone from every interface (`zeta/epstein.py`, commit
+  `c2e97df`); `tests/test_interface_dps_is_honoured.py` discovers each
+  `*_interface` and checks the caller's dps reaches `count_zeros_box`. The
+  caller still chooses the digits; `hunts/gate5_p6_b/` gives the rule
+  `dps = 20 + ceil(0.6822 t_max)`.
 - **Property 3 cost 853.8 s of a 900 s stage for a verdict visible in
   seconds.** Why it might matter: `zeros_on_line` is quantified over a window
   that nothing chose, and the same VACUOUS verdict follows from any window

@@ -181,9 +181,9 @@ Constants: `GAMMA1`
 
 ### `zeta/epstein.py`, The counterexample battery: Davenport-Heilbronn, gate #3 made computational.
 
-*1640 lines*
+*1670 lines*
 
-Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `SHIFTED_PRODUCT_SHIFT`
+Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `EPSTEIN_DIGITS_PER_UNIT_HEIGHT`, `SHIFTED_PRODUCT_SHIFT`
 
 - `chi5(n: int)`, The Dirichlet character mod 5 with chi(2) = i.
 - `L_chi(s, conjugate: bool = False, dps: int = DPS_DEFAULT)`, L(s, chi) for the mod-5 character of :func:`chi5`, via Hurwitz zeta:
@@ -205,6 +205,7 @@ Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `SHIFTED_PRODUCT_S
 - `epstein_functional_equation_defect(s, form: tuple[int, int, int], dps: int = DPS_DEFAULT)`, ``Lambda_Q(s) - Lambda_Q(1-s)``, which is **structurally zero here**.
 - `epstein_class_group_defect(s, discriminant: int, dps: int = DPS_DEFAULT)`, Measured defect of ``sum_Q zeta_Q(s) = w * zeta(s) * L(s, chi_D)``.
 - `Z_epstein(t, form: tuple[int, int, int], dps: int = DPS_DEFAULT)`, The Hardy-style real function ``Lambda_Q(1/2 + it)``.
+- `epstein_count_dps(s0, s1, guard: int = 20) -> int`, The working precision a zero count in the box ``[s0, s1]`` needs.
 - `epstein_interface(form: tuple[int, int, int], dps: int = DPS_DEFAULT) -> dict`, The zeta-like interface for an Epstein zeta (see :func:`zeta_interface`).
 - `shifted_coefficient(n: int, shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT)`, Dirichlet coefficient of ``W_a``: ``a_n = sum_{de=n} d^{-a} e^{a}``.
 - `shifted_completed(s, shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT)`, ``Xi_a(s) = xi(s+a) xi(s-a)``, entire, with ``Xi_a(1-s) = Xi_a(s)``.
@@ -1301,7 +1302,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2222 test functions across 125 files (the collected count differs where tests are parametrised):
+2225 test functions across 126 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1330,6 +1331,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_dossier_hardy_z.py`, 22
 - `tests/test_dossier_schema.py`, 37
 - `tests/test_epstein.py`, 52
+- `tests/test_epstein_count_dps_floor.py`, 3
 - `tests/test_explicit.py`, 45
 - `tests/test_factorial_direct_bn.py`, 4
 - `tests/test_factorial_full_cost.py`, 5

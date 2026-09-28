@@ -158,6 +158,8 @@ __all__ = [
     "epstein_functional_equation_defect",
     "epstein_class_group_defect",
     "Z_epstein",
+    "EPSTEIN_DIGITS_PER_UNIT_HEIGHT",
+    "epstein_count_dps",
     "SHIFTED_PRODUCT_SHIFT",
     "shifted_coefficient",
     "shifted_completed",
@@ -1084,6 +1086,26 @@ def Z_epstein(t, form: tuple[int, int, int], dps: int = DPS_DEFAULT):
         return _shrink(mp.re(value), dps)
 
 
+#: Digits lost evaluating the completed Epstein zeta at height ``t``: the
+#: ``Gamma(s)`` decay makes ``Lambda_Q`` exponentially small while the terms of
+#: its Mellin split stay ``O(10^-2)``, so about ``pi t / (2 ln 10) = 0.6822 t``
+#: digits cancel.  Measured in hunts/gate5_p6_b (preregistered rule), hit again
+#: independently by hunts/gate5_p6_c and hunts/r_f7cd45 (at t = 85.5 the count
+#: is stable between dps 60 and 100 and wrong at 20).
+EPSTEIN_DIGITS_PER_UNIT_HEIGHT = math.pi / (2 * math.log(10))
+
+
+def epstein_count_dps(s0, s1, guard: int = 20) -> int:
+    """The working precision a zero count in the box ``[s0, s1]`` needs.
+
+    ``guard + ceil(0.6822 * t_max)`` where ``t_max`` is the larger |Im| of the
+    two corners: the box's own height sets the floor, not the caller's habit.
+    Pure arithmetic on the corners, no evaluation.
+    """
+    t_max = max(abs(float(mp.im(_num(s0)))), abs(float(mp.im(_num(s1)))))
+    return guard + math.ceil(EPSTEIN_DIGITS_PER_UNIT_HEIGHT * t_max)
+
+
 def epstein_interface(
     form: tuple[int, int, int], dps: int = DPS_DEFAULT
 ) -> dict:
@@ -1120,11 +1142,19 @@ def epstein_interface(
         # absolute error floor sits near 1e-(D+13) and nothing correct appears
         # below D ~ 46.  `count_zeros_box`'s integrality check does not catch
         # it: noise winds to an integer as readily as signal does, so the cap
-        # returned a plausible wrong zero count rather than raising.  A caller
-        # who wants the cheap answer can still ask for dps=20 explicitly.
-        "count_zeros_box": lambda s0, s1, _f=(a, b, c), _d=dps: count_zeros_box(
-            s0, s1, dps=_d, fn=lambda z: epstein_completed(z, _f, dps=_d)
-        ),
+        # returned a plausible wrong zero count rather than raising.
+        #
+        # Removing the cap was not enough: the default is still 20 digits and
+        # the loss grows with the box height, so a caller who never thinks
+        # about dps gets the same plausible wrong integer above t ~ 30.  The
+        # count therefore runs at the larger of the caller's dps and the
+        # height floor of `epstein_count_dps` (hunts/gate5_p6_b, confirmed by
+        # hunts/gate5_p6_c and hunts/r_f7cd45).  Asking for more still works.
+        "count_zeros_box": lambda s0, s1, _f=(a, b, c), _d=dps: (
+            lambda _w: count_zeros_box(
+                s0, s1, dps=_w, fn=lambda z: epstein_completed(z, _f, dps=_w)
+            )
+        )(max(_d, epstein_count_dps(s0, s1))),
     }
 
 
