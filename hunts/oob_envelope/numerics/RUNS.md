@@ -328,3 +328,38 @@ the reducer in one foreground app, watching checkpoints and stopping the
 app at terminal state. Invocation:
 `modal run hunts/oob_envelope/numerics/stage_b_odd_modal.py --cfg B`.
 No claim yet about the main odd eigenvalue or lower endpoint.
+
+### Odd main run, terminal and read back
+
+App ap-OlmaObfN0y2EzyA3R6lFcm, foreground, source runner from 93f1fc6;
+launch commit 710b7a8. All 50 units present, including skipped pilot unit 49.
+Units total 5134.263733 core-seconds, including the pilot exactly once;
+reducer 128.776208 s; main app wall 649 s. Two client heartbeat timeouts
+were logged, with no unit failure, retry or restart. Longest unit 253.664 s.
+Result downloaded from volume oob-envelope-stages, path
+odd_stageB_L119_v1_result.json, to odd_main_result.json. All source/input
+hashes match the local files. The original even runner is unchanged.
+
+Result: measured lambda_min 3.46316654753e-44; full odd-space lower endpoint
+rounded DOWN 3.42853488205e-44. The exact dyadic lower endpoint is in JSON.
+The 1.01-times overshift fails at pivot 179. Numerical step is
+single-route enclosure-carrying; the complete fixed-window claim is a
+candidate pending independent reproduction, including its ordinary reduction.
+
+Total task compute: 5435.763058 timed one-CPU function-seconds =
+1.509934183 core-hours, versus the 3.285 estimate and 4.0 allowance.
+This timer excludes checkpoint serialization/commit and container startup.
+For a conservative budget check, sum each app's entire lifetime times the
+maximum possible one-CPU containers in that app: 51*7 + 40*4 + 30*4 +
+236*2 + 655*14 = 10279 core-seconds, or 2.855277778 core-hours. This even
+counts idle gate containers and non-overlapping reducers simultaneously.
+All five owned apps have state stopped and zero tasks, recorded in
+odd_apps_terminal.json. No billing dollar estimate or invoice was queried.
+
+Post-run checks: 50 distinct panel blocks; source SHA-256 matches for all
+four reducers; positive decimals do not exceed exact rational endpoints;
+all positive main rows refuse the 1.01 overshift; even and odd L/H match;
+odd endpoint exceeds even endpoint. Source/doc/JSON whitespace check passes.
+Raw CLI logs retain their emitted whitespace. No broad local numerical
+suite was run: local work was edits, compilation, tiny formula and artifact
+checks. No push. A computation manifest records the result and artifact hashes.

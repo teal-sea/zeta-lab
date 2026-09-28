@@ -221,3 +221,71 @@ Its head has an Arb-enclosed Rayleigh upper endpoint below -1.35054e-7,
 including quadrature error. This proves that reduced form is indefinite,
 not that the original Q is negative. All altered control forms at T#=40
 also have enclosed negative witnesses. Artifact: odd_val40_result.json.
+
+## Odd main result at L = 119/100, 2026-09-28
+
+For real odd f supported in [-119/100,119/100], the computed reduction gives
+
+    Q(f) >= R_H(f) >= 3.42853488205e-44 ||f||_2^2.
+
+This is a candidate fixed-window statement. Its numerical step is
+single-route enclosure-carrying, pending independent reproduction. Its
+analytic reduction is the ordinary derivation in odd_derivation.md, using
+the existing sine:16 envelope and Zhu's digamma inequality. It is not
+kernel-checked and makes no assertion at unbounded support.
+
+Artifact odd_main_result.json stores the exact dyadic endpoint and input
+SHA-256 values. Parameters: N=500 odd modes, orders 1,3,...,999; first
+discarded order 1001; T#=500; GL-96, h=1/2, 384-bit Arb. No change to the
+even-run parameters or to H. Measured head lambda_min = 3.46316654753e-44.
+The lower shift is 0.99 times the measured value, snapped to an exact dyadic.
+
+| term | enclosure budget, displayed outward with slack |
+|---|---:|
+| beta | > 0.511253705003063 |
+| maximum quadrature error per entry, including node shift | < 6.873e-66 |
+| e, maximum row sum of head radius plus quadrature error | < 2.294e-63 |
+| r, maximum absolute row sum of exact-factor residual | < 1.101e-113 |
+| eps_D, tail deviation from beta I | < 1.565e-185 |
+| eps_B, head-tail coupling norm | < 4.295e-88 |
+| node displacement | < 7.334e-113 |
+
+The code evaluates min(lambda0-r-e, beta-eps_D)-eps_B in Arb and reports
+its lower endpoint, then rounds the displayed decimal downward. The error
+budget is far below the retained head floor. A 1.01-times overshift fails
+at pivot 179, so the positivity step can reject a proposed lower bound.
+Validation and other controls are recorded immediately above; the H lesions
+that did not fire remain non-firing controls, not successful checks.
+
+With the unchanged even result stage_b_result.json, whose downward-rounded
+endpoint is 5.71789230595e-48, parity and real/imaginary splitting give the
+combined candidate
+
+    Q(f) >= 5.71789230595e-48 ||f||_2^2
+
+for every complex L^2 f supported in [-119/100,119/100], on the finite form
+domain and with the extended positive value allowed otherwise. Each of the
+four orthogonal real parity components satisfies its sector's inequality;
+their squared norms sum to ||f||_2^2. The odd sector is not the limiting one.
+The combined claim retains the weaker review status of its component steps.
+
+All Modal work finished: 1.509934183 timed core-hours for the complete odd
+task, and a conservative app-lifetime reservation envelope below 2.856
+core-hours, against the 4-core-hour limit. Five owned apps stopped. The
+unit checkpoints remain on volume oob-envelope-stages; see RUNS.md for
+commands, app IDs, the pre-run estimate and exact accounting. Nothing pushed.
+
+## The doors
+
+No optimum or ceiling was sought. At this single candidate, parameter range
+L=1.19, T#=500, N=500, sine:16, the retained head eigenvalue is the limiting
+term, not beta-eps_D or the error budget. The 0.99 shift deliberately leaves
+one percent of the measured value unused. No shadow prices were measured.
+Frozen choices: L is the requested target; T# trades a sharper reduction
+against quadrature and tail cost; N trades smaller coupling against matrix
+cost; q=96 and 384 bits trade smaller numerical error against compute;
+h=1/2 trades panel count against ellipse size; sine:16 trades its envelope
+constant against frequency growth in the quadrature bound. Adjusting these
+stays within the same symbol data and information class. Independent
+reproduction tests this result rather than enlarging that information class.
+No further run or allocation is proposed by this record.
