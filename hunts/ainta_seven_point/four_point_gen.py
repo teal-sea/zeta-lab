@@ -43,7 +43,7 @@ NMOD = 16            # chunk modules, bin-packed by leaf count
 HEARTBEATS = 20000000
 
 NS = "Zeta23Ext.Bridge.FourPoint"
-LIB = "FourPoint"
+LIB = "FourPointCand"
 
 
 def extend_anchors(kmax):

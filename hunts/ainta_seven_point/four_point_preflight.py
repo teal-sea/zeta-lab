@@ -42,7 +42,7 @@ import sys
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-D = os.path.join(HERE, "lean-four-point", "FourPoint")
+D = os.path.join(HERE, "lean-four-point", "FourPointCand")
 
 C = F(2330, 10 ** 6)      # the certificate constant for this branch
 P = 2500                  # the pressure denominator

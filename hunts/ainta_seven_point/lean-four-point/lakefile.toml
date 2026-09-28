@@ -1,5 +1,5 @@
-name = "FourPoint"
-defaultTargets = ["FourPoint"]
+name = "FourPointCand"
+defaultTargets = ["FourPointCand"]
 
 # The advertised development, by path rather than by git, so that this package
 # proves things about the *same* `Kfun`, `kfun`, `wfun` and `F` that
@@ -30,4 +30,4 @@ autoImplicit = false
 relaxedAutoImplicit = false
 
 [[lean_lib]]
-name = "FourPoint"
+name = "FourPointCand"
