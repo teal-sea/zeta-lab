@@ -281,3 +281,23 @@ threshold 2^(-precision+64), with unchanged quadrature and target. The next
 pilot has the same ten panels and 900-second hard limit. It remains inside
 the task's four-core-hour authorization; its measured cost still gates the
 full dispatch. No automatic retry is enabled.
+
+Pilot 2, numerical source 548f9a4: app `ap-rqh9FPUy7RU4JTYWllgrfl`,
+**completed**, 71.383 core-seconds including serialization/checkpoints.
+App list confirms stopped, zero tasks. Ten panels at the largest t pass,
+with arithmetic row-radius <1.005e-125. Envelope slacks are positive for
+all four primes. Independent bounds are eps_Q <1.697e-64 per entry,
+eps_D <1.490e-184 and eps_B <1.553e-90. Downloaded manifest, budget and
+result are in outputs_L119/548f9a4; the matrix remains on the volume.
+
+**Measured estimate recorded before full dispatch:** 100 times the measured
+71.383 seconds is 7138.3 core-seconds, under 1.983 core-hours. Reserve 30%
+for slower containers (2142 seconds), 900 seconds for reduction/controls,
+600 seconds for startup and image overhead, and the 5.43-second failed pilot.
+Total planning allowance <10800 core-seconds, **under three core-hours**,
+leaving at least one hour below the authorized four-core-hour ceiling.
+The remaining 99 units run with ten containers maximum, one core each,
+one unit per container and no retries. The ten-pilot-panel checkpoint is
+reused, never recomputed. All matrices are per-unit volume checkpoints;
+no local reducer. Stop the app if accumulated work threatens the ceiling.
+Numerical source and all assembly parameters stay pinned to 548f9a4.

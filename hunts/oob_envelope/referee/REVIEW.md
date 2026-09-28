@@ -1,3 +1,115 @@
+# L = 1.19
+
+1. **UNRESOLVED, independent enclosure:** CC-192/Arb assembly is being measured; no L=1.19 endpoint is awarded yet.
+2. **PASS, stated positivity argument:** exact symmetry and upper row-sum bounds justify the residual/Weyl implication; author code remains unread.
+3. **UNRESOLVED, infinite tail:** the independent norm formulas are derived below; their L=1.19 numerical bounds await the run.
+4. **UNRESOLVED, controls at this width:** earlier controls are useful but do not test L=1.19; a discriminating in-band lesion is planned.
+5. **PASS, K1 consistency:** the proposed endpoint is below 2.78e-38, Zhu Table 3's L=1.1 upper ceiling inherited by nested even windows.
+
+This section supersedes the historical L=1.19 status below, not the completed
+L=4/5 evidence. Review date: 2026-09-28. Inputs are the numerical lane's
+RESULTS.md, RUNS.md and JSON data at 9419552, 500a803 and b876f0a, read with
+git show. No author implementation was read, imported or executed. The
+literal author endpoint is 5.71789230595e-48; the requested referee threshold
+is 5.7178e-48. Scope is the full even L2 sector at L=119/100, T=500,
+with the exact sine:16 witness and leading orders 0,2,...,998.
+
+## Positivity audit
+
+Let A be the exact real symmetric block and M an exactly symmetric matrix
+of dyadic entry midpoints. Suppose E_ij bounds |A_ij-M_ij| and is symmetric.
+Then ||A-M||_2 <= sqrt(||A-M||_1 ||A-M||_infinity) <= max_i sum_j E_ij.
+Using only a row norm without symmetry would not justify this conclusion.
+The author's RUNS step is sound as stated for a symmetric perturbation;
+their result JSON alone does not show that their source enforces symmetry.
+The independent assembler averages the two entry enclosures and stores
+the same ball in both symmetric positions.
+
+For any finite real factor C, exact CC^T is positive semidefinite. If Arb
+encloses M-sI-CC^T and its absolute row sums are <= r, symmetry gives
+M >= (s-r)I. Subtracting entry uncertainty e yields A >= (s-r-e)I.
+The factor need not be an interval Cholesky factor. Its approximate origin
+does not weaken the bound because the entire residual is enclosed after
+its entries are frozen as exact dyadics. Nor must a measured minimum be
+accurate for this implication: the shift is only a proposal until the
+residual and entry budgets close. Our proposed s=5.718e-48 is an exact
+rational fixed before assembly, independent of a midpoint eigenvalue.
+
+Writing the operator as [[A,B],[B^T,D]], the off-diagonal operator norm
+is ||B||, hence the full lower bound is min(s-r-e,beta-eps_D)-eps_B.
+Every subtraction is necessary. The final decimal is admitted only by
+an Arb comparison with that exact decimal rational. We also save a dyadic
+lower endpoint; printed ball midpoints are never substituted for endpoints.
+
+## Independent analytic and numerical budgets
+
+We reuse the referee's Clenshaw-Curtis rule with Lobatto endpoints on panels
+of width 1/2. Degree q=192 and rho=1+sqrt(2) put each Bernstein ellipse in
+|Im t| <= 1/4. The analytic digamma half-sum obeys
+|psi(z)| <= 9+2|z| because Re z >= 1/8, and |z| <= T+2 suffices.
+The symbol majorant includes log(pi), |beta| and each prime or H cosine's
+absolute coefficient times cosh(frequency/4). The transform product is
+bounded by 2L(4N-3) exp(L/2). If their product is M_entry, interpolation
+and integration give the per-entry quadrature error
+4T M_entry/[pi (rho-1) rho^q]. The same error ball is added to every entry,
+in addition to propagated arithmetic radii. Nodes are enclosed, not snapped.
+
+Spherical Bessel values start from two absolutely bounded power-series tails
+at orders 1064 and 1065, then recur downward in Arb. Once the term ratio is
+below 1/2, twice the next absolute term bounds the remaining sum. The j0
+value is checked against sinc at every node. Precision 1024 failed the
+width guard in the first pilot, which was stopped without a sign result;
+1280 bits and a precision-dependent series stopping threshold are used in
+the repaired pilot. The gate demands transform radii below 1e-65.
+
+The exact envelope is checked independently using positive atomic measures
+convolved with the nonnegative sine kernel. For p=2 the three low moments
+use atoms at pi and plus/minus acos(c); for p=3 two atoms suffice, and p=5,7
+use the atom at pi. The implementation encloses every low-moment residual
+and the L1 error in every frozen high coefficient, charging both to the
+frozen constant's slack. It checks every frequency against 2L and every
+retained prime power: 2,3,4,5,7,8,9. No sampled positivity is used.
+
+For n=1000 and x=595 put a_n=sqrt(2L(2n+1)) x^n/(2n+1)!! and
+q_n=x^2 sqrt((2n+5)/(2n+1))/[(2n+3)(2n+5)]. Its ratios decrease, so
+U=a_n^2/(1-q_n^2) bounds the squared norm of the discarded transforms.
+Let K=(T/pi) sup_[0,T]|arch-P+H-beta|. Bessel's inequality bounds the
+leading transform norm by sqrt(2L). Thus eps_D=K U and
+eps_B=K sqrt(2L U)+2 sqrt((L+sinh L)V), where V is the analogous squared
+pole tail at x=L/2 with an extra exp(L/2) in a_n. The positive tail pole
+can be discarded in the lower bound for D. These norm estimates include
+T/pi and avoid relying on the source's abbreviated displayed entry bound.
+They differ from the author's Gershgorin/Schur constants while bounding the
+same operator blocks. All these formulas are ordinary analytic derivations,
+not kernel-checked proofs.
+
+## Controls and scope
+
+The author's L=4/5,T=60 negative form and in-band constant lesion show
+meaningful rejection. Dropping or flipping H can leave a positive form;
+that outcome is not evidence of a bug or a successful sign control.
+A small in-band cosine with negligible effect likewise does not test
+rejection. Those controls do not suffice by themselves at L=1.19 and its
+more severe conditioning. The independent run adds a deliberate in-band
+constant to the same assembled operator and requires both a negative
+Rayleigh enclosure and rejection by the factor proposal.
+
+For K1, zero extension nests the even test spaces, so the L=1.1 variational
+upper bound is also an upper bound at L=1.19. Zhu's Table 3 states
+2.78e-38 at L=1.1, which exceeds the proposed bound. The L=1.2 table entry
+does not supply a lower bound at L=1.19. Source: [Zhu v2, Table 3 and
+the two-block reduction](https://arxiv.org/html/2608.24827v2).
+
+The numerical step, if it passes, is an independent enclosure using a
+different quadrature and error analysis, sharing only the Arb library with
+the author. The composite Q bound additionally uses the earlier reviewed
+ordinary support/envelope reduction. No independent odd-sector bound,
+kernel check, external human verification or novelty claim follows.
+
+---
+
+# Historical L = 4/5 review
+
 1. **PASS, ordinary derivation:** the support lemma holds for complex and odd L2 functions, including frequency 2L; the pole term is unchanged (§2).
 2. **PASS with stated scope, ordinary derivation:** Q >= R_H and the finite-cosine reduction survive; tail constants and quadrature must be recomputed (§3).
 3. **PASS after repair, ordinary derivation:** b447f0d fixes the all-N estimate and analytic-strip scope; original defects are retained in §4.
