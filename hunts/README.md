@@ -175,10 +175,13 @@ See [the construction, proof, and remaining doors](quotient_certificate/RESULTS.
 
 ### Four-point pressure tuning (`four_point_pressure/`)
 
-**Resumed 2026-09-28 for verification and integration.** The published Hermes
-candidate at `5522b963` uses `c = 2330/10^6`, `m = 432`, `p = 2500`.
-Its emitted-source preflight passes. Complete build evidence is being
-reconciled; the registered constant remains unchanged. See `RUNS.md`.
+**Kernel-checked at the pinned revision, 2026-09-28.** The Hermes build at
+`5522b963` discharges the four-point bound at `c = 2330/10^6`, `m = 432`,
+`p = 2500`, with coefficient approximately `0.6728603588`. The 49 build
+receipts and six axiom reports are preserved in `four_point_pressure/evidence/`;
+source hashes were independently reconciled during integration. This is a
+lab build, pending external verification, not a new Palomar registration.
+See `RUNS.md` and `PALOMAR-READINESS.md`.
 
 The following paragraph records the September 5 disposition:
 
