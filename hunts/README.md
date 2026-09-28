@@ -75,6 +75,15 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Out-of-band envelopes for Weil window positivity (`oob_envelope/`)
+
+**Status: open, measured seed only.** On the window `supp f ⊆ [-L, L]`, any
+correction to the Weil symbol at frequencies `≥ 2L` leaves the form unchanged,
+so the envelope constant in arXiv:2608.24827's one-stroke reduction can drop
+from `A_L` to `sup(P_L − H)`. Float probes put the matrix size at support 2.38
+near 970 instead of about 2e4. The threshold stays doubly exponential; this is
+a fixed-window question, not a route to RH. See `oob_envelope/MISSION.md`.
+
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
 **Status: candidate ordinary argument with enclosure-carrying numerical steps;
