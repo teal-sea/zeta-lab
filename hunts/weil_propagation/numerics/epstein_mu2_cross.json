@@ -1,0 +1,19 @@
+{
+ "meta": {
+  "note": "Where does the pole-free even Epstein form get its second negative\neigenvalue (C2's condition (a) failing)? Bisection over dyadic c in\n[29, 29.5] on the ball LDL^T inertia of the pole-free even matrix (1 -> 2\nnegative pivots), to 2^-10, at N = 64 and 128. Compare with the full-form\ncrossing in epstein_crossing.json. Writes epstein_mu2_cross.json.\n"
+ },
+ "runs": {
+  "64": {
+   "mu2_last_nonneg_c": 29.35498046875,
+   "mu2_first_neg_c": 29.35546875,
+   "full_even_c_pos": 29.3408203125,
+   "full_even_c_neg": 29.34130859375
+  },
+  "128": {
+   "mu2_last_nonneg_c": 29.3173828125,
+   "mu2_first_neg_c": 29.31787109375,
+   "full_even_c_pos": 29.3037109375,
+   "full_even_c_neg": 29.30419921875
+  }
+ }
+}
