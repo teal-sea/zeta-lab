@@ -1,9 +1,9 @@
 # L = 1.19
 
-1. **UNRESOLVED, independent enclosure:** CC-192/Arb assembly is being measured; no L=1.19 endpoint is awarded yet.
+1. **PASS, independent enclosure:** CC-192/Arb proves lambda_min(R_H) >5.7179e-48 on the full even sector, exceeding both requested and author endpoints.
 2. **PASS, stated positivity argument:** exact symmetry and upper row-sum bounds justify the residual/Weyl implication; author code remains unread.
 3. **PASS, infinite tail:** independent Arb evaluation gives eps_D <1.490e-184 and eps_B <1.553e-90 at x=595, first discarded order 1000.
-4. **UNRESOLVED, controls at this width:** earlier controls are useful but do not test L=1.19; a discriminating in-band lesion is planned.
+4. **PASS, discriminating L=1.19 lesion:** subtracting 1e-47 I gives a Rayleigh quotient <-4.224e-48 and the same Cholesky proposal rejects it.
 5. **PASS, K1 consistency:** the proposed endpoint is below 2.78e-38, Zhu Table 3's L=1.1 upper ceiling inherited by nested even windows.
 
 This section supersedes the historical L=1.19 status below, not the completed
@@ -127,11 +127,73 @@ upper bound is also an upper bound at L=1.19. Zhu's Table 3 states
 does not supply a lower bound at L=1.19. Source: [Zhu v2, Table 3 and
 the two-block reduction](https://arxiv.org/html/2608.24827v2).
 
-The numerical step, if it passes, is an independent enclosure using a
+The completed numerical step is an independent enclosure using a
 different quadrature and error analysis, sharing only the Arb library with
 the author. The composite Q bound additionally uses the earlier reviewed
 ordinary support/envelope reduction. No independent odd-sector bound,
 kernel check, external human verification or novelty claim follows.
+
+## Completed independent result
+
+The reducer at source 119280a, Modal app ap-Ej0NafxxkLdYzOcBKNUpty,
+completed every numerical gate in less than 275 core-seconds. It verified
+all 100 matrix hashes against their completed unit manifests and the frozen
+assembly source, and checked that panels 0 through 999 occurred exactly
+once. All five apps in this review are now stopped with zero tasks.
+
+| independent quantity | outward-safe statement |
+|---|---|
+| fixed rational shift s | exactly 5.718e-48 |
+| factor residual row norm r | <1.604e-110 |
+| entry plus quadrature operator error e | <8.482e-62 |
+| tail deficit eps_D | <1.490e-184 |
+| coupling norm eps_B | <1.553e-90 |
+| full even-sector infimum of R_H | >5.7179e-48 |
+| exact dyadic Rayleigh witness for R_H | <5.776e-48 |
+| same witness for R_H-1e-47 I | <-4.224e-48 |
+
+The positive bound uses min(s-r-e,beta-eps_D)-eps_B. Arb separately
+confirmed that it exceeds 5.7178e-48 and the author's literal
+5.71789230595e-48. The chosen outward decimal 5.7179e-48 is slightly
+stronger than that author endpoint. The Rayleigh upper bound concerns
+R_H, not Q. It does not replace the lower-bound argument.
+
+The mutant has a strictly negative enclosed Rayleigh value, and its
+midpoint Cholesky at shift zero fails. Thus this is a negative-operator
+control, not merely an undecided factorization. The original positive
+bound and witness were checkpointed before the mutant was tested.
+
+With the earlier reviewed reduction, Q(f) >5.7179e-48 ||f||^2 for every
+nonzero real even f supported on [-119/100,119/100] in the form domain;
+the non-strict inequality includes f=0 and the extended-value domain.
+Grade: ordinary reviewed analytic reduction plus an independently
+reproduced enclosure-carrying numerical step. This is not kernel-checked;
+external human verification remains pending.
+
+Deciding artifacts are in `outputs_L119/119280a/`: result.json,
+positivity.json, the exact dyadic Rayleigh vector, raw matrix and factor
+in lossless gzip form, quadrature checks, budgets and the 100-unit assembly
+manifest. The corresponding uncompressed files remain on volume
+oob-envelope-referee under l119/119280a/reduce_548f9a4. All nine downloaded
+output hashes match the durable manifest; both decompressed matrix/factor
+hashes also match. The source and exact-witness hashes match the local files.
+SHA256SUMS and gzip_payload_verification.txt record the local file checks.
+
+One initial precision refusal and one provider preemption are preserved
+in RUNS.md. The preemption interrupted nine blocks, which were recovered
+with the byte-identical assembler, not different numerical parameters.
+Recorded numerical work, including failed/interrupted attempts and the
+reducer, is below 2.637 core-hours. A conservative function-container
+occupancy estimate from all five app windows is below 2.855 core-hours.
+The four-core-hour ceiling was retained. No author code, local numerical
+run, GitHub Actions, push, PR or publication was used.
+
+Verification includes the exact envelope residual inequalities, every
+transform's j0 overlap and radius gate, CC polynomial moments at degrees
+0,2,4,16,64,128,192, the pole's zeroth-mode normalization, complete hashed
+panel coverage, residual/Weyl subtraction, a negative Rayleigh enclosure,
+K1, scoped reserved-vocabulary checks and git diff --check. A whole-repo
+pytest run was not performed for these isolated referee artifacts.
 
 ---
 

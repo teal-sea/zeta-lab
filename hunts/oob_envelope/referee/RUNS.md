@@ -378,3 +378,75 @@ checks exact coverage, all matrix hashes and frozen source identity, adds
 quadrature radii and pole/floor terms, then performs the residual and lesion
 checks. It also tests exact polynomial moments of CC-192 through degree 192
 and compares the pole's zeroth mode with its closed-form sinh expression.
+
+## L = 1.19 closeout: PASS
+
+Final reducer app `ap-Ej0NafxxkLdYzOcBKNUpty` completed in 274.252
+core-seconds. App list confirms stopped, zero tasks at 06:56:55
+America/Bogota. Source 119280a; numerical source hashes match the local
+files. All 100 block hashes and exact panel coverage passed before assembly.
+CC polynomial moments and pole normalization passed. The fixed rational
+shift 5.718e-48 passed the residual/Weyl test, leaving the full even-sector
+outward endpoint **5.7179e-48**, strictly above the author's literal bound.
+The exact dyadic Rayleigh witness gives R_H <5.776e-48. The -1e-47 I
+lesion gives a Rayleigh value <-4.224e-48 and the same Cholesky step rejects
+it. K1 passes against the published 2.78e-38 ceiling.
+
+| app | terminal outcome | recorded input core-seconds, rounded upward |
+|---|---|---|
+| ap-rLGrvMGdAOqdVOOTZOS39n | safe precision refusal | 5.428 |
+| ap-rqh9FPUy7RU4JTYWllgrfl | pilot passed | 71.383 |
+| ap-zyqkre7VOF1BRnS7SjZEWi | 90 passed, nine interrupted, preemption restart refused by path guard | 8464.581 |
+| ap-FVMNKBGAo7mB4bKo3LquLq | nine recovery blocks passed | 675.055 |
+| ap-Ej0NafxxkLdYzOcBKNUpty | reduction, bounds and lesion passed | 274.252 |
+
+Final application count: **five stopped, zero active, zero tasks**.
+Recorded input count: 111 manifests, 101 completed (100 assembly units
+and one reducer), ten failed/interrupted (precision pilot plus nine partial
+units). The provider's one preemption restart was refused before a new
+manifest could overwrite the old one; its trace remains in batch_L119.log.
+Recovery was nine explicitly enumerated manual inputs, with identical
+numerical parameters and source. No completed matrix was recomputed.
+
+Total recorded input work: 9490.69700884819 core-seconds, **<2.637 core-hours**,
+including every recorded failed/interrupted attempt. A separate conservative
+function-container occupancy estimate uses each app's full lifetime times
+its maximum simultaneous core count: 17 + 77 + 902*10 + 98*9 + 280 = 10276
+core-seconds, **<2.855 core-hours**. This includes a window for the otherwise
+unmanifested restart and startup within those apps. The four-core-hour
+ceiling was retained. This is an execution record, not a provider invoice;
+non-preemptible recovery/reduction have the documented price multiplier.
+
+Local deciding evidence: outputs_L119/119280a/. Volume path:
+oob-envelope-referee/l119/119280a/reduce_548f9a4. Raw matrix and factor
+remain on the volume; identical JSON payloads are kept locally as gzip.
+All nine downloaded output hashes match the durable manifest. Streaming
+checks also match both decompressed payloads to the raw-file hashes.
+
+- matrix.json: 0c932e8bca7239c3a9b9693ae9858c84ca1ed7fadf9a415748a5e4372200de1c
+- factor.json: 84229a43706e0efa463eb3cf9b6a4a106c4ea2045d93a9983a98695cd1d79d9f
+- result.json: 6125341214e7ee5c858fcc24c1f561debfbddfd68ff5c2b9d7301d2f7a44957a
+
+SHA256SUMS, both unpacked hashes, gzip_payload_verification.txt, the complete
+assembly_manifest.json and compute_summary.json are retained. Final app
+metadata is outputs_L119/modal_terminal_apps.json. The input code, original
+failed logs, interrupted manifests and all recovery receipts are retained.
+The initial snapshots and their stale running labels are historical data,
+not current job state.
+
+Before final reporting, git fetch completed and Orca terminal listing again
+identified both author lanes. No author code was inspected. Scoped lexical
+and whitespace checks are run before the final commit; no full-repository
+pytest claim is made. No local matrix computation, Actions, push, PR or
+publication occurred. All repository edits are under referee/.
+
+### Replaying the deciding work
+
+Assembly uses exactly the source at 548f9a4, retained byte for byte as
+assembly_l119_frozen.py. The final runner/reducer is at 119280a. Existing
+volume directories are never overwritten. For the preserved evidence,
+run a fresh reducer label with unit reduce_548f9a4 and profile teal-sea;
+its source validates all 100 blocks before any mathematical conclusion.
+A full fresh panel replay must use the frozen assembler and a new volume
+namespace, with an updated explicit input-path list in the reducer. This
+record grants no new compute authorization beyond the completed task.

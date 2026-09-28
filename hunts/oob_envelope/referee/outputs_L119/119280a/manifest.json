@@ -1,0 +1,35 @@
+{
+  "unit": "reduce_548f9a4",
+  "revision": "119280a",
+  "started_unix": 1790596339.1504967,
+  "status": "completed",
+  "cpu": 1,
+  "memory_limit_MiB": 1792,
+  "timeout_s": 900,
+  "nonpreemptible": true,
+  "profile": "teal-sea",
+  "packages": {
+    "python-flint": "0.9.0",
+    "mpmath": "1.3.0",
+    "gmpy2": "2.2.1"
+  },
+  "input_sha256": {
+    "l119.py": "331fe97835dc313b84603149983623c529b40779eddcbe7f8a69b05bdc7dc155",
+    "independent.py": "45a2cc82df77a926cd7a6bf2a39f31e9d907a94f82bbec394c8c6aeb89c14bfd",
+    "frozen_envelope_L119.json": "4c8f17b8a59c8011a726b88d2757c545e92e1f55c8dc9bb9416ff68cc6553e93"
+  },
+  "elapsed_s": 274.2518105506897,
+  "output_sha256": {
+    "assembly_manifest.json": "756b5b1106bbde0e4886d79c6f30d5f4a8774efd4fdb73866a5402fbe91b4922",
+    "budget.json": "95465f7f7c025d997f0aa1fe6c6a40fdea5344a28d3d74c5b22c900f846d896d",
+    "factor.json": "84229a43706e0efa463eb3cf9b6a4a106c4ea2045d93a9983a98695cd1d79d9f",
+    "factor.json.gz": "5ab4ca7760c531c490fd53b5ccf273fcdcc4fe5a6cdc0368d2383819a307d56a",
+    "matrix.json": "0c932e8bca7239c3a9b9693ae9858c84ca1ed7fadf9a415748a5e4372200de1c",
+    "matrix.json.gz": "6b6c9b41388f152c8351001e5fea7055b1150c9a6794264a2b08e849cda0df7c",
+    "positivity.json": "296c55229fa9e162843038cdd50cfab632f3ff2a033ced3da9f50176c53e1665",
+    "progress.json": "b427ce5ffcb2064ff98dd9c2a32db410529ad1f8ff1ec5c95f293d82cf1d6711",
+    "quadrature_checks.json": "246c344b28292fa4b2ba705b258f9ec8e6e7f4286aebbabc178073721db03a7b",
+    "result.json": "6125341214e7ee5c858fcc24c1f561debfbddfd68ff5c2b9d7301d2f7a44957a",
+    "ritz_witness.json": "e881d6cfcf7b06810fe38e00473f2551e7c16f333e3c5de6152f8f3856cc0e0b"
+  }
+}
