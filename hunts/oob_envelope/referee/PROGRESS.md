@@ -1,29 +1,25 @@
 # Referee progress, 2026-09-28
 
-**ACTIVE: L=1.19 independent assembly on Modal.** Approved ceiling four
-core-hours. Pilot 1 stopped safely at its precision guard after 5.43 seconds;
-pilot 2 passed at 1280 bits in 71.383 seconds. Full assembly app
-`ap-zyqkre7VOF1BRnS7SjZEWi` is active with ten single-use one-core containers.
-At least 69 of 100 units are complete; receipts are in outputs_L119/548f9a4.
-No assembly unit has failed after the precision repair. See RUNS.md.
+**ACTIVE: all 100 L=1.19 blocks complete; final reducer is next.**
+Assembly source 548f9a4, CC-192, 1280 bits, 500 even modes. First precision
+pilot failed safely; one full-batch preemption caused cancellation of nine
+units. Their byte-identical recovery passed. All four apps so far are stopped
+with zero tasks. RUNS.md contains the full reconciliation and compute.
 
-Assembly source 548f9a4, CC degree 192, 500 even modes. Every unit matrix is
-on volume oob-envelope-referee under l119/548f9a4/panels_START_STOP.
-The pilot supplied panels 990..999; the batch supplies the other 99 units.
-Reducer source e5f8885 is ready but not launched. It verifies hashes,
-source identity and complete panel coverage before using the matrix.
-It tests the fixed exact shift 5.718e-48, aims at outward endpoint
-5.7179e-48, encloses a Rayleigh witness, and requires rejection of the
--1e-47 I lesion with an enclosed negative witness. Scientific positivity
-remains UNRESOLVED until reduction completes.
+Volume oob-envelope-referee: l119/548f9a4 has 91 complete blocks and nine
+interrupted attempts; l119/recovery548 has the nine replacements. All raw
+matrices remain preserved. Reducer source 119280a, unit reduce_548f9a4,
+will use only completed manifests and enforce exact coverage and hashes.
+It checks fixed shift 5.718e-48, outward lower endpoint 5.7179e-48,
+Rayleigh upper endpoint 5.776e-48, and the -1e-47 I lesion. Positivity
+remains UNRESOLVED until that unit completes.
 
-Independent tail budget already passes: eps_D <1.490e-184 and
- eps_B <1.553e-90. REVIEW.md opens with the new L=1.19 audit. Historical
-L=4/5 evidence remains under its own heading and at b65ef69.
+Successful assembly work: 8680.695 core-seconds. Interrupted work: 530.324;
+failed precision pilot: 5.428. A conservative app-occupancy bound through
+recovery is 9996 core-seconds, below 2.777 hours. Final reducer allowance
+900 seconds plus startup fits the four-core-hour ceiling.
 
-Next: watch batch to stopped, reconcile 100 receipts, record compute in
-RUNS, then launch one reducer with revision e5f8885 and unit
-reduce_548f9a4. Monitor it to stopped; download and verify its evidence,
-update the five-line verdict, run scope/lexical checks and commit. No push.
-No author code read; all writes confined to referee/. No local numerical
-work, no external messages or publication.
+Next: run reducer, watch to stopped, retrieve and verify its artifacts,
+update REVIEW.md's five verdict lines, run scoped lexical/whitespace checks,
+and commit. No push, PR or publication. No author code read. All numerical
+work is on Modal and all repository writes remain under referee/.

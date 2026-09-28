@@ -361,3 +361,20 @@ CPU/memory price multiplier for this setting; it changes the price, not the
 one-core allocation. This is a bounded reliability choice within the
 approved task; no new campaign is launched. Reference:
 [Modal preemption documentation](https://modal.com/docs/guide/preemption).
+
+Recovery app `ap-FVMNKBGAo7mB4bKo3LquLq`, runner revision 119280a,
+**completed all nine units**, 675.055 core-seconds, maximum unit 90.946
+seconds. App list confirms stopped, zero tasks, 06:51:25 America/Bogota.
+All nine receipts carry the frozen 548f9a4 assembler hash. The 98-second
+app lifetime times nine cores is a conservative 882-core-second bound.
+Thus all 100 distinct blocks are now complete. Prior-app occupancy bound
+through recovery is 9996 core-seconds, below 2.777 hours. The final reducer
+has at most 900 input seconds, one core, plus startup allowance, inside the
+four-hour ceiling. This reconciliation is written before its launch.
+
+Reducer dispatch: source 119280a, unit reduce_548f9a4, non-preemptible,
+profile teal-sea. It reads the completed original blocks and recovery548,
+checks exact coverage, all matrix hashes and frozen source identity, adds
+quadrature radii and pole/floor terms, then performs the residual and lesion
+checks. It also tests exact polynomial moments of CC-192 through degree 192
+and compares the pole's zeroth mode with its closed-form sinh expression.
