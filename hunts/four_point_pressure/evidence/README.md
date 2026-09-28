@@ -33,14 +33,29 @@ verify both reported the same two values.
 
 | file | what it is |
 |---|---|
-| `zeta-fourpoint-serial-result-final3.md` | The driver's result report, byte-exact copy. Layer receipts, hashes, raw axiom lines, exact theorem statements, cost. |
-| `modal-ap-7zxzQj0YqTwlQUP6P06ecn-client-stdout-stderr-launch-20260928t220203.log` | Complete client stdout and stderr of the final launch, byte-exact. It contains the build output of layers 47 to 49 and `FPVERIFY_JSON`, which carries all 49 receipts. |
+| `zeta-fourpoint-serial-result-final3.md` | The driver's result report, sanitized copy (two machine-local path appearances replaced, see below). Layer receipts, hashes, raw axiom lines, exact theorem statements, cost. |
+| `modal-ap-7zxzQj0YqTwlQUP6P06ecn-client-stdout-stderr-launch-20260928t220203.log` | Complete client stdout and stderr of the final launch, sanitized copy (one machine-local path appearance replaced, see below). It contains the build output of layers 47 to 49 and `FPVERIFY_JSON`, which carries all 49 receipts. |
 | `main-axioms-print-output.txt` | The six raw `#print axioms` output lines from `FourPointCand/Main.lean`, byte-exact. Checked equal to the lines in the report and in the log. |
-| `SHA256SUMS` | sha256 of the three files above. |
+| `SHA256SUMS` | sha256 of the three files above, as published here (the sanitized copies). |
 
-No redaction was applied. The log contains one local filesystem path of the
-operator's machine (the Modal mount line); the repository already contains such
-paths elsewhere.
+## Sanitization, stated precisely
+
+Exactly three machine-local path appearances were sanitized, by replacing the
+operator's home-directory scratch prefix (`/Users/<operator>/.hermes/cache/scratch`)
+with the label
+`<PRIVATE-LOCAL-SCRATCH>` and changing nothing else:
+
+1. Report line 122: the path of the complete client log.
+2. Report line 132: the same path, in the file list.
+3. Log line 1528: the path of `serial.py` in the Modal mount line.
+
+The originals remain untouched in the operator's private local scratch
+directory. Every other byte is unchanged, including `FPVERIFY_JSON` (49
+receipts, no problems), the six axiom lines, the receipt evidence and both
+source hashes. This was checked programmatically: substituting the prefix back
+into each published file reproduces the original byte for byte. The
+`SHA256SUMS` entries for the report and the log therefore differ from the
+hashes of the original files.
 
 ## How the run was assembled, stated plainly
 

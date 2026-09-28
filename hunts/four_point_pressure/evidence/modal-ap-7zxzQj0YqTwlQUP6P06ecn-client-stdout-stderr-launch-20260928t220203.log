@@ -1525,7 +1525,7 @@ Image saved, took 4.33s
 Finished image build for im-6OZMQf9oFxqLnic4UBo4mf
 ✓ Created objects.
 ├── 🔨 Created mount 
-│   /Users/thomas/.hermes/cache/scratch/zeta-fourpoint-serial/serial.py
+│   <PRIVATE-LOCAL-SCRATCH>/zeta-fourpoint-serial/serial.py
 ├── 🔨 Created mount PythonPackage:fpcommon, PythonPackage:fpserial
 ├── 🔨 Created function layer_final3_preflight.
 ├── 🔨 Created function layer_build.
