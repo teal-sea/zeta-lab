@@ -36,6 +36,11 @@ A hunt that wants its claim to count takes it through the battery
 (`docs/doors/refute.md`) or the funnel (`docs/doors/discover.md`). Those are
 the two routes that can say "yes", and neither of them is the hunt itself.
 
+**Methods travel even when claims do not.** An identity, lemma, control or
+technique a hunt produces goes in `docs/37-methods.md`, the cross-hunt methods
+index, in the same change that records it here. Check that index before
+building an instrument; several hunts have hand-rolled the same one.
+
 ## HuntSpec (new hunts, from 2026-08-11)
 
 A hunt opened after 2026-08-11 carries a **HuntSpec**, a fenced contract

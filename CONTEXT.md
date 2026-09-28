@@ -1236,6 +1236,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `34-zeros-in-tuning-units.md`, 34. The Riemann zeros in tuning units
 - `35-the-unspent-fact.md`, 35. The unspent fact: what out-of-band positivity is worth, and why nobody can claim it
 - `36-what-you-can-run.md`, 36. What you can run, and what it prints
+- `37-methods.md`, 37. Methods: the reusable identities, lemmas, controls and techniques, by theme
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)
