@@ -187,6 +187,7 @@ def residual_bound(A, shift, checkpoint, make_witness=False):
             for j in range(i+1):
                 sign, man, exp, _ = B[i, j]._mpf_
                 factor[i, j] = arb(((-1 if sign else 1)*int(man), int(exp)))
+                assert factor[i, j].rad() == 0
         exact_mid = arb_mat([[A[i, j].mid() for j in range(SIZE)] for i in range(SIZE)])
         shift_ball = arb(fmpq(str(Fraction(shift))))
         res = exact_mid-factor*factor.transpose()
@@ -194,7 +195,8 @@ def residual_bound(A, shift, checkpoint, make_witness=False):
             res[i, i] -= shift_ball
         r = max(sum((abs(res[i, j]) for j in range(SIZE)), arb(0)).abs_upper() for i in range(SIZE))
         e = max(sum((A[i, j].rad() for j in range(SIZE)), arb(0)).abs_upper() for i in range(SIZE))
-        checkpoint({"shift_exact": shift, "triangle": serialize_matrix(factor)}, "factor.json")
+        checkpoint({"shift_exact": shift, "kind": "lower triangular exact dyadic factor",
+                    "upper_triangle": "zero", "triangle": serialize_matrix(factor)}, "factor.json")
         result = {"factor_exists": True, "r": str(r), "e": str(e),
                   "leading_lower_ball": str(shift_ball-r-e), "lower": shift_ball-r-e}
         if make_witness:
@@ -283,6 +285,7 @@ def reduce(paths, checkpoint):
     lesion = residual_bound(mutant, "0", checkpoint)
     assert not lesion["factor_exists"]
     return {"status": "completed", "scope": "full even sector", "budget": budget,
+            "grade": "enclosure-carrying numerical step with ordinary analytic bounds",
             "positivity": evidence, "safe_lower_decimal": safe,
             "lower_ball": str(lower), "lower_exact_dyadic": list(map(int, lower.lower().man_exp())),
             "passes_requested_5_7178e_48": bool(lower > arb("5.7178e-48")),
