@@ -325,3 +325,39 @@ will be retained as raw JSON on the volume and lossless gzip files for local
 review. No assembly implementation changed after the batch began. The
 additional source changes affect reduction, artifact checks and outward
 summary assertions only.
+
+## Batch interruption and bounded recovery
+
+App ap-zyqkre7VOF1BRnS7SjZEWi is **stopped, zero tasks**, at 06:45:59
+America/Bogota. Its log explicitly reports container preemption and restart
+with the same input. The strict existing-directory guard then refused the
+restart, causing cancellation of the remaining mapped inputs. This was an
+orchestration failure, not a failed mathematical bound. All nine interrupted
+manifests and error records were retrieved; every error ends in
+KeyboardInterrupt. A transient missing-file read for one manifest resolved
+on readback after the volume commit. No failed directory was overwritten.
+
+Reconciled count: 91 successful complete blocks, nine interrupted blocks.
+Successful work is 8005.640 core-seconds, including the successful pilot;
+interrupted work is 530.324 core-seconds. The initial failed precision pilot
+adds 5.428 seconds. The batch's entire 902-second app lifetime times its
+maximum ten cores is a separate conservative 9020-core-second occupancy
+bound, which covers the preemption restart not represented by a new
+manifest. Adding the two pilot app lifetimes gives 9114 core-seconds.
+
+Recovery before launch: exactly panels 810..819, 900..909 and 920..989,
+nine units, each using the byte-identical assembler from 548f9a4. SHA-256
+1c7023130aa5685dcfb09ce0e56fd60c2dcd1c86f2f50ea2d5c27214f2d78217.
+Frozen copy: assembly_l119_frozen.py. New volume root l119/recovery548;
+retain every failed artifact in the original root. At the measured rate,
+allow 900 core-seconds for recovery. Hard input limit 300 seconds each,
+270-second work alarm. Then one reducer, at most 900 seconds. Even charging
+all nine recovery inputs to their hard limits, plus the prior app occupancy
+bound, reducer and 600 seconds of extra startup allowance gives 13314
+core-seconds, below four core-hours. Monitor both remaining apps.
+
+Recovery and reduction use nonpreemptible=True. Modal documents a threefold
+CPU/memory price multiplier for this setting; it changes the price, not the
+one-core allocation. This is a bounded reliability choice within the
+approved task; no new campaign is launched. Reference:
+[Modal preemption documentation](https://modal.com/docs/guide/preemption).

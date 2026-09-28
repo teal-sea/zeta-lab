@@ -1,6 +1,7 @@
 """One bounded L119 unit per container, durable evidence before return."""
 
 from pathlib import Path
+import os
 import modal
 
 HERE = Path(__file__).resolve().parent
@@ -8,14 +9,15 @@ app = modal.App("oob-referee-l119")
 volume = modal.Volume.from_name("oob-envelope-referee", create_if_missing=False)
 image = (modal.Image.debian_slim(python_version="3.12")
          .pip_install("python-flint==0.9.0", "mpmath==1.3.0", "gmpy2==2.2.1")
-         .add_local_file(HERE / "l119.py", "/root/l119.py")
+         .add_local_file(HERE / ("assembly_l119_frozen.py" if os.environ.get("OOB_L119_RECOVERY") == "1" else "l119.py"), "/root/l119.py")
          .add_local_file(HERE / "independent.py", "/root/independent.py")
          .add_local_file(HERE / "frozen_envelope_L119.json", "/root/frozen_envelope_L119.json"))
 
 
-@app.function(image=image, cpu=(1, 1), memory=(1024, 1792), timeout=900,
+@app.function(image=image, cpu=(1, 1), memory=(1024, 1792),
+              timeout=300 if os.environ.get("OOB_L119_RECOVERY") == "1" else 900,
               startup_timeout=180, retries=0, max_containers=10,
-              single_use_containers=True, volumes={"/out": volume})
+              single_use_containers=True, nonpreemptible=True, volumes={"/out": volume})
 def execute(unit: str, revision: str):
     import hashlib
     import importlib.metadata
@@ -33,7 +35,8 @@ def execute(unit: str, revision: str):
     folder.mkdir(parents=True)
     manifest = {"unit": unit, "revision": revision, "started_unix": started,
                 "status": "running", "cpu": 1, "memory_limit_MiB": 1792,
-                "timeout_s": 900, "profile": "teal-sea",
+                "timeout_s": 300 if unit.startswith("panels_") else 900,
+                "nonpreemptible": True, "profile": "teal-sea",
                 "packages": {p: importlib.metadata.version(p) for p in ("python-flint", "mpmath", "gmpy2")},
                 "input_sha256": {n: hashlib.sha256(Path("/root", n).read_bytes()).hexdigest()
                                  for n in ("l119.py", "independent.py", "frozen_envelope_L119.json")}}
@@ -55,7 +58,7 @@ def execute(unit: str, revision: str):
 
     checkpoint(manifest, "manifest.json")
     signal.signal(signal.SIGALRM, alarm)
-    signal.alarm(870)
+    signal.alarm(270 if unit.startswith("panels_") else 870)
     try:
         import l119
         if unit.startswith("panels_"):
@@ -66,6 +69,8 @@ def execute(unit: str, revision: str):
         elif unit.startswith("reduce_"):
             source = unit[len("reduce_"):]
             paths = sorted(Path("/out/l119", source).glob("panels_*/matrix.json"))
+            paths += sorted(Path("/out/l119/recovery548").glob("panels_*/matrix.json"))
+            paths = [p for p in paths if json.loads(p.with_name("manifest.json").read_text())["status"] == "completed"]
             result = l119.reduce(paths, checkpoint)
         else:
             raise ValueError("unknown unit")
@@ -85,14 +90,20 @@ def execute(unit: str, revision: str):
 
 
 @app.local_entrypoint()
-def main(revision: str, unit: str = "", batch: bool = False):
+def main(revision: str, unit: str = "", batch: bool = False, recover: bool = False):
     import json
     import os
     if os.environ.get("MODAL_PROFILE") != "teal-sea":
         raise RuntimeError("explicit teal-sea profile required")
     dest = HERE / "outputs_L119" / revision
     dest.mkdir(parents=True, exist_ok=True)
-    if batch:
+    if recover:
+        if unit or batch or os.environ.get("OOB_L119_RECOVERY") != "1":
+            raise ValueError("recovery requires frozen assembler and separate dispatch")
+        spans = ("0810_0820", "0900_0910", "0920_0930", "0930_0940", "0940_0950",
+                 "0950_0960", "0960_0970", "0970_0980", "0980_0990")
+        responses = execute.starmap((("panels_"+s, revision) for s in spans), order_outputs=False)
+    elif batch:
         if unit:
             raise ValueError("unit and batch are mutually exclusive")
         units = [f"panels_{a:04d}_{a+10:04d}" for a in range(0, 990, 10)]
