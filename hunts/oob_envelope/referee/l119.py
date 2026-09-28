@@ -12,7 +12,7 @@ from pathlib import Path
 from flint import arb, acb, arb_mat, fmpq, ctx
 from independent import cc_arb, error_ball, tail_budget, serialize_matrix, mp_matrix
 
-SIZE, ORDER, BITS = 500, 192, 1024
+SIZE, ORDER, BITS = 500, 192, 1280
 
 
 def witness():
@@ -103,7 +103,7 @@ def series(x, n, modified=False):
     for k in range(2000):
         ratio = x*x/(2*(k+1)*(2*n+2*k+3))
         following = term*ratio*(1 if modified else -1)
-        if ratio < arb(1)/2 and abs(following) < arb("1e-270"):
+        if ratio < arb(1)/2 and abs(following) < arb(2)**(-ctx.prec+64):
             return prefactor*(total+error_ball(2*abs(following)))
         total += following
         term = following
@@ -121,7 +121,8 @@ def transforms(t, L, scales):
         b[n-1] = (2*n+1)*b[n]/x-b[n+1]
     assert b[0].overlaps(x.sinc()), "j0 normalization discrepancy"
     out = [scales[k]*b[2*k] for k in range(SIZE)]
-    assert max(v.rad() for v in out) < arb("1e-65"), "recurrence widths insufficient"
+    width = max(v.rad() for v in out)
+    assert width < arb("1e-65"), f"recurrence widths insufficient: {width}"
     return out
 
 

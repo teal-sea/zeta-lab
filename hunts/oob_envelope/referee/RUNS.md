@@ -270,3 +270,14 @@ Honcho list_sessions is a memory API, not the research-session tool. Fetch
 completed; git worktree listing identifies the two author branches. Orca
 initially reported no runtime; its read-only terminal check is retried after
 starting the app. No other lane receives messages or writes.
+
+Pilot 1, source 41ff24f: app `ap-rLGrvMGdAOqdVOOTZOS39n`, **failed safely**
+after 5.43 core-seconds at the transform-width guard, before any completed
+panel. App list confirms stopped, zero tasks. The 1024-bit recurrence at
+x near 595 did not meet the requested 1e-65 radius. Error and receipt saved
+under outputs_L119/41ff24f. This is an arithmetic-width failure, not a sign
+result. No remaining unit was dispatched. Repair: 1280 bits and series tail
+threshold 2^(-precision+64), with unchanged quadrature and target. The next
+pilot has the same ten panels and 900-second hard limit. It remains inside
+the task's four-core-hour authorization; its measured cost still gates the
+full dispatch. No automatic retry is enabled.
