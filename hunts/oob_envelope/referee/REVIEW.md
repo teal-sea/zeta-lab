@@ -17,9 +17,11 @@ with the exact sine:16 witness and leading orders 0,2,...,998.
 ## Positivity audit
 
 Let A be the exact real symmetric block and M an exactly symmetric matrix
-of dyadic entry midpoints. Suppose E_ij bounds |A_ij-M_ij| and is symmetric.
+of dyadic entry midpoints. Suppose E_ij bounds |A_ij-M_ij|.
 Then ||A-M||_2 <= sqrt(||A-M||_1 ||A-M||_infinity) <= max_i sum_j E_ij.
 Using only a row norm without symmetry would not justify this conclusion.
+Symmetry is needed for the actual perturbation A-M; the entry majorant E
+itself need not be symmetric. Our stored entry balls are symmetric as well.
 The author's RUNS step is sound as stated for a symmetric perturbation;
 their result JSON alone does not show that their source enforces symmetry.
 The independent assembler averages the two entry enclosures and stores

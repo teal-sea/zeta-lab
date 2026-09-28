@@ -273,6 +273,9 @@ def reduce(paths, checkpoint):
     safe = "5.7179e-48"
     assert lower > arb(fmpq(str(Fraction(safe))))
     assert lower < arb("2.78e-38")
+    checkpoint({"positivity": evidence, "full_lower_ball": str(lower),
+                "safe_lower_decimal": safe, "safe_R_upper_decimal": "5.776e-48",
+                "eps_D": str(eps_D), "eps_B": str(eps_B)}, "positivity.json")
     # In-band constant mutation H -> H-C, beta -> beta-C gives exactly R-CI.
     # C=1e-47 acts at the scale of this nearly singular form. The saved exact
     # vector gives a negative Rayleigh enclosure, not merely a failed factor.
