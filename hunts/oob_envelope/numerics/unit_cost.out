@@ -1,0 +1,6 @@
+prec=384 bessel K=629 x=500: 33.1 ms/node, max rad 6.3e-112
+prec=384 bessel K=1259 x=540: 151.5 ms/node, max rad 7.0e-112
+symbol: 0.48 ms/node
+panel product N=315 q=96: 0.30 s
+panel product N=630 q=96: 1.39 s
+full product N=630: 2.9 s

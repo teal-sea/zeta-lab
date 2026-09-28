@@ -1,0 +1,29 @@
+{
+  "volume": "oob-envelope-referee",
+  "directory": "/out/l119/41ff24f/panels_0990_1000",
+  "manifest": {
+    "unit": "panels_0990_1000",
+    "revision": "41ff24f",
+    "started_unix": 1790594834.5544102,
+    "status": "failed",
+    "cpu": 1,
+    "memory_limit_MiB": 1792,
+    "timeout_s": 900,
+    "profile": "teal-sea",
+    "packages": {
+      "python-flint": "0.9.0",
+      "mpmath": "1.3.0",
+      "gmpy2": "2.2.1"
+    },
+    "input_sha256": {
+      "l119.py": "13031465a877e61d7ef7adb57f314109f704cbfbb1166f04e2bc98029ff3f59c",
+      "independent.py": "45a2cc82df77a926cd7a6bf2a39f31e9d907a94f82bbec394c8c6aeb89c14bfd",
+      "frozen_envelope_L119.json": "4c8f17b8a59c8011a726b88d2757c545e92e1f55c8dc9bb9416ff68cc6553e93"
+    },
+    "elapsed_s": 5.427241563796997,
+    "output_sha256": {
+      "budget.json": "f1ed4bb29ad949796e06359212f19697cce37e46e95b4a79325a525e88381cff",
+      "error.json": "a49cb66cd4b589e61e6baf9f9b41ec171e578cb18cd8500199f11ab16705860a"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-mucAZVkQ7RThKhLbUB9CuN
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   stage_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   reduce_stage.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   assemble.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   envelope.json
+├── 🔨 Created function unit.
+└── 🔨 Created function reduce.
+{"unit": [320, 350], "seconds": 145.61644983291626}
+{"unit": [500, 525], "seconds": 205.812597990036}
+[modal-client] 2026-09-27T18:47:32+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=62.48, time_since_heartbeat_success=62.48, error=ConnectionError('Deadline exceeded'))
+{"unit": [80, 160], "seconds": 266.5230004787445}
+{"unit": [0, 80], "seconds": 272.9966778755188}
+{"unit": [160, 240], "seconds": 315.63990330696106}
+{"unit": [350, 400], "seconds": 322.9267108440399}
+{"unit": [240, 320], "seconds": 401.07975339889526}
+{"unit": [450, 500], "seconds": 420.1181275844574}
+{"unit": [400, 450], "seconds": 424.6019387245178}
+units wall 434 s
+{"T": 80, "beta": -1.3318277587452458, "unit_seconds": 272.9966778755188}
+{"T": 160, "beta": -0.6324305781853006, "unit_seconds": 266.5230004787445}
+{"T": 240, "beta": -0.22488213674380284, "unit_seconds": 315.63990330696106}
+{"T": 320, "beta": 0.06384160237464474, "unit_seconds": 401.07975339889526, "lam": 3.3745406995913332e-46, "lam_rad": 9.850995796392335e-63, "n_neg": null, "undecided": 304, "max_entry_rad": 8.070826631325172e-109}
+{"T": 350, "beta": 0.15372161820718902, "unit_seconds": 145.61644983291626, "lam": 1.652617704307548e-48, "lam_rad": 1.9658083792530475e-60, "n_neg": null, "undecided": 304, "max_entry_rad": 8.60566704547719e-109}
+{"T": 400, "beta": 0.2876101536888545, "unit_seconds": 322.9267108440399, "lam": 4.1526746734979293e-48, "lam_rad": 8.149008621007019e-61, "n_neg": null, "undecided": 305, "max_entry_rad": 9.548313748918365e-109}
+{"T": 450, "beta": 0.40567096712301576, "unit_seconds": 424.6019387245178, "lam": 5.174770754894906e-48, "lam_rad": 6.756921633563933e-61, "n_neg": null, "undecided": 305, "max_entry_rad": 1.0316624627534747e-108}
+{"T": 500, "beta": 0.5112537050030642, "unit_seconds": 420.1181275844574, "lam": 5.775648793894534e-48, "lam_rad": 6.22353201664301e-61, "n_neg": null, "undecided": 306, "max_entry_rad": 1.0899914026187323e-108}
+{"T": 525, "beta": 0.5601391072677343, "unit_seconds": 205.812597990036, "lam": 6.003035786590947e-48, "lam_rad": 6.0662609340126325e-61, "n_neg": null, "undecided": 306, "max_entry_rad": 1.1178879247405064e-108}
+{"T": 80, "beta": -1.3318277587452458, "unit_seconds": 272.9966778755188}
+{"T": 160, "beta": -0.6324305781853006, "unit_seconds": 266.5230004787445}
+{"T": 240, "beta": -0.22488213674380284, "unit_seconds": 315.63990330696106}
+{"T": 320, "beta": 0.06384160237464474, "unit_seconds": 401.07975339889526, "lam": 3.3745406995913332e-46, "lam_rad": 9.850995796392335e-63, "n_neg": null, "undecided": 304, "max_entry_rad": 8.070826631325172e-109}
+{"T": 350, "beta": 0.15372161820718902, "unit_seconds": 145.61644983291626, "lam": 1.652617704307548e-48, "lam_rad": 1.9658083792530475e-60, "n_neg": null, "undecided": 304, "max_entry_rad": 8.60566704547719e-109}
+{"T": 400, "beta": 0.2876101536888545, "unit_seconds": 322.9267108440399, "lam": 4.1526746734979293e-48, "lam_rad": 8.149008621007019e-61, "n_neg": null, "undecided": 305, "max_entry_rad": 9.548313748918365e-109}
+{"T": 450, "beta": 0.40567096712301576, "unit_seconds": 424.6019387245178, "lam": 5.174770754894906e-48, "lam_rad": 6.756921633563933e-61, "n_neg": null, "undecided": 305, "max_entry_rad": 1.0316624627534747e-108}
+{"T": 500, "beta": 0.5112537050030642, "unit_seconds": 420.1181275844574, "lam": 5.775648793894534e-48, "lam_rad": 6.22353201664301e-61, "n_neg": null, "undecided": 306, "max_entry_rad": 1.0899914026187323e-108}
+{"T": 525, "beta": 0.5601391072677343, "unit_seconds": 205.812597990036, "lam": 6.003035786590947e-48, "lam_rad": 6.0662609340126325e-61, "n_neg": null, "undecided": 306, "max_entry_rad": 1.1178879247405064e-108}
+total wall 535 s
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-mucAZVkQ7RThKhLbUB9CuN
+exit 0
+2026-09-27T18:52:33Z

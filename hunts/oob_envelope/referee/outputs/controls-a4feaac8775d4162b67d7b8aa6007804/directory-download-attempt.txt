@@ -1,0 +1,145 @@
+{
+  "unit": "controls",
+  "revision_label": "c65c66efc3c8773c5af33cb0e0657262e34bf84b",
+  "run_id": "controls-a4feaac8775d4162b67d7b8aa6007804",
+  "input_sha256": {
+    "independent.py": "45a2cc82df77a926cd7a6bf2a39f31e9d907a94f82bbec394c8c6aeb89c14bfd",
+    "frozen_envelope.json": "b854b5c30350d888f33c53141c2a1e800aae35ea57e6aec28e05210388b5aa34"
+  },
+  "python": "3.12.10",
+  "packages": {
+    "python-flint": "0.9.0",
+    "mpmath": "1.3.0",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3"
+  },
+  "cpu_limit": 1,
+  "memory_limit_MiB": 1792,
+  "timeout_s": 600,
+  "profile_requested": "teal-sea",
+  "started_unix": 1790536496.898643,
+  "status": "completed",
+  "elapsed_s": 5.646634578704834,
+  "output_sha256": {
+    "result.json": "769a1e536737082ea44704e712c7a94f2274ac29870465443e744d325d7fad26"
+  }
+}
+71828,
+  "K3_functions": 10,
+  "inband_normalized_defect": "0.03125",
+  "one_prime_sign_lesion_min": "-3.16335747594308796036451230508343433726",
+  "dropped_power_constant_test_defect": "0.09258091316219352858335396354984535341231",
+  "lesions_detected": [
+    "inband",
+    "one_prime_sign",
+    "dropped_power"
+  ],
+  "frequency_K3": [
+    {
+      "cutoff": 128,
+      "t_order": 20,
+      "x_order": 256,
+      "partial_integrals": [
+        [
+          1.0653213053284455e-11,
+          3.0054103730570024e-10
+        ],
+        [
+          6.4670958502023105e-12,
+          3.3035001926356036e-10
+        ],
+        [
+          7.70500780899921e-12,
+          2.546330063400976e-10
+        ],
+        [
+          -2.7976834370839154e-12,
+          -4.4546653259140225e-11
+        ],
+        [
+          -1.6529088584482917e-12,
+          -3.139530640678369e-11
+        ]
+      ],
+      "analytic_tail_majorants_measured": [
+        [
+          2.402118906796168e-05,
+          1.798617922426733e-06
+        ],
+        [
+          1.6313553484340274e-05,
+          1.2214986357414027e-06
+        ],
+        [
+          2.5959400646727742e-05,
+          1.9437440472476414e-06
+        ],
+        [
+          9.488431738485894e-06,
+          7.104587259306524e-07
+        ],
+        [
+          1.6606027273433971e-07,
+          1.2433979929054325e-08
+        ]
+      ],
+      "inband_constant_partial": 0.03127545442466208,
+      "inband_constant_tail_majorant": 0.006216989964527162,
+      "grade": "measured; floating quadrature errors not enclosed"
+    },
+    {
+      "cutoff": 256,
+      "t_order": 24,
+      "x_order": 384,
+      "partial_integrals": [
+        [
+          -6.372300760407958e-13,
+          1.006078953175069e-11
+        ],
+        [
+          -1.1143903976521307e-12,
+          1.17038233545165e-11
+        ],
+        [
+          -5.065111089211597e-13,
+          8.478706860123538e-12
+        ],
+        [
+          -2.844865575536879e-15,
+          -1.341364812108115e-12
+        ],
+        [
+          -9.91460900785317e-16,
+          -9.445609699839932e-13
+        ]
+      ],
+      "analytic_tail_majorants_measured": [
+        [
+          7.506621583738025e-07,
+          5.62068100758354e-08
+        ],
+        [
+          5.097985463856336e-07,
+          3.8171832366918836e-08
+        ],
+        [
+          8.112312702102419e-07,
+          6.07420014764888e-08
+        ],
+        [
+          2.965134918276842e-07,
+          2.2201835185332886e-08
+        ],
+        [
+          5.189383522948116e-09,
+          3.8856187278294764e-10
+        ]
+      ],
+      "inband_constant_partial": 0.031247444952133933,
+      "inband_constant_tail_majorant": 0.003108494982263581,
+      "grade": "measured; floating quadrature errors not enclosed"
+    }
+  ],
+  "nonclaim": "No matrix positivity or integral enclosure follows.",
+  "acceptance_gate": true
+}

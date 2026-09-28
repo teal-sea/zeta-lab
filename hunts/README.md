@@ -75,6 +75,30 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Out-of-band envelopes for Weil window positivity (`oob_envelope/`)
+
+**Status: candidate, hardened by two independent implementations, pending
+external verification.** On the window `supp f ⊆ [-L, L]`, any correction to
+the Weil symbol at frequencies `≥ 2L` leaves the form unchanged, so the
+envelope constant in arXiv:2608.24827's one-stroke reduction can drop from
+`A_L = sup P_L` to `sup(P_L − H)` (theory lane, ordinary derivation, referee
+PASS). With it, for real even f:
+
+- support 1.6 (`L = 0.8`): `Q(f) ≥ 1.1579e-17 ‖f‖²`, Zhu's window with a
+  sharper constant and half the matrix;
+- support 2.38 (`L = 1.19`): `Q(f) ≥ 5.7178e-48 ‖f‖²` (numerics GL-96 route
+  `≥ 5.71789230595e-48`, referee Clenshaw-Curtis-192 route `> 5.7179e-48`,
+  N = 500 even Legendre modes, T# = 500, all error terms enclosed).
+
+Scope: even sector only; the odd sector is not bounded. No window claim found
+in the searched literature exceeds half-width 17/16 (Liu, unrefereed); Zhu
+withdrew his own `L = 1.19` claim. The threshold stays doubly exponential
+(the best out-of-band constant grows like `e^L`), so this is a fixed-window
+result, not a route to RH. Methods: `docs/37-methods.md` (out-of-band
+envelope lemma; residual-enclosed shifted Cholesky). Record:
+`oob_envelope/numerics/RESULTS.md`, `oob_envelope/theory/RESULTS.md`,
+`oob_envelope/referee/REVIEW.md`.
+
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
 **Status: candidate ordinary argument with enclosure-carrying numerical steps;
