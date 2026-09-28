@@ -253,3 +253,20 @@ Scientific closeout: both independent leading units support the corrected
 analytic budgets. K1 passes; K2, K3 and lesions pass at measured grade.
 No L=1.19 unit was authorized or run. Stage B remains a separate supervisor
 decision, with its quadrature/tail/coupling and interval-sign obligations open.
+
+# L = 1.19 independent run, 2026-09-28
+
+Thomas authorized this referee task and four core-hours total. The older
+L=4/5 batch is closed; its no-new-run language does not apply to this task.
+Plan: L119_PLAN.md. First measured unit is panels 990 through 999, CC-192,
+1024 bits, N=500. Unmeasured planning range: 60 to 600 seconds, hard limit
+900 seconds, one CPU, 1792 MiB. No numerical work runs locally. Before
+remaining units launch, record measured runtime and multiply by 100 with
+explicit allowance for the reducer and startup. Stop if four core-hours
+cannot cover the work. Every unit commits its own evidence to the volume.
+
+Remote session-listing tool with research status is unavailable. The exposed
+Honcho list_sessions is a memory API, not the research-session tool. Fetch
+completed; git worktree listing identifies the two author branches. Orca
+initially reported no runtime; its read-only terminal check is retried after
+starting the app. No other lane receives messages or writes.
