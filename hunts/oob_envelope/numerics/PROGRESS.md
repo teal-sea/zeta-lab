@@ -243,3 +243,10 @@ Not done, optional: theory §1.7's sampled B_T at L = 0.8, T = 30..70.
   independent in construction and quadrature but shares python-flint with
   this lane, and that this lane's GL entry radii were not audited. L = 1.19
   unresolved; stage B unapproved. Holding.
+
+## Odd worker, 2026-09-28
+
+Active under Thomas's explicit four-core-hour Modal authorization.
+Derived odd orders, sinh pole, step-two tail ratios and parity cross-term
+cancellation in odd_derivation.md. Tiny local formula checks pass.
+Next gate: Zhu section 6.2 at L=4/5, T#=150, H=0. No main run yet.

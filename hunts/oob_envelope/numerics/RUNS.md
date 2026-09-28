@@ -237,3 +237,43 @@ Results read back from the volume: `stageBval2_L08_result.json`,
   against the form's floor; recorded, not claimed as a pass.
 - Main row reproduced bit for bit (≥ 1.14675686334e-17 at 0.99 λ_meas;
   ≥ 1.15822443198e-17 at 0.9999).
+
+## Odd sector, 2026-09-28: authorized four-core-hour task
+
+Owner: this foreground Codex session, branch teal-sea/oob-odd, starting
+46c896b0. Thomas explicitly authorized validation and main run, Modal only,
+4 core-hours total, local edits and tiny checks only, no push. This supersedes
+older HOLD text for this odd task alone. Writes remain in numerics: new
+filenames contain odd; existing RUNS/RESULTS/PROGRESS are append-only.
+
+Runner: stage_b_odd_modal.py. Derivation: odd_derivation.md. The original
+even runner and theory inputs remain untouched. Every checkpoint records
+SHA-256 of runner, assemble.py, harden.py and envelope.json; the reducer
+refuses a mismatch. Odd tags are isolated from even checkpoints.
+
+Pre-validation estimate from the even measurement (N=96, 200 panels,
+2 units in 30 core-seconds): N=200, 300 panels scales conservatively as
+30*(200/96)^2*(300/200)=196 core-seconds, plus 30 s for the reducer and
+pole-sign control. Allow 0.10 core-hour for Zhu, 0.05 for envelope validation
+and low-T control. Actual timings replace these estimates below.
+
+Zhu gate: L=4/5, T#=150, H=0, N=200, GL-64, 256 bits, h=1/2, six units.
+The source uses 200 odd modes and reports 9.1183e-15 measured, with a lower
+bound 8.2065e-15. The runner blocks later configurations unless the measured
+value agrees to 1 percent and the enclosed lower endpoint is positive.
+Next: val at L=4/5, T#=100, sine:16, N=96; val40 is a prospective negative
+control, not presumed to be indefinite. Wrong pole sign must raise the
+measured floor. A failed approximate pivot is followed by a ball-enclosed
+Rayleigh witness, so a refusal alone is not called proof of indefiniteness.
+
+Main remains N=500, T#=500, GL-96, 384 bits, h=1/2, 50 units. Only after
+validation, time unit 49 on Modal and multiply by 50, add validation and
+reducer allowance, then append that estimate BEFORE launching the main job.
+No detached apps, retries disabled, at most 12 one-CPU unit containers.
+Each unit checkpoints to oob-envelope-stages; reducer has one CPU.
+
+Tiny local check (1.1 s): first three odd Legendre modes, direct Fourier
+and sinh integrals, orthonormality, double factorial indices and actual
+cut ratios pass. Maximum measured direct-integral defect 1.02e-56 at 55 dps.
+All four configurations have both tail ratios below one (largest 0.08807).
+The exact checks and measured checks are distinguished in check_odd.py.
