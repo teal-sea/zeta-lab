@@ -94,7 +94,7 @@ Team (chosen by the supervisor, 2026-09-27):
 | referee | Codex | gpt-6-astra, xhigh | a different model family, so it does not share the authors' blind spots |
 
 Method reference for all lanes (read, do not copy into this repo):
-`/Users/thomas/.hermes/profiles/scholar/skills/research/computational-math-research/SKILL.md`.
+`<scholar-skills>/research/computational-math-research/SKILL.md`.
 
 Each worker writes only in its own subdirectory. Supervisor: Scholar (Hermes
 cron, every 5 minutes). Questions go at the top of your `PROGRESS.md` under a

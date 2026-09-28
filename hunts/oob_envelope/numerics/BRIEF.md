@@ -3,9 +3,9 @@
 Read first: `hunts/oob_envelope/MISSION.md`, then `AGENTS.md` (certainty
 ladder, compute discipline, reserved words), then arXiv:2608.24827v2 (Zhu)
 §1–5 and §7. Seed probes: `hunts/oob_envelope/probes/`. Your worktree:
-`/Users/thomas/orca/workspaces/zeta-lab/oob-cert` (branch
+`<worktree>` (branch
 `teal-sea/oob-cert`). Write only in `hunts/oob_envelope/numerics/`. Python:
-`/Users/thomas/zeta-lab/.venv/bin/python` (numpy, scipy, mpmath,
+`<repo>/.venv/bin/python` (numpy, scipy, mpmath,
 python-flint 0.9 are installed; the worktree has no venv of its own).
 
 ## Phases, in order

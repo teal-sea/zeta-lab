@@ -2,7 +2,7 @@
 
 Read first: `hunts/oob_envelope/MISSION.md`, then `AGENTS.md` (certainty
 ladder, reserved words, original vs novel), then arXiv:2608.24827v2 (Zhu)
-§1–4 and §14–16. Your worktree: `/Users/thomas/orca/workspaces/zeta-lab/oob-cert-theory`
+§1–4 and §14–16. Your worktree: `<worktree>`
 (branch `teal-sea/oob-cert-theory`). Write only in `hunts/oob_envelope/theory/`.
 
 ## Tasks, in order

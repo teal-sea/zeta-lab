@@ -166,7 +166,7 @@ is not the operating point; see `PROGRESS.md` for the table.
 ## Reproduction (from the repo root; about 10 minutes in total)
 
 ```bash
-PY=/Users/thomas/zeta-lab/.venv/bin/python   # python-flint 0.9.0, numpy, scipy
+PY=.venv/bin/python   # from the repo root; python-flint 0.9.0, numpy, scipy
 cd hunts/oob_envelope/numerics
 $PY envelope.py --D 8 16 32 64 128                 # 134 s, writes envelope.json
 $PY k3.py                                          # 1 s, k3.json
