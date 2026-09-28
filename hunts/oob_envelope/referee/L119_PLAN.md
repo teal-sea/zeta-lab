@@ -25,9 +25,13 @@ computed tail and coupling norms. Desired outward-safe endpoint 5.7179e-48.
 Failure of the fixed shift or arithmetic widths is inconclusive, not a
 negative theorem. No optimization toward the last successful digit planned.
 
-The constant in-band mutation H -> H-100 together with beta -> beta-100
-changes the reduced form by exactly -100 I. A negative constant-window
-Rayleigh enclosure must be obtained and the same factor step must reject it.
+The deciding constant in-band mutation is H -> H-1e-47 together with
+beta -> beta-1e-47, changing the reduced form by exactly -1e-47 I.
+Before reduction, the initial large -100 proposal was replaced by this
+lesion at the actual spectral scale. Inverse iteration proposes a vector;
+its exact dyadic version must give an Arb Rayleigh upper bound <5.776e-48
+for the original block and <-4.224e-48 for the mutant. The same factor
+step must reject the mutant.
 This targets positivity rejection and the violated Fourier support premise;
 it does not purport to be a legitimate alternative zeta envelope.
 

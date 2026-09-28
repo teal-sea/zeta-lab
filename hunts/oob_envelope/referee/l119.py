@@ -169,7 +169,7 @@ def from_triangle(data):
     return A
 
 
-def residual_bound(A, shift, checkpoint):
+def residual_bound(A, shift, checkpoint, make_witness=False):
     """A rounded factor is only a witness. Arb checks its entire residual."""
     from mpmath import mp
     with mp.workdps(110):
@@ -192,8 +192,33 @@ def residual_bound(A, shift, checkpoint):
         r = max(sum((abs(res[i, j]) for j in range(SIZE)), arb(0)).abs_upper() for i in range(SIZE))
         e = max(sum((A[i, j].rad() for j in range(SIZE)), arb(0)).abs_upper() for i in range(SIZE))
         checkpoint({"shift_exact": shift, "triangle": serialize_matrix(factor)}, "factor.json")
-        return {"factor_exists": True, "r": str(r), "e": str(e),
-                "leading_lower_ball": str(shift_ball-r-e), "lower": shift_ball-r-e}
+        result = {"factor_exists": True, "r": str(r), "e": str(e),
+                  "leading_lower_ball": str(shift_ball-r-e), "lower": shift_ball-r-e}
+        if make_witness:
+            # Inverse iteration proposes a vector, never a lower bound.
+            v = [mp.mpf(1)]+[mp.mpf(0)]*(SIZE-1)
+            for _ in range(8):
+                y = []
+                for i in range(SIZE):
+                    y.append((v[i]-mp.fsum(B[i, j]*y[j] for j in range(i)))/B[i, i])
+                v = [mp.mpf(0)]*SIZE
+                for i in range(SIZE-1, -1, -1):
+                    v[i] = (y[i]-mp.fsum(B[j, i]*v[j] for j in range(i+1, SIZE)))/B[i, i]
+                norm = mp.sqrt(mp.fsum(x*x for x in v))
+                v = [x/norm for x in v]
+            dyadics = []
+            for x in v:
+                sign, man, exp, _ = x._mpf_
+                dyadics.append([(-1 if sign else 1)*int(man), int(exp)])
+            exact_v = arb_mat([[arb(tuple(x))] for x in dyadics])
+            squared_norm = (exact_v.transpose()*exact_v)[0, 0]
+            rayleigh = (exact_v.transpose()*A*exact_v)[0, 0]/squared_norm
+            assert rayleigh < arb("5.776e-48")
+            checkpoint({"vector_dyadic": dyadics, "squared_norm": str(squared_norm),
+                        "rayleigh_ball": str(rayleigh), "safe_upper_decimal": "5.776e-48"},
+                       "ritz_witness.json")
+            result["rayleigh"] = rayleigh
+        return result
 
 
 def reduce(paths, checkpoint):
@@ -214,22 +239,23 @@ def reduce(paths, checkpoint):
                 v += beta
             A[i, j] = A[j, i] = v
     checkpoint({"N": SIZE, "triangle": serialize_matrix(A)}, "matrix.json")
-    evidence = residual_bound(A, "5.718e-48", checkpoint)
+    evidence = residual_bound(A, "5.718e-48", checkpoint, make_witness=True)
     if not evidence["factor_exists"]:
         return {"status": "inconclusive", "evidence": evidence}
     lower = evidence.pop("lower").min(beta-eps_D)-eps_B
+    rayleigh = evidence.pop("rayleigh")
     safe = "5.7179e-48"
     assert lower > arb(fmpq(str(Fraction(safe))))
     assert lower < arb("2.78e-38")
     # In-band constant mutation H -> H-C, beta -> beta-C gives exactly R-CI.
-    # C=100 supplies a large negative constant-window Rayleigh quotient.
-    # It deliberately violates the support identity; it is no new zeta claim.
+    # C=1e-47 acts at the scale of this nearly singular form. The saved exact
+    # vector gives a negative Rayleigh enclosure, not merely a failed factor.
     mutant = arb_mat(A)
     for i in range(SIZE):
-        mutant[i, i] -= 100
-    lesion_rayleigh = mutant[0, 0]
+        mutant[i, i] -= arb("1e-47")
+    lesion_rayleigh = rayleigh-arb("1e-47")
     assert lesion_rayleigh < 0
-    # A negative first diagonal stops the same midpoint factor proposal.
+    assert lesion_rayleigh < arb("-4.224e-48")
     lesion = residual_bound(mutant, "0", checkpoint)
     assert not lesion["factor_exists"]
     return {"status": "completed", "scope": "full even sector", "budget": budget,
@@ -237,6 +263,8 @@ def reduce(paths, checkpoint):
             "lower_ball": str(lower), "lower_exact_dyadic": list(map(int, lower.lower().man_exp())),
             "passes_requested_5_7178e_48": bool(lower > arb("5.7178e-48")),
             "passes_author_5_71789230595e_48": bool(lower > arb("5.71789230595e-48")),
+            "R_safe_upper_decimal": "5.776e-48",
             "K1": bool(lower < arb("2.78e-38")),
-            "lesion": {"constant": "-100", "beta_adjustment": "-100",
-                       "constant_window_rayleigh": str(lesion_rayleigh), "factor_rejected": not lesion["factor_exists"]}}
+            "lesion": {"constant": "-1e-47", "beta_adjustment": "-1e-47",
+                       "rayleigh_ball": str(lesion_rayleigh), "safe_upper_decimal": "-4.224e-48",
+                       "factor_rejected": not lesion["factor_exists"]}}

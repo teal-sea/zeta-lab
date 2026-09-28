@@ -301,3 +301,19 @@ one unit per container and no retries. The ten-pilot-panel checkpoint is
 reused, never recomputed. All matrices are per-unit volume checkpoints;
 no local reducer. Stop the app if accumulated work threatens the ceiling.
 Numerical source and all assembly parameters stay pinned to 548f9a4.
+
+Full assembly launched as `ap-zyqkre7VOF1BRnS7SjZEWi`, ten containers.
+The first eight returned units completed in 70 to 86 seconds with no failed
+numerical gates. Client heartbeat warnings occurred; app-list inspection
+confirms the app remains active with ten tasks, so these are not counted as
+completed or failed jobs. Each returned manifest is saved individually.
+
+Reducer preparation, before launch: strengthen the lesion from a large
+-100 I to -1e-47 I, comparable to the target minimum. The already-running
+assembly source is unchanged and frozen in Modal's image. The reducer will
+add eight midpoint inverse iterations only to propose an exact dyadic
+Rayleigh witness. Its quotient will be enclosed using the full independent
+entry balls, so no eigenvalue approximation is used as a proof. Required
+upper endpoints: 5.776e-48 before mutation and -4.224e-48 after mutation,
+plus rejection by the same Cholesky step. The 900-second reducer allocation
+already includes this work. This introduces no new panel or extra assembly.
