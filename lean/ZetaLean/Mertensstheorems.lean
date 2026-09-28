@@ -20,8 +20,13 @@ Mertens statement of its own.
   the loss is only `1`: `log N − 1 ≤ ∑_{n ≤ N} Λ(n)/n` for `N ≥ 1`.
 * `abs_sum_vonMangoldt_div_sub_log_le`: Mertens's first theorem, von
   Mangoldt form: `|∑_{n ≤ N} Λ(n)/n − log N| ≤ log 4 + 3/2` for `N ≥ 1`.
-* `mertens_first_theorem`: Mertens's first theorem, prime form:
-  `|∑_{p ≤ N} (log p)/p − log N| ≤ log 4 + 3` for `N ≥ 1`.
+* `mertens_first_bracket`: the prime form as the asymmetric bracket the
+  proof gives, `−4 ≤ ∑_{p ≤ N} (log p)/p − log N ≤ log 4 + 3/2`, with
+  `sum_log_div_prime_sub_log_le` and `neg_four_le_sum_log_div_prime_sub_log`
+  the two halves on their own.
+* `mertens_first_theorem`: Mertens's first theorem, prime form, in its
+  usual symmetric statement `|∑_{p ≤ N} (log p)/p − log N| ≤ log 4 + 3`,
+  which is the weakening of the bracket that discards the asymmetry.
 
 The constants are explicit and still not optimal (the true error in the
 prime form is bounded by 2); they are what the elementary argument gives
@@ -360,36 +365,39 @@ theorem sum_geom_tail_le (K : ℕ) (hK : 1 ≤ K) :
 
 /-! ## Mertens's first theorem, prime form -/
 
-/-- Mertens's first theorem with the explicit constant `log 4 + 3`:
-for `N ≥ 1`, `|∑_{p ≤ N} (log p)/p − log N| ≤ log 4 + 3`.
+/-- Mertens's first theorem, prime form, as the **two-sided bracket the
+proof actually gives**: for `N ≥ 1`,
+`−4 ≤ ∑_{p ≤ N} (log p)/p − log N ≤ log 4 + 3/2`.
 
 The sum runs over primes `p ≤ N`.  The distance to the von Mangoldt form
 is the prime-power correction `∑_{p^k ≤ N, k ≥ 2} (log p)/p^k`, which is
 nonnegative and at most `3`.  (Its limit is `0.7553…`.)
 
-The two sides are bounded by different routes, which is why the band is
-`log 4 + 3` and not `(log 4 + 3/2) + 3`: above, the prime sum is at most
-the von Mangoldt sum, so it inherits `log 4 + 3/2`; below, it exceeds
-`log N − 1 − 3 = log N − 4`, using the one-sided
-`log_sub_one_le_sum_vonMangoldt_div` rather than the symmetric band, and
-`4 ≤ log 4 + 3` because `1 ≤ log 4`. -/
-theorem mertens_first_theorem {N : ℕ} (hN : 1 ≤ N) :
-    |(∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N| ≤ log 4 + 3 := by
+The two sides come by different routes, which is why they are not equal:
+above, the prime sum is at most the von Mangoldt sum, so it inherits that
+form's `log 4 + 3/2 ≈ 2.886`; below, it exceeds `log N − 1 − 3`, using the
+one-sided `log_sub_one_le_sum_vonMangoldt_div` rather than the symmetric
+band, so `−4`.  `mertens_first_theorem` is the symmetric `log 4 + 3`
+weakening of this, and `sum_log_div_prime_sub_log_le` and
+`neg_four_le_sum_log_div_prime_sub_log` are the two halves on their own.
+A consumer that adds the two sides, as Mertens's second theorem does,
+should take the halves and not the symmetric band. -/
+theorem mertens_first_bracket {N : ℕ} (hN : 1 ≤ N) :
+    -4 ≤ (∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N
+      ∧ (∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N ≤ log 4 + 3 / 2 := by
   have h4 : (0 : ℝ) ≤ log 4 := log_nonneg (by norm_num)
-  have h41 : (1 : ℝ) ≤ log 4 := by
-    have hlt : exp 1 ≤ (4 : ℝ) := by linarith [exp_one_lt_d9]
-    calc (1 : ℝ) = log (exp 1) := (log_exp 1).symm
-      _ ≤ log 4 := log_le_log (exp_pos 1) hlt
   rcases eq_or_lt_of_le hN with hN1 | hN2
   · -- N = 1: both sums are empty or zero
     subst hN1
-    have hset : (Ioc 0 1 : Finset ℕ) = {1} := by
-      ext x
-      simp only [mem_Ioc, mem_singleton]
-      omega
-    rw [hset]
-    simp [Finset.filter_singleton, Nat.not_prime_one]
-    linarith
+    have h0 : (∑ p ∈ (Ioc 0 1 : Finset ℕ) with p.Prime, log p / p)
+        - log ((1 : ℕ) : ℝ) = 0 := by
+      have hset : (Ioc 0 1 : Finset ℕ) = {1} := by
+        ext x
+        simp only [mem_Ioc, mem_singleton]
+        omega
+      rw [hset]
+      simp [Finset.filter_singleton, Nat.not_prime_one]
+    exact ⟨by linarith, by linarith⟩
   · have hN2 : 2 ≤ N := hN2
     have hN0 : (0 : ℝ) < N := by positivity
     have hN1R : (1 : ℝ) ≤ (N : ℝ) := by exact_mod_cast hN
@@ -520,11 +528,45 @@ theorem mertens_first_theorem {N : ℕ} (hN : 1 ≤ N) :
     have hvM := abs_sum_vonMangoldt_div_sub_log_le hN
     have hlow := log_sub_one_le_sum_vonMangoldt_div hN
     rw [hfil] at hdec
-    rw [abs_le] at hvM ⊢
+    rw [abs_le] at hvM
     constructor
-    · -- lower: prime sum ≥ Λ sum − 3 ≥ log N − 1 − 3 ≥ log N − (log 4 + 3)
-      nlinarith [hdec, htail_le, hlow, h41]
+    · -- lower: prime sum ≥ Λ sum − 3 ≥ log N − 1 − 3 = log N − 4
+      nlinarith [hdec, htail_le, hlow]
     · -- upper: prime sum ≤ Λ sum ≤ log N + log 4 + 3/2
       nlinarith [hdec, htail_nonneg, hvM.2]
+
+/-- The upper half of Mertens's first theorem, prime form, on its own:
+for `N ≥ 1`, `∑_{p ≤ N} (log p)/p − log N ≤ log 4 + 3/2 ≈ 2.886`.  This is
+the side that inherits the von Mangoldt band unchanged, the prime sum
+being at most the von Mangoldt sum. -/
+theorem sum_log_div_prime_sub_log_le {N : ℕ} (hN : 1 ≤ N) :
+    (∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N ≤ log 4 + 3 / 2 :=
+  (mertens_first_bracket hN).2
+
+/-- The lower half of Mertens's first theorem, prime form, on its own:
+for `N ≥ 1`, `−4 ≤ ∑_{p ≤ N} (log p)/p − log N`.  The `4` is `1 + 3`: the
+one-sided von Mangoldt bound `log N − 1 ≤ ∑ Λ(n)/n` less the prime-power
+correction, which is at most `3`. -/
+theorem neg_four_le_sum_log_div_prime_sub_log {N : ℕ} (hN : 1 ≤ N) :
+    -4 ≤ (∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N :=
+  (mertens_first_bracket hN).1
+
+/-- **Mertens's first theorem** with the explicit constant `log 4 + 3`:
+for `N ≥ 1`, `|∑_{p ≤ N} (log p)/p − log N| ≤ log 4 + 3`.
+
+This is the symmetric weakening of `mertens_first_bracket`, kept because
+it is the statement the theorem is usually quoted in.  It is strictly
+weaker on both sides (`log 4 + 3 ≈ 4.386` against `2.886` above and `4`
+below), so a consumer that cares about the constant should take the two
+halves instead.  `4 ≤ log 4 + 3` because `1 ≤ log 4`. -/
+theorem mertens_first_theorem {N : ℕ} (hN : 1 ≤ N) :
+    |(∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N| ≤ log 4 + 3 := by
+  have h41 : (1 : ℝ) ≤ log 4 := by
+    have hlt : exp 1 ≤ (4 : ℝ) := by linarith [exp_one_lt_d9]
+    calc (1 : ℝ) = log (exp 1) := (log_exp 1).symm
+      _ ≤ log 4 := log_le_log (exp_pos 1) hlt
+  obtain ⟨hl, hu⟩ := mertens_first_bracket hN
+  rw [abs_le]
+  exact ⟨by linarith, by linarith⟩
 
 end ZetaLean.Mertens

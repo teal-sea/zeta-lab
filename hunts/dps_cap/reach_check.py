@@ -1,4 +1,4 @@
-"""Does the cap cost a wrong answer, or a refusal?  UNRESOLVED — see below.
+"""Does the cap cost a wrong answer, or a refusal?  UNRESOLVED, see below.
 
 ``count_zeros_box`` requires the accumulated winding to land within 1e-6 of an
 integer and raises ``ArithmeticError`` otherwise, so a noise-valued contour

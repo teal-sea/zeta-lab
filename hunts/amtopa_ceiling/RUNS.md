@@ -1,4 +1,4 @@
-# Runs — `amtopa_ceiling`
+# Runs: `amtopa_ceiling`
 
 Every run of this hunt, including the ones that produced nothing and the one that
 had to be killed. Cost estimates were written before the runs they describe, per
@@ -43,7 +43,7 @@ ran:
   - saturation sweep of the total pressure, redone after the fix, hunts/amtopa_ceiling/step3_bsweep.py
   - single linear programme re-solve for the equality-row duals and the active set at the optimum
   - full read of src/verify_local_tables.cpp, src/build_interval_tables.py, src/write_verifier_config.py and src/check_window.py against their proof.md
-outcome: their published headline reproduces to 70 decimals in exact rational arithmetic and their window constant and float minimum reproduce to the binary64 limit, with no defect found that affects their claim; their number is nevertheless not at their own family's ceiling, because the pair-weight polytope and the pressure simplex admit a floor of 0.007916857812 against their 0.007911105155, worth +3.96e-06 on the assembled proportion, and a candidate quantised into their own schema at the rational target 19791/2500000 assembles exactly to 0.6734201550790580964457598685450152133015; on the two axes where a ceiling can be computed rather than searched they are at it, the total pressure sitting at the argmax of the saturation curve with net marginal +0.006076 and the window constant being unable to rise at all inside their frequency set because the 2*j*pi harmonics are exactly M-orthogonal to the sqrt(2) fundamental
+outcome: their published headline reproduces to 70 decimals in exact rational arithmetic and their window constant and float minimum reproduce to the binary64 limit, with no defect found that affects their claim; their number is nevertheless not at their own family's ceiling, because the pair-weight polytope and the pressure simplex admit a floor of 0.007916857812 against their 0.007911105155, worth +3.96e-06 on the assembled proportion, and a candidate quantised into their own schema at the rational target 19791/2500000 assembles exactly to 0.6734201550790580964457598685450152133015; on the two axes where a ceiling can be computed rather than searched they are at it, the total pressure sitting at the argmax of the saturation curve with net marginal +0.006076 and the window constant being unable to rise at all inside their frequency set because the 2*j*pi harmonics are exactly M-orthogonal to the sqrt(2) fundamental [WITHDRAWN 2026-09-06: the clause from 'their number is nevertheless' to the assembled 0.67342015 is false. That floor is a float minimiser's over-report; the true floor at those weights is 0.0078946642 and the candidate's assembled bound is 1.03e-05 BELOW the record. Of the two axes called computable, the window constant is a closed form and stands; the total-pressure argmax is built from the same oracle's floors and is qualified in RESULTS.md section 4.2. The answer to the hunt's question is in RESULTS.md section 7.8: AMTOPA are at the ceiling on all five axes and the LP with a wide oracle finds nothing better than their own point. Appended rather than edited, because attempts are append-only and so is this record.]
 artifacts:
   - hunts/amtopa_ceiling/RESULTS.md
   - hunts/amtopa_ceiling/exact_assembly.py
@@ -72,7 +72,7 @@ ran:
   - jobs tables-<candidate>-shard-0 through 5, AMTOPA's own table builder driven over index ranges by shard_tables.py after the single-process build overran a 20-minute job
   - jobs certificate-<candidate>-s0 through s7, their C++ branch-and-bound with its root loop partitioned by root-shard.patch, at our candidate and at theirs as a control
   - ldl_probe.cpp, a seventy-line isolation of the convexity-gate regression between b3b7784 and the pinned tip
-outcome: their own published finite inequality does not replay at the pinned tip, returning INCONCLUSIVE at a terminal cell with a rigorous lower bound 1.19e-07 short of their own target, while all six interval tables reproduce byte for byte against the digests in their own candidate.json; the cause is their convexity gate, which fires zero times in 72 million nodes here against 2030240 in their recorded run, because between b3b7784 (the commit their candidate.json names as the source of that run) and the tip the gate's curvature entries changed from thin points to intervals unbounded above and the interval LDL cannot certify positive definiteness of such a matrix; the direction is fail-closed, so this is a reproducibility defect and not a soundness hole, and it blocks our own candidate at the tip too, by 2.70e-08
+outcome: their own published finite inequality does not replay at the pinned tip, returning INCONCLUSIVE at a terminal cell with a rigorous lower bound 1.19e-07 short of their own target, while all six interval tables reproduce byte for byte against the digests in their own candidate.json; the cause is their convexity gate, which fires zero times in 72 million nodes here against 2030240 in their recorded run, because between b3b7784 (the commit their candidate.json names as the source of that run) and the tip the gate's curvature entries changed from thin points to intervals unbounded above and the interval LDL cannot certify positive definiteness of such a matrix; the direction is fail-closed, so this is a reproducibility defect and not a soundness hole, and it blocks our own candidate at the tip too, by 2.70e-08 [CORRECTED 2026-09-06: it does not. At b3b7784, with their gate firing 34,780 to 459,982 times a shard, their candidate is accepted 8 of 8 and ours is still refused on 4 of 8. Their refusal at the tip was the gate; ours was a target above the true floor. RESULTS.md sections 7.7 and 7.8.]
 artifacts:
   - .github/workflows/hunt-amtopa-ceiling.yml
   - hunts/amtopa_ceiling/ci-sweep.yml
@@ -96,7 +96,7 @@ Cost estimated before: four scripts, seconds each. Actual: under 5 s.
                           interval_window_lower_bound = 0.7616418486406763
 
 Their headline reproduces from their own inputs, exactly as published.
-**MEASURED** — their code, our host.
+**MEASURED**, their code, our host.
 
 ### 2. Exact-rational replay of the assembly
 
@@ -127,7 +127,7 @@ Cost estimated before: numpy, milliseconds. Actual: under 2 s. Written from
 |---|---|---|
 | `H(v)` | `0.67218815811823495743` | `0.67218815811823458517` |
 | span capacities | `[2, 2, 2, 2, 2, 2]` exactly | same |
-| `K(0)` | `0.91872536986556841` | — |
+| `K(0)` | `0.91872536986556841` |, |
 | `F` at their published basin | `0.007911105155226431` | `0.007911105155226424` |
 
 Fifteen significant decimals on both, the binary64 limit. **VERIFIED**.
@@ -184,7 +184,7 @@ break-even between `B/B0 = 1.00` and `1.25`.
 
 ### 8. Candidate generation, killed
 
-Cost estimated before: **none written** — that is the failure. Actual: killed at
+Cost estimated before: **none written**, that is the failure. Actual: killed at
 1.8 GB resident and 70% CPU, and it took the operator's session down with it.
 
 Two faults, one technical and one procedural.
@@ -213,7 +213,7 @@ gives `0.6734167515492229` at `m = 145`, the polytope optimum gives
 `0.6734220612615708` at `m = 145`. Against their published headline
 `0.6734164909714992`: `+5.570e-06`. For scale, the one-point pair-weight-free cap
 is `0.0088144556`, loose by `8.95e-04`, which is why the LP and not the single
-test vector is the instrument this hunt reports. **MEASURED** — LP upper bound
+test vector is the instrument this hunt reports. **MEASURED**: LP upper bound
 rigorous, achieved floor a float minimum.
 
 ### 10. Pressure sweep, redone
@@ -259,7 +259,7 @@ The cause is a stopping rule that could not fail: `lower` had been defined as
 `min(multistart, pool minimum)`, and at the LP optimum the pool minimum **is**
 the LP value by construction, so `upper - lower` was identically zero whenever
 the multistart found nothing new. The loop halted at whatever value the incoming
-pool already carried — and the richer the pool, the more confidently it halted
+pool already carried, and the richer the pool, the more confidently it halted
 too early. Fixed in `epsstar.eps_star`: the test is now against the independent
 multistart alone, and it must hold for `patience` consecutive rounds. The reason
 is written into the source at the test.
@@ -305,7 +305,7 @@ Actions run `32743347292`, 2026-08-24T15:11:33Z.
 | job | estimated | actual | outcome |
 |---|---|---|---|
 | `reproduce` | under 1 min | passed | every replay matches §2 of `RESULTS.md` |
-| `headroom` | about 2 min | 27 s for 40 rounds | converged, and **corrected the authoring host** — see run 10b |
+| `headroom` | about 2 min | 27 s for 40 rounds | converged, and **corrected the authoring host**, see run 10b |
 | `pressure-sweep` | about 5 min | 463 s | same shape and same peak as run 10 |
 | `certificate` x2 | under 20 min | **did not finish** | the single-process table build, 83,993 coarse cells and 167,987 midpoints at 50 dps, exceeded the 20-minute job timeout on a shared runner. The estimate assumed the authoring host's 0.0225 CPU-s per cell; the runner is slower per core and the estimate did not carry that. Sharded six ways in run 2 |
 | `window-sweep` x4 | 3 epochs per shard | **0 epochs** | all four shards spent the entire 900 s budget on the two reference points and never entered the search. The estimate covered the search and not the setup. Reference points moved into the `doors` job in run 2 |
@@ -313,3 +313,100 @@ Actions run `32743347292`, 2026-08-24T15:11:33Z.
 Two of the five estimates were wrong in the same way: they priced the thing the
 job was for and not the thing the job had to do first. That is the same class of
 error as run 8's missing estimate, one level up.
+
+## 12. 2026-09-06: the verifier at `b3b7784`, Actions run `34024309937`
+
+Workflow `hunt-amtopa-ceiling` gained a `verifier_commit` input (default `b3b7784`) and a
+`certificate_only` switch; branch `hunt/amtopa-verifier-b3b7784`. Tables at the pinned tip
+as before; the verifier and `write_verifier_config.py` from a second clone at `b3b7784`;
+baseline candidate is the tip's `candidate.json` (the headline's certificate; `b3b7784`'s
+own file has target `7897/10^6`). `candidate_data.py` honours `ZETA_CANDIDATE_PATH` at both
+revisions; `root-shard.patch` applies at `b3b7784` with `git apply` (offsets 34, 7).
+
+| job | outcome | wall |
+|---|---|---|
+| headroom | candidate at `19791/2500000`, float minimum `0.00791685780578066` | about 15 min |
+| tables x 12 | all passed | a few minutes each |
+| certificate, baseline x 8 | `SHARD_VERIFIED` x 8, convex 34,780 to 459,982 | 1 to 19 s each |
+| certificate, ours x 8 | `SHARD_VERIFIED` on 0, 3, 6, 7; `INCONCLUSIVE` terminal cell on 1, 2, 4, 5 | 1 to 13 s each |
+
+Refusing cells and rigorous lower bounds: `RESULTS.md` section 7.7. Free minutes on a public
+repository; the whole run under an hour of wall clock, against the hour-per-shard the tip
+needed to reach nothing.
+
+## 13. 2026-09-06: rounds 2 and 3, the descent, and the candidate withdrawn
+
+The workflow gained a `candidate_file` input: the `headroom` job copies a committed candidate
+into place instead of running the LP, so a round is one dispatch and about ten minutes.
+
+| round | candidate | target | Actions run | ours | note |
+|---|---|---|---|---|---|
+| 2 | `candidate_round2.amtopa`, round-1 cells added to the pool, LP re-solved | `19791/2500000` | `34024961426` | refused 1, 2, 4, 5 at the round-1 cells, bounds identical to twelve digits | the point moved by `5e-9`; the cells were above the target in value, the tangent bound a hair under it |
+| 3 | `candidate_round3.amtopa`, same point | `19786/2500000` | `34025675594` | refused 1, 2, 4, 5 at four new cells, 1 to 5 s each | midpoint values `0.0079153` to `0.0079162`, under the LP's claimed floor `0.0079169` |
+
+Baseline: `SHARD_VERIFIED` on 8 of 8 in both rounds, 1 to 19 s per shard, gate alive.
+
+The descent that settled it, on the authoring host, seconds: `epsstar._fun_jac` under
+L-BFGS-B at `gtol 1e-14` from each refused cell and from the reported minimum, then a
+400,000-seed multistart on `[0.9, 2.3]^6` with 300 descents (19 s). Floor of `F` at the
+candidate's own `(a, b)`: `0.0078959857`, confirmed at 40 digits with mpmath. Leader's
+`(a, b)` under the same descent: `0.0079111052`, `3e-7` above their accepted target. The
+original `harvest` (90,000 seeds, 48 descents, `maxiter` 300) run at the same `(a, b)` returns
+`0.0079168578` and never sees the lower basin. Records: `RESULTS.md` section 7.7,
+`artifacts/verifier_cells.json`.
+
+Then the LP re-solved with the stronger oracle as its cut generator (400,000 seeds on
+`[0.9, 2.3]^6`, 300 descents plus 200 warm starts from the pool, `gtol 1e-14`), from the
+committed 2,200-cut pool plus the five true minima, 80 rounds asked, about 13 s a round on
+the authoring host (`resolve_strong_oracle.py`). It ran 45 rounds, LP value down from
+`0.0079186025` to `0.0079111939` with 14,060 cuts, then HiGHS failed on the next solve
+(status 15, `model_status` Unknown, primal feasible) and the process died with nothing
+saved but the log. The round-45 bound is monotone and stands: headroom on the two axes at
+most `8.9e-8` in `eps` over the leader's floor. Table and reading in `RESULTS.md` section
+7.7. Not re-run: the answer is already smaller than anything the headline can see, and a
+steadier LP (dropping slack cuts, or `highs-ipm`) is the fix if anyone wants the last digit.
+
+## 14. 2026-09-06: the window axis, three passes and a reversal
+
+The workflow needed one change for a window that is not AMTOPA's: none. Their
+`build_interval_tables.py`, `check_window.py` and `write_verifier_config.py` all read the
+window from the candidate, and the `candidate_file` input already routes a committed candidate
+through headroom, tables and certificate. One fix was needed to the harness itself: the
+concurrency group was keyed on `github.ref`, so dispatching a second candidate from the same
+branch cancelled the first ten minutes in (runs `34030130604`, `34030138950`). The candidate
+is now part of the key.
+
+| pass | what | cost | outcome |
+|---|---|---|---|
+| 1 | descend at each window's own saved `(a, b)`, strong oracle | 42 s a window | every floor over-reported by `2.6e-5` to `3.0e-5`; all five still above the record |
+| 2 | LP re-solved at each window, fresh pool, 40 rounds | about 27 min a window, three at a time | upper and achieved meet to `5e-8`; all five above the record, best `+1.78e-5` |
+| 3 | read the cells the verifier refused, then re-measure with that region seeded | 57 to 101 s a window | all five **below** the record, by `1.8e-5` to `3.7e-5` |
+
+Two candidates at the best window, generated by `make_window_candidate.py` and pre-flighted
+against their own three scripts on the authoring host (`check_candidate.py`,
+`check_final_bound.py`, `check_window.py`, all pass, including the interval enclosure of `H`
+at our window and interval positivity `0.7619130192389083`):
+
+| candidate | target | Actions run | ours | baseline |
+|---|---|---|---|---|
+| A, margin `6.07e-6` | `9263/1250000` | `34030214675` | 6 of 8 accepted; refused on 2 and 4 | 8 of 8 |
+| B, margin `3.27e-6` | `18533/2500000` | `34030138950` | 6 of 8 accepted; refused on 2 and 4 | 8 of 8 |
+
+Both refusals are at cells with one gap near `2.91`. The interval Hessian is positive definite
+there (smallest eigenvalue `0.15` to `0.17`), the functional at the midpoint is above the
+target by `1.5e-6` to `2.5e-6`, and a descent from the cell reaches `2.8e-5` to `5.8e-5`
+**below** it. The margin was not the problem; the floor was, for the third time.
+
+Controls, both on the authoring host in about 100 s: the wide oracle at AMTOPA's own window and
+weights returns `0.0079111052`, their published value, unchanged to `2e-13`, at their published
+basin, with no `2.91` basin present; at our withdrawn pair-weight point it returns
+`0.0078946642`, `2.2e-5` under `harvest` and `1.6e-5` under what the record needs. Full account
+in `RESULTS.md` section 7.8.
+
+Capstone, `lp_wide.py`, 14 min on the authoring host: the cutting-plane LP re-solved at
+AMTOPA's own window and total pressure with the wide oracle as its separation routine. 40
+rounds, 13,387 cuts, LP value `0.007912132524`, achieved floor `0.007909735797`, against their
+own `0.0079111052`. The LP's best point is worse than theirs by `1.37e-06`. With the smaller
+of the two LP upper bounds, `eps*` is bracketed `[0.0079111052, 0.0079111939]`: at most
+`8.9e-08` of headroom, `+8.4e-07` on the headline at the top of it. The hunt's question is
+answered.

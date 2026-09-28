@@ -1,4 +1,4 @@
-# 26 — The adopted builds: the decision of 2026-08-11, made runnable
+# 26. The adopted builds: the decision of 2026-08-11, made runnable
 
 `ROADMAP.md` ("The outside memos, triaged") records the decision; this
 document records what landed the same day, what each piece can and cannot
@@ -10,14 +10,14 @@ around it, because the blank spots are where the next failure comes from.
 
 The director run (`docs/25`) ended with a sentence that was true and
 unusable: *a cross-check bounds only what is actually duplicated.* Unusable
-because nothing carried the bound — which layers the two rigor backends
+because nothing carried the bound, which layers the two rigor backends
 share lived in one HANDOFF paragraph, invisible to every audit.
 
 `harness/independence.py` makes the bound a declared structure. A
 `VerificationPath` is an ordered list of named layers from input to verdict;
 `compare()` reports the **independence radius** (how deep the paths run
 through the same leading layers), the **shared** layers (one implementation
-run twice — faults there are invisible to agreement), the **reconvergent**
+run twice, faults there are invisible to agreement), the **reconvergent**
 layers (shared *after* the divergence, the director-run shape), and the
 **distinct** segments, which are the only thing an agreement between the two
 paths is evidence about. There is no aggregate boolean; `bool(report)`
@@ -27,30 +27,30 @@ reason.
 The worked subject is the rigor cross-check itself, declared in
 `harness/departments/zeta_department.py` from HANDOFF's enumeration: radius
 3 of 5, one reconvergent layer (the S(T)/N(T) interval summation), and
-exactly one layer implemented twice — the ball arithmetic. In sentences,
+exactly one layer implemented twice, the ball arithmetic. In sentences,
 via `agreement_bounds()`: backend agreement is evidence about the ball
 arithmetic and nothing else.
 
 **The honest edge.** A declaration is not attestation (the same caveat as
 `harness/provenance.py`): nothing checks a layer list is *complete*, and an
 undeclared shared layer is exactly what the structure cannot see. One anchor
-is pinned by test — the declaration names `zeta.rigor._exact`, and the test
-fails if that attribute disappears — but one anchor is not a completeness
+is pinned by test, the declaration names `zeta.rigor._exact`, and the test
+fails if that attribute disappears, but one anchor is not a completeness
 proof. The declaration is as good as its next audit.
 
 ## 2. The guard offensive's ledger (`harness/guards.py`)
 
 Three of the director run's six defects were guards that could not do their
-job. The offensive's question — *what exact incorrect computation is this
+job. The offensive's question, *what exact incorrect computation is this
 guard supposed to detect, and has that detection power actually been
-demonstrated?* — now has a place where the answer accumulates.
+demonstrated?*, now has a place where the answer accumulates.
 
 A `GuardRecord`'s `fired` is tri-state: `None` is "nobody has demonstrated
 anything" (the default state of every guard in this repository today), and
 an outcome in either direction costs a named, runnable demonstration
 artifact. A guard demonstrated *not* to fire stays in the ledger as a
-finding. `offensive_worklist()` renders everything the ledger implies —
-undemonstrated guards, dead guards, known misses — as disputable sentences.
+finding. `offensive_worklist()` renders everything the ledger implies,
+undemonstrated guards, dead guards, known misses, as disputable sentences.
 
 The ledger opens with five records in
 `harness/departments/guard_ledger.py`. Three are demonstrated live in
@@ -63,11 +63,11 @@ watching the guard's own logic fire on it, with a passing control alongside:
 | doc-number uniqueness (the 2026-08-10 collision) | a docs tree with `05-a.md` and `05-b.md` | duplicate removed, guard silent |
 | the reserved-word scan under `hunts/` | one overclaiming probe file | same file reworded, guard silent |
 
-Two records are honestly `fired: None` — `tests/test_doors.py` and
-`scripts/make_context.py --check` — the visible head of the worklist.
+Two records are honestly `fired: None`, `tests/test_doors.py` and
+`scripts/make_context.py --check`: the visible head of the worklist.
 
 **The honest edge.** Five records is an opening, not coverage. The offensive
-proper — sweeping *every* guard the tree relies on — is destroyer work that
+proper, sweeping *every* guard the tree relies on, is destroyer work that
 runs one guard at a time, and the ledger's rule for it is fixed: `fired`
 moves off `None` only in the change that adds the demonstration.
 
@@ -76,14 +76,14 @@ moves off `None` only in the change that adds the demonstration.
 New hunts carry a fenced contract block in `MISSION.md`: question, frontier,
 dead routes, the non-model oracles allowed to assign truth, kill conditions,
 and the agents' permitted and withheld actions. The parser and validator
-live inside `tests/test_huntspec.py` — deliberately not a module — and the
+live inside `tests/test_huntspec.py`, deliberately not a module, and the
 spec page's own template is parsed by the test, so page and validator cannot
 drift apart silently. One rule is enforced lexically: an oracle entry that
 names a model is refused. Crude, stated as crude, and running.
 
 **The honest edge.** The resumption benchmark (2026-08-09) is the standing
 warning: typed machinery does not earn its keep by existing. HuntSpec is on
-the dossier rule — it is promoted to a real module the first time a kill
+the dossier rule, it is promoted to a real module the first time a kill
 condition fires mechanically or an oracle requirement blocks an ungrounded
 status claim, and if a year passes without either, the right move is
 removal, recorded. Existing hunts are not retrofitted; the two live hunts
@@ -91,12 +91,12 @@ run to their own kill conditions as written.
 
 ## 4. The proof-agent adapter (`lean/proof_adapter.py`)
 
-External provers plug in as *generators*; the kernel — this machine's
-`lake build` of the pinned ZetaLean toolchain — decides. Acceptance has two
+External provers plug in as *generators*; the kernel, this machine's
+`lake build` of the pinned ZetaLean toolchain, decides. Acceptance has two
 legs, both local: a conservative static refusal scan (`sorry`, `admit`,
 `axiom` declarations, `native_decide`; a match inside a comment still
 refuses, because over-refusal is a gate's safe failure mode) and the kernel
-check, whose "could not run" is `build_ok: None` — not decided, never a
+check, whose "could not run" is `build_ok: None`, not decided, never a
 pass. A rejected artifact never stays landed in the package; an existing
 module is never overwritten. The published Aristotle case study (arXiv
 2605.20120) supplied the lesson the tests pin: an artifact can compile while
@@ -111,15 +111,15 @@ adapter no test has run.
 **The honest edge.** The adapter gates *soundness*, not *value*: a
 kernel-checked trivial lemma passes it as cleanly as a kernel-checked deep
 one. Which statements are worth a generator's hours is the operator's
-question — the Mathlib-track Sturm lemmas are the standing first targets
-(`ROADMAP.md`, the upstream track) — and the case-study economics (roughly
+question, the Mathlib-track Sturm lemmas are the standing first targets
+(`ROADMAP.md`, the upstream track), and the case-study economics (roughly
 eight hours for a hard problem) say submissions batch overnight and stay at
 the grain of local lemmas.
 
 ## 5. The alpha ecosystem, local (machine state, not repository state)
 
 Recorded here because it exists and is invisible to git: `external/` in the
-working checkout holds shallow clones of the surrounding ecosystem —
+working checkout holds shallow clones of the surrounding ecosystem,
 DeepMind's AlphaProof Nexus results (a Lean package: kernel-checkable here,
 not taken on faith), `formal-conjectures` (open conjectures already stated
 in Lean, `Millenium/RiemannHypothesis.lean` included), the AlphaEvolve
@@ -138,19 +138,19 @@ output goes through the adapter above or it does not count.
 ## 6. The second wave: the rest of the specification, same day
 
 The first four builds were the triage's "adopt now" list; the operator's
-correction — *that wasn't all* — was right, and the remainder of the
+correction, *that wasn't all*, was right, and the remainder of the
 specification landed in a second wave:
 
 - **Run manifests** (`hunts/HUNTSPEC.md`, "Run manifests"): the other half
   of the specification's first primitive. Each autonomous run appends a
-  `runmanifest` block — what ran, when, what it left behind, one plain
-  outcome sentence — under the same probation and the same validator home
+  `runmanifest` block, what ran, when, what it left behind, one plain
+  outcome sentence, under the same probation and the same validator home
   as HuntSpec. A run that produced nothing records that it produced
   nothing.
 - **The literature scout** (`ontology/scout.py`): searches the corpora this
   machine actually has (`references/`, the fetched DeepMind collections),
   reports sources searched / sources missing / candidate passages /
-  truncation — all loud — and has **no code path to `FOUND`**: a lexical
+  truncation, all loud, and has **no code path to `FOUND`**: a lexical
   hit is a lead for a human, and an AST test pins that the module never
   references that status. Both outcomes survive `funnel_label`, so the
   funnel cannot hear novelty from a scout run.
@@ -160,17 +160,17 @@ specification landed in a second wave:
   error, not a broken promise). Withdrawals cost named artifacts. The
   ledger opens with the 0.672529 clean kill as the checkable exemplar and
   URMS2 0.51 as the open case, its two missing attacks surfaced as
-  worklist. The machinery records outcomes and never resolves them — the
+  worklist. The machinery records outcomes and never resolves them, the
   system may not referee a dispute it is party to (`meta/`).
 - **The graveyard** (`harness/graveyard.py`): killed results as typed
-  cards — status, why, caught-by, regression test, formal obstruction,
+  cards, status, why, caught-by, regression test, formal obstruction,
   recurrence guard. Three opening graves, transcribed from landed records:
   the transpose kill (cited to its regression test and its kernel-checked
   obstruction, both pinned to exist), the bin-artifact withdrawal, and the
   closed placewise-positivity route. An unguarded grave is storable but
   loud: `unguarded()` is a worklist, and deletion is never the fix.
 - **The research-state view** (`scripts/70_lab_state.py`): one static HTML
-  page rendered from the ledgers and declarations — attention queue,
+  page rendered from the ledgers and declarations, attention queue,
   graveyard, guard power, independence, standing reviews, the hunts' case
   log. No scripts, no network, no orchestration state: research state, not
   agent activity, per the specification's own emphasis. The **attention
@@ -182,9 +182,9 @@ The scout's networked half landed the same night, after the operator
 correctly refused "needs a network session" as an excuse from a session
 that had one (`ontology/scout_online.py`): an OEIS backend where `FOUND`
 is reserved for digit-for-digit content confirmation with a citable
-A-number — the one place a machine may assert prior art on its own,
-because the match is verified against returned content, not against words
-— and an arXiv backend that is structurally a lead generator (an AST test
+A-number, the one place a machine may assert prior art on its own,
+because the match is verified against returned content, not against words,
+and an arXiv backend that is structurally a lead generator (an AST test
 pins that its source never touches `FOUND`). A query that never reaches
 the service returns `UNKNOWN` with `online=False` and the error named.
 Verified live against both services: the Fibonacci probe came back
@@ -194,19 +194,19 @@ as a slow test that skips where the network does not answer.
 The "needs credentials" line above was itself audited after the operator
 challenged it, and half of it dissolved: **zbMATH Open has had a free
 public API since 2021**, no credentials at all, and its backend landed the
-same night (`ZbMathBackend`, leads-only like arXiv, verified live — 184
+same night (`ZbMathBackend`, leads-only like arXiv, verified live: 184
 results for the pair-correlation probe including Montgomery's own title).
 What genuinely remains gated: **MathSciNet** (AMS institutional
-subscription, no self-serve tier — zbMATH Open is the free substitute and
+subscription, no self-serve tier, zbMATH Open is the free substitute and
 is now wired), **Aristotle** (needs an account and key the operator
 creates at aristotle.harmonic.fun; account creation is the one step the
 tooling will not do on anyone's behalf), and **AlphaEvolve GA** (a Google
 Cloud onboarding). The lesson is recorded because it generalizes: *"needs
 credentials" is a claim to verify against the service, not a memory to
-repeat* — one of the three named services turned out to be free.
+repeat*, one of the three named services turned out to be free.
 
 Still deliberately unbuilt from the specification, with the reason
-standing: durable orchestration and start/pause/steer controls — the
+standing: durable orchestration and start/pause/steer controls, the
 memo's own build order puts them behind everything above, and `meta/`'s
 rule (measure the loop before automating it) has not been satisfied by a
 single measured loop yet.
@@ -215,9 +215,9 @@ single measured loop yet.
 
 Nothing here is a mathematical result, and none of it moved a bound. Four
 instruments and an inventory landed in one day, on the strength of one
-decision record; the first time any of them catches something real — a
+decision record; the first time any of them catches something real, a
 declared shared layer that explains a false agreement, a guard demonstrated
 dead before it lies, a kill condition that fires on a live hunt, a generated
-lemma the kernel accepts into a rung — is when this document gets its first
+lemma the kernel accepts into a rung, is when this document gets its first
 follow-up section. Until then, the honest description of the whole build is:
 the decision of 2026-08-11, made runnable.

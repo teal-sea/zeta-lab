@@ -1,4 +1,4 @@
-"""``dossier.report`` — the readable status report.
+"""``dossier.report``, the readable status report.
 
 One rule governs the whole module: **print all four axes, always.** A report
 that summarised a dossier as "verified" or showed a progress bar would undo the
@@ -47,12 +47,12 @@ def render_text(dossier: Dossier) -> str:
 
     problems = dossier_reasons(dossier)
     if problems:
-        _section(lines, "NOT VALID — this dossier should not be relied on")
+        _section(lines, "NOT VALID, this dossier should not be relied on")
         for reason in problems:
             lines.append(f"  ! {reason}")
 
     if dossier.intent is not None:
-        _section(lines, "INTENT — what this object is for")
+        _section(lines, "INTENT, what this object is for")
         lines.append(f"  {dossier.intent.purpose}")
         if dossier.intent.distinguishes_from:
             lines.append("")
@@ -67,7 +67,7 @@ def render_text(dossier: Dossier) -> str:
 
     if dossier.definition is not None:
         d = dossier.definition
-        _section(lines, "DEFINITION — preferred")
+        _section(lines, "DEFINITION, preferred")
         lines.append(f"  {d.statement}")
         if d.notation:
             lines.append(f"  notation: {d.notation}")
@@ -82,7 +82,7 @@ def render_text(dossier: Dossier) -> str:
                 lines.append(f"    - {key}: {why}")
 
     if dossier.rejected:
-        _section(lines, "REJECTED ALTERNATIVES — do not re-derive these")
+        _section(lines, "REJECTED ALTERNATIVES, do not re-derive these")
         for alt in dossier.rejected:
             lines.append(f"  x {alt.statement}")
             lines.append(f"    because: {alt.why_rejected}")
@@ -96,7 +96,7 @@ def render_text(dossier: Dossier) -> str:
             lines.append(f"  - {dep.name} ({dep.relation}){location}")
 
     if dossier.obligations:
-        _section(lines, "SEMANTIC OBLIGATIONS — where a wrong definition gets caught")
+        _section(lines, "SEMANTIC OBLIGATIONS, where a wrong definition gets caught")
         for obligation in dossier.obligations:
             mark = "*" if obligation.discriminating else " "
             lines.append(f"  {mark} {obligation.name}: {obligation.statement}")
@@ -107,7 +107,7 @@ def render_text(dossier: Dossier) -> str:
             lines.append("")
         lines.append("  (* = discriminating: some plausible wrong definition fails it)")
 
-    _section(lines, "SUPPORT — four axes, no aggregate")
+    _section(lines, "SUPPORT, four axes, no aggregate")
     lines.append(dossier.support.render())
     lines.append("")
     lines.append("  These are not degrees of one thing. A numeric check is not a")
@@ -116,7 +116,7 @@ def render_text(dossier: Dossier) -> str:
     lines.append("  theorem is about the statement as formalised.")
 
     if dossier.open_questions:
-        _section(lines, "OPEN — and what would settle each")
+        _section(lines, "OPEN, and what would settle each")
         for question in dossier.open_questions:
             mark = "x" if question.resolution else "?"
             lines.append(f"  {mark} {question.question}")

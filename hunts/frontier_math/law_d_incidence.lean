@@ -41,8 +41,8 @@ Let `phi : ℝ → ℝ` be supported in `[-1/2, 1/2]` and set
 * `GridIncidence.tsum_phihat_windowA`, `GridIncidence.tsum_phihat_windowB` and
   `GridIncidence.tsum_phihat_of_continuous` instantiate this for exactly the three windows
   required in `PROBLEM.md`: `u ↦ cos (√2 u)` and `u ↦ √(cos (√2 u))` on `[-1/2, 1/2]` extended
-  by `0` (both of which jump at `±1/2`), and any continuous — in particular `C³`
-  ramp-mollified — even window supported in `[-1/2, 1/2]`.
+  by `0` (both of which jump at `±1/2`), and any continuous, in particular `C³`
+  ramp-mollified, even window supported in `[-1/2, 1/2]`.
 
 * `GridIncidence.grid_incidence_needs_even` shows that the evenness hypothesis cannot be dropped
   from the `phi ^ 2` form: for the indicator of `(0, 1/2]` and `x = y = 0` the grid sum is `0`
@@ -59,7 +59,7 @@ The hypotheses carried by the main theorems are:
 * `∀ u, 1/2 < |u| → phi u = 0`;
 * (for the `phi ^ 2` form only) `∀ u, phi (-u) = phi u`.
 
-No continuity is assumed anywhere — in particular the windows (a) `cos (√2 u)` and
+No continuity is assumed anywhere, in particular the windows (a) `cos (√2 u)` and
 (b) `√(cos (√2 u))` truncated to `[-1/2, 1/2]`, which jump at `±1/2`, are allowed; they are
 continuous on `[-1/2, 1/2]` hence measurable, bounded by `1` (for (b), `cos ≤ 1` and
 `√ t ≤ 1` for `t ≤ 1`), and even. A `C³` ramp-mollified version of either is continuous and
@@ -334,8 +334,8 @@ Hypotheses on the window `phi : ℝ → ℝ`:
 Evenness is genuinely needed for this *particular* form of the right-hand side: without it the
 correct right-hand side is `2 π ∫ u, phi u * phi (-u) * exp (I (x-y) u)`
 (`hasSum_phihat_mul_phihat`), see `grid_incidence_needs_even` below. All the windows listed in
-the problem — `cos (√2 u)`, `√(cos (√2 u))` on `[-1/2,1/2]` extended by `0`, and any `C³`
-ramp-mollified version of them — are even, bounded and measurable (indeed piecewise continuous),
+the problem, `cos (√2 u)`, `√(cos (√2 u))` on `[-1/2,1/2]` extended by `0`, and any `C³`
+ramp-mollified version of them, are even, bounded and measurable (indeed piecewise continuous),
 so they satisfy every hypothesis; continuity on all of `ℝ` is *not* assumed. -/
 theorem tsum_phihat_mul_phihat_even {phi : ℝ → ℝ} (hm : Measurable phi) {C : ℝ}
     (hb : ∀ u, |phi u| ≤ C) (hsupp : ∀ u, 1 / 2 < |u| → phi u = 0)

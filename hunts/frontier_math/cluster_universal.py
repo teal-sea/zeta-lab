@@ -10,7 +10,7 @@ band-lattice cap as the instrument for the sup.  The per-pair route is
 refuted (superadditive caps above the multiplicity threshold; per-pair
 sums exceed budgets from k = 4 at hardened grade), and the naive
 global-density rescue is pre-refuted (reproduced here in ONE measurement,
-:func:`legal_density_prerefutation` — do not re-derive it).  What was
+:func:`legal_density_prerefutation`, do not re-derive it).  What was
 measured to survive is the CLUSTER structure: joint caps on dense
 clusters grow slower than their budgets, and dense lattices cap exactly 0
 by shielding.  This module works that structure in three steps.
@@ -23,8 +23,8 @@ identity,
     h(w) = c2(w) cosh(y1 w) cosh(y2 w),
 
 with ``c2`` supported on [-1, 1] and c2(+-1) = 0.  Integrating by parts
-twice on each half-interval (c2 has a CORNER at w = 0 — it is the
-autocorrelation of a jump-discontinuous window — so w = 0 contributes a
+twice on each half-interval (c2 has a CORNER at w = 0, it is the
+autocorrelation of a jump-discontinuous window, so w = 0 contributes a
 boundary term exactly like the endpoint):
 
     int h cos(dt w) dw = -(2/dt^2) [ h'(0+) - h'(1-) cos(dt)
@@ -36,7 +36,7 @@ boundary term exactly like the endpoint):
 where ``Hmaj`` majorises |h''| termwise, uniformly over depths in
 (0, 1/2] (cosh(yw) <= cosh(w/2), y sinh(yw) <= sinh(w/2)/2, y^2 cosh(yw)
 <= cosh(w/2)/4), and c2', c2'' are in closed form (both edge slopes equal
--(1 + cos sqrt2)/2).  Numerically **C_T = 27.4970** — derived, not
+-(1 + cos sqrt2)/2).  Numerically **C_T = 27.4970**, derived, not
 fitted; the measured |T| dt^2 stays below it with a worst quotient
 ~0.62 over the probe grid (:func:`t_decay_check`).  The damage-field
 cross decays the same way: one pair's positive part beyond distance g is
@@ -71,9 +71,9 @@ kernel support,
 (:func:`b_infty`; checked against direct T-summation to the truncation
 tail, worst defect ~7e-5 at J = 4000).  Consequences read off the
 closed form: for s <= one mean gap only k = 0 survives, so the per-pair
-budget is ``4 c2(0) / (A^2 x) - 4`` with x = s/MEAN_GAP — INDEPENDENT of
+budget is ``4 c2(0) / (A^2 x) - 4`` with x = s/MEAN_GAP: INDEPENDENT of
 depth, blowing up like 1/x as s -> 0 (the coincident limit: budget wins
-hugely, cap is 0 by shielding there — measured), and reaching its floor
+hugely, cap is 0 by shielding there, measured), and reaching its floor
 0.0245 at exactly one mean gap.  The limiting per-pair cap is the same
 band-cell instrument run on ONE PERIOD of the exact periodic field
 (:func:`periodic_cap`, truncation as a one-sided allowance, curvature
@@ -88,7 +88,7 @@ peaks DECAY with s (0.85, 0.78, 0.71, 0.67, ... at s = 2, 3, 4, 5 at
 y = 0.49) toward the isolated-pair ratio ~0.59, and rise with depth.
 
     **sup rho = 0.929 at (s, y) = (2.002 mean gaps, y -> 1/2)**
-    (step 0.002; 0.915 at step 0.001 — refinement moves it DOWN),
+    (step 0.002; 0.915 at step 0.001, refinement moves it DOWN),
 
 so the periodic family closes uniformly with >= 7.1% relative margin at
 theta = 0.995.  Grade: measured (double precision, band-cell instrument),
@@ -107,7 +107,7 @@ negatives, both first-class:
   campaign at the resonance shows the margin RISES under jitter on
   average (coherent = worst, consistent with shielding), but the
   gradient at zero jitter is nonzero along the lattice-compression
-  direction — the extremal configuration is a resonance in SPACING, not
+  direction, the extremal configuration is a resonance in SPACING, not
   a critical point in POSITIONS; the correct extremality statement is
   the conjecture that margin(P) >= margin of the best-tuned periodic
   lattice at the same depth, stated at :data:`EXTREMALITY_CONJECTURE`,
@@ -147,7 +147,7 @@ from joint_universal import THETA_FULL, autocorr  # noqa: E402
 
 S2 = math.sqrt(2.0)
 
-#: the paper's count caps the pair density near (1 - H)/2 per mean gap —
+#: the paper's count caps the pair density near (1 - H)/2 per mean gap,
 #: the number the coordinator's pre-refutation uses.
 LEGAL_PAIR_DENSITY = 0.164
 
@@ -184,7 +184,7 @@ def autocorr_d2(w):
     return np.where(a < 1.0, v, 0.0)
 
 
-#: |c2'(0+)| = |c2'(1-)| = (1 + cos sqrt2)/2 — the two boundary terms of
+#: |c2'(0+)| = |c2'(1-)| = (1 + cos sqrt2)/2, the two boundary terms of
 #: the double integration by parts (the corner at 0 comes from the window's
 #: jump at +-1/2 autocorrelated against itself).
 C2_EDGE_SLOPE = (1 + math.cos(S2)) / 2
@@ -266,7 +266,7 @@ def t_decay_check(ds=(3.0, 5.0, 8.0, 12.0, 20.0, 40.0, 80.0),
 def field_decay_constant(y: float = 0.5) -> float:
     """One pair's positive damage part beyond distance g is
     <= field_decay_constant(y) / g^2 with the constant
-    4 (c_im(y)/A)^2 — the tail law `paper_chain.PaperBandDual.tail_sum`
+    4 (c_im(y)/A)^2, the tail law `paper_chain.PaperBandDual.tail_sum`
     already carries; restated here because the separation lemma uses it
     for the CROSS field between clusters, not only for the tail."""
     return 4 * (PaperBandDual().c_im_sharp(y) / A) ** 2
@@ -326,7 +326,7 @@ def separation_record(clusters, theta: float = THETA_FULL,
         margin(whole) >= sum_cl margin(cl) - eps_budget - eps_cap,
 
     eps_budget = sum_cross 2 C_T / d_pq^2   (DERIVED),
-    eps_cap    = max(0, cap(whole) - sum_cl cap(cl))   (MEASURED —
+    eps_cap    = max(0, cap(whole) - sum_cl cap(cl))   (MEASURED,
     the joint instrument optimises one cell width for the whole
     configuration while each cluster cap optimises its own, and that
     mismatch does not decay with separation; the campaign records how
@@ -437,7 +437,7 @@ def b_infty(s: float, y: float) -> float:
 
 
 def b_perpair_direct(s: float, y: float, J: int = 4000) -> float:
-    """slack(y) + 2 sum_{j=1..J} T(j s, y, y) — the direct route the
+    """slack(y) + 2 sum_{j=1..J} T(j s, y, y), the direct route the
     Poisson form must reproduce, up to the tail <= 2 C_T/(s^2 J)."""
     pc = PaperChain()
     js = np.arange(1, J + 1) * s
@@ -495,7 +495,7 @@ def periodic_cap(s: float, y: float, theta: float = THETA_FULL,
     One period carries exactly one pair, and the per-cell square
     completions are summed independently (cross-cell charges dropped
     one-sidedly, as in the finite instrument), so the per-period cell sum
-    IS the per-pair cap of the infinite lattice — no tail, the period
+    IS the per-pair cap of the infinite lattice, no tail, the period
     covers everything.  Completeness (no band thinner than the grid) is
     checked with the same curvature criterion as the finite instrument.
     """
@@ -601,7 +601,7 @@ RHO_SUP_RECORD = {
 #: The extremality statement the measurements support but do NOT
 #: establish: for every finite pair configuration P at common depth y,
 #: margin(P)/|P| >= inf over s of [b_inf(s, y) - cap_per(s, y)] taken
-#: over the resonant spacings — i.e. the tuned periodic lattice is the
+#: over the resonant spacings, i.e. the tuned periodic lattice is the
 #: per-pair worst case.  Status: conjecture.  For it: the map (sup rho
 #: at a resonance), the jitter campaign (margin rises under position
 #: noise on average), and the 320-config random search whose worst find
@@ -654,7 +654,7 @@ def jitter_campaign(s_gaps: float = 2.002, y: float = 0.49, m: int = 8,
 def lattice_gradient(s_gaps: float = 2.002, y: float = 0.49, m: int = 8,
                      h: float = 0.05, theta: float = THETA_FULL,
                      pj: PaperJoint | None = None) -> dict:
-    """d margin / d t_i by central differences — the first-order
+    """d margin / d t_i by central differences, the first-order
     stationarity check.  A resonance in the SPACING parameter shows up
     as a nonzero gradient along the compression direction (moving the
     outer pairs inward re-tunes the spacing), so a nonzero value here is
@@ -696,7 +696,7 @@ def finite_m_ladder(s_gaps: float, y: float, ms=(4, 8, 16, 32),
     The finite budget approaches b_inf from a direction the closed form
     dictates (edge pairs are missing neighbours: the edge correction is
     2 E_m / m with |E_m| <= (C_T/s^2) H_{m-1}, an O(log m / m) per-pair
-    term).  The CAP side's finite-size sign is measured, not derived —
+    term).  The CAP side's finite-size sign is measured, not derived,
     and it is NOT uniform across spacings, which is the honest negative
     this function exists to record.
     """
@@ -758,7 +758,7 @@ def legal_density_prerefutation(theta: float = THETA_FULL,
     O(0.3); a pair-free stretch contributes credit only through the
     on-line charge, (1-theta) R ~ 6e-5 per mean gap at unit zero
     density, so diluting the cluster to LEGAL_PAIR_DENSITY buys ~40 mean
-    gaps of pair-free credit ~ 2e-3 — two orders short.  Reproduces the
+    gaps of pair-free credit ~ 2e-3, two orders short.  Reproduces the
     coordinator's numbers; nothing here is new and nothing further
     should be spent on this route.
     """
@@ -885,7 +885,7 @@ def audit(quick: bool = False):
     print(f"  cluster deficit {lr['deficit']:.4f} vs pair-free credit "
           f"{lr['credit']:.2e} over a {lr['window_gaps']:.1f}-gap legal "
           f"window (rate {lr['credit_rate_per_gap']:.2e}/gap): short by "
-          f"x{lr['shortfall_factor']:.0f} — still broken: "
+          f"x{lr['shortfall_factor']:.0f}, still broken: "
           f"{lr['still_broken']}")
 
 

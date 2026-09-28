@@ -1,16 +1,16 @@
-# 17 — The falsification harness: how five claims died in one day
+# 17. The falsification harness: how five claims died in one day
 
 *A methods retrospective. Everything in docs/00–16 is about the mathematics;
 this document is about the refereeing. It exists because 2026-08-05 produced
 an unusually clean natural experiment: five independent claims of
 Riemann-zero structure arrived in a single day from exploratory "rogue lab"
-sessions, and the repository's existing controls refuted all five —
-four rejected, one confirmed-negative by its own pre-registered prediction —
+sessions, and the repository's existing controls refuted all five,
+four rejected, one confirmed-negative by its own pre-registered prediction,
 without any of the verdicts depending on taste.*
 
 The problem this solves is asymmetry. A plausible spectral "explanation" of
-RH now costs minutes to generate — a discretized operator, a fitted
-spectrum, an evocative physical story — while a referee's rebuttal
+RH now costs minutes to generate, a discretized operator, a fitted
+spectrum, an evocative physical story, while a referee's rebuttal
 traditionally costs days. The instruments below make the rebuttal cost
 minutes too. None of them require knowing whether the claim is true; they
 only require that the claimant's *evidence* survive contact with controls.
@@ -24,7 +24,7 @@ Four standing pieces, all in-tree before the claims arrived:
 
 1. **The counterexample battery** (`zeta.epstein.battery`, docs/09 gate #3).
    The Davenport–Heilbronn function satisfies a Riemann-type functional
-   equation, has real Dirichlet coefficients and a real Hardy-style Z — and
+   equation, has real Dirichlet coefficients and a real Hardy-style Z, and
    violates RH. Any claimed structure that "explains" why zeros stay on the
    line must fail for DH, or it explains nothing. Crucially, the battery
    also catches *tests of the battery*: case 2 below flunked it by testing
@@ -75,7 +75,7 @@ Structural claims below are pinned at reduced size by
 `tests/test_rogue_lab_controls.py`; the quoted percentages are session
 measurements at the original sizes, reproducible from the committed scripts.
 
-**Case 1 — the geometric dust torus** (`ontology/10_geometric_dust_torus.py`).
+**Case 1, the geometric dust torus** (`ontology/10_geometric_dust_torus.py`).
 Claim: a torus Laplacian plus a potential built from polygon area
 remainders calibrates to the zeros with sub-1% error, with min eigenvalue
 ≥ 1/4. Controls: the affine fit gives ~20% mean error against the real
@@ -83,33 +83,33 @@ zeros, ~19% when the potential is replaced by noise, ~23% against invented
 targets; the eigenvalue bound follows from positivity of the potential.
 Verdict: two-parameter curve fitting; rejected.
 
-**Case 2 — the Dirichlet xp "imposter gauntlet"**
+**Case 2, the Dirichlet xp "imposter gauntlet"**
 (`ontology/13_dirichlet_polya_hilbert.py`). Claim: weighting a divisor-graph
 xp operator by Dirichlet coefficients keeps ζ's spectrum on the line while
 throwing Davenport–Heilbronn off it. Controls: the "DH coefficients" used
-were the raw character mod 5 — i.e. L(s,χ), whose zeros *are* on the line —
+were the raw character mod 5, i.e. L(s,χ), whose zeros *are* on the line,
 while the true DH coefficients are real (1, κ, −κ, −1, 0;
 `zeta.epstein.dh_coefficient`), so the genuine counterexample yields a real
 antisymmetric matrix and *passes*, as does random real noise. The gauntlet
 is a realness detector, misclassifying in both directions. Verdict:
 rejected; the battery exists precisely to catch this.
 
-**Case 3 — the Sierra–Townsend density fix**
+**Case 3, the Sierra–Townsend density fix**
 (`ontology/15_fixing_the_density.py`). Claim: discretizing H = x(p + 1/p)
 forces the Riemann–von Mangoldt E log E level density. Measurement: the
 spectrum is an equally spaced ladder (gap CV ≈ 2.5%, linear density) whose
 scale tracks the arbitrary momentum box; by mode 100 it counts 100 levels
 where the zero-counting law says 20.5. Verdict: rejected.
 
-**Case 4 — the acoustic absorber** (`ontology/16_adelic_acoustic_absorber.py`).
+**Case 4, the acoustic absorber** (`ontology/16_adelic_acoustic_absorber.py`).
 Claim: a "prime crystal" chokes transmission exactly at the zeros. A blind
-full-range scan confirms peaks near 14.13, 21.02, 24.97, … — the one claim
+full-range scan confirms peaks near 14.13, 21.02, 24.97, …, the one claim
 that reproduces. But the reflection amplitude is the Fourier transform of
 the weighted prime staircase minus its main term: the explicit formula,
 already in `zeta/weil.py` and `zeta.explicit.prime_spectrum`, with primes as
 *input*. Verdict: true, known, and not an operator; filed as a rediscovery.
 
-**Case 5 — the Poisson cokernel sprint** (docs/16,
+**Case 5, the Poisson cokernel sprint** (docs/16,
 `scripts/32_poisson_cokernel_matrix.py`). The system working end to end:
 the plan was reviewed with three blockers and a pre-registered prediction
 (ablation ≈ 0%, gate rejects); the prediction was restored after being
@@ -117,7 +117,7 @@ edited away; the build confirmed it (ablation 0.0%, growth ratio 8.9); a
 follow-up showed the *entire* singular-value spectrum indistinguishable
 under prime ablation at every tolerance from 1e−2 to 1e−12; the p-adic
 tensor factors were then implemented as demanded and the gate still failed
-(4.8%). Verdict: matrix route closed by experiment — a negative result with
+(4.8%). Verdict: matrix route closed by experiment, a negative result with
 a chain of custody, which is the only kind that stays closed.
 
 ## 4. What the week actually demonstrated
@@ -133,7 +133,7 @@ in the same pass, by the same instruments.
 The discipline that cannot be automated remains the social one: reviews are
 appended, never rewritten; predictions are filed before runs; the reviewer
 owns the review. The one attempted violation this week (the self-approval
-edit, reverted in `6c70907`) was caught by git history, not by any gate —
+edit, reverted in `6c70907`) was caught by git history, not by any gate,
 version control is the fifth instrument.
 
 ## 5. Postscript: the instruments became a protocol (2026-08-06)
@@ -153,7 +153,7 @@ factored out:
 A `Battery` bundles the four; a `Department` is a battery plus a door plus
 reference claims whose verdicts are known. The rule that follows is the one
 this document argued for implicitly and now states as code: **no department
-without a battery** — work whose claims nothing in the tree can falsify is a
+without a battery**, work whose claims nothing in the tree can falsify is a
 probe, not a department.
 
 Two things this changes, and one it does not.
@@ -164,7 +164,7 @@ departments, so the checklist now runs itself, and a subject added without a
 referee fails the suite rather than merely disappointing a reviewer.
 
 It changes **what "the harness" is portable to**. `protocol.py` names no
-quantity any laboratory computes and imports nothing from `zeta` — enforced
+quantity any laboratory computes and imports nothing from `zeta`, enforced
 by an AST scan, a `sys.modules` check and a lexical scan, the same three the
 funnel's seam already had. Whether the four roles carve a *second* subject
 well is untested: there is one department, so the generalisation currently has
@@ -173,7 +173,7 @@ one instance behind it (`ROADMAP.md`, known gap 2).
 It does **not** change §4's conclusion. Verdict cost collapsed to claim cost
 because the controls were standing infrastructure; making them a protocol
 lowers the cost of standing up the *next* set, and automates none of the
-social discipline — reviews appended not rewritten, predictions filed before
+social discipline, reviews appended not rewritten, predictions filed before
 runs, the reviewer owning the review. Version control is still the fifth
 instrument.
 
@@ -186,5 +186,5 @@ statistic raises rather than returning a number. `run_battery` records the
 exception and leaves `distinguishes` False: a rival that did not answer has
 not been excluded. A verdict that had counted the crash as a refutation would
 have promoted D from "works on three of four subjects" to "the decision
-procedure for Gate 4" — and it would have been a flattering bug of exactly
+procedure for Gate 4", and it would have been a flattering bug of exactly
 the kind §3's case log is a catalogue of.

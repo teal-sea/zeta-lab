@@ -1,0 +1,20 @@
+[
+  {
+    "archive": "original_archives/joint_support_analysis.zip",
+    "member_prefix": "joint_support_analysis/",
+    "extracted_path": "latest_extracted/joint_support_analysis",
+    "proposed_repo_path": "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis"
+  },
+  {
+    "archive": "original_archives/repair_cost_rule.zip",
+    "member_prefix": "repair_cost_rule/",
+    "extracted_path": "latest_extracted/repair_cost_rule",
+    "proposed_repo_path": "hunts/prime_pair_error/frontier/2026-09-06/repair_cost_rule"
+  },
+  {
+    "archive": "original_archives/adaptive_correction_block.zip",
+    "member_prefix": "adaptive_correction_block/",
+    "extracted_path": "latest_extracted/adaptive_correction_block",
+    "proposed_repo_path": "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block"
+  }
+]

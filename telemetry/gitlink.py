@@ -1,8 +1,8 @@
-"""``telemetry.gitlink`` — the ``Run-Id`` commit trailer, read-only.
+"""``telemetry.gitlink``, the ``Run-Id`` commit trailer, read-only.
 
 The trailer is the join between a run record and the repository's existing
-provenance tail. Everything downstream of a commit — the claim it supports, the
-grade that claim carries, the artifact it changed — is already recorded
+provenance tail. Everything downstream of a commit, the claim it supports, the
+grade that claim carries, the artifact it changed, is already recorded
 somewhere in this tree. What was missing is which *run* produced it.
 
 Why a new trailer rather than the existing ones

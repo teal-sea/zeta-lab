@@ -1,4 +1,4 @@
-# MISSION — Erdős #126, bounded reconnaissance (r_186989)
+# MISSION: Erdős #126, bounded reconnaissance (r_186989)
 
 **This is a hunt. Nothing in `hunts/` is a result, and nothing here is
 evidence for or against RH (`docs/08`).**
@@ -20,12 +20,12 @@ the wall exactly where the literature says it is?
 
 The brief specified three capped arms and a preliminary:
 
-- **arm 0** — resolve the Formal Conjectures positivity mismatch: its
+- **arm 0**, resolve the Formal Conjectures positivity mismatch: its
   statement is over `Finset ℕ`, which admits `0`, while Erdős assumes positive
   integers.
-- **arm 1** — blockwise $p$-adic pruning, seeking $\exp(o(k))$ retention.
-- **arm 2** — an $S$-unit clique reduction, seeking an $\exp(o(k))$ clique bound.
-- **arm 3** — exact composition search through $k \le 8$ for a
+- **arm 1**: blockwise $p$-adic pruning, seeking $\exp(o(k))$ retention.
+- **arm 2**: an $S$-unit clique reduction, seeking an $\exp(o(k))$ clique bound.
+- **arm 3**: exact composition search through $k \le 8$ for a
   multiplicative-size / additive-support gadget.
 
 Promotion required an iterable lemma, an $\exp(o(k))$ reduction, or a rigorous

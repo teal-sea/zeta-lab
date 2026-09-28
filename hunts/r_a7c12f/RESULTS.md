@@ -1,4 +1,4 @@
-# R-A7C12F — `637/1000` survives at depth 1; the table row compares two different ranges
+# R-A7C12F: `637/1000` survives at depth 1; the table row compares two different ranges
 
 **2026-08-23.** Run `e09a7f8a`. Reads: `hunts/frontier_math/K2-TWO-SPECIES.md`
 section 2, `two_species.py`, `Zeta23Ext/EForm3/FarField.lean`,
@@ -66,7 +66,7 @@ happened to flatter rather than alarm.
 `5/8 = 0.625` as `s -> inf`. `637/1000` is the value of that envelope at
 `w = 1368` rounded up, which is why it is stated there and not earlier.
 
-### 3. On its own range, the constant holds at depth 1 — enclosure-carrying
+### 3. On its own range, the constant holds at depth 1: enclosure-carrying
 
 Arb at 96 bits through `ball_field.D_enclosure`, over `s in [37.0135, 400]`,
 adaptive cells bisected wherever the running bound exceeds 0.50, floor
@@ -183,7 +183,7 @@ What is *not* closed, precisely:
 `harness/departments/review_ledger.py` now carries `k2-far-constant-depth1`
 as a `ClaimUnderReview` with this run's `AttackOutcome` (white-box) appended.
 `harness.review.standing_reasons` reports the claim as **not standing**,
-because no blind attack has run — which is the true state, not a formality.
+because no blind attack has run, which is the true state, not a formality.
 This hunt's task came from the thread roster (`threads.json` R-A7C12F), not
 from a harness generator: it was in no generator's output before this commit
 and could not be removed from one. See `notes_for_operator` in `HANDBACK.json`.

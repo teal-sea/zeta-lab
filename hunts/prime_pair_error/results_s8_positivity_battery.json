@@ -1,0 +1,125 @@
+{
+  "claim_multiplicativity": {
+    "claim": "claim_multiplicativity",
+    "riemann_zeta": true,
+    "davenport_heilbronn": false,
+    "distinguishes": false,
+    "shared_with": [
+      "shifted_product"
+    ],
+    "undefined_for": [],
+    "undefined_reasons": {},
+    "epstein_2_1_3": false,
+    "epstein_1_1_6": false,
+    "shifted_product": true
+  },
+  "claim_euler_product_positivity": {
+    "claim": "claim_euler_product_positivity",
+    "riemann_zeta": true,
+    "davenport_heilbronn": false,
+    "distinguishes": false,
+    "shared_with": [
+      "shifted_product"
+    ],
+    "undefined_for": [
+      "epstein_2_1_3"
+    ],
+    "undefined_reasons": {
+      "epstein_2_1_3": "ValueError: a_1 = 0: this function has no log-derivative Dirichlet series in the normalisation a_1 = 1"
+    },
+    "epstein_2_1_3": false,
+    "epstein_1_1_6": false,
+    "shifted_product": true
+  },
+  "lambda_F_3_reference_epstein_module": -0.3120927285161636,
+  "dh_period_a1_a5": [
+    1.0,
+    0.28407904384041227,
+    -0.28407904384041227,
+    -1.0,
+    0.0
+  ],
+  "cross_check_n_max_200": {
+    "max_abs_diff_vs_epstein_module": 8.881784197001252e-16,
+    "lambda_F_3_fast": -0.3120927285161636
+  },
+  "partial_sum_growth_checkpoints": [
+    {
+      "t": 200,
+      "running_max_abs_partial_sum": 18.43611754163438,
+      "t_pow_offline_re": 72.51407123022216,
+      "t_exp_neg_c_sqrt_log_t": 20.0155596492834
+    },
+    {
+      "t": 1000,
+      "running_max_abs_partial_sum": 37.30190297898786,
+      "t_pow_offline_re": 266.41062866529444,
+      "t_exp_neg_c_sqrt_log_t": 72.20392404702459
+    },
+    {
+      "t": 5000,
+      "running_max_abs_partial_sum": 86.01998147846068,
+      "t_pow_offline_re": 978.7703525913306,
+      "t_exp_neg_c_sqrt_log_t": 270.09402133385834
+    },
+    {
+      "t": 20000,
+      "running_max_abs_partial_sum": 210.95459104895838,
+      "t_pow_offline_re": 3002.317749328045,
+      "t_exp_neg_c_sqrt_log_t": 859.6341126814062
+    },
+    {
+      "t": 50000,
+      "running_max_abs_partial_sum": 462.01654092412303,
+      "t_pow_offline_re": 6297.9323072929155,
+      "t_exp_neg_c_sqrt_log_t": 1863.9164022566654
+    },
+    {
+      "t": 100000,
+      "running_max_abs_partial_sum": 933.6403541859428,
+      "t_pow_offline_re": 11030.26413331621,
+      "t_exp_neg_c_sqrt_log_t": 3360.534281820447
+    },
+    {
+      "t": 200000,
+      "running_max_abs_partial_sum": 1201.8303402494973,
+      "t_pow_offline_re": 19318.519303523426,
+      "t_exp_neg_c_sqrt_log_t": 6077.529849680082
+    }
+  ],
+  "fitted_growth_exponent_top_half": 0.5420995148939436,
+  "fitted_growth_exponent_top_quarter": 5.262614134270679e-17,
+  "lambda_F_magnitude_vs_log_n": [
+    {
+      "window": [
+        2,
+        2000
+      ],
+      "max_abs_lambda_F": 26.725668832903626,
+      "log_hi": 7.600902459542082,
+      "ratio_to_log_hi": 3.5161178524732337
+    },
+    {
+      "window": [
+        2000,
+        20000
+      ],
+      "max_abs_lambda_F": 157.7960977286799,
+      "log_hi": 9.903487552536127,
+      "ratio_to_log_hi": 15.933386788401709
+    },
+    {
+      "window": [
+        20000,
+        200000
+      ],
+      "max_abs_lambda_F": 630.9727782714064,
+      "log_hi": 12.206072645530174,
+      "ratio_to_log_hi": 51.69334941673206
+    }
+  ],
+  "offline_zero_re": 0.8085171824566374,
+  "offline_zero_im": 85.6993484853776,
+  "n_max": 200000,
+  "elapsed_seconds": 2.1653833389282227
+}

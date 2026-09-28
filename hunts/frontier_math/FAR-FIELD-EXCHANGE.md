@@ -2,8 +2,8 @@
 
 Record of a measurement-and-proof exchange with the theorem-proving
 service during submission 9 (`eform3`), 2026-08-13. It is written down
-because the mathematical content is not in any artifact yet — the job
-is still running — and because the shape of the argument changed twice
+because the mathematical content is not in any artifact yet, the job
+is still running, and because the shape of the argument changed twice
 during it, in both directions.
 
 ## 1. The brief's prescribed route is false, and this is why
@@ -37,7 +37,7 @@ Two ingredients, and the second is the one that matters:
 1. **Sharp far-field constants.** An exact closed form for `Qim` giving
    a decreasing majorant with honest constants.
 2. **Near-field cancellation.** Inside `|s| ≤ R₀`, `Qre(y,s)² > Qim(y,s)²`,
-   so those offsets contribute **no damage at all** — rather than
+   so those offsets contribute **no damage at all**, rather than
    contributing the uniform cap, which is what the previous run did.
 
 **That distinction is the whole difference between δ = 26 and δ = 2π.**
@@ -57,7 +57,7 @@ to 12 digits:
 | first six peaks | 4.396e−3, 9.751e−4, 4.233e−4, 2.361e−4, 1.505e−4, 1.043e−4 |
 | **sum of ALL peaks (3183 windows to s = 20000)** | **6.8591e−03**; the tail beyond six is 8.4% of the total |
 | both sides vs budget `Shq/2 = 3.3754e−02` | **40.6% of budget → margin 2.46×** |
-| sharp envelope `sup_{s≥s₀} \|Qim\|·s/y` | 0.9463 / 0.9336 / 0.9077 / 0.8040 at s₀ = 5.7 / 6.0 / 2π / 12 — essentially y-independent |
+| sharp envelope `sup_{s≥s₀} \|Qim\|·s/y` | 0.9463 / 0.9336 / 0.9077 / 0.8040 at s₀ = 5.7 / 6.0 / 2π / 12, essentially y-independent |
 
 **The 2.46× is the true adversarial value, not an upper estimate.**
 Damage windows recur at spacing 2π and are narrower than the spacing, so
@@ -72,7 +72,7 @@ only the six visible windows and treated the k⁻² tail as negligible.
 
 | claim | verdict |
 |---|---|
-| `Qre(y,s) ≥ Qre(0,s) − 0.0107` for 0 ≤ y ≤ 1/2 | **holds**, true max drop 0.00649642 at (y,s) = (0.500, 7.8380) — 60.7% of the allowance, and the worst point lies *beyond* R₀ |
+| `Qre(y,s) ≥ Qre(0,s) − 0.0107` for 0 ≤ y ≤ 1/2 | **holds**, true max drop 0.00649642 at (y,s) = (0.500, 7.8380), 60.7% of the allowance, and the worst point lies *beyond* R₀ |
 | its derivation `(y²/2)cosh(y/2)·(1/12)` | reproduces exactly: 0.01074389; with the sharp `L2 = 0.0712006` it would be 0.00917965 (14% held in reserve) |
 | `Qre(0,·)` monotone decreasing on [0, 2π] | **holds**, max increase −3.56e−12; endpoints `Qre(0,0) = 0.918725 = A`, `Qre(0,2π) = 0.049027` |
 | far-field majorant `Φ(5.7) = 0.03753` | `\|Qim\| ≤ 0.193727 y` against true 0.155601 y → **1.2450× pointwise, 1.5501× squared**, as the prover stated |
@@ -91,7 +91,7 @@ Two `Shq` in play, and they are the same statement:
     Shq_prover = 2(ĝ(2y) + A) · Shq_here        [factor 3.746969 at y = 1/2]
 
 checked to 1.7e−17. A coordinator claim that a floor of `0.23 y²` was
-false was **withdrawn** — it is false in one normalisation and true in
+false was **withdrawn**, it is false in one normalisation and true in
 the other. `Shq_here/y² → L2 = 0.0712006`; `Shq_prover/y² → 4A·L2 =
 0.261655`. Since the final inequality consumes the quotient
 `(damage sum)/(Shq/2)`, the normalisation cancels.

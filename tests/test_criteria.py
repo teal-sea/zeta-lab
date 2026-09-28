@@ -1,4 +1,4 @@
-"""Tests for zeta.criteria — four equivalence faces of RH, made executable.
+"""Tests for zeta.criteria, four equivalence faces of RH, made executable.
 
 Every literal quoted below was computed and cross-checked in this environment
 before it was asserted:

@@ -8,7 +8,7 @@ not establish the bound for all y, so the hypothesis
 
     D(X) >= theta* R(X)   for all admissible configurations
 
-— which is what the kernel-checked composition corollary consumes — does not
+- which is what the kernel-checked composition corollary consumes, does not
 follow from those four numbers.  That is a missing universal quantifier over
 y, not a formalization issue.  This module quantifies over depth CELLS instead
 of depth points, which is the construction ``counting_bound.py`` already uses

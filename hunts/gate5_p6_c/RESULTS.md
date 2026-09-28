@@ -71,15 +71,15 @@ carry a *global* distinction, and property 6 is local by construction.
 
 The choices are in `MISSION.md` with their reasons; the short version:
 
-- **σ ∈ [0.7, 0.9]** — strictly off the line, strictly inside the strip,
+- **σ ∈ [0.7, 0.9]**: strictly off the line, strictly inside the strip,
   clear of the Λ_Q pole at s = 1, and containing 0.80852, the real part of
   the Davenport–Heilbronn off-line zero this repository pins. That
   containment is **declared non-blind**: B1 exists to realise the
   "a rival fails" pole, not to supply a verdict.
-- **B2 and B3 are blind** — width-4 windows at low and middling height,
+- **B2 and B3 are blind**: width-4 windows at low and middling height,
   chosen for short boundary, with no knowledge of where any rival's zeros
   are.
-- **σ ∈ [1.05, 1.55]** for B4 — the band where zeta is zero-free as a
+- **σ ∈ [1.05, 1.55]** for B4, the band where zeta is zero-free as a
   theorem rather than as a computation, testing whether property 6 is
   anything other than the Euler product that property 5 already tests.
 - **Total boundary length, not box area, is the cost.** The prior attempt's
@@ -98,7 +98,7 @@ at σ = 0.8 on form (2,1,3) by comparing dps = 20, 40 and 80:
 | --- | --- | --- |
 | 5 | 9.53053e-4 | agrees to 6 significant figures |
 | 14 | 2.06288e-9 | agrees to 6 significant figures |
-| 44 | 1.02595e-29 | dps 80 gives 1.0261e-29 — **4 correct digits**, and arg differs in the 3rd |
+| 44 | 1.02595e-29 | dps 80 gives 1.0261e-29, **4 correct digits**, and arg differs in the 3rd |
 
 The cause is structural. `epstein_completed` returns
 `d^{s/2} · (first + second/√d + 1/(√d(s−1)) − 1/s)`, whose last two terms
@@ -109,8 +109,8 @@ recurses to its depth limit (45) on every segment. It does not fail; it
 does not return.
 
 **This is very likely what killed the previous attempt too.** That run asked
-for exactly this — Epstein counts at working precision in a box reaching
-t = 90 — and reported a timeout. The natural reading was "the contour is
+for exactly this: Epstein counts at working precision in a box reaching
+t = 90, and reported a timeout. The natural reading was "the contour is
 long". The measurement above says the contour length was not the binding
 constraint: at t = 90 the count was being driven by a phase that carried no
 correct digits, and no amount of waiting would have produced an answer. That
@@ -165,14 +165,14 @@ say:
    under control role #1.
 2. **Quantify over all boxes in a band**: "for every t, the completed
    function has no zeros with σ ∈ [1/2 + δ, 1]". This is RH with a margin.
-   It distinguishes, and it is not checkable in a box — which is the honest
+   It distinguishes, and it is not checkable in a box, which is the honest
    content of the observation, not a defect of the repair.
 3. **Quantify over the band where zeta has a theorem**: "no zeros with
    σ > 1". Zeta satisfies this by the Euler product, unconditionally.
-   Davenport–Heilbronn does not — Davenport and Heilbronn proved in 1936
+   Davenport–Heilbronn does not: Davenport and Heilbronn proved in 1936
    that it has zeros in σ > 1, and the same is classical for Epstein zetas
    of class number greater than one. This repair is checkable, it
-   distinguishes, and it is the interesting one — but note what it has
+   distinguishes, and it is the interesting one, but note what it has
    become: **it is the Euler product again**, which is property 5, which the
    battery already records as DISTINGUISHES.
 
@@ -191,7 +191,7 @@ holds for every t; each rival's 0 is a *measurement* in a window of height
 4, and is silent about the band as a whole. Davenport–Heilbronn's zeros in
 σ > 1 exist by the 1936 theorem; a width-4 window that misses them is not
 evidence that they do not. So even the good repair, restricted to a box,
-reports VACUOUS — the discriminating content lives in the quantifier over
+reports VACUOUS, the discriminating content lives in the quantifier over
 all t, which no box can carry.
 
 ## Controls
@@ -220,7 +220,7 @@ all t, which no box can carry.
 - **`count_zeros_box` has no wall-clock or evaluation ceiling.** When the
   phase is noise, the adaptive bisection recurses to depth 45 and the call
   simply never returns. A depth-exhaustion counter that raised
-  `ArithmeticError` — the failure mode the routine already documents — would
+  `ArithmeticError`, the failure mode the routine already documents, would
   have converted a hang into a diagnosis in seconds.
 - **The battery counts Davenport–Heilbronn on `f` and the others on their
   completions.** Harmless in σ > 0, where the completion factors are

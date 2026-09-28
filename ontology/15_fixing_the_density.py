@@ -12,7 +12,7 @@ H = x(p + 1/p)
 
 By injecting the 1/p term, the classical orbits become closed, forcing the 
 spectrum to become discrete and automatically locking the quantum density 
-of states to N(E) ~ (E/2pi) log(E/2pi) — perfectly matching the true zeros!
+of states to N(E) ~ (E/2pi) log(E/2pi), perfectly matching the true zeros!
 
 We discretize this operator in momentum space where x = i(d/dp).
 H = i(p + 1/p) d/dp

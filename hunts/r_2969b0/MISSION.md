@@ -1,4 +1,4 @@
-# MISSION — R-2969B0: does a 2013 human construction beat AlphaEvolve's Problem 42 value?
+# MISSION, R-2969B0: does a 2013 human construction beat AlphaEvolve's Problem 42 value?
 
 ## The question
 

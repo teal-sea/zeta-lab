@@ -1,9 +1,9 @@
-"""``ontology.scout`` — the literature scout: passages, never verdicts.
+"""``ontology.scout``, the literature scout: passages, never verdicts.
 
 The adopted contract (`ROADMAP.md`, "The outside memos, triaged", deferred
-list — contract adopted in advance of the build): the scout's output is
+list, contract adopted in advance of the build): the scout's output is
 *databases searched, sources inspected, candidate matches, unresolved
-ambiguity, and "no matching result located"* — never the word the funnel is
+ambiguity, and "no matching result located"*, never the word the funnel is
 forbidden to hear. Failure to find prior art is not proof of novelty, and a
 lexical hit is not proof of prior art; both directions stay open until a
 human adjudicates, and this module is built so neither can be collapsed by
@@ -12,21 +12,21 @@ code.
 What it searches is whatever corpora the machine actually has. The tracked
 tree carries ``references/``; a machine that has run the ecosystem fetch
 (``external/README.md``) also carries DeepMind's formal-conjectures
-collection and the AlphaProof Nexus proof corpus — kernel-checked prior art
+collection and the AlphaProof Nexus proof corpus, kernel-checked prior art
 of exactly the kind worth colliding with. A corpus that is absent is
 reported in ``sources_missing``, loudly: a scout that silently searched less
 than it names would be the W2 failure mode wearing a new hat.
 
 How the result feeds the gate: :class:`LocalCorpusBackend` adapts a scout
 run to :class:`ontology.knownness.LiteratureBackend`. The mapping is
-deliberately conservative in the only safe direction —
+deliberately conservative in the only safe direction,
 
 * **no hits** → ``NOT_FOUND`` with the sources named (a true statement:
   these corpora were searched and nothing matched; the label remains
   ``not-recognised-offline`` and no funnel may read it as more);
 * **hits** → still ``NOT_FOUND``, with every candidate passage carried in
   ``detail``. A grep hit does not establish that the observation *is* the
-  literature's — claiming ``FOUND`` would manufacture a terminal ``known``
+  literature's, claiming ``FOUND`` would manufacture a terminal ``known``
   verdict out of a substring. The passages are for a human, whose confirmed
   match enters the :class:`~ontology.knownness.KnownFactRegistry`, which is
   the one honest route from "looks like prior art" to "is prior art".
@@ -131,7 +131,7 @@ class ScoutReport:
     a bounded report never reads as an exhaustive one. There is no novelty
     field, no significance field, and no boolean that summarises the search:
     ``hits`` is evidence to adjudicate, and an empty ``hits`` is the sentence
-    "no matching result located in the corpora searched" — nothing more.
+    "no matching result located in the corpora searched", nothing more.
     """
 
     terms: tuple[str, ...]
@@ -149,13 +149,13 @@ class ScoutReport:
         if self.sources_missing:
             lines.append(f"absent on this machine: {', '.join(self.sources_missing)}")
         if self.hits:
-            lines.append(f"{len(self.hits)} candidate passage(s) — leads, not findings:")
+            lines.append(f"{len(self.hits)} candidate passage(s), leads, not findings:")
             lines.extend(
                 f"  {h.corpus}: {h.path}:{h.line_no}: {h.passage}" for h in self.hits
             )
         else:
             lines.append(
-                "no matching result located in the corpora searched — which is "
+                "no matching result located in the corpora searched, which is "
                 "a statement about these corpora, not about the literature"
             )
         for name, total in self.truncated.items():
@@ -184,7 +184,7 @@ def search_corpora(
     """Search every available corpus for files containing *all* terms.
 
     Matching is case-insensitive substring containment, file-level AND over
-    the terms — crude on purpose: the scout's job is recall of leads for a
+    the terms, crude on purpose: the scout's job is recall of leads for a
     human, and the report says exactly what the search was so "not located"
     is bounded by it. Passages quoted are the first lines containing any
     term, up to three per file.
@@ -249,7 +249,7 @@ def search_corpora(
 class LocalCorpusBackend(LiteratureBackend):
     """The scout as a :func:`ontology.knownness.check_literature` backend.
 
-    Both outcomes map to ``NOT_FOUND`` — see the module docstring for why a
+    Both outcomes map to ``NOT_FOUND``, see the module docstring for why a
     lexical hit must not become ``FOUND``. The passages ride in ``detail``;
     the one honest route from a hit to a ``known`` verdict is a human
     confirming the match and registering it as a cited fact.

@@ -218,7 +218,7 @@ precision parameter to get wrong.
    `|C((j),(1))| = 1` against the skip convention's `6/5, 7/6, 9/7`;
    `Lambda_2(6) log 6 = 2 log2 log3 log6` against the printed RHS `4 log2 log3 log6`).
    They are cheap to check and nobody has. First step: check the third witness
-   by hand against thesis (6.18) — it is a single `n = 6` evaluation.
+   by hand against thesis (6.18), it is a single `n = 6` evaluation.
 
 3. **The `fkappa` directory exists on no branch that has landed.** Why it might
    matter: it was found at commit `360c545` on the `hunts(rogue_frontier)`

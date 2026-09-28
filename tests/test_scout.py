@@ -150,7 +150,7 @@ def test_the_module_has_no_route_to_found() -> None:
     ]
     assert found_refs == [], (
         "ontology.scout references LiteratureStatus.FOUND: the scout must "
-        "never assert prior art itself — a human registers a confirmed match"
+        "never assert prior art itself, a human registers a confirmed match"
     )
 
 

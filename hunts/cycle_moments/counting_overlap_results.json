@@ -1,0 +1,262 @@
+{
+  "status": "exact finite counting distinction; no zeta asymptotic claim",
+  "arithmetic": "exact rational matrix checks; separate numerical Fourier quadrature",
+  "density": "1+cos(2pi u)+(1/4)cos(4pi u) on [-1/2,1/2], zero outside",
+  "density_lower_bound_on_support": "1/4",
+  "examples": [
+    {
+      "points_with_multiplicity": [
+        0,
+        0,
+        0,
+        3,
+        6
+      ],
+      "multiplicities": [
+        3,
+        1,
+        1
+      ],
+      "simple_real_count": 2,
+      "nonzero_spectrum": [
+        3,
+        1,
+        1
+      ],
+      "zero_eigenvalues_in_occurrence_gram": 2,
+      "all_moments_formula": "M_j = 3^j + 2 for every integer j >= 1",
+      "matrix_recurrence_checked": "K^3 = 4 K^2 - 3 K",
+      "moments_1_through_8": [
+        "5",
+        "11",
+        "29",
+        "83",
+        "245",
+        "731",
+        "2189",
+        "6563"
+      ],
+      "S": "29",
+      "Q": "11",
+      "D3": "6",
+      "D4": "0",
+      "gram": [
+        [
+          "1",
+          "1",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "1",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "1",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ]
+    },
+    {
+      "points_with_multiplicity": [
+        0,
+        0,
+        1,
+        1,
+        4
+      ],
+      "multiplicities": [
+        2,
+        2,
+        1
+      ],
+      "simple_real_count": 1,
+      "nonzero_spectrum": [
+        3,
+        1,
+        1
+      ],
+      "zero_eigenvalues_in_occurrence_gram": 2,
+      "all_moments_formula": "M_j = 3^j + 2 for every integer j >= 1",
+      "matrix_recurrence_checked": "K^3 = 4 K^2 - 3 K",
+      "moments_1_through_8": [
+        "5",
+        "11",
+        "29",
+        "83",
+        "245",
+        "731",
+        "2189",
+        "6563"
+      ],
+      "S": "26",
+      "Q": "19/2",
+      "D3": "6",
+      "D4": "9/2",
+      "gram": [
+        [
+          "1",
+          "1",
+          "1/2",
+          "1/2",
+          "0"
+        ],
+        [
+          "1",
+          "1",
+          "1/2",
+          "1/2",
+          "0"
+        ],
+        [
+          "1/2",
+          "1/2",
+          "1",
+          "1",
+          "0"
+        ],
+        [
+          "1/2",
+          "1/2",
+          "1",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ]
+    }
+  ],
+  "amplification_checks": [
+    {
+      "blocks": 1,
+      "type_a": 0,
+      "simple_real_count": 1,
+      "S": "26",
+      "Q": "19/2",
+      "D4": "9/2"
+    },
+    {
+      "blocks": 1,
+      "type_a": 1,
+      "simple_real_count": 2,
+      "S": "29",
+      "Q": "11",
+      "D4": "0"
+    },
+    {
+      "blocks": 2,
+      "type_a": 0,
+      "simple_real_count": 2,
+      "S": "52",
+      "Q": "19",
+      "D4": "9"
+    },
+    {
+      "blocks": 2,
+      "type_a": 1,
+      "simple_real_count": 3,
+      "S": "55",
+      "Q": "41/2",
+      "D4": "9/2"
+    },
+    {
+      "blocks": 2,
+      "type_a": 2,
+      "simple_real_count": 4,
+      "S": "58",
+      "Q": "22",
+      "D4": "0"
+    },
+    {
+      "blocks": 3,
+      "type_a": 0,
+      "simple_real_count": 3,
+      "S": "78",
+      "Q": "57/2",
+      "D4": "27/2"
+    },
+    {
+      "blocks": 3,
+      "type_a": 1,
+      "simple_real_count": 4,
+      "S": "81",
+      "Q": "30",
+      "D4": "9"
+    },
+    {
+      "blocks": 3,
+      "type_a": 2,
+      "simple_real_count": 5,
+      "S": "84",
+      "Q": "63/2",
+      "D4": "9/2"
+    },
+    {
+      "blocks": 3,
+      "type_a": 3,
+      "simple_real_count": 6,
+      "S": "87",
+      "Q": "33",
+      "D4": "0"
+    }
+  ],
+  "independent_quadrature": {
+    "decimal_precision": 60,
+    "fourier_coefficient_defects": {
+      "0": "0.0",
+      "1": "0.0",
+      "2": "0.0",
+      "3": "4.12173335569e-65",
+      "4": "2.82317843449e-65",
+      "5": "2.25906305178e-65",
+      "6": "2.82523146579e-65",
+      "7": "2.26225975769e-65",
+      "8": "2.82673332468e-65",
+      "9": "2.25412013571e-65",
+      "10": "2.82035550777e-65",
+      "11": "2.25937639386e-65",
+      "12": "2.8135521227e-65",
+      "13": "2.25653992946e-65",
+      "14": "2.83249650802e-65",
+      "15": "2.25735374906e-65",
+      "16": "2.81977264342e-65",
+      "17": "2.2578492376e-65",
+      "18": "2.82725140932e-65",
+      "19": "2.2686020023e-65",
+      "20": "2.80859687658e-65",
+      "21": "2.26329348075e-65",
+      "22": "2.8190457802e-65",
+      "23": "2.2580745585e-65",
+      "24": "2.82979542332e-65",
+      "25": "2.25873265269e-65",
+      "26": "2.80332698385e-65"
+    }
+  }
+}

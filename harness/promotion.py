@@ -1,4 +1,4 @@
-"""``harness.promotion`` — the integrity grade made enforcing instead of advisory.
+"""``harness.promotion``, the integrity grade made enforcing instead of advisory.
 
 :mod:`harness.integrity` measures a battery and pairs the measurement with the
 claim outcome, and ``ClaimReport.dangerous`` renders a banner saying the
@@ -14,7 +14,7 @@ it recomputes.
 The rule the whole module is built around
 -----------------------------------------
 **Every BLOCK traces to a digest comparison, a set membership, or a measured
-calibration — never to a self-declared boolean.** That is not a style
+calibration, never to a self-declared boolean.** That is not a style
 preference; it is the difference between this gate and :class:`NaiveGate`
 below, which is included in the same file precisely so nobody can lose track
 of how small the difference is. Both gates get the clean case, the
@@ -26,7 +26,7 @@ front is cheaper than discovering it later.
 
 Default-open is structurally impossible
 ---------------------------------------
-Every check must return an explicit ``PASS`` — the same three-valued
+Every check must return an explicit ``PASS``, the same three-valued
 vocabulary :mod:`harness.integrity` already uses. ``UNKNOWN`` blocks, a check
 that raises blocks and is recorded as :attr:`ReasonCode.GATE_CHECK_ERRORED`,
 and an unrecognised status decodes to ``UNKNOWN``. There is no place where the
@@ -112,7 +112,7 @@ REQUIRED_GRADE: Final = CALIBRATED
 REQUIRED_CLAIM_STATUS: Final = "distinguishes"
 
 #: Identifiers that become filenames. Anything else is refused rather than
-#: sanitised — a claim id containing a path separator is either a mistake or
+#: sanitised, a claim id containing a path separator is either a mistake or
 #: an attempt to write outside the boundary, and quietly rewriting it would
 #: hide both.
 _SAFE_ID: Final = re.compile(r"\A[A-Za-z0-9][A-Za-z0-9._-]{0,127}\Z")
@@ -127,7 +127,7 @@ class ReasonCode(StrEnum):
 
     Prose reasons get reworded, truncated into log lines, and then nothing
     downstream can count them. These codes are the contract, and every one is
-    independently reproducible through :func:`recheck` — which is what stops a
+    independently reproducible through :func:`recheck`, which is what stops a
     code from becoming decorative.
     """
 
@@ -150,7 +150,7 @@ class ReasonCode(StrEnum):
     SCOPE_WIDENED = "scope-widened"
     #: Producer and verifier are the same party.
     SELF_VERIFIED = "self-verified"
-    #: A check did not reach a positive finding — the default-open guard. It
+    #: A check did not reach a positive finding, the default-open guard. It
     #: fires for silence, not for a finding.
     INTEGRITY_NOT_ESTABLISHED = "integrity-not-established"
     #: A check raised. Recorded as its own code so "the gate broke" can never
@@ -392,8 +392,8 @@ def _run(names: tuple[str, ...], inp: _Inputs, policy: str, when: str) -> Decisi
         statuses[name] = status
         reasons.update(codes)
         # The positive requirement: only an explicit PASS clears a check.
-        # Anything else — a finding, silence, or a status this policy does not
-        # recognise — must leave at least one reason behind.
+        # Anything else, a finding, silence, or a status this policy does not
+        # recognise, must leave at least one reason behind.
         if status != PASS and not codes:
             reasons.add(ReasonCode.INTEGRITY_NOT_ESTABLISHED)
         if status == UNKNOWN:
@@ -477,8 +477,8 @@ def recheck(claim_report: ClaimReport, *, only: ReasonCode, **kwargs: Any) -> De
     """Run the single check that produces ``only``, and nothing else.
 
     A reason nobody can reproduce in isolation is a string, not a finding.
-    The resulting decision is deliberately *incomplete* — ``complete`` is
-    False and :meth:`Boundary.promote` will not accept it — so a one-check
+    The resulting decision is deliberately *incomplete*, ``complete`` is
+    False and :meth:`Boundary.promote` will not accept it, so a one-check
     ``ALLOW`` can never be mistaken for a promotion.
     """
     name = _CHECK_FOR_REASON.get(only)
@@ -509,7 +509,7 @@ def naive_decide(
     It exists to be beaten, and it is kept in this file so the two cannot
     drift apart unnoticed. It blocks a claim that did not distinguish, a
     battery that did not grade ``CALIBRATED``, and a provenance record that
-    *admits* contamination — which is to say it handles the clean case, the
+    *admits* contamination, which is to say it handles the clean case, the
     blind-detector case and the honestly-declared-contaminated case exactly as
     well as :func:`decide` does. The only input that separates them is one
     where the declaration and the artifacts disagree: a producer that writes
@@ -583,7 +583,7 @@ class Boundary:
 
     ``candidates/`` is writable by anyone; ``promoted/`` is written only by
     :meth:`promote`. That is an *API* claim, and API claims are worth very
-    little — nothing stops a process with filesystem access from writing into
+    little, nothing stops a process with filesystem access from writing into
     ``promoted/`` directly. What makes the boundary real is :func:`audit`,
     which reconciles the directory against the decision log afterwards.
     """
@@ -619,8 +619,8 @@ class Boundary:
     ) -> Decision:
         """The only path into ``promoted/``.
 
-        The decision is written whether it allows or blocks — a boundary that
-        logged only its allowances would make its own refusals unauditable —
+        The decision is written whether it allows or blocks, a boundary that
+        logged only its allowances would make its own refusals unauditable,
         and the claim lands in ``promoted/`` or ``blocked/`` accordingly. A
         BLOCK also removes any earlier promotion of the same claim, so a
         stale allowance cannot outlive the finding that overturned it.
@@ -666,7 +666,7 @@ class ProducerView:
     A speed bump, not a security boundary, and the distinction matters: the
     wrapped boundary is reachable by anyone willing to read this source, and
     the filesystem is reachable without it at all. What this buys is that the
-    *ordinary* path — a producer calling what it was handed — cannot reach the
+    *ordinary* path, a producer calling what it was handed, cannot reach the
     promoted side by accident, so a reach becomes deliberate and therefore
     visible in a diff. Enforcement lives in :func:`audit`.
     """
@@ -692,7 +692,7 @@ def audit(boundary: Boundary) -> tuple[str, ...]:
     a deadline. So nothing here trusts that the door was used. Every file in
     ``promoted/`` is re-derived from the log: there must be a complete ALLOW
     decision naming that claim id, with no reasons, under this policy, whose
-    recorded claim digest still matches the bytes on disk — and every ALLOW
+    recorded claim digest still matches the bytes on disk, and every ALLOW
     must have landed. Anything else is reported, including the cases that
     could only be a bug.
 
@@ -730,7 +730,7 @@ def audit(boundary: Boundary) -> tuple[str, ...]:
         entries = by_claim.get(claim_id, [])
         if not entries:
             problems.append(
-                f"promoted/{path.name}: no decision names this claim — it was written "
+                f"promoted/{path.name}: no decision names this claim, it was written "
                 "past the door"
             )
             continue
@@ -746,13 +746,13 @@ def audit(boundary: Boundary) -> tuple[str, ...]:
         if not allows:
             problems.append(
                 f"promoted/{path.name}: no complete, reasonless ALLOW under "
-                f"{POLICY_VERSION} — the crossing is not accounted for"
+                f"{POLICY_VERSION}, the crossing is not accounted for"
             )
             continue
         if not any(r.get("claim_digest") == current_digest for r in allows):
             problems.append(
                 f"promoted/{path.name}: the claim on disk digests to {current_digest}, "
-                "which no ALLOW decision was made about — it changed after crossing"
+                "which no ALLOW decision was made about, it changed after crossing"
             )
         if _latest(entries).get("verdict") != ALLOW:
             problems.append(
@@ -763,7 +763,7 @@ def audit(boundary: Boundary) -> tuple[str, ...]:
     for claim_id, entries in sorted(by_claim.items()):
         if _latest(entries).get("verdict") == ALLOW and claim_id not in promoted_ids:
             problems.append(
-                f"claim {claim_id!r} has a standing ALLOW but no file in promoted/ — "
+                f"claim {claim_id!r} has a standing ALLOW but no file in promoted/, "
                 "the log and the directory disagree"
             )
         if claim_id in promoted_ids and (boundary.root / "blocked" / f"{claim_id}.json").exists():

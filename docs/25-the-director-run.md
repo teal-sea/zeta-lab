@@ -1,4 +1,4 @@
-# 25 — The director run: the laboratory pointed at itself
+# 25. The director run: the laboratory pointed at itself
 
 **2026-08-10/11.** An operator handed the laboratory over with no theorem, no
 direction, and no assurance that the agenda was the right agenda. The standing
@@ -7,8 +7,8 @@ from this tree and its resources *while minimizing the probability that the
 laboratory fools itself*, and the explicit instruction was that finding an
 existing conclusion of this repository to be wrong counts as a result.
 
-This document is the record. The run's own scaffolding — programs, budget,
-claim ledger, graveyard, intervention ledger — is in `hunts/director_run/`.
+This document is the record. The run's own scaffolding, programs, budget,
+claim ledger, graveyard, intervention ledger, is in `hunts/director_run/`.
 Nothing here is evidence for or against RH.
 
 ---
@@ -37,17 +37,17 @@ a penalty, not as survival**.
 
 ---
 
-## 2. What died — the repository's own claims
+## 2. What died: the repository's own claims
 
 Six confirmed defects, every one of them in a claim this tree already had in
 writing. Each was reproduced by the director independently of the agent that
 found it before being recorded here.
 
-### 2.1 `rigor.py` could return a wrong proof — the most serious finding
+### 2.1 `rigor.py` could return a wrong proof: the most serious finding
 
 `zeta/rigor.py` is the only module entitled to the word *certified*, and its
 contract is that a nonzero `proven_sign` **is a theorem**. `_exact` converted
-unrecognised numeric types by parsing `str(value)` — the *printed decimal* — as
+unrecognised numeric types by parsing `str(value)`, the *printed decimal*, as
 exact. `numpy.float64` is a `float` subclass and was safe; `numpy.float32`,
 `float16`, `longdouble` and `sympy.Float` are not.
 
@@ -60,8 +60,8 @@ enclose_Z    (before)   = [-4.1065861495e-7, -4.1065861495e-7]   width 3.6e-46
 ```
 
 A 1e-46-wide enclosure that does not contain the value it claims to enclose, and
-a *wrong* proven sign. The two-backend cross-check — the habit that entitles the
-module to the reserved word — could not see it, because the fault is **upstream
+a *wrong* proven sign. The two-backend cross-check, the habit that entitles the
+module to the reserved word, could not see it, because the fault is **upstream
 of the split**: both backends consume the same converted abscissa.
 
 Fixed: conversion goes through the exact binary value when widening to float64
@@ -80,7 +80,7 @@ not the pipeline. That is now stated where the claim is made.
 
 Also `rigor.py`. When the Fejér prime cutoff proof `log(n_max+1) > 2b` cannot be
 closed, the code records the failure in `uncertified_steps` and then continues
-with `prime_tail = 0` — an enclosure asserting the prime sum is exactly
+with `prime_tail = 0`, an enclosure asserting the prime sum is exactly
 complete, which is precisely what it just failed to prove. `sign`, documented as
 *proven*, was computed from that enclosure and came back nonzero.
 `positivity_proven` was already gated on `certified`; `sign` now is too.
@@ -88,7 +88,7 @@ Regression test in `tests/test_rigor_weil.py`.
 
 ### 2.3 The exact Sturm branch of `li.is_hyperbolic` returned a false positive
 
-`zeta/li.py` advertises `"sturm"` as *exact* — "the polynomial held in memory
+`zeta/li.py` advertises `"sturm"` as *exact*, "the polynomial held in memory
 converts to ℚ[X] without error", a decision procedure. It ran on the *balanced*
 coefficients, and `_balance` multiplies by `mp.power(s, j)` at working
 precision, which rounds. So the "exact" branch decided a different polynomial
@@ -102,7 +102,7 @@ dps 15, 20 → hyperbolic=True, n_real_exact=1, agree=True
 `agree=True` is the aggravating part: the root finder was fooled identically, so
 the built-in disagreement flag could not fire. `_to_rational`'s much-documented
 guard prevented a *second* re-rounding; the first one happened one step earlier.
-Fixed by running Sturm on the input coefficients — `X ↦ sX` with `s > 0` is a
+Fixed by running Sturm on the input coefficients, `X ↦ sX` with `s > 0` is a
 bijection of the real line, so the Sturm count never needed balancing; only the
 root finder did. Now `agree=False` at low dps, which is the honest state: the
 tolerance test is fooled, the decision procedure is not.
@@ -111,7 +111,7 @@ tolerance test is fooled, the decision procedure is not.
 
 `zeta/detector.py`'s `online_list_is_complete` was documented as cross-checking
 the cached Davenport–Heilbronn on-line ordinates against an **independent**
-count. Its reference was `zeta.epstein.zeros_on_line` — *the same technique on
+count. Its reference was `zeta.epstein.zeros_on_line`, *the same technique on
 the same function*, on a grid measured to be **1.4×–1.8× coarser** than the one
 that produced the cached list. A pair closer than either step is invisible to
 both, identically: zero power against the exact failure mode the docstring names.
@@ -120,18 +120,18 @@ Two investigators reached this independently.
 The genuinely independent count already existed in the tree and was not used.
 `method="strip"` now applies the argument principle over `Re s ∈ [−0.5, 1.5]`
 and checks `strip = on-line + 2·(off-line members)`. Measured: deficit 0 on
-(1, 60] and (60, 90] once the known quadruple at `γ ≈ 85.699` is accounted for
-— so the cached list *is* complete, which is good news that was previously
+(1, 60] and (60, 90] once the known quadruple at `γ ≈ 85.699` is accounted for,
+so the cached list *is* complete, which is good news that was previously
 unestablished rather than established. It costs ~20 s against ~1 s, which is why
 the cheap route remains the default; it now reports `independent: False` in
 data rather than claiming the opposite in prose.
 
-### 2.5 "The detector quantifies the violation" — only if handed the answer
+### 2.5 "The detector quantifies the violation": only if handed the answer
 
 The same module's headline said the peak height recovers `|β − ½| = 0.3085` to
 1.3e-14. That number comes from evaluating the residue *at* `OFFLINE_ZERO_IM`,
 i.e. at thirteen correct decimals of the answer. Run end to end on the module's
-own pipeline — `residue_scan` on the grid the tests use, argmax, invert — it
+own pipeline, `residue_scan` on the grid the tests use, argmax, invert, it
 recovers **0.0221 against 0.3085, a 92.8 % error**, because the inversion
 `sqrt(log(r/4)/a)` is infinitely steep at `r = 4` and the whole signal lives in
 the fourth decimal of the residue. Detection is unconditional; quantification is
@@ -144,13 +144,13 @@ where the claim is made, not only in the callee.
 nonnegative termwise (the boundary term because the route feeds it
 `S_T = −1/2` by construction). Its `positive` column is structurally `True` for
 every n, whatever the zeros do. By this repository's own admission rule for
-batteries — *a battery that could never fail* — that is a defect. The rows now
+batteries, *a battery that could never fail*, that is a defect. The rows now
 carry `can_report_negative`, and the docstring says which route's sign carries
 information (the default `"cauchy"` one).
 
 ---
 
-## 3. What died — a strategic conclusion, and the correction is the result
+## 3. What died: a strategic conclusion, and the correction is the result
 
 The tree recorded, in five places, and **used once to close a research avenue**:
 
@@ -170,7 +170,7 @@ Three things are wrong with it, and the third matters.
 3. **The universal is false, and this tree contains the counterexample.** The
    coefficients determine the function, hence its zeros. Concretely,
    `zeta/criteria.py` face 1 already records Titchmarsh 14.25(B)/(C):
-   `M(x) = O(x^{½+ε})` for all ε > 0 ⟺ RH — a criterion in the coefficients of
+   `M(x) = O(x^{½+ε})` for all ε > 0 ⟺ RH, a criterion in the coefficients of
    `1/ζ` alone.
 
 **What is true is sharper and has a number in it.** For `ζ(s−δ)` the local
@@ -179,7 +179,7 @@ parameter is `α_p = p^δ`, so the local-positivity gate's own closed form gives
 
 > `c_p ≤ d` holds **exactly when `δ ≤ ½`**, simultaneously at every place.
 
-So the conclusion `docs/24` needed — a PASS cannot locate the critical line —
+So the conclusion `docs/24` needed, a PASS cannot locate the critical line,
 survives, with a witness (`δ = 0.1` passes, and its zeros sit on `Re s = 0.6`)
 instead of a false universal. Blindness is a property of a statistic *invariant
 under the twist* `a_n ↦ n^δ a_n`, not of coefficient provenance.
@@ -190,7 +190,7 @@ standing constraint on the whole coefficient-side programme. That call was
 explicitly left to a director. **The answer is no**, and adopting it would have
 closed, on a false premise, a programme that already contains a working member.
 
-**And the mathematics is not new — the knownness gate killed that outright.**
+**And the mathematics is not new, the knownness gate killed that outright.**
 The threshold is the Selberg-class Euler-product axiom's `θ < ½`; Conrey–Ghosh
 (1992) remark 2 records the shift observation itself, as motivation for the
 axioms; the automorphic form is the Jacquet–Shalika bound
@@ -199,7 +199,7 @@ Sarnak improvement; the real vertical shift is the standard arithmetic-versus-
 analytic *normalization*, with its own LMFDB knowl; and "log-derivative
 supported on prime powers ⟺ Euler product" is the literal wording of the axiom.
 Confidence that nothing mathematical here is new: ~0.9. **The finding is a
-correction to this repository, not a contribution to number theory** — and
+correction to this repository, not a contribution to number theory**, and
 saying so is the point of having a knownness role.
 
 Two attempted generalisations were destroyed in the process, by a skeptic and by
@@ -218,7 +218,7 @@ report had leaned on it.
 ### 4.1 The flagship certified number, independently replicated
 
 `rigor.enclose_weil_functional` reports `W(h) ≈ 8.86e-18` for the near-tight
-Gaussian `a = 0.2` — eighteen digits of cancellation out of pieces of size ~2 —
+Gaussian `a = 0.2`, eighteen digits of cancellation out of pieces of size ~2,
 with an enclosure ~1e-51 wide. A replicator was given **the mathematical
 statement only**, forbidden from reading `weil.py`, `rigor.py`, `core.py`, the
 tests or any document, and forbidden from importing the package at all.
@@ -227,7 +227,7 @@ It reproduced `W(h) = 8.860364360447289768506902298134e-18`, converged to 43
 digits, agreeing with an independently computed **zero-side** sum
 `Σ_ρ h(γ_ρ)` to 43 digits at dps 60 and 62 at dps 80; and its own from-scratch
 Arb enclosure has radius **1.600e-51**, reproducing the reported width. It also
-established what the director most wanted tested — that the number is a
+established what the director most wanted tested, that the number is a
 *converged* quantity and not a truncation residue: the prime tail beyond
 `n_max = 2·10⁵` is bounded by 3.0e-79, sixty-one orders below the answer, and
 raising `n_max` four orders changes nothing.
@@ -245,8 +245,8 @@ Two by-products are worth more than the confirmation:
 
 The replicator also reported its own near-miss honestly: an intermediate state
 of the replication was a plausible "NOT REPLICATED at the 14th digit", caused by
-binding `mpf('0.2')` at import time when `mp.dps` was still 15. The signature —
-an error that refuses to move under *every* convergence knob — is this
+binding `mpf('0.2')` at import time when `mp.dps` was still 15. The signature,
+an error that refuses to move under *every* convergence knob, is this
 repository's standing artifact signature, pointing at a mis-bound constant
 rather than a discrepancy. Recorded as a methodological rule: **with eighteen
 digits of cancellation, the parameter needs as much precision hygiene as the
@@ -260,7 +260,7 @@ successfully. Every occurrence of the string `sorry` under `lean/ZetaLean/` is
 in prose about the rule. The repository's loudest verification claim reproduces
 on a cold machine.
 
-### 4.3 Rung 3 is feasible — and the previously recorded cause was wrong
+### 4.3 Rung 3 is feasible: and the previously recorded cause was wrong
 
 The formal arm's flagship target was blocked on a trade the previous session
 called *"the one genuinely unresolved thing in rung 3"*: the centre cell fails
@@ -270,8 +270,8 @@ attacked with the bit-exact Python mirror, needing no Lean at all.
 
 Every published number reproduced. **The stated cause did not.** Measured, the
 box width is *bit-identical* under `nExp ∈ {16, 20, 24, 28}` and under `p`, and
-saturates in `nLog`. The residual floor is the width of the **κ enclosure** —
-`kappaI`, 6e-7 wide in `DHAssembly.lean` — multiplying every `m ≡ 2, 3 (mod 5)`;
+saturates in `nLog`. The residual floor is the width of the **κ enclosure**,
+`kappaI`, 6e-7 wide in `DHAssembly.lean`: multiplying every `m ≡ 2, 3 (mod 5)`;
 an analytic check (`Σ m^{−0.8085} = 6.905` over those m, times 6e-7 = 4.1e-6)
 accounts for the measured 2.9e-6 floor. The trade the session recorded as the
 blocker does not exist.
@@ -294,7 +294,7 @@ Three separate defects were isolated, two of them arithmetic errors in the plan:
    > statement weakened. **The "≥10× slack" is wrong.** Measured exactly in
    > rationals over the committed plan, the worst obligation clears by
    > **1.3697×** (ball) and **1.3566×** (chained rect), against **1.3647×**
-   > before the remedy — a change of under 1% in either direction, not a
+   > before the remedy, a change of under 1% in either direction, not a
    > factor of ten. The reason is that the cell condition is **gap-limited,
    > not β-limited**: `L·h/2` is 98% of the requirement and `ε′` only 2% at
    > every one of the five worst cells, so a remedy aimed at β was aimed at
@@ -306,14 +306,14 @@ Three separate defects were isolated, two of them arithmetic errors in the plan:
    > not exist.
 3. **The boxed-`s` width model is low by 2.3×, and all 11 sampled big boxes
    fail** (margins 0.57–0.66). The constant `ρ_W ≈ 5.9` against the planned 2.6
-   is **scale-invariant in δ and invariant under every parameter** — it is the
+   is **scale-invariant in δ and invariant under every parameter**, it is the
    rectangle representation of a rotating complex value under repeated
    squaring. Removing it needs a polar or mean-value enclosure: an architectural
    change worth ~2× on the whole certificate, not a re-plan.
 
-A configuration with real headroom exists — measured margins 1.164 (centre) and
+A configuration with real headroom exists, measured margins 1.164 (centre) and
 1.139 (big box), and on the grid inequality ≥10× as believed here but **1.37×
-as later measured** (see the refutation box in defect 2) — at ~130k certified
+as later measured** (see the refutation box in defect 2), at ~130k certified
 terms against
 79.5k, with **the same literal sizes** (endpoint size is set by the coarsening
 precision alone, measured). The cheapest single improvement found: coarsening
@@ -337,7 +337,7 @@ as the character sum `a(a,b) = −Σ_x χ(x³+ax+b)`:
     ∑_{a} ∑_{b} a(a,b)   =  0
     ∑_{a} ∑_{b} a(a,b)²  =  p³ − p²
 
-The first is short by design — translating `b` by the constant `x³+ax` permutes
+The first is short by design, translating `b` by the constant `x³+ax` permutes
 the field, so the inner sum is `Σ_u χ(u) = 0`. The second is the one with
 content: only the diagonal `x = y` of the doubled character sum survives, each
 of the `p` values of `x` contributing `p(p−1)`, and every off-diagonal pair
@@ -346,7 +346,7 @@ contributing exactly zero.
 Both were checked by the director in two ways that the file itself cannot
 supply: independently recomputed in Python over `p = 5 … 29` (exact integer
 arithmetic, agreement at every prime), and `#print axioms` on both theorems,
-which reports only `propext, Classical.choice, Quot.sound` — no `sorryAx`. The
+which reports only `propext, Classical.choice, Quot.sound`, no `sorryAx`. The
 build is wired into `ZetaLean.lean` and `lake build` covers it (8716 jobs).
 
 **Honest scope, and it matters here.** These are statements about a family of
@@ -364,8 +364,8 @@ did not exist when the run started.
 The tree plants faults at the battery level (`harness/shams.py`) and at the
 detector level, but the mathematical core had never had defects planted in it
 with the detection rate measured. An auditor preregistered fifteen single-line
-mutations — sign flips, off-by-ones, dropped correction terms, reduced working
-precision — **after reading only `zeta/` and before opening a single file under
+mutations, sign flips, off-by-ones, dropped correction terms, reduced working
+precision, **after reading only `zeta/` and before opening a single file under
 `tests/`**, with the scoring rule and a CAUGHT/SURVIVES prediction for each
 fixed in writing first. Mutations ran in a copied tree whose editable-install
 finder was repointed at the copy, with isolation verified positively in both
@@ -373,7 +373,7 @@ directions.
 
 Eight ran to a verdict before the run closed. **All eight were caught; no
 survivors.** The rate over the measured subset is 8/8, Wilson 95 % interval
-**[0.68, 1.00]** — compatible with a true rate anywhere from about two-thirds
+**[0.68, 1.00]**, compatible with a true rate anywhere from about two-thirds
 to one, which is what n = 8 buys and is stated instead of rounded up. **Seven of
 fifteen never ran (47 % of the design), including the one remaining mutation the
 auditor predicted would survive** (a global guard-digit reduction). Nothing is
@@ -391,13 +391,13 @@ Three things in it are worth more than the rate.
   True` `N(T)` whenever the enclosure straddles several integers. It was
   predicted to survive, because 192 bits never produces such an enclosure. It
   was caught by a test that monkeypatches `rs_theta` to return a ball 2·10¹²
-  wide and asserts `N_T is None and certified is False` — **a purpose-built
+  wide and asserts `N_T is None and certified is False`, **a purpose-built
   probe of the safe-failure mode of the reserved word**, testing a property
   rather than a number.
 - **And the catch is not uniform in kind.** Sampled, the catching assertions are
   mostly independent oracles (literal complex arithmetic underneath a loose
   statistical comparison; Arb against mpmath; the Cauchy route against the
-  zero-sum route). One is a self-pin — a docstring table of enclosure widths
+  zero-sum route). One is a self-pin, a docstring table of enclosure widths
   harvested from the code it checks, which would equally "catch" a legitimate
   tightening.
 
@@ -419,7 +419,7 @@ One incident, recorded because it is the kind that silently corrupts a
 measurement: the live tree moved under the experiment when the director
 committed repairs mid-run, and the auditor's revert check tripped on the
 comparison. It was repointed at its frozen snapshot. **All mutation results are
-pinned to `c47ee07` and do not describe current HEAD** — in particular for
+pinned to `c47ee07` and do not describe current HEAD**, in particular for
 `rigor.py`, whose `_exact` now has different conversion rules.
 
 ---
@@ -430,7 +430,7 @@ pinned to `c47ee07` and do not describe current HEAD** — in particular for
   defect that proves it is real rather than planted.** Both backends agreed on
   a wrong sign. Independence has to be traced to the *inputs*, not asserted at
   the level of implementations.
-- **Two of the six defects are in guards** — a completeness check with no power,
+- **Two of the six defects are in guards**: a completeness check with no power,
   a truncation guard that resolved "cannot decide" into the favourable verdict.
   The safety machinery is where this tree's remaining errors live, not the
   mathematics. That is a prediction the next session can test.
@@ -444,7 +444,7 @@ pinned to `c47ee07` and do not describe current HEAD** — in particular for
 - **The adversarial separation produced its best output when it turned on its
   own side.** The skeptic assigned to destroy the shift result sustained the
   numbers, destroyed the inferences, *and found a worse defect the original had
-  missed* — that the local gate returns false FAILs with named witness primes on
+  missed*, that the local gate returns false FAILs with named witness primes on
   `δ ∈ [0.4877, 0.5]`, where every place genuinely satisfies the bound.
 
 ---
@@ -454,7 +454,7 @@ pinned to `c47ee07` and do not describe current HEAD** — in particular for
 Fixed with a regression test: §2.1, §2.2, §2.3. Fixed with corrected contracts
 and data fields: §2.4, §2.5, §2.6, and the local-positivity gate (a third
 verdict `INDETERMINATE` for the knife edge, `FAIL` where the weighted local
-series genuinely diverges — which *is* the violation — and a truncation bound
+series genuinely diverges, which *is* the violation, and a truncation bound
 that reads the actual geometric ratio instead of maxing over computed terms; the
 old one was violated sixfold at `p = 2, δ = 0.49`). The hunt's recorded verdicts
 are unchanged by the repair: ζ and `L(χ)` PASS, Davenport–Heilbronn and both
@@ -462,7 +462,7 @@ Epstein forms FAIL, and the Ramanujan violator still FAILs.
 
 **Left alone deliberately:** a repo-wide lexical test for the reserved word. The
 rule is enforced by a grep under `hunts/` only, and one violation was found and
-fixed in `zeta/weil.py`'s comments — but a survey found seven legitimate uses of
+fixed in `zeta/weil.py`'s comments, but a survey found seven legitimate uses of
 "certify/certifies" in ordinary English inside `zeta/`, so a lexical test would
 need an allowlist longer than its own content. **That is itself a finding about
 the apparatus**: the discipline the repository calls a hard rule is mechanically
@@ -470,7 +470,7 @@ enforced in one directory and by review everywhere else.
 
 ---
 
-## 6.1 One explorer survivor, replicated — and its headline number did not hold
+## 6.1 One explorer survivor, replicated: and its headline number did not hold
 
 The candidate-generation programme produced one observation that outlived its
 cheap attack: that the miss rate of a fixed-step sign-change scan should inherit
@@ -486,7 +486,7 @@ independent implementation over the same 10 142 cached ordinates.
 | mean/28 | 0.035 | 0 |
 
 The *actionable* part replicates: the default policy misses on the order of two
-zeros in 10⁵ below T = 10⁴, and mean/28 is clean on this sample — which turns
+zeros in 10⁵ below T = 10⁴, and mean/28 is clean on this sample, which turns
 hunt #3's qualitative blind spot ("the default grid is wider than the Lehmer
 gap") into a grid-choice rule. **The headline number does not replicate**: the
 director's fit is **2.66**, not 2.90. Two implementations of "the same"
@@ -504,7 +504,7 @@ power law consistent with level repulsion, plus a usable operational number.
 
 - **The formal arm.** Re-plan rung 3 at the measured constants (`nLog = 36`,
   `K_centre = 444`, `β := normLower`, `w₂ = 1/4`, `M = 4`, `L = 22`), and
-  measure `ρ_W` on the low-σ left edge first — it is the one number the cost
+  measure `ρ_W` on the low-σ left edge first, it is the one number the cost
   estimate leans on that has not been sampled where it matters.
 - **The architectural question worth more than the re-plan.** `ρ_W ≈ 5.9` is a
   representation artifact. A polar or mean-value enclosure of `m^{-s}` would buy
@@ -520,8 +520,8 @@ power law consistent with level repulsion, plus a usable operational number.
 
 ## Where to go to read more
 
-- `hunts/director_run/` — programs, claim ledger with dispositions, graveyard,
+- `hunts/director_run/`: programs, claim ledger with dispositions, graveyard,
   intervention ledger.
-- `docs/24` §6 — the corrected paragraph; `hunts/local_positivity/CORRECTIONS.md`
-  §4 — the proposal that must not be adopted, and why.
-- `HANDOFF.md` — the rung-3 record this run corrects.
+- `docs/24` §6, the corrected paragraph; `hunts/local_positivity/CORRECTIONS.md`
+  §4, the proposal that must not be adopted, and why.
+- `HANDOFF.md`: the rung-3 record this run corrects.

@@ -1,4 +1,4 @@
-"""ontology.knownness — the gate that catches the dominant outcome.
+"""ontology.knownness, the gate that catches the dominant outcome.
 
 Most numerical "discoveries" are already known. This module is the screen that
 says so, and it is deliberately built to be *hard to fool in the flattering
@@ -9,8 +9,8 @@ be rendered as "new".
 Three capabilities, in order of how often they fire:
 
 1. **Closed-form identification** (:func:`identify_constant`). An integer-relation
-   search — :func:`mpmath.pslq` over subsets of a curated constant basis, with
-   :func:`mpmath.identify` as an independent cross-check — asking whether a
+   search :func:`mpmath.pslq` over subsets of a curated constant basis, with
+   :func:`mpmath.identify` as an independent cross-check, asking whether a
    measured number is a recognisable expression. ``identify`` and ``pslq`` at low
    precision produce false positives at a rate set by the size of the search
    space, so a match is *provisional* until it is re-verified against the value
@@ -21,7 +21,7 @@ Three capabilities, in order of how often they fire:
    populates it with domain-neutral mathematics only; anything specific to what
    the laboratory studies is registered by a domain module (see
    ``discovery/domains/``).
-3. **A literature check** (:func:`check_literature`) — an *interface*, honestly
+3. **A literature check** (:func:`check_literature`), an *interface*, honestly
    stubbed. With no network there is no OEIS, no arXiv, no Zentralblatt, so the
    default backend returns :attr:`LiteratureStatus.UNKNOWN`: not "absent from the
    literature", but "the literature was not consulted".
@@ -30,7 +30,7 @@ The integrity rule
 ------------------
 **"Not found offline" is not "novel".** ``UNKNOWN`` from the literature check maps
 to the label :data:`NOT_RECOGNISED_OFFLINE`, never to a novelty claim, and there
-is no code path in this module that emits one — :data:`FORBIDDEN_LABEL_WORDS`
+is no code path in this module that emits one :data:`FORBIDDEN_LABEL_WORDS`
 names the words a label may not contain and :func:`funnel_label` enforces it, so
 a funnel that consumes this module cannot launder a failed lookup into a find.
 Establishing novelty requires a search this system cannot perform.
@@ -39,7 +39,7 @@ Domain neutrality
 -----------------
 This module knows *mathematics* (π, γ, PSLQ, the Wigner surmise) but not the
 laboratory's subject. It imports ``mpmath``, ``ontology.schema`` and the
-standard library — nothing else, and a test enforces it. It is one step less
+standard library, nothing else, and a test enforces it. It is one step less
 strict than ``schema``/``funnel``/``metrics``/``registry``/``ledger``/
 ``historical_cases``, which know no mathematics at all; the subject-matter facts
 live behind :data:`KNOWN_FACTS`, which a domain module fills in
@@ -51,10 +51,10 @@ Where the line actually falls, stated rather than implied. Four entries of
 to be worth naming: ``prime-number-theorem``, ``mertens-third-theorem``,
 ``hasse-weil-bound`` and ``gue-wigner-surmise``. They are here because each is a
 standard result any catalogue of mathematics would carry, not because this
-laboratory studies zeta — a chemistry lab would simply never match them. The
+laboratory studies zeta, a chemistry lab would simply never match them. The
 test of the seam is *dependency*, and it holds: nothing here imports the
 laboratory, and no historical case is decided by this table (all four are
-matched by the domain's own entries — ``test_the_seam_in_action`` and
+matched by the domain's own entries, ``test_the_seam_in_action`` and
 ``tests/test_discovery_historical_validation.py`` pin it). But a reader
 comparing "knows no subject matter" against this list would be right to object
 to the phrasing, so the phrasing is: **this module carries general results,
@@ -431,7 +431,7 @@ class Identification:
 
     @property
     def n_terms(self) -> int:
-        """Non-rational terms — the complexity Occam is applied to."""
+        """Non-rational terms, the complexity Occam is applied to."""
         return sum(1 for _, name in self.terms if name != "1")
 
     @property
@@ -476,7 +476,7 @@ class IdentificationReport:
     """The outcome of a closed-form search, including what it refused.
 
     ``identified`` is the only field a caller may treat as a find. ``provisional``
-    is the honest record of what the low-precision search proposed — a dissolved
+    is the honest record of what the low-precision search proposed, a dissolved
     match is information, not embarrassment, and the funnel's metrics want it.
     """
 
@@ -634,7 +634,7 @@ def identify_constant(
         The measured number. Used directly when no ``provider`` is given, in
         which case its own significant digits set the escalation ceiling.
     provider:
-        ``dps -> value`` — recomputes the quantity at a requested precision.
+        ``dps -> value``: recomputes the quantity at a requested precision.
         This is what makes a real escalation possible; without it the ceiling is
         whatever the literal already carried, and a ``float`` carries 15 digits,
         which is not enough to confirm a three-term relation. Supplying a
@@ -874,8 +874,8 @@ def _cross_check(
 
     ``identify`` is given only the constants the winning relation used: with the
     whole basis it is orders of magnitude slower and returns nothing useful. A
-    ``None`` here is not a refutation — the two engines have different search
-    strategies — but agreement is worth recording.
+    ``None`` here is not a refutation, the two engines have different search
+    strategies, but agreement is worth recording.
     """
     if escalated_value is None:
         return None
@@ -934,13 +934,13 @@ class FactMatch:
 #: matched theorem. The vocabulary is closed on purpose: a free-text field would
 #: be re-derived by every reader as a confidence score.
 #:
-#: * ``established`` — settled, and the entry does not say by which route.
-#: * ``theorem`` — proved. A citation exists for the proof itself.
-#: * ``conjecture`` — believed on evidence, not proved. Matching it says the
+#: * ``established``, settled, and the entry does not say by which route.
+#: * ``theorem``, proved. A citation exists for the proof itself.
+#: * ``conjecture``, believed on evidence, not proved. Matching it says the
 #:   observation is not new; it says nothing about whether it is true.
-#: * ``equivalent_to_open_problem`` — provably equivalent to a question nobody
+#: * ``equivalent_to_open_problem``, provably equivalent to a question nobody
 #:   has settled. No finite computation moves it in either direction.
-#: * ``disproved`` — settled the other way. A match here is a warning, not a
+#: * ``disproved``, settled the other way. A match here is a warning, not a
 #:   confirmation: the observation reproduces something already known to fail.
 FACT_STATUSES: Final[tuple[str, ...]] = (
     "established",
@@ -975,7 +975,7 @@ class KnownFact:
     #: identity strings for a statement match. Use it to demand a combination.
     keys: tuple[str, ...] = ()
     #: **Disjunctive.** Any single one of these suffices. This is where spelling
-    #: variants of the same name belong ("Hasse bound", "Hasse-Weil bound") —
+    #: variants of the same name belong ("Hasse bound", "Hasse-Weil bound"),
     #: putting them in ``keys`` would demand a candidate spell it both ways.
     aliases: tuple[str, ...] = ()
     value: str | float | None = None
@@ -1028,12 +1028,12 @@ def default_fact_matcher(candidate: Candidate, fact: KnownFact) -> FactMatch | N
 
     Two routes, in decreasing strength:
 
-    * **value** — the candidate is a ``constant`` whose measured value agrees
+    * **value**: the candidate is a ``constant`` whose measured value agrees
       with the entry to within *its own* error bound plus the entry's. Matching
       to the digits the candidate actually determined is a strong test; matching
       to a generous global tolerance is not, which is why no global tolerance
       exists here.
-    * **statement** — every one of the entry's ``keys`` appears among the
+    * **statement**: every one of the entry's ``keys`` appears among the
       candidate's identity strings, or any single one of its ``aliases`` does.
       This is only as good as the domain's naming discipline
       (``discovery/README.md``, dedup failure mode 3): a generator that spells a
@@ -1091,8 +1091,8 @@ class KnownFactRegistry:
 
     Domain-agnostic in mechanism, domain-populated in content: this module
     registers :data:`GENERAL_FACTS` (mathematics anyone would recognise), and a
-    domain module registers the rest. Registration is validated — an entry with
-    no source, or with a machine-local path in it, is refused — because a
+    domain module registers the rest. Registration is validated, an entry with
+    no source, or with a machine-local path in it, is refused, because a
     catalogue that accepts anything cannot make ``known`` a meaningful verdict.
     """
 
@@ -1199,7 +1199,7 @@ class KnownFactRegistry:
 
         Entries are tried in registration order, so a domain's own precise
         statement is consulted before a general one only if it was registered
-        first — an operator responsibility the registry does not disguise.
+        first, an operator responsibility the registry does not disguise.
         """
         for fact in self._facts.values():
             hit = fact.match(candidate)
@@ -1320,7 +1320,7 @@ KNOWN_FACTS: Final[KnownFactRegistry] = KnownFactRegistry(GENERAL_FACTS)
 
 
 # ---------------------------------------------------------------------------
-# The literature check — an interface, and an honest one
+# The literature check, an interface, and an honest one
 # ---------------------------------------------------------------------------
 
 
@@ -1362,7 +1362,7 @@ FORBIDDEN_LABEL_WORDS: Final[tuple[str, ...]] = (
 
 @dataclass(frozen=True)
 class LiteratureResult:
-    """What a literature lookup established — including that it did not run."""
+    """What a literature lookup established, including that it did not run."""
 
     status: LiteratureStatus
     label: str
@@ -1384,7 +1384,7 @@ class LiteratureResult:
         ]:
             # The symmetric, and stronger, requirement. 'found' is the claim that
             # manufactures a terminal ``known`` verdict, and ``verdict_reasons``
-            # refuses that verdict without a reference — so a backend that says
+            # refuses that verdict without a reference, so a backend that says
             # 'found' and cites nothing would make the gate emit an unearned
             # verdict and the funnel abort. Refuse it at the source.
             raise KnownnessError(
@@ -1418,7 +1418,7 @@ class LiteratureBackend:
     A conforming backend names itself, says whether it had network access, and
     returns a :class:`LiteratureResult`. It may return
     :attr:`LiteratureStatus.NOT_FOUND` only if it actually queried the sources it
-    names — otherwise the honest answer is ``UNKNOWN``.
+    names, otherwise the honest answer is ``UNKNOWN``.
     """
 
     name: str = "abstract"
@@ -1477,7 +1477,7 @@ def check_literature(
     **Offline degradation is the normal case here.** The default backend performs
     no lookup at all and says so in ``detail``; the caller gets
     :attr:`LiteratureStatus.UNKNOWN` and the label
-    :data:`NOT_RECOGNISED_OFFLINE`. A funnel must not read that as novelty — see
+    :data:`NOT_RECOGNISED_OFFLINE`. A funnel must not read that as novelty, see
     :func:`funnel_label`, which refuses to produce such a label at all.
 
     Pass a ``backend`` implementing :class:`LiteratureBackend` when a networked
@@ -1610,7 +1610,7 @@ def screen_known(
     candidates; the literature check runs last and, offline, concludes nothing.
 
     The returned ``verdict`` is a ``schema.Verdict`` that already satisfies
-    ``schema.verdict_reasons`` when the outcome is ``KNOWN`` — the funnel can
+    ``schema.verdict_reasons`` when the outcome is ``KNOWN``: the funnel can
     attach it directly. When the outcome is
     :attr:`Knownness.NOT_RECOGNISED_OFFLINE` the verdict is ``None``: *not
     recognised* is not a verdict, and manufacturing one here would be exactly the

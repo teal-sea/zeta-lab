@@ -1,4 +1,4 @@
-"""Tests for ontology.schema — the ontology of the discovery funnel.
+"""Tests for ontology.schema, the ontology of the discovery funnel.
 
 What is pinned here, in the order the design's claims are made:
 
@@ -7,14 +7,14 @@ What is pinned here, in the order the design's claims are made:
    half. A vague observation is accepted by no kind, and the five kinds are
    proved pairwise exclusive on their key sets, not merely on examples.
 2. **Failure is recordable.** Each of the six verdict states is entered with
-   evidence that earns it and refused without it — including the anti-noise
+   evidence that earns it and refused without it, including the anti-noise
    guard on ``refuted`` (the failure must survive a precision increase) and the
    three-check requirement on ``survives``.
 3. **Identity is the claim.** The content hash ignores key order, provenance,
    verdict, label and evidence; it is sensitive at the 9th significant digit
    and insensitive at the 15th; 20 000 near-identical claims give 20 000
    distinct ids.
-4. **Records round-trip and malformed ones are refused** — a stored id that
+4. **Records round-trip and malformed ones are refused**: a stored id that
    disagrees with its claim, a non-finite float, a machine-local path, a
    foreign claim key, an unknown schema major.
 5. **The seam holds.** The module imports nothing from the laboratory package

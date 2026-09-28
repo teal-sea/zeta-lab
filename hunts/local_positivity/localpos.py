@@ -1,8 +1,8 @@
-"""``localpos`` — the place-local Toeplitz gate, and what it does *not* decide.
+"""``localpos``, the place-local Toeplitz gate, and what it does *not* decide.
 
 An attempt at ``docs/09`` §5.1's Requirement C ("structural positivity") at one
 place at a time, run to its wall. The construction is real and closes exactly;
-the honest verdict is in :func:`scope` and in ``docs/24`` — it factors the
+the honest verdict is in :func:`scope` and in ``docs/24``, it factors the
 prime side of the explicit formula into a manifest norm, and that is provably
 not enough to reach RH.
 
@@ -29,7 +29,7 @@ parameters ``α_j``, then ``λ_m = Σ_j α_j^m`` and the series sums to
     K_p^{(d)}(θ) = Σ_j (1 − |α_j|²/p) / |1 − α_j p^{−1/2} e^{iθ}|²,
 
 which is a sum of manifestly nonnegative terms exactly when ``|α_j| ≤ √p``.
-So ``c_p ≤ d`` is *equivalent* to the local Selberg-class bound at ``p`` —
+So ``c_p ≤ d`` is *equivalent* to the local Selberg-class bound at ``p``,
 not to "has an Euler product", which is the trap this module is built to
 avoid asserting (see :func:`ramanujan_violator`).
 
@@ -43,7 +43,7 @@ explicit formula decomposes place by place as
     prime term = − Σ_p log p · (Q_p(f) − ‖f‖²),   Q_p(f) = (1 − 1/p)‖Φ_p f‖²,
 
 measured against ``zeta.weil.explicit_formula_sides`` and agreeing to 22
-digits. Each ``Q_p ≥ 0`` *by construction* — it is a norm — which is
+digits. Each ``Q_p ≥ 0`` *by construction*, it is a norm, which is
 Requirement C's norm identity, achieved locally.
 
 And the wall, stated in the same breath: ``Q_p − ‖f‖²`` is **not** of definite
@@ -52,7 +52,7 @@ pair). The local norms do not assemble into a global one. Positivity of every
 ``Q_p`` is therefore compatible with either sign of ``W(h)``, and this
 construction does not decide RH. It never could: Requirement A forbids
 importing zeros, and ``c_p`` is a coefficient functional, while by ``docs/18``
-§6 no coefficient functional can read the *position* of the critical line —
+§6 no coefficient functional can read the *position* of the critical line,
 ``ζ(s−δ)`` has the same ``a_n`` up to a shift and its zeros are nowhere near
 ``Re s = ½``.
 
@@ -124,7 +124,7 @@ def periodic_local(period: Sequence[float]) -> Callable[[int, int], float]:
     """``a_{p^k}`` for a sequence periodic mod ``q = len(period)``.
 
     ``period[r]`` is ``a_n`` for ``n ≡ r (mod q)``; index 0 is the ``q | n``
-    slot. Exact by modular exponentiation — no coefficient array, so no
+    slot. Exact by modular exponentiation, no coefficient array, so no
     ceiling on ``k`` (the p^k overflow that a truncated array imposes is the
     reason this indirection exists).
     """
@@ -135,7 +135,7 @@ def periodic_local(period: Sequence[float]) -> Callable[[int, int], float]:
 
 
 def satake_local(alphas: Sequence[complex]) -> Callable[[int, int], float]:
-    """``a_{p^k} = h_k(α)``, the complete homogeneous symmetric polynomial —
+    """``a_{p^k} = h_k(α)``, the complete homogeneous symmetric polynomial,
     i.e. the genuine degree-``len(alphas)`` Euler factor ``Π (1 − α_j x)^{-1}``.
 
     Used for the reference PASS cases and for :func:`ramanujan_violator`.
@@ -170,7 +170,7 @@ def epstein_local(principal: bool = True, disc: int = -23) -> Callable[[int, int
     Counted through ideal classes rather than by enumerating lattice points:
     ``zeta.epstein.epstein_representation_count`` is exact but enumerates, so it
     cannot reach the ``p^k`` with ``k ≈ 90`` that the ``p = 2`` truncation needs.
-    The two agree on every ``p^k`` small enough for both — asserted in
+    The two agree on every ``p^k`` small enough for both, asserted in
     :func:`epstein_local_check`, which is the reason this shortcut is allowed.
     """
     if disc != -23:
@@ -274,7 +274,7 @@ def threshold(
 ) -> tuple[float, float]:
     """``(c_p, tail_bound)`` at the place ``p``.
 
-    ``c_p = − min_θ 2 Σ_{m≥1} λ_m p^{−m/2} cos(mθ)`` — the least diagonal for
+    ``c_p = − min_θ 2 Σ_{m≥1} λ_m p^{−m/2} cos(mθ)``: the least diagonal for
     which the place-``p`` Toeplitz kernel is positive semidefinite. No
     normalization is chosen; compare it against the degree ``d``.
 
@@ -284,11 +284,11 @@ def threshold(
 
     **It is an estimate, not a bound, and the difference is measured.** It
     maxes over the λ_m it has *computed*, while the discarded tail contains
-    λ_m for m > M — larger whenever |λ_m| grows. For a_loc twisted by p^{mδ}
+    λ_m for m > M, larger whenever |λ_m| grows. For a_loc twisted by p^{mδ}
     with δ close to ½ the true tail behaves like ``2x^{M+1}/(1−x)`` with
     ``x = p^{δ−1/2} → 1``, which the formula above does not track: at
     ``p = 2, δ = 0.49`` the truncated ``c`` reads 15.99 against the true
-    0.9965, an error of 15.0 against a reported "bound" of 2.52 — violated
+    0.9965, an error of 15.0 against a reported "bound" of 2.52, violated
     sixfold (measured 2026-08-11). Both the PASS and the FAIL sides near
     ``x = 1`` inherit that, which is why :func:`gate` now reports a third
     verdict instead of resolving the doubt in either direction.
@@ -368,14 +368,14 @@ def gate(
 ) -> dict:
     """Run the gate over the places. Returns verdict, witnesses, and margins.
 
-    A place is a **witness** only when ``c_p > d + margin·tail`` — the
+    A place is a **witness** only when ``c_p > d + margin·tail``, the
     truncation estimate has to be cleared before a FAIL is spoken.
 
     **Three verdicts, not two (2026-08-11).** Until this revision the function
     had no way to say *cannot decide*, so "the truncation is out of control"
     was encoded as the favourable answer: at a shift δ ≥ 0.5 the local series
     diverges, ``max_c`` and the estimate blow up together, no place clears
-    ``margin·tail``, and the caller read **PASS** — for an object whose true
+    ``margin·tail``, and the caller read **PASS**: for an object whose true
     ``c_p`` is ``+∞``. The mirror-image failure is worse and was found only
     on a second pass: on ``δ ∈ [0.4877, 0.5]``, where every place genuinely
     satisfies the local bound, the truncated series overshoots and the gate
@@ -426,7 +426,7 @@ def gate(
 
 
 # ---------------------------------------------------------------------------
-# controls — the reason this is a gate and not a decoration
+# controls, the reason this is a gate and not a decoration
 # ---------------------------------------------------------------------------
 
 
@@ -440,7 +440,7 @@ def satake_check(alphas: Sequence[complex], p: int, theta: float = 1.1) -> dict:
 
 
 def ramanujan_violator(alpha: float = 2.3, p: int = 5) -> dict:
-    """A **genuine** Euler product the gate rejects — the honest boundary.
+    """A **genuine** Euler product the gate rejects, the honest boundary.
 
     ``α, 1/α`` with ``α`` large is a legitimate degree-2 Euler factor (real
     coefficients, functional equation intact) that violates the Ramanujan
@@ -542,7 +542,7 @@ def null_distribution(
 def reference_table(primes: Iterable[int] = DEFAULT_PRIMES) -> list[dict]:
     """The department's reference claims, re-derived rather than remembered.
 
-    Degrees are read off each object's own gamma factors — never chosen to make
+    Degrees are read off each object's own gamma factors, never chosen to make
     a verdict come out. Every row states the expected verdict; a row whose
     ``verdict`` and ``expected`` disagree is a failure of the gate, not of the
     subject, which is the calibration rule of ``harness/README.md``.
@@ -616,7 +616,7 @@ def scope() -> dict:
         ),
         "is_not": [
             "evidence for RH (docs/08); nothing computed here could be",
-            "a test for 'has an Euler product' — see ramanujan_violator()",
+            "a test for 'has an Euler product', see ramanujan_violator()",
             "a global positivity statement: Q_p - ||f||^2 is not of definite sign, so the "
             "local norms do not assemble into a global one",
         ],
@@ -626,6 +626,6 @@ def scope() -> dict:
         ),
         "requirement_C_status": (
             "achieved locally (Q_p = (1-1/p)||Phi_p f||^2, a norm at every place) and NOT "
-            "globally — which is exactly where docs/09 §5.1 predicts an attempt bleeds"
+            "globally, which is exactly where docs/09 §5.1 predicts an attempt bleeds"
         ),
     }

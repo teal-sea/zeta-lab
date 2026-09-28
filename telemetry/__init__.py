@@ -1,4 +1,4 @@
-"""``telemetry`` — a minimal, append-only record of how research actually happened.
+"""``telemetry``, a minimal, append-only record of how research actually happened.
 
 Not a dashboard, not a score, not a research-state model. This package answers
 one question the repository could not previously answer at all: *which run, by

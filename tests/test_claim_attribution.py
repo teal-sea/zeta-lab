@@ -10,7 +10,7 @@ On 2026-08-10 an outside reader found two problems with how this tree's prose
 restates the de Bruijn–Newman bounds, both contradicting
 `zeta.heatflow.lambda_facts()`, which held the right answer all along:
 
-1. `docs/08` §6 — the "what is tractable" summary a newcomer starts from — stated
+1. `docs/08` §6, the "what is tractable" summary a newcomer starts from, stated
    `Lambda <= 0.22` as the upper bound, with no mention anywhere nearby of the
    `0.2` that superseded it.
 2. `docs/12` credited `Λ ≤ 0.2` to "the Polymath15 machinery". It is Platt and
@@ -32,13 +32,13 @@ interval (`Λ ∈ [0, 0.2]`) that appear in indexes and summaries.
 
 ## Two failed attempts, recorded rather than deleted
 
-**Attempt 1 — "a stated bound must name its author."** Rejected: it fires on
+**Attempt 1, "a stated bound must name its author."** Rejected: it fires on
 `docs/00`, `docs/05` and `README.md`, all of which correctly state `Λ ∈ [0, 0.2]`
 in a table-of-contents row or a summary sentence. Demanding a citation in an index
 row is not a defect check, it is noise. A checker that rejects correct prose fails
 this repository's own admission rule.
 
-**Attempt 2 — the same rule, "proved" by a planted fault.** Worse, and the reason
+**Attempt 2, the same rule, "proved" by a planted fault.** Worse, and the reason
 this docstring is long. The historical `docs/12` sentence was:
 
 > Feeding Platt–Trudgian's `3·10^12` into the Polymath15 machinery is what gives
@@ -50,15 +50,15 @@ Polymath15 nearer to `0.2` than Platt–Trudgian for a legitimate reason. The
 misattribution lives in the sentence's assignment of credit, not in its tokens.
 
 The fault originally planted in this file to demonstrate detection had
-`Platt–Trudgian's` silently removed — a fault shaped to fit the detector rather
+`Platt–Trudgian's` silently removed, a fault shaped to fit the detector rather
 than the fault that occurred. That is the hollow-battery failure mode this
 repository measures in its own audit (`docs/23`: six of six blind-authored
 batteries measured nothing), reproduced here at n=1 by the agent writing the
 detector. It was caught only by diffing the planted text against `git show`.
 
 **Recorded conclusion: defect 2 is not reachable by a lexical check.** Its real
-remedy is the editorial one already applied — cite `docs/05` §3 rather than
-paraphrase it — and that is a convention, not a test. Claiming otherwise would be
+remedy is the editorial one already applied, cite `docs/05` §3 rather than
+paraphrase it, and that is a convention, not a test. Claiming otherwise would be
 the overclaim this file exists to prevent.
 """
 
@@ -86,7 +86,7 @@ def _prose_files() -> list[pathlib.Path]:
 
 
 def _current_and_superseded() -> tuple[str, list[str]]:
-    """``('0.2', ['0.22'])`` — read off ``lambda_facts()``, not written here."""
+    """``('0.2', ['0.22'])``, read off ``lambda_facts()``, not written here."""
     from zeta.heatflow import lambda_facts
 
     facts = lambda_facts()
@@ -152,7 +152,7 @@ def test_it_catches_the_real_historical_text_verbatim() -> None:
     """Detector power against the fault that actually shipped, from ``git show``.
 
     Copied verbatim from ``docs/08`` at ``3810615~1``. Not paraphrased and not
-    shaped to fit the detector — the earlier version of this file did exactly
+    shaped to fit the detector, the earlier version of this file did exactly
     that, and the docstring above records why.
     """
     historical = (
@@ -160,7 +160,7 @@ def test_it_catches_the_real_historical_text_verbatim() -> None:
         "`Lambda >= 0` is a\n"
         "   **THEOREM** (Rodgers–Tao; announced 2018, published 2020), so RH is now "
         "exactly `Lambda = 0`.\n"
-        "   **Polymath15** (2018) drove the upper bound to `Lambda <= 0.22` — a "
+        "   **Polymath15** (2018) drove the upper bound to `Lambda <= 0.22`, a "
         "real, open, collaborative\n"
         "   project in which a competent programmer could and did contribute "
         "compute and code. See\n"
@@ -177,7 +177,7 @@ def test_it_accepts_the_corrected_text_verbatim() -> None:
     corrected = (
         "   **Polymath15** (2018) drove the upper bound to `Lambda <= 0.22`, "
         "sharpened to `Lambda <= 0.2` by\n"
-        "   Platt–Trudgian (2021) — see `docs/05` §3 for both, and note neither is "
+        "   Platt–Trudgian (2021), see `docs/05` §3 for both, and note neither is "
         "strict.\n"
     )
     assert _violations(corrected) == []

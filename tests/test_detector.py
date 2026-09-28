@@ -1,4 +1,4 @@
-"""Tests for zeta.detector — off-line zeros found without solving for them.
+"""Tests for zeta.detector, off-line zeros found without solving for them.
 
 Every literal was measured in this environment before being asserted.
 
@@ -103,7 +103,7 @@ def test_scan_localizes_the_offline_zero():
 
 def test_arithmetic_side_uses_no_zeros():
     """Sanity that the arithmetic side is computable at a c where we hold no
-    zero data at all — it depends only on coefficients and the gamma factor."""
+    zero data at all, it depends only on coefficients and the gamma factor."""
     val = arithmetic_side(300.0, "dh")
     assert mp.isfinite(val)
 

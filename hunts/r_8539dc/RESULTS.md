@@ -1,11 +1,11 @@
-# R-8539DC — the third autocorrelation constant, and the functional it belongs to
+# R-8539DC: the third autocorrelation constant, and the functional it belongs to
 
 Run `9698c990-e812-4890-94d8-f30a65b820af`, 2026-08-23. Issue
 [teal-sea/zeta-lab#123](https://github.com/teal-sea/zeta-lab/issues/123).
 Reproduce with `python3 hunts/r_8539dc/probe.py` (standard library only).
 
 **Verdict in one line: the reporter was right about the artifacts he read, the
-authors fixed it in December 2025, and the improvement survives — but the two
+authors fixed it in December 2025, and the improvement survives, but the two
 problems are still labelled in opposite senses by the paper and the colab, and
 the public problem page has not been updated.**
 
@@ -46,14 +46,14 @@ float anywhere in the chain. Thirty digits shown, truncated.
 Read this table as follows.
 
 - The n=400 construction reproduces `1.4557` **only** under A. Under B it gives
-  `4.3340…`, which is not an improvement on anything — it is three times the
+  `4.3340…`, which is not an improvement on anything, it is three times the
   trivial `π/2` bound. The convolution's extreme knot is negative
   (`min_k b_k = −4.3340…` at knot 215, against `max_k b_k = +1.4556…` at knot
   176): the construction buys its A-score by pushing the autoconvolution deeply
   negative somewhere else, which is precisely the freedom that B forbids. This
   confirms the reporter's observation on the artifacts as published in November
   2025.
-- The n=150 construction gives the same number under both functionals — its
+- The n=150 construction gives the same number under both functionals, its
   `max|b|` *is* its `max b`. So it is a legitimate bound for both problems, and
   it is the one that has to be compared with Matolcsi–Vinuesa's `1.4993`. It
   also reproduces `1.4688` exactly, which is the check that keeps this hunt's
@@ -93,7 +93,7 @@ and the reason it looked true is worth naming: the correction landed in the
 reported it and the problem page that hosts it were both left as they were. A
 reader who follows the report to its own thread still sees an unfixed problem.
 
-`height_sequence_3` was **not** changed by the correction — the fix moved the
+`height_sequence_3` was **not** changed by the correction, the fix moved the
 absolute-value bar in the statement to match the code, kept the number, and
 added a second construction for the other problem. That is the honest repair,
 not a quiet restatement: the n=400 object always was a witness for A.
@@ -127,7 +127,7 @@ whom upstream. Both quantities above are *measured* on the certainty ladder,
 in the strong sense that every arithmetic step is exact rational arithmetic on
 the published decimals; what is not exact is the published sequences
 themselves, which are ten-place truncations of whatever the search actually
-found. A truncated witness is still a witness — the bound is whatever the
+found. A truncated witness is still a witness, the bound is whatever the
 written-down step function gives, and that is what was computed.
 
 ## Loose threads

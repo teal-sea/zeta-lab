@@ -4,8 +4,8 @@
 here is evidence about RH, and nothing here closes blocker 2.
 
 Recorded because these numbers were produced in a session and existed nowhere
-else. `PROOF-LEDGER.md` logs the general shape five times — a quantity carried
-across contexts without being re-derived where it is used — and a measurement
+else. `PROOF-LEDGER.md` logs the general shape five times, a quantity carried
+across contexts without being re-derived where it is used, and a measurement
 that lives only in a transcript is the same failure with the transcript as the
 context.
 
@@ -17,8 +17,8 @@ constraint, not a modelling convenience; `PREPRINT.md` states it and
 `depth_uniform.py`'s eighteen cells tile `(0, ½]` exactly.
 
 An evolutionary search run against `paper_joint` reported a configuration with
-margin per pair `−0.786` — spacing `2.086` mean gaps, depth **`0.979`**, a
-24-site occupancy — and read it as a counterexample. It reproduces here
+margin per pair `−0.786`, spacing `2.086` mean gaps, depth **`0.979`**, a
+24-site occupancy, and read it as a counterexample. It reproduces here
 (`−0.782`; the difference is step and `G`). It is not a counterexample: `y =
 0.979` is outside the domain, and at `y > ½` the `cosh(y·w)` pair term runs away
 and the instrument is being read outside its calibration.
@@ -30,7 +30,7 @@ The same spacing and occupancy, at every valid depth, closes:
 | margin/pair | +0.016 | +0.021 | +0.038 | +0.057 | +0.083 | +0.099 | +0.100 |
 
 The search's guard admitted `0.01 < y < 0.99`. Clamped to `0 < y < 0.5`, the
-"massive region of catastrophic resonances" disappears — it is massive, and it
+"massive region of catastrophic resonances" disappears, it is massive, and it
 is entirely outside the strip.
 
 ## 2. The second artifact: refinement has artifacts of its own
@@ -48,8 +48,8 @@ refinement:
 | 0.0005 | 200 | +0.000339 |
 
 That much argues for a two-stage evaluator: screen coarse, re-score any positive
-hit at finer resolution. **Two stages are not enough.** A second candidate —
-`every-5`, `s = 4.0`, `y = 0.011` — went `+0.000075` coarse and `−0.002288` at
+hit at finer resolution. **Two stages are not enough.** A second candidate,
+`every-5`, `s = 4.0`, `y = 0.011`: went `+0.000075` coarse and `−0.002288` at
 `step 0.0025 / G = 120`, i.e. it *appeared* only at the refinement stage, and
 died on the full ladder:
 
@@ -74,7 +74,7 @@ The tightest converged in-domain margin found is
 
 Two things about it. It is roughly **4.6× tighter** than the `+0.00034` that an
 evolutionary run and an independent hand scan agreed on earlier, and it sits at
-a **different resonance** — `s ≈ 4`, not the `s ≈ 2` both had converged on — and
+a **different resonance**, `s ≈ 4`, not the `s ≈ 2` both had converged on, and
 at a shallower depth. Whether the floor keeps falling with `s` is unmeasured and
 is the obvious next probe: a pattern in `s` would be a candidate lemma, and a
 floor that does not converge would be a different finding entirely.

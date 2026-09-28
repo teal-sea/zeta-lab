@@ -2,8 +2,8 @@
 
 `truncation_bridge.py` gap (G1)/(G3) records a ladder that, read at face
 value, would kill the multi-pair verdict at ``theta = 0.995``.  At the
-argmax of `cluster_universal`'s rho map — the periodic pair lattice at
-spacing ``s = 2.002`` mean gaps, depth ``y = 0.4999`` — the finite-cluster
+argmax of `cluster_universal`'s rho map, the periodic pair lattice at
+spacing ``s = 2.002`` mean gaps, depth ``y = 0.4999``, the finite-cluster
 per-pair margin (budget minus cap) crosses zero as the cluster grows:
 
     m =   2:  +0.02890      m =  24:  -0.00264   <- crosses
@@ -18,7 +18,7 @@ into the four channels that carry the m-dependence, and re-runs the
 decisive configuration under ball arithmetic.
 
 **THE ANSWER: the crossing is a property of the instrument's SETTINGS,
-not of the configuration — and the decisive knob is the resolved window
+not of the configuration, and the decisive knob is the resolved window
 ``G``, not the grid step.**  At the crossing configuration itself:
 
     m = 24   step 0.005  G =  60:  -0.00264      (the reported number)
@@ -33,8 +33,8 @@ separately, at every m on the ladder.  But the two knobs are not
 interchangeable, and saying so is the honest half of the answer:
 
   * **the grid step alone does not clear the ladder at G = 60.**  It
-    moves the crossing point out — m* = 24 / 48 / 64 / beyond 64 at
-    step 0.005 / 0.002 / 0.001 / 0.0005 — but at G = 60 the
+    moves the crossing point out, m* = 24 / 48 / 64 / beyond 64 at
+    step 0.005 / 0.002 / 0.001 / 0.0005, but at G = 60 the
     m -> infinity per-pair margin stays NEGATIVE at every step measured:
     -0.00229 at step 0.002 and -0.00079 at step 0.001
     (:func:`asymptotic_margin`, both readings of the limit agreeing in
@@ -45,9 +45,9 @@ interchangeable, and saying so is the honest half of the answer:
   * **the window clears it.**  At G = 120 and above no m on the ladder
     is negative, and the m -> infinity margin is +0.0134 (G = 120),
     +0.0187 (G = 200), +0.0226 (G = 400) at step 0.001, rising toward
-    +0.0263 as G -> infinity.  Every G is a valid instrument — the cap
+    +0.0263 as G -> infinity.  Every G is a valid instrument, the cap
     is an upper bound at each of them and a larger G is a *smaller*
-    upper bound — so widening the window is refinement, not tuning.
+    upper bound, so widening the window is refinement, not tuning.
 
 So the reported crossing is not a property of the configuration: the
 cluster sizes it names close under refinement, and the m -> infinity
@@ -56,15 +56,15 @@ window resolved past ~100 grid units the configuration closes at
 ``theta = 0.995`` at every cluster size measured, with roughly 14%
 relative room at the limit (rho -> 0.856 at G = 200, 0.826 at G = 400).
 The limit statements rest on the interior sequence's measured
-convergence out to m = 128, not on a derived rate — a named gap below.
+convergence out to m = 128, not on a derived rate, a named gap below.
 
-**WHY THE CAP RISES WITH m** — the diagnosis the ladder needs, measured
+**WHY THE CAP RISES WITH m**, the diagnosis the ladder needs, measured
 band by band (:func:`cap_split`).  The finite per-pair cap splits into
 exactly four pieces, and only one of them is about the cluster:
 
     cap_pp(m) = interior_pp(m) + exterior_pp(m) + tail_pp(G)
 
-  1. **interior** — the (m-1) bands sitting between the outermost pairs.
+  1. **interior**: the (m-1) bands sitting between the outermost pairs.
      Their per-band square completion RISES with m and saturates:
      0.0721 / 0.0848 / 0.0937 / 0.0994 / 0.1017 / 0.1029 at
      m = 2/4/8/16/24/32 (step 0.002).  This is the one genuine effect:
@@ -73,11 +73,11 @@ exactly four pieces, and only one of them is about the cluster:
      away.  It converges from BELOW and its limit stays under the
      periodic instrument's own per-period number, so it cannot by itself
      push the finite cap past the infinite-lattice cap.
-  2. **exterior** — the 18 bands of the two far fields inside the
+  2. **exterior**: the 18 bands of the two far fields inside the
      window (9 per side at G = 60, 31 per side at G = 200).  Their total
      is nearly m-independent, so per pair they decay like 1/m:
      0.0546 / 0.0302 / 0.0160 / 0.0082 / 0.0055 / 0.0042.
-  3. **tail** — `paper_joint.PaperJoint.tail`, the closed-form majorant
+  3. **tail**: `paper_joint.PaperJoint.tail`, the closed-form majorant
      for the bands beyond the window.  It is charged PER PAIR and is
      exactly independent of m and of the grid step:
 
@@ -132,19 +132,19 @@ negative one means the cover did not decide it.  Two readings matter:
   * the ball instrument decides POSITIVE, at the reported window, the
     very cluster the coarse float instrument reported at -0.00264;
   * at ``m = 64``, ``G = 60`` it comes back **undecided at cover 0.002**
-    and positive at cover 0.001 — the honest shape of a case sitting on
+    and positive at cover 0.001, the honest shape of a case sitting on
     the boundary, and the same shape the float readings show there
     (-0.00057 at step 0.001, +0.00019 at step 0.0005).  It is recorded
     as undecided, not resolved.
 
 The budget ball is width ~1e-35 and the float budget lands 6 ulp outside
-it — the float instrument's own accumulation error, reported rather than
+it, the float instrument's own accumulation error, reported rather than
 absorbed (:func:`hardened_brackets_float`).
 
 **WHAT THIS DOES NOT SAY**, in four named gaps:
 
   (N1) It does not close `truncation_bridge`'s gap (G1).  There is still
-       no DERIVED finite-size estimate on the cap side — the four
+       no DERIVED finite-size estimate on the cap side, the four
        channels above are measured, and channel 1's saturation is an
        observed convergence out to m = 128, not a rate with a constant.
        Gap (G2) (m checked on a ladder, not exhaustively) is untouched.
@@ -167,7 +167,7 @@ computes a proportion and nothing here is evidence about RH.
 Run ``.venv/bin/python hunts/frontier_math/negative_margin_probe.py``
 (~20 min; ``--quick`` is ~5 min and skips the ball-arithmetic pass, the
 two finest grids and the widest windows).  The m = 64 hardened rows are
-pinned rather than re-run there — 3 to 6 minutes each.
+pinned rather than re-run there: 3 to 6 minutes each.
 """
 
 from __future__ import annotations
@@ -199,7 +199,7 @@ THETA = THETA_FULL
 #: the settings `truncation_bridge.small_m_ladder` and
 #: `truncation_bridge.cap_side_probe` run at: ``PaperJoint(step=0.005,
 #: G=60.0)``.  Both are far from `paper_joint.PaperJoint`'s own defaults
-#: (step 0.001, G 200.0) — that difference is the whole finding.
+#: (step 0.001, G 200.0), that difference is the whole finding.
 BRIDGE_STEP = 0.005
 BRIDGE_G = 60.0
 
@@ -425,7 +425,7 @@ def monotone_in_window(m: int, Gs=(30.0, 60.0, 120.0, 200.0),
 
 
 def tail_per_pair(G: float = BRIDGE_G, y: float = Y) -> float:
-    """``PaperJoint.tail`` divided by the number of pairs — a closed form.
+    """``PaperJoint.tail`` divided by the number of pairs, a closed form.
 
     ``2 * 4 (c_im(y)/A)^2 (1/G^2 + 1/(P G))`` with ``P`` the band-period
     lower bound: the same number for every pair and every cluster size,
@@ -506,7 +506,7 @@ INTERIOR_PER_BAND = {
     32: 0.10289025789921338,
 }
 
-#: the exterior channel's TOTAL (not per pair) at step 0.002, G = 60 —
+#: the exterior channel's TOTAL (not per pair) at step 0.002, G = 60,
 #: nearly m-independent, hence 1/m per pair.
 EXTERIOR_TOTAL = {
     2: 0.10916418233247142,
@@ -529,18 +529,18 @@ def partition_and_multiplicity(m: int, step: float = 0.002,
     """The two rival explanations for the cap's m-dependence, as numbers.
 
     Candidate (i), *the finite cluster's band partition differs from the
-    periodic one — more, narrower bands at the ends*: reported as the
+    periodic one, more, narrower bands at the ends*: reported as the
     band count per pair and the interior width statistics against the
     periodic instrument's single period.  Measured, it goes the WRONG
     way for the story: bands per pair FALL with m (``1 + 17/m`` at
     G = 60), and the interior widths are narrower than the periodic
-    band, not wider — a narrower cell has a HIGHER repulsion floor K and
+    band, not wider, a narrower cell has a HIGHER repulsion floor K and
     so a cheaper completion.
 
     Candidate (ii), *the square-completion multiplicity m* rises with
     cluster size*: reported as ``max_band (F + cK)/(2 c K)``, the
     optimiser of ``max_k [k F - c k(k-1) K]``.  It does rise, but only
-    from 4 to 5 over m = 2 -> 32, and it rises BECAUSE F rises — it is
+    from 4 to 5 over m = 2 -> 32, and it rises BECAUSE F rises, it is
     downstream of channel 1, not a separate channel.
     """
     pj = PaperJoint(step=step, G=G)
@@ -633,7 +633,7 @@ def large_m_interior(ms=(8, 16, 32, 64), step: float = 0.002,
 def interior_limit(seq: dict) -> dict:
     """Two readings of ``lim_m c_band(m)`` from a measured sequence.
 
-    ``last`` is the largest m actually measured — a LOWER bound on the
+    ``last`` is the largest m actually measured, a LOWER bound on the
     limit, since the sequence is measured increasing, hence an
     optimistic reading of the margin.  ``richardson`` is ``c`` from
     ``v(m) = c - a/m`` on the two largest m; the measured increments
@@ -641,7 +641,7 @@ def interior_limit(seq: dict) -> dict:
     0.001, against 4.1e-4 from 64 to 96), so that reading OVERSHOOTS and
     is the pessimistic one.  Both are reported; neither is called the
     answer, and the sequence's convergence is measured to m = 128 rather
-    than derived — a named gap, not a derivation of a limit.
+    than derived, a named gap, not a derivation of a limit.
     """
     ms = sorted(seq)
     m1, m2 = ms[-2], ms[-1]
@@ -661,8 +661,8 @@ def asymptotic_margin(step: float = 0.002, G: float = BRIDGE_G,
 
     This is what decides whether a ladder crosses at SOME m rather than
     at whichever m happen to be on it.  At ``G = 60`` the answer is
-    negative at both readings and at every grid step measured — the
-    reported window cannot close arbitrarily large clusters here — and
+    negative at both readings and at every grid step measured, the
+    reported window cannot close arbitrarily large clusters here, and
     at ``G >= 120`` it is positive at both readings with room.
     """
     seq = seq or INTERIOR_LARGE_M.get(step) or large_m_interior(step=step)
@@ -712,7 +712,7 @@ HARDENED_INSTRUMENT = {"coarse": 0.02, "fine": 0.002, "k_step": 0.002,
 #: the hardened readings, ``(m, G) -> record``.  ``margin_lo_pp`` is
 #: ONE-SIDED (budget lower endpoint minus cap upper endpoint), so a
 #: positive value is a closure at that instrument and a negative one is
-#: "this cover does not decide it" — NOT a failure of the configuration.
+#: "this cover does not decide it", NOT a failure of the configuration.
 #: Reproduced by :func:`hardened_margin`; a row costs 6 s to 6 min.
 HARDENED_RECORD = {
     (8, 60.0, 0.002): {"cap_up_pp": 0.12327036236937076,
@@ -772,7 +772,7 @@ class HardenedCluster:
     #: and two nominally adjacent balls can fail to meet by ~4e-13.  A
     #: cover with a gap is not a cover, so every radius is widened by
     #: this factor (1e-8 absolute at the coarse cells, ~1e-9 at the fine
-    #: ones) — six orders above the ulp scale of the midpoints and small
+    #: ones), six orders above the ulp scale of the midpoints and small
     #: enough that the band heights move by ~3e-9.
     overlap: float = 1.0 + 1e-6
 
@@ -782,7 +782,7 @@ class HardenedCluster:
 
     def f_cell_up(self, mid: float, rad: float, pairs) -> float:
         """UPPER endpoint of the JOINT ``f = -sum_r 4 q_r / A^2`` over
-        ``[mid-rad, mid+rad]`` — the positive part is taken of the sum,
+        ``[mid-rad, mid+rad]``: the positive part is taken of the sum,
         never of the summands (`paper_joint`'s first discipline)."""
         from flint import acb, arb  # local: the module must import w/o flint
         from hardened_paper import A_BALL, f_up, phipap_ball
@@ -979,7 +979,7 @@ def hardened_brackets_float(m: int = 8, theta: float = THETA,
     * **budget**.  The ball is a width-1e-36 enclosure of the exact
       value; ``PaperJoint.budget`` sums the same O(m^2) terms in double
       precision.  At m = 8 the float lands 6 ulp BELOW the ball's lower
-      endpoint — the float instrument's own accumulation error, made
+      endpoint, the float instrument's own accumulation error, made
       visible by the ball rather than hidden by it.  So what is recorded
       is the agreement in ulp, and ``budget_bracketed`` is reported
       honestly (it is False at this m) instead of being widened until it
@@ -1048,7 +1048,7 @@ def theta_one_diverges(m: int = 4, step: float = 0.002,
                        G: float = 60.0) -> dict:
     """Control (e): at ``theta = 1`` the internal charge vanishes and an
     unbounded multiplicity stack costs nothing, so the cap MUST be
-    infinite on this configuration — for both instruments."""
+    infinite on this configuration, for both instruments."""
     pairs = config_pairs(m)
     pj = PaperJoint(step=step, G=G)
     float_cap = pj.cap(pairs, 1.0)["cap"]

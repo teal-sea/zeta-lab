@@ -3,7 +3,7 @@
 paper_chain.py re-ran the single-pair band-lattice dual at the source
 paper's incidence field (Phi2 = phihat_mt, mass kernel = the MT kernel g
 by construction) and measured theta*_paper = 0.995.  mt_joint.py built
-the JOINT layer — all pairs present at once — but at the OLD (T1)
+the JOINT layer, all pairs present at once, but at the OLD (T1)
 window's field.  This module is the joint layer at the paper's field.
 
 THE INEQUALITY (unchanged from mt_joint).  For pairs {(t_r, y_r)} and
@@ -22,7 +22,7 @@ THE FOUR DISCIPLINES, learned the hard way in this hunt's ledger:
   coincident-pair shielding (one pair's positive hump covering a
   neighbour's band) and was measured to inflate the field tenfold.
 - **band membership on the raw grid; slope margins only from the LOCAL
-  closed-form derivatives** — never a per-cell Lipschitz blanket summed
+  closed-form derivatives**, never a per-cell Lipschitz blanket summed
   over many cells (the recurring manufactured-damage defect).
 - **cross-band internal charges are dropped one-sidedly**: omega^2 is a
   square, >= 0, so dropping it only weakens the defender.
@@ -291,7 +291,7 @@ class PaperJoint:
 def soft_window_nu(y: float = 0.49) -> float:
     """Density putting nearest neighbours on the damage band: the first
     band centre of THIS field's single-pair damage (measured, not the T1
-    value 0.97 and not blindly 1/1.0573 — the band centre at finite y is
+    value 0.97 and not blindly 1/1.0573, the band centre at finite y is
     slightly inside the kernel zero)."""
     pj = PaperJoint()
     bs = pj.bands([(0.0, y)])

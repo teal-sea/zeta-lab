@@ -15,10 +15,10 @@ the concrete development only has to supply objects.
 
 The two halves are:
 
-* `inner_sq_le_energy` — Cauchy-Schwarz in the energy inner product
+* `inner_sq_le_energy`: Cauchy-Schwarz in the energy inner product
   `⟪x, y⟫_A = ⟪A x, y⟫`, which gives the *upper* bound `c(v) ≤ c*` for every
   `v` whatsoever, admissible or not;
-* `tendsto_quotient` — the quotient is continuous along any norm-convergent
+* `tendsto_quotient`: the quotient is continuous along any norm-convergent
   sequence with nonvanishing limiting energy, which gives the *lower* bound for
   the supremum from an approximating sequence inside the class.
 
@@ -116,7 +116,7 @@ theorem cStar_pos (hA : IsCoerciveSA A m) (hm : 0 < m) (hw : A w = one) (hone : 
   rw [← energy_w_eq hw]
   exact hA.energy_pos hm (w_ne_zero hw hone)
 
-/-- **The upper bound.**  Every `v` at all — admissible or not — has
+/-- **The upper bound.**  Every `v` at all, admissible or not, has
 `c(v) ≤ c* = ⟪1, A⁻¹1⟫`.  This is the ambient variational theorem, and it is what
 makes the source-admissible supremum an equality rather than only a lower bound. -/
 theorem quotient_le (hA : IsCoerciveSA A m) (hm : 0 < m) (hw : A w = one) (v : E) :

@@ -1,4 +1,4 @@
-# R-6C7D6A — results
+# R-6C7D6A: results
 
 Run `4df2ee65-1c9a-4e3b-8f7d-2a6b9c4e0f11`, 2026-08-17. Target: the
 numerator-side `boxParts` fields of the O9 two-dimensional checker, in
@@ -43,7 +43,7 @@ Six of seven. Not "every field". The missing one, `imNum`, is a hypothesis of
 instantiated at a box at all. That is the field the brief was actually asking
 for, and it is the field this run supplies.
 
-## 2. `imNum_mem` — the missing field
+## 2. `imNum_mem`: the missing field
 
 `boxParts.imNum` is `EIv.mul imNumOverY Y` by construction, so its enclosure is
 a product and needs no new leaf and no new truncation bound:
@@ -81,8 +81,8 @@ its `E` hypothesis and its conclusion:
 
 Self-consistent, so it is provable, and it is. But `rIv` divides by `denAbs2`,
 and `denAbs2` is `sqr reDen + sqr imDen`, which encloses `c*c + d*d` with
-`d = dOverY * y` (`O9Comp.boxParts`). `O9Real.im_div_over_y` — the identity that
-says the composition *is* `Im(num/den)/y` — puts `c ^ 2 + (dOverY * y) ^ 2`
+`d = dOverY * y` (`O9Comp.boxParts`). `O9Real.im_div_over_y`: the identity that
+says the composition *is* `Im(num/den)/y`, puts `c ^ 2 + (dOverY * y) ^ 2`
 under the quotient as well. So the real `r_comp_mem` asks `denAbs2` to enclose
 is not the real `denAbs2` encloses.
 
@@ -95,8 +95,8 @@ happens and `s = 0` never happens.
 `O9Assemble.rIv_mem` inherits the hypothesis verbatim, so it inherits the
 problem. Both lemmas are true, both are zero-sorry, and both go through
 vacuously at every box in the table. `O9Assemble.lean`'s own "What remains"
-note half-saw this — it said the two denominators "are different reals, the
-second is the first divided by `y²`" — but that diagnosis is also wrong:
+note half-saw this, it said the two denominators "are different reals, the
+second is the first divided by `y²`", but that diagnosis is also wrong:
 `c² + dOverY²` is not `(c² + d²)/y²`, and reading it as a mode-2 bookkeeping
 detail is what let it sit.
 
@@ -118,7 +118,7 @@ theorem r_comp_mem' {A B C D E : EIv} {a bOverY c dOverY e : ℝ}
 The original is the case `e = c*c + dOverY*dOverY`; the box needs
 `e = c*c + d*d`, which `O9Seam.denAbs2_mem` discharges. Same proof term, one
 fewer coincidence. `qre_comp_mem'` is the matching statement for the `Qre`
-side, added for symmetry rather than as a fix — `qre_comp_mem`'s own `E`
+side, added for symmetry rather than as a fix, `qre_comp_mem`'s own `E`
 hypothesis was already the right real.
 
 The existing `r_comp_mem` and `rIv_mem` are left in place and unedited. They
@@ -132,9 +132,9 @@ against the box's own reals with every field hypothesis discharged. Only the
 two numerator components stay abstract, because those are what the trig and
 hyperbolic leaves fix:
 
-* `qreIv_mem_box` — via `qreIv_mem`, discharging `imNum` by `imNum_mem`,
+* `qreIv_mem_box`: via `qreIv_mem`, discharging `imNum` by `imNum_mem`,
   `reDen`/`imDen` by `O9Parts`, and `denAbs2` by `O9Parts.denAbs2_mem`.
-* `rIv_mem_box` — via `r_comp_mem'`, not `r_comp_mem`, for the reason in §3.
+* `rIv_mem_box`: via `r_comp_mem'`, not `r_comp_mem`, for the reason in §3.
 
 The denominator is written out in both (`c = s² − y² − 2`, `d = 2sy`,
 `dOverY = 2s`) because it is small and because it is exactly what the
@@ -156,7 +156,7 @@ every file this run edited: only `O9Parts` imports `O9Real`, only `O9Num`
 imports `O9Parts`, only `O9Assemble` imports `O9Num`, and `O9Audit` imports all
 of them.
 
-The **full** package build fails, at `Zeta23Ext/RetentionWired.lean:44` —
+The **full** package build fails, at `Zeta23Ext/RetentionWired.lean:44`,
 `` `ring_nf` made no progress on the goal``, then a type mismatch on
 `Finset.sum_congr`. That file is untouched by this run, but it transitively
 imports `EForm3.Main` and so imports this run's files, which is why the failure
@@ -217,7 +217,7 @@ this run found.
 ## 7. Environment notes
 
 No `.venv` and no `pytest` in this container, so none of the repository's
-Python tests were run — including `tests/test_zeta23ext_imports.py`, which is
+Python tests were run, including `tests/test_zeta23ext_imports.py`, which is
 the guard against exactly the orphaned-module defect `O9Audit.lean` exists to
 prevent. The import graph is unchanged by this run (five declarations added to
 three existing modules, no new module, no new import edge), so the guard has

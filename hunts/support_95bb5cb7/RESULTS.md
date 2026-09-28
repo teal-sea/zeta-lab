@@ -1,4 +1,4 @@
-# RESULTS — Erdős #126, the size-dichotomy arm (support run 95bb5cb7)
+# RESULTS: Erdős #126, the size-dichotomy arm (support run 95bb5cb7)
 
 **Hunt, not a result. Nothing here is evidence for or against RH (`docs/08`).**
 

@@ -56,7 +56,7 @@ import sys
 try:
     import yaml
 except ImportError:  # pragma: no cover - environment guard
-    sys.exit("pip install pyyaml")
+    raise ImportError("pip install pyyaml")
 
 PAIRS = "lean/palomar-pairs.json"
 

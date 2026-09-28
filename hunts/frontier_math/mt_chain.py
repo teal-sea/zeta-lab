@@ -6,7 +6,7 @@ closed transform
     Phi2(z) = (1/2) sc(z) + (1/4)[sc(z + 2 sqrt2) + sc(z - 2 sqrt2)],
     sc(z) = 2 sin(z/2)/z,      a = Phi2(0) = 1/2 + sin(sqrt2)/(2 sqrt2).
 
-LAW D IS EXACT HERE — the earlier "0.53% alias defect" was pure grid-sum
+LAW D IS EXACT HERE, the earlier "0.53% alias defect" was pure grid-sum
 truncation (the defect scales like 1/K in the truncation range K;
 measured 3.8e-3 -> 6.0e-5 over K = 80 -> 5120).  Poisson: a window
 supported in (-pi, pi) cannot reach the +-2pi alias combs, so
@@ -21,11 +21,11 @@ sweeps are specified in pairs per mean gap (nu_p) and converted.
 
 SCALES.  sigma^2(0.49) = 0.0175 (93x smaller than the hunt window's
 1.62), the LAW-I-analogue envelope is -0.44 sigma^2 (vs -1.21), and the
-kernel omega^2 stays above 0.35 out to ~4 grid units — repulsion is
+kernel omega^2 stays above 0.35 out to ~4 grid units, repulsion is
 strong relative to the damage-band width (1.2 grid units).  The far tail
 decays like 1/g^2 only (the box window's boundary jump), so the far
 allowance uses the one-sided Im-majorant  (-W)_+ <= 2 Im(Phi2)^2 / a^2
-<= 2 C_im(y)^2 / (a g)^2, whose constant carries sinh(y/2) — shallow
+<= 2 C_im(y)^2 / (a g)^2, whose constant carries sinh(y/2), shallow
 pairs are tail-free, and the harvest sum converges like 1/G.
 
 Everything is measured-grade with one-sided structure (centre + Lipschitz
@@ -342,7 +342,7 @@ def explicit_single_pair_adversary(mt: MTChain, y: float = 0.49,
 
     Returns (profit at the given theta, zeros used, D, R).  Measured at
     y = 0.49 with FULL charge (c = 1, i.e. theta = 0): D = 0.030,
-    R = 0.004 with 2 zeros, against slack 0.142 — 4.7x inside.
+    R = 0.004 with 2 zeros, against slack 0.142: 4.7x inside.
 
     CONVENTION WARNING, recorded because an earlier version of this
     docstring got it wrong: the default argument theta = 1.0 here selects

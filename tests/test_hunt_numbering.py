@@ -31,7 +31,7 @@ import pytest
 _REPO_ROOT = Path(__file__).resolve().parents[1]
 _CASE_LOG = _REPO_ROOT / "hunts" / "README.md"
 
-#: `### Hunt #47: title (`dir/`)` and the em-dash variant `### Hunt #41 — title`.
+#: `### Hunt #47: title (`dir/`)` and the em-dash variant `### Hunt #41, title`.
 _ENTRY = re.compile(r"^###\s+Hunt\s+#(\d+)\s*[:—-]", re.MULTILINE)
 
 

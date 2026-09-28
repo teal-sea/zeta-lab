@@ -1,0 +1,243 @@
+{
+ "N": 3600,
+ "y": 60,
+ "sources_above_y_with_mass": 25,
+ "A_size": 13,
+ "zero_mass_prefix_cells": [
+  30,
+  32,
+  36,
+  38,
+  39,
+  41,
+  42,
+  46,
+  47,
+  48,
+  51,
+  52,
+  54,
+  55,
+  57,
+  58,
+  60
+ ],
+ "g_values": {
+  "61": 1,
+  "67": 1,
+  "73": 3,
+  "76": 2,
+  "83": 3,
+  "87": 0,
+  "97": -2,
+  "112": 3,
+  "116": 4,
+  "124": 0,
+  "133": 1,
+  "144": -2,
+  "156": -2,
+  "189": 4,
+  "211": 0,
+  "225": -5,
+  "276": 0,
+  "327": 0,
+  "400": -3,
+  "450": 5,
+  "514": 2,
+  "720": -3,
+  "900": -1,
+  "1200": 1,
+  "1800": 4
+ },
+ "moment_identities_exact_all_sources": true,
+ "variants": [
+  {
+   "variant": "F1 all g>0",
+   "sources": 13,
+   "Gamma_per_unit_t": 72.78997113189712,
+   "t_star": 0.0,
+   "binding_cell": 30,
+   "binding_cell_mass": 0.0,
+   "binding_cell_is_prefix": true,
+   "t_rational": "0",
+   "gain_interval": [
+    "0.0",
+    "0.0"
+   ],
+   "gain": 0.0,
+   "feasible_by_enclosure": true,
+   "min_cell_lower_endpoint": Infinity,
+   "best_single_source": {
+    "a": 116,
+    "m": 3.4339872044851463,
+    "g": 4,
+    "m_times_g": 13.735948817940585
+   }
+  },
+  {
+   "variant": "F2 drain-safe at zero-mass prefix cells",
+   "sources": 1,
+   "Gamma_per_unit_t": 1.0986122886681098,
+   "t_star": 1.0,
+   "binding_cell": null,
+   "binding_cell_mass": null,
+   "binding_cell_is_prefix": false,
+   "t_rational": "999999/1000000",
+   "gain_interval": [
+    "1.0986111900558210233",
+    "1.0986111900558210233"
+   ],
+   "gain": 1.098611190055821,
+   "feasible_by_enclosure": true,
+   "min_cell_lower_endpoint": 1.0986122886681098e-06,
+   "best_single_source": {
+    "a": 133,
+    "m": 1.0986122886681098,
+    "g": 1,
+    "m_times_g": 1.0986122886681098
+   }
+  },
+  {
+   "variant": "F3 a > 2y+1",
+   "sources": 6,
+   "Gamma_per_unit_t": 24.105125417152117,
+   "t_star": 0.0,
+   "binding_cell": 30,
+   "binding_cell_mass": 0.0,
+   "binding_cell_is_prefix": true,
+   "t_rational": "0",
+   "gain_interval": [
+    "0.0",
+    "0.0"
+   ],
+   "gain": 0.0,
+   "feasible_by_enclosure": true,
+   "min_cell_lower_endpoint": Infinity,
+   "best_single_source": {
+    "a": 189,
+    "m": 2.9444389791664403,
+    "g": 4,
+    "m_times_g": 11.777755916665761
+   }
+  },
+  {
+   "variant": "F4 a <= 2y+1 (withdrawals)",
+   "sources": 7,
+   "Gamma_per_unit_t": 48.68484571474501,
+   "t_star": 0.0,
+   "binding_cell": 30,
+   "binding_cell_mass": 0.0,
+   "binding_cell_is_prefix": true,
+   "t_rational": "0",
+   "gain_interval": [
+    "0.0",
+    "0.0"
+   ],
+   "gain": 0.0,
+   "feasible_by_enclosure": true,
+   "min_cell_lower_endpoint": Infinity,
+   "best_single_source": {
+    "a": 116,
+    "m": 3.4339872044851463,
+    "g": 4,
+    "m_times_g": 13.735948817940585
+   }
+  },
+  {
+   "variant": "F5 union of individually feasible sources",
+   "sources": 2,
+   "Gamma_per_unit_t": 5.17614973257383,
+   "t_star": 1.0,
+   "binding_cell": null,
+   "binding_cell_mass": null,
+   "binding_cell_is_prefix": false,
+   "t_rational": "999999/1000000",
+   "gain_interval": [
+    "5.1761445564240965682",
+    "5.1761445564240965682"
+   ],
+   "gain": 5.176144556424097,
+   "feasible_by_enclosure": true,
+   "min_cell_lower_endpoint": 0.0,
+   "best_single_source": {
+    "a": 61,
+    "m": 4.07753744390572,
+    "g": 1,
+    "m_times_g": 4.07753744390572
+   }
+  }
+ ],
+ "family_R_rough_shift": {
+  "sources": [
+   61,
+   67,
+   73
+  ],
+  "moment_identities_exact": true,
+  "gain_interval": [
+   "9.9937395065131545899",
+   "9.9937395065131545899"
+  ],
+  "gain": 9.993739506513155,
+  "note": "feasible for every t in [0,1] with no prefix drain; gain at t = 1 is the full mass of the sources"
+ },
+ "best_single_sources": [
+  {
+   "gain": 4.077533366368275,
+   "a": 61,
+   "t_star": 1.0,
+   "binding": null,
+   "g": 1
+  },
+  {
+   "gain": 1.098611190055821,
+   "a": 133,
+   "t_star": 1.0,
+   "binding": null,
+   "g": 1
+  },
+  {
+   "gain": 0.0,
+   "a": 1800,
+   "t_star": 0.0,
+   "binding": 39,
+   "g": 4
+  },
+  {
+   "gain": 0.0,
+   "a": 1200,
+   "t_star": 0.0,
+   "binding": 42,
+   "g": 1
+  },
+  {
+   "gain": 0.0,
+   "a": 514,
+   "t_star": 0.0,
+   "binding": 32,
+   "g": 2
+  },
+  {
+   "gain": 0.0,
+   "a": 450,
+   "t_star": 0.0,
+   "binding": 32,
+   "g": 5
+  },
+  {
+   "gain": 0.0,
+   "a": 189,
+   "t_star": 0.0,
+   "binding": 30,
+   "g": 4
+  },
+  {
+   "gain": 0.0,
+   "a": 116,
+   "t_star": 0.0,
+   "binding": 30,
+   "g": 4
+  }
+ ],
+ "seconds": 0.10609793663024902
+}

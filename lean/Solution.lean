@@ -93,7 +93,7 @@ structure SourceWindow (φ : ℝ → ℝ) (L C₁ C₂ : ℝ) : Prop where
   nonneg : ∀ u, 0 ≤ φ u
   /-- Amplitude ceiling: `0 ≤ φ ≤ 1`, no other normalization. -/
   le_one : ∀ u, φ u ≤ 1
-  /-- `supp φ = [-L/2, L/2]`, exactly — not a proper subset. -/
+  /-- `supp φ = [-L/2, L/2]`, exactly, not a proper subset. -/
   support : ∀ u, φ u ≠ 0 ↔ |u| < L / 2
   /-- `φ` is nonincreasing in `|u|`.  This is the nontrivial source constraint. -/
   radial : ∀ u₁ u₂ : ℝ, |u₁| ≤ |u₂| → φ u₂ ≤ φ u₁

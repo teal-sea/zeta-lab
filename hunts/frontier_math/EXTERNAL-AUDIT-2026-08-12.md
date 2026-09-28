@@ -59,7 +59,7 @@ else.
 **Why the per-pair decomposition is nevertheless forced.** Taking
 `‖Q′‖²_F ≥ 4 tr Q′ − 4 n₊(Q′)` whole leaves the requirement
 `−2 tr(P₁Q′) ≤ (1−θ)R`. Measured on this hunt's own worst adversarial
-placement that is `0.0796 ≤ 1.3e-5` — false by four orders of magnitude.
+placement that is `0.0796 ≤ 1.3e-5`, false by four orders of magnitude.
 So the chain must go per-pair,
 
     ‖Q′‖²_F = Σ_p ‖Q_p‖²_F + Σ_{p≠p′} tr(Q_p Q_{p′}),
@@ -120,7 +120,7 @@ configurations still hold, with room:
 | ν=0.5 lattice y=0.49 | −15.31364 | −0.06607 | −15.24757 | 0.61399 | +15.86156 |
 | soft lattice ν=0.9576 y=0.49 | −19.28195 | −0.34223 | −18.93972 | 0.76743 | +19.70715 |
 
-So the omission changes no verdict **in this battery** — but the reason is
+So the omission changes no verdict **in this battery**, but the reason is
 that the battery's three binding rows are single-pair, where `cross = 0`
 identically, and every multi-pair row uses the benign 9-point lattice whose
 damage is hugely negative. The battery therefore never tests the
@@ -143,7 +143,7 @@ field), and put `cross` on the left of the SHARP row.
 
 At y = 5e-4 the verdict is **negative**, and at y ≲ 1e-4 the instrument
 finds no bands at all and returns `cap = 0` while its own `no_missed_band`
-control reports `clear = False` — a silent pass, not a pass.
+control reports `clear = False`, a silent pass, not a pass.
 
 This is the instrument, not the mathematics. A band has half-width ~y, and
 `bands()` adds a local slope margin `slope·step` whose ratio to the true
@@ -155,11 +155,11 @@ band maximum scales as `2·step/y`. Refining the step at fixed y confirms it
 | 5e-4 | 1.4359 | 0.6929 | 0.5249 | **0.4926** |
 | 1e-3 | 0.9903 | 0.5889 | 0.5034 | **0.4872** |
 | 2e-3 | 0.7444 | 0.5357 | 0.4926 | **0.4845** |
-| 0.02 | 0.5091 | 0.4872 | — | — |
+| 0.02 | 0.5091 | 0.4872 |, |, |
 
 The refined ratio converges to ≈0.49 at every depth tested, the same value
 the shipped step reports at y = 0.02. So (★) looks comfortable and roughly
-depth-uniform down to at least y = 5e-4 — but the shipped instrument would
+depth-uniform down to at least y = 5e-4, but the shipped instrument would
 report a false negative for any session that probed there, and the four
 depths the rational certificate covers are all in the region where the
 coarse step happens to be adequate.
@@ -172,11 +172,11 @@ re-run the depth ladder; then extend `band_certificate.py` to a depth
 
 | object | quantification |
 |---|---|
-| `s ≥ 2N − ‖P+Q‖²_F + D` and its θ-corollary | all configurations — Lean 4 + Mathlib, sorry-free, **for exactly unit vectors** |
-| grid-incidence law | all even bounded measurable φ supported in [−½,½] — Lean, sorry-free |
-| `cap(θ,y) ≤ slack(y)` — the on-line side | genuine sup over **all** on-line placements and multiplicities (band lattice, cross-band charges dropped, per-band square completion, closed-form tail) |
-| the same, over pair depths | **four sampled y** in {1/50, 1/10, 3/10, 49/100} — exact in ℚ; float grade on a depth grid ≥ 2e-3 (§4) |
-| the same, over pair sets | **swept families** (lattices ν_p = 0.5–3, dipoles, phases) — not all finite pair sets |
+| `s ≥ 2N − ‖P+Q‖²_F + D` and its θ-corollary | all configurations, Lean 4 + Mathlib, sorry-free, **for exactly unit vectors** |
+| grid-incidence law | all even bounded measurable φ supported in [−½,½], Lean, sorry-free |
+| `cap(θ,y) ≤ slack(y)`, the on-line side | genuine sup over **all** on-line placements and multiplicities (band lattice, cross-band charges dropped, per-band square completion, closed-form tail) |
+| the same, over pair depths | **four sampled y** in {1/50, 1/10, 3/10, 49/100}, exact in ℚ; float grade on a depth grid ≥ 2e-3 (§4) |
+| the same, over pair sets | **swept families** (lattices ν_p = 0.5–3, dipoles, phases), not all finite pair sets |
 | `R ≥ R₀` census | exact rational dual certificate for the LP; four kernel-minimum bounds at numeric-plus-slope-margin grade |
 | prime-side `tr Ĝ`, `‖Ĝ‖²_F`, Theorem B density | cited from the source paper |
 
@@ -211,9 +211,9 @@ uniformity in the depth, and uniformity over pair sets. Without it the
 corollary's hypothesis `D ≥ θ·R₀` is unavailable, and `H + 2θc_u` does not
 follow from the source paper's theorems.
 
-The rest of the outstanding work — the units seam, the unit-vector
+The rest of the outstanding work, the units seam, the unit-vector
 hypothesis, the Lean leaves for the four kernel minima, the multi-pair rows
-in the battery — is bookkeeping and mechanisation, not discovery.
+in the battery, is bookkeeping and mechanisation, not discovery.
 
 ## 7. Follow-through (same day)
 
@@ -228,7 +228,7 @@ the ledger entry "Audit follow-through" has the full record.
 - **The co-optimizing adversary** (`coopt_adversary.py`): 57 restarts
   choosing pair positions, depths, on-line points and multiplicities
   together find no violation; the engaged worst case reaches **0.5754 of
-  budget** — worse than every swept family, 1.7× short of violation. The
+  budget**, worse than every swept family, 1.7× short of violation. The
   §6 obligation is unchanged; 0.5754 is now the number a uniformity proof
   has to beat.
 
@@ -240,13 +240,13 @@ state of the §6 obligation:
 
 - **Depth uniformity: CLOSED at the single-pair layer** (hardened, not
   kernel-checked): `depth_uniform.py`, 18 cells tiling (0, ½] with the
-  shallow end closed by homogeneity rather than by cells — the y² damage
+  shallow end closed by homogeneity rather than by cells, the y² damage
   scaling and the convexity of the square completion give one finite
   inequality for an interval with no smallest point.
 - **Pair-set uniformity: still OPEN, and the per-pair route is refuted.**
   The joint cap is superadditive above the multiplicity threshold, and
   from four pairs on a unit lattice the per-pair sum exceeds the budget
-  while the joint verdict closes — the joint field's shielding is
+  while the joint verdict closes, the joint field's shielding is
   load-bearing, exactly the corner §3 flagged. The obligation is now one
   bandlimited nonnegative-kernel inequality in two exponential sums
   (ledger, "Blocker 2").

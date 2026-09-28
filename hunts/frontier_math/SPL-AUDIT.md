@@ -42,7 +42,7 @@ as of 2026-08-05. Whatever was announced, it is not what is in this tree.
 
 ## 1. Inventory of the relevant statements
 
-### 1a. Poisson summation — `SpherePacking/CohnElkies/Prereqs.lean`
+### 1a. Poisson summation: `SpherePacking/CohnElkies/Prereqs.lean`
 
 The file opens with (lines 8–11):
 
@@ -59,7 +59,7 @@ variable {d : ℕ} [Fact (0 < d)]
 variable (Λ : Submodule ℤ (EuclideanSpace ℝ (Fin d))) [DiscreteTopology Λ] [IsZLattice ℝ Λ]
 ```
 
-The hypothesis predicate (line 100), verbatim — note the `sorry` *inside the definition*:
+The hypothesis predicate (line 100), verbatim, note the `sorry` *inside the definition*:
 
 ```lean
 def PSF_Conditions (f : EuclideanSpace ℝ (Fin d) → ℂ) : Prop :=
@@ -116,7 +116,7 @@ reads:
 (The `\leanok` on the `\begin{theorem}` line means the *statement* is formalised, not the
 proof; the proof environment carries no `\leanok`.)
 
-### 1b. The LP bound — `SpherePacking/CohnElkies/LPBound.lean`
+### 1b. The LP bound: `SpherePacking/CohnElkies/LPBound.lean`
 
 Hypotheses are `variable`s (lines 55–64):
 
@@ -146,7 +146,7 @@ theorem LinearProgrammingBound (hd : 0 < d) (hf : Summable f) : SpherePackingCon
 These are the Fourier-positivity conditions asked about: `hCohnElkies₂` is *pointwise
 nonnegativity of the Fourier transform of a Schwartz function*, stated as a hypothesis and
 never derived. There is no positive-definiteness API, no `PosDef`, no reusable "positive
-Fourier transform" structure — `grep` for `PosDef`, `posdef`, `positive definite` over
+Fourier transform" structure, `grep` for `PosDef`, `posdef`, `positive definite` over
 `SpherePacking/` returns nothing.
 
 The proof chain is not closed. `LPBound.lean` has three genuine `sorry`s, all summability
@@ -164,7 +164,7 @@ have hSummable : Summable
 and line 372 is the call `exact SchwartzMap.PoissonSummation_Lattices P.lattice f _`, i.e.
 the LP bound is proved *from* the sorried Poisson formula.
 
-### 1c. `IsDecayingMap` — `SpherePacking/ForMathlib/InvPowSummability.lean:37`
+### 1c. `IsDecayingMap`, `SpherePacking/ForMathlib/InvPowSummability.lean:37`
 
 ```lean
 def IsDecayingMap (X : Set (EuclideanSpace ℝ (Fin d)))
@@ -190,11 +190,11 @@ theorem Summable_of_Inv_Pow_Summable
 
 This part **is** proved (`IsDecayingMap.subset`, `Summable_of_Inv_Pow_Summable'`,
 `SchwartzMap.IsDecaying`). But note: `IsDecayingMap` demands decay faster than *every*
-polynomial (`∀ k : ℕ`) — it is a Schwartz-strength decay condition, not the `O(|x|^{-b})`
+polynomial (`∀ k : ℕ`), it is a Schwartz-strength decay condition, not the `O(|x|^{-b})`
 for a single `b > 1` that a compactly supported kernel would want. And the two remaining
 `sorry`s in this file (`extracted_1` at line 233, `Summable_Inverse_Powers_of_Finite_Orbits`
 at line 251) are exactly the lemmas that would supply `Inv_Pow_Norm_Summable_Over_Set_Euclidean`
-for a lattice orbit — so the summability half is also open where it touches lattices.
+for a lattice orbit, so the summability half is also open where it touches lattices.
 
 ### 1d. Toolchain / pin / licence
 
@@ -218,10 +218,10 @@ no `n ≥ 2` restriction. But `d = 1` buys nothing here, because the statement i
 
 **Smoothness.** Both are stated only for `SchwartzMap _ ℂ` (or for the placeholder
 `PSF_Conditions`, whose second conjunct is literally `sorry`). Our `c2` is continuous,
-compactly supported on `[-1,1]`, with a corner at 0 — **not** `C^∞`, therefore **not**
+compactly supported on `[-1,1]`, with a corner at 0, **not** `C^∞`, therefore **not**
 Schwartz, therefore outside the hypothesis of `PoissonSummation_Lattices` as stated.
 There is no weaker-hypothesis variant in the repo: `HasCompactSupport`, `tsupport`,
-`ContinuousMap`-valued Poisson results — none appear anywhere in `SpherePacking/`.
+`ContinuousMap`-valued Poisson results, none appear anywhere in `SpherePacking/`.
 
 **The cheapest repair is not to repair this repo at all**, because upstream Mathlib
 (the very version this repo pins, `v4.32.0`) already contains the 1-D statement we
@@ -250,13 +250,13 @@ theorem Real.tsum_eq_tsum_fourier {f : C(ℝ, ℂ)}
 ```
 
 **Hypotheses required: continuity plus polynomial decay. No smoothness at all.** Applied
-in the orientation we need — physical-side function `ĉ2 = |ĝ|²` (continuous, nonneg,
+in the orientation we need, physical-side function `ĉ2 = |ĝ|²` (continuous, nonneg,
 `O(|x|^{-2})` since `ĝ = O(|x|^{-1})`), dual-side function `c2` (compactly supported, hence
-`O(|x|^{-b})` for every `b`) — both `=O[cocompact ℝ] (|·|^(-2))` hypotheses hold and
+`O(|x|^{-b})` for every `b`), both `=O[cocompact ℝ] (|·|^(-2))` hypotheses hold and
 `b = 2 > 1`. The corner of `c2` at 0 is irrelevant: continuity is all that is asked of the
 transformed side, and `c2` appears only through `𝓕 f`, which is not required to be smooth.
 
-The only real work left on that side is the **spacing-`s` rescaling** — Mathlib's statement
+The only real work left on that side is the **spacing-`s` rescaling**: Mathlib's statement
 is for the lattice `ℤ`, ours for `sℤ`, so a substitution `x ↦ x/s` and the corresponding
 `𝓕` scaling lemma are needed. That is routine, and it is work you would do against Mathlib,
 not against this repo.
@@ -285,7 +285,7 @@ the mathematics, not an oversight.
 
 ## 3. Reusability as a dependency
 
-- **Packaged as a library**: yes, technically — `lakefile.toml` declares
+- **Packaged as a library**: yes, technically, `lakefile.toml` declares
   `[[lean_lib]] name = "SpherePacking"` with root `SpherePacking.lean`, licence Apache 2.0,
   so `require`-ing it is legally and mechanically possible.
 - **Built for reuse**: no. The parts you would want live in a file whose own header says
@@ -295,7 +295,7 @@ the mathematics, not an oversight.
   formula in terms of some `D`" sit in the proof of the headline theorem. It is a
   single-goal project, not a reusable analysis library.
 - **Requiring it imports its `sorry`s.** Downstream, `SchwartzMap.PoissonSummation_Lattices`
-  would typecheck and be usable — and would be an axiom-tainted lie. Anything you proved
+  would typecheck and be usable, and would be an axiom-tainted lie. Anything you proved
   from it would be worth nothing. Under Zeta Lab's rule that "the Lean arm counts nothing
   with a `sorry`", depending on this package is disqualifying on its own.
 - **Pin conflict with `anthropics/zeta-23-lean`**: yes, hard conflict.
@@ -325,19 +325,19 @@ the mathematics, not an oversight.
   theorem f_zero_pos : 0 < (f 0).re
   ```
 
-  (`LPBound.lean:103, 114`) — i.e. "`f̂ ≥ 0` and `f ≠ 0` implies `f(0) > 0`", via
+  (`LPBound.lean:103, 114`), i.e. "`f̂ ≥ 0` and `f ≠ 0` implies `f(0) > 0`", via
   Fourier inversion and `Continuous.integral_zero_iff_zero_of_nonneg`
   (`Prereqs.lean:206`, proved). That last one is a genuinely reusable little lemma
   ("a continuous nonneg integrable function with zero integral is zero"), but it is
   a two-line Mathlib-flavoured fact, not scaffolding.
 - **The LP bound as a pattern**: the *Cohn–Elkies* LP bound is here (`LinearProgrammingBound`,
   §1b), modulo three summability `sorry`s and the sorried Poisson formula. What is *not*
-  here is any construction of the LP witness function's positivity — the magic function `g`
+  here is any construction of the LP witness function's positivity, the magic function `g`
   is defined (`MagicFunction/g/Basic.lean`: `g : 𝓢(ℝ⁸, ℂ) := ((π * I) / 8640) • a + (I / (240 * π)) • b`)
   with `g_zero : g 0 = 1` and `fourier_g_zero` proved, but conditions
   `g(x) ≤ 0` for `‖x‖ ≥ √2` and `ĝ ≥ 0` (blueprint `\eqref{eqn:g1}`, `\eqref{eqn:g2}`) are
   not formalised at all. So there is no worked example in this repo of *proving* a Fourier
-  transform nonnegative — which is precisely the skill your other open piece needs.
+  transform nonnegative, which is precisely the skill your other open piece needs.
 
 ---
 
@@ -348,8 +348,8 @@ proof-pattern reference.**
 
 Specifics:
 
-1. The one theorem in the repo that names your problem —
-   `SchwartzMap.PoissonSummation_Lattices` — **is a `sorry`**, as is `PSF_L`, as is the
+1. The one theorem in the repo that names your problem,
+   `SchwartzMap.PoissonSummation_Lattices`: **is a `sorry`**, as is `PSF_L`, as is the
    hypothesis predicate `PSF_Conditions` (`Summable f ∧ sorry`). There is nothing to reuse
    because nothing is proved.
 2. Even taken as a *statement*, it is Schwartz-only, and `c2` is not Schwartz (corner at 0).
@@ -357,7 +357,7 @@ Specifics:
    continuity + `O(|x|^{-b})`, `b > 1`, which `c2` and `ĉ2 = |ĝ|²` both satisfy with `b = 2`.
    **The sphere-packing repo's Poisson result is strictly weaker than what you already have
    for free.**
-3. The finite-to-infinite comparison with an explicit error term — the actual bridge — is
+3. The finite-to-infinite comparison with an explicit error term, the actual bridge, is
    simply not present, in any form, and could not be, because Cohn–Elkies routes through
    periodicity rather than truncation.
 4. Depending on it would import `sorry`s and force a Mathlib fork off `v4.33.0-rc2`.
@@ -372,14 +372,14 @@ Specifics:
   support). Then a rescaling `x ↦ x/s` to move from `ℤ` to `sℤ`. No smoothness anywhere;
   the corner never enters. This makes `b_inf(s,y)` a theorem rather than a computation.
 - **Bridge side: nothing off the shelf exists; you must build it, and you should build it
-  as a truncation estimate, not as a periodisation.** The measured data you cite —
+  as a truncation estimate, not as a periodisation.** The measured data you cite,
   finite clusters approaching the limit *from below* at resonance (m=4: +0.0240, m=32:
-  +0.0056, limit +0.0135 at s=2.0) — says the finite-`m` value is not monotone in `m`
+  +0.0056, limit +0.0135 at s=2.0), says the finite-`m` value is not monotone in `m`
   and crosses the limit, so no clean one-sided lemma of the form "finite ≤ infinite" is
   available and you should stop looking for one to borrow. The tractable statement is
   two-sided with an explicit `m`-dependent remainder:
   `|b_m(s,y) − b_inf(s,y)| ≤ E(m,s,y)` with `E → 0`, obtained from the *compact support of
-  `c2`* — because `c2` vanishes outside `[-1,1]`, the dual sum is already finite
+  `c2`*, because `c2` vanishes outside `[-1,1]`, the dual sum is already finite
   (`|2πk/s| < 1`), and the error in the finite cluster is a boundary/edge term over
   `O(1)` pairs near the cluster ends, not a tail of a divergent series. That is an
   elementary, self-contained estimate in `zeta-23-lean` against Mathlib alone.
@@ -392,11 +392,11 @@ Specifics:
 
 ### Files worth reading once, as pattern, if anything
 
-- `SpherePacking/CohnElkies/LPBound.lean` — how to organise an LP-bound proof under
+- `SpherePacking/CohnElkies/LPBound.lean`: how to organise an LP-bound proof under
   `variable`/`include` hypothesis bundles, and the `calc`-chain shape of the
   Cohn–Elkies argument.
-- `SpherePacking/ForMathlib/InvPowSummability.lean` — the `IsDecayingMap` +
+- `SpherePacking/ForMathlib/InvPowSummability.lean`: the `IsDecayingMap` +
   inverse-power-summability idiom for lattice summability.
-- `blueprint/src/subsections/{fourier-analysis,cohn-elkies}.tex` — a clean prose statement
+- `blueprint/src/subsections/{fourier-analysis,cohn-elkies}.tex`: a clean prose statement
   of what a lattice Poisson formula should look like, and an honest record of which proofs
   are open.

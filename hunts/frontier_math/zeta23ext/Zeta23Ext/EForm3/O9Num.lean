@@ -70,7 +70,7 @@ theorem reNum_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
 `Im(z · sin(z/2))/y = s·cos(s/2)·(sinh(y/2)/y) + sin(s/2)·cosh(y/2)` and
 `Im(cos(z/2))/y = −sin(s/2)·(sinh(y/2)/y)`, and the factor `sinh(y/2)/y` is
 carried by `shcSmall`, whose soundness lemma has no nonzero hypothesis. So this
-lemma has none either — which is exactly what makes the boxes reaching `y = 0`
+lemma has none either, which is exactly what makes the boxes reaching `y = 0`
 ordinary. -/
 theorem imNumOverY_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
     (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
@@ -103,7 +103,7 @@ theorem imNumOverY_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
   · exact EIv.add_mem (EIv.mul_mem (EIv.mul_mem hs hcs) hsov) (EIv.mul_mem hsn hch)
   · exact EIv.neg_mem (EIv.mul_mem hsn hsov)
 
-/-- **`imNum` is sound** — the seventh field, and the one the numerator half
+/-- **`imNum` is sound**, the seventh field, and the one the numerator half
 left behind.
 
 `boxParts.imNum` is `imNumOverY · Y` by construction, so its enclosure is the

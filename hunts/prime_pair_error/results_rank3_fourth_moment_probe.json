@@ -1,0 +1,250 @@
+{
+ "definition": "Z*_(q) = sum_{a mod q, gcd(a,q)=1} integral_T |R_{q,a}(beta)|^4 dbeta, R_{q,a} = F_N(a/q+beta) - (mu(q)/phi(q)) K_N(beta), computed exactly via DFT quadrature (frequency-exact, no sampling error beyond float64). This is the full-circle analogue of UPPER_BOUND.md Section 6's Z_(q), the same object RANK3_ROUTE_D.md Section 7 works with (no arc-transfer argument is available for the fourth moment, so the literal arc-restricted Z_(q) is not computed here, matching that document's own scope).",
+ "context": "Numerical companion to RANK3_QUARTIC_TOOLS.md's search for an unconditional, q-averaged tool bounding sum_{2<=q<=R_0} Z_(q). Trivial full-circle order per residue is O(N^3 log N) (sup|R|~N times integral|R|^2~N log N); Vaughan's (V) gives no saving at small q (RANK3_SCOPE.md Section 2).",
+ "experiment_1_fixed_N_varying_q": {
+  "N": 20000,
+  "rows": [
+   {
+    "q": 2,
+    "mu_q": -1,
+    "phi_q": 1,
+    "squarefree": true,
+    "Z_star_q": 6910975241516.248,
+    "Z_star_per_a_mean": 6910975241516.248,
+    "Z_star_over_N3": 0.863871905189531,
+    "Z_star_over_phi_q_N3": 0.863871905189531
+   },
+   {
+    "q": 3,
+    "mu_q": -1,
+    "phi_q": 2,
+    "squarefree": true,
+    "Z_star_q": 23753063003522.863,
+    "Z_star_per_a_mean": 11876531501761.432,
+    "Z_star_over_N3": 2.969132875440358,
+    "Z_star_over_phi_q_N3": 1.484566437720179
+   },
+   {
+    "q": 4,
+    "mu_q": 0,
+    "phi_q": 2,
+    "squarefree": false,
+    "Z_star_q": 24414936831486.21,
+    "Z_star_per_a_mean": 12207468415743.105,
+    "Z_star_over_N3": 3.0518671039357765,
+    "Z_star_over_phi_q_N3": 1.5259335519678883
+   },
+   {
+    "q": 5,
+    "mu_q": -1,
+    "phi_q": 4,
+    "squarefree": true,
+    "Z_star_q": 48747130880972.11,
+    "Z_star_per_a_mean": 12186782720243.027,
+    "Z_star_over_N3": 6.0933913601215135,
+    "Z_star_over_phi_q_N3": 1.5233478400303784
+   },
+   {
+    "q": 6,
+    "mu_q": 1,
+    "phi_q": 2,
+    "squarefree": true,
+    "Z_star_q": 23755198411792.168,
+    "Z_star_per_a_mean": 11877599205896.084,
+    "Z_star_over_N3": 2.969399801474021,
+    "Z_star_over_phi_q_N3": 1.4846999007370105
+   },
+   {
+    "q": 7,
+    "mu_q": -1,
+    "phi_q": 6,
+    "squarefree": true,
+    "Z_star_q": 73221310516491.45,
+    "Z_star_per_a_mean": 12203551752748.576,
+    "Z_star_over_N3": 9.152663814561432,
+    "Z_star_over_phi_q_N3": 1.525443969093572
+   },
+   {
+    "q": 8,
+    "mu_q": 0,
+    "phi_q": 4,
+    "squarefree": false,
+    "Z_star_q": 48829873662972.44,
+    "Z_star_per_a_mean": 12207468415743.11,
+    "Z_star_over_N3": 6.103734207871555,
+    "Z_star_over_phi_q_N3": 1.5259335519678887
+   },
+   {
+    "q": 9,
+    "mu_q": 0,
+    "phi_q": 6,
+    "squarefree": false,
+    "Z_star_q": 73244810494458.66,
+    "Z_star_per_a_mean": 12207468415743.11,
+    "Z_star_over_N3": 9.155601311807333,
+    "Z_star_over_phi_q_N3": 1.5259335519678887
+   },
+   {
+    "q": 10,
+    "mu_q": 1,
+    "phi_q": 4,
+    "squarefree": true,
+    "Z_star_q": 48747396449354.27,
+    "Z_star_per_a_mean": 12186849112338.568,
+    "Z_star_over_N3": 6.093424556169285,
+    "Z_star_over_phi_q_N3": 1.5233561390423211
+   },
+   {
+    "q": 12,
+    "mu_q": 0,
+    "phi_q": 4,
+    "squarefree": false,
+    "Z_star_q": 48829873662972.44,
+    "Z_star_per_a_mean": 12207468415743.11,
+    "Z_star_over_N3": 6.103734207871555,
+    "Z_star_over_phi_q_N3": 1.5259335519678887
+   },
+   {
+    "q": 15,
+    "mu_q": 1,
+    "phi_q": 8,
+    "squarefree": true,
+    "Z_star_q": 97648365460104.39,
+    "Z_star_per_a_mean": 12206045682513.049,
+    "Z_star_over_N3": 12.206045682513048,
+    "Z_star_over_phi_q_N3": 1.525755710314131
+   },
+   {
+    "q": 16,
+    "mu_q": 0,
+    "phi_q": 8,
+    "squarefree": false,
+    "Z_star_q": 97659747325944.86,
+    "Z_star_per_a_mean": 12207468415743.107,
+    "Z_star_over_N3": 12.207468415743108,
+    "Z_star_over_phi_q_N3": 1.5259335519678885
+   },
+   {
+    "q": 18,
+    "mu_q": 0,
+    "phi_q": 6,
+    "squarefree": false,
+    "Z_star_q": 73244810494458.66,
+    "Z_star_per_a_mean": 12207468415743.11,
+    "Z_star_over_N3": 9.155601311807333,
+    "Z_star_over_phi_q_N3": 1.5259335519678887
+   },
+   {
+    "q": 20,
+    "mu_q": 0,
+    "phi_q": 8,
+    "squarefree": false,
+    "Z_star_q": 97659747325944.88,
+    "Z_star_per_a_mean": 12207468415743.11,
+    "Z_star_over_N3": 12.20746841574311,
+    "Z_star_over_phi_q_N3": 1.5259335519678887
+   },
+   {
+    "q": 25,
+    "mu_q": 0,
+    "phi_q": 20,
+    "squarefree": false,
+    "Z_star_q": 244149368314862.25,
+    "Z_star_per_a_mean": 12207468415743.113,
+    "Z_star_over_N3": 30.51867103935778,
+    "Z_star_over_phi_q_N3": 1.5259335519678892
+   },
+   {
+    "q": 30,
+    "mu_q": -1,
+    "phi_q": 8,
+    "squarefree": true,
+    "Z_star_q": 97648399424420.22,
+    "Z_star_per_a_mean": 12206049928052.527,
+    "Z_star_over_N3": 12.206049928052527,
+    "Z_star_over_phi_q_N3": 1.525756241006566
+   }
+  ],
+  "squarefree_Z_over_phi_N3_range": [
+   0.863871905189531,
+   1.525756241006566
+  ],
+  "nonsquarefree_Z_over_phi_N3_range": [
+   1.5259335519678883,
+   1.5259335519678892
+  ],
+  "reading": "Z_star_over_phi_q_N3 (Z*_(q) divided by phi(q)*N^3, the natural per-residue trivial-order normalization) is checked separately for squarefree and non-squarefree q. If mu(q)=0 collapses P_{q,a} to 0 identically (as the definitions force), R_{q,a}=F_N exactly for every a at non-squarefree q, so Z_(q) there carries no bias-subtraction at all, unlike U_(q) which vanishes identically on the same q (RANK3_ROUTE_D.md Section 4)."
+ },
+ "experiment_2_fixed_q2_varying_N": {
+  "q": 2,
+  "rows": [
+   {
+    "q": 2,
+    "mu_q": -1,
+    "phi_q": 1,
+    "squarefree": true,
+    "Z_star_q": 6842565910.955093,
+    "Z_star_per_a_mean": 6842565910.955093,
+    "N": 2000,
+    "Z_star_over_N3": 0.8553207388693866,
+    "Z_star_over_N3_logN": 0.11252884028206772
+   },
+   {
+    "q": 2,
+    "mu_q": -1,
+    "phi_q": 1,
+    "squarefree": true,
+    "Z_star_q": 54929904906.7426,
+    "Z_star_per_a_mean": 54929904906.7426,
+    "N": 4000,
+    "Z_star_over_N3": 0.8582797641678531,
+    "Z_star_over_N3_logN": 0.10348138742961456
+   },
+   {
+    "q": 2,
+    "mu_q": -1,
+    "phi_q": 1,
+    "squarefree": true,
+    "Z_star_q": 441614656241.8391,
+    "Z_star_per_a_mean": 441614656241.8391,
+    "N": 8000,
+    "Z_star_over_N3": 0.862528625472342,
+    "Z_star_over_N3_logN": 0.09597304283904738
+   },
+   {
+    "q": 2,
+    "mu_q": -1,
+    "phi_q": 1,
+    "squarefree": true,
+    "Z_star_q": 3575343596709.0967,
+    "Z_star_per_a_mean": 3575343596709.0967,
+    "N": 16000,
+    "Z_star_over_N3": 0.8728866202903068,
+    "Z_star_over_N3_logN": 0.0901710331967671
+   },
+   {
+    "q": 2,
+    "mu_q": -1,
+    "phi_q": 1,
+    "squarefree": true,
+    "Z_star_q": 28134016886843.867,
+    "Z_star_per_a_mean": 28134016886843.867,
+    "N": 32000,
+    "Z_star_over_N3": 0.858582058314327,
+    "Z_star_over_N3_logN": 0.08276693383826134
+   },
+   {
+    "q": 2,
+    "mu_q": -1,
+    "phi_q": 1,
+    "squarefree": true,
+    "Z_star_q": 227873479103700.8,
+    "Z_star_per_a_mean": 227873479103700.8,
+    "N": 64000,
+    "Z_star_over_N3": 0.8692683376453431,
+    "Z_star_over_N3_logN": 0.07854854466043991
+   }
+  ],
+  "reading": "Isolates the N-power of Z*_(2) (mu(2)=-1, squarefree, phi(2)=1, the single worst dyadic block RANK3_ROUTE_D.md Section 6 prices at O(N^3) once summed over q). Z_star_over_N3 is reported to see whether it is bounded (no unconditional saving beyond trivial order, consistent with Section 2's analytic finding that (V) and (LS) both fail to save at this q) or shrinks with N (which would be a positive, previously unrecorded lead worth flagging)."
+ }
+}

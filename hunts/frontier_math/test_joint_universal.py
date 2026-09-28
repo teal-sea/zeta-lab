@@ -1,4 +1,4 @@
-"""Controls for joint_universal.py — the multi-pair quantifier.
+"""Controls for joint_universal.py, the multi-pair quantifier.
 
 The module's job is to say honestly how far the joint verdict extends
 beyond `paper_joint.py`'s configuration sweep.  These controls pin the
@@ -12,7 +12,7 @@ five things a reader has to be able to check without rerunning a search:
     budget, re-checked at the module's own resolution;
 (d) theta = 1 diverges (no charge, unbounded stack);
 (e) a planted inflation of one pair's damage opens a verdict that closes
-    honestly — the detector has power.
+    honestly, the detector has power.
 
 Each cap evaluation costs a field pass over a 400-grid-unit halo, so the
 configurations are built once at import and reused.
@@ -57,8 +57,8 @@ DIPOLE = [(0.0, 0.49), (6.406, 0.49)]
 def test_autocorrelation_closed_form_and_mass():
     """c2 = phi^2 * phi^2 in closed form, its mass A^2, and its sign.
 
-    Positivity is not a measurement here — both terms of the closed form
-    have arguments inside the first quadrant — but a numerical floor is
+    Positivity is not a measurement here, both terms of the closed form
+    have arguments inside the first quadrant, but a numerical floor is
     pinned anyway so that a future edit to the formula cannot quietly
     lose it.
     """
@@ -85,7 +85,7 @@ def test_W_is_a_cosine_transform_of_a_nonnegative_measure():
 
 def test_budget_is_summed_slack_plus_a_signed_pair_term():
     """**The relation, exactly.**  budget(P) = sum_i slack(y_i) +
-    sum_{i != j} T_ij, reproducing ``PaperJoint.budget`` to float noise —
+    sum_{i != j} T_ij, reproducing ``PaperJoint.budget`` to float noise,
     and the pair term is signed, so "k pairs give k * slack" is false in
     both directions.
     """
@@ -180,8 +180,8 @@ def test_rung1_holds_on_the_swept_families():
 
 
 def test_rung1_fails_off_them_on_coincident_stacks():
-    """**The rung-1 verdict.**  Coincident pairs — which the sweep never
-    contains — break subadditivity outright, and the ratio grows with k.
+    """**The rung-1 verdict.**  Coincident pairs, which the sweep never
+    contains, break subadditivity outright, and the ratio grows with k.
     """
     ratios = coincident_ratios(THETA_FULL, 0.49, ks=(2, 3, 4))
     assert ratios[2] > 1.4
@@ -233,7 +233,7 @@ def test_the_per_pair_route_is_refuted_by_a_three_pair_witness():
     k = 3 on, while the JOINT verdict closes comfortably.
 
     So no argument bounding the joint cap by a sum of single-pair caps
-    can fund universality at theta* — the conclusion of such an argument
+    can fund universality at theta*, the conclusion of such an argument
     is false, independently of the direction of the subadditivity
     inequality.  The joint field's shielding is load-bearing.
     """
@@ -247,7 +247,7 @@ def test_the_per_pair_route_is_refuted_by_a_three_pair_witness():
 
 def test_even_split_lemma_is_exact_at_coincidence():
     """The per-cell even-split lemma B(sum F_p, K) <= sum_p B(F_p, K/k)
-    holds, with equality for equal F — which is why it cannot be tightened
+    holds, with equality for equal F, which is why it cannot be tightened
     into a useful bound at theta*."""
     K = JU.pj.K_of(1.0)
     assert even_split_defect(0.02, 0.02, K, 0.005) >= -1e-15
@@ -258,7 +258,7 @@ def test_even_split_lemma_is_exact_at_coincidence():
 
 def test_even_split_bound_is_valid_and_insufficient():
     """It dominates the joint cap, and at the nu = 1 lattice it exceeds
-    the budget — a valid bound that cannot fund the verdict."""
+    the budget, a valid bound that cannot fund the verdict."""
     rec = JU.even_split_bound(NU1_K3, THETA_FULL)
     assert rec["dominates"]
     assert not rec["funds_universality"]
@@ -298,7 +298,7 @@ def test_the_worst_random_configuration_is_inside_budget():
 
 
 def test_the_blind_search_also_breaks_rung_one():
-    """37 of 320 random configurations broke per-pair domination — the
+    """37 of 320 random configurations broke per-pair domination, the
     subadditivity failure is not an artifact of hand-built stacks.  The
     worst find is a near-coincident nine-pair cluster, re-checked here at
     the module's own resolution."""
@@ -339,7 +339,7 @@ def test_cap_diverges_at_theta_one():
 
 def test_the_domination_ratio_is_not_defined_by_infinities_at_theta_one():
     """Both sides diverge at theta = 1, so the rung-1 statement is empty
-    there — pinned so nobody reads a ratio off it."""
+    there, pinned so nobody reads a ratio off it."""
     rec = JU.domination(ISOLATED, 1.0)
     assert math.isinf(rec["cap_joint"]) and math.isinf(rec["cap_single_sum"])
 
@@ -361,7 +361,7 @@ def test_planted_inflation_opens_a_closing_verdict():
 
 
 def test_the_lesion_leaves_the_budget_untouched():
-    """The planted fault is on the damage side only — otherwise the
+    """The planted fault is on the damage side only, otherwise the
     control would be measuring its own arithmetic."""
     honest = PaperJoint().budget(NU1_K3)
     for s in (1.0, 4.0):

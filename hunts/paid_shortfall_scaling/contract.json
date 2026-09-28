@@ -1,0 +1,21 @@
+{
+  "claim_id": "paid-shortfall-scaling-01",
+  "software": [
+    {"name": "python", "version": "3.14.0"},
+    {"name": "python-flint", "version": "0.9.0"},
+    {"name": "mpmath", "version": "1.3.0"}
+  ],
+  "execution_artifacts": [
+    "hunts/paid_shortfall_scaling/scaling.py",
+    "hunts/paid_shortfall/construction.py"
+  ],
+  "mathematics": {
+    "assertion_tested": "Exact cap-mass compression and averaging identities; complete costs of balanced-prefix, averaged-prefix, selected-prefix and base6 families on five fixed cutoffs",
+    "coefficient_domain": "Rational floor coefficients and prime-log vectors, with directed logarithm enclosures",
+    "conventions": "Natural logs, exact integer roots, Q_N={floor(N/d):2<=d<=N}, y=floor(sqrt N), cutoff range max(2,ceil(y/2))<=h<=y",
+    "inputs": ["Explicit balanced Mobius prefixes and their uniform average", "Complete-cost selection over a finite prefix family", "Perfect-power capacity u(d)=log(d)/r(d) and raw log(d) capacity"],
+    "bounds": {"N": [144,576,2304,9216,36864], "cap_identity_N": "all integers 0 through 256", "averaging_identity_N": [16,36,64,144], "maximum_candidate_cutoffs": 97, "precision_requests": [35,70]},
+    "non_claims": ["No uniform growth exponent or RH claim", "No novelty or best prime-counting bound claim", "The supplemental profile note is not tested by this run", "Decimal summaries are rounded displays; exact rational enclosure endpoints are separately retained"]
+  },
+  "randomness": {"used": false, "generator": "", "seed": null}
+}

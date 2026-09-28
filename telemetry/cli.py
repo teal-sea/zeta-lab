@@ -1,4 +1,4 @@
-"""``telemetry.cli`` — the emission boundary. ``python -m telemetry ...``
+"""``telemetry.cli``, the emission boundary. ``python -m telemetry ...``
 
 Three ways to emit, all writing the same events. They exist because the
 narrowest safe boundary differs per provider, and pretending one wrapper fits
@@ -11,7 +11,7 @@ everything is how telemetry ends up optional:
     git. Nothing to remember. This is the boundary to prefer.
 
 ``start`` / ``finish``
-    Explicit boundaries for a unit of work no single command wraps — an agent
+    Explicit boundaries for a unit of work no single command wraps, an agent
     session, a formalization sprint. The shipped hooks call exactly these.
 
 ``reconstruct``
@@ -22,7 +22,7 @@ everything is how telemetry ends up optional:
 
 What this module will not do, and the reasons are load-bearing:
 
-* it never invents a model, a token count or a cost — ``--model`` is an
+* it never invents a model, a token count or a cost, ``--model`` is an
   explicit declaration recorded with its ``model_source``, and this environment
   exports no model identifier to sniff even if that were wanted;
 * it never writes outside ``--root``;
@@ -57,7 +57,7 @@ __all__ = ["main", "default_root", "default_repo"]
 
 
 def default_root() -> Path:
-    """``<repo>/telemetry`` — the directory this package lives in."""
+    """``<repo>/telemetry``, the directory this package lives in."""
     return Path(__file__).resolve().parent
 
 
@@ -81,7 +81,7 @@ def _collect_artifacts(repo: Path, start_commit: str | None) -> list[dict]:
 
     Union of (a) paths changed between ``start_commit`` and HEAD and (b) paths
     dirty or untracked right now. A path that no longer exists is recorded with
-    a null digest rather than dropped — a deletion is a thing a run did.
+    a null digest rather than dropped, a deletion is a thing a run did.
     """
     paths: set[str] = set()
     if start_commit:
@@ -226,7 +226,7 @@ def _cmd_finish(args: argparse.Namespace) -> int:
 
 
 def _cmd_wrap(args: argparse.Namespace) -> int:
-    """Start, run the command, finish — the automatic path."""
+    """Start, run the command, finish, the automatic path."""
     root, repo = Path(args.root), Path(args.repo)
     run_id = args.run_id or new_run_id()
     _emit_started(root, repo, args, run_id)
@@ -300,7 +300,7 @@ def _add_start_options(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--model-source", default="declared-by-operator",
         choices=["declared-by-operator", "declared-by-agent", "provider-api", "env"],
-        help="how the model identity was learned — required whenever --model is given",
+        help="how the model identity was learned, required whenever --model is given",
     )
     parser.add_argument("--capture", default="contemporaneous",
                         choices=["contemporaneous", "reconstructed"])

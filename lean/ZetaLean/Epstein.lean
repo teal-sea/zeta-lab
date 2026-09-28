@@ -71,7 +71,7 @@ the scalar constraint `1 + iκ = w · (1 - iκ)`.  The two theorems below are
 the finite algebra of that reduction, kernel-checked: the constraint forces
 `κ = -i(w-1)/(w+1)` (uniqueness), and for any unimodular `w ≠ -1` that value
 is real (existence of a *real* κ, which is what makes the Davenport-Heilbronn
-coefficients real).  What is **not** formalized here is the analytic input —
+coefficients real).  What is **not** formalized here is the analytic input,
 the functional equation itself and the value of `w` for the character mod 5;
 those remain the oracle side of the boundary.
 -/

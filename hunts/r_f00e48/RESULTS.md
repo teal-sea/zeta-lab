@@ -1,4 +1,4 @@
-# R-F00E48 — the salvage, and what checking it turned up
+# R-F00E48: the salvage, and what checking it turned up
 
 **Status: settled.** Four arms landed, one held back on purpose, 29/29
 acceptance checks pass, and one real defect was found in the material while
@@ -136,7 +136,7 @@ nothing on the certainty ladder.
    the campaign's one promoted claim, it is now on `main`, and its
    transcription of the source paper's SS7.1/SS7.5(g) functional is
    load-bearing and unchecked. *First step:* run the blind brief
-   `harness.review.generate_briefs` already emits for `rf-c003-window` —
+   `harness.review.generate_briefs` already emits for `rf-c003-window`,
    re-derive F for `cos(8s/5)` from the source paper alone and check it
    against `PAPER_F_30` in `window_opt/functional.py` before looking at the
    quartic.

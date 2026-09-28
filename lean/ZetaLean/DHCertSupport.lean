@@ -13,26 +13,26 @@ import ZetaLean.DHZeroCriterion
 The offline certification of the Davenport–Heilbronn off-line zero covers
 the frontier of `dhSquare` with sub-boxes and certifies, per box, a lower
 bound on `‖DH‖ over the whole box`.  The generated per-box proofs should be
-long lists of *instances*, not of *arguments* — so every piece of reasoning
+long lists of *instances*, not of *arguments*, so every piece of reasoning
 that can be proved once, parametrically, lives here:
 
-* `ComplexInterval.invC` / `contains_invC` — the inverse of a complex box
+* `ComplexInterval.invC` / `contains_invC`: the inverse of a complex box
   bounded away from `0`, via `1/z = conj z / |z|²` in real interval
   arithmetic.  Needed because the antiderivative correction `dhAnti`
   divides by `5(1−s)` with `s` ranging over a box.
-* `rpow_neg_div_le` — certify `x^{-(a/b)} ≤ P` by the single rational
+* `rpow_neg_div_le`: certify `x^{-(a/b)} ≤ P` by the single rational
   inequality `1 ≤ P^b · x^a`: the `b`-th-root trick that turns the tail
   radius's real power into `norm_num` arithmetic.
-* `DH_mem_of_partial_enclosure_order2_boxed` — the boxed-`s` assembly
+* `DH_mem_of_partial_enclosure_order2_boxed`: the boxed-`s` assembly
   theorem: every hypothesis beyond the two structural containments is a
   rational inequality a generated `norm_num` can discharge.
-* `dhSumBoxes` / `contains_dhSumBoxes` — the partial-sum box as a fold,
+* `dhSumBoxes` / `contains_dhSumBoxes`: the partial-sum box as a fold,
   with containment by induction, so a generated file only supplies the
   per-term facts.
 * `contains_dhBlock_of_terms` / `contains_dhAnti_of_terms` /
-  `contains_inv5sBox` / `contains_half_of` / `contains_corrected` — the
+  `contains_inv5sBox` / `contains_half_of` / `contains_corrected`: the
   correction terms of the order-2 bound, assembled from term boxes once.
-* `norm_lt_of_enclosure` / `le_norm_of_enclosure` — reading the two square
+* `norm_lt_of_enclosure` / `le_norm_of_enclosure`: reading the two square
   criterion inequalities off computed boxes.
 -/
 
@@ -77,7 +77,7 @@ theorem contains_invC {x : ComplexInterval} (hx : 0 < x.normSqI.lo)
 /-- **A composite term costs one multiplication, not an exponential tower.**
 
 `m^{-s}` is enclosed per `m` by `dirichletTermBox`, whose `expCr` tower is
-where the certificate's cost actually lives — and HANDOFF records the
+where the certificate's cost actually lives, and HANDOFF records the
 measurement that killed the naive route: a single `dirichletTermBox` literal
 equality takes ~8 minutes and still exceeds `simp`'s step limit, because
 ~500 interval operations on multi-thousand-bit rationals make the traversal
@@ -86,7 +86,7 @@ explode.
 `cpow` of a natural is multiplicative (`Complex.natCast_mul_natCast_cpow`),
 so a composite `m = a * b` needs no tower of its own: multiply the two boxes
 already computed for its factors.  That is one small `norm_num` per composite
-instead of one tower, leaving towers only for the primes below `5K` — the
+instead of one tower, leaving towers only for the primes below `5K`, the
 difference between ~`5K` towers per site and ~`π(5K)` of them.
 
 Nothing is weakened.  `contains_mul` is the same interval product the rest of
@@ -116,8 +116,8 @@ theorem contains_cpow_mul_coarsen (p : ℕ) {a b : ℕ} {A B : ComplexInterval} 
 end ComplexInterval
 
 /-- **The `b`-th-root trick.**  A rational upper bound on `x^{-(a/b)}`
-follows from the single rational inequality `1 ≤ P^b · x^a` — which
-`norm_num` checks — for `1 ≤ x`, `0 < P`. -/
+follows from the single rational inequality `1 ≤ P^b · x^a`, which
+`norm_num` checks, for `1 ≤ x`, `0 < P`. -/
 theorem rpow_neg_div_le {x : ℝ} (hx : 1 ≤ x) {a b : ℕ} (hb : 0 < b) {P : ℚ}
     (hP : 0 < P) (hpow : 1 ≤ (P : ℝ) ^ b * x ^ a) :
     x ^ (-((a : ℝ) / (b : ℝ))) ≤ (P : ℝ) := by
@@ -366,7 +366,7 @@ theorem contains_corrected {P B A : ComplexInterval} {p b a : ℂ}
 two structural containments (`hS`, `hB`), every hypothesis is a rational
 inequality: the box's own corners give `0 < Re s` and `s ≠ 1`, rational
 norm bounds `NS ≥ normBound S` (etc.) dominate the norms, and the tail
-radius is certified through the `b`-th-root trick — `σlo + 2 = a/b` and
+radius is certified through the `b`-th-root trick, `σlo + 2 = a/b` and
 `1 ≤ P^b (5K+1)^a` make `P ≥ (5K+1)^{-σlo-2}`.  This is the theorem every
 generated boundary-box (and centre) proof instantiates. -/
 theorem DH_mem_of_partial_enclosure_order2_boxed
@@ -507,7 +507,7 @@ theorem le_norm_of_enclosure {B : ComplexInterval} {z : ℂ} {q : ℚ}
 plus Cauchy's derivative estimate
 
 Interval enclosures over a boxed `s` have widths that *add* across the
-series — fatal for lower bounds, harmless for upper bounds.  So the
+series, fatal for lower bounds, harmless for upper bounds.  So the
 boundary certificate takes the long way round: boxed evaluation gives
 `‖DH‖ ≤ M` on the frontier of a *large* square, the maximum principle
 extends `M` to its closure, Cauchy's estimate turns `M` into a derivative

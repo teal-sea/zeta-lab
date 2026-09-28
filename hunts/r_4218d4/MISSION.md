@@ -1,4 +1,4 @@
-# Hunt R-4218D4 — Tighten the variance constant 5855
+# Hunt R-4218D4: Tighten the variance constant 5855
 
 ## The question
 

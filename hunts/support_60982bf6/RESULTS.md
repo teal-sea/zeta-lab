@@ -1,4 +1,4 @@
-# RESULTS — Erdős #126, exact search over choices of $S$ (support_60982bf6)
+# RESULTS: Erdős #126, exact search over choices of $S$ (support_60982bf6)
 
 **Hunt, not a result. Nothing here is evidence for or against RH (`docs/08`).**
 
@@ -17,8 +17,8 @@ rather than freezing the first $k$ primes, and use the computation only to
    in `r_186989` "changed not one row": the admissible sets are exactly the
    $S$-smooth dilates of primitive ones, so a wider box only produces bigger
    copies of the same set.
-3. `r_186989`'s cleanest proposed lemma — *"$|A| \le p-1$ when $p \notin S$,
-   by pigeonhole on residues mod $p$"* — is **false**, and false structurally,
+3. `r_186989`'s cleanest proposed lemma, *"$|A| \le p-1$ when $p \notin S$,
+   by pigeonhole on residues mod $p$"*, is **false**, and false structurally,
    not just numerically. Explicit counterexamples for $p = 3, 5, 7$ below;
    $p = 2$ is the only prime for which the argument works at all.
 4. The one **conjectural lemma** offered is *uniformly bounded height*: for
@@ -56,7 +56,7 @@ affordable. Every reported witness is re-verified from scratch by full
 trial-division prime support (`verify`), not by the smoothness table that found
 it.
 
-## 1. Ranging over $S$ — the sweep
+## 1. Ranging over $S$: the sweep
 
 All $\binom{9}{k}$ subsets $S$ of $\{2,3,5,7,11,13,17,19,23\}$, exhaustive
 inside the box:
@@ -81,7 +81,7 @@ than that hunt guessed.
 
 **(b) $2 \notin S \Rightarrow g_N(S) = 2$, in all 218 such rows.** That
 reproduces `r_186989`'s parity observation exhaustively rather than at one $S$.
-It is a theorem, not a measurement — see Lemma 3.
+It is a theorem, not a measurement, see Lemma 3.
 
 **(c) Every maximizer at $k \ge 2$ contains $\{2,3\}$; every maximizer at
 $k = 5$ contains $\{2,3,5\}$.** This is the sharpest *unproved* regularity the
@@ -113,7 +113,7 @@ below 50". Lemma 1 is the explanation and it removes the puzzle: a wider box
 contains the dilates $2A_0, 3A_0, 6A_0, \dots$ of every small optimum, so the
 number of optima explodes with $N$ while the maximum size does not move. Our own
 solver, run at $N = 20000$ on $S=\{2,3,5\}$, returns
-$\{120, 2280, 3720, 10680, 19320\}$ — which is $40 \cdot \{3, 57, 93, 267, 483\}$,
+$\{120, 2280, 3720, 10680, 19320\}$, which is $40 \cdot \{3, 57, 93, 267, 483\}$,
 a dilate, not a new phenomenon.
 
 It also says the right question about the search box is **not** "how big is $N$"
@@ -152,8 +152,8 @@ box $N = 400$):
 | 3 | 2 | **6** | $\{2,5,7,11,23\}$ | $\{5,45,65,95,155,395\}$ |
 | 5 | 4 | **8** | $\{2,3,7,11,13,17\}$ | $\{12,36,60,132,156,252,276,372\}$ |
 | 7 | 6 | **8** | $\{2,3,5,11,13\}$ | $\{8,24,40,56,64,136,152,376\}$ |
-| 11 | 10 | 9 | $\{2,3,5,7,13,17\}$ | — (not refuted at this reach) |
-| 13 | 12 | 9 | $\{2,3,5,7,11,17\}$ | — (not refuted at this reach) |
+| 11 | 10 | 9 | $\{2,3,5,7,13,17\}$ |, (not refuted at this reach) |
+| 13 | 12 | 9 | $\{2,3,5,7,11,17\}$ |, (not refuted at this reach) |
 
 The smallest counterexample is already inside `r_186989`'s own arm-2 table:
 $S = \{2,5,7\}$, $A = \{1,3,7,13\}$, sums $4,8,14,10,16,20$, and $3 \notin S$
@@ -175,8 +175,8 @@ $g(k)$ grows and $p$ does not.
 
 The $p=2$ half is the parity statement `r_186989` already had. The general half
 is a constraint on the *residue support* of $A$, not on its size. It is still
-worth having — it is a real restriction, it holds simultaneously for every prime
-outside $S$, and it is the natural place a counting argument would start — but
+worth having, it is a real restriction, it holds simultaneously for every prime
+outside $S$, and it is the natural place a counting argument would start, but
 it is not the iterable size bound the thread hoped for.
 
 ## 4. Refutation: $g$ is not monotone in the size of the primes. **Box-conditional.**
@@ -204,7 +204,7 @@ $13 = 1 + 12$ and $26 = 2 + 24$ put it one smooth step from small $\{2,3\}$-smoo
 numbers; $11$ is not. A lemma about $S$ will have to be about additive position,
 not about size, and that is a genuine finding about the shape of the problem.
 
-## 5. Conjecture 1 (uniformly bounded height) — the lemma offered
+## 5. Conjecture 1 (uniformly bounded height): the lemma offered
 
 > **Conjecture (uniformly bounded height).** For an admissible family define
 > $$h(S) \;=\; \min\{\max A \;:\; A \text{ is } S\text{-admissible},\; |A| = g(S)\}.$$
@@ -217,7 +217,7 @@ Two remarks on what is and is not being claimed. $h(S)$ is finite for each
 individual $S$ for trivial reasons ($g(S)$ is finite by Erdős–Turán, and any
 maximum set has a largest element); the content is the **uniformity in $S$**.
 And by Lemma 1 the minimum is attained on a *primitive* set, so $h$ is a
-statement about genuinely distinct sets rather than about dilates — without
+statement about genuinely distinct sets rather than about dilates, without
 Lemma 1 the quantity would not even be the right one to bound.
 
 **Two explicit forms were tried and killed by this run's own data.** This is
@@ -237,13 +237,13 @@ choose between $C^k$, $2^{2^k}$ and worse.
 is that "the bounded search is structurally incapable" of an upper bound on
 $g(k)$. Uniform height bounding is the missing ingredient for *half* of that:
 
-- With $B(k)$ explicit, **$g(S)$ for a fixed $S$ becomes a finite computation** —
-  a maximum clique inside $[1, B(k)]$ — and every "$\le$" in §4 and in
+- With $B(k)$ explicit, **$g(S)$ for a fixed $S$ becomes a finite computation**,
+  a maximum clique inside $[1, B(k)]$, and every "$\le$" in §4 and in
   `r_186989`'s table stops being box-conditional.
 - It is **not** by itself enough for $g(k) = \max_{|S|=k} g(S)$. That needs a
   second ingredient: a bound on which primes can appear in a maximizing $S$.
-  §4 shows that ingredient is delicate — large primes are not automatically
-  worse — so we flag it as a separate open gap rather than folding it in. Any
+  §4 shows that ingredient is delicate, large primes are not automatically
+  worse, so we flag it as a separate open gap rather than folding it in. Any
   claim that Conjecture 1 alone finitises $g(k)$ would be wrong.
 
 One encouraging measurement about that second gap: even where an individual $S$
@@ -266,14 +266,14 @@ height that matters for $g(k)$ may be much smaller than $\max_S h(S)$.
   *box* maximum is reached. If some $S$ has a larger optimum outside the box,
   its true $h$ is larger and that row is void. **The conjecture is verified for
   no $S$**; it is *consistent with* every $S$ measured.
-- $k \le 6$, and $S$ drawn only from the first nine primes — which is precisely
+- $k \le 6$, and $S$ drawn only from the first nine primes, which is precisely
   the regime the conjecture's uniformity clause is about, so the evidence is
   weakest exactly where the statement is strongest.
 - $2 \in S$ is required; without it $g = 2$ (Lemma 3) and the statement is
   vacuous.
 - **No route to a proof was found here.** The conjecture is offered because it
   is sharp, cheap to attack, and would be *disproved* by a single $S$ with a
-  tall optimum — a search this machinery can run and which we did not have the
+  tall optimum, a search this machinery can run and which we did not have the
   budget to run broadly.
 
 ## 6. Audit of `hunts/r_186989/RESULTS.md`
@@ -287,7 +287,7 @@ different solver:
 | $f$/$g$ inverse-staircase restatement, $f(n)/\log n \to \infty \iff g(k)^{1/k} \to 1$ | **Correct.** |
 | §2 lemma $f(n-1) \le f_0(n) \le f(n)$ | **Correct**; proof is sound as written. |
 | §4: a composition law $g(k_1+k_2) \ge g(k_1)g(k_2)$ would *refute* #126, via Fekete and $g(1)=2$ | **Correct**, and the $g(1) \le 2$ argument is sound. This is the most valuable thing in that hunt. |
-| "$2 \in S$ or not, then a wobble of one" is the whole $S$-dependence | **Understated.** At $k=5$ the range over $S$ with $2 \in S$ is $4$ to $8$ — a factor of two, not a wobble. The conclusion (first $k$ primes are not beaten) survives; the characterisation of the $S$-landscape does not. |
+| "$2 \in S$ or not, then a wobble of one" is the whole $S$-dependence | **Understated.** At $k=5$ the range over $S$ with $2 \in S$ is $4$ to $8$, a factor of two, not a wobble. The conclusion (first $k$ primes are not beaten) survives; the characterisation of the $S$-landscape does not. |
 | "the optima are tiny and the universe does not matter" | **Correct but unexplained there.** Lemma 1 explains it. |
 | loose thread 3: $|A| \le p-1$ for $p \notin S$ | **False.** §3. |
 | doors table: $S$ is "the door with genuine trade shape" | **Not supported.** Exhaustive over the first nine primes for $k \le 5$, optimising $S$ buys nothing over the first $k$ primes. |
@@ -317,8 +317,8 @@ re-verified by trial division. Generated by `probe3.py`; also in
 | $\{2,3,5,7,11,13\}$ | 6 | 1024 | 10 | 47 | $\{1,3,5,7,9,13,17,19,23,47\}$ |
 | $\{2,3,5,7,11,17\}$ | 6 | 1024 | 9 | 69 | $\{1,3,6,15,21,27,29,39,69\}$ |
 
-Two things to read off. **Height is not monotone in $k$** — $159$ at $k=4$,
-$47$ at $k=6$ — so it is not a quantity that will yield to a naive induction.
+Two things to read off. **Height is not monotone in $k$**, $159$ at $k=4$,
+$47$ at $k=6$, so it is not a quantity that will yield to a naive induction.
 And **$h$ is far below the box in every row**, by factors of $7$ to $6700$,
 which is the actual content of `r_186989`'s "the universe does not matter".
 
@@ -354,21 +354,21 @@ This hunt measured a ceiling ($g_N(S)$ over all $S$), so it owes the list.
 |---|---|---|
 | prime pool for $S$ | first 9 primes | The sweep cannot see an $S$ using a large prime. Cheap to widen at $k \le 3$; the count $\binom{\pi(P)}{k}$ is the cost. **This is the door with real trade shape now**, because §4 shows large primes are not automatically worse. |
 | $k_{\max}$ over all $S$ | 5 | The only way to test claim 1(a) further. Cost is $\binom{9}{6} = 84$ searches at $k=6$, affordable; $k=8,9$ needs a better clique solver. |
-| box $N$ | 600–20000 | Shown slack twice over. **Low value** — and Lemma 1 says why, which is more useful than the measurement. |
+| box $N$ | 600–20000 | Shown slack twice over. **Low value**, and Lemma 1 says why, which is more useful than the measurement. |
 | the exponent $k+2$ in Conjecture 1 | fitted to $k\le 6$ | Any $C^k$ fits the same data. Relaxing it costs nothing and buys honesty; tightening it is what would make the conjecture bite. |
 | requiring $A \subset \mathbb{Z}_{>0}$ | yes | `r_186989` §2 already handles the $0 \in A$ variant. |
 
 **3. Information class.** Doors 1–3 stay **inside** the data this family reads
-(integers and the smoothness of their pairwise sums), so — as `r_186989`
-correctly said — they cannot produce an upper bound on $g(k)$ *by enumeration*.
+(integers and the smoothness of their pairwise sums), so, as `r_186989`
+correctly said, they cannot produce an upper bound on $g(k)$ *by enumeration*.
 The exception, and the reason this arm is not a repeat of that one, is
 **Conjecture 1**: it is a statement about this same data whose *truth* would
 license a finite computation of $g(k)$, i.e. it converts an in-class search into
 an out-of-class conclusion. Proving it almost certainly requires the $S$-unit
 machinery (Evertse–Győry bounds on $x + y = 1$ in $S$-units) that `r_186989`
 identified as the real wall. The difference is that Conjecture 1 gives that
-machinery a **concrete finite target** — bound the height of a solution, not the
-number of them — which is a smaller ask than the full problem.
+machinery a **concrete finite target**, bound the height of a solution, not the
+number of them, which is a smaller ask than the full problem.
 
 ## Loose threads
 

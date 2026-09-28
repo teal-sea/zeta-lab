@@ -9,8 +9,8 @@ proof, and nothing in a float records how far it might be from the truth.
 
 Ball (interval) arithmetic replaces the number by an **enclosure**: a pair
 ``lo ≤ hi`` together with the guarantee that the true value lies in ``[lo, hi]``.
-Every operation propagates the guarantee — ``[a,b] + [c,d] ⊇ {x+y}`` with the
-endpoints rounded *outward* — so the final interval is a theorem about the true
+Every operation propagates the guarantee, ``[a,b] + [c,d] ⊇ {x+y}`` with the
+endpoints rounded *outward*, so the final interval is a theorem about the true
 value, not a hope about the computed one.
 
 The pay-off here is one sentence long:
@@ -21,7 +21,7 @@ The pay-off here is one sentence long:
 A sign change between two *proven* signs is then a proven zero of Hardy's Z
 (Z is real and continuous, so it must vanish in between), and a count of such
 sign changes is a rigorous lower bound for the number of zeros of ζ on the
-critical line — a theorem rather than an observation.  Combined with a
+critical line, a theorem rather than an observation.  Combined with a
 *certified* N(T) it turns :func:`zeta.zeros.verify_rh_up_to` from "accurate" into
 "rigorous".  This is exactly the standard that makes large verifications
 citable: Platt–Trudgian's RH verification to height 3·10¹² and Helfgott's proof
@@ -34,7 +34,7 @@ Certified here means: *given* that the backend library implements ball
 arithmetic correctly and that the mathematical identities quoted below are
 correct, the returned enclosures contain the true values, and the returned
 integers (signs, zero counts) are the true ones.  The residual trust is in the
-library and in the standard theorems — not in floating-point luck.  Anything
+library and in the standard theorems, not in floating-point luck.  Anything
 this module cannot certify is reported rather than papered over: an undecided
 sign comes back as ``0`` from :func:`proven_sign` and as an entry in
 ``undecided_points``, and a step of :func:`certified_zero_count` /
@@ -46,10 +46,10 @@ Backends
 --------
 ``BACKEND`` names the ball-arithmetic engine chosen at import time:
 
-* ``"python-flint"`` — the Arb library.  ζ, log Γ and π are computed as balls
+* ``"python-flint"``: the Arb library.  ζ, log Γ and π are computed as balls
   by Arb itself, which is the reference implementation of rigorous complex
   ball arithmetic.
-* ``"mpmath.iv"`` — mpmath's own interval context, always available.  mpmath
+* ``"mpmath.iv"``: mpmath's own interval context, always available.  mpmath
   provides rigorous interval ``exp``/``log``/``atan``/``loggamma`` but **no**
   interval ζ, so ζ is built here from Euler–Maclaurin with the classical
   explicit remainder bound
@@ -66,7 +66,7 @@ certified implementations must produce **overlapping** enclosures, and
 
 Cost
 ----
-Rigor is not free — see :func:`enclosure_width_report`, which measures how the
+Rigor is not free, see :func:`enclosure_width_report`, which measures how the
 enclosure width shrinks with precision.  Roughly, the width of an Arb enclosure
 of Z(t) falls by a factor 2 per extra bit until it hits the intrinsic width of
 the input, so proving a sign costs ``O(log(1/|Z(t)|))`` bits.
@@ -114,10 +114,10 @@ _LOG2_10 = 3.321928094887362
 
 
 def _exact(value) -> Fraction:
-    """The *exact* rational value of ``value`` — no rounding anywhere.
+    """The *exact* rational value of ``value``, no rounding anywhere.
 
     A float is a dyadic rational and is converted bit-exactly (``Fraction(0.1)``
-    is 3602879701896397/36028797018963968, not 1/10 — which is right: the float
+    is 3602879701896397/36028797018963968, not 1/10, which is right: the float
     the caller handed us really is that number, and the enclosure must be of
     Z at *that* point).  mpmath ``mpf`` values are read out of their
     ``(sign, man, exp, bc)`` representation, also bit-exactly.  Strings and
@@ -125,13 +125,13 @@ def _exact(value) -> Fraction:
     encloses Z at 29/2 exactly.
 
     **Anything else is refused, and that refusal is load-bearing.**  Until
-    2026-08-11 the fallthrough was ``Fraction(str(value))`` — the *printed
+    2026-08-11 the fallthrough was ``Fraction(str(value))``, the *printed
     decimal* taken as exact.  ``numpy.float64`` is a ``float`` subclass and was
     safe, but ``numpy.float32``/``float16``/``longdouble`` and ``sympy.Float``
     are not: ``np.float32(21.02203941345215)`` is exactly 11021603/524288,
     while its repr parses as 525551/25000, a different point by ~4e-7.  The
     enclosure returned was then a ~1e-46-wide interval around Z at *the wrong
-    abscissa*, and ``proven_sign`` returned a nonzero — i.e. a wrong proof —
+    abscissa*, and ``proven_sign`` returned a nonzero, i.e. a wrong proof,
     identically on both backends, so the cross-check could not see it.  The
     rule now: convert through the exact binary value when the widening is
     lossless (float32/float16), and raise ``TypeError`` otherwise.  A
@@ -197,7 +197,7 @@ class _PrecGuard:
     Both backends keep precision in a module-global (``flint.ctx.prec``,
     ``mpmath.iv.prec``).  The repo's house rule is that no global numerical
     state may leak out of a call, so every backend entry point wraps itself in
-    one of these — the ball-arithmetic analogue of ``mp.workdps``.
+    one of these, the ball-arithmetic analogue of ``mp.workdps``.
     """
 
     def __init__(self, get, set_, prec):
@@ -246,10 +246,10 @@ def _flint_prec(prec: int) -> _PrecGuard:
 def _arb_bounds(x) -> tuple:
     """``(lo, hi)`` as exact mpmath ``mpf`` for an Arb ball ``x``.
 
-    A ball that Arb could not bound at all (it happens for very wide inputs —
+    A ball that Arb could not bound at all (it happens for very wide inputs,
     ζ over the whole segment [1/2, 2] at a large height, say) comes back as
     ``(−inf, +inf)``.  That is still a true enclosure; it simply decides
-    nothing, which is exactly what the callers should — and do — conclude.
+    nothing, which is exactly what the callers should, and do, conclude.
     Never raise here: an unusable bound is information, not an error.
     """
     if not x.is_finite():
@@ -364,7 +364,7 @@ class _MPIntervalBackend:
     """Adapter over ``mpmath.iv``, with ζ supplied by certified Euler–Maclaurin.
 
     mpmath's interval context has rigorous ``exp``, ``log``, ``atan``, ``pi``
-    and — crucially — ``loggamma`` for complex intervals, but no interval ζ.
+    and, crucially, ``loggamma`` for complex intervals, but no interval ζ.
     :meth:`zeta_box` therefore evaluates
 
         ζ(s) = Σ_{n<N} n^{−s} + N^{−s}/2 + N^{1−s}/(s−1)
@@ -444,7 +444,7 @@ class _MPIntervalBackend:
         """θ(t) = Im log Γ(1/4 + it/2) − (t/2) log π as an interval.
 
         The purely-real case is special-cased: log Γ(1/4) is real, so
-        Im log Γ = 0 exactly and θ(0) = 0.  (It also has to be special-cased —
+        Im log Γ = 0 exactly and θ(0) = 0.  (It also has to be special-cased,
         ``mpmath.libmp.mpci_gamma`` crashes on a complex interval whose
         imaginary part is exactly zero, passing the complex pair where the real
         interval is expected.  Verified against mpmath 1.3.0.)
@@ -521,7 +521,7 @@ if _HAVE_FLINT:  # pragma: no cover - machine dependent
 #: Arb-backed wheel imports, otherwise ``"mpmath.iv"``.
 BACKEND: str = "python-flint" if _HAVE_FLINT else "mpmath.iv"
 
-#: Why :data:`BACKEND` is what it is — quote this verbatim when reporting.
+#: Why :data:`BACKEND` is what it is, quote this verbatim when reporting.
 BACKEND_REASON: str = _FLINT_REASON if _HAVE_FLINT else (
     f"{_FLINT_REASON}; falling back to mpmath's interval context"
 )
@@ -552,7 +552,7 @@ def enclose_Z(t, prec_bits: int = 128, backend: str | None = None) -> tuple:
     """A **rigorous enclosure** ``(lo, hi)`` of Hardy's Z(t): ``lo ≤ Z(t) ≤ hi``.
 
     ``t`` is converted to its exact rational value first (see :func:`_exact`),
-    so the enclosure is of Z at precisely the point the caller named — a float
+    so the enclosure is of Z at precisely the point the caller named, a float
     argument means the dyadic rational that float really is.
 
     Z(t) = e^{iθ(t)} ζ(1/2+it) with θ(t) = Im log Γ(1/4+it/2) − (t/2) log π is
@@ -595,14 +595,14 @@ def proven_sign(
     """+1 or −1 if the sign of Z(t) is **proven**; 0 if it cannot be decided.
 
     The enclosure ``[lo, hi]`` of Z(t) is computed at ``prec_bits``.  If
-    ``lo > 0`` the true value is positive — that is a proof, not an estimate.
+    ``lo > 0`` the true value is positive, that is a proof, not an estimate.
     If ``hi < 0`` it is negative.  Otherwise the enclosure straddles zero, the
     sign is *unknown*, the precision is doubled and the attempt repeated, up to
     ``max_escalations`` times.  If it still straddles zero the function returns
     **0**: the honest answer, "not decided".
 
     It never guesses.  At an exact zero of Z no precision suffices and 0 is the
-    permanent answer, which is correct — Z really has no sign there.  This is
+    permanent answer, which is correct: Z really has no sign there.  This is
     the safe failure mode the whole module is built around, and
     ``tests/test_rigor.py`` exercises it by asking for an absurdly low precision.
     """
@@ -648,15 +648,15 @@ def certified_sign_changes(
 
     Z is sampled on a uniform grid of exact rational abscissae and each sample's
     sign is established by :func:`proven_sign`.  Consecutive samples whose
-    proven signs differ bracket a zero of Z — hence a zero of ζ *on the critical
-    line*, since |Z| = |ζ(1/2+it)| — and that bracketing is a theorem: Z is
+    proven signs differ bracket a zero of Z, hence a zero of ζ *on the critical
+    line*, since |Z| = |ζ(1/2+it)|, and that bracketing is a theorem: Z is
     continuous and really does change sign there.
 
     Undecided samples do not invalidate the count; they only break the chain.
     The counter compares each proven sign with the **previous proven sign**, so
     a change straddling an undecided point is still counted (there is genuinely
     a zero between them).  The count is therefore always a rigorous *lower
-    bound* for the number of critical-line zeros in (t0, t1) — a sign-change
+    bound* for the number of critical-line zeros in (t0, t1), a sign-change
     scan can miss zeros (two in one grid cell), never invent them.
 
     ``certified`` is True only when **every** sampled sign was proven.
@@ -733,8 +733,8 @@ def _segment_delta(adapter, xa: Fraction, xb: Fraction, y: Fraction, prec: int, 
     1. **ζ has no zero on the segment.**  ζ is enclosed over the whole segment
        at once (the abscissa is an interval, so the enclosure covers every point
        of the segment), and the enclosure is checked to miss the origin.  A
-       compact convex set missing 0 lies in an open half-plane through 0 — if it
-       contained p and −λp it would contain 0 — so arg varies by strictly less
+       compact convex set missing 0 lies in an open half-plane through 0, if it
+       contained p and −λp it would contain 0, so arg varies by strictly less
        than π along the segment: |Δ| < π.
     2. **the quotient lies in the right half-plane.**  With
        q = ζ(xb+iy)/ζ(xa+iy), a proven Re q > 0 gives |Arg q| < π/2 and keeps
@@ -784,7 +784,7 @@ def certified_zero_count(
       constant ζ(2) − 1 < 1 is itself re-verified by ball arithmetic on every
       call rather than trusted;
     * **the horizontal leg** 2 → 1/2 at height T by adaptive subdivision, each
-      sub-segment certified by :func:`_segment_delta` — ζ enclosed over the
+      sub-segment certified by :func:`_segment_delta`, ζ enclosed over the
       whole sub-segment to prove it has no zero there (so |Δ| < π), and the
       endpoint quotient checked to have positive real part (so Δ is exactly the
       principal argument).  No "the jump was probably less than π" heuristic is
@@ -797,12 +797,12 @@ def certified_zero_count(
     Residual assumptions, stated plainly: the backend's ball arithmetic is
     correct; the Riemann–von Mangoldt identity and Σ_{n≥2} n^{−2} = ζ(2) − 1 are
     correct.  Everything else in the chain is computed with error bars.  No step
-    of the computation itself is left uncertified on either backend — but
+    of the computation itself is left uncertified on either backend, but
     ``uncertified_steps`` is returned regardless, empty on success and naming
     the step on failure, and ``certified`` is False whenever it is non-empty.
 
     Cross-checks are reported under ``'cross_checks'``: mpmath's ``backlunds``
-    and ``nzeros`` (fast, accurate, **not** rigorous — flagged
+    and ``nzeros`` (fast, accurate, **not** rigorous, flagged
     ``mpmath_rigorous: False``), and on the Arb backend Arb's own
     ``zeta_nzeros``, which is a genuinely independent *rigorous* route to the
     same integer via Turing's method.
@@ -891,8 +891,8 @@ def certified_zero_count(
 
     if n_lo is not None:
         # Count the integers in [n_lo, n_hi] *arithmetically*.  Enumerating them
-        # would be O(width) — an enclosure a million wide (low prec_bits at a
-        # large height) would hang instead of reporting failure — and an
+        # would be O(width), an enclosure a million wide (low prec_bits at a
+        # large height) would hang instead of reporting failure, and an
         # unbounded enclosure cannot be enumerated at all.  Exact rational
         # floor/ceil also keeps the endpoints out of mp's working precision,
         # which matters once N(T) exceeds 2**53.
@@ -952,18 +952,18 @@ def certified_zero_count(
 
 #: The run parameters that can change what :func:`verify_rh_certified` returns.
 #: They are all in the cache filename *and* re-checked against the file's own
-#: contents on load — a filename is a hint, the recorded parameters are the
+#: contents on load, a filename is a hint, the recorded parameters are the
 #: authority.  ``max_escalations`` and ``max_samples`` belong here: at fixed
 #: ``prec_bits`` a run with more escalations can certify where a run with none
 #: cannot, so leaving them out would let a certified file be replayed for an
-#: uncertifiable request — a manufactured ``certified: True``.
+#: uncertifiable request, a manufactured ``certified: True``.
 #:
 #: ``T_exact`` and not ``T`` is what carries the height's identity.  A binary64
 #: ``T`` is not an identity: ``14.13472514173469378`` and
 #: ``14.13472514173469380`` are distinct exact heights that round to the same
 #: float, and they lie on opposite sides of γ₁ ≈ 14.134725141734693790, so
 #: N(T) differs by one across them.  Keying on the float served the certificate
-#: for the lower height at the upper one — ``N_T: 0`` with ``certified: True``
+#: for the lower height at the upper one, ``N_T: 0`` with ``certified: True``
 #: where the truth is 1.  The computation always ran on the exact value; only
 #: the cache identity was lossy.
 _CACHE_KEYS = (
@@ -992,7 +992,7 @@ def _cache_key(
     The height is recorded twice on purpose: ``"T"`` is the readable binary64
     value the returned dict reports, and ``"T_exact"`` is the canonical
     ``numerator/denominator`` of the height the ball arithmetic actually ran at.
-    Only the second one is an identity — see :data:`_CACHE_KEYS`.
+    Only the second one is an identity, see :data:`_CACHE_KEYS`.
     """
     Tq = _exact(T)
     return {
@@ -1021,7 +1021,7 @@ def _cached_conclusion_is_self_consistent(blob: dict) -> bool:
     cost being cached.  What it does mean is that a forged conclusion has to be
     consistent with the enclosure recorded beside it rather than merely typed
     in, and that the two derived booleans are recomputed rather than read.  The
-    file remains trusted *local* state — which is why
+    file remains trusted *local* state, which is why
     ``data/rigor_verify_*.json`` is gitignored and never shipped.
     """
     n_t = blob.get("N_T")
@@ -1048,8 +1048,8 @@ def _cached_conclusion_is_self_consistent(blob: dict) -> bool:
 def _cache_path(key: dict) -> str:
     """``data/rigor_verify_<T>-<hash>_<backend>_<bits>_<countbits>_<n>_<esc>_<max>.json``.
 
-    Every parameter that can change the answer is in the filename — see
-    :data:`_CACHE_KEYS` — so a stale file cannot masquerade as a fresh result
+    Every parameter that can change the answer is in the filename, see
+    :data:`_CACHE_KEYS`, so a stale file cannot masquerade as a fresh result
     (house rule: cache keys encode parameters).  The readable ``<T>`` is only
     six significant figures, so the exact height is pinned by the short digest
     beside it; two exact heights sharing a float get separate files rather than
@@ -1061,7 +1061,7 @@ def _cache_path(key: dict) -> str:
     re-derives the conclusion fields its own witnesses determine (see
     :func:`_cached_conclusion_is_self_consistent`).  It cannot re-derive N(T)
     without repeating the computation being cached, so this file is a trusted
-    local result cache, not a portable certificate — hence gitignored.
+    local result cache, not a portable certificate, hence gitignored.
     Derived from ``__file__``; no absolute path is committed.
     """
     tag = "_".join(
@@ -1134,7 +1134,7 @@ def verify_rh_certified(
 
     In :func:`zeta.zeros.verify_rh_up_to` the same argument is run on ordinary
     mpmath floats, so the conclusion is contingent on every sign evaluation
-    being right — overwhelmingly likely, but not proved.  Here both m and N(T)
+    being right, overwhelmingly likely, but not proved.  Here both m and N(T)
     are outputs of ball arithmetic: a sign is only counted once its enclosure
     excludes 0, and N(T) only once its enclosure contains a unique integer.
 
@@ -1144,8 +1144,8 @@ def verify_rh_certified(
 
     Rigor is not even slower here.  On the machine this was developed on (an
     Apple-silicon laptop, python-flint backend), the certified route beat the
-    floating-point one by more than an order of magnitude — 0.20 s vs 2.6 s at
-    T = 100, 0.84 s vs 45 s at T = 300, 5.1 s vs 437 s at T = 1000 — because Arb
+    floating-point one by more than an order of magnitude: 0.20 s vs 2.6 s at
+    T = 100, 0.84 s vs 45 s at T = 300, 5.1 s vs 437 s at T = 1000, because Arb
     evaluates ζ far faster than mpmath does, and the certified N(T) needs only
     ~20 contour sub-segments.  Those numbers are hardware- and version-specific
     and are **not** pinned by a test; only the mathematics is.
@@ -1158,7 +1158,7 @@ def verify_rh_certified(
     ``'prec_bits'``, ``'count_prec_bits'``, ``'N_T_enclosure'``,
     ``'cross_checks'``, the run parameters ``'requested_n_samples'``,
     ``'max_escalations'``, ``'max_samples'`` (these seven together are the cache
-    key, :data:`_CACHE_KEYS`) and — when ``compare_floating`` —
+    key, :data:`_CACHE_KEYS`) and, when ``compare_floating``,
     ``'floating_point'``, the corresponding non-rigorous result from
     :func:`zeta.zeros.verify_rh_up_to`.
 
@@ -1167,7 +1167,7 @@ def verify_rh_certified(
     recorded inside the file before reusing it, so a certificate obtained with
     a generous escalation budget can never be replayed for a stingier request.
     What the key does **not** record is the version of this module or of the
-    ball library that produced the file — so a cached certificate is only as
+    ball library that produced the file, so a cached certificate is only as
     trustworthy as the checkout that wrote it.  For that reason
     ``data/rigor_verify_*.json`` is gitignored: certificates are claims, not
     data, and a fresh clone recomputes rather than inherits them.  Pass
@@ -1196,8 +1196,8 @@ def verify_rh_certified(
             with open(path) as fh:
                 blob = json.load(fh)
             # A cached certificate is only reusable if it was produced by
-            # *exactly* this request.  Anything else — a renamed file, an older
-            # schema, a run with different escalation budget — is recomputed.
+            # *exactly* this request.  Anything else, a renamed file, an older
+            # schema, a run with different escalation budget, is recomputed.
             if all(
                 blob.get(k) == key[k] for k in _CACHE_KEYS
             ) and _cached_conclusion_is_self_consistent(blob):
@@ -1398,7 +1398,7 @@ def enclosure_width_report(
 # version there is *accurate*; this section is the *certified* version: every
 # step carries a ball, every truncation enters the result as an explicit
 # error interval, so the returned [lo, hi] is a true enclosure of W(h) for
-# ANY choice of n_max and R — larger values only tighten it.
+# ANY choice of n_max and R, larger values only tighten it.
 #
 # The archimedean quadrature is Arb's acb_calc_integrate, which mpmath's iv
 # context has no analogue of, so this is the one part of zeta.rigor that is
@@ -1440,7 +1440,7 @@ def certified_gaussian_pair(a) -> tuple:
     """Ball-valued Gaussian pair ``h(r) = exp(-a r²)`` for the certified W(h).
 
     The certified sibling of :func:`zeta.weil.gaussian_pair`: ``a`` is taken
-    *exactly* (via :func:`_exact` — a float is its dyadic self, a string like
+    *exactly* (via :func:`_exact`, a float is its dyadic self, a string like
     ``"0.01"`` is the decimal it names), and the returned callables map Arb
     balls to Arb balls, so they can be handed to Arb's certified quadrature
     and evaluated at complex points.  ``h`` is entire, even, real on the real
@@ -1474,7 +1474,7 @@ def certified_fejer_pair(b) -> tuple:
     The certified sibling of :func:`zeta.weil.fejer_pair`.  ``h`` is written
     as ``sinc(bz)²`` so Arb evaluates it as an entire function (no removable
     singularity at 0 to trip the quadrature).  ``g`` is the triangle
-    ``(1 - |u|/2b)/(2b)`` — but implemented as the *linear formula on
+    ``(1 - |u|/2b)/(2b)``: but implemented as the *linear formula on
     [0, 2b) only*, without the clamp to 0 outside, because a ball straddling
     the kink at 2b would otherwise not enclose correctly.  The evaluator
     never calls it outside: the prime sum stops at ``n_max = ⌊e^{2b}⌋``,
@@ -1522,7 +1522,7 @@ def certified_autocorrelation_pair(coeffs, spacing=2, sigma="0.35") -> tuple:
     of a sign-changing f dips negative at lags near s), so the evaluator
     bounds the prime tail through the absolute majorant
     ``|g(u)| ≤ σ√π (Σ|c_j|)² e^{-(|u|-D)²/(4σ²)}`` (D = s·(J-1), valid for
-    ``|u| ≥ D``) and applies it as a *symmetric* error interval — the
+    ``|u| ≥ D``) and applies it as a *symmetric* error interval, the
     one-sided sharpening the Gaussian pair enjoys would be unsound here.
 
     All parameters are taken exactly; flint-only by construction.
@@ -1598,12 +1598,12 @@ def enclose_weil_functional(
 
     Every step carries a ball and every truncation enters the result as an
     explicit error interval, so ``W_enclosure`` is a **true enclosure of
-    W(h) for any** ``n_max`` **and** ``R`` — larger values only tighten it.
+    W(h) for any** ``n_max`` **and** ``R``, larger values only tighten it.
     In particular ``sign == 1`` is a *certified* instance of Weil positivity:
     an unconditional statement about primes and Γ (given the residual
     assumptions listed under ``assumptions``), not a floating-point verdict.
     Honest scope (docs/08): finitely many certified instances are not
-    evidence for RH — RH is equivalent to W(h) ≥ 0 over *all* admissible h.
+    evidence for RH: RH is equivalent to W(h) ≥ 0 over *all* admissible h.
     A certified ``sign == -1`` would disprove RH; per the house rule the
     correct first inference from such an output is a bug.
 
@@ -1627,11 +1627,11 @@ def enclose_weil_functional(
       one-sided (the discarded terms are ≥ 0, so they only *lower* W).
       The autocorrelation pair follows the same partial-summation route
       through the absolute majorant ``|g(u)| ≤ σ√π C² e^{-(u-D)²/4σ²}``
-      (C = Σ|c_j|, D = s·(J-1), u ≥ D) — symmetric, because its g changes
+      (C = Σ|c_j|, D = s·(J-1), u ≥ D), symmetric, because its g changes
       sign, and requiring ``log n_max > D + σ²``.
     * **Archimedean** ``(1/2π) ∫ h(r)[Re ψ(1/4+ir/2) - log π] dr``: by
       evenness this is ``(1/π) Re ∫_0^R h(z)(ψ(1/4+iz/2) - log π) dz`` plus
-      a tail — the integrand handed to Arb's certified quadrature
+      a tail, the integrand handed to Arb's certified quadrature
       (``acb_calc_integrate``) is the *analytic* ``h·(ψ - log π)``, never
       ``Re ψ`` (not analytic); the real part is taken after integration.
       ψ's poles sit at distance ≥ 1/2 from the path, so the integrand is
@@ -1647,7 +1647,7 @@ def enclose_weil_functional(
     (harmonic sum ≤ 1 + log(r/2+1) below, ∫ dt/t³ above) and summing the
     second (≤ 3 + (3/4)ζ(2)) gives |Re ψ| ≤ log(r+2) + 6.8 for r ≥ 6, and
     log π < 1.2 absorbs into the constant 8.  The constants are deliberately
-    slack — the tail carries e^{-aR²} (Gaussian) or 1/(b²R) (Fejér), so
+    slack, the tail carries e^{-aR²} (Gaussian) or 1/(b²R) (Fejér), so
     slack is free.  The lemma is spot-checked by ball arithmetic in the
     tests; the derivation above is the proof.
 
@@ -1662,13 +1662,13 @@ def enclose_weil_functional(
 
     both evaluated in balls and added as symmetric error intervals.  The
     Fejér arch tail shrinks only like log R / R, so a Fejér enclosure is
-    honestly wide (~1e-4/b² at the default R) — still narrow enough to
+    honestly wide (~1e-4/b² at the default R), still narrow enough to
     prove the sign, since W(fejér b) ≈ 0.023/b².
 
     Backends
     --------
     Flint-only: mpmath's ``iv`` context has no certified quadrature, so the
-    ``mpmath.iv`` backend raises ``NotImplementedError`` — this is the one
+    ``mpmath.iv`` backend raises ``NotImplementedError``: this is the one
     place in :mod:`zeta.rigor` where the two-backend cross-check cannot run,
     and the returned dict says so under ``two_backend_cross_check`` rather
     than leaving the field silently absent.  The float cross-check against
@@ -1689,7 +1689,7 @@ def enclose_weil_functional(
     Returns
     -------
     dict with ``W_enclosure`` (lo, hi as mpf), ``sign`` (1 / -1 proven,
-    0 = undecided — never guessed), ``positivity_proven``, ``certified``,
+    0 = undecided, never guessed), ``positivity_proven``, ``certified``,
     ``uncertified_steps``, ``pieces`` (per-term enclosures and tail bounds),
     ``assumptions``, ``kind``, ``param``, ``param_exact``, ``n_max``, ``R``,
     ``prec_bits``, ``backend``, ``two_backend_cross_check``,
@@ -1728,7 +1728,7 @@ def enclose_weil_functional(
         pole_c = h_cert(_acb(0, _fmpq(1, 2))) + h_cert(_acb(0, _fmpq(-1, 2)))
         if not pole_c.imag.contains(_arb(0)):
             uncertified.append(
-                "pole term: Im(h(i/2) + h(-i/2)) excludes 0 — h is not the "
+                "pole term: Im(h(i/2) + h(-i/2)) excludes 0, h is not the "
                 "even real-on-the-axis function the formula assumes"
             )
         pole = pole_c.real
@@ -1929,7 +1929,7 @@ def enclose_weil_functional(
     # enclosure that some step failed to establish.  Concretely (2026-08-11):
     # when the Fejér cutoff proof ``log(n_max+1) > 2b`` cannot be closed, the
     # code records that in ``uncertified_steps`` and then continues with
-    # ``prime_tail = 0`` — an enclosure asserting the prime sum is exactly
+    # ``prime_tail = 0``: an enclosure asserting the prime sum is exactly
     # complete, which is the very thing it just failed to prove.  ``sign`` was
     # then computed from that enclosure and came back nonzero.
     # ``positivity_proven`` was already gated on ``certified``; ``sign`` now is

@@ -1,0 +1,136 @@
+# The prime-blind LP floor of the factorial-certificate route at N = 10^6 and
+# 10^7, plus the prime-aware and lifted variants, one job per (N, y) so a slow
+# row cannot block a fast one.  Dispatch only; each job uploads its JSON.
+#
+# Every constraint-generation round prints "value-psi", and the value at any
+# round is the optimum of a relaxation, so it is a rigorous LOWER bound on the
+# final floor: a job that hits the timeout still leaves a usable number.
+#
+# Context and the laws being discriminated:
+#   hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/RESULTS.md
+name: certificate-lp-barrier
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: certificate-lp-barrier
+  cancel-in-progress: false
+
+env:
+  HUNT: hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier
+  OPENBLAS_NUM_THREADS: "1"
+
+jobs:
+  all-cells:
+    name: all-cells N=${{ matrix.N }} y=${{ matrix.y }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { N: 1000000, y: 316 }
+          - { N: 1000000, y: 1000 }
+          - { N: 1000000, y: 3162 }
+          - { N: 10000000, y: 1000 }
+          - { N: 10000000, y: 3162 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install
+        run: python -m pip install --quiet --disable-pip-version-check numpy scipy
+      - name: solve
+        run: |
+          mkdir -p out
+          python $HUNT/lp_allcells_cg.py --N ${{ matrix.N }} --y ${{ matrix.y }} \
+            --output out/cg_N${{ matrix.N }}_y${{ matrix.y }}.json
+      - name: compare with the candidate laws
+        if: always()
+        run: python $HUNT/barrier_compare.py out/*.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: all-cells-N${{ matrix.N }}-y${{ matrix.y }}
+          path: out/
+          if-no-files-found: ignore
+
+  prime-cells:
+    name: prime-cells N=10^7
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install
+        run: python -m pip install --quiet --disable-pip-version-check numpy scipy
+      - name: solve
+        run: |
+          mkdir -p out
+          python $HUNT/lp_prime_cells.py --N 10000000 --alpha 0.5 0.53 --output out/pc_N1e7.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: prime-cells-N1e7
+          path: out/
+          if-no-files-found: ignore
+
+  lifted:
+    name: lifted M=15 N=${{ matrix.N }} y=${{ matrix.y }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { N: 100000, y: 1000 }
+          - { N: 100000, y: 3000 }
+          - { N: 1000000, y: 3000 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install
+        run: python -m pip install --quiet --disable-pip-version-check numpy scipy
+      - name: solve
+        run: |
+          mkdir -p out
+          cd $HUNT && python lp_dictionaries.py --N ${{ matrix.N }} --y ${{ matrix.y }} --lift 15 \
+            --output $GITHUB_WORKSPACE/out/lift15_N${{ matrix.N }}_y${{ matrix.y }}.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lifted-N${{ matrix.N }}-y${{ matrix.y }}
+          path: out/
+          if-no-files-found: ignore
+
+  selberg:
+    name: selberg dictionary N=10^4 y=316
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install
+        run: python -m pip install --quiet --disable-pip-version-check numpy scipy
+      - name: solve
+        run: |
+          mkdir -p out
+          cd $HUNT && python lp_dictionaries.py --N 10000 --y 316 --selberg \
+            --output $GITHUB_WORKSPACE/out/selberg_N1e4_y316.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: selberg-N1e4-y316
+          path: out/
+          if-no-files-found: ignore

@@ -1,9 +1,9 @@
-"""Tests for :mod:`zeta.rigor` — certified (ball-arithmetic) computation.
+"""Tests for :mod:`zeta.rigor`, certified (ball-arithmetic) computation.
 
 The point of this module is that its outputs are *proofs*, so the tests are
 mostly containment and agreement statements rather than tolerance checks:
 
-* every enclosure must **contain** mpmath's independently computed value —
+* every enclosure must **contain** mpmath's independently computed value,
   that is a hard, tolerance-free assertion, and the only way it can fail is if
   the enclosure is wrong;
 * ``proven_sign`` must agree with ``mp.siegelz``'s sign at every point where it
@@ -108,10 +108,10 @@ def test_a_numpy_float32_is_its_binary_value_not_its_repr():
     """**Regression, 2026-08-11.** The one way this module can lie.
 
     ``_exact`` used to fall through to ``Fraction(str(value))`` for anything it
-    did not recognise — the *printed decimal* taken as exact.  ``np.float64`` is
+    did not recognise, the *printed decimal* taken as exact.  ``np.float64`` is
     a ``float`` subclass and was safe; ``np.float32`` is not.  The abscissa then
-    silently moved by ~4e-7, and ``proven_sign`` returned a nonzero — a wrong
-    proof — with a ~1e-46-wide enclosure that did not contain the value it
+    silently moved by ~4e-7, and ``proven_sign`` returned a nonzero, a wrong
+    proof, with a ~1e-46-wide enclosure that did not contain the value it
     claimed to enclose.  Both backends agreed, so the cross-check was blind to
     it: the fault was upstream of the split.
     """
@@ -156,7 +156,7 @@ def test_enclosures_contain_mpmath_value(backend):
     The oracle is evaluated at dps = 70, comfortably beyond the ~48 digits of
     the widest enclosure tested here.  That margin is not decoration: a 160-bit
     enclosure of θ(3) is 2.2e-47 wide, and ``mp.siegeltheta`` at dps = 45 misses
-    it — the *enclosure* is the sharper object, and the oracle has to be asked
+    it, the *enclosure* is the sharper object, and the oracle has to be asked
     for more digits to keep up.
     """
     with mp.workdps(70):
@@ -169,7 +169,7 @@ def test_enclosures_contain_mpmath_value(backend):
 
 
 def test_enclosures_contain_mpmath_value_at_many_random_points():
-    """200 random ordinates in (0, 400) — none may escape its enclosure."""
+    """200 random ordinates in (0, 400), none may escape its enclosure."""
     rng = random.Random(20260801)
     with mp.workdps(50):
         for _ in range(200):
@@ -202,7 +202,7 @@ def test_Z_is_even_so_mirrored_enclosures_agree(backend):
     """Z(−t) = Z(t): a symmetry the code never uses, so it is a real test.
 
     ϑ(−t) = −ϑ(t) and ζ(1/2 − it) = conj ζ(1/2 + it), so Z is even.  Nothing in
-    ``enclose_Z`` exploits that — the two sides are computed independently — and
+    ``enclose_Z`` exploits that, the two sides are computed independently, and
     their enclosures must therefore overlap, and must both contain the truth.
     """
     with mp.workdps(70):
@@ -242,15 +242,15 @@ def test_euler_maclaurin_remainder_bound_holds_when_it_dominates(monkeypatch):
 
     At the module's own choice of N and M the remainder is astronomically small,
     so a *wrong* bound would never be noticed.  Forcing N = 8, M = 4 makes the
-    remainder the dominant term — the enclosure of ζ(1/2+100i) is then over a
-    thousand units wide — and the truth must still be inside it.  Widening N, M
+    remainder the dominant term, the enclosure of ζ(1/2+100i) is then over a
+    thousand units wide, and the truth must still be inside it.  Widening N, M
     walks the enclosure down.  Measured widths at t = 100, prec = 160 bits, for
     (N,M) = (8,4), (12,6), (20,8), (30,10), (60,20):
 
         σ = 1/2 : 1.18e3, 56.0, 1.84e-2, 1.07e-6, 1.50e-24
         σ = 2   : 45.3,   1.23, 1.95e-4, 6.29e-9, 3.54e-27
 
-    always containing ζ.  (The σ = 2 row is the narrower one — the remainder
+    always containing ζ.  (The σ = 2 row is the narrower one, the remainder
     carries a factor N^{−σ}.)
     """
     B = rigor._MPIntervalBackend
@@ -291,7 +291,7 @@ def test_euler_maclaurin_remainder_bound_holds_at_absurd_N_and_M(monkeypatch):
     ``_em_params`` never chooses these, so nothing in normal operation would
     expose a mis-stated validity condition.  The bound
     ``|E| ≤ |(s+2M+1)/(σ+2M+1)|·|B_{2M+2}/(2M+2)!·(s)_{2M+1}·N^{−s−2M−1}|``
-    needs only σ + 2M + 1 > 0, so it must hold here too — and it does, at the
+    needs only σ + 2M + 1 > 0, so it must hold here too, and it does, at the
     price of enclosures up to ~7e12 wide.
     """
     B = rigor._MPIntervalBackend
@@ -312,7 +312,7 @@ def test_euler_maclaurin_remainder_bound_holds_at_absurd_N_and_M(monkeypatch):
 
 
 def test_bernoulli_coefficients_match_sympy():
-    """B_{2k}/(2k)! — the E-M coefficients — against sympy's exact rationals."""
+    """B_{2k}/(2k)!, the E-M coefficients, against sympy's exact rationals."""
     sympy = pytest.importorskip("sympy")
     for k in range(1, 21):
         b = sympy.Rational(sympy.bernoulli(2 * k))
@@ -322,7 +322,7 @@ def test_bernoulli_coefficients_match_sympy():
 
 @pytest.mark.parametrize("backend", BOTH)
 def test_enclosure_narrows_with_precision(backend):
-    """More bits, narrower ball — and every ball nested in the previous one."""
+    """More bits, narrower ball, and every ball nested in the previous one."""
     prev_width = None
     prev = None
     for bits in (32, 64, 128, 256):
@@ -377,7 +377,7 @@ def test_proven_sign_refuses_to_guess_at_low_precision():
 def test_proven_sign_undecided_next_to_a_zero_then_decided():
     """A hair off γ₁, |Z| ≈ 2.3e-36: 64 bits cannot decide, 512 bits can.
 
-    γ₁ rounded to 35 digits is *not* a zero of Z, so a sign does exist there —
+    γ₁ rounded to 35 digits is *not* a zero of Z, so a sign does exist there,
     it is just far too small to see at low precision.  This is the whole
     behaviour of the module in one test: refuse, then decide, and never be
     wrong about which.
@@ -410,7 +410,7 @@ def test_certified_sign_changes_finds_29_below_100():
 
 
 def test_certified_sign_changes_matches_the_known_ordinate_count_lower_down():
-    # γ_1..γ_3 = 14.134…, 21.022…, 25.010… — three zeros below 30.
+    # γ_1..γ_3 = 14.134…, 21.022…, 25.010…, three zeros below 30.
     out = certified_sign_changes(0, 30, prec_bits=64)
     assert out["changes"] == 3 and out["certified"]
 
@@ -428,14 +428,14 @@ def test_absurdly_low_precision_produces_undecided_points():
 
     At 2 bits the enclosure of Z(t) is far too wide to exclude 0 anywhere, so
     every sample is undecided, the certificate is withheld, and the reported
-    change count collapses — it never invents a proven sign.
+    change count collapses, it never invents a proven sign.
     """
     out = certified_sign_changes(0, 100, n_samples=200, prec_bits=2, max_escalations=0)
     assert out["certified"] is False
     assert len(out["undecided_points"]) >= 190
     assert out["changes"] == 0
 
-    # 8 bits: some points decide, most do not — still not certified, and the
+    # 8 bits: some points decide, most do not, still not certified, and the
     # count is a genuine lower bound (never above the truth).
     mid = certified_sign_changes(0, 100, n_samples=200, prec_bits=8, max_escalations=0)
     assert mid["certified"] is False
@@ -466,7 +466,7 @@ def test_coarse_grids_undercount_but_never_overcount():
     Measured: 7, 17, 29, 29, 29, 29 at 20/37/61/90/151/400 samples.
 
     Phrased the house way: no violation of ``changes ≤ N(T)`` was found in this
-    range — that is a statement about the scan, not about RH.
+    range, that is a statement about the scan, not about RH.
     """
     counts = []
     for n in (20, 37, 61, 90, 151, 400):
@@ -495,12 +495,12 @@ def test_empty_and_degenerate_ranges():
 def test_certified_zero_count(T, expected):
     """N(T) certified, and the enclosure pinned at the width actually achieved.
 
-    Measured widths of the N(T) enclosure at the default 192 bits —
+    Measured widths of the N(T) enclosure at the default 192 bits,
     python-flint 6.5e-56 / 2.1e-55 / 1.1e-54 and mpmath.iv 1.3e-54 / 1.6e-52 /
     1.8e-51 at T = 100 / 300 / 1000.  The assertion is ``< 1e-46``: five decades
     of headroom over the worst measured value, and forty-six decades tighter
     than the "enclosure contains a unique integer" requirement that actually
-    certifies the count — so a regression that widened the enclosure would fail
+    certifies the count, so a regression that widened the enclosure would fail
     here long before it could produce a wrong answer.
     """
     out = certified_zero_count(T)
@@ -558,7 +558,7 @@ def test_certified_zero_count_below_the_first_zero_and_at_zero():
 
 
 def test_certified_zero_count_reports_failure_rather_than_faking_it():
-    """Starved of segments, it must say so — not return a number anyway."""
+    """Starved of segments, it must say so, not return a number anyway."""
     out = certified_zero_count(100.0, max_segments=1)
     assert out["certified"] is False
     assert out["N_T"] is None
@@ -577,7 +577,7 @@ def test_certified_zero_count_brackets_the_zetazero_ordinates():
 
     Neither the argument principle implemented here nor Turing's method is
     involved: if N(T) = n then the n-th ordinate is below T and the (n+1)-st is
-    above it.  (mpmath's ``zetazero`` is itself non-rigorous — this is a
+    above it.  (mpmath's ``zetazero`` is itself non-rigorous, this is a
     cross-check, not a second proof.)
     """
     with mp.workdps(30):
@@ -611,7 +611,7 @@ def test_certified_zero_count_reports_a_wide_enclosure_instead_of_enumerating_it
 
 
 def test_certified_zero_count_survives_an_unbounded_enclosure(monkeypatch):
-    """An infinite ball is a true enclosure that decides nothing — say so.
+    """An infinite ball is a true enclosure that decides nothing, say so.
 
     ``[-inf, +inf]`` is what a backend returns when it cannot bound a step at
     all.  The correct response is ``certified=False``, not an exception.
@@ -664,7 +664,7 @@ def test_cache_never_replays_a_certificate_for_different_settings(tmp_path, monk
     ``max_escalations`` is the dangerous one: at 8 bits, twelve escalations
     certify T = 30 and zero escalations leave 74 samples undecided.  If the two
     runs share a cache file the second one inherits ``certified: True`` for a
-    computation that was never performed — a manufactured certificate, which is
+    computation that was never performed, a manufactured certificate, which is
     the one failure this module must not have.  Both directions are checked,
     together with the file's recorded parameters being re-verified on load
     (a renamed file must be rejected, not trusted).
@@ -715,7 +715,7 @@ def test_cache_identity_is_the_exact_height_not_its_float(tmp_path, monkeypatch)
     Reported by an outside reader red-teaming this module, and reproduced before
     it was fixed.  ``14.13472514173469378`` and ``14.13472514173469380`` both
     round to ``14.134725141734695``, and γ₁ ≈ 14.13472514173469379 sits between
-    them — so N(T) is 0 at the first and 1 at the second.  The computation
+    them, so N(T) is 0 at the first and 1 at the second.  The computation
     always ran on the exact ``Fraction``; only the cache key was a float, so the
     second request was served the first one's file and reported ``N_T: 0`` with
     ``certified: True``.  A wrong N(T) under a true ``certified`` flag is the one
@@ -748,7 +748,7 @@ def test_cache_rejects_a_forged_conclusion_with_intact_request_keys(tmp_path, mo
     rejection only shows the request fields are authenticated.  This one leaves
     every one of :data:`rigor._CACHE_KEYS` untouched and forges only the answer.
     Before the fix the loader returned it verbatim, which meant a hand-typed
-    ``certified: True`` survived validation — the gap between "a computation was
+    ``certified: True`` survived validation, the gap between "a computation was
     certified when it ran" and "a persisted artifact inherits that status".
 
     The loader still cannot re-derive N(T) without redoing the ball arithmetic,
@@ -848,7 +848,7 @@ def test_enclosure_width_report_shape_and_monotonicity():
 
 
 def test_enclosure_width_costs_about_one_digit_per_3_3_bits():
-    """log₁₀(width) falls by ≈ 1 per 3.32 bits — the price of a proven digit.
+    """log₁₀(width) falls by ≈ 1 per 3.32 bits, the price of a proven digit.
 
     Measured on the Arb backend at t = 100: 8.16 proven digits at 32 bits,
     17.95 at 64, 37.21 at 128, 75.69 at 256 (≈ 0.30 digits per bit, i.e.
@@ -873,7 +873,7 @@ def test_measured_enclosure_widths_match_the_docstring_table(backend, widths):
     Measured log₁₀(width) of the Z(100) enclosure: python-flint −7.73, −17.52,
     −36.78, −75.26 at 32/64/128/256 bits; mpmath.iv −5.61, −15.25, −34.51,
     −70.75.  The assertion allows half a decade of slack in the *tighter*
-    direction only — a suddenly wider enclosure is a regression worth failing on.
+    direction only, a suddenly wider enclosure is a regression worth failing on.
     """
     if backend not in available_backends():
         pytest.skip(f"{backend} not installed")

@@ -1,4 +1,4 @@
-# Independent vs shared verification — an experiment design
+# Independent vs shared verification: an experiment design
 
 *Pre-registration draft, 2026-08-10. Nothing here has been run. Predictions are
 stated before any data exists, and the whole point of writing them down now is
@@ -16,7 +16,7 @@ the artifact they check:
 | Arb vs mpmath cross-check | yes | yes | no | yes |
 | outside model reading the public repo | yes | **no** | yes | yes |
 | integrity audit vs batteries | **no** | yes | yes | 2 of 6 |
-| promotion gate vs claim reports | **no** | yes | yes | no — loses to its null control |
+| promotion gate vs claim reports | **no** | yes | yes | no, loses to its null control |
 
 ## Why the observation is not yet a result
 
@@ -42,16 +42,16 @@ a hunch with a suggestive table under it. This design separates them.
 A factorial over three factors, with planted faults, blind authorship, and one
 arena outside mathematics.
 
-**Factor A — relationship to the artifact.** *Independent*: the checker's author
+**Factor A, relationship to the artifact.** *Independent*: the checker's author
 never saw the artifact or its author's reasoning. *Co-designed*: checker and
 artifact authored by the same process, as `harness/integrity.py` was against the
 batteries it audits.
 
-**Factor B — decision procedure.** *Deterministic*: a program with no model in the
+**Factor B, decision procedure.** *Deterministic*: a program with no model in the
 loop at check time (kernel, mirror, compile-and-run). *Probabilistic*: a model
 asked to find the defect.
 
-**Factor C — cost.** *Cheap*: runnable in seconds, before commitment.
+**Factor C, cost.** *Cheap*: runnable in seconds, before commitment.
 *Expensive*: minutes to hours, run once at the end.
 
 Eight cells; six are populatable now. (Independent + probabilistic + expensive and
@@ -59,10 +59,10 @@ co-designed + probabilistic + expensive can be dropped in round one.)
 
 **Arenas.** Two, deliberately:
 
-1. **Mathematics** — interval-arithmetic claims, where a cheap exact independent
+1. **Mathematics**: interval-arithmetic claims, where a cheap exact independent
    oracle is available (the `Fraction` mirror pattern) and an expensive one is too
    (the Lean kernel).
-2. **Programs** — the `compiler/` department's LLVM IR rewrites, which already has
+2. **Programs**: the `compiler/` department's LLVM IR rewrites, which already has
    an executable oracle (compile and run) and a foreign vocabulary. Chosen because
    it breaks any explanation that depends on the subject being mathematics.
 
@@ -81,15 +81,15 @@ reason this experiment is worth running here rather than anywhere else.
 
 Five, and the fifth is the one nobody currently takes.
 
-1. **Defect detection rate** — planted faults found / planted.
-2. **False confidence rate** — artifacts containing a planted fault that the
+1. **Defect detection rate**: planted faults found / planted.
+2. **False confidence rate**: artifacts containing a planted fault that the
    checker grades sound. This is the quantity that matters for deployment, and it
    is not one minus detection: a checker may refuse everything and have zero false
    confidence while being useless.
-3. **Specificity** — clean artifacts graded unsound. Without it, a checker that
+3. **Specificity**: clean artifacts graded unsound. Without it, a checker that
    always says "no" scores perfectly on 1 and 2. This is the repo's own admission
    rule applied to the experiment.
-4. **Cost** — wall-clock and tokens per artifact.
+4. **Cost**: wall-clock and tokens per artifact.
 5. **Independence, measured as conditional detection lift.** For checkers A and B:
    does B catch A's misses at more than B's own base rate? If yes they are
    genuinely independent; if B misses precisely what A misses, they share a blind
@@ -104,7 +104,7 @@ I expect to be wrong.
 
 - **P1 (independence).** At matched cost and decision procedure, independent
   checkers have a lower *false confidence* rate than co-designed ones. Effect
-  expected to be large — the blind-authoring result is 4 of 6 hollow batteries
+  expected to be large, the blind-authoring result is 4 of 6 hollow batteries
   surviving a co-designed audit.
 - **P2 (shared blind spots).** Conditional detection lift between two co-designed
   checkers is near zero, and between two independent checkers is clearly positive.
@@ -121,7 +121,7 @@ I expect to be wrong.
   cheap checks get **invoked**, and invocation is what produces detections. The
   rung-3 case is the evidence: the generator's feasibility assert was cheap,
   correct, and present for the entire period during which the plan was described
-  as nearly complete — because nobody ran it. Prediction: cost has **no
+  as nearly complete, because nobody ran it. Prediction: cost has **no
   significant direct effect** on detection rate at matched independence, and a
   large effect on how often the check is run in practice.
 - **P5 (effort confound).** Co-designed checkers in this tree underperform partly
@@ -129,8 +129,8 @@ I expect to be wrong.
   expect this to account for some of the gap, and the design controls it by
   matching author effort per checker.
 
-**If P1 fails** — co-designed checkers detect and mis-certify at the same rates as
-independent ones — the asymmetry was an artifact of this repository's particular
+**If P1 fails**, co-designed checkers detect and mis-certify at the same rates as
+independent ones, the asymmetry was an artifact of this repository's particular
 audit being weak, hypothesis C on the futures map loses its evidence, and the
 "instrument and benchmark" hypothesis loses its most interesting content. That is
 the outcome to hope for in the sense that matters: it is the one that would teach
@@ -142,8 +142,8 @@ The full factorial is weeks. The cheapest informative slice is **days** and does
 not need the factorial:
 
 > Take the four hollow batteries that survive the current audit. Have an
-> **independent** party — a model that has seen neither the audit nor the
-> batteries' authors' reasoning — attempt to identify which of six batteries
+> **independent** party, a model that has seen neither the audit nor the
+> batteries' authors' reasoning, attempt to identify which of six batteries
 > measure nothing. Compare its detection rate against the audit's 2 of 6.
 
 One number, one afternoon, and it discriminates P1 immediately. If the
@@ -156,7 +156,7 @@ This is meta-research, so it lives here rather than in `docs/`. It borrows the
 zeta department's and compiler department's batteries as arenas; per
 `harness/README.md`'s rule, borrowing another department's battery means this is
 not a department and cannot become one by growing. Results, when they exist, get a
-`docs/` number and a case-log-style disposition — including if the answer is that
+`docs/` number and a case-log-style disposition, including if the answer is that
 the asymmetry does not exist.
 
 ---

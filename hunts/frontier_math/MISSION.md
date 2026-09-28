@@ -1,4 +1,4 @@
-# MISSION — `frontier_math`
+# MISSION: `frontier_math`
 
 ## Persona
 
@@ -55,7 +55,7 @@ Three lanes, worked in order of expected value:
    functions. Any claimed positivity structure that is supposed to hold for
    conjugate-closed multisets generally is checked numerically on a multiset
    with genuinely off-line points (the lab's DH configuration), where it must
-   ALSO hold — a structural lemma failing on the rival would be a bug, and
+   ALSO hold, a structural lemma failing on the rival would be a bug, and
    passing distinguishes nothing (it is not that kind of claim).
 2. **Decoy / surrogate.** LP and floor computations are checked against
    planted-wrong inputs (a mis-set kernel constant, wrong λ_k) that must
@@ -70,5 +70,5 @@ Three lanes, worked in order of expected value:
 *Measured*, *observed*, *consistent with*. Never the reserved word owned by
 `zeta/rigor.py`; not *verified*, *confirmed*, *definitively*. A "candidate
 theorem" here means: mechanism written down, constants computed, named gaps
-listed — and nothing more. Nothing in this hunt is evidence for or against
+listed, and nothing more. Nothing in this hunt is evidence for or against
 RH.

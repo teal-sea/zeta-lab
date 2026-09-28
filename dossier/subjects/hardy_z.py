@@ -1,10 +1,10 @@
-"""The Hardy Z dossier — the one worked example.
+"""The Hardy Z dossier, the one worked example.
 
 Hardy's Z was chosen for the experiment because it is the object in this
 repository where "formally valid, semantically wrong" is not hypothetical.
 Three distinct functions in the tree are called some form of theta
 (`AGENTS.md` devotes a section to the collision), Z is defined through one of
-them, and there is a fourth near-miss — `|zeta(1/2+it)|` — which is real, has
+them, and there is a fourth near-miss, `|zeta(1/2+it)|`, which is real, has
 exactly the same zeros, and is useless for the purpose Z exists to serve.
 
 A definition that produced `|zeta(1/2+it)|` would satisfy "real-valued on the
@@ -74,7 +74,7 @@ def Z_via_completed(t, dps: int = 30):
     (Gamma/|Gamma|) pi^(-it/2) zeta = e^{i(arg Gamma - (t/2)log pi)} zeta.
     The quotient Gamma/|Gamma| is an honest complex number; nobody had to pick
     a branch to form it. A branch is needed only when theta is wanted as a
-    *real, continuous* phase counter — for Gram points and N(T) — which is a
+    *real, continuous* phase counter, for Gram points and N(T), which is a
     different requirement from defining Z.
     """
     with mp.workdps(dps + 10):
@@ -85,7 +85,7 @@ def Z_via_completed(t, dps: int = 30):
 
 
 def build() -> Dossier:
-    """Assemble the dossier. Pure data — no computation runs here."""
+    """Assemble the dossier. Pure data, no computation runs here."""
     return Dossier(
         name=DOSSIER_NAME,
         intent=Intent(
@@ -97,15 +97,15 @@ def build() -> Dossier:
                 "signs."
             ),
             distinguishes_from=(
-                "|zeta(1/2+it)| — real, and vanishes at exactly the same points, but "
+                "|zeta(1/2+it)|, real, and vanishes at exactly the same points, but "
                 "never negative, so it has no sign changes to find and cannot serve "
                 "the purpose",
-                "rs_theta, the Riemann-Siegel phase theta(t) — the *phase* Z is built "
+                "rs_theta, the Riemann-Siegel phase theta(t), the *phase* Z is built "
                 "from, not Z itself (AGENTS.md, 'three different thetas')",
-                "zeta.core.theta, the Jacobi theta function of the heat kernel — "
+                "zeta.core.theta, the Jacobi theta function of the heat kernel, "
                 "unrelated, same name",
-                "explicit.theta_cheb, Chebyshev's prime sum — unrelated, same name",
-                "Xi(t) = xi(1/2+it) — also real on the real line, also has the "
+                "explicit.theta_cheb, Chebyshev's prime sum, unrelated, same name",
+                "Xi(t) = xi(1/2+it), also real on the real line, also has the "
                 "critical-line zeros, but is not |zeta|-normalised and decays "
                 "super-exponentially, so it is unusable for zero-hunting at height",
             ),
@@ -139,7 +139,7 @@ def build() -> Dossier:
                 statement="Z(t) = |zeta(1/2 + i*t)|",
                 why_rejected=(
                     "Real and vanishes exactly at the critical-line zeros, so it "
-                    "passes the two obvious checks — and it is non-negative, so it "
+                    "passes the two obvious checks, and it is non-negative, so it "
                     "never changes sign and no bisection can find a zero with it. "
                     "This is the worked example of formally-defensible and "
                     "semantically wrong."
@@ -165,7 +165,7 @@ def build() -> Dossier:
                 ),
                 would_be_correct_if=(
                     "an intermediate formalisation needs complex algebra before "
-                    "extracting realness — which is exactly the shape the current "
+                    "extracting realness, which is exactly the shape the current "
                     "Lean draft takes, deliberately"
                 ),
             ),
@@ -202,7 +202,7 @@ def build() -> Dossier:
                     formal=AxisRecord(
                         status=FormalStatus.PROVED,
                         detail=(
-                            "hardyZ_is_real: kernel run observed 2026-08-13 — "
+                            "hardyZ_is_real: kernel run observed 2026-08-13, "
                             "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                             "root import wired"
                         ),
@@ -249,7 +249,7 @@ def build() -> Dossier:
                 rationale=(
                     "Discriminating against a mis-normalised phase: any e^{i*psi} with "
                     "psi != theta still gives |Z| = |zeta|, but a definition that "
-                    "picked up a real factor — an extra Gamma, a stray pi power — "
+                    "picked up a real factor, an extra Gamma, a stray pi power, "
                     "fails here while still being real and still vanishing correctly."
                 ),
                 discriminating=True,
@@ -262,7 +262,7 @@ def build() -> Dossier:
                     formal=AxisRecord(
                         status=FormalStatus.PROVED,
                         detail=(
-                            "abs_hardyZ_eq_abs_zeta: kernel run observed 2026-08-13 — "
+                            "abs_hardyZ_eq_abs_zeta: kernel run observed 2026-08-13, "
                             "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                             "root import wired"
                         ),
@@ -280,7 +280,7 @@ def build() -> Dossier:
                     "The two definitions in this tree must be the same function. The "
                     "Python one goes through a branch-sensitive real theta; the Lean "
                     "draft avoids any branch. Agreement is what licenses treating the "
-                    "Lean statement as being about this object — the exact place a "
+                    "Lean statement as being about this object, the exact place a "
                     "formalisation usually drifts from what was meant."
                 ),
                 discriminating=True,
@@ -313,7 +313,7 @@ def build() -> Dossier:
                     formal=AxisRecord(
                         status=FormalStatus.PROVED,
                         detail=(
-                            "hardyZ_even: kernel run observed 2026-08-13 — "
+                            "hardyZ_even: kernel run observed 2026-08-13, "
                             "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                             "root import wired"
                         ),
@@ -350,9 +350,9 @@ def build() -> Dossier:
             formal=AxisRecord(
                 status=FormalStatus.PROVED,
                 detail=(
-                    "lean/ZetaLean/HardyZ.lean: the definition and five complete lemmas "
-                    "— hardyZ_is_real, abs_hardyZ_eq_abs_zeta, hardyZ_even, "
-                    "hardyZ_zero_iff, continuous_hardyZ — accepted by the kernel in a "
+                    "lean/ZetaLean/HardyZ.lean: the definition and five complete "
+                    "lemmas, hardyZ_is_real, abs_hardyZ_eq_abs_zeta, hardyZ_even, "
+                    "hardyZ_zero_iff, continuous_hardyZ, accepted by the kernel in a "
                     "watched run: lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                     "observed 2026-08-13. The root import has wired ZetaLean.HardyZ "
                     "since 150ac05 (whose build compiled it for the first time); the "
@@ -361,8 +361,8 @@ def build() -> Dossier:
                     "obligation remains not-attempted, so the formalisation is still "
                     "complete about everything except the thing that makes Z worth "
                     "defining. History kept deliberately: this record read "
-                    "stated-unchecked — correctly at the time, HardyZ.lean was outside "
-                    "the root import — and then stayed stale for ~3 hours after "
+                    "stated-unchecked, correctly at the time, HardyZ.lean was outside "
+                    "the root import, and then stayed stale for ~3 hours after "
                     "150ac05's green build, because nothing coupled build evidence to "
                     "recorded status. That coupling now exists: the tripwire tests in "
                     "tests/test_dossier_hardy_z.py."
@@ -410,12 +410,12 @@ def build() -> Dossier:
                 question=(
                     "The formalisation covers every obligation except the discriminating "
                     "one. Lean has hardyZ_is_real, abs_hardyZ_eq_abs_zeta, hardyZ_even, "
-                    "hardyZ_zero_iff and continuous_hardyZ — and nothing about the sign "
+                    "hardyZ_zero_iff and continuous_hardyZ, and nothing about the sign "
                     "of Z, which is the only property that makes Z the right object "
                     "rather than |zeta(1/2+it)|. Is that a gap or a deliberate ordering?"
                 ),
                 what_would_settle_it=(
-                    "a Lean statement that Z takes both signs — e.g. hardyZ 0 < 0 and "
+                    "a Lean statement that Z takes both signs, e.g. hardyZ 0 < 0 and "
                     "0 < hardyZ 100, or an existence-of-sign-change lemma. "
                     "continuous_hardyZ is already there, so the intermediate value "
                     "theorem is available and the missing piece is two numeric bounds, "

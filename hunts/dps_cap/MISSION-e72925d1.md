@@ -1,4 +1,4 @@
-# hunts/dps_cap — what the precision cap in the rival interfaces costs
+# hunts/dps_cap: what the precision cap in the rival interfaces costs
 
 Opened 2026-08-14. A bounded measurement, not a claim about zeta and not a
 result. Nothing here has been through a control.

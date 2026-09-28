@@ -16,12 +16,12 @@ Writes ``results.json`` (and stage partials via ``--out``) plus
 pre-registered predictions.
 
 Vocabulary note (the probe discipline, ``tests/test_hunt_probe_discipline.py``):
-everything in this hunt is the accurate regime — mpmath floats with measured
+everything in this hunt is the accurate regime, mpmath floats with measured
 cross-route defects.  The strongest words used are *measured* and *observed*;
 the reserved enclosure word belongs to ``zeta/rigor.py`` and appears nowhere
 in this directory.  No enclosure claims are made.
 
-The construction (derived, then measured — never trusted):
+The construction (derived, then measured, never trusted):
 
     F(s) = (pi/5)^{-(s+1)/2} Gamma((s+1)/2) f(s)   is entire, F(s) = F(1-s),
     Xi_DH(z) := F(1/2 + iz) = int_0^inf Phi_DH(u) cos(zu) du,
@@ -37,14 +37,14 @@ the same backward-heat deformation as ``zeta.heatflow.H_t`` (dH/dt = -d2H/dz2:
 increasing t repels real zeros and pulls conjugate pairs onto the axis).  An
 off-line zero rho = beta + i*gamma of f sits at z = gamma - i(beta - 1/2):
 a conjugate pair at distance y0 = beta - 1/2 from the real axis, which the
-flow lands at some t* > 0 — the pair's repair time, a lower bound for
+flow lands at some t* > 0, the pair's repair time, a lower bound for
 Lambda_DH := inf{t : H_t has only real zeros}.
 
 Pair tracking is done on quantities that are analytic through the collision:
 contour moments q_k = (1/2 pi i) contour-int (z-c)^k H'/H dz give the count
 N = q0 (must be an integer, must be 2), the centroid x = c + q1/2, and the
 discriminant Delta = 2 q2 - q1^2 = (z1 - z2)^2, which runs from -4 y0^2 < 0
-through 0 (the landing, t = t*) to +gap^2 > 0 — no root-chasing near a
+through 0 (the landing, t = t*) to +gap^2 > 0, no root-chasing near a
 double zero, ever.  The ODE null control integrates the same pair in the
 collision-safe variable Q = Delta/4, using the identity (any external zero a,
 real or a member of a conjugate pair):
@@ -93,7 +93,7 @@ DIGITS_LOST_PER_Z = math.pi / 4 / math.log(10)  # ~0.34109
 #: suite and matching Spira 1994).  Pairs 2-4 are Spira's (Math. Comp. 63,
 #: 1994); pairs 5-9 are Balanzario & Sanchez-Ortiz (Math. Comp. 76, 2007).
 #: Every seed is re-polished by mp.findroot on dh_f, with a winding check,
-#: before anything downstream uses it (see polish_pair) — the literature
+#: before anything downstream uses it (see polish_pair), the literature
 #: supplies starting guesses, never data.
 LIT_PAIRS: dict[int, tuple[str, str]] = {
     1: (OFFLINE_ZERO_RE, OFFLINE_ZERO_IM),
@@ -150,7 +150,7 @@ def omega_dh(x, kap):
 
 
 def phi_dh_raw(u, kap):
-    """The **unfolded** Phi_DH(u) = 4 e^{3u/2} omega(e^{2u}) — trustworthy for
+    """The **unfolded** Phi_DH(u) = 4 e^{3u/2} omega(e^{2u}), trustworthy for
     Re u >= 0 only (for u < 0 the sum is a catastrophic cancellation, exactly
     as documented for zeta's Phi in zeta/heatflow.py)."""
     u = mp.mpmathify(u)
@@ -171,7 +171,7 @@ class DHFlow:
     """H_t for the Davenport-Heilbronn Xi, one instance per (dps, z-height).
 
     Composite Gauss-Legendre on [0, U] with Phi_DH memoised at the nodes
-    (Phi depends on neither z nor t, so the rule is paid for once) — the same
+    (Phi depends on neither z nor t, so the rule is paid for once), the same
     architecture as zeta.heatflow._quad_rule, rebuilt here for the DH weight
     and exponents.  ``n_gauss`` grows with dps so the panel count stays sane
     at the precisions the high survey pairs need.
@@ -254,7 +254,7 @@ class DHFlow:
 
 
 # ---------------------------------------------------------------------------
-# contour moments: N, centroid, discriminant — analytic through the collision
+# contour moments: N, centroid, discriminant, analytic through the collision
 # ---------------------------------------------------------------------------
 
 
@@ -268,14 +268,14 @@ def contour_moments(flow: DHFlow, center, radius, t, M: int = 96,
     trapezoid rule (spectrally accurate on a periodic analytic integrand).
 
     Returns N (checked integer), x (centroid of the two zeros), Delta
-    (= 2 q2 - q1^2, the squared zero separation — negative for a conjugate
+    (= 2 q2 - q1^2, the squared zero separation, negative for a conjugate
     pair, positive after landing), the imaginary residuals of q1, q2 (pure
     round-off when the configuration is conjugate-symmetric: an accuracy
     meter), and min |H| on the contour (a conditioning meter).
 
     Raises WindingError when q0 is not within 1e-6 of an integer (a zero on
-    or hugging the contour) or when the integer disagrees with ``expect_n``
-    — the same refusal contract as zeta.epstein.count_zeros_box, and the
+    or hugging the contour) or when the integer disagrees with ``expect_n``,
+    the same refusal contract as zeta.epstein.count_zeros_box, and the
     lesion stage measures that it actually fires.
     """
     with mp.workdps(flow.dps):
@@ -415,7 +415,7 @@ def find_tstar(site: dict, tol: float = 1e-8, M: int = 96,
         if grew > 4:
             raise ArithmeticError(
                 f"Delta still negative at t={t_hi}: the pair has not landed "
-                "inside the bracket — prediction P1 would be dead; investigate"
+                "inside the bracket, prediction P1 would be dead; investigate"
             )
         t_hi *= 1.3
         m_hi = delta_at(site, t_hi, center=center, M=M)
@@ -502,7 +502,7 @@ def line_zeros_near(gamma: float, half_width: float, step_frac: float = 8.0,
 
 def strip_count_window(gamma: float, half_width: float, dps: int = 20) -> int:
     """Argument-principle count of ALL zeros of f in the window strip
-    [-1.05, 2.05] x [gamma - w, gamma + w] — the accounting that says whether
+    [-1.05, 2.05] x [gamma - w, gamma + w], the accounting that says whether
     the line scan plus the known quadruples explain everything.  Edges are
     nudged off likely zeros; retried on the refusal the counter raises."""
     for nudge in (0.0, 0.0371, -0.0619, 0.1093):
@@ -526,7 +526,7 @@ def ode_null_control(site: dict, reals: list[float], other_pairs: list[dict],
     State: the target pair and every other quadruple in the window as
     (x_p, Q_p); each real zero as w_i.  Mirrors (the -z copies) enter the
     force assembly analytically.  Tail beyond the window enters dQ/dt as
-    -4 Q * (2 rho / W) with rho the local mean density — a correction the
+    -4 Q * (2 rho / W) with rho the local mean density, a correction the
     result records rather than hides.
 
     No arithmetic enters: the input is the measured t = 0 configuration and
@@ -869,7 +869,7 @@ def stage_ode(pairs: list[int], out: str) -> None:
     for k in pairs:
         tk = time.time()
         if k not in polished_all:
-            print(f"pair {k}: no polished zero on record yet — run pair1/survey first")
+            print(f"pair {k}: no polished zero on record yet, run pair1/survey first")
             continue
         pol = polished_all[k]
         gam = float(mp.mpf(pol["gamma"]))
@@ -964,7 +964,7 @@ def stage_lesions(out: str) -> None:
         m = delta_at(site, tv)
         gap = math.sqrt(max(float(m["Delta"]), 0.0)) if m["Delta"] > 0 else 0.0
         # default-step sign scan across the landing site, swept through five
-        # grid phases (hunt #3's lesson: a single phase can be lucky — the
+        # grid phases (hunt #3's lesson: a single phase can be lucky, the
         # newborn pair is visible exactly when it straddles a grid point)
         n_pts = int(4.0 / step_default) + 2
         per_phase = []
@@ -1081,7 +1081,7 @@ def stage_figure(out: str) -> None:
     ax2.set_title(r"The survey: every measured $t^\ast$ is a lower bound for $\Lambda_{DH}$")
     ax2.legend(fontsize=8)
     fig.suptitle("The heat-flow clock on the Davenport–Heilbronn counterexample "
-                 "(hunt #4 — a probe, not a result)", fontsize=11)
+                 "(hunt #4, a probe, not a result)", fontsize=11)
     fig.tight_layout(rect=[0, 0, 1, 0.94])
     png = os.path.join(HERE, "flow_repair.png")
     fig.savefig(png, dpi=160)

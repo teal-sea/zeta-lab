@@ -1,4 +1,4 @@
-"""``harness.departments`` — the subject-coupled side of the seam.
+"""``harness.departments``, the subject-coupled side of the seam.
 
 Everything under this package is allowed to know what is being studied, and
 is the *only* part of :mod:`harness` allowed to. A department module imports

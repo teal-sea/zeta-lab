@@ -1,8 +1,8 @@
-# 02 — Theta, the Heat Equation, and Modularity
+# 02. Theta, the Heat Equation, and Modularity
 
 *"Can you model the theta function with a differential equation?"*
 
-**The short version.** Yes — and the equation is the heat equation. The function
+**The short version.** Yes, and the equation is the heat equation. The function
 
 ```
 theta(x, t)  =  sum over n in Z   exp(-4 pi^2 n^2 t) exp(2 pi i n x)
@@ -10,14 +10,14 @@ theta(x, t)  =  sum over n in Z   exp(-4 pi^2 n^2 t) exp(2 pi i n x)
 
 is exactly the fundamental solution (the heat kernel) of `u_t = u_xx` on the circle **R**/**Z**: put a
 unit of heat at the origin at time zero and let it diffuse, and this is the temperature profile. The
-same function has a *second face* — a sum of Gaussians, one for each way heat can wrap around the
+same function has a *second face*, a sum of Gaussians, one for each way heat can wrap around the
 circle. The statement that these two faces are the same function is **Poisson summation**; applied to
 a Gaussian (which is its own Fourier transform) it collapses to Jacobi's modular identity
 `theta(1/x) = sqrt(x) theta(x)`. That identity is a duality between short time and long time: the
 behaviour of the system when heat has barely spread determines its behaviour when heat has almost
-finished spreading. Everything downstream in this repository — the functional equation of zeta
+finished spreading. Everything downstream in this repository, the functional equation of zeta
 (`docs/03-functional-equation.md`), the symmetry axis `Re(s) = 1/2`, running heat flow on `Xi` itself
-(`docs/05-de-bruijn-newman.md`) — is a consequence or an echo of this one self-similarity.
+(`docs/05-de-bruijn-newman.md`), is a consequence or an echo of this one self-similarity.
 
 ---
 
@@ -34,7 +34,7 @@ the heat equation; with the diffusion constant normalised to `D = 1`,
 
 **Separation of variables.** Look for solutions `u = X(x) T(t)`. Substituting gives
 `T'/T = X''/X = -lambda`, a constant. Periodicity forces `X` to be one of the characters
-`X_n(x) = exp(2 pi i n x)`, `n` in **Z** — these are precisely the eigenfunctions of `d^2/dx^2` on
+`X_n(x) = exp(2 pi i n x)`, `n` in **Z**: these are precisely the eigenfunctions of `d^2/dx^2` on
 the circle with period 1. Differentiating twice:
 
 ```
@@ -62,12 +62,12 @@ Three sanity checks, all easy and all worth doing:
   `n = 0` term survives the integral, and it equals 1 for all time.
 - **It really solves the PDE.** Term-by-term differentiation (legitimate for `t > 0`, where the
   series converges extremely fast) gives the factor `-4 pi^2 n^2` from `d/dt` and from `d^2/dx^2`
-  alike — the two derivative series are *identical*, which is exactly the statement `D = 1`.
+  alike, the two derivative series are *identical*, which is exactly the statement `D = 1`.
 - **It is real and even in `x`.** Pair `n` with `-n`:
   `theta(x,t) = 1 + 2 sum_{n>=1} exp(-4 pi^2 n^2 t) cos(2 pi n x)`.
 
-What is *not* obvious from this face: that `theta > 0` everywhere. Physically it must be — heat does
-not diffuse into negative temperature — but the sum of cosines gives no hint. Hold that thought.
+What is *not* obvious from this face: that `theta > 0` everywhere. Physically it must be, heat does
+not diffuse into negative temperature, but the sum of cosines gives no hint. Hold that thought.
 
 ---
 
@@ -81,7 +81,7 @@ the fundamental solution of `u_t = u_xx` is the textbook Gaussian
 ```
 
 (a normal density with variance `2t`, so the diffusion length is `sqrt(2t)`; the `4` in `4t` is
-exactly what `D = 1` demands — differentiate and check).
+exactly what `D = 1` demands, differentiate and check).
 
 Now use the **method of images**. A function on the circle is a periodic function on the line. Heat
 released at the origin of the circle is indistinguishable from heat released simultaneously at
@@ -109,7 +109,7 @@ become zeros of zeta.
 
 ## 3. Poisson summation: the two faces agree
 
-**THEOREM (Poisson summation).** For `f` in the Schwartz class (smooth, rapidly decaying —
+**THEOREM (Poisson summation).** For `f` in the Schwartz class (smooth, rapidly decaying,
 Gaussians qualify comfortably),
 
 ```
@@ -132,7 +132,7 @@ left side is the Gaussian face. Substituting `y = x - u` in the transform:
 
 using the one fact that makes this whole subject work: **the Gaussian is its own Fourier transform**
 (precisely: the transform of `exp(-pi a u^2)` is `a^(-1/2) exp(-pi k^2 / a)`; here `a = 1/(4 pi t)`
-and the prefactors cancel exactly — do the two-line check). Poisson summation now reads
+and the prefactors cancel exactly, do the two-line check). Poisson summation now reads
 
 ```
     sum_m (4 pi t)^(-1/2) exp(-(x-m)^2/(4t))   =   sum_n exp(-4 pi^2 n^2 t) exp(-2 pi i n x)
@@ -165,7 +165,7 @@ bridge the code uses). The Fourier face becomes `theta(s)`; the Gaussian face be
 ```
 
 That is the promised one-line derivation: *Poisson summation applied to a Gaussian, evaluated at the
-origin.* The identity is classical — commonly attributed to Jacobi (1820s), and Riemann's 1859 memoir
+origin.* The identity is classical, commonly attributed to Jacobi (1820s), and Riemann's 1859 memoir
 invokes it, citing Jacobi, as the engine of the functional equation. (I am confident in the
 attribution to Jacobi and in Riemann's use of it; I have not verified the exact place in Jacobi that
 Riemann cites, so I omit it.)
@@ -173,7 +173,7 @@ Riemann cites, so I omit it.)
 In the heat variable, the duality is `t -> 1/(16 pi^2 t)`, with self-dual time
 `t* = 1/(4 pi) = 0.0795774715...`. At that instant `theta_heat(0, t*) = theta(1) =
 1.08643481121330801...` (checked at 30 digits with the code below), and the diffusion length is
-`sqrt(2 t*) = 1/sqrt(2 pi) = 0.398942...` — comparable to the circle itself. The self-dual moment is
+`sqrt(2 t*) = 1/sqrt(2 pi) = 0.398942...`: comparable to the circle itself. The self-dual moment is
 precisely when the heat has just finished discovering that the line was secretly a circle.
 
 ---
@@ -183,10 +183,10 @@ precisely when the heat has just finished discovering that the line was secretly
 This is the interpretive heart, so let us be concrete rather than poetic.
 
 - **Small `s` (short time).** Heat has barely spread. On the Gaussian side one image dominates
-  overwhelmingly and `theta(s) ~ s^(-1/2)` — a single spreading blob. On the Fourier side the profile
+  overwhelmingly and `theta(s) ~ s^(-1/2)`, a single spreading blob. On the Fourier side the profile
   is sharp, so it needs many harmonics.
 - **Large `s` (long time).** Heat is nearly uniform. On the Fourier side,
-  `theta(s) = 1 + 2 exp(-pi s) + O(exp(-4 pi s))` — the constant mode plus an exponentially small
+  `theta(s) = 1 + 2 exp(-pi s) + O(exp(-4 pi s))`: the constant mode plus an exponentially small
   ripple. On the Gaussian side the blob has wrapped around many times, so it needs many images.
 
 Each regime is *hard* in one language and *trivial* in the other, and modularity is the dictionary.
@@ -203,9 +203,9 @@ down):
   100        1.0000000000000000          0.1                  1.0000000000000
 ```
 
-Look at `s = 0.01`: `theta(0.01) = 10` to well over a hundred digits — the correction is
+Look at `s = 0.01`: `theta(0.01) = 10` to well over a hundred digits, the correction is
 `10 * 2 exp(-100 pi) ≈ 7.3e-136`. And at `s = 0.1` the discrepancy from `1/sqrt(s)` is `1.436e-13`,
-which is *exactly* `2 exp(-10 pi)/sqrt(0.1)` — the leading term of the dual expansion. The
+which is *exactly* `2 exp(-10 pi)/sqrt(0.1)`, the leading term of the dual expansion. The
 short-time asymptotic is not an approximation that happens to be good; it is the long-time expansion
 of the *dual* problem, read backwards through Jacobi's identity.
 
@@ -245,7 +245,7 @@ a right-hand side visibly invariant under `s -> 1 - s`. The map `x -> 1/x` on ti
 Be precise about what this does and does not establish. **THEOREM:** the completed zeta function is
 symmetric about the line `Re(s) = 1/2`; that is why the critical line is *that* line and not some
 other. **CONJECTURE (Riemann Hypothesis):** the non-trivial zeros actually *lie* on it. The
-functional equation alone does not imply RH — the Davenport–Heilbronn function is the example
+functional equation alone does not imply RH, the Davenport–Heilbronn function is the example
 usually cited of a Dirichlet series with a Riemann-type functional equation whose zeros stray off
 the critical line. Modularity installs the mirror; it does not pin the zeros to the mirror.
 
@@ -267,7 +267,7 @@ multiplier system: for `gamma = [[a,b],[c,d]]` in `Gamma_0(4)`,
 paper *On modular forms of half integral weight* is the canonical modern reference for the
 half-integral-weight formalism. (I am confident of the weight, the group, and the shape of the
 multiplier; I have deliberately not written the multiplier's exact normalisation, because
-conventions differ across sources — check one before computing with it.)
+conventions differ across sources, check one before computing with it.)
 
 Two accuracy notes that are classic traps:
 
@@ -289,7 +289,7 @@ the transformation law and the axis of the critical line are the same number.
 
 ## 7. What the code verifies, and the numbers it reports
 
-`zeta/core.py` implements both faces and tests every claim in this document by *direct summation* —
+`zeta/core.py` implements both faces and tests every claim in this document by *direct summation*,
 never by invoking the identity being tested, so a small defect is evidence, not a tautology. The
 relevant functions: `theta`, `omega`, `theta_modular_defect`, `theta_heat` (Fourier face),
 `theta_heat_gaussian` (Gaussian face), `theta_heat_poisson_defect`, `theta_heat_residual`, and the
@@ -315,7 +315,7 @@ constant `HEAT_DIFFUSIVITY = 1`. Numbers below were re-run for this document.
   pushes the floor down (at `t = 1, dps = 45` the raw residual drops to `4e-51`). Relative to
   `|u_xx|` (which is `24.3` at `t = 0.02` and `9.5` at `t = 0.05`, at `x = 0.42`), the PDE with
   `D = 1` is confirmed to better than 30 significant digits across the physically interesting
-  range. Passing `diffusivity = 1/(4 pi^2)` — the wrong normalisation of Section 1 — makes the
+  range. Passing `diffusivity = 1/(4 pi^2)`, the wrong normalisation of Section 1, makes the
   residual order one, which is the point of exposing that parameter.
 
 - **The two faces agree (Poisson).** `theta_heat_poisson_defect(0.3, 0.01)` returns `0.0` at 40
@@ -327,22 +327,22 @@ constant `HEAT_DIFFUSIVITY = 1`. Numbers below were re-run for this document.
   `x = 7.3`).
 
 These three checks are the invariants to keep green if you extend the lab: they are cheap, they are
-essentially exact, and every later result leans on them — `theta_mellin_xi` in the same module
+essentially exact, and every later result leans on them, `theta_mellin_xi` in the same module
 already uses the modular relation to build the completed zeta function of the next document.
 
 ---
 
 ## Where to go next
 
-- **`docs/03-functional-equation.md`** — the payoff. Mellin-transform `omega`, split the integral at
+- **`docs/03-functional-equation.md`**: the payoff. Mellin-transform `omega`, split the integral at
   `x = 1`, apply Section 4's identity, and the functional equation `xi(s) = xi(1-s)` falls out,
   along with the poles, the trivial zeros, and the reason the critical line sits where it does. This
   document exists mainly to make that one inevitable.
-- **`docs/05-de-bruijn-newman.md`** — the frontier. Having watched heat flow *produce* the completed
+- **`docs/05-de-bruijn-newman.md`**: the frontier. Having watched heat flow *produce* the completed
   zeta function, run heat flow *on* it: the de Bruijn–Newman deformation asks how the zeros of `Xi`
   move under a diffusion in a new time variable, and RH becomes the statement that we live exactly
   at a critical time. `zeta/heatflow.py` is the accompanying code.
-- **`docs/04-explicit-formula.md`** — Section 2's geometry/spectrum duality grown up: windings
+- **`docs/04-explicit-formula.md`**, Section 2's geometry/spectrum duality grown up: windings
   become prime powers, eigenvalues become zeros.
 - **Play with it.** Plot `theta_heat(x, t)` for `t` from `1e-4` up through `t* = 1/(4 pi)` and watch
   the spike relax to the constant 1; plot the term counts of Section 5 and watch the two curves

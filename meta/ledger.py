@@ -1,4 +1,4 @@
-"""The intervention ledger — the second laboratory's primary instrument.
+"""The intervention ledger, the second laboratory's primary instrument.
 
 This laboratory studies a mathematical object.  It also, increasingly, studies
 the research system attempting to study it.  This module records the second kind
@@ -17,7 +17,7 @@ missing capability attached, and it deliberately makes some things hard:
   "Research output" is not a number; kernel-checked theorems and accepted
   upstream contributions are.
 * **Claiming automation costs evidence.**  ``AUTOMATED`` requires a named
-  artifact — a test, a commit, a script.  Without one the entry is refused,
+  artifact, a test, a commit, a script.  Without one the entry is refused,
   because "we automated that" is the cheapest thing in the world to assert.
 * **A flattering ledger is reported as suspicious.**  A log with no
   owner-authority interventions, or one where nothing was caught by a human, is
@@ -111,7 +111,7 @@ class Intervention:
             bad.append("no reason the system stopped")
         if self.automatability is Automatability.AUTOMATED and not self.automation_evidence.strip():
             bad.append(
-                "automatability=AUTOMATED without a named artifact — the one claim "
+                "automatability=AUTOMATED without a named artifact, the one claim "
                 "in this schema that is free to assert and therefore must be paid for"
             )
         if self.automatability is not Automatability.NO:
@@ -137,7 +137,7 @@ class MetaObservation:
     session: str
     date: str
     observation: str
-    #: The mathematical work that produced it — meta-evidence with no research
+    #: The mathematical work that produced it, meta-evidence with no research
     #: attached is an opinion.
     arose_from: str
     supports: str = ""
@@ -149,7 +149,7 @@ class MetaObservation:
             bad.append("empty observation")
         if not self.arose_from.strip():
             bad.append(
-                "no research work named — a meta-observation that arose from no "
+                "no research work named, a meta-observation that arose from no "
                 "actual work is an opinion, not evidence"
             )
         if not (self.supports.strip() or self.undercuts.strip()):
@@ -315,19 +315,19 @@ class Ledger:
         caught = self.by_caught_by()
         if not cats.get(Category.OWNER_AUTHORITY.value):
             out.append(
-                "no owner-authority interventions recorded — in a one-operator lab "
+                "no owner-authority interventions recorded, in a one-operator lab "
                 "that is more likely under-recording than independence"
             )
         if not caught.get(CaughtBy.HUMAN.value) and not caught.get(CaughtBy.OUTSIDER.value):
             out.append(
-                "nothing was caught by a human or an outsider — either the "
+                "nothing was caught by a human or an outsider, either the "
                 "architecture is better than every prior measurement suggests, or "
                 "the ledger only records what the architecture already catches"
             )
         auto = self.by_automatability()
         if auto.get(Automatability.AUTOMATED.value, 0) > self.scarce_judgment_count():
             out.append(
-                "more interventions marked AUTOMATED than consumed scarce judgment — "
+                "more interventions marked AUTOMATED than consumed scarce judgment, "
                 "check that automation claims are not being recorded more eagerly "
                 "than the judgment calls they were supposed to replace"
             )
@@ -350,7 +350,7 @@ class Ledger:
             if wins > losses and len(scored) < 10:
                 out.append(
                     f"the system is ahead on calibration ({wins}-{losses}) on only "
-                    f"{len(scored)} scored cases — too few to read as transfer, and "
+                    f"{len(scored)} scored cases, too few to read as transfer, and "
                     "exactly the shape a self-serving record takes early"
                 )
         return out
@@ -391,7 +391,7 @@ class Ledger:
             lines.append(f"  {fn:<22} {counts}")
         s = self.suspicions()
         lines += ["", "suspicions about this ledger as a self-report:"]
-        lines += [f"  - {x}" for x in s] if s else ["  (none flagged — which is itself worth checking)"]
+        lines += [f"  - {x}" for x in s] if s else ["  (none flagged, which is itself worth checking)"]
         return "\n".join(lines)
 
 

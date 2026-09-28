@@ -1,0 +1,65 @@
+{
+  "grade": "bounded non-enclosing diagnostics, not a universal proof",
+  "gauss": {
+    "characters": 180,
+    "noncoprime_repetition_cases": 8,
+    "max_induction_defect": 1.7763568394002505e-15,
+    "max_diagonalization_defect": 2.2737367544323206e-12,
+    "max_gauss_mass_defect": 5.684341886080802e-14
+  },
+  "arithmetic": {
+    "N_values": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      63,
+      64,
+      65
+    ],
+    "NK_pairs": 401,
+    "max_divisor_defect": 2.2420775429197073e-44,
+    "max_renewal_defect": 5.044674471569341e-44,
+    "max_Q_over_variation": 0.26228985239416613,
+    "wrong_constant_min_defect_over_N": 1.0
+  },
+  "power_mode": {
+    "rho": "(0.75 + 2.0j)",
+    "zeta_modulus": 0.6181041456238756,
+    "N_values": [
+      16,
+      17,
+      64,
+      65
+    ],
+    "max_exact_power_defect": 3.330848425187322e-44,
+    "max_transfer_error_normalized": 0.49904496062785125,
+    "max_boundary_forcing_error": 0.6641893397165222,
+    "wrong_closed_endpoint_min_defect": 0.9922778767136676
+  },
+  "smooth_model": {
+    "rho": "(0.75 + 2.0j)",
+    "normalization_defect": 4.3790577010150533e-47,
+    "max_TF_minus_zeta_power": 2.58027148059849,
+    "scope": "A fixed nonzero zeta value checks retention of the leading term; no zero is assumed or searched."
+  },
+  "source_sha256": {
+    "FAREY_BASELINE_REPAIR.md": "fd05a41463fd764a9124d1d310c9651873c366468719d18b68dcc8dccf1c5e17",
+    "SIGNED_MEAN_RENEWAL.md": "2f49b74ae6a720f695a29b062380d95befa530ef7e973eb929e27571fafc1dbf"
+  }
+}

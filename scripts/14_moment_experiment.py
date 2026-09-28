@@ -1150,7 +1150,7 @@ def main() -> int:
     if args.attack:
         rows, diagnostics, verdict, elapsed = multi_offset_attack()
         del rows
-        print("Retrospective multi-offset diagnostic — NOT PRE-REGISTERED")
+        print("Retrospective multi-offset diagnostic: NOT PRE-REGISTERED")
         print("=" * 88)
         print("4 consecutive disjoint windows per height; each has 6,000 nominal gaps,")
         print("128 points/gap and 8 internal blocks.")

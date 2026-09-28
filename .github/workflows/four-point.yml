@@ -1,4 +1,4 @@
-# Tier 3b — the four-point certificate package, on demand.
+# Tier 3b, the four-point certificate package, on demand.
 #
 # `hunts/ainta_seven_point/lean-four-point/` is a Lake package that requires
 # `lean/bridge` BY PATH, so it proves things about the same `Kfun`, `kfun`,
@@ -11,7 +11,7 @@
 # three-point job staged every module separately, because the point of that
 # exercise was to MEASURE which shape is expensive, and staging serialises what
 # `lake` would spread over the runner's four cores. That measurement is done.
-# Here the 17 cell modules build in one step and the 16 chunk modules in
+# Here the 26 cell modules build in one step and the 16 chunk modules in
 # another, so `lake` uses all four cores; only the boundaries between the
 # machinery, the cells, the three-dimensional table and the certificate are
 # staged, which is enough to say where a failure is.
@@ -102,22 +102,15 @@ jobs:
       - name: FourPointCand.Base (the enclosure machinery)
         run: /usr/bin/time -p lake build FourPointCand.Base
 
-      - name: FourPointCand.Cells (the one-dimensional table, 17 modules)
-        run: |
-          set -euo pipefail
-          # The old build measured serial scheduling despite independent modules.
-          # Two explicit compiler processes bound RAM while using separate cores.
-          awk '/^import FourPointCand.Cells[0-9]+$/ {print $2}' FourPointCand/Cells.lean \
-            | xargs -n 1 -P 2 sh -c 'LEAN_NUM_THREADS=1 lake build "$1"' sh
-          lake build FourPointCand.Cells
+      - name: FourPointCand.Cells (the one-dimensional table, 26 modules)
+        run: /usr/bin/time -p lake build FourPointCand.Cells
 
       - name: FourPointCand.Cover (the one-dimensional cover)
         run: /usr/bin/time -p lake build FourPointCand.Cover
 
       - name: FourPointCand.Chunks (the three-dimensional table, 16 modules)
         run: |
-          set -euo pipefail
-          seq 0 15 | xargs -n 1 -P 2 sh -c 'LEAN_NUM_THREADS=1 lake build "FourPointCand.Chunks$1"' sh
+          /usr/bin/time -p lake build $(for i in $(seq 0 15); do printf 'FourPointCand.Chunks%d ' "$i"; done)
 
       - name: FourPointCand.Boxes (the box routers)
         run: /usr/bin/time -p lake build FourPointCand.Boxes
@@ -131,7 +124,7 @@ jobs:
         run: /usr/bin/time -p lake build FourPointCand
 
       - name: axiom audit
-        # `#print axioms` at the bottom of FourPoint/Main.lean prints to the
+        # `#print axioms` at the bottom of FourPointCand/Main.lean prints to the
         # build log. Anything other than the three standard axioms, on any
         # advertised declaration, fails the job.
         working-directory: .

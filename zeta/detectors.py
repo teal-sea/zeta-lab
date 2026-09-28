@@ -3,7 +3,7 @@
 Every RH-equivalent criterion in this laboratory consumes the *zero multiset*.
 That makes a question available that the criteria themselves do not answer: if
 RH were false, would this criterion notice, and at what cost?  A criterion that
-cannot see a violation is not thereby wrong — it is simply blind, and knowing
+cannot see a violation is not thereby wrong, it is simply blind, and knowing
 where each one goes blind is a measurement, not an opinion.
 
 The instrument is a **synthetic lesion**: a quadruple of zeros placed at
@@ -121,8 +121,8 @@ def weil_gaussian_deepest_dip(delta: float, T: float, dps: int = DPS_DEFAULT):
     """The most negative Weil signal the Gaussian family can extract from a lesion.
 
     The lesion contributes ``4 exp(-a(T^2 - delta^2)) cos(2 a T delta)``.  The
-    cosine is what allows a *negative* contribution at all — that is the whole
-    falsification signal — and it first turns negative at ``2 a T delta = pi/2``
+    cosine is what allows a *negative* contribution at all, that is the whole
+    falsification signal, and it first turns negative at ``2 a T delta = pi/2``
     and is deepest at ``2 a T delta = pi``.  Substituting the deepest case:
 
         a* = pi / (2 T delta),
@@ -150,12 +150,12 @@ def weil_gaussian_deepest_dip(delta: float, T: float, dps: int = DPS_DEFAULT):
 
 
 def li_lesion_growth_rate(delta: float, T: float, dps: int = DPS_DEFAULT) -> mpmath.mpf:
-    """``max_j |1 - 1/rho_j|`` over the lesion quad — Li's exponential growth rate.
+    """``max_j |1 - 1/rho_j|`` over the lesion quad: Li's exponential growth rate.
 
     ``lambda_n`` sums ``1 - (1 - 1/rho)^n``, so a zero contributes a term growing
     like ``|1 - 1/rho|^n``.  Only quad members with ``Re(rho) < 1/2`` push that
     modulus above 1, which is why an off-line zero must eventually drive some
-    ``lambda_n`` negative — and how slowly it does so is this number.
+    ``lambda_n`` negative, and how slowly it does so is this number.
     """
 
     with mp.workdps(dps + 10):
@@ -168,7 +168,7 @@ def li_lesion_doubling_n(delta: float, T: float, dps: int = DPS_DEFAULT) -> mpma
     Compare this against the ``(n/2) log n`` background growth of ``lambda_n``
     for zeta to see whether the signal is visible at reachable ``n``.  For the
     Davenport--Heilbronn zero the rate is ``1.000042``, giving a doubling scale
-    near ``1.65e4`` — far beyond any computed range, which is precisely why
+    near ``1.65e4``, far beyond any computed range, which is precisely why
     ``lambda_n >= 0`` is observed for a function that violates RH.
     """
 

@@ -1,0 +1,153 @@
+{
+  "status": "complete",
+  "N": 10000,
+  "y": 100,
+  "source_commit": "3d8aa03034d5207cdab3129eb78534c0f77d2384",
+  "height_input_sha256": "dfe7226a3e9fec0b4108ccec889e80461e2b7809a128453391348228ef81f631",
+  "relation_capacity_exact": "log(97)",
+  "negative_capacity_checks": [
+    {
+      "q": 2,
+      "withdrawal_coefficient": 1,
+      "mass_product": "2940410468805975471348272091611964736929786059534296518660500727452587865824072068098466148731540807453244149858400361035954710888710156863693856741592975262585830136050745181996206361967122765898127330247151368425979470771519947802695761060779118808425141442372398946126971314103429187052394358843975682897358696745070864667096966829996975945790514798307025421971757085043945874262090810662553835918519346972485055618084269829029085303121397550891998715248213380155138823548275437947716195862064610416924549106934794004861637341966107553686538001187342454120306618083752444004940687723172994256389339860915761562455255435842497416867139948975887312501167649587663525373940581378661050394049174606495414353035562112134372188566",
+      "required_product": "97",
+      "equal": false
+    },
+    {
+      "q": 4,
+      "withdrawal_coefficient": 2,
+      "mass_product": "704817686144718830335482068970046656944360197836576081762729369032920453464570093323787395198857015317600328111038475586146725215821735077177557302522114774334356106007935763464086950787744439890370787243900141035439282",
+      "required_product": "9409",
+      "equal": false
+    },
+    {
+      "q": 6,
+      "withdrawal_coefficient": 1,
+      "mass_product": "5410509219211335767219874816521520914036556331162960274379435598312757923107179129603714984273992994336488250487679",
+      "required_product": "97",
+      "equal": false
+    },
+    {
+      "q": 7,
+      "withdrawal_coefficient": 1,
+      "mass_product": "167645401560021450507079092049479972154078808843291583526727454060563",
+      "required_product": "97",
+      "equal": false
+    },
+    {
+      "q": 10,
+      "withdrawal_coefficient": 1,
+      "mass_product": "17094090090634477895926046140097153593273",
+      "required_product": "97",
+      "equal": false
+    },
+    {
+      "q": 11,
+      "withdrawal_coefficient": 1,
+      "mass_product": "7237038509934432213634969661113",
+      "required_product": "97",
+      "equal": false
+    },
+    {
+      "q": 17,
+      "withdrawal_coefficient": 2,
+      "mass_product": "34508483876655991",
+      "required_product": "9409",
+      "equal": false
+    },
+    {
+      "q": 24,
+      "withdrawal_coefficient": 1,
+      "mass_product": "164009",
+      "required_product": "97",
+      "equal": false
+    },
+    {
+      "q": 41,
+      "withdrawal_coefficient": 1,
+      "mass_product": "172797",
+      "required_product": "97",
+      "equal": false
+    },
+    {
+      "q": 61,
+      "withdrawal_coefficient": 1,
+      "mass_product": "163",
+      "required_product": "97",
+      "equal": false
+    },
+    {
+      "q": 103,
+      "withdrawal_coefficient": 1,
+      "mass_product": "97",
+      "required_product": "97",
+      "equal": true
+    }
+  ],
+  "three_cell_delta_per_log97": {
+    "1": 1,
+    "102": 1,
+    "103": -1
+  },
+  "three_cell_zero_mass_destination": 102,
+  "log97_enclosure": [
+    "4.574710978503382822116721621703",
+    "4.574710978503382822116721621704"
+  ],
+  "optimizer_variance_enclosure": [
+    "0.044156227944102928293690533273",
+    "0.044156227944102928293690533274"
+  ],
+  "constant_variance_procedure_ceiling": [
+    "17.507109839685324966496006467143",
+    "17.507109839685324966496006467342"
+  ],
+  "counterexample": {
+    "a": 103,
+    "b": 101,
+    "W_mu_a": 4,
+    "W_mu_b": 2,
+    "delta_per_theta": {
+      "103": -1,
+      "101": 1,
+      "1": 3,
+      "3": -1,
+      "5": -1,
+      "6": 1,
+      "16": 1,
+      "17": -1,
+      "33": -1,
+      "34": 1,
+      "50": -1,
+      "51": 1
+    },
+    "gain_per_theta": 2,
+    "top_prefix_negative_changes": [],
+    "failing_cells_at_log97": [
+      33
+    ],
+    "initial_capacity_exact": "0",
+    "zero_mass_cell": 33,
+    "zero_mass_integer_interval": [
+      295,
+      303
+    ],
+    "accumulated_measure_capacity_cells": [
+      3,
+      5,
+      17,
+      33,
+      50,
+      103
+    ]
+  },
+  "rate_controls": {
+    "r51_at_5000": 2,
+    "r100_at_5000": 50,
+    "upper_suffix_identities_checked": 150
+  },
+  "optimizations": 0,
+  "requested": 1,
+  "completed": 1,
+  "seconds": 0.017140750016551465
+}

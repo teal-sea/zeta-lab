@@ -23,7 +23,7 @@ observations that would say so.
 
 Two prior findings shape the design and are not assumed to be correct:
 
-- The four control **roles** have empirical support — `docs/17` (five claims
+- The four control **roles** have empirical support, `docs/17` (five claims
   refuted in one day), `NULLCONTROLS.md` (a matched null reclassified a
   research finding as generic), `docs/22` (detector strength measured against
   the Davenport–Heilbronn rival).
@@ -34,7 +34,7 @@ Two prior findings shape the design and are not assumed to be correct:
   `run_battery` / `validate_battery` / `audit_department` / `ClaimReport` have
   no call site outside `harness/` and `tests/`, that live hunts import
   `zeta.epstein.battery` directly, and that `hunts/wide_search/probe.py`
-  re-implements the four roles by hand — including its own `null_band()` —
+  re-implements the four roles by hand, including its own `null_band()`,
   rather than importing the harness.
 
 **Those reports are input, not evidence.** This protocol re-derives what it
@@ -82,7 +82,7 @@ An expensive workflow beating a cheap naive baseline would demonstrate nothing;
 the question is whether it beats the same money spent on another good agent.
 
 `H-hand` is what makes H3 answerable. Without it the experiment measures the
-roles and reports the result as if it were about the abstraction — the exact
+roles and reports the result as if it were about the abstraction, the exact
 conflation §1 flags.
 
 ## 4. Budget: four resources, measured separately
@@ -102,7 +102,7 @@ costs wall-clock, judgment costs tokens):
 **Equalization rule, frozen:** arms are matched on **output tokens** as the
 primary resource, within ±15%. Where an arm cannot be brought inside that band
 without changing what it is (a full battery may simply cost more), it is **not
-adjusted**; instead every endpoint is reported twice — raw, and normalized as
+adjusted**; instead every endpoint is reported twice, raw, and normalized as
 *endpoint per 1000 output tokens*. An arm that wins raw and loses normalized is
 reported as winning raw and losing normalized. No composite "budget score" is
 computed; there is no exchange rate between operator minutes and tokens, and
@@ -113,7 +113,7 @@ inventing one would hide the trade this experiment exists to expose.
 **This environment does not expose token counts or cost to a session.** Measured
 2026-08-13 (`RUN-TELEMETRY.md` §7): no `ANTHROPIC_MODEL`, no usage variables,
 nothing from the harness. The run registry landed in this pass captures
-wall-clock, artifacts, commits and prompts — **not tokens, not dollars.**
+wall-clock, artifacts, commits and prompts, **not tokens, not dollars.**
 
 Consequence, frozen here rather than discovered later: **the experiment must be
 executed through an API runner that returns `usage` per request, not through
@@ -150,21 +150,21 @@ not adjudicated later.
 
 The competence floor is mandatory and comes from a recorded failure: the
 resumption benchmark (`ROADMAP.md` 2026-08-09) had one model family fall below
-its floor, and **its cells were voided**. Same rule here — see §9.
+its floor, and **its cells were voided**. Same rule here, see §9.
 
 ### 5.3 Defect classes
 
 Nine classes, each instantiated twice, drawn from **this repository's own
 incident record** so they are realistic rather than toy. They are
-**re-instantiated on new surface, never restored verbatim** — same failure
+**re-instantiated on new surface, never restored verbatim**, same failure
 class, new mathematics, new code, new prose:
 
 | # | Class | Original incident |
 |---|---|---|
-| 1 | shared-layer false agreement between "independent" checks | `docs/25` §2.1 — both rigor backends wrong from one parsing layer |
+| 1 | shared-layer false agreement between "independent" checks | `docs/25` §2.1, both rigor backends wrong from one parsing layer |
 | 2 | a guard whose reference is the same technique at lower resolution | `docs/25` §2.4 |
 | 3 | verdict-shaped default: "cannot decide" encoded as the favourable answer | `docs/25` §2.5 |
-| 4 | precision-insensitive artifact — does not move when the approximation improves | the PSLQ relation stable at 300 digits |
+| 4 | precision-insensitive artifact, does not move when the approximation improves | the PSLQ relation stable at 300 digits |
 | 5 | the test set *is* the rival set | Hunt #2 |
 | 6 | a declared instrument whose precondition is never invoked | `online_list_is_complete` |
 | 7 | scan-window artifact (extremum pinned at a window edge) | `docs/17` §2 |
@@ -180,8 +180,8 @@ computation. Balance is checked before freeze and reported.
 - **Nothing already in this tree is reused as a task.** Not the department
   reference claims (`functional_equation`, `multiplicativity`, and the
   finite-field/compiler/croniter/stateval pairs), not `SHAM_MODES`, not the
-  existing lesions, not the calibration pairs, not `harness/blind_authoring_2026_08_09/`
-  — that corpus is **spent** and `docs/23` §8.0 says so.
+  existing lesions, not the calibration pairs, not `harness/blind_authoring_2026_08_09/`,
+  that corpus is **spent** and `docs/23` §8.0 says so.
 - **The task author is not the harness author and not the scorer.** Three
   separate parties, minimum.
 - **The tasks live in a private repository until the experiment closes.** This
@@ -189,7 +189,7 @@ computation. Balance is checked before freeze and reported.
   method failure that comes from running against a live tree.
 - **Batch 2 (20 claims) is authored after batch 1 runs but before batch 1 is
   scored**, by a different author, and is held out. If batch 1's effects do not
-  replicate in batch 2, the primary conclusion is "not replicated" — not an
+  replicate in batch 2, the primary conclusion is "not replicated", not an
   average of the two.
 - **No task may be designed around a control the harness happens to own.** The
   check: each defect class must be, in principle, detectable by at least
@@ -209,7 +209,7 @@ A per-claim score, scored blind against a key written at authoring time:
 | **0** | accepted as sound | rejected |
 
 **A useful outcome is a score of 2.** Scores of 1 are reported separately and
-never pooled into the primary — "it smelled wrong" is not a verdict this
+never pooled into the primary, "it smelled wrong" is not a verdict this
 laboratory credits, and crediting it would flatter every arm that produces
 volume.
 
@@ -231,7 +231,7 @@ to catch. The (detection, false-rejection) pair is always reported beside J.
 - output tokens; USD; operator minutes
 - **efficiency**: J per 1000 output tokens; J per operator minute
 - disagreement rate within `R2`/`R3`, and whether disagreement alone predicts a
-  defect — this is the cheapest possible detector and it is measured, because if
+  defect, this is the cheapest possible detector and it is measured, because if
   it works the whole apparatus is contestable
 
 ### 6.4 Multiple comparisons
@@ -240,7 +240,7 @@ Eight contrasts across nine arms. Frozen: **H2 is the only confirmatory
 comparison.** Everything else is exploratory and labelled as such in every
 table. No p-value gates any conclusion. Following the E2 precedent
 (`docs/reviews/e1-e3-experiment-protocol.md` §7): *"18 runs is not a clinical
-trial and pretending otherwise would be its own kind of sham"* — this protocol
+trial and pretending otherwise would be its own kind of sham"*, this protocol
 declares itself **exploratory with pre-registered decision rules**, and can
 honestly conclude only "large and consistent" / "absent" / "underpowered".
 
@@ -260,7 +260,7 @@ honestly conclude only "large and consistent" / "absent" / "underpowered".
   uniformly to all arms and logged; persistent scorer disagreement (>1 point on
   a claim) excludes that claim from the primary and is reported.
 - Two scorers: one human, one agent that authored nothing. Disagreements go to
-  the operator — **the system may not resolve a disagreement it is party to**
+  the operator, **the system may not resolve a disagreement it is party to**
   (`meta/operator-functions.md`).
 
 ## 8. Procedure, prompts, and stopping rules
@@ -280,9 +280,9 @@ honestly conclude only "large and consistent" / "absent" / "underpowered".
 
 | Condition | Consequence |
 |---|---|
-| An arm falls below the competence floor (misses a blatant control) | **that arm's cells are void** and support no conclusion in either direction — the resumption benchmark's rule |
+| An arm falls below the competence floor (misses a blatant control) | **that arm's cells are void** and support no conclusion in either direction, the resumption benchmark's rule |
 | A claim's ground truth is found wrong after runs begin | claim excluded from all arms, logged, not silently re-keyed |
-| A defect class turns out to be detectable by inspection alone (all arms score 2) | class reported at ceiling and excluded from the primary; a ceiling lesion is a design defect, recorded — batch 1's known risk |
+| A defect class turns out to be detectable by inspection alone (all arms score 2) | class reported at ceiling and excluded from the primary; a ceiling lesion is a design defect, recorded, batch 1's known risk |
 | A run crashes or is interrupted | re-run once from the same frozen prompt; if it fails again the cell is void, never imputed. `telemetry` records both attempts |
 | Contamination discovered (a task recognizable from this public tree) | that claim is excluded and the discovery is reported, not patched over |
 | **`harness/` is modified during the experiment** | **the experiment is void.** A changed harness requires a new pre-registration and a new task set; re-running the same benchmark against a repaired harness and reporting it as confirmatory is the specific fraud this section exists to prevent |
@@ -302,17 +302,17 @@ honestly conclude only "large and consistent" / "absent" / "underpowered".
 
 Frozen so that none can be added afterwards to fit a result:
 
-1. **The full harness materially helps** — `H-full`/`H-audit` beat `R2` on J at
+1. **The full harness materially helps**: `H-full`/`H-audit` beat `R2` on J at
    matched output tokens, replicated in batch 2.
-2. **Only some components help** — one or more of `H-rival`/`H-lesion` beats
+2. **Only some components help**: one or more of `H-rival`/`H-lesion` beats
    `R2`, while `H-full` − `H-rival` ≈ 0 and `H-audit` − `H-full` ≈ 0.
-3. **Independent replication captures most of the benefit** — `R2` ≈ `H-full`
+3. **Independent replication captures most of the benefit**: `R2` ≈ `H-full`
    at matched tokens, and `R3` ≥ `H-full`.
-4. **The generalized abstraction adds negligible value** — `H-hand` ≈ `H-full`
+4. **The generalized abstraction adds negligible value**: `H-hand` ≈ `H-full`
    on J *and* `H-full` costs more in operator minutes.
-5. **The harness costs more than it contributes** — harness arms match on J but
+5. **The harness costs more than it contributes**: harness arms match on J but
    lose on J per 1000 output tokens and J per operator minute.
-6. **The harness makes performance worse** — any harness arm's escape rate
+6. **The harness makes performance worse**: any harness arm's escape rate
    exceeds `S1`'s, or its false-rejection rate exceeds the ceiling while J does
    not improve.
 
@@ -358,13 +358,13 @@ Written before any data, to be scored right or wrong in the results section.
 |---|---|---|
 | P1 | `H-rival` beats `S1` on J (H1 holds) | high |
 | P2 | `H-rival` **does not** beat `R2` on J overall (H2 fails), but **does** on defect classes 1 and 5 | medium |
-| P3 | `H-hand` ≈ `H-full` — the abstraction adds nothing on J, and costs more operator minutes | medium-high |
+| P3 | `H-hand` ≈ `H-full`, the abstraction adds nothing on J, and costs more operator minutes | medium-high |
 | P4 | `H-audit` − `H-full` ≈ 0 on this task class | medium |
 | P5 | `R2` disagreement rate alone detects ≥60% of defects | medium |
 | P6 | `H-formal` dominates every arm where an exact oracle exists, and is inapplicable to ≥half the claims | high |
 | P7 | At least one defect class sits at ceiling in batch 1 and has to be excluded | medium |
 
-## 15. Unresolved dependencies — the experiment cannot start until these close
+## 15. Unresolved dependencies: the experiment cannot start until these close
 
 1. **Token and cost accounting** (§4.1). Blocking. Needs an API-based runner
    emitting `usage` into the run registry.
@@ -384,7 +384,7 @@ Written before any data, to be scored right or wrong in the results section.
   *worth its cost* on a claim-adjudication task.
 - It does not generalize beyond that task class. A negative result is a result
   about adjudicating claims of this shape, not a proof that adversarial controls
-  are worthless — `docs/17`'s five kills are not undone by anything measurable
+  are worthless, `docs/17`'s five kills are not undone by anything measurable
   here.
 - **It has not been run.** No arm exists, no task is authored, no number in this
   file is an observation.

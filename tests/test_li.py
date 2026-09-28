@@ -1,5 +1,5 @@
 """
-Tests for zeta.li — Li's criterion and Jensen polynomials.
+Tests for zeta.li: Li's criterion and Jensen polynomials.
 
 The load-bearing test is :func:`test_two_methods_agree`: λ_n computed from the
 Cauchy/Taylor side (ξ only, no zeros) against λ_n computed from the zero side
@@ -32,11 +32,11 @@ Independent oracles.  Three of them run *inside* this file rather than being
 quoted from a notebook:
 
 * λ_n from **Stieltjes constants and polygamma**
-  (``test_lambda_from_stieltjes_constants_a_third_independent_route``) — a
+  (``test_lambda_from_stieltjes_constants_a_third_independent_route``), a
   closed-form expansion of log ξ(1+x) plus a binomial transform, sharing no
   code with either module method.
 * γ(n) from **Riemann's ω′ form of the Ξ integral**
-  (``test_gamma_against_riemanns_other_integral_an_independent_oracle``) — a
+  (``test_gamma_against_riemanns_other_integral_an_independent_oracle``), a
   different integral representation, with ω′ and ω″ summed directly.
 * the Jensen roots against **numpy.roots** (LAPACK companion-matrix QR), which
   shares nothing with mpmath's Durand–Kerner or sympy's Sturm sequences.
@@ -48,22 +48,22 @@ reproduces the hand-rolled DFT λ_n to 5.7e-32 relative for n ≤ 8, and
 Claims that an adversarial re-derivation found to be **false** and that are now
 pinned the right way round, so they cannot come back:
 
-* "the truncated zero sum must be below the true value" — it overshoots at
+* "the truncated zero sum must be below the true value", it overshoots at
   n_zeros = 400 (``test_zero_sum_truncation_error_shrinks_but_not_monotonically``);
-* "the error falls like 1/T²" — 800 zeros beat 1000 (same test);
-* "T is chosen so that S(T) = −1/2 exactly" — at the default 1000 zeros
+* "the error falls like 1/T²": 800 zeros beat 1000 (same test);
+* "T is chosen so that S(T) = −1/2 exactly", at the default 1000 zeros
   N(T) = 1001 and S(T) = **+1/2**
   (``test_the_truncation_height_does_not_have_S_of_T_equal_minus_one_half``);
-* "max |arg ξ| stays below π/2, so the principal log is the analytic branch" —
+* "max |arg ξ| stays below π/2, so the principal log is the analytic branch",
   it exceeds π/2 from r ≈ 0.915, and the old guard rejected legitimate radii
   (``test_arg_xi_needs_unwrapping_not_a_principal_branch_guard``);
-* "the γ Cauchy path is radius-independent" — with the old radius-blind node
+* "the γ Cauchy path is radius-independent", with the old radius-blind node
   count ``2·n_max + 40`` it lost up to 45 digits at dps = 80, R = 300
   (``test_gamma_cauchy_node_count_is_radius_and_precision_aware``), and its
   radius-blind *working precision* returned γ(0) too large by 3e138 at
   R = 100 000 with no complaint
   (``test_gamma_cauchy_refuses_a_radius_it_cannot_resolve``);
-* "the raw Jensen coefficients span ~40 orders by d = 16" — 28.5, and the
+* "the raw Jensen coefficients span ~40 orders by d = 16": 28.5, and the
   normalised ones span 5.9 rather than ~4
   (``test_balance_conditioning_spans_on_real_jensen_polynomials``).
 """
@@ -182,10 +182,10 @@ def test_two_methods_agree():
     break.
 
     What is structural and what is not.  The residual is (to leading order) a
-    multiple of f_n(T), so its **sign is the same for every n** — that is
+    multiple of f_n(T), so its **sign is the same for every n**, that is
     asserted.  Its sign as a function of ``n_zeros`` is *not* fixed: an earlier
     version of this test asserted "the truncated zero sum must be below the
-    true value", which is false — at n_zeros = 400 the zero side overshoots for
+    true value", which is false, at n_zeros = 400 the zero side overshoots for
     every n (see
     ``test_zero_sum_truncation_error_shrinks_but_not_monotonically``).
     """
@@ -203,7 +203,7 @@ def test_two_methods_agree():
 
 
 def test_zero_sum_truncation_error_shrinks_but_not_monotonically():
-    """More zeros helps *on average* — and the honest picture says only that.
+    """More zeros helps *on average*, and the honest picture says only that.
 
     Measured max |cauchy − zeros| over n ≤ 8 at dps = 25:
 
@@ -261,7 +261,7 @@ def test_the_truncation_height_does_not_have_S_of_T_equal_minus_one_half():
         1000      1419.4225     1420.6769  1001    **+1/2**
 
     So at the module default (1000 zeros) the true S(T) is +1/2, the opposite
-    of what was claimed — and the answer is still right to 1e-8, because the k
+    of what was claimed, and the answer is still right to 1e-8, because the k
     zeros in (γ_{n_zeros}, T] omitted from the head cancel the k units of S(T)
     identically (see ``_li_zeros``).  This test pins both halves of that: the
     counts, and the fact that the value is unaffected.
@@ -348,8 +348,8 @@ def test_working_precision_and_node_counts():
         li_coefficients(300, dps=20)  304 (= _round_up(300))   132    751
         _li_cauchy(300, 20, 0.5)      300                      131    744
 
-    The middle row is the one a caller actually gets for n = 300 — the cache
-    step rounds 300 up to 304 — so quoting the third row for that call (as an
+    The middle row is the one a caller actually gets for n = 300, the cache
+    step rounds 300 up to 304, so quoting the third row for that call (as an
     earlier docstring did) is off by 7 nodes and a digit.
     """
     from zeta.li import _GUARD
@@ -365,20 +365,20 @@ def test_working_precision_and_node_counts():
 def test_arg_xi_needs_unwrapping_not_a_principal_branch_guard():
     """The branch of log ξ(1/(1−z)), measured properly.
 
-    Sampled max |arg ξ| on |z| = r (256 nodes — this is a *lower bound* on the
+    Sampled max |arg ξ| on |z| = r (256 nodes, this is a *lower bound* on the
     supremum, and a coarser 64-node sample genuinely understates it):
 
         r        0.3      0.5      0.7      0.9      0.92
         256 pts  0.0102   0.0311   0.1171   1.2657   1.9873
-        64 pts   0.0102   0.0311   0.1171   1.1001   —
+        64 pts   0.0102   0.0311   0.1171   1.1001,
 
     Two things follow, and both were wrong in an earlier version of the module.
     (1) "measured max at r = 0.9 is 1.10" is a 64-node artefact; 1024 nodes give
     1.2816.  (2) A guard demanding |arg ξ| < π/2 is *not* unreachable inside the
-    admissible radius range — it fires from r ≈ 0.915 up, i.e. it rejected
+    admissible radius range, it fires from r ≈ 0.915 up, i.e. it rejected
     legitimate radii.  ``_unwrapped_log`` replaces it by continuation from
     z = r (where ξ is real positive) plus a winding-number check, so the whole
-    documented range (0, RADIUS_MAX) now works — and r = 0.92, where the old
+    documented range (0, RADIUS_MAX) now works, and r = 0.92, where the old
     guard raised, reproduces r = 0.5 exactly.
     """
     from zeta.core import xi
@@ -418,9 +418,9 @@ def test_unwrapped_log_recovers_the_analytic_branch_and_both_guards_fire():
         latter, to working precision.
     2.  **Undersampling is refused.**  e^{iθ} at 4 points moves arg by π/2 per
         step: the 2π ambiguity is unresolvable and it must raise.
-    3.  **A nonzero winding number is refused.**  e^{iθ} at 64 points winds once
-        — which for the real integrand would mean a zero inside the circle,
-        contradicting ``RADIUS_MAX`` — and it must raise.
+    3.  **A nonzero winding number is refused.**  e^{iθ} at 64 points winds once,
+        which for the real integrand would mean a zero inside the circle,
+        contradicting ``RADIUS_MAX``, and it must raise.
     """
     from zeta.li import _unwrapped_log
 
@@ -497,7 +497,7 @@ def test_dft_imaginary_residue_needs_the_scaled_tolerance():
 
 @pytest.mark.slow
 def test_dft_imaginary_residue_at_n_300_the_second_docstring_row():
-    """The λ_300 row of ``_real_checked``'s table — the extreme of the r^{−n} story.
+    """The λ_300 row of ``_real_checked``'s table, the extreme of the r^{−n} story.
 
     Reproducing the real code path for ``li_coefficients(300, dps=20)``, which
     rounds up to n = 304 (so 132 working digits and 751 nodes):
@@ -509,7 +509,7 @@ def test_dft_imaginary_residue_at_n_300_the_second_docstring_row():
     the ratio: floor/naive is exactly r^{−n}·max|log ξ|/|Re c_n| =
     2^300 · 0.7010/1.7323, i.e. the r^{−n} = 2^300 = 2.037e90 amplification the
     scaled tolerance carries and the naive one cannot see, times an O(1) factor.
-    Re(c_300) is 1.732 — O(1), not small — so no "the coefficient is tiny" story
+    Re(c_300) is 1.732, O(1), not small, so no "the coefficient is tiny" story
     explains it.  The extracted λ_300 = 300·Re(c_300) is pinned here too.
     """
     from zeta.core import xi
@@ -555,7 +555,7 @@ def test_lambda_50_pinned_and_cross_checked():
     The two-method cross-check is run at n = 8 elsewhere; this extends it to
     n = 50, where the r^{−n} amplification in the Cauchy path is 2^50 ≈ 1.1e15
     and the zero sum needs its density tail.  Measured relative difference
-    between the two methods: 1.39e-8 — the same ~1e-8 zero-truncation floor
+    between the two methods: 1.39e-8, the same ~1e-8 zero-truncation floor
     seen at n ≤ 8, i.e. the Cauchy path has not degraded at all by n = 50.
     """
     cauchy = li_coefficients(50, dps=20)[-1]
@@ -570,7 +570,7 @@ def test_lambda_50_pinned_and_cross_checked():
 
 
 def test_lambda_from_stieltjes_constants_a_third_independent_route():
-    """λ_n from Stieltjes constants and polygamma — no ξ, no zeros, no Cauchy.
+    """λ_n from Stieltjes constants and polygamma, no ξ, no zeros, no Cauchy.
 
     Expand log ξ(1+x) in closed form from the *analytic* ingredients:
 
@@ -644,7 +644,7 @@ def test_li_coefficient_matches_reference_decimals():
 
 
 def test_phi_puts_critical_line_zeros_on_the_unit_circle():
-    """|1 − 1/ρ| = 1 exactly when Re ρ = 1/2 — the reason λ_n ≥ 0 on RH."""
+    """|1 − 1/ρ| = 1 exactly when Re ρ = 1/2, the reason λ_n ≥ 0 on RH."""
     with mp.workdps(40):
         for t in ("14.134725141734693790", "21.0220396387715549", "1000.5"):
             rho = mp.mpc(mp.mpf(1) / 2, mp.mpf(t))
@@ -666,7 +666,7 @@ def test_rs_theta_matches_mpmath_and_zeta_core():
 
 
 # ---------------------------------------------------------------------------
-# 3.  positivity — phrased as "no violation found"
+# 3.  positivity, phrased as "no violation found"
 # ---------------------------------------------------------------------------
 
 
@@ -693,14 +693,14 @@ def test_no_violation_of_li_positivity_found_up_to_60():
 
 
 def test_positivity_from_the_zero_side_as_well():
-    """The zero-side λ_n are positive too — no violation found, from either side.
+    """The zero-side λ_n are positive too, no violation found, from either side.
 
     Reuses the module-level zero-side computation (the scan wrapper is exercised
     on the Cauchy path above; here only the values matter).
     """
     assert all(v > 0 for v in LAMBDA_ZEROS)
     # each conjugate pair contributes 2(1 − cos nφ) ≥ 0, so on RH the partial
-    # sums are nondecreasing in the number of zeros — positivity is structural
+    # sums are nondecreasing in the number of zeros, positivity is structural
     partial = li_coefficients(1, method="zeros", dps=DPS, n_zeros=100)[0]
     assert partial > 0
 
@@ -730,7 +730,7 @@ def test_li_asymptotic_over_300_coefficients():
 
     Measured for 1 ≤ n ≤ 300: λ_n − li_asymptotic(n) ∈ [−2.606, +3.601], mean
     0.587; relative error ≤ 2.949e-2 for n ≥ 50 and ≤ 1.248e-2 for n ≥ 100.
-    The envelope grows (±1.2 for n ≤ 50, ±3.6 by n = 300) — which is why the
+    The envelope grows (±1.2 for n ≤ 50, ±3.6 by n = 300), which is why the
     docstring hedges the constant term instead of claiming it.
     """
     lam = li_coefficients(300, dps=20)
@@ -797,17 +797,17 @@ def test_gamma_against_riemanns_other_integral_an_independent_oracle():
 
         ξ(½+z) = 4 ∫_1^∞ d[x^{3/2}ω'(x)]/dx · x^{−1/4} cosh((z/2)log x) dx,
 
-    which has **no** (z²−¼) prefactor and **no** boundary term — a structurally
+    which has **no** (z²−¼) prefactor and **no** boundary term, a structurally
     different representation from the one ``_gamma_integral`` uses (that one
     integrates ω itself and carries the prefactor).  Expanding the cosh,
 
         γ(n) = 32·n!/(4^n (2n)!) ∫_1^∞ d[x^{3/2}ω'(x)]/dx · x^{−1/4}(log x)^{2n} dx,
 
     with ω'(x) = −π Σ m² e^{−πm²x} and ω''(x) = π² Σ m⁴ e^{−πm²x} summed
-    directly — no ``zeta.core.omega``, no ξ, no Cauchy circle.
+    directly, no ``zeta.core.omega``, no ξ, no Cauchy circle.
 
     Measured max relative agreement with the module: 9.2e-32 for n ≤ 8 at
-    dps = 30 — i.e. the module's γ(n) are right to every returned digit.  Run
+    dps = 30, i.e. the module's γ(n) are right to every returned digit.  Run
     out to n = 128 out of band (the size of the committed cache table) the
     agreement stays at ~4.6e-32.
     """
@@ -847,7 +847,7 @@ def test_gamma_docstring_decimals_including_the_far_tail():
 
     The quoted strings are truncations/roundings, so each is checked to the
     relative accuracy its own digit count supports (10^{−(d−1)} for d quoted
-    significant digits) — not to a blanket tolerance that the shortest entry
+    significant digits), not to a blanket tolerance that the shortest entry
     would have to set.  Measured relative deviations: 7.6e-21, 1.1e-20,
     1.2e-19, 1.5e-20, 5.8e-21.
     """
@@ -868,7 +868,7 @@ def test_gamma_docstring_decimals_including_the_far_tail():
 
 
 def test_gamma_reproduces_xi_by_summing_the_series():
-    """Σ γ(n) z^{2n}/n! must be 8·ξ(1/2+z) — the definition, tested.
+    """Σ γ(n) z^{2n}/n! must be 8·ξ(1/2+z), the definition, tested.
 
     Measured residual at dps = 30 with 21 terms: ≤ 1e-28 for |z| ≤ 1.5,
     ≤ 1e-26 at z = 3 (where the truncation of the series starts to show).
@@ -903,7 +903,7 @@ def test_gamma_two_independent_methods_agree():
 
 
 def test_gamma_accuracy_is_only_the_final_rounding():
-    """γ(n) carries every digit it returns — the error is the output rounding.
+    """γ(n) carries every digit it returns, the error is the output rounding.
 
     Against a dps = 110 reference computed by the same integral path, the
     measured max relative error over n ≤ 12 is
@@ -911,7 +911,7 @@ def test_gamma_accuracy_is_only_the_final_rounding():
         dps = 30 → 9.222e-32,   dps = 50 → 1.303e-51,   dps = 80 → 1.022e-81
 
     i.e. *below* the 1e-30 / 1e-50 / 1e-80 that rounding the result to ``dps``
-    digits costs by itself — the returned values carry every digit they claim,
+    digits costs by itself, the returned values carry every digit they claim,
     and the quadrature is not the limiting factor anywhere in the range the
     Jensen scans use.
     """
@@ -936,7 +936,7 @@ def test_gamma_cauchy_radius_independence():
 
     **Two of these cells used to fail**, silently: with the old radius-blind
     node count ``2·n_max + 40`` the errors were 2.92e-35 at (dps 80, n_max 4,
-    R = 300) and 2.36e-57 at (dps 80, n_max 12, R = 300) — a function asked for
+    R = 300) and 2.36e-57 at (dps 80, n_max 12, R = 300), a function asked for
     80 digits returning 34.  ``_gamma_cauchy_nodes`` now derives the count from
     an aliasing bound instead.
     """
@@ -965,7 +965,7 @@ def test_gamma_cauchy_node_count_is_radius_and_precision_aware():
         80   12     64    64    70    88     112        64
 
     Two properties are asserted beyond the pinned numbers: the count is
-    nondecreasing in the radius and in the working precision (it must be — both
+    nondecreasing in the radius and in the working precision (it must be, both
     make the alias term bigger), and it strictly exceeds the old radius-blind
     rule exactly where that rule was measured to lose digits.
     """
@@ -998,7 +998,7 @@ def test_gamma_cauchy_refuses_a_radius_it_cannot_resolve():
 
     ``work = dps + 20 + ⌈2.6·n_max⌉`` was calibrated at R ≈ 30 and does not
     know about the radius.  The round-off floor of the DFT sum, carried through
-    the R^{−n} division, is max|F|·R^{−n}·10^{−work} — and because F(w) =
+    the R^{−n} division, is max|F|·R^{−n}·10^{−work}, and because F(w) =
     8ξ(½+√w) has **positive** coefficients, max|F| on |w| = R is exactly F(R),
     which this test computes independently from a single ξ evaluation rather
     than from the module's sampled maximum.
@@ -1008,7 +1008,7 @@ def test_gamma_cauchy_refuses_a_radius_it_cannot_resolve():
 
         n_max   R=4    R=10   R=30   R=100  R=300   R=1000
         4       25.3   26.8   28.5   30.0   28.4    23.8
-        12      29.4   34.2   39.7   45.3   49.4    —
+        12      29.4   34.2   39.7   45.3   49.4,
 
     At R = 10 000 the margin goes negative and the function must raise.  Before
     the check existed it returned γ(0) too large by a factor of 3e138 at
@@ -1018,7 +1018,7 @@ def test_gamma_cauchy_refuses_a_radius_it_cannot_resolve():
     from zeta.li import _gamma_cauchy, _gamma_cauchy_nodes
 
     def spare(n_max, dps, radius):
-        """log10(|c_n| / floor_n) − dps, minimised over n — computed here."""
+        """log10(|c_n| / floor_n) − dps, minimised over n, computed here."""
         work = dps + 20 + math.ceil(2.6 * n_max)
         gam = xi_taylor_coefficients(n_max, dps=dps)
         with mp.workdps(work + 40):
@@ -1075,7 +1075,7 @@ def test_gamma_cauchy_starved_precision_tradeoff_table():
     Both a too-small and a too-large radius cost digits (small R shrinks R^n
     against max|F|; large R inflates max|F| = max|8ξ(½+√w)| much faster), and
     starving the node count costs ~14 digits on its own.  The default R = 30
-    with 2n+40 nodes sits at the flat bottom — which is *why* the guard budget
+    with 2n+40 nodes sits at the flat bottom, which is *why* the guard budget
     is 2.6 digits per coefficient, and this is the only place those numbers are
     pinned.  (An earlier version of the docstring quoted a different table that
     did not reproduce; this one does, row for row.)
@@ -1114,7 +1114,7 @@ def test_gamma_cauchy_starved_precision_tradeoff_table():
 
 
 def test_gamma_positive_and_decaying():
-    """All γ(n) > 0, and γ(n+1) < γ(n) — the sequence is a genuine LP candidate."""
+    """All γ(n) > 0, and γ(n+1) < γ(n), the sequence is a genuine LP candidate."""
     assert all(g > 0 for g in GAMMAS)
     assert all(GAMMAS[i + 1] < GAMMAS[i] for i in range(len(GAMMAS) - 1))
     assert mp.nstr(GAMMAS[10], 16) == "1.632338049030142e-17"
@@ -1151,8 +1151,8 @@ def test_lambda_cache_is_bit_exact_not_merely_close(tmp_path, monkeypatch):
 
     * the five small tables (n_max ≤ 70, 145 entries) recompute bit-identically;
     * ``li_lambda_dps20_methodcauchy_n304_radius0.5.json`` (304 entries) was
-      re-derived from scratch **at radius 0.3** — a different circle, a
-      different working precision and a different node count — and agrees to
+      re-derived from scratch **at radius 0.3**, a different circle, a
+      different working precision and a different node count, and agrees to
       4.4e-23 relative, three orders better than the dps = 20 it advertises;
     * ``li_gamma_dps30_methodintegral_n128.json`` (129 entries) was checked at
       n = 0, 1, 2, 10, 25, 64, 100, 120, 128 against Riemann's ω′ integral (see
@@ -1227,7 +1227,7 @@ def test_is_hyperbolic_control_polynomials():
     roots = sorted(float(mp.re(r)) for r in good["roots"])
     assert roots == pytest.approx([1.0, 2.0], rel=1e-20)
 
-    # a mixed case: (X^2+1)(X-3) — one real root, two complex
+    # a mixed case: (X^2+1)(X-3), one real root, two complex
     mixed = is_hyperbolic([3, -1, 3, -1][::-1], dps=30)
     assert mixed["hyperbolic"] is False
     assert mixed["n_real_exact"] == 1
@@ -1253,13 +1253,13 @@ def test_is_hyperbolic_tolerance_test_can_be_fooled_but_sturm_cannot():
     (X − 1 − iδ)(X − 1 + iδ) = X² − 2X + (1 + δ²) has a complex pair with
     imaginary parts ±δ.  With δ = 1e-18 the *relative* imaginary part is 1e-18,
     below the default tolerance 10^{−dps/2} = 1e-15, so ``method="roots"``
-    calls it hyperbolic — wrongly.  The exact Sturm count (discriminant −4δ²)
+    calls it hyperbolic, wrongly.  The exact Sturm count (discriminant −4δ²)
     does not.  This is why ``method="both"`` is the default, why the Sturm
     verdict wins, and why ``max_rel_imag`` and ``agree`` are returned.
 
     (Note the roots here survive the internal balancing: |roots| ≈ 1 already,
     so this is not a conditioning artefact.  The naive example X² + δ², by
-    contrast, is *rescued* by balancing — X ↦ δX turns it into X² + 1.)
+    contrast, is *rescued* by balancing: X ↦ δX turns it into X² + 1.)
     """
     with mp.workdps(60):
         delta = mp.mpf(10) ** -18
@@ -1280,7 +1280,7 @@ def test_is_hyperbolic_tolerance_test_can_be_fooled_but_sturm_cannot():
 
 
 def test_balance_preserves_the_root_set_up_to_scale():
-    """The internal rescaling is X ↦ sX, s > 0 — a bijection of ℝ."""
+    """The internal rescaling is X ↦ sX, s > 0, a bijection of ℝ."""
     coeffs = [mp.mpf(6), mp.mpf(-11), mp.mpf(6), mp.mpf(-1)]  # -(X-1)(X-2)(X-3)
     scaled, s = _balance(coeffs)
     assert s > 0
@@ -1326,7 +1326,7 @@ def test_jensen_polynomials_are_hyperbolic_no_violation_found():
     this range" and is not evidence for RH (docs/08).
 
     Measured at dps = 30 over this 104-row block: max relative |Im root|
-    1.706e-105 and smallest relative root gap 0.08914 — the roots are real to
+    1.706e-105 and smallest relative root gap 0.08914, the roots are real to
     far beyond working precision and are well separated, so the verdicts are
     not borderline.  The bound below is 1e-90, not the 1e-60 an earlier version
     used: 45 orders of slack is a tolerance that cannot fail, and the root
@@ -1346,7 +1346,7 @@ def test_jensen_polynomials_are_hyperbolic_no_violation_found():
 def test_hyperbolicity_agrees_with_an_independent_numpy_root_finder():
     """A third root finder, in double precision, sharing no code with the module.
 
-    ``numpy.roots`` builds a companion matrix and runs LAPACK's QR iteration —
+    ``numpy.roots`` builds a companion matrix and runs LAPACK's QR iteration,
     nothing in common with mpmath's Durand–Kerner or sympy's Sturm sequences.
     On the normalised Jensen polynomials it returns roots whose imaginary parts
     are **exactly** 0.0 in double precision for every (d, n) spot-checked here,
@@ -1413,7 +1413,7 @@ def test_jensen_roots_approach_hermite_roots():
         d = 4:  0.0350 (n=10) → 0.0226 (n=110)
         d = 6:  0.0681 (n=10) → 0.0434 (n=110)
 
-    The convergence is slow — that is the honest picture.  Every cell of the
+    The convergence is slow, that is the honest picture.  Every cell of the
     docstring table in ``jensen_roots_vs_gue`` is pinned here (n = 10, 20, 40,
     110), together with monotonicity in n.
     """
@@ -1493,7 +1493,7 @@ def test_no_global_mpmath_state_is_modified():
 
 
 def test_data_dir_is_derived_from_the_package_not_hardcoded():
-    """No username may appear in a committed path — in the module *or* here.
+    """No username may appear in a committed path, in the module *or* here.
 
     The needles are assembled at run time so that this file does not itself
     contain the literal strings a repo-wide grep for hardcoded paths looks for;

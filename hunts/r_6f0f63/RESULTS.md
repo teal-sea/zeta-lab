@@ -1,4 +1,4 @@
-# R-6F0F63 — the ceiling of the Delsarte LP for kissing numbers
+# R-6F0F63: the ceiling of the Delsarte LP for kissing numbers
 
 Everything below is **float grade** (rung 1, "measured"). No interval arithmetic
 is used anywhere in `probe.py`, so no statement here climbs past *measured*
@@ -66,7 +66,7 @@ Measured, dimension 24, degree 10 (`node_sweep_n24_d10`). `τ₂₄ = 196560`:
 
 | nodes m | LP optimum on the grid | sup f on [-1,1/2] | repaired value | below τ₂₄? |
 |---|---|---|---|---|
-| 20 | 170028.40 | 1.6e+0 | — (repair fails, f_0 < sup) | yes |
+| 20 | 170028.40 | 1.6e+0 |, (repair fails, f_0 < sup) | yes |
 | 40 | 184954.45 | 2.7e-1 | 252531.4 | yes |
 | 100 | 194640.18 | 6.1e-2 | 207288.0 | yes |
 | 300 | 196456.02 | 5.7e-3 | 197578.7 | yes |
@@ -137,13 +137,13 @@ bracket at that degree.
 All MEASURED. Dimensions 8 and 24 are additionally VERIFIED: the bracket
 contains 240 and 196560, the values the LP attains exactly, and the ceiling
 degrees the sweep finds, **6 and 10**, are exactly the degrees of the two
-certificates rebuilt in §1 — the sweep discovers the published parameterisation
+certificates rebuilt in §1, the sweep discovers the published parameterisation
 rather than being handed it.
 
 **The headline of §3: degree is not the binding parameter.** For every dimension
 from 3 to 24 the LP value stops moving by degree 14 at the latest, and adding
 degree up to 30 buys nothing measurable. The parameterisation's ceiling in d is
-reached early and cheaply. What binds is the *node count*, §2 — and the node
+reached early and cheaply. What binds is the *node count*, §2, and the node
 count is the free parameter the literature does not report, because it is an
 implementation detail of an optimisation whose output is a single number.
 

@@ -1,4 +1,4 @@
-# 03 — Riemann's Functional Equation, Derived Line by Line
+# 03. Riemann's Functional Equation, Derived Line by Line
 
 ## The short version
 
@@ -6,16 +6,16 @@ Riemann's functional equation is not a coincidence you verify afterwards; it is 
 variable*. Write `Gamma(s/2) pi^(-s/2) n^(-s)` as an integral of `exp(-pi n^2 x)` against
 `x^(s/2-1)`, sum over `n`, and `zeta(s)` becomes the Mellin transform of the theta function
 `theta(x) = sum_{n in Z} exp(-pi n^2 x)`. Theta has the hidden self-similarity proved in
-`docs/02-theta-heat-and-modularity.md` — `theta(1/x) = sqrt(x) theta(x)` — so if you cut the integral
+`docs/02-theta-heat-and-modularity.md`, `theta(1/x) = sqrt(x) theta(x)`, so if you cut the integral
 at `x = 1` and flip the short half onto the long half by `x -> 1/x`, you land on a formula whose
 right-hand side is *visibly* unchanged by `s -> 1-s`. That one formula simultaneously (a)
 analytically continues `zeta` to the whole plane, (b) proves the functional equation, and (c) shows
-the only poles are simple ones at `s = 0` and `s = 1`. Everything else below — the completed function
-`xi`, the critical line, the trivial zeros, the Hadamard product — is bookkeeping on top of that
+the only poles are simple ones at `s = 0` and `s = 1`. Everything else below, the completed function
+`xi`, the critical line, the trivial zeros, the Hadamard product, is bookkeeping on top of that
 single line.
 
-*Notation.* Riemann's memoir (and Edwards) call the half-theta `psi(x)`; here — as in `docs/02` and
-`zeta/core.py` — it is `omega(x)`, because `psi` is already taken by the Chebyshev prime-counting
+*Notation.* Riemann's memoir (and Edwards) call the half-theta `psi(x)`; here, as in `docs/02` and
+`zeta/core.py`: it is `omega(x)`, because `psi` is already taken by the Chebyshev prime-counting
 function in `docs/04-explicit-formula.md` and in `zeta/explicit.py`. Same object.
 
 ---
@@ -140,7 +140,7 @@ and substitute the restated Jacobi identity (*), `omega(1/u) = sqrt(u) omega(u) 
      + (1/2) integral_1^inf ( u^(-s/2 - 1/2) - u^(-s/2 - 1) ) du
 ```
 
-The first piece is `integral_1^inf u^((1-s)/2 - 1) omega(u) du` — *the same shape as the tail integral
+The first piece is `integral_1^inf u^((1-s)/2 - 1) omega(u) du`, *the same shape as the tail integral
 we already have, with `s` replaced by `1-s`*. That is the whole trick, and it is worth pausing on:
 the inversion `x -> 1/x` on the theta side has become the reflection `s -> 1-s` on the zeta side,
 because the Mellin kernel `x^s` turns multiplicative inversion into additive negation, and the
@@ -169,14 +169,14 @@ Stare at (3). Do not compute anything.
 
 **Continuation (THEOREM).** The integral converges for all `s` in **C** and is entire. So the whole
 right-hand side is meromorphic on **C** and agrees with the left-hand side on `Re s > 1`. By the
-identity theorem the two continuations coincide, so (3) *is* the continuation — a closed form, not an
+identity theorem the two continuations coincide, so (3) *is* the continuation, a closed form, not an
 algorithm. Compare `docs/01`, where Euler–Maclaurin got us the same continuation by a completely
 different and far more laborious route.
 
 **Poles (THEOREM).** The only non-analytic ingredient is `1/(s(s-1))`: simple poles at `s = 0` and
 `s = 1`, nowhere else. Now split the credit. `Gamma(s/2)` has its own simple poles at
 `s = 0, -2, -4, ...`. The pole of the left side at `s = 0` is therefore supplied by `Gamma`, so `zeta`
-need not be singular there — and is not. The pole at `s = 1` is *not* supplied by `Gamma`, so it must
+need not be singular there, and is not. The pole at `s = 1` is *not* supplied by `Gamma`, so it must
 belong to `zeta`, and it is simple with residue `1`. (`pi^(-1/2) Gamma(1/2) = 1`, so the residue of
 the left side at `s=1` is the residue of `zeta`, and the right side has residue `1` there.) That pole
 is the primes' fingerprint, as `docs/01` §1 argues.
@@ -221,7 +221,7 @@ and hence `xi(0) = xi(1) = 1/2` for free. (Numerically `xi(1/2) = 0.497120778188
 
 "Order 1" means `|xi(s)| <= exp(C |s|^(1+eps))` for every `eps > 0` and no smaller exponent works;
 the true growth along the real axis is `exp(c |s| log|s|)`, driven by `Gamma(s/2)`. So `xi` has order
-exactly 1 but *infinite type* — it is not of finite exponential type. That distinction is not
+exactly 1 but *infinite type*, it is not of finite exponential type. That distinction is not
 pedantry: it is what forces the convergence factors in §9.
 
 One further consequence, small to state and enormous in practice. `zeta` is real on the real axis, so
@@ -272,7 +272,7 @@ critical line and the real axis. The quadruple degenerates to a *pair* `{rho, co
 `Re(rho) = 1/2`.
 
 So RH is not "the zeros happen to prefer a line". It is the assertion that the zeros are as symmetric
-as the function that produces them — that nothing ever breaks the mirror.
+as the function that produces them, that nothing ever breaks the mirror.
 
 Locating the *strip* is already a theorem. The Euler product gives `zeta(s) != 0` for `Re s > 1`; the
 functional equation transports that to `Re s < 0` (where the only zeros are the trivial ones of §8);
@@ -303,7 +303,7 @@ Solve the definition of `xi` for `zeta`:
 ```
 
 `Gamma(s/2)` has simple poles at `s/2 = 0, -1, -2, ...`, i.e. at `s = 0, -2, -4, -6, ...`. A pole of
-`Gamma(s/2)` sitting in the *denominator* forces a zero of `zeta` — unless something cancels it. At
+`Gamma(s/2)` sitting in the *denominator* forces a zero of `zeta`: unless something cancels it. At
 `s = 0` the factor `s` in the denominator does cancel it, which is exactly why `zeta(0) = -1/2` is
 finite and nonzero. At `s = -2, -4, -6, ...` nothing cancels, so
 
@@ -311,7 +311,7 @@ finite and nonzero. At `s = -2, -4, -6, ...` nothing cancels, so
     zeta(-2) = zeta(-4) = zeta(-6) = ... = 0
 ```
 
-These are the **trivial zeros**. "Trivial" does not mean unimportant — they contribute a genuine term
+These are the **trivial zeros**. "Trivial" does not mean unimportant, they contribute a genuine term
 to the explicit formula in `docs/04-explicit-formula.md`. It means *forced*: they are artifacts of the
 archimedean Gamma factor, predictable without knowing anything whatsoever about the primes. Note that
 `xi` has none of them; it was constructed precisely to absorb them. The zeros `xi` keeps are the
@@ -363,7 +363,7 @@ polynomial `P` with `P(z, Gamma(z), Gamma'(z), ..., Gamma^(n)(z)) === 0`. (O. H�
 Eigenschaft der Gammafunction keiner algebraischen Differentialgleichung zu genügen*, Mathematische
 Annalen 28. Sources differ between 1886 and 1887 for the volume date; 1887 is the usual citation.)
 
-**THEOREM (Ostrowski, 1920).** The same holds for `zeta` — it is *differentially transcendental*
+**THEOREM (Ostrowski, 1920).** The same holds for `zeta`, it is *differentially transcendental*
 (hypertranscendental) over the rational functions. A. Ostrowski, *Über Dirichletsche Reihen und
 algebraische Differentialgleichungen*, Mathematische Zeitschrift 8 (1920). Secondary sources
 routinely describe this as settling an assertion of Hilbert's from around 1900 and credit
@@ -371,10 +371,10 @@ Mordukhai-Boltovskoi with an independent proof; I have not checked those attribu
 primary sources, so treat the *story* as hearsay and the *theorem* as solid.
 
 So there is no hidden finite-order ODE for `zeta` waiting to be integrated. Any structural handle has
-to come from somewhere else — the Euler product, the functional equation, or a spectral
+to come from somewhere else, the Euler product, the functional equation, or a spectral
 interpretation.
 
-**CURIOSITY — clearly labelled, NOT a working tool.** R. A. Van Gorder, *Does the Riemann zeta
+**CURIOSITY, clearly labelled, NOT a working tool.** R. A. Van Gorder, *Does the Riemann zeta
 function satisfy a differential equation?* (Journal of Number Theory, 2015), gave an elementary
 construction of an **infinite-order** linear differential relation with analytic coefficients,
 
@@ -387,7 +387,7 @@ was explicit that his relation was formal and claimed no region or mode of conve
 and K. Klinger-Logan, *Linear Operators, the Hurwitz Zeta Function and Dirichlet L-Functions*
 (Journal of Number Theory 217 (2020), 422–442), subsequently showed that Van Gorder's operator applied
 to `zeta` does **not** converge pointwise at any point of the complex plane, and constructed a
-modified operator that does converge. Real mathematics, worth knowing about — but do not build
+modified operator that does converge. Real mathematics, worth knowing about, but do not build
 anything on the original formal operator, and do not cite it as "zeta satisfies a differential
 equation" without every one of those qualifications.
 
@@ -407,8 +407,8 @@ term-by-term differentiation gives `d/dx` contributing `-pi n^2` and `d^2/dz^2` 
 
 the heat equation on the circle, with a periodic delta comb as initial data at `x -> 0+`. All of
 `zeta`'s good behaviour is *borrowed* from theta's heat flow through the Mellin transform (2), and
-none of it survives on the `zeta` side as a differential equation. Borrowing it back — running heat
-flow *on* `xi` rather than using heat flow to *build* `xi` — is the De Bruijn–Newman story in
+none of it survives on the `zeta` side as a differential equation. Borrowing it back, running heat
+flow *on* `xi` rather than using heat flow to *build* `xi`, is the De Bruijn–Newman story in
 `docs/05-de-bruijn-newman.md` and `zeta/heatflow.py`.
 
 ---
@@ -416,30 +416,30 @@ flow *on* `xi` rather than using heat flow to *build* `xi` — is the De Bruijn�
 ## 11. Check it yourself
 
 The identity to test is (3): the direct product `pi^(-s/2) Gamma(s/2) zeta(s)` against the
-theta-integral right-hand side. `zeta.core.theta_mellin_xi` is the documented entry point — it
+theta-integral right-hand side. `zeta.core.theta_mellin_xi` is the documented entry point, it
 computes *both* sides for a given `s`, so you can compare them anywhere you like, including inside
 the critical strip and at `Re s < 0` where the left-hand side only exists *because* of the right-hand
 side.
 
 Running that comparison at 30-digit precision at `s = 3`, `2 + i`, `0.3 + 5i`, `-1.5 + 2.3i`, and
 `1/2 + 14.134725...i`, the two sides agree to within `10^(-31)` in every case. The last is the most
-instructive: both sides evaluate to about `2 · 10^(-12)` — the first non-trivial zero announcing
+instructive: both sides evaluate to about `2 · 10^(-12)`, the first non-trivial zero announcing
 itself in a formula that never mentions zeros at all.
 
 ---
 
 ## Where to go next
 
-- **`docs/04-explicit-formula.md`** — take `log xi` from §9, differentiate, integrate around a
+- **`docs/04-explicit-formula.md`**: take `log xi` from §9, differentiate, integrate around a
   contour, and turn the zeros into a Fourier-like series for the prime-counting function. Code:
   `zeta/explicit.py`.
-- **`zeta/zeros.py`** — `Z(t)` (real on the critical line, §6), `first_n_zeros`, `N_of_T`, `S_of_T`,
+- **`zeta/zeros.py`**: `Z(t)` (real on the critical line, §6), `first_n_zeros`, `N_of_T`, `S_of_T`,
   `gram_points`, `verify_rh_up_to`. This is where §7's quadruples get checked, one zero at a time.
-- **`zeta/statistics.py`** — once you have thousands of zeros, stop asking *where* they are and start
+- **`zeta/statistics.py`**: once you have thousands of zeros, stop asking *where* they are and start
   asking how they are *spaced* (Montgomery's pair correlation; the GUE heuristic).
-- **`docs/05-de-bruijn-newman.md`** and **`zeta/heatflow.py`** — the De Bruijn–Newman
+- **`docs/05-de-bruijn-newman.md`** and **`zeta/heatflow.py`**: the De Bruijn–Newman
   deformation of `xi`. RH is equivalent to `Lambda <= 0`; it is a **THEOREM** (Rodgers–Tao, 2020) that
-  `Lambda >= 0`, so RH is now precisely the statement `Lambda = 0` — a knife-edge, not a margin.
+  `Lambda >= 0`, so RH is now precisely the statement `Lambda = 0`: a knife-edge, not a margin.
 - **Experiment.** Plot the tail integrand `(x^(s/2-1) + x^((1-s)/2-1)) omega(x)` for `s` on the
   critical line and watch the two terms become complex conjugates. The realness of `xi(1/2 + it)`
   stops being a computation and becomes something you can see.

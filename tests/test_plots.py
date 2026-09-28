@@ -3,10 +3,10 @@
 Figures are hard to assert about, so this module tests the two things that can
 actually be wrong:
 
-* **the plumbing** — every new ``plot_*`` function runs headless, returns a
+* **the plumbing**: every new ``plot_*`` function runs headless, returns a
   ``matplotlib.figure.Figure``, and writes a non-trivial PNG to ``save_path``;
   and every name it exports is really there.
-* **the claims** — each figure's docstring makes numerical statements
+* **the claims**: each figure's docstring makes numerical statements
   ("the bands are nested", "the imaginary parts are a hundred orders below the
   tolerance", "M(1)/√1 = 1 and M(5)/√5 = −0.894"), and the house rule is that a
   docstring claim which is not tested is a defect.  Those are re-derived here
@@ -151,7 +151,7 @@ def test_jensen_figure_roots_are_real_negative_and_far_from_the_tolerance():
     hundred orders of magnitude or more below the root-finder tolerance
     10^{−dps/2}.  Measured here at dps = 30 for d ∈ {2, 3, 4, 6}, n = 1: the
     worst relative |Im root| is 8.6e-170 (at d = 6), against a tolerance of
-    1.0e-15 — so the assertion below has ~55 orders of headroom and would still
+    1.0e-15, so the assertion below has ~55 orders of headroom and would still
     fail on any real regression.
     """
     from mpmath import mp

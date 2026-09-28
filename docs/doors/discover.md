@@ -1,6 +1,6 @@
 # Guide: the conjecture funnel, and its hit rate
 
-**For you if** you want to generate leads automatically — and, more usefully,
+**For you if** you want to generate leads automatically, and, more usefully,
 to see what fraction of them survive.
 
 **First command:**
@@ -36,7 +36,7 @@ check, a lexical scan for subject vocabulary, and a subprocess that runs the
 whole pipeline with the laboratory made *unimportable* and still requires it to
 generate, screen and report.
 
-If the seam leaks the design is worthless — a bookkeeping layer entangled with
+If the seam leaks the design is worthless, a bookkeeping layer entangled with
 its subject cannot be trusted to report a number its operator does not want.
 
 Read `ontology/README.md` before touching any of it.
@@ -51,5 +51,5 @@ otherwise checked, would be read as a set of claims.
 Publish `ontology.metrics.render_text`. Never the log. An empty
 `conjectures/` in a fresh clone is the rule working, not a bug.
 
-Related: [refute.md](refute.md) — the funnel generates leads, the battery refutes
+Related: [refute.md](refute.md), the funnel generates leads, the battery refutes
 them.

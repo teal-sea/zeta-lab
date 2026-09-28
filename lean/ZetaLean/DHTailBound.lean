@@ -15,23 +15,23 @@ zero (`Re s ≈ 0.808`), which is why `ZetaLean/OracleDH.lean` could bound only
 individual terms.  This file closes that gap with a kernel-checked
 representation of `DH` on the whole half-plane `Re s > 0`:
 
-* `norm_cpow_sub_cpow_le` — the mean-value two-point bound
+* `norm_cpow_sub_cpow_le`: the mean-value two-point bound
   `‖b^{-s} − a^{-s}‖ ≤ ‖s‖·a^{-Re s − 1}·(b − a)`: Mathlib's convex mean
   value inequality applied to `t ↦ (t : ℂ)^{-s}`; no integrals.
-* `dhBlock` — the series grouped into five-term blocks `n = 5k … 5k+4`.  The
+* `dhBlock`: the series grouped into five-term blocks `n = 5k … 5k+4`.  The
   coefficient pattern `(0, 1, κ, −κ, −1)` pairs into two differences, so each
   block obeys `‖dhBlock s k‖ ≤ (3 + κ)·‖s‖·(5k+1)^{-Re s − 1}`
   (`norm_dhBlock_le`) and the grouped series converges *absolutely* for
-  `Re s > 0` (`summable_dhBlock`) — the analytic continuation made
+  `Re s > 0` (`summable_dhBlock`), the analytic continuation made
   computable.
-* `hasSum_dhBlock_DH` — for `Re s > 1` the blocks sum to `DH s`, by
+* `hasSum_dhBlock_DH`: for `Re s > 1` the blocks sum to `DH s`, by
   regrouping the absolutely convergent series along `Nat.divModEquiv 5`.
-* `dhBlockSum_eq_DH` — the same holds on all of `Re s > 0`: the block sum is
+* `dhBlockSum_eq_DH`, the same holds on all of `Re s > 0`: the block sum is
   differentiable there (Weierstrass, via
   `differentiableOn_tsum_of_summable_norm`), `DH` is entire, the two agree
   on `Re s > 1`, and the identity theorem finishes.  This is the
   kernel-checked analytic continuation of the DH series.
-* `DH_tail_bound` — the payoff: for `Re s > 0` and `K ≥ 2`,
+* `DH_tail_bound`, the payoff: for `Re s > 0` and `K ≥ 2`,
   `‖DH s − ∑_{n < 5K} dh_coeff n · n^{-s}‖
      ≤ (3 + κ)·‖s‖·5^{-Re s − 1}·(K−1)^{-Re s}/Re s`,
   the tail of the block bounds summed by the integral test
@@ -42,7 +42,7 @@ term `n^{-s}` in a computed rational box), evaluating `DH` anywhere in
 `Re s > 0` is now a finite computation plus this theorem's explicit error
 term.  What remains of rung 3 Phase B is assembly: enclosing the finite sum
 tightly enough, at the centre and on the sphere, to discharge the two
-hypotheses of `davenport_heilbronn_of_certified_disk` — a compute problem,
+hypotheses of `davenport_heilbronn_of_certified_disk`, a compute problem,
 no longer a mathematics gap.
 -/
 
@@ -223,7 +223,7 @@ theorem hasSum_dhBlock_DH {s : ℂ} (hs : 1 < s.re) : HasSum (dhBlock s) (DH s) 
 
 /-! ### The block sum, differentiable on `Re s > 0` -/
 
-/-- The block sum — for `Re s > 0` this *is* `DH` (`dhBlockSum_eq_DH`), but
+/-- The block sum, for `Re s > 0` this *is* `DH` (`dhBlockSum_eq_DH`), but
 that is a theorem, not the definition. -/
 noncomputable def dhBlockSum (s : ℂ) : ℂ := ∑' k, dhBlock s k
 
@@ -339,7 +339,7 @@ private lemma sum_range_mul_five (f : ℕ → ℂ) (K : ℕ) :
 
 /-! ### The tail identity
 
-The `5K`-term partial-sum defect is exactly the tail of the block series —
+The `5K`-term partial-sum defect is exactly the tail of the block series,
 extracted from the proof of `DH_tail_bound` so that
 `ZetaLean/DHTailBound2.lean` can bound the same tail by sharper means. -/
 
@@ -362,7 +362,7 @@ from `DH s` to the `5K`-term partial sum of its Dirichlet series is at most
 kernel-checked: the analytic continuation is `dhBlockSum_eq_DH`, the
 per-block bounds are mean-value inequalities, and the tail of block bounds
 is summed by the integral test.  This turns `DH` at any strip point into a
-finite computation plus an explicit error term — the statement whose absence
+finite computation plus an explicit error term, the statement whose absence
 `OracleDH.lean` records. -/
 theorem DH_tail_bound {s : ℂ} (hs : 0 < s.re) {K : ℕ} (hK : 2 ≤ K) :
     ‖DH s - ∑ n ∈ range (K * 5), (dh_coeff n : ℂ) * (n : ℂ) ^ (-s)‖

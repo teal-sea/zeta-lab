@@ -1,4 +1,4 @@
-# outband_intake — the information is worth between 0.005 and 0.009, and no known certificate can spend it
+# outband_intake: the information is worth between 0.005 and 0.009, and no known certificate can spend it
 
 **Verdict: the kill condition did NOT fire, and the hunt found a gap rather than a wall.**
 The unconditional out-of-band positivity of Baluyot, Goldston, Suriajaya and

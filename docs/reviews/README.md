@@ -1,4 +1,4 @@
-# `docs/reviews/` — outside evaluations of the laboratory
+# `docs/reviews/`: outside evaluations of the laboratory
 
 Documents written *about* the laboratory by parties outside a working session:
 strategy memos, portfolio recommendations, external evaluations, and the design
@@ -15,7 +15,7 @@ state theirs:
   No claim here has been through a battery, and the E1–E3 documents describe an
   experiment whose outcome does not exist yet.
 - **The tree decides, the memo proposes.** What was adopted, deferred, or
-  rejected from each document — and why — is recorded in `ROADMAP.md`, not
+  rejected from each document, and why, is recorded in `ROADMAP.md`, not
   here. A memo is never edited to match the decision.
 - **Transcriptions are labelled.** Where a document arrived as a PDF, the
   markdown here is a transcription: mathematical typography restored where
@@ -27,7 +27,7 @@ state theirs:
 
 `analysis.md` and `consultant-thesis-analysis.md` are two independent
 evaluations of the same outside "productization thesis" against the same commit
-(`5533896`), written without either seeing the other — the second states
+(`5533896`), written without either seeing the other, the second states
 explicitly that it did not open the first. They are kept as a matched pair
 because that independence is the only thing that makes either of them evidence
 of anything, and it is verifiable from their own chronology rather than from a
@@ -47,7 +47,7 @@ machinery, or mainly by the original operator's unstated judgment?**
 
 | File | What it is |
 |---|---|
-| `e1-e3-experiment-protocol.md` | v0 of the protocol — E1 intervention ledger, E2 Lab Rotation Benchmark, E3 staleness/flattening |
+| `e1-e3-experiment-protocol.md` | v0 of the protocol, E1 intervention ledger, E2 Lab Rotation Benchmark, E3 staleness/flattening |
 | `e1-e3-protocol-revision-2.md` | supersedes the affected sections of v0, answering five objections |
 | `e1-e3-protocol-rev-2.1-patch.md` | four specification holes; patch only, Rev. 2 otherwise unchanged |
 | `e1-e3-implementation-logistics.md` | sequencing, plus the blind lesion-authoring procedure the contract references but does not define |

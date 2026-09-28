@@ -1,11 +1,11 @@
-# 04 — The Explicit Formula: Zeros ↔ Primes
+# 04. The Explicit Formula: Zeros ↔ Primes
 
 *"What do the zeros actually have to do with the primes?"*
 
 ## The short version
 
 Everything. The connection is not an analogy, it is an **identity**. Chebyshev's prime-counting
-function `psi(x) = sum_{p^k <= x} log p` — a staircase that jumps by `log p` at every prime power —
+function `psi(x) = sum_{p^k <= x} log p`, a staircase that jumps by `log p` at every prime power,
 can be written exactly as a smooth main term `x` minus a sum of *waves*, one wave per non-trivial
 zero of zeta:
 
@@ -19,7 +19,7 @@ waves; the zeros are the Fourier spectrum of the primes. Run the sum one way and
 the primes; run it the other way and a bare sum of cosines over the zeros develops spikes at exactly
 `u = log p^k`, and at no other point. This is why the Riemann Hypothesis is not an aesthetic
 preference: `beta` is the *growth exponent of the error* in every prime count. RH says every `beta`
-equals `1/2` — that the primes are as regular as they could possibly be. A single zero with
+equals `1/2`, that the primes are as regular as they could possibly be. A single zero with
 `beta > 1/2` would be a permanent anomaly in the distribution of the primes of size `x^beta`, and no
 amount of averaging would ever wash it out.
 
@@ -40,7 +40,7 @@ sum, then differentiate:
 where the **von Mangoldt function** `Lambda(n)` is `log p` if `n = p^k` for some `k >= 1`, and `0`
 otherwise. This is the whole reason `Lambda` exists: it is the arithmetic function whose Dirichlet
 series is the logarithmic derivative of zeta. Weighting `p^k` by `log p` instead of counting primes
-by `1` is not cosmetic — it is what makes the analysis clean, and `pi(x)` is recovered from `psi(x)`
+by `1` is not cosmetic, it is what makes the analysis clean, and `pi(x)` is recovered from `psi(x)`
 afterwards by Möbius inversion (§8).
 
 Sanity check at `s = 2 + 0.3i` (mpmath, series truncated at `n = 3·10^5`):
@@ -52,9 +52,9 @@ Sanity check at `s = 2 + 0.3i` (mpmath, series truncated at `n = 3·10^5`):
 
 The residual is the truncation tail, as it should be.
 
-**Why this is the bridge.** The left side knows about the zeros — a logarithmic derivative has a
+**Why this is the bridge.** The left side knows about the zeros, a logarithmic derivative has a
 *simple pole with residue equal to the multiplicity* at every zero of `zeta`, and a simple pole with
-residue `-1` at the pole `s = 1`. The right side knows about the primes. One function, two faces —
+residue `-1` at the pole `s = 1`. The right side knows about the primes. One function, two faces,
 exactly the geometry/spectrum split you already met in `docs/02-theta-heat-and-modularity.md`, where
 the windings of heat around a circle and the eigenvalues of the Laplacian were two faces of theta.
 Here the windings become prime powers and the eigenvalues become zeros.
@@ -84,8 +84,8 @@ it (`explicit.convergence_table` reports both `psi_true` and `psi0_true`).
 ## 3. Hadamard: where the poles are
 
 Now push the contour left. Everything the answer contains is a residue, so the question becomes:
-*where are the poles of `(-zeta'/zeta)(s) · x^s/s`?* To answer that globally — not just where the
-Euler product converges — you need the factorisation of the completed function
+*where are the poles of `(-zeta'/zeta)(s) · x^s/s`?* To answer that globally, not just where the
+Euler product converges, you need the factorisation of the completed function
 `xi(s) = (1/2) s(s-1) pi^(-s/2) Gamma(s/2) zeta(s)` from `docs/03-functional-equation.md`.
 
 **THEOREM (Hadamard, 1893).** `xi` is entire of order 1, and therefore factors over its zeros:
@@ -98,8 +98,8 @@ the product running over the non-trivial zeros of `zeta`, which are exactly the 
 `e^(s/rho)` factors are the genus-1 convergence factors, needed because `sum 1/|rho|` diverges while
 `sum 1/|rho|^2` converges.
 
-Take the logarithmic derivative of `xi` in both of its forms — the Hadamard product, and the
-definition in terms of `zeta` and `Gamma` — and solve for `zeta'/zeta`. Out comes a global partial
+Take the logarithmic derivative of `xi` in both of its forms, the Hadamard product, and the
+definition in terms of `zeta` and `Gamma`, and solve for `zeta'/zeta`. Out comes a global partial
 fraction expansion whose content, stripped of the constants, is:
 
 ```
@@ -118,7 +118,7 @@ Sweep the contour from `Re(s) = c > 1` off to `Re(s) = -infinity`. The integrand
 
 | pole | contributes | value |
 |---|---|---|
-| `s = 1` (pole of zeta) | `+ x^1/1` | `x` — the main term, i.e. the PNT |
+| `s = 1` (pole of zeta) | `+ x^1/1` | `x`, the main term, i.e. the PNT |
 | `s = rho` | `- x^rho/rho` | the oscillation, one term per zero |
 | `s = 0` (from `1/s`) | `(-zeta'/zeta)(0)` | `-log(2 pi)` |
 | `s = -2n` | `- x^(-2n)/(-2n)` | sums to `-(1/2) log(1 - x^-2)` |
@@ -128,7 +128,7 @@ Two of these deserve a check rather than a nod:
 - `zeta'(0)/zeta(0) = log(2 pi)`. Verified to 25 digits: both equal `1.837877066409345483560659…`.
 - `sum_{n>=1} x^(-2n)/(2n) = -(1/2) log(1 - x^-2)`, by the Mercator series for `log(1-z)` at
   `z = x^-2`. This term is genuinely tiny: `5.03e-3` at `x = 10`, `5.00e-5` at `x = 100`. It *is* the
-  trivial zeros — and they contribute almost nothing, which is exactly why nobody cares about them.
+  trivial zeros, and they contribute almost nothing, which is exactly why nobody cares about them.
 
 **THEOREM (von Mangoldt, 1895).** For `x > 1`,
 
@@ -160,20 +160,20 @@ form the code evaluates (`explicit.psi_curve`) is
 
 Read that as music. In the variable `u = log x` each zero is a **pure tone**:
 
-- **frequency** `gamma` — the first zero, `gamma_1 = 14.134725141…`, has wavelength
+- **frequency** `gamma`: the first zero, `gamma_1 = 14.134725141…`, has wavelength
   `2 pi/gamma_1 = 0.4445` in `log x`, i.e. one full cycle every time `x` is multiplied by
   `e^(2 pi/gamma_1) = 1.5597`;
-- **amplitude** `2 x^beta/|rho|` — decaying with the zero's height, so the low zeros dominate;
+- **amplitude** `2 x^beta/|rho|`: decaying with the zero's height, so the low zeros dominate;
 - **phase** `arg rho`.
 
 Concretely at `x = 100`: the smooth part alone gives
-`x - log 2pi - (1/2)log(1 - x^-2) = 98.1622`, against `psi(100) = 94.0453` — an overshoot of `4.1169`.
+`x - log 2pi - (1/2)log(1 - x^-2) = 98.1622`, against `psi(100) = 94.0453`, an overshoot of `4.1169`.
 The single lowest zero contributes a wave worth `1.0579` there, cutting the error to `3.06`. Adding
 more zeros:
 
 ```
   N zeros   gamma_N     psi estimate    error vs psi(100) = 94.0453
-      0       —            98.1622        +4.1169
+      0: 98.1622        +4.1169
       1     14.135         97.1042        +3.0589
      10     49.774         95.0403        +0.9950
      50    143.112         94.4488        +0.4034
@@ -189,11 +189,11 @@ for r in convergence_table(100.0, 500, counts=(0, 1, 10, 50, 100, 500)):
     print(r["n_zeros"], round(r["gamma_max"], 3), round(r["psi_est"], 4), round(r["error"], 4))
 ```
 
-Note that the error is *not* monotone — 100 zeros does worse than 50. That is the signature of a
+Note that the error is *not* monotone: 100 zeros does worse than 50. That is the signature of a
 conditionally convergent Fourier series being truncated: you are watching Gibbs-type ringing, not a
 bug. The truncated formula does have a rigorous error term; the standard statement (Davenport,
 *Multiplicative Number Theory*, §17) has the shape `O(x log^2(xT)/T + log x)` when the sum is cut at
-height `T` — I am quoting the *shape*, so check the exact statement before using it quantitatively.
+height `T`: I am quoting the *shape*, so check the exact statement before using it quantitatively.
 The practical moral is already visible in the table: to resolve `psi` near `x` you need zeros up to
 height of order `x`.
 
@@ -208,7 +208,7 @@ That one observation is the entire significance of RH.
     psi(x) - x  =  O(x^(Theta + eps))     and     psi(x) - x  =  Omega(x^(Theta - eps))
 ```
 
-So the size of the prime-counting error is *precisely* `x^Theta` — no more, and no less. Hardy proved
+So the size of the prime-counting error is *precisely* `x^Theta`, no more, and no less. Hardy proved
 infinitely many zeros lie on the critical line, so `Theta >= 1/2`, and
 
 ```
@@ -223,10 +223,10 @@ explicit: Schoenfeld (1976) proved `|psi(x) - x| < (1/(8 pi)) sqrt(x) log^2 x` f
 
 Nor could the bound be improved much. **THEOREM (Littlewood, 1914).**
 `psi(x) - x = Omega_±(sqrt(x) log log log x)`. The `sqrt(x)` is genuinely there; only logarithms are
-negotiable. So RH is the statement that the error is *as small as the zeros already force it to be* —
+negotiable. So RH is the statement that the error is *as small as the zeros already force it to be*,
 "the primes are as regular as they could possibly be."
 
-**What one rogue zero would do.** Suppose — counterfactually — a single zero sat at `beta = 0.6`,
+**What one rogue zero would do.** Suppose, counterfactually, a single zero sat at `beta = 0.6`,
 `gamma = 100`. Its wave has amplitude `2 x^0.6/100`, against an RH-permitted total error of order
 `sqrt(x)`. The ratio is `x^0.1/50`, which passes 1 at `x = 50^10 ≈ 9.77e16`. Beyond that point this
 one zero out-shouts every other effect in the theory, forever, with a clean periodic signature of
@@ -249,7 +249,7 @@ Divide by `e^(u/2)` and discard the smooth pieces. The purely oscillatory object
     D(u)  =  -2 sum over gamma > 0 of  w(gamma) cos(gamma u)
 ```
 
-— *a bare sum of cosines over the zeros, containing no arithmetic input whatsoever* — is a spike train
+- *a bare sum of cosines over the zeros, containing no arithmetic input whatsoever*, is a spike train
 with a peak at every `u = log p^k` and nowhere else; and after normalising by the window `w`, the peak
 at `u = log n` has height `Lambda(n)/sqrt(n)`. That is `zeta.explicit.prime_spectrum`:
 
@@ -263,7 +263,7 @@ for p in spectrum_peaks(u, sp, n_peaks=10):
           round(p["height"], 4), round(p["lambda_over_sqrt_n"], 4))
 ```
 
-Output, run in this repository (rows re-sorted by `u` for readability — `spectrum_peaks` returns them
+Output, run in this repository (rows re-sorted by `u` for readability, `spectrum_peaks` returns them
 in order of decreasing height; the first call computes the zeros and takes a minute, after which they
 are cached to `data/`):
 
@@ -299,7 +299,7 @@ Riemann's own 1859 formula was for `pi`, not `psi`. Set `J(y) = sum_{k>=1} pi(y^
     J_0(y)  =  li(y)  -  sum over rho  li(y^rho)  -  log 2  +  integral from y to inf of dt/(t(t^2-1) log t)
 ```
 
-Möbius inversion — a *finite* sum, since `J(y) = 0` for `y < 2` — returns
+Möbius inversion, a *finite* sum, since `J(y) = 0` for `y < 2`, returns
 `pi(x) = sum_n mu(n)/n · J(x^(1/n))`, whose headline form is
 
 ```
@@ -322,13 +322,13 @@ coming from the squares of primes:
 Driving the formula from the zeros works too: `pi_from_zeros(100, 500)` returns `24.9899`, against
 `pi(100) = 25`.
 
-Notice that `li(x) - pi(x)` is positive in every row — as it is in every row anyone has ever computed.
+Notice that `li(x) - pi(x)` is positive in every row, as it is in every row anyone has ever computed.
 It is very tempting to conjecture that `pi(x) < li(x)` always. That conjecture is **false**.
 
 **THEOREM (Littlewood, 1914).** `pi(x) - li(x)` changes sign infinitely often.
 
 The mechanism is visible in the formula above. The `-(1/2) li(sqrt x)` bias is what the zero-waves
-must overcome, and Littlewood showed they eventually do — but only through a delicate near-alignment
+must overcome, and Littlewood showed they eventually do, but only through a delicate near-alignment
 of very many waves at once, which is why it takes so absurdly long. No crossing point is known
 explicitly. Skewes (1933) gave the first upper bound, `e^(e^(e^79))`, assuming RH, and in 1955 an
 unconditional bound usually quoted as `e^(e^(e^(e^7.705)))`. Modern work has located a region where a
@@ -343,7 +343,7 @@ cited" rather than checked here.
 
 ## Where to go next
 
-- **`zeta/explicit.py`** — every formula above, implemented and documented: `psi_from_zeros`,
+- **`zeta/explicit.py`**, every formula above, implemented and documented: `psi_from_zeros`,
   `psi_curve`, `psi_staircase`, `convergence_table`, `J_from_zeros`, `pi_from_zeros`, `R`,
   `prime_spectrum`, `spectrum_peaks`. `tests/test_explicit.py` is the regression suite; running it
   (`.venv/bin/python -m pytest tests/test_explicit.py`) is the fastest way to convince yourself that
@@ -351,14 +351,14 @@ cited" rather than checked here.
 - **The one plot to make.** Overlay `explicit.psi_staircase` (the true jagged staircase) with
   `explicit.psi_curve` for `N = 1, 10, 100, 1000` zeros on `2 < x < 100`. Watch a smooth line grow
   corners, then risers, then land on the steps. Nothing makes the duality as vivid.
-- **`docs/03-functional-equation.md`** — the symmetry `xi(s) = xi(1-s)` that makes the zeros come in
+- **`docs/03-functional-equation.md`**: the symmetry `xi(s) = xi(1-s)` that makes the zeros come in
   pairs `rho, 1 - rho` and puts the mirror at `Re(s) = 1/2`. This document explains why that mirror
   *matters*; that one explains why it exists.
-- **`zeta/zeros.py`** — the supply side: `first_n_zeros`, `zeros_from_scratch`, and `verify_rh_up_to`,
-  which proves — by Turing's method, not by statistics — that every zero below a given height is
+- **`zeta/zeros.py`**, the supply side: `first_n_zeros`, `zeros_from_scratch`, and `verify_rh_up_to`,
+  which proves, by Turing's method, not by statistics, that every zero below a given height is
   simple and on the line.
-- **`zeta/statistics.py`** — one level deeper. §5 treats the zeros as a bag of independent
+- **`zeta/statistics.py`**: one level deeper. §5 treats the zeros as a bag of independent
   frequencies; they are not. Their *spacings* follow the GUE pair-correlation law, which is a
   statement about how the waves in `psi` conspire with each other.
-- **`docs/05-de-bruijn-newman.md`** and **`zeta/heatflow.py`** — the frontier: deform `Xi` by
+- **`docs/05-de-bruijn-newman.md`** and **`zeta/heatflow.py`**, the frontier: deform `Xi` by
   heat flow and ask when the zeros become real.

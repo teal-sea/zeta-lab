@@ -103,7 +103,7 @@ def test_the_baseline_records_interventions_the_architecture_did_not_catch() -> 
 
 
 # --------------------------------------------------------------------------
-# 2. planted faults — the invariants have detector power
+# 2. planted faults, the invariants have detector power
 # --------------------------------------------------------------------------
 
 
@@ -253,7 +253,7 @@ def test_the_system_may_not_resolve_a_disagreement_it_is_party_to() -> None:
 
     The system always holds one of the two positions in a ``Judgment``, so
     letting it adjudicate is the co-designed-verification failure applied to
-    calibration — the exact failure this laboratory has measured in its own audit.
+    calibration, the exact failure this laboratory has measured in its own audit.
     """
     bad = _judgment(resolved_by=Party.SYSTEM, resolution=Resolution.SYSTEM_RIGHT)
     assert any("may not adjudicate" in r for r in bad.reasons_invalid())

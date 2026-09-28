@@ -1,6 +1,6 @@
-"""``python -m harness.new_department <name>`` — scaffold a department honestly.
+"""``python -m harness.new_department <name>``, scaffold a department honestly.
 
-Generates three files — a department module, its test file, and its door —
+Generates three files, a department module, its test file, and its door,
 every one of which **fails loudly until real content replaces the
 placeholders**. That is the point of the scaffold: the sham battery this
 repository once caught (commit ``431cc74``) was placeholders written to the
@@ -24,25 +24,25 @@ from pathlib import Path
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
 
-_MODULE_TEMPLATE = '''"""Department: {name} — one line on the subject, or delete this file.
+_MODULE_TEMPLATE = '''"""Department: {name}, one line on the subject, or delete this file.
 
 Before writing any instrument, answer these in prose here, because every
 battery this scaffold has ever prevented started by skipping one of them:
 
 * What exactly is the claim, in one sentence a rival could falsify?
 * What would kill it? If nothing in the tree can, this is a probe, not a
-  department — see hunts/README.md, and stop here.
-* What is a credible rival: shares the structure, lacks the property —
+  department, see hunts/README.md, and stop here.
+* What is a credible rival: shares the structure, lacks the property,
   *by construction*, the way finitefield's counterfeits satisfy a² > 4p?
 * What substantive input does a decoy remove, and what does it preserve?
 * What is the null world, and is it a value or a distribution? (If a
   distribution: run_null_band, and surrogates that vary per call.)
 * What relevant defect can be planted, at more than one magnitude?
-* How do you know the detector can see it — and stay quiet when nothing
+* How do you know the detector can see it, and stay quiet when nothing
   is planted? Where does its power measurably stop?
 * What is known-good, what is known-bad, and do both re-derive?
 * Who authored the battery content, and had they seen the results?
-* What is the scope of a PASS — and what does it deliberately not say?
+* What is the scope of a PASS, and what does it deliberately not say?
 """
 
 from __future__ import annotations
@@ -60,14 +60,14 @@ DEPARTMENT_NAME = "{name}"
 
 raise NotImplementedError(
     "the {name} department is a scaffold: every instrument below is a "
-    "question, not an implementation — see the module docstring"
+    "question, not an implementation, see the module docstring"
 )
 
 # --- subjects: the genuine article, and rivals that lack the property -----
 # TARGET = ...   # payload() must expose behavior, never a label a claim
 #                # could read instead of measuring (the 431cc74 lesson)
 # RIVALS = (...,)  # each shares the claimed structure and lacks the
-#                  # property BY CONSTRUCTION — a rival that might have the
+#                  # property BY CONSTRUCTION, a rival that might have the
 #                  # property refutes nothing (see stateval's false start)
 
 # --- decoys / surrogates / lesions ----------------------------------------
@@ -102,7 +102,7 @@ raise NotImplementedError(
 #     door="docs/doors/{name}.md",
 #     reference_claims=REFERENCE_CLAIMS,
 #     detectors=DETECTORS,
-#     scope="exactly what a pass licenses — and what it does not",
+#     scope="exactly what a pass licenses, and what it does not",
 #     provenance=Provenance(
 #         authored_by=...,
 #         independent_of_subject_author=...,   # declare, or leave None
@@ -114,7 +114,7 @@ raise NotImplementedError(
 # register_department(DEPARTMENT, replace=True)
 '''
 
-_TEST_TEMPLATE = '''"""Department ({name}) — audits beyond structural conformance.
+_TEST_TEMPLATE = '''"""Department ({name}), audits beyond structural conformance.
 
 The conformance suite runs automatically once the department is listed in
 KNOWN_DEPARTMENTS. What belongs HERE is the anatomy the generic audit
@@ -142,7 +142,7 @@ def test_pin_the_measured_anatomy() -> None:
     raise NotImplementedError
 '''
 
-_DOOR_TEMPLATE = '''# Department: {name} — NOT YET ADMITTED
+_DOOR_TEMPLATE = '''# Department: {name}, NOT YET ADMITTED
 
 > This door is a scaffold. A department whose door pretends to be written
 > is lying to the one reader who needed it. Fill every section or delete
@@ -152,10 +152,10 @@ _DOOR_TEMPLATE = '''# Department: {name} — NOT YET ADMITTED
 
 **Why this department exists.** (what assumption in the shared architecture
 does it stress that existing departments do not? If the answer is nothing,
-question the admission — departments are not added for breadth.)
+question the admission, departments are not added for breadth.)
 
 **The battery.** (the four roles as a table: rivals, decoys, surrogates,
-lesions — and for each, why it is not a placeholder)
+lesions, and for each, why it is not a placeholder)
 
 **Detectors.** (what the silence is staked on, and where power measurably
 stops)
@@ -205,7 +205,7 @@ def main(argv: list[str] | None = None) -> int:
         "  2. build the instruments; the module raises until you remove the scaffold guard\n"
         "  3. pin the measured anatomy in the test file\n"
         "  4. write the door honestly\n"
-        f"  5. list {args.name!r} in harness/departments/__init__.py — LAST;\n"
+        f"  5. list {args.name!r} in harness/departments/__init__.py: LAST;\n"
         "     that line is what turns the conformance audit on"
     )
     return 0

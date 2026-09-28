@@ -1,0 +1,606 @@
+{
+  "description": "Focused factorization/E-sign/Y-range/prime-log diagnostic",
+  "base": "109c79808158252b7134c6a19543111bfdbb1e08",
+  "E_sign": {
+    "16": {
+      "Y_exact": "4",
+      "lhs_float": -0.33333333333333287,
+      "rhs_correct_neg_Fraction": "-1/3",
+      "defect_correct_sign": 4.440892098500626e-16,
+      "defect_flipped_sign": 0.6666666666666662,
+      "discriminates": true
+    },
+    "25": {
+      "Y_exact": "5",
+      "lhs_float": -1.0833333333333333,
+      "rhs_correct_neg_Fraction": "-13/12",
+      "defect_correct_sign": 0.0,
+      "defect_flipped_sign": 2.1666666666666665,
+      "discriminates": true
+    },
+    "27": {
+      "Y_exact": "27/5",
+      "lhs_float": -0.049999999999999115,
+      "rhs_correct_neg_Fraction": "-1/20",
+      "defect_correct_sign": 8.881784197001252e-16,
+      "defect_flipped_sign": 0.09999999999999912,
+      "discriminates": true
+    },
+    "32": {
+      "Y_exact": "32/5",
+      "lhs_float": 0.5333333333333324,
+      "rhs_correct_neg_Fraction": "8/15",
+      "defect_correct_sign": 8.881784197001252e-16,
+      "defect_flipped_sign": 1.0666666666666658,
+      "discriminates": true
+    },
+    "36": {
+      "Y_exact": "6",
+      "lhs_float": -0.19999999999999912,
+      "rhs_correct_neg_Fraction": "-1/5",
+      "defect_correct_sign": 8.881784197001252e-16,
+      "defect_flipped_sign": 0.39999999999999913,
+      "discriminates": true
+    },
+    "49": {
+      "Y_exact": "7",
+      "lhs_float": -2.0500000000000007,
+      "rhs_correct_neg_Fraction": "-41/20",
+      "defect_correct_sign": 8.881784197001252e-16,
+      "defect_flipped_sign": 4.1000000000000005,
+      "discriminates": true
+    },
+    "64": {
+      "Y_exact": "8",
+      "lhs_float": -1.942857142857141,
+      "rhs_correct_neg_Fraction": "-68/35",
+      "defect_correct_sign": 1.7763568394002505e-15,
+      "defect_flipped_sign": 3.885714285714284,
+      "discriminates": true
+    },
+    "81": {
+      "Y_exact": "9",
+      "lhs_float": -2.146428571428575,
+      "rhs_correct_neg_Fraction": "-601/280",
+      "defect_correct_sign": 3.552713678800501e-15,
+      "defect_flipped_sign": 4.292857142857146,
+      "discriminates": true
+    },
+    "100": {
+      "Y_exact": "10",
+      "lhs_float": -1.8968253968253985,
+      "rhs_correct_neg_Fraction": "-239/126",
+      "defect_correct_sign": 1.7763568394002505e-15,
+      "defect_flipped_sign": 3.7936507936507953,
+      "discriminates": true
+    },
+    "121": {
+      "Y_exact": "11",
+      "lhs_float": -2.40515873015873,
+      "rhs_correct_neg_Fraction": "-6061/2520",
+      "defect_correct_sign": 0.0,
+      "defect_flipped_sign": 4.81031746031746,
+      "discriminates": true
+    },
+    "144": {
+      "Y_exact": "12",
+      "lhs_float": -1.8623376623376624,
+      "rhs_correct_neg_Fraction": "-717/385",
+      "defect_correct_sign": 0.0,
+      "defect_flipped_sign": 3.724675324675325,
+      "discriminates": true
+    },
+    "200": {
+      "Y_exact": "100/7",
+      "lhs_float": 0.4018204018204018,
+      "rhs_correct_neg_Fraction": "3620/9009",
+      "defect_correct_sign": 0.0,
+      "defect_flipped_sign": 0.8036408036408036,
+      "discriminates": true
+    },
+    "400": {
+      "Y_exact": "20",
+      "lhs_float": -5.095862857472764,
+      "rhs_correct_neg_Fraction": "-4942829/969969",
+      "defect_correct_sign": 0.0,
+      "defect_flipped_sign": 10.191725714945528,
+      "discriminates": true
+    }
+  },
+  "Y_range": {
+    "lower_sqrtN_le_Y_all": true,
+    "upper_Y_lt_sqrtN_plus_1_violations_count": 314,
+    "upper_violations_sample": [
+      {
+        "N": 8,
+        "K": 2,
+        "Y": 4.0,
+        "sqrtN": 2.8284271247461903
+      },
+      {
+        "N": 15,
+        "K": 3,
+        "Y": 5.0,
+        "sqrtN": 3.872983346207417
+      },
+      {
+        "N": 24,
+        "K": 4,
+        "Y": 6.0,
+        "sqrtN": 4.898979485566356
+      },
+      {
+        "N": 35,
+        "K": 5,
+        "Y": 7.0,
+        "sqrtN": 5.916079783099616
+      },
+      {
+        "N": 48,
+        "K": 6,
+        "Y": 8.0,
+        "sqrtN": 6.928203230275509
+      },
+      {
+        "N": 63,
+        "K": 7,
+        "Y": 9.0,
+        "sqrtN": 7.937253933193772
+      },
+      {
+        "N": 80,
+        "K": 8,
+        "Y": 10.0,
+        "sqrtN": 8.94427190999916
+      },
+      {
+        "N": 99,
+        "K": 9,
+        "Y": 11.0,
+        "sqrtN": 9.9498743710662
+      },
+      {
+        "N": 120,
+        "K": 10,
+        "Y": 12.0,
+        "sqrtN": 10.954451150103322
+      },
+      {
+        "N": 143,
+        "K": 11,
+        "Y": 13.0,
+        "sqrtN": 11.958260743101398
+      },
+      {
+        "N": 168,
+        "K": 12,
+        "Y": 14.0,
+        "sqrtN": 12.96148139681572
+      },
+      {
+        "N": 195,
+        "K": 13,
+        "Y": 15.0,
+        "sqrtN": 13.96424004376894
+      }
+    ],
+    "repaired_bound_holds_all": true
+  },
+  "AB_gate": {
+    "scalar_2Uplus1_minus_Y_min": 0.5,
+    "scalar_holds_all_4_to_100000": true,
+    "pair_level_min_Kab_minus_N": 3,
+    "pairs_checked": 30835718,
+    "pairs_all_strictly_positive": true
+  },
+  "kernel": {
+    "16": {
+      "defect": 1.7763568394002505e-15
+    },
+    "25": {
+      "defect": 6.217248937900877e-15
+    },
+    "36": {
+      "defect": 3.108624468950438e-14
+    },
+    "49": {
+      "defect": 2.6645352591003757e-14
+    },
+    "64": {
+      "defect": 3.552713678800501e-15
+    },
+    "81": {
+      "defect": 6.039613253960852e-14
+    },
+    "100": {
+      "defect": 3.730349362740526e-14
+    },
+    "144": {
+      "defect": 4.263256414560601e-14
+    },
+    "200": {
+      "defect": 1.4566126083082054e-13
+    },
+    "400": {
+      "defect": 2.2737367544323206e-13
+    },
+    "1000": {
+      "defect": 3.183231456205249e-12
+    },
+    "10000": {
+      "defect": 1.5688783605583012e-10
+    },
+    "100000": {
+      "defect": 2.6871020963881165e-09
+    }
+  },
+  "hyperbola": {
+    "table_max_abs_deviation": 4.9521361745519243e-05,
+    "16": {
+      "S": 14.278592472827055,
+      "Sig1": -18.243205391537995,
+      "Sig2": 0.6931471805599453,
+      "D": -3.2714657381509973,
+      "defect": 3.552713678800501e-15
+    },
+    "25": {
+      "S": 32.88888952164753,
+      "Sig1": -34.87907926171196,
+      "Sig2": 0.0,
+      "D": -1.9901897400644364,
+      "defect": 6.217248937900877e-15
+    },
+    "36": {
+      "S": 59.923576955754825,
+      "Sig1": -64.13109635857907,
+      "Sig2": 0.6931471805599452,
+      "D": -3.514372222264323,
+      "defect": 2.220446049250313e-14
+    },
+    "49": {
+      "S": 96.11602972353523,
+      "Sig1": -100.83749690397258,
+      "Sig2": 3.58351893845611,
+      "D": -1.1379482419812081,
+      "defect": 2.5757174171303632e-14
+    },
+    "64": {
+      "S": 142.08531325666854,
+      "Sig1": -139.97521813557054,
+      "Sig2": -4.787491742782047,
+      "D": -2.677396621683929,
+      "defect": 1.1901590823981678e-13
+    },
+    "81": {
+      "S": 198.36715047863825,
+      "Sig1": -207.9158008703588,
+      "Sig2": 8.371010681238156,
+      "D": -1.1776397104824845,
+      "defect": 9.769962616701378e-14
+    },
+    "100": {
+      "S": 265.4337682060767,
+      "Sig1": -266.99053981086223,
+      "Sig2": -4.094344562222101,
+      "D": -5.651116167007805,
+      "defect": 1.794120407794253e-13
+    },
+    "144": {
+      "S": 433.56983948598895,
+      "Sig1": -431.58316678751953,
+      "Sig2": -4.4308167988433125,
+      "D": -2.444144100374203,
+      "defect": 3.099742684753437e-13
+    },
+    "200": {
+      "S": 666.7213397187143,
+      "Sig1": -690.2463325810921,
+      "Sig2": 29.6492093582156,
+      "D": 6.124216495837036,
+      "defect": 6.927791673660977e-13
+    },
+    "400": {
+      "S": 1606.502506318456,
+      "Sig1": -1591.4801584011375,
+      "Sig2": -16.82206407014985,
+      "D": -1.7997161528285233,
+      "defect": 2.8421709430404007e-12
+    },
+    "1000": {
+      "S": 4923.797605031978,
+      "Sig1": -5057.387654486512,
+      "Sig2": 126.4718473321307,
+      "D": -7.11820212241355,
+      "defect": 1.0260237104375847e-11
+    },
+    "10000": {
+      "S": 72153.32038726179,
+      "Sig1": -72336.65013660873,
+      "Sig2": 194.75964635962075,
+      "D": 11.429897010861623,
+      "defect": 1.8155503767047776e-09
+    },
+    "100000": {
+      "S": 951450.6908917011,
+      "Sig1": -976270.8433376006,
+      "Sig2": 24862.83723650783,
+      "D": 42.684790645968405,
+      "defect": 3.7578956835204735e-08
+    },
+    "table_validated_to_4dp": true
+  },
+  "exact_rational_primelog": {
+    "12": {
+      "primes_tested": 3,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "16": {
+      "primes_tested": 4,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "20": {
+      "primes_tested": 4,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "25": {
+      "primes_tested": 5,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "27": {
+      "primes_tested": 6,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "32": {
+      "primes_tested": 6,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "36": {
+      "primes_tested": 7,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "49": {
+      "primes_tested": 9,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "64": {
+      "primes_tested": 11,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "81": {
+      "primes_tested": 12,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "100": {
+      "primes_tested": 15,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "121": {
+      "primes_tested": 17,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "144": {
+      "primes_tested": 20,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "200": {
+      "primes_tested": 25,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    },
+    "400": {
+      "primes_tested": 46,
+      "all_match_exact": true,
+      "max_defect_Fraction": 0
+    }
+  },
+  "sigma2_smooth_frac_split": {
+    "12": {
+      "Sigma2_smooth": 0.6931471805599453,
+      "Sigma2_frac": 0.0,
+      "Sigma2_total": 0.6931471805599453,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "16": {
+      "Sigma2_smooth": 1.1552453009332422,
+      "Sigma2_frac": -0.46209812037329684,
+      "Sigma2_total": 0.6931471805599453,
+      "defect": 1.1102230246251565e-16,
+      "exact_Fraction_verified": true
+    },
+    "20": {
+      "Sigma2_smooth": 0.6931471805599453,
+      "Sigma2_frac": 0.0,
+      "Sigma2_total": 0.6931471805599453,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "25": {
+      "Sigma2_smooth": 0.28881132523331055,
+      "Sigma2_frac": -0.28881132523331055,
+      "Sigma2_total": 0.0,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "27": {
+      "Sigma2_smooth": 0.3119162312519754,
+      "Sigma2_frac": -0.3119162312519754,
+      "Sigma2_total": 0.0,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "32": {
+      "Sigma2_smooth": 2.5059616556043296,
+      "Sigma2_frac": -0.021055005816329297,
+      "Sigma2_total": 2.4849066497880004,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "36": {
+      "Sigma2_smooth": 1.944564507540268,
+      "Sigma2_frac": -1.2514173269803228,
+      "Sigma2_total": 0.6931471805599453,
+      "defect": 1.1102230246251565e-16,
+      "exact_Fraction_verified": true
+    },
+    "49": {
+      "Sigma2_smooth": 4.773575307244287,
+      "Sigma2_frac": -1.190056368788177,
+      "Sigma2_total": 3.58351893845611,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "64": {
+      "Sigma2_smooth": -5.548710714921045,
+      "Sigma2_frac": 0.7612189721389986,
+      "Sigma2_total": -4.787491742782046,
+      "defect": 8.881784197001252e-16,
+      "exact_Fraction_verified": true
+    },
+    "81": {
+      "Sigma2_smooth": 11.15113957818647,
+      "Sigma2_frac": -2.7801288969483124,
+      "Sigma2_total": 8.371010681238156,
+      "defect": 1.7763568394002505e-15,
+      "exact_Fraction_verified": true
+    },
+    "100": {
+      "Sigma2_smooth": -3.690190919290102,
+      "Sigma2_frac": -0.40415364293199874,
+      "Sigma2_total": -4.0943445622221,
+      "defect": 8.881784197001252e-16,
+      "exact_Fraction_verified": true
+    },
+    "121": {
+      "Sigma2_smooth": -2.8238264449706123,
+      "Sigma2_frac": -0.6419094578291139,
+      "Sigma2_total": -3.465735902799726,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "144": {
+      "Sigma2_smooth": -4.686198431574791,
+      "Sigma2_frac": 0.2553816327314776,
+      "Sigma2_total": -4.430816798843313,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "200": {
+      "Sigma2_smooth": 34.022754067190505,
+      "Sigma2_frac": -4.373544708974892,
+      "Sigma2_total": 29.649209358215604,
+      "defect": 1.0658141036401503e-14,
+      "exact_Fraction_verified": true
+    },
+    "400": {
+      "Sigma2_smooth": -17.716016534230388,
+      "Sigma2_frac": 0.8939524640805392,
+      "Sigma2_total": -16.82206407014985,
+      "defect": 0.0,
+      "exact_Fraction_verified": true
+    },
+    "1000": {
+      "Sigma2_smooth": 144.47302628371688,
+      "Sigma2_frac": -18.00117895158619,
+      "Sigma2_total": 126.47184733213071,
+      "defect": 1.4210854715202004e-14,
+      "exact_Fraction_verified": true
+    }
+  },
+  "planted_lesions": {
+    "lesion_1_smooth_frac_planted_minus": {
+      "detected": true,
+      "tested_at_N": 49,
+      "b": 2,
+      "defect_with_minus_sign": 2.187878787878788,
+      "description": "Expanding 1-floor(x) with minus fractional part fails"
+    },
+    "lesion_2_E_sign_flipped": {
+      "detected": true,
+      "tested_at_N": 49,
+      "defect_flipped_sign": 4.1000000000000005,
+      "description": "Flipping sign of rational residual E_frac produces defect 4.10"
+    },
+    "lesion_3_empty_cell_unguarded": {
+      "detected": true,
+      "description": "Unguarded M(hi)-M(lo) produces nonzero error on empty cells"
+    },
+    "lesion_4_partition_boundary_omission": {
+      "detected": true,
+      "tested_at_N": 25,
+      "omitted_a": 3,
+      "mismatched_primes": [
+        2,
+        3
+      ],
+      "description": "Omitting active boundary term a=U produces exact rational mismatches"
+    }
+  },
+  "sigma2_bound": {
+    "10000": {
+      "Sig2": 194.75964635962075,
+      "trivial_Nlog3N": 7813165.794406951,
+      "ratio_trivial": 2.492711040370336e-05,
+      "harmonic_Nlog2N": 848303.6976765438,
+      "ratio_harmonic": 0.00022958717130793662,
+      "mertens_subexp": 3143553.8380645015,
+      "ratio_subexp": 6.195524441201714e-05
+    },
+    "100000": {
+      "Sig2": 24862.83723650783,
+      "trivial_Nlog3N": 152600894.42201072,
+      "ratio_trivial": 0.00016292720518236808,
+      "harmonic_Nlog2N": 13254745.276195996,
+      "ratio_harmonic": 0.0018757687694805148,
+      "mertens_subexp": 55141627.249203086,
+      "ratio_subexp": 0.00045089052457854604
+    }
+  },
+  "empty_interval": {
+    "examples": [
+      {
+        "N": 20,
+        "b": 2,
+        "k": 4,
+        "unguarded": 1,
+        "correct": 0
+      },
+      {
+        "N": 20,
+        "b": 3,
+        "k": 3,
+        "unguarded": 1,
+        "correct": 0
+      },
+      {
+        "N": 20,
+        "b": 3,
+        "k": 4,
+        "unguarded": 2,
+        "correct": 0
+      }
+    ],
+    "guard_required_confirmed": true,
+    "checked_N": [
+      12,
+      16,
+      20,
+      36,
+      100,
+      400
+    ]
+  }
+}

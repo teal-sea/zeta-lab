@@ -10,7 +10,7 @@ incidence kernel is instead
     s(u) = sin(u/2)/u,        A = Phi2_paper(0) = 2 sin(sqrt2/2)/sqrt2,
 
 whose normalised square at real argument is exactly the Montgomery-Taylor
-kernel g (paper_pin.paper_window_mass_kernel_is_g, defect ~1e-16) — so at
+kernel g (paper_pin.paper_window_mass_kernel_is_g, defect ~1e-16), so at
 this field the mass kernel and the Cheer-Goldston floor kernel coincide by
 construction, the kernel zeros sit at 1.0573, 2.0301, 3.0202... mean gaps
 (non-arithmetic), and the CG floor is live.  This module transplants the

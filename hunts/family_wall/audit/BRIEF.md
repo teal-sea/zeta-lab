@@ -53,7 +53,7 @@ target number.
 
 The supporting argument has two halves.
 
-### Algebraic half — verify or break each step
+### Algebraic half: verify or break each step
 
 1. `Φ_n = (H·m − (n−1)(m−1)/p) / (m − c(m−(n−1)))`
 2. the cap `c(m−(n−1)) ≤ 1` makes the denominator `≥ m−1`, so
@@ -74,7 +74,7 @@ The claim needs, for every `n`, a witness `g` with `S(g) ≤ (n−1)/H` whose en
 small. Reaching `0.6818286874638` would require `W ≥ 0.0138706` for every admissible
 witness simultaneously.
 
-## What would refute the claim — hunt for these
+## What would refute the claim: hunt for these
 
 **(a)** A step in 1–5 that is invalid, or valid only under an unstated condition.
 
@@ -85,7 +85,7 @@ try irregular gaps, clustered gaps, gaps far from any zero of `k`, and whatever 
 own analysis of `w` suggests. Report the `n` with the largest minimum-`W` you find.
 
 **(c)** A concrete admissible triple `(c, m, p)` and an `n` with
-`Φ_n(c, m, p) > 0.6751676068`, where you have real evidence that `c` is a genuine floor —
+`Φ_n(c, m, p) > 0.6751676068`, where you have real evidence that `c` is a genuine floor,
 a serious global minimisation of `F_{n,p}` over nonnegative `g` that does not go below `c`.
 
 **(d)** Any reason the supremum over `n` could fail to be controlled as `n → ∞`.

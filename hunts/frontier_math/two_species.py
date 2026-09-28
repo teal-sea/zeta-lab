@@ -52,7 +52,7 @@ Measured here because the k=1 table stops at depth 1/2
   windows, and the profile `Dam/y'^2` grows mildly with depth
   (`1.759e-2 -> 2.073e-2` at window 0).
 * the far-field constant `sup Dam(y',s)(s^2-2)/y'^2` is `0.6636` at
-  depth 1 on `[8,400]` — the proved `637/1000` of `Wt_tail_le` (stated
+  depth 1 on `[8,400]`, the proved `637/1000` of `Wt_tail_le` (stated
   for depth <= 1/2) is EXCEEDED at depth 1 and cannot be borrowed as-is.
 
 Nothing here is proved; every number is a scan-grade measurement in double
@@ -232,7 +232,7 @@ def depth1_windows(y: float = 1.0, s_lo: float = 4.0, s_hi: float = 62.0,
 
 def far_constant(y: float, lo: float = 8.0, hi: float = 400.0,
                  step: float = 5e-3) -> float:
-    """`sup Dam(y,s)*(s^2-2)/y^2` on [lo, hi] — the Wt-style constant."""
+    """`sup Dam(y,s)*(s^2-2)/y^2` on [lo, hi], the Wt-style constant."""
     sup, s = 0.0, lo
     while s <= hi:
         sup = max(sup, dam(y, s) * (s * s - 2) / y ** 2)
@@ -249,14 +249,14 @@ def centre_gas_row(lam: float, y: float = 0.5, dmax: int = 200) -> float:
     **The distance index runs over d >= 1 once, not over both signs**, and
     that is correct: the two-species form sums over ORDERED pairs, and the
     factor 4 already carries it. Verified against the form itself rather
-    than argued — the net centre-centre cost per centre computed directly
+    than argued, the net centre-centre cost per centre computed directly
     from `four_slack_two_species` on a `2*pi` lattice converges to this
     value from below (0.099826 at k=21, 0.107251 at k=51, 0.110325 at
     k=101, against 0.114013 here).
 
     An earlier version of this docstring said "(both neighbours)". It was a
     misleading gloss on correct arithmetic, and it cost a wrong entry in
-    NAMED_GAPS G4 — see that entry.
+    NAMED_GAPS G4, see that entry.
     """
     return sum(4 * dam(2 * y, d * lam) - 4 * kpair(d * lam)
                for d in range(1, dmax + 1))

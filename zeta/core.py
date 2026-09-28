@@ -22,8 +22,8 @@ The guiding narrative, in the order the functions appear:
     solution of ∂_t u = ∂_x² u, and the modular relation is Poisson
     summation, i.e. the equality of the spectral and real-space forms.
 
-4.  **Mellin transforms.**  Γ(s)ζ(s) = ∫_0^∞ x^{s−1}/(e^x−1) dx, and — the
-    deep one — Riemann's
+4.  **Mellin transforms.**  Γ(s)ζ(s) = ∫_0^∞ x^{s−1}/(e^x−1) dx, and, the
+    deep one: Riemann's
 
         π^{−s/2} Γ(s/2) ζ(s) = 1/(s(s−1)) + ∫_1^∞ (x^{s/2−1} + x^{(1−s)/2−1}) ω(x) dx
 
@@ -124,8 +124,8 @@ def _real_arg(v, label: str):
     """Coerce ``v`` to an ``mpf``, accepting an ``mpc`` only when Im(v) == 0.
 
     Every public function of a *real* variable funnels its argument through
-    here, so that genuinely complex input raises ``ValueError`` — the
-    documented contract — rather than the ``TypeError`` that a bare
+    here, so that genuinely complex input raises ``ValueError``, the
+    documented contract, rather than the ``TypeError`` that a bare
     ``mp.mpf(mpc(...))`` throws, and so that an ``mpc`` with exactly zero
     imaginary part (a common by-product of upstream complex arithmetic) is
     accepted rather than crashing.
@@ -162,7 +162,7 @@ def _real_part_checked(value, dps: int, tol_digits: int, label: str):
 def _is_trivial_zero(s) -> bool:
     """True if s ∈ {−2, −4, −6, …}, the trivial zeros of ζ.
 
-    These are exactly the points where Γ(s/2) — equivalently Γ(s/2+1) — has a
+    These are exactly the points where Γ(s/2), equivalently Γ(s/2+1), has a
     pole that is cancelled by a zero of ζ, so ξ and Λ are perfectly finite there
     while the naive product ``gamma(...) * zeta(...)`` cannot be evaluated.
     """
@@ -184,7 +184,7 @@ def _cauchy_mean(f, s0, radius, n_points: int):
     The equispaced trapezoid rule applied to a periodic analytic integrand
     converges geometrically: the error is exactly Σ_{k≥1} a_{kN} r^{kN}, where
     a_n are the Taylor coefficients of f at s₀.  For entire f (ξ is entire) that
-    is spectral accuracy — measured below the round-off floor with N ≈ 1.5·dps.
+    is spectral accuracy, measured below the round-off floor with N ≈ 1.5·dps.
 
     Note that ``f`` is never called at ``s₀`` itself, only on a circle around
     it, which is what makes this a legitimate way to evaluate a *removable*
@@ -201,7 +201,7 @@ def _removable(f, s0, dps: int, radius=None):
 
     ``radius`` defaults to ½, which keeps the sample circle clear of the
     neighbouring exceptional points (consecutive trivial zeros are 2 apart), and
-    the node count grows with both the requested precision and |s₀| — ξ grows
+    the node count grows with both the requested precision and |s₀|, ξ grows
     like exp(|s| log|s| / 2), so a circle further out needs more nodes.
     """
     r = mp.mpf(1) / 2 if radius is None else mp.mpf(radius)
@@ -222,7 +222,7 @@ def zeta(s, dps: int = DPS_DEFAULT):
     This is the *workhorse* used throughout the package; it delegates to
     mpmath's Riemann–Siegel / Euler–Maclaurin implementation, which is fast
     and rigorously tested.  The hand-rolled continuation that shows the actual
-    machinery is :func:`zeta_euler_maclaurin` — the two agree to full
+    machinery is :func:`zeta_euler_maclaurin`, the two agree to full
     precision, and the test-suite checks that.
 
     Parameters
@@ -345,7 +345,7 @@ def eta(s, dps: int = DPS_DEFAULT):
 
     Worst case over the grid Re s ∈ [−20.5, 3] × Im s ∈ {0, 1, 10, 30, 50}:
     **8.9e-32** (attained at s = −20.5 + 30i).  On the critical line the term
-    count grows with the height — n = 60 at t = 1, n = 328 at t = 150 — and the
+    count grows with the height, n = 60 at t = 1, n = 328 at t = 150, and the
     error stays ≤ 5.4e-32 out to t = 150.
 
     The left half plane is the part that needed repair: the unpatched workload
@@ -353,7 +353,7 @@ def eta(s, dps: int = DPS_DEFAULT):
     which are 0.
 
     The required guard digits grow like e^{π|Im s|} (≈ 1.36 digits per unit of
-    |Im s|), so this is a *small-|t|* tool — usable to |Im s| ≈ 150, hopeless at
+    |Im s|), so this is a *small-|t|* tool, usable to |Im s| ≈ 150, hopeless at
     |Im s| = 10⁴.  For large heights use :func:`zeta` / :func:`Z`.
     """
     s = _num(s)
@@ -386,7 +386,7 @@ def zeta_via_eta(s, dps: int = DPS_DEFAULT):
     **The zeros of the denominator.**  1 − 2^{1−s} vanishes at
     s = 1 + 2πik/log 2 (k ∈ ℤ).  Only k = 0 is a pole of ζ; at the k ≠ 0
     points ζ is perfectly finite and η has a matching zero, so the quotient
-    has a *removable* singularity — but a numerically treacherous one, because
+    has a *removable* singularity, but a numerically treacherous one, because
     Borwein's algorithm computes η to a fixed **absolute** accuracy while both
     η(s) and the denominator are O(|s − s_k|).  Unguarded, an s within 10⁻⁴¹
     of s_k returned ~10⁻⁶ instead of ζ(s) ≈ 1.35 + 0.11i, with no warning.
@@ -462,7 +462,7 @@ def zeta_euler_maclaurin(s, N: int = 20, M: int = 20, dps: int = DPS_DEFAULT):
     Apply it to f(x) = x^{-s}.  Then ∫_N^∞ x^{-s} dx = N^{1−s}/(s−1) supplies
     the single pole at s = 1, and f^{(2k−1)}(N) = −(s)_{2k−1} N^{−s−2k+1}.
     Every term on the right is entire in s apart from that one explicit pole,
-    so this expression *is* the analytic continuation — manufactured out of
+    so this expression *is* the analytic continuation, manufactured out of
     finite arithmetic, with no contour integral in sight.
 
     Landmarks it reproduces **exactly** (all Pochhammer factors with k ≥ 2
@@ -486,7 +486,7 @@ def zeta_euler_maclaurin(s, N: int = 20, M: int = 20, dps: int = DPS_DEFAULT):
     N^{1−s}/(s−1) both grow like N^{1−σ} and cancel almost completely (at
     s = −19.5, N = 40 the intermediates are ~10³², the answer is 33.2).  A
     fixed number of guard digits therefore loses ⌈(1−σ)·log₁₀N⌉ digits of the
-    result — measured before the fix: rel. error 1.7e-26 at s = −15.5 (N=20)
+    result, measured before the fix: rel. error 1.7e-26 at s = −15.5 (N=20)
     and 1.2e-17 at s = −19.5 (N=40) for dps = 30.  The working precision now
     carries those extra digits explicitly.  Measured after the fix at dps=30:
     ≤ 4.6e-32 relative at s = −10.5, −15.5, −19.5 and −12+5i with the
@@ -551,7 +551,7 @@ def theta(x, dps: int = DPS_DEFAULT, terms: int | None = None):
 
         θ(x) = Σ_{n∈ℤ} e^{−π n² x} = 1 + 2 Σ_{n≥1} e^{−π n² x},   x > 0.
 
-    Summed **directly**, term by term — deliberately *not* via the modular
+    Summed **directly**, term by term, deliberately *not* via the modular
     relation, so that :func:`theta_modular_defect` is a genuine numerical test
     rather than a tautology.  The term count is chosen so the first dropped
     term is below 10^{−dps−5}; for x ≥ 10⁻⁴ that is at most a few hundred
@@ -601,7 +601,7 @@ def theta_modular_defect(x, dps: int = DPS_DEFAULT):
 
         Σ_n e^{−π n² x}  =  x^{−1/2} Σ_n e^{−π n²/x}.
 
-    Everything in Riemann's 1859 memoir — the functional equation included —
+    Everything in Riemann's 1859 memoir, the functional equation included,
     is downstream of this one line.  Both sides are computed here by *direct
     summation*, so a small return value is real evidence, not an identity
     baked into the implementation.
@@ -618,7 +618,7 @@ def theta_modular_defect(x, dps: int = DPS_DEFAULT):
 # ---------------------------------------------------------------------------
 
 #: Diffusivity D in ∂_t u = D ∂_x² u for the normalisation used by
-#: :func:`theta_heat`.  Derived, not guessed — see that function's docstring.
+#: :func:`theta_heat`.  Derived, not guessed, see that function's docstring.
 HEAT_DIFFUSIVITY: int = 1
 
 
@@ -745,8 +745,8 @@ def theta_heat_residual(x, t, h=None, dps: int = DPS_DEFAULT, diffusivity=None):
     at 60 working digits (round-off floor ε/h² ≈ 10⁻⁶⁰/10⁻²⁰ = 10⁻⁴⁰), which is
     why the absolute residual never falls below ~4e-42 no matter how large t is.
     Measured residuals are then 4e-42 … 1.3e-28 **absolute**, at every (x, t)
-    tried.  Relative to |∂_x²Θ| — computed independently by term-by-term
-    differentiation of the series — the picture depends on t, because ∂_x²Θ
+    tried.  Relative to |∂_x²Θ|, computed independently by term-by-term
+    differentiation of the series, the picture depends on t, because ∂_x²Θ
     itself decays like e^{−4π²t}:
 
     ========  ==================  =============  =============
@@ -763,7 +763,7 @@ def theta_heat_residual(x, t, h=None, dps: int = DPS_DEFAULT, diffusivity=None):
     So: the heat equation with D = 1 is confirmed to **≥ 34 significant digits
     for 0.02 ≲ t ≲ 0.3**, and to ≥ 30 digits at t = 0.005 (there the O(h⁴)
     truncation of ∂_t, which scales as t^{−5}, dominates).  For **t ≳ 0.5 the
-    relative figure degrades** — not because the identity is any less true, but
+    relative figure degrades**, not because the identity is any less true, but
     because ∂_x²Θ has decayed to within sight of the round-off floor
     ε_work/h² ≈ 10^{−(dps+30)}/h².  Raising ``dps`` restores it: at t = 1 the
     relative residual is 8.9e-27 at dps=30 and 8.1e-36 at dps=45.  The residual scales as
@@ -818,11 +818,11 @@ def completed_zeta(s, dps: int = DPS_DEFAULT):
 
     Exceptional points handled here:
 
-    * s = 0, 1 — genuine poles; ``ValueError``.
-    * s = −2, −4, −6, … — the trivial zeros.  Γ(s/2) has a pole there and ζ(s)
+    * s = 0, 1, genuine poles; ``ValueError``.
+    * s = −2, −4, −6, …, the trivial zeros.  Γ(s/2) has a pole there and ζ(s)
       a zero, so Λ is finite (Λ(−2m) = Λ(2m+1)) but the literal product is
       0·∞ and mpmath raises "gamma function pole".  We evaluate the removable
-      singularity with :func:`_cauchy_mean` — a circle average of the *same*
+      singularity with :func:`_cauchy_mean`, a circle average of the *same*
       literal expression, which uses no functional equation and is therefore
       not circular when the result is compared against Λ(1−s).
     """
@@ -845,7 +845,7 @@ def _xi_raw(s):
 
 
 def xi(s, dps: int = DPS_DEFAULT):
-    """Riemann's ξ function — entire, with ξ(s) = ξ(1−s):
+    """Riemann's ξ function, entire, with ξ(s) = ξ(1−s):
 
         ξ(s) = ½ · s · (s−1) · π^{−s/2} · Γ(s/2) · ζ(s).
 
@@ -867,15 +867,15 @@ def xi(s, dps: int = DPS_DEFAULT):
     Being entire, ξ must return a finite value at **every** s.  Three families
     of points defeat the generic branch and are handled separately:
 
-    * s = 1 — (s−1)ζ(s) → 1 (the residue), so ξ(1) = π^{−1/2}Γ(3/2) = ½.
-    * s = 0 — already fine in this form: ξ(0) = (−1)·1·Γ(1)·ζ(0) = ½.
-    * **s = −2, −4, −6, …** — the trivial zeros.  Γ(s/2+1) has a pole and ζ(s)
+    * s = 1, (s−1)ζ(s) → 1 (the residue), so ξ(1) = π^{−1/2}Γ(3/2) = ½.
+    * s = 0, already fine in this form: ξ(0) = (−1)·1·Γ(1)·ζ(0) = ½.
+    * **s = −2, −4, −6, …**: the trivial zeros.  Γ(s/2+1) has a pole and ζ(s)
       a zero; the product is 0·∞ and mpmath raises "gamma function pole".
       (Note the *literal* formula ½s(s−1)π^{−s/2}Γ(s/2)ζ(s) has exactly the
-      same problem here — shifting Γ(s/2) to Γ(s/2+1) fixes s = 0 and nothing
+      same problem here, shifting Γ(s/2) to Γ(s/2+1) fixes s = 0 and nothing
       else.)  We evaluate the removable singularity as a circle average of the
       generic branch, :func:`_cauchy_mean`.  No functional equation is used, so
-      comparing the result against ξ(1−s) — computed by the generic branch — is
+      comparing the result against ξ(1−s), computed by the generic branch, is
       a genuine test rather than a tautology.  Measured agreement at dps = 40:
       ξ(−2m) − ξ(2m+1) is **exactly 0.0** for m = 1, 2, 5, 10, 20.
 
@@ -1015,14 +1015,14 @@ def hardy_Z_sign_changes(
 
     Samples Z at ``n_samples`` equally spaced points and returns the list of
     consecutive pairs (a, b) with Z(a)·Z(b) < 0.  Each such bracket contains an
-    odd number of zeros of Z — hence of ζ on the critical line — so feeding
+    odd number of zeros of Z, hence of ζ on the critical line, so feeding
     them to bisection or Brent's method produces the ordinates γ_n.
 
     The sampling has to be fine enough to see them: consecutive zeros are
     spaced ≈ 2π/log(t/2π), so take
         n_samples ≳ 5 (t1−t0) log(t1/2π) / 2π
     to have a good chance of resolving every zero.  This routine makes **no
-    claim of completeness** — a pair of zeros inside one sample interval is
+    claim of completeness**, a pair of zeros inside one sample interval is
     invisible to it.  Use the argument principle / Backlund's N(T) to certify
     counts.
 
@@ -1192,7 +1192,7 @@ def mellin_gamma_zeta(
     Re(s) > −(2J+1), so this **is** the analytic continuation of Γ(s)ζ(s), with
     its poles displayed explicitly: s = 1 (from ζ), s = 0 and s = −1, −3, …,
     1−2J (from Γ).  Note the even negative integers carry *no* pole, exactly
-    because ζ vanishes there — the trivial zeros, visible in the arithmetic.
+    because ζ vanishes there, the trivial zeros, visible in the arithmetic.
 
     ``J`` is chosen by :func:`_mellin_subtractions` so that the remaining
     integrand is x^{Re s + 2J} with Re s + 2J ≥ 3; override with ``n_subtract``
@@ -1212,7 +1212,7 @@ def mellin_gamma_zeta(
     ======  ==========  ==========  ==========  ==========
 
     Two things to read off.  The naive J = 0 form silently returns rubbish as
-    Re(s) ↓ −1 — exactly the regime it was advertised for.  And the *smallest*
+    Re(s) ↓ −1, exactly the regime it was advertised for.  And the *smallest*
     admissible J (the one that merely makes the integral converge) still leaves
     the integrand only barely integrable and costs ~8 digits; hence the "+1" of
     margin in :func:`_mellin_subtractions`.
@@ -1221,8 +1221,8 @@ def mellin_gamma_zeta(
     ``dps=40``: **worst case 8.7e-42** over
     s ∈ {1.05, 1.2, 1.5, 2, 3, 10, 0.5, −0.5, −0.9, −0.99, −1.5, −2.5, −4.5,
     −6.5, −10.5, −19.5, 2+i, ½+3i, ½+14.13i, −½+2i, −3+i, −8+2i, −15+5i}.
-    At the trivial zeros s = −2m the value agrees with ζ'(−2m)/(2m)! — the limit
-    of the 0·∞ product, which mpmath cannot form at all — to ≥ 36 digits.
+    At the trivial zeros s = −2m the value agrees with ζ'(−2m)/(2m)!, the limit
+    of the 0·∞ product, which mpmath cannot form at all, to ≥ 36 digits.
 
     ``regularized=False`` performs the raw quadrature on [0,∞): faithful to the
     literal statement of the identity, but it requires Re(s) > 1 and degrades

@@ -4,11 +4,11 @@
 segment and the rectangle representation pays for rotation.  The other two site
 kinds are *point* evaluations and were left unmeasured:
 
-* **grid sites** — the small frontier, certified by point enclosures under a
+* **grid sites**: the small frontier, certified by point enclosures under a
   Cauchy Lipschitz bound.  Condition: `normLower(B.inflate r) >= beta`.
   `docs/25` §4.3 defect 2: beta was *predicted*, and 30 of 59 sites fail it by
   under 1%, "effectively a coin flip".
-* **the centre** — one site, `K = 361`.  Condition:
+* **the centre**, one site, `K = 361`.  Condition:
   `normBound(B.inflate r) < eps' = 1/2000`.  §4.3 defect 1: the box form's
   `normBound` is the L1 `max|re| + max|im| + 2r`, which charges the tail radius
   **twice**, and `2*r_c = 7.47e-4 > 5e-4`, so the centre "could not have passed

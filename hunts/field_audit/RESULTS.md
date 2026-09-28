@@ -14,7 +14,7 @@
 figure, `0.6730529829896288` (eight-point, bridge proved in Lean), is **tenth**
 of fifteen public claims for this quantity. The leading public claim is
 `AMTOPA/zeta-exact-pressure` at `0.6734164909714992949…`, which is ahead of us
-by `0.00036350798187` — eight times the margin by which we are ahead of
+by `0.00036350798187`, eight times the margin by which we are ahead of
 `ainta/zeta-simple-zeros`, the repository we had believed we were chasing.
 
 Three separate public constructions were already above our eventual figure
@@ -39,15 +39,15 @@ VERIFIED (`rank.py`).
 | 7 | `0.6731929114731422535…` | `tawanerguo-cn/zeta-simple-zeros` | 2026-08-11 | directed-MPFR + GMP exact LDL, Windows-only runner | REPORTED |
 | 8 | `0.673130496905638432` | `hrx114514x/riemann-simple-zero-certificate` | 2026-08-16 | exact-rational / Bernstein; secondary figure of a ceiling programme | REPORTED |
 | 9 | `0.6730732086087052768…` | `MichaelMobius/simple_zeros_of_the_riemann_zeta_function` | 2026-08-13 | Arb/FLINT, no top-level runner | REPORTED |
-| **10** | **`0.6730529829896288869…`** | **`teal-sea/zeta-lab` — eight-point, ours** | 2026-08-02 | **Lean bridge proved, zero `sorry`s** | **VERIFIED** (§5) |
-| **11** | **`0.6730295534796927114…`** | **`teal-sea/zeta-lab` — seven-point, ours** | 2026-08-02 | Lean bridge | **VERIFIED** (§5) |
+| **10** | **`0.6730529829896288869…`** | **`teal-sea/zeta-lab`, eight-point, ours** | 2026-08-02 | **Lean bridge proved, zero `sorry`s** | **VERIFIED** (§5) |
+| **11** | **`0.6730295534796927114…`** | **`teal-sea/zeta-lab`, seven-point, ours** | 2026-08-02 | Lean bridge | **VERIFIED** (§5) |
 | 12 | `0.6730266625438475497…` | `uwe-schwarz/zeta-simple-zeros-673026` | 2026-08-16 | Python + Lean build evidence; self-labelled unreviewed | REPORTED |
 | 13 | `0.6730213619501665335…` | `learademacher/ai-refines-ai-zeta-bound` | 2026-08-11 | interval verifier, clean-room lemma reproduction | REPORTED |
 | 14 | `0.673008527927…` | `ainta/zeta-simple-zeros` | 2026-08-11 | documented verifier | REPORTED |
-| — | `0.672500703679411645734…` | `anthropics/zeta-23-lean`, Theorem D | 2026-08-06 | full Lean 4 + Mathlib, three standard axioms | REPORTED |
+|, | `0.672500703679411645734…` | `anthropics/zeta-23-lean`, Theorem D | 2026-08-06 | full Lean 4 + Mathlib, three standard axioms | REPORTED |
 
 Every entry above `anthropics/zeta-23-lean` ships something runnable. **None of
-them is a README assertion with no artifact behind it** — that was the outcome
+them is a README assertion with no artifact behind it**, that was the outcome
 this audit expected to find and did not. What separates them is not the presence
 of a verifier but *what the verifier covers*: in every case the finite inequality
 is machine-checked and the analytic bridge from that inequality to a statement
@@ -89,12 +89,12 @@ Compared definition by definition against `lean/bridge/Zeta23Ext/Bridge/Defs.lea
 
 | | our family (`Bridge/Defs.lean`) | `trmdy` (`src/zeta_ext/`) | inside? |
 |---|---|---|---|
-| window | `Kfun x = ∫_{-1/2}^{1/2} cos(√2 t) cos(2πxt) dt` — the single term `ω = √2`, giving `HD 1 = 0.6725007036794116457` | `KernelSpec(coeffs=(1, 3322500/10⁹, −7609135/10⁹, 1190194/10⁹, −731476/10⁹, −1680572/10⁹, 1141360/10⁹), omega_pi_multiples=(2,4,6,8,10,12))`, i.e. `v(s) = cos(√2 s) + Σ_{k=1}^{6} c_k cos(2kπs)`, giving `H(v) = 0.67245704141454428878` | **NO** |
+| window | `Kfun x = ∫_{-1/2}^{1/2} cos(√2 t) cos(2πxt) dt`, the single term `ω = √2`, giving `HD 1 = 0.6725007036794116457` | `KernelSpec(coeffs=(1, 3322500/10⁹, −7609135/10⁹, 1190194/10⁹, −731476/10⁹, −1680572/10⁹, 1141360/10⁹), omega_pi_multiples=(2,4,6,8,10,12))`, i.e. `v(s) = cos(√2 s) + Σ_{k=1}^{6} c_k cos(2kπs)`, giving `H(v) = 0.67245704141454428878` | **NO** |
 | pair weights | `F n p g` uses the uniform coefficient `2/(n − (j−i))` | arbitrary nonnegative rationals `a_ij` subject to `Σ_i a_{i,i+r} ≤ 2` per span | **contains ours** |
 | block profile | `Phi_n` denominator `1 − c(m−(n−1))/m`, docstring: *"The block size `m` is capped by `c(m − (n−1)) ≤ 1`"* | `Φ_m(A) = 2√((m−1)A/m) − 1 + A/m` for `A ≥ m/(m−1)`, no cap | **NO** |
 
 The window axis is decisive on its own. Their `H` is **lower** than ours by
-`0.0000436622648673` — they gave up window constant to buy a kernel shape that
+`0.0000436622648673`: they gave up window constant to buy a kernel shape that
 supports a larger floor `c`. VERIFIED: their `fast` lane, run here, prints
 `H(v) = [0.67245704141454428878 +/- 4.25e-21]`.
 
@@ -113,8 +113,8 @@ strict special case of theirs.
 **What this costs Hunt #82.** Nothing in its statement, and something in its
 reach. The barrier remains true of the family it names. It does not cap the line
 of attack the field is actually on, because that line changed the window and the
-block profile. Whether the barrier's *mechanism* — bounding `c` by the
-functional's value at a gap vector of total length `(n−1)/H` — survives the
+block profile. Whether the barrier's *mechanism*, bounding `c` by the
+functional's value at a gap vector of total length `(n−1)/H`, survives the
 substitution is not settled here. INFERRED, and flagged as the open question:
 the `c`-bounding step is a statement about `F` and the window and looks
 transportable, while the algebra that turned it into `H(1 + W)` used the linear
@@ -129,22 +129,22 @@ nothing was built from source):
 
 | check | result | label |
 |---|---|---|
-| `zeta-673200-verify fast` — window bounds, `H(v)`, exact deduction | passes, 0.6 s | **VERIFIED** |
+| `zeta-673200-verify fast`, window bounds, `H(v)`, exact deduction | passes, 0.6 s | **VERIFIED** |
 | `min v ≥ 3/4`, `max v ≤ 1`, `v'(s)/s ≤ 0` on 8192 cells | `0.750213217018232`, `0.995632902191690`, `−0.776363621799489` | **VERIFIED** |
-| `H(v) ≥ 3362285207/5·10⁹` | `0.67245704141454428878` — holds | **VERIFIED** |
-| seven-point assembly `(mH − ηB_p(m−1))/(m−R)`, `m=272` | `0.6732001170127618568182` — matches their published `0.673200117012` | **VERIFIED** |
-| refined assembly `(mH − (m−q)B_p)/(m−Φ_m(A))`, `m=235` | `0.6732425893558967029403` — matches their `0.673242589355` | **VERIFIED** |
-| nine-point assembly, `m=177`, `q=8`, `ε=15211/2500000`, `p=1/2500` | `0.6733127422722459981438` — matches their headline `0.6733127422722459` | **VERIFIED** |
+| `H(v) ≥ 3362285207/5·10⁹` | `0.67245704141454428878`, holds | **VERIFIED** |
+| seven-point assembly `(mH − ηB_p(m−1))/(m−R)`, `m=272` | `0.6732001170127618568182`, matches their published `0.673200117012` | **VERIFIED** |
+| refined assembly `(mH − (m−q)B_p)/(m−Φ_m(A))`, `m=235` | `0.6732425893558967029403`, matches their `0.673242589355` | **VERIFIED** |
+| nine-point assembly, `m=177`, `q=8`, `ε=15211/2500000`, `p=1/2500` | `0.6733127422722459981438`, matches their headline `0.6733127422722459` | **VERIFIED** |
 | span capacities `Σ_i a_{i,i+r}`, seven-point, exact rationals | all six exactly `2` | **VERIFIED** |
 | span capacities, nine-point, exact rationals | all eight exactly `2` | **VERIFIED** |
 | their unit suite, 23 tests | passes, 0.5 s | **VERIFIED** |
-| `zeta-673200-verify main` — the finite inequality `F ≥ 891/200000` by exhaustive interval subdivision, 2,168,370 boxes to depth 50 | reproduces, 482.6 s, node count identical to theirs; one of the two table digests differs — see §7 | **MEASURED** |
+| `zeta-673200-verify main`, the finite inequality `F ≥ 891/200000` by exhaustive interval subdivision, 2,168,370 boxes to depth 50 | reproduces, 482.6 s, node count identical to theirs; one of the two table digests differs, see §7 | **MEASURED** |
 
 Not replayed, and the reason: the nine-point run behind the headline
 `0.6733127422722459` visits **116,272,426 nodes** by their own record. That is
 out of reach on this host under the compute constraint, and it is the run that
 carries the headline. **The headline figure is therefore assembly-VERIFIED and
-finite-inequality REPORTED** — we checked that their published `ε = 15211/2500000`
+finite-inequality REPORTED**, we checked that their published `ε = 15211/2500000`
 assembles to their number, not that `ε` is a valid floor.
 
 Also not replayed: every other repository in §2. `AMTOPA`'s leading claim was
@@ -165,7 +165,7 @@ structural reason the `Φ_m` envelope is worth something to us: the cap is
 binding, and the envelope removes it.
 
 **What the field's assembly would give us for free.** Applying the refined
-assembly — `Φ_m` envelope plus window-in-frame pressure counting — to *our own*
+assembly, `Φ_m` envelope plus window-in-frame pressure counting, to *our own*
 existing floors, with no new search and no new window, changing nothing that is
 already proved about `c`:
 
@@ -180,8 +180,8 @@ deficit is in the floor `c`, not in the assembly. Recording it because it is the
 cheapest available move and because it is honest about how little it buys.
 
 Note also that the refined assembly is *not* proved here and is not proved in
-Lean anywhere. Adopting it would trade our one genuine advantage — a bridge with
-zero `sorry`s — for `5.4e-5`. **That trade looks bad and this hunt recommends
+Lean anywhere. Adopting it would trade our one genuine advantage, a bridge with
+zero `sorry`s, for `5.4e-5`. **That trade looks bad and this hunt recommends
 against it**, which is a position, not a finding.
 
 ## 6. Soundness read of `trmdy`'s verifier
@@ -193,7 +193,7 @@ The lab's actual specialty, applied to `src/zeta_ext/verify_general.py`,
 
 - **Acceptance is one-sided.** A box is discharged only when a rigorous *lower*
   bound on `F` over the box clears the target, and the comparison is against
-  `_fmpq_upper(target)` — the target rounded **up** — so rounding cannot admit a
+  `_fmpq_upper(target)`, the target rounded **up**, so rounding cannot admit a
   box. `verify_general` raises `RuntimeError` at any terminal cell it cannot
   discharge; it never returns `verified=False`. Fails closed.
 - **The interval tables are outward-rounded, and non-negative by construction.**
@@ -208,8 +208,8 @@ The lab's actual specialty, applied to `src/zeta_ext/verify_general.py`,
   positive definite; `if not (pivot > 0): return False` is an Arb ball
   comparison, true only when the whole ball is positive. The `1e-12` float pivot
   threshold is a speed heuristic that can only *decline* to prune.
-- **The `sinc` evaluation intersects two rigorous enclosures** — an alternating
-  series with an explicit tail bound, and the closed form — and takes the
+- **The `sinc` evaluation intersects two rigorous enclosures**: an alternating
+  series with an explicit tail bound, and the closed form, and takes the
   intersection, which is rigorous whichever is tighter. The tail bound is
   `2 × the first omitted term`, honestly described in the source as crude; it is
   valid, since for `|z| ≤ 3/4` the term ratio is below `1/2` from `n = 2`.
@@ -222,14 +222,14 @@ The lab's actual specialty, applied to `src/zeta_ext/verify_general.py`,
 - **The constants are thresholds, not answers.** `H_CERT = 3362285207/5·10⁹` and
   `FINAL_BOUND_RATIONAL = 1683/2500` are compared against computed enclosures
   (`h_val >= arb(H_CERT)`, `bound >= arb(FINAL_BOUND_RATIONAL)`), and the
-  *assembly* then uses the rational `H_CERT`, which is below the computed `H(v)`
-  — the conservative choice. **This is not the Ainta pattern**, where a constant
+  *assembly* then uses the rational `H_CERT`, which is below the computed `H(v)`,
+  the conservative choice. **This is not the Ainta pattern**, where a constant
   was wired to the target. We looked for it specifically.
 
 **Three things to hold against the top-line claim, none of them a code defect:**
 
 0. **One of the two interval tables does not reproduce on this host**, and it is
-   the one the tangent pruner rides on — the single component whose corruption
+   the one the tangent pruner rides on, the single component whose corruption
    could yield a false acceptance rather than a false failure. Every branch of
    the search nevertheless came out identical. Full accounting, both directions,
    in §7. VERIFIED here.
@@ -237,7 +237,7 @@ The lab's actual specialty, applied to `src/zeta_ext/verify_general.py`,
 
 1. **The load-bearing new step is Lemma 2, not the code.** The refined assembly
    changes the pressure tax from `η·B_p·(m−1)/m` to `(m−q)·B_p/m` by a cyclic-shift
-   averaging argument — a window of `q+1` consecutive points straddles a block
+   averaging argument, a window of `q+1` consecutive points straddles a block
    boundary in exactly `q` of `m` offsets. That single off-by-`(q−1)` in the
    numerator is worth `+4.7e-5` of the `+4.25e-5` total refinement gain, i.e. it
    is essentially the whole refinement. The argument is standard-shaped and this
@@ -246,7 +246,7 @@ The lab's actual specialty, applied to `src/zeta_ext/verify_general.py`,
    Their own `docs/refined-deduction.md` credits it to `tawanerguo-cn` and says
    they re-derived it. VERIFIED that `Φ_m` is continuous at `A = m/(m−1)` and that
    the stated identity `A − Φ_m(A) = (√((m−1)A/m) − 1)²` holds, so `Φ_m(A) ≤ A`
-   always — the envelope is at least internally consistent.
+   always, the envelope is at least internally consistent.
 2. **Their own trust boundary is accurate and they state it.** `README.md`:
    *"this strengthened result is not yet end-to-end formalized in Lean"*, and the
    analytic interface comes from the Anthropic paper and Ainta. The repository
@@ -279,7 +279,7 @@ design at grid 4000. **It reproduces.** 482.6 s wall on this host, against
 | `w_table_sha256` | `416ac41d…dbf9d06b` | `416ac41d…dbf9d06b` | ✓ |
 | `w_second_table_sha256` | `2dc4743b66cb01cd1840ece1147a06659b42dc8fd9d7c5eff34428383b976bb0` | `e188bb3baa6d6ce69c354e95c8f20aa70529d670ae4bd2450b1e81702f0e1eb6` | **differs** |
 
-MEASURED — the search is theirs; what this host contributes is an independent
+MEASURED, the search is theirs; what this host contributes is an independent
 replay of it.
 
 **The `w''` table does not reproduce byte-for-byte, and that is worth stating
@@ -289,7 +289,7 @@ Against them: the second-derivative table **is on the trust path** whenever the
 tangent pruner is enabled, which it is by default and was here. A `w''` entry
 that came out too *high* would let `arb_ldl_is_positive` accept a convexity
 claim that is false, and the tangent bound derived from it would not be a lower
-bound. Their own source knows this — the `use_tangent` flag is documented as a
+bound. Their own source knows this, the `use_tangent` flag is documented as a
 hardening mode in which *"table errors can then only cause false failure, never
 false certification"*. So the one component whose corruption could produce a
 false acceptance is the one component that did not reproduce. Their repository
@@ -300,7 +300,7 @@ the method, not of one repository. REPORTED for `tawanerguo-cn`, VERIFIED here
 for `trmdy`.
 
 For them, and it is the larger half: **every decision the search made came out
-identical anyway.** Not merely the verdict — the node count, the split count,
+identical anyway.** Not merely the verdict, the node count, the split count,
 the maximum depth, and each of the three prune counters separately, including
 `tangent_pruned = 453136`, the counter that the differing table drives. A
 regenerated `w''` table produced a bit-different digest and not one different
@@ -322,7 +322,7 @@ This is the part of the record that is about us.
 
 **What we missed.** Eleven public repositories carrying claims for this exact
 quantity, ten of them above the figure we eventually produced, eight of them
-created on 2026-08-11 and 2026-08-12 — before our seven-point hunt opened. We
+created on 2026-08-11 and 2026-08-12, before our seven-point hunt opened. We
 found `anthropics/zeta-23-lean` and `ainta/zeta-simple-zeros` and treated
 `ainta`'s `0.673008527927` as the frontier to beat. It had been beaten by
 `trmdy` within hours of being published, and by six more repositories within
@@ -333,7 +333,7 @@ four days.
 1. **We searched for the prior art and not for the competition.** `ainta` and
    `zeta-23-lean` are what a search for *the standing result* returns. The wave
    that overtook it consists of repositories with no stars, no description, no
-   preprint and no press — `npip99/zeta-zeros` has an empty description and zero
+   preprint and no press, `npip99/zeta-zeros` has an empty description and zero
    stars while sitting at `0.673195`. Nothing about them surfaces unless you
    enumerate recent repositories by topic and date, which we never did.
 2. **We took the leaderboard as the field.** `riemannzeta.fun` still shows

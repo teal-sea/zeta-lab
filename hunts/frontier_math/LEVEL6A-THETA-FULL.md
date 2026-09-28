@@ -1,4 +1,4 @@
-# Level 6a: theta_full = 0.02 — the overdraw closed
+# Level 6a: theta_full = 0.02, the overdraw closed
 
 ## Disposition
 
@@ -11,8 +11,8 @@ ball-hardened caps at every probe depth, worst combined budget 0.9991,
 shallow pair charge exactly 0.
 ```
 
-The directive's milestone equation — rigorous single-pair theta + global
-multi-pair closure ⟹ theta_full > 0 — now holds with the labels below,
+The directive's milestone equation, rigorous single-pair theta + global
+multi-pair closure ⟹ theta_full > 0, now holds with the labels below,
 which are the honest boundary of the claim:
 
 - **caps**: ball-hardened pentadiagonal counting bound (configuration-free
@@ -20,18 +20,18 @@ which are the honest boundary of the claim:
   strip; the full-ladder hardened penta scan is the named compute follow-up
   (the shallow cells close at 0.57 with charge 0, far from binding);
 - **eta**: measured-exact on its adversary family (single-worst-depth
-  ordinate lattices at density nu_p = 1, worst phase, optimal split) — the
+  ordinate lattices at density nu_p = 1, worst phase, optimal split), the
   configuration-free pair layer is the named level-6b task, with the dense
   pair lattice as its kill control.
 
 The Phase-7 gate (reconnect the gap floor, compute the proportion) remains
 closed until 6b; nothing here computes a proportion.
 
-## Lever 1 — the pentadiagonal counting dual
+## Lever 1: the pentadiagonal counting dual
 
 The tridiagonal chain undercharged mid-range pairs: an adjacent-cell pair
 at distance 0.2 paid `min omega^2 over [0, 0.5]` = 0.315 against a true
-0.77 — the min sits at the far end of a too-wide range. The refinement
+0.77, the min sits at the far end of a too-wide range. The refinement
 keeps the counting theorem's shape and narrows the ranges. Cells of width
 `delta` with three charges:
 
@@ -52,7 +52,7 @@ Measured caps (theta = 0, as fractions of slack, hardened):
 
 | depth | level-5 assumption | penta hardened | needed (1 − eta) |
 |---|---|---|---|
-| 0.01 | — | 0.571 | 1.000 |
+| 0.01 |, | 0.571 | 1.000 |
 | 0.05 | 0.90 | 0.585 | 0.723 |
 | 0.15 | 0.92 | 0.588 | 0.699 |
 | 0.25 | 0.92 | 0.595 | 0.699 |
@@ -64,7 +64,7 @@ The mid-depth gains (x1.26 at y = 0.25 over the tridiagonal, on top of the
 level-5 numbers having been conservative assumptions) are what close the
 budget; y = 0.45 is the binding depth with 0.0009 to spare.
 
-## Lever 2 — the optimal charge split, and a bug the controls caught
+## Lever 2: the optimal charge split, and a bug the controls caught
 
 The split of each negative pair-pair term between its participants is free
 in the accounting, and eta is a max over rows, so the right split is a
@@ -73,12 +73,12 @@ ratios:
 
 | depth | proportional (level 5) | optimal |
 |---|---|---|
-| 0.01 | — | **0.000** |
+| 0.01 |, | **0.000** |
 | 0.05 | 0.487 | 0.277 |
 | 0.15–0.49 | 0.30–0.44 | 0.30 |
 
 Recorded because it is instructive: the first optimiser *raised* eta to
-0.75–0.78 — it summed worst-case lattices over **all** neighbour depths
+0.75–0.78, it summed worst-case lattices over **all** neighbour depths
 simultaneously, a density-6nu_p adversary. The ordinate density budget is
 nu_p in total, and the row masses are linear in per-depth counts, so the
 worst mix is the single worst depth: the charge is a max, not a sum. With
@@ -106,11 +106,11 @@ y = 0.35: 0.971   y = 0.45: 0.9991  y = 0.49: 0.980         all closed
 
 theta_full = 0.02 is deliberately not optimised further (the directive's
 operating rule); its value is that it is positive. The binding margin at
-y = 0.45 is 9e-4 of slack — thin, and stated rather than rounded away.
+y = 0.45 is 9e-4 of slack, thin, and stated rather than rounded away.
 
 ## What stands between this and Phase 7
 
-1. **Level 6b**: the configuration-free pair layer — the counting dual on
+1. **Level 6b**: the configuration-free pair layer, the counting dual on
    the T kernel at mixed depths, against the dense-pair-lattice kill
    control. The eta side of today's verdict is measured on its adversary
    family, not yet dual-bounded.
@@ -119,7 +119,7 @@ y = 0.45 is 9e-4 of slack — thin, and stated rather than rounded away.
    but the graduation pipeline wants the ladder.
 3. Then Phase 7: the gap floor, every truncation/taper/census term
    one-sided, and the first computation of whether the retained
-   `theta_full * Delta_gap` clears the error budget — the question the
+   `theta_full * Delta_gap` clears the error budget, the question the
    whole hierarchy exists to earn.
 
 ## Controls ledger

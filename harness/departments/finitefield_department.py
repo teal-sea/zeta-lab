@@ -1,13 +1,13 @@
-"""``harness.departments.finitefield_department`` — department #2.
+"""``harness.departments.finitefield_department``, department #2.
 
 Curves over F_p: the universe where RH is a **theorem** (Hasse, 1933). This
-department exists for two reasons, and testing the mathematics is neither —
+department exists for two reasons, and testing the mathematics is neither,
 `zeta/finitefield.py` and its tests already do that.
 
 First, it is the harness's second real subject, so it is the first measurement
 of the claim in ROADMAP.md's known gaps that the four instrument roles carve
-more than exactly one case. It is a *modest* measurement — the subject shares
-a repository, an author and half a vocabulary with department #1 — but unlike
+more than exactly one case. It is a *modest* measurement, the subject shares
+a repository, an author and half a vocabulary with department #1, but unlike
 department #1 it drives all four runners, and its battery is built from
 different material.
 
@@ -17,8 +17,8 @@ department is the same architecture under a different epistemic regime.
 
 The payload convention, and why it is strict
 --------------------------------------------
-Every subject's ``payload()`` is ``{"p": int, "counts": (N_1, ..., N_k)}`` —
-the point counts of something over the tower F_p ⊂ F_{p²} ⊂ … — **and nothing
+Every subject's ``payload()`` is ``{"p": int, "counts": (N_1, ..., N_k)}``,
+the point counts of something over the tower F_p ⊂ F_{p²} ⊂ …, **and nothing
 else**. In particular no field says which subject produced it. An earlier
 draft of this module handed rivals a ``virtual_a_p`` tell; a claim could
 distinguish the target by reading the label, which is a battery that tests
@@ -27,17 +27,17 @@ a claim uses must be derived from the counts.
 
 The four roles, and where each came from
 ----------------------------------------
-* **Rivals** — counterfeit Lefschetz profiles: pick an integer trace ``a``
+* **Rivals**, counterfeit Lefschetz profiles: pick an integer trace ``a``
   with ``a² > 4p``, take the roots of ``x² − ax + p``, and generate counts by
   the same fixed-point formula ``N_r = p^r + 1 − α^r − β^r`` a genuine curve
   obeys. Because ``αβ = p``, the counterfeit satisfies the functional
   equation's self-duality exactly; because the recursion has integer
   coefficients, its counts are exact integers; for the traces chosen here they
   are all positive. It shares everything a curve's counting data is *shaped*
-  like and violates RH — the Davenport–Heilbronn of finite fields, except that
+  like and violates RH, the Davenport–Heilbronn of finite fields, except that
   here Hasse's theorem says no curve realises it, which is the point: the
   structure alone does not exclude it, only the theorem does.
-* **Decoys** — substitutions on the count sequence. ``count_jitter`` moves
+* **Decoys**: substitutions on the count sequence. ``count_jitter`` moves
   each entry by a nonzero amount on the Hasse–Weil scale ``2·sqrt(N)``, which
   destroys the single eigenvalue pair threading the tower while keeping every
   magnitude plausible; ``tower_permutation`` keeps the very same numbers and
@@ -46,18 +46,18 @@ The four roles, and where each came from
   payload is a *sequence indexed by r* and an honest measurement must move
   under both. This department's decoy pair is therefore the one for which
   ``AblationVerdict.survives`` (every decoy moves the measurement) is the
-  correct aggregate — for department #1's pair it is not, which
+  correct aggregate, for department #1's pair it is not, which
   ``tests/test_harness_zeta_department.py`` pins.
-* **Surrogates** — Frobenius angles with no curve behind them: draws of
+* **Surrogates**, Frobenius angles with no curve behind them: draws of
   ``cos θ`` with θ uniform on [0, π], and draws from the Sato–Tate semicircle
   density (2/π)·sin²θ. Both produce normalised traces that satisfy the Hasse
   bound *by construction*, because points on a circle of radius sqrt(p) cannot
   do otherwise. A trace statistic these reproduce is a property of the circle
   model, not of the arithmetic of any curve.
-* **Lesions** — a counterfeit profile planted into a survey of genuine ones.
+* **Lesions**: a counterfeit profile planted into a survey of genuine ones.
   ``magnitude`` is the relative displacement ``|α|/sqrt(p) − 1`` off the
   circle. The domain quantises this: the smallest integer trace violating
-  Hasse at p = 1009 is |a| = 64, giving magnitude 0.129 — **no smaller honest
+  Hasse at p = 1009 is |a| = 64, giving magnitude 0.129, **no smaller honest
   lesion exists**, because a fractional trace would break integrality of the
   counts and be detectable for a reason that has nothing to do with the
   circle. Department #1 plants zeros at δ = 0.001; this department provably
@@ -102,7 +102,7 @@ N_MAX: int = 6
 RIVAL_TRACES: tuple[int, ...] = (70, 200)
 
 #: Integer traces of the planted lesions. 64 is the *smallest* integer
-#: violation possible at p = 1009 (63² = 3969 ≤ 4036 < 4096 = 64²) — the
+#: violation possible at p = 1009 (63² = 3969 ≤ 4036 < 4096 = 64²), the
 #: quantisation floor discussed in the module docstring.
 LESION_TRACES: tuple[int, ...] = (64, 80, 128)
 
@@ -136,7 +136,7 @@ def counterfeit_counts(trace: int, p: int, n_max: int) -> tuple[int, ...]:
 
     ``t_r = α^r + β^r`` for the roots of ``x² − trace·x + p`` satisfies the
     integer recursion ``t_r = trace·t_{r−1} − p·t_{r−2}`` with ``t_0 = 2``,
-    ``t_1 = trace``, so the counts are exact integers — no floating point
+    ``t_1 = trace``, so the counts are exact integers, no floating point
     enters, which matters because a counterfeit detectable by its rounding
     would flatter every detector shown it.
     """
@@ -194,7 +194,7 @@ class CounterfeitSubject:
     """A rival: the same count-shape with the property removed.
 
     Shares the Lefschetz recursion, the self-duality αβ = p (the functional
-    equation of the curve's zeta function), integrality and positivity — and
+    equation of the curve's zeta function), integrality and positivity, and
     has both Frobenius roots off the circle |α| = sqrt(p).
     """
 
@@ -227,7 +227,7 @@ TARGET = CurveSubject(
     b=CURVE_B,
     _description=(
         "y² = x³ + x + 1 over F_1009, non-singular, trace −24: a genuine curve, "
-        "so RH holds for it by Hasse's theorem — the property is a theorem here, "
+        "so RH holds for it by Hasse's theorem, the property is a theorem here, "
         "not a conjecture"
     ),
 )
@@ -239,7 +239,7 @@ RIVALS: tuple[CounterfeitSubject, ...] = tuple(
         _description=(
             f"the Lefschetz formula run on trace {trace} with {trace}² > 4·1009: "
             "integer positive counts, exact functional-equation self-duality, and "
-            "both Frobenius roots off the circle — the count-shape without the theorem"
+            "both Frobenius roots off the circle, the count-shape without the theorem"
         ),
     )
     for trace in RIVAL_TRACES
@@ -256,12 +256,12 @@ class CountDecoy:
     """A substitution acting on a sequence of counts.
 
     ``jitter`` moves every entry by a nonzero seeded amount of typical size
-    ``2·sqrt(value)`` — the Hasse–Weil scale, so each individual number stays
+    ``2·sqrt(value)``: the Hasse–Weil scale, so each individual number stays
     plausible while no single (α, β) pair threads the sequence any more.
     ``permute`` keeps the same numbers and changes only their order, which
     destroys the tower structure (the r-th entry *means* F_{p^r}).
 
-    Both are expected to move an honest measurement — see the module
+    Both are expected to move an honest measurement, see the module
     docstring for why this department's pair, unlike department #1's, has
     uniform polarity.
     """
@@ -299,7 +299,7 @@ DECOYS: tuple[CountDecoy, ...] = (
         name="count_jitter",
         mode="jitter",
         _description=(
-            "every count moved by a nonzero amount on the Hasse–Weil scale 2·sqrt(N) — "
+            "every count moved by a nonzero amount on the Hasse–Weil scale 2·sqrt(N), "
             "individually plausible numbers with no shared eigenvalue pair; a statistic "
             "that does not move was never reading the arithmetic"
         ),
@@ -308,7 +308,7 @@ DECOYS: tuple[CountDecoy, ...] = (
         name="tower_permutation",
         mode="permute",
         _description=(
-            "the same counts in a different order — the r-th entry means F_{p^r}, so a "
+            "the same counts in a different order, the r-th entry means F_{p^r}, so a "
             "statistic that does not move was never reading the tower"
         ),
     ),
@@ -324,7 +324,7 @@ DECOYS: tuple[CountDecoy, ...] = (
 class AngleSurrogate:
     """Normalised Frobenius traces drawn from an angle law, no curve anywhere.
 
-    ``sample`` returns ``draws`` values of ``cos θ`` — the normalised trace
+    ``sample`` returns ``draws`` values of ``cos θ``: the normalised trace
     ``a/(2·sqrt(p))`` of a fictitious curve whose Frobenius angle is θ. Every
     draw satisfies the Hasse bound by construction, so any statistic amounting
     to "the traces respect the bound" or "the traces look circle-distributed"
@@ -359,7 +359,7 @@ SURROGATES: tuple[AngleSurrogate, ...] = (
         name="uniform_angle",
         kind="uniform",
         _description=(
-            "cos θ for θ uniform on [0, π] — traces on the circle with the wrong "
+            "cos θ for θ uniform on [0, π], traces on the circle with the wrong "
             "distribution and no curve behind them"
         ),
     ),
@@ -367,7 +367,7 @@ SURROGATES: tuple[AngleSurrogate, ...] = (
         name="sato_tate_angle",
         kind="sato_tate",
         _description=(
-            "cos θ for θ drawn from the Sato–Tate density (2/π)·sin²θ — the "
+            "cos θ for θ drawn from the Sato–Tate density (2/π)·sin²θ, the "
             "conjectured equidistribution law, reproduced from its formula rather "
             "than from any arithmetic"
         ),
@@ -384,8 +384,8 @@ SURROGATES: tuple[AngleSurrogate, ...] = (
 class OffCircleLesion:
     """Append one counterfeit profile to a survey of genuine ones.
 
-    ``apply`` receives a sequence of ``{"p", "counts"}`` profiles — the shape
-    of a curve survey — and returns it with a counterfeit planted at the end.
+    ``apply`` receives a sequence of ``{"p", "counts"}`` profiles, the shape
+    of a curve survey, and returns it with a counterfeit planted at the end.
     ``magnitude`` is ``|α|/sqrt(p) − 1``, the relative displacement of the
     dominant Frobenius root off the circle, the analogue of department #1's
     δ off the critical line. Integer traces quantise it: nothing below 0.129
@@ -440,7 +440,7 @@ _CLEAN_SURVEY = _survey_probe()
 def hasse_scan(survey) -> bool:
     """Fires when any profile in the survey has a trace violating a² ≤ 4p.
 
-    Exact integer arithmetic, derived from the counts alone — the decidable
+    Exact integer arithmetic, derived from the counts alone, the decidable
     domain's luxury. Its power is quantised the same way the lesions are:
     below trace 64 at p = 1009 there is no integer violation to detect, so
     "full power" here means full power down to the domain's own floor.
@@ -490,7 +490,7 @@ def claim_functional_equation(payload: dict) -> bool:
     """Self-duality: the counts follow a degree-2 Lefschetz recursion with αβ = p.
 
     Recovers the trace from ``N_1`` and checks every further count against
-    ``N_r = p^r + 1 − t_r`` with ``t_r = a·t_{r−1} − p·t_{r−2}`` — which is
+    ``N_r = p^r + 1 − t_r`` with ``t_r = a·t_{r−1} − p·t_{r−2}``: which is
     precisely the statement that the counting zeta function is
     ``(1 − aT + pT²) / ((1 − T)(1 − pT))``, self-dual under T ↦ 1/(pT).
     True of the target by the Weil conjectures for curves; true of every
@@ -511,7 +511,7 @@ def claim_functional_equation(payload: dict) -> bool:
 def claim_hasse_bound(payload: dict) -> bool:
     """RH for the curve: both Frobenius roots on |α| = sqrt(p), i.e. a² ≤ 4p.
 
-    Derived from the counts alone — the trace is ``p + 1 − N_1`` — so nothing
+    Derived from the counts alone, the trace is ``p + 1 − N_1``, so nothing
     in the payload can tell this claim which subject it is judging. This is
     the property that is a conjecture in department #1 and a theorem here.
     """
@@ -530,7 +530,7 @@ REFERENCE_CLAIMS: tuple[ReferenceClaim, ...] = (
         claim=claim_functional_equation,
         distinguishes=False,
         note=(
-            "true of the target and of every counterfeit — self-duality survives the "
+            "true of the target and of every counterfeit, self-duality survives the "
             "loss of the property in this department just as it does in department #1, "
             "so it cannot be the load-bearing step of any argument for the property"
         ),
@@ -550,7 +550,7 @@ DEPARTMENT = Department(
     name=DEPARTMENT_NAME,
     summary=(
         "curves over F_p: point counts, Frobenius eigenvalues and the RH that is "
-        "a theorem — the same referee architecture under a decidable property"
+        "a theorem, the same referee architecture under a decidable property"
     ),
     battery=BATTERY,
     door="docs/doors/finitefield.md",
@@ -564,7 +564,7 @@ DEPARTMENT = Department(
     ),
     provenance=Provenance(
         authored_by=(
-            "the laboratory's own process — this battery is the 2026-08-07 rebuild "
+            "the laboratory's own process, this battery is the 2026-08-07 rebuild "
             "that replaced the sham caught in review (commit 431cc74)"
         ),
         authored_on="2026-08-07",

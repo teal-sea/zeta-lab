@@ -1,4 +1,4 @@
-"""``harness`` — the falsification protocol, with no subject matter in it.
+"""``harness``, the falsification protocol, with no subject matter in it.
 
 The laboratory's referee, factored out of the laboratory. :mod:`ontology`
 answers *where does a lead come from and what may be concluded about it*;
@@ -8,7 +8,7 @@ department is a department at all:
     **What could show this claim is not about its subject?**
 
 Four instrument roles are defined in :mod:`harness.protocol`, abstracted from
-the four that the laboratory already runs by hand — a rival that shares the
+the four that the laboratory already runs by hand, a rival that shares the
 claimed structure but lacks the target property, a decoy that replaces the
 substantive input, a surrogate that reproduces the observation from no
 substantive input at all, and a lesion that plants a violation so a detector's
@@ -25,7 +25,7 @@ Everything in this package is domain-agnostic in the strict sense already
 established by :mod:`ontology.schema`: it imports nothing from any laboratory
 package, names no quantity any laboratory computes, and would work unchanged
 for a chemistry lab or a compiler-optimisation search. The seam is enforced by
-``tests/test_harness_protocol.py`` the same three ways — an AST import scan, a
+``tests/test_harness_protocol.py`` the same three ways, an AST import scan, a
 clean-interpreter ``sys.modules`` check, and a lexical scan of the source.
 Subject matter lives in ``harness/departments/``.
 """

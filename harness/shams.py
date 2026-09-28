@@ -1,17 +1,17 @@
-"""``harness.shams`` — planted corruptions of batteries, for measuring the audit.
+"""``harness.shams``, planted corruptions of batteries, for measuring the audit.
 
 The lesion principle, applied one level up. A lesion plants a known violation
 in a subject so a detector's power can be measured instead of assumed; this
 module plants known corruptions in *departments* so the integrity audit's
 power can be measured instead of assumed. Every mutator below reproduces a
 sham mode from :data:`harness.integrity.SHAM_MODES`, and the tests assert
-that each catchable mode is actually caught — the audit's power measurement,
+that each catchable mode is actually caught, the audit's power measurement,
 in exactly the sense ``run_detector`` measures a department's.
 
 Every mutator takes a :class:`~harness.protocol.Department` and returns a
 new one with the corruption planted and everything else untouched. The
 corrupted bundle remains *structurally* admissible wherever the sham mode
-permits — that is the point: these are the batteries that validate and are
+permits, that is the point: these are the batteries that validate and are
 hollow, the class the structural audit cannot see.
 
 Like :mod:`harness.protocol`, this module is domain-agnostic and sits under
@@ -44,7 +44,7 @@ _ALIEN_VALUES: tuple[Any, ...] = (None, "elsewhere", (), {})
 
 
 # ---------------------------------------------------------------------------
-# Wrappers — the corrupted instruments themselves
+# Wrappers, the corrupted instruments themselves
 # ---------------------------------------------------------------------------
 
 
@@ -79,7 +79,7 @@ class _LeakySubject:
         return self.inner.name
 
     def describe(self) -> str:
-        return f"(planted) {self.inner.describe()} — payload leaks key {self.key!r}"
+        return f"(planted) {self.inner.describe()}, payload leaks key {self.key!r}"
 
     def payload(self) -> Any:
         payload = self.inner.payload()
@@ -151,7 +151,7 @@ def with_constant_detector(department: Department, *, value: bool = True) -> Dep
 def with_target_as_rival(department: Department) -> Department:
     """Replace every rival with the target wearing the rivals' names.
 
-    Structurally valid — the names differ, so the duplicate check passes —
+    Structurally valid, the names differ, so the duplicate check passes,
     and epistemically dead: nothing can ever distinguish the target from
     itself, so the battery's strictness is an artifact and its distinguishing
     reference claim stops distinguishing.
@@ -171,8 +171,8 @@ def with_inert_lesions(department: Department) -> Department:
 
 
 def without_hardest_lesion(department: Department) -> Department:
-    """Silently drop the smallest-magnitude lesion — the one the detectors
-    struggle with — leaving an easier battery under the same name. This is
+    """Silently drop the smallest-magnitude lesion, the one the detectors
+    struggle with, leaving an easier battery under the same name. This is
     the mode :data:`~harness.integrity.SHAM_MODES` records as mechanically
     uncatchable: no audit of the remaining battery can know what was meant
     to be there."""
@@ -185,7 +185,7 @@ def without_hardest_lesion(department: Department) -> Department:
 
 
 def with_leaked_label(department: Department, *, key: str = "virtual_tell") -> Department:
-    """Give every rival's payload a key the target's payload lacks — the
+    """Give every rival's payload a key the target's payload lacks, the
     431cc74 leak, reconstructed exactly."""
     battery = department.battery
     rivals = tuple(_LeakySubject(inner=rival, key=key) for rival in battery.rivals)
@@ -201,7 +201,7 @@ class _DistantSubject:
     are alien but comparable, so claims answer instead of raising and
     ``rivals-answer`` stays quiet; the target-only reference claim still fires
     only for the target, so ``calibration-rederived`` still re-derives. What
-    is gone is nearness — an arbitrary structural predicate now separates this
+    is gone is nearness, an arbitrary structural predicate now separates this
     rival from the target, which is the whole content of the
     ``distant-rivals`` mode.
     """
@@ -262,8 +262,8 @@ def with_detector_as_claim(department: Department) -> Department:
     """Replace the declared detectors with the distinguishing claim, negated.
 
     The corruption an independent party reached for unprompted on
-    2026-08-09: power and specificity both pass — the negated claim is quiet
-    on the clean probe and fires on every lesion — while the detector carries
+    2026-08-09: power and specificity both pass, the negated claim is quiet
+    on the clean probe and fires on every lesion, while the detector carries
     no information the claim did not already assert. Caught by
     ``detector-claim-agreement``, and only when the claim and the detector
     consume payloads of the same shape.

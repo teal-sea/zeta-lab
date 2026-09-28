@@ -79,7 +79,7 @@ private lemma abs_term_le (n k : ℕ) (t : ℝ) (ht : |t| ≤ 1) :
 
 /-- **Truncation bound for `sinh t / t`, uniform down to `t = 0`.**
 
-`sinhOverId t` is `sinh t / t` away from `0` and `1` at `0` — the removable
+`sinhOverId t` is `sinh t / t` away from `0` and `1` at `0`: the removable
 branch. The point of the statement is that the bound is uniform on `|t| ≤ 1`
 INCLUDING at `t = 0`, which is why it cannot be obtained by dividing the
 corresponding bound for `sinh` by `|t|`. -/

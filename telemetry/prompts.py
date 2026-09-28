@@ -1,4 +1,4 @@
-"""``telemetry.prompts`` — recovering what an agent was actually asked.
+"""``telemetry.prompts``, recovering what an agent was actually asked.
 
 A digest alone answers "did this change?" and not "what was it?". Both are
 needed: without the text the record cannot be audited, and without the digest
@@ -22,7 +22,7 @@ The consequence is stated rather than hidden: **the digest is public and
 durable, the text is local and mortal.** A clone of this repository can verify
 that a prompt has not changed and cannot read it. If prompt text needs to
 outlive one disk, it belongs in the operator's private store with
-``store="external"`` and a reference recorded here — the same arrangement
+``store="external"`` and a reference recorded here, the same arrangement
 ``conjectures/`` already uses.
 
 Nothing in this module writes outside ``<root>/prompts``.
@@ -50,7 +50,7 @@ __all__ = [
 ]
 
 #: Where the text actually is. ``absent`` is a real answer and is recorded as
-#: one — a run whose prompt was never captured says so instead of omitting the
+#: one, a run whose prompt was never captured says so instead of omitting the
 #: field, which would be indistinguishable from a capture bug.
 STORES: tuple[str, ...] = ("local-private", "external", "absent")
 
@@ -162,7 +162,7 @@ def missing_locally(root: Path | str, ref: PromptRef) -> bool:
     The store is gitignored by design, so **every fresh clone** is in this
     state: the digest travels, the text does not. Reporting that as a defect
     would make ``reconcile --strict`` fail on a clean checkout, and a guard
-    that fires on correct behaviour is one nobody reads — which this
+    that fires on correct behaviour is one nobody reads, which this
     repository has catalogued as a failure mode rather than tolerated.
 
     A *mismatching* digest is a different matter and stays a defect.
@@ -175,7 +175,7 @@ def missing_locally(root: Path | str, ref: PromptRef) -> bool:
 def verify_reasons(root: Path | str, ref: PromptRef) -> tuple[str, ...]:
     """Every reason this prompt is not recoverable-and-intact, at once.
 
-    An ``external`` or ``absent`` prompt is not a defect — it is a stated
+    An ``external`` or ``absent`` prompt is not a defect, it is a stated
     limitation, and it reports as one only when it lacks the fields that make
     it followable.
     """
@@ -187,10 +187,10 @@ def verify_reasons(root: Path | str, ref: PromptRef) -> tuple[str, ...]:
             reasons.append("store='absent' carries a digest; one of the two is wrong")
         return tuple(reasons)
     if not ref.digest:
-        reasons.append(f"store={ref.store!r} without a digest — integrity uncheckable")
+        reasons.append(f"store={ref.store!r} without a digest, integrity uncheckable")
     if ref.store == "external":
         if not ref.ref:
-            reasons.append("store='external' without a ref — the text is unfindable")
+            reasons.append("store='external' without a ref, the text is unfindable")
         return tuple(reasons)
 
     path = prompts_dir(root) / f"{ref.digest}.txt"
@@ -204,6 +204,6 @@ def verify_reasons(root: Path | str, ref: PromptRef) -> tuple[str, ...]:
     if actual != ref.digest:
         reasons.append(
             f"prompt store content hashes to {actual[:12]}… but the run record "
-            f"claims {ref.digest[:12]}… — the stored text is not the text that ran"
+            f"claims {ref.digest[:12]}…, the stored text is not the text that ran"
         )
     return tuple(reasons)

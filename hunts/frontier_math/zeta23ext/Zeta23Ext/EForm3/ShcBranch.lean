@@ -36,7 +36,7 @@ The truncation bound is now a tail estimate on the series above: on `|t| ≤ 1`
 each term is at most `1/(2n+1)!`, so the tail past `N` is at most
 `∑_{n≥N} 1/(2n+1)! ≤ 2/(2N+1)!`. That is standard analysis, and it is out to
 the theorem prover (`lean/ARISTOTLE-RUNS.md`, project `e7a77aa2`) with
-`shc_eq_tsum` supplied as a given — which turns its problem from "find a route
+`shc_eq_tsum` supplied as a given, which turns its problem from "find a route
 that survives `t = 0`" into "do a tail estimate", a much narrower ask.
 
 The identity is the part that could not be borrowed, and it is the part that is

@@ -1,10 +1,10 @@
-"""Department #6 (stateval) — the audits beyond structural conformance.
+"""Department #6 (stateval), the audits beyond structural conformance.
 
 Pinned here: the measured anatomy of each protocol sham (reported vs fresh),
 the null band that forced ``run_null_band`` into the protocol, the two
 detectors' power split (the direct scan full-power, the behavioral gap
 detector measurably blind below its floor), and the department's preserved
-false start — a "sham" rival that turned out to have genuine skill, caught
+false start, a "sham" rival that turned out to have genuine skill, caught
 by the calibration re-derivation before it shipped.
 """
 
@@ -81,7 +81,7 @@ def test_the_junk_pool_is_skill_free_by_construction() -> None:
     seed-hacked rival acquired genuine skill (selection on signal-bearing
     data is training; and in this task ~a third of unconstrained small
     random predictors genuinely beat the mean). The pool must have no
-    access to the signal at all — if this ever fails, the rival may be
+    access to the signal at all, if this ever fails, the rival may be
     quietly re-acquiring the property it exists to lack."""
     weights = S._junk_weights(12345)
     informative = S.W_TRUE != 0.0
@@ -105,7 +105,7 @@ def test_shuffled_labels_collapse_the_measured_improvement() -> None:
 
 
 # ---------------------------------------------------------------------------
-# 3. The null band — what this department forced into the protocol
+# 3. The null band, what this department forced into the protocol
 # ---------------------------------------------------------------------------
 
 
@@ -149,7 +149,7 @@ def test_the_gap_detector_is_blind_below_its_floor_and_says_so() -> None:
     """Two leaked rows of 64 move the generalization gap by ~0.08, under
     the 0.1 threshold: measured blindness, pinned like the compiler
     department's poison case. The power *difference* between the two
-    detectors is the measurement — the direct scan reads the violation,
+    detectors is the measurement, the direct scan reads the violation,
     the behavioral one reads its consequences, and consequences fade first."""
     verdict = run_detector(S.BATTERY, S.DETECTORS[1])
     assert verdict.false_alarm is False

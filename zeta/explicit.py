@@ -1,5 +1,5 @@
 """
-zeta.explicit — the explicit formula: **primes reconstructed from the zeros**.
+zeta.explicit, the explicit formula: **primes reconstructed from the zeros**.
 
 This is the payoff of the whole theory.  The zeros ρ = ½ + iγ of ζ(s) are not a
 curiosity attached to the primes; they *are* the primes, written in a different
@@ -24,7 +24,7 @@ basis.  Two dual statements are implemented here.
         ⟹  x^ρ/ρ + x^ρ̄/ρ̄ = 2 x^½ cos(γ log x − arg ρ) / |ρ| ,
 
     with |ρ| = √(¼ + γ²) and arg ρ = atan2(γ, ½) = arctan(2γ).  Every zero
-    contributes one pure harmonic in log x, of amplitude 2√x/|ρ| — the primes
+    contributes one pure harmonic in log x, of amplitude 2√x/|ρ|, the primes
     are the interference pattern of these waves.
 
 2.  **Zero side ← prime side ("the music of the primes").**  Differentiating the
@@ -200,7 +200,7 @@ def pi_true(x: float) -> int:
 
 def psi_staircase(x_grid: Sequence[float] | np.ndarray) -> np.ndarray:
     """
-    ψ(x) on a whole grid (vectorised) — the exact staircase to plot underneath
+    ψ(x) on a whole grid (vectorised), the exact staircase to plot underneath
     :func:`psi_curve`.  Jumps of size Λ(n) = log p at every prime power n ≤ x.
     """
     xg = np.asarray(x_grid, dtype=float)
@@ -235,7 +235,7 @@ def li(x: float, offset: bool = False) -> float:
     """
     Logarithmic integral.  Both conventions are exposed.
 
-    * **full li** (default, ``offset=False``) — the Cauchy principal value
+    * **full li** (default, ``offset=False``), the Cauchy principal value
 
           li(x) = PV ∫₀^x dt / log t = Ei(log x),        x > 0, x ≠ 1
 
@@ -328,7 +328,7 @@ def R(x: float, terms: int | None = None, dps: int = 30) -> float:
 
 
 def _R_mobius(x: float, n_terms: int = 40, dps: int = 30) -> float:
-    """Σ_{n=1}^{n_terms} μ(n)/n li(x^{1/n}) — the literal Möbius form (cross-check of R)."""
+    """Σ_{n=1}^{n_terms} μ(n)/n li(x^{1/n}), the literal Möbius form (cross-check of R)."""
     with mp.workdps(dps):
         L = mp.log(mp.mpf(float(x)))
         tot = mp.mpf(0)
@@ -396,8 +396,8 @@ def as_gammas(zeros: int | Iterable[float] | Iterable[complex] | np.ndarray) -> 
     After folding by |·| the ordinates are therefore de-duplicated: consecutive
     values within a relative 10⁻⁹ of each other collapse to one.  Real zeros are
     never that close: the notorious Lehmer pair γ₆₇₀₉ = 7005.0628662 and
-    γ₆₇₁₀ = 7005.1005647 is 0.0377 apart — 5.4·10³ times the 7·10⁻⁶ threshold
-    there — so no genuine zero is ever merged away.
+    γ₆₇₁₀ = 7005.1005647 is 0.0377 apart: 5.4·10³ times the 7·10⁻⁶ threshold
+    there, so no genuine zero is ever merged away.
     """
     if isinstance(zeros, (int, np.integer)) and not isinstance(zeros, bool):
         return first_zeros(int(zeros))
@@ -413,7 +413,7 @@ def as_gammas(zeros: int | Iterable[float] | Iterable[complex] | np.ndarray) -> 
 
 
 # ----------------------------------------------------------------------------
-# 4. ψ from the zeros — the von Mangoldt explicit formula
+# 4. ψ from the zeros, the von Mangoldt explicit formula
 # ----------------------------------------------------------------------------
 
 
@@ -424,7 +424,7 @@ def psi_curve(
     chunk: int = 4096,
 ) -> np.ndarray:
     """
-    Vectorised :func:`psi_from_zeros` — the reconstructed staircase on a grid:
+    Vectorised :func:`psi_from_zeros`, the reconstructed staircase on a grid:
 
         ψ₀(x) ≈ x − 2√x Σ_{γ>0} cos(γ log x − arg ρ)/|ρ| − log 2π − ½ log(1 − x⁻²)
 
@@ -482,8 +482,8 @@ def psi_from_zeros(
 
     What it converges to is ψ₀, the *normalised* ψ: equal to ψ(x) away from
     prime powers, and to ψ(x) − Λ(x)/2 (the midpoint of the jump) at a prime
-    power.  Convergence is conditional and slow — the tail beyond γ_N has
-    amplitude ~ 2√x/γ_N per zero — but it is real convergence; see
+    power.  Convergence is conditional and slow, the tail beyond γ_N has
+    amplitude ~ 2√x/γ_N per zero, but it is real convergence; see
     :func:`convergence_table`.
 
     **Honest accuracy.**  Over 179 equally spaced points of [10.25, 99.75]
@@ -496,7 +496,7 @@ def psi_from_zeros(
 
     The RMS falls monotonically, but the *max* barely moves: it is Gibbs
     overshoot pressed against the big jumps (at 500 zeros the worst points are
-    x ≈ 52.99, 59.02, 61.03, 67.07, 46.96 — right beside the primes 53, 59, 61,
+    x ≈ 52.99, 59.02, 61.03, 67.07, 46.96, right beside the primes 53, 59, 61,
     67, 47).  Away from a jump, 500 zeros give 0.01–0.10 at x ~ 100.
 
     Parameters
@@ -508,12 +508,12 @@ def psi_from_zeros(
 
 
 # ----------------------------------------------------------------------------
-# 5. π from the zeros — Riemann's formula
+# 5. π from the zeros: Riemann's formula
 # ----------------------------------------------------------------------------
 
 
 def _tail_integral(y: float, dps: int = 30) -> float:
-    """∫_y^∞ dt / ( t (t²−1) log t ) — the trivial-zero term of J₀(y), y > 1."""
+    """∫_y^∞ dt / ( t (t²−1) log t ), the trivial-zero term of J₀(y), y > 1."""
     with mp.workdps(dps):
         yv = mp.mpf(float(y))
         return float(mp.quad(lambda t: 1 / (t * (t * t - 1) * mp.log(t)), [yv, 2 * yv, mp.inf]))
@@ -547,7 +547,7 @@ def J_from_zeros(
     Like every truncation of an explicit formula this converges to the
     *normalised* J₀ (jumps halved) and only conditionally.  Measured |error| at
     y = 100 (J = 28.53333): 0.088 with 50 zeros, 0.082 with 100, 0.070 with 200,
-    0.012 with 500, 0.0074 with 1000 — non-monotone, roughly O(1/γ_N).
+    0.012 with 500, 0.0074 with 1000, non-monotone, roughly O(1/γ_N).
     """
     g = as_gammas(zeros)
     yv = float(y)
@@ -586,9 +586,9 @@ def pi_from_zeros(
     (tail integral), i.e. the headline formula with every constant kept.
 
     ``form``
-      * ``"mobius"`` (default) — the exact finite inversion above.  Nothing is
+      * ``"mobius"`` (default), the exact finite inversion above.  Nothing is
         dropped, so this is the accurate one.
-      * ``"R"`` — the literal headline R(x) − Σ_ρ R_N(x^ρ), with the *full* R(x)
+      * ``"R"``: the literal headline R(x) − Σ_ρ R_N(x^ρ), with the *full* R(x)
         from Gram's series and the −log 2 / tail bookkeeping discarded.  Kept
         because that is the form usually quoted.
 
@@ -607,7 +607,7 @@ def pi_from_zeros(
     ``terms`` overrides N and is clamped to ⌊log₂ x⌋: beyond that x^{1/n} < 2 and
     li(x^{1/n}) runs into its logarithmic singularity at 1.
 
-    Accuracy is limited by how many zeros you supply — the ρ-sum tail decays only
+    Accuracy is limited by how many zeros you supply, the ρ-sum tail decays only
     like 1/(γ log x).  Measured error of the default ``"mobius"`` form:
 
         zeros:        100        500       1000
@@ -679,7 +679,7 @@ def prime_spectrum(
     chunk: int = 2048,
 ) -> np.ndarray:
     """
-    "The music of the primes" — the **dual** of the explicit formula: read the
+    "The music of the primes", the **dual** of the explicit formula: read the
     primes straight off the zeros as a Fourier spectrum.
 
     Differentiate ψ₀(e^u) = e^u − Σ_ρ e^{ρu}/ρ − log 2π − ½ log(1 − e^{−2u})
@@ -691,7 +691,7 @@ def prime_spectrum(
 
         D(u) = −2 Σ_{γ>0} w(γ) cos(γ u)
 
-    is a spike train with a peak at every u = log p^k — and no peak anywhere
+    is a spike train with a peak at every u = log p^k, and no peak anywhere
     else.  Rearranging the display above, the *exact* statement is
 
         D(u) = Σ_{n≥2} (Λ(n)/√n) δ(u − log n) − e^{u/2} + e^{−u/2}/(e^{2u}−1),
@@ -718,7 +718,7 @@ def prime_spectrum(
     * at a non-prime-power u the value is not 0 but ≈ −e^{u/2}/W(0).  Measured
       with 500 zeros ('gauss', T = 811.18, W(0) = 154.45): u = log 6 → −0.0162
       (law: −0.0159), log 10 → −0.0196 (−0.0205), log 20 → −0.0326 (−0.0290),
-      log 100 → −0.0615 (−0.0647) — all within ~10 % of −√x/W(0).
+      log 100 → −0.0615 (−0.0647), all within ~10 % of −√x/W(0).
     * peak heights come out systematically **low**.  Relative deficit versus
       Λ(n)/√n, measured:
 
@@ -785,7 +785,7 @@ def spectrum_peaks(
     where ``x = e^u`` should land on a prime power and ``height`` approaches
     ``lambda_over_sqrt_n`` as the number of zeros grows.  ``height`` is the raw
     grid sample at the local maximum (only ``u`` is parabola-refined), and at
-    finite T it is systematically a few percent low — see the accuracy table in
+    finite T it is systematically a few percent low, see the accuracy table in
     :func:`prime_spectrum`.  Positions are far more accurate than heights.
     """
     from scipy.signal import find_peaks
@@ -843,13 +843,13 @@ def convergence_table(
         {'n_zeros': N, 'gamma_max': γ_N, 'psi_est': …, 'psi_true': ψ(x),
          'psi0_true': ψ₀(x), 'error': psi_est − ψ₀(x), 'abs_error': |…|}
 
-    The explicit formula converges to ψ₀ — ψ with the jumps halved,
-    ψ₀(x) = ψ(x) − Λ(x)/2 at a prime power — so ``error`` is measured against
+    The explicit formula converges to ψ₀, ψ with the jumps halved,
+    ψ₀(x) = ψ(x) − Λ(x)/2 at a prime power, so ``error`` is measured against
     ψ₀, which matters when x itself is a prime power.
 
     The omitted tail has amplitude ≈ 2√x Σ_{γ>γ_N} 1/|ρ|; since the zeros have
     density (1/2π)log(γ/2π), the residual oscillation shrinks only like
-    √x·log γ_N / γ_N per unit of γ.  Slow, but genuinely convergent — and *not*
+    √x·log γ_N / γ_N per unit of γ.  Slow, but genuinely convergent, and *not*
     monotone in N: at x = 63.7 the |error| runs 0.218 (N=0), 0.691 (1), 1.028
     (10), 0.058 (50), 0.334 (100), 0.058 (500), 0.018 (1000).
 

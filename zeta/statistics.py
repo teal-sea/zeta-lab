@@ -1,8 +1,8 @@
 """Zero statistics of ζ(s) and the random-matrix (GUE) connection.
 
 The Riemann zeros ρ = 1/2 + iγ are not just *there*; once you rescale them so
-that they have unit mean density, their local statistics are — to every test
-anyone has run — identical to the eigenvalue statistics of a large random
+that they have unit mean density, their local statistics are, to every test
+anyone has run, identical to the eigenvalue statistics of a large random
 Hermitian matrix drawn from the **Gaussian Unitary Ensemble**.  That empirical
 fact (Montgomery 1973 for the pair correlation, Odlyzko 1987 for the
 nearest-neighbour spacings) is the Montgomery–Odlyzko law, and it is the single
@@ -24,7 +24,7 @@ Unfolding
 Nearest-neighbour spacings
     sₙ = γ̃ₙ₊₁ − γ̃ₙ.  Uncorrelated ("Poisson") levels would give p(s) = e^{−s},
     which is *maximal* at s = 0.  GUE gives p(s) ∝ s² e^{−4s²/π} (Wigner
-    surmise) — quadratic level repulsion, p(0) = 0.  The zeros do the latter.
+    surmise), quadratic level repulsion, p(0) = 0.  The zeros do the latter.
 
 Pair correlation
     Montgomery: the density of differences γ̃ᵢ − γ̃ⱼ = r is 1 − (sin πr / πr)²,
@@ -43,7 +43,7 @@ What the numbers actually are, so nothing here has to be taken on trust
     Var(spacings): zeros 0.1542, GUE matrix 0.1815, GUE theory 0.1800
 
 The zeros are *not* a perfect GUE fit at this height and this module does not
-pretend otherwise — see ``level_repulsion_report`` for the honest reading of
+pretend otherwise, see ``level_repulsion_report`` for the honest reading of
 the 0.0287, and for the measured convergence towards GUE with height.
 
 Conventions
@@ -148,7 +148,7 @@ def riemann_siegel_theta(t: ArrayLike) -> NDArray[np.float64]:
     the continuous branch of log Γ directly (no unwrapping needed).
 
     Measured accuracy (this build, against ``mpmath.siegeltheta`` at 30 dps):
-    **relative error ≤ 2.6e-16 — i.e. float64 machine precision — for every
+    **relative error ≤ 2.6e-16, i.e. float64 machine precision, for every
     t ∈ {1, 5, 10, 14.13, 10², 10³, 10⁴, 10⁵, 10⁶}** (absolute error 9.3e-10 at
     t = 10⁶ simply because θ(10⁶) ≈ 5.5e6).  θ is odd, and that is reproduced
     exactly.
@@ -260,13 +260,13 @@ def riemann_siegel_z(t: ArrayLike, k_terms: int = 3, chunk: int = 20000) -> NDAr
     Honest caveats.  (i) The series is *asymptotic*: below t ≈ 50 adding C₃
     barely helps and the error is ~1e-5, which is why ``_polish_low_roots``
     hands the low roots to mpmath.  (ii) Above t ≈ 5·10⁴ the error stops
-    improving — it is no longer the truncation but float64 argument reduction
+    improving, it is no longer the truncation but float64 argument reduction
     in cos(θ(t) − t log n), whose argument reaches ~5·10⁵ so its ulp is ~6e-11.
     K = 2 and K = 3 are indistinguishable there (2.6e-10 vs 2.6e-10 at t = 10⁵).
     The resulting worst-case *ordinate* error is 5.4e-9 (see ``zero_ordinates``).
 
     Requires t ≳ 2π for N ≥ 1; for t < 2π the main sum is empty and only the
-    remainder survives — verified to still give the right sign and ~1e-4
+    remainder survives, verified to still give the right sign and ~1e-4
     accuracy on [5, 2π), which is all the zero scan needs there (Z < 0
     throughout, no zero below γ₁ = 14.13).
 
@@ -344,7 +344,7 @@ def _polish_low_roots(
 
     Measured residual error of the *unpolished* roots above the cutoff, against
     ``mpmath.zetazero``: 5.4e-9 at n = 100 (γ ≈ 236.5, the worst case in the
-    whole range — it sits just above the cutoff), 4.1e-9 at n = 250, 1.8e-9 at
+    whole range, it sits just above the cutoff), 4.1e-9 at n = 250, 1.8e-9 at
     n = 500, then ≤ 1.1e-11 for every n ≥ 1000 and ≤ 4e-12 for n ≥ 2000.  That
     is ~10⁻⁹ of a mean spacing, i.e. irrelevant to any statistic here.
 
@@ -403,7 +403,7 @@ def _roots_inside_intervals(
     """Find all roots of Z strictly inside each interval (aᵢ, bᵢ), vectorised.
 
     The endpoints are themselves zeros, so each interval is shrunk by
-    ``edge_frac`` of its length before sampling — otherwise the ~1e-5 truncation
+    ``edge_frac`` of its length before sampling, otherwise the ~1e-5 truncation
     noise of the Riemann–Siegel series at low t produces spurious sign flips
     immediately next to the known roots.
     """
@@ -443,8 +443,8 @@ def _find_zeros_by_scan(
     that both fall inside one grid cell, and such close pairs do occur.  A
     missed pair inflates the *unfolded* gap between its surviving neighbours
     from ≈1 to ≈3, so we re-scan every unfolded gap larger than
-    ``gap_threshold`` with ``refine_samples`` points — a ~10³× finer resolution
-    — and merge whatever we find.
+    ``gap_threshold`` with ``refine_samples`` points, a ~10³× finer resolution,
+    and merge whatever we find.
 
     How much this actually does, measured (count vs θ/π + 1 + backlunds):
 
@@ -454,11 +454,11 @@ def _find_zeros_by_scan(
                                       recovers exactly those 14
 
         T = 10⁴, samples_per_spacing = 6 / 4 / 3 / 2:
-              coarse alone misses 10 / 30 / 96 / 326 — refinement recovers
+              coarse alone misses 10 / 30 / 96 / 326, refinement recovers
               *all* of them in every case, restoring the exact count.
 
     So at the default ``samples_per_spacing`` = 14 this step is a no-op below
-    T ≈ 10⁴ — the earlier claim that it is "necessary, not cosmetic" is only
+    T ≈ 10⁴, the earlier claim that it is "necessary, not cosmetic" is only
     true from T ≈ 10⁵ up.  It is kept because it is what makes the scan robust
     when either the height or the sampling density changes, and
     ``tests/test_statistics.py`` exercises it with a deliberately crippled grid
@@ -515,9 +515,9 @@ def zero_ordinates(
     use_cache
         Read/write ``data/zeros_rs_scan_T<t_max>.npz``.
     source
-        ``"auto"`` (default) — cache if present, else the vectorised
+        ``"auto"`` (default), cache if present, else the vectorised
         Riemann–Siegel scan (a few seconds for T = 10⁴), then cache.
-        ``"zeta.zeros"`` — delegate to ``zeta.zeros.first_n_zeros`` (an mpmath
+        ``"zeta.zeros"``: delegate to ``zeta.zeros.first_n_zeros`` (an mpmath
         ``zetazero`` driver, ~0.1–0.2 s per zero; use only for small ``n``).
 
     Notes
@@ -530,8 +530,8 @@ def zero_ordinates(
 
     * T = 10⁴ → 10142 zeros in ≈5 s;  T = 10⁵ → 138069 zeros in ≈21 s.
     * **Completeness.**  N(T) from this list equals θ(T)/π + 1 + backlunds(T)
-      at 400 heights spaced 25 apart across [20, 10⁴] — 0 mismatches — and at
-      400 heights across [200, 10⁵] — 0 mismatches.  Independently, writing
+      at 400 heights spaced 25 apart across [20, 10⁴], 0 mismatches, and at
+      400 heights across [200, 10⁵]: 0 mismatches.  Independently, writing
       S(γₙ) = n − 1 − θ(γₙ)/π, a single missed or spurious zero would shift
       every later value by 1; the mean of S over consecutive blocks of 250
       stays inside [0.4965, 0.5036] for T = 10⁴ and [0.4966, 0.5028] for
@@ -603,7 +603,7 @@ def unfold(gammas: ArrayLike) -> NDArray[np.float64]:
 
     is just the first two terms of θ(T)/π  (θ(T)/π = that − 1/8 + 1/(8πT) + …).
     It differs by a constant plus O(1/T), so it gives the same *spacings* up to
-    O(1/T²) — but at the heights we work at (γ ~ 10–10⁴) the exact θ costs
+    O(1/T²), but at the heights we work at (γ ~ 10–10⁴) the exact θ costs
     nothing and removes a systematic bias, so we use θ/π.
 
     Returns
@@ -633,7 +633,7 @@ def wigner_surmise_gue(s: ArrayLike) -> NDArray[np.float64]:
         p(s) = (32/π²) s² exp(−4s²/π),      s ≥ 0
 
     Normalised so ∫₀^∞ p = 1 and ∫₀^∞ s·p = 1.  Note p(s) ~ s² as s → 0:
-    quadratic level repulsion, so P(s < ε) ~ ε³ — eigenvalues (and zeros)
+    quadratic level repulsion, so P(s < ε) ~ ε³, eigenvalues (and zeros)
     actively avoid one another.  This is the *exact* spacing law of a 2×2 GUE
     matrix and an astonishingly good (≲ 2%) approximation to the N → ∞ answer.
     """
@@ -660,7 +660,7 @@ def poisson_spacing(s: ArrayLike) -> NDArray[np.float64]:
 
     The null hypothesis: what one would see if the zeros were sprinkled at
     random with the right mean density and no interaction.  It is *maximal* at
-    s = 0 — random points clump.  The Riemann zeros emphatically do not.
+    s = 0, random points clump.  The Riemann zeros emphatically do not.
     """
     x = np.asarray(s, dtype=np.float64)
     return np.where(x >= 0.0, np.exp(-np.clip(x, 0.0, None)), 0.0)
@@ -745,7 +745,7 @@ def gue_spacing_exact(s: ArrayLike) -> NDArray[np.float64]:
     * max |p_exact − p_Wigner| = 0.00516, at s = 1.106;
     * max |F_exact − F_Wigner| = 0.00155;
     * the exact peak is at s = 0.88251 with height 0.93369, the Wigner peak at
-      s = 0.88623 with height 0.93680 — so the exact law's peak is slightly
+      s = 0.88623 with height 0.93680, so the exact law's peak is slightly
       **lower and slightly LEFT of** Wigner's (an earlier version of this
       docstring said "right"; it is left, by 0.0037);
     * the exact law has the fatter tail: p_exact/p_Wigner = 1.07, 1.15, 1.27,
@@ -757,7 +757,7 @@ def gue_spacing_exact(s: ArrayLike) -> NDArray[np.float64]:
 
     Source: Gaudin (1961); Mehta, *Random Matrices* 3rd ed. §6.  Computed here
     by the Nyström–Gauss–Legendre Fredholm-determinant method of Bornemann
-    (2010) — no tabulated constants.
+    (2010), no tabulated constants.
     """
     x = np.asarray(s, dtype=np.float64)
     spl = _gue_gap_spline()
@@ -788,7 +788,7 @@ def montgomery_prediction(r: ArrayLike) -> NDArray[np.float64]:
 
         R₂(r) = 1 − (sin πr / πr)²
 
-    R₂(0) = 0 — the *correlation hole*: no two zeros want to coincide.  R₂ → 1
+    R₂(0) = 0, the *correlation hole*: no two zeros want to coincide.  R₂ → 1
     with damped oscillations of period 1, and R₂(k) = 1 exactly at every
     non-zero integer k because sin(πk) = 0.
     """
@@ -811,7 +811,7 @@ def pair_correlation(
 
     Returns
     -------
-    (r_centres, R2_empirical) — compare against ``montgomery_prediction(r)``.
+    (r_centres, R2_empirical), compare against ``montgomery_prediction(r)``.
     """
     g = np.sort(unfold(gammas))
     if g.size < 3:
@@ -851,15 +851,15 @@ def form_factor(
         K_GUE(τ) = min(|τ|, 1),
 
     i.e. a linear "ramp" up to the Heisenberg time τ = 1 followed by a
-    "plateau".  A Poisson process instead gives K(τ) ≡ 1 for every τ > 0 — no
+    "plateau".  A Poisson process instead gives K(τ) ≡ 1 for every τ > 0, no
     ramp at all, which is what makes the ramp the signature of level repulsion.
 
     Caveats, stated honestly: K(τ) from one finite sample is (asymptotically)
     an exponential random variable with mean ≈ K_GUE(τ) and *unit relative
     variance*, so a single realisation is very noisy; pass ``smooth=k`` to
     boxcar-average over 2k+1 neighbouring τ values, which is the standard fix.
-    There is also a large disconnected contribution as τ → 0, and — this being
-    the zeta function and not a generic system — genuine arithmetic structure
+    There is also a large disconnected contribution as τ → 0, and, this being
+    the zeta function and not a generic system, genuine arithmetic structure
     (peaks near τ = log p / 2π · …) on top of the RMT curve.
 
     Parameters
@@ -964,7 +964,7 @@ def level_repulsion_report(gammas: ArrayLike) -> dict[str, Any]:
     Returns a dict holding, for each of three fully-specified null hypotheses
     (exact GUE / Gaudin, the GUE Wigner surmise, and Poisson), the KS statistic
     D = sup_s |F_emp(s) − F(s)| and its p-value; plus summary moments and the
-    observed fraction of very small spacings — the sharpest single signature of
+    observed fraction of very small spacings, the sharpest single signature of
     repulsion, since Poisson predicts ≈ 9.5% of spacings below 0.1 whereas GUE
     predicts ≈ 0.11%.
 
@@ -973,12 +973,12 @@ def level_repulsion_report(gammas: ArrayLike) -> dict[str, Any]:
     model-free and is the meaningful comparison.
 
     What this actually returns for the 10142 zeros below T = 10⁴ (measured):
-    D_GUE(Gaudin) = 0.0287, D_Wigner = 0.0273, D_Poisson = 0.3065 — a ratio of
-    10.7 — and 0.049 % of spacings below 0.1 against Poisson's 9.52 %.
+    D_GUE(Gaudin) = 0.0287, D_Wigner = 0.0273, D_Poisson = 0.3065, a ratio of
+    10.7, and 0.049 % of spacings below 0.1 against Poisson's 9.52 %.
 
     Do **not** read D_GUE = 0.029 as "GUE fits perfectly": with 10141 spacings
     the KS noise floor is ~0.014, so the residual is real, and the observed
-    variance is 0.1542 against the GUE value 0.1800 — 14 % low.  That is a
+    variance is 0.1542 against the GUE value 0.1800: 14 % low.  That is a
     genuine finite-height effect (the corrections to Montgomery–Odlyzko are
     O(1/log γ), and log(10⁴/2π) is only 7.4), not a numerical artefact: the
     variance climbs monotonically with height, 0.1442 in the lowest decile of
@@ -1038,7 +1038,7 @@ def compare_to_random_matrix(
     Draws enough independent GUE matrices to yield ~``n_zeros`` bulk eigenvalue
     spacings, unfolds them with the semicircle law, unfolds the first
     ``n_zeros`` zeta ordinates with θ/π, and compares the two spacing samples
-    with a **two-sample** KS test — no fitted parameters, no model in between.
+    with a **two-sample** KS test, no fitted parameters, no model in between.
     For contrast the same comparison is made against a Poisson (exponential)
     sample of the same size.
 

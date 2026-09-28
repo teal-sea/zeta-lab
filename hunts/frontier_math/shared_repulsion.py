@@ -9,7 +9,7 @@ atoms and many pairs might outrun it.  Every earlier search reached only
           + (1/400) sum_{a<b} phi_r(x_a - x_b)^2
           + sum_{p<q} kappa(t_p - t_q)
 
-normalised as `slack / (k Shq/2)` — the same normalisation as the earlier
+normalised as `slack / (k Shq/2)`, the same normalisation as the earlier
 `k <= 6` search, so the numbers compare directly.
 
 ## What the scan says
@@ -26,20 +26,20 @@ Five adversarial families at `(n, k)` up to `(400, 60)`, including
 | both free random | **+4.83** |
 
 **No degradation with `n/k`.**  Along the first family the margin is
-`24.51, 24.72, 24.91, 25.06` as `(n,k)` goes `(50,2) -> (400,16)` — flat,
+`24.51, 24.72, 24.91, 25.06` as `(n,k)` goes `(50,2) -> (400,16)`: flat,
 not falling.  The shared-`R` worry predicts the opposite.
 
 ## The adversary's actual preference is the reverse of the worry
 
 Annealing over both populations (`n <= 120`, `k <= 30`, 20 restarts,
 12000 iterations, best of 3 seeds) drives to a worst relative margin of
-**+0.2716**, at **`n = 5`, `k = 23`** — *few* atoms and *many* pairs.
-The configuration the shared-`R` argument fears — many atoms sharing one
-repulsion — is not what the adversary reaches for; it prefers to starve
+**+0.2716**, at **`n = 5`, `k = 23`**, *few* atoms and *many* pairs.
+The configuration the shared-`R` argument fears, many atoms sharing one
+repulsion, is not what the adversary reaches for; it prefers to starve
 the repulsion term of atoms entirely.  Every ladder rung below also puts
 `k` at or near its cap with `n` small until the damage is inflated past
 `x2`, at which point the optimum swings to large `n` (`n = 87` at `x2.5`,
-`n = 94` at `x3.0`) — i.e. the many-atom family only becomes the
+`n = 94` at `x3.0`), i.e. the many-atom family only becomes the
 adversary's best play once the inequality is already broken.
 
 ## The control, and why the earlier version of this scan was worthless
@@ -59,7 +59,7 @@ fire at `x2.0` (worst `+0.2651`); at 20 restarts and 12000 iterations on
 a single seed it still does not (`+0.0023`).  It fires only at 20
 restarts, 12000 iterations, best of 3 seeds.  Every number recorded here
 comes from that effort level and from **this module**, not from a
-scratch implementation — an earlier draft recorded `-0.5954` at `x2.0`
+scratch implementation, an earlier draft recorded `-0.5954` at `x2.0`
 from a scratchpad variant whose RNG consumption differs, which this
 module does not reproduce.
 
@@ -70,7 +70,7 @@ the specific mechanism the shared-`R` worry named.  It is **not** a
 proof, and two caveats are load-bearing:
 
 * the measured worst is an **upper bound** on the true worst, and it
-  drifts down as search effort rises — `0.343` (n<=24, k<=6), then
+  drifts down as search effort rises, `0.343` (n<=24, k<=6), then
   `0.3393`, then **`0.2716`** here at the highest effort run.  Nothing
   says it stops above zero, and the trend is the honest reason this is
   evidence rather than closure.
@@ -251,7 +251,7 @@ SCAN_RECORD = {
 }
 #: `damage_scale -> (worst relative margin, n, k)`, best of 3 seeds at
 #: 20 restarts x 12000 iterations.  Below that effort the ladder loses
-#: power — see `EFFORT_FLOOR`.
+#: power, see `EFFORT_FLOOR`.
 LADDER_RECORD = {1.0: 0.2716, 1.5: 0.1309, 2.0: -0.0895,
                  2.5: -1.2505, 3.0: -2.7047}
 #: Effort at which the `x2.0` rung stops firing, i.e. the scan stops

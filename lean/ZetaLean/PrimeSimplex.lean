@@ -48,7 +48,7 @@ noncomputable def distinctPrimeLogMass (X j : ℕ) : ℝ :=
 finite object to which a one-label insertion estimate applies.
 
 Naming trap, stated so nobody falls into it: nothing is deleted in this
-summand — the inner weight is `distinctPrimeLogWeight T`, not `T.erase p`,
+summand, the inner weight is `distinctPrimeLogWeight T`, not `T.erase p`,
 so this is the *marked* mass and equals `(j+1) · A_{j+1}(X)` exactly
 (`distinctPrimeDeletionMass_eq`).  The genuine deleted-weight comparison,
 `w(T)` against `w(T \ {p})`, is precisely the analytic hypothesis `hprime`

@@ -1,10 +1,10 @@
-"""``harness.integrity`` — the referee, refereed.
+"""``harness.integrity``, the referee, refereed.
 
 Two incidents forced this module into existence, and both are in the tree.
 
 The first is the sham battery that department #2 replaced (commit
 ``431cc74``): decoys, surrogates and lesions that were placeholders written
-to the conformance tests' shapes — a surrogate returning ``[1, 2, 3]`` — and
+to the conformance tests' shapes, a surrogate returning ``[1, 2, 3]``, and
 rivals whose payloads carried a field a claim could read as a label. It was
 structurally complete. It validated. It passed the conformance suite of its
 day. It could never have killed anything, and a human caught it, not a test.
@@ -13,7 +13,7 @@ The second is a measurement: the dossier resumption benchmark (ROADMAP,
 2026-08-09) ran blinded agents against planted failures from this
 repository's own incident history and found they caught *recorded
 contradictions* nearly everywhere while reliably missing *hollow
-verification* — a structurally admissible battery whose instruments are
+verification*, a structurally admissible battery whose instruments are
 placeholders, a battery PASS read as substantive truth, an instrument whose
 stated precondition never ran.
 
@@ -30,35 +30,35 @@ different measurements, and a report that shows one without the other is how
 a green result from a hollow referee gets believed. This module therefore
 produces two things and always pairs them:
 
-* a **claim outcome** — the harness's own vocabulary (distinguishes /
+* a **claim outcome**, the harness's own vocabulary (distinguishes /
   shared / does-not-fire / inconclusive), deliberately *not* a truth
   vocabulary, because per the honest-scope rule the harness adjudicates
   only whether a demonstration is about its subject;
-* a **battery integrity grade** — one of five, each with crisp semantics:
+* a **battery integrity grade**, one of five, each with crisp semantics:
 
-  - ``CALIBRATED`` — every mechanical check passed and detector power was
+  - ``CALIBRATED``: every mechanical check passed and detector power was
     measured; named blind spots may remain, and they travel with the grade.
-  - ``DETECTOR_INADEQUATE`` — the structure is present but no declared
+  - ``DETECTOR_INADEQUATE``: the structure is present but no declared
     detector carries information: each one either fires on the clean probe
     (an alarm that is always on) or notices no planted violation at all.
-  - ``UNMEASURED`` — the audit could not run a load-bearing measurement
+  - ``UNMEASURED``: the audit could not run a load-bearing measurement
     (typically: no declared detectors on a bundle that bypassed admission).
-  - ``CONTAMINATED`` — the provenance record *declares* a condition under
+  - ``CONTAMINATED``: the provenance record *declares* a condition under
     which the pass probability cannot be taken at face value (criteria
     authored after results were visible, thresholds unfrozen, tests edited
     after failures). Nothing mechanical can restore a contaminated pass.
-  - ``HOLLOW`` — a mechanical check failed: the battery could not kill
+  - ``HOLLOW``, a mechanical check failed: the battery could not kill
     anything, or an instrument is measurably empty. A claim verdict from a
     hollow battery is worthless whatever colour it is.
 
 There is deliberately no scalar score. A number would invite exactly the
-misreading — "integrity 0.87" — that a named failing check makes impossible.
+misreading, "integrity 0.87", that a named failing check makes impossible.
 
 What this audit cannot see
 --------------------------
 :data:`SHAM_MODES` is the catalog of known ways a battery can be hollow,
 and for each mode it records either the check that catches it or the fact
-that no mechanical check can — with the countermeasure named. The entries
+that no mechanical check can, with the countermeasure named. The entries
 with ``caught_by=None`` are the audit's own declared blind spots; they are
 printed on every report, because an audit that hides its own limits is the
 thing this module exists to prevent.
@@ -117,7 +117,7 @@ __all__ = [
 
 PASS: Final = "pass"
 FAIL: Final = "fail"
-#: The audit could not decide — the measurement did not run, or is not
+#: The audit could not decide, the measurement did not run, or is not
 #: mechanically decidable for this department's shapes. Unknown is never
 #: silently treated as pass.
 UNKNOWN: Final = "unknown"
@@ -137,7 +137,7 @@ _HISTORICAL_DECOY_PROBE: Final = tuple(range(2, 60))
 _HISTORICAL_LESION_PROBE: Final = ()
 
 #: Checks whose failure means the battery could not kill anything or an
-#: instrument is measurably empty — the HOLLOW class.
+#: instrument is measurably empty, the HOLLOW class.
 _HOLLOW_CHECKS: Final = (
     "structural",
     "teeth-always-true",
@@ -187,7 +187,7 @@ class CheckResult:
 
 
 # ---------------------------------------------------------------------------
-# The sham catalog — what the audit catches, and what it admits it cannot
+# The sham catalog, what the audit catches, and what it admits it cannot
 # ---------------------------------------------------------------------------
 
 
@@ -323,7 +323,7 @@ SHAM_MODES: Final[tuple[ShamMode, ...]] = (
     ShamMode(
         name="distant-rivals",
         description=(
-            "rivals that do not share the structure the claim leans on — they "
+            "rivals that do not share the structure the claim leans on, they "
             "differ from the target in gross, arbitrary ways, so the modus "
             "tollens never bites and any claim of the form 'anything AND a "
             "target-only property' distinguishes"
@@ -352,7 +352,7 @@ SHAM_MODES: Final[tuple[ShamMode, ...]] = (
         caught_by="detector-claim-agreement",
         countermeasure=(
             "compare the detector and the claim on the same payloads and treat "
-            "agreement everywhere as a finding, not a comfort — which is what "
+            "agreement everywhere as a finding, not a comfort, which is what "
             "``detector-claim-agreement`` now does, flagging a pair whose "
             "outcome vectors are identical or exactly complementary; better "
             "still, have the lesion family authored by a party that has not "
@@ -394,7 +394,7 @@ SHAM_MODES: Final[tuple[ShamMode, ...]] = (
             "measured, not argued: six independent parties given only the "
             "public contract reached CALIBRATED this way, six for six "
             "(docs/23 §8.2). The obvious mechanical fix was tried and "
-            "*inverts* — comparing payload values leaf by leaf scores this "
+            "*inverts*, comparing payload values leaf by leaf scores this "
             "repository's own honest departments more separated than the "
             "sham, because a genuine rival differs from its target in its "
             "numbers too (§8.3). Which differences are load-bearing is the "
@@ -408,7 +408,7 @@ SHAM_MODES: Final[tuple[ShamMode, ...]] = (
         description=(
             "a department whose detectors and claims consume different payload "
             "shapes, so ``detector-claim-agreement`` never finds a payload both "
-            "answered and reports UNKNOWN — the residue that check leaves "
+            "answered and reports UNKNOWN, the residue that check leaves "
             "behind, and an evasion an author can choose deliberately"
         ),
         caught_by=None,
@@ -416,7 +416,7 @@ SHAM_MODES: Final[tuple[ShamMode, ...]] = (
             "partial and structural: a detector consuming a different shape "
             "cannot literally *be* the claim, so the disjointness that blinds "
             "the check also raises the cost of the mode it looks for. That is "
-            "a mitigation, not a closure — the author picks both shapes. The "
+            "a mitigation, not a closure, the author picks both shapes. The "
             "real countermeasure is the same as for co-designed calibration: "
             "a lesion family and a detector authored by a party that has not "
             "seen the claim"
@@ -441,7 +441,7 @@ AUDIT_BLIND_SPOTS: Final[tuple[ShamMode, ...]] = tuple(
 class IntegrityReport:
     """Every integrity check run against one department, with its grade.
 
-    ``unseen_lesions`` are planted violations no declared detector notices —
+    ``unseen_lesions`` are planted violations no declared detector notices,
     a *measured* limit of the department's power, reported loudly and not
     treated as a defect: a battery whose lesions are all easy would report
     power the detectors do not have (department #1 plants one below its
@@ -483,7 +483,7 @@ class IntegrityReport:
         ``payload-symmetry`` returns ``UNKNOWN`` for any payload that is not a
         mapping, so a battery of callable payloads sidestepped it for free and
         still reached ``CALIBRATED``. That contradicted the safe-failure rule
-        the numeric arm has obeyed from the start — ``proven_sign`` returns 0
+        the numeric arm has obeyed from the start, ``proven_sign`` returns 0
         for "not decided" and ``certified`` is False whenever a step could not
         be closed. Undecided is not passed there and is not passed here.
         """
@@ -555,7 +555,7 @@ class IntegrityReport:
                 "  provenance undeclared: " + ", ".join(self.provenance_unknowns)
             )
         for mode in AUDIT_BLIND_SPOTS:
-            lines.append(f"  audit blind spot: {mode.name} — {mode.countermeasure}")
+            lines.append(f"  audit blind spot: {mode.name}, {mode.countermeasure}")
         return "\n".join(lines)
 
 
@@ -595,7 +595,7 @@ class ClaimReport:
         grade = self.integrity.grade
         if self.dangerous:
             return (
-                f"{self.claim}: {status} — but battery integrity is {grade}; "
+                f"{self.claim}: {status}, but battery integrity is {grade}; "
                 "this outcome is worth nothing until the referee is repaired"
             )
         return f"{self.claim}: {status} (battery integrity {grade})"
@@ -619,7 +619,7 @@ class ClaimReport:
     def render_text(self) -> str:
         lines = [f"claim {self.claim!r} [{self.department}]"]
         if self.dangerous:
-            lines.append("  !! DANGER: outcome without integrity — do not act on this verdict")
+            lines.append("  !! DANGER: outcome without integrity, do not act on this verdict")
         lines.append(f"  outcome: {self.verdict.summary()}")
         if self.scope:
             lines.append(f"  scope of a pass: {self.scope}")
@@ -692,7 +692,7 @@ def _lesion_probes(lesion: Any, battery: Battery) -> list[Any]:
 
 
 def _moves_any(instrument: Callable[[Any], Any], probes: Sequence[Any]) -> tuple[bool, str]:
-    """``(moved, why)`` — did the instrument change *any* candidate probe?"""
+    """``(moved, why)``, did the instrument change *any* candidate probe?"""
     reasons: list[str] = []
     for index, probe in enumerate(probes):
         try:
@@ -712,12 +712,12 @@ def payloads_same(before: Any, after: Any) -> bool:
     The first draft compared with ``list(after) != list(before)``, which
     encodes two earlier departments' habits: on mappings it compares *keys
     only* (a lesion that changes a value "plants nothing"), and on array
-    payloads elementwise comparison raises. Department #6 exposed both —
+    payloads elementwise comparison raises. Department #6 exposed both,
     the probe convention's lesson repeated one layer down: the reusable
     audit had payload shapes baked in, and nobody could know which until a
     foreign shape arrived. This walks structure instead: mappings by key
     and value, sized non-strings elementwise, scalars by ``==`` with a
-    raise treated as inequality (never as sameness — that would be the
+    raise treated as inequality (never as sameness, that would be the
     flattering direction).
     """
     if isinstance(before, Mapping) and isinstance(after, Mapping):
@@ -745,14 +745,14 @@ def _differs(before: Any, after: Any) -> bool:
 
 
 def _feature_names(payload: Any) -> tuple[str, ...]:
-    """The named fields a payload exposes — the surface a label leak hides on.
+    """The named fields a payload exposes, the surface a label leak hides on.
 
     The first version of ``payload-symmetry`` understood mappings and returned
     ``UNKNOWN`` for everything else, which was a hole in two directions at
     once. An author could sidestep the check for free by handing out callable
     payloads (``UNKNOWN`` did not stop the top grade until 2026-08-09), and
-    two departments that were never trying to sidestep anything — one whose
-    payloads are department bundles, one whose payloads are plain functions —
+    two departments that were never trying to sidestep anything, one whose
+    payloads are department bundles, one whose payloads are plain functions,
     went unmeasured for the same reason.
 
     Mappings expose their keys. Objects expose their public attributes, which
@@ -760,7 +760,7 @@ def _feature_names(payload: Any) -> tuple[str, ...]:
     method sets are an asymmetry an ``isinstance`` claim reads just as easily
     as a leaked key. Numbers, strings, tuples and bare callables expose no
     names at all, and a payload with no names cannot carry a *named*-field
-    leak — so the empty tuple is a decision, not an absence of one. What
+    leak, so the empty tuple is a decision, not an absence of one. What
     remains invisible here is identity hidden in a shared field's *value*,
     which is a declared blind spot, and positional asymmetry, which is
     ``rival-separator-abundance``'s business.
@@ -777,7 +777,7 @@ def _feature_names(payload: Any) -> tuple[str, ...]:
 
 
 # ---------------------------------------------------------------------------
-# Structural predicates — the observable consequence of rival nearness
+# Structural predicates, the observable consequence of rival nearness
 # ---------------------------------------------------------------------------
 #
 # Nearness is the department's substantive judgment and no check knows it. Its
@@ -785,13 +785,13 @@ def _feature_names(payload: Any) -> tuple[str, ...]:
 # on should not be separable from the target by an arbitrary structural
 # predicate. Only the claim's own property should separate them. So generate a
 # family of arbitrary, domain-blind predicates from the payloads themselves and
-# count how many of them separate — the fraction is a distance, and a rival
+# count how many of them separate, the fraction is a distance, and a rival
 # almost everything separates is a rival the modus tollens never reaches.
 #
 # The family sees *structure*, never substance. Two payloads holding different
 # numbers score zero distance, which is correct: the difference in their values
 # is what the department's claims are for. What the family sees is the gross
-# kind of difference the recorded incident used — a rival of another type,
+# kind of difference the recorded incident used, a rival of another type,
 # another length, another key set, another value shape.
 
 
@@ -902,7 +902,7 @@ class _AuditSentinel:
     """A value equal to nothing honest.
 
     Handed to a payload's ``__eq__`` to find out whether the payload is
-    *agreeable* — whether it answers "yes, that is me" to an arbitrary object
+    *agreeable*, whether it answers "yes, that is me" to an arbitrary object
     it has never seen. Nothing a department legitimately computes compares
     equal to this.
     """
@@ -926,7 +926,7 @@ _UNDECLARED_TOKENS: Final = (
 
 
 def _absent_field_signature(payload: Any, token: str) -> tuple:
-    """How ``payload`` answers a name nobody declared — by item and by attribute.
+    """How ``payload`` answers a name nobody declared, by item and by attribute.
 
     An honest payload raises both ways, and its signature is the same as every
     other honest payload's. A payload with a permissive ``__missing__`` or
@@ -956,7 +956,7 @@ def _absent_field_signature(payload: Any, token: str) -> tuple:
 
 
 def _answer(probe: Callable[[Any], Any], value: Any) -> tuple[bool, bool]:
-    """``(outcome, ran)`` — a probe that raises did not answer, and an
+    """``(outcome, ran)``, a probe that raises did not answer, and an
     unanswered probe is never counted as agreement or as difference."""
     try:
         return bool(probe(value)), True
@@ -990,7 +990,7 @@ def audit_department(department: Department) -> IntegrityReport:
     The checks deliberately re-derive everything the conformance suite pins,
     in independent code: the suite and this audit are two expressions of the
     same requirements, in the same sense the laboratory keeps two numeric
-    backends — where one has a bug the other is the cross-check. The audit
+    backends, where one has a bug the other is the cross-check. The audit
     additionally measures what the suite cannot: declared detector power and
     specificity, payload symmetry, and the provenance record.
     """
@@ -1181,7 +1181,7 @@ def audit_department(department: Department) -> IntegrityReport:
             missing = sorted(set(target_names) - set(rival_names))
             if extra or missing:
                 asymmetries.append(
-                    f"{rival.name}: extra field(s) {extra}, missing field(s) {missing} — "
+                    f"{rival.name}: extra field(s) {extra}, missing field(s) {missing}, "
                     "a claim can read identity from the difference (the 431cc74 leak)"
                 )
         if asymmetries:
@@ -1264,7 +1264,7 @@ def audit_department(department: Department) -> IntegrityReport:
                 "undeclared-field-symmetry",
                 FAIL,
                 "; ".join(asymmetric)
-                + " — identity lives outside the declared key set, where payload-symmetry "
+                + ", identity lives outside the declared key set, where payload-symmetry "
                 "cannot see it",
             )
         return CheckResult(
@@ -1344,7 +1344,7 @@ def audit_department(department: Department) -> IntegrityReport:
             return CheckResult(
                 "detector-specificity",
                 FAIL,
-                f"detector(s) fire on the clean probe: {', '.join(alarms)} — an alarm "
+                f"detector(s) fire on the clean probe: {', '.join(alarms)}, an alarm "
                 "that is always on has perfect sensitivity and no information",
             )
         return CheckResult(
@@ -1478,7 +1478,7 @@ def audit_department(department: Department) -> IntegrityReport:
                 "detector-claim-agreement",
                 FAIL,
                 "; ".join(flagged)
-                + " — the detector's alarms carry no information the claim did not "
+                + ", the detector's alarms carry no information the claim did not "
                 "already assert, so the power measured for it is the claim measuring "
                 "itself",
             )
@@ -1554,7 +1554,7 @@ def report_claim(
     department: Department, claim: ClaimOutcome, *, name: str = ""
 ) -> ClaimReport:
     """Run ``claim`` through the department's battery and pair the outcome
-    with a fresh integrity audit of that battery. The pairing is mandatory —
+    with a fresh integrity audit of that battery. The pairing is mandatory,
     there is deliberately no way to get the outcome alone from this module."""
     verdict = run_battery(department.battery, claim, name=name)
     integrity = audit_department(department)

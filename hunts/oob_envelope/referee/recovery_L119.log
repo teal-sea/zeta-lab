@@ -1,0 +1,31 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-FVMNKBGAo7mB4bKo3LquLq
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/run_l119_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/frozen_envelope_L119.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/assembly_l119_frozen.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/independent.py
+└── 🔨 Created function execute.
+    └── ⚠ Non-preemptible functions are billed at 3.0x the list rate for CPU and
+        Memory.
+{"unit": "panels_0920_0930", "status": "completed", "elapsed_s": 64.9348349571228}
+{"unit": "panels_0940_0950", "status": "completed", "elapsed_s": 65.73617100715637}
+{"unit": "panels_0810_0820", "status": "completed", "elapsed_s": 66.71758913993835}
+[modal-client] 2026-09-28T11:50:58+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=67.05, time_since_heartbeat_success=67.05, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0960_0970", "status": "completed", "elapsed_s": 66.40306568145752}
+{"unit": "panels_0900_0910", "status": "completed", "elapsed_s": 78.49500584602356}
+{"unit": "panels_0980_0990", "status": "completed", "elapsed_s": 77.14346170425415}
+{"unit": "panels_0930_0940", "status": "completed", "elapsed_s": 80.22022414207458}
+{"unit": "panels_0970_0980", "status": "completed", "elapsed_s": 84.45900678634644}
+{"unit": "panels_0950_0960", "status": "completed", "elapsed_s": 90.94545936584473}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-FVMNKBGAo7mB4bKo3LquLq

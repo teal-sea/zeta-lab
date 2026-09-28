@@ -20,8 +20,8 @@ The repository under test is never written to.
 
 Two things are recorded per mutant, not one:
 
-* **fired** — the guard's exit code, which is all CI sees;
-* **why it fired** — the probe regenerates ``CONTEXT.md`` in the sandbox and
+* **fired**: the guard's exit code, which is all CI sees;
+* **why it fired**: the probe regenerates ``CONTEXT.md`` in the sandbox and
   diffs it against the baseline, reporting how many lines moved and whether the
   mutant's own token appears among them.
 
@@ -295,8 +295,8 @@ MUTANTS: list[Mutant] = [
         "change a document's H1 title in place (docs/00-orientation.md)",
         True,
         "the index carries titles, not just filenames",
-        lambda r: _replace(r, "docs/00-orientation.md", "# 00 — Orientation", "# 00 — MUTANT"),
-        token="00 — MUTANT",
+        lambda r: _replace(r, "docs/00-orientation.md", "# 00, Orientation", "# 00, MUTANT"),
+        token="00: MUTANT",
         line_count_changes=False,
     ),
     Mutant(
@@ -326,7 +326,7 @@ MUTANTS: list[Mutant] = [
         "artifact",
         "hand-edit CONTEXT.md itself (one phrase) with the tree untouched",
         True,
-        "'do not edit by hand — regenerate' is a claim the guard should back",
+        "'do not edit by hand, regenerate' is a claim the guard should back",
         lambda r: _replace(r, "CONTEXT.md", "machine-readable index", "MUTANT index"),
         token="",
     ),
@@ -393,7 +393,7 @@ MUTANTS: list[Mutant] = [
     Mutant(
         "B08",
         "boundary: the line-count tell, isolated from any symbol",
-        "add one blank line to the end of zeta/core.py — no symbol of any kind",
+        "add one blank line to the end of zeta/core.py, no symbol of any kind",
         True,
         "CONTEXT.md records a per-module line count, so file length alone is "
         "enough to make the artifact stale",
@@ -498,7 +498,7 @@ def main() -> int:
         root.mkdir()
         build_sandbox(root)
 
-        # Control 1 — the unmutated sandbox must reproduce the committed
+        # Control 1, the unmutated sandbox must reproduce the committed
         # artifact, or every "fired" below is an artefact of the copy.
         rc0, msg0 = run_guard(root)
         print(f"[control 1] unmutated sandbox: exit={rc0}  {msg0}")

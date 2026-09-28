@@ -1,0 +1,302 @@
+{
+ "theorem_quoted": "UPPER_BOUND.md Section 7, paragraph after (31): using (SW) with q=1, for every fixed H, max_{t<=N}|Delta(t)| <<_H N L^{-H}, and (29) only gives T_N <<_H N^3 L^{-2H}, where T_N = sum_{t=1}^{N} Delta(t)^2 + sum_{t=1}^{N-1} [Delta(N)-Delta(t)]^2 and L = log N. Proved from (SW) (Siegel-Walfisz) alone: 'No RH estimate is used in (1), (13), (26), (29), or (30).'",
+ "what_is_compared": "delta_sq_probe.py measures S(N) = sum_{t=1}^{N} Delta(t)^2, the leading of T_N's two non-negative summands, not T_N itself; the second summand, sum_{t=1}^{N-1} [Delta(N)-Delta(t)]^2, is not measured anywhere in this hunt. Because both summands are sums of squares, S(N) <= T_N for every N, so a convention-bound exceeded by measured S(N) is also exceeded by T_N, but a convention-bound that exceeds measured S(N) says nothing about whether it would still exceed T_N, since the unmeasured second summand could push T_N past it.",
+ "source_measured_S_N": "hunts/prime_pair_error/results_delta_sq.json, key 'rows'",
+ "constant_convention": "The O_H notation in UPPER_BOUND.md Section 7 asserts an H-dependent constant c(H) exists but the proof (via (SW) and (29)) does not name it and does not state whether it is effectively computable. This script evaluates the bound at H in {1, 2, 4, 8} under the explicit, stated convention c(H) = 1 for every H. This is a labeled convention chosen for its simplicity, not a value derived, fit, or suggested by UPPER_BOUND.md's proof, and it is not tuned or rescaled after seeing the measured S(N) below.",
+ "H_values": [
+  1,
+  2,
+  4,
+  8
+ ],
+ "rows": [
+  {
+   "N": 100000,
+   "L_log_N": 11.512925464970229,
+   "measured_S_N": 216216658.20098644,
+   "per_H": [
+    {
+     "H": 1,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 7544467880464.558,
+     "ratio_measured_S_N_over_convention_bound": 2.865896728924409e-05,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 2,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 56918995599.36136,
+     "ratio_measured_S_N_over_convention_bound": 0.003798673112977637,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 4,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 3239772.060040118,
+     "ratio_measured_S_N_over_convention_bound": 66.73823163914471,
+     "convention_bound_exceeds_measured_S_N": false
+    },
+    {
+     "H": 8,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 0.010496123001016593,
+     "ratio_measured_S_N_over_convention_bound": 20599668866.308537,
+     "convention_bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 250000,
+   "L_log_N": 12.429216196844383,
+   "measured_S_N": 1225117860.5391884,
+   "per_H": [
+    {
+     "H": 1,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 101142233866570.0,
+     "ratio_measured_S_N_over_convention_bound": 1.2112821852001037e-05,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 2,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 654704094177.2762,
+     "ratio_measured_S_N_over_convention_bound": 0.0018712543138724583,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 4,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 27432796.859679222,
+     "ratio_measured_S_N_over_convention_bound": 44.65887553521271,
+     "convention_bound_exceeds_measured_S_N": false
+    },
+    {
+     "H": 8,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 0.04816373398684327,
+     "ratio_measured_S_N_over_convention_bound": 25436521613.41664,
+     "convention_bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 500000,
+   "L_log_N": 13.122363377404328,
+   "measured_S_N": 6690479063.793755,
+   "per_H": [
+    {
+     "H": 1,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 725915205195191.0,
+     "ratio_measured_S_N_over_convention_bound": 9.21661237553876e-06,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 2,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 4215623081068.609,
+     "ratio_measured_S_N_over_convention_bound": 0.0015870676612050904,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 4,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 142171823.69310716,
+     "ratio_measured_S_N_over_convention_bound": 47.059107001650744,
+     "convention_bound_exceeds_measured_S_N": false
+    },
+    {
+     "H": 8,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 0.16170261961779156,
+     "ratio_measured_S_N_over_convention_bound": 41375205173.59402,
+     "convention_bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 1000000,
+   "L_log_N": 13.815510557964274,
+   "measured_S_N": 21919586338.957104,
+   "per_H": [
+    {
+     "H": 1,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 5239213805878165.0,
+     "ratio_measured_S_N_over_convention_bound": 4.183754882147452e-06,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 2,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 27449361303704.367,
+     "ratio_measured_S_N_over_convention_bound": 0.0007985463157570444,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 4,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 753467435.9813027,
+     "ratio_measured_S_N_over_convention_bound": 29.091617357569568,
+     "convention_bound_exceeds_measured_S_N": false
+    },
+    {
+     "H": 8,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 0.5677131770842385,
+     "ratio_measured_S_N_over_convention_bound": 38610318068.598625,
+     "convention_bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 2000000,
+   "L_log_N": 14.508657738524219,
+   "measured_S_N": 88319299865.97505,
+   "per_H": [
+    {
+     "H": 1,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 3.800454308114029e+16,
+     "ratio_measured_S_N_over_convention_bound": 2.323914266707851e-06,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 2,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 180543161850781.06,
+     "ratio_measured_S_N_over_convention_bound": 0.0004891866241877993,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 4,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 4074479161.384666,
+     "ratio_measured_S_N_over_convention_bound": 21.67621832577019,
+     "convention_bound_exceeds_measured_S_N": false
+    },
+    {
+     "H": 8,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 2.0751725545697357,
+     "ratio_measured_S_N_over_convention_bound": 42559978769.711075,
+     "convention_bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 4000000,
+   "L_log_N": 15.201804919084164,
+   "measured_S_N": 415417883132.62775,
+   "per_H": [
+    {
+     "H": 1,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 2.7694253544072544e+17,
+     "ratio_measured_S_N_over_convention_bound": 1.5000147321953744e-06,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 2,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 1198393249005272.8,
+     "ratio_measured_S_N_over_convention_bound": 0.00034664571373165334,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 4,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 22439787175.95959,
+     "ratio_measured_S_N_over_convention_bound": 18.51255895945739,
+     "convention_bound_exceeds_measured_S_N": false
+    },
+    {
+     "H": 8,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 7.867875757849382,
+     "ratio_measured_S_N_over_convention_bound": 52799242885.627205,
+     "convention_bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 7000000,
+   "L_log_N": 15.761420707019587,
+   "measured_S_N": 1247241323992.7793,
+   "per_H": [
+    {
+     "H": 1,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 1.3807129465027008e+18,
+     "ratio_measured_S_N_over_convention_bound": 9.033313746727727e-07,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 2,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 5557924899825568.0,
+     "ratio_measured_S_N_over_convention_bound": 0.0002244077324671881,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 4,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 90059851872.01472,
+     "ratio_measured_S_N_over_convention_bound": 13.849027042208007,
+     "convention_bound_exceeds_measured_S_N": false
+    },
+    {
+     "H": 8,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 23.64657993938552,
+     "ratio_measured_S_N_over_convention_bound": 52745104247.20599,
+     "convention_bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 10000000,
+   "L_log_N": 16.11809565095832,
+   "measured_S_N": 1987607563381.0564,
+   "per_H": [
+    {
+     "H": 1,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 3.8492183063594675e+18,
+     "ratio_measured_S_N_over_convention_bound": 5.163665464484672e-07,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 2,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 1.4816481570012848e+16,
+     "ratio_measured_S_N_over_convention_bound": 0.00013414841802953983,
+     "convention_bound_exceeds_measured_S_N": true
+    },
+    {
+     "H": 4,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 219528126114.5304,
+     "ratio_measured_S_N_over_convention_bound": 9.053999587934797,
+     "convention_bound_exceeds_measured_S_N": false
+    },
+    {
+     "H": 8,
+     "bound_true_constant_named": false,
+     "bound_evaluated_under_convention_constant_1": 48.19259815535717,
+     "ratio_measured_S_N_over_convention_bound": 41243004931.45566,
+     "convention_bound_exceeds_measured_S_N": false
+    }
+   ]
+  }
+ ],
+ "convention_bound_exceeds_measured_S_N_at_every_cutoff_by_H": {
+  "1": true,
+  "2": true,
+  "4": false,
+  "8": false
+ },
+ "verdict": "The theorem as stated -- O_H(N^3 L^{-2H}) with an implied constant that UPPER_BOUND.md's proof does not name -- cannot be evaluated to an absolute number at these cutoffs, or at any N, without assuming a value for that constant; no such value is derivable from the proof in Section 7, which only shows a constant exists for each fixed H, via (SW) and (29). Under the explicit, labeled convention of an assumed constant equal to 1 (not a value the proof produces), the convention-bound comfortably exceeds the measured S(N) -- the leading half of T_N -- at every ladder cutoff for H = 1 and H = 2, so the convention-bound binds there and is not vacuous. At H = 4 and H = 8, the convention-bound is smaller than the measured S(N) at every cutoff, so under that same convention it is violated there, and since S(N) <= T_N termwise this violation would carry over to T_N as well; the more likely reading is not that Section 7's proved statement fails, but that the labeled convention constant of 1 is too small for those H, which is expected of an unstated, unfit placeholder rather than a derived constant, and is exactly why the true, constant-unnamed bound cannot be evaluated on its own terms here.",
+ "what_this_is_not": "This is not a claim that UPPER_BOUND.md Section 7's proved statement is false, weak, or wrongly established, and the proof itself is not touched or re-derived here. The true O_H(N^3 L^{-2H}) bound, with its actual unnamed constant, cannot be evaluated to a number at these cutoffs; only a clearly labeled convention value can, and that convention is not a substitute for the real constant. The separate, unproved (31) (sum_{t<=N} Delta(t)^2 <<_eps N^{2+eps},  RESULTS.md's rank-1 door) and this proved T_N <<_H N^3 L^{-2H} are different statements, with different unconditional/unproved status, about related but distinct objects (S(N) alone versus T_N); this script does not conflate them. Nothing here bears on RH."
+}

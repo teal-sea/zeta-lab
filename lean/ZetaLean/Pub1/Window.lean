@@ -15,7 +15,7 @@ The class `𝒜_source` and the explicit sequence realising `w` inside it, from
 class" and "Explicit source-admissible sequence".
 
 `SourceWindow φ L C₁ C₂` is the *generalized, load-bearing* class of Section 7.1,
-p. 20 of the source paper — not the convenient Section 2.2 realization.  It
+p. 20 of the source paper, not the convenient Section 2.2 realization.  It
 requires `φ ∈ C_c²`, even, `0 ≤ φ ≤ 1`, `supp φ = [-L/2, L/2]` exactly, `φ`
 nonincreasing in `|u|`, and `‖φ''‖₁`, `‖(φ²)''‖₁` bounded by constants that do
 *not* depend on `L`.  Carrying `C₁` and `C₂` as parameters of the class is what
@@ -54,7 +54,7 @@ structure SourceWindow (φ : ℝ → ℝ) (L C₁ C₂ : ℝ) : Prop where
   nonneg : ∀ u, 0 ≤ φ u
   /-- Amplitude ceiling: `0 ≤ φ ≤ 1`, no other normalization. -/
   le_one : ∀ u, φ u ≤ 1
-  /-- `supp φ = [-L/2, L/2]`, exactly — not a proper subset. -/
+  /-- `supp φ = [-L/2, L/2]`, exactly, not a proper subset. -/
   support : ∀ u, φ u ≠ 0 ↔ |u| < L / 2
   /-- `φ` is nonincreasing in `|u|`.  This is the nontrivial source constraint. -/
   radial : ∀ u₁ u₂ : ℝ, |u₁| ≤ |u₂| → φ u₂ ≤ φ u₁

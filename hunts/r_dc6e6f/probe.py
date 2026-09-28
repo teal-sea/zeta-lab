@@ -746,7 +746,7 @@ def run_probe(repo_path: Path) -> dict[str, Any]:
         data = {
             "summary": {
                 "guard": "scripts/make_context.py --check",
-                "target_miss": "public functions added under compiler/ — likewise unscanned (B02)",
+                "target_miss": "public functions added under compiler/, likewise unscanned (B02)",
                 "status": "settled",
                 "controls": {
                     "control_1_clean_baseline": "pass (exit 0, CONTEXT.md up to date)",

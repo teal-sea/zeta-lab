@@ -16,14 +16,14 @@ import ZetaLean.DHTailBound2
 `ZetaLean/IntervalCExp.lean` encloses each partial-sum term in a computed
 rational box.  This file gives the glue and the missing coefficient piece:
 
-* `DH_mem_of_partial_enclosure` — if a rectangle `B` contains the `5K`-term
+* `DH_mem_of_partial_enclosure`: if a rectangle `B` contains the `5K`-term
   partial sum at `s` and `r` dominates the tail bound, then `B.inflate r`
   contains `DH s`.  This is the K-generic assembly theorem: instantiating
   rung 3's two disk inequalities is, from here, a computation.
-* `Interval.inv'` / `Interval.contains_sqrt_of_sq` — reciprocal and
+* `Interval.inv'` / `Interval.contains_sqrt_of_sq`: reciprocal and
   square-root enclosures for the rational interval layer (the DH coefficient
   `κ` is a quotient of square roots, so coefficient boxes need both).
-* `kappaI` / `contains_kappaI` — a concrete rational enclosure of `κ`,
+* `kappaI` / `contains_kappaI`: a concrete rational enclosure of `κ`,
   `0.28407 < κ < 0.28408`, kernel-checked from `Real.sqrt` squaring bounds.
   With it, every DH partial-sum term `dh_coeff n · n^{-s}` is a product of
   boxes the layer already encloses.
@@ -129,7 +129,7 @@ theorem DH_mem_of_partial_enclosure_order1 {sre sim : ℚ} (hsre : 0 < sre)
 The box must contain the partial sum *plus the trapezoid endpoint
 correction* `dhBlock K / 2` *minus* `dhAnti K`; the tail radius then decays
 like `K^{-(σ+2)}`.  At the oracle point this divides the number of certified
-terms by ~800 relative to `DH_mem_of_partial_enclosure` — the theorem the
+terms by ~800 relative to `DH_mem_of_partial_enclosure`, the theorem the
 rung-3 offline kernel run instantiates. -/
 theorem DH_mem_of_partial_enclosure_order2 {sre sim : ℚ} (hsre : 0 < sre)
     (hsim : sim ≠ 0) {K : ℕ} (hK : 1 ≤ K) {B : ComplexInterval}
@@ -156,7 +156,7 @@ theorem DH_mem_of_partial_enclosure_order2 {sre sim : ℚ} (hsre : 0 < sre)
 /-! ### The κ enclosure
 
 `κ = (√(10 − 2√5) − 2)/(√5 − 1)`.  The enclosure is derived from rational
-squaring bounds on the two roots, so it is as fine as the chosen rationals —
+squaring bounds on the two roots, so it is as fine as the chosen rationals,
 here eight digits, plenty for coefficient boxes whose width is dominated by
 the series tail. -/
 

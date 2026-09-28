@@ -1,0 +1,2792 @@
+[
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/BLOCK_CORRECTIONS.md",
+    "bytes": 18429,
+    "sha256": "5de89b1bb7e03fae6c51331d62b090d2308f0975dafe78e5a967865b760ec077"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/RUN_METADATA.json",
+    "bytes": 329,
+    "sha256": "d4283b315683acf033c78eb86926ba5f21b5bc3f8be452c9e25d52308d8f51f9"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/SHA256SUMS.json",
+    "bytes": 2202,
+    "sha256": "e201a98237abc9c81e039e52074c975b96bdeae440a64eaeaa78a47a5a807570"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/alternative_envelope_candidate.json",
+    "bytes": 19907,
+    "sha256": "1f7e19ae51bcf6aefbb5c3dcaeddadaf9f5a268966f71c21c89b646bc3365c04"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/build.log",
+    "bytes": 17378,
+    "sha256": "a43fec58ab7bc7d218cdeefe9a1225dd8b4c5e4842526c82ad6be02648ef784f"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/build.py",
+    "bytes": 7547,
+    "sha256": "fd5a13fcb229841e6d7339d9582b73760bd45d2b4511948b5fbfe38561bbefce"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/check.log",
+    "bytes": 9996,
+    "sha256": "ea6599f329e2aa17578372d3d4e4aa41f6c3fda8a75d1ce75d3dd8245dcb63a8"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/check.py",
+    "bytes": 9312,
+    "sha256": "f3608e31b7e6699c86062358e50ae8032fd5167294c39d304e25f2ef42773dd1"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/checks.json",
+    "bytes": 9996,
+    "sha256": "ea6599f329e2aa17578372d3d4e4aa41f6c3fda8a75d1ce75d3dd8245dcb63a8"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/discover.py",
+    "bytes": 4800,
+    "sha256": "d0132ffaaae805b40f40da73bce751d20fc46a00b2890d2ed876619e79b6987d"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/discovery.log",
+    "bytes": 320,
+    "sha256": "7d1e556fb2f63a495ee41a266de4d607fe6273396b2e93afe6a219240d74b1a9"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/baseline_recheck.json",
+    "bytes": 1268,
+    "sha256": "cd0389affab72d443677892d7e13210e4d5097c24fa495b1c9d39c518d0d9dca"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip",
+    "bytes": 193885,
+    "sha256": "ea5fb1ab56e3515358e7ff54ed309fe9eb1e7e87b98e3991c80b7ccc91579582"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/REPAIR_COST.md",
+    "bytes": 19885,
+    "sha256": "ad981e38ac72f340cac6a5eddfa96d1231981830b1efc4d5f0b71b22f748c9c1"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/SHA256SUMS.json",
+    "bytes": 1431,
+    "sha256": "c312747fe43863619ead5255f8124d51415a8caf0d7c647a5e85f5f94c6c9006"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/check.log",
+    "bytes": 1268,
+    "sha256": "80d29e241676fa62451beb9e8887179e3bcc34911e133ca15b398daf9ace0f68"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/check_independent.py",
+    "bytes": 10698,
+    "sha256": "f4e8211d1fab446ba86a2ab34ff3acd4cfb648b91b20e93a89e42325cb19d187"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/independent_checks.json",
+    "bytes": 1268,
+    "sha256": "80d29e241676fa62451beb9e8887179e3bcc34911e133ca15b398daf9ace0f68"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_results.json",
+    "bytes": 22880,
+    "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip",
+    "bytes": 129164,
+    "sha256": "50692a8fce2d29b3f81cb2d7c06fa1d9ae9b1402f10e45aff331d0155144864e"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/INDEPENDENT_CHECK.json",
+    "bytes": 20555,
+    "sha256": "37d99f7ca351eb094049f812b98e75d3d4435a5235f2be67a86e48f0c21267f7"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/SHA256SUMS.json",
+    "bytes": 3179,
+    "sha256": "8c83d505f1b1eebdccd129b7107b59648e00868a8df0b21320fe4495cd147644"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/SUPPORT_OBSTRUCTION.md",
+    "bytes": 8674,
+    "sha256": "69b7549680bcecd999a2a3ff30e52b24f9d0a57022e7b3da1ddd1a636502964e"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/check_stdout.txt",
+    "bytes": 2294,
+    "sha256": "efef5f5f032b9094a39b5c5b64f92c1293ff453e6b1345f1e4a2b1852f9fff7f"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/check_support_direction.py",
+    "bytes": 6494,
+    "sha256": "3f2c1a117fe6559aee26afc379dd563f4e8ac3acbfc6707fc6234d3edeab578f"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/ORIGINAL_REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/ROUTE_ASSESSMENT.md",
+    "bytes": 11623,
+    "sha256": "4b73b1257a2ae4b51512af51dd636de5e817fb2b5e1690791cfe3bb94eb84b58"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/aggregate_repair.py",
+    "bytes": 7179,
+    "sha256": "b8fa23d0c8fb95109e0bb17e9a964bcf8b4ec1a9df41a09a6d5913cd8ccfe690"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/aggregate_results.json",
+    "bytes": 52358,
+    "sha256": "933a07a681a86ecb383b04fd340a3878e851e3ae88d348eba2505fd5b79344bd"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/original_results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/joint_correction_candidate/JOINT_CORRECTION.md",
+    "bytes": 7334,
+    "sha256": "e573762c46d817f2e6e7693c79cf5f0b7eb459c05b1f3102167b657231d45247"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/joint_correction_candidate/joint_correction.py",
+    "bytes": 9640,
+    "sha256": "92dd9b882f7edba1f8f99e46e3469fc1791e3cc7c2eb5c7b6931809f27ff1eaf"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/joint_correction_candidate/joint_results.json",
+    "bytes": 22880,
+    "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inspect_support.py",
+    "bytes": 1251,
+    "sha256": "e186cfa26047046f6a87cdd715d9796279751289d4235d69c946516f28157719"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip",
+    "bytes": 41790,
+    "sha256": "992ca6730314390f0754db1fc7e96d361aa8e16691c5c6e83765e95dc32dec5a"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/ORIGINAL_REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/ROUTE_ASSESSMENT.md",
+    "bytes": 11623,
+    "sha256": "4b73b1257a2ae4b51512af51dd636de5e817fb2b5e1690791cfe3bb94eb84b58"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/SHA256SUMS.json",
+    "bytes": 1050,
+    "sha256": "6129b02d210fb58fea2908aed786b2c275ee2851220c2400b9a670ef4b6865a8"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_repair.py",
+    "bytes": 7179,
+    "sha256": "b8fa23d0c8fb95109e0bb17e9a964bcf8b4ec1a9df41a09a6d5913cd8ccfe690"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_results.json",
+    "bytes": 52358,
+    "sha256": "933a07a681a86ecb383b04fd340a3878e851e3ae88d348eba2505fd5b79344bd"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/original_results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip",
+    "bytes": 13746,
+    "sha256": "828a4d85d471b51331b5f0a32c30818ccff4de95e9e4c91dbb836536376e8260"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip!/joint_correction_candidate/JOINT_CORRECTION.md",
+    "bytes": 7334,
+    "sha256": "e573762c46d817f2e6e7693c79cf5f0b7eb459c05b1f3102167b657231d45247"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip!/joint_correction_candidate/joint_correction.py",
+    "bytes": 9640,
+    "sha256": "92dd9b882f7edba1f8f99e46e3469fc1791e3cc7c2eb5c7b6931809f27ff1eaf"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip!/joint_correction_candidate/joint_results.json",
+    "bytes": 22880,
+    "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/q20_direction_results.json",
+    "bytes": 21721,
+    "sha256": "8345d026d91a82d6a7001c34e42e1df0acd2472c2e38ab886eeb28217b62b429"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/test_q20_direction.py",
+    "bytes": 2876,
+    "sha256": "f13843c7177a60778a71c5a165c2e53bc982bdee8d7fc4342feee3c82fe9a9a4"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/inputs/seeds.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/repair_cost.py",
+    "bytes": 12953,
+    "sha256": "450af1758ff282028641d36765a89dfe20eb90907459f238b6bbe98991437c0d"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/results.json",
+    "bytes": 164002,
+    "sha256": "1783c88d0877346f8379916f8c2513a5deccd80b4bdc1e9ee7441b403741233b"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/inputs/repair_cost_rule.zip!/repair_cost_rule/run.log",
+    "bytes": 7756,
+    "sha256": "a2f33bf0bf7f8835d10c8238e33e39fd72a31adc381f2ed1e2703387cee2d349"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/requirements.txt",
+    "bytes": 19,
+    "sha256": "834b95f435034610a6170f1f3c530631dc21afb80ad2dbc480118f3207eee9e8"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/results.json",
+    "bytes": 73541,
+    "sha256": "6dc03610e8238838d04e48bcf8111df81a930ae879db7f058716ce605d83578b"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/scouting_scores.json",
+    "bytes": 245746,
+    "sha256": "bc49712f5b3aa8fd5c7c3a1bb6bd6b8d7339be455e73b1c4a6530f14b27fbb5e"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/selection.json",
+    "bytes": 19344,
+    "sha256": "87fd4a8a059e488586ef24c7373632e2eae9317c0f90b26de34d51723ec6de1a"
+  },
+  {
+    "locator": "original_archives/adaptive_correction_block.zip!/adaptive_correction_block/verify_files.py",
+    "bytes": 1407,
+    "sha256": "bb1d880e61ae003537d61cccfe772a3072e02ceab3fe5f9f79681d5d19daaa11"
+  },
+  {
+    "locator": "original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/DIRECT_ATTACK.md",
+    "bytes": 12084,
+    "sha256": "b8b7d0f6ab818b25c931bfdc1c1bf7438e0a7b7001d8ac4e0a284cea17806283"
+  },
+  {
+    "locator": "original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/check_attack.py",
+    "bytes": 7243,
+    "sha256": "82bd445fad2430dd247b18cc5ee93a48087a74c116c671306805ce5d9d08bb44"
+  },
+  {
+    "locator": "original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/checks.json",
+    "bytes": 6511,
+    "sha256": "599f233c3ca55cc21dbe20ebd86d8b6ec204780e83a579bfc4a089696417d0b5"
+  },
+  {
+    "locator": "original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/checks.log",
+    "bytes": 6511,
+    "sha256": "599f233c3ca55cc21dbe20ebd86d8b6ec204780e83a579bfc4a089696417d0b5"
+  },
+  {
+    "locator": "original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/SHA256SUMS.json",
+    "bytes": 983,
+    "sha256": "e38d7ab98ea39de4ab6c6d6502cfe131247d74d1c4f2ac1bfb212e0cc614d769"
+  },
+  {
+    "locator": "original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/exploration.json",
+    "bytes": 1636,
+    "sha256": "520f9ff8f5e9a5d893c8de64e57556634badc3d2b9330c2da6949bef36d33fc3"
+  },
+  {
+    "locator": "original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/certificate_route_test.zip!/certificate_route_test/ORIGINAL_REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/certificate_route_test.zip!/certificate_route_test/ROUTE_ASSESSMENT.md",
+    "bytes": 11623,
+    "sha256": "4b73b1257a2ae4b51512af51dd636de5e817fb2b5e1690791cfe3bb94eb84b58"
+  },
+  {
+    "locator": "original_archives/certificate_route_test.zip!/certificate_route_test/SHA256SUMS.json",
+    "bytes": 1050,
+    "sha256": "6129b02d210fb58fea2908aed786b2c275ee2851220c2400b9a670ef4b6865a8"
+  },
+  {
+    "locator": "original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_repair.py",
+    "bytes": 7179,
+    "sha256": "b8fa23d0c8fb95109e0bb17e9a964bcf8b4ec1a9df41a09a6d5913cd8ccfe690"
+  },
+  {
+    "locator": "original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_results.json",
+    "bytes": 52358,
+    "sha256": "933a07a681a86ecb383b04fd340a3878e851e3ae88d348eba2505fd5b79344bd"
+  },
+  {
+    "locator": "original_archives/certificate_route_test.zip!/certificate_route_test/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/certificate_route_test.zip!/certificate_route_test/original_results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/certificate_route_test.zip!/certificate_route_test/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/certificate_route_test.zip!/certificate_route_test/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/certificate_structural_step.zip!/certificate_structural_step/SHA256SUMS.json",
+    "bytes": 923,
+    "sha256": "79d9a1b4b046a0154b815b1a746da484fa25b2bc5554deafcb529fe81204d3a8"
+  },
+  {
+    "locator": "original_archives/certificate_structural_step.zip!/certificate_structural_step/STRUCTURAL_STEP.md",
+    "bytes": 8178,
+    "sha256": "b50fbe067718af4ab6011692ea97b0f5ba3a3567c6bcbb97f3faa178411cb06d"
+  },
+  {
+    "locator": "original_archives/certificate_structural_step.zip!/certificate_structural_step/check_and_compare.py",
+    "bytes": 3727,
+    "sha256": "a077db00a4a0ccc0132eb665b059701cc524c30f8f39e36794b91b8c67e2297e"
+  },
+  {
+    "locator": "original_archives/certificate_structural_step.zip!/certificate_structural_step/checked_results.json",
+    "bytes": 26921,
+    "sha256": "b7a9bc2565596169275d9de332b79134b79c2e3e72d8c353f947cb7b06b9ce7c"
+  },
+  {
+    "locator": "original_archives/certificate_structural_step.zip!/certificate_structural_step/probe.py",
+    "bytes": 2606,
+    "sha256": "3afd9f01a0988d25cfcc82bba26e3f46ee368f594af1dfad11c7467e5262b4c8"
+  },
+  {
+    "locator": "original_archives/certificate_structural_step.zip!/certificate_structural_step/requirements.txt",
+    "bytes": 19,
+    "sha256": "834b95f435034610a6170f1f3c530631dc21afb80ad2dbc480118f3207eee9e8"
+  },
+  {
+    "locator": "original_archives/certificate_structural_step.zip!/certificate_structural_step/results.json",
+    "bytes": 7150,
+    "sha256": "dec60e251a965e3daa29e8a5bbb3f0748b0b17e4704c564e73d286429800f462"
+  },
+  {
+    "locator": "original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/PILOT.md",
+    "bytes": 8005,
+    "sha256": "836988fcb8c6d98797c074d63f7fbac2cfefa81b5889d4eb8d29ccc0983972a6"
+  },
+  {
+    "locator": "original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/SHA256SUMS.json",
+    "bytes": 498,
+    "sha256": "aa0e31631d5b70f10c5b5fdd98f4a0bc14b9bedacfd9ded16dc04a5fb33a0070"
+  },
+  {
+    "locator": "original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/pilot.py",
+    "bytes": 6891,
+    "sha256": "484fef73d981bd4522eff1608b1106b212b2be2de2ec45021d13bbf577e580dd"
+  },
+  {
+    "locator": "original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/results.json",
+    "bytes": 60352,
+    "sha256": "a70f8c01f4c8b9e0976e194897f26cfa96ae7bbfe88367ae316a47d56146c272"
+  },
+  {
+    "locator": "original_archives/joint_correction_candidate.zip!/joint_correction_candidate/JOINT_CORRECTION.md",
+    "bytes": 7334,
+    "sha256": "e573762c46d817f2e6e7693c79cf5f0b7eb459c05b1f3102167b657231d45247"
+  },
+  {
+    "locator": "original_archives/joint_correction_candidate.zip!/joint_correction_candidate/joint_correction.py",
+    "bytes": 9640,
+    "sha256": "92dd9b882f7edba1f8f99e46e3469fc1791e3cc7c2eb5c7b6931809f27ff1eaf"
+  },
+  {
+    "locator": "original_archives/joint_correction_candidate.zip!/joint_correction_candidate/joint_results.json",
+    "bytes": 22880,
+    "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/INDEPENDENT_CHECK.json",
+    "bytes": 20555,
+    "sha256": "37d99f7ca351eb094049f812b98e75d3d4435a5235f2be67a86e48f0c21267f7"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/SHA256SUMS.json",
+    "bytes": 3179,
+    "sha256": "8c83d505f1b1eebdccd129b7107b59648e00868a8df0b21320fe4495cd147644"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/SUPPORT_OBSTRUCTION.md",
+    "bytes": 8674,
+    "sha256": "69b7549680bcecd999a2a3ff30e52b24f9d0a57022e7b3da1ddd1a636502964e"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/check_stdout.txt",
+    "bytes": 2294,
+    "sha256": "efef5f5f032b9094a39b5c5b64f92c1293ff453e6b1345f1e4a2b1852f9fff7f"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/check_support_direction.py",
+    "bytes": 6494,
+    "sha256": "3f2c1a117fe6559aee26afc379dd563f4e8ac3acbfc6707fc6234d3edeab578f"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/ORIGINAL_REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/ROUTE_ASSESSMENT.md",
+    "bytes": 11623,
+    "sha256": "4b73b1257a2ae4b51512af51dd636de5e817fb2b5e1690791cfe3bb94eb84b58"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/aggregate_repair.py",
+    "bytes": 7179,
+    "sha256": "b8fa23d0c8fb95109e0bb17e9a964bcf8b4ec1a9df41a09a6d5913cd8ccfe690"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/aggregate_results.json",
+    "bytes": 52358,
+    "sha256": "933a07a681a86ecb383b04fd340a3878e851e3ae88d348eba2505fd5b79344bd"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/original_results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/joint_correction_candidate/JOINT_CORRECTION.md",
+    "bytes": 7334,
+    "sha256": "e573762c46d817f2e6e7693c79cf5f0b7eb459c05b1f3102167b657231d45247"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/joint_correction_candidate/joint_correction.py",
+    "bytes": 9640,
+    "sha256": "92dd9b882f7edba1f8f99e46e3469fc1791e3cc7c2eb5c7b6931809f27ff1eaf"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inputs/joint_correction_candidate/joint_results.json",
+    "bytes": 22880,
+    "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/inspect_support.py",
+    "bytes": 1251,
+    "sha256": "e186cfa26047046f6a87cdd715d9796279751289d4235d69c946516f28157719"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip",
+    "bytes": 41790,
+    "sha256": "992ca6730314390f0754db1fc7e96d361aa8e16691c5c6e83765e95dc32dec5a"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/ORIGINAL_REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/ROUTE_ASSESSMENT.md",
+    "bytes": 11623,
+    "sha256": "4b73b1257a2ae4b51512af51dd636de5e817fb2b5e1690791cfe3bb94eb84b58"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/SHA256SUMS.json",
+    "bytes": 1050,
+    "sha256": "6129b02d210fb58fea2908aed786b2c275ee2851220c2400b9a670ef4b6865a8"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_repair.py",
+    "bytes": 7179,
+    "sha256": "b8fa23d0c8fb95109e0bb17e9a964bcf8b4ec1a9df41a09a6d5913cd8ccfe690"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_results.json",
+    "bytes": 52358,
+    "sha256": "933a07a681a86ecb383b04fd340a3878e851e3ae88d348eba2505fd5b79344bd"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/original_results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip",
+    "bytes": 13746,
+    "sha256": "828a4d85d471b51331b5f0a32c30818ccff4de95e9e4c91dbb836536376e8260"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip!/joint_correction_candidate/JOINT_CORRECTION.md",
+    "bytes": 7334,
+    "sha256": "e573762c46d817f2e6e7693c79cf5f0b7eb459c05b1f3102167b657231d45247"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip!/joint_correction_candidate/joint_correction.py",
+    "bytes": 9640,
+    "sha256": "92dd9b882f7edba1f8f99e46e3469fc1791e3cc7c2eb5c7b6931809f27ff1eaf"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip!/joint_correction_candidate/joint_results.json",
+    "bytes": 22880,
+    "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/q20_direction_results.json",
+    "bytes": 21721,
+    "sha256": "8345d026d91a82d6a7001c34e42e1df0acd2472c2e38ab886eeb28217b62b429"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/joint_support_analysis.zip!/joint_support_analysis/test_q20_direction.py",
+    "bytes": 2876,
+    "sha256": "f13843c7177a60778a71c5a165c2e53bc982bdee8d7fc4342feee3c82fe9a9a4"
+  },
+  {
+    "locator": "original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/check_mobius.py",
+    "bytes": 4286,
+    "sha256": "4fa2075af5445fadc25855739684576961ffe5b6846668c7aecd3e1777056664"
+  },
+  {
+    "locator": "original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/check_saved_pair_metrics.py",
+    "bytes": 1734,
+    "sha256": "6c411d87e3a8d90208321926a47cb9b101b0fb4a463d3e450ce827e523cc27de"
+  },
+  {
+    "locator": "original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/mobius_checks.json",
+    "bytes": 2196,
+    "sha256": "3e1bc50d2d6a508f4443cca6c6616e6acd88fc38f51e247e4ea821bfb1c2d515"
+  },
+  {
+    "locator": "original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/review_and_next_experiments.md",
+    "bytes": 12525,
+    "sha256": "d0266728d858c5602c7ef8007012b8867757e34a775821720be5f9149e9d2bd5"
+  },
+  {
+    "locator": "original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/saved_pair_metric_checks.json",
+    "bytes": 451,
+    "sha256": "9893b05e70ab446482f3c6538e7fcc4eda224ebf8381af6b981eeb4edeb4f39a"
+  },
+  {
+    "locator": "original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/MULTISCALE.md",
+    "bytes": 20007,
+    "sha256": "d4da6572f3f117736f4bc6a3dcc2cfa7cc4a7015fb86d59027208e9b38279732"
+  },
+  {
+    "locator": "original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/README.md",
+    "bytes": 836,
+    "sha256": "a8b223688064024e67afd2be3d145439d595b69027d2441a0418eccf87233093"
+  },
+  {
+    "locator": "original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/SHA256SUMS.json",
+    "bytes": 441,
+    "sha256": "4c718f240bbd4c16f9b4b3963c84ac2b376c49b0c23149c60dbba1b5c6d877c7"
+  },
+  {
+    "locator": "original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/check_multiscale.py",
+    "bytes": 10976,
+    "sha256": "a8e6c3083949b123920217ddc0ebe0d25900865e8d1acb4e5fc1d4be9ac8ded4"
+  },
+  {
+    "locator": "original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/checks.json",
+    "bytes": 7820,
+    "sha256": "c0c4824873223ffaa39eb4d944b00b5cbb66ef0ea1d002969e42247ba6771cc2"
+  },
+  {
+    "locator": "original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/requirements.txt",
+    "bytes": 24,
+    "sha256": "9101128bb786a4dab198b7bb31109f469ed9902ad473d2b1f4b2f1b1b4b5470a"
+  },
+  {
+    "locator": "original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/README.md",
+    "bytes": 9815,
+    "sha256": "12ae3b9dbf6e4e2210b6ae6cd564b02c6c12e26dce9dc817a255fa5a8809b867"
+  },
+  {
+    "locator": "original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/check_period6.py",
+    "bytes": 1622,
+    "sha256": "9c25755ab98ac8c3b49f707371595357aba2a307c9dabfdd299086a02fd61d9f"
+  },
+  {
+    "locator": "original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/cli_check.json",
+    "bytes": 367,
+    "sha256": "d17614c883b0c43822109ffc191cdccd797e55c3c1560270f5002feef0032918"
+  },
+  {
+    "locator": "original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/results.json",
+    "bytes": 5025,
+    "sha256": "9c8dbf83d9f7e7a546093e77d9f2c25ef02bec33af367c718a75fe7fc643bacd"
+  },
+  {
+    "locator": "original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/verify_q3.py",
+    "bytes": 2960,
+    "sha256": "5520067e145ddd38cab96d2485bb43f5de751319c7ad8e16a5a6162134272f12"
+  },
+  {
+    "locator": "original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/README.md",
+    "bytes": 2438,
+    "sha256": "bcda6bf71a2569f9d94d36df532d1d2b06d147415b4a6b44e343ad39cb488d96"
+  },
+  {
+    "locator": "original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/SHARP_TRANSFER.md",
+    "bytes": 16363,
+    "sha256": "92104b40160f5dc7cdf2010fcabc649744d5b61e0636d694ec325c290f049c6e"
+  },
+  {
+    "locator": "original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/check_sharp_transfer.py",
+    "bytes": 10673,
+    "sha256": "242764c235fae2edda6b56049e33a4a9c61443f2250ab7a66a27e1e6e2de02a8"
+  },
+  {
+    "locator": "original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/checks.json",
+    "bytes": 11428,
+    "sha256": "6ebf79856b55de6d4df0c3fc4987798a6edcf1c2ef0673fb0f3ad1818457dbe2"
+  },
+  {
+    "locator": "original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/manifest.json",
+    "bytes": 708,
+    "sha256": "c41993dcfc7d145f291ee99756c2da7db7e80601d7f5d65e509082262244aca8"
+  },
+  {
+    "locator": "original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/requirements.txt",
+    "bytes": 24,
+    "sha256": "6bd31e587c06276bf231cec25395b5d4a0b1e38c4d2b00813b2dd96aad14f17a"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/README.md",
+    "bytes": 10531,
+    "sha256": "16a4b0ecc467a6ceea579af18c7d303eb3c29ff458479daffd3d5c2e53de88aa"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/data_metadata.json",
+    "bytes": 317,
+    "sha256": "96584ac05207ca3c30819532e3f21e676381e517ca8730869e63b3b438d588c2"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/environment.json",
+    "bytes": 157,
+    "sha256": "8f23c8a3f4d0814fbf9cd196ca8dacc16f52aebeef1c26f42f4d8c39d9097912"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_candidates.csv",
+    "bytes": 1273,
+    "sha256": "7a29dd8cfc24ea18f4e390b37fc32f239ab2f4ad28b22b9bbcbc4ca1476fdcba"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_metrics.csv",
+    "bytes": 2297,
+    "sha256": "6816bb40af60d7ab930a5796468b356b537404b4a7d80b4dbf8e6773db6fa465"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6.npz",
+    "bytes": 1262,
+    "sha256": "abe185b00cfc9617da1518384c7b8ab738de058335b4b0ac4ab6ca8575335993"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6_and_previous_2_gaps.npz",
+    "bytes": 245426,
+    "sha256": "cb1f39e152ee1b2c1301fa4b14f6cab41f0cae4143862938f94c752ac9dc0e5f"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6_and_previous_gap.npz",
+    "bytes": 18001,
+    "sha256": "52bb5c5216aa6ac8dc5c452c6fa60b431a32a881646b9ca01dbcd4bff8b2209e"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_previous_2_gaps.npz",
+    "bytes": 180496,
+    "sha256": "e12961535840ddcc47b53ec62b98cc8f5471599dceb9c861353f8b34924e45cc"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_previous_gap.npz",
+    "bytes": 11713,
+    "sha256": "3717c7a0edaf8399fbb23594d12022ebf9f8f4dade57b27ab193129edd8bf21d"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_unconditional.npz",
+    "bytes": 796,
+    "sha256": "03890444be30f27a69200f8e9f9d8421acc0fabb679334922b79798595cb7557"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_results.json",
+    "bytes": 9166,
+    "sha256": "9fbc4b95cd2d68d02a9fd35077b5907901342dc896a3ac3118589f1c374ef6af"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/lane_transitions.csv",
+    "bytes": 388,
+    "sha256": "59f9f2929c43c6a3dc517ed226587670b409e3ac762bd0ec474c0fff2f6cf7ca"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/learned_factors.csv",
+    "bytes": 410,
+    "sha256": "42e5623613f11086076c42a6f9cda043f4825e65e5a44e140cd87258820e7d09"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/make_data.py",
+    "bytes": 913,
+    "sha256": "8f925d2ab0a0047b4e4f4186960a146c0128dabb5b9be117096576403761f514"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/manifest.json",
+    "bytes": 4621,
+    "sha256": "c4187d714fbf43b42f352c3a0a4cc4e4e8842f7c4429e759516b0abf4908e158"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_metrics.csv",
+    "bytes": 3928,
+    "sha256": "cea41faddc65d4b1f5101e357487a69ada7904112bb2ea7ffd5a15b93f7037e6"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_predictions.csv",
+    "bytes": 131339,
+    "sha256": "65ecc568b946b8973b49f9440c589e595389decbf53a63021401092f13df3ced"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_results.json",
+    "bytes": 13493,
+    "sha256": "3a143a2ec8138df0e51c259a9ef73ce35c9fc2a446b0221391804b2a00a0505d"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/prime_reverse_engineering.ipynb",
+    "bytes": 37158,
+    "sha256": "859ecc3f5f5b7c5abbdc60aa52c46f61f1d9581966b439eb75fb0dbcff63bbf2"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/protocol.json",
+    "bytes": 1781,
+    "sha256": "0b6d0b7abeb2d44ead53bc761c428982992a8bb06fe3d2cc7d206946588fe354"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/rank_metrics.csv",
+    "bytes": 1381,
+    "sha256": "602b043554ac8b2dba9a0b034b3be77632337f4a8c8ee51b6c4e6d3f425c0636"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/rank_results.json",
+    "bytes": 7387,
+    "sha256": "02b793360bf780fdcb0eb89c141d5c29c09b5481e8a13788c016915201199740"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/requirements.txt",
+    "bytes": 91,
+    "sha256": "8b701f34be7d48656b261e5aef8336f0243f271a20fe9fa35db399286df1b9aa"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_all.py",
+    "bytes": 537,
+    "sha256": "3005ec69357a6dbf09752c1332b2704fdebfc67ff68e013dff7448e9bfd0fe63"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_gaps.py",
+    "bytes": 4991,
+    "sha256": "b8391756d6cfe7a8b6414f485ae7bb875514c50986aa916658980e5d39d33dd3"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_pairs.py",
+    "bytes": 5565,
+    "sha256": "fe0a8e9d27fd09413219ebf83bb1eab5cb4e7f3b597c45a8f1d12a64431ccf57"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_rank.py",
+    "bytes": 2548,
+    "sha256": "94a46796317438503dd225a375c1b57dbdf50a57a1a582d6691a03aa937c2abd"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_stress.py",
+    "bytes": 3649,
+    "sha256": "60334ca688c402fa42f020275e75edc083ce311630bf703a35bf2a3f69eecb2d"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_gap_metrics.csv",
+    "bytes": 441,
+    "sha256": "d05a5036d24ce832b32552f7b5784b5bdfff0115b0155161a07b9f28bd1922f9"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_pair_metrics.csv",
+    "bytes": 543,
+    "sha256": "8a6ee1c52dd8af20ab028189390726c0719e65daae86330b30cfa7d20c869d83"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_pair_predictions.csv",
+    "bytes": 14087,
+    "sha256": "36ded2fed67f6d66e27b319d30e2de45963b8c02fb5ce666ab4b87a57e6d664d"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_protocol.json",
+    "bytes": 650,
+    "sha256": "d1cc759ff6feded4f61302347570cba60c186502055fe2b426cc6b873acece05"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_results.json",
+    "bytes": 2624,
+    "sha256": "4e37e0839e05003e370e5c2a2d4054ddfc386b9ea134f37a940143d6bf095cef"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/validate_results.py",
+    "bytes": 2791,
+    "sha256": "9b1a7f8c0abcbdf70094719fa8b95dee14004f2eb360608d8b22dc0901ba8762"
+  },
+  {
+    "locator": "original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/validation.json",
+    "bytes": 1421,
+    "sha256": "66f30a98a8ccaa26ef2abe7ab75aa43d25bae6d86c22b21dfdb33db6ae676e00"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/REPAIR_COST.md",
+    "bytes": 19885,
+    "sha256": "ad981e38ac72f340cac6a5eddfa96d1231981830b1efc4d5f0b71b22f748c9c1"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/SHA256SUMS.json",
+    "bytes": 1431,
+    "sha256": "c312747fe43863619ead5255f8124d51415a8caf0d7c647a5e85f5f94c6c9006"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/check.log",
+    "bytes": 1268,
+    "sha256": "80d29e241676fa62451beb9e8887179e3bcc34911e133ca15b398daf9ace0f68"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/check_independent.py",
+    "bytes": 10698,
+    "sha256": "f4e8211d1fab446ba86a2ab34ff3acd4cfb648b91b20e93a89e42325cb19d187"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/independent_checks.json",
+    "bytes": 1268,
+    "sha256": "80d29e241676fa62451beb9e8887179e3bcc34911e133ca15b398daf9ace0f68"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_results.json",
+    "bytes": 22880,
+    "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip",
+    "bytes": 129164,
+    "sha256": "50692a8fce2d29b3f81cb2d7c06fa1d9ae9b1402f10e45aff331d0155144864e"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/INDEPENDENT_CHECK.json",
+    "bytes": 20555,
+    "sha256": "37d99f7ca351eb094049f812b98e75d3d4435a5235f2be67a86e48f0c21267f7"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/SHA256SUMS.json",
+    "bytes": 3179,
+    "sha256": "8c83d505f1b1eebdccd129b7107b59648e00868a8df0b21320fe4495cd147644"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/SUPPORT_OBSTRUCTION.md",
+    "bytes": 8674,
+    "sha256": "69b7549680bcecd999a2a3ff30e52b24f9d0a57022e7b3da1ddd1a636502964e"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/check_stdout.txt",
+    "bytes": 2294,
+    "sha256": "efef5f5f032b9094a39b5c5b64f92c1293ff453e6b1345f1e4a2b1852f9fff7f"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/check_support_direction.py",
+    "bytes": 6494,
+    "sha256": "3f2c1a117fe6559aee26afc379dd563f4e8ac3acbfc6707fc6234d3edeab578f"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/ORIGINAL_REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/ROUTE_ASSESSMENT.md",
+    "bytes": 11623,
+    "sha256": "4b73b1257a2ae4b51512af51dd636de5e817fb2b5e1690791cfe3bb94eb84b58"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/aggregate_repair.py",
+    "bytes": 7179,
+    "sha256": "b8fa23d0c8fb95109e0bb17e9a964bcf8b4ec1a9df41a09a6d5913cd8ccfe690"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/aggregate_results.json",
+    "bytes": 52358,
+    "sha256": "933a07a681a86ecb383b04fd340a3878e851e3ae88d348eba2505fd5b79344bd"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/original_results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/certificate_route_test/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/joint_correction_candidate/JOINT_CORRECTION.md",
+    "bytes": 7334,
+    "sha256": "e573762c46d817f2e6e7693c79cf5f0b7eb459c05b1f3102167b657231d45247"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/joint_correction_candidate/joint_correction.py",
+    "bytes": 9640,
+    "sha256": "92dd9b882f7edba1f8f99e46e3469fc1791e3cc7c2eb5c7b6931809f27ff1eaf"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inputs/joint_correction_candidate/joint_results.json",
+    "bytes": 22880,
+    "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/inspect_support.py",
+    "bytes": 1251,
+    "sha256": "e186cfa26047046f6a87cdd715d9796279751289d4235d69c946516f28157719"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip",
+    "bytes": 41790,
+    "sha256": "992ca6730314390f0754db1fc7e96d361aa8e16691c5c6e83765e95dc32dec5a"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/ORIGINAL_REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/ROUTE_ASSESSMENT.md",
+    "bytes": 11623,
+    "sha256": "4b73b1257a2ae4b51512af51dd636de5e817fb2b5e1690791cfe3bb94eb84b58"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/SHA256SUMS.json",
+    "bytes": 1050,
+    "sha256": "6129b02d210fb58fea2908aed786b2c275ee2851220c2400b9a670ef4b6865a8"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_repair.py",
+    "bytes": 7179,
+    "sha256": "b8fa23d0c8fb95109e0bb17e9a964bcf8b4ec1a9df41a09a6d5913cd8ccfe690"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_results.json",
+    "bytes": 52358,
+    "sha256": "933a07a681a86ecb383b04fd340a3878e851e3ae88d348eba2505fd5b79344bd"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/original_results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/certificate_route_test.zip!/certificate_route_test/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip",
+    "bytes": 13746,
+    "sha256": "828a4d85d471b51331b5f0a32c30818ccff4de95e9e4c91dbb836536376e8260"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip!/joint_correction_candidate/JOINT_CORRECTION.md",
+    "bytes": 7334,
+    "sha256": "e573762c46d817f2e6e7693c79cf5f0b7eb459c05b1f3102167b657231d45247"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip!/joint_correction_candidate/joint_correction.py",
+    "bytes": 9640,
+    "sha256": "92dd9b882f7edba1f8f99e46e3469fc1791e3cc7c2eb5c7b6931809f27ff1eaf"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/original_archives/joint_correction_candidate.zip!/joint_correction_candidate/joint_results.json",
+    "bytes": 22880,
+    "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/q20_direction_results.json",
+    "bytes": 21721,
+    "sha256": "8345d026d91a82d6a7001c34e42e1df0acd2472c2e38ab886eeb28217b62b429"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/joint_support_analysis.zip!/joint_support_analysis/test_q20_direction.py",
+    "bytes": 2876,
+    "sha256": "f13843c7177a60778a71c5a165c2e53bc982bdee8d7fc4342feee3c82fe9a9a4"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/inputs/seeds.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/repair_cost.py",
+    "bytes": 12953,
+    "sha256": "450af1758ff282028641d36765a89dfe20eb90907459f238b6bbe98991437c0d"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/results.json",
+    "bytes": 164002,
+    "sha256": "1783c88d0877346f8379916f8c2513a5deccd80b4bdc1e9ee7441b403741233b"
+  },
+  {
+    "locator": "original_archives/repair_cost_rule.zip!/repair_cost_rule/run.log",
+    "bytes": 7756,
+    "sha256": "a2f33bf0bf7f8835d10c8238e33e39fd72a31adc381f2ed1e2703387cee2d349"
+  },
+  {
+    "locator": "original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/FEASIBILITY.md",
+    "bytes": 15588,
+    "sha256": "4c9d635cd84fbea1a62486a3e577786767e004cf0b1df5792f0ef1349bb480a3"
+  },
+  {
+    "locator": "original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/README.md",
+    "bytes": 505,
+    "sha256": "f2557da5cab2894ebe235c4c8c902b097b8d45ccb673758f12d52df417c00dcc"
+  },
+  {
+    "locator": "original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/check_feasibility.py",
+    "bytes": 7939,
+    "sha256": "c5bcc345970019f2e51ba6b876d79ad338bfddc83768ec0a2de276d696ed7395"
+  },
+  {
+    "locator": "original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/checks.json",
+    "bytes": 2146,
+    "sha256": "2a15b774c28083a6f9740e31c301a032a3b4133ff82c9bf2479777c98ef62566"
+  },
+  {
+    "locator": "original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/MANIFEST.md",
+    "bytes": 8675,
+    "sha256": "80c238f8bbabee9b46fd0f145c139f63a70525ea8cd2bfdd52a253397f0f8503"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/SHA256SUMS.json",
+    "bytes": 1629,
+    "sha256": "15dded1e4ff164ab1df32c9e788864cf0b22a0544945b8b48f1ebe7c09214d20"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip",
+    "bytes": 12437,
+    "sha256": "a5fbd9de8ad3b9f0f71fed0f7abec7ade426128179c99bfad43cbe898489086a"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/DIRECT_ATTACK.md",
+    "bytes": 12084,
+    "sha256": "b8b7d0f6ab818b25c931bfdc1c1bf7438e0a7b7001d8ac4e0a284cea17806283"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/check_attack.py",
+    "bytes": 7243,
+    "sha256": "82bd445fad2430dd247b18cc5ee93a48087a74c116c671306805ce5d9d08bb44"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/checks.json",
+    "bytes": 6511,
+    "sha256": "599f233c3ca55cc21dbe20ebd86d8b6ec204780e83a579bfc4a089696417d0b5"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/checks.log",
+    "bytes": 6511,
+    "sha256": "599f233c3ca55cc21dbe20ebd86d8b6ec204780e83a579bfc4a089696417d0b5"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip",
+    "bytes": 9647,
+    "sha256": "b51b83d6ebe99fbea44efca292d069b882e324bf2824f73150f01038a7052334"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/check_mobius.py",
+    "bytes": 4286,
+    "sha256": "4fa2075af5445fadc25855739684576961ffe5b6846668c7aecd3e1777056664"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/check_saved_pair_metrics.py",
+    "bytes": 1734,
+    "sha256": "6c411d87e3a8d90208321926a47cb9b101b0fb4a463d3e450ce827e523cc27de"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/mobius_checks.json",
+    "bytes": 2196,
+    "sha256": "3e1bc50d2d6a508f4443cca6c6616e6acd88fc38f51e247e4ea821bfb1c2d515"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/review_and_next_experiments.md",
+    "bytes": 12525,
+    "sha256": "d0266728d858c5602c7ef8007012b8867757e34a775821720be5f9149e9d2bd5"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/saved_pair_metric_checks.json",
+    "bytes": 451,
+    "sha256": "9893b05e70ab446482f3c6538e7fcc4eda224ebf8381af6b981eeb4edeb4f39a"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip",
+    "bytes": 16675,
+    "sha256": "78ba9ae1f6141100ccb96577ceef59467c600daef075522a5fe7b2038e13e09f"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/MULTISCALE.md",
+    "bytes": 20007,
+    "sha256": "d4da6572f3f117736f4bc6a3dcc2cfa7cc4a7015fb86d59027208e9b38279732"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/README.md",
+    "bytes": 836,
+    "sha256": "a8b223688064024e67afd2be3d145439d595b69027d2441a0418eccf87233093"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/SHA256SUMS.json",
+    "bytes": 441,
+    "sha256": "4c718f240bbd4c16f9b4b3963c84ac2b376c49b0c23149c60dbba1b5c6d877c7"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/check_multiscale.py",
+    "bytes": 10976,
+    "sha256": "a8e6c3083949b123920217ddc0ebe0d25900865e8d1acb4e5fc1d4be9ac8ded4"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/checks.json",
+    "bytes": 7820,
+    "sha256": "c0c4824873223ffaa39eb4d944b00b5cbb66ef0ea1d002969e42247ba6771cc2"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/requirements.txt",
+    "bytes": 24,
+    "sha256": "9101128bb786a4dab198b7bb31109f469ed9902ad473d2b1f4b2f1b1b4b5470a"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip",
+    "bytes": 9570,
+    "sha256": "2bc81ac5fd7d66370025801d9c06486ded68a8ade2e8dd7d87888f423c9abffb"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/README.md",
+    "bytes": 9815,
+    "sha256": "12ae3b9dbf6e4e2210b6ae6cd564b02c6c12e26dce9dc817a255fa5a8809b867"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/check_period6.py",
+    "bytes": 1622,
+    "sha256": "9c25755ab98ac8c3b49f707371595357aba2a307c9dabfdd299086a02fd61d9f"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/cli_check.json",
+    "bytes": 367,
+    "sha256": "d17614c883b0c43822109ffc191cdccd797e55c3c1560270f5002feef0032918"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/results.json",
+    "bytes": 5025,
+    "sha256": "9c8dbf83d9f7e7a546093e77d9f2c25ef02bec33af367c718a75fe7fc643bacd"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/verify_q3.py",
+    "bytes": 2960,
+    "sha256": "5520067e145ddd38cab96d2485bb43f5de751319c7ad8e16a5a6162134272f12"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip",
+    "bytes": 16545,
+    "sha256": "aea9833f71b7b0df8e18107e584d42365d98fddab04f152b440fa0bcb4284c83"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/README.md",
+    "bytes": 2438,
+    "sha256": "bcda6bf71a2569f9d94d36df532d1d2b06d147415b4a6b44e343ad39cb488d96"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/SHARP_TRANSFER.md",
+    "bytes": 16363,
+    "sha256": "92104b40160f5dc7cdf2010fcabc649744d5b61e0636d694ec325c290f049c6e"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/check_sharp_transfer.py",
+    "bytes": 10673,
+    "sha256": "242764c235fae2edda6b56049e33a4a9c61443f2250ab7a66a27e1e6e2de02a8"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/checks.json",
+    "bytes": 11428,
+    "sha256": "6ebf79856b55de6d4df0c3fc4987798a6edcf1c2ef0673fb0f3ad1818457dbe2"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/manifest.json",
+    "bytes": 708,
+    "sha256": "c41993dcfc7d145f291ee99756c2da7db7e80601d7f5d65e509082262244aca8"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/requirements.txt",
+    "bytes": 24,
+    "sha256": "6bd31e587c06276bf231cec25395b5d4a0b1e38c4d2b00813b2dd96aad14f17a"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip",
+    "bytes": 533979,
+    "sha256": "d86eef0cb19e0ab50cd2fddfdda5f64198ba947a1d30cdad03cee49a8ad571c1"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/README.md",
+    "bytes": 10531,
+    "sha256": "16a4b0ecc467a6ceea579af18c7d303eb3c29ff458479daffd3d5c2e53de88aa"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/data_metadata.json",
+    "bytes": 317,
+    "sha256": "96584ac05207ca3c30819532e3f21e676381e517ca8730869e63b3b438d588c2"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/environment.json",
+    "bytes": 157,
+    "sha256": "8f23c8a3f4d0814fbf9cd196ca8dacc16f52aebeef1c26f42f4d8c39d9097912"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_candidates.csv",
+    "bytes": 1273,
+    "sha256": "7a29dd8cfc24ea18f4e390b37fc32f239ab2f4ad28b22b9bbcbc4ca1476fdcba"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_metrics.csv",
+    "bytes": 2297,
+    "sha256": "6816bb40af60d7ab930a5796468b356b537404b4a7d80b4dbf8e6773db6fa465"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6.npz",
+    "bytes": 1262,
+    "sha256": "abe185b00cfc9617da1518384c7b8ab738de058335b4b0ac4ab6ca8575335993"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6_and_previous_2_gaps.npz",
+    "bytes": 245426,
+    "sha256": "cb1f39e152ee1b2c1301fa4b14f6cab41f0cae4143862938f94c752ac9dc0e5f"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6_and_previous_gap.npz",
+    "bytes": 18001,
+    "sha256": "52bb5c5216aa6ac8dc5c452c6fa60b431a32a881646b9ca01dbcd4bff8b2209e"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_previous_2_gaps.npz",
+    "bytes": 180496,
+    "sha256": "e12961535840ddcc47b53ec62b98cc8f5471599dceb9c861353f8b34924e45cc"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_previous_gap.npz",
+    "bytes": 11713,
+    "sha256": "3717c7a0edaf8399fbb23594d12022ebf9f8f4dade57b27ab193129edd8bf21d"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_unconditional.npz",
+    "bytes": 796,
+    "sha256": "03890444be30f27a69200f8e9f9d8421acc0fabb679334922b79798595cb7557"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_results.json",
+    "bytes": 9166,
+    "sha256": "9fbc4b95cd2d68d02a9fd35077b5907901342dc896a3ac3118589f1c374ef6af"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/lane_transitions.csv",
+    "bytes": 388,
+    "sha256": "59f9f2929c43c6a3dc517ed226587670b409e3ac762bd0ec474c0fff2f6cf7ca"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/learned_factors.csv",
+    "bytes": 410,
+    "sha256": "42e5623613f11086076c42a6f9cda043f4825e65e5a44e140cd87258820e7d09"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/make_data.py",
+    "bytes": 913,
+    "sha256": "8f925d2ab0a0047b4e4f4186960a146c0128dabb5b9be117096576403761f514"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/manifest.json",
+    "bytes": 4621,
+    "sha256": "c4187d714fbf43b42f352c3a0a4cc4e4e8842f7c4429e759516b0abf4908e158"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_metrics.csv",
+    "bytes": 3928,
+    "sha256": "cea41faddc65d4b1f5101e357487a69ada7904112bb2ea7ffd5a15b93f7037e6"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_predictions.csv",
+    "bytes": 131339,
+    "sha256": "65ecc568b946b8973b49f9440c589e595389decbf53a63021401092f13df3ced"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_results.json",
+    "bytes": 13493,
+    "sha256": "3a143a2ec8138df0e51c259a9ef73ce35c9fc2a446b0221391804b2a00a0505d"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/prime_reverse_engineering.ipynb",
+    "bytes": 37158,
+    "sha256": "859ecc3f5f5b7c5abbdc60aa52c46f61f1d9581966b439eb75fb0dbcff63bbf2"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/protocol.json",
+    "bytes": 1781,
+    "sha256": "0b6d0b7abeb2d44ead53bc761c428982992a8bb06fe3d2cc7d206946588fe354"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/rank_metrics.csv",
+    "bytes": 1381,
+    "sha256": "602b043554ac8b2dba9a0b034b3be77632337f4a8c8ee51b6c4e6d3f425c0636"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/rank_results.json",
+    "bytes": 7387,
+    "sha256": "02b793360bf780fdcb0eb89c141d5c29c09b5481e8a13788c016915201199740"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/requirements.txt",
+    "bytes": 91,
+    "sha256": "8b701f34be7d48656b261e5aef8336f0243f271a20fe9fa35db399286df1b9aa"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_all.py",
+    "bytes": 537,
+    "sha256": "3005ec69357a6dbf09752c1332b2704fdebfc67ff68e013dff7448e9bfd0fe63"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_gaps.py",
+    "bytes": 4991,
+    "sha256": "b8391756d6cfe7a8b6414f485ae7bb875514c50986aa916658980e5d39d33dd3"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_pairs.py",
+    "bytes": 5565,
+    "sha256": "fe0a8e9d27fd09413219ebf83bb1eab5cb4e7f3b597c45a8f1d12a64431ccf57"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_rank.py",
+    "bytes": 2548,
+    "sha256": "94a46796317438503dd225a375c1b57dbdf50a57a1a582d6691a03aa937c2abd"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_stress.py",
+    "bytes": 3649,
+    "sha256": "60334ca688c402fa42f020275e75edc083ce311630bf703a35bf2a3f69eecb2d"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_gap_metrics.csv",
+    "bytes": 441,
+    "sha256": "d05a5036d24ce832b32552f7b5784b5bdfff0115b0155161a07b9f28bd1922f9"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_pair_metrics.csv",
+    "bytes": 543,
+    "sha256": "8a6ee1c52dd8af20ab028189390726c0719e65daae86330b30cfa7d20c869d83"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_pair_predictions.csv",
+    "bytes": 14087,
+    "sha256": "36ded2fed67f6d66e27b319d30e2de45963b8c02fb5ce666ab4b87a57e6d664d"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_protocol.json",
+    "bytes": 650,
+    "sha256": "d1cc759ff6feded4f61302347570cba60c186502055fe2b426cc6b873acece05"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_results.json",
+    "bytes": 2624,
+    "sha256": "4e37e0839e05003e370e5c2a2d4054ddfc386b9ea134f37a940143d6bf095cef"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/validate_results.py",
+    "bytes": 2791,
+    "sha256": "9b1a7f8c0abcbdf70094719fa8b95dee14004f2eb360608d8b22dc0901ba8762"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/validation.json",
+    "bytes": 1421,
+    "sha256": "66f30a98a8ccaa26ef2abe7ab75aa43d25bae6d86c22b21dfdb33db6ae676e00"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip",
+    "bytes": 11822,
+    "sha256": "6b690a90c35c886ca5309d4341656aec05fdfc8681223cec484fde403a310ec1"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/FEASIBILITY.md",
+    "bytes": 15588,
+    "sha256": "4c9d635cd84fbea1a62486a3e577786767e004cf0b1df5792f0ef1349bb480a3"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/README.md",
+    "bytes": 505,
+    "sha256": "f2557da5cab2894ebe235c4c8c902b097b8d45ccb673758f12d52df417c00dcc"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/check_feasibility.py",
+    "bytes": 7939,
+    "sha256": "c5bcc345970019f2e51ba6b876d79ad338bfddc83768ec0a2de276d696ed7395"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/checks.json",
+    "bytes": 2146,
+    "sha256": "2a15b774c28083a6f9740e31c301a032a3b4133ff82c9bf2479777c98ef62566"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/source_text/Pasted markdown(20260906-053851).md",
+    "bytes": 15592,
+    "sha256": "bfa176325d952ed4bba1941233e47441da8ba97fdeacb295782bb2e265b6531f"
+  },
+  {
+    "locator": "original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/source_text/Pasted text(20260906-113217).txt",
+    "bytes": 36410,
+    "sha256": "edf444d60c619377d1a98d16a0d24b77ae9b15100df1b87c070fed63d5a65251"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/ARCHIVE_INVENTORY.json",
+    "bytes": 24968,
+    "sha256": "93659defde49dbc92699ba56658c8bf60c1f7397cfb137f6d1d96f6eb09aad6f"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/CHECKPOINT.md",
+    "bytes": 22487,
+    "sha256": "8b6e3f48cf3bb18c00ba2c71fdd87db4eff03adabc87418dffc65782e7e4ebf2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/CHECKPOINT_MANIFEST.json",
+    "bytes": 10650,
+    "sha256": "c93e1ecd0e142e600774c5b647f152924c2ef3987625821963aaafd9dc7f9bf2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/PRESERVATION_VALIDATION.json",
+    "bytes": 2654,
+    "sha256": "7a10c1df40051cab55328522d31dd4068dab47f843b75b6ba60c388bb44b1a22"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/REPOSITORY_AND_STORAGE.json",
+    "bytes": 3349,
+    "sha256": "99b2be455c9f5f68b42c7c4e28114911caff3d2bb84cef89c12528edd7b12378"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_refinement_rule/REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_refinement_rule/SHA256SUMS.json",
+    "bytes": 983,
+    "sha256": "e38d7ab98ea39de4ab6c6d6502cfe131247d74d1c4f2ac1bfb212e0cc614d769"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_refinement_rule/exploration.json",
+    "bytes": 1636,
+    "sha256": "520f9ff8f5e9a5d893c8de64e57556634badc3d2b9330c2da6949bef36d33fc3"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_refinement_rule/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_refinement_rule/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_refinement_rule/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_refinement_rule/results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_route_test/ORIGINAL_REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_route_test/ROUTE_ASSESSMENT.md",
+    "bytes": 11623,
+    "sha256": "4b73b1257a2ae4b51512af51dd636de5e817fb2b5e1690791cfe3bb94eb84b58"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_route_test/SHA256SUMS.json",
+    "bytes": 1050,
+    "sha256": "6129b02d210fb58fea2908aed786b2c275ee2851220c2400b9a670ef4b6865a8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_route_test/aggregate_repair.py",
+    "bytes": 7179,
+    "sha256": "b8fa23d0c8fb95109e0bb17e9a964bcf8b4ec1a9df41a09a6d5913cd8ccfe690"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_route_test/aggregate_results.json",
+    "bytes": 52358,
+    "sha256": "933a07a681a86ecb383b04fd340a3878e851e3ae88d348eba2505fd5b79344bd"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_route_test/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_route_test/original_results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_route_test/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_route_test/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_structural_step/SHA256SUMS.json",
+    "bytes": 923,
+    "sha256": "79d9a1b4b046a0154b815b1a746da484fa25b2bc5554deafcb529fe81204d3a8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_structural_step/STRUCTURAL_STEP.md",
+    "bytes": 8178,
+    "sha256": "b50fbe067718af4ab6011692ea97b0f5ba3a3567c6bcbb97f3faa178411cb06d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_structural_step/check_and_compare.py",
+    "bytes": 3727,
+    "sha256": "a077db00a4a0ccc0132eb665b059701cc524c30f8f39e36794b91b8c67e2297e"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_structural_step/checked_results.json",
+    "bytes": 26921,
+    "sha256": "b7a9bc2565596169275d9de332b79134b79c2e3e72d8c353f947cb7b06b9ce7c"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_structural_step/probe.py",
+    "bytes": 2606,
+    "sha256": "3afd9f01a0988d25cfcc82bba26e3f46ee368f594af1dfad11c7467e5262b4c8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_structural_step/requirements.txt",
+    "bytes": 19,
+    "sha256": "834b95f435034610a6170f1f3c530631dc21afb80ad2dbc480118f3207eee9e8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/latest_extracted/certificate_structural_step/results.json",
+    "bytes": 7150,
+    "sha256": "dec60e251a965e3daa29e8a5bbb3f0748b0b17e4704c564e73d286429800f462"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/Pasted markdown(20260906-053851).md",
+    "bytes": 15592,
+    "sha256": "bfa176325d952ed4bba1941233e47441da8ba97fdeacb295782bb2e265b6531f"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/Pasted text(20260906-113217).txt",
+    "bytes": 36410,
+    "sha256": "edf444d60c619377d1a98d16a0d24b77ae9b15100df1b87c070fed63d5a65251"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/central_arithmetic_attack/DIRECT_ATTACK.md",
+    "bytes": 12084,
+    "sha256": "b8b7d0f6ab818b25c931bfdc1c1bf7438e0a7b7001d8ac4e0a284cea17806283"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/certificate_structural_step/STRUCTURAL_STEP.md",
+    "bytes": 8178,
+    "sha256": "b50fbe067718af4ab6011692ea97b0f5ba3a3567c6bcbb97f3faa178411cb06d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/factorial_certificate_pilot/PILOT.md",
+    "bytes": 8005,
+    "sha256": "836988fcb8c6d98797c074d63f7fbac2cfefa81b5889d4eb8d29ccc0983972a6"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/prime_pair_multiscale/MULTISCALE.md",
+    "bytes": 20007,
+    "sha256": "d4da6572f3f117736f4bc6a3dcc2cfa7cc4a7015fb86d59027208e9b38279732"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/prime_pair_q3_followup/README.md",
+    "bytes": 9815,
+    "sha256": "12ae3b9dbf6e4e2210b6ae6cd564b02c6c12e26dce9dc817a255fa5a8809b867"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/prime_pair_sharp_transfer/SHARP_TRANSFER.md",
+    "bytes": 16363,
+    "sha256": "92104b40160f5dc7cdf2010fcabc649744d5b61e0636d694ec325c290f049c6e"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/prime_reverse_engineering/README.md",
+    "bytes": 10531,
+    "sha256": "16a4b0ecc467a6ceea579af18c7d303eb3c29ff458479daffd3d5c2e53de88aa"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/prime_reverse_engineering/gap_metrics.csv",
+    "bytes": 2297,
+    "sha256": "6816bb40af60d7ab930a5796468b356b537404b4a7d80b4dbf8e6773db6fa465"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/prime_reverse_engineering/pair_metrics.csv",
+    "bytes": 3928,
+    "sha256": "cea41faddc65d4b1f5101e357487a69ada7904112bb2ea7ffd5a15b93f7037e6"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/prime_reverse_engineering/rank_metrics.csv",
+    "bytes": 1381,
+    "sha256": "602b043554ac8b2dba9a0b034b3be77632337f4a8c8ee51b6c4e6d3f425c0636"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/prime_reverse_engineering/stress_gap_metrics.csv",
+    "bytes": 441,
+    "sha256": "d05a5036d24ce832b32552f7b5784b5bdfff0115b0155161a07b9f28bd1922f9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/prime_reverse_engineering/stress_pair_metrics.csv",
+    "bytes": 543,
+    "sha256": "8a6ee1c52dd8af20ab028189390726c0719e65daae86330b30cfa7d20c869d83"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/zero_energy_feasibility/FEASIBILITY.md",
+    "bytes": 15588,
+    "sha256": "4c9d635cd84fbea1a62486a3e577786767e004cf0b1df5792f0ef1349bb480a3"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/loose_originals/zeta_frontier_handoff_2026-09-06/MANIFEST.md",
+    "bytes": 8675,
+    "sha256": "80c238f8bbabee9b46fd0f145c139f63a70525ea8cd2bfdd52a253397f0f8503"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/central_arithmetic_attack.zip",
+    "bytes": 12437,
+    "sha256": "a5fbd9de8ad3b9f0f71fed0f7abec7ade426128179c99bfad43cbe898489086a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/DIRECT_ATTACK.md",
+    "bytes": 12084,
+    "sha256": "b8b7d0f6ab818b25c931bfdc1c1bf7438e0a7b7001d8ac4e0a284cea17806283"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/check_attack.py",
+    "bytes": 7243,
+    "sha256": "82bd445fad2430dd247b18cc5ee93a48087a74c116c671306805ce5d9d08bb44"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/checks.json",
+    "bytes": 6511,
+    "sha256": "599f233c3ca55cc21dbe20ebd86d8b6ec204780e83a579bfc4a089696417d0b5"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/checks.log",
+    "bytes": 6511,
+    "sha256": "599f233c3ca55cc21dbe20ebd86d8b6ec204780e83a579bfc4a089696417d0b5"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/central_arithmetic_attack.zip!/central_arithmetic_attack/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_refinement_rule.zip",
+    "bytes": 26100,
+    "sha256": "962dbe79c58b4ceb59300d9c0d2687e63693e3b58fe5b320fa0420f13ae42f9c"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/SHA256SUMS.json",
+    "bytes": 983,
+    "sha256": "e38d7ab98ea39de4ab6c6d6502cfe131247d74d1c4f2ac1bfb212e0cc614d769"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/exploration.json",
+    "bytes": 1636,
+    "sha256": "520f9ff8f5e9a5d893c8de64e57556634badc3d2b9330c2da6949bef36d33fc3"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_refinement_rule.zip!/certificate_refinement_rule/results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip",
+    "bytes": 41790,
+    "sha256": "992ca6730314390f0754db1fc7e96d361aa8e16691c5c6e83765e95dc32dec5a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip!/certificate_route_test/ORIGINAL_REFINEMENT.md",
+    "bytes": 12255,
+    "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip!/certificate_route_test/ROUTE_ASSESSMENT.md",
+    "bytes": 11623,
+    "sha256": "4b73b1257a2ae4b51512af51dd636de5e817fb2b5e1690791cfe3bb94eb84b58"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip!/certificate_route_test/SHA256SUMS.json",
+    "bytes": 1050,
+    "sha256": "6129b02d210fb58fea2908aed786b2c275ee2851220c2400b9a670ef4b6865a8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_repair.py",
+    "bytes": 7179,
+    "sha256": "b8fa23d0c8fb95109e0bb17e9a964bcf8b4ec1a9df41a09a6d5913cd8ccfe690"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip!/certificate_route_test/aggregate_results.json",
+    "bytes": 52358,
+    "sha256": "933a07a681a86ecb383b04fd340a3878e851e3ae88d348eba2505fd5b79344bd"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip!/certificate_route_test/inputs.json",
+    "bytes": 1364,
+    "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip!/certificate_route_test/original_results.json",
+    "bytes": 101742,
+    "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip!/certificate_route_test/refine.py",
+    "bytes": 11219,
+    "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_route_test.zip!/certificate_route_test/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_structural_step.zip",
+    "bytes": 21040,
+    "sha256": "4c230a967b3932dba18c6ee176611804a180bbae606e64cf73879f67dadc7d90"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_structural_step.zip!/certificate_structural_step/SHA256SUMS.json",
+    "bytes": 923,
+    "sha256": "79d9a1b4b046a0154b815b1a746da484fa25b2bc5554deafcb529fe81204d3a8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_structural_step.zip!/certificate_structural_step/STRUCTURAL_STEP.md",
+    "bytes": 8178,
+    "sha256": "b50fbe067718af4ab6011692ea97b0f5ba3a3567c6bcbb97f3faa178411cb06d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_structural_step.zip!/certificate_structural_step/check_and_compare.py",
+    "bytes": 3727,
+    "sha256": "a077db00a4a0ccc0132eb665b059701cc524c30f8f39e36794b91b8c67e2297e"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_structural_step.zip!/certificate_structural_step/checked_results.json",
+    "bytes": 26921,
+    "sha256": "b7a9bc2565596169275d9de332b79134b79c2e3e72d8c353f947cb7b06b9ce7c"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_structural_step.zip!/certificate_structural_step/probe.py",
+    "bytes": 2606,
+    "sha256": "3afd9f01a0988d25cfcc82bba26e3f46ee368f594af1dfad11c7467e5262b4c8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_structural_step.zip!/certificate_structural_step/requirements.txt",
+    "bytes": 19,
+    "sha256": "834b95f435034610a6170f1f3c530631dc21afb80ad2dbc480118f3207eee9e8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/certificate_structural_step.zip!/certificate_structural_step/results.json",
+    "bytes": 7150,
+    "sha256": "dec60e251a965e3daa29e8a5bbb3f0748b0b17e4704c564e73d286429800f462"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/factorial_certificate_pilot.zip",
+    "bytes": 10876,
+    "sha256": "215f0ab2de4957e5d98d42106f2a525286b9fa9e89fa5f4db167ceb82ed7ad0c"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/PILOT.md",
+    "bytes": 8005,
+    "sha256": "836988fcb8c6d98797c074d63f7fbac2cfefa81b5889d4eb8d29ccc0983972a6"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/SHA256SUMS.json",
+    "bytes": 498,
+    "sha256": "aa0e31631d5b70f10c5b5fdd98f4a0bc14b9bedacfd9ded16dc04a5fb33a0070"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/pilot.py",
+    "bytes": 6891,
+    "sha256": "484fef73d981bd4522eff1608b1106b212b2be2de2ec45021d13bbf577e580dd"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/factorial_certificate_pilot.zip!/factorial_certificate_pilot/results.json",
+    "bytes": 60352,
+    "sha256": "a70f8c01f4c8b9e0976e194897f26cfa96ae7bbfe88367ae316a47d56146c272"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_mobius_review_bundle.zip",
+    "bytes": 9647,
+    "sha256": "b51b83d6ebe99fbea44efca292d069b882e324bf2824f73150f01038a7052334"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/check_mobius.py",
+    "bytes": 4286,
+    "sha256": "4fa2075af5445fadc25855739684576961ffe5b6846668c7aecd3e1777056664"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/check_saved_pair_metrics.py",
+    "bytes": 1734,
+    "sha256": "6c411d87e3a8d90208321926a47cb9b101b0fb4a463d3e450ce827e523cc27de"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/mobius_checks.json",
+    "bytes": 2196,
+    "sha256": "3e1bc50d2d6a508f4443cca6c6616e6acd88fc38f51e247e4ea821bfb1c2d515"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/review_and_next_experiments.md",
+    "bytes": 12525,
+    "sha256": "d0266728d858c5602c7ef8007012b8867757e34a775821720be5f9149e9d2bd5"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_mobius_review_bundle.zip!/prime_mobius_review/saved_pair_metric_checks.json",
+    "bytes": 451,
+    "sha256": "9893b05e70ab446482f3c6538e7fcc4eda224ebf8381af6b981eeb4edeb4f39a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_multiscale.zip",
+    "bytes": 16675,
+    "sha256": "78ba9ae1f6141100ccb96577ceef59467c600daef075522a5fe7b2038e13e09f"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/MULTISCALE.md",
+    "bytes": 20007,
+    "sha256": "d4da6572f3f117736f4bc6a3dcc2cfa7cc4a7015fb86d59027208e9b38279732"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/README.md",
+    "bytes": 836,
+    "sha256": "a8b223688064024e67afd2be3d145439d595b69027d2441a0418eccf87233093"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/SHA256SUMS.json",
+    "bytes": 441,
+    "sha256": "4c718f240bbd4c16f9b4b3963c84ac2b376c49b0c23149c60dbba1b5c6d877c7"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/check_multiscale.py",
+    "bytes": 10976,
+    "sha256": "a8e6c3083949b123920217ddc0ebe0d25900865e8d1acb4e5fc1d4be9ac8ded4"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/checks.json",
+    "bytes": 7820,
+    "sha256": "c0c4824873223ffaa39eb4d944b00b5cbb66ef0ea1d002969e42247ba6771cc2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_multiscale.zip!/prime_pair_multiscale/requirements.txt",
+    "bytes": 24,
+    "sha256": "9101128bb786a4dab198b7bb31109f469ed9902ad473d2b1f4b2f1b1b4b5470a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_q3_followup.zip",
+    "bytes": 9570,
+    "sha256": "2bc81ac5fd7d66370025801d9c06486ded68a8ade2e8dd7d87888f423c9abffb"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/README.md",
+    "bytes": 9815,
+    "sha256": "12ae3b9dbf6e4e2210b6ae6cd564b02c6c12e26dce9dc817a255fa5a8809b867"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/check_period6.py",
+    "bytes": 1622,
+    "sha256": "9c25755ab98ac8c3b49f707371595357aba2a307c9dabfdd299086a02fd61d9f"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/cli_check.json",
+    "bytes": 367,
+    "sha256": "d17614c883b0c43822109ffc191cdccd797e55c3c1560270f5002feef0032918"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/results.json",
+    "bytes": 5025,
+    "sha256": "9c8dbf83d9f7e7a546093e77d9f2c25ef02bec33af367c718a75fe7fc643bacd"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_q3_followup.zip!/prime_pair_q3_followup/verify_q3.py",
+    "bytes": 2960,
+    "sha256": "5520067e145ddd38cab96d2485bb43f5de751319c7ad8e16a5a6162134272f12"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_sharp_transfer.zip",
+    "bytes": 16545,
+    "sha256": "aea9833f71b7b0df8e18107e584d42365d98fddab04f152b440fa0bcb4284c83"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/README.md",
+    "bytes": 2438,
+    "sha256": "bcda6bf71a2569f9d94d36df532d1d2b06d147415b4a6b44e343ad39cb488d96"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/SHARP_TRANSFER.md",
+    "bytes": 16363,
+    "sha256": "92104b40160f5dc7cdf2010fcabc649744d5b61e0636d694ec325c290f049c6e"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/check_sharp_transfer.py",
+    "bytes": 10673,
+    "sha256": "242764c235fae2edda6b56049e33a4a9c61443f2250ab7a66a27e1e6e2de02a8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/checks.json",
+    "bytes": 11428,
+    "sha256": "6ebf79856b55de6d4df0c3fc4987798a6edcf1c2ef0673fb0f3ad1818457dbe2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/manifest.json",
+    "bytes": 708,
+    "sha256": "c41993dcfc7d145f291ee99756c2da7db7e80601d7f5d65e509082262244aca8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/requirements.txt",
+    "bytes": 24,
+    "sha256": "6bd31e587c06276bf231cec25395b5d4a0b1e38c4d2b00813b2dd96aad14f17a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip",
+    "bytes": 533979,
+    "sha256": "d86eef0cb19e0ab50cd2fddfdda5f64198ba947a1d30cdad03cee49a8ad571c1"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/README.md",
+    "bytes": 10531,
+    "sha256": "16a4b0ecc467a6ceea579af18c7d303eb3c29ff458479daffd3d5c2e53de88aa"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/data_metadata.json",
+    "bytes": 317,
+    "sha256": "96584ac05207ca3c30819532e3f21e676381e517ca8730869e63b3b438d588c2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/environment.json",
+    "bytes": 157,
+    "sha256": "8f23c8a3f4d0814fbf9cd196ca8dacc16f52aebeef1c26f42f4d8c39d9097912"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_candidates.csv",
+    "bytes": 1273,
+    "sha256": "7a29dd8cfc24ea18f4e390b37fc32f239ab2f4ad28b22b9bbcbc4ca1476fdcba"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_metrics.csv",
+    "bytes": 2297,
+    "sha256": "6816bb40af60d7ab930a5796468b356b537404b4a7d80b4dbf8e6773db6fa465"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6.npz",
+    "bytes": 1262,
+    "sha256": "abe185b00cfc9617da1518384c7b8ab738de058335b4b0ac4ab6ca8575335993"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6_and_previous_2_gaps.npz",
+    "bytes": 245426,
+    "sha256": "cb1f39e152ee1b2c1301fa4b14f6cab41f0cae4143862938f94c752ac9dc0e5f"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6_and_previous_gap.npz",
+    "bytes": 18001,
+    "sha256": "52bb5c5216aa6ac8dc5c452c6fa60b431a32a881646b9ca01dbcd4bff8b2209e"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_previous_2_gaps.npz",
+    "bytes": 180496,
+    "sha256": "e12961535840ddcc47b53ec62b98cc8f5471599dceb9c861353f8b34924e45cc"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_previous_gap.npz",
+    "bytes": 11713,
+    "sha256": "3717c7a0edaf8399fbb23594d12022ebf9f8f4dade57b27ab193129edd8bf21d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_unconditional.npz",
+    "bytes": 796,
+    "sha256": "03890444be30f27a69200f8e9f9d8421acc0fabb679334922b79798595cb7557"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_results.json",
+    "bytes": 9166,
+    "sha256": "9fbc4b95cd2d68d02a9fd35077b5907901342dc896a3ac3118589f1c374ef6af"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/lane_transitions.csv",
+    "bytes": 388,
+    "sha256": "59f9f2929c43c6a3dc517ed226587670b409e3ac762bd0ec474c0fff2f6cf7ca"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/learned_factors.csv",
+    "bytes": 410,
+    "sha256": "42e5623613f11086076c42a6f9cda043f4825e65e5a44e140cd87258820e7d09"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/make_data.py",
+    "bytes": 913,
+    "sha256": "8f925d2ab0a0047b4e4f4186960a146c0128dabb5b9be117096576403761f514"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/manifest.json",
+    "bytes": 4621,
+    "sha256": "c4187d714fbf43b42f352c3a0a4cc4e4e8842f7c4429e759516b0abf4908e158"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_metrics.csv",
+    "bytes": 3928,
+    "sha256": "cea41faddc65d4b1f5101e357487a69ada7904112bb2ea7ffd5a15b93f7037e6"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_predictions.csv",
+    "bytes": 131339,
+    "sha256": "65ecc568b946b8973b49f9440c589e595389decbf53a63021401092f13df3ced"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_results.json",
+    "bytes": 13493,
+    "sha256": "3a143a2ec8138df0e51c259a9ef73ce35c9fc2a446b0221391804b2a00a0505d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/prime_reverse_engineering.ipynb",
+    "bytes": 37158,
+    "sha256": "859ecc3f5f5b7c5abbdc60aa52c46f61f1d9581966b439eb75fb0dbcff63bbf2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/protocol.json",
+    "bytes": 1781,
+    "sha256": "0b6d0b7abeb2d44ead53bc761c428982992a8bb06fe3d2cc7d206946588fe354"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/rank_metrics.csv",
+    "bytes": 1381,
+    "sha256": "602b043554ac8b2dba9a0b034b3be77632337f4a8c8ee51b6c4e6d3f425c0636"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/rank_results.json",
+    "bytes": 7387,
+    "sha256": "02b793360bf780fdcb0eb89c141d5c29c09b5481e8a13788c016915201199740"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/requirements.txt",
+    "bytes": 91,
+    "sha256": "8b701f34be7d48656b261e5aef8336f0243f271a20fe9fa35db399286df1b9aa"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_all.py",
+    "bytes": 537,
+    "sha256": "3005ec69357a6dbf09752c1332b2704fdebfc67ff68e013dff7448e9bfd0fe63"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_gaps.py",
+    "bytes": 4991,
+    "sha256": "b8391756d6cfe7a8b6414f485ae7bb875514c50986aa916658980e5d39d33dd3"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_pairs.py",
+    "bytes": 5565,
+    "sha256": "fe0a8e9d27fd09413219ebf83bb1eab5cb4e7f3b597c45a8f1d12a64431ccf57"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_rank.py",
+    "bytes": 2548,
+    "sha256": "94a46796317438503dd225a375c1b57dbdf50a57a1a582d6691a03aa937c2abd"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_stress.py",
+    "bytes": 3649,
+    "sha256": "60334ca688c402fa42f020275e75edc083ce311630bf703a35bf2a3f69eecb2d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_gap_metrics.csv",
+    "bytes": 441,
+    "sha256": "d05a5036d24ce832b32552f7b5784b5bdfff0115b0155161a07b9f28bd1922f9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_pair_metrics.csv",
+    "bytes": 543,
+    "sha256": "8a6ee1c52dd8af20ab028189390726c0719e65daae86330b30cfa7d20c869d83"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_pair_predictions.csv",
+    "bytes": 14087,
+    "sha256": "36ded2fed67f6d66e27b319d30e2de45963b8c02fb5ce666ab4b87a57e6d664d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_protocol.json",
+    "bytes": 650,
+    "sha256": "d1cc759ff6feded4f61302347570cba60c186502055fe2b426cc6b873acece05"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_results.json",
+    "bytes": 2624,
+    "sha256": "4e37e0839e05003e370e5c2a2d4054ddfc386b9ea134f37a940143d6bf095cef"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/validate_results.py",
+    "bytes": 2791,
+    "sha256": "9b1a7f8c0abcbdf70094719fa8b95dee14004f2eb360608d8b22dc0901ba8762"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/validation.json",
+    "bytes": 1421,
+    "sha256": "66f30a98a8ccaa26ef2abe7ab75aa43d25bae6d86c22b21dfdb33db6ae676e00"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zero_energy_feasibility.zip",
+    "bytes": 11822,
+    "sha256": "6b690a90c35c886ca5309d4341656aec05fdfc8681223cec484fde403a310ec1"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/FEASIBILITY.md",
+    "bytes": 15588,
+    "sha256": "4c9d635cd84fbea1a62486a3e577786767e004cf0b1df5792f0ef1349bb480a3"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/README.md",
+    "bytes": 505,
+    "sha256": "f2557da5cab2894ebe235c4c8c902b097b8d45ccb673758f12d52df417c00dcc"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/check_feasibility.py",
+    "bytes": 7939,
+    "sha256": "c5bcc345970019f2e51ba6b876d79ad338bfddc83768ec0a2de276d696ed7395"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/checks.json",
+    "bytes": 2146,
+    "sha256": "2a15b774c28083a6f9740e31c301a032a3b4133ff82c9bf2479777c98ef62566"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zero_energy_feasibility.zip!/zero_energy_feasibility/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip",
+    "bytes": 629964,
+    "sha256": "61f4901f8659d13cd2c795b560475b1313db666650da78dabeccd7e03c1807de"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/MANIFEST.md",
+    "bytes": 8675,
+    "sha256": "80c238f8bbabee9b46fd0f145c139f63a70525ea8cd2bfdd52a253397f0f8503"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/SHA256SUMS.json",
+    "bytes": 1629,
+    "sha256": "15dded1e4ff164ab1df32c9e788864cf0b22a0544945b8b48f1ebe7c09214d20"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip",
+    "bytes": 12437,
+    "sha256": "a5fbd9de8ad3b9f0f71fed0f7abec7ade426128179c99bfad43cbe898489086a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/DIRECT_ATTACK.md",
+    "bytes": 12084,
+    "sha256": "b8b7d0f6ab818b25c931bfdc1c1bf7438e0a7b7001d8ac4e0a284cea17806283"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/check_attack.py",
+    "bytes": 7243,
+    "sha256": "82bd445fad2430dd247b18cc5ee93a48087a74c116c671306805ce5d9d08bb44"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/checks.json",
+    "bytes": 6511,
+    "sha256": "599f233c3ca55cc21dbe20ebd86d8b6ec204780e83a579bfc4a089696417d0b5"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/checks.log",
+    "bytes": 6511,
+    "sha256": "599f233c3ca55cc21dbe20ebd86d8b6ec204780e83a579bfc4a089696417d0b5"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/central_arithmetic_attack.zip!/central_arithmetic_attack/requirements.txt",
+    "bytes": 13,
+    "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip",
+    "bytes": 9647,
+    "sha256": "b51b83d6ebe99fbea44efca292d069b882e324bf2824f73150f01038a7052334"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/check_mobius.py",
+    "bytes": 4286,
+    "sha256": "4fa2075af5445fadc25855739684576961ffe5b6846668c7aecd3e1777056664"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/check_saved_pair_metrics.py",
+    "bytes": 1734,
+    "sha256": "6c411d87e3a8d90208321926a47cb9b101b0fb4a463d3e450ce827e523cc27de"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/mobius_checks.json",
+    "bytes": 2196,
+    "sha256": "3e1bc50d2d6a508f4443cca6c6616e6acd88fc38f51e247e4ea821bfb1c2d515"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/review_and_next_experiments.md",
+    "bytes": 12525,
+    "sha256": "d0266728d858c5602c7ef8007012b8867757e34a775821720be5f9149e9d2bd5"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_mobius_review_bundle.zip!/prime_mobius_review/saved_pair_metric_checks.json",
+    "bytes": 451,
+    "sha256": "9893b05e70ab446482f3c6538e7fcc4eda224ebf8381af6b981eeb4edeb4f39a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip",
+    "bytes": 16675,
+    "sha256": "78ba9ae1f6141100ccb96577ceef59467c600daef075522a5fe7b2038e13e09f"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/MULTISCALE.md",
+    "bytes": 20007,
+    "sha256": "d4da6572f3f117736f4bc6a3dcc2cfa7cc4a7015fb86d59027208e9b38279732"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/README.md",
+    "bytes": 836,
+    "sha256": "a8b223688064024e67afd2be3d145439d595b69027d2441a0418eccf87233093"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/SHA256SUMS.json",
+    "bytes": 441,
+    "sha256": "4c718f240bbd4c16f9b4b3963c84ac2b376c49b0c23149c60dbba1b5c6d877c7"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/check_multiscale.py",
+    "bytes": 10976,
+    "sha256": "a8e6c3083949b123920217ddc0ebe0d25900865e8d1acb4e5fc1d4be9ac8ded4"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/checks.json",
+    "bytes": 7820,
+    "sha256": "c0c4824873223ffaa39eb4d944b00b5cbb66ef0ea1d002969e42247ba6771cc2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_multiscale.zip!/prime_pair_multiscale/requirements.txt",
+    "bytes": 24,
+    "sha256": "9101128bb786a4dab198b7bb31109f469ed9902ad473d2b1f4b2f1b1b4b5470a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip",
+    "bytes": 9570,
+    "sha256": "2bc81ac5fd7d66370025801d9c06486ded68a8ade2e8dd7d87888f423c9abffb"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/README.md",
+    "bytes": 9815,
+    "sha256": "12ae3b9dbf6e4e2210b6ae6cd564b02c6c12e26dce9dc817a255fa5a8809b867"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/check_period6.py",
+    "bytes": 1622,
+    "sha256": "9c25755ab98ac8c3b49f707371595357aba2a307c9dabfdd299086a02fd61d9f"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/cli_check.json",
+    "bytes": 367,
+    "sha256": "d17614c883b0c43822109ffc191cdccd797e55c3c1560270f5002feef0032918"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/results.json",
+    "bytes": 5025,
+    "sha256": "9c8dbf83d9f7e7a546093e77d9f2c25ef02bec33af367c718a75fe7fc643bacd"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_q3_followup.zip!/prime_pair_q3_followup/verify_q3.py",
+    "bytes": 2960,
+    "sha256": "5520067e145ddd38cab96d2485bb43f5de751319c7ad8e16a5a6162134272f12"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip",
+    "bytes": 16545,
+    "sha256": "aea9833f71b7b0df8e18107e584d42365d98fddab04f152b440fa0bcb4284c83"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/README.md",
+    "bytes": 2438,
+    "sha256": "bcda6bf71a2569f9d94d36df532d1d2b06d147415b4a6b44e343ad39cb488d96"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/SHARP_TRANSFER.md",
+    "bytes": 16363,
+    "sha256": "92104b40160f5dc7cdf2010fcabc649744d5b61e0636d694ec325c290f049c6e"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/check_sharp_transfer.py",
+    "bytes": 10673,
+    "sha256": "242764c235fae2edda6b56049e33a4a9c61443f2250ab7a66a27e1e6e2de02a8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/checks.json",
+    "bytes": 11428,
+    "sha256": "6ebf79856b55de6d4df0c3fc4987798a6edcf1c2ef0673fb0f3ad1818457dbe2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/manifest.json",
+    "bytes": 708,
+    "sha256": "c41993dcfc7d145f291ee99756c2da7db7e80601d7f5d65e509082262244aca8"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_pair_sharp_transfer.zip!/prime_pair_sharp_transfer/requirements.txt",
+    "bytes": 24,
+    "sha256": "6bd31e587c06276bf231cec25395b5d4a0b1e38c4d2b00813b2dd96aad14f17a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip",
+    "bytes": 533979,
+    "sha256": "d86eef0cb19e0ab50cd2fddfdda5f64198ba947a1d30cdad03cee49a8ad571c1"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/README.md",
+    "bytes": 10531,
+    "sha256": "16a4b0ecc467a6ceea579af18c7d303eb3c29ff458479daffd3d5c2e53de88aa"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/data_metadata.json",
+    "bytes": 317,
+    "sha256": "96584ac05207ca3c30819532e3f21e676381e517ca8730869e63b3b438d588c2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/environment.json",
+    "bytes": 157,
+    "sha256": "8f23c8a3f4d0814fbf9cd196ca8dacc16f52aebeef1c26f42f4d8c39d9097912"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_candidates.csv",
+    "bytes": 1273,
+    "sha256": "7a29dd8cfc24ea18f4e390b37fc32f239ab2f4ad28b22b9bbcbc4ca1476fdcba"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_metrics.csv",
+    "bytes": 2297,
+    "sha256": "6816bb40af60d7ab930a5796468b356b537404b4a7d80b4dbf8e6773db6fa465"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6.npz",
+    "bytes": 1262,
+    "sha256": "abe185b00cfc9617da1518384c7b8ab738de058335b4b0ac4ab6ca8575335993"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6_and_previous_2_gaps.npz",
+    "bytes": 245426,
+    "sha256": "cb1f39e152ee1b2c1301fa4b14f6cab41f0cae4143862938f94c752ac9dc0e5f"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_mod6_and_previous_gap.npz",
+    "bytes": 18001,
+    "sha256": "52bb5c5216aa6ac8dc5c452c6fa60b431a32a881646b9ca01dbcd4bff8b2209e"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_previous_2_gaps.npz",
+    "bytes": 180496,
+    "sha256": "e12961535840ddcc47b53ec62b98cc8f5471599dceb9c861353f8b34924e45cc"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_previous_gap.npz",
+    "bytes": 11713,
+    "sha256": "3717c7a0edaf8399fbb23594d12022ebf9f8f4dade57b27ab193129edd8bf21d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_model_unconditional.npz",
+    "bytes": 796,
+    "sha256": "03890444be30f27a69200f8e9f9d8421acc0fabb679334922b79798595cb7557"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/gap_results.json",
+    "bytes": 9166,
+    "sha256": "9fbc4b95cd2d68d02a9fd35077b5907901342dc896a3ac3118589f1c374ef6af"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/lane_transitions.csv",
+    "bytes": 388,
+    "sha256": "59f9f2929c43c6a3dc517ed226587670b409e3ac762bd0ec474c0fff2f6cf7ca"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/learned_factors.csv",
+    "bytes": 410,
+    "sha256": "42e5623613f11086076c42a6f9cda043f4825e65e5a44e140cd87258820e7d09"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/make_data.py",
+    "bytes": 913,
+    "sha256": "8f925d2ab0a0047b4e4f4186960a146c0128dabb5b9be117096576403761f514"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/manifest.json",
+    "bytes": 4621,
+    "sha256": "c4187d714fbf43b42f352c3a0a4cc4e4e8842f7c4429e759516b0abf4908e158"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_metrics.csv",
+    "bytes": 3928,
+    "sha256": "cea41faddc65d4b1f5101e357487a69ada7904112bb2ea7ffd5a15b93f7037e6"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_predictions.csv",
+    "bytes": 131339,
+    "sha256": "65ecc568b946b8973b49f9440c589e595389decbf53a63021401092f13df3ced"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/pair_results.json",
+    "bytes": 13493,
+    "sha256": "3a143a2ec8138df0e51c259a9ef73ce35c9fc2a446b0221391804b2a00a0505d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/prime_reverse_engineering.ipynb",
+    "bytes": 37158,
+    "sha256": "859ecc3f5f5b7c5abbdc60aa52c46f61f1d9581966b439eb75fb0dbcff63bbf2"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/protocol.json",
+    "bytes": 1781,
+    "sha256": "0b6d0b7abeb2d44ead53bc761c428982992a8bb06fe3d2cc7d206946588fe354"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/rank_metrics.csv",
+    "bytes": 1381,
+    "sha256": "602b043554ac8b2dba9a0b034b3be77632337f4a8c8ee51b6c4e6d3f425c0636"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/rank_results.json",
+    "bytes": 7387,
+    "sha256": "02b793360bf780fdcb0eb89c141d5c29c09b5481e8a13788c016915201199740"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/requirements.txt",
+    "bytes": 91,
+    "sha256": "8b701f34be7d48656b261e5aef8336f0243f271a20fe9fa35db399286df1b9aa"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_all.py",
+    "bytes": 537,
+    "sha256": "3005ec69357a6dbf09752c1332b2704fdebfc67ff68e013dff7448e9bfd0fe63"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_gaps.py",
+    "bytes": 4991,
+    "sha256": "b8391756d6cfe7a8b6414f485ae7bb875514c50986aa916658980e5d39d33dd3"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_pairs.py",
+    "bytes": 5565,
+    "sha256": "fe0a8e9d27fd09413219ebf83bb1eab5cb4e7f3b597c45a8f1d12a64431ccf57"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_rank.py",
+    "bytes": 2548,
+    "sha256": "94a46796317438503dd225a375c1b57dbdf50a57a1a582d6691a03aa937c2abd"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/run_stress.py",
+    "bytes": 3649,
+    "sha256": "60334ca688c402fa42f020275e75edc083ce311630bf703a35bf2a3f69eecb2d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_gap_metrics.csv",
+    "bytes": 441,
+    "sha256": "d05a5036d24ce832b32552f7b5784b5bdfff0115b0155161a07b9f28bd1922f9"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_pair_metrics.csv",
+    "bytes": 543,
+    "sha256": "8a6ee1c52dd8af20ab028189390726c0719e65daae86330b30cfa7d20c869d83"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_pair_predictions.csv",
+    "bytes": 14087,
+    "sha256": "36ded2fed67f6d66e27b319d30e2de45963b8c02fb5ce666ab4b87a57e6d664d"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_protocol.json",
+    "bytes": 650,
+    "sha256": "d1cc759ff6feded4f61302347570cba60c186502055fe2b426cc6b873acece05"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/stress_results.json",
+    "bytes": 2624,
+    "sha256": "4e37e0839e05003e370e5c2a2d4054ddfc386b9ea134f37a940143d6bf095cef"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/validate_results.py",
+    "bytes": 2791,
+    "sha256": "9b1a7f8c0abcbdf70094719fa8b95dee14004f2eb360608d8b22dc0901ba8762"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/prime_reverse_engineering_bundle.zip!/prime_reverse_engineering/validation.json",
+    "bytes": 1421,
+    "sha256": "66f30a98a8ccaa26ef2abe7ab75aa43d25bae6d86c22b21dfdb33db6ae676e00"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip",
+    "bytes": 11822,
+    "sha256": "6b690a90c35c886ca5309d4341656aec05fdfc8681223cec484fde403a310ec1"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/FEASIBILITY.md",
+    "bytes": 15588,
+    "sha256": "4c9d635cd84fbea1a62486a3e577786767e004cf0b1df5792f0ef1349bb480a3"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/README.md",
+    "bytes": 505,
+    "sha256": "f2557da5cab2894ebe235c4c8c902b097b8d45ccb673758f12d52df417c00dcc"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/check_feasibility.py",
+    "bytes": 7939,
+    "sha256": "c5bcc345970019f2e51ba6b876d79ad338bfddc83768ec0a2de276d696ed7395"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/checks.json",
+    "bytes": 2146,
+    "sha256": "2a15b774c28083a6f9740e31c301a032a3b4133ff82c9bf2479777c98ef62566"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/artifacts/zero_energy_feasibility.zip!/zero_energy_feasibility/requirements.txt",
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/source_text/Pasted markdown(20260906-053851).md",
+    "bytes": 15592,
+    "sha256": "bfa176325d952ed4bba1941233e47441da8ba97fdeacb295782bb2e265b6531f"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/original_archives/zeta_frontier_handoff_2026-09-06.zip!/zeta_frontier_handoff_2026-09-06/source_text/Pasted text(20260906-113217).txt",
+    "bytes": 36410,
+    "sha256": "edf444d60c619377d1a98d16a0d24b77ae9b15100df1b87c070fed63d5a65251"
+  },
+  {
+    "locator": "original_archives/zeta_research_checkpoint_2026-09-06.zip!/zeta_research_checkpoint_2026-09-06/verify_snapshot.py",
+    "bytes": 4229,
+    "sha256": "a32696bcc72b44b8eac467f70e2a5f719ea192b45343188eb6c695889673bd24"
+  }
+]

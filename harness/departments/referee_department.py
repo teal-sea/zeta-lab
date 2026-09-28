@@ -1,10 +1,10 @@
-"""Department #5: the referee itself — batteries as subjects, audited like one.
+"""Department #5: the referee itself, batteries as subjects, audited like one.
 
 The subject of this department is the verification machinery: a
 :class:`~harness.protocol.Department` bundle is the payload, and the claims
 are about whether such a bundle deserves trust. This is not symmetry for its
-own sake. The repository discovered twice — the sham battery commit
-``431cc74`` replaced, and the dossier resumption benchmark — that a
+own sake. The repository discovered twice, the sham battery commit
+``431cc74`` replaced, and the dossier resumption benchmark, that a
 structurally complete battery can be epistemically worthless, and the
 harness's own admission rule says what follows: work whose claims nothing
 can falsify is not a department. Verification claims were exactly such work
@@ -13,33 +13,33 @@ trustworthy".
 
 The four roles, derived rather than transplanted
 ------------------------------------------------
-* **Target** — a specimen department in a neutral toy domain, genuinely
+* **Target**: a specimen department in a neutral toy domain, genuinely
   calibrated: real rivals, moving decoys, planting lesions, a detector with
   measured power and specificity, reference claims that re-derive.
-* **Rivals** — bundles that share the structure and lack the integrity:
+* **Rivals**, bundles that share the structure and lack the integrity:
   the **reconstruction of the 431cc74 sham** (rivals carrying a
   ``virtual_a_p`` label field, a surrogate returning ``[1, 2, 3]``,
   placeholder instruments written to the conformance tests' shapes), a
   constant-detector sham, and an inert-instrument sham. The reconstruction
   is this department's held-out element: it was authored by a different
-  process, at a different time, with no knowledge of today's audit — the
+  process, at a different time, with no knowledge of today's audit, the
   closest thing to an externally authored mutant the repository owns.
-* **Decoys** — substitutions on the bundle that keep its shape and remove
+* **Decoys**: substitutions on the bundle that keep its shape and remove
   the substance an integrity verdict is supposed to read: vacuous
   calibration claims, an undeclared provenance record.
-* **Surrogates** — bundles assembled by an unguided generator: structurally
+* **Surrogates**, bundles assembled by an unguided generator: structurally
   valid parts, seeded random content, no calibration effort anywhere. If
   the audit's pass-count is reproduced by these, passing checks is a
   property of the bundle class, not evidence of calibration.
-* **Lesions** — :mod:`harness.shams` mutations planted into the specimen,
+* **Lesions** :mod:`harness.shams` mutations planted into the specimen,
   with magnitudes **measured at import** (the fraction of audit checks the
-  mutation flips), never asserted — department #4's lesson.
-* **Detector** — the integrity audit itself, as a predicate: it fires when
+  mutation flips), never asserted, department #4's lesson.
+* **Detector**, the integrity audit itself, as a predicate: it fires when
   a bundle's grade is not CALIBRATED. Its specificity is measured on the
   specimen, its power on the planted mutations. This is the recursion, and
   also where it stops: the audit that grades departments is here a declared
   detector whose power is measured by planted battery-corruptions, and the
-  conformance suite — deterministic, pinned, re-run on every change — is
+  conformance suite, deterministic, pinned, re-run on every change, is
   the trusted kernel underneath. There is no meta-meta-referee; there is a
   kernel, and it is documented at the door.
 
@@ -94,7 +94,7 @@ __all__ = [
 
 
 # ---------------------------------------------------------------------------
-# The toy domain the specimen lives in — deliberately arithmetic-free
+# The toy domain the specimen lives in, deliberately arithmetic-free
 # ---------------------------------------------------------------------------
 
 
@@ -116,7 +116,7 @@ class _ToyDecoy:
     name: str = "increment-all"
 
     def describe(self) -> str:
-        return "adds one to every probe entry — shape kept, values moved"
+        return "adds one to every probe entry, shape kept, values moved"
 
     def substitute(self, probe: Any) -> list:
         return [x + 1 for x in probe]
@@ -232,7 +232,7 @@ class _ShamDecoy:
     probe: Any = (1, 2, 3, 4)
 
     def describe(self) -> str:
-        return "reverses its input — enough to pass a change-detection probe, nothing more"
+        return "reverses its input, enough to pass a change-detection probe, nothing more"
 
     def substitute(self, probe: Any) -> list:
         return list(reversed(list(probe)))
@@ -243,7 +243,7 @@ class _ShamSurrogate:
     name: str = "placeholder-null"
 
     def describe(self) -> str:
-        return "returns [1, 2, 3] — the commit message's own example"
+        return "returns [1, 2, 3], the commit message's own example"
 
     def sample(self) -> list:
         return [1, 2, 3]
@@ -263,14 +263,14 @@ class _ShamLesion:
 
 
 def build_sham_431cc74() -> Department:
-    """The sham battery commit ``431cc74`` replaced — reconstructed.
+    """The sham battery commit ``431cc74`` replaced, reconstructed.
 
     The original was staged and never committed, so no byte-exact source
     survives; this reconstruction follows the replacing commit's description
     exactly: rivals carrying a ``virtual_a_p`` payload field a claim could
     read as a label, a surrogate returning ``[1, 2, 3]``, decoys and lesions
     written to the conformance tests' shapes of the day. The distinguishing
-    reference claim reads the label — which is what made it a sham. One
+    reference claim reads the label, which is what made it a sham. One
     modernisation was unavoidable: today's admission rule demands a declared
     detector, so the sham gets one co-designed with its own placeholder
     lesion, the move a sham author would make. Every instrument here passes
@@ -344,7 +344,7 @@ RIVALS: tuple[_BundleSubject, ...] = (
         build=build_sham_431cc74,
         _blurb=(
             "the held-out rival: the historical sham, authored by another process "
-            "before this audit existed — label leak, placeholder instruments"
+            "before this audit existed, label leak, placeholder instruments"
         ),
     ),
     _BundleSubject(
@@ -368,7 +368,7 @@ RIVALS: tuple[_BundleSubject, ...] = (
 def claim_validates_structurally(bundle: Department) -> bool:
     """Fires when the bundle passes structural admission.
 
-    True of the specimen and of every sham rival — including the 431cc74
+    True of the specimen and of every sham rival, including the 431cc74
     reconstruction, whose whole point is that it validated. This is the
     reference claim the battery must kill, and the department's headline
     measurement: **structural completeness is not verification.**
@@ -399,7 +399,7 @@ class _VacuousCalibrationDecoy:
     def describe(self) -> str:
         return (
             "replaces the reference claims with a shape-valid pair that cannot "
-            "earn its labels — the calibration content is the substance"
+            "earn its labels, the calibration content is the substance"
         )
 
     def substitute(self, bundle: Department) -> Department:
@@ -411,7 +411,7 @@ class _UndeclaredProvenanceDecoy:
     probe = SPECIMEN
 
     def describe(self) -> str:
-        return "removes the provenance record — declared facts become unknowns"
+        return "removes the provenance record, declared facts become unknowns"
 
     def substitute(self, bundle: Department) -> Department:
         return replace(bundle, provenance=None)
@@ -429,7 +429,7 @@ def random_bundle(seed: int) -> Department:
     """A structurally plausible department assembled with zero calibration
     effort: every content choice is drawn from a seeded congruential stream.
 
-    The generator knows the *shapes* — including that admission demands one
+    The generator knows the *shapes*, including that admission demands one
     reference claim declared in each direction, so its bundles pass the
     structural door on purpose: the null class worth beating is "validates,
     with random content", since every sham in this department's sights
@@ -544,7 +544,7 @@ class _BundleLesion:
     """One sham mutation as a lesion on department bundles.
 
     ``magnitude`` is the fraction of audit checks the mutation flips on the
-    specimen, measured at import — a lesion whose measured magnitude were
+    specimen, measured at import, a lesion whose measured magnitude were
     zero would be planting nothing, and the conformance suite would refuse
     it via the plant check.
     """
@@ -603,7 +603,7 @@ DETECTORS = (
         probe=SPECIMEN,
         note=(
             "the audit itself as a predicate: quiet on the calibrated specimen, "
-            "fires on every planted corruption — the recursion, measured and closed"
+            "fires on every planted corruption, the recursion, measured and closed"
         ),
     ),
 )
@@ -634,7 +634,7 @@ REFERENCE_CLAIMS = (
         distinguishes=False,
         note=(
             "true of the specimen and of every sham rival, the 431cc74 "
-            "reconstruction included — structural completeness is not "
+            "reconstruction included, structural completeness is not "
             "verification, stated as a measurement rather than a maxim"
         ),
     ),
@@ -644,7 +644,7 @@ REFERENCE_CLAIMS = (
         distinguishes=True,
         note=(
             "the full integrity audit at grade CALIBRATED: fires for the specimen, "
-            "for no sham — within the declared blind spots only"
+            "for no sham, within the declared blind spots only"
         ),
     ),
 )
@@ -663,7 +663,7 @@ DEPARTMENT = Department(
     scope=(
         "a surviving claim distinguishes a calibrated battery from the named sham "
         "classes in SHAM_MODES; it does not certify that a battery measures what "
-        "its department believes — value-encoded label leaks and co-designed "
+        "its department believes, value-encoded label leaks and co-designed "
         "calibration are declared blind spots, countered only by independent "
         "authorship, which no mechanical check verifies"
     ),

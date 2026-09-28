@@ -13,21 +13,21 @@ import ZetaLean.IntervalExp
 The second and third stones of rung 3's numeric half.  `IntervalExp.lean`
 certified the real elementary functions; this file lifts `exp` to `ℂ` on the
 `ComplexInterval` layer of `ZetaLean/Rigor.lean` and then ties the Dirichlet
-term `n^{-s} = exp(-s · log n)` to a kernel-checked enclosure — the gap
+term `n^{-s} = exp(-s · log n)` to a kernel-checked enclosure, the gap
 `ZetaLean/OracleDH.lean` names as "nothing here is kernel-checked about
 `n^{-s}` itself".
 
-* `ComplexInterval.expSumC` — the Taylor partial sum `∑_{i<n} z^i/i!` as
+* `ComplexInterval.expSumC`: the Taylor partial sum `∑_{i<n} z^i/i!` as
   rectangle arithmetic, sound by induction from `Rigor.lean`.
-* `ComplexInterval.expSmall` — `exp` on a box with `normBound ≤ 1`: the
+* `ComplexInterval.expSmall`, `exp` on a box with `normBound ≤ 1`: the
   Taylor sum inflated by the Lagrange-style remainder of Mathlib's
   `Complex.exp_bound`.  Since `exp(it)` has real part `cos t` and imaginary
-  part `sin t`, this is simultaneously certified sin/cos — no separate
+  part `sin t`, this is simultaneously certified sin/cos, no separate
   trigonometric development is needed.
-* `ComplexInterval.expC` — `exp` on a box with `normBound ≤ 2^k`, by `k`
+* `ComplexInterval.expC`: `exp` on a box with `normBound ≤ 2^k`, by `k`
   halvings and certified squarings (`exp z = exp(z/2)²`), mirroring
   `Interval.expI`.
-* `ComplexInterval.dirichletTerm` — the enclosure of `m^{-s}` for natural
+* `ComplexInterval.dirichletTerm`: the enclosure of `m^{-s}` for natural
   `m ≥ 1` and rational `s`, composed from `Interval.logQ` and `expC` through
   Mathlib's `cpow_def_of_ne_zero` bridge.  `contains_dirichletTerm` is the
   theorem the oracle could not fake: the box is computed by kernel-reducible
@@ -232,7 +232,7 @@ def dirichletTerm (n kL kE : ℕ) (m : ℕ) (sre sim : ℚ) : ComplexInterval :=
 `dirichletTerm` provably contains `(m : ℂ) ^ (-s)`.  Every arithmetic step
 is kernel-reducible rational interval arithmetic; the analytic inputs are
 Mathlib's `Complex.exp_bound`, the `log` series bound, and the `cpow`
-definition — no step is an oracle claim. -/
+definition, no step is an oracle claim. -/
 theorem contains_dirichletTerm {n kL kE : ℕ} (hn : 0 < n) {m : ℕ} (hm : 0 < m)
     {sre sim : ℚ}
     (h0 : 0 < (m : ℚ) / 2 ^ kL) (h2 : (m : ℚ) / 2 ^ kL < 2)
@@ -271,7 +271,7 @@ Exact rational interval arithmetic doubles digit counts at every squaring:
 one Dirichlet term at the oracle point, evaluated without rounding, has
 560000-bit endpoints.  `coarsen` is the primitive Arb has and the exact
 layer lacked: round the endpoints outward to `p` dyadic bits.  Containment
-is preserved — the box only grows, by at most `2^{-p}` per side. -/
+is preserved, the box only grows, by at most `2^{-p}` per side. -/
 
 /-- Round an interval's endpoints outward to `p` dyadic bits. -/
 def _root_.ZetaLean.Interval.coarsen (p : ℕ) (x : Interval) : Interval :=
@@ -313,7 +313,7 @@ theorem contains_coarsen (p : ℕ) {x : ComplexInterval} {z : ℂ}
     (hx : x.contains z) : (x.coarsen p).contains z :=
   ⟨Interval.contains_coarsen p hx.1, Interval.contains_coarsen p hx.2⟩
 
-/-- `expC` with outward rounding to `p` bits after every squaring — the
+/-- `expC` with outward rounding to `p` bits after every squaring, the
 digit-growth-free evaluator.  Identical enclosure semantics, boxes wider by
 at most `2^{-p}` per level. -/
 def expCr (n p : ℕ) : ℕ → ComplexInterval → ComplexInterval
@@ -383,7 +383,7 @@ orders want opposite things:
 * The **width** is set almost entirely by the log.  `logRem n q ≈ q^{n+1}/(1-q)`
   with `q ≤ 1/2`, so at `n = 20` the log carries width `7.6e-6`, which `|s| ≈ 86`
   amplifies to `6.6e-4` and the squaring tower to `3.0e-3`.  Multiplied over the
-  `5K` terms of one site that is a box width of `1.5` against a `β` of `0.038` —
+  `5K` terms of one site that is a box width of `1.5` against a `β` of `0.038`,
   infeasible by a factor of 30, before any Lean is generated.  Raising `kE` or
   the coarsening precision does not touch it: at `kE = 18` and `p = 128` the
   final width is still `3.0e-3`.  Raising the log order does: `n = 28` gives
@@ -392,7 +392,7 @@ orders want opposite things:
   forms `powI x i` up to `i = n`, so `n` multiplies the endpoint bit-width by
   `n`; that is where the "multi-thousand-bit rationals" that defeated one-shot
   `norm_num` evaluation come from.  The log's own endpoints are small and stay
-  small — order 20 to 32 takes them from 91 to 158 bits.
+  small, order 20 to 32 takes them from 91 to 158 bits.
 
 So the orders are split.  `nLog` is raised until the width fits; `nExp` stays
 small so the generated literals stay evaluable.  Nothing else changes: the two
@@ -432,7 +432,7 @@ theorem dirichletTermBox2_self (n p kL kE m : ℕ) (S : ComplexInterval) :
 
 /-! ### Reading a norm lower bound off a computed box -/
 
-/-- The distance from `0` to an interval — `0` when the interval straddles
+/-- The distance from `0` to an interval, `0` when the interval straddles
 the origin, otherwise the nearer endpoint's magnitude. -/
 def _root_.ZetaLean.Interval.distToZero (x : Interval) : ℚ :=
   max 0 (max x.lo (-x.hi))

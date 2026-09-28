@@ -17,9 +17,9 @@ The damage is `Dam y s = Qim y s ^ 2 - Qre y s ^ 2`, and the obligation is
 
 which is what the two modes of `o9Box` test:
 
-* **mode 1** — `R ^ 2 - c ≤ 0`, so the left side is `≤ 0 ≤ Qre ^ 2` whatever
+* **mode 1**: `R ^ 2 - c ≤ 0`, so the left side is `≤ 0 ≤ Qre ^ 2` whatever
   `Qre` does. This is the branch that carries every box touching `y = 0`.
-* **mode 2** — `y_hi ^ 2 * (sup R ^ 2 - c) ≤ inf Qre ^ 2`.
+* **mode 2**: `y_hi ^ 2 * (sup R ^ 2 - c) ≤ inf Qre ^ 2`.
 
 ## Why the `y = 0` split comes first
 
@@ -70,7 +70,7 @@ theorem dam_le_of_branch {y s c : ℝ} (hy : y ≠ 0)
 
 /-- **Mode 1 is sound.**
 
-If the branch is under the cap outright, the obligation holds at every depth —
+If the branch is under the cap outright, the obligation holds at every depth,
 including `y = 0`, where it is `dam_zero_le`. This is the only mode a box
 touching `y = 0` may use, and it needs no enclosure of `Qre` at all. -/
 theorem dam_le_of_mode1 {y s c : ℝ} (hy0 : 0 ≤ y) (hc : 0 ≤ c)
@@ -93,7 +93,7 @@ why that suffices.
 
 The case split is the content. When `sup R² ≤ c` the branch is under the cap
 outright and mode 1's argument applies at every depth. When it is not, the
-excess is positive, so scaling it by `y² ≤ y_hi²` only shrinks it — and the
+excess is positive, so scaling it by `y² ≤ y_hi²` only shrinks it, and the
 recorded inequality at `y_hi` therefore covers every smaller depth in the box.
 Monotonicity in `y` is doing the work, and it runs the right way only because
 the excess is nonnegative in that branch. -/

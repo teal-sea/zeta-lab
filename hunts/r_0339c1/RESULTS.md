@@ -135,6 +135,8 @@ it does for every claim this laboratory publishes.
   band `76` quadratically. Tightening `mertens_first_theorem`'s `log 4 + 16`
   would propagate automatically; the classical band is `4`, which would put
   the variance constant near `4² + 4 + 3 = 23`. Local work, no new ideas.
+  *Landed:* `hunts/r_4218d4/` moved the band to `16` and this constant from
+  `5855` to `275`, kernel-checked.
 - **The pointwise form is a short step away.** The statement here normalises
   by `log log N` at scale `N`; the textbook variant with `log log n` needs
   only the standard comparison `log log n ~ log log N` on `(N^δ, N]` plus a

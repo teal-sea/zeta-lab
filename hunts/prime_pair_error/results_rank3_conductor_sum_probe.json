@@ -1,0 +1,102 @@
+{
+  "C_3": 2.300961544710676,
+  "four_times_C3_minus_1": 5.203846178842705,
+  "q2_pin": [
+    {
+      "N": 120,
+      "Q": 3,
+      "T_N": 1223.7921195057097,
+      "T_N(2,1)_full_circle": 10385.457473356579,
+      "T_N(2,1)_grid": 10385.45747335658,
+      "U_(2)_arc": 9464.797146214982,
+      "ratio_U2_over_TN": 7.733990924894841,
+      "lower_bound_TN_half_minus_4NL2": -10389.740990106155,
+      "pin_holds": true
+    },
+    {
+      "N": 1000,
+      "Q": 10,
+      "T_N": 42081.30479215864,
+      "T_N(2,1)_full_circle": 217625.80864409797,
+      "T_N(2,1)_grid": 217625.80864409794,
+      "U_(2)_arc": 188340.2013638993,
+      "ratio_U2_over_TN": 4.475626463915974,
+      "lower_bound_TN_half_minus_4NL2": -169827.679581143,
+      "pin_holds": true
+    },
+    {
+      "N": 5000,
+      "Q": 23,
+      "T_N": 1161687.6410270757,
+      "T_N(2,1)_full_circle": 2493340.9319191147,
+      "T_N(2,1)_grid": 2493340.9319191203,
+      "U_(2)_arc": 1934508.608886232,
+      "ratio_U2_over_TN": 1.6652571143615567,
+      "lower_bound_TN_half_minus_4NL2": -870007.7766846048,
+      "pin_holds": true
+    },
+    {
+      "N": 20000,
+      "Q": 47,
+      "T_N": 30518062.880024977,
+      "T_N(2,1)_full_circle": 40115339.70736025,
+      "T_N(2,1)_grid": 40115339.70736038,
+      "U_(2)_arc": 34903545.06683975,
+      "ratio_U2_over_TN": 1.1437011976826748,
+      "lower_bound_TN_half_minus_4NL2": 7412706.183753448,
+      "pin_holds": true
+    }
+  ],
+  "conductor_bookkeeping": [
+    {
+      "q": 6,
+      "rho_2": 15.314905006836165,
+      "N": 3000,
+      "max_ratio_Mchi_over_(2Mstar+4Nrho2sq)": 0.4223367446950595,
+      "inequality_holds": true,
+      "sum_cond_times_Mchi": 24568097.364789322,
+      "by_conductor": {
+        "3": {
+          "count": 1,
+          "sum_M": 8189365.788263108
+        }
+      }
+    },
+    {
+      "q": 10,
+      "rho_2": 14.0623706358958,
+      "N": 3000,
+      "max_ratio_Mchi_over_(2Mstar+4Nrho2sq)": 0.3973287971967297,
+      "inequality_holds": true,
+      "sum_cond_times_Mchi": 62084245.869079396,
+      "by_conductor": {
+        "5": {
+          "count": 3,
+          "sum_M": 12416849.173815878
+        }
+      }
+    },
+    {
+      "q": 15,
+      "rho_2": 14.128037670413168,
+      "N": 3000,
+      "max_ratio_Mchi_over_(2Mstar+4Nrho2sq)": 0.4535395014302933,
+      "inequality_holds": true,
+      "sum_cond_times_Mchi": 526194033.03457,
+      "by_conductor": {
+        "5": {
+          "count": 3,
+          "sum_M": 12122559.749334097
+        },
+        "3": {
+          "count": 1,
+          "sum_M": 8369590.254049976
+        },
+        "15": {
+          "count": 3,
+          "sum_M": 29364830.901716635
+        }
+      }
+    }
+  ]
+}

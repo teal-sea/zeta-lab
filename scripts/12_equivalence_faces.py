@@ -25,14 +25,14 @@ executes four of them and prints what each one found.
         RH  ⟺  d_N → 0.
 
     RH becomes a least-squares problem.  The conjectured rate is d_N² ~ C/log N
-    with C = Σ_ρ 1/|ρ|² = 2 + γ − log 4π = 0.0461914… — and 1/log N is why no
+    with C = Σ_ρ 1/|ρ|² = 2 + γ − log 4π = 0.0461914…, and 1/log N is why no
     computation will ever see the limit.
 
 3.  **Robin / Lagarias.**  THEOREM (Robin 1984): RH ⟺ σ(n) < e^γ n log log n
     for every n > 5040.  THEOREM (Lagarias 2002): RH ⟺ σ(n) ≤ H_n + e^{H_n}
     log H_n for every n ≥ 1.  The only plausible violators are the
     superabundant / colossally abundant numbers, and by Gronwall's theorem the
-    ratio climbs toward e^γ forever — so "close to e^γ" is the expected
+    ratio climbs toward e^γ forever, so "close to e^γ" is the expected
     behaviour, not a warning sign.
 
 4.  **Speiser.**  THEOREM (Speiser 1934/35): RH ⟺ ζ′(s) has no zeros in the
@@ -76,7 +76,7 @@ def _fmt(x, n: int = 12) -> str:
 
 
 def face_mertens(limit: int, x_min: int) -> dict:
-    """Face 1: M(x)/√x — the random walk that misled a century."""
+    """Face 1: M(x)/√x, the random walk that misled a century."""
     print("FACE 1)  MERTENS / MÖBIUS      RH ⟺ M(x) = O(x^{½+ε})  [THEOREM]")
     print("         M(x) = Σ_{n≤x} μ(n);  bridge: 1/ζ(s) = s ∫₁^∞ M(x) x^{−s−1} dx")
     print()
@@ -100,7 +100,7 @@ def face_mertens(limit: int, x_min: int) -> dict:
     facts = mertens_facts()
     print(f"         strong Mertens conjecture, {facts['strong_mertens_conjecture']} :  FALSE")
     print("           Odlyzko–te Riele 1985: limsup M(x)/√x > 1.06, liminf < −1.009.")
-    print("           Non-constructive — no explicit counterexample is known and the")
+    print("           Non-constructive, no explicit counterexample is known and the")
     print("           bounds on the first one are astronomical.  So the numbers above")
     print("           are NOT reassurance about anything; they are the exact numerical")
     print("           picture that made the false conjecture believable.")
@@ -130,7 +130,7 @@ def face_baez_duarte(n_values: list[int], dps: int) -> dict:
     print(f"         ({secs:.1f} s at dps = {dps}; the Gram matrix is in exact closed form)")
     print(f"         C = Σ_ρ 1/|ρ|² = 2 + γ − log 4π = {BD_CONSTANT[:20]}… (under RH)")
     print("         The conjectured rate d_N² ~ C/log N is consistent with the ratio")
-    print("         column — and is NOT tested by it: 1/log N cannot be distinguished")
+    print("         column, and is NOT tested by it: 1/log N cannot be distinguished")
     print("         from a small positive limit by any finite computation, and the ratio")
     print("         is not even monotone in N.")
     with mp.workdps(20):
@@ -140,7 +140,7 @@ def face_baez_duarte(n_values: list[int], dps: int) -> dict:
           f"{mp.nstr(n_needed, 3)}.")
     print("         Conditioning, measured rather than repeated: cond(G) grows like a")
     print("         small power of N (a few thousand at N = 50), so the obstruction is")
-    print("         not ill-conditioning at reachable N — it is the 1/log N decay itself.")
+    print("         not ill-conditioning at reachable N, it is the 1/log N decay itself.")
     print()
     return {"rows": rows}
 
@@ -177,7 +177,7 @@ def face_robin(max_log_n: float, ca_steps: int, n_ca_shown: int, dps: int) -> di
     chain = colossally_abundant(n_ca_shown, dps=dps)
     print("         the first colossally abundant candidates (OEIS A004490).  Robin's")
     print(f"         criterion quantifies only over n > {ROBIN_THRESHOLD}, so rows at or below")
-    print("         that threshold are outside its scope and are marked 'n/a' — the")
+    print("         that threshold are outside its scope and are marked 'n/a', the")
     print("         inequality really does fail at several of them, by design:")
     print(f"           {'step':>5} {'n':>16} {'log n':>10} {'σ(n)/n':>10} "
           f"{'σ(n)/(n log log n)':>20} {'Robin':>7}")
@@ -202,7 +202,7 @@ def face_robin(max_log_n: float, ca_steps: int, n_ca_shown: int, dps: int) -> di
     print("         and final under RH):")
     print("           " + ", ".join(str(n) for n in ROBIN_EXCEPTIONS[:14]) + ",")
     print("           " + ", ".join(str(n) for n in ROBIN_EXCEPTIONS[14:])
-          + f"  — every one ≤ {ROBIN_THRESHOLD}.")
+          + f", every one ≤ {ROBIN_THRESHOLD}.")
     print(f"         ({secs:.1f} s.)  Gronwall's theorem says the ratio must approach e^γ")
     print("         forever, so proximity to e^γ is EXPECTED and is not a near-miss.")
     print()
@@ -222,7 +222,7 @@ def face_speiser(t_max: float, dps: int) -> dict:
     print(f"         window: {w['sigma_min']:g} ≤ Re(s) ≤ {w['sigma_max']:g}, "
           f"{w['t_min']:g} ≤ Im(s) ≤ {w['t_max']:g}")
     print(f"           zeros of ζ′ located          : {res['n_zeros']}"
-          f"   (box count {res['box_count']} — they must agree, and do)")
+          f"   (box count {res['box_count']}, they must agree, and do)")
     print(f"           zeros with {w['sigma_min']:g} < Re(s) < ½    : "
           f"{res['left_strip_count']}   ← Speiser's strip.  RH predicts 0.")
     print(f"           zeros with {w['sigma_max']:g} < Re(s) < 30     : "
@@ -244,7 +244,7 @@ def face_speiser(t_max: float, dps: int) -> dict:
     print("         Beyond Re = 30 no contour is needed: in ζ′(s) = −Σ_{n≥2}(log n)n^{−s}")
     print("         the n = 2 term dominates all the rest, so ζ′ cannot vanish there.")
     print("         This is a floating-point argument-principle count, not certified")
-    print("         arithmetic (contrast scripts/09) — two independent counting schemes")
+    print("         arithmetic (contrast scripts/09), two independent counting schemes")
     print("         agreeing is strong evidence and nothing more.")
     print()
     return {"result": res, "seconds": secs}
@@ -253,7 +253,7 @@ def face_speiser(t_max: float, dps: int) -> dict:
 def dashboard(mert: dict, bd: dict, rob: dict, spe: dict, limit: int) -> None:
     """The four faces, side by side."""
     print("=" * 78)
-    print("DASHBOARD  —  four exact equivalences, four finite ranges, four results")
+    print("DASHBOARD, four exact equivalences, four finite ranges, four results")
     print("=" * 78)
     print()
     print(f"    {'face':<18} {'range checked':<26} {'what was found':<26} {'viol.':>5}")
@@ -279,7 +279,7 @@ def dashboard(mert: dict, bd: dict, rob: dict, spe: dict, limit: int) -> None:
     print(f"    total violations of any of the four criteria: {total}")
     print()
     print("    Read that number correctly.  Each criterion is an EQUIVALENCE, so a single")
-    print("    violation would refute RH — the zero is a real constraint on the world.")
+    print("    violation would refute RH, the zero is a real constraint on the world.")
     print("    The converse is worth nothing: 'no violation in a finite range' is what")
     print("    the Mertens face looked like for a century before Odlyzko and te Riele")
     print("    proved the conjecture false, without exhibiting a single counterexample.")

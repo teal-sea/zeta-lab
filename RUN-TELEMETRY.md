@@ -1,4 +1,4 @@
-# RUN-TELEMETRY.md — the run registry
+# RUN-TELEMETRY.md: the run registry
 
 Operational reference for `telemetry/`. What a run is, where records live, how
 they get written, what is authoritative, and what this cannot see.
@@ -13,7 +13,7 @@ produced nothing. Nothing in `telemetry/` is evidence about any subject.
 
 A **run** is one bounded unit of work by one actor, with a beginning and an
 end: a wrapped command, an agent session, a prover submission, a suite
-execution. It is not a task, not a decision, not a claim — those already live
+execution. It is not a task, not a decision, not a claim, those already live
 in `ROADMAP.md`, `HANDOFF.md`, `hunts/*/MISSION.md` and the harness ledgers,
 and this system does not replace any of them.
 
@@ -35,7 +35,7 @@ and a private ledger that needed `merge=union` to survive two machines.
 
 **The current state of a run is the fold of its events**, never a rewritten
 record. Three event kinds: `run_started`, `run_note`, `run_finished`. A file
-with a start and no finish folds to `interrupted` — which is a real answer, not
+with a start and no finish folds to `interrupted`, which is a real answer, not
 a missing one.
 
 Ingesting the whole registry is one line, which is the point of the format:
@@ -50,7 +50,7 @@ for f in sorted(glob.glob('telemetry/runs/*.jsonl')):
 
 ## 3. Emitting a run
 
-### Automatic — prefer this
+### Automatic: prefer this
 
 ```bash
 python3 -m telemetry wrap --task "regenerate figures" -- python scripts/make_figures.py --quick
@@ -60,7 +60,7 @@ python3 -m telemetry wrap --task "regenerate figures" -- python scripts/make_fig
 recorded, status derived from it, commits and artifacts collected from git.
 Nothing to remember.
 
-### Explicit boundaries — for work no single command wraps
+### Explicit boundaries: for work no single command wraps
 
 ```bash
 RUN=$(python3 -m telemetry start --task "close blocker 2" --task-ref hunts/frontier_math \
@@ -70,7 +70,7 @@ python3 -m telemetry note "$RUN" "route A refuted; switching to the dual"
 python3 -m telemetry finish "$RUN" --status completed --outcome landed
 ```
 
-### Hooks — one command, per worktree
+### Hooks: one command, per worktree
 
 ```bash
 python3 telemetry/hooks/install.py            # session hooks, this checkout
@@ -84,8 +84,8 @@ Hooks fire on the **next** session in that worktree, not the current one.
 Two frontier research sessions were live when this landed and are
 **grandfathered**: no hook, wrapper, environment variable, prompt change or
 provider configuration was injected into them, and installing here does not
-reach them. The installer writes only `.claude/settings.local.json` — gitignored
-and per-worktree — so enabling telemetry in one checkout cannot follow a merge
+reach them. The installer writes only `.claude/settings.local.json`, gitignored
+and per-worktree, so enabling telemetry in one checkout cannot follow a merge
 into anyone else's session. The git hook is the one with a shared blast radius
 (`.git/hooks` is common to every worktree of a clone); it is off by default and
 the installer refuses it while another worktree of the clone exists.
@@ -100,7 +100,7 @@ the installer refuses it while another worktree of the clone exists.
 | `status` | exit code, or explicit; `interrupted` = no finish event | yes |
 | `outcome` | declared: `landed` / `no-change` / `killed` / `blocked` / `refused` / `crashed` | declared |
 | `start_commit`, `branch`, `worktree` | `git` at start | yes |
-| `commits` | `git rev-list start..HEAD` at finish, **plus** any commit whose `Run-Id` trailer names the run | yes (the trailer is primary — see §6) |
+| `commits` | `git rev-list start..HEAD` at finish, **plus** any commit whose `Run-Id` trailer names the run | yes (the trailer is primary, see §6) |
 | `artifacts` | changed + dirty + untracked paths at finish, each with sha256 | yes |
 | `agent_session_id` | `CLAUDE_CODE_SESSION_ID` | yes, where exported |
 | `provider` | inferred from harness env vars | yes |
@@ -121,7 +121,7 @@ now pins it.
 
 No field is ever filled in by inference. `Run.unknown_fields()` lists what was
 never captured and travels inside `as_dict()`, so a reader asking what a run
-cost gets either a number or the field's name — never a plausible blank. `0`
+cost gets either a number or the field's name, never a plausible blank. `0`
 tokens and *no token data* are different values and stay different.
 
 ## 5. Prompt and context provenance
@@ -130,10 +130,10 @@ A digest answers "did this change?"; it does not answer "what was it?". Both
 are recorded:
 
 - text is stored **content-addressed** at `telemetry/prompts/<sha256>.txt`
-  (idempotent — the same prompt across forty runs is stored once, and an
+  (idempotent, the same prompt across forty runs is stored once, and an
   existing file is never rewritten);
 - the run record carries `{digest, store, ref, bytes, source}`;
-- `store` is `local-private`, `external`, or `absent` — and `absent` is
+- `store` is `local-private`, `external`, or `absent`: and `absent` is
   recorded rather than omitted, because a missing field cannot be told apart
   from a capture bug.
 
@@ -145,7 +145,7 @@ prompt has not changed and cannot read it.
 
 For material that must not enter even a gitignored directory in a public
 checkout, use `--prompt-external DIGEST:REF` and keep the text in the
-operator's private store — the arrangement `conjectures/` already uses.
+operator's private store, the arrangement `conjectures/` already uses.
 
 `telemetry reconcile` recomputes every local digest and reports
 `prompt_unrecoverable` when the stored text is not the text that ran.
@@ -166,7 +166,7 @@ conversation that may span many runs and resolves to a service rather than an
 artifact. Both are still read, as corroboration.
 
 The trailer is the **primary** link and beats the run record's own `commits`
-list where they disagree — a commit is a fact, a record is a claim about one.
+list where they disagree, a commit is a fact, a record is a claim about one.
 
 ## 7. What this environment does not expose
 
@@ -174,10 +174,10 @@ Measured on 2026-08-13, not assumed:
 
 | Wanted | Status here |
 |---|---|
-| model identifier | **absent** — `ANTHROPIC_MODEL`, `CLAUDE_MODEL` unset. Must be declared |
-| input / output / cache tokens | **absent** — no provider variable, no session API |
+| model identifier | **absent**, `ANTHROPIC_MODEL`, `CLAUDE_MODEL` unset. Must be declared |
+| input / output / cache tokens | **absent**, no provider variable, no session API |
 | provider dollar cost | **absent** |
-| per-turn timing inside a session | **absent** — only run boundaries |
+| per-turn timing inside a session | **absent**, only run boundaries |
 | tool-call trace | **not captured, by choice** (§9) |
 
 Available and captured: `CLAUDE_CODE_SESSION_ID`, `CLAUDE_CODE_REMOTE_SESSION_ID`,
@@ -186,7 +186,7 @@ Available and captured: `CLAUDE_CODE_SESSION_ID`, `CLAUDE_CODE_REMOTE_SESSION_ID
 
 Environment capture is an **allowlist** (`registry.ENV_ALLOWLIST`), so a
 provider that starts exporting something sensitive cannot leak it into a public
-repository by default. `registry.ENV_DENIED` names what is refused on purpose —
+repository by default. `registry.ENV_DENIED` names what is refused on purpose,
 user email, account and organization UUIDs, and every credential.
 
 Providers differ. `provider_meta` preserves provider-specific fields verbatim
@@ -206,7 +206,7 @@ Thirteen findings, three severities, no aggregate and no score:
 | Severity | Meaning |
 |---|---|
 | `defect` | the record and the repository contradict each other |
-| `gap` | something was never captured — common, and not an error by itself |
+| `gap` | something was never captured, common, and not an error by itself |
 | `note` | legal and worth seeing (one run, three commits) |
 
 Detected: `corrupt_record`, `unfoldable_run`, `duplicate_run_id`,
@@ -226,7 +226,7 @@ Three deliberate defaults:
   is gitignored, so every fresh clone is in that state; grading it a defect
   would make `reconcile --strict` fail on a clean checkout, and a guard that
   fires on correct behaviour is one nobody reads. A *mismatching* digest stays
-  a defect — that is tampering, not locality. Both are pinned by tests.
+  a defect, that is tampering, not locality. Both are pinned by tests.
 
 ## 9. Reconstructed history
 
@@ -249,7 +249,7 @@ sessions have no run records and are not going to grow fabricated ones.
    fields are the least available, and `--model` is a declaration a careless
    caller can get wrong.
 3. **Within-session granularity is zero.** A six-hour agent session is one run.
-4. **Artifact attribution is temporal, not causal** — `wrap` records what
+4. **Artifact attribution is temporal, not causal**: `wrap` records what
    changed in the repository during the run, which for a run that overlaps
    manual editing will over-attribute.
 5. **The prompt store does not survive a fresh clone.** Digests do, and
@@ -282,7 +282,7 @@ registry should be allowed to reach that point before anything is migrated.
 python -m pytest tests/test_telemetry.py -q -o addopts=''
 ```
 
-70 tests, stdlib + pytest only — they pass in a checkout with none of the
+70 tests, stdlib + pytest only, they pass in a checkout with none of the
 laboratory's numerical dependencies installed, because telemetry that needs
 `mpmath` to run stops running exactly when a session is least able to fix it.
 Every test uses a `tmp_path` root and a throwaway git repository; none reads or

@@ -5,7 +5,7 @@ SINGLE-PAIR reduction.  Everything entering the cap is rounded UP,
 everything entering the slack is rounded DOWN, and the per-depth verdict
 is ``cap <= slack``.
 
-THE ROUTE: INTERVAL ARGUMENTS, NOT MEAN VALUE — AND WHY THAT DIFFERS
+THE ROUTE: INTERVAL ARGUMENTS, NOT MEAN VALUE, AND WHY THAT DIFFERS
 FROM THE OTHER WINDOW.  :mod:`hardened_direct` records that a naive
 interval-ARGUMENT evaluation of the hunt window's Phi2 explodes: that
 window's ramp^2 assembly carries integer coefficients up to ~1e4 with
@@ -94,8 +94,8 @@ also clears at its own (coarse) step, worst ratio 8.1 / 24.2 / 69.0 /
 The largest scanned theta surviving the hardened pass at all four
 depths is 0.9988 (worst margin +1.53e-4, at y = 0.02, where the slack
 itself is only 2.3e-4); 0.9989 fails at y = 0.49 by -4.80e-3.  The
-float pass has the same boundary — it clears 0.9988 by +3.96e-3 and
-fails 0.9989 by -5.60e-3 — so the hardening moves the surviving theta
+float pass has the same boundary, it clears 0.9988 by +3.96e-3 and
+fails 0.9989 by -5.60e-3, so the hardening moves the surviving theta
 by less than one scan step.  The binding term is the multiplicity
 threshold, exactly as in the float pass: at y = 0.49 double occupancy
 of the first band turns profitable below theta = 0.991929, and by

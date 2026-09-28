@@ -1,4 +1,4 @@
-# Rung-3 plan v2 — max-modulus + Cauchy + mean-value architecture
+# Rung-3 plan v2: max-modulus + Cauchy + mean-value architecture
 
 Plan file: `rung3_plan2.json`.  The naive boxed-s *lower*-bound evaluation is
 gone; the small-square frontier is now certified by **point enclosures on a
@@ -29,7 +29,7 @@ The surface is flat near the optimum (76.6k..80k over a wide region):
   measured max |DH'| on the small frontier = 1.30.
 - **w2 = 7/32**: pushing w2 left lowers sigma on the big square's left edge
   (re_lo = 0.5898), and both Sigma(K) and the tail exponent degrade fast
-  below sigma ~ 0.6 — at w2 = 5/16 the big cover costs 4-10x more.  Pulling
+  below sigma ~ 0.6, at w2 = 5/16 the big cover costs 4-10x more.  Pulling
   w2 in shrinks the Cauchy gap.  7/32 (with sigma_lo down to 4/7 on the left
   edge) is the measured sweet spot.
 - **M-target = 2.5** (=> M = 25499/10000, L = 16): the explicit trade
@@ -47,7 +47,7 @@ The surface is flat near the optimum (76.6k..80k over a wide region):
   bottom K in 85..113, top 85..107, left 101..114,
   right 85..94.  Adaptive gaps h_i (larger where ||DH|| is larger):
   h from 141/32768 up to ~3x that.  Per point: sigma_lo = best k/d (d<=8)
-  <= Re(p) — 3/4 on most of the frontier, 4/5 where Re >= 0.8; point tail
+  <= Re(p): 3/4 on most of the frontier, 4/5 where Re >= 0.8; point tail
   r_i ~ (maxcomp - eps')/(sigma_lo+3), K_i minimal for it.
   Cell requirement (exact): min(beta_i, beta_i+1) - L h_i/2 - eps' >=
   (1/4)(min beta - eps'), with beta_i backed by mpmath dps-40 point values
@@ -74,13 +74,13 @@ The surface is flat near the optimum (76.6k..80k over a wide region):
 4. Grid betas: fresh mpmath dps-40 evaluation at all 100 unique points;
    pred_beta reproduced to < 1e-9; cells re-checked in exact rationals with
    beta reduced by 2x sampling slack.  **Worst three cell margins:
-   0.270 (g_left_22->g_left_23), 0.270 (g_top_07->g_top_08), 0.270 (g_top_23->g_top_24)** — all >= the
+   0.270 (g_left_22->g_left_23), 0.270 (g_top_07->g_top_08), 0.270 (g_top_23->g_top_24)**, all >= the
    required 0.25 of budget (and >> 0.25 eps').
 5. Big boxes: fresh 3x + midpoint resample per box (max|Re|, max|Im| with a
    2x derivative-based sampling guard), Sigma re-summed independently
    (math.fsum); every fresh predM <= stated predM <= M; the numpy EM sampler
    was spot-checked against mpmath dps-40 at 3 points per box (330 points,
-   worst |diff| = 4.1e-14) — this matters because the big frontier
+   worst |diff| = 4.1e-14), this matters because the big frontier
    reaches sigma ~ 0.59 where the sampler had not been validated before.
 6. Centre at dps 50; margin 25.2% of budget (>= 25% required).
 
@@ -95,7 +95,7 @@ in s); summing gives delta * Sigma.  Numbers at two boxes / two K each:
 - worst box B_top_11 (sigma_lo = 2/3, delta = 0.01410):
   K = 44: Sigma = 41.9, width = 0.768;  K = 88: Sigma = 63.6, width = 1.165.
   Direct chord-sum cross-check at K = 44: sum |m^-s_a - m^-s_b| = 0.500 vs
-  delta*Sigma = 0.591 (ratio 0.85) — Sigma is near-sharp; the 1.30 factor is
+  delta*Sigma = 0.591 (ratio 0.85): Sigma is near-sharp; the 1.30 factor is
   the real safety.
 - cheap box B_right_06 (sigma_lo = 1, delta = 0.02179): K = 17: Sigma = 7.9,
   width = 0.224; K = 34: Sigma = 10.6, width = 0.299; chord ratio 0.92.
@@ -119,7 +119,7 @@ max|Re| + max|Im| incl. sampling guard).
 2. **The width model assumes per-term arc/mean-value enclosures.**  If the
    kernel encloses m^-s by naive interval exp/log in re/im components, its
    width can exceed delta*Sigma (extra wrapping), M could exceed 25499/10000,
-   and the L check fails — loudly, not silently.  The 1.30 factor plus the
+   and the L check fails, loudly, not silently.  The 1.30 factor plus the
    1.02 (M) and 1.10 (L) headrooms absorb ~43% combined; the chord check
    says Sigma itself is only ~10-18% conservative, so the total cushion over
    a mean-value kernel is ~1.5-1.7x, but a genuinely naive kernel would blow
@@ -130,7 +130,7 @@ max|Re| + max|Im| incl. sampling guard).
    kernel lemmas and no M/L machinery.  If proof-engineering time matters
    more than 2.4 h of compute, the fallback is defensible.  Conversely
    "more/smaller big boxes" does NOT fix the width model: pushing M-target
-   to 1.0 costs 242k terms (608 boxes) — cost/length diverges as delta -> 0.
+   to 1.0 costs 242k terms (608 boxes), cost/length diverges as delta -> 0.
    The scan table in `v2_build` output records this.
 4. **L = 16 vs measured |DH'| <= 1.31 on the small frontier**: the
    architecture pays ~12x over the true Lipschitz constant (Cauchy over a
@@ -153,8 +153,8 @@ max|Re| + max|Im| incl. sampling guard).
 
 ## Artifacts
 
-- `rung3_plan2.json` — the plan (kernel input).
-- `v2lib.py`, `v2_optimize.py` — models, Sigma tables, (w, w2, M, eps) scan.
-- `v2_build.py` / `v2_build_extras.json` — refinement + exact build.
-- `v2_verify.py` / `v2_verify_results.json` — independent verification
+- `rung3_plan2.json`: the plan (kernel input).
+- `v2lib.py`, `v2_optimize.py`: models, Sigma tables, (w, w2, M, eps) scan.
+- `v2_build.py` / `v2_build_extras.json`: refinement + exact build.
+- `v2_verify.py` / `v2_verify_results.json`: independent verification
   (3137 passed / 0 failed).

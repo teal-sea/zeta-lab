@@ -1,0 +1,26 @@
+{
+ "4/5": {
+  "T": 100,
+  "S": 1.555252846719556,
+  "arb_min_margin": 0.0023604529886746832,
+  "grid_points": 248125,
+  "max_PL_minus_H": 1.5549930638259166,
+  "grid_min_margin": 0.0022824931011911076,
+  "lesion_flip_violations": 67661,
+  "lesion_flip_min": -8.66297396089265,
+  "lesion_Sopt_violations": 161323,
+  "lesion_Sopt_min": -0.3339703536183647
+ },
+ "119/100": {
+  "T": 500,
+  "S": 3.863477327009782,
+  "arb_min_margin": 0.002447249343530736,
+  "grid_points": 1248125,
+  "max_PL_minus_H": 3.8621029455769964,
+  "grid_min_margin": 0.001990243704225403,
+  "lesion_flip_violations": 240167,
+  "lesion_flip_min": -14.074088616148847,
+  "lesion_Sopt_violations": 537951,
+  "lesion_Sopt_min": -1.1937870833055566
+ }
+}

@@ -1,4 +1,4 @@
-# Hunt R-233ABE — the omega bridge, and the pointwise Hardy–Ramanujan
+# Hunt R-233ABE: the omega bridge, and the pointwise Hardy–Ramanujan
 
 ## The question
 

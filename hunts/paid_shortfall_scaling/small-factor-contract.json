@@ -1,0 +1,22 @@
+{
+  "claim_id": "paid-shortfall-small-factors-02",
+  "software": [
+    {"name": "python", "version": "3.14.0"},
+    {"name": "python-flint", "version": "0.9.0"},
+    {"name": "mpmath", "version": "1.3.0"}
+  ],
+  "execution_artifacts": [
+    "hunts/paid_shortfall_scaling/small_factor.py",
+    "hunts/paid_shortfall_scaling/scaling.py",
+    "hunts/paid_shortfall/construction.py"
+  ],
+  "mathematics": {
+    "assertion_tested": "Nested small-prime composite-exclusion caps dominate Mangoldt weights; complete costs retain all penalties with unchanged balanced-prefix coefficients",
+    "coefficient_domain": "Exact rational prime-log vectors and directed logarithm enclosures",
+    "conventions": "Natural logs; retain pure prime powers, exclude integers with a tested prime divisor and a different prime factor",
+    "inputs": ["Prime sets {2} and {2,3,5,7}", "Balanced Mobius prefix with support floor(sqrt N)"],
+    "bounds": {"N": [144,576,2304,9216,36864], "capacity_integers": [1,4096], "precision_requests": [35,70]},
+    "non_claims": ["No asymptotic exponent or RH claim", "Rough composites need not be excluded", "Finite values are not a best-known bound comparison"]
+  },
+  "randomness": {"used": false, "generator": "", "seed": null}
+}

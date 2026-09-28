@@ -1,0 +1,119 @@
+{
+  "date": "2026-09-05",
+  "service": "AXLE",
+  "scope": "Only the exact Lean statements in the listed files; surrounding analytic arguments are separate.",
+  "checks": [
+    {
+      "file": "SpectralJensen.lean",
+      "source_sha256": "0178d2d9144b048030eb0421821618965b4bfd5a3306f8543fff0010d00000ad",
+      "environment": "lean-4.33.0",
+      "request_id": "5a87d5f9-042c-4d81-804a-9af6bd59eeed",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 1417,
+        "total_ms": 1424
+      },
+      "receipt": "receipts/SpectralJensen-axle-receipt.json",
+      "axiom_audit": "printed final declarations use only propext, Classical.choice, Quot.sound, or a subset"
+    },
+    {
+      "file": "QuarticScore.lean",
+      "source_sha256": "d92922c39a6934ddbc31b4e1ff96950df059da18ef1b7a72efe92f6e912b8049",
+      "environment": "lean-4.33.0",
+      "request_id": "4cf5062a-dd13-4cf2-9bad-61aaf680039a",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 3188,
+        "total_ms": 3209
+      },
+      "receipt": "receipts/QuarticScore-axle-receipt.json",
+      "axiom_audit": "printed final declarations use only propext, Classical.choice, Quot.sound, or a subset"
+    },
+    {
+      "file": "CycleMomentAssembly.lean",
+      "source_sha256": "5480aefff7c4f36be3c4a6b108aaa88ea9375df7f66266c73093c391f0dcf5b9",
+      "environment": "lean-4.33.0",
+      "request_id": "9cd0c5ac-ea1d-41fd-b01c-2e3f8c6fc186",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 4550,
+        "total_ms": 4587
+      },
+      "receipt": "receipts/CycleMomentAssembly-axle-receipt.json",
+      "axiom_audit": "printed final declarations use only propext, Classical.choice, Quot.sound, or a subset"
+    },
+    {
+      "file": "ThirdMomentObstruction.lean",
+      "source_sha256": "61d0bc606ceb3a04dc623c83bb10af895cc83a32f640c3c575f16731627b7b69",
+      "environment": "lean-4.33.0",
+      "request_id": "c1a4eafa-bf50-4760-b7a7-cef8219477bb",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 534,
+        "total_ms": 540
+      },
+      "receipt": "receipts/ThirdMomentObstruction-axle-receipt.json",
+      "axiom_audit": "printed final declarations use only propext, Classical.choice, Quot.sound, or a subset"
+    },
+    {
+      "file": "DistinctCycles.lean",
+      "source_sha256": "81cf4d7a6d99a20504f563cfb492d7df656e71f920b0db15ca2b1e833b025597",
+      "environment": "lean-4.33.0",
+      "request_id": "5bde9e3a-4663-4f6a-8460-c81ab5e1d33e",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 772,
+        "total_ms": 775
+      },
+      "receipt": "receipts/DistinctCycles-axle-receipt.json",
+      "axiom_audit": "printed final declarations use only propext, Classical.choice, Quot.sound, or a subset"
+    },
+    {
+      "file": "IsospectralCycles.lean",
+      "source_sha256": "fc4a9ec4acd6f60eba59cc1177efe7c2a8ae7a2f13b373565d4c03e28c0dbc15",
+      "environment": "lean-4.33.0",
+      "request_id": "2539f09c-1313-4fe0-9ec0-cf82fc128d8d",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 52068,
+        "total_ms": 52093
+      },
+      "receipt": "receipts/IsospectralCycles-axle-receipt.json",
+      "axiom_audit": "printed final declarations use only propext, Classical.choice, Quot.sound, or a subset"
+    },
+    {
+      "file": "CountingOverlap.lean",
+      "source_sha256": "84a8ec93aaa8e7a78fd0d80febcfd1bc6f4f06bf861fc0bd883f7b8ccf0dfb46",
+      "environment": "lean-4.33.0",
+      "request_id": "8bb8e6d8-f0a0-46c5-92e4-e5b8468a3390",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 57038,
+        "total_ms": 57080
+      },
+      "receipt": "receipts/CountingOverlap-axle-receipt.json",
+      "axiom_audit": "printed final declarations use only propext, Classical.choice, Quot.sound, or a subset"
+    },
+    {
+      "file": "OverlapBand.lean",
+      "source_sha256": "9f785b9e68c04700002786565fc53d146f328362d39c2a58604eb1e25c85a849",
+      "environment": "lean-4.33.0",
+      "request_id": "627d803a-8ca1-47e4-93fd-5a0b92ff87fb",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 1082,
+        "total_ms": 1090
+      },
+      "receipt": "receipts/OverlapBand-axle-receipt.json",
+      "axiom_audit": "nine #guard_msgs checks pin standard axioms propext, Classical.choice, Quot.sound"
+    }
+  ]
+}

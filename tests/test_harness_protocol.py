@@ -1,4 +1,4 @@
-"""Tests for ``harness.protocol`` — the falsification protocol, with no subject in it.
+"""Tests for ``harness.protocol``, the falsification protocol, with no subject in it.
 
 What is pinned here, in the order the design's claims are made:
 

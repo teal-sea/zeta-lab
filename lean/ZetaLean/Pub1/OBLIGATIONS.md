@@ -1,4 +1,4 @@
-# Pub 1 strong closure — status: CLOSED
+# Pub 1 strong closure, status: CLOSED
 
 Toolchain `leanprover/lean4:v4.33.0-rc2`, Mathlib `v4.33.0-rc2`
 (`51e6992efd06126df61a496bebf8f49482a4e129`).
@@ -27,7 +27,7 @@ is vacuous.
 
 ## How the four obligations closed
 
-**A — `F₁'' = 2δ₀ + q` and interior `C²` of `w`.**
+**A, `F₁'' = 2δ₀ + q` and interior `C²` of `w`.**
 `pub1_kernel_second_deriv : (Tv)''(s) = 2·v s + ∫_I q(|s-t|)·v t dt`, with the
 delta mass obtained as the two moving-endpoint terms of the integral split at
 `t = s`, each contributing `fKer'(0)·v(s) = v(s)`.  No distribution theory was
@@ -35,7 +35,7 @@ built.  Then `w_contDiffOn : ContDiffOn ℝ 2 w (Ioo (-1/2) (1/2))`,
 `|w''| ≤ 2 + 80.963…`, `|w'| ≤ B₂/2`.  Claimed on the open interval only: `w''`
 genuinely jumps by `2w(±1/2) ≥ 2/5` at the endpoints.
 
-**B — the exact residual certificate.**
+**B, the exact residual certificate.**
 `r0_identity : u + T₀u + r₀ = 1` on `I` (`M = 20`, degree-52 rational residual,
 132 atomic integrals), the exact `∫_I r₀²`, both series tails, `‖q‖_∞ ≤ 80.963`,
 `‖q - q_M‖_∞ ≤ 2.90e-17`, the two resolvent estimates, and finally
@@ -48,9 +48,9 @@ via the certificate identity `z'' = r₀'' - 2z - q*z - (q - q_M)*u`, which is t
 difference of `w'' = -(2w + q*w)` and `u'' = -r₀'' - (2u + q_M*u)`.  The final
 arithmetic closes with margin `3.6e-13`.
 
-**C — positivity.** `profile_pos : ∀ s, 0 < w s`.
+**C, positivity.** `profile_pos : ∀ s, 0 < w s`.
 
-**D — uniform `L¹` bounds.** `taper_secondDeriv_L1_of_profile` and
+**D, uniform `L¹` bounds.** `taper_secondDeriv_L1_of_profile` and
 `taper_sq_secondDeriv_L1_of_profile`, uniform for `L ≥ 8`.
 
 **Strict concavity and radial monotonicity.**

@@ -1,0 +1,255 @@
+{
+  "description": "window-axis candidate A, conservative target. A 17-term window found by the differential-evolution sweep in hunts/amtopa_ceiling/step4_window.py, quantised to AMTOPA's denominators, with pair weights and position pressures from the cutting-plane linear programme and the floor re-measured by the strong oracle of resolve_strong_oracle.py. The window is NOT AMTOPA's: their interval window certificate does not carry over and projection_h_floor here is computed at this window.",
+  "status": "CONDITIONAL research-draft candidate; the local floor is a float minimum until the six-dimensional interval verifier accepts the rational target; the analytic bridge is inherited and unreviewed",
+  "date": "2026-09-06",
+  "lineage": [
+    "Anthropic zeta simple-zero work",
+    "trmdy/zeta-simple-zeros-673137",
+    "sxuff/zeta-positioned-pressure",
+    "AMTOPA/zeta-exact-pressure commit 7253fdcab9366af45b8c8caf44e408c0af44a1a7",
+    "teal-sea/zeta-lab hunts/amtopa_ceiling window axis"
+  ],
+  "points": 7,
+  "gaps_per_local_window": 6,
+  "window": {
+    "term_count": 17,
+    "denominator": 1000000000,
+    "numerators": [
+      1000000000,
+      11827639,
+      -15131938,
+      2308796,
+      6977889,
+      -1684830,
+      7355200,
+      -7021912,
+      4342803,
+      -5278819,
+      -289966,
+      454535,
+      -300210,
+      222420,
+      -182626,
+      149413,
+      -125056
+    ],
+    "frequencies": [
+      "sqrt(2)",
+      "2*pi",
+      "4*pi",
+      "6*pi",
+      "8*pi",
+      "10*pi",
+      "12*pi",
+      "14*pi",
+      "16*pi",
+      "18*pi",
+      "20*pi",
+      "22*pi",
+      "24*pi",
+      "26*pi",
+      "28*pi",
+      "30*pi",
+      "32*pi"
+    ],
+    "projection_h_floor": {
+      "numerator": 3360827,
+      "denominator": 5000000
+    },
+    "h_floor_interval_verified": false,
+    "note": "a NEW window, not AMTOPA's; their interval H certificate does not carry over and this floor is asserted by their own src/check_window.py at this window. float min v(s) on [-1/2,1/2] = 0.761913"
+  },
+  "local_search": {
+    "method": "differential evolution over the seventeen window coefficients against an LP upper bound on eps*, then a cutting-plane linear programme over the pair-weight polytope and the position-pressure simplex at the winning window, then the floor re-measured with 400,000 seeds on [0.9,2.3]^6 and 300 L-BFGS-B descents at gtol 1e-14",
+    "float_minimum_observed": "0.00741647069144011",
+    "float_minimum_location": [
+      "1.967372666214",
+      "1.038641471783",
+      "1.038218921868",
+      "1.965580993217",
+      "1.044429658997",
+      "1.977220112493"
+    ],
+    "oracle_seed_spread": "1.116e-09",
+    "candidate_target_for_certification": {
+      "numerator": 9263,
+      "denominator": 1250000
+    },
+    "verified": false,
+    "note": "verified=false until the interval verifier accepts this target. The margin between the float floor and the target is 6.071e-06, chosen larger than the 1e-6 to 2e-6 the grid-1/4000 tangent bound loses at the cells that bind; a 4.58e-07 margin was refused on 2026-09-06."
+  },
+  "pair_weights": {
+    "denominator": 1000000000,
+    "span_capacity_numerator": 2000000000,
+    "entries": [
+      [
+        0,
+        1,
+        165671872
+      ],
+      [
+        0,
+        2,
+        209660483
+      ],
+      [
+        0,
+        3,
+        378463072
+      ],
+      [
+        0,
+        4,
+        235424005
+      ],
+      [
+        0,
+        5,
+        795045097
+      ],
+      [
+        0,
+        6,
+        2000000000
+      ],
+      [
+        1,
+        2,
+        396149372
+      ],
+      [
+        1,
+        3,
+        224579731
+      ],
+      [
+        1,
+        4,
+        568107548
+      ],
+      [
+        1,
+        5,
+        1433970207
+      ],
+      [
+        1,
+        6,
+        1204954903
+      ],
+      [
+        2,
+        3,
+        414434719
+      ],
+      [
+        2,
+        4,
+        767449589
+      ],
+      [
+        2,
+        5,
+        593726940
+      ],
+      [
+        2,
+        6,
+        330605788
+      ],
+      [
+        3,
+        4,
+        427932606
+      ],
+      [
+        3,
+        5,
+        557776389
+      ],
+      [
+        3,
+        6,
+        459702440
+      ],
+      [
+        4,
+        5,
+        403629377
+      ],
+      [
+        4,
+        6,
+        240533808
+      ],
+      [
+        5,
+        6,
+        192182054
+      ]
+    ]
+  },
+  "position_pressure": {
+    "denominator": 1000000000000,
+    "numerators": [
+      342820622,
+      656634166,
+      794563154,
+      801312744,
+      682102906,
+      394389255
+    ],
+    "total": {
+      "numerator": 3671822847,
+      "denominator": 1000000000000
+    }
+  },
+  "final_projection": {
+    "pressure_shift_factor": "m-6",
+    "block_length": 154,
+    "projection_inputs": {
+      "h_floor": {
+        "numerator": 3360827,
+        "denominator": 5000000
+      },
+      "epsilon_target": {
+        "numerator": 9263,
+        "denominator": 1250000
+      },
+      "pressure_total": {
+        "numerator": 3671822847,
+        "denominator": 1000000000000
+      }
+    },
+    "projected_safe_decimal": {
+      "numerator": 6734303714,
+      "denominator": 10000000000
+    },
+    "computed_bound_from_conservative_inputs": "0.6734303714855961209781803397194143971412340995398796199695565485580934",
+    "certified": false
+  },
+  "archive": {
+    "previous_certified_record": "archive/2026-08-12-certified-6734153139/",
+    "previous_source_commit": "7253fdcab9366af45b8c8caf44e408c0af44a1a7"
+  },
+  "provenance": {
+    "positioned_pressure_predecessor": {
+      "repository": "sxuff/zeta-positioned-pressure",
+      "commit": "6fd6c5eee6332a379a10cda4276c82e5b2bc3cd4",
+      "files": {
+        "table_builder": {
+          "path": "src/build_tables.py",
+          "blob_sha": "fd600325f8f0a1054827613899b132ca2fcf5332"
+        },
+        "verifier": {
+          "path": "src/verify_positioned.cpp",
+          "blob_sha": "63ff4ae342c77ec44eaea56c5f81a41d03e8a1f3"
+        }
+      },
+      "license_status": "no license metadata detected; referenced, not vendored"
+    },
+    "window": "NEW, from /Users/thomas/.claude/jobs/3169c9f0/tmp/sweep-32752160099/window-sweep-shard-0/window_search_0.json, not AMTOPA's",
+    "weights": "cutting-plane linear programme at that window",
+    "delta_vs_amtopa_headline": "+1.388051e-05"
+  }
+}

@@ -1,0 +1,396 @@
+{
+  "status": "exact finite identities, no new zeta bound",
+  "weighted_gram_with_repeated_vector": {
+    "size": 5,
+    "moments": {
+      "1": "5",
+      "2": "7873/625",
+      "3": "3997/125",
+      "4": "31937377/390625"
+    },
+    "star_sum": "12455777/390625",
+    "entry_fourth_sum": "3784177/390625",
+    "identities": {
+      "3": {
+        "direct_distinct_sum": "2616/625",
+        "partition_inversion": "2616/625",
+        "reduced_formula": "2616/625",
+        "deliberately_wrong_simplification": "-509/625",
+        "wrong_minus_exact": "-5"
+      },
+      "4": {
+        "direct_distinct_sum": "-2664/625",
+        "partition_inversion": "-2664/625",
+        "reduced_formula": "-2664/625",
+        "deliberately_wrong_simplification": "-598248/390625",
+        "wrong_minus_exact": "1066752/390625"
+      }
+    }
+  },
+  "constant_kernel_control": {
+    "size": 5,
+    "moments": {
+      "1": "5",
+      "2": "25",
+      "3": "125",
+      "4": "625"
+    },
+    "star_sum": "125",
+    "entry_fourth_sum": "25",
+    "identities": {
+      "3": {
+        "direct_distinct_sum": "60",
+        "partition_inversion": "60",
+        "reduced_formula": "60",
+        "deliberately_wrong_simplification": "55",
+        "wrong_minus_exact": "-5"
+      },
+      "4": {
+        "direct_distinct_sum": "120",
+        "partition_inversion": "120",
+        "reduced_formula": "120",
+        "deliberately_wrong_simplification": "120",
+        "wrong_minus_exact": "0"
+      }
+    }
+  },
+  "isospectral_frames_with_different_distinct_fourth_cycles": [
+    {
+      "cosine": "3/5",
+      "sine": "4/5",
+      "checks": {
+        "size": 4,
+        "moments": {
+          "1": "4",
+          "2": "8",
+          "3": "16",
+          "4": "32"
+        },
+        "star_sum": "16",
+        "entry_fourth_sum": "3848/625",
+        "identities": {
+          "3": {
+            "direct_distinct_sum": "0",
+            "partition_inversion": "0",
+            "reduced_formula": "0",
+            "deliberately_wrong_simplification": "-4",
+            "wrong_minus_exact": "-4"
+          },
+          "4": {
+            "direct_distinct_sum": "-1152/625",
+            "partition_inversion": "-1152/625",
+            "reduced_formula": "-1152/625",
+            "deliberately_wrong_simplification": "0",
+            "wrong_minus_exact": "1152/625"
+          }
+        }
+      }
+    },
+    {
+      "cosine": "5/13",
+      "sine": "12/13",
+      "checks": {
+        "size": 4,
+        "moments": {
+          "1": "4",
+          "2": "8",
+          "3": "16",
+          "4": "32"
+        },
+        "star_sum": "16",
+        "entry_fourth_sum": "199688/28561",
+        "identities": {
+          "3": {
+            "direct_distinct_sum": "0",
+            "partition_inversion": "0",
+            "reduced_formula": "0",
+            "deliberately_wrong_simplification": "-4",
+            "wrong_minus_exact": "-4"
+          },
+          "4": {
+            "direct_distinct_sum": "-28800/28561",
+            "partition_inversion": "-28800/28561",
+            "reduced_formula": "-28800/28561",
+            "deliberately_wrong_simplification": "0",
+            "wrong_minus_exact": "28800/28561"
+          }
+        }
+      }
+    }
+  ],
+  "mobius_coefficients": {
+    "3": [
+      {
+        "blocks": [
+          [
+            0,
+            1,
+            2
+          ]
+        ],
+        "coefficient": 2
+      },
+      {
+        "blocks": [
+          [
+            0,
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "coefficient": -1
+      },
+      {
+        "blocks": [
+          [
+            0,
+            2
+          ],
+          [
+            1
+          ]
+        ],
+        "coefficient": -1
+      },
+      {
+        "blocks": [
+          [
+            0
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "coefficient": -1
+      },
+      {
+        "blocks": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "coefficient": 1
+      }
+    ],
+    "4": [
+      {
+        "blocks": [
+          [
+            0,
+            1,
+            2,
+            3
+          ]
+        ],
+        "coefficient": -6
+      },
+      {
+        "blocks": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "coefficient": 2
+      },
+      {
+        "blocks": [
+          [
+            0,
+            1,
+            3
+          ],
+          [
+            2
+          ]
+        ],
+        "coefficient": 2
+      },
+      {
+        "blocks": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "coefficient": 1
+      },
+      {
+        "blocks": [
+          [
+            0,
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "coefficient": -1
+      },
+      {
+        "blocks": [
+          [
+            0,
+            2,
+            3
+          ],
+          [
+            1
+          ]
+        ],
+        "coefficient": 2
+      },
+      {
+        "blocks": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "coefficient": 1
+      },
+      {
+        "blocks": [
+          [
+            0,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            3
+          ]
+        ],
+        "coefficient": -1
+      },
+      {
+        "blocks": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "coefficient": 1
+      },
+      {
+        "blocks": [
+          [
+            0
+          ],
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "coefficient": 2
+      },
+      {
+        "blocks": [
+          [
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "coefficient": -1
+      },
+      {
+        "blocks": [
+          [
+            0,
+            3
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "coefficient": -1
+      },
+      {
+        "blocks": [
+          [
+            0
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2
+          ]
+        ],
+        "coefficient": -1
+      },
+      {
+        "blocks": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "coefficient": -1
+      },
+      {
+        "blocks": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "coefficient": 1
+      }
+    ]
+  }
+}

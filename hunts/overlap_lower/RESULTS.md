@@ -1,4 +1,4 @@
-# RESULTS — hunt `overlap_lower`
+# RESULTS: hunt `overlap_lower`
 
 **The ceiling procedure on the *lower* side of Erdos's minimum overlap
 constant.** Run 2026-08-23.
@@ -26,7 +26,7 @@ a valid lower bound; none of them is a good one.
 
 **No bound on `C` moves.** The best exactly-accepted value obtained here is
 `0.37399241331`, which is `0.00501` below the peer-reviewed lower bound
-`0.379005` and `0.00513` below the preprint record `0.37912` — and which, being
+`0.379005` and `0.00513` below the preprint record `0.37912`: and which, being
 a section 4 value, bounds `||M||_inf` for even `M` only and is not a bound on
 `C` at all. Everything here is a reproduction falling short.
 
@@ -43,7 +43,7 @@ they are corrected here rather than quietly worked around.
 | bound | attribution | source |
 | --- | --- | --- |
 | `1/4 = 0.25` | Erdos 1955 | [E1955] |
-| `1 - 1/sqrt(2) ~ 0.292893` | Scherk, unpublished 1955 | — |
+| `1 - 1/sqrt(2) ~ 0.292893` | Scherk, unpublished 1955 |, |
 | `(4 - sqrt(6))/5 ~ 0.310679` | Swierczkowski 1958 | [S1958] |
 | `sqrt(4 - sqrt(15)) ~ 0.356393` | Moser 1959 | Acta Arith. 5 (1959) 117-119 |
 | `0.379005` | **E. P. White 2022** | arXiv:2201.05704; Acta Arithmetica **208** (2023) 235-255, doi 10.4064/aa220728-7-6 |
@@ -58,10 +58,10 @@ they are corrected here rather than quietly worked around.
 | `0.385694` | Haugland, unpublished 1993 |
 | `0.382002` | Haugland 1996, J. Number Theory **58** 71-78 |
 | `0.380927` | Haugland 2016, arXiv:1609.08000 (he writes `0.3809268534330870`; the catalogue rounds to `0.380927`) |
-| `0.380924` | Georgiev, Gomez-Serrano, Tao, Wagner 2025 — **AlphaEvolve** |
-| `0.380876` | Yuksekgonul et al. 2026 — **TTT-Discover** |
+| `0.380924` | Georgiev, Gomez-Serrano, Tao, Wagner 2025, **AlphaEvolve** |
+| `0.380876` | Yuksekgonul et al. 2026, **TTT-Discover** |
 | `0.380871` | Together AI 2026 |
-| `0.380868` | Ye et al. 2026, arXiv:2604.19341 — **SimpleTES** |
+| `0.380868` | Ye et al. 2026, arXiv:2604.19341, **SimpleTES** |
 
 A public leaderboard at `einsteinarena.com/problems/erdos-min-overlap` shows
 `0.3808586` from an agent submission with no paper behind it. That is a
@@ -106,8 +106,8 @@ does not. Reporting the asterisk on this constant would have been wrong.
 2022."* It moved on **30 June 2026**: Kim and Pilanci, arXiv:2606.31182,
 `0.379005 -> 0.37912`. Their abstract, verbatim: *"we improve the [C-WORD]
 lower bounds from 1.28 to 1.2937 and from 0.379005 to 0.37912, respectively."*
-The catalogue has not absorbed it — the last content commit to `1b.md` is
-2026-04-30, two months before the preprint — which is why the catalogue still
+The catalogue has not absorbed it, the last content commit to `1b.md` is
+2026-04-30, two months before the preprint, which is why the catalogue still
 reads `0.379005` and why a reader trusting the catalogue alone would repeat
 the brief's error.
 
@@ -119,7 +119,7 @@ span is AlphaEvolve `0.380924` to the leaderboard's `0.3808586`, which is
 
 **Also worth stating.** The brief's implied attribution of `0.379005` to
 Haugland is wrong: Haugland has only ever worked the upper side. And the
-`0.37912` improvement did **not** come from a bigger computation — Kim and
+`0.37912` improvement did **not** come from a bigger computation: Kim and
 Pilanci take White's program unchanged and add two Bochner semidefiniteness
 constraints on the Toeplitz moment matrices of `f` and `g = 1 - f`. New
 constraints, not a bigger `N`.
@@ -234,7 +234,7 @@ that limit exactly as it should. **The reimplementation is faithful.**
 
 | `R` | value | gain over previous |
 | --- | --- | --- |
-| 5 | 0.373107329 | — |
+| 5 | 0.373107329 |, |
 | 10 | 0.373962906 | `+8.56e-4` |
 | 20 | 0.373996605 | `+3.37e-5` |
 | 40 | 0.373999461 | `+2.86e-6` |
@@ -244,7 +244,7 @@ that limit exactly as it should. **The reimplementation is faithful.**
 
 **The value stops moving at `R = 40`.** Rows 80, 160 and 320 agree with row 40
 to nine decimals, and the residual wobble at the tenth is solver noise, not
-signal — the optimum is provably non-decreasing in `R`, so a decrease of `1e-9`
+signal, the optimum is provably non-decreasing in `R`, so a decrease of `1e-9`
 is a floating-point artefact and is reported as one.
 
 The measurement that answers the question: **the total gain available from
@@ -282,7 +282,7 @@ At `N, R = 5000, 20`:
 
 So `0.37399241331` is a **VERIFIED** value for the section 4 program at those
 parameters, with no floating point in the number. It is `0.0050` below the
-published lower bound on `C`, and — because section 4 assumes `M` even — it is
+published lower bound on `C`, and, because section 4 assumes `M` even, it is
 not a bound on `C` at all. It is here to show that the acceptance step on this
 side is cheap and complete, which is the thing hunt #85 could not check.
 
@@ -321,7 +321,7 @@ the cell his section 6 names.
 | 1000 | 0.372129203 | 17.5 |
 | 2000 | 0.375067209 | 71.8 |
 
-Gains `2.81e-3`, `2.50e-3`, `2.94e-3` — **not decaying**, so `N = 2000` is
+Gains `2.81e-3`, `2.50e-3`, `2.94e-3`, **not decaying**, so `N = 2000` is
 nowhere near the `N` limit and no extrapolation is offered. `N = 4000` and
 above did not fit the compute budget; see "What was not done".
 
@@ -329,7 +329,7 @@ above did not fit the compute budget; see "What was not done".
 
 | `R` | value | gain over previous |
 | --- | --- | --- |
-| 5 | 0.371116641 | — |
+| 5 | 0.371116641 |, |
 | 10 | 0.372129203 | `+1.013e-3` |
 | 20 | 0.372148913 | `+1.97e-5` |
 | 40 | 0.372074126 | `-7.5e-5`, cut loop unconverged at 25 rounds |
@@ -339,7 +339,7 @@ above did not fit the compute budget; see "What was not done".
 entire improvement Kim and Pilanci obtained over White is `1.15e-4`, about six
 times larger, and they got it by *adding constraints* rather than by raising a
 parameter. The `R = 40` row is below the `R = 20` row, which is impossible for
-the real program — adding constraints cannot lower a minimum — so it is
+the real program, adding constraints cannot lower a minimum, so it is
 reported as an unconverged loop, not as a measurement.
 
 This non-monotonicity is worth one sentence because it was the bug that
@@ -375,8 +375,8 @@ The last form is what the numbers above use. It is the only one in which the
 cosine constraints converge at all, and the ball is still open. **So the
 figures in E1 and E2 are the ceiling of a program strictly weaker than
 White's, and the `0.0040` gap between the `N = 2000` row and his `0.37905` is
-mostly this, not discretisation.** They remain valid lower bounds — a
-supporting hyperplane never removes a feasible point — and they remain bad
+mostly this, not discretisation.** They remain valid lower bounds, a
+supporting hyperplane never removes a feasible point, and they remain bad
 ones.
 
 ### E4. The box grid (MEASURED)
@@ -396,7 +396,7 @@ grid of genuine cells needs no reuse argument, so that is what was run, at
 | 0.030-0.060 | 0.383-0.417 | 0.367778352 |
 | 0.030-0.060 | 0.417-0.450 | 0.369898521 |
 
-Minimum over the grid `0.36762389`, at `p in [0.383, 0.417]` — adjacent to,
+Minimum over the grid `0.36762389`, at `p in [0.383, 0.417]`, adjacent to,
 not identical with, the `p = 0.381 ... 0.385` where White concentrated. The
 spread across the whole region is `2.3e-3`, so at this `N` the box is a modest
 effect and the binding cell is not sharply localised.
@@ -415,14 +415,14 @@ At `N, R = 2000, 10`:
 
 | planted fault | value | delta vs sound | direction | caught by monotonicity |
 | --- | --- | --- | --- | --- |
-| none (negative control) | 0.372105479 | — | — | — |
+| none (negative control) | 0.372105479 |, |, |, |
 | drop the `pi m L/4` envelope | 0.374949221 | `+2.84e-3` | **unsafe** | **no** |
 | constrain every other mode | 0.358904453 | `-1.33e-2` | safe | no |
-| constrain `cos(pi m x)` at odd `m`, which (2.4) does not license | infeasible | — | unsafe | **yes** |
+| constrain `cos(pi m x)` at odd `m`, which (2.4) does not license | infeasible |, | unsafe | **yes** |
 
 **One of two unsafe faults caught, and the miss is the important one.**
 Monotonicity in `N` and `R` is blind to dropping the envelope, because the
-defective program is still monotone in both — it is simply a different, wrong
+defective program is still monotone in both, it is simply a different, wrong
 program. The fault is worth `2.84e-3`, which is larger than the entire gap
 between Moser's 1959 bound and nothing, and it moves the value the flattering
 way.
@@ -528,8 +528,8 @@ used anywhere in this hunt.
 - **The `1/N` decay in section 4 is the envelope, not the grid.** The gains
   halve exactly when `N` doubles, which is the signature of the `pi m L/4`
   Lipschitz term rather than of the Riemann sum. Why it might matter: a tighter
-  envelope — the exact extremum of `cos(pi m x/2)` over the cell rather than
-  midpoint-plus-Lipschitz — costs nothing to compute and would move the whole
+  envelope, the exact extremum of `cos(pi m x/2)` over the cell rather than
+  midpoint-plus-Lipschitz, costs nothing to compute and would move the whole
   `N` curve, which is a change to the *method* and therefore out of this hunt's
   scope but squarely inside the next one's. First step: replace `alpha^-` by
   the exact cell minimum and re-run front D1; if the `N = 5000` row reaches

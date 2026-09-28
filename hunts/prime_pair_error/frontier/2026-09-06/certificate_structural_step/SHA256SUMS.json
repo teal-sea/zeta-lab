@@ -1,0 +1,34 @@
+{
+  "files": [
+    {
+      "path": "STRUCTURAL_STEP.md",
+      "bytes": 8178,
+      "sha256": "b50fbe067718af4ab6011692ea97b0f5ba3a3567c6bcbb97f3faa178411cb06d"
+    },
+    {
+      "path": "check_and_compare.py",
+      "bytes": 3727,
+      "sha256": "a077db00a4a0ccc0132eb665b059701cc524c30f8f39e36794b91b8c67e2297e"
+    },
+    {
+      "path": "checked_results.json",
+      "bytes": 26921,
+      "sha256": "b7a9bc2565596169275d9de332b79134b79c2e3e72d8c353f947cb7b06b9ce7c"
+    },
+    {
+      "path": "probe.py",
+      "bytes": 2606,
+      "sha256": "3afd9f01a0988d25cfcc82bba26e3f46ee368f594af1dfad11c7467e5262b4c8"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 19,
+      "sha256": "834b95f435034610a6170f1f3c530631dc21afb80ad2dbc480118f3207eee9e8"
+    },
+    {
+      "path": "results.json",
+      "bytes": 7150,
+      "sha256": "dec60e251a965e3daa29e8a5bbb3f0748b0b17e4704c564e73d286429800f462"
+    }
+  ]
+}

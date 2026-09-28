@@ -1,4 +1,4 @@
-# RESULTS — Erdős #126, descent arm (support run 7ddfee4b)
+# RESULTS: Erdős #126, descent arm (support run 7ddfee4b)
 
 **Hunt, not a result. Nothing here is evidence for or against RH (`docs/08`).**
 
@@ -130,8 +130,8 @@ $\{5,11\}\mapsto 2$, and each same-class pair sums to a power of two
 
 ## 3. The obstruction: loss 2 is optimal for this whole family of arguments
 
-Everything in §2 — parity, residue classes mod each odd prime, prime deletion,
-the power-of-2 lemma — sees an admissible pair only through the following data.
+Everything in §2, parity, residue classes mod each odd prime, prime deletion,
+the power-of-2 lemma, sees an admissible pair only through the following data.
 
 **The residue relaxation.** Fix $k \ge 1$. A *relaxed instance of order $k$* is:
 a finite set $V$, odd primes $p_1,\dots,p_{k-1}$, maps
@@ -228,7 +228,7 @@ admissible with $A_p = pA$ of full size. So $|A_p| \le g(k)$ is the only bound
 the split supplies, and Corollary 2a is circular as it stands. Descent on the
 $p$-adic valuations terminates but the number of levels is bounded only by
 $\log_p \max A$, which the scaling symmetry (N1) makes unbounded. **This is a
-genuine hole, not a formality**, and closing it — bounding $g$ by $g^*$ — is the
+genuine hole, not a formality**, and closing it, bounding $g$ by $g^*$, is the
 first thing I would fund. The classical Erdős–Turán bound $g(k) < 3\cdot 2^{k-1}$
 covers the general case and is not improved anywhere in this file.
 
@@ -252,12 +252,12 @@ This run measured a ceiling (the per-prime loss), so it owes the door list.
 | Frozen | Value | What relaxing it trades |
 |---|---|---|
 | the half $H_i = [1,\frac{p_i-1}{2}]$ used to 2-colour each prime | the standard half | **No trade shape at all, and that is the finding**: any 2-colouring separating $r$ from $-r$ gives the same factor 2, and Theorem 5 shows no choice does better. |
-| triangle-freeness as the only property of the power-of-2 graph $G$ | (R2) | **Genuine trade shape.** $G$ is far more special than triangle-free: it is the graph of pairs summing to a power of 2, which is very sparse (each $a$ has at most $O(\log)$ partners below any bound). Feeding a real sparsity bound for $G$ into Theorem 5's upper proof would still only save a factor $\le 2$ overall — worth one afternoon, not a campaign. |
+| triangle-freeness as the only property of the power-of-2 graph $G$ | (R2) | **Genuine trade shape.** $G$ is far more special than triangle-free: it is the graph of pairs summing to a power of 2, which is very sparse (each $a$ has at most $O(\log)$ partners below any bound). Feeding a real sparsity bound for $G$ into Theorem 5's upper proof would still only save a factor $\le 2$ overall, worth one afternoon, not a campaign. |
 | $S$-smoothness used only as "divisible by some $p_i$" | (R1) | The expensive door: replacing it by $S$-unit counting is the only relaxation-escaping move identified. |
 | search box $N=1500$, first 8 primes, $k \le 3$ | | Cheap to widen, and `r_186989` already showed the box is slack. Low value. |
 
 **3. Information class.** Doors 1 and 2 stay **inside** the residue relaxation
-and are provably capped at $2^k$ by Theorem 5 — that is the point of proving it.
+and are provably capped at $2^k$ by Theorem 5, that is the point of proving it.
 The only door that reads more is the $S$-unit / Evertse–Győry one, plus the
 narrower "bound $g$ by $g^*$" question of §6, which reads $p$-adic valuations
 that the relaxation discards. **The correct reading of this run is that it
@@ -279,6 +279,6 @@ closed doors rather than opened them**, and closed them with proofs.
 - **$g^*(2) = 4$ is exactly $2^2$ and $g^*(3)$ looks like 5, not 8.** *Why it
   matters:* if the true $g(k)$ ever reaches $2^k$ again, Erdős #126 is false by
   the Fekete argument `r_186989` §4 gives. *First step:* decide $g^*(3)$
-  outright — Theorem 4 caps it at 8, so an exhaustive search over the finitely
+  outright: Theorem 4 caps it at 8, so an exhaustive search over the finitely
   many residue patterns mod $\{3,5\}$ plus the power-of-2 pairing might close it
   by hand.

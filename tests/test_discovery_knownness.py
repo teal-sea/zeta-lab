@@ -1,4 +1,4 @@
-"""Tests for ``ontology.knownness`` — the already-known gate.
+"""Tests for ``ontology.knownness``, the already-known gate.
 
 The gate is only worth having if it is hard to fool in the flattering
 direction, so most of what is pinned here is a *refusal*: a spurious relation
@@ -446,7 +446,7 @@ class TestSafeEval:
 
 
 # ---------------------------------------------------------------------------
-# 2. closed-form identification — the positive case
+# 2. closed-form identification, the positive case
 # ---------------------------------------------------------------------------
 
 
@@ -510,7 +510,7 @@ class TestIdentifyKnownConstants:
 
 
 # ---------------------------------------------------------------------------
-# 3. closed-form identification — the refusals
+# 3. closed-form identification, the refusals
 # ---------------------------------------------------------------------------
 
 
@@ -607,7 +607,7 @@ class TestIdentifyRefuses:
     def test_a_high_precision_literal_supplies_its_own_headroom(self):
         report = K.identify_constant(LAMBDA1_TEXT, base_digits=15)
         assert report.identified is True
-        # the literal carries 39 digits, so that is the ceiling — not the 40 the
+        # the literal carries 39 digits, so that is the ceiling, not the 40 the
         # caller asked for. The escalation never uses digits nobody wrote down.
         assert report.escalated_digits == 39
         assert report.match.digits_confirmed >= 30
@@ -654,11 +654,19 @@ class TestEscalationMechanics:
         assert strict.provisional[0].survived_escalation is True
         assert strict.provisional[0].confidence is K.IdentificationConfidence.UNCONFIRMED
 
-    def test_a_provider_that_ignores_the_requested_precision_is_caught(self):
+    @pytest.mark.parametrize("ambient_dps", [15, 60, 80])
+    def test_a_provider_that_ignores_the_requested_precision_is_caught(self, ambient_dps):
         """The escalation also catches a *provider* that does not escalate."""
-        lazy = K.identify_constant(provider=lambda d: mpf(1) / 7)  # ignores d
-        assert lazy.identified is False
-        assert lazy.n_rejected >= 1
+        def low_precision_provider(requested_dps):
+            # Deliberately ignore the request even in a high-precision caller.
+            with mp.workdps(15):
+                return mpf(1) / 7
+
+        with mp.workdps(ambient_dps):
+            lazy = K.identify_constant(provider=low_precision_provider)
+            assert lazy.identified is False
+            assert lazy.n_rejected >= 1
+            assert mp.dps == ambient_dps
 
     def test_identification_evaluates_to_its_own_value(self):
         report = K.identify_constant(provider=lambda1_provider)
@@ -1365,7 +1373,7 @@ class TestFoundMustCiteSomething:
     """``found`` is the claim that manufactures a terminal ``known`` verdict.
 
     ``not_found`` was already required to name the sources it consulted, but
-    ``found`` — the stronger claim — was not required to cite anything, so a
+    ``found``, the stronger claim, was not required to cite anything, so a
     backend could make the gate emit a verdict that ``verdict_reasons``
     refuses, which aborts a funnel run three layers away.
     """

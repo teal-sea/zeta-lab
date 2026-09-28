@@ -1,10 +1,10 @@
-"""The repository's guard ledger — the guard offensive's opening entries.
+"""The repository's guard ledger, the guard offensive's opening entries.
 
 Machinery in :mod:`harness.guards`; this file is the subject side, where real
 tests and real incidents may be named. Three records open the ledger with
 their power demonstrated live in ``tests/test_guard_ledger.py`` (each
 demonstration constructs the smallest mutant and watches the guard fire), and
-two were recorded honestly as undemonstrated — the visible head of the
+two were recorded honestly as undemonstrated, the visible head of the
 offensive's worklist, per the adopted decision in ``ROADMAP.md`` ("The
 outside memos, triaged", adopted build 2).
 
@@ -39,13 +39,13 @@ GUARDS: tuple[GuardRecord, ...] = (
             "tests/test_guard_ledger.py::test_the_exact_guard_rejects_the_repr_parse"
         ),
         known_misses=(
-            "faults in the layers the two backends share beyond parsing — "
+            "faults in the layers the two backends share beyond parsing, "
             "contour policy, grid policy, S(T)/N(T) summation (declared in "
             "harness.departments.zeta_department.RIGOR_BACKEND_PATHS)",
         ),
         scope=(
-            "pins the parsing layer only; the incident's standing consequence "
-            "— a cross-check bounds only what is actually duplicated — is "
+            "pins the parsing layer only; the incident's standing consequence, "
+            "a cross-check bounds only what is actually duplicated, is "
             "carried by the independence declaration, not by this guard"
         ),
         incident="docs/25-the-director-run.md (2026-08-11), defect #1",
@@ -90,7 +90,7 @@ GUARDS: tuple[GuardRecord, ...] = (
             "tests/test_guard_ledger.py::test_the_reserved_word_guard_fires_on_a_probe_file"
         ),
         known_misses=(
-            "synonyms — 'verified', 'confirmed', 'definitively', 'proves' "
+            "synonyms, 'verified', 'confirmed', 'definitively', 'proves' "
             "are separately banned but by other checks; a hunt overclaiming "
             "in fresh vocabulary passes this guard",
             "file types outside .py/.md/.json (a .txt overclaim passes)",
@@ -101,7 +101,7 @@ GUARDS: tuple[GuardRecord, ...] = (
     GuardRecord(
         name="tests/test_doors.py",
         guards_against=(
-            "a docs/doors/ entry page whose quoted command no longer runs — "
+            "a docs/doors/ entry page whose quoted command no longer runs, "
             "a front door that opens onto a wall"
         ),
         smallest_mutant=(
@@ -129,13 +129,13 @@ GUARDS: tuple[GuardRecord, ...] = (
             "hunts/r_414eed/results.json and RESULTS.md)"
         ),
         known_misses=(
-            "public functions added under compiler/ — likewise unscanned "
+            "public functions added under compiler/, likewise unscanned "
             "(B02)",
-            "documents added under docs/doors/ — doc_index globs docs/*.md, "
+            "documents added under docs/doors/, doc_index globs docs/*.md, "
             "not docs/**/*.md (B03)",
             "test files whose names do not match test_*.py, e.g. "
             "tests/mutant_helper.py (B04)",
-            "a public docstring changed below its first line — only the "
+            "a public docstring changed below its first line, only the "
             "first line is indexed (B07, by construction)",
         ),
         scope=(
@@ -179,7 +179,7 @@ GUARDS: tuple[GuardRecord, ...] = (
         ),
         known_misses=(
             "an import naming an allowed prefix that nonetheless does not "
-            "exist (e.g. 'Zeta23Ext.Nope') — the scan reads the root only",
+            "exist (e.g. 'Zeta23Ext.Nope'), the scan reads the root only",
             "whether a module actually builds; only the assembly build shows "
             "that, and this guard exists precisely because that build is too "
             "expensive to run in the fast tier",
@@ -190,7 +190,7 @@ GUARDS: tuple[GuardRecord, ...] = (
         ),
         incident=(
             "twice on 2026-08-12: all eight BandCert/ modules, then the five "
-            "EForm/ modules landed after that fix — a repair that recurred, "
+            "EForm/ modules landed after that fix, a repair that recurred, "
             "which is what turned it into a guard"
         ),
     ),
@@ -202,7 +202,7 @@ GUARDS: tuple[GuardRecord, ...] = (
             "a module that exists in the package but is reachable from no "
             "import chain out of Zeta23Ext.lean, so `lake build` never "
             "touches it: it rots silently while the package still reports "
-            "success — strictly worse than a build error, which is at least "
+            "success, strictly worse than a build error, which is at least "
             "loud"
         ),
         smallest_mutant=(
@@ -216,7 +216,7 @@ GUARDS: tuple[GuardRecord, ...] = (
         ),
         known_misses=(
             "a module reachable from the root but whose theorems nothing "
-            "downstream uses — reachability is not relevance",
+            "downstream uses, reachability is not relevance",
         ),
         scope=(
             "reachability of every .lean file from the package root; says "
@@ -227,7 +227,7 @@ GUARDS: tuple[GuardRecord, ...] = (
             "another import in the root module by a one-line edit, twice, "
             "leaving a kernel-checked module unbuilt. Enabling it immediately "
             "found three further orphans (TruncEst.Poisson, .Autocorrelation "
-            "and .Axioms — the last being that chain's own axiom audit, which "
+            "and .Axioms, the last being that chain's own axiom audit, which "
             "was therefore never running)"
         ),
     ),
@@ -239,7 +239,7 @@ GUARDS: tuple[GuardRecord, ...] = (
         guards_against=(
             "docs/27's kernel-checked table stating a different grade for the "
             "Pub 1 strong closure than lean/ZetaLean/Pub1/OBLIGATIONS.md "
-            "declares — the page a reader consults for what each piece "
+            "declares, the page a reader consults for what each piece "
             "assumes, disagreeing with the file that owns the answer"
         ),
         smallest_mutant=(
@@ -253,11 +253,11 @@ GUARDS: tuple[GuardRecord, ...] = (
             "test_the_pub1_status_guard_fires_on_a_flipped_grade"
         ),
         known_misses=(
-            "whether the declared status is itself true — OBLIGATIONS.md is "
+            "whether the declared status is itself true: OBLIGATIONS.md is "
             "taken as the source, and a status wrong at the source is copied "
             "faithfully into docs/27 and passes; only `#print axioms` and the "
             "kernel decide what the proof actually assumes",
-            "any other document that quotes the grade — the guard reads "
+            "any other document that quotes the grade, the guard reads "
             "docs/27's item-3 row only, so a third file repeating the stale "
             "reading is not seen (the same shape "
             "tests/test_reading_of_record.py answers by enumerating quoters)",
@@ -273,7 +273,7 @@ GUARDS: tuple[GuardRecord, ...] = (
             "OBLIGATIONS.md moved to 'status: CLOSED', while the docs/27 row "
             "went on reading **Conditional** and naming four hypotheses that "
             "no longer existed. Third instance of the class HANDOFF.md "
-            "already records twice — a status quoted from a superseded row. "
+            "already records twice, a status quoted from a superseded row. "
             "This one underclaimed, which is the harmless direction and "
             "exactly why it survived three days unnoticed"
         ),

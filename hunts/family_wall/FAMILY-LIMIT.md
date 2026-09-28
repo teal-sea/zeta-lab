@@ -1,7 +1,7 @@
 # The analytic limit of the n-point pressure family
 
 > Verdict: the family **saturates short**. Its limit is exactly `H = 0.6725007036794116`,
-> and its supremum over all n is at most `0.675142509660254` — against a configuration
+> and its supremum over all n is at most `0.675142509660254`, against a configuration
 > ceiling of `0.6818286874638`. The deficit is `0.0093280` in the limit and at least
 > `0.0066862` at the family's best n, which is 71.7% of the whole distance from `H` to the
 > ceiling. The n-point pressure method cannot reach the ceiling, and the obstruction is not
@@ -37,7 +37,7 @@ Notation throughout: `k = n - 1` gaps, `q = floor(1/c)`, `m = k + q` the cap,
 
 `W` is the pressure-free part of the functional. Because the coefficient `2/(n-s)` divides
 by the number of windows of length `s`, `W` is **twice the sum over s of the mean of w over
-windows of length s** — that is, an *energy per point*, not an extensive energy. That single
+windows of length s**, that is, an *energy per point*, not an extensive energy. That single
 observation is what makes the whole limit computable.
 
 ---
@@ -58,7 +58,7 @@ argmins:
 
 VERIFIED. The first six positive zeros of `k` recomputed as
 1.0572782910088552, 2.030067530128161, 3.0202429921714815, 4.015235607036755,
-5.0122084484991545, 6.010182789398035 — VERIFIED, and matching the two zeros the
+5.0122084484991545, 6.010182789398035: VERIFIED, and matching the two zeros the
 minimisers are built from.
 
 **A second, fully independent reproduction.** The audit derived the two-sinc closed form
@@ -103,15 +103,15 @@ bound on `Phi_n` for every `c`. VERIFIED at the three known peaks:
 
 The overshoot is 6% to 31% of the *spacing between adjacent peaks* (2.4e-5 from n=7 to 8,
 1.9e-5 from n=8 to 9). **The lead is safe as a bound and safe as a model, but must not be
-used to rank adjacent n** — the floor defect is the same size as the effect being ranked.
+used to rank adjacent n**, the floor defect is the same size as the effect being ranked.
 
 Separately VERIFIED at all three peaks by exhaustive search over `m` in `[k, k+q]`:
 `m` at the cap is the maximiser, so nothing is lost by taking `m = k + floor(1/c)`.
 
 ### 1.2 Monotonicity in p inside one minimiser family, in closed form
 
-Within one minimiser family the pair `(W, S)` is essentially constant — recomputed from the
-published argmins, `W` varies by less than 4.4e-7 across a family's whole pressure range —
+Within one minimiser family the pair `(W, S)` is essentially constant, recomputed from the
+published argmins, `W` varies by less than 4.4e-7 across a family's whole pressure range,
 so `c(p) = W + S/p` is a straight line in `1/p`. Writing `gain = Phi - H` and using the
 `theta = 0` model,
 
@@ -122,7 +122,7 @@ This is concave in `c` with a single stationary point
     D* = ( sqrt(H S / k) - 1 ) / (k - 1),      which exists iff  S > k/H.     (DERIVED)
 
 `gain` rises with `p` while `c > D*` and falls while `c < D*`. So **within one family `Phi`
-is monotone in `p`, in the direction fixed by the sign of `c - D*`** — the lead was right
+is monotone in `p`, in the direction fixed by the sign of `c - D*`**, the lead was right
 that it is monotone, but the direction is family-dependent, and both directions actually
 occur in the existing sweep:
 
@@ -130,7 +130,7 @@ occur in the existing sweep:
 |---|---|---|---|---|---|---|---|---|
 | 7 | 1-2-2-1-2-1 | 9.085068 | 7.97892e-4 | 1.018286 | 1.82029e-3 | 8886 | 2000–3400 | rising |
 | 7 | 1-2-2-2-2-1 | 10.083965 | 5.06925e-4 | 1.130246 | 1.262602e-2 | 832 | 3600–6400 | falling |
-| 8 | 1-2-1-2-1-2-1 | 10.089202 | 1.025696e-3 | 0.969285 | none (`HS<k`) | — | 2000–3000 | rising |
+| 8 | 1-2-1-2-1-2-1 | 10.089202 | 1.025696e-3 | 0.969285 | none (`HS<k`) |, | 2000–3000 | rising |
 | 8 | 1-2-2-1-2-2-1 | 11.086837 | 7.12690e-4 | 1.065129 | 5.33954e-3 | 2395 | 3200–4000 | falling |
 | 9 | 1-2-1-2-2-1-2-1 | 12.091715 | 9.05026e-4 | 1.016461 | 1.17097e-3 | 45466 | 2400–4000 | rising |
 | 9 | 1-2-2-2-1-2-2-1 | 13.089156 | 6.60104e-4 | 1.100308 | 6.99369e-3 | 2067 | 4400–4800 | falling |
@@ -139,7 +139,7 @@ MEASURED (`W`, `S` from the published argmins), DERIVED (`D*`, direction). In ev
 family's *own* stationary pressure lies outside the pressure interval on which that family is
 the floor. That is the lead's second claim, and it holds.
 
-### 1.3 The optimal pressure is exactly a family crossover — closed form
+### 1.3 The optimal pressure is exactly a family crossover: closed form
 
 Two families `(W1,S1)` and `(W2,S2)` exchange the floor at
 
@@ -177,7 +177,7 @@ evaluated at `gbar = 1/H`, damped by `1/(1+(k-1)c)`:
 | 8 | gbar 1.44131, W 1.026e-3 | gbar 1.58383, W 7.127e-4 | 9.253879e-4 | 6.223240e-4 | 5.531845e-4 | 5.530096e-4 |
 | 9 | gbar 1.51146, W 9.050e-4 | gbar 1.63614, W 6.601e-4 | 9.531082e-4 | 6.409659e-4 | 5.721765e-4 | 5.721440e-4 |
 
-The damped model reproduces the exact excess to 4.7e-8, 1.7e-7 and 3.3e-8 — the residual is
+The damped model reproduces the exact excess to 4.7e-8, 1.7e-7 and 3.3e-8, the residual is
 the `theta` floor defect of section 1.1. DERIVED, checked MEASURED.
 
 So the whole reach of the family above `H` is: *H times the convexified minimal energy per
@@ -191,7 +191,7 @@ bound.
 ### 2.1 The chain
 
 For `k >= 2`, with `c` any valid uniform floor for `F_k`, `m` at the cap, **and in the
-branch `Phi_n > H`** — the two conditions the chain needs, both supplied by the case split
+branch `Phi_n > H`**, the two conditions the chain needs, both supplied by the case split
 in 2.1a:
 
     Phi_n  =  [H m - k(m-1)/p] / (m - c q)
@@ -208,8 +208,8 @@ using each row's own argmin as `g`. Zero violations.
 
 **But the chain above is not valid as a chain, and the two conditions it needs are stated
 in 2.1a.** The audit found both. As written here, this section carried one of them as a
-parenthetical that rescued the conclusion without repairing the chain — *"step (A) needs the
-numerator nonnegative; when it is negative `Phi_n < 0` and every bound holds trivially"* —
+parenthetical that rescued the conclusion without repairing the chain, *"step (A) needs the
+numerator nonnegative; when it is negative `Phi_n < 0` and every bound holds trivially"*,
 and carried the other, the move to `m` at the cap, on nothing but the five spot checks in
 2.2(i). Neither is a proof. What follows is.
 
@@ -219,7 +219,7 @@ Write `q0 = k = n-1`, `d = m - q0 >= 1`, `N = H m - q0(m-1)/p`, `D = m - c d`, s
 `Phi_n = N/D`. The cap `c d <= 1` gives `D >= m - 1 >= q0 >= 2 > 0`, so the denominator
 never vanishes and never changes sign. The numerator can.
 
-**Defect 1 — step (A) reverses when `N < 0`.** Replacing `D` by the smaller `m-1` raises
+**Defect 1, step (A) reverses when `N < 0`.** Replacing `D` by the smaller `m-1` raises
 `N/D` only when `N >= 0`. AUDIT, with an admissible counterexample at `n = 3`, `c = 0.01`,
 `m = 3`, `p = 1`:
 
@@ -230,7 +230,7 @@ VERIFIED here (`chain_repair_check.py`), reproducing the audit's digits exactly.
 also checks that `c = 0.01` really is a floor for `F_3` on all nonnegative `g`, so the
 triple is admissible and not a straw man.
 
-**Defect 2 — the chain evaluates at the cap without proving `Phi` increases in `m`.** For
+**Defect 2, the chain evaluates at the cap without proving `Phi` increases in `m`.** For
 fixed `(n, c, p)`, `Phi` is a Mobius function of `m` with positive denominator, and the sign
 of its increment is the sign of
 
@@ -285,7 +285,7 @@ is above `0.6818286874638`, and `H*75/74 = 0.6817130421` is below. VERIFIED.
 
 VERIFIED separately, at five `(n, p, c)` triples including `n = 20`: maximising `Phi` over
 the whole range `m in [1, k+floor(1/c)]` puts the maximiser at the cap every time, and every
-`m < k` gives `Phi < H`. That was five spot checks, and — the audit's point — five spot
+`m < k` gives `Phi < H`. That was five spot checks, and, the audit's point, five spot
 checks are not the argument. **2.1a is the argument**: in the branch `Phi_n > H` the
 maximiser is at the cap for every admissible triple, provably, and in the branch
 `Phi_n <= H` nothing above `H` is at stake. Under that split the trivial leg is in fact
@@ -299,7 +299,7 @@ pressure term is nonpositive for every `p`, and
 
 This is the heart of it. The pressure `p` is the family's only free dial for buying gain, and
 a configuration of total length exactly `(n-1)/H` makes the dial cancel itself. What is left
-is `H` times an energy per point at density `H` — a quantity of order `10^-3`, while reaching
+is `H` times an energy per point at density `H`, a quantity of order `10^-3`, while reaching
 the ceiling would need
 
     W(g) >= (0.6818286874638 / H) - 1 = 0.0138706 ,
@@ -321,36 +321,36 @@ and `W` minimised at that fixed length by SLSQP. `7(k+1)` witnesses per `n`.
 
 | n | sharp bound (iii) | best measured Phi_n | headroom | ceiling minus bound |
 |---|---|---|---|---|
-| 3 | 0.6730263561 | — | — | +0.0088023 |
-| 5 | 0.6735202493 | — | — | +0.0083084 |
+| 3 | 0.6730263561 |, |, | +0.0088023 |
+| 5 | 0.6735202493 |, |, | +0.0083084 |
 | 7 | 0.6732471047 | 0.6730299840 | 2.17e-4 | +0.0085816 |
 | 8 | 0.6731728344 | 0.6730537132 | 1.19e-4 | +0.0086559 |
 | 9 | 0.6731887414 | 0.6730728477 | 1.16e-4 | +0.0086399 |
 | 10 | 0.6733940587 | 0.6730802503 | 3.14e-4 | +0.0084346 |
 | 14 | 0.6731493536 | 0.6730911872 | 5.82e-5 | +0.0086793 |
-| 15 | 0.6731332649 | — | — | +0.0086954 |
+| 15 | 0.6731332649 |, |, | +0.0086954 |
 | 20 | 0.6731099910 | 0.6730928938 | 1.71e-5 | +0.0087187 |
-| 25 | 0.6730765652 | — | — | +0.0087521 |
-| 30 | 0.6730523698 | — | — | +0.0087763 |
-| 35 | 0.6730051199 | — | — | +0.0088236 |
+| 25 | 0.6730765652 |, |, | +0.0087521 |
+| 30 | 0.6730523698 |, |, | +0.0087763 |
+| 35 | 0.6730051199 |, |, | +0.0088236 |
 
 MEASURED (the bound is rigorous given the witnesses; the witnesses are explicit and the
 `W` values are ordinary floating-point evaluations of a finite sum).
 
 For larger `n` a single tiled witness suffices, with no optimisation in the loop: take the
 `k = 27` constrained minimiser as a period, tile it, rescale to total length `k/H`, and
-evaluate `W`. At **every** `k` from 35 to 400 — not a sample, every integer — this gives a
+evaluate `W`. At **every** `k` from 35 to 400, not a sample, every integer, this gives a
 bound whose worst value is **0.6751676068** (at `k = 55`, i.e. `n = 56`); for `k >= 401` the
 trivial leg alone gives `H*400/399 = 0.6741861691`. MEASURED.
 
 (Restricting the tiling to `k >= 74` the worst is `0.6749544944`, at `k = 82`. Running the
-section-2.3 envelope over `37 <= n <= 74` as well — it was run to `n = 51` here and every
-value came in under `0.67310` — would replace the 0.6751676 figure by that one. The number
+section-2.3 envelope over `37 <= n <= 74` as well, it was run to `n = 51` here and every
+value came in under `0.67310`, would replace the 0.6751676 figure by that one. The number
 quoted below is the one that holds without that extension, so it stands on the tiled witness
 alone over `36 <= n <= 401`.)
 
-**The tiled witness is no longer how the large-`n` range is covered.** It has a scan in it —
-one evaluation per `k` from 35 to 400 — and a trivial tail bolted on beyond that. The audit
+**The tiled witness is no longer how the large-`n` range is covered.** It has a scan in it,
+one evaluation per `k` from 35 to 400, and a trivial tail bolted on beyond that. The audit
 replaced the whole apparatus with one word and a closed-form estimate. 2.3a is that
 replacement; the tiled figures are kept above as what this hunt's own computations gave.
 
@@ -370,7 +370,7 @@ and `55/37 = 1.4864864864...` while `1/H = 1.4869872916545...`, so **the length 
 That single fact removes the scan.
 
 VERIFIED here (`period37_check.py`), with this repository's own evaluator `famlib.Wsum` and,
-independently, at 60 decimal digits — every window sum of this word is a positive integer,
+independently, at 60 decimal digits, every window sum of this word is a positive integer,
 and at integer `j` the kernel collapses exactly to `k(j) = (-1)^(j+1)/(2 pi^2 j^2 - 1)`, so
 `W` is a finite sum of exactly representable terms:
 
@@ -387,7 +387,7 @@ audit's interval upper bound `0.003527662393159108` / `0.674873059121154543` exa
 **VERIFIED here.**
 
 Evaluating the same word at *every* `n` from 8 to 401 with `famlib.Wsum`, the worst value is
-**0.6750627723649344 at n = 9** — which reproduces the audit's `n = 9` row
+**0.6750627723649344 at n = 9**, which reproduces the audit's `n = 9` row
 `0.675062772364934370` to the digit. VERIFIED here.
 
 **The uniform tail estimate.** For `n >= 12` the audit bounds `W` without evaluating
@@ -409,12 +409,12 @@ exactly `5/12`, attained at `k = 12`. VERIFIED here.
 
 Three implementations therefore agree on this number: this file's `famlib.Wsum`, the
 60-digit integer-window sum in `period37_check.py`, and the audit's own directed-interval
-run — `audit/periodic_certificate.py` was re-executed here and returns
+run, `audit/periodic_certificate.py` was re-executed here and returns
 `simple_W_upper = 0.003928331920529309791528358237` and
 `simple_bound_upper = 0.675142509660253901156405110373`, byte-identical to its committed
 output. VERIFIED here.
 
-The estimate is deliberately coarse — the word's actual period-averaged energy is about
+The estimate is deliberately coarse, the word's actual period-averaged energy is about
 `0.00317879602211`, and the evaluated worst over `8 <= n <= 401` is `0.6750627723649344`.
 The coarseness is the price of a bound that needs no evaluation at all beyond `n = 11`, and
 it is what fixes the headline figure in 2.4.
@@ -433,12 +433,12 @@ direction with `mpmath.iv` at 100 digits:
 
 AUDIT, interval-checked there; not recomputed here. This range is covered redundantly by
 this hunt's own section-2.3 envelope, which runs at every `n` from 3 to 36 and whose worst
-value over `3 <= n <= 11` is `0.6735202493` at `n = 5` — a looser bound than the audit's, in
+value over `3 <= n <= 11` is `0.6735202493` at `n = 5`, a looser bound than the audit's, in
 the same direction, from a different implementation.
 
 ### 2.4 The barrier, stated
 
-**Every n is covered, with no gaps — and after the audit, in two pieces instead of three:**
+**Every n is covered, with no gaps, and after the audit, in two pieces instead of three:**
 
 | range | instrument | bound | label |
 |---|---|---|---|
@@ -453,7 +453,7 @@ the same direction, from a different implementation.
 **This is the figure the file now carries.** It is fixed entirely by the coarseness of the
 uniform tail estimate for `n >= 12`, not by any witness: every witness actually evaluated,
 at every `n` from 3 to 401, comes in below `0.67507`. The gain over the number this hunt
-originally claimed is small — `0.6751676068 -> 0.675142509660254`, a move of `2.5e-5` — and
+originally claimed is small, `0.6751676068 -> 0.675142509660254`, a move of `2.5e-5`, and
 the real gain is structural: **the scan and the trivial tail are gone.** One explicit word,
 whose length constraint holds for every `k` in closed form, plus five small-`n` witnesses,
 now cover every `n >= 3`. Nothing has to be evaluated at 367 values of `k` and nothing is
@@ -465,7 +465,7 @@ envelope over `n = 3..36` (max 0.6735202493), tiled witness over `n = 36..401` (
 0.6751676068 at n=56), trivial leg for `n >= 402` (max 0.6741861691). That statement is
 unchanged and still stands; it is simply superseded.
 
-**Deficit at the family's best: at least 0.0066862** — 71.7% of the whole distance from `H`
+**Deficit at the family's best: at least 0.0066862**, 71.7% of the whole distance from `H`
 to the ceiling.
 
 This is a **BARRIER**. The n-point pressure certificate family, at any n and any pressure
@@ -482,12 +482,12 @@ Lower: for any `n`, sending `p -> infinity` sends the floor `c*(p) -> 0`, hence 
     lim_{n -> infinity} Phi_n  =  H  =  0.6725007036794116     (DERIVED, exact)
 
 There is **no uncertainty in `Phi_inf`**: it is the constant `H` itself, not an estimate.
-The family does not merely stall below the ceiling — it climbs a little, turns over, and
+The family does not merely stall below the ceiling, it climbs a little, turns over, and
 comes back down to `H`. The measured climb from n=7 to n=9 (+4.3e-5) is the front edge of a
 bump of total height at most `0.675142509660254 - H = 0.0026418`, on a curve that ends at `H`.
 The measured climb so far, best floor of the two independent searches at each pressure:
 `0.6730300` (n=7), `0.6730537` (n=8), `0.6730728` (n=9), `0.6730803` (n=10),
-`0.6730912` (n=14), `0.6730929` (n=20) — increments `2.4e-5, 1.9e-5, 7.5e-6, 1.1e-5, 1.7e-6`
+`0.6730912` (n=14), `0.6730929` (n=20), increments `2.4e-5, 1.9e-5, 7.5e-6, 1.1e-5, 1.7e-6`
 against a grid that gets coarser relative to the peak as `n` grows, so each is a lower bound
 on that `n`'s true peak.
 
@@ -506,7 +506,7 @@ bounded away from anything like `0.0139`. That quantity has an exact form. Write
     G(u) = (1-|u|) cos(sqrt2 u)/2 + sin(sqrt2 (1-|u|))/(2 sqrt2),   |u| <= 1,  else 0.
 
 Poisson summation over a period-`T` lattice therefore terminates at a **finite** Fourier
-order — only `|nu| <= T` survives, because `G(nu/T) = 0` beyond that — and the energy per
+order, only `|nu| <= T` survives, because `G(nu/T) = 0` beyond that, and the energy per
 particle of an infinite configuration with `P` points per period is
 
     W_inf = (1/(P T K(0)^2)) sum_{|nu| <= T} G(nu/T) |sum_j exp(-2 pi i nu x_j / T)|^2  -  1.
@@ -515,8 +515,8 @@ DERIVED. VERIFIED against a brute-force lattice sum over 800001 images: agreemen
 which is the brute force's own truncation error, not the formula's.
 
 Minimising this over `P <= 6` and the positions gives the `W_inf(gbar)` curve in
-`artifacts/periodic-energy-curve.json`. It is violently non-monotone in `gbar` — commensurability
-with the kernel zeros — which is exactly why the finite-`n` ladder's convex envelope, not the
+`artifacts/periodic-energy-curve.json`. It is violently non-monotone in `gbar`, commensurability
+with the kernel zeros, which is exactly why the finite-`n` ladder's convex envelope, not the
 curve itself, is what section 1.4 evaluates at `gbar = 1/H`. MEASURED, and an upper bound on
 the true minimum since the period is capped at 6.
 
@@ -538,11 +538,11 @@ of any prediction in this file, at `n = 7, 10, 14, 20` over the pressure grid
 2000..6400, so this also tests whether the peak leaves that window at larger n). 320 cells,
 8 shards per cell, 2 CPU each; well inside the compute budget.
 
-**Control passed, and the residual `2.0e-13` is not a disagreement — it is the quoted
+**Control passed, and the residual `2.0e-13` is not a disagreement, it is the quoted
 number's argmin.** `n = 7, p = 3000` returned `0.0038262312113044716`, which is `2.0e-13`
 *below* the `0.0038262312115073` this laboratory quotes for that cell. The audit,
 minimising the same functional from its own implementation with an 80-digit Newton solve,
-landed at `0.00382623121130447424828548285770795421` — the same value to twelve digits.
+landed at `0.00382623121130447424828548285770795421`, the same value to twelve digits.
 Two independent searches below a "floor" is the shape of a bad floor, so it was chased down.
 
 `hunts/ainta_seven_point/RESULTS.md` states the quoted figure correctly and this file was
@@ -564,25 +564,25 @@ arithmetic:
 
 The first reproduces the Arb string `0.00382623121150731291497...` to seventeen digits; the
 third reproduces the audit's reported value to twenty-five. The spread between the first and
-the third is `2.03e-13` — the whole discrepancy, and all of it argmin refinement.
+the third is `2.03e-13`, the whole discrepancy, and all of it argmin refinement.
 
 **So: nothing is wrong with the Arb computation, the bracket, or `RESULTS.md`.** What was
-wrong is the word "floor" applied to `0.0038262312115073` — here, and in this hunt's
+wrong is the word "floor" applied to `0.0038262312115073`, here, and in this hunt's
 `MISSION.md` under `required_oracles`, where it is called "the published n=7
 arbitrary-precision floor". It is a rigorous upper bound at a rounded point. The correct
 control for a minimiser is that it must come in *at or below* it, which is what happened.
 The audit's own statement of the same caveat is stronger and should be read: it reports
 `inf F_{7,3000} <= 0.003826231211304474248285482857707954213` and says plainly that it has
-compelling evidence but **no formal global certificate** — 562 broad local starts, four
+compelling evidence but **no formal global certificate**: 562 broad local starts, four
 differential-evolution runs, 1,710 integer-lobe starts producing 953 distinct local minima,
-next stationary value `4.20e-5` higher, all six Hessian eigenvalues positive — none of which
+next stationary value `4.20e-5` higher, all six Hessian eigenvalues positive, none of which
 supplies a lower bound over the full six-dimensional domain. Neither does anything in this
 file. AUDIT for the value; VERIFIED here for the explanation of the gap.
 
 **Agreement with the predicted floors.** The prediction under test is
 `c_pred(p) = min_j [W_j + S_j/p]` over this file's witness ladder, which by construction is an
 *upper* bound on the true floor. At `n = 7, 10, 14` the Modal search came in below the
-prediction at every one of the thirty pressures, by `4.5e-6` to `4.2e-4` — the prediction is
+prediction at every one of the thirty pressures, by `4.5e-6` to `4.2e-4`, the prediction is
 valid as a bound and loose by the expected amount (the ladder is Sturmian and balanced; the
 true minimisers relax off it).
 
@@ -602,7 +602,7 @@ shard, and its multistart missed basins the ladder reaches directly. Modal's raw
 valid certificate value; with the better of the two searches at each pressure the n=20 peak
 is `0.6730928938` at `p = 8500`. **That correction matters**: the raw Modal number sits
 *above* this file's envelope bound for n=20 (0.6731099910), and the corrected one sits below
-it. The apparent violation was a search failure, and the bound caught it — which is exactly
+it. The apparent violation was a search failure, and the bound caught it, which is exactly
 the use a bound of this kind has.
 
 **Peaks, best floor of the two searches at each pressure** (MEASURED; grid-limited, so each
@@ -631,14 +631,14 @@ The claims here fail if any of the following is exhibited.
 
 1. **A configuration below a claimed floor.** The witness bound (ii) is only as good as the
    arithmetic in `W(g)`. Exhibit a `g` with `sum(g) <= (n-1)/H` whose `W(g)` this file reports
-   too high — the bound then moves, though in the *safe* direction (a smaller `W` makes the
+   too high, the bound then moves, though in the *safe* direction (a smaller `W` makes the
    barrier stronger, never weaker). The dangerous direction is the opposite: if `W(g)` is
    reported too *low*, the bound is invalid. Recompute `W` in interval arithmetic to close
    this; the sum is finite and exactly the kind of thing Arb settles. **Partly closed by the
    audit**, which evaluated every one of its witnesses' cumulative sums, `K`, `w`, `W`, caps
    and final bounds with `mpmath.iv` at 100 digits and printed directed endpoints, so its
    `W` values in 2.3a are upper bounds in the unsafe direction rather than floats. That is an
-   interval backend, not a proof assistant, and it says nothing about global minimality — but
+   interval backend, not a proof assistant, and it says nothing about global minimality, but
    the direction that could make a false barrier look true is now controlled for those
    witnesses. The period-37 word's `W` is additionally a finite sum of exactly representable
    integer-argument terms (2.3a), which removes quadrature from the question entirely.
@@ -655,7 +655,7 @@ The claims here fail if any of the following is exhibited.
    section 3 is exactly this test, run at four values of `n` and ten pressures; the audit ran
    it again independently at `n = 7, 8, 9, 10, 12, 14, 16, 20, 30, 56, 100` with 91 to 191
    starts per `n`, full binary-skeleton enumeration up to `n = 10` and the best 300 to 400 of
-   up to 262,144 skeletons above that, and found nothing above either threshold — its largest
+   up to 262,144 skeletons above that, and found nothing above either threshold, its largest
    best-found constrained `W` was at `n = 100`, `W < 0.001404828486362211`, giving
    `H(1+W) < 0.673445451825039116` (AUDIT, interval-checked there). A wider or deeper run is
    still the cheapest way to attack the claim.
@@ -669,7 +669,7 @@ The claims here fail if any of the following is exhibited.
    on infima, so the `Phi` values built from them are *optimistic*; that direction is safe for
    the barrier (a true floor is lower, so the true `Phi` is lower). But the `W` values used as
    *witnesses* are also float, and there the safe direction is the other one. The margin is
-   0.0066 against float errors of order 1e-12, so this is not a live risk — but it is the
+   0.0066 against float errors of order 1e-12, so this is not a live risk, but it is the
    right thing to certify if the barrier is ever leaned on.
 
 ## 5. What is not claimed
@@ -696,8 +696,8 @@ The claims here fail if any of the following is exhibited.
 ## 6. What the adversarial audit changed
 
 An independent model (OpenAI Codex, `gpt-5.6-sol`), in an isolated directory outside this
-repository, from the self-contained brief in `audit/BRIEF.md` — committed before any work
-began, see `audit/PROVENANCE.md` — with no access to this repository, this file, `famlib.py`
+repository, from the self-contained brief in `audit/BRIEF.md`, committed before any work
+began, see `audit/PROVENANCE.md`, with no access to this repository, this file, `famlib.py`
 or any prior implementation of the kernel. It derived the closed form of `K` itself and
 checked it against 100-digit quadrature. It worked 44m55s and was told to refute, not
 confirm.

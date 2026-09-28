@@ -10,14 +10,14 @@ the Riemann-von Mangoldt counting function:
 
 and form the nearest-neighbour spacings s_n = γ̃_{n+1} − γ̃_n, mean 1.  Then:
 
-  * Uncorrelated levels (Poisson) would give p(s) = e^{−s}  — maximal at 0.
+  * Uncorrelated levels (Poisson) would give p(s) = e^{−s}, maximal at 0.
   * The Gaussian Unitary Ensemble gives the Gaudin law p(s) = d²E/ds² with
-    E(0;s) = det(I − K_s), K the sine kernel — p(s) ~ s² at 0: eigenvalues
+    E(0;s) = det(I − K_s), K the sine kernel, p(s) ~ s² at 0: eigenvalues
     (and, empirically, zeta zeros) actively repel each other.
   * Montgomery (1973): the pair correlation of the zeros is the GUE
     sine-kernel two-point function  R₂(r) = 1 − (sin πr / πr)².
 
-This is the Montgomery–Odlyzko law — the strongest numerical evidence for
+This is the Montgomery–Odlyzko law, the strongest numerical evidence for
 the Hilbert–Pólya idea that the γ_n are the spectrum of a self-adjoint
 operator.  The script measures all of it: KS tests against the exact Gaudin
 law, the Wigner surmise and Poisson, a two-sample KS against an ACTUAL
@@ -86,7 +86,7 @@ def main() -> None:
 
     t0 = time.time()
     print("=" * 78)
-    print("ZETA ZERO SPACINGS vs GUE vs POISSON — THE MONTGOMERY–ODLYZKO LAW")
+    print("ZETA ZERO SPACINGS vs GUE vs POISSON: THE MONTGOMERY–ODLYZKO LAW")
     print("=" * 78)
     print()
 
@@ -139,7 +139,7 @@ def main() -> None:
           f"(p = {ks2g['pvalue']:.3g})")
     print(f"    zeta vs Poisson    : D = {ks2p['statistic']:.4f}   "
           f"(p = {ks2p['pvalue']:.3g})")
-    print(f"    pipeline control — GUE matrix vs exact Gaudin law: "
+    print(f"    pipeline control, GUE matrix vs exact Gaudin law: "
           f"D = {ctrl['statistic']:.4f} (p = {ctrl['pvalue']:.2f})")
     print()
 
@@ -166,7 +166,7 @@ def main() -> None:
           f"{ks2g['statistic']:.4f} vs a real random matrix)")
     print(f"and reject Poisson by a factor {d_poi / d_gue:.1f} in KS distance.  "
           "The zeros repel like the")
-    print("spectrum of a random Hermitian operator — the Montgomery–Odlyzko law.")
+    print("spectrum of a random Hermitian operator, the Montgomery–Odlyzko law.")
     print("(Honest caveat: with ~1e4 spacings the residual D_GUE ≈ 0.03 is real")
     print(" finite-height O(1/log γ) drift; it shrinks as the height grows.)")
     print("-" * 78)

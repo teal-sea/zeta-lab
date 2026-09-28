@@ -54,7 +54,7 @@ def golden_points(n_max: int) -> np.ndarray:
 
     For each integer n there is exactly one admissible m (the unique integer
     in [-n*phi', 1 - n*phi')), so the set is a chain x_n = m(n) + n*phi with
-    mean gap sqrt(5) — density 1/sqrt(5), measured below rather than assumed.
+    mean gap sqrt(5), density 1/sqrt(5), measured below rather than assumed.
     """
     n = np.arange(-n_max, n_max + 1, dtype=np.float64)
     m = np.ceil(-n * PHI_STAR)
@@ -106,7 +106,7 @@ def dual_module(p_max: int = 60):
 
 def predicted_amplitude(k_star: float, covol: float, win: float = 1.0) -> float:
     """|Fourier-Bohr coefficient| of the model set at a dual point:
-    (|W|/covol) * |sinc(k_star |W| / 2)| — the window integral
+    (|W|/covol) * |sinc(k_star |W| / 2)|, the window integral
     int_0^{|W|} e^{i k* t} dt = |W| e^{i k* |W|/2} sinc(k* |W|/2), done in
     closed form here and nowhere else."""
     z = k_star * win / 2

@@ -1,4 +1,4 @@
-# R-938AB4 — what `reNum_mem` and `imNumOverY_mem` actually enclose
+# R-938AB4: what `reNum_mem` and `imNumOverY_mem` actually enclose
 
 Run `bbe76b9a-ccf3-4d53-bfe9-6480334f4648`, 2026-08-17. Hunt #44.
 
@@ -15,7 +15,7 @@ Nothing here is evidence for or against RH (`docs/08`).
 (`hunts/frontier_math/zeta23ext/Zeta23Ext/EForm3/O9Num.lean`) conclude that
 two of the seven `boxParts` fields enclose long trigonometric expressions.
 Those expressions are read off `boxParts` operation for operation, and they
-leave the three constant leaves as free variables `ss`, `cc`, `sc` — any
+leave the three constant leaves as free variables `ss`, `cc`, `sc`, any
 reals the constant enclosures happen to contain. They are not stated as
 `Re num` and `Im num / y` for
 
@@ -48,7 +48,7 @@ mathematics: the shape *is* `Re num`, at every point of every box including
 
 ### 2. `imNumOverY` encloses `Im num / y` only for `y ≠ 0`
 
-The field's value is named `Retention.imOverYShape s y` — the shape,
+The field's value is named `Retention.imOverYShape s y`, the shape,
 `if`-branch and all, with the constants instantiated.
 `Retention.imNumOverY_mem_shape` proves the enclosure unconditionally, and
 `Retention.imOverYShape_eq_im_div` proves
@@ -59,7 +59,7 @@ The single step that consumes the hypothesis is `shcSmall`'s `if`: away from
 zero the removable branch is `sinh(y/2)/(y/2)`, and halving it is
 `sinh(y/2)/y`, which is what dividing `Im num` by `y` produces.
 
-**The hypothesis is not an artefact of the proof — the statement is false
+**The hypothesis is not an artefact of the proof, the statement is false
 without it, and the witness is in the file.** `Retention.numC_im_zero` shows
 `Im num = 0` on the real axis, so `Im num / y` at `y = 0` is `0` by Lean's
 division convention. What `imNumOverY` encloses there is instead the removable
@@ -77,8 +77,8 @@ pinned rather than left as whatever the arithmetic happened to produce.
 The witness point `s = π` is outside the table's own `s`-range `[28/5, 60]`.
 That is deliberate and it costs nothing: `π` is where the trig values are
 exact, so the disequality is provable without bounding `cos(2.8)`. The
-mismatch inside the table is the same algebra with the same `if` branch — the
-enclosed real is a limit and `Im num / 0` is `0` — but exhibiting it at a
+mismatch inside the table is the same algebra with the same `if` branch, the
+enclosed real is a limit and `Im num / 0` is `0`, but exhibiting it at a
 table point would need numeric bounds on the leaves that this run did not
 build. **Recorded as a loose thread, not claimed.**
 
@@ -87,8 +87,8 @@ build. **Recorded as a loose thread, not claimed.**
 Having both numerator components identified, the two compositions can be
 stated against the field itself rather than against abstract components:
 
-* `Retention.qreIv_mem_phi2` — `qreIv` encloses `Re Phi2 (s + i y)`;
-* `Retention.rIv_mem_phi2` — `rIv` encloses `−Im Phi2 (s + i y) / y`, which is
+* `Retention.qreIv_mem_phi2`: `qreIv` encloses `Re Phi2 (s + i y)`;
+* `Retention.rIv_mem_phi2`: `rIv` encloses `−Im Phi2 (s + i y) / y`, which is
   the removable branch `R` the O9 table is built on.
 
 Both carry `y ≠ 0`, which they inherit from item 2 and from
@@ -118,11 +118,11 @@ one-line edit whenever the operator wants it.
 
 ### 5. Instantiability, checked
 
-A statement that compiles is not thereby a statement with content — that is
+A statement that compiles is not thereby a statement with content, that is
 exactly what `r_comp_mem` demonstrated. So every identification above is also
 instantiated at a **recorded** box:
 
-* `Retention.box0_in_table` — the box
+* `Retention.box0_in_table`: the box
   `⟨103301766812773489049, 107547284961337742355, 0, 4611686018427387904, 0, 2⟩`
   is the first row of `Retention.o9boxes`, proved by membership rather than
   asserted (this declaration depends on no axioms at all);
@@ -156,9 +156,9 @@ appears in the file only inside prose describing the retired lemmas.
 here.** A package-wide `lake build` in this container was already red before
 any edit:
 
-* `Zeta23Ext/RetentionWired.lean:44` — ``ring_nf` made no progress` followed
+* `Zeta23Ext/RetentionWired.lean:44`, ``ring_nf` made no progress` followed
   by a type mismatch. A genuine elaboration error, outside `EForm3/`.
-* `Zeta23Ext.BandCert.Verify` — Lean exited with code 137 after 704 s, i.e.
+* `Zeta23Ext.BandCert.Verify`: Lean exited with code 137 after 704 s, i.e.
   killed. A container resource limit, not a proof failure.
 
 Both were observed on the baseline build performed before the new file
@@ -198,7 +198,7 @@ command's exit status.
 1. **A `y = 0` mismatch witness inside the table's own `s`-range.** The
    disequality is proved at `s = π`, which is outside `[28/5, 60]`. Making the
    same statement at a table point needs numeric enclosures for `cos(s/2)` and
-   `sin(s/2)` on `[2.8, 2.92]` — available from the package's own leaves, but
+   `sin(s/2)` on `[2.8, 2.92]`: available from the package's own leaves, but
    it was not built here. First step: instantiate `sinCosIv` at box 0's
    `s`-interval and read off the sign of `imOverYShape s 0` by `decide`.
 2. **`r_comp_mem` and `rIv_mem` are still present.** Shown unnecessary, not

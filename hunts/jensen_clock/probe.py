@@ -760,7 +760,7 @@ def stage_precision():
 
 def _shifted_coeffs(G, n, d, dps):
     """Coefficients of the damped n-th derivative: c_j = gamma(n+j)/j! *
-    prod_{i<j}(1-i/d) — i.e. J^{d,n}(x/d).  A suffix of the same table."""
+    prod_{i<j}(1-i/d), i.e. J^{d,n}(x/d).  A suffix of the same table."""
     return damped_coeffs(G[n:], d, dps)
 
 
@@ -804,7 +804,7 @@ def stage_shift():
 
         # Predicate: warm-started Newton with an off-axis kick.  The complex
         # root either exists (Newton holds a root with substantial Im) or the
-        # iteration collapses onto the real axis — the same discrimination the
+        # iteration collapses onto the real axis, the same discrimination the
         # phase-1 degree ladder used.  Contour counting fails here because the
         # post-landing window can hold 0, 1 or 2 descendants plus a Rolle
         # interlacer; Newton does not care.
@@ -921,7 +921,7 @@ def stage_map2():
 
 
 def stage_additivity2():
-    """Phase 3, Q5: strong additivity — t_land(n=1) at d = 1e6 must sit at the
+    """Phase 3, Q5: strong additivity, t_land(n=1) at d = 1e6 must sit at the
     d = 1e8 value minus the degree-budget difference, no free parameters."""
     t0 = time.time()
     pair = flow_repair_pair1()
@@ -949,7 +949,7 @@ def stage_additivity2():
                 seed["x"] = root
             return bool(is_pair)
 
-        # bracket around the prediction, then bisect — if the prediction is
+        # bracket around the prediction, then bisect, if the prediction is
         # wrong by more than the bracket, the walk below reports it.
         a, b = predicted - mp.mpf("0.004"), predicted + mp.mpf("0.004")
         if not pair_state(a) or pair_state(b):
@@ -979,7 +979,7 @@ def stage_additivity2():
 
 
 def stage_li():
-    """Phase 3, Q6/Q7: the Li axis — an accumulating discriminator."""
+    """Phase 3, Q6/Q7: the Li axis, an accumulating discriminator."""
     from zeta.li import li_asymptotic, li_coefficients
 
     t0 = time.time()
@@ -1018,7 +1018,7 @@ def stage_li():
 
         # (b) the same formula pointed at DH pair 1 (prediction only: the
         # background is taken as the zeta-shaped asymptotic, an order-of-
-        # magnitude proxy — DH's own zero-count constant differs, and the
+        # magnitude proxy: DH's own zero-count constant differs, and the
         # stated claim is only the scale of the onset).
         pair = flow_repair_pair1()
         rho_dh = mp.mpc(1 - mp.mpf(pair["beta"]), mp.mpf(pair["gamma"]))

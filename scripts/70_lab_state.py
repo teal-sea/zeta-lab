@@ -1,4 +1,4 @@
-"""70_lab_state.py — the read-only research-state view, rendered from artifacts.
+"""70_lab_state.py, the read-only research-state view, rendered from artifacts.
 
 The specification's control-layer rule (docs/reviews, the next-phase memo;
 adopted with its emphasis reversed onto state): the view shows *research
@@ -7,7 +7,7 @@ state, not agent activity*, and its headline question is
     what do we know now that we did not know before, and why are we
     entitled to believe it?
 
-Everything rendered here comes from durable tree artifacts — the graveyard
+Everything rendered here comes from durable tree artifacts, the graveyard
 ledger, the guard ledger, the review ledger, the independence declarations,
 the hunts' case log and HuntSpec blocks. Nothing comes from any
 orchestration layer, because evidence does not live there. The output is one
@@ -104,7 +104,7 @@ def _threads() -> list[dict]:
     """Who is holding what, derived from git rather than declared.
 
     Several agents and sessions work this repository in parallel, and until now
-    the only way to find out what was live was to read commit logs by hand —
+    the only way to find out what was live was to read commit logs by hand,
     which is how one session concluded, wrongly, that nobody was attacking the
     transplant chain. A hand-maintained registry would answer that, and would
     also rot silently and then read as authoritative, which is the same failure
@@ -137,20 +137,37 @@ def _threads() -> list[dict]:
     return rows
 
 
-def _pill(power: str) -> str:
-    """A measured guard and an undemonstrated one should not read alike."""
-    if power.startswith("fires"):
-        rest = power.split("—", 1)[1].strip() if "—" in power else ""
-        tail = f" <code class='muted'>{_esc(rest)}</code>" if rest else ""
-        return f"<span class='pill ok'>fires</span>{tail}"
-    return "<span class='pill open'>never demonstrated</span>"
+def _pill(fired: bool | None, demonstrated_by: str) -> str:
+    """A measured guard and an undemonstrated one should not read alike.
+
+    Takes the two fields rather than a rendered sentence to split back apart.
+    The previous version joined them with a separator and re-parsed it, so a
+    change to that separator dropped the demonstration artifact silently and
+    still rendered a confident ``fires`` pill. A guard whose evidence has gone
+    missing must not read like one whose evidence is present, so the artifact
+    is required here and its absence raises.
+    """
+    if fired is None:
+        return "<span class='pill open'>never demonstrated</span>"
+    if not demonstrated_by.strip():
+        raise ValueError(
+            "a guard with a recorded outcome must name the artifact that "
+            "demonstrated it; GuardRecord enforces this, so an empty value "
+            "here means the field was lost between the ledger and this page"
+        )
+    label = "fires" if fired else "DOES NOT FIRE"
+    css = "ok" if fired else "open"
+    return (
+        f"<span class='pill {css}'>{label}</span>"
+        f" <code class='muted'>{_esc(demonstrated_by)}</code>"
+    )
 
 
 def render() -> str:
     parts: list[str] = []
     parts.append(
         "<!doctype html><html><head><meta charset='utf-8'>"
-        "<title>Zeta Lab — research state</title><style>"
+        "<title>Zeta Lab, research state</title><style>"
         ":root{--ink:#15181c;--soft:#5a636d;--faint:#868f99;--rule:#dfe3e8;"
         "--hair:#eceff2;--paper:#fcfcfa;--card:#f6f6f2;--warn:#8a4b1a;"
         "--good:#2f6b45;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}"
@@ -203,7 +220,7 @@ def render() -> str:
         ".item .who{font-size:.74rem}}"
         "</style></head><body>"
     )
-    parts.append("<h1>Zeta Lab — research state</h1>")
+    parts.append("<h1>Zeta Lab, research state</h1>")
     parts.append(
         "<p class='muted'>Rendered from tree artifacts only (ledgers, "
         "declarations, case logs). No orchestration state, no agent "
@@ -233,7 +250,7 @@ def render() -> str:
                 parts.append(f"<li class='item'><div class='gap'>{_esc(item)}</div></li>")
         parts.append("</ul>")
     else:
-        parts.append("<p>Empty — which is a statement about the ledgers' coverage.</p>")
+        parts.append("<p>Empty, which is a statement about the ledgers' coverage.</p>")
 
     threads = _threads()
     parts.append(f"<h2>Live threads ({len(threads)})</h2>")
@@ -241,7 +258,7 @@ def render() -> str:
         "<p class='muted'>Every branch carrying commits not on <code>origin/main</code>, "
         "newest work first. Derived from git, not declared: it is right by construction "
         "or it is empty, and nobody has to remember to update it. Parallel sessions are "
-        "normal here — an unmerged branch is usually live work, not debris, so read this "
+        "normal here, an unmerged branch is usually live work, not debris, so read this "
         "before assuming a lane is unattended.</p>"
     )
     if threads:
@@ -258,7 +275,7 @@ def render() -> str:
         parts.append("</table></div>")
     else:
         parts.append(
-            "<p>Nothing unmerged — either everything landed, or git was unreadable "
+            "<p>Nothing unmerged, either everything landed, or git was unreadable "
             "from here. This section never guesses.</p>"
         )
 
@@ -288,15 +305,10 @@ def render() -> str:
     parts.append(f"<h2>Guard ledger ({len(GUARDS)})</h2>")
     parts.append("<div class='wrap'><table><tr><th>guard</th><th>guards against</th><th>power</th></tr>")
     for guard in GUARDS:
-        power = {
-            True: f"fires — {guard.demonstrated_by}",
-            False: f"DOES NOT FIRE — {guard.demonstrated_by}",
-            None: "never demonstrated",
-        }[guard.fired]
         parts.append(
             f"<tr><td><code>{_esc(guard.name)}</code></td>"
             f"<td>{_esc(guard.guards_against)}</td>"
-            f"<td>{_pill(power)}</td></tr>"
+            f"<td>{_pill(guard.fired, guard.demonstrated_by)}</td></tr>"
         )
     parts.append("</table></div>")
     open_guards = undemonstrated(GUARDS)

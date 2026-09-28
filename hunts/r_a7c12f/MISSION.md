@@ -1,4 +1,4 @@
-# R-A7C12F — does the far-field constant `637/1000` survive at depth 1?
+# R-A7C12F: does the far-field constant `637/1000` survive at depth 1?
 
 `hunts/frontier_math/K2-TWO-SPECIES.md` section 2 records a depth-extended
 landscape table whose last row is starred as a correction:

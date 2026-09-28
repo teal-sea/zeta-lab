@@ -1,0 +1,104 @@
+{
+ "definitions": {
+  "Lambda": "von Mangoldt function, from an exact integer sieve of Eratosthenes plus explicit prime-power enumeration",
+  "chi": "the non-principal Dirichlet character mod 3: 0 at multiples of 3, +1 at m = 1 (mod 3), -1 at m = 2 (mod 3)",
+  "psi": "Chebyshev's psi(m), read from zeta.explicit.psi_staircase (the repo's own vectorised psi) rather than re-derived here, and cross-checked against zeta.explicit.psi_true at every ladder cutoff",
+  "J_N": "sum_{m <= N} Lambda(m) chi(m) (psi(m) - m), accumulated with mpmath (mp.dps = 50) via mp.fsum over the raw float64 terms so the accumulation step adds no rounding drift of its own"
+ },
+ "ladder": [
+  100000,
+  250000,
+  500000,
+  1000000,
+  2000000,
+  4000000,
+  8000000
+ ],
+ "ladder_note": "geometric-ish ladder from 1e5 to 8e6 in seven steps, chosen so the sieve, the vectorised psi_staircase call over the full grid, and the mpmath summation together run in well under 60 seconds",
+ "psi_cross_check_vs_psi_true": [
+  {
+   "N": 100000,
+   "psi_true": 100051.56402565798,
+   "psi_staircase": 100051.56402565801,
+   "absdiff": 2.9103830456733704e-11
+  },
+  {
+   "N": 250000,
+   "psi_true": 250116.67634684243,
+   "psi_staircase": 250116.67634684258,
+   "absdiff": 1.4551915228366852e-10
+  },
+  {
+   "N": 500000,
+   "psi_true": 500113.29687340104,
+   "psi_staircase": 500113.29687340115,
+   "absdiff": 1.1641532182693481e-10
+  },
+  {
+   "N": 1000000,
+   "psi_true": 999586.597495631,
+   "psi_staircase": 999586.5974956311,
+   "absdiff": 1.1641532182693481e-10
+  },
+  {
+   "N": 2000000,
+   "psi_true": 2000115.046207051,
+   "psi_staircase": 2000115.0462070508,
+   "absdiff": 2.3283064365386963e-10
+  },
+  {
+   "N": 4000000,
+   "psi_true": 3999490.8567965017,
+   "psi_staircase": 3999490.856796503,
+   "absdiff": 1.3969838619232178e-09
+  },
+  {
+   "N": 8000000,
+   "psi_true": 8000121.733201456,
+   "psi_staircase": 8000121.733201458,
+   "absdiff": 1.862645149230957e-09
+  }
+ ],
+ "max_abs_diff_psi_staircase_vs_psi_true": 1.862645149230957e-09,
+ "rows": [
+  {
+   "N": 100000,
+   "J_N": 31364.894338060945,
+   "J_N_over_N": 0.31364894338060945
+  },
+  {
+   "N": 250000,
+   "J_N": 160382.4937367095,
+   "J_N_over_N": 0.6415299749468379
+  },
+  {
+   "N": 500000,
+   "J_N": 47611.069534029506,
+   "J_N_over_N": 0.09522213906805901
+  },
+  {
+   "N": 1000000,
+   "J_N": 166876.8867037084,
+   "J_N_over_N": 0.16687688670370843
+  },
+  {
+   "N": 2000000,
+   "J_N": 651009.7471025059,
+   "J_N_over_N": 0.3255048735512529
+  },
+  {
+   "N": 4000000,
+   "J_N": 3066696.1156505407,
+   "J_N_over_N": 0.7666740289126351
+  },
+  {
+   "N": 8000000,
+   "J_N": 5884970.645795545,
+   "J_N_over_N": 0.7356213307244431
+  }
+ ],
+ "growth_exponent_loglog_leastsquares": 1.2005896687300937,
+ "growth_exponent_loglog_intercept": -3.827787680930013,
+ "what_this_measures": "This is a measurement of J(N) at a finite ladder of seven cutoffs, not an asymptotic statement. A finite ladder bounds nothing outside the range it covers: it cannot rule out that the growth changes shape past N = 8,000,000, and it cannot by itself tell an O(N^{1+eps}) rate apart from a power that only looks flatter over this particular range. The least-squares exponent above is an observed slope of log|J(N)| against log(N) over these seven points, not a proved rate, and it carries no error bar beyond what a seven-point fit can give. Nothing here bears on RH.",
+ "seconds_total": 10.667072296142578
+}

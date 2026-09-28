@@ -5,8 +5,8 @@ The mathematics
 ---------------
 Every other number in this laboratory is an ordinary float: a real number
 carrying an *unknown* error.  Ball (interval) arithmetic replaces the number by
-an **enclosure** — a pair lo ≤ hi with the guarantee that the true value lies
-in [lo, hi] — and every operation propagates that guarantee by rounding
+an **enclosure**, a pair lo ≤ hi with the guarantee that the true value lies
+in [lo, hi], and every operation propagates that guarantee by rounding
 outward.  The pay-off is one sentence long:
 
     if an enclosure of Z(t) is strictly positive or strictly negative,
@@ -25,7 +25,7 @@ that interval contains exactly one integer.  If m = N(T) then every zero
 counted by N(T) is one of the proven critical-line sign changes, so below
 height T no zero is off the line, none has even order, and all are simple.
 
-That is exactly the argument of ``zeta.zeros.verify_rh_up_to`` — but there it
+That is exactly the argument of ``zeta.zeros.verify_rh_up_to``, but there it
 runs on ordinary mpmath floats, so the conclusion is contingent on every sign
 evaluation being right.  Overwhelmingly likely; not proved.  This script runs
 both and prints them side by side: the same integers, a different epistemic
@@ -36,7 +36,7 @@ this repository holds itself to.
 What "certified" means here, stated plainly: *given* that the ball library is
 correct and that the quoted theorems (Riemann–von Mangoldt, Σ_{n≥2} n⁻² =
 ζ(2)−1) are correct, the enclosures contain the true values and the returned
-integers are the true ones.  Anything undecidable is reported, never guessed —
+integers are the true ones.  Anything undecidable is reported, never guessed,
 ``proven_sign`` returns 0 and the run is marked uncertified.
 
 Honest scope (docs/08): a certificate for a finite interval is still a
@@ -67,7 +67,7 @@ from zeta.zeros import verify_rh_up_to
 
 __all__ = ["main"]
 
-#: γ₁, the lowest zero ordinate — the point where no precision can prove a sign.
+#: γ₁, the lowest zero ordinate, the point where no precision can prove a sign.
 GAMMA1 = 14.134725141734694
 
 
@@ -77,7 +77,7 @@ def _fmt(x, n: int = 12) -> str:
 
 def section_backend(probe_t: float, probe_bits: int) -> list[str]:
     """Which ball engine is in use, and the two engines checked against each other."""
-    print("1)  THE BACKEND  —  which ball-arithmetic engine is doing the proving")
+    print("1)  THE BACKEND, which ball-arithmetic engine is doing the proving")
     print()
     backends = available_backends()
     print(f"    in use          : {BACKEND}")
@@ -85,7 +85,7 @@ def section_backend(probe_t: float, probe_bits: int) -> list[str]:
     print(f"    all importable  : {', '.join(backends)}")
     print()
     print(f"    Two independent certified implementations must produce OVERLAPPING")
-    print(f"    enclosures of Z({probe_t:g}) at {probe_bits} bits — if they did not, one of them")
+    print(f"    enclosures of Z({probe_t:g}) at {probe_bits} bits, if they did not, one of them")
     print("    would be wrong.  (Arb computes ζ as a ball itself; the mpmath.iv path")
     print("    builds ζ from Euler–Maclaurin with the classical explicit remainder.)")
     print()
@@ -103,14 +103,14 @@ def section_backend(probe_t: float, probe_bits: int) -> list[str]:
         his = [v[1] for v in boxes.values()]
         overlap = max(los) <= min(his)
         print()
-        print(f"      overlap        : {'YES — the two certificates are consistent' if overlap else 'NO — investigate, one backend is wrong'}")
+        print(f"      overlap        : {'YES, the two certificates are consistent' if overlap else 'NO, investigate, one backend is wrong'}")
     print()
     return backends
 
 
 def section_widths(t_values: list[float], bits: list[int], backends: list[str]) -> None:
     """The cost curve of rigor: width against precision, and the digits proven."""
-    print("2)  WHAT AN ENCLOSURE COSTS  —  width shrinks geometrically in the bit count")
+    print("2)  WHAT AN ENCLOSURE COSTS, width shrinks geometrically in the bit count")
     print("    'proven digits' = log₁₀|mid| − log₁₀(width): significant digits of Z(t)")
     print("    that are CERTIFIED, not merely computed.")
     print()
@@ -134,7 +134,7 @@ def section_widths(t_values: list[float], bits: list[int], backends: list[str]) 
 def section_certificate(T: float, prec_bits: int, count_prec_bits: int,
                         backend: str | None) -> dict:
     """The certificate itself: proven sign changes, certified N(T), enclosures."""
-    print(f"3)  THE CERTIFICATE at T = {T:g}  —  every sign and every count is a theorem")
+    print(f"3)  THE CERTIFICATE at T = {T:g}, every sign and every count is a theorem")
     print()
     t0 = time.perf_counter()
     res = verify_rh_certified(
@@ -180,7 +180,7 @@ def section_certificate(T: float, prec_bits: int, count_prec_bits: int,
     print()
     if res["certified"]:
         print(f"    ==> PROVEN: all {res['N_T']} zeros with 0 < γ < {T:g} are simple and lie")
-        print("        exactly on the critical line — modulo the correctness of the ball")
+        print("        exactly on the critical line, modulo the correctness of the ball")
         print("        library and the two quoted theorems, and nothing else.")
     else:
         print(f"    ==> NOT certified: {res['uncertified_steps']}")
@@ -190,7 +190,7 @@ def section_certificate(T: float, prec_bits: int, count_prec_bits: int,
 
 def section_contrast(T: float, certified: dict) -> dict:
     """The same argument on ordinary floats: same numbers, weaker conclusion."""
-    print("4)  'WE MEASURED' vs 'WE PROVED'  —  the same two integers, side by side")
+    print("4)  'WE MEASURED' vs 'WE PROVED', the same two integers, side by side")
     print()
     t0 = time.perf_counter()
     fp = verify_rh_up_to(T)
@@ -216,7 +216,7 @@ def section_contrast(T: float, certified: dict) -> dict:
     print()
     print("    The numbers are identical; that is the point.  What differs is what may be")
     print(f"    said afterwards.  The floating-point row assumes that all {fp['n_samples']} sign")
-    print("    evaluations were each accurate to better than |Z| at that point — true beyond")
+    print("    evaluations were each accurate to better than |Z| at that point, true beyond")
     print("    reasonable doubt, but an assumption.  The certified row assumes nothing about")
     print("    them: a sign was counted only once its enclosure excluded 0.")
     print()
@@ -224,8 +224,8 @@ def section_contrast(T: float, certified: dict) -> dict:
 
 
 def section_failure_mode() -> dict:
-    """Where rigor says "I don't know" — and why that is the feature."""
-    print("5)  THE HONEST FAILURE MODE  —  0 means 'not decided', never 'probably'")
+    """Where rigor says "I don't know", and why that is the feature."""
+    print("5)  THE HONEST FAILURE MODE: 0 means 'not decided', never 'probably'")
     print()
     print(f"    Take t = {GAMMA1:.15f}, the float nearest the lowest zero "
           "γ₁ = 14.134725141734694…")
@@ -246,7 +246,7 @@ def section_failure_mode() -> dict:
     print()
     print("    At an exact zero of Z no precision suffices and 0 is the permanent, correct")
     print("    answer: Z really has no sign there.  Nothing is ever silently upgraded to a")
-    print("    certificate — an undecided sample lands in 'undecided_points' and the whole")
+    print("    certificate, an undecided sample lands in 'undecided_points' and the whole")
     print("    run is reported uncertified.")
     print()
     return {"undecided_at_32": s32 == 0, "proven_at_64": s64 != 0}
@@ -254,10 +254,10 @@ def section_failure_mode() -> dict:
 
 def section_weil_positivity() -> dict:
     """The certified Weil functional: positivity with error bars, not luck."""
-    print("6)  CERTIFIED WEIL POSITIVITY  —  W(h) > 0 as an enclosure, not a verdict")
+    print("6)  CERTIFIED WEIL POSITIVITY: W(h) > 0 as an enclosure, not a verdict")
     print()
     if "python-flint" not in available_backends():
-        print("    (skipped: flint-only — mpmath.iv has no certified quadrature)")
+        print("    (skipped: flint-only, mpmath.iv has no certified quadrature)")
         print()
         return {"skipped": True}
     print("    RH  ⇔  W(h) ≥ 0 for every admissible h (Weil).  The near-tight")
@@ -282,7 +282,7 @@ def section_weil_positivity() -> dict:
     print()
     print("    Finitely many certified instances are not evidence for RH (docs/08);")
     print("    they are positivity statements that no longer rest on floating-point")
-    print("    luck.  A certified negative W would disprove RH — per the house rule,")
+    print("    luck.  A certified negative W would disprove RH, per the house rule,")
     print("    the correct first inference from one is a bug.")
     print()
     return {"sign": r["sign"], "certified": r["certified"],
@@ -348,22 +348,22 @@ def main() -> None:
     print("=" * 78)
     print("HEADLINE")
     print(f"  • {cert['certified_sign_changes']} sign changes of Z below T = {args.T:g} were "
-          "PROVEN — each from an enclosure that excludes 0.")
-    print(f"  • N({args.T:g}) = {cert['N_T']} was PROVEN — its enclosure has width "
+          "PROVEN, each from an enclosure that excludes 0.")
+    print(f"  • N({args.T:g}) = {cert['N_T']} was PROVEN, its enclosure has width "
           f"{cert['N_T_enclosure_width']:.1e} and contains one integer.")
     print(f"  • m = N(T), so every zero below T is simple and on the line: "
           f"certified = {cert['certified']}.")
     if comparison is not None:
         print(f"  • The floating-point route returned the same two integers "
               f"({comparison['agree']}) in {comparison['fp_wall']:.2f} s against "
-              f"{cert['wall_seconds']:.2f} s —")
+              f"{cert['wall_seconds']:.2f} s:")
         print("    rigor here is not the slow option; it is the one that assumes less.")
     print(f"  • Undecidability is reported, not hidden: proven_sign returned 0 at 32 bits "
           f"({modes['undecided_at_32']}).")
     if not weil.get("skipped"):
         print("  • Weil positivity at the near-tight Gaussian (W ~ 9e-18, 18 digits of "
               f"cancellation) was PROVEN (sign = {weil['sign']:+d}).")
-    print("  • And none of this is evidence for RH — it is a finite interval, made "
+    print("  • And none of this is evidence for RH, it is a finite interval, made "
           "trustworthy (docs/08).")
     print(f"[{time.time() - t0:.1f} s]")
 

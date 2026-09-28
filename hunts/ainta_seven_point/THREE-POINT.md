@@ -6,7 +6,7 @@
 > `∀ g ≥ 0, c ≤ F 3 3000 g` at `c = 1345/10⁶`, and the unconditional simple-zero bound that
 > follows from it.
 >
-> **VERIFIED, GitHub Actions run 32689888754, green end to end** — every step from the Mathlib
+> **VERIFIED, GitHub Actions run 32689888754, green end to end**, every step from the Mathlib
 > cache through `the whole library`, the axiom audit and the no-`sorry` check. All six
 > advertised declarations report `[propext, Classical.choice, Quot.sound]`:
 >
@@ -36,7 +36,7 @@ Nothing is transcribed and there is no restatement to audit.
 
 *(Until 2026-08-24 it was a package of its own at `hunts/ainta_seven_point/lean-three-point/`,
 requiring `lean/bridge` **by path**. It moved into `lean/bridge` so that the Palomar surface
-built on it has a selected project whose dependency set is already known to replay — a `path`
+built on it has a selected project whose dependency set is already known to replay, a `path`
 dependency pointing out of the project directory is behaviour this repository cannot test.
 `lean/bridge`'s dependency set is unchanged by the move, and its existing libraries neither
 import `ThreePoint` nor were edited for it. → `lean/PALOMAR.md`.)*
@@ -178,7 +178,7 @@ so `m = 745 = 2 + ⌊10⁶/1345⌋` is the largest admissible block size, which 
 `w ≥ 0` everywhere, and `w` is bounded away from `0` except in four short intervals below the
 cutoff. That is the whole idea, and it is what makes `n = 3` cheap where `n = 7` is not.
 
-### 3.1 The pressure cutoff — the biggest saving
+### 3.1 The pressure cutoff: the biggest saving
 
 Since `w ≥ 0`,
 
@@ -208,12 +208,12 @@ applied to (MEASURED).
 
 The consequence is that the two-dimensional work is confined to the pairs `Bᵢ × Bⱼ` whose
 left corners survive the cutoff. **MEASURED**: those are `B₁×B₁`, `B₁×B₂`, `B₁×B₃`, `B₂×B₂`
-and their transposes — **four** box lemmas, not five. `B₂×B₃` does *not* survive
+and their transposes, **four** box lemmas, not five. `B₂×B₃` does *not* survive
 (`1.9375 + 2.875 = 4.8125 > 4.035`); nor do `B₁×B₄`, `B₃×B₃`, `B₃×B₄`, `B₄×B₄`. All twelve
 dead cases are closed in `three_point_cert` by `exfalso; linarith`. (An earlier draft of this
 note listed `B₂×B₃` as surviving. It does not; the Lean was right and the prose was wrong.)
 
-### 3.3 The cell bound — one general lemma, applied 1515 times
+### 3.3 The cell bound: one general lemma, applied 1515 times
 
 **This is the shape the brief asked for and the shape that was built.** There is exactly one
 kernel lemma,
@@ -238,7 +238,7 @@ theorem wc_k (x : ℝ) (h₁ : (l:ℝ) ≤ x) (h₂ : x ≤ (u:ℝ)) : (W:ℝ) �
 with `l`, `u`, `W` rational literals, and each proved mechanically: reduce the angle to a
 quarter window, enclose `cos` and `sin` by the twelve-term Taylor bound, enclose
 `2γ(πx)·sin(πx)` by interval multiplication, subtract, apply `wfun_ge`. **VERIFIED**:
-1515 applications of the 368 lemmas across the development — 22 in `cover1`, 1493 in the four
+1515 applications of the 368 lemmas across the development: 22 in `cover1`, 1493 in the four
 box trees.
 
 **The angle reduction.** Every cell sits inside `[a, a+1/4]` or `[a−1/4, a]` for a half-integer
@@ -288,7 +288,7 @@ Where the cell of a variable straddles a quarter boundary, the leaf splits on it
 `have` and uses the two neighbouring cell lemmas. Where a leaf lies beyond the cutoff, `w ≥ 0`
 and the pressure term alone finishes it.
 
-**MEASURED**: 487 leaves — `pair_0_0` 12, `pair_0_1` 453, `pair_0_2` 6, `pair_1_1` 16. The
+**MEASURED**: 487 leaves, `pair_0_0` 12, `pair_0_1` 453, `pair_0_2` 6, `pair_1_1` 16. The
 binding basin is `B₁×B₂` and it carries 93 % of the tree, which is what one expects when the
 argmin is at `(1.0508, 2.0025)`. The symmetry `F 3 p (g₀,g₁) = F 3 p (g₁,g₀)` halves the work:
 only `i ≤ j` is proved and transposes apply the same lemma after
@@ -300,7 +300,7 @@ only `i ≤ j` is proved and transposes apply the same lemma after
 
 `hunts/ainta_seven_point/three_point_preflight.py` (new, committed, 3 s) asks, before any
 kernel is available: *is the certificate arithmetically true?* It is not a
-proof and it is not in the trust chain — everything it checks the Lean build would check again,
+proof and it is not in the trust chain, everything it checks the Lean build would check again,
 rigorously. It is a filter, so that a CI round is not spent finding an error float arithmetic
 could have found. **VERIFIED, run this session, exit 0:**
 
@@ -321,9 +321,9 @@ Specifically it confirms, against the true `w = (K/K(0))²` evaluated from the s
 * `cover1`'s chain is contiguous, hits the cutoff exactly, and every table cell both covers
   its segment and clears `c`;
 * at every one of the 487 leaves, the three cell lemmas invoked really do cover the `x`, `y`
-  and `x+y` ranges the branch conditions force — including the 50 places where the cell
+  and `x+y` ranges the branch conditions force, including the 50 places where the cell
   of a variable straddles a quarter boundary and the leaf splits on it and invokes two
-  neighbouring cells — and the linear combination the `linarith`
+  neighbouring cells, and the linear combination the `linarith`
   is asked to close is true.
 
 **One real bug was found and fixed this session.** `cover1` was emitting
@@ -332,7 +332,7 @@ Specifically it confirms, against the true `w = (K/K(0))²` evaluated from the s
 exact Or.inr Or.inr (Or.inl ⟨by linarith, by linarith⟩)
 ```
 
-which is `Or.inr` applied to two explicit arguments, not nesting — a type error in three
+which is `Or.inr` applied to two explicit arguments, not nesting, a type error in three
 places, which would have failed the first build. The generator was fixed, not just the output
 (`three_point_gen.py`, the `Or.inr` emit site), and regenerating reproduces the committed
 tree byte for byte apart from that fix and two tactic changes.
@@ -342,11 +342,11 @@ Two tactic chains were also hardened before spending a build on them: `F3_eq`'s 
 `Phi_three`'s `norm_num; field_simp; ring` became
 `push_cast; rw [div_eq_div_iff (by norm_num) (by norm_num)]; ring`, which does not depend on
 what `norm_num` chooses to leave behind. **These were guesses about elaboration, not
-measurements — exactly the class of thing only a build settles.** Both turned out right,
+measurements, exactly the class of thing only a build settles.** Both turned out right,
 and two other guesses of the same kind turned out wrong: `le_or_lt` does not exist at this
 pin, and `open Real` was not the `open` the module needed.
 
-**Which declarations had prior build evidence, and which had none — the pre-flight view.**
+**Which declarations had prior build evidence, and which had none, the pre-flight view.**
 All 25 in the second and third groups below have since elaborated (§5); this is recorded
 because it is how the risk looked before the first build, and because it turned out to be a
 good predictor of nothing: every one of them compiled first time, and the failures came from
@@ -357,9 +357,9 @@ errors:
 
 * **byte-identical to CertRoute, so already elaborated once** (10 declarations):
   `taylorCos`, `taylorSin`, `cos_sin_taylor12`, `cos_lower`, `cos_upper`, `sin_lower`,
-  `err_scale`, `one_le_pi`, `gam`, `integral_cos_mul_eq_sinc`. A further six —
+  `err_scale`, `one_le_pi`, `gam`, `integral_cos_mul_eq_sinc`. A further six,
   `sin_upper`, `Kfun_eq_sinc`, `cos_mul_intervalIntegrable`, `kfun_aux`, `kfun_closed`,
-  `sin_sqrt2_half_pos` — differ from CertRoute **only in their doc comments**; their proof
+  `sin_sqrt2_half_pos`: differ from CertRoute **only in their doc comments**; their proof
   bodies are identical.
 * **changed, so unelaborated at the time** (2): `sqrt2_half_bounds`, widened from 8 digits to 19
   (`7071067811865475244/10¹⁹ ≤ √2/2 ≤ 7071067811865475245/10¹⁹`, checked correct this
@@ -385,7 +385,7 @@ that CertRoute's `gam_bounds` uses all three and builds.
 | machine-local paths | 0 |
 | the repository's reserved word under `hunts/` | 0 |
 | `scripts/71_contribution_check.py hunts/ainta_seven_point` | `contribution contract: PASS`, 21 passed |
-| `scripts/make_context.py --check` | `CONTEXT.md is up to date` — no regeneration needed |
+| `scripts/make_context.py --check` | `CONTEXT.md is up to date`, no regeneration needed |
 
 **Size, VERIFIED:** 20 028 lines across 9 files. 3490 `nlinarith`, 8435 `linarith`, 3967
 `norm_num` invocations. (Before the leaf-shape change in §5 it was 21 416 lines and 5360
@@ -395,7 +395,7 @@ that CertRoute's `gam_bounds` uses all three and builds.
 recorded. The guess was that `nlinarith` on 12-digit rational literals dominates. It is
 half right: the seven cell tables are 3490 `nlinarith` calls and cost 34m39s of the cold
 build, about 5.6 s per cell lemma. But `ThreePoint/Main.lean` contains **no `nlinarith` at
-all** — its 487 leaves are `linarith` over three constants — and it still costs 14m49s, a
+all**, its 487 leaves are `linarith` over three constants, and it still costs 14m49s, a
 third of the whole build, because 453 of those leaves sit in one declaration. Proof
 *structure* turned out to matter as much as tactic choice.
 
@@ -410,7 +410,7 @@ It could not be started at first. The token this branch was pushed with carried
 `gist, read:org, repo` and **not `workflow`**, and all three routes to a file under
 `.github/workflows/` are refused without it: `git push` (`refusing to allow an OAuth App to
 create or update workflow ... without workflow scope`), the contents API (`404`, the same
-restriction masked — the identical call to a non-workflow path succeeds), and the git-data
+restriction masked, the identical call to a non-workflow path succeeds), and the git-data
 API (`404` at `POST /git/trees`; that hole is closed). Granting an OAuth scope is a consent
 decision, not an agent's to take, so the workflow was parked under `hunts/` with the two
 commands that move it into place, and the operator ran them. That is the only step in this
@@ -425,7 +425,7 @@ cannot build locally:
    is what turned a 50-minute round into a 20-minute one from run 2 onward.
 2. **the build staged module by module** under `/usr/bin/time -p`, so per-module cost survives
    into the log and a failure in the tables is distinguishable from a failure in the
-   machinery. That is what produced the table below — and it costs something: staging
+   machinery. That is what produced the table below, and it costs something: staging
    serialises what `lake` would spread over the runner's 4 cores, so these are per-module
    *serial* costs, not the cost of the build a reader would run.
 3. **`timeout-minutes: 350`**, because the repository cancels at 30, and `cache/save` runs
@@ -438,12 +438,12 @@ Cold, run 32683784986, GitHub-hosted `ubuntu-latest` (4 cores):
 
 | step | wall clock |
 |---|---|
-| `lake exe cache get` — Mathlib oleans at the pinned rev | 1m25s |
+| `lake exe cache get`, Mathlib oleans at the pinned rev | 1m25s |
 | dependencies: Zeta23 upstream, then `lean/bridge` | 11m24s |
-| `ThreePoint.Base` — the machinery, 473 lines | 26s |
-| `ThreePoint.Cells0…5` — 60 cell lemmas each | 5m33s, 5m36s, 5m36s, 5m47s, 5m56s, 5m21s |
-| `ThreePoint.Cells6` — the remaining 8 | 50s |
-| `ThreePoint.Main` — `cover1`, four box lemmas, 487 leaves, the certificate and the bound | 14m49s |
+| `ThreePoint.Base`, the machinery, 473 lines | 26s |
+| `ThreePoint.Cells0…5`, 60 cell lemmas each | 5m33s, 5m36s, 5m36s, 5m47s, 5m56s, 5m21s |
+| `ThreePoint.Cells6`, the remaining 8 | 50s |
+| `ThreePoint.Main`, `cover1`, four box lemmas, 487 leaves, the certificate and the bound | 14m49s |
 | **whole job, cold** | **≈ 50 min to the end of the tables, ≈ 65 min including `Main`** |
 
 Warm, runs 2 through 5: the cache restores everything in about one minute and only `Main`
@@ -462,13 +462,13 @@ failures were mine rather than the mathematics':
 | run | outcome | what it found |
 |---|---|---|
 | 32683784986 | `Main` failed, 49m50s | `Base` and all seven cell tables green on the first attempt. `le_or_lt` does not exist at this pin (560 uses); `HD`, `Ncount`, `N0simple`, `eventually_atTop` unresolved |
-| 32686863542 | `Main` failed, 4m29s | names fixed; the heartbeat budget is the wall — `pair_0_1` overruns 200 000 about 4 % of the way in, after 43 s |
+| 32686863542 | `Main` failed, 4m29s | names fixed; the heartbeat budget is the wall, `pair_0_1` overruns 200 000 about 4 % of the way in, after 43 s |
 | 32687291025 | `Main` failed, 19m29s | **the whole development elaborated.** Four errors, all orphaned doc comments: `set_option ... in` was emitted *after* the docstring |
 | 32688543779 | `Main` **success**, 18m2s | the certificate and the bound are proved; the audit step's own grep misread the bridge's `[propext, choice, Quot.sound]` as a violation |
 | 32689888754 | **green end to end** | the audit fixed and tested against three fixtures; `axiom audit clean: six advertised declarations`, `zero sorry, zero axiom, zero native_decide` |
 
 Two of those cost more than they should have. The doc-comment ordering was settled afterwards
-on AXLE in **0.9 seconds** — `doc-then-option` `okay=False`, `option-then-doc` `okay=True` —
+on AXLE in **0.9 seconds**, `doc-then-option` `okay=False`, `option-then-doc` `okay=True`,
 which is the check that should have preceded the 19-minute round it cost. A Mathlib-only
 syntax question never needs a CI cycle.
 
@@ -478,7 +478,7 @@ The brief asked for a general cell lemma applied many times, versus a `decide`-c
 versus a `Finset` fold, measured. **Only the first was built, so that comparison is NOT
 MEASURED**, and the reason it was the one built is worth stating: the cell bound is a
 statement about `Real.cos` and `Real.sin`, which the kernel cannot evaluate. A `decide` route
-needs a `Decidable` bridge from a rational evaluator up to the real statement — a second
+needs a `Decidable` bridge from a rational evaluator up to the real statement, a second
 development, not a tactic choice. That reasoning is INFERRED.
 
 What *was* measured is the shape of the leaf step, which turned out to matter:
@@ -490,13 +490,13 @@ What *was* measured is the shape of the leaf step, which turned out to matter:
 
 **MEASURED.** 1393 of the 1443 leaf steps asked for a constant that *is* the cell lemma's own
 constant, and reached it through `le_trans`, which makes the elaborator postpone a
-`by norm_num` against a metavariable until the second argument fixes it — for a proof of
+`by norm_num` against a metavariable until the second argument fixes it, for a proof of
 `W ≤ W`. Handing it the term directly is 1.11× faster per step on the controlled test, about
 5.2 ms, roughly 7 s across the package. At package scale `Main` fell 16m23s → 14m49s, 9.6 %.
 **Those two numbers do not agree, and n = 1 per shape cannot separate the remaining 87 s from
 the 1390 lines the file also lost or from run-to-run variance.** The honest reading is that
 the direct form is free and slightly better, and that the `le_trans` idiom was *not* what
-exhausted the heartbeat budget — the leaf count in a single declaration was.
+exhausted the heartbeat budget, the leaf count in a single declaration was.
 
 ### The one `set_option`, and what it is not
 
@@ -506,7 +506,7 @@ the tree shares a single heartbeat budget, and 453 leaves overrun the default 20
 
 The four generated box lemmas therefore carry `set_option maxHeartbeats 10000000 in`. This is
 a compile-resource limit and nothing else: it is not an axiom, it does not appear in
-`#print axioms`, and it is emitted **on the generated tables only** — `three_point_cert`,
+`#print axioms`, and it is emitted **on the generated tables only**: `three_point_cert`,
 `Phi_three`, `three_point_bound` and `three_point_bound_ratio` all carry the default.
 
 The structural fix is to split `pair_0_1` so each subtree gets its own budget and they
@@ -543,13 +543,13 @@ log fails.
 
 **Proved, in Lean, sorry-free, standard axioms only:**
 
-* `three_point_cert` — the `n = 3` certificate at `c = 1345/10⁶`, `p = 3000`. This is a Lean
+* `three_point_cert`: the `n = 3` certificate at `c = 1345/10⁶`, `p = 3000`. This is a Lean
   fact about the same `F` the bridge consumes, not a verifier's acceptance. 368 cell lemmas,
   22 covering steps, 4 box lemmas, 487 leaves.
-* `three_point_bound`, `three_point_bound_ratio` — the unconditional simple-zero bound at
+* `three_point_bound`, `three_point_bound_ratio`: the unconditional simple-zero bound at
   `Φ₃ = 0.67273733450380945032…`, with **no hypotheses**, for Mathlib's `riemannZeta`.
-* `Phi_three` — the constant as an exact rational in `HD 1`.
-* `cover1` — the one-dimensional cover, and `wfun_window` (`w ≥ 19/100` on `[0,1/2]`, through
+* `Phi_three`: the constant as an exact rational in `HD 1`.
+* `cover1`: the one-dimensional cover, and `wfun_window` (`w ≥ 19/100` on `[0,1/2]`, through
   the sinc form, across the removable singularity), and `sinc_taylor`, a twelve-term Taylor
   enclosure of `Real.sinc` valid at `0`, which Mathlib at this pin does not supply.
 
@@ -585,7 +585,7 @@ log fails.
 * **I never built anything locally.** Every build in §5 ran on GitHub Actions. No `lake build`
   was attempted on the author's machine, where it is not viable.
 * **No `decide`-checked table and no `Finset` fold.** The brief asked which of the three
-  shapes compiles fastest. Only one was built — the general lemma applied many times — and
+  shapes compiles fastest. Only one was built, the general lemma applied many times, and
   the comparison is therefore **NOT MEASURED**. The reason it was the one built is that the
   cell bound is a statement about `Real.cos` and `Real.sin`, which the kernel cannot evaluate;
   a `decide` table would need a `Decidable` bridge from a rational evaluator to the real
@@ -601,7 +601,7 @@ log fails.
   not fixed. In run 1, `HD`, `Ncount` and `N0simple` were unresolved because the module opened
   only `Real`; `autoImplicit` silently bound each of them as an implicit variable of unknown
   type, so the advertised statements were, briefly, statements about nothing. It errored only
-  because a variable cannot be applied to an argument — had the names been nullary it would
+  because a variable cannot be applied to an argument, had the names been nullary it would
   have compiled and said nothing. A package whose entire point is an advertised theorem should
   set `autoImplicit := false` and `relaxedAutoImplicit := false` in its `lakefile.toml`, as
   Mathlib does. Not done here because changing a lakefile option invalidates the whole build
@@ -612,7 +612,7 @@ log fails.
   reproduced this session). It needs a two-sided *affine* enclosure of `N(πx)` per cell, hence
   Taylor with explicit remainder for `N` or a small interval layer with `cos`/`sin` at rational
   centres. Mathlib at the pinned revision has neither an interval-arithmetic tactic nor a
-  numerical `sin`/`cos` evaluator — the gap `CERTIFICATE-ROUTE.md` §4 identified, still open.
+  numerical `sin`/`cos` evaluator, the gap `CERTIFICATE-ROUTE.md` §4 identified, still open.
   **This is the single change that would recover the last `5.4·10⁻⁶` of the constant.**
 * **No unification with PR #117, which is now on `main`.** `ThreePoint/Base.lean` §§1–3
   reproduce `hunts/ainta_seven_point/lean/CertRoute.lean`'s Taylor enclosure, its monotone
@@ -652,5 +652,5 @@ every figure in §5 was measured from.
 
 The package pins `leanprover/lean4:v4.33.0-rc2` and inherits Mathlib
 (`51e6992efd06126df61a496bebf8f49482a4e129`, a real master commit dated 2026-08-03, so the
-upstream olean cache exists for it — VERIFIED via the GitHub API), Batteries and
+upstream olean cache exists for it: VERIFIED via the GitHub API), Batteries and
 `anthropics/zeta-23-lean` at rev `3635e74826a4c1fcece7d1cd2b6fa75e43a00510`.

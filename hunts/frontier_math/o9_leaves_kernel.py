@@ -3,8 +3,8 @@
 ## Why this module exists
 
 `o9_leaf.py` mirrors `Iv.lean` and `Phi.lean` faithfully, but computes the
-*transcendental leaves* — `sin`, `cos`, `sinh`, `cosh`, `√2`, `sin(√2/2)`,
-`cos(√2/2)` — with Arb at 300 bits, rounded outward onto the `2^-64` grid with
+*transcendental leaves*, `sin`, `cos`, `sinh`, `cosh`, `√2`, `sin(√2/2)`,
+`cos(√2/2)`: with Arb at 300 bits, rounded outward onto the `2^-64` grid with
 a 4-ulp pad.  That is not what the kernel does.  `BandCert/Leaves.lean` builds
 them from truncated Taylor series with `hornerI`, widens by one ulp, and for
 arguments outside `[-1,1]` reduces modulo a `2^-64` enclosure of `2π` and
@@ -14,7 +14,7 @@ cells the Arb model decides the kernel need not.
 That gap was written down as a caveat before any Lean build existed.  The first
 build (2026-08-13) measured it: `decide +kernel` returned `false` on 7 of 9
 chunks of a table the model predicted would pass 344 of 344.  The mathematics
-is unaffected — `Dam ≤ c·y²` is true at Arb grade — but the *table* was an
+is unaffected, `Dam ≤ c·y²` is true at Arb grade, but the *table* was an
 artifact of a too-narrow model.
 
 So this module computes leaves the way the kernel computes them, with no Arb
@@ -56,7 +56,7 @@ __all__ = [
 ]
 
 # ---------------------------------------------------------------------------
-# Coefficient lists — Leaves.lean §"Coefficient lists", verbatim
+# Coefficient lists: Leaves.lean §"Coefficient lists", verbatim
 # ---------------------------------------------------------------------------
 
 sinL: list[tuple[int, int]] = [
@@ -93,7 +93,7 @@ def hornerI(cs: list[tuple[int, int]], x: Iv) -> Iv:
 
 
 # ---------------------------------------------------------------------------
-# The small-argument leaves — valid for |v| <= 1, exactly as in Leaves.lean
+# The small-argument leaves, valid for |v| <= 1, exactly as in Leaves.lean
 # ---------------------------------------------------------------------------
 
 def sinCosSmall(a: Iv) -> tuple[Iv, Iv]:
@@ -107,7 +107,7 @@ def sinhCoshSmall(a: Iv) -> tuple[Iv, Iv]:
 
 
 def shcSmall(a: Iv) -> Iv:
-    """`sinh(v)/v` enclosure — the removable branch the 2-D route needs.
+    """`sinh(v)/v` enclosure, the removable branch the 2-D route needs.
 
     `O9-2D-STATUS.md` §3: this expression is already evaluated inside
     `sinhCoshSmall` on its way to `sinh`, so no new *arithmetic* is required;
@@ -118,7 +118,7 @@ def shcSmall(a: Iv) -> Iv:
 
 
 # ---------------------------------------------------------------------------
-# Constants — Leaves.lean, verbatim integers (NOT recomputed with Arb)
+# Constants: Leaves.lean, verbatim integers (NOT recomputed with Arb)
 # ---------------------------------------------------------------------------
 
 sq2n = 26087635650665564424
@@ -130,7 +130,7 @@ PI2iv = Iv(8 * piqa, 8 * piqb)
 
 
 # ---------------------------------------------------------------------------
-# Argument reduction — Leaves.lean `dbl` and `sinCosIv`
+# Argument reduction: Leaves.lean `dbl` and `sinCosIv`
 # ---------------------------------------------------------------------------
 
 def dbl(sc: tuple[Iv, Iv]) -> tuple[Iv, Iv]:
@@ -151,7 +151,7 @@ def _ediv(a: int, b: int) -> int:
     return q if (a >= 0) == (b >= 0) else -q
 
 
-#: Sentinel for the `(topI, topI)` branch — the enclosure that gives up.
+#: Sentinel for the `(topI, topI)` branch, the enclosure that gives up.
 topI = Iv(-SO, SO)
 
 
@@ -160,7 +160,7 @@ def sinCosIv(a: Iv) -> tuple[Iv, Iv]:
 
     Reduce modulo `2π`, quarter, evaluate the series, double twice.  Returns
     the `topI` pair when the reduced quarter-argument leaves `[-1,1]`, exactly
-    as the Lean does — a caller that gets `topI` has learned nothing, which is
+    as the Lean does, a caller that gets `topI` has learned nothing, which is
     the honest outcome and not an error.
     """
     m = a.lo + a.hi
@@ -198,7 +198,7 @@ def kernel_leaves2d(s_lo: F, s_hi: F, y_lo: F, y_hi: F) -> dict[str, Iv]:
 
     Drop-in replacement for `o9_leaf2d.leaves2d`, same keys.  The 2-D route
     carries `y` as an interval rather than a point, so the hyperbolic leaves
-    are evaluated on `[y_lo, y_hi]/2 ⊆ [0, 1/4]` — inside the small-argument
+    are evaluated on `[y_lo, y_hi]/2 ⊆ [0, 1/4]`, inside the small-argument
     range, so no reduction is needed there.  `s` reaches 60, so the trig
     leaves go through `sinCosIv`.
 
@@ -231,7 +231,7 @@ def kernel_leaves(lo: F, hi: F, y: F) -> dict[str, Iv]:
     `sin(s/2)` and `cos(s/2)` go through `sinCosIv` because `s` reaches 60 and
     the small-argument series is only valid on `[-1,1]`.  `sinh(y/2)` and
     `cosh(y/2)` use `sinhCoshSmall` directly: `y ≤ 1/2`, so `y/2 ≤ 1/4` is
-    inside the small range and no reduction is needed — which is also why the
+    inside the small range and no reduction is needed, which is also why the
     hyperbolic leaves were never the problem.
     """
     X = _cell_iv(lo, hi)

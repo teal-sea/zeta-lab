@@ -1,4 +1,4 @@
-"""Controls for near_coincident.py — the coincident limit of the retention gap.
+"""Controls for near_coincident.py, the coincident limit of the retention gap.
 
 What a reader must be able to check without rerunning the scans:
 
@@ -9,11 +9,11 @@ What a reader must be able to check without rerunning the scans:
     of (`c2`, `Q`, `L2`) are each checked against their defining integrals;
 (b) the second-order expansion of the margin in the gap `g` reproduces under
     finite differences, at the stated order, in both the symmetric and the
-    anchored parameterisation — this is what makes the sign of `kappa2` (and
+    anchored parameterisation, this is what makes the sign of `kappa2` (and
     so "coincidence is a local minimum") a measurement rather than a claim;
 (c) the `m^2`-vs-`m` scaling is exhibited at `m = 2, 4, 8, 16`: damage exactly
     linear, repulsion exactly quadratic, and the quotient exactly `(m-1)`;
-(d) the worst intermediate case reproduces deterministically — same `(g, m)`
+(d) the worst intermediate case reproduces deterministically, same `(g, m)`
     at two placement-grid resolutions, same slack to 1e-6;
 (e) the measurements are consistent with EForm3 where EForm3 applies: on
     `d >= 4`-separated configurations both Lean bounds (`uniform_damage`,
@@ -353,7 +353,7 @@ def test_separated_configurations_respect_both_eform3_bounds() -> None:
 
 
 def test_the_extremal_separated_configuration_is_the_exchange_record() -> None:
-    """One offset per window peak: 40.6% of budget, 2.46x — FAR-FIELD-EXCHANGE."""
+    """One offset per window peak: 40.6% of budget, 2.46x, FAR-FIELD-EXCHANGE."""
     sep = separated_worst(Y, count=60)
     assert sep["ratio"] == pytest.approx(RECORD["separated_ratio"], rel=2e-3)
     assert sep["safety_factor"] == pytest.approx(RECORD["separated_safety_factor"], rel=2e-3)

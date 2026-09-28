@@ -1,4 +1,4 @@
-"""``compiler.semantics`` — what can actually be established about a rewrite here.
+"""``compiler.semantics``, what can actually be established about a rewrite here.
 
 This module is the candidate department's *detector*, and the whole point of
 keeping it in one file is that its limits are written down in one place.
@@ -6,8 +6,8 @@ keeping it in one file is that its limits are written down in one place.
 The ladder, and where this repository currently stands on it
 ------------------------------------------------------------
 1. **Exhaustive concrete agreement** (implemented). Compile both programs and
-   run them on every point of a deliberately tiny finite domain — all 65536
-   ``(i8, i8)`` pairs — at more than one optimisation level, and compare the
+   run them on every point of a deliberately tiny finite domain, all 65536
+   ``(i8, i8)`` pairs, at more than one optimisation level, and compare the
    output tables byte for byte. What this establishes is exactly its name:
    *the two programs produced equal results on every input in the stated
    domain, under this compiler, at these flags*.
@@ -19,7 +19,7 @@ The ladder, and where this repository currently stands on it
    installed. What it establishes is refinement **with respect to the model**:
    every claim it makes is about this file's reading of the LangRef, not about
    clang, and the two backends cross-check each other on every value the model
-   says is defined (:func:`model_matches_clang` — the same two-backend habit
+   says is defined (:func:`model_matches_clang`, the same two-backend habit
    as ``zeta/rigor.py``, without borrowing that module's vocabulary).
 3. **LLVM-native refinement** (not implemented). Alive2 decides refinement
    under LLVM's own semantics, which is the property an LLVM transformation
@@ -33,7 +33,7 @@ It is not a proof, not a certificate, not equivalence, and not refinement.
   ``nsw`` flag makes the result poison on overflow, but a compiled binary still
   hands back the wrapped value, so the tables agree. The transformation is
   nonetheless invalid. ``compiler.catalog`` plants exactly this lesion so that
-  the blindness is measured rather than assumed — and rung 2 exists because of
+  the blindness is measured rather than assumed, and rung 2 exists because of
   it: :func:`refinement` sees that lesion as 32768 poison violations.
 * **The two optimisation levels are not independent checks.** Both go through
   the same clang. Agreement across ``-O0`` and ``-O2`` catches a transformation
@@ -109,7 +109,7 @@ __all__ = [
 #: which for a well-defined program should not happen.
 OPT_LEVELS: tuple[str, ...] = ("-O0", "-O2")
 
-#: 256 * 256 — every ``(i8, i8)`` pair.
+#: 256 * 256, every ``(i8, i8)`` pair.
 DOMAIN_SIZE: int = 65536
 
 #: The exact claim rung 1 supports. Quote it verbatim; do not paraphrase it
@@ -154,7 +154,7 @@ class ModelUnsupported(IRRejected):
 
 
 # ---------------------------------------------------------------------------
-# Backend discovery — the rigor.py pattern, minus the entitlement to "certified"
+# Backend discovery, the rigor.py pattern, minus the entitlement to "certified"
 # ---------------------------------------------------------------------------
 
 _DRIVER = r"""
@@ -217,7 +217,7 @@ def available_backends() -> list[str]:
     """Every semantic backend that is actually usable right now.
 
     ``pymodel.refinement_i8`` is always present because it is this file: pure
-    Python, no PATH, no install. That is a feature and a caveat in one — the
+    Python, no PATH, no install. That is a feature and a caveat in one, the
     model cannot be switched off by the environment, and it is only as right
     as its author's reading of the LangRef, which is why
     :func:`model_matches_clang` exists.
@@ -252,7 +252,7 @@ def backend_status() -> dict[str, str]:
 #: The backend chosen for the exhaustive path, or the empty string if none is.
 BACKEND: str = "clang.exhaustive_i8" if _clang_consumes_ir()[0] else ""
 
-#: Why :data:`BACKEND` is what it is — quote this verbatim when reporting.
+#: Why :data:`BACKEND` is what it is, quote this verbatim when reporting.
 BACKEND_REASON: str = _clang_consumes_ir()[1]
 
 
@@ -425,7 +425,7 @@ class _UBState:
 
 #: The two non-value outcomes a model run can produce for one input. Table
 #: entries are ``int`` (0..255, the unsigned reading of the i8), ``POISON``,
-#: or ``UB`` — nothing else, so a caller can pattern-match exhaustively.
+#: or ``UB``, nothing else, so a caller can pattern-match exhaustively.
 POISON = _Poison()
 UB = _UBState()
 
@@ -482,7 +482,7 @@ _LINE_RET = re.compile(r"^ret\s+i(?P<width>\d+)\s+(?P<a>[%\w.-]+)$")
 def _parse(ir_text: str) -> tuple[_Instr, ...]:
     """The supported subset: one block, the binops above, icmp, zext, select, ret.
 
-    Anything else raises :class:`ModelUnsupported` — the model must refuse
+    Anything else raises :class:`ModelUnsupported`, the model must refuse
     rather than guess, for the same reason an absent backend raises rather
     than answering.
     """
@@ -696,10 +696,10 @@ class RefinementReport:
 
     The three violation counters are disjoint and sum to ``violations``:
 
-    * ``value_violations`` — source defined, candidate defined, values differ.
-    * ``poison_violations`` — source defined, candidate poison. This is the
+    * ``value_violations``: source defined, candidate defined, values differ.
+    * ``poison_violations``: source defined, candidate poison. This is the
       class rung 1 cannot see at all.
-    * ``ub_violations`` — candidate is immediate UB where the source is not.
+    * ``ub_violations``: candidate is immediate UB where the source is not.
 
     ``refines`` uses the standard direction: where the source is UB anything
     is allowed; where the source is poison the candidate may be poison or any
@@ -776,7 +776,7 @@ def model_matches_clang(ir_text: str, *, opt_levels: tuple[str, ...] = OPT_LEVEL
     """The two-backend cross-check: model values against compiled output.
 
     At every input where the model produces a defined value, the compiled
-    program must produce the same byte at every optimisation level — a
+    program must produce the same byte at every optimisation level, a
     defined value constrains the compiler completely. Where the model says
     poison or UB the compiled byte is unconstrained and is not compared.
 

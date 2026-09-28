@@ -1,0 +1,318 @@
+{
+  "date": "2026-09-13",
+  "scope": "Original recovered source bytes, not mathematical validation",
+  "files": [
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/factorial_direct_bn/DIRECT_BN.md",
+      "bytes": 7311,
+      "sha256": "b3fbe222f2ed5e8e0388c33760d8a94d431321ef2e7fa460163dc65a157b9157",
+      "source": "PR #196 at 46fdb433752a"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/factorial_direct_bn/direct_bn.py",
+      "bytes": 11124,
+      "sha256": "484c90bac05be89b8fae11ae18fa6e759caa2405e9c68b7e891fe8e78f2a06c1",
+      "source": "PR #196 at 46fdb433752a"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/factorial_direct_bn/direct_bn_results.json",
+      "bytes": 550375,
+      "sha256": "06dc522a9466402fb7b569a246029b61eb98d26836442a5d4d69384813491645",
+      "source": "PR #196 at 46fdb433752a"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/factorial_full_cost/COST_COMPARISON.md",
+      "bytes": 9515,
+      "sha256": "c9c3751128a0e3673c4e7b568153512c236a06d9f80eadf2526c1826071666f4",
+      "source": "PR #196 at 46fdb433752a"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/factorial_full_cost/full_cost.py",
+      "bytes": 16243,
+      "sha256": "0959189c5f680ec450f6e79a6cc2818040209bfdebbfdc08dee177e6f914924e",
+      "source": "PR #196 at 46fdb433752a"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/factorial_full_cost/full_cost_results.json",
+      "bytes": 432000,
+      "sha256": "098df41060c6cd2e20a9f3c85f09226ddca0b02defe8ec7e172aa30d0f1f5945",
+      "source": "PR #196 at 46fdb433752a"
+    },
+    {
+      "path": "tests/test_factorial_direct_bn.py",
+      "bytes": 6693,
+      "sha256": "58caa09294996654b174c118a24465b15cfef22eb9bb72ac178d1070d2cbe65e",
+      "source": "PR #196 at 46fdb433752a"
+    },
+    {
+      "path": "tests/test_factorial_full_cost.py",
+      "bytes": 5660,
+      "sha256": "de8040cf449b9a187b98c895855e06a33245959320bffdd79c6d24ebacc0405f",
+      "source": "PR #196 at 46fdb433752a"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/BASELINE_REVIEW.md",
+      "bytes": 15168,
+      "sha256": "cd6c36d8430319e8e59f2b17f1c74fd2e7864cc264a9af271739d92cf7eb8605",
+      "source": "PR #199 at 96ce564c89a3"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/review/baseline_check.json",
+      "bytes": 8726,
+      "sha256": "3bfe08d90727dc6206bd4e61b0b32ee6a319a2ae0e3d35f9360d7d2bbdb34afd",
+      "source": "PR #199 at 96ce564c89a3"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/review/baseline_check.py",
+      "bytes": 18677,
+      "sha256": "fe428c99f3800b37cec611051ea2ff3e773848332dc43b2b143b2fb3061bdf5a",
+      "source": "PR #199 at 96ce564c89a3"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/review/rerun_aggregate_results.json",
+      "bytes": 52359,
+      "sha256": "03fd897624665cc373f118069baf82de798474e995cafc177791df494dff0d56",
+      "source": "PR #199 at 96ce564c89a3"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/review/upstream_reruns/refinement_rule_rerun.json",
+      "bytes": 101743,
+      "sha256": "2c93e7765164f8deef240eb1fb3149d3306a094e19cd87fcf061cb138da6e06c",
+      "source": "PR #199 at 96ce564c89a3"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/review/upstream_reruns/structural_step_checked_results_rerun.json",
+      "bytes": 26755,
+      "sha256": "6d1c3957b1cb3962f473ab2efc9528996e58176ef4815df168da52458141cefb",
+      "source": "PR #199 at 96ce564c89a3"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/review/upstream_reruns/structural_step_results_rerun.json",
+      "bytes": 5112,
+      "sha256": "bb3775a30534b395f8dce88376c7403a01cf5eb6e241f91265f695e3f409ea8a",
+      "source": "PR #199 at 96ce564c89a3"
+    },
+    {
+      "path": "tests/test_combined_weight_baseline_review.py",
+      "bytes": 4023,
+      "sha256": "10958ec941cfdfa7c28d284598fbda29e5aad11dd84f2811f4cc62e762595e99",
+      "source": "PR #199 at 96ce564c89a3"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/joint_correction_candidate/JOINT_CORRECTION.md",
+      "bytes": 7334,
+      "sha256": "e573762c46d817f2e6e7693c79cf5f0b7eb459c05b1f3102167b657231d45247",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/joint_correction_candidate/JOINT_REVIEW.md",
+      "bytes": 15061,
+      "sha256": "885d67f557ea631b80ce61d1844abaa5f80c434a74c9aba019d32a60c4a8203b",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/joint_correction_candidate/archive/SHA256SUMS",
+      "bytes": 97,
+      "sha256": "e8d5e4ac85661e69a7f3a0cd2fbda507ef0c816181b83dc71ca4844d115acb77",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/joint_correction_candidate/archive/joint_correction_candidate.zip",
+      "bytes": 13746,
+      "sha256": "828a4d85d471b51331b5f0a32c30818ccff4de95e9e4c91dbb836536376e8260",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/joint_correction_candidate/joint_correction.py",
+      "bytes": 9640,
+      "sha256": "92dd9b882f7edba1f8f99e46e3469fc1791e3cc7c2eb5c7b6931809f27ff1eaf",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/joint_correction_candidate/joint_results.json",
+      "bytes": 22880,
+      "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/joint_correction_candidate/review/joint_check.json",
+      "bytes": 9056,
+      "sha256": "fdd19752f0452db2b6ad5b9e735a0e23aca1cceef13573c54bfccf9170d9b059",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/joint_correction_candidate/review/joint_check.py",
+      "bytes": 20575,
+      "sha256": "4592725f8edc8428596ac4b410d445ccd34fc7229dc767e4e397afecaa33dd55",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "hunts/prime_pair_error/frontier/2026-09-06/joint_correction_candidate/review/rerun_joint_results.json",
+      "bytes": 22880,
+      "sha256": "e951a89fdd8fe4311cc5e0e5a8ad303945f10982844e37669fde3ae48f933e89",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "tests/test_joint_correction_candidate.py",
+      "bytes": 6931,
+      "sha256": "cbb05daf2f83e1931f4a4032b75e0c6093291aa686142b03982ce1f5c909e6e8",
+      "source": "PR #200 at 85a42e7c0c7d"
+    },
+    {
+      "path": "hunts/prime_pair_error/MINOR_LEVEL_SETS.md",
+      "bytes": 12217,
+      "sha256": "b7cbb80dca7eaa8f27c2d173ea960f7d3c4610d5d79affb4c657f0b29251302b",
+      "source": "PR #209 at 895127103890"
+    },
+    {
+      "path": "hunts/prime_pair_error/artifacts/minor_level_sets/check.py",
+      "bytes": 5227,
+      "sha256": "7f1a73794087dd76e7fcb97dc3a46e012552ef4e02ebfba4d5374987d7ce976b",
+      "source": "PR #209 at 895127103890"
+    },
+    {
+      "path": "hunts/prime_pair_error/artifacts/minor_level_sets/result.json",
+      "bytes": 1442,
+      "sha256": "b9ce9d40e246e81c6474d206b61f4159917dddd93260010490a54c7c6d2a419e",
+      "source": "PR #209 at 895127103890"
+    },
+    {
+      "path": "hunts/prime_pair_error/ARITHMETIC_FOURTH.md",
+      "bytes": 19183,
+      "sha256": "e0aea60d1ddc3557bbafe0e087c81fd78ce76b5626dc3eb8bd4200f63a5b767b",
+      "source": "PR #210 at 9d307cc092ef"
+    },
+    {
+      "path": "hunts/prime_pair_error/artifacts/arithmetic_fourth/check.py",
+      "bytes": 12797,
+      "sha256": "afb3b238d9c8c3a3fdaee751b84d933f9790f942ae72b428e72f210ab9ab5dbd",
+      "source": "PR #210 at 9d307cc092ef"
+    },
+    {
+      "path": "hunts/prime_pair_error/artifacts/arithmetic_fourth/result.json",
+      "bytes": 2612,
+      "sha256": "8fd32e68907550e9a510c772ac8f60cb303881f98db3b6c49a522d572d26873c",
+      "source": "PR #210 at 9d307cc092ef"
+    },
+    {
+      "path": "hunts/prime_pair_error/CENTERED_DISPERSION.md",
+      "bytes": 16360,
+      "sha256": "7bb42b5ebd154aaad22f94088754bebad41dce6beb5467f621bdc5bd3ccc7ac1",
+      "source": "PR #211 at 338430d457f3"
+    },
+    {
+      "path": "hunts/prime_pair_error/artifacts/centered_dispersion/check.py",
+      "bytes": 11717,
+      "sha256": "ec84aef7a2f2eef0862c4cb17a0463ae39e4ecd587511c0e39456ff49a88c9f7",
+      "source": "PR #211 at 338430d457f3"
+    },
+    {
+      "path": "hunts/prime_pair_error/artifacts/centered_dispersion/result.json",
+      "bytes": 2100,
+      "sha256": "fc99dbd248fdf7c9a616c300ca68eeb765e08721e248e6cd825897be2b1d5852",
+      "source": "PR #211 at 338430d457f3"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/MISSION.md",
+      "bytes": 32060,
+      "sha256": "0dee3861977fa1f717197e4c5fd631a56d840e6a9e19e358d4115b784980bafc",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/RESULTS.md",
+      "bytes": 16200,
+      "sha256": "7724826fa1e0dd07721ad1e7587bfac316b4b7e237aa03f034097e7a5d5e1aa1",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/RUNS.md",
+      "bytes": 6880,
+      "sha256": "3272ff0bb745a39f78ecdf20fbef8c8f85b07db816e5e66e781c63f7eb443184",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/deep_zeros.json",
+      "bytes": 369260,
+      "sha256": "7068fd8f53cd8771d8621c889de1b57930a2f03c0aa2ea85f00e40d06d0a5f93",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/deep_zeros.py",
+      "bytes": 28852,
+      "sha256": "fff081b7e2e8baa96aff8a4bb4565e8c005b8501cb508c9e8c8027ca4076f24d",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/deep_zeros_1e6.json",
+      "bytes": 6246,
+      "sha256": "d3850138592489c57620d1af70b98e9da804995fb5f40a21829a69f497f03813",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/deep_zeros_control.json",
+      "bytes": 5877,
+      "sha256": "a5e6d6606bdc863377e1cef48d4582a92847d16915453ec47fb68213e7d8a017",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/landing.json",
+      "bytes": 12814,
+      "sha256": "e57425652b54b30933e79459b7a6e53241a7f0d03654f864e6608267857a633c",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/landing.py",
+      "bytes": 25788,
+      "sha256": "faa575dbb42fb73c09069c9bb6dae98ee995079b15f6da5ae67a81387e9c4473",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/theory.py",
+      "bytes": 15252,
+      "sha256": "131e83bba9232bd43a165df62f7a5fcaaedd598d611dd8a2462de7960948afb6",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/lambda_dh_exact/theory_results.json",
+      "bytes": 4475,
+      "sha256": "eba88d0eb6c0a8dd6fee3b4b704d05a43f68f3db0451b2d4091f1a2b75efc4c6",
+      "source": "PR #226 at 6d139c37528b"
+    },
+    {
+      "path": "hunts/prime_pair_error/PAGE_ZERO_ASYMPTOTIC.md",
+      "bytes": 33848,
+      "sha256": "e2a4f8cc3fe661770504b7d12980a4bfaccc7f14a9cc3bcbd2ca492efa18232e",
+      "source": "Original patches 727b3325 and 2eb13ce9"
+    },
+    {
+      "path": "hunts/prime_pair_error/page_zero_asymptotic_probe.py",
+      "bytes": 15667,
+      "sha256": "1b3d7dfe73293f7462593348f3213e393f6b0c27f67c4f0b65012dbba44cb60a",
+      "source": "Original patches 727b3325 and 2eb13ce9"
+    },
+    {
+      "path": "hunts/prime_pair_error/results_page_zero_asymptotic_probe.json",
+      "bytes": 26231,
+      "sha256": "9af6f7118fd58b8513dbc8463b93fa855c010f5603c71f7365cfc9fed78832fe",
+      "source": "Original patches 727b3325 and 2eb13ce9"
+    },
+    {
+      "path": "hunts/prime_pair_error/FOUR_FORM_SIEVE_ATTEMPT.md",
+      "bytes": 9807,
+      "sha256": "b525cd74a55251432c087d584168fef9db55d135134731ed687a0376c93757a9",
+      "source": "Original recorded September 8 file patches and output"
+    },
+    {
+      "path": "hunts/prime_pair_error/artifacts/four_form_sieve/check.py",
+      "bytes": 6121,
+      "sha256": "a0cd7978ce97e29df94edf85bbad4287bcee9c7771b9829aadeb8b15002789ea",
+      "source": "Original recorded September 8 file patches and output"
+    },
+    {
+      "path": "hunts/prime_pair_error/artifacts/four_form_sieve/historical-result.json",
+      "bytes": 1594,
+      "sha256": "134bf64b72b7aa2466ba3df795a51de78d8c0ce8bfd7f7a37f7bc723d93407c9",
+      "source": "Original recorded September 8 file patches and output"
+    }
+  ]
+}

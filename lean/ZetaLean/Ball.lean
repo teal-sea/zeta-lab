@@ -17,8 +17,8 @@ cause: a rectangle is not rotation-invariant, so each of `expCr`'s `kE`
 squarings pays for wrapping a rotating value in an axis-aligned box.  A ball is
 rotation-invariant and does not.  Measured in the Python mirror over the same 15
 big boxes (`scripts/62_rung3_rho_w.py --arith ball`), `ρ_W` falls to `0.37`, a
-13.7× reduction, and every site of the certificate — 15 of 15 big boxes, 8 of 8
-grid sites, and the centre — passes at plan v2's existing geometry.
+13.7× reduction, and every site of the certificate: 15 of 15 big boxes, 8 of 8
+grid sites, and the centre, passes at plan v2's existing geometry.
 
 Two structural gains, not just a tighter constant:
 
@@ -39,7 +39,7 @@ every operation whose radius needs it (`mul`, `normBound`, `normLower`) takes a
 rational bound as an explicit argument and the soundness theorem takes the
 inequality as a hypothesis.  `norm_centre_le` / `le_norm_centre` reduce those to
 one rational inequality apiece, which `norm_num` discharges at a generated call
-site — the same shape as the rest of the certificate, where "every hypothesis
+site, the same shape as the rest of the certificate, where "every hypothesis
 beyond two structural containments is a rational inequality".
 -/
 
@@ -48,7 +48,7 @@ open Complex
 namespace ZetaLean
 
 /-- A complex ball: exact Gaussian-rational centre, rational radius.  Carries no
-invariant — see the module docstring. -/
+invariant, see the module docstring. -/
 structure ComplexBall where
   cre : ℚ
   cim : ℚ
@@ -148,7 +148,7 @@ theorem contains_smulQ {q : ℚ} {x : ComplexBall} {a : ℂ} (hx : x.contains a)
 
 def halve (x : ComplexBall) : ComplexBall := smulQ (1 / 2) x
 
-/-- Widening by an explicit radius — the tail-bound step. -/
+/-- Widening by an explicit radius, the tail-bound step. -/
 def inflate (x : ComplexBall) (r : ℚ) : ComplexBall := ⟨x.cre, x.cim, x.rad + |r|⟩
 
 theorem contains_inflate {x : ComplexBall} {z : ℂ} (r : ℚ) (hx : x.contains z) :
@@ -160,7 +160,7 @@ theorem contains_inflate {x : ComplexBall} {z : ℂ} (r : ℚ) (hx : x.contains 
   have : (0 : ℝ) ≤ |(r : ℝ)| := abs_nonneg _
   linarith
 
-/-! ### The product — where the rotation waste goes away
+/-! ### The product, where the rotation waste goes away
 
 `(c₁+d₁)(c₂+d₂) - c₁c₂ = c₁d₂ + c₂d₁ + d₁d₂`, so the radius grows at the true
 first-order rate `‖c₁‖r₂ + ‖c₂‖r₁ + r₁r₂` with no term for orientation.  The
@@ -199,6 +199,78 @@ theorem contains_mul {x y : ComplexBall} {a b : ℂ} {ux uy : ℚ}
     mul_le_mul hx hy (norm_nonneg _) hxr
   push_cast [mul]
   linarith
+
+/-! ### Reciprocal -/
+
+/-- A reciprocal ball centred at the exact Gaussian-rational inverse.  The
+caller supplies the output radius; `contains_inv` checks it against a rational
+lower bound for the input centre's norm. -/
+def inv (x : ComplexBall) (r : ℚ) : ComplexBall :=
+  let d := x.cre ^ 2 + x.cim ^ 2
+  ⟨x.cre / d, -x.cim / d, r⟩
+
+theorem centre_inv {x : ComplexBall} (h : x.cre ^ 2 + x.cim ^ 2 ≠ 0) (r : ℚ) :
+    (x.inv r).centre = x.centre⁻¹ := by
+  apply Complex.ext
+  · rw [Complex.inv_re]
+    simp [inv, centre, Complex.normSq_apply]
+    push_cast
+    field_simp
+  · rw [Complex.inv_im]
+    simp [inv, centre, Complex.normSq_apply]
+    push_cast
+    field_simp
+
+/-- Sound reciprocal enclosure.  If `l ≤ ‖centre‖`, `rad < l`, and
+`rad / (l * (l - rad)) ≤ R`, then the ball with exact inverse centre and
+radius `R` contains every reciprocal. -/
+theorem contains_inv {x : ComplexBall} {z : ℂ} {l R : ℚ}
+    (hx : x.contains z) (hl0 : 0 ≤ l) (hl : (l : ℝ) ≤ ‖x.centre‖)
+    (hgap : x.rad < l)
+    (hR : x.rad / (l * (l - x.rad)) ≤ R) :
+    (x.inv R).contains z⁻¹ := by
+  have hrad : (0 : ℝ) ≤ (x.rad : ℝ) := rad_nonneg_of_contains hx
+  have hgap' : (x.rad : ℝ) < (l : ℝ) := by exact_mod_cast hgap
+  have hlpos : (0 : ℝ) < (l : ℝ) := lt_of_le_of_lt hrad hgap'
+  have hcpos : 0 < ‖x.centre‖ := lt_of_lt_of_le hlpos hl
+  have hc0 : x.centre ≠ 0 := norm_pos_iff.mp hcpos
+  have hzlower : (l : ℝ) - (x.rad : ℝ) ≤ ‖z‖ := by
+    have hrev := norm_sub_norm_le x.centre z
+    rw [norm_sub_rev] at hrev
+    have hx' : ‖z - x.centre‖ ≤ (x.rad : ℝ) := hx
+    linarith
+  have hzlpos : 0 < (l : ℝ) - (x.rad : ℝ) := sub_pos.mpr hgap'
+  have hzpos : 0 < ‖z‖ := lt_of_lt_of_le hzlpos hzlower
+  have hz0 : z ≠ 0 := norm_pos_iff.mp hzpos
+  have hd : x.cre ^ 2 + x.cim ^ 2 ≠ 0 := by
+    intro hzero
+    have hs := norm_centre_sq x
+    rw [hzero] at hs
+    norm_num at hs
+    exact hc0 hs
+  rw [contains, centre_inv hd]
+  rw [inv_sub_inv' hz0 hc0, norm_mul, norm_mul, norm_inv, norm_inv]
+  have hnum : ‖x.centre - z‖ ≤ (x.rad : ℝ) := by
+    rw [norm_sub_rev]
+    exact hx
+  have hzinv : ‖z‖⁻¹ ≤ ((l : ℝ) - (x.rad : ℝ))⁻¹ :=
+    (inv_le_inv₀ hzpos hzlpos).2 hzlower
+  have hcinv : ‖x.centre‖⁻¹ ≤ ((l : ℝ))⁻¹ := (inv_le_inv₀ hcpos hlpos).2 hl
+  have h1 : ‖z‖⁻¹ * ‖x.centre - z‖ ≤
+      (((l : ℝ) - (x.rad : ℝ))⁻¹) * (x.rad : ℝ) :=
+    mul_le_mul hzinv hnum (norm_nonneg _) (inv_nonneg.mpr hzlpos.le)
+  have h2 : ‖z‖⁻¹ * ‖x.centre - z‖ * ‖x.centre‖⁻¹ ≤
+      (((l : ℝ) - (x.rad : ℝ))⁻¹) * (x.rad : ℝ) * ((l : ℝ))⁻¹ :=
+    mul_le_mul h1 hcinv (inv_nonneg.mpr (norm_nonneg _))
+      (mul_nonneg (inv_nonneg.mpr hzlpos.le) hrad)
+  have hRq : ((x.rad : ℝ) / ((l : ℝ) * ((l : ℝ) - (x.rad : ℝ)))) ≤ (R : ℝ) := by
+    exact_mod_cast hR
+  calc
+    ‖z‖⁻¹ * ‖x.centre - z‖ * ‖x.centre‖⁻¹
+        ≤ (((l : ℝ) - (x.rad : ℝ))⁻¹) * (x.rad : ℝ) * ((l : ℝ))⁻¹ := h2
+    _ = (x.rad : ℝ) / ((l : ℝ) * ((l : ℝ) - (x.rad : ℝ))) := by
+      field_simp [ne_of_gt hlpos, ne_of_gt hzlpos] <;> ring
+    _ ≤ (R : ℝ) := hRq
 
 /-! ### Outward rounding
 
@@ -272,7 +344,7 @@ theorem le_norm_of_normLower {x : ComplexBall} {z : ℂ} {l q : ℚ}
 Every site of the rung-3 certificate is a *segment* of a square's frontier, i.e.
 a rectangle degenerate in one direction, and the minimal enclosing ball of a
 segment has radius exactly half its length.  So the conversion at the input of
-the evaluation costs no enclosure at all — the whole gain is downstream, in the
+the evaluation costs no enclosure at all, the whole gain is downstream, in the
 product chain. -/
 
 /-- The ball around a rectangle, given a rational bound `hw` on the half-diagonal.
@@ -328,7 +400,7 @@ in the Python mirror before either was formalized
 
 So tightness here is load-bearing, not a refinement, and `Nat.sqrt` earns its
 place.  `sqrtUpperQ q p` is the smallest `k / 2^p` whose square is at least `q`,
-computed by one `Nat.sqrt` — which the kernel evaluates on GMP-backed naturals. -/
+computed by one `Nat.sqrt`, which the kernel evaluates on GMP-backed naturals. -/
 
 /-- Smallest `k / 2^p` with `k : ℕ` whose square is at least `q`. -/
 def sqrtUpperQ (q : ℚ) (p : ℕ) : ℚ :=
@@ -385,18 +457,18 @@ theorem norm_centre_le_absUpper (p : ℕ) (x : ComplexBall) :
 
 /-- The self-contained product: no modulus arguments, so a tower can recurse.
 
-**Dispreferred for generated code, on cost — and the first diagnosis here was
+**Dispreferred for generated code, on cost, and the first diagnosis here was
 wrong.**  This docstring originally claimed `Nat.sqrt` "does not reduce under
 `norm_num`"; that is false.  Mathlib carries a `norm_num` extension for it
 (`Mathlib.Tactic.NormNum.NatSqrt`) that evaluates 127-bit literals without
-difficulty.  The observed failure — a one-shot unfolding of `dirichletTermBallB`
-stack-overflowing at ~376 s with unreduced `Nat.sqrt` in the surviving goal —
+difficulty.  The observed failure, a one-shot unfolding of `dirichletTermBallB`
+stack-overflowing at ~376 s with unreduced `Nat.sqrt` in the surviving goal,
 was caused by the `Int.toNat` in `sqrtUpperQ` hiding the literal from the
 extension.  With `Int.toNat` in the simp set the same `mulA` atom discharges in
 ~6.5 s.  Measured against ~0.55 s for the identical atom with the two modulus
 bounds supplied as literals (`scripts/66_rung3_ball_atom_cost.py`), the literal
 route is ~12× cheaper, so a generated certificate should still emit `mul` with
-literal bounds — a cost decision now, not an impossibility.  One-shot unfolding
+literal bounds, a cost decision now, not an impossibility.  One-shot unfolding
 of a whole term stays off the table in either style: the rectangle layer's
 negative result #2 died the same death with no square root in sight. -/
 def mulA (p : ℕ) (x y : ComplexBall) : ComplexBall :=
@@ -485,7 +557,7 @@ theorem contains_expSumCB (p : ℕ) {x : ComplexBall} {z : ℂ} (hx : x.contains
       push_cast; ring] at h
     exact contains_add (contains_expSumCB p hx m) h
 
-/-- Widening to cover a value at a bounded distance from an enclosed one — the
+/-- Widening to cover a value at a bounded distance from an enclosed one, the
 Taylor-remainder step. -/
 theorem contains_inflate_of_dist {x : ComplexBall} {z w : ℂ} (r : ℚ)
     (hx : x.contains z) (h : ‖w - z‖ ≤ (r : ℝ)) : (x.inflate r).contains w := by
@@ -550,7 +622,7 @@ and after every squaring.
 Rounding the *base* matters as much as rounding the squarings: `expSumCB` sums
 `n` terms of the form `x^i / i!`, whose exact rationals are the widest literals
 in the whole tower.  Leaving that one unrounded also put this definition out of
-step with the Python mirror, which had rounded it from the start — and the
+step with the Python mirror, which had rounded it from the start, and the
 mirror must agree with the kernel bit for bit or every generated literal
 equality is refused. -/
 def expCrB (n p k : ℕ) (x : ComplexBall) : ComplexBall :=

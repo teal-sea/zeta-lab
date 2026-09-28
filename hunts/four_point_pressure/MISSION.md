@@ -1,38 +1,52 @@
-# Four-point pressure tuning
+# Four-point pressure tuning: closed exploratory record
 
-The operator requested a stronger mathematical result on 2026-09-05. This hunt
-reuses the exact interval machinery from `ainta_seven_point/four_point_gen.py`
-and varies the pressure as well as the floor. It writes only in this isolated
-worktree and this hunt until a candidate has passed the arithmetic preflight.
-The upstream four-point development remains unchanged during exploration.
+This directory preserves the arithmetic and terminal verification status of
+the 2026-09-05 experiment. Its generated Lean candidate remains on the
+separate `codex/zeta-win-20260905` branch at
+`d28df5f992479cd32751cb90c8c88551550582a3`. This publication does not import it
+into the main proof development or change the registered constant.
 
 ```huntspec
 id: four_point_pressure
-question: Can joint pressure and floor tuning improve the unconditional four-point bound with a comparable rational proof tree?
-frontier: proved Phi4 = 0.67284701976668882760 at c=2310/1000000 and p=2500; measured n=4 envelope around 0.6728744
-proposed_attack: enumerate rational pressure-floor pairs and exact proof trees, then emit and kernel-check the best affordable candidate
+question: Can joint pressure and floor tuning improve the four-point bound with a manageable exact proof tree?
+frontier: registered Phi4 is 0.67284701976668882760; a stronger candidate was emitted but its complete Lean check was canceled
+proposed_attack: preserve the exact arithmetic, emitted-source preflight, and canceled run as distinct stages
 dead_routes:
-  - merely raising c at p=2500 gives rapidly growing proof trees, already measured in FOUR-POINT.md
-  - treating the numerical infimum as a global lower bound
+  - treating a numerical infimum as a uniform lower bound
+  - treating exact search-tree closure or source preflight as a completed Lean proof
 required_oracles:
-  - exact rational interval arithmetic matching the existing cell lemmas
-  - the generated Lean arithmetic preflight
-  - Lean 4 kernel on the complete generated proof with no sorry
+  - exact rational arithmetic for the parameter substitution
+  - emitted-source arithmetic preflight
+  - Lean 4 kernel for any claimed new theorem
 kill_conditions:
-  - the exact tree fails to cover every box below its pressure cutoff
-  - an independent numerical evaluation contradicts any interval lower bound
-  - the complete Lean build fails or retains a hypothesis for its finite certificate
+  - the exact formula differs from the generic bridge after substitution
+  - the preflight reports an uncovered or invalid interval cell
+  - a claimed completed proof lacks a successful complete kernel build
 agents_may:
-  - tune the pressure and floor
-  - measure proof tree size
-  - generate a proof candidate in the isolated worktree
+  - reproduce the arithmetic and existing source preflight
+  - record the completed and incomplete checks separately
 agents_may_not:
-  - claim theorem status before the kernel build passes
-  - claim novelty without a primary-source comparison
-  - overwrite another session's work
+  - promote the canceled candidate to theorem status
+  - replace the registered constant
+  - resume the expensive candidate build as part of this archival publication
 ```
 
-Compute: first measurement is one exact tree on one VM core, limited to two
-minutes. No new paid-service job is launched for this measurement. Subsequent
-tree probes use the measured time as their estimate. The existing four-point
-CI proof measured 3h18m30s; a stronger candidate is not promised that latency.
+The original exploratory contract and generated source are retained in the
+[candidate commit](https://github.com/teal-sea/zeta-lab/commit/d28df5f992479cd32751cb90c8c88551550582a3).
+The final outcome and reproduction commands are in [RUNS.md](RUNS.md).
+
+## 2026-09-28: owner-directed resumption
+
+The owner has resumed this work for verification, integration and Palomar
+preparation. The archival restrictions above describe the September 5
+publication; they do not prohibit this resumed mission. Preserve that record
+and the registered theorem while checking the stronger candidate from
+`vizier/four-point-stronger-cert` at
+`5522b96314f7f63198ae3ec4e71d954255f93d1a`.
+
+Scope includes the candidate package and its generator, this hunt's evidence,
+focused tests, build checks, and a separately named Palomar surface. Keep
+SamiYaya's independently reported parameters in issue #254 distinct from this
+candidate's provenance. Any theorem claim requires evidence for the actual
+source revision and its complete Lean dependency chain. Preparation does not
+assert that a Palomar submission or external review has occurred.

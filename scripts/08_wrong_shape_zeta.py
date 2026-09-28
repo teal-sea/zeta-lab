@@ -16,7 +16,7 @@ Then f has EVERYTHING the functional-equation-only "proofs" of RH ever use:
   * F(s) = F(1 − s) exactly (defect measured below, at the round-off floor);
   * f entire, real Dirichlet coefficients (period 5: 1, κ, −κ, −1, 0);
   * a real Hardy-style Z_f(t) on the critical line, so line zeros are sign
-    changes — exactly like ζ.
+    changes, exactly like ζ.
 
 And yet RH is FALSE for f.  This script runs the zero hunt of
 ``scripts/02_find_zeros.py`` in reverse: the argument-principle count of
@@ -27,8 +27,8 @@ is bisected and polished to an off-critical-line zero
 
 verified by |f(ρ)|, the mirror pair ρ ↔ 1 − ρ̄, and a winding-number
 certificate (independently: Spira, Math. Comp. 1994, lists 0.808517 +
-85.699348i).  The one structural ingredient f LACKS is the Euler product —
-its coefficients are not multiplicative (a₆ = 1 ≠ a₂a₃ = −κ²) — and the
+85.699348i).  The one structural ingredient f LACKS is the Euler product,
+its coefficients are not multiplicative (a₆ = 1 ≠ a₂a₃ = −κ²), and the
 closing battery shows that claim distinguishing ζ from f while the
 functional-equation claim does not.
 
@@ -65,7 +65,7 @@ __all__ = ["main"]
 
 
 def section_functional_equation(dps: int) -> None:
-    print("1)  THE MIRROR SYMMETRY  F(s) = F(1−s)  —  same shape as Riemann's ξ")
+    print("1)  THE MIRROR SYMMETRY  F(s) = F(1−s), same shape as Riemann's ξ")
     k = kappa(dps)
     with mp.workdps(dps):
         ref = mp.mpf(KAPPA_REF)
@@ -90,7 +90,7 @@ def section_functional_equation(dps: int) -> None:
 
 
 def section_count(windows: list[tuple[float, float]]) -> tuple[float, float]:
-    print("2)  COUNT ZEROS TWO WAYS  —  scripts/02 run in reverse")
+    print("2)  COUNT ZEROS TWO WAYS, scripts/02 run in reverse")
     print("    box   = argument-principle count in the strip  −1 ≤ Re s ≤ 2  (all of f's")
     print("            complex zeros live there; f is entire, no pole-dodging needed)")
     print("    line  = sign changes of Z_f on Re s = ½, grid refined until stable")
@@ -110,7 +110,7 @@ def section_count(windows: list[tuple[float, float]]) -> tuple[float, float]:
         print(f"    [{t0:6.1f}, {t1:6.1f}] {nb:>5} {nl:>5}   {verdict}")
     print("    " + "-" * 60)
     if discrepancy is None:
-        raise SystemExit("    no discrepancy window found — widen --windows")
+        raise SystemExit("    no discrepancy window found, widen --windows")
     print("    For ζ this equality NEVER breaks (zeta.zeros.verify_rh_up_to saturates the")
     print("    count); for f it just did.  Off-line zeros arrive in mirror pairs ρ, 1−ρ̄.")
     print()
@@ -119,7 +119,7 @@ def section_count(windows: list[tuple[float, float]]) -> tuple[float, float]:
 
 def section_locate(window: tuple[float, float], dps: int) -> None:
     t0, t1 = window
-    print(f"3)  BISECT AND POLISH  —  find_offline_zero on the discrepancy window "
+    print(f"3)  BISECT AND POLISH, find_offline_zero on the discrepancy window "
           f"[{t0:g}, {t1:g}]")
     rho = find_offline_zero(t_lo=t0, t_hi=t1, window=t1 - t0, dps=dps)
     with mp.workdps(dps + 10):
@@ -130,7 +130,7 @@ def section_locate(window: tuple[float, float], dps: int) -> None:
         print()
         print(f"    ρ      = {mp.nstr(mp.re(rho), 21)}")
         print(f"             + {mp.nstr(mp.im(rho), 22)}·i        (20+ digits shown)")
-        print(f"    |f(ρ)| = {mp.nstr(resid, 3)}   (winding number around ρ: 1 — "
+        print(f"    |f(ρ)| = {mp.nstr(resid, 3)}   (winding number around ρ: 1, "
               "verified inside find_offline_zero)")
         print(f"    Re ρ − ½ = {mp.nstr(mp.re(rho) - mp.mpf(1)/2, 10)}   "
               "→  0.31 OFF the critical line")
@@ -143,7 +143,7 @@ def section_locate(window: tuple[float, float], dps: int) -> None:
 
 
 def section_battery() -> None:
-    print("4)  THE BATTERY  —  which structural claim tells ζ and f apart?")
+    print("4)  THE BATTERY, which structural claim tells ζ and f apart?")
     print()
     rows = [battery(claim_functional_equation), battery(claim_multiplicativity)]
     print(f"    {'claim':<28} {'riemann_zeta':>13} {'davenport_heilbronn':>20} "
@@ -157,7 +157,7 @@ def section_battery() -> None:
         a2, a3, a6 = (dh_coefficient(n, dps=20) for n in (2, 3, 6))
         print(f"    where multiplicativity dies:  a₆ = {mp.nstr(a6, 6)}  but  "
               f"a₂·a₃ = −κ² = {mp.nstr(a2 * a3, 6)}")
-    print("    The functional equation does NOT distinguish them — any RH argument built")
+    print("    The functional equation does NOT distinguish them, any RH argument built")
     print("    on it alone must also 'prove' RH for f, which is false.  The Euler product")
     print("    (multiplicativity) is exactly where f fails to embed.")
     print()
@@ -175,7 +175,7 @@ def main() -> None:
             "L(s,chi) + ((1+i*kappa)/2)L(s,chibar) (chi the odd character mod 5, "
             "kappa = 0.2840... derived on the spot), which satisfies a Riemann-"
             "type functional equation F(s) = F(1-s) with F(s) = (pi/5)^(-(s+1)/2) "
-            "Gamma((s+1)/2) f(s), has real coefficients and a real Hardy Z — and "
+            "Gamma((s+1)/2) f(s), has real coefficients and a real Hardy Z, and "
             "violates RH.  The script verifies the functional equation (printed "
             "defect at the round-off floor), exposes the failure by comparing the "
             "argument-principle zero count in a strip box against the sign-change "
@@ -210,10 +210,10 @@ def main() -> None:
     section_battery()
     print("=" * 78)
     print("HEADLINE")
-    print("  • F(s) = F(1−s) holds to working precision — perfect mirror symmetry,")
+    print("  • F(s) = F(1−s) holds to working precision, perfect mirror symmetry,")
     print("    the same shape as Riemann's ξ.")
     print("  • And still: ρ = 0.8085… + 85.6993…·i, a verified zero 0.31 off the line.")
-    print("  • Symmetry alone cannot give RH.  What f lacks is the Euler product —")
+    print("  • Symmetry alone cannot give RH.  What f lacks is the Euler product,")
     print("    and the battery shows that is precisely the claim that distinguishes.")
     print(f"[{time.time() - t0:.1f} s]")
 

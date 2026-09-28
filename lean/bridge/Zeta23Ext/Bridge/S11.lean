@@ -11,7 +11,7 @@ import Zeta23Ext.Bridge.Helpers_finite
 `E_m + ((n−1)/p)(y_m − y_1) ≥ c(m − (n−1))` for `y_1 < ⋯ < y_m`, `m ≥ n`, from the accepted
 `n`-point inequality `F n p ≥ c` (S10) summed over the `m − (n−1)` consecutive `n`-point windows.
 The paper's `1/500` is `6/p` at `n = 7`, `p = 3000` ([A] line 348: "each single gap occurs at most
-six times" — the structural fact is that a single gap is charged at most `n − 1` times).
+six times", the structural fact is that a single gap is charged at most `n − 1` times).
 
 Proved here.  The proof is the paper's, made explicit: the points are sorted by
 `Finset.orderEmbOfFin`; the `m − (n−1)` window gap vectors are nonnegative so `hCert` applies to

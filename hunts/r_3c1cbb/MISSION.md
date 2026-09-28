@@ -1,4 +1,4 @@
-# Hunt R-3C1CBB — Formalize: Mertens's theorems
+# Hunt R-3C1CBB, Formalize: Mertens's theorems
 
 ## The question
 

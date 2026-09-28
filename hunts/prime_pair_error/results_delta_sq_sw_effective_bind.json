@@ -1,0 +1,579 @@
+{
+ "what_is_evaluated": "The q=1 case of (SW) as Section 7 actually uses it: max_{t<=N}|Delta(t)| <<_H N L^{-H} for every fixed H, derived there from the stronger unconditional statement psi(x) = x + O(x exp(-c1 sqrt(log x))), effective since de la Vallee Poussin (1899) because q=1 involves no Dirichlet character other than the principal one and so no Siegel-zero ineffectivity. This is a materially different question from the general (SW) statement uniform over growing q <= L^B (q > 1), which is used elsewhere in this hunt (e.g. UPPER_BOUND.md Section 5, SW_MOMENT_SPLICE.md) and DOES carry genuine Siegel-zero ineffectivity; this script and SW_EFFECTIVE.md do not claim to resolve that case.",
+ "convention": "T_N's bound under (29) is evaluated as N^3 * exp(-2 c1 sqrt(log N)), i.e. |Delta(t)| <= K t exp(-c1 sqrt(log t)) squared and summed over ~N terms, with the leading constant K fixed at the labeled convention K=1 -- for the same reason delta_sq_sw_bind.py used a convention constant of 1: it is the simplest value turning O(...) into a number, not a value any cited theorem produces. Unlike that script's c(H), c1's existence and effectiveness are not a convention; only its numeric value is swept here rather than cited, for lack of network or library access to a primary source in this run.",
+ "source_measured_S_N": "hunts/prime_pair_error/results_delta_sq.json, key 'rows'",
+ "c1_sweep": [
+  0.05,
+  0.1,
+  0.25,
+  0.5,
+  0.75,
+  1.0,
+  1.5,
+  2.0,
+  2.5,
+  3.0
+ ],
+ "rows": [
+  {
+   "N": 100000,
+   "L_log_N": 11.512925464970229,
+   "measured_S_N": 216216658.20098644,
+   "c1_star_threshold": 2.2615189083821416,
+   "per_c1": [
+    {
+     "c1": 0.05,
+     "bound_under_K_equals_1_convention": 712263735434490.1,
+     "ratio_measured_S_N_over_bound": 3.0356263760795216e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.1,
+     "bound_under_K_equals_1_convention": 507319628815093.3,
+     "ratio_measured_S_N_over_bound": 4.261941504333013e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.25,
+     "bound_under_K_equals_1_convention": 183317600950384.7,
+     "ratio_measured_S_N_over_bound": 1.179464803597915e-06,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.5,
+     "bound_under_K_equals_1_convention": 33605342818204.473,
+     "ratio_measured_S_N_over_bound": 6.433996503789836e-06,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.75,
+     "bound_under_K_equals_1_convention": 6160450824548.484,
+     "ratio_measured_S_N_over_bound": 3.50975382092809e-05,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.0,
+     "bound_under_K_equals_1_convention": 1129319065929.047,
+     "ratio_measured_S_N_over_bound": 0.00019145754705125195,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.5,
+     "bound_under_K_equals_1_convention": 37951154361.68011,
+     "ratio_measured_S_N_over_bound": 0.005697235349955624,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.0,
+     "bound_under_K_equals_1_convention": 1275361552.6708553,
+     "ratio_measured_S_N_over_bound": 0.169533617936174,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.5,
+     "bound_under_K_equals_1_convention": 42858962.19466162,
+     "ratio_measured_S_N_over_bound": 5.044841198416086,
+     "bound_exceeds_measured_S_N": false
+    },
+    {
+     "c1": 3.0,
+     "bound_under_K_equals_1_convention": 1440290.1173840708,
+     "ratio_measured_S_N_over_bound": 150.120212303956,
+     "bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 250000,
+   "L_log_N": 12.429216196844383,
+   "measured_S_N": 1225117860.5391884,
+   "c1_star_threshold": 2.3204229607887386,
+   "per_c1": [
+    {
+     "c1": 0.05,
+     "bound_under_K_equals_1_convention": 1.0982699482146614e+16,
+     "ratio_measured_S_N_over_bound": 1.1154979361228357e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.1,
+     "bound_under_K_equals_1_convention": 7719660026569185.0,
+     "ratio_measured_S_N_over_bound": 1.58701012262539e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.25,
+     "bound_under_K_equals_1_convention": 2680806063359510.0,
+     "ratio_measured_S_N_over_bound": 4.5699607938214875e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.5,
+     "bound_under_K_equals_1_convention": 459950153558087.2,
+     "ratio_measured_S_N_over_bound": 2.663588328130579e-06,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.75,
+     "bound_under_K_equals_1_convention": 78914378272106.1,
+     "ratio_measured_S_N_over_bound": 1.5524646932081723e-05,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.0,
+     "bound_under_K_equals_1_convention": 13539465200518.91,
+     "ratio_measured_S_N_over_bound": 9.048495213032748e-05,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.5,
+     "bound_under_K_equals_1_convention": 398558662276.67523,
+     "ratio_measured_S_N_over_bound": 0.00307387086643904,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.0,
+     "bound_under_K_equals_1_convention": 11732295546.628004,
+     "ratio_measured_S_N_over_bound": 0.1044226899731742,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.5,
+     "bound_under_K_equals_1_convention": 345361352.8486664,
+     "ratio_measured_S_N_over_bound": 3.5473507687932346,
+     "bound_exceeds_measured_S_N": false
+    },
+    {
+     "c1": 3.0,
+     "bound_under_K_equals_1_convention": 10166336.465649461,
+     "ratio_measured_S_N_over_bound": 120.50731005005386,
+     "bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 500000,
+   "L_log_N": 13.122363377404328,
+   "measured_S_N": 6690479063.793755,
+   "c1_star_threshold": 2.311004825644398,
+   "per_c1": [
+    {
+     "c1": 0.05,
+     "bound_under_K_equals_1_convention": 8.701371146862558e+16,
+     "ratio_measured_S_N_over_bound": 7.688994011255492e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.1,
+     "bound_under_K_equals_1_convention": 6.0571087868361784e+16,
+     "ratio_measured_S_N_over_bound": 1.1045664357777542e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.25,
+     "bound_under_K_equals_1_convention": 2.0431413571633776e+16,
+     "ratio_measured_S_N_over_bound": 3.274604099386726e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.5,
+     "bound_under_K_equals_1_convention": 3339541284281126.5,
+     "ratio_measured_S_N_over_bound": 2.003412593006454e-06,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.75,
+     "bound_under_K_equals_1_convention": 545852392949541.6,
+     "ratio_measured_S_N_over_bound": 1.2256938231307195e-05,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.0,
+     "bound_under_K_equals_1_convention": 89220287915344.3,
+     "ratio_measured_S_N_over_bound": 7.498831510319651e-05,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.5,
+     "bound_under_K_equals_1_convention": 2383638679109.9263,
+     "ratio_measured_S_N_over_bound": 0.0028068344092704706,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.0,
+     "bound_under_K_equals_1_convention": 63682078205.575455,
+     "ratio_measured_S_N_over_bound": 0.10506062698198806,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.5,
+     "bound_under_K_equals_1_convention": 1701351433.890709,
+     "ratio_measured_S_N_over_bound": 3.932449775231762,
+     "bound_exceeds_measured_S_N": false
+    },
+    {
+     "c1": 3.0,
+     "bound_under_K_equals_1_convention": 45453866.82039131,
+     "ratio_measured_S_N_over_bound": 147.1927369838709,
+     "bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 1000000,
+   "L_log_N": 13.815510557964274,
+   "measured_S_N": 21919586338.957104,
+   "c1_star_threshold": 2.3723775142976344,
+   "per_c1": [
+    {
+     "c1": 0.05,
+     "bound_under_K_equals_1_convention": 6.895664453959708e+17,
+     "ratio_measured_S_N_over_bound": 3.178748978478816e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.1,
+     "bound_under_K_equals_1_convention": 4.755018826160343e+17,
+     "ratio_measured_S_N_over_bound": 4.609779086123424e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.25,
+     "bound_under_K_equals_1_convention": 1.5591238027567766e+17,
+     "ratio_measured_S_N_over_bound": 1.4058913282062542e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.5,
+     "bound_under_K_equals_1_convention": 2.430867032322752e+16,
+     "ratio_measured_S_N_over_bound": 9.017188537051494e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.75,
+     "bound_under_K_equals_1_convention": 3790022651431130.5,
+     "ratio_measured_S_N_over_bound": 5.7834974497263665e-06,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.0,
+     "bound_under_K_equals_1_convention": 590911452883362.1,
+     "ratio_measured_S_N_over_bound": 3.709453629981298e-05,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.5,
+     "bound_under_K_equals_1_convention": 14364271698361.055,
+     "ratio_measured_S_N_over_bound": 0.001525979652797719,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.0,
+     "bound_under_K_equals_1_convention": 349176345148.726,
+     "ratio_measured_S_N_over_bound": 0.0627751181988597,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.5,
+     "bound_under_K_equals_1_convention": 8488012658.889876,
+     "ratio_measured_S_N_over_bound": 2.5824167823312254,
+     "bound_exceeds_measured_S_N": false
+    },
+    {
+     "c1": 3.0,
+     "bound_under_K_equals_1_convention": 206332301.4243364,
+     "ratio_measured_S_N_over_bound": 106.23439077470465,
+     "bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 2000000,
+   "L_log_N": 14.508657738524219,
+   "measured_S_N": 88319299865.97505,
+   "c1_star_threshold": 2.4050455669484108,
+   "per_c1": [
+    {
+     "c1": 0.05,
+     "bound_under_K_equals_1_convention": 5.465957005536262e+18,
+     "ratio_measured_S_N_over_bound": 1.6158067064288973e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.1,
+     "bound_under_K_equals_1_convention": 3.7345857482963686e+18,
+     "ratio_measured_S_N_over_bound": 2.364902182424497e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.25,
+     "bound_under_K_equals_1_convention": 1.1911627627966945e+18,
+     "ratio_measured_S_N_over_bound": 7.414545066755855e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.5,
+     "bound_under_K_equals_1_convention": 1.773585909341818e+17,
+     "ratio_measured_S_N_over_bound": 4.979702387168297e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.75,
+     "bound_under_K_equals_1_convention": 2.6407868647861108e+16,
+     "ratio_measured_S_N_over_bound": 3.344431201308949e-06,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.0,
+     "bound_under_K_equals_1_convention": 3932008722269804.5,
+     "ratio_measured_S_N_over_bound": 2.2461623588411462e-05,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.5,
+     "bound_under_K_equals_1_convention": 87171940815335.72,
+     "ratio_measured_S_N_over_bound": 0.0010131620225488599,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.0,
+     "bound_under_K_equals_1_convention": 1932586574000.7278,
+     "ratio_measured_S_N_over_bound": 0.04570004834667851,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.5,
+     "bound_under_K_equals_1_convention": 42845103952.885826,
+     "ratio_measured_S_N_over_bound": 2.061362716334974,
+     "bound_exceeds_measured_S_N": false
+    },
+    {
+     "c1": 3.0,
+     "bound_under_K_equals_1_convention": 949868408.1890492,
+     "ratio_measured_S_N_over_bound": 92.980563522855,
+     "bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 4000000,
+   "L_log_N": 15.201804919084164,
+   "measured_S_N": 415417883132.62775,
+   "c1_star_threshold": 2.4176852477783353,
+   "per_c1": [
+    {
+     "c1": 0.05,
+     "bound_under_K_equals_1_convention": 4.333619346533634e+19,
+     "ratio_measured_S_N_over_bound": 9.585933832995999e-09,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.1,
+     "bound_under_K_equals_1_convention": 2.9344151001016566e+19,
+     "ratio_measured_S_N_over_bound": 1.4156752503019647e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.25,
+     "bound_under_K_equals_1_convention": 9.110325857476704e+18,
+     "ratio_measured_S_N_over_bound": 4.559857568559973e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.5,
+     "bound_under_K_equals_1_convention": 1.2968443317095101e+18,
+     "ratio_measured_S_N_over_bound": 3.2032979824573137e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.75,
+     "bound_under_K_equals_1_convention": 1.8460428825461334e+17,
+     "ratio_measured_S_N_over_bound": 2.250315456159217e-06,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.0,
+     "bound_under_K_equals_1_convention": 2.627820657323572e+16,
+     "ratio_measured_S_N_over_bound": 1.580845640949218e-05,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.5,
+     "bound_under_K_equals_1_convention": 532480363156130.8,
+     "ratio_measured_S_N_over_bound": 0.000780156249650884,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.0,
+     "bound_under_K_equals_1_convention": 10789752198525.768,
+     "ratio_measured_S_N_over_bound": 0.03850115141563561,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.5,
+     "bound_under_K_equals_1_convention": 218634827800.13055,
+     "ratio_measured_S_N_over_bound": 1.9000535610565688,
+     "bound_exceeds_measured_S_N": false
+    },
+    {
+     "c1": 3.0,
+     "bound_under_K_equals_1_convention": 4430239642.920077,
+     "ratio_measured_S_N_over_bound": 93.76871605501138,
+     "bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 7000000,
+   "L_log_N": 15.761420707019587,
+   "measured_S_N": 1247241323992.7793,
+   "c1_star_threshold": 2.4473533803733942,
+   "per_c1": [
+    {
+     "c1": 0.05,
+     "bound_under_K_equals_1_convention": 2.3060905846004325e+20,
+     "ratio_measured_S_N_over_bound": 5.4084663123017954e-09,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.1,
+     "bound_under_K_equals_1_convention": 1.550452998362322e+20,
+     "ratio_measured_S_N_over_bound": 8.044367196620521e-09,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.25,
+     "bound_under_K_equals_1_convention": 4.712000555916372e+19,
+     "ratio_measured_S_N_over_bound": 2.6469464703834705e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.5,
+     "bound_under_K_equals_1_convention": 6.473163043427464e+18,
+     "ratio_measured_S_N_over_bound": 1.926788056511519e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.75,
+     "bound_under_K_equals_1_convention": 8.892579550777704e+17,
+     "ratio_measured_S_N_over_bound": 1.4025641456125084e-06,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.0,
+     "bound_under_K_equals_1_convention": 1.2216279821223067e+17,
+     "ratio_measured_S_N_over_bound": 1.0209665644904229e-05,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.5,
+     "bound_under_K_equals_1_convention": 2305480206032355.5,
+     "ratio_measured_S_N_over_bound": 0.0005409898210053317,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.0,
+     "bound_under_K_equals_1_convention": 43509473081755.64,
+     "ratio_measured_S_N_over_bound": 0.028665971698833826,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.5,
+     "bound_under_K_equals_1_convention": 821119280442.6307,
+     "ratio_measured_S_N_over_bound": 1.5189526707014407,
+     "bound_exceeds_measured_S_N": false
+    },
+    {
+     "c1": 3.0,
+     "bound_under_K_equals_1_convention": 15496323558.037876,
+     "ratio_measured_S_N_over_bound": 80.48627271633346,
+     "bound_exceeds_measured_S_N": false
+    }
+   ]
+  },
+  {
+   "N": 10000000,
+   "L_log_N": 16.11809565095832,
+   "measured_S_N": 1987607563381.0564,
+   "c1_star_threshold": 2.495349638786097,
+   "per_c1": [
+    {
+     "c1": 0.05,
+     "bound_under_K_equals_1_convention": 6.693330690384535e+20,
+     "ratio_measured_S_N_over_bound": 2.9695343847815583e-09,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.1,
+     "bound_under_K_equals_1_convention": 4.4800675730843533e+20,
+     "ratio_measured_S_N_over_bound": 4.436557107581003e-09,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.25,
+     "bound_under_K_equals_1_convention": 1.3434187682829051e+20,
+     "ratio_measured_S_N_over_bound": 1.4795145120099246e-08,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.5,
+     "bound_under_K_equals_1_convention": 1.8047739869747579e+19,
+     "ratio_measured_S_N_over_bound": 1.1013055250828234e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 0.75,
+     "bound_under_K_equals_1_convention": 2.424567246610656e+18,
+     "ratio_measured_S_N_over_bound": 8.197782784369322e-07,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.0,
+     "bound_under_K_equals_1_convention": 3.2572091440607635e+17,
+     "ratio_measured_S_N_over_bound": 6.102179735695773e-06,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 1.5,
+     "bound_under_K_equals_1_convention": 5878526333337178.0,
+     "ratio_measured_S_N_over_bound": 0.00033811323632409627,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.0,
+     "bound_under_K_equals_1_convention": 106094114081530.52,
+     "ratio_measured_S_N_over_bound": 0.01873438107842281,
+     "bound_exceeds_measured_S_N": true
+    },
+    {
+     "c1": 2.5,
+     "bound_under_K_equals_1_convention": 1914758972654.788,
+     "ratio_measured_S_N_over_bound": 1.0380458280998495,
+     "bound_exceeds_measured_S_N": false
+    },
+    {
+     "c1": 3.0,
+     "bound_under_K_equals_1_convention": 34557071851.73865,
+     "ratio_measured_S_N_over_bound": 57.51666610841784,
+     "bound_exceeds_measured_S_N": false
+    }
+   ]
+  }
+ ],
+ "min_c1_star_threshold_over_ladder": 2.2615189083821416,
+ "min_c1_star_threshold_at_N": 100000,
+ "bound_exceeds_measured_S_N_at_every_cutoff_by_c1": {
+  "0.05": true,
+  "0.1": true,
+  "0.25": true,
+  "0.5": true,
+  "0.75": true,
+  "1.0": true,
+  "1.5": true,
+  "2.0": true,
+  "2.5": false,
+  "3.0": false
+ },
+ "verdict": "Unlike delta_sq_sw_bind.py's target -- the general O_H(N^3 L^{-2H}) corollary, whose implied constant Section 7's proof never names or claims is effective -- the q=1 statement Section 7 actually derives this corollary from reduces to the classical zero-free-region prime number theorem remainder for zeta(s) alone, which has been effective (an explicit, computable c1 and threshold) since de la Vallee Poussin, with no Siegel-zero case split because no real Dirichlet character enters at q=1. So an effective bound DOES exist here, in contrast to the recurrence this task was framed to expect. What this script cannot do without network or library access is pull a citation-checked numeric value for that constant; instead it reports the threshold c1*(N) at each ladder point above which the convention-K=1 bound (**) would be violated by the measured S(N), and sweeps an illustrative range of c1 values. The binding constraint is c1 < 2.26152 (at N=100000): any true effective c1 below that value makes (**) exceed measured S(N) at every ladder cutoff. Published explicit zero-free-region constants, as far as can be recalled here without a verified citation, are of order a few tenths to about 1 in this normalization, comfortably under that threshold, so it is likely -- not confirmed in this run -- that the real effective bound binds everywhere on the ladder, unlike the convention-1 L^{-2H} bound at H=4 and H=8 in results_delta_sq_sw_bind.json, which was violated there.",
+ "what_this_is_not": "This does not make the N^3 L^{-2H}-type bound useful for the unconditional upper-bound goal: Section 7 already notes this component is a full power of N short of the unproved target (31), N^{2+eps}, and that gap is exactly as large whether or not the constant in front of it is known. Effectiveness and sufficiency are different questions; this script and SW_EFFECTIVE.md answer only the first, for the q=1 term Section 7 actually uses. Nothing here bears on RH."
+}

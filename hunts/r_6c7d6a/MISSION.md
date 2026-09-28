@@ -32,7 +32,7 @@ carrying `reNum_mem` and `imNumOverY_mem` with zero sorrys.
 That commit's message overstates its own reach, and finding out how is what
 this hunt actually did. `Parts` has **seven** fields, not six. Six had
 enclosure lemmas. The seventh, `imNum`, had none, and it is a hypothesis of
-`qreIv_mem` — so the `Qre` composition could not be instantiated at a box.
+`qreIv_mem`: so the `Qre` composition could not be instantiated at a box.
 The remaining numerator field was `imNum`, and this hunt supplies it.
 
 ```huntspec

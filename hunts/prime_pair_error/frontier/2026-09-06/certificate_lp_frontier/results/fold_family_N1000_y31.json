@@ -1,0 +1,150 @@
+{
+ "N": 1000,
+ "y": 31,
+ "sources_above_y_with_mass": 17,
+ "A_size": 5,
+ "zero_mass_prefix_cells": [
+  17,
+  19,
+  22,
+  25,
+  26,
+  28,
+  29,
+  30
+ ],
+ "g_values": {
+  "32": 0,
+  "34": -2,
+  "37": -2,
+  "40": -4,
+  "43": -1,
+  "52": -2,
+  "58": -4,
+  "62": -3,
+  "76": 2,
+  "90": -1,
+  "111": 0,
+  "125": -3,
+  "142": 1,
+  "200": 4,
+  "250": 2,
+  "333": 0,
+  "500": 1
+ },
+ "moment_identities_exact_all_sources": true,
+ "variants": [
+  {
+   "variant": "F1 all g>0",
+   "sources": 5,
+   "Gamma_per_unit_t": 15.593002055394624,
+   "t_star": 0.0,
+   "binding_cell": 19,
+   "binding_cell_mass": 0.0,
+   "binding_cell_is_prefix": true,
+   "t_rational": "0",
+   "gain_interval": [
+    "0.0",
+    "0.0"
+   ],
+   "gain": 0.0,
+   "feasible_by_enclosure": true,
+   "min_cell_lower_endpoint": Infinity,
+   "best_single_source": {
+    "a": 200,
+    "m": 1.6094379124341003,
+    "g": 4,
+    "m_times_g": 6.437751649736401
+   }
+  },
+  {
+   "variant": "F2 drain-safe at zero-mass prefix cells",
+   "sources": 0,
+   "gain": 0.0,
+   "note": "empty"
+  },
+  {
+   "variant": "F3 a > 2y+1",
+   "sources": 5,
+   "Gamma_per_unit_t": 15.593002055394624,
+   "t_star": 0.0,
+   "binding_cell": 19,
+   "binding_cell_mass": 0.0,
+   "binding_cell_is_prefix": true,
+   "t_rational": "0",
+   "gain_interval": [
+    "0.0",
+    "0.0"
+   ],
+   "gain": 0.0,
+   "feasible_by_enclosure": true,
+   "min_cell_lower_endpoint": Infinity,
+   "best_single_source": {
+    "a": 200,
+    "m": 1.6094379124341003,
+    "g": 4,
+    "m_times_g": 6.437751649736401
+   }
+  },
+  {
+   "variant": "F4 a <= 2y+1 (withdrawals)",
+   "sources": 0,
+   "gain": 0.0,
+   "note": "empty"
+  },
+  {
+   "variant": "F5 union of individually feasible sources",
+   "sources": 0,
+   "gain": 0.0,
+   "note": "empty"
+  }
+ ],
+ "family_R_rough_shift": {
+  "sources": [],
+  "moment_identities_exact": true,
+  "gain_interval": [
+   "0.0",
+   "0.0"
+  ],
+  "gain": 0.0,
+  "note": "feasible for every t in [0,1] with no prefix drain; gain at t = 1 is the full mass of the sources"
+ },
+ "best_single_sources": [
+  {
+   "gain": 0.0,
+   "a": 500,
+   "t_star": 0.0,
+   "binding": 19,
+   "g": 1
+  },
+  {
+   "gain": 0.0,
+   "a": 250,
+   "t_star": 0.0,
+   "binding": 17,
+   "g": 2
+  },
+  {
+   "gain": 0.0,
+   "a": 200,
+   "t_star": 0.0,
+   "binding": 25,
+   "g": 4
+  },
+  {
+   "gain": 0.0,
+   "a": 142,
+   "t_star": 0.0,
+   "binding": 17,
+   "g": 1
+  },
+  {
+   "gain": 0.0,
+   "a": 76,
+   "t_star": 0.0,
+   "binding": 19,
+   "g": 2
+  }
+ ],
+ "seconds": 0.04908299446105957
+}

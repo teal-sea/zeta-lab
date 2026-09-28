@@ -1,13 +1,13 @@
-# Hunt R-2AC05F — adjudicate the two conflicting kappa = 2 coefficient tables
+# Hunt R-2AC05F: adjudicate the two conflicting kappa = 2 coefficient tables
 
 Two directories in this laboratory carry a table of the same quantity and
 disagree from `i = 2` onward, with conflicting diagnoses of why:
 
-* `hunts/higher_xi/C2_EXACT.json` (on `main`) — `C_{2,i} = 1, -8, 24, -32, 64/3, ...`
+* `hunts/higher_xi/C2_EXACT.json` (on `main`), `C_{2,i} = 1, -8, 24, -32, 64/3, ...`
   Diagnosis: Bian's published row is wrong from `i = 2` because the weights
   `M(v_l) M(w_k)` are dropped between thesis p. 71 and eq (8.1).
 * `hunts/rogue_frontier/fkappa/` (branch `hunts(rogue_frontier)` checkpoints,
-  commit `360c545`) — corrected `C_{2,i} = 1, -4, 4, -16, 52/3, ...`
+  commit `360c545`), corrected `C_{2,i} = 1, -4, 4, -16, 52/3, ...`
   Diagnosis: Bian's published row is right through `i = 4` and wrong from
   `i = 5` because of three implementation defects (a truncated assembly loop,
   phantom zero slots evaluated as nonzero, and an `alpha!` overcount in (6.18)).

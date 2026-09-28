@@ -26,8 +26,8 @@ House discipline applied to a folklore construction:
   E_n = 2n + 1.  Nothing about ζ enters the calibration.
 * Everything returns measured defects, never booleans.
 * **The battery point is the point** (`docs/09` gate #3): the identical
-  pipeline run on the Davenport–Heilbronn on-line ordinates — a function
-  that *violates* RH — produces an equally serviceable potential
+  pipeline run on the Davenport–Heilbronn on-line ordinates, a function
+  that *violates* RH, produces an equally serviceable potential
   (`spectrum_report(source="dh")`).  The Abel inversion consumes only a
   list of real ordinates; it cannot see the off-line zeros at all.  So
   "a Hamiltonian with the right spectrum exists" distinguishes nothing:
@@ -121,7 +121,7 @@ def harmonic_calibration(n_eigs: int = 12, grid_n: int = 6000) -> dict[str, Any]
 # ----------------------------------------------------------------------
 
 def _zeta_nbar_prime(E: np.ndarray) -> np.ndarray:
-    """(1/2π)·log(E/2π) — the derivative of the Riemann–von Mangoldt mean
+    """(1/2π)·log(E/2π), the derivative of the Riemann–von Mangoldt mean
     N̄(T) = (T/2π)log(T/2πe) + 7/8; the 1/(48T) tail of ϑ is negligible
     beyond E₀ = 2π and is checked against ``zeta.core.rs_theta`` in tests."""
     return np.log(np.asarray(E, dtype=float) / TWO_PI) / TWO_PI
@@ -134,7 +134,7 @@ def _dh_nbar_prime(E: np.ndarray) -> np.ndarray:
     give ϑ′_dh(8) = 0.9248, ϑ′_dh(30) = 1.5863, ϑ′_dh(100) = 2.1884, and
     (1/2)log(5E/2π) reproduces all three to ≤ 1e-3 (the residue is the
     O(1/E²) phase tail).  A first guess with √5 in place of 5 missed by the
-    constant log √5 ≈ 0.4024 — the conductor enters the density in full.
+    constant log √5 ≈ 0.4024, the conductor enters the density in full.
     Pinned against dh_theta in tests/test_inverse.py."""
     return np.log(5.0 * np.asarray(E, dtype=float) / TWO_PI) / TWO_PI
 
@@ -176,7 +176,7 @@ def wu_sprung_potential(
     """The (half-)potential as monotone samples x(V), V ∈ [E₀, V_max].
 
     Without ``ordinates``: the smooth well from the mean counting density.
-    With ``ordinates``: the fractal correction is added — the mollified
+    With ``ordinates``: the fractal correction is added, the mollified
     oscillating density enters the same Abel integral.  Returns x and V
     arrays (symmetric extension V(−x) = V(x) is the caller's convention),
     plus the reconstruction parameters for provenance.
@@ -273,12 +273,12 @@ def refine_potential(
     ⟨ψ_j|δV|ψ_j⟩.  Expanding δV in the bump basis b_k = ψ_k² and solving the
     small linear system  A c = r,  A_jk = ⟨ψ_j², b_k⟩,  r_j = γ_j − E_j,
     then damping, converges in a few sweeps.  This is deliberately a
-    *manufacturing* procedure: it will hit any reasonable target list —
+    *manufacturing* procedure: it will hit any reasonable target list,
     which is exactly the battery point its results are used to make.
 
     Basin caveat, measured: convergence needs the seed's eigenvalues within
     roughly one mean gap of the targets (the Wu–Sprung smooth well delivers
-    ~0.2 gaps).  Seeding a ladder several gaps away diverges — first-order
+    ~0.2 gaps).  Seeding a ladder several gaps away diverges, first-order
     perturbation theory, not magic.
 
     Returns the refined potential on a grid plus the per-iteration RMS
@@ -335,7 +335,7 @@ def dh_online_ordinates(
     Cached to ``data/dh_zeros_online_T<t_max>.json`` (the hunt costs ~100 s).
     Sign-change hunting can in principle miss a close pair; the count is
     cross-checked against ``zeta.epstein.zeros_on_line`` in the tests.
-    Note these are the *on-line* zeros only — the whole battery point is
+    Note these are the *on-line* zeros only, the whole battery point is
     that the off-line ones (first at t ≈ 85.7) are invisible here.
     """
     path = os.path.join(DATA_DIR, f"dh_zeros_online_T{int(round(t_max))}.json")
@@ -400,9 +400,9 @@ def spectrum_report(
 
     Returns per-eigenvalue defects and two summary numbers:
 
-    * ``rms_smooth``  — RMS of (E_k − γ_k) for the smooth well, in units of
+    * ``rms_smooth``: RMS of (E_k − γ_k) for the smooth well, in units of
       the local mean gap: how far the *average* well already gets.
-    * ``rms_fractal`` — same for the wiggled well: what the actual staircase
+    * ``rms_fractal``, same for the wiggled well: what the actual staircase
       buys.  ``improvement`` is their ratio.
 
     ``source="dh"`` runs the identical pipeline on the Davenport–Heilbronn

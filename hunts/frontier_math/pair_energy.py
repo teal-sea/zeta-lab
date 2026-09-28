@@ -1,6 +1,6 @@
 """Level 5, gate 2: the multi-pair energy, LAW L, and the partition audit.
 
-PHASE 2 — THE EXACT ALGEBRA.  For pairs indexed by r at ordinates t_r and
+PHASE 2: THE EXACT ALGEBRA.  For pairs indexed by r at ordinates t_r and
 depths y_r, the full-grid Frobenius energy of the off-line block is
 
     ||Qhat||_F^2 = sum_r ||M_r||^2 + sum_{r != s} T(t_r - t_s, y_r, y_s),
@@ -34,7 +34,7 @@ exactly: the on/off cross (bounded by the level-4 counting dual) and the
 - **the far tail is depth-scaled**: ``|T(dt,.)|_- <= 2[psi_S(|y-y'|)^2 +
   psi_S(y+y')^2]/(dt^4 (aL)^2)`` since only ``S^2`` can push W negative.
 
-PHASE 3/6 — THE PARTITION, MEASURED.  ``eta_table`` computes, on a depth
+PHASE 3/6: THE PARTITION, MEASURED.  ``eta_table`` computes, on a depth
 grid, the worst per-pair charge ratio
 
     eta(nu_p) = max_r  [ sum_s charge_r(T_rs) ] / slack_r

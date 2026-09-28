@@ -1,4 +1,4 @@
-"""beta := normLower — measure what the remedy costs and where the slack lands.
+"""beta := normLower, measure what the remedy costs and where the slack lands.
 
 `docs/25` §4.3 defect 2 and commit 44d3133 record the same thing: the rung-3
 grid sites carry `pred_beta` values that were *drawn at the achievable bound*
@@ -6,7 +6,7 @@ from mpmath point evaluations, so the certificate inequality
 
     normLower(B.inflate r)  >=  pred_beta                       (GRID)
 
-sits at the line by construction — 12 of 104 sites clear it by under 1 %, the
+sits at the line by construction: 12 of 104 sites clear it by under 1 %, the
 thinnest (`g_right_15`) by 0.03 %.  The named remedy is to stop predicting the
 bound and *read it off*: set `beta := normLower(B.inflate r)`, which the
 generator already computes exactly, making (GRID) true by construction and
@@ -25,12 +25,12 @@ the arithmetic the *generator* actually emits?
 
 Arithmetics, and why both appear:
 
-* **rect** — `scripts/61_rung3_mirror.py`, called exactly as
+* **rect**: `scripts/61_rung3_mirror.py`, called exactly as
   `emit_site` in `scripts/60_rung3_generate.py` calls it (`mirror.term`,
   nExp 20, p 64, kE 10).  This is bit-identical to the `ComplexInterval`
   value the emitted Lean file proves its literal equal to, so it is the
   arithmetic that decides what `beta` may legally be in the certificate.
-* **ball** — `scripts/63_rung3_ball_mirror.py` on composite chains, the
+* **ball**: `scripts/63_rung3_ball_mirror.py` on composite chains, the
   configuration `scripts/65_rung3_full_validation.py` ran for commit 44d3133.
   Read from that committed run (floats) unless `--ball` recomputes it.
 
@@ -229,7 +229,7 @@ def main() -> None:
                report(ball, "normLower ball (remedy)", cellrows),
                report(plain, "normLower rect non-chain", cellrows)]
 
-    print("\n=== (CELL)  eps' + L*h/2 <= beta   —  ratio beta/need ===")
+    print("\n=== (CELL)  eps' + L*h/2 <= beta, ratio beta/need ===")
     for s in summary:
         print(f"  {s['source']:26s} {s['obligations']:4d} obligations, "
               f"{s['failing']} failing, worst {s['worst_ratio']:.4f} "

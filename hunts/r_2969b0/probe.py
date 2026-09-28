@@ -1,4 +1,4 @@
-"""Hunt R-2969B0 — does Penman-Wells (2013) beat AlphaEvolve's Problem 42 value?
+"""Hunt R-2969B0, does Penman-Wells (2013) beat AlphaEvolve's Problem 42 value?
 
 Everything here is exact finite-set arithmetic over the integers. The only
 floating point is the final ratio of two logarithms, and the comparison that

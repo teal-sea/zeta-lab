@@ -1,4 +1,4 @@
-"""The joint cap at the MT window, on the band partition — theta_full's object.
+"""The joint cap at the MT window, on the band partition, theta_full's object.
 
 The band-lattice dual (`band_dual.py`) secured theta* = 0.995 for ONE
 off-line pair against an arbitrary on-line configuration.  The composed
@@ -20,8 +20,8 @@ and the joint damage field
 WHAT CARRIES OVER FROM THE SINGLE-PAIR DUAL, unchanged:
 
 - **the positive part is taken of the JOINT field**, never per pair.
-  Per-pair clipping discards the coincident-pair shielding — one pair's
-  positive hump covering a neighbour's band — and was measured at the
+  Per-pair clipping discards the coincident-pair shielding, one pair's
+  positive hump covering a neighbour's band, and was measured at the
   other window to inflate the field tenfold.  Here the shielding is
   stronger still, because the MT stacking floor is ~0.98 mean gaps.
 - **cross-cell charges are dropped**: omega^2 is a square, so this is
@@ -40,7 +40,7 @@ Each band is therefore sub-partitioned into cells of width delta from a
 ladder, with the level-4 square completion per cell against K(delta), and
 cross-cell charges dropped.  Cells exist only inside bands, so their
 number is proportional to the band measure and not to the length of the
-line — which is exactly the discipline whose absence produced the
+line, which is exactly the discipline whose absence produced the
 blanket-margin artifact three times in this hunt.
 
 Nothing here computes a proportion.  Run

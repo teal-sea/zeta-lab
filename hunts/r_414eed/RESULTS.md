@@ -1,4 +1,4 @@
-# Hunt r-414eed — results
+# Hunt r-414eed: results
 
 **Question.** Does `scripts/make_context.py --check` catch its declared smallest
 mutant, and where does its sensitivity stop?
@@ -8,7 +8,7 @@ mutants tried. The guard's ledger entry can move from `fired=None` to
 `fired=True`. Its scope, previously `"undetermined until demonstrated"`, is now
 mapped: **four blind regions and one narrow miss**, all listed below.
 
-Reproduce: `python3 hunts/r_414eed/probe.py` (~50 s, standard library only —
+Reproduce: `python3 hunts/r_414eed/probe.py` (~50 s, standard library only,
 no `.venv` and no `zeta` import needed, because the guard itself needs neither).
 Raw data: `results.json`.
 
@@ -27,11 +27,11 @@ throwaway copy under `/tmp`.
 ## The table
 
 `diff` is how many lines of the regenerated `CONTEXT.md` move. `token` is
-whether the mutant's own new name appears among them — the difference between
+whether the mutant's own new name appears among them, the difference between
 the guard *seeing the symbol* and the guard merely noticing that a file changed
 length.
 
-### In scope — the guard should fire
+### In scope: the guard should fire
 
 | id | mutant | fired | diff | token |
 |---|---|---|---|---|
@@ -51,11 +51,11 @@ length.
 | M14 | a new script `scripts/99_mutant.py` | yes | 1 | yes |
 | M15 | a test function added to an existing `tests/test_*.py` | yes | 4 | yes |
 | M16 | `CONTEXT.md` hand-edited, tree untouched | yes | 0 | n/a |
-| B08 | one blank line appended to `zeta/core.py` — no symbol at all | yes | 2 | n/a |
+| B08 | one blank line appended to `zeta/core.py`, no symbol at all | yes | 2 | n/a |
 
 **17 / 17.**
 
-### Boundary probes — where the guard is silent
+### Boundary probes: where the guard is silent
 
 | id | mutant | fired | is that right? |
 |---|---|---|---|
@@ -63,7 +63,7 @@ length.
 | B02 | public function added to `compiler/semantics.py` | no | scope: `compiler/` is not indexed |
 | B03 | a document added under `docs/doors/` | no | scope: `doc_index` globs `docs/*.md`, not `docs/**/*.md` |
 | B04 | a test file added as `tests/mutant_helper.py` | no | scope: `test_counts` globs `test_*.py` |
-| B05 | a **private** function appended to `zeta/core.py` | **yes** | my prediction was wrong, not the guard — see below |
+| B05 | a **private** function appended to `zeta/core.py` | **yes** | my prediction was wrong, not the guard, see below |
 | B06 | private helper promoted to public **in place**, not added to `__all__` | no | **the one genuine miss** |
 | B07 | public docstring changed *below* its first line | no | by design: only the first line is indexed |
 
@@ -80,13 +80,13 @@ apply it.
 per-module line count (`*NNN lines*`), so *any* edit that changes a file's
 length makes the artifact stale. B08 isolates this: appending a single blank
 line, with no symbol of any kind, fires the guard. M01's token never reaches
-`CONTEXT.md` at all — `module_api` filters by `__all__` when a module declares
+`CONTEXT.md` at all, `module_api` filters by `__all__` when a module declares
 one, and twenty-three of the `zeta/` modules do. The guard caught M01 by
 accounting, not by comprehension.
 
 **3. Hence B06, the one genuine miss.** Renaming `zeta/core.py`'s private
 `_num` to `pubnum` in place adds a public symbol, changes no file's length, and
-leaves the name out of `__all__` — so the regenerated `CONTEXT.md` is
+leaves the name out of `__all__`, so the regenerated `CONTEXT.md` is
 byte-identical and the guard says "up to date". This is the ledger's declared
 mutant with the line-count tell removed, and it slips through. It is narrow (it
 needs a length-neutral edit in an `__all__`-declaring module) but it is exactly
@@ -119,7 +119,7 @@ every mutant) cheap, which is what lets twenty-four rows share one baseline.
 
 **Exit code *and* diff, not exit code alone.** CI only sees the exit code. Had I
 recorded only that, the honest summary would have been "17/17, guard is strong",
-and finding 3 — the actual miss — would not exist. The extra measurement cost
+and finding 3, the actual miss, would not exist. The extra measurement cost
 one subprocess per mutant.
 
 **Twenty-four mutants rather than one.** The brief asked for the declared
@@ -143,7 +143,7 @@ other field the ledger entry leaves blank.
 - **`hunts/README.md`'s case log.** `tests/test_hunt_probe_discipline.py::test_every_hunt_directory_is_covered_by_the_case_log`
   requires every `hunts/` subdirectory to be named in that file. `r_414eed` is
   not, and adding it means writing outside `hunts/r_414eed/`, which this hunt's
-  scope forbids. Left undone deliberately — **that test is expected to fail on
+  scope forbids. Left undone deliberately, **that test is expected to fail on
   this branch until a one-line case-log entry is added.** Reported rather than
   worked around.
 - **The rest of the suite.** No `.venv` was built: the guard, the probe and this
@@ -173,13 +173,13 @@ other field the ledger entry leaves blank.
   the same script, but `--check` compares only `CONTEXT.md`, and `build_flat`
   additionally reads `AGENTS.md` and `README.md`, which the check never touches.
   `git ls-files CONTEXT_FLAT.md` is empty, so today the file is untracked and
-  regenerated on demand and the exposure is nil — the thread is that nothing
+  regenerated on demand and the exposure is nil, the thread is that nothing
   *keeps* it untracked. *Why it might matter:* the day someone commits it for a
   context-window paste, it can go arbitrarily stale under a green CI.
   *First step:* add `CONTEXT_FLAT.md` to `.gitignore` if it is not already
   covered, or give `--check` a `--flat` mode.
 
 The three above are what I noticed and did not chase. One candidate I did check
-and can rule out: the ledger's `known_misses` field is **not** generally empty —
+and can rule out: the ledger's `known_misses` field is **not** generally empty,
 all five records that carry an outcome populate it, so the blank on this guard
 is because nobody had run a mutant, not because the field is decorative.

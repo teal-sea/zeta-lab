@@ -1,6 +1,6 @@
 import ZetaLean.Pub1
 
-/-! LESION TEST — this file MUST FAIL to compile.
+/-! LESION TEST, this file MUST FAIL to compile.
 
 `secondDeriv_lt_of_certificate` closes because the exact rational margin
 `2c₁ + 0.006060899845 < -0.59326318` holds.  Inflate the residual-derived bound

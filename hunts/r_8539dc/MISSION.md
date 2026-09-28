@@ -1,4 +1,4 @@
-# MISSION — hunt r_8539dc
+# MISSION: hunt r_8539dc
 
 ## The question
 

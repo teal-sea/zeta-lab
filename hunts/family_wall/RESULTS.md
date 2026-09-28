@@ -13,7 +13,7 @@
     lim_{n -> infinity} Phi_n  =  H  =  0.6725007036794116                    DERIVED, exact
     sup_n Phi_n  <=  0.675142509660254                                        AUDIT, VERIFIED here
     configuration ceiling        0.6818286874638
-    deficit at the family's best   >= 0.0066862 — 71.7% of the H-to-ceiling distance
+    deficit at the family's best   >= 0.0066862: 71.7% of the H-to-ceiling distance
 
 The n-point pressure certificate family, at any `n`, any pressure, and with any valid floor
 `c`, cannot reach the configuration ceiling. Increasing `n` does not help: the family climbs
@@ -33,7 +33,7 @@ for every admissible witness simultaneously. It is not close.
 
 Redundantly, and from this hunt's own computations alone: witness envelope over `n = 3..36`
 (max 0.6735202493), tiled witness over `n = 36..401` (max 0.6751676068 at n=56), trivial leg
-`Phi_n <= H(n-1)/(n-2)` for `n >= 402` (max 0.6741861691) — giving the weaker
+`Phi_n <= H(n-1)/(n-2)` for `n >= 402` (max 0.6741861691), giving the weaker
 `sup_n Phi_n <= 0.6751676068`, which is what this hunt supported before the audit and which
 still stands. MEASURED.
 

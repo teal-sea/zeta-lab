@@ -1,15 +1,15 @@
-"""``harness.review`` — the standing adversarial review: two attacks per claim.
+"""``harness.review``, the standing adversarial review: two attacks per claim.
 
 The adopted specification (`ROADMAP.md`, "The outside memos, triaged";
 strategy memo integration #2) makes red-teaming continuous: every promising
-result generates two attacks before anyone builds on it —
+result generates two attacks before anyone builds on it,
 
 * a **blind** attack, which sees the claim, its assumptions, its code and
-  its controls, but *not* the author's reasoning — so it cannot inherit the
+  its controls, but *not* the author's reasoning, so it cannot inherit the
   author's blind spots by reading them;
 * a **white-box** attack, which sees everything and hunts specifically for
   correlated assumptions, shared preprocessing, normalization mismatches,
-  hidden approximations, and non-independent "independent" checks — the
+  hidden approximations, and non-independent "independent" checks, the
   failure modes the tree has actually recorded (the u·u* transpose kill;
   docs/25's shared parsing layer; ``compiler/FINDINGS.md`` §6).
 
@@ -24,7 +24,7 @@ brief's blindness structurally (the brief is built from a record with the
 reasoning field removed, so a leak is a type error rather than a promise),
 and refuses to call a review standing until both attacks have recorded
 outcomes from attackers other than the author. It does **not** judge
-findings — ``meta/operator-functions.md``'s load-bearing guard applies: the
+findings, ``meta/operator-functions.md``'s load-bearing guard applies: the
 system may not resolve a disagreement it is party to, so an
 :class:`AttackOutcome` records what the attacker found and the resolution
 stays with the operator.
@@ -113,7 +113,7 @@ def generate_briefs(claim: ClaimUnderReview) -> tuple[AttackBrief, AttackBrief]:
 
     Blindness is structural: the blind brief's materials are built here,
     field by field, and ``author_reasoning`` is not among them. A brief is
-    data — hand it to whichever attacker (person, session, agent) runs the
+    data, hand it to whichever attacker (person, session, agent) runs the
     attack, and record what comes back as an :class:`AttackOutcome`.
     """
 
@@ -143,7 +143,7 @@ def generate_briefs(claim: ClaimUnderReview) -> tuple[AttackBrief, AttackBrief]:
 class AttackOutcome:
     """What one attack found. Recording is not resolving.
 
-    ``findings`` may be empty — "the attack ran and found nothing" is an
+    ``findings`` may be empty, "the attack ran and found nothing" is an
     outcome worth keeping, and it is not the same as "no attack ran".
     ``artifacts`` names what makes the attack rerunnable or checkable; an
     attack that produced a counterexample names it here or the outcome is
@@ -175,7 +175,7 @@ def standing_reasons(
     """Everything still missing before this claim's review is standing.
 
     Empty means: both roles have recorded outcomes, from attackers who are
-    not the author. It does not mean the claim is true — it means the claim
+    not the author. It does not mean the claim is true, it means the claim
     has survived (or not survived) the two attacks the specification
     requires, and the record says which.
     """
@@ -195,6 +195,6 @@ def standing_reasons(
                 reasons.append(
                     f"the {role} attack on {claim.name!r} was run by its "
                     "author: one process, however careful, is one line of "
-                    "evidence — find another attacker"
+                    "evidence, find another attacker"
                 )
     return tuple(reasons)

@@ -84,7 +84,7 @@ print(f"   |Gr(2,4)| over F_q = {expr}")
 print(f"   Limit as q -> 1: {limit_val}  (= C(4,2) = 6)")
 
 print("\n" + "=" * 78)
-print("THE ARCHIMEDEAN GAMMA FACTOR — A CLAIM, MEASURED")
+print("THE ARCHIMEDEAN GAMMA FACTOR: A CLAIM, MEASURED")
 print("=" * 78)
 print("""
    The story usually continues: the Gamma factor Riemann attached to zeta(s)

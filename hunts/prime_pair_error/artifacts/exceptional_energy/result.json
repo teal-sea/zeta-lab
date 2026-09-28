@@ -1,0 +1,146 @@
+{
+  "N": 128,
+  "numerical_threads": 1,
+  "limit_seconds": 60,
+  "proof_sha256": "37556e6c4db90433428dfd3b6693ebf51547141b56a61a90f0b7f6bfe1990acc",
+  "script_sha256": "811b974ce817074c7e64c3a2dbcee6e84c709ca3ac010966f685fe2a6018bd18",
+  "parent_proof_sha256": "8720c4a038f7ddbc9e6c8c5d006859be60996c4a1feb44724b25784983bd6097",
+  "parent_helpers_sha256": "bd0f73a1ce29b54240e370137bae45b17fec3655c6af628eea400b196a6f61d4",
+  "exact": {
+    "period_fixtures": [
+      {
+        "q": 3,
+        "j_interval": [
+          16,
+          32
+        ],
+        "j_count": 17,
+        "period": 3,
+        "period_mass": 4,
+        "complete_periods": 5,
+        "leftover_count": 2,
+        "leftover_mass": 0,
+        "actual_mass": 20,
+        "end_error": "-8/3",
+        "absolute_end_error_bound": 4,
+        "common_lower_bound": "32/3"
+      },
+      {
+        "q": 4,
+        "j_interval": [
+          16,
+          32
+        ],
+        "j_count": 17,
+        "period": 1,
+        "period_mass": 4,
+        "complete_periods": 17,
+        "leftover_count": 0,
+        "leftover_mass": 0,
+        "actual_mass": 68,
+        "end_error": "0",
+        "absolute_end_error_bound": 4,
+        "common_lower_bound": "32/3"
+      },
+      {
+        "q": 8,
+        "j_interval": [
+          16,
+          32
+        ],
+        "j_count": 17,
+        "period": 2,
+        "period_mass": 16,
+        "complete_periods": 8,
+        "leftover_count": 1,
+        "leftover_mass": 16,
+        "actual_mass": 144,
+        "end_error": "8",
+        "absolute_end_error_bound": 16,
+        "common_lower_bound": "64/3"
+      }
+    ],
+    "telescoping_product": "129/256"
+  },
+  "lower_energy_fixture": {
+    "q": 3,
+    "Z": "3.2255245954395987042602915015538025002339809688979",
+    "toy_beta": "0.99",
+    "exceptional_zero_asserted": false,
+    "all_shifts_in_A_exc": 128,
+    "exact_zero_correction_shifts": 65,
+    "selected_shift_count": 5,
+    "selected_rows": [
+      {
+        "h": 36,
+        "S_star": "2",
+        "J12": "85.034858366144021017516707222582915128712762815736",
+        "J12_lower": "58.081225940298294813125180685954630311025202584261",
+        "correction": "255.10457509843206305255012166774874538613828844721"
+      },
+      {
+        "h": 42,
+        "S_star": "2",
+        "J12": "79.503646391373219235155111008854739367991209469997",
+        "J12_lower": "58.081225940298294813125180685954630311025202584261",
+        "correction": "238.51093917411965770546533302656421810397362840999"
+      },
+      {
+        "h": 48,
+        "S_star": "2",
+        "J12": "73.976630426306695836532869247308726784087298747598",
+        "J12_lower": "58.081225940298294813125180685954630311025202584261",
+        "correction": "221.92989127892008750959860774192618035226189624279"
+      },
+      {
+        "h": 54,
+        "S_star": "2",
+        "J12": "68.452499703011773115063171097349931444801959350564",
+        "J12_lower": "58.081225940298294813125180685954630311025202584261",
+        "correction": "205.35749910903531934518951329204979433440587805169"
+      },
+      {
+        "h": 60,
+        "S_star": "2",
+        "J12": "62.930126886116004525856117658691805336059492175559",
+        "J12_lower": "58.081225940298294813125180685954630311025202584261",
+        "correction": "188.79038065834801357756835297607541600817847652668"
+      }
+    ],
+    "A_exc": "2567316.2694267540085475913850907453408765953347126",
+    "selected_energy": "498064.39850877369483321761420285997978000236750003",
+    "quadratic_scale": "1943094.9926753162153140587112189713725771249060443",
+    "lower_energy": "10120.286420183938621427389120932142565505858885647",
+    "selected_energy_to_lower_bound": "49.214456768281984602266028158581203651584615307188"
+  },
+  "finite_vector_fixture": {
+    "prediction": "(N-h) times the product over primes p<Z",
+    "is_original_infinite_series_E": false,
+    "proper_prime_powers": [
+      4,
+      8,
+      9,
+      16,
+      25,
+      27,
+      32,
+      49,
+      64,
+      81,
+      121,
+      125,
+      128
+    ],
+    "proper_prime_power_count": 13,
+    "all_shifts_checked": 128,
+    "sqrt_E_sigma": "296.69490031222662963475224354973274019204533962224",
+    "sqrt_A_exc": "1602.2847029871919764397286827318680566992438932264",
+    "reverse_norm_difference": "1305.5898026749653468049764391821353165071985536041",
+    "vector_error": "1782.5459608191480442471570353241829285474373730162",
+    "triangle_budget": "1802.9740390418025779348314015327340979381771876106",
+    "mpmath_decimal_digits": 50,
+    "scope": "Finite norm algebra with retained model errors; no asymptotic TT estimate tested."
+  },
+  "status": "PASS",
+  "elapsed_seconds": 1.519135
+}

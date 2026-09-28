@@ -1,0 +1,90 @@
+"""One additional discriminator: ordinary-composite exclusion in the paid cap."""
+
+from fractions import Fraction as F
+import argparse
+import importlib.util
+import json
+from math import isqrt
+from pathlib import Path
+import time
+
+SPEC = importlib.util.spec_from_file_location("scaling", Path(__file__).with_name("scaling.py"))
+S = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(S)
+PRIME_SETS = ((2,), (2, 3, 5, 7))
+
+
+def small_factor_cap(n, primes):
+    S.BASE.natural(n, 1)
+    if any(type(p) is not int or p < 2 or S.BASE.trial_factors(p) != ((p, 1),) for p in primes):
+        raise ValueError("exclusion divisors must be primes")
+    for p in primes:
+        if n % p == 0:
+            rest = n
+            while rest % p == 0:
+                rest //= p
+            if rest != 1:
+                return {}
+    return S.BASE.cap_vector(n, "perfect_power")
+
+
+def check_caps(limit=4096):
+    for n in range(1, limit + 1):
+        truth = S.BASE.mangoldt_vector(n)
+        previous = S.BASE.cap_vector(n, "perfect_power")
+        for primes in PRIME_SETS:
+            cap = small_factor_cap(n, primes)
+            assert S.BASE.nonnegative_coefficients(S.BASE.combine((1, cap), (-1, truth)))
+            assert S.BASE.nonnegative_coefficients(S.BASE.combine((1, previous), (-1, cap)))
+            previous = cap
+    return 2 * limit
+
+
+def extended_case(N):
+    y = isqrt(N)
+    c = S.balanced_prefix(y)
+    _, _, primes = S.sieve(N)
+    case = S.cost_case(N, c, primes)
+    for factors in PRIME_SETS:
+        name = "factor_" + "_".join(map(str, factors))
+        penalty = {}
+        for d in range(2, N // y + 1):
+            delta = max(F(0), 1 - S.BASE.floor_sum(c, N // d))
+            penalty = S.BASE.combine((1, penalty), (delta, small_factor_cap(d, factors)))
+        total = S.BASE.combine((1, case["factorial"]), (1, penalty))
+        excess = S.BASE.combine((1, total), (-1, case["psi"]))
+        assert S.BASE.nonnegative_coefficients(excess)
+        assert S.BASE.nonnegative_coefficients(S.BASE.combine((1, case["penalties"]["perfect_power"]), (-1, penalty)))
+        case["penalties"][name] = penalty
+        case["totals"][name] = total
+        case["excess_over_psi"][name] = excess
+    return case
+
+
+def run():
+    start = time.monotonic()
+    caps = check_caps()
+    rows = [S.summarize(extended_case(N)) for N in S.CUTOFFS]
+    return {"status": "PASS", "runtime_seconds": time.monotonic() - start,
+            "capacity_comparisons": caps, "capacity_integer_range": [1, 4096],
+            "cutoffs": S.CUTOFFS, "prime_sets": PRIME_SETS, "rows": rows,
+            "nonclaims": ["No new exponent or RH claim", "The caps do not identify all rough composites",
+                          "The coefficient family is unchanged; this isolates the effect of arithmetic information"]}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
+    result = run()
+    if args.output:
+        args.output.write_text(json.dumps(S.BASE.json_ready(result), indent=2) + "\n")
+    for row in result["rows"]:
+        values = row["decimal_values_display_only"]
+        print(row["N"], "perfect powers", values["perfect_power_minus_N"][0],
+              "parity", values["factor_2_minus_N"][0], "2,3,5,7", values["factor_2_3_5_7_minus_N"][0])
+    print("PASS", result["runtime_seconds"])
+
+
+if __name__ == "__main__":
+    main()

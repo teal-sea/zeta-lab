@@ -1,4 +1,4 @@
-# R-065F29 — white-box attack on `urms2-0.51`
+# R-065F29: white-box attack on `urms2-0.51`
 
 **Outcome: the attack ran, the claim is not withdrawn, and it found three
 things about the record that a reader leaning on this claim should know.**
@@ -27,7 +27,7 @@ Reproduce: `python3 hunts/r_065f29/probe.py` (numpy and sympy only; no
 | A5 | finite-grid artifacts | does the record's control family satisfy `A(y) ≪ y log y`? | **No.** `A(y)/(y log y)` climbs by a factor of **88** from its trough (0.0231 at `y=400`) to the top of the array (2.036 at `y=22026`). |
 | A4 | correlated assumptions | cross §7's obligation list against the audit's six gates | **4 of 6 ungated**: infinite tail, initial height interval, height commutator, contour localization. |
 
-## A3 — the load-bearing step holds where it was attacked
+## A3: the load-bearing step holds where it was attacked
 
 `URMS2-051.md` §3 replaces the worst-spacing majorant with the
 spacing-sensitive Montgomery–Vaughan estimate, and §4 concludes the
@@ -62,7 +62,7 @@ A second caveat: at `U = 300` the off-diagonal is the same order as
 `U Σ|c_n|²`, so this test confirms the *bound* and the `W`-independence, not
 the asymptotic main-term dominance, which lives at `U → ∞`.
 
-## A5 — the record's own control does not satisfy its own hypothesis
+## A5: the record's own control does not satisfy its own hypothesis
 
 This is the finding with the most consequence for how the claim should be
 read.
@@ -77,9 +77,9 @@ saturates as `W` grows 67×: `441.6 → 691.3 → 830.4 → 907.1 → 984.7`. §
 step does what it says.
 
 **The record's control family does not satisfy the hypothesis.** On the
-frozen level-two array from `dirichlet_recurrence.py` — the family
+frozen level-two array from `dirichlet_recurrence.py`, the family
 `half_band_crossing.finite_height_spacing_experiment` runs on, and the source
-of §9's `ℓ = 6, 8, 10` table — `A(y)/(y log y)` is not bounded. It falls to a
+of §9's `ℓ = 6, 8, 10` table, `A(y)/(y log y)` is not bounded. It falls to a
 trough of 0.0231 at `y = 400` and then climbs to 2.036 at `y = e^10`, a factor
 of 88. Swept at fixed `x`, the upper-range sum on that family grows like
 `W^{0.825}` (32.1× over the same sweep) instead of saturating.
@@ -87,7 +87,7 @@ of 88. Swept at fixed `x`, the upper-range sum on that family grows like
 **Why §9's table cannot see this.** The `ℓ` ladder moves `x = e^{0.51ℓ}` and
 `W = e^ℓ` together, holding the effective `γ` at 1. It therefore reports the
 ratio `spacing cost / (x log x)` along a single ray and never varies `W` at
-fixed `x` — which is precisely the quantity §4 claims is `W`-independent. Its
+fixed `x`, which is precisely the quantity §4 claims is `W`-independent. Its
 reassuring decreasing sequence (0.409, 0.282, 0.185) is consistent with
 `W`-independence and equally consistent with `W^{0.825}` growth. The probe
 reproduces that table's `ℓ = 8` entry to five digits (0.28176 against the
@@ -103,7 +103,7 @@ and the ladder is structurally blind to the failure mode. A reader who took
 that table as numerical support for the `W`-independence took support that
 is not there.
 
-## A2 — gate 6's "independent route" is arithmetic, not independence
+## A2: gate 6's "independent route" is arithmetic, not independence
 
 `URMS2-051-AUDIT.md`'s verdict table lists six gates, each with an
 "independent route". For the `0.51` window functional the route is given as
@@ -130,7 +130,7 @@ the same numbers*, which catches assembly errors and nothing upstream of
 them. The five decimal digits of `0.0147728663285376` are therefore
 single-sourced through `corrected_form_factor`.
 
-## A1 — the witness does not derive `0.51`
+## A1: the witness does not derive `0.51`
 
 `half_band_crossing.urms2_051_witness()` records four margins at
 `α = 51/100, δ = 3/4, γ = 21/20, ε = 1/100`. All four are positive, as
@@ -138,8 +138,8 @@ recorded. But they do not bind at `51/100`:
 
 - At the published `(δ, γ, ε)`, the binding margin is `far_tail_margin` and
   the system stays feasible to `α = 257/500 = 0.514`.
-- `γ` is bounded above by nothing in the recorded system — §4's whole point
-  is that the upper length may cross `U` — so `far_tail_margin` can be made
+- `γ` is bounded above by nothing in the recorded system, §4's whole point
+  is that the upper length may cross `U`, so `far_tail_margin` can be made
   positive at any `α` by raising `γ`. `δ` is bounded only by
   `initial_interval_margin > 0`, i.e. `δ < 1`. The probe exhibits feasible
   witnesses at `α = 0.6, 0.7, 0.74, 0.8, 0.9`.
@@ -160,17 +160,17 @@ permitted `α` up to `δ < 1`, the method would prove far more than `0.51`, and
 it does not.** Something binds that is not written down. A4 says where to
 look.
 
-## A4 — where the unrecorded constraint most likely lives
+## A4: where the unrecorded constraint most likely lives
 
 §7 rests URMS2-051 on six obligations. The audit gates two of them. The other
-four —
+four,
 
 - infinite tail `o(U log U)` by the `9/1000` exponent margin,
 - initial height interval,
 - height commutator,
 - contour localization
 
-— are carried by the sentence "retain their earlier bounds". Those earlier
+- are carried by the sentence "retain their earlier bounds". Those earlier
 bounds were established under `γ < δ < 1`. This proof's entire novelty is
 `γ = 21/20 > 1`. Inheriting a bound across the regime change that the proof
 itself introduces is the correlated-assumption shape the checklist names,

@@ -16,7 +16,7 @@ That is a theorem; what is open is whether the λ_n are in fact nonnegative.
 Equivalently λ_n = Σ_ρ [1 − (1 − 1/ρ)ⁿ] over the nontrivial zeros, and the two
 sides are computed here by *independent* routes: the substitution s = 1/(1−z)
 turns the definition into a single Cauchy/trapezoid pass around a circle
-(λ_n = n·[zⁿ] log ξ(1/(1−z)) — no zeros are touched), while the zero-sum route
+(λ_n = n·[zⁿ] log ξ(1/(1−z)), no zeros are touched), while the zero-sum route
 never evaluates ξ.  Their agreement is the load-bearing check.  Calibration:
 λ₁ = 1 + γ/2 − log(4π)/2 = 0.023095708966121033814…, in closed form.
 
@@ -33,13 +33,13 @@ one of its Jensen polynomials is *hyperbolic* (all roots real), so
 This is the Routh–Hurwitz situation in its purest form: an infinite table of
 finite, decidable stability questions, of which any computer can check the
 first few hundred rows and no computer can check the rest.  Hyperbolicity is
-decided here twice — mpmath's Durand–Kerner (a tolerance test) and an *exact*
+decided here twice, mpmath's Durand–Kerner (a tolerance test) and an *exact*
 Sturm-sequence count in ℚ[X] (mpf coefficients are dyadic rationals, so the
-conversion is lossless) — and the two verdicts are compared.
+conversion is lossless), and the two verdicts are compared.
 
 GORZ also proved that for fixed d the renormalised roots of J^{d,n} converge
 as n → ∞ to the roots of the Hermite polynomial H_d, the orthogonal
-polynomials of the GUE weight — the same random-matrix shape that
+polynomials of the GUE weight, the same random-matrix shape that
 ``scripts/04_gue_statistics.py`` finds in the zero spacings.
 
 Honest scope (docs/08).  Both criteria are equivalences, so ONE negative λ_n or
@@ -77,7 +77,7 @@ def _fmt(x, n: int = 12) -> str:
 
 def section_lambda_table(n_show: int, n_both: int, n_zeros: int, dps: int) -> dict:
     """λ_n from two independent routes, and the closed form for λ₁."""
-    print("1)  THE LI COEFFICIENTS  —  two independent routes to the same numbers")
+    print("1)  THE LI COEFFICIENTS, two independent routes to the same numbers")
     print("    RH ⟺ λ_n ≥ 0 for every n ≥ 1  (THEOREM: Li 1997, Bombieri–Lagarias 1999)")
     print()
     with mp.workdps(dps):
@@ -111,7 +111,7 @@ def section_lambda_table(n_show: int, n_both: int, n_zeros: int, dps: int) -> di
     print(f"    worst disagreement over n ≤ {n_both}: {_fmt(worst, 4)}   "
           f"({n_zeros} zeros summed + smooth-density tail, {zero_secs:.1f} s)")
     print("    The zero route consumes the verified critical-line ordinates, so this is a")
-    print("    cross-check of two formulas — never evidence for RH.")
+    print("    cross-check of two formulas, never evidence for RH.")
     print()
     return {"cauchy": cauchy, "zeros": zeros, "worst": worst, "closed": closed}
 
@@ -129,7 +129,7 @@ def section_identity(defect_n: int, dps: int) -> list:
         defects.append(d)
         print(f"      n = {n}:  generating function − literal definition = {_fmt(d, 5)}")
     print()
-    print("    Zero to the full internal working precision — the substitution reproduces")
+    print("    Zero to the full internal working precision, the substitution reproduces")
     print("    Li's definition, not some neighbouring normalisation.")
     print()
     return defects
@@ -137,11 +137,11 @@ def section_identity(defect_n: int, dps: int) -> list:
 
 def section_positivity(n_max: int, dps: int) -> list:
     """The positivity margins and the RH-predicted growth."""
-    print("3)  THE POSITIVITY MARGINS  —  how far each λ_n is from the RH boundary λ = 0")
+    print("3)  THE POSITIVITY MARGINS, how far each λ_n is from the RH boundary λ = 0")
     print("    λ_n ≈ (n/2)(log n − log 2π + γ − 1) + 1 is the growth RH predicts")
     print("    (leading term derived from the smooth zero density; the +1 constant is")
     print("    quoted from the literature and is NOT separable from the O(√n log n)")
-    print("    oscillation at these n — see zeta.li.li_asymptotic).")
+    print("    oscillation at these n, see zeta.li.li_asymptotic).")
     print()
     rows = li_positivity_scan(n_max, dps=dps)
     print(f"    {'n':>4} {'λ_n':>22} {'λ_n > 0':>8} {'margin digits':>14} "
@@ -172,8 +172,8 @@ def section_positivity(n_max: int, dps: int) -> list:
 
 
 def section_jensen(d_max: int, n_max: int, dps: int, method: str) -> dict:
-    """The Jensen hyperbolicity table — the infinite Routh table, first rows."""
-    print("4)  THE JENSEN / PÓLYA TABLE  —  the infinite Routh table, first rows")
+    """The Jensen hyperbolicity table, the infinite Routh table, first rows."""
+    print("4)  THE JENSEN / PÓLYA TABLE, the infinite Routh table, first rows")
     print("    RH ⟺ every J^{d,n} is hyperbolic (all roots real).  One ✗ anywhere in the")
     print("    infinite table would refute RH; the table below is finite.")
     print()
@@ -230,7 +230,7 @@ def section_jensen(d_max: int, n_max: int, dps: int, method: str) -> dict:
           f"routes agree: {info['agree']}")
     with mp.workdps(dps):
         all_negative = all(mp.re(r) < 0 for r in info["roots"])
-    print(f"      every root real AND negative: {all_negative} — the substitution w = z²")
+    print(f"      every root real AND negative: {all_negative}, the substitution w = z²")
     print("      sends a zero ½ ± iγ of ξ to w = −γ², so 'real and negative' is exactly")
     print("      what RH asks (and γ(n) > 0 for all n forces it by Descartes' rule).")
     print()
@@ -241,11 +241,11 @@ def section_jensen(d_max: int, n_max: int, dps: int, method: str) -> dict:
 
 def section_gue(d_values: list[int], n_values: list[int], dps: int) -> list:
     """The Jensen roots approaching the Hermite (GUE) roots."""
-    print("5)  WHERE THE TABLE POINTS  —  Jensen roots → Hermite roots (the GUE side)")
+    print("5)  WHERE THE TABLE POINTS: Jensen roots → Hermite roots (the GUE side)")
     print("    GORZ 2019: for fixed d, the renormalised roots of J^{d,n} converge as")
     print("    n → ∞ to the roots of the Hermite polynomial H_d, the orthogonal")
     print("    polynomials of the GUE weight e^{−x²}.  Deviations of the *standardised*")
-    print("    root vectors (mean 0, unit s.d. — the affine normalisation removed):")
+    print("    root vectors (mean 0, unit s.d., the affine normalisation removed):")
     print()
     print(f"    {'d':>4} " + "".join(f"{'n = ' + str(n):>14}" for n in n_values))
     print("    " + "-" * (5 + 14 * len(n_values)))
@@ -258,7 +258,7 @@ def section_gue(d_values: list[int], n_values: list[int], dps: int) -> list:
             line += f"{rec['max_deviation']:>14.5f}"
         print(line)
     print("    " + "-" * (5 + 14 * len(n_values)))
-    print("    Convergence is genuinely slow — the numbers say so.  d = 2 is exact for")
+    print("    Convergence is genuinely slow, the numbers say so.  d = 2 is exact for")
     print("    every n by symmetry (two distinct points standardise to ∓1 either way).")
     print()
     return out

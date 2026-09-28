@@ -12,30 +12,30 @@ import ZetaLean.DHTailBound
 # Sum versus integral: the steeper tail exponent
 
 `ZetaLean/DHTailBound.lean` bounds the DH tail by summing per-block
-estimates, which decays like `K^{-σ}` with `σ ≈ 0.81` — too slow to
+estimates, which decays like `K^{-σ}` with `σ ≈ 0.81`, too slow to
 instantiate rung 3 at the oracle point (`HANDOFF.md` prices that route at
 ~230 days of kernel compute).  Comparing the sum to an *integral* trades one
 power of `K` for one derivative; the trapezoid refinement trades a second.
 Validated numerically at the oracle point: 1e-3 accuracy needs `K ≈ 205000`
 blocks through `DH_tail_bound`, `K ≈ 1800` through the order-1 bound here,
-and `K ≈ 254` through the order-2 bound — the ~800× reduction that turns the
+and `K ≈ 254` through the order-2 bound, the ~800× reduction that turns the
 offline kernel run from months into hours.
 
-No Bernoulli numbers and no general Euler–Maclaurin appear — Mathlib has
+No Bernoulli numbers and no general Euler–Maclaurin appear: Mathlib has
 neither, and neither is needed: the first Euler–Maclaurin correction *is*
 the trapezoid's endpoint average.
 
 ## The domain-independent half
 
-* `norm_sub_le_integral_norm_deriv` — travel bound: a `C¹` function moves
+* `norm_sub_le_integral_norm_deriv`, travel bound: a `C¹` function moves
   no further than the integral of its derivative's norm.
-* `norm_sub_integral_le` — **rectangle rule with a derivative remainder**:
+* `norm_sub_integral_le`, **rectangle rule with a derivative remainder**:
   `‖(b − a) • g a − ∫_a^b g‖ ≤ |b − a| · ∫_a^b ‖g'‖`.
-* `norm_trapezoid_sub_integral_le` — **trapezoid rule with a
+* `norm_trapezoid_sub_integral_le`: **trapezoid rule with a
   second-derivative remainder**: replacing `∫_a^b g` by the endpoint
   average `((b−a)/2) • (g a + g b)` costs at most `((b−a)²/8)·∫_a^b ‖g''‖`,
   by integrating the weight `(t−a)(b−t)` by parts twice.
-* `norm_tsum_sub_integral_le` / `norm_tsum_sub_integral_trapezoid_le` — the
+* `norm_tsum_sub_integral_le` / `norm_tsum_sub_integral_trapezoid_le`: the
   payoff, summed along unit steps of a half-line:
   `‖Σ_{n≥0} g(A+n) − ∫_A^∞ g‖ ≤ ∫_A^∞ ‖g'‖`, and with the trapezoid's
   endpoint correction `−½·g(A)` the remainder sharpens to
@@ -48,16 +48,16 @@ exponent, is one function:
 `dhPair w x = (5x+1)^w − (5x+4)^w + κ((5x+2)^w − (5x+3)^w)`.
 The block is `dhPair (−s)`, differentiation is `d/dx dhPair w = 5w·dhPair
 (w−1)` (`hasDerivAt_dhPair`), the antiderivative is `dhAnti = dhPair (1−s) /
-(5(1−s))` — closed-form precisely because the DH coefficients sum to zero:
+(5(1−s))`, closed-form precisely because the DH coefficients sum to zero:
 each summand of `dhPair (1−s)` alone diverges for `σ < 1`, while the paired
-combination tends to `0` — and one mean-value estimate (`norm_dhPair_le`)
+combination tends to `0`, and one mean-value estimate (`norm_dhPair_le`)
 bounds every level at once.
 
-* `integral_Ioi_dhPair` — `∫_K^∞ B = −dhAnti K`, fundamental theorem of
+* `integral_Ioi_dhPair`: `∫_K^∞ B = −dhAnti K`, fundamental theorem of
   calculus on the half-line plus the vanishing limit.
-* `DH_tail_bound_order1` — for `Re s > 0`, `s ≠ 1`, `K ≥ 1`:
+* `DH_tail_bound_order1`, for `Re s > 0`, `s ≠ 1`, `K ≥ 1`:
   `‖DH s − (Σ_{n<5K} − dhAnti K)‖ ≤ (3+κ)·‖s‖·‖s+1‖·(5K+1)^{-σ-1}/(σ+1)`.
-* `DH_tail_bound_order2` — with the endpoint correction `+ B(K)/2`:
+* `DH_tail_bound_order2`, with the endpoint correction `+ B(K)/2`:
   `‖DH s − (Σ_{n<5K} + B(K)/2 − dhAnti K)‖
      ≤ (5/8)·(3+κ)·‖s‖·‖s+1‖·‖s+2‖·(5K+1)^{-σ-2}/(σ+2)`.
 
@@ -539,7 +539,7 @@ private lemma continuousOn_dhPair (w : ℂ) (hw : w ≠ 0) :
     ContinuousOn (dhPair w) (Set.Ici (0 : ℝ)) := fun _x hx =>
   ((hasDerivAt_dhPair w hw hx).continuousAt).continuousWithinAt
 
-/-- `dhPair w` vanishes at `+∞` whenever `Re w < 1` — even though for
+/-- `dhPair w` vanishes at `+∞` whenever `Re w < 1`, even though for
 `0 < Re w < 1` each of its four summands diverges: the paired differences
 cancel the growth.  This is what makes the closed-form antiderivative
 usable. -/
@@ -645,7 +645,7 @@ private lemma integrableOn_dhPair {w : ℂ} (hw : w ≠ 0) (hwre : w.re < 0)
 
 /-- The closed-form antiderivative of the block:
 `dhAnti s x = dhPair (1−s) x / (5(1−s))`, with `d/dx dhAnti = dhPair (−s)`
-and `dhAnti → 0` at `+∞`.  The tail integral of the block is `−dhAnti K` —
+and `dhAnti → 0` at `+∞`.  The tail integral of the block is `−dhAnti K`,
 computable by the interval machinery as four extra certified cpow values. -/
 noncomputable def dhAnti (s : ℂ) (x : ℝ) : ℂ := dhPair (1 - s) x / (5 * (1 - s))
 
@@ -687,7 +687,7 @@ private lemma re_neg_sub_one (s : ℂ) : (-s - 1 : ℂ).re = -s.re - 1 := by sim
 
 private lemma re_neg_sub_two (s : ℂ) : (-s - 2 : ℂ).re = -s.re - 2 := by simp
 
-/-- **The order-1 tail bound** — one power of `K` steeper than
+/-- **The order-1 tail bound**, one power of `K` steeper than
 `DH_tail_bound`.  Subtracting the closed-form integral `dhAnti K` from the
 `5K`-term partial sum leaves an error controlled by `∫‖B'‖`:
 for `Re s > 0`, `s ≠ 1`, `K ≥ 1`,
@@ -786,7 +786,7 @@ theorem DH_tail_bound_order1 {s : ℂ} (hs : 0 < s.re) (hs1 : s ≠ 1) {K : ℕ}
         have hp : s.re + 1 ≠ 0 := ne_of_gt (by linarith)
         field_simp
 
-/-- **The order-2 tail bound** — two powers of `K` steeper than
+/-- **The order-2 tail bound**, two powers of `K` steeper than
 `DH_tail_bound`.  The trapezoid's endpoint correction `+ dhBlock K / 2`
 joins the integral correction `− dhAnti K`:
 for `Re s > 0`, `s ≠ 1`, `K ≥ 1`,

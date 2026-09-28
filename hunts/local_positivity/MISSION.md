@@ -1,4 +1,4 @@
-# MISSION: Local positivity — a norm at every place, and no norm globally
+# MISSION: Local positivity, a norm at every place, and no norm globally
 
 **Agent Persona:** The Hunter (ontology-attempt edition)
 **Scope:** `hunts/local_positivity/` only. Nothing outside this directory is
@@ -8,7 +8,7 @@ modified except the case-log entry in `hunts/README.md` and the record at
 ## Objective
 
 `docs/09` §5.1 states the positive target: not "prove the Weil form is
-positive" (that is RH restated), but **factorization** — construct, from prime
+positive" (that is RH restated), but **factorization**, construct, from prime
 data alone, a structure in which the Weil quadratic form is a norm square, so
 its sign becomes formal. Requirements A (arithmetic provenance), B (exact trace
 realization), C (structural positivity).
@@ -18,7 +18,7 @@ Requirement C can be reached *one place at a time*, where the local structure is
 small enough to write down:
 
 > **Does the prime side of the explicit formula factor, place by place, into a
-> manifest norm — and if it does, does local positivity buy anything global?**
+> manifest norm, and if it does, does local positivity buy anything global?**
 
 The answer is yes to the first and **no to the second**, and the second is the
 result. Recorded so the avenue is not reopened.
@@ -39,7 +39,7 @@ gamma factors. With Satake parameters `α_j` the series has the closed form
 
     K_p^(d)(θ) = Σ_j (1 − |α_j|²/p) / |1 − α_j p^{−1/2} e^{iθ}|²
 
-so `c_p ≤ d` is **exactly** the local bound `|α_j| ≤ √p` — a decision procedure,
+so `c_p ≤ d` is **exactly** the local bound `|α_j| ≤ √p`, a decision procedure,
 not a heuristic. Writing `Φ_p f = Σ_{m≥0} p^{−m/2} f(· − m log p)`, the prime
 side decomposes as `−Σ_p log p (Q_p(f) − ‖f‖²)` with `Q_p = (1−1/p)‖Φ_p f‖²`,
 a norm at every place.
@@ -57,14 +57,14 @@ comparison. The gate itself imports nothing from `zeta/`.
 
 ## The standing checklist, answered
 
-1. **Rival.** Davenport–Heilbronn and both disc −23 Epstein forms — the zeta
+1. **Rival.** Davenport–Heilbronn and both disc −23 Epstein forms, the zeta
    department's own rivals. All three FAIL, at `p = 2, 3`. The trap is noted:
    these *are* the rival set, so the gate is calibrated in the other direction
    too (ζ, `L(χ)`, and a genuine degree-2 factor must PASS, and do).
 2. **Decoy / surrogate.** Swapped coefficients move the verdict by 15 orders of
    magnitude, which is the control whose absence made the Imposter Gauntlet
    vacuous (`docs/15`). Against 300 random period-5 sequences, 100% fail with
-   median excess +5.88, and **DH sits at the 6th percentile** — an unusually
+   median excess +5.88, and **DH sits at the 6th percentile**, an unusually
    mild failure, echoing `ROADMAP.md`'s 27th-percentile calibration with a
    different statistic.
 3. **Lesion.** Interpolating ζ → DH, the blindness threshold is `ε* = 0.184`.
@@ -80,12 +80,12 @@ comparison. The gate itself imports nothing from `zeta/`.
 
 Nothing here is evidence for RH. Every bound in this hunt is elementary floating
 point, carrying no enclosure at any step, so nothing here makes a claim in the
-ball-arithmetic regime `zeta/rigor.py` owns — and this file does not use that
+ball-arithmetic regime `zeta/rigor.py` owns, and this file does not use that
 regime's reserved word, which `tests/test_hunt_probe_discipline.py` forbids
 anywhere under `hunts/` except the case log. The gate is **not** a test for
 "has an Euler product": a genuine
-degree-2 product with `α = 2.3, 1/α` — legitimate in the Selberg class,
-violating Ramanujan — is rejected at `p = 5` with `c_p = 65.24`. It tests the
+degree-2 product with `α = 2.3, 1/α`, legitimate in the Selberg class,
+violating Ramanujan, is rejected at `p = 5` with `c_p = 65.24`. It tests the
 local Selberg bound, and `scope()` says so in the module rather than only here.
 
 ## Disposition

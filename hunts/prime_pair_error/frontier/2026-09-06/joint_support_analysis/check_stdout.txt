@@ -1,0 +1,81 @@
+{
+  "scope": "Own new direction calculation, not included in review PR 200. Checks elementary inputs and finite feasibility; not an asymptotic rate, novelty or independent-agent review.",
+  "source_archive_sha256": "828a4d85d471b51331b5f0a32c30818ccff4de95e9e4c91dbb836536376e8260",
+  "obstruction_rows": [
+    {
+      "t": 13,
+      "W0": "1",
+      "masked_nonzero": {
+        "13": 1
+      },
+      "repairs_nonzero": {}
+    },
+    {
+      "t": 16,
+      "W0": "1",
+      "masked_nonzero": {
+        "16": 1
+      },
+      "repairs_nonzero": {}
+    },
+    {
+      "t": 20,
+      "W0": "3",
+      "masked_nonzero": {
+        "20": 1
+      },
+      "repairs_nonzero": {}
+    },
+    {
+      "t": 220,
+      "W0": "1",
+      "masked_nonzero": {
+        "13": -1,
+        "16": 1,
+        "20": 1
+      },
+      "repairs_nonzero": {}
+    }
+  ],
+  "old_repair_cells": 411,
+  "q20_period_cells": 88200,
+  "prefix_cells": 99999,
+  "new_C_interval": [
+    "1.04698001139826879523657250062965417852285415778832924593808500808421558",
+    "1.04698001139826879523657250062965417852285415778832924593808500921418814"
+  ],
+  "C_decrease_interval": [
+    "0.000643919980999065343434471518371075159691027139817426282835392162228290589",
+    "0.000643919980999065343434471518371075159691027139817426282835394201401463991"
+  ],
+  "finite_mass": "1405/2",
+  "tail_H": "809/36",
+  "tail_budget_coefficient": "4045/12",
+  "repairs": 145,
+  "repair_sites_not_in_old_dictionary": 100,
+  "weight20": "2",
+  "weight220": "1",
+  "kappa_D_lower": "0.976940923901680894285097396999957762566016943636561396189720199249000579",
+  "comparisons_high_precision_not_intervals": [
+    {
+      "N": 10000,
+      "B_saving": "18.68624989345213208103976302074212580377",
+      "U_saving": "-4439.667300117934924859994127876230083447"
+    },
+    {
+      "N": 1000000,
+      "B_saving": "719.6803620988192855035009544781019591175",
+      "U_saving": "-8231.704303905156881028433976861343274541"
+    },
+    {
+      "N": 100000000,
+      "B_saving": "64824.87219411743014377568515230495330118",
+      "U_saving": "48935.93875648967269838021371261618410145"
+    },
+    {
+      "N": 1000000000000,
+      "B_saving": "643921018.5958475628395263028138138886279",
+      "U_saving": "643882324.3850450957274351998278466358621"
+    }
+  ]
+}

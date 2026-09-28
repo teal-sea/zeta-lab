@@ -20,7 +20,7 @@ The three load-bearing numbers are
 * `concavityBound = -0.59326318`, the strict concavity constant for `w''`.
 
 The whole point of this file is `concavity_margin`: the first two, added, still
-clear the third.  The margin is genuinely tight — about `5.5 * 10^(-10)` — which
+clear the third.  The margin is genuinely tight, about `5.5 * 10^(-10)`, which
 is why it is decided here in exact arithmetic rather than by decimal inspection.
 -/
 

@@ -1,4 +1,4 @@
-"""Tests for ontology.registry / ledger / funnel / metrics — the pipeline.
+"""Tests for ontology.registry / ledger / funnel / metrics, the pipeline.
 
 What is pinned here, in the order the design's claims are made:
 
@@ -12,7 +12,7 @@ What is pinned here, in the order the design's claims are made:
 3. **Every candidate that enters leaves.** Count in equals count out, over a
    domain built to exercise all seven dispositions; the guard that enforces it
    is exercised directly in both directions.
-4. **Deduplication is against the whole ledger**, not the run — and an
+4. **Deduplication is against the whole ledger**, not the run, and an
    interrupted run resumes rather than duplicating or stranding.
 5. **The metrics arithmetic is verified by hand** on a synthetic ledger whose
    every count and rate is written out in the test, and every empty denominator
@@ -798,7 +798,7 @@ def test_an_interrupted_run_resumes_without_duplicating_ledger_entries(tmp_path)
     """Crash after the second checkpoint; re-run; nothing lost, nothing doubled."""
 
     class Bomb(BaseScreen):
-        """Passes once, then explodes — a mid-run death."""
+        """Passes once, then explodes, a mid-run death."""
 
         name = "bomb"
         cost = "cheap"
@@ -1126,7 +1126,7 @@ def test_the_ledger_path_recorded_in_a_run_is_never_machine_local(tmp_path) -> N
 
 
 # ---------------------------------------------------------------------------
-# 5. the metrics — arithmetic verified by hand
+# 5. the metrics, arithmetic verified by hand
 # ---------------------------------------------------------------------------
 
 
@@ -1145,11 +1145,11 @@ def _outcome(cid, gen, stage, disposition, seconds, version="1"):
 def _synthetic_view() -> LedgerView:
     """A hand-built ledger. Every number below is asserted explicitly.
 
-    Run A — 10 candidates from genA, genB ran and found nothing:
+    Run A, 10 candidates from genA, genB ran and found nothing:
         1 invalid (generate), 2 duplicate (deduplicate), 3 known (knownness),
         1 trivial (cheap), 2 refuted (expensive), 1 survives (terminal).
-    Run B — genA re-finds 4 (all duplicates), genC finds 2 (1 known, 1 inconclusive).
-    Run C — started and never finished: a crashed run, still in the denominator.
+    Run B, genA re-finds 4 (all duplicates), genC finds 2 (1 known, 1 inconclusive).
+    Run C, started and never finished: a crashed run, still in the denominator.
     """
     run_a = {
         "record": "funnel_run",
@@ -1543,7 +1543,7 @@ def test_a_crashed_run_still_reports_the_work_it_did(tmp_path) -> None:
     The exception propagates (a broken screen is a defect, not a verdict), but
     everything decided before it is written up as ``state="crashed"``. Without
     this, a run that screened four hundred observations and died on the four
-    hundred and first contributes nothing to any conversion rate — the exact
+    hundred and first contributes nothing to any conversion rate, the exact
     failure this package exists to prevent.
     """
     led = Ledger(tmp_path / "l.jsonl")

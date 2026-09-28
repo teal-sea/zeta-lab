@@ -2,13 +2,13 @@
 """Mutation-power measurement for the guard ``tests/test_doors.py``.
 
 ``harness/departments/guard_ledger.py`` carries the guard with ``fired=None``
-and ``scope="undetermined until demonstrated"`` — existence recorded, power
+and ``scope="undetermined until demonstrated"``, existence recorded, power
 never measured.  ``harness/guards.py`` states the question the guard
 offensive asks of every guard: *what exact incorrect computation is this
 guard supposed to detect, and has that detection power actually been
 demonstrated?*  The ledger names the smallest mutant that exhibits the
-lesion — "a door page quoting a command that exits non-zero (e.g. a renamed
-script)" — and this file builds it, plus nine neighbours, and records which
+lesion, "a door page quoting a command that exits non-zero (e.g. a renamed
+script)", and this file builds it, plus nine neighbours, and records which
 of them the guard notices.
 
 Method
@@ -16,8 +16,8 @@ Method
 Each mutant is applied to a throwaway ``git worktree`` checked out at HEAD,
 never to the working tree.  Two tiers are then run against the mutated tree:
 
-* **fast** — ``pytest tests/test_doors.py -m "not slow"``
-* **slow** — the full node set, which shells out to the two door scripts
+* **fast**: ``pytest tests/test_doors.py -m "not slow"``
+* **slow**: the full node set, which shells out to the two door scripts
 
 A mutant is CAUGHT by a tier when that tier exits non-zero, ESCAPED when it
 still exits zero.  The null control (an unmutated worktree) must pass both
@@ -67,7 +67,7 @@ FAST_TIER_TIMEOUT = 300
 
 
 # ---------------------------------------------------------------------------
-# mutation operators — each takes the worktree root and edits it in place
+# mutation operators, each takes the worktree root and edits it in place
 # ---------------------------------------------------------------------------
 
 
@@ -378,7 +378,7 @@ def main() -> int:
         )
         out["null_control"]["passes"] = healthy
         if not healthy:
-            print("null control does not pass — every verdict below is void")
+            print("null control does not pass, every verdict below is void")
 
         # ---- one mutant at a time, fast tier ------------------------------
         for mutant in MUTANTS:

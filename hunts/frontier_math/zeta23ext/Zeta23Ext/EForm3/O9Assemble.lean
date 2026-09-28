@@ -8,8 +8,8 @@ compositions built on them are sound given that (`O9Seam`). This file joins the
 two, which is the last structural step: after it, the only thing between the
 kernel-checked table and O9 is the arithmetic of the two modes.
 
-Both lemmas are stated with the components abstracted — `a`, `b`, `c`, `d` for
-the four parts — rather than with the trigonometric expressions written out.
+Both lemmas are stated with the components abstracted, `a`, `b`, `c`, `d` for
+the four parts, rather than with the trigonometric expressions written out.
 That is deliberate and it is the same choice `O9Seam` made: the composition's
 soundness does not depend on *which* reals the fields enclose, only that they
 enclose them, so writing the expressions in would couple this file to the leaf

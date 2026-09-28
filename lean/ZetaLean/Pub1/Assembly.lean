@@ -16,11 +16,11 @@ membership of the constructed sequence in the source-admissible class, and
 `sourceWindow_taper` reduces *that* to three analytic facts about `w`.  All three
 are now theorems:
 
-1. `w ∈ C²` near `I` — `WRegularity.w_contDiffOn`, from
+1. `w ∈ C²` near `I`: `WRegularity.w_contDiffOn`, from
    `pub1_kernel_second_deriv`, the elementary form of `F₁'' = 2δ₀ + q`;
-2. radial monotonicity — `Concave.w_radial`, from the strict concavity bound
+2. radial monotonicity, `Concave.w_radial`, from the strict concavity bound
    `w'' < -0.59326318`, itself from the residual certificate `ZppBound.zpp_bound`;
-3. the uniform `L¹` bounds — `TaperAdmissible`.
+3. the uniform `L¹` bounds, `TaperAdmissible`.
 
 `sourceWindow_taper` below keeps its hypotheses in the `Ioo (-3/5) (3/5)` form
 it was first stated in.  That form is *unsatisfiable* for the real `w`, whose
@@ -66,8 +66,8 @@ theorem pub1_strong_closure_reciprocal_of_member (hw : IsProfile w)
 /-! ### Reducing admissibility to three analytic facts, all now proved -/
 
 /-- **The taper is a source window**, given the three analytic facts about `w`
-listed in the module header.  Six of the eight admissibility fields — scale,
-evenness, amplitude floor and ceiling, exact support, and radial monotonicity —
+listed in the module header.  Six of the eight admissibility fields, scale,
+evenness, amplitude floor and ceiling, exact support, and radial monotonicity,
 are proved here from `1/5 ≤ w ≤ 1` and evenness, both of which are
 unconditional.  Note the `Ioo (-3/5) (3/5)` smoothness hypothesis is not
 satisfiable for the real `w`; see `Unconditional.sourceWindow_taper_final`. -/

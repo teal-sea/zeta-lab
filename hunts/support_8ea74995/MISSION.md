@@ -1,4 +1,4 @@
-# MISSION — support run 8ea74995, formulation arm for Erdős #126
+# MISSION: support run 8ea74995, formulation arm for Erdős #126
 
 **This is a hunt. Nothing here is a result, and nothing here bears on RH
 (`docs/08`).**
@@ -8,9 +8,9 @@
 The formulation / equivalence-audit arm of a multi-arm attempt on Erdős
 Problem #126. Its bounded question:
 
-> Derive and prove the useful equivalent formulations of #126 — the inverse
+> Derive and prove the useful equivalent formulations of #126, the inverse
 > relation between $f(n)$ and $g(k)$, uniformity over the choice of $S$, the
-> graph/clique and $S$-unit formulations — and settle the exact implication
+> graph/clique and $S$-unit formulations, and settle the exact implication
 > direction of construction, composition and pruning statements. Red-team
 > `hunts/r_186989/RESULTS.md`. Deliver a direction-safe target list for the
 > other arms.

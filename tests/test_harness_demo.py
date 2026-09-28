@@ -1,9 +1,9 @@
-"""The demo and the scaffold — the two entry points, pinned to keep working.
+"""The demo and the scaffold, the two entry points, pinned to keep working.
 
 A door whose first command errors is worse than no door, so both commands
 named in the documentation are exercised here: the demo on one fast
 department (with its machine-readable output checked for the pairing that
-is the whole point), and the scaffold's three refusals — to overwrite, to
+is the whole point), and the scaffold's three refusals, to overwrite, to
 accept a bad name, and above all to produce something importable.
 """
 

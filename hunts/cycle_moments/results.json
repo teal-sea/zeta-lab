@@ -1,0 +1,47 @@
+{
+  "status": "finite theorem checks; no new zeta proportion",
+  "constants": {
+    "k": "0.82749929632058835426562020919670481140659697137374",
+    "c2": "1.3274992963205883542656202091967048114065969713737",
+    "c3": "1.9707225761613889132429414068565568115119796782017",
+    "delta3": "-0.011775312800376149553919220733557622707811235919548",
+    "quadrature_defect": "1.5557538194652854267860160134450310601475630421803e-61",
+    "delta3_interval": "[-0.0117753128003761495539192207335576227078112359 +/- 3.28e-47]",
+    "interval_bits": 160
+  },
+  "exact_example": {
+    "moments": [
+      "2",
+      "5/2",
+      "7/2",
+      "41/8"
+    ],
+    "quadratic": "3/2",
+    "quartic": "15/8",
+    "gain": "3/8"
+  },
+  "complex_cycle_identity": {
+    "points_with_multiplicity": 5,
+    "simple_real": 1,
+    "nonreal_pairs": 1,
+    "decimal_precision": 70,
+    "trace_cycle_defects": {
+      "2": "2.89781730522e-70",
+      "3": "5.86595548684e-70",
+      "4": "1.39181162311e-68"
+    }
+  },
+  "signed_examples": {
+    "seed": 20260905,
+    "configurations": 300,
+    "indefinite": 238,
+    "tested_parameters": [
+      -0.75,
+      -0.3,
+      0.0,
+      0.3,
+      0.75
+    ],
+    "minimum_margin_measured": 0.1804737266253471
+  }
+}

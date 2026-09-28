@@ -1,4 +1,4 @@
-# R-F00E48 — salvage four research arms from an unlanded branch
+# R-F00E48: salvage four research arms from an unlanded branch
 
 `claude/riemann-hypothesis-research-ofds8s` ran a wide-portfolio RH-adjacent
 campaign on 2026-08-17/18 and never landed. The salvage sweep of 2026-08-18

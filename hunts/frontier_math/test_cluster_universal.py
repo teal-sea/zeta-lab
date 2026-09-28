@@ -1,4 +1,4 @@
-"""Controls for cluster_universal.py — the cluster-decomposition attack.
+"""Controls for cluster_universal.py, the cluster-decomposition attack.
 
 What a reader must be able to check without rerunning the long map:
 
@@ -11,7 +11,7 @@ What a reader must be able to check without rerunning the long map:
     summation to within the derived truncation tail, and the depth-free
     dense-regime floor is what the closed form says it is;
 (d) the periodic limit against finite-m ladders at three (s, y) points
-    including the binding family (2.05 mean gaps, y = 0.49) — every rung
+    including the binding family (2.05 mean gaps, y = 0.49), every rung
     closes, and the finite-size direction flags are pinned (they differ
     by spacing: that non-uniformity is a finding, not a tolerance);
 (e) the recorded sup of the rho map reproduces at its recorded step, and
@@ -77,7 +77,7 @@ def test_c2_derivative_closed_forms():
 def test_t_decay_bound_holds_with_margin():
     """|T(dt, y1, y2)| <= C_T / dt^2 with the DERIVED constant, measured
     at several separations and depth combinations.  The worst quotient
-    must stay clearly below 1 — the constant is a majorant, not a fit."""
+    must stay clearly below 1, the constant is a majorant, not a fit."""
     rec = t_decay_check()
     assert rec["holds"]
     assert rec["worst_quotient"] < 0.75, rec
@@ -172,7 +172,7 @@ def test_dense_regime_budget_is_depth_free_with_floor_at_one_gap():
 
 def test_lattice_budget_is_positive_over_the_probe_range():
     """No spacing/depth on the probe grid drives the per-pair budget
-    through zero — the E-form's -4k never wins on the lattice family."""
+    through zero, the E-form's -4k never wins on the lattice family."""
     for x in np.arange(0.3, 6.05, 0.05):
         for y in (0.1, 0.3, 0.49):
             assert b_infty(float(x) * MEAN_GAP, y) > 0.0, (x, y)
@@ -191,7 +191,7 @@ def test_lattice_budget_is_positive_over_the_probe_range():
 def test_finite_m_ladder_closes_and_direction_is_as_recorded(
         s_gaps, y, expect_up):
     """m = 4, 8, 16, 32 all close, and the finite-size direction is the
-    recorded one — UP at the binding family and the shielded lattice,
+    recorded one: UP at the binding family and the shielded lattice,
     DOWN at the resonance.  The non-uniform sign is the honest negative:
     the periodic limit does not one-sidedly dominate finite clusters."""
     rec = finite_m_ladder(s_gaps, y, ms=(4, 8, 16, 32), pj=PJ)
@@ -204,7 +204,7 @@ def test_finite_m_ladder_closes_and_direction_is_as_recorded(
 
 def test_periodic_cap_is_shielded_dense_and_resonant_sparse():
     """The two regimes the map found: total shielding (cap exactly 0)
-    off resonance, a positive cap on resonance — both below budget."""
+    off resonance, a positive cap on resonance, both below budget."""
     shielded = rho_point(1.5, 0.49, step=0.004)
     assert shielded["cap"] == 0.0 and shielded["rho"] == 0.0
     resonant = rho_point(2.0, 0.49, step=0.004)
@@ -278,7 +278,7 @@ def test_theta_one_diverges_on_clusters_finite_and_periodic():
 def test_legal_density_window_cannot_rescue_per_pair_accounting():
     """The coordinator's pre-refutation in one measurement: a legal-
     density window holding one k = 8 nu = 1 cluster leaves per-pair
-    accounting broken by two orders of magnitude — the pair-free credit
+    accounting broken by two orders of magnitude, the pair-free credit
     rate is ~3e-5 per mean gap against an O(0.3) cluster deficit."""
     rec = legal_density_prerefutation()
     assert rec["still_broken"]

@@ -1,0 +1,2094 @@
+{
+  "status": "finite random-matrix experiment",
+  "jobs": 36,
+  "samples": [
+    {
+      "size": 128,
+      "seed": 2027370500,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.138710974761617,
+            4.843209443550778,
+            11.507555811414615
+          ],
+          "quadratic_score": -0.13871097476161687,
+          "best_score_measured": -0.08214998524296224,
+          "best_t_measured": -0.265
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.137896473925884,
+            4.833348042843843,
+            11.444418964873368
+          ],
+          "quadratic_score": -0.1378964739258841,
+          "best_score_measured": -0.08134664588118795,
+          "best_t_measured": -0.27
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.350772587815936,
+            2.0999921416455765,
+            3.6283486966327514
+          ],
+          "quadratic_score": 0.649227412184064,
+          "best_score_measured": 0.6530247698257345,
+          "best_t_measured": -0.15500000000000003
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3420334346372464,
+            2.0567600757615674,
+            3.4897862833305844
+          ],
+          "quadratic_score": 0.6579665653627536,
+          "best_score_measured": 0.659647528644563,
+          "best_t_measured": -0.10799999999999998
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370501,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.147904890664404,
+            4.875461198760336,
+            11.546648659774124
+          ],
+          "quadratic_score": -0.14790489066440404,
+          "best_score_measured": -0.0866491277229047,
+          "best_t_measured": -0.285
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.148186028928869,
+            4.876150853364534,
+            11.545388941414025
+          ],
+          "quadratic_score": -0.14818602892886923,
+          "best_score_measured": -0.08675943750918547,
+          "best_t_measured": -0.285
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3253842712588226,
+            1.9761117379342357,
+            3.1981581399325805
+          ],
+          "quadratic_score": 0.6746157287411774,
+          "best_score_measured": 0.6746157287411774,
+          "best_t_measured": 0.0
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3167615781187663,
+            1.9319537317493107,
+            3.05313218520132
+          ],
+          "quadratic_score": 0.6832384218812337,
+          "best_score_measured": 0.684259326468635,
+          "best_t_measured": 0.10899999999999999
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370502,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1977904886653077,
+            5.184726797843479,
+            12.881873432036295
+          ],
+          "quadratic_score": -0.19779048866530768,
+          "best_score_measured": -0.11831535833414168,
+          "best_t_measured": -0.269
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.1968070169441902,
+            5.174198084759139,
+            12.819165942630141
+          ],
+          "quadratic_score": -0.19680701694419045,
+          "best_score_measured": -0.1175287164455009,
+          "best_t_measured": -0.27199999999999996
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3494430771990755,
+            2.0361797603634635,
+            3.3042107753912804
+          ],
+          "quadratic_score": 0.6505569228009245,
+          "best_score_measured": 0.6510790987728495,
+          "best_t_measured": 0.08499999999999996
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3440505230745003,
+            2.0084258688413064,
+            3.2143164742107455
+          ],
+          "quadratic_score": 0.6559494769254997,
+          "best_score_measured": 0.6579618408172361,
+          "best_t_measured": 0.16000000000000003
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370503,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.150729990029231,
+            4.917180434264177,
+            11.828388590236107
+          ],
+          "quadratic_score": -0.15072999002923115,
+          "best_score_measured": -0.08993900691803694,
+          "best_t_measured": -0.262
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.149844398909205,
+            4.907206728435748,
+            11.767203291051725
+          ],
+          "quadratic_score": -0.1498443989092053,
+          "best_score_measured": -0.08920799500421592,
+          "best_t_measured": -0.266
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3118305151798797,
+            1.9335309381235395,
+            3.084337311967831
+          ],
+          "quadratic_score": 0.6881694848201203,
+          "best_score_measured": 0.6881812852913038,
+          "best_t_measured": 0.01200000000000001
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3068024860763985,
+            1.912172751463456,
+            3.0277228095862023
+          ],
+          "quadratic_score": 0.6931975139236015,
+          "best_score_measured": 0.6933928564667675,
+          "best_t_measured": 0.04700000000000004
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370504,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1636468118877112,
+            4.968489558629534,
+            11.94651739226023
+          ],
+          "quadratic_score": -0.16364681188771124,
+          "best_score_measured": -0.09768581771052752,
+          "best_t_measured": -0.27699999999999997
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.1632410431427704,
+            4.96324095891014,
+            11.913461986371916
+          ],
+          "quadratic_score": -0.16324104314277066,
+          "best_score_measured": -0.09731931352421533,
+          "best_t_measured": -0.27899999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.312707522650555,
+            1.9314596973225497,
+            3.085851117054291
+          ],
+          "quadratic_score": 0.6872924773494451,
+          "best_score_measured": 0.6874085520727342,
+          "best_t_measured": 0.03500000000000003
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3076483823303113,
+            1.902479154480497,
+            2.986032287623589
+          ],
+          "quadratic_score": 0.6923516176696887,
+          "best_score_measured": 0.6935156928882821,
+          "best_t_measured": 0.11099999999999999
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370505,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.2175748382917266,
+            5.312606976060266,
+            13.504848979042837
+          ],
+          "quadratic_score": -0.21757483829172664,
+          "best_score_measured": -0.13424836468761175,
+          "best_t_measured": -0.253
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.2174280621798506,
+            5.309392074503273,
+            13.48125200289766
+          ],
+          "quadratic_score": -0.21742806217985078,
+          "best_score_measured": -0.13407054466639448,
+          "best_t_measured": -0.254
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3372410773628909,
+            2.0264427440184165,
+            3.3891787256827604
+          ],
+          "quadratic_score": 0.6627589226371091,
+          "best_score_measured": 0.6631575286979275,
+          "best_t_measured": -0.05399999999999994
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.333645351440747,
+            2.0064883365218233,
+            3.3230933504312956
+          ],
+          "quadratic_score": 0.6663546485592531,
+          "best_score_measured": 0.6664130152932031,
+          "best_t_measured": -0.02100000000000002
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370506,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.160652650842063,
+            4.962707146652556,
+            11.969323672133221
+          ],
+          "quadratic_score": -0.16065265084206315,
+          "best_score_measured": -0.09615531062202358,
+          "best_t_measured": -0.269
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.160468610258975,
+            4.959132842317421,
+            11.944346950843832
+          ],
+          "quadratic_score": -0.1604686102589754,
+          "best_score_measured": -0.09594632382325974,
+          "best_t_measured": -0.27099999999999996
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3020394198859901,
+            1.8942098678367505,
+            2.9809131202854457
+          ],
+          "quadratic_score": 0.6979605801140099,
+          "best_score_measured": 0.6983561334905223,
+          "best_t_measured": 0.06600000000000006
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.2980625387746665,
+            1.8749578484874985,
+            2.922478228000454
+          ],
+          "quadratic_score": 0.7019374612253335,
+          "best_score_measured": 0.702957206728978,
+          "best_t_measured": 0.10399999999999998
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370507,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.2060386908717833,
+            5.243410658610772,
+            13.234288963952642
+          ],
+          "quadratic_score": -0.20603869087178328,
+          "best_score_measured": -0.12825431886616112,
+          "best_t_measured": -0.249
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.205723676042174,
+            5.2385617220092975,
+            13.2014098584845
+          ],
+          "quadratic_score": -0.20572367604217434,
+          "best_score_measured": -0.12797888375879068,
+          "best_t_measured": -0.251
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3656596844750273,
+            2.1140429409338264,
+            3.5649265952191502
+          ],
+          "quadratic_score": 0.6343403155249727,
+          "best_score_measured": 0.6350904024283934,
+          "best_t_measured": -0.08699999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3582314833360396,
+            2.078558373349294,
+            3.4545958557077094
+          ],
+          "quadratic_score": 0.6417685166639604,
+          "best_score_measured": 0.6418090681631404,
+          "best_t_measured": -0.02100000000000002
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370508,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1683588493410344,
+            5.024252034296497,
+            12.290989277307322
+          ],
+          "quadratic_score": -0.1683588493410344,
+          "best_score_measured": -0.10154658649802233,
+          "best_t_measured": -0.258
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.1668879031078694,
+            5.009033406385636,
+            12.20099285314404
+          ],
+          "quadratic_score": -0.1668879031078696,
+          "best_score_measured": -0.1004402119217461,
+          "best_t_measured": -0.262
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3469189024226322,
+            2.0505835006827797,
+            3.392013798048702
+          ],
+          "quadratic_score": 0.6530810975773678,
+          "best_score_measured": 0.6533550424975331,
+          "best_t_measured": -0.05499999999999994
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3416916776471663,
+            2.024237092419879,
+            3.3096134814052807
+          ],
+          "quadratic_score": 0.6583083223528337,
+          "best_score_measured": 0.6583103694252702,
+          "best_t_measured": 0.0050000000000000044
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370509,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1370243469061716,
+            4.813163549129967,
+            11.302101178550556
+          ],
+          "quadratic_score": -0.1370243469061716,
+          "best_score_measured": -0.08031550617886343,
+          "best_t_measured": -0.283
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.136659783157361,
+            4.808111717431356,
+            11.269630870953035
+          ],
+          "quadratic_score": -0.13665978315736127,
+          "best_score_measured": -0.07994609509087496,
+          "best_t_measured": -0.286
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.326900660904668,
+            1.975378283056591,
+            3.182737040375817
+          ],
+          "quadratic_score": 0.6730993390953319,
+          "best_score_measured": 0.6731834811955041,
+          "best_t_measured": 0.03200000000000003
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3204510437905244,
+            1.9430525008562263,
+            3.078753055238624
+          ],
+          "quadratic_score": 0.6795489562094756,
+          "best_score_measured": 0.6805815910743631,
+          "best_t_measured": 0.10999999999999999
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370510,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1715651855455014,
+            5.046535922215413,
+            12.4020409303935
+          ],
+          "quadratic_score": -0.17156518554550138,
+          "best_score_measured": -0.10395725444698756,
+          "best_t_measured": -0.255
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.1706926813852254,
+            5.037625021895709,
+            12.350497613783192
+          ],
+          "quadratic_score": -0.17069268138522564,
+          "best_score_measured": -0.10337940186055468,
+          "best_t_measured": -0.257
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.348072538373699,
+            2.06707000134011,
+            3.4611654332321375
+          ],
+          "quadratic_score": 0.6519274616263011,
+          "best_score_measured": 0.6532498271957412,
+          "best_t_measured": -0.11299999999999999
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.341023653237789,
+            2.0341367708907083,
+            3.3633633168304327
+          ],
+          "quadratic_score": 0.658976346762211,
+          "best_score_measured": 0.6592909881651048,
+          "best_t_measured": -0.05699999999999994
+        }
+      ]
+    },
+    {
+      "size": 128,
+      "seed": 2027370511,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1527440786619083,
+            4.911558021329001,
+            11.741067338423395
+          ],
+          "quadratic_score": -0.1527440786619083,
+          "best_score_measured": -0.09113847016353191,
+          "best_t_measured": -0.27199999999999996
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999999,
+            2.152520098189525,
+            4.908291954994237,
+            11.721591180275237
+          ],
+          "quadratic_score": -0.15252009818952517,
+          "best_score_measured": -0.09106296615633103,
+          "best_t_measured": -0.27299999999999996
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.2919610078527088,
+            1.86038016205526,
+            2.8908768731178314
+          ],
+          "quadratic_score": 0.7080389921472912,
+          "best_score_measured": 0.7087239884492033,
+          "best_t_measured": 0.08699999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.2868451679058304,
+            1.831886231296385,
+            2.7958612430066045
+          ],
+          "quadratic_score": 0.7131548320941696,
+          "best_score_measured": 0.7155343699784752,
+          "best_t_measured": 0.15800000000000003
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650500,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1621808367041453,
+            4.973627919450668,
+            12.032951739984664
+          ],
+          "quadratic_score": -0.1621808367041453,
+          "best_score_measured": -0.0979217728957372,
+          "best_t_measured": -0.264
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.161241767618248,
+            4.963532508731535,
+            11.97293140652871
+          ],
+          "quadratic_score": -0.16124176761824804,
+          "best_score_measured": -0.09721078158629082,
+          "best_t_measured": -0.268
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3426213362257404,
+            2.0358068665567672,
+            3.3414837109175153
+          ],
+          "quadratic_score": 0.6573786637742596,
+          "best_score_measured": 0.6575856338816367,
+          "best_t_measured": -0.051999999999999935
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.337339295433277,
+            2.007840255865757,
+            3.2512066866857587
+          ],
+          "quadratic_score": 0.662660704566723,
+          "best_score_measured": 0.6627209995379647,
+          "best_t_measured": 0.029000000000000026
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650501,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.174782504304244,
+            5.027026865131533,
+            12.171360165290773
+          ],
+          "quadratic_score": -0.17478250430424414,
+          "best_score_measured": -0.10526112683855593,
+          "best_t_measured": -0.27699999999999997
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.174092429138618,
+            5.019236560470349,
+            12.124413285387536
+          ],
+          "quadratic_score": -0.1740924291386179,
+          "best_score_measured": -0.10468314683068343,
+          "best_t_measured": -0.27999999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3379405691529467,
+            2.0147268205686957,
+            3.2876971087112112
+          ],
+          "quadratic_score": 0.6620594308470533,
+          "best_score_measured": 0.6620618561057472,
+          "best_t_measured": -0.0050000000000000044
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3311351279510295,
+            1.979082297838844,
+            3.170620569737779
+          ],
+          "quadratic_score": 0.6688648720489705,
+          "best_score_measured": 0.6695163825490288,
+          "best_t_measured": 0.08899999999999997
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650502,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1721420161363545,
+            5.019283968714233,
+            12.16104959813777
+          ],
+          "quadratic_score": -0.1721420161363545,
+          "best_score_measured": -0.10318286321874369,
+          "best_t_measured": -0.27499999999999997
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.1714191603144624,
+            5.010978314842111,
+            12.109867218866592
+          ],
+          "quadratic_score": -0.17141916031446236,
+          "best_score_measured": -0.10252103062397663,
+          "best_t_measured": -0.27799999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3396876574371261,
+            2.0114752167064163,
+            3.242874152436308
+          ],
+          "quadratic_score": 0.6603123425628739,
+          "best_score_measured": 0.660547599788747,
+          "best_t_measured": 0.061000000000000054
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3356923469258044,
+            1.9906720887080773,
+            3.178103479073436
+          ],
+          "quadratic_score": 0.6643076530741956,
+          "best_score_measured": 0.665376064952886,
+          "best_t_measured": 0.125
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650503,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1550501942492906,
+            4.941997729698284,
+            11.930270507748777
+          ],
+          "quadratic_score": -0.15505019424929056,
+          "best_score_measured": -0.09276285760781564,
+          "best_t_measured": -0.262
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.1541333405161844,
+            4.932103761122502,
+            11.87157421606937
+          ],
+          "quadratic_score": -0.15413334051618444,
+          "best_score_measured": -0.09209628585350446,
+          "best_t_measured": -0.265
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3332898325742342,
+            2.0032938007934304,
+            3.2620754173422575
+          ],
+          "quadratic_score": 0.6667101674257658,
+          "best_score_measured": 0.666745867551426,
+          "best_t_measured": -0.02100000000000002
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3260497808154086,
+            1.9682431474610549,
+            3.1512081577561997
+          ],
+          "quadratic_score": 0.6739502191845914,
+          "best_score_measured": 0.6742658283289863,
+          "best_t_measured": 0.06300000000000006
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650504,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1590756547648704,
+            4.960986645760979,
+            11.979850450195102
+          ],
+          "quadratic_score": -0.1590756547648704,
+          "best_score_measured": -0.09448854344083747,
+          "best_t_measured": -0.268
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.158573621837419,
+            4.954831745629322,
+            11.941921602704678
+          ],
+          "quadratic_score": -0.15857362183741897,
+          "best_score_measured": -0.09410107139342808,
+          "best_t_measured": -0.27
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3231559304367422,
+            1.9613325165786115,
+            3.1399390923855144
+          ],
+          "quadratic_score": 0.6768440695632578,
+          "best_score_measured": 0.677050647356895,
+          "best_t_measured": 0.051000000000000045
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3162317715013305,
+            1.9271555335259365,
+            3.0308715206215107
+          ],
+          "quadratic_score": 0.6837682284986695,
+          "best_score_measured": 0.685256684955637,
+          "best_t_measured": 0.133
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650505,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1608018891285363,
+            4.975507754728662,
+            12.066644808663082
+          ],
+          "quadratic_score": -0.16080188912853632,
+          "best_score_measured": -0.09632445827937575,
+          "best_t_measured": -0.262
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.160253927353507,
+            4.969072125748679,
+            12.027689225781621
+          ],
+          "quadratic_score": -0.16025392735350685,
+          "best_score_measured": -0.095940407418189,
+          "best_t_measured": -0.264
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3443210204908391,
+            2.0407744495709697,
+            3.3525053158515634
+          ],
+          "quadratic_score": 0.6556789795091609,
+          "best_score_measured": 0.6558812175309454,
+          "best_t_measured": -0.050999999999999934
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.337300800006875,
+            2.006613300067917,
+            3.2453647977646787
+          ],
+          "quadratic_score": 0.6626991999931251,
+          "best_score_measured": 0.662797229413692,
+          "best_t_measured": 0.03700000000000003
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650506,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1832012280365793,
+            5.093870551202223,
+            12.509249987365997
+          ],
+          "quadratic_score": -0.18320122803657934,
+          "best_score_measured": -0.11059691878166374,
+          "best_t_measured": -0.267
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.1829336737919354,
+            5.089931299850815,
+            12.483518763015162
+          ],
+          "quadratic_score": -0.18293367379193537,
+          "best_score_measured": -0.11036156878142103,
+          "best_t_measured": -0.269
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3266200334094833,
+            1.9816407577723372,
+            3.223582464329681
+          ],
+          "quadratic_score": 0.6733799665905167,
+          "best_score_measured": 0.6733880156088581,
+          "best_t_measured": -0.009000000000000008
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3203832021811954,
+            1.9503125748388597,
+            3.1234000464418274
+          ],
+          "quadratic_score": 0.6796167978188046,
+          "best_score_measured": 0.6799271479756261,
+          "best_t_measured": 0.05700000000000005
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650507,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.157488924002151,
+            4.943859627982925,
+            11.872341658754486
+          ],
+          "quadratic_score": -0.1574889240021511,
+          "best_score_measured": -0.09283591469612618,
+          "best_t_measured": -0.27499999999999997
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.156908479786746,
+            4.936717785950476,
+            11.827681378192832
+          ],
+          "quadratic_score": -0.15690847978674594,
+          "best_score_measured": -0.09230766517016566,
+          "best_t_measured": -0.27799999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3424328936664316,
+            2.033939738115666,
+            3.339586849382166
+          ],
+          "quadratic_score": 0.6575671063335684,
+          "best_score_measured": 0.657703741101403,
+          "best_t_measured": -0.041000000000000036
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3350378111822385,
+            1.9962826891918266,
+            3.217130545994236
+          ],
+          "quadratic_score": 0.6649621888177615,
+          "best_score_measured": 0.6652253437760497,
+          "best_t_measured": 0.05900000000000005
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650508,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1708435999320352,
+            5.034257002892626,
+            12.30982375377096
+          ],
+          "quadratic_score": -0.17084359993203524,
+          "best_score_measured": -0.10275629676954158,
+          "best_t_measured": -0.262
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.1707036159433297,
+            5.031384311906873,
+            12.289997994075327
+          ],
+          "quadratic_score": -0.17070361594332972,
+          "best_score_measured": -0.10264049746603218,
+          "best_t_measured": -0.263
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3144377188605607,
+            1.9343476437231897,
+            3.083574501109493
+          ],
+          "quadratic_score": 0.6855622811394393,
+          "best_score_measured": 0.6857849457018973,
+          "best_t_measured": 0.049000000000000044
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3098148138179435,
+            1.912333167651652,
+            3.0177373741501485
+          ],
+          "quadratic_score": 0.6901851861820565,
+          "best_score_measured": 0.6909832813884902,
+          "best_t_measured": 0.09199999999999997
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650509,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.168971572164838,
+            5.0070863920115505,
+            12.150220792513196
+          ],
+          "quadratic_score": -0.16897157216483816,
+          "best_score_measured": -0.10237849488436568,
+          "best_t_measured": -0.267
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.168654174028344,
+            5.002680045870081,
+            12.122486578250903
+          ],
+          "quadratic_score": -0.16865417402834382,
+          "best_score_measured": -0.10215229020929054,
+          "best_t_measured": -0.268
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3335155350139694,
+            2.0014119998160758,
+            3.2644081076777103
+          ],
+          "quadratic_score": 0.6664844649860306,
+          "best_score_measured": 0.6664864678707492,
+          "best_t_measured": -0.0050000000000000044
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3264600797883948,
+            1.9666176557578716,
+            3.1533107171275554
+          ],
+          "quadratic_score": 0.6735399202116052,
+          "best_score_measured": 0.6739999644048986,
+          "best_t_measured": 0.07100000000000006
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650510,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.156866478316037,
+            4.925895194743822,
+            11.758884310165037
+          ],
+          "quadratic_score": -0.15686647831603695,
+          "best_score_measured": -0.09322839987250138,
+          "best_t_measured": -0.27999999999999997
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.156260494951736,
+            4.9185974763017555,
+            11.713517009327436
+          ],
+          "quadratic_score": -0.1562604949517361,
+          "best_score_measured": -0.09265315697629943,
+          "best_t_measured": -0.284
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3632752903353458,
+            2.0964360461519096,
+            3.474767977989118
+          ],
+          "quadratic_score": 0.6367247096646542,
+          "best_score_measured": 0.6368926631197402,
+          "best_t_measured": -0.050999999999999934
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3554791987403876,
+            2.055702684891072,
+            3.3395065682137024
+          ],
+          "quadratic_score": 0.6445208012596124,
+          "best_score_measured": 0.6450282891010298,
+          "best_t_measured": 0.09199999999999997
+        }
+      ]
+    },
+    {
+      "size": 256,
+      "seed": 2028650511,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1803340129345434,
+            5.10272497067449,
+            12.655128705950048
+          ],
+          "quadratic_score": -0.18033401293454343,
+          "best_score_measured": -0.1096894801308489,
+          "best_t_measured": -0.252
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            2.1790484373634005,
+            5.089066598429434,
+            12.573060741480756
+          ],
+          "quadratic_score": -0.17904843736340048,
+          "best_score_measured": -0.10872824564512512,
+          "best_t_measured": -0.255
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3534767649276618,
+            2.064920424184386,
+            3.408142711096259
+          ],
+          "quadratic_score": 0.6465232350723382,
+          "best_score_measured": 0.6465881637278454,
+          "best_t_measured": -0.029000000000000026
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3475337494806867,
+            2.037314963274651,
+            3.3248689388967305
+          ],
+          "quadratic_score": 0.6524662505193133,
+          "best_score_measured": 0.6525574276819184,
+          "best_t_measured": 0.03400000000000003
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210500,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.158828187781845,
+            4.943775880632343,
+            11.849275315185803
+          ],
+          "quadratic_score": -0.15882818778184493,
+          "best_score_measured": -0.09405836908116362,
+          "best_t_measured": -0.27799999999999997
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.1583520205730897,
+            4.937735627248843,
+            11.811159148864709
+          ],
+          "quadratic_score": -0.15835202057309017,
+          "best_score_measured": -0.09360578398082905,
+          "best_t_measured": -0.28099999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3230689821604031,
+            1.9622991472496956,
+            3.14295869989395
+          ],
+          "quadratic_score": 0.6769310178395969,
+          "best_score_measured": 0.6770825861667763,
+          "best_t_measured": 0.04400000000000004
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3171253257415163,
+            1.9328214028974764,
+            3.050171260404065
+          ],
+          "quadratic_score": 0.6828746742584837,
+          "best_score_measured": 0.6839795970065391,
+          "best_t_measured": 0.11599999999999999
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210501,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.144225594496021,
+            4.862910426155145,
+            11.54090400449288
+          ],
+          "quadratic_score": -0.1442255944960209,
+          "best_score_measured": -0.08544847518236146,
+          "best_t_measured": -0.27399999999999997
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.1435218515199157,
+            4.855009466234406,
+            11.493503211448779
+          ],
+          "quadratic_score": -0.14352185151991614,
+          "best_score_measured": -0.08488563319508238,
+          "best_t_measured": -0.27699999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3230901091866887,
+            1.973105244406237,
+            3.189690308151395
+          ],
+          "quadratic_score": 0.6769098908133113,
+          "best_score_measured": 0.6769546904433289,
+          "best_t_measured": -0.02300000000000002
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3151958146051557,
+            1.9345278441314577,
+            3.0681980881007522
+          ],
+          "quadratic_score": 0.6848041853948443,
+          "best_score_measured": 0.6851951378481353,
+          "best_t_measured": 0.07000000000000006
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210502,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.172881218182365,
+            5.032004681502234,
+            12.243669632438543
+          ],
+          "quadratic_score": -0.1728812181823649,
+          "best_score_measured": -0.10368171326421075,
+          "best_t_measured": -0.27
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.171741223815988,
+            5.020195683194546,
+            12.17419558442777
+          ],
+          "quadratic_score": -0.17174122381598833,
+          "best_score_measured": -0.10277462462602949,
+          "best_t_measured": -0.27399999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3555612883019479,
+            2.06846851085354,
+            3.4129645214758937
+          ],
+          "quadratic_score": 0.6444387116980521,
+          "best_score_measured": 0.6444489013378136,
+          "best_t_measured": -0.01100000000000001
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3508665789119272,
+            2.0420573711708356,
+            3.32240842363824
+          ],
+          "quadratic_score": 0.6491334210880728,
+          "best_score_measured": 0.6495205943857223,
+          "best_t_measured": 0.07300000000000006
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210503,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.154264442690564,
+            4.92653690783084,
+            11.841356604110633
+          ],
+          "quadratic_score": -0.15426444269056416,
+          "best_score_measured": -0.09327083205150917,
+          "best_t_measured": -0.264
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.1536870000060073,
+            4.919532860378969,
+            11.797940321018702
+          ],
+          "quadratic_score": -0.15368700000600777,
+          "best_score_measured": -0.09281524691786566,
+          "best_t_measured": -0.266
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.310702231594465,
+            1.931811933498726,
+            3.0830311241781234
+          ],
+          "quadratic_score": 0.689297768405535,
+          "best_score_measured": 0.689298031449123,
+          "best_t_measured": 0.0020000000000000018
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3054943549518851,
+            1.9060347294252766,
+            3.003738738308014
+          ],
+          "quadratic_score": 0.6945056450481149,
+          "best_score_measured": 0.6948405301993339,
+          "best_t_measured": 0.06400000000000006
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210504,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1787483895338884,
+            5.074046038272702,
+            12.459614042869209
+          ],
+          "quadratic_score": -0.17874838953388839,
+          "best_score_measured": -0.10841542200729143,
+          "best_t_measured": -0.262
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.17809484226393,
+            5.066451240049753,
+            12.412976984852795
+          ],
+          "quadratic_score": -0.17809484226393035,
+          "best_score_measured": -0.1079016922170625,
+          "best_t_measured": -0.264
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.337232513133792,
+            2.0089962979030758,
+            3.2670723691110406
+          ],
+          "quadratic_score": 0.6627674868662079,
+          "best_score_measured": 0.6627894614084765,
+          "best_t_measured": 0.016000000000000014
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3319148635002156,
+            1.982881337451962,
+            3.185186563579127
+          ],
+          "quadratic_score": 0.6680851364997844,
+          "best_score_measured": 0.668593190147369,
+          "best_t_measured": 0.07800000000000007
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210505,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1771757346685856,
+            5.061858428784921,
+            12.381176570614347
+          ],
+          "quadratic_score": -0.1771757346685856,
+          "best_score_measured": -0.1062252851565061,
+          "best_t_measured": -0.268
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.1767255079213634,
+            5.055975361916822,
+            12.34343123418725
+          ],
+          "quadratic_score": -0.17672550792136388,
+          "best_score_measured": -0.10580997051079796,
+          "best_t_measured": -0.27
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3265427256178546,
+            1.976610310177454,
+            3.1906045100616547
+          ],
+          "quadratic_score": 0.6734572743821454,
+          "best_score_measured": 0.6734839579863061,
+          "best_t_measured": 0.018000000000000016
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.319331459616493,
+            1.9406903294691802,
+            3.0763741896648904
+          ],
+          "quadratic_score": 0.6806685403835071,
+          "best_score_measured": 0.6815757084372999,
+          "best_t_measured": 0.10299999999999998
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210506,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.14321072184414,
+            4.861942648498687,
+            11.557112249709945
+          ],
+          "quadratic_score": -0.14321072184413985,
+          "best_score_measured": -0.08498751542689964,
+          "best_t_measured": -0.27
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.1424917117379243,
+            4.8535857815899295,
+            11.505478993520924
+          ],
+          "quadratic_score": -0.14249171173792474,
+          "best_score_measured": -0.08435625234403717,
+          "best_t_measured": -0.27399999999999997
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3202058716630312,
+            1.969618865184235,
+            3.1997367148428024
+          ],
+          "quadratic_score": 0.6797941283369688,
+          "best_score_measured": 0.6800126389637406,
+          "best_t_measured": -0.04799999999999993
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3129953625307578,
+            1.9342118343292087,
+            3.0881505216125573
+          ],
+          "quadratic_score": 0.6870046374692422,
+          "best_score_measured": 0.687069264465331,
+          "best_t_measured": 0.027000000000000024
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210507,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1727826813511184,
+            5.048460016720254,
+            12.379621197506932
+          ],
+          "quadratic_score": -0.1727826813511184,
+          "best_score_measured": -0.10402739476227535,
+          "best_t_measured": -0.26
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.1720328507278177,
+            5.039976181352552,
+            12.328001319955312
+          ],
+          "quadratic_score": -0.17203285072781815,
+          "best_score_measured": -0.103454613245602,
+          "best_t_measured": -0.262
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3543979180319972,
+            2.0740839878383763,
+            3.4561135552073847
+          ],
+          "quadratic_score": 0.6456020819680028,
+          "best_score_measured": 0.6459181999275133,
+          "best_t_measured": -0.05799999999999994
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3460607875505126,
+            2.034330467791432,
+            3.3304284942506017
+          ],
+          "quadratic_score": 0.6539392124494874,
+          "best_score_measured": 0.6539818533023753,
+          "best_t_measured": 0.02200000000000002
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210508,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.169772581539177,
+            5.026840793237661,
+            12.28993757941372
+          ],
+          "quadratic_score": -0.16977258153917685,
+          "best_score_measured": -0.10307071643805289,
+          "best_t_measured": -0.258
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.168970112390152,
+            5.017801533817526,
+            12.234467389545788
+          ],
+          "quadratic_score": -0.16897011239015258,
+          "best_score_measured": -0.10242918403338279,
+          "best_t_measured": -0.261
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.340292261100994,
+            2.0251411507893096,
+            3.3231157016825064
+          ],
+          "quadratic_score": 0.659707738899006,
+          "best_score_measured": 0.6597587925532569,
+          "best_t_measured": -0.02400000000000002
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3352950017990919,
+            2.0010620308221565,
+            3.2497851776952418
+          ],
+          "quadratic_score": 0.6647049982009081,
+          "best_score_measured": 0.6647708288506061,
+          "best_t_measured": 0.027000000000000024
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210509,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1586066302374682,
+            4.961442864286517,
+            12.013555993264433
+          ],
+          "quadratic_score": -0.15860663023746824,
+          "best_score_measured": -0.0955638130357194,
+          "best_t_measured": -0.26
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.157795252908916,
+            4.952387079023395,
+            11.958896664540708
+          ],
+          "quadratic_score": -0.1577952529089166,
+          "best_score_measured": -0.09495684682450815,
+          "best_t_measured": -0.263
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3204860739562232,
+            1.9568692221329276,
+            3.1321664257539275
+          ],
+          "quadratic_score": 0.6795139260437768,
+          "best_score_measured": 0.679582144397707,
+          "best_t_measured": 0.030000000000000027
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3144225576206647,
+            1.92769163015649,
+            3.0419265602618895
+          ],
+          "quadratic_score": 0.6855774423793353,
+          "best_score_measured": 0.6863690715703594,
+          "best_t_measured": 0.09899999999999998
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210510,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.152846441943699,
+            4.919627228456251,
+            11.793727790702778
+          ],
+          "quadratic_score": -0.15284644194369879,
+          "best_score_measured": -0.09068205788309033,
+          "best_t_measured": -0.27
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.1524053620607972,
+            4.9139337247446235,
+            11.757877036716451
+          ],
+          "quadratic_score": -0.1524053620607977,
+          "best_score_measured": -0.09030892972106534,
+          "best_t_measured": -0.27299999999999996
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3304648159595343,
+            1.990035021388978,
+            3.2182799175728443
+          ],
+          "quadratic_score": 0.6695351840404657,
+          "best_score_measured": 0.6695411119961937,
+          "best_t_measured": 0.009000000000000008
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3235122739026277,
+            1.9557344613469747,
+            3.109908171653343
+          ],
+          "quadratic_score": 0.6764877260973723,
+          "best_score_measured": 0.6772137745611029,
+          "best_t_measured": 0.09599999999999997
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "seed": 2031210511,
+      "results": [
+        {
+          "width": 0.5,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            2.1577146210722775,
+            4.950114159786181,
+            11.941312202055549
+          ],
+          "quadratic_score": -0.15771462107227752,
+          "best_score_measured": -0.094796446321734,
+          "best_t_measured": -0.264
+        },
+        {
+          "width": 0.5,
+          "profile": "montgomery_taylor",
+          "moments": [
+            0.9999999999999998,
+            2.1567427060436106,
+            4.939160978336974,
+            11.873285843585396
+          ],
+          "quadratic_score": -0.15674270604361107,
+          "best_score_measured": -0.0939188401831431,
+          "best_t_measured": -0.269
+        },
+        {
+          "width": 1.0,
+          "profile": "uniform",
+          "moments": [
+            1.0,
+            1.3362718874926898,
+            2.0229896682602386,
+            3.3392864232910875
+          ],
+          "quadratic_score": 0.6637281125073102,
+          "best_score_measured": 0.6642531484780742,
+          "best_t_measured": -0.07299999999999995
+        },
+        {
+          "width": 1.0,
+          "profile": "montgomery_taylor",
+          "moments": [
+            1.0,
+            1.3284755546874938,
+            1.9852455073813202,
+            3.2202046017133754
+          ],
+          "quadratic_score": 0.6715244453125062,
+          "best_score_measured": 0.6715245369875396,
+          "best_t_measured": 0.0010000000000000009
+        }
+      ]
+    }
+  ]
+}

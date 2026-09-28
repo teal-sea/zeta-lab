@@ -70,7 +70,7 @@ every `x`, every `t`, every `y ∈ [0,1/2]`, with no separation hypothesis.
 
 ## 3. The three facts that make (★★) true
 
-1. **`Kpair ≥ 0` pointwise** — it is a square. So *any* off-diagonal pair may be
+1. **`Kpair ≥ 0` pointwise**: it is a square. So *any* off-diagonal pair may be
    discarded without sign bookkeeping; there is no need to control the sign of the
    interaction between distant points, which is what forced the near/far split.
 2. **`Kpair` is bounded below at short range**: `Kpair u ≥ 39/50` for `|u| ≤ 1`
@@ -82,7 +82,7 @@ every `x`, every `t`, every `y ∈ [0,1/2]`, with no separation hypothesis.
    `> 6.16` (measured: `≈ 2π` from below, width `≈ 0.96`, duty cycle 15.3%).
 
 Points inside one window are within `1` of one another, so `m` of them pay at
-least `(39/50)/200 · m(m−1)` while collecting at most `4 c_k y² m` of damage — and
+least `(39/50)/200 · m(m−1)` while collecting at most `4 c_k y² m` of damage, and
 **`m` is an integer**. Maximising over integers, window by window, and summing is
 the proof.
 
@@ -147,7 +147,7 @@ figures), and any enclosure of a box containing the argmax has an upper
 bound strictly greater than the supremum. An inequality that is an equality
 somewhere has no margin for a ball to fit in.
 
-The caps above are therefore `21/20` times that supremum — a documented
+The caps above are therefore `21/20` times that supremum, a documented
 `1.05×` inflation. Two independent measurements bound the room available:
 `o9_scoping.py` §7 finds the budget absorbs inflation up to **`1.3945×`**
 before the surplus reaches zero, and `window_table.py` builds the `y = 1/2`
@@ -263,7 +263,7 @@ is convex (the quadratic form has spectral density `c2 ≥ 0` and coefficient
 
     inf gap = [C*(n) + 2 Shq y] / A² − n/200,   C*(n) = inf { (1/200)⟨ν,Kν⟩ + 4⟨ν,W⟩ : ν ≥ 0, |ν| ≤ n }
 
-because mass may be sent to infinity as dust — spread thin it pays no energy and,
+because mass may be sent to infinity as dust, spread thin it pays no energy and,
 `W → 0`, collects no damage. `C*(n)` saturates at `C* = −0.038776` once `n ≥ 5.99`,
 so the relaxed infimum is **exactly linear from `n = 6` on**:
 

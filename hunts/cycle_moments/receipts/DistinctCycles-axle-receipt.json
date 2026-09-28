@@ -1,0 +1,38 @@
+{
+  "source_path": "/Users/thomas/zeta-lab/hunts/cycle_moments/DistinctCycles.lean",
+  "source_sha256": "81cf4d7a6d99a20504f563cfb492d7df656e71f920b0db15ca2b1e833b025597",
+  "environment": "lean-4.33.0",
+  "response": {
+    "content": "import Mathlib\n\n/-!\n# Exact diagonal removal for the third cycle\n\nFor a symmetric kernel with unit diagonal, the pairwise-distinct-index triangle\nis the all-index third cycle minus three second cycles plus twice the number\nof indices. The two add-backs at a fully coincident triple are included.\n\nThe identity holds in any commutative ring, including the complex numbers.\nDistinctness refers to index labels; different labels may represent equal\nvalues of the underlying point multiset. This is an exact combinatorial\nidentity, not a new correlation estimate.\n-/\n\nopen Finset\nopen scoped BigOperators\n\nnamespace CycleMoments\n\n/-- Inclusion-exclusion for the three equality events of a triangle. -/\ntheorem distinct_triangle_indicator {R : Type*} [CommRing R] {n : Type*} [DecidableEq n]\n    (K : n \u2192 n \u2192 R) (hsym : \u2200 i j, K i j = K j i) (hdiag : \u2200 i, K i i = 1)\n    (i j k : n) :\n    (if i \u2260 j \u2227 j \u2260 k \u2227 k \u2260 i then K i j * K j k * K k i else 0) =\n      K i j * K j k * K k i\n        - (if i = j then (K i k)^2 else 0)\n        - (if j = k then (K i j)^2 else 0)\n        - (if k = i then (K i j)^2 else 0)\n        + (if i = j \u2227 j = k then 2 else 0) := by\n  by_cases hij : i = j <;> by_cases hjk : j = k <;> by_cases hki : k = i\n  all_goals simp_all\n  all_goals ring\n\n/-- The all-index triangle with every repeated-index contribution removed exactly. -/\ntheorem distinct_triangle_identity {R : Type*} [CommRing R] {n : Type*} [Fintype n] [DecidableEq n]\n    (K : n \u2192 n \u2192 R) (hsym : \u2200 i j, K i j = K j i) (hdiag : \u2200 i, K i i = 1) :\n    (\u2211 i, \u2211 j, \u2211 k,\n      if i \u2260 j \u2227 j \u2260 k \u2227 k \u2260 i then K i j * K j k * K k i else 0) =\n      (\u2211 i, \u2211 j, \u2211 k, K i j * K j k * K k i)\n        - 3 * (\u2211 i, \u2211 j, (K i j)^2) + 2 * (Fintype.card n : R) := by\n  simp_rw [distinct_triangle_indicator K hsym hdiag]\n  simp only [Finset.sum_add_distrib, Finset.sum_sub_distrib]\n  simp [Finset.sum_ite_irrel, ite_and]\n  ring\n\n\n/-- The same identity with pairwise-distinct indices expressed by finite-set filters. -/\ntheorem distinct_triangle_filter_identity {R : Type*} [CommRing R]\n    {n : Type*} [Fintype n] [DecidableEq n]\n    (K : n \u2192 n \u2192 R) (hsym : \u2200 i j, K i j = K j i) (hdiag : \u2200 i, K i i = 1) :\n    (\u2211 i, \u2211 j \u2208 Finset.univ.filter (fun j => i \u2260 j),\n      \u2211 k \u2208 Finset.univ.filter (fun k => j \u2260 k \u2227 k \u2260 i), K i j * K j k * K k i) =\n      (\u2211 i, \u2211 j, \u2211 k, K i j * K j k * K k i)\n        - 3 * (\u2211 i, \u2211 j, (K i j)^2) + 2 * (Fintype.card n : R) := by\n  simpa [Finset.sum_filter, ite_and, Finset.sum_ite_irrel] using\n    distinct_triangle_identity K hsym hdiag\n\n/-- info: 'CycleMoments.distinct_triangle_indicator' depends on axioms: [propext] -/\n#guard_msgs in #print axioms distinct_triangle_indicator\n/-- info: 'CycleMoments.distinct_triangle_identity' depends on axioms: [propext, Classical.choice, Quot.sound] -/\n#guard_msgs in #print axioms distinct_triangle_identity\n/-- info: 'CycleMoments.distinct_triangle_filter_identity' depends on axioms: [propext, Classical.choice, Quot.sound] -/\n#guard_msgs in #print axioms distinct_triangle_filter_identity\n\nend CycleMoments\n\n",
+    "failed_declarations": [],
+    "lean_messages": {
+      "errors": [],
+      "infos": [],
+      "warnings": []
+    },
+    "okay": true,
+    "timings": {
+      "parse_ms": 772,
+      "total_ms": 775
+    },
+    "tool_messages": {
+      "errors": [],
+      "infos": [],
+      "warnings": []
+    },
+    "info": {
+      "request_id": "5bde9e3a-4663-4f6a-8460-c81ab5e1d33e",
+      "environment": "lean-4.33.0",
+      "total_request_time_ms": 843,
+      "queue_time_ms": 6,
+      "execution_time_ms": 837,
+      "cached_response": false,
+      "_executor_commit_sha": "c7ff197",
+      "_executor_docker_image_id": "sha256:8c1dafc5e514f26944925383401c14fd48333d1dd9a2c77336e820c1b1e239b7",
+      "_executor_artifact_sha256": "72572061366e799abb214789ee4f0506a29da445bc4e176c05b7d75182e6af6c",
+      "environment_wait_time_us": 14,
+      "environment_total_time_us": 834652,
+      "environment_pool_size": 64
+    }
+  }
+}

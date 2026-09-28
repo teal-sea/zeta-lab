@@ -1,4 +1,4 @@
-# Spine candidates and loose ends — jensen_clock
+# Spine candidates and loose ends: jensen_clock
 
 Things that belong to other parts of the tree, recorded here rather than
 done, because this hunt may not touch `zeta/`.
@@ -12,12 +12,12 @@ done, because this hunt may not touch `zeta/`.
    `hyperbolicity_scan`'s pinned ranges) sits five hundred times short of it.
    A sentence in the docstring would stop a future hunt from reading a green
    low-degree scan as evidence of anything about off-line zeros. (`zeta/`
-   change — needs its own tests, not this hunt's.)
+   change, needs its own tests, not this hunt's.)
 
 2. **Shift-direction dictionary.** This hunt fixed the shift n = 0 and varied
    the degree. The GORZ shift n → ∞ limit is also a heat limit; a matching
    dictionary t_eff(n, d) for the shifted family J^{d,n} would say which
-   (d, n) cells of a full scan grid can see a given pair at all — turning the
+   (d, n) cells of a full scan grid can see a given pair at all, turning the
    blindness corollary from one axis into the whole table. Same instrument
    would work (the shifted γ-table is a suffix of the same moment table).
 

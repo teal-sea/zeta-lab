@@ -134,8 +134,8 @@ def test_the_exact_guard_rejects_the_repr_parse() -> None:
     value = np.float32(21.02203941345215)
     lesioned = Fraction(str(value))  # the old fall-through: printed decimal
     true_exact = Fraction(float(value))
-    # The mutant produces a different rational than the binary value — the
-    # abscissa moves — and the guard's pinned equality is what refuses it.
+    # The mutant produces a different rational than the binary value, the
+    # abscissa moves, and the guard's pinned equality is what refuses it.
     assert lesioned != true_exact
     assert rigor._exact(value) == true_exact != lesioned
 
@@ -159,7 +159,7 @@ def test_the_pub1_status_guard_fires_on_a_flipped_grade(tmp_path, monkeypatch) -
     The mutant is the defect as it actually occurred on 2026-08-17, in the
     direction that matters: the row bolds a grade the obligations file
     contradicts. Both directions are exercised, because a guard that only
-    fires when the doc underclaims would be silent on the expensive case — a
+    fires when the doc underclaims would be silent on the expensive case, a
     row saying *unconditional* after an obligation reopened.
     """
     status_guard = _load_test_module("test_pub1_status")
@@ -173,8 +173,8 @@ def test_the_pub1_status_guard_fires_on_a_flipped_grade(tmp_path, monkeypatch) -
     monkeypatch.setattr(status_guard, "OBLIGATIONS", obligations)
     monkeypatch.setattr(status_guard, "DOC27", doc)
 
-    # Mutant A — obligations CLOSED, row still says Conditional (the real defect).
-    obligations.write_text("# Pub 1 strong closure — status: CLOSED\n", encoding="utf-8")
+    # Mutant A, obligations CLOSED, row still says Conditional (the real defect).
+    obligations.write_text("# Pub 1 strong closure, status: CLOSED\n", encoding="utf-8")
     doc.write_text(row.format(grade="Conditional"), encoding="utf-8")
     with pytest.raises(AssertionError, match="must claim"):
         status_guard.test_docs_27_states_the_grade_the_obligations_file_declares()
@@ -183,13 +183,13 @@ def test_the_pub1_status_guard_fires_on_a_flipped_grade(tmp_path, monkeypatch) -
     doc.write_text(row.format(grade="Unconditional"), encoding="utf-8")
     status_guard.test_docs_27_states_the_grade_the_obligations_file_declares()
 
-    # Mutant B — the expensive direction: an obligation reopens, the row does not.
-    obligations.write_text("# Pub 1 strong closure — status: OPEN\n", encoding="utf-8")
+    # Mutant B, the expensive direction: an obligation reopens, the row does not.
+    obligations.write_text("# Pub 1 strong closure, status: OPEN\n", encoding="utf-8")
     with pytest.raises(AssertionError, match="must claim"):
         status_guard.test_docs_27_states_the_grade_the_obligations_file_declares()
 
-    # Mutant C — a status nobody has taught the guard is undecided, not benign.
-    obligations.write_text("# Pub 1 strong closure — status: PARTIAL\n", encoding="utf-8")
+    # Mutant C, a status nobody has taught the guard is undecided, not benign.
+    obligations.write_text("# Pub 1 strong closure, status: PARTIAL\n", encoding="utf-8")
     with pytest.raises(AssertionError, match="does not know how to check"):
         status_guard.test_the_declared_status_is_one_this_guard_understands()
 

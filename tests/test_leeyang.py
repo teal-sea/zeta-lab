@@ -1,15 +1,15 @@
-"""Tests for zeta.leeyang — the Lee–Yang / GHS reading of Φ.
+"""Tests for zeta.leeyang, the Lee–Yang / GHS reading of Φ.
 
 Every literal was measured in this environment before being asserted.
 
 1. The free-energy normalization is *derived*: ∫Φ(u)e^{hu}du = ¼·ξ(½+h/2),
    with the ratio constant to machine zero across h.  That constancy is the
-   whole content — a fitted constant that drifted with h would mean the
+   whole content, a fitted constant that drifted with h would mean the
    identity is wrong.
 2. Two independent routes to G‴(w) agree to ~5e-5 relative: a stencil on ξ
    itself, and the RH-assuming Hadamard zero-sum.  This cross-check is what
    caught a sign-flipped stencil during development, so it is pinned.
-3. ``mp.diff`` on ξ returns ~0 — the same internal-rounding trap as ``dh_f``.
+3. ``mp.diff`` on ξ returns ~0, the same internal-rounding trap as ``dh_f``.
    Pinned as a regression so the hand-rolled stencil is never "simplified"
    back to it.
 4. The verdict: GHS holds for ζ *and* for Davenport–Heilbronn, so the
@@ -47,7 +47,7 @@ def test_two_routes_to_third_derivative_agree():
     # floor for the whole run, so the tier drifted to 19 minutes against the
     # ~115s CLAUDE.md documents, and the next pull request to add any work
     # tipped it past the 30-minute job cap. The cross-check itself is unchanged
-    # and still runs — in the slow tier, which is where a three-point
+    # and still runs, in the slow tier, which is where a three-point
     # high-precision stencil sweep belongs.
     for w in (1.0, 5.0, 20.0):
         a = log_xi_third_derivative(w)
@@ -82,7 +82,7 @@ def test_phi_is_positive_and_log_concave():
 
 
 def test_zero_sum_truncation_bias_is_conservative():
-    """More zeros must make the sum MORE negative, never less — the omitted
+    """More zeros must make the sum MORE negative, never less, the omitted
     terms have sign -12w/gamma^4, so truncation cannot manufacture a pass."""
     few = ghs_zero_sum(5.0, n_zeros=200)
     many = ghs_zero_sum(5.0, n_zeros=2000)

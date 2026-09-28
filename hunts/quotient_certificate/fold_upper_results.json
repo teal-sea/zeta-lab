@@ -1,0 +1,736 @@
+{
+  "status": "complete",
+  "N": 10000,
+  "y": 100,
+  "input_sha256": "2cc986b5318432126976df62810d53d5259bd19375899f7e2b5d9981fc9b0768",
+  "coefficient_domain": "nonnegative real x; every attainable source above y",
+  "attainable_cells": 198,
+  "allowed_sources": 98,
+  "initially_empty_sources": 63,
+  "B_support_count": 52,
+  "positive_mass_B_cells": [
+    34,
+    43,
+    50,
+    52,
+    169,
+    204,
+    434,
+    1250
+  ],
+  "column_checks": [
+    {
+      "source": 101,
+      "gain": 1,
+      "B_dot_fold": -1387,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 102,
+      "gain": 2,
+      "B_dot_fold": -6788,
+      "slack": 4014,
+      "initially_empty_source": true
+    },
+    {
+      "source": 103,
+      "gain": 3,
+      "B_dot_fold": -6788,
+      "slack": 2627,
+      "initially_empty_source": false
+    },
+    {
+      "source": 104,
+      "gain": 3,
+      "B_dot_fold": -4161,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 105,
+      "gain": 4,
+      "B_dot_fold": -5548,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 106,
+      "gain": 3,
+      "B_dot_fold": -4161,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 107,
+      "gain": 4,
+      "B_dot_fold": -5548,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 108,
+      "gain": 4,
+      "B_dot_fold": -5548,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 109,
+      "gain": 5,
+      "B_dot_fold": -6935,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 111,
+      "gain": 5,
+      "B_dot_fold": -8036,
+      "slack": 1101,
+      "initially_empty_source": true
+    },
+    {
+      "source": 112,
+      "gain": 5,
+      "B_dot_fold": -8036,
+      "slack": 1101,
+      "initially_empty_source": false
+    },
+    {
+      "source": 113,
+      "gain": 6,
+      "B_dot_fold": -8322,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 114,
+      "gain": 7,
+      "B_dot_fold": -9709,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 116,
+      "gain": 6,
+      "B_dot_fold": -8322,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 117,
+      "gain": 6,
+      "B_dot_fold": -8322,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 119,
+      "gain": 4,
+      "B_dot_fold": -8036,
+      "slack": 2488,
+      "initially_empty_source": true
+    },
+    {
+      "source": 120,
+      "gain": 4,
+      "B_dot_fold": -8036,
+      "slack": 2488,
+      "initially_empty_source": false
+    },
+    {
+      "source": 121,
+      "gain": 4,
+      "B_dot_fold": -8036,
+      "slack": 2488,
+      "initially_empty_source": true
+    },
+    {
+      "source": 123,
+      "gain": 2,
+      "B_dot_fold": -8036,
+      "slack": 5262,
+      "initially_empty_source": false
+    },
+    {
+      "source": 125,
+      "gain": 2,
+      "B_dot_fold": -5548,
+      "slack": 2774,
+      "initially_empty_source": true
+    },
+    {
+      "source": 126,
+      "gain": 2,
+      "B_dot_fold": -8036,
+      "slack": 5262,
+      "initially_empty_source": false
+    },
+    {
+      "source": 128,
+      "gain": 3,
+      "B_dot_fold": -8036,
+      "slack": 3875,
+      "initially_empty_source": true
+    },
+    {
+      "source": 129,
+      "gain": 2,
+      "B_dot_fold": -7282,
+      "slack": 4508,
+      "initially_empty_source": true
+    },
+    {
+      "source": 131,
+      "gain": 4,
+      "B_dot_fold": -7282,
+      "slack": 1734,
+      "initially_empty_source": true
+    },
+    {
+      "source": 133,
+      "gain": 3,
+      "B_dot_fold": -8036,
+      "slack": 3875,
+      "initially_empty_source": true
+    },
+    {
+      "source": 135,
+      "gain": 2,
+      "B_dot_fold": -2897,
+      "slack": 123,
+      "initially_empty_source": true
+    },
+    {
+      "source": 136,
+      "gain": 2,
+      "B_dot_fold": -2897,
+      "slack": 123,
+      "initially_empty_source": false
+    },
+    {
+      "source": 138,
+      "gain": 4,
+      "B_dot_fold": -7927,
+      "slack": 2379,
+      "initially_empty_source": true
+    },
+    {
+      "source": 140,
+      "gain": 5,
+      "B_dot_fold": -8036,
+      "slack": 1101,
+      "initially_empty_source": false
+    },
+    {
+      "source": 142,
+      "gain": 3,
+      "B_dot_fold": -8036,
+      "slack": 3875,
+      "initially_empty_source": true
+    },
+    {
+      "source": 144,
+      "gain": 2,
+      "B_dot_fold": -8036,
+      "slack": 5262,
+      "initially_empty_source": true
+    },
+    {
+      "source": 147,
+      "gain": 0,
+      "B_dot_fold": -75,
+      "slack": 75,
+      "initially_empty_source": true
+    },
+    {
+      "source": 149,
+      "gain": 1,
+      "B_dot_fold": -5542,
+      "slack": 4155,
+      "initially_empty_source": false
+    },
+    {
+      "source": 151,
+      "gain": 2,
+      "B_dot_fold": -6363,
+      "slack": 3589,
+      "initially_empty_source": true
+    },
+    {
+      "source": 153,
+      "gain": 2,
+      "B_dot_fold": -8036,
+      "slack": 5262,
+      "initially_empty_source": true
+    },
+    {
+      "source": 156,
+      "gain": 2,
+      "B_dot_fold": -5401,
+      "slack": 2627,
+      "initially_empty_source": false
+    },
+    {
+      "source": 158,
+      "gain": 2,
+      "B_dot_fold": -2774,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 161,
+      "gain": 0,
+      "B_dot_fold": -3589,
+      "slack": 3589,
+      "initially_empty_source": true
+    },
+    {
+      "source": 163,
+      "gain": 1,
+      "B_dot_fold": -1387,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 166,
+      "gain": 1,
+      "B_dot_fold": -1387,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 169,
+      "gain": 2,
+      "B_dot_fold": -2774,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 172,
+      "gain": 3,
+      "B_dot_fold": -6788,
+      "slack": 2627,
+      "initially_empty_source": true
+    },
+    {
+      "source": 175,
+      "gain": 5,
+      "B_dot_fold": -6935,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 178,
+      "gain": 3,
+      "B_dot_fold": -4161,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 181,
+      "gain": 5,
+      "B_dot_fold": -6935,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 185,
+      "gain": 4,
+      "B_dot_fold": -5687,
+      "slack": 139,
+      "initially_empty_source": true
+    },
+    {
+      "source": 188,
+      "gain": 4,
+      "B_dot_fold": -5548,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 192,
+      "gain": 6,
+      "B_dot_fold": -8322,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 196,
+      "gain": 7,
+      "B_dot_fold": -9709,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 200,
+      "gain": 9,
+      "B_dot_fold": -14399,
+      "slack": 1916,
+      "initially_empty_source": true
+    },
+    {
+      "source": 204,
+      "gain": 4,
+      "B_dot_fold": -5548,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 208,
+      "gain": 1,
+      "B_dot_fold": -5006,
+      "slack": 3619,
+      "initially_empty_source": true
+    },
+    {
+      "source": 212,
+      "gain": 0,
+      "B_dot_fold": -3303,
+      "slack": 3303,
+      "initially_empty_source": false
+    },
+    {
+      "source": 217,
+      "gain": -5,
+      "B_dot_fold": 2427,
+      "slack": 4508,
+      "initially_empty_source": true
+    },
+    {
+      "source": 222,
+      "gain": -8,
+      "B_dot_fold": 0,
+      "slack": 11096,
+      "initially_empty_source": true
+    },
+    {
+      "source": 227,
+      "gain": -8,
+      "B_dot_fold": 5711,
+      "slack": 5385,
+      "initially_empty_source": true
+    },
+    {
+      "source": 232,
+      "gain": -5,
+      "B_dot_fold": 6935,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 238,
+      "gain": -3,
+      "B_dot_fold": 4161,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 243,
+      "gain": -1,
+      "B_dot_fold": 1248,
+      "slack": 139,
+      "initially_empty_source": false
+    },
+    {
+      "source": 250,
+      "gain": 0,
+      "B_dot_fold": 0,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 256,
+      "gain": -1,
+      "B_dot_fold": 0,
+      "slack": 1387,
+      "initially_empty_source": true
+    },
+    {
+      "source": 263,
+      "gain": -1,
+      "B_dot_fold": 1387,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 270,
+      "gain": 1,
+      "B_dot_fold": -1387,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 277,
+      "gain": 1,
+      "B_dot_fold": -1387,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 285,
+      "gain": 5,
+      "B_dot_fold": -6935,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 294,
+      "gain": 9,
+      "B_dot_fold": -12483,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 303,
+      "gain": 2,
+      "B_dot_fold": -2774,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 312,
+      "gain": 5,
+      "B_dot_fold": -6935,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 322,
+      "gain": 9,
+      "B_dot_fold": -12483,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 333,
+      "gain": 5,
+      "B_dot_fold": -14429,
+      "slack": 7494,
+      "initially_empty_source": true
+    },
+    {
+      "source": 344,
+      "gain": 2,
+      "B_dot_fold": -8038,
+      "slack": 5264,
+      "initially_empty_source": false
+    },
+    {
+      "source": 357,
+      "gain": 3,
+      "B_dot_fold": -9663,
+      "slack": 5502,
+      "initially_empty_source": true
+    },
+    {
+      "source": 370,
+      "gain": 1,
+      "B_dot_fold": -1387,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 384,
+      "gain": 0,
+      "B_dot_fold": 0,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 400,
+      "gain": -6,
+      "B_dot_fold": -1673,
+      "slack": 9995,
+      "initially_empty_source": false
+    },
+    {
+      "source": 416,
+      "gain": -3,
+      "B_dot_fold": 4161,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 434,
+      "gain": 5,
+      "B_dot_fold": -6935,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 454,
+      "gain": 3,
+      "B_dot_fold": -5115,
+      "slack": 954,
+      "initially_empty_source": true
+    },
+    {
+      "source": 476,
+      "gain": 4,
+      "B_dot_fold": -5548,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 500,
+      "gain": 4,
+      "B_dot_fold": -5548,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 526,
+      "gain": 5,
+      "B_dot_fold": -8910,
+      "slack": 1975,
+      "initially_empty_source": false
+    },
+    {
+      "source": 555,
+      "gain": -4,
+      "B_dot_fold": 3308,
+      "slack": 2240,
+      "initially_empty_source": true
+    },
+    {
+      "source": 588,
+      "gain": -1,
+      "B_dot_fold": 1387,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 625,
+      "gain": 1,
+      "B_dot_fold": -1387,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 666,
+      "gain": 6,
+      "B_dot_fold": -8322,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 714,
+      "gain": 1,
+      "B_dot_fold": -1387,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 769,
+      "gain": 1,
+      "B_dot_fold": -4704,
+      "slack": 3317,
+      "initially_empty_source": false
+    },
+    {
+      "source": 833,
+      "gain": 3,
+      "B_dot_fold": -4161,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 909,
+      "gain": 2,
+      "B_dot_fold": -2774,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 1000,
+      "gain": 5,
+      "B_dot_fold": -6935,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 1111,
+      "gain": 5,
+      "B_dot_fold": -8044,
+      "slack": 1109,
+      "initially_empty_source": false
+    },
+    {
+      "source": 1250,
+      "gain": 0,
+      "B_dot_fold": 0,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 1428,
+      "gain": 3,
+      "B_dot_fold": -4161,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 1666,
+      "gain": -1,
+      "B_dot_fold": 1387,
+      "slack": 0,
+      "initially_empty_source": true
+    },
+    {
+      "source": 2000,
+      "gain": 5,
+      "B_dot_fold": -6935,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 2500,
+      "gain": -1,
+      "B_dot_fold": 1387,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 3333,
+      "gain": 7,
+      "B_dot_fold": -9709,
+      "slack": 0,
+      "initially_empty_source": false
+    },
+    {
+      "source": 5000,
+      "gain": 2,
+      "B_dot_fold": -16043,
+      "slack": 13269,
+      "initially_empty_source": false
+    }
+  ],
+  "tight_columns": 52,
+  "strict_columns": 46,
+  "largest_integer_slack": 13269,
+  "cost_log_numerators": {
+    "2": 16456,
+    "7": 3052,
+    "17": 1248,
+    "23": 7629,
+    "59": 1101,
+    "191": 2635,
+    "197": 1673,
+    "199": 1673,
+    "229": 754,
+    "293": 1248
+  },
+  "cost_denominator": 1387,
+  "cost_enclosure": [
+    "66.338408961958118926068407103496232250236945532",
+    "66.338408961958118926068407103496232250236945533"
+  ],
+  "comparison_gain": "26545907/200000",
+  "signed_column_inverse_checks": 98,
+  "optimizations": 0,
+  "witness_coordinate_conversions": 0,
+  "requested_certificates": 1,
+  "completed_certificates": 1,
+  "seconds": 0.07261016700067557
+}

@@ -86,8 +86,8 @@ language is not a result. Compute."*
 **No numbers and no conclusions were altered.** Two lexical changes were made, both forced
 by this repository's own rules, and both are listed here in full.
 
-1. **The reserved word.** `tests/test_hunt_probe_discipline.py` reserves one word — the
-   past participle of "to certify" — to `zeta/rigor.py`, and fails the build if it appears
+1. **The reserved word.** `tests/test_hunt_probe_discipline.py` reserves one word, the
+   past participle of "to certify", to `zeta/rigor.py`, and fails the build if it appears
    in any `.py`, `.md` or `.json` file under `hunts/`. That gate is lexical, so this file
    cannot spell the word either; below it is written `<R>`. The audit used it 41 times,
    always as a boolean meaning *this directed-interval comparison came out true*. Every
@@ -105,8 +105,8 @@ by this repository's own rules, and both are listed here in full.
 
    The scripts and their outputs were renamed identically, so re-running the scripts
    reproduces the JSON files as they stand here. No other word was touched, and no value
-   in any of those files changed. **Checked, not assumed:** `periodic_certificate.py` — the
-   script that carries the all-`n` construction and the four renamed keys — was re-run here
+   in any of those files changed. **Checked, not assumed:** `periodic_certificate.py`, the
+   script that carries the all-`n` construction and the four renamed keys, was re-run here
    after the substitution, and its output is byte-identical to the audit's committed
    `results/periodic-certificate.json` with the same rename applied.
 
@@ -118,8 +118,8 @@ was scanned for absolute filesystem prefixes (home-directory roots, the superuse
 hostnames, timezone offsets and timestamps. Nothing matched. The audit's scripts read and
 write only relative paths under `results/`.
 
-The audit's own `README.md` — which held the isolation rules and named the directory it
-ran in — is not imported. Its rules are quoted above instead.
+The audit's own `README.md`, which held the isolation rules and named the directory it
+ran in, is not imported. Its rules are quoted above instead.
 
 ## What the audit found
 

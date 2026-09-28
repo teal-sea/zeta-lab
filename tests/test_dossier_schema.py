@@ -1,4 +1,4 @@
-"""Tests for ``dossier.schema`` and ``dossier.status`` — the domain-neutral half.
+"""Tests for ``dossier.schema`` and ``dossier.status``, the domain-neutral half.
 
 What is pinned here:
 
@@ -9,7 +9,7 @@ What is pinned here:
 2. **An assertion needs an artifact.** Any axis claiming positive support with
    no detail or no artifact is refused.
 3. **Intent and discrimination are required.** A dossier with no intent, or
-   with obligations that no plausible wrong definition would fail, is refused —
+   with obligations that no plausible wrong definition would fail, is refused,
    those are the two things that make the record worth keeping.
 4. **Identity is the object, not its progress.** The id is stable as evidence
    accumulates and changes when the definition changes.
@@ -178,7 +178,7 @@ def test_an_invalid_status_string_is_refused() -> None:
 
 
 def test_unlocated_literature_is_not_novelty() -> None:
-    """'Not found' is the absence of a lookup — it asserts nothing."""
+    """'Not found' is the absence of a lookup, it asserts nothing."""
     assert not AxisRecord(status=LiteratureStatus.UNLOCATED).asserts_support("literature")
 
 
@@ -245,7 +245,7 @@ def test_a_blank_resolution_is_refused() -> None:
 
     Distinct from leaving ``resolution=""``: that means open. A resolution
     field that is *set* but empty of content is the schema's other failure
-    mode — decoration, exactly what ``dossier_reasons`` exists to catch.
+    mode, decoration, exactly what ``dossier_reasons`` exists to catch.
     """
     reasons = dossier_reasons(
         _dossier(

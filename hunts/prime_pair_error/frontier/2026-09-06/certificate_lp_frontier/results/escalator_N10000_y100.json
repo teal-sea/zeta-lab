@@ -1,0 +1,268 @@
+{
+ "control_J": {
+  "moments_zero": true,
+  "gain_units": 5,
+  "feasible": true,
+  "walls_drained": [],
+  "eps_star": 3.7612001156935624,
+  "eps_binding": 232,
+  "total_gain": 18.806001,
+  "total_gain_raw": 18.806000578467813,
+  "coord_at_source": {
+   "232": -1,
+   "116": 0,
+   "102": 1
+  },
+  "evidence": "exact moments/coordinates; point-valued mpmath scale/gain (no enclosure)"
+ },
+ "source_exhaustion": {
+  "a": 232,
+  "m_a": 3.7612001156935624,
+  "chain": [
+   232,
+   116,
+   58,
+   29,
+   14,
+   7,
+   3,
+   1
+  ],
+  "aJ": 58,
+  "escalator": {
+   "232": 1,
+   "116": 2
+  },
+  "telescopes": true,
+  "intermediate_cells": [
+   116
+  ],
+  "G_S": 7,
+  "weights": {
+   "102": 1,
+   "123": 1,
+   "126": 1
+  },
+  "T": 3,
+  "per_destination": {
+   "102": {
+    "moments_zero": true,
+    "gain_units": 5,
+    "feasible": true,
+    "walls_drained": [],
+    "eps_star": 3.7612001156935624,
+    "eps_binding": 232,
+    "total_gain": 18.806001,
+    "total_gain_raw": 18.806000578467813,
+    "coord_at_source": {
+     "232": -1,
+     "116": 0,
+     "102": 1
+    },
+    "evidence": "exact moments/coordinates; point-valued mpmath scale/gain (no enclosure)"
+   },
+   "123": {
+    "moments_zero": true,
+    "gain_units": 5,
+    "feasible": true,
+    "walls_drained": [],
+    "eps_star": 3.7612001156935624,
+    "eps_binding": 232,
+    "total_gain": 18.806001,
+    "total_gain_raw": 18.806000578467813,
+    "coord_at_source": {
+     "232": -1,
+     "116": 0,
+     "123": 1
+    },
+    "evidence": "exact moments/coordinates; point-valued mpmath scale/gain (no enclosure)"
+   },
+   "126": {
+    "moments_zero": true,
+    "gain_units": 5,
+    "feasible": true,
+    "walls_drained": [],
+    "eps_star": 3.7612001156935624,
+    "eps_binding": 232,
+    "total_gain": 18.806001,
+    "total_gain_raw": 18.806000578467813,
+    "coord_at_source": {
+     "232": -1,
+     "116": 0,
+     "126": 1
+    },
+    "evidence": "exact moments/coordinates; point-valued mpmath scale/gain (no enclosure)"
+   }
+  },
+  "collection_coord_at_a": -3,
+  "predicted_coord_at_a": -3,
+  "coord_formula_holds": true,
+  "collection_total_gain": 18.806001,
+  "collection_feasible": true,
+  "H_max0": 5,
+  "exhaustion_bound_m_a_times_H": 18.806001,
+  "gain_within_bound": true,
+  "z_identity_S_eq_minus_z": true,
+  "evidence": "exact coordinates/moments; point-valued mpmath gain (no enclosure)"
+ },
+ "regression_controls": {
+  "a102_D204": {
+   "a": 102,
+   "m_a": 0.0,
+   "chain": [
+    102,
+    51,
+    25,
+    12,
+    6,
+    3,
+    1
+   ],
+   "aJ": 51,
+   "escalator": {
+    "102": 1
+   },
+   "telescopes": true,
+   "intermediate_cells": [],
+   "G_S": 2,
+   "weights": {
+    "204": 1
+   },
+   "T": 1,
+   "per_destination": {
+    "204": {
+     "moments_zero": true,
+     "gain_units": -2,
+     "feasible": false,
+     "walls_drained": [
+      102,
+      33,
+      40,
+      68
+     ],
+     "eps_star": null,
+     "eps_binding": null,
+     "total_gain": null,
+     "total_gain_raw": null,
+     "coord_at_source": {
+      "102": -3,
+      "204": 1
+     },
+     "evidence": "exact moments/coordinates; point-valued mpmath scale/gain (no enclosure)"
+    }
+   },
+   "collection_coord_at_a": -3,
+   "predicted_coord_at_a": -3,
+   "coord_formula_holds": true,
+   "collection_total_gain": null,
+   "collection_feasible": false,
+   "H_max0": 0,
+   "exhaustion_bound_m_a_times_H": 0.0,
+   "gain_within_bound": null,
+   "z_identity_S_eq_minus_z": true,
+   "evidence": "exact coordinates/moments; point-valued mpmath gain (no enclosure)"
+  },
+  "a103_D204_zero_weights": {
+   "a": 103,
+   "m_a": 4.574710978503383,
+   "chain": [
+    103,
+    51,
+    25,
+    12,
+    6,
+    3,
+    1
+   ],
+   "aJ": 51,
+   "escalator": {
+    "103": 1
+   },
+   "telescopes": true,
+   "intermediate_cells": [],
+   "G_S": 3,
+   "weights": {
+    "204": 0
+   },
+   "T": 0,
+   "per_destination": {
+    "204": {
+     "moments_zero": true,
+     "gain_units": -1,
+     "feasible": false,
+     "walls_drained": [
+      33,
+      102,
+      40,
+      68
+     ],
+     "eps_star": null,
+     "eps_binding": null,
+     "total_gain": null,
+     "total_gain_raw": null,
+     "coord_at_source": {
+      "103": -1,
+      "204": 1
+     },
+     "evidence": "exact moments/coordinates; point-valued mpmath scale/gain (no enclosure)"
+    }
+   },
+   "collection_coord_at_a": 0,
+   "predicted_coord_at_a": 0,
+   "coord_formula_holds": true,
+   "collection_total_gain": 0.0,
+   "collection_feasible": true,
+   "H_max0": 0,
+   "exhaustion_bound_m_a_times_H": 0.0,
+   "gain_within_bound": true,
+   "z_identity_S_eq_minus_z": true,
+   "evidence": "exact coordinates/moments; point-valued mpmath gain (no enclosure)"
+  },
+  "a232_empty_D": {
+   "a": 232,
+   "m_a": 3.7612001156935624,
+   "chain": [
+    232,
+    116,
+    58,
+    29,
+    14,
+    7,
+    3,
+    1
+   ],
+   "aJ": 58,
+   "escalator": {
+    "232": 1,
+    "116": 2
+   },
+   "telescopes": true,
+   "intermediate_cells": [
+    116
+   ],
+   "G_S": 7,
+   "weights": {},
+   "T": 0,
+   "per_destination": {},
+   "collection_coord_at_a": 0,
+   "predicted_coord_at_a": 0,
+   "coord_formula_holds": true,
+   "collection_total_gain": 0.0,
+   "collection_feasible": true,
+   "H_max0": 0,
+   "exhaustion_bound_m_a_times_H": 0.0,
+   "gain_within_bound": true,
+   "z_identity_S_eq_minus_z": true,
+   "evidence": "exact coordinates/moments; point-valued mpmath gain (no enclosure)"
+  }
+ },
+ "z_identity_controls": {
+  "102": true,
+  "103": true,
+  "116": true,
+  "123": true,
+  "126": true,
+  "204": true,
+  "232": true
+ }
+}

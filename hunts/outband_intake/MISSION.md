@@ -1,4 +1,4 @@
-# outband_intake — build the machinery that can eat the unconditional out-of-band fact
+# outband_intake: build the machinery that can eat the unconditional out-of-band fact
 
 Every certificate in the current race reads pair-correlation data on `[-1,1]` and
 nothing else. The configuration ceiling for that information class is

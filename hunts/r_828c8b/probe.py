@@ -1,4 +1,4 @@
-"""Hunt R-828C8B — the ceiling procedure applied to Erdos's minimum overlap problem.
+"""Hunt R-828C8B, the ceiling procedure applied to Erdos's minimum overlap problem.
 
 Runs end to end with:
 

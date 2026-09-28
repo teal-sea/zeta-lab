@@ -12,21 +12,21 @@ one pair across many cells. Laws D–H priced both, and level 3 can now name
 the two structural facts that make a positive trade possible where the
 interaction-control audit found none:
 
-- **deep pairs are self-defeating** — damage is linear in `sigma^2` while
+- **deep pairs are self-defeating**: damage is linear in `sigma^2` while
   the pair's own retained Frobenius slack grows like `8 sigma^4` (LAW K);
-- **dense packing is self-defeating** — multiplying damage `nu`-fold
+- **dense packing is self-defeating**: multiplying damage `nu`-fold
   manufactures internal `R(P)` mass quadratically (LAW G), of which the
   adversary must leave `(1-theta)` on the table.
 
 Both self-defeats are scale-matched (damage² ~ σ⁴ against slack ~ σ⁴;
 damage ~ ν against packing ~ ν²), which is why the measured recovery range
-is `nu`-free and `sigma`-free — the Phase-4 classification is
+is `nu`-free and `sigma`-free, the Phase-4 classification is
 `theta -> theta_0 > 0` at this reduction, not a decaying coefficient.
 
-## LAW K — the exact pair spectrum (new, and the level's engine)
+## LAW K: the exact pair spectrum (new, and the level's engine)
 
 For a pair `u = x + iy` at depth `y`, LAW D pins the bilinear square
-`u.u = 1` — *real* — which forces `x . y = 0` exactly; the Hermitian
+`u.u = 1`, *real*, which forces `x . y = 0` exactly; the Hermitian
 identity gives `|x|^2 + |y|^2 = 1 + 2 sigma^2(y)`. Together:
 
 ```text
@@ -38,7 +38,7 @@ The paper knew the signature (1,1); the eigenvalues pinned by depth are new.
 Checked against the actual grid to machine precision (`x.y ~ 1e-16`,
 eigenvalues to 8 digits at three depths). Two consequences:
 
-1. **The pair's negative eigenvalue *is* the depth envelope** `-2 sigma^2` —
+1. **The pair's negative eigenvalue *is* the depth envelope** `-2 sigma^2`,
    LAW E's per-cell floor reappears as spectral data.
 2. **Against the baseline's flat charge 4** (Lemma 3.2 at `c = 2`,
    eigenvalue-wise), the pair retains slack **exactly `8 sigma^2 + 8
@@ -55,7 +55,7 @@ net >= (8 - 6(1+m0)) sigma^2 = 0.7177 sigma^2 > 0,
 ```
 
 placement-free, depth-free, retaining **all** of `R(P)`. The adversary is
-forced to field at least four zeros per pair — i.e. into the density regime
+forced to field at least four zeros per pair, i.e. into the density regime
 where the quadratic packing costs live. This small statement is the level's
 proved fragment and would be the natural first Lean target.
 
@@ -73,7 +73,7 @@ respecting the density cap) and over the depth. Two adversary families
 bracket the landscape:
 
 - **dense lattices** (spacing ladder 2.0 down to 1/16, keeping only
-  negative cells — the continuum of the level-2 escaping family);
+  negative cells, the continuum of the level-2 escaping family);
 - **greedy sparse placements** (marginal-gain, min-spacing `1/nu`).
 
 Measured worst net over both families and depths `y in [0.05, 0.49]`:
@@ -87,9 +87,9 @@ Measured worst net over both families and depths `y in [0.05, 0.49]`:
 
 The bottoming configuration is the *shallow-depth* limit, where slack and
 damage scale to zero together and the ratio stays safe (`net ~ (8 - D/s2)
-s2` with `D/s2` well below 8). The dense attack is genuinely dangerous —
+s2` with `D/s2` well below 8). The dense attack is genuinely dangerous,
 at `y = 0.35`, spacing 1/16, damage `24 sigma^2` beats the bare slack
-`13 sigma^2` — but its internal mass is 1274 in the same units: even
+`13 sigma^2`, but its internal mass is 1274 in the same units: even
 retaining 90% of `R(P)`, the remaining 10% drowns the surplus. Theta = 1
 fails in exactly this regime (`test_theta_equal_one_fails_in_the_dense_
 regime`), which is the scan's power control: the instrument can see the
@@ -124,7 +124,7 @@ against `(1-theta) R_int` only near `theta ~ 0.99`.
 The full Phase-2 problem couples pairs. Measured here:
 
 - **stacked pairs** (same ordinate) interact *positively* (`T = +8.94` at
-  `y = 0.3` twice; `+25.6` deep) — stacking is self-defeating outright;
+  `y = 0.3` twice; `+25.6` deep), stacking is self-defeating outright;
 - **dipoles**: the worst interaction over ordinate offsets is negative
   (`-2.84` at `dt = 0.68`, `y = (0.3, 0.3)`) but covered by the two pairs'
   own slacks with factor **2.8–6.7**, uniformly over the tested depths.
@@ -135,7 +135,7 @@ against each neighbour pair). The dipole cover factors say the budget
 exists; the partition is bookkeeping plus a pair-density argument (pairs
 also obey LAW H), and it is **the named missing estimate** of this level.
 
-## Phase 5 — the extremal battery
+## Phase 5: the extremal battery
 
 | extremal | fate |
 |---|---|
@@ -145,12 +145,12 @@ also obey LAW H), and it is **the named missing estimate** of this level.
 | independent-duplication decoy | LAW H (level 2); also `theta_star` treats one pair exactly |
 | off-line mass at maximal depth | quartic slack dominates: `8 sigma^4 > 4` worst zeros at `y = 0.49` |
 | density-saturating configurations | the dense-lattice family; self-defeating, measured |
-| periodic marked gap words | LAW J: total is `+2b/a^2 > 0` — no damage at all |
+| periodic marked gap words | LAW J: total is `+2b/a^2 > 0`, no damage at all |
 | near-coincident on-line collapse | the `+-g*` cluster = the lattice fine-spacing limit; covered |
 
 ## Classification, per the directive
 
-**OUTCOME A at the single-pair reduction — candidate, not yet promoted.**
+**OUTCOME A at the single-pair reduction, candidate, not yet promoted.**
 A positive recovery coefficient exists after worst-case single-pair
 cancellation, with no error term in the reduction, a proved fragment (the
 three-zero lemma), a proved finiteness certificate shape, and the failure
