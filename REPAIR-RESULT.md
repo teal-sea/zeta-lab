@@ -1,5 +1,7 @@
 # Repair: FourPoint module-root collision
 
+> **Current status (2026-09-28):** the sections below record the module-root repair as it stood when written, before any Lean had run ("No Lake/Lean was run", "Unverified"). Since then the renamed `FourPointCand` package was built to completion on Modal at the pinned toolchain, so the rename is now observed to resolve the ambiguity and the "next cloud compile unit" below has been done. Evidence and its provenance gaps: `hunts/four_point_pressure/evidence/README.md`. Local kernel build only, pending external verification.
+
 ## Root cause
 `hunts/ainta_seven_point/lean-four-point` requires `Zeta23Bridge` by path
 (`../../../lean/bridge`). Lake exposes every `lean_lib` of a required package to

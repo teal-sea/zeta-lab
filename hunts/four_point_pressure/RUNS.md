@@ -1,5 +1,13 @@
 # Runs
 
+**Current status (2026-09-28): the Lean kernel build of the c = 2330/10^6 candidate
+has been run and passed, locally by this laboratory, on Modal.** Build receipts,
+the complete final log, the six raw axiom lines and provenance are in
+`evidence/` (start at `evidence/README.md`). It is not external review and not a
+Palomar registration. The 2026-09-05 entry below is kept as written and says
+"Lean build pending" because that was true on that date; see the 2026-09-28
+addendum at the end.
+
 ## 2026-09-05: a stronger four-point proof candidate
 
 The selected exact parameters are `c = 2330/1000000`, `p = 2500`, `m = 432`.
@@ -55,3 +63,53 @@ artifacts:
   - hunts/ainta_seven_point/lean-four-point/FourPoint/Cells.lean
   - hunts/four_point_pressure/RUNS.md
 ```
+
+## 2026-09-28: postbuild addendum, Lean kernel build passed
+
+The candidate was built layer by layer at source commit
+`5522b96314f7f63198ae3ec4e71d954255f93d1a`, pinned toolchain
+`leanprover/lean4:v4.33.0-rc2`, on Modal (final app
+`ap-7zxzQj0YqTwlQUP6P06ecn`, profile `teal-sea`, one `lake build` at a time),
+not on GitHub Actions as the 2026-09-05 estimate planned. The build was resumed
+across several launches; `evidence/README.md` lists them and states two
+provenance gaps.
+
+Result: 49 receipts, all ok, zero sorry warnings, verifier `FPVERIFY ok: True`
+with no problems. Each of `F4_eq`, `cover1`, `four_point_cert`, `Phi_four`,
+`four_point_bound`, `four_point_bound_ratio` depends only on
+`[propext, Classical.choice, Quot.sound]`. The sources on this branch hash to
+the values the run recorded (51-file `FourPointCand` tree
+`a72e89fc...8962c82`, 84-file `lean/bridge` tree `a4931d83...f8d2ff`). No proof
+source or numerical constant was changed after the run.
+
+Cost: the report's metered lower bound is about $0.92 across receipts, excluding
+image prep and container start; the earlier serial 26665.58 s estimate above was
+for GitHub Actions and was not the provider used. Wall time of the final launch
+was 920.9 s because it resumed from a saved checkpoint.
+
+Scope: a local compile record, pending external verification. The GitHub
+`checks` workflow does not compile Lean, so it neither confirms nor contradicts
+this build. Earlier statements in this file that no Lean verification had been
+completed described the state on 2026-09-05.
+
+```runmanifest
+id: four_point_pressure-2026-09-28-c2330-modal-kernel-build
+hunt: four_point_pressure
+started: 2026-09-28
+finished: 2026-09-28
+ran:
+  - serial layer-by-layer lake build of FourPointCand on Modal, final launch 20260928t220203, app ap-7zxzQj0YqTwlQUP6P06ecn, source 5522b96314f7f63198ae3ec4e71d954255f93d1a
+outcome: 49 receipts ok, zero sorry warnings, FPVERIFY ok True, six advertised theorems depend on propext Classical.choice Quot.sound only; local kernel build at pinned Lean v4.33.0-rc2, pending external verification
+artifacts:
+  - hunts/four_point_pressure/evidence/README.md
+  - hunts/four_point_pressure/evidence/zeta-fourpoint-serial-result-final3.md
+  - hunts/four_point_pressure/evidence/modal-ap-7zxzQj0YqTwlQUP6P06ecn-client-stdout-stderr-launch-20260928t220203.log
+  - hunts/four_point_pressure/evidence/main-axioms-print-output.txt
+  - hunts/four_point_pressure/evidence/SHA256SUMS
+```
+
+Note on the 2026-09-05 manifest above: its artifact paths `FourPoint/Main.lean`
+and `FourPoint/Cells.lean` are historical. The module root was renamed to
+`FourPointCand` on 2026-09-05 (see `REPAIR-RESULT.md`); the current paths are
+`hunts/ainta_seven_point/lean-four-point/FourPointCand/Main.lean` and
+`.../Cells.lean`. The old manifest is left as recorded.
