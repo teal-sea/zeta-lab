@@ -1,12 +1,10 @@
-# RESULTS: numerics lane (oob_envelope), interim
+# RESULTS: numerics lane (oob_envelope)
 
-2026-09-27: phases 1, 2 and 4 done; the L = 0.8 bound passed independent
-referee review (b65ef69, `teal-sea/oob-cert-referee`). L = 1.19 stage B
-done: an enclosure-carrying lower bound, one implementation, **not yet
-refereed** (item 6).
-Branch `teal-sea/oob-cert`, not pushed. Every grade uses the AGENTS.md ladder.
+2026-09-28: the L = 0.8 bound and the L = 1.19 stage B bound both passed
+independent referee review (`referee/REVIEW.md`, sections "L = 1.19" and 5).
+Every grade uses the AGENTS.md ladder.
 
-## Item 6. L = 1.19 (support 2.38), stage B: candidate, hardened single route
+## Item 6. L = 1.19 (support 2.38), stage B: candidate, hardened by two independent routes
 
 For real even f with supp f ⊆ [−1.19, 1.19] and H = sine:16:
 
@@ -27,10 +25,18 @@ Grades, weakest first:
   lane's GL radii, which the referee did not audit at L = 4/5 either). The
   same code on Modal reproduces the reviewed L = 4/5 bracket
   (≥ 1.15822443198e-17 at λ₀ = 0.9999 λ_meas, referee 1.1579e-17).
+- Independent reproduction: the referee's own Clenshaw-Curtis-192/Arb
+  route, with its own quadrature and entry bound and a shift fixed in
+  advance, proves lambda_min(R_H) > 5.7179e-48 on the same 500-mode
+  subspace, and recomputes eps_D < 1.490e-184, eps_B < 1.553e-90
+  (`referee/REVIEW.md`, "L = 1.19", verdict lines 1 to 5, PASS).
 - So the composite is a **candidate** positivity bound at support 2.38,
-  even sector only, not independently reproduced, not kernel-checked.
-  It needs the referee's independent CC/Arb route at L = 1.19 before it is
-  called hardened by independent routes.
+  hardened by two independent implementations (sharing python-flint),
+  resting on a refereed ordinary derivation; even sector only, not
+  kernel-checked, pending external verification.
+- Controls (RUNS.md "Negative controls"): at L = 4/5, T# = 60, where the
+  form is indefinite, the step returns no bound; a planted in-band constant
+  fires. Dropping or flipping H does not discriminate at L = 4/5.
 - Consistency (one-sided, K1 analogue): 5.7e-48 ≤ λ*(1.1) ≤ 2.78e-38 (Zhu
   Table 3). N-convergence, measured: λ_meas at N = 500, GL-96 equals
   stage A's N = 360, GL-64 value to 12 digits.

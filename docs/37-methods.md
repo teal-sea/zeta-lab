@@ -49,7 +49,7 @@ stays out of this file. No em dashes.
 - **Factorial and LP certificates for psi(N)** (16). Chebyshev-type factorial
   certificates for psi(N) as linear programs: the quotient relaxation, its floor, exact
   duals, repair budgets and the rank and transport obstructions.
-- **Weil positivity, Gram forms and kernels** (53). Weil-form truncations, window
+- **Weil positivity, Gram forms and kernels** (55). Weil-form truncations, window
   optima, incidence laws, cell-table and interval certificates for kernel inequalities,
   and the ceilings on what out-of-band positivity can buy.
 - **Higher xi derivatives and moments** (13). Exact resolvent identities for xi
@@ -72,8 +72,8 @@ stays out of this file. No em dashes.
   separate an instrument reading from a mathematical claim.
 - **Seen and not admitted** (36). Surfaced by the sweep, below the bar for now.
 
-Totals: 165 entries from 59 hunts. Kinds: identity 21, lemma 40, bound 12, construction
-15, calibration 7, computational 14, control 35, obstruction 21.
+Totals: 167 entries from 60 hunts. Kinds: identity 21, lemma 41, bound 12, construction
+15, calibration 7, computational 15, control 35, obstruction 21.
 
 ## Prime pairs and the circle method
 
@@ -1261,6 +1261,8 @@ can buy.
   oracle (`rogue_frontier`)
 - lemma: Global window optimum for xi' via the coercive operator A = I + T_{F_1}
   (`wide_search`)
+- lemma: Out-of-band envelope: frequencies at or above 2L are free in the window reduction
+  (`oob_envelope`)
 - bound: LAW E/F/K: depth envelope for signed on/off incidence and the exact pair
   spectrum (`frontier_math`)
 - bound: LAW G/H: a correlation is a gap, and n-independent anti-duplication caps
@@ -1292,6 +1294,8 @@ can buy.
   witness (`r_ac9ca3`)
 - computational technique: One ball LDL^T factorisation yields the inertia of every
   leading principal submatrix (whole N-ladder per c) (`rogue_frontier`)
+- computational technique: Residual-enclosed shifted Cholesky: a rigorous lambda_min lower
+  bound where interval LDL^T is undecided (`oob_envelope`)
 - computational technique: Exact finite-N CUE engine for band-Gram trace moments, with
   the fit-and-check polynomial identification protocol and the Wick regime boundary
   (`rogue_frontier`)
@@ -1848,6 +1852,31 @@ coercive A, optimum = <1, A^{-1} 1>, positivity of A^{-1} 1, monotonicity in the
 solves the window problem for any pair-correlation kernel with a bounded convolution
 operator, e.g. higher derivatives once F_k is available.
 
+### Out-of-band envelope: frequencies at or above 2L are free in the window reduction
+
+lemma | `hunts/oob_envelope` | grade: ordinary derivation, independent referee PASS
+(different model family); not kernel-checked
+
+For supp f in [-L, L], |F|^2 is the Fourier transform of an autocorrelation supported in
+[-2L, 2L], so any bounded almost-periodic H whose frequencies all satisfy |lambda| >= 2L
+(boundary included) has integral of |F|^2 H equal to 0, for every complex f. The Weil
+symbol may therefore be replaced by Psi_L + H without changing Q on the window, and
+Zhu's one-stroke reduction (arXiv:2608.24827, Theorem 1.1) runs with S = sup(P_L - H)
+in place of A_L = sup P_L. The best such S is exactly lambda_max of the windowed comb
+operator (strong duality), reached at rate N^{-2} by explicit trigonometric H, and it
+grows like e^L against Zhu's 4 e^L: the threshold stays doubly exponential, but the
+matrix size needed at a fixed window drops by one to two orders.
+
+Evidence: hunts/oob_envelope/theory/RESULTS.md sections 1 to 3 (Lemma 1, Theorem 1',
+Theorem 2, Theorem 3); referee/REVIEW.md sections 2 to 4
+Prior art: searched-and-found: Burnol 2000 (math/0101068, Theoreme 3.7) uses one
+boundary cosine for the same purpose; Liu 2026 Theorem B is the operator form. The
+systematic prime-comb use, the duality and the e^L constant were not found in the
+searched scope (theory/RESULTS.md section 4.2).
+Reused in: hunts/oob_envelope/numerics (support 1.6 and 2.38 window bounds)
+Why it travels: Any positivity argument on a band-limited class may spend the symbol
+outside the band for free; it turns a pointwise envelope question into an operator one.
+
 ### LAW E/F/K: depth envelope for signed on/off incidence and the exact pair spectrum
 
 bound | `hunts/frontier_math/` | grade: hardened (random-subgrid envelope floors never
@@ -2303,6 +2332,30 @@ the cost-class change is the lab's
 Reused in: dhneg_scan.py ladders for c in 6..60
 Why it travels: Changes the cost class of any nested-band positivity sweep from O(#cells
 eigenproblems) to O(#c factorisations).
+
+### Residual-enclosed shifted Cholesky: a rigorous lambda_min lower bound where interval LDL^T is undecided
+
+computational technique | `hunts/oob_envelope` | grade: hardened / enclosure-carrying
+(two independent implementations, GL-96 and Clenshaw-Curtis-192, both Arb)
+
+At condition numbers near 1e48 a ball LDL^T of A - lambda0 I leaves hundreds of pivots
+straddling zero. Instead: take the exact dyadic midpoint matrix M of the assembled
+balls, compute a plain Cholesky factor C of M - lambda0 I, freeze every entry of C as an
+exact dyadic, and enclose Rres = M - lambda0 I - C C^T in Arb with every operand exact.
+With r the max absolute row sum of Rres and e the max row sum of (entry radius +
+quadrature radius), symmetry and Weyl give lambda_min(A) >= lambda0 - r - e. The factor
+need not be accurate: its only job is to make r small, and r is enclosed. lambda0 is a
+proposal (0.99 of a measured Ritz value, or an exact rational fixed in advance); a
+Cholesky at 1.01 of the Ritz value must break, which is the built-in lesion.
+
+Evidence: hunts/oob_envelope/numerics/stage_b_modal.py (positivity) and RUNS.md stage B;
+referee/REVIEW.md "L = 1.19" positivity audit. At L = 1.19, N = 500: r ~ 1e-113, e ~
+2e-63 against lambda0 ~ 5.7e-48.
+Prior art: unsearched for this exact pipeline; residual-based eigenvalue inclusion is
+standard verified numerics (Rump-style)
+Reused in: none recorded beyond the two oob_envelope lanes
+Why it travels: Any ill-conditioned positive Gram or Galerkin block where interval LDL^T
+gives up but the gap to zero is many orders above the arithmetic noise.
 
 ### Exact finite-N CUE engine for band-Gram trace moments, with the fit-and-check polynomial identification protocol and the Wick regime boundary
 
