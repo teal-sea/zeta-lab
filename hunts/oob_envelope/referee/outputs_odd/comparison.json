@@ -1,0 +1,18 @@
+{
+  "independent_result_frozen_commit": "cefd6363",
+  "worker_revision": "08ff04910a9699443024661072c7acd1de41f518",
+  "worker_implementation_read": false,
+  "read_artifacts": {
+    "odd_main_result.json": "7b5316e742ca6cf579e3be839d340188d7939371fed9f9174680982c7ada5034",
+    "odd_zhu_result.json": "eb05fedea0a118c5f8a162e432d82d2e9b3caa3eb54e04df96dc96b9d5d13a30",
+    "odd_derivation.md": "e5060dc0f60558204afd57c687a8328ea16907c0227c32e82bc5f500220874bc"
+  },
+  "safe_independent_lower": "2.99e-44",
+  "independent_lower_less_than_worker_exact_lower": true,
+  "worker_displayed_lower": "3.42853488205e-44",
+  "independent_R_rayleigh_ball": "[3.463166547529606864e-44 +/- 2.77e-63]",
+  "worker_R_measured": "3.46316654753e-44",
+  "agreement_at_worker_displayed_precision": true,
+  "proof_comparison": "Conventions, negative pole, omitted order and complex split agree; head quadrature and tail norm budgets differ. The tighter worker endpoint itself is not reproduced by the fixed independent shift.",
+  "zhu_agreement_at_worker_displayed_precision": true
+}

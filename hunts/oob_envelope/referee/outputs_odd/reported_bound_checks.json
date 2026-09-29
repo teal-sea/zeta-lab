@@ -1,0 +1,38 @@
+{
+  "main/eps_Q_per_entry": {
+    "reported_upper": "1.699e-64",
+    "strict_comparison_passed": true
+  },
+  "main/eps_D": {
+    "reported_upper": "1.316e-185",
+    "strict_comparison_passed": true
+  },
+  "main/eps_B": {
+    "reported_upper": "4.615e-91",
+    "strict_comparison_passed": true
+  },
+  "main/residual_norm": {
+    "reported_upper": "1.511e-110",
+    "strict_comparison_passed": true
+  },
+  "main/entry_error_norm": {
+    "reported_upper": "8.491e-62",
+    "strict_comparison_passed": true
+  },
+  "zhu/eps_D": {
+    "reported_upper": "1.857e-314",
+    "strict_comparison_passed": true
+  },
+  "zhu/eps_B": {
+    "reported_upper": "3.480e-156",
+    "strict_comparison_passed": true
+  },
+  "zhu/residual_norm": {
+    "reported_upper": "7.726e-111",
+    "strict_comparison_passed": true
+  },
+  "zhu/entry_error_norm": {
+    "reported_upper": "5.256e-64",
+    "strict_comparison_passed": true
+  }
+}
