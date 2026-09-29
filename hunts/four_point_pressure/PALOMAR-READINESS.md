@@ -1,8 +1,10 @@
-# Palomar preparation, 2026-09-28
+# Palomar preparation, updated 2026-09-29
 
-**Lab kernel build recorded; module/toolchain port in progress.** The proof
-handoff is complete. The port is not yet build-verified or ready for Palomar
-submission. Historical build evidence below remains at its original pins.
+**Lab module/toolchain port and exported-proof comparison verified.** The
+stronger proof and its interface build on Lean 4.35. Lean, NanoDa and con-ron
+accepted the exported solution, and all 645 tracked Lean headers passed the
+compiler's parser. This is not a Palomar submission or registry verdict.
+Historical build evidence below remains at its original pins.
 
 ## Mathematical target and provenance
 
@@ -71,14 +73,14 @@ generated proof into that directory. Challenge and Solution must be separate
 modules inside the selected project. The Challenge's transitive imports may
 not include this project's proof development.
 
-## Remaining work
+## Submission boundary
 
-1. Port the submission and its consumed dependencies to an accepted toolchain
-   and module format, then build the complete intended submission surface.
-2. Finalize the prepared Challenge/Solution pair and draft metadata for the
-   stronger coefficient. Preserve the existing registered statements.
-3. Run Comparator and the required kernel checks on the final commit, and stage the
-   exact project, comparator and metadata paths.
+The stronger interface is paired with its own metadata under
+`hunts/ainta_seven_point/lean-four-point`: `comparator.json` selects
+`StrongerChallenge` and `StrongerSolution`, and `formalization.yaml` describes
+exactly the two selected declarations. Existing registered statements are
+unchanged. The lab's incremental build and comparison do not substitute for
+Palomar's fresh protected-source pipeline or its editorial decision.
 
 No new Palomar submission, registration, or external mathematical review has
 occurred. An external human review is not listed here as a prerequisite
@@ -112,8 +114,9 @@ The certificate pilot also passed: `Base` and `Cells0` compiled in run
 remaining cell modules passed in run `36507629432` at `caf8a5b3`. The
 16 chunk modules passed across pilot `36602330694` at `30423c16` and
 matrix `36604651267` at `265191fd`. Raw per-unit evidence is retained under
-`port-evidence/`. Final assembly, interfaces, the final axiom audit and
-comparison remain pending on Lean 4.35.
+`port-evidence/`. Final assembly and both interfaces subsequently passed in
+run `36633942493` at `a6e55b69`, with six final theorem axiom reports and two
+interface reports using exactly the standard three axioms.
 
 The stronger interface is prepared in the candidate project as
 `StrongerChallenge.lean`, `StrongerSolution.lean` and `comparator.json`, in
@@ -123,10 +126,9 @@ hypothesis. Challenge imports Mathlib alone and has exactly two deliberate
 statement placeholders. Solution imports the candidate proof, not Challenge,
 and ties the copied counting functions and constant to that development.
 Static tests compare both statements with the candidate source and check
-the import separation. Matching draft metadata is paired through
-`lean/palomar-pairs.json`; it explicitly states the incomplete port status.
-Compilation, Comparator and kernel verification remain pending. Existing
-registered statements and their comparator are unchanged.
+the import separation. Matching metadata is paired through
+`lean/palomar-pairs.json`. Existing registered statements and their comparator
+are unchanged.
 
 The [verifier at PalomarSubmission commit `65f0154e`](https://github.com/PalomarRegistry/PalomarSubmission/blob/65f0154ed776cd26c224254aa57b379137f28b0d/scripts/verify_submission.py)
 uses the selected
@@ -136,3 +138,21 @@ after compilation, not the separate legacy Comparator repository's build.
 The local precheck now compares release-candidate versions against the
 actual `v4.35.0-rc2` floor. Its output remains a partial preparation check,
 not a substitute for the authoritative verifier.
+
+## Port verification, 2026-09-29
+
+[Actions run 36637271632](https://github.com/teal-sea/zeta-lab/actions/runs/36637271632)
+at `3ee65788397d0eed8c4743704492dae159cde521` passed the stronger-pair
+comparison. Lean default, NanoDa and con-ron each accepted the solution.
+The matching control passed; the intentionally mismatched statement was
+rejected as a statement mismatch, not an infrastructure error. Lean's
+`--deps-json` parser accepted all 645 tracked source headers as modules.
+The comparison procedure took 1272.61 seconds including controls and exports.
+
+All 48 original candidate proof bodies are unchanged after normalizing only
+the module-format additions. The consumed analytic import closure and both
+new interface modules were built. Unused vendored modules and unrelated
+Lean package targets were header-checked, not all build-verified. This exact
+scope, the incremental checkpoints, earlier failed attempts and historical
+evidence limitations remain part of the record; none implies registry
+acceptance or outside mathematical review.

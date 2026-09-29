@@ -1,4 +1,4 @@
-# Draft port metadata. Final compilation and comparison remain pending.
+# Verified lab port metadata. Not a Palomar registration record.
 version: "v0.4"
 
 project:
@@ -18,8 +18,9 @@ project:
     (4,2330/1000000,432,2500), the finite inequality used by the lab's
     n-point adaptation of Ainta's argument is proved rather than assumed.
     The coefficient is unconditional; the statement is not RH and holds
-    whether or not RH is true. The historical Lean 4.33 build is recorded;
-    verification of the Lean 4.35 port and this new interface is in progress.
+    whether or not RH is true. The historical Lean 4.33 build is recorded.
+    The Lean 4.35 port and this interface have passed the lab's build and
+    exported-proof comparison with Lean, NanoDa and con-ron.
   authors: ["Thomas Lince"]
   responsible_maintainers: ["Thomas Lince"]
   license: "MIT"
@@ -76,10 +77,17 @@ status:
     source 5522b96314f7f63198ae3ec4e71d954255f93d1a, with 49 successful
     receipts and six standard-axiom reports. The evidence and its saved-image
     lineage limitations are documented in hunts/four_point_pressure/evidence.
-    The Lean 4.35.0-rc2 port has rebuilt the analytic bridge and begun the
-    generated certificate. StrongerSolution and the final comparison remain
-    unverified on this toolchain. StrongerChallenge has two deliberate
-    statement placeholders; StrongerSolution has no such placeholders.
+    The Lean 4.35.0-rc2 port rebuilt the consumed analytic dependencies,
+    all 48 original proof modules and the separate interface pair in
+    checkpointed GitHub Actions jobs. Final assembly and both interface
+    modules passed in run 36633942493. The comparison passed in run
+    36637271632 at source 3ee65788397d0eed8c4743704492dae159cde521:
+    both selected statements matched, and Lean, NanoDa and con-ron accepted
+    the exported solution. A matching control passed and an intentionally
+    mismatched statement was rejected. Lean parsed all 645 tracked source
+    headers as modules. StrongerChallenge has two deliberate statement
+    placeholders; StrongerSolution has none. This incremental lab build and
+    comparison are not Palomar's fresh protected-source verification pipeline.
     No new registration or external mathematical review is claimed.
 
 automation:
@@ -103,13 +111,14 @@ fidelity:
     Original provenance is recorded; literature-wide novelty is not claimed.
 
 review:
-  status: "self-assessed, port verification in progress"
+  status: "self-assessed, lab kernel checks passed; external review pending"
   notes: >-
     The two advertised declarations are the bound and its ratio form.
     Static checks compare their statement text with the candidate theorem,
     verify the shared definitions and prohibit importing Challenge into
-    Solution. They do not replace compilation or Comparator. The historical
-    kernel build is laboratory evidence, pending external verification.
+    Solution. Compilation and the exported-proof comparison also passed;
+    the final theorem and both Solution declarations use only the three
+    standard axioms. These are laboratory checks, pending external verification.
 
 alignment:
   namespace: "Zeta23Ext.PalomarFourPoint"
@@ -117,11 +126,11 @@ alignment:
     - source: "Unconditional four-point bound at (4,2330/1000000,432,2500)"
       lean: "Zeta23Ext.PalomarFourPoint.four_point_bound"
       module: "StrongerSolution"
-      status: "pending port verification"
+      status: "kernel-checked; exported-proof comparison passed"
     - source: "The same coefficient as a ratio, without a denominator hypothesis"
       lean: "Zeta23Ext.PalomarFourPoint.four_point_bound_ratio"
       module: "StrongerSolution"
-      status: "pending port verification"
+      status: "kernel-checked; exported-proof comparison passed"
 
 acknowledgements: >-
   Lean and Mathlib; the authors and contributors of anthropics/zeta-23-lean;

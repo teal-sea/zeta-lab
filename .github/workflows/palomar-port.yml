@@ -1,8 +1,8 @@
 name: palomar-port
 
+# Incremental port verification. The staged proof checkpoints and bounded
+# build history are documented in hunts/four_point_pressure/RUNS.md.
 on:
-  push:
-    branches: [codex/palomar-module-port]
   workflow_dispatch:
 
 permissions:

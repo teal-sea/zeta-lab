@@ -43,7 +43,7 @@
       "comparator": "hunts/ainta_seven_point/lean-four-point/comparator.json",
       "metadata": "hunts/ainta_seven_point/lean-four-point/formalization.yaml",
       "project": "hunts/ainta_seven_point/lean-four-point",
-      "note": "prepared stronger interface; Lean 4.35 compilation and comparison pending, not submitted"
+      "note": "stronger interface built on Lean 4.35; exported-proof comparison passed with Lean, NanoDa and con-ron; not submitted"
     }
   ],
   "refused_metadata": [

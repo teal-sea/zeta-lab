@@ -449,3 +449,26 @@ directory for exporter children and comparison processes; a regression
 test pins that ordering. The next run uses the existing complete proof
 checkpoint, builds the selected Solution target, parses every tracked Lean
 header with `lean --deps-json`, and retries the bounded comparison pilot.
+
+Run `36637271632` at `3ee65788397d0eed8c4743704492dae159cde521`
+passed the rebuilt Solution target, compiler header scan and exported-proof
+comparison. All 645 tracked Lean headers parsed as modules. Both the
+matching control and stronger four-point pair passed; the intentionally
+mismatched statement was rejected. The actual solution log records
+acceptance by con-ron, NanoDa and Lean default. The full procedure took
+1272.61 seconds, including 25.17 seconds for the Challenge export, 273.58
+seconds for the Solution export, and 959.12 seconds for the final comparison.
+
+Small raw logs, compiler-header output, configuration, binary digests,
+source revision and terminal counts are retained under
+`port-evidence/36637271632/`. The full export bundle remains in GitHub
+Actions artifact `11066480629` (419422045 compressed bytes); compiled
+artifacts and large proof exports are not added to this source repository.
+The workflow is now manual, so metadata and evidence updates do not start
+another full comparison. The subsequent documentation changes do not alter
+the verified Lean sources, manifests, toolchain or comparator configuration.
+
+The local selected precheck passes 68 checks with zero warnings or failures.
+The unrelated nightly full-suite setup failure, a missing `uv` executable in
+the slow evaluate-door test, is recorded separately as issue #261. It is not
+a proof-port failure or a passing full-suite result.

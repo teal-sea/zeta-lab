@@ -1,0 +1,22 @@
+{
+  "challenge_module": "StrongerChallenge",
+  "solution_module": "StrongerSolution",
+  "theorem_names": [
+    "Zeta23Ext.PalomarFourPoint.four_point_bound",
+    "Zeta23Ext.PalomarFourPoint.four_point_bound_ratio"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "external_kernels": {
+    "nanoda": [
+      "/home/runner/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/nanoda_bin"
+    ],
+    "con-ron": [
+      "/home/runner/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/con-ron"
+    ]
+  }
+}
