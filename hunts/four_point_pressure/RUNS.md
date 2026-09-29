@@ -376,3 +376,19 @@ The pinned Palomar verifier uses `lake comparator`, `leanexport` and
 with bubblewrap. This was checked from PalomarSubmission `65f0154e` and
 Lean's `v4.35.0-rc2` source. No additional kernel build has been launched
 beside the running certificate build.
+
+Run `36507629432` at `caf8a5b3c3083af546de5a0f55f593ce7cb783ed`
+passed all 25 remaining cell modules and the aggregate verdict. Wall time
+was 2 hours 58 minutes 45 seconds, close to the three-hour estimate. All
+25 raw bundles under `port-evidence/36507629432/` have matching source,
+target, successful build receipt, terminal outcome and target artifact hash
+records. The final checkpoint reports 184 local module artifacts. Together
+with the earlier pilot, all 26 cell modules have now built on Lean 4.35.
+
+The next bounded unit is `FourPointCand.Chunks0`, importing the completed
+cell aggregate. The old Lean 4.33 receipt took 662.2 seconds; this is only
+a scheduling reference, not a new-toolchain measurement. Keep the existing
+18-minute build limit, checkpoint and failure reporting, then use the actual
+pilot duration before allocating the remaining 15 chunks. This chat owns
+the run and will inspect its terminal outcome. No numerical CI is active
+at launch, and no local Lean build is used.

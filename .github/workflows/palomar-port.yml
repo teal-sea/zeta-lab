@@ -14,16 +14,16 @@ concurrency:
 
 jobs:
   build:
-    name: Lean 4.35 Cells${{ matrix.cell }}
+    name: Lean 4.35 ${{ matrix.target }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
       fail-fast: true
       max-parallel: 1
       matrix:
-        cell: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+        target: [FourPointCand.Chunks0]
     env:
-      PORT_TARGET: FourPointCand.Cells${{ matrix.cell }}
+      PORT_TARGET: ${{ matrix.target }}
     defaults:
       run:
         working-directory: hunts/ainta_seven_point/lean-four-point
@@ -44,7 +44,7 @@ jobs:
             lean/vendor/zeta23/.lake
             lean/bridge/.lake
             hunts/ainta_seven_point/lean-four-point/.lake
-          key: palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}-${{ github.run_attempt }}-cells${{ matrix.cell }}
+          key: palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.target }}
           restore-keys: |
             palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-
       - name: install Lean toolchain
@@ -57,12 +57,12 @@ jobs:
         run: |
           set -euo pipefail
           lake exe cache get 2>&1 | tee "$GITHUB_WORKSPACE/port-evidence/cache.log"
-      - name: build one cell module
+      - name: build one proof module
         id: build
         run: |
           set -euo pipefail
           /usr/bin/time -v timeout 18m lake build "$PORT_TARGET" 2>&1 | tee "$GITHUB_WORKSPACE/port-evidence/build.log"
-          artifact=".lake/build/lib/lean/FourPointCand/Cells${{ matrix.cell }}.olean"
+          artifact=".lake/build/lib/lean/${PORT_TARGET//.//}.olean"
           test -s "$artifact"
           sha256sum "$artifact" | tee "$GITHUB_WORKSPACE/port-evidence/target-olean.sha256"
           echo "$PORT_TARGET passed." >> "$GITHUB_STEP_SUMMARY"
@@ -75,7 +75,7 @@ jobs:
             lean/vendor/zeta23/.lake
             lean/bridge/.lake
             hunts/ainta_seven_point/lean-four-point/.lake
-          key: palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}-${{ github.run_attempt }}-cells${{ matrix.cell }}
+          key: palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.target }}
       - name: report terminal outcome
         if: always()
         run: |
@@ -100,7 +100,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: palomar-port-${{ github.run_id }}-cells${{ matrix.cell }}
+          name: palomar-port-${{ github.run_id }}-${{ matrix.target }}
           path: port-evidence
           if-no-files-found: error
 
