@@ -1,0 +1,194 @@
+name: palomar-port
+
+# Incremental port verification. The staged proof checkpoints and bounded
+# build history are documented in hunts/four_point_pressure/RUNS.md.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: palomar-port
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Lean 4.35 ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        target:
+          - StrongerSolution
+    env:
+      PORT_TARGET: ${{ matrix.target }}
+    defaults:
+      run:
+        working-directory: hunts/ainta_seven_point/lean-four-point
+    steps:
+      - uses: actions/checkout@v4
+      - name: record the run and source
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/port-evidence"
+          git rev-parse HEAD | tee "$GITHUB_WORKSPACE/port-evidence/revision.txt"
+          cat lean-toolchain | tee "$GITHUB_WORKSPACE/port-evidence/toolchain.txt"
+          echo "Port target: $PORT_TARGET" | tee "$GITHUB_WORKSPACE/port-evidence/target.txt"
+          echo "Port target: $PORT_TARGET" >> "$GITHUB_STEP_SUMMARY"
+          echo "Source: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.elan
+            lean/vendor/zeta23/.lake
+            lean/bridge/.lake
+            hunts/ainta_seven_point/lean-four-point/.lake
+          key: palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.target }}
+          restore-keys: |
+            palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-
+      - name: install Lean toolchain
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lean" --version | tee "$GITHUB_WORKSPACE/port-evidence/lean-version.txt"
+      - name: fetch canonical Mathlib cache
+        run: |
+          set -euo pipefail
+          lake exe cache get 2>&1 | tee "$GITHUB_WORKSPACE/port-evidence/cache.log"
+      - name: build one proof module
+        id: build
+        run: |
+          set -euo pipefail
+          /usr/bin/time -v timeout 18m lake build "$PORT_TARGET" 2>&1 | tee "$GITHUB_WORKSPACE/port-evidence/build.log"
+          artifact=".lake/build/lib/lean/${PORT_TARGET//.//}.olean"
+          test -s "$artifact"
+          sha256sum "$artifact" | tee "$GITHUB_WORKSPACE/port-evidence/target-olean.sha256"
+          echo "$PORT_TARGET passed." >> "$GITHUB_STEP_SUMMARY"
+      - name: checkpoint the unit
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.elan
+            lean/vendor/zeta23/.lake
+            lean/bridge/.lake
+            hunts/ainta_seven_point/lean-four-point/.lake
+          key: palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.target }}
+      - name: report terminal outcome
+        if: always()
+        run: |
+          result='${{ steps.build.outcome }}'
+          echo "Port build outcome: $result" | tee "$GITHUB_WORKSPACE/port-evidence/outcome.txt"
+          echo "Port build outcome: $result" >> "$GITHUB_STEP_SUMMARY"
+          count=0
+          for package in lean/vendor/zeta23 lean/bridge hunts/ainta_seven_point/lean-four-point; do
+            directory="$GITHUB_WORKSPACE/$package/.lake/build/lib/lean"
+            if [ -d "$directory" ]; then
+              present=$(find "$directory" -name '*.olean' | wc -l)
+              count=$((count + present))
+            fi
+          done
+          echo "Module artifacts present: $count" | tee "$GITHUB_WORKSPACE/port-evidence/count.txt"
+          echo "Module artifacts present: $count" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$result" != success ]; then
+            echo "::error::Port target did not succeed: $result. No completed port is claimed."
+            exit 1
+          fi
+      - name: preserve logs, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: palomar-port-${{ github.run_id }}-${{ matrix.target }}
+          path: port-evidence
+          if-no-files-found: error
+
+  compare:
+    name: stronger pair and three kernels
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: record comparison source
+        run: |
+          mkdir -p port-evidence
+          git rev-parse HEAD | tee port-evidence/revision.txt
+          echo "Comparator run started for $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/checkout@v4
+        with:
+          repository: PalomarRegistry/PalomarSubmission
+          ref: 65f0154ed776cd26c224254aa57b379137f28b0d
+          path: .palomar-pipeline
+          persist-credentials: false
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.elan
+            lean/vendor/zeta23/.lake
+            lean/bridge/.lake
+            hunts/ainta_seven_point/lean-four-point/.lake
+          key: palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}-comparison
+          restore-keys: |
+            palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}-
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: prepare pinned comparator dependencies
+        run: |
+          set -euo pipefail
+          python -m venv .venv
+          .venv/bin/python -m pip install --require-hashes --no-deps -r .palomar-pipeline/requirements.txt
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          sudo apt-get update -qq >/dev/null
+          sudo apt-get install -y -qq meson ninja-build libcap-dev pkg-config >/dev/null
+          echo "COMPARATOR_BWRAP=$(.palomar-pipeline/scripts/install_bwrap.sh "$RUNNER_TEMP/bwrap-bin")" >> "$GITHUB_ENV"
+      - name: compare exported proofs and run controls
+        id: compare
+        run: |
+          set -euo pipefail
+          .venv/bin/python scripts/palomar_port_compare.py \
+            --pipeline .palomar-pipeline \
+            --package hunts/ainta_seven_point/lean-four-point \
+            --evidence port-evidence/comparison 2>&1 | tee port-evidence/comparison.log
+      - name: report comparison outcome
+        if: always()
+        run: |
+          result='${{ steps.compare.outcome }}'
+          echo "Comparator outcome: $result" | tee port-evidence/outcome.txt
+          echo "Comparator outcome: $result" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f port-evidence/comparison/outcome.json ]; then
+            cat port-evidence/comparison/outcome.json >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Zero comparisons completed; no comparison report was produced." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ "$result" != success ]; then
+            echo "::error::Comparator did not succeed. No completed port is claimed."
+            exit 1
+          fi
+      - name: preserve comparison evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: palomar-port-${{ github.run_id }}-comparison
+          path: port-evidence
+          if-no-files-found: error
+
+  verdict:
+    name: port build produced a verdict
+    needs: [build, compare]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: fail visibly on cancellation or missing build
+        run: |
+          result='${{ needs.build.result }}'
+          comparison='${{ needs.compare.result }}'
+          echo "Port job result: $result" >> "$GITHUB_STEP_SUMMARY"
+          echo "Comparison result: $comparison" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$result" != success ] || [ "$comparison" != success ]; then
+            echo "::error::Port build ended as $result, comparison as $comparison; the port is not verified."
+            exit 1
+          fi

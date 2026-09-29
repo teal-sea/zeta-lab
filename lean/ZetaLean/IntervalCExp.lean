@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
-import ZetaLean.Rigor
-import ZetaLean.IntervalExp
+public import Mathlib
+public import ZetaLean.Rigor
+public import ZetaLean.IntervalExp
+
+@[expose] public section
 
 /-!
 # Certified complex `exp`, and the Dirichlet term `n^{-s}`

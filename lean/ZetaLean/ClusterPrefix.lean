@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.AristotleRAMS2
+public import ZetaLean.AristotleRAMS2
+
+@[expose] public section
 
 /-!
 # Finite monomer-dimer coefficients and square-mass clusters

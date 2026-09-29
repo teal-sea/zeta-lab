@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.S11
-import Zeta23Ext.Bridge.S12
+public import Zeta23Ext.Bridge.S11
+public import Zeta23Ext.Bridge.S12
+
+@[expose] public section
 
 /-!
 # S13: the per-block bound  ([A] eq:269block), for `n` points

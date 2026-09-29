@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.Helpers_finite
+public import Zeta23Ext.Bridge.Helpers_finite
+
+@[expose] public section
 
 /-!
 # S15: averaging over the `m` offsets  ([A] §5, eq:defect-global)

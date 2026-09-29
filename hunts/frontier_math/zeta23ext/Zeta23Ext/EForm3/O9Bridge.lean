@@ -1,5 +1,9 @@
-import Zeta23Ext.EForm3.O9NumShape
-import Zeta23Ext.EForm3.ClosedForm
+module
+
+public import Zeta23Ext.EForm3.O9NumShape
+public import Zeta23Ext.EForm3.ClosedForm
+
+@[expose] public section
 
 /-!
 # `BandDual.Phi2` and the retention integrals `Qre`, `Qim`

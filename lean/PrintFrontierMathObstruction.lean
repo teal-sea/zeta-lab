@@ -1,4 +1,8 @@
-import ZetaLean.FrontierMathObstruction
+module
+
+public import ZetaLean.FrontierMathObstruction
+
+@[expose] public section
 
 #print axioms ZetaLean.FrontierMathObstruction.offPair_I
 #print axioms ZetaLean.FrontierMathObstruction.crossInteraction_I_negative

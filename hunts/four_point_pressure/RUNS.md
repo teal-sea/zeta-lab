@@ -252,3 +252,223 @@ seconds. The six evidence tests and four module-root tests now run in the
 ordinary dependency-free CI gate. Context freshness passes. The whitespace
 check passes outside the supplied build log, whose original whitespace is
 preserved along with its checksum.
+
+## 2026-09-28: Lean 4.35 and module-system port, initial pilot
+
+The owner requested the compatibility port tracked in issue #260. The source
+preparation pins Lean `v4.35.0-rc2` and canonical Mathlib
+`065356127b1dc0016f66b7283ce0ce2c4055aa55` in six contained packages.
+The formerly external Zeta23 source at `3635e748` is now a contained,
+attributed Apache-2.0 dependency. All 643 Lean files have module headers;
+no source exceeds 10000 lines. Module visibility changes preserve the
+four-point candidate's declaration and proof text byte for byte after
+removing only the migration's header, import and exposed-section additions.
+
+Compute estimate: the compiler and Mathlib changed, so the old build timings
+are not treated as measured timings for this port. First time the dependency
+unit `Zeta23.Defs.Counting`, with a 15-minute build bound and a 30-minute
+job bound including toolchain/cache retrieval. Only that unit is authorized
+by this initial workflow. Use its result to plan the larger dependency and
+certificate stages. Checkpoint the unit and publish the terminal outcome,
+artifact count (including zero), exact source revision and logs. No local
+Lean build is run, and no successful port is claimed before CI verifies it.
+
+The initial pilot passed in GitHub Actions run `36504004985`, source
+`bb38b795096c2e26e3309050717af56b895a414f`. Lean reported version
+`4.35.0-rc2`, compiler commit `11acb17ec6b07a8f9e9173e6845197929540936b`.
+Two upstream modules (`Zeta23.Defs` and `Zeta23.Defs.Counting`) built in
+5.41 seconds, with maximum resident set size 1479748 KiB. The job including
+cache/toolchain work and checkpointing took 2 minutes 28 seconds. Its raw
+build log, compiler version and source revision are under
+`port-evidence/36504004985/`. The reported 2885 Lake jobs include cached
+Mathlib dependencies; only two new upstream module artifacts were counted.
+
+The next target, `Zeta23Ext.Bridge.Main`, has 157 local modules in its
+transitive source-import closure. Multiplying the pilot's mean by that count
+gives about 425 seconds, a rough scheduling estimate only: the two elementary
+pilot modules do not measure the cost of the analytic proofs. The next build
+has an 18-minute bound and checkpoints completed module artifacts even on
+failure. It does not run alongside the numerical suite. A failed or canceled
+job produces an explicit failing verdict; no automatic retry loop is added.
+
+The first analytic-bridge attempt, Actions run `36504395205` at source
+`e0a12c9f0a64c5708fc308c8edb204c9da8f9b3b`, failed after 6 minutes
+18.02 seconds of build time, with maximum resident set size 3312688 KiB.
+It checkpointed 111 module artifacts and reported five failed modules.
+The terminal failure and raw diagnostics remain in that run's artifact.
+The next attempt repairs two product-inequality API calls, adds a direct
+complex-log derivative import, puts the custom tactic in a public meta
+section, and uses the pointwise logarithmic-derivative multiplication lemma
+in two proofs. No theorem statement or hypothesis is changed.
+
+Run `36505473971` at `0513c709` compiled all five repaired modules and
+checkpointed 125 module artifacts. Its 89.93-second build failed in
+`Analytic.RectangleLogDeriv` and `WeilEF.Landau`: the same pointwise product
+and nonnegative-product API changes, including `logDeriv_fun_prod` and
+`prod_le_one₀`. Maximum resident set size was 2064296 KiB. The next
+attempt repairs these calls without changing their statements. Both
+three- and four-point generators now emit the module format through their
+shared helper; historical build evidence remains qualified by its original
+source and compiler pins. The local governance suite passes 348 tests.
+
+The analytic bridge passed in run `36505843011` at `e9621a24`, including
+the terminal verdict and checkpoint. All 157 local modules in its import
+closure are built. The incremental build took 130.98 seconds with maximum
+resident set size 3115712 KiB; the job took 4 minutes 2 seconds. Raw logs,
+compiler, source and terminal records are in `port-evidence/36505843011/`.
+The emitted `n_point_bound` axiom line contains only the standard axioms.
+The next pilot targets `FourPointCand.Cells0`, which also builds `Base`.
+For scale only, the old Lean 4.33 Modal receipts recorded 67.6 seconds for
+`Base` and 225.2 seconds for `Cells0`, totaling 292.8 seconds. Those are
+not measurements of the new compiler or GitHub runner. Use the next pilot's
+actual timings before sizing the remaining 25 cell modules and 16 chunk
+modules. The pilot has an 18-minute build bound, saves its checkpoint on
+failure as well as success, and counts candidate module artifacts too.
+
+The port also updates import readers to recognize public and meta imports:
+the frontier-package orphan/namespace guards, the Palomar precheck, and the
+ball-generator dependency manifest. The scanner and correspondence checks
+pass 18 focused tests, including public-import mutants. The existing V2
+precheck now actually reads its `public import Mathlib`; its other legacy
+policy checks are not a claim of compliance with the current registry.
+
+Run `36506410217` at `f7c904f5` passed the certificate pilot: `Base` took
+17 seconds and `Cells0` took 312 seconds. Total build time was 334.01 seconds,
+maximum resident set size 6006356 KiB, and job time 7 minutes 34 seconds.
+The checkpoint contains 159 local module artifacts. Raw evidence is under
+`port-evidence/36506410217/`. No candidate proof-body repair was needed.
+
+Estimate for the remaining 25 cell modules: 25 times the measured 312
+seconds is 7800 seconds (130 minutes), plus runner/cache overhead. Extrapolating
+the pilot's roughly two-minute overhead per separately checkpointed unit
+gives about three hours total. This is a scheduling estimate, not a claim
+that the unequal modules take equal time. Build one cell module per unit,
+with the 18-minute bound and a checkpoint after every unit; do not start
+all 25 module elaborations concurrently. Measure a chunk separately before
+allocating the 16-module three-dimensional table. The expanded governance
+gate passes 354 tests, with another 18 focused scanner/correspondence tests.
+
+The next workflow builds `Cells1` through `Cells25` in a 25-unit matrix
+with `max-parallel: 1`. Each unit has its own cache key, raw artifact bundle,
+source revision, target artifact hash and terminal verdict. The first failed
+unit stops the remaining matrix; completed units remain checkpointed. The
+aggregate verdict requires success, so cancellation is not a passing result.
+
+The stronger Challenge/Solution interface is prepared separately while that
+build runs. Its two statements match the existing candidate statements,
+with `HD 1` replaced by the explicit constant `H` and the equality bridged
+by the upstream `HD_one` theorem. The counting definitions are copied
+verbatim and tied to the source through definitional equalities. This is
+source preparation only until the final compilation and comparator checks.
+The historical 48-module proof-source check still covers exactly those
+original modules; the two new interface modules have separate checks.
+
+The paired draft `formalization.yaml` names exactly the stronger interface's
+two declarations and states that port verification is still in progress.
+It retains separate attribution for the upstream development, Ainta's
+argument and SamiYaya's distinct tuple. The local precheck passes 68 selected
+preparation checks, with no warning or failure; this is not registry
+verification. Its compiler floor now includes release-candidate ordering,
+and a public-import mutant cannot bypass its Challenge dependency guard.
+
+The pinned Palomar verifier uses `lake comparator`, `leanexport` and
+`leanchecker` from Lean 4.35, plus the bundled NanoDa and con-ron kernels,
+with bubblewrap. This was checked from PalomarSubmission `65f0154e` and
+Lean's `v4.35.0-rc2` source. No additional kernel build has been launched
+beside the running certificate build.
+
+Run `36507629432` at `caf8a5b3c3083af546de5a0f55f593ce7cb783ed`
+passed all 25 remaining cell modules and the aggregate verdict. Wall time
+was 2 hours 58 minutes 45 seconds, close to the three-hour estimate. All
+25 raw bundles under `port-evidence/36507629432/` have matching source,
+target, successful build receipt, terminal outcome and target artifact hash
+records. The final checkpoint reports 184 local module artifacts. Together
+with the earlier pilot, all 26 cell modules have now built on Lean 4.35.
+
+The next bounded unit is `FourPointCand.Chunks0`, importing the completed
+cell aggregate. The old Lean 4.33 receipt took 662.2 seconds; this is only
+a scheduling reference, not a new-toolchain measurement. Keep the existing
+18-minute build limit, checkpoint and failure reporting, then use the actual
+pilot duration before allocating the remaining 15 chunks. This chat owns
+the run and will inspect its terminal outcome. No numerical CI is active
+at launch, and no local Lean build is used.
+
+The chunk pilot passed in run `36602330694` at
+`30423c16f787f18eb86d8664b56d90a105e28a76`. The cell aggregate and
+`Chunks0` built in 802.94 seconds with maximum resident set size
+13771024 KiB. The job took 15 minutes 49 seconds and checkpointed
+186 local module artifacts. Raw logs and terminal records are under
+`port-evidence/36602330694/`. No candidate proof repair was required.
+
+The remaining 15 chunks are allocated as separate, sequential units.
+Fifteen times 802.94 seconds is 12044.1 seconds (200.7 minutes), plus
+roughly 2.4 minutes per job of measured overhead, about four hours total.
+This is an estimate: chunk costs are not guaranteed equal. Each build
+retains the 18-minute limit, per-unit checkpoint and visible terminal
+outcome. A failed unit stops the remaining matrix. The next stage after
+the chunk matrix is the final theorem assembly and paired interface.
+
+Run `36604651267` at `265191fd62fda49e4c5d346d6da223e743114863`
+passed all 15 remaining chunks and its aggregate verdict in 4 hours
+4 minutes 59 seconds. All 15 raw bundles are retained under
+`port-evidence/36604651267/`, with source, target, successful build receipt,
+terminal outcome and target artifact hash records checked. The final
+checkpoint reports 201 local module artifacts. With the pilot, all 16
+chunk modules now build on Lean 4.35 without candidate proof-body changes.
+
+The next run builds Cover, Boxes, Main, the library root and both stronger
+interface modules, one Lake invocation at a time with per-unit checkpoints.
+For scheduling only, the old Lean 4.33 Boxes/Main/root receipts total
+770.5 seconds. Allow roughly 30 minutes including six checkpointed job
+overheads, retaining the 18-minute per-build bound. The new interfaces have
+not yet been compiled. The comparison then runs as its own bounded pilot:
+no runtime measurement exists yet, so it has a 60-minute job ceiling and
+30-minute command ceilings rather than a claimed completion estimate.
+
+`scripts/palomar_port_compare.py` prepares a matching control and an
+intentionally mismatched statement, then compares exports of the actual
+pair through Lean's bundled comparator and three kernels. Eight fail-closed
+verdict tests are included in the 363-test governance gate. These are tests
+of the reporting guard, not a claim that the comparator has run. The pinned
+Palomar helper code supplies export targets; the local cached build/export
+procedure is not Palomar's fresh protected-source registration pipeline.
+
+Run `36633942493` at `a6e55b6914130c305e5457b0102f8a2e3c4153ed`
+passed all six final build units: Cover, Boxes, Main, the library root,
+StrongerChallenge and StrongerSolution. Main emitted all six expected
+axiom reports, each containing exactly the three standard axioms. Both
+StrongerSolution statements also emitted exactly those axioms. The
+Challenge's two statement placeholders are deliberate and not imported by
+Solution. Raw build evidence is under `port-evidence/36633942493/`.
+
+The comparison did not reach the candidate: its control exporter invoked
+`lean` through an elan shim from a directory without a default toolchain.
+The explicit failure record reports zero comparisons and zero negative
+controls passed. The repair prepends the selected toolchain's actual bin
+directory for exporter children and comparison processes; a regression
+test pins that ordering. The next run uses the existing complete proof
+checkpoint, builds the selected Solution target, parses every tracked Lean
+header with `lean --deps-json`, and retries the bounded comparison pilot.
+
+Run `36637271632` at `3ee65788397d0eed8c4743704492dae159cde521`
+passed the rebuilt Solution target, compiler header scan and exported-proof
+comparison. All 645 tracked Lean headers parsed as modules. Both the
+matching control and stronger four-point pair passed; the intentionally
+mismatched statement was rejected. The actual solution log records
+acceptance by con-ron, NanoDa and Lean default. The full procedure took
+1272.61 seconds, including 25.17 seconds for the Challenge export, 273.58
+seconds for the Solution export, and 959.12 seconds for the final comparison.
+
+Small raw logs, compiler-header output, configuration, binary digests,
+source revision and terminal counts are retained under
+`port-evidence/36637271632/`. The full export bundle remains in GitHub
+Actions artifact `11066480629` (419422045 compressed bytes); compiled
+artifacts and large proof exports are not added to this source repository.
+The workflow is now manual, so metadata and evidence updates do not start
+another full comparison. The subsequent documentation changes do not alter
+the verified Lean sources, manifests, toolchain or comparator configuration.
+
+The local selected precheck passes 68 checks with zero warnings or failures.
+The unrelated nightly full-suite setup failure, a missing `uv` executable in
+the slow evaluate-door test, is recorded separately as issue #261. It is not
+a proof-port failure or a passing full-suite result.

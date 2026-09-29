@@ -1,4 +1,8 @@
-import Mathlib.Data.Complex.Basic
+module
+
+public import Mathlib.Data.Complex.Basic
+
+@[expose] public section
 
 /-!
 # Exact obstruction to the withdrawn frontier-math transplant

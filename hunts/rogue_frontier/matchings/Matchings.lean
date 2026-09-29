@@ -1,3 +1,5 @@
+module
+
 /-
 # Counting perfect matchings: a `2m`-element set has `(2m-1)‼` pairings
 
@@ -29,10 +31,12 @@ Main results:
 * `even_card_of_pairsUp` : a set carrying a pairing has even cardinality
 * `card_pairings_univ` : the whole-type form, in terms of `Fintype.card`
 -/
-import Mathlib.Data.Nat.Factorial.DoubleFactorial
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Data.Fintype.Pi
-import Mathlib.Algebra.Ring.Parity
+public import Mathlib.Data.Nat.Factorial.DoubleFactorial
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Data.Fintype.Pi
+public import Mathlib.Algebra.Ring.Parity
+
+@[expose] public section
 
 open Finset Nat
 

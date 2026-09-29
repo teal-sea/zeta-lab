@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.IntervalCExp
+public import ZetaLean.IntervalCExp
+
+@[expose] public section
 
 /-!
 # Complex ball enclosures

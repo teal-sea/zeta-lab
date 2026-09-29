@@ -153,6 +153,10 @@ def collect_intervals(res):
 # ================= Lean emission =================
 R = G.R
 
+
+module_source = G.module_source
+
+
 CELLS_HDR = """import %s.Base
 
 noncomputable section
@@ -274,9 +278,9 @@ def emit(cn, p, out):
         for iv in ivals[k * PERMOD:(k + 1) * PERMOD]:
             body.append(G.emit_cell("wc_%d" % idx[iv], cells[iv]))
         body.append(FTR)
-        open(os.path.join(out, LIB, "Cells%d.lean" % k), 'w').write("".join(body))
+        open(os.path.join(out, LIB, "Cells%d.lean" % k), 'w').write(module_source("".join(body)))
     open(os.path.join(out, LIB, "Cells.lean"), 'w').write(
-        "\n".join("import %s.Cells%d" % (LIB, k) for k in range(nmod)) + "\n")
+        module_source("\n".join("import %s.Cells%d" % (LIB, k) for k in range(nmod)) + "\n"))
 
     # ---- the one-dimensional cover ----
     segs = [(l, u, 'clear') for (l, u) in clear] + [(l, u, 'bad', i) for i, (l, u) in enumerate(bad)]
@@ -328,7 +332,7 @@ def emit(cn, p, out):
             A("%sexact %s%s%s" % (ind, "Or.inr (" * (j + 1), expr, ")" * (j + 1)))
     A("")
     A("end %s" % NS)
-    open(os.path.join(out, LIB, "Cover.lean"), 'w').write("\n".join(C) + "\n")
+    open(os.path.join(out, LIB, "Cover.lean"), 'w').write(module_source("\n".join(C) + "\n"))
 
     # ---- chunks ----
     allchunks = []          # (chunkindex, node)
@@ -375,7 +379,7 @@ def emit(cn, p, out):
             L.extend(body)
             L.append("")
         L.append("end %s" % NS)
-        open(os.path.join(out, LIB, "Chunks%d.lean" % j), 'w').write("\n".join(L) + "\n")
+        open(os.path.join(out, LIB, "Chunks%d.lean" % j), 'w').write(module_source("\n".join(L) + "\n"))
 
     # ---- routers ----
     L = ["import %s.Chunks%d" % (LIB, j) for j in range(NMOD)]
@@ -399,7 +403,7 @@ def emit(cn, p, out):
         L.extend(body)
         L.append("")
     L.append("end %s" % NS)
-    open(os.path.join(out, LIB, "Boxes.lean"), 'w').write("\n".join(L) + "\n")
+    open(os.path.join(out, LIB, "Boxes.lean"), 'w').write(module_source("\n".join(L) + "\n"))
 
     # ---- Main ----
     L = []; A = L.append
@@ -536,12 +540,12 @@ def emit(cn, p, out):
         A("#print axioms %s" % nm)
     A("")
     A("end %s" % NS)
-    open(os.path.join(out, LIB, "Main.lean"), 'w').write("\n".join(L) + "\n")
+    open(os.path.join(out, LIB, "Main.lean"), 'w').write(module_source("\n".join(L) + "\n"))
 
     root = (["import %s.Base" % LIB, "import %s.Cells" % LIB, "import %s.Cover" % LIB]
             + ["import %s.Chunks%d" % (LIB, j) for j in range(NMOD)]
             + ["import %s.Boxes" % LIB, "import %s.Main" % LIB, ""])
-    open(os.path.join(out, "%s.lean" % LIB), 'w').write("\n".join(root))
+    open(os.path.join(out, "%s.lean" % LIB), 'w').write(module_source("\n".join(root)))
 
     return dict(cn=cn, p=p, m=m, S=S, level=level, ncells=len(ivals), nmod=nmod,
                 nleaf=sum(nleaves(n) for (_, n) in boxes), nbox=len(boxes),

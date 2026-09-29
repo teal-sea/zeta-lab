@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.Defs
+public import Zeta23Ext.Bridge.Defs
+
+@[expose] public section
 
 /-!
 # Helpers for the finite steps S11, S13, S15 (bridge/finite)

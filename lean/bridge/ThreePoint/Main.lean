@@ -1,11 +1,15 @@
-import ThreePoint.Base
-import ThreePoint.Cells0
-import ThreePoint.Cells1
-import ThreePoint.Cells2
-import ThreePoint.Cells3
-import ThreePoint.Cells4
-import ThreePoint.Cells5
-import ThreePoint.Cells6
+module
+
+public import ThreePoint.Base
+public import ThreePoint.Cells0
+public import ThreePoint.Cells1
+public import ThreePoint.Cells2
+public import ThreePoint.Cells3
+public import ThreePoint.Cells4
+public import ThreePoint.Cells5
+public import ThreePoint.Cells6
+
+@[expose] public section
 
 /-!
 # The three-point certificate, and the unconditional bound it discharges

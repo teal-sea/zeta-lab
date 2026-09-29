@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23.ZeroSide.RankTraceMult
+public import Zeta23.ZeroSide.RankTraceMult
+
+@[expose] public section
 
 /-!
 # The stability-enhanced rank–trace inequality (Ainta, §2)

@@ -8,8 +8,7 @@ defaultTargets = ["Zeta23Ext", "BridgeChallenge", "BridgeSolution", "ThreePoint"
 # laboratory's `lean/` package uses, so the two share one prebuilt store.
 [[require]]
 name = "Zeta23"
-git = "https://github.com/anthropics/zeta-23-lean"
-rev = "3635e74826a4c1fcece7d1cd2b6fa75e43a00510"
+path = "../vendor/zeta23"
 
 # The development: Ainta's seven-point simple-zero bound assembled end to end on
 # top of the pinned upstream. `Zeta23Ext.lean` imports every module in it, so

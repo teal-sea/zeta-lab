@@ -1,7 +1,11 @@
-import Mathlib.Analysis.Asymptotics.Defs
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Algebra.Order.Ring.GeomSum
-import ZetaLean.PrivateStock.SumDegreeMulNumMonicIrreducibleOfDegree
+module
+
+public import Mathlib.Analysis.Asymptotics.Defs
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Algebra.Order.Ring.GeomSum
+public import ZetaLean.PrivateStock.SumDegreeMulNumMonicIrreducibleOfDegree
+
+@[expose] public section
 
 /-!
 # The prime polynomial theorem for `F[X]`, with square-root error term

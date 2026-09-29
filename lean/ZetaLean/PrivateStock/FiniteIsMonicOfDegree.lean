@@ -1,4 +1,8 @@
-import ZetaLean.PrivateStock.CardIsMonicOfDegree
+module
+
+public import ZetaLean.PrivateStock.CardIsMonicOfDegree
+
+@[expose] public section
 
 /-!
 # Finiteness of the set of monic polynomials of a given degree

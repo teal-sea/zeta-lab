@@ -1,51 +1,55 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import ZetaLean.Pub1.Numeric
-import ZetaLean.Pub1.Closure
-import ZetaLean.Pub1.Ramp
-import ZetaLean.Pub1.Concavity
-import ZetaLean.Pub1.Window
-import ZetaLean.Pub1.Setting
-import ZetaLean.Pub1.Profile
-import ZetaLean.Pub1.QDiff
-import ZetaLean.Pub1.ZBounds
-import ZetaLean.Pub1.UppFormula
-import ZetaLean.Pub1.ZppBound
-import ZetaLean.Pub1.UpolyD2
-import ZetaLean.Pub1.Concave
-import ZetaLean.Pub1.Unconditional
-import ZetaLean.Pub1.Aristotle.Y
-import ZetaLean.Pub1.Main
-import ZetaLean.Pub1.Convergence
-import ZetaLean.Pub1.Assembly
-import ZetaLean.Pub1.Aristotle.D
-import ZetaLean.Pub1.Aristotle.F
-import ZetaLean.Pub1.Aristotle.H
-import ZetaLean.Pub1.Aristotle.N
-import ZetaLean.Pub1.Aristotle.R
-import ZetaLean.Pub1.CertDefs
-import ZetaLean.Pub1.CertAtoms
-import ZetaLean.Pub1.Certificate
-import ZetaLean.Pub1.CertL2
-import ZetaLean.Pub1.CertArith
-import ZetaLean.Pub1.TruncKernel
-import ZetaLean.Pub1.QBound
-import ZetaLean.Pub1.WRegularity
-import ZetaLean.Pub1.Aristotle.V
-import ZetaLean.Pub1.Aristotle.W
-import ZetaLean.Pub1.Aristotle.TU2
-import ZetaLean.Pub1.Aristotle.J2
-import ZetaLean.Pub1.TaperAdmissible
-import ZetaLean.Pub1.ZResolvent
-import ZetaLean.Pub1.TailBound
-import ZetaLean.Pub1.EuBound
-import ZetaLean.Pub1.CertBounds
-import ZetaLean.Pub1.Regularity
-import ZetaLean.Pub1.Aristotle.S
-import ZetaLean.Pub1.Aristotle.T
-import ZetaLean.Pub1.Aristotle.U
+public import ZetaLean.Pub1.Numeric
+public import ZetaLean.Pub1.Closure
+public import ZetaLean.Pub1.Ramp
+public import ZetaLean.Pub1.Concavity
+public import ZetaLean.Pub1.Window
+public import ZetaLean.Pub1.Setting
+public import ZetaLean.Pub1.Profile
+public import ZetaLean.Pub1.QDiff
+public import ZetaLean.Pub1.ZBounds
+public import ZetaLean.Pub1.UppFormula
+public import ZetaLean.Pub1.ZppBound
+public import ZetaLean.Pub1.UpolyD2
+public import ZetaLean.Pub1.Concave
+public import ZetaLean.Pub1.Unconditional
+public import ZetaLean.Pub1.Aristotle.Y
+public import ZetaLean.Pub1.Main
+public import ZetaLean.Pub1.Convergence
+public import ZetaLean.Pub1.Assembly
+public import ZetaLean.Pub1.Aristotle.D
+public import ZetaLean.Pub1.Aristotle.F
+public import ZetaLean.Pub1.Aristotle.H
+public import ZetaLean.Pub1.Aristotle.N
+public import ZetaLean.Pub1.Aristotle.R
+public import ZetaLean.Pub1.CertDefs
+public import ZetaLean.Pub1.CertAtoms
+public import ZetaLean.Pub1.Certificate
+public import ZetaLean.Pub1.CertL2
+public import ZetaLean.Pub1.CertArith
+public import ZetaLean.Pub1.TruncKernel
+public import ZetaLean.Pub1.QBound
+public import ZetaLean.Pub1.WRegularity
+public import ZetaLean.Pub1.Aristotle.V
+public import ZetaLean.Pub1.Aristotle.W
+public import ZetaLean.Pub1.Aristotle.TU2
+public import ZetaLean.Pub1.Aristotle.J2
+public import ZetaLean.Pub1.TaperAdmissible
+public import ZetaLean.Pub1.ZResolvent
+public import ZetaLean.Pub1.TailBound
+public import ZetaLean.Pub1.EuBound
+public import ZetaLean.Pub1.CertBounds
+public import ZetaLean.Pub1.Regularity
+public import ZetaLean.Pub1.Aristotle.S
+public import ZetaLean.Pub1.Aristotle.T
+public import ZetaLean.Pub1.Aristotle.U
+
+@[expose] public section
 
 /-!
 # Pub 1 source-admissible strong closure

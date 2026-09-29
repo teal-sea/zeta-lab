@@ -44,20 +44,22 @@ def test_disk_roots_disjoint():
 
 
 def test_candidate_imports_stay_in_own_root():
-    (own,) = roots(CAND)
+    own = "FourPointCand"
+    assert roots(CAND) == {own, "StrongerChallenge", "StrongerSolution"}
     bad = []
     for dp, _, fs in os.walk(CAND):
         for fn in fs:
             if fn.endswith(".lean"):
                 for ln in open(os.path.join(dp, fn)):
-                    m = re.match(r"import (\w+)", ln)
+                    m = re.match(r"(?:public )?import (\w+)", ln)
                     if m and m.group(1) not in (own, "Mathlib", "Zeta23Ext", "Zeta23", "Std", "Lean"):
                         bad.append((fn, ln.strip()))
     assert not bad, bad[:3]
 
 
 def test_generator_and_preflight_follow_lakefile():
-    (own,) = roots(CAND)
+    own = "FourPointCand"
+    assert own in roots(CAND)
     sys.path.insert(0, os.path.join(ROOT, "hunts", "ainta_seven_point"))
     src = open(os.path.join(ROOT, "hunts", "ainta_seven_point", "four_point_gen.py")).read()
     assert re.search(r'^LIB = "%s"$' % own, src, re.M)

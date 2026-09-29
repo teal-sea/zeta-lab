@@ -1,9 +1,13 @@
-import Mathlib.Algebra.Polynomial.FieldDivision
-import Mathlib.Algebra.Squarefree.Basic
-import Mathlib.Data.Nat.Choose.Sum
-import Mathlib.RingTheory.Polynomial.UniqueFactorization
-import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
-import ZetaLean.PrivateStock.CardIsMonicOfDegree
+module
+
+public import Mathlib.Algebra.Polynomial.FieldDivision
+public import Mathlib.Algebra.Squarefree.Basic
+public import Mathlib.Data.Nat.Choose.Sum
+public import Mathlib.RingTheory.Polynomial.UniqueFactorization
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
+public import ZetaLean.PrivateStock.CardIsMonicOfDegree
+
+@[expose] public section
 
 /-!
 # The Moebius function summed over monic polynomials of a fixed degree

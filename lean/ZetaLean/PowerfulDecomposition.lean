@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib.Analysis.SpecificLimits.Basic
-import Mathlib.Data.Nat.Squarefree
-import ZetaLean.RepeatedPrimeDominated
+public import Mathlib.Analysis.SpecificLimits.Basic
+public import Mathlib.Data.Nat.Squarefree
+public import ZetaLean.RepeatedPrimeDominated
+
+@[expose] public section
 
 /-!
 # Powerful-squarefree arithmetic decomposition

@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm.Decomposition
+module
+
+public import Zeta23Ext.EForm.Decomposition
+
+@[expose] public section
 
 open scoped BigOperators
 open scoped Real

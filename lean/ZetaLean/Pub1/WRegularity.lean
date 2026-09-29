@@ -1,12 +1,16 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Convergence
-import ZetaLean.Pub1.Regularity
-import ZetaLean.Pub1.QBound
-import ZetaLean.Pub1.Aristotle.W
+public import Mathlib
+public import ZetaLean.Pub1.Convergence
+public import ZetaLean.Pub1.Regularity
+public import ZetaLean.Pub1.QBound
+public import ZetaLean.Pub1.Aristotle.W
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: interior `C²` regularity of `w`

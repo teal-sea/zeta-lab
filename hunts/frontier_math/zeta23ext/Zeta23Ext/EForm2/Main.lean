@@ -1,6 +1,10 @@
-import Zeta23Ext.EForm2.Expand
-import Zeta23Ext.EForm2.Estimates
-import Zeta23Ext.EForm2.Counting
+module
+
+public import Zeta23Ext.EForm2.Expand
+public import Zeta23Ext.EForm2.Estimates
+public import Zeta23Ext.EForm2.Counting
+
+@[expose] public section
 
 /-!
 # Single-pair bandlimited retention

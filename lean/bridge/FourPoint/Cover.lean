@@ -1,4 +1,8 @@
-import FourPoint.Cells
+module
+
+public import FourPoint.Cells
+
+@[expose] public section
 
 /-!
 # The one-dimensional cover, at the level the adjacent-pair coefficient can pay for

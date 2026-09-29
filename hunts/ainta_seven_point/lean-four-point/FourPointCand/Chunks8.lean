@@ -1,4 +1,8 @@
-import FourPointCand.Cells
+module
+
+public import FourPointCand.Cells
+
+@[expose] public section
 
 /-! Chunk module 8 of 16 of the three-dimensional table.  Each lemma is one
 subtree of at most 110 leaves of one box's bisection tree; `FourPoint/Boxes.lean` routes

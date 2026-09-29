@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Aristotle.N
-import ZetaLean.Pub1.Aristotle.S
-import ZetaLean.Pub1.Setting
+public import Mathlib
+public import ZetaLean.Pub1.Aristotle.N
+public import ZetaLean.Pub1.Aristotle.S
+public import ZetaLean.Pub1.Setting
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: `C²` regularity of the kernel convolution

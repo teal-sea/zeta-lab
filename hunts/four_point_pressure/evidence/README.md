@@ -33,10 +33,12 @@ tracked files except `*.log`. The Modal preflight and final verify reported
 the same two values. The integration audit reproduced both hashes directly
 from Git objects at `5522b963`; `source-manifest.json` records each file hash.
 
-These are hashes of the pinned build revision. Current main has later
-comment and documentation edits in the bridge. Integration preserves current
-main's bridge and the candidate's exact compiled bytes; it does not claim
-that the merged checkout was rebuilt during intake.
+These are hashes of the pinned build revision. The original integration
+preserved main's later bridge comments and documentation and the candidate's
+exact compiled bytes; it did not rebuild the merged checkout during intake.
+The subsequent Lean 4.35 port changes module headers, visibility and dependency
+pins. This historical bundle is not evidence that those changes compile.
+The port records its own source revisions and build outcomes separately.
 
 ## Files here
 

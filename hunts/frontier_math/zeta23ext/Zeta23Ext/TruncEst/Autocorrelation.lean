@@ -1,4 +1,8 @@
-import Zeta23Ext.TruncEst.Kernel
+module
+
+public import Zeta23Ext.TruncEst.Kernel
+
+@[expose] public section
 
 /-!
 # `c2` really is the autocorrelation of `g`, and `A = ∫ g`
