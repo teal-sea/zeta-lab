@@ -28,3 +28,36 @@ and a 30% reserve on the main extrapolation. Provisional total is
 Stop before the main launch if measured extrapolation exceeds the cap.
 Every unit checkpoints a manifest, budget, progress and exact-dyadic matrix.
 Quota refusal is a terminal blocker, not a mathematical failure.
+
+## Pilot and measured dispatch estimate
+
+Source freeze commit 3ce6ab9. App ap-F5KLwbmFxNF1jLkY7PfYBU completed the
+main high-frequency pilot, panels 990 through 999. Manifest runtime:
+72.40257549285889 core-seconds, including serialization and checkpoints;
+assembly progress at panel ten was 60.388236847 seconds. No numerical gate
+failed. No quota block was encountered.
+
+Recorded before any full main dispatch: 100*72.40257549285889*1.3 plus
+1200 for Zhu, 900 for reducers/controls and 600 for startup/verification is
+12112.334814071656 core-seconds, or less than 3.365 core-hours. This includes
+the successful pilot. Proceed with Zhu's 30 units and reduction first, then
+the remaining 99 main units if observed runtime still fits the cap.
+
+Local tiny hygiene run: 29 passed, five deselected, 3.84 seconds. The
+context index is current. Contribution structure check fails on existing
+hunt-level omissions: MISSION lacks a huntspec block, and hunt-level RUNS
+and RESULTS do not exist. None was changed by this review. The narrower
+referee documents and evidence remain within the authorized write scope.
+
+## Zhu validation completed; main dispatch
+
+App ap-XXYjuxO0XEJyrQxtC3FKhQ: all 30 Zhu assembly units completed,
+651.6811525821686 core-seconds. App ap-FRG5XG7ywfOtMwX6OlcjI9: reducer
+completed in 42.71830892562866 core-seconds, passing the positive endpoint,
+quadrature moments, pole normalization, matrix hashes and tail gates.
+Both local entrypoints exited zero. Total recorded work including pilot is
+766.8020370006561 core-seconds. The original planning allowance still covers
+all remaining work. Before main launch, an updated conservative estimate is
+766.8020370006561+99*72.40257549285889*1.3+900+600
+=11585.013502836228 core-seconds, below 3.219 core-hours. Launch the 99
+remaining main units with the byte-identical source and exact inputs.
