@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 env:
-  PORT_TARGET: Zeta23Ext.Bridge.Main
+  PORT_TARGET: FourPointCand.Cells0
 
 concurrency:
   group: palomar-port
@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    name: Lean 4.35 analytic bridge
+    name: Lean 4.35 four-point cell pilot
     runs-on: ubuntu-latest
     timeout-minutes: 30
     defaults:
@@ -53,13 +53,13 @@ jobs:
         run: |
           set -euo pipefail
           lake exe cache get 2>&1 | tee "$GITHUB_WORKSPACE/port-evidence/cache.log"
-      - name: build the analytic bridge
+      - name: build the certificate machinery and first cell module
         id: build
         run: |
           set -euo pipefail
           /usr/bin/time -v timeout 18m lake build "$PORT_TARGET" 2>&1 | tee "$GITHUB_WORKSPACE/port-evidence/build.log"
-          test -s "$GITHUB_WORKSPACE/lean/bridge/.lake/build/lib/lean/Zeta23Ext/Bridge/Main.olean"
-          echo "Bridge target passed." >> "$GITHUB_STEP_SUMMARY"
+          test -s .lake/build/lib/lean/FourPointCand/Cells0.olean
+          echo "Four-point cell pilot passed." >> "$GITHUB_STEP_SUMMARY"
       - name: checkpoint the unit
         if: always()
         uses: actions/cache/save@v4
@@ -77,7 +77,7 @@ jobs:
           echo "Port build outcome: $result" | tee "$GITHUB_WORKSPACE/port-evidence/outcome.txt"
           echo "Port build outcome: $result" >> "$GITHUB_STEP_SUMMARY"
           count=0
-          for package in lean/vendor/zeta23 lean/bridge; do
+          for package in lean/vendor/zeta23 lean/bridge hunts/ainta_seven_point/lean-four-point; do
             directory="$GITHUB_WORKSPACE/$package/.lake/build/lib/lean"
             if [ -d "$directory" ]; then
               present=$(find "$directory" -name '*.olean' | wc -l)

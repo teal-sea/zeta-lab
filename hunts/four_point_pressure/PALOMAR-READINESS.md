@@ -44,7 +44,7 @@ reported; do not attribute the September 5 candidate to it or imply that its
 proof has been incorporated here. Preserve the existing credits to the
 upstream zeta formalization and Ainta's argument.
 
-## Current registry compatibility
+## Registry requirements and intake baseline
 
 Checked against these exact upstream revisions:
 
@@ -52,15 +52,15 @@ Checked against these exact upstream revisions:
   sections 2.1, 2.2, and 6.4.
 - [PalomarSubmission toolchains.json at 65f0154e](https://github.com/PalomarRegistry/PalomarSubmission/blob/65f0154ed776cd26c224254aa57b379137f28b0d/toolchains.json).
 
-The minimum accepted toolchain is `v4.35.0-rc2`. This candidate and its
-bridge pin `v4.33.0-rc2`. The selected toolchain must also match the
+The minimum accepted toolchain is `v4.35.0-rc2`. At intake, the candidate and
+its bridge pinned `v4.33.0-rc2`. The selected toolchain must also match the
 authenticated Mathlib revision, so editing the version string alone is not a
 port.
 
 New submissions and revisions require the Lean module system throughout the
 submitted repository, with at most 10000 physical lines per Lean source
-file. The current candidate sources do not use that module format. A static
-scan of this integration tree found 324 of 326 tracked Lean source files
+file. The candidate sources did not use that module format at intake. A static
+scan of the integration tree found 324 of 326 tracked Lean source files
 without a `module` header, and zero files over the line limit. A compiler
 port must set declaration visibility and recheck the proofs, not merely
 prepend headers.

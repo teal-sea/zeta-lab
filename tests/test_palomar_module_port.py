@@ -67,3 +67,19 @@ def test_generator_preserves_the_proof_while_emitting_modules():
         "\n@[expose] public section\n\nlemma example : True := by trivial\n"
     )
     assert module.module_source is module.G.module_source
+
+
+def test_analytic_bridge_port_evidence_records_success_and_standard_axioms():
+    evidence = ROOT / "hunts/four_point_pressure/port-evidence/36505843011"
+    assert (evidence / "revision.txt").read_text().strip() == "e9621a24948224acebca6e39980bdb0ea57db788"
+    assert (evidence / "target.txt").read_text().strip() == "Port target: Zeta23Ext.Bridge.Main"
+    assert (evidence / "outcome.txt").read_text().strip() == "Port build outcome: success"
+    assert (evidence / "count.txt").read_text().strip() == "Module artifacts present: 157"
+    assert "Lean (version 4.35.0-rc2," in (evidence / "lean-version.txt").read_text()
+    log = (evidence / "build.log").read_text()
+    assert "Build completed successfully" in log
+    records = re.findall(r"'([^']+)' depends on axioms: \[([^]]*)\]", log)
+    assert any(name == "Zeta23Ext.Bridge.n_point_bound" for name, _ in records)
+    for name, axioms in records:
+        names = {item.strip().removeprefix("Classical.") for item in axioms.split(",")}
+        assert names <= {"propext", "choice", "Quot.sound"}, name

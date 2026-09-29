@@ -310,3 +310,17 @@ attempt repairs these calls without changing their statements. Both
 three- and four-point generators now emit the module format through their
 shared helper; historical build evidence remains qualified by its original
 source and compiler pins. The local governance suite passes 348 tests.
+
+The analytic bridge passed in run `36505843011` at `e9621a24`, including
+the terminal verdict and checkpoint. All 157 local modules in its import
+closure are built. The incremental build took 130.98 seconds with maximum
+resident set size 3115712 KiB; the job took 4 minutes 2 seconds. Raw logs,
+compiler, source and terminal records are in `port-evidence/36505843011/`.
+The emitted `n_point_bound` axiom line contains only the standard axioms.
+The next pilot targets `FourPointCand.Cells0`, which also builds `Base`.
+For scale only, the old Lean 4.33 Modal receipts recorded 67.6 seconds for
+`Base` and 225.2 seconds for `Cells0`, totaling 292.8 seconds. Those are
+not measurements of the new compiler or GitHub runner. Use the next pilot's
+actual timings before sizing the remaining 25 cell modules and 16 chunk
+modules. The pilot has an 18-minute build bound, saves its checkpoint on
+failure as well as success, and counts candidate module artifacts too.
