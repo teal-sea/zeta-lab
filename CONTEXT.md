@@ -1293,6 +1293,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/make_figures.py`, Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py`, Which of Mathlib's 1000 famous theorems are still unformalized.
 - `scripts/palomar_correspondence.py`, Does the metadata describe the declarations actually selected?
+- `scripts/palomar_port_compare.py`, Compare the already-built port, not a fresh Palomar registration.
 - `scripts/palomar_precheck.py`, Pre-flight check of a Palomar Registry submission.
 - `scripts/pub1_certify_display.py`, Publication-safe display values for the Pub 1 xi' ceiling certificate.
 - `scripts/science_preflight.py`, Preflight for a session running this lab from an outside environment.
@@ -1302,7 +1303,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2244 test functions across 130 files (the collected count differs where tests are parametrised):
+2248 test functions across 131 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1381,6 +1382,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_paid_surplus_obstruction.py`, 7
 - `tests/test_palomar_correspondence.py`, 11
 - `tests/test_palomar_module_port.py`, 5
+- `tests/test_palomar_port_compare.py`, 4
 - `tests/test_palomar_precheck.py`, 2
 - `tests/test_palomar_yaml_guard.py`, 2
 - `tests/test_pari_oracle.py`, 18
