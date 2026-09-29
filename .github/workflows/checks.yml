@@ -61,6 +61,7 @@ jobs:
             tests/test_four_point_module_roots.py \
             tests/test_four_point_build_evidence.py \
             tests/test_palomar_module_port.py \
+            tests/test_palomar_port_compare.py \
             tests/test_zeta23ext_imports.py \
             tests/test_telemetry.py \
             tests/test_huntspec.py \

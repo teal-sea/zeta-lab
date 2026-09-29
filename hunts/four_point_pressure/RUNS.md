@@ -407,3 +407,28 @@ This is an estimate: chunk costs are not guaranteed equal. Each build
 retains the 18-minute limit, per-unit checkpoint and visible terminal
 outcome. A failed unit stops the remaining matrix. The next stage after
 the chunk matrix is the final theorem assembly and paired interface.
+
+Run `36604651267` at `265191fd62fda49e4c5d346d6da223e743114863`
+passed all 15 remaining chunks and its aggregate verdict in 4 hours
+4 minutes 59 seconds. All 15 raw bundles are retained under
+`port-evidence/36604651267/`, with source, target, successful build receipt,
+terminal outcome and target artifact hash records checked. The final
+checkpoint reports 201 local module artifacts. With the pilot, all 16
+chunk modules now build on Lean 4.35 without candidate proof-body changes.
+
+The next run builds Cover, Boxes, Main, the library root and both stronger
+interface modules, one Lake invocation at a time with per-unit checkpoints.
+For scheduling only, the old Lean 4.33 Boxes/Main/root receipts total
+770.5 seconds. Allow roughly 30 minutes including six checkpointed job
+overheads, retaining the 18-minute per-build bound. The new interfaces have
+not yet been compiled. The comparison then runs as its own bounded pilot:
+no runtime measurement exists yet, so it has a 60-minute job ceiling and
+30-minute command ceilings rather than a claimed completion estimate.
+
+`scripts/palomar_port_compare.py` prepares a matching control and an
+intentionally mismatched statement, then compares exports of the actual
+pair through Lean's bundled comparator and three kernels. Eight fail-closed
+verdict tests are included in the 363-test governance gate. These are tests
+of the reporting guard, not a claim that the comparator has run. The pinned
+Palomar helper code supplies export targets; the local cached build/export
+procedure is not Palomar's fresh protected-source registration pipeline.

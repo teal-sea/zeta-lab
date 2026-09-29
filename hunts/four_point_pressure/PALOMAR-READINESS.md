@@ -108,9 +108,12 @@ the analytic dependency, not the generated stronger certificate or a
 Challenge/Solution comparison. Those remain separate obligations.
 
 The certificate pilot also passed: `Base` and `Cells0` compiled in run
-`36506410217` at `f7c904f5`, with no candidate proof-body changes. The other
-25 cell modules, 16 chunk modules, final assembly and final axiom audit
-remain to be rebuilt on Lean 4.35.
+`36506410217` at `f7c904f5`, with no candidate proof-body changes. All 25
+remaining cell modules passed in run `36507629432` at `caf8a5b3`. The
+16 chunk modules passed across pilot `36602330694` at `30423c16` and
+matrix `36604651267` at `265191fd`. Raw per-unit evidence is retained under
+`port-evidence/`. Final assembly, interfaces, the final axiom audit and
+comparison remain pending on Lean 4.35.
 
 The stronger interface is prepared in the candidate project as
 `StrongerChallenge.lean`, `StrongerSolution.lean` and `comparator.json`, in
