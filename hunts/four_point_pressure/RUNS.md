@@ -362,3 +362,17 @@ verbatim and tied to the source through definitional equalities. This is
 source preparation only until the final compilation and comparator checks.
 The historical 48-module proof-source check still covers exactly those
 original modules; the two new interface modules have separate checks.
+
+The paired draft `formalization.yaml` names exactly the stronger interface's
+two declarations and states that port verification is still in progress.
+It retains separate attribution for the upstream development, Ainta's
+argument and SamiYaya's distinct tuple. The local precheck passes 68 selected
+preparation checks, with no warning or failure; this is not registry
+verification. Its compiler floor now includes release-candidate ordering,
+and a public-import mutant cannot bypass its Challenge dependency guard.
+
+The pinned Palomar verifier uses `lake comparator`, `leanexport` and
+`leanchecker` from Lean 4.35, plus the bundled NanoDa and con-ron kernels,
+with bubblewrap. This was checked from PalomarSubmission `65f0154e` and
+Lean's `v4.35.0-rc2` source. No additional kernel build has been launched
+beside the running certificate build.

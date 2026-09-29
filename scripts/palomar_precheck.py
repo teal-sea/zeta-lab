@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 """Pre-flight check of a Palomar Registry submission.
 
-Checks the mechanical requirements of PalomarPolicy CONTRIBUTING.md sections
-2 and 3 against a local checkout, before the submission is sent. A FAIL here
-is a FAIL at Palomar intake; the point is to find it locally rather than in
-public.
+Checks selected mechanical requirements of PalomarPolicy CONTRIBUTING.md
+sections 2 and 3 against a local checkout before a submission is sent.
 
 Scope, honestly: this covers the MECHANICAL gate only. It says nothing about
 the editorial review, which is a language model working through the prompts in
 PalomarPolicy/prompts/ and which is where the mandatory notability floor lives
 (rubric.json: minimum_score 4, mandatory_reject_below_minimum ["notability"]).
-Passing this script means intake will not bounce you; it does not mean you
-will be registered.
+Passing this script does not establish current intake compliance or
+registration. The authoritative verifier performs additional checks,
+including Lean parser validation and canonical Mathlib authentication.
 
 It is a reimplementation from the published policy, not a copy of Palomar's
 own verifier. The authoritative implementation is
@@ -70,12 +69,13 @@ chk(len(lics)==1,f"root licence file: exactly one required, found {lics}")
 tcp=P(PROJ,"lean-toolchain") if os.path.exists(P(PROJ,"lean-toolchain")) else P("lean-toolchain")
 tc=open(tcp).read().strip() if os.path.exists(tcp) else ""
 m=re.fullmatch(r"leanprover/lean4:(v.+)",tc)
-chk(bool(m),f"lean-toolchain names a Lean release: {tc!r} (min v4.28.0)")
+MINIMUM = "v4.35.0-rc2"  # PalomarSubmission toolchains.json at 65f0154e.
+chk(bool(m),f"lean-toolchain names a Lean release: {tc!r} (min {MINIMUM})")
 def vkey(v):
-    b=re.match(r"v(\d+)\.(\d+)\.(\d+)",v)
-    return tuple(int(x) for x in b.groups()) if b else (0,0,0)
-if m: chk(vkey(m.group(1))>=(4,28,0),f"toolchain {m.group(1)} >= minimum v4.28.0")
-chk(m and "-rc" not in m.group(1),f"toolchain {tc} is a release candidate, not a stable release; permitted by policy (only the v4.28.0 minimum is enforced) but confirm lean4export has a matching tag",w=True)
+    b=re.fullmatch(r"v(\d+)\.(\d+)\.(\d+)(?:-rc(\d+))?",v)
+    if not b: return (0,0,0,0,0)
+    return (*map(int,b.groups()[:3]), int(b[4] is None), int(b[4] or 0))
+if m: chk(vkey(m.group(1))>=vkey(MINIMUM),f"toolchain {m.group(1)} >= minimum {MINIMUM}")
 
 # --- 2.1 exactly one lakefile, manifest committed ---
 lf=[f for f in ("lakefile.toml","lakefile.lean") if os.path.exists(P(PROJ,f))]

@@ -75,9 +75,9 @@ not include this project's proof development.
 
 1. Port the submission and its consumed dependencies to an accepted toolchain
    and module format, then build the complete intended submission surface.
-2. Prepare a separate Challenge/Solution pair and matching metadata for the
+2. Finalize the prepared Challenge/Solution pair and draft metadata for the
    stronger coefficient. Preserve the existing registered statements.
-3. Run Comparator and both kernel checks on the final commit, and stage the
+3. Run Comparator and the required kernel checks on the final commit, and stage the
    exact project, comparator and metadata paths.
 
 No new Palomar submission, registration, or external mathematical review has
@@ -120,6 +120,16 @@ hypothesis. Challenge imports Mathlib alone and has exactly two deliberate
 statement placeholders. Solution imports the candidate proof, not Challenge,
 and ties the copied counting functions and constant to that development.
 Static tests compare both statements with the candidate source and check
-the import separation. Compilation, Comparator, NanoDa and matching
-formalization metadata are still pending. Existing registered statements
-and their comparator are unchanged.
+the import separation. Matching draft metadata is paired through
+`lean/palomar-pairs.json`; it explicitly states the incomplete port status.
+Compilation, Comparator and kernel verification remain pending. Existing
+registered statements and their comparator are unchanged.
+
+The [verifier at PalomarSubmission commit `65f0154e`](https://github.com/PalomarRegistry/PalomarSubmission/blob/65f0154ed776cd26c224254aa57b379137f28b0d/scripts/verify_submission.py)
+uses the selected
+release's bundled `lake comparator`, `leanexport` and `leanchecker`, with
+NanoDa and con-ron as its two external kernels. This is the setup to check
+after compilation, not the separate legacy Comparator repository's build.
+The local precheck now compares release-candidate versions against the
+actual `v4.35.0-rc2` floor. Its output remains a partial preparation check,
+not a substitute for the authoritative verifier.
