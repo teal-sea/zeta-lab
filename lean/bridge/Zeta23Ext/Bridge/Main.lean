@@ -1,15 +1,19 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.S7
-import Zeta23Ext.Bridge.S8
-import Zeta23Ext.Bridge.S9
-import Zeta23Ext.Bridge.S13
-import Zeta23Ext.Bridge.S14
-import Zeta23Ext.Bridge.S15
-import Zeta23Ext.Bridge.S16
+public import Zeta23Ext.Bridge.S7
+public import Zeta23Ext.Bridge.S8
+public import Zeta23Ext.Bridge.S9
+public import Zeta23Ext.Bridge.S13
+public import Zeta23Ext.Bridge.S14
+public import Zeta23Ext.Bridge.S15
+public import Zeta23Ext.Bridge.S16
+
+@[expose] public section
 
 /-!
 # The `n`-point simple-zero bound, assembled  ([A] Theorem 1.1 is `n = 7`)

@@ -50,7 +50,7 @@ def test_candidate_imports_stay_in_own_root():
         for fn in fs:
             if fn.endswith(".lean"):
                 for ln in open(os.path.join(dp, fn)):
-                    m = re.match(r"import (\w+)", ln)
+                    m = re.match(r"(?:public )?import (\w+)", ln)
                     if m and m.group(1) not in (own, "Mathlib", "Zeta23Ext", "Zeta23", "Std", "Lean"):
                         bad.append((fn, ln.strip()))
     assert not bad, bad[:3]

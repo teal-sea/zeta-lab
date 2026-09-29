@@ -1,0 +1,93 @@
+name: palomar-port
+
+on:
+  push:
+    branches: [codex/palomar-module-port]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: palomar-port
+  cancel-in-progress: false
+
+jobs:
+  pilot:
+    name: Lean 4.35 module-port pilot
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: hunts/ainta_seven_point/lean-four-point
+    steps:
+      - uses: actions/checkout@v4
+      - name: record the run and source
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/port-evidence"
+          git rev-parse HEAD | tee "$GITHUB_WORKSPACE/port-evidence/revision.txt"
+          cat lean-toolchain | tee "$GITHUB_WORKSPACE/port-evidence/toolchain.txt"
+          echo "Pilot target: Zeta23.Defs.Counting" >> "$GITHUB_STEP_SUMMARY"
+          echo "Source: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.elan
+            lean/vendor/zeta23/.lake
+            lean/bridge/.lake
+            hunts/ainta_seven_point/lean-four-point/.lake
+          key: palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}
+          restore-keys: |
+            palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-
+      - name: install Lean toolchain
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lean" --version | tee "$GITHUB_WORKSPACE/port-evidence/lean-version.txt"
+      - name: fetch canonical Mathlib cache
+        run: |
+          set -euo pipefail
+          lake exe cache get 2>&1 | tee "$GITHUB_WORKSPACE/port-evidence/cache.log"
+      - name: build the first dependency unit
+        id: build
+        run: |
+          set -euo pipefail
+          /usr/bin/time -v timeout 15m lake build Zeta23.Defs.Counting 2>&1 | tee "$GITHUB_WORKSPACE/port-evidence/build.log"
+          count=$(find "$GITHUB_WORKSPACE/lean/vendor/zeta23/.lake/build/lib/lean" -name '*.olean' | wc -l)
+          echo "Built module artifacts: $count" | tee "$GITHUB_WORKSPACE/port-evidence/count.txt"
+          test "$count" -gt 0
+          echo "Pilot passed; $count module artifacts present." >> "$GITHUB_STEP_SUMMARY"
+      - name: checkpoint the unit
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.elan
+            lean/vendor/zeta23/.lake
+            lean/bridge/.lake
+            hunts/ainta_seven_point/lean-four-point/.lake
+          key: palomar-port-435-${{ runner.os }}-${{ hashFiles('lean/vendor/zeta23/lake-manifest.json') }}-${{ github.run_id }}
+      - name: report terminal outcome
+        if: always()
+        run: |
+          result='${{ steps.build.outcome }}'
+          echo "Pilot build outcome: $result" | tee "$GITHUB_WORKSPACE/port-evidence/outcome.txt"
+          echo "Pilot build outcome: $result" >> "$GITHUB_STEP_SUMMARY"
+          count=0
+          if [ -d "$GITHUB_WORKSPACE/lean/vendor/zeta23/.lake/build/lib/lean" ]; then
+            count=$(find "$GITHUB_WORKSPACE/lean/vendor/zeta23/.lake/build/lib/lean" -name '*.olean' | wc -l)
+          fi
+          echo "Module artifacts present: $count" | tee "$GITHUB_WORKSPACE/port-evidence/count.txt"
+          echo "Module artifacts present: $count" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$result" != success ]; then
+            echo "::error::Port pilot did not succeed: $result. No port verification is claimed."
+            exit 1
+          fi
+      - name: preserve logs, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: palomar-port-pilot-${{ github.run_id }}
+          path: port-evidence
+          if-no-files-found: error

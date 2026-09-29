@@ -1,5 +1,9 @@
-import FourPointCand.Cover
-import FourPointCand.Boxes
+module
+
+public import FourPointCand.Cover
+public import FourPointCand.Boxes
+
+@[expose] public section
 
 /-!
 # The four-point certificate, and the unconditional bound it discharges

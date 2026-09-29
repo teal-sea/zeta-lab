@@ -1,8 +1,8 @@
 # Palomar preparation, 2026-09-28
 
-**Lab kernel build recorded; not ready for Palomar submission.** The proof
-handoff is complete. The registry's current compatibility requirements are
-a separate obligation.
+**Lab kernel build recorded; module/toolchain port in progress.** The proof
+handoff is complete. The port is not yet build-verified or ready for Palomar
+submission. Historical build evidence below remains at its original pins.
 
 ## Mathematical target and provenance
 
@@ -25,8 +25,10 @@ candidate Lean source. Hermes published the successful build record at
 (preflight and 48 build layers), zero sorry warnings, and six axiom reports
 containing only `propext`, `Classical.choice`, and `Quot.sound`.
 The intake audit reproduced both recorded source-tree hashes from Git
-objects at `5522b963` and retained a per-file manifest. The current candidate
-is byte-identical to those 51 source files.
+objects at `5522b963` and retained a per-file manifest. The candidate was
+byte-identical to those 51 source files at integration commit `4888f310`.
+The subsequent module-format port changes headers and public visibility;
+it requires a fresh build and does not inherit the old build's status.
 
 This is the lab's kernel-checked result at the pinned revision, not an
 independent replay or a registry verification. The saved-image build spans
@@ -78,6 +80,22 @@ not include this project's proof development.
 3. Run Comparator and both kernel checks on the final commit, and stage the
    exact project, comparator and metadata paths.
 
-No new Palomar submission, registration, external mathematical review, or
-toolchain migration has occurred in this intake. An external human review is
-not listed here as a prerequisite imposed by Palomar.
+No new Palomar submission, registration, or external mathematical review has
+occurred. An external human review is not listed here as a prerequisite
+imposed by Palomar.
+
+## Port start, 2026-09-28
+
+The owner authorized issue #260's compiler and module-format port. All six
+contained Lake packages now target Lean `v4.35.0-rc2`, with canonical Mathlib
+`065356127b1dc0016f66b7283ce0ce2c4055aa55`. The previously pinned Zeta23
+source is retained as a contained dependency with its licence and attribution,
+because upstream itself still uses Lean 4.33.
+
+The initial 643-file Lean inventory has module headers, public imports and
+exposed public sections. This is source preparation, not proof verification.
+The first CI pilot builds `Zeta23.Defs.Counting` on the new toolchain to
+measure one unit before allocating the full build. Cache retrieval must
+succeed; the pilot will not silently compile Mathlib from source. Its build
+is bounded at 15 minutes, checkpoints its Lake state, and publishes logs,
+source SHA, artifact counts and a terminal verdict, including failures.

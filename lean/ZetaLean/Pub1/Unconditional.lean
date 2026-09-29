@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Assembly
-import ZetaLean.Pub1.TaperAdmissible
+public import Mathlib
+public import ZetaLean.Pub1.Assembly
+public import ZetaLean.Pub1.TaperAdmissible
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the source-admissible sequence, unconditionally

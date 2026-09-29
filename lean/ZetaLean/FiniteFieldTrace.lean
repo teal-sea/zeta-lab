@@ -1,4 +1,8 @@
-import Mathlib
+module
+
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Frobenius traces of a Weierstrass family over `ZMod p`, certified

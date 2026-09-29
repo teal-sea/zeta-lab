@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.CertDefs
-import ZetaLean.Pub1.CertBounds
+public import Mathlib
+public import ZetaLean.Pub1.CertDefs
+public import ZetaLean.Pub1.CertBounds
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the exact `L²` norm of the residual

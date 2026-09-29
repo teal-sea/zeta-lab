@@ -252,3 +252,23 @@ seconds. The six evidence tests and four module-root tests now run in the
 ordinary dependency-free CI gate. Context freshness passes. The whitespace
 check passes outside the supplied build log, whose original whitespace is
 preserved along with its checksum.
+
+## 2026-09-28: Lean 4.35 and module-system port, initial pilot
+
+The owner requested the compatibility port tracked in issue #260. The source
+preparation pins Lean `v4.35.0-rc2` and canonical Mathlib
+`065356127b1dc0016f66b7283ce0ce2c4055aa55` in six contained packages.
+The formerly external Zeta23 source at `3635e748` is now a contained,
+attributed Apache-2.0 dependency. All 643 Lean files have module headers;
+no source exceeds 10000 lines. Module visibility changes preserve the
+four-point candidate's declaration and proof text byte for byte after
+removing only the migration's header, import and exposed-section additions.
+
+Compute estimate: the compiler and Mathlib changed, so the old build timings
+are not treated as measured timings for this port. First time the dependency
+unit `Zeta23.Defs.Counting`, with a 15-minute build bound and a 30-minute
+job bound including toolchain/cache retrieval. Only that unit is authorized
+by this initial workflow. Use its result to plan the larger dependency and
+certificate stages. Checkpoint the unit and publish the terminal outcome,
+artifact count (including zero), exact source revision and logs. No local
+Lean build is run, and no successful port is claimed before CI verifies it.

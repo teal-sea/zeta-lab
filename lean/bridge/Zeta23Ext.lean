@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.StableRankTrace
-import Zeta23Ext.Bridge.Main
+public import Zeta23Ext.StableRankTrace
+public import Zeta23Ext.Bridge.Main
+
+@[expose] public section
 
 /-!
 # The bridge package root

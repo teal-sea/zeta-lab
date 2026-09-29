@@ -1,26 +1,30 @@
-import FourPointCand.Cells0
-import FourPointCand.Cells1
-import FourPointCand.Cells2
-import FourPointCand.Cells3
-import FourPointCand.Cells4
-import FourPointCand.Cells5
-import FourPointCand.Cells6
-import FourPointCand.Cells7
-import FourPointCand.Cells8
-import FourPointCand.Cells9
-import FourPointCand.Cells10
-import FourPointCand.Cells11
-import FourPointCand.Cells12
-import FourPointCand.Cells13
-import FourPointCand.Cells14
-import FourPointCand.Cells15
-import FourPointCand.Cells16
-import FourPointCand.Cells17
-import FourPointCand.Cells18
-import FourPointCand.Cells19
-import FourPointCand.Cells20
-import FourPointCand.Cells21
-import FourPointCand.Cells22
-import FourPointCand.Cells23
-import FourPointCand.Cells24
-import FourPointCand.Cells25
+module
+
+public import FourPointCand.Cells0
+public import FourPointCand.Cells1
+public import FourPointCand.Cells2
+public import FourPointCand.Cells3
+public import FourPointCand.Cells4
+public import FourPointCand.Cells5
+public import FourPointCand.Cells6
+public import FourPointCand.Cells7
+public import FourPointCand.Cells8
+public import FourPointCand.Cells9
+public import FourPointCand.Cells10
+public import FourPointCand.Cells11
+public import FourPointCand.Cells12
+public import FourPointCand.Cells13
+public import FourPointCand.Cells14
+public import FourPointCand.Cells15
+public import FourPointCand.Cells16
+public import FourPointCand.Cells17
+public import FourPointCand.Cells18
+public import FourPointCand.Cells19
+public import FourPointCand.Cells20
+public import FourPointCand.Cells21
+public import FourPointCand.Cells22
+public import FourPointCand.Cells23
+public import FourPointCand.Cells24
+public import FourPointCand.Cells25
+
+@[expose] public section

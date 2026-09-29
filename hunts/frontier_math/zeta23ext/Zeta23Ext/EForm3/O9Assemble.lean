@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm3.O9Num
+module
+
+public import Zeta23Ext.EForm3.O9Num
+
+@[expose] public section
 
 /-!
 # `qreIv` and `rIv` are sound

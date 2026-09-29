@@ -1,4 +1,8 @@
-import FourPointCand.Base
+module
+
+public import FourPointCand.Base
+
+@[expose] public section
 
 noncomputable section
 open Real

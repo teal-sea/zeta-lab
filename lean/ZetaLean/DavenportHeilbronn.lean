@@ -1,5 +1,9 @@
-import Mathlib
-import ZetaLean.Rigor
+module
+
+public import Mathlib
+public import ZetaLean.Rigor
+
+@[expose] public section
 
 /-!
 # The Davenport-Heilbronn Theorem

@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Data
+module
+
+public import Zeta23Ext.BandCert.Data
+
+@[expose] public section
 
 /-!
 # Running the checker on the recorded certificate

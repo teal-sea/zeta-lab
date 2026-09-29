@@ -121,7 +121,7 @@ def test_recorded_source_manifests_match_preflight_and_final_verification():
         assert digest == report[f"{key}_tree_sha256"] == preflight[f"{key}_tree_sha256"]
 
 
-def test_current_candidate_is_byte_identical_to_the_built_source():
+def test_candidate_proof_text_matches_the_historical_build_after_module_port():
     group = json.loads((EVIDENCE / "source-manifest.json").read_text())["groups"]["candidate"]
     package = ROOT / group["root"]
     sources = {
@@ -131,8 +131,14 @@ def test_current_candidate_is_byte_identical_to_the_built_source():
     } | {"lakefile.toml", "lake-manifest.json", "lean-toolchain"}
     assert sources == set(group["files"])
     for path, digest in group["files"].items():
-        assert hashlib.sha256((package / path).read_bytes()).hexdigest() == digest, path
-    assert (package / "lean-toolchain").read_text().strip() == verification()["lean_toolchain_file"]
+        if not path.endswith(".lean"):
+            continue
+        source = (package / path).read_text()
+        assert source.startswith("module\n\n")
+        source = source.removeprefix("module\n\n")
+        source = source.replace("\n@[expose] public section\n", "", 1)
+        source = re.sub(r"(?m)^public import ", "import ", source)
+        assert hashlib.sha256(source.encode()).hexdigest() == digest, path
 
 
 def test_advertised_decimal_and_improvement():

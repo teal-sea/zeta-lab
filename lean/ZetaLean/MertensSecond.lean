@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib.Analysis.Complex.ExponentialBounds
-import Mathlib.Analysis.PSeries
-import ZetaLean.Mertensstheorems
+public import Mathlib.Analysis.Complex.ExponentialBounds
+public import Mathlib.Analysis.PSeries
+public import ZetaLean.Mertensstheorems
+
+@[expose] public section
 
 /-!
 # Mertens's second theorem (hunt r_3c1cbb, Wikidata Q1196729)

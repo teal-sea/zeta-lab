@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.Defs
-import Zeta23Ext.Bridge.Helpers_S9
+public import Zeta23Ext.Bridge.Defs
+public import Zeta23Ext.Bridge.Helpers_S9
+
+@[expose] public section
 
 /-!
 # S9: the uniform kernel limit  ([A] Lemma 3.1, eq:kernel-limit)

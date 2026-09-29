@@ -1,21 +1,25 @@
-import FourPointCand.Base
-import FourPointCand.Cells
-import FourPointCand.Cover
-import FourPointCand.Chunks0
-import FourPointCand.Chunks1
-import FourPointCand.Chunks2
-import FourPointCand.Chunks3
-import FourPointCand.Chunks4
-import FourPointCand.Chunks5
-import FourPointCand.Chunks6
-import FourPointCand.Chunks7
-import FourPointCand.Chunks8
-import FourPointCand.Chunks9
-import FourPointCand.Chunks10
-import FourPointCand.Chunks11
-import FourPointCand.Chunks12
-import FourPointCand.Chunks13
-import FourPointCand.Chunks14
-import FourPointCand.Chunks15
-import FourPointCand.Boxes
-import FourPointCand.Main
+module
+
+public import FourPointCand.Base
+public import FourPointCand.Cells
+public import FourPointCand.Cover
+public import FourPointCand.Chunks0
+public import FourPointCand.Chunks1
+public import FourPointCand.Chunks2
+public import FourPointCand.Chunks3
+public import FourPointCand.Chunks4
+public import FourPointCand.Chunks5
+public import FourPointCand.Chunks6
+public import FourPointCand.Chunks7
+public import FourPointCand.Chunks8
+public import FourPointCand.Chunks9
+public import FourPointCand.Chunks10
+public import FourPointCand.Chunks11
+public import FourPointCand.Chunks12
+public import FourPointCand.Chunks13
+public import FourPointCand.Chunks14
+public import FourPointCand.Chunks15
+public import FourPointCand.Boxes
+public import FourPointCand.Main
+
+@[expose] public section

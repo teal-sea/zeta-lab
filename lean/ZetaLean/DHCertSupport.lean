@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
-import ZetaLean.DHAssembly
-import ZetaLean.DHZeroCriterion
+public import Mathlib
+public import ZetaLean.DHAssembly
+public import ZetaLean.DHZeroCriterion
+
+@[expose] public section
 
 /-!
 # Support layer for the generated rung-3 certificate

@@ -1,12 +1,16 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Aristotle.B
-import ZetaLean.Pub1.Aristotle.C
-import ZetaLean.Pub1.Aristotle.E1
-import ZetaLean.Pub1.Aristotle.E2
+public import Mathlib
+public import ZetaLean.Pub1.Aristotle.B
+public import ZetaLean.Pub1.Aristotle.C
+public import ZetaLean.Pub1.Aristotle.E1
+public import ZetaLean.Pub1.Aristotle.E2
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the interval, the kernel, the operator, and `w`

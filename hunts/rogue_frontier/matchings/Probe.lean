@@ -1,10 +1,14 @@
+module
+
 /-
 Gap evidence for the perfect-matching count.
 Compiled against the pin in lean/lake-manifest.json (mathlib 51e6992e,
 toolchain v4.33.0-rc2).  Every claim below is resolved by the elaborator,
 not by grep.
 -/
-import Mathlib
+public import Mathlib
+
+@[expose] public section
 
 open Nat
 

@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm.Energy
+module
+
+public import Zeta23Ext.EForm.Energy
+
+@[expose] public section
 
 open scoped BigOperators
 open scoped Real
