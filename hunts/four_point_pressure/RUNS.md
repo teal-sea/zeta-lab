@@ -272,3 +272,21 @@ by this initial workflow. Use its result to plan the larger dependency and
 certificate stages. Checkpoint the unit and publish the terminal outcome,
 artifact count (including zero), exact source revision and logs. No local
 Lean build is run, and no successful port is claimed before CI verifies it.
+
+The initial pilot passed in GitHub Actions run `36504004985`, source
+`bb38b795096c2e26e3309050717af56b895a414f`. Lean reported version
+`4.35.0-rc2`, compiler commit `11acb17ec6b07a8f9e9173e6845197929540936b`.
+Two upstream modules (`Zeta23.Defs` and `Zeta23.Defs.Counting`) built in
+5.41 seconds, with maximum resident set size 1479748 KiB. The job including
+cache/toolchain work and checkpointing took 2 minutes 28 seconds. Its raw
+build log, compiler version and source revision are under
+`port-evidence/36504004985/`. The reported 2885 Lake jobs include cached
+Mathlib dependencies; only two new upstream module artifacts were counted.
+
+The next target, `Zeta23Ext.Bridge.Main`, has 157 local modules in its
+transitive source-import closure. Multiplying the pilot's mean by that count
+gives about 425 seconds, a rough scheduling estimate only: the two elementary
+pilot modules do not measure the cost of the analytic proofs. The next build
+has an 18-minute bound and checkpoints completed module artifacts even on
+failure. It does not run alongside the numerical suite. A failed or canceled
+job produces an explicit failing verdict; no automatic retry loop is added.
