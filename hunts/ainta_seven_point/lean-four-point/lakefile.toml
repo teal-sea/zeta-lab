@@ -1,5 +1,5 @@
 name = "FourPointCand"
-defaultTargets = ["FourPointCand"]
+defaultTargets = ["FourPointCand", "StrongerChallenge", "StrongerSolution"]
 
 # The advertised development, by path rather than by git, so that this package
 # proves things about the *same* `Kfun`, `kfun`, `wfun` and `F` that
@@ -7,10 +7,8 @@ defaultTargets = ["FourPointCand"]
 # `Zeta23Ext.Bridge.n_point_bound` takes as its hypothesis. Mathlib, Batteries
 # and `anthropics/zeta-23-lean` are inherited from it at its pinned revisions.
 #
-# This package is NOT part of the Palomar submission surface. Nothing in
-# `lean/bridge` imports it, and nothing here imports `lean-three-point`: the
-# two packages are independent instances of the same construction at `n = 3`
-# and `n = 4`.
+# The stronger-result interface lives in this project. It does not alter the
+# existing registered surface in `lean/bridge`, which does not import it.
 [[require]]
 name = "Zeta23Bridge"
 path = "../../../lean/bridge"
@@ -31,3 +29,11 @@ relaxedAutoImplicit = false
 
 [[lean_lib]]
 name = "FourPointCand"
+
+# The statement-only Challenge has two deliberate placeholders. The Solution
+# proves those statements without importing it; comparator.json compares them.
+[[lean_lib]]
+name = "StrongerChallenge"
+
+[[lean_lib]]
+name = "StrongerSolution"

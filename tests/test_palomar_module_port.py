@@ -83,3 +83,27 @@ def test_analytic_bridge_port_evidence_records_success_and_standard_axioms():
     for name, axioms in records:
         names = {item.strip().removeprefix("Classical.") for item in axioms.split(",")}
         assert names <= {"propext", "choice", "Quot.sound"}, name
+
+
+def test_stronger_interface_preserves_the_source_statements_and_separates_challenge():
+    package = ROOT / "hunts/ainta_seven_point/lean-four-point"
+    challenge = (package / "StrongerChallenge.lean").read_text()
+    solution = (package / "StrongerSolution.lean").read_text()
+    source = (package / "FourPointCand/Main.lean").read_text()
+    comparator = json.loads((package / "comparator.json").read_text())
+    assert comparator["challenge_module"] == "StrongerChallenge"
+    assert comparator["solution_module"] == "StrongerSolution"
+    assert re.findall(r"^public import (\S+)", challenge, re.M) == ["Mathlib"]
+    assert re.findall(r"^public import (\S+)", solution, re.M) == ["Mathlib", "FourPointCand.Main"]
+    assert len(re.findall(r"^  sorry$", challenge, re.M)) == 2
+    assert not re.search(r"\b(sorry|admit|axiom|native_decide)\b", solution)
+    shared = lambda text: text.split("def IsNontrivialZero ", 1)[1].split("\ntheorem ", 1)[0]
+    assert shared(challenge) == shared(solution)
+    names = ["four_point_bound", "four_point_bound_ratio"]
+    assert comparator["theorem_names"] == [f"Zeta23Ext.PalomarFourPoint.{name}" for name in names]
+    assert set(comparator["permitted_axioms"]) == {"propext", "Quot.sound", "Classical.choice"}
+    for name in names:
+        pattern = rf"(?ms)^theorem {name} :(.*?) := by"
+        statement = re.search(pattern, challenge)[1]
+        assert re.search(pattern, solution)[1] == statement
+        assert re.search(pattern, source)[1].replace("HD 1", "H") == statement

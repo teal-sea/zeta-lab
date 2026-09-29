@@ -353,3 +353,12 @@ with `max-parallel: 1`. Each unit has its own cache key, raw artifact bundle,
 source revision, target artifact hash and terminal verdict. The first failed
 unit stops the remaining matrix; completed units remain checkpointed. The
 aggregate verdict requires success, so cancellation is not a passing result.
+
+The stronger Challenge/Solution interface is prepared separately while that
+build runs. Its two statements match the existing candidate statements,
+with `HD 1` replaced by the explicit constant `H` and the equality bridged
+by the upstream `HD_one` theorem. The counting definitions are copied
+verbatim and tied to the source through definitional equalities. This is
+source preparation only until the final compilation and comparator checks.
+The historical 48-module proof-source check still covers exactly those
+original modules; the two new interface modules have separate checks.

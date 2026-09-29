@@ -111,3 +111,15 @@ The certificate pilot also passed: `Base` and `Cells0` compiled in run
 `36506410217` at `f7c904f5`, with no candidate proof-body changes. The other
 25 cell modules, 16 chunk modules, final assembly and final axiom audit
 remain to be rebuilt on Lean 4.35.
+
+The stronger interface is prepared in the candidate project as
+`StrongerChallenge.lean`, `StrongerSolution.lean` and `comparator.json`, in
+the distinct namespace `Zeta23Ext.PalomarFourPoint`. It selects the bound
+and ratio statements, with the exact coefficient above and no certificate
+hypothesis. Challenge imports Mathlib alone and has exactly two deliberate
+statement placeholders. Solution imports the candidate proof, not Challenge,
+and ties the copied counting functions and constant to that development.
+Static tests compare both statements with the candidate source and check
+the import separation. Compilation, Comparator, NanoDa and matching
+formalization metadata are still pending. Existing registered statements
+and their comparator are unchanged.

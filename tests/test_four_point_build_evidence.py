@@ -126,9 +126,8 @@ def test_candidate_proof_text_matches_the_historical_build_after_module_port():
     package = ROOT / group["root"]
     sources = {
         path.relative_to(package).as_posix()
-        for path in package.rglob("*.lean")
-        if ".lake" not in path.relative_to(package).parts
-    } | {"lakefile.toml", "lake-manifest.json", "lean-toolchain"}
+        for path in (package / "FourPointCand").rglob("*.lean")
+    } | {"FourPointCand.lean", "lakefile.toml", "lake-manifest.json", "lean-toolchain"}
     assert sources == set(group["files"])
     for path, digest in group["files"].items():
         if not path.endswith(".lean"):
