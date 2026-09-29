@@ -290,3 +290,13 @@ pilot modules do not measure the cost of the analytic proofs. The next build
 has an 18-minute bound and checkpoints completed module artifacts even on
 failure. It does not run alongside the numerical suite. A failed or canceled
 job produces an explicit failing verdict; no automatic retry loop is added.
+
+The first analytic-bridge attempt, Actions run `36504395205` at source
+`e0a12c9f0a64c5708fc308c8edb204c9da8f9b3b`, failed after 6 minutes
+18.02 seconds of build time, with maximum resident set size 3312688 KiB.
+It checkpointed 111 module artifacts and reported five failed modules.
+The terminal failure and raw diagnostics remain in that run's artifact.
+The next attempt repairs two product-inequality API calls, adds a direct
+complex-log derivative import, puts the custom tactic in a public meta
+section, and uses the pointwise logarithmic-derivative multiplication lemma
+in two proofs. No theorem statement or hypothesis is changed.

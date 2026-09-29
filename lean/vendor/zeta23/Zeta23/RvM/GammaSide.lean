@@ -84,7 +84,7 @@ theorem logDeriv_Gammaℝ {s : ℂ} (hs : 0 < s.re) :
     DifferentiableAt.const_cpow (by fun_prop) (Or.inl hπ)
   have hdg : DifferentiableAt ℂ (fun s : ℂ => Complex.Gamma (s / 2)) s :=
     (Gamma_half_differentiableAt hs).comp s (by fun_prop)
-  rw [e, logDeriv_mul (f := fun s : ℂ => (Real.pi : ℂ) ^ (-s / 2)) (g := fun s : ℂ => Complex.Gamma (s / 2)) s hf hg hdf hdg]
+  rw [e, logDeriv_fun_mul (f := fun s : ℂ => (Real.pi : ℂ) ^ (-s / 2)) (g := fun s : ℂ => Complex.Gamma (s / 2)) s hf hg hdf hdg]
   -- first factor
   have h1 : logDeriv (fun s : ℂ => (Real.pi : ℂ) ^ (-s / 2)) s = -(Real.log Real.pi : ℂ) / 2 := by
     have hder : HasDerivAt (fun s : ℂ => (Real.pi : ℂ) ^ (-s / 2))

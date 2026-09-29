@@ -16,3 +16,9 @@ imports, and exposed public sections. It pins canonical Mathlib commit
 `065356127b1dc0016f66b7283ce0ce2c4055aa55` and Lean `v4.35.0-rc2`.
 These edits are not a successful build claim. Build evidence and any
 necessary proof-compatibility repairs are recorded by the port's CI runs.
+
+Following run `36504395205`, compatibility repairs use `prod_le_prod₀`
+for nonnegative real products, import complex-log derivatives directly,
+mark the additive-combination tactic section as meta, and use
+`logDeriv_fun_mul` for pointwise function products. The theorem statements
+and their hypotheses are unchanged.

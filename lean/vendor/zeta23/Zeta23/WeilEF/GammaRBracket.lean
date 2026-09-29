@@ -83,7 +83,7 @@ theorem logDeriv_Gammaℝ {s : ℂ} (hs : 0 < s.re) :
     linarith
   have hhalf : DifferentiableAt ℂ (fun s : ℂ => s / 2) s := differentiableAt_id.div_const 2
   have hdiff_G : DifferentiableAt ℂ (Complex.Gamma ∘ fun s : ℂ => s / 2) s := hΓdiff.comp s hhalf
-  rw [hfun, logDeriv_mul s hpow_ne (by exact hGne) hdiff_pow hdiff_G,
+  rw [hfun, logDeriv_fun_mul s hpow_ne (by exact hGne) hdiff_pow hdiff_G,
     logDeriv_comp (g := fun s : ℂ => s / 2) (x := s) hΓdiff hhalf, ← Complex.digamma_def]
   -- the power factor's logDeriv
   have h1 : logDeriv (fun s : ℂ => (Real.pi : ℂ) ^ (-s / 2)) s = Complex.log Real.pi * (-1 / 2) := by

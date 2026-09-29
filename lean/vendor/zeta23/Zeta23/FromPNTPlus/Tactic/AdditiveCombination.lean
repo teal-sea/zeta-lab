@@ -20,7 +20,7 @@ Authors: Abby J. Goldberg, Mario Carneiro, Heather Macbeth
 public import Mathlib.Tactic.Abel
 public import Mathlib.Tactic.LinearCombinationPrime
 
-@[expose] public section
+public meta section
 
 /-!
 # additive_combination Tactic
