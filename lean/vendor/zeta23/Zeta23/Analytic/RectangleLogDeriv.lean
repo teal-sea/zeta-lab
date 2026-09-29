@@ -258,7 +258,7 @@ theorem rectangleIntegral'_mul_logDeriv_of_poles {f g : ℂ → ℂ} {z w : ℂ}
           have e1 : logDeriv f s
               = logDeriv (fun s => (s - q) ^ analyticOrderNatAt f q * h s) s := by
             simp only [logDeriv_apply, hfs.deriv_eq, hfs.self_of_nhds, smul_eq_mul]
-          rw [e1, logDeriv_mul (f := fun s : ℂ => (s - q) ^ analyticOrderNatAt f q) (g := h) s
+          rw [e1, logDeriv_fun_mul (f := fun s : ℂ => (s - q) ^ analyticOrderNatAt f q) (g := h) s
             (pow_ne_zero _ hsq) hhs (by fun_prop) hhas.differentiableAt]
           have e2 : logDeriv (fun s : ℂ => (s - q) ^ analyticOrderNatAt f q) s
               = (analyticOrderNatAt f q : ℂ) / (s - q) := by
@@ -322,7 +322,7 @@ theorem rectangleIntegral'_mul_logDeriv_of_poles {f g : ℂ → ℂ} {z w : ℂ}
         have hfs : f s ≠ 0 := fun h => hFs (by simp [hF, h])
         have hfd : DifferentiableAt ℂ f s := (hf s hsRP).differentiableAt
         have hldF : logDeriv F s = (m q : ℂ) / (s - q) + logDeriv f s := by
-          rw [hF, logDeriv_mul (f := fun s : ℂ => (s - q) ^ m q) (g := f) s
+          rw [hF, logDeriv_fun_mul (f := fun s : ℂ => (s - q) ^ m q) (g := f) s
             (pow_ne_zero _ hsq') hfs (by fun_prop) hfd]
           have e2 : logDeriv (fun s : ℂ => (s - q) ^ m q) s = (m q : ℂ) / (s - q) := by
             rw [show (fun s : ℂ => (s - q) ^ m q) = (fun x : ℂ => x ^ m q) ∘ (fun s => s - q)

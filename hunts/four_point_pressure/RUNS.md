@@ -300,3 +300,13 @@ The next attempt repairs two product-inequality API calls, adds a direct
 complex-log derivative import, puts the custom tactic in a public meta
 section, and uses the pointwise logarithmic-derivative multiplication lemma
 in two proofs. No theorem statement or hypothesis is changed.
+
+Run `36505473971` at `0513c709` compiled all five repaired modules and
+checkpointed 125 module artifacts. Its 89.93-second build failed in
+`Analytic.RectangleLogDeriv` and `WeilEF.Landau`: the same pointwise product
+and nonnegative-product API changes, including `logDeriv_fun_prod` and
+`prod_le_one₀`. Maximum resident set size was 2064296 KiB. The next
+attempt repairs these calls without changing their statements. Both
+three- and four-point generators now emit the module format through their
+shared helper; historical build evidence remains qualified by its original
+source and compiler pins. The local governance suite passes 348 tests.

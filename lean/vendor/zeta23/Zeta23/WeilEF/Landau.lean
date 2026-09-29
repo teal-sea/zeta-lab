@@ -80,7 +80,7 @@ lemma f_eq_prod_mul_Cf {f : ℂ → ℂ} {r : ℝ} (hr1 : r < 1) (hfin : (SetOfZ
 (Mathlib's `logDeriv_prod` + `logDeriv_fun_pow`). -/
 lemma logDeriv_zero_prod {s : Finset ℂ} {m : ℂ → ℕ} {z : ℂ} (hz : ∀ ρ ∈ s, z ≠ ρ) :
     logDeriv (fun w => ∏ ρ ∈ s, (w - ρ) ^ m ρ) z = ∑ ρ ∈ s, (m ρ : ℂ) / (z - ρ) := by
-  rw [logDeriv_prod (f := fun ρ w => (w - ρ) ^ m ρ)
+  rw [logDeriv_fun_prod (f := fun ρ w => (w - ρ) ^ m ρ)
     (fun ρ hρ => pow_ne_zero _ (sub_ne_zero.mpr (hz ρ hρ))) (fun ρ _ => by fun_prop)]
   refine Finset.sum_congr rfl fun ρ _ => ?_
   have hd : HasDerivAt (fun w : ℂ => w - ρ) 1 z := (hasDerivAt_id z).sub_const ρ
@@ -166,7 +166,7 @@ lemma norm_logDeriv_Cf_le {f : ℂ → ℂ} {B : ℝ}
         _ ≤ ‖w - ρ‖ := norm_sub_norm_le w ρ
     have hprod_lb : ((2/25 : ℝ)) ^ K ≤ ‖∏ ρ ∈ hfinr34.toFinset, (w - ρ) ^ analyticOrderNatAt f ρ‖ := by
       rw [norm_prod, hK, ← Finset.prod_pow_eq_pow_sum]
-      refine Finset.prod_le_prod (fun ρ _ => by positivity) (fun ρ hρ => ?_)
+      refine Finset.prod_le_prod₀ (fun ρ _ => by positivity) (fun ρ hρ => ?_)
       rw [norm_pow]
       exact pow_le_pow_left₀ (by norm_num) (hdist ρ hρ) _
     unfold Cf
@@ -201,7 +201,7 @@ lemma norm_logDeriv_Cf_le {f : ℂ → ℂ} {B : ℝ}
     rw [dif_pos hfinr34, dif_neg h0mem, norm_div, hf0, norm_one]
     rw [le_div_iff₀]
     · rw [one_mul, norm_prod]
-      refine Finset.prod_le_one (fun ρ _ => by positivity) (fun ρ hρ => ?_)
+      refine Finset.prod_le_one₀ (fun ρ _ => by positivity) (fun ρ hρ => ?_)
       have hρ' := hfinr34.mem_toFinset.mp hρ
       rw [norm_pow]
       refine pow_le_one₀ (norm_nonneg _) ?_

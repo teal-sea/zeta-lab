@@ -154,15 +154,7 @@ def collect_intervals(res):
 R = G.R
 
 
-def module_source(source):
-    """Expose the generated mathematical interface under Lean's module system."""
-    lines = source.splitlines(keepends=True)
-    imports = [i for i, line in enumerate(lines) if line.startswith("import ")]
-    assert imports, "generated Lean source has no import header"
-    for i in imports:
-        lines[i] = "public " + lines[i]
-    lines.insert(imports[-1] + 1, "\n@[expose] public section\n")
-    return "module\n\n" + "".join(lines)
+module_source = G.module_source
 
 
 CELLS_HDR = """import %s.Base

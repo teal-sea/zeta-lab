@@ -22,3 +22,6 @@ for nonnegative real products, import complex-log derivatives directly,
 mark the additive-combination tactic section as meta, and use
 `logDeriv_fun_mul` for pointwise function products. The theorem statements
 and their hypotheses are unchanged.
+
+Run `36505473971` exposed the same API changes in `RectangleLogDeriv` and
+`Landau`. Their repairs also use `logDeriv_fun_prod` and `prod_le_one₀`.

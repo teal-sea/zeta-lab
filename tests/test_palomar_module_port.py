@@ -66,3 +66,4 @@ def test_generator_preserves_the_proof_while_emitting_modules():
         "module\n\npublic import FourPointCand.Base\n"
         "\n@[expose] public section\n\nlemma example : True := by trivial\n"
     )
+    assert module.module_source is module.G.module_source
