@@ -116,7 +116,7 @@ if os.path.exists(ch):
     b=os.path.getsize(ch); L=sum(1 for _ in open(ch,encoding="utf-8"))
     chk(b<=100*1024 and L<=1000,f"Challenge within hard limit (100 KiB/1000 lines): {b}B/{L} lines")
     chk(b<=32*1024 and L<=300,f"Challenge under mechanical-warning threshold (32 KiB/300 lines): {b}B/{L} lines",w=True)
-    imps=re.findall(r"^import\s+(\S+)",open(ch,encoding="utf-8").read(),re.M)
+    imps=re.findall(r"^(?:public\s+)?(?:meta\s+)?import\s+(\S+)",open(ch,encoding="utf-8").read(),re.M)
     chk(all(i.split(".")[0] in ("Mathlib","Init","Std","TauCeti","CSLib") for i in imps),
         f"Challenge imports approved roots only: {imps}")
 else: fail.append(f"Challenge source not found at {ch}")

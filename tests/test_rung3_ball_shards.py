@@ -36,7 +36,15 @@ def _centre_site():
 
 
 def _imports(text: str) -> list[str]:
-    return [line.split()[1] for line in text.splitlines() if line.startswith("import ")]
+    return re.findall(r"^(?:public\s+)?(?:meta\s+)?import\s+(\S+)", text, re.MULTILINE)
+
+
+def test_import_manifest_recognizes_module_system_imports():
+    text = "module\npublic import Csite.Base\npublic meta import Csite.Tactic\nimport Mathlib\n"
+    assert _imports(text) == ["Csite.Base", "Csite.Tactic", "Mathlib"]
+    assert gen._ball_backend().same_site_dep_paths(text, "Csite") == [
+        "Csite/Base.lean", "Csite/Tactic.lean",
+    ]
 
 
 def _by_rel(files: list[tuple[str, str]]) -> dict[str, str]:

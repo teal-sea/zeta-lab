@@ -324,3 +324,26 @@ not measurements of the new compiler or GitHub runner. Use the next pilot's
 actual timings before sizing the remaining 25 cell modules and 16 chunk
 modules. The pilot has an 18-minute build bound, saves its checkpoint on
 failure as well as success, and counts candidate module artifacts too.
+
+The port also updates import readers to recognize public and meta imports:
+the frontier-package orphan/namespace guards, the Palomar precheck, and the
+ball-generator dependency manifest. The scanner and correspondence checks
+pass 18 focused tests, including public-import mutants. The existing V2
+precheck now actually reads its `public import Mathlib`; its other legacy
+policy checks are not a claim of compliance with the current registry.
+
+Run `36506410217` at `f7c904f5` passed the certificate pilot: `Base` took
+17 seconds and `Cells0` took 312 seconds. Total build time was 334.01 seconds,
+maximum resident set size 6006356 KiB, and job time 7 minutes 34 seconds.
+The checkpoint contains 159 local module artifacts. Raw evidence is under
+`port-evidence/36506410217/`. No candidate proof-body repair was needed.
+
+Estimate for the remaining 25 cell modules: 25 times the measured 312
+seconds is 7800 seconds (130 minutes), plus runner/cache overhead. Extrapolating
+the pilot's roughly two-minute overhead per separately checkpointed unit
+gives about three hours total. This is a scheduling estimate, not a claim
+that the unequal modules take equal time. Build one cell module per unit,
+with the 18-minute bound and a checkpoint after every unit; do not start
+all 25 module elaborations concurrently. Measure a chunk separately before
+allocating the 16-module three-dimensional table. The expanded governance
+gate passes 354 tests, with another 18 focused scanner/correspondence tests.

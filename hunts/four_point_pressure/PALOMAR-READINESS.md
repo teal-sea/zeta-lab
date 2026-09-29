@@ -99,3 +99,15 @@ measure one unit before allocating the full build. Cache retrieval must
 succeed; the pilot will not silently compile Mathlib from source. Its build
 is bounded at 15 minutes, checkpoints its Lake state, and publishes logs,
 source SHA, artifact counts and a terminal verdict, including failures.
+
+The analytic bridge subsequently passed in Actions run `36505843011` at
+`e9621a24948224acebca6e39980bdb0ea57db788`: all 157 local modules in the
+target's import closure built, and `n_point_bound` prints only the standard
+axioms. Its raw evidence is in `port-evidence/36505843011/`. This verifies
+the analytic dependency, not the generated stronger certificate or a
+Challenge/Solution comparison. Those remain separate obligations.
+
+The certificate pilot also passed: `Base` and `Cells0` compiled in run
+`36506410217` at `f7c904f5`, with no candidate proof-body changes. The other
+25 cell modules, 16 chunk modules, final assembly and final axiom audit
+remain to be rebuilt on Lean 4.35.
