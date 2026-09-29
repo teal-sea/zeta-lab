@@ -22,6 +22,12 @@ PIPELINE_REVISION = "65f0154ed776cd26c224254aa57b379137f28b0d"
 KERNELS = ("Lean default", "nanoda", "con-ron")
 
 
+def compiler_environment(prefix: Path, lean_path: str) -> dict[str, str]:
+    """Exporter subprocesses must find the pinned binaries, not elan shims."""
+    return dict(os.environ, PATH=str(prefix / "bin") + os.pathsep + os.environ["PATH"],
+                LEAN_PATH=lean_path, LEAN_ABORT_ON_PANIC="1")
+
+
 def require_verdict(returncode: int, log: str, *, mismatch: bool = False) -> None:
     """Reject infrastructure errors and partial kernel acceptance."""
     if mismatch:
@@ -88,12 +94,36 @@ def main() -> None:
                                            cwd=package, text=True).strip()
         if not lean_path:
             raise RuntimeError("Lake returned an empty module search path")
-        env = dict(os.environ, LEAN_PATH=lean_path, LEAN_ABORT_ON_PANIC="1")
+        env = compiler_environment(prefix, lean_path)
         config = json.loads((package / "comparator.json").read_text())
         config.pop("enable_nanoda", None)
         config["external_kernels"] = kernels
         report["tool_digests"] = {name: verifier.sha256(path) for name, path in tools.items()}
         report["pipeline_revision"] = revision
+
+        repository = Path(subprocess.check_output(
+            ["git", "rev-parse", "--show-toplevel"], cwd=package, text=True
+        ).strip())
+        tracked = subprocess.check_output(
+            ["git", "ls-files", "-z", "--", "*.lean"], cwd=repository
+        ).decode().split("\0")
+        sources = [repository / path for path in tracked if path and Path(path).name != "lakefile.lean"]
+        if not sources:
+            raise RuntimeError("Zero tracked Lean source headers found")
+        report["source_headers_expected"] = len(sources)
+        report["source_headers_checked"] = 0
+        for start in range(0, len(sources), 64):
+            batch = sources[start:start + 64]
+            label = f"headers-{start}"
+            run([str(tools["lean"]), "--deps-json", *(str(path) for path in batch)], label)
+            entries = json.loads((evidence / f"{label}.log").read_text())["imports"]
+            if len(entries) != len(batch):
+                raise RuntimeError("Lean header count differs from requested source count")
+            for path, entry in zip(batch, entries, strict=True):
+                if not verifier.parse_lean_header(json.dumps({"imports": [entry]})).is_module:
+                    raise RuntimeError(f"Lean rejected module format for {path}")
+                report["source_headers_checked"] += 1
+            record()
 
         def compare(cfg: dict, challenge: Path, solution: Path, label: str,
                     *, mismatch: bool = False) -> None:
@@ -101,7 +131,7 @@ def main() -> None:
             config_path.write_text(json.dumps(cfg, indent=2) + "\n")
             proc = run([str(tools["lake"]), "comparator", "--config", str(config_path),
                         "--challenge-from-export", str(challenge),
-                        "--solution-from-export", str(solution)], label, cwd=evidence, check=False)
+                        "--solution-from-export", str(solution)], label, cwd=evidence, env=env, check=False)
             require_verdict(proc.returncode, (evidence / f"{label}.log").read_text(), mismatch=mismatch)
             counter = "negative_controls_passed" if mismatch else "comparisons_passed"
             report[counter] += 1

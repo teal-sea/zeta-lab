@@ -1,6 +1,7 @@
 """Fail-closed verdict tests; no local Lean compilation."""
 
 import importlib.util
+import os
 from pathlib import Path
 
 import pytest
@@ -13,6 +14,15 @@ MOD = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MOD)
 ACCEPT = "\n".join([*(f"{kernel} kernel accepts the solution" for kernel in MOD.KERNELS),
                     "Your solution is okay!"])
+
+
+def test_exporter_children_use_pinned_binaries_before_elan(monkeypatch):
+    monkeypatch.setenv("PATH", "/home/runner/.elan/bin:/usr/bin")
+    env = MOD.compiler_environment(Path("/pinned/lean"), "/proof/lib")
+    assert env["PATH"].split(os.pathsep)[0] == "/pinned/lean/bin"
+    assert env["LEAN_PATH"] == "/proof/lib"
+    assert env["LEAN_ABORT_ON_PANIC"] == "1"
+    assert os.environ["PATH"] == "/home/runner/.elan/bin:/usr/bin"
 
 
 def test_accepts_all_three_kernels():

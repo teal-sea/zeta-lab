@@ -22,11 +22,6 @@ jobs:
       max-parallel: 1
       matrix:
         target:
-          - FourPointCand.Cover
-          - FourPointCand.Boxes
-          - FourPointCand.Main
-          - FourPointCand
-          - StrongerChallenge
           - StrongerSolution
     env:
       PORT_TARGET: ${{ matrix.target }}

@@ -432,3 +432,20 @@ verdict tests are included in the 363-test governance gate. These are tests
 of the reporting guard, not a claim that the comparator has run. The pinned
 Palomar helper code supplies export targets; the local cached build/export
 procedure is not Palomar's fresh protected-source registration pipeline.
+
+Run `36633942493` at `a6e55b6914130c305e5457b0102f8a2e3c4153ed`
+passed all six final build units: Cover, Boxes, Main, the library root,
+StrongerChallenge and StrongerSolution. Main emitted all six expected
+axiom reports, each containing exactly the three standard axioms. Both
+StrongerSolution statements also emitted exactly those axioms. The
+Challenge's two statement placeholders are deliberate and not imported by
+Solution. Raw build evidence is under `port-evidence/36633942493/`.
+
+The comparison did not reach the candidate: its control exporter invoked
+`lean` through an elan shim from a directory without a default toolchain.
+The explicit failure record reports zero comparisons and zero negative
+controls passed. The repair prepends the selected toolchain's actual bin
+directory for exporter children and comparison processes; a regression
+test pins that ordering. The next run uses the existing complete proof
+checkpoint, builds the selected Solution target, parses every tracked Lean
+header with `lean --deps-json`, and retries the bounded comparison pilot.
