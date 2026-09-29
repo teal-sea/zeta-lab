@@ -347,3 +347,9 @@ with the 18-minute bound and a checkpoint after every unit; do not start
 all 25 module elaborations concurrently. Measure a chunk separately before
 allocating the 16-module three-dimensional table. The expanded governance
 gate passes 354 tests, with another 18 focused scanner/correspondence tests.
+
+The next workflow builds `Cells1` through `Cells25` in a 25-unit matrix
+with `max-parallel: 1`. Each unit has its own cache key, raw artifact bundle,
+source revision, target artifact hash and terminal verdict. The first failed
+unit stops the remaining matrix; completed units remain checkpointed. The
+aggregate verdict requires success, so cancellation is not a passing result.
