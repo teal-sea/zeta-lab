@@ -392,3 +392,18 @@ a scheduling reference, not a new-toolchain measurement. Keep the existing
 pilot duration before allocating the remaining 15 chunks. This chat owns
 the run and will inspect its terminal outcome. No numerical CI is active
 at launch, and no local Lean build is used.
+
+The chunk pilot passed in run `36602330694` at
+`30423c16f787f18eb86d8664b56d90a105e28a76`. The cell aggregate and
+`Chunks0` built in 802.94 seconds with maximum resident set size
+13771024 KiB. The job took 15 minutes 49 seconds and checkpointed
+186 local module artifacts. Raw logs and terminal records are under
+`port-evidence/36602330694/`. No candidate proof repair was required.
+
+The remaining 15 chunks are allocated as separate, sequential units.
+Fifteen times 802.94 seconds is 12044.1 seconds (200.7 minutes), plus
+roughly 2.4 minutes per job of measured overhead, about four hours total.
+This is an estimate: chunk costs are not guaranteed equal. Each build
+retains the 18-minute limit, per-unit checkpoint and visible terminal
+outcome. A failed unit stops the remaining matrix. The next stage after
+the chunk matrix is the final theorem assembly and paired interface.

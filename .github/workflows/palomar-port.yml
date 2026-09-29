@@ -21,7 +21,22 @@ jobs:
       fail-fast: true
       max-parallel: 1
       matrix:
-        target: [FourPointCand.Chunks0]
+        target:
+          - FourPointCand.Chunks1
+          - FourPointCand.Chunks2
+          - FourPointCand.Chunks3
+          - FourPointCand.Chunks4
+          - FourPointCand.Chunks5
+          - FourPointCand.Chunks6
+          - FourPointCand.Chunks7
+          - FourPointCand.Chunks8
+          - FourPointCand.Chunks9
+          - FourPointCand.Chunks10
+          - FourPointCand.Chunks11
+          - FourPointCand.Chunks12
+          - FourPointCand.Chunks13
+          - FourPointCand.Chunks14
+          - FourPointCand.Chunks15
     env:
       PORT_TARGET: ${{ matrix.target }}
     defaults:
