@@ -59,5 +59,15 @@ Both local entrypoints exited zero. Total recorded work including pilot is
 766.8020370006561 core-seconds. The original planning allowance still covers
 all remaining work. Before main launch, an updated conservative estimate is
 766.8020370006561+99*72.40257549285889*1.3+900+600
-=11585.013502836228 core-seconds, below 3.219 core-hours. Launch the 99
+=11585.013502931595 core-seconds, below 3.219 core-hours. Launch the 99
 remaining main units with the byte-identical source and exact inputs.
+
+## Main assembly completed
+
+App ap-oyXeqoiRrDLKIDCKlkzXlj completed all 99 remaining main units. Together
+with the pilot, all 100 main blocks are present. The client emitted one
+heartbeat deadline warning, but continued returning successful units and
+exited zero; no input failed or was retried. Total recorded work through
+all assemblies and Zhu reduction is 8197.112294197083 core-seconds.
+One main reducer has at most 900 input seconds available, leaving the total
+below 9098 core-seconds before conservative app-occupancy accounting.
