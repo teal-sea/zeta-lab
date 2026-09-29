@@ -53,6 +53,25 @@ Dependencies are ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`, `sympy`,
 plus `python-flint` for the ball-arithmetic backend. Expensive computations
 cache under `data/`, so second runs are fast.
 
+## Stronger Four-Point Result
+
+The lab's four-point theorem now has coefficient
+`(14400000 H - 17240)/14366681`, approximately **0.6728603588**, with
+`H = 3/2 - cot(1/sqrt(2))/sqrt(2)`. For every positive epsilon, the
+proportion of simple critical-line zeros among all zeros in `(T, 2T]` is
+at least this coefficient minus epsilon for all sufficiently large `T`.
+This improves the registered four-point coefficient below; it is not RH.
+
+The [recorded lab build](hunts/four_point_pressure/evidence/README.md)
+at `5522b963` has 49 successful receipts, zero sorry warnings, and only
+the standard three axioms for all six advertised declarations. Its source
+hashes were checked during integration. This result is **kernel-checked at
+the pinned revision**, pending external verification, and **not yet
+registered with Palomar**. The current registry requires a toolchain and
+module-format port, tracked in
+[Palomar preparation](hunts/four_point_pressure/PALOMAR-READINESS.md).
+The registered results below remain unchanged.
+
 ## Registered
 
 Three results here have been rebuilt and kernel-checked by someone other than their
