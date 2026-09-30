@@ -4,8 +4,9 @@ Updated September 30, 2026. Resource repair awaiting full preflight; not submitt
 
 ## Fixed source snapshot
 
-The proof, metadata and raw laboratory verification logs are already on
+The original proof, metadata and raw laboratory verification logs are on
 GitHub through [PR #262](https://github.com/teal-sea/zeta-lab/pull/262).
+The resource repair is in [draft PR #264](https://github.com/teal-sea/zeta-lab/pull/264).
 Use the fixed source commit below, not whichever commit is latest when this
 packet is read. Adding this document does not change the selected snapshot.
 
@@ -157,3 +158,8 @@ come from the protocol linked above.
 The first resource-repair run [36733676572](https://github.com/teal-sea/zeta-lab/actions/runs/36733676572)
 was canceled during setup so the selected source could also include the
 historical-proof guard update. It is not a completed verification attempt.
+
+The current full [run 36733933889](https://github.com/teal-sea/zeta-lab/actions/runs/36733933889)
+checks exactly `020a974f2c7153314f9dac8c0fe8a0f9d2dbd53b`, with request ID
+`f42330260930`. It was dispatched after the historical-proof guard correction.
+Its result is pending; the earlier incremental checks are not its result.
