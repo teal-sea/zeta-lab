@@ -1,5 +1,6 @@
 module
 
+public import FourPointCand.Cells4
 public import FourPointCand.Base
 
 @[expose] public section

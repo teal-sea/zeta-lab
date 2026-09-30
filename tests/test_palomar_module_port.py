@@ -5,6 +5,7 @@ import json
 import re
 import subprocess
 import sys
+from itertools import combinations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +15,31 @@ PACKAGES = [
     "hunts/ainta_seven_point/lean", "hunts/ainta_seven_point/lean-four-point",
     "hunts/frontier_math/zeta23ext",
 ]
+
+
+def test_heavy_certificate_build_has_bounded_concurrency():
+    """No three cell modules or two chunk modules can build simultaneously."""
+    root = ROOT / "hunts/ainta_seven_point/lean-four-point/FourPointCand"
+    edges = {
+        path.stem: set(re.findall(r"^public import FourPointCand\.(\w+)", path.read_text(), re.M))
+        for path in root.glob("*.lean")
+    }
+
+    def ancestors(name, visiting=frozenset()):
+        assert name not in visiting, "cyclic certificate imports"
+        direct = edges.get(name, set())
+        return direct | set().union(*(ancestors(dep, visiting | {name}) for dep in direct))
+
+    closure = {name: ancestors(name) for name in edges}
+    cells = [name for name in edges if re.fullmatch(r"Cells\d+", name)]
+    chunks = [name for name in edges if re.fullmatch(r"Chunks\d+", name)]
+    assert cells and chunks
+    for triple in combinations(cells, 3):
+        assert any(a in closure[b] or b in closure[a] for a, b in combinations(triple, 2))
+    for a, b in combinations(chunks, 2):
+        assert a in closure[b] or b in closure[a]
+    for name in chunks:
+        assert set(cells) | {"Cover"} <= closure[name]
 
 
 def test_all_submitted_lean_files_have_module_headers_and_fit_the_line_cap():

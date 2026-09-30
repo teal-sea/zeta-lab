@@ -1,0 +1,25 @@
+name: Palomar full mechanical preflight
+run-name: Palomar stronger four-point full preflight
+
+on:
+  push:
+    branches: [codex/palomar-full-preflight]
+    paths: [.github/workflows/palomar-full-preflight.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@65f0154ed776cd26c224254aa57b379137f28b0d
+    with:
+      repository: teal-sea/zeta-lab
+      commit: 020a974f2c7153314f9dac8c0fe8a0f9d2dbd53b
+      pipeline_commit: 65f0154ed776cd26c224254aa57b379137f28b0d
+      # The verifier requires exactly 12 lowercase alphanumeric characters.
+      request_id: f42330260930
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: >-
+        {"project_path":"hunts/ainta_seven_point/lean-four-point","comparator_config_path":"hunts/ainta_seven_point/lean-four-point/comparator.json","formalization_metadata_path":"hunts/ainta_seven_point/lean-four-point/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}

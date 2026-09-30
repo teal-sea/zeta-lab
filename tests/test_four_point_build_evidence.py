@@ -137,6 +137,25 @@ def test_candidate_proof_text_matches_the_historical_build_after_module_port():
         source = source.removeprefix("module\n\n")
         source = source.replace("\n@[expose] public section\n", "", 1)
         source = re.sub(r"(?m)^public import ", "import ", source)
+        # Normalize only the named build-order imports added after the OOM.
+        # The original manifest remains immutable; proof text still hashes exactly.
+        cell = re.fullmatch(r"FourPointCand/Cells(\d+)\.lean", path)
+        chunk = re.fullmatch(r"FourPointCand/Chunks(\d+)\.lean", path)
+        dependency = None
+        if cell and int(cell[1]) >= 2:
+            dependency = f"Cells{int(cell[1]) - 2}"
+        elif chunk:
+            dependency = f"Chunks{int(chunk[1]) - 1}" if int(chunk[1]) else "Cover"
+        if dependency:
+            prefix = f"import FourPointCand.{dependency}\n"
+            assert source.startswith(prefix), path
+            source = source.removeprefix(prefix)
+        if chunk:
+            source = source.replace(
+                "heartbeat budget. Import dependencies serialize these memory-heavy modules.",
+                "heartbeat budget and lets `lake` compile them in parallel.",
+                1,
+            )
         assert hashlib.sha256(source.encode()).hexdigest() == digest, path
 
 

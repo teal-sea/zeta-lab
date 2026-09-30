@@ -157,6 +157,16 @@ R = G.R
 module_source = G.module_source
 
 
+def _bounded_build_source(source, kind, index):
+    """Limit concurrent certificate modules using ordinary import dependencies."""
+    stride = 2 if kind == "Cells" else 1
+    if index >= stride:
+        source = "import %s.%s%d\n" % (LIB, kind, index - stride) + source
+    elif kind == "Chunks":
+        source = "import %s.Cover\n" % LIB + source
+    return module_source(source)
+
+
 CELLS_HDR = """import %s.Base
 
 noncomputable section
@@ -278,7 +288,7 @@ def emit(cn, p, out):
         for iv in ivals[k * PERMOD:(k + 1) * PERMOD]:
             body.append(G.emit_cell("wc_%d" % idx[iv], cells[iv]))
         body.append(FTR)
-        open(os.path.join(out, LIB, "Cells%d.lean" % k), 'w').write(module_source("".join(body)))
+        open(os.path.join(out, LIB, "Cells%d.lean" % k), 'w').write(_bounded_build_source("".join(body), "Cells", k))
     open(os.path.join(out, LIB, "Cells.lean"), 'w').write(
         module_source("\n".join("import %s.Cells%d" % (LIB, k) for k in range(nmod)) + "\n"))
 
@@ -363,7 +373,7 @@ def emit(cn, p, out):
              "/-! Chunk module %d of %d of the three-dimensional table.  Each lemma is one" % (j, NMOD),
              "subtree of at most %d leaves of one box's bisection tree; `%s/Boxes.lean` routes" % (CHUNK, LIB),
              "the box down to them.  Cutting the tree this way gives each subtree its own",
-             "heartbeat budget and lets `lake` compile them in parallel. -/", "",
+             "heartbeat budget. Import dependencies serialize these memory-heavy modules. -/", "",
              "noncomputable section", "namespace %s" % NS, ""]
         for i in sorted(members):
             node = allchunks[i]
@@ -379,7 +389,7 @@ def emit(cn, p, out):
             L.extend(body)
             L.append("")
         L.append("end %s" % NS)
-        open(os.path.join(out, LIB, "Chunks%d.lean" % j), 'w').write(module_source("\n".join(L) + "\n"))
+        open(os.path.join(out, LIB, "Chunks%d.lean" % j), 'w').write(_bounded_build_source("\n".join(L) + "\n", "Chunks", j))
 
     # ---- routers ----
     L = ["import %s.Chunks%d" % (LIB, j) for j in range(NMOD)]

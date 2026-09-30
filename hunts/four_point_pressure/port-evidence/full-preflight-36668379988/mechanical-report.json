@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "source": {
+    "repository": "teal-sea/zeta-lab",
+    "commit": "783307c8be59317375ae6675622b4d3019222875"
+  },
+  "submission": {
+    "submission_id": "f42330260929"
+  },
+  "status": "error",
+  "phase": "verification",
+  "stage": "reporting",
+  "checked_at": "2026-09-30T04:20:53Z",
+  "errors": [
+    "The mechanical report was malformed or did not match the workflow inputs."
+  ],
+  "warnings": [],
+  "diagnostics_schema_version": 1,
+  "diagnostics": [
+    {
+      "code": "palomar.reporting_failed",
+      "stage": "reporting",
+      "owner": "palomar",
+      "summary": "The mechanical report was malformed or did not match the workflow inputs.",
+      "explanation": "The mechanical report was malformed or did not match the workflow inputs.",
+      "retryable": true,
+      "repairable": false,
+      "next_action": "No repository change is indicated. Report the workflow URL to Palomar."
+    }
+  ],
+  "workflow_url": "https://github.com/teal-sea/zeta-lab/actions/runs/36668379988",
+  "execution_profile": "palomar-standard-v1"
+}

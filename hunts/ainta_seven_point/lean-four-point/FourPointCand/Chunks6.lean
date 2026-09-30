@@ -1,5 +1,6 @@
 module
 
+public import FourPointCand.Chunks5
 public import FourPointCand.Cells
 
 @[expose] public section
@@ -7,7 +8,7 @@ public import FourPointCand.Cells
 /-! Chunk module 6 of 16 of the three-dimensional table.  Each lemma is one
 subtree of at most 110 leaves of one box's bisection tree; `FourPoint/Boxes.lean` routes
 the box down to them.  Cutting the tree this way gives each subtree its own
-heartbeat budget and lets `lake` compile them in parallel. -/
+heartbeat budget. Import dependencies serialize these memory-heavy modules. -/
 
 noncomputable section
 namespace Zeta23Ext.Bridge.FourPoint
