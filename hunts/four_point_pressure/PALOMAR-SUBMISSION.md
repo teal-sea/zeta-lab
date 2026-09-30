@@ -1,6 +1,6 @@
 # Stronger four-point Palomar submission packet
 
-Updated September 30, 2026. Resource repair awaiting full preflight; not submitted or registered.
+Updated September 30, 2026. Full mechanical preflight passed; ready for owner submission. Not submitted or registered.
 
 ## Fixed source snapshot
 
@@ -60,7 +60,7 @@ The committed metadata preserves Ainta's argument, the Alpoge/Furman
 foundation and anthropics/zeta-23-lean attribution. SamiYaya's separate
 candidate is credited separately, not incorporated or claimed rebuilt.
 
-## Next: full mechanical preflight
+## Full mechanical preflight passed
 
 Palomar's [agent protocol](https://submit.palomar-registry.org/llms.txt)
 requires its complete reusable workflow in `mode: full`, with a mechanical
@@ -78,8 +78,8 @@ before the chunk chain begins. All 40 changed Lean files preserve every byte
 after their `noncomputable section` marker. The generator emits the same
 dependencies, and a graph test checks the concurrency bound and absence of cycles.
 The statement, coefficient, proof bodies, comparator and toolchain are unchanged.
-A new full preflight is required for this exact repaired source. Do not submit
-until its mechanical report says `status: pass`.
+The full preflight for this exact repaired source passed. Its mechanical
+report says `status: pass`, `stage: complete`, with no errors or warnings.
 
 The pinned workflow is
 `PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@65f0154ed776cd26c224254aa57b379137f28b0d`.
@@ -122,8 +122,8 @@ the third run. The second [report and workflow log](port-evidence/full-preflight
 are retained. Both failed reports replaced the specific intake error with
 the generic reporting error because intake had not yet bound the source.
 
-The previously filled browser form used the original baseline and must be
-replaced with the repaired source above after its full preflight passes. The registry index was
+The previous browser form used the original baseline. A fresh form is now
+filled with the exact repaired source above after its full preflight passed. The registry index was
 rechecked and the form identifies this as a new submission. The agent has performed no intake or authentication. The owner reported a
 stalled browser authentication attempt; no successful submission was confirmed. The owner performs the final
 authentication and submission after the full preflight passes.
@@ -162,4 +162,7 @@ historical-proof guard update. It is not a completed verification attempt.
 The current full [run 36733933889](https://github.com/teal-sea/zeta-lab/actions/runs/36733933889)
 checks exactly `020a974f2c7153314f9dac8c0fe8a0f9d2dbd53b`, with request ID
 `f42330260930`. It was dispatched after the historical-proof guard correction.
-Its result is pending; the earlier incremental checks are not its result.
+Its final report says `status: pass` and `stage: complete`, checked at
+2026-09-30 20:04:38 UTC. The exact source and both selected theorem names
+match this packet. The [report and complete workflow log](port-evidence/full-preflight-36733933889/)
+are retained. The full run completed within the standard resource profile.
