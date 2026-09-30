@@ -15,7 +15,7 @@ jobs:
     uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@65f0154ed776cd26c224254aa57b379137f28b0d
     with:
       repository: teal-sea/zeta-lab
-      commit: f81729e237e3d283ef1c027c19a0442392018e39
+      commit: 020a974f2c7153314f9dac8c0fe8a0f9d2dbd53b
       pipeline_commit: 65f0154ed776cd26c224254aa57b379137f28b0d
       # The verifier requires exactly 12 lowercase alphanumeric characters.
       request_id: f42330260930

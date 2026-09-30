@@ -12,7 +12,7 @@ packet is read. Adding this document does not change the selected snapshot.
 ```json
 {
   "repository": "teal-sea/zeta-lab",
-  "commit": "f81729e237e3d283ef1c027c19a0442392018e39",
+  "commit": "020a974f2c7153314f9dac8c0fe8a0f9d2dbd53b",
   "project_path": "hunts/ainta_seven_point/lean-four-point",
   "comparator_config_path": "hunts/ainta_seven_point/lean-four-point/comparator.json",
   "formalization_metadata_path": "hunts/ainta_seven_point/lean-four-point/formalization.yaml",
@@ -87,7 +87,7 @@ Its `workflow_call` inputs are:
 ```json
 {
   "repository": "teal-sea/zeta-lab",
-  "commit": "f81729e237e3d283ef1c027c19a0442392018e39",
+  "commit": "020a974f2c7153314f9dac8c0fe8a0f9d2dbd53b",
   "pipeline_commit": "65f0154ed776cd26c224254aa57b379137f28b0d",
   "request_id": "f42330260930",
   "mode": "full",
@@ -153,3 +153,7 @@ The final paragraphs of `scripts/palomar_stage.sh` still describe the old
 V1/V2 bridge and an older capacity rule. Its selected paths and 68 local
 checks were used here, not those generic paragraphs. Current intake rules
 come from the protocol linked above.
+
+The first resource-repair run [36733676572](https://github.com/teal-sea/zeta-lab/actions/runs/36733676572)
+was canceled during setup so the selected source could also include the
+historical-proof guard update. It is not a completed verification attempt.
