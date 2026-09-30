@@ -1,6 +1,6 @@
 # Stronger four-point Palomar submission packet
 
-Staged September 29, 2026. Not submitted or registered.
+Staged September 29, 2026. Full preflight launched; not submitted or registered.
 
 ## Fixed source snapshot
 
@@ -65,7 +65,9 @@ Palomar's [agent protocol](https://submit.palomar-registry.org/llms.txt)
 requires its complete reusable workflow in `mode: full`, with a mechanical
 report saying `status: pass`, before intake. The incremental laboratory
 build and three-kernel comparison do not satisfy this separate gate.
-**No full preflight was launched by staging this packet.**
+The full preflight is running in
+[run 36668540666](https://github.com/teal-sea/zeta-lab/actions/runs/36668540666).
+Do not submit until its mechanical report says `status: pass`.
 
 The pinned workflow is
 `PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@65f0154ed776cd26c224254aa57b379137f28b0d`.
@@ -76,17 +78,43 @@ Its `workflow_call` inputs are:
   "repository": "teal-sea/zeta-lab",
   "commit": "783307c8be59317375ae6675622b4d3019222875",
   "pipeline_commit": "65f0154ed776cd26c224254aa57b379137f28b0d",
-  "request_id": "zeta-four-point-2330-20260929",
+  "request_id": "f42330260929",
   "mode": "full",
   "execution_profile": "palomar-standard-v1",
-  "options": "{\"project_path\":\"hunts/ainta_seven_point/lean-four-point\",\"comparator_config_path\":\"hunts/ainta_seven_point/lean-four-point/comparator.json\",\"formalization_metadata_path\":\"hunts/ainta_seven_point/lean-four-point/formalization.yaml\",\"authorization_relationship\":\"maintainer\"}"
+  "options": "{\"project_path\":\"hunts/ainta_seven_point/lean-four-point\",\"comparator_config_path\":\"hunts/ainta_seven_point/lean-four-point/comparator.json\",\"formalization_metadata_path\":\"hunts/ainta_seven_point/lean-four-point/formalization.yaml\",\"authorization_relationship\":\"I am a responsible author or maintainer\"}"
 }
 ```
 
-That upstream revision was current at staging. Recheck the protocol before
-launching. Use a small caller workflow on an isolated branch, with the
-workflow reference and `pipeline_commit` pinned identically. This packet
-does not install that caller or schedule a job.
+The protocol and upstream revision were rechecked on September 29, 2026
+(America/Bogota). The pinned caller is
+[palomar-full-preflight.yml](../../.github/workflows/palomar-full-preflight.yml)
+on `codex/palomar-full-preflight`. It targets the fixed source above,
+independently of the caller branch's own commit.
+
+The first [run 36668179464](https://github.com/teal-sea/zeta-lab/actions/runs/36668179464)
+stopped before source preparation and proof execution. Its final report says
+`palomar.reporting_failed`. Inspection of the pinned verifier's
+`submission_contract.submission_request` found that the original descriptive
+request ID fails its exact twelve-character lowercase alphanumeric rule.
+The caller now uses `f42330260929`; no mathematical source was changed.
+The original [report and workflow log](port-evidence/full-preflight-36668179464/)
+are retained. No resource-exhaustion or theorem-failure conclusion follows
+from that run.
+
+The second [run 36668379988](https://github.com/teal-sea/zeta-lab/actions/runs/36668379988)
+also stopped before source preparation. The workflow requires the full
+relationship sentence shown above; the HTTPS API instead takes `maintainer`.
+The corrected caller was checked against the pinned upstream
+`submission_request` parser and `AUTHORIZATION_RELATIONSHIPS` mapping before
+the third run. The second [report and workflow log](port-evidence/full-preflight-36668379988/)
+are retained. Both failed reports replaced the specific intake error with
+the generic reporting error because intake had not yet bound the source.
+
+The submission form has been filled in for the owner with the exact source,
+paths, and proposed maintainer relationship above. The registry index was
+rechecked and the form identifies this as a new submission. Neither intake
+nor GitHub authentication has been initiated. The owner performs the final
+authentication and submission after the full preflight passes.
 
 Run the expensive work on GitHub Actions, never a local Mac. Once dispatched,
 the GitHub-hosted job continues without the launching computer. A local

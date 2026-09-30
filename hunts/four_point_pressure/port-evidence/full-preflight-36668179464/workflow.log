@@ -1,0 +1,886 @@
+preflight / profile	UNKNOWN STEP	﻿2026-09-30T04:17:39.7929103Z Current runner version: '2.337.0'
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7955800Z ##[group]Runner Image Provisioner
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7956768Z Hosted Compute Agent
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7957425Z Version: 20260828.587
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7958081Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7958830Z Build Date: 2026-08-28T16:44:25Z
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7959570Z Worker ID: {7ad32c69-4408-4fb5-bcef-3701df7bb040}
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7960320Z Azure Region: westus2
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7960871Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7962593Z ##[group]Operating System
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7963238Z Ubuntu
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7963831Z 24.04.5
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7964437Z LTS
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7964930Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7965950Z ##[group]Runner Image
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7966570Z Image: ubuntu-24.04
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7967185Z Version: 20260920.314.1
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7968513Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260920.314/images/ubuntu/Ubuntu2404-Readme.md
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7970126Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260920.314
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7971090Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7972773Z ##[group]GITHUB_TOKEN Permissions
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7974814Z Contents: read
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7975959Z Metadata: read
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7976552Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7978777Z Secret source: Actions
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7979870Z Cache mode: write
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.7980572Z Prepare workflow directory
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.8367249Z Prepare all required actions
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:39.8442617Z Getting action download info
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.2196823Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7312687Z Uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7318305Z ##[group] Inputs
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7319096Z   repository: teal-sea/zeta-lab
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7319899Z   commit: 783307c8be59317375ae6675622b4d3019222875
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7320727Z   pipeline_commit: 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7321506Z   request_id: zeta-four-point-2330-20260929
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7322289Z   mode: full
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7322856Z   execution_profile: palomar-standard-v1
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7323592Z   execution_attempt: 
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7325977Z   options: {"project_path":"hunts/ainta_seven_point/lean-four-point","comparator_config_path":"hunts/ainta_seven_point/lean-four-point/comparator.json","formalization_metadata_path":"hunts/ainta_seven_point/lean-four-point/formalization.yaml","authorization_relationship":"maintainer"}
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7328021Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.7328666Z Complete job name: preflight / profile
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8248746Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8249865Z with:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8250380Z   repository: PalomarRegistry/PalomarSubmission
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8251074Z   ref: 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8251694Z   persist-credentials: false
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8255954Z   token: ***
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8256405Z   ssh-strict: true
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8256850Z   ssh-user: git
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8257284Z   clean: true
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8257741Z   sparse-checkout-cone-mode: true
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8258281Z   fetch-depth: 1
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8258750Z   fetch-tags: false
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8259207Z   show-progress: true
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8259657Z   lfs: false
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8260075Z   submodules: false
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8260531Z   set-safe-directory: true
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8261064Z   allow-unsafe-pr-checkout: false
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.8261884Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.9354390Z Syncing repository: PalomarRegistry/PalomarSubmission
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.9357526Z ##[group]Getting Git version info
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.9358732Z Working directory is '/home/runner/work/zeta-lab/zeta-lab'
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:40.9360799Z [command]/usr/bin/git version
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0585002Z git version 2.55.0
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0610022Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0623314Z Temporarily overriding HOME='/home/runner/work/_temp/f2c21e11-4496-4dd4-9a24-8c6264847ec5' before making global git config changes
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0626007Z Adding repository directory to the temporary git global config as a safe directory
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0630309Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zeta-lab/zeta-lab
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0850211Z Deleting the contents of '/home/runner/work/zeta-lab/zeta-lab'
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0854715Z ##[group]Determining repository object format
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0856743Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0857691Z ##[group]Initializing the repository
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.0861891Z [command]/usr/bin/git init /home/runner/work/zeta-lab/zeta-lab
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1293966Z hint: Using 'master' as the name for the initial branch. This default branch name
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1295843Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1297510Z hint: to use in all of your new repositories, which will suppress this warning,
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1298647Z hint: call:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1299497Z hint:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1300286Z hint: 	git config --global init.defaultBranch <name>
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1301220Z hint:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1302424Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1303707Z hint: 'development'. The just-created branch can be renamed via this command:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1305425Z hint:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1305927Z hint: 	git branch -m <name>
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1306427Z hint:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1307100Z hint: Disable this message with "git config set advice.defaultBranchName false"
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1308161Z Initialized empty Git repository in /home/runner/work/zeta-lab/zeta-lab/.git/
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1311579Z [command]/usr/bin/git remote add origin https://github.com/PalomarRegistry/PalomarSubmission
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1536982Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1537911Z ##[group]Disabling automatic garbage collection
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1541007Z [command]/usr/bin/git config --local gc.auto 0
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1581887Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1583274Z ##[group]Setting up auth
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1583878Z Removing SSH command configuration
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1589594Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.1631549Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.3508770Z Removing HTTP extra header
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.3510290Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.3620085Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.3921635Z Removing includeIf entries pointing to credentials config files
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.3926662Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.3977899Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.4277705Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.4342689Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/zeta-lab/zeta-lab/.git.path /home/runner/work/_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.4394242Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/zeta-lab/zeta-lab/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.4592476Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.4634906Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.4672073Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.4673469Z ##[group]Fetching the repository
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.4680367Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9587477Z From https://github.com/PalomarRegistry/PalomarSubmission
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9588428Z  * branch            65f0154ed776cd26c224254aa57b379137f28b0d -> FETCH_HEAD
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9597717Z [command]/usr/bin/git rev-parse --verify --quiet 65f0154ed776cd26c224254aa57b379137f28b0d^{object}
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9630087Z 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9640327Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9640942Z ##[group]Determining the checkout info
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9641629Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9643758Z [command]/usr/bin/git sparse-checkout disable
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9815808Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9852581Z ##[group]Checking out the ref
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:41.9857391Z [command]/usr/bin/git checkout --progress --force 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0032786Z Note: switching to '65f0154ed776cd26c224254aa57b379137f28b0d'.
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0033535Z 
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0034066Z You are in 'detached HEAD' state. You can look around, make experimental
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0034848Z changes and commit them, and you can discard any commits you make in this
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0036012Z state without impacting any branches by switching back to a branch.
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0036456Z 
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0036818Z If you want to create a new branch to retain commits you create, you may
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0037580Z do so (now or later) by using -c with the switch command. Example:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0037974Z 
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0038213Z   git switch -c <new-branch-name>
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0038579Z 
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0038823Z Or undo this operation with:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0039109Z 
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0039337Z   git switch -
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0039580Z 
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0039931Z Turn off this advice by setting config variable advice.detachedHead to false
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0040385Z 
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0041489Z HEAD is now at 65f0154 Enforce module sources and the 10,000-line cap before builds (#155)
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0043568Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0096952Z [command]/usr/bin/git log -1 --format=%H
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0129347Z 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0141991Z ##[group]Removing auth
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0142878Z Removing SSH command configuration
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0147692Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0188513Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0430113Z Removing HTTP extra header
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0434531Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0482799Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0718076Z Removing includeIf entries pointing to credentials config files
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0721695Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0755835Z includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/.git.path
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0757219Z includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/.git/worktrees/*.path
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0758384Z includeif.gitdir:/github/workspace/.git.path
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0759301Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0774834Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/.git.path
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0794632Z /home/runner/work/_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0806510Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-71d82b2d\-ff6f\-41ec\-bfdf\-3167ea877b70\.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0849601Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/.git/worktrees/*.path
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0879464Z /home/runner/work/_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0897237Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-71d82b2d\-ff6f\-41ec\-bfdf\-3167ea877b70\.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0940107Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0972502Z /github/runner_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.0980122Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-71d82b2d\-ff6f\-41ec\-bfdf\-3167ea877b70\.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.1026805Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.1055071Z /github/runner_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.1063310Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-71d82b2d\-ff6f\-41ec\-bfdf\-3167ea877b70\.config
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.1104180Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.1350370Z Removing credentials config '/home/runner/work/_temp/git-credentials-71d82b2d-ff6f-41ec-bfdf-3167ea877b70.config'
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.1362184Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.1575538Z ##[group]Run python3 scripts/verification_profile.py --resolve
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.1576472Z ^[[36;1mpython3 scripts/verification_profile.py --resolve^[[0m
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.2750377Z shell: /usr/bin/bash -e {0}
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.2750923Z env:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.2751384Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.2751919Z ##[endgroup]
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.3491940Z Post job cleanup.
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4399201Z [command]/usr/bin/git version
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4446229Z git version 2.55.0
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4494356Z Temporarily overriding HOME='/home/runner/work/_temp/8208937e-d0da-4422-a4ff-dbe5a424c9e9' before making global git config changes
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4496387Z Adding repository directory to the temporary git global config as a safe directory
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4502105Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zeta-lab/zeta-lab
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4539261Z Removing SSH command configuration
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4547525Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4591637Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4852760Z Removing HTTP extra header
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.4866924Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.5002730Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.5230500Z Removing includeIf entries pointing to credentials config files
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.5231816Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.5262513Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.5664043Z Evaluate and set job outputs
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.5671685Z Set output 'labels'
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.5673973Z Set output 'timeout'
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.5674820Z Set output 'budget'
+preflight / profile	UNKNOWN STEP	2026-09-30T04:17:42.5676137Z Cleaning up orphan processes
+preflight / verify	UNKNOWN STEP	﻿2026-09-30T04:17:47.7695291Z Current runner version: '2.337.0'
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7720519Z ##[group]Runner Image Provisioner
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7721344Z Hosted Compute Agent
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7722027Z Version: 20260828.587
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7722660Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7723473Z Build Date: 2026-08-28T16:44:25Z
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7724205Z Worker ID: {cb186ba6-e3ac-448a-8c15-6faed914ffcd}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7724938Z Azure Region: eastus
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7725572Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7727062Z ##[group]Operating System
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7728010Z Ubuntu
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7728548Z 24.04.5
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7729050Z LTS
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7729611Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7730161Z ##[group]Runner Image
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7730768Z Image: ubuntu-24.04
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7731393Z Version: 20260920.314.1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7732625Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260920.314/images/ubuntu/Ubuntu2404-Readme.md
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7734267Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260920.314
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7735260Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7736414Z ##[group]GITHUB_TOKEN Permissions
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7738946Z Contents: read
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7739577Z Metadata: read
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7740171Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7742279Z Secret source: Actions
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7743193Z Cache mode: write
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.7744249Z Prepare workflow directory
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.8259640Z Prepare all required actions
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:47.8307696Z Getting action download info
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.0694833Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.1779817Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.2912324Z Download action repository 'ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b' (SHA:95ef2b042f9d7a56d8268cba8559e2842e2ad01b)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.4460232Z Download action repository 'jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be' (SHA:54081f138730dfa15788a46383842cd2f914a1be)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.5476844Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7683870Z Uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7689203Z ##[group] Inputs
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7689776Z   repository: teal-sea/zeta-lab
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7690376Z   commit: 783307c8be59317375ae6675622b4d3019222875
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7691084Z   pipeline_commit: 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7691762Z   request_id: zeta-four-point-2330-20260929
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7692325Z   mode: full
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7692812Z   execution_profile: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7693380Z   execution_attempt: 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7695237Z   options: {"project_path":"hunts/ainta_seven_point/lean-four-point","comparator_config_path":"hunts/ainta_seven_point/lean-four-point/comparator.json","formalization_metadata_path":"hunts/ainta_seven_point/lean-four-point/formalization.yaml","authorization_relationship":"maintainer"}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7697138Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.7697869Z Complete job name: preflight / verify
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.8491832Z ##[group]Run echo "PALOMAR_JOB_STARTED_AT=$(date +%s)" >> "$GITHUB_ENV"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.8492835Z ^[[36;1mecho "PALOMAR_JOB_STARTED_AT=$(date +%s)" >> "$GITHUB_ENV"^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.8761780Z shell: /usr/bin/bash -e {0}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.8762730Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.8763298Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.8763986Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9041256Z ##[group]Run if [[ ! "$PIPELINE_COMMIT" =~ ^[0-9a-f]{40}$ ]]; then
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9042097Z ^[[36;1mif [[ ! "$PIPELINE_COMMIT" =~ ^[0-9a-f]{40}$ ]]; then^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9043111Z ^[[36;1m  echo "pipeline_commit must be a full lowercase commit SHA" >&2^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9043822Z ^[[36;1m  exit 1^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9044241Z ^[[36;1mfi^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9108664Z shell: /usr/bin/bash -e {0}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9109192Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9109674Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9110293Z   PALOMAR_JOB_STARTED_AT: 1790741868
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9110931Z   PIPELINE_COMMIT: 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9111549Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9349552Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9350381Z with:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9350886Z   repository: PalomarRegistry/PalomarSubmission
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9351565Z   ref: 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9352297Z   path: pipeline
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9352784Z   persist-credentials: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9356568Z   token: ***
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9357028Z   ssh-strict: true
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9357824Z   ssh-user: git
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9358288Z   clean: true
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9358751Z   sparse-checkout-cone-mode: true
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9359290Z   fetch-depth: 1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9359737Z   fetch-tags: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9360202Z   show-progress: true
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9360662Z   lfs: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9361092Z   submodules: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9361551Z   set-safe-directory: true
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9362077Z   allow-unsafe-pr-checkout: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9362610Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9363129Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9363783Z   PALOMAR_JOB_STARTED_AT: 1790741868
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:48.9364333Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0366374Z Syncing repository: PalomarRegistry/PalomarSubmission
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0369614Z ##[group]Getting Git version info
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0370862Z Working directory is '/home/runner/work/zeta-lab/zeta-lab/pipeline'
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0372886Z [command]/usr/bin/git version
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0416695Z git version 2.55.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0439263Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0451150Z Temporarily overriding HOME='/home/runner/work/_temp/25ce1c25-3714-4768-9727-3428ad167ad7' before making global git config changes
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0453645Z Adding repository directory to the temporary git global config as a safe directory
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0456562Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zeta-lab/zeta-lab/pipeline
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0518396Z ##[group]Determining repository object format
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0520551Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0521844Z ##[group]Initializing the repository
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0526385Z [command]/usr/bin/git init /home/runner/work/zeta-lab/zeta-lab/pipeline
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0650197Z hint: Using 'master' as the name for the initial branch. This default branch name
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0651346Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0652390Z hint: to use in all of your new repositories, which will suppress this warning,
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0653155Z hint: call:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0653562Z hint:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0654110Z hint: 	git config --global init.defaultBranch <name>
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0654738Z hint:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0655332Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0656289Z hint: 'development'. The just-created branch can be renamed via this command:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0657041Z hint:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0657978Z hint: 	git branch -m <name>
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0658787Z hint:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0659513Z hint: Disable this message with "git config set advice.defaultBranchName false"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0665926Z Initialized empty Git repository in /home/runner/work/zeta-lab/zeta-lab/pipeline/.git/
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0677662Z [command]/usr/bin/git remote add origin https://github.com/PalomarRegistry/PalomarSubmission
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0730385Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0731910Z ##[group]Disabling automatic garbage collection
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0734078Z [command]/usr/bin/git config --local gc.auto 0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0775192Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0776556Z ##[group]Setting up auth
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0782147Z Removing SSH command configuration
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0784467Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.0825710Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1202148Z Removing HTTP extra header
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1207186Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1246556Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1467161Z Removing includeIf entries pointing to credentials config files
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1472349Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1506904Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1741298Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1782328Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/zeta-lab/zeta-lab/pipeline/.git.path /home/runner/work/_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1817222Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/zeta-lab/zeta-lab/pipeline/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1854615Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/pipeline/.git.path /github/runner_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1891050Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/pipeline/.git/worktrees/*.path /github/runner_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1923102Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1923993Z ##[group]Fetching the repository
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.1929800Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8621064Z From https://github.com/PalomarRegistry/PalomarSubmission
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8623575Z  * branch            65f0154ed776cd26c224254aa57b379137f28b0d -> FETCH_HEAD
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8633293Z [command]/usr/bin/git rev-parse --verify --quiet 65f0154ed776cd26c224254aa57b379137f28b0d^{object}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8664273Z 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8670409Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8672659Z ##[group]Determining the checkout info
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8675523Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8676947Z [command]/usr/bin/git sparse-checkout disable
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8729870Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8764120Z ##[group]Checking out the ref
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8768153Z [command]/usr/bin/git checkout --progress --force 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8936707Z Note: switching to '65f0154ed776cd26c224254aa57b379137f28b0d'.
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8938322Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8939314Z You are in 'detached HEAD' state. You can look around, make experimental
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8941753Z changes and commit them, and you can discard any commits you make in this
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8946097Z state without impacting any branches by switching back to a branch.
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8948684Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8950262Z If you want to create a new branch to retain commits you create, you may
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8953903Z do so (now or later) by using -c with the switch command. Example:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8956245Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8957098Z   git switch -c <new-branch-name>
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8958740Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8959550Z Or undo this operation with:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8960808Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8961549Z   git switch -
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8962474Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8964450Z Turn off this advice by setting config variable advice.detachedHead to false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8966307Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8968009Z HEAD is now at 65f0154 Enforce module sources and the 10,000-line cap before builds (#155)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.8972539Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9003572Z [command]/usr/bin/git log -1 --format=%H
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9035989Z 65f0154ed776cd26c224254aa57b379137f28b0d
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9046541Z ##[group]Removing auth
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9048642Z Removing SSH command configuration
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9051308Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9087925Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9318656Z Removing HTTP extra header
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9322718Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9368084Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9593113Z Removing includeIf entries pointing to credentials config files
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9596234Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9628370Z includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/pipeline/.git.path
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9632284Z includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/pipeline/.git/worktrees/*.path
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9635155Z includeif.gitdir:/github/workspace/pipeline/.git.path
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9638358Z includeif.gitdir:/github/workspace/pipeline/.git/worktrees/*.path
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9643133Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/pipeline/.git.path
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9665116Z /home/runner/work/_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9679370Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/pipeline/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-a833f085\-c13c\-4002\-abda\-6b3a990d656d\.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9718681Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/pipeline/.git/worktrees/*.path
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9745502Z /home/runner/work/_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9755902Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/zeta-lab/zeta-lab/pipeline/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-a833f085\-c13c\-4002\-abda\-6b3a990d656d\.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9793118Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/pipeline/.git.path
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9819375Z /github/runner_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9828547Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/pipeline/.git.path \/github\/runner_temp\/git\-credentials\-a833f085\-c13c\-4002\-abda\-6b3a990d656d\.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9883473Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/pipeline/.git/worktrees/*.path
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9920102Z /github/runner_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9942118Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/pipeline/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-a833f085\-c13c\-4002\-abda\-6b3a990d656d\.config
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:49.9981710Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0209326Z Removing credentials config '/home/runner/work/_temp/git-credentials-a833f085-c13c-4002-abda-6b3a990d656d.config'
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0218168Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0529639Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0531305Z with:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0532167Z   python-version: 3.11.10
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0533201Z   check-latest: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0542955Z   token: ***
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0543923Z   update-environment: true
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0544997Z   allow-prereleases: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0546053Z   freethreaded: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0547003Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0548181Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0549564Z   PALOMAR_JOB_STARTED_AT: 1790741868
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.0550690Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.1793823Z ##[group]Installed versions
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.1814095Z Version 3.11.10 was not found in the local cache
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.7235111Z Version 3.11.10 is available for downloading
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:50.7236154Z Download from "https://github.com/actions/python-versions/releases/download/3.11.10-10765870205/python-3.11.10-linux-24.04-x64.tar.gz"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:51.3810248Z Extract downloaded archive
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:51.3944040Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/1595edaf-72d5-4046-ad8b-734c4af1e434 -f /home/runner/work/_temp/c95c9185-d1bd-453c-b80e-d9bffee39f13
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:53.4488658Z Execute installation script
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:53.4588198Z Check if Python hostedtoolcache folder exist...
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:53.4588969Z Create Python 3.11.10 folder
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:53.4605342Z Copy Python binaries to hostedtoolcache folder
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:54.0341745Z Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:54.0387665Z Upgrading pip...
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:56.8977064Z Looking in links: /tmp/tmpwyfsxm00
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:56.8988661Z Requirement already satisfied: setuptools in /opt/hostedtoolcache/Python/3.11.10/x64/lib/python3.11/site-packages (65.5.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:56.8998350Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.10/x64/lib/python3.11/site-packages (24.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.1104977Z Collecting pip
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.1469983Z Downloading pip-26.2.1-py3-none-any.whl.metadata (4.6 kB)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.1557504Z Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.2057121Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 38.5 MB/s eta 0:00:00
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.2057963Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.2482474Z Installing collected packages: pip
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.2484915Z Attempting uninstall: pip
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.2502902Z Found existing installation: pip 24.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.2911150Z Uninstalling pip-24.0:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:58.2971917Z Successfully uninstalled pip-24.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.1520139Z Successfully installed pip-26.2.1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2046973Z Create complete file
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2084090Z Successfully set up CPython (3.11.10)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2085251Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2250961Z ##[group]Run ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2251372Z with:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2251601Z   ruby-version: 3.3.12
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2251838Z   bundler-cache: true
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2252101Z   working-directory: pipeline
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2254475Z   token: ***
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2254869Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2255111Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2255443Z   PALOMAR_JOB_STARTED_AT: 1790741868
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2255788Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2256249Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2256693Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2257101Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2257857Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2258320Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.2258656Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.3705371Z ##[group]Modifying PATH
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.3706194Z Entries added to PATH to use selected Ruby:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.3707746Z   /opt/hostedtoolcache/Ruby/3.3.12/x64/bin
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.3712789Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.3713948Z ##[group]Print Ruby version
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.3798211Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/ruby --version
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.8473874Z ruby 3.3.12 (2026-07-16 revision 0581089df9) [x86_64-linux]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.8509460Z Took   0.48 seconds
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.8510351Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.8511566Z ##[group]Installing Bundler
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.8518188Z Using Bundler 2.7.2 from Gemfile.lock BUNDLED WITH 2.7.2
+preflight / verify	UNKNOWN STEP	2026-09-30T04:17:59.8523537Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/gem install bundler -v 2.7.2
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:02.9663122Z Successfully installed bundler-2.7.2
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:02.9663707Z 1 gem installed
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:02.9718159Z Took   3.12 seconds
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:02.9719001Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:02.9720769Z > bundle install
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:02.9724176Z Setting BUNDLER_VERSION=2.7.2 for "bundle config|lock" commands below to ensure Bundler 2.7.2 is used
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:02.9745869Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/bundle config set --local path /home/runner/work/zeta-lab/zeta-lab/pipeline/vendor/bundle
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.1365988Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/bundle config set --local deployment true
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2868389Z ##[group]Print lockfile
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2884596Z [command]/usr/bin/cat Gemfile.lock
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2913356Z GEM
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2914049Z   remote: https://rubygems.org/
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2914677Z   specs:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2915207Z     addressable (2.9.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2915797Z       public_suffix (>= 2.0.2, < 8.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2916463Z     dotenv (3.2.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2916976Z     faraday (2.14.3)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2917815Z       faraday-net_http (>= 2.0, < 3.5)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2918417Z       json
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2918732Z       logger
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2919078Z     faraday-net_http (3.4.4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2919501Z       net-http (~> 0.5)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2919887Z     json (2.21.2)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2920266Z     licensee (10.0.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2920728Z       dotenv (>= 2, < 4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2921134Z       octokit (>= 4.20, < 11.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2921559Z       reverse_markdown (>= 1, < 4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2922000Z       thor (>= 0.19, < 2.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2922402Z     logger (1.7.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2922998Z     net-http (0.9.1)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2923403Z       uri (>= 0.11.1)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2923860Z     nokogiri (1.19.4-aarch64-linux-gnu)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2924441Z       racc (~> 1.4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2925000Z     nokogiri (1.19.4-aarch64-linux-musl)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2925541Z       racc (~> 1.4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2926439Z     nokogiri (1.19.4-arm-linux-gnu)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2927080Z       racc (~> 1.4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2927876Z     nokogiri (1.19.4-arm-linux-musl)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2928449Z       racc (~> 1.4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2928899Z     nokogiri (1.19.4-arm64-darwin)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2929506Z       racc (~> 1.4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2929999Z     nokogiri (1.19.4-x86_64-darwin)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2931001Z       racc (~> 1.4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2931518Z     nokogiri (1.19.4-x86_64-linux-gnu)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2932217Z       racc (~> 1.4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2932647Z     nokogiri (1.19.4-x86_64-linux-musl)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2933169Z       racc (~> 1.4)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2933552Z     octokit (10.0.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2933986Z       faraday (>= 1, < 3)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2934555Z       sawyer (~> 0.9)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2935009Z     public_suffix (7.0.5)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2935499Z     racc (1.8.1)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2935917Z     reverse_markdown (3.0.2)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2936421Z       nokogiri
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2936874Z     sawyer (0.9.3)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2937587Z       addressable (>= 2.3.5)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2938075Z       faraday (>= 0.17.3, < 3)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2938490Z     thor (1.5.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2938868Z     uri (1.1.1)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2939084Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2939226Z PLATFORMS
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2939572Z   aarch64-linux-gnu
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2939973Z   aarch64-linux-musl
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2940356Z   arm-linux-gnu
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2940749Z   arm-linux-musl
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2941105Z   arm64-darwin
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2941450Z   x86_64-darwin
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2941794Z   x86_64-linux-gnu
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2942199Z   x86_64-linux-musl
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2942455Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2942602Z DEPENDENCIES
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2942966Z   licensee (= 10.0.0)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2943225Z 
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2943370Z BUNDLED WITH
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2943704Z    2.7.2
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2944343Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.2973546Z Cache key: setup-ruby-bundler-cache-v6-ubuntu-24.04-x64-ruby-3.3.12-wd-/home/runner/work/zeta-lab/zeta-lab/pipeline-with--without--only--Gemfile.lock-d93caad3b41ab81138c1770dcde1415ac9aa47e8e469ea25b3f876a9f3d2cdff
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:03.3694668Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/bundle install --jobs 4
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.8058402Z Fetching gem metadata from https://rubygems.org/........
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.8095579Z Fetching public_suffix 7.0.5
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.8099497Z Fetching dotenv 3.2.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.8281046Z Fetching uri 1.1.1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.8282372Z Fetching json 2.21.2
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.8795912Z Installing dotenv 3.2.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.8824159Z Installing uri 1.1.1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.8922885Z Installing json 2.21.2 with native extensions
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.8926095Z Installing public_suffix 7.0.5
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9136719Z Fetching logger 1.7.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9165864Z Fetching racc 1.8.1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9231192Z Installing logger 1.7.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9320327Z Fetching thor 1.5.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9349295Z Installing racc 1.8.1 with native extensions
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9452418Z Fetching net-http 0.9.1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9489504Z Installing thor 1.5.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9609587Z Installing net-http 0.9.1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9913991Z Fetching addressable 2.9.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:04.9990702Z Fetching faraday-net_http 3.4.4
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:05.0014430Z Installing addressable 2.9.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:05.0047088Z Installing faraday-net_http 3.4.4
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:06.0750868Z Fetching nokogiri 1.19.4 (x86_64-linux-gnu)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:06.1926639Z Installing nokogiri 1.19.4 (x86_64-linux-gnu)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:06.3267194Z Fetching reverse_markdown 3.0.2
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:06.3405152Z Installing reverse_markdown 3.0.2
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.2076642Z Fetching faraday 2.14.3
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.2214923Z Installing faraday 2.14.3
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.2377619Z Fetching sawyer 0.9.3
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.2421973Z Installing sawyer 0.9.3
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.2474472Z Fetching octokit 10.0.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.2549828Z Installing octokit 10.0.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.2728112Z Fetching licensee 10.0.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.2989120Z Installing licensee 10.0.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.3623210Z Bundle complete! 1 Gemfile dependency, 17 gems now installed.
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.3623994Z Bundled gems are installed into `./vendor/bundle`
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.3624575Z Post-install message from licensee:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.3625423Z NOTE: The rugged gem is no longer a required dependency of licensee.
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.3626221Z If you scan bare Git repositories or Git repos without a working tree,
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.3626914Z add rugged to your Gemfile or run: gem install rugged
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.3974970Z Saving cache
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.4104504Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/zeta-lab/zeta-lab --files-from manifest.txt --use-compress-program zstdmt
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:14.9744843Z Sent 11806776 of 11806776 (100.0%), 30.1 MBs/sec
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0797945Z Took  12.11 seconds
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0910845Z ##[group]Run python -m pip install --disable-pip-version-check --require-hashes --no-deps -r pipeline/requirements.txt
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0911767Z ^[[36;1mpython -m pip install --disable-pip-version-check --require-hashes --no-deps -r pipeline/requirements.txt^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0977489Z shell: /usr/bin/bash -e {0}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0977774Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0978019Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0978352Z   PALOMAR_JOB_STARTED_AT: 1790741868
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0978698Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0979145Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0979610Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0980017Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0980427Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0980864Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.0981199Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.5196083Z Collecting PyYAML==6.0.3 (from -r pipeline/requirements.txt (line 1))
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.5847808Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.6240761Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 71.3 MB/s  0:00:00
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.6416129Z Installing collected packages: PyYAML
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.6939300Z Successfully installed PyYAML-6.0.3
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7404138Z ##[group]Run python - <<'PYTHON'
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7404493Z ^[[36;1mpython - <<'PYTHON'^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7404770Z ^[[36;1mimport json, os, pathlib^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7405186Z ^[[36;1mpath = pathlib.Path(os.environ["RUNNER_TEMP"], "submission-inputs.json")^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7405768Z ^[[36;1mpath.write_text(json.dumps({"inputs": json.loads(os.environ["PALOMAR_INPUTS"])}))^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7406213Z ^[[36;1mPYTHON^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7406521Z ^[[36;1mpython pipeline/scripts/verify_submission.py prepare \^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7406949Z ^[[36;1m  --event "$RUNNER_TEMP/submission-inputs.json" \^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7407599Z ^[[36;1m  --work-dir "$RUNNER_TEMP/palomar" \^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7408163Z ^[[36;1m  --output "$RUNNER_TEMP/mechanical-report.json" \^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7408558Z ^[[36;1m  --licensee "$(command -v bundle)"^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7471571Z shell: /usr/bin/bash -e {0}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7471830Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7472128Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7472469Z   PALOMAR_JOB_STARTED_AT: 1790741868
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7472812Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7473267Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7473719Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7474130Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7474529Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7474935Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7475368Z   BUNDLE_GEMFILE: /home/runner/work/zeta-lab/zeta-lab/pipeline/Gemfile
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7477814Z   PALOMAR_INPUTS: {
+preflight / verify	UNKNOWN STEP	  "repository": "teal-sea/zeta-lab",
+preflight / verify	UNKNOWN STEP	  "commit": "783307c8be59317375ae6675622b4d3019222875",
+preflight / verify	UNKNOWN STEP	  "pipeline_commit": "65f0154ed776cd26c224254aa57b379137f28b0d",
+preflight / verify	UNKNOWN STEP	  "request_id": "zeta-four-point-2330-20260929",
+preflight / verify	UNKNOWN STEP	  "mode": "full",
+preflight / verify	UNKNOWN STEP	  "execution_profile": "palomar-standard-v1",
+preflight / verify	UNKNOWN STEP	  "execution_attempt": "",
+preflight / verify	UNKNOWN STEP	  "options": "{\"project_path\":\"hunts/ainta_seven_point/lean-four-point\",\"comparator_config_path\":\"hunts/ainta_seven_point/lean-four-point/comparator.json\",\"formalization_metadata_path\":\"hunts/ainta_seven_point/lean-four-point/formalization.yaml\",\"authorization_relationship\":\"maintainer\"}"
+preflight / verify	UNKNOWN STEP	}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.7480239Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9551711Z ##[group]Run python3 pipeline/scripts/workflow_report.py finalize --report "$RUNNER_TEMP/mechanical-report.json"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9552580Z ^[[36;1mpython3 pipeline/scripts/workflow_report.py finalize --report "$RUNNER_TEMP/mechanical-report.json"^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9617538Z shell: /usr/bin/bash -e {0}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9617802Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9618079Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9618411Z   PALOMAR_JOB_STARTED_AT: 1790741868
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9618746Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9619183Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9619616Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9620011Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9620427Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9620865Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9623104Z   PALOMAR_INPUTS: {
+preflight / verify	UNKNOWN STEP	  "repository": "teal-sea/zeta-lab",
+preflight / verify	UNKNOWN STEP	  "commit": "783307c8be59317375ae6675622b4d3019222875",
+preflight / verify	UNKNOWN STEP	  "pipeline_commit": "65f0154ed776cd26c224254aa57b379137f28b0d",
+preflight / verify	UNKNOWN STEP	  "request_id": "zeta-four-point-2330-20260929",
+preflight / verify	UNKNOWN STEP	  "mode": "full",
+preflight / verify	UNKNOWN STEP	  "execution_profile": "palomar-standard-v1",
+preflight / verify	UNKNOWN STEP	  "execution_attempt": "",
+preflight / verify	UNKNOWN STEP	  "options": "{\"project_path\":\"hunts/ainta_seven_point/lean-four-point\",\"comparator_config_path\":\"hunts/ainta_seven_point/lean-four-point/comparator.json\",\"formalization_metadata_path\":\"hunts/ainta_seven_point/lean-four-point/formalization.yaml\",\"authorization_relationship\":\"maintainer\"}"
+preflight / verify	UNKNOWN STEP	}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9628994Z   PALOMAR_STEPS: {
+preflight / verify	UNKNOWN STEP	  "checkout": {
+preflight / verify	UNKNOWN STEP	    "outputs": {
+preflight / verify	UNKNOWN STEP	      "commit": "65f0154ed776cd26c224254aa57b379137f28b0d",
+preflight / verify	UNKNOWN STEP	      "ref": ""
+preflight / verify	UNKNOWN STEP	    },
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "python": {
+preflight / verify	UNKNOWN STEP	    "outputs": {
+preflight / verify	UNKNOWN STEP	      "python-version": "3.11.10",
+preflight / verify	UNKNOWN STEP	      "python-path": "/opt/hostedtoolcache/Python/3.11.10/x64/bin/python"
+preflight / verify	UNKNOWN STEP	    },
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "ruby": {
+preflight / verify	UNKNOWN STEP	    "outputs": {
+preflight / verify	UNKNOWN STEP	      "ruby-prefix": "/opt/hostedtoolcache/Ruby/3.3.12/x64"
+preflight / verify	UNKNOWN STEP	    },
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "dependencies": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "prepare": {
+preflight / verify	UNKNOWN STEP	    "outputs": {
+preflight / verify	UNKNOWN STEP	      "ready": "false",
+preflight / verify	UNKNOWN STEP	      "lean_toolchain": ""
+preflight / verify	UNKNOWN STEP	    },
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "disk": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "capacity": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "elan": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "toolchain": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "bwrap": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "execute": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  }
+preflight / verify	UNKNOWN STEP	}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9633086Z   PALOMAR_WORKFLOW_URL: https://github.com/teal-sea/zeta-lab/actions/runs/36668179464
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:15.9633517Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0131098Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0131546Z with:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0131827Z   name: mechanical-report-zeta-four-point-2330-20260929
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0132405Z   path: /home/runner/work/_temp/mechanical-report.json
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0132737Z   if-no-files-found: error
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0132981Z   retention-days: 90
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0133207Z   compression-level: 6
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0133430Z   overwrite: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0133652Z   include-hidden-files: false
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0133900Z   archive: true
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0134104Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0134335Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0134651Z   PALOMAR_JOB_STARTED_AT: 1790741868
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0134990Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0135433Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0135899Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0136296Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0136688Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0137094Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.0137715Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.1586400Z With the provided path, there will be 1 file uploaded
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.1596762Z Artifact name is valid!
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.1598152Z Root directory input is valid!
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.3468153Z Uploading artifact: mechanical-report-zeta-four-point-2330-20260929.zip
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.3518936Z Beginning upload of artifact content to blob storage
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.4097857Z Uploaded bytes 648
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.4211231Z Finished uploading artifact content to blob storage!
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.4212351Z SHA256 digest of uploaded artifact is 7531061ab0b441045b302215f166ff6ce8ad2319b670afdaf6b53aba86bb7ea9
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.4213125Z Finalizing artifact upload
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6277641Z Artifact mechanical-report-zeta-four-point-2330-20260929 successfully finalized. Artifact ID 11077171502
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6279452Z Artifact mechanical-report-zeta-four-point-2330-20260929 has been successfully uploaded! Final size is 648 bytes. Artifact ID is 11077171502
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6281937Z Artifact download URL: https://github.com/teal-sea/zeta-lab/actions/runs/36668179464/artifacts/11077171502
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6431553Z ##[group]Run python3 pipeline/scripts/workflow_report.py gate --report "$RUNNER_TEMP/mechanical-report.json"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6432407Z ^[[36;1mpython3 pipeline/scripts/workflow_report.py gate --report "$RUNNER_TEMP/mechanical-report.json"^[[0m
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6496014Z shell: /usr/bin/bash -e {0}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6496281Z env:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6496538Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6496892Z   PALOMAR_JOB_STARTED_AT: 1790741868
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6497576Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6498084Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6498553Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6498977Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6499389Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6499845Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6502099Z   PALOMAR_INPUTS: {
+preflight / verify	UNKNOWN STEP	  "repository": "teal-sea/zeta-lab",
+preflight / verify	UNKNOWN STEP	  "commit": "783307c8be59317375ae6675622b4d3019222875",
+preflight / verify	UNKNOWN STEP	  "pipeline_commit": "65f0154ed776cd26c224254aa57b379137f28b0d",
+preflight / verify	UNKNOWN STEP	  "request_id": "zeta-four-point-2330-20260929",
+preflight / verify	UNKNOWN STEP	  "mode": "full",
+preflight / verify	UNKNOWN STEP	  "execution_profile": "palomar-standard-v1",
+preflight / verify	UNKNOWN STEP	  "execution_attempt": "",
+preflight / verify	UNKNOWN STEP	  "options": "{\"project_path\":\"hunts/ainta_seven_point/lean-four-point\",\"comparator_config_path\":\"hunts/ainta_seven_point/lean-four-point/comparator.json\",\"formalization_metadata_path\":\"hunts/ainta_seven_point/lean-four-point/formalization.yaml\",\"authorization_relationship\":\"maintainer\"}"
+preflight / verify	UNKNOWN STEP	}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6509592Z   PALOMAR_STEPS: {
+preflight / verify	UNKNOWN STEP	  "checkout": {
+preflight / verify	UNKNOWN STEP	    "outputs": {
+preflight / verify	UNKNOWN STEP	      "commit": "65f0154ed776cd26c224254aa57b379137f28b0d",
+preflight / verify	UNKNOWN STEP	      "ref": ""
+preflight / verify	UNKNOWN STEP	    },
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "python": {
+preflight / verify	UNKNOWN STEP	    "outputs": {
+preflight / verify	UNKNOWN STEP	      "python-version": "3.11.10",
+preflight / verify	UNKNOWN STEP	      "python-path": "/opt/hostedtoolcache/Python/3.11.10/x64/bin/python"
+preflight / verify	UNKNOWN STEP	    },
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "ruby": {
+preflight / verify	UNKNOWN STEP	    "outputs": {
+preflight / verify	UNKNOWN STEP	      "ruby-prefix": "/opt/hostedtoolcache/Ruby/3.3.12/x64"
+preflight / verify	UNKNOWN STEP	    },
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "dependencies": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "prepare": {
+preflight / verify	UNKNOWN STEP	    "outputs": {
+preflight / verify	UNKNOWN STEP	      "ready": "false",
+preflight / verify	UNKNOWN STEP	      "lean_toolchain": ""
+preflight / verify	UNKNOWN STEP	    },
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "disk": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "capacity": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "elan": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "toolchain": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "bwrap": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "execute": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "upload1": {
+preflight / verify	UNKNOWN STEP	    "outputs": {
+preflight / verify	UNKNOWN STEP	      "artifact-id": "11077171502",
+preflight / verify	UNKNOWN STEP	      "artifact-digest": "7531061ab0b441045b302215f166ff6ce8ad2319b670afdaf6b53aba86bb7ea9",
+preflight / verify	UNKNOWN STEP	      "artifact-url": "https://github.com/teal-sea/zeta-lab/actions/runs/36668179464/artifacts/11077171502"
+preflight / verify	UNKNOWN STEP	    },
+preflight / verify	UNKNOWN STEP	    "outcome": "success",
+preflight / verify	UNKNOWN STEP	    "conclusion": "success"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "upload2": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  },
+preflight / verify	UNKNOWN STEP	  "upload3": {
+preflight / verify	UNKNOWN STEP	    "outputs": {},
+preflight / verify	UNKNOWN STEP	    "outcome": "skipped",
+preflight / verify	UNKNOWN STEP	    "conclusion": "skipped"
+preflight / verify	UNKNOWN STEP	  }
+preflight / verify	UNKNOWN STEP	}
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6515188Z ##[endgroup]
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6932552Z ##[error]Verification or report delivery did not complete successfully
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6943529Z "The mechanical report was malformed or did not match the workflow inputs."
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.6967797Z ##[error]Process completed with exit code 1.
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.7072296Z Post job cleanup.
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.7948013Z [command]/usr/bin/git version
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.7993908Z git version 2.55.0
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8044629Z Temporarily overriding HOME='/home/runner/work/_temp/3e6298a1-e8e0-4a09-bbd5-5c969abc0564' before making global git config changes
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8045645Z Adding repository directory to the temporary git global config as a safe directory
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8051288Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zeta-lab/zeta-lab/pipeline
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8085266Z Removing SSH command configuration
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8092089Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8128529Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8383179Z Removing HTTP extra header
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8389235Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8427793Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8730847Z Removing includeIf entries pointing to credentials config files
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8750116Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.8807125Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+preflight / verify	UNKNOWN STEP	2026-09-30T04:18:16.9282974Z Cleaning up orphan processes
