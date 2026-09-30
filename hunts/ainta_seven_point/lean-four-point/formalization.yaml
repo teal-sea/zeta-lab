@@ -89,6 +89,11 @@ status:
     placeholders; StrongerSolution has none. This incremental lab build and
     comparison are not Palomar's fresh protected-source verification pipeline.
     No new registration or external mathematical review is claimed.
+    The September 30 resource repair adds import dependencies to bound
+    certificate build concurrency after the full protected-source preflight
+    exhausted its worker memory. All certificate proof bodies and advertised
+    statements are unchanged. The resource-repaired snapshot requires its
+    own complete preflight; previous incremental checks are not that result.
 
 automation:
   methods:
