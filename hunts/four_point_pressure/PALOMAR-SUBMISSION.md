@@ -1,6 +1,6 @@
 # Stronger four-point Palomar submission packet
 
-Staged September 29, 2026. Full preflight launched; not submitted or registered.
+Updated September 30, 2026. Resource repair awaiting full preflight; not submitted or registered.
 
 ## Fixed source snapshot
 
@@ -12,7 +12,7 @@ packet is read. Adding this document does not change the selected snapshot.
 ```json
 {
   "repository": "teal-sea/zeta-lab",
-  "commit": "783307c8be59317375ae6675622b4d3019222875",
+  "commit": "f81729e237e3d283ef1c027c19a0442392018e39",
   "project_path": "hunts/ainta_seven_point/lean-four-point",
   "comparator_config_path": "hunts/ainta_seven_point/lean-four-point/comparator.json",
   "formalization_metadata_path": "hunts/ainta_seven_point/lean-four-point/formalization.yaml",
@@ -49,9 +49,9 @@ evaluation, provenance and exact scope.
 - Selected local preparation checks at the staged snapshot: 68 passed, 0 warnings, 0 failures.
 - Raw build and comparison logs: [port-evidence](port-evidence/).
 
-The selected snapshot has the same tree as PR head
+The original baseline `783307c8be59317375ae6675622b4d3019222875` has the same tree as PR head
 `822a2aee59a0a8f8a7338a7795e730e4941af779`.
-Lean sources, toolchain pins, manifests and comparator configuration are
+At that baseline, Lean sources, toolchain pins, manifests and comparator configuration are
 unchanged from successful comparison source
 `3ee65788397d0eed8c4743704492dae159cde521`.
 
@@ -65,9 +65,20 @@ Palomar's [agent protocol](https://submit.palomar-registry.org/llms.txt)
 requires its complete reusable workflow in `mode: full`, with a mechanical
 report saying `status: pass`, before intake. The incremental laboratory
 build and three-kernel comparison do not satisfy this separate gate.
-The full preflight is running in
-[run 36668540666](https://github.com/teal-sea/zeta-lab/actions/runs/36668540666).
-Do not submit until its mechanical report says `status: pass`.
+The original full [run 36668540666](https://github.com/teal-sea/zeta-lab/actions/runs/36668540666)
+ended with `provider.resource_exhausted` during `solution-build`: exit 137
+and cgroup `oom-kill`, with peak memory 15,844,528,128 bytes. It did not pass.
+Its [report, raw workflow log, and proof-body preservation check](port-evidence/full-preflight-36668540666/)
+are retained.
+
+The newly selected source adds ordinary import dependencies so at most two
+cell modules and one heavy chunk module build concurrently; the cover finishes
+before the chunk chain begins. All 40 changed Lean files preserve every byte
+after their `noncomputable section` marker. The generator emits the same
+dependencies, and a graph test checks the concurrency bound and absence of cycles.
+The statement, coefficient, proof bodies, comparator and toolchain are unchanged.
+A new full preflight is required for this exact repaired source. Do not submit
+until its mechanical report says `status: pass`.
 
 The pinned workflow is
 `PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@65f0154ed776cd26c224254aa57b379137f28b0d`.
@@ -76,9 +87,9 @@ Its `workflow_call` inputs are:
 ```json
 {
   "repository": "teal-sea/zeta-lab",
-  "commit": "783307c8be59317375ae6675622b4d3019222875",
+  "commit": "f81729e237e3d283ef1c027c19a0442392018e39",
   "pipeline_commit": "65f0154ed776cd26c224254aa57b379137f28b0d",
-  "request_id": "f42330260929",
+  "request_id": "f42330260930",
   "mode": "full",
   "execution_profile": "palomar-standard-v1",
   "options": "{\"project_path\":\"hunts/ainta_seven_point/lean-four-point\",\"comparator_config_path\":\"hunts/ainta_seven_point/lean-four-point/comparator.json\",\"formalization_metadata_path\":\"hunts/ainta_seven_point/lean-four-point/formalization.yaml\",\"authorization_relationship\":\"I am a responsible author or maintainer\"}"
@@ -110,10 +121,10 @@ the third run. The second [report and workflow log](port-evidence/full-preflight
 are retained. Both failed reports replaced the specific intake error with
 the generic reporting error because intake had not yet bound the source.
 
-The submission form has been filled in for the owner with the exact source,
-paths, and proposed maintainer relationship above. The registry index was
-rechecked and the form identifies this as a new submission. Neither intake
-nor GitHub authentication has been initiated. The owner performs the final
+The previously filled browser form used the original baseline and must be
+replaced with the repaired source above after its full preflight passes. The registry index was
+rechecked and the form identifies this as a new submission. The agent has performed no intake or authentication. The owner reported a
+stalled browser authentication attempt; no successful submission was confirmed. The owner performs the final
 authentication and submission after the full preflight passes.
 
 Run the expensive work on GitHub Actions, never a local Mac. Once dispatched,
