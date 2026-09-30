@@ -22,4 +22,4 @@ jobs:
       mode: full
       execution_profile: palomar-standard-v1
       options: >-
-        {"project_path":"hunts/ainta_seven_point/lean-four-point","comparator_config_path":"hunts/ainta_seven_point/lean-four-point/comparator.json","formalization_metadata_path":"hunts/ainta_seven_point/lean-four-point/formalization.yaml","authorization_relationship":"maintainer"}
+        {"project_path":"hunts/ainta_seven_point/lean-four-point","comparator_config_path":"hunts/ainta_seven_point/lean-four-point/comparator.json","formalization_metadata_path":"hunts/ainta_seven_point/lean-four-point/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}
