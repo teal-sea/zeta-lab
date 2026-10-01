@@ -1,0 +1,42 @@
+name = "FourPointCand"
+defaultTargets = ["FourPointCand", "StrongerChallenge", "StrongerSolution"]
+
+# The advertised development, by path rather than by git, so that this package
+# proves things about the *same* `Kfun`, `kfun`, `wfun` and `F` that
+# `lean/bridge/Zeta23Ext/Bridge/Defs.lean` defines and that
+# `Zeta23Ext.Bridge.n_point_bound` takes as its hypothesis. Mathlib, Batteries
+# and `anthropics/zeta-23-lean` are inherited from it at its pinned revisions.
+#
+# The stronger-result interface lives in this project. It does not alter the
+# existing registered surface in `lean/bridge`, which does not import it.
+[[require]]
+name = "Zeta23Bridge"
+path = "lean/bridge"
+
+# `autoImplicit` off, deliberately, and this is not a style preference.
+# With it on, an unresolved identifier in a theorem *statement* is silently
+# bound as an implicit variable rather than reported: the first build of the
+# three-point package briefly stated its advertised theorems about free
+# variables named `HD`, `Ncount` and `N0simple` instead of the bridge's
+# definitions, and it errored only because a variable cannot be applied to an
+# argument. Had those names been nullary the file would have compiled, and the
+# theorems would have said nothing while looking exactly like success. For a
+# package whose whole claim is that a named constant is unconditional, that
+# failure mode has to be impossible rather than unlikely.
+[leanOptions]
+autoImplicit = false
+relaxedAutoImplicit = false
+
+[[lean_lib]]
+name = "FourPointCand"
+srcDir = "hunts/ainta_seven_point/lean-four-point"
+
+# The statement-only Challenge has two deliberate placeholders. The Solution
+# proves those statements without importing it; comparator.json compares them.
+[[lean_lib]]
+name = "StrongerChallenge"
+srcDir = "hunts/ainta_seven_point/lean-four-point"
+
+[[lean_lib]]
+name = "StrongerSolution"
+srcDir = "hunts/ainta_seven_point/lean-four-point"
