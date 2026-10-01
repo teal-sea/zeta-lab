@@ -1,0 +1,157 @@
+name: Validate root package with original Palomar renderer
+run-name: Render teal-sea/zeta-lab@74611e82d04e4aedab32ba75db89f63d64b3349e [504d99d76e5741679205a2fdee402897]
+
+on:
+  push:
+    branches: [codex/palomar-root-package]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: palomar-render-504d99d76e5741679205a2fdee402897
+  cancel-in-progress: false
+
+jobs:
+  profile:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    outputs:
+      labels: ${{ steps.resolve.outputs.labels }}
+      render_timeout: ${{ steps.resolve.outputs.render_timeout }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: PalomarRegistry/PalomarSubmission
+          ref: 65f0154ed776cd26c224254aa57b379137f28b0d
+          persist-credentials: false
+      - id: resolve
+        env:
+          PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+        run: python3 scripts/verification_profile.py --resolve
+  render:
+    needs: profile
+    runs-on: ${{ fromJSON(needs.profile.outputs.labels) }}
+    env:
+      PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+    timeout-minutes: ${{ fromJSON(needs.profile.outputs.render_timeout) }}
+    steps:
+      - name: Validate request identifier
+        env:
+          REQUEST_ID: 504d99d76e5741679205a2fdee402897
+        run: |
+          if [[ ! "$REQUEST_ID" =~ ^[0-9a-f]{32}$ ]]; then
+            echo "request_id must be 32 lowercase hexadecimal characters" >&2
+            exit 2
+          fi
+
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: true
+          swap-storage: false
+
+      - name: Checkout trusted renderer
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: 65f0154ed776cd26c224254aa57b379137f28b0d
+          repository: PalomarRegistry/PalomarSubmission
+          path: pipeline
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11.10"
+
+      - name: Install verifier dependencies
+        run: python -m pip install --disable-pip-version-check --require-hashes --no-deps -r pipeline/requirements.txt
+
+      - name: Renderer regression tests on Linux
+        working-directory: pipeline
+        run: python -m unittest tests.test_render_challenge -v
+
+      - name: Fetch and bind accepted source
+        id: prepare
+        working-directory: pipeline
+        env:
+          SOURCE_REPOSITORY: teal-sea/zeta-lab
+          SOURCE_COMMIT: 74611e82d04e4aedab32ba75db89f63d64b3349e
+          CHALLENGE_SHA256: 7b1d629b9f6ffd4585076affb134865e13977b171e815a821aa100fef0bb3f81
+          PROJECT_PATH: ""
+          CHALLENGE_PATH: hunts/ainta_seven_point/lean-four-point/StrongerChallenge.lean
+          SOLUTION_PATH: hunts/ainta_seven_point/lean-four-point/StrongerSolution.lean
+          COMPARATOR_CONFIG_PATH: hunts/ainta_seven_point/lean-four-point/comparator.json
+          LAKEFILE_PATH: lakefile.toml
+          LEAN_TOOLCHAIN_PATH: lean-toolchain
+        run: |
+          python -m scripts.render_challenge prepare \
+            --repository "$SOURCE_REPOSITORY" \
+            --commit "$SOURCE_COMMIT" \
+            --challenge-sha256 "$CHALLENGE_SHA256" \
+            --project-path "$PROJECT_PATH" \
+            --challenge-path "$CHALLENGE_PATH" \
+            --solution-path "$SOLUTION_PATH" \
+            --comparator-config-path "$COMPARATOR_CONFIG_PATH" \
+            --lakefile-path "$LAKEFILE_PATH" \
+            --lean-toolchain-path "$LEAN_TOOLCHAIN_PATH" \
+            --work-dir "$RUNNER_TEMP/palomar-render" \
+            --output "$RUNNER_TEMP/palomar-render/report.json"
+
+      - name: Install pinned elan
+        if: steps.prepare.outputs.ready == 'true'
+        run: |
+          python3 pipeline/scripts/trusted_download.py \
+            --url https://github.com/leanprover/elan/releases/download/v4.2.3/elan-x86_64-unknown-linux-gnu.tar.gz \
+            --output "$RUNNER_TEMP/elan.tar.gz" \
+            --sha256 df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2
+          mkdir "$RUNNER_TEMP/elan"
+          tar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP/elan"
+          "$RUNNER_TEMP/elan/elan-init" -y --no-modify-path --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Install accepted Lean toolchain
+        if: steps.prepare.outputs.ready == 'true'
+        env:
+          LEAN_TOOLCHAIN: ${{ steps.prepare.outputs.lean_toolchain }}
+        run: elan toolchain install "$LEAN_TOOLCHAIN"
+
+      - name: Build pinned bubblewrap
+        if: steps.prepare.outputs.ready == 'true'
+        run: |
+          sudo apt-get update -qq >/dev/null
+          sudo apt-get install -y -qq meson ninja-build libcap-dev pkg-config >/dev/null
+          echo "PALOMAR_BWRAP=$(pipeline/scripts/install_bwrap.sh "$RUNNER_TEMP/bwrap-bin")" >> "$GITHUB_ENV"
+
+      - name: Build, sanitize, and hash Challenge rendering under bubblewrap
+        if: steps.prepare.outputs.ready == 'true'
+        working-directory: pipeline
+        run: |
+          python -m scripts.render_challenge execute \
+            --work-dir "$RUNNER_TEMP/palomar-render" \
+            --output "$RUNNER_TEMP/palomar-render/report.json" \
+            --bwrap "$PALOMAR_BWRAP" \
+            --renderer-commit "65f0154ed776cd26c224254aa57b379137f28b0d" \
+            --bwrap-source-tag v0.12.0 \
+            --workflow-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      - name: Upload bounded render result
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: challenge-render-504d99d76e5741679205a2fdee402897
+          path: |
+            ${{ runner.temp }}/palomar-render/report.json
+            ${{ runner.temp }}/palomar-render/result
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Require a successful render
+        if: always()
+        run: |
+          python -c 'import json, os, pathlib, sys; p = pathlib.Path(os.environ["RUNNER_TEMP"]) / "palomar-render" / "report.json"; sys.exit(0 if json.loads(p.read_text())["status"] == "pass" else 1)'
