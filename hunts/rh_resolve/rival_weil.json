@@ -1,0 +1,24 @@
+{
+ "grade": "measured-float",
+ "dh_online_count": 87,
+ "rows": [
+  {
+   "a": 0.5,
+   "zeta_zero_side": 4.1309882974303877e-44,
+   "dh_zero_side": 2.3170117043446654e-06,
+   "both_positive": true
+  },
+  {
+   "a": 1.0,
+   "zeta_zero_side": 1.706506431350681e-87,
+   "dh_zero_side": 5.368543238049702e-12,
+   "both_positive": true
+  },
+  {
+   "a": 2.0,
+   "zeta_zero_side": 2.912164200241237e-174,
+   "dh_zero_side": 2.8821256498809187e-23,
+   "both_positive": true
+  }
+ ]
+}

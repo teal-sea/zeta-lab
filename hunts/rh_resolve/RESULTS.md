@@ -126,6 +126,22 @@ nothing uniform. The tail remains open and needs new
 mathematics; each doubling of the certified range costs roughly
 16x the panels with this scheme.
 
+## Rival lane closed (2026-10-03)
+
+Weil zero-side comparison, Gaussian h with a = 0.5, 1, 2:
+87 DH on-line ordinates to height 150 (Z_dh sign hunt) plus the
+pinned off-line pair, vs 400 zeta ordinates. Both sides positive
+at all three widths (artifact rival_weil.json). Expected, and
+POWERLESS BY CONSTRUCTION: positive h sums positive over any
+zero set, so this comparison cannot distinguish zeta from DH.
+The distinguishing content lives in the arithmetic side (prime
+coefficients, where the Euler product enters), which no
+zero-side scan reads. This matches the outband hunt's ceiling:
+Weil positivity is shared structure, not an RH detector. Lane
+closed by argument plus this null, not by building DH prime
+machinery for a foregone null. The battery (zeta.epstein.battery)
+remains the live control for future candidate claims.
+
 ## Disproof search (2026-10-03, measured, both lanes empty)
 
 Li lane: positivity scan n = 1..100 (Cauchy, dps 25), zero

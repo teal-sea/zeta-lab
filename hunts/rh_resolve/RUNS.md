@@ -79,3 +79,16 @@ artifacts:
   - hunts/rh_resolve/enclosure_mid_R0.8_n69-70_K65536_p128.json
   - hunts/rh_resolve/enclosure_mid_R0.8_n71-72_K65536_p128.json
 ```
+
+```runmanifest
+id: rh_resolve-2026-10-03-rival
+hunt: rh_resolve
+started: 2026-10-03T08:00-05:00
+finished: 2026-10-03T09:00-05:00
+ran:
+  - .venv/bin/python hunts/rh_resolve/probe_rival.py
+outcome: both zero sides positive at all widths, control powerless by construction, Weil-distinguishing lane closed
+artifacts:
+  - hunts/rh_resolve/probe_rival.py
+  - hunts/rh_resolve/rival_weil.json
+```
