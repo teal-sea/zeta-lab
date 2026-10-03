@@ -149,39 +149,72 @@ The three columns agree to a few percent with the gap shrinking. Grade
 claimed exact, so the `1/log n` correction is a supported numerical law, not a
 theorem. It is stated as such.
 
-## 5. The Gate-3 rival, and what it does and does not kill
+## 5. The Gate-3 rival: a correction, and the correct rival
 
-`hunts/epp_herglotz` refuted "Euler-product positivity plus the functional
-equation implies RH" with `W_a = ζ(s+a)ζ(s−a)`. The standing rivals of this tree
-are all linear combinations of genuine Euler products, so a candidate resting on
-the Euler product needs a rival that is a single Euler product; that hunt
-supplied one and this lane inherits the obligation.
+**Correction notice.** An earlier version of this section, and the matching
+paragraph in `journal.md`, claimed a "structural discrimination" reading
 
-**Structural discrimination, which is exact and does not depend on any
-inversion.** For the completed rival `Ξ_a(t) = ξ(1/2+it+a)ξ(1/2+it−a)`, every
-on-line zero `ρ = 1/2 + iγ` of ζ produces zeros of `Ξ_a` at
-`t = 1/2 + i(γ ± a)`, whose real part is `1/2`, not `0`. Computed at `a = 1/4`
-for the first three zeros:
+> `Xi_a(t) = xi(1/2+it+a) xi(1/2+it-a)`, so every on-line zeta zero produces
+> `Xi_a` zeros at `t = 1/2 + i(gamma +- a)`.
+
+**That is false and it was an algebra error.** The `a` was moved inside the
+factor `-i(rho - 1/2)` when it does not belong there. The correct solution of
+`1/2 + i(t+a) = rho` is `t + a = -i(rho - 1/2)`, so for `rho = 1/2 + i gamma`
+the zero is at `t = gamma - a`, **real**. Computed:
+`|Xi_a(13.884725141735)| = 9.914e-37` and `|Xi_a(14.384725141735)| = 5.551e-37`,
+against `695.04` and `1180.41` at the values the earlier version claimed. The
+claimed obstruction does not exist and was removed.
+
+**What the algebra actually gives.** For a completed function
+`Xi_f(t) = F(1/2 + it)` that is real and even in `t`, a zero `rho = sigma + i gamma`
+of `F` produces a zero of `Xi_f` at `t = gamma - i(sigma - 1/2)`. So `t` is real
+iff `sigma = 1/2`:
+
+> **the real-rootedness of `Xi_f` in `t` is exactly the critical-line statement
+> for `F`, transported. It is a genuine criterion, not a restatement of
+> anything weaker.**
+
+**This changes which rival is the right one.** For `W_a = zeta(s+a)zeta(s-a)`,
+the zeros of `F_a = xi(s+a)xi(s-a)` are `rho +- a` for zeta zeros `rho`, and
+the `t`-zeros of `Xi_a(1/2+it)` are real iff zeta's own zeros are on the line.
+So `W_a` does **not** refute the criterion: its `t`-real-zero statement is
+*zeta's* RH, which is not known to fail. `W_a` violates its own critical line in
+`s` while satisfying the transported statement in `t`. Using it as the rival
+here is a category error.
+
+**Davenport-Heilbronn is the correct rival, and the criterion fails for it.**
+`zeta/epstein.py` carries DH's completed function
+`F(s) = (pi/5)^{-(s+1)/2} Gamma((s+1)/2) f(s)` with `F(s) = F(1-s)`, real on the
+critical line, and an off-line zero at
+`sigma = 0.80851718245663738...` (`zeta.epstein.OFFLINE_ZERO_RE`). A zero of `F`
+at `rho = sigma + i gamma` gives an `Xi_DH` zero at `t = gamma - i(sigma - 1/2)`,
+whose imaginary part is `-(sigma - 1/2) = -0.3085171824566374`, nonzero.
+Computed:
 
 ```
-    t = 0.5 + 14.38472514j,  0.5 + 21.27203964j,  0.5 + 25.26085758j
+    t0 = 85.69934848537759 - 0.3085171824566374j,    |Xi_DH(t0)| = 4.74e-53
 ```
 
-So `Ξ_a` has its zeros off the real `t`-axis by exactly `a`, inherited from
-ζ's zeros whatever is true of the rest of ζ, and the "all zeros real" property
-fails for it unconditionally. A candidate criterion must therefore be sensitive
-to something `W_a` lacks, and the `D_n` family has a candidate answer: it is a
-finite form of `PF_∞` of the weight, a property `Ξ_a`'s weight need not have.
+So **`Xi_DH` has a complex zero and the real-rootedness criterion genuinely
+fails for Davenport-Heilbronn.** A criterion of the `PF_infinity` / all-real-zeros
+shape therefore does discriminate, and DH is the rival that tests it. `W_a` is
+not, and the `hunts/epp_herglotz` obligation is inherited with that distinction
+made explicit rather than in the shape that hunt recorded.
 
-**A wrong measurement, kept in, and why the rival section is thin.** An earlier
-attempt to test whether `Ξ_a` has a positive weight used an uncalibrated
-inversion `Φ_inv(u) = (1/2π)∫Ξ(t)e^{−itu}dt` and reported "positive". **That
-computation is wrong and is not evidence.** The forward relation was calibrated
-instead and is `Ξ(t) = 8∫₀^∞Φ(u)cos(2tu)du`, checked at `t = 0, 2, 5, 10` to 14
-digits against `zeta.core.xi`; the wrong formula had `cos(tu)` for `cos(2tu)`.
-The `PF_∞` obligation for `W_a` is therefore **not yet discharged**, and this
-hunt does not claim that `D_n ≤ 1/(n+1)` discriminates. It claims only that the
-structural `t = 1/2 + i(γ±a)` obstruction is exact.
+**The `PF_infinity` obligation itself is still open.** Showing that DH's weight
+is not `PF_infinity` is a different and harder computation than exhibiting a
+complex zero of `Xi_DH`, and this hunt has not done it. What is established is
+that the criterion has a discriminating rival and that the rival fails the
+criterion in its zero form.
+
+## 5a. A wrong measurement, kept in
+
+An earlier attempt to test whether `Xi_a` has a positive weight used an
+uncalibrated inversion `Phi_inv(u) = (1/2pi) int Xi(t) e^{-itu} dt` and returned
+"positive". **That computation is wrong and is not evidence.** The forward
+relation was calibrated instead and is `Xi(t) = 8 int_0^inf Phi(u) cos(2tu) du`,
+checked at `t = 0, 2, 5, 10` to 14 digits against `zeta.core.xi`; the wrong
+formula had `cos(tu)` for `cos(2tu)`.
 
 ## 6. What this is and is not
 

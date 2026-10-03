@@ -10,7 +10,7 @@ ran:
   - .venv/bin/python hunts/gauss_positivity/turan_large_n.py --dps 60 --n-list 100,200,400,800,1600,3200
   - .venv/bin/python hunts/gauss_positivity/laplace_D.py --dps 80 --n-list 50,100,200,400,800,1600,3200
   - .venv/bin/python hunts/gauss_positivity/reproduce.py
-outcome: the Turan inequality reduces exactly to a Cauchy-Schwarz deficit D_n <= 1/(n+1) on the moments of a positive weight, a saddle instrument reproduces D_n to 4-6 digits with 1/n error, the law n(r_n-1) -> 1 is measured, and two counterexamples move the criterion from positivity to Schoenberg total positivity; no RH statement is claimed.
+outcome: the Turan inequality reduces exactly to a Cauchy-Schwarz deficit D_n <= 1/(n+1) on the moments of a positive weight, a saddle instrument reproduces D_n to 4-6 digits with 1/n error, the law n(r_n-1) -> 1 is measured, two counterexamples move the criterion from positivity to Schoenberg total positivity, and the correct Gate-3 rival is Davenport-Heilbronn (whose completed function has the complex t-zero 85.69934848537759 - 0.3085171824566374j) rather than W_a; no RH statement is claimed.
 artifacts:
   - hunts/gauss_positivity/journal.md
   - hunts/gauss_positivity/RESULTS.md

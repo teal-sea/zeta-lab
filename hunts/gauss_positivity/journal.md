@@ -24,6 +24,36 @@ strictly sharper than the folklore version. `docs/08` section 4.3's two-sided
 test applies: a criterion that admits a witness with complex zeros is refuted,
 and neither witness is a statement about ζ.
 
+## The criterion is sharper than positivity: a second counterexample
+
+The first counterexample (`e^{-t^4}`) shows convexity is insufficient. A second,
+much sharper one shows **positivity of the Fourier weight is itself
+insufficient**, which is the point the whole lane turns on:
+
+    f(t) = 1 + cos t + cos 3t
+
+is the cosine transform of the positive measure `delta_0 + delta_1 + delta_3`
+(three atoms of weight 1), so its weight is positive. It has
+`4 cos^3 t - 2 cos t + 1 = 0` as its zero equation, and that cubic in
+`c = cos t` has one real root and two complex conjugate roots, so `f` has zeros
+at complex `t`. Computed: `t = 1.136622702 + 0.3195614268j`, `f(t) = 0`. It also
+has 4 real zeros in `(0,10)`.
+
+**So `Phi >= 0` does not imply that the transform has only real zeros.** The
+correct classical criterion is Schoenberg's: `Xi` is in the Laguerre-Polya class
+iff the weight is a Polya frequency function `PF_infinity`, and `PF_infinity` is
+equivalent to **total positivity of every translation kernel**
+`det(Phi(x_i - y_j)) >= 0` for all `n` and all ordered tuples. Those
+determinants, in the moment formulation, are exactly the Toeplitz/Hankel
+determinants of the moments `I_n`.
+
+**This is what makes `D_n` the right object.** `D_n >= 0` is the `n`-th order
+total-positivity condition in its simplest form (the `2x2` Hankel case); the
+Turán inequality is the statement that the `2x2` case holds with room to spare
+controlled by the moment shift. The Lane is therefore not a portfolio of
+restatements: it has a named classical target (`PF_infinity` of `Phi`) and the
+`D_n` family is the correct finite approximation to it.
+
 ## The reduction that worked
 
 Everything below is validated against the committed `data/li_gamma_*.json`
@@ -127,36 +157,6 @@ The three columns agree to a few percent with the gap shrinking, so the
 at this stage: the subleading term is not resolved, and the honest grade is
 *measured* for the law and *hardened* for the instrument.
 
-## The criterion is sharper than positivity: a second counterexample
-
-The first counterexample (`e^{-t^4}`) shows convexity is insufficient. A second,
-much sharper one shows **positivity of the Fourier weight is itself
-insufficient**, which is the point the whole lane turns on:
-
-    f(t) = 1 + cos t + cos 3t
-
-is the cosine transform of the positive measure `delta_0 + delta_1 + delta_3`
-(three atoms of weight 1), so its weight is positive. It has
-`4 cos^3 t - 2 cos t + 1 = 0` as its zero equation, and that cubic in
-`c = cos t` has one real root and two complex conjugate roots, so `f` has zeros
-at complex `t`. Computed: `t = 1.136622702 + 0.3195614268j`, `f(t) = 0`. It also
-has 4 real zeros in `(0,10)`.
-
-**So `Phi >= 0` does not imply that the transform has only real zeros.** The
-correct classical criterion is Schoenberg's: `Xi` is in the Laguerre-Polya class
-iff the weight is a Polya frequency function `PF_infinity`, and `PF_infinity` is
-equivalent to **total positivity of every translation kernel**
-`det(Phi(x_i - y_j)) >= 0` for all `n` and all ordered tuples. Those
-determinants, in the moment formulation, are exactly the Toeplitz/Hankel
-determinants of the moments `I_n`.
-
-**This is what makes `D_n` the right object.** `D_n >= 0` is the `n`-th order
-total-positivity condition in its simplest form (the `2x2` Hankel case); the
-Turán inequality is the statement that the `2x2` case holds with room to spare
-controlled by the moment shift. The Lane is therefore not a portfolio of
-restatements: it has a named classical target (`PF_infinity` of `Phi`) and the
-`D_n` family is the correct finite approximation to it.
-
 ## A calibration error, kept in
 
 The first attempt to test whether the shifted rival `W_a` has a positive weight
@@ -169,13 +169,29 @@ is a factor-and-argument error of exactly the kind `AGENTS.md` warns about, and
 it is recorded here rather than deleted because the conclusion it produced
 ("W_a has a positive weight") is the opposite of interesting if true.
 
-What survives is the *structural* Gate-3 discrimination, which does not depend
-on the inversion: `Xi_a(t) = xi(1/2+it+a) xi(1/2+it-a)`, so every on-line zeta
-zero `rho = 1/2 + i gamma` produces `Xi_a` zeros at `t = 1/2 + i(gamma +- a)`,
-**with real part `1/2`, not `0`**. Computed for the first three zeros at
-`a = 1/4`: `t = 0.5 + 14.38472514j`, `0.5 + 21.27203964j`, `0.5 + 25.26085758j`
-(and the `-1/4` shifts `0.5 + 13.8847...j` etc.). So `Xi_a` has its zeros off
-the real `t` axis by exactly `a`, inherited from zeta's zeros.
+What survives is not what was first claimed. The first claim in this space was
+that `Xi_a`'s zeros sit at `t = 1/2 + i(gamma +- a)`, off the real axis, giving
+an unconditional obstruction for the rival. **That was an algebra error: the `a`
+was moved inside the factor `-i(rho - 1/2)`.** The correct zero of `Xi_a` from an
+on-line zeta zero is `t = gamma - a`, *real*, and the numeric check confirms it:
+`|Xi_a(13.884725141735)| = 9.914e-37` against `695.04` at the claimed value.
+
+The correct identification, which is more useful, is: for a completed
+`Xi_f(t) = F(1/2+it)` with a zero `rho = sigma + i gamma` of `F`, the `t`-zero is
+`t = gamma - i(sigma - 1/2)`, so **real iff `sigma = 1/2`**. The real-rootedness
+of `Xi_f` in `t` is the critical-line statement, transported, and it is a genuine
+criterion. For `W_a = zeta(s+a)zeta(s-a)` that transported statement is *zeta's*
+RH, which is not known to fail, so **`W_a` is the wrong rival here**: it violates
+its own critical line in `s` while satisfying the `t`-statement. That is a
+category error that an earlier draft of this journal made.
+
+**Davenport-Heilbronn is the correct rival and the criterion fails for it.**
+DH's completed function has an off-line zero at `sigma = 0.80851718245663738...`
+(`zeta.epstein.OFFLINE_ZERO_RE`), whose `t`-zero is
+`85.69934848537759 - 0.3085171824566374j`, with `|Xi_DH(t0)| = 4.74e-53`. The
+imaginary part is nonzero, so `Xi_DH` has a complex zero and the
+real-rootedness criterion genuinely fails for DH. The `PF_infinity` obligation
+for DH itself is still open and is not claimed.
 
 ## What this is and is not
 

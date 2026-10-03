@@ -51,9 +51,48 @@ def counterexample_positivity_insufficient() -> None:
         print(f"[counterexample] complex zero t = {mp.nstr(t0, 12)}, f(t) = {mp.nstr(f(t0), 6)}")
 
 
+def rival_check() -> None:
+    """The Gate-3 test, in its corrected form.
+
+    For a completed Xi_f(t) = F(1/2+it), a zero rho = sigma + i gamma of F gives
+    a t-zero at t = gamma - i(sigma - 1/2), real iff sigma = 1/2. So the
+    real-rootedness of Xi_f in t IS the critical-line statement transported.
+
+    W_a = zeta(s+a)zeta(s-a) is the WRONG rival here: its transported statement
+    is zeta's own RH. Davenport-Heilbronn is the right rival and it fails.
+    """
+    import zeta.epstein as E
+    from zeta.core import xi
+
+    with mp.workdps(30):
+        # the corrected zero location for W_a: t = gamma - a, real
+        a = mp.mpf(1) / 4
+        g1 = mp.im(mp.zetazero(1))
+        Xia = lambda t: xi(mp.mpf(1) / 2 + 1j * (t + a)) * xi(
+            mp.mpf(1) / 2 + 1j * (t - a)
+        )
+        print(
+            f"[rival] corrected W_a zero t = {mp.nstr(g1 - a, 15)} (real), "
+            f"|Xi_a| = {mp.nstr(abs(Xia(g1 - a)), 6)}"
+        )
+        # Davenport-Heilbronn: an off-line zero gives a COMPLEX t-zero
+        s0 = mp.mpf(E.OFFLINE_ZERO_RE)
+        g0 = mp.mpf(E.OFFLINE_ZERO_IM)
+        t0 = g0 - 1j * (s0 - mp.mpf(1) / 2)
+        val = abs(E.completed_dh(mp.mpf(1) / 2 + 1j * t0))
+        print(
+            f"[rival] DH off-line sigma = {mp.nstr(s0, 20)}"
+            f" gives complex t-zero {mp.nstr(t0, 22)},"
+            f" |Xi_DH(t0)| = {mp.nstr(val, 6)}"
+        )
+        if abs(mp.im(t0)) < mp.mpf("0.1"):
+            raise RuntimeError("DH rival check: expected a complex t-zero")
+
+
 def main() -> None:
     validate()
     counterexample_positivity_insufficient()
+    rival_check()
 
     print("\n[reduction] D_n = 1 - I_n^2/(I_{n-1} I_{n+1}); Turan is D_n <= 1/(n+1)")
     print("    n        D_n            n*D_n       1/(n+1)     u_saddle    D_laplace      rel_err")

@@ -3025,12 +3025,23 @@ hardening. The resulting law is `D_n ~ 2/(n log n)`, `r_n = 1 + 1/n − 2/(n log
 `n(r_n−1) → 1`, measured to 10²⁰.
 
 Recorded defects, in the hunt: a ratio routine that dropped an index offset and
-was caught against the committed table before any large-n use; and an
-uncalibrated Fourier inversion that reported a positive weight for the `W_a`
-rival and is **wrong** (the relation is `Ξ(t) = 8∫Φ(u)cos(2tu)du`, calibrated to
-14 digits). The `PF_∞` obligation for the rivals is therefore **not discharged**.
-The exact structural obstruction for `W_a` is: every on-line ζ zero gives `Ξ_a`
-zeros at `t = 1/2 + i(γ±a)`, real part `1/2`, so "all zeros real" fails for it
-unconditionally. The Turán inequality itself is already known unconditionally
-(Csordas–Norfolk–Varga); this hunt does not improve on it and claims no progress
-on RH. Nothing here bears on RH (`docs/08`).
+was caught against the committed table before any large-n use; an uncalibrated
+Fourier inversion that reported a positive weight for a rival and is **wrong**
+(the relation is `Ξ(t) = 8∫Φ(u)cos(2tu)du`, calibrated to 14 digits); and a
+**correction to the hunt's own Gate-3 claim**. An earlier version stated that
+`Ξ_a` zeros sit at `t = 1/2 + i(γ±a)`, off the real axis, giving an
+unconditional obstruction for the rival `W_a`. That was an algebra error (the
+`a` moved inside the factor `-i(ρ−1/2)`); the correct zero is `t = γ − a`, real,
+confirmed numerically (`|Ξ_a(13.884725141735)| = 9.9e-37` against `695.04` at
+the claimed value). The algebraic fact is that for a completed
+`Ξ_f(t) = F(1/2+it)` a zero `ρ = σ+iγ` of `F` gives a `t`-zero
+`t = γ − i(σ−1/2)`, **real iff `σ = 1/2`**. So the real-rootedness of `Ξ_f` in
+`t` *is* the critical-line statement transported, which makes `W_a` the **wrong
+rival** here: its transported statement is zeta's own RH, which is not known to
+fail. The correct rival is Davenport-Heilbronn, and the criterion genuinely
+fails for it: its off-line zero at `σ = 0.80851718245663738...` gives the
+complex `t`-zero `85.69934848537759 − 0.3085171824566374j` with
+`|Ξ_DH(t₀)| = 4.74e-53`. The `PF_∞` obligation for DH itself is still open.
+The Turán inequality is already known unconditionally (Csordas–Norfolk–Varga);
+this hunt does not improve on it and claims no progress on RH. Nothing here
+bears on RH (`docs/08`).
