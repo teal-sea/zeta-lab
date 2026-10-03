@@ -75,6 +75,18 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
+
+**Status: unresolved RH attempt, two scoped ordinary proofs with exact and
+numerical checks; external review pending.** Every fixed raw theta partial
+sum loses an endpoint cancellation and eventually violates the first
+Laguerre inequality, with remainder bounds given. An explicit positive-measure
+cosine transform satisfies that inequality everywhere but has nonreal zeros
+inside the corresponding critical strip; its second coefficient is exactly
+-12/121 at pi. Neither is a zeta counterexample. The all-order positivity
+obligation for the full arithmetic kernel remains open. See
+`rh_theta_laguerre/RESULTS.md` for proofs, dependencies, and reproduction.
+
 ### Central logarithmic moments (`central_moments/`, 2026-10-02)
 
 **Status: unresolved RH attempt, ordinary derivations and finite measurements.**
