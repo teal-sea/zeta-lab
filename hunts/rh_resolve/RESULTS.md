@@ -45,12 +45,46 @@ backends, cross-check, and state the exact N and widths. Finite
 positivity to N is a theorem about 1..N, not about RH. The
 uniform tail (all n) remains open and is named as the gap.
 
+## Phase 2: enclosure-carrying positivity for lambda_1..3 (2026-10-03)
+
+Status: proved finite positivity. Script enclose_li.py, panel
+quadrature in Arb balls, R = 1/2, K = 32768, prec 128 and 192.
+
+Enclosures (real part; imag parts all contain 0):
+
+n   prec 128                    prec 192                    float check
+1   [0.018865, 0.027334]       [0.018519, 0.027681]       0.02309570896612103381 (closed form)
+2   [0.075364, 0.109330]       [0.074007, 0.110687]       0.09234573522804667039 (Cauchy float)
+3   [0.155621, 0.259678]       (not run)                 0.20763892055432480379 (Cauchy float)
+
+Every lower bound exceeds 0, so lambda_1, lambda_2, lambda_3 > 0
+is decided. The closed-form enclosure for lambda_1
+([0.02309570896612103381 +/- 3.6e-38]) lies inside both
+quadrature enclosures: two independent routes agree.
+
+Branch soundness, proved in the same run: min Re(xi) lower over
+all 32768 panels is 0.4951 > 0 and max |arg| upper is 0.0329 < 1,
+so the principal log is the analytic branch on the whole circle.
+Zero-free disk uses only |rho| >= gamma1 > 14: every zero image
+satisfies |z| = |1-1/rho| >= 1-1/14 > 0.92 > 1/2.
+
+Explicit dependencies: Arb ball soundness (python-flint 0.9.0);
+first-zero bound gamma1 > 14 (pinned in this tree against mpmath
+and PARI oracles); the Li generating identity (derived in
+zeta/li.py, defect-checked against the literal definition).
+Precision control: prec 128 vs 192 overlap; widths are
+panel-width dominated, as expected.
+
+Scope, plainly: this is a theorem about n = 1, 2, 3. It says
+nothing about RH, which needs all n. The uniform tail is open.
+
 ## Gaps
 
 1. No uniform estimate. Finite N, however certified, does not
    imply lambda_n >= 0 for all n (Littlewood).
-2. Enclosure code for log xi on the Cauchy circle does not exist
-   yet; probe used float mpmath only.
+2. Width grows like n*R^{-n}/K: at K = 32768, n = 5 is out of
+   reach (projected width ~0.64 vs margin 0.575). Larger K or a
+   midpoint-plus-derivative scheme is needed for n >= 4.
 3. Formal statement check not yet done: any Lean claim must be
    checked against the original RH statement (zeros of zeta,
    real part 1/2), not against the encoded Li equivalence alone.
