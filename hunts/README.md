@@ -75,6 +75,18 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Central logarithmic moments (`central_moments/`, 2026-10-02)
+
+**Status: unresolved RH attempt, ordinary derivations and finite measurements.**
+The central logarithmic derivative supplies an explicit all-orders moment
+positivity obligation. Exact symmetric-measure controls show that raw moment
+positivity does not transfer, and that any fixed number of these matrix tests
+can pass despite off-axis zeros. Direct central derivatives and theta
+quadrature are compared at two precisions. Eight finite Arb matrix-sign
+enclosures have independent determinant checks. See the scoped derivation
+and reproduction commands in `central_moments/RESULTS.md`. No RH or novelty claim;
+external mathematical review remains pending.
+
 ### Out-of-band envelopes for Weil window positivity (`oob_envelope/`)
 
 **Status: candidate, hardened by two independent implementations, pending
