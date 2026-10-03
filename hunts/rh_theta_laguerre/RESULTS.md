@@ -9,10 +9,11 @@ literature search for these constructions was conducted.
 1. Every fixed finite partial sum of the half-line theta kernel has a cosine
    transform that eventually violates the first Laguerre inequality. It has
    infinitely many nonreal zeros. This concerns those approximants, not Xi.
-2. Even global first-order positivity, positive-measure Fourier structure,
-   evenness, order one, and zeros confined to the critical strip do not
-   suffice for real-rootedness. An explicit six-atom control meets all those
-   hypotheses, but fails the second inequality exactly.
+2. For any fixed finite order cutoff K, an explicit six-atom positive-measure
+   transform satisfies all Laguerre inequalities through K on the WHOLE real
+   axis and still has nonreal zeros inside the corresponding critical strip.
+   For K=1 it fails the second inequality exactly. This is a uniform
+   construction, not a finite point scan.
 
 Neither conclusion closes the theta route. The unresolved task is to prove
 all the necessary inequalities for the actual infinite arithmetic kernel,
@@ -234,6 +235,48 @@ those additional properties. No standing rival is claimed to be excluded;
 this construction itself matches every hypothesis of the implication being
 challenged.
 
+### 4.1 Strengthening: any fixed finite number of orders can pass globally
+
+The control extends beyond first order. For an integer K>=1 let M=4K and
+
+    C_K(z)=(c+cos(z)) cos(Mz)/(c+1),  c=17/16.               (13)
+
+It has the same positive weights as (9), now at frequencies M,M-1,M+1,
+and the same explicit nonreal zeros with |Im z|=alpha<1/2. Nevertheless
+
+    L_n[C_K](x)>=0 for every real x and every 0<=n<=K.       (14)
+
+Here is a direct proof. Put delta=c-1=1/16. The coefficients of y^(2j)
+in |c+cos(x+iy)|^2 are
+
+    h_0=(c+cos(x))^2 >= delta^2,
+    h_1=1+c cos(x) >= -delta,
+    h_j=(2c cos(x)+2^(2j-1))/(2j)! > 0 for j>=2.
+
+The last sign follows from 2^(2j-1)>=8>2c. For |cos(M(x+iy))|^2 they are
+
+    q_0=cos(Mx)^2 in [0,1],
+    q_j=(2M)^(2j)/(2(2j)!) > 0 for j>=1.
+
+The product coefficient is sum_(j=0)^n h_j q_(n-j), divided by (c+1)^2.
+For n=1 its numerator is at least delta^2 M^2-delta=(K^2-1)/16>=0.
+For 2<=n<=K it is at least delta^2 q_n-delta q_(n-1), which is
+nonnegative since
+
+    delta q_n/q_(n-1)=4K^2/(2n(2n-1)) > 1.
+
+This proves (14), including every real x, without numerical signs.
+For concrete checks at x=pi, C_2 fails L_3 with exact value -2806/495,
+and C_3 fails L_4 with exact value -407815057/1372140. Both identities
+are pinned by exact coefficient convolution and separate numerical derivatives.
+
+The quantifiers matter: for every K there is a DIFFERENT C_K. No one
+control passes all orders. Its exponential type grows with K; it has no
+arithmetic theta identity or zeta zero-density law. This is not a no-go
+for finite reductions that exploit additional properties of Xi. It does
+rule out replacing the all-order obligation by an arbitrary fixed cutoff
+using only the generic hypotheses these controls share.
+
 ## 5. The attempted positive representation and its remaining gap
 
 For the actual Xi, put k(u)=2 Phi(u/2), using the even extension of Phi.
@@ -289,13 +332,15 @@ continuous interval verification, or evidence establishing (2). The control's
 nonreal-zero residual is below 2.3e-81 at 80 digits, while its exact negative
 L_2 is established algebraically rather than by that residual.
 
-The 14 hunt tests include symbolic endpoint differentiation, the exact
+The 17 hunt tests include symbolic endpoint differentiation, the exact
 nonnegative decomposition, the rational L_2 failure, a separate polynomial
 expansion of (1), the remainder algebra, direct derivative and omitted-tail
 comparisons, theta normalization/evenness diagnostics, precision response,
 and recomputation of the negative controls. Two additional cross-checks
 verify the integration-by-parts identities on an exponential and the
-Jacobian/factorial normalization in (12) on a Gaussian. These tests do not verify the
+Jacobian/factorial normalization in (12) on a Gaussian. The finite-order
+control extension has three further checks of its bound algebra and exact
+higher-order failures. These tests do not verify the
 entire-function proofs by a kernel or constitute an independent mathematical
 review. Dependencies are SymPy and mpmath plus the standard analytic results
 named in sections 1-3. No Lean build or paid computation ran.
@@ -305,8 +350,8 @@ named in sections 1-3. No Lean build or paid computation ran.
 1. **What binds:** this is not a measured optimum. In the exact finite-N
    family the first surviving odd endpoint derivative produces an algebraic
    tail of the wrong sign. In the proposed generic implication, stopping at
-   L_1 leaves the explicit control (9). Neither obstruction applies to all
-   representations or to the full arithmetic kernel.
+   any fixed order K leaves the explicit control (13). Neither obstruction
+   applies to all representations or to the full arithmetic kernel.
 2. **Frozen parameters:** the computations use N=1,2,3, H-arguments
    200,400,800, 50/80 digits, and a separate quadrature cutoff u=2 at 60
    digits. Raising N buys compact-set accuracy and costs cancellation digits;

@@ -131,6 +131,36 @@ def test_negative_control_recomputed_without_saved_values():
         assert laguerre_coefficient(lambda t: partial_transform(t, 1), mp.mpf(400), 1) < 0
 
 
+def test_any_finite_order_cutoff_bound_algebra():
+    n, r = sp.symbols("n r", positive=True)
+    # K=n+r: delta*q_n/q_(n-1)>=1 reduces to this positive numerator.
+    assert sp.expand(4*(n+r)**2-2*n*(2*n-1)) == 4*r*r+8*n*r+2*n
+    # K=1+r: the separate n=1 bound has this nonnegative numerator.
+    assert sp.expand((1+r)**2-1) == r*r+2*r
+    c = sp.Rational(17, 16)
+    assert 8-2*c > 0  # Lower bound for every h_j, j>=2, before (2j)!.
+
+
+@pytest.mark.parametrize("cutoff,order,expected", [
+    (2, 3, -sp.Rational(2806, 495)),
+    (3, 4, -sp.Rational(407815057, 1372140)),
+])
+def test_higher_cutoff_control_eventually_detected(cutoff, order, expected):
+    c = sp.Rational(17, 16)
+    frequency = 4*cutoff
+    h = [(c-1)**2]+[(2**(2*j-1)-2*c)/sp.factorial(2*j) for j in range(1, order+1)]
+    q = [sp.Integer(1)]+[sp.Rational((2*frequency)**(2*j), 2*sp.factorial(2*j))
+                         for j in range(1, order+1)]
+    assert sum(h[j]*q[order-j] for j in range(order+1))/(c+1)**2 == expected
+    with mp.workdps(60):
+        f = lambda t: control(t, cutoff)
+        for n in range(1, cutoff+1):
+            for t in (mp.mpf(0), mp.pi/3, mp.pi):
+                assert laguerre_coefficient(f, t, n) > 0
+        assert abs(laguerre_coefficient(f, mp.pi, order)-mp.mpf(str(expected.p))/int(expected.q)) < mp.mpf("1e-50")
+        assert abs(f(mp.pi+mp.j*mp.acosh(mp.mpf(17)/16))) < mp.mpf("1e-50")
+
+
 def test_kernel_jacobian_and_factorials_on_gaussian():
     x, w, t = sp.symbols("x w t", real=True)
     f = sp.sqrt(sp.pi)*sp.exp(-t*t/4)

@@ -74,9 +74,13 @@ def xi(t):
     return mp.re(s*(s-1)*mp.power(mp.pi, -s/2)*mp.gamma(s/2)*mp.zeta(s)/2)
 
 
-def control(t):
-    """Six-atom positive-measure control with explicit nonreal zeros."""
-    return (17*mp.cos(4*t) + 8*mp.cos(5*t) + 8*mp.cos(3*t))/33
+def control(t, cutoff=1):
+    """Six-atom control; RESULTS.md derives positivity through cutoff."""
+    if not isinstance(cutoff, int) or cutoff < 1:
+        raise ValueError("cutoff must be a positive integer")
+    frequency = 4*cutoff
+    return (17*mp.cos(frequency*t) + 8*mp.cos((frequency+1)*t)
+            + 8*mp.cos((frequency-1)*t))/33
 
 
 def laguerre_coefficient(f, t, order):

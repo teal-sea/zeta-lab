@@ -40,25 +40,35 @@ comparisons, and 2 precision runs of the nonreal-zero control. These are
 floating-point checks. The all-N asymptotic sign and the exact rational
 control failure are separate ordinary derivations in RESULTS.md.
 
-The 14 hunt tests passed in 3.04 seconds. The combined final check passed
+The initial 14 hunt tests passed in 3.04 seconds. The initial combined check passed
 43 tests, with 5 slow tests deselected, in 11.06 seconds. Generated context
 was regenerated and remained unchanged. Its check and git whitespace checks
 passed. No full local suite, Lean build, paid resource, or detached research
 job was run. The repository's existing CI is not included in those local
 counts. No external mathematical review was performed.
 
+A subsequent algebraic refinement strengthens the control: for each finite
+order cutoff K, C_K passes every order through K at every real argument
+while retaining the explicit nonreal zeros. This adds no scan of zeta and
+no heavy computation. Three additional test cases check the parameter
+bound and exact failures of C_2 at order 3 and C_3 at order 4. The revised
+combined suite passed 46 tests with 5 slow tests deselected in 11.34 seconds,
+including all 17 hunt cases. The numerical artifact above is unchanged;
+it records the original K=1 control. The generalization and its exact
+witnesses are reproduced by test_probe.py.
+
 ```runmanifest
 id: rh_theta_laguerre-2026-10-03-checkpoint1
 hunt: rh_theta_laguerre
 started: 2026-10-03T04:41:47Z baseline completed; exact session start not recorded
-finished: 2026-10-03T04:58:52Z local verification completed
+finished: 2026-10-03T05:05:33Z refined local verification recorded
 ran:
   - .venv/bin/python hunts/rh_theta_laguerre/probe.py
   - .venv/bin/python -m pytest -q -n0 hunts/rh_theta_laguerre/test_probe.py
   - .venv/bin/python -m pytest -q -n0 -m 'not slow' hunts/rh_theta_laguerre/test_probe.py tests/test_huntspec.py tests/test_docs_numbering.py tests/test_hunt_probe_discipline.py tests/test_doors.py
   - .venv/bin/python scripts/make_context.py
   - .venv/bin/python scripts/make_context.py --check
-outcome: RH unresolved; finite-theta asymptotic failure and an exact first-order-positive nonreal-zero control preserved with 43 passing checks
+outcome: RH unresolved; finite-theta asymptotic failure and exact finite-order-positive nonreal-zero controls preserved with 46 passing checks
 artifacts:
   - hunts/rh_theta_laguerre/MISSION.md
   - hunts/rh_theta_laguerre/RESULTS.md
