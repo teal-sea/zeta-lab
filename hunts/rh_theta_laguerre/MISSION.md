@@ -16,6 +16,17 @@ log-derivative route before committing further computation. Those records
 retain open uniform estimates; repeating their finite scans is not this
 hunt's task.
 
+## Continuation: exact square representations (2026-10-03)
+
+The owner authorized the next proof attempt after checkpoint 1. Work with the
+full theta kernel and an arbitrary Laguerre order. Try integration by parts
+using its logarithmic derivative to cancel the moment weight, testing whether
+the resulting two-variable kernel admits a positive Gram representation.
+Compare with a nonlocal conditional-moment factorization if the local
+construction fails. A signed remainder must be retained, never called a
+square. Numerical work is only a bounded diagnostic of the exact formulas.
+Preserve checkpoint 1 unchanged except for a link to the continuation.
+
 Scope: this directory, its case-log entry, and generated context if needed.
 No edits to core mathematics, other hunts, Lean packages, or operating tools.
 Use bounded foreground computations only, no paid resources or heavy local
@@ -35,6 +46,7 @@ required_oracles:
   - exact symbolic identities and rational inequalities
   - independent incomplete-gamma and theta-quadrature computations
   - mpmath gamma-zeta evaluations without a supplied zero list
+  - Arb enclosures including analytic theta and integration tails
 kill_conditions:
   - a proposed sufficient condition holds for a control with explicit nonreal zeros
   - a finite approximation violates the proposed inequality asymptotically

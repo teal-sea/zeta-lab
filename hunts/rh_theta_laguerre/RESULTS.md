@@ -345,6 +345,14 @@ entire-function proofs by a kernel or constitute an independent mathematical
 review. Dependencies are SymPy and mpmath plus the standard analytic results
 named in sections 1-3. No Lean build or paid computation ran.
 
+## Continuation: exact square constructions
+
+[SQUARES.md](SQUARES.md) records the next attempt using the full kernel:
+a score-based integration-by-parts construction and a nonlocal positive
+average of shifted Xi squares. Both specific constructions fail necessary
+Gram conditions, with full-tail enclosures of the witnesses. No negative
+L_n[Xi] or zeta counterexample is claimed. The all-order target remains open.
+
 ## The doors
 
 1. **Active constraints:** this is not a measured optimum. In the exact finite-N
