@@ -29,10 +29,21 @@ python-flint; it is not the repository's two-backend cross-check.
   180-second timeout. The learn and refute commands passed. No code in that
   environment or in those tests was changed. This is not an all-green suite.
 
-The broad pre-change fast suite was launched in the original shared checkout
-at fd04f1fa, before edits. Its result is recorded below when complete. The
-research worktree starts from the newer origin/main 783307c8; the broad run
-is therefore not a full-suite validation of this worktree.
+The broad fast suite was launched in the original shared checkout at
+fd04f1fa, before this hunt's edits: 2990 passed, 3 failed, 56 skipped,
+6 expected failures, in 1022.65 seconds. The failures were a stale dated
+HardyZ proof observation, a missing case-log entry for jensen_newton, and a
+reserved-word occurrence in rh_resolve/MISSION.md. The latter two hunt paths
+were not in this session's initial status and are not this hunt's files;
+the shared checkout was not a stable isolated baseline. No files in those
+hunts or the HardyZ dossier were edited by this attempt.
+The research worktree starts from the newer origin/main 783307c8; the broad
+run is not a full-suite validation of this worktree. The 29 focused checks
+above were run in the isolated research worktree and passed.
+The single HardyZ staleness test was then rerun in the isolated worktree:
+it also fails there, comparing the recorded 2026-08-13 observation with a
+2026-09-28 file-change date. This is a pre-existing failing check outside
+the changed files, not a result to suppress or repair within this hunt.
 
 ## Reproduce
 
