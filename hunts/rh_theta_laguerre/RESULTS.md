@@ -347,7 +347,7 @@ named in sections 1-3. No Lean build or paid computation ran.
 
 ## The doors
 
-1. **What binds:** this is not a measured optimum. In the exact finite-N
+1. **Active constraints:** this is not a measured optimum. In the exact finite-N
    family the first surviving odd endpoint derivative produces an algebraic
    tail of the wrong sign. In the proposed generic implication, stopping at
    any fixed order K leaves the explicit control (13). Neither obstruction
@@ -359,7 +359,7 @@ named in sections 1-3. No Lean build or paid computation ran.
    Higher precision tests arithmetic stability, not missing hypotheses.
    The control frequencies 3,4,5 and c=17/16 were chosen for an exact
    n=1 equality and n=2 negative witness, not optimized.
-3. **Information required next:** a modularity-preserving construction or a
+3. **Information class:** a modularity-preserving construction or a
    direct argument with the infinite kernel must retain the endpoint
    cancellations rather than truncate them away. Proving nonnegative Fourier
    transforms in (12) would suffice; it is currently unresolved. Corrections

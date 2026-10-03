@@ -77,3 +77,23 @@ artifacts:
   - hunts/rh_theta_laguerre/results.json
   - hunts/rh_theta_laguerre/test_probe.py
 ```
+
+## CI check and documentation correction
+
+[CI run 37098771010](https://github.com/teal-sea/zeta-lab/actions/runs/37098771010)
+finished with 3179 passed, 1 failed, 3 skipped and 6 expected failures in
+1041.72 seconds of pytest time. The single failure was this hunt's doors
+section: it covered the subjects but did not use the required labels
+"constraints" and "information class". The focused command had included
+`test_doors.py` (reader entry points), not the different `test_hunt_doors.py`.
+This was a missed relevant check, not a baseline defect or a numerical
+failure. Only those two prose labels were changed; no test was weakened.
+
+Including the missing test file, the local check on 2026-10-03T05:26:48Z
+passed 64 tests, with 5 slow tests deselected and 3 existing expected failures,
+in 10.60 seconds. Reproduce with the combined command above plus
+`tests/test_hunt_doors.py`. The existing CI rerun is expected to take about
+18 minutes, based on the first run's measured 18m7s job duration. It uses
+standard Actions runners and is watched to a terminal state. The earlier
+superseded run 37098415230 ended cancelled when the control refinement was
+pushed; it is not a passing run.
