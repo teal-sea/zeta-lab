@@ -81,6 +81,28 @@ artifacts:
 ```
 
 ```runmanifest
+id: rh_resolve-2026-10-03-correction
+hunt: rh_resolve
+started: 2026-10-03T09:00-05:00
+finished: 2026-10-03T12:00-05:00
+ran:
+  - re-derivation of midpoint remainder found missing oscillation terms
+  - fixed G2 in enclose_li_mid.py, moved six invalid files to superseded/ unmodified
+  - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 1 --nmax 16 --K 16384 --R 0.7
+  - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 17 --nmax 40 --K 65536 --R 0.8
+  - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 41 --nmax 60 --K 65536 --R 0.8
+  - mechanical coverage check 1-58 plus float cross-check, both clean
+outcome: corrected theorem certifies n 1 to 58 with n 59 as boundary, error preserved in superseded
+artifacts:
+  - hunts/rh_resolve/enclose_li_mid.py
+  - hunts/rh_resolve/superseded/CORRECTION.md
+  - hunts/rh_resolve/enclosure_mid_R0.7_n1-16_K16384_p128.json
+  - hunts/rh_resolve/enclosure_mid_R0.8_n17-40_K65536_p128.json
+  - hunts/rh_resolve/enclosure_mid_R0.8_n41-60_K65536_p128.json
+  - hunts/rh_resolve/THEOREM.md
+```
+
+```runmanifest
 id: rh_resolve-2026-10-03-rival
 hunt: rh_resolve
 started: 2026-10-03T08:00-05:00

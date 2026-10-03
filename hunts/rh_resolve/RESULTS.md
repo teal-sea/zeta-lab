@@ -103,28 +103,40 @@ K ~ 3M panels with this naive scheme. Finite extension has
 diminishing returns and no finite N implies RH. The tail needs
 new mathematics, not larger K.
 
-## Phase 4: certified positivity to n = 71 (2026-10-03)
+## Phase 4: certified positivity to n = 58, after a correction (2026-10-03)
+
+First stated to n = 71, then WITHDRAWN IN PART: re-derivation
+showed the midpoint remainder missed the oscillation terms
+(n^2 M dominant for n >= 5). Invalid rows moved unmodified to
+superseded/ with CORRECTION.md; corrected bound
+G2 = F2 + 2n F1 + n^2 M re-ran. CorrectedHIGH state: n = 1..58
+certified (1..16 at R = 0.7/K = 16384, 17..58 at R = 0.8/K =
+65536), n = 59 mapped as the boundary ([-0.06, 111.57]).
+Mechanical verification: coverage 1..58 complete, all lowers > 0,
+all enclose the float Cauchy values. The panel-covering scheme
+(n <= 10, pure inclusion) was never affected and agrees.
+
+Original phase-4 text (n = 71 claim) is preserved in git history
+and superseded/CORRECTION.md, not edited away.
 
 Second scheme (enclose_li_mid.py): midpoint rule with near-point
 balls plus analytic remainder M2 (2pi)^3/(24 K^2), M2 from
 Cauchy's estimate on a larger circle whose M comes from coarse
 interval panels. 1000x tighter than panel covering at equal K.
 
-Certified range: lambda_n > 0 enclosed for every n = 1..71.
-Contours: R = 0.7 (n <= 32, K = 16384) and R = 0.8 with
-rho = 0.88 (n = 33..71, K = 65536, K0 = 16384). Branch proved
-on every contour (Re(xi) lower 0.29..0.49 > 0). Sample widths:
-n = 32: [18.92, 22.69]; n = 48: [40.62, 41.12];
-n = 64: [50.84, 74.55]; n = 71: [9.92, 135.34].
-Boundary mapped: n = 72 does not decide at this K
-([-5.41, 153.57]). One overwritten artifact (33..48) was
-recomputed under the range-stamped filename and full 1..71
-coverage re-verified mechanically, all lower bounds > 0.
+Certified range (corrected): lambda_n > 0 enclosed for every
+n = 1..58. Contours: R = 0.7 (n <= 16, K = 16384) and R = 0.8
+with rho = 0.88 (n = 17..58, K = 65536, K0 = 16384). Branch
+proved on every contour (Re(xi) lower 0.29..0.49 > 0). Sample
+widths: n = 16: [5.70, 5.73]; n = 40: [30.19, ~30.7];
+n = 58: [11.72, 97.04]. Boundary mapped: n = 59 does not
+decide at this K ([-0.06, 111.57]). Coverage 1..58
+re-verified mechanically, all lower bounds > 0.
 
-This is a theorem about n <= 71. It is not RH and implies
+This is a theorem about n <= 58. It is not RH and implies
 nothing uniform. The tail remains open and needs new
-mathematics; each doubling of the certified range costs roughly
-16x the panels with this scheme.
+mathematics; width grows like n^3 R^{-n}/K^2, so each unit of
+n costs ~1.35x the panels near the boundary.
 
 ## Rival lane closed (2026-10-03)
 

@@ -58,8 +58,19 @@ def enclose_lambda_mid(n, K=16384, prec=128, R_str="0.5", rho_str="0.85", K0=204
         if not ok:
             return {"n": n_, "finite": False, "note": "M bound failed"}
         gap = float(rho) - float(R)
-        M2 = 2 * M / gap**2
-        E = M2 * float(two_pi) ** 3 / (24 * K**2)
+        Rfl = float(R)
+        # Full second-derivative bound for g(t) = f(R e^{it}) e^{-int}:
+        # d/dt brings iR e^{it} f' (chain) and -in (oscillation), so
+        # |g''| <= F2 + 2n F1 + n^2 M with F1 = R*M1, F2 = R*M1 + R^2*M2c,
+        # M1 = M/gap, M2c = 2M/gap^2 (Cauchy). An earlier version used
+        # M2c alone and understated the remainder for n >= 3 (CORRECTION.md).
+        M1 = M / gap
+        M2c = 2 * M / gap**2
+        F1 = Rfl * M1
+        F2 = Rfl * M1 + Rfl**2 * M2c
+        G2 = F2 + 2 * n_ * F1 + n_**2 * M
+        M2 = G2
+        E = G2 * float(two_pi) ** 3 / (24 * K**2)
         total = acb(0)
         for j in range(K):
             mid = float(2 * math.pi * (j + 0.5) / K)
