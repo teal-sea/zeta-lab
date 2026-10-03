@@ -36,3 +36,23 @@ artifacts:
   - hunts/rh_resolve/enclosure_li_K32768_p128.json
   - hunts/rh_resolve/enclosure_li_K32768_p192.json
 ```
+
+```runmanifest
+id: rh_resolve-2026-10-03-phase3
+hunt: rh_resolve
+started: 2026-10-03T03:00-05:00
+finished: 2026-10-03T05:00-05:00
+ran:
+  - .venv/bin/python hunts/rh_resolve/enclose_li.py --nmax 5 --K 131072 --prec 128
+  - .venv/bin/python hunts/rh_resolve/enclose_li.py --nmin 6 --nmax 10 --K 131072 --prec 128 --R 0.3
+  - .venv/bin/python hunts/rh_resolve/enclose_li.py --nmin 6 --nmax 10 --K 131072 --prec 128 --R 0.7
+  - branch soundness panel check at R 0.7 (min Re lower 0.4869, max arg upper 0.1192)
+  - Li positivity scan to n 100 and Jensen scan d 16 n 25 (disproof search, both empty)
+outcome: positivity enclosed for n 1 to 10, disproof search to n 100 and 416 Jensen rows found no violation
+artifacts:
+  - hunts/rh_resolve/enclosure_li_K131072_p128.json
+  - hunts/rh_resolve/enclosure_li_R0.3_K131072_p128.json
+  - hunts/rh_resolve/enclosure_li_R0.7_K131072_p128.json
+  - hunts/rh_resolve/disproof_li100.json
+  - hunts/rh_resolve/disproof_jensen16x25.json
+```

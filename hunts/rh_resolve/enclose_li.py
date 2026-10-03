@@ -66,19 +66,21 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--nmax", type=int, default=3)
+    ap.add_argument("--nmin", type=int, default=1)
     ap.add_argument("--K", type=int, default=16384)
     ap.add_argument("--prec", type=int, default=128)
+    ap.add_argument("--R", type=str, default="0.5")
     args = ap.parse_args()
     t0 = time.time()
     rows = []
-    for n in range(1, args.nmax + 1):
-        row = enclose_lambda(n, K=args.K, prec=args.prec)
+    for n in range(args.nmin, args.nmax + 1):
+        row = enclose_lambda(n, K=args.K, prec=args.prec, R_str=args.R)
         rows.append(row)
         print(row, flush=True)
     blob = {"grade": "enclosure-carrying-panel-quadrature", "rows": rows,
             "seconds": time.time() - t0}
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        f"enclosure_li_K{args.K}_p{args.prec}.json")
+                        f"enclosure_li_R{args.R}_K{args.K}_p{args.prec}.json")
     with open(path, "w") as fh:
         json.dump(blob, fh, indent=1)
     print("wrote", path)

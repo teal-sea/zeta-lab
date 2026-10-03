@@ -78,6 +78,41 @@ panel-width dominated, as expected.
 Scope, plainly: this is a theorem about n = 1, 2, 3. It says
 nothing about RH, which needs all n. The uniform tail is open.
 
+## Phase 3: extension to lambda_1..10 (2026-10-03)
+
+Radius tradeoff measured: error scales like |f-prime|_R/(K R^n),
+so R = 0.7 beats R = 0.5 above n = 5 and R = 0.3 loses badly
+(R^{-n} dominates). At R = 0.7, K = 131072, prec 128:
+
+n   enclosure                       float check
+6   [0.776440, 0.878693]           0.8275660122823793
+7   [1.038326, 1.210599]           1.1244601175709595
+8   [1.323520, 1.607997]           1.4657556771470606
+9   [1.619875, 2.081962]           1.8509160483825342
+10  [1.908723, 2.649964]           2.2793393631931577
+
+Combined with phase 2 (R = 0.5, K = 131072: n = 1..5 widths
+0.002..0.18, all lower bounds > 0), positivity is now enclosed
+for n = 1..10. Branch soundness at R = 0.7 proved in-run:
+min Re(xi) lower 0.4869 > 0, max |arg| upper 0.1192.
+Artifacts: enclosure_li_R0.7_K131072_p128.json and
+ enclosure_li_K131072_p128.json (R = 0.5 rows for n = 1..5).
+
+Ceiling note: width grows like n R^{-n}/K, so n = 20 needs
+K ~ 3M panels with this naive scheme. Finite extension has
+diminishing returns and no finite N implies RH. The tail needs
+new mathematics, not larger K.
+
+## Disproof search (2026-10-03, measured, both lanes empty)
+
+Li lane: positivity scan n = 1..100 (Cauchy, dps 25), zero
+violations, min margin lambda_1 = 0.023095708966121033,
+lambda_100 = 118.603775376791. Artifact disproof_li100.json.
+Jensen lane: hyperbolicity scan d <= 16, n <= 25 (416 rows,
+dps 30), zero non-hyperbolic instances, min root gap 0.0432.
+Artifact disproof_jensen16x25.json. Honest reading for both:
+no violation found in range, never support for RH.
+
 ## Gaps
 
 1. No uniform estimate. Finite N, however certified, does not
