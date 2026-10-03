@@ -1,0 +1,89 @@
+{
+ "grade": "measured-float",
+ "routes": {
+  "A_li": {
+   "lambda_1_20_dps30": [
+    "0.023095708966121",
+    "0.0923457352280467",
+    "0.207638920554325",
+    "0.368790479492242",
+    "0.575542714461177",
+    "0.827566012282379",
+    "1.12446011757096",
+    "1.46575567714706",
+    "1.85091604838253",
+    "2.27933936319316",
+    "2.7503608382202",
+    "3.26325532062462",
+    "3.81724005784795",
+    "4.4114776786806",
+    "5.04507937202679",
+    "5.71710824886879",
+    "6.4265828721172",
+    "7.17248093829172",
+    "7.9537430943119",
+    "8.76927687209322"
+   ],
+   "min_margin": 0.023095708966121033,
+   "all_positive": true,
+   "max_abs_dps30_minus_dps20": 3.3287559144769703e-21,
+   "cauchy_minus_zeros_n8": [
+    2.421822393448623e-10,
+    9.687287169502326e-10,
+    2.179638711556141e-09,
+    3.874911021076744e-09,
+    6.054543962562975e-09,
+    8.7185353722182e-09,
+    1.1866882605466708e-08,
+    1.5499582536836703e-08
+   ],
+   "asymptotic_n20": 8.350708720461782,
+   "reading": "no violation in n<=20; zeros-route column structurally nonnegative so only Cauchy signs carry information"
+  },
+  "B_weil": {
+   "gaussian_a1": {
+    "zero_side": "0.0",
+    "arithmetic_side": "1.63256717072107e-21",
+    "abs_diff": "1.63256717072107e-21",
+    "abs_diff_float": 1.6325671707210742e-21
+   },
+   "fejer_b1": {
+    "zero_side": "0.0265373156658524",
+    "arithmetic_side": "0.0266705620859278",
+    "abs_diff": "0.000133246420075438",
+    "abs_diff_float": 0.0001332464200754383
+   }
+  },
+  "C_heat": {
+   "phi_even_defect": "{'0.5': '4.83263124939434564381065527753e-32', '1.0': '7.20366463937996549689633482141e-32', '2.0': '3.49952209151472663357411279962e-31'}",
+   "H0_vs_Xi": {
+    "relation": "H_0(z) = (1/8) * Xi((1/2)*z)",
+    "c": "0.125",
+    "a": "0.5",
+    "c_rational": "(1, 8)",
+    "a_rational": "(1, 2)",
+    "c_measured": "0.125",
+    "a_measured": "0.5",
+    "a_from_curvature": "0.5",
+    "a_from_first_zero": "0.5",
+    "max_residual": "3.76777920721755e-32",
+    "max_relative_residual": "6.20520280629707e-31",
+    "max_residual_vs_sibling": "3.69778549322349e-32",
+    "residuals": "[mpf('3.6977854932234928e-32'), mpf('3.6983971832159141e-32'), mpf('3.7677792072175496e-32')]",
+    "z_values": "[0.0, 1.0, 2.0]",
+    "dps": "30"
+   }
+  }
+ },
+ "controls": {
+  "R1_rival": {
+   "battery_import": "ok",
+   "note": "full rival run deferred to phase 2; Li zeros-route nonnegative-structure documented in zeta/li.py"
+  },
+  "P1_precision": {
+   "max_abs_change_20_to_30_digits": 3.3287559144769703e-21,
+   "responds": true,
+   "note": "nonzero change with precision plus cross-method agreement pattern is the real-quantity signature; exact digits in RESULTS.md"
+  }
+ }
+}
