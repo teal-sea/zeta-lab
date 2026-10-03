@@ -34,7 +34,7 @@ convergence pattern).
 Li Cauchy positivity with enclosure-carrying numerics. Reason:
 it is the only lane whose sign carries information (zeros-route
 is structurally nonnegative), whose disk is unconditionally
-zero-free (RADIUS_MAX in zeta/li.py), and whose certificate
+zero-free (RADIUS_MAX in zeta/li.py), and whose enclosure
 reduces to bounding one Cauchy integral, which the Arb backend
 in zeta/rigor.py can carry. Weil needs a new test-function
 construction first; heat needs an upper bound on Lambda, which
@@ -192,18 +192,27 @@ nearly cancel.
 
 ## The doors
 
-1. Active constraints at the optimum: none, this phase measured
-   consistency, not an optimum. Binding object for phase 2 is the
-   enclosure width growth like R^{-n} times the DFT sum width.
-2. Frozen-constant inventory: Cauchy radius 0.5 (could raise
-   toward 0.929 at the cost of arg-unwrap density and node
-   count); dps 30 (trades time for width); N=20 (trades
-   coverage for per-n width); Gaussian a=1 and Fejer b=1
-   (arbitrary pair choice, relaxing the pair class is the
-   Weil door); heat z in {0,1,2} (illustrative only).
-3. Information class: phase-2 enclosures stay inside values of
-   xi on Re s > 1/2, hence under the Li-configuration ceiling;
+1. Active constraints at the optimum: the enclosed boundary
+   n = 59 binds on the enclosure width, which grows like
+   n^3 R^{-n}/K^2. The n^2 factor comes from the oscillation
+   term in G2 (missing it once cost a full correction round).
+   Shadow price near the boundary: each further unit of n
+   costs ~1.35x the panels at fixed R = 0.8, K = 65536.
+2. Frozen-constant inventory: contour radii R = 0.7/0.8 with
+   outer rho = 0.85/0.88 (raising rho toward the 0.92 zero-free
+   edge tightens M2c but risks the branch condition, since
+   zero images start at 0.929); midpoint order (Simpson via the
+   same Cauchy device would change the width law to 1/K^4 and
+   shift the boundary outward at equal cost); prec 128
+   (widths are discretization-dominated, more digits buy
+   nothing); Gaussian a in {0.5,1,2} and Fejer b = 1 for the
+   Weil probes (arbitrary pair choices, relaxing the pair class
+   is the Weil door, already priced at zero by the outband
+   hunt); heat z in {0,1,2} (illustrative only).
+3. Information class: all enclosures stay inside values of xi
+   on Re s > 1/2, hence under the Li-configuration ceiling;
    they cannot close the uniform tail. The tail door requires
    reading more: a uniform bound on the zero sum or on the
-   Taylor remainder for all n, which the current family does
-   not contain.
+   Taylor remainder valid for all n at once, which the current
+   family does not contain. Finite K decides finitely many n,
+   no matter how large, so extension is mileage, not approach.
