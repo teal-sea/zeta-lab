@@ -2994,3 +2994,43 @@ the named obligation. Not closed: `s > 400` has no depth-1 enclosure (the
 tail composes through the very lemma that fails), and the table's other
 starred row (`no_damage`'s `28/5`) was not examined. Nothing bears on RH
 (`docs/08`).
+
+### Hunt #120: the Turán margin is a Cauchy-Schwarz deficit, and positivity alone is not the criterion (`gauss_positivity/`)
+
+**Status: measured, instrument hardened, no RH statement claimed (2026-10-03).**
+Asks whether the positivity of the heat-flow weight `Φ` (`zeta/heatflow.py`,
+positive on the real axis) buys anything toward the real-rootedness of `Ξ`, via
+a Pólya-type criterion. Two computed counterexamples settle the shape of the
+question and neither is a statement about ζ.
+
+The folklore criterion (positive even weight with a convex Fourier-side
+exponent) is **false**: `φ(t)=e^{-t^4}` has a convex exponent and its transform
+has complex zeros by argument-principle count, and `φ(t)=e^{-|t|}` is the
+cheapest witness with zeros at `z=±i`. The sharper version, positivity of the
+weight alone, is **also false**, and this is the consequential one:
+`f(t) = 1 + cos t + cos 3t` is the cosine transform of the positive measure
+`δ₀+δ₁+δ₃` and has the complex zero `t = 1.13662270206 + 0.319561426779j`. So
+the target has to be Schoenberg's `PF_∞` of the weight (total positivity of
+every translation kernel), not positivity.
+
+What was built: from the module's own Mellin derivation, with
+`w(u) = e^{u/4}ω(e^u) > 0`, the moments `I_k = ∫u^{2k}w` are moments of a
+positive measure, so Cauchy-Schwarz gives `D_n := 1 − I_n²/(I_{n−1}I_{n+1}) ≥ 0`
+automatically, and the Turán inequality is `r_n = [(n+2)/(n+1)](1−D_n)(1+O(1/n²))`,
+i.e. exactly `D_n ≤ 1/(n+1)` up to a stated correction. Measured `0 < D_n < 1/(n+1)`
+at n = 100, 400, 1600, 3200 with `nD_n` falling 0.495 → 0.292. A saddle
+instrument (`πe^{u_*} = 1/4 + 2n/u_*`, `D_n ≈ 4/(u_*²A)`) reproduces the exact
+quadrature to 4-6 digits with error falling like `1/n`; the two routes are the
+hardening. The resulting law is `D_n ~ 2/(n log n)`, `r_n = 1 + 1/n − 2/(n log n) + o(1/(n log n))`,
+`n(r_n−1) → 1`, measured to 10²⁰.
+
+Recorded defects, in the hunt: a ratio routine that dropped an index offset and
+was caught against the committed table before any large-n use; and an
+uncalibrated Fourier inversion that reported a positive weight for the `W_a`
+rival and is **wrong** (the relation is `Ξ(t) = 8∫Φ(u)cos(2tu)du`, calibrated to
+14 digits). The `PF_∞` obligation for the rivals is therefore **not discharged**.
+The exact structural obstruction for `W_a` is: every on-line ζ zero gives `Ξ_a`
+zeros at `t = 1/2 + i(γ±a)`, real part `1/2`, so "all zeros real" fails for it
+unconditionally. The Turán inequality itself is already known unconditionally
+(Csordas–Norfolk–Varga); this hunt does not improve on it and claims no progress
+on RH. Nothing here bears on RH (`docs/08`).
