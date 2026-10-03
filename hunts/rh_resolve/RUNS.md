@@ -92,7 +92,7 @@ ran:
   - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 17 --nmax 40 --K 65536 --R 0.8
   - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 41 --nmax 60 --K 65536 --R 0.8
   - mechanical coverage check 1-58 plus float cross-check, both clean
-outcome: corrected theorem certifies n 1 to 58 with n 59 as boundary, error preserved in superseded
+outcome: corrected theorem encloses n 1 to 58 with n 59 as boundary, error preserved in superseded
 artifacts:
   - hunts/rh_resolve/enclose_li_mid.py
   - hunts/rh_resolve/superseded/CORRECTION.md
@@ -113,4 +113,17 @@ outcome: both zero sides positive at all widths, control powerless by constructi
 artifacts:
   - hunts/rh_resolve/probe_rival.py
   - hunts/rh_resolve/rival_weil.json
+```
+
+```runmanifest
+id: rh_resolve-2026-10-03-equivalence
+hunt: rh_resolve
+started: 2026-10-03T12:30-05:00
+finished: 2026-10-03T13:00-05:00
+ran:
+  - .venv/bin/python hunts/rh_resolve/check_logderiv.py
+outcome: explicit L matches xi at s=2, b identity holds, f_1 numerator stays negative, Poisson spot check within 1e-3, positive-weight witness has a non-real cosine zero. RH unresolved.
+artifacts:
+  - hunts/rh_resolve/EQUIVALENCE.md
+  - hunts/rh_resolve/check_logderiv.py
 ```

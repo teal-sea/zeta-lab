@@ -75,6 +75,16 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Direct resolution attempt (`rh_resolve/`, 2026-10-03)
+
+**Status: unresolved.** Finite Li positivity is enclosure-carrying
+for n = 1..58 (`THEOREM.md`). RH is derived equivalent to
+Re(xi'/xi) > 0 on the open right half-plane (`EQUIVALENCE.md`);
+that equivalence is not a proof. A positive even Gaussian mixture
+has a non-real cosine zero, so positivity of the theta weight is
+not sufficient. Log-concavity of Phi survives negative heat-flow
+time, so it cannot force Lambda <= 0. No novelty claim.
+
 ### Central logarithmic moments (`central_moments/`, 2026-10-02)
 
 **Status: unresolved RH attempt, ordinary derivations and finite measurements.**

@@ -6,7 +6,7 @@ no equivalent, no stronger unproved claim, no extra axioms.
 
 Scope: exploratory hunt under hunts/. Nothing here is a result
 until it passes the battery, an enclosure, or a kernel check.
-Lexical rule: the word certified is banned in this directory.
+Lexical rule: the reserved enclosure word is banned in this directory.
 Use measured, derived, enclosure-carrying only where earned.
 
 ## Plan
@@ -21,7 +21,9 @@ Use measured, derived, enclosure-carrying only where earned.
 
 ## Current status (2026-10-03)
 
-Phase 1 only. No proof claimed. No disproof claimed.
+No resolution claimed. Finite Li positivity is recorded in THEOREM.md.
+The logarithmic-derivative equivalence is in EQUIVALENCE.md.
+Neither is the hypothesis.
 
 ```huntspec
 id: rh_resolve
@@ -31,6 +33,8 @@ dead_routes:
   - finite floating scan alone as uniform theorem (Littlewood, docs/08)
   - zeros-route Li scan as positivity evidence (structurally nonnegative, zeta/li.py docstring)
   - harness framework extension without live consumer (harness/VERDICT.md)
+  - positive even weight alone (Gaussian-mixture cosine zero, EQUIVALENCE.md)
+  - log-concavity of Phi as a sufficient condition for real cosine zeros (survives negative heat time)
 required_oracles:
   - mpmath independent oracle cross-check (tests/test_pari_oracle.py pattern)
   - ball-arithmetic enclosure via zeta/rigor.py (Arb and mpmath.iv cross-check)

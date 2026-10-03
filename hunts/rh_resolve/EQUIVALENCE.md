@@ -68,8 +68,9 @@ the symmetrized series is the 1/gamma^2 tail.
 
 Spot check, not a proof of this direction: at 0.8+10i the
 real part of L is 0.03177, and the Poisson sum over the first
-200 ordinates plus a density tail is 0.03181
-(`check_logderiv.py`).
+200 ordinates is 0.03054. The residual 0.00124 is the tail
+beyond ordinate 541, not a second formula. A wrong sign would
+miss by the whole real part. `check_logderiv.py`.
 
 ## What this does not do
 

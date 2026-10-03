@@ -103,14 +103,14 @@ K ~ 3M panels with this naive scheme. Finite extension has
 diminishing returns and no finite N implies RH. The tail needs
 new mathematics, not larger K.
 
-## Phase 4: certified positivity to n = 58, after a correction (2026-10-03)
+## Phase 4: enclosure-carrying positivity to n = 58, after a correction (2026-10-03)
 
 First stated to n = 71, then WITHDRAWN IN PART: re-derivation
 showed the midpoint remainder missed the oscillation terms
 (n^2 M dominant for n >= 5). Invalid rows moved unmodified to
 superseded/ with CORRECTION.md; corrected bound
-G2 = F2 + 2n F1 + n^2 M re-ran. CorrectedHIGH state: n = 1..58
-certified (1..16 at R = 0.7/K = 16384, 17..58 at R = 0.8/K =
+G2 = F2 + 2n F1 + n^2 M re-ran. Corrected state: n = 1..58
+enclosed (1..16 at R = 0.7/K = 16384, 17..58 at R = 0.8/K =
 65536), n = 59 mapped as the boundary ([-0.06, 111.57]).
 Mechanical verification: coverage 1..58 complete, all lowers > 0,
 all enclose the float Cauchy values. The panel-covering scheme
@@ -124,7 +124,7 @@ balls plus analytic remainder M2 (2pi)^3/(24 K^2), M2 from
 Cauchy's estimate on a larger circle whose M comes from coarse
 interval panels. 1000x tighter than panel covering at equal K.
 
-Certified range (corrected): lambda_n > 0 enclosed for every
+Decided range (corrected): lambda_n > 0 enclosed for every
 n = 1..58. Contours: R = 0.7 (n <= 16, K = 16384) and R = 0.8
 with rho = 0.88 (n = 17..58, K = 65536, K0 = 16384). Branch
 proved on every contour (Re(xi) lower 0.29..0.49 > 0). Sample
@@ -166,16 +166,29 @@ no violation found in range, never support for RH.
 
 ## Gaps
 
-1. No uniform estimate. Finite N, however certified, does not
+1. No uniform estimate. Finite N, however enclosed, does not
    imply lambda_n >= 0 for all n (Littlewood).
-2. Width grows like n*R^{-n}/K: at K = 32768, n = 5 is out of
-   reach (projected width ~0.64 vs margin 0.575). Larger K or a
-   midpoint-plus-derivative scheme is needed for n >= 4.
+2. Width grows like n^3 R^{-n}/K^2 under the midpoint-Cauchy
+   scheme (n^2 from the oscillation term in G2). At K = 65536
+   and R = 0.8 the boundary is n = 59; each further unit of n
+   costs ~1.35x the panels. A higher-order rule (Simpson via
+   the same Cauchy device) would shift the boundary, not remove
+   it.
 3. Formal statement check not yet done: any Lean claim must be
    checked against the original RH statement (zeros of zeta,
    real part 1/2), not against the encoded Li equivalence alone.
 4. Weil Fejer defect 1.3e-04 is truncation, not a signal; needs
    tail accounting before any positivity reading.
+
+## Logarithmic-derivative equivalence (2026-10-03)
+
+Derived, not a resolution. RH is equivalent to Re(xi'/xi(s)) > 0
+for every s with real part greater than 1/2. Proof, dependencies,
+and the two killed sufficient conditions (positive weight;
+log-concavity of Phi) are in EQUIVALENCE.md. Spot checks:
+check_logderiv.py. The open step is the sign of that real part
+inside the strip, where the archimedean term and zeta'/zeta
+nearly cancel.
 
 ## The doors
 
