@@ -56,3 +56,26 @@ artifacts:
   - hunts/rh_resolve/disproof_li100.json
   - hunts/rh_resolve/disproof_jensen16x25.json
 ```
+
+```runmanifest
+id: rh_resolve-2026-10-03-phase4
+hunt: rh_resolve
+started: 2026-10-03T05:00-05:00
+finished: 2026-10-03T08:00-05:00
+ran:
+  - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 1 --nmax 32 --K 16384 --R 0.7 --rho 0.85
+  - M-bound probes at rho 0.9, 0.88, 0.85 selecting rho 0.88 with K0 16384
+  - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 33 --nmax 48 --K 65536 --R 0.8 --rho 0.88
+  - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 49 --nmax 64 --K 65536 --R 0.8 --rho 0.88
+  - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 65 --nmax 72 --K 65536 --R 0.8 --rho 0.88
+  - re-ran 33-48 under range-stamped filename after overwrite, mechanical 1-71 coverage check
+outcome: positivity enclosed for every n 1 to 71, n 72 mapped as the boundary at this K
+artifacts:
+  - hunts/rh_resolve/enclose_li_mid.py
+  - hunts/rh_resolve/enclosure_mid_R0.7_K16384_p128.json
+  - hunts/rh_resolve/enclosure_mid_R0.8_n33-48_K65536_p128.json
+  - hunts/rh_resolve/enclosure_mid_R0.8_n49-64_K65536_p128.json
+  - hunts/rh_resolve/enclosure_mid_R0.8_n65-68_K65536_p128.json
+  - hunts/rh_resolve/enclosure_mid_R0.8_n69-70_K65536_p128.json
+  - hunts/rh_resolve/enclosure_mid_R0.8_n71-72_K65536_p128.json
+```

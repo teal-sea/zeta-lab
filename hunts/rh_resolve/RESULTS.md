@@ -103,6 +103,29 @@ K ~ 3M panels with this naive scheme. Finite extension has
 diminishing returns and no finite N implies RH. The tail needs
 new mathematics, not larger K.
 
+## Phase 4: certified positivity to n = 71 (2026-10-03)
+
+Second scheme (enclose_li_mid.py): midpoint rule with near-point
+balls plus analytic remainder M2 (2pi)^3/(24 K^2), M2 from
+Cauchy's estimate on a larger circle whose M comes from coarse
+interval panels. 1000x tighter than panel covering at equal K.
+
+Certified range: lambda_n > 0 enclosed for every n = 1..71.
+Contours: R = 0.7 (n <= 32, K = 16384) and R = 0.8 with
+rho = 0.88 (n = 33..71, K = 65536, K0 = 16384). Branch proved
+on every contour (Re(xi) lower 0.29..0.49 > 0). Sample widths:
+n = 32: [18.92, 22.69]; n = 48: [40.62, 41.12];
+n = 64: [50.84, 74.55]; n = 71: [9.92, 135.34].
+Boundary mapped: n = 72 does not decide at this K
+([-5.41, 153.57]). One overwritten artifact (33..48) was
+recomputed under the range-stamped filename and full 1..71
+coverage re-verified mechanically, all lower bounds > 0.
+
+This is a theorem about n <= 71. It is not RH and implies
+nothing uniform. The tail remains open and needs new
+mathematics; each doubling of the certified range costs roughly
+16x the panels with this scheme.
+
 ## Disproof search (2026-10-03, measured, both lanes empty)
 
 Li lane: positivity scan n = 1..100 (Cauchy, dps 25), zero
