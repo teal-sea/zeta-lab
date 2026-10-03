@@ -1,5 +1,19 @@
 """Newton / higher-Turan battery on the moment sequence of Xi.
 
+SUPERSEDED for its main purpose, 2026-10-03. RESULTS.md section 5b proves that
+Newton's inequalities for the Jensen polynomial J^{d,n} are *implied* by the
+d=2 Turan inequality, because the C(d,k)-normalised right-hand side
+k(d-k)/((k+1)(d-k+1)) is < 1 for every d >= 2 and every k while Turan makes the
+left-hand side > 1. So the table this file produces is the same inequality
+measured repeatedly with different normalisations, and its small "margins" are
+that normalisation rather than a near-failure. See reproduce.py
+:func:`newton_collapse` for the check that guards the proposition.
+
+The file is kept because the N3 code path is the right harness for the thing
+that is *not* closed: hyperbolicity of J^{d,n} is strictly stronger than its
+Newton inequalities, and that is what GORZ leave open for finitely many n at
+each d. Reuse it for hyperbolicity, not for Newton.
+
 RH  <=>  F(w) = 8 xi(1/2 + sqrt(w)) has only real zeros
     <=>  (Polya) every Jensen polynomial J^{d,n} is hyperbolic.
 

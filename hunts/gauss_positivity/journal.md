@@ -210,3 +210,31 @@ for DH itself is still open and is not claimed.
 * The `D_n` reduction is a finite form of Schoenberg's `PF_infinity` condition
   on `Phi`, which is the correct classical target (see above). That is a
   statement about the shape of the problem, not a proof of anything.
+## A route closed by proof: Newton's inequalities are implied by Turan
+
+The higher-degree Jensen conditions were the obvious place to look for new
+content, since GORZ leave a finite unresolved set of `n` for each degree `d ≥ 4`.
+**The Newton side of that is closed, by an elementary computation rather than by
+a failed search.**
+
+For `A_k = C(d,k)γ(n+k)`, Newton at order `k` is `A_k² ≥ A_{k−1}A_{k+1}`, i.e.
+
+    γ(n+k)²/(γ(n+k−1)γ(n+k+1))  ≥  C(d,k−1)C(d,k+1)/C(d,k)²  =  k(d−k)/((k+1)(d−k+1))
+
+exactly. The right-hand side is strictly `< 1` for every `d ≥ 2` and
+`1 ≤ k ≤ d−1`, since `k < k+1` and `d−k < d−k+1`; its maximum over the whole
+range is `0.93548387...` at `d = 59, k = 29`, increasing toward 1 as `d` grows
+but never reaching it. The left-hand side is `> 1` whenever Turan holds. So
+
+> **Proposition.** Turan for all `m` implies Newton for all `(d, k, n)`.
+
+Verified over `d = 2..59` against the minimum Turan margin at `m ≤ 150`: worst
+`RHS/LHS = 0.9321`, so the bound is never approached.
+
+This says the whole Newton/real-rootedness-*necessary* family adds nothing to the
+classical `d = 2` Turan inequality. It does **not** close the higher-degree
+problem, because hyperbolicity of `J^{d,n}` is strictly stronger than its Newton
+inequalities. The measurement error it corrects: `newton_battery.py`'s table of
+495 cells passing with margins down to `1.2e-40` is that same inequality counted
+many times under different `C(d,k)` normalisations, and the tiny margins are the
+normalisation, not a near-failure. The file now carries a header saying so.

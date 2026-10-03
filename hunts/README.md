@@ -3042,6 +3042,17 @@ fail. The correct rival is Davenport-Heilbronn, and the criterion genuinely
 fails for it: its off-line zero at `σ = 0.80851718245663738...` gives the
 complex `t`-zero `85.69934848537759 − 0.3085171824566374j` with
 `|Ξ_DH(t₀)| = 4.74e-53`. The `PF_∞` obligation for DH itself is still open.
+
+**A route closed by proof.** Newton's inequalities for the Jensen polynomial
+`J^{d,n}`, at every degree and order, are **implied by** the classical `d = 2`
+Turán inequality: Newton's normalised right-hand side is
+`k(d−k)/((k+1)(d−k+1)) < 1` for every `d ≥ 2` and `1 ≤ k ≤ d−1` (max
+`0.93548387` at `d = 59, k = 29`), while Turán makes the left-hand side `> 1`.
+So the 495-cell Newton table's margins (down to `1.2e-40`) are the `C(d,k)`
+normalisation counted repeatedly, not near-failures, and chasing Newton at
+higher `d` is closed by computation rather than by a search that found nothing.
+Hyperbolicity of `J^{d,n}` is strictly stronger than its Newton inequalities and
+is **not** closed.
 The Turán inequality is already known unconditionally (Csordas–Norfolk–Varga);
 this hunt does not improve on it and claims no progress on RH. Nothing here
 bears on RH (`docs/08`).

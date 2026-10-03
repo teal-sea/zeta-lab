@@ -89,10 +89,38 @@ def rival_check() -> None:
             raise RuntimeError("DH rival check: expected a complex t-zero")
 
 
+def newton_collapse(d_max: int = 60, m_max: int = 150) -> None:
+    """Proposition: Newton's inequalities for J^{d,n} follow from Turan.
+
+    Newton for A_k = C(d,k) gamma(n+k) reads
+        gamma(n+k)^2/(gamma(n+k-1)gamma(n+k+1)) >= k(d-k)/((k+1)(d-k+1))
+    and the right side is < 1 for every d >= 2, 1 <= k <= d-1 (max 0.93548387
+    at d=59 k=29), while Turan makes the left side > 1. So Newton is implied.
+    """
+    from zeta.li import xi_taylor_coefficients
+
+    with mp.workdps(70):
+        g = xi_taylor_coefficients(m_max + 3, dps=70, cache=True)
+        lhs_min = min(g[m + 1] ** 2 / (g[m] * g[m + 2]) for m in range(0, m_max))
+        worst = (mp.mpf(0), 0, 0)
+        for d in range(2, d_max):
+            for k in range(1, d):
+                rhs = mp.mpf(k * (d - k)) / ((k + 1) * (d - k + 1))
+                if rhs / lhs_min > worst[0]:
+                    worst = (rhs / lhs_min, d, k)
+        print(
+            f"[newton collapse] min Turan margin = {mp.nstr(lhs_min, 12)}; "
+            f"worst RHS/LHS = {mp.nstr(worst[0], 8)} at d={worst[1]}, k={worst[2]}"
+        )
+        if worst[0] >= 1:
+            raise RuntimeError("Newton collapse: a case is NOT implied by Turan")
+
+
 def main() -> None:
     validate()
     counterexample_positivity_insufficient()
     rival_check()
+    newton_collapse()
 
     print("\n[reduction] D_n = 1 - I_n^2/(I_{n-1} I_{n+1}); Turan is D_n <= 1/(n+1)")
     print("    n        D_n            n*D_n       1/(n+1)     u_saddle    D_laplace      rel_err")

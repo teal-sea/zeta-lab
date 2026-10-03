@@ -216,6 +216,53 @@ relation was calibrated instead and is `Xi(t) = 8 int_0^inf Phi(u) cos(2tu) du`,
 checked at `t = 0, 2, 5, 10` to 14 digits against `zeta.core.xi`; the wrong
 formula had `cos(tu)` for `cos(2tu)`.
 
+## 5b. Newton's inequalities collapse to Turan: a proof, and a route closed
+
+For the Jensen polynomial `J^{d,n}(X) = Σ_k C(d,k) γ(n+k) X^k` whose coefficients
+are `A_k = C(d,k) γ(n+k)`, Newton's inequality at order `k` states
+`A_k² ≥ A_{k−1} A_{k+1}`, i.e.
+
+```
+    γ(n+k)²                     C(d,k−1)C(d,k+1)        k(d−k)
+    ────────────────  ≥  ──────────────────────  =  ─────────────────────
+    γ(n+k−1)γ(n+k+1)               C(d,k)²           (k+1)(d−k+1)
+```
+
+(the second form uses `C(d,k−1)C(d,k+1)/C(d,k)² = k(d−k)/((k+1)(d−k+1))`, exact).
+
+The right-hand side is **strictly less than 1 for every `d ≥ 2` and every
+`1 ≤ k ≤ d−1`**, because `k < k+1` and `d−k < d−k+1`. Its maximum over the whole
+allowed range is `0.93548387...` at `d = 59, k = 29`, and it increases toward 1
+as `d` grows without ever reaching it.
+
+The left-hand side is `> 1` whenever the `d = 2` Turán inequality
+`γ(m+1)² ≥ γ(m)γ(m+2)` holds, and by the reduction of section 2 it holds with
+margin `1/γ`-controlled decay. Hence:
+
+> **Proposition.** If the Turán inequality `γ(m+1)² ≥ γ(m)γ(m+2)` holds for all
+> `m ≥ 0`, then Newton's inequalities for `J^{d,n}` hold for every `d ≥ 2`,
+> every `n ≥ 0` and every order `k`.
+
+**Proof.** Immediate from the two displays: `LHS > 1 > RHS`. ∎
+
+Verified numerically over `d = 2..59`, all `k`, against the minimum of the
+left-hand side over `m = 0..150`: the worst ratio `RHS/LHS` is `0.9321` at
+`d = 59, k = 29`, i.e. the bound is never approached.
+
+**Consequence, which is the point of the section.** The family of Newton
+inequalities over all degrees `d` and all orders `k` adds **nothing** beyond the
+classical `d = 2` Turán inequality for the ξ-coefficients. In particular
+`newton_battery.py`'s table, which scans `d ≤ 10`, `n ≤ 60`, is measuring the
+same underlying inequality repeatedly with different `C(d,k)` normalisations,
+and its tiny "margins" are that normalisation and not a near-failure. Chasing
+Newton at higher `d` is a closed route, closed by the elementary computation
+above rather than by a search that failed to find a violation.
+
+This does **not** close the higher-order problem: **hyperbolicity of `J^{d,n}` is
+strictly stronger than its Newton inequalities**, and it is hyperbolicity that
+GORZ leave open for a finite set of `n` at each `d ≥ 4`. What the proposition
+says is that the Newton/real-rootedness-necessary family is not the way in.
+
 ## 6. What this is and is not
 
 - **Is:** an exact reduction of the Turán inequality to a Cauchy–Schwarz
