@@ -85,6 +85,27 @@ has a non-real cosine zero, so positivity of the theta weight is
 not sufficient. Log-concavity of Phi survives negative heat-flow
 time, so it cannot force Lambda <= 0. No novelty claim.
 
+### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
+
+**Status: unresolved RH attempt, ordinary proofs and numerical enclosures;
+external review pending.** Every fixed raw theta partial
+sum loses an endpoint cancellation and eventually violates the first
+Laguerre inequality, with remainder bounds given. For every fixed cutoff K,
+a positive-measure cosine transform satisfies all inequalities through K
+everywhere but has nonreal zeros inside the corresponding critical strip.
+The K=1 control's second coefficient is exactly -12/121 at pi. Neither is
+a zeta counterexample. The all-order positivity
+obligation for the full arithmetic kernel remains open. See
+`rh_theta_laguerre/RESULTS.md` for proofs, dependencies, and reproduction.
+
+The square-construction continuation tests two specific representations on
+the full theta kernel. The local score construction has a negative two-point
+Gram eigenvalue; the positive-average-of-shifted-squares construction has a
+negative integer-vector witness for a 24-point ratio matrix. Both witnesses
+carry Arb enclosures including all theta and integration tails. These are
+failures of the proposed representations, not negative Laguerre values or
+zeta counterexamples. Details: `rh_theta_laguerre/SQUARES.md`.
+
 ### Central logarithmic moments (`central_moments/`, 2026-10-02)
 
 **Status: unresolved RH attempt, ordinary derivations and finite measurements.**
