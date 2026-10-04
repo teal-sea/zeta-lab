@@ -169,7 +169,7 @@ bear on the 4, 10, 20 count."
 
 ## 8. Reproduction
 
-    PY="PYTHONPATH=<worktree root> /Users/thomas/zeta-lab/.venv/bin/python"
+    PY="PYTHONPATH=<worktree root> .venv/bin/python"
     $PY hunts/weil_propagation/c4_s2/assembler/assemble.py --synthetic        # synthetic.json (PREREG s6)
     $PY hunts/weil_propagation/c4_s2/assembler/floor_count.py                 # floor_count.json (Addendum A)
     $PY hunts/weil_propagation/c4_s2/assembler/crossover.py                   # crossover.json (post-hoc)

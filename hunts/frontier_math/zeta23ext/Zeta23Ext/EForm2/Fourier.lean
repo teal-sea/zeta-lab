@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm2.Defs
+module
+
+public import Zeta23Ext.EForm2.Defs
+
+@[expose] public section
 
 /-!
 # The master Fourier identity

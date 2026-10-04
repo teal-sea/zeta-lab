@@ -1,0 +1,754 @@
+⚠ [3233/3459] Replayed Zeta23.Statement
+warning: Zeta23/Statement.lean:152:30: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [3657/3717] Replayed Zeta23.Statement.Seam
+warning: Zeta23/Statement/Seam.lean:63:13: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+
+Hint: Replace the deprecated name:
+  ENat.toNat_c̵o̵e̵n̲a̲t̲C̲a̲s̲t̲
+⚠ [3678/3717] Replayed Zeta23.LinAlg.RankTrace
+warning: Zeta23/LinAlg/RankTrace.lean:77:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/LinAlg/RankTrace.lean:80:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/LinAlg/RankTrace.lean:101:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/LinAlg/RankTrace.lean:103:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+⚠ [3686/3717] Replayed Zeta23.Assembly
+warning: Zeta23/Assembly.lean:889:47: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/Assembly.lean:962:34: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/Assembly.lean:966:90: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [3689/3717] Replayed Zeta23.ZetaReflect
+warning: Zeta23/ZetaReflect.lean:95:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [8959/8990] Replayed Zeta23.Tail
+warning: Zeta23/Tail.lean:294:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/Tail.lean:403:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [8960/8990] Replayed Zeta23.ZeroSide
+warning: Zeta23/ZeroSide.lean:705:4: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/ZeroSide.lean:710:66: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/ZeroSide.lean:716:52: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/ZeroSide.lean:759:53: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+ℹ [8975/9118] Replayed Zeta23.GammaFacts.Mu
+info: Zeta23/GammaFacts/Mu.lean:141:2: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+ℹ [8977/9118] Replayed Zeta23.GammaFacts.StirlingVert
+info: Zeta23/GammaFacts/StirlingVert.lean:457:6: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [8981/9118] Replayed Zeta23.FromPNTPlus.StrongPNTPrefix
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:65:71: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:206:9: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+
+Hint: Replace the deprecated name:
+  s̵e̵t̵O̵f̵_̵s̵u̵b̵s̵e̵t̵_̵s̵e̵t̵O̵f̵o̲f̲P̲r̲e̲d̲_̲s̲u̲b̲s̲e̲t̲_̲o̲f̲P̲r̲e̲d̲
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:280:14: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:288:14: `dif_neg` has been deprecated: Use `dite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵n̵e̵g̵d̲i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:347:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+
+Hint: Replace the deprecated name:
+  n̵o̵t̵M̵e̵m̵_̵s̵e̵t̵O̵f̵_̵i̵f̵f̵n̲o̲t̲M̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲i̲f̲f̲
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:372:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:394:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+
+Hint: Replace the deprecated name:
+  n̵o̵t̵M̵e̵m̵_̵s̵e̵t̵O̵f̵_̵i̵f̵f̵n̲o̲t̲M̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲i̲f̲f̲
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:436:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [8984/9118] Replayed Zeta23.FromPNTPlus.Fourier
+warning: Zeta23/FromPNTPlus/Fourier.lean:33:94: This simp argument is unused:
+  Circle.norm_coe
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [8989/9118] Replayed Zeta23.FromPNTPlus.ZetaBounds
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:863:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:956:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1096:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1103:32: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1109:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  p̵r̵e̵i̵m̵a̵g̵e̵_̵s̵e̵t̵O̵f̵_̵e̵q̵p̲r̲e̲i̲m̲a̲g̲e̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1119:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  p̵r̵e̵i̵m̵a̵g̵e̵_̵s̵e̵t̵O̵f̵_̵e̵q̵p̲r̲e̲i̲m̲a̲g̲e̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1123:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1139:54: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  p̵r̵e̵i̵m̵a̵g̵e̵_̵s̵e̵t̵O̵f̵_̵e̵q̵p̲r̲e̲i̲m̲a̲g̲e̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1161:22: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+
+Hint: Replace the deprecated name:
+  s̵e̵t̵O̵f̵_̵s̵u̵b̵s̵e̵t̵_̵s̵e̵t̵O̵f̵o̲f̲P̲r̲e̲d̲_̲s̲u̲b̲s̲e̲t̲_̲o̲f̲P̲r̲e̲d̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1173:15: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+
+Hint: Replace the deprecated name:
+  s̵e̵t̵O̵f̵_̵s̵u̵b̵s̵e̵t̵_̵s̵e̵t̵O̵f̵o̲f̲P̲r̲e̲d̲_̲s̲u̲b̲s̲e̲t̲_̲o̲f̲P̲r̲e̲d̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1173:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1189:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1839:19: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1841:45: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1844:28: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+
+Hint: Replace the deprecated name:
+  s̵e̵t̵O̵f̵_̵s̵u̵b̵s̵e̵t̵_̵s̵e̵t̵O̵f̵o̲f̲P̲r̲e̲d̲_̲s̲u̲b̲s̲e̲t̲_̲o̲f̲P̲r̲e̲d̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1848:28: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1904:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1910:20: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2095:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2888:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2944:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [8991/9118] Replayed Zeta23.RvM.Halving
+warning: Zeta23/RvM/Halving.lean:56:55: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/RvM/Halving.lean:66:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/RvM/Halving.lean:74:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [8997/9118] Replayed Zeta23.RvM.ReZeroCount
+warning: Zeta23/RvM/ReZeroCount.lean:276:15: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+
+Hint: Replace the deprecated name:
+  ENat.toNat_c̵o̵e̵n̲a̲t̲C̲a̲s̲t̲
+⚠ [8998/9118] Replayed Zeta23.RvM.Backlund
+warning: Zeta23/RvM/Backlund.lean:127:24: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9002/9118] Replayed Zeta23.RvM.NcountWindow
+warning: Zeta23/RvM/NcountWindow.lean:27:22: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [9005/9118] Replayed Zeta23.WeilEF.ZeroSummability
+warning: Zeta23/WeilEF/ZeroSummability.lean:193:4: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [9008/9118] Replayed Zeta23.WeilEF.Landau
+warning: Zeta23/WeilEF/Landau.lean:42:8: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/WeilEF/Landau.lean:42:23: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/WeilEF/Landau.lean:51:8: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/WeilEF/Landau.lean:51:23: `dif_neg` has been deprecated: Use `dite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵n̵e̵g̵d̲i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/WeilEF/Landau.lean:70:6: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/WeilEF/Landau.lean:70:21: `dif_neg` has been deprecated: Use `dite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵n̵e̵g̵d̲i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/WeilEF/Landau.lean:173:8: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/WeilEF/Landau.lean:173:25: `dif_neg` has been deprecated: Use `dite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵n̵e̵g̵d̲i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/WeilEF/Landau.lean:201:8: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/WeilEF/Landau.lean:201:25: `dif_neg` has been deprecated: Use `dite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵n̵e̵g̵d̲i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/WeilEF/Landau.lean:345:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/WeilEF/Landau.lean:441:64: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [9010/9118] Replayed Zeta23.WeilEF.Contour
+warning: Zeta23/WeilEF/Contour.lean:73:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+ℹ [9015/9118] Replayed Zeta23.WeilEF.Main
+info: Zeta23/WeilEF/Main.lean:42:2: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [9016/9118] Replayed Zeta23.ZeroSide.RankTraceMult
+warning: Zeta23/ZeroSide/RankTraceMult.lean:53:32: Variable name `ht0` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _ht0
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Zeta23/ZeroSide/RankTraceMult.lean:53:60: Variable name `hx` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hx
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Zeta23/ZeroSide/RankTraceMult.lean:60:30: Variable name `hc` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hc
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Zeta23/ZeroSide/RankTraceMult.lean:60:43: Variable name `hx` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hx
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Zeta23/ZeroSide/RankTraceMult.lean:85:32: Variable name `hp` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hp
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Zeta23/ZeroSide/RankTraceMult.lean:85:58: Variable name `hc` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hc
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Zeta23/ZeroSide/RankTraceMult.lean:168:20: This simp argument is unused:
+  Matrix.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Zeta23/ZeroSide/RankTraceMult.lean:363:28: Variable name `hc` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hc
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Zeta23/ZeroSide/RankTraceMult.lean:417:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/ZeroSide/RankTraceMult.lean:417:22: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/ZeroSide/RankTraceMult.lean:439:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/ZeroSide/RankTraceMult.lean:439:21: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/ZeroSide/RankTraceMult.lean:439:32: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+⚠ [9017/9118] Replayed Zeta23.ZeroSide.Mult
+warning: Zeta23/ZeroSide/Mult.lean:123:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/ZeroSide/Mult.lean:123:18: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/ZeroSide/Mult.lean:123:28: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+⚠ [9018/9118] Replayed Zeta23.Assembly.SeamMult
+warning: Zeta23/Assembly/SeamMult.lean:30:0: automatically included section variable(s) unused in theorem `Zeta23.Assembly.ctr_sub_frobSq_perturb`:
+  [DecidableEq n]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [DecidableEq n] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+⚠ [9021/9118] Replayed Zeta23Ext.StableRankTrace
+warning: Zeta23Ext/StableRankTrace.lean:102:36: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/StableRankTrace.lean:103:35: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+info: Zeta23Ext/StableRankTrace.lean:276:0: 'Zeta23Ext.StableRankTrace.Psi_eq_gc_two_add_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:277:0: 'Zeta23Ext.StableRankTrace.Psi_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:278:0: 'Zeta23Ext.StableRankTrace.two_mul_sub_one_add_Psi_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:279:0: 'Zeta23Ext.StableRankTrace.pmat_eigCols' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:280:0: 'Zeta23Ext.StableRankTrace.xsq_eigCols' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:281:0: 'Zeta23Ext.StableRankTrace.rtrace_specMap_Psi' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:282:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_sharp' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:283:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:284:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_no_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:285:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_collapse' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/StableRankTrace.lean:286:0: 'Zeta23Ext.StableRankTrace.sharp_le_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [9022/9118] Replayed Zeta23Ext.Bridge.Helpers_pinching
+warning: Zeta23Ext/Bridge/Helpers_pinching.lean:78:23: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/Helpers_pinching.lean:79:27: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+info: Zeta23Ext/Bridge/Helpers_pinching.lean:318:0: 'Zeta23Ext.Bridge.Psi_convexOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_pinching.lean:319:0: 'Zeta23Ext.Bridge.eigenvalues_submatrix_eq_mix' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_pinching.lean:320:0: 'Zeta23Ext.Bridge.sum_eigenvalues_submatrix_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_pinching.lean:321:0: 'Zeta23Ext.Bridge.sum_eigenvalues_pinching_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_pinching.lean:322:0: 'Zeta23Ext.Bridge.sum_eigenvalues_submatrix_le_of_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_pinching.lean:323:0: 'Zeta23Ext.Bridge.rtrace_specMap_pinching_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_pinching.lean:324:0: 'Zeta23Ext.Bridge.rtrace_specMap_submatrix_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [9026/9118] Replayed Zeta23.Taper.Decay
+warning: Zeta23/Taper/Decay.lean:73:12: `mul_le_one₀` has been deprecated: No replacement, use constituent lemmas from proof.
+warning: Zeta23/Taper/Decay.lean:445:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/Taper/Decay.lean:446:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9035/9118] Replayed Zeta23.PrimeSideB.PPKernel
+warning: Zeta23/PrimeSideB/PPKernel.lean:261:25: `if_true` has been deprecated: Use `ite_true` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵t̵r̵u̵e̵i̲t̲e̲_̲t̲r̲u̲e̲
+warning: Zeta23/PrimeSideB/PPKernel.lean:262:25: `if_false` has been deprecated: Use `ite_false` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+⚠ [9040/9118] Replayed Zeta23.PrimeSideA.EndsE1
+warning: Zeta23/PrimeSideA/EndsE1.lean:330:41: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+ℹ [9045/9118] Replayed Zeta23.PrimeSideA
+info: Zeta23/PrimeSideA.lean:376:0: lem_ends : ∀ (cϱ lam : ℝ),
+  GammaFacts →
+    ChebyshevMertens →
+      0 < lam ∧ lam ≤ 1 →
+        ∃ C, EventuallyAtCore cϱ lam fun p F ↦ |trGt2A p F - MtotalA p F| ≤ C * (p.L * p.l * log p.l * (p.l ^ 2 + p.X))
+info: Zeta23/PrimeSideA.lean:402:0: prop_mumu : ∀ (cϱ lam : ℝ),
+  GammaFacts →
+    ChebyshevMertens →
+      0 < lam ∧ lam ≤ 1 →
+        ∃ C,
+          EventuallyAtCore cϱ lam fun p F ↦
+            |Mform F.Phi p.T mu mu - 2 * π * F.b * p.L * ∫ (τ : ℝ) in p.T..2 * p.T, mu τ ^ 2| ≤ C * (p.l ^ 2 * log p.L)
+info: Zeta23/PrimeSideA.lean:408:0: prop_cross_muP : ∀ (cϱ lam : ℝ),
+  GammaFacts →
+    ChebyshevMertens →
+      0 < lam ∧ lam ≤ 1 → ∃ C, EventuallyAtCore cϱ lam fun p F ↦ |Mform F.Phi p.T mu (PX p.X)| ≤ C * (p.l * √p.X)
+⚠ [9046/9118] Replayed Zeta23.PrimeSideB.PPOffDiag
+warning: Zeta23/PrimeSideB/PPOffDiag.lean:87:17: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9047/9118] Replayed Zeta23.PrimeSideB.PP
+warning: Zeta23/PrimeSideB/PP.lean:184:88: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+⚠ [9051/9118] Replayed Zeta23.MV.Spacing
+warning: Zeta23/MV/Spacing.lean:62:0: automatically included section variable(s) unused in theorem `Zeta23.MV.Adm.itv_disjoint`:
+  [Fintype ι]
+  [DecidableEq ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] [DecidableEq ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: Zeta23/MV/Spacing.lean:157:8: automatically included section variable(s) unused in theorem `_private.Zeta23.MV.Spacing.0.Zeta23.MV.Adm.mem_window`:
+  [Fintype ι]
+  [DecidableEq ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] [DecidableEq ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+⚠ [9054/9118] Replayed Zeta23.MV.Duality
+warning: Zeta23/MV/Duality.lean:56:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/MV/Duality.lean:56:28: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/MV/Duality.lean:136:23: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/MV/Duality.lean:183:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23/MV/Duality.lean:184:23: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9059/9118] Replayed Zeta23.ThmD.WindowCore
+warning: Zeta23/ThmD/WindowCore.lean:392:22: Variable name `u` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _u
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [9060/9118] Replayed Zeta23.ThmD.PsiC
+warning: Zeta23/ThmD/PsiC.lean:83:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23/ThmD/PsiC.lean:84:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9062/9118] Replayed Zeta23.ThmD.Window
+warning: Zeta23/ThmD/Window.lean:136:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [9066/9118] Replayed Zeta23.ThmD.PP
+warning: Zeta23/ThmD/PP.lean:274:29: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: Zeta23/ThmD/PP.lean:280:29: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+⚠ [9075/9118] Replayed Zeta23Ext.Bridge.Defs
+warning: Zeta23Ext/Bridge/Defs.lean:127:6: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+info: Zeta23Ext/Bridge/Defs.lean:295:0: 'Zeta23Ext.Bridge.pts_eq_ptsN' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:296:0: 'Zeta23Ext.Bridge.F6_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:297:0: 'Zeta23Ext.Bridge.Phi_eq_Phi_n' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:298:0: 'Zeta23Ext.Bridge.abs_sub_le_spanOf' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:299:0: 'Zeta23Ext.Bridge.spanOf_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:300:0: 'Zeta23Ext.Bridge.defect_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:301:0: 'Zeta23Ext.Bridge.blockDefect_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:302:0: 'Zeta23Ext.Bridge.Q'_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:303:0: 'Zeta23Ext.Bridge.P₁_add_Q'' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:304:0: 'Zeta23Ext.Bridge.gram_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:305:0: 'Zeta23Ext.Bridge.gram_posSemidef' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:306:0: 'Zeta23Ext.Bridge.toS₁_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Defs.lean:307:0: 'Zeta23Ext.Bridge.xret_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [9076/9118] Replayed Zeta23Ext.Bridge.S6
+info: Zeta23Ext/Bridge/S6.lean:104:0: 'Zeta23Ext.Bridge.P₁_eq_simplePart' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S6.lean:105:0: 'Zeta23Ext.Bridge.regroup_posIndex' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [9077/9118] Replayed Zeta23Ext.Bridge.S7
+info: Zeta23Ext/Bridge/S7.lean:73:0: 'Zeta23Ext.Bridge.Vsimple_col_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S7.lean:74:0: 'Zeta23Ext.Bridge.count_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [9078/9118] Replayed Zeta23Ext.Bridge.Helpers_S8
+info: Zeta23Ext/Bridge/Helpers_S8.lean:263:0: 'Zeta23Ext.Bridge.seamA_mult2_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_S8.lean:264:0: 'Zeta23Ext.Bridge.endgame_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [9079/9118] Replayed Zeta23Ext.Bridge.S8
+info: Zeta23Ext/Bridge/S8.lean:92:0: 'Zeta23Ext.Bridge.tail_passage' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [9081/9118] Replayed Zeta23Ext.Bridge.S9
+info: Zeta23Ext/Bridge/S9.lean:192:0: 'Zeta23Ext.Bridge.kernel_limit' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/S9.lean:193:0: 'Zeta23Ext.Bridge.deleted_strips' depends on axioms: [propext, choice, Quot.sound]
+⚠ [9082/9118] Replayed Zeta23Ext.Bridge.Helpers_finite
+warning: Zeta23Ext/Bridge/Helpers_finite.lean:96:24: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+info: Zeta23Ext/Bridge/Helpers_finite.lean:168:0: 'Zeta23Ext.Bridge.abs_kfun_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_finite.lean:169:0: 'Zeta23Ext.Bridge.wfun_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_finite.lean:170:0: 'Zeta23Ext.Bridge.ptsN_windowGaps' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_finite.lean:171:0: 'Zeta23Ext.Bridge.F_windowGaps' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/Helpers_finite.lean:172:0: 'Zeta23Ext.Bridge.sum_shift_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [9083/9118] Replayed Zeta23Ext.Bridge.S11
+warning: Zeta23Ext/Bridge/S11.lean:174:34: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S11.lean:183:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: Zeta23Ext/Bridge/S11.lean:190:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+info: Zeta23Ext/Bridge/S11.lean:299:0: 'Zeta23Ext.Bridge.energyOn_eq_sorted' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S11.lean:300:0: 'Zeta23Ext.Bridge.window_pairs_le_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S11.lean:301:0: 'Zeta23Ext.Bridge.block_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [9084/9118] Replayed Zeta23Ext.Bridge.S12
+warning: Zeta23Ext/Bridge/S12.lean:75:26: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+info: Zeta23Ext/Bridge/S12.lean:87:0: 'Zeta23Ext.Bridge.specMap_const_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S12.lean:88:0: 'Zeta23Ext.Bridge.block_defect_of_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S12.lean:89:0: 'Zeta23Ext.Bridge.block_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [9085/9118] Replayed Zeta23Ext.Bridge.S13
+warning: Zeta23Ext/Bridge/S13.lean:88:8: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S13.lean:88:20: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S13.lean:95:25: `dif_neg` has been deprecated: Use `dite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵n̵e̵g̵d̲i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+info: Zeta23Ext/Bridge/S13.lean:161:0: 'Zeta23Ext.Bridge.sq_sub_two_mul_le_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S13.lean:162:0: 'Zeta23Ext.Bridge.offDiagSqOn_submatrix' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S13.lean:163:0: 'Zeta23Ext.Bridge.block_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [9086/9118] Replayed Zeta23Ext.Bridge.S14
+info: Zeta23Ext/Bridge/S14.lean:73:0: 'Zeta23Ext.Bridge.pinching_partition' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S14.lean:74:0: 'Zeta23Ext.Bridge.pinching_submatrix' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [9087/9118] Replayed Zeta23Ext.Bridge.S15
+warning: Zeta23Ext/Bridge/S15.lean:79:8: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S15.lean:156:36: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S15.lean:160:27: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S15.lean:165:36: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S15.lean:177:8: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S15.lean:241:32: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S15.lean:241:64: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: Zeta23Ext/Bridge/S15.lean:251:36: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+info: Zeta23Ext/Bridge/S15.lean:358:0: 'Zeta23Ext.Bridge.sum_shift_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S15.lean:359:0: 'Zeta23Ext.Bridge.blockStart_eq_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S15.lean:360:0: 'Zeta23Ext.Bridge.offset_average' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S15.lean:361:0: 'Zeta23Ext.Bridge.spanOf_xret_le_d' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S15.lean:362:0: 'Zeta23Ext.Bridge.span_retained_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [9088/9118] Replayed Zeta23Ext.Bridge.S16
+info: Zeta23Ext/Bridge/S16.lean:102:0: 'Zeta23Ext.Bridge.one_sub_div_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S16.lean:103:0: 'Zeta23Ext.Bridge.solve_linear' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S16.lean:104:0: 'Zeta23Ext.Bridge.Phi_paper' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S16.lean:105:0: 'Zeta23Ext.Bridge.Phi_paper'' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S16.lean:106:0: 'Zeta23Ext.Bridge.Phi_lab' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Zeta23Ext/Bridge/S16.lean:107:0: 'Zeta23Ext.Bridge.Phi_lab8' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [9089/9118] Replayed Zeta23Ext.Bridge.Main
+info: Zeta23Ext/Bridge/Main.lean:405:0: 'Zeta23Ext.Bridge.F6_eq' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:406:0: 'Zeta23Ext.Bridge.Phi_eq_Phi_n' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:407:0: 'Zeta23Ext.Bridge.solve_linear' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:408:0: 'Zeta23Ext.Bridge.Phi_paper' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:409:0: 'Zeta23Ext.Bridge.Phi_paper'' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:410:0: 'Zeta23Ext.Bridge.eventually_L_pos' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:411:0: 'Zeta23Ext.Bridge.count_defect' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:412:0: 'Zeta23Ext.Bridge.eventually_h7' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:413:0: 'Zeta23Ext.Bridge.block_bound_eventually' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:414:0: 'Zeta23Ext.Bridge.pre_solve' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:415:0: 'Zeta23Ext.Bridge.n_point_bound' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:416:0: 'Zeta23Ext.Bridge.seven_point_bound' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:417:0: 'Zeta23Ext.Bridge.seven_point_bound_paper' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:418:0: 'Zeta23Ext.Bridge.eventually_Ncount_pos' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:419:0: 'Zeta23Ext.Bridge.seven_point_bound_lab' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:420:0: 'Zeta23Ext.Bridge.seven_point_bound_lab_ratio' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:421:0: 'Zeta23Ext.Bridge.Phi_lab8' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:422:0: 'Zeta23Ext.Bridge.eight_point_bound' depends on axioms: [propext, choice, Quot.sound]
+info: Zeta23Ext/Bridge/Main.lean:423:0: 'Zeta23Ext.Bridge.eight_point_bound_ratio' depends on axioms: [propext, choice, Quot.sound]
+✔ [9117/9118] Built FourPointCand.Cells (3.8s)
+⚠ [9118/9118] Built FourPointCand.Chunks0 (792s)
+warning: FourPointCand/Chunks0.lean:6033:27: Variable name `hy2` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hy2
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: FourPointCand/Chunks0.lean:6034:28: Variable name `hz2` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hz2
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: FourPointCand/Chunks0.lean:6046:49: Variable name `hx2` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hx2
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: FourPointCand/Chunks0.lean:6047:28: Variable name `hy2` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hy2
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: FourPointCand/Chunks0.lean:6048:28: Variable name `hz2` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hz2
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully (9118 jobs).
+	Command being timed: "timeout 18m lake build FourPointCand.Chunks0"
+	User time (seconds): 2729.80
+	System time (seconds): 42.52
+	Percent of CPU this job got: 345%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 13:22.94
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 13771024
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 22789
+	Minor (reclaiming a frame) page faults: 1402880
+	Voluntary context switches: 144381
+	Involuntary context switches: 379337
+	Swaps: 0
+	File system inputs: 533144
+	File system outputs: 109336
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

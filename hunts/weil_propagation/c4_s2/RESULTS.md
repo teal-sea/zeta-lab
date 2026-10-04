@@ -122,7 +122,7 @@ all eleven checker/ units in `modal/out_rho/` (`modal/RUNS.md` s7), 0.57 USD;
 From the worktree root, per folder:
 
 ```bash
-PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 \
+PYTHONPATH=$PWD .venv/bin/python -m pytest -q -n 2 \
   hunts/weil_propagation/c4_s2/<folder> \
   tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py
 ```

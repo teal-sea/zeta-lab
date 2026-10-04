@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.MatchingCount
+public import ZetaLean.MatchingCount
+
+@[expose] public section
 
 /-!
 # Finite majorants for connected matching clusters

@@ -18,7 +18,7 @@ their own folders afterwards.
   Import their code; never modify it.
 - **Never push. No GitHub Actions. No workflow file.** Commit with pathspecs
   (`git commit -- <paths>`), and only your own paths.
-- Local Python: `/Users/thomas/zeta-lab/.venv/bin/python` with
+- Local Python: `.venv/bin/python` with
   `PYTHONPATH=<worktree root>`. Nothing heavy on this laptop: anything over a
   few minutes runs on Modal.
 - Modal: CLI `modal` (client 1.5.5), profile `teal-sea`, authenticated.

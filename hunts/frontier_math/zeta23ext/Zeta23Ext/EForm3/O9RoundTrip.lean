@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Leaves
+module
+
+public import Zeta23Ext.BandCert.Leaves
+
+@[expose] public section
 
 /-!
 # O9 round-trip control

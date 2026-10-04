@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Cap
+module
+
+public import Zeta23Ext.BandCert.Cap
+
+@[expose] public section
 
 /-!
 # The recorded certificate

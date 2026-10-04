@@ -67,9 +67,9 @@ properties your tests assert. If a property turns out wrong, say so in
   ladder, original vs novel), `ALIGNMENT.md` sections 4 and 5, and theory
   `hunts/weil_propagation/theory/RESULTS.md` sections 0, 7, 7.1, 7.3, 8.
 - **Python**, from the worktree root:
-  `PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python`. The
+  `PYTHONPATH=$PWD .venv/bin/python`. The
   `.venv/bin/python` named in `AGENTS.md` does not exist in this worktree.
-  Tests: `PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 <your folder> tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py`
+  Tests: `PYTHONPATH=$PWD .venv/bin/python -m pytest -q -n 2 <your folder> tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py`
   (`testpaths` is `tests`, so name your folder explicitly).
 - **Compute:** four workers share a 16 GB laptop. Every local run under 10
   minutes and a few GB; N ≤ 32 and dps ≤ 60 unless you state why; pytest

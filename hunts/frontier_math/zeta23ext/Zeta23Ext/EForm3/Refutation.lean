@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm3.FarField
+module
+
+public import Zeta23Ext.EForm3.FarField
+
+@[expose] public section
 
 /-!
 # The second-order far-field bound is false

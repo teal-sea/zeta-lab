@@ -1,6 +1,10 @@
-import Mathlib
-import Zeta23Ext.EForm3.Main
-import Zeta23Ext.RetentionAlgebra
+module
+
+public import Mathlib
+public import Zeta23Ext.EForm3.Main
+public import Zeta23Ext.RetentionAlgebra
+
+@[expose] public section
 
 /-!
 # The retention algebra, discharged on the development's own objects

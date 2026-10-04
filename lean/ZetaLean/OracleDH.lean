@@ -1,6 +1,10 @@
-import Mathlib
-import ZetaLean.Rigor
-import ZetaLean.DirichletEval
+module
+
+public import Mathlib
+public import ZetaLean.Rigor
+public import ZetaLean.DirichletEval
+
+@[expose] public section
 
 /-!
 # Davenport-Heilbronn Oracle Certificate

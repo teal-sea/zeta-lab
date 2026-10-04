@@ -2,7 +2,7 @@
 
 For two_adic/ and checker/. Import from the worktree root with
 `sys.path.insert(0, "hunts/weil_propagation/c4_s2/kernel")`, then
-`import sonin`. Python: `PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python`.
+`import sonin`. Python: `PYTHONPATH=$PWD .venv/bin/python`.
 Everything is mpmath; each function takes `dps` and works internally at
 `dps + sonin.GUARD` (25 guard digits), returning values at `dps`.
 

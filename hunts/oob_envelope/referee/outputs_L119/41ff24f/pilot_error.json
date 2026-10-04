@@ -1,0 +1,4 @@
+{
+  "error": "recurrence widths insufficient",
+  "traceback": "Traceback (most recent call last):\n  File \"/root/run_l119_modal.py\", line 59, in execute\n    result = l119.partial(start, stop, checkpoint)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/l119.py\", line 137, in partial\n    columns = [transforms(t, L, scales) for t in ts]\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/l119.py\", line 124, in transforms\n    assert max(v.rad() for v in out) < arb(\"1e-65\"), \"recurrence widths insufficient\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: recurrence widths insufficient\n"
+}

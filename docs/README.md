@@ -1,6 +1,6 @@
 # The documents
 
-Thirty-seven numbered documents. The first five are a single argument and are
+Thirty-eight numbered documents. The first five are a single argument and are
 meant to be read in order; everything after 14 is a record of a particular
 piece of work and can be read on its own.
 
@@ -66,6 +66,7 @@ What was built, what was measured, and what did not survive.
 | [34](34-zeros-in-tuning-units.md) | The Riemann zeros in tuning units. |
 | [35](35-the-unspent-fact.md) | The unspent fact: what out-of-band positivity is worth, and why nobody can claim it. |
 | [36](36-what-you-can-run.md) | Twelve worked demonstrations, the figure gallery, the repository map, and the standing limitations. |
+| [37](37-methods.md) | The methods index: every reusable identity, lemma, control and technique the hunts produced, with grade and provenance. |
 
 ## Adding one
 

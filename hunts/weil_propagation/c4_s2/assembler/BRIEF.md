@@ -125,7 +125,7 @@ statement. A composite takes its weakest step.
 - Read first: the repo `AGENTS.md` (hard rules, certainty ladder, lexical
   bans), `hunts/weil_propagation/c4_s2/MISSION.md` (including the follow-up
   sections at the end) and lines 1 to 5 of `c4_s2/RESULTS.md`.
-- Worktree `/Users/thomas/orca/workspaces/zeta-lab/weil-c4-s2`, branch
+- Worktree `<worktree-root>`, branch
   `teal-sea/weil-c4-s2`. **Never push.** Three other workers commit to the
   same branch in the same tree at the same time: commit only your own paths,
   `git add <your paths> && git commit -m "..." -- <your paths>`; never
@@ -136,7 +136,7 @@ statement. A composite takes its weakest step.
   anything. Do not touch `zeta/`, `ontology/`, `harness/`, another c4_s2
   folder, `MISSION.md` or `c4_s2/RESULTS.md`. Import other folders'
   modules read-only.
-- Python: `PYTHONPATH=/Users/thomas/orca/workspaces/zeta-lab/weil-c4-s2 /Users/thomas/zeta-lab/.venv/bin/python`.
+- Python: `PYTHONPATH=<worktree-root> .venv/bin/python`.
   python-flint 0.9.0 (arb, fmpq) is installed there. `pytest -n 2` at most.
 - Compute: nothing over about 10 minutes or 3 GB locally; four workers share
   a 16 GB laptop. Heavier units go to Modal (`modal`, profile teal-sea):

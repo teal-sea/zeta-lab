@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
-import ZetaLean.MertensSecond
+public import Mathlib
+public import ZetaLean.MertensSecond
+
+@[expose] public section
 
 /-!
 # The Hardy–Ramanujan theorem (hunt r_0339c1, Wikidata Q5656674)

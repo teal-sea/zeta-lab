@@ -3,7 +3,7 @@
 For assembler/ and referee/. Import with
 `sys.path.insert(0, "hunts/weil_propagation/c4_s2/bound_trunc")`, then
 `import eps_trunc`. Python:
-`PYTHONPATH=<worktree root> /Users/thomas/zeta-lab/.venv/bin/python`.
+`PYTHONPATH=<worktree root> .venv/bin/python`.
 Importing `eps_trunc` pulls in numpy, mpmath and python-flint only (not
 kernel/'s prolate machinery).
 

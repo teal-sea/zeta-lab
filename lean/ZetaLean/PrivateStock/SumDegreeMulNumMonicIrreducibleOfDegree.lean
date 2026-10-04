@@ -1,5 +1,9 @@
-import Mathlib.FieldTheory.Finite.Extension
-import ZetaLean.PrivateStock.NumMonicIrreducibleOfDegree
+module
+
+public import Mathlib.FieldTheory.Finite.Extension
+public import ZetaLean.PrivateStock.NumMonicIrreducibleOfDegree
+
+@[expose] public section
 
 /-!
 # The mass formula for monic irreducible polynomials over a finite field

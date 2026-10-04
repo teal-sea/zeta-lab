@@ -1,8 +1,12 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Porubský's 1977 lemma (Erdős problem 359)

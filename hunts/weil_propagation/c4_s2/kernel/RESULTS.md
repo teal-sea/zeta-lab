@@ -278,7 +278,7 @@ No prover was used; no statement is kernel-checked.
 
 ## 9. Reproduction
 
-From the worktree root, with `PY="PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python"`:
+From the worktree root, with `PY="PYTHONPATH=$PWD .venv/bin/python"`:
 
     $PY hunts/weil_propagation/c4_s2/kernel/run_cells.py --dps 40
     $PY hunts/weil_propagation/c4_s2/kernel/run_cells.py --dps 60

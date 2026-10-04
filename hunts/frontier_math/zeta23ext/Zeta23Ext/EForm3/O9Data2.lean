@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Phi
+module
+
+public import Zeta23Ext.BandCert.Phi
+
+@[expose] public section
 
 /-!
 # O9 leaf data -- the damage cap table on `[28/5, 60] x [0, 1/2]`

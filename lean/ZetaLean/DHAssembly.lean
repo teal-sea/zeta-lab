@@ -1,13 +1,17 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
-import ZetaLean.Rigor
-import ZetaLean.IntervalCExp
-import ZetaLean.DHTailBound
-import ZetaLean.DHTailBound2
+public import Mathlib
+public import ZetaLean.Rigor
+public import ZetaLean.IntervalCExp
+public import ZetaLean.DHTailBound
+public import ZetaLean.DHTailBound2
+
+@[expose] public section
 
 /-!
 # Assembly: a certified enclosure of `DH` at a strip point

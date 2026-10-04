@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.CertDefs
+public import Mathlib
+public import ZetaLean.Pub1.CertDefs
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: exact sup bounds on the residual

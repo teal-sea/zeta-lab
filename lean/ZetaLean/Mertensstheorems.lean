@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib.Analysis.Complex.ExponentialBounds
-import Mathlib.NumberTheory.Chebyshev
+public import Mathlib.Analysis.Complex.ExponentialBounds
+public import Mathlib.NumberTheory.Chebyshev
+
+@[expose] public section
 
 /-!
 # Mertens's theorems (hunt r_3c1cbb, Wikidata Q1196729)

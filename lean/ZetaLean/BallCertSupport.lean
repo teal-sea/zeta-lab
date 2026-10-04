@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.BallTerm
-import ZetaLean.DHCertSupport
+public import ZetaLean.BallTerm
+public import ZetaLean.DHCertSupport
+
+@[expose] public section
 
 /-!
 # Ball support for the generated rung-3 certificate

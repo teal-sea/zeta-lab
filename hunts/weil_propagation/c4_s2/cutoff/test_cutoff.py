@@ -1,7 +1,7 @@
 """Pins every number stated in cutoff/RESULTS.md.
 
 Run from the worktree root:
-PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 \
+PYTHONPATH=$PWD .venv/bin/python -m pytest -q -n 2 \
     hunts/weil_propagation/c4_s2/cutoff
 """
 

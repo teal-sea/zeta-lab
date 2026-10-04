@@ -1,0 +1,4 @@
+{
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/root/run_l119_modal.py\", line 59, in execute\n    result = l119.partial(start, stop, checkpoint)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/l119.py\", line 149, in partial\n    \"assembly_elapsed_s\": time.monotonic()-first})\n                          ^^^^^^^^^^^^^^^^\nKeyboardInterrupt\n"
+}

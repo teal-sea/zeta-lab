@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm2.Fourier
+module
+
+public import Zeta23Ext.EForm2.Fourier
+
+@[expose] public section
 
 /-!
 # From the complex transform `Phi2` to real integrals

@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm3.Defs
+module
+
+public import Zeta23Ext.EForm3.Defs
+
+@[expose] public section
 
 /-!
 # Integrability infrastructure

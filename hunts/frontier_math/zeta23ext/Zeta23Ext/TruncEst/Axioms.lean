@@ -1,8 +1,12 @@
-import Zeta23Ext.TruncEst.Kernel
-import Zeta23Ext.TruncEst.Decay
-import Zeta23Ext.TruncEst.Sums
-import Zeta23Ext.TruncEst.Poisson
-import Zeta23Ext.TruncEst.Autocorrelation
+module
+
+public import Zeta23Ext.TruncEst.Kernel
+public import Zeta23Ext.TruncEst.Decay
+public import Zeta23Ext.TruncEst.Sums
+public import Zeta23Ext.TruncEst.Poisson
+public import Zeta23Ext.TruncEst.Autocorrelation
+
+@[expose] public section
 
 /-!
 # Axiom audit

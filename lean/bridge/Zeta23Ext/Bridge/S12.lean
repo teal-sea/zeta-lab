@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.Defs
+public import Zeta23Ext.Bridge.Defs
+
+@[expose] public section
 
 /-!
 # S12: the block defect bound  ([A] Lemma 4.3, eq:block-defect)

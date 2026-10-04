@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.TruncKernel
-import ZetaLean.Pub1.QBound
-import ZetaLean.Pub1.Aristotle.V
+public import Mathlib
+public import ZetaLean.Pub1.TruncKernel
+public import ZetaLean.Pub1.QBound
+public import ZetaLean.Pub1.Aristotle.V
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: `q - q_M`, the truncation error in the second derivative

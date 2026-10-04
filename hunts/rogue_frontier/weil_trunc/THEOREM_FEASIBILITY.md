@@ -237,7 +237,7 @@ Output:
 ```
 ============================= test session starts ==============================
 platform darwin -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0
-rootdir: /Users/thomas/orca/workspaces/zeta-lab/rh-strategy-council-sep17
+rootdir: <worktree-root>
 configfile: pyproject.toml
 plugins: xdist-3.8.0, anyio-4.14.2
 collected 14 items

@@ -88,9 +88,9 @@ vacuously; the test checks it for any finite entry, here or in bound_quad/.
 
 ## 4. Reproduction
 
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/bound_trunc/eps_trunc.py          # about 20 s: eps_trunc.json, responses.json
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/bound_trunc/lemma1_companion.py   # about 4 min: lemma1_companion.json
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/bound_trunc tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 40 s
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/bound_trunc/eps_trunc.py          # about 20 s: eps_trunc.json, responses.json
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/bound_trunc/lemma1_companion.py   # about 4 min: lemma1_companion.json
+    PYTHONPATH=$PWD .venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/bound_trunc tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 40 s
 
 ## 5. Grades and ALIGNMENT s5
 

@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.PrimeSimplex
+public import ZetaLean.PrimeSimplex
+
+@[expose] public section
 
 /-!
 # Elementary Chebyshev bounds for the prime-simplex estimate

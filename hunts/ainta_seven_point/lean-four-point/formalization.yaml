@@ -1,0 +1,137 @@
+# Verified lab port metadata. Not a Palomar registration record.
+version: "v0.4"
+
+project:
+  name: "Zeta Lab: stronger four-point simple-zero bound"
+  description: >-
+    Let N(T,2T) count nontrivial zeros of Mathlib's Riemann zeta function
+    with multiplicity, and let N_0^s(T,2T) count simple zeros on the critical
+    line in the same ordinate interval. The two advertised declarations
+    state that, for every eps > 0 and all sufficiently large T,
+    ((14400000 H - 17240)/14366681 - eps) N(T,2T) <= N_0^s(T,2T),
+    and the corresponding ratio bound without a positivity hypothesis.
+    Here H = 3/2 - cot(1/sqrt(2))/sqrt(2) is the upstream Theorem D constant.
+    The coefficient is approximately 0.6728603588388667. This improves the
+    lab's earlier kernel-checked four-point coefficient, approximately
+    0.6728470197666888. It is not a claim to the largest published numerical
+    bound in the wider family. At parameters (n,c,m,p) =
+    (4,2330/1000000,432,2500), the finite inequality used by the lab's
+    n-point adaptation of Ainta's argument is proved rather than assumed.
+    The coefficient is unconditional; the statement is not RH and holds
+    whether or not RH is true. The historical Lean 4.33 build is recorded.
+    The Lean 4.35 port and this interface have passed the lab's build and
+    exported-proof comparison with Lean, NanoDa and con-ron.
+  authors: ["Thomas Lince"]
+  responsible_maintainers: ["Thomas Lince"]
+  license: "MIT"
+
+classification:
+  arxiv: ["math.NT"]
+  msc2020: ["11M26", "15A42"]
+
+sources:
+  - title: "More than 67.3% of the zeros of the Riemann zeta function are simple and lie on the critical line"
+    authors: ["Ainta"]
+    type: "paper"
+    location: "https://github.com/ainta/zeta-simple-zeros"
+    relationship: adapts
+    note: >-
+      The seven-point analytic argument at commit
+      040c5e899e658aed7b56a2a87f501798fe10761d. The lab's n-point
+      generalization and four-point finite enclosure are distinct work.
+      This entry does not claim the base argument as its own.
+    license: "unknown"
+    author_endorsement: "no-response"
+  - title: "More than two thirds of the zeta zeros are simple and on the critical line"
+    authors: ["L. Alpoge", "R. Furman"]
+    type: "paper"
+    location: "https://arxiv.org/abs/2608.13637"
+    relationship: background
+    note: >-
+      The analytic foundation and base constant are supplied by the
+      accompanying anthropics/zeta-23-lean development, not by this entry.
+  - title: "SamiYaya's separately reported four-point parameter candidate"
+    authors: ["SamiYaya"]
+    type: "web discussion"
+    location: "https://github.com/teal-sea/zeta-lab/issues/254"
+    relationship: background
+    note: >-
+      The separate tuple is (4,2320/1000000,434,2500). This entry instead
+      uses the lab's September 5 candidate (4,2330/1000000,432,2500).
+      SamiYaya's contribution is acknowledged separately; its proof is not
+      incorporated or claimed to have been rebuilt here.
+
+related_formalizations:
+  - id: "https://github.com/anthropics/zeta-23-lean"
+    relationship: builds-on
+    note: >-
+      Source revision 3635e74826a4c1fcece7d1cd2b6fa75e43a00510, retained
+      under lean/vendor/zeta23 with its Apache-2.0 license and attribution.
+      This port changes module visibility and Mathlib API calls, preserving
+      the consumed theorem statements and hypotheses. The lab does not
+      claim authorship of the upstream mathematics or proofs.
+
+status:
+  scope: >-
+    The historical FourPointCand package compiled on Lean 4.33.0-rc2 at
+    source 5522b96314f7f63198ae3ec4e71d954255f93d1a, with 49 successful
+    receipts and six standard-axiom reports. The evidence and its saved-image
+    lineage limitations are documented in hunts/four_point_pressure/evidence.
+    The Lean 4.35.0-rc2 port rebuilt the consumed analytic dependencies,
+    all 48 original proof modules and the separate interface pair in
+    checkpointed GitHub Actions jobs. Final assembly and both interface
+    modules passed in run 36633942493. The comparison passed in run
+    36637271632 at source 3ee65788397d0eed8c4743704492dae159cde521:
+    both selected statements matched, and Lean, NanoDa and con-ron accepted
+    the exported solution. A matching control passed and an intentionally
+    mismatched statement was rejected. Lean parsed all 645 tracked source
+    headers as modules. StrongerChallenge has two deliberate statement
+    placeholders; StrongerSolution has none. This incremental lab build and
+    comparison are not Palomar's fresh protected-source verification pipeline.
+    No new registration or external mathematical review is claimed.
+
+automation:
+  methods:
+    - method: "agent"
+      framework: "Zeta Lab"
+      tool_setup: >-
+        The existing proof and rational-enclosure generators were developed
+        through AI-assisted work under human direction. Hermes supplied the
+        historical build record. Codex prepared this compiler/module port
+        and the separate comparison interface. GitHub Actions builds the
+        port in bounded sequential units with checkpoints and raw logs.
+  spend_usd: "not tracked across the full development"
+
+fidelity:
+  divergences: >-
+    This is an n = 4 instance of the lab's n-point adaptation of Ainta's
+    seven-point argument. The finite certificate is proved inside Lean.
+    The copied counting definitions are tied to the development by rfl;
+    the closed-form H is tied to HD 1 by the upstream HD_one theorem.
+    Original provenance is recorded; literature-wide novelty is not claimed.
+
+review:
+  status: "self-assessed, lab kernel checks passed; external review pending"
+  notes: >-
+    The two advertised declarations are the bound and its ratio form.
+    Static checks compare their statement text with the candidate theorem,
+    verify the shared definitions and prohibit importing Challenge into
+    Solution. Compilation and the exported-proof comparison also passed;
+    the final theorem and both Solution declarations use only the three
+    standard axioms. These are laboratory checks, pending external verification.
+
+alignment:
+  namespace: "Zeta23Ext.PalomarFourPoint"
+  statements:
+    - source: "Unconditional four-point bound at (4,2330/1000000,432,2500)"
+      lean: "Zeta23Ext.PalomarFourPoint.four_point_bound"
+      module: "StrongerSolution"
+      status: "kernel-checked; exported-proof comparison passed"
+    - source: "The same coefficient as a ratio, without a denominator hypothesis"
+      lean: "Zeta23Ext.PalomarFourPoint.four_point_bound_ratio"
+      module: "StrongerSolution"
+      status: "kernel-checked; exported-proof comparison passed"
+
+acknowledgements: >-
+  Lean and Mathlib; the authors and contributors of anthropics/zeta-23-lean;
+  Ainta's analytic argument; and SamiYaya's separately reported candidate.

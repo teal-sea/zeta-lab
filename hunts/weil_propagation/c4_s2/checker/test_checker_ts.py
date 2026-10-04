@@ -388,7 +388,12 @@ def test_cells_json_keyed_to_routed_inputs():
     m = _cells()["meta"]
     assert m["routed_two_adic"] == "c3dca00" and m["probe_commit"] == "c3dca00"
     assert m["reading_commit"] == "49db49f" and m["source"] == "modal/out_rho"
-    assert m["python"].startswith("/Users/thomas/zeta-lab/.venv/")
+    # Pin the recorded interpreter exactly without repeating a machine-local
+    # home directory in source. The historical JSON artifact stays unchanged.
+    import hashlib
+    assert hashlib.sha256(m["python"].encode()).hexdigest() == (
+        "237f12382b55c9f94435e29c59697d22a3ef9ef888461c5802b6d6b67ef7a68f"
+    )
     assert m["pending"] == [] and m["n32_pending"] == []
     assert set(m["units"]) == {"80|1200|8", "120|1600|16", "200|2400|32", "80|1600|16",
                                "120|1200|16", "80|1200|16", "160|1600|16",

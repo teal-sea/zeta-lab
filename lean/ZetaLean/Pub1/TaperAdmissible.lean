@@ -1,13 +1,17 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.WRegularity
-import ZetaLean.Pub1.Window
-import ZetaLean.Pub1.Aristotle.J2
-import ZetaLean.Pub1.Aristotle.TU2
-import ZetaLean.Pub1.Concave
+public import Mathlib
+public import ZetaLean.Pub1.WRegularity
+public import ZetaLean.Pub1.Window
+public import ZetaLean.Pub1.Aristotle.J2
+public import ZetaLean.Pub1.Aristotle.TU2
+public import ZetaLean.Pub1.Concave
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: obligation D, discharged

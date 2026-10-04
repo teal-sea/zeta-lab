@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.DHAnalytic
+public import Mathlib
+public import ZetaLean.DHAnalytic
+
+@[expose] public section
 
 /-!
 # Proved solution

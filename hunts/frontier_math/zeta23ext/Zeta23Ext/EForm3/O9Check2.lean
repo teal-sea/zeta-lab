@@ -1,5 +1,9 @@
-import Zeta23Ext.EForm3.O9Data2
-import Zeta23Ext.EForm3.O9Comp
+module
+
+public import Zeta23Ext.EForm3.O9Data2
+public import Zeta23Ext.EForm3.O9Comp
+
+@[expose] public section
 
 /-!
 # Running the two-dimensional O9 checker

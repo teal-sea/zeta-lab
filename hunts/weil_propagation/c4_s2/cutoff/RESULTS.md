@@ -345,5 +345,5 @@ comparison bound (§4) and the refutation of the product-side reading
 
 ## 9. Reproduction
 
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/cutoff/cutoff.py   # about 100 s, writes cutoff_cells.json
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/cutoff tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/cutoff/cutoff.py   # about 100 s, writes cutoff_cells.json
+    PYTHONPATH=$PWD .venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/cutoff tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py

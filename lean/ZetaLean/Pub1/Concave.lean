@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.ZppBound
-import ZetaLean.Pub1.UpolyD2
+public import Mathlib
+public import ZetaLean.Pub1.ZppBound
+public import ZetaLean.Pub1.UpolyD2
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: strict concavity and radial monotonicity of `w`

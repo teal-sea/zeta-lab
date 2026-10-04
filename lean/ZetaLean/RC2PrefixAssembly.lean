@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.AristotleRAMS2
-import ZetaLean.MeanSquareAssembly
+public import ZetaLean.AristotleRAMS2
+public import ZetaLean.MeanSquareAssembly
+
+@[expose] public section
 
 /-!
 # Conditional RC2 assembly from a RAMS2 prefix bound

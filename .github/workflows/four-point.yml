@@ -11,7 +11,7 @@
 # three-point job staged every module separately, because the point of that
 # exercise was to MEASURE which shape is expensive, and staging serialises what
 # `lake` would spread over the runner's four cores. That measurement is done.
-# Here the 17 cell modules build in one step and the 16 chunk modules in
+# Here the 26 cell modules build in one step and the 16 chunk modules in
 # another, so `lake` uses all four cores; only the boundaries between the
 # machinery, the cells, the three-dimensional table and the certificate are
 # staged, which is enough to say where a failure is.
@@ -99,32 +99,32 @@ jobs:
             lean/bridge/.lake
           key: four-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-four-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-four-point/lean-toolchain') }}-${{ github.run_id }}
 
-      - name: FourPoint.Base (the enclosure machinery)
-        run: /usr/bin/time -p lake build FourPoint.Base
+      - name: FourPointCand.Base (the enclosure machinery)
+        run: /usr/bin/time -p lake build FourPointCand.Base
 
-      - name: FourPoint.Cells (the one-dimensional table, 17 modules)
-        run: /usr/bin/time -p lake build FourPoint.Cells
+      - name: FourPointCand.Cells (the one-dimensional table, 26 modules)
+        run: /usr/bin/time -p lake build FourPointCand.Cells
 
-      - name: FourPoint.Cover (the one-dimensional cover)
-        run: /usr/bin/time -p lake build FourPoint.Cover
+      - name: FourPointCand.Cover (the one-dimensional cover)
+        run: /usr/bin/time -p lake build FourPointCand.Cover
 
-      - name: FourPoint.Chunks (the three-dimensional table, 16 modules)
+      - name: FourPointCand.Chunks (the three-dimensional table, 16 modules)
         run: |
-          /usr/bin/time -p lake build $(for i in $(seq 0 15); do printf 'FourPoint.Chunks%d ' "$i"; done)
+          /usr/bin/time -p lake build $(for i in $(seq 0 15); do printf 'FourPointCand.Chunks%d ' "$i"; done)
 
-      - name: FourPoint.Boxes (the box routers)
-        run: /usr/bin/time -p lake build FourPoint.Boxes
+      - name: FourPointCand.Boxes (the box routers)
+        run: /usr/bin/time -p lake build FourPointCand.Boxes
 
-      - name: FourPoint.Main (certificate, bound, axiom audit)
+      - name: FourPointCand.Main (certificate, bound, axiom audit)
         run: |
           set -o pipefail
-          /usr/bin/time -p lake build FourPoint.Main 2>&1 | tee ../../../main-build.log
+          /usr/bin/time -p lake build FourPointCand.Main 2>&1 | tee ../../../main-build.log
 
       - name: the whole library
-        run: /usr/bin/time -p lake build FourPoint
+        run: /usr/bin/time -p lake build FourPointCand
 
       - name: axiom audit
-        # `#print axioms` at the bottom of FourPoint/Main.lean prints to the
+        # `#print axioms` at the bottom of FourPointCand/Main.lean prints to the
         # build log. Anything other than the three standard axioms, on any
         # advertised declaration, fails the job.
         working-directory: .
@@ -165,7 +165,7 @@ jobs:
           # second grep drops matches that sit in a comment line, which is the
           # `full` workflow's own idiom.
           if grep -rnE '(^|[^[:alnum:]_])(sorry|admit|native_decide|axiom|opaque|unsafe|implemented_by|extern)([^[:alnum:]_]|$)' \
-               FourPoint.lean FourPoint/*.lean \
+               FourPointCand.lean FourPointCand/*.lean \
                | grep -vE '^[^:]+:[0-9]+:[[:space:]]*(--|/-)'; then
             echo "::error::a forbidden token is present in the four-point package"
             exit 1

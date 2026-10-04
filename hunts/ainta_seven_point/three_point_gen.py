@@ -276,6 +276,17 @@ def emit_cell(name, c):
         TLO=R(c.TLO), THI=R(c.THI), NLO=R(c.NLO), DHI=R(c.DHI),
         ABSLEM="abs_ge_of_le" if c.sgn > 0 else "abs_ge_of_ge")
 
+def module_source(source):
+    """Expose the generated mathematical interface under Lean's module system."""
+    lines = source.splitlines(keepends=True)
+    imports = [i for i, line in enumerate(lines) if line.startswith("import ")]
+    assert imports, "generated Lean source has no import header"
+    for i in imports:
+        lines[i] = "public " + lines[i]
+    lines.insert(imports[-1] + 1, "\n@[expose] public section\n")
+    return "module\n\n" + "".join(lines)
+
+
 HDR = """import ThreePoint.Base
 
 noncomputable section
@@ -306,7 +317,7 @@ def emit(cn, out):
         for iv in ivals[k*PERMOD:(k+1)*PERMOD]:
             body.append(emit_cell("wc_%d" % idx[iv], build_cell(*iv)))
         body.append(FTR)
-        open(os.path.join(out, "ThreePoint", "Cells%d.lean" % k), 'w').write("".join(body))
+        open(os.path.join(out, "ThreePoint", "Cells%d.lean" % k), 'w').write(module_source("".join(body)))
 
     L = []; A = L.append
     A("import ThreePoint.Base")
@@ -526,10 +537,10 @@ def emit(cn, out):
         A("#print axioms %s" % nm)
     A("")
     A("end Zeta23Ext.Bridge.ThreePoint")
-    open(os.path.join(out, "ThreePoint", "Main.lean"), 'w').write("\n".join(L) + "\n")
+    open(os.path.join(out, "ThreePoint", "Main.lean"), 'w').write(module_source("\n".join(L) + "\n"))
     root = ["import ThreePoint.Base"] + ["import ThreePoint.Cells%d" % k for k in range(nmod)] \
            + ["import ThreePoint.Main", ""]
-    open(os.path.join(out, "ThreePoint.lean"), 'w').write("\n".join(root))
+    open(os.path.join(out, "ThreePoint.lean"), 'w').write(module_source("\n".join(root)))
     return dict(cn=cn, m=m, S=S, ncells=len(ivals), nmod=nmod, n2d=r['n2d'],
                 nclear=len(clear), bad=bad, phi=(a,b,d))
 

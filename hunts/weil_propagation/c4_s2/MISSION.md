@@ -112,7 +112,7 @@ names. The controls are therefore defined on the construction's inputs:
 
 ## Limits
 
-- Python: `PYTHONPATH=<worktree root> /Users/thomas/zeta-lab/.venv/bin/python`.
+- Python: `PYTHONPATH=<worktree root> .venv/bin/python`.
   This worktree has no `.venv`.
 - Local runs under 10 minutes and a few GB each; four workers share a 16 GB
   laptop, so pytest runs with `-n 2` at most. Anything larger becomes a CI

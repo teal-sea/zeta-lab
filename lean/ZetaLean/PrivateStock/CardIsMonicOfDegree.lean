@@ -1,6 +1,10 @@
-import Mathlib.Algebra.Polynomial.Degree.IsMonicOfDegree
-import Mathlib.RingTheory.Polynomial.Basic
-import Mathlib.SetTheory.Cardinal.Finite
+module
+
+public import Mathlib.Algebra.Polynomial.Degree.IsMonicOfDegree
+public import Mathlib.RingTheory.Polynomial.Basic
+public import Mathlib.SetTheory.Cardinal.Finite
+
+@[expose] public section
 
 /-!
 # The number of monic polynomials of a given degree over a finite field

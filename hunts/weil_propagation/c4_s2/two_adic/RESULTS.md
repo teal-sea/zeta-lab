@@ -623,15 +623,15 @@ negatives did not leave).
 
 ## 9. Reproduction
 
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_local.py
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_es.py   # 13 s
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_ts.py   # 2 s
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_prolate.py   # about 8 min, needs kernel/; arguments 0 to 4 rerun those configurations only
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py 80 4800   # one (nvec, S) per process: 80 1200, 80 2400, 80 4800, 100 4800, 120 4800; 15 s to about 9 min
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py --merge-modal   # merges modal/out/gram_*.json (140 to 200 at 4800, 160 at 9600); reads, computes nothing; the units themselves are modal/run_modal.py's
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_rho_diag.py scan80   # also refine, lowdir, hats, nodes (10 to 55 s each); scan200 [npz] about 6 min
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_rho_check.py a1 80 1200   # a1 120 1600 (3 min), a1 200 2400 NPZ, a3 NPZ, a4 NPZ (20 to 40 s with the saved hats), a2 [cache] (3 min, 2 processes), gp NVEC S
-    PYTHONPATH=$PWD /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 30 to 90 s
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_local.py
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_es.py   # 13 s
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_ts.py   # 2 s
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_run_prolate.py   # about 8 min, needs kernel/; arguments 0 to 4 rerun those configurations only
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py 80 4800   # one (nvec, S) per process: 80 1200, 80 2400, 80 4800, 100 4800, 120 4800; 15 s to about 9 min
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_gram_probe.py --merge-modal   # merges modal/out/gram_*.json (140 to 200 at 4800, 160 at 9600); reads, computes nothing; the units themselves are modal/run_modal.py's
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_rho_diag.py scan80   # also refine, lowdir, hats, nodes (10 to 55 s each); scan200 [npz] about 6 min
+    PYTHONPATH=$PWD .venv/bin/python hunts/weil_propagation/c4_s2/two_adic/ta_rho_check.py a1 80 1200   # a1 120 1600 (3 min), a1 200 2400 NPZ, a3 NPZ, a4 NPZ (20 to 40 s with the saved hats), a2 [cache] (3 min, 2 processes), gp NVEC S
+    PYTHONPATH=$PWD .venv/bin/python -m pytest -q -n 2 hunts/weil_propagation/c4_s2/two_adic tests/test_hunt_probe_discipline.py tests/test_docs_numbering.py   # about 30 to 90 s
 
 ## 10. Follow-up 3 (2026-09-24): rho without the explicit inverse
 

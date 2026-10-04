@@ -1,12 +1,16 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.QBound
-import ZetaLean.Pub1.Aristotle.F
-import ZetaLean.Pub1.TruncKernel
-import ZetaLean.Pub1.Setting
+public import Mathlib
+public import ZetaLean.Pub1.QBound
+public import ZetaLean.Pub1.Aristotle.F
+public import ZetaLean.Pub1.TruncKernel
+public import ZetaLean.Pub1.Setting
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the tail kernel `F₁ - F₁^(M)`

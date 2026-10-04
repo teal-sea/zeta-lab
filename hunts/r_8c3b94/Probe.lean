@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
-import ZetaLean.HardyRamanujantheorem
-import ZetaLean.MertensSecond
+public import Mathlib
+public import ZetaLean.HardyRamanujantheorem
+public import ZetaLean.MertensSecond
+
+@[expose] public section
 
 /-!
 # Declaration probe for hunt r_8c3b94 (pricing Erdős–Kac)

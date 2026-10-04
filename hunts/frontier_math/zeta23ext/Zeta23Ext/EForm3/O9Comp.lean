@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Leaves
+module
+
+public import Zeta23Ext.BandCert.Leaves
+
+@[expose] public section
 
 /-!
 # The O9 box compositions, in the kernel's arithmetic
