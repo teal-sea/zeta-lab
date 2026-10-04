@@ -75,6 +75,21 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Robin's inequality for 25-free integers (`robin_tfree/`, 2026-10-04)
+
+**Status: candidate, ordinary derivation not independently reviewed; numerical step
+enclosure-carrying; inputs published and quoted. No RH or novelty claim.**
+Past Morrill-Platt's verified range `x0 = 29 996 208 012 611`, the primorial ratio
+`E(x) = log(e^-gamma prod_{p<=x} p/(p-1) / log theta(x))` is at most `2.481e-8`, using
+only Buthe's `x - theta(x) <= 1.95 sqrt(x)` and the BKLNW tables. The step that matters
+is an exact identity: Mertens' boundary term and the `log theta` denominator cancel to
+first order, where earlier papers bound them separately. Consequences: Robin's
+inequality for every 25-free `n > 5040` (published record 21-free, Axler 2023); for
+every `n > 5040` with `nu_2(n) <= 24`, `nu_3 <= 14`, ..., or `q^(nu_q(n)+1) < 4.03e7`;
+and `sigma(n) < (1 + 2.49e-8) e^gamma n log log n` for all `n > 5040`. `t = 26` fails;
+the verified range is the binding constraint, and no fixed family of this kind reaches
+RH. Identity checked on real primes; 30 tests. See `robin_tfree/RESULTS.md`.
+
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 
 **Status: unresolved RH attempt, ordinary proofs and numerical enclosures;
