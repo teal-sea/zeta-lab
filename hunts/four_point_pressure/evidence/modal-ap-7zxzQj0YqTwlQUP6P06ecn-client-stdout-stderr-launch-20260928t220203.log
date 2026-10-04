@@ -1,0 +1,1537 @@
+FPLOCAL_JSON {"head": "5522b963", "plan": "final3", "layers": ["Base", "Cells0", "Cells1", "Cells2", "Cells3", "Cells4", "Cells5", "Cells6", "Cells7", "Cells8", "Cells9", "Cells10", "Cells11", "Cells12", "Cells13", "Cells14", "Cells15", "Cells16", "Cells17", "Cells18", "Cells19", "Cells20", "Cells21", "Cells22", "Cells23", "Cells24", "Cells25", "Cells", "Cover", "Chunks0", "Chunks1", "Chunks2", "Chunks3", "Chunks4", "Chunks5", "Chunks6", "Chunks7", "Chunks8", "Chunks9", "Chunks10", "Chunks11", "Chunks12", "Chunks13", "Chunks14", "Chunks15", "Boxes", "Main", "WholeLibrary"], "final3_checkpoint": "im-pPaMTYiPHyycO7KYBX1zPM", "final3_from_index": 46, "fp_files": 51, "fp_tree_sha256": "a72e89fc0b5f1d72a41d17ef5f5b7be892b238f15668384dd866382fe8962c82", "bridge_files": 84, "bridge_tree_sha256": "a4931d8311da41b1a41cba4f63cda6a0313167bc447ad1674d28159a92f8d2ff"}
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-7zxzQj0YqTwlQUP6P06ecn
+Building image im-v3v7DGWmyqtYakm9M3uDQ1
+
+=> Step 0: FROM base
+
+=> Step 1: COPY . /
+Saving image...
+Image saved, took 2.63s
+
+Built image im-v3v7DGWmyqtYakm9M3uDQ1 in 3.63s
+
+
+Building image im-gSK56Y9ewf6pRoFvC1y2iZ
+
+=> Step 0: running function 'layer_final3_preflight'
+FPFINAL3_PREFLIGHT_JSON {"ok": true, "receipts": 46, "checkpoint": "im-pPaMTYiPHyycO7KYBX1zPM"}
+Saving image...
+Image saved, took 4.71s
+Finished image build for im-gSK56Y9ewf6pRoFvC1y2iZ
+Building image im-cOC79Lbf6qaN1pbxmmjyZd
+
+=> Step 0: running function 'layer_build'
+FPLAYER_START Boxes module=FourPointCand.Boxes resources={"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}
+[Boxes:build] ⚠ [3285/3374] Replayed Zeta23.Statement
+[Boxes:build] warning: Zeta23/Statement.lean:148:30: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [3516/3652] Replayed Zeta23.ZetaReflect
+[Boxes:build] warning: Zeta23/ZetaReflect.lean:91:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [3767/3869] Replayed Zeta23.Assembly
+[Boxes:build] warning: Zeta23/Assembly.lean:885:47: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/Assembly.lean:958:34: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/Assembly.lean:962:90: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [4010/4090] Replayed Zeta23.Statement.Seam
+[Boxes:build] warning: Zeta23/Statement/Seam.lean:59:13: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+[Boxes:build] ⚠ [8725/8764] Replayed Zeta23.Tail
+[Boxes:build] warning: Zeta23/Tail.lean:290:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/Tail.lean:399:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [8726/8764] Replayed Zeta23.ZeroSide
+[Boxes:build] warning: Zeta23/ZeroSide.lean:701:4: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/ZeroSide.lean:706:66: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/ZeroSide.lean:712:52: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/ZeroSide.lean:755:53: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ℹ [8740/8842] Replayed Zeta23.GammaFacts.Mu
+[Boxes:build] info: Zeta23/GammaFacts/Mu.lean:137:2: Try this:
+[Boxes:build]   [apply] ring_nf
+[Boxes:build]   
+[Boxes:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[Boxes:build]     
+[Boxes:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[Boxes:build] ℹ [8742/8842] Replayed Zeta23.GammaFacts.StirlingVert
+[Boxes:build] info: Zeta23/GammaFacts/StirlingVert.lean:452:6: Try this:
+[Boxes:build]   [apply] ring_nf
+[Boxes:build]   
+[Boxes:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[Boxes:build]     
+[Boxes:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[Boxes:build] ⚠ [8746/8842] Replayed Zeta23.FromPNTPlus.StrongPNTPrefix
+[Boxes:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:61:71: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:202:9: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:343:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:368:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:390:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:432:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [8754/8842] Replayed Zeta23.FromPNTPlus.ZetaBounds
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:859:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:952:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1092:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1099:32: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1105:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1115:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1119:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1135:54: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1157:22: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1169:15: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1169:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1185:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1835:19: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1837:45: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1840:28: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1844:28: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1900:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1906:20: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2091:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2884:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2940:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [8756/8842] Replayed Zeta23.RvM.Halving
+[Boxes:build] warning: Zeta23/RvM/Halving.lean:52:55: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/RvM/Halving.lean:62:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/RvM/Halving.lean:70:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [8762/8842] Replayed Zeta23.RvM.ReZeroCount
+[Boxes:build] warning: Zeta23/RvM/ReZeroCount.lean:272:15: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+[Boxes:build] ⚠ [8767/8842] Replayed Zeta23.RvM.NcountWindow
+[Boxes:build] warning: Zeta23/RvM/NcountWindow.lean:23:22: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [8770/8842] Replayed Zeta23.WeilEF.ZeroSummability
+[Boxes:build] warning: Zeta23/WeilEF/ZeroSummability.lean:189:4: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [8773/8842] Replayed Zeta23.WeilEF.Landau
+[Boxes:build] warning: Zeta23/WeilEF/Landau.lean:341:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/WeilEF/Landau.lean:437:64: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [8775/8842] Replayed Zeta23.WeilEF.Contour
+[Boxes:build] warning: Zeta23/WeilEF/Contour.lean:69:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ℹ [8780/8842] Replayed Zeta23.WeilEF.Main
+[Boxes:build] info: Zeta23/WeilEF/Main.lean:38:2: Try this:
+[Boxes:build]   [apply] ring_nf
+[Boxes:build]   
+[Boxes:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[Boxes:build]     
+[Boxes:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[Boxes:build] ⚠ [8781/8842] Replayed Zeta23.ZeroSide.RankTraceMult
+[Boxes:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:49:32: Variable name `ht0` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _ht0
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:49:60: Variable name `hx` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:56:30: Variable name `hc` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hc
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:56:43: Variable name `hx` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:81:32: Variable name `hp` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hp
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:81:58: Variable name `hc` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hc
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:164:20: This simp argument is unused:
+[Boxes:build]   Matrix.mul_assoc
+[Boxes:build] 
+[Boxes:build] Hint: Omit it from the simp argument list.
+[Boxes:build]   [apply] simp
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+[Boxes:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:359:28: Variable name `hc` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hc
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8801/8884] Replayed Zeta23.PrimeSideA.EndsE1
+[Boxes:build] warning: Zeta23/PrimeSideA/EndsE1.lean:326:41: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ℹ [8806/8884] Replayed Zeta23.PrimeSideA
+[Boxes:build] info: Zeta23/PrimeSideA.lean:372:0: lem_ends : ∀ (cϱ lam : ℝ),
+[Boxes:build]   GammaFacts →
+[Boxes:build]     ChebyshevMertens →
+[Boxes:build]       0 < lam ∧ lam ≤ 1 →
+[Boxes:build]         ∃ C, EventuallyAtCore cϱ lam fun p F ↦ |trGt2A p F - MtotalA p F| ≤ C * (p.L * p.l * log p.l * (p.l ^ 2 + p.X))
+[Boxes:build] info: Zeta23/PrimeSideA.lean:398:0: prop_mumu : ∀ (cϱ lam : ℝ),
+[Boxes:build]   GammaFacts →
+[Boxes:build]     ChebyshevMertens →
+[Boxes:build]       0 < lam ∧ lam ≤ 1 →
+[Boxes:build]         ∃ C,
+[Boxes:build]           EventuallyAtCore cϱ lam fun p F ↦
+[Boxes:build]             |Mform F.Phi p.T mu mu - 2 * π * F.b * p.L * ∫ (τ : ℝ) in p.T..2 * p.T, mu τ ^ 2| ≤ C * (p.l ^ 2 * log p.L)
+[Boxes:build] info: Zeta23/PrimeSideA.lean:404:0: prop_cross_muP : ∀ (cϱ lam : ℝ),
+[Boxes:build]   GammaFacts →
+[Boxes:build]     ChebyshevMertens →
+[Boxes:build]       0 < lam ∧ lam ≤ 1 → ∃ C, EventuallyAtCore cϱ lam fun p F ↦ |Mform F.Phi p.T mu (PX p.X)| ≤ C * (p.l * √p.X)
+[Boxes:build] ⚠ [8812/8884] Replayed Zeta23.MV.Spacing
+[Boxes:build] warning: Zeta23/MV/Spacing.lean:58:0: automatically included section variable(s) unused in theorem `Zeta23.MV.Adm.itv_disjoint`:
+[Boxes:build]   [Fintype ι]
+[Boxes:build]   [DecidableEq ι]
+[Boxes:build] consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+[Boxes:build]   omit [Fintype ι] [DecidableEq ι] in theorem ...
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+[Boxes:build] warning: Zeta23/MV/Spacing.lean:153:8: automatically included section variable(s) unused in theorem `_private.Zeta23.MV.Spacing.0.Zeta23.MV.Adm.mem_window`:
+[Boxes:build]   [Fintype ι]
+[Boxes:build]   [DecidableEq ι]
+[Boxes:build] consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+[Boxes:build]   omit [Fintype ι] [DecidableEq ι] in theorem ...
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+[Boxes:build] ⚠ [8820/8884] Replayed Zeta23.ThmD.WindowCore
+[Boxes:build] warning: Zeta23/ThmD/WindowCore.lean:388:22: Variable name `u` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _u
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8823/8884] Replayed Zeta23.ThmD.Window
+[Boxes:build] warning: Zeta23/ThmD/Window.lean:132:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [8827/8884] Replayed Zeta23.ThmD.PP
+[Boxes:build] warning: Zeta23/ThmD/PP.lean:270:29: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] warning: Zeta23/ThmD/PP.lean:276:29: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Boxes:build] ⚠ [8833/8884] Replayed Zeta23.Assembly.SeamMult
+[Boxes:build] warning: Zeta23/Assembly/SeamMult.lean:26:0: automatically included section variable(s) unused in theorem `Zeta23.Assembly.ctr_sub_frobSq_perturb`:
+[Boxes:build]   [DecidableEq n]
+[Boxes:build] consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+[Boxes:build]   omit [DecidableEq n] in theorem ...
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+[Boxes:build] ℹ [8838/8884] Replayed Zeta23Ext.StableRankTrace
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:272:0: 'Zeta23Ext.StableRankTrace.Psi_eq_gc_two_add_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:273:0: 'Zeta23Ext.StableRankTrace.Psi_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:274:0: 'Zeta23Ext.StableRankTrace.two_mul_sub_one_add_Psi_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:275:0: 'Zeta23Ext.StableRankTrace.pmat_eigCols' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:276:0: 'Zeta23Ext.StableRankTrace.xsq_eigCols' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:277:0: 'Zeta23Ext.StableRankTrace.rtrace_specMap_Psi' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:278:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_sharp' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:279:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:280:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_no_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:281:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_collapse' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/StableRankTrace.lean:282:0: 'Zeta23Ext.StableRankTrace.sharp_le_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8839/8884] Replayed Zeta23Ext.Bridge.Defs
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:291:0: 'Zeta23Ext.Bridge.pts_eq_ptsN' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:292:0: 'Zeta23Ext.Bridge.F6_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:293:0: 'Zeta23Ext.Bridge.Phi_eq_Phi_n' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:294:0: 'Zeta23Ext.Bridge.abs_sub_le_spanOf' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:295:0: 'Zeta23Ext.Bridge.spanOf_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:296:0: 'Zeta23Ext.Bridge.defect_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:297:0: 'Zeta23Ext.Bridge.blockDefect_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:298:0: 'Zeta23Ext.Bridge.Q'_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:299:0: 'Zeta23Ext.Bridge.P₁_add_Q'' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:300:0: 'Zeta23Ext.Bridge.gram_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:301:0: 'Zeta23Ext.Bridge.gram_posSemidef' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:302:0: 'Zeta23Ext.Bridge.toS₁_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Defs.lean:303:0: 'Zeta23Ext.Bridge.xret_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8840/8884] Replayed Zeta23Ext.Bridge.S6
+[Boxes:build] info: Zeta23Ext/Bridge/S6.lean:100:0: 'Zeta23Ext.Bridge.P₁_eq_simplePart' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S6.lean:101:0: 'Zeta23Ext.Bridge.regroup_posIndex' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8841/8884] Replayed Zeta23Ext.Bridge.S7
+[Boxes:build] info: Zeta23Ext/Bridge/S7.lean:69:0: 'Zeta23Ext.Bridge.Vsimple_col_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S7.lean:70:0: 'Zeta23Ext.Bridge.count_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8842/8884] Replayed Zeta23Ext.Bridge.Helpers_S8
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_S8.lean:259:0: 'Zeta23Ext.Bridge.seamA_mult2_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_S8.lean:260:0: 'Zeta23Ext.Bridge.endgame_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8843/8884] Replayed Zeta23Ext.Bridge.S8
+[Boxes:build] info: Zeta23Ext/Bridge/S8.lean:88:0: 'Zeta23Ext.Bridge.tail_passage' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8845/8884] Replayed Zeta23Ext.Bridge.S9
+[Boxes:build] info: Zeta23Ext/Bridge/S9.lean:188:0: 'Zeta23Ext.Bridge.kernel_limit' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S9.lean:189:0: 'Zeta23Ext.Bridge.deleted_strips' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] ℹ [8846/8884] Replayed Zeta23Ext.Bridge.Helpers_finite
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:164:0: 'Zeta23Ext.Bridge.abs_kfun_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:165:0: 'Zeta23Ext.Bridge.wfun_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:166:0: 'Zeta23Ext.Bridge.ptsN_windowGaps' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:167:0: 'Zeta23Ext.Bridge.F_windowGaps' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:168:0: 'Zeta23Ext.Bridge.sum_shift_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8847/8884] Replayed Zeta23Ext.Bridge.S11
+[Boxes:build] info: Zeta23Ext/Bridge/S11.lean:295:0: 'Zeta23Ext.Bridge.energyOn_eq_sorted' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S11.lean:296:0: 'Zeta23Ext.Bridge.window_pairs_le_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S11.lean:297:0: 'Zeta23Ext.Bridge.block_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8848/8884] Replayed Zeta23Ext.Bridge.S12
+[Boxes:build] info: Zeta23Ext/Bridge/S12.lean:83:0: 'Zeta23Ext.Bridge.specMap_const_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S12.lean:84:0: 'Zeta23Ext.Bridge.block_defect_of_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S12.lean:85:0: 'Zeta23Ext.Bridge.block_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8849/8884] Replayed Zeta23Ext.Bridge.S13
+[Boxes:build] info: Zeta23Ext/Bridge/S13.lean:157:0: 'Zeta23Ext.Bridge.sq_sub_two_mul_le_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S13.lean:158:0: 'Zeta23Ext.Bridge.offDiagSqOn_submatrix' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S13.lean:159:0: 'Zeta23Ext.Bridge.block_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8850/8884] Replayed Zeta23Ext.Bridge.Helpers_pinching
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:314:0: 'Zeta23Ext.Bridge.Psi_convexOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:315:0: 'Zeta23Ext.Bridge.eigenvalues_submatrix_eq_mix' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:316:0: 'Zeta23Ext.Bridge.sum_eigenvalues_submatrix_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:317:0: 'Zeta23Ext.Bridge.sum_eigenvalues_pinching_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:318:0: 'Zeta23Ext.Bridge.sum_eigenvalues_submatrix_le_of_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:319:0: 'Zeta23Ext.Bridge.rtrace_specMap_pinching_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:320:0: 'Zeta23Ext.Bridge.rtrace_specMap_submatrix_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8851/8884] Replayed Zeta23Ext.Bridge.S14
+[Boxes:build] info: Zeta23Ext/Bridge/S14.lean:69:0: 'Zeta23Ext.Bridge.pinching_partition' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S14.lean:70:0: 'Zeta23Ext.Bridge.pinching_submatrix' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8852/8884] Replayed Zeta23Ext.Bridge.S15
+[Boxes:build] info: Zeta23Ext/Bridge/S15.lean:354:0: 'Zeta23Ext.Bridge.sum_shift_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S15.lean:355:0: 'Zeta23Ext.Bridge.blockStart_eq_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S15.lean:356:0: 'Zeta23Ext.Bridge.offset_average' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S15.lean:357:0: 'Zeta23Ext.Bridge.spanOf_xret_le_d' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S15.lean:358:0: 'Zeta23Ext.Bridge.span_retained_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8853/8884] Replayed Zeta23Ext.Bridge.S16
+[Boxes:build] info: Zeta23Ext/Bridge/S16.lean:98:0: 'Zeta23Ext.Bridge.one_sub_div_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S16.lean:99:0: 'Zeta23Ext.Bridge.solve_linear' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S16.lean:100:0: 'Zeta23Ext.Bridge.Phi_paper' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S16.lean:101:0: 'Zeta23Ext.Bridge.Phi_paper'' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S16.lean:102:0: 'Zeta23Ext.Bridge.Phi_lab' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/S16.lean:103:0: 'Zeta23Ext.Bridge.Phi_lab8' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Boxes:build] ℹ [8854/8884] Replayed Zeta23Ext.Bridge.Main
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:401:0: 'Zeta23Ext.Bridge.F6_eq' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:402:0: 'Zeta23Ext.Bridge.Phi_eq_Phi_n' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:403:0: 'Zeta23Ext.Bridge.solve_linear' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:404:0: 'Zeta23Ext.Bridge.Phi_paper' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:405:0: 'Zeta23Ext.Bridge.Phi_paper'' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:406:0: 'Zeta23Ext.Bridge.eventually_L_pos' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:407:0: 'Zeta23Ext.Bridge.count_defect' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:408:0: 'Zeta23Ext.Bridge.eventually_h7' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:409:0: 'Zeta23Ext.Bridge.block_bound_eventually' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:410:0: 'Zeta23Ext.Bridge.pre_solve' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:411:0: 'Zeta23Ext.Bridge.n_point_bound' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:412:0: 'Zeta23Ext.Bridge.seven_point_bound' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:413:0: 'Zeta23Ext.Bridge.seven_point_bound_paper' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:414:0: 'Zeta23Ext.Bridge.eventually_Ncount_pos' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:415:0: 'Zeta23Ext.Bridge.seven_point_bound_lab' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:416:0: 'Zeta23Ext.Bridge.seven_point_bound_lab_ratio' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:417:0: 'Zeta23Ext.Bridge.Phi_lab8' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:418:0: 'Zeta23Ext.Bridge.eight_point_bound' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] info: Zeta23Ext/Bridge/Main.lean:419:0: 'Zeta23Ext.Bridge.eight_point_bound_ratio' depends on axioms: [propext, choice, Quot.sound]
+[Boxes:build] ⚠ [8884/8900] Replayed FourPointCand.Chunks0
+[Boxes:build] warning: FourPointCand/Chunks0.lean:6029:27: Variable name `hy2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hy2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks0.lean:6030:28: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks0.lean:6042:49: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks0.lean:6043:28: Variable name `hy2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hy2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks0.lean:6044:28: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8887/8900] Replayed FourPointCand.Chunks3
+[Boxes:build] warning: FourPointCand/Chunks3.lean:12:46: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks3.lean:14:28: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks3.lean:5982:48: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks3.lean:5983:27: Variable name `hy2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hy2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8888/8900] Replayed FourPointCand.Chunks4
+[Boxes:build] warning: FourPointCand/Chunks4.lean:12:48: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks4.lean:6028:48: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks4.lean:6029:28: Variable name `hy2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hy2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks4.lean:6030:28: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8889/8900] Replayed FourPointCand.Chunks5
+[Boxes:build] warning: FourPointCand/Chunks5.lean:6020:48: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks5.lean:6022:28: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8892/8900] Replayed FourPointCand.Chunks8
+[Boxes:build] warning: FourPointCand/Chunks8.lean:14:27: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks8.lean:5663:48: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks8.lean:5664:27: Variable name `hy2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hy2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks8.lean:5932:48: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks8.lean:5933:28: Variable name `hy2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hy2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks8.lean:5934:28: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8893/8900] Replayed FourPointCand.Chunks9
+[Boxes:build] warning: FourPointCand/Chunks9.lean:5459:27: Variable name `hy2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hy2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks9.lean:5460:27: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8894/8900] Replayed FourPointCand.Chunks10
+[Boxes:build] warning: FourPointCand/Chunks10.lean:5713:48: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks10.lean:5715:27: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8897/8900] Replayed FourPointCand.Chunks13
+[Boxes:build] warning: FourPointCand/Chunks13.lean:6063:27: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks13.lean:6084:28: Variable name `hy2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hy2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ⚠ [8898/8900] Replayed FourPointCand.Chunks14
+[Boxes:build] warning: FourPointCand/Chunks14.lean:5796:50: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks14.lean:5975:49: Variable name `hx2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hx2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks14.lean:5976:27: Variable name `hy2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hy2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] warning: FourPointCand/Chunks14.lean:5977:28: Variable name `hz2` is not explicitly referenced.
+[Boxes:build] 
+[Boxes:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Boxes:build]   [apply] _hz2
+[Boxes:build] 
+[Boxes:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Boxes:build] ✔ [8900/8900] Built FourPointCand.Boxes (575s)
+[Boxes:build] Build completed successfully (8900 jobs).
+FPRECEIPT_JSON {"index": 46, "name": "Boxes", "module": "FourPointCand.Boxes", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Boxes"], "rc": 0, "reason": null, "elapsed": 619.1, "n_lines": 486, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Boxes.olean", "sha256": "dfd161dc66db762f17403449ded5abc7b02fbd1c8844645e15c69235db1adced", "bytes": 2125440}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 619.6}
+Saving image...
+Image saved, took 9.99s
+Finished image build for im-cOC79Lbf6qaN1pbxmmjyZd
+Building image im-dDpqf8aSafK8BZCTvm7VwO
+
+=> Step 0: running function 'layer_build'
+FPLAYER_START Main module=FourPointCand.Main resources={"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}
+[Main:build] ⚠ [3270/3405] Replayed Zeta23.Statement
+[Main:build] warning: Zeta23/Statement.lean:148:30: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [3577/3663] Replayed Zeta23.ZetaReflect
+[Main:build] warning: Zeta23/ZetaReflect.lean:91:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [3623/3731] Replayed Zeta23.Assembly
+[Main:build] warning: Zeta23/Assembly.lean:885:47: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/Assembly.lean:958:34: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/Assembly.lean:962:90: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [3869/3998] Replayed Zeta23.Statement.Seam
+[Main:build] warning: Zeta23/Statement/Seam.lean:59:13: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+[Main:build] ⚠ [8725/8806] Replayed Zeta23.Tail
+[Main:build] warning: Zeta23/Tail.lean:290:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/Tail.lean:399:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [8726/8806] Replayed Zeta23.ZeroSide
+[Main:build] warning: Zeta23/ZeroSide.lean:701:4: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/ZeroSide.lean:706:66: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/ZeroSide.lean:712:52: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/ZeroSide.lean:755:53: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ℹ [8740/8806] Replayed Zeta23.GammaFacts.Mu
+[Main:build] info: Zeta23/GammaFacts/Mu.lean:137:2: Try this:
+[Main:build]   [apply] ring_nf
+[Main:build]   
+[Main:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[Main:build]     
+[Main:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[Main:build] ℹ [8742/8806] Replayed Zeta23.GammaFacts.StirlingVert
+[Main:build] info: Zeta23/GammaFacts/StirlingVert.lean:452:6: Try this:
+[Main:build]   [apply] ring_nf
+[Main:build]   
+[Main:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[Main:build]     
+[Main:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[Main:build] ⚠ [8746/8806] Replayed Zeta23.FromPNTPlus.StrongPNTPrefix
+[Main:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:61:71: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:202:9: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[Main:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:343:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+[Main:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:368:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:390:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+[Main:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:432:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [8754/8806] Replayed Zeta23.FromPNTPlus.ZetaBounds
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:859:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:952:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1092:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1099:32: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1105:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1115:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1119:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1135:54: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1157:22: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1169:15: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1169:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1185:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1835:19: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1837:45: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1840:28: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1844:28: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1900:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1906:20: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2091:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2884:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2940:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [8756/8806] Replayed Zeta23.RvM.Halving
+[Main:build] warning: Zeta23/RvM/Halving.lean:52:55: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/RvM/Halving.lean:62:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/RvM/Halving.lean:70:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [8762/8806] Replayed Zeta23.RvM.ReZeroCount
+[Main:build] warning: Zeta23/RvM/ReZeroCount.lean:272:15: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+[Main:build] ⚠ [8767/8806] Replayed Zeta23.RvM.NcountWindow
+[Main:build] warning: Zeta23/RvM/NcountWindow.lean:23:22: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [8770/8806] Replayed Zeta23.WeilEF.ZeroSummability
+[Main:build] warning: Zeta23/WeilEF/ZeroSummability.lean:189:4: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [8773/8885] Replayed Zeta23.WeilEF.Landau
+[Main:build] warning: Zeta23/WeilEF/Landau.lean:341:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/WeilEF/Landau.lean:437:64: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [8775/8885] Replayed Zeta23.WeilEF.Contour
+[Main:build] warning: Zeta23/WeilEF/Contour.lean:69:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ℹ [8780/8885] Replayed Zeta23.WeilEF.Main
+[Main:build] info: Zeta23/WeilEF/Main.lean:38:2: Try this:
+[Main:build]   [apply] ring_nf
+[Main:build]   
+[Main:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[Main:build]     
+[Main:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[Main:build] ⚠ [8781/8885] Replayed Zeta23.ZeroSide.RankTraceMult
+[Main:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:49:32: Variable name `ht0` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _ht0
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:49:60: Variable name `hx` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:56:30: Variable name `hc` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hc
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:56:43: Variable name `hx` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:81:32: Variable name `hp` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hp
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:81:58: Variable name `hc` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hc
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:164:20: This simp argument is unused:
+[Main:build]   Matrix.mul_assoc
+[Main:build] 
+[Main:build] Hint: Omit it from the simp argument list.
+[Main:build]   [apply] simp
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+[Main:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:359:28: Variable name `hc` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hc
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8783/8885] Replayed Zeta23.Assembly.SeamMult
+[Main:build] warning: Zeta23/Assembly/SeamMult.lean:26:0: automatically included section variable(s) unused in theorem `Zeta23.Assembly.ctr_sub_frobSq_perturb`:
+[Main:build]   [DecidableEq n]
+[Main:build] consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+[Main:build]   omit [DecidableEq n] in theorem ...
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+[Main:build] ℹ [8786/8885] Replayed Zeta23Ext.StableRankTrace
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:272:0: 'Zeta23Ext.StableRankTrace.Psi_eq_gc_two_add_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:273:0: 'Zeta23Ext.StableRankTrace.Psi_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:274:0: 'Zeta23Ext.StableRankTrace.two_mul_sub_one_add_Psi_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:275:0: 'Zeta23Ext.StableRankTrace.pmat_eigCols' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:276:0: 'Zeta23Ext.StableRankTrace.xsq_eigCols' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:277:0: 'Zeta23Ext.StableRankTrace.rtrace_specMap_Psi' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:278:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_sharp' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:279:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:280:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_no_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:281:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_collapse' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/StableRankTrace.lean:282:0: 'Zeta23Ext.StableRankTrace.sharp_le_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8787/8885] Replayed Zeta23Ext.Bridge.Helpers_pinching
+[Main:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:314:0: 'Zeta23Ext.Bridge.Psi_convexOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:315:0: 'Zeta23Ext.Bridge.eigenvalues_submatrix_eq_mix' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:316:0: 'Zeta23Ext.Bridge.sum_eigenvalues_submatrix_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:317:0: 'Zeta23Ext.Bridge.sum_eigenvalues_pinching_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:318:0: 'Zeta23Ext.Bridge.sum_eigenvalues_submatrix_le_of_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:319:0: 'Zeta23Ext.Bridge.rtrace_specMap_pinching_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:320:0: 'Zeta23Ext.Bridge.rtrace_specMap_submatrix_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ⚠ [8806/8902] Replayed Zeta23.PrimeSideA.EndsE1
+[Main:build] warning: Zeta23/PrimeSideA/EndsE1.lean:326:41: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ℹ [8811/8902] Replayed Zeta23.PrimeSideA
+[Main:build] info: Zeta23/PrimeSideA.lean:372:0: lem_ends : ∀ (cϱ lam : ℝ),
+[Main:build]   GammaFacts →
+[Main:build]     ChebyshevMertens →
+[Main:build]       0 < lam ∧ lam ≤ 1 →
+[Main:build]         ∃ C, EventuallyAtCore cϱ lam fun p F ↦ |trGt2A p F - MtotalA p F| ≤ C * (p.L * p.l * log p.l * (p.l ^ 2 + p.X))
+[Main:build] info: Zeta23/PrimeSideA.lean:398:0: prop_mumu : ∀ (cϱ lam : ℝ),
+[Main:build]   GammaFacts →
+[Main:build]     ChebyshevMertens →
+[Main:build]       0 < lam ∧ lam ≤ 1 →
+[Main:build]         ∃ C,
+[Main:build]           EventuallyAtCore cϱ lam fun p F ↦
+[Main:build]             |Mform F.Phi p.T mu mu - 2 * π * F.b * p.L * ∫ (τ : ℝ) in p.T..2 * p.T, mu τ ^ 2| ≤ C * (p.l ^ 2 * log p.L)
+[Main:build] info: Zeta23/PrimeSideA.lean:404:0: prop_cross_muP : ∀ (cϱ lam : ℝ),
+[Main:build]   GammaFacts →
+[Main:build]     ChebyshevMertens →
+[Main:build]       0 < lam ∧ lam ≤ 1 → ∃ C, EventuallyAtCore cϱ lam fun p F ↦ |Mform F.Phi p.T mu (PX p.X)| ≤ C * (p.l * √p.X)
+[Main:build] ⚠ [8817/8902] Replayed Zeta23.MV.Spacing
+[Main:build] warning: Zeta23/MV/Spacing.lean:58:0: automatically included section variable(s) unused in theorem `Zeta23.MV.Adm.itv_disjoint`:
+[Main:build]   [Fintype ι]
+[Main:build]   [DecidableEq ι]
+[Main:build] consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+[Main:build]   omit [Fintype ι] [DecidableEq ι] in theorem ...
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+[Main:build] warning: Zeta23/MV/Spacing.lean:153:8: automatically included section variable(s) unused in theorem `_private.Zeta23.MV.Spacing.0.Zeta23.MV.Adm.mem_window`:
+[Main:build]   [Fintype ι]
+[Main:build]   [DecidableEq ι]
+[Main:build] consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+[Main:build]   omit [Fintype ι] [DecidableEq ι] in theorem ...
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+[Main:build] ⚠ [8825/8902] Replayed Zeta23.ThmD.WindowCore
+[Main:build] warning: Zeta23/ThmD/WindowCore.lean:388:22: Variable name `u` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _u
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8828/8902] Replayed Zeta23.ThmD.Window
+[Main:build] warning: Zeta23/ThmD/Window.lean:132:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ⚠ [8832/8902] Replayed Zeta23.ThmD.PP
+[Main:build] warning: Zeta23/ThmD/PP.lean:270:29: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] warning: Zeta23/ThmD/PP.lean:276:29: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[Main:build] ℹ [8841/8902] Replayed Zeta23Ext.Bridge.Defs
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:291:0: 'Zeta23Ext.Bridge.pts_eq_ptsN' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:292:0: 'Zeta23Ext.Bridge.F6_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:293:0: 'Zeta23Ext.Bridge.Phi_eq_Phi_n' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:294:0: 'Zeta23Ext.Bridge.abs_sub_le_spanOf' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:295:0: 'Zeta23Ext.Bridge.spanOf_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:296:0: 'Zeta23Ext.Bridge.defect_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:297:0: 'Zeta23Ext.Bridge.blockDefect_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:298:0: 'Zeta23Ext.Bridge.Q'_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:299:0: 'Zeta23Ext.Bridge.P₁_add_Q'' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:300:0: 'Zeta23Ext.Bridge.gram_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:301:0: 'Zeta23Ext.Bridge.gram_posSemidef' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:302:0: 'Zeta23Ext.Bridge.toS₁_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Defs.lean:303:0: 'Zeta23Ext.Bridge.xret_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8842/8902] Replayed Zeta23Ext.Bridge.S6
+[Main:build] info: Zeta23Ext/Bridge/S6.lean:100:0: 'Zeta23Ext.Bridge.P₁_eq_simplePart' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S6.lean:101:0: 'Zeta23Ext.Bridge.regroup_posIndex' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8843/8902] Replayed Zeta23Ext.Bridge.S7
+[Main:build] info: Zeta23Ext/Bridge/S7.lean:69:0: 'Zeta23Ext.Bridge.Vsimple_col_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S7.lean:70:0: 'Zeta23Ext.Bridge.count_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8844/8902] Replayed Zeta23Ext.Bridge.Helpers_S8
+[Main:build] info: Zeta23Ext/Bridge/Helpers_S8.lean:259:0: 'Zeta23Ext.Bridge.seamA_mult2_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_S8.lean:260:0: 'Zeta23Ext.Bridge.endgame_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8845/8902] Replayed Zeta23Ext.Bridge.S8
+[Main:build] info: Zeta23Ext/Bridge/S8.lean:88:0: 'Zeta23Ext.Bridge.tail_passage' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8847/8902] Replayed Zeta23Ext.Bridge.S9
+[Main:build] info: Zeta23Ext/Bridge/S9.lean:188:0: 'Zeta23Ext.Bridge.kernel_limit' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S9.lean:189:0: 'Zeta23Ext.Bridge.deleted_strips' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] ℹ [8848/8902] Replayed Zeta23Ext.Bridge.Helpers_finite
+[Main:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:164:0: 'Zeta23Ext.Bridge.abs_kfun_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:165:0: 'Zeta23Ext.Bridge.wfun_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:166:0: 'Zeta23Ext.Bridge.ptsN_windowGaps' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:167:0: 'Zeta23Ext.Bridge.F_windowGaps' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:168:0: 'Zeta23Ext.Bridge.sum_shift_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8849/8902] Replayed Zeta23Ext.Bridge.S11
+[Main:build] info: Zeta23Ext/Bridge/S11.lean:295:0: 'Zeta23Ext.Bridge.energyOn_eq_sorted' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S11.lean:296:0: 'Zeta23Ext.Bridge.window_pairs_le_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S11.lean:297:0: 'Zeta23Ext.Bridge.block_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8850/8902] Replayed Zeta23Ext.Bridge.S12
+[Main:build] info: Zeta23Ext/Bridge/S12.lean:83:0: 'Zeta23Ext.Bridge.specMap_const_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S12.lean:84:0: 'Zeta23Ext.Bridge.block_defect_of_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S12.lean:85:0: 'Zeta23Ext.Bridge.block_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8851/8902] Replayed Zeta23Ext.Bridge.S13
+[Main:build] info: Zeta23Ext/Bridge/S13.lean:157:0: 'Zeta23Ext.Bridge.sq_sub_two_mul_le_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S13.lean:158:0: 'Zeta23Ext.Bridge.offDiagSqOn_submatrix' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S13.lean:159:0: 'Zeta23Ext.Bridge.block_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8852/8902] Replayed Zeta23Ext.Bridge.S14
+[Main:build] info: Zeta23Ext/Bridge/S14.lean:69:0: 'Zeta23Ext.Bridge.pinching_partition' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S14.lean:70:0: 'Zeta23Ext.Bridge.pinching_submatrix' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8853/8902] Replayed Zeta23Ext.Bridge.S15
+[Main:build] info: Zeta23Ext/Bridge/S15.lean:354:0: 'Zeta23Ext.Bridge.sum_shift_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S15.lean:355:0: 'Zeta23Ext.Bridge.blockStart_eq_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S15.lean:356:0: 'Zeta23Ext.Bridge.offset_average' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S15.lean:357:0: 'Zeta23Ext.Bridge.spanOf_xret_le_d' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S15.lean:358:0: 'Zeta23Ext.Bridge.span_retained_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8854/8902] Replayed Zeta23Ext.Bridge.S16
+[Main:build] info: Zeta23Ext/Bridge/S16.lean:98:0: 'Zeta23Ext.Bridge.one_sub_div_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S16.lean:99:0: 'Zeta23Ext.Bridge.solve_linear' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S16.lean:100:0: 'Zeta23Ext.Bridge.Phi_paper' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S16.lean:101:0: 'Zeta23Ext.Bridge.Phi_paper'' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S16.lean:102:0: 'Zeta23Ext.Bridge.Phi_lab' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/S16.lean:103:0: 'Zeta23Ext.Bridge.Phi_lab8' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] ℹ [8855/8902] Replayed Zeta23Ext.Bridge.Main
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:401:0: 'Zeta23Ext.Bridge.F6_eq' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:402:0: 'Zeta23Ext.Bridge.Phi_eq_Phi_n' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:403:0: 'Zeta23Ext.Bridge.solve_linear' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:404:0: 'Zeta23Ext.Bridge.Phi_paper' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:405:0: 'Zeta23Ext.Bridge.Phi_paper'' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:406:0: 'Zeta23Ext.Bridge.eventually_L_pos' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:407:0: 'Zeta23Ext.Bridge.count_defect' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:408:0: 'Zeta23Ext.Bridge.eventually_h7' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:409:0: 'Zeta23Ext.Bridge.block_bound_eventually' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:410:0: 'Zeta23Ext.Bridge.pre_solve' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:411:0: 'Zeta23Ext.Bridge.n_point_bound' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:412:0: 'Zeta23Ext.Bridge.seven_point_bound' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:413:0: 'Zeta23Ext.Bridge.seven_point_bound_paper' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:414:0: 'Zeta23Ext.Bridge.eventually_Ncount_pos' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:415:0: 'Zeta23Ext.Bridge.seven_point_bound_lab' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:416:0: 'Zeta23Ext.Bridge.seven_point_bound_lab_ratio' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:417:0: 'Zeta23Ext.Bridge.Phi_lab8' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:418:0: 'Zeta23Ext.Bridge.eight_point_bound' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] info: Zeta23Ext/Bridge/Main.lean:419:0: 'Zeta23Ext.Bridge.eight_point_bound_ratio' depends on axioms: [propext, choice, Quot.sound]
+[Main:build] ⚠ [8885/8902] Replayed FourPointCand.Chunks0
+[Main:build] warning: FourPointCand/Chunks0.lean:6029:27: Variable name `hy2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hy2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks0.lean:6030:28: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks0.lean:6042:49: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks0.lean:6043:28: Variable name `hy2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hy2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks0.lean:6044:28: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8888/8902] Replayed FourPointCand.Chunks3
+[Main:build] warning: FourPointCand/Chunks3.lean:12:46: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks3.lean:14:28: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks3.lean:5982:48: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks3.lean:5983:27: Variable name `hy2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hy2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8889/8902] Replayed FourPointCand.Chunks4
+[Main:build] warning: FourPointCand/Chunks4.lean:12:48: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks4.lean:6028:48: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks4.lean:6029:28: Variable name `hy2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hy2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks4.lean:6030:28: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8890/8902] Replayed FourPointCand.Chunks5
+[Main:build] warning: FourPointCand/Chunks5.lean:6020:48: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks5.lean:6022:28: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8893/8902] Replayed FourPointCand.Chunks8
+[Main:build] warning: FourPointCand/Chunks8.lean:14:27: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks8.lean:5663:48: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks8.lean:5664:27: Variable name `hy2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hy2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks8.lean:5932:48: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks8.lean:5933:28: Variable name `hy2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hy2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks8.lean:5934:28: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8894/8902] Replayed FourPointCand.Chunks9
+[Main:build] warning: FourPointCand/Chunks9.lean:5459:27: Variable name `hy2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hy2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks9.lean:5460:27: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8895/8902] Replayed FourPointCand.Chunks10
+[Main:build] warning: FourPointCand/Chunks10.lean:5713:48: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks10.lean:5715:27: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8898/8902] Replayed FourPointCand.Chunks13
+[Main:build] warning: FourPointCand/Chunks13.lean:6063:27: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks13.lean:6084:28: Variable name `hy2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hy2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ⚠ [8899/8902] Replayed FourPointCand.Chunks14
+[Main:build] warning: FourPointCand/Chunks14.lean:5796:50: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks14.lean:5975:49: Variable name `hx2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hx2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks14.lean:5976:27: Variable name `hy2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hy2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] warning: FourPointCand/Chunks14.lean:5977:28: Variable name `hz2` is not explicitly referenced.
+[Main:build] 
+[Main:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[Main:build]   [apply] _hz2
+[Main:build] 
+[Main:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[Main:build] ℹ [8902/8902] Built FourPointCand.Main (47s)
+[Main:build] info: FourPointCand/Main.lean:38:6: Try this:
+[Main:build]   [apply] ring_nf
+[Main:build]   
+[Main:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[Main:build]     
+[Main:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[Main:build] info: FourPointCand/Main.lean:206:0: 'Zeta23Ext.Bridge.FourPoint.F4_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: FourPointCand/Main.lean:207:0: 'Zeta23Ext.Bridge.FourPoint.cover1' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: FourPointCand/Main.lean:208:0: 'Zeta23Ext.Bridge.FourPoint.four_point_cert' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: FourPointCand/Main.lean:209:0: 'Zeta23Ext.Bridge.FourPoint.Phi_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: FourPointCand/Main.lean:210:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] info: FourPointCand/Main.lean:211:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
+[Main:build] Build completed successfully (8902 jobs).
+FPRECEIPT_JSON {"index": 47, "name": "Main", "module": "FourPointCand.Main", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Main"], "rc": 0, "reason": null, "elapsed": 85.1, "n_lines": 498, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Main.olean", "sha256": "ffd87085e3906ecc1c924514823746cb4a8f3f443f221f5a2a883b00d3cc08f2", "bytes": 1273664}], "sorry_warnings": 0, "axiom_lines": ["info: FourPointCand/Main.lean:206:0: 'Zeta23Ext.Bridge.FourPoint.F4_eq' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:207:0: 'Zeta23Ext.Bridge.FourPoint.cover1' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:208:0: 'Zeta23Ext.Bridge.FourPoint.four_point_cert' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:209:0: 'Zeta23Ext.Bridge.FourPoint.Phi_four' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:210:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:211:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]"], "elapsed": 85.3}
+Saving image...
+Image saved, took 8.08s
+Finished image build for im-dDpqf8aSafK8BZCTvm7VwO
+Building image im-6OZMQf9oFxqLnic4UBo4mf
+
+=> Step 0: running function 'layer_build'
+FPLAYER_START WholeLibrary module=FourPointCand resources={"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}
+[WholeLibrary:build] ⚠ [3306/3439] Replayed Zeta23.Statement
+[WholeLibrary:build] warning: Zeta23/Statement.lean:148:30: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [3561/3650] Replayed Zeta23.ZetaReflect
+[WholeLibrary:build] warning: Zeta23/ZetaReflect.lean:91:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [3666/3767] Replayed Zeta23.Assembly
+[WholeLibrary:build] warning: Zeta23/Assembly.lean:885:47: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/Assembly.lean:958:34: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/Assembly.lean:962:90: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [3879/3974] Replayed Zeta23.Statement.Seam
+[WholeLibrary:build] warning: Zeta23/Statement/Seam.lean:59:13: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+[WholeLibrary:build] ⚠ [8725/8758] Replayed Zeta23.Tail
+[WholeLibrary:build] warning: Zeta23/Tail.lean:290:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/Tail.lean:399:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [8726/8758] Replayed Zeta23.ZeroSide
+[WholeLibrary:build] warning: Zeta23/ZeroSide.lean:701:4: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/ZeroSide.lean:706:66: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/ZeroSide.lean:712:52: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/ZeroSide.lean:755:53: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ℹ [8741/8904] Replayed Zeta23.GammaFacts.Mu
+[WholeLibrary:build] info: Zeta23/GammaFacts/Mu.lean:137:2: Try this:
+[WholeLibrary:build]   [apply] ring_nf
+[WholeLibrary:build]   
+[WholeLibrary:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[WholeLibrary:build]     
+[WholeLibrary:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[WholeLibrary:build] ℹ [8743/8904] Replayed Zeta23.GammaFacts.StirlingVert
+[WholeLibrary:build] info: Zeta23/GammaFacts/StirlingVert.lean:452:6: Try this:
+[WholeLibrary:build]   [apply] ring_nf
+[WholeLibrary:build]   
+[WholeLibrary:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[WholeLibrary:build]     
+[WholeLibrary:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[WholeLibrary:build] ⚠ [8747/8904] Replayed Zeta23.FromPNTPlus.StrongPNTPrefix
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:61:71: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:202:9: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:343:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:368:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:390:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:432:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [8755/8904] Replayed Zeta23.FromPNTPlus.ZetaBounds
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:859:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:952:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1092:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1099:32: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1105:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1115:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1119:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1135:54: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1157:22: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1169:15: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1169:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1185:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1835:19: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1837:45: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1840:28: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1844:28: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1900:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1906:20: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2091:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2884:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2940:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [8757/8904] Replayed Zeta23.RvM.Halving
+[WholeLibrary:build] warning: Zeta23/RvM/Halving.lean:52:55: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/RvM/Halving.lean:62:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/RvM/Halving.lean:70:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [8763/8904] Replayed Zeta23.RvM.ReZeroCount
+[WholeLibrary:build] warning: Zeta23/RvM/ReZeroCount.lean:272:15: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+[WholeLibrary:build] ⚠ [8768/8904] Replayed Zeta23.RvM.NcountWindow
+[WholeLibrary:build] warning: Zeta23/RvM/NcountWindow.lean:23:22: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [8771/8904] Replayed Zeta23.WeilEF.ZeroSummability
+[WholeLibrary:build] warning: Zeta23/WeilEF/ZeroSummability.lean:189:4: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [8774/8904] Replayed Zeta23.WeilEF.Landau
+[WholeLibrary:build] warning: Zeta23/WeilEF/Landau.lean:341:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/WeilEF/Landau.lean:437:64: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [8776/8904] Replayed Zeta23.WeilEF.Contour
+[WholeLibrary:build] warning: Zeta23/WeilEF/Contour.lean:69:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ℹ [8781/8904] Replayed Zeta23.WeilEF.Main
+[WholeLibrary:build] info: Zeta23/WeilEF/Main.lean:38:2: Try this:
+[WholeLibrary:build]   [apply] ring_nf
+[WholeLibrary:build]   
+[WholeLibrary:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[WholeLibrary:build]     
+[WholeLibrary:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[WholeLibrary:build] ⚠ [8782/8904] Replayed Zeta23.ZeroSide.RankTraceMult
+[WholeLibrary:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:49:32: Variable name `ht0` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _ht0
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:49:60: Variable name `hx` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:56:30: Variable name `hc` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hc
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:56:43: Variable name `hx` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:81:32: Variable name `hp` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hp
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:81:58: Variable name `hc` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hc
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:164:20: This simp argument is unused:
+[WholeLibrary:build]   Matrix.mul_assoc
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: Omit it from the simp argument list.
+[WholeLibrary:build]   [apply] simp
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+[WholeLibrary:build] warning: Zeta23/ZeroSide/RankTraceMult.lean:359:28: Variable name `hc` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hc
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8784/8904] Replayed Zeta23.Assembly.SeamMult
+[WholeLibrary:build] warning: Zeta23/Assembly/SeamMult.lean:26:0: automatically included section variable(s) unused in theorem `Zeta23.Assembly.ctr_sub_frobSq_perturb`:
+[WholeLibrary:build]   [DecidableEq n]
+[WholeLibrary:build] consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+[WholeLibrary:build]   omit [DecidableEq n] in theorem ...
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+[WholeLibrary:build] ℹ [8787/8904] Replayed Zeta23Ext.StableRankTrace
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:272:0: 'Zeta23Ext.StableRankTrace.Psi_eq_gc_two_add_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:273:0: 'Zeta23Ext.StableRankTrace.Psi_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:274:0: 'Zeta23Ext.StableRankTrace.two_mul_sub_one_add_Psi_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:275:0: 'Zeta23Ext.StableRankTrace.pmat_eigCols' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:276:0: 'Zeta23Ext.StableRankTrace.xsq_eigCols' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:277:0: 'Zeta23Ext.StableRankTrace.rtrace_specMap_Psi' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:278:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_sharp' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:279:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:280:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_no_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:281:0: 'Zeta23Ext.StableRankTrace.stable_rank_trace_collapse' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/StableRankTrace.lean:282:0: 'Zeta23Ext.StableRankTrace.sharp_le_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8788/8904] Replayed Zeta23Ext.Bridge.Helpers_pinching
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:314:0: 'Zeta23Ext.Bridge.Psi_convexOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:315:0: 'Zeta23Ext.Bridge.eigenvalues_submatrix_eq_mix' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:316:0: 'Zeta23Ext.Bridge.sum_eigenvalues_submatrix_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:317:0: 'Zeta23Ext.Bridge.sum_eigenvalues_pinching_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:318:0: 'Zeta23Ext.Bridge.sum_eigenvalues_submatrix_le_of_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:319:0: 'Zeta23Ext.Bridge.rtrace_specMap_pinching_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_pinching.lean:320:0: 'Zeta23Ext.Bridge.rtrace_specMap_submatrix_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ⚠ [8793/8904] Replayed Zeta23.MV.Spacing
+[WholeLibrary:build] warning: Zeta23/MV/Spacing.lean:58:0: automatically included section variable(s) unused in theorem `Zeta23.MV.Adm.itv_disjoint`:
+[WholeLibrary:build]   [Fintype ι]
+[WholeLibrary:build]   [DecidableEq ι]
+[WholeLibrary:build] consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+[WholeLibrary:build]   omit [Fintype ι] [DecidableEq ι] in theorem ...
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+[WholeLibrary:build] warning: Zeta23/MV/Spacing.lean:153:8: automatically included section variable(s) unused in theorem `_private.Zeta23.MV.Spacing.0.Zeta23.MV.Adm.mem_window`:
+[WholeLibrary:build]   [Fintype ι]
+[WholeLibrary:build]   [DecidableEq ι]
+[WholeLibrary:build] consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+[WholeLibrary:build]   omit [Fintype ι] [DecidableEq ι] in theorem ...
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+[WholeLibrary:build] ⚠ [8808/8904] Replayed Zeta23.PrimeSideA.EndsE1
+[WholeLibrary:build] warning: Zeta23/PrimeSideA/EndsE1.lean:326:41: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ℹ [8813/8904] Replayed Zeta23.PrimeSideA
+[WholeLibrary:build] info: Zeta23/PrimeSideA.lean:372:0: lem_ends : ∀ (cϱ lam : ℝ),
+[WholeLibrary:build]   GammaFacts →
+[WholeLibrary:build]     ChebyshevMertens →
+[WholeLibrary:build]       0 < lam ∧ lam ≤ 1 →
+[WholeLibrary:build]         ∃ C, EventuallyAtCore cϱ lam fun p F ↦ |trGt2A p F - MtotalA p F| ≤ C * (p.L * p.l * log p.l * (p.l ^ 2 + p.X))
+[WholeLibrary:build] info: Zeta23/PrimeSideA.lean:398:0: prop_mumu : ∀ (cϱ lam : ℝ),
+[WholeLibrary:build]   GammaFacts →
+[WholeLibrary:build]     ChebyshevMertens →
+[WholeLibrary:build]       0 < lam ∧ lam ≤ 1 →
+[WholeLibrary:build]         ∃ C,
+[WholeLibrary:build]           EventuallyAtCore cϱ lam fun p F ↦
+[WholeLibrary:build]             |Mform F.Phi p.T mu mu - 2 * π * F.b * p.L * ∫ (τ : ℝ) in p.T..2 * p.T, mu τ ^ 2| ≤ C * (p.l ^ 2 * log p.L)
+[WholeLibrary:build] info: Zeta23/PrimeSideA.lean:404:0: prop_cross_muP : ∀ (cϱ lam : ℝ),
+[WholeLibrary:build]   GammaFacts →
+[WholeLibrary:build]     ChebyshevMertens →
+[WholeLibrary:build]       0 < lam ∧ lam ≤ 1 → ∃ C, EventuallyAtCore cϱ lam fun p F ↦ |Mform F.Phi p.T mu (PX p.X)| ≤ C * (p.l * √p.X)
+[WholeLibrary:build] ⚠ [8825/8904] Replayed Zeta23.ThmD.WindowCore
+[WholeLibrary:build] warning: Zeta23/ThmD/WindowCore.lean:388:22: Variable name `u` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _u
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8828/8904] Replayed Zeta23.ThmD.Window
+[WholeLibrary:build] warning: Zeta23/ThmD/Window.lean:132:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ⚠ [8832/8904] Replayed Zeta23.ThmD.PP
+[WholeLibrary:build] warning: Zeta23/ThmD/PP.lean:270:29: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] warning: Zeta23/ThmD/PP.lean:276:29: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+[WholeLibrary:build] ℹ [8841/8904] Replayed Zeta23Ext.Bridge.Defs
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:291:0: 'Zeta23Ext.Bridge.pts_eq_ptsN' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:292:0: 'Zeta23Ext.Bridge.F6_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:293:0: 'Zeta23Ext.Bridge.Phi_eq_Phi_n' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:294:0: 'Zeta23Ext.Bridge.abs_sub_le_spanOf' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:295:0: 'Zeta23Ext.Bridge.spanOf_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:296:0: 'Zeta23Ext.Bridge.defect_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:297:0: 'Zeta23Ext.Bridge.blockDefect_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:298:0: 'Zeta23Ext.Bridge.Q'_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:299:0: 'Zeta23Ext.Bridge.P₁_add_Q'' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:300:0: 'Zeta23Ext.Bridge.gram_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:301:0: 'Zeta23Ext.Bridge.gram_posSemidef' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:302:0: 'Zeta23Ext.Bridge.toS₁_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Defs.lean:303:0: 'Zeta23Ext.Bridge.xret_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8842/8904] Replayed Zeta23Ext.Bridge.S6
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S6.lean:100:0: 'Zeta23Ext.Bridge.P₁_eq_simplePart' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S6.lean:101:0: 'Zeta23Ext.Bridge.regroup_posIndex' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8843/8904] Replayed Zeta23Ext.Bridge.S7
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S7.lean:69:0: 'Zeta23Ext.Bridge.Vsimple_col_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S7.lean:70:0: 'Zeta23Ext.Bridge.count_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8844/8904] Replayed Zeta23Ext.Bridge.Helpers_S8
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_S8.lean:259:0: 'Zeta23Ext.Bridge.seamA_mult2_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_S8.lean:260:0: 'Zeta23Ext.Bridge.endgame_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8845/8904] Replayed Zeta23Ext.Bridge.S8
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S8.lean:88:0: 'Zeta23Ext.Bridge.tail_passage' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8847/8904] Replayed Zeta23Ext.Bridge.S9
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S9.lean:188:0: 'Zeta23Ext.Bridge.kernel_limit' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S9.lean:189:0: 'Zeta23Ext.Bridge.deleted_strips' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] ℹ [8848/8904] Replayed Zeta23Ext.Bridge.Helpers_finite
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:164:0: 'Zeta23Ext.Bridge.abs_kfun_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:165:0: 'Zeta23Ext.Bridge.wfun_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:166:0: 'Zeta23Ext.Bridge.ptsN_windowGaps' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:167:0: 'Zeta23Ext.Bridge.F_windowGaps' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Helpers_finite.lean:168:0: 'Zeta23Ext.Bridge.sum_shift_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8849/8904] Replayed Zeta23Ext.Bridge.S11
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S11.lean:295:0: 'Zeta23Ext.Bridge.energyOn_eq_sorted' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S11.lean:296:0: 'Zeta23Ext.Bridge.window_pairs_le_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S11.lean:297:0: 'Zeta23Ext.Bridge.block_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8850/8904] Replayed Zeta23Ext.Bridge.S12
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S12.lean:83:0: 'Zeta23Ext.Bridge.specMap_const_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S12.lean:84:0: 'Zeta23Ext.Bridge.block_defect_of_isHermitian' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S12.lean:85:0: 'Zeta23Ext.Bridge.block_defect' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8851/8904] Replayed Zeta23Ext.Bridge.S13
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S13.lean:157:0: 'Zeta23Ext.Bridge.sq_sub_two_mul_le_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S13.lean:158:0: 'Zeta23Ext.Bridge.offDiagSqOn_submatrix' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S13.lean:159:0: 'Zeta23Ext.Bridge.block_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8852/8904] Replayed Zeta23Ext.Bridge.S14
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S14.lean:69:0: 'Zeta23Ext.Bridge.pinching_partition' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S14.lean:70:0: 'Zeta23Ext.Bridge.pinching_submatrix' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8853/8904] Replayed Zeta23Ext.Bridge.S15
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S15.lean:354:0: 'Zeta23Ext.Bridge.sum_shift_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S15.lean:355:0: 'Zeta23Ext.Bridge.blockStart_eq_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S15.lean:356:0: 'Zeta23Ext.Bridge.offset_average' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S15.lean:357:0: 'Zeta23Ext.Bridge.spanOf_xret_le_d' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S15.lean:358:0: 'Zeta23Ext.Bridge.span_retained_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8854/8904] Replayed Zeta23Ext.Bridge.S16
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S16.lean:98:0: 'Zeta23Ext.Bridge.one_sub_div_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S16.lean:99:0: 'Zeta23Ext.Bridge.solve_linear' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S16.lean:100:0: 'Zeta23Ext.Bridge.Phi_paper' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S16.lean:101:0: 'Zeta23Ext.Bridge.Phi_paper'' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S16.lean:102:0: 'Zeta23Ext.Bridge.Phi_lab' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/S16.lean:103:0: 'Zeta23Ext.Bridge.Phi_lab8' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ℹ [8855/8904] Replayed Zeta23Ext.Bridge.Main
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:401:0: 'Zeta23Ext.Bridge.F6_eq' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:402:0: 'Zeta23Ext.Bridge.Phi_eq_Phi_n' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:403:0: 'Zeta23Ext.Bridge.solve_linear' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:404:0: 'Zeta23Ext.Bridge.Phi_paper' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:405:0: 'Zeta23Ext.Bridge.Phi_paper'' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:406:0: 'Zeta23Ext.Bridge.eventually_L_pos' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:407:0: 'Zeta23Ext.Bridge.count_defect' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:408:0: 'Zeta23Ext.Bridge.eventually_h7' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:409:0: 'Zeta23Ext.Bridge.block_bound_eventually' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:410:0: 'Zeta23Ext.Bridge.pre_solve' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:411:0: 'Zeta23Ext.Bridge.n_point_bound' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:412:0: 'Zeta23Ext.Bridge.seven_point_bound' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:413:0: 'Zeta23Ext.Bridge.seven_point_bound_paper' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:414:0: 'Zeta23Ext.Bridge.eventually_Ncount_pos' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:415:0: 'Zeta23Ext.Bridge.seven_point_bound_lab' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:416:0: 'Zeta23Ext.Bridge.seven_point_bound_lab_ratio' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:417:0: 'Zeta23Ext.Bridge.Phi_lab8' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:418:0: 'Zeta23Ext.Bridge.eight_point_bound' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] info: Zeta23Ext/Bridge/Main.lean:419:0: 'Zeta23Ext.Bridge.eight_point_bound_ratio' depends on axioms: [propext, choice, Quot.sound]
+[WholeLibrary:build] ⚠ [8885/8904] Replayed FourPointCand.Chunks0
+[WholeLibrary:build] warning: FourPointCand/Chunks0.lean:6029:27: Variable name `hy2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hy2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks0.lean:6030:28: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks0.lean:6042:49: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks0.lean:6043:28: Variable name `hy2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hy2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks0.lean:6044:28: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8888/8904] Replayed FourPointCand.Chunks3
+[WholeLibrary:build] warning: FourPointCand/Chunks3.lean:12:46: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks3.lean:14:28: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks3.lean:5982:48: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks3.lean:5983:27: Variable name `hy2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hy2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8889/8904] Replayed FourPointCand.Chunks4
+[WholeLibrary:build] warning: FourPointCand/Chunks4.lean:12:48: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks4.lean:6028:48: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks4.lean:6029:28: Variable name `hy2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hy2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks4.lean:6030:28: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8890/8904] Replayed FourPointCand.Chunks5
+[WholeLibrary:build] warning: FourPointCand/Chunks5.lean:6020:48: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks5.lean:6022:28: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8893/8904] Replayed FourPointCand.Chunks8
+[WholeLibrary:build] warning: FourPointCand/Chunks8.lean:14:27: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks8.lean:5663:48: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks8.lean:5664:27: Variable name `hy2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hy2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks8.lean:5932:48: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks8.lean:5933:28: Variable name `hy2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hy2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks8.lean:5934:28: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8894/8904] Replayed FourPointCand.Chunks9
+[WholeLibrary:build] warning: FourPointCand/Chunks9.lean:5459:27: Variable name `hy2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hy2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks9.lean:5460:27: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8895/8904] Replayed FourPointCand.Chunks10
+[WholeLibrary:build] warning: FourPointCand/Chunks10.lean:5713:48: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks10.lean:5715:27: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8898/8904] Replayed FourPointCand.Chunks13
+[WholeLibrary:build] warning: FourPointCand/Chunks13.lean:6063:27: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks13.lean:6084:28: Variable name `hy2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hy2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ⚠ [8899/8904] Replayed FourPointCand.Chunks14
+[WholeLibrary:build] warning: FourPointCand/Chunks14.lean:5796:50: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks14.lean:5975:49: Variable name `hx2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hx2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks14.lean:5976:27: Variable name `hy2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hy2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] warning: FourPointCand/Chunks14.lean:5977:28: Variable name `hz2` is not explicitly referenced.
+[WholeLibrary:build] 
+[WholeLibrary:build] Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+[WholeLibrary:build]   [apply] _hz2
+[WholeLibrary:build] 
+[WholeLibrary:build] Note: This linter can be disabled with `set_option linter.unusedVariables false`
+[WholeLibrary:build] ℹ [8902/8904] Replayed FourPointCand.Main
+[WholeLibrary:build] info: FourPointCand/Main.lean:38:6: Try this:
+[WholeLibrary:build]   [apply] ring_nf
+[WholeLibrary:build]   
+[WholeLibrary:build]   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+[WholeLibrary:build]     
+[WholeLibrary:build]   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+[WholeLibrary:build] info: FourPointCand/Main.lean:206:0: 'Zeta23Ext.Bridge.FourPoint.F4_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: FourPointCand/Main.lean:207:0: 'Zeta23Ext.Bridge.FourPoint.cover1' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: FourPointCand/Main.lean:208:0: 'Zeta23Ext.Bridge.FourPoint.four_point_cert' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: FourPointCand/Main.lean:209:0: 'Zeta23Ext.Bridge.FourPoint.Phi_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: FourPointCand/Main.lean:210:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] info: FourPointCand/Main.lean:211:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
+[WholeLibrary:build] ✔ [8903/8904] Built FourPointCand (30s)
+[WholeLibrary:build] Build completed successfully (8904 jobs).
+FPRECEIPT_JSON {"index": 48, "name": "WholeLibrary", "module": "FourPointCand", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand"], "rc": 0, "reason": null, "elapsed": 65.2, "n_lines": 499, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand.olean", "sha256": "fd6641e3e9092c2541c3eb2ab55702b27bba80fb85ae6fa80de07de6caa47aa2", "bytes": 3648}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 65.6}
+Saving image...
+Image saved, took 4.33s
+Finished image build for im-6OZMQf9oFxqLnic4UBo4mf
+✓ Created objects.
+├── 🔨 Created mount 
+│   <PRIVATE-LOCAL-SCRATCH>/zeta-fourpoint-serial/serial.py
+├── 🔨 Created mount PythonPackage:fpcommon, PythonPackage:fpserial
+├── 🔨 Created function layer_final3_preflight.
+├── 🔨 Created function layer_build.
+├── 🔨 Created function layer_build.
+├── 🔨 Created function layer_build.
+└── 🔨 Created function verify.
+SERIAL app_id=ap-7zxzQj0YqTwlQUP6P06ecn run_id=20260928t220203 plan=final3 head=5522b963
+FPVERIFY_JSON {"resources": {"nproc": 2, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "problems": [], "fp_tree_sha256": "a72e89fc0b5f1d72a41d17ef5f5b7be892b238f15668384dd866382fe8962c82", "bridge_tree_sha256": "a4931d8311da41b1a41cba4f63cda6a0313167bc447ad1674d28159a92f8d2ff", "lean_toolchain_file": "leanprover/lean4:v4.33.0-rc2", "lean_version_output": "Lean (version 4.33.0-rc2, x86_64-unknown-linux-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)", "token_scan": {"fp_hits": [], "bridge_hits": [], "unterminated": []}, "receipts": {"preflight": {"index": 0, "name": "preflight", "module": null, "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [], "fp_tree_sha256": "a72e89fc0b5f1d72a41d17ef5f5b7be892b238f15668384dd866382fe8962c82", "bridge_tree_sha256": "a4931d8311da41b1a41cba4f63cda6a0313167bc447ad1674d28159a92f8d2ff", "fp_files": 51, "bridge_files": 84, "hash_equal": true, "token_scan": {"fp_hits": [], "bridge_hits": [], "string_hits": [], "unterminated": []}, "ok": true, "elapsed": 0}, "Base": {"index": 1, "name": "Base", "module": "FourPointCand.Base", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Base"], "rc": 0, "reason": null, "elapsed": 67.2, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Base.olean", "sha256": "f1519e29dcdea1c16ef7edf5afbb45d815c9f1b8e7d046ff5dfbd2b92ae4f24e", "bytes": 5086000}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 67.6}, "Cells0": {"index": 2, "name": "Cells0", "module": "FourPointCand.Cells0", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells0"], "rc": 0, "reason": null, "elapsed": 224.7, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells0.olean", "sha256": "c2536e28ca766c2ef018d6e4e7e73a084ba2d3b761758871b2e6e4ccb2060d10", "bytes": 63387248}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 225.2}, "Cells1": {"index": 3, "name": "Cells1", "module": "FourPointCand.Cells1", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells1"], "rc": 0, "reason": null, "elapsed": 260.8, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells1.olean", "sha256": "4f35e716fabac27b3e19f0fa8eb0a6f104d8de6d7dc4479e1d212a7a125a8d49", "bytes": 65249416}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 261.5}, "Cells2": {"index": 4, "name": "Cells2", "module": "FourPointCand.Cells2", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells2"], "rc": 0, "reason": null, "elapsed": 646.7, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells2.olean", "sha256": "c65236689366fbaf8ef52f3b0b41bbdd95b37550ec5db7da2d3b0cdf05aac351", "bytes": 61092928}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 647.2}, "Cells3": {"index": 5, "name": "Cells3", "module": "FourPointCand.Cells3", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells3"], "rc": 0, "reason": null, "elapsed": 161.1, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells3.olean", "sha256": "d517326dd03d8ed5ca67260a49ff7102ddec3605d1b0906457b451f36877a26a", "bytes": 61257096}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 161.5}, "Cells4": {"index": 6, "name": "Cells4", "module": "FourPointCand.Cells4", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells4"], "rc": 0, "reason": null, "elapsed": 241.7, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells4.olean", "sha256": "de7ae8ea3a50ceded67130e4abde9fc7d3e7fb1e7c0fe1f1b7ce6b42d521437c", "bytes": 62629896}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 242.2}, "Cells5": {"index": 7, "name": "Cells5", "module": "FourPointCand.Cells5", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells5"], "rc": 0, "reason": null, "elapsed": 232.5, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells5.olean", "sha256": "839d2202edffb036edf86ee07fc3c91111701568f4d144e8446e2e2c1573600d", "bytes": 61321160}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 233.1}, "Cells6": {"index": 8, "name": "Cells6", "module": "FourPointCand.Cells6", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells6"], "rc": 0, "reason": null, "elapsed": 403.8, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells6.olean", "sha256": "a744df6dbb472350bb9d8253f11e2fa1ec91e69caec7039a0a150d074b48a3ff", "bytes": 58127224}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 405.2}, "Cells7": {"index": 9, "name": "Cells7", "module": "FourPointCand.Cells7", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells7"], "rc": 0, "reason": null, "elapsed": 211.2, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells7.olean", "sha256": "9eb22050dee671111b3fcd99380a8d253470a1161bb56bf37404e81d9bedbeab", "bytes": 57993904}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 211.6}, "Cells8": {"index": 10, "name": "Cells8", "module": "FourPointCand.Cells8", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells8"], "rc": 0, "reason": null, "elapsed": 194.7, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells8.olean", "sha256": "8645ae00e09672d87a10b961994b82caabd0802312464b1162a32be55be2ab90", "bytes": 59410672}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 195.1}, "Cells9": {"index": 11, "name": "Cells9", "module": "FourPointCand.Cells9", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells9"], "rc": 0, "reason": null, "elapsed": 235.2, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells9.olean", "sha256": "aa24b3df127364b01d34274a5c5a5ef47e4a758c9c70840a593f8eae041ae1cd", "bytes": 59762232}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 235.6}, "Cells10": {"index": 12, "name": "Cells10", "module": "FourPointCand.Cells10", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells10"], "rc": 0, "reason": null, "elapsed": 253.0, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells10.olean", "sha256": "960e90ac331ce644881f882ca8ef45716e4362d4030ea6292e23352296aee8fe", "bytes": 61944864}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 253.4}, "Cells11": {"index": 13, "name": "Cells11", "module": "FourPointCand.Cells11", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells11"], "rc": 0, "reason": null, "elapsed": 245.9, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells11.olean", "sha256": "bc2d381dc5b4dfd30c8fcb522c68c673cb005c8854353ed80f7675a475091a1b", "bytes": 60504288}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 246.5}, "Cells12": {"index": 14, "name": "Cells12", "module": "FourPointCand.Cells12", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells12"], "rc": 0, "reason": null, "elapsed": 241.2, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells12.olean", "sha256": "f0d7a28443001192995766b954f26e9197b168928d5f0645b6690862c582002a", "bytes": 65538680}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 241.8}, "Cells13": {"index": 15, "name": "Cells13", "module": "FourPointCand.Cells13", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells13"], "rc": 0, "reason": null, "elapsed": 216.7, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells13.olean", "sha256": "ea2f5d328757994b4fe90f36e9bf0c34878fc102146d3feb232178b72a473cd5", "bytes": 60120680}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 217.2}, "Cells14": {"index": 16, "name": "Cells14", "module": "FourPointCand.Cells14", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells14"], "rc": 0, "reason": null, "elapsed": 192.3, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells14.olean", "sha256": "781dd9012b9ae2bd60ae931302070f4f879518f8e4563086951890f2f4735a91", "bytes": 57518056}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 192.8}, "Cells15": {"index": 17, "name": "Cells15", "module": "FourPointCand.Cells15", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells15"], "rc": 0, "reason": null, "elapsed": 258.4, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells15.olean", "sha256": "ad18bb6c8ec0372c20d05884649c1f0400b697af8a986cc80003714ecc7d3bb5", "bytes": 58372808}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 259.0}, "Cells16": {"index": 18, "name": "Cells16", "module": "FourPointCand.Cells16", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells16"], "rc": 0, "reason": null, "elapsed": 205.7, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells16.olean", "sha256": "aad89eeb2d76ea3a5a0b5f0a19c4df6a8b3db12d114ffe754bb2e7fdeb1fcc92", "bytes": 56945480}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 206.1}, "Cells17": {"index": 19, "name": "Cells17", "module": "FourPointCand.Cells17", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells17"], "rc": 0, "reason": null, "elapsed": 250.8, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells17.olean", "sha256": "65f7748abf0c3fa19dcb98e66084e2be3b905b511801e7b7fb66330cc9e2525c", "bytes": 57548424}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 251.4}, "Cells18": {"index": 20, "name": "Cells18", "module": "FourPointCand.Cells18", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells18"], "rc": 0, "reason": null, "elapsed": 233.7, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells18.olean", "sha256": "167aa2e6cf0e7e195cf895008829fd0f0ffef194c9d5d6d51b7b67f1a5903da8", "bytes": 57857520}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 234.3}, "Cells19": {"index": 21, "name": "Cells19", "module": "FourPointCand.Cells19", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells19"], "rc": 0, "reason": null, "elapsed": 274.9, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells19.olean", "sha256": "4d02354fb7bbdc94ef00822557b0dfac568f7053bb3b77f116bd9ee1e38728d8", "bytes": 58129232}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 275.5}, "Cells20": {"index": 22, "name": "Cells20", "module": "FourPointCand.Cells20", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells20"], "rc": 0, "reason": null, "elapsed": 380.0, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells20.olean", "sha256": "eb7d5778f561b801554ab8d57329bf44a362b3c6e784f7514eeccf4a9bd7cf9f", "bytes": 64821776}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 381.2}, "Cells21": {"index": 23, "name": "Cells21", "module": "FourPointCand.Cells21", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells21"], "rc": 0, "reason": null, "elapsed": 223.7, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells21.olean", "sha256": "5ec6191a119803b17ea055398f8b65a5ffd7a6be09c63e8bf0df4234fde0b24c", "bytes": 62693360}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 224.2}, "Cells22": {"index": 24, "name": "Cells22", "module": "FourPointCand.Cells22", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells22"], "rc": 0, "reason": null, "elapsed": 247.1, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells22.olean", "sha256": "9aeb827918ed6573c19596c2fcb0b1a9545b53536fcee0a3b438b508b8ad661d", "bytes": 64713728}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 247.6}, "Cells23": {"index": 25, "name": "Cells23", "module": "FourPointCand.Cells23", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells23"], "rc": 0, "reason": null, "elapsed": 240.2, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells23.olean", "sha256": "a7f5fd7a4bfec6cf425480b8f9f7325ca5582ce1a65280c05c4608eadf45d207", "bytes": 65930568}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 240.8}, "Cells24": {"index": 26, "name": "Cells24", "module": "FourPointCand.Cells24", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells24"], "rc": 0, "reason": null, "elapsed": 223.4, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells24.olean", "sha256": "6bcd84ded893d2f2a8f5c9b4d26a8ffcf456a86f30f7a25a116fecd4a6a49790", "bytes": 65956272}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 223.9}, "Cells25": {"index": 27, "name": "Cells25", "module": "FourPointCand.Cells25", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells25"], "rc": 0, "reason": null, "elapsed": 91.2, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells25.olean", "sha256": "f47d1743999624a49fdaf810f8e5a6f3d87d6025612577cadf523d6a30f4e6d4", "bytes": 18198944}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 91.5}, "Cells": {"index": 28, "name": "Cells", "module": "FourPointCand.Cells", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cells"], "rc": 0, "reason": null, "elapsed": 150.5, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells.olean", "sha256": "6460057e537080719041b71df393919355924dc843ed3f2bebf61774491f3926", "bytes": 4120}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 150.8}, "Cover": {"index": 29, "name": "Cover", "module": "FourPointCand.Cover", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Cover"], "rc": 0, "reason": null, "elapsed": 120.0, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cover.olean", "sha256": "19faa5471e27323bbb3eea34632eca37092705f9e32d4821fd1080e8ca629308", "bytes": 911352}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 120.5}, "Chunks0": {"index": 30, "name": "Chunks0", "module": "FourPointCand.Chunks0", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks0"], "rc": 0, "reason": null, "elapsed": 661.8, "n_lines": 321, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks0.olean", "sha256": "ba6470aab112eefeb7d1f51f4799e547f09c925d89ab36628a26a8d328c37cf8", "bytes": 41514040}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 662.2}, "Chunks1": {"index": 31, "name": "Chunks1", "module": "FourPointCand.Chunks1", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks1"], "rc": 0, "reason": null, "elapsed": 919.1, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks1.olean", "sha256": "fb4a7fd937af5a73751c03e2a63751c857c5b82bffa62d000558eb39c00d2b85", "bytes": 45425696}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 919.7}, "Chunks2": {"index": 32, "name": "Chunks2", "module": "FourPointCand.Chunks2", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks2"], "rc": 0, "reason": null, "elapsed": 905.3, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks2.olean", "sha256": "b8f26b5f3d332b377b1596731f49b94aa1fe41dc43dde5d243d85b72daced7b4", "bytes": 41632192}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 905.6}, "Chunks3": {"index": 33, "name": "Chunks3", "module": "FourPointCand.Chunks3", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks3"], "rc": 0, "reason": null, "elapsed": 721.0, "n_lines": 315, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks3.olean", "sha256": "6a0647e939a7a8fca31ff674a65d54bcc5ab99a6d8a943f5bb558f2f2f523263", "bytes": 40122856}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 721.5}, "Chunks4": {"index": 34, "name": "Chunks4", "module": "FourPointCand.Chunks4", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks4"], "rc": 0, "reason": null, "elapsed": 1518.8, "n_lines": 315, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks4.olean", "sha256": "69a01534ecd0356cafda2b46368986369cc397fae08c7488a84b65237416016e", "bytes": 40360736}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 1519.6}, "Chunks5": {"index": 35, "name": "Chunks5", "module": "FourPointCand.Chunks5", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks5"], "rc": 0, "reason": null, "elapsed": 841.5, "n_lines": 303, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks5.olean", "sha256": "83a1211da32d0e064ebc0971232e88b1bedccc61c47f51c52d22684c370fdacf", "bytes": 41847904}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 842.1}, "Chunks6": {"index": 36, "name": "Chunks6", "module": "FourPointCand.Chunks6", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks6"], "rc": 0, "reason": null, "elapsed": 661.3, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks6.olean", "sha256": "b173ed8e8cde7f8435dc435254ca53bb41782261206e31b45219e6b7d700ae47", "bytes": 38399120}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 661.7}, "Chunks7": {"index": 37, "name": "Chunks7", "module": "FourPointCand.Chunks7", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks7"], "rc": 0, "reason": null, "elapsed": 873.9, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks7.olean", "sha256": "561909c016d19207f30736a664c81d16fab5a8813d0a153b734aa55d13122572", "bytes": 43886656}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 874.4}, "Chunks8": {"index": 38, "name": "Chunks8", "module": "FourPointCand.Chunks8", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks8"], "rc": 0, "reason": null, "elapsed": 694.8, "n_lines": 327, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks8.olean", "sha256": "1fdf9f632529a5a7599cc994768630a6fecf665ec6eb01a0835e11ffb9a2b6b3", "bytes": 41094456}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 695.3}, "Chunks9": {"index": 39, "name": "Chunks9", "module": "FourPointCand.Chunks9", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks9"], "rc": 0, "reason": null, "elapsed": 754.1, "n_lines": 303, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks9.olean", "sha256": "97b34883ba4785ceadb8cb9f8f76f7ef7b029ce9aecb25bc154768534a47746e", "bytes": 43564640}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 754.6}, "Chunks10": {"index": 40, "name": "Chunks10", "module": "FourPointCand.Chunks10", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks10"], "rc": 0, "reason": null, "elapsed": 574.5, "n_lines": 303, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks10.olean", "sha256": "e31883223db2568d5869177abe59b21dcee3593ef360e15f77ed7cbc14ff9781", "bytes": 39685032}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 574.9}, "Chunks11": {"index": 41, "name": "Chunks11", "module": "FourPointCand.Chunks11", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks11"], "rc": 0, "reason": null, "elapsed": 955.9, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks11.olean", "sha256": "0a4d6067da67788440b919e77d0f0c94862cf37b2066835c1f80045465bcc384", "bytes": 40150328}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 956.4}, "Chunks12": {"index": 42, "name": "Chunks12", "module": "FourPointCand.Chunks12", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks12"], "rc": 0, "reason": null, "elapsed": 589.9, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks12.olean", "sha256": "164c2944c4de8532ced45469fc8a478d7f84c6eecab30af2e8b204d235203eed", "bytes": 37314464}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 590.3}, "Chunks13": {"index": 43, "name": "Chunks13", "module": "FourPointCand.Chunks13", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks13"], "rc": 0, "reason": null, "elapsed": 888.5, "n_lines": 303, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks13.olean", "sha256": "196c88cf0f2ded8de88b9fab5f51c2555fab2ad1272858ba87f70275e65ee4a2", "bytes": 35422480}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 888.9}, "Chunks14": {"index": 44, "name": "Chunks14", "module": "FourPointCand.Chunks14", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks14"], "rc": 0, "reason": null, "elapsed": 567.1, "n_lines": 315, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks14.olean", "sha256": "f53fabcac4d5f676d164c79bb5741585b0965250b362589ca9bcf9c9bb314204", "bytes": 39336424}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 567.5}, "Chunks15": {"index": 45, "name": "Chunks15", "module": "FourPointCand.Chunks15", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Chunks15"], "rc": 0, "reason": null, "elapsed": 1036.4, "n_lines": 291, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks15.olean", "sha256": "891f1500099536771d31d1cfe27c76f9f1efdd49b397aae9d4b0ec09a06dc49a", "bytes": 40715304}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 1036.9}, "Boxes": {"index": 46, "name": "Boxes", "module": "FourPointCand.Boxes", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Boxes"], "rc": 0, "reason": null, "elapsed": 619.1, "n_lines": 486, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Boxes.olean", "sha256": "dfd161dc66db762f17403449ded5abc7b02fbd1c8844645e15c69235db1adced", "bytes": 2125440}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 619.6}, "Main": {"index": 47, "name": "Main", "module": "FourPointCand.Main", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand.Main"], "rc": 0, "reason": null, "elapsed": 85.1, "n_lines": 498, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Main.olean", "sha256": "ffd87085e3906ecc1c924514823746cb4a8f3f443f221f5a2a883b00d3cc08f2", "bytes": 1273664}], "sorry_warnings": 0, "axiom_lines": ["info: FourPointCand/Main.lean:206:0: 'Zeta23Ext.Bridge.FourPoint.F4_eq' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:207:0: 'Zeta23Ext.Bridge.FourPoint.cover1' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:208:0: 'Zeta23Ext.Bridge.FourPoint.four_point_cert' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:209:0: 'Zeta23Ext.Bridge.FourPoint.Phi_four' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:210:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:211:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]"], "elapsed": 85.3}, "WholeLibrary": {"index": 48, "name": "WholeLibrary", "module": "FourPointCand", "resources": {"nproc": 18, "cpu.max": "unreadable: FileNotFoundError(2, 'No such file or directory')", "memory.max": "unreadable: FileNotFoundError(2, 'No such file or directory')"}, "steps": [{"label": "build", "argv": ["lake", "build", "FourPointCand"], "rc": 0, "reason": null, "elapsed": 65.2, "n_lines": 499, "first_error": null, "sorry_warnings": 0}], "ok": true, "olean": [{"path": "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand.olean", "sha256": "fd6641e3e9092c2541c3eb2ab55702b27bba80fb85ae6fa80de07de6caa47aa2", "bytes": 3648}], "sorry_warnings": 0, "axiom_lines": [], "elapsed": 65.6}}, "oleans": {"/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Base.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells0.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells1.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells2.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells3.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells4.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells5.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells6.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells7.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells8.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells9.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells10.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells11.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells12.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells13.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells14.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells15.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells16.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells17.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells18.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells19.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells20.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells21.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells22.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells23.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells24.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells25.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cells.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Cover.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks0.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks1.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks2.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks3.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks4.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks5.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks6.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks7.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks8.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks9.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks10.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks11.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks12.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks13.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks14.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Chunks15.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Boxes.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand/Main.olean": true, "/repo/hunts/ainta_seven_point/lean-four-point/.lake/build/lib/lean/FourPointCand.olean": true}, "unexpected_oleans": [], "main_axiom_lines": ["info: FourPointCand/Main.lean:206:0: 'Zeta23Ext.Bridge.FourPoint.F4_eq' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:207:0: 'Zeta23Ext.Bridge.FourPoint.cover1' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:208:0: 'Zeta23Ext.Bridge.FourPoint.four_point_cert' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:209:0: 'Zeta23Ext.Bridge.FourPoint.Phi_four' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:210:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound' depends on axioms: [propext, Classical.choice, Quot.sound]", "info: FourPointCand/Main.lean:211:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]"], "axiom_audit": {"ok": true, "rows": [{"name": "F4_eq", "axioms": [["Classical.choice", "Quot.sound", "propext"]], "clean": true}, {"name": "cover1", "axioms": [["Classical.choice", "Quot.sound", "propext"]], "clean": true}, {"name": "four_point_cert", "axioms": [["Classical.choice", "Quot.sound", "propext"]], "clean": true}, {"name": "Phi_four", "axioms": [["Classical.choice", "Quot.sound", "propext"]], "clean": true}, {"name": "four_point_bound", "axioms": [["Classical.choice", "Quot.sound", "propext"]], "clean": true}, {"name": "four_point_bound_ratio", "axioms": [["Classical.choice", "Quot.sound", "propext"]], "clean": true}], "other_fourpoint_decls": [], "other_nonstandard": []}, "main_statements": {"F4_eq": {"file": "Main.lean", "statement": "theorem F4_eq (p : \u2115) (g : Fin 3 \u2192 \u211d) :\n    F 4 p g = (1/(p:\u211d)) * (g 0 + g 1 + g 2)\n      + 2/3 * wfun (g 0) + 2/3 * wfun (g 1) + 2/3 * wfun (g 2)\n      + wfun (g 0 + g 1) + wfun (g 1 + g 2) + 2 * wfun (g 0 + g 1 + g 2)"}, "cover1": {"file": "Cover.lean", "statement": "theorem cover1 (x : \u211d) (h0 : 0 \u2264 x) (hS : x \u2264 (233/40:\u211d)) :\n    (699/200000:\u211d) \u2264 wfun x \u2228 ((63/64:\u211d) \u2264 x \u2227 x \u2264 (73/64:\u211d)) \u2228 ((121/64:\u211d) \u2264 x \u2227 x \u2264 (141/64:\u211d)) \u2228 ((179/64:\u211d) \u2264 x \u2227 x \u2264 (105/32:\u211d)) \u2228 ((237/64:\u211d) \u2264 x \u2227 x \u2264 (233/40:\u211d))"}, "four_point_cert": {"file": "Main.lean", "statement": "theorem four_point_cert :\n    \u2200 g : Fin (4-1) \u2192 \u211d, (\u2200 i, 0 \u2264 g i) \u2192 (2330/1000000:\u211d) \u2264 F 4 2500 g"}, "Phi_four": {"file": "Main.lean", "statement": "theorem Phi_four : Phi_n 4 (2330/1000000:\u211d) 432 2500 = (14400000 * HD 1 - 17240) / 14366681"}, "four_point_bound": {"file": "Main.lean", "statement": "theorem four_point_bound :\n    \u2200 \u03b5 > 0, \u2203 T\u2080 : \u211d, \u2200 T \u2265 T\u2080,\n      ((14400000 * HD 1 - 17240) / 14366681 - \u03b5) * (Ncount T (2 * T) : \u211d)\n        \u2264 N0simple T (2 * T)"}, "four_point_bound_ratio": {"file": "Main.lean", "statement": "theorem four_point_bound_ratio :\n    \u2200 \u03b5 > 0, \u2203 T\u2080 : \u211d, \u2200 T \u2265 T\u2080,\n      (14400000 * HD 1 - 17240) / 14366681 - \u03b5\n        \u2264 (N0simple T (2 * T) : \u211d) / (Ncount T (2 * T) : \u211d)"}}, "ok": true}
+Stopping app - uncaught exception raised locally: SystemExit(0).

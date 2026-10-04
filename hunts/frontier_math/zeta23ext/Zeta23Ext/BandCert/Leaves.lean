@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Iv
+module
+
+public import Zeta23Ext.BandCert.Iv
+
+@[expose] public section
 
 set_option maxRecDepth 40000
 

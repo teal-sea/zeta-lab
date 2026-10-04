@@ -1,0 +1,179 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-8ektPW0uhAr2FHdT1Tn6RJ
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   stage_b_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   envelope.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   harden.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   assemble.py
+├── 🔨 Created function unit.
+└── 🔨 Created function reduce.
+{"unit": [0, 100], "seconds": 12.211730480194092}
+{"unit": [100, 200], "seconds": 18.316461324691772}
+units wall 24 s
+{
+ "cfg": {
+  "L": "4/5",
+  "T": "100",
+  "env": "sine:16",
+  "N": 96,
+  "q": 64,
+  "prec": 256,
+  "h": "1/2",
+  "split": true,
+  "units": 2,
+  "tag": "stageBval_L08"
+ },
+ "S": "[1.5552528467195560000 +/- 3e-24]",
+ "beta": "[1.2020402728591898845 +/- 2.47e-20]",
+ "unit_seconds": [
+  12.211730480194092,
+  18.316461324691772
+ ],
+ "unit_seconds_sum": 30.528191804885864,
+ "node_shift_upper": "5.5077e-75",
+ "eps_Q_max": "5.7635e-44",
+ "eps_D": "[2.7569e-95 +/- 1.48e-100]",
+ "eps_B": "[3.0300e-44 +/- 4.28e-49]",
+ "K": "[853.46971 +/- 4.19e-6]",
+ "lemma31": {
+  "T_ge_15/4": true,
+  "beta_positive_arb": true,
+  "S_global_bound": "envelope.json, P_L - H <= S on all of R"
+ },
+ "main": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.15834026601e-17",
+  "t_measure_s": 0.11554455757141113,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "95681945057254130221516532286754205590910837190982405086438528946876677862995/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lambda0": "1.14675686335e-17",
+  "r": "3.2938e-76",
+  "lambdaA_lower_rounded_down": "114675686334e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "95681945057254130221516501252420277324427864687902490150966862669247769268625/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lower_bound_rounded_down": "114675686334e-28",
+  "t_total_s": 0.23224663734436035,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -2.1490122641755187
+   ]
+  }
+ },
+ "tight_0.9999": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.15834026601e-17",
+  "t_measure_s": 0.11350750923156738,
+  "lambda0_tries": [
+   {
+    "fac": "0.9999",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "96638764507826671523731697609621747646819945562892229137302914236345444641625/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lambda0": "1.15822443198e-17",
+  "r": "4.7594e-76",
+  "lambdaA_lower_rounded_down": "115822443198e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "48319382253913335761865833287643909690168486529906157100915012567757381734185/4171849679533027504677776769862406473833407270227837441302815640277772901915313574263597826048",
+  "lower_bound_rounded_down": "115822443198e-28",
+  "t_total_s": 0.21319150924682617,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -2.1490122641755187
+   ]
+  }
+ },
+ "lesion_dropH": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.15000537910e-17",
+  "t_measure_s": 0.11270642280578613,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "94993461530778449550360292609544943945052959795324618966848079410494745640785/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lambda0": "1.13850532531e-17",
+  "r": "3.5380e-76",
+  "lambdaA_lower_rounded_down": "113850532530e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "23748365382694612387590065393802753919642496823061176007844052362857556671691/2085924839766513752338888384931203236916703635113918720651407820138886450957656787131798913024",
+  "lower_bound_rounded_down": "113850532530e-28",
+  "t_total_s": 0.20564746856689453,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -1.3522905799504743
+   ]
+  }
+ },
+ "lesion_flipH": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.14075976182e-17",
+  "t_measure_s": 0.11353397369384766,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "94229749286184345290686598607300758611347225636460652339470652824252112061295/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lambda0": "1.12935216420e-17",
+  "r": "3.1049e-76",
+  "lambdaA_lower_rounded_down": "112935216420e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "94229749286184345290686567572966830344864253133380737403999144163146055345863/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lower_bound_rounded_down": "112935216420e-28",
+  "t_total_s": 0.20758652687072754,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -0.7753778602589076
+   ]
+  }
+ },
+ "harden_route_ldl_1.158e-17": {
+  "n_neg": 0,
+  "undecided": 0
+ },
+ "validation": {
+  "positive": true,
+  "le_1.158e-17_minus_epsB": true,
+  "ge_1.1579e-17": false,
+  "dropH_fails": false,
+  "flipH_fails": false
+ },
+ "reduce_seconds": 1.6303162574768066
+}
+total wall 30 s
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-8ektPW0uhAr2FHdT1Tn6RJ

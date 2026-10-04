@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.CertDefs
-import ZetaLean.Pub1.Aristotle.O
+public import Mathlib
+public import ZetaLean.Pub1.CertDefs
+public import ZetaLean.Pub1.Aristotle.O
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the 132 atomic integrals, in closed form

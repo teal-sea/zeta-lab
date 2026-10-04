@@ -324,7 +324,7 @@ first says what A(L) should be compared against.
 From the worktree root (all runs single-process, under 10 minutes each,
 estimates and actuals in `RUNS.md`):
 
-    P=/Users/thomas/zeta-lab/.venv/bin/python; cd hunts/weil_propagation/numerics
+    P="$PWD/.venv/bin/python"; cd hunts/weil_propagation/numerics
     $P repro.py                                   # task 1
     for a in "dh 64" "dh 128" "zeta 64" "zeta 128"; do $P transport.py $a; done
     for a in "dh 64" "dh 128" "zeta 64" "zeta 128"; do $P harden.py $a; done

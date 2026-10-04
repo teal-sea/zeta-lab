@@ -1,0 +1,1 @@
+Both decompressed payload hashes match the durable manifest.

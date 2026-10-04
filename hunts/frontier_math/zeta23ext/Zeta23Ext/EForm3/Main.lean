@@ -1,22 +1,26 @@
-import Mathlib
-import Zeta23Ext.EForm3.Counting
-import Zeta23Ext.EForm3.Gap
+module
+
+public import Mathlib
+public import Zeta23Ext.EForm3.Counting
+public import Zeta23Ext.EForm3.Gap
 -- O9's two-dimensional checker. Imported so a plain `lake build` elaborates
 -- it: `O9-2D-STATUS.md` §5 records that it was orphaned, so a green build said
 -- nothing whatever about the one obligation §4 calls "the only real work".
 -- What the import buys is that the 699-cell table is re-decided by the kernel
 -- on every build. What it does NOT buy is a statement about `Dam`: the `_mem`
 -- seams are unwritten, so this is table-consistency, not soundness.
-import Zeta23Ext.EForm3.O9Check2
-import Zeta23Ext.EForm3.O9Audit
+public import Zeta23Ext.EForm3.O9Check2
+public import Zeta23Ext.EForm3.O9Audit
 -- What the two numerator fields enclose, and how far that reaches: `reNum`
 -- encloses `Re num` unconditionally, `imNumOverY` encloses `Im num / y` only
 -- for `y ≠ 0` (at `y = 0` it encloses the removable limit, and the mismatch
 -- is exhibited rather than hedged). Both compositions are then read back
 -- against `Phi2` itself.
-import Zeta23Ext.EForm3.O9NumShape
-import Zeta23Ext.EForm3.O9Bridge
-import Zeta23Ext.EForm3.O9Modes
+public import Zeta23Ext.EForm3.O9NumShape
+public import Zeta23Ext.EForm3.O9Bridge
+public import Zeta23Ext.EForm3.O9Modes
+
+@[expose] public section
 
 open scoped BigOperators
 open scoped Real

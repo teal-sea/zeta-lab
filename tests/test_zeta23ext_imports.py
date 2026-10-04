@@ -31,7 +31,7 @@ import re
 
 PKG = pathlib.Path(__file__).resolve().parent.parent / "hunts" / "frontier_math" / "zeta23ext"
 
-_IMPORT = re.compile(r"^import\s+([A-Za-z_][\w.]*)", re.MULTILINE)
+_IMPORT = re.compile(r"^(?:public\s+)?(?:meta\s+)?import\s+([A-Za-z_][\w.]*)", re.MULTILINE)
 
 # Prefixes a module in this package may legitimately import: Mathlib and its
 # transitive dependencies, the upstream formalization, and the package itself.
@@ -153,6 +153,8 @@ def test_the_guard_fires_on_the_smallest_mutant(tmp_path) -> None:
 
     assert _offending(mutant) == ["RequestProject.Iv"], "guard missed the mutant"
     assert _offending(control) == [], "guard fires on the fixed file (false positive)"
+    mutant.write_text("module\npublic import RequestProject.Iv\n")
+    assert _offending(mutant) == ["RequestProject.Iv"], "guard missed a public import"
 
 
 def test_the_orphan_guard_fires_on_a_dropped_import(tmp_path) -> None:
@@ -189,3 +191,4 @@ def test_the_orphan_guard_fires_on_a_dropped_import(tmp_path) -> None:
 
     assert _orphans("import Pkg.Kept\n") == ["Pkg.Dropped"], "orphan guard missed the mutant"
     assert _orphans("import Pkg.Kept\nimport Pkg.Dropped\n") == [], "false positive"
+    assert _orphans("module\npublic import Pkg.Kept\n") == ["Pkg.Dropped"]

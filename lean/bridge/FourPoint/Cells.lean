@@ -1,17 +1,21 @@
-import FourPoint.Cells0
-import FourPoint.Cells1
-import FourPoint.Cells2
-import FourPoint.Cells3
-import FourPoint.Cells4
-import FourPoint.Cells5
-import FourPoint.Cells6
-import FourPoint.Cells7
-import FourPoint.Cells8
-import FourPoint.Cells9
-import FourPoint.Cells10
-import FourPoint.Cells11
-import FourPoint.Cells12
-import FourPoint.Cells13
-import FourPoint.Cells14
-import FourPoint.Cells15
-import FourPoint.Cells16
+module
+
+public import FourPoint.Cells0
+public import FourPoint.Cells1
+public import FourPoint.Cells2
+public import FourPoint.Cells3
+public import FourPoint.Cells4
+public import FourPoint.Cells5
+public import FourPoint.Cells6
+public import FourPoint.Cells7
+public import FourPoint.Cells8
+public import FourPoint.Cells9
+public import FourPoint.Cells10
+public import FourPoint.Cells11
+public import FourPoint.Cells12
+public import FourPoint.Cells13
+public import FourPoint.Cells14
+public import FourPoint.Cells15
+public import FourPoint.Cells16
+
+@[expose] public section

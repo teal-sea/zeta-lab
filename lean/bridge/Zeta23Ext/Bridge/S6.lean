@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.Defs
+public import Zeta23Ext.Bridge.Defs
+
+@[expose] public section
 
 /-!
 # S6: regrouping `Â = P₁ + Q'` with `n₊(Q') ≤ s₂ + p`  ([A] eq:index, [C26] Prop 4.4 proof body)

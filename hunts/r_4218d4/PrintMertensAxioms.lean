@@ -1,4 +1,8 @@
-import ZetaLean.HardyRamanujantheorem
+module
+
+public import ZetaLean.HardyRamanujantheorem
+
+@[expose] public section
 
 /-! Axiom audit for the Mertens / Hardy-Ramanujan constant chain tightened by
 hunt r_4218d4.  Run from `lean/` with

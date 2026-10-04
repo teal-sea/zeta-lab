@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.Defs
-import Zeta23Ext.Bridge.Helpers_pinching
+public import Zeta23Ext.Bridge.Defs
+public import Zeta23Ext.Bridge.Helpers_pinching
+
+@[expose] public section
 
 /-!
 # S14: block pinching  ([A] eq:pinching and Corollary 2.2's `D(M) ≥ D(M°)`)

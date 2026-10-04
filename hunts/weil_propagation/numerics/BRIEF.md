@@ -7,7 +7,7 @@ certainty ladder, compute discipline), then
 `hunts/rogue_frontier/weil_trunc/galerkin.py` (float/mpmath) and
 `enclosures.py` (Arb). Import them; do not rewrite them.
 
-Python: `/Users/thomas/zeta-lab/.venv/bin/python` with
+Python: `.venv/bin/python` with
 `PYTHONPATH=<this worktree root>`. python-flint is installed there.
 
 ## Question

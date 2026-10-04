@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
-import ZetaLean.IntervalCExp
-import ZetaLean.DHAssembly
+public import Mathlib
+public import ZetaLean.IntervalCExp
+public import ZetaLean.DHAssembly
+
+@[expose] public section
 
 /-!
 # The first certified enclosure of a Davenport-Heilbronn value

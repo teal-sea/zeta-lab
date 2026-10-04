@@ -181,9 +181,9 @@ Constants: `GAMMA1`
 
 ### `zeta/epstein.py`, The counterexample battery: Davenport-Heilbronn, gate #3 made computational.
 
-*1640 lines*
+*1670 lines*
 
-Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `SHIFTED_PRODUCT_SHIFT`
+Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `EPSTEIN_DIGITS_PER_UNIT_HEIGHT`, `SHIFTED_PRODUCT_SHIFT`
 
 - `chi5(n: int)`, The Dirichlet character mod 5 with chi(2) = i.
 - `L_chi(s, conjugate: bool = False, dps: int = DPS_DEFAULT)`, L(s, chi) for the mod-5 character of :func:`chi5`, via Hurwitz zeta:
@@ -205,6 +205,7 @@ Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `SHIFTED_PRODUCT_S
 - `epstein_functional_equation_defect(s, form: tuple[int, int, int], dps: int = DPS_DEFAULT)`, ``Lambda_Q(s) - Lambda_Q(1-s)``, which is **structurally zero here**.
 - `epstein_class_group_defect(s, discriminant: int, dps: int = DPS_DEFAULT)`, Measured defect of ``sum_Q zeta_Q(s) = w * zeta(s) * L(s, chi_D)``.
 - `Z_epstein(t, form: tuple[int, int, int], dps: int = DPS_DEFAULT)`, The Hardy-style real function ``Lambda_Q(1/2 + it)``.
+- `epstein_count_dps(s0, s1, guard: int = 20) -> int`, The working precision a zero count in the box ``[s0, s1]`` needs.
 - `epstein_interface(form: tuple[int, int, int], dps: int = DPS_DEFAULT) -> dict`, The zeta-like interface for an Epstein zeta (see :func:`zeta_interface`).
 - `shifted_coefficient(n: int, shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT)`, Dirichlet coefficient of ``W_a``: ``a_n = sum_{de=n} d^{-a} e^{a}``.
 - `shifted_completed(s, shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT)`, ``Xi_a(s) = xi(s+a) xi(s-a)``, entire, with ``Xi_a(1-s) = Xi_a(s)``.
@@ -1236,6 +1237,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `34-zeros-in-tuning-units.md`, 34. The Riemann zeros in tuning units
 - `35-the-unspent-fact.md`, 35. The unspent fact: what out-of-band positivity is worth, and why nobody can claim it
 - `36-what-you-can-run.md`, 36. What you can run, and what it prints
+- `37-methods.md`, 37. Methods: the reusable identities, lemmas, controls and techniques, by theme
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)
@@ -1291,6 +1293,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/make_figures.py`, Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py`, Which of Mathlib's 1000 famous theorems are still unformalized.
 - `scripts/palomar_correspondence.py`, Does the metadata describe the declarations actually selected?
+- `scripts/palomar_port_compare.py`, Compare the already-built port, not a fresh Palomar registration.
 - `scripts/palomar_precheck.py`, Pre-flight check of a Palomar Registry submission.
 - `scripts/pub1_certify_display.py`, Publication-safe display values for the Pub 1 xi' ceiling certificate.
 - `scripts/science_preflight.py`, Preflight for a session running this lab from an outside environment.
@@ -1300,7 +1303,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2222 test functions across 125 files (the collected count differs where tests are parametrised):
+2249 test functions across 131 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1329,12 +1332,15 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_dossier_hardy_z.py`, 22
 - `tests/test_dossier_schema.py`, 37
 - `tests/test_epstein.py`, 52
+- `tests/test_epstein_count_dps_floor.py`, 3
 - `tests/test_explicit.py`, 45
 - `tests/test_factorial_direct_bn.py`, 4
 - `tests/test_factorial_full_cost.py`, 5
 - `tests/test_factorial_pilot_archive.py`, 7
 - `tests/test_factorization.py`, 13
 - `tests/test_finitefield.py`, 53
+- `tests/test_four_point_build_evidence.py`, 6
+- `tests/test_four_point_module_roots.py`, 4
 - `tests/test_frontier_archive.py`, 4
 - `tests/test_frontier_math_clean_kill.py`, 6
 - `tests/test_graveyard.py`, 7
@@ -1374,7 +1380,10 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_paid_shortfall_scaling.py`, 9
 - `tests/test_paid_small_factor_cap.py`, 7
 - `tests/test_paid_surplus_obstruction.py`, 7
-- `tests/test_palomar_correspondence.py`, 10
+- `tests/test_palomar_correspondence.py`, 11
+- `tests/test_palomar_module_port.py`, 5
+- `tests/test_palomar_port_compare.py`, 5
+- `tests/test_palomar_precheck.py`, 2
 - `tests/test_palomar_yaml_guard.py`, 2
 - `tests/test_pari_oracle.py`, 18
 - `tests/test_plots.py`, 13
@@ -1409,7 +1418,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_rung3_ball_compile.py`, 15
 - `tests/test_rung3_ball_generator.py`, 8
 - `tests/test_rung3_ball_mirror.py`, 7
-- `tests/test_rung3_ball_shards.py`, 7
+- `tests/test_rung3_ball_shards.py`, 8
 - `tests/test_rung3_ball_tower_pilot.py`, 4
 - `tests/test_rung3_mirror.py`, 9
 - `tests/test_rung3_mirror_matches_kernel.py`, 4

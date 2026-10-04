@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.Ball
-import ZetaLean.DHCertSupport
+public import ZetaLean.Ball
+public import ZetaLean.DHCertSupport
+
+@[expose] public section
 
 /-!
 # Dirichlet terms through the ball layer

@@ -520,10 +520,13 @@ def _relative_module_path(rel: str) -> str:
 def _import_names(text: str) -> list[str]:
     names = []
     for line in text.splitlines():
-        if line.startswith("import "):
-            parts = line.split()
-            if len(parts) >= 2:
-                names.append(parts[1])
+        parts = line.split()
+        if parts and parts[0] == "public":
+            parts = parts[1:]
+        if parts and parts[0] == "meta":
+            parts = parts[1:]
+        if len(parts) >= 2 and parts[0] == "import":
+            names.append(parts[1])
     return names
 
 

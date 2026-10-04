@@ -1,0 +1,42 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-G9iIG9H1qGBRi3h6GPtRmj
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   stage_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   reduce_stage.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   envelope.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   assemble.py
+├── 🔨 Created function unit.
+└── 🔨 Created function reduce.
+{"T": 80, "beta": -1.3318277587452458, "unit_seconds": 272.9966778755188}
+{"T": 160, "beta": -0.6324305781853006, "unit_seconds": 266.5230004787445}
+{"T": 240, "beta": -0.22488213674380284, "unit_seconds": 315.63990330696106}
+{"T": 320, "beta": 0.06384160237464474, "unit_seconds": 401.07975339889526, "lam": 3.3745406995913332e-46, "lam_rad": 9.850995796392335e-63, "n_neg": null, "undecided": 304, "mid_n_neg": 1, "mid_min_abs_pivot": 2.51219268315527e-07, "max_entry_rad": 8.070826631325172e-109}
+{"T": 350, "beta": 0.15372161820718902, "unit_seconds": 145.61644983291626, "lam": 1.652617704307548e-48, "lam_rad": 1.9658083792530475e-60, "n_neg": null, "undecided": 304, "mid_n_neg": 0, "mid_min_abs_pivot": 2.5702038363758634e-07, "max_entry_rad": 8.60566704547719e-109}
+{"T": 400, "beta": 0.2876101536888545, "unit_seconds": 322.9267108440399, "lam": 4.1526746734979293e-48, "lam_rad": 8.149008621007019e-61, "n_neg": null, "undecided": 305, "mid_n_neg": 0, "mid_min_abs_pivot": 2.6355210937688496e-07, "max_entry_rad": 9.548313748918365e-109}
+[modal-client] 2026-09-27T18:55:19+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=96.50, time_since_heartbeat_success=96.50, error=ConnectionError('Deadline exceeded'))
+{"T": 450, "beta": 0.40567096712301576, "unit_seconds": 424.6019387245178, "lam": 5.174770754894906e-48, "lam_rad": 6.756921633563933e-61, "n_neg": null, "undecided": 305, "mid_n_neg": 0, "mid_min_abs_pivot": 2.6852757096881316e-07, "max_entry_rad": 1.0316624627534747e-108}
+{"T": 500, "beta": 0.5112537050030642, "unit_seconds": 420.1181275844574, "lam": 5.775648793894534e-48, "lam_rad": 6.22353201664301e-61, "n_neg": null, "undecided": 306, "mid_n_neg": 0, "mid_min_abs_pivot": 2.719542660787834e-07, "max_entry_rad": 1.0899914026187323e-108}
+{"T": 525, "beta": 0.5601391072677343, "unit_seconds": 205.812597990036, "lam": 6.003035786590947e-48, "lam_rad": 6.0662609340126325e-61, "n_neg": null, "undecided": 306, "mid_n_neg": 0, "mid_min_abs_pivot": 2.7352257933808983e-07, "max_entry_rad": 1.1178879247405064e-108}
+{"T": 80, "beta": -1.3318277587452458, "unit_seconds": 272.9966778755188}
+{"T": 160, "beta": -0.6324305781853006, "unit_seconds": 266.5230004787445}
+{"T": 240, "beta": -0.22488213674380284, "unit_seconds": 315.63990330696106}
+{"T": 320, "beta": 0.06384160237464474, "unit_seconds": 401.07975339889526, "lam": 3.3745406995913332e-46, "lam_rad": 9.850995796392335e-63, "n_neg": null, "undecided": 304, "mid_n_neg": 1, "mid_min_abs_pivot": 2.51219268315527e-07, "max_entry_rad": 8.070826631325172e-109}
+{"T": 350, "beta": 0.15372161820718902, "unit_seconds": 145.61644983291626, "lam": 1.652617704307548e-48, "lam_rad": 1.9658083792530475e-60, "n_neg": null, "undecided": 304, "mid_n_neg": 0, "mid_min_abs_pivot": 2.5702038363758634e-07, "max_entry_rad": 8.60566704547719e-109}
+{"T": 400, "beta": 0.2876101536888545, "unit_seconds": 322.9267108440399, "lam": 4.1526746734979293e-48, "lam_rad": 8.149008621007019e-61, "n_neg": null, "undecided": 305, "mid_n_neg": 0, "mid_min_abs_pivot": 2.6355210937688496e-07, "max_entry_rad": 9.548313748918365e-109}
+{"T": 450, "beta": 0.40567096712301576, "unit_seconds": 424.6019387245178, "lam": 5.174770754894906e-48, "lam_rad": 6.756921633563933e-61, "n_neg": null, "undecided": 305, "mid_n_neg": 0, "mid_min_abs_pivot": 2.6852757096881316e-07, "max_entry_rad": 1.0316624627534747e-108}
+{"T": 500, "beta": 0.5112537050030642, "unit_seconds": 420.1181275844574, "lam": 5.775648793894534e-48, "lam_rad": 6.22353201664301e-61, "n_neg": null, "undecided": 306, "mid_n_neg": 0, "mid_min_abs_pivot": 2.719542660787834e-07, "max_entry_rad": 1.0899914026187323e-108}
+{"T": 525, "beta": 0.5601391072677343, "unit_seconds": 205.812597990036, "lam": 6.003035786590947e-48, "lam_rad": 6.0662609340126325e-61, "n_neg": null, "undecided": 306, "mid_n_neg": 0, "mid_min_abs_pivot": 2.7352257933808983e-07, "max_entry_rad": 1.1178879247405064e-108}
+total wall 154 s
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-G9iIG9H1qGBRi3h6GPtRmj
+exit 0
+2026-09-27T18:56:15Z

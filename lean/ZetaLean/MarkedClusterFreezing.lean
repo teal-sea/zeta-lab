@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.ClusterPrefix
-import ZetaLean.RC2PrefixAssembly
+public import ZetaLean.ClusterPrefix
+public import ZetaLean.RC2PrefixAssembly
+
+@[expose] public section
 
 /-!
 # Marked-cluster summability and finite height freezing

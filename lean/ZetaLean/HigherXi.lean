@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Kernel-checked algebra for the `URMS2-051` witness

@@ -300,6 +300,11 @@ solver that has just lost conditioning is not a witness.
    than 0.153216. *First step:* locate the window edges as a function of `s`
    at depth 1 out to `s ~ 10^5` and check whether the drift is genuinely
    linear or whether the window centres track `2*pi` asymptotically.
+   *Decided for the sign:* `hunts/support_5418c63e/` shows the kernel is
+   rational on `2 pi Z` and its sign there is fixed by one cubic with a single
+   nonnegative root at `u* = 1.7707`, below the first lattice value
+   `4 pi^2 = 39.478`; so `D(1, 2 pi d) > 0` for every `d >= 1`, no horizon.
+   The margin to the nearest window edge stays measured.
 
 4. **Mixed depths in the gas.** *What:* everything here is `y = 1/2` (the
    deepest, and the worst for the budget). `K2-TWO-SPECIES.md` §5 records

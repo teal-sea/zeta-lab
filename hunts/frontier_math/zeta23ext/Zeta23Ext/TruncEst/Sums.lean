@@ -1,4 +1,8 @@
-import Zeta23Ext.TruncEst.Decay
+module
+
+public import Zeta23Ext.TruncEst.Decay
+
+@[expose] public section
 
 /-!
 # The finite and infinite lattice sums, and the two-sided truncation estimate

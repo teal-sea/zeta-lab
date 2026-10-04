@@ -1,4 +1,8 @@
-import ThreePoint.Base
+module
+
+public import ThreePoint.Base
+
+@[expose] public section
 
 noncomputable section
 open Real

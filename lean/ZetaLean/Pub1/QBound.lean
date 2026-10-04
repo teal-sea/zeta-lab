@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Aristotle.S
-import ZetaLean.Pub1.Aristotle.V
-import ZetaLean.Pub1.Regularity
+public import Mathlib
+public import ZetaLean.Pub1.Aristotle.S
+public import ZetaLean.Pub1.Aristotle.V
+public import ZetaLean.Pub1.Regularity
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the sup bound on `q = F₁''`'s ordinary part

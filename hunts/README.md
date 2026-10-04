@@ -36,6 +36,11 @@ A hunt that wants its claim to count takes it through the battery
 (`docs/doors/refute.md`) or the funnel (`docs/doors/discover.md`). Those are
 the two routes that can say "yes", and neither of them is the hunt itself.
 
+**Methods travel even when claims do not.** An identity, lemma, control or
+technique a hunt produces goes in `docs/37-methods.md`, the cross-hunt methods
+index, in the same change that records it here. Check that index before
+building an instrument; several hunts have hand-rolled the same one.
+
 ## HuntSpec (new hunts, from 2026-08-11)
 
 A hunt opened after 2026-08-11 carries a **HuntSpec**, a fenced contract
@@ -69,6 +74,63 @@ control roles, and the checks are the ones the tree already owns:
    does not respond to added precision; a real quantity does.**
 
 ## Case log
+
+### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
+
+**Status: unresolved RH attempt, ordinary proofs and numerical enclosures;
+external review pending.** Every fixed raw theta partial
+sum loses an endpoint cancellation and eventually violates the first
+Laguerre inequality, with remainder bounds given. For every fixed cutoff K,
+a positive-measure cosine transform satisfies all inequalities through K
+everywhere but has nonreal zeros inside the corresponding critical strip.
+The K=1 control's second coefficient is exactly -12/121 at pi. Neither is
+a zeta counterexample. The all-order positivity
+obligation for the full arithmetic kernel remains open. See
+`rh_theta_laguerre/RESULTS.md` for proofs, dependencies, and reproduction.
+
+The square-construction continuation tests two specific representations on
+the full theta kernel. The local score construction has a negative two-point
+Gram eigenvalue; the positive-average-of-shifted-squares construction has a
+negative integer-vector witness for a 24-point ratio matrix. Both witnesses
+carry Arb enclosures including all theta and integration tails. These are
+failures of the proposed representations, not negative Laguerre values or
+zeta counterexamples. Details: `rh_theta_laguerre/SQUARES.md`.
+
+### Central logarithmic moments (`central_moments/`, 2026-10-02)
+
+**Status: unresolved RH attempt, ordinary derivations and finite measurements.**
+The central logarithmic derivative supplies an explicit all-orders moment
+positivity obligation. Exact symmetric-measure controls show that raw moment
+positivity does not transfer, and that any fixed number of these matrix tests
+can pass despite off-axis zeros. Direct central derivatives and theta
+quadrature are compared at two precisions. Eight finite Arb matrix-sign
+enclosures have independent determinant checks. See the scoped derivation
+and reproduction commands in `central_moments/RESULTS.md`. No RH or novelty claim;
+external mathematical review remains pending.
+
+### Out-of-band envelopes for Weil window positivity (`oob_envelope/`)
+
+**Status: candidate, hardened by two independent implementations, pending
+external verification.** On the window `supp f ⊆ [-L, L]`, any correction to
+the Weil symbol at frequencies `≥ 2L` leaves the form unchanged, so the
+envelope constant in arXiv:2608.24827's one-stroke reduction can drop from
+`A_L = sup P_L` to `sup(P_L − H)` (theory lane, ordinary derivation, referee
+PASS). With it, for real even f:
+
+- support 1.6 (`L = 0.8`): `Q(f) ≥ 1.1579e-17 ‖f‖²`, Zhu's window with a
+  sharper constant and half the matrix;
+- support 2.38 (`L = 1.19`): `Q(f) ≥ 5.7178e-48 ‖f‖²` (numerics GL-96 route
+  `≥ 5.71789230595e-48`, referee Clenshaw-Curtis-192 route `> 5.7179e-48`,
+  N = 500 even Legendre modes, T# = 500, all error terms enclosed).
+
+Scope: even sector only; the odd sector is not bounded. No window claim found
+in the searched literature exceeds half-width 17/16 (Liu, unrefereed); Zhu
+withdrew his own `L = 1.19` claim. The threshold stays doubly exponential
+(the best out-of-band constant grows like `e^L`), so this is a fixed-window
+result, not a route to RH. Methods: `docs/37-methods.md` (out-of-band
+envelope lemma; residual-enclosed shifted Cholesky). Record:
+`oob_envelope/numerics/RESULTS.md`, `oob_envelope/theory/RESULTS.md`,
+`oob_envelope/referee/REVIEW.md`.
 
 ### Weil positivity propagation across window size (`weil_propagation/`, 2026-09-23)
 
@@ -157,6 +219,16 @@ Nyman-Beurling results and records exact sawtooth correlations.
 See [the construction, proof, and remaining doors](quotient_certificate/RESULTS.md).
 
 ### Four-point pressure tuning (`four_point_pressure/`)
+
+**Kernel-checked at the pinned revision, 2026-09-28.** The Hermes build at
+`5522b963` discharges the four-point bound at `c = 2330/10^6`, `m = 432`,
+`p = 2500`, with coefficient approximately `0.6728603588`. The 49 build
+receipts and six axiom reports are preserved in `four_point_pressure/evidence/`;
+source hashes were independently reconciled during integration. This is a
+lab build, pending external verification, not a new Palomar registration.
+See `RUNS.md` and `PALOMAR-READINESS.md`.
+
+The following paragraph records the September 5 disposition:
 
 **Status: closed exploratory record; complete Lean check canceled.** Exact
 parameter substitution and an emitted-source preflight accompanied a candidate

@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Check
+module
+
+public import Zeta23Ext.BandCert.Check
+
+@[expose] public section
 
 /-!
 # The real-side quantities `cap`, `slack`, and the implication

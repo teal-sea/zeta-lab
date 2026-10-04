@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.UppFormula
-import ZetaLean.Pub1.ZBounds
+public import Mathlib
+public import ZetaLean.Pub1.UppFormula
+public import ZetaLean.Pub1.ZBounds
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: `‖w'' - u''‖_∞ < 0.006060899845`

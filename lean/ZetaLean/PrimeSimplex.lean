@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.WeightedSimplex
+public import ZetaLean.WeightedSimplex
+
+@[expose] public section
 
 /-!
 # Finite distinct-prime logarithmic simplex masses

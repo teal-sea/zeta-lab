@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.ClusterMajorant
-import ZetaLean.SupportSizeMajorant
+public import ZetaLean.ClusterMajorant
+public import ZetaLean.SupportSizeMajorant
+
+@[expose] public section
 
 /-!
 # Rooted matching coefficient bound

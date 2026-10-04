@@ -1,5 +1,9 @@
-import Zeta23Ext.EForm3.O9Parts
-import Zeta23Ext.EForm3.O9Shc
+module
+
+public import Zeta23Ext.EForm3.O9Parts
+public import Zeta23Ext.EForm3.O9Shc
+
+@[expose] public section
 
 /-!
 # `boxParts`, the numerator half

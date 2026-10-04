@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.Defs
-import Zeta23Ext.Bridge.Helpers_S8
+public import Zeta23Ext.Bridge.Defs
+public import Zeta23Ext.Bridge.Helpers_S8
+
+@[expose] public section
 
 /-!
 # S8: the tail passage  ([A] Corollary 2.2, eq:global-defect)

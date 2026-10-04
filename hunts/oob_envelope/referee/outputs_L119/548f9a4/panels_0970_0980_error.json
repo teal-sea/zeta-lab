@@ -1,0 +1,4 @@
+{
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/root/run_l119_modal.py\", line 59, in execute\n    result = l119.partial(start, stop, checkpoint)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/l119.py\", line 138, in partial\n    columns = [transforms(t, L, scales) for t in ts]\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/l119.py\", line 119, in transforms\n    b[top], b[top+1] = series(x, top), series(x, top+1)\n                       ^^^^^^^^^^^^^^\n  File \"/root/l119.py\", line 109, in series\n    term = following\n    ^^^^\nKeyboardInterrupt\n"
+}

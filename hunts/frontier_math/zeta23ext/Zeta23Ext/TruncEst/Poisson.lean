@@ -1,4 +1,8 @@
-import Zeta23Ext.TruncEst.Sums
+module
+
+public import Zeta23Ext.TruncEst.Sums
+
+@[expose] public section
 
 /-!
 # Lemma 2 of `PROBLEM.md`: Poisson summation

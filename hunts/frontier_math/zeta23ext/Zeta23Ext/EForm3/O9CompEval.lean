@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm3.O9Comp
+module
+
+public import Zeta23Ext.EForm3.O9Comp
+
+@[expose] public section
 
 /-!
 # O9 composition round-trip control
