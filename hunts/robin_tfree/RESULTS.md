@@ -32,8 +32,9 @@ which uses only Buthe's `x - theta(x) <= 1.95 sqrt(x)`), and `E(x) <= 2.3414 * 1
 3. `sigma(n) < (1 + 2.49 * 10^-8) e^gamma n log log n` for every `n > 5040`
    (Axler 2023, Corollary 2: `1 + 3.15367 * 10^-7`; route B gives `2.35 * 10^-8`).
 4. Hence RH holds iff Robin's inequality holds for every `n > 5040` divisible by
-   `M* = prod_{q < Q*} q^(e_q)`, `e_q` the least `e` with `q^(e+1) >= Q*`; in
-   particular iff it holds for every 25-full integer.
+   `M* = prod_{q < Q*} q^(e_q)`, `e_q` the least nonnegative integer `e` with
+   `q^(e+1) >= Q*`. This does not reduce the remaining problem to 25-full integers:
+   a multiple of `M*` may have prime factors with exponent less than 25.
 
 **What makes the difference** is one exact identity (section 2): the boundary term of
 Mertens' partial summation, `R(x)/(x log x)`, and the denominator correction
@@ -49,7 +50,8 @@ so `log N_k = theta(p_k)` and `N_k/phi(N_k) = prod_{p <= p_k} p/(p-1)`. Then
 
     N_k/phi(N_k) = e^gamma log log N_k exp(E(p_k)).                       (1.1)
 
-Nicolas (1983) proved that RH holds iff `E(p_k) > 0` for every `k`. This hunt bounds
+Nicolas (1983) proved that RH holds iff `E(p_k) > 0` for every `k >= 2`.
+The logarithm defining `E(2)` is not real, so `k = 1` is excluded. This hunt bounds
 `E` from **above**, which is what Robin-type results for restricted families need.
 
 ## 2. The identity
@@ -143,7 +145,10 @@ the terms vanish for `k > log_2 u <= 63`). Past `10^19`,
 `|theta(u) - u| <= B(u) = eps(b, b') u + 1.5 sqrt(u)`, and past `e^26000` the Table 9
 bound. So `-int_x^inf R w <= int_x^inf B w <= int_{x0}^inf B w`, the last step because
 `B w >= 0`. For Lemma 2, `|d| <= 1.955/sqrt(x0) < 10^-6` on `[x0, 10^19]` and
-`|d| < 1.94 * 10^-8` beyond. []
+`|d| < 2 * 10^-8` beyond: the largest Table 8 envelope, including
+`1.5/sqrt(10^19)`, is less than `1.982 * 10^-8`, and the Table 9 envelope is smaller.
+The test `test_far_theta_deficit_envelopes_fit_second_order_domain` checks every
+tail block and the infinite tail. []
 
 Every piece `int u^alpha w(u) du` has the closed form
 `F(y) = -e^(-beta y)/y - (1 - beta) E1(beta y)`, `beta = 1 - alpha`, `y = log u`
@@ -181,7 +186,7 @@ easy. Corollary 1 recovers 25 by a different argument. Robustness: route B keeps
 `t = 25` if every Table 1 entry is raised by `0.5`, and loses it at `+0.6`; route A loses
 it if `1.95` is replaced by `2.6` (both pinned).
 
-## 8. Checks (`test_bound.py`, 30 tests, ~35 s)
+## 8. Checks (`test_bound.py`, 31 tests, ~35 s)
 
 - Lemma 1 on real primes, two ranges, both the sum form and the `E` difference form;
   a flipped sign is caught. Lemma 2 at 400 random points.
@@ -192,7 +197,7 @@ it if `1.95` is replaced by `2.6` (both pinned).
   the integral scaled by `0.25` fails at some sampled `x` (the planted fault is caught).
 - Inputs: Table 1 covers `[x0, 10^19]` with no gap and its maximum is Buthe's `0.94`;
   Table 8 ordering; Buthe's `0.05 sqrt(x) < x - theta(x) <= 1.95 sqrt(x)` at sampled
-  `x <= 3 * 10^6`.
+  `x <= 3 * 10^6`; every far-range deficit envelope is below `2 * 10^-8`.
 - Lemma 3's elementary steps to `2 * 10^5`; Robin directly on `5041 <= n <= 30030`.
 - Pins: `t = 25` passes and `26` fails on both routes; `E*`, `Q*`, the valuation list and
   `epsilon` for both routes; `results.json` on disk matches a fresh run.
@@ -215,7 +220,7 @@ it if `1.95` is replaced by `2.6` (both pinned).
 ## 10. Reproduction
 
     .venv/bin/python hunts/robin_tfree/bound.py                       # writes results.json, < 1 s
-    .venv/bin/python -m pytest -n0 -q hunts/robin_tfree/test_bound.py  # 30 tests, ~35 s
+    .venv/bin/python -m pytest -n0 -q hunts/robin_tfree/test_bound.py  # 31 tests, ~35 s
 
 Requires `python-flint` (Arb), `mpmath`, `numpy`. No network, no heavy compute.
 
@@ -257,8 +262,9 @@ any current table holds. Door 3 stays inside published data. The first-order
 cancellation is spent; the remaining analytic slack inside this family is Lemma 2's
 `4 * 10^-15`.
 
-**Why this family cannot reach RH.** The integers it leaves open are the multiples of
-`M*`; every colossally abundant number above `x0#` is one, and Robin for those is RH.
-Proving it there needs `E(p_k)` controlled to its true size `~ 1/(sqrt(p_k) log p_k)`
-at every `k`, with Nicolas's sign condition `E > 0` as the RH-equivalent other side.
-That is information about zeros at all heights, which no finite verified range supplies.
+**What remains open.** These estimates leave Robin's inequality undecided on the
+multiples of `M*`. Corollary 2 reduces RH to Robin's inequality on that remaining set;
+the present bound does not establish it there. The scale for `E(x0)` discussed above
+is a heuristic, and this derivation proves no necessary bound on `E(p_k)` for every
+`k` and no impossibility theorem for further work on this route. Any stronger
+conclusion needs a separate argument covering the remaining integers.

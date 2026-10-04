@@ -164,6 +164,27 @@ def test_table8_rows_increase_and_bound_decreases_past_e100():
     assert max(eps) == Fraction("2.45299e-12")
 
 
+def test_far_theta_deficit_envelopes_fit_second_order_domain():
+    """Each tail envelope bounds |theta(x)-x|/x below 2e-8, including psi-theta.
+
+    Within a Table 8 block its envelope decreases, so its left endpoint suffices;
+    the Table 9 envelope A1/log(x) also decreases on the infinite tail.
+    """
+    ctx.prec = B.PREC
+    cap = arb("2e-8")
+    first = None
+    for b, eps in B.BKLNW_TABLE8:
+        start = max(arb(B.X_BUTHE).log(), arb(b))
+        envelope = B._up(eps, B.BKLNW_ROUNDING) + B._arb(B.PSI_MINUS_THETA) * (-start / 2).exp()
+        assert envelope < cap
+        if first is None:
+            first = envelope
+    # Dropping the positive psi-theta term gave the old, insufficient prose cap.
+    assert first > arb("1.94e-8")
+    assert B._up(B.BKLNW_A1_25000, B.BKLNW_ROUNDING) / B.BKLNW_TABLE8_END < cap
+    assert cap < arb("1e-6")  # Lemma 2's domain, independently of the near-range bound
+
+
 def test_buthe_theta_bounds_on_real_primes():
     """Sanity of the inputs where they can be recomputed: 0.05 sqrt(x) < x - theta(x)
     <= 1.95 sqrt(x) (Buthe (1.6)-(1.7)) at sampled x up to 3e6."""
