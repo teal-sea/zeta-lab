@@ -1,5 +1,9 @@
-import Mathlib.Algebra.Polynomial.Div
-import Mathlib.Algebra.Polynomial.Taylor
+module
+
+public import Mathlib.Algebra.Polynomial.Div
+public import Mathlib.Algebra.Polynomial.Taylor
+
+@[expose] public section
 
 /-!
 # Root multiplicity via Hasse derivatives

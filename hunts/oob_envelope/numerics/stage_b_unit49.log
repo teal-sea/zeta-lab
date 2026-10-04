@@ -1,0 +1,24 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-ikiEy2RRqhkbWbVwRYFErU
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   stage_b_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   envelope.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   harden.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   assemble.py
+├── 🔨 Created function unit.
+└── 🔨 Created function reduce.
+{"unit": [980, 1000], "seconds": 210.0146996974945}
+units wall 218 s
+total wall 218 s
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-ikiEy2RRqhkbWbVwRYFErU
+exit 0

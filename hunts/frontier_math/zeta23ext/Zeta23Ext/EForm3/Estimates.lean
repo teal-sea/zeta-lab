@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm3.Numerics
+module
+
+public import Zeta23Ext.EForm3.Numerics
+
+@[expose] public section
 
 /-!
 # Window estimates

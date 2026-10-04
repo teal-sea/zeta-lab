@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm3.Master
+module
+
+public import Zeta23Ext.EForm3.Master
+
+@[expose] public section
 
 /-!
 # Closed forms

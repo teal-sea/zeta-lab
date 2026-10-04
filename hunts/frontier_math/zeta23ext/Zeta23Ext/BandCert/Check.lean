@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Phi
+module
+
+public import Zeta23Ext.BandCert.Phi
+
+@[expose] public section
 
 /-!
 # The certificate structures, the Bool checker, and its soundness

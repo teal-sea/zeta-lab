@@ -1,5 +1,9 @@
-import Zeta23Ext.EForm3.O9Assemble
-import Zeta23Ext.EForm3.O9Data2
+module
+
+public import Zeta23Ext.EForm3.O9Assemble
+public import Zeta23Ext.EForm3.O9Data2
+
+@[expose] public section
 
 /-!
 # What the numerator fields actually enclose

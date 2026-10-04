@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.Helpers_finite
+public import Zeta23Ext.Bridge.Helpers_finite
+
+@[expose] public section
 
 /-!
 # S11: the block energy bound  ([A] Lemma 4.2, eq:block-energy), for `n` points

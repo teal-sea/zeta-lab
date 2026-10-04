@@ -1,19 +1,23 @@
-import FourPoint.Chunks0
-import FourPoint.Chunks1
-import FourPoint.Chunks2
-import FourPoint.Chunks3
-import FourPoint.Chunks4
-import FourPoint.Chunks5
-import FourPoint.Chunks6
-import FourPoint.Chunks7
-import FourPoint.Chunks8
-import FourPoint.Chunks9
-import FourPoint.Chunks10
-import FourPoint.Chunks11
-import FourPoint.Chunks12
-import FourPoint.Chunks13
-import FourPoint.Chunks14
-import FourPoint.Chunks15
+module
+
+public import FourPoint.Chunks0
+public import FourPoint.Chunks1
+public import FourPoint.Chunks2
+public import FourPoint.Chunks3
+public import FourPoint.Chunks4
+public import FourPoint.Chunks5
+public import FourPoint.Chunks6
+public import FourPoint.Chunks7
+public import FourPoint.Chunks8
+public import FourPoint.Chunks9
+public import FourPoint.Chunks10
+public import FourPoint.Chunks11
+public import FourPoint.Chunks12
+public import FourPoint.Chunks13
+public import FourPoint.Chunks14
+public import FourPoint.Chunks15
+
+@[expose] public section
 
 /-! One router lemma per surviving box of the three-dimensional table.  The body is
 the top of the box's bisection tree; every branch ends in a chunk lemma. -/

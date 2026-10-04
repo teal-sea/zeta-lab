@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm3.Integrability
+module
+
+public import Zeta23Ext.EForm3.Integrability
+
+@[expose] public section
 
 /-!
 # The master identity

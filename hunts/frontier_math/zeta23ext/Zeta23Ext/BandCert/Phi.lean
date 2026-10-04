@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Leaves
+module
+
+public import Zeta23Ext.BandCert.Leaves
+
+@[expose] public section
 
 /-!
 # The paper field `Phi2`, its closed form, and the interval evaluators

@@ -1,0 +1,339 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-zyqkre7VOF1BRnS7SjZEWi
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/run_l119_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/frozen_envelope_L119.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/independent.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/l119.py
+└── 🔨 Created function execute.
+{"unit": "panels_0030_0040", "status": "completed", "elapsed_s": 69.45685029029846}
+[modal-client] 2026-09-28T11:32:12+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=71.14, time_since_heartbeat_success=71.14, error=ConnectionError('Deadline exceeded'))
+[modal-client] 2026-09-28T11:32:13+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=71.12, time_since_heartbeat_success=71.12, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0060_0070", "status": "completed", "elapsed_s": 71.15133452415466}
+[modal-client] 2026-09-28T11:32:14+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=72.65, time_since_heartbeat_success=72.65, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0010_0020", "status": "completed", "elapsed_s": 72.16998839378357}
+{"unit": "panels_0000_0010", "status": "completed", "elapsed_s": 78.99869680404663}
+{"unit": "panels_0020_0030", "status": "completed", "elapsed_s": 83.09272360801697}
+{"unit": "panels_0070_0080", "status": "completed", "elapsed_s": 82.17425417900085}
+{"unit": "panels_0080_0090", "status": "completed", "elapsed_s": 82.44357323646545}
+{"unit": "panels_0090_0100", "status": "completed", "elapsed_s": 85.10384368896484}
+{"unit": "panels_0040_0050", "status": "completed", "elapsed_s": 96.07205510139465}
+{"unit": "panels_0050_0060", "status": "completed", "elapsed_s": 98.62358236312866}
+[modal-client] 2026-09-28T11:33:26+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=71.30, time_since_heartbeat_success=71.30, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0110_0120", "status": "completed", "elapsed_s": 76.76088881492615}
+{"unit": "panels_0120_0130", "status": "completed", "elapsed_s": 85.07833790779114}
+[modal-client] 2026-09-28T11:33:46+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=75.57, time_since_heartbeat_success=75.57, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0130_0140", "status": "completed", "elapsed_s": 83.77317833900452}
+{"unit": "panels_0100_0110", "status": "completed", "elapsed_s": 97.45042657852173}
+{"unit": "panels_0150_0160", "status": "completed", "elapsed_s": 84.68777918815613}
+[modal-client] 2026-09-28T11:33:56+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=71.16, time_since_heartbeat_success=71.16, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0180_0190", "status": "completed", "elapsed_s": 75.44229626655579}
+{"unit": "panels_0140_0150", "status": "completed", "elapsed_s": 88.87106108665466}
+{"unit": "panels_0170_0180", "status": "completed", "elapsed_s": 85.83684396743774}
+{"unit": "panels_0160_0170", "status": "completed", "elapsed_s": 104.69137811660767}
+{"unit": "panels_0190_0200", "status": "completed", "elapsed_s": 97.69438815116882}
+{"unit": "panels_0230_0240", "status": "completed", "elapsed_s": 63.04838585853577}
+{"unit": "panels_0200_0210", "status": "completed", "elapsed_s": 82.61800026893616}
+{"unit": "panels_0210_0220", "status": "completed", "elapsed_s": 76.16543316841125}
+{"unit": "panels_0220_0230", "status": "completed", "elapsed_s": 76.58395838737488}
+{"unit": "panels_0240_0250", "status": "completed", "elapsed_s": 72.7018175125122}
+{"unit": "panels_0250_0260", "status": "completed", "elapsed_s": 83.89211201667786}
+{"unit": "panels_0270_0280", "status": "completed", "elapsed_s": 82.78597450256348}
+[modal-client] 2026-09-28T11:35:33+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=65.93, time_since_heartbeat_success=65.93, error=ConnectionError('Deadline exceeded'))
+[modal-client] 2026-09-28T11:35:35+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=76.15, time_since_heartbeat_success=76.15, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0280_0290", "status": "completed", "elapsed_s": 74.0645763874054}
+{"unit": "panels_0290_0300", "status": "completed", "elapsed_s": 89.05846166610718}
+{"unit": "panels_0260_0270", "status": "completed", "elapsed_s": 114.077077627182}
+{"unit": "panels_0310_0320", "status": "completed", "elapsed_s": 74.01905941963196}
+{"unit": "panels_0340_0350", "status": "completed", "elapsed_s": 64.61999773979187}
+{"unit": "panels_0300_0310", "status": "completed", "elapsed_s": 80.63576054573059}
+{"unit": "panels_0320_0330", "status": "completed", "elapsed_s": 84.01288509368896}
+[modal-client] 2026-09-28T11:36:36+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=63.54, time_since_heartbeat_success=63.54, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0330_0340", "status": "completed", "elapsed_s": 85.25478744506836}
+{"unit": "panels_0370_0380", "status": "completed", "elapsed_s": 74.56299209594727}
+{"unit": "panels_0350_0360", "status": "completed", "elapsed_s": 87.00124669075012}
+{"unit": "panels_0360_0370", "status": "completed", "elapsed_s": 87.658935546875}
+{"unit": "panels_0380_0390", "status": "completed", "elapsed_s": 79.91618752479553}
+{"unit": "panels_0390_0400", "status": "completed", "elapsed_s": 83.29975008964539}
+[modal-client] 2026-09-28T11:37:30+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=65.94, time_since_heartbeat_success=65.94, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0400_0410", "status": "completed", "elapsed_s": 82.56858444213867}
+[modal-client] 2026-09-28T11:37:53+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=71.10, time_since_heartbeat_success=71.10, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0410_0420", "status": "completed", "elapsed_s": 90.22217583656311}
+{"unit": "panels_0430_0440", "status": "completed", "elapsed_s": 80.85833930969238}
+[modal-client] 2026-09-28T11:38:18+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=74.50, time_since_heartbeat_success=74.50, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0440_0450", "status": "completed", "elapsed_s": 97.3118646144867}
+{"unit": "panels_0450_0460", "status": "completed", "elapsed_s": 86.57745623588562}
+[modal-client] 2026-09-28T11:38:35+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=70.55, time_since_heartbeat_success=70.55, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0470_0480", "status": "completed", "elapsed_s": 87.80532836914062}
+{"unit": "panels_0460_0470", "status": "completed", "elapsed_s": 101.51605153083801}
+{"unit": "panels_0480_0490", "status": "completed", "elapsed_s": 97.65491557121277}
+{"unit": "panels_0490_0500", "status": "completed", "elapsed_s": 88.86165881156921}
+[modal-client] 2026-09-28T11:39:05+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=76.00, time_since_heartbeat_success=76.00, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0520_0530", "status": "completed", "elapsed_s": 82.13227438926697}
+{"unit": "panels_0510_0520", "status": "completed", "elapsed_s": 86.88782668113708}
+{"unit": "panels_0500_0510", "status": "completed", "elapsed_s": 102.64752268791199}
+{"unit": "panels_0530_0540", "status": "completed", "elapsed_s": 73.35747289657593}
+[modal-client] 2026-09-28T11:39:43+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=74.62, time_since_heartbeat_success=74.62, error=ConnectionError('Deadline exceeded'))
+[modal-client] 2026-09-28T11:39:57+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=67.78, time_since_heartbeat_success=67.78, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0550_0560", "status": "completed", "elapsed_s": 78.5289831161499}
+{"unit": "panels_0540_0550", "status": "completed", "elapsed_s": 102.97685670852661}
+{"unit": "panels_0560_0570", "status": "completed", "elapsed_s": 95.25893712043762}
+{"unit": "panels_0570_0580", "status": "completed", "elapsed_s": 82.4313747882843}
+[modal-client] 2026-09-28T11:40:43+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=66.21, time_since_heartbeat_success=66.21, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0620_0630", "status": "completed", "elapsed_s": 63.874183893203735}
+[modal-client] 2026-09-28T11:40:56+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=72.41, time_since_heartbeat_success=72.41, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0580_0590", "status": "completed", "elapsed_s": 109.44880604743958}
+{"unit": "panels_0600_0610", "status": "completed", "elapsed_s": 95.19055461883545}
+{"unit": "panels_0610_0620", "status": "completed", "elapsed_s": 92.38885521888733}
+{"unit": "panels_0590_0600", "status": "completed", "elapsed_s": 110.95526552200317}
+{"unit": "panels_0420_0430", "status": "completed", "elapsed_s": 285.78903698921204}
+[modal-client] 2026-09-28T11:41:32+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=74.95, time_since_heartbeat_success=74.95, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0640_0650", "status": "completed", "elapsed_s": 85.55546736717224}
+{"unit": "panels_0660_0670", "status": "completed", "elapsed_s": 70.47139525413513}
+{"unit": "panels_0650_0660", "status": "completed", "elapsed_s": 75.53167653083801}
+{"unit": "panels_0630_0640", "status": "completed", "elapsed_s": 112.46591711044312}
+{"unit": "panels_0670_0680", "status": "completed", "elapsed_s": 70.42555737495422}
+[modal-client] 2026-09-28T11:42:22+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=67.35, time_since_heartbeat_success=67.35, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0680_0690", "status": "completed", "elapsed_s": 76.16970324516296}
+[modal-client] 2026-09-28T11:42:38+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=63.96, time_since_heartbeat_success=63.96, error=ConnectionError('Deadline exceeded'))
+[modal-client] 2026-09-28T11:42:44+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=74.49, time_since_heartbeat_success=74.49, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0710_0720", "status": "completed", "elapsed_s": 79.59307265281677}
+{"unit": "panels_0700_0710", "status": "completed", "elapsed_s": 92.54629611968994}
+{"unit": "panels_0730_0740", "status": "completed", "elapsed_s": 74.72615933418274}
+{"unit": "panels_0720_0730", "status": "completed", "elapsed_s": 88.3870940208435}
+[modal-client] 2026-09-28T11:43:06+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=64.83, time_since_heartbeat_success=64.83, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0750_0760", "status": "completed", "elapsed_s": 78.20332860946655}
+{"unit": "panels_0690_0700", "status": "completed", "elapsed_s": 113.138836145401}
+{"unit": "panels_0740_0750", "status": "completed", "elapsed_s": 82.52552914619446}
+{"unit": "panels_0770_0780", "status": "completed", "elapsed_s": 79.45800757408142}
+{"unit": "panels_0760_0770", "status": "completed", "elapsed_s": 89.03580331802368}
+Container terminated due to preemption. Your Function will be restarted with the same input. For more details, see https://modal.com/docs/guide/preemption
+{"unit": "panels_0780_0790", "status": "completed", "elapsed_s": 86.29954361915588}
+[modal-client] 2026-09-28T11:43:59+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=67.66, time_since_heartbeat_success=67.66, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0790_0800", "status": "completed", "elapsed_s": 76.0013473033905}
+[modal-client] 2026-09-28T11:44:16+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=65.10, time_since_heartbeat_success=65.10, error=ConnectionError('Deadline exceeded'))
+[modal-client] 2026-09-28T11:44:23+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=66.77, time_since_heartbeat_success=66.77, error=ConnectionError('Deadline exceeded'))
+[modal-client] 2026-09-28T11:44:25+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=72.25, time_since_heartbeat_success=72.25, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0800_0810", "status": "completed", "elapsed_s": 92.30257844924927}
+{"unit": "panels_0820_0830", "status": "completed", "elapsed_s": 81.25484895706177}
+[modal-client] 2026-09-28T11:44:36+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=68.23, time_since_heartbeat_success=68.23, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0830_0840", "status": "completed", "elapsed_s": 88.60287880897522}
+[modal-client] 2026-09-28T11:44:50+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=76.00, time_since_heartbeat_success=76.00, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0850_0860", "status": "completed", "elapsed_s": 92.83900356292725}
+{"unit": "panels_0840_0850", "status": "completed", "elapsed_s": 99.46759176254272}
+{"unit": "panels_0860_0870", "status": "completed", "elapsed_s": 93.47358345985413}
+{"unit": "panels_0890_0900", "status": "completed", "elapsed_s": 76.40951561927795}
+{"unit": "panels_0870_0880", "status": "completed", "elapsed_s": 104.36770677566528}
+{"unit": "panels_0880_0890", "status": "completed", "elapsed_s": 107.31684112548828}
+[modal-client] 2026-09-28T11:45:42+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=68.56, time_since_heartbeat_success=68.56, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_0910_0920", "status": "completed", "elapsed_s": 76.8921217918396}
+Traceback (most recent call last):
+Stopping app - uncaught exception raised locally: RuntimeError('unit path exists; refuse overwrite or silent reuse').
+  File "/pkg/modal/_runtime/container_io_manager.py", line 987, in handle_input_exception
+    yield
+  File "/pkg/modal/_container_entrypoint.py", line 189, in run_input_sync
+    values = io_context.call_function_sync()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pkg/modal/_runtime/container_io_manager.py", line 266, in call_function_sync
+    expected_value_or_values = self.finalized_function.callable(*args, **kwargs)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/run_l119_modal.py", line 32, in execute
+    raise RuntimeError("unit path exists; refuse overwrite or silent reuse")
+RuntimeError: unit path exists; refuse overwrite or silent reuse
+Runner terminated.
+Runner terminated.
+[modal-client] 2026-09-28T11:45:55+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=70.20, time_since_heartbeat_success=70.20, error=ConnectionError('Deadline exceeded'))
+Runner terminated.
+Runner terminated.
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r │
+│ eferee/run_l119_modal.py:95 in main                                          │
+│                                                                              │
+│    94 │   dest.mkdir(parents=True, exist_ok=True)                            │
+│ ❱  95 │   if batch:                                                          │
+│    96 │   │   if unit:                                                       │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:856 in __iter__                                       │
+│                                                                              │
+│    855 │   │   │   with Runner() as runner:                                  │
+│ ❱  856 │   │   │   │   yield from run_async_gen(runner, self._async_iterable │
+│    857 │   │   except NestedEventLoops:                                      │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:934 in run_async_gen                                  │
+│                                                                              │
+│    933 │   │   │   else:                                                     │
+│ ❱  934 │   │   │   │   next_yield = runner.run(gen.asend(next_send))  # type │
+│    935 │   │   except KeyboardInterrupt as e:                                │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/python/cpython-3.12.14-macos-aarch64-none/lib/ │
+│ python3.12/asyncio/base_events.py:691 in run_until_complete                  │
+│                                                                              │
+│    690 │   │                                                                 │
+│ ❱  691 │   │   return future.result()                                        │
+│    692                                                                       │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:766 in asend                                          │
+│                                                                              │
+│    765 │   │   self.iterated = True                                          │
+│ ❱  766 │   │   return await self.gen.asend(value)                            │
+│    767                                                                       │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /parallel_map.py:1063 in _starmap_async                                      │
+│                                                                              │
+│   1062 │   _maybe_warn_about_wrap_exceptions("starmap.aio", wrap_returned_ex │
+│ ❱ 1063 │   async for output in _map_helper(                                  │
+│   1064 │   │   self,                                                         │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /parallel_map.py:1015 in _map_helper                                         │
+│                                                                              │
+│   1014 │   ) as map_output_stream:                                           │
+│ ❱ 1015 │   │   async for output in map_output_stream:                        │
+│   1016 │   │   │   yield output                                              │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1108 in async_merge                                   │
+│                                                                              │
+│   1107 │   │   │   │   │   assert_type(item, ExceptionWrapper)               │
+│ ❱ 1108 │   │   │   │   │   raise item.value                                  │
+│   1109                                                                       │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1087 in producer                                      │
+│                                                                              │
+│   1086 │   │   │   async with aclosing(generator) as stream:                 │
+│ ❱ 1087 │   │   │   │   async for item in stream:                             │
+│   1088 │   │   │   │   │   await queue.put(ValueWrapper(item))               │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_object.py:56 in wrapped                                                    │
+│                                                                              │
+│    55 │   │   async with aclosing(method(self, *args, **kwargs)) as stream:  │
+│ ❱  56 │   │   │   async for item in stream:                                  │
+│    57 │   │   │   │   yield item                                             │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_functions.py:1774 in _map                                                  │
+│                                                                              │
+│   1773 │   │   │   ) as stream:                                              │
+│ ❱ 1774 │   │   │   │   async for item in stream:                             │
+│   1775 │   │   │   │   │   yield item                                        │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /parallel_map.py:971 in _map_invocation_inputplane                           │
+│                                                                              │
+│    970 │   ) as merged:                                                      │
+│ ❱  971 │   │   async for maybe_output in merged:                             │
+│    972 │   │   │   if maybe_output is not None:  # ignore None sentinels     │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1108 in async_merge                                   │
+│                                                                              │
+│   1107 │   │   │   │   │   assert_type(item, ExceptionWrapper)               │
+│ ❱ 1108 │   │   │   │   │   raise item.value                                  │
+│   1109                                                                       │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1087 in producer                                      │
+│                                                                              │
+│   1086 │   │   │   async with aclosing(generator) as stream:                 │
+│ ❱ 1087 │   │   │   │   async for item in stream:                             │
+│   1088 │   │   │   │   │   await queue.put(ValueWrapper(item))               │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /parallel_map.py:926 in poll_outputs                                         │
+│                                                                              │
+│    925 │   │   ) as streamer:                                                │
+│ ❱  926 │   │   │   async for idx, output in streamer:                        │
+│    927 │   │   │   │   if not order_outputs:                                 │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1237 in async_map_ordered                             │
+│                                                                              │
+│   1236 │   async with aclosing(async_map(async_zip(counter(), input_generato │
+│ ❱ 1237 │   │   async for output_idx, output_item in stream:                  │
+│   1238 │   │   │   buffer[output_idx] = output_item                          │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1213 in async_map                                     │
+│                                                                              │
+│   1212 │   ) as stream:                                                      │
+│ ❱ 1213 │   │   async for item in stream:                                     │
+│   1214 │   │   │   yield item                                                │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1108 in async_merge                                   │
+│                                                                              │
+│   1107 │   │   │   │   │   assert_type(item, ExceptionWrapper)               │
+│ ❱ 1108 │   │   │   │   │   raise item.value                                  │
+│   1109                                                                       │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1087 in producer                                      │
+│                                                                              │
+│   1086 │   │   │   async with aclosing(generator) as stream:                 │
+│ ❱ 1087 │   │   │   │   async for item in stream:                             │
+│   1088 │   │   │   │   │   await queue.put(ValueWrapper(item))               │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1202 in worker                                        │
+│                                                                              │
+│   1201 │   │   │   if isinstance(item, ValueWrapper):                        │
+│ ❱ 1202 │   │   │   │   res = await prevent_cancellation_abortion(async_mappe │
+│   1203 │   │   │   │   yield res                                             │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1167 in prevent_cancellation_abortion                 │
+│                                                                              │
+│   1166 │   try:                                                              │
+│ ❱ 1167 │   │   return await asyncio.shield(t)                                │
+│   1168 │   except asyncio.CancelledError:                                    │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/async_utils.py:1226 in mapper_func_wrapper                           │
+│                                                                              │
+│   1225 │   async def mapper_func_wrapper(tup: tuple[int, T]) -> tuple[int, V │
+│ ❱ 1226 │   │   return (tup[0], await async_mapper_func(tup[1]))              │
+│   1227                                                                       │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /parallel_map.py:915 in fetch_output                                         │
+│                                                                              │
+│    914 │   │   │   else:                                                     │
+│ ❱  915 │   │   │   │   raise e                                               │
+│    916 │   │   return (item.idx, output)                                     │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /parallel_map.py:910 in fetch_output                                         │
+│                                                                              │
+│    909 │   │   try:                                                          │
+│ ❱  910 │   │   │   output = await _process_result(item.result, item.data_for │
+│    911 │   │   except Exception as e:                                        │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/function_utils.py:572 in _process_result                             │
+│                                                                              │
+│   571 │   │   │                                                              │
+│ ❱ 572 │   │   │   raise exc_with_hints(exc)                                  │
+│   573                                                                        │
+│                                                                              │
+│     ...Remote call to Modal Function (ta-01M3KXBGCT18Q1MTXCBG266G3R)...      │
+│                                                                              │
+│ /root/run_l119_modal.py:32 in execute                                        │
+│                                                                              │
+│ ❱ 32 raise RuntimeError("unit path exists; refuse overwrite or silent reuse" │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+RuntimeError: unit path exists; refuse overwrite or silent reuse

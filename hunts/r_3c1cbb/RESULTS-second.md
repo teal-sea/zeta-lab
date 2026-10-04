@@ -128,6 +128,9 @@ predecessor's 150-to-250-line estimate; direct induction replaced it).
   theorem's band (already a recorded thread of Hunt #30) mechanically
   tightens this constant to about `4 + 4/log 2 ≈ 9.8` with no change to
   this file's structure.
+  *Landed:* `hunts/r_4218d4/` took the first-theorem band to `log 4 + 3` and
+  this one from `76` to `16`, kernel-checked; the remaining slack is the
+  `log 4` in Chebyshev.
 - The direct-induction Abel pattern (`sum_inv_primes_eq` plus
   `sum_Ico_telescope`) is smaller and more reusable than the planned
   `sum_range_by_parts` reindex; the same shape would close other

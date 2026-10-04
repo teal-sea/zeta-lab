@@ -52,6 +52,12 @@ def test_accepted_surfaces_pass(comparator, metadata):
     assert _fails(comparator, metadata) == []
 
 
+def test_prepared_stronger_surface_has_matching_metadata():
+    project = "hunts/ainta_seven_point/lean-four-point"
+    assert _fails(f"{project}/comparator.json", f"{project}/formalization.yaml") == []
+    assert pc.resolve_project(f"{project}/comparator.json", str(ROOT)) == project
+
+
 # --- the two that were refused ----------------------------------------------
 
 def test_v2_filed_against_the_v1_record_is_refused():

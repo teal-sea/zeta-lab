@@ -1,0 +1,17 @@
+{
+  "status": "failure",
+  "comparisons_passed": 0,
+  "negative_controls_passed": 0,
+  "elapsed_seconds": 2.59,
+  "tool_digests": {
+    "lake": "8ba83c98f76562d03b8dbc33f1057151ba6cbb121679dde76b2260ccc90495e1",
+    "lean": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+    "leanexport": "c5bc1a10a21e22cbb3671d65987cdef2076833b14182d823ccb2153adf2fa954",
+    "leanchecker": "9e36e955a251b1313c8eb5b7fa101282d51df109d34d8bb7c1cfdf51985aba29",
+    "nanoda_bin": "8241c5e6baa29490aa118d382f97961b208ae730fdb96545c2abed74c9ece5a8",
+    "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef"
+  },
+  "pipeline_revision": "65f0154ed776cd26c224254aa57b379137f28b0d",
+  "stage": "export-PortChallenge",
+  "error": "RuntimeError: export-PortChallenge exited 1; see its log"
+}

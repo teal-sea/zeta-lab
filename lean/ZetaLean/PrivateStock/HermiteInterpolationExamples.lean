@@ -1,5 +1,9 @@
-import ZetaLean.PrivateStock.HermiteInterpolation
-import Mathlib
+module
+
+public import ZetaLean.PrivateStock.HermiteInterpolation
+public import Mathlib
+
+@[expose] public section
 
 open scoped Polynomial
 open Finset Polynomial

@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23.ThmD.Mult
-import Zeta23Ext.StableRankTrace
+public import Zeta23.ThmD.Mult
+public import Zeta23Ext.StableRankTrace
+
+@[expose] public section
 
 /-!
 # Bridge definitions: the `n`-point simple-zero bound (Ainta, `riemann.tex`, `n = 7`)

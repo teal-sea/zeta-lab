@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.StableRankTrace
+public import Zeta23Ext.StableRankTrace
+
+@[expose] public section
 
 /-!
 # Pinching for convex trace functionals (the library fact S14 needs)

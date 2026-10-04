@@ -1,4 +1,8 @@
-import Zeta23Ext.TruncEst.Kernel
+module
+
+public import Zeta23Ext.TruncEst.Kernel
+
+@[expose] public section
 
 /-!
 # Lemma 1 of `PROBLEM.md`: decay of the interaction `T`

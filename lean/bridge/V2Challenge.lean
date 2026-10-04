@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Mathlib
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Advertised statements: the `n`-point simple-zero bound and three instances of it

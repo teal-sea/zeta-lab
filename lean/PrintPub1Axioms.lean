@@ -1,4 +1,8 @@
-import ZetaLean.Pub1
+module
+
+public import ZetaLean.Pub1
+
+@[expose] public section
 
 /-! Axiom audit for the Pub 1 source-admissible strong-closure development.
 Run with `lake env lean PrintPub1Axioms.lean`. -/

@@ -1,5 +1,9 @@
-import Zeta23Ext.EForm3.O9Comp
-import Zeta23Ext.EForm3.O9Real
+module
+
+public import Zeta23Ext.EForm3.O9Comp
+public import Zeta23Ext.EForm3.O9Real
+
+@[expose] public section
 
 /-!
 # `boxParts`, field by field

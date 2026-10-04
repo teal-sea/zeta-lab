@@ -1,4 +1,8 @@
-import Zeta23Ext.BandCert.Verify
+module
+
+public import Zeta23Ext.BandCert.Verify
+
+@[expose] public section
 
 /-!
 # The band-dual verdict

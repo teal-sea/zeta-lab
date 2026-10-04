@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm2.Bridge
+module
+
+public import Zeta23Ext.EForm2.Bridge
+
+@[expose] public section
 
 /-!
 # The exact reduction (`retention_gap`)

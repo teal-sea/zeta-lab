@@ -1,0 +1,127 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-OuY0B2T8yRU4DsA21MDAIc
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   stage_b_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   envelope.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   assemble.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   harden.py
+├── 🔨 Created function reduce.
+└── 🔨 Created function unit.
+{"unit": [60, 120], "seconds": 10.087632656097412}
+{"unit": [0, 60], "seconds": 9.720645189285278}
+units wall 15 s
+{
+ "cfg": {
+  "L": "4/5",
+  "T": "60",
+  "env": "sine:16",
+  "N": 96,
+  "q": 64,
+  "prec": 256,
+  "h": "1/2",
+  "split": true,
+  "units": 2,
+  "tag": "stageBval60_L08"
+ },
+ "S": "[1.5552528467195560000 +/- 3e-24]",
+ "beta": "[0.68454798242653253460 +/- 3.15e-21]",
+ "unit_seconds": [
+  9.720645189285278,
+  10.087632656097412
+ ],
+ "unit_seconds_sum": 19.80827784538269,
+ "node_shift_upper": "2.8596e-75",
+ "eps_Q_max": "3.3945e-44",
+ "eps_D": "[1.0185e-180 +/- 2.07e-185]",
+ "eps_B": "[4.4674e-87 +/- 4.44e-92]",
+ "K": "[502.19845 +/- 1.24e-6]",
+ "lemma31": {
+  "T_ge_15/4": true,
+  "beta_positive_arb": true,
+  "S_global_bound": "envelope.json, P_L - H <= S on all of R"
+ },
+ "main": {
+  "e": "2.1728e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   19,
+   -1.0681337322362152
+  ]
+ },
+ "tight_0.9999": {
+  "e": "2.1728e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   19,
+   -1.0681337322362152
+  ]
+ },
+ "lesion_dropH": {
+  "e": "2.1728e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   19,
+   -0.27212117665913205
+  ]
+ },
+ "lesion_flipH": {
+  "e": "2.1728e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   19,
+   -0.0866456167510036
+  ]
+ },
+ "lesion_inband_const_-2e-17": {
+  "e": "2.1728e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   16,
+   -0.05944859040526616
+  ]
+ },
+ "lesion_inband_cos_+1e-16": {
+  "e": "2.1728e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   19,
+   -1.0681337321414894
+  ]
+ },
+ "lesion_inband_cos_-1e-16": {
+  "e": "2.1728e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   19,
+   -1.0681337323309412
+  ]
+ },
+ "harden_route_ldl_1.158e-17": {
+  "n_neg": 1,
+  "undecided": 0
+ },
+ "negative_control": {
+  "endpoint_not_positive": true
+ },
+ "reduce_seconds": 0.8027172088623047
+}
+total wall 19 s
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-OuY0B2T8yRU4DsA21MDAIc
+exit 0

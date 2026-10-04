@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.CertDefs
-import ZetaLean.Pub1.CertBounds
-import ZetaLean.Pub1.Numeric
+public import Mathlib
+public import ZetaLean.Pub1.CertDefs
+public import ZetaLean.Pub1.CertBounds
+public import ZetaLean.Pub1.Numeric
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the trial polynomial's second derivative

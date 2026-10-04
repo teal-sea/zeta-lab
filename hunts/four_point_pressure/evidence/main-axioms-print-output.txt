@@ -1,0 +1,6 @@
+info: FourPointCand/Main.lean:206:0: 'Zeta23Ext.Bridge.FourPoint.F4_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FourPointCand/Main.lean:207:0: 'Zeta23Ext.Bridge.FourPoint.cover1' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FourPointCand/Main.lean:208:0: 'Zeta23Ext.Bridge.FourPoint.four_point_cert' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FourPointCand/Main.lean:209:0: 'Zeta23Ext.Bridge.FourPoint.Phi_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FourPointCand/Main.lean:210:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FourPointCand/Main.lean:211:0: 'Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,12 +1,16 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Mathlib
-import Zeta23Ext.Bridge.Main
-import ThreePoint.Main
-import FourPoint.Main
+public import Mathlib
+public import Zeta23Ext.Bridge.Main
+public import ThreePoint.Main
+public import FourPoint.Main
+
+@[expose] public section
 
 /-!
 # Proved solution

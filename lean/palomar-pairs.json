@@ -37,6 +37,13 @@
       "metadata": "lean/bridge/palomar-v2/formalization.yaml",
       "project": "lean/bridge",
       "note": "the n-point surface with unconditional three- and four-point instances"
+    },
+    {
+      "label": "four-point-2330",
+      "comparator": "hunts/ainta_seven_point/lean-four-point/comparator.json",
+      "metadata": "hunts/ainta_seven_point/lean-four-point/formalization.yaml",
+      "project": "hunts/ainta_seven_point/lean-four-point",
+      "note": "stronger interface built on Lean 4.35; exported-proof comparison passed with Lean, NanoDa and con-ron; not submitted"
     }
   ],
   "refused_metadata": [

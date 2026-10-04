@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.TailBound
-import ZetaLean.Pub1.ZResolvent
-import ZetaLean.Pub1.CertArith
+public import Mathlib
+public import ZetaLean.Pub1.TailBound
+public import ZetaLean.Pub1.ZResolvent
+public import ZetaLean.Pub1.CertArith
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: bounds on the tail term `E u`

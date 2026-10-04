@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib.Analysis.Normed.Group.Tannery
+public import Mathlib.Analysis.Normed.Group.Tannery
+
+@[expose] public section
 
 /-!
 # Dominated convergence for nontrivial arithmetic cores
