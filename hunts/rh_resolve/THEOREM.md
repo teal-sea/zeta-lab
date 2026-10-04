@@ -36,7 +36,7 @@ Outstanding proof obligations:
    but JSON rows omit rho, K0, and the branch minimum. Record every
    parameter and bound in a future run; existing data are not relabelled.
 
-Bounded checks using `/Users/thomas/zeta-lab/.venv/bin/python`, serially,
+Bounded checks using `.venv/bin/python`, serially,
 with python-flint at 128 bits and no midpoint rerun:
 
 - The three range-stamped midpoint files cover 1..60, and exactly 1..58
