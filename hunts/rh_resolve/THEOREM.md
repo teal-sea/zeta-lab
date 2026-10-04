@@ -1,4 +1,63 @@
-# THEOREM: enclosed Li positivity for 1 <= n <= 58
+# Li positivity computation: enclosure claim pending repair
+
+## Current audit status (2026-10-04)
+
+**Verdict: incomplete, with the missing implication being a sound bound
+for the midpoint quadrature error.** The saved rows report positive lower
+endpoints for n = 1..58; that mechanical observation is not presently an
+enclosure proof of those Li coefficients. The historical theorem and
+stronger grade below are withdrawn pending repair and a reproducible rerun.
+No RH resolution, uniform positivity result, or refutation is claimed.
+
+Audit target: `af74d3edf0e9754855713d01002f3de2f9081db4`,
+`enclose_li_mid.py` lines 21..91 and its unchanged JSON artifacts.
+The current merge preserves that implementation. All raw results, including
+`superseded/`, remain unchanged. This is a documentation correction only.
+
+Outstanding proof obligations:
+
+1. `bound_M`, lines 40..41, takes the maximum of the absolute real and
+   imaginary endpoints. This bounds the coordinate norm, not complex
+   modulus as required by the Cauchy estimate: for example, 1+i has
+   coordinate norm 1 and modulus sqrt(2). A bound for `abs(L)` is needed.
+   This identifies a missing justification, not a demonstrated false Li sign.
+2. Lines 39..41 and 60..84 convert bounds and radii to binary floats and
+   calculate the remainder with ordinary arithmetic. Outward rounding of
+   these operations is not established. Arb evaluations of the midpoint
+   samples do not enclose this separate error calculation.
+3. The angle coverage uses float pi and fixed 1e-15 padding (lines 31..33,
+   76..77). Coverage must be proved for the stated grids or constructed
+   directly with ball arithmetic. A positive outer-contour bound for
+   Re(xi(1/(1-z))) then extends to the disk by the harmonic minimum
+   principle, proving zero-freeness and the principal-log branch without
+   the first-zero completeness assumption in historical L1.
+4. The correction commands in RUNS.md omit `--rho 0.88 --K0 16384` for
+   the R=0.8 runs. These parameters are recoverable from RESULTS.md,
+   but JSON rows omit rho, K0, and the branch minimum. Record every
+   parameter and bound in a future run; existing data are not relabelled.
+
+Bounded checks using `/Users/thomas/zeta-lab/.venv/bin/python`, serially,
+with python-flint at 128 bits and no midpoint rerun:
+
+- The three range-stamped midpoint files cover 1..60, and exactly 1..58
+  have positive reported lower endpoints. Row 59 starts at -0.06481890146.
+- `bound_M("0.85", 2048, 128)` reproduces M=1.196816073730588.
+  `bound_M("0.88", 16384, 128)` reproduces M=0.9714775364845991 and
+  min Re=0.358857166309262, matching the narrative. At the default
+  K0=2048 the latter contour fails its branch check (min Re=-0.04814).
+  These reproduce the implementation, not a valid complex modulus bound.
+- The independent closed form for lambda_1, evaluated directly in Arb,
+  is [0.0230957089661210338143102479064952916 +/- 3.59e-38], positive.
+
+Cheapest next step: correct the norm, outward rounding, angle coverage,
+and metadata, then perform a budgeted finite-range rerun. No repaired
+range is asserted here. The panel-covering implementation does not use
+this derivative remainder, but its branch and angle-coverage obligations
+still need review; this audit does not promote its rows to a new theorem.
+
+## Historical argument (2026-10-03; grade withdrawn by the audit above)
+
+### Former claim: enclosed Li positivity for 1 <= n <= 58
 
 Claim: lambda_1, ..., lambda_58 > 0, each enclosed by an explicit
 rational interval with positive lower bound. Artifacts:

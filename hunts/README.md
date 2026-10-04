@@ -77,13 +77,14 @@ control roles, and the checks are the ones the tree already owns:
 
 ### Direct resolution attempt (`rh_resolve/`, 2026-10-03)
 
-**Status: unresolved.** Finite Li positivity is enclosure-carrying
-for n = 1..58 (`THEOREM.md`). RH is derived equivalent to
-Re(xi'/xi) > 0 on the open right half-plane (`EQUIVALENCE.md`);
-that equivalence is not a proof. A positive even Gaussian mixture
-has a non-real cosine zero, so positivity of the theta weight is
-not sufficient. Log-concavity of Phi survives negative heat-flow
-time, so it cannot force Lambda <= 0. No novelty claim.
+**Status: unresolved.** Saved Li rows report positive lower endpoints
+for n = 1..58, but their enclosure grade was withdrawn on 2026-10-04:
+the complex norm and remainder arithmetic need repair and a rerun
+(`THEOREM.md`). RH is derived equivalent, using the stated classical
+dependencies, to Re(xi'/xi) > 0 for Re s > 1/2 (`EQUIVALENCE.md`);
+that equivalence is not a proof of RH. A positive even Gaussian mixture
+has a measured non-real cosine zero. The log-concavity obstruction is
+conditional on an unproved uniform margin. No novelty claim.
 
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 

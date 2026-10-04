@@ -3,6 +3,16 @@
 Grade: measured (float). No violation found, no support claimed.
 Artifacts: probe_phase1.py, results_phase1.json (this directory).
 
+## Current audit status (2026-10-04)
+
+The n <= 58 enclosure claim below is withdrawn pending a sound complex
+modulus bound, outward-rounded remainder arithmetic, angle coverage, and
+a reproducible rerun. See THEOREM.md for exact defects and bounded checks.
+The saved rows still report positive lower endpoints for 1..58, but these
+are numerical evidence, not an established enclosure theorem. Historical
+phase descriptions below record what was claimed at the time; they do not
+override this correction. Raw artifacts and RUNS.md remain unchanged.
+
 ## What was measured
 
 Route A, Li coefficients (Cauchy, unconditional): lambda_1..20 all
@@ -103,7 +113,7 @@ K ~ 3M panels with this naive scheme. Finite extension has
 diminishing returns and no finite N implies RH. The tail needs
 new mathematics, not larger K.
 
-## Phase 4: enclosure-carrying positivity to n = 58, after a correction (2026-10-03)
+## Phase 4: historical n = 58 enclosure claim (2026-10-03; withdrawn 2026-10-04)
 
 First stated to n = 71, then WITHDRAWN IN PART: re-derivation
 showed the midpoint remainder missed the oscillation terms
@@ -184,16 +194,17 @@ no violation found in range, never support for RH.
 
 Derived, not a resolution. RH is equivalent to Re(xi'/xi(s)) > 0
 for every s with real part greater than 1/2. Proof, dependencies,
-and the two killed sufficient conditions (positive weight;
-log-concavity of Phi) are in EQUIVALENCE.md. Spot checks:
+and the positive-weight witness are in EQUIVALENCE.md. The log-concavity
+obstruction remains conditional on an unproved uniform margin. Spot checks:
 check_logderiv.py. The open step is the sign of that real part
 inside the strip, where the archimedean term and zeta'/zeta
 nearly cancel.
 
 ## The doors
 
-1. Active constraints at the optimum: the enclosed boundary
-   n = 59 binds on the enclosure width, which grows like
+1. Active constraints: first repair the enclosure soundness gaps in
+   THEOREM.md. The historical calculation reports a boundary at n = 59;
+   its nominal width grows like
    n^3 R^{-n}/K^2. The n^2 factor comes from the oscillation
    term in G2 (missing it once cost a full correction round).
    Shadow price near the boundary: each further unit of n

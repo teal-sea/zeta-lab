@@ -19,9 +19,11 @@ Use measured, derived, enclosure-carrying only where earned.
    dependencies, reproducible artifacts, and a formal-statement
    check against the original problem (not just proof vs encoding).
 
-## Current status (2026-10-03)
+## Current status (2026-10-04)
 
-No resolution claimed. Finite Li positivity is recorded in THEOREM.md.
+No resolution claimed. The reported positive rows for Li coefficients 1..58
+remain numerical evidence; their enclosure grade is withdrawn pending a
+sound remainder bound and reproducible rerun (THEOREM.md, current audit).
 The logarithmic-derivative equivalence is in EQUIVALENCE.md.
 Neither is the hypothesis.
 
@@ -34,7 +36,7 @@ dead_routes:
   - zeros-route Li scan as positivity evidence (structurally nonnegative, zeta/li.py docstring)
   - harness framework extension without live consumer (harness/VERDICT.md)
   - positive even weight alone (Gaussian-mixture cosine zero, EQUIVALENCE.md)
-  - log-concavity of Phi as a sufficient condition for real cosine zeros (survives negative heat time)
+  - log-concavity of Phi as a sufficient condition (conditional obstruction; uniform margin unproved)
 required_oracles:
   - mpmath independent oracle cross-check (tests/test_pari_oracle.py pattern)
   - ball-arithmetic enclosure via zeta/rigor.py (Arb and mpmath.iv cross-check)

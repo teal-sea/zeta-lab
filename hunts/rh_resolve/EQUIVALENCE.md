@@ -13,7 +13,9 @@ has real part 1/2.
 Let L(s) = xi'(s)/xi(s). The following are equivalent.
 
 1. Every nontrivial zero has real part 1/2.
-2. Re L(s) > 0 whenever Re s > 1/2.
+2. Re L(s) > 0 whenever Re s > 1/2 and xi(s) != 0.
+
+Zeros are counted with multiplicity in all sums below.
 
 ## Dependencies
 
@@ -34,9 +36,9 @@ D3. Explicit logarithmic derivative, checked in
     psi(s/2) = -2/s - gamma + O(s), is
     b = -gamma/2 - 1 + log 2 + (1/2) log pi.
 
-D4. Growth: off small disks about the zeros, L(z) = O(log |z|).
-    This is the classical convex bound, used only to kill the
-    integral at infinity. It is not re-proved here.
+D1 and D2 are classical analytic inputs, not established by the numerical
+spot checks. The derivation below is conditional on those inputs in their
+stated form. No growth bound for L on circles at infinity is needed.
 
 ## Proof
 
@@ -44,18 +46,22 @@ D4. Growth: off small disks about the zeros, L(z) = O(log |z|).
 Re rho > 1/2 contributes m/(s-rho). On the open half-plane,
 points immediately to the left of rho have
 Re(m/(s-rho)) < 0, and the rest of L is holomorphic there.
-So (2) forbids every such rho.
+So (2) forbids every such rho. By xi(s)=xi(1-s), a zero to the
+left of 1/2 would reflect to one on the right, so it too is forbidden.
 
-(1) implies (2). The functional equation gives L(s) = -L(1-s),
-so L(1) = -b. Integrate L(z)/(z(1-z)) over circles of radius
-tending to infinity that pass between zeros. The integrand is
-O(log |z| / |z|^2), so the integral vanishes (D4). Residues:
-1/(rho(1-rho)) at each zero, b at z = 0, and b at z = 1
-(residue of 1/(z(1-z)) at z = 1 is -1, times L(1) = -b).
-No other poles: the trivial zeros of zeta are cancelled by
-the gamma factor inside xi. Therefore
+(1) implies (2). Differentiating the genus-1 product locally away
+from its zeros gives
 
+    L(s) = b + sum_rho (1/(s-rho) + 1/rho).
+
+Each summand is O_s(1/|rho|^2) in the tail, and order 1 ensures
+sum |rho|^{-2} < infinity. Thus evaluation at s=1 is legitimate.
+The functional equation gives L(1)=-L(0)=-b. Therefore
+
+    -b = b + sum_rho (1/(1-rho) + 1/rho),
     sum_rho 1/(rho(1-rho)) = -2b.
+
+This replaces the former argument using unspecified contours at infinity.
 
 Under (1), rho(1-rho) = |rho|^2 and Re(1/rho) = (1/2)/|rho|^2,
 so sum_rho Re(1/rho) = -b. The symmetrized Hadamard derivative
@@ -85,7 +91,7 @@ Measured at 0.51+17.5i: archimedean real part 0.512, zeta'/zeta
 real part -0.510. The sign of that remainder, uniformly, is
 the open step.
 
-## Killed sufficient condition: log-concavity of Phi
+## Conditional obstruction: log-concavity of Phi
 
 Each summand of the theta weight is strictly log-concave where
 it is positive. With v = n^2 exp(4u),
@@ -106,24 +112,30 @@ both below 1, and the quadratic factor is positive for v >= 1,
 so N' < 0 on [1, infinity). N(1) < 0, hence N < 0, hence
 (log f_1)'' < -70 for every u >= 0.
 
-The ratio of the n >= 2 terms to the n = 1 term is at most a
-few thousandths for u >= 0 (the n = 2 factor is order
-exp(-3 pi)). Their contribution to (log Phi)'' near u = 0 is
-about +3.3, measured, and negligible for u >= 0.3. So Phi is
-strictly log-concave, with margin about 70. The +3.3 figure is
-measured, not the closed bound; the closed bound above is only
-for f_1.
+The measured ratio of the n >= 2 terms to the n = 1 term is a
+few thousandths near u = 0 (the n = 2 factor is order
+exp(-3 pi)); no uniform tail bound is supplied here. Their contribution to (log Phi)'' near u = 0 is
+about +3.3, measured, and appears negligible at sampled u >= 0.3.
+These observations do not prove a uniform concavity margin for the sum:
+small component weights alone do not bound their derivatives. The closed
+bound above is only for f_1. Strict log-concavity of Phi with a uniform
+margin remains an unproved input to the following obstruction.
 
-Multiplying the weight by exp(t u^2) adds 2t to (log)''. For
-every t > -35 the flowed weight remains strictly log-concave
-if the measured margin holds. That interval includes negative
-times. Rodgers-Tao (2020) says every t < 0 already has a
+Multiplying the weight by exp(t u^2) adds 2t to (log)''. If
+(log Phi)'' <= -70 uniformly, every t < 35 gives strict
+log-concavity of the flowed weight. This corrects the former reversed
+inequality t > -35. The sufficient interval includes negative times.
+Rodgers-Tao (2020) says every t < 0 already has a
 non-real zero of H_t. A sufficient condition that survives
 exp(-eps u^2) cannot prove the hypothesis: it would force
-Lambda < 0. Log-concavity is such a condition. It is killed.
+Lambda < 0. Applying that obstruction to log-concavity of this Phi
+requires the uniform bound just identified; it is conditional here.
 
 Dependency: Rodgers-Tao is a published theorem about this Phi,
-used here only to kill a sufficient condition, not as a
+checked against [arXiv:1801.05914v5](https://arxiv.org/html/1801.05914v5),
+Theorem 1 and equations (1)..(4), on 2026-10-04. The conventions match:
+H_0(z)=xi(1/2+iz/2)/8 and the flow multiplier is exp(t u^2). It is
+used here only in the conditional obstruction, not as a
 hypothesis of RH.
 
 ## Killed sufficient condition: positivity of the weight
@@ -147,5 +159,5 @@ entanglement written as one inequality, not a proof of it.
 ## Formal-statement check
 
 (1) is the original problem: nontrivial zeros, real part 1/2.
-(2) is proved equivalent to (1), not adopted in place of (1).
+(2) is derived equivalent to (1) under D1-D2, not adopted in place of (1).
 No resolution is claimed.
