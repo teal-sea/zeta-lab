@@ -116,11 +116,39 @@ def newton_collapse(d_max: int = 60, m_max: int = 150) -> None:
             raise RuntimeError("Newton collapse: a case is NOT implied by Turan")
 
 
+def blindness_of_low_degree() -> None:
+    """Why a hyperbolicity scan below d*(x0) = |x0|/(8t*) cannot fail.
+
+    Uses hunts/jensen_clock's measured dictionary: finite Jensen degree acts on
+    the zeros as de Bruijn-Newman heat with t_eff(d) = |x0|/(8d), against the
+    Davenport-Heilbronn pair's landing time. Numbers reused, not recomputed.
+    """
+    with mp.workdps(40):
+        s0 = mp.mpf("0.80851718245663738555")
+        g0 = mp.mpf("85.6993484853775921719")
+        x0 = ((s0 - mp.mpf(1) / 2) + 1j * g0) ** 2
+        t_star = mp.mpf("0.0441263")
+        d_star = abs(x0) / (8 * t_star)
+        print(
+            f"[blindness] |x0| = {mp.nstr(abs(x0), 12)}, landing t* = {t_star}"
+            f" (hunts/jensen_clock quotes d* = 20785.13 from fuller precision);"
+            f" dividing the rounded t* gives d* = {mp.nstr(d_star, 8)}"
+        )
+        for d in (2, 10, 32, 1000):
+            print(
+                f"[blindness]   d={d:5d}  t_eff = {mp.nstr(abs(x0) / (8 * d), 8)}"
+                f"  = {mp.nstr(abs(x0) / (8 * d) / t_star, 8)}x overheated"
+            )
+        if abs(x0) / (8 * 32) < t_star:
+            raise RuntimeError("blindness check: d=32 is not in the overheated region")
+
+
 def main() -> None:
     validate()
     counterexample_positivity_insufficient()
     rival_check()
     newton_collapse()
+    blindness_of_low_degree()
 
     print("\n[reduction] D_n = 1 - I_n^2/(I_{n-1} I_{n+1}); Turan is D_n <= 1/(n+1)")
     print("    n        D_n            n*D_n       1/(n+1)     u_saddle    D_laplace      rel_err")

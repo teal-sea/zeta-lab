@@ -238,3 +238,37 @@ inequalities. The measurement error it corrects: `newton_battery.py`'s table of
 495 cells passing with margins down to `1.2e-40` is that same inequality counted
 many times under different `C(d,k)` normalisations, and the tiny margins are the
 normalisation, not a near-failure. The file now carries a header saying so.
+
+## The chosen next step, and why it is closed from below
+
+The plan was to extend the saddle instrument to hyperbolicity of `J^{d,n}` at
+higher degree, where GORZ leave finitely many `n` unresolved for each `d ≥ 4`.
+**That plan is closed, and not because it failed.** `hunts/jensen_clock` had
+already measured the mechanism and I found it before spending, which is the
+whole value of reading the tree first.
+
+The mechanism: finite Jensen degree acts on the zeros as de Bruijn-Newman heat
+with `t_eff(d) = |x0|/(8d)` where `x0 = (rho - 1/2)^2` is the pair's image, and
+the Davenport-Heilbronn pair at `sigma = 0.80851718, gamma = 85.69935` lands only
+at `d* = 20785.13`, its `t* = 0.0441263`. For that pair `|x0| = 7344.47351367`,
+so `t_eff` is `459.03` at `d = 2`, `91.81` at `d = 10`, `28.69` at `d = 32`:
+overheated by 650x or more. **The degree real-roots the polynomial before it can
+be inspected, so a low-degree hyperbolicity scan cannot fail and carries no
+information.** Measured on zeta directly: `min |Im root|/|root|` over the roots
+of `J^{d,0}` is exactly `0.0` for every `d = 2..24`. That is why every scan in
+this hunt and in `zeta/li.py` passes everywhere: they are all in the blind
+region.
+
+This refines `docs/12`'s statement of the gap. "A finite unresolved set for
+every `d`" is true; the refinement is that at small `d` the set is not merely
+unresolved but **unfalsifiable by a hyperbolicity scan at that `d`**. Any
+certificate must operate above `d*(x0) = |x0|/(8t*)`, which grows like `gamma^2`
+with height, so a height-85 pair needs `d ~ 2·10^4` and the thousandth zero needs
+`d ~ 10^6`. No table in this hunt reaches that.
+
+Inherited null, which matters: `jensen_clock`'s P5 shows the clock reads zero
+**configuration, not arithmetic** (a planted pair in zeta's own table is detected
+on the same clock; configuration-only N-body dynamics predicts it to 0.094%).
+That is the same information-class conclusion `hunts/epp_herglotz` section 6 and
+`hunts/local_positivity` reach from other directions, arriving here a third time
+from the coefficient side.

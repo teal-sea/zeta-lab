@@ -263,6 +263,62 @@ strictly stronger than its Newton inequalities**, and it is hyperbolicity that
 GORZ leave open for a finite set of `n` at each `d ≥ 4`. What the proposition
 says is that the Newton/real-rootedness-necessary family is not the way in.
 
+## 5c. Why the higher-degree hyperbolicity gap cannot be attacked from below
+
+This was the hunt's chosen next step and it is now closed, by a measured
+mechanism inherited from `hunts/jensen_clock` rather than by a failed search.
+The reasoning is recorded because it is the difference between a route that was
+tried and a route that is structurally blind.
+
+`hunts/jensen_clock` establishes that the finite Jensen degree acts on the zeros
+as **de Bruijn-Newman heat with effective time**
+
+```
+    t_eff(d) = |x0| / (8d),     x0 = (rho - 1/2)^2  the pair's image,
+```
+
+and measures the Davenport-Heilbronn pair's own landing time as `t* = 0.0441263`
+(pair 1, `sigma = 0.80851718, gamma = 85.69935`), reached only at
+`d* = 20785.13`. For that pair `|x0| = 7344.47351367`, so:
+
+| d | `t_eff(d)` | versus `t* = 0.0441263` |
+| --- | --- | --- |
+| 2 | 459.03 | 10^4x overheated |
+| 10 | 91.81 | 2081x overheated |
+| 32 | 28.69 | 650x overheated |
+| 1000 | 0.9181 | 21x overheated |
+| 20785 | 0.04417 | at landing (d* from hunts/jensen_clock) |
+
+**The degree itself real-roots the polynomial before it can be inspected.** So a
+hyperbolicity scan at degree `d` below the configuration-dependent threshold
+`d*(x0) = |x0|/(8t*)` **cannot fail**, and a pass there carries no information.
+Measured on zeta directly: `min |Im root|/|root|` over the roots of `J^{d,0}` is
+`0.0` for every `d = 2..24`, i.e. the condition is slack throughout the reachable
+range, not tight. This is consistent with `newton_battery.py` and the earlier
+hyperbolicity scans passing everywhere: they were in the blind region.
+
+**Consequence for `docs/12`'s statement of the gap.** That page says GORZ leave
+"a finite unresolved set for every `d`". The refinement is that the unresolved
+set at small `d` is not merely unresolved but *unfalsifiable in principle by a
+hyperbolicity scan at that `d`*: any actual violation has been smoothed away by
+the time the polynomial is written down, and becomes visible only at
+`d` on the order of `10^4` to `10^5` for a height-85 pair, larger for higher
+zeros since `|x0|` grows like `gamma^2`. A certificate strategy for the higher
+order must therefore operate **above** `d*(x0)`, which is not a degree range any
+of this hunt's tables reach.
+
+**Also a null control, inherited.** `jensen_clock`'s P5 shows the effect tracks
+zero **configuration, not arithmetic**: a pair planted into zeta's own
+gamma-table is detected on the same clock, and pure configuration-only N-body
+dynamics predicts the timing to `0.094%`. So a hyperbolicity certificate at high
+`d` reads the positions of the zeros, not the Euler product, which is the same
+information-class finding `hunts/epp_herglotz` section 6 and
+`hunts/local_positivity` reach from other directions.
+
+This hunt does not claim to have tested high-degree hyperbolicity, and makes no
+statement about it. It claims that the low-degree version is blind, with the
+mechanism and the numbers above.
+
 ## 6. What this is and is not
 
 - **Is:** an exact reduction of the Turán inequality to a Cauchy–Schwarz

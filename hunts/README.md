@@ -3053,6 +3053,23 @@ normalisation counted repeatedly, not near-failures, and chasing Newton at
 higher `d` is closed by computation rather than by a search that found nothing.
 Hyperbolicity of `J^{d,n}` is strictly stronger than its Newton inequalities and
 is **not** closed.
+
+**Why the higher-degree version is closed from below, with a mechanism.**
+`hunts/jensen_clock` measured that finite Jensen degree acts on the zeros as
+de Bruijn-Newman heat with `t_eff(d) = |x0|/(8d)`, `x0 = (ρ−1/2)²` the pair's
+image. The Davenport-Heilbronn pair (`σ = 0.80851718, γ = 85.69935`) lands only
+at `d* = 20785.13` with `t* = 0.0441263`, and `|x0| = 7344.47351367`, so
+`t_eff = 459.03` at `d = 2`, `28.69` at `d = 32`, `0.9181` at `d = 1000`: the
+degree has already real-rooted the polynomial before it can be inspected, and a
+low-degree hyperbolicity scan **cannot fail**. Measured directly on ζ:
+`min|Im root|/|root|` over `J^{d,0}` is exactly `0.0` for every `d = 2..24`, so
+the condition is slack throughout the reachable range. This refines `docs/12`'s
+statement of the gap: at small `d` the unresolved set is not merely unresolved
+but unfalsifiable by a scan at that `d`, and a certificate must operate above
+`d*(x0) = |x0|/(8t*)`, which grows like `γ²` with height. The inherited null is
+that the clock reads zero **configuration, not arithmetic**
+(`jensen_clock` P5), the same information-class conclusion `epp_herglotz` and
+`local_positivity` reach from other sides.
 The Turán inequality is already known unconditionally (Csordas–Norfolk–Varga);
 this hunt does not improve on it and claims no progress on RH. Nothing here
 bears on RH (`docs/08`).
