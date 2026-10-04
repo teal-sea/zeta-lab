@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Convergence
+public import Mathlib
+public import ZetaLean.Pub1.Convergence
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the staged assembly

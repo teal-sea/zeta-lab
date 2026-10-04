@@ -1,9 +1,13 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 SPDX-License-Identifier: MIT
 -/
-import Zeta23Ext.Bridge.S6
+public import Zeta23Ext.Bridge.S6
+
+@[expose] public section
 
 /-!
 # S7: the counting inequality with defect  ([A] Corollary 2.2, eq:s1)

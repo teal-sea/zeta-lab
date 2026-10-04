@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": 1,
+      "url": "https://arxiv.org/html/2005.05142v2",
+      "title": "Dobner, extended Selberg class, version 2",
+      "accessed": "2026-09-17",
+      "quotes": [
+        {
+          "text": "whereas some of the other conditions (e.g. the existence of an Euler product) are not necessary.",
+          "added": "2026-09-17"
+        }
+      ]
+    }
+  ]
+}

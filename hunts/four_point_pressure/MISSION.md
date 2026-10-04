@@ -34,3 +34,19 @@ agents_may_not:
 The original exploratory contract and generated source are retained in the
 [candidate commit](https://github.com/teal-sea/zeta-lab/commit/d28df5f992479cd32751cb90c8c88551550582a3).
 The final outcome and reproduction commands are in [RUNS.md](RUNS.md).
+
+## 2026-09-28: owner-directed resumption
+
+The owner has resumed this work for verification, integration and Palomar
+preparation. The archival restrictions above describe the September 5
+publication; they do not prohibit this resumed mission. Preserve that record
+and the registered theorem while checking the stronger candidate from
+`vizier/four-point-stronger-cert` at
+`5522b96314f7f63198ae3ec4e71d954255f93d1a`.
+
+Scope includes the candidate package and its generator, this hunt's evidence,
+focused tests, build checks, and a separately named Palomar surface. Keep
+SamiYaya's independently reported parameters in issue #254 distinct from this
+candidate's provenance. Any theorem claim requires evidence for the actual
+source revision and its complete Lean dependency chain. Preparation does not
+assert that a Palomar submission or external review has occurred.

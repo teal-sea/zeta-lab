@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm.Basic
+module
+
+public import Zeta23Ext.EForm.Basic
+
+@[expose] public section
 
 open scoped BigOperators
 open scoped Real

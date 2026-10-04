@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm3.Estimates
+module
+
+public import Zeta23Ext.EForm3.Estimates
+
+@[expose] public section
 
 /-!
 # The far-field bound

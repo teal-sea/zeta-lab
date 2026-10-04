@@ -1,0 +1,100 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-u5ihCmzqiW28DuFqefg6Tx
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   stage_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   reduce_stage.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   envelope.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   assemble.py
+├── 🔨 Created function unit.
+└── 🔨 Created function reduce.
+Traceback (most recent call last):
+  File "/pkg/modal/_runtime/container_io_manager.py", line 987, in handle_input_exception
+    yield
+  File "/pkg/modal/_container_entrypoint.py", line 189, in run_input_sync
+    values = io_context.call_function_sync()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pkg/modal/_runtime/container_io_manager.py", line 266, in call_function_sync
+    expected_value_or_values = self.finalized_function.callable(*args, **kwargs)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/stage_modal.py", line 71, in reduce
+    rows = reduce_units("/out", PLAN["tag"], out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/reduce_stage.py", line 44, in reduce_units
+    files = sorted(Path(directory).glob(f"{tag}_*.json"), key=lambda p: int(p.stem.split("_")[-2]))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/reduce_stage.py", line 44, in <lambda>
+    files = sorted(Path(directory).glob(f"{tag}_*.json"), key=lambda p: int(p.stem.split("_")[-2]))
+                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'L119'
+Stopping app - uncaught exception raised locally: ValueError("invalid literal for int() with base 10: 'L119'").
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/ │
+│ stage_modal.py:83 in main                                                    │
+│                                                                              │
+│    82 │   │   │   print(f"units wall {time.time() - t_start:.0f} s", flush=T │
+│ ❱  83 │   │   for row in reduce.remote():                                    │
+│    84 │   │   │   print(json.dumps(row), flush=True)                         │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_object.py:46 in wrapped                                                    │
+│                                                                              │
+│    45 │   │   await self.hydrate()                                           │
+│ ❱  46 │   │   return await method(self, *args, **kwargs)                     │
+│    47                                                                        │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_functions.py:1893 in remote                                                │
+│                                                                              │
+│   1892 │   │                                                                 │
+│ ❱ 1893 │   │   return await self._call_function(args, kwargs)                │
+│   1894                                                                       │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_functions.py:1830 in _call_function                                        │
+│                                                                              │
+│   1829 │   │                                                                 │
+│ ❱ 1830 │   │   return await invocation.run_function()                        │
+│   1831                                                                       │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_functions.py:503 in run_function                                           │
+│                                                                              │
+│    502 │   │   │   # No more retries left.                                   │
+│ ❱  503 │   │   │   return await _process_result(                             │
+│    504 │   │   │   │   await_response.output.result, await_response.output.d │
+│                                                                              │
+│ /Users/thomas/.local/share/uv/tools/modal/lib/python3.12/site-packages/modal │
+│ /_utils/function_utils.py:572 in _process_result                             │
+│                                                                              │
+│   571 │   │   │                                                              │
+│ ❱ 572 │   │   │   raise exc_with_hints(exc)                                  │
+│   573                                                                        │
+│                                                                              │
+│     ...Remote call to Modal Function (ta-01M3J3DNQBWVSK8XP2EXRA7QYR)...      │
+│                                                                              │
+│ /root/stage_modal.py:71 in reduce                                            │
+│                                                                              │
+│ ❱ 71 rows = reduce_units("/out", PLAN["tag"], out)                           │
+│                                                                              │
+│                                                                              │
+│ /root/reduce_stage.py:44 in reduce_units                                     │
+│                                                                              │
+│ ❱ 44 files = sorted(Path(directory).glob(f"{tag}_*.json"), key=lambda p: int │
+│                                                                              │
+│                                                                              │
+│ /root/reduce_stage.py:44 in <lambda>                                         │
+│                                                                              │
+│ ❱ 44 files = sorted(Path(directory).glob(f"{tag}_*.json"), key=lambda p: int │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ValueError: invalid literal for int() with base 10: 'L119'
+exit 1
+2026-09-27T18:53:18Z

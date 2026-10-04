@@ -1,10 +1,14 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Certificate
-import ZetaLean.Pub1.WRegularity
+public import Mathlib
+public import ZetaLean.Pub1.Certificate
+public import ZetaLean.Pub1.WRegularity
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the resolvent equation for `z = w - u`

@@ -28,6 +28,8 @@ import pytest
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+pytest.importorskip("yaml")
+
 import palomar_correspondence as pc  # noqa: E402
 
 # The commit whose record was refused, and the fix that followed it.
@@ -49,6 +51,12 @@ def _fails(comparator: str, metadata: str) -> list[str]:
 def test_accepted_surfaces_pass(comparator, metadata):
     """The two registered records, and the V2 record as intended to be filed."""
     assert _fails(comparator, metadata) == []
+
+
+def test_prepared_stronger_surface_has_matching_metadata():
+    project = "hunts/ainta_seven_point/lean-four-point"
+    assert _fails(f"{project}/comparator.json", f"{project}/formalization.yaml") == []
+    assert pc.resolve_project(f"{project}/comparator.json", str(ROOT)) == project
 
 
 # --- the two that were refused ----------------------------------------------

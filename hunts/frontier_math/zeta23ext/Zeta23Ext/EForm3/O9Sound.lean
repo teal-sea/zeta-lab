@@ -1,5 +1,9 @@
-import Zeta23Ext.EForm3.O9Comp
-import Zeta23Ext.EForm3.ClosedForm
+module
+
+public import Zeta23Ext.EForm3.O9Comp
+public import Zeta23Ext.EForm3.ClosedForm
+
+@[expose] public section
 
 /-!
 # O9 soundness: the seams between the table and the damage

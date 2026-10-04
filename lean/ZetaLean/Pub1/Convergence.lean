@@ -1,13 +1,17 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Profile
-import ZetaLean.Pub1.Main
-import ZetaLean.Pub1.Window
-import ZetaLean.Pub1.Aristotle.H2
-import ZetaLean.Pub1.Aristotle.M
+public import Mathlib
+public import ZetaLean.Pub1.Profile
+public import ZetaLean.Pub1.Main
+public import ZetaLean.Pub1.Window
+public import ZetaLean.Pub1.Aristotle.H2
+public import ZetaLean.Pub1.Aristotle.M
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: `L²` closure of the quotient

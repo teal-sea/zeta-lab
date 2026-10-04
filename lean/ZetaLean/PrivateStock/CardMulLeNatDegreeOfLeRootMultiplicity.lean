@@ -1,5 +1,9 @@
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Algebra.Polynomial.Roots
+module
+
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.Polynomial.Roots
+
+@[expose] public section
 
 /-!
 # Many roots of high multiplicity force a large degree

@@ -1,3 +1,5 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license as described in the file LICENSE.
@@ -12,7 +14,9 @@ carried through every inequality; the proof bodies are theirs and remain under
 their licence, and the changes, marked `-- [S8]`, are this laboratory's.  See
 `NOTICE` at the root of this package.
 -/
-import Zeta23Ext.Bridge.Defs
+public import Zeta23Ext.Bridge.Defs
+
+@[expose] public section
 
 /-!
 # S8 helpers: `[L23]`'s seam A and Theorem-D endgame with a defect term carried along

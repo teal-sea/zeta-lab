@@ -1,4 +1,8 @@
-import Zeta23Ext.EForm3.ClosedForm
+module
+
+public import Zeta23Ext.EForm3.ClosedForm
+
+@[expose] public section
 
 /-!
 # The retention gap identity

@@ -923,6 +923,54 @@ this does not establish novelty or constitute external mathematical endorsement.
 Relevance to the original objective: no upper bound has been proved.
 Section 12's route was to a lower bound, and Theorem B is that lower bound.
 
+# Fourth pass, 2026-09-20: signed-cancellation package and exact p = 2 pairing (no new bound)
+
+No new RH-strength bound is established in this pass. The earlier isolation step
+remains unresolved and the proposed finer Sigma_2 estimates are not accepted;
+the justified Sigma_2 baseline stays the elementary O(N log^3 N). The complete
+record is [FINAL_ACCEPTANCE.md](FINAL_ACCEPTANCE.md) (status ATTEMPT_UNRESOLVED
+under ALIGNMENT.md section 5), the pairing memo [MOBIUS_PAIRING.md](MOBIUS_PAIRING.md),
+and its independent review [MOBIUS_PAIRING_REVIEW.md](MOBIUS_PAIRING_REVIEW.md).
+
+What is valid. Inside each Sigma_2 block M_b, the exact head/tail/paired
+partition M_b = P_b + T_b + H_b + Z_b with Z_b = 0 termwise holds for all N >= 4
+by combinatorial partition (ab > Y gate by 2(U+1)K - N >= 3 > 0 for N >= 12),
+machine-checked with zero rational defect at 20 cutoffs to N = 10000. Under the
+declared absolute-value majorants, B(N) = (1/48) N log^3 N + O(N log^2 N) and
+Ptot(N) = (1/192) N log^3 N + O(N log^2 N); boundary totals are Theta(N log^2 N),
+one log power below. Measured Ptot/B falls 0.87, 0.69, 0.60 at N = 100, 1000,
+10000, approaching the limiting 1/4 from above; finite ratios are diagnostics,
+not the constants. Retired is ONLY this explicit majorant construction, not the
+true signed sum Sigma_2, not signed pairings generally, and not multi-prime
+mechanisms. The joint D_N target remains unproved; no accepted estimate here supplies the required full signed cancellation.
+
+Evidence classes, kept apart. Ordinary reviewed derivation plus Class A exact
+finite rational checks, Class B high-precision non-enclosing numerical checks
+(not exact), and Class C measured float diagnostics; no kernel check and no
+novelty claim. Standard identities (Lambda = mu * log,
+hyperbola partition, Stirling/harmonic expansions) are assembly, not discovery.
+The conditional smooth zero-mode R_eta stays explicitly hypothetical: a C^1
+continuum profile under a hypothetical off-critical zero, lacking prime-power
+jumps and discrete mu convolution, so it cannot instantiate Sigma_2; its failure
+to instantiate refutes no hyperbola lemma, and the majorant obstruction assumes
+no off-critical zero. Review provenance: the first review draft cited an
+ephemeral scratch script and an invalid Y bound; that statement is retracted in
+the review and the durable [mobius_pairing_independent_check.py](mobius_pairing_independent_check.py)
+plus [results_mobius_pairing_independent.json](results_mobius_pairing_independent.json)
+are the reproducible record. Superseded errors (A(N) - log(N!) = O(sqrt N),
+N^{1/4} spectral margin, proved Sig1 main term, sign of the fractional split)
+are listed as retracted in FINAL_ACCEPTANCE section 6; read those versions as
+superseded, not current.
+
+Doors of this mechanism. Binding: the absolute-value step |mu| <= 1 with the
+floor majorant, which discards the mu signs; frozen: p = 2 only, this
+head/tail/cutoff assembly. The majorant is pinned Theta(N log^3 N) from above
+and below, so evaluating this fixed explicit majorant more accurately cannot
+change its proved order; that is a statement about this majorant, not a
+universal closure of the pairing family. Beating it requires reading what this
+family discards: mu signs (signed pairing), more primes, or an accepted Sig1
+bound.
+
 ## The doors
 
 UPPER_BOUND.md measures E(N) << N^3 (log N)^{-C} for every fixed C, the classical

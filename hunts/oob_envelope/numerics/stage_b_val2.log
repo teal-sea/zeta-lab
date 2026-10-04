@@ -1,0 +1,247 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-TtQ0os4EX4HAAgTufDgD97
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   stage_b_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   envelope.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   harden.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert/hunts/oob_envelope/numerics/
+│   assemble.py
+├── 🔨 Created function unit.
+└── 🔨 Created function reduce.
+{"unit": [100, 200], "seconds": 20.181228160858154}
+{"unit": [0, 100], "seconds": 23.02932071685791}
+units wall 28 s
+{
+ "cfg": {
+  "L": "4/5",
+  "T": "100",
+  "env": "sine:16",
+  "N": 96,
+  "q": 64,
+  "prec": 256,
+  "h": "1/2",
+  "split": true,
+  "units": 2,
+  "tag": "stageBval2_L08"
+ },
+ "S": "[1.5552528467195560000 +/- 3e-24]",
+ "beta": "[1.2020402728591898845 +/- 2.47e-20]",
+ "unit_seconds": [
+  23.02932071685791,
+  20.181228160858154
+ ],
+ "unit_seconds_sum": 43.210548877716064,
+ "node_shift_upper": "5.5077e-75",
+ "eps_Q_max": "5.7635e-44",
+ "eps_D": "[2.7569e-95 +/- 1.48e-100]",
+ "eps_B": "[3.0300e-44 +/- 4.28e-49]",
+ "K": "[853.46971 +/- 4.19e-6]",
+ "lemma31": {
+  "T_ge_15/4": true,
+  "beta_positive_arb": true,
+  "S_global_bound": "envelope.json, P_L - H <= S on all of R"
+ },
+ "main": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.15834026601e-17",
+  "t_measure_s": 0.11551117897033691,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "95681945057254130221516532286754205590910837190982405086438528946876677862995/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lambda0": "1.14675686335e-17",
+  "r": "3.2938e-76",
+  "lambdaA_lower_rounded_down": "114675686334e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "95681945057254130221516501252420277324427864687902490150966862669247769268625/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lower_bound_rounded_down": "114675686334e-28",
+  "t_total_s": 0.23680448532104492,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -2.1490122641755187
+   ]
+  }
+ },
+ "tight_0.9999": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.15834026601e-17",
+  "t_measure_s": 0.11423563957214355,
+  "lambda0_tries": [
+   {
+    "fac": "0.9999",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "96638764507826671523731697609621747646819945562892229137302914236345444641625/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lambda0": "1.15822443198e-17",
+  "r": "4.7594e-76",
+  "lambdaA_lower_rounded_down": "115822443198e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "48319382253913335761865833287643909690168486529906157100915012567757381734185/4171849679533027504677776769862406473833407270227837441302815640277772901915313574263597826048",
+  "lower_bound_rounded_down": "115822443198e-28",
+  "t_total_s": 0.21175456047058105,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -2.1490122641755187
+   ]
+  }
+ },
+ "lesion_dropH": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.15000537910e-17",
+  "t_measure_s": 0.123138427734375,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "94993461530778449550360292609544943945052959795324618966848079410494745640785/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lambda0": "1.13850532531e-17",
+  "r": "3.5380e-76",
+  "lambdaA_lower_rounded_down": "113850532530e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "23748365382694612387590065393802753919642496823061176007844052362857556671691/2085924839766513752338888384931203236916703635113918720651407820138886450957656787131798913024",
+  "lower_bound_rounded_down": "113850532530e-28",
+  "t_total_s": 0.21943330764770508,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -1.3522905799504743
+   ]
+  }
+ },
+ "lesion_flipH": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.14075976182e-17",
+  "t_measure_s": 0.1180274486541748,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "94229749286184345290686598607300758611347225636460652339470652824252112061295/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lambda0": "1.12935216420e-17",
+  "r": "3.1049e-76",
+  "lambdaA_lower_rounded_down": "112935216420e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "94229749286184345290686567572966830344864253133380737403999144163146055345863/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lower_bound_rounded_down": "112935216420e-28",
+  "t_total_s": 0.21366047859191895,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -0.7753778602589076
+   ]
+  }
+ },
+ "lesion_inband_const_-2e-17": {
+  "e": "3.6892e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   19,
+   -1.5125933459118612
+  ]
+ },
+ "lesion_inband_cos_+1e-16": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.15834026602e-17",
+  "t_measure_s": 0.11518526077270508,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "1495030391532671889011324584428306218061762784234890496349321721971198226951/130370302485407109521180524058200202307293977194619920040712988758680403184853549195737432064",
+  "lambda0": "1.14675686336e-17",
+  "r": "3.2481e-76",
+  "lambdaA_lower_rounded_down": "114675686335e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "95681945058091000896724742369077669689469845687953076830884817985520855188835/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lower_bound_rounded_down": "114675686335e-28",
+  "t_total_s": 0.21155524253845215,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -2.149012264247787
+   ]
+  }
+ },
+ "lesion_inband_cos_-1e-16": {
+  "e": "3.6892e-42",
+  "lambda_meas": "1.15834026600e-17",
+  "t_measure_s": 0.11450886726379395,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "95681945056417259546306168022395967865725856595926154133508007893668299118971/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lambda0": "1.14675686334e-17",
+  "r": "3.7198e-76",
+  "lambdaA_lower_rounded_down": "114675686333e-28",
+  "beta_minus_epsD": "[1.20204027285919 +/- 1.16e-16]",
+  "lower_bound_exact": "95681945056417259546306136988062039599242884092846239198035842100025158405911/8343699359066055009355553539724812947666814540455674882605631280555545803830627148527195652096",
+  "lower_bound_rounded_down": "114675686333e-28",
+  "t_total_s": 0.20860886573791504,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    29,
+    -2.1490122641032507
+   ]
+  }
+ },
+ "harden_route_ldl_1.158e-17": {
+  "n_neg": 0,
+  "undecided": 0
+ },
+ "validation": {
+  "positive": true,
+  "le_1.158e-17_minus_epsB": true,
+  "ge_1.1579e-17": false,
+  "dropH_fails": false,
+  "flipH_fails": false,
+  "inband_const_fails": true,
+  "inband_cos_some_sign_fails": false
+ },
+ "reduce_seconds": 2.2644405364990234
+}
+total wall 34 s
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-TtQ0os4EX4HAAgTufDgD97
+exit 0

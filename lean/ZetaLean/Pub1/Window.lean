@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Ramp
-import ZetaLean.Pub1.Concavity
-import ZetaLean.Pub1.Aristotle.J
+public import Mathlib
+public import ZetaLean.Pub1.Ramp
+public import ZetaLean.Pub1.Concavity
+public import ZetaLean.Pub1.Aristotle.J
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the source-admissible window class and the taper

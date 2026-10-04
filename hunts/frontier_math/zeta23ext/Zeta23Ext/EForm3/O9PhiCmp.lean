@@ -1,5 +1,9 @@
-import Zeta23Ext.BandCert.Phi
-import Zeta23Ext.EForm3.O9Comp
+module
+
+public import Zeta23Ext.BandCert.Phi
+public import Zeta23Ext.EForm3.O9Comp
+
+@[expose] public section
 
 /-!
 # Does `phiC`'s real part already equal `qreIv`?

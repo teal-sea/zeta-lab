@@ -1,5 +1,9 @@
-import Mathlib.Algebra.Group.Submonoid.Membership
-import Mathlib.Order.Filter.AtTopBot.Basic
+module
+
+public import Mathlib.Algebra.Group.Submonoid.Membership
+public import Mathlib.Order.Filter.AtTopBot.Basic
+
+@[expose] public section
 
 /-!
 # The filter `atTop` on the powers of `q`

@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
-import ZetaLean.DavenportHeilbronn
-import ZetaLean.DHAnalytic
+public import Mathlib
+public import ZetaLean.DavenportHeilbronn
+public import ZetaLean.DHAnalytic
+
+@[expose] public section
 
 /-!
 # The certified tail bound: `DH` beyond absolute convergence

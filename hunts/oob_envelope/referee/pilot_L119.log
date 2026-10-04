@@ -1,0 +1,58 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-rLGrvMGdAOqdVOOTZOS39n
+Building image im-uuuKJUmY3fXVnuNFz68Y0v
+
+=> Step 0: FROM base
+
+=> Step 1: RUN python -m pip install gmpy2==2.2.1 mpmath==1.3.0 python-flint==0.9.0
+Looking in indexes: http://pypi-mirror.modal.local:5555/simple
+Collecting gmpy2==2.2.1
+  Downloading http://pypi-mirror.modal.local:5555/simple/gmpy2/gmpy2-2.2.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.8 kB)
+Collecting mpmath==1.3.0
+  Downloading http://pypi-mirror.modal.local:5555/simple/mpmath/mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting python-flint==0.9.0
+  Downloading http://pypi-mirror.modal.local:5555/simple/python-flint/python_flint-0.9.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (23 kB)
+Downloading http://pypi-mirror.modal.local:5555/simple/gmpy2/gmpy2-2.2.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 424.4 MB/s eta 0:00:00
+Downloading http://pypi-mirror.modal.local:5555/simple/mpmath/mpmath-1.3.0-py3-none-any.whl (536 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 473.1 MB/s eta 0:00:00
+Downloading http://pypi-mirror.modal.local:5555/simple/python-flint/python_flint-0.9.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.1/10.1 MB 162.9 MB/s eta 0:00:00
+Installing collected packages: mpmath, python-flint, gmpy2
+
+Successfully installed gmpy2-2.2.1 mpmath-1.3.0 python-flint-0.9.0
+
+[notice] A new release of pip is available: 25.1.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+Saving image...
+Image saved, took 329.06ms
+
+Built image im-uuuKJUmY3fXVnuNFz68Y0v in 3.38s
+
+
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/run_l119_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/frozen_envelope_L119.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/independent.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r
+│   eferee/l119.py
+└── 🔨 Created function execute.
+{"unit": "panels_0990_1000", "status": "failed", "elapsed_s": 5.427241563796997}
+Stopping app - uncaught exception raised locally: RuntimeError('unit failed or inconclusive; inspect durable evidence before any further launch').
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/thomas/orca/workspaces/zeta-lab/oob-cert-referee/hunts/oob_envelope/r │
+│ eferee/run_l119_modal.py:100 in main                                         │
+│                                                                              │
+│    99 │   │   if man["status"] != "completed":                               │
+│ ❱ 100 │   │   │   raise RuntimeError("unit failed or inconclusive; inspect d │
+│   101                                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+RuntimeError: unit failed or inconclusive; inspect durable evidence before any 
+further launch

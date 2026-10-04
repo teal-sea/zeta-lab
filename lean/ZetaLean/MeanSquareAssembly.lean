@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import ZetaLean.ComplexLogMeanValue
-import ZetaLean.TwoRangeWeights
-import ZetaLean.PowerMargin
+public import ZetaLean.ComplexLogMeanValue
+public import ZetaLean.TwoRangeWeights
+public import ZetaLean.PowerMargin
+
+@[expose] public section
 
 /-!
 # Assembly of the finite logarithmic mean square

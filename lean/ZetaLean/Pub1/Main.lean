@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Zeta Lab. All rights reserved.
 Released under MIT license.
 -/
-import Mathlib
-import ZetaLean.Pub1.Setting
-import ZetaLean.Pub1.Window
-import ZetaLean.Pub1.Concavity
+public import Mathlib
+public import ZetaLean.Pub1.Setting
+public import ZetaLean.Pub1.Window
+public import ZetaLean.Pub1.Concavity
+
+@[expose] public section
 
 /-!
 # Pub 1 strong closure: the principal theorem

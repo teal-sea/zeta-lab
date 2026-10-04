@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
-import ZetaLean.HardyRamanujantheorem
-import ZetaLean.MertensSecond
+public import Mathlib
+public import ZetaLean.HardyRamanujantheorem
+public import ZetaLean.MertensSecond
+
+@[expose] public section
 
 /-!
 # Declaration probe for hunt r_8c3b94 (pricing Erdős–Kac)
@@ -142,10 +146,10 @@ section ThisTree
 #check @ZetaLean.HardyRamanujan.hardy_ramanujan_pointwise
 #check @ZetaLean.HardyRamanujan.hardy_ramanujan_cardDistinctFactors
 #check @ZetaLean.HardyRamanujan.omega_eq_cardDistinctFactors
-#check @ZetaLean.HardyRamanujan.sum_sq_dev_le          -- Turán, constant 275
+#check @ZetaLean.HardyRamanujan.sum_sq_dev_le          -- Turán, 93 (275 when this ran)
 #check @ZetaLean.HardyRamanujan.second_moment_upper    -- the k = 2 moment
 #check @ZetaLean.HardyRamanujan.card_dvd_pair          -- the k = 2 pair count
-#check @ZetaLean.Mertens.mertens_second_theorem        -- band 16
+#check @ZetaLean.Mertens.mertens_second_theorem        -- band 9 (16 when this ran)
 #check @ZetaLean.Mertens.mertens_first_theorem         -- band log 4 + 3
 
 end ThisTree

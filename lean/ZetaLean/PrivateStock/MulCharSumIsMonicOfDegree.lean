@@ -1,10 +1,14 @@
-import Mathlib.Algebra.Polynomial.FieldDivision
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.NumberTheory.MulChar.Basic
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.RingTheory.Polynomial.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import ZetaLean.PrivateStock.FiniteIsMonicOfDegree
+module
+
+public import Mathlib.Algebra.Polynomial.FieldDivision
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.NumberTheory.MulChar.Basic
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+public import Mathlib.RingTheory.Polynomial.Basic
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+public import ZetaLean.PrivateStock.FiniteIsMonicOfDegree
+
+@[expose] public section
 
 /-!
 # Character sums over monic polynomials of a given degree

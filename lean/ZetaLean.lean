@@ -1,64 +1,69 @@
-import ZetaLean.Basic
-import ZetaLean.GroundTruth
-import ZetaLean.Epstein
-import ZetaLean.Rigor
-import ZetaLean.IntervalExp
-import ZetaLean.IntervalCExp
-import ZetaLean.Ball
-import ZetaLean.BallTerm
-import ZetaLean.DirichletEval
-import ZetaLean.OracleDH
-import ZetaLean.DavenportHeilbronn
-import ZetaLean.DHAnalytic
-import ZetaLean.DHTailBound
-import ZetaLean.DHTailBound2
-import ZetaLean.DHAssembly
-import ZetaLean.DHDemo
-import ZetaLean.DHZeroCriterion
-import ZetaLean.HardyZ
-import ZetaLean.DHCertSupport
-import ZetaLean.FiniteFieldTrace
-import ZetaLean.FrontierMathObstruction
-import ZetaLean.HigherXi
-import ZetaLean.LogMeanValue
-import ZetaLean.ComplexLogMeanValue
-import ZetaLean.PowerMargin
-import ZetaLean.TwoRangeWeights
-import ZetaLean.MeanSquareAssembly
-import ZetaLean.AristotleRAMS2
-import ZetaLean.ClusterPrefix
-import ZetaLean.ClusterMajorant
-import ZetaLean.RC2PrefixAssembly
-import ZetaLean.MatchingCount
-import ZetaLean.MatchingPairStructure
-import ZetaLean.MarkedClusterFreezing
-import ZetaLean.SupportSizeMajorant
-import ZetaLean.WeightedSimplex
-import ZetaLean.PrimeSimplex
-import ZetaLean.ChebyshevBounds
-import ZetaLean.MajorantBypass
-import ZetaLean.RootedMatchingBound
-import ZetaLean.RootedSupportAssembly
-import ZetaLean.RepeatedPrimeDominated
-import ZetaLean.PowerfulDecomposition
-import ZetaLean.SturmPolyIVT
-import ZetaLean.SturmDerivRight
-import ZetaLean.SturmCoprimeSimple
-import ZetaLean.SturmOddSignChange
-import ZetaLean.Mertensstheorems
-import ZetaLean.MertensSecond
-import ZetaLean.HardyRamanujantheorem
-import ZetaLean.Pub1
-import ZetaLean.PrivateStock.CardIsMonicOfDegree
-import ZetaLean.PrivateStock.CardMulLeNatDegreeOfLeRootMultiplicity
-import ZetaLean.PrivateStock.NumMonicIrreducibleOfDegree
-import ZetaLean.PrivateStock.LeRootMultiplicityIffForallHasseDeriv
-import ZetaLean.PrivateStock.MapPowAtTopPowers
-import ZetaLean.PrivateStock.NormLeOfForallNormSumPowLe
-import ZetaLean.PrivateStock.FiniteIsMonicOfDegree
-import ZetaLean.PrivateStock.FinsumMoebiusIsMonicOfDegree
-import ZetaLean.PrivateStock.SumDegreeMulNumMonicIrreducibleOfDegree
-import ZetaLean.PrivateStock.IsBigOMulNumMonicIrreducibleOfDegreeSubPow
-import ZetaLean.PrivateStock.MulCharSumIsMonicOfDegree
-import ZetaLean.PrivateStock.HermiteInterpolation
-import ZetaLean.PrivateStock.HermiteInterpolationExamples
+module
+
+public import ZetaLean.Basic
+public import ZetaLean.GroundTruth
+public import ZetaLean.Epstein
+public import ZetaLean.Rigor
+public import ZetaLean.IntervalExp
+public import ZetaLean.IntervalCExp
+public import ZetaLean.Ball
+public import ZetaLean.BallTerm
+public import ZetaLean.BallCertSupport
+public import ZetaLean.DirichletEval
+public import ZetaLean.OracleDH
+public import ZetaLean.DavenportHeilbronn
+public import ZetaLean.DHAnalytic
+public import ZetaLean.DHTailBound
+public import ZetaLean.DHTailBound2
+public import ZetaLean.DHAssembly
+public import ZetaLean.DHDemo
+public import ZetaLean.DHZeroCriterion
+public import ZetaLean.HardyZ
+public import ZetaLean.DHCertSupport
+public import ZetaLean.FiniteFieldTrace
+public import ZetaLean.FrontierMathObstruction
+public import ZetaLean.HigherXi
+public import ZetaLean.LogMeanValue
+public import ZetaLean.ComplexLogMeanValue
+public import ZetaLean.PowerMargin
+public import ZetaLean.TwoRangeWeights
+public import ZetaLean.MeanSquareAssembly
+public import ZetaLean.AristotleRAMS2
+public import ZetaLean.ClusterPrefix
+public import ZetaLean.ClusterMajorant
+public import ZetaLean.RC2PrefixAssembly
+public import ZetaLean.MatchingCount
+public import ZetaLean.MatchingPairStructure
+public import ZetaLean.MarkedClusterFreezing
+public import ZetaLean.SupportSizeMajorant
+public import ZetaLean.WeightedSimplex
+public import ZetaLean.PrimeSimplex
+public import ZetaLean.ChebyshevBounds
+public import ZetaLean.MajorantBypass
+public import ZetaLean.RootedMatchingBound
+public import ZetaLean.RootedSupportAssembly
+public import ZetaLean.RepeatedPrimeDominated
+public import ZetaLean.PowerfulDecomposition
+public import ZetaLean.SturmPolyIVT
+public import ZetaLean.SturmDerivRight
+public import ZetaLean.SturmCoprimeSimple
+public import ZetaLean.SturmOddSignChange
+public import ZetaLean.Mertensstheorems
+public import ZetaLean.MertensSecond
+public import ZetaLean.HardyRamanujantheorem
+public import ZetaLean.Pub1
+public import ZetaLean.PrivateStock.CardIsMonicOfDegree
+public import ZetaLean.PrivateStock.CardMulLeNatDegreeOfLeRootMultiplicity
+public import ZetaLean.PrivateStock.NumMonicIrreducibleOfDegree
+public import ZetaLean.PrivateStock.LeRootMultiplicityIffForallHasseDeriv
+public import ZetaLean.PrivateStock.MapPowAtTopPowers
+public import ZetaLean.PrivateStock.NormLeOfForallNormSumPowLe
+public import ZetaLean.PrivateStock.FiniteIsMonicOfDegree
+public import ZetaLean.PrivateStock.FinsumMoebiusIsMonicOfDegree
+public import ZetaLean.PrivateStock.SumDegreeMulNumMonicIrreducibleOfDegree
+public import ZetaLean.PrivateStock.IsBigOMulNumMonicIrreducibleOfDegreeSubPow
+public import ZetaLean.PrivateStock.MulCharSumIsMonicOfDegree
+public import ZetaLean.PrivateStock.HermiteInterpolation
+public import ZetaLean.PrivateStock.HermiteInterpolationExamples
+
+@[expose] public section

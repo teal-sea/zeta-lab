@@ -12,7 +12,7 @@ mp.workdps(40) are independent routes.
 
 Run from the worktree root:
 
-    /Users/thomas/zeta-lab/.venv/bin/python hunts/depth_bound_selfterm/probe.py
+    .venv/bin/python hunts/depth_bound_selfterm/probe.py
 """
 
 from __future__ import annotations

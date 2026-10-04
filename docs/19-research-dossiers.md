@@ -16,7 +16,7 @@ honest account of what it did and did not buy.
 ## 2. Why this repository is a fair test bed
 
 Because the failure mode is already documented here, in `AGENTS.md`, under the
-heading *The naming trap: three different "theta"s*. Three unrelated functions
+heading *Traps: three thetas, xi vs Xi, and `zeta.li`*. Three unrelated functions
 share a name; `zeta.explicit.li` is the logarithmic integral while `zeta/li.py`
 is Li's criterion, and importing one shadows the other.
 

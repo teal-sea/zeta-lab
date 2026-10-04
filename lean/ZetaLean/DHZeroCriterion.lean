@@ -1,12 +1,16 @@
+module
+
 /-
 Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
-import Mathlib
-import ZetaLean.DavenportHeilbronn
-import ZetaLean.DHAnalytic
-import ZetaLean.OracleDH
+public import Mathlib
+public import ZetaLean.DavenportHeilbronn
+public import ZetaLean.DHAnalytic
+public import ZetaLean.OracleDH
+
+@[expose] public section
 
 /-!
 # The zero criterion: rung 3 reduced to two interval inequalities

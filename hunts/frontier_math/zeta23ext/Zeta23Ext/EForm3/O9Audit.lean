@@ -1,17 +1,21 @@
-import Zeta23Ext.EForm3.O9Sound
-import Zeta23Ext.EForm3.O9Shc
-import Zeta23Ext.EForm3.O9Real
-import Zeta23Ext.EForm3.O9Parts
-import Zeta23Ext.EForm3.O9Num
-import Zeta23Ext.EForm3.O9Assemble
-import Zeta23Ext.EForm3.O9Comp
-import Zeta23Ext.EForm3.O9CompEval
-import Zeta23Ext.EForm3.O9RoundTrip
-import Zeta23Ext.EForm3.O9PhiCmp
-import Zeta23Ext.EForm3.ShcTaylor
-import Zeta23Ext.EForm3.ShcBranch
-import Zeta23Ext.EForm3.O9Bridge
-import Zeta23Ext.EForm3.O9Modes
+module
+
+public import Zeta23Ext.EForm3.O9Sound
+public import Zeta23Ext.EForm3.O9Shc
+public import Zeta23Ext.EForm3.O9Real
+public import Zeta23Ext.EForm3.O9Parts
+public import Zeta23Ext.EForm3.O9Num
+public import Zeta23Ext.EForm3.O9Assemble
+public import Zeta23Ext.EForm3.O9Comp
+public import Zeta23Ext.EForm3.O9CompEval
+public import Zeta23Ext.EForm3.O9RoundTrip
+public import Zeta23Ext.EForm3.O9PhiCmp
+public import Zeta23Ext.EForm3.ShcTaylor
+public import Zeta23Ext.EForm3.ShcBranch
+public import Zeta23Ext.EForm3.O9Bridge
+public import Zeta23Ext.EForm3.O9Modes
+
+@[expose] public section
 
 /-!
 # O9 axiom audit, and the reason this file exists at all

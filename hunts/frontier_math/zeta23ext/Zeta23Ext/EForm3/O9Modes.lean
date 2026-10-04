@@ -1,6 +1,10 @@
-import Zeta23Ext.EForm3.O9Bridge
-import Zeta23Ext.EForm3.O9Sound
-import Zeta23Ext.EForm3.O9Check2
+module
+
+public import Zeta23Ext.EForm3.O9Bridge
+public import Zeta23Ext.EForm3.O9Sound
+public import Zeta23Ext.EForm3.O9Check2
+
+@[expose] public section
 
 /-!
 # The two-mode arithmetic

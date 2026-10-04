@@ -1,5 +1,9 @@
-import Mathlib.Algebra.Polynomial.Monic
-import Mathlib.SetTheory.Cardinal.Finite
+module
+
+public import Mathlib.Algebra.Polynomial.Monic
+public import Mathlib.SetTheory.Cardinal.Finite
+
+@[expose] public section
 
 /-!
 # Counting monic irreducible polynomials of a given degree

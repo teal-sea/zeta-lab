@@ -1,0 +1,4 @@
+uncaught exception: process 'lean' exited with code 1
+stderr:
+error: no default toolchain configured. run `elan default stable` to install & configure the latest Lean 4 stable release.
+

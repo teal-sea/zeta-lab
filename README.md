@@ -28,6 +28,7 @@ separate repository; this one holds the record, not the presentation of it.
 | [refute](docs/doors/refute.md) | test a claim about the zeros against the control battery | `.venv/bin/python scripts/23_gate_3_battery.py` |
 | [certify](docs/doors/certify.md) | Lean proofs and interval enclosures | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
 | [discover](docs/doors/discover.md) | run the conjecture funnel and see its measured hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
+| [evaluate](docs/doors/evaluate.md) | run an LLM against a proof-backed grader rather than an LLM judge | `uv run --directory environments/bloch_certificate bloch-smoke` |
 | [contribute](docs/doors/contribute.md) | clone the lab, run a bounded agent hunt and return checkable findings | `.venv/bin/python scripts/71_contribution_check.py hunts/<short-name>` |
 | [adopt](docs/doors/adopt.md) | *(demoted, read `harness/VERDICT.md` first)* the validation framework and why it was frozen | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py` |
 
@@ -51,6 +52,25 @@ python3 -m venv .venv                # Python >= 3.11
 Dependencies are ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`, `sympy`,
 plus `python-flint` for the ball-arithmetic backend. Expensive computations
 cache under `data/`, so second runs are fast.
+
+## Stronger Four-Point Result
+
+The lab's four-point theorem now has coefficient
+`(14400000 H - 17240)/14366681`, approximately **0.6728603588**, with
+`H = 3/2 - cot(1/sqrt(2))/sqrt(2)`. For every positive epsilon, the
+proportion of simple critical-line zeros among all zeros in `(T, 2T]` is
+at least this coefficient minus epsilon for all sufficiently large `T`.
+This improves the registered four-point coefficient below; it is not RH.
+
+The [recorded lab build](hunts/four_point_pressure/evidence/README.md)
+at `5522b963` has 49 successful receipts, zero sorry warnings, and only
+the standard three axioms for all six advertised declarations. Its source
+hashes were checked during integration. This result is **kernel-checked at
+the pinned revision**, pending external verification, and **not yet
+registered with Palomar**. The current registry requires a toolchain and
+module-format port, tracked in
+[Palomar preparation](hunts/four_point_pressure/PALOMAR-READINESS.md).
+The registered results below remain unchanged.
 
 ## Registered
 
