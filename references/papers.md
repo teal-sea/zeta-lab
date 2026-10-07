@@ -175,6 +175,23 @@ titles do not.
   **[FREE]** on arXiv. *For: what genuine unconditional progress looks like
   in this subject, per `docs/08`.*
 
+## 9. Claims under replay: stated in Lean, replayed by nobody here yet
+
+- **OpenAI, "The Quasi-Riemann Hypothesis: A Zero-Free Half-Plane
+  Re(s) > 7/8"** (OpenAI Math Release preprint, 2026-09-30), with the
+  companion **"The Quasi-Riemann Hypothesis"** (alternate 11/12 proof,
+  2026-10-05, written with human assistance) and **"Uniform exclusion of
+  Landau-Siegel zeros"** (2026-10-01). Family 003 of `github.com/openai/math`
+  at commit `adc7f124`. Claims every Dirichlet L-function, zeta included, and
+  every finite-order Hecke L-function over Q(sqrt(-3)) is zero-free in
+  Re s > 7/8, via Patterson's cubic theta function on Kubota's metaplectic
+  cover and a "continuation from a common signal" criterion. Lean statements
+  against Mathlib's `riemannZeta` and `DirichletCharacter.LFunction` are in
+  `lean/ComparatorChallenges/`; compile asserted by OpenAI, NanoDa off in its
+  configs, not replayed here. **[FREE]**, Apache-2.0. *For: `docs/38`, which
+  records what was checked in this tree and what was not; read it before
+  citing the bound, and do not cite it as a theorem until a replay exists.*
+
 ## Reading orders
 
 - *Shortest honest path*: Bombieri → Conrey → Edwards chs. 1–3.

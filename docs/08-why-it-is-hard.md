@@ -44,6 +44,12 @@ prove its implication and identify what additional arithmetic the attempt uses.
 For classical statements and historical constants, consult the source notes
 in the archived catalogue and verify the precise version before using one.
 
+On 2026-10-06 OpenAI published a claimed proof of exactly such a strip,
+`Re(s) > 7/8` for every Dirichlet L-function including zeta, with Lean
+statements against Mathlib's own definitions. Its status in this tree, what
+was checked, what was not, and what a replay needs, is `docs/38`. Until a
+replay here or at an outside registry agrees, this section stands as written.
+
 ### 1.2 Zero-density estimates
 
 A density estimate bounds how many zeros can lie in a region. Such an upper
