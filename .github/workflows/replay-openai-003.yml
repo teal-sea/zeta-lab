@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 355
     env:
-      OPENAI_COMMIT: ${{ inputs.openai_commit || '"+DEF+"' }}
+      OPENAI_COMMIT: ${{ inputs.openai_commit || 'adc7f1241b42e322a6451854ab7e4b4c146bf78a' }}
       MODE: ${{ inputs.mode || 'pilot' }}
       BUILD_TIMEOUT: ${{ inputs.build_timeout_minutes || '300' }}
       LAKE_JOBS: ${{ inputs.jobs || '3' }}
