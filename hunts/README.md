@@ -75,6 +75,27 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #123: Linnik's constant 7/3 from the 7/8 zero-free half-plane (`qrh_linnik/`)
+
+**Status: candidate, pending external review (2026-10-08).** Uses OpenAI's
+Theorem 1.1 (no Dirichlet L-function vanishes in Re s > 7/8; Lean statements
+kernel checked here, argument unreviewed) as an input, not as something to
+audit. A smoothed explicit formula with height cutoff a small power of x, the
+input theorem removing every zero above 7/8, and Chen-Gupta-Li's single-modulus
+density estimate (arXiv:2507.08296v2, preprint) give, by an ordinary written
+proof, p(q,a) <= C(eps) q^(7/3+eps) for every modulus and class, effective, with
+psi(x;q,a) ~ x/phi(q) for x >= q^(7/3+eps), all but O(phi(q) x^-delta) classes
+reached by x = q^(7/6+eps), 30/13 for smooth moduli, and Goldbach numbers
+mod any q below q^(7/6+eps). On refereed density inputs alone the exponent is
+12/5, the value Wikipedia lists for the 7/8 theorem. The binding point is
+sigma = 5/7 (Ingham's mean value bound against CGL's q1^(1/3) term), so the
+half-plane is slack for any theta >= 5/7; exact exponent algebra is checked
+against a float grid and planted lesions. The conditional implication is in
+the literature (CGL Corollary 1.4 at h = x); nothing is claimed novel. Least
+primes for q <= 5000 are tabulated as a descriptive picture (max exponent
+1.83, at q = 5). Composite grade capped by the unreviewed input. See
+`qrh_linnik/RESULTS.md`, which ends with the doors.
+
 ### Hunt #122: the second-DH tracked pair lands at 1.0876360002296, and the lower endpoint reaches 1.0876359 (`dh_minus_landing/`)
 
 **Status: probe, complete (2026-10-08); the parent's first door is priced and

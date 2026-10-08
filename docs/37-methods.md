@@ -70,7 +70,7 @@ stays out of this file. No em dashes.
 - **Certificates, verifiers and exact arithmetic** (18). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
-- **Seen and not admitted** (36). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (37). Surfaced by the sweep, below the bar for now.
 
 Totals: 167 entries from 60 hunts. Kinds: identity 21, lemma 41, bound 12, construction
 15, calibration 7, computational 15, control 35, obstruction 21.
@@ -5340,3 +5340,10 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   carried.
 - Derived-kernel validation by locating an unexplained ansatz, with fitted rivals as
   decoys (`hunts/wide_search/`, control): self-reviewed or measured only; not carried.
+- Half-plane transfer for primes in progressions: a zero-free half-plane Re s > theta
+  < 1 for all Dirichlet L-functions plus a single-modulus density exponent A(sigma)
+  gives the Linnik exponent max(2, sup over 1/2 < sigma <= theta of A) and half of it
+  for almost all classes, with the sup computed exactly at the breakpoints of the
+  monotone density envelope and checked against a float grid (`hunts/qrh_linnik/`,
+  lemma): self-reviewed only; the conditional implication is already CGL
+  arXiv:2507.08296 Corollary 1.4 at h = x; not carried.
