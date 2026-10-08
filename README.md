@@ -33,7 +33,7 @@ check it: **[docs/39](docs/39-built-on-the-quasi-riemann-theorem.md)**.
 
 | Result | What it says | Previous best |
 |---|---|---|
-| Class numbers up to 1500 ([hunt #124](hunts/qrh_class_number/RESULTS.md)) | h(D) >= sqrt(q) / (10 pi log log q) for every negative fundamental discriminant D = -q, and with it the complete list of imaginary quadratic fields of each class number h <= 1500: 9,245,562 fields | complete lists for h <= 100 (Watkins, 2004) |
+| Class numbers up to 1500 ([hunt #124](hunts/qrh_class_number/RESULTS.md)) | h(D) >= sqrt(q) / (10 pi log log q) for every negative fundamental discriminant D = -q, and with it the complete list of imaginary quadratic fields of each class number h <= 1500: 9,245,562 fields | h <= 100 unconditionally (Watkins, 2004); all h <= 1000, including even h, under GRH ([Cremona-Sutherland, 2023, section 5](https://arxiv.org/html/2301.11169v4#S5)) |
 | Primes between powers ([hunt #126](hunts/qrh_prime_powers/RESULTS.md)) | a prime between n^9 and (n+1)^9 for every n >= 1 | k = 86 for every n (Lee, 2026) |
 | Small witnesses ([hunt #125](hunts/qrh_nonresidue/RESULTS.md)) | for every nonprincipal character mod q >= 3, some n <= (log q)^8 has chi(n) not in {0, 1}; every odd composite n has a Miller-Rabin witness <= (0.7 log n)^8 | exponent 32, constant not stated (OpenAI) |
 | Linnik's constant ([hunt #123](hunts/qrh_linnik/RESULTS.md)) | the least prime in every reduced class mod q is below C q^(7/3 + eps), C effective; 12/5 from refereed inputs alone | L = 5 (Xylouris) |

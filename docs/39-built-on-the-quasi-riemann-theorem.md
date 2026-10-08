@@ -40,7 +40,7 @@ and anything about RH. 7/8 is not 1/2.
 | Result | Statement | Against | Grade | Where |
 | --- | --- | --- | --- | --- |
 | The input, replayed | Lean's kernel and the independent NanoDa kernel accept OpenAI's statements that zeta(s) and every Dirichlet L(s, chi) are nonzero for Re s > 7/8, and its Siegel-zero gap, with only the three standard axioms | OpenAI's own build; no outside replay was known | kernel-checked on two kernels, on this laboratory's compute; the argument is unreviewed by any person | [docs/38](38-the-quasi-riemann-claim.md), section 7 |
-| Class numbers up to 1500 | h(D) >= sqrt(q) / (10 pi log log q) for every negative fundamental discriminant D, with q = -D; hence the complete list of imaginary quadratic fields of class number h, for every h <= 1500: 9,245,562 fields, the largest with q = 562,394,347 | Watkins (2004): complete lists for h <= 100, unconditional. OpenAI: the same shape of bound, constant not computed | proved, given the input; constants enclosure-carrying; lists by exact computation; unreviewed | [hunt #124](../hunts/qrh_class_number/RESULTS.md) |
+| Class numbers up to 1500 | h(D) >= sqrt(q) / (10 pi log log q) for every negative fundamental discriminant D, with q = -D; hence the complete list of imaginary quadratic fields of class number h, for every h <= 1500: 9,245,562 fields, the largest with q = 562,394,347 | Watkins (2004): h <= 100 unconditionally. [Cremona-Sutherland (2023), section 5](https://arxiv.org/html/2301.11169v4#S5): all h <= 1000, including even h, under GRH. OpenAI: the same shape of bound, constant not computed | proved, given the input; constants enclosure-carrying; lists by exact computation; unreviewed | [hunt #124](../hunts/qrh_class_number/RESULTS.md) |
 | Primes between ninth powers | For every integer n >= 1 there is a prime p with n^9 < p < (n+1)^9 | k = 86 for every n, unconditional (Lee, arXiv:2602.14340, 2026) | proved, given the input; every numerical step enclosure-carrying; unreviewed | [hunt #126](../hunts/qrh_prime_powers/RESULTS.md) |
 | Small witnesses | For every nonprincipal Dirichlet character chi mod q >= 3, the least n with chi(n) not in {0, 1} is at most (log q)^8, so the least quadratic nonresidue mod p is at most (log p)^8; every odd composite n has a Miller-Rabin witness at most (0.7 log n)^8 | OpenAI: least quadratic nonresidue at most C (log p)^32, with C not stated | proved, given the input; enclosure-carrying; unreviewed | [hunt #125](../hunts/qrh_nonresidue/RESULTS.md) |
 | Linnik's constant | The least prime congruent to a mod q, for (a, q) = 1, is at most C(eps) q^(7/3 + eps), with C(eps) effective | L = 5, unconditional (Xylouris 2011 and 2018) | proved, given the input and the Chen-Gupta-Li density estimate (arXiv:2507.08296, a preprint); 12/5 from refereed inputs alone; unreviewed | [hunt #123](../hunts/qrh_linnik/RESULTS.md) |
@@ -76,12 +76,20 @@ visited all 3.77 billion fundamental discriminants below D(1500) in 39
 CPU-minutes. The result is the complete list for every h <= 1500. It reproduces
 all 100 of Watkins' counts exactly, and its 750 odd class numbers agree exactly
 with the GRH-conditional table of Holmin, Jones, Kurlberg, McLeman and
-Petersen. Every even h from 102 to 1500 is new as a complete list, as far as the
-search recorded in the hunt found.
+Petersen. [Cremona and Sutherland (2023), section 5](https://arxiv.org/html/2301.11169v4#S5)
+already give a GRH-complete classification for every h <= 1000, including even
+h: 4,115,897 fundamental discriminants (6,450,424 discriminants when
+nonmaximal orders are included; their data are in
+[EndECNF](https://github.com/AndrewVSutherland/EndECNF)). Thus the even lists
+for 102 <= h <= 1000 are not first discoveries here. The distinction is the
+weaker 7/8 zero-free hypothesis in place of GRH and the computed extension
+from h <= 1000 to h <= 1500, with completeness conditional on that input and
+the written analytic argument. Extending that cited table is not a claim of
+global priority for the range above 1000.
 
 The mechanism is Littlewood's and was run under a 3/4 hypothesis by Friedlander
-and Iwaniec without constants; the constant 1/(10 pi), the table and the lists
-are this laboratory's. Proof: `RESULTS.md` sections 2 to 5 of the hunt.
+and Iwaniec without constants; the explicit constant 1/(10 pi), cutoff table
+and enumeration recorded here were computed by this laboratory. Proof: `RESULTS.md` sections 2 to 5 of the hunt.
 
 ## A prime between consecutive ninth powers
 
