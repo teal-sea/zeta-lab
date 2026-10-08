@@ -28,6 +28,12 @@
 name: replay-openai-003
 
 on:
+  # A push to this workflow's own branch runs the pilot, because a workflow
+  # that exists only on a feature branch cannot be dispatched by name until
+  # it has run once. build and comparator are dispatch-only.
+  push:
+    branches: [claude/replay-003-workflow]
+    paths: ['.github/workflows/replay-openai-003.yml']
   workflow_dispatch:
     inputs:
       mode:
@@ -57,14 +63,14 @@ concurrency:
 
 jobs:
   replay:
-    name: ${{ inputs.mode }} at ${{ inputs.openai_commit }}
+    name: ${{ inputs.mode || 'pilot' }} at ${{ inputs.openai_commit || 'adc7f1241b42e322a6451854ab7e4b4c146bf78a' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 355
     env:
-      OPENAI_COMMIT: ${{ inputs.openai_commit }}
-      MODE: ${{ inputs.mode }}
-      BUILD_TIMEOUT: ${{ inputs.build_timeout_minutes }}
-      LAKE_JOBS: ${{ inputs.jobs }}
+      OPENAI_COMMIT: ${{ inputs.openai_commit || '"+DEF+"' }}
+      MODE: ${{ inputs.mode || 'pilot' }}
+      BUILD_TIMEOUT: ${{ inputs.build_timeout_minutes || '300' }}
+      LAKE_JOBS: ${{ inputs.jobs || '3' }}
       EVIDENCE: ${{ github.workspace }}/replay-evidence
     steps:
       - uses: actions/checkout@v4
@@ -116,9 +122,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: openai-math/lean/.lake/build
-          key: replay-openai-003-${{ inputs.openai_commit }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: replay-openai-003-${{ inputs.openai_commit || 'adc7f1241b42e322a6451854ab7e4b4c146bf78a' }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
-            replay-openai-003-${{ inputs.openai_commit }}-
+            replay-openai-003-${{ inputs.openai_commit || 'adc7f1241b42e322a6451854ab7e4b4c146bf78a' }}-
 
       - name: lake update (fetches 24 dependencies and applies the 23 patches)
         working-directory: openai-math/lean
@@ -150,7 +156,7 @@ jobs:
           du -sh .lake/packages/mathlib/.lake 2>/dev/null | tee -a "$EVIDENCE/cache-get.log" || true
 
       - name: pilot, time four small modules
-        if: inputs.mode == 'pilot'
+        if: env.MODE == 'pilot'
         working-directory: openai-math/lean
         run: |
           set -euo pipefail
@@ -175,7 +181,7 @@ jobs:
           fi
 
       - name: build the two solution modules
-        if: inputs.mode == 'build'
+        if: env.MODE == 'build'
         id: build
         working-directory: openai-math/lean
         run: |
@@ -203,7 +209,7 @@ jobs:
           fi
 
       - name: print the axioms behind the three statements
-        if: inputs.mode == 'build' && steps.build.outcome == 'success'
+        if: env.MODE == 'build' && steps.build.outcome == 'success'
         working-directory: openai-math/lean
         run: |
           set -euo pipefail
@@ -237,7 +243,7 @@ jobs:
           echo "All three statements depend only on propext, Classical.choice, Quot.sound." | tee -a "$EVIDENCE/run.txt" >> "$GITHUB_STEP_SUMMARY"
 
       - name: comparator (experimental), install landrun, lean4export, nanoda, comparator
-        if: inputs.mode == 'comparator'
+        if: env.MODE == 'comparator'
         run: |
           set -euo pipefail
           echo "kernel $(uname -r); landlock: $(grep -c -i landlock /boot/config-$(uname -r) 2>/dev/null || echo unknown)" | tee -a "$EVIDENCE/run.txt"
@@ -262,7 +268,7 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: comparator (experimental), run the three statements with nanoda on
-        if: inputs.mode == 'comparator'
+        if: env.MODE == 'comparator'
         working-directory: openai-math/lean
         run: |
           set -uo pipefail
@@ -289,12 +295,12 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: openai-math/lean/.lake/build
-          key: replay-openai-003-${{ inputs.openai_commit }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: replay-openai-003-${{ inputs.openai_commit || 'adc7f1241b42e322a6451854ab7e4b4c146bf78a' }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: preserve the evidence, including failures
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: replay-openai-003-${{ inputs.mode }}-${{ github.run_id }}
+          name: replay-openai-003-${{ inputs.mode || 'pilot' }}-${{ github.run_id }}
           path: replay-evidence
           if-no-files-found: error
