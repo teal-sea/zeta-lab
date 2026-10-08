@@ -75,6 +75,31 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #122: the second-DH tracked pair lands at 1.0876360002296, and the lower endpoint reaches 1.0876359 (`dh_minus_landing/`)
+
+**Status: probe, complete (2026-10-08); the parent's first door is priced and
+shut for this pair.** `dh_minus_heat` left `217/200 < Lambda_minus <=
+567009/320000` (narrow frame) and named a later rational heat time for the same
+conjugate pair as its first door. The pair's landing time is measured by two
+independent routes, an mpmath double-zero Newton solve (30 and 50 digits,
+agreeing to `4.6e-26`) and a float contour-moment discriminant tracker (two
+grids, within `5e-14` of the first): `t_c = 1.08763600022958693221796...`,
+`x_c = 7.5399442421673352...`, grade hardened, no enclosure. Five rational
+times below it, down to `10876359/10^7 = 1.0876359` (`1.0e-7` under `t_c`),
+carry the parent's Arb Taylor/Rouche disk decided positive on all four of its
+configurations, so the bracket becomes `1.0876359 < Lambda_minus <=
+567009/320000`, lower endpoint enclosure-carrying at the numerical step, the
+surrounding argument the parent's. The door was worth `2.636e-3`, `0.38%` of
+the gap. The pilot's second zero lands at `0.631` and binds nothing; no census
+of other pairs was run. The parent's second door (a sharper strip for the upper
+endpoint) is repriced from a number already decided in
+`lambda_dh_bounds/strip2_results.json`: worth `4.03e-4`, not rerun. Controls:
+known values, the recorded `217/200` disk rerun, the `t = 0` gate, two
+closed-form polynomial landings, three instrument lesions, and a 1% kernel
+fault that both tracking routes miss together (they agree to `1.4e-13` on the
+wrong function) and the Hurwitz zero-time identity catches (defect `1.2e-3`).
+No kill condition fired. Nothing bears on RH; the subject is a rival function.
+
 ### Hunt #121: what moves under the 7/8 strip, priced (`qrh_conditional/`)
 
 **Status: conditional pricing, exact exponent arithmetic plus two measured
@@ -104,6 +129,7 @@ hypothetical off-line zero by 2 theta - 1 = 3/4 and bounds neither the count
 nor the heights of such zeros, so nothing usable at finite n. Every statement
 is void if the claim is withdrawn or refuted. `qrh_conditional/RESULTS.md`
 ends with the doors.
+
 
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 
