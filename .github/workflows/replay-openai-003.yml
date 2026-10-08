@@ -268,8 +268,26 @@ jobs:
           echo "$HOME/go/bin" >> "$GITHUB_PATH"
           toolchain=$(cat openai-math/lean/lean-toolchain)
           tag=${toolchain#leanprover/lean4:}
-          git clone -q --depth 1 --branch "$tag" https://github.com/leanprover/lean4export tools-lean4export \
-            || git clone -q --depth 1 https://github.com/leanprover/lean4export tools-lean4export
+          # lean4export reads .olean files, so its build must match the Lean
+          # that wrote them (its README: "a version that is compatible with
+          # whatever Lean version your project is targeting"). Upstream tags
+          # the release it tracks, not every patch: v4.34.0 exists, v4.34.1
+          # does not. The first comparator dispatch (run 37738766171) fell
+          # back to master, built for v4.35.0-rc4, and died reading the first
+          # olean with "incompatible header". So: the exact tag, else the .0
+          # tag of the same minor, built with the tree's own toolchain
+          # (lean4export has no dependencies, so the override is safe), and
+          # never master.
+          minor_tag=$(printf '%s' "$tag" | sed -E 's/^(v[0-9]+\.[0-9]+)\.[0-9]+.*$/\1.0/')
+          if git clone -q --depth 1 --branch "$tag" https://github.com/leanprover/lean4export tools-lean4export; then
+            echo "lean4export: tag $tag" | tee -a "$EVIDENCE/run.txt"
+          elif git clone -q --depth 1 --branch "$minor_tag" https://github.com/leanprover/lean4export tools-lean4export; then
+            echo "lean4export: tag $minor_tag (upstream has no $tag), built with $toolchain" | tee -a "$EVIDENCE/run.txt"
+          else
+            echo "::error::lean4export has neither a $tag nor a $minor_tag tag; not building it from master"
+            exit 1
+          fi
+          echo "$toolchain" > tools-lean4export/lean-toolchain
           (cd tools-lean4export && lake build 2>&1 | tail -5)
           git clone -q --depth 1 https://github.com/leanprover/comparator tools-comparator
           (cd tools-comparator && lake build comparator 2>&1 | tail -5)
