@@ -297,18 +297,36 @@ lake env comparator ComparatorChallenges/DirichletSevenEighths.json
 lake env comparator ComparatorChallenges/SiegelZeros.json
 ```
 
-Cost shape, not a measurement: the 7/8 closure is 2,924 modules and 25 MB of
-Lean source, plus whatever `lake` pulls from the four patched dependencies it
-imports. That is a multi-hour cold build on a four-core GitHub-hosted runner
-and may not fit one six-hour job; `full.yml` already shows how to checkpoint
-`.lake` across jobs for this tree's own arm, and the same shape applies. The
-`lean/README.md` warns that compiling the whole library can exhaust
-`vm.max_map_count`; building two named modules should not. Per `AGENTS.md`,
-time one unit before multiplying: the unit here is one leaf module after
-`cache get`, and it has not been timed. Two settings a replay should change
-from OpenAI's: set `enable_nanoda` to `true` in the three configs, and run
-`#print axioms` on the three theorem names directly, so the axiom set is
-observed and not read from a config.
+**The unit, timed (2026-10-08).** The workflow
+`.github/workflows/replay-openai-003.yml` on branch `claude/replay-003-workflow`
+ran its pilot on a four-core `ubuntu-24.04` runner (run 37723649679): `lake
+update` fetched the 24 dependencies and applied all 23 patches in 3m14s
+(PNT+ at `c39a7511` with the patch applied, `prelim_decay_2` gone,
+`SiegelZeros/HadamardSupport.lean` present); `lake exe cache get` brought
+6.7 GB of Mathlib oleans in 18 s with 95 GB of disk left; and three leaf
+modules of the 7/8 closure, which import Mathlib only, elaborated in
+
+| module | source | elaboration | wall incl. Lake | peak RSS |
+| --- | --- | --- | --- | --- |
+| `DirichletL.Detector.Euler` | 1.4 KB | 1.9 s | 4.4 s | 2.5 GB |
+| `DirichletL.Descent.Marks` | 4 KB | 1.9 s | 4.5 s | 2.5 GB |
+| `DirichletL.Arithmetic.EisensteinCoordinates` | 30 KB | 5.2 s | 8.3 s | 4.2 GB |
+
+with every Mathlib job reported up to date and no `sorry` warning. Lake 4.34.1
+rejected `-j` and its `build --help` lists no `--jobs`, so the build runs at
+Lake's default parallelism (four on this runner). Multiplying the measured
+rate, about 0.2 s per KB on shallow leaves, over the 25 MB closure gives
+roughly 70 CPU-minutes; allowing a factor five for deeper modules with heavier
+tactics gives about six CPU-hours, or one to two hours of wall time at four
+jobs. That is an estimate from three shallow leaves, not a measurement of the
+closure, and the peak RSS of 4.2 GB on one module makes memory, not time, the
+likelier failure at four jobs on a 16 GB runner. Build mode was dispatched the
+same day with a 300-minute timeout; the outcome is recorded here when it lands.
+The `lean/README.md` warns that compiling the whole library can exhaust
+`vm.max_map_count`; building two named modules should not. Two settings the
+replay changes from OpenAI's: `enable_nanoda` set to `true` in the three
+configs, and `#print axioms` run on the three theorem names directly, so the
+axiom set is observed and not read from a config.
 
 Whoever runs it should also know that `lake update` applies 160,187 lines of
 patches to other people's libraries, and that the sorry-freedom of the 7/8
