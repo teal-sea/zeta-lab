@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "claim_id": "class-structure-finite-genus-filter",
+  "repository": {
+    "commit": "f4ef0715bbe2f4890b3dcea034757ef0c823053a",
+    "dirty": false
+  },
+  "command": ".venv/bin/python ../routes/class-structure/probe.py",
+  "environment": {
+    "software": [
+      "Python 3.13.14"
+    ],
+    "hardware": "local Mac; one process; RLIMIT_CPU=20s"
+  },
+  "mathematics": {
+    "assertion_tested": "Genus uniformity and lower-bound dominance; exact h comparison for every odd negative fundamental discriminant in range",
+    "coefficient_domain": "exact integers",
+    "conventions": "canonical primitive positive reduced forms; Legendre genus signatures",
+    "inputs": [
+      "PR279 classno.py at 3f136908426167ff97888a6ae8b89087223509e6"
+    ],
+    "bounds": {
+      "absolute_discriminant": 20000,
+      "a_cutoff": 10,
+      "cpu_seconds": 20
+    },
+    "non_claims": [
+      "No universal theorem inferred from finite scan",
+      "No H1500 speed or complete audit claimed"
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "none",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-10-08T13:45:31.012750+00:00",
+    "runtime_seconds": 2.0699842080066446,
+    "exit_status": 0
+  },
+  "outputs": [
+    {
+      "path": "/Users/thomas/Documents/Codex/2026-10-08/task-3/routes/class-structure/probe.json",
+      "sha256": "3ac601c370e67808de76cf58f52dab7e82ea58a2a41e1088af276ff3af7824f8"
+    },
+    {
+      "path": "/Users/thomas/Documents/Codex/2026-10-08/task-3/routes/class-structure/probe.py",
+      "sha256": "4f419b40aac836d03ee464a12f69f4d407614c11b455c12d5b30b9951b7dada5"
+    },
+    {
+      "path": "/Users/thomas/Documents/Codex/2026-10-08/task-3/routes/class-structure/reference_pinned.py",
+      "sha256": "a30a725b61c341d5724c4541adef0970a08e44de7f90a38f1bb2de4247a93daa"
+    }
+  ],
+  "checks": [
+    "4055 full class counts equal pinned reference",
+    "all genus fibers equal",
+    "genus filter dominates divisibility rounding",
+    "D=-15 mutant refuted"
+  ],
+  "result": "finite assertion verified in stated range; 1918 strict improvements",
+  "residual_risks": [
+    "External genus theorem exact source unverified",
+    "No independently reviewed proof",
+    "Two enumerators share reduced-form definition",
+    "V1 manifest lacks before/after input hashes"
+  ]
+}

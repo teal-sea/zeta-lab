@@ -1,0 +1,6 @@
+Independent rare-integral implementation: all 764 margins > .13045, 384 bits
+Synthetic atoms at all boundaries and interiors pass; omitted-layer mutants rejected
+Uniform tail error < .012961; all domain and monotonicity inequalities checked
+Same independent bound rejects k6 at L29; accepts k7; this is not a prime counterexample
+All nine proposed witnesses independently verified by exact trial division
+Exact rational synthetic zero atoms pass; missing-first/missing-last-layer mutants fail

@@ -1,0 +1,50 @@
+{
+  "boundary_counts": [
+    {
+      "Delta": -155952000,
+      "P": 4398046511104,
+      "W": 3252067056000,
+      "h": 20
+    },
+    {
+      "Delta": 24764600,
+      "P": 8796093022208,
+      "W": 6145199284700,
+      "h": 21
+    },
+    {
+      "Delta": 2425172992,
+      "P": 35184372088832,
+      "W": 34666930287616,
+      "h": 24
+    }
+  ],
+  "checks": "passed",
+  "fixed_correction_ranks": {
+    "4": 4,
+    "6": 6,
+    "9": 8
+  },
+  "h24_epsilon": "2368333/474989023199232",
+  "incorrect_correction_mutants": {
+    "0": "caught",
+    "1/2": "caught"
+  },
+  "ln_m_upper": "477/50",
+  "parameter_range": [
+    7,
+    128
+  ],
+  "producer_sha256": {
+    "routes/dft-central-compression/PROOF.md": "d33bf988ebc1d096d2d8f3d9c7f67cd038d1db4ca344470ea584ad7a3d99a2c5",
+    "routes/dft-central-compression/verify.py": "35a9d7259d6f70095c077689aedc7938c32c26e911bfc6f804ac535898a63d84"
+  },
+  "scope": "small exact checks, not full DFT execution",
+  "theta_upper": "1-52/10^11",
+  "three_stage": {
+    "auxiliaries_restored": true,
+    "bank_entries": 64,
+    "h": 4,
+    "invocations": 48
+  }
+}

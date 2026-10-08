@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "claim_id": "dft-h24-finite-certificate-v1",
+  "repository": {
+    "commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+    "dirty": true,
+    "meaning": "Pinned upstream source commit; extension files are uncommitted workspace artifacts."
+  },
+  "command": [
+    "/Library/Frameworks/Python.framework/Versions/3.10/bin/python3",
+    "/Users/thomas/Documents/Codex/2026-10-08/task-3/routes/dft/verify.py"
+  ],
+  "environment": {
+    "software": [
+      "CPython 3.10.4"
+    ],
+    "hardware": "arm64; one process, standard library only"
+  },
+  "mathematics": {
+    "assertion_tested": "Exact h24 counts and rational exponent bound; scalar cancellation, reverse scheduling, small phase identities and negative controls.",
+    "coefficient_domain": "Integers, rational numbers, bit vectors over F2; no floating proof.",
+    "conventions": "Unnormalized positive-exponent DFT; ordered adjacent triples; all auxiliary initial values permitted.",
+    "inputs": [
+      {
+        "path": "verify.py",
+        "sha256": "87ded97dfcb8a3ba752dd4f59263506be233934bb6ae18a17efb2ac3d4593122"
+      },
+      {
+        "path": "sources/all-lengths.tex",
+        "sha256": "7416c6828e14df7a84ff86d5bd9a3876dc7fcdd5d6a964c510efc2c795412828"
+      },
+      {
+        "path": "sources/local.tex",
+        "sha256": "3e6c9e2c674c47ecdcafb6bd16b76616dc4eaf193c5c0c42fb5f8c3a58c61583"
+      },
+      {
+        "path": "sources/network.tex",
+        "sha256": "1e28d7594563294247936129c21d8a061d0c86b05dcce4a86e81c0b2e34b3f91"
+      },
+      {
+        "path": "sources/synchronization.tex",
+        "sha256": "f879dd875d5d07e331af2028e3bc8f756cda0a662b24d137d96fa51fbed0b81a"
+      }
+    ],
+    "bounds": {
+      "main_h": 24,
+      "scalar_schedule_h": 7,
+      "phase_dimension": 7,
+      "phase_cases": 8192,
+      "wall_timeout_seconds": 10
+    },
+    "non_claims": [
+      "No full-array construction",
+      "No formal universal proof",
+      "No global parameter optimality",
+      "No practical FFT or bit complexity improvement"
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "none",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-10-08T13:47:36.423198+00:00",
+    "runtime_seconds": 0.06242608398315497,
+    "exit_status": 0
+  },
+  "outputs": [
+    {
+      "path": "result.json",
+      "sha256": "4627b06dc39e656c5842fdcc4d199fb3162c2e9b77d9cab11364cc2009f56839"
+    },
+    {
+      "path": "stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "checks": [
+    "Upstream Git blob identity",
+    "Exact integer counts",
+    "Positive rational exponential partial sum",
+    "Exact rational epsilon comparison",
+    "S_h orbit coefficient identity",
+    "Arbitrary auxiliary forward/reverse schedule",
+    "8192 exact phase cases",
+    "Five negative controls"
+  ],
+  "result": "Finite assertions passed. Universal parameter extension is separately derived in PROOF.md; independent audit pending.",
+  "residual_risks": [
+    "Self-review only",
+    "Upstream local compiler and all-length transport are written lemmas, not replayed formal proofs here",
+    "v1 manifest; inputs hashed before and after; wall timeout enforced but no OS memory cap"
+  ]
+}
