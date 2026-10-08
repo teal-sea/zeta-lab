@@ -1238,6 +1238,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `35-the-unspent-fact.md`, 35. The unspent fact: what out-of-band positivity is worth, and why nobody can claim it
 - `36-what-you-can-run.md`, 36. What you can run, and what it prints
 - `37-methods.md`, 37. Methods: the reusable identities, lemmas, controls and techniques, by theme
+- `38-the-quasi-riemann-claim.md`, 38. The quasi-Riemann claim: OpenAI's 7/8 half-plane, read against this tree
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)
