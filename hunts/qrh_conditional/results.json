@@ -1,0 +1,326 @@
+{
+  "hypothesis": "QRH(theta): L(s, chi) != 0 for Re s > theta, every chi mod every q, except the principal pole; theta = 7/8 and 11/12.  A hypothesis throughout; withdrawn or refuted, every number here is void.",
+  "A_exponents": {
+    "7/8": {
+      "rank1_T_N_exponent": "11/4",
+      "rank1_gap_to_31": "3/4",
+      "rank1_saving_over_N3": "1/4",
+      "pointwise_level": "1/8",
+      "arc_exponent_cross_constraint": "1/8",
+      "arc_exponent_quartic_constraint": "1/12",
+      "arc_exponent": "1/12",
+      "circle_total_exponent": "35/12",
+      "circle_saving_over_N3": "1/12",
+      "circle_gap_to_target": "11/12",
+      "bootstrap_theta": "23/24",
+      "bootstrap_drift": "1/12",
+      "theorem_A_exponent": "7/4",
+      "theorem_A_gap_to_T": "3/4",
+      "theorem_B_cap": "11/4",
+      "frontier_M_N_exponent": "11/4",
+      "frontier_D_N_exponent": "15/16",
+      "rank3_sqrt_arc_exponent": "13/4"
+    },
+    "11/12": {
+      "rank1_T_N_exponent": "17/6",
+      "rank1_gap_to_31": "5/6",
+      "rank1_saving_over_N3": "1/6",
+      "pointwise_level": "1/12",
+      "arc_exponent_cross_constraint": "1/12",
+      "arc_exponent_quartic_constraint": "1/18",
+      "arc_exponent": "1/18",
+      "circle_total_exponent": "53/18",
+      "circle_saving_over_N3": "1/18",
+      "circle_gap_to_target": "17/18",
+      "bootstrap_theta": "35/36",
+      "bootstrap_drift": "1/18",
+      "theorem_A_exponent": "11/6",
+      "theorem_A_gap_to_T": "5/6",
+      "theorem_B_cap": "17/6",
+      "frontier_M_N_exponent": "17/6",
+      "frontier_D_N_exponent": "23/24",
+      "rank3_sqrt_arc_exponent": "10/3"
+    },
+    "1/2": {
+      "rank1_T_N_exponent": "2",
+      "rank1_gap_to_31": "0",
+      "rank1_saving_over_N3": "1",
+      "pointwise_level": "1/2",
+      "arc_exponent_cross_constraint": "1/2",
+      "arc_exponent_quartic_constraint": "1/3",
+      "arc_exponent": "1/3",
+      "circle_total_exponent": "8/3",
+      "circle_saving_over_N3": "1/3",
+      "circle_gap_to_target": "2/3",
+      "bootstrap_theta": "5/6",
+      "bootstrap_drift": "1/3",
+      "theorem_A_exponent": "1",
+      "theorem_A_gap_to_T": "0",
+      "theorem_B_cap": "2",
+      "frontier_M_N_exponent": "2",
+      "frontier_D_N_exponent": "3/4",
+      "rank3_sqrt_arc_exponent": "5/2"
+    }
+  },
+  "B_crossover": {
+    "7/8": {
+      "1": {
+        "johnston_yang": {
+          "roots_u": [
+            "6.8223694893590492",
+            "35.112921865597573"
+          ],
+          "crossover_u": "35.112921865597573",
+          "crossover_log10_x": "15.24934820972906",
+          "crossover_x": "1.77561e+15",
+          "sign_at_u_5000": "negative"
+        },
+        "bare_shape_K1": {
+          "roots_u": [
+            "0.73444697671634586",
+            "167.65813179800853"
+          ],
+          "crossover_u": "167.65813179800853",
+          "crossover_log10_x": "72.813001486083225",
+          "crossover_x": "6.50132e+72",
+          "sign_at_u_5000": "negative"
+        }
+      },
+      "10": {
+        "johnston_yang": {
+          "roots_u": [
+            "74.255305571899205"
+          ],
+          "crossover_u": "74.255305571899205",
+          "crossover_log10_x": "32.248669461915614",
+          "crossover_x": "1.77284e+32",
+          "sign_at_u_5000": "negative"
+        },
+        "bare_shape_K1": {
+          "roots_u": [
+            "195.32413475404978"
+          ],
+          "crossover_u": "195.32413475404978",
+          "crossover_log10_x": "84.828193906210994",
+          "crossover_x": "6.73277e+84",
+          "sign_at_u_5000": "negative"
+        }
+      },
+      "100": {
+        "johnston_yang": {
+          "roots_u": [
+            "104.70018100705261"
+          ],
+          "crossover_u": "104.70018100705261",
+          "crossover_log10_x": "45.4707108656346",
+          "crossover_x": "2.95604e+45",
+          "sign_at_u_5000": "negative"
+        },
+        "bare_shape_K1": {
+          "roots_u": [
+            "221.86972462227104"
+          ],
+          "crossover_u": "221.86972462227104",
+          "crossover_log10_x": "96.356797104846358",
+          "crossover_x": "2.27403e+96",
+          "sign_at_u_5000": "negative"
+        }
+      },
+      "10000": {
+        "johnston_yang": {
+          "roots_u": [
+            "158.85673713596238"
+          ],
+          "crossover_u": "158.85673713596238",
+          "crossover_log10_x": "68.990604351303848",
+          "crossover_x": "9.78598e+68",
+          "sign_at_u_5000": "negative"
+        },
+        "bare_shape_K1": {
+          "roots_u": [
+            "272.7319928563361"
+          ],
+          "crossover_u": "272.7319928563361",
+          "crossover_log10_x": "118.44599953598387",
+          "crossover_x": "2.79254e+118",
+          "sign_at_u_5000": "negative"
+        }
+      }
+    },
+    "11/12": {
+      "1": {
+        "johnston_yang": {
+          "roots_u": [
+            "5.1305114459886959",
+            "98.224972268120887"
+          ],
+          "crossover_u": "98.224972268120887",
+          "crossover_log10_x": "42.658563441144839",
+          "crossover_x": "4.55579e+42",
+          "sign_at_u_5000": "negative"
+        },
+        "bare_shape_K1": {
+          "roots_u": [
+            "0.72470845355093591",
+            "313.88220742582362"
+          ],
+          "crossover_u": "313.88220742582362",
+          "crossover_log10_x": "136.31731065264709",
+          "crossover_x": "2.0764e+136",
+          "sign_at_u_5000": "negative"
+        }
+      },
+      "10": {
+        "johnston_yang": {
+          "roots_u": [
+            "152.72323125965135"
+          ],
+          "crossover_u": "152.72323125965135",
+          "crossover_log10_x": "66.326856594500799",
+          "crossover_x": "2.12254e+66",
+          "sign_at_u_5000": "negative"
+        },
+        "bare_shape_K1": {
+          "roots_u": [
+            "355.94858877568802"
+          ],
+          "crossover_u": "355.94858877568802",
+          "crossover_log10_x": "154.58650794653107",
+          "crossover_x": "3.85929e+154",
+          "sign_at_u_5000": "negative"
+        }
+      },
+      "100": {
+        "johnston_yang": {
+          "roots_u": [
+            "199.41401015047894"
+          ],
+          "crossover_u": "199.41401015047894",
+          "crossover_log10_x": "86.604404222552054",
+          "crossover_x": "4.02165e+86",
+          "sign_at_u_5000": "negative"
+        },
+        "bare_shape_K1": {
+          "roots_u": [
+            "396.57474690798413"
+          ],
+          "crossover_u": "396.57474690798413",
+          "crossover_log10_x": "172.23022424431619",
+          "crossover_x": "1.69912e+172",
+          "sign_at_u_5000": "negative"
+        }
+      },
+      "10000": {
+        "johnston_yang": {
+          "roots_u": [
+            "283.77876129975393"
+          ],
+          "crossover_u": "283.77876129975393",
+          "crossover_log10_x": "123.24355011382321",
+          "crossover_x": "1.75206e+123",
+          "sign_at_u_5000": "negative"
+        },
+        "bare_shape_K1": {
+          "roots_u": [
+            "474.77387850249447"
+          ],
+          "crossover_u": "474.77387850249447",
+          "crossover_log10_x": "206.19167558543827",
+          "crossover_x": "1.5548e+206",
+          "sign_at_u_5000": "negative"
+        }
+      }
+    }
+  },
+  "B_remainder_used": {
+    "A": "9.39",
+    "B": "1.515",
+    "C": "0.8274",
+    "x_min": 2,
+    "source": "Johnston and Yang, arXiv:2204.01980, Theorem 1.1 (arXiv HTML, read 2026-10-08)"
+  },
+  "C_li": {
+    "algebra_checks": [
+      {
+        "beta": "0.875",
+        "gamma": "14.134725141734694",
+        "direct": "0.0037536395320360586033",
+        "closed": "0.0037536395320360586033",
+        "defect": "2.06e-31"
+      },
+      {
+        "beta": "0.75",
+        "gamma": "100",
+        "direct": "0.000049999687501953112793",
+        "closed": "0.000049999687501953112793",
+        "defect": "2.03e-31"
+      },
+      {
+        "beta": "0.9166666666666666667",
+        "gamma": "0.5",
+        "direct": "3.2432432432432432436",
+        "closed": "3.2432432432432432436",
+        "defect": "0.0"
+      }
+    ],
+    "caps": {
+      "gamma_1": {
+        "7/8": {
+          "r_cap": "1.0018750618375706723",
+          "r_cap_minus_1": "0.00187506183757",
+          "log_r_cap": "0.00187330610352",
+          "n_at_which_r_cap_pow_n_is_2": "370.012770074",
+          "log_r_ratio_to_no_strip": "0.7504091042"
+        },
+        "11/12": {
+          "r_cap": "1.0020832758783755052",
+          "r_cap_minus_1": "0.00208327587838",
+          "log_r_cap": "0.00208110886831",
+          "n_at_which_r_cap_pow_n_is_2": "333.066275923",
+          "log_r_ratio_to_no_strip": "0.833650751832"
+        },
+        "1": {
+          "r_cap": "1.0024994983158815107",
+          "r_cap_minus_1": "0.00249949831588",
+          "log_r_cap": "0.00249637976543",
+          "n_at_which_r_cap_pow_n_is_2": "277.660951334"
+        }
+      },
+      "T0_verified": {
+        "7/8": {
+          "r_cap": "1.0",
+          "r_cap_minus_1": "4.16666469376e-26",
+          "log_r_cap": "4.16666469376e-26",
+          "n_at_which_r_cap_pow_n_is_2": "1.66355402103e+25",
+          "log_r_ratio_to_no_strip": "0.749999999999"
+        },
+        "11/12": {
+          "r_cap": "1.0",
+          "r_cap_minus_1": "4.62962743752e-26",
+          "log_r_cap": "4.62962743752e-26",
+          "n_at_which_r_cap_pow_n_is_2": "1.49719861893e+25",
+          "log_r_ratio_to_no_strip": "0.833333333334"
+        },
+        "1": {
+          "r_cap": "1.0",
+          "r_cap_minus_1": "5.55555292502e-26",
+          "log_r_cap": "5.55555292502e-26",
+          "n_at_which_r_cap_pow_n_is_2": "1.24766551577e+25"
+        }
+      }
+    },
+    "limit_of_log_r_ratio_as_gamma_grows": {
+      "7/8": "3/4",
+      "11/12": "5/6"
+    },
+    "r_cap_at_gamma_0": {
+      "7/8": "7",
+      "11/12": "11"
+    }
+  },
+  "cited_not_recomputed": {
+    "de_bruijn_newman_under_strip_7_8": "9/32 = 0.28125, from the lab's document 38 section 6",
+    "de_bruijn_newman_record": "0.2, Platt and Trudgian 2021, as cited in docs/05",
+    "verified_height_T0": "3e12"
+  }
+}

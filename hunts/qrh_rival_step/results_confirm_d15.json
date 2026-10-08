@@ -1,0 +1,751 @@
+{
+ "form": [
+  1,
+  1,
+  4
+ ],
+ "source": "results_census_d15.json",
+ "zeros": [
+  {
+   "census_root": [
+    "0.9274608807556767112343067",
+    "15.49663406790113061339472"
+   ],
+   "im": 15.49663406790113,
+   "re_census": 0.9274608807556767,
+   "root_route_c": [
+    "0.927460880755676711234306655417",
+    "15.4966340679011306133947231821"
+   ],
+   "abs_f_route_c": "3.3369e-40",
+   "abs_zeta_L15_at_root": "0.709163334034",
+   "abs_L3_L5_at_root": "0.709163334034",
+   "abs_sum_of_parts_over_abs_part": "4.7055e-40",
+   "abs_f_at_mirror_route_c": "6.3371e-35",
+   "root_route_b": [
+    "0.927460880755676711234306655417",
+    "15.4966340679011306133947231821"
+   ],
+   "route_b_dps": 32,
+   "abs_f_route_b": "4.7046e-42",
+   "abs_root_c_minus_root_b": "2.4781e-41",
+   "abs_route_b_scale4_at_root": "0.67009",
+   "abs_route_b_sin_at_root": "1.3402",
+   "abs_f_route_b_at_root_plus_1e-3": "0.0027569",
+   "abs_f_route_a": "5.5633e-42",
+   "abs_f_route_a_at_root_plus_1e-3": "0.0027569",
+   "route_a_dps": 35,
+   "route_a_seconds": 5.7,
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.07336749881505966,
+    "max_point_radius": 7.79582870792181e-75,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -4.6275239002053436e-73,
+     4.626901942153287e-73
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.10249037411995232,
+    "max_point_radius": 6.086595363378104e-75,
+    "prec_bits": 256
+   },
+   "point_winding_route_b_balls": {
+    "points": 256,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_abs_increment": 0.03213257972101742,
+    "max_point_radius": 6.021743005757159e-41,
+    "prec_bits": 379
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 3.2438362466109206e-12,
+    "re_rad": 5.504463299604609e-41,
+    "prec_bits": 379
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 3.2438362466109206e-12,
+    "re_rad": 6.952058610725901e-112
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 12.9
+  },
+  {
+   "census_root": [
+    "0.9129364012498515931209947",
+    "47.53316261186596738853508"
+   ],
+   "im": 47.53316261186597,
+   "re_census": 0.9129364012498516,
+   "root_route_c": [
+    "0.912936401249851593120994842777",
+    "47.5331626118659673885350761949"
+   ],
+   "abs_f_route_c": "2.4134e-40",
+   "abs_zeta_L15_at_root": "0.792500336496",
+   "abs_L3_L5_at_root": "0.792500336496",
+   "abs_sum_of_parts_over_abs_part": "3.0453e-40",
+   "abs_f_at_mirror_route_c": "8.4606e-34",
+   "root_route_b": [
+    "0.912936401249851593120994842777",
+    "47.5331626118659673885350761949"
+   ],
+   "route_b_dps": 58,
+   "abs_f_route_b": "1.6996e-41",
+   "abs_root_c_minus_root_b": "2.8543e-40",
+   "abs_route_b_scale4_at_root": "0.71929",
+   "abs_route_b_sin_at_root": "1.4386",
+   "abs_f_route_b_at_root_plus_1e-3": "0.0025067",
+   "abs_f_route_a": "1.6996e-41",
+   "abs_f_route_a_at_root_plus_1e-3": "0.0025067",
+   "route_a_dps": 58,
+   "route_a_seconds": 13.8,
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.08421297569293529,
+    "max_point_radius": 3.3144213625735243e-74,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -1.880973324596485e-72,
+     1.8809224690336067e-72
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.11088538030162454,
+    "max_point_radius": 2.298057395300723e-74,
+    "prec_bits": 256
+   },
+   "point_winding_route_b_balls": {
+    "points": 256,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_abs_increment": 0.03248943117885083,
+    "max_point_radius": 9.075463364798415e-81,
+    "prec_bits": 636
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 8.537433196817444e-11,
+    "re_rad": 8.3220083478861465e-81,
+    "prec_bits": 636
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 8.537433196817444e-11,
+    "re_rad": 1.489099384309187e-188
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 36.5
+  },
+  {
+   "census_root": [
+    "1.025972616218753458737855",
+    "61.42279830878939710555809"
+   ],
+   "im": 61.422798308789396,
+   "re_census": 1.0259726162187535,
+   "root_route_c": [
+    "1.02597261621875345873785449582",
+    "61.4227983087893971055580920981"
+   ],
+   "abs_f_route_c": "7.3971e-40",
+   "abs_zeta_L15_at_root": "0.773762764074",
+   "abs_L3_L5_at_root": "0.773762764074",
+   "abs_sum_of_parts_over_abs_part": "9.5599e-40",
+   "abs_f_at_mirror_route_c": "2.1347e-33",
+   "root_route_b": [
+    "1.02597261621875345873785449582",
+    "61.4227983087893971055580920981"
+   ],
+   "route_b_dps": 69,
+   "abs_f_route_b": "3.1425e-41",
+   "abs_root_c_minus_root_b": "9.4662e-41",
+   "abs_route_b_scale4_at_root": "0.77367",
+   "abs_route_b_sin_at_root": "1.5473",
+   "abs_f_route_b_at_root_plus_1e-3": "0.0024437",
+   "abs_f_route_a": "3.1425e-41",
+   "abs_f_route_a_at_root_plus_1e-3": "0.0024437",
+   "route_a_dps": 67,
+   "route_a_seconds": 20.3,
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.0577613627538085,
+    "max_point_radius": 2.4080272888090485e-74,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -1.4117268088654462e-72,
+     1.4116725165460386e-72
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.08091874956153333,
+    "max_point_radius": 1.7942115922835266e-74,
+    "prec_bits": 256
+   },
+   "point_winding_route_b_balls": {
+    "points": 256,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_abs_increment": 0.032564479046360756,
+    "max_point_radius": 9.422089285736815e-102,
+    "prec_bits": 747
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 2.6094036835920574e-11,
+    "re_rad": 6.2804250384100544e-102,
+    "prec_bits": 747
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 2.6094036835920574e-11,
+    "re_rad": 4.0084831158248514e-222
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 55.8
+  },
+  {
+   "census_root": [
+    "0.8758727322992154756129359",
+    "110.7779534073807821014096"
+   ],
+   "im": 110.77795340738078,
+   "re_census": 0.8758727322992155,
+   "root_route_c": [
+    "0.875872732299215475612935930356",
+    "110.777953407380782101409615919"
+   ],
+   "abs_f_route_c": "2.6879e-39",
+   "abs_zeta_L15_at_root": "0.736864929725",
+   "abs_L3_L5_at_root": "0.736864929725",
+   "abs_sum_of_parts_over_abs_part": "3.6478e-39",
+   "abs_f_at_mirror_route_c": "1.6802e-33",
+   "route_b_mpmath_polish": "not run: height above the route A / route B limit",
+   "abs_f_route_c_at_root_plus_1e-3": "0.0028427",
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.10049130162224174,
+    "max_point_radius": 7.722425907181729e-74,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -3.862650879081502e-72,
+     3.8626113627067316e-72
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.13151018973439932,
+    "max_point_radius": 5.271889445383666e-74,
+    "prec_bits": 256
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 1.083467579411049e-09,
+    "re_rad": 1.2277559579873203e-164,
+    "prec_bits": 1142
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 1.083467579411049e-09,
+    "re_rad": 0.0
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 4.5
+  },
+  {
+   "census_root": [
+    "0.9265846323553476706134707",
+    "138.2248891234018257390382"
+   ],
+   "im": 138.22488912340182,
+   "re_census": 0.9265846323553477,
+   "root_route_c": [
+    "0.926584632355347670613470846449",
+    "138.224889123401825739038232678"
+   ],
+   "abs_f_route_c": "2.2188e-39",
+   "abs_zeta_L15_at_root": "0.625568964915",
+   "abs_L3_L5_at_root": "0.625568964915",
+   "abs_sum_of_parts_over_abs_part": "3.5469e-39",
+   "abs_f_at_mirror_route_c": "8.9099e-33",
+   "route_b_mpmath_polish": "not run: height above the route A / route B limit",
+   "abs_f_route_c_at_root_plus_1e-3": "0.0021921",
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.08760867908131331,
+    "max_point_radius": 1.3075723793001586e-73,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -8.097127314566708e-72,
+     8.097070614409291e-72
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.11896701680961996,
+    "max_point_radius": 9.116706566556837e-74,
+    "prec_bits": 256
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 8.807199724920662e-10,
+    "re_rad": 9.625006306650156e-199,
+    "prec_bits": 1361
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 8.807199724920662e-10,
+    "re_rad": 0.0
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 4.8
+  },
+  {
+   "census_root": [
+    "0.9741991963234244458093987",
+    "170.1907039731780828650585"
+   ],
+   "im": 170.19070397317807,
+   "re_census": 0.9741991963234244,
+   "root_route_c": [
+    "0.97419919632342444580939844614",
+    "170.190703973178082865058530591"
+   ],
+   "abs_f_route_c": "5.4546e-39",
+   "abs_zeta_L15_at_root": "0.820097000336",
+   "abs_L3_L5_at_root": "0.820097000336",
+   "abs_sum_of_parts_over_abs_part": "6.6512e-39",
+   "abs_f_at_mirror_route_c": "4.3225e-33",
+   "route_b_mpmath_polish": "not run: height above the route A / route B limit",
+   "abs_f_route_c_at_root_plus_1e-3": "0.002885",
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.08121482993010432,
+    "max_point_radius": 1.2384618871636532e-73,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -6.296683710534577e-72,
+     6.296640934512203e-72
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.10831417888402939,
+    "max_point_radius": 8.522276064569975e-74,
+    "prec_bits": 256
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 5.142754185874906e-10,
+    "re_rad": 9.308857265488114e-217,
+    "prec_bits": 1617
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 5.142754185874906e-10,
+    "re_rad": 0.0
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 5.2
+  },
+  {
+   "census_root": [
+    "0.8802982435910100229491058",
+    "184.2842969461857472972059"
+   ],
+   "im": 184.28429694618575,
+   "re_census": 0.88029824359101,
+   "root_route_c": [
+    "0.880298243591010022949104618414",
+    "184.284296946185747297205891843"
+   ],
+   "abs_f_route_c": "1.0523e-39",
+   "abs_zeta_L15_at_root": "0.656523482917",
+   "abs_L3_L5_at_root": "0.656523482917",
+   "abs_sum_of_parts_over_abs_part": "1.6028e-39",
+   "abs_f_at_mirror_route_c": "7.5896e-33",
+   "route_b_mpmath_polish": "not run: height above the route A / route B limit",
+   "abs_f_route_c_at_root_plus_1e-3": "0.0022686",
+   "ball_winding_route_c": {
+    "segments": 256,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.055666645523160696,
+    "max_point_radius": 1.6699684628002164e-73,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -1.033313007483908e-71,
+     1.033307199997905e-71
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.14327025297097862,
+    "max_point_radius": 1.1003799175838207e-73,
+    "prec_bits": 256
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 4.213126466799496e-10,
+    "re_rad": 1.116704285714039e-230,
+    "prec_bits": 1730
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 4.213126466799496e-10,
+    "re_rad": 0.0
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 9.0
+  },
+  {
+   "census_root": [
+    "0.8909421422270621602845011",
+    "187.6657905257204293114091"
+   ],
+   "im": 187.66579052572044,
+   "re_census": 0.8909421422270621,
+   "root_route_c": [
+    "0.890942142227062160284501056669",
+    "187.665790525720429311409108982"
+   ],
+   "abs_f_route_c": "4.8999e-39",
+   "abs_zeta_L15_at_root": "0.845032107164",
+   "abs_L3_L5_at_root": "0.845032107164",
+   "abs_sum_of_parts_over_abs_part": "5.7985e-39",
+   "abs_f_at_mirror_route_c": "9.4763e-33",
+   "route_b_mpmath_polish": "not run: height above the route A / route B limit",
+   "abs_f_route_c_at_root_plus_1e-3": "0.0037749",
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.13174414657987654,
+    "max_point_radius": 1.9714703612369276e-73,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -7.193309123951454e-72,
+     7.19326393587419e-72
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.15768090588971972,
+    "max_point_radius": 1.2159826201229547e-73,
+    "prec_bits": 256
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 1.0569362349985203e-09,
+    "re_rad": 1.0861763883219949e-235,
+    "prec_bits": 1757
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 1.0569362349985203e-09,
+    "re_rad": 0.0
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 5.9
+  },
+  {
+   "census_root": [
+    "0.9070546356201938789169034",
+    "205.6969432655817269830596"
+   ],
+   "im": 205.69694326558172,
+   "re_census": 0.9070546356201938,
+   "root_route_c": [
+    "0.907054635620193878916903275737",
+    "205.69694326558172698305955266"
+   ],
+   "abs_f_route_c": "1.1574e-39",
+   "abs_zeta_L15_at_root": "0.671157500304",
+   "abs_L3_L5_at_root": "0.671157500304",
+   "abs_sum_of_parts_over_abs_part": "1.7245e-39",
+   "abs_f_at_mirror_route_c": "1.1797e-33",
+   "route_b_mpmath_polish": "not run: height above the route A / route B limit",
+   "abs_f_route_c_at_root_plus_1e-3": "0.0028422",
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.1116806035861373,
+    "max_point_radius": 1.682078538590356e-73,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -7.663116191539969e-72,
+     7.663063438381461e-72
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.14168269792571664,
+    "max_point_radius": 1.1144828957442475e-73,
+    "prec_bits": 256
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 1.1889005150626918e-09,
+    "re_rad": 2.9131952837155163e-256,
+    "prec_bits": 1901
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 1.1889005150626918e-09,
+    "re_rad": 0.0
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 6.1
+  },
+  {
+   "census_root": [
+    "1.026774867202132883274168",
+    "246.9936361589318252345332"
+   ],
+   "im": 246.99363615893182,
+   "re_census": 1.0267748672021328,
+   "root_route_c": [
+    "1.02677486720213288327416878182",
+    "246.993636158931825234533220099"
+   ],
+   "abs_f_route_c": "8.2795e-40",
+   "abs_zeta_L15_at_root": "0.769257578931",
+   "abs_L3_L5_at_root": "0.769257578931",
+   "abs_sum_of_parts_over_abs_part": "1.0763e-39",
+   "abs_f_at_mirror_route_c": "2.1065e-32",
+   "route_b_mpmath_polish": "not run: height above the route A / route B limit",
+   "abs_f_route_c_at_root_plus_1e-3": "0.0026529",
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.0662112288409844,
+    "max_point_radius": 1.0756808497642776e-73,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -6.127016594303377e-72,
+     6.126976559252467e-72
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.092190160183236,
+    "max_point_radius": 7.825657468258632e-74,
+    "prec_bits": 256
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 1.8101632177735288e-10,
+    "re_rad": 7.998252954153902e-307,
+    "prec_bits": 2231
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 1.8101632177735288e-10,
+    "re_rad": 0.0
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 7.7
+  },
+  {
+   "census_root": [
+    "0.9099701528937347036615074",
+    "296.3685610460301150727084"
+   ],
+   "im": 296.3685610460301,
+   "re_census": 0.9099701528937347,
+   "root_route_c": [
+    "0.909970152893734703661506817898",
+    "296.368561046030115072708440017"
+   ],
+   "abs_f_route_c": "1.0032e-38",
+   "abs_zeta_L15_at_root": "0.961029233326",
+   "abs_L3_L5_at_root": "0.961029233326",
+   "abs_sum_of_parts_over_abs_part": "1.0439e-38",
+   "abs_f_at_mirror_route_c": "7.5418e-33",
+   "route_b_mpmath_polish": "not run: height above the route A / route B limit",
+   "abs_f_route_c_at_root_plus_1e-3": "0.0033706",
+   "ball_winding_route_c": {
+    "segments": 128,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.13510695518925786,
+    "max_point_radius": 4.0120208201359155e-73,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -1.4828670689640475e-71,
+     1.4828615701536003e-71
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.1557656810618937,
+    "max_point_radius": 2.3739724327783828e-73,
+    "prec_bits": 256
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 1.0164455962507602e-10,
+    "re_rad": 0.0,
+    "prec_bits": 2626
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 1.0164455962507602e-10,
+    "re_rad": 0.0
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 9.3
+  },
+  {
+   "census_root": [
+    "0.9103840133351492982300037",
+    "292.9795600282598927280071"
+   ],
+   "im": 292.97956002825987,
+   "re_census": 0.9103840133351493,
+   "root_route_c": [
+    "0.910384013335149298230004547996",
+    "292.97956002825989272800705401"
+   ],
+   "abs_f_route_c": "7.6603e-40",
+   "abs_zeta_L15_at_root": "0.782296411101",
+   "abs_L3_L5_at_root": "0.782296411101",
+   "abs_sum_of_parts_over_abs_part": "9.7921e-40",
+   "abs_f_at_mirror_route_c": "9.2719e-33",
+   "route_b_mpmath_polish": "not run: height above the route A / route B limit",
+   "abs_f_route_c_at_root_plus_1e-3": "0.0026385",
+   "ball_winding_route_c": {
+    "segments": 256,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_segment_radius": 0.055571013246662915,
+    "max_point_radius": 3.318704501441552e-73,
+    "prec_bits": 256
+   },
+   "ball_winding_route_c_displaced_by_0.15": {
+    "segments": 64,
+    "all_segments_exclude_zero": true,
+    "all_quotients_right_half_plane": true,
+    "winding_ball": [
+     -1.53450580245026e-71,
+     1.5344995311075475e-71
+    ],
+    "winding": 0,
+    "max_segment_radius": 0.13546514511108398,
+    "max_point_radius": 2.0629728731839533e-73,
+    "prec_bits": 256
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 6.857375562783965e-10,
+    "re_rad": 0.0,
+    "prec_bits": 2599
+   },
+   "ball_value_at_root_route_c": {
+    "abs_upper": 6.857375562783965e-10,
+    "re_rad": 0.0
+   },
+   "ball_routes_overlap_at_root": true,
+   "seconds": 12.6
+  }
+ ]
+}

@@ -1,0 +1,101 @@
+{
+ "zeta_box_count_[0.3,0.9]x[10,20]": 1,
+ "zeta_located_root": [
+  "0.5",
+  "14.13472514173469379"
+ ],
+ "abs_im_minus_gamma_1": "2.0954e-16",
+ "abs_re_minus_half": "0.0",
+ "zeta_ball_winding_at_gamma_1": {
+  "segments": 256,
+  "all_segments_exclude_zero": true,
+  "all_quotients_right_half_plane": true,
+  "winding_ball": [
+   1.0,
+   1.0
+  ],
+  "winding": 1,
+  "max_segment_radius": 0.02009915217058733,
+  "max_point_radius": 3.688288204270811e-75,
+  "prec_bits": 256
+ },
+ "zeta_ball_winding_displaced": {
+  "segments": 64,
+  "all_segments_exclude_zero": true,
+  "all_quotients_right_half_plane": true,
+  "winding_ball": [
+   -5.676835837529113e-73,
+   5.67633415541339e-73
+  ],
+  "winding": 0,
+  "max_segment_radius": 0.05039807118009776,
+  "max_point_radius": 2.3675978476859063e-75,
+  "prec_bits": 256
+ },
+ "route_agreement_at_four_points": {
+  "d15": {
+   "max_abs_a_minus_b": 9.588714778990387e-22,
+   "min_abs_a_minus_b_fault_scale4": 2.811282569367862e-05,
+   "max_abs_b_minus_c": 3.7793868226162895e-30
+  },
+  "d23": {
+   "max_abs_a_minus_b": 6.3118923163976e-22,
+   "min_abs_a_minus_b_fault_scale4": 7.802790937636025e-07
+  }
+ },
+ "h1_control_windows": [
+  {
+   "t": [
+    0.5,
+    10.5
+   ],
+   "count": 0
+  },
+  {
+   "t": [
+    10.5,
+    20.5
+   ],
+   "count": 0
+  },
+  {
+   "t": [
+    20.5,
+    30.5
+   ],
+   "count": 0
+  },
+  {
+   "t": [
+    30.5,
+    40.5
+   ],
+   "count": 0
+  },
+  {
+   "t": [
+    40.5,
+    50.5
+   ],
+   "count": 0
+  },
+  {
+   "t": [
+    50.5,
+    60.5
+   ],
+   "count": 0
+  }
+ ],
+ "h1_control_total": 0,
+ "h1_inverse_max_abs_b_below_1e5": 16,
+ "h1_inverse_max_divisor_count_below_1e5": 128,
+ "h1_inverse_multiplicativity_failures": [
+  0,
+  3406
+ ],
+ "sigma_1_d15_zeta_Q_equals_4": "1.52709889569",
+ "sigma_1_d23_zeta_Q_equals_4": "1.42171147228",
+ "zeta_Q_d15_at_2": "2.68461677469",
+ "elapsed_s": 121.5
+}
