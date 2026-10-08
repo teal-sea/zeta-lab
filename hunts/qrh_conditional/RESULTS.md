@@ -6,6 +6,11 @@
 > page says so now. Nothing here is a result, nothing here is evidence about
 > RH, and the strip is not RH: 7/8 is not 1/2, and the preprints say so
 > themselves.
+>
+> Update, later on 2026-10-08: the claim has since been replayed here, Lean's
+> kernel and the independent NanoDa kernel accepting its statements
+> (`docs/38` section 7). The argument has not been reviewed by any person, so
+> every statement below keeps the hypothesis exactly as written.
 
 Grades used: **derived** (an ordinary argument on the cited inputs, written
 out below, reviewed by nobody), **measured** (one mpmath route, dps 30,

@@ -32,6 +32,13 @@ section), checked against the paper by anything but a reading of the
 statements (section 3), or a statement about RH (7/8 is not 1/2, and the
 paper says so). `docs/08` section 1.1 is updated accordingly.
 
+**Built on it the same day.** Four theorems were proved here using the
+half-plane as an input, each "proved, given OpenAI's Theorem 1.1": complete
+class-number lists for every h <= 1500, a prime between n^9 and (n+1)^9 for
+every n, the least character nonresidue at most (log q)^8, and Linnik's exponent
+7/3. They are stated, graded and explained in
+[`docs/39`](39-built-on-the-quasi-riemann-theorem.md).
+
 ---
 
 ## 1. What was released
@@ -257,7 +264,9 @@ headline.
 ## 6. What it would change in this tree, if it survives
 
 Conditional on a replay, and written now so the consequences are priced before
-the fact rather than after.
+the fact rather than after. (2026-10-08, later: the replay landed, section 7,
+and the consequences built on it since are `docs/39`. This section is kept as
+written before the fact.)
 
 - **`docs/08` section 1.1** would become history in its first paragraph: the
   distinction between a shrinking region and a fixed strip would no longer be

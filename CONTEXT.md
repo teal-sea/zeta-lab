@@ -1239,6 +1239,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `36-what-you-can-run.md`, 36. What you can run, and what it prints
 - `37-methods.md`, 37. Methods: the reusable identities, lemmas, controls and techniques, by theme
 - `38-the-quasi-riemann-claim.md`, 38. The quasi-Riemann claim: OpenAI's 7/8 half-plane, read against this tree
+- `39-built-on-the-quasi-riemann-theorem.md`, 39. Built on the quasi-Riemann theorem: what a zero-free half-plane at 7/8 buys
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)

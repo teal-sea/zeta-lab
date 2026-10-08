@@ -52,7 +52,7 @@ kernel accepted it with exactly the three standard axioms, and the same day
 Comparator with the independent NanoDa checker on accepted all three
 statements (`docs/38`, section 7). On this tree's ladder the fixed strip is
 therefore kernel-checked, on two kernels, pending any human review of the
-argument. The
+argument; what this laboratory then proved on top of it is `docs/39`. The
 distinction this section draws, between a shrinking region and a fixed strip,
 is now history for Dirichlet L-functions; its closing rule, that a strip is not
 RH, is untouched.

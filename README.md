@@ -20,6 +20,32 @@ it is derived from this tree at build time rather than typed in, so it cannot
 quietly disagree with the repository it describes. Its generator lives in a
 separate repository; this one holds the record, not the presentation of it.
 
+## Current results (October 2026)
+
+On 2026-10-06 OpenAI released a proof that no Dirichlet L-function, zeta
+included, has a zero with real part above 7/8. This laboratory rebuilt its Lean
+proof on its own compute, two independent proof kernels accepted it
+([docs/38](docs/38-the-quasi-riemann-claim.md)), and four theorems were then
+proved here on top of it. Each is **proved, given OpenAI's theorem**, with every
+numerical step carried by ball arithmetic, and **not yet reviewed by any outside
+mathematician**. Statements, proofs in outline, what each one beats, and how to
+check it: **[docs/39](docs/39-built-on-the-quasi-riemann-theorem.md)**.
+
+| Result | What it says | Previous best |
+|---|---|---|
+| Class numbers up to 1500 ([hunt #124](hunts/qrh_class_number/RESULTS.md)) | h(D) >= sqrt(q) / (10 pi log log q) for every negative fundamental discriminant D = -q, and with it the complete list of imaginary quadratic fields of each class number h <= 1500: 9,245,562 fields | complete lists for h <= 100 (Watkins, 2004) |
+| Primes between powers ([hunt #126](hunts/qrh_prime_powers/RESULTS.md)) | a prime between n^9 and (n+1)^9 for every n >= 1 | k = 86 for every n (Lee, 2026) |
+| Small witnesses ([hunt #125](hunts/qrh_nonresidue/RESULTS.md)) | for every nonprincipal character mod q >= 3, some n <= (log q)^8 has chi(n) not in {0, 1}; every odd composite n has a Miller-Rabin witness <= (0.7 log n)^8 | exponent 32, constant not stated (OpenAI) |
+| Linnik's constant ([hunt #123](hunts/qrh_linnik/RESULTS.md)) | the least prime in every reduced class mod q is below C q^(7/3 + eps), C effective; 12/5 from refereed inputs alone | L = 5 (Xylouris) |
+| The input itself ([docs/38](docs/38-the-quasi-riemann-claim.md), section 7) | OpenAI's Lean proof rebuilt from the pinned commit; Lean's kernel and the independent NanoDa kernel accept it with only the standard axioms | no outside replay known |
+
+One of them runs in about three seconds:
+
+```bash
+.venv/bin/python -m hunts.qrh_class_number.run_search 100 48611613 /tmp/cn100
+# 42,272 fields: Watkins' complete lists for every h <= 100, reproduced given the theorem
+```
+
 ## Where to start
 
 | Guide | For you if you want to… | First command |
@@ -32,12 +58,12 @@ separate repository; this one holds the record, not the presentation of it.
 | [contribute](docs/doors/contribute.md) | clone the lab, run a bounded agent hunt and return checkable findings | `.venv/bin/python scripts/71_contribution_check.py hunts/<short-name>` |
 | [adopt](docs/doors/adopt.md) | *(demoted, read `harness/VERDICT.md` first)* the validation framework and why it was frozen | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py` |
 
-Twelve worked demonstrations, the figure gallery, the repository map and the
+Thirteen worked demonstrations, the figure gallery, the repository map and the
 standing list of limitations are in
 [`docs/36-what-you-can-run.md`](docs/36-what-you-can-run.md). The docs are a
 single course and `00 → 01 → 02 → 03 → 04` is one argument: start at
 [`docs/00-orientation.md`](docs/00-orientation.md), and
-[`docs/README.md`](docs/README.md) lists all thirty-seven with one line each.
+[`docs/README.md`](docs/README.md) lists all forty with one line each.
 
 ## Quickstart
 
@@ -53,7 +79,12 @@ Dependencies are ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`, `sympy`,
 plus `python-flint` for the ball-arithmetic backend. Expensive computations
 cache under `data/`, so second runs are fast.
 
-## Stronger Four-Point Result
+## Earlier results
+
+The August and September record. Each stands in its own lane; none depends on
+the October input above.
+
+### The four-point theorem, strengthened
 
 The lab's four-point theorem now has coefficient
 `(14400000 H - 17240)/14366681`, approximately **0.6728603588**, with
@@ -72,7 +103,7 @@ module-format port, tracked in
 [Palomar preparation](hunts/four_point_pressure/PALOMAR-READINESS.md).
 The registered results below remain unchanged.
 
-## Registered
+### Registered with Palomar
 
 Three results here have been rebuilt and kernel-checked by someone other than their
 author. Each was submitted to the [Palomar Registry](https://palomar-registry.org/),
@@ -125,7 +156,7 @@ cd lean/bridge && PATH="$HOME/.elan/bin:$PATH" lake build V2Challenge V2Solution
 bash scripts/palomar_stage.sh              # from the repo root, checks all four paths
 ```
 
-## Conditional results, and where the method stops
+### Conditional results, and where the method stops
 
 Certificate-based figures above H exist, here and elsewhere, and every one of them
 assumes a finite certificate that has not been proved. They are claims, not theorems.
