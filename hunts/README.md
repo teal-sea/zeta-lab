@@ -130,6 +130,37 @@ nor the heights of such zeros, so nothing usable at finite n. Every statement
 is void if the claim is withdrawn or refuted. `qrh_conditional/RESULTS.md`
 ends with the doors.
 
+### Hunt #120: where the quasi-Riemann argument spends its Euler product, and a rival that cannot pay (`qrh_rival_step/`)
+
+**Status: read and measured, 2026-10-08; no verdict on the paper.** OpenAI's
+family 003 (the lab's reading of the release is `38-the-quasi-riemann-claim.md`,
+on the branch `claude/openai-math-release-2026-10-06`, not yet on main) claims every Dirichlet and finite-order Hecke
+L-function over Q(sqrt(-3)) is zero-free in Re s > 7/8. The hunt asks where
+the argument uses that its target is a single L-function with an Euler product
+rather than a finite combination, and tests the step on the classical rival,
+an Epstein zeta function of class number above one. Reading: the continuation
+criterion (Proposition 2.1 of the 7/8 paper, page 8) is a shared lemma whose
+proof survives for any function with bounded reciprocal on Re s >= 2; the
+Euler product is consumed where that criterion's two estimates are made, at
+the Moebius identity 1/L_K^S = sum mu nu N^{-s} (11/12 paper, Section 3, page
+12) and at the scalar Euler identity, Lemma 7.1 (7/8 paper, Section 7.2, page
+53, used at (10.1) and (10.2) on page 71). Measured: for Q = x^2 + xy + 4y^2
+(D = -15), written in the paper's own vocabulary as
+zeta(s) L(s, chi_-15) + L(s, chi_-3) L(s, chi_5), zeros at
+0.92746 + 15.49663i, 0.91294 + 47.53316i and 1.02597 + 61.42280i, the last
+inside the region of absolute convergence, each hardened by two evaluation
+routes agreeing to 1e-25 or better, a lattice-route residual of 1e-41 where
+run, an mpmath winding of 1 and a segment-enclosed ball winding of 1 on
+python-flint; for D = -23 a zero at 0.95326 + 16.29022i on two routes. Each is
+a cancellation between two nonvanishing products of Dirichlet L-functions, so
+none is a counterexample (`docs/08` section 4.3): the rival lacks the
+hypothesis, its reciprocal's coefficients being non-multiplicative and
+unbounded (exact to 10^6). The Davenport-Heilbronn function has no zero past
+7/8 below height 300 and none known to the lab anywhere (its deepest census
+pair sits at 0.86953). Controls: gamma_1 recovered to 2e-16, planted faults
+detected, the class-number-one form sees nothing. Scan ranges are stated as
+limits in `qrh_rival_step/RESULTS.md`, which ends with the doors.
+
 
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 

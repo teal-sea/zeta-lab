@@ -1,0 +1,48 @@
+{
+ "form": [
+  1,
+  1,
+  6
+ ],
+ "source": "results_census_d23.json",
+ "zeros": [
+  {
+   "census_root": [
+    "0.9532604747946606862505109",
+    "16.29021572039039079296317"
+   ],
+   "im": 16.290215720390393,
+   "re_census": 0.9532604747946607,
+   "root_route_b": [
+    "0.953260474794660686250509013566",
+    "16.2902157203903907929631726452"
+   ],
+   "route_b_dps": 33,
+   "abs_f_route_b": "3.5934e-41",
+   "abs_route_b_scale4_at_root": "0.72766",
+   "abs_route_b_sin_at_root": "1.4553",
+   "abs_f_route_b_at_root_plus_1e-3": "0.00391",
+   "abs_f_route_a": "3.5853e-41",
+   "abs_f_route_a_at_root_plus_1e-3": "0.00391",
+   "route_a_dps": 36,
+   "route_a_seconds": 7.3,
+   "point_winding_route_b_balls": {
+    "points": 256,
+    "winding_ball": [
+     1.0,
+     1.0
+    ],
+    "winding": 1,
+    "max_abs_increment": 0.03264548092933633,
+    "max_point_radius": 8.524395293586839e-45,
+    "prec_bits": 386
+   },
+   "ball_value_at_root_route_b": {
+    "abs_upper": 3.7629312057711713e-11,
+    "re_rad": 7.325809808005486e-45,
+    "prec_bits": 386
+   },
+   "seconds": 11.9
+  }
+ ]
+}
