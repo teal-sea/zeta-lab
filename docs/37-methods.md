@@ -70,10 +70,13 @@ stays out of this file. No em dashes.
 - **Certificates, verifiers and exact arithmetic** (18). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
+- **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
+  bound from a fixed zero-free half-plane, and the exact sieve that spends it on
+  complete class-number lists.
 - **Seen and not admitted** (36). Surfaced by the sweep, below the bar for now.
 
-Totals: 167 entries from 60 hunts. Kinds: identity 21, lemma 41, bound 12, construction
-15, calibration 7, computational 15, control 35, obstruction 21.
+Totals: 169 entries from 61 hunts. Kinds: identity 21, lemma 42, bound 12, construction
+15, calibration 7, computational 16, control 35, obstruction 21.
 
 ## Prime pairs and the circle method
 
@@ -5244,6 +5247,59 @@ recorded); input to R-B9552D's k >= 3 pass
 Why it travels: Generic for auditing any 'constant X is violated' claim produced by a
 scan against a Lean lemma; the depth-interval inflation arithmetic applies to every
 ratio-normalised enclosure.
+
+## Zero-free half-planes, L(1, chi) and class numbers
+
+### Two-cutoff Littlewood bound for log L(1, chi) under a zero-free half-plane, with Hadamard positivity for the zero sum
+
+lemma | `hunts/qrh_class_number` | grade: ordinary written derivation, unreviewed; every
+constant evaluated in Arb (enclosure-carrying); conditional on the input half-plane
+
+For a primitive odd real chi of conductor q whose zeros satisfy beta <= sigma0: subtract
+the explicit formula for sum_{n<=t} Lambda(n) chi(n) n^-sigma log(t/n) at t = y and t = x;
+the (L'/L)'(sigma) term cancels, and integrating sigma over [1, inf) gives log L(1, chi)
+= sum Lambda chi w / (n log n) + E with the trapezoid weight w (1 up to y, linear in
+log n down to 0 at x), so no L'/L(1, chi) term survives. Each zero term is charged
+against Re xi'/xi(sigma) = sum_rho (sigma - beta)/|sigma - rho|^2 <= (1/2) log(q/pi) +
+(1/2) psi((sigma+1)/2) - zeta'/zeta(sigma) + 2 zeta'/zeta(2 sigma), using that
+t^(beta-sigma)/(sigma-beta) is increasing in beta, so only beta <= sigma0 is used and
+no zero counting. With sigma0 = 7/8 it gives L(1, chi_D) >= 1/(10 log log |D|) for all
+fundamental D < 0 except -3; the method's limit is (1 - sigma0) zeta(2) e^-gamma /
+log log q, and at sigma0 = 1/2 it reproduces Lamzouri-Li-Soundararajan within 2% at
+q = 10^100.
+
+Evidence: RESULTS.md sections 2 and 4; `lbound.py`; `abscissae.json`
+Prior art: searched; the mechanism is Littlewood's (GRH) and Friedlander-Iwaniec,
+arXiv:1701.03771, Theorem 3 (half-plane Re s > 3/4, constants unspecified); no explicit
+half-plane constant found
+Reused in: none yet
+Why it travels: any zero-free half-plane (a new sigma0, or a Hecke family over a fixed
+field) turns into an explicit L(1, chi) lower bound by changing one parameter; the
+positivity step needs no zero-counting input.
+
+### Streamed reduced-form sieve for all class numbers h(D) <= H up to a bound X
+
+computational | `hunts/qrh_class_number` | grade: exact integer computation, checked
+against brute force, PARI, Watkins (h <= 100) and Holmin-Kurlberg (odd h <= 1500)
+
+For fundamental D = -n the number of reduced forms with first coefficient a < sqrt(n)/2
+is r(a) = #{b mod 2a : b^2 = D mod 4a}, multiplicative with r(p^k) = 1 + chi(p) off D.
+Since r(a) is periodic in n, sum_a r(a) over any set of such a is a lower bound for h(D)
+that can be added to a whole segment of n with SIMD-friendly periodic patterns; all a
+below sqrt(n)/2 where the primes alone cannot exceed H, otherwise about 1.3 H primes.
+Survivors get an exact count: r(a) by a multiplicative sieve, and the boundary range
+n <= 4a^2 <= 4n/3 by Tonelli-Shanks, Hensel lifting and CRT. All 1.65 * 10^9 fundamental
+discriminants below 5.4 * 10^9 for H = 1000 took ten minutes on one core, and all 3.77 *
+10^9 below 1.24 * 10^10 for H = 1500 took 39 minutes, with no GRH. The filter can only
+lose a field by over-counting, so the control that guards completeness recomputes every
+streamed count without the periodic patterns (`CN_CHECK_STREAM=1`).
+
+Evidence: RESULTS.md section 5; `cn.c`; `search_H1500.json`; `test_qrh_class_number.py`
+Prior art: reduced-form counting is classical; unsearched as a batch filter
+Reused in: none yet
+Why it travels: any explicit bound |D| <= D(h) (from a zero-free region, GRH, or a
+future theorem) becomes a complete class-number list by this sieve at cost about
+X * H additions, without a conditional class-group algorithm.
 
 ## Seen and not admitted
 
