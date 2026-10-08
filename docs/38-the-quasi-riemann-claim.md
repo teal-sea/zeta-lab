@@ -16,11 +16,18 @@ Mathlib's own `riemannZeta` and `DirichletCharacter.LFunction`, with no extra
 hypothesis. A regex scan of the complete import closure of the proof modules
 finds no `sorry`, no axiom declaration and no unsafe tactic, including inside
 the one third-party dependency that carries two `sorry`s upstream, because
-OpenAI's patch deletes them. **Nothing here was replayed through a kernel.** On
-this tree's ladder the claim is an ordinary mathematical argument of about 195
-pages that no person is known to have reviewed, plus a Lean development whose
-compile is asserted by its producer. It is not a theorem of this laboratory,
-and `docs/08` section 1.1 stands as written until a replay says otherwise.
+OpenAI's patch deletes them. **On 2026-10-08 this laboratory replayed the
+build on its own default compute** (section 7): Lean 4.34.1's kernel accepted
+the zeta, Dirichlet and Siegel-zero statements, and `#print axioms` on each
+returned exactly `propext`, `Classical.choice`, `Quot.sound`. On this tree's
+ladder (`AGENTS.md`) that is *kernel-checked*, on one kernel: the formal
+statement `riemannZeta s ≠ 0` for `7/8 < s.re`, against Mathlib's own
+`riemannZeta`, is a theorem of Lean 4.34.1 with Mathlib `d13f23b7` and OpenAI's
+patched dependencies, rebuilt from the pinned commit by someone other than its
+producer. What it is not: checked by a second kernel (the NanoDa run is
+section 7's open item), reviewed by any person (the 195-page argument remains
+unread past its third section), or a statement about RH (7/8 is not 1/2, and
+the paper says so). `docs/08` section 1.1 is updated accordingly.
 
 ---
 
@@ -219,13 +226,13 @@ headline.
 
 ## 5. What was not checked
 
-- **No kernel replay.** Nothing was built. The compile, the axiom set and the
-  Comparator match are OpenAI's assertions. On this tree's ladder (`AGENTS.md`)
-  the claim does not reach *kernel-checked* until a replay here or at an
-  outside registry says so. `docs/32` records why: "Palomar replay != human
-  peer review", and OpenAI's own compile is one rung below that.
-- **NanoDa is off** in the family 003 configs, so even OpenAI's own run has
-  one kernel on it, not two.
+- **A second kernel.** The 2026-10-08 replay (section 7) is Lean's own
+  kernel on this laboratory's runner. NanoDa, the independent kernel Palomar
+  ran on this tree's submissions (`docs/32`), has not yet accepted these
+  proofs; OpenAI's configs leave it off, and the workflow's comparator mode
+  that turns it on is experimental and recorded in section 7 when it lands.
+- **The Hecke statement.** `OAI.NumberTheory.DirichletL.Hecke.Nonvanishing`
+  was not built; the replay built the zeta, Dirichlet and Siegel modules only.
 - **Correspondence between a challenge file's own definitions and the
   paper's object**, for the Hecke statement here and for 387 of the 405
   challenges in the release (sections 3 and 9). The zeta, Dirichlet and
@@ -321,7 +328,40 @@ tactics gives about six CPU-hours, or one to two hours of wall time at four
 jobs. That is an estimate from three shallow leaves, not a measurement of the
 closure, and the peak RSS of 4.2 GB on one module makes memory, not time, the
 likelier failure at four jobs on a 16 GB runner. Build mode was dispatched the
-same day with a 300-minute timeout; the outcome is recorded here when it lands.
+same day with a 300-minute timeout.
+
+**The build, landed (2026-10-08, run 37725739710, job 113143362584).**
+`lake build OAI.NumberTheory.DirichletL.Nonvanishing OAI.NumberTheory.SiegelZeros.Main`
+on the same four-core runner at Lake's default parallelism ran from 04:09:27Z
+to 06:24:37Z, 2 h 15 min of wall time, and ended `Build completed successfully
+(12186 jobs)` with no `declaration uses 'sorry'` warning in the log; the
+estimate above was right about the order of magnitude and wrong about the
+likelier failure, since memory never bound. The saved OAI build outputs are
+1.01 GB. Then, from a file importing the two built modules:
+
+```
+'OAI.riemannZeta_ne_zero_of_seven_eighths_lt_re' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OAI.DirichletCharacter.LFunction_ne_zero_of_seven_eighths_lt_re' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OAI.SiegelZeros.WeightedTorusJets.exists_absolute_real_zero_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+Three lines, no `sorryAx`, nothing outside the standard three; the guard that
+fails on any other outcome passed. `#print axioms` walks every constant the
+proof uses, transitively, through the patched PrimeNumberTheoremAnd modules
+and Mathlib alike, so the axiom set covers the whole dependency chain this
+runner compiled. The evidence (run record, update log, cache log, build log,
+axioms) is the artifact `replay-openai-003-build-37725739710` on the run.
+
+What this establishes, in this tree's words: the three statements of
+section 3 are theorems of Lean 4.34.1 with Mathlib `d13f23b7` and the patched
+dependencies, rebuilt from the pinned public commit by this laboratory. On the
+ladder that is *kernel-checked*. The composite takes the grade of its weakest
+step, and the weakest step is now the trust in one kernel and in Mathlib's
+`riemannZeta` meaning what its name says, which is the same trust every
+registered result in this tree rests on. Open: the second kernel (comparator
+mode, dispatched after the build; experimental), the Hecke module, and
+everything a kernel cannot do, which is to say whether the mathematics is
+what the paper says it is and whether it is new.
 The `lean/README.md` warns that compiling the whole library can exhaust
 `vm.max_map_count`; building two named modules should not. Two settings the
 replay changes from OpenAI's: `enable_nanoda` set to `true` in the three
