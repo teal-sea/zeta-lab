@@ -1,0 +1,300 @@
+# Replay of openai/math family 003 (the quasi-Riemann hypothesis: a zero-free
+# half-plane Re s > 7/8 for every Dirichlet L-function) on this laboratory's
+# default compute. What it is for, what it checks and what it does not is
+# docs/38-the-quasi-riemann-claim.md, section 7. Nothing here runs on anyone's
+# laptop; nothing here is a claim until the logs say so.
+#
+# Three modes, dispatched by hand, one at a time (the concurrency group
+# serialises them):
+#
+#   pilot       clone, patch, fetch the Mathlib cache, then build four small
+#               modules under /usr/bin/time so the full cost can be estimated
+#               before it is spent ("estimate before you spend", AGENTS.md).
+#   build       build the two solution modules behind the three Comparator
+#               statements, under a timeout that leaves room to save the
+#               cache; a timed-out run saves its partial oleans and a second
+#               dispatch resumes from them. On success it runs `#print axioms`
+#               on the three theorem names and fails if sorryAx or any axiom
+#               outside propext / Classical.choice / Quot.sound appears.
+#   comparator  experimental. Installs landrun, lean4export and nanoda from
+#               their upstream repositories, turns `enable_nanoda` on in the
+#               three configs (OpenAI ships them off), and runs Comparator on
+#               each. Requires a completed `build` cache.
+#
+# The openai/math tree is data from outside this repository: it is cloned at a
+# pinned commit, its own `lake update` applies its own 23 dependency patches
+# (lean/patches/), and this workflow reads what comes out. See docs/38 section 4
+# for why the patches matter.
+name: replay-openai-003
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: pilot, build or comparator (see the header comment)
+        type: choice
+        options: [pilot, build, comparator]
+        default: pilot
+      openai_commit:
+        description: commit of github.com/openai/math to replay
+        type: string
+        default: adc7f1241b42e322a6451854ab7e4b4c146bf78a
+      build_timeout_minutes:
+        description: build mode only. Minutes before lake build is stopped so the cache can still be saved
+        type: string
+        default: "300"
+      jobs:
+        description: lake build -j; 3 leaves memory headroom on a 4-core runner
+        type: string
+        default: "3"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: replay-openai-003
+  cancel-in-progress: false
+
+jobs:
+  replay:
+    name: ${{ inputs.mode }} at ${{ inputs.openai_commit }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    env:
+      OPENAI_COMMIT: ${{ inputs.openai_commit }}
+      MODE: ${{ inputs.mode }}
+      BUILD_TIMEOUT: ${{ inputs.build_timeout_minutes }}
+      LAKE_JOBS: ${{ inputs.jobs }}
+      EVIDENCE: ${{ github.workspace }}/replay-evidence
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: record the run
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE"
+          {
+            echo "zeta-lab commit: $GITHUB_SHA"
+            echo "openai/math commit requested: $OPENAI_COMMIT"
+            echo "mode: $MODE"
+            echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
+          } | tee "$EVIDENCE/run.txt" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: free runner disk
+        run: |
+          set -euo pipefail
+          df -h / | tee "$EVIDENCE/disk-0-before-cleanup.txt"
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h / | tee "$EVIDENCE/disk-1-after-cleanup.txt"
+
+      - name: clone openai/math at the pinned commit
+        run: |
+          set -euo pipefail
+          mkdir openai-math && cd openai-math
+          git init -q
+          git remote add origin https://github.com/openai/math.git
+          git fetch -q --depth 1 origin "$OPENAI_COMMIT"
+          git checkout -q FETCH_HEAD
+          got=$(git rev-parse HEAD)
+          echo "openai/math HEAD: $got" | tee -a "$EVIDENCE/run.txt"
+          test "$got" = "$OPENAI_COMMIT"
+          cat lean/lean-toolchain | tee "$EVIDENCE/toolchain.txt"
+          ls lean/patches/*.patch | wc -l | tee "$EVIDENCE/patch-count.txt"
+
+      - name: install elan and the toolchain the tree names
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" toolchain install "$(cat openai-math/lean/lean-toolchain)"
+          cd openai-math/lean
+          "$HOME/.elan/bin/lean" --version | tee "$EVIDENCE/lean-version.txt"
+          "$HOME/.elan/bin/lake" --version | tee -a "$EVIDENCE/lean-version.txt"
+
+      - name: restore the OAI build outputs from an earlier dispatch
+        uses: actions/cache/restore@v4
+        with:
+          path: openai-math/lean/.lake/build
+          key: replay-openai-003-${{ inputs.openai_commit }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            replay-openai-003-${{ inputs.openai_commit }}-
+
+      - name: lake update (fetches 24 dependencies and applies the 23 patches)
+        working-directory: openai-math/lean
+        run: |
+          set -euo pipefail
+          /usr/bin/time -v lake update 2>&1 | tee "$EVIDENCE/lake-update.log"
+          applied=$(grep -c 'compatibility patch' "$EVIDENCE/lake-update.log" || true)
+          echo "patch log lines: $applied" | tee -a "$EVIDENCE/run.txt"
+          if [ "$applied" -lt 23 ]; then
+            echo "::error::expected 23 patch application lines, saw $applied"
+            exit 1
+          fi
+          pnt=.lake/packages/PrimeNumberTheoremAnd
+          echo "PrimeNumberTheoremAnd HEAD: $(git -C "$pnt" rev-parse HEAD)" | tee -a "$EVIDENCE/run.txt"
+          echo "PrimeNumberTheoremAnd files changed by the patch: $(git -C "$pnt" status --short | wc -l)" | tee -a "$EVIDENCE/run.txt"
+          if grep -q 'prelim_decay_2' "$pnt/PrimeNumberTheoremAnd/Wiener.lean"; then
+            echo "::error::the upstream sorried theorem prelim_decay_2 is still present; the patch did not apply"
+            exit 1
+          fi
+          test -f "$pnt/PrimeNumberTheoremAnd/SiegelZeros/HadamardSupport.lean"
+          df -h / | tee "$EVIDENCE/disk-2-after-update.txt"
+
+      - name: fetch the Mathlib olean cache
+        working-directory: openai-math/lean
+        run: |
+          set -euo pipefail
+          /usr/bin/time -v lake exe cache get 2>&1 | tail -20 | tee "$EVIDENCE/cache-get.log"
+          df -h / | tee "$EVIDENCE/disk-3-after-cache.txt"
+          du -sh .lake/packages/mathlib/.lake 2>/dev/null | tee -a "$EVIDENCE/cache-get.log" || true
+
+      - name: pilot, time four small modules
+        if: inputs.mode == 'pilot'
+        working-directory: openai-math/lean
+        run: |
+          set -euo pipefail
+          # Three OAI leaf modules (they import Mathlib only) of 1.4 KB, 4 KB
+          # and 30 KB, the smallest, median and largest leaves of the closure.
+          # The closure has 2,925 modules with median 5 KB and p90 27 KB of
+          # source; the dependency modules it imports are built in build mode.
+          for m in OAI.NumberTheory.DirichletL.Detector.Euler \
+                   OAI.NumberTheory.DirichletL.Descent.Marks \
+                   OAI.NumberTheory.DirichletL.Arithmetic.EisensteinCoordinates; do
+            echo "=== $m ===" | tee -a "$EVIDENCE/pilot.log"
+            start=$(date +%s)
+            /usr/bin/time -v lake build -j "$LAKE_JOBS" "$m" 2>&1 | tee -a "$EVIDENCE/pilot.log"
+            end=$(date +%s)
+            echo "$m wall_seconds=$((end-start))" | tee -a "$EVIDENCE/pilot-timings.txt"
+          done
+          echo "closure: 2925 OAI modules, 25 MB source (docs/38 section 4)" | tee -a "$EVIDENCE/pilot-timings.txt"
+          cat "$EVIDENCE/pilot-timings.txt" >> "$GITHUB_STEP_SUMMARY"
+          if grep -q "declaration uses 'sorry'" "$EVIDENCE/pilot.log"; then
+            echo "::error::a pilot module reported sorry"
+            exit 1
+          fi
+
+      - name: build the two solution modules
+        if: inputs.mode == 'build'
+        id: build
+        working-directory: openai-math/lean
+        run: |
+          set -uo pipefail
+          start=$(date +%s)
+          timeout "${BUILD_TIMEOUT}m" lake build -j "$LAKE_JOBS" \
+            OAI.NumberTheory.DirichletL.Nonvanishing \
+            OAI.NumberTheory.SiegelZeros.Main 2>&1 | tee "$EVIDENCE/build.log"
+          rc=${PIPESTATUS[0]}
+          end=$(date +%s)
+          echo "build rc=$rc wall_seconds=$((end-start))" | tee -a "$EVIDENCE/run.txt" >> "$GITHUB_STEP_SUMMARY"
+          built=$(find .lake/build/lib/lean/OAI -name '*.olean' 2>/dev/null | wc -l)
+          echo "OAI oleans present: $built" | tee -a "$EVIDENCE/run.txt" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$rc" = 124 ]; then
+            echo "::warning::lake build hit the ${BUILD_TIMEOUT} minute timeout; partial oleans are saved to the cache below. Dispatch build mode again to resume."
+            exit 124
+          fi
+          if [ "$rc" != 0 ]; then
+            echo "::error::lake build failed with rc=$rc"
+            exit "$rc"
+          fi
+          if grep -q "declaration uses 'sorry'" "$EVIDENCE/build.log"; then
+            echo "::error::the build log reports a declaration using sorry"
+            exit 1
+          fi
+
+      - name: print the axioms behind the three statements
+        if: inputs.mode == 'build' && steps.build.outcome == 'success'
+        working-directory: openai-math/lean
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/PrintAxioms.lean" <<'LEAN'
+          import OAI.NumberTheory.DirichletL.Nonvanishing
+          import OAI.NumberTheory.SiegelZeros.Main
+          #print axioms OAI.riemannZeta_ne_zero_of_seven_eighths_lt_re
+          #print axioms OAI.DirichletCharacter.LFunction_ne_zero_of_seven_eighths_lt_re
+          #print axioms OAI.SiegelZeros.WeightedTorusJets.exists_absolute_real_zero_gap
+          LEAN
+          lake env lean "$RUNNER_TEMP/PrintAxioms.lean" 2>&1 | tee "$EVIDENCE/axioms.txt"
+          printed=$(grep -c 'depends on axioms' "$EVIDENCE/axioms.txt" || true)
+          echo "axiom lines printed: $printed" | tee -a "$EVIDENCE/run.txt"
+          if [ "$printed" -ne 3 ]; then
+            echo "::error::expected 3 'depends on axioms' lines, saw $printed; the guard is not reading what it thinks it is"
+            exit 1
+          fi
+          if grep -q 'sorryAx' "$EVIDENCE/axioms.txt"; then
+            echo "::error::sorryAx appears in the axiom set"
+            exit 1
+          fi
+          # Every axiom named must be one of the three standard ones.
+          bad=$(grep 'depends on axioms' "$EVIDENCE/axioms.txt" \
+            | sed 's/.*depends on axioms: \[//; s/\]//' | tr ',' '\n' | tr -d ' ' \
+            | grep -v -x -e propext -e Classical.choice -e Quot.sound || true)
+          if [ -n "$bad" ]; then
+            echo "::error::non-standard axiom(s): $bad"
+            exit 1
+          fi
+          cat "$EVIDENCE/axioms.txt" >> "$GITHUB_STEP_SUMMARY"
+          echo "All three statements depend only on propext, Classical.choice, Quot.sound." | tee -a "$EVIDENCE/run.txt" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: comparator (experimental), install landrun, lean4export, nanoda, comparator
+        if: inputs.mode == 'comparator'
+        run: |
+          set -euo pipefail
+          echo "kernel $(uname -r); landlock: $(grep -c -i landlock /boot/config-$(uname -r) 2>/dev/null || echo unknown)" | tee -a "$EVIDENCE/run.txt"
+          export PATH="$HOME/go/bin:$PATH"
+          go version
+          go install github.com/zouuup/landrun/cmd/landrun@latest
+          echo "$HOME/go/bin" >> "$GITHUB_PATH"
+          toolchain=$(cat openai-math/lean/lean-toolchain)
+          tag=${toolchain#leanprover/lean4:}
+          git clone -q --depth 1 --branch "$tag" https://github.com/leanprover/lean4export tools-lean4export \
+            || git clone -q --depth 1 https://github.com/leanprover/lean4export tools-lean4export
+          (cd tools-lean4export && lake build 2>&1 | tail -5)
+          git clone -q --depth 1 https://github.com/leanprover/comparator tools-comparator
+          (cd tools-comparator && lake build comparator 2>&1 | tail -5)
+          git clone -q --depth 1 https://github.com/ammkrn/nanoda_lib tools-nanoda
+          (cd tools-nanoda && cargo build --release 2>&1 | tail -3)
+          {
+            echo "COMPARATOR_LANDRUN=$HOME/go/bin/landrun"
+            echo "COMPARATOR_LEAN4EXPORT=$GITHUB_WORKSPACE/tools-lean4export/.lake/build/bin/lean4export"
+            echo "COMPARATOR_NANODA=$GITHUB_WORKSPACE/tools-nanoda/target/release/nanoda_bin"
+            echo "COMPARATOR_BIN=$GITHUB_WORKSPACE/tools-comparator/.lake/build/bin/comparator"
+          } >> "$GITHUB_ENV"
+
+      - name: comparator (experimental), run the three statements with nanoda on
+        if: inputs.mode == 'comparator'
+        working-directory: openai-math/lean
+        run: |
+          set -uo pipefail
+          for bin in "$COMPARATOR_BIN" "$COMPARATOR_LEAN4EXPORT" "$COMPARATOR_NANODA" "$COMPARATOR_LANDRUN"; do
+            if [ ! -x "$bin" ]; then echo "::error::missing tool: $bin"; exit 1; fi
+          done
+          failed=0
+          for cfg in QuasiRiemannHypothesis DirichletSevenEighths SiegelZeros; do
+            jq '.enable_nanoda = true' "ComparatorChallenges/$cfg.json" > "$RUNNER_TEMP/$cfg.json"
+            echo "=== $cfg ===" | tee -a "$EVIDENCE/comparator.log"
+            cat "$RUNNER_TEMP/$cfg.json" | tee -a "$EVIDENCE/comparator.log"
+            lake env "$COMPARATOR_BIN" "$RUNNER_TEMP/$cfg.json" 2>&1 | tee "$EVIDENCE/comparator-$cfg.log"
+            rc=${PIPESTATUS[0]}
+            echo "$cfg comparator rc=$rc" | tee -a "$EVIDENCE/run.txt" >> "$GITHUB_STEP_SUMMARY"
+            [ "$rc" = 0 ] || failed=1
+          done
+          if [ "$failed" != 0 ]; then
+            echo "::error::at least one Comparator run did not succeed; nothing is claimed"
+            exit 1
+          fi
+
+      - name: save the OAI build outputs for the next dispatch
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: openai-math/lean/.lake/build
+          key: replay-openai-003-${{ inputs.openai_commit }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: preserve the evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-openai-003-${{ inputs.mode }}-${{ github.run_id }}
+          path: replay-evidence
+          if-no-files-found: error
