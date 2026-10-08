@@ -191,7 +191,10 @@ No kill condition fired. Nothing bears on RH; the subject is a rival function.
 heights; nothing here is a result, and the hypothesis is nobody's theorem
 (2026-10-08).** QRH(theta) is the claim, published by OpenAI on 2026-10-06 and
 replayed by no one known here, that every Dirichlet L-function is zero-free in
-Re s > theta, theta = 7/8 (and 11/12). The hunt asks which of this tree's
+Re s > theta, theta = 7/8 (and 11/12). (Update, later on 2026-10-08: replayed
+here, Lean's kernel and the independent NanoDa kernel accept the statements,
+`docs/38` section 7; the argument is still unreviewed by any person, so the
+pricing below keeps its hypothesis.) The hunt asks which of this tree's
 priced walls would move if it held, and keeps the hypothesis in every
 sentence. Under QRH(7/8): `prime_pair_error`'s rank-1 wall, the q = 1 mixed
 moment, moves from N^3 L^{-2H} to N^{11/4} L^4 and stops 3/4 of a power short

@@ -25,6 +25,20 @@ error terms, finite ranges and proof dependencies. Neither ambition nor a
 negative verdict changes the required evidence. The distinction between an
 original result and an established novelty claim remains in force.
 
+## Decision: build on the quasi-Riemann theorem (2026-10-08)
+
+The owner directed the laboratory to use OpenAI's zero-free half-plane
+(every Dirichlet L-function, zeta included, has no zero with Re s > 7/8;
+preprint of 2026-09-30) as an input and build on it, rather than only read or
+replay it. Its Lean statements were rebuilt here and accepted by Lean's kernel
+and the independent NanoDa kernel (`docs/38` section 7); its argument has not
+been reviewed by any person. Results that use it are stated as "proved, given
+OpenAI's Theorem 1.1", carry that hypothesis in every sentence, and take the
+grade of the weakest step. The first four are in `docs/39`. If the theorem is
+withdrawn or refuted, they revert to conditional statements and are marked so;
+nothing here makes the half-plane a theorem of this laboratory beyond the
+kernel grade of its formal statements.
+
 ## Decision: a failed attempt does not close a method
 
 Use the four dispositions in `ALIGNMENT.md` section 5: candidate refuted,

@@ -1,6 +1,6 @@
 # The documents
 
-Thirty-eight numbered documents. The first five are a single argument and are
+Forty numbered documents. The first five are a single argument and are
 meant to be read in order; everything after 14 is a record of a particular
 piece of work and can be read on its own.
 
@@ -65,9 +65,10 @@ What was built, what was measured, and what did not survive.
 | [33](33-chroma-hue.md) | Pitch classes against the colour wheel. |
 | [34](34-zeros-in-tuning-units.md) | The Riemann zeros in tuning units. |
 | [35](35-the-unspent-fact.md) | The unspent fact: what out-of-band positivity is worth, and why nobody can claim it. |
-| [36](36-what-you-can-run.md) | Twelve worked demonstrations, the figure gallery, the repository map, and the standing limitations. |
+| [36](36-what-you-can-run.md) | Thirteen worked demonstrations, the figure gallery, the repository map, and the standing limitations. |
 | [37](37-methods.md) | The methods index: every reusable identity, lemma, control and technique the hunts produced, with grade and provenance. |
-| [38](38-the-quasi-riemann-claim.md) | The quasi-Riemann claim: OpenAI's 7/8 zero-free half-plane of 2026-10-06, read against this tree; what was checked, what was not, what a replay needs. |
+| [38](38-the-quasi-riemann-claim.md) | The quasi-Riemann claim: OpenAI's 7/8 zero-free half-plane of 2026-10-06, read against this tree, rebuilt here and accepted by two kernels. |
+| [39](39-built-on-the-quasi-riemann-theorem.md) | **Start here for the current results.** Four theorems built on the 7/8 half-plane: class numbers up to 1500, a prime between consecutive ninth powers, small witnesses with constant 1, Linnik's exponent 7/3. |
 
 ## Adding one
 

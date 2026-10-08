@@ -175,7 +175,7 @@ titles do not.
   **[FREE]** on arXiv. *For: what genuine unconditional progress looks like
   in this subject, per `docs/08`.*
 
-## 9. Claims under replay: stated in Lean, replayed by nobody here yet
+## 9. The quasi-Riemann theorem, and what was built on it
 
 - **OpenAI, "The Quasi-Riemann Hypothesis: A Zero-Free Half-Plane
   Re(s) > 7/8"** (OpenAI Math Release preprint, 2026-09-30), with the
@@ -193,6 +193,34 @@ titles do not.
   which records what was checked in this tree and what was not; cite the
   bound with its exact formal statement (section 3), as kernel-checked, and
   never as RH.*
+
+Used by the four hunts that build on it (`docs/39`), each cited where it is used:
+
+- **B. Chen, V. Gupta, Y. C. Li**, "Large value estimates for Dirichlet
+  polynomials with characters and zero density of Dirichlet L-functions",
+  arXiv:2507.08296 (v2, 2026-07-27): sum over chi mod q of N(sigma, T, chi)
+  << (qT)^(7(1-sigma)/3 + eps), improving Huxley's 12/5; preprint. *For: hunt
+  #123, Linnik's exponent 7/3; their Corollary 1.4 states the conditional
+  implication.*
+- **T. Xylouris**, Bonn thesis (2011) and Chebyshevskii Sbornik (2018): Linnik's
+  constant L = 5, then L < 5, unconditional. *The bar for hunt #123.*
+- **M. Watkins**, "Class numbers of imaginary quadratic fields", Math. Comp. 73
+  (2004): complete lists for h <= 100, unconditional. **S. Holmin, N. Jones,
+  P. Kurlberg, C. McLeman, K. Petersen**, arXiv:1510.04387: complete lists for
+  odd h < 10^6 under GRH. **J. Friedlander, H. Iwaniec**, arXiv:1701.03771,
+  Theorem 3: Littlewood's argument under a 3/4 hypothesis. **Y. Lamzouri, X. Li,
+  K. Soundararajan**, Math. Comp. 84 (2015): the explicit GRH form. *For: hunt
+  #124.*
+- **E. S. Lee**, arXiv:2602.14340 (2026), Theorem 1.2: a prime between n^86 and
+  (n+1)^86 for every n, unconditional; earlier **M. Cully-Hugill, D. R.
+  Johnston** (k = 90, 2025; k = 140, 2023). **D. Platt, T. Trudgian**, Bull. LMS
+  53 (2021): RH holds up to height 3 * 10^12. **C. Bellotti, P.-J. Wong**,
+  arXiv:2412.15470: explicit N(T). **J. Buthe**, arXiv:1511.02032: the analytic
+  method for bounding psi(x). *For: hunt #126.*
+- **H. L. Montgomery, R. C. Vaughan**, Multiplicative Number Theory I,
+  Theorem 13.12, after Rodosskii (1954): least nonresidue from a zero-free
+  strip, constants not explicit. **E. Bach**, Math. Comp. (1990): explicit GRH
+  witness bounds. *For: hunt #125.*
 
 ## Reading orders
 
