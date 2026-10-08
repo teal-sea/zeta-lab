@@ -261,9 +261,13 @@ priority over other mechanisms; allocation is the owner's decision.
 ## Compute discipline
 
 1. **Nothing heavy on the operator's machines** (16 GB M4 laptop, 8 GB M1
-   desktop, often driven by phone). A guard kills `lake build`: use CI, don't evade it.
-2. **GitHub Actions is the default compute**: free here, 20 parallel jobs, not
-   preempted; `full.yml` caches `elan` and `.lake`. Paid only if it can't; say why.
+   desktop, often driven by phone). A guard kills `lake build`: use remote compute.
+2. **Lean builds run on Namespace; numerics run on Modal.** This is Thomas's
+   routing decision of 2026-10-08. Retaining the pinned Lean checkout and its
+   dependency builds avoids repeating the 135-minute OpenAI cold build;
+   numerical shards can run independently on Modal. GitHub Actions remains
+   available for repository checks and the historical replay workflows.
+   The first Namespace allocation is recorded in `lean/qrh/RUNS.md`.
 3. **Estimate before you spend**: time one unit, multiply, write it in `RUNS.md`.
 4. **Anything over about twenty minutes checkpoints per unit.**
 5. **Every detached job has an owner**: a watcher, or `fulcrum adopt` then

@@ -1,0 +1,20 @@
+Hunt 125 formalization scaffold
+Copyright (c) 2026 Thomas Lince. Laboratory source is MIT licensed.
+
+The external dependency openai/math is by OpenAI and its contributors.
+Source: https://github.com/openai/math
+Pinned revision: adc7f1241b42e322a6451854ab7e4b4c146bf78a
+License: Apache License, Version 2.0 (LICENSE-OpenAI).
+No OpenAI proof source is vendored or relicensed here. The build retains the
+upstream checkout, LICENSE files, dependency notices and compatibility patches.
+No root NOTICE file was present in that pinned checkout; this file records
+our attribution and changes, not a purported upstream notice.
+
+ZetaLean/{Rigor,IntervalExp,IntervalCExp,Ball,BallTerm}.lean were copied from
+teal-sea/zeta-lab revision aa6af68a. Changes for this package remove module,
+public import and expose/public-section syntax. BallTerm's DHCertSupport
+import and its kappaBall/contains_kappaBall declarations are omitted because
+they belong to the separate Davenport-Heilbronn certificate. Comments were
+adjusted to describe this extraction. The five original files are unchanged.
+
+Mathlib and each transitive package retain their own licenses and notices.

@@ -1,5 +1,20 @@
 # HANDOFF: session records and continuation state
 
+## 2026-10-08: hunt 125 Lean package prepared, Namespace blocked
+
+`lean/qrh/README.md` records the separate 4.34.1 package and its exact OpenAI
+pin. The five interval modules have source adaptations, and the first proof
+drafts cover rational domination, finite residue generation data, and the
+OpenAI nonvanishing and complex Hadamard bridges. None has been compiled in
+this session. The analytic explicit formula and the full nonresidue bound
+remain open. The written result remains proved, given OpenAI's Theorem 1.1,
+unreviewed. Theorem 2, Comparator, NanoDa and submission have not started.
+
+Namespace login succeeded, but runner creation returned `access denied`;
+the billing page requires a subscription. No build time exists. Resume with
+compute access, then run the cached build script and fix actual elaboration
+errors before claiming any additional kernel-checked result.
+
 ## 2026-10-08: the quasi-Riemann theorem, replayed and built on
 
 Read `docs/39` first, then `docs/38`. OpenAI's 7/8 half-plane was rebuilt from
