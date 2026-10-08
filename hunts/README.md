@@ -75,6 +75,20 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### October 8 extensions (`oct08_extensions/`)
+
+**Status: written conditional candidates, with independent review artifacts.**
+The density extension replaces the earlier ninth-power interval target by
+seventh powers under the same zeta half-plane assumption, adding a published
+explicit zero-density estimate. The fixed Fourier network admits a parameter
+extension; its all-length consequence keeps the upstream exact-arithmetic
+compiler assumptions. Genus-aware partial counts and a failed primality
+certificate route retain their limitations and falsification examples.
+See `oct08_extensions/MISSION.md` and its `routes/` and `audits/` artifacts.
+No kernel verification, practical Fourier speedup or worldwide novelty is
+claimed. Source authentication and subsequent extensions are recorded in the
+route reports, separately from numerical replay.
+
 ### Hunt #126: primes between consecutive ninth powers, given the 7/8 half-plane (`qrh_prime_powers/`)
 
 **Status: candidate, pending external review; ordinary written proofs, every

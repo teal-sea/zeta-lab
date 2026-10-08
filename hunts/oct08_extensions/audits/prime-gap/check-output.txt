@@ -1,0 +1,4 @@
+4 independently reconstructed moment integrals agree (nonrigorous check)
+604 interval margins each > .95468 at 384 bits
+9 fixed prime witnesses and strict interval endpoints pass
+uniform tail prerequisites and upper error < .045583 pass

@@ -5346,6 +5346,28 @@ Why it travels: Any hypothesis of the form "zeros above height H have beta <= th
 so the threshold k = floor(1/(1-theta)) + 1 and its margins can be read off for any
 theta in seconds.
 
+### Positive density layers for explicit prime intervals
+
+computational technique | `hunts/oct08_extensions/` | grade: written conditional;
+eighth- and seventh-power versions independently audited
+
+For beta <= b and an increasing mesh s0,...,sm=b, upper-bound x^(beta-1)
+by x^(s0-1) plus positive increments x^(s[j+1]-1)-x^(s[j]-1)
+times the indicators beta>s[j]. Apply a cumulative zero-density upper bound
+to each indicator. This avoids subtracting independently bounded counts and
+avoids charging every exceptional zero at the rightmost strip boundary.
+For log(x)>=1/(1-b), the increments decrease with x. Together with monotone
+zero-sum moments this supports closed interval enclosures and an analytic tail.
+
+Evidence: `routes/prime-gap-multistrip/RESULTS.md`, `layers.py`, and the
+independent eighth-power audit under `audits/prime-gap/` in the hunt.
+Prior art: classical density splitting; KLN arXiv:2101.12263v1 Lemma 4.14,
+Table 1. No worldwide priority claim for the resulting explicit intervals.
+Reused in: the eighth-power argument is strengthened to a seventh-power
+result under the same zeta seven-eighths hypothesis.
+Why it travels: cumulative counting estimates can be combined soundly with
+monotone weights without estimating disjoint bins by subtraction.
+
 ## Seen and not admitted
 
 Candidates the sweep surfaced that do not meet the bar yet: measured once, self-reviewed
