@@ -140,10 +140,17 @@ What these pin, and what they do not:
 - **The Hecke statement is built on definitions the challenge file itself
   supplies.** `HeckeSevenEighths.lean` defines a `WeakFEPair`-based lattice
   theta sum, a `Character` structure, and `LFunction χ s := continuedLattice χ s / 6`,
-  then states nonvanishing for that object. Its `.json` has
-  `"definition_names": []`, so Comparator pins the theorem and not the
-  adequacy of those definitions. Whether that object is the finite-order Hecke
-  L-function of the paper is a definitional question nobody has checked here.
+  then states nonvanishing for that object. Comparator does pin those
+  definitions: its source (`leanprover/comparator` at `ca04cfc7`,
+  `Comparator/Compare.lean`) requires every constant in a pinned theorem's
+  type, transitively, to be identical between challenge and solution up to
+  alpha equivalence, and only names listed in `definition_names` are exempt
+  (this file lists none). What no tool in the release checks is whether that
+  challenge-file text is the finite-order Hecke L-function of the paper. The
+  only bridge is the 136-word scope page. *(Corrected 2026-10-08: the first
+  version of this bullet said Comparator "does not pin" the definitions. It
+  pins them to the challenge text; the gap is between that text and the
+  mathematics, not inside the tool. Section 9 has the release-wide count.)*
 - **The Siegel statement is proved independently of the 7/8 module.** Its
   solution module `OAI.NumberTheory.SiegelZeros.Main` does not import
   `OAI.NumberTheory.DirichletL.Nonvanishing`. The two are separate arguments.
@@ -219,7 +226,11 @@ headline.
   peer review", and OpenAI's own compile is one rung below that.
 - **NanoDa is off** in the family 003 configs, so even OpenAI's own run has
   one kernel on it, not two.
-- **Definitional adequacy of the Hecke object** (section 3).
+- **Correspondence between a challenge file's own definitions and the
+  paper's object**, for the Hecke statement here and for 387 of the 405
+  challenges in the release (sections 3 and 9). The zeta, Dirichlet and
+  Siegel statements are among the nine challenges that need no such
+  definitions at all.
 - **The argument itself.** Sections 1 to 3 of the 7/8 paper were read; the
   remaining 180 pages were not. No one here has an opinion on whether
   Proposition 2.1's two power savings are actually established in Parts I
@@ -324,7 +335,73 @@ Lean), 026 (positive density of large prime gaps), 029 (Artin primitive
 roots). Each is a claim at the same grade as 003: stated, in some cases
 formalized by its producer, replayed by nobody known here.
 
-## 9. Sources and the companion record
+## 9. The rest of the verification surface, measured
+
+The same text-level questions, asked of the whole release on 2026-10-08 with
+scripts kept in the companion record. Every number is a regex count over the
+clone and is reproducible from the commit; none is a kernel check.
+
+**What Comparator pins.** Read from its source rather than assumed: for each
+name in `theorem_names` it requires an identical name, universe parameters and
+type in challenge and solution, then walks every constant the type uses,
+transitively through types and values, and requires full `ConstantInfo`
+equality up to alpha equivalence. Only `definition_names` entries ("holes")
+escape value comparison; they are checked by name, type, universes and safety
+level, and Comparator's README says such solutions must always be checked by
+an additional, possibly human, verifier.
+
+| Measure, over the 405 challenge files and configs | Count |
+| --- | --- |
+| Definition-like declarations in challenge files (`def` 8,210, `abbrev` 1,176, `instance` 596, `structure` 474, `inductive` 89, `class` 12) | 10,557 |
+| Challenges carrying their own definitions, with no holes declared | 387 |
+| Challenges stated purely in Mathlib or upstream terms (among them `QuasiRiemannHypothesis`, `DirichletSevenEighths`, `SiegelZeros`) | 9 |
+| Challenges with declared holes / holes in total / holes that are `Prop`-valued | 9 / 45 / 17 |
+| Holes written out in full in the challenge file yet exempt from value comparison | 43 of 45 |
+| Challenges whose pinned theorem is, or rests directly on, a `Prop`-valued hole (`KServer`, `OccupiedOverlap`, `EuclideanFiveColor`) | 3 |
+| Pinned theorem names, all resolving to a declaration in their challenge file | 507 |
+| `sorry` occurrences (506 in pinned theorems, 3 inside definitions) | 509 |
+| `axiom` declarations (`HarmonicGrowth`: `axiom mainStatement : MainClaim`, the stand-in instead of `sorry`) | 1 |
+| Configs whose permitted axioms are not exactly the standard three | 0 |
+| Configs with `enable_nanoda` true / key missing | 1 / 2 |
+| Challenge files running elaboration-time metaprograms (`run_cmd Lean.modifyEnv` resetting auxiliary-lemma and matcher caches, 15; `elabCommand`, 2) | 17 |
+| Families whose scope page links at least one challenge with its own definitions | 228 of 235 |
+
+So the three statements that matter for this document sit in the nine-of-405
+class that needs no challenge-side definitions, which is the strongest
+position a Comparator statement can be in. The Hecke statement sits in the 387.
+
+**What the scope pages say.** The 235 `lean/docs/NNN.md` pages run 67 to
+1,122 words, median 136. Seventy-four (31.5 percent) use at least one of ten
+narrowing phrases; "not included" appears on 31. Four state that the
+formalized result is itself conditional on an unproved input (families 187,
+260, 281 and 331). Phrase counts measure wording, not scope: several
+"conditional" hits are the word "unconditional", several "assum" hits say
+nothing is assumed, and 124 pages narrow in other words.
+
+**What the patches add.** Across the 23 patches: 90,125 lines added, 34,139
+removed, 111 new `.lean` files, 3,355 new `theorem`/`lemma` declarations, and
+no `sorry` or `axiom` on any added line. Removed lines carry 14 `sorry`
+mentions, of which two are PNT+'s `prelim_decay_2` and `prelim_decay_3`
+(section 4) and one is AINTLIB's `wronskian_Φ_ΨSq_nat`, deleted with its
+consumer rather than proved. All 111 new files are absent from upstream at
+the pinned commit and at upstream HEAD on 2026-10-08. Twenty-seven of them
+(39,928 lines, the `Erdos970/` directories in PNT+ and StrongPNT) are
+namespaced forks of existing upstream modules at line-similarity 0.70 to
+0.90; ClassFieldTheory's 52 new files (16,975 lines) and PNT+'s `SiegelZeros/`,
+`Catalan/` and `ZetaFive/` have no upstream counterpart. Load-bearing by
+import closure: 39 of PNT+'s 47 new files, 45 of ClassFieldTheory's 52, 7 of
+StrongPNT's 8. Thirteen of the 23 patched dependencies are never imported by
+the release's own Lean code, and AINTLIB's 23,288-line patch reaches nothing
+the release imports.
+
+**Reading.** The patches are not a trick and not padding either: a third of
+their new volume is other people's modules copied under a new namespace, the
+rest is new Lean that lives inside third-party repositories under the word
+"compatibility", and the part of it the 7/8 and Siegel proofs stand on is
+sorry-free at text level. A replay inherits all of it, which is why section 7
+says `lake update` must be told about.
+
+## 10. Sources and the companion record
 
 - `github.com/openai/math` at `adc7f1241b42e322a6451854ab7e4b4c146bf78a`:
   `README.md`, `CONTENTS.md`, `overview.tex`, `lean/docs/003.md`,
@@ -335,10 +412,12 @@ formalized by its producer, replayed by nobody known here.
 - `AlexKontorovich/PrimeNumberTheoremAnd` at `c39a7511`, and
   `abenenson/rellich-kondrachov` at `70f85d4c`, fetched shallow at those
   commits.
-- The scan scripts, their full output, and SHA-256 hashes of the three PDFs and
-  the patch are kept in the operator's private vault under
+- The scan scripts, their full output, the 2026-10-08 release-wide audit
+  (scripts, CSVs, upstream comparisons) and SHA-256 hashes of the three PDFs
+  and the patch are kept in the operator's private vault under
   `raw/2026-10-07-openai-math-release/`; the numbers above are reproducible
-  from the public commit with any import-walking script.
+  from the public commit with any import-walking script and the regexes
+  named in section 9.
 - Context, not evidence: the Advisory Group on Mathematics and Artificial
   Intelligence (hosted at the IAS) published release guidelines on 2026-09-29
   and has said its advisory role endorses neither the manuscripts nor the
