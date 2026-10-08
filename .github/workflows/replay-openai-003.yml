@@ -118,6 +118,21 @@ jobs:
           "$HOME/.elan/bin/lean" --version | tee "$EVIDENCE/lean-version.txt"
           "$HOME/.elan/bin/lake" --version | tee -a "$EVIDENCE/lean-version.txt"
 
+      - name: decide the parallelism flag this Lake accepts
+        working-directory: openai-math/lean
+        run: |
+          set -euo pipefail
+          # Lake 4.34 rejected `-j 3` ("unknown short option '-j'") on the
+          # first pilot. Probe the long form from its own help text; if it
+          # is absent, run with Lake's default and say so.
+          if lake build --help 2>&1 | grep -q -- '--jobs'; then
+            echo "JOBS_FLAG=--jobs=$LAKE_JOBS" >> "$GITHUB_ENV"
+            echo "lake build will run with --jobs=$LAKE_JOBS" | tee -a "$EVIDENCE/run.txt"
+          else
+            echo "JOBS_FLAG=" >> "$GITHUB_ENV"
+            echo "lake build --help lists no --jobs option; running with Lake's default parallelism" | tee -a "$EVIDENCE/run.txt"
+          fi
+
       - name: restore the OAI build outputs from an earlier dispatch
         uses: actions/cache/restore@v4
         with:
@@ -169,7 +184,7 @@ jobs:
                    OAI.NumberTheory.DirichletL.Arithmetic.EisensteinCoordinates; do
             echo "=== $m ===" | tee -a "$EVIDENCE/pilot.log"
             start=$(date +%s)
-            /usr/bin/time -v lake build -j "$LAKE_JOBS" "$m" 2>&1 | tee -a "$EVIDENCE/pilot.log"
+            /usr/bin/time -v lake build $JOBS_FLAG "$m" 2>&1 | tee -a "$EVIDENCE/pilot.log"
             end=$(date +%s)
             echo "$m wall_seconds=$((end-start))" | tee -a "$EVIDENCE/pilot-timings.txt"
           done
@@ -187,7 +202,7 @@ jobs:
         run: |
           set -uo pipefail
           start=$(date +%s)
-          timeout "${BUILD_TIMEOUT}m" lake build -j "$LAKE_JOBS" \
+          timeout "${BUILD_TIMEOUT}m" lake build $JOBS_FLAG \
             OAI.NumberTheory.DirichletL.Nonvanishing \
             OAI.NumberTheory.SiegelZeros.Main 2>&1 | tee "$EVIDENCE/build.log"
           rc=${PIPESTATUS[0]}
