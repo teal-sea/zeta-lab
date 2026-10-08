@@ -75,6 +75,30 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #124: an explicit class-number bound from the quasi-Riemann hypothesis (`qrh_class_number/`)
+
+**Status: candidate, pending external review; proved given OpenAI's Theorem
+1.1 (The Quasi-Riemann Hypothesis, Sept 30 2026, zero-free Re s > 7/8,
+unreviewed), by an unreviewed written proof whose every constant is
+evaluated in Arb.** Littlewood's short Euler product with two Cesaro cutoffs
+and Hadamard positivity for the zero sum gives, for every negative
+fundamental D other than -3, L(1, chi_D) >= 1/(10 log log |D|), hence
+h(D) >= sqrt|D| / (10 pi log log |D|): the constant the October 5 OpenAI
+paper calls computable and leaves uncomputed. A verified interval cover turns
+the bound into D(h) with h(D) <= h implying |D| <= D(h) (D(100) = 48 611 613,
+D(1500) = 12 409 254 457). An exact reduced-form sieve over all 3.77 * 10^9
+fundamental discriminants below D(1500), 39 minutes on one core and no GRH,
+then completes the imaginary quadratic class-number lists for every
+h <= 1500 (9 245 562 fields, largest |D| = 562 394 347), conditional only on
+Theorem 1.1 (h <= 1000 also under the October 5 paper's 11/12 half-plane,
+with c = 1/16). It reproduces Watkins' h <= 100 classification exactly and the
+GRH-conditional odd-h counts of Holmin and Kurlberg for all odd h <= 1500.
+Controls: the bound sits at least 3.89 times below every exact L(1, chi_D)
+for |D| <= 3 * 10^6; weakening the abscissa to 11/12 and 15/16 weakens it in
+the predicted way; the GRH specialisation matches Lamzouri-Li-Soundararajan.
+No explicit half-plane constant or even-h list beyond 100 was found in the
+search; that is not a novelty claim. See `qrh_class_number/RESULTS.md`.
+
 ### Hunt #123: Linnik's constant 7/3 from the 7/8 zero-free half-plane (`qrh_linnik/`)
 
 **Status: candidate, pending external review (2026-10-08).** Uses OpenAI's
