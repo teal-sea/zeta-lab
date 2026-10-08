@@ -96,6 +96,93 @@ primes for q <= 5000 are tabulated as a descriptive picture (max exponent
 1.83, at q = 5). Composite grade capped by the unreviewed input. See
 `qrh_linnik/RESULTS.md`, which ends with the doors.
 
+### Hunt #122: the second-DH tracked pair lands at 1.0876360002296, and the lower endpoint reaches 1.0876359 (`dh_minus_landing/`)
+
+**Status: probe, complete (2026-10-08); the parent's first door is priced and
+shut for this pair.** `dh_minus_heat` left `217/200 < Lambda_minus <=
+567009/320000` (narrow frame) and named a later rational heat time for the same
+conjugate pair as its first door. The pair's landing time is measured by two
+independent routes, an mpmath double-zero Newton solve (30 and 50 digits,
+agreeing to `4.6e-26`) and a float contour-moment discriminant tracker (two
+grids, within `5e-14` of the first): `t_c = 1.08763600022958693221796...`,
+`x_c = 7.5399442421673352...`, grade hardened, no enclosure. Five rational
+times below it, down to `10876359/10^7 = 1.0876359` (`1.0e-7` under `t_c`),
+carry the parent's Arb Taylor/Rouche disk decided positive on all four of its
+configurations, so the bracket becomes `1.0876359 < Lambda_minus <=
+567009/320000`, lower endpoint enclosure-carrying at the numerical step, the
+surrounding argument the parent's. The door was worth `2.636e-3`, `0.38%` of
+the gap. The pilot's second zero lands at `0.631` and binds nothing; no census
+of other pairs was run. The parent's second door (a sharper strip for the upper
+endpoint) is repriced from a number already decided in
+`lambda_dh_bounds/strip2_results.json`: worth `4.03e-4`, not rerun. Controls:
+known values, the recorded `217/200` disk rerun, the `t = 0` gate, two
+closed-form polynomial landings, three instrument lesions, and a 1% kernel
+fault that both tracking routes miss together (they agree to `1.4e-13` on the
+wrong function) and the Hurwitz zero-time identity catches (defect `1.2e-3`).
+No kill condition fired. Nothing bears on RH; the subject is a rival function.
+
+### Hunt #121: what moves under the 7/8 strip, priced (`qrh_conditional/`)
+
+**Status: conditional pricing, exact exponent arithmetic plus two measured
+heights; nothing here is a result, and the hypothesis is nobody's theorem
+(2026-10-08).** QRH(theta) is the claim, published by OpenAI on 2026-10-06 and
+replayed by no one known here, that every Dirichlet L-function is zero-free in
+Re s > theta, theta = 7/8 (and 11/12). The hunt asks which of this tree's
+priced walls would move if it held, and keeps the hypothesis in every
+sentence. Under QRH(7/8): `prime_pair_error`'s rank-1 wall, the q = 1 mixed
+moment, moves from N^3 L^{-2H} to N^{11/4} L^4 and stops 3/4 of a power short
+of (31), which is RH-equivalent, so no fixed strip closes it; the completed
+bound (1) would move from a logarithmic saving to N^{35/12} L^6 by widening
+the major arcs to N^{1/12} (the hunt's own derivation, reviewed by nobody),
+still 11/12 of a power short of the target and 5/12 behind CHHL's
+GRH-conditional 5/2; Theorem A becomes W << N^{7/4} L^4, 3/4 short of (T);
+the ineffective constants become effective in principle. Rank 2 (Vaughan's
+bound), rank 3 in the square-root-arc configuration, the de Bruijn-Newman
+record (9/32 > 0.2, cited from the lab's reading of the claim, document 38 of
+the course), the simple-zero proportions, Lambda_DH and PR #268 do not move.
+The circle-method bootstrap theta -> (2 + theta)/3 drifts toward 1, never
+toward 1/2. Crossover heights against Johnston and Yang's explicit remainder,
+with the strip-side constant set to 1 by convention: log x = 35.11 (x about
+1.8e15) at 7/8 and 98.22 (about 4.6e42) at 11/12; on every height the
+prime-pair hunt has measured, the explicit unconditional bound is the smaller
+one. Li's criterion: a strip multiplies the per-zero growth exponent of a
+hypothetical off-line zero by 2 theta - 1 = 3/4 and bounds neither the count
+nor the heights of such zeros, so nothing usable at finite n. Every statement
+is void if the claim is withdrawn or refuted. `qrh_conditional/RESULTS.md`
+ends with the doors.
+
+### Hunt #120: where the quasi-Riemann argument spends its Euler product, and a rival that cannot pay (`qrh_rival_step/`)
+
+**Status: read and measured, 2026-10-08; no verdict on the paper.** OpenAI's
+family 003 (the lab's reading of the release is `38-the-quasi-riemann-claim.md`,
+on the branch `claude/openai-math-release-2026-10-06`, not yet on main) claims every Dirichlet and finite-order Hecke
+L-function over Q(sqrt(-3)) is zero-free in Re s > 7/8. The hunt asks where
+the argument uses that its target is a single L-function with an Euler product
+rather than a finite combination, and tests the step on the classical rival,
+an Epstein zeta function of class number above one. Reading: the continuation
+criterion (Proposition 2.1 of the 7/8 paper, page 8) is a shared lemma whose
+proof survives for any function with bounded reciprocal on Re s >= 2; the
+Euler product is consumed where that criterion's two estimates are made, at
+the Moebius identity 1/L_K^S = sum mu nu N^{-s} (11/12 paper, Section 3, page
+12) and at the scalar Euler identity, Lemma 7.1 (7/8 paper, Section 7.2, page
+53, used at (10.1) and (10.2) on page 71). Measured: for Q = x^2 + xy + 4y^2
+(D = -15), written in the paper's own vocabulary as
+zeta(s) L(s, chi_-15) + L(s, chi_-3) L(s, chi_5), zeros at
+0.92746 + 15.49663i, 0.91294 + 47.53316i and 1.02597 + 61.42280i, the last
+inside the region of absolute convergence, each hardened by two evaluation
+routes agreeing to 1e-25 or better, a lattice-route residual of 1e-41 where
+run, an mpmath winding of 1 and a segment-enclosed ball winding of 1 on
+python-flint; for D = -23 a zero at 0.95326 + 16.29022i on two routes. Each is
+a cancellation between two nonvanishing products of Dirichlet L-functions, so
+none is a counterexample (`docs/08` section 4.3): the rival lacks the
+hypothesis, its reciprocal's coefficients being non-multiplicative and
+unbounded (exact to 10^6). The Davenport-Heilbronn function has no zero past
+7/8 below height 300 and none known to the lab anywhere (its deepest census
+pair sits at 0.86953). Controls: gamma_1 recovered to 2e-16, planted faults
+detected, the class-number-one form sees nothing. Scan ranges are stated as
+limits in `qrh_rival_step/RESULTS.md`, which ends with the doors.
+
+
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 
 **Status: unresolved RH attempt, ordinary proofs and numerical enclosures;

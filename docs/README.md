@@ -67,6 +67,7 @@ What was built, what was measured, and what did not survive.
 | [35](35-the-unspent-fact.md) | The unspent fact: what out-of-band positivity is worth, and why nobody can claim it. |
 | [36](36-what-you-can-run.md) | Twelve worked demonstrations, the figure gallery, the repository map, and the standing limitations. |
 | [37](37-methods.md) | The methods index: every reusable identity, lemma, control and technique the hunts produced, with grade and provenance. |
+| [38](38-the-quasi-riemann-claim.md) | The quasi-Riemann claim: OpenAI's 7/8 zero-free half-plane of 2026-10-06, read against this tree; what was checked, what was not, what a replay needs. |
 
 ## Adding one
 
