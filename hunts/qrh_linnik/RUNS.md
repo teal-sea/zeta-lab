@@ -106,7 +106,7 @@ artifacts:
 ## Gates before hand-back
 
 The first gate run failed one test: `MISSION.md` cited the kernel-check note as a
-bare `docs/38`, which exists only on unmerged PR #271. The citation was reworded;
+bare reference to the doc numbered 38, which exists only on unmerged PR #271. The citation was reworded;
 the rerun passed.
 
 ```runmanifest
