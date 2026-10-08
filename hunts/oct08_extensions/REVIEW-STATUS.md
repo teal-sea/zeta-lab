@@ -28,3 +28,13 @@ regenerated from the unchanged independent checker against the final producer
 file; mathematical result fields are unchanged. Original historical audit
 records remain outside this public package. Proof/checker source bytes were
 not changed.
+
+Publication correction: audits/kln-restoration/PUBLIC-STATUS.md distinguishes
+the valid use of KLN Lemma4.14 from its upstream source justification. The
+earlier audit omitted a historical critical-line correction and a low-height
+rounding issue. HPY plus a new Acb check restores the exact inputs. This adds
+a substantive source argument, not a new density estimate or numerical change.
+The source tables remain cited rather than independently recomputed. Producer
+status sentences below were updated after the completed independent audits;
+the original audited snapshots remain available at commit6b120d1f, with their
+hashes preserved in historical audit reports.

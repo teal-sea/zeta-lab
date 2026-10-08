@@ -4,7 +4,10 @@ Assume QRH(7/8): every nontrivial zero of the Riemann zeta function has real
 part at most 7/8. Then every integer n>=1 has a prime strictly between n^7
 and (n+1)^7. This is a written conditional implication, independently audited
 with source checks and interval arithmetic. It is not Lean-formalized and no
-worldwide priority claim is made. The bounded search in literature/prime-gap.md
+worldwide priority claim is made. The source audit originally omitted the historical critical-line correction
+and low-height rounding justification; audits/kln-restoration/ supplies that
+argument and Acb verification. The application of the cited KLN density
+lemma and the prime-interval calculations are unchanged. The bounded search in literature/prime-gap.md
 compares all-n results under full RH and eventual unconditional results;
 priority for this precise weaker-assumption statement remains unresolved.
 

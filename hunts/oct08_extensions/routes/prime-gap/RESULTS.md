@@ -1,7 +1,7 @@
 # Density closes the eighth-power obstruction
 
-Status: candidate written conditional derivation, numerical inequalities enclosed
-by Arb, pending independent audit. No kernel formalization or novelty claim.
+Status: written conditional derivation, numerical inequalities enclosed
+by Arb; independent audit completed in ../../audits/prime-gap/AUDIT.md. No kernel formalization or novelty claim.
 
 Claim: If every nontrivial zero of zeta has real part at most 7/8,
 then for every integer n >= 1 a prime lies strictly between n^8 and (n+1)^8.
@@ -97,7 +97,7 @@ The repair preserves B as an Arb ball enclosing the exact endpoint throughout
 the elementary integral. Both scripts were rerun after this change. The
 previous cover's positive margins did not license that discarded sliver.
 
-Independent reviewer should derive the Stieltjes bound, check the source row,
+The original audit request was to derive the Stieltjes bound, check the source row,
 verify monotone interval replacements and tail, and replay both scripts.
 The copied base_bound.py is byte-for-byte from the pinned input branch.
 No mathematical independence is claimed for the reused PR276 implementation.

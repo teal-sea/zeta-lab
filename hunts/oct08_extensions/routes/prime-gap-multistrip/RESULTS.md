@@ -1,6 +1,6 @@
 # Layered density gives seventh powers
 
-Candidate conditional written result, pending independent audit: assuming
+Written conditional result, independently audited (../../audits/prime-gap-multistrip/AUDIT.md): assuming
 every nontrivial zeta zero has real part <=7/8, every integer n>=1 has a prime
 strictly between n^7 and (n+1)^7. Neither a novelty claim nor kernel formalization.
 All inherited explicit-formula and verified-height assumptions are unchanged
@@ -79,11 +79,13 @@ not from ignoring those negative tests. Same layered implementation for k6
 fails at L29 with negative margin approximately -56.04, while eventual
 positivity returns. This is a failure of the bound, not of sixth-power primes.
 The external density estimate remains a cited theorem, and the inherited
-explicit formula's source is being checked separately by the parent.
+explicit-formula source check is complete in ../../audits/prime-gap/SOURCE-CHECK.md.
+The critical-line source addendum is in ../../audits/kln-restoration/SOURCE-CHECK.md.
 
-Independent audit should reconstruct the pointwise layer identity and the
-monotonicity of Delta, then audit moment and tail constants and replay the
-cover at higher precision. No independent mathematical audit is claimed here.
+The independent audit reconstructed the pointwise layer identity and the
+monotonicity of Delta, checked moment and tail constants, and replayed the
+cover at higher precision. Its scope and shared inherited code are disclosed
+in ../../audits/prime-gap-multistrip/AUDIT.md.
 
 Prior-art scope: the earlier route checked KLN and Cully-Hugill-Johnston
 arXiv:2402.04272v3 section5. Density arguments and asymptotic prime-in-power

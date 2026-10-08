@@ -11,6 +11,7 @@ entry point and REVIEW-STATUS.md for the imported package.
 
 ```sh
 .venv/bin/python -c 'from zeta import rigor; print(rigor.BACKEND, rigor.available_backends())'
+.venv/bin/python hunts/oct08_extensions/audits/kln-restoration/check_low.py
 .venv/bin/python hunts/oct08_extensions/routes/prime-gap-multistrip/layers.py
 .venv/bin/python hunts/oct08_extensions/audits/prime-gap-multistrip/check.py
 .venv/bin/python hunts/oct08_extensions/routes/dft-central-compression/verify.py

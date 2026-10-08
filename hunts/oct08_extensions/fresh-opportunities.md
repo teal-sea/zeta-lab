@@ -1,6 +1,6 @@
 # Fresh release opportunities, 2026-10-08
 
-Read-only survey by `fresh_opportunities`. No repository edits, remote jobs, paid compute, or external messages. Only a subsecond local integer-count sweep. Local Zeta Lab snapshot is stale; parent owns authoritative Ghost state and collision checks. Read `/Users/thomas/AGENTS.md`, repository `CLAUDE.md`, `ROADMAP.md`, `ALIGNMENT.md`, the existing rogue-frontier portfolio, and mathbox literature-check instructions.
+Read-only survey by `fresh_opportunities`. No repository edits, remote jobs, paid compute, or external messages. Only a subsecond local integer-count sweep. Local Zeta Lab snapshot is stale; parent owns authoritative Ghost state and collision checks. Read the host-level agent instructions, repository `CLAUDE.md`, `ROADMAP.md`, `ALIGNMENT.md`, the existing rogue-frontier portfolio, and mathbox literature-check instructions.
 
 ## Recommendation
 
