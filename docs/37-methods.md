@@ -73,7 +73,7 @@ stays out of this file. No em dashes.
 - **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
   bound from a fixed zero-free half-plane, and the exact sieve that spends it on
   complete class-number lists.
-- **Seen and not admitted** (37). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (38). Surfaced by the sweep, below the bar for now.
 
 Totals: 169 entries from 61 hunts. Kinds: identity 21, lemma 42, bound 12, construction
 15, calibration 7, computational 16, control 35, obstruction 21.
@@ -5403,3 +5403,10 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   monotone density envelope and checked against a float grid (`hunts/qrh_linnik/`,
   lemma): self-reviewed only; the conditional implication is already CGL
   arXiv:2507.08296 Corollary 1.4 at h = x; not carried.
+- Lorentzian domination of a smoothed explicit formula under a zero-free half-plane
+  Re s > theta: with weight (n/x)^c log(x/n), W(s) = (s+c)^-2 and sigma0 = 2 theta + c,
+  each zero obeys |x^rho W(rho)| <= x^theta K(x) Re 1/(sigma0 - rho), so the Hadamard
+  identity prices the whole zero sum at x^theta (log q/2 + O(1)) with Arb-enclosed
+  constants; gives explicit (log q)^(1/(1-theta)) witness bounds
+  (`hunts/qrh_nonresidue/`, lemma): self-reviewed only; not carried.
+

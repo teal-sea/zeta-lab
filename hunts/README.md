@@ -75,6 +75,26 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #125: explicit small witnesses from the 7/8 half-plane (`qrh_nonresidue/`)
+
+**Status: candidate, pending external review; proved given OpenAI, "The
+Quasi-Riemann Hypothesis", Sept 30 2026, Thm 1.1 (unreviewed input),
+enclosure-carrying numerics.** From the zero-free
+half-plane Re s > 7/8 a smoothed explicit formula with weight
+(n/x)^(1/4) log(x/n), zero sums bounded through the Hadamard identity at
+sigma0 = 2, gives: every nonprincipal character mod q >= 3 has a prime
+p <= (log q)^8 with chi(p) not in {0, 1} (tight at q = 3), and
+p <= (0.7 log q)^8 for q >= 5, with limsup constant at most (96 sqrt(3)/343)^8 = 0.0031; every
+odd composite n has a Miller-Rabin witness at most (0.7 log n)^8; and
+g*(p) <= (Lambda_p log p)^8 with an explicit sieve factor Lambda_p. The
+Oct 5 2026 paper's 11/12 half-plane alone gives (log q)^12. The
+exponents are not new (Montgomery-Vaughan 13.12, Guo 8 Oct 2026); no explicit
+constant was found in the searched set. Controls: exact tables to 10^7,
+OEIS record values, a weakened abscissa that moves the measured exponent to
+12 and 16, and a planted fault refuted by n(48473881) = 67. The exponent 8 is
+the wall of this information class (The doors). See
+`qrh_nonresidue/RESULTS.md`.
+
 ### Hunt #124: an explicit class-number bound from the quasi-Riemann hypothesis (`qrh_class_number/`)
 
 **Status: candidate, pending external review; proved given OpenAI's Theorem
