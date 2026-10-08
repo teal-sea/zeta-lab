@@ -75,6 +75,36 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #121: what moves under the 7/8 strip, priced (`qrh_conditional/`)
+
+**Status: conditional pricing, exact exponent arithmetic plus two measured
+heights; nothing here is a result, and the hypothesis is nobody's theorem
+(2026-10-08).** QRH(theta) is the claim, published by OpenAI on 2026-10-06 and
+replayed by no one known here, that every Dirichlet L-function is zero-free in
+Re s > theta, theta = 7/8 (and 11/12). The hunt asks which of this tree's
+priced walls would move if it held, and keeps the hypothesis in every
+sentence. Under QRH(7/8): `prime_pair_error`'s rank-1 wall, the q = 1 mixed
+moment, moves from N^3 L^{-2H} to N^{11/4} L^4 and stops 3/4 of a power short
+of (31), which is RH-equivalent, so no fixed strip closes it; the completed
+bound (1) would move from a logarithmic saving to N^{35/12} L^6 by widening
+the major arcs to N^{1/12} (the hunt's own derivation, reviewed by nobody),
+still 11/12 of a power short of the target and 5/12 behind CHHL's
+GRH-conditional 5/2; Theorem A becomes W << N^{7/4} L^4, 3/4 short of (T);
+the ineffective constants become effective in principle. Rank 2 (Vaughan's
+bound), rank 3 in the square-root-arc configuration, the de Bruijn-Newman
+record (9/32 > 0.2, cited from the lab's reading of the claim, document 38 of
+the course), the simple-zero proportions, Lambda_DH and PR #268 do not move.
+The circle-method bootstrap theta -> (2 + theta)/3 drifts toward 1, never
+toward 1/2. Crossover heights against Johnston and Yang's explicit remainder,
+with the strip-side constant set to 1 by convention: log x = 35.11 (x about
+1.8e15) at 7/8 and 98.22 (about 4.6e42) at 11/12; on every height the
+prime-pair hunt has measured, the explicit unconditional bound is the smaller
+one. Li's criterion: a strip multiplies the per-zero growth exponent of a
+hypothetical off-line zero by 2 theta - 1 = 3/4 and bounds neither the count
+nor the heights of such zeros, so nothing usable at finite n. Every statement
+is void if the claim is withdrawn or refuted. `qrh_conditional/RESULTS.md`
+ends with the doors.
+
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 
 **Status: unresolved RH attempt, ordinary proofs and numerical enclosures;
