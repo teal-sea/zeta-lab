@@ -73,9 +73,12 @@ stays out of this file. No em dashes.
 - **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
   bound from a fixed zero-free half-plane, and the exact sieve that spends it on
   complete class-number lists.
+- **Primes in short intervals and explicit formulas** (1). Smoothed explicit formulas
+  with closed-form sums over zeros split at a verified height; threshold exponents for
+  primes between powers under a zero-free half-plane.
 - **Seen and not admitted** (38). Surfaced by the sweep, below the bar for now.
 
-Totals: 169 entries from 61 hunts. Kinds: identity 21, lemma 42, bound 12, construction
+Totals: 170 entries from 62 hunts. Kinds: identity 21, lemma 43, bound 12, construction
 15, calibration 7, computational 16, control 35, obstruction 21.
 
 ## Prime pairs and the circle method
@@ -5300,6 +5303,48 @@ Reused in: none yet
 Why it travels: any explicit bound |D| <= D(h) (from a zero-free region, GRH, or a
 future theorem) becomes a complete class-number list by this sieve at cost about
 X * H additions, without a conditional class-group algorithm.
+
+## Primes in short intervals and explicit formulas
+
+Explicit short-interval prime counts from a smoothed explicit formula, with the sums over
+zeros bounded in closed form and the zeros split at a verified Riemann-hypothesis height.
+
+- lemma: Height-split B-spline explicit formula with closed-form zero sums
+  (`qrh_prime_powers`)
+
+### Height-split B-spline explicit formula with closed-form zero sums
+
+lemma | `hunts/qrh_prime_powers/` | grade: ordinary written proof, not reviewed outside
+the hunt; every numerical inequality decided in Arb; conditional uses take a zero-free
+half-plane as hypothesis
+
+For the quadratic B-spline phi on [0, 1] (C^1, integral 1, max 9/4, ||phi'||_1 = 9/2,
+TV(phi'') = 216) and w(t) = phi((t-x)/h), eta = h/x, a = 1 + 1/eta: the Mellin transform
+has the closed form W(s) = -(h^2 s(s+1)(s+2))^-1 sum_i J_i (x + ih/3)^(s+2) with
+J = (27, -81, 81, -27); |W(rho)| <= h x^(beta-1) g(|gamma|/a), g(u) = min(1, 9/(2u),
+216/u^3); and sum Lambda(n) w(n) = h - sum_rho W(rho) - tau exactly, tau in [0,
+h/(x(x^2-1))]. If every zero has beta <= theta and those below height H have beta = 1/2,
+then sum_{x<p<x+h} log p >= (4h/9)(1 - E) - P with E = 2x^(-1/2) sum_{gamma<=H} g(gamma/a)
++ 2x^(theta-1) sum_{gamma>H} g(gamma/a) + 1/(x(x^2-1)) and an explicit prime-power term P.
+The zero sums are bounded through explicit N(T) bounds by Stieltjes integration, and every
+piece integrates in closed form once log log t is replaced by its tangent line at the
+left end of each piece. Monotonicity in the interval parameter turns a finite Arb cover
+plus a monomial tail lemma into an all-x statement.
+
+Evidence: hunts/qrh_prime_powers/RESULTS.md sections 2 to 6 (Lemmas 2.1, 3.1, 5.1, 6.2,
+6.4, Proposition 4.1); bound.py; test_qrh.py (normalisation against 1000 tabulated zeros
+and a direct prime sum, closed forms against mpmath quadrature)
+Prior art: cited: smoothed explicit formula with a verified-height split as in Buthe,
+arXiv:1511.02032; qualitative half-plane-to-short-interval implication classical. The
+B-spline envelope and the tangent-line closed forms are this hunt's choices; no explicit
+consequence of a zero-free half-plane for primes between powers was found in the searches
+listed in RESULTS.md section 11.
+Reused in: RESULTS.md sections 7 to 9 (the same lemma drives the k-th power chain for
+three abscissae, the short-interval theorem and, with a one-sided weight, the psi bound)
+Why it travels: Any hypothesis of the form "zeros above height H have beta <= theta"
+(a half-plane, a zero-density substitute, or a hypothetical zero) plugs into E directly,
+so the threshold k = floor(1/(1-theta)) + 1 and its margins can be read off for any
+theta in seconds.
 
 ## Seen and not admitted
 

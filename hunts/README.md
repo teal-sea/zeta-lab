@@ -75,6 +75,26 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #126: primes between consecutive ninth powers, given the 7/8 half-plane (`qrh_prime_powers/`)
+
+**Status: candidate, pending external review; ordinary written proofs, every
+numerical step enclosure-carrying, conditional on OpenAI's zero-free
+half-plane.** Given that zeta has no zero with real part above 7/8 (OpenAI's
+30 September 2026 preprint, Theorem 1.1; the October 5 paper proves 11/12),
+there is a prime between n^9 and (n+1)^9 for every n >= 1, against the
+unconditional record k = 86 (Lee, arXiv:2602.14340). Route: the exact explicit
+formula for a quadratic B-spline weight, zero sums bounded in closed form
+through explicit N(T) bounds, an Arb cover of 10 <= n <= e^100 with worst
+margin 0.825 (0.303 with no verified RH height at all), an analytic tail, and
+Pratt certificates for n <= 9. The 11/12 theorem alone gives 13th powers. The
+weakened abscissa 15/16 moves the threshold to k = 17 as predicted, and k - 1
+fails in each case from log n near 28.4 to 29.5. By-products: a prime in
+(x, x + (1/2) x^(7/8) log x] for x >= e^8, and |psi(x) - x| < x^(7/8) log^2 x
+/(128 pi) for x >= e^10. No review yet; no Lean. See
+`qrh_prime_powers/RESULTS.md`, which ends with the doors (k = 8 is where this
+method stops, unresolved rather than obstructed; explicit zero-density
+estimates are the door).
+
 ### Hunt #125: explicit small witnesses from the 7/8 half-plane (`qrh_nonresidue/`)
 
 **Status: candidate, pending external review; proved given OpenAI, "The
