@@ -18,16 +18,19 @@ finds no `sorry`, no axiom declaration and no unsafe tactic, including inside
 the one third-party dependency that carries two `sorry`s upstream, because
 OpenAI's patch deletes them. **On 2026-10-08 this laboratory replayed the
 build on its own default compute** (section 7): Lean 4.34.1's kernel accepted
-the zeta, Dirichlet and Siegel-zero statements, and `#print axioms` on each
-returned exactly `propext`, `Classical.choice`, `Quot.sound`. On this tree's
-ladder (`AGENTS.md`) that is *kernel-checked*, on one kernel: the formal
-statement `riemannZeta s ≠ 0` for `7/8 < s.re`, against Mathlib's own
-`riemannZeta`, is a theorem of Lean 4.34.1 with Mathlib `d13f23b7` and OpenAI's
-patched dependencies, rebuilt from the pinned commit by someone other than its
-producer. What it is not: checked by a second kernel (the NanoDa run is
-section 7's open item), reviewed by any person (the 195-page argument remains
-unread past its third section), or a statement about RH (7/8 is not 1/2, and
-the paper says so). `docs/08` section 1.1 is updated accordingly.
+the zeta, Dirichlet and Siegel-zero statements, `#print axioms` on each
+returned exactly `propext`, `Classical.choice`, `Quot.sound`, and the same
+day Comparator, with the independent NanoDa checker switched on, accepted all
+three against OpenAI's own challenge files. On this tree's ladder
+(`AGENTS.md`) that is *kernel-checked*, on two kernels: the formal statement
+`riemannZeta s ≠ 0` for `7/8 < s.re`, against Mathlib's own `riemannZeta`, is
+a theorem of Lean 4.34.1 with Mathlib `d13f23b7` and OpenAI's patched
+dependencies, rebuilt from the pinned commit by someone other than its
+producer and replayed through two kernels that share no code. What it is not:
+reviewed by any person (the 195-page argument remains unread past its third
+section), checked against the paper by anything but a reading of the
+statements (section 3), or a statement about RH (7/8 is not 1/2, and the
+paper says so). `docs/08` section 1.1 is updated accordingly.
 
 ---
 
@@ -226,11 +229,13 @@ headline.
 
 ## 5. What was not checked
 
-- **A second kernel.** The 2026-10-08 replay (section 7) is Lean's own
-  kernel on this laboratory's runner. NanoDa, the independent kernel Palomar
-  ran on this tree's submissions (`docs/32`), has not yet accepted these
-  proofs; OpenAI's configs leave it off, and the workflow's comparator mode
-  that turns it on is experimental and recorded in section 7 when it lands.
+- **A second kernel: run, with two caveats.** The 2026-10-08 comparator run
+  (section 7) replayed the three solution environments through NanoDa, the
+  independent kernel Palomar ran on this tree's submissions (`docs/32`), and
+  through Lean's own kernel again, and both accepted all three. The caveats:
+  the Hecke config was not run, and the challenge files whose statements
+  Comparator pinned are OpenAI's own, so the run checks the proofs against
+  OpenAI's statements, not the statements against the paper.
 - **The Hecke statement.** `OAI.NumberTheory.DirichletL.Hecke.Nonvanishing`
   was not built; the replay built the zeta, Dirichlet and Siegel modules only.
 - **Correspondence between a challenge file's own definitions and the
@@ -356,12 +361,67 @@ What this establishes, in this tree's words: the three statements of
 section 3 are theorems of Lean 4.34.1 with Mathlib `d13f23b7` and the patched
 dependencies, rebuilt from the pinned public commit by this laboratory. On the
 ladder that is *kernel-checked*. The composite takes the grade of its weakest
-step, and the weakest step is now the trust in one kernel and in Mathlib's
+step, and the weakest step is now the trust in Lean's kernel and in Mathlib's
 `riemannZeta` meaning what its name says, which is the same trust every
-registered result in this tree rests on. Open: the second kernel (comparator
-mode, dispatched after the build; experimental), the Hecke module, and
-everything a kernel cannot do, which is to say whether the mathematics is
-what the paper says it is and whether it is new.
+registered result in this tree rests on; the comparator run below takes the
+single kernel off that list. Open: the Hecke module, and everything a kernel
+cannot do, which is to say whether the mathematics is what the paper says it
+is and whether it is new.
+
+**The second kernel, landed (2026-10-08, runs 37738766171 and 37739812937).**
+Comparator mode installs `landrun` (v0.1.17), `lean4export`,
+`leanprover/comparator` and `nanoda_lib` (v0.4.19) from their upstream
+repositories, sets `enable_nanoda` to `true` in OpenAI's three configs, and
+runs Comparator on each inside `lake env` of the openai/math tree. The first
+dispatch (run 37738766171) installed all four tools and failed in 30 seconds
+on the first export: `lean4export` has no `v4.34.1` tag upstream, the fallback
+cloned its master, built for `v4.35.0-rc4`, and that binary refused the tree's
+olean files with `uncaught exception: failed to read file
+'.../ComparatorChallenges/QuasiRiemannHypothesis.olean', incompatible header`.
+Comparator's README asks for `lean4export` "at a version that is compatible
+with whatever Lean version your project is targeting"; the fix (commit
+`a0033512`) takes the exact tag, else the same minor's `.0` tag built with the
+tree's own toolchain, and refuses master. The second dispatch (run
+37739812937, job 113190151436) logged `lean4export: tag v4.34.0 (upstream has
+no v4.34.1), built with leanprover/lean4:v4.34.1`, and its comparator step ran
+from 07:05:30Z to 07:45:20Z, 40 minutes, which includes rebuilding the patched
+dependency packages inside Comparator's sandbox, since the build cache holds
+only the OAI modules. Verbatim, for each of the three configs:
+
+```
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running Lean default kernel on solution.
+Lean default kernel accepts the solution
+Your solution is okay!
+```
+
+for `QuasiRiemannHypothesis` (`OAI.riemannZeta_ne_zero_of_seven_eighths_lt_re`,
+solution environment of 7,061 jobs), `DirichletSevenEighths`
+(`OAI.DirichletCharacter.LFunction_ne_zero_of_seven_eighths_lt_re`, 7,061
+jobs) and `SiegelZeros` (both `exists_absolute_real_zero_gap` and
+`dirichletRealZeroBound_proof`, 9,242 jobs), each with `permitted_axioms`
+exactly the standard three, each exiting 0; the step fails on any non-zero
+exit. What Comparator checks, per its README: that every declaration in the
+statement of each pinned theorem is the same constant in the challenge and
+solution environments, that the proof uses no axiom outside the permitted
+list, and that the whole solution environment replays through NanoDa and
+through Lean's kernel, both fed from `lean4export`'s text export, with no
+olean loaded by the checker itself. The evidence is the artifact
+`replay-openai-003-comparator-37739812937` on the run.
+
+Two things this run did not do, said plainly. The challenge files are
+OpenAI's own (`lean/ComparatorChallenges/`), so the pinned statements are
+OpenAI's statements; that they say what the paper says is section 3's
+reading, by a person, and nothing in this run. And Comparator's README asks
+that the solution not have been compiled before the challenge in the same
+`.lake`; here the solution's outputs were restored from the build dispatch's
+cache before the challenge was built, which matters against an adversarial
+solution and is recorded because the assumption was not met, not because the
+tree is suspected. The Hecke config was not run. On this tree's ladder the
+three statements are *kernel-checked*, on two kernels that share no code; the
+ladder ends there, and "pending external verification" now names the
+mathematics, not the kernel.
 The `lean/README.md` warns that compiling the whole library can exhaust
 `vm.max_map_count`; building two named modules should not. Two settings the
 replay changes from OpenAI's: `enable_nanoda` set to `true` in the three

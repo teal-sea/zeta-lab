@@ -187,10 +187,12 @@ titles do not.
   Re s > 7/8, via Patterson's cubic theta function on Kubota's metaplectic
   cover and a "continuation from a common signal" criterion. Lean statements
   against Mathlib's `riemannZeta` and `DirichletCharacter.LFunction` are in
-  `lean/ComparatorChallenges/`; compile asserted by OpenAI, NanoDa off in its
-  configs, not replayed here. **[FREE]**, Apache-2.0. *For: `docs/38`, which
-  records what was checked in this tree and what was not; read it before
-  citing the bound, and do not cite it as a theorem until a replay exists.*
+  `lean/ComparatorChallenges/`; replayed here on 2026-10-08: the build,
+  `#print axioms` (the standard three) and Comparator with NanoDa on, all
+  accepting (`docs/38` section 7). **[FREE]**, Apache-2.0. *For: `docs/38`,
+  which records what was checked in this tree and what was not; cite the
+  bound with its exact formal statement (section 3), as kernel-checked, and
+  never as RH.*
 
 ## Reading orders
 
