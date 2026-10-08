@@ -70,7 +70,7 @@ stays out of this file. No em dashes.
 - **Certificates, verifiers and exact arithmetic** (18). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
-- **Seen and not admitted** (36). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (37). Surfaced by the sweep, below the bar for now.
 
 Totals: 167 entries from 60 hunts. Kinds: identity 21, lemma 41, bound 12, construction
 15, calibration 7, computational 15, control 35, obstruction 21.
@@ -5340,3 +5340,9 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   carried.
 - Derived-kernel validation by locating an unexplained ansatz, with fitted rivals as
   decoys (`hunts/wide_search/`, control): self-reviewed or measured only; not carried.
+- Lorentzian domination of a smoothed explicit formula under a zero-free half-plane
+  Re s > theta: with weight (n/x)^c log(x/n), W(s) = (s+c)^-2 and sigma0 = 2 theta + c,
+  each zero obeys |x^rho W(rho)| <= x^theta K(x) Re 1/(sigma0 - rho), so the Hadamard
+  identity prices the whole zero sum at x^theta (log q/2 + O(1)) with Arb-enclosed
+  constants; gives explicit (log q)^(1/(1-theta)) witness bounds
+  (`hunts/qrh_nonresidue/`, lemma): self-reviewed only; not carried.

@@ -1,0 +1,457 @@
+{
+ "base_commit": "ef4e0564",
+ "backend": "python-flint 0.9.0",
+ "constants": {
+  "theta": "7/8",
+  "c": "1/4",
+  "W1": "[0.640000000000 +/- 3e-17]",
+  "sigma0": "2.00000000000",
+  "A_chi": "[0.0158410371591 +/- 2.10e-14]",
+  "A_zeta": "[0.0690662315300 +/- 6.9e-16]",
+  "K_inf": "[0.888888888889 +/- 1.12e-13]",
+  "L_star": "[5.86666666667 +/- 3.34e-12]",
+  "R1": "[6.18263022331 +/- 4.66e-12]",
+  "R2": "[33.1875202227 +/- 1.86e-11]",
+  "Fz": "[-1.73974728516 +/- 3.71e-12]",
+  "Fz1": "[-0.184649743756 +/- 4.65e-14]",
+  "w_max": "[1.47151776469 +/- 4.24e-12]",
+  "mpmath_agrees": {
+   "A_chi": true,
+   "A_zeta": true,
+   "Fz": true,
+   "Fz1": true,
+   "Fz_functional_equation": true
+  }
+ },
+ "theorem1_part_d_eleven_twelfths": {
+  "L0": "2",
+  "normalised_margin": "[0.169438807002 +/- 4.89e-13]",
+  "margin_positive": true,
+  "K_constant_at_L0": true,
+  "A_chi_plus_A_zeta": "[0.0403714513170 +/- 8.29e-15]",
+  "grid": {
+   "2": 0.169439,
+   "3": 0.199535,
+   "5": 0.204506,
+   "10": 0.207968,
+   "100": 0.211083
+  }
+ },
+ "theorem1_part_c_quartic": {
+  "c1_limit_96sqrt3_over_343": "[0.484772237687 +/- 8.40e-14]",
+  "C_limit": "[0.00305001463226 +/- 1.11e-15]",
+  "c1_at_c_1_50": "[0.490335661990 +/- 3.98e-13]",
+  "C_at_c_1_50": "[0.00334154907886 +/- 2.05e-15]"
+ },
+ "theorem1": {
+  "L0": "5/2",
+  "normalised_margin_at_L0": "[0.0923768413043 +/- 4.55e-14]",
+  "margin_positive": true,
+  "K_constant_at_L0": true,
+  "control_grid_lower_endpoints": {
+   "2.5": 0.092377,
+   "2.6": 0.110394,
+   "2.8": 0.134338,
+   "3": 0.148705,
+   "3.5": 0.166131,
+   "4": 0.173411,
+   "5": 0.1797,
+   "6": 0.182746,
+   "8": 0.186087,
+   "10": 0.188,
+   "15": 0.190523,
+   "20": 0.191782,
+   "30": 0.19304,
+   "50": 0.194046,
+   "100": 0.194801,
+   "300": 0.195304,
+   "1000": 0.19548,
+   "10000": 0.195548
+  },
+  "control_grid_min": 0.09237684130434541,
+  "asymptotic_c1_at_c_1_4": "[0.694444444444 +/- 4.45e-13]",
+  "asymptotic_C_at_c_1_4": "[0.0540878929324 +/- 4.62e-15]",
+  "limit_c1": "4/7",
+  "limit_C": "[0.0113683022189 +/- 3.18e-14]",
+  "part_b": {
+   "c": "1/8",
+   "kappa": "7/10",
+   "L1": "6",
+   "normalised_margin_at_L1": "[0.0260475186243 +/- 4.35e-14]",
+   "margin_positive": true,
+   "K_constant_at_L1": true,
+   "control_grid": {
+    "6": 0.026048,
+    "7": 0.036967,
+    "8": 0.043087,
+    "10": 0.050277,
+    "20": 0.063181,
+    "50": 0.070776,
+    "100": 0.073307,
+    "1000": 0.075585,
+    "100000": 0.075835
+   },
+   "c1_at_c_1_8": "0.632812500000",
+   "kappa_pow_8": "[0.0576480100000 +/- 3e-18]"
+  }
+ },
+ "small_moduli": {
+  "qmax": 10000,
+  "seconds": 34.19,
+  "proof_part_q_3_to_12": {
+   "3": {
+    "N": 2,
+    "log_q_pow_8": 2.1221,
+    "ok": true
+   },
+   "4": {
+    "N": 3,
+    "log_q_pow_8": 13.6409,
+    "ok": true
+   },
+   "5": {
+    "N": 2,
+    "log_q_pow_8": 45.0188,
+    "ok": true
+   },
+   "6": {
+    "N": 5,
+    "log_q_pow_8": 106.2277,
+    "ok": true
+   },
+   "7": {
+    "N": 3,
+    "log_q_pow_8": 205.5807,
+    "ok": true
+   },
+   "8": {
+    "N": 5,
+    "log_q_pow_8": 349.6019,
+    "ok": true
+   },
+   "9": {
+    "N": 2,
+    "log_q_pow_8": 543.2448,
+    "ok": true
+   },
+   "10": {
+    "N": 3,
+    "log_q_pow_8": 790.179,
+    "ok": true
+   },
+   "11": {
+    "N": 2,
+    "log_q_pow_8": 1093.0542,
+    "ok": true
+   },
+   "12": {
+    "N": 7,
+    "log_q_pow_8": 1453.7195,
+    "ok": true
+   }
+  },
+  "max_N_over_log8": 0.942485,
+  "at_q": 3,
+  "largest_N": 43,
+  "largest_N_at_q": 2706,
+  "all_within_log8": true,
+  "theorem1b_q_b": 5,
+  "theorem1b_violations_below_q_b": [
+   3,
+   4
+  ]
+ },
+ "per_modulus_bound": {
+  "c": "1/4",
+  "rows": {
+   "1e2": {
+    "x0": "1.7185e+04",
+    "x0_over_log8": 0.084956,
+    "x0_pow_1_8_over_logq": 0.734767
+   },
+   "1e3": {
+    "x0": "3.4550e+05",
+    "x0_over_log8": 0.066643,
+    "x0_pow_1_8_over_logq": 0.712803
+   },
+   "1e5": {
+    "x0": "1.8780e+07",
+    "x0_over_log8": 0.060844,
+    "x0_pow_1_8_over_logq": 0.704737
+   },
+   "1e10": {
+    "x0": "4.5327e+09",
+    "x0_over_log8": 0.057363,
+    "x0_pow_1_8_over_logq": 0.699566
+   },
+   "1e20": {
+    "x0": "1.1268e+12",
+    "x0_over_log8": 0.055704,
+    "x0_pow_1_8_over_logq": 0.697005
+   },
+   "1e50": {
+    "x0": "1.6893e+15",
+    "x0_over_log8": 0.054729,
+    "x0_pow_1_8_over_logq": 0.695469
+   },
+   "1e100": {
+    "x0": "4.2992e+17",
+    "x0_over_log8": 0.054408,
+    "x0_pow_1_8_over_logq": 0.694957
+   },
+   "1e1000": {
+    "x0": "4.2764e+25",
+    "x0_over_log8": 0.05412,
+    "x0_pow_1_8_over_logq": 0.694496
+   }
+  },
+  "note": "x0 is a point where the margin was verified positive; x0^(1/8)/log q tends to c1 = 0.6944 for c = 1/4"
+ },
+ "ablation": {
+  "7/8": {
+   "predicted_exponent": 8.0,
+   "x0": [
+    "6.1973e+06",
+    "5.4827e+14",
+    "5.4161e+22",
+    "5.4095e+30"
+   ],
+   "local_slopes": [
+    7.9468,
+    7.9947,
+    7.9995
+   ]
+  },
+  "11/12": {
+   "predicted_exponent": 12.0,
+   "x0": [
+    "8.9543e+09",
+    "8.2097e+21",
+    "8.1384e+33",
+    "8.1313e+45"
+   ],
+   "local_slopes": [
+    11.9623,
+    11.9962,
+    11.9996
+   ]
+  },
+  "15/16": {
+   "predicted_exponent": 16.0,
+   "x0": [
+    "1.3213e+13",
+    "1.2404e+29",
+    "1.2326e+45",
+    "1.2318e+61"
+   ],
+   "local_slopes": [
+    15.9726,
+    15.9972,
+    15.9997
+   ]
+  }
+ },
+ "theorem3": {
+  "L0": "5/2",
+  "normalised_margin_at_L0_lambda_1": "[0.136300983659 +/- 5.83e-14]",
+  "margin_positive": true,
+  "control_grid": {
+   "L=2.5,Lambda=1": 0.136301,
+   "L=2.5,Lambda=3": 0.181729,
+   "L=2.5,Lambda=15": 0.188286,
+   "L=2.5,Lambda=1000": 0.189899,
+   "L=3,Lambda=1": 0.163797,
+   "L=3,Lambda=3": 0.184039,
+   "L=3,Lambda=15": 0.189498,
+   "L=3,Lambda=1000": 0.190841,
+   "L=5,Lambda=1": 0.180351,
+   "L=5,Lambda=3": 0.188647,
+   "L=5,Lambda=15": 0.191921,
+   "L=5,Lambda=1000": 0.192727,
+   "L=10,Lambda=1": 0.188008,
+   "L=10,Lambda=3": 0.192101,
+   "L=10,Lambda=15": 0.193738,
+   "L=10,Lambda=1000": 0.194141,
+   "L=100,Lambda=1": 0.194801,
+   "L=100,Lambda=3": 0.19521,
+   "L=100,Lambda=15": 0.195374,
+   "L=100,Lambda=1000": 0.195414
+  },
+  "small_p": {
+   "3": {
+    "g_star": 2,
+    "Lambda_p": "1",
+    "bound": 2.122,
+    "ok": true
+   },
+   "5": {
+    "g_star": 2,
+    "Lambda_p": "1",
+    "bound": 45.019,
+    "ok": true
+   },
+   "7": {
+    "g_star": 3,
+    "Lambda_p": "3",
+    "bound": 1348814.739,
+    "ok": true
+   },
+   "11": {
+    "g_star": 2,
+    "Lambda_p": "3",
+    "bound": 7171528.521,
+    "ok": true
+   }
+  }
+ },
+ "records": {
+  "A000229": {
+   "count": 38,
+   "all_verified": true,
+   "min_margin": 1.1,
+   "last": {
+    "p": 70864718555231,
+    "n_p": 163,
+    "margin": 6565139754.7
+   }
+  },
+  "A002229_A002230": {
+   "count": 37,
+   "all_verified": true,
+   "last": {
+    "p": 6525032504501281,
+    "g": 417,
+    "g_star": 431,
+    "Lambda_p": 95.586,
+    "margin": "4.999e+25"
+   },
+   "min_margin": 1.061
+  },
+  "A014233": {
+   "count": 13,
+   "all_verified": true,
+   "rows": [
+    {
+     "k": 1,
+     "n": 2047,
+     "least_witness": 3,
+     "margin": "3.805e+06"
+    },
+    {
+     "k": 2,
+     "n": 1373653,
+     "least_witness": 5,
+     "margin": "3.183e+08"
+    },
+    {
+     "k": 3,
+     "n": 25326001,
+     "least_witness": 7,
+     "margin": "1.019e+09"
+    },
+    {
+     "k": 4,
+     "n": 3215031751,
+     "least_witness": 11,
+     "margin": "4.795e+09"
+    },
+    {
+     "k": 5,
+     "n": 2152302898747,
+     "least_witness": 13,
+     "margin": "3.253e+10"
+    },
+    {
+     "k": 6,
+     "n": 3474749660383,
+     "least_witness": 17,
+     "margin": "2.844e+10"
+    },
+    {
+     "k": 7,
+     "n": 341550071728321,
+     "least_witness": 23,
+     "margin": "6.838e+10"
+    },
+    {
+     "k": 8,
+     "n": 341550071728321,
+     "least_witness": 23,
+     "margin": "6.838e+10"
+    },
+    {
+     "k": 9,
+     "n": 3825123056546413051,
+     "least_witness": 37,
+     "margin": "3.037e+11"
+    },
+    {
+     "k": 10,
+     "n": 3825123056546413051,
+     "least_witness": 37,
+     "margin": "3.037e+11"
+    },
+    {
+     "k": 11,
+     "n": 3825123056546413051,
+     "least_witness": 37,
+     "margin": "3.037e+11"
+    },
+    {
+     "k": 12,
+     "n": 318665857834031151167461,
+     "least_witness": 14,
+     "margin": "5.256e+12"
+    },
+    {
+     "k": 13,
+     "n": 3317044064679887385961981,
+     "least_witness": 22,
+     "margin": "4.694e+12"
+    }
+   ]
+  }
+ },
+ "lesion": {
+  "zero_sum_dropped_bound": 66.122,
+  "refuted_by_A000229_count": 20,
+  "first_refutation": [
+   48473881,
+   67
+  ],
+  "guo_abscissa_theta": "1749914039/2000000000",
+  "guo_predicted_exponent": 7.99725,
+  "guo_measured_slope": 7.996719
+ },
+ "tables": {
+  "limit": 10000000,
+  "seconds": 18.85,
+  "primes": 664578,
+  "least_nonresidue_max": 53,
+  "at_p": 9257329,
+  "min_margin_log8_over_n": 1.061,
+  "at": 3,
+  "bach_2log2_holds": true,
+  "least_primitive_root_max": 94,
+  "at_p_g": 5109721,
+  "least_prime_primitive_root_max": 211,
+  "at_p_gs": 4022911,
+  "theorem3_min_margin": 1.061,
+  "at_p3": 3,
+  "theorem3_lambda_max": 99.918,
+  "odd_composites": 4335421,
+  "least_witness_max": 5,
+  "at_n": 1373653,
+  "witness_histogram": {
+   "2": 4335259,
+   "3": 155,
+   "5": 7
+  },
+  "theorem2_min_margin": 271.6224,
+  "at_n2": 9,
+  "lesion_log_p_bound_refuted_by": 11002
+ },
+ "total_seconds": 53.9,
+ "cpu_seconds": 53.6,
+ "peak_rss_mb": 667.2
+}
