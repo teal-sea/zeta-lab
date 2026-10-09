@@ -294,8 +294,11 @@ written before the fact.)
   saving. Whether a saving of x^{1/8} moves that component, which the hunt
   records as "a full power of N short of (31)", is a re-pricing question for
   whoever next opens the hunt. It is not answered here.
-- **PR #268's equivalence** (RH iff Re(xi'/xi) > 0 on Re s > 1/2) and its
-  finite Li positivity are untouched; both are statements at 1/2.
+- **The equivalence RH iff Re(xi'/xi) > 0 on Re s > 1/2** (stated in
+  `hunts/epp_herglotz/RESULTS.md`; see Lagarias, Acta Arith. 89 (1999),
+  217-234) and **Li's criterion** are untouched; both are statements at 1/2.
+  Until 2026-10-09 this line credited both to PR #268, which is not merged
+  and whose own audit of 2026-10-04 withdrew its finite Li enclosure.
 - **Two numbering coincidences, killed before they grow.** OpenAI family 126
   ("Exponential semidefinite complexity of perfect matching") has nothing to
   do with Erdos problem #126, which hunts #91 to #107 work on. OpenAI family
