@@ -40,7 +40,12 @@ import pytest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HUNTS = os.path.join(REPO_ROOT, "hunts")
 
-HEADING = re.compile(r"^#+[ \t]*the doors\b", re.IGNORECASE | re.MULTILINE)
+# The optional number is issue #227: two hunts write "## 5. The doors" and
+# "## 7. The doors", and a regex anchored straight at the word could not see
+# either, so the coverage assertion below undercounted and those two sections
+# were never checked for the three required parts.
+HEADING = re.compile(r"^#+[ \t]*(?:\d+[.)]?[ \t]*)?the doors\b",
+                    re.IGNORECASE | re.MULTILINE)
 
 # The three parts the rule names, and the token that shows one was attempted.
 REQUIRED = {
