@@ -220,7 +220,8 @@ GRH-conditional 5/2; Theorem A becomes W << N^{7/4} L^4, 3/4 short of (T);
 the ineffective constants become effective in principle. Rank 2 (Vaughan's
 bound), rank 3 in the square-root-arc configuration, the de Bruijn-Newman
 record (9/32 > 0.2, cited from the lab's reading of the claim, document 38 of
-the course), the simple-zero proportions, Lambda_DH and PR #268 do not move.
+the course), the simple-zero proportions, Lambda_DH and the Re(xi'/xi)
+equivalence do not move.
 The circle-method bootstrap theta -> (2 + theta)/3 drifts toward 1, never
 toward 1/2. Crossover heights against Johnston and Yang's explicit remainder,
 with the strip-side constant set to 1 by convention: log x = 35.11 (x about
