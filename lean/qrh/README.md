@@ -1,10 +1,11 @@
 # Hunt 125 on the OpenAI toolchain
 
-**Status, 2026-10-09 UTC: source draft, not compiled.** The first Namespace
-create request returned `access denied`. A parallel session added a Modal
-launcher, preserved below. Namespace activation is now authorized; its opened
-checkout requires card entry by the operator. No instance, cache volume,
-build time or Lean axiom report was produced. The written result keeps its existing grade:
+**Status, 2026-10-09: Modal selected; no kernel verdict yet.** Thomas
+selected Modal for Lean and numerics, superseding the Namespace plan. The
+[first run](https://modal.com/apps/teal-sea/main/ap-zy6pFKeM1T4GG7DX4klwrg)
+prepared its Linux image, then refused the dirty source tree before starting
+Lean. The source and route documentation must be committed before retrying.
+No completed build time or Lean axiom report has been produced. The written result keeps its existing grade:
 **proved, given OpenAI's Theorem 1.1, unreviewed**.
 
 ## Package boundary
@@ -60,7 +61,11 @@ pins, cache state, per-stage timings, exit code and axiom status, and leaves the
 full evidence and a warm cache archive on the Modal volume
 `zeta-qrh-4341-adc7f124`. The second run starts from that cache.
 
-## Run on Namespace
+## Historical Namespace setup
+
+This route is superseded by Thomas's Modal decision of 2026-10-09. It is not
+a prerequisite for this campaign. The unexercised commands are retained as
+the record of the earlier setup attempt.
 
 Only proceed after the workspace has compute access. Start a single Ubuntu
 container with the retained cache and a three-hour lifetime:

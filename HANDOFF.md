@@ -1,6 +1,6 @@
 # HANDOFF: session records and continuation state
 
-## 2026-10-08: hunt 125 Lean package prepared, Namespace blocked
+## 2026-10-09: hunt 125 Lean build moves to Modal
 
 `lean/qrh/README.md` records the separate 4.34.1 package and its exact OpenAI
 pin. The five interval modules have source adaptations, and the first proof
@@ -10,12 +10,12 @@ this session. The analytic explicit formula and the full nonresidue bound
 remain open. The written result remains proved, given OpenAI's Theorem 1.1,
 unreviewed. Theorem 2, Comparator, NanoDa and submission have not started.
 
-Namespace login succeeded, but runner creation returned `access denied`;
-the billing page requires a subscription. The operator subsequently authorized
-activation. The Developer checkout is open and awaits card entry, not further
-permission. No build time exists. Resume with compute access, then run the
-cached build script and fix actual elaboration
-errors before claiming any additional kernel-checked result.
+Thomas directly selected Modal for Lean and numerics. The Namespace route is
+superseded; do not wait for its billing activation. The first Modal launch
+prepared the Linux image but refused a dirty source tree before running Lean.
+Commit the source, run `lean/qrh/scripts/modal_build.py`, collect its evidence
+and fix actual elaboration errors before claiming a kernel-checked result.
+The cache and allocation are recorded in `lean/qrh/RUNS.md`.
 
 ## 2026-10-08: the quasi-Riemann theorem, replayed and built on
 

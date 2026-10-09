@@ -262,12 +262,13 @@ priority over other mechanisms; allocation is the owner's decision.
 
 1. **Nothing heavy on the operator's machines** (16 GB M4 laptop, 8 GB M1
    desktop, often driven by phone). A guard kills `lake build`: use remote compute.
-2. **Lean builds run on Namespace; numerics run on Modal.** This is Thomas's
-   routing decision of 2026-10-08. Retaining the pinned Lean checkout and its
-   dependency builds avoids repeating the 135-minute OpenAI cold build;
-   numerical shards can run independently on Modal. GitHub Actions remains
-   available for repository checks and the historical replay workflows.
-   The first Namespace allocation is recorded in `lean/qrh/RUNS.md`.
+2. **Lean builds and numerics run on Modal.** Thomas superseded the Namespace
+   route on 2026-10-09: "there's no namespace just modal then". Retain the
+   pinned Lean checkout and dependency builds on a Modal volume to avoid
+   repeating the 135-minute OpenAI cold build. Ghost only launches and
+   supervises the remote job. Do not wait for Namespace billing or move
+   heavy compute to GitHub Actions. Allocations and outcomes are recorded
+   in `lean/qrh/RUNS.md`.
 3. **Estimate before you spend**: time one unit, multiply, write it in `RUNS.md`.
 4. **Anything over about twenty minutes checkpoints per unit.**
 5. **Every detached job has an owner**: a watcher, or `fulcrum adopt` then

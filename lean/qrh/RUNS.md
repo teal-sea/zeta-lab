@@ -1,4 +1,24 @@
-# Namespace build record
+# Hunt 125 remote build record
+
+## Current route, 2026-10-09
+
+Thomas directly selected Modal for both Lean builds and numerics. Namespace
+activation is no longer a prerequisite and no Namespace subscription was
+created by this session. The earlier route and failed allocation below are
+historical records.
+
+The first Modal launch started from Ghost at 17:38:44 UTC using the
+Infisical wrapper. Run:
+https://modal.com/apps/teal-sea/main/ap-zy6pFKeM1T4GG7DX4klwrg.
+The allocation is the one recorded below: eight physical cores, 48 GiB,
+four-hour cap, retained volume `zeta-qrh-4341-adc7f124`. This Codex session
+owns the attached run and collects its terminal outcome.
+
+Outcome: image `im-9udQjixL7mranmMuigfwjO` built in 48.14 seconds, then the
+launcher refused the dirty source tree before invoking the remote function.
+Route documentation had been edited during image preparation. Its clean-tree
+guard worked; no Lean compilation occurred. Commit those edits before the
+retry, then keep the upload tree unchanged until the source has been captured.
 
 ## Initial allocation, 2026-10-08
 
