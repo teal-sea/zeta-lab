@@ -67,3 +67,16 @@ the OpenAI tree on a four-core GitHub runner (`docs/38`, section 7).
 First Modal build time: **not measured yet**. The launcher was checked to load
 under modal 1.6.1; it has not run, because the session that wrote it has no
 Modal login.
+## Activation continued with authorization
+
+Later on 2026-10-08, the operator explicitly directed the session to proceed.
+The Developer plan was selected and its checkout opened. It requires card
+entry; no payment method was available in the checkout form. Activation has
+not completed and no second allocation was attempted. There is no remaining
+permission question about the plan or the bounded first run.
+
+While awaiting that input, the finite-case source was extended through the
+character argument and logarithm comparisons. An exact rational cross-check
+of the log(3) enclosure and the two power comparisons passed. The remote
+script now checks the port before starting the long upstream build. These
+remain source drafts, not kernel-checked results.

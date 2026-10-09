@@ -91,10 +91,6 @@ if grep -q prelim_decay_2 .lake/packages/PrimeNumberTheoremAnd/PrimeNumberTheore
   exit 1
 fi
 stage upstream-cache lake exe cache get
-stage upstream-build timeout --signal=TERM --kill-after=60s 150m lake build \
-  OAI.NumberTheory.DirichletL.Nonvanishing \
-  OAI.NumberTheory.SiegelZeros.Estimates.ConstantCancellation \
-  OAI.NumberTheory.DirichletL.LogarithmicControl
 
 # The interval package resolves only Mathlib. OAI is kept in its own workspace
 # because its pre-resolution and post-update hooks require their own paths.
@@ -110,6 +106,10 @@ stage qrh-cache lake exe cache get
 stage qrh-build lake build
 
 cd "$task_upstream/lean"
+stage upstream-build timeout --signal=TERM --kill-after=60s 150m lake build \
+  OAI.NumberTheory.DirichletL.Nonvanishing \
+  OAI.NumberTheory.SiegelZeros.Estimates.ConstantCancellation \
+  OAI.NumberTheory.DirichletL.LogarithmicControl
 export QRH_SOURCE_ROOT="$task_qrh"
 stage bridge lake env bash -c '
   export LEAN_PATH="$QRH_SOURCE_ROOT/.lake/build/lib/lean:${LEAN_PATH:-}"

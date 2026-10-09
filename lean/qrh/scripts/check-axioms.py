@@ -11,6 +11,7 @@ expected = {
     "QRH125.lorentzian_domination_seven_eighths",
     "QRH125.kernel_endpoint_constants",
     "QRH125.small_moduli_cover",
+    "QRH125.small_moduli_nonresidue_bound",
     "ZetaLean.ComplexBall.contains_dirichletTermBallB",
 }
 allowed = {"propext", "Classical.choice", "Quot.sound"}

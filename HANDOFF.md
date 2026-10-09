@@ -11,8 +11,10 @@ remain open. The written result remains proved, given OpenAI's Theorem 1.1,
 unreviewed. Theorem 2, Comparator, NanoDa and submission have not started.
 
 Namespace login succeeded, but runner creation returned `access denied`;
-the billing page requires a subscription. No build time exists. Resume with
-compute access, then run the cached build script and fix actual elaboration
+the billing page requires a subscription. The operator subsequently authorized
+activation. The Developer checkout is open and awaits card entry, not further
+permission. No build time exists. Resume with compute access, then run the
+cached build script and fix actual elaboration
 errors before claiming any additional kernel-checked result.
 
 ## 2026-10-08: the quasi-Riemann theorem, replayed and built on

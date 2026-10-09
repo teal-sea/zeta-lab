@@ -7,4 +7,5 @@ import QRHOpenAI
 #print axioms QRH125.lorentzian_domination_seven_eighths
 #print axioms QRH125.kernel_endpoint_constants
 #print axioms QRH125.small_moduli_cover
+#print axioms QRH125.small_moduli_nonresidue_bound
 #print axioms ZetaLean.ComplexBall.contains_dirichletTermBallB

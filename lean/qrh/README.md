@@ -1,8 +1,10 @@
 # Hunt 125 on the OpenAI toolchain
 
-**Status, 2026-10-09: source draft, not compiled.** The first Namespace create
-request returned `access denied`; the build now has a Modal launcher (below). The authenticated workspace's billing page
-requires a subscription. No instance, cache volume, build time or Lean axiom
+**Status, 2026-10-09 UTC: source draft, not compiled.** The first Namespace
+create request returned `access denied`. A parallel session added a Modal
+launcher, preserved below. Namespace activation is now authorized; its opened
+checkout requires card entry by the operator. No instance, cache volume,
+build time or Lean axiom
 report was produced. The written result keeps its existing grade:
 **proved, given OpenAI's Theorem 1.1, unreviewed**.
 
@@ -15,10 +17,13 @@ on its existing toolchain. The five interval modules are copied downward;
 the OpenAI library is never ported upward. See `NOTICE` for the extraction
 changes and `LICENSE-OpenAI` for the upstream Apache-2.0 license.
 
-`QRH125` builds the interval layer, Lemma 4's rational domination inequality,
+`QRH125` contains the interval layer, Lemma 4's rational domination inequality,
 its endpoint arithmetic, and a finite residue-cover certificate for q = 3 to
 12. The finite certificate uses `decide`. A separate exact Python check of
-all 44 unit residues passed, but is not a Lean verification.
+all 44 unit residues passed, but is not a Lean verification. The draft now
+connects that data to nonprincipal characters and interval-based logarithm
+bounds, with `small_moduli_nonresidue_bound` as the finite-case target. This
+new source has not been elaborated.
 
 `QRHOpenAI.lean` imports the real upstream nonvanishing theorem, retaining its
 principal-character pole exception. It defines the target bound as a
@@ -82,8 +87,10 @@ QRH_NAMESPACE_RUN=1 timeout --signal=TERM --kill-after=60s 170m \
 Keep the calling session attached and supervised. The script refuses macOS
 and an unmounted cache, takes an exclusive cache lock, pins the upstream
 revision, runs OpenAI's patching hooks, obtains the Mathlib cache, builds the
-required upstream modules, then the interval package and bridge, and finally
-checks the seven axiom reports. `LEAN_NUM_THREADS=6` controls runtime workers;
+interval package first, then the required upstream modules and bridge, and
+finally checks the eight axiom reports. Checking the port before the long
+upstream build exposes compatibility failures sooner.
+`LEAN_NUM_THREADS=6` controls runtime workers;
 it is not a claim that Lake accepts `-j` or that six is a measured memory cap.
 
 Every stage writes timing, logs and exit status under `/cache/evidence/`.
@@ -103,8 +110,8 @@ raise the proof grade. Cache generations can be stale or empty.
 4. Establish all analytic constant enclosures and prove `m(5/2) > 0` using
    kernel intervals. The numerical enclosure in the written proof is not a
    Lean input masquerading as a proved bound.
-5. Connect the finite residue certificate to characters and prove the
-   logarithmic comparisons for q = 3 to 12.
+5. Compile and validate the draft character reduction and logarithmic
+   comparisons for q = 3 to 12.
 6. Instantiate `LeastNonresidueBound`, then Theorem 2. Run the axiom gate,
    Comparator and NanoDa before preparing a Palomar submission.
 
