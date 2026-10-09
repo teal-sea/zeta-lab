@@ -1,0 +1,11 @@
+2026-10-09 17:05:33-05:00 qrh-update exit_code=0 wall_seconds=29
+2026-10-09 17:05:55-05:00 qrh-cache exit_code=0 wall_seconds=22
+2026-10-09 17:06:02-05:00 ⚠ [8927/8932] Replayed QRH125.SmallModuli
+2026-10-09 17:06:02-05:00 ⚠ [8928/8932] Replayed ZetaLean.IntervalCExp
+2026-10-09 17:06:02-05:00 ⚠ [8929/8932] Replayed ZetaLean.Ball
+2026-10-09 17:06:02-05:00 ⚠ [8930/8932] Replayed ZetaLean.BallTerm
+2026-10-09 17:06:03-05:00 Build completed successfully (8932 jobs).
+2026-10-09 17:06:03-05:00 qrh-build exit_code=0 wall_seconds=8
+2026-10-09 17:06:30-05:00 ✔ [4496/4582] Built OAI.NumberTheory.DirichletL.Detector.FrequencySupport (20s)
+2026-10-09 17:06:30-05:00 ✔ [4497/4582] Built OAI.NumberTheory.DirichletL.Moments.FirstMixed (20s)
+2026-10-09 17:06:30-05:00 ✔ [4499/4582] Built OAI.NumberTheory.DirichletL.RayPrimeNormalizer (21s)

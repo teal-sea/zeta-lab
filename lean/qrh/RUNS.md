@@ -31,8 +31,12 @@ the application log, not a terminal volume verdict.
 The replacement container `ta-01M4HATRSGHVSPS24WW9SY3GZR` started at 21:59:12
 UTC in the same app and restored the warm cache at 22:00:38 UTC. Direct file
 checks in that container found the compiled `QRH125.olean` and OpenAI
-`ConstantCancellation.olean`. Lake is still repeating its setup checks;
-reuse of those artifacts by the resumed build has not yet been measured.
+`ConstantCancellation.olean`. Lake then completed upstream-update in 146
+seconds, upstream-cache in 106, qrh-update in 29, qrh-cache in 22 and the
+cached package build in 8 seconds, all with exit code zero. Its package log
+explicitly replayed the saved SmallModuli, IntervalCExp, Ball and BallTerm
+results. The upstream build resumed with modules that had been in progress
+at the last checkpoint. Cache reuse after preemption is now observed.
 No duplicate build was launched. The checkpoint's stage timings, manifests,
 package build log and a preemption/restart application-log excerpt are
 preserved under [recovery evidence](evidence/2026-10-09-checkpoint-recovery/).
