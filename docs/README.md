@@ -64,7 +64,7 @@ What was built, what was measured, and what did not survive.
 | [32](32-the-palomar-arm.md) | The Palomar arm: what an outside mechanical check adds, and what it does not. |
 | [33](33-chroma-hue.md) | Pitch classes against the colour wheel. |
 | [34](34-zeros-in-tuning-units.md) | The Riemann zeros in tuning units. |
-| [35](35-the-unspent-fact.md) | The unspent fact: what out-of-band positivity is worth, and why nobody can claim it. |
+| [35](35-the-unspent-fact.md) | The unspent fact: what out-of-band positivity is worth, and why nobody can claim it. **Superseded 2026-09-06**: hunt #118 closed it as a ceiling, the worth is zero to any unconditional certificate, and the page carries the correction inline. |
 | [36](36-what-you-can-run.md) | Thirteen worked demonstrations, the figure gallery, the repository map, and the standing limitations. |
 | [37](37-methods.md) | The methods index: every reusable identity, lemma, control and technique the hunts produced, with grade and provenance. |
 | [38](38-the-quasi-riemann-claim.md) | The quasi-Riemann claim: OpenAI's 7/8 zero-free half-plane of 2026-10-06, read against this tree, rebuilt here and accepted by two kernels. |
