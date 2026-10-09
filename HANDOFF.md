@@ -11,11 +11,12 @@ remain open. The written result remains proved, given OpenAI's Theorem 1.1,
 unreviewed. Theorem 2, Comparator, NanoDa and submission have not started.
 
 Thomas directly selected Modal for Lean and numerics. The Namespace route is
-superseded; do not wait for its billing activation. The first Modal launch
-prepared the Linux image but refused a dirty source tree before running Lean.
-Commit the source, run `lean/qrh/scripts/modal_build.py`, collect its evidence
-and fix actual elaboration errors before claiming a kernel-checked result.
-The cache and allocation are recorded in `lean/qrh/RUNS.md`.
+superseded; do not wait for its billing activation. The active Modal run is
+`ap-qYdxL9dkFmIyrnxn8ykpuN`, committed source `2eb8a1bb`. Lean 4.34.1 is
+installed and dependency setup is running. The owning Codex thread's
+`watch-hunt-125-modal-build` heartbeat checks every five minutes and handles
+compiler failures before collecting the outcome. Do not launch a second
+build alongside it. The cache and allocation are in `lean/qrh/RUNS.md`.
 
 ## 2026-10-08: the quasi-Riemann theorem, replayed and built on
 

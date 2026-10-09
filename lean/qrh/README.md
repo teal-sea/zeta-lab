@@ -1,10 +1,11 @@
 # Hunt 125 on the OpenAI toolchain
 
-**Status, 2026-10-09: Modal selected; no kernel verdict yet.** Thomas
+**Status, 2026-10-09: cold build running on Modal; no kernel verdict yet.** Thomas
 selected Modal for Lean and numerics, superseding the Namespace plan. The
-[first run](https://modal.com/apps/teal-sea/main/ap-zy6pFKeM1T4GG7DX4klwrg)
-prepared its Linux image, then refused the dirty source tree before starting
-Lean. The source and route documentation must be committed before retrying.
+[active run](https://modal.com/apps/teal-sea/main/ap-qYdxL9dkFmIyrnxn8ykpuN)
+uses committed source `2eb8a1bb`. Lean 4.34.1 installed successfully and the
+OpenAI dependencies are being prepared. A five-minute heartbeat in the
+owning Codex thread supervises the build and collects its result.
 No completed build time or Lean axiom report has been produced. The written result keeps its existing grade:
 **proved, given OpenAI's Theorem 1.1, unreviewed**.
 

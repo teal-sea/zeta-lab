@@ -20,6 +20,22 @@ Route documentation had been edited during image preparation. Its clean-tree
 guard worked; no Lean compilation occurred. Commit those edits before the
 retry, then keep the upload tree unchanged until the source has been captured.
 
+The clean retry started at 17:40:17 UTC with source
+`2eb8a1bb88f49b8fd54d3e5339177cf73cfb10bc`:
+https://modal.com/apps/teal-sea/main/ap-qYdxL9dkFmIyrnxn8ykpuN.
+Modal initially queued it for CPU capacity, then started container
+`ta-01M4GW4BQPE5S48HNTF4C3ZV6R` at 17:42:29 UTC. The cold OpenAI clone took
+45 seconds, elan setup two seconds, and Lean 4.34.1 installation 130 seconds.
+The installer reports Lean commit `5045d0056413266e57c625dcd7c365b10e377c52`.
+Dependency setup is in progress; these stage timings are not a completed
+build time. No kernel verdict has been obtained.
+
+Supervision continues in the owning Codex thread through heartbeat
+`watch-hunt-125-modal-build`, every five minutes. It must collect the terminal
+build outcome and axiom evidence, handle concrete failures, and pause after
+the initial package and bridge build is resolved. No parallel build may
+write to this cache.
+
 ## Initial allocation, 2026-10-08
 
 The measured baseline is the lab's previous OpenAI replay: 135 minutes on a
