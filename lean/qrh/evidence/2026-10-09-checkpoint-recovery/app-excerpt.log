@@ -1,0 +1,14 @@
+2026-10-09 15:11:40-05:00 qrh-build exit_code=0 wall_seconds=83
+2026-10-09 15:21:30-05:00 checkpoint committed: wall_seconds=97.99
+2026-10-09 15:33:12-05:00 checkpoint committed: wall_seconds=102.00
+2026-10-09 15:45:08-05:00 checkpoint committed: wall_seconds=115.81
+2026-10-09 15:56:54-05:00 checkpoint committed: wall_seconds=106.87
+2026-10-09 16:08:35-05:00 checkpoint committed: wall_seconds=100.73
+2026-10-09 16:20:16-05:00 checkpoint committed: wall_seconds=100.73
+2026-10-09 16:32:00-05:00 checkpoint committed: wall_seconds=103.79
+2026-10-09 16:44:13-05:00 checkpoint committed: wall_seconds=133.16
+2026-10-09 16:56:27-05:00 checkpoint committed: wall_seconds=133.64
+2026-10-09 16:57:18-05:00 exit_code=143 total_seconds=7133
+2026-10-09 16:59:10-05:00 Runner failed with exception: Container terminated due to preemption. Your Function will be restarted with the same input. For more details, see https://modal.com/docs/guide/preemption
+2026-10-09 17:00:38-05:00 warm cache restored
+2026-10-09 17:00:52-05:00 toolchain exit_code=0 wall_seconds=0

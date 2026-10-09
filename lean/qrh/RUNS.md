@@ -11,13 +11,33 @@ the build process group then resumed. The checkpoint's evidence directory is
 visible on the retained volume at
 `evidence/77912557fa8f631370dda09329689a2bef704d69-20261009T195825Z-8`.
 The retry has completed upstream-update (242 seconds), upstream-cache (149
-seconds) and qrh-update (190 seconds), all with exit code zero. This confirms
-a remote checkpoint save, not a completed build or a restore after preemption.
+seconds), qrh-update (190 seconds), qrh-cache (114 seconds) and qrh-build
+(83 seconds), all with exit code zero.
 Heartbeat
 `watch-hunt-125-modal-build` now follows this app and CLI session 32240.
 The repaired source passed 29 lightweight repository tests, including seven
 checkpoint cases, with five slow tests excluded. Generated context, shell
 syntax, whitespace and pre-push secret checks passed.
+
+The repaired worker was also preempted. It received termination at 21:57:18
+UTC, with the shell correctly reporting `exit_code=143 total_seconds=7133`;
+Modal reported the preemption and automatic restart at 21:59:10 UTC. Ten
+periodic checkpoint commits had completed, taking 86.40, 97.99, 102.00,
+115.81, 106.87, 100.73, 100.73, 103.79, 133.16 and 133.64 seconds. The last
+completed checkpoint was at 21:56:27 UTC. The final preemption cleanup did
+not persist an outcome or supervisor file, so the signal outcome comes from
+the application log, not a terminal volume verdict.
+
+The replacement container `ta-01M4HATRSGHVSPS24WW9SY3GZR` started at 21:59:12
+UTC in the same app and restored the warm cache at 22:00:38 UTC. Direct file
+checks in that container found the compiled `QRH125.olean` and OpenAI
+`ConstantCancellation.olean`. Lake is still repeating its setup checks;
+reuse of those artifacts by the resumed build has not yet been measured.
+No duplicate build was launched. The checkpoint's stage timings, manifests,
+package build log and a preemption/restart application-log excerpt are
+preserved under [recovery evidence](evidence/2026-10-09-checkpoint-recovery/).
+The upstream nonvanishing target, bridge and all eight axiom reports remain
+pending. Checkpoint recovery does not change the theorem's grade.
 
 ### Preemption and checkpoint repair
 

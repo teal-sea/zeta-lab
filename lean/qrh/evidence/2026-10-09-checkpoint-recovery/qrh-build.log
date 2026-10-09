@@ -1,0 +1,117 @@
+✔ [8924/8932] Built ZetaLean.Rigor (14s)
+✔ [8925/8932] Built QRH125.Domination (15s)
+✔ [8926/8932] Built ZetaLean.IntervalExp (11s)
+⚠ [8927/8932] Built QRH125.SmallModuli (14s)
+warning: QRH125/SmallModuli.lean:44:2: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: QRH125/SmallModuli.lean:107:17: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: QRH125/SmallModuli.lean:91:13: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: QRH125/SmallModuli.lean:107:17: Unused tactic linter: `linarith [hlogq]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8928/8932] Built ZetaLean.IntervalCExp (16s)
+warning: ZetaLean/IntervalCExp.lean:408:60: Variable name `hnL` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hnL
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [8929/8932] Built ZetaLean.Ball (12s)
+warning: ZetaLean/Ball.lean:77:2: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/Ball.lean:111:49: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/Ball.lean:122:49: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/Ball.lean:139:51: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/Ball.lean:188:49: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/Ball.lean:213:38: Variable name `h` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: ZetaLean/Ball.lean:218:4: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/Ball.lean:222:4: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/Ball.lean:229:25: Variable name `hl0` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hl0
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: ZetaLean/Ball.lean:273:55: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ZetaLean/Ball.lean:273:55: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/Ball.lean:299:56: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ZetaLean/Ball.lean:299:70: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ZetaLean/Ball.lean:299:56: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/Ball.lean:299:70: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8930/8932] Built ZetaLean.BallTerm (9.0s)
+warning: ZetaLean/BallTerm.lean:37:30: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ZetaLean/BallTerm.lean:37:44: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ZetaLean/BallTerm.lean:37:30: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ZetaLean/BallTerm.lean:37:44: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+✔ [8931/8932] Built QRH125 (8.6s)
+Build completed successfully (8932 jobs).
+	Command being timed: "lake build"
+	User time (seconds): 146.48
+	System time (seconds): 36.25
+	Percent of CPU this job got: 217%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:23.86
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 8332224
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 0
+	Voluntary context switches: 0
+	Involuntary context switches: 0
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
