@@ -5,8 +5,15 @@
 The repaired attempt launched at 19:57:38 UTC from committed source
 `77912557fa8f631370dda09329689a2bef704d69`:
 https://modal.com/apps/teal-sea/main/ap-RMu4JSUjqi0guhBtjGEPnF.
-The old app is stopped. The new worker is restoring the retained setup archive;
-the first periodic checkpoint has not yet been observed. Heartbeat
+The old app is stopped. The new worker restored the retained setup archive.
+Its first periodic checkpoint committed in 86.40 seconds at about 20:09:52 UTC;
+the build process group then resumed. The checkpoint's evidence directory is
+visible on the retained volume at
+`evidence/77912557fa8f631370dda09329689a2bef704d69-20261009T195825Z-8`.
+The retry has completed upstream-update (242 seconds), upstream-cache (149
+seconds) and qrh-update (190 seconds), all with exit code zero. This confirms
+a remote checkpoint save, not a completed build or a restore after preemption.
+Heartbeat
 `watch-hunt-125-modal-build` now follows this app and CLI session 32240.
 The repaired source passed 29 lightweight repository tests, including seven
 checkpoint cases, with five slow tests excluded. Generated context, shell
@@ -61,7 +68,7 @@ This follows Modal's [preemption](https://modal.com/docs/guide/preemption) and
 [volume commit](https://modal.com/docs/guide/volumes#volume-commits-and-reloads)
 guidance. Seven lightweight tests exercise paused descendants, failure exits,
 timeout cleanup, interrupted archives and evidence persistence. Remote checkpoint
-timing remains to be measured on the repaired attempt.
+timing was measured on the repaired attempt above.
 
 ### Earlier launches
 
