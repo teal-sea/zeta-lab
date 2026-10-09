@@ -7,6 +7,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 MATHLIB = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
 PACKAGES = [
@@ -16,17 +18,36 @@ PACKAGES = [
 ]
 
 
+# Explicit legacy-module sources in the independent OpenAI-pinned package.
+QRH_LEGACY_FILES = {
+    'lean/qrh/Audit.lean',
+    'lean/qrh/QRH125.lean',
+    'lean/qrh/QRH125/Domination.lean',
+    'lean/qrh/QRH125/SmallModuli.lean',
+    'lean/qrh/QRHOpenAI.lean',
+    'lean/qrh/ZetaLean.lean',
+    'lean/qrh/ZetaLean/Ball.lean',
+    'lean/qrh/ZetaLean/BallTerm.lean',
+    'lean/qrh/ZetaLean/IntervalCExp.lean',
+    'lean/qrh/ZetaLean/IntervalExp.lean',
+    'lean/qrh/ZetaLean/Rigor.lean',
+}
+
+
 def test_all_submitted_lean_files_have_module_headers_and_fit_the_line_cap():
     files = subprocess.check_output(
         ["git", "ls-files", "-z", "*.lean"], cwd=ROOT,
     ).decode().split("\0")
     files = [name for name in files if name]
     assert len(files) >= 643
+    assert QRH_LEGACY_FILES <= set(files)
+    assert (ROOT / "lean/qrh/lean-toolchain").read_text().strip() == "leanprover/lean4:v4.34.1"
     for name in files:
         path = ROOT / name
         assert not path.is_symlink(), name
         source = path.read_text()
-        assert re.match(r"\A\s*(?:/-(?![!-]).*?-/\s*)*module(?:\s|$)", source, re.S), name
+        if name not in QRH_LEGACY_FILES:
+            assert re.match(r"\A\s*(?:/-(?![!-]).*?-/\s*)*module(?:\s|$)", source, re.S), name
         assert len(source.rstrip("\n").split("\n")) <= 10000, name
 
 
@@ -107,3 +128,28 @@ def test_stronger_interface_preserves_the_source_statements_and_separates_challe
         statement = re.search(pattern, challenge)[1]
         assert re.search(pattern, solution)[1] == statement
         assert re.search(pattern, source)[1].replace("HD 1", "H") == statement
+
+
+@pytest.mark.parametrize("fault", ["parent_header", "legacy_line_cap", "legacy_symlink", "legacy_pin"])
+def test_legacy_header_exception_preserves_other_guards(monkeypatch, fault):
+    """Injected defects must still fail the same repository-wide gate."""
+    original_read = Path.read_text
+    original_symlink = Path.is_symlink
+    legacy = ROOT / "lean/qrh/Audit.lean"
+
+    def read_text(path, *args, **kwargs):
+        if fault == "parent_header" and path == ROOT / "lean/ZetaLean.lean":
+            return "import Mathlib\n"
+        if fault == "legacy_line_cap" and path == legacy:
+            return "-- over the cap\n" * 10001
+        if fault == "legacy_pin" and path == ROOT / "lean/qrh/lean-toolchain":
+            return "leanprover/lean4:v4.35.0-rc2\n"
+        return original_read(path, *args, **kwargs)
+
+    def is_symlink(path):
+        return (fault == "legacy_symlink" and path == legacy) or original_symlink(path)
+
+    monkeypatch.setattr(Path, "read_text", read_text)
+    monkeypatch.setattr(Path, "is_symlink", is_symlink)
+    with pytest.raises(AssertionError):
+        test_all_submitted_lean_files_have_module_headers_and_fit_the_line_cap()
