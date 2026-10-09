@@ -1,7 +1,7 @@
 # Hunt 125 on the OpenAI toolchain
 
-**Status, 2026-10-08: source draft, not compiled.** The first Namespace create
-request returned `access denied`. The authenticated workspace's billing page
+**Status, 2026-10-09: source draft, not compiled.** The first Namespace create
+request returned `access denied`; the build now has a Modal launcher (below). The authenticated workspace's billing page
 requires a subscription. No instance, cache volume, build time or Lean axiom
 report was produced. The written result keeps its existing grade:
 **proved, given OpenAI's Theorem 1.1, unreviewed**.
@@ -33,6 +33,22 @@ Those hooks install compatibility patches into specific dependency paths.
 The independent package and the bridge share the exact Mathlib/toolchain
 pins; `scripts/namespace-build.sh` checks them and preserves both manifests
 and the build logs. No proof source in OpenAI's checkout is edited.
+
+## Run on Modal
+
+From any machine with a Modal login (`modal token new`, or `MODAL_TOKEN_ID` and
+`MODAL_TOKEN_SECRET` in the environment), on a clean committed branch:
+
+```bash
+pip install modal
+modal run lean/qrh/scripts/modal_build.py
+```
+
+The calling machine only uploads `lean/qrh` and waits; the build runs remotely
+(8 physical cores, 48 GiB, four-hour cap; estimate in `RUNS.md`). It prints the
+pins, cache state, per-stage timings, exit code and axiom status, and leaves the
+full evidence and a warm cache archive on the Modal volume
+`zeta-qrh-4341-adc7f124`. The second run starts from that cache.
 
 ## Run on Namespace
 

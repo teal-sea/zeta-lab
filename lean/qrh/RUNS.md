@@ -40,3 +40,30 @@ volume exists from this attempt and no remote numerical job was launched.
 Local checks are limited to shell syntax, source policy, exact finite
 residue enumeration, and fault-injection checks of the axiom-log parser.
 They do not establish that any Lean declaration elaborates on 4.34.1.
+
+## Modal allocation, 2026-10-09
+
+Namespace is blocked on a subscription, so the first build moves to Modal, also
+Thomas's routing (Lean builds and numerics on Modal until Namespace is paid for).
+`scripts/modal_build.py` runs `scripts/namespace-build.sh` unchanged except for
+`QRH_RUNNER=modal` and `QRH_CACHE=/work`: the build works on the container's
+local disk, then packs the warm cache into `cache.tar.zst` on the Modal volume
+`zeta-qrh-4341-adc7f124` and copies the evidence directory beside it.
+
+Allocation: one container, 8 physical cores (16 vCPU), 48 GiB, four-hour
+timeout, at most one container at a time. Memory is set high because Lake
+compiles one module per hardware thread; 32 GiB at 16 threads would be marginal
+for the OpenAI library.
+
+Estimate at Modal's published rates, $0.0000131 per physical core-second and
+$0.00000222 per GiB-second (https://modal.com/pricing, read 2026-10-09):
+8 cores cost $0.377 an hour and 48 GiB cost $0.384 an hour, so $0.76 an hour
+and at most $3.04 for the four-hour cap. The Starter plan includes $30 of
+compute a month. The cache archive will be a few GiB, inside the free 1 TiB of
+volume storage. This bounds the allocation; it is not a measured bill or a
+build-time prediction. The only measured baseline is still 135 minutes for
+the OpenAI tree on a four-core GitHub runner (`docs/38`, section 7).
+
+First Modal build time: **not measured yet**. The launcher was checked to load
+under modal 1.6.1; it has not run, because the session that wrote it has no
+Modal login.

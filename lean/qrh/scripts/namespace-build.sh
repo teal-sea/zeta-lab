@@ -1,23 +1,38 @@
 #!/usr/bin/env bash
-# Run only inside the Namespace Linux runner, with /cache mounted persistently.
+# Run only on a remote Linux builder: a Namespace runner with /cache mounted
+# persistently, or a Modal container (scripts/modal_build.py), never on the
+# operator's Macs. QRH_CACHE names the working cache directory; on Namespace it
+# must be the attached volume, on Modal it is the container's local disk and
+# the launcher saves it to a Modal volume after the run.
 set -euo pipefail
-if [[ $(uname -s) != Linux || ${QRH_NAMESPACE_RUN:-} != 1 ]]; then
-  echo 'Refusing local execution. Run this through Namespace.' >&2
+task_runner=${QRH_RUNNER:-namespace}
+task_cache=${QRH_CACHE:-/cache}
+if [[ $(uname -s) != Linux || ( ${QRH_NAMESPACE_RUN:-} != 1 && ${QRH_REMOTE_RUN:-} != 1 ) ]]; then
+  echo 'Refusing local execution. Run this through Namespace or Modal.' >&2
   exit 2
 fi
-if ! mountpoint -q /cache; then
-  echo '/cache must be the attached Namespace cache volume.' >&2
-  exit 2
-fi
+case $task_runner in
+  namespace)
+    if ! mountpoint -q "$task_cache"; then
+      echo "$task_cache must be the attached Namespace cache volume." >&2
+      exit 2
+    fi ;;
+  modal)
+    mkdir -p "$task_cache" ;;
+  *)
+    echo "Unknown QRH_RUNNER: $task_runner" >&2
+    exit 2 ;;
+esac
+test -w "$task_cache" || { echo "$task_cache is not writable." >&2; exit 2; }
 
 task_qrh=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 task_openai_commit=adc7f1241b42e322a6451854ab7e4b4c146bf78a
 task_mathlib_commit=d13f23b723b8a846827a245b89c10fc7d3f11612
 task_toolchain=leanprover/lean4:v4.34.1
-task_upstream=/cache/openai-math-$task_openai_commit
-task_evidence=/cache/evidence/$(date -u +%Y%m%dT%H%M%SZ)-$$
+task_upstream=$task_cache/openai-math-$task_openai_commit
+task_evidence=$task_cache/evidence/$(date -u +%Y%m%dT%H%M%SZ)-$$
 mkdir -p "$task_evidence"
-exec 9>/cache/qrh-build.lock
+exec 9>"$task_cache/qrh-build.lock"
 flock -n 9 || { echo 'Another QRH build holds the cache lock.' >&2; exit 2; }
 task_started=$SECONDS
 trap 'task_rc=$?; printf "exit_code=%s total_seconds=%s\n" "$task_rc" "$((SECONDS-task_started))" | tee "$task_evidence/outcome.txt"' EXIT
@@ -38,8 +53,8 @@ stage() {
 # Runtime task workers, not the unsupported `lake build -j` option.
 # The exact 4.34.1 runtime reads LEAN_NUM_THREADS in src/runtime/object.cpp.
 export LEAN_NUM_THREADS=6
-export ELAN_HOME=/cache/elan
-export XDG_CACHE_HOME=/cache/tool-cache
+export ELAN_HOME=$task_cache/elan
+export XDG_CACHE_HOME=$task_cache/tool-cache
 export PATH="$ELAN_HOME/bin:$PATH"
 printf 'openai=%s\nmathlib=%s\ntoolchain=%s\nLEAN_NUM_THREADS=%s\n' \
   "$task_openai_commit" "$task_mathlib_commit" "$task_toolchain" "$LEAN_NUM_THREADS" > "$task_evidence/pins.txt"
@@ -62,8 +77,8 @@ test -z "$(git -C "$task_upstream" status --porcelain --untracked-files=no)"
 test "$(cat "$task_upstream/lean/lean-toolchain")" = "$task_toolchain"
 test "$(cat "$task_qrh/lean-toolchain")" = "$task_toolchain"
 if [[ ! -x $ELAN_HOME/bin/elan ]]; then
-  curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /cache/elan-init.sh
-  stage elan-install sh /cache/elan-init.sh -y --default-toolchain none
+  curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o "$task_cache/elan-init.sh"
+  stage elan-install sh "$task_cache/elan-init.sh" -y --default-toolchain none
 fi
 stage toolchain elan toolchain install "$task_toolchain"
 
@@ -85,8 +100,8 @@ stage upstream-build timeout --signal=TERM --kill-after=60s 150m lake build \
 # because its pre-resolution and post-update hooks require their own paths.
 cd "$task_qrh"
 if [[ ! -e .lake ]]; then
-  mkdir -p /cache/qrh-lake-4341
-  ln -s /cache/qrh-lake-4341 .lake
+  mkdir -p "$task_cache/qrh-lake-4341"
+  ln -s "$task_cache/qrh-lake-4341" .lake
 fi
 stage qrh-update lake update
 test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "$task_mathlib_commit"
