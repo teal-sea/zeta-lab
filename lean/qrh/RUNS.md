@@ -43,6 +43,19 @@ preserved under [recovery evidence](evidence/2026-10-09-checkpoint-recovery/).
 The upstream nonvanishing target, bridge and all eight axiom reports remain
 pending. Checkpoint recovery does not change the theorem's grade.
 
+The replacement worker received termination at 23:19:59 UTC, reporting
+`exit_code=143 total_seconds=4761`. Modal confirmed a third preemption at
+23:22:24 UTC and automatically restarted the same input in container
+`ta-01M4HFKYQCXZ00CVWS1TQXJM0R` at 23:22:53 UTC. That container began restoring
+the retained archive. The interrupted worker had committed six checkpoints,
+taking 84.40, 94.56, 87.15, 97.62, 87.48 and 102.92 seconds. The last completed
+save was at 23:09:53 UTC. Its final archive was interrupted, leaving the
+previous complete 8.6-GiB archive intact. No terminal outcome or supervisor
+file was present in its volume evidence; the signal status comes from the
+application log. Its completed stage timings and preemption log are preserved
+under [third-preemption evidence](evidence/2026-10-09-third-preemption/).
+No compiler failure was reported and no duplicate build was launched.
+
 ### Preemption and checkpoint repair
 
 The first worker was preempted at 19:47:28 UTC, 2 hours 4 minutes 59 seconds
