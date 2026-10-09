@@ -2,6 +2,16 @@
 
 ## Current route, 2026-10-09
 
+The repaired attempt launched at 19:57:38 UTC from committed source
+`77912557fa8f631370dda09329689a2bef704d69`:
+https://modal.com/apps/teal-sea/main/ap-RMu4JSUjqi0guhBtjGEPnF.
+The old app is stopped. The new worker is restoring the retained setup archive;
+the first periodic checkpoint has not yet been observed. Heartbeat
+`watch-hunt-125-modal-build` now follows this app and CLI session 32240.
+The repaired source passed 29 lightweight repository tests, including seven
+checkpoint cases, with five slow tests excluded. Generated context, shell
+syntax, whitespace and pre-push secret checks passed.
+
 ### Preemption and checkpoint repair
 
 The first worker was preempted at 19:47:28 UTC, 2 hours 4 minutes 59 seconds
