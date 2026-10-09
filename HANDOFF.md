@@ -1,5 +1,24 @@
 # HANDOFF: session records and continuation state
 
+## 2026-10-08: the quasi-Riemann theorem, replayed and built on
+
+Read `docs/39` first, then `docs/38`. OpenAI's 7/8 half-plane was rebuilt from
+its pinned commit on this laboratory's GitHub Actions runner
+(`.github/workflows/replay-openai-003.yml`), and Lean's kernel and NanoDa accepted
+the zeta, Dirichlet and Siegel-zero statements with the standard axioms only.
+Hunts #120 to #126 landed the same day: #120 (where the argument spends its
+Euler product, and an Epstein rival that lacks the hypothesis), #121 (the lab's
+walls priced under the strip), #122 (the second Davenport-Heilbronn landing
+time), and four theorems built on the strip, #123 (Linnik 7/3), #124 (class
+numbers up to 1500), #125 (least nonresidue at most (log q)^8), #126 (a prime
+between n^9 and (n+1)^9). All are unreviewed outside the laboratory.
+
+Continuation points, each named in its hunt's "The doors": an outside review of
+any of the four proofs; Lean statements of the corollaries on top of OpenAI's
+statements; k = 8 in #126 (needs explicit zero density near real part 7/8);
+a polylogarithmic least primitive root in #125; H = 2000 and the zero-pairing
+saving in #124; the Hecke module of the input, never built here.
+
 ## 2026-09-13: research preservation and reconciliation
 
 [Recovery record](hunts/prime_pair_error/RECOVERY_2026_09_13.md): restored

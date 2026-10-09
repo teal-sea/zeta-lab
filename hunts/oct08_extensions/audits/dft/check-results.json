@@ -1,0 +1,41 @@
+{
+  "checks": "passed",
+  "h24": {
+    "Delta": 1835266048,
+    "P": 35184372088832,
+    "W": 34666942577344,
+    "epsilon": "448063/118747255799808",
+    "ln_m_upper": "477/50",
+    "strict_theta_upper": "1-39/10^11"
+  },
+  "negative_controls": {
+    "wrong_middle_stage_caught": true
+  },
+  "parameter_test_range": [
+    7,
+    128
+  ],
+  "scope": "Exact finite checks, not an executable all-length DFT or universal proof",
+  "source_sha256": {
+    "all-lengths.tex": "7416c6828e14df7a84ff86d5bd9a3876dc7fcdd5d6a964c510efc2c795412828",
+    "local.tex": "3e6c9e2c674c47ecdcafb6bd16b76616dc4eaf193c5c0c42fb5f8c3a58c61583",
+    "network.tex": "1e28d7594563294247936129c21d8a061d0c86b05dcce4a86e81c0b2e34b3f91",
+    "synchronization.tex": "f879dd875d5d07e331af2028e3bc8f756cda0a662b24d137d96fa51fbed0b81a"
+  },
+  "three_stage_checks": [
+    {
+      "all_auxiliaries_restored": true,
+      "entries_per_bank": 1,
+      "h": 3,
+      "invocations": 3,
+      "signed_exchange": true
+    },
+    {
+      "all_auxiliaries_restored": true,
+      "entries_per_bank": 64,
+      "h": 4,
+      "invocations": 48,
+      "signed_exchange": true
+    }
+  ]
+}

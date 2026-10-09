@@ -1,0 +1,1 @@
+Owner independent_audit. Read producer routes/prime-gap-multistrip and repaired eighth-power dependencies; write only this directory. Exact target all-n seventh-power prime intervals assuming QRH(7/8). No Git mutations or heavy compute. Independent analytic reconstruction and small serial validation.

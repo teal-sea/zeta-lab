@@ -52,6 +52,17 @@ cross-check cannot run there, the returned dict says so), and finitely many
 certified instances are not evidence for RH (`docs/08`); they are positivity
 statements that no longer rest on floating-point luck.
 
+## Replaying someone else's Lean
+
+A kernel check is only as independent as the machine and the kernel that ran it.
+On 2026-10-08 this laboratory replayed OpenAI's quasi-Riemann proof (every
+Dirichlet L-function zero-free in Re s > 7/8) from its pinned public commit on
+GitHub Actions, then ran Comparator with the independent NanoDa kernel switched
+on: both kernels accepted the three statements with only the standard axioms.
+The recipe is `.github/workflows/replay-openai-003.yml` (modes `pilot`, `build`,
+`comparator`), and what it does and does not establish is `docs/38` section 7.
+What was then proved on top of the replayed statement is `docs/39`.
+
 ## The Lean ladder
 
 `lean/` climbs deliberately, and **nothing counts until it compiles with zero
