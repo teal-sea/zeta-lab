@@ -67,6 +67,7 @@ the OpenAI tree on a four-core GitHub runner (`docs/38`, section 7).
 First Modal build time: **not measured yet**. The launcher was checked to load
 under modal 1.6.1; it has not run, because the session that wrote it has no
 Modal login.
+
 ## Activation continued with authorization
 
 Later on 2026-10-08, the operator explicitly directed the session to proceed.
@@ -80,3 +81,19 @@ character argument and logarithm comparisons. An exact rational cross-check
 of the log(3) enclosure and the two power comparisons passed. The remote
 script now checks the port before starting the long upstream build. These
 remain source drafts, not kernel-checked results.
+
+## Shared branch reconciled, 2026-10-09 UTC
+
+The Ghost session rebased over `cc38d39c`, preserving the parallel session's
+Modal launcher and allocation record. It did not launch that alternative:
+this session's task specifies Namespace for Lean, and the payment form is
+still incomplete. The temporary routing authorization above is recorded by
+the parallel session; it was not independently confirmed in this session.
+
+The finite-character draft was pushed as `9dc7e8ab`. The module-header guard
+repair was incorporated as `8f6109d2`: an explicit eleven-file legacy allowlist
+with a 4.34.1 pin check, retaining the other package's header requirement and
+all line-limit and symlink checks. Four fault-injection cases test those
+boundaries. All 43 focused repository tests passed, along with generated
+context, shell syntax and whitespace checks. The pre-push secret check passed.
+No Lean process ran on Ghost. No remote build has produced evidence.

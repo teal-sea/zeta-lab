@@ -4,8 +4,7 @@
 create request returned `access denied`. A parallel session added a Modal
 launcher, preserved below. Namespace activation is now authorized; its opened
 checkout requires card entry by the operator. No instance, cache volume,
-build time or Lean axiom
-report was produced. The written result keeps its existing grade:
+build time or Lean axiom report was produced. The written result keeps its existing grade:
 **proved, given OpenAI's Theorem 1.1, unreviewed**.
 
 ## Package boundary
@@ -24,6 +23,12 @@ all 44 unit residues passed, but is not a Lean verification. The draft now
 connects that data to nonprincipal characters and interval-based logarithm
 bounds, with `small_moduli_nonresidue_bound` as the finite-case target. This
 new source has not been elaborated.
+
+The repository's module-header check now explicitly permits these eleven
+legacy-module files on the pinned 4.34.1 toolchain. The parent package's
+header rule, the line limit and the symlink checks remain enforced. Four
+injected defects exercise those boundaries. The focused repository checks
+passed all 43 tests on Ghost; these are static checks, not Lean evidence.
 
 `QRHOpenAI.lean` imports the real upstream nonvanishing theorem, retaining its
 principal-character pole exception. It defines the target bound as a
