@@ -1,12 +1,14 @@
 # Hunt 125 on the OpenAI toolchain
 
-**Status, 2026-10-09: cold build running on Modal; no kernel verdict yet.** Thomas
-selected Modal for Lean and numerics, superseding the Namespace plan. The
-[active run](https://modal.com/apps/teal-sea/main/ap-qYdxL9dkFmIyrnxn8ykpuN)
-uses committed source `2eb8a1bb`. Lean 4.34.1 installed successfully and the
-OpenAI dependencies are being prepared. A five-minute heartbeat in the
-owning Codex thread supervises the build and collects its result.
-No completed build time or Lean axiom report has been produced. The written result keeps its existing grade:
+**Status, 2026-10-09: package compiled; Modal preemption interrupted the upstream
+build before the bridge and axiom gate.** The run at source `2eb8a1bb` compiled
+the interval ports, domination lemmas and finite character bound in 85 seconds.
+It was preempted at 19:47:28 UTC. The old launcher saved only on exit, so the
+automatic retry started cold. That retry was stopped after saving its setup
+cache. The repaired launcher checkpoints during the build; the latest attempt
+and evidence are recorded in [RUNS.md](RUNS.md). The five-minute heartbeat
+continues to supervise one build at a time. No full build time or completed
+axiom report exists yet. The written result keeps its existing grade:
 **proved, given OpenAI's Theorem 1.1, unreviewed**.
 
 ## Package boundary
@@ -24,7 +26,7 @@ its endpoint arithmetic, and a finite residue-cover certificate for q = 3 to
 all 44 unit residues passed, but is not a Lean verification. The draft now
 connects that data to nonprincipal characters and interval-based logarithm
 bounds, with `small_moduli_nonresidue_bound` as the finite-case target. This
-new source has not been elaborated.
+source elaborated in the interrupted Modal run. Its final axiom audit is pending.
 
 The repository's module-header check now explicitly permits these eleven
 legacy-module files on the pinned 4.34.1 toolchain. The parent package's
@@ -60,7 +62,18 @@ The calling machine only uploads `lean/qrh` and waits; the build runs remotely
 (8 physical cores, 48 GiB, four-hour cap; estimate in `RUNS.md`). It prints the
 pins, cache state, per-stage timings, exit code and axiom status, and leaves the
 full evidence and a warm cache archive on the Modal volume
-`zeta-qrh-4341-adc7f124`. The second run starts from that cache.
+`zeta-qrh-4341-adc7f124`. Every ten minutes of active execution, the launcher
+pauses the compiler process group, writes a complete replacement archive and
+commits the volume before resuming. It also checkpoints on exit. A failed
+archive write preserves the previous complete archive; incomplete work may
+need rebuilding. Stage wall times include checkpoint pauses. The total build
+deadline is 230 minutes inside the four-hour allocation, with a 210-minute
+upstream-stage cap. Checkpoint overhead is recorded separately.
+
+The CLI now exits nonzero on a failed build. Still collect `supervisor.txt`,
+`outcome.txt`, stage logs and all eight axiom reports before reporting success.
+The preemption recovery and failure cases have lightweight process tests in
+`tests/test_qrh_modal_checkpoint.py`; those tests are not Lean evidence.
 
 ## Historical Namespace setup
 
@@ -121,8 +134,8 @@ raise the proof grade. Cache generations can be stale or empty.
 4. Establish all analytic constant enclosures and prove `m(5/2) > 0` using
    kernel intervals. The numerical enclosure in the written proof is not a
    Lean input masquerading as a proved bound.
-5. Compile and validate the draft character reduction and logarithmic
-   comparisons for q = 3 to 12.
+5. Rebuild the compiled character reduction and logarithmic comparisons for
+   q = 3 to 12 from the cache and collect their axiom reports.
 6. Instantiate `LeastNonresidueBound`, then Theorem 2. Run the axiom gate,
    Comparator and NanoDa before preparing a Palomar submission.
 

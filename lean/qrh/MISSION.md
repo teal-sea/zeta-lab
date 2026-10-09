@@ -24,5 +24,5 @@ analytic input hypotheses is a partial deduction, not the completed target.
 Completion requires the instantiated result, Comparator and NanoDa replay,
 then the registry submission.
 
-All Lean execution belongs on Namespace. Numerics belong on Modal.
+All Lean execution and numerics belong on Modal, per Thomas's 2026-10-09 decision.
 No Lean build or heavy computation belongs on either local Mac.

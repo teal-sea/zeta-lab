@@ -5,15 +5,18 @@
 `lean/qrh/README.md` records the separate 4.34.1 package and its exact OpenAI
 pin. The five interval modules have source adaptations, and the first proof
 drafts cover rational domination, finite residue generation data, and the
-OpenAI nonvanishing and complex Hadamard bridges. None has been compiled in
-this session. The analytic explicit formula and the full nonresidue bound
+OpenAI nonvanishing and complex Hadamard bridges. The package compiled on Modal
+in 85 seconds, including q = 3 to 12; the bridge and axiom gate remain pending
+after the upstream build was preempted. The analytic explicit formula and the full nonresidue bound
 remain open. The written result remains proved, given OpenAI's Theorem 1.1,
 unreviewed. Theorem 2, Comparator, NanoDa and submission have not started.
 
 Thomas directly selected Modal for Lean and numerics. The Namespace route is
-superseded; do not wait for its billing activation. The active Modal run is
-`ap-qYdxL9dkFmIyrnxn8ykpuN`, committed source `2eb8a1bb`. Lean 4.34.1 is
-installed and dependency setup is running. The owning Codex thread's
+superseded; do not wait for its billing activation. Run
+`ap-qYdxL9dkFmIyrnxn8ykpuN`, source `2eb8a1bb`, was preempted at 19:47:28 UTC.
+Its automatic cold retry was stopped after recovering a setup cache. The
+launcher now checkpoints every ten minutes and propagates failed exits.
+The latest attempt is recorded in `lean/qrh/RUNS.md`. The owning Codex thread's
 `watch-hunt-125-modal-build` heartbeat checks every five minutes and handles
 compiler failures before collecting the outcome. Do not launch a second
 build alongside it. The cache and allocation are in `lean/qrh/RUNS.md`.

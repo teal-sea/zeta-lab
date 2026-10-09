@@ -8,11 +8,11 @@ calling machine only uploads `lean/qrh` and waits.
 
 The build itself is `namespace-build.sh` with QRH_RUNNER=modal. It works on the
 container's local disk, because a Lean build writes tens of thousands of small
-files and a network volume is the slow place to do that. Afterwards the warm
-cache (elan, the pinned OpenAI checkout and its build, this package's .lake) is
-packed into one archive on the Modal volume `zeta-qrh-4341-adc7f124`, and the
-next run unpacks it before starting. The evidence directory (timings, logs,
-axiom report) is copied to the volume and its summary is printed here.
+files and a network volume is the slow place to do that. Every ten minutes,
+the build process group is paused while its cache and evidence are saved to
+the Modal volume `zeta-qrh-4341-adc7f124`. A final checkpoint runs on exit too.
+The previous complete archive survives an interrupted checkpoint. A retry
+restores the last completed checkpoint; cached files alone are not a verdict.
 
 A failed or timed-out build is a failed run. Partial outputs may be reused as
 cache; they never raise a proof grade.
@@ -34,7 +34,8 @@ image = (
     modal.Image.from_registry("ubuntu:24.04", add_python="3.12")
     .apt_install("ca-certificates", "git", "curl", "build-essential", "time",
                  "util-linux", "unzip", "zstd")
-    .add_local_dir(str(QRH), "/src/qrh", ignore=[".lake", "**/.lake"])
+    .add_local_dir(str(QRH), "/src/qrh",
+                   ignore=[".lake", "**/.lake", "**/__pycache__", "**/*.pyc"])
 )
 
 
@@ -45,9 +46,14 @@ def run(cmd, **kw):
 
 @app.function(image=image, cpu=8.0, memory=49152, timeout=4 * 3600,
               volumes={PERSIST: cache}, max_containers=1)
-def build(revision: str) -> str:
+def build(revision: str) -> dict:
     import os
     import shutil
+    import sys
+    import time
+
+    sys.path.insert(0, "/src/qrh/scripts")
+    from modal_checkpoint import run_checkpointed, save_checkpoint
 
     os.makedirs(WORK, exist_ok=True)
     if os.path.exists(ARCHIVE):
@@ -63,23 +69,31 @@ def build(revision: str) -> str:
     pathlib.Path(source, "source-revision.txt").write_text(revision + "\n")
 
     env = dict(os.environ, QRH_REMOTE_RUN="1", QRH_RUNNER="modal", QRH_CACHE=WORK)
-    result = run(["timeout", "--signal=TERM", "--kill-after=60s", "230m",
-                  "bash", f"{source}/scripts/namespace-build.sh"], env=env)
+    started = time.monotonic()
+    checkpoint_times = []
 
-    # Save the warm cache whatever the outcome; source trees are not cached.
-    keep = [p for p in os.listdir(WORK) if p not in ("source", "evidence")]
-    if keep:
-        tmp = f"{PERSIST}/cache.tar.zst.partial"
-        run(["tar", "--zstd", "-cf", tmp, "-C", WORK, *keep], check=True)
-        os.replace(tmp, ARCHIVE)
+    def checkpoint_current():
+        checkpoint_times.append(save_checkpoint(WORK, PERSIST, revision, cache.commit))
+
+    exit_code = run_checkpointed(
+        ["bash", f"{source}/scripts/namespace-build.sh"], env=env,
+        checkpoint=checkpoint_current,
+    )
 
     evidence_root = f"{WORK}/evidence"
     runs = sorted(os.listdir(evidence_root)) if os.path.isdir(evidence_root) else []
-    summary = [f"{warm}; build exit code {result.returncode}"]
+    summary = [f"{warm}; build exit code {exit_code}"]
     if runs:
         latest = f"{evidence_root}/{runs[-1]}"
-        shutil.copytree(latest, f"{PERSIST}/evidence/{revision}-{runs[-1]}")
-        for name in ("pins.txt", "cache.txt", "timings.txt", "outcome.txt", "status.txt"):
+        # The supervisor's result takes precedence over a shell interrupted
+        # before it could write its final outcome.
+        pathlib.Path(latest, "supervisor.txt").write_text(
+            f"exit_code={exit_code} wall_seconds={time.monotonic() - started:.2f}\n"
+            f"checkpoint_seconds={checkpoint_times!r}\n"
+        )
+        shutil.copytree(latest, f"{PERSIST}/evidence/{revision}-{runs[-1]}",
+                        dirs_exist_ok=True)
+        for name in ("pins.txt", "cache.txt", "timings.txt", "outcome.txt", "supervisor.txt", "status.txt"):
             path = pathlib.Path(latest, name)
             if path.exists():
                 summary.append(f"--- {name}\n{path.read_text().strip()}")
@@ -87,7 +101,7 @@ def build(revision: str) -> str:
     else:
         summary.append("no evidence directory was written: the script stopped before its first stage")
     cache.commit()
-    return "\n".join(summary)
+    return {"exit_code": exit_code, "summary": "\n".join(summary)}
 
 
 @app.local_entrypoint()
@@ -97,4 +111,7 @@ def main():
                                     text=True).strip()
     if dirty:
         raise SystemExit("Commit lean/qrh first: the run records the revision it built.")
-    print(build.remote(revision))
+    result = build.remote(revision)
+    print(result["summary"])
+    if result["exit_code"] != 0:
+        raise SystemExit(1)

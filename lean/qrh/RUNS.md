@@ -2,6 +2,59 @@
 
 ## Current route, 2026-10-09
 
+### Preemption and checkpoint repair
+
+The first worker was preempted at 19:47:28 UTC, 2 hours 4 minutes 59 seconds
+after its 17:42:29 UTC start. No compiler error had been reported. The final
+observed upstream job was 5982; Lake's changing job counts are not an ETA.
+The package stage had completed at 18:00:09 UTC, but the upstream nonvanishing
+target, bridge and axiom gate had not finished. This is not a completed build
+or a proof of Theorem 1(a).
+
+Completed stages from the Modal application log:
+
+| Stage | Wall seconds | Exit code |
+| --- | ---: | ---: |
+| upstream-clone | 45 | 0 |
+| elan-install | 2 | 0 |
+| toolchain | 130 | 0 |
+| upstream-update | 433 | 0 |
+| upstream-cache | 111 | 0 |
+| qrh-update | 207 | 0 |
+| qrh-cache | 25 | 0 |
+| qrh-build | 85 | 0 |
+
+The volume had no archive because the original launcher saved only at the
+end. Modal automatically restarted the same input at 19:48:22 UTC in
+`ta-01M4H3B687VNP6X8HRKE948SQR`; that worker reported a cold cache. The
+supervisor stopped its build at 19:51:59 UTC so the launcher could archive
+the recovered setup before a repaired retry. Its Python subprocess status
+was `-15` (SIGTERM). The shell's EXIT trap incorrectly wrote zero, and the
+old CLI also exited zero. Neither zero is a successful build verdict.
+
+The stopped retry's volume evidence was downloaded from
+`evidence/2eb8a1bb88f49b8fd54d3e5339177cf73cfb10bc-20261009T194822Z-5`.
+[Preserved evidence](evidence/2026-10-09-preemption/) includes those original
+outcome, pin and timing files plus a timestamped application-log excerpt.
+The first worker's terminal volume evidence does not exist; its completed
+stage times above come from the application log. The retained volume now
+contains `cache.tar.zst`. There were no active containers before retry setup.
+
+The repair keeps the same eight-core, 48-GiB allocation and volume. Every ten
+minutes it pauses the build process group, saves the cache and evidence, commits
+the volume, then resumes. The prior archive survives a partial archive failure.
+Nested timeouts stay in that group. Signal exits and remote failure status now
+propagate accurately; the supervisor also records its own outcome. The upstream
+cap is 210 minutes within a 230-minute overall build budget and four-hour function
+cap, so checkpoint time is counted. No paid non-preemptible multiplier is enabled.
+This follows Modal's [preemption](https://modal.com/docs/guide/preemption) and
+[volume commit](https://modal.com/docs/guide/volumes#volume-commits-and-reloads)
+guidance. Seven lightweight tests exercise paused descendants, failure exits,
+timeout cleanup, interrupted archives and evidence persistence. Remote checkpoint
+timing remains to be measured on the repaired attempt.
+
+### Earlier launches
+
 Thomas directly selected Modal for both Lean builds and numerics. Namespace
 activation is no longer a prerequisite and no Namespace subscription was
 created by this session. The earlier route and failed allocation below are

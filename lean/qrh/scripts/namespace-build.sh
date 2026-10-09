@@ -3,7 +3,7 @@
 # persistently, or a Modal container (scripts/modal_build.py), never on the
 # operator's Macs. QRH_CACHE names the working cache directory; on Namespace it
 # must be the attached volume, on Modal it is the container's local disk and
-# the launcher saves it to a Modal volume after the run.
+# the launcher checkpoints it to a Modal volume during and after the run.
 set -euo pipefail
 task_runner=${QRH_RUNNER:-namespace}
 task_cache=${QRH_CACHE:-/cache}
@@ -36,6 +36,8 @@ exec 9>"$task_cache/qrh-build.lock"
 flock -n 9 || { echo 'Another QRH build holds the cache lock.' >&2; exit 2; }
 task_started=$SECONDS
 trap 'task_rc=$?; printf "exit_code=%s total_seconds=%s\n" "$task_rc" "$((SECONDS-task_started))" | tee "$task_evidence/outcome.txt"' EXIT
+trap 'exit 143' TERM
+trap 'exit 130' INT
 
 stage() {
   local task_label=$1
@@ -106,7 +108,8 @@ stage qrh-cache lake exe cache get
 stage qrh-build lake build
 
 cd "$task_upstream/lean"
-stage upstream-build timeout --signal=TERM --kill-after=60s 150m lake build \
+# Keep every compiler in the supervisor's process group for paused checkpoints.
+stage upstream-build timeout --foreground --signal=TERM --kill-after=60s 210m lake build \
   OAI.NumberTheory.DirichletL.Nonvanishing \
   OAI.NumberTheory.SiegelZeros.Estimates.ConstantCancellation \
   OAI.NumberTheory.DirichletL.LogarithmicControl
