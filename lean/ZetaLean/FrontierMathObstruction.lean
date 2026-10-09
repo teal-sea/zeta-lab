@@ -35,6 +35,5 @@ theorem proposedAdditiveBound_false :
     let cross11 : ℤ := 20
     (p1 + q') ^ 2 < 4 * (p1 + q') - 3 * 5 - 4 * 1 + cross11 := by
   norm_num
-  omega
 
 end ZetaLean.FrontierMathObstruction

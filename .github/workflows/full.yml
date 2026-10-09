@@ -40,6 +40,14 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
+      # The evaluate door's test runs `uv run ... bloch-smoke`, exactly as
+      # docs/doors/evaluate.md tells a reader to. Without uv on the runner it
+      # failed with FileNotFoundError every night; bloch-environment.yml
+      # already installs uv the same way.
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: environments/bloch_certificate/uv.lock
       - name: install
         run: |
           python -m pip install --quiet --disable-pip-version-check -r requirements.txt
