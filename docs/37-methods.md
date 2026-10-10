@@ -78,7 +78,7 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (40). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (43). Surfaced by the sweep, below the bar for now.
 
 Totals: 173 entries from 65 hunts. Kinds: identity 22, lemma 43, bound 12, construction
 15, calibration 7, computational 17, control 36, obstruction 21.
@@ -5552,4 +5552,18 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   k_0) >= c G(k) fails off a density-zero set, so no anti-composition statement alone
   implies Erdos #126 (`hunts/support_6cdfd2e3/`, obstruction): ordinary argument,
   unreviewed; not carried.
+- Apollonius-disc radius argument for the Cauchy route to Li coefficients of any completed
+  function F(s) = F(1 - s): |1 - 1/s| <= r is the disc |s - 1/(1 - r^2)| <= r/(1 - r^2),
+  critical-line zeros sit on |z| = 1 exactly, so one argument-principle rectangle with
+  Re s > 1/2 licenses the radius, and the winding check re-tests it on the exact contour
+  (`hunts/li_dh_onset/`, lemma): exact algebra, self-reviewed; used only inside its hunt.
+- Quadruple collapse of a Li sum: (1 - 1/rho)(1 - 1/(1 - rho)) = 1 turns an off-line
+  quadruple's four terms into 4 - 2(R^n + R^-n) cos(n psi), and an onset scan subtracts
+  only the growing part from a background fitted on the computed range, never reading the
+  fit below its window (`hunts/li_dh_onset/`, identity): exact algebra, numerically pinned
+  in its test; used only inside its hunt.
+- Multiset completeness for a zero-side sum: an argument-principle box count must equal the
+  line zeros found plus two per known off-line quadruple, and the smooth count is measured
+  rather than borrowed (for the Davenport-Heilbronn function it has no zeta-style +1)
+  (`hunts/li_dh_onset/`, control): measured; used only inside its hunt.
 
