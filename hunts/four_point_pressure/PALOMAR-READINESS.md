@@ -6,6 +6,20 @@ accepted the exported solution, and all 645 tracked Lean headers passed the
 compiler's parser. This is not a Palomar submission or registry verdict.
 Historical build evidence below remains at its original pins.
 
+**The submission package, 2026-10-10.** The registry-ready form of this
+project lives on branch `codex/palomar-root-package` (head `980bf37`), not on
+main. Commit `74611e8` there adds `lakefile.toml`, `lake-manifest.json` and
+`lean-toolchain` at the repository root, because Palomar's renderer rejects a
+nested project path; `980bf37` adds the pinned render check. Palomar's own
+pipeline (`PalomarRegistry/PalomarSubmission` at `65f0154`) passed its full
+preflight on the nested snapshot `020a974` (run 36733933889) and on the root
+package `74611e8` with an empty project path (run 36873320494), and the
+original renderer accepted the root package. The packet, the bounded-memory
+build and the retained preflight reports are on that branch, built up in PRs
+#263, #264 and #265, which were closed rather than merged so that main's root
+stays a single project. Submitting `74611e8` is the remaining step. Nothing
+has been submitted, so this is still not a registry verdict.
+
 ## Mathematical target and provenance
 
 The candidate parameters are `(n,c,m,p) = (4,2330/1000000,432,2500)`.

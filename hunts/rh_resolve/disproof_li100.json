@@ -1,0 +1,7 @@
+{
+ "grade": "measured-float",
+ "nmax": 100,
+ "violations": 0,
+ "min_margin": 0.023095708966121033,
+ "lambda_100": "118.603775376791"
+}

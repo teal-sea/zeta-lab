@@ -435,7 +435,9 @@ Re s > 1/2 and Li's criterion are statements at 1/2 and are untouched
 - **The equivalence RH iff Re(xi'/xi) > 0 on Re s > 1/2** (stated in
   `hunts/epp_herglotz/RESULTS.md`) is a statement at 1/2 and is untouched
   (document 38 section 6). Until 2026-10-09 this entry and the end of
-  section 8 cited it as PR #268's, which is not merged.
+  section 8 cited it as PR #268's (`hunts/rh_resolve/`); that PR records
+  the equivalence as classical, not as its own, and its own audit of
+  2026-10-04 withdrew its finite Li enclosure.
 
 ## 10. The table
 
