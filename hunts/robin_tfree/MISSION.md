@@ -4,8 +4,9 @@ Target: the Riemann Hypothesis, through Robin's criterion (RH iff
 `sigma(n) < e^gamma n log log n` for every `n > 5040`). This hunt attacks the
 unconditional frontier of that criterion: the largest families of integers for which
 the inequality is proved without assuming RH. It does not replace RH with a finite
-statement, and a larger family is not a step that converges to RH (RESULTS.md, "The
-doors", last paragraph).
+statement, and a larger family does not by itself decide RH: these estimates leave
+Robin's inequality undecided on the multiples of `M*` (RESULTS.md, "The doors", last
+paragraph).
 
 Scope: this directory, its case-log entry in `hunts/README.md`, one entry in
 `docs/37-methods.md`, and the generated `CONTEXT.md`. No core module edits, no paid
@@ -21,7 +22,7 @@ proposed_attack: exact first-order cancellation between Mertens' partial-summati
 dead_routes:
   - bounding the boundary and denominator terms separately (costs 2.29e-8 at x0, caps t at 24 even with Buthe's constant)
   - Morrill-Platt v1's monotonicity of R_t at primorials (unproved, withdrawn in their v4)
-  - any fixed t-free or valuation family as a route to all n (colossally abundant numbers leave every such family)
+  - a t-free or valuation result at fixed parameters read as covering all n (colossally abundant numbers eventually leave each such family, their exponent at every fixed prime being unbounded; this closes only that shortcut, not further work on the route)
 required_oracles:
   - Arb ball arithmetic for every evaluated constant
   - exact prime data for the identity and for the true E(x) at small x

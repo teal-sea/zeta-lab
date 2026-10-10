@@ -5372,10 +5372,15 @@ monotone weights without estimating disjoint bins by subtraction.
 
 ## Explicit prime estimates and Robin's criterion
 
+Mertens-product bounds at primorials past a verified range, and what they buy for
+Robin's inequality on restricted families of integers.
+
+- identity: First-order cancellation in the primorial Mertens ratio (`robin_tfree`)
+
 ### First-order cancellation in the primorial Mertens ratio
 
-identity | `hunts/robin_tfree/` | grade: ordinary derivation, not independently reviewed;
-checked exactly on real primes, as the hunt states
+identity | `hunts/robin_tfree/` | grade: candidate, ordinary derivation, unreviewed,
+pending external verification; checked exactly on real primes, as the hunt states
 
 With `R = theta - id`, `w(u) = (1 + log u)/(u^2 log^2 u)`, `h(p) = -log(1-1/p) - 1/p`,
 `d = R(x)/x`, `L = log x`:
@@ -5389,8 +5394,9 @@ Bounding the two terms separately, as the t-free Robin papers do, costs
 
 Evidence: hunts/robin_tfree/RESULTS.md sections 2 and 7; test_bound.py (identity in sum
 and difference form to 1e-25 on primes to 2e6, sign flip caught; Lemma 2 at 400 points)
-Prior art: searched-and-absent within the scope of RESULTS.md section 9 (Axler 2023,
-Morrill-Platt 2021 v1/v4 both bound the terms separately); zbMATH and MathSciNet unsearched
+Prior art: searched-and-absent within the scope of RESULTS.md section 9 (web, arXiv and
+zbMATH Open searched 2026-10-10; Axler 2023 and Morrill-Platt 2021 v1/v4 both bound the
+terms separately); MathSciNet unsearched
 Reused in: none yet
 Why it travels: any explicit upper or lower bound on `N_k/phi(N_k)` against
 `e^gamma log log N_k` (Robin, Nicolas, Axler-type valuation results, unconditional

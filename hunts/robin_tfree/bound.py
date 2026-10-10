@@ -2,7 +2,8 @@
 
 Robin's criterion: RH holds iff sigma(n) < e^gamma n log log n for every n > 5040.
 Morrill and Platt verified it for every 5040 < n <= x0#, x0 = 29 996 208 012 611
-(Integers 21 (2021) A28, Theorem 13 and Corollary 14).  Above that, every known
+(Integers 21 (2021) A28, Theorem 5 and Corollary 2; Theorem 13 and Corollary 14 in
+arXiv:1809.10813v4).  Above that, every known
 t-free and valuation result reduces to one quantity at the primorials N_k = p_k#,
 
     E(x) = log( e^{-gamma} prod_{p <= x} p/(p-1) / log theta(x) ),   x = p_k >= x0,
@@ -47,8 +48,10 @@ from flint import arb, ctx
 
 PREC = 256
 
-#: Morrill-Platt 2021, Corollary 14: Robin holds for 13# <= n <= X0#, and
-#: Theorem 13 covers 5040 < n <= 10^(10^13.11485) >= X0#.
+#: Morrill-Platt 2021, Corollary 2 (arXiv v4: Corollary 14): Robin holds for
+#: 13# <= n <= X0#; Theorem 5 (arXiv v4: Theorem 13) covers 5040 < n <= 10^(10^13.11485).
+#: The printed exponent is rounded down, so that range ends just below X0#; the top of
+#: the verified range is the corollary (pinned in test_bound.py).
 X0 = 29_996_208_012_611
 
 #: Buthe 2018 covers x <= 1e19 ((1.5)-(1.7)); Table 1's last block ends at 1.024e19.

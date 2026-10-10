@@ -17,7 +17,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-from flint import arb, ctx
+from flint import arb, ctx, fmpz
 from mpmath import mp, mpf, quad
 
 from hunts.robin_tfree import bound as B
@@ -237,7 +237,8 @@ def _sigma_table(n: int) -> np.ndarray:
 
 
 def test_robin_holds_directly_from_5041_to_13_primorial():
-    """Morrill-Platt's Theorem 13 covers this; recheck the bottom of the range directly."""
+    """Morrill-Platt's Theorem 5 (arXiv v4: Theorem 13) covers this; recheck the bottom
+    of the range directly."""
     n_max = 30030
     sig = _sigma_table(n_max)
     eg = math.exp(float(EULER_GAMMA))
@@ -314,3 +315,127 @@ def test_separate_bounding_loses_what_the_cancellation_keeps():
     sep = 2 * arb("1.95") / (x0.sqrt() * x0.log())
     assert B.max_tfree(parts["E_star"], B.slack())[0] == 25
     assert B.max_tfree(parts["E_star"] + sep, B.slack())[0] == 24
+
+
+# -- 7. every number RESULTS.md states, pinned at the precision it is stated --------
+
+
+def _sig(x: arb, digits: int) -> str:
+    """The ball's midpoint to `digits` significant figures, as RESULTS.md prints it."""
+    return f"{float(x.mid()):.{digits - 1}e}"
+
+
+def _parts() -> tuple[dict, dict, arb]:
+    ctx.prec = B.PREC
+    return B.e_star(route="uniform"), B.e_star(route="table1"), B.slack()
+
+
+def test_verified_range_top_is_the_corollary_not_the_rounded_theorem():
+    """Morrill-Platt's Theorem 5 prints 10^(10^13.11485), a rounded-down exponent: that
+    number is below X0# (log X0# = theta(X0) >= X0 - 1.95 sqrt(X0), Buthe (1.6)), so the
+    top of the verified range is their Corollary 2 (13# <= n <= X0#), as RESULTS.md says."""
+    with mp.workdps(30):
+        log_theorem_top = mp.log(10) * mpf(10) ** mpf("13.11485")
+        log_x0_primorial_lower = mpf(B.X0) - mpf("1.95") * mp.sqrt(B.X0)
+        assert log_theorem_top < log_x0_primorial_lower
+    assert 2 * 3 * 5 * 7 * 11 * 13 == 30030  # 13#, the corollary's lower end
+    assert fmpz(B.X0).is_prime()  # so N_k <= n with n > X0# forces p_k >= X0 (Lemma 3)
+
+
+def test_stated_bound_values():
+    """Claim 1, the section 5 table, the radius claim and section 6's decisions."""
+    a, b, s = _parts()
+    assert _sig(a["main"], 6) == "2.22602e-08" and _sig(b["main"], 6) == "2.08672e-08"
+    assert _sig(a["tail"], 6) == "2.54657e-09" and _sig(a["second_order"], 2) == "4.1e-15"
+    assert _sig(a["E_star"], 6) == "2.48068e-08" and _sig(b["E_star"], 6) == "2.34138e-08"
+    assert a["E_star"] < arb("2.4807e-8") and b["E_star"] < arb("2.3414e-8")  # Claim 1
+    assert a["E_star"].rad() < arb("1e-27") and b["E_star"].rad() < arb("1e-27")
+    assert _sig(s, 2) == "1.3e-13"
+    log_inv_zeta = {t: -arb(t).zeta().log() for t in (25, 26, 27)}
+    assert _sig(log_inv_zeta[25], 6) == "-2.98035e-08"
+    assert _sig(log_inv_zeta[26], 6) == "-1.49016e-08"
+    assert _sig(-log_inv_zeta[27], 3) == "7.45e-09"
+    assert _sig(-(log_inv_zeta[25] + s + a["E_star"]), 2) == "5.0e-09"  # t = 25 margin
+    x0 = arb(B.X0)
+    assert _sig(2 * arb("1.95") / (x0.sqrt() * x0.log()), 3) == "2.29e-08"
+    qa, qb = B.q_star(a["E_star"], s), B.q_star(b["E_star"], s)
+    assert int(float(qa.lower().mid())) == 40_311_388
+    assert int(float(qb.lower().mid())) == 42_709_615
+    assert arb("4.03e7") < qa.lower()  # "q does not divide n for some prime q < 4.03e7"
+
+
+def test_stated_valuation_list():
+    """Corollary 2 as spelled out: every range RESULTS.md lists, on both routes."""
+    a, b, s = _parts()
+    primes = B._primes_upto(6400)
+    for parts, last_square in ((a, 337), (b, 349)):
+        qs = B.q_star(parts["E_star"], s)
+        nu = B.valuation_table(qs, primes)
+        assert nu[17] == 5
+        assert all(nu[q] == 4 for q in primes if 19 <= q <= 31)
+        assert all(nu[q] == 3 for q in primes if 37 <= q <= 79)
+        assert all(nu[q] == 2 for q in primes if 83 <= q <= last_square)
+        assert nu[min(q for q in primes if q > last_square)] == 1
+    # "nu_q <= 1 for primes q < 6349" (route A): every such prime has q^2 < Q*
+    nu_a = B.valuation_table(B.q_star(a["E_star"], s), primes)
+    assert all(nu_a[q] >= 1 for q in primes if q < 6349)
+    assert nu_a[min(q for q in primes if q >= 6349)] == 0
+
+
+def test_axler_list_matches_the_threshold_stated_for_it():
+    """RESULTS.md reads Axler's valuation list as a threshold of about 3.17e6, between
+    1777^2 and 1783^2: the same machinery at that threshold reproduces his list."""
+    primes = B._primes_upto(2000)
+    nu = B.valuation_table(arb(3_170_000), primes)
+    assert 1777**2 < 3_170_000 < 1783**2
+    assert nu[2] == 20 and nu[5] == 8
+    assert all(nu[q] == 4 for q in primes if 11 < q <= 19)
+    assert all(nu[q] == 3 for q in primes if 19 < q <= 41)
+    assert all(nu[q] == 2 for q in primes if 41 < q <= 139)
+    assert all(nu[q] == 1 for q in primes if 139 < q <= 1777) and nu[1783] == 0
+
+
+def test_prior_margins_lie_between_the_papers_t_decisions():
+    """Section 7's approximate prior margins are only consistent with each paper's t:
+    Morrill-Platt's (t = 20) between log zeta(21) and log zeta(20), Axler's (t = 21)
+    between log zeta(22) and log zeta(21). They are not recomputed from the papers."""
+    ctx.prec = B.PREC
+    lz = {t: arb(t).zeta().log() for t in (20, 21, 22)}
+    assert lz[21] < arb("9e-7") < lz[20]
+    assert lz[22] < arb("3.3e-7") < lz[21]
+
+
+def test_stated_door_numbers():
+    """Section 5's deficit constants and the numbers in 'The doors'."""
+    a, b, s = _parts()
+    x0 = arb(B.X0)
+    near = B.deficit_at(B.X0) * x0.sqrt()
+    assert arb("1.95") < near < arb("1.957")  # |d| <= 1.957/sqrt(x0) < 1e-6
+    far = B._up(B.BKLNW_TABLE8[0][1], B.BKLNW_ROUNDING) + B._arb(B.PSI_MINUS_THETA) / arb(
+        B.X_BUTHE
+    ).sqrt()
+    assert far < arb("1.982e-8")
+    unit = B.power_integral(Fraction(1, 2), x0.log(), arb(B.X_BUTHE).log())
+    assert _sig(unit, 3) == "1.14e-08"  # dE*/dc, route A
+    effective_c = (arb(26).zeta().log() - a["tail"] - a["second_order"] - s) / unit
+    assert arb("1.05") < effective_c < arb("1.15")  # "an effective c near 1.1"
+    assert _sig(2 / (x0.sqrt() * x0.log()), 2) == "1.2e-08"  # heuristic scale of E(x0)
+    assert arb("0.10") < a["tail"] / a["E_star"] < arb("0.11")  # "10% of E*"
+    k = a["main"] * x0.sqrt() * x0.log() / arb("1.95")
+    assert arb("1.93") < k < arb("1.95")  # main ~ 1.94 c/(sqrt(x0) log x0)
+    four = B.main_integral_uniform(4 * B.X0) / a["main"]
+    assert arb("0.45") < four < arb("0.5")  # the main term about halves when x0 x 4
+    assert _sig(B._arb(B.TABLE1_MARGIN) * unit, 2) == "5.7e-11"  # route B margin cost
+    y19 = arb(B.X_BUTHE).log()
+    psi_unit = B.power_integral(Fraction(1, 2), y19, arb(B.BKLNW_TABLE8_END))
+    assert (arb("1.5") - arb("1.42620")) * psi_unit < arb("1e-11")
+    rows = B.BKLNW_TABLE8 + [(B.BKLNW_TABLE8_END, None)]
+    eps_tail, first3 = arb(0), arb(0)
+    for (bb, eps), (bn, _) in zip(rows[:-1], rows[1:]):
+        lo = arb(bb) if arb(bb) > y19 else y19
+        piece = B._arb(Fraction(eps)) * B.power_integral(Fraction(1), lo, arb(bn))
+        eps_tail += piece
+        if bb in (40, 45, 50):
+            first3 += piece
+    assert eps_tail * B._arb(B.BKLNW_ROUNDING) < arb("1e-13")  # inflation cost
+    assert first3 > arb("0.985") * a["tail"]  # rows b = 40, 45, 50 carry 99% of the tail
