@@ -1,7 +1,7 @@
 1. **Found:** no transport quantity measured here breaks where DH turns negative: the zero-extended DH ground state continues smoothly (1 − overlap ≤ 2e-7 per unit c on 29 ≤ c′ ≤ 31.5, i.e. through the crossing at c ≈ 30.65), the arch/prime split of dλ/dL is smooth, and dλ/dL ≈ −κμ₀² (μ₀ the band-N edge amplitude, κ = O(1) but basis-dependent) holds straight through the crossing.
-2. **Found:** DH's continuum Weil form is negative on every window c ≥ 30.617188 (hardened cell (30.617188, N = 256) plus nesting), strictly between the coefficients n = 30 and 31, so positivity is lost with no new arithmetic term entering; c*(N) = 30.818, 30.696, 30.647, 30.629, 30.617 for N = 64..256, extrapolating to ≈ 30.61.
+2. **Found:** DH's continuum Weil form is negative on every window c ≥ 30.617188 (hardened cell (30.617188, N = 256) plus the nesting argument, ordinary and unreviewed), so the continuum crossing satisfies c*_∞ ≤ 30.617188; that is all that is established about c*_∞. At each N ≤ 256 tested the band-N form changes sign strictly between the coefficients n = 30 and 31, so at finite N positivity is lost with no new arithmetic term entering (at each N ≤ 256 hardened: positive at c_pos and negative at c_neg, both in (30, 31), bracket midpoints c*(N) = 30.818, 30.696, 30.647, 30.629, 30.617 for N = 64..256); that the continuum crossing also lies above 30 rests on finite-N positivity plus extrapolation to ≈ 30.61 (continuum lower side measured).
 3. **Grade:** crossing brackets, zeta controls and all 196 grid eigenvalues are hardened (ball Rayleigh quotients, ball LDLᵀ, Temple); the continuum consequences add a two-line nesting argument (ordinary, unreviewed); transports, decompositions, the edge law and the zero-side split are measured.
-4. **What refutes it:** of my seven candidates (s4), five hold for DH across 30 → 31, one is false for DH, one fails at finite N, so none is a mechanism; and the theory worker's C2 ("Markov + one pole") is refuted by Epstein (1,1,6), whose form is negative on every window c ≥ 27.7417 although Λ_Q ≥ 0 below 48, with its off-line zero 0.953 + 16.290i located independently and the Dedekind control positive (s9, hardened).
+4. **What refutes it:** of my seven candidates (s4), five hold for DH across 30 → 31, one is false for DH, one fails at finite N, so none is a mechanism; and the theory worker's C2 ("Markov + one pole") is refuted by Epstein (1,1,6), whose form is negative on every window c ≥ 27.7417 although Λ_Q ≥ 0 below 48, with its off-line zero 0.953 + 16.290i located independently and the Dedekind control positive (s9: crossing brackets and the Dedekind control hardened, the continuum statement adds the nesting argument, the zero is measured).
 5. **Next step:** whatever keeps zeta positive is more than Λ ≥ 0 plus a pole: Epstein's even pole capacity fails at c = 29.304 and C2's condition (a) at 29.318, while zeta holds (a) with μ₂/λ₂ ≈ 0.64 on c ∈ [5, 60] (s9.4), and the Epstein/Dedekind pair points at prime-power support (s9.3); theory should find what in the Euler product pins that ratio, or bounds the ground state's boundary trace (band-N proxy μ₀) by its margin; one numerics job is worth funding (boundary-adapted basis, s7).
 
 # RESULTS: ground-state transport across window size (numerics worker)
@@ -176,7 +176,12 @@ item 4 and says nothing about the Euler product.
   bracket midpoints at N = 64, 128, 256: p = 2.50, c∞ = 30.610; the same
   fit predicts 30.686 and 30.624 at N = 96 and 192 against the measured
   30.696 and 30.629) to c*(∞) ≈ 30.61 (measured). So "positivity can only
-  be lost when a new coefficient enters" is false for DH.
+  be lost when a new coefficient enters" is false for DH at each N ≤ 256
+  tested (hardened at each N). For the continuum form only the upper side,
+  c*_∞ ≤ 30.617188, is established (hardened cell plus Fact B); the lower
+  side, c*_∞ > 30, is measured (finite-N positivity does not bound λ_∞ from
+  below, Fact B points the other way), so the continuum statement is
+  refuted only at the measured grade.
 
 ### 3.3 Across DH's crossing: what changes and what does not
 
@@ -213,7 +218,7 @@ zeros above 120 plus farther off-line pairs. Float ordinates: measured.)
 | 2 | λ(c, N) nonincreasing in c at fixed N | c ∈ [29, 32], N = 64, 128 | hardened counterexamples | fails: DH N=128 λ(31.25) = −8.2301e-30 < λ(31.3125) = −8.2211e-30 < λ(31.375) = −8.2162e-30; DH N=64 three steps in [31.44, 31.63]; zeta N=64 four steps (e.g. 30.0625 → 30.125), zeta N=128 one (31.875 → 31.9375) | false at finite N; the DH increases sit exactly where μ₀ crosses 0 (N=128: μ₀ = 2.8e-15, 5.5e-16, −1.8e-15 over 31.25 .. 31.375), i.e. the edge law's own prediction dλ/dL → 0; zeta's increases sit at no μ₀ zero and are the band-edge effect of the unsaturated form (s5); only the continuum statement 1 is true |
 | 3 | ZE ground-state continuity, 1 − overlap ≤ ~2e-7 per unit c | [29, 31.94], both N | measured, exact vectors in balls | holds through c* | holds for DH: refuted as a mechanism |
 | 4 | DIL energy bound R_c′(v(c)) ≤ λ(c) + C ΔL² (C ≈ 0.05 DH, 2.6e-4 zeta) | all pairs | measured (balls) | holds | an upper bound; holds for DH; useless by 22+ orders |
-| 5 | positivity can be lost only where a new coefficient n enters | DH c ∈ [30, 31] | hardened negativity + Fact B | fails: λ_∞ < 0 on [30.6172, 31), data n ≤ 30 | refuted |
+| 5 | positivity can be lost only where a new coefficient n enters | DH c ∈ [30, 31], N = 64..256 | at each N: hardened (both bracket ends); continuum: negative side hardened + Fact B, positive side measured | fails at every N tested: the sign change lies in (30, 31), data n ≤ 30; continuum: λ_∞ < 0 on [30.6172, 31), and λ_∞ ≥ 0 somewhere in [30, 30.6172) is measured only | refuted at each N; for the continuum, refuted at the measured grade |
 | 6 | margin/rate propagation: λ(L + δ) ≥ λ(L) e^{−Kδ} with K the locally observed log-rate, or any rule reading only λ(L) and dλ/dL | c ∈ [29, 32] | measured | at c = 30.25, N = 128, DH has 110 more orders of margin than zeta (4.07e-29 vs 3.37e-139) and a slower log-rate (K = 124 vs zeta's grid median 199), then crosses 0.013 later in L | refuted: the margin and its rate give no warning |
 | 7 | edge law: dλ/dL = −κ μ₀², κ = O(1) | DH grids; N-ladders 32..256 at c = 13.5, 20.5, 30.5 (both kinds) and 31.5 (DH) | measured | holds through c* (κ ∈ [1.04, 1.29] at N=128 away from zeros of μ₀); zeta at saturation κ ≈ 1.3 to 1.5 | holds for DH and zeta alike: structural, refuted as a mechanism; κ itself is basis-dependent (s5) |
 
