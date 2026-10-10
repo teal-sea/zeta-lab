@@ -75,6 +75,34 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #127: one form per discriminant, not forty-one (`euler_defect_axis/`, 2026-09-10)
+
+**Status: settled, correction; repair applied by #296.** The composite-line discriminator is
+defined for a Dirichlet series with `a(1) = 1`, and a binary quadratic form represents 1 exactly
+when it is the principal form of its class group. Measured over the 41 rows behind `docs/34`
+table E7: `a(1)` is exactly 1 on the 14 principal forms and exactly 0 on the other 27. No
+rescaling repairs them: none of the 27 represents only multiples of its least represented value.
+The section's qualitative reading survives on the entitled rows and is checked there against
+`c(n) = Lambda(n)(1 + chi_d(n))`, which uses no recursion, to `2.8e-30`. The published
+non-principal numbers are not empty: they are exactly the composite defect of `1 + Z_Q(s)`,
+agreeing to `0.0` on all 27 rows, a series with no functional equation. The corrected axis is 0
+for class number one and `2.9608` to `5.0847` for the rest at cutoff 61, and `5.0196` to
+`10.5748` at cutoff 401 with the ordering moving by one adjacent transposition, so **the axis has
+no scale** and the family issue #93 proposes as "a defect axis from 0 to 36 with class number as
+the knob" is neither. An independent adversarial audit (`AUDIT.md`) attacked the claim eight ways
+without moving it and found eleven overclaims in the write-up, including a residual presented as
+an independent oracle when `R = |1 - a(1)| max|c(n)|` identically. The repair in `PROPOSAL.md`
+reached main through #296 on 2026-10-10, before the hunt did; its closing note records what #296
+did differently. `test_euler_defect_axis.py` (23 tests) recomputes every number the result page
+and front door state; one count in `RESULTS.md` section 2 did not reproduce and is marked there.
+Front door: `docs/40`. Nothing bears on RH (`docs/08`).
+
+**Renumbered on landing, 2026-10-10.** Opened on the unmerged branch
+`claude/repo-hunt-content-2smbid` as #119, the number its issue #93 comment of 2026-09-10 uses,
+renumbered there to #124 on 2026-09-16 after main took #119 for `lambda_dh_exact`, and landed as
+#127 because main had since taken #124 to #126. Its front door, numbered 38 on the branch, is
+`docs/40`. The rest of that branch is not landed.
+
 ### Robin's inequality for 25-free integers (`robin_tfree/`, 2026-10-04)
 
 **Status: candidate, ordinary derivation, unreviewed, pending external verification;

@@ -58,7 +58,7 @@ stays out of this file. No em dashes.
 - **Heat flow and de Bruijn-Newman constants** (14). Backward heat flow of xi-type
   functions: landing times as lower bounds, contour and winding instruments that refuse
   rather than round, and the calibrations that fix the frame.
-- **Epstein zeta, precision and zero counting** (7). Precision floors for the completed
+- **Epstein zeta, precision and zero counting** (8). Precision floors for the completed
   Epstein zeta, what argument-principle box counts can and cannot discriminate, and the
   rightmost-zero wall for the prime zeta.
 - **Erdos #126 and S-unit equations** (17). Equivalent forms of the problem,
@@ -80,8 +80,8 @@ stays out of this file. No em dashes.
   primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (40). Surfaced by the sweep, below the bar for now.
 
-Totals: 172 entries from 64 hunts. Kinds: identity 22, lemma 43, bound 12, construction
-15, calibration 7, computational 17, control 35, obstruction 21.
+Totals: 173 entries from 65 hunts. Kinds: identity 22, lemma 43, bound 12, construction
+15, calibration 7, computational 17, control 36, obstruction 21.
 
 ## Prime pairs and the circle method
 
@@ -3852,6 +3852,8 @@ and cannot discriminate, and the rightmost-zero wall for the prime zeta.
 - control: Decided-root control battery: known-answer calibration plus template-swap
   lesion (`prime_zeta_rightmost`)
 - control: Convergence-floor ladder before spending winding-number budget (`r_f7cd45`)
+- control: The a(1) = 1 entitlement check for the log-derivative recursion, and what an
+  unguarded run returns (`euler_defect_axis`)
 - obstruction: Local zero-free box properties cannot discriminate RH from its rivals
   (`gate5_p6_c`)
 
@@ -4037,6 +4039,36 @@ Reused in: hunts/r_f7cd45 (independent reproduction); recommendation to retire p
 Why it travels: Closes the class of box-local zero-freeness properties as gate
 discriminators, with an argument (sparse off-line zeros) rather than a failed run; the
 blind/declared-non-blind box design is reusable for any local property.
+
+### The a(1) = 1 entitlement check for the log-derivative recursion, and what an unguarded run returns
+
+control | `hunts/euler_defect_axis/` | grade: measured; the two identities are exact
+algebra, numerically pinned
+
+The recursion a(n) log n = sum_{d|n} c(d) a(n/d) recovers the coefficients of -f'/f for
+f = sum a(n) n^-s by isolating the d = n term as c(n) a(1), so it is entitled to run only
+when a(1) = 1. Three facts make the check cheap and a failure readable. (1) For the
+Epstein zeta function of a reduced positive-definite form, a(1) = r_Q(1)/w is an exact
+integer reading, 1 for the principal form and 0 for every other, so a per-form recursion
+is entitled to one form per discriminant (and to the class-group sum and the class-group
+characters). (2) The residual of the identity at the returned c is not a second check:
+R = |1 - a(1)| max_n |c(n)| identically, so it re-reads a(1). (3) The recursion never
+reads a(1) on its right-hand side, so an unguarded run on a series with a(1) = 0 returns
+exactly the coefficients of the same series with a(1) replaced by 1, here 1 + Z_Q(s):
+the 27 published non-principal numbers equal that series' composite defect to 0.0
+against an independent Dirichlet-logarithm route. Least squares over every
+integer-indexed c leaves residual 2.18 to 5.79, so no re-choice of c repairs those rows.
+
+Evidence: hunts/euler_defect_axis/RESULTS.md sections 2 and 3; AUDIT.md attacks 2b, 3
+and 3b; test_euler_defect_axis.py
+Prior art: the principal-form fact is classical (a reduced form's minimum is its
+leading coefficient); the check as a guard is unsearched
+Reused in: hunts/zeta_temperament/probe_euler_discriminator.py (the a(1) guard and its
+planted fault (2,1,2) of d = -15, #296), tests/test_zeta_temperament.py,
+docs/34-zeros-in-tuning-units.md table E7
+Why it travels: Any hunt recovering -f'/f coefficients by Dirichlet division must check
+a(1) = 1 first. An unguarded division does not fail: it returns a well-defined answer
+about a different series, which is why this fault reached a published table.
 
 ## Erdos #126 and S-unit equations
 
