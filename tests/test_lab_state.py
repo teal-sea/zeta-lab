@@ -50,3 +50,8 @@ def test_the_view_renders_every_section(tmp_path: Path) -> None:
     # The known state renders: the exemplar grave, the open worklist.
     assert "0.672529" in text
     assert "never demonstrated" in text
+    # The October candidates reach the attention queue, which fulcrum's
+    # roster reads as its review queue.
+    queue = text.split("Attention queue", 1)[1].split("<h2>", 1)[0]
+    assert "qrh-seventh-powers" in queue
+    assert "has no recorded white-box attack" in queue

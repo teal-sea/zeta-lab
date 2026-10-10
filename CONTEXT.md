@@ -1111,7 +1111,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/review_ledger.py`, The repository's standing-review ledger, real claims, real attacks.
 
-*356 lines*
+*773 lines*
 
 Constants: `CLAIMS`, `OUTCOMES`
 
@@ -1305,7 +1305,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2271 test functions across 132 files (the collected count differs where tests are parametrised):
+2277 test functions across 133 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1410,7 +1410,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_repo_hygiene.py`, 7
 - `tests/test_research_checkpoint_archive.py`, 11
 - `tests/test_research_recovery_archive.py`, 1
-- `tests/test_review.py`, 12
+- `tests/test_review.py`, 15
 - `tests/test_rh_resolve.py`, 22
 - `tests/test_rigor.py`, 54
 - `tests/test_rigor_weil.py`, 17
@@ -1429,6 +1429,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_scout_online.py`, 15
 - `tests/test_script_13_discovery_run.py`, 33
 - `tests/test_script_14_moment_experiment.py`, 26
+- `tests/test_seventh_power_replay.py`, 3
 - `tests/test_site.py`, 1
 - `tests/test_spectral_gate.py`, 14
 - `tests/test_statistics.py`, 54
