@@ -1298,6 +1298,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/palomar_port_compare.py`, Compare the already-built port, not a fresh Palomar registration.
 - `scripts/palomar_precheck.py`, Pre-flight check of a Palomar Registry submission.
 - `scripts/pub1_certify_display.py`, Publication-safe display values for the Pub 1 xi' ceiling certificate.
+- `scripts/run_hunt_tests.py`, Run every hunt's own tests, one pytest process per directory.
 - `scripts/science_preflight.py`, Preflight for a session running this lab from an outside environment.
 - `scripts/install_hooks.sh`, Install the pre-push secret guard into this checkout.
 - `scripts/ledger_sync.sh`, Sync the private discovery ledger between machines.
@@ -1305,7 +1306,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2297 test functions across 139 files (the collected count differs where tests are parametrised):
+2300 test functions across 140 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1419,6 +1420,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_rigor.py`, 54
 - `tests/test_rigor_weil.py`, 17
 - `tests/test_rogue_lab_controls.py`, 7
+- `tests/test_run_hunt_tests.py`, 3
 - `tests/test_rung3_ball_assembly.py`, 7
 - `tests/test_rung3_ball_atom_budget.py`, 4
 - `tests/test_rung3_ball_cert_support.py`, 1

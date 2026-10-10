@@ -33,7 +33,7 @@ jobs:
     # On the schedule `inputs` is empty, so this is true and the job runs.
     if: ${{ !inputs.lean_only }}
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90   # suite 10-20 min, then the hunts about 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -58,8 +58,19 @@ jobs:
         run: |
           python -m pip install --quiet --disable-pip-version-check -r requirements.txt
           python -m pip install --quiet --disable-pip-version-check -e .
+          python -m pip install --quiet --disable-pip-version-check -r hunts/frontier_math/requirements.txt
       - name: full suite
         run: python -m pytest -q --durations=20
+      # pytest collects only tests/ (testpaths), so the hunts' own tests ran
+      # nowhere: on 2026-10-10 a first run of them found 44 failures (stale
+      # pins, a missing dependency, test isolation) and two tests writing into
+      # the tree. They run here, one process per directory (see the script
+      # for why), after the suite and even when it failed, so this job's
+      # verdict covers both and the step name says which one broke.
+      # About 30 minutes on 4 cores (2026-10-10), 20 of them hunts/frontier_math.
+      - name: hunts' own tests
+        if: ${{ !cancelled() }}
+        run: python scripts/run_hunt_tests.py
 
   # The numerical half of the same guard (issue #251).
   #
