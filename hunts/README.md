@@ -75,6 +75,27 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Robin's inequality for 25-free integers (`robin_tfree/`, 2026-10-04)
+
+**Status: candidate, ordinary derivation, unreviewed, pending external verification;
+numerical step enclosure-carrying; inputs published and quoted. No RH or novelty
+claim.** Past Morrill-Platt's verified range `x0 = 29 996 208 012 611`, the primorial
+ratio `E(x) = log(e^-gamma prod_{p<=x} p/(p-1) / log theta(x))` is at most `2.481e-8`,
+using only Buthe's `x - theta(x) <= 1.95 sqrt(x)` and the BKLNW tables. The step that
+matters is an exact identity: Mertens' boundary term and the `log theta` denominator
+cancel to first order, where earlier papers bound them separately. Consequences, same
+grade: Robin's inequality for every 25-free `n > 5040`; for every `n > 5040` with
+`nu_2(n) <= 24`, `nu_3 <= 14`, ..., or `q^(nu_q(n)+1) < 4.03e7`; and
+`sigma(n) < (1 + 2.49e-8) e^gamma n log log n` for all `n > 5040`. A search on
+2026-10-10 (web, arXiv, zbMATH Open, citations of Axler 2023) found 21-free as the best
+published t-free result (Axler 2023), so the claimed delta is 21 to 25, recorded as a
+search and not as novelty. `t = 26` fails; the verified range is the binding
+constraint, and these estimates leave Robin's inequality undecided on the remaining
+integers (multiples of `M*`). Lemma 3(b),(c) and the use of the Buthe and BKLNW tables
+await outside review; the table transcriptions agree with the arXiv versions. Identity
+checked on real primes; 37 tests, which pin every derived number RESULTS.md states. See
+`robin_tfree/RESULTS.md`.
+
 ### October 8 extensions (`oct08_extensions/`)
 
 **Status: written conditional candidates, with independent review artifacts.**
