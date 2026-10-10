@@ -55,6 +55,56 @@ jobs:
       - name: full suite
         run: python -m pytest -q --durations=20
 
+  # The numerical half of the same guard (issue #251).
+  #
+  # `full-suite` carries an `if:` so a hand-dispatched `lean_only` run can skip
+  # it, and a skipped job does not fail a run. If that `if:` ever evaluated
+  # false on the schedule, the nightly would go green with the full suite not
+  # run at all, which reads exactly like a healthy night.
+  #
+  # So, like `lean-verdict` below, this job depends on `full-suite` and runs
+  # with `if: always()`. Every result other than success is a failure, with one
+  # exception: a `workflow_dispatch` that explicitly asked for `lean_only`,
+  # where a skip is what was ordered. The schedule has no such exception.
+  full-suite-verdict:
+    name: the full suite produced a verdict
+    needs: full-suite
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: a skipped or missing suite is a failure unless lean_only asked for it
+        env:
+          RESULT: ${{ needs.full-suite.result }}
+          EVENT: ${{ github.event_name }}
+          LEAN_ONLY: ${{ inputs.lean_only }}
+        run: |
+          echo "full-suite result: ${RESULT} (event ${EVENT}, lean_only '${LEAN_ONLY}')"
+          case "${RESULT}" in
+            success)
+              echo "the full suite ran, slow tier included, and passed"
+              ;;
+            skipped)
+              if [ "${EVENT}" = "workflow_dispatch" ] && [ "${LEAN_ONLY}" = "true" ]; then
+                echo "skipped on request: a workflow_dispatch with lean_only. No numerical verdict was asked for."
+              else
+                echo "::error::the full suite was SKIPPED on a ${EVENT} run that did not ask for lean_only. Nothing numerical was verified. See issue #251."
+                exit 1
+              fi
+              ;;
+            failure)
+              echo "::error::the full suite FAILED"
+              exit 1
+              ;;
+            cancelled)
+              echo "::error::the full suite produced NO VERDICT. It was cancelled, which is what a 'timeout-minutes' kill looks like. Nothing was verified."
+              exit 1
+              ;;
+            *)
+              echo "::error::the full suite reported an unrecognised result '${RESULT}'. Unknown is not empty: treating it as unverified."
+              exit 1
+              ;;
+          esac
+
   lean:
     name: lean arm, zero sorrys
     runs-on: ubuntu-latest
