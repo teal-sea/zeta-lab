@@ -181,7 +181,7 @@ Constants: `GAMMA1`
 
 ### `zeta/epstein.py`, The counterexample battery: Davenport-Heilbronn, gate #3 made computational.
 
-*1670 lines*
+*1700 lines*
 
 Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `EPSTEIN_DIGITS_PER_UNIT_HEIGHT`, `SHIFTED_PRODUCT_SHIFT`
 
@@ -1305,7 +1305,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2271 test functions across 132 files (the collected count differs where tests are parametrised):
+2285 test functions across 137 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1335,6 +1335,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_dossier_schema.py`, 37
 - `tests/test_epstein.py`, 52
 - `tests/test_epstein_count_dps_floor.py`, 3
+- `tests/test_epstein_zeta_height.py`, 3
 - `tests/test_explicit.py`, 45
 - `tests/test_factorial_direct_bn.py`, 4
 - `tests/test_factorial_full_cost.py`, 5
@@ -1345,6 +1346,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_four_point_module_roots.py`, 4
 - `tests/test_frontier_archive.py`, 4
 - `tests/test_frontier_math_clean_kill.py`, 6
+- `tests/test_full_suite_verdict.py`, 2
 - `tests/test_graveyard.py`, 7
 - `tests/test_guard_ledger.py`, 11
 - `tests/test_harness_croniter_department.py`, 11
@@ -1376,6 +1378,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_meta_evals.py`, 17
 - `tests/test_meta_ledger.py`, 24
 - `tests/test_moments.py`, 26
+- `tests/test_o9_cell_counts.py`, 3
 - `tests/test_o9_leaves_kernel.py`, 6
 - `tests/test_paid_shortfall.py`, 11
 - `tests/test_paid_shortfall_saturation.py`, 6
@@ -1405,6 +1408,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_quotient_height_kernel.py`, 7
 - `tests/test_quotient_transport_capacity.py`, 6
 - `tests/test_reading_of_record.py`, 2
+- `tests/test_record_copies_match_data.py`, 2
 - `tests/test_recovery_precision_guard.py`, 2
 - `tests/test_relations.py`, 7
 - `tests/test_repo_hygiene.py`, 7
@@ -1435,6 +1439,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_surrogate.py`, 23
 - `tests/test_synthesis.py`, 6
 - `tests/test_telemetry.py`, 71
+- `tests/test_third_autocorrelation_functionals.py`, 4
 - `tests/test_weil.py`, 44
 - `tests/test_zeros.py`, 58
 - `tests/test_zeta23ext_imports.py`, 5
