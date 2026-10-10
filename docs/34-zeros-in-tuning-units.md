@@ -197,28 +197,50 @@ Davenport-Heilbronn's coefficients are periodic mod 5, not multiplicative
 its loudest single spectral line is a composite, exceeding its loudest prime
 line (2.3979) by a factor 1.77.
 
+> **Correction notice, 2026-10-10.** The first version of table E7 printed,
+> for each discriminant, the largest composite defect over every reduced form,
+> and on six rows that maximum came from a form F4 does not cover. The
+> recursion solves a(n) log n = sum_{d|n} c(d) a(n/d) by isolating the d = n
+> term as c(n) a(1), so it needs a(1) = 1, and a reduced form represents 1
+> exactly when it is the principal form. Of the 41 reduced forms of these 14
+> discriminants, the 14 principal ones have a(1) = 1 and the other 27 have
+> a(1) = 0. On those 27 the recursion, which never reads a(1), returned the
+> coefficients of 1 + Z_Q(s), whose zeros are the points where Z_Q(s) = -1
+> rather than the zeros of Z_Q. The numbers kept below as "was" are composite
+> defects of 1 + Z_Q(s); the headline 36.0644 is the form (2, 1, 2) of
+> d = -15, which represents 2 and 3 but not 1. The column now reports the
+> principal form alone, and `probe_euler_discriminator.py` refuses a series
+> with a(1) != 1 rather than returning a number for it. E6, the class-number-one
+> rows and the class-group sums are unchanged; the sentence "every individual
+> form is loud" is withdrawn. Found by the `euler_defect_axis` hunt
+> (2026-09-10), whose directory is not on main; its findings are recorded on
+> issue #93.
+
 **E7.** The Epstein zeta functions of binary quadratic forms give a family
 indexed by discriminant, with class number one supplying an Euler product
 (zeta_Q = w zeta L(chi_d)) and class number above one destroying it:
 
+| d | h | principal-form defect | class-group-sum defect |
+| --- | --- | --- | --- |
 | -3 | 1 | 0.0000 | 1.07e-31 |
 | -4 | 1 | 0.0000 | 3.17e-31 |
 | -7 | 1 | 0.0000 | 6.10e-31 |
 | -8 | 1 | 0.0000 | 4.44e-31 |
 | -11 | 1 | 0.0000 | 4.28e-31 |
-| -15 | 2 | 36.0644 | 5.66e-31 |
-| -20 | 2 | 18.6176 | 6.37e-31 |
+| -15 | 2 | 5.0847 (was 36.0644) | 5.66e-31 |
+| -20 | 2 | 3.8823 (was 18.6176) | 6.37e-31 |
 | -23 | 3 | 3.5569 | 1.50e-30 |
-| -24 | 2 | 12.4955 | 5.09e-31 |
+| -24 | 2 | 3.8530 (was 12.4955) | 5.09e-31 |
 | -31 | 3 | 3.3991 | 1.02e-30 |
-| -39 | 4 | 7.6474 | 8.16e-31 |
-| -47 | 5 | 3.4709 | 1.88e-30 |
+| -39 | 4 | 3.3959 (was 7.6474) | 8.16e-31 |
+| -47 | 5 | 3.3630 (was 3.4709) | 1.88e-30 |
 | -71 | 7 | 3.2614 | 1.77e-30 |
-| -95 | 8 | 4.2511 | 1.58e-30 |
+| -95 | 8 | 2.9608 (was 4.2511) | 1.58e-30 |
 
 Class number one: the defect is exactly zero, 5 discriminants.
-Class number above one: every individual form is loud, up to
-36.06 at d = -15, 9 discriminants.
+Class number above one: the principal form is loud, from 2.96 at d = -95 to
+5.08 at d = -15, 9 discriminants. *(Corrected 2026-10-10: this read "every
+individual form is loud, up to 36.06 at d = -15"; see the notice above.)*
 And in every case the class-group sum returns to machine zero, because
 sum over classes of zeta_Q is w zeta_K, which has an Euler product: **the
 composite lines of the individual forms cancel to thirty decimal places

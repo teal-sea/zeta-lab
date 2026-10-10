@@ -1306,7 +1306,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2300 test functions across 140 files (the collected count differs where tests are parametrised):
+2305 test functions across 140 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1447,7 +1447,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_weil_propagation_numerics.py`, 6
 - `tests/test_zeros.py`, 58
 - `tests/test_zeta23ext_imports.py`, 5
-- `tests/test_zeta_temperament.py`, 10
+- `tests/test_zeta_temperament.py`, 15
 
 ```bash
 .venv/bin/python -m pytest -q -m 'not slow'   # fast tier
