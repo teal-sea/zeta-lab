@@ -1,10 +1,10 @@
 # zeta-lab
 
-> A computational laboratory for the Riemann zeta function: verified numerics,
-> runnable demonstrations, and a written course covering the Riemann Hypothesis
-> from the harmonic series to the research frontier. It is an instrument for
-> building intuition, **not** a proof attempt, nothing computed here is
-> evidence for RH, and `docs/08` explains why no computation could be.
+> A computational and formal laboratory for the Riemann zeta function:
+> verified numerics, kernel-checked Lean, original mathematics toward RH and
+> useful intermediate results (the mandate since 2026-09-12, `ROADMAP.md`), and a
+> written course from the harmonic series to the research frontier. A finite
+> computation is never evidence for RH, and `docs/08` explains why.
 
 The generated public record of what is established, candidate or withdrawn is
 at <https://zeta.teal-sea.com>, built from this tree on every push.
@@ -19,7 +19,7 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 ## Start here
 
 - [README.md](README.md): front door, the door switchboard and quickstart.
-- [docs/README.md](docs/README.md): the index of all thirty-seven documents.
+- [docs/README.md](docs/README.md): the index of all forty documents.
 - [docs/36-what-you-can-run.md](docs/36-what-you-can-run.md): the runnable
   demonstrations, the figure gallery, the repository map, the limitations.
 - [docs/doors/README.md](docs/doors/README.md): one short page per way in
@@ -35,6 +35,20 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
   generated from Mathlib's own `docs/1000.yaml`, the famous theorems it
   records as wanted and unbuilt. The upstream track for `lean/`; judgment
   lives in ROADMAP.md. Regenerate with `python scripts/mathlib_gaps.py`.
+
+## Current results (October 2026)
+
+- [docs/39-built-on-the-quasi-riemann-theorem.md](docs/39-built-on-the-quasi-riemann-theorem.md):
+  **start here.** Four theorems proved here on top of OpenAI's zero-free
+  half-plane Re s > 7/8 (preprint of 2026-09-30), each "proved, given that
+  theorem", none yet reviewed outside: complete class-number lists for every
+  h <= 1500 (hunt #124), a prime between n^9 and (n+1)^9 for every n (#126),
+  the least character nonresidue at most (log q)^8 (#125), Linnik's exponent
+  7/3 (#123).
+- [docs/38-the-quasi-riemann-claim.md](docs/38-the-quasi-riemann-claim.md): the
+  input, read against this tree; section 7 is the replay, in which Lean's kernel
+  and the independent NanoDa kernel accepted OpenAI's statements on this
+  laboratory's compute.
 
 ## The written course (docs/, in reading order)
 

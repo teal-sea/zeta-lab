@@ -1,0 +1,63 @@
+{
+  "claim_scope": "exact finite checks; universal extension requires PROOF.md",
+  "counts": {
+    "P": 35184372088832,
+    "W": 34666942577344,
+    "a": 45,
+    "d": 1393,
+    "delta": 1835266048,
+    "h": 24,
+    "m": 13824,
+    "s": 479235812353937408,
+    "v": 2024
+  },
+  "epsilon": "448063/118747255799808",
+  "exhaustive_phase_cases": 8192,
+  "negative_controls": [
+    "h21 no saving",
+    "wrong cancellation sign",
+    "omitted initial auxiliary subtraction",
+    "overstrong rational exponent",
+    "missing factor two in decrease budget"
+  ],
+  "orbit_h24": [
+    1330,
+    630,
+    63,
+    1
+  ],
+  "orbit_h7": [
+    4,
+    18,
+    12,
+    1
+  ],
+  "pure_log_delta": "38/10^11",
+  "schedule": {
+    "forward_and_reverse": "pass",
+    "h": 7,
+    "omitted_subtraction_mutant": "caught",
+    "ordered_side_wires": 560,
+    "v": 35
+  },
+  "source_commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+  "source_hashes": {
+    "all-lengths.tex": {
+      "git_blob": "8e2281f08c336865025a3dc10b6c790e9bfc68ed",
+      "sha256_snapshot": "7416c6828e14df7a84ff86d5bd9a3876dc7fcdd5d6a964c510efc2c795412828"
+    },
+    "local.tex": {
+      "git_blob": "260a19bd8f7189afbe89b0af0508d979cd1e1ca6",
+      "sha256_snapshot": "3e6c9e2c674c47ecdcafb6bd16b76616dc4eaf193c5c0c42fb5f8c3a58c61583"
+    },
+    "network.tex": {
+      "git_blob": "991c7706b7a03f45fbf3ba22bfb4372bf111fb4a",
+      "sha256_snapshot": "1e28d7594563294247936129c21d8a061d0c86b05dcce4a86e81c0b2e34b3f91"
+    },
+    "synchronization.tex": {
+      "git_blob": "cdc0f6bfb8224fcdb25b08552612522555cd5f3f",
+      "sha256_snapshot": "f879dd875d5d07e331af2028e3bc8f756cda0a662b24d137d96fa51fbed0b81a"
+    }
+  },
+  "theta_upper_bound": "1-39/10^11 (strict)"
+}

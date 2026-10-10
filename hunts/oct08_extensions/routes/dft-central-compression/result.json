@@ -1,0 +1,54 @@
+{
+  "counts": {
+    "P": 35184372088832,
+    "W": 34666930287616,
+    "delta": 2425172992,
+    "h": 24,
+    "m": 13824,
+    "s": 479235641870830592,
+    "v": 2024
+  },
+  "epsilon": "2368333/474989023199232",
+  "literal_rational_matrix_ranks": {
+    "4": 4,
+    "5": 5,
+    "7": 7,
+    "9": 8,
+    "10": 10
+  },
+  "negative_controls": [
+    "omitted total correction",
+    "omitted initial subtraction",
+    "old h+1 central budget",
+    "h20 no saving",
+    "overstrong exponent"
+  ],
+  "nonzero_eigenvalues_h24": [
+    "231/2",
+    "-1265/2"
+  ],
+  "pure_log_delta": "51/10^11",
+  "scope": "Exact finite evidence; universal circuit/rank argument in PROOF.md",
+  "small_schedules": [
+    {
+      "h": 7,
+      "ordered_edges": 560,
+      "schedule_and_inverse": "passed",
+      "triples": 35
+    },
+    {
+      "h": 8,
+      "ordered_edges": 1400,
+      "schedule_and_inverse": "passed",
+      "triples": 56
+    }
+  ],
+  "source_blobs": {
+    "all-lengths.tex": "8e2281f08c336865025a3dc10b6c790e9bfc68ed",
+    "local.tex": "260a19bd8f7189afbe89b0af0508d979cd1e1ca6",
+    "network.tex": "991c7706b7a03f45fbf3ba22bfb4372bf111fb4a",
+    "synchronization.tex": "cdc0f6bfb8224fcdb25b08552612522555cd5f3f"
+  },
+  "source_commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+  "theta_upper_bound": "1-52/10^11 (strict)"
+}
