@@ -76,6 +76,10 @@ plus on exit. Reuse this cache one build at a time. Three preemptions and the
 fixed noncomputable declaration are recorded in the run history. No Lean build
 belongs on Ghost.
 
+*Later on 2026-10-10: Thomas kept GitHub Actions as the default compute, with
+Modal for jobs that do not fit a GitHub runner, such as this package; see
+`CLAUDE.md`, Compute discipline.*
+
 ## 2026-10-08: the quasi-Riemann theorem, replayed and built on
 
 Read `docs/39` first, then `docs/38`. OpenAI's 7/8 half-plane was rebuilt from

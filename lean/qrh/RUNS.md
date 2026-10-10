@@ -199,7 +199,9 @@ timing was measured on the repaired attempt above.
 Thomas directly selected Modal for both Lean builds and numerics. Namespace
 activation is no longer a prerequisite and no Namespace subscription was
 created by this session. The earlier route and failed allocation below are
-historical records.
+historical records. *Later on 2026-10-10: Thomas kept GitHub Actions as the
+repository's default compute, with Modal for jobs that do not fit a GitHub
+runner, which includes this package; see `CLAUDE.md`, Compute discipline.*
 
 The first Modal launch started from Ghost at 17:38:44 UTC using the
 Infisical wrapper. Run:

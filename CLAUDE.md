@@ -261,14 +261,19 @@ priority over other mechanisms; allocation is the owner's decision.
 ## Compute discipline
 
 1. **Nothing heavy on the operator's machines** (16 GB M4 laptop, 8 GB M1
-   desktop, often driven by phone). A guard kills `lake build`: use remote compute.
-2. **Lean builds and numerics run on Modal.** Thomas superseded the Namespace
-   route on 2026-10-09: "there's no namespace just modal then". Retain the
-   pinned Lean checkout and dependency builds on a Modal volume to avoid
-   repeating the 135-minute OpenAI cold build. Ghost only launches and
-   supervises the remote job. Do not wait for Namespace billing or move
-   heavy compute to GitHub Actions. Allocations and outcomes are recorded
-   in `lean/qrh/RUNS.md`.
+   desktop, often driven by phone). A guard kills `lake build`: build remotely
+   (rule 2), don't evade it.
+2. **GitHub Actions is the default compute; Modal takes what does not fit.**
+   Actions is free here, 20 parallel jobs, not preempted; `full.yml` caches
+   `elan` and `.lake`, and runs the nightly suite, the hunts' own tests and
+   the Lean builds. A job that does not fit a GitHub runner (16 GB) goes to
+   Modal: Thomas superseded the Namespace route on 2026-10-09 ("there's no
+   namespace just modal then"), and the OpenAI-pinned hunt 125 package
+   (`lean/qrh`) builds on an 8-core, 48 GiB Modal machine with its checkout
+   and dependency builds kept on a volume, so the 135-minute OpenAI cold build
+   is not repeated. Ghost only launches and supervises the remote job;
+   allocations and outcomes go in `lean/qrh/RUNS.md`. Thomas confirmed this
+   split on 2026-10-10. Paid compute only when Actions cannot; say why.
 3. **Estimate before you spend**: time one unit, multiply, write it in `RUNS.md`.
 4. **Anything over about twenty minutes checkpoints per unit.**
 5. **Every detached job has an owner**: a watcher, or `fulcrum adopt` then
