@@ -75,6 +75,62 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #130: the barrier law is not the shape the diagonal suggested (`quotient_exponent/`, 2026-09-10)
+
+**Status: measurement stands, headline withdrawn by its own audit.** The first write-up said the
+conjectured shape `E >= c N/sqrt(y)` "is not the shape of `T*`". It is: `BARRIER.md` states the
+conjecture with a moving constant, and fitted that way the conjectured exponents give rms `0.1198`
+on 20 grid rows against the free three-parameter fit's `0.1258`, with one parameter fewer. Every
+measured point satisfies `E >= 0.1704 N/sqrt(y)`; the only bite is that the published constant `0.2`
+is 15% too large at the new `10^7` point. The stated reason for reformulating the programme was also
+false: the factorial form returns the same optimum to `2.7e-14`. The factorial objective is a
+difference of quantities near `1e8` whose answer is near `1e4`; written as `sum_q w_q e_q` over
+attainable cells it is a sum of nonnegative terms equal to the excess itself, and that is why the
+ladder reaches `10^7`. Reproduces the four published diagonal values to every printed digit and adds
+`3 x 10^6` and `10^7`, where `T*/N^{3/4}` is `0.1704`, below the published `0.18 to 0.23` band.
+On a `(y, N)` grid the quantity the conjectured shape says is constant falls by a factor 2.3 to 2.8
+inside the conjecture's own range; the free fit is `a = 1.150, b = 0.878` against `(1, 0.5)`, and the
+conjectured shape is three times worse on the grid while indistinguishable on the diagonal, where
+three of four models agree to three decimal places. The excess is a staircase in `y`, holding
+`9.406483` across sixteen consecutive supports at `N = 10^4` and reaching exactly zero at `y* = 173`,
+`0.87` of the attainable-cell count, so the column count is neither sufficient (already refuted at
+`N = 27, y = 9`) nor necessary. What survives and is new: the staircase, the zero threshold at `y* = 63, 173, 589, 1938` with
+`alpha*` falling monotonically, and the finding that only 40, 99 and 275 of the 61, 198 and 630
+attainable cells carry any prime mass, so what holds the excess up is the requirement `W >= 1` at
+the cells with no weight at all. **Extended the same day** (`closed_form.py`): the plateau values are
+exact rational multiples of a single logarithm, `(7/2) log 2` at `10^3`, `3 log 23` at `10^4` and
+`6 log 113` at `10^5`, agreeing to `1e-14` or better, and the reason is that of the 14 to 181 cells
+carrying excess at the optimum **exactly one has nonzero weight**, so the objective collapses to that
+one cell's `Lambda`. The rationals are read off `e_q` and then compared, not fitted to `E`. At
+`N = 10^6, y = 1995` the excess is `0.0` with 497 cells still carrying excess, every one weightless:
+the programme never zeroes the constraint violation, it zeroes the *weighted* violation by parking
+the rest where `Lambda` vanishes. The `10^6` plateau itself was not located, about 11 hours of solves,
+and no value is claimed there. Front door: `docs/42`. Audit: `AUDIT.md`, fifteen attacks, four landed. Nothing bears on RH (`docs/08`).
+
+**Renumbered on landing, 2026-10-10.** Opened on the unmerged branch
+`claude/repo-hunt-content-2smbid` as #121, with its front door numbered 39. On main #121 is
+`qrh_conditional` and 39 is the page on the quasi-Riemann theorem; #127 to #129 are
+`euler_defect_axis`, `li_dh_onset` (#298) and `epstein_height` (#299), so this is #130 and the front
+door is `docs/42`. The entry above is the branch's text with those two references changed.
+
+**Checked on landing, 2026-10-10.** Every script was re-run and `test_quotient_exponent.py` (39 tests,
+about a minute) re-solves or recomputes every number the result page and front door state; the LP
+values reproduce to `1e-12` or better. The entry above was written partway through the audit's
+corrections and keeps four figures `RESULTS.md` has since replaced: the free fit on the final 20 rows
+is `a = 1.159, b = 0.874` (the `1.150, 0.878` came from an earlier row set the artifacts no longer
+hold), the fall is a factor 2.1 to 2.8 once the `10^7` rows are in, "three times worse" is the
+comparison the audit showed was not like for like, and "to every printed digit" is 14 and 15
+significant digits against the source's 40-digit pins. Four figures on the result page did not
+reproduce and are marked there: an identity-table entry (`1.6e-16`, not `0`, at `3 x 10^6`),
+`alpha*`'s rate (0.016 per decade; 0.007 is per unit of natural log), the `10^5` plateau (538 to 588,
+width 51; the stated 545 to 580 was the scan window) and two counts of excess-carrying cells (50 to
+57 and 165 to 182 over every support, not 52 to 57 and 167 to 181 from three). The single weighted
+cell now holds at every support of all three plateaus, and the zeros at `y*` have exact rational
+witnesses, re-found by a route independent of the audit's. `RUNS.md`'s note that the `10^6` value
+`123.83310675500282` has "no run behind it in this tree" is false: `threshold.json` and
+`threshold.log` carry it, at four supports from 1812 to 1937. Three methods are listed as seen and
+not admitted in `docs/37`.
+
 ### Hunt #127: one form per discriminant, not forty-one (`euler_defect_axis/`, 2026-09-10)
 
 **Status: settled, correction; repair applied by #296.** The composite-line discriminator is

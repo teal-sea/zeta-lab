@@ -78,7 +78,7 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (40). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (43). Surfaced by the sweep, below the bar for now.
 
 Totals: 173 entries from 65 hunts. Kinds: identity 22, lemma 43, bound 12, construction
 15, calibration 7, computational 17, control 36, obstruction 21.
@@ -5552,4 +5552,19 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   k_0) >= c G(k) fails off a density-zero set, so no anti-composition statement alone
   implies Erdos #126 (`hunts/support_6cdfd2e3/`, obstruction): ordinary argument,
   unreviewed; not carried.
-
+- Single-carrier collapse of an LP plateau: a floor-sum certificate LP parks excess in cells
+  whose Lambda-weight is zero, so on a plateau the optimum is one weighted cell's excess
+  (a small rational read off the solution) times Lambda of the one prime power in that
+  cell's interval, (7/2) log 2, 3 log 23 and 6 log 113 at N = 10^3, 10^4, 10^5
+  (`hunts/quotient_exponent/`, identity): measured, float LP, checked at every support of
+  the three plateaus; used only inside its hunt.
+- Give a conjecture the degrees of freedom its own source states before comparing it with a
+  free fit: a power law fitted freely against a one-constant reading of a conjecture stated
+  with a moving constant manufactured a refutation that a like-for-like fit reverses
+  (`hunts/quotient_exponent/`, control): measured; found by an independent audit; used only
+  inside its hunt.
+- Zero-excess free-support programme: minimise coefficient mass subject to W = 1 on the
+  prime-mass cells and W >= 1 on the rest, then round to rationals and check every cell in
+  exact arithmetic; freely chosen positions reach zero excess on about half the support
+  consecutive ones need (`hunts/quotient_exponent/`, computational): exact at N = 10^3,
+  measured at 10^4 and 10^5; used only inside its hunt.
