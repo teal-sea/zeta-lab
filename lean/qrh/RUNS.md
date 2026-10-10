@@ -2,6 +2,12 @@
 
 ## Bridge compiler failure, 2026-10-10 UTC
 
+The corrected retry launched at 01:15:26 UTC from committed source `a4d02931`:
+https://modal.com/apps/teal-sea/main/ap-sF08OfNwCIjUdIWgfEEpSf.
+Source capture completed before further edits. It began restoring the saved
+cache with the same allocation and retained volume. The heartbeat now follows
+this app and CLI session 29320. No successful bridge or axiom verdict exists yet.
+
 The third replacement restored the cache and completed all three upstream
 targets, including `OAI.NumberTheory.DirichletL.Nonvanishing`. The upstream
 stage passed in 5,991 seconds, including checkpoint pauses. This is a warm

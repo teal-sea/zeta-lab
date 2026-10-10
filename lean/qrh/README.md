@@ -1,7 +1,7 @@
 # Hunt 125 on the OpenAI toolchain
 
-**Status, 2026-10-10 UTC: package and upstream targets compiled; bridge repair
-awaits a cached retry.** The first package build took 85 seconds. After three
+**Status, 2026-10-10 UTC: package and upstream targets compiled; the bridge
+repair is running in a cached retry.** The first package build took 85 seconds. After three
 preemptions, checkpoint recovery preserved the upstream compilation, which
 completed at source `77912557`. The bridge then failed because `hadamardB`
 lacked `noncomputable`; that declaration is corrected in the source. The
