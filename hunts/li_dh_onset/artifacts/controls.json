@@ -1,0 +1,197 @@
+{
+ "generated": "2026-09-10T01:03:15",
+ "xi_positive_control": {
+  "reference_file": "data/li_lambda_dps25_methodcauchy_n400_radius0.5.json",
+  "reference_dps": 25,
+  "n_max": 400,
+  "notes": [
+   {
+    "check": "committed table lambda_1 against the closed form",
+    "worst_rel": "1.6350471e-28"
+   }
+  ],
+  "radii": [
+   {
+    "target": "xi",
+    "n_max": 400,
+    "dps": 25,
+    "radius": "0.5",
+    "work_digits": 166,
+    "n_points": 960,
+    "seconds": 23.54,
+    "worst_relative_vs_committed_table": "4.4174238e-28",
+    "worst_index": 94,
+    "lambda_1": "0.02309570896612103381431",
+    "lambda_50": "43.53109648837402",
+    "lambda_300": "519.7019656192496"
+   },
+   {
+    "target": "xi",
+    "n_max": 400,
+    "dps": 25,
+    "radius": "0.9",
+    "work_digits": 64,
+    "n_points": 1807,
+    "seconds": 13.14,
+    "worst_relative_vs_committed_table": "4.4174238e-28",
+    "worst_index": 94,
+    "lambda_1": "0.02309570896612103381431",
+    "lambda_50": "43.53109648837402",
+    "lambda_300": "519.7019656192496"
+   }
+  ]
+ },
+ "evaluator_control": {
+  "radius": 0.9,
+  "contour_probe": [
+   {
+    "s": "(10.0 + 0.0j)",
+    "abs_F": "674.505446397",
+    "rel_fast_vs_reference": "6.64806e-46"
+   },
+   {
+    "s": "(0.878253568192 + 1.79172742828j)",
+    "abs_F": "1.05364822644",
+    "rel_fast_vs_reference": "2.20899e-46"
+   },
+   {
+    "s": "(0.604395604396 + 0.856508641105j)",
+    "abs_F": "1.33454927855",
+    "rel_fast_vs_reference": "6.97276e-47"
+   },
+   {
+    "s": "(0.552486187845 + 0.497237569061j)",
+    "abs_F": "1.39916697631",
+    "rel_fast_vs_reference": "1.44606e-46"
+   },
+   {
+    "s": "(0.535055350554 + 0.287609912696j)",
+    "abs_F": "1.42177634379",
+    "rel_fast_vs_reference": "2.11749e-47"
+   },
+   {
+    "s": "(0.528199569735 + 0.133576909271j)",
+    "abs_F": "1.43079779788",
+    "rel_fast_vs_reference": "3.41923e-47"
+   },
+   {
+    "s": "(0.526315789474 + 0.0j)",
+    "abs_F": "1.43328950704",
+    "rel_fast_vs_reference": "1.2221e-46"
+   },
+   {
+    "s": "(0.528199569735 - 0.133576909271j)",
+    "abs_F": "1.43079779788",
+    "rel_fast_vs_reference": "4.44739e-47"
+   },
+   {
+    "s": "(0.535055350554 - 0.287609912696j)",
+    "abs_F": "1.42177634379",
+    "rel_fast_vs_reference": "5.77498e-48"
+   },
+   {
+    "s": "(0.552486187845 - 0.497237569061j)",
+    "abs_F": "1.39916697631",
+    "rel_fast_vs_reference": "1.44606e-46"
+   },
+   {
+    "s": "(0.604395604396 - 0.856508641105j)",
+    "abs_F": "1.33454927855",
+    "rel_fast_vs_reference": "1.65304e-46"
+   },
+   {
+    "s": "(0.878253568192 - 1.79172742828j)",
+    "abs_F": "1.05364822644",
+    "rel_fast_vs_reference": "1.85866e-46"
+   }
+  ],
+  "worst_relative_fast_vs_reference": 6.64806e-46,
+  "functional_equation_defects_dps40": [
+   "0.0",
+   "0.0",
+   "0.0",
+   "0.0"
+  ],
+  "mean_value_defect_at_1.001_dps30": "1.33641e-51",
+  "min_distance_from_contour_to_s_eq_1": 0.4736842105263158
+ },
+ "parallel_identity": {
+  "n_points": 1231,
+  "work_digits": 53,
+  "processes": 2,
+  "samples_bit_identical": true,
+  "coefficients_bit_identical": true
+ },
+ "radius_independence": {
+  "n_max": 200,
+  "dps": 30,
+  "runs": [
+   {
+    "target": "dh",
+    "n_max": 200,
+    "dps": 30,
+    "radius": "0.5",
+    "work_digits": 111,
+    "n_points": 577,
+    "seconds": 31.17
+   },
+   {
+    "target": "dh",
+    "n_max": 200,
+    "dps": 30,
+    "radius": "0.7",
+    "work_digits": 81,
+    "n_points": 731,
+    "seconds": 24.83
+   },
+   {
+    "target": "dh",
+    "n_max": 200,
+    "dps": 30,
+    "radius": "0.9",
+    "work_digits": 60,
+    "n_points": 1520,
+    "seconds": 39.87
+   }
+  ],
+  "pairwise": [
+   {
+    "radii": [
+     "0.5",
+     "0.7"
+    ],
+    "worst_relative": "0.0",
+    "worst_index": 200
+   },
+   {
+    "radii": [
+     "0.5",
+     "0.9"
+    ],
+    "worst_relative": "0.0",
+    "worst_index": 200
+   },
+   {
+    "radii": [
+     "0.7",
+     "0.9"
+    ],
+    "worst_relative": "0.0",
+    "worst_index": 200
+   }
+  ],
+  "bar": "1e-25 relative; the working-precision rule carries dps + 2*guard digits past the r^{-n} amplification at n = n_max",
+  "passed": true,
+  "lambda_1_by_radius": {
+   "0.5": "0.09763614680951967118155",
+   "0.7": "0.09763614680951967118155",
+   "0.9": "0.09763614680951967118155"
+  },
+  "lambda_n_max_by_radius": {
+   "0.5": "467.6848865502381460808",
+   "0.7": "467.6848865502381460808",
+   "0.9": "467.6848865502381460808"
+  }
+ },
+ "seconds_total": 180.6
+}
