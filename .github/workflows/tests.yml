@@ -47,6 +47,12 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          # A depth-1 clone makes guards that read history refuse to answer:
+          # the Hardy Z dossier staleness check skipped on every CI run and
+          # hid a stale kernel record from 2026-09-28 to 2026-10-10
+          # (issues #218, #219).
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
