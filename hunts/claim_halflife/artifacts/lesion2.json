@@ -1,0 +1,242 @@
+[
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_certificate.py",
+  "artifact": "hunts/quotient_certificate/results.json",
+  "n_leaves": 407,
+  "rungA_all_leaves": "caught",
+  "rungB_probed": 6,
+  "rungB_caught": 1,
+  "coverage": 0.16666666666666666,
+  "seconds": 19.3
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_compensated_repair.py",
+  "artifact": "hunts/quotient_certificate/compensated_repair_results.json",
+  "n_leaves": 76,
+  "rungA_all_leaves": "caught",
+  "rungB_probed": 6,
+  "rungB_caught": 6,
+  "coverage": 1.0,
+  "seconds": 24.9
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_credited_bundle.py",
+  "artifact": "hunts/quotient_certificate/credited_bundle_results.json",
+  "n_leaves": 556,
+  "rungA_all_leaves": "caught",
+  "rungB_probed": 6,
+  "rungB_caught": 6,
+  "coverage": 1.0,
+  "seconds": 26.7
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_finite_transfer.py",
+  "artifact": "hunts/quotient_certificate/finite_transfer_counterexample.json",
+  "n_leaves": 149,
+  "rungA_all_leaves": "caught",
+  "rungB_probed": 6,
+  "rungB_caught": 6,
+  "coverage": 1.0,
+  "seconds": 26.6
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_fold_upper.py",
+  "artifact": "hunts/quotient_certificate/fold_upper_input.json",
+  "n_leaves": 55,
+  "outcome": "null-rung-red"
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_height_kernel.py",
+  "artifact": "hunts/quotient_certificate/height_kernel_input.json",
+  "n_leaves": 100,
+  "outcome": "null-rung-red"
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_transport_capacity.py",
+  "artifact": "hunts/quotient_certificate/height_kernel_results.json",
+  "n_leaves": 109,
+  "rungA_all_leaves": "caught",
+  "rungB_probed": 6,
+  "rungB_caught": 1,
+  "coverage": 0.16666666666666666,
+  "seconds": 23.7
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_adaptive_freeze_archive.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/README.md",
+  "n_leaves": 0,
+  "rungA_all_leaves": "missed",
+  "seconds": 1.9
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_certificate_lp_barrier.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/BARRIER.md",
+  "n_leaves": 6,
+  "rungA_all_leaves": "missed",
+  "seconds": 53.6
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_certificate_lp_dual_witness.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/DUAL_WITNESS.md",
+  "n_leaves": 28,
+  "rungA_all_leaves": "missed",
+  "seconds": 32.5
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_certificate_lp_frontier.py",
+  "artifact": "hunts/prime_pair_error/RESULTS.md",
+  "n_leaves": 88,
+  "rungA_all_leaves": "missed",
+  "seconds": 9.0
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_factorial_pilot_archive.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block/SHA256SUMS.json",
+  "n_leaves": 17,
+  "rungA_all_leaves": "missed",
+  "seconds": 13.7
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_frontier_archive.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/PROVENANCE.md",
+  "n_leaves": 0,
+  "rungA_all_leaves": "missed",
+  "seconds": 0.5
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_prime_pair_residue.py",
+  "artifact": "hunts/prime_pair_error/REFEREE.md",
+  "n_leaves": 16,
+  "rungA_all_leaves": "missed",
+  "seconds": 11.8
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_research_checkpoint_archive.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/README.md",
+  "n_leaves": 0,
+  "rungA_all_leaves": "missed",
+  "seconds": 0.6
+ },
+ {
+  "hunt": "zeta_temperament",
+  "test": "test_zeta_temperament.py",
+  "artifact": "hunts/zeta_temperament/results_euler.json",
+  "n_leaves": 203,
+  "rungA_all_leaves": "caught",
+  "rungB_probed": 6,
+  "rungB_caught": 1,
+  "coverage": 0.16666666666666666,
+  "seconds": 26.4
+ },
+ {
+  "hunt": "r_662b12",
+  "test": "test_aimo_audit.py",
+  "artifact": "hunts/r_662b12/AUDIT.md",
+  "n_leaves": 0,
+  "rungA_all_leaves": "missed",
+  "seconds": 0.8
+ },
+ {
+  "hunt": "r_322dae",
+  "test": "test_krenn_gu_support_frontier.py",
+  "artifact": "hunts/r_322dae/results.json",
+  "n_leaves": 875,
+  "rungA_all_leaves": "caught",
+  "rungB_probed": 6,
+  "rungB_caught": 3,
+  "coverage": 0.5,
+  "seconds": 162.9
+ },
+ {
+  "hunt": "r_044dd2",
+  "test": "test_krenn_gu_polynomial_sieve.py",
+  "artifact": "hunts/r_044dd2/artifacts/orbit18-polynomial-07-cap4.json",
+  "n_leaves": 41,
+  "rungA_all_leaves": "caught",
+  "rungB_probed": 6,
+  "rungB_caught": 0,
+  "coverage": 0.0,
+  "seconds": 45.9
+ },
+ {
+  "hunt": "r_044dd2",
+  "test": "test_krenn_gu_support_frontier.py",
+  "artifact": "hunts/r_044dd2/artifacts/orbit18-laurent-05.json",
+  "n_leaves": 24,
+  "outcome": "null-rung-red"
+ },
+ {
+  "hunt": "lambda_dh_bounds",
+  "test": "test_lambda_dh_separation.py",
+  "artifact": "hunts/lambda_dh_bounds/FRAME.md",
+  "n_leaves": 51,
+  "rungA_all_leaves": "missed",
+  "seconds": 1.8
+ },
+ {
+  "hunt": "prime_zeta_rightmost",
+  "test": "test_prime_zeta_rightmost.py",
+  "artifact": "hunts/prime_zeta_rightmost/PRIOR-ART.md",
+  "n_leaves": 21,
+  "rungA_all_leaves": "missed",
+  "seconds": 2.7
+ },
+ {
+  "hunt": "r_414eed",
+  "test": "test_guard_ledger.py",
+  "artifact": "hunts/r_414eed/MISSION.md",
+  "n_leaves": 0,
+  "rungA_all_leaves": "missed",
+  "seconds": 3.1
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_hunt_probe_discipline.py",
+  "artifact": "hunts/frontier_math/PROOF-LEDGER.md",
+  "n_leaves": 339,
+  "rungA_all_leaves": "missed",
+  "seconds": 32.2
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_o9_leaves_kernel.py",
+  "artifact": "hunts/frontier_math/O9-2D-STATUS.md",
+  "n_leaves": 0,
+  "rungA_all_leaves": "missed",
+  "seconds": 0.7
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_reading_of_record.py",
+  "artifact": "hunts/frontier_math/PROOF-LEDGER.md",
+  "n_leaves": 339,
+  "rungA_all_leaves": "caught",
+  "rungB_probed": 6,
+  "rungB_caught": 0,
+  "coverage": 0.0,
+  "seconds": 4.3
+ },
+ {
+  "hunt": "wide_search",
+  "test": "test_pub1_admissible_closure.py",
+  "artifact": "hunts/wide_search/RESULTS-xiprime-admissible-closure.md",
+  "n_leaves": 9,
+  "rungA_all_leaves": "missed",
+  "seconds": 26.2
+ }
+]
