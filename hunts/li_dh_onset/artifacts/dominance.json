@@ -1,0 +1,97 @@
+{
+ "generated": "2026-09-10T01:46:20",
+ "dominant_label": "pair1",
+ "dominant_R_minus_1": "4.20061642661e-5",
+ "gamma_above_which_the_strip_bound_suffices": 188.96638530799706,
+ "threshold_curve": [
+  {
+   "gamma": 90,
+   "threshold_beta": 0.8402581487644777
+  },
+  {
+   "gamma": 100,
+   "threshold_beta": 0.9200707336197437
+  },
+  {
+   "gamma": 120,
+   "threshold_beta": 1.104901932222922
+  },
+  {
+   "gamma": 150,
+   "threshold_beta": 1.445166871498701
+  },
+  {
+   "gamma": 170,
+   "threshold_beta": 1.7140250610998347
+  },
+  {
+   "gamma": 185,
+   "threshold_beta": 1.937728105542102
+  },
+  {
+   "gamma": 188,
+   "threshold_beta": 1.9847377869704779
+  },
+  {
+   "gamma": 189,
+   "threshold_beta": 2.0005757643529947
+  },
+  {
+   "gamma": 190,
+   "threshold_beta": 2.01649778407838
+  }
+ ],
+ "wedge_boxes": [
+  {
+   "rect": [
+    0.83,
+    2.0,
+    90.0,
+    110.0
+   ],
+   "zeros": 0,
+   "seconds": 20.34
+  },
+  {
+   "rect": [
+    0.83,
+    2.0,
+    110.0,
+    130.0
+   ],
+   "zeros": 0,
+   "seconds": 21.22
+  },
+  {
+   "rect": [
+    0.83,
+    2.0,
+    130.0,
+    150.0
+   ],
+   "zeros": 0,
+   "seconds": 22.49
+  },
+  {
+   "rect": [
+    0.83,
+    2.0,
+    150.0,
+    170.0
+   ],
+   "zeros": 0,
+   "seconds": 26.51
+  },
+  {
+   "rect": [
+    0.83,
+    2.0,
+    170.0,
+    190.0
+   ],
+   "zeros": 0,
+   "seconds": 36.67
+  }
+ ],
+ "wedge_clear": true
+}

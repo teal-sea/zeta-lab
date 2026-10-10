@@ -1,0 +1,714 @@
+{
+ "generated": "2026-09-10T01:43:02",
+ "calibration": {
+  "seconds_per_evaluation_at_142_digits": 0.0924,
+  "seconds_per_evaluation_at_279_digits": 0.3226,
+  "cost_exponent_in_digits": 1.97,
+  "effective_cores_observed": 1.0,
+  "note": "contended container, load average 8 to 13 on 4 vCPU"
+ },
+ "measured_runs": [
+  {
+   "n_max": 2000,
+   "radius": 0.9,
+   "work": 142,
+   "nodes": 5112,
+   "sampling_s": 503,
+   "extraction_s": 124
+  }
+ ],
+ "grid": [
+  {
+   "n_max": 2000,
+   "radius": 0.8,
+   "work": 244,
+   "nodes": 4526,
+   "rectangle_that_must_be_zero_free": [
+    0.55556,
+    2.0,
+    2.082
+   ],
+   "distance_from_rectangle_to_critical_line": 0.05556,
+   "sampling_s": 1214.8885536930513,
+   "extraction_s": 179.4809819191909,
+   "total_s": 1394.3695356122423,
+   "total_h": 0.38732487100340063
+  },
+  {
+   "n_max": 2000,
+   "radius": 0.85,
+   "work": 192,
+   "nodes": 4729,
+   "rectangle_that_must_be_zero_free": [
+    0.54054,
+    2.0,
+    2.61
+   ],
+   "distance_from_rectangle_to_critical_line": 0.04054,
+   "sampling_s": 791.6562910951097,
+   "extraction_s": 130.90019839751758,
+   "total_s": 922.5564894926273,
+   "total_h": 0.2562656915257298
+  },
+  {
+   "n_max": 2000,
+   "radius": 0.9,
+   "work": 142,
+   "nodes": 5112,
+   "rectangle_that_must_be_zero_free": [
+    0.52632,
+    2.0,
+    3.434
+   ],
+   "distance_from_rectangle_to_critical_line": 0.02632,
+   "sampling_s": 472.3488,
+   "extraction_s": 90.0,
+   "total_s": 562.3488,
+   "total_h": 0.15620799999999999
+  },
+  {
+   "n_max": 2000,
+   "radius": 0.95,
+   "work": 95,
+   "nodes": 6273,
+   "rectangle_that_must_be_zero_free": [
+    0.51282,
+    2.0,
+    5.174
+   ],
+   "distance_from_rectangle_to_critical_line": 0.01282,
+   "sampling_s": 262.57581535755503,
+   "extraction_s": 60.4337916781427,
+   "total_s": 323.00960703569774,
+   "total_h": 0.08972489084324937
+  },
+  {
+   "n_max": 2000,
+   "radius": 0.97,
+   "work": 77,
+   "nodes": 7829,
+   "rectangle_that_must_be_zero_free": [
+    0.50761,
+    2.0,
+    6.838
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00761,
+   "sampling_s": 216.6491325275043,
+   "extraction_s": 55.0378586518029,
+   "total_s": 271.6869911793072,
+   "total_h": 0.07546860866091866
+  },
+  {
+   "n_max": 2000,
+   "radius": 0.98,
+   "work": 68,
+   "nodes": 9759,
+   "rectangle_that_must_be_zero_free": [
+    0.50505,
+    2.0,
+    8.471
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00505,
+   "sampling_s": 211.4033226196285,
+   "extraction_s": 56.936115624587806,
+   "total_s": 268.3394382442163,
+   "total_h": 0.07453873284561564
+  },
+  {
+   "n_max": 2000,
+   "radius": 0.99,
+   "work": 59,
+   "nodes": 15526,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 254.27401319604783,
+   "extraction_s": 73.20769736476619,
+   "total_s": 327.481710560814,
+   "total_h": 0.09096714182244833
+  },
+  {
+   "n_max": 5000,
+   "radius": 0.8,
+   "work": 535,
+   "nodes": 10529,
+   "rectangle_that_must_be_zero_free": [
+    0.55556,
+    2.0,
+    2.082
+   ],
+   "distance_from_rectangle_to_critical_line": 0.05556,
+   "sampling_s": 13271.133228180151,
+   "extraction_s": 3389.0420317870967,
+   "total_s": 16660.175259967247,
+   "total_h": 4.627826461102013
+  },
+  {
+   "n_max": 5000,
+   "radius": 0.85,
+   "work": 403,
+   "nodes": 10718,
+   "rectangle_that_must_be_zero_free": [
+    0.54054,
+    2.0,
+    2.61
+   ],
+   "distance_from_rectangle_to_critical_line": 0.04054,
+   "sampling_s": 7730.87455750483,
+   "extraction_s": 2255.435845180649,
+   "total_s": 9986.310402685478,
+   "total_h": 2.773975111857077
+  },
+  {
+   "n_max": 5000,
+   "radius": 0.9,
+   "work": 279,
+   "nodes": 11106,
+   "rectangle_that_must_be_zero_free": [
+    0.52632,
+    2.0,
+    3.434
+   ],
+   "distance_from_rectangle_to_critical_line": 0.02632,
+   "sampling_s": 3882.0567725366514,
+   "extraction_s": 1346.2419841931005,
+   "total_s": 5228.298756729751,
+   "total_h": 1.4523052102027088
+  },
+  {
+   "n_max": 5000,
+   "radius": 0.95,
+   "work": 162,
+   "nodes": 12281,
+   "rectangle_that_must_be_zero_free": [
+    0.51282,
+    2.0,
+    5.174
+   ],
+   "distance_from_rectangle_to_critical_line": 0.01282,
+   "sampling_s": 1471.1001602808149,
+   "extraction_s": 658.6662481265611,
+   "total_s": 2129.766408407376,
+   "total_h": 0.59160178011316
+  },
+  {
+   "n_max": 5000,
+   "radius": 0.97,
+   "work": 117,
+   "nodes": 13853,
+   "rectangle_that_must_be_zero_free": [
+    0.50761,
+    2.0,
+    6.838
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00761,
+   "sampling_s": 874.0452453061694,
+   "extraction_s": 456.0177875778087,
+   "total_s": 1330.063032883978,
+   "total_h": 0.3694619535788828
+  },
+  {
+   "n_max": 5000,
+   "radius": 0.98,
+   "work": 94,
+   "nodes": 15722,
+   "rectangle_that_must_be_zero_free": [
+    0.50505,
+    2.0,
+    8.471
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00505,
+   "sampling_s": 644.5158415131801,
+   "extraction_s": 372.6994301490877,
+   "total_s": 1017.2152716622678,
+   "total_h": 0.2825597976839633
+  },
+  {
+   "n_max": 5000,
+   "radius": 0.99,
+   "work": 72,
+   "nodes": 21504,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 521.3485885718682,
+   "extraction_s": 341.725314917981,
+   "total_s": 863.0739034898492,
+   "total_h": 0.23974275096940253
+  },
+  {
+   "n_max": 10000,
+   "radius": 0.8,
+   "work": 1020,
+   "nodes": 20534,
+   "rectangle_that_must_be_zero_free": [
+    0.55556,
+    2.0,
+    2.082
+   ],
+   "distance_from_rectangle_to_critical_line": 0.05556,
+   "sampling_s": 92274.10230887575,
+   "extraction_s": 34798.695783738505,
+   "total_s": 127072.79809261425,
+   "total_h": 35.29799947017062
+  },
+  {
+   "n_max": 10000,
+   "radius": 0.85,
+   "work": 756,
+   "nodes": 20720,
+   "rectangle_that_must_be_zero_free": [
+    0.54054,
+    2.0,
+    2.61
+   ],
+   "distance_from_rectangle_to_critical_line": 0.04054,
+   "sampling_s": 51610.92240772756,
+   "extraction_s": 22405.85888362841,
+   "total_s": 74016.78129135596,
+   "total_h": 20.560217025376655
+  },
+  {
+   "n_max": 10000,
+   "radius": 0.9,
+   "work": 508,
+   "nodes": 21111,
+   "rectangle_that_must_be_zero_free": [
+    0.52632,
+    2.0,
+    3.434
+   ],
+   "distance_from_rectangle_to_critical_line": 0.02632,
+   "sampling_s": 24028.366732196624,
+   "extraction_s": 12574.581100272151,
+   "total_s": 36602.94783246877,
+   "total_h": 10.167485509019103
+  },
+  {
+   "n_max": 10000,
+   "radius": 0.95,
+   "work": 273,
+   "nodes": 22264,
+   "rectangle_that_must_be_zero_free": [
+    0.51282,
+    2.0,
+    5.174
+   ],
+   "distance_from_rectangle_to_critical_line": 0.01282,
+   "sampling_s": 7456.028180345906,
+   "extraction_s": 5224.398738751123,
+   "total_s": 12680.42691909703,
+   "total_h": 3.5223408108602863
+  },
+  {
+   "n_max": 10000,
+   "radius": 0.97,
+   "work": 183,
+   "nodes": 23843,
+   "rectangle_that_must_be_zero_free": [
+    0.50761,
+    2.0,
+    6.838
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00761,
+   "sampling_s": 3631.2276638025864,
+   "extraction_s": 3070.624320878325,
+   "total_s": 6701.851984680911,
+   "total_h": 1.861625551300253
+  },
+  {
+   "n_max": 10000,
+   "radius": 0.98,
+   "work": 138,
+   "nodes": 25737,
+   "rectangle_that_must_be_zero_free": [
+    0.50505,
+    2.0,
+    8.471
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00505,
+   "sampling_s": 2247.9345148664256,
+   "extraction_s": 2170.5295570768903,
+   "total_s": 4418.4640719433155,
+   "total_h": 1.2273511310953653
+  },
+  {
+   "n_max": 10000,
+   "radius": 0.99,
+   "work": 94,
+   "nodes": 31544,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 1293.1311350141048,
+   "extraction_s": 1495.5388404303299,
+   "total_s": 2788.6699754444344,
+   "total_h": 0.7746305487345652
+  },
+  {
+   "n_max": 20000,
+   "radius": 0.8,
+   "work": 1989,
+   "nodes": 40533,
+   "rectangle_that_must_be_zero_free": [
+    0.55556,
+    2.0,
+    2.082
+   ],
+   "distance_from_rectangle_to_critical_line": 0.05556,
+   "sampling_s": 678864.6651058033,
+   "extraction_s": 374093.42148608726,
+   "total_s": 1052958.0865918905,
+   "total_h": 292.48835738663627
+  },
+  {
+   "n_max": 20000,
+   "radius": 0.85,
+   "work": 1462,
+   "nodes": 40722,
+   "rectangle_that_must_be_zero_free": [
+    0.54054,
+    2.0,
+    2.61
+   ],
+   "distance_from_rectangle_to_critical_line": 0.04054,
+   "sampling_s": 371911.2849634256,
+   "extraction_s": 236847.7733621934,
+   "total_s": 608759.058325619,
+   "total_h": 169.09973842378304
+  },
+  {
+   "n_max": 20000,
+   "radius": 0.9,
+   "work": 966,
+   "nodes": 41120,
+   "rectangle_that_must_be_zero_free": [
+    0.52632,
+    2.0,
+    3.434
+   ],
+   "distance_from_rectangle_to_critical_line": 0.02632,
+   "sampling_s": 166005.30915998673,
+   "extraction_s": 128451.1341895859,
+   "total_s": 294456.4433495726,
+   "total_h": 81.7934564859924
+  },
+  {
+   "n_max": 20000,
+   "radius": 0.95,
+   "work": 496,
+   "nodes": 42274,
+   "rectangle_that_must_be_zero_free": [
+    0.51282,
+    2.0,
+    5.174
+   ],
+   "distance_from_rectangle_to_critical_line": 0.01282,
+   "sampling_s": 45902.48301091709,
+   "extraction_s": 48586.43179790522,
+   "total_s": 94488.9148088223,
+   "total_h": 26.246920780228418
+  },
+  {
+   "n_max": 20000,
+   "radius": 0.97,
+   "work": 315,
+   "nodes": 43821,
+   "rectangle_that_must_be_zero_free": [
+    0.50761,
+    2.0,
+    6.838
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00761,
+   "sampling_s": 19454.40746376528,
+   "extraction_s": 25489.84897862743,
+   "total_s": 44944.25644239271,
+   "total_h": 12.48451567844242
+  },
+  {
+   "n_max": 20000,
+   "radius": 0.98,
+   "work": 226,
+   "nodes": 45767,
+   "rectangle_that_must_be_zero_free": [
+    0.50505,
+    2.0,
+    8.471
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00505,
+   "sampling_s": 10563.552705655804,
+   "extraction_s": 16178.350946336632,
+   "total_s": 26741.903651992434,
+   "total_h": 7.428306569997899
+  },
+  {
+   "n_max": 20000,
+   "radius": 0.99,
+   "work": 138,
+   "nodes": 51625,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 4509.057750708289,
+   "extraction_s": 8707.587394342343,
+   "total_s": 13216.645145050632,
+   "total_h": 3.67129031806962
+  },
+  {
+   "n_max": 50000,
+   "radius": 0.8,
+   "work": 4896,
+   "nodes": 100530,
+   "rectangle_that_must_be_zero_free": [
+    0.55556,
+    2.0,
+    2.082
+   ],
+   "distance_from_rectangle_to_critical_line": 0.05556,
+   "sampling_s": 9929952.963962331,
+   "extraction_s": 8958121.58487043,
+   "total_s": 18888074.54883276,
+   "total_h": 5246.6873746757665
+  },
+  {
+   "n_max": 50000,
+   "radius": 0.85,
+   "work": 3580,
+   "nodes": 100730,
+   "rectangle_that_must_be_zero_free": [
+    0.54054,
+    2.0,
+    2.61
+   ],
+   "distance_from_rectangle_to_critical_line": 0.04054,
+   "sampling_s": 5369975.808474853,
+   "extraction_s": 5612321.355483116,
+   "total_s": 10982297.163957968,
+   "total_h": 3050.6381010994355
+  },
+  {
+   "n_max": 50000,
+   "radius": 0.9,
+   "work": 2338,
+   "nodes": 101104,
+   "rectangle_that_must_be_zero_free": [
+    0.52632,
+    2.0,
+    3.434
+   ],
+   "distance_from_rectangle_to_critical_line": 0.02632,
+   "sampling_s": 2328391.200125942,
+   "extraction_s": 2972995.5191579103,
+   "total_s": 5301386.719283853,
+   "total_h": 1472.6074220232924
+  },
+  {
+   "n_max": 50000,
+   "radius": 0.95,
+   "work": 1164,
+   "nodes": 102261,
+   "rectangle_that_must_be_zero_free": [
+    0.51282,
+    2.0,
+    5.174
+   ],
+   "distance_from_rectangle_to_critical_line": 0.01282,
+   "sampling_s": 596075.5927666794,
+   "extraction_s": 1056327.6848723702,
+   "total_s": 1652403.2776390496,
+   "total_h": 459.00091045529155
+  },
+  {
+   "n_max": 50000,
+   "radius": 0.97,
+   "work": 712,
+   "nodes": 103833,
+   "rectangle_that_must_be_zero_free": [
+    0.50761,
+    2.0,
+    6.838
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00761,
+   "sampling_s": 229818.46644486795,
+   "extraction_s": 513114.80889060756,
+   "total_s": 742933.2753354756,
+   "total_h": 206.37035425985434
+  },
+  {
+   "n_max": 50000,
+   "radius": 0.98,
+   "work": 489,
+   "nodes": 105742,
+   "rectangle_that_must_be_zero_free": [
+    0.50505,
+    2.0,
+    8.471
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00505,
+   "sampling_s": 111647.7320896379,
+   "extraction_s": 297419.8604022511,
+   "total_s": 409067.592491889,
+   "total_h": 113.62988680330251
+  },
+  {
+   "n_max": 50000,
+   "radius": 0.99,
+   "work": 269,
+   "nodes": 111638,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 36315.16082969536,
+   "extraction_s": 128114.89467125543,
+   "total_s": 164430.05550095078,
+   "total_h": 45.67501541693077
+  }
+ ],
+ "the_onset_index_directly": [
+  {
+   "n_max": 328997,
+   "radius": 0.95,
+   "work": 7379,
+   "nodes": 660253,
+   "rectangle_that_must_be_zero_free": [
+    0.51282,
+    2.0,
+    5.174
+   ],
+   "distance_from_rectangle_to_critical_line": 0.01282,
+   "sampling_s": 146328665.31696978,
+   "extraction_s": 716288104.0599906,
+   "total_s": 862616769.3769604,
+   "total_h": 239615.76927137788
+  },
+  {
+   "n_max": 328997,
+   "radius": 0.99,
+   "work": 1487,
+   "nodes": 669685,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 6323930.8472144,
+   "extraction_s": 65723111.23276603,
+   "total_s": 72047042.07998043,
+   "total_h": 20013.067244439007
+  }
+ ],
+ "cheapest_radius": {
+  "2000": {
+   "n_max": 2000,
+   "radius": 0.98,
+   "work": 68,
+   "nodes": 9759,
+   "rectangle_that_must_be_zero_free": [
+    0.50505,
+    2.0,
+    8.471
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00505,
+   "sampling_s": 211.4033226196285,
+   "extraction_s": 56.936115624587806,
+   "total_s": 268.3394382442163,
+   "total_h": 0.07453873284561564
+  },
+  "5000": {
+   "n_max": 5000,
+   "radius": 0.99,
+   "work": 72,
+   "nodes": 21504,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 521.3485885718682,
+   "extraction_s": 341.725314917981,
+   "total_s": 863.0739034898492,
+   "total_h": 0.23974275096940253
+  },
+  "10000": {
+   "n_max": 10000,
+   "radius": 0.99,
+   "work": 94,
+   "nodes": 31544,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 1293.1311350141048,
+   "extraction_s": 1495.5388404303299,
+   "total_s": 2788.6699754444344,
+   "total_h": 0.7746305487345652
+  },
+  "20000": {
+   "n_max": 20000,
+   "radius": 0.99,
+   "work": 138,
+   "nodes": 51625,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 4509.057750708289,
+   "extraction_s": 8707.587394342343,
+   "total_s": 13216.645145050632,
+   "total_h": 3.67129031806962
+  },
+  "50000": {
+   "n_max": 50000,
+   "radius": 0.99,
+   "work": 269,
+   "nodes": 111638,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 36315.16082969536,
+   "extraction_s": 128114.89467125543,
+   "total_s": 164430.05550095078,
+   "total_h": 45.67501541693077
+  },
+  "100000": {
+   "n_max": 100000,
+   "radius": 0.99,
+   "work": 487,
+   "nodes": 211583,
+   "rectangle_that_must_be_zero_free": [
+    0.50251,
+    2.0,
+    12.114
+   ],
+   "distance_from_rectangle_to_critical_line": 0.00251,
+   "sampling_s": 221603.57228342452,
+   "extraction_s": 1182941.7628601098,
+   "total_s": 1404545.3351435342,
+   "total_h": 390.15148198431507
+  }
+ }
+}

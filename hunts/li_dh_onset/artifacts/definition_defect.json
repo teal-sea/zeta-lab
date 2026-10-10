@@ -1,0 +1,37 @@
+{
+ "generated": "2026-09-10T01:14:22",
+ "dps": 25,
+ "rows": [
+  {
+   "n": 1,
+   "cauchy": "0.09763614680951967118155",
+   "literal_definition": "0.09763614680951967118155",
+   "abs_defect": "2.04931e-28",
+   "imag_residue_of_literal": "4.96298e-66"
+  },
+  {
+   "n": 2,
+   "cauchy": "0.3888255141255960075677",
+   "literal_definition": "0.3888255141255960075677",
+   "abs_defect": "2.34049e-27",
+   "imag_residue_of_literal": "6.59727e-66"
+  },
+  {
+   "n": 3,
+   "cauchy": "0.8684689300375514689369",
+   "literal_definition": "0.8684689300375514689369",
+   "abs_defect": "4.25078e-27",
+   "imag_residue_of_literal": "9.67787e-65"
+  },
+  {
+   "n": 4,
+   "cauchy": "1.528259116943152270966",
+   "literal_definition": "1.528259116943152270966",
+   "abs_defect": "3.69223e-27",
+   "imag_residue_of_literal": "2.71144e-64"
+  }
+ ],
+ "lambda_1_closed_form_route": "(0.09763614680951967118155 - 3.798403541863720614031e-61j)",
+ "lambda_1_closed_form_defect": "2.04931e-28",
+ "seconds": 103.4
+}
