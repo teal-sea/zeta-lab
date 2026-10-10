@@ -1,14 +1,13 @@
 # Hunt 125 on the OpenAI toolchain
 
-**Status, 2026-10-10 UTC: package and upstream targets compiled; the bridge
-repair is running in a cached retry.** The first package build took 85 seconds. After three
-preemptions, checkpoint recovery preserved the upstream compilation, which
-completed at source `77912557`. The bridge then failed because `hadamardB`
-lacked `noncomputable`; that declaration is corrected in the source. The
-terminal failure, measured stage times and retained cache are recorded in
-[RUNS.md](RUNS.md). The five-minute heartbeat supervises one build at a time.
-No successful full build or completed axiom report exists yet. The written
-result keeps its existing grade:
+**Status, 2026-10-10 UTC: the initial package, OpenAI bridge and all eight
+axiom reports passed on Modal at source `a4d02931`.** Every audited declaration
+uses only `propext`, `Classical.choice` and `Quot.sound`. The saved volume
+evidence confirms exit code zero. The warm build took 261 seconds, followed by
+a 138.77-second cache save. Pins, stage timings, logs and the precise scope are
+in [RUNS.md](RUNS.md) and [success evidence](evidence/2026-10-10-success/).
+These partial results are kernel-checked. Full Theorem 1(a) and Theorem 2
+remain open in Lean; the written result keeps its existing grade:
 **proved, given OpenAI's Theorem 1.1, unreviewed**.
 
 ## Package boundary
@@ -23,10 +22,10 @@ changes and `LICENSE-OpenAI` for the upstream Apache-2.0 license.
 `QRH125` contains the interval layer, Lemma 4's rational domination inequality,
 its endpoint arithmetic, and a finite residue-cover certificate for q = 3 to
 12. The finite certificate uses `decide`. A separate exact Python check of
-all 44 unit residues passed, but is not a Lean verification. The draft now
-connects that data to nonprincipal characters and interval-based logarithm
-bounds, with `small_moduli_nonresidue_bound` as the finite-case target. This
-source elaborated in the interrupted Modal run. Its final axiom audit is pending.
+all 44 unit residues passed separately. The Lean theorem
+`small_moduli_nonresidue_bound` connects that data to nonprincipal characters
+and interval-based logarithm bounds. It and the residue-cover certificate
+passed the kernel and axiom gate. This closes the q = 3 to 12 cases only.
 
 The repository's module-header check now explicitly permits these eleven
 legacy-module files on the pinned 4.34.1 toolchain. The parent package's
@@ -134,9 +133,7 @@ raise the proof grade. Cache generations can be stale or empty.
 4. Establish all analytic constant enclosures and prove `m(5/2) > 0` using
    kernel intervals. The numerical enclosure in the written proof is not a
    Lean input masquerading as a proved bound.
-5. Rebuild the compiled character reduction and logarithmic comparisons for
-   q = 3 to 12 from the cache and collect their axiom reports.
-6. Instantiate `LeastNonresidueBound`, then Theorem 2. Run the axiom gate,
+5. Instantiate `LeastNonresidueBound`, then Theorem 2. Run the axiom gate,
    Comparator and NanoDa before preparing a Palomar submission.
 
 No statement-only file with a placeholder is introduced in this package.

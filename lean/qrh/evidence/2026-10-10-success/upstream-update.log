@@ -1,0 +1,80 @@
+warning: PrimeNumberTheoremAnd: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/PrimeNumberTheoremAnd' has local changes
+warning: belyi: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/belyi' has local changes
+warning: formal-schemes: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/formal-schemes' has local changes
+warning: elliptic-curves: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/elliptic-curves' has local changes
+warning: tempered-fundamental-groups: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/tempered-fundamental-groups' has local changes
+warning: oka: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/oka' has local changes
+warning: orbicurve-cores: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/orbicurve-cores' has local changes
+warning: pi1: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/pi1' has local changes
+warning: heights: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/heights' has local changes
+warning: genl: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/genl' has local changes
+warning: tate-curves-theta: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/tate-curves-theta' has local changes
+warning: iut: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/iut' has local changes
+warning: gromov: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/gromov' has local changes
+warning: SphereEversion: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/SphereEversion' has local changes
+warning: schoenflies-lean: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/schoenflies-lean' has local changes
+warning: ClassFieldTheory: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/ClassFieldTheory' has local changes
+warning: AINTLIB: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/AINTLIB' has local changes
+warning: AbsorptionCutoff: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/AbsorptionCutoff' has local changes
+warning: StrongPNT: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/StrongPNT' has local changes
+warning: carleson: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/carleson' has local changes
+warning: rellich-kondrachov: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/rellich-kondrachov' has local changes
+warning: Zeta3Irrational: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/Zeta3Irrational' has local changes
+warning: fixed-point-theorems: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/fixed-point-theorems' has local changes
+warning: toolchain not updated; multiple toolchain candidates:
+  leanprover/lean4:v4.34.1
+    from OAI (fixed toolchain)
+  leanprover/lean4:v4.35.0-rc3
+    from TauCeti
+info: OAI: running post-update hooks
+info: iut: compatibility patch verified after dependency resolution
+info: tate-curves-theta: compatibility patch verified after dependency resolution
+info: genl: compatibility patch verified after dependency resolution
+info: heights: compatibility patch verified after dependency resolution
+info: pi1: compatibility patch verified after dependency resolution
+info: orbicurve-cores: compatibility patch verified after dependency resolution
+info: oka: compatibility patch verified after dependency resolution
+info: tempered-fundamental-groups: compatibility patch verified after dependency resolution
+info: elliptic-curves: compatibility patch verified after dependency resolution
+info: formal-schemes: compatibility patch verified after dependency resolution
+info: belyi: compatibility patch verified after dependency resolution
+info: fixed-point-theorems: compatibility patch already applied: fixed-point-theorems-lean4341.patch
+info: PrimeNumberTheoremAnd: compatibility patch already applied: PrimeNumberTheoremAnd-lean4341.patch
+info: Zeta3Irrational: compatibility patch already applied: Zeta3Irrational-lean4341.patch
+info: rellich-kondrachov: compatibility patch already applied: rellich-kondrachov-lean4341.patch
+info: carleson: compatibility patch already applied: carleson-lean4341.patch
+info: StrongPNT: compatibility patch already applied: StrongPNT-lean4341.patch
+info: AbsorptionCutoff: compatibility patch already applied: AbsorptionCutoff-lean4341.patch
+info: AINTLIB: compatibility patch already applied: AINTLIB-lean4341.patch
+info: ClassFieldTheory: compatibility patch already applied: ClassFieldTheory-lean4341.patch
+info: schoenflies-lean: compatibility patch already applied: schoenflies-lean-lean4341.patch
+info: SphereEversion: compatibility patch already applied: SphereEversion-lean4341.patch
+info: gromov: compatibility patch already applied: gromov-lean4341.patch
+info: mathlib: running post-update hooks
+Current branch: HEAD
+Using cache from origin: (some leanprover-community/mathlib4)
+No files to download
+Already decompressed 8908 file(s)
+	Command being timed: "lake update"
+	User time (seconds): 36.70
+	System time (seconds): 54.94
+	Percent of CPU this job got: 102%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:29.15
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1188992
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 0
+	Voluntary context switches: 0
+	Involuntary context switches: 0
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

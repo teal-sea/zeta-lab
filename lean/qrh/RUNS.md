@@ -1,12 +1,63 @@
 # Hunt 125 remote build record
 
+## Initial package and bridge passed, 2026-10-10 UTC
+
+The corrected run at source `a4d02931d45ab42960cb6df9cbc7f608dc25cebd` passed:
+https://modal.com/apps/teal-sea/main/ap-sF08OfNwCIjUdIWgfEEpSf.
+It launched at 01:15:26 UTC, restored the retained cache, and completed the
+axiom gate at 01:22:10 UTC. The final cache save took 138.77 seconds. The app
+then exited zero and no build container remained. The initial-build heartbeat
+has completed its assigned supervision; further formalization is separate work.
+
+Downloaded evidence from volume `zeta-qrh-4341-adc7f124`, directory
+`evidence/a4d02931d45ab42960cb6df9cbc7f608dc25cebd-20261010T011749Z-8`,
+is preserved in [success evidence](evidence/2026-10-10-success/).
+Both `outcome.txt` and `supervisor.txt` report exit code zero. The shell measured
+261 seconds (4 minutes 21 seconds); the supervisor measured 399.58 seconds
+including the final cache save, after restoration. These are warm-cache times.
+The earlier cold attempt was interrupted, so no uninterrupted cold build time
+is claimed. The separate package's first observed build took 85 seconds.
+
+| Stage | Wall seconds | Exit code |
+| --- | ---: | ---: |
+| toolchain | 0 | 0 |
+| upstream-update | 90 | 0 |
+| upstream-cache | 59 | 0 |
+| qrh-update | 18 | 0 |
+| qrh-cache | 13 | 0 |
+| qrh-build | 8 | 0 |
+| upstream-build | 9 | 0 |
+| bridge | 26 | 0 |
+| axioms | 23 | 0 |
+
+The downloaded `axioms.log` passed `scripts/check-axioms.py` again locally.
+Each of these eight declarations reports exactly `propext`, `Classical.choice`
+and `Quot.sound`:
+
+- `QRH125.dirichlet_nonvanishing`
+- `QRH125.logDeriv_eq_hadamardB_add_zero_sum`
+- `QRH125.lorentzian_domination`
+- `QRH125.lorentzian_domination_seven_eighths`
+- `QRH125.kernel_endpoint_constants`
+- `QRH125.small_moduli_cover`
+- `QRH125.small_moduli_nonresidue_bound`
+- `ZetaLean.ComplexBall.contains_dirichletTermBallB`
+
+This establishes the audited interval, domination and finite q = 3 to 12
+results, plus the exact OpenAI nonvanishing and Hadamard identity bridges.
+`LeastNonresidueBound` remains a proposition without a proof. The explicit
+formula, complex real-part cancellation, primitive reduction, interval margin,
+full Theorem 1(a), Theorem 2, Comparator/NanoDa and Palomar submission remain
+open. A source scan found no proof placeholders, native evaluation or new
+axiom declarations in this package. No Lean execution ran on Ghost.
+
 ## Bridge compiler failure, 2026-10-10 UTC
 
 The corrected retry launched at 01:15:26 UTC from committed source `a4d02931`:
 https://modal.com/apps/teal-sea/main/ap-sF08OfNwCIjUdIWgfEEpSf.
 Source capture completed before further edits. It began restoring the saved
-cache with the same allocation and retained volume. The heartbeat now follows
-this app and CLI session 29320. No successful bridge or axiom verdict exists yet.
+cache with the same allocation and retained volume. The heartbeat followed
+this app and CLI session 29320 to the successful outcome recorded above.
 
 The third replacement restored the cache and completed all three upstream
 targets, including `OAI.NumberTheory.DirichletL.Nonvanishing`. The upstream
@@ -36,7 +87,7 @@ remained before preparing the retry. Evidence is preserved under
 | upstream-build | 5991 | 0 |
 | bridge | 47 | 1 |
 
-## Current route, 2026-10-09
+## Checkpoint recovery history, 2026-10-09
 
 The repaired attempt launched at 19:57:38 UTC from committed source
 `77912557fa8f631370dda09329689a2bef704d69`:
@@ -50,7 +101,7 @@ The retry has completed upstream-update (242 seconds), upstream-cache (149
 seconds), qrh-update (190 seconds), qrh-cache (114 seconds) and qrh-build
 (83 seconds), all with exit code zero.
 Heartbeat
-`watch-hunt-125-modal-build` now follows this app and CLI session 32240.
+`watch-hunt-125-modal-build` followed this app and CLI session 32240.
 The repaired source passed 29 lightweight repository tests, including seven
 checkpoint cases, with five slow tests excluded. Generated context, shell
 syntax, whitespace and pre-push secret checks passed.

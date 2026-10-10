@@ -1,27 +1,26 @@
 # HANDOFF: session records and continuation state
 
-## 2026-10-09: hunt 125 Lean build moves to Modal
+## 2026-10-10 UTC: hunt 125 initial Lean package and bridge passed
 
-`lean/qrh/README.md` records the separate 4.34.1 package and its exact OpenAI
-pin. The five interval modules have source adaptations, and the first proof
-drafts cover rational domination, finite residue generation data, and the
-OpenAI nonvanishing and complex Hadamard bridges. The package compiled on Modal
-in 85 seconds, including q = 3 to 12. On 2026-10-10 UTC, the recovered upstream
-build passed; the bridge failed on a missing `noncomputable` declaration.
-That source fix is running in a cached retry, and the axiom gate remains pending.
-The analytic explicit formula and the full nonresidue bound
-remain open. The written result remains proved, given OpenAI's Theorem 1.1,
-unreviewed. Theorem 2, Comparator, NanoDa and submission have not started.
+`lean/qrh/README.md` records the separate Lean 4.34.1 package and exact OpenAI
+pin. Source `a4d02931` passed on Modal, including the bridge and eight axiom
+reports using only `propext`, `Classical.choice` and `Quot.sound`. The audited
+interval, domination, finite q = 3 to 12 and Hadamard identity results are
+kernel-checked. Saved volume outcomes, logs, manifests and timings are in
+`lean/qrh/evidence/2026-10-10-success/`; the run record is `lean/qrh/RUNS.md`.
+The warm build took 261 seconds, plus 138.77 seconds to save its cache.
 
-Thomas directly selected Modal for Lean and numerics. The Namespace route is
-superseded; do not wait for its billing activation. Run
-`ap-qYdxL9dkFmIyrnxn8ykpuN`, source `2eb8a1bb`, was preempted at 19:47:28 UTC.
-Its automatic cold retry was stopped after recovering a setup cache. The
-launcher now checkpoints every ten minutes and propagates failed exits.
-The latest attempt is recorded in `lean/qrh/RUNS.md`. The owning Codex thread's
-`watch-hunt-125-modal-build` heartbeat checks every five minutes and handles
-compiler failures before collecting the outcome. Do not launch a second
-build alongside it. The cache and allocation are in `lean/qrh/RUNS.md`.
+Full Theorem 1(a) remains open: its target is defined but not proved. The
+explicit formula, complex real-part cancellation, primitive reduction and
+interval margin remain. The written result remains proved, given OpenAI's
+Theorem 1.1, unreviewed. Theorem 2, Comparator, NanoDa and submission have not
+started. The initial-build supervision is complete; no build is left running.
+
+Thomas selected Modal for both Lean and numerics. The eight-core, 48-GiB
+runner retains volume `zeta-qrh-4341-adc7f124` and checkpoints every ten minutes
+plus on exit. Reuse this cache one build at a time. Three preemptions and the
+fixed noncomputable declaration are recorded in the run history. No Lean build
+belongs on Ghost.
 
 ## 2026-10-08: the quasi-Riemann theorem, replayed and built on
 
