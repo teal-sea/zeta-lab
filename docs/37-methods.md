@@ -58,7 +58,7 @@ stays out of this file. No em dashes.
 - **Heat flow and de Bruijn-Newman constants** (14). Backward heat flow of xi-type
   functions: landing times as lower bounds, contour and winding instruments that refuse
   rather than round, and the calibrations that fix the frame.
-- **Epstein zeta, precision and zero counting** (8). Precision floors for the completed
+- **Epstein zeta, precision and zero counting** (9). Precision floors for the completed
   Epstein zeta, what argument-principle box counts can and cannot discriminate, and the
   rightmost-zero wall for the prime zeta.
 - **Erdos #126 and S-unit equations** (17). Equivalent forms of the problem,
@@ -78,10 +78,10 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (40). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (43). Surfaced by the sweep, below the bar for now.
 
-Totals: 173 entries from 65 hunts. Kinds: identity 22, lemma 43, bound 12, construction
-15, calibration 7, computational 17, control 36, obstruction 21.
+Totals: 174 entries from 66 hunts. Kinds: identity 22, lemma 43, bound 12, construction
+15, calibration 7, computational 17, control 37, obstruction 21.
 
 ## Prime pairs and the circle method
 
@@ -3854,6 +3854,8 @@ and cannot discriminate, and the rightmost-zero wall for the prime zeta.
 - control: Convergence-floor ladder before spending winding-number budget (`r_f7cd45`)
 - control: The a(1) = 1 entitlement check for the log-derivative recursion, and what an
   unguarded run returns (`euler_defect_axis`)
+- control: A directly summed lattice oracle for an Epstein evaluator at Re s = 5, with its
+  truncation measured rather than assumed (`epstein_height`)
 - obstruction: Local zero-free box properties cannot discriminate RH from its rivals
   (`gate5_p6_c`)
 
@@ -4069,6 +4071,32 @@ docs/34-zeros-in-tuning-units.md table E7
 Why it travels: Any hunt recovering -f'/f coefficients by Dirichlet division must check
 a(1) = 1 first. An unguarded division does not fail: it returns a well-defined answer
 about a different series, which is why this fault reached a published table.
+
+### A directly summed lattice oracle for an Epstein evaluator at Re s = 5, with its truncation measured rather than assumed
+
+control | `hunts/epstein_height/` | grade: measured; attacked four ways by an independent
+audit without moving
+
+At Re s = 5 the defining sum zeta_Q(s) = sum Q(m,k)^-s over (m,k) != 0 converges
+absolutely, so it can be summed directly, grouped by represented value q <= qmax, and used
+as ground truth for the continued evaluator at any height. It shares no code with the
+Mellin split, the incomplete gammas or the class-group identity. Its truncation is stated
+as K sigma/(sigma - 1) qmax^(1 - sigma) with K = N(qmax)/qmax measured, which is an
+extrapolation and not a bound; against qmax = 400000 it held on every cell re-run, by
+factors of 13 to 214. At qmax = 20000 it carries 18.3 to 19.5 digits for (1,1,4) and
+(1,0,1) and 16.9 to 18.1 for (2,1,3). Two traps it exposed: a comparison done outside a
+workdps block rounds the routine's answer to float64 and caps every cell near 16 to 17.6
+digits, and off sigma = 5 the oracle's own digits fall (about 6 at sigma = 2.5), so a
+contract test must exclude the cells the oracle cannot score.
+
+Evidence: hunts/epstein_height/RESULTS.md sections 2 and 3; AUDIT.md attacks 1 to 4, 13;
+test_epstein_height.py
+Prior art: unsearched (the absolute convergence of the defining sum is classical)
+Reused in: tests/test_epstein_zeta_height.py (#291, from issue #217, which this hunt
+opened), as the oracle that pins epstein_zeta's height lift and its planted fault
+Why it travels: Any evaluator built on a continuation can be checked, at heights where it
+cancels catastrophically, against a region where the defining series converges and no
+continuation is involved; the check is cheap and shares nothing with the thing checked.
 
 ## Erdos #126 and S-unit equations
 
@@ -5552,4 +5580,16 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   k_0) >= c G(k) fails off a density-zero set, so no anti-composition statement alone
   implies Erdos #126 (`hunts/support_6cdfd2e3/`, obstruction): ordinary argument,
   unreviewed; not carried.
-
+- Derived digit-loss law for the Epstein evaluator: -log10|s| + sigma log10 pi -
+  log10|Gamma(s)| - log10|zeta_Q(s)|, no fitted constant; the zeta_Q term is what makes the
+  loss form-dependent and what a form-blind guard misses, and the leftover +1.07 is mpmath's
+  decimal-to-binary precision rounding (`hunts/epstein_height/`, calibration): measured at
+  sigma = 5, re-derived by an independent audit; not carried (#291 used the leading term).
+- Contract rung for a precision guard: sample the calls the guard allows, score each against
+  an oracle whose own accuracy is computed per cell, and fail if any allowed call is short
+  (`hunts/epstein_height/`, control): measured; used only inside its hunt.
+- Acceptance probability of a depth-limited bisection, measured from two evaluations per
+  segment: p near 1 means one evaluation per segment, p near 1/3 means (4/3)^45 or worse,
+  and a depth limit that returns rather than raises turns a precision cap into a wrong count
+  or a hang, never a refusal (`hunts/epstein_height/`, control): measured; used only inside
+  its hunt.

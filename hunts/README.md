@@ -75,6 +75,60 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #129: the module that missed the guard the tree already had (`epstein_height/`, 2026-09-10)
+
+**Status: settled, defect recorded, repair proposed and not applied, write-up corrected by its own
+audit.** `zeta/heatflow.py` and `zeta/core.py` both already implement this kind of guard, and
+`hunts/gate5_p6_b/probe.py` carries the Epstein constant as an executable rule, so the first
+write-up's "the rule the core never learned" was wrong: the core has the pattern twice and
+`zeta/epstein.py` is the module that did not get it. It still accepts any `dps`
+and returns a silently wrong value above the height that precision supports: at `dps 15`
+and height 120 the relative error is `2.3e+36`, measured against a direct lattice sum at
+`Re s = 5` that shares no code with the routine. 158 cells of the surface in `artifacts/`.
+The recorded constant plus a `sigma` term leaves a per-form bias of 1.6 digits, so the loss
+was re-derived exactly as
+`-log10 t + sigma log10 pi - log10|Gamma(s)| - log10|zeta_Q(s)|`, with no fitted constant:
+the discriminant cancels, the size of `zeta_Q` is the missing term, per-form bias falls to
+0.15, and one uniform offset of `+1.068` digits is left with rms `0.357` over 49 cells.
+`guard.py` was the rule as code with six planted faults, all passing, **and an independent audit
+walked straight through it**: a call at `dps 24` promising 4 digits returns `0.59`, because every
+rung held the form fixed and so tested the leading term rather than the `-log10|zeta_Q|` term the
+hunt had just derived. `guard2.py` carries the form and replaces the faults with a rung that tests
+the contract, sampling the calls the guard ALLOWS and failing if any is short; its own first run
+failed on a cell whose limit turned out to be the oracle, so the rung now measures its oracle too. It also answers the question
+`hunts/dps_cap/reach_check.py` left open, whose two runs were stopped at 30 and 25 minutes:
+measured at height 120 without running the recursion, at `dps 100` the acceptance rule takes
+24 segments of 24, so the recursion costs one evaluation per segment, and at `dps 15` it
+takes 7 of 24, `p = 0.292` against the `1/3` a uniform phase predicts, branching `1.417`,
+about `6.4e6` evaluations for one segment. Because `_arg_variation`'s depth limit of 45
+returns the principal value rather than raising, the cap cannot cost a refusal, only a wrong
+count or a run that does not finish. Front door: `docs/41`. Issue #217.
+Nothing bears on RH (`docs/08`).
+
+**Renumbered on landing, 2026-10-10.** Opened on the unmerged branch
+`claude/repo-hunt-content-2smbid` as #120, with its front door numbered 37. On main #120 is
+`qrh_rival_step` and 37 is the methods index; #127 is `euler_defect_axis` and #128 is
+`li_dh_onset` (#298), so this is #129 and the front door is `docs/41`. The entry above is the
+branch's text with those two references changed.
+
+**Overtaken, and checked, on landing, 2026-10-10.** Issue #217, which this hunt opened, was closed
+by #291 on 2026-10-09: `epstein_zeta` now raises its own working precision by `ceil(0.6822 |t|)`
+digits, the leading term only, and `tests/test_epstein_zeta_height.py` pins it. So "it still
+accepts any `dps` and returns a silently wrong value" was true when written and is not true of the
+current routine, which returns 16.1 to 16.5 correct digits (the comparison's float64 ceiling) on
+every cell re-measured at `dps <= 30` up to height 160; `epstein_completed` itself still accepts
+any `dps`. The tree's repair buys the digits silently rather than refusing, so `guard2.py` stays a
+proposal for the refusal half, and `guard.py`'s own ladder now fails its second rung. Every number
+above was re-measured against the routine as it was, restored by zeroing the lift: the 120-cell
+grid and the 42 boundary cells came back identical, and `test_epstein_height.py` pins the surface,
+both laws, the audit's counterexample (`0.59`, `39.90`, `44.07`), its critical-line attack
+(`+4.66`, slow tier) and `why_it_hangs`. Four stated numbers did not reproduce and are marked where
+stated: the first model's residuals by form (`+0.91 / +0.83 / -0.68`, not `+0.93 / +0.85 / -0.75`),
+the rounding offset's range (0.86, not 0.87, to 1.15), the move from `1/t` to `|1/s|` (0.0008, not
+0.002) and the oracle's conservatism (13 to 214, not 10 to 400). One method is admitted to
+`docs/37` (the lattice oracle, now reused by `tests/test_epstein_zeta_height.py`) and three are
+listed as seen and not admitted.
+
 ### Hunt #127: one form per discriminant, not forty-one (`euler_defect_axis/`, 2026-09-10)
 
 **Status: settled, correction; repair applied by #296.** The composite-line discriminator is

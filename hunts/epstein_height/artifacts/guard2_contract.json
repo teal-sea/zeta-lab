@@ -1,0 +1,212 @@
+[
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "want": 10,
+  "dps_required": 24,
+  "oracle_digits": 17.19857381039258,
+  "correct_digits": 11.940910067138399,
+  "delivered": true
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "want": 10,
+  "dps_required": 51,
+  "oracle_digits": 17.199440640084813,
+  "correct_digits": 13.516703130010418,
+  "delivered": true
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 8.0,
+  "t": 80.0,
+  "want": 4,
+  "dps_required": 27,
+  "oracle_digits": 30.14037324282238,
+  "correct_digits": 5.833487289865422,
+  "delivered": true
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 3.0,
+  "t": 80.0,
+  "want": 6,
+  "dps_required": 36,
+  "oracle_digits": 8.506896713728203,
+  "correct_digits": 8.541389572858966,
+  "delivered": true
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 2.5,
+  "t": 60.0,
+  "want": 8,
+  "dps_required": 26,
+  "oracle_digits": 6.336274822985999,
+  "delivered": null,
+  "note": "excluded: the oracle cannot resolve this many digits here"
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "want": 10,
+  "dps_required": 26,
+  "oracle_digits": 15.815356605808116,
+  "correct_digits": 12.53196036264616,
+  "delivered": true
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "want": 10,
+  "dps_required": 52,
+  "oracle_digits": 15.741404548797432,
+  "correct_digits": 12.495442825355344,
+  "delivered": true
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 8.0,
+  "t": 80.0,
+  "want": 4,
+  "dps_required": 30,
+  "oracle_digits": 27.834469544443973,
+  "correct_digits": 7.128921692369743,
+  "delivered": true
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 3.0,
+  "t": 80.0,
+  "want": 6,
+  "dps_required": 37,
+  "oracle_digits": 7.805451181732579,
+  "correct_digits": 8.757709582532417,
+  "delivered": true
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 2.5,
+  "t": 60.0,
+  "want": 8,
+  "dps_required": 27,
+  "oracle_digits": 5.71399654267988,
+  "delivered": null,
+  "note": "excluded: the oracle cannot resolve this many digits here"
+ },
+ {
+  "form": [
+   1,
+   0,
+   1
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "want": 10,
+  "dps_required": 24,
+  "oracle_digits": 17.20192356308564,
+  "correct_digits": 12.508476285899457,
+  "delivered": true
+ },
+ {
+  "form": [
+   1,
+   0,
+   1
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "want": 10,
+  "dps_required": 50,
+  "oracle_digits": 17.22533750218749,
+  "correct_digits": 12.160656176591237,
+  "delivered": true
+ },
+ {
+  "form": [
+   1,
+   0,
+   1
+  ],
+  "sigma": 8.0,
+  "t": 80.0,
+  "want": 4,
+  "dps_required": 27,
+  "oracle_digits": 30.15481423886514,
+  "correct_digits": 7.413038841922981,
+  "delivered": true
+ },
+ {
+  "form": [
+   1,
+   0,
+   1
+  ],
+  "sigma": 3.0,
+  "t": 80.0,
+  "want": 6,
+  "dps_required": 36,
+  "oracle_digits": 8.546950166762292,
+  "correct_digits": 9.490356658928581,
+  "delivered": true
+ },
+ {
+  "form": [
+   1,
+   0,
+   1
+  ],
+  "sigma": 2.5,
+  "t": 60.0,
+  "want": 8,
+  "dps_required": 25,
+  "oracle_digits": 6.269644491292838,
+  "delivered": null,
+  "note": "excluded: the oracle cannot resolve this many digits here"
+ }
+]
