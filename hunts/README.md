@@ -1014,6 +1014,52 @@ The divisible part escapes the descent because $(S, pA)$ is admissible whenever
 $(S,A)$ is, so $\gcd A = 1$ (which is free) is strictly weaker than
 primitivity. Nothing here improves the classical $g(k) < 3\cdot 2^{k-1}$, and
 nothing here bears on RH (`docs/08`).
+
+### Hunt #102: Erdős #126, the counterexample arm, the tensor lane is an $S$-unit equation (`support_6cdfd2e3/`)
+
+**Status: not settled. No counterexample, and one lane closed conditionally.**
+Support run for Hunt #91, asked for an algebraic, CRT, recursive, tensor or
+composition construction with $|A|$ exponential in $|S|$, and explicitly allowed
+to refute #126. None was found. What came out instead is a reduction, an
+ordinary argument, unreviewed: for the tensor $C = A\cdot B$, the grid-line
+pairs are free ($ab+ab' = a(b+b')$) and every **mixed** pair satisfies
+$u+v = (a+a')(b+b')$ with $u = ab+a'b'$, $v = ab'+a'b$, a denominator that is
+smooth for free. Dividing by it, $x = u/M$, $y = v/M$ solve $x+y=1$ in
+$(S\cup T)$-units, and $x$ is a non-constant Möbius function of $b/b'$, so
+$|A|, |B| \le N(S\cup T)+1$ where $N$ counts solutions of the $S$-unit
+equation. Unconditionally that is weaker than Erdős–Turán 1934; conditionally it
+is the finding: **if $S$-unit counts are subexponential, no tensor construction
+can refute #126**, and an exponential one would exceed every known construction
+(the run cited Erdős–Stewart–Tijdeman's $\exp(c(s/\log s)^{1/2})$; re-landing
+added Konyagin–Soundararajan's $\exp(s^{2-\sqrt2-\varepsilon})$, arXiv
+math/0604453, read at the abstract only). The argument does not extend to
+general $A$, and that is exactly why it closes the tensor lane and no more: for
+arbitrary $a,b,c,d \in A$ the common value $a+b+c+d$ need not be smooth, so
+there is nothing to divide by. Two corrections to Hunt #91 travel further than
+the non-result. The refutation bar is far lower than a composition law:
+$g(k+k_0) \ge c\,g(k)$ for *any* fixed $k_0$ and $c>1$ already gives
+$\liminf \log g(k)/k > 0$; that is Hunt #93's amplification result
+(`support_8ea74995/`), reached independently, and not new here. The converse
+fails, and that is new: a staircase $G(k) = 2^{k_j}$ on $[k_j, k_{j+1})$
+refutes #126 while failing every uniform doubling law off a density-zero set,
+so **an anti-composition theorem is not sufficient for #126**, which the
+parent's closing sentence implies it is (also an ordinary argument,
+unreviewed). Measured, by exact integer arithmetic inside bounded boxes: an
+independent clique search reproduced rows 1–7 of the parent's table from boxes
+20–500× smaller and added the lower bounds $g(8) \ge 14$, $g(9) \ge 15$; on
+the parent's optima, the cheapest dilated union $A \cup cA$ costs 6 extra
+primes at $k=2$ and 7 at $k=4$, and none exists at $k=3$ (multipliers
+$c \le 200$, extra primes from the first twelve). Also in the run and already
+on main: $g(k) \ge \lfloor (p_{k+1}-1)/2 \rfloor$ from $A = \{1,\dots,m\}$
+(Hunts #104, #105), and dilation invariance against the parent's "every
+optimal witness lives below 50" (Hunts #103, #105, #107), here with
+$\{113,399\}$ and $\{16,80,112,176\}$ as counter-witnesses. Two of the run's
+statements did not survive to landing and are annotated in place: its loose
+thread "$|A| \le p-1$ when $p \notin S$" was already refuted (Hunts #93, #95,
+#101, #103), and its sumset-counting section understated the height the lemma
+forces (`RESULTS.md` §6, corrected against Hunt #107). Nothing here bears on
+RH (`docs/08`).
+
 ### Hunt #103: Erdős #126, the residue lemma is false and the box was never the question (`support_60982bf6/`)
 
 **Status: settled, as a support answer.** Exact-search arm for hunt #91's
