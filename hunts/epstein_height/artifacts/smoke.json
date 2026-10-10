@@ -1,0 +1,74 @@
+[
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 10.0,
+  "dps": 15,
+  "relative_error": 9.977540358696411e-17,
+  "correct_digits": 16.000976506838985,
+  "digits_available": 25,
+  "digits_predicted_lost": 6.821881769209206,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0018370066739903,
+  "seconds": 1.83,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 10.0,
+  "dps": 30,
+  "relative_error": 9.977540358696411e-17,
+  "correct_digits": 16.000976506838985,
+  "digits_available": 40,
+  "digits_predicted_lost": 6.821881769209206,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0018370066739903,
+  "seconds": 3.31,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 15,
+  "relative_error": 0.000798978973769179,
+  "correct_digits": 3.09746464959236,
+  "digits_available": 25,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0009084737714926,
+  "seconds": 2.05,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 30,
+  "relative_error": 7.390054621262449e-17,
+  "correct_digits": 16.13135235164236,
+  "digits_available": 40,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0009084737714926,
+  "seconds": 3.32,
+  "exception": null
+ }
+]
