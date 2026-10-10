@@ -22,9 +22,11 @@ Use measured, derived, enclosure-carrying only where earned.
 ## Current status (2026-10-04)
 
 No resolution claimed. The reported positive rows for Li coefficients 1..58
-remain numerical evidence; their enclosure grade is withdrawn pending a
-sound remainder bound and reproducible rerun (THEOREM.md, current audit).
-The logarithmic-derivative equivalence is in EQUIVALENCE.md.
+remain numerical evidence (measured); their enclosure grade is withdrawn
+pending a sound remainder bound and reproducible rerun (AUDIT.md).
+EQUIVALENCE.md records, as an ordinary unreviewed argument, the classical
+logarithmic-derivative equivalence (stated on main in
+hunts/epp_herglotz/RESULTS.md); it is a known result, not a new one.
 Neither is the hypothesis.
 
 ```huntspec

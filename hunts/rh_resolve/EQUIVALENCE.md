@@ -1,14 +1,18 @@
 # Equivalence: RH iff the logarithmic derivative stays positive
 
-Grade: derived argument, with two numerical spot checks in
-`check_logderiv.py`. Not a resolution of RH. Not kernel-checked.
-The reserved enclosure word is not used: nothing in this file is
-an enclosure.
+Grade: ordinary argument, unreviewed, recording a known result. The
+equivalence is classical, not new and not this hunt's: main states it in
+`hunts/epp_herglotz/RESULTS.md` (its verdict paragraph); see Lagarias,
+Acta Arith. 89 (1999), 217-234, cited as a reference, not for priority.
+What this file adds is a written derivation for the hunt's own use, with
+numerical spot checks in `check_logderiv.py`; the numbers quoted below are
+pinned by `tests/test_rh_resolve.py` unless marked otherwise. Not a
+resolution of RH. Not kernel-checked. Nothing in this file is an enclosure.
 
 Statement under test, unchanged: every nontrivial zero of zeta
 has real part 1/2.
 
-## Theorem
+## Statement (classical)
 
 Let L(s) = xi'(s)/xi(s). The following are equivalent.
 
@@ -40,7 +44,7 @@ D1 and D2 are classical analytic inputs, not established by the numerical
 spot checks. The derivation below is conditional on those inputs in their
 stated form. No growth bound for L on circles at infinity is needed.
 
-## Proof
+## Derivation (ordinary argument, unreviewed; records the known result)
 
 (2) implies (1). A zero of multiplicity m at rho with
 Re rho > 1/2 contributes m/(s-rho). On the open half-plane,
@@ -72,11 +76,14 @@ then collapses to
 every term positive for sigma > 1/2. Absolute convergence of
 the symmetrized series is the 1/gamma^2 tail.
 
-Spot check, not a proof of this direction: at 0.8+10i the
+Spot check, not a derivation of this direction: at 0.8+10i the
 real part of L is 0.03177, and the Poisson sum over the first
-200 ordinates is 0.03054. The residual 0.00124 is the tail
-beyond ordinate 541, not a second formula. A wrong sign would
-miss by the whole real part. `check_logderiv.py`.
+200 ordinates is 0.03054. Those 200 ordinates end at
+gamma_200 = 396.38 (mpmath `zetazero(200)`). The residual 0.00124 is
+the tail beyond gamma_200, not a second formula: with d = 0.3 and the
+zero density (1/2pi) log(t/2pi), the tail is about
+(d/pi)(log(T/2pi) + 1)/T at T = gamma_200, which is also 0.00124.
+A wrong sign would miss by the whole real part. `check_logderiv.py`.
 
 ## What this does not do
 
@@ -159,5 +166,6 @@ entanglement written as one inequality, not a proof of it.
 ## Formal-statement check
 
 (1) is the original problem: nontrivial zeros, real part 1/2.
-(2) is derived equivalent to (1) under D1-D2, not adopted in place of (1).
-No resolution is claimed.
+(2) is classically equivalent to (1); the derivation above records that
+under D1-D2, and (2) is not adopted in place of (1).
+No resolution is claimed, and no new result.

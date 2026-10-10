@@ -1,5 +1,9 @@
 # RUNS: rh_resolve
 
+Run records from 2026-10-03. The enclosure grades the outcome lines
+originally stated were withdrawn by the audit of 2026-10-04 (AUDIT.md);
+on 2026-10-10 those lines were regraded to measured, keeping what was run.
+
 ```runmanifest
 id: rh_resolve-2026-10-03-phase1
 hunt: rh_resolve
@@ -29,7 +33,7 @@ ran:
   - .venv/bin/python hunts/rh_resolve/enclose_li.py --nmax 2 --K 32768 --prec 192
   - branch soundness panel check (min Re(xi) lower 0.4951, max arg upper 0.0329)
   - closed-form cross-check for lambda_1 via arb constants
-outcome: lambda_1 to lambda_3 positivity decided by enclosure, branch proved, precisions overlap
+outcome: lambda_1 to lambda_3 saved lower endpoints positive, branch check passed, precisions overlap (measured, enclosure grade withdrawn 2026-10-04)
 artifacts:
   - hunts/rh_resolve/enclose_li.py
   - hunts/rh_resolve/enclosure_li_K4096_p128.json
@@ -48,7 +52,7 @@ ran:
   - .venv/bin/python hunts/rh_resolve/enclose_li.py --nmin 6 --nmax 10 --K 131072 --prec 128 --R 0.7
   - branch soundness panel check at R 0.7 (min Re lower 0.4869, max arg upper 0.1192)
   - Li positivity scan to n 100 and Jensen scan d 16 n 25 (disproof search, both empty)
-outcome: positivity enclosed for n 1 to 10, disproof search to n 100 and 416 Jensen rows found no violation
+outcome: saved lower endpoints positive for n 1 to 10 (measured, enclosure grade withdrawn 2026-10-04), disproof search to n 100 and 416 Jensen rows found no violation
 artifacts:
   - hunts/rh_resolve/enclosure_li_K131072_p128.json
   - hunts/rh_resolve/enclosure_li_R0.3_K131072_p128.json
@@ -69,7 +73,7 @@ ran:
   - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 49 --nmax 64 --K 65536 --R 0.8 --rho 0.88
   - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 65 --nmax 72 --K 65536 --R 0.8 --rho 0.88
   - re-ran 33-48 under range-stamped filename after overwrite, mechanical 1-71 coverage check
-outcome: positivity enclosed for every n 1 to 71, n 72 mapped as the boundary at this K
+outcome: positive lower endpoints reported for every n 1 to 71 with n 72 as the boundary, later withdrawn (remainder missed oscillation terms, superseded/CORRECTION.md)
 artifacts:
   - hunts/rh_resolve/enclose_li_mid.py
   - hunts/rh_resolve/enclosure_mid_R0.7_K16384_p128.json
@@ -92,14 +96,14 @@ ran:
   - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 17 --nmax 40 --K 65536 --R 0.8
   - .venv/bin/python hunts/rh_resolve/enclose_li_mid.py --nmin 41 --nmax 60 --K 65536 --R 0.8
   - mechanical coverage check 1-58 plus float cross-check, both clean
-outcome: corrected theorem encloses n 1 to 58 with n 59 as boundary, error preserved in superseded
+outcome: corrected rerun reports positive lower endpoints for n 1 to 58 with n 59 as boundary (measured, enclosure grade withdrawn 2026-10-04 in AUDIT.md), error preserved in superseded
 artifacts:
   - hunts/rh_resolve/enclose_li_mid.py
   - hunts/rh_resolve/superseded/CORRECTION.md
   - hunts/rh_resolve/enclosure_mid_R0.7_n1-16_K16384_p128.json
   - hunts/rh_resolve/enclosure_mid_R0.8_n17-40_K65536_p128.json
   - hunts/rh_resolve/enclosure_mid_R0.8_n41-60_K65536_p128.json
-  - hunts/rh_resolve/THEOREM.md
+  - hunts/rh_resolve/AUDIT.md
 ```
 
 ```runmanifest

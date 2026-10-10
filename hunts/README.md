@@ -266,14 +266,19 @@ limits in `qrh_rival_step/RESULTS.md`, which ends with the doors.
 
 ### Direct resolution attempt (`rh_resolve/`, 2026-10-03)
 
-**Status: unresolved.** Saved Li rows report positive lower endpoints
-for n = 1..58, but their enclosure grade was withdrawn on 2026-10-04:
-the complex norm and remainder arithmetic need repair and a rerun
-(`THEOREM.md`). RH is derived equivalent, using the stated classical
-dependencies, to Re(xi'/xi) > 0 for Re s > 1/2 (`EQUIVALENCE.md`);
-that equivalence is not a proof of RH. A positive even Gaussian mixture
-has a measured non-real cosine zero. The log-concavity obstruction is
-conditional on an unproved uniform margin. No novelty claim.
+**Status: unresolved RH attempt; Li enclosure withdrawn; the equivalence it
+records is classical.** Saved Li rows report positive lower endpoints for
+n = 1..58, graded measured: the hunt's own audit of 2026-10-04 withdrew
+their enclosure grade (complex modulus bound, outward rounding of the
+remainder and angle coverage unproved), and no repaired rerun exists
+(`AUDIT.md`, formerly `THEOREM.md`). `EQUIVALENCE.md` records, as an
+ordinary unreviewed argument, the classical equivalence of RH with
+Re(xi'/xi) > 0 on Re s > 1/2 (stated in `epp_herglotz/RESULTS.md`; see
+Lagarias, Acta Arith. 89 (1999), 217-234); it is neither new nor a proof
+of RH. A positive even Gaussian mixture has a measured non-real cosine
+zero. The log-concavity obstruction is conditional on an unproved uniform
+margin. Numbers quoted from the saved artifacts are pinned by
+`tests/test_rh_resolve.py`. No novelty claim.
 
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 

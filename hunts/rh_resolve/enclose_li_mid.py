@@ -1,10 +1,17 @@
-"""Rigorous Li enclosures, second scheme: midpoint rule + Cauchy remainder.
+"""Li enclosure attempt, second scheme: midpoint rule + Cauchy remainder.
 
 Integral: c_n = (1/2pi R^n) ∫_0^{2pi} f(R e^{it}) e^{-int} dt, f = log xi(1/(1-z)).
 Midpoint evaluations are near-point Arb balls (tight). Remainder uses
-|E| <= M2 (2pi)^3/(24 K^2) with M2 = 2M/(rho-R)^2 from Cauchy's estimate,
-M = rigorous max of |f| on |w| = rho via coarse interval panels.
+|E| <= G2 (2pi)^3/(24 K^2) with G2 = F2 + 2n F1 + n^2 M (see enclose_lambda_mid),
+built from Cauchy's estimate with M from coarse interval panels on |w| = rho.
 Branch: asserted via min Re(xi) lower > 0 on both circles.
+
+Grade: measured. The audit of 2026-10-04 (AUDIT.md) found the remainder is not
+yet a proved bound: bound_M takes the coordinate maximum of the real and
+imaginary parts, not the complex modulus; the remainder is float arithmetic
+without outward rounding; angle coverage uses float pi with 1e-15 padding.
+Saved rows are numerical evidence, not enclosures. The "grade" string written
+into the JSON is the run-time label and is kept unchanged.
 """
 import math
 import os
@@ -63,7 +70,8 @@ def enclose_lambda_mid(n, K=16384, prec=128, R_str="0.5", rho_str="0.85", K0=204
         # d/dt brings iR e^{it} f' (chain) and -in (oscillation), so
         # |g''| <= F2 + 2n F1 + n^2 M with F1 = R*M1, F2 = R*M1 + R^2*M2c,
         # M1 = M/gap, M2c = 2M/gap^2 (Cauchy). An earlier version used
-        # M2c alone and understated the remainder for n >= 3 (CORRECTION.md).
+        # M2c alone and understated the remainder for n >= 4 at R = 0.7 and
+        # n >= 5 at R = 0.8 (superseded/CORRECTION.md).
         M1 = M / gap
         M2c = 2 * M / gap**2
         F1 = Rfl * M1

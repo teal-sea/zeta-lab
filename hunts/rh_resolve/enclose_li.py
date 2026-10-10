@@ -1,15 +1,18 @@
-"""Rigorous enclosure of Li coefficients via panel quadrature in Arb balls.
+"""Li coefficient enclosure attempt via panel quadrature in Arb balls.
 
 Method: lambda_n = n*c_n with c_n = (1/2pi R^n) ∫_0^{2pi} f(R e^{it}) e^{-int} dt,
-f(z) = log xi(1/(1-z)), R = 1/2. Each panel's t-interval is covered by an arb
-ball; every operation (cos, sin, exp, gamma, zeta, log) is Arb ball arithmetic,
-hence inclusion-monotonic. The summed balls rigorously contain the integral.
-Principal log is the correct branch here: the disk |z|<=1/2 is unconditionally
-zero-free (images of zeros satisfy |z|>=1-1/gamma1>0.92) and the sampled arg is
-small; the code refuses to decide if any panel ball is non-finite or if the
-imaginary part does not contain 0 tightly.
+f(z) = log xi(1/(1-z)), R = 1/2. Each panel's t-interval is meant to be covered
+by an arb ball; every operation (cos, sin, exp, gamma, zeta, log) is Arb ball
+arithmetic, hence inclusion-monotonic. The summed balls are intended to contain
+the integral. The disk |z|<=1/2 is zero-free (images of zeros satisfy
+|z|>=1-1/gamma1>0.92), and the principal log is intended to be the analytic
+branch there because the sampled arg is small. Rows whose ball is not finite
+are reported as such.
 
-Grade: enclosure-carrying for the stated (n, K, prec). Finite N only.
+Grade: measured. The audit of 2026-10-04 (AUDIT.md) leaves this scheme's branch
+and angle-coverage obligations (float pi, 1e-15 padding) unreviewed, so its
+saved rows are numerical evidence, not enclosures. Finite N only. The "grade"
+string written into the JSON is the run-time label and is kept unchanged.
 """
 import json
 import math
