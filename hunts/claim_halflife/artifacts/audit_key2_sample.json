@@ -1,0 +1,152 @@
+{
+ "0": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "1": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "2": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "3": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "4": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "5": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "6": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "7": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "8": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "9": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "10": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "11": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "12": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "13": {
+  "strict": false,
+  "medium": true,
+  "loose": true
+ },
+ "14": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "15": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "16": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "17": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "18": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "19": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "20": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "21": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "22": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "23": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "24": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "25": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "26": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "27": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ },
+ "28": {
+  "strict": true,
+  "medium": true,
+  "loose": true
+ },
+ "29": {
+  "strict": false,
+  "medium": false,
+  "loose": false
+ }
+}

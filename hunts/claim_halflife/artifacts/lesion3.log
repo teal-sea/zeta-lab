@@ -1,0 +1,41 @@
+quotient_certificate   test_quotient_certificate.py               reads-numbers    (1 artifact(s), 407 leaves)
+quotient_certificate   test_quotient_compensated_repair.py        reads-numbers    (2 artifact(s), 483 leaves)
+quotient_certificate   test_quotient_credited_bundle.py           reads-numbers    (2 artifact(s), 963 leaves)
+quotient_certificate   test_quotient_finite_transfer.py           BYTE-PINNED over 3 artifact(s)
+quotient_certificate   test_quotient_fold_upper.py                BYTE-PINNED over 4 artifact(s)
+quotient_certificate   test_quotient_height_kernel.py             BYTE-PINNED over 3 artifact(s)
+quotient_certificate   test_quotient_transport_capacity.py        reads-numbers    (3 artifact(s), 544 leaves)
+prime_pair_error       test_adaptive_freeze_archive.py            BYTE-PINNED over 15 artifact(s)
+prime_pair_error       test_certificate_lp_barrier.py             reads-no-numbers (1 artifact(s), 6 leaves)
+prime_pair_error       test_certificate_lp_dual_witness.py        reads-numbers    (2 artifact(s), 283 leaves)
+prime_pair_error       test_certificate_lp_frontier.py            reads-no-numbers (2 artifact(s), 148 leaves)
+prime_pair_error       test_factorial_pilot_archive.py            BYTE-PINNED over 15 artifact(s)
+prime_pair_error       test_frontier_archive.py                   reads-no-numbers (8 artifact(s), 76 leaves)
+prime_pair_error       test_prime_pair_residue.py                 reads-numbers    (5 artifact(s), 6115 leaves)
+prime_pair_error       test_prime_pair_upper_bound.py             no artifact of this hunt has a mutable number
+prime_pair_error       test_research_checkpoint_archive.py        BYTE-PINNED over 34 artifact(s)
+dps_cap                test_interface_dps_is_honoured.py          no artifact of this hunt has a mutable number
+dps_cap                test_interface_dps_is_honoured.py          no artifact of this hunt has a mutable number
+zeta_temperament       test_zeta_temperament.py                   reads-numbers    (3 artifact(s), 690 leaves)
+chroma_hue             test_chroma_hue.py                         no artifact of this hunt has a mutable number
+r_662b12               test_aimo_audit.py                         reads-no-numbers (1 artifact(s), 128 leaves)
+r_322dae               test_krenn_gu_support_frontier.py          reads-numbers    (1 artifact(s), 875 leaves)
+r_044dd2               test_krenn_gu_polynomial_sieve.py          BYTE-PINNED over 3 artifact(s)
+r_044dd2               test_krenn_gu_support_frontier.py          BYTE-PINNED over 4 artifact(s)
+lambda_dh_bounds       test_lambda_dh_separation.py               reads-numbers    (12 artifact(s), 1576 leaves)
+prime_zeta_rightmost   test_prime_zeta_rightmost.py               reads-numbers    (7 artifact(s), 304 leaves)
+r_f7cd45               test_hunt_numbering.py                     no artifact of this hunt has a mutable number
+r_3c1cbb               test_hunt_numbering.py                     no artifact of this hunt has a mutable number
+r_3c1cbb               test_hunt_numbering.py                     no artifact of this hunt has a mutable number
+r_414eed               test_guard_ledger.py                       no artifact of this hunt has a mutable number
+frontier_math          test_frontier_math_clean_kill.py           no artifact of this hunt has a mutable number
+frontier_math          test_graveyard.py                          no artifact of this hunt has a mutable number
+frontier_math          test_hunt_probe_discipline.py              reads-no-numbers (1 artifact(s), 339 leaves)
+frontier_math          test_o9_leaves_kernel.py                   no artifact of this hunt has a mutable number
+frontier_math          test_reading_of_record.py                  reads-numbers    (2 artifact(s), 345 leaves)
+frontier_math          test_zeta23ext_imports.py                  no artifact of this hunt has a mutable number
+wide_search            test_pub1_admissible_closure.py            reads-no-numbers (1 artifact(s), 9 leaves)
+director_run           test_harness_independence.py               no artifact of this hunt has a mutable number
+factorization_vs_position test_hunt_probe_discipline.py              no artifact of this hunt has a mutable number
+
+targets 39   scored 25   defending at least one number 19   reading none 6   no mutable artifact 14

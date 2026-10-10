@@ -78,7 +78,7 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (40). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (42). Surfaced by the sweep, below the bar for now.
 
 Totals: 173 entries from 65 hunts. Kinds: identity 22, lemma 43, bound 12, construction
 15, calibration 7, computational 17, control 36, obstruction 21.
@@ -5552,4 +5552,12 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   k_0) >= c G(k) fails off a density-zero set, so no anti-composition statement alone
   implies Erdos #126 (`hunts/support_6cdfd2e3/`, obstruction): ordinary argument,
   unreviewed; not carried.
-
+- Stratified blind audit of a commit classifier with the key moved out of the repository,
+  then a second blind audit on a disjoint sample before any rate is reported, since
+  re-scoring the rows that found the defects is fitted (`hunts/claim_halflife/`,
+  control): measured; used only inside its hunt.
+- Guard power by planted faults over every artifact a test names: a byte-identical rewrite
+  as the null rung (a test that goes red there is byte-pinned), then every numeric leaf
+  scaled by 1.1, with the original bytes held in memory and the restore asserted, never
+  `git checkout` in a shared tree (`hunts/claim_halflife/`, control): measured; used only
+  inside its hunt.

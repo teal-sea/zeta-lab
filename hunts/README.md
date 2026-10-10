@@ -75,6 +75,49 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #131: what happens to a claim after it is recorded (`claim_halflife/`, 2026-09-10)
+
+**Status: partly settled; one headline withdrawn by its own control.** Not mathematics: a
+measurement of this laboratory, and it trades against nothing mathematical. 95 case-log entries
+frozen at `2da62eb`. One recorded claim in five is named by any test; of the 25 (hunt, test) pairs
+that can be scored, 19 defend at least one number against a 10% mutation and 8 are byte-pinned;
+23.2% of entries were never touched again. Of 73 strict revisions, **one** installed a test in the
+same commit, against a doctrine in which every `HANDOFF.md` record carries a `Now caught by:` field.
+Median latency from a hunt's first commit to a revision of its own claim files is one day.
+**The correction rate itself is withdrawn**: a blind hand audit of 30 stratified rows agreed with the
+classifier on 16, precision 0.40, which is close enough to chance that no rate can be reported. It
+named two structural defects, both repaired, and re-scoring against the same rows reaches 21 of 30,
+which is fitted rather than measured; a disjoint sample is with a second blind audit. The container's
+default shallow clone hid three quarters of the history and would have reported 30.5% never revisited
+instead of 23.2%. `tests.yml` and `full.yml` still check out shallow, which `HANDOFF.md` recorded in
+August as the fix that was prepared and not landed. Nothing bears on RH (`docs/08`).
+
+**Renumbered on landing, 2026-10-10.** Opened on the unmerged branch
+`claude/repo-hunt-content-2smbid` as #122, with its front door numbered 40. On main #122 is
+`dh_minus_landing` and 40 is the page on one form per discriminant; #127 to #130 are
+`euler_defect_axis`, `li_dh_onset` (#298), `epstein_height` (#299) and `quotient_exponent` (#300),
+so this is #131 and the front door is `docs/43`. The entry above is the branch's text with the
+number changed; it was written before the second blind audit returned.
+
+**Checked on landing, 2026-10-10.** Every script was re-run against the history frozen at
+`2da62eb`, and `test_claim_halflife.py` (15 tests, seconds, every git call bounded at that commit,
+skipping on a shallow clone) re-derives the corpus, both classifiers on all 414 later commits, the
+pinning, the depth table and both blind-audit scores: all byte for byte. The three planted-fault
+ladders reproduce in a scratch worktree at that commit once its state matches the one they first
+ran in; the re-run found that the null rung never runs the untouched tree, so a test red for an
+unrelated reason scores as byte-pinned, which the recorded eight (each computes a hash) escape.
+Since the entry above:
+the second blind audit agreed on 22 of 30 (precision 0.67, recall 0.77), so `RESULTS.md` reports
+the rate it withdrew here as `15.3%` (73 of 414 later commits flagged, scaled by precision over
+recall), worth one significant figure; and #287 gave `tests.yml` and `full.yml` `fetch-depth: 0` on
+2026-10-09. Two statements did not reproduce and are marked where they are stated: at `2da62eb`
+only 3 of `HANDOFF.md`'s 24 records carry a `Now caught by` line (the header states the format,
+which is the doctrine), and the "nineteen of the seventy-three revisions" in the doors is derived by
+nothing in the hunt. The public-record question was considered on landing: this measures how the
+public record's own claims are guarded and corrected, which an outside reader evaluating them would
+want, and it is a negative result about the lab's tooling, which `AGENTS.md` keeps here. Two
+methods are listed as seen and not admitted in `docs/37`.
+
 ### Hunt #127: one form per discriminant, not forty-one (`euler_defect_axis/`, 2026-09-10)
 
 **Status: settled, correction; repair applied by #296.** The composite-line discriminator is

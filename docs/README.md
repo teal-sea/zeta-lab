@@ -70,6 +70,7 @@ What was built, what was measured, and what did not survive.
 | [38](38-the-quasi-riemann-claim.md) | The quasi-Riemann claim: OpenAI's 7/8 zero-free half-plane of 2026-10-06, read against this tree, rebuilt here and accepted by two kernels. |
 | [39](39-built-on-the-quasi-riemann-theorem.md) | **Start here for the current results.** Five results built on the 7/8 half-plane: a prime between consecutive seventh powers (with an explicit density estimate; audited by a separate agent, reviewed by no person), a prime between consecutive ninth powers from the half-plane alone, class numbers up to 1500, small witnesses with constant 1, Linnik's exponent 7/3. |
 | [40](40-one-form-per-discriminant.md) | One form per discriminant: a composite-defect table whose hypothesis `a(1) = 1` fails on 27 of its 41 rows, the check that would have caught it, and the eleven overclaims an adversarial audit found in the write-up of that finding (hunt #127; the repair to doc 34 landed in #296). |
+| [43](43-what-happens-to-a-claim.md) | What happens to a claim after it is recorded: a measurement of this laboratory rather than of zeta, how much of the record has a guard behind it, how rarely a correction installs one, and a correction rate withdrawn when a blind audit scored the classifier near chance and re-earned on a disjoint sample (hunt #131). |
 
 ## Adding one
 
