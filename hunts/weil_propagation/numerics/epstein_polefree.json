@@ -1,0 +1,387 @@
+{
+ "meta": {
+  "N": 64,
+  "prec": 400,
+  "note": "Which C2 condition does Epstein (1,1,6) break? Pole-free vs full spectra."
+ },
+ "cells": {
+  "27": {
+   "even": {
+    "full_inertia": [
+     65,
+     0,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     1,
+     true
+    ],
+    "full_lowest2": [
+     0.0005849070641189602,
+     0.615417415383673
+    ],
+    "polefree_lowest2": [
+     -7.217735958011716,
+     0.49719911288609264
+    ]
+   },
+   "odd": {
+    "full_inertia": [
+     64,
+     0,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     0,
+     true
+    ],
+    "full_lowest2": [
+     0.0067468464278781885,
+     1.0063905479307687
+    ],
+    "polefree_lowest2": [
+     0.06968657065259651,
+     1.0075662624415493
+    ]
+   }
+  },
+  "28": {
+   "even": {
+    "full_inertia": [
+     65,
+     0,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     1,
+     true
+    ],
+    "full_lowest2": [
+     0.0005829981578412065,
+     0.30439482070256163
+    ],
+    "polefree_lowest2": [
+     -7.448252748851555,
+     0.2307493660848118
+    ]
+   },
+   "odd": {
+    "full_inertia": [
+     63,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     0,
+     true
+    ],
+    "full_lowest2": [
+     -0.0005941086725300448,
+     0.9491523506608718
+    ],
+    "polefree_lowest2": [
+     0.06468549490219276,
+     0.949736862017022
+    ]
+   }
+  },
+  "57/2": {
+   "even": {
+    "full_inertia": [
+     65,
+     0,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     1,
+     true
+    ],
+    "full_lowest2": [
+     0.0005789450285221361,
+     0.16450480996744957
+    ],
+    "polefree_lowest2": [
+     -7.561923638096584,
+     0.12065306929206221
+    ]
+   },
+   "odd": {
+    "full_inertia": [
+     63,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     0,
+     true
+    ],
+    "full_lowest2": [
+     -0.0014499091435522854,
+     0.909082216596388
+    ],
+    "polefree_lowest2": [
+     0.06431169575701716,
+     0.9094203369760142
+    ]
+   }
+  },
+  "29": {
+   "even": {
+    "full_inertia": [
+     65,
+     0,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     1,
+     true
+    ],
+    "full_lowest2": [
+     0.0005565830556027373,
+     0.05927770801090813
+    ],
+    "polefree_lowest2": [
+     -7.671795061169806,
+     0.04153029455455259
+    ]
+   },
+   "odd": {
+    "full_inertia": [
+     63,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     0,
+     true
+    ],
+    "full_lowest2": [
+     -0.0017435831268789832,
+     0.8375937730028218
+    ],
+    "polefree_lowest2": [
+     0.06429520759530036,
+     0.8376643675236795
+    ]
+   }
+  },
+  "59/2": {
+   "even": {
+    "full_inertia": [
+     64,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     63,
+     2,
+     true
+    ],
+    "full_lowest2": [
+     -0.018633634073838765,
+     0.0007073142854082926
+    ],
+    "polefree_lowest2": [
+     -7.778117858674371,
+     -0.014164953027522503
+    ]
+   },
+   "odd": {
+    "full_inertia": [
+     63,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     0,
+     true
+    ],
+    "full_lowest2": [
+     -0.001758615971042068,
+     0.7395252406233705
+    ],
+    "polefree_lowest2": [
+     0.0643065959871714,
+     0.7395539796766978
+    ]
+   }
+  },
+  "30": {
+   "even": {
+    "full_inertia": [
+     64,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     63,
+     2,
+     true
+    ],
+    "full_lowest2": [
+     -0.07502156911664115,
+     0.0006228851508733
+    ],
+    "polefree_lowest2": [
+     -7.880985661186888,
+     -0.05243230064245108
+    ]
+   },
+   "odd": {
+    "full_inertia": [
+     63,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     64,
+     0,
+     true
+    ],
+    "full_lowest2": [
+     -0.0017416172071147453,
+     0.6263635292809667
+    ],
+    "polefree_lowest2": [
+     0.06405715412100417,
+     0.6268355765847019
+    ]
+   }
+  },
+  "34": {
+   "even": {
+    "full_inertia": [
+     64,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     63,
+     2,
+     true
+    ],
+    "full_lowest2": [
+     -0.17267725253729083,
+     0.0005451376297416796
+    ],
+    "polefree_lowest2": [
+     -8.590752456421995,
+     -0.10890400495470216
+    ]
+   },
+   "odd": {
+    "full_inertia": [
+     63,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     63,
+     1,
+     true
+    ],
+    "full_lowest2": [
+     -0.22056979274813046,
+     0.010807173738453963
+    ],
+    "polefree_lowest2": [
+     -0.21759361204147995,
+     0.08648972632847891
+    ]
+   }
+  },
+  "40": {
+   "even": {
+    "full_inertia": [
+     64,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     63,
+     2,
+     true
+    ],
+    "full_lowest2": [
+     -0.5847807691748971,
+     7.917461206229044e-05
+    ],
+    "polefree_lowest2": [
+     -9.425177983381952,
+     -0.58187563580883
+    ]
+   },
+   "odd": {
+    "full_inertia": [
+     63,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     63,
+     1,
+     true
+    ],
+    "full_lowest2": [
+     -0.49855506280738215,
+     0.005094030816460392
+    ],
+    "polefree_lowest2": [
+     -0.47453244214670964,
+     0.08221312802723026
+    ]
+   }
+  },
+  "48": {
+   "even": {
+    "full_inertia": [
+     64,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     63,
+     2,
+     true
+    ],
+    "full_lowest2": [
+     -0.8972578825898464,
+     1.5003748844706888e-06
+    ],
+    "polefree_lowest2": [
+     -10.356769087530548,
+     -0.8452825790867476
+    ]
+   },
+   "odd": {
+    "full_inertia": [
+     63,
+     1,
+     true
+    ],
+    "polefree_inertia": [
+     63,
+     1,
+     true
+    ],
+    "full_lowest2": [
+     -1.0388984127209848,
+     0.0004586835227696558
+    ],
+    "polefree_lowest2": [
+     -1.0345738689943857,
+     0.078699407430458
+    ]
+   }
+  }
+ }
+}

@@ -358,6 +358,24 @@ envelope lemma; residual-enclosed shifted Cholesky). Record:
 `oob_envelope/numerics/RESULTS.md`, `oob_envelope/theory/RESULTS.md`,
 `oob_envelope/referee/REVIEW.md`.
 
+### Weil positivity propagation across window size (`weil_propagation/`, 2026-09-23)
+
+**Status: open.** Asks whether positivity of the truncated Weil form on a
+window of length `L = log c`, together with the Euler product, can be carried
+to `L + delta`. Every candidate transport is tested against
+Davenport-Heilbronn, whose form turns negative at `c = 31`
+(`rogue_frontier/weil_trunc/` s8), and a candidate that also holds for DH is
+refuted. Two workers: measurement of ground-state transport between windows
+in `weil_propagation/numerics/` and literature plus candidate lemmas in
+`weil_propagation/theory/` (branch `teal-sea/weil-propagation-theory`).
+No RH claim. The numerics branch also carries, under
+`rogue_frontier/weil_trunc/`, a DH feasibility gate (`THEOREM_FEASIBILITY.md`,
+`DH_DICTIONARY_CONSTRUCTIVE.md`, `gate_checker.py`): a hardened witness (the
+negative even-sector eigenvalue at `(c, N) = (31, 60)`) plus a Guinand-Weil
+dictionary argued for DH, which together force an off-line DH zero. Grade:
+ordinary argument, internally reviewed, pending external verification. The
+conclusion is classical (Spira 1994); only the route is the lab's.
+
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
 **Status: candidate ordinary argument with enclosure-carrying numerical steps;
