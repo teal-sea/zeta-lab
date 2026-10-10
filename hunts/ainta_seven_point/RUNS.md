@@ -369,6 +369,15 @@ artifacts:
   - .github/workflows/three-point.yml
 ```
 
+> **Annotation, not an edit (issue #158).** The `outcome` above prints
+> `Phi_3 = 0.67273733450380945875`. The exact rational
+> `(149000000*H - 99200)/148800133` evaluates to `0.67273733450380945032...`,
+> so the printed tail is wrong from the 18th decimal. PR #152 corrected the
+> same tail in `lean/bridge/palomar-v2/formalization.yaml`; this run log is
+> left as recorded. No theorem changes: the Lean statement carries the exact
+> rational. The correct decimal is pinned by
+> `tests/test_record_copies_match_data.py`.
+
 ```runmanifest
 id: ainta_seven_point-2026-08-24-four-point-proved
 hunt: ainta_seven_point
@@ -390,6 +399,17 @@ artifacts:
   - hunts/ainta_seven_point/four_point_preflight.py
   - .github/workflows/four-point.yml
 ```
+
+> **Annotation, not an edit (issue #158).** The `outcome` above prints
+> `Phi_4 = 0.67284701976668870316` and repeats the three-point
+> `0.67273733450380945875`. The exact rationals evaluate to
+> `Phi_4 = (906250*H - 1085)/904171 = 0.67284701976668882760...` (wrong
+> from the 16th decimal) and `Phi_3 = 0.67273733450380945032...` (wrong
+> from the 18th). PR #152 corrected both in
+> `lean/bridge/palomar-v2/formalization.yaml`; this run log is left as
+> recorded. No theorem changes: the Lean statements carry the exact
+> rationals. The correct decimals are pinned by
+> `tests/test_record_copies_match_data.py`.
 
 ```runmanifest
 id: ainta_seven_point-2026-08-31-verify-n-rescue-and-fault-injection

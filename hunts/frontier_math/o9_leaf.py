@@ -101,13 +101,18 @@ this table would stop closing.  `test_o9_leaf.py` pins it.
 `o9_scoping.py` sizes the **two-dimensional** table over
 `[28/5, 60] x [0, 1/2]`; its Arb-grade operating point was **389 leaves**
 (110 window + 279 complement, inflation `1.20x`, widening `1/200`).  On
-kernel leaves that route measures **1939 cells** (`hunts/r_2926e4/`
-RESULTS §"the 2-D route", 598 -> 1939), against this module's **476**.
+kernel leaves `o9_leaf2d.py` measures **699 cells** at that operating
+point and **1705** at this module's `1.05x`, against this module's
+**476** (all three pinned by `tests/test_o9_cell_counts.py`, beside the
+Arb model's 339, 601 and 344; issue #23).  `hunts/r_2926e4/` RESULTS
+recorded 598 -> 1939 for a 2-D table; the current generator does not
+give 1939 at either pinned inflation.
 
 The 2-D route is still the stronger artifact, it does not need the
 depth reduction `D(y,s)/y^2 <= 4 D(1/2,s)`, which is measured and
-unproved, but the trade is now about `4x` the cells, not the `1.13x`
-recorded when both figures were Arb-grade.  What that lemma is worth in
+unproved, but the trade is now `3.6x` the cells at equal inflation, or
+`1.5x` at the 2-D route's own `1.20x`, not the `1.13x` recorded when
+both figures were Arb-grade.  What that lemma is worth in
 leaves is a decision for whoever builds the Lean file; the earlier
 "take the 2-D route for 45 leaves" advice understated its cost.
 

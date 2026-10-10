@@ -43,6 +43,12 @@ float anywhere in the chain. Thirty digits shown, truncated.
 | `height_sequence_3`, n=400 | `C_3 ≤ 1.4557` | **1.455642795374540494110788362985** | 4.334046524387984273610361795864 |
 | `height_sequence_4`, n=150 | `C_3' ≤ 1.4688` | **1.468762069741021809514483638412** | **1.468762069741021809514483638412** |
 
+(Added for issue #123: the "published as" column uses the colab's labels, in
+which `C_3` is the `|max f*f|` problem; arXiv v2 and v3 swap the two labels, as
+the verdict below records. Both rows, the knot indices, and the equality of the
+published verification cell with **A** are pinned in CI by
+`tests/test_third_autocorrelation_functionals.py`.)
+
 Read this table as follows.
 
 - The n=400 construction reproduces `1.4557` **only** under A. Under B it gives

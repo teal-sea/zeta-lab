@@ -126,6 +126,13 @@ arithmetic a surplus of `2.599e-02` against a budget of `1.2986e-01`, a 1.16x
 margin still in hand against the `1.3945x` wall. The whole sweep runs in under a
 second.
 
+> **Annotation (issue #23).** Every leaf count in this section is Arb-grade, and
+> Arb leaves are narrower than the kernel's on wide cells, so they undercount. On
+> the kernel's own leaves `o9_leaf2d.py` measures **699** cells at the recommended
+> `1.20x`, widening `1/200` (not 389), and **1705** at `1.05x`; the 1-D route is
+> **476** (not 344). All pinned, with the Arb counts beside them, by
+> `tests/test_o9_cell_counts.py`. The size comparison below is left as recorded.
+
 For scale: `BandCert/Data.lean`, which already compiles in this package, records
 **3005 integers in 70 KB**. O9 at the recommended point is roughly an eighth of
 that. **Size was never the obstacle.**

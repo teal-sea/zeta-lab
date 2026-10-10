@@ -192,13 +192,20 @@ def test_the_hunt_keeps_its_hypothesis_in_every_file():
 
 
 def test_the_hunt_obeys_the_lexical_rules():
-    """No reserved word, no em dash, no bare reference to a doc number this
-    branch does not carry (document 38 lives on another branch on 2026-10-08)."""
+    """No reserved word, no em dash, no reference to a doc number the tree
+    does not carry. On 2026-10-08 that last rule was a ban on `docs/38`, which
+    then lived on another branch; it reached main the same day, so the rule now
+    checks every referenced number against `docs/` instead of naming one."""
+    import re
+
     reserved = "cert" + "if"
+    docs = HERE.parent.parent / "docs"
+    carried = {p.name[:2] for p in docs.glob("[0-9][0-9]-*.md")}
     for path in sorted(HERE.iterdir()):
         if path.suffix not in {".md", ".py", ".json"}:
             continue
         text = path.read_text(encoding="utf-8")
         assert reserved not in text.lower(), path.name
         assert chr(0x2014) not in text, path.name
-        assert "docs/" + "38" not in text, path.name
+        for number in re.findall(r"docs/(\d{2})\b", text):
+            assert number in carried, (path.name, f"docs/{number}")
