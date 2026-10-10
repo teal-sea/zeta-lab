@@ -9,8 +9,8 @@
 # catches the cheapest of those failure classes in the fast tier; this catches
 # the rest.
 #
-# It needs no Mathlib compile. This package's pin (v4.33.0-rc2, mathlib rev
-# 51e6992efd06) is bit-identical to the one `lean/` already has built, so the
+# It needs no Mathlib compile. This package's pin (v4.35.0-rc2, mathlib rev
+# 065356127b1d) is bit-identical to the one `lean/` already has built, so the
 # prebuilt packages are symlinked in rather than re-cloned. A cold `lake build`
 # here would cost hours and gigabytes; this costs minutes.
 #
@@ -55,10 +55,14 @@ done
 export PATH="$HOME/.elan/bin:$PATH"
 cd "$PKG" || exit 2
 
-# Zeta23 (the upstream formalization) is a real dependency and is fetched once.
-if [ ! -d "$PKG/.lake/packages/Zeta23" ]; then
-  echo "== fetching the upstream Zeta23 dependency (once) =="
-  lake update -R || exit $?
+# Zeta23 (the upstream formalization) is required by path since the 4.35 port:
+# it is vendored at lean/vendor/zeta23 and never appears under .lake/packages.
+# There is nothing to fetch, and a `lake update` here would re-resolve the
+# symlinked store above, which belongs to `lean/`. No module in this package
+# imports Zeta23 at present, so the build does not compile it.
+if [ ! -f "$REPO_ROOT/lean/vendor/zeta23/lakefile.toml" ]; then
+  echo "the vendored Zeta23 dependency is missing at lean/vendor/zeta23" >&2
+  exit 2
 fi
 
 echo "== lake build =="

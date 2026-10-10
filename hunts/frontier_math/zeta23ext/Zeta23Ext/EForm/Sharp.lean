@@ -8,7 +8,7 @@ open scoped BigOperators
 open scoped Real
 open MeasureTheory
 
-namespace Retention
+namespace Retention.EForm
 
 /-!
 # Sharper single-point damage bound
@@ -448,4 +448,4 @@ lemma Icos_eq_sq (s : ℝ) : Icos s = (Wcos s) ^ 2 := by
   rw [Icos, hmaster, hodd, Wcos, sq]
   simp
 
-end Retention
+end Retention.EForm
