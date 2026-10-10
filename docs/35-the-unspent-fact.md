@@ -7,6 +7,19 @@ exists, and what a session picking it up needs to know before running anything.
 Grade: **measured**, throughout. No theorem is claimed here and nothing on this page
 bears on RH (`docs/08`).
 
+> **Superseded on 2026-09-06, and the correction inverts this page's headline.**
+> Hunt #118 (`hunts/outband_certificate/`, renumbered from #111) closed this
+> thread as a **ceiling**, not a gap. Every unconditional certificate in the
+> field takes its positivity from Weil's Hermitian form; that makes the on-line
+> block a definite Gram matrix, its kernel positive-definite, its transform
+> nonnegative, and the out-of-band positivity worth **exactly zero** to it. The
+> `+0.0068` priced below is the worth of the information to the
+> **RH-conditional** pointwise class, which is why its range lands on a
+> conditional value. Sections 2 and 4 are wrong in the specific ways marked
+> inline. The measurements are unaffected and reproduce to the digit; what fails
+> is the interpretation this page put on them. `HANDOFF.md` carries the closure
+> under Walls, and section 8 of that hunt's `RESULTS.md` is the argument.
+
 ## 1. The situation
 
 Every certificate in the public race for the proportion of simple on-line zeros of
@@ -43,6 +56,14 @@ lands essentially on top of Chirre, Goncalves and de Laat's `0.6792`, which is r
 part: it suggests RH is doing work in their proof that it may not be doing in the
 truth.
 
+> **That last inference is exactly backwards, and hunt #118 supplies the reason.**
+> The coincidence with a conditional value is not evidence that RH was doing
+> unnecessary work in their proof. It is the signature of this LP pricing the
+> RH-conditional pointwise class itself, so the two numbers agree because they
+> are values of the same class. Recorded rather than deleted because the
+> inference was the most attractive sentence on the page and it was the wrong
+> way round.
+
 ## 3. Why it is unspent
 
 The only known technique for converting that information into a theorem runs an
@@ -63,6 +84,15 @@ So the value lives at a kernel that is not a square, and the machinery only buil
 squares.
 
 ## 4. Why this is a gap and not a wall, and why that distinction is the point
+
+> **Refuted 2026-09-06: it is a wall, and this section has the classification
+> backwards.** The section's reasoning below is preserved because the
+> distinction it draws is the right one to draw and the page exists to draw it.
+> The verdict it reached is wrong: the missing construction is not missing, it
+> is excluded for every argument whose positivity comes from the Hermitian
+> form. The two inputs that would reopen it, an unconditional in-band evaluation
+> of the ordinate pair correlation or an unconditional out-of-band upper bound
+> on the form factor, are each larger results than the record being chased.
 
 `hunts/frontier_math` §2 records a genuine wall: passing the band by widening it needs
 an unconditional *upper* bound on prime pair correlations, the loss is

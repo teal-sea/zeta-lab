@@ -1,0 +1,5 @@
+L 20 quadrature 0.12316975063524 majorant ratio 1.0006292057171695
+L 28 quadrature 3262658476.5243 majorant ratio 1.0006292057171695
+L 30 quadrature 111568183115.77 majorant ratio 1.001164859796694
+L 40 quadrature 15709775554005.0 majorant ratio 1.0006424325950525
+controls: full N(T) k8 rejected; density k8 passes; single-split k7 rejected

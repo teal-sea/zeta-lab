@@ -44,6 +44,19 @@ prove its implication and identify what additional arithmetic the attempt uses.
 For classical statements and historical constants, consult the source notes
 in the archived catalogue and verify the precise version before using one.
 
+On 2026-10-06 OpenAI published a claimed proof of exactly such a strip,
+`Re(s) > 7/8` for every Dirichlet L-function including zeta, with Lean
+statements against Mathlib's own definitions. On 2026-10-08 this laboratory
+rebuilt it from the pinned commit on its own default compute and Lean 4.34.1's
+kernel accepted it with exactly the three standard axioms, and the same day
+Comparator with the independent NanoDa checker on accepted all three
+statements (`docs/38`, section 7). On this tree's ladder the fixed strip is
+therefore kernel-checked, on two kernels, pending any human review of the
+argument; what this laboratory then proved on top of it is `docs/39`. The
+distinction this section draws, between a shrinking region and a fixed strip,
+is now history for Dirichlet L-functions; its closing rule, that a strip is not
+RH, is untouched.
+
 ### 1.2 Zero-density estimates
 
 A density estimate bounds how many zeros can lie in a region. Such an upper
