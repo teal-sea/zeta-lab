@@ -1191,7 +1191,7 @@ Constants: `SCHEMA_VERSION`
 
 ### `dossier/subjects/hardy_z.py`, The Hardy Z dossier, the one worked example.
 
-*443 lines*
+*458 lines*
 
 Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
@@ -1305,7 +1305,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2249 test functions across 131 files (the collected count differs where tests are parametrised):
+2271 test functions across 132 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1411,6 +1411,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_research_checkpoint_archive.py`, 11
 - `tests/test_research_recovery_archive.py`, 1
 - `tests/test_review.py`, 12
+- `tests/test_rh_resolve.py`, 22
 - `tests/test_rigor.py`, 54
 - `tests/test_rigor_weil.py`, 17
 - `tests/test_rogue_lab_controls.py`, 7

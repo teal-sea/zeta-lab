@@ -78,7 +78,7 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (38). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (40). Surfaced by the sweep, below the bar for now.
 
 Totals: 172 entries from 64 hunts. Kinds: identity 22, lemma 43, bound 12, construction
 15, calibration 7, computational 17, control 35, obstruction 21.
@@ -5510,4 +5510,14 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   identity prices the whole zero sum at x^theta (log q/2 + O(1)) with Arb-enclosed
   constants; gives explicit (log q)^(1/(1-theta)) witness bounds
   (`hunts/qrh_nonresidue/`, lemma): self-reviewed only; not carried.
+- Tensor-to-S-unit reduction for Erdos #126: if C = A.B is admissible for S u T, every
+  mixed pair gives x = (ab+a'b')/((a+a')(b+b')) with x + y = 1 in (S u T)-units, and
+  Mobius injectivity in b/b' gives |A|, |B| <= N(S u T) + 1, so subexponential S-unit
+  counts rule out every tensor counterexample (`hunts/support_6cdfd2e3/`, obstruction):
+  ordinary argument, unreviewed; conditional on the S-unit count; not carried.
+- Sparse staircase against the converse of amplification: G(k) = 2^{k_j} on [k_j,
+  k_{j+1}) with k_{j+1}/k_j -> infinity has limsup log G(k)/k > 0 while every law G(k +
+  k_0) >= c G(k) fails off a density-zero set, so no anti-composition statement alone
+  implies Erdos #126 (`hunts/support_6cdfd2e3/`, obstruction): ordinary argument,
+  unreviewed; not carried.
 

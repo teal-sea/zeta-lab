@@ -202,9 +202,11 @@ def build() -> Dossier:
                     formal=AxisRecord(
                         status=FormalStatus.PROVED,
                         detail=(
-                            "hardyZ_is_real: kernel run observed 2026-08-13, "
-                            "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
-                            "root import wired"
+                            "hardyZ_is_real: kernel run observed 2026-08-13 "
+                            "(lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2), "
+                            "re-observed 2026-09-30 after the Lean 4.35 port "
+                            "(CI run 36721263490 compiled ZetaLean.HardyZ at 783307c, "
+                            "leanprover/lean4:v4.35.0-rc2), root import wired"
                         ),
                         artifact="lean/ZetaLean/HardyZ.lean",
                     ),
@@ -262,9 +264,11 @@ def build() -> Dossier:
                     formal=AxisRecord(
                         status=FormalStatus.PROVED,
                         detail=(
-                            "abs_hardyZ_eq_abs_zeta: kernel run observed 2026-08-13, "
-                            "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
-                            "root import wired"
+                            "abs_hardyZ_eq_abs_zeta: kernel run observed 2026-08-13 "
+                            "(lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2), "
+                            "re-observed 2026-09-30 after the Lean 4.35 port "
+                            "(CI run 36721263490 compiled ZetaLean.HardyZ at 783307c, "
+                            "leanprover/lean4:v4.35.0-rc2), root import wired"
                         ),
                         artifact="lean/ZetaLean/HardyZ.lean",
                     ),
@@ -313,9 +317,11 @@ def build() -> Dossier:
                     formal=AxisRecord(
                         status=FormalStatus.PROVED,
                         detail=(
-                            "hardyZ_even: kernel run observed 2026-08-13, "
-                            "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
-                            "root import wired"
+                            "hardyZ_even: kernel run observed 2026-08-13 "
+                            "(lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2), "
+                            "re-observed 2026-09-30 after the Lean 4.35 port "
+                            "(CI run 36721263490 compiled ZetaLean.HardyZ at 783307c, "
+                            "leanprover/lean4:v4.35.0-rc2), root import wired"
                         ),
                         artifact="lean/ZetaLean/HardyZ.lean",
                     ),
@@ -355,8 +361,17 @@ def build() -> Dossier:
                     "hardyZ_zero_iff, continuous_hardyZ, accepted by the kernel in a "
                     "watched run: lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                     "observed 2026-08-13. The root import has wired ZetaLean.HardyZ "
-                    "since 150ac05 (whose build compiled it for the first time); the "
-                    "file itself is unchanged since d11f297. 'Proved' is a statement "
+                    "since 150ac05 (whose build compiled it for the first time). Since "
+                    "that observation the file has changed twice, neither time in a "
+                    "lemma, statement or proof: 7b86bc9 (2026-09-05) turned one em dash "
+                    "into a colon inside a doc comment, and bb38b79 (2026-09-28) ported "
+                    "it to the Lean 4.35 module system (module header, public imports, "
+                    "@[expose] public section). Re-observed after the port on "
+                    "2026-09-30: CI run 36721263490 compiled ZetaLean.HardyZ at 783307c "
+                    "under leanprover/lean4:v4.35.0-rc2 (that job failed on three "
+                    "unrelated modules, fixed in #285), and the green run 38002772078 "
+                    "at 73d4621 on 2026-10-09 replayed that build with HardyZ.lean, "
+                    "the toolchain and the manifest unchanged. 'Proved' is a statement "
                     "about these five lemmas, not the dossier: the discriminating sign "
                     "obligation remains not-attempted, so the formalisation is still "
                     "complete about everything except the thing that makes Z worth "
