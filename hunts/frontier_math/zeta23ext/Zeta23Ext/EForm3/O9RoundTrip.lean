@@ -1,6 +1,7 @@
 module
 
 public import Zeta23Ext.BandCert.Leaves
+public meta import Zeta23Ext.BandCert.Leaves
 
 @[expose] public section
 

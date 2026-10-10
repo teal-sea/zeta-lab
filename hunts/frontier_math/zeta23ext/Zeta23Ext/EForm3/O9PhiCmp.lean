@@ -1,7 +1,9 @@
 module
 
 public import Zeta23Ext.BandCert.Phi
+public meta import Zeta23Ext.BandCert.Phi
 public import Zeta23Ext.EForm3.O9Comp
+public meta import Zeta23Ext.EForm3.O9Comp
 
 @[expose] public section
 
