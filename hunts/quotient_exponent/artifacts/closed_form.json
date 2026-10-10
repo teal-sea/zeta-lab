@@ -1,0 +1,417 @@
+{
+ "1000": {
+  "plateau": {
+   "y": [
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62
+   ],
+   "value": 2.4260151319598027
+  },
+  "anatomy": [
+   {
+    "N": 1000,
+    "y": 56,
+    "solved": true,
+    "excess": 2.4260151319598027,
+    "cells_with_excess": 15,
+    "cells_with_excess_and_weight": 1,
+    "closed_form": {
+     "expression": "(7/2) * log(2)",
+     "value": "2.42601513195980858",
+     "observed": "2.4260151319598027",
+     "abs_diff": 5.9098375177666924e-15,
+     "rel_diff": 2.4360266512404424e-15
+    },
+    "carrier": {
+     "cell": 31,
+     "d_range": [
+      32,
+      32
+     ],
+     "prime_powers_in_range": [
+      {
+       "d": 32,
+       "p": 2,
+       "k": 5
+      }
+     ],
+     "excess_in_cell": 3.5,
+     "excess_as_fraction": [
+      7,
+      2
+     ],
+     "weight_of_cell": 0.6931471805599436
+    }
+   },
+   {
+    "N": 1000,
+    "y": 59,
+    "solved": true,
+    "excess": 2.4260151319598027,
+    "cells_with_excess": 14,
+    "cells_with_excess_and_weight": 1,
+    "closed_form": {
+     "expression": "(7/2) * log(2)",
+     "value": "2.42601513195980858",
+     "observed": "2.4260151319598027",
+     "abs_diff": 5.9098375177666924e-15,
+     "rel_diff": 2.4360266512404424e-15
+    },
+    "carrier": {
+     "cell": 31,
+     "d_range": [
+      32,
+      32
+     ],
+     "prime_powers_in_range": [
+      {
+       "d": 32,
+       "p": 2,
+       "k": 5
+      }
+     ],
+     "excess_in_cell": 3.5,
+     "excess_as_fraction": [
+      7,
+      2
+     ],
+     "weight_of_cell": 0.6931471805599436
+    }
+   },
+   {
+    "N": 1000,
+    "y": 62,
+    "solved": true,
+    "excess": 2.4260151319598027,
+    "cells_with_excess": 14,
+    "cells_with_excess_and_weight": 1,
+    "closed_form": {
+     "expression": "(7/2) * log(2)",
+     "value": "2.42601513195980858",
+     "observed": "2.4260151319598027",
+     "abs_diff": 5.9098375177666924e-15,
+     "rel_diff": 2.4360266512404424e-15
+    },
+    "carrier": {
+     "cell": 31,
+     "d_range": [
+      32,
+      32
+     ],
+     "prime_powers_in_range": [
+      {
+       "d": 32,
+       "p": 2,
+       "k": 5
+      }
+     ],
+     "excess_in_cell": 3.5,
+     "excess_as_fraction": [
+      7,
+      2
+     ],
+     "weight_of_cell": 0.6931471805599436
+    }
+   }
+  ]
+ },
+ "10000": {
+  "plateau": {
+   "y": [
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    169,
+    170,
+    171,
+    172
+   ],
+   "value": 9.406482647787405
+  },
+  "anatomy": [
+   {
+    "N": 10000,
+    "y": 157,
+    "solved": true,
+    "excess": 9.406482647787405,
+    "cells_with_excess": 57,
+    "cells_with_excess_and_weight": 1,
+    "closed_form": {
+     "expression": "3 * log(23)",
+     "value": "9.40648264778744907",
+     "observed": "9.406482647787405",
+     "abs_diff": 4.445619606460811e-14,
+     "rel_diff": 4.726123220464868e-15
+    },
+    "carrier": {
+     "cell": 434,
+     "d_range": [
+      23,
+      23
+     ],
+     "prime_powers_in_range": [
+      {
+       "d": 23,
+       "p": 23,
+       "k": 1
+      }
+     ],
+     "excess_in_cell": 2.999999999999986,
+     "excess_as_fraction": [
+      3,
+      1
+     ],
+     "weight_of_cell": 3.1354942159291497
+    }
+   },
+   {
+    "N": 10000,
+    "y": 165,
+    "solved": true,
+    "excess": 9.406482647787449,
+    "cells_with_excess": 53,
+    "cells_with_excess_and_weight": 1,
+    "closed_form": {
+     "expression": "3 * log(23)",
+     "value": "9.40648264778744907",
+     "observed": "9.406482647787449",
+     "abs_diff": 4.7275079601849556e-17,
+     "rel_diff": 5.025797779254862e-18
+    },
+    "carrier": {
+     "cell": 434,
+     "d_range": [
+      23,
+      23
+     ],
+     "prime_powers_in_range": [
+      {
+       "d": 23,
+       "p": 23,
+       "k": 1
+      }
+     ],
+     "excess_in_cell": 3.0,
+     "excess_as_fraction": [
+      3,
+      1
+     ],
+     "weight_of_cell": 3.1354942159291497
+    }
+   },
+   {
+    "N": 10000,
+    "y": 172,
+    "solved": true,
+    "excess": 9.406482647787449,
+    "cells_with_excess": 52,
+    "cells_with_excess_and_weight": 1,
+    "closed_form": {
+     "expression": "3 * log(23)",
+     "value": "9.40648264778744907",
+     "observed": "9.406482647787449",
+     "abs_diff": 4.7275079601849556e-17,
+     "rel_diff": 5.025797779254862e-18
+    },
+    "carrier": {
+     "cell": 434,
+     "d_range": [
+      23,
+      23
+     ],
+     "prime_powers_in_range": [
+      {
+       "d": 23,
+       "p": 23,
+       "k": 1
+      }
+     ],
+     "excess_in_cell": 3.0,
+     "excess_as_fraction": [
+      3,
+      1
+     ],
+     "weight_of_cell": 3.1354942159291497
+    }
+   }
+  ]
+ },
+ "100000": {
+  "plateau": {
+   "y": [
+    545,
+    546,
+    547,
+    548,
+    549,
+    550,
+    551,
+    552,
+    553,
+    554,
+    555,
+    556,
+    557,
+    558,
+    559,
+    560,
+    561,
+    562,
+    563,
+    564,
+    565,
+    566,
+    567,
+    568,
+    569,
+    570,
+    571,
+    572,
+    573,
+    574,
+    575,
+    576,
+    577,
+    578,
+    579,
+    580
+   ],
+   "value": 28.364326912276148
+  },
+  "anatomy": [
+   {
+    "N": 100000,
+    "y": 545,
+    "solved": true,
+    "excess": 28.364326912276148,
+    "cells_with_excess": 181,
+    "cells_with_excess_and_weight": 1,
+    "closed_form": {
+     "expression": "6 * log(113)",
+     "value": "28.3643269122740434",
+     "observed": "28.364326912276148",
+     "abs_diff": 2.104695646517414e-12,
+     "rel_diff": 7.420220663183279e-14
+    },
+    "carrier": {
+     "cell": 884,
+     "d_range": [
+      113,
+      113
+     ],
+     "prime_powers_in_range": [
+      {
+       "d": 113,
+       "p": 113,
+       "k": 1
+      }
+     ],
+     "excess_in_cell": 6.0000000000004405,
+     "excess_as_fraction": [
+      6,
+      1
+     ],
+     "weight_of_cell": 4.727387818712344
+    }
+   },
+   {
+    "N": 100000,
+    "y": 563,
+    "solved": true,
+    "excess": 28.36432691227541,
+    "cells_with_excess": 174,
+    "cells_with_excess_and_weight": 1,
+    "closed_form": {
+     "expression": "6 * log(113)",
+     "value": "28.3643269122740434",
+     "observed": "28.36432691227541",
+     "abs_diff": 1.36573120132691e-12,
+     "rel_diff": 4.8149607270811686e-14
+    },
+    "carrier": {
+     "cell": 884,
+     "d_range": [
+      113,
+      113
+     ],
+     "prime_powers_in_range": [
+      {
+       "d": 113,
+       "p": 113,
+       "k": 1
+      }
+     ],
+     "excess_in_cell": 6.000000000000284,
+     "excess_as_fraction": [
+      6,
+      1
+     ],
+     "weight_of_cell": 4.727387818712344
+    }
+   },
+   {
+    "N": 100000,
+    "y": 580,
+    "solved": true,
+    "excess": 28.36432691227286,
+    "cells_with_excess": 167,
+    "cells_with_excess_and_weight": 1,
+    "closed_form": {
+     "expression": "6 * log(113)",
+     "value": "28.3643269122740434",
+     "observed": "28.36432691227286",
+     "abs_diff": 1.1851172200518497e-12,
+     "rel_diff": 4.178196167732844e-14
+    },
+    "carrier": {
+     "cell": 884,
+     "d_range": [
+      113,
+      113
+     ],
+     "prime_powers_in_range": [
+      {
+       "d": 113,
+       "p": 113,
+       "k": 1
+      }
+     ],
+     "excess_in_cell": 5.999999999999744,
+     "excess_as_fraction": [
+      6,
+      1
+     ],
+     "weight_of_cell": 4.727387818712344
+    }
+   }
+  ]
+ },
+ "1000000": {
+  "plateau": null,
+  "anatomy": [
+   {
+    "N": 1000000,
+    "y": 1995,
+    "solved": true,
+    "excess": 0.0,
+    "cells_with_excess": 497,
+    "cells_with_excess_and_weight": 0,
+    "closed_form": null
+   }
+  ]
+ }
+}
