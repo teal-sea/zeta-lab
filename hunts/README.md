@@ -264,6 +264,21 @@ pair sits at 0.86953). Controls: gamma_1 recovered to 2e-16, planted faults
 detected, the class-number-one form sees nothing. Scan ranges are stated as
 limits in `qrh_rival_step/RESULTS.md`, which ends with the doors.
 
+### Direct resolution attempt (`rh_resolve/`, 2026-10-03)
+
+**Status: unresolved RH attempt; Li enclosure withdrawn; the equivalence it
+records is classical.** Saved Li rows report positive lower endpoints for
+n = 1..58, graded measured: the hunt's own audit of 2026-10-04 withdrew
+their enclosure grade (complex modulus bound, outward rounding of the
+remainder and angle coverage unproved), and no repaired rerun exists
+(`AUDIT.md`, formerly `THEOREM.md`). `EQUIVALENCE.md` records, as an
+ordinary unreviewed argument, the classical equivalence of RH with
+Re(xi'/xi) > 0 on Re s > 1/2 (stated in `epp_herglotz/RESULTS.md`; see
+Lagarias, Acta Arith. 89 (1999), 217-234); it is neither new nor a proof
+of RH. A positive even Gaussian mixture has a measured non-real cosine
+zero. The log-concavity obstruction is conditional on an unproved uniform
+margin. Numbers quoted from the saved artifacts are pinned by
+`tests/test_rh_resolve.py`. No novelty claim.
 
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 
