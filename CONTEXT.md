@@ -1191,7 +1191,7 @@ Constants: `SCHEMA_VERSION`
 
 ### `dossier/subjects/hardy_z.py`, The Hardy Z dossier, the one worked example.
 
-*443 lines*
+*458 lines*
 
 Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
