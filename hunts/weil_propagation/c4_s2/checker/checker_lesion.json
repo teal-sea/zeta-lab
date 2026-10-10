@@ -1,0 +1,207 @@
+{
+ "meta": {
+  "N": 8,
+  "nvec": 80,
+  "S": 1200,
+  "kmax": 10,
+  "band": 0.006,
+  "label": "LESION, kill-control 4",
+  "ts_inputs_digest": "02f12c86c32e97c4bd6163c27263ae911b1a0397c0616a82f6363f182e602f29",
+  "dirty_inputs": [],
+  "head": "8dc85257b5eff7872ce1a09a7a43a77a4a1e60a3",
+  "diag_alpha_1": {
+   "gram_z_offI": 0.08917159215250076,
+   "cond_Gb": 280.0923816279413
+  },
+  "diag_alpha_plus": {
+   "gram_z_offI": 0.08917159215250076,
+   "cond_Gb": 305.7028940823843
+  },
+  "diag_alpha_minus": {
+   "gram_z_offI": 0.08917159215250076,
+   "cond_Gb": 276.2653008921634
+  },
+  "seconds": 59.9
+ },
+ "layers": {
+  "1_builder_with_gate": {
+   "outcome": "raised",
+   "exception": "ta_data.NonUnitaryLocalData",
+   "message": "Satake parameter alpha_1 = 2**(1/4) has |alpha| != 1 (non-unitary)"
+  },
+  "2_provider_gate_bypassed": {
+   "outcome": "raised",
+   "exception": "builtins.NotImplementedError",
+   "message": "Delta_T is wired for real unitary alpha only (all mission data)"
+  },
+  "2_provider_gate_bypassed_alpha_minus": {
+   "outcome": "raised",
+   "exception": "builtins.NotImplementedError",
+   "message": "Delta_T is wired for real unitary alpha only (all mission data)"
+  }
+ },
+ "cells": {
+  "2.2": {
+   "T_zeta": {
+    "low3": [
+     0.003523276273965432,
+     0.026540623494194303,
+     0.20020833131966428
+    ],
+    "n_below_band": 0,
+    "n_in_band": 1,
+    "n_above_band": 16
+   },
+   "T_les": {
+    "low3": [
+     0.007656403578908661,
+     0.05377588475171648,
+     0.39999609047385515
+    ],
+    "n_below_band": 0,
+    "n_in_band": 0,
+    "n_above_band": 17
+   },
+   "R_zeta": {
+    "low3": [
+     -0.02690552277046952,
+     -0.014517168333156473,
+     -0.008617412403310024
+    ],
+    "n_below_band": 4,
+    "n_in_band": 1,
+    "n_above_band": 12
+   },
+   "R_les": {
+    "low3": [
+     -0.07419157613488284,
+     -0.041009368896023,
+     -0.023899041926969598
+    ],
+    "n_below_band": 5,
+    "n_in_band": 0,
+    "n_above_band": 12
+   },
+   "R_les_against_2Q_zeta": {
+    "low3": [
+     -0.060645474790773264,
+     -0.03387261183201128,
+     -0.02295401519195923
+    ],
+    "n_below_band": 4,
+    "n_in_band": 1,
+    "n_above_band": 12
+   },
+   "dT_plus_minus_dT_1_maxabs": 0.013034984030791508,
+   "dT_minus_minus_dT_1_maxabs": 0.013411018355006021
+  },
+  "2.5": {
+   "T_zeta": {
+    "low3": [
+     0.002812883829590616,
+     0.01067332049946448,
+     0.07933262429738383
+    ],
+    "n_below_band": 0,
+    "n_in_band": 1,
+    "n_above_band": 16
+   },
+   "T_les": {
+    "low3": [
+     0.006230214061861139,
+     0.022004634845210976,
+     0.1593637478664296
+    ],
+    "n_below_band": 0,
+    "n_in_band": 0,
+    "n_above_band": 17
+   },
+   "R_zeta": {
+    "low3": [
+     -0.04014931144022363,
+     -0.021286100068095413,
+     -0.013294993892912011
+    ],
+    "n_below_band": 4,
+    "n_in_band": 3,
+    "n_above_band": 10
+   },
+   "R_les": {
+    "low3": [
+     -0.09624728797661242,
+     -0.06112111917485281,
+     -0.05223389552865542
+    ],
+    "n_below_band": 6,
+    "n_in_band": 1,
+    "n_above_band": 10
+   },
+   "R_les_against_2Q_zeta": {
+    "low3": [
+     -0.08283153905467978,
+     -0.049017735803663885,
+     -0.038855966575843885
+    ],
+    "n_below_band": 5,
+    "n_in_band": 2,
+    "n_above_band": 10
+   },
+   "dT_plus_minus_dT_1_maxabs": 0.024027336311954306,
+   "dT_minus_minus_dT_1_maxabs": 0.027782192675264383
+  },
+  "2.9": {
+   "T_zeta": {
+    "low3": [
+     0.002548113635072068,
+     0.005164343180008463,
+     0.02839762657527343
+    ],
+    "n_below_band": 0,
+    "n_in_band": 2,
+    "n_above_band": 15
+   },
+   "T_les": {
+    "low3": [
+     0.005698742591351638,
+     0.010951752614256495,
+     0.057521407684091794
+    ],
+    "n_below_band": 0,
+    "n_in_band": 1,
+    "n_above_band": 16
+   },
+   "R_zeta": {
+    "low3": [
+     -0.09654490438236345,
+     -0.04560278506013947,
+     -0.013065783269982116
+    ],
+    "n_below_band": 4,
+    "n_in_band": 2,
+    "n_above_band": 11
+   },
+   "R_les": {
+    "low3": [
+     -0.20841546725672427,
+     -0.10819997341475991,
+     -0.05294904175294679
+    ],
+    "n_below_band": 6,
+    "n_in_band": 1,
+    "n_above_band": 10
+   },
+   "R_les_against_2Q_zeta": {
+    "low3": [
+     -0.1974348395352642,
+     -0.09465361552069386,
+     -0.038819764684476676
+    ],
+    "n_below_band": 5,
+    "n_in_band": 1,
+    "n_above_band": 11
+   },
+   "dT_plus_minus_dT_1_maxabs": 0.03156763248104677,
+   "dT_minus_minus_dT_1_maxabs": 0.03743259433306978
+  }
+ }
+}

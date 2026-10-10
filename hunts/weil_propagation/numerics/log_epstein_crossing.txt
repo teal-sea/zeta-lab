@@ -1,0 +1,4 @@
+64|odd {'c_pos_float': 27.8046875, 'c_neg_float': 27.80517578125, 'lam1_at_c_neg': '[-7.932242799e-7 +/- 4.04e-17]', 'hardened_negative_two_routes': True, 'dedekind_n_neg_at_c_neg': 0, 'positive_grid_cells_after_first_negative': []} 3.4 s
+64|even {'c_pos_float': 29.3408203125, 'c_neg_float': 29.34130859375, 'lam1_at_c_neg': '[-1.236643810e-6 +/- 4.07e-16]', 'hardened_negative_two_routes': True, 'dedekind_n_neg_at_c_neg': 0, 'positive_grid_cells_after_first_negative': []} 2.3 s
+128|odd {'c_pos_float': 27.7412109375, 'c_neg_float': 27.74169921875, 'lam1_at_c_neg': '[-1.292835817e-6 +/- 2.55e-16]', 'hardened_negative_two_routes': True, 'dedekind_n_neg_at_c_neg': 0, 'positive_grid_cells_after_first_negative': []} 9.0 s
+128|even {'c_pos_float': 29.3037109375, 'c_neg_float': 29.30419921875, 'lam1_at_c_neg': '[-4.219861683e-6 +/- 1.43e-16]', 'hardened_negative_two_routes': True, 'dedekind_n_neg_at_c_neg': 0, 'positive_grid_cells_after_first_negative': []} 9.2 s

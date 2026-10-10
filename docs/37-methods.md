@@ -73,13 +73,15 @@ stays out of this file. No em dashes.
 - **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
   bound from a fixed zero-free half-plane, and the exact sieve that spends it on
   complete class-number lists.
-- **Primes in short intervals and explicit formulas** (1). Smoothed explicit formulas
+- **Primes in short intervals and explicit formulas** (2). Smoothed explicit formulas
   with closed-form sums over zeros split at a verified height; threshold exponents for
   primes between powers under a zero-free half-plane.
+- **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
+  primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (40). Surfaced by the sweep, below the bar for now.
 
-Totals: 170 entries from 62 hunts. Kinds: identity 21, lemma 43, bound 12, construction
-15, calibration 7, computational 16, control 35, obstruction 21.
+Totals: 172 entries from 64 hunts. Kinds: identity 22, lemma 43, bound 12, construction
+15, calibration 7, computational 17, control 35, obstruction 21.
 
 ## Prime pairs and the circle method
 
@@ -5367,6 +5369,38 @@ Reused in: the eighth-power argument is strengthened to a seventh-power
 result under the same zeta seven-eighths hypothesis.
 Why it travels: cumulative counting estimates can be combined soundly with
 monotone weights without estimating disjoint bins by subtraction.
+
+## Explicit prime estimates and Robin's criterion
+
+Mertens-product bounds at primorials past a verified range, and what they buy for
+Robin's inequality on restricted families of integers.
+
+- identity: First-order cancellation in the primorial Mertens ratio (`robin_tfree`)
+
+### First-order cancellation in the primorial Mertens ratio
+
+identity | `hunts/robin_tfree/` | grade: candidate, ordinary derivation, unreviewed,
+pending external verification; checked exactly on real primes, as the hunt states
+
+With `R = theta - id`, `w(u) = (1 + log u)/(u^2 log^2 u)`, `h(p) = -log(1-1/p) - 1/p`,
+`d = R(x)/x`, `L = log x`:
+`log(e^-gamma prod_{p<=x} p/(p-1) / log theta(x)) = -int_x^inf R w - sum_{p>x} h(p) + g(d)`,
+`g(d) = d/L - log(1 + log(1+d)/L)`, and `|g(d)| <= d^2/L` for `|d| <= 1e-6`, `L >= 31`.
+Mertens' partial-summation boundary term `R(x)/(x log x)` and the `log theta(x)`
+denominator cancel exactly to first order, so only the integral needs a bound on `theta`.
+Bounding the two terms separately, as the t-free Robin papers do, costs
+`2c/(sqrt(x) log x)` for `|R| <= c sqrt(x)`: at Morrill-Platt's `x0 = 3.0e13` with
+`c = 1.95` that is `2.29e-8`, the whole difference between t = 24 and t = 25.
+
+Evidence: hunts/robin_tfree/RESULTS.md sections 2 and 7; test_bound.py (identity in sum
+and difference form to 1e-25 on primes to 2e6, sign flip caught; Lemma 2 at 400 points)
+Prior art: searched-and-absent within the scope of RESULTS.md section 9 (web, arXiv and
+zbMATH Open searched 2026-10-10; Axler 2023 and Morrill-Platt 2021 v1/v4 both bound the
+terms separately); MathSciNet unsearched
+Reused in: none yet
+Why it travels: any explicit upper or lower bound on `N_k/phi(N_k)` against
+`e^gamma log log N_k` (Robin, Nicolas, Axler-type valuation results, unconditional
+`sigma(n)/n` constants) pays the separate-terms cost unless it uses this form.
 
 ## Seen and not admitted
 

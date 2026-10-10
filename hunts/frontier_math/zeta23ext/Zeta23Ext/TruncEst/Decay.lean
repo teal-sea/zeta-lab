@@ -161,8 +161,11 @@ lemma hasDerivAt_hf1 (y w : ℝ) : HasDerivAt (hf1 y) (hf2 y w) w := by
     convert this using 1
     ring
   have hC := (hasDerivAt_c2core w).mul hB
-  have h := hA.add hC
-  convert h using 1
+  -- the function parts are defeq (`Pi.add`/`Pi.mul` against `hf1`); only the
+  -- derivative differs, so `congr_deriv` replaces `convert`, which now stops at
+  -- the function and leaves an `unfold` with nothing to unfold.
+  refine (hA.add hC).congr_deriv ?_
+  symm
   unfold hf2
   ring
 
@@ -192,8 +195,8 @@ lemma hasDerivAt_Gaux {dt : ℝ} (hdt : dt ≠ 0) (y w : ℝ) :
   have h2 : HasDerivAt (fun w : ℝ => hf1 y w * Real.cos (dt * w) / dt ^ 2)
       ((hf2 y w * Real.cos (dt * w) + hf1 y w * (-Real.sin (dt * w) * dt)) / dt ^ 2) w :=
     ((hasDerivAt_hf1 y w).mul (hlin.cos)).div_const (dt ^ 2)
-  have h := h1.add h2
-  convert h using 1
+  refine (h1.add h2).congr_deriv ?_
+  symm
   field_simp
   ring
 

@@ -7,7 +7,37 @@ its pieces are kernel-checked.
 
 **Status discipline** (the lean/ arm's rule applies here too): nothing
 in this package counts until it compiles with zero sorrys under the
-pinned toolchain. As of the scaffold commit:
+pinned toolchain.
+
+**Assembly, 2026-10-10: the root builds under `v4.35.0-rc2` (Mathlib
+`065356127b1d`).** `lake build Zeta23Ext`: 8996 jobs, 0 errors, no `sorryAx`,
+and every `#print axioms` in the build log reads `[propext, Classical.choice,
+Quot.sound]` or a subset. It had not assembled on `main` before this: under
+the 4.35 port five modules failed, and two of them (`TruncEst/Decay`,
+`RetentionWired`) were only reached once the first three built. What was
+wrong, all of it Lean or Mathlib drift and none of it mathematics:
+
+| module | failure | repair |
+| --- | --- | --- |
+| `TruncEst/Kernel` | `sin_gt_sub_cube` lost its `x ≤ 1` argument; `simpa`/`convert` stopped at a `Pi.mul` instance goal | drop the argument; `HasDerivAt.congr_deriv` |
+| `TruncEst/Decay` | `convert` stopped at the function, leaving `unfold hf2` nothing to unfold | `congr_deriv` |
+| `EForm2/Bridge` | three bare `simp only` now make no progress | removed |
+| `RetentionWired` | `congr 2` no longer lands on the sum (this is where `margin_identity` picked up `sorryAx`, #101) | `simp only [neg_sub]` |
+| `EForm3/O9RoundTrip`, `O9CompEval`, `O9PhiCmp` | under the module system `#eval` needs its definitions at the meta phase | `public meta import` beside the existing import |
+
+The root also could not load all three E-form arms at once (#24): each
+declared `Retention.Aconst`, `Retention.c2` and further shared names. The
+scoping that #24 describes was committed on a branch on 2026-08-14
+(`e9a18f45`) and never reached `main`; it is applied here. `EForm/` and
+`EForm2/` now live in `Retention.EForm` and `Retention.EForm2`; `EForm3/`, the
+live arm, keeps `Retention`. The duplicated definitions are kept, and
+`ArmAgreement.lean` proves the copies equal (window, `Aconst` and `c2`,
+including `EForm`'s `u - w` form against the others' `u + w`).
+`tests/test_o9_leaves_kernel.py` (the Lean round-trip control) passes against
+the rebuilt `O9RoundTrip`. Run `assemble.sh` to reproduce; no CI job builds
+this package.
+
+As of the scaffold commit:
 
 - `Zeta23Ext/Composition.lean`: the composition skeleton, kernel-checked
   earlier today against current Mathlib on the theorem-proving service
