@@ -182,7 +182,11 @@ in the zero distribution (Weil). Then f has an Euler product if and only if
 log f is supported on prime powers, if and only if c is. **A nonzero c at a
 composite is a failure of multiplicativity, read off the zeros.** For zeta,
 c is von Mangoldt, re-derived by the recursion in
-`probe_euler_discriminator.py` rather than assumed.
+`probe_euler_discriminator.py` rather than assumed. The 1/sqrt(n) weight is
+the normalisation for zeros on the critical line. Davenport-Heilbronn and the
+class-number-above-one forms below have zeros off it, so for them the defect
+is a statement about the coefficients, computed from them without reference
+to any zero.
 
 **E6.** Measured composite defect, the explicit-formula-weighted L2 norm of
 the composite part of c over n < 61:
@@ -242,9 +246,12 @@ Class number above one: the principal form is loud, from 2.96 at d = -95 to
 5.08 at d = -15, 9 discriminants. *(Corrected 2026-10-10: this read "every
 individual form is loud, up to 36.06 at d = -15"; see the notice above.)*
 And in every case the class-group sum returns to machine zero, because
-sum over classes of zeta_Q is w zeta_K, which has an Euler product: **the
-composite lines of the individual forms cancel to thirty decimal places
-across the class group.** All three facts are consequences of standard
+sum over classes of zeta_Q is w zeta_K, which has an Euler product: **summed
+over the class group, the composite lines vanish to thirty decimal places.**
+*(Corrected 2026-10-10: this read "the composite lines of the individual forms
+cancel". Only the principal form has composite lines of its own, since F4
+needs a(1) = 1; the others contribute to the sum but have no line to cancel.)*
+All three facts are consequences of standard
 theory; the measurement is a calibration of the discriminator, not a
 discovery about Epstein zeta functions.
 
@@ -254,7 +261,12 @@ Davenport-Heilbronn was already known to lack one. The open question it
 frames, and does not answer, is whether the defect *bounds* how far zeros
 may leave the critical line. Testing that needs off-line zeros for the
 family, and `epstein_zeta` costs about 2.2 s per evaluation at dps 15, so it
-is a compute job this hunt did not run.
+is a compute job this hunt did not run. Issue #93's comment of 2026-09-10
+argues against running it on this family as it stands: the defect is an
+unnormalised norm whose size depends on the frozen cutoff n < 61, and over
+these nine discriminants class number rises almost in step with |d|, so the
+family orders subjects without separating the two (figures in that comment,
+not recomputed here).
 
 ## 7. What was searched
 
