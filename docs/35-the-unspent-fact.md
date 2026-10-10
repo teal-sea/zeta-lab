@@ -117,6 +117,12 @@ Sweeping how far past the band the positivity is enforced:
 | 2.0 | 0.6858061 | 94.8% |
 | 3.0 | 0.6862544 | 100% |
 
+Measured at `X = 80, J = 320`, hunt #110's lane B. Re-solved on 2026-10-10
+(`hunts/outband_intake/replay.py`, recorded in that hunt's `RUNS.md`), the first three
+rows reproduce to `1e-13`; the last two come back within `2e-7`, which is HiGHS's
+tolerance and moves their seventh decimal by one unit (`0.6858060`, `0.6862543`). No
+share moves.
+
 **It saturates almost at once.** Nine tenths of the value is inside `(1, 1.5]`.
 
 That shrinks the construction problem materially. The object nobody has does not need

@@ -52,6 +52,14 @@ is wider.  **A cell count from this module therefore does not predict a kernel
 outcome**, and the table below is a table of *candidate* cells.  Making it
 predictive means computing the leaves the way `Leaves.lean` does.
 
+**Superseded by `leaves2d` itself (issue #23).**  The paragraph above
+describes this module before `leaves2d` moved to `kernel_leaves2d` (see its
+docstring): the leaves are now the kernel's.  On them the table is 699 cells
+at `1.20x` and 1705 at `1.05x`, not the Arb-grade 339 and 601, so the 2-D
+route costs more than the 1-D route's 476 at both inflations
+(`tests/test_o9_cell_counts.py`).  The 389-against-344 comparison in the
+opening paragraph is Arb-grade on both sides and predicts neither count.
+
 ## What it is not
 
 Nothing here is kernel-checked; this module *generates* a table and

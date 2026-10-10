@@ -5,6 +5,11 @@
 > Every cell count below, including this file's own 339, is a statement
 > about a *Python model* of the kernel's arithmetic, and that model is now
 > measured to be wrong in the optimistic direction.
+>
+> **Annotation (issue #23).** With the leaves now computed the kernel's way,
+> the same generator gives **699** cells at `1.20x` (this file's 339) and
+> **1705** at `1.05x` (this file's 601), pinned with the Arb counts beside them
+> by `tests/test_o9_cell_counts.py`. The tables below are left as recorded.
 
 ## 0. The kernel refutes the generated table
 
