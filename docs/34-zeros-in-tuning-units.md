@@ -217,8 +217,9 @@ line (2.3979) by a factor 1.77.
 > with a(1) != 1 rather than returning a number for it. E6, the class-number-one
 > rows and the class-group sums are unchanged; the sentence "every individual
 > form is loud" is withdrawn. Found by the `euler_defect_axis` hunt
-> (2026-09-10), whose directory is not on main; its findings are recorded on
-> issue #93.
+> (2026-09-10), whose findings are recorded on issue #93. The hunt itself
+> landed on main on 2026-10-10 as hunt #127, `hunts/euler_defect_axis/`, with
+> front door `docs/40`.
 
 **E7.** The Epstein zeta functions of binary quadratic forms give a family
 indexed by discriminant, with class number one supplying an Euler product

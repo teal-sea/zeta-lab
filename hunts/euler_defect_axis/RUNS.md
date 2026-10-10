@@ -1,0 +1,126 @@
+# euler_defect_axis: run manifests
+
+```runmanifest
+id: euler_defect_axis-2026-09-09-entitlement
+hunt: euler_defect_axis
+started: 2026-09-09T23:00-05:00
+finished: 2026-09-10T00:10-05:00
+ran:
+  - .venv/bin/python hunts/euler_defect_axis/probe.py
+outcome: a(1) is exactly 1 on the 14 principal forms and exactly 0 on the other 27; the identity residual is machine zero on the entitled rows and bounded away from zero on the rest, worst 189.6888; no non-principal form represents only multiples of its least represented value; the class-number-one control c(n) = Lambda(n)(1 + chi_d(n)) agrees with the recursion to 2.8e-30
+artifacts:
+  - hunts/euler_defect_axis/artifacts/axis.json
+```
+
+```runmanifest
+id: euler_defect_axis-2026-09-10-audit
+hunt: euler_defect_axis
+started: 2026-09-10T00:20-05:00
+finished: 2026-09-10T00:35-05:00
+ran:
+  - an independent adversarial audit by a separate agent, given the write-up and the repository and told to break the claim rather than review it
+  - .venv/bin/python -c "recount the forms, check R against |1 - a(1)| max|c|, check the 1 + Z_Q reading, re-measure the axis at cutoffs 61, 121, 201, 401"
+outcome: verdict survives-with-corrections after eight attacks; eleven overclaims found in the write-up; the three carrying numbers recomputed here before the corrections were accepted (41 forms not 44, R = |1 - a(1)| max|c(n)| to 0.0 on 40 of 41 rows, the published non-principal numbers are the composite defect of 1 + Z_Q(s) to 0.0 on all 27); the axis has no scale, the band running 2.9608-5.0847 at cutoff 61 and 5.0196-10.5748 at cutoff 401 with the ordering unchanged
+artifacts:
+  - hunts/euler_defect_axis/AUDIT.md
+  - hunts/euler_defect_axis/artifacts/cutoff.json
+  - hunts/euler_defect_axis/RESULTS.md
+  - hunts/euler_defect_axis/PROPOSAL.md
+```
+
+## Notes
+
+- **The audit is the reason this hunt's write-up changed, and the claim did not.**
+  It ran with the repository in front of it and no part in producing the result.
+  It attacked `a(1)` from the definition rather than from the artifact, derived
+  the identity from `-f'/f` itself, checked the Kronecker symbol against an
+  independent implementation, and searched by least squares for any
+  integer-indexed `c` solving the identity for a non-principal form (residual
+  2.18 to 5.79, so none exists). Nothing moved the claim. Eleven sentences moved.
+- The corrected axis is not this hunt's own reading of the family. It is the
+  smallest statement the entitled rows support, and the audit's cutoff sweep is
+  the reason it is stated as an ordering rather than as a range.
+
+```runmanifest
+id: euler_defect_axis-2026-09-10-ordering
+hunt: euler_defect_axis
+started: 2026-09-10T04:05-05:00
+finished: 2026-09-10T04:10-05:00
+ran:
+  - .venv/bin/python hunts/euler_defect_axis/ordering.py
+outcome: the ordering claim in RESULTS.md section 5 was false and is corrected; the nine discriminants do NOT rank identically at cutoff 61 and 401, -23 and -24 transpose; six of nine positions are fixed at every cutoff and all movement is inside the -20/-23/-24 block; Spearman against cutoff 61 is 0.9500 at 121 and 0.9833 at 201 and 401; the ordering settles by 201, where 201 and 401 agree at rho = 1.0000
+artifacts:
+  - hunts/euler_defect_axis/ordering.py
+  - hunts/euler_defect_axis/artifacts/ordering.json
+```
+
+- **Correction, 2026-09-10.** The `outcome:` line of the audit manifest above,
+  and five sentences derived from it, said the axis runs from one band to another
+  "with the ordering unchanged". That is false. The manifest is left as recorded
+  because it is the record of what that run reported; `ordering.py` and the
+  manifest directly above this note are the correction, and the five sentences
+  are fixed in place in `RESULTS.md`, `PROPOSAL.md` and `hunts/README.md`.
+
+  Two things about how it got in are worth more than the number itself. The
+  claim entered during the rewrite the audit prompted, which means it was
+  written *after* the adversary had finished and was never attacked by anything.
+  An audit fixes the sentences it read; it does not cover the ones its own
+  findings cause you to write. And the false version was the stronger and
+  tidier claim, "exactly the same order" against "six of nine positions hold",
+  which is the direction a summary drifts when nobody is checking. The true
+  statement is also the more useful one: the tail of the list is rigid, the head
+  is not, and the quantity needs a couple of hundred composites before it orders
+  anything reliably.
+
+- **Renumbered #119 to #124, 2026-09-16.** `main` landed `lambda_dh_exact` as
+  Hunt #119 on 2026-09-10, the same day this hunt took #119 from a base that was
+  by then 130 commits behind. The landed number wins and this one moved.
+  `tests/test_hunt_numbering.py` exists on `main` and is the right guard, and it
+  structurally cannot catch this: it checks that the numbers printed in one copy
+  of the case log are unique, and both copies were internally consistent. The
+  collision existed only in their union, which nothing reads until a merge.
+  Its own docstring already records the same failure twice, once from "a session
+  working from a branch 101 commits behind". This is the third instance.
+
+  Worth the contrast: the `docs/` numbers this branch took the same day, 37
+  through 40, did **not** collide, because `scripts/science_preflight.py` reports
+  the next free doc number rather than validating the file you already have.
+  A guard that computes the next free value survives a stale base. A guard that
+  checks the current file for internal consistency does not.
+
+```runmanifest
+id: euler_defect_axis-2026-10-10-landing
+hunt: euler_defect_axis
+started: 2026-10-10T12:55+00:00
+finished: 2026-10-10T13:55+00:00
+ran:
+  - .venv/bin/python hunts/euler_defect_axis/probe.py
+  - .venv/bin/python hunts/euler_defect_axis/ordering.py
+  - .venv/bin/python -m pytest -q hunts/euler_defect_axis
+outcome: axis.json and ordering.json reproduce byte for byte; cutoff.json, which had no script behind it, reproduces to the last bit from the principal forms at cutoffs 61, 121, 201 and 401; every number RESULTS.md and docs/40 state is pinned by test_euler_defect_axis.py (23 tests, about 8 s) except one count, "0.0 exactly on 40 rows and 1.6e-30 on the remaining one" in RESULTS.md section 2, which does not reproduce (0.0 on 33 rows, R itself between 7.9e-31 and 3.2e-30 on 8 principal rows) and is marked there; the permutation p = 0.113 is a Monte Carlo estimate of the exact 0.1124; docs/40 section 3 still carried the false sentence "the ordering is identical at both cutoffs" and is corrected in place with the original quoted
+artifacts:
+  - hunts/euler_defect_axis/test_euler_defect_axis.py
+  - hunts/euler_defect_axis/RESULTS.md
+  - hunts/euler_defect_axis/PROPOSAL.md
+  - docs/40-one-form-per-discriminant.md
+```
+
+- **Landed on main and renumbered #124 to #127, 2026-10-10.** By the time this
+  directory reached main, #124 there was `qrh_class_number` and #125 and #126
+  were taken as well, so it takes the next free number above every heading in
+  the case log. The front door, numbered 38 on the branch, is `docs/40`: main
+  had meanwhile used 37 for the methods index, 38 for the quasi-Riemann claim
+  and 39 for the results built on it. The issue #93 comment of 2026-09-10
+  still calls it hunt #119 with its front door at number 38, and is left as
+  written.
+
+  That corrects the contrast the note above draws. The doc numbers this branch
+  took on 2026-09-10 did not collide *that day*, because the preflight reported
+  the next free number; they collided later, when main took 37 to 39 while the
+  branch sat unmerged. A guard that computes the next free value is right at
+  the moment it runs and says nothing about a merge weeks later. Both numbers
+  are labels, and the directory name is the stable reference.
+
+- **The repair landed before the hunt did.** #296 applied `PROPOSAL.md` to
+  `docs/34`, the zeta_temperament probe and its test on 2026-10-10;
+  `PROPOSAL.md`'s closing note records what it did differently.

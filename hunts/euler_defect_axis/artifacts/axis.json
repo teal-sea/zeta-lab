@@ -1,0 +1,763 @@
+[
+ {
+  "discriminant": -3,
+  "class_number": 1,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     1
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 7.888609052210118e-31,
+    "identity_argmax": 21,
+    "reported_composite_defect": 1.0705042624601787e-31,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   }
+  ],
+  "principal_form_defect": 1.0705042624601787e-31,
+  "principal_identity_residual": 7.888609052210118e-31,
+  "class_group_sum_defect": 1.0705042624601787e-31,
+  "class_group_sum_identity_residual": 7.888609052210118e-31,
+  "max_defect_over_entitled_forms": 1.0705042624601787e-31,
+  "max_defect_as_published": 1.0705042624601787e-31,
+  "n_forms_entitled": 1,
+  "euler_prediction_max_defect": 7.888609052210118e-31
+ },
+ {
+  "discriminant": -4,
+  "class_number": 1,
+  "forms": [
+   {
+    "form": [
+     1,
+     0,
+     1
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 3.1554436208840472e-30,
+    "identity_argmax": 50,
+    "reported_composite_defect": 3.1730652256213546e-31,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   }
+  ],
+  "principal_form_defect": 3.1730652256213546e-31,
+  "principal_identity_residual": 3.1554436208840472e-30,
+  "class_group_sum_defect": 3.1730652256213546e-31,
+  "class_group_sum_identity_residual": 3.1554436208840472e-30,
+  "max_defect_over_entitled_forms": 3.1730652256213546e-31,
+  "max_defect_as_published": 3.1730652256213546e-31,
+  "n_forms_entitled": 1,
+  "euler_prediction_max_defect": 7.888609052210118e-31
+ },
+ {
+  "discriminant": -7,
+  "class_number": 1,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     2
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 3.1554436208840472e-30,
+    "identity_argmax": 44,
+    "reported_composite_defect": 6.104696349965547e-31,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   }
+  ],
+  "principal_form_defect": 6.104696349965547e-31,
+  "principal_identity_residual": 3.1554436208840472e-30,
+  "class_group_sum_defect": 6.104696349965547e-31,
+  "class_group_sum_identity_residual": 3.1554436208840472e-30,
+  "max_defect_over_entitled_forms": 6.104696349965547e-31,
+  "max_defect_as_published": 6.104696349965547e-31,
+  "n_forms_entitled": 1,
+  "euler_prediction_max_defect": 2.7610131682735413e-30
+ },
+ {
+  "discriminant": -8,
+  "class_number": 1,
+  "forms": [
+   {
+    "form": [
+     1,
+     0,
+     2
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 1.5777218104420236e-30,
+    "identity_argmax": 54,
+    "reported_composite_defect": 4.443842448770892e-31,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   }
+  ],
+  "principal_form_defect": 4.443842448770892e-31,
+  "principal_identity_residual": 1.5777218104420236e-30,
+  "class_group_sum_defect": 4.443842448770892e-31,
+  "class_group_sum_identity_residual": 1.5777218104420236e-30,
+  "max_defect_over_entitled_forms": 4.443842448770892e-31,
+  "max_defect_as_published": 4.443842448770892e-31,
+  "n_forms_entitled": 1,
+  "euler_prediction_max_defect": 1.5777218104420236e-30
+ },
+ {
+  "discriminant": -11,
+  "class_number": 1,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     3
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 3.1554436208840472e-30,
+    "identity_argmax": 60,
+    "reported_composite_defect": 4.278968615586784e-31,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   }
+  ],
+  "principal_form_defect": 4.278968615586784e-31,
+  "principal_identity_residual": 3.1554436208840472e-30,
+  "class_group_sum_defect": 4.278968615586784e-31,
+  "class_group_sum_identity_residual": 3.1554436208840472e-30,
+  "max_defect_over_entitled_forms": 4.278968615586784e-31,
+  "max_defect_as_published": 4.278968615586784e-31,
+  "n_forms_entitled": 1,
+  "euler_prediction_max_defect": 1.5777218104420236e-30
+ },
+ {
+  "discriminant": -15,
+  "class_number": 2,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     4
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 1.5777218104420236e-30,
+    "identity_argmax": 36,
+    "reported_composite_defect": 5.084699535226722,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   },
+   {
+    "form": [
+     2,
+     1,
+     2
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 189.68884953448665,
+    "identity_argmax": 48,
+    "reported_composite_defect": 36.06439101918216,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   }
+  ],
+  "principal_form_defect": 5.084699535226722,
+  "principal_identity_residual": 1.5777218104420236e-30,
+  "class_group_sum_defect": 5.655084192044722e-31,
+  "class_group_sum_identity_residual": 1.5777218104420236e-30,
+  "max_defect_over_entitled_forms": 5.084699535226722,
+  "max_defect_as_published": 36.06439101918216,
+  "n_forms_entitled": 1
+ },
+ {
+  "discriminant": -20,
+  "class_number": 2,
+  "forms": [
+   {
+    "form": [
+     1,
+     0,
+     5
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 1.5777218104420236e-30,
+    "identity_argmax": 36,
+    "reported_composite_defect": 3.882332804272988,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   },
+   {
+    "form": [
+     2,
+     2,
+     3
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 71.80171283815694,
+    "identity_argmax": 54,
+    "reported_composite_defect": 18.61759811856784,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   }
+  ],
+  "principal_form_defect": 3.882332804272988,
+  "principal_identity_residual": 1.5777218104420236e-30,
+  "class_group_sum_defect": 6.374451638055912e-31,
+  "class_group_sum_identity_residual": 3.1554436208840472e-30,
+  "max_defect_over_entitled_forms": 3.882332804272988,
+  "max_defect_as_published": 18.61759811856784,
+  "n_forms_entitled": 1
+ },
+ {
+  "discriminant": -23,
+  "class_number": 3,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     6
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 0.0,
+    "identity_argmax": null,
+    "reported_composite_defect": 3.556902743385583,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   },
+   {
+    "form": [
+     2,
+     -1,
+     3
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 3.9889840465642745,
+    "identity_argmax": 54,
+    "reported_composite_defect": 1.712127403659038,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     2,
+     1,
+     3
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 3.9889840465642745,
+    "identity_argmax": 54,
+    "reported_composite_defect": 1.712127403659038,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   }
+  ],
+  "principal_form_defect": 3.556902743385583,
+  "principal_identity_residual": 0.0,
+  "class_group_sum_defect": 1.4985972899861023e-30,
+  "class_group_sum_identity_residual": 3.1554436208840472e-30,
+  "max_defect_over_entitled_forms": 3.556902743385583,
+  "max_defect_as_published": 3.556902743385583,
+  "n_forms_entitled": 1
+ },
+ {
+  "discriminant": -24,
+  "class_number": 2,
+  "forms": [
+   {
+    "form": [
+     1,
+     0,
+     6
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 1.5777218104420236e-30,
+    "identity_argmax": 60,
+    "reported_composite_defect": 3.8530433072051826,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   },
+   {
+    "form": [
+     2,
+     0,
+     3
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 49.13213474666521,
+    "identity_argmax": 60,
+    "reported_composite_defect": 12.495547418857514,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   }
+  ],
+  "principal_form_defect": 3.8530433072051826,
+  "principal_identity_residual": 1.5777218104420236e-30,
+  "class_group_sum_defect": 5.086252815719486e-31,
+  "class_group_sum_identity_residual": 3.1554436208840472e-30,
+  "max_defect_over_entitled_forms": 3.8530433072051826,
+  "max_defect_as_published": 12.495547418857514,
+  "n_forms_entitled": 1
+ },
+ {
+  "discriminant": -31,
+  "class_number": 3,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     8
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 0.0,
+    "identity_argmax": null,
+    "reported_composite_defect": 3.3990511657848423,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   },
+   {
+    "form": [
+     2,
+     -1,
+     4
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 4.07753744390572,
+    "identity_argmax": 59,
+    "reported_composite_defect": 1.602198179254899,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     2,
+     1,
+     4
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 4.07753744390572,
+    "identity_argmax": 59,
+    "reported_composite_defect": 1.602198179254899,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   }
+  ],
+  "principal_form_defect": 3.3990511657848423,
+  "principal_identity_residual": 0.0,
+  "class_group_sum_defect": 1.0166676960770665e-30,
+  "class_group_sum_identity_residual": 6.310887241768095e-30,
+  "max_defect_over_entitled_forms": 3.3990511657848423,
+  "max_defect_as_published": 3.3990511657848423,
+  "n_forms_entitled": 1
+ },
+ {
+  "discriminant": -39,
+  "class_number": 4,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     10
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 0.0,
+    "identity_argmax": null,
+    "reported_composite_defect": 3.3959396024205564,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   },
+   {
+    "form": [
+     2,
+     -1,
+     5
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 24.566067373332604,
+    "identity_argmax": 60,
+    "reported_composite_defect": 7.647350078019571,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     2,
+     1,
+     5
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 24.566067373332604,
+    "identity_argmax": 60,
+    "reported_composite_defect": 7.647350078019571,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     3,
+     3,
+     4
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 11.613603032723672,
+    "identity_argmax": 48,
+    "reported_composite_defect": 3.4935821186778573,
+    "least_represented_value": 3,
+    "all_represented_values_divisible_by_least": false
+   }
+  ],
+  "principal_form_defect": 3.3959396024205564,
+  "principal_identity_residual": 0.0,
+  "class_group_sum_defect": 8.155790420835658e-31,
+  "class_group_sum_identity_residual": 6.310887241768095e-30,
+  "max_defect_over_entitled_forms": 3.3959396024205564,
+  "max_defect_as_published": 7.647350078019571,
+  "n_forms_entitled": 1
+ },
+ {
+  "discriminant": -47,
+  "class_number": 5,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     12
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 0.0,
+    "identity_argmax": null,
+    "reported_composite_defect": 3.362979777418096,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   },
+   {
+    "form": [
+     2,
+     -1,
+     6
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 12.076055072205447,
+    "identity_argmax": 56,
+    "reported_composite_defect": 3.470943212446902,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     2,
+     1,
+     6
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 12.076055072205447,
+    "identity_argmax": 56,
+    "reported_composite_defect": 3.470943212446902,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     3,
+     -1,
+     4
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 7.977968093128549,
+    "identity_argmax": 54,
+    "reported_composite_defect": 2.3586901836567944,
+    "least_represented_value": 3,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     3,
+     1,
+     4
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 7.977968093128549,
+    "identity_argmax": 54,
+    "reported_composite_defect": 2.3586901836567944,
+    "least_represented_value": 3,
+    "all_represented_values_divisible_by_least": false
+   }
+  ],
+  "principal_form_defect": 3.362979777418096,
+  "principal_identity_residual": 0.0,
+  "class_group_sum_defect": 1.875613480901441e-30,
+  "class_group_sum_identity_residual": 6.310887241768095e-30,
+  "max_defect_over_entitled_forms": 3.362979777418096,
+  "max_defect_as_published": 3.470943212446902,
+  "n_forms_entitled": 1
+ },
+ {
+  "discriminant": -71,
+  "class_number": 7,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     18
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 0.0,
+    "identity_argmax": null,
+    "reported_composite_defect": 3.261351174948294,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   },
+   {
+    "form": [
+     2,
+     -1,
+     9
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 11.06663836234181,
+    "identity_argmax": 40,
+    "reported_composite_defect": 3.1793681951091477,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     2,
+     1,
+     9
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 11.06663836234181,
+    "identity_argmax": 40,
+    "reported_composite_defect": 3.1793681951091477,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     3,
+     -1,
+     6
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 11.966952139692824,
+    "identity_argmax": 54,
+    "reported_composite_defect": 2.661838263012101,
+    "least_represented_value": 3,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     3,
+     1,
+     6
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 11.966952139692824,
+    "identity_argmax": 54,
+    "reported_composite_defect": 2.661838263012101,
+    "least_represented_value": 3,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     4,
+     -3,
+     5
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 4.0943445622221,
+    "identity_argmax": 60,
+    "reported_composite_defect": 2.133878105074488,
+    "least_represented_value": 4,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     4,
+     3,
+     5
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 4.0943445622221,
+    "identity_argmax": 60,
+    "reported_composite_defect": 2.133878105074488,
+    "least_represented_value": 4,
+    "all_represented_values_divisible_by_least": false
+   }
+  ],
+  "principal_form_defect": 3.261351174948294,
+  "principal_identity_residual": 0.0,
+  "class_group_sum_defect": 1.771424714542076e-30,
+  "class_group_sum_identity_residual": 6.310887241768095e-30,
+  "max_defect_over_entitled_forms": 3.261351174948294,
+  "max_defect_as_published": 3.261351174948294,
+  "n_forms_entitled": 1
+ },
+ {
+  "discriminant": -95,
+  "class_number": 8,
+  "forms": [
+   {
+    "form": [
+     1,
+     1,
+     24
+    ],
+    "a1": 1.0,
+    "recursion_entitled": true,
+    "identity_max_residual": 0.0,
+    "identity_argmax": null,
+    "reported_composite_defect": 2.9607771732666675,
+    "least_represented_value": 1,
+    "all_represented_values_divisible_by_least": true
+   },
+   {
+    "form": [
+     2,
+     -1,
+     12
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 15.484804043631565,
+    "identity_argmax": 48,
+    "reported_composite_defect": 4.251064697673312,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     2,
+     1,
+     12
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 15.484804043631565,
+    "identity_argmax": 48,
+    "reported_composite_defect": 4.251064697673312,
+    "least_represented_value": 2,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     3,
+     -1,
+     8
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 7.742402021815782,
+    "identity_argmax": 48,
+    "reported_composite_defect": 2.9836516106656297,
+    "least_represented_value": 3,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     3,
+     1,
+     8
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 7.742402021815782,
+    "identity_argmax": 48,
+    "reported_composite_defect": 2.9836516106656297,
+    "least_represented_value": 3,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     4,
+     -1,
+     6
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 4.007333185232471,
+    "identity_argmax": 55,
+    "reported_composite_defect": 1.8816177596552035,
+    "least_represented_value": 4,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     4,
+     1,
+     6
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 4.007333185232471,
+    "identity_argmax": 55,
+    "reported_composite_defect": 1.8816177596552035,
+    "least_represented_value": 4,
+    "all_represented_values_divisible_by_least": false
+   },
+   {
+    "form": [
+     5,
+     5,
+     6
+    ],
+    "a1": 0.0,
+    "recursion_entitled": false,
+    "identity_max_residual": 7.977968093128549,
+    "identity_argmax": 54,
+    "reported_composite_defect": 3.1613029225954214,
+    "least_represented_value": 5,
+    "all_represented_values_divisible_by_least": false
+   }
+  ],
+  "principal_form_defect": 2.9607771732666675,
+  "principal_identity_residual": 0.0,
+  "class_group_sum_defect": 1.5800109698337173e-30,
+  "class_group_sum_identity_residual": 3.1554436208840472e-30,
+  "max_defect_over_entitled_forms": 2.9607771732666675,
+  "max_defect_as_published": 4.251064697673312,
+  "n_forms_entitled": 1
+ }
+]
