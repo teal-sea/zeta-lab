@@ -55,3 +55,36 @@ was killed by the operating system for memory on the (1/64, 160) rung** (10,240 
 dense constraint matrix, beside the rest of a 16 GB machine's load). The (1/16, 320) and
 (1/32, 320) rows are not run. They are plain scipy and belong on Modal, which is wired; not
 launched here because it spends the operator's Modal budget.
+
+## 2026-10-10, replay of the cheap rows (issue #240)
+
+The sessions above predate this hunt's manifests. They were not re-run in full here, and
+no manifest is back-filled for them from their prose: a block written from prose would look
+pinned and would not be. The block below records only what was re-run on 2026-10-10, on a
+shared four-core Linux container (scipy 1.18.1, numpy 2.5.3), not the operator's Mac.
+
+- **Re-solved** by `replay.py`, which writes nothing: every row of
+  `artifacts/ladder-narrow-strip.json` at X <= 160, sixteen rows. Thirteen agree to within
+  2e-13; the three X = 160 strip rows agree to within 1.4e-8, inside HiGHS's tolerances
+  (`../outband_intake/RUNS.md`, same date, sizes the solver's own spread). Every re-solved
+  row rounds to the same seven decimals as its artifact value.
+- **Reproduced from the artifact, not from re-solves**: `pinned.py` prints the three width
+  rows of the section 3 narrow-strip table in RESULTS.md (gains per rung, pinned-exponent
+  limits, the control's fitted excess and the limit-to-error ratios) digit for digit.
+- **Not re-run, so still unpinned**: the X = 240 and X = 320 ladder rows (61 s to 418 s
+  each, about a quarter of an hour together), the lattice ladders of the second pass,
+  `dual.py`, `signed_window.py` and the counterexample check. Those rest on the original
+  artifacts and the prose above.
+
+```runmanifest
+id: outband_certificate-2026-10-10-replay
+hunt: outband_certificate
+started: 2026-10-10T01:32Z
+finished: 2026-10-10T01:35Z
+ran:
+  - .venv/bin/python hunts/outband_certificate/replay.py
+  - .venv/bin/python hunts/outband_certificate/pinned.py
+outcome: all 16 narrow-strip rows at X <= 160 re-solved, 13 to within 2e-13 and the three X = 160 strip rows to within 1.4e-8, and pinned.py reproduces the section 3 table from the artifact; the X = 240 and 320 rows, the lattice ladders, dual.py and signed_window.py were not re-run and stay unpinned
+artifacts:
+  - hunts/outband_certificate/replay.py
+```
