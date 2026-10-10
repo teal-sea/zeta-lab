@@ -162,8 +162,10 @@ def test_every_in_window_cell_carries_its_window_cap(table):
 
 # -- emission ---------------------------------------------------------------
 
-def test_emitted_lean_files_exist_and_are_consistent(table):
-    r = emit_lean(table=table)
+def test_emitted_lean_files_exist_and_are_consistent(table, tmp_path):
+    # into tmp_path: the default target is the package, where a491717c
+    # deleted this pair as a refuted route
+    r = emit_lean(out_dir=tmp_path, table=table)
     data = Path(r["data"]).read_text()
     check = Path(r["check"]).read_text()
     assert data.count("⟨") == r["cells"] + 0
@@ -209,16 +211,19 @@ def test_kernel_count_disagrees_with_the_arb_grade_count():
     assert N_CELLS_KERNEL > ARB_GRADE
 
 
-def test_o9_is_staged_but_not_wired_into_the_package():
-    """Deliberate: the files are uncompiled here, so importing them from
-    `Zeta23Ext.lean` would risk the other session's build."""
+def test_the_refuted_1d_route_is_deleted_not_staged():
+    """The 1-D route was once staged here, unwired.  a491717c deleted it:
+    the kernel refuted its table on 7 of 9 chunks, `O9Check2` supersedes it,
+    and a known-false artifact left in the tree reads as staged work
+    (`EForm3/O9Audit.lean`)."""
     root = _LEAN.parent.parent / "Zeta23Ext.lean"
     src = root.read_text()
     assert "import Zeta23Ext.EForm3.Main" in src          # the wired ones
     for orphan in ("O9Data", "O9Check", "O9Damage"):
         assert orphan not in src, orphan
     for f in ("O9Data.lean", "O9Check.lean", "O9Damage.lean"):
-        assert (_LEAN / f).exists(), f
+        assert not (_LEAN / f).exists(), f
+    assert (_LEAN / "O9Check2.lean").exists()
 
 
 def test_named_gaps_are_honest():

@@ -67,7 +67,7 @@ from negative_margin_probe import (  # noqa: E402
     B_INF, BRIDGE_CAPS, BRIDGE_G, BRIDGE_LADDER, BRIDGE_STEP,
     EXTERIOR_TOTAL, HARDENED_RECORD, INTERIOR_LARGE_M, INTERIOR_PER_BAND,
     HARDENED_INSTRUMENT, REFINEMENT_RECORD, S_GAPS, TAIL_PER_PAIR, THETA, Y,
-    asymptotic_margin, cap_split, config_pairs, crossing_m,
+    _instrument_precision, asymptotic_margin, cap_split, config_pairs, crossing_m,
     hardened_brackets_float, partition_and_multiplicity,
     hardened_margin, interior_limit, interior_saturates, ladder,
     monotone_in_step, monotone_in_window, tail_per_pair, theta_one_diverges,
@@ -298,7 +298,17 @@ def test_the_hardened_record_names_its_instrument():
         assert key in HARDENED_INSTRUMENT
     from flint import ctx
 
-    assert ctx.prec == HARDENED_INSTRUMENT["prec_bits"]
+    # flint's precision is process-global and other hunt modules set their
+    # own at import, so what is checked is that the ball entry points put
+    # the recorded precision in force, whatever was set before
+    saved = ctx.prec
+    try:
+        ctx.prec = 300                      # what o9_leaf sets at import
+        with _instrument_precision():
+            assert ctx.prec == HARDENED_INSTRUMENT["prec_bits"]
+        assert ctx.prec == 300
+    finally:
+        ctx.prec = saved
     assert HARDENED_INSTRUMENT["theta"] == THETA
     # every row carries its own (m, G, fine) and a decided flag that is
     # the sign of the one-sided bound, never a judgement call
