@@ -45,11 +45,12 @@
     }
   },
   "dictionary": {
-    "basis_transform_compact_support": "PROVED_BY_CONSTRUCTION",
-    "algebraic_identity_g_equals_F2_over_L": "PROVED_ANALYTIC",
-    "guinand_weil_explicit_formula_for_dh": "PROVED_ORDINARY_PROOF",
-    "galerkin_assembly_pairing": "PROVED_ORDINARY_PROOF",
-    "status": "CLOSED_ORDINARY_PROOF"
+    "basis_transform_compact_support": "ORDINARY_ARGUMENT_BY_CONSTRUCTION",
+    "algebraic_identity_g_equals_F2_over_L": "ORDINARY_ARGUMENT_ALGEBRAIC",
+    "guinand_weil_explicit_formula_for_dh": "ORDINARY_ARGUMENT_INTERNALLY_REVIEWED",
+    "galerkin_assembly_pairing": "ORDINARY_ARGUMENT_INTERNALLY_REVIEWED",
+    "status": "CLOSED_ORDINARY_ARGUMENT",
+    "review": "INTERNAL_ONLY_PENDING_EXTERNAL_VERIFICATION"
   },
   "blockers": [
     "online_zeros_are_unhardened_floats",
@@ -84,9 +85,11 @@
     "note": "Measured reserve candidate only; no conservative bound evaluated here."
   },
   "qualitative_existence": {
-    "status": "PROVED",
-    "recommendation": "GO",
-    "basis": "hardened_negativity_plus_obl_1_2_3"
+    "status": "ORDINARY_ARGUMENT_PENDING_EXTERNAL_VERIFICATION",
+    "recommendation": "EXTERNAL_REVIEW",
+    "grade": "ordinary argument, internally reviewed, pending external verification",
+    "basis": "hardened_witness_plus_obl_1_2_3_ordinary_argument",
+    "conclusion_known": "classical: Spira, Math. Comp. 63 (1994), 747-748, computed off-line zeros of the DH function"
   },
   "quantitative_attribution": {
     "status": "INCONCLUSIVE",
@@ -107,7 +110,7 @@
     "tail_model_lacks_valid_dh_counting_majorant"
   ],
   "two_track_summary": {
-    "qualitative_existence": "GO_PROVED",
+    "qualitative_existence": "ORDINARY_ARGUMENT_PENDING_EXTERNAL_VERIFICATION",
     "quantitative_attribution": "INCONCLUSIVE_ATTEMPT_UNRESOLVED"
   }
 }

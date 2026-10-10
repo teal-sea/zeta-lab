@@ -165,15 +165,19 @@ def run_feasibility_gate(
     }
     report["blockers"].append("tail_model_lacks_valid_dh_counting_majorant")
 
-    # Check Guinand-Weil dictionary formal status (OBL-1, OBL-2, OBL-3 closed)
+    # Check Guinand-Weil dictionary status (OBL-1, OBL-2, OBL-3 closed as ordinary
+    # argument). Grades, not proofs: the arguments in DH_DICTIONARY_CONSTRUCTIVE.md
+    # were reviewed only inside the lab and are pending external verification.
     report["dictionary"] = {
-        "basis_transform_compact_support": "PROVED_BY_CONSTRUCTION",
-        "algebraic_identity_g_equals_F2_over_L": "PROVED_ANALYTIC",
-        "guinand_weil_explicit_formula_for_dh": "PROVED_ORDINARY_PROOF",
-        "galerkin_assembly_pairing": "PROVED_ORDINARY_PROOF",
-        "status": "CLOSED_ORDINARY_PROOF",
+        "basis_transform_compact_support": "ORDINARY_ARGUMENT_BY_CONSTRUCTION",
+        "algebraic_identity_g_equals_F2_over_L": "ORDINARY_ARGUMENT_ALGEBRAIC",
+        "guinand_weil_explicit_formula_for_dh": "ORDINARY_ARGUMENT_INTERNALLY_REVIEWED",
+        "galerkin_assembly_pairing": "ORDINARY_ARGUMENT_INTERNALLY_REVIEWED",
+        "status": "CLOSED_ORDINARY_ARGUMENT",
+        "review": "INTERNAL_ONLY_PENDING_EXTERNAL_VERIFICATION",
     }
-    # Dictionary blocker removed: OBL-1, OBL-2, OBL-3 are proved in DH_DICTIONARY_CONSTRUCTIVE.md
+    # Dictionary blocker removed: OBL-1, OBL-2, OBL-3 are closed as ordinary argument
+    # in DH_DICTIONARY_CONSTRUCTIVE.md (not kernel-checked).
 
     # -----------------------------------------------------------------------
     # 3. Margin budget evaluation
@@ -224,13 +228,21 @@ def run_feasibility_gate(
     # -----------------------------------------------------------------------
     # 5. Two-Track Reporting and Final Verdict
     # -----------------------------------------------------------------------
-    # Track 1: Qualitative existence of off-line zero (Theorem 2 / Corollary C)
-    # Proved unconditionally from hardened negativity (Theorem 1) + OBL-1/2/3 closed
-    qualitative_proved = arithmetic_hardened and (report["dictionary"]["status"] == "CLOSED_ORDINARY_PROOF")
+    # Track 1: Qualitative existence of off-line zero (Claim 2 / Corollary C).
+    # Hardened witness (Witness 1) plus OBL-1/2/3 closed as ordinary argument; the
+    # composite takes the weakest grade, ordinary argument, internally reviewed,
+    # pending external verification. Its conclusion is classical (Spira 1994); the
+    # route is what is original here.
+    qualitative_closed = arithmetic_hardened and (report["dictionary"]["status"] == "CLOSED_ORDINARY_ARGUMENT")
     report["qualitative_existence"] = {
-        "status": "PROVED" if qualitative_proved else "CONDITIONAL",
-        "recommendation": "GO" if qualitative_proved else "ATTEMPT_UNRESOLVED",
-        "basis": "hardened_negativity_plus_obl_1_2_3",
+        "status": "ORDINARY_ARGUMENT_PENDING_EXTERNAL_VERIFICATION" if qualitative_closed else "CONDITIONAL",
+        "recommendation": "EXTERNAL_REVIEW" if qualitative_closed else "ATTEMPT_UNRESOLVED",
+        "grade": (
+            "ordinary argument, internally reviewed, pending external verification"
+            if qualitative_closed else "conditional"
+        ),
+        "basis": "hardened_witness_plus_obl_1_2_3_ordinary_argument",
+        "conclusion_known": "classical: Spira, Math. Comp. 63 (1994), 747-748, computed off-line zeros of the DH function",
     }
 
     # Track 2: Quantitative zero-side attribution (locating and bounding zero sum)
@@ -248,7 +260,7 @@ def run_feasibility_gate(
     report["recommendation"] = "ATTEMPT_UNRESOLVED"
     report["exact_blockers"] = list(report["blockers"])
     report["two_track_summary"] = {
-        "qualitative_existence": "GO_PROVED",
+        "qualitative_existence": report["qualitative_existence"]["status"],
         "quantitative_attribution": "INCONCLUSIVE_ATTEMPT_UNRESOLVED",
     }
 

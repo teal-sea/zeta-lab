@@ -8,9 +8,12 @@ Verifies:
 5. Finite candidate bound from the multipole tail expansion, marked ATTEMPT_UNRESOLVED.
 6. Rigorous checker discipline: returns INCONCLUSIVE on unhardened float/mean-density inputs.
 7. Margin budget reconciliation: on-line sum / |Q1| is 0.8839999976612719, not 98.7%.
-8. Lesions proving checker rejects float zeros, unverified completeness, unsupported
-   tail majorants, and open dictionary obligations.
+8. Lesions showing the checker rejects float zeros, unverified completeness,
+   unsupported tail majorants, and open dictionary obligations.
 9. Verification that no boolean option relabels float seeds as enclosed or complete.
+10. Grade discipline: the witness is a hardened witness, the existence argument is an
+    ordinary argument, internally reviewed, pending external verification; no output
+    or document in this package grades either as proved or as a theorem.
 """
 
 from __future__ import annotations
@@ -131,13 +134,27 @@ def test_gate_checker_discipline_returns_inconclusive():
 
 
 def test_two_track_reporting():
-    """Verify two tracks: qualitative existence is GO/PROVED; quantitative attribution is INCONCLUSIVE."""
+    """Two tracks: qualitative existence is an ordinary argument pending external
+    verification (not proved); quantitative attribution is INCONCLUSIVE."""
     report = gate_checker.run_feasibility_gate()
-    assert report["qualitative_existence"]["status"] == "PROVED"
-    assert report["qualitative_existence"]["recommendation"] == "GO"
+    qual = report["qualitative_existence"]
+    assert qual["status"] == "ORDINARY_ARGUMENT_PENDING_EXTERNAL_VERIFICATION"
+    assert qual["recommendation"] == "EXTERNAL_REVIEW"
+    assert qual["grade"] == "ordinary argument, internally reviewed, pending external verification"
+    assert "Spira" in qual["conclusion_known"]
+    assert report["two_track_summary"]["qualitative_existence"] == qual["status"]
     assert report["quantitative_attribution"]["status"] == "INCONCLUSIVE"
     assert report["quantitative_attribution"]["recommendation"] == "ATTEMPT_UNRESOLVED"
-    assert report["dictionary"]["status"] == "CLOSED_ORDINARY_PROOF"
+    assert report["dictionary"]["status"] == "CLOSED_ORDINARY_ARGUMENT"
+    assert report["dictionary"]["review"] == "INTERNAL_ONLY_PENDING_EXTERNAL_VERIFICATION"
+    # Regrade guard: neither the live report nor the committed JSON may grade
+    # anything as proved or recommend GO.
+    with open(os.path.join(HERE, "gate_31_60.json"), "r", encoding="utf-8") as f:
+        committed = f.read()
+    for text in (json.dumps(report), committed):
+        assert "PROVED" not in text
+        assert '"GO"' not in text and "GO_" not in text
+    assert json.loads(committed)["qualitative_existence"] == json.loads(json.dumps(qual))
 
 
 def test_margin_budget_reconciliation():
@@ -197,12 +214,12 @@ def test_checker_rejects_unsupported_tail_majorant_lesion():
 
 
 def test_checker_reports_dictionary_closed_and_two_tracks():
-    """Verify checker reports closed dictionary and two distinct tracks."""
+    """Verify checker reports the dictionary closed as ordinary argument and two tracks."""
     report = gate_checker.run_feasibility_gate()
     dictionary = report["dictionary"]
-    assert dictionary["status"] == "CLOSED_ORDINARY_PROOF"
-    assert dictionary["guinand_weil_explicit_formula_for_dh"] == "PROVED_ORDINARY_PROOF"
-    assert dictionary["galerkin_assembly_pairing"] == "PROVED_ORDINARY_PROOF"
+    assert dictionary["status"] == "CLOSED_ORDINARY_ARGUMENT"
+    assert dictionary["guinand_weil_explicit_formula_for_dh"] == "ORDINARY_ARGUMENT_INTERNALLY_REVIEWED"
+    assert dictionary["galerkin_assembly_pairing"] == "ORDINARY_ARGUMENT_INTERNALLY_REVIEWED"
     assert "guinand_weil_dh_dictionary_proof_obligations_open" not in report["exact_blockers"]
 
 
@@ -272,22 +289,27 @@ def test_theorem_feasibility_obligations_and_prose():
     assert "corrected_full_smooth_tail" not in text
     assert "residual_minus_smooth_tail" not in text
 
-    # OBL-1 must be CLOSED as ordinary proof
+    # OBL-1 must be CLOSED as ordinary argument, pending external verification
     obl1_lines = [l for l in lines if "| OBL-1 |" in l]
     assert len(obl1_lines) == 1
     assert "CLOSED" in obl1_lines[0]
-    assert "ordinary proof" in obl1_lines[0]
+    assert "ordinary argument, internally reviewed, pending external verification" in obl1_lines[0]
 
-    # OBL-3 must be CLOSED as ordinary proof
+    # OBL-3 must be CLOSED as ordinary argument, pending external verification
     obl3_lines = [l for l in lines if "| OBL-3 |" in l]
     assert len(obl3_lines) == 1
     assert "CLOSED" in obl3_lines[0]
-    assert "ordinary proof" in obl3_lines[0]
+    assert "ordinary argument, internally reviewed, pending external verification" in obl3_lines[0]
 
-    # Summary must state two tracks: qualitative existence is GO / PROVED, quantitative attribution remains ATTEMPT_UNRESOLVED
+    # Summary must state two tracks: qualitative existence closed at the ordinary-argument
+    # grade (conclusion classical), quantitative attribution remains ATTEMPT_UNRESOLVED
     summary_lines = [l for l in lines if "Status summary:" in l]
     assert len(summary_lines) == 1
-    assert "qualitative existence track is GO / PROVED" in summary_lines[0]
+    assert (
+        "qualitative existence track is closed at the grade ordinary argument, "
+        "internally reviewed, pending external verification" in summary_lines[0]
+    )
+    assert "Spira 1994" in summary_lines[0]
     assert "Quantitative attribution (OBL-4, OBL-5, OBL-6) remains INCONCLUSIVE / ATTEMPT_UNRESOLVED" in summary_lines[0]
 
     # IBP expression must be explicitly conditional on valid increasing DH envelope B
@@ -301,4 +323,31 @@ def test_theorem_feasibility_obligations_and_prose():
     # Reserve candidate cell (47, 64) is measured-only candidate (no GO or pivot claim)
     assert "MEASURED_RESERVE_CANDIDATE" in text
     assert "no pivot, funding, or GO claim is made" in text
+
+
+def test_payload_documents_do_not_round_the_grade_up():
+    """Regrade guard (2026-10-10): the hardened eigenvalue is a witness, not a
+    theorem, and the internally reviewed dictionary argument is not 'proved'."""
+    banned = {
+        "THEOREM_FEASIBILITY.md": [
+            "Theorem 1", "Theorem 2", "Theorem 3", "GO / PROVED", "PROVED (GO)",
+            "unconditional", "ordinary proof", "Theorem E", "Theorem OBL-3",
+        ],
+        "DH_DICTIONARY_CONSTRUCTIVE.md": [
+            "Theorem 1", "Theorem 2", "GO / PROVED", "unconditional theorem",
+            "[ordinary proof", "ordinary proof", "Theorem E", "Theorem OBL-3",
+            "Theorem FE", "; proved)", "[proved]",
+        ],
+    }
+    for name, phrases in banned.items():
+        with open(os.path.join(HERE, name), "r", encoding="utf-8") as f:
+            text = f.read()
+        for phrase in phrases:
+            assert phrase not in text, f"{name} still carries {phrase!r}"
+        assert "pending external verification" in text
+        assert "Spira" in text
+    with open(os.path.join(HERE, "THEOREM_FEASIBILITY.md"), "r", encoding="utf-8") as f:
+        feas = f.read()
+    assert "Witness 1 (Negative Eigenvalue Witness; grade: hardened witness)" in feas
+    assert "Claim 2 (Off-Line-Zero Existence via Guinand-Weil Dictionary; grade: ordinary argument, internally reviewed, pending external verification)" in feas
 
