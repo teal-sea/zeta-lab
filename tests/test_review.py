@@ -5,10 +5,14 @@ the materials dict, not promised absent); a withdrawal costs artifacts; an
 author attacking their own claim is named as a missing line of evidence; and
 the ledger's exemplar (the 0.672529 clean kill) cites artifacts that exist,
 while its open case (URMS2 0.51) surfaces exactly the two missing attacks.
+The September and October candidates entered on 2026-10-10 each surface both
+missing attacks, state their grade in their own text, and keep the
+half-plane hypothesis they are conditional on.
 """
 
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -171,3 +175,72 @@ def test_the_exemplars_review_is_now_standing() -> None:
     reasons = standing_reasons(blockpos, OUTCOMES)
     # Both a blind and white-box attack have now been run. The review is standing.
     assert len(reasons) == 0
+
+
+# ---------------------------------------------------------------------------
+# 5. the September and October candidates: queued, unattacked, graded
+# ---------------------------------------------------------------------------
+
+#: Landed candidates entered on 2026-10-10 with no outcome, because no attack
+#: had run on any of them. When one lands, its AttackOutcome goes in OUTCOMES
+#: and its name leaves this set in the same commit, the way the history of
+#: ``test_the_open_case_is_now_standing`` records urms2-0.51's.
+UNATTACKED = frozenset(
+    {
+        "qrh-linnik-7/3",
+        "qrh-class-number-1500",
+        "qrh-nonresidue-log8",
+        "qrh-ninth-powers",
+        "qrh-seventh-powers",
+        "oob-envelope-L1.19",
+        "four-point-0.6728604",
+    }
+)
+
+
+def test_the_unattacked_candidates_each_ask_for_both_attacks() -> None:
+    names = {c.name for c in CLAIMS}
+    assert UNATTACKED <= names, f"missing from the ledger: {UNATTACKED - names}"
+    for claim in CLAIMS:
+        if claim.name not in UNATTACKED:
+            continue
+        assert not [o for o in OUTCOMES if o.claim_name == claim.name], (
+            f"{claim.name!r} now has a recorded attack: take it out of "
+            "UNATTACKED and say what the attack found"
+        )
+        reasons = standing_reasons(claim, OUTCOMES)
+        assert len(reasons) == 2
+        assert all(claim.name in r for r in reasons)
+
+
+def test_every_claim_names_paths_that_exist() -> None:
+    """A brief that points an attacker at a missing file is a brief for nothing."""
+    for claim in CLAIMS:
+        assert claim.code_paths, f"{claim.name!r} names no code or artifact"
+        for path in claim.code_paths:
+            assert (_REPO_ROOT / path).exists(), (
+                f"{claim.name!r} cites {path}, which does not exist"
+            )
+
+
+def test_the_new_entries_state_their_grade_and_keep_their_hypothesis() -> None:
+    """The record has no grade field, so the grade lives in the claim's text.
+
+    And "proved given X" keeps X: every claim built on OpenAI's half-plane
+    names it in the claim and carries it as an assumption an attacker can
+    target, rather than leaving it in the author's reasoning, which the blind
+    attacker never sees.
+    """
+    for claim in CLAIMS:
+        if claim.name not in UNATTACKED:
+            continue
+        assert "Grade:" in claim.claim, f"{claim.name!r} states no grade"
+        # The reserved word belongs to zeta/rigor.py and the Lean arm.
+        assert not re.search(r"\bcertif(y|ied)\b", claim.claim, re.I)
+        if claim.name.startswith("qrh-"):
+            assert "OpenAI's Theorem 1.1" in claim.claim
+            assert "7/8" in claim.claim
+            assert any("Theorem 1.1" in a for a in claim.assumptions)
+            assert "no person has reviewed" in claim.claim or (
+                "reviewed by no person" in claim.claim
+            )

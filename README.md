@@ -25,16 +25,22 @@ separate repository; this one holds the record, not the presentation of it.
 On 2026-10-06 OpenAI released a proof that no Dirichlet L-function, zeta
 included, has a zero with real part above 7/8. This laboratory rebuilt its Lean
 proof on its own compute, two independent proof kernels accepted it
-([docs/38](docs/38-the-quasi-riemann-claim.md)), and four theorems were then
-proved here on top of it. Each is **proved, given OpenAI's theorem**, with every
-numerical step carried by ball arithmetic, and **not yet reviewed by any outside
-mathematician**. Statements, proofs in outline, what each one beats, and how to
-check it: **[docs/39](docs/39-built-on-the-quasi-riemann-theorem.md)**.
+([docs/38](docs/38-the-quasi-riemann-claim.md)), and five results were then
+built here on top of it. Four (hunts #123 to #126) are **proved, given
+OpenAI's theorem**, with every numerical step carried by ball arithmetic. The
+fifth, a prime between consecutive seventh powers, also needs a published
+explicit zero-density estimate; it is a **written conditional candidate** that
+has passed an **independent written audit by a separate agent** of its
+author's model family. **None has been reviewed by any outside
+mathematician**, and none is formalized in Lean. Statements, proofs in
+outline, what each one beats, and how to check it:
+**[docs/39](docs/39-built-on-the-quasi-riemann-theorem.md)**.
 
 | Result | What it says | Previous best |
 |---|---|---|
 | Class numbers up to 1500 ([hunt #124](hunts/qrh_class_number/RESULTS.md)) | h(D) >= sqrt(q) / (10 pi log log q) for every negative fundamental discriminant D = -q, and with it the complete list of imaginary quadratic fields of each class number h <= 1500: 9,245,562 fields | h <= 100 unconditionally (Watkins, 2004); all h <= 1000, including even h, under GRH ([Cremona-Sutherland, 2023, section 5](https://arxiv.org/html/2301.11169v4#S5)) |
-| Primes between powers ([hunt #126](hunts/qrh_prime_powers/RESULTS.md)) | a prime between n^9 and (n+1)^9 for every n >= 1 | k = 86 for every n (Lee, 2026) |
+| Primes between seventh powers ([October 8 extensions](hunts/oct08_extensions/RESULTS.md)) | a prime between n^7 and (n+1)^7 for every n >= 1, given also Kadiri-Lumley-Ng's explicit zero-density estimate; audited by a separate agent, reviewed by no person | k = 9 from the theorem alone (hunt #126); k = 86 for every n (Lee, 2026); every n under full RH (Chamberland-Straub, 2026) |
+| Primes between ninth powers ([hunt #126](hunts/qrh_prime_powers/RESULTS.md)) | a prime between n^9 and (n+1)^9 for every n >= 1, from the theorem alone | k = 86 for every n (Lee, 2026) |
 | Small witnesses ([hunt #125](hunts/qrh_nonresidue/RESULTS.md)) | for every nonprincipal character mod q >= 3, some n <= (log q)^8 has chi(n) not in {0, 1}; every odd composite n has a Miller-Rabin witness <= (0.7 log n)^8 | exponent 32, constant not stated (OpenAI) |
 | Linnik's constant ([hunt #123](hunts/qrh_linnik/RESULTS.md)) | the least prime in every reduced class mod q is below C q^(7/3 + eps), C effective; 12/5 from refereed inputs alone | L = 5 (Xylouris) |
 | The input itself ([docs/38](docs/38-the-quasi-riemann-claim.md), section 7) | OpenAI's Lean proof rebuilt from the pinned commit; Lean's kernel and the independent NanoDa kernel accept it with only the standard axioms | no outside replay known |

@@ -68,7 +68,7 @@ What was built, what was measured, and what did not survive.
 | [36](36-what-you-can-run.md) | Thirteen worked demonstrations, the figure gallery, the repository map, and the standing limitations. |
 | [37](37-methods.md) | The methods index: every reusable identity, lemma, control and technique the hunts produced, with grade and provenance. |
 | [38](38-the-quasi-riemann-claim.md) | The quasi-Riemann claim: OpenAI's 7/8 zero-free half-plane of 2026-10-06, read against this tree, rebuilt here and accepted by two kernels. |
-| [39](39-built-on-the-quasi-riemann-theorem.md) | **Start here for the current results.** Four theorems built on the 7/8 half-plane: class numbers up to 1500, a prime between consecutive ninth powers, small witnesses with constant 1, Linnik's exponent 7/3. |
+| [39](39-built-on-the-quasi-riemann-theorem.md) | **Start here for the current results.** Five results built on the 7/8 half-plane: a prime between consecutive seventh powers (with an explicit density estimate; audited by a separate agent, reviewed by no person), a prime between consecutive ninth powers from the half-plane alone, class numbers up to 1500, small witnesses with constant 1, Linnik's exponent 7/3. |
 
 ## Adding one
 

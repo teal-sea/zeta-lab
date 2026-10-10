@@ -39,10 +39,14 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 ## Current results (October 2026)
 
 - [docs/39-built-on-the-quasi-riemann-theorem.md](docs/39-built-on-the-quasi-riemann-theorem.md):
-  **start here.** Four theorems proved here on top of OpenAI's zero-free
-  half-plane Re s > 7/8 (preprint of 2026-09-30), each "proved, given that
-  theorem", none yet reviewed outside: complete class-number lists for every
-  h <= 1500 (hunt #124), a prime between n^9 and (n+1)^9 for every n (#126),
+  **start here.** Five results built here on top of OpenAI's zero-free
+  half-plane Re s > 7/8 (preprint of 2026-09-30), none yet reviewed by any
+  person and none formalized in Lean. A prime between n^7 and (n+1)^7 for
+  every n (`hunts/oct08_extensions/`) also uses Kadiri-Lumley-Ng's explicit
+  zero-density estimate; it is a written conditional candidate that passed an
+  independent written audit by a separate agent. Four are "proved, given that
+  theorem": complete class-number lists for every h <= 1500 (hunt #124), a
+  prime between n^9 and (n+1)^9 for every n from the half-plane alone (#126),
   the least character nonresidue at most (log q)^8 (#125), Linnik's exponent
   7/3 (#123).
 - [docs/38-the-quasi-riemann-claim.md](docs/38-the-quasi-riemann-claim.md): the
