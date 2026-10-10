@@ -1242,6 +1242,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `39-built-on-the-quasi-riemann-theorem.md`, 39. Built on the quasi-Riemann theorem: what a zero-free half-plane at 7/8 buys
 - `40-one-form-per-discriminant.md`, 40. One form per discriminant, and what an adversary did to the write-up
 - `41-the-module-that-missed-the-guard.md`, 41. The module that missed the guard the tree already had
+- `42-a-law-read-off-a-diagonal.md`, 42. A law read off a diagonal, and a headline read off a bad comparison
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)

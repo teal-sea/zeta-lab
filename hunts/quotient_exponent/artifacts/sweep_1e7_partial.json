@@ -1,0 +1,32 @@
+[
+ {
+  "N": 10000000,
+  "y": 631,
+  "cells": 6322,
+  "excess": 145763.97580478803,
+  "alpha_effective": 0.4000041941777334,
+  "E_sqrt_y_over_N": 0.3661549292494406,
+  "E_over_N_pow_075": 0.8196910731907848,
+  "note": "recovered from sweep2.log; the run was stopped to free memory before its JSON was written, and the alpha=0.55 row was never reached"
+ },
+ {
+  "N": 10000000,
+  "y": 1413,
+  "cells": 6322,
+  "excess": 92046.54893706737,
+  "alpha_effective": 0.45002030883550836,
+  "E_sqrt_y_over_N": 0.3460019857304207,
+  "E_over_N_pow_075": 0.5176157830846878,
+  "note": "recovered from sweep2.log; the run was stopped to free memory before its JSON was written, and the alpha=0.55 row was never reached"
+ },
+ {
+  "N": 10000000,
+  "y": 3162,
+  "cells": 6322,
+  "excess": 30297.73676825234,
+  "alpha_effective": 0.49999455222802713,
+  "E_sqrt_y_over_N": 0.17036921441580974,
+  "E_over_N_pow_075": 0.17037669444527384,
+  "note": "recovered from sweep2.log; the run was stopped to free memory before its JSON was written, and the alpha=0.55 row was never reached"
+ }
+]
