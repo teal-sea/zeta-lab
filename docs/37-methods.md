@@ -70,12 +70,18 @@ stays out of this file. No em dashes.
 - **Certificates, verifiers and exact arithmetic** (18). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
+- **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
+  bound from a fixed zero-free half-plane, and the exact sieve that spends it on
+  complete class-number lists.
+- **Primes in short intervals and explicit formulas** (2). Smoothed explicit formulas
+  with closed-form sums over zeros split at a verified height; threshold exponents for
+  primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (36). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (38). Surfaced by the sweep, below the bar for now.
 
-Totals: 168 entries from 61 hunts. Kinds: identity 22, lemma 41, bound 12, construction
-15, calibration 7, computational 15, control 35, obstruction 21.
+Totals: 172 entries from 64 hunts. Kinds: identity 22, lemma 43, bound 12, construction
+15, calibration 7, computational 17, control 35, obstruction 21.
 
 ## Prime pairs and the circle method
 
@@ -5247,6 +5253,123 @@ Why it travels: Generic for auditing any 'constant X is violated' claim produced
 scan against a Lean lemma; the depth-interval inflation arithmetic applies to every
 ratio-normalised enclosure.
 
+## Zero-free half-planes, L(1, chi) and class numbers
+
+### Two-cutoff Littlewood bound for log L(1, chi) under a zero-free half-plane, with Hadamard positivity for the zero sum
+
+lemma | `hunts/qrh_class_number` | grade: ordinary written derivation, unreviewed; every
+constant evaluated in Arb (enclosure-carrying); conditional on the input half-plane
+
+For a primitive odd real chi of conductor q whose zeros satisfy beta <= sigma0: subtract
+the explicit formula for sum_{n<=t} Lambda(n) chi(n) n^-sigma log(t/n) at t = y and t = x;
+the (L'/L)'(sigma) term cancels, and integrating sigma over [1, inf) gives log L(1, chi)
+= sum Lambda chi w / (n log n) + E with the trapezoid weight w (1 up to y, linear in
+log n down to 0 at x), so no L'/L(1, chi) term survives. Each zero term is charged
+against Re xi'/xi(sigma) = sum_rho (sigma - beta)/|sigma - rho|^2 <= (1/2) log(q/pi) +
+(1/2) psi((sigma+1)/2) - zeta'/zeta(sigma) + 2 zeta'/zeta(2 sigma), using that
+t^(beta-sigma)/(sigma-beta) is increasing in beta, so only beta <= sigma0 is used and
+no zero counting. With sigma0 = 7/8 it gives L(1, chi_D) >= 1/(10 log log |D|) for all
+fundamental D < 0 except -3; the method's limit is (1 - sigma0) zeta(2) e^-gamma /
+log log q, and at sigma0 = 1/2 it reproduces Lamzouri-Li-Soundararajan within 2% at
+q = 10^100.
+
+Evidence: RESULTS.md sections 2 and 4; `lbound.py`; `abscissae.json`
+Prior art: searched; the mechanism is Littlewood's (GRH) and Friedlander-Iwaniec,
+arXiv:1701.03771, Theorem 3 (half-plane Re s > 3/4, constants unspecified); no explicit
+half-plane constant found
+Reused in: none yet
+Why it travels: any zero-free half-plane (a new sigma0, or a Hecke family over a fixed
+field) turns into an explicit L(1, chi) lower bound by changing one parameter; the
+positivity step needs no zero-counting input.
+
+### Streamed reduced-form sieve for all class numbers h(D) <= H up to a bound X
+
+computational | `hunts/qrh_class_number` | grade: exact integer computation, checked
+against brute force, PARI, Watkins (h <= 100) and Holmin-Kurlberg (odd h <= 1500)
+
+For fundamental D = -n the number of reduced forms with first coefficient a < sqrt(n)/2
+is r(a) = #{b mod 2a : b^2 = D mod 4a}, multiplicative with r(p^k) = 1 + chi(p) off D.
+Since r(a) is periodic in n, sum_a r(a) over any set of such a is a lower bound for h(D)
+that can be added to a whole segment of n with SIMD-friendly periodic patterns; all a
+below sqrt(n)/2 where the primes alone cannot exceed H, otherwise about 1.3 H primes.
+Survivors get an exact count: r(a) by a multiplicative sieve, and the boundary range
+n <= 4a^2 <= 4n/3 by Tonelli-Shanks, Hensel lifting and CRT. All 1.65 * 10^9 fundamental
+discriminants below 5.4 * 10^9 for H = 1000 took ten minutes on one core, and all 3.77 *
+10^9 below 1.24 * 10^10 for H = 1500 took 39 minutes, with no GRH. The filter can only
+lose a field by over-counting, so the control that guards completeness recomputes every
+streamed count without the periodic patterns (`CN_CHECK_STREAM=1`).
+
+Evidence: RESULTS.md section 5; `cn.c`; `search_H1500.json`; `test_qrh_class_number.py`
+Prior art: reduced-form counting is classical; unsearched as a batch filter
+Reused in: none yet
+Why it travels: any explicit bound |D| <= D(h) (from a zero-free region, GRH, or a
+future theorem) becomes a complete class-number list by this sieve at cost about
+X * H additions, without a conditional class-group algorithm.
+
+## Primes in short intervals and explicit formulas
+
+Explicit short-interval prime counts from a smoothed explicit formula, with the sums over
+zeros bounded in closed form and the zeros split at a verified Riemann-hypothesis height.
+
+- lemma: Height-split B-spline explicit formula with closed-form zero sums
+  (`qrh_prime_powers`)
+
+### Height-split B-spline explicit formula with closed-form zero sums
+
+lemma | `hunts/qrh_prime_powers/` | grade: ordinary written proof, not reviewed outside
+the hunt; every numerical inequality decided in Arb; conditional uses take a zero-free
+half-plane as hypothesis
+
+For the quadratic B-spline phi on [0, 1] (C^1, integral 1, max 9/4, ||phi'||_1 = 9/2,
+TV(phi'') = 216) and w(t) = phi((t-x)/h), eta = h/x, a = 1 + 1/eta: the Mellin transform
+has the closed form W(s) = -(h^2 s(s+1)(s+2))^-1 sum_i J_i (x + ih/3)^(s+2) with
+J = (27, -81, 81, -27); |W(rho)| <= h x^(beta-1) g(|gamma|/a), g(u) = min(1, 9/(2u),
+216/u^3); and sum Lambda(n) w(n) = h - sum_rho W(rho) - tau exactly, tau in [0,
+h/(x(x^2-1))]. If every zero has beta <= theta and those below height H have beta = 1/2,
+then sum_{x<p<x+h} log p >= (4h/9)(1 - E) - P with E = 2x^(-1/2) sum_{gamma<=H} g(gamma/a)
++ 2x^(theta-1) sum_{gamma>H} g(gamma/a) + 1/(x(x^2-1)) and an explicit prime-power term P.
+The zero sums are bounded through explicit N(T) bounds by Stieltjes integration, and every
+piece integrates in closed form once log log t is replaced by its tangent line at the
+left end of each piece. Monotonicity in the interval parameter turns a finite Arb cover
+plus a monomial tail lemma into an all-x statement.
+
+Evidence: hunts/qrh_prime_powers/RESULTS.md sections 2 to 6 (Lemmas 2.1, 3.1, 5.1, 6.2,
+6.4, Proposition 4.1); bound.py; test_qrh.py (normalisation against 1000 tabulated zeros
+and a direct prime sum, closed forms against mpmath quadrature)
+Prior art: cited: smoothed explicit formula with a verified-height split as in Buthe,
+arXiv:1511.02032; qualitative half-plane-to-short-interval implication classical. The
+B-spline envelope and the tangent-line closed forms are this hunt's choices; no explicit
+consequence of a zero-free half-plane for primes between powers was found in the searches
+listed in RESULTS.md section 11.
+Reused in: RESULTS.md sections 7 to 9 (the same lemma drives the k-th power chain for
+three abscissae, the short-interval theorem and, with a one-sided weight, the psi bound)
+Why it travels: Any hypothesis of the form "zeros above height H have beta <= theta"
+(a half-plane, a zero-density substitute, or a hypothetical zero) plugs into E directly,
+so the threshold k = floor(1/(1-theta)) + 1 and its margins can be read off for any
+theta in seconds.
+
+### Positive density layers for explicit prime intervals
+
+computational technique | `hunts/oct08_extensions/` | grade: written conditional;
+eighth- and seventh-power versions independently audited
+
+For beta <= b and an increasing mesh s0,...,sm=b, upper-bound x^(beta-1)
+by x^(s0-1) plus positive increments x^(s[j+1]-1)-x^(s[j]-1)
+times the indicators beta>s[j]. Apply a cumulative zero-density upper bound
+to each indicator. This avoids subtracting independently bounded counts and
+avoids charging every exceptional zero at the rightmost strip boundary.
+For log(x)>=1/(1-b), the increments decrease with x. Together with monotone
+zero-sum moments this supports closed interval enclosures and an analytic tail.
+
+Evidence: `routes/prime-gap-multistrip/RESULTS.md`, `layers.py`, and the
+independent eighth-power audit under `audits/prime-gap/` in the hunt.
+Prior art: classical density splitting; KLN arXiv:2101.12263v1 Lemma 4.14,
+Table 1. No worldwide priority claim for the resulting explicit intervals.
+Reused in: the eighth-power argument is strengthened to a seventh-power
+result under the same zeta seven-eighths hypothesis.
+Why it travels: cumulative counting estimates can be combined soundly with
+monotone weights without estimating disjoint bins by subtraction.
+
 ## Explicit prime estimates and Robin's criterion
 
 ### First-order cancellation in the primorial Mertens ratio
@@ -5368,3 +5491,17 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   carried.
 - Derived-kernel validation by locating an unexplained ansatz, with fitted rivals as
   decoys (`hunts/wide_search/`, control): self-reviewed or measured only; not carried.
+- Half-plane transfer for primes in progressions: a zero-free half-plane Re s > theta
+  < 1 for all Dirichlet L-functions plus a single-modulus density exponent A(sigma)
+  gives the Linnik exponent max(2, sup over 1/2 < sigma <= theta of A) and half of it
+  for almost all classes, with the sup computed exactly at the breakpoints of the
+  monotone density envelope and checked against a float grid (`hunts/qrh_linnik/`,
+  lemma): self-reviewed only; the conditional implication is already CGL
+  arXiv:2507.08296 Corollary 1.4 at h = x; not carried.
+- Lorentzian domination of a smoothed explicit formula under a zero-free half-plane
+  Re s > theta: with weight (n/x)^c log(x/n), W(s) = (s+c)^-2 and sigma0 = 2 theta + c,
+  each zero obeys |x^rho W(rho)| <= x^theta K(x) Re 1/(sigma0 - rho), so the Hadamard
+  identity prices the whole zero sum at x^theta (log q/2 + O(1)) with Arb-enclosed
+  constants; gives explicit (log q)^(1/(1-theta)) witness bounds
+  (`hunts/qrh_nonresidue/`, lemma): self-reviewed only; not carried.
+

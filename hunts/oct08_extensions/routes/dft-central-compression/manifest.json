@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "claim_id": "dft-central-compression-h24-v1",
+  "repository": {
+    "commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+    "dirty": true,
+    "meaning": "Pinned upstream collection; extension is an uncommitted workspace artifact."
+  },
+  "command": [
+    "/Library/Frameworks/Python.framework/Versions/3.10/bin/python3",
+    "/Users/thomas/Documents/Codex/2026-10-08/task-3/routes/dft-central-compression/verify.py"
+  ],
+  "environment": {
+    "software": [
+      "CPython 3.10.4"
+    ],
+    "hardware": "arm64; one standard-library process"
+  },
+  "mathematics": {
+    "assertion_tested": "Compressed central map, rational scalar schedule and inverse, fixed-side rank, exact h24 exponent certificate.",
+    "coefficient_domain": "Exact integers and rational numbers; no floating point proof.",
+    "conventions": "Ordered side edges; arbitrary auxiliary values; exact complex-field downstream model.",
+    "inputs": [
+      {
+        "path": "dft-central-compression/verify.py",
+        "sha256": "35a9d7259d6f70095c077689aedc7938c32c26e911bfc6f804ac535898a63d84"
+      },
+      {
+        "path": "dft-central-compression/PROOF.md",
+        "sha256": "d33bf988ebc1d096d2d8f3d9c7f67cd038d1db4ca344470ea584ad7a3d99a2c5"
+      },
+      {
+        "path": "dft/sources/all-lengths.tex",
+        "sha256": "7416c6828e14df7a84ff86d5bd9a3876dc7fcdd5d6a964c510efc2c795412828"
+      },
+      {
+        "path": "dft/sources/local.tex",
+        "sha256": "3e6c9e2c674c47ecdcafb6bd16b76616dc4eaf193c5c0c42fb5f8c3a58c61583"
+      },
+      {
+        "path": "dft/sources/network.tex",
+        "sha256": "1e28d7594563294247936129c21d8a061d0c86b05dcce4a86e81c0b2e34b3f91"
+      },
+      {
+        "path": "dft/sources/synchronization.tex",
+        "sha256": "f879dd875d5d07e331af2028e3bc8f756cda0a662b24d137d96fa51fbed0b81a"
+      }
+    ],
+    "bounds": {
+      "main_h": 24,
+      "schedule_h": [
+        7,
+        8
+      ],
+      "literal_rank_h": [
+        4,
+        5,
+        7,
+        9,
+        10
+      ],
+      "wall_timeout_seconds": 10
+    },
+    "non_claims": [
+      "No full DFT implementation",
+      "No formal universal proof",
+      "No novelty claim",
+      "No practical or bit-complexity improvement"
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "none",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-10-08T14:07:12.182271+00:00",
+    "runtime_seconds": 0.38705799999297597,
+    "exit_status": 0
+  },
+  "outputs": [
+    {
+      "path": "dft-central-compression/result.json",
+      "sha256": "0273374613d888979d2f16e0eb2edb9a122156015c19a6d1186c60aa01c6735b"
+    },
+    {
+      "path": "dft-central-compression/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "checks": [
+    "Pinned upstream blob identity",
+    "Rational eight-row schedule and inverse",
+    "Literal matrix Gaussian elimination",
+    "Exact spectrum and trace",
+    "Rational exponent inequalities",
+    "Five negative controls"
+  ],
+  "result": "Finite checks passed; universal argument is in PROOF.md, undergoing separate independent audit.",
+  "residual_risks": [
+    "Written upstream compiler and label lemmas are not formally replayed here",
+    "v1 manifest; input hashes verified before and after; wall timeout but no OS memory cap"
+  ]
+}

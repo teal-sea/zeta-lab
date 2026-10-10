@@ -90,6 +90,195 @@ and `sigma(n) < (1 + 2.49e-8) e^gamma n log log n` for all `n > 5040`. `t = 26` 
 the verified range is the binding constraint, and no fixed family of this kind reaches
 RH. Identity checked on real primes; 30 tests. See `robin_tfree/RESULTS.md`.
 
+### October 8 extensions (`oct08_extensions/`)
+
+**Status: written conditional candidates, with independent review artifacts.**
+The density extension replaces the earlier ninth-power interval target by
+seventh powers under the same zeta half-plane assumption, adding a published
+explicit zero-density estimate. The fixed Fourier network admits a parameter
+extension; its all-length consequence keeps the upstream exact-arithmetic
+compiler assumptions. Genus-aware partial counts and a failed primality
+certificate route retain their limitations and falsification examples.
+See `oct08_extensions/MISSION.md` and its `routes/` and `audits/` artifacts.
+No kernel verification, practical Fourier speedup or worldwide novelty is
+claimed. Source authentication and subsequent extensions are recorded in the
+route reports, separately from numerical replay.
+
+### Hunt #126: primes between consecutive ninth powers, given the 7/8 half-plane (`qrh_prime_powers/`)
+
+**Status: candidate, pending external review; ordinary written proofs, every
+numerical step enclosure-carrying, conditional on OpenAI's zero-free
+half-plane.** Given that zeta has no zero with real part above 7/8 (OpenAI's
+30 September 2026 preprint, Theorem 1.1; the October 5 paper proves 11/12),
+there is a prime between n^9 and (n+1)^9 for every n >= 1, against the
+unconditional record k = 86 (Lee, arXiv:2602.14340). Route: the exact explicit
+formula for a quadratic B-spline weight, zero sums bounded in closed form
+through explicit N(T) bounds, an Arb cover of 10 <= n <= e^100 with worst
+margin 0.825 (0.303 with no verified RH height at all), an analytic tail, and
+Pratt certificates for n <= 9. The 11/12 theorem alone gives 13th powers. The
+weakened abscissa 15/16 moves the threshold to k = 17 as predicted, and k - 1
+fails in each case from log n near 28.4 to 29.5. By-products: a prime in
+(x, x + (1/2) x^(7/8) log x] for x >= e^8, and |psi(x) - x| < x^(7/8) log^2 x
+/(128 pi) for x >= e^10. No review yet; no Lean. See
+`qrh_prime_powers/RESULTS.md`, which ends with the doors (k = 8 is where this
+method stops, unresolved rather than obstructed; explicit zero-density
+estimates are the door).
+
+### Hunt #125: explicit small witnesses from the 7/8 half-plane (`qrh_nonresidue/`)
+
+**Status: candidate, pending external review; proved given OpenAI, "The
+Quasi-Riemann Hypothesis", Sept 30 2026, Thm 1.1 (unreviewed input),
+enclosure-carrying numerics.** From the zero-free
+half-plane Re s > 7/8 a smoothed explicit formula with weight
+(n/x)^(1/4) log(x/n), zero sums bounded through the Hadamard identity at
+sigma0 = 2, gives: every nonprincipal character mod q >= 3 has a prime
+p <= (log q)^8 with chi(p) not in {0, 1} (tight at q = 3), and
+p <= (0.7 log q)^8 for q >= 5, with limsup constant at most (96 sqrt(3)/343)^8 = 0.0031; every
+odd composite n has a Miller-Rabin witness at most (0.7 log n)^8; and
+g*(p) <= (Lambda_p log p)^8 with an explicit sieve factor Lambda_p. The
+Oct 5 2026 paper's 11/12 half-plane alone gives (log q)^12. The
+exponents are not new (Montgomery-Vaughan 13.12, Guo 8 Oct 2026); no explicit
+constant was found in the searched set. Controls: exact tables to 10^7,
+OEIS record values, a weakened abscissa that moves the measured exponent to
+12 and 16, and a planted fault refuted by n(48473881) = 67. The exponent 8 is
+the wall of this information class (The doors). See
+`qrh_nonresidue/RESULTS.md`.
+
+### Hunt #124: an explicit class-number bound from the quasi-Riemann hypothesis (`qrh_class_number/`)
+
+**Status: candidate, pending external review; proved given OpenAI's Theorem
+1.1 (The Quasi-Riemann Hypothesis, Sept 30 2026, zero-free Re s > 7/8,
+unreviewed), by an unreviewed written proof whose every constant is
+evaluated in Arb.** Littlewood's short Euler product with two Cesaro cutoffs
+and Hadamard positivity for the zero sum gives, for every negative
+fundamental D other than -3, L(1, chi_D) >= 1/(10 log log |D|), hence
+h(D) >= sqrt|D| / (10 pi log log |D|): the constant the October 5 OpenAI
+paper calls computable and leaves uncomputed. A verified interval cover turns
+the bound into D(h) with h(D) <= h implying |D| <= D(h) (D(100) = 48 611 613,
+D(1500) = 12 409 254 457). An exact reduced-form sieve over all 3.77 * 10^9
+fundamental discriminants below D(1500), 39 minutes on one core and no GRH,
+then completes the imaginary quadratic class-number lists for every
+h <= 1500 (9 245 562 fields, largest |D| = 562 394 347), conditional only on
+Theorem 1.1 (h <= 1000 also under the October 5 paper's 11/12 half-plane,
+with c = 1/16). It reproduces Watkins' h <= 100 classification exactly and the
+GRH-conditional odd-h counts of Holmin and Kurlberg for all odd h <= 1500.
+Controls: the bound sits at least 3.89 times below every exact L(1, chi_D)
+for |D| <= 3 * 10^6; weakening the abscissa to 11/12 and 15/16 weakens it in
+the predicted way; the GRH specialisation matches Lamzouri-Li-Soundararajan.
+No explicit half-plane constant or even-h list beyond 100 was found in the
+search; that is not a novelty claim. See `qrh_class_number/RESULTS.md`.
+
+### Hunt #123: Linnik's constant 7/3 from the 7/8 zero-free half-plane (`qrh_linnik/`)
+
+**Status: candidate, pending external review (2026-10-08).** Uses OpenAI's
+Theorem 1.1 (no Dirichlet L-function vanishes in Re s > 7/8; Lean statements
+kernel checked here, argument unreviewed) as an input, not as something to
+audit. A smoothed explicit formula with height cutoff a small power of x, the
+input theorem removing every zero above 7/8, and Chen-Gupta-Li's single-modulus
+density estimate (arXiv:2507.08296v2, preprint) give, by an ordinary written
+proof, p(q,a) <= C(eps) q^(7/3+eps) for every modulus and class, effective, with
+psi(x;q,a) ~ x/phi(q) for x >= q^(7/3+eps), all but O(phi(q) x^-delta) classes
+reached by x = q^(7/6+eps), 30/13 for smooth moduli, and Goldbach numbers
+mod any q below q^(7/6+eps). On refereed density inputs alone the exponent is
+12/5, the value Wikipedia lists for the 7/8 theorem. The binding point is
+sigma = 5/7 (Ingham's mean value bound against CGL's q1^(1/3) term), so the
+half-plane is slack for any theta >= 5/7; exact exponent algebra is checked
+against a float grid and planted lesions. The conditional implication is in
+the literature (CGL Corollary 1.4 at h = x); nothing is claimed novel. Least
+primes for q <= 5000 are tabulated as a descriptive picture (max exponent
+1.83, at q = 5). Composite grade capped by the unreviewed input. See
+`qrh_linnik/RESULTS.md`, which ends with the doors.
+
+### Hunt #122: the second-DH tracked pair lands at 1.0876360002296, and the lower endpoint reaches 1.0876359 (`dh_minus_landing/`)
+
+**Status: probe, complete (2026-10-08); the parent's first door is priced and
+shut for this pair.** `dh_minus_heat` left `217/200 < Lambda_minus <=
+567009/320000` (narrow frame) and named a later rational heat time for the same
+conjugate pair as its first door. The pair's landing time is measured by two
+independent routes, an mpmath double-zero Newton solve (30 and 50 digits,
+agreeing to `4.6e-26`) and a float contour-moment discriminant tracker (two
+grids, within `5e-14` of the first): `t_c = 1.08763600022958693221796...`,
+`x_c = 7.5399442421673352...`, grade hardened, no enclosure. Five rational
+times below it, down to `10876359/10^7 = 1.0876359` (`1.0e-7` under `t_c`),
+carry the parent's Arb Taylor/Rouche disk decided positive on all four of its
+configurations, so the bracket becomes `1.0876359 < Lambda_minus <=
+567009/320000`, lower endpoint enclosure-carrying at the numerical step, the
+surrounding argument the parent's. The door was worth `2.636e-3`, `0.38%` of
+the gap. The pilot's second zero lands at `0.631` and binds nothing; no census
+of other pairs was run. The parent's second door (a sharper strip for the upper
+endpoint) is repriced from a number already decided in
+`lambda_dh_bounds/strip2_results.json`: worth `4.03e-4`, not rerun. Controls:
+known values, the recorded `217/200` disk rerun, the `t = 0` gate, two
+closed-form polynomial landings, three instrument lesions, and a 1% kernel
+fault that both tracking routes miss together (they agree to `1.4e-13` on the
+wrong function) and the Hurwitz zero-time identity catches (defect `1.2e-3`).
+No kill condition fired. Nothing bears on RH; the subject is a rival function.
+
+### Hunt #121: what moves under the 7/8 strip, priced (`qrh_conditional/`)
+
+**Status: conditional pricing, exact exponent arithmetic plus two measured
+heights; nothing here is a result, and the hypothesis is nobody's theorem
+(2026-10-08).** QRH(theta) is the claim, published by OpenAI on 2026-10-06 and
+replayed by no one known here, that every Dirichlet L-function is zero-free in
+Re s > theta, theta = 7/8 (and 11/12). (Update, later on 2026-10-08: replayed
+here, Lean's kernel and the independent NanoDa kernel accept the statements,
+`docs/38` section 7; the argument is still unreviewed by any person, so the
+pricing below keeps its hypothesis.) The hunt asks which of this tree's
+priced walls would move if it held, and keeps the hypothesis in every
+sentence. Under QRH(7/8): `prime_pair_error`'s rank-1 wall, the q = 1 mixed
+moment, moves from N^3 L^{-2H} to N^{11/4} L^4 and stops 3/4 of a power short
+of (31), which is RH-equivalent, so no fixed strip closes it; the completed
+bound (1) would move from a logarithmic saving to N^{35/12} L^6 by widening
+the major arcs to N^{1/12} (the hunt's own derivation, reviewed by nobody),
+still 11/12 of a power short of the target and 5/12 behind CHHL's
+GRH-conditional 5/2; Theorem A becomes W << N^{7/4} L^4, 3/4 short of (T);
+the ineffective constants become effective in principle. Rank 2 (Vaughan's
+bound), rank 3 in the square-root-arc configuration, the de Bruijn-Newman
+record (9/32 > 0.2, cited from the lab's reading of the claim, document 38 of
+the course), the simple-zero proportions, Lambda_DH and the Re(xi'/xi)
+equivalence do not move.
+The circle-method bootstrap theta -> (2 + theta)/3 drifts toward 1, never
+toward 1/2. Crossover heights against Johnston and Yang's explicit remainder,
+with the strip-side constant set to 1 by convention: log x = 35.11 (x about
+1.8e15) at 7/8 and 98.22 (about 4.6e42) at 11/12; on every height the
+prime-pair hunt has measured, the explicit unconditional bound is the smaller
+one. Li's criterion: a strip multiplies the per-zero growth exponent of a
+hypothetical off-line zero by 2 theta - 1 = 3/4 and bounds neither the count
+nor the heights of such zeros, so nothing usable at finite n. Every statement
+is void if the claim is withdrawn or refuted. `qrh_conditional/RESULTS.md`
+ends with the doors.
+
+### Hunt #120: where the quasi-Riemann argument spends its Euler product, and a rival that cannot pay (`qrh_rival_step/`)
+
+**Status: read and measured, 2026-10-08; no verdict on the paper.** OpenAI's
+family 003 (the lab's reading of the release is `38-the-quasi-riemann-claim.md`,
+on the branch `claude/openai-math-release-2026-10-06`, not yet on main) claims every Dirichlet and finite-order Hecke
+L-function over Q(sqrt(-3)) is zero-free in Re s > 7/8. The hunt asks where
+the argument uses that its target is a single L-function with an Euler product
+rather than a finite combination, and tests the step on the classical rival,
+an Epstein zeta function of class number above one. Reading: the continuation
+criterion (Proposition 2.1 of the 7/8 paper, page 8) is a shared lemma whose
+proof survives for any function with bounded reciprocal on Re s >= 2; the
+Euler product is consumed where that criterion's two estimates are made, at
+the Moebius identity 1/L_K^S = sum mu nu N^{-s} (11/12 paper, Section 3, page
+12) and at the scalar Euler identity, Lemma 7.1 (7/8 paper, Section 7.2, page
+53, used at (10.1) and (10.2) on page 71). Measured: for Q = x^2 + xy + 4y^2
+(D = -15), written in the paper's own vocabulary as
+zeta(s) L(s, chi_-15) + L(s, chi_-3) L(s, chi_5), zeros at
+0.92746 + 15.49663i, 0.91294 + 47.53316i and 1.02597 + 61.42280i, the last
+inside the region of absolute convergence, each hardened by two evaluation
+routes agreeing to 1e-25 or better, a lattice-route residual of 1e-41 where
+run, an mpmath winding of 1 and a segment-enclosed ball winding of 1 on
+python-flint; for D = -23 a zero at 0.95326 + 16.29022i on two routes. Each is
+a cancellation between two nonvanishing products of Dirichlet L-functions, so
+none is a counterexample (`docs/08` section 4.3): the rival lacks the
+hypothesis, its reciprocal's coefficients being non-multiplicative and
+unbounded (exact to 10^6). The Davenport-Heilbronn function has no zero past
+7/8 below height 300 and none known to the lab anywhere (its deepest census
+pair sits at 0.86953). Controls: gamma_1 recovered to 2e-16, planted faults
+detected, the class-number-one form sees nothing. Scan ranges are stated as
+limits in `qrh_rival_step/RESULTS.md`, which ends with the doors.
+
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 
 **Status: unresolved RH attempt, ordinary proofs and numerical enclosures;
@@ -3020,3 +3209,15 @@ the named obligation. Not closed: `s > 400` has no depth-1 enclosure (the
 tail composes through the very lemma that fails), and the table's other
 starred row (`no_damage`'s `28/5`) was not examined. Nothing bears on RH
 (`docs/08`).
+
+### depth_bound_selfterm/
+
+**Status: measured.** Dual kernel `dual-x80.json` data[1]: $r(0)=0.125$,
+$S(y)<r(0)$ first at $y \approx 0.9198925$, $S(y)<0$ first at $y \approx 0.9528774$,
+numpy and `mp.workdps(40)` agree. In-band control (data[0], $z$ empty) has no
+crossing on $[0, 1.5]$; $S$ rises ($1.012$ at $y=0.9$, $1.526$ at $y=1.0$).
+Whether $y \approx 0.92$ is a depth an off-line zero can reach is unresolved:
+the kernel's LP is unfolded (`configuration_lp.py` line 3), so the raw range
+$(0,1/2)$ does not apply, and a factor 2 in the pair convention is open.
+Strip mass forces a crossing at large $y$; the content is where.
+Nothing bears on RH (`docs/08`).
