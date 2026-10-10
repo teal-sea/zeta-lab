@@ -113,7 +113,7 @@
      "composite_defect": 1.0705042624601787e-31
     }
    ],
-   "max_form_defect": 1.0705042624601787e-31,
+   "principal_form_defect": 1.0705042624601787e-31,
    "class_group_sum_defect": 1.0705042624601787e-31
   },
   {
@@ -129,7 +129,7 @@
      "composite_defect": 3.1730652256213546e-31
     }
    ],
-   "max_form_defect": 3.1730652256213546e-31,
+   "principal_form_defect": 3.1730652256213546e-31,
    "class_group_sum_defect": 3.1730652256213546e-31
   },
   {
@@ -145,7 +145,7 @@
      "composite_defect": 6.104696349965547e-31
     }
    ],
-   "max_form_defect": 6.104696349965547e-31,
+   "principal_form_defect": 6.104696349965547e-31,
    "class_group_sum_defect": 6.104696349965547e-31
   },
   {
@@ -161,7 +161,7 @@
      "composite_defect": 4.443842448770892e-31
     }
    ],
-   "max_form_defect": 4.443842448770892e-31,
+   "principal_form_defect": 4.443842448770892e-31,
    "class_group_sum_defect": 4.443842448770892e-31
   },
   {
@@ -177,7 +177,7 @@
      "composite_defect": 4.278968615586784e-31
     }
    ],
-   "max_form_defect": 4.278968615586784e-31,
+   "principal_form_defect": 4.278968615586784e-31,
    "class_group_sum_defect": 4.278968615586784e-31
   },
   {
@@ -191,17 +191,9 @@
       4
      ],
      "composite_defect": 5.084699535226722
-    },
-    {
-     "form": [
-      2,
-      1,
-      2
-     ],
-     "composite_defect": 36.06439101918216
     }
    ],
-   "max_form_defect": 36.06439101918216,
+   "principal_form_defect": 5.084699535226722,
    "class_group_sum_defect": 5.655084192044722e-31
   },
   {
@@ -215,17 +207,9 @@
       5
      ],
      "composite_defect": 3.882332804272988
-    },
-    {
-     "form": [
-      2,
-      2,
-      3
-     ],
-     "composite_defect": 18.61759811856784
     }
    ],
-   "max_form_defect": 18.61759811856784,
+   "principal_form_defect": 3.882332804272988,
    "class_group_sum_defect": 6.374451638055912e-31
   },
   {
@@ -239,25 +223,9 @@
       6
      ],
      "composite_defect": 3.556902743385583
-    },
-    {
-     "form": [
-      2,
-      -1,
-      3
-     ],
-     "composite_defect": 1.712127403659038
-    },
-    {
-     "form": [
-      2,
-      1,
-      3
-     ],
-     "composite_defect": 1.712127403659038
     }
    ],
-   "max_form_defect": 3.556902743385583,
+   "principal_form_defect": 3.556902743385583,
    "class_group_sum_defect": 1.4985972899861023e-30
   },
   {
@@ -271,17 +239,9 @@
       6
      ],
      "composite_defect": 3.8530433072051826
-    },
-    {
-     "form": [
-      2,
-      0,
-      3
-     ],
-     "composite_defect": 12.495547418857514
     }
    ],
-   "max_form_defect": 12.495547418857514,
+   "principal_form_defect": 3.8530433072051826,
    "class_group_sum_defect": 5.086252815719486e-31
   },
   {
@@ -295,25 +255,9 @@
       8
      ],
      "composite_defect": 3.3990511657848423
-    },
-    {
-     "form": [
-      2,
-      -1,
-      4
-     ],
-     "composite_defect": 1.602198179254899
-    },
-    {
-     "form": [
-      2,
-      1,
-      4
-     ],
-     "composite_defect": 1.602198179254899
     }
    ],
-   "max_form_defect": 3.3990511657848423,
+   "principal_form_defect": 3.3990511657848423,
    "class_group_sum_defect": 1.0166676960770665e-30
   },
   {
@@ -327,33 +271,9 @@
       10
      ],
      "composite_defect": 3.3959396024205564
-    },
-    {
-     "form": [
-      2,
-      -1,
-      5
-     ],
-     "composite_defect": 7.647350078019571
-    },
-    {
-     "form": [
-      2,
-      1,
-      5
-     ],
-     "composite_defect": 7.647350078019571
-    },
-    {
-     "form": [
-      3,
-      3,
-      4
-     ],
-     "composite_defect": 3.4935821186778573
     }
    ],
-   "max_form_defect": 7.647350078019571,
+   "principal_form_defect": 3.3959396024205564,
    "class_group_sum_defect": 8.155790420835658e-31
   },
   {
@@ -367,41 +287,9 @@
       12
      ],
      "composite_defect": 3.362979777418096
-    },
-    {
-     "form": [
-      2,
-      -1,
-      6
-     ],
-     "composite_defect": 3.470943212446902
-    },
-    {
-     "form": [
-      2,
-      1,
-      6
-     ],
-     "composite_defect": 3.470943212446902
-    },
-    {
-     "form": [
-      3,
-      -1,
-      4
-     ],
-     "composite_defect": 2.3586901836567944
-    },
-    {
-     "form": [
-      3,
-      1,
-      4
-     ],
-     "composite_defect": 2.3586901836567944
     }
    ],
-   "max_form_defect": 3.470943212446902,
+   "principal_form_defect": 3.362979777418096,
    "class_group_sum_defect": 1.875613480901441e-30
   },
   {
@@ -415,57 +303,9 @@
       18
      ],
      "composite_defect": 3.261351174948294
-    },
-    {
-     "form": [
-      2,
-      -1,
-      9
-     ],
-     "composite_defect": 3.1793681951091477
-    },
-    {
-     "form": [
-      2,
-      1,
-      9
-     ],
-     "composite_defect": 3.1793681951091477
-    },
-    {
-     "form": [
-      3,
-      -1,
-      6
-     ],
-     "composite_defect": 2.661838263012101
-    },
-    {
-     "form": [
-      3,
-      1,
-      6
-     ],
-     "composite_defect": 2.661838263012101
-    },
-    {
-     "form": [
-      4,
-      -3,
-      5
-     ],
-     "composite_defect": 2.133878105074488
-    },
-    {
-     "form": [
-      4,
-      3,
-      5
-     ],
-     "composite_defect": 2.133878105074488
     }
    ],
-   "max_form_defect": 3.261351174948294,
+   "principal_form_defect": 3.261351174948294,
    "class_group_sum_defect": 1.771424714542076e-30
   },
   {
@@ -479,66 +319,19 @@
       24
      ],
      "composite_defect": 2.9607771732666675
-    },
-    {
-     "form": [
-      2,
-      -1,
-      12
-     ],
-     "composite_defect": 4.251064697673312
-    },
-    {
-     "form": [
-      2,
-      1,
-      12
-     ],
-     "composite_defect": 4.251064697673312
-    },
-    {
-     "form": [
-      3,
-      -1,
-      8
-     ],
-     "composite_defect": 2.9836516106656297
-    },
-    {
-     "form": [
-      3,
-      1,
-      8
-     ],
-     "composite_defect": 2.9836516106656297
-    },
-    {
-     "form": [
-      4,
-      -1,
-      6
-     ],
-     "composite_defect": 1.8816177596552035
-    },
-    {
-     "form": [
-      4,
-      1,
-      6
-     ],
-     "composite_defect": 1.8816177596552035
-    },
-    {
-     "form": [
-      5,
-      5,
-      6
-     ],
-     "composite_defect": 3.1613029225954214
     }
    ],
-   "max_form_defect": 4.251064697673312,
+   "principal_form_defect": 2.9607771732666675,
    "class_group_sum_defect": 1.5800109698337173e-30
   }
- ]
+ ],
+ "planted_fault": {
+  "discriminant": -15,
+  "form": [
+   2,
+   1,
+   2
+  ],
+  "refused": "the recursion isolates c(n) a(1); a(1) = 0.0 does not determine c"
+ }
 }
