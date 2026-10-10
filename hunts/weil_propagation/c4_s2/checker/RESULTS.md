@@ -86,7 +86,9 @@ exactly: it exceeds 2 iff ka != 0.
 Compared after the gate passed, as the brief orders: it agrees entry for entry
 with numerics `us_check.json` (branch `teal-sea/weil-propagation`) on the
 composite atoms, the tower violations and the small-p towers. The test
-re-reads that file with `git show` and skips if the branch is absent.
+reads the in-tree copy (`../../numerics/us_check.json`, merged in with #253)
+and fails if it is missing; until 2026-10-10 it re-read the file from the
+branch with `git show` and skipped in a clone without that branch.
 
 ## 4. Properties the T_S tests assert (written before reading kernel/, two_adic/)
 
