@@ -9,7 +9,7 @@ Everything below runs from a clone with the venv set up (`README.md`
 "Quickstart"). Expensive computations cache under `data/`, so a second run of
 anything here is fast.
 
-## Twelve things you can run right now
+## Thirteen things you can run right now
 
 1. **Rebuild the primes from the zeros**, the moment the subject becomes real:
 
@@ -165,6 +165,22 @@ anything here is fast.
     check included, is in `ROADMAP.md`.) The ledger lives in `conjectures/`,
     which is gitignored; it is a private notebook of unreviewed leads.
     Design: `ontology/README.md`.
+
+13. **List every imaginary quadratic field of class number at most 100, given
+    the 7/8 theorem, in about three seconds**:
+
+    ```bash
+    .venv/bin/python -m hunts.qrh_class_number.run_search 100 48611613 /tmp/cn100
+    ```
+
+    Given OpenAI's zero-free half-plane Re s > 7/8 (`docs/38`), hunt #124 proves
+    that a class number at most 100 forces |D| <= 48,611,613, and this command
+    then counts the reduced forms of every fundamental discriminant below that,
+    exactly and without GRH, compiling `cn.c` on first use. It prints 42,272
+    fields with largest |D| = 2,383,747, which is Watkins' unconditional 2004
+    classification reproduced. Replace 100 and 48611613 by 1500 and 12409254457
+    for the lists nobody had before (about 39 CPU-minutes, resumable). The
+    statement, the proof and what is not reviewed: `docs/39`.
 
 ## The gallery
 

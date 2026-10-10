@@ -1,0 +1,97 @@
+{
+  "base": "f4ef0715bbe2f4890b3dcea034757ef0c823053a",
+  "source": "3f136908426167ff97888a6ae8b89087223509e6",
+  "range": "negative odd fundamental D with 3<=|D|<=20000",
+  "cutoff_a": 10,
+  "stats": {
+    "discriminants": 4055,
+    "strictly_better_than_divisibility_rounding": 1918,
+    "additional_rejections_H20": 330,
+    "additional_rejections_H50": 1,
+    "additional_rejections_H100": 0
+  },
+  "best": {
+    "D": -15015,
+    "h": 96,
+    "genera": 16,
+    "partial": 14,
+    "rounded": 16,
+    "genus_bound": 64,
+    "ratio": 4.0,
+    "forms": [
+      [
+        1,
+        1,
+        3754
+      ],
+      [
+        2,
+        -1,
+        1877
+      ],
+      [
+        2,
+        1,
+        1877
+      ],
+      [
+        3,
+        3,
+        1252
+      ],
+      [
+        4,
+        -3,
+        939
+      ],
+      [
+        4,
+        3,
+        939
+      ],
+      [
+        5,
+        5,
+        752
+      ],
+      [
+        6,
+        -3,
+        626
+      ],
+      [
+        6,
+        3,
+        626
+      ],
+      [
+        7,
+        7,
+        538
+      ],
+      [
+        8,
+        -5,
+        470
+      ],
+      [
+        8,
+        5,
+        470
+      ],
+      [
+        10,
+        -5,
+        376
+      ],
+      [
+        10,
+        5,
+        376
+      ]
+    ]
+  },
+  "rows_sha256": "52cc9a4beb6fff3a7a6d7a1838216c007c1c17035abbc1bf13a86df849d9071f",
+  "python": "3.13.14",
+  "seconds": 2.0220459589909296
+}
