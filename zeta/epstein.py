@@ -973,6 +973,15 @@ def epstein_completed(s, form: tuple[int, int, int], dps: int = DPS_DEFAULT):
     ``docs/03`` takes for ``xi``.  Each half becomes an upper incomplete gamma
     over lattice points, so no quadrature is involved and the representation is
     valid for every ``s`` apart from the poles at ``0`` and ``1``.
+
+    ``dps`` here is the working precision of the two lattice sums, and the
+    result carries about that many digits *at the scale of those sums*, not
+    relative to ``Lambda_Q(s)`` itself: at height ``t = Im s`` the value is
+    exponentially small and about ``EPSTEIN_DIGITS_PER_UNIT_HEIGHT * |t|``
+    digits cancel.  A caller who needs ``n`` correct relative digits at height
+    ``t`` passes ``n + ceil(EPSTEIN_DIGITS_PER_UNIT_HEIGHT * |t|)``, as
+    :func:`epstein_zeta` does, and as the interface's zero count does with
+    ``n = 20`` (issue #217).
     """
 
     a, b, c = (int(v) for v in form)
@@ -998,10 +1007,31 @@ def epstein_completed(s, form: tuple[int, int, int], dps: int = DPS_DEFAULT):
 
 
 def epstein_zeta(s, form: tuple[int, int, int], dps: int = DPS_DEFAULT):
-    """``zeta_Q(s) = sum_{(m,k) != 0} Q(m,k)^{-s}``, continued to all ``s``."""
+    """``zeta_Q(s) = sum_{(m,k) != 0} Q(m,k)^{-s}``, continued to all ``s``.
+
+    The value is ``Lambda_Q(s)`` from :func:`epstein_completed` divided by
+    ``(sqrt(d)/pi)^s Gamma(s)``.  At height ``t = Im s`` the Mellin split
+    behind ``Lambda_Q`` cancels about ``EPSTEIN_DIGITS_PER_UNIT_HEIGHT * |t|``
+    (``0.6822 |t|``) digits, and dividing by ``Gamma(s)`` does not give them
+    back, so the working precision is raised by
+    ``ceil(EPSTEIN_DIGITS_PER_UNIT_HEIGHT * |t|)`` digits on top of the guard,
+    the same height rule :func:`epstein_count_dps` applies to the zero count.
+    Without it the routine returned a number with no correct digit above a
+    height set by ``dps`` and said nothing (issue #217 measured a relative
+    error of ``2.3e36`` for the form ``(1,1,4)`` at ``5 + 120i``,
+    ``dps = 15``; ``tests/test_epstein_zeta_height.py`` pins that the
+    unlifted route fails at heights 60, 80 and 120).  The rule is the leading term
+    of the loss, which the issue measured to track the critical line within
+    about a digit and to over-provision to the right of it; it cannot rescue
+    relative accuracy right at a zero of ``zeta_Q``, where no rule can.
+    Internally :func:`epstein_completed` adds its own guard, so the lattice
+    sums run at ``dps + 20`` plus the height lift.
+    """
 
     a, b, c = (int(v) for v in form)
-    with mp.workdps(dps + _GUARD):
+    height = abs(float(mp.im(_num(s))))
+    lift = math.ceil(EPSTEIN_DIGITS_PER_UNIT_HEIGHT * height)
+    with mp.workdps(dps + _GUARD + lift):
         s = _num(s)
         d = mp.mpf(a) * c - mp.mpf(b) ** 2 / 4
         value = epstein_completed(s, form, dps=mp.dps) * mp.pi ** s

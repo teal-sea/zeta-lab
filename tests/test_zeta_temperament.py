@@ -17,12 +17,14 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+from mpmath import mp
 
 _ROOT = Path(__file__).resolve().parents[1]
 _HUNT = _ROOT / "hunts" / "zeta_temperament"
 if str(_HUNT) not in sys.path:
     sys.path.insert(0, str(_HUNT))
 
+import probe_euler_discriminator as pe  # noqa: E402
 import probe_landau_edo as pl  # noqa: E402
 
 LN2 = log(2.0)
@@ -176,15 +178,186 @@ def test_davenport_heilbronns_loudest_spectral_line_is_composite():
 
 def test_epstein_class_number_one_is_silent_and_the_class_group_sum_restores_it():
     """Class number 1 gives an Euler product and a vanishing composite defect.
-    Class number > 1 gives loud individual forms whose defects cancel exactly
-    when summed over the class group, since that sum is w * zeta_K."""
+    Class number > 1 gives a loud principal form, and the class-group sum,
+    which is w * zeta_K, is silent again.
+
+    Until 2026-10-10 this test read the maximum over every reduced form and
+    asserted it exceeded 30 at d = -15. That pinned 36.0644, which belongs to
+    1 + Z_Q(s) for the non-principal form (2, 1, 2), not to Z_Q (issue #93);
+    nothing in the corrected column reaches 30, so the line has no replacement
+    at that strength.
+    """
     r = _euler()["epstein"]
     assert len(r) >= 14
     for f in r:
         if f["class_number"] == 1:
-            assert f["max_form_defect"] < 1e-25, f["discriminant"]
+            assert f["principal_form_defect"] < 1e-25, f["discriminant"]
         else:
-            assert f["max_form_defect"] > 1.0, f["discriminant"]
+            assert f["principal_form_defect"] > 1.0, f["discriminant"]
         assert f["class_group_sum_defect"] < 1e-25, f["discriminant"]
-    d15 = next(f for f in r if f["discriminant"] == -15)
-    assert d15["max_form_defect"] > 30
+
+
+# --- the a(1) = 1 hypothesis, and the repair of table E7 (issue #93) --------
+
+#: docs/34 table E7, principal-form column, as corrected 2026-10-10.
+E7_PRINCIPAL_FORM_DEFECT = {
+    -15: 5.0847, -20: 3.8823, -23: 3.5569, -24: 3.8530, -31: 3.3991,
+    -39: 3.3959, -47: 3.3630, -71: 3.2614, -95: 2.9608,
+}
+
+#: The per-form maxima the first E7 table printed and the correction keeps as
+#: "was": each is the composite defect of 1 + Z_Q(s) for a non-principal form.
+E7_SUPERSEDED_MAX_FORM_DEFECT = {
+    -15: 36.0644, -20: 18.6176, -24: 12.4955, -39: 7.6474, -47: 3.4709, -95: 4.2511,
+}
+
+
+def _epstein_series(form, d):
+    """a(n) = r_Q(n) / w for n < NMAX, a(0) unused."""
+    from zeta.epstein import epstein_representation_count as rep
+
+    w = pe.units(d)
+    return [mp.mpf(0)] + [mp.mpf(rep(n, form)) / w for n in range(1, pe.NMAX)]
+
+
+def _class_group_sum(d):
+    from zeta.epstein import epstein_reduced_forms
+
+    total = [mp.mpf(0)] * pe.NMAX
+    for f in epstein_reduced_forms(d):
+        a = _epstein_series(f, d)
+        for n in range(1, pe.NMAX):
+            total[n] += a[n]
+    return [mp.mpf(0)] + [total[n] / total[1] for n in range(1, pe.NMAX)]
+
+
+def _identity_residual(a, c):
+    """max over 2 <= n < NMAX of |a(n) log n - sum_{d|n} c(d) a(n/d)|, summed
+    over every divisor including d = n, which the recursion isolates."""
+    worst = mp.mpf(0)
+    for n in range(2, pe.NMAX):
+        rhs = sum(c[d] * a[n // d] for d in range(1, n + 1) if n % d == 0)
+        worst = max(worst, abs(a[n] * mp.log(n) - rhs))
+    return worst
+
+
+def test_every_reported_defect_solves_the_identity_it_claims():
+    """A composite defect is a statement about c; c is defined by
+    a(n) log n = sum_{d|n} c(d) a(n/d). A row whose residual is nonzero is
+    not a defect at all.
+
+    Every row of results_euler.json is rebuilt from its subject, its c is
+    recomputed, the identity is checked at that c, and the defect computed
+    from that c must be the one reported. The planted fault is the row the
+    first E7 table printed for (2, 1, 2) of d = -15: the c that the
+    unguarded recursion returned there leaves the identity far from solved.
+    """
+    from zeta.epstein import dh_coefficient
+
+    r = _euler()
+    with mp.workdps(pe.DPS):
+        subjects = [
+            ([mp.mpf(0)] + [mp.mpf(1)] * (pe.NMAX - 1), r["zeta"]["composite_defect"]),
+            ([mp.mpf(0)] + [dh_coefficient(n, 25) for n in range(1, pe.NMAX)],
+             r["davenport_heilbronn"]["composite_defect"]),
+        ]
+        for row in r["epstein"]:
+            d = row["discriminant"]
+            for f in row["forms"]:
+                subjects.append((_epstein_series(tuple(f["form"]), d), f["composite_defect"]))
+            subjects.append((_class_group_sum(d), row["class_group_sum_defect"]))
+        for a, reported in subjects:
+            c = pe.spectrum(a)
+            assert _identity_residual(a, c) < mp.mpf(10) ** -25
+            assert pe.defect(c) == pytest.approx(reported, rel=1e-12, abs=1e-30)
+        assert len(subjects) == 2 + 2 * 14
+
+        # planted fault: the old route never read a(1), so on a(1) = 0 it
+        # returned the c of the same series with a(1) replaced by 1
+        bad = _epstein_series((2, 1, 2), -15)
+        assert bad[1] == 0
+        old_c = pe.spectrum([bad[0], mp.mpf(1)] + bad[2:])
+        assert _identity_residual(bad, old_c) > 1
+
+
+def test_the_a1_guard_fires_on_the_planted_fault():
+    """(2, 1, 2) of d = -15 represents 2 and 3 but not 1: a(1) = 0, and the
+    recursion must refuse it rather than return a number for it."""
+    from zeta.epstein import epstein_reduced_forms
+
+    r = _euler()
+    assert r["planted_fault"]["discriminant"] == -15
+    assert r["planted_fault"]["form"] == [2, 1, 2]
+    assert "does not determine c" in r["planted_fault"]["refused"]
+    assert (2, 1, 2) in epstein_reduced_forms(-15)
+    with mp.workdps(pe.DPS):
+        a = _epstein_series((2, 1, 2), -15)
+        assert [n for n in range(1, 4) if a[n] != 0] == [2, 3]
+        with pytest.raises(ValueError, match="does not determine c"):
+            pe.spectrum(a)
+
+
+def test_only_the_principal_form_represents_one():
+    """41 reduced forms over the 14 discriminants of table E7: a(1) = 1 on the
+    14 principal forms (1, b, c), one per discriminant, and a(1) = 0 on the
+    other 27. The per-form row is the principal form."""
+    from zeta.epstein import epstein_reduced_forms
+    from zeta.epstein import epstein_representation_count as rep
+
+    r = _euler()["epstein"]
+    assert len(r) == 14
+    total = principal = 0
+    for row in r:
+        forms = epstein_reduced_forms(row["discriminant"])
+        assert len(forms) == row["class_number"]
+        ones = [f for f in forms if rep(1, f) > 0]
+        assert len(ones) == 1 and ones[0][0] == 1, row["discriminant"]
+        assert [f["form"] for f in row["forms"]] == [list(ones[0])]
+        assert rep(1, ones[0]) == pe.units(row["discriminant"])  # a(1) = 1 exactly
+        total += len(forms)
+        principal += len(ones)
+    assert (total, principal, total - principal) == (41, 14, 27)
+
+
+def test_docs34_table_e7_principal_form_column():
+    """docs/34 table E7 after the 2026-10-10 correction: the principal-form
+    defect for the nine discriminants of class number above one, and the
+    band 2.96 to 5.08 the prose quotes."""
+    r = {f["discriminant"]: f for f in _euler()["epstein"]}
+    for d, v in E7_PRINCIPAL_FORM_DEFECT.items():
+        assert r[d]["principal_form_defect"] == pytest.approx(v, abs=5e-5), d
+    band = [r[d]["principal_form_defect"] for d in E7_PRINCIPAL_FORM_DEFECT]
+    assert f"{min(band):.2f}" == "2.96" and min(band) == r[-95]["principal_form_defect"]
+    assert f"{max(band):.2f}" == "5.08" and max(band) == r[-15]["principal_form_defect"]
+    assert set(E7_PRINCIPAL_FORM_DEFECT) == {d for d in r if r[d]["class_number"] > 1}
+
+
+def test_the_superseded_e7_numbers_are_composite_defects_of_one_plus_z_q():
+    """The first E7 table printed the largest defect over every reduced form.
+    Rebuild 1 + Z_Q(s) explicitly, a(1) set to 1, for each non-principal form,
+    and the six numbers the correction keeps as "was" come back, 36.0644 from
+    (2, 1, 2) at d = -15. On the three remaining discriminants of class number
+    above one the old maximum was already the principal form's."""
+    from zeta.epstein import epstein_reduced_forms
+    from zeta.epstein import epstein_representation_count as rep
+
+    r = {f["discriminant"]: f for f in _euler()["epstein"]}
+    loudest = {}
+    with mp.workdps(pe.DPS):
+        for d in E7_PRINCIPAL_FORM_DEFECT:
+            one_plus = {}
+            for f in epstein_reduced_forms(d):
+                if rep(1, f) > 0:
+                    continue
+                a = _epstein_series(f, d)
+                assert a[1] == 0
+                a[1] = mp.mpf(1)
+                one_plus[f] = pe.defect(pe.spectrum(a))
+            loudest[d] = max(one_plus, key=one_plus.get)
+            old_max = max(one_plus[loudest[d]], r[d]["principal_form_defect"])
+            if d in E7_SUPERSEDED_MAX_FORM_DEFECT:
+                assert old_max == one_plus[loudest[d]], d
+                assert old_max == pytest.approx(E7_SUPERSEDED_MAX_FORM_DEFECT[d], abs=5e-5), d
+            else:
+                assert old_max == r[d]["principal_form_defect"], d
+    assert loudest[-15] == (2, 1, 2)

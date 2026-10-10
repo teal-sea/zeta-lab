@@ -75,6 +75,27 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Robin's inequality for 25-free integers (`robin_tfree/`, 2026-10-04)
+
+**Status: candidate, ordinary derivation, unreviewed, pending external verification;
+numerical step enclosure-carrying; inputs published and quoted. No RH or novelty
+claim.** Past Morrill-Platt's verified range `x0 = 29 996 208 012 611`, the primorial
+ratio `E(x) = log(e^-gamma prod_{p<=x} p/(p-1) / log theta(x))` is at most `2.481e-8`,
+using only Buthe's `x - theta(x) <= 1.95 sqrt(x)` and the BKLNW tables. The step that
+matters is an exact identity: Mertens' boundary term and the `log theta` denominator
+cancel to first order, where earlier papers bound them separately. Consequences, same
+grade: Robin's inequality for every 25-free `n > 5040`; for every `n > 5040` with
+`nu_2(n) <= 24`, `nu_3 <= 14`, ..., or `q^(nu_q(n)+1) < 4.03e7`; and
+`sigma(n) < (1 + 2.49e-8) e^gamma n log log n` for all `n > 5040`. A search on
+2026-10-10 (web, arXiv, zbMATH Open, citations of Axler 2023) found 21-free as the best
+published t-free result (Axler 2023), so the claimed delta is 21 to 25, recorded as a
+search and not as novelty. `t = 26` fails; the verified range is the binding
+constraint, and these estimates leave Robin's inequality undecided on the remaining
+integers (multiples of `M*`). Lemma 3(b),(c) and the use of the Buthe and BKLNW tables
+await outside review; the table transcriptions agree with the arXiv versions. Identity
+checked on real primes; 37 tests, which pin every derived number RESULTS.md states. See
+`robin_tfree/RESULTS.md`.
+
 ### October 8 extensions (`oct08_extensions/`)
 
 **Status: written conditional candidates, with independent review artifacts.**
@@ -220,7 +241,8 @@ GRH-conditional 5/2; Theorem A becomes W << N^{7/4} L^4, 3/4 short of (T);
 the ineffective constants become effective in principle. Rank 2 (Vaughan's
 bound), rank 3 in the square-root-arc configuration, the de Bruijn-Newman
 record (9/32 > 0.2, cited from the lab's reading of the claim, document 38 of
-the course), the simple-zero proportions, Lambda_DH and PR #268 do not move.
+the course), the simple-zero proportions, Lambda_DH and the Re(xi'/xi)
+equivalence do not move.
 The circle-method bootstrap theta -> (2 + theta)/3 drifts toward 1, never
 toward 1/2. Crossover heights against Johnston and Yang's explicit remainder,
 with the strip-side constant set to 1 by convention: log x = 35.11 (x about
@@ -263,6 +285,21 @@ pair sits at 0.86953). Controls: gamma_1 recovered to 2e-16, planted faults
 detected, the class-number-one form sees nothing. Scan ranges are stated as
 limits in `qrh_rival_step/RESULTS.md`, which ends with the doors.
 
+### Direct resolution attempt (`rh_resolve/`, 2026-10-03)
+
+**Status: unresolved RH attempt; Li enclosure withdrawn; the equivalence it
+records is classical.** Saved Li rows report positive lower endpoints for
+n = 1..58, graded measured: the hunt's own audit of 2026-10-04 withdrew
+their enclosure grade (complex modulus bound, outward rounding of the
+remainder and angle coverage unproved), and no repaired rerun exists
+(`AUDIT.md`, formerly `THEOREM.md`). `EQUIVALENCE.md` records, as an
+ordinary unreviewed argument, the classical equivalence of RH with
+Re(xi'/xi) > 0 on Re s > 1/2 (stated in `epp_herglotz/RESULTS.md`; see
+Lagarias, Acta Arith. 89 (1999), 217-234); it is neither new nor a proof
+of RH. A positive even Gaussian mixture has a measured non-real cosine
+zero. The log-concavity obstruction is conditional on an unproved uniform
+margin. Numbers quoted from the saved artifacts are pinned by
+`tests/test_rh_resolve.py`. No novelty claim.
 
 ### Theta sums and Laguerre inequalities (`rh_theta_laguerre/`)
 
@@ -320,6 +357,24 @@ result, not a route to RH. Methods: `docs/37-methods.md` (out-of-band
 envelope lemma; residual-enclosed shifted Cholesky). Record:
 `oob_envelope/numerics/RESULTS.md`, `oob_envelope/theory/RESULTS.md`,
 `oob_envelope/referee/REVIEW.md`.
+
+### Weil positivity propagation across window size (`weil_propagation/`, 2026-09-23)
+
+**Status: open.** Asks whether positivity of the truncated Weil form on a
+window of length `L = log c`, together with the Euler product, can be carried
+to `L + delta`. Every candidate transport is tested against
+Davenport-Heilbronn, whose form turns negative at `c = 31`
+(`rogue_frontier/weil_trunc/` s8), and a candidate that also holds for DH is
+refuted. Two workers: measurement of ground-state transport between windows
+in `weil_propagation/numerics/` and literature plus candidate lemmas in
+`weil_propagation/theory/` (branch `teal-sea/weil-propagation-theory`).
+No RH claim. The numerics branch also carries, under
+`rogue_frontier/weil_trunc/`, a DH feasibility gate (`THEOREM_FEASIBILITY.md`,
+`DH_DICTIONARY_CONSTRUCTIVE.md`, `gate_checker.py`): a hardened witness (the
+negative even-sector eigenvalue at `(c, N) = (31, 60)`) plus a Guinand-Weil
+dictionary argued for DH, which together force an off-line DH zero. Grade:
+ordinary argument, internally reviewed, pending external verification. The
+conclusion is classical (Spira 1994); only the route is the lab's.
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
@@ -1013,6 +1068,52 @@ The divisible part escapes the descent because $(S, pA)$ is admissible whenever
 $(S,A)$ is, so $\gcd A = 1$ (which is free) is strictly weaker than
 primitivity. Nothing here improves the classical $g(k) < 3\cdot 2^{k-1}$, and
 nothing here bears on RH (`docs/08`).
+
+### Hunt #102: Erdős #126, the counterexample arm, the tensor lane is an $S$-unit equation (`support_6cdfd2e3/`)
+
+**Status: not settled. No counterexample, and one lane closed conditionally.**
+Support run for Hunt #91, asked for an algebraic, CRT, recursive, tensor or
+composition construction with $|A|$ exponential in $|S|$, and explicitly allowed
+to refute #126. None was found. What came out instead is a reduction, an
+ordinary argument, unreviewed: for the tensor $C = A\cdot B$, the grid-line
+pairs are free ($ab+ab' = a(b+b')$) and every **mixed** pair satisfies
+$u+v = (a+a')(b+b')$ with $u = ab+a'b'$, $v = ab'+a'b$, a denominator that is
+smooth for free. Dividing by it, $x = u/M$, $y = v/M$ solve $x+y=1$ in
+$(S\cup T)$-units, and $x$ is a non-constant Möbius function of $b/b'$, so
+$|A|, |B| \le N(S\cup T)+1$ where $N$ counts solutions of the $S$-unit
+equation. Unconditionally that is weaker than Erdős–Turán 1934; conditionally it
+is the finding: **if $S$-unit counts are subexponential, no tensor construction
+can refute #126**, and an exponential one would exceed every known construction
+(the run cited Erdős–Stewart–Tijdeman's $\exp(c(s/\log s)^{1/2})$; re-landing
+added Konyagin–Soundararajan's $\exp(s^{2-\sqrt2-\varepsilon})$, arXiv
+math/0604453, read at the abstract only). The argument does not extend to
+general $A$, and that is exactly why it closes the tensor lane and no more: for
+arbitrary $a,b,c,d \in A$ the common value $a+b+c+d$ need not be smooth, so
+there is nothing to divide by. Two corrections to Hunt #91 travel further than
+the non-result. The refutation bar is far lower than a composition law:
+$g(k+k_0) \ge c\,g(k)$ for *any* fixed $k_0$ and $c>1$ already gives
+$\liminf \log g(k)/k > 0$; that is Hunt #93's amplification result
+(`support_8ea74995/`), reached independently, and not new here. The converse
+fails, and that is new: a staircase $G(k) = 2^{k_j}$ on $[k_j, k_{j+1})$
+refutes #126 while failing every uniform doubling law off a density-zero set,
+so **an anti-composition theorem is not sufficient for #126**, which the
+parent's closing sentence implies it is (also an ordinary argument,
+unreviewed). Measured, by exact integer arithmetic inside bounded boxes: an
+independent clique search reproduced rows 1–7 of the parent's table from boxes
+20–500× smaller and added the lower bounds $g(8) \ge 14$, $g(9) \ge 15$; on
+the parent's optima, the cheapest dilated union $A \cup cA$ costs 6 extra
+primes at $k=2$ and 7 at $k=4$, and none exists at $k=3$ (multipliers
+$c \le 200$, extra primes from the first twelve). Also in the run and already
+on main: $g(k) \ge \lfloor (p_{k+1}-1)/2 \rfloor$ from $A = \{1,\dots,m\}$
+(Hunts #104, #105), and dilation invariance against the parent's "every
+optimal witness lives below 50" (Hunts #103, #105, #107), here with
+$\{113,399\}$ and $\{16,80,112,176\}$ as counter-witnesses. Two of the run's
+statements did not survive to landing and are annotated in place: its loose
+thread "$|A| \le p-1$ when $p \notin S$" was already refuted (Hunts #93, #95,
+#101, #103), and its sumset-counting section understated the height the lemma
+forces (`RESULTS.md` §6, corrected against Hunt #107). Nothing here bears on
+RH (`docs/08`).
+
 ### Hunt #103: Erdős #126, the residue lemma is false and the box was never the question (`support_60982bf6/`)
 
 **Status: settled, as a support answer.** Exact-search arm for hunt #91's
@@ -3194,3 +3295,15 @@ the named obligation. Not closed: `s > 400` has no depth-1 enclosure (the
 tail composes through the very lemma that fails), and the table's other
 starred row (`no_damage`'s `28/5`) was not examined. Nothing bears on RH
 (`docs/08`).
+
+### depth_bound_selfterm/
+
+**Status: measured.** Dual kernel `dual-x80.json` data[1]: $r(0)=0.125$,
+$S(y)<r(0)$ first at $y \approx 0.9198925$, $S(y)<0$ first at $y \approx 0.9528774$,
+numpy and `mp.workdps(40)` agree. In-band control (data[0], $z$ empty) has no
+crossing on $[0, 1.5]$; $S$ rises ($1.012$ at $y=0.9$, $1.526$ at $y=1.0$).
+Whether $y \approx 0.92$ is a depth an off-line zero can reach is unresolved:
+the kernel's LP is unfolded (`configuration_lp.py` line 3), so the raw range
+$(0,1/2)$ does not apply, and a factor 2 in the pair convention is open.
+Strip mass forces a crossing at large $y$; the content is where.
+Nothing bears on RH (`docs/08`).

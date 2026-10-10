@@ -182,7 +182,11 @@ in the zero distribution (Weil). Then f has an Euler product if and only if
 log f is supported on prime powers, if and only if c is. **A nonzero c at a
 composite is a failure of multiplicativity, read off the zeros.** For zeta,
 c is von Mangoldt, re-derived by the recursion in
-`probe_euler_discriminator.py` rather than assumed.
+`probe_euler_discriminator.py` rather than assumed. The 1/sqrt(n) weight is
+the normalisation for zeros on the critical line. Davenport-Heilbronn and the
+class-number-above-one forms below have zeros off it, so for them the defect
+is a statement about the coefficients, computed from them without reference
+to any zero.
 
 **E6.** Measured composite defect, the explicit-formula-weighted L2 norm of
 the composite part of c over n < 61:
@@ -197,32 +201,57 @@ Davenport-Heilbronn's coefficients are periodic mod 5, not multiplicative
 its loudest single spectral line is a composite, exceeding its loudest prime
 line (2.3979) by a factor 1.77.
 
+> **Correction notice, 2026-10-10.** The first version of table E7 printed,
+> for each discriminant, the largest composite defect over every reduced form,
+> and on six rows that maximum came from a form F4 does not cover. The
+> recursion solves a(n) log n = sum_{d|n} c(d) a(n/d) by isolating the d = n
+> term as c(n) a(1), so it needs a(1) = 1, and a reduced form represents 1
+> exactly when it is the principal form. Of the 41 reduced forms of these 14
+> discriminants, the 14 principal ones have a(1) = 1 and the other 27 have
+> a(1) = 0. On those 27 the recursion, which never reads a(1), returned the
+> coefficients of 1 + Z_Q(s), whose zeros are the points where Z_Q(s) = -1
+> rather than the zeros of Z_Q. The numbers kept below as "was" are composite
+> defects of 1 + Z_Q(s); the headline 36.0644 is the form (2, 1, 2) of
+> d = -15, which represents 2 and 3 but not 1. The column now reports the
+> principal form alone, and `probe_euler_discriminator.py` refuses a series
+> with a(1) != 1 rather than returning a number for it. E6, the class-number-one
+> rows and the class-group sums are unchanged; the sentence "every individual
+> form is loud" is withdrawn. Found by the `euler_defect_axis` hunt
+> (2026-09-10), whose directory is not on main; its findings are recorded on
+> issue #93.
+
 **E7.** The Epstein zeta functions of binary quadratic forms give a family
 indexed by discriminant, with class number one supplying an Euler product
 (zeta_Q = w zeta L(chi_d)) and class number above one destroying it:
 
+| d | h | principal-form defect | class-group-sum defect |
+| --- | --- | --- | --- |
 | -3 | 1 | 0.0000 | 1.07e-31 |
 | -4 | 1 | 0.0000 | 3.17e-31 |
 | -7 | 1 | 0.0000 | 6.10e-31 |
 | -8 | 1 | 0.0000 | 4.44e-31 |
 | -11 | 1 | 0.0000 | 4.28e-31 |
-| -15 | 2 | 36.0644 | 5.66e-31 |
-| -20 | 2 | 18.6176 | 6.37e-31 |
+| -15 | 2 | 5.0847 (was 36.0644) | 5.66e-31 |
+| -20 | 2 | 3.8823 (was 18.6176) | 6.37e-31 |
 | -23 | 3 | 3.5569 | 1.50e-30 |
-| -24 | 2 | 12.4955 | 5.09e-31 |
+| -24 | 2 | 3.8530 (was 12.4955) | 5.09e-31 |
 | -31 | 3 | 3.3991 | 1.02e-30 |
-| -39 | 4 | 7.6474 | 8.16e-31 |
-| -47 | 5 | 3.4709 | 1.88e-30 |
+| -39 | 4 | 3.3959 (was 7.6474) | 8.16e-31 |
+| -47 | 5 | 3.3630 (was 3.4709) | 1.88e-30 |
 | -71 | 7 | 3.2614 | 1.77e-30 |
-| -95 | 8 | 4.2511 | 1.58e-30 |
+| -95 | 8 | 2.9608 (was 4.2511) | 1.58e-30 |
 
 Class number one: the defect is exactly zero, 5 discriminants.
-Class number above one: every individual form is loud, up to
-36.06 at d = -15, 9 discriminants.
+Class number above one: the principal form is loud, from 2.96 at d = -95 to
+5.08 at d = -15, 9 discriminants. *(Corrected 2026-10-10: this read "every
+individual form is loud, up to 36.06 at d = -15"; see the notice above.)*
 And in every case the class-group sum returns to machine zero, because
-sum over classes of zeta_Q is w zeta_K, which has an Euler product: **the
-composite lines of the individual forms cancel to thirty decimal places
-across the class group.** All three facts are consequences of standard
+sum over classes of zeta_Q is w zeta_K, which has an Euler product: **summed
+over the class group, the composite lines vanish to thirty decimal places.**
+*(Corrected 2026-10-10: this read "the composite lines of the individual forms
+cancel". Only the principal form has composite lines of its own, since F4
+needs a(1) = 1; the others contribute to the sum but have no line to cancel.)*
+All three facts are consequences of standard
 theory; the measurement is a calibration of the discriminator, not a
 discovery about Epstein zeta functions.
 
@@ -232,7 +261,12 @@ Davenport-Heilbronn was already known to lack one. The open question it
 frames, and does not answer, is whether the defect *bounds* how far zeros
 may leave the critical line. Testing that needs off-line zeros for the
 family, and `epstein_zeta` costs about 2.2 s per evaluation at dps 15, so it
-is a compute job this hunt did not run.
+is a compute job this hunt did not run. Issue #93's comment of 2026-09-10
+argues against running it on this family as it stands: the defect is an
+unnormalised norm whose size depends on the frozen cutoff n < 61, and over
+these nine discriminants class number rises almost in step with |d|, so the
+family orders subjects without separating the two (figures in that comment,
+not recomputed here).
 
 ## 7. What was searched
 

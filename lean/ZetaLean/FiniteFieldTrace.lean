@@ -66,6 +66,34 @@ open Finset
 
 namespace ZetaLean.FiniteFieldTrace
 
+/-! ### Ring identities, stated once over any commutative ring
+
+With `Fact p.Prime` in scope, the pinned Mathlib reaches `+`, `-` and `1` on
+`ZMod p` through two instance paths (its `Field` and `ZMod.commRing`) that
+`ring`, `linear_combination` and `simp` no longer treat as reducibly equal.
+Each identity those tactics were used for is proved here in a generic ring,
+where there is one path, and applied to `ZMod p` by unification. -/
+
+theorem neg_mul_add_eq_mul_one_sub {R : Type*} [CommRing R] (d x : R) :
+    -d * x + d = d * (1 - x) := by
+  ring
+
+theorem neg_mul_self_eq_neg_one_mul_sq {R : Type*} [CommRing R] (d : R) :
+    (-d) * d = -1 * d ^ 2 := by
+  ring
+
+theorem quad_add_eq_zero_iff {R : Type*} [CommRing R] {x y a : R} :
+    x ^ 2 + x * y + y ^ 2 + a = 0 ↔ a = -(x ^ 2 + x * y + y ^ 2) := by
+  constructor
+  · intro h
+    linear_combination h
+  · intro h
+    rw [h]
+    ring
+
+theorem neg_one_ne_zero_of_field {F : Type*} [Field F] : (-1 : F) ≠ 0 :=
+  neg_ne_zero.mpr one_ne_zero
+
 variable (p : ℕ) [Fact p.Prime]
 
 /-- The Frobenius trace attached to the Weierstrass equation
@@ -133,7 +161,7 @@ theorem sum_quadraticChar_mul_shift (hp : p ≠ 2) {d : ZMod p} (hd : d ≠ 0) :
         = (quadraticChar (ZMod p) (-d) * quadraticChar (ZMod p) d) *
           (quadraticChar (ZMod p) x * quadraticChar (ZMod p) (1 - x)) := by
     intro x
-    have hx : -d * x + d = d * (1 - x) := by ring
+    have hx : -d * x + d = d * (1 - x) := neg_mul_add_eq_mul_one_sub d x
     rw [hx, map_mul, map_mul]
     ring
   simp only [hterm]
@@ -141,10 +169,10 @@ theorem sum_quadraticChar_mul_shift (hp : p ≠ 2) {d : ZMod p} (hd : d ≠ 0) :
   have hdd : quadraticChar (ZMod p) (-d) * quadraticChar (ZMod p) d
       = quadraticChar (ZMod p) (-1) := by
     rw [← map_mul]
-    have : (-d) * d = -1 * d ^ 2 := by ring
+    have : (-d) * d = -1 * d ^ 2 := neg_mul_self_eq_neg_one_mul_sq d
     rw [this, map_mul, quadraticChar_sq_one' hd, mul_one]
   rw [hdd]
-  have hone : ((-1 : ZMod p)) ≠ 0 := neg_ne_zero.mpr one_ne_zero
+  have hone : ((-1 : ZMod p)) ≠ 0 := neg_one_ne_zero_of_field
   have := quadraticChar_sq_one (F := ZMod p) hone
   nlinarith [this]
 
@@ -197,10 +225,10 @@ theorem sum_a_off_diag {x y : ZMod p} (hxy : y ≠ x) :
     constructor
     · rintro (h | h)
       · exact absurd h hyx
-      · linear_combination h
+      · exact quad_add_eq_zero_iff.mp h
     · intro h
       right
-      rw [h]; ring
+      exact quad_add_eq_zero_iff.mpr h
   have hterm : ∀ a : ZMod p,
       (if (y - x) * (x ^ 2 + x * y + y ^ 2 + a) = 0 then (p : ℤ) - 1 else -1)
         = -1 + (if a = -(x ^ 2 + x * y + y ^ 2) then (p : ℤ) else 0) := by

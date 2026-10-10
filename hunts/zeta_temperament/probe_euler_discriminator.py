@@ -26,6 +26,15 @@ Three subjects, all with the same shape of functional equation:
    product, whose composite lines must nevertheless cancel when summed over
    the class group, since the sum is w * zeta_K.
 
+The recursion needs a(1) = 1, and a reduced form represents 1 exactly when it
+is the principal form. So the per-form measurement runs on one form per
+discriminant, `spectrum` refuses any series with a(1) != 1, and the planted
+fault (2, 1, 2) of discriminant -15 shows the refusal firing. Every reduced
+form still enters the class-group sum. Changed 2026-10-10 (issue #93): until
+then this probe ran every form and reported the maximum, and on a form with
+a(1) = 0 the recursion, which never reads a(1), returned the coefficients of
+1 + Z_Q(s) rather than of Z_Q(s).
+
 Writes results_euler.json. Nothing here is evidence about RH (`docs/08`).
 """
 
@@ -49,7 +58,15 @@ DPS = 30
 
 
 def spectrum(a, nmax=NMAX):
-    """c(n) from a(n) log n = sum_{d|n} c(d) a(n/d), with a(1) = 1."""
+    """c(n) from a(n) log n = sum_{d|n} c(d) a(n/d), with a(1) = 1.
+
+    The recursion isolates the d = n term as c(n) a(1), so a series with
+    a(1) != 1 is refused rather than given a number that solves nothing.
+    """
+    if abs(a[1] - 1) > mp.mpf(10) ** -25:
+        raise ValueError(
+            "the recursion isolates c(n) a(1); a(1) = %s does not determine c"
+            % mp.nstr(a[1], 6))
     c = [mp.mpf(0)] * nmax
     for n in range(2, nmax):
         s = a[n] * mlog(n)
@@ -109,7 +126,8 @@ def main():
         "loudest_prime_line_abs": max(abs(float(cd[p])) for p in (2, 3, 5, 7, 11, 13)),
     }
 
-    # 3. the Epstein family
+    # 3. the Epstein family. The per-form loop runs over the forms that
+    # represent 1, which is the principal form alone; every form enters the sum.
     fam = []
     for d in (-3, -4, -7, -8, -11, -15, -20, -23, -24, -31, -39, -47, -71, -95):
         forms = epstein_reduced_forms(d)
@@ -118,18 +136,32 @@ def main():
         per = []
         for f in forms:
             a = [mp.mpf(0)] + [mp.mpf(rep(n, f)) / w for n in range(1, NMAX)]
-            per.append({"form": list(f), "composite_defect": defect(spectrum(a))})
             for n in range(1, NMAX):
                 total[n] += a[n]
+            if rep(1, f) > 0:
+                per.append({"form": list(f), "composite_defect": defect(spectrum(a))})
+        if len(per) != 1:
+            raise AssertionError(f"d = {d}: {len(per)} reduced forms represent 1, expected 1")
         summed = [mp.mpf(0)] + [total[n] / total[1] for n in range(1, NMAX)]
         fam.append({
             "discriminant": d,
             "class_number": len(forms),
             "forms": per,
-            "max_form_defect": max(p["composite_defect"] for p in per),
+            "principal_form_defect": per[0]["composite_defect"],
             "class_group_sum_defect": defect(spectrum(summed)),
         })
     out["epstein"] = fam
+
+    # the planted fault that fires the a(1) guard: (2, 1, 2) of d = -15
+    # represents 2 and 3 but not 1, so it must be refused, not measured
+    planted = (2, 1, 2)
+    a_bad = [mp.mpf(0)] + [mp.mpf(rep(n, planted)) / units(-15) for n in range(1, NMAX)]
+    try:
+        spectrum(a_bad)
+    except ValueError as exc:
+        out["planted_fault"] = {"discriminant": -15, "form": list(planted), "refused": str(exc)}
+    else:
+        raise AssertionError("the a(1) = 1 guard did not fire on (2, 1, 2) of d = -15")
     (HERE / "results_euler.json").write_text(json.dumps(out, indent=1))
 
     print(f"zeta: composite defect {out['zeta']['composite_defect']:.2e}, von Mangoldt {out['zeta']['matches_von_mangoldt']}")
@@ -137,9 +169,10 @@ def main():
     print(f"DH:   composite defect {dh['composite_defect']:.4f}; loudest line n={dh['loudest_line']['n']} "
           f"(composite={dh['loudest_line']['is_composite']}) c={dh['loudest_line']['c']:+.4f}; "
           f"loudest prime line {dh['loudest_prime_line_abs']:.4f}")
-    print("\n   d     h   max per-form defect   class-group-sum defect")
+    print("\n   d     h   principal-form defect   class-group-sum defect")
     for r in fam:
-        print(f"  {r['discriminant']:4d}  {r['class_number']:2d}   {r['max_form_defect']:14.4f}   {r['class_group_sum_defect']:.2e}")
+        print(f"  {r['discriminant']:4d}  {r['class_number']:2d}   {r['principal_form_defect']:14.4f}   {r['class_group_sum_defect']:.2e}")
+    print(f"planted fault {out['planted_fault']['form']} of d = -15 refused: {out['planted_fault']['refused']}")
 
 
 if __name__ == "__main__":

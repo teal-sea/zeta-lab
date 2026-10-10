@@ -33,19 +33,94 @@ jobs:
     # On the schedule `inputs` is empty, so this is true and the job runs.
     if: ${{ !inputs.lean_only }}
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90   # suite 10-20 min, then the hunts about 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          # A depth-1 clone makes guards that read history refuse to answer:
+          # the Hardy Z dossier staleness check skipped on every CI run and
+          # hid a stale kernel record from 2026-09-28 to 2026-10-10
+          # (issues #218, #219).
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
+      # The evaluate door's test runs `uv run ... bloch-smoke`, exactly as
+      # docs/doors/evaluate.md tells a reader to. Without uv on the runner it
+      # failed with FileNotFoundError every night; bloch-environment.yml
+      # already installs uv the same way.
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: environments/bloch_certificate/uv.lock
       - name: install
         run: |
           python -m pip install --quiet --disable-pip-version-check -r requirements.txt
           python -m pip install --quiet --disable-pip-version-check -e .
+          python -m pip install --quiet --disable-pip-version-check -r hunts/frontier_math/requirements.txt
       - name: full suite
         run: python -m pytest -q --durations=20
+      # pytest collects only tests/ (testpaths), so the hunts' own tests ran
+      # nowhere: on 2026-10-10 a first run of them found 44 failures (stale
+      # pins, a missing dependency, test isolation) and two tests writing into
+      # the tree. They run here, one process per directory (see the script
+      # for why), after the suite and even when it failed, so this job's
+      # verdict covers both and the step name says which one broke.
+      # About 30 minutes on 4 cores (2026-10-10), 20 of them hunts/frontier_math.
+      - name: hunts' own tests
+        if: ${{ !cancelled() }}
+        run: python scripts/run_hunt_tests.py
+
+  # The numerical half of the same guard (issue #251).
+  #
+  # `full-suite` carries an `if:` so a hand-dispatched `lean_only` run can skip
+  # it, and a skipped job does not fail a run. If that `if:` ever evaluated
+  # false on the schedule, the nightly would go green with the full suite not
+  # run at all, which reads exactly like a healthy night.
+  #
+  # So, like `lean-verdict` below, this job depends on `full-suite` and runs
+  # with `if: always()`. Every result other than success is a failure, with one
+  # exception: a `workflow_dispatch` that explicitly asked for `lean_only`,
+  # where a skip is what was ordered. The schedule has no such exception.
+  full-suite-verdict:
+    name: the full suite produced a verdict
+    needs: full-suite
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: a skipped or missing suite is a failure unless lean_only asked for it
+        env:
+          RESULT: ${{ needs.full-suite.result }}
+          EVENT: ${{ github.event_name }}
+          LEAN_ONLY: ${{ inputs.lean_only }}
+        run: |
+          echo "full-suite result: ${RESULT} (event ${EVENT}, lean_only '${LEAN_ONLY}')"
+          case "${RESULT}" in
+            success)
+              echo "the full suite ran, slow tier included, and passed"
+              ;;
+            skipped)
+              if [ "${EVENT}" = "workflow_dispatch" ] && [ "${LEAN_ONLY}" = "true" ]; then
+                echo "skipped on request: a workflow_dispatch with lean_only. No numerical verdict was asked for."
+              else
+                echo "::error::the full suite was SKIPPED on a ${EVENT} run that did not ask for lean_only. Nothing numerical was verified. See issue #251."
+                exit 1
+              fi
+              ;;
+            failure)
+              echo "::error::the full suite FAILED"
+              exit 1
+              ;;
+            cancelled)
+              echo "::error::the full suite produced NO VERDICT. It was cancelled, which is what a 'timeout-minutes' kill looks like. Nothing was verified."
+              exit 1
+              ;;
+            *)
+              echo "::error::the full suite reported an unrecognised result '${RESULT}'. Unknown is not empty: treating it as unverified."
+              exit 1
+              ;;
+          esac
 
   lean:
     name: lean arm, zero sorrys
@@ -159,6 +234,22 @@ jobs:
           fi
           echo "zero sorrys across ${scanned} files"
 
+      - name: the zeta23ext hunt package assembles
+        # Not the certified arm: a hunt package (hunts/frontier_math/zeta23ext)
+        # with its own zero-sorry rule. Nothing built it, so the 4.35 port
+        # broke seven of its modules unnoticed until #293 repaired them
+        # (issue #101); a broken proof there had already left sorryAx under
+        # Retention.margin_identity. assemble.sh links the store the build
+        # above produced, so this is one more lake build after that one,
+        # never beside it. About 15 minutes.
+        run: |
+          set -o pipefail
+          bash hunts/frontier_math/zeta23ext/assemble.sh 2>&1 | tee zeta23ext.txt
+          if grep -q 'sorryAx' zeta23ext.txt; then
+            echo "::error::sorryAx appears in the zeta23ext axiom reports"
+            exit 1
+          fi
+
   # The observability half of issue #167.
   #
   # A job killed by `timeout-minutes` is reported by GitHub with conclusion
@@ -185,7 +276,7 @@ jobs:
               echo "the lean arm built and reported zero sorrys"
               ;;
             failure)
-              echo "::error::the lean arm FAILED: the build broke or a sorry reached it"
+              echo "::error::the lean arm FAILED: the build broke, a sorry reached it, or the zeta23ext hunt package stopped assembling (the failed step says which)"
               exit 1
               ;;
             cancelled)

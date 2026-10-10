@@ -1,0 +1,6 @@
+N=64: c* in (30.817383, 30.818359] neg_hard=True pos_hard=True zeta=[65, 0, True] [2.0s]
+N=96: c* in (30.695312, 30.696289] neg_hard=True pos_hard=True zeta=[97, 0, True] [4.7s]
+N=128: c* in (30.646484, 30.647461] neg_hard=True pos_hard=True zeta=[129, 0, True] [8.4s]
+N=192: c* in (30.628906, 30.629883] neg_hard=True pos_hard=True zeta=[193, 0, True] [30.0s]
+N=256: c* in (30.616211, 30.617188] neg_hard=True pos_hard=True zeta=[257, 0, True] [84.1s]
+crossing exit=0

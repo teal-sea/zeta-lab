@@ -12,7 +12,11 @@
 
 **This laboratory's number is not the leading one, and never was.** Our best
 figure, `0.6730529829896288` (eight-point, bridge proved in Lean), is **tenth**
-of fifteen public claims for this quantity. The leading public claim is
+of fifteen public claims for this quantity. (The fifteen are the rows of the
+table in section 2: fourteen follow-up claims above `anthropics/zeta-23-lean`,
+twelve external and two ours, plus Theorem D itself; `rank.py` prints
+`10 of 15`. Issue #158 read the table as fourteen by leaving out Theorem D.)
+The leading public claim is
 `AMTOPA/zeta-exact-pressure` at `0.6734164909714992949…`, which is ahead of us
 by `0.00036350798187`, eight times the margin by which we are ahead of
 `ainta/zeta-simple-zeros`, the repository we had believed we were chasing.

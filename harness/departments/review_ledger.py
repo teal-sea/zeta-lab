@@ -15,11 +15,31 @@ entries open the ledger:
   that list is the reviewer's worklist, not a formality. The Level 7
   frontier-math result is deliberately NOT entered: its thread is live, and
   a review enters the ledger when its subject lands, not while it moves.
+* **The landed September and October candidates** (entered 2026-10-10):
+  hunts #123 to #126 and the seventh-power extension, all built on OpenAI's
+  7/8 half-plane, the L = 1.19 out-of-band window bound and the
+  c = 2330/10^6 four-point build. ``ClaimUnderReview`` has no grade field,
+  so each claim states its grade in its own text. None has a recorded
+  outcome below, because no attack has run on any of them. An audit or a
+  referee lane that the producing hunt ran is listed under
+  ``controls_run``, not entered as an attack: it was not run from these
+  briefs, and it is not the outside review that "pending external review"
+  is waiting for.
 """
 
 from __future__ import annotations
 
 from harness.review import AttackOutcome, ClaimUnderReview
+
+#: The input every half-plane claim below is conditional on, worded once so
+#: the five entries cannot drift apart on what was and was not checked.
+_QRH_INPUT = (
+    "OpenAI, 'The Quasi-Riemann Hypothesis' (preprint dated 2026-09-30), "
+    "Theorem 1.1: zeta and every Dirichlet L-function have no zero with "
+    "Re s > 7/8. Its Lean statements were rebuilt here and accepted by Lean's "
+    "kernel and the independent NanoDa kernel (docs/38 section 7); its "
+    "195-page argument has been reviewed by no person"
+)
 
 CLAIMS: tuple[ClaimUnderReview, ...] = (
     ClaimUnderReview(
@@ -121,6 +141,403 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "the depth-1/2 scan gives 0.6220 < 0.637 and the depth-1 scan "
             "gives 0.6636 > 0.637, so the constant looked like it was being "
             "crossed as depth rose"
+        ),
+    ),
+    ClaimUnderReview(
+        name="qrh-linnik-7/3",
+        claim=(
+            "given OpenAI's Theorem 1.1 (no Dirichlet L-function vanishes in "
+            "Re s > 7/8) and Chen-Gupta-Li's single-modulus zero-density "
+            "estimate (arXiv:2507.08296v2, a preprint), the least prime "
+            "p = a (mod q) with (a, q) = 1 satisfies "
+            "p(q, a) <= C(eps) q^(7/3 + eps) for every modulus q and every "
+            "class a, with C(eps) effective; on refereed density inputs alone "
+            "the exponent is 12/5 (hunt #123, hunts/qrh_linnik/, PR #277, "
+            "landed 2026-10-08). Grade: candidate, pending external review: "
+            "an ordinary written proof that no person has reviewed, on an "
+            "input whose argument no person has reviewed"
+        ),
+        author="hunt #123 session (qrh_linnik, branch hunt/qrh-linnik, 2026-10-08)",
+        assumptions=(
+            _QRH_INPUT,
+            "Chen-Gupta-Li Theorem 1.2 (arXiv:2507.08296v2, unrefereed) holds "
+            "as stated for a single modulus, including its q1^(1/3) "
+            "gcd-twist term, which sets 7/3",
+            "Montgomery's Ingham-type mean value bound and Huxley (1975), the "
+            "refereed inputs behind 12/5",
+        ),
+        code_paths=(
+            "hunts/qrh_linnik/RESULTS.md",
+            "hunts/qrh_linnik/exponents.py",
+            "hunts/qrh_linnik/explicit_check.py",
+            "hunts/qrh_linnik/test_qrh_linnik.py",
+        ),
+        controls_run=(
+            "exact exponent algebra checked against a float grid, with "
+            "planted lesions (a wrong CGL term, Huxley removed), pinned by "
+            "test_qrh_linnik.py",
+            "the explicit formula's sign and normalisation calibrated "
+            "numerically for zeta (explicit_check.py; one route, measured)",
+            "least primes for q <= 5000 tabulated as a descriptive picture "
+            "(least_primes.json); a finite table cannot test a bound with an "
+            "unspecified C(eps)",
+        ),
+        author_reasoning=(
+            "a smoothed explicit formula with height cutoff a small power of "
+            "x; the half-plane removes every zero above 7/8, so the Siegel "
+            "zero, Deuring-Heilbronn repulsion and log-free density estimates "
+            "drop out of the argument, and L is set by the single-modulus "
+            "density exponent on [1/2, 7/8], which binds at sigma = 5/7 where "
+            "Ingham's mean value bound meets CGL's q1^(1/3) term; CGL already "
+            "state the conditional implication (Corollary 1.4), so nothing is "
+            "claimed novel"
+        ),
+    ),
+    ClaimUnderReview(
+        name="qrh-class-number-1500",
+        claim=(
+            "given OpenAI's Theorem 1.1 (no Dirichlet L-function has a zero "
+            "with Re s > 7/8), h(D) >= sqrt|D| / (10 pi log log |D|) for every "
+            "negative fundamental discriminant D, and "
+            "L(1, chi_D) >= 1/(10 log log |D|) for every such D other than -3; "
+            "hence the imaginary quadratic fields of class number h are "
+            "exactly those the hunt's exact search finds, for every h <= 1500: "
+            "9 245 562 fields, the largest with |D| = 562 394 347 (hunt #124, "
+            "hunts/qrh_class_number/, PR #279, landed 2026-10-08). Grade: "
+            "candidate, pending external review: an ordinary written proof "
+            "that no person has reviewed, every constant evaluated in Arb "
+            "(enclosure-carrying), the lists by exact integer computation, on "
+            "an input whose argument no person has reviewed"
+        ),
+        author="hunt #124 session (qrh_class_number, branch hunt/qrh-class-number, 2026-10-08)",
+        assumptions=(
+            _QRH_INPUT,
+            "the verified interval cover that turns the bound into the table "
+            "D(h) (dtable.json) has no gap, so h(D) <= h forces |D| <= D(h)",
+            "the reduced-form sieve visits every fundamental discriminant "
+            "below D(1500) and counts each class number exactly; the lists' "
+            "counts and sha256 are committed, the full list is not, and "
+            "streamed counts were recomputed independently in four windows, "
+            "not throughout (oct08_extensions/MISSION.md records the same "
+            "limit)",
+        ),
+        code_paths=(
+            "hunts/qrh_class_number/RESULTS.md",
+            "hunts/qrh_class_number/lbound.py",
+            "hunts/qrh_class_number/explicit.py",
+            "hunts/qrh_class_number/run_bounds.py",
+            "hunts/qrh_class_number/run_search.py",
+            "hunts/qrh_class_number/cn.c",
+            "hunts/qrh_class_number/dtable.json",
+            "hunts/qrh_class_number/search_H1500.json",
+            "hunts/qrh_class_number/test_qrh_class_number.py",
+        ),
+        controls_run=(
+            "the bound against exact L(1, chi_D) for every fundamental D with "
+            "100 <= |D| <= 3 * 10^6: no violation, a planted inflation is "
+            "caught (RESULTS.md section 6)",
+            "Watkins' h <= 100 classification reproduced exactly; the odd "
+            "h <= 1500 agree with Holmin and Kurlberg's GRH-conditional "
+            "counts, computed by a different method",
+            "1900 entries of the H = 1500 output, including the largest |D| "
+            "for every h, against PARI qfbclassno, no disagreement "
+            "(controls_pari_H1500.json)",
+            "weakening the abscissa to 11/12 and 15/16 weakens the bound in "
+            "the predicted way; the GRH specialisation is compared with "
+            "Lamzouri, Li and Soundararajan",
+        ),
+        author_reasoning=(
+            "Littlewood's short Euler product with two Cesaro cutoffs, and "
+            "Hadamard positivity for the zero sum with every zero charged at "
+            "beta = 7/8, make L(1, chi_D) explicitly large; a verified interval "
+            "cover gives D(h), and an exact reduced-form sieve without GRH "
+            "then enumerates every fundamental discriminant below D(1500)"
+        ),
+    ),
+    ClaimUnderReview(
+        name="qrh-nonresidue-log8",
+        claim=(
+            "given OpenAI's Theorem 1.1 (no Dirichlet L-function vanishes in "
+            "Re s > 7/8), for every q >= 3 and every nonprincipal Dirichlet "
+            "character chi mod q the least n with chi(n) not in {0, 1} is at "
+            "most (log q)^8, and at most (0.7 log q)^8 for q >= 5; hence the "
+            "least quadratic nonresidue mod every odd prime p is at most "
+            "(log p)^8, and every odd composite n has a Miller-Rabin (strong) "
+            "witness at most (0.7 log n)^8 (hunt #125, hunts/qrh_nonresidue/, "
+            "PR #278, landed 2026-10-08). Grade: candidate, pending external "
+            "review: an ordinary written proof that no person has reviewed, "
+            "enclosure-carrying numerics, on an input whose argument no "
+            "person has reviewed"
+        ),
+        author="hunt #125 session (qrh_nonresidue, branch hunt/qrh-nonresidue, 2026-10-08)",
+        assumptions=(
+            _QRH_INPUT,
+            "the functional equation and the Hadamard identity at "
+            "sigma0 = 2 theta + c price the sum over zeros with no zero "
+            "counting; no zero location beyond the half-plane is used",
+        ),
+        code_paths=(
+            "hunts/qrh_nonresidue/RESULTS.md",
+            "hunts/qrh_nonresidue/explicit.py",
+            "hunts/qrh_nonresidue/verify.py",
+            "hunts/qrh_nonresidue/verification.json",
+            "hunts/qrh_nonresidue/test_qrh_nonresidue.py",
+        ),
+        controls_run=(
+            "every Arb constant against an independent mpmath evaluation",
+            "exact subgroup generation for 3 <= q <= 10^4 and exhaustive "
+            "least-nonresidue, primitive-root and strong-witness tables to "
+            "10^7, plus OEIS record values re-derived by direct computation",
+            "a weakened abscissa moves the measured exponent to 12 and 16 as "
+            "predicted; a planted fault (the zero sum dropped) is refuted by "
+            "n(48473881) = 67",
+        ),
+        author_reasoning=(
+            "a smoothed explicit formula with weight (n/x)^(1/4) log(x/n), the "
+            "zero sum bounded through the Hadamard identity, so the exponent "
+            "1/(1 - 7/8) = 8 comes with constant 1 for every q >= 3; the "
+            "exponent itself is classical (Rodosskii; Montgomery-Vaughan "
+            "13.12), the explicit constant and the all-moduli statement were "
+            "not found in the search"
+        ),
+    ),
+    ClaimUnderReview(
+        name="qrh-ninth-powers",
+        claim=(
+            "given OpenAI's Theorem 1.1 for zeta (zeta has no zero with "
+            "Re s > 7/8), for every integer n >= 1 there is a prime p with "
+            "n^9 < p < (n+1)^9; with it, a prime in (x, x + (1/2) x^(7/8) log x] "
+            "for every real x >= e^8, and |psi(x) - x| < x^(7/8) (log x)^2 / "
+            "(128 pi) for x >= e^10 (hunt #126, hunts/qrh_prime_powers/, "
+            "PR #276, landed 2026-10-08). Grade: candidate, pending external "
+            "review: ordinary written proofs that no person has reviewed, "
+            "every numerical inequality decided in Arb (enclosure-carrying), "
+            "small cases by Pratt certificates, on an input whose argument no "
+            "person has reviewed"
+        ),
+        author="hunt #126 session (qrh_prime_powers, branch hunt/qrh-prime-powers, 2026-10-08)",
+        assumptions=(
+            _QRH_INPUT,
+            "the explicit zero-counting bounds cited in RESULTS.md section 1; "
+            "the verified RH height only widens margins (k = 9 also closes "
+            "with none)",
+            "the steps the hunt itself names for a reviewer to check first "
+            "hold: the use of (I4) in Lemma 3.1, Lemma 5.1's Stieltjes "
+            "boundary terms, the monotonicity Lemma 6.2, and the tail lemmas "
+            "6.4, 8.2 and 9.3, of which 9.3 is written as a sketch",
+        ),
+        code_paths=(
+            "hunts/qrh_prime_powers/RESULTS.md",
+            "hunts/qrh_prime_powers/bound.py",
+            "hunts/qrh_prime_powers/verify.py",
+            "hunts/qrh_prime_powers/pratt.py",
+            "hunts/qrh_prime_powers/verification.json",
+            "hunts/qrh_prime_powers/test_qrh.py",
+        ),
+        controls_run=(
+            "two routes for each load-bearing identity: the explicit-formula "
+            "normalisation against a direct prime sum, the closed-form "
+            "zero-sum integrals against quadrature",
+            "threshold control (Proposition T): the same chain at abscissa "
+            "11/12 and 15/16 closes at k = 13 and k = 17 as predicted, and "
+            "fails at k - 1 in each case",
+        ),
+        author_reasoning=(
+            "the exact explicit formula for a quadratic B-spline weight, sums "
+            "over zeros bounded in closed form through explicit N(T), an Arb "
+            "cover of 10 <= n <= e^100, an analytic tail and Pratt "
+            "certificates for n <= 9; the gap (n+1)^k - n^k, about "
+            "k x^(1 - 1/k), beats an error of size x^(7/8) (log x)^2 exactly "
+            "when k >= 9, and without further input the chain fails at k = 8; "
+            "qrh-seventh-powers inherits this weight, formula and base "
+            "routine, so a defect found here bears on both"
+        ),
+    ),
+    ClaimUnderReview(
+        name="qrh-seventh-powers",
+        claim=(
+            "given QRH(7/8) for zeta (no nontrivial zero of zeta has real part "
+            "above 7/8, the zeta part of OpenAI's Theorem 1.1) and Kadiri, "
+            "Lumley and Ng's explicit zero-density rows (arXiv:2101.12263v1, "
+            "Lemma 4.14 and Table 1), every integer n >= 1 has a prime "
+            "strictly between n^7 and (n+1)^7; an eighth-power version on the "
+            "same route is its audited predecessor (hunts/oct08_extensions/, "
+            "PR #282, landed 2026-10-08). Grade: written conditional "
+            "candidate: a written proof with every numerical step "
+            "enclosure-carrying; an independent written audit by a separate "
+            "agent context, of the author's model family, passed; reviewed by "
+            "no person; not formalized in Lean; no worldwide priority claimed"
+        ),
+        author="oct08_extensions producer (Codex root; route prime_gap_density, 2026-10-08)",
+        assumptions=(
+            _QRH_INPUT,
+            "KLN's rows at sigma = 0.75, 0.8, 0.85, 0.86 and 0.87 hold as "
+            "printed (rounded upward in layers.py); their constant "
+            "calculations are accepted, not recomputed, and their critical-line "
+            "input rests on Hiary, Patel and Yang plus a new Acb low-height "
+            "check (audits/kln-restoration/)",
+            "hunt #126's explicit formula, weight, zero counting and verified "
+            "RH height, inherited unchanged (claim qrh-ninth-powers); "
+            "base_bound.py is byte-for-byte from that branch and the audit "
+            "reuses it, so computational independence stops there",
+        ),
+        code_paths=(
+            "hunts/oct08_extensions/RESULTS.md",
+            "hunts/oct08_extensions/REVIEW-STATUS.md",
+            "hunts/oct08_extensions/routes/prime-gap-multistrip/RESULTS.md",
+            "hunts/oct08_extensions/routes/prime-gap-multistrip/layers.py",
+            "hunts/oct08_extensions/routes/prime-gap-multistrip/verification.txt",
+            "hunts/oct08_extensions/routes/prime-gap/RESULTS.md",
+            "hunts/oct08_extensions/routes/prime-gap/density.py",
+            "hunts/oct08_extensions/routes/prime-gap/base_bound.py",
+            "hunts/oct08_extensions/audits/prime-gap-multistrip/AUDIT.md",
+            "hunts/oct08_extensions/audits/prime-gap-multistrip/check.py",
+            "hunts/oct08_extensions/audits/prime-gap/AUDIT.md",
+            "hunts/oct08_extensions/audits/prime-gap/SOURCE-CHECK.md",
+            "hunts/oct08_extensions/audits/kln-restoration/SOURCE-CHECK.md",
+            "tests/test_seventh_power_replay.py",
+        ),
+        controls_run=(
+            "764 Arb cells at 256 bits cover 2.25 <= log n <= 50 with every "
+            "margin above 0.13045, an analytic tail below 0.012961 covers "
+            "log n >= 50, and nine trial-division witnesses cover n <= 9 "
+            "(verification.txt, replayed by tests/test_seventh_power_replay.py)",
+            "the independent written audit run inside the producing hunt: its "
+            "own 384-bit density integrator, exact rational synthetic zero "
+            "atoms at every strip boundary, missing-first-layer and "
+            "missing-last-layer mutants rejected (audits/prime-gap-multistrip/)",
+            "the same bound fails at k = 6 near log n = 29 while k = 7 passes: "
+            "a failure of the bound, not a statement about primes",
+            "source checks: KLN's Lemma 4.14 rather than its introductory "
+            "theorem, the explicit-formula source (audits/prime-gap/), and "
+            "the critical-line correction (audits/kln-restoration/)",
+        ),
+        author_reasoning=(
+            "bound x^(beta - 1) pointwise by x^(s0 - 1) plus positive "
+            "increments times the indicators beta > s_j over the strips "
+            "3/4 < 0.8 < 0.85 < 0.86 < 0.87 < 7/8, so cumulative density upper "
+            "bounds substitute without subtracting independently bounded "
+            "counts; for log x >= 8 each increment decreases in x, so a cell "
+            "takes the increments at its left end and the zero sums at its "
+            "right; a single split at 0.85 already closes k = 8, and "
+            "resolving the strips closes k = 7"
+        ),
+    ),
+    ClaimUnderReview(
+        name="oob-envelope-L1.19",
+        claim=(
+            "for every real even f with supp f in [-1.19, 1.19] (support "
+            "2.38), Weil's form on the window satisfies "
+            "Q(f) >= 5.7178e-48 ||f||^2; the route is the out-of-band envelope "
+            "lemma: a correction to the Weil symbol at frequencies of size at "
+            "least 2L leaves the form unchanged on the window, so the envelope "
+            "constant in arXiv:2608.24827's one-stroke reduction can drop from "
+            "sup P_L to sup (P_L - H) (hunts/oob_envelope/, PR #258, landed "
+            "2026-09-28). Grade: candidate, hardened by two independent "
+            "implementations (sharing python-flint), resting on an ordinary "
+            "derivation that passed the hunt's referee lane; even sector "
+            "only; not kernel-checked; pending external verification"
+        ),
+        author="oob_envelope numerics and theory lanes (2026-09-27/28)",
+        assumptions=(
+            "Q >= R_H, the modified reduction (theory lane): an ordinary "
+            "derivation, referee PASS with stated scope, reviewed at L = 4/5 "
+            "and independent of L",
+            "Zhu's two-block bound (13) and the reduction of arXiv:2608.24827 "
+            "as transcribed, with the tail terms eps_D and eps_B enclosed",
+            "the numerics lane's Gauss-Legendre quadrature radii, which the "
+            "referee did not audit; the referee's own Clenshaw-Curtis route "
+            "is the independent check",
+        ),
+        code_paths=(
+            "hunts/oob_envelope/numerics/RESULTS.md",
+            "hunts/oob_envelope/numerics/RUNS.md",
+            "hunts/oob_envelope/numerics/stage_b_modal.py",
+            "hunts/oob_envelope/numerics/stage_b_result.json",
+            "hunts/oob_envelope/theory/RESULTS.md",
+            "hunts/oob_envelope/referee/REVIEW.md",
+            "hunts/oob_envelope/referee/l119.py",
+        ),
+        controls_run=(
+            "the hunt's referee lane, reading none of the author's code, "
+            "proves lambda_min(R_H) > 5.7179e-48 on the same 500-mode subspace "
+            "with its own Clenshaw-Curtis-192/Arb implementation and "
+            "recomputes the tail terms (referee/REVIEW.md, 'L = 1.19', PASS)",
+            "negative controls: at L = 4/5, T# = 60, where the form is "
+            "indefinite, the step returns no bound; a planted in-band constant "
+            "fires; dropping or flipping H does not discriminate at L = 4/5",
+            "on Davenport-Heilbronn, where the form is negative, the valid "
+            "pipeline returns no bound",
+            "one-sided consistency with Zhu's Table 3 ceiling at L = 1.1",
+        ),
+        author_reasoning=(
+            "|F|^2 is the Fourier transform of f * f~, supported in [-2L, 2L], "
+            "so a bounded almost-periodic H whose frequencies all have size at "
+            "least 2L integrates to zero against it; per prime the best "
+            "out-of-band correction is a Caratheodory-Toeplitz problem, "
+            "realised within a Fejer loss by a nonnegative kernel sum; with "
+            "H = sine:16 the envelope constant at L = 1.19 falls from "
+            "A_L = 7.0750 to 3.8634773 (envelope.json), which brings the "
+            "matrix to N = 500 even Legendre modes"
+        ),
+    ),
+    ClaimUnderReview(
+        name="four-point-0.6728604",
+        claim=(
+            "for every eps > 0 and all sufficiently large T, the number of "
+            "simple zeros of zeta on the critical line with ordinate in "
+            "(T, 2T] is at least ((14400000 H - 17240)/14366681 - eps) times "
+            "the number of nontrivial zeros there, counted with multiplicity, "
+            "where H = 3/2 - cot(1/sqrt 2)/sqrt 2; the coefficient is about "
+            "0.6728603588, from four-point pressure parameters "
+            "(n, c, m, p) = (4, 2330/10^6, 432, 2500) "
+            "(hunts/four_point_pressure/, PR #259, landed 2026-09-28). Grade: "
+            "kernel-checked at the pinned revision 5522b963 by the "
+            "laboratory's own build, pending external verification, not "
+            "registered with Palomar"
+        ),
+        author="four_point_pressure sessions (candidate d28df5f9, 2026-09-05; Hermes repair and lab build at 5522b963, 2026-09-28)",
+        assumptions=(
+            "the Lean statements say what the claim says: Mathlib's "
+            "riemannZeta, multiplicity as analytic order, ordinates in "
+            "(T, 2T] (hunts/ainta_seven_point/lean-four-point/StrongerChallenge.lean)",
+            "the build record at 5522b963 is what it reports: one build on the "
+            "laboratory's own Modal compute at Lean 4.33.0-rc2, not an outside "
+            "rebuild",
+            "the later Lean 4.35 port changes module headers, visibility and "
+            "dependency pins; the 2026-09-28 bundle is not evidence that those "
+            "changes compile, and the port's comparison is a separate record",
+        ),
+        code_paths=(
+            "hunts/four_point_pressure/RUNS.md",
+            "hunts/four_point_pressure/evidence/README.md",
+            "hunts/four_point_pressure/evidence/main-axioms-print-output.txt",
+            "hunts/four_point_pressure/PALOMAR-READINESS.md",
+            "hunts/ainta_seven_point/lean-four-point/",
+            "tests/test_four_point_build_evidence.py",
+        ),
+        controls_run=(
+            "49 build receipts, zero sorry warnings, and only propext, "
+            "Classical.choice and Quot.sound for the six advertised "
+            "declarations (evidence/README.md)",
+            "source hashes recomputed from Git objects at 5522b963 during "
+            "integration; tests/test_four_point_build_evidence.py pins the "
+            "saved record, its source binding and the coefficient",
+            "the emitted-source preflight of 2026-09-05 (1516 cell lemmas, "
+            "11863 leaves, zero problems): an arithmetic and coverage check, "
+            "not a kernel check",
+            "after the Lean 4.35 port, Lean, NanoDa and con-ron accepted the "
+            "exported solution in the laboratory's own comparison "
+            "(PALOMAR-READINESS.md); not a registry verdict",
+        ),
+        author_reasoning=(
+            "substituting c = 2330/10^6, m = 432, p = 2500 into the existing "
+            "n-point bridge gives the coefficient "
+            "(14400000 H - 17240)/14366681 exactly; the finite certificate is "
+            "a generated tree of interval cell lemmas proved inside Lean, so "
+            "the theorem carries no certificate hypothesis; the parameter "
+            "floor was already tabulated in hunts/ainta_seven_point/FOUR-POINT.md, "
+            "so the parameters are not a discovery"
         ),
     ),
 )

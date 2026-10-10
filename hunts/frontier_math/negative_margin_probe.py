@@ -709,6 +709,21 @@ def channel_budget(m: int = 24, step: float = BRIDGE_STEP,
 HARDENED_INSTRUMENT = {"coarse": 0.02, "fine": 0.002, "k_step": 0.002,
                        "theta": 0.995, "prec_bits": 128}
 
+
+def _instrument_precision():
+    """Put the instrument's ``prec_bits`` in force for a ``with`` block.
+
+    ``hardened_paper`` sets ``ctx.prec = 128`` when first imported, but flint's
+    precision is process-global and other hunt modules set 160, 200 or 300
+    bits at import (``o9_scoping``, ``o9_leaf``), so in a shared process the
+    last import wins.  Every ball entry point below runs under this, so the
+    recorded ``prec_bits`` is the precision actually used.
+    """
+    from flint import ctx  # local: the module must import w/o flint
+
+    return ctx.workprec(HARDENED_INSTRUMENT["prec_bits"])
+
+
 #: the hardened readings, ``(m, G) -> record``.  ``margin_lo_pp`` is
 #: ONE-SIDED (budget lower endpoint minus cap upper endpoint), so a
 #: positive value is a closure at that instrument and a negative one is
@@ -965,7 +980,8 @@ def hardened_margin(m: int = 24, theta: float = THETA, coarse: float = 0.02,
                     y: float = Y) -> dict:
     """The decisive configuration, re-read under ball arithmetic."""
     hc = HardenedCluster(coarse=coarse, fine=fine, k_step=k_step, G=G)
-    return hc.margin(config_pairs(m, s_gaps, y), theta)
+    with _instrument_precision():
+        return hc.margin(config_pairs(m, s_gaps, y), theta)
 
 
 def hardened_brackets_float(m: int = 8, theta: float = THETA,
@@ -990,15 +1006,16 @@ def hardened_brackets_float(m: int = 8, theta: float = THETA,
     """
     pairs = config_pairs(m)
     hc = HardenedCluster(coarse=coarse, fine=fine, k_step=k_step, G=G)
-    from hardened_paper import f_lo, f_up
+    with _instrument_precision():
+        from hardened_paper import f_lo, f_up
 
-    b = hc.budget_ball(pairs)
+        b = hc.budget_ball(pairs)
+        lo_b, hi_b = f_lo(b), f_up(b)
+        hb = hc.bands(pairs)
     pj = PaperJoint(step=fine, G=G)
     b_float = pj.budget(pairs)
-    lo_b, hi_b = f_lo(b), f_up(b)
     mid = (lo_b + hi_b) / 2
     ulp = math.ulp(mid)
-    hb = hc.bands(pairs)
     # raw grid maxima of the float instrument, per band
     lo_w = min(t for t, _ in pairs) - G
     hi_w = max(t for t, _ in pairs) + G
@@ -1060,7 +1077,8 @@ def theta_one_diverges_hardened(m: int = 2, coarse: float = 0.02,
                                 fine: float = 0.002, G: float = 60.0) -> dict:
     """The same control at the ball instrument."""
     hc = HardenedCluster(coarse=coarse, fine=fine, G=G)
-    cap = hc.cap_up(config_pairs(m), 1.0)["cap"]
+    with _instrument_precision():
+        cap = hc.cap_up(config_pairs(m), 1.0)["cap"]
     return {"m": m, "hardened_cap": cap,
             "hardened_infinite": not math.isfinite(cap)}
 

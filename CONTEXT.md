@@ -181,7 +181,7 @@ Constants: `GAMMA1`
 
 ### `zeta/epstein.py`, The counterexample battery: Davenport-Heilbronn, gate #3 made computational.
 
-*1670 lines*
+*1700 lines*
 
 Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `EPSTEIN_DIGITS_PER_UNIT_HEIGHT`, `SHIFTED_PRODUCT_SHIFT`
 
@@ -1111,7 +1111,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/review_ledger.py`, The repository's standing-review ledger, real claims, real attacks.
 
-*356 lines*
+*773 lines*
 
 Constants: `CLAIMS`, `OUTCOMES`
 
@@ -1191,7 +1191,7 @@ Constants: `SCHEMA_VERSION`
 
 ### `dossier/subjects/hardy_z.py`, The Hardy Z dossier, the one worked example.
 
-*443 lines*
+*458 lines*
 
 Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
@@ -1298,6 +1298,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/palomar_port_compare.py`, Compare the already-built port, not a fresh Palomar registration.
 - `scripts/palomar_precheck.py`, Pre-flight check of a Palomar Registry submission.
 - `scripts/pub1_certify_display.py`, Publication-safe display values for the Pub 1 xi' ceiling certificate.
+- `scripts/run_hunt_tests.py`, Run every hunt's own tests, one pytest process per directory.
 - `scripts/science_preflight.py`, Preflight for a session running this lab from an outside environment.
 - `scripts/install_hooks.sh`, Install the pre-push secret guard into this checkout.
 - `scripts/ledger_sync.sh`, Sync the private discovery ledger between machines.
@@ -1305,7 +1306,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2256 test functions across 132 files (the collected count differs where tests are parametrised):
+2312 test functions across 141 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1335,6 +1336,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_dossier_schema.py`, 37
 - `tests/test_epstein.py`, 52
 - `tests/test_epstein_count_dps_floor.py`, 3
+- `tests/test_epstein_zeta_height.py`, 3
 - `tests/test_explicit.py`, 45
 - `tests/test_factorial_direct_bn.py`, 4
 - `tests/test_factorial_full_cost.py`, 5
@@ -1345,6 +1347,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_four_point_module_roots.py`, 4
 - `tests/test_frontier_archive.py`, 4
 - `tests/test_frontier_math_clean_kill.py`, 6
+- `tests/test_full_suite_verdict.py`, 2
 - `tests/test_graveyard.py`, 7
 - `tests/test_guard_ledger.py`, 11
 - `tests/test_harness_croniter_department.py`, 11
@@ -1376,6 +1379,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_meta_evals.py`, 17
 - `tests/test_meta_ledger.py`, 24
 - `tests/test_moments.py`, 26
+- `tests/test_o9_cell_counts.py`, 3
 - `tests/test_o9_leaves_kernel.py`, 6
 - `tests/test_paid_shortfall.py`, 11
 - `tests/test_paid_shortfall_saturation.py`, 6
@@ -1406,15 +1410,18 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_quotient_height_kernel.py`, 7
 - `tests/test_quotient_transport_capacity.py`, 6
 - `tests/test_reading_of_record.py`, 2
+- `tests/test_record_copies_match_data.py`, 2
 - `tests/test_recovery_precision_guard.py`, 2
 - `tests/test_relations.py`, 7
 - `tests/test_repo_hygiene.py`, 7
 - `tests/test_research_checkpoint_archive.py`, 11
 - `tests/test_research_recovery_archive.py`, 1
-- `tests/test_review.py`, 12
+- `tests/test_review.py`, 15
+- `tests/test_rh_resolve.py`, 22
 - `tests/test_rigor.py`, 54
 - `tests/test_rigor_weil.py`, 17
 - `tests/test_rogue_lab_controls.py`, 7
+- `tests/test_run_hunt_tests.py`, 3
 - `tests/test_rung3_ball_assembly.py`, 7
 - `tests/test_rung3_ball_atom_budget.py`, 4
 - `tests/test_rung3_ball_cert_support.py`, 1
@@ -1429,16 +1436,19 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_scout_online.py`, 15
 - `tests/test_script_13_discovery_run.py`, 33
 - `tests/test_script_14_moment_experiment.py`, 26
+- `tests/test_seventh_power_replay.py`, 3
 - `tests/test_site.py`, 1
 - `tests/test_spectral_gate.py`, 14
 - `tests/test_statistics.py`, 54
 - `tests/test_surrogate.py`, 23
 - `tests/test_synthesis.py`, 6
 - `tests/test_telemetry.py`, 71
+- `tests/test_third_autocorrelation_functionals.py`, 4
 - `tests/test_weil.py`, 44
+- `tests/test_weil_propagation_numerics.py`, 6
 - `tests/test_zeros.py`, 58
 - `tests/test_zeta23ext_imports.py`, 5
-- `tests/test_zeta_temperament.py`, 10
+- `tests/test_zeta_temperament.py`, 15
 
 ```bash
 .venv/bin/python -m pytest -q -m 'not slow'   # fast tier

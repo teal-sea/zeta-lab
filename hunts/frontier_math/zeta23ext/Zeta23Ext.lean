@@ -10,13 +10,18 @@ public import Zeta23Ext.BandCert.Main
 public import Zeta23Ext.PairEnergy
 -- `StableRankTrace` (S2) and `Bridge/` (S6-S16 and Ainta's seven-point
 -- simple-zero bound, Hunt #79) moved to `lean/bridge/` on 2026-08-23: the
--- Palomar Registry replays the selected project, and this package does not
--- assemble at its root (#101), so the submitted theorem was split into a
+-- Palomar Registry replays the selected project, and this package did not
+-- assemble at its root then (#101), so the submitted theorem was split into a
 -- package of its own that does. Nothing here imports them any more.
+--
+-- The three E-form arms each define the window, `Aconst` and `c2`. `EForm` and
+-- `EForm2` live in `Retention.EForm` and `Retention.EForm2` so that all three
+-- can be imported together (#24); `ArmAgreement` proves the copies agree.
 public import Zeta23Ext.EForm.Main
 public import Zeta23Ext.EForm2.Main
 public import Zeta23Ext.EForm3.Main
 public import Zeta23Ext.EForm3.Refutation
+public import Zeta23Ext.ArmAgreement
 -- `TruncEst.Axioms` is that chain's audit aggregator: it imports every
 -- TruncEst module and runs `#print axioms` over the development. Importing it
 -- (rather than `TruncEst.Sums` alone) is what makes the audit actually run.

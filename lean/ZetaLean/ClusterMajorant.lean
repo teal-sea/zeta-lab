@@ -130,10 +130,10 @@ theorem abs_matchingTerm_le_of_pointwise
   unfold matchingTerm
   rw [abs_mul, Finset.abs_prod, Finset.abs_prod]
   apply mul_le_mul
-  · exact Finset.prod_le_prod
+  · exact Finset.prod_le_prod₀
       (fun _ _ ↦ abs_nonneg _)
       (fun e he ↦ hdimer e he)
-  · exact Finset.prod_le_prod
+  · exact Finset.prod_le_prod₀
       (fun _ _ ↦ abs_nonneg _)
       (fun p hp ↦ hmonomer p (Finset.mem_sdiff.mp hp).1)
   · exact Finset.prod_nonneg fun _ _ ↦ abs_nonneg _

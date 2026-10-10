@@ -1,5 +1,59 @@
 # HANDOFF: session records and continuation state
 
+## 2026-10-10: seventh powers on the front door; the candidates enter the review queue
+
+The October 8 extensions (`hunts/oct08_extensions/`, PR #282) carried hunt
+#126's prime-power result from ninth to seventh powers: given QRH(7/8) and
+Kadiri, Lumley and Ng's explicit zero-density rows, a prime strictly between
+n^7 and (n+1)^7 for every n >= 1, with an eighth-power predecessor on the same
+route. Grade: written conditional candidate; an independent written audit by
+a separate agent context of the author's model family passed
+(`audits/prime-gap-multistrip/AUDIT.md`); no person has reviewed it; no Lean.
+`docs/39`, `README.md`, `llms.txt` and `docs/README.md` now carry it at that
+grade, and hunt #126's ninth powers stay its own record (the half-plane alone,
+no density input). `tests/test_seventh_power_replay.py` replays the cover and
+the audit's checker. The same hunt's exact-DFT circuit corollary does not use
+the half-plane and stays in that hunt's `REVIEW-STATUS.md`.
+
+`harness/departments/review_ledger.py` now names the seven candidates landed
+between 2026-09-28 and 2026-10-08: hunts #123 to #126, the seventh powers,
+`oob_envelope` at L = 1.19 (PR #258) and the four-point build at
+c = 2330/10^6 (PR #259). Each states its grade in its claim text and has no
+recorded attack, so `scripts/70_lab_state.py` lists fourteen missing attacks
+for them; in-lab audits and referee lanes are listed as controls, not attacks.
+
+Doors open now, each named in a hunt's "The doors" (which one gets funded is
+the owner's allocation):
+
+- **Review.** An outside review of any of the five half-plane results, or a
+  blind and a white-box attack from the review ledger on any of the seven.
+- **Prime powers below 7** (`oct08_extensions`, multistrip route; #126). The
+  bound fails at k = 6 near log n = 29, at the finite-width strips and the
+  zero-sum majorant near the verified-height transition. Finer strips or a
+  continuous density integration stay in the density information class; a
+  stronger zero-free input reads more. A better weight improves #126's
+  short-interval and psi(x) - x constants but cannot move k.
+- **Primitive roots and the exponent 8** (#125). An explicit linear-sieve
+  constant at level about omega^2 would make the polylogarithmic bound on the
+  least prime primitive root explicit; carrying the (s + c)^-4 kernel into
+  the all-moduli parts is routine and not done. Beating (log q)^8 reads more: a smaller
+  abscissa, zero density near 7/8 for a single L-function, or short character
+  sums.
+- **Class numbers past 1500** (#124). H = 2000 costs well over an hour on one
+  core; zero pairing stays inside the current information; the Mosunov-Jacobson
+  tabulation to 2^40 would carry the lists to h of order 10^4 at the cost of
+  obtaining their per-discriminant output. Genus-aware partial counts
+  (`oct08_extensions`) cannot establish list completeness on their own.
+- **Linnik below 7/3** (#123). CGL's gcd-twist loss q1^(1/3) and the
+  Ingham-type mean value bound near sigma = 5/7 are the active constraints;
+  going below 7/3 without new density estimates needs the character phases
+  (sieve or correlation routes). The half-plane itself is slack there.
+- **The DFT corollary** (`oct08_extensions`). Central rank is optimal only for
+  the fixed side correction; new side matrices or binary label families are
+  open.
+- **Formalization.** Lean statements of the corollaries on top of OpenAI's
+  statements; the Hecke module of the input, never built here.
+
 ## 2026-10-10 UTC: hunt 125 initial Lean package and bridge passed
 
 `lean/qrh/README.md` records the separate Lean 4.34.1 package and exact OpenAI
@@ -37,9 +91,11 @@ between n^9 and (n+1)^9). All are unreviewed outside the laboratory.
 
 Continuation points, each named in its hunt's "The doors": an outside review of
 any of the four proofs; Lean statements of the corollaries on top of OpenAI's
-statements; k = 8 in #126 (needs explicit zero density near real part 7/8);
-a polylogarithmic least primitive root in #125; H = 2000 and the zero-pairing
-saving in #124; the Hecke module of the input, never built here.
+statements; k = 8 in #126 (needs explicit zero density near real part 7/8;
+taken the same day by `hunts/oct08_extensions/`, which reaches k = 7, see the
+2026-10-10 entry above); a polylogarithmic least primitive root in #125;
+H = 2000 and the zero-pairing saving in #124; the Hecke module of the input,
+never built here.
 
 ## 2026-09-13: research preservation and reconciliation
 

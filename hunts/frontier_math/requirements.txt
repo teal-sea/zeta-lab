@@ -1,0 +1,5 @@
+# On top of the repository's requirements.txt, for this hunt's own tests.
+# cluster_sdp, sos_certificate and exact_gap_attack solve their relaxations
+# with cvxpy (Clarabel and SCS, both installed with it); 141 tests need it.
+# Measured passing with cvxpy 1.9.3 on 2026-10-10.
+cvxpy>=1.9

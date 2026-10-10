@@ -409,8 +409,9 @@ Numeric illustration (measured, dps 30, a what-if at the first ordinate):
 So the honest answer the task anticipated is the one the algebra gives:
 nothing usable at finite n, because |1 - 1/rho'| exceeds 1 by an amount the
 strip caps only through the factor 2 theta - 1, with the height and count of
-such zeros outside its reach. PR #268's equivalence and its finite Li
-positivity are statements at 1/2 and are untouched (document 38 section 6).
+such zeros outside its reach. The equivalence RH iff Re(xi'/xi) > 0 on
+Re s > 1/2 and Li's criterion are statements at 1/2 and are untouched
+(document 38 section 6).
 
 ## 9. Does not move, cited and not recomputed
 
@@ -431,8 +432,12 @@ positivity are statements at 1/2 and are untouched (document 38 section 6).
   ordinate pair correlation and an unconditional out-of-band upper bound on
   the form factor, are not consequences of a strip by anything derived here.
   Not a claim that they cannot be.
-- **PR #268's equivalence** (RH iff Re(xi'/xi) > 0 on Re s > 1/2) is a
-  statement at 1/2 and is untouched (document 38 section 6).
+- **The equivalence RH iff Re(xi'/xi) > 0 on Re s > 1/2** (stated in
+  `hunts/epp_herglotz/RESULTS.md`) is a statement at 1/2 and is untouched
+  (document 38 section 6). Until 2026-10-09 this entry and the end of
+  section 8 cited it as PR #268's (`hunts/rh_resolve/`); that PR records
+  the equivalence as classical, not as its own, and its own audit of
+  2026-10-04 withdrew its finite Li enclosure.
 
 ## 10. The table
 

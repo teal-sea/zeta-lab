@@ -1,0 +1,41 @@
+{
+ "prec_bits": 106,
+ "seconds_per_phase": 2.237937500467524e-05,
+ "seconds_per_pair_mode_product": 2.1634843760693913e-07,
+ "load_average": [
+  55.015625,
+  69.6962890625,
+  59.80322265625
+ ],
+ "grids": [
+  {
+   "nvec": 80,
+   "S": 1200.0,
+   "Kmax": 10,
+   "w_nodes": 28236,
+   "s_nodes": 19200,
+   "pairs": 542131200,
+   "core_seconds_estimate": 21515.696474372595
+  },
+  {
+   "nvec": 280,
+   "S": 2266.1020257693895,
+   "Kmax": 14,
+   "w_nodes": 238752,
+   "s_nodes": 36256,
+   "pairs": 8656192512,
+   "core_seconds_estimate": 718091.2215056136
+  },
+  {
+   "nvec": 364,
+   "S": 3060.0807085398565,
+   "Kmax": 15,
+   "w_nodes": 454044,
+   "s_nodes": 48960,
+   "pairs": 22229994240,
+   "core_seconds_estimate": 2248123.903396764
+  }
+ ],
+ "usd_per_core_hour": 0.0473,
+ "usd_rate_source": "modal/run_modal_rho.py RATE_CORE_S (modal billing rates, 2026-09-24)"
+}
