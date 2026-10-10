@@ -372,13 +372,16 @@ def test_snapshot_matches_live_provider():
     snap = np.array(GLUE._snapshot_rows("2.2", 8, 40))
     live = np.asarray(GLUE.T_S_live("2.2", 8, 40))
     # since s7.8 every snapshot row is a Modal build: the laptop build of the
-    # same unit (modal/out_rho, local calibration half) equals the live call
+    # same unit (modal/out_rho, local calibration half) equals a macOS live call
     # bitwise, and the Modal row differs from it by the measured calibration
     # (5.8e-15 at c = 2.2; 7.1e-15 over the unit, threshold 1e-10)
     with open(os.path.join(RT.MODAL_OUT_RHO, RT.RHO_LOCAL_CALIBRATION)) as fh:
         local = np.array(json.load(fh)["T_S"]["2.2|8|40|80|1200"])
-    assert np.array_equal(local, live)
-    assert "%.1e" % np.abs(snap - live).max() == "5.8e-15"
+    # rel 1e-12, not bitwise: local is a macOS build, snap a Linux (Modal) one; live matches its platform's, the other to 5.8e-15.
+    scale = np.abs(local).max()
+    assert np.abs(local - live).max() <= 1e-12 * scale
+    assert np.abs(snap - live).max() <= 1e-12 * scale
+    assert "%.1e" % np.abs(snap - local).max() == "5.8e-15"
 
 
 def test_cells_json_keyed_to_routed_inputs():

@@ -207,8 +207,13 @@ def test_eps_grow_is_checkers_bracket():
     the delivered N = 32 row: lambda_11, counted there)."""
     g = AS.eps_grow("2.9", 200, 2400, 32, 10)
     br = _inertia()["builds"]["200|2400|32"]["brackets"][10]
-    assert br["k"] == g["k"] == 11 and g["lo"] == br["lo"] and g["hi"] == br["hi"]
-    assert g["grows_for_eps_below"] == -br["hi_float"] and g["no_growth_for_eps_at_least"] == -br["lo_float"]
+    # rel 1e-12, not bitwise: the float64 eigvalsh seed differs macOS (stored) vs Linux; measured end gap 1.2e-15 rel.
+    lo, hi = Fraction(*g["lo"]), Fraction(*g["hi"])
+    blo, bhi = Fraction(*br["lo"]), Fraction(*br["hi"])
+    assert br["k"] == g["k"] == 11 and hi - lo == bhi - blo and max(lo, blo) < min(hi, bhi)
+    assert abs(lo - blo) <= abs(blo) * Fraction(1, 10**12) and abs(hi - bhi) <= abs(bhi) * Fraction(1, 10**12)
+    assert g["grows_for_eps_below"] == pytest.approx(-br["hi_float"], rel=1e-12, abs=0)
+    assert g["no_growth_for_eps_at_least"] == pytest.approx(-br["lo_float"], rel=1e-12, abs=0)
 
 
 # ----------------------------------------- 3. the decision rule, planted

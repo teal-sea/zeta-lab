@@ -130,17 +130,12 @@ def test_json_gate_pinned(gate):
 
 def test_agrees_with_numerics_us_check(gate):
     """Compared only after the gate above passed (brief step 3): the numerics
-    worker's independent exact check, read from its branch with git show."""
-    import subprocess
-
-    try:
-        raw = subprocess.run(
-            ["git", "show", "teal-sea/weil-propagation:hunts/weil_propagation/numerics/us_check.json"],
-            cwd=HERE, capture_output=True, text=True, check=True, timeout=30,
-        ).stdout
-    except Exception as e:  # branch absent in a fresh clone
-        pytest.skip(f"numerics branch not available: {e}")
-    U = json.loads(raw)
+    worker's independent exact check. Until #253 merged in it was read from the
+    numerics branch with git show (skipped in a fresh clone); it is now in-tree."""
+    path = os.path.join(HERE, "..", "..", "numerics", "us_check.json")
+    assert os.path.isfile(path), "hunts/weil_propagation/numerics/us_check.json missing"
+    with open(path, encoding="utf-8") as fh:
+        U = json.load(fh)
     for mine, theirs in (("epstein_(1,1,6)", "epstein_1_1_6"), ("dedekind_Q(sqrt-23)", "dedekind_Q_sqrt_m23")):
         ev = gate[mine]["events"]
         assert [e["n"] for e in ev if e["kind"] == "composite_atom"] == U[theirs]["composite_atoms"]
