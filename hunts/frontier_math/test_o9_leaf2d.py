@@ -116,61 +116,67 @@ def test_caps_are_the_recorded_suprema_times_the_inflation():
 
 @pytest.mark.slow
 def test_the_table_closes_at_the_recommended_operating_point():
-    """339 cells at `1.20x`, every one decided **by the model**.
+    """699 cells at `1.20x`, every one decided **by the model**.
 
-    Not by the kernel. The same leaf layer declared the 1-D table 344-for-344
-    and `decide +kernel` refuted 7 of its 9 chunks (`O9-2D-STATUS.md` §0), so
-    this number pins the generator's behaviour and predicts nothing about a
-    Lean build.
+    Not by the kernel: this pins the generator's behaviour and predicts
+    nothing about a Lean build.  The pin read 339 until 2026-10-10, which is
+    the count on the Arb leaves this module used before it moved to
+    `kernel_leaves2d`; the pin was never re-run after the move because CI
+    does not collect `hunts/` (issue #23).  `tests/test_o9_cell_counts.py`
+    now pins both counts where CI runs them.
 
-
-    Read against the 1-D route's 476 (`o9_leaf.N_CELLS_KERNEL`) this looks
-    like a saving, and the comparison is **not** like-for-like: the 1-D table
-    is built at `1.05x`.  `test_the_2d_route_is_dearer_at_equal_inflation`
-    below is the honest side-by-side.  What is true is that the 2-D route is
-    affordable -- at the recommended operating point it is no larger than the
-    table already generated -- and that it needs no depth-reduction lemma.
+    Read against the 1-D route's 476 (`o9_leaf.N_CELLS_KERNEL`) the 2-D route
+    is dearer even at its own recommended operating point, by 223 cells
+    (+47%), and the comparison favours it: the 1-D table is built at `1.05x`.
+    `test_the_2d_route_is_dearer_at_equal_inflation` below is the
+    side-by-side.  What the 2-D route buys is that it needs no
+    depth-reduction lemma.
     """
     v = M.validate()
     assert v["undecided"] == 0
     assert v["all_decided"]
-    assert v["cells"] == 339
-    assert v["max_depth"] == 17
+    assert v["cells"] == 699
+    assert v["max_depth"] == 18
     assert v["mode1"] + v["mode2"] == v["cells"]
     assert v["min_margin_ulp"] > 0
 
 
 @pytest.mark.slow
 def test_the_2d_route_is_dearer_at_equal_inflation():
-    """At `1.05x`, where the 1-D table lives, the 2-D one costs 601 cells.
+    """At `1.05x`, where the 1-D table lives, the 2-D one costs 1705 cells.
 
-    So dropping `D(y,s)/y^2 <= 4 D(1/2,s)` costs +257 cells (+75%) at fixed
-    inflation, or nothing at all if the extra `1.05x -> 1.20x` inflation is
-    spent instead -- which the §7 budget absorbs (surplus `2.60e-02` against
-    a `1.3945x` wall).  It is a trade between table size and budget margin,
-    not a free lunch, and `O9-SCOPING.md`'s "45 extra leaves" understates it
-    by comparing an Arb-grade 2-D count against a kernel-grade 1-D one.
+    So dropping `D(y,s)/y^2 <= 4 D(1/2,s)` costs +1229 cells (3.6x) at fixed
+    inflation, and still +223 cells (+47%) if the extra `1.05x -> 1.20x`
+    inflation is spent as well, which the §7 budget absorbs (surplus
+    `2.60e-02` against a `1.3945x` wall).  The pin read 601, the Arb-leaf
+    count, until 2026-10-10 (issue #23); on Arb leaves the trade looked like
+    +75% at fixed inflation and nothing at all at `1.20x`, and neither holds
+    on the leaves the kernel runs.  `O9-SCOPING.md`'s "45 extra leaves"
+    compared two Arb-grade counts and understates it further.
     """
     import o9_leaf as A
 
     assert A.N_CELLS_KERNEL == 476
     v = M.validate(M.build(inflation=F(21, 20)))
     assert v["undecided"] == 0
-    assert v["cells"] == 601
+    assert v["cells"] == 1705
 
 
 @pytest.mark.slow
 def test_every_box_touching_y_equals_zero_decides():
-    """95 of the 339 boxes reach `y = 0`, and all of them close.
+    """125 of the 699 boxes reach `y = 0`, and all of them close.
 
-    Both modes carry them (21 by mode 1, 74 by mode 2, the latter because
+    Both modes carry them (32 by mode 1, 93 by mode 2, the latter because
     `y_hi^2` is small down there).  The claim being pinned is that none is
     left undecided -- `O9-SCOPING.md` §1 measured the literal form hitting a
-    depth wall exactly here.
+    depth wall exactly here.  Until 2026-10-10 this read 95 of 339 (21 and
+    74), the Arb-leaf counts, never re-run after the leaves moved to the
+    kernel's (issue #23).
     """
     t = M.build()
     touching = [z for z in t["cells"] if z["y_lo"] == 0]
-    assert len(touching) == 95
+    assert len(touching) == 125
+    assert sum(z["mode"] == 1 for z in touching) == 32
     assert all(z["mode"] in (1, 2) for z in touching)
 
 
