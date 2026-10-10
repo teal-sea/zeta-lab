@@ -38,7 +38,7 @@ Mathematical basis and integration-by-parts derivation:
    zeros off the critical line.
    Furthermore, G_env on R controls only on-line zeros (real gamma); it does not
    bound off-line zero terms Q_k.
-   Consequently, the tail bound theorem is marked ATTEMPT_UNRESOLVED, and this code
+   Consequently, the tail bound is marked ATTEMPT_UNRESOLVED, and this code
    refuses to claim it as a validated conservative bound.
 
 5. Defect Analysis of Prior Scout Code:
