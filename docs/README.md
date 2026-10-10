@@ -72,6 +72,7 @@ What was built, what was measured, and what did not survive.
 | [40](40-one-form-per-discriminant.md) | One form per discriminant: a composite-defect table whose hypothesis `a(1) = 1` fails on 27 of its 41 rows, the check that would have caught it, and the eleven overclaims an adversarial audit found in the write-up of that finding (hunt #127; the repair to doc 34 landed in #296). |
 | [41](41-the-module-that-missed-the-guard.md) | The module that missed the guard: the Epstein evaluator's failure surface in height and precision before #291, a loss derived rather than fitted, and a guard an adversary walked straight through because every rung of its fault ladder varied the wrong thing (hunt #129; the precision lift that fixed the routine landed in #291). |
 | [42](42-a-law-read-off-a-diagonal.md) | A law read off a diagonal: an elementary certificate barrier measured on a grid instead of a diagonal, a headline withdrawn when an adversary noticed the model comparison was not like for like, and the zero-weight cells that turn out to be what holds the excess up (hunt #130). |
+| [43](43-what-happens-to-a-claim.md) | What happens to a claim after it is recorded: a measurement of this laboratory rather than of zeta, how much of the record has a guard behind it, how rarely a correction installs one, and a correction rate withdrawn when a blind audit scored the classifier near chance and re-earned on a disjoint sample (hunt #131). |
 
 ## Adding one
 

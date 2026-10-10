@@ -1243,6 +1243,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `40-one-form-per-discriminant.md`, 40. One form per discriminant, and what an adversary did to the write-up
 - `41-the-module-that-missed-the-guard.md`, 41. The module that missed the guard the tree already had
 - `42-a-law-read-off-a-diagonal.md`, 42. A law read off a diagonal, and a headline read off a bad comparison
+- `43-what-happens-to-a-claim.md`, 43. What happens to a claim after it is recorded
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)

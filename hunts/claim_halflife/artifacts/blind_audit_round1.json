@@ -1,0 +1,186 @@
+{
+ "rows": [
+  {
+   "row_id": 0,
+   "is_revision": true,
+   "confidence": "medium",
+   "why": "The row's diff is empty, but the commit rewrites PROOF-LEDGER's seam row from \"**PINNED, OPEN** ... THE next kill control\" to \"**CLOSED (direct route)**\", deletes LEVEL7-VCELL's table line \"**The seam nu_p in [1.1, 1.4] deep is a genuine two-sided hole**\" and its NEITHER-covered rows, and names the hunt's own per-pair clipping as the artifact that \"inflates the field ~10x\", so a recorded negative verdict is retracted rather than merely extended."
+  },
+  {
+   "row_id": 1,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "MISSION.md's recorded obligation and its recorded diagnosis are replaced (the page-93 chapter-11 fault paragraph is deleted, the audit is relocated to page 71's dropped M(v_l)M(w_k) with \"C[2,2]=-8, not the printed -4\"), and control 3 is rewritten from \"agrees with Bian's exact low-order coefficients\" to \"independently regenerated exact finite coefficients\" because the reference it leaned on is now known bad."
+  },
+  {
+   "row_id": 2,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "Run 2 is appended alongside run 1, whose artifacts are preserved under run-tagged names, and the diff states outright \"Nothing it settled is re-derived here, and nothing it said is contradicted\"; the withdrawals it mentions (G4 in a735965, gap B in 7efd506) happened on main, so this is narration of somebody else's correction."
+  },
+  {
+   "row_id": 3,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "The diff is a pure append of a \"Continuation run 05c755d3\" section to MISSION.md that scopes a follow-on run and explicitly says \"The predecessor's records and lemmas are not to be edited\"."
+  },
+  {
+   "row_id": 4,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "The diff adds the CORRECTED-F2 paragraph and re-points the mission's forward obligations; the only edit to standing text is the scope word in \"closes the historical coefficient audit\", and \"corrected\" in the subject names the object inherited from row 1 rather than an action on this hunt's record."
+  },
+  {
+   "row_id": 5,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The README heading becomes \"Two further results, one of which is prior art (correction)\", item 6 becomes \"**PROVED, SHARP, AND NOT NEW**\", and an explicit \"**CORRECTION (novelty check, same day).**\" block says \"the framing of item 6 as research-grade was the coordinator's error and is retracted\"."
+  },
+  {
+   "row_id": 6,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "The commit is 141 insertions and zero deletions across ACTIVE-CLAIMS.md, a new CROSS-ARM-REPLY.md and PROOF-LEDGER.md; it refutes another arm's proposal and mentions a reciprocal PairEnergy prior-art correction sent elsewhere, changing nothing this hunt had recorded."
+  },
+  {
+   "row_id": 7,
+   "is_revision": true,
+   "confidence": "medium",
+   "why": "The new RESULTS.md contradicts the hunt's own preregistered MISSION.md statement in P5: \"`MISSION.md` predicted this would read close to the isolated value 0.0476 - **that prediction failed** (8.3% away), because the mission's neighborhood estimate forgot that zeta's ordinates appear doubled\", which corrects a defect in the hunt's earlier recorded reasoning even though the rest of the file is new work."
+  },
+  {
+   "row_id": 8,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The commit adds BLOCKPOS-WITHDRAWN.md, header \"# blockpos-0.672529 - WITHDRAWN / FALSIFIED\", **Status:** WITHDRAWN / FALSIFIED, killing a bound the hunt had recorded, with two independent failure routes and an exact witness (tr(P1Q')=-2, \"9 >= 13\")."
+  },
+  {
+   "row_id": 9,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "This is the hunt's first claim commit (RESULTS.md and RUNS.md are new files, and it is the oldest commit in hunts/outband_certificate), it reproduces hunt #110's numbers \"to the digit\" before adding to them, and it says \"Nothing in the HuntSpec is withdrawn\"; what it narrows belongs to #110, a different hunt."
+  },
+  {
+   "row_id": 10,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The diff carries an explicit \"**Correction, 2026-09-06.**\" block stating the first version of this same README described base64 chunks that \"never landed\" and a command that \"produced an empty file whose hash is the hash of zero bytes\", and replaces the reconstruction instructions with a verify step against a committed binary."
+  },
+  {
+   "row_id": 11,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "885 insertions and zero deletions (new LEVEL2-TWO-GAP-MARKED.md, probe, tests, ledger append) answering a marked open question with LAW I and LAW J; nothing previously recorded is touched."
+  },
+  {
+   "row_id": 12,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "MISSION.md is created new in the hunt's oldest commit, so there is nothing earlier in this hunt to contradict; the \"dead_routes\" and \"symmetric seeding missed it\" lines cite hunt #79's TRUST-MAP, not this hunt's record."
+  },
+  {
+   "row_id": 13,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The commit rewrites START-HERE.md because \"the start page carried a retracted number\": the reading of record 0.6725087070 had been superseded by 0.6725106958 a day before the page was written, and two further stale claims (\"Nothing kernel-checked\", \"Nothing compiled\") are corrected with it."
+  },
+  {
+   "row_id": 14,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The diff retitles Result 3 from \"orbit-18 Laurent sieve hits systematic algebraic walls\" to \"a concrete blind support\", rewrites the RUNS.md outcome and its start timestamp to \"unknown\", and adds an \"## Audit correction\" section saying the earlier commit's \"documentation also claimed more than the evidence established\"."
+  },
+  {
+   "row_id": 15,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "The row shows no files, but the commit's edits under hunts/r_186989 are the repo-wide em-dash sweep replacing \"# RESULTS - Erdos #126\" with \"# RESULTS: Erdos #126\" and similar punctuation swaps in MISSION.md and RESULTS.md, with no claim, number or verdict altered."
+  },
+  {
+   "row_id": 16,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "Same punctuation sweep commit; its hunts/r_233abe hunk is 10 lines of em-dash-to-comma/colon substitution in MISSION.md and RESULTS.md and nothing else."
+  },
+  {
+   "row_id": 17,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "Same punctuation sweep; in hunts/lehmer_pair it changes only punctuation in MISSION.md, NOTES.md and a probe docstring and plot titles (\"the bump crosses\" retained verbatim apart from the dash), leaving every measured value untouched."
+  },
+  {
+   "row_id": 18,
+   "is_revision": true,
+   "confidence": "medium",
+   "why": "HANDBACK.json's recorded run_id 4df2ee65-1c9a-4e3b-8f7d-2a6b9c4e0f11 is replaced by 4df2ee65-b05a-4fb4-941e-2fc657e20233 and an \"[Operator correction 2026-08-17: ... that id was fabricated ...]\" note is appended, so a datum the hunt had recorded is corrected, although the commit says \"The mathematics is untouched\"."
+  },
+  {
+   "row_id": 19,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "A twelve-line append to MISSION.md reporting that RAMS2-CLUSTER.md resolves the level-two target the previous text had already named as forced by the connected A*A atom, with its own scope limit (\"a deliberately narrow band ... no percentage is opened\") rather than a narrowing of an earlier claim."
+  },
+  {
+   "row_id": 20,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "One inserted line in ACTIVE-CLAIMS.md registering a coordination lock before touching shared files; no claim, number or status is changed."
+  },
+  {
+   "row_id": 21,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "A second pass appended to RESULTS.md that re-runs the first pass and finds it reproduces (\"Table 1 matches at all eleven rows ... identical to `results.json` to every printed digit\"); the MISSION edit only distinguishes first pass from second, and the missing modulo-3 formula it reports contradicts the brief, not this hunt's record."
+  },
+  {
+   "row_id": 22,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "The ledger row gains \"**ARB-HARDENED at the binding configurations**\" while the earlier float results are kept in place (\"float: +6.5..+769\"); the hardened numbers are directed enclosures of a different grade added beside the measured ones, so nothing recorded becomes false."
+  },
+  {
+   "row_id": 23,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "The port table's old verdicts are preserved as a \"first verdict\" column beside \"now\", so \"failed at 109, 290\" is kept as history and the modules build because the porting work was done, not because the earlier record was wrong."
+  },
+  {
+   "row_id": 24,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "All three files are new, and the LP floor is a fresh barrier result (\"excess of order N^{3/4}, not N^{1/2} ... the number the route needed and did not have\") that bounds the family without declaring any previously recorded construction or constant wrong; it even declines to review the frozen 1.03411910."
+  },
+  {
+   "row_id": 25,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "A nineteen-line runmanifest appended to RUNS.md recording a new run's build, cost measurements and named non-attempts; it promotes a docstring claim (Kfun_eq_sinc) to a theorem rather than correcting anything."
+  },
+  {
+   "row_id": 26,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "A one-line restore of `import Zeta23Ext.Bridge` to a root module, in a file that is not a claim file, and the commit itself says \"Bridge.lean itself was never touched, so nothing was lost\", so no recorded statement of the hunt was ever false."
+  },
+  {
+   "row_id": 27,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The diff prepends \"**Correction and continuation, 2026-09-07:** Section 4.2's dimension-count argument is false\" with a counterexample (N=27, y=9, minimum excess log(2)) and declares the inferred zero for N=10^6 \"unsupported by that argument\"."
+  },
+  {
+   "row_id": 28,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "A preservation import: archives committed unchanged with hashes pinned, and the material itself says \"importing a package does not promote its mathematics\" and \"This checkpoint changes no mathematical claim\"; the \"unreviewed drafts\" warning scopes the newly imported objects, not an earlier claim."
+  },
+  {
+   "row_id": 29,
+   "is_revision": true,
+   "confidence": "medium",
+   "why": "The appended re-solve states \"Section 1's `+5.75e-6` of headroom was the oracle's, not the polytope's\" and caps it at 8.9e-8, contradicting section 1's standing \"the room left in this construction is at least 3.96e-06 and plausibly ten times that\"; RUNS.md's planned-run description is also rewritten to the run that actually died at round 45."
+  }
+ ],
+ "rubric_notes": "RULE I APPLIED. is_revision = true iff the commit makes something THIS hunt had previously put on its own record stop being true: a recorded number, verdict, status, scope or claim replaced, narrowed, withdrawn, falsified or labelled wrong, or a defect in the hunt's own earlier artifacts that had made a recorded statement wrong. Everything else is false: additive work, an open question answered, a status that changed because the work got done, coordination bookkeeping, punctuation, moves, regenerations, and prose that NARRATES a correction made elsewhere.\n\nWHERE THE BOUNDARY WAS ACTUALLY HARD, and how I cut it.\n\n(1) Correction narrated vs correction made. Row 2 is the cleanest instance: run 2's RESULTS.md twice records that main withdrew the G4 counterexample (a735965) and closed gap B (7efd506), and its dead_routes list carries \"withdrawn on main a735965\". Those words are withdrawal words, but the withdrawn object is not this hunt's, and the diff says \"nothing it said is contradicted\". False. Same cut for row 6 (a reciprocal PairEnergy prior-art correction sent to another arm), row 9 (it narrows hunt #110's value, not its own), row 28 (which states \"This checkpoint changes no mathematical claim\").\n\n(2) Progress vs retraction, when a recorded verdict flips. I split rows 0, 22, 23 on whether the old record survives as history. Row 23 keeps its failing verdicts in a \"first verdict\" column beside \"now\", so nothing is taken back: false. Row 22 keeps the float margins (\"float: +6.5..+769\") and adds directed enclosures as a separate grade: false. Row 0 deletes the table rows marked NEITHER, deletes \"the seam ... is a genuine two-sided hole\", flips PINNED, OPEN to CLOSED, and attributes the earlier reading to the hunt's own per-pair clipping \"inflating the field ~10x\": true. I am aware this makes presentation partly load-bearing, and row 0 is the call I would most expect a careful second reader to take the other way.\n\n(3) A failed preregistered prediction (row 7). The rubric's yes-list contains \"contradict\", and the file says in terms that MISSION.md's prediction \"failed\" and that the mission's estimate \"forgot\" something. I called it true. The argument against, which I think is real: preregistration exists to be scored, a hypothesis is not a claim, and counting this as revision means most first-results commits in a preregistering lab are revisions. This is my second-least-certain row.\n\n(4) Bookkeeping vs claim (rows 18, 26). The rubric says \"something the hunt had already recorded\", not \"some mathematical claim\", so row 18 (a fabricated run id in HANDBACK.json replaced, plus an operator-correction note) is true even though the commit says the mathematics is untouched. Row 26 is the mirror image and I called it false: a dropped Lean import is restored, and the commit's own account, \"Bridge.lean itself was never touched, so nothing was lost\", means no recorded statement was ever wrong. If the grader treats \"defect in the hunt's own earlier work being fixed\" mechanically, row 26 flips.\n\n(5) A barrier that bounds the route you were taking (row 24). Computing an LP floor that shows the family cannot reach N^{1/2} does not falsify any construction or constant the hunt recorded, so false, even though row 27 later corrects row 24 itself.\n\nTWO THINGS ABOUT THE SAMPLE THAT THE AUDITOR SHOULD NOT HAVE HAD TO DISCOVER.\n\n(a) The evidence in three rows is wrong, not merely thin. Rows 15, 16 and 17 are shown with files_touched = [] and an empty diff, but commit 7b86bc9 demonstrably edits hunts/r_186989/MISSION.md and RESULTS.md, hunts/r_233abe/MISSION.md and RESULTS.md, and hunts/lehmer_pair/MISSION.md. The mechanism is visible in corpus.py's build(): the shared dict does commits[c.sha] = c once per hunt row, and _commits_touching(path) returns a file list already restricted to that path, so for any commit that touches several hunts the surviving Commit record carries only the last-processed hunt's files. Every multi-hunt commit in this corpus therefore reaches the classifier and the auditor with the wrong file list, and rows 15-17 happen to be harmless (a punctuation sweep) only by luck. I judged them from the repository, not from the blank row.\n\n(b) Twelve of thirty rows carry no diff at all (0, 6, 8, 11, 13, 15-18, 20, 22, 26). For the frontier_math ones this is legitimate: corpus.CLAIM_FILES is exactly RESULTS/README/MISSION/RUNS/FINDINGS.md, and that hunt records its claims in PROOF-LEDGER.md, ACTIVE-CLAIMS.md, START-HERE.md, LEVEL7-VCELL.md and BLOCKPOS-WITHDRAWN.md, none of which count. So the corpus is blind to the claim files of its single largest hunt, and rows 0, 8 and 13, three of my strongest true labels, are invisible in the evidence the sample actually shows. Judging them from subject text alone, row 0 reads like progress and would be false.\n\nI did read make_audit_sample.py, which is not on the forbidden list, and it discloses the sample is stratified 15 classifier-positive and 15 classifier-negative. I set no label from that, and my count is 11 true. I mention it because it is a leak and because it means the tie between my 11 and the classifier's 15 is not evidence either way about which of us is right.",
+ "disagreements_expected": "I expect a keyword-driven classifier to sit at 15 positives against my 11, and to differ on both sides.\n\nCLASSIFIER SAYS REVISION, I SAY NO (false positives I predict, in descending confidence):\n\n- Row 4, \"derive corrected xi2 form factor tail\". \"corrected\" is in the subject, but it names the object inherited from row 1, not an action on this hunt's record. The diff is an append plus a one-word scope refinement.\n- Row 2. Its diff contains \"withdrawn on main a735965\" twice, \"was withdrawn\", and a dead_routes entry with the same words, and RESULTS.md's entire run-1 header is deleted (the content moved to a run-tagged file). Any classifier reading deletions or withdrawal vocabulary flags this. It is the archetype of the narrated-elsewhere case.\n- Row 26, \"Restore the Bridge import that a parallel edit dropped\". Restore/dropped/parallel-edit is repair vocabulary and the body describes a guard's blind spot, but the file is not a claim file and nothing recorded changes.\n- Rows 15/16/17, the punctuation sweep. Less likely, but the subject \"the repo had written and never followed\" plus a commit body containing \"Defects found on the way\", \"was never true\", \"It is an IDE\", and a wrong-document-number correction could pull all three across. If the classifier reads commit bodies at all, these three flip together and cost it three.\n- Row 23. \"first verdict | now\", \"failed at 82\" to \"**builds**\", and a header rewritten to \"The port is DONE\" look like replaced verdicts to a diff-differ.\n- Row 21 and row 28. Both are saturated with the word \"correction\" used as a noun for a mathematical object (residue-class correction, adaptive correction block, \"23 corrections and 82 repairs\"). Pure lexical bait; row 28 even says \"This checkpoint changes no mathematical claim\".\n- Row 24. \"the LP itself was never solved\", \"This is the number the route needed and did not have\", \"The zero is not progress\" read as self-criticism of the hunt's earlier effort without falsifying any recorded value.\n\nCLASSIFIER SAYS NO, I SAY REVISION (false negatives I predict):\n\n- Row 0, \"Level 7: the direct joint-field dual closes the seam\". No correction keyword, and the row carries no diff at all because frontier_math's ledger files are outside CLAIM_FILES. On the row's own text this reads as pure progress. My true label rests entirely on the repository.\n- Row 7, the jensen_clock results. Subject is a headline finding; the failed prediction is one bullet deep inside a 118-line new file, and the file is an addition, so both a keyword classifier and a diff-shape classifier should call it clean.\n- Row 29. Subject says \"re-solved with a stronger oracle\" and the commit appends rather than edits; the retraction is one sentence, \"Section 1's +5.75e-6 of headroom was the oracle's, not the polytope's\", and it points at a section this commit does not touch.\n- Row 18 is the row where I would most expect the disagreement to run either way. \"fix(bookkeeping): correct\" is maximal keyword bait, so a lexical classifier says revision and agrees with me by accident, while a classifier restricted to claim-file diffs sees nothing at all, since HANDBACK.json is not a claim file.\n\nRows I expect agreement on: 1, 5, 8, 10, 13, 14, 27 as revisions (each carries an explicit correction, retraction or withdrawal notice in the diff itself) and 3, 6, 9, 11, 12, 19, 20, 25 as clean.\n\nStructural direction of the disagreement: the classifier's evidence is the union of subject text and claim-file diffs, and both channels are lossy in the same direction. It over-reads the word \"correction\" where it names an object, and under-reads corrections recorded in files the corpus does not consider claim files, which for frontier_math is all of them."
+}
