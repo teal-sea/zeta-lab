@@ -1,0 +1,25 @@
+2026-10-09 12:42:29-05:00 cold: no cache archive on the volume yet
+2026-10-09 12:43:14-05:00 upstream-clone exit_code=0 wall_seconds=45
+2026-10-09 12:43:38-05:00 elan-install exit_code=0 wall_seconds=2
+2026-10-09 12:45:48-05:00 toolchain exit_code=0 wall_seconds=130
+2026-10-09 12:53:01-05:00 upstream-update exit_code=0 wall_seconds=433
+2026-10-09 12:54:52-05:00 upstream-cache exit_code=0 wall_seconds=111
+2026-10-09 12:58:19-05:00 qrh-update exit_code=0 wall_seconds=207
+2026-10-09 12:58:44-05:00 qrh-cache exit_code=0 wall_seconds=25
+2026-10-09 12:59:07-05:00 ✔ [8924/8932] Built QRH125.Domination (13s)
+2026-10-09 12:59:08-05:00 ✔ [8925/8932] Built ZetaLean.Rigor (13s)
+2026-10-09 12:59:18-05:00 ✔ [8926/8932] Built ZetaLean.IntervalExp (10s)
+2026-10-09 12:59:32-05:00 ⚠ [8927/8932] Built QRH125.SmallModuli (14s)
+2026-10-09 12:59:35-05:00 ⚠ [8928/8932] Built ZetaLean.IntervalCExp (16s)
+2026-10-09 12:59:49-05:00 ⚠ [8929/8932] Built ZetaLean.Ball (13s)
+2026-10-09 12:59:59-05:00 ⚠ [8930/8932] Built ZetaLean.BallTerm (10s)
+2026-10-09 13:00:08-05:00 ✔ [8931/8932] Built QRH125 (9.3s)
+2026-10-09 13:00:09-05:00 qrh-build exit_code=0 wall_seconds=85
+2026-10-09 13:05:03-05:00 ✔ [4185/5155] Built OAI.NumberTheory.DirichletL.LogarithmicControl (28s)
+2026-10-09 13:22:42-05:00 ✔ [5203/7995] Built OAI.NumberTheory.SiegelZeros.Estimates.ConstantCancellation (10s)
+2026-10-09 14:47:28-05:00 Container terminated due to preemption. Your Function will be restarted with the same input. For more details, see https://modal.com/docs/guide/preemption
+2026-10-09 14:48:22-05:00 cold: no cache archive on the volume yet
+2026-10-09 14:48:52-05:00 upstream-clone exit_code=0 wall_seconds=30
+2026-10-09 14:49:13-05:00 elan-install exit_code=0 wall_seconds=1
+2026-10-09 14:49:31-05:00 toolchain exit_code=0 wall_seconds=18
+2026-10-09 14:51:59-05:00 exit_code=0 total_seconds=217

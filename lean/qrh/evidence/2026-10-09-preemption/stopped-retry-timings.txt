@@ -1,0 +1,3 @@
+upstream-clone exit_code=0 wall_seconds=30
+elan-install exit_code=0 wall_seconds=1
+toolchain exit_code=0 wall_seconds=18

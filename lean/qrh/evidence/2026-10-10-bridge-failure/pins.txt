@@ -1,0 +1,4 @@
+openai=adc7f1241b42e322a6451854ab7e4b4c146bf78a
+mathlib=d13f23b723b8a846827a245b89c10fc7d3f11612
+toolchain=leanprover/lean4:v4.34.1
+LEAN_NUM_THREADS=6

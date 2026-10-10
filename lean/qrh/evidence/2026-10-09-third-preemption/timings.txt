@@ -1,0 +1,6 @@
+toolchain exit_code=0 wall_seconds=0
+upstream-update exit_code=0 wall_seconds=146
+upstream-cache exit_code=0 wall_seconds=106
+qrh-update exit_code=0 wall_seconds=29
+qrh-cache exit_code=0 wall_seconds=22
+qrh-build exit_code=0 wall_seconds=8

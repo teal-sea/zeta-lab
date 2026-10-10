@@ -1,0 +1,9 @@
+2026-10-09 17:12:03-05:00 checkpoint committed: wall_seconds=84.40
+2026-10-09 17:23:37-05:00 checkpoint committed: wall_seconds=94.56
+2026-10-09 17:35:05-05:00 checkpoint committed: wall_seconds=87.15
+2026-10-09 17:46:42-05:00 checkpoint committed: wall_seconds=97.62
+2026-10-09 17:58:10-05:00 checkpoint committed: wall_seconds=87.48
+2026-10-09 18:09:53-05:00 checkpoint committed: wall_seconds=102.92
+2026-10-09 18:19:59-05:00 Terminated
+2026-10-09 18:19:59-05:00 exit_code=143 total_seconds=4761
+2026-10-09 18:22:24-05:00 Runner failed with exception: Container terminated due to preemption. Your Function will be restarted with the same input. For more details, see https://modal.com/docs/guide/preemption

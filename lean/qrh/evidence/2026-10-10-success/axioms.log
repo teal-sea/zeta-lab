@@ -1,0 +1,60 @@
+warning: PrimeNumberTheoremAnd: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/PrimeNumberTheoremAnd' has local changes
+warning: belyi: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/belyi' has local changes
+warning: formal-schemes: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/formal-schemes' has local changes
+warning: elliptic-curves: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/elliptic-curves' has local changes
+warning: tempered-fundamental-groups: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/tempered-fundamental-groups' has local changes
+warning: oka: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/oka' has local changes
+warning: orbicurve-cores: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/orbicurve-cores' has local changes
+warning: pi1: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/pi1' has local changes
+warning: heights: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/heights' has local changes
+warning: genl: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/genl' has local changes
+warning: tate-curves-theta: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/tate-curves-theta' has local changes
+warning: iut: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/iut' has local changes
+warning: gromov: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/gromov' has local changes
+warning: SphereEversion: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/SphereEversion' has local changes
+warning: schoenflies-lean: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/schoenflies-lean' has local changes
+warning: ClassFieldTheory: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/ClassFieldTheory' has local changes
+warning: AINTLIB: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/AINTLIB' has local changes
+warning: AbsorptionCutoff: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/AbsorptionCutoff' has local changes
+warning: StrongPNT: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/StrongPNT' has local changes
+warning: carleson: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/carleson' has local changes
+warning: rellich-kondrachov: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/rellich-kondrachov' has local changes
+warning: Zeta3Irrational: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/Zeta3Irrational' has local changes
+warning: fixed-point-theorems: repository '/work/openai-math-adc7f1241b42e322a6451854ab7e4b4c146bf78a/lean/.lake/packages/fixed-point-theorems' has local changes
+def QRH125.LeastNonresidueBound : Prop :=
+∀ (q : ℕ) [NeZero q],
+  3 ≤ q → ∀ (χ : DirichletCharacter ℂ q), χ ≠ 1 → ∃ n, 0 < n ∧ ↑n ≤ Real.log ↑q ^ 8 ∧ χ ↑n ≠ 0 ∧ χ ↑n ≠ 1
+'QRH125.dirichlet_nonvanishing' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH125.logDeriv_eq_hadamardB_add_zero_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH125.lorentzian_domination' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH125.lorentzian_domination_seven_eighths' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH125.kernel_endpoint_constants' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH125.small_moduli_cover' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH125.small_moduli_nonresidue_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.ComplexBall.contains_dirichletTermBallB' depends on axioms: [propext, Classical.choice, Quot.sound]
+	Command being timed: "lake env bash -c 
+  export LEAN_PATH="$QRH_SOURCE_ROOT/.lake/build/lib/lean:${LEAN_PATH:-}"
+  lean --root="$QRH_SOURCE_ROOT" "$QRH_SOURCE_ROOT/Audit.lean"
+"
+	User time (seconds): 8.88
+	System time (seconds): 17.76
+	Percent of CPU this job got: 116%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:22.84
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 9871760
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 0
+	Voluntary context switches: 0
+	Involuntary context switches: 0
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

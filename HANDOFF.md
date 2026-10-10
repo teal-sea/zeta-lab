@@ -54,6 +54,32 @@ the owner's allocation):
 - **Formalization.** Lean statements of the corollaries on top of OpenAI's
   statements; the Hecke module of the input, never built here.
 
+## 2026-10-10 UTC: hunt 125 initial Lean package and bridge passed
+
+`lean/qrh/README.md` records the separate Lean 4.34.1 package and exact OpenAI
+pin. Source `a4d02931` passed on Modal, including the bridge and eight axiom
+reports using only `propext`, `Classical.choice` and `Quot.sound`. The audited
+interval, domination, finite q = 3 to 12 and Hadamard identity results are
+kernel-checked. Saved volume outcomes, logs, manifests and timings are in
+`lean/qrh/evidence/2026-10-10-success/`; the run record is `lean/qrh/RUNS.md`.
+The warm build took 261 seconds, plus 138.77 seconds to save its cache.
+
+Full Theorem 1(a) remains open: its target is defined but not proved. The
+explicit formula, complex real-part cancellation, primitive reduction and
+interval margin remain. The written result remains proved, given OpenAI's
+Theorem 1.1, unreviewed. Theorem 2, Comparator, NanoDa and submission have not
+started. The initial-build supervision is complete; no build is left running.
+
+Thomas selected Modal for both Lean and numerics. The eight-core, 48-GiB
+runner retains volume `zeta-qrh-4341-adc7f124` and checkpoints every ten minutes
+plus on exit. Reuse this cache one build at a time. Three preemptions and the
+fixed noncomputable declaration are recorded in the run history. No Lean build
+belongs on Ghost.
+
+*Later on 2026-10-10: Thomas kept GitHub Actions as the default compute, with
+Modal for jobs that do not fit a GitHub runner, such as this package; see
+`CLAUDE.md`, Compute discipline.*
+
 ## 2026-10-08: the quasi-Riemann theorem, replayed and built on
 
 Read `docs/39` first, then `docs/38`. OpenAI's 7/8 half-plane was rebuilt from
