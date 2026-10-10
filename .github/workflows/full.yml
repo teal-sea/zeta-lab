@@ -234,6 +234,22 @@ jobs:
           fi
           echo "zero sorrys across ${scanned} files"
 
+      - name: the zeta23ext hunt package assembles
+        # Not the certified arm: a hunt package (hunts/frontier_math/zeta23ext)
+        # with its own zero-sorry rule. Nothing built it, so the 4.35 port
+        # broke seven of its modules unnoticed until #293 repaired them
+        # (issue #101); a broken proof there had already left sorryAx under
+        # Retention.margin_identity. assemble.sh links the store the build
+        # above produced, so this is one more lake build after that one,
+        # never beside it. About 15 minutes.
+        run: |
+          set -o pipefail
+          bash hunts/frontier_math/zeta23ext/assemble.sh 2>&1 | tee zeta23ext.txt
+          if grep -q 'sorryAx' zeta23ext.txt; then
+            echo "::error::sorryAx appears in the zeta23ext axiom reports"
+            exit 1
+          fi
+
   # The observability half of issue #167.
   #
   # A job killed by `timeout-minutes` is reported by GitHub with conclusion
@@ -260,7 +276,7 @@ jobs:
               echo "the lean arm built and reported zero sorrys"
               ;;
             failure)
-              echo "::error::the lean arm FAILED: the build broke or a sorry reached it"
+              echo "::error::the lean arm FAILED: the build broke, a sorry reached it, or the zeta23ext hunt package stopped assembling (the failed step says which)"
               exit 1
               ;;
             cancelled)

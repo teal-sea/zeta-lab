@@ -7,11 +7,11 @@
 # named by hand. `lake build` here builds the development (`Zeta23Ext`), the
 # Challenge and the Solution.
 #
-# It needs no Mathlib compile. The pin here (v4.33.0-rc2, mathlib
-# 51e6992efd06) is bit-identical to the one `lean/` already has built, and the
-# upstream `Zeta23` dependency is already fetched and built under
-# `hunts/frontier_math/zeta23ext`, so both stores are symlinked in rather than
-# re-cloned. A cold `lake build` here would cost hours and gigabytes.
+# It needs no Mathlib compile. The pin here (v4.35.0-rc2, mathlib
+# 065356127b1d) is bit-identical to the one `lean/` already has built, so that
+# store is symlinked in rather than re-cloned, and the upstream `Zeta23` is
+# vendored at `lean/vendor/zeta23` and required by path. A cold `lake build`
+# here would cost hours and gigabytes.
 #
 #   usage: bash lean/bridge/assemble.sh [repo-root]
 #
@@ -52,22 +52,17 @@ for p in mathlib batteries aesop Qq proofwidgets plausible importGraph LeanSearc
   [ -d "$MATHLIB_STORE/$p" ] && ln -sfn "$MATHLIB_STORE/$p" "$PKG/.lake/packages/$p"
 done
 
-# The upstream formalization. Already fetched and built for the extension
-# package; reuse it rather than cloning a second copy.
-if [ ! -e "$PKG/.lake/packages/Zeta23" ]; then
-  if Z23_STORE=$(find_store "hunts/frontier_math/zeta23ext/.lake/packages") \
-     && [ -d "$Z23_STORE/Zeta23" ]; then
-    echo "== reusing the upstream Zeta23 clone: $Z23_STORE/Zeta23 =="
-    ln -sfn "$Z23_STORE/Zeta23" "$PKG/.lake/packages/Zeta23"
-  fi
-fi
-
 export PATH="$HOME/.elan/bin:$PATH"
 cd "$PKG" || exit 2
 
-if [ ! -e "$PKG/.lake/packages/Zeta23" ]; then
-  echo "== fetching the upstream Zeta23 dependency (once) =="
-  lake update -R || exit $?
+# Zeta23 (the upstream formalization) is required by path since the 4.35 port:
+# it is vendored at lean/vendor/zeta23 and never appears under .lake/packages,
+# so the old "fetch once" step fired on every run, and its `lake update` would
+# re-resolve the symlinked store above, which belongs to `lean/`. The same
+# step was removed from zeta23ext/assemble.sh in #293.
+if [ ! -f "$REPO_ROOT/lean/vendor/zeta23/lakefile.toml" ]; then
+  echo "the vendored Zeta23 dependency is missing at lean/vendor/zeta23" >&2
+  exit 2
 fi
 
 echo "== lake build =="
