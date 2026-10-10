@@ -1,14 +1,14 @@
 # Hunt 125 on the OpenAI toolchain
 
-**Status, 2026-10-09: package compiled; Modal preemption interrupted the upstream
-build before the bridge and axiom gate.** The run at source `2eb8a1bb` compiled
-the interval ports, domination lemmas and finite character bound in 85 seconds.
-It was preempted at 19:47:28 UTC. The old launcher saved only on exit, so the
-automatic retry started cold. That retry was stopped after saving its setup
-cache. The repaired launcher checkpoints during the build; the latest attempt
-and evidence are recorded in [RUNS.md](RUNS.md). The five-minute heartbeat
-continues to supervise one build at a time. No full build time or completed
-axiom report exists yet. The written result keeps its existing grade:
+**Status, 2026-10-10 UTC: package and upstream targets compiled; bridge repair
+awaits a cached retry.** The first package build took 85 seconds. After three
+preemptions, checkpoint recovery preserved the upstream compilation, which
+completed at source `77912557`. The bridge then failed because `hadamardB`
+lacked `noncomputable`; that declaration is corrected in the source. The
+terminal failure, measured stage times and retained cache are recorded in
+[RUNS.md](RUNS.md). The five-minute heartbeat supervises one build at a time.
+No successful full build or completed axiom report exists yet. The written
+result keeps its existing grade:
 **proved, given OpenAI's Theorem 1.1, unreviewed**.
 
 ## Package boundary

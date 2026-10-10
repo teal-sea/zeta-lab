@@ -6,8 +6,10 @@
 pin. The five interval modules have source adaptations, and the first proof
 drafts cover rational domination, finite residue generation data, and the
 OpenAI nonvanishing and complex Hadamard bridges. The package compiled on Modal
-in 85 seconds, including q = 3 to 12; the bridge and axiom gate remain pending
-after the upstream build was preempted. The analytic explicit formula and the full nonresidue bound
+in 85 seconds, including q = 3 to 12. On 2026-10-10 UTC, the recovered upstream
+build passed; the bridge failed on a missing `noncomputable` declaration.
+That source fix awaits a cached retry, and the axiom gate remains pending.
+The analytic explicit formula and the full nonresidue bound
 remain open. The written result remains proved, given OpenAI's Theorem 1.1,
 unreviewed. Theorem 2, Comparator, NanoDa and submission have not started.
 

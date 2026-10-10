@@ -1,5 +1,35 @@
 # Hunt 125 remote build record
 
+## Bridge compiler failure, 2026-10-10 UTC
+
+The third replacement restored the cache and completed all three upstream
+targets, including `OAI.NumberTheory.DirichletL.Nonvanishing`. The upstream
+stage passed in 5,991 seconds, including checkpoint pauses. This is a warm
+recovery stage time, not a cold build time. The bridge failed at 01:11:30 UTC:
+`hadamardB` depends on noncomputable `logDeriv` but lacked `noncomputable`.
+The source now declares it `noncomputable def`; the definition and proofs
+are otherwise unchanged. The fix passed 22 lightweight repository tests,
+with five slow tests excluded, plus context and whitespace checks.
+
+The final checkpoint completed in 129.67 seconds. Downloaded volume evidence
+at `evidence/77912557fa8f631370dda09329689a2bef704d69-20261009T232507Z-9`
+confirms shell and supervisor exit code 1. The supervisor measured 6,513.38
+seconds after cache restoration, including nine checkpoint saves totaling
+1,183.23 seconds. The axiom stage did not run. The app stopped and no container
+remained before preparing the retry. Evidence is preserved under
+[bridge failure](evidence/2026-10-10-bridge-failure/).
+
+| Stage | Wall seconds | Exit code |
+| --- | ---: | ---: |
+| toolchain | 0 | 0 |
+| upstream-update | 154 | 0 |
+| upstream-cache | 108 | 0 |
+| qrh-update | 31 | 0 |
+| qrh-cache | 27 | 0 |
+| qrh-build | 10 | 0 |
+| upstream-build | 5991 | 0 |
+| bridge | 47 | 1 |
+
 ## Current route, 2026-10-09
 
 The repaired attempt launched at 19:57:38 UTC from committed source

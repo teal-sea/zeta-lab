@@ -36,7 +36,7 @@ open OAI.SiegelZeros.SiegelZerosAwei.W51
 
 /-- A canonical choice of the complex Hadamard constant, independent of any
 choice of affine factorization. Its real part cancellation remains to prove. -/
-def hadamardB {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q) : ℂ :=
+noncomputable def hadamardB {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q) : ℂ :=
   logDeriv (normalizedCompletion χ) 0
 
 /-- Remove the existential affine constants from OpenAI's log derivative

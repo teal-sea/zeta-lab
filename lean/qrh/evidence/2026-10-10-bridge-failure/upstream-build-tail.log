@@ -1,0 +1,48 @@
+✔ [7972/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialRetainedPhysical (20s)
+✔ [7973/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialRetainedWindow (11s)
+✔ [7974/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialRetainedSum (11s)
+✔ [7975/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialFiniteEnergy (11s)
+✔ [7976/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialTotalEnergy (10s)
+✔ [7977/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialInputRadial (14s)
+✔ [7978/7995] Built OAI.NumberTheory.DirichletL.Dictionary.InverseRawInputBound (15s)
+✔ [7979/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialTotalRows (15s)
+✔ [7980/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialTotalFourier (10s)
+✔ [7981/7995] Built OAI.NumberTheory.DirichletL.Dictionary.InverseRawReference (28s)
+✔ [7982/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialOriginalHeight (15s)
+✔ [7983/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialInputReindex (16s)
+✔ [7984/7995] Built OAI.NumberTheory.DirichletL.Detector.DetectorInverseRawField (16s)
+✔ [7985/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialResidualTupleEnergy (11s)
+✔ [7986/7995] Built OAI.NumberTheory.DirichletL.Inversion.InitialResidualUniformEnergy (10s)
+✔ [7987/7995] Built OAI.NumberTheory.DirichletL.Dictionary.InverseMarkedReferenceSourceEnergy (11s)
+✔ [7988/7995] Built OAI.NumberTheory.DirichletL.Dictionary.InverseMarkedReferencePaddedEnergy (10s)
+✔ [7989/7995] Built OAI.NumberTheory.DirichletL.Dictionary.InverseMarkedReferenceDeletedEnergy (10s)
+✔ [7990/7995] Built OAI.NumberTheory.DirichletL.Dictionary.InverseMarkedReferenceFiberEnergy (13s)
+✔ [7991/7995] Built OAI.NumberTheory.DirichletL.Detector.DetectorInverseMarkedField (11s)
+✔ [7992/7995] Built OAI.NumberTheory.DirichletL.Detector.DetectorInverseFields (9.8s)
+✔ [7993/7995] Built OAI.NumberTheory.DirichletL.Detector.FinalAssemblyCertifiedBands (11s)
+✔ [7994/7995] Built OAI.NumberTheory.DirichletL.Detector.FinalAssemblyUnconditional (10s)
+✔ [7995/7995] Built OAI.NumberTheory.DirichletL.Nonvanishing (10s)
+Build completed successfully (7995 jobs).
+	Command being timed: "timeout --foreground --signal=TERM --kill-after=60s 210m lake build OAI.NumberTheory.DirichletL.Nonvanishing OAI.NumberTheory.SiegelZeros.Estimates.ConstantCancellation OAI.NumberTheory.DirichletL.LogarithmicControl"
+	User time (seconds): 22432.46
+	System time (seconds): 6086.99
+	Percent of CPU this job got: 476%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:39:50
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 6494576
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 0
+	Voluntary context switches: 465
+	Involuntary context switches: 0
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
