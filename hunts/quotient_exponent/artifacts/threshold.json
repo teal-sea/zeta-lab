@@ -1,0 +1,86 @@
+[
+ {
+  "N": 1000,
+  "status": "found",
+  "y_star": 63,
+  "cells": 61,
+  "y_star_over_cells": 1.0327868852459017,
+  "y_star_alpha": 0.5997801831511939,
+  "last_positive": {
+   "y": 62,
+   "excess": 2.4260151319598027,
+   "excess_direct": 2.4260151319598027,
+   "min_e_direct": 0.0
+  },
+  "first_zero": {
+   "y": 63,
+   "excess": 0.0,
+   "excess_direct": 0.0,
+   "min_e_direct": 0.0,
+   "max_abs_c": 6.0
+  }
+ },
+ {
+  "N": 10000,
+  "status": "found",
+  "y_star": 173,
+  "cells": 198,
+  "y_star_over_cells": 0.8737373737373737,
+  "y_star_alpha": 0.5595115257821989,
+  "last_positive": {
+   "y": 172,
+   "excess": 9.406482647787449,
+   "excess_direct": 9.406482647787449,
+   "min_e_direct": 0.0
+  },
+  "first_zero": {
+   "y": 173,
+   "excess": 0.0,
+   "excess_direct": 1.8280196214581365e-12,
+   "min_e_direct": -3.339550858072471e-13,
+   "max_abs_c": 11.823529411764705
+  }
+ },
+ {
+  "N": 100000,
+  "status": "found",
+  "y_star": 589,
+  "cells": 630,
+  "y_star_over_cells": 0.9349206349206349,
+  "y_star_alpha": 0.5540230589574203,
+  "last_positive": {
+   "y": 588,
+   "excess": 28.364326912274134,
+   "excess_direct": 28.36432691230857,
+   "min_e_direct": -6.366462912410498e-12
+  },
+  "first_zero": {
+   "y": 589,
+   "excess": 0.0,
+   "excess_direct": 1.0854646154779557e-10,
+   "min_e_direct": -5.147882120581926e-12,
+   "max_abs_c": 30.784922394678496
+  }
+ },
+ {
+  "N": 1000000,
+  "status": "found",
+  "y_star": 1938,
+  "cells": 1998,
+  "y_star_over_cells": 0.96996996996997,
+  "y_star_alpha": 0.5478922954524578,
+  "last_positive": {
+   "y": 1937,
+   "excess": 123.83310675500282,
+   "excess_direct": 123.83310675567783,
+   "min_e_direct": -2.7284841053187847e-10
+  },
+  "first_zero": {
+   "y": 1938,
+   "excess": 0.0,
+   "excess_direct": 6.275198715549756e-10,
+   "min_e_direct": -2.8535396268125623e-10,
+   "max_abs_c": 142.76639113526966
+  }
+ }
+]

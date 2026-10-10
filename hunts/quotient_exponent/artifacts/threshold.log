@@ -1,0 +1,41 @@
+  N=1000 y=    69 excess=0.000000e+00 -> zero
+  N=1000 y=    42 excess=1.034657e+01 -> positive
+  N=1000 y=    55 excess=1.024710e+01 -> positive
+  N=1000 y=    62 excess=2.426015e+00 -> positive
+  N=1000 y=    65 excess=0.000000e+00 -> zero
+  N=1000 y=    63 excess=0.000000e+00 -> zero
+N=     1000  y* =     63   |Q_N| =     61   y*/|Q_N| = 1.0328   alpha = 0.5998
+  N=10000 y=   225 excess=0.000000e+00 -> zero
+  N=10000 y=   137 excess=6.148279e+01 -> positive
+  N=10000 y=   181 excess=0.000000e+00 -> zero
+  N=10000 y=   159 excess=9.406483e+00 -> positive
+  N=10000 y=   170 excess=9.406483e+00 -> positive
+  N=10000 y=   175 excess=0.000000e+00 -> zero
+  N=10000 y=   172 excess=9.406483e+00 -> positive
+  N=10000 y=   173 excess=0.000000e+00 -> zero
+N=    10000  y* =    173   |Q_N| =    198   y*/|Q_N| = 0.8737   alpha = 0.5595
+  N=100000 y=   711 excess=0.000000e+00 -> zero
+  N=100000 y=   434 excess=1.740111e+02 -> positive
+  N=100000 y=   572 excess=2.836433e+01 -> positive
+  N=100000 y=   641 excess=0.000000e+00 -> zero
+  N=100000 y=   606 excess=0.000000e+00 -> zero
+  N=100000 y=   589 excess=0.000000e+00 -> zero
+  N=100000 y=   580 excess=2.836433e+01 -> positive
+  N=100000 y=   584 excess=2.836433e+01 -> positive
+  N=100000 y=   586 excess=2.836433e+01 -> positive
+  N=100000 y=   587 excess=2.836433e+01 -> positive
+  N=100000 y=   588 excess=2.836433e+01 -> positive
+N=   100000  y* =    589   |Q_N| =    630   y*/|Q_N| = 0.9349   alpha = 0.5540
+  N=1000000 y=  2250 excess=0.000000e+00 -> zero
+  N=1000000 y=  1375 excess=1.360298e+03 -> positive
+  N=1000000 y=  1812 excess=1.238331e+02 -> positive
+  N=1000000 y=  2031 excess=0.000000e+00 -> zero
+  N=1000000 y=  1921 excess=1.238331e+02 -> positive
+  N=1000000 y=  1976 excess=0.000000e+00 -> zero
+  N=1000000 y=  1948 excess=0.000000e+00 -> zero
+  N=1000000 y=  1934 excess=1.238331e+02 -> positive
+  N=1000000 y=  1941 excess=0.000000e+00 -> zero
+  N=1000000 y=  1937 excess=1.238331e+02 -> positive
+  N=1000000 y=  1939 excess=0.000000e+00 -> zero
+  N=1000000 y=  1938 excess=0.000000e+00 -> zero
+N=  1000000  y* =   1938   |Q_N| =   1998   y*/|Q_N| = 0.9700   alpha = 0.5479
