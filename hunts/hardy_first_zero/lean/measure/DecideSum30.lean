@@ -1,4 +1,10 @@
-import ZetaLean.IntervalCExp
+module
+
+public import ZetaLean.IntervalCExp
+public meta import Batteries.Data.Float.Rat
+public meta import ZetaLean.IntervalCExp
+
+@[expose] public section
 
 /-! Measurement, not part of the proof (`RUNS.md`, run `decide-sum30`): one `decide +kernel`
 over the recursive 29-term box sum at both endpoints. Stopped unfinished after 30 minutes

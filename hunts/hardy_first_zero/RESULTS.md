@@ -185,7 +185,7 @@ Lean compile times on one core of the container, warm page cache: compile cycles
 20 s for every hand-written file, 2 min 48 s for `Boxes.lean` (120 kernel decisions), 10 s
 for `FirstZero.lean`; the clean build of everything, the four `ZetaLean` dependencies
 compiled from source included, took 4 min 14 s (`RUNS.md`). About 2,200 lines of Lean,
-833 of them generated.
+837 of them generated.
 
 What is left is not mathematics:
 

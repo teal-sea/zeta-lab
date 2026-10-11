@@ -1,4 +1,8 @@
-import HardyFirstZero.BoxSupport
+module
+
+public import HardyFirstZero.BoxSupport
+
+@[expose] public section
 
 /-!
 # The term-box tables at `t = 1413/100` and `t = 707/50` (generated)

@@ -1,7 +1,11 @@
-import HardyFirstZero.Phase
-import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
-import Mathlib.Analysis.Complex.LocallyUniformLimit
-import Mathlib.Analysis.Complex.CauchyIntegral
+module
+
+public import HardyFirstZero.Phase
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+public import Mathlib.Analysis.Complex.LocallyUniformLimit
+public import Mathlib.Analysis.Complex.CauchyIntegral
+
+@[expose] public section
 
 /-!
 # The corrected trapezoid rule with a fourth-derivative remainder (hunt `hardy_first_zero`)

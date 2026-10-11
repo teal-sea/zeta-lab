@@ -1,5 +1,9 @@
-import HardyFirstZero.EulerMaclaurin
-import ZetaLean.IntervalCExp
+module
+
+public import HardyFirstZero.EulerMaclaurin
+public import ZetaLean.IntervalCExp
+
+@[expose] public section
 
 /-!
 # Support for the two term-box tables (hunt `hardy_first_zero`)

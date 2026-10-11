@@ -1,4 +1,6 @@
-import HardyFirstZero.FirstZero
+module
+
+public import HardyFirstZero.FirstZero
 
 /-! Prints the statement and axioms of every theorem `RESULTS.md` calls kernel-checked. -/
 

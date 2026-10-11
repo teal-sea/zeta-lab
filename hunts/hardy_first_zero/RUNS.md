@@ -135,6 +135,24 @@ artifacts:
   - hunts/hardy_first_zero/artifacts/sizing.json
 ```
 
+```runmanifest
+id: hardy_first_zero-2026-10-11-review-and-module-port
+hunt: hardy_first_zero
+started: 2026-10-11T15:44Z
+finished: 2026-10-11T16:01Z
+ran:
+  - LAKE_DIR=lean/.lake bash hunts/hardy_first_zero/lean/build.sh on a clean checkout of 6d818a54, by the reviewing session
+  - the same build after the nine Lean files took the repository's module header (module, public import, @[expose] public section), which tests/test_palomar_module_port.py requires of every Lean file
+  - lean measure/DecideOneTerm.lean after the port, with the two meta imports its #eval lines need
+  - lean measure/DecideSum30.lean after the port, stopped at 180 s
+  - .venv/bin/python -m pytest hunts/hardy_first_zero -q
+  - .venv/bin/python hunts/hardy_first_zero/gen_boxes.py --check
+outcome: both builds exit 0 in 3 min 41 s and 3 min 35 s and print the same statement and the same three axioms for all nine theorems; DecideOneTerm compiles and prints -0.166721 twice; DecideSum30 printed nothing in 180 s and was not run to completion, as in the original measurement; 28 of 28 tests pass and the generator reproduces Boxes.lean, now 837 lines
+artifacts:
+  - hunts/hardy_first_zero/lean/build.sh
+  - hunts/hardy_first_zero/lean/HardyFirstZero/Boxes.lean
+```
+
 ## Notes
 
 - **Timings are wall clock on a shared container** with a warm page cache; the first

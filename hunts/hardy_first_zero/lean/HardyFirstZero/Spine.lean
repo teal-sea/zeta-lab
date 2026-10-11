@@ -1,4 +1,8 @@
-import ZetaLean.HardyZ
+module
+
+public import ZetaLean.HardyZ
+
+@[expose] public section
 
 /-!
 # The sign test behind the first zero (hunt `hardy_first_zero`)

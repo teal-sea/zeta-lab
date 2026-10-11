@@ -1,4 +1,10 @@
-import ZetaLean.IntervalCExp
+module
+
+public import ZetaLean.IntervalCExp
+public meta import Batteries.Data.Float.Rat
+public meta import ZetaLean.IntervalCExp
+
+@[expose] public section
 
 /-! Measurement, not part of the proof (`RUNS.md`, run `decide-one-term`): can the kernel
 read one term box `m^(-s)` at `s = 1/2 + 14.13i` by `decide +kernel`? It can, in seconds. -/

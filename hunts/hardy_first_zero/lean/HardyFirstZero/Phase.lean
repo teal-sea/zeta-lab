@@ -1,7 +1,11 @@
-import HardyFirstZero.Spine
-import Mathlib.NumberTheory.Harmonic.Bounds
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
-import Mathlib.Analysis.Real.Pi.Bounds
+module
+
+public import HardyFirstZero.Spine
+public import Mathlib.NumberTheory.Harmonic.Bounds
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
+public import Mathlib.Analysis.Real.Pi.Bounds
+
+@[expose] public section
 
 /-!
 # The phase of `Γℝ` turns slowly (hunt `hardy_first_zero`, route P)

@@ -81,7 +81,11 @@ def final_check(M, out) -> F:
 
 def render(out) -> str:
     lines = [
-        "import HardyFirstZero.BoxSupport",
+        "module",
+        "",
+        "public import HardyFirstZero.BoxSupport",
+        "",
+        "@[expose] public section",
         "",
         "/-!",
         "# The term-box tables at `t = 1413/100` and `t = 707/50` (generated)",

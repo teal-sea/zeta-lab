@@ -1,4 +1,8 @@
-import HardyFirstZero.Boxes
+module
+
+public import HardyFirstZero.Boxes
+
+@[expose] public section
 
 /-!
 # A zero of zeta on the critical line between 14.13 and 14.14 (hunt `hardy_first_zero`)

@@ -211,7 +211,7 @@ def test_crude_radii_against_the_sharp_bound():
 
 def test_lean_size_as_stated():
     sizes = {p.name: len(p.read_text(encoding="utf-8").splitlines()) for p in LEAN.glob("*.lean")}
-    assert sizes["Boxes.lean"] == 833
+    assert sizes["Boxes.lean"] == 837
     assert 2100 <= sum(sizes.values()) <= 2300
 
 
