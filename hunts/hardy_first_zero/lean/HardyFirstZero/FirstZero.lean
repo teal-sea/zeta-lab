@@ -95,7 +95,7 @@ theorem zeta_product_re_neg :
     exact_mod_cast product_hi_neg
   exact lt_of_le_of_lt hc.2 hneg
 
-/-- **The first zero.** `ζ` has a zero `1/2 + it` with `14.13 < t < 14.14`. -/
+/-- `ζ` has a zero `1/2 + it` with `14.13 < t < 14.14`. No minimality is asserted. -/
 theorem first_zero_on_line :
     ∃ t ∈ Set.Ioo (1413 / 100 : ℝ) (707 / 50), riemannZeta (1 / 2 + t * I) = 0 :=
   first_zero_on_line_of_zeta_product zeta_product_re_neg

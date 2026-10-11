@@ -11,9 +11,32 @@ Lean 4 `v4.35.0-rc2`, Mathlib `065356127b1dc0016f66b7283ce0ce2c4055aa55` (the re
 `native_decide`, no `axiom` declaration; `#print axioms` reports `propext`,
 `Classical.choice`, `Quot.sound` for the theorem and for the eight named lemmas it is
 assembled from (`lean/CheckAxioms.lean`). The four `ZetaLean` modules it imports are compiled from
-this commit's own sources by `lean/build.sh` (`RUNS.md`). Outside review: none yet,
-pending external verification. Nothing here bears on RH (`docs/08`): one zero on the line
-is a fact about one zero.
+this commit's own sources by `lean/build.sh` (`RUNS.md`). The reviewing session recorded
+two clean rebuilds before and after the module-header port (`RUNS.md`,
+`review-and-module-port`). Outside mathematical review and replay by an independent
+kernel remain pending. Nothing here bears on RH (`docs/08`): one zero on the line
+is a fact about one zero. The theorem asserts neither that it is the first zero nor
+that it is unique in this interval.
+
+**Automatic verification.** `.github/workflows/hardy-first-zero.yml` runs for relevant
+pull requests and pushes to `main`, and on manual dispatch. It checks the exact PR head,
+runs the hunt's numerical controls and generator check, fetches the pinned Mathlib cache,
+then rebuilds the four local dependencies and all six proof modules serially into fresh
+scratch storage. `CheckAxioms.lean` also checks the unconditional statement by type.
+The log audit requires exactly the nine named declarations and exactly the three
+standard axioms; missing, duplicate and nonstandard reports fail. The job retains the
+commit, dependency pins and build log. A cancelled or skipped proof job fails its verdict
+job. A workflow definition alone is not a successful replay: the Actions result at the
+commit being reviewed is the receipt.
+
+Reproduce on a suitable build host, with elan installed:
+
+```bash
+(cd lean && lake exe cache get)
+set -o pipefail
+LAKE_DIR="$PWD/lean/.lake" bash hunts/hardy_first_zero/lean/build.sh 2>&1 | tee hardy-first-zero-build.log
+.venv/bin/python hunts/hardy_first_zero/lean/check_axioms.py hardy-first-zero-build.log
+```
 
 ## 1. What is kernel-checked, file by file
 
@@ -189,8 +212,9 @@ compiled from source included, took 4 min 14 s (`RUNS.md`). About 2,200 lines of
 
 What is left is not mathematics:
 
-1. **Review.** Nobody but the author has read the proofs. The statement is the thing
-   to check: Mathlib's `riemannZeta`, the point `1/2 + t*I`, the open interval of reals.
+1. **Review.** The reviewing session recorded two successful rebuilds in `RUNS.md`.
+   Outside mathematical review is pending. The statement is the thing to check:
+   Mathlib's `riemannZeta`, the point `1/2 + t*I`, the open interval of reals.
 2. **Landing.** Moving the files into `lean/ZetaLean/` (the kernel-checked arm) and into
    `lake build` is the owner's decision; the hunt does not promote itself.
 3. **A second kernel.** The toolchain ships `leanchecker` and `nanoda`; the lab has used
@@ -242,8 +266,10 @@ provenance sense only.
 
 **Limitations.** One interval, `(14.13, 14.14)`, one zero; nothing about any other zero and
 nothing about RH. The theorem is checked against the pinned Mathlib build in the main
-clone's `lean/.lake` and this commit's `ZetaLean` sources; it is not yet in `lake build`,
-nobody but its author has read it, and no second kernel has replayed it. The trade table,
+clone's `lean/.lake` and this commit's `ZetaLean` sources in the recorded initial runs.
+It remains outside the root `lake build`; the dedicated CI job above covers it.
+Reviewer rebuilds are recorded, but outside mathematical review and second-kernel
+replay remain pending. The trade table,
 the timings and the margins are measurements (floating point or exact rational arithmetic
 on one machine), not theorems, and the theorem does not depend on them: the kernel decides
 every inequality the proof uses. The Arb and `mpmath.iv` endpoint values are a cross-check

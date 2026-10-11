@@ -1,12 +1,32 @@
 # hardy_first_zero: run manifests
 
-All runs on one 4-core, 15 GB container, 2026-10-11, times UTC. Lean compiles ran one at a
+The initial runs below used one 4-core, 15 GB container, 2026-10-11, times UTC. Lean compiles ran one at a
 time and never beside the numerics. The Lean environment is the main clone's built
 `lean/.lake` (pinned Mathlib `065356127b1d`, toolchain `v4.35.0-rc2`), read-only: each file is
 compiled with `lean --root=... -o <scratch>`, which is what `lean/build.sh` does. Nothing was
 built inside the worktree and no `lake build` was run. The last run below rebuilt the four
 `ZetaLean` dependencies from this commit's own sources, so the theorem is checked against
 them and not against the main clone's oleans.
+
+## CI replay plan, 2026-10-11
+
+The owner authorized verification and automatic Lean CI for PR #302, with landing
+conditional on a passing proof and checks. The recorded reviewer builds took 3 min 41 s
+and 3 min 35 s with dependencies present. Estimate for one GitHub-hosted replay:
+4 to 8 minutes for the serial proof build, plus 5 to 15 minutes for a cold toolchain
+and Mathlib cache fetch. These are planning estimates, not new measurements; the job
+has a 30-minute limit. No full ZetaLean build is requested. Numerical controls finish
+before Lean starts on that runner. The integration session owns the run through its
+terminal verdict; the Actions log and retained revision file are the replay evidence.
+All local work is source editing and small guard checks; no Lean build runs on Ghost.
+
+The workflow rebuilds at the exact head SHA and records that SHA with the pinned
+toolchain and manifest. It uses `LAKE_DIR="$PWD/lean/.lake" bash
+hunts/hardy_first_zero/lean/build.sh`, then `python
+hunts/hardy_first_zero/lean/check_axioms.py hardy-first-zero-build.log`. The latter
+rejects absent, duplicate, malformed or nonstandard reports. The nine expected
+declarations must each report `propext`, `Classical.choice`, `Quot.sound` only.
+Outside mathematical review and replay by a different kernel remain pending.
 
 ```runmanifest
 id: hardy_first_zero-2026-10-11-sizing

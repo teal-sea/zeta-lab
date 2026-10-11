@@ -4,6 +4,10 @@ public import HardyFirstZero.FirstZero
 
 /-! Prints the statement and axioms of every theorem `RESULTS.md` calls kernel-checked. -/
 
+-- Pin the unconditional statement as well as its axiom dependencies.
+example : ∃ t ∈ Set.Ioo (1413 / 100 : ℝ) (707 / 50),
+    riemannZeta (1 / 2 + t * Complex.I) = 0 := @HardyFirstZero.first_zero_on_line
+
 #check @HardyFirstZero.first_zero_on_line
 #print axioms HardyFirstZero.first_zero_on_line
 #print axioms HardyFirstZero.zeta_product_re_neg

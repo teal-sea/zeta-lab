@@ -1,0 +1,112 @@
+name: hardy-first-zero
+
+on:
+  pull_request:
+    paths:
+      - 'hunts/hardy_first_zero/**'
+      - 'lean/**'
+      - 'requirements.txt'
+      - 'zeta/**'
+      - 'scripts/61_rung3_mirror.py'
+      - '.github/workflows/hardy-first-zero.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'hunts/hardy_first_zero/**'
+      - 'lean/**'
+      - 'requirements.txt'
+      - 'zeta/**'
+      - 'scripts/61_rung3_mirror.py'
+      - '.github/workflows/hardy-first-zero.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hardy-first-zero-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  proof:
+    name: Hardy zero, kernel and axioms
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Record and verify the exact reviewed head, not a moving branch.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: record source and dependency pins
+        run: |
+          git rev-parse HEAD | tee hardy-first-zero-revision.txt
+          cat lean/lean-toolchain lean/lake-manifest.json >> hardy-first-zero-revision.txt
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: numerical controls and axiom-guard fault tests
+        # Finish numerics before starting Lean on this runner.
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -c 'from zeta import rigor; assert rigor.BACKEND == "python-flint"'
+          python -m pytest -q -o addopts='' hunts/hardy_first_zero
+          python hunts/hardy_first_zero/gen_boxes.py --check
+
+      - name: cache pinned toolchain and dependencies only
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan
+            lean/.lake/packages
+          key: hardy-first-zero-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.toml', 'lean/lake-manifest.json') }}
+
+      - name: install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: fetch pinned Mathlib oleans
+        working-directory: lean
+        # Fail if the cache cannot be fetched; do not start a full source build.
+        run: lake exe cache get
+
+      - name: rebuild the proof and its four local dependencies
+        run: |
+          set -o pipefail
+          /usr/bin/time -v env LAKE_DIR="$PWD/lean/.lake" \
+            bash hunts/hardy_first_zero/lean/build.sh "$RUNNER_TEMP/hardy-first-zero-build" \
+            2>&1 | tee hardy-first-zero-build.log
+
+      - name: require all nine standard-axiom reports
+        run: python hunts/hardy_first_zero/lean/check_axioms.py hardy-first-zero-build.log
+
+      - name: retain the exact revision and build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hardy-first-zero-${{ github.run_id }}
+          path: |
+            hardy-first-zero-revision.txt
+            hardy-first-zero-build.log
+          if-no-files-found: error
+
+  verdict:
+    name: Hardy zero verification produced a verdict
+    needs: proof
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: a missing proof verdict is a failure
+        env:
+          RESULT: ${{ needs.proof.result }}
+        run: |
+          if [ "$RESULT" != success ]; then
+            echo "::error::Hardy zero verification ended with '$RESULT'; no passing proof verdict."
+            exit 1
+          fi
+          echo 'The exact statement compiled and all nine axiom reports passed.'
