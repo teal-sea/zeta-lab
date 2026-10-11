@@ -75,6 +75,33 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #132: a kernel-checked zero of zeta on the critical line between 14.13 and 14.14 (`hardy_first_zero/`, 2026-10-11)
+
+**Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**
+`HardyFirstZero.first_zero_on_line : ∃ t ∈ Set.Ioo (1413/100 : ℝ) (707/50), riemannZeta
+(1/2 + t * I) = 0`, Lean `v4.35.0-rc2` against the pinned Mathlib, zero sorrys, no
+`native_decide`, axioms `propext`, `Classical.choice`, `Quot.sound`; the four `ZetaLean`
+modules it imports rebuilt from this commit's sources (`lean/build.sh`, 4 min 14 s). The
+owner-approved goal was a sign change of `hardyZReal` (`lean/ZetaLean/HardyZ.lean`, accepted
+into Mathlib) plus the intermediate value theorem; the pinned Mathlib has no representation
+of `riemannZeta` on the line with an error bound, no Euler-Maclaurin, no complex Stirling
+and no digamma bound, so four pieces were built. A sign test that needs no value of the
+Riemann-Siegel phase: `Re(zeta_a conj zeta_b) < 0` plus a quarter-turn bound on the phase
+of `Gammaℝ`. That bound, from Euler's limit `GammaSeq -> Gamma` with each approximant in
+polar form (window `[-0.5045, 0.0357]` against a true increment of `-0.00405`). The
+order-4 Euler-Maclaurin representation of `riemannZeta` on `Re s > 0, Im s > 0` with an
+explicit remainder, by a quartic-kernel corrected trapezoid and the identity theorem. And
+30 terms per endpoint (the lab's order-2 trapezoid would need 471) enclosed by the lab's
+`dirichletTermBox2`, written as literals from its bit-exact mirror and each checked by
+`decide +kernel`: 120 kernel decisions in 2 min 48 s, where one decision over the whole sum
+did not finish in 30 minutes. The remainder bound holds against Arb with a factor about
+4.7 to spare; planted faults (a 3% change in the remainder constant, one digit of one box)
+go red in the tests and in the kernel. Prior art: no formal localization of an explicit
+nontrivial zero in the searched set (arXiv and zbMATH Open APIs, the AFP topic lists,
+web); the nearest are Alpöge and Furman's Lean proportion theorem and Eberl's Isabelle zeta
+and Euler-Maclaurin entries. Not a novelty claim. Landing in `lean/ZetaLean/` is the owner's
+call. Nothing bears on RH (`docs/08`).
+
 ### Hunt #131: what happens to a claim after it is recorded (`claim_halflife/`, 2026-09-10)
 
 **Status: partly settled; one headline withdrawn by its own control.** Not mathematics: a
