@@ -64,10 +64,10 @@ stays out of this file. No em dashes.
 - **Erdos #126 and S-unit equations** (17). Equivalent forms of the problem,
   residue-class and deletion lemmas, reductions to S-unit equations, and the barriers
   that show which relaxations are exact.
-- **Lean arm: formalised elementary number theory** (5). Kernel-checked Mertens bands,
+- **Lean arm: formalised elementary number theory** (8). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
-- **Certificates, verifiers and exact arithmetic** (18). Exact rational acceptance of
+- **Certificates, verifiers and exact arithmetic** (19). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
 - **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
@@ -4601,6 +4601,12 @@ patterns that make an aggregate inequality formalisable.
   bands in Lean (`r_3c1cbb`)
 - obstruction: Supermultiplicative composition refutes rather than proves (Fekete
   direction check) (`r_186989`)
+- lemma: Phase-free sign test for Hardy's Z: two zeta values and a quarter-turn bound on
+  Gammaℝ (`hardy_first_zero`)
+- lemma: A phase window for Gamma(z) Gamma(w) from Euler's limit, without digamma or
+  Stirling (`hardy_first_zero`)
+- lemma: Order-4 Euler-Maclaurin for riemannZeta on the critical line, by one
+  fundamental-theorem step and the identity theorem (`hardy_first_zero`)
 
 ### Zero-admission sandwich for formalised extremal counts
 
@@ -4739,6 +4745,76 @@ Why it travels: A direction check to run on any proposed 'structure theorem' for
 extremal function before funding it: if the structure is a semigroup or product law with
 a positive seed value, Fekete turns it into a refutation.
 
+### Phase-free sign test for Hardy's Z: two zeta values and a quarter-turn bound on Gammaℝ
+
+lemma | `hunts/hardy_first_zero/` | grade: kernel-checked (Lean v4.35.0-rc2, pinned Mathlib,
+zero sorrys, axioms propext, Classical.choice, Quot.sound)
+
+For real `a < b`: if `Re(zeta(1/2+ia) conj zeta(1/2+ib)) < 0` and
+`0 < Re(Gammaℝ(1/2+ia) conj Gammaℝ(1/2+ib))`, then zeta has a zero `1/2 + it` with
+`a < t < b`. Proof: `Z(a) Z(b) d(a) d(b) = X G` with `d > 0` the denominator of `hardyZ`,
+`X` and `G` the two products; the left side is real, so multiplying by `conj X` and taking
+real parts gives `Z(a) Z(b) d(a) d(b) Re X = ‖X‖² Re G > 0`. The second hypothesis only asks
+that the phase of Gammaℝ turn by less than a quarter turn, so no value of the
+Riemann-Siegel theta is needed; deciding the sign of `Z` directly would need theta to
+about `1e-3`, i.e. a value of `log Gamma` with a proved error.
+
+Evidence: RESULTS.md section 1; lean/HardyFirstZero/Spine.lean exists_zero_of_sign_data
+Prior art: searched-and-absent for a formal localization of any explicit zero (RESULTS.md
+section 6); the identity itself is elementary
+Reused in: lean/HardyFirstZero/Phase.lean first_zero_on_line_of_zeta_product
+Why it travels: Any sign-change certificate for a real function of the form
+`phase(t) · f(t)` can trade the phase's value for a bound on its increment, which is
+usually far cheaper to prove than the value.
+
+### A phase window for Gamma(z) Gamma(w) from Euler's limit, without digamma or Stirling
+
+lemma | `hunts/hardy_first_zero/` | grade: kernel-checked (same build as above)
+
+With `z = 1/4 + ia/2`, `w = 1/4 - ib/2`, `delta = (b-a)/2`, `K = ab/4`, `c_j = j + 1/4`, the
+Euler-limit approximant `pi^(-1/2+i delta) GammaSeq z n GammaSeq w n` is a positive real
+times `exp(x_n + i phi_n)` with
+`phi_n = delta log pi - delta log n + Σ_{j ≤ n} arctan(delta c_j/(c_j² + K))`, because
+`(z+j)(w+j) = (c_j² + K) - i delta c_j`. Elementary bounds (`arctan x <= x`,
+`arctan x >= x - x³`, the harmonic-number bounds, `Σ 1/j² <= 2`) give
+`delta(log pi - 1 - 2K) - 66 delta³ <= phi_n <= delta(log pi + 5)` for every `n >= 1`, and
+`GammaSeq_tendsto_Gamma` carries `Re >= cos L · ‖·‖` to the limit. Instantiated at
+`a = 14.13`, `b = 14.14` with `L = 11/20`; the window is a factor three inside `pi/2`.
+
+Evidence: RESULTS.md section 1; lean/HardyFirstZero/Phase.lean gammaR_re_pos, Vn_polar,
+le_phi, phi_le
+Prior art: unsearched as a stated lemma; the ingredients are textbook
+Reused in: lean/HardyFirstZero/Phase.lean gammaR_re_pos_first
+Why it travels: Mathlib has Euler's limit and no bound on digamma; any formal argument
+that needs only the increment of `arg Gamma` along a short vertical segment can take
+it from finite products of rational-argument factors.
+
+### Order-4 Euler-Maclaurin for riemannZeta on the critical line, by one fundamental-theorem step and the identity theorem
+
+lemma | `hunts/hardy_first_zero/` | grade: kernel-checked (same build as above)
+
+For `Re s > 0`, `Im s > 0`, `N >= 2`:
+`‖zeta(s) - (Σ_{n<N} n^(-s) + N^(1-s)/(s-1) + N^(-s)/2 + s N^(-s-1)/12)‖
+<= ‖s(s+1)(s+2)(s+3)‖ (N-1)^(-σ-3) / (720 (σ+3))`. The corrected trapezoid rule comes
+from a single fundamental-theorem step: with `k = (t-x)²(x+1-t)²/24`, the function
+`k g''' - k' g'' + k'' g' - k''' g` has derivative `k g'''' - g` because `k'''' = 1`, and
+`k = k' = 0`, `k'' = 1/12`, `k''' = ∓1/2` at the ends, so four integrations by parts are one.
+The block for `t^(-s)` is closed-form; for `Re s > 2` the identity is a rearrangement of
+absolutely convergent shifted series, and the identity theorem on the convex quarter
+plane carries it to the line (the pattern of `dhBlockSum_eq_DH`). At `t = 14.13` it needs
+15 terms where the order-2 trapezoid needs 471; the bound is about 4.7 times the defect Arb
+encloses.
+
+Evidence: RESULTS.md section 1; lean/HardyFirstZero/EulerMaclaurin.lean corrected_trapezoid,
+zeta_em4, zeta_em4_error
+Prior art: searched-and-absent in the pinned Mathlib (no Euler-Maclaurin, no explicit
+error bound on the line); Isabelle has Euler-Maclaurin and the zeta continuation it gives
+(Eberl, AFP 2017)
+Reused in: lean/HardyFirstZero/BoxSupport.lean em30_bound, FirstZero.lean
+Why it travels: Any explicit evaluation of zeta, Hurwitz zeta or a Dirichlet L-function
+inside the strip in Lean can start here; the fourth-derivative kernel step generalises to
+higher orders by the same telescoping.
+
 ## Certificates, verifiers and exact arithmetic
 
 Exact rational acceptance of published witnesses, fault-injection ladders for verifiers,
@@ -4770,6 +4846,8 @@ and the controls that separate an instrument reading from a mathematical claim.
   three separate readings (`r_414eed`)
 - control: Instantiate every enclosure lemma at a recorded box, and parametrise seam
   denominators as free reals (`r_6c7d6a`)
+- computational technique: Kernel evaluation by literal tables: one decide +kernel per
+  interval box, never one per sum (`hardy_first_zero`)
 - control: Planted-fault ladder for a polynomial certificate verifier (`r_6f0f63`)
 - control: Stopping rule for cutting-plane loops: test the true constraint residual, not
   objective stall; monotonicity separates solver stall from family ceiling (`r_828c8b`)
@@ -5312,6 +5390,30 @@ recorded); input to R-B9552D's k >= 3 pass
 Why it travels: Generic for auditing any 'constant X is violated' claim produced by a
 scan against a Lean lemma; the depth-interval inflation arithmetic applies to every
 ratio-normalised enclosure.
+
+### Kernel evaluation by literal tables: one decide +kernel per interval box, never one per sum
+
+computational technique | `hunts/hardy_first_zero/` | grade: measured on one machine; every
+literal kernel-checked
+
+To read rational interval boxes in Lean, write each box as a literal computed by a
+bit-exact mirror and let the kernel check `box_definition = literal` by `decide +kernel`,
+one theorem per box; then sum and compare the literals. At `nLog = 40`, `nExp = 24`,
+`p = 96`, `kE = 8` the kernel checks a `dirichletTermBox2` literal at `s = 1/2 + 14.13i` in
+about a second (120 decisions, boxes and their `normBound` side conditions, in 2 min 48 s),
+where one `decide +kernel` over the recursive sum of the same 29 boxes did not finish in 30
+minutes and the lab's earlier one-shot `norm_num` on a single box ran 8 minutes and hit
+simp's step limit (`HANDOFF.md`, rung-3 negative result #2). The mirror is not trusted: a
+changed digit makes the kernel refuse the theorem.
+
+Evidence: RUNS.md runs decide-one-term, decide-sum30, boxes-and-assembly, planted-faults;
+lean/HardyFirstZero/Boxes.lean; gen_boxes.py
+Prior art: the staged literal pipeline of `scripts/60_rung3_generate.py` and
+`scripts/69_rung3_ball_generate.py` is the same idea with `norm_num`; `decide +kernel` is
+the change
+Reused in: none yet
+Why it travels: The Davenport-Heilbronn certificate's per-term cost model rests on
+`norm_num`; if `decide +kernel` holds its speed at that height it reprices the run.
 
 ## Zero-free half-planes, L(1, chi) and class numbers
 
