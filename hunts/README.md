@@ -75,6 +75,36 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #133: at least ten kernel-checked zeros of zeta on the critical line below height 50 (`hardy_ten_zeros/`, 2026-10-14)
+
+**Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**
+`HardyTenZeros.ten_zeros_on_line_below_fifty : ∃ ts : Fin 10 → ℝ, StrictMono ts ∧ ∀ k,
+0 < ts k ∧ ts k < 50 ∧ riemannZeta (1/2 + ts k * I) = 0`, assembled from hunt #132's
+`first_zero_on_line` and nine new interval theorems `zero_in_<tag>`, one per two-decimal
+interval around the ordinates `21.02`, `25.01`, `30.42`, `32.93`, `37.58`, `40.91`, `43.32`,
+`48.00`, `49.77`; Lean `v4.35.0-rc2` against the pinned Mathlib, zero sorrys, no
+`native_decide`, twenty axiom reports `propext`, `Classical.choice`, `Quot.sound`, every
+dependency rebuilt from this commit's sources. It says at least ten zeros, not which ones:
+no zero count, no claim of one zero per interval. The three obstacles were sized first.
+Hunt #132's phase window has a `2K delta` term and leaves the quarter turn from the fourth
+bracket on (`-6.19` at `49.77`, proved below `-pi/2` there); dropping the first eight
+Euler-limit factors gives a window that no longer grows with the height (`[-0.089, 0.04]`
+for every bracket of width `1/100` below 50). The order-4 remainder of hunt #132 is used
+unchanged at any truncation, with an exact squared norm; truncations are chosen per
+endpoint, 684 term boxes in all (order 6 would need 334, order 8 246; order 4 was kept,
+since a new Euler-Maclaurin development would save under five kernel minutes per build).
+Only primes get an exp tower; composites are coarsened products of their factors' boxes
+(the lab's `contains_cpow_mul_coarsen`), 219 towers and 447 products. One generated file
+per bracket: 692 s of kernel time for all nine, against 11.2 minutes projected before it
+was spent. The remainder bound sits 6.85 to 14.94 times above the defect Arb encloses;
+doubling the radii fails every bracket; planted faults (a changed digit, a wrong
+factorization, a halved radius, doubled radii) are refused by the kernel, which proves
+their negations. Prior art: no formal localization of several explicit nontrivial zeros
+in the searched set (arXiv and zbMATH Open APIs, web), beyond hunt #132's one. Not a
+novelty claim. `.github/workflows/hardy-ten-zeros.yml` rebuilds it and audits the axioms
+fail-closed. Landing in `lean/ZetaLean/` is the owner's call. Nothing bears on RH
+(`docs/08`).
+
 ### Hunt #132: a kernel-checked zero of zeta on the critical line between 14.13 and 14.14 (`hardy_first_zero/`, 2026-10-11)
 
 **Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**

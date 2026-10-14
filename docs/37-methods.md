@@ -64,7 +64,7 @@ stays out of this file. No em dashes.
 - **Erdos #126 and S-unit equations** (17). Equivalent forms of the problem,
   residue-class and deletion lemmas, reductions to S-unit equations, and the barriers
   that show which relaxations are exact.
-- **Lean arm: formalised elementary number theory** (8). Kernel-checked Mertens bands,
+- **Lean arm: formalised elementary number theory** (10). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
 - **Certificates, verifiers and exact arithmetic** (19). Exact rational acceptance of
@@ -80,8 +80,8 @@ stays out of this file. No em dashes.
   primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (51). Surfaced by the sweep, below the bar for now.
 
-Totals: 174 entries from 66 hunts. Kinds: identity 22, lemma 43, bound 12, construction
-15, calibration 7, computational 17, control 37, obstruction 21.
+Totals: 176 entries from 67 hunts. Kinds: identity 22, lemma 44, bound 12, construction
+15, calibration 7, computational 18, control 37, obstruction 21.
 
 ## Prime pairs and the circle method
 
@@ -4607,6 +4607,10 @@ patterns that make an aggregate inequality formalisable.
   Stirling (`hardy_first_zero`)
 - lemma: Order-4 Euler-Maclaurin for riemannZeta on the critical line, by one
   fundamental-theorem step and the identity theorem (`hardy_first_zero`)
+- lemma: A height-independent phase window for Gammaℝ by dropping the first Euler-limit
+  factors (`hardy_ten_zeros`)
+- computational technique: Exp towers only at primes for kernel-checked Dirichlet term
+  boxes (`hardy_ten_zeros`)
 
 ### Zero-admission sandwich for formalised extremal counts
 
@@ -4762,7 +4766,8 @@ about `1e-3`, i.e. a value of `log Gamma` with a proved error.
 Evidence: RESULTS.md section 1; lean/HardyFirstZero/Spine.lean exists_zero_of_sign_data
 Prior art: searched-and-absent for a formal localization of any explicit zero (RESULTS.md
 section 6); the identity itself is elementary
-Reused in: lean/HardyFirstZero/Phase.lean first_zero_on_line_of_zeta_product
+Reused in: lean/HardyFirstZero/Phase.lean first_zero_on_line_of_zeta_product;
+hunts/hardy_ten_zeros/ (TenSupport.lean zero_of_tables, all nine new intervals)
 Why it travels: Any sign-change certificate for a real function of the form
 `phase(t) · f(t)` can trade the phase's value for a bound on its increment, which is
 usually far cheaper to prove than the value.
@@ -4784,7 +4789,9 @@ times `exp(x_n + i phi_n)` with
 Evidence: RESULTS.md section 1; lean/HardyFirstZero/Phase.lean gammaR_re_pos, Vn_polar,
 le_phi, phi_le
 Prior art: unsearched as a stated lemma; the ingredients are textbook
-Reused in: lean/HardyFirstZero/Phase.lean gammaR_re_pos_first
+Reused in: lean/HardyFirstZero/Phase.lean gammaR_re_pos_first; hunts/hardy_ten_zeros/
+(PhaseShort.lean reuses Vn_polar, phi_le and the limit argument; its lower end replaces
+le_phi, which fails from t near 25 at two-decimal brackets)
 Why it travels: Mathlib has Euler's limit and no bound on digamma; any formal argument
 that needs only the increment of `arg Gamma` along a short vertical segment can take
 it from finite products of rational-argument factors.
@@ -4810,10 +4817,57 @@ zeta_em4, zeta_em4_error
 Prior art: searched-and-absent in the pinned Mathlib (no Euler-Maclaurin, no explicit
 error bound on the line); Isabelle has Euler-Maclaurin and the zeta continuation it gives
 (Eberl, AFP 2017)
-Reused in: lean/HardyFirstZero/BoxSupport.lean em30_bound, FirstZero.lean
+Reused in: lean/HardyFirstZero/BoxSupport.lean em30_bound, FirstZero.lean;
+hunts/hardy_ten_zeros/ (TenSupport.lean emN_bound, at every truncation from 20 to 59)
 Why it travels: Any explicit evaluation of zeta, Hurwitz zeta or a Dirichlet L-function
 inside the strip in Lean can start here; the fourth-derivative kernel step generalises to
 higher orders by the same telescoping.
+
+### A height-independent phase window for Gammaℝ by dropping the first Euler-limit factors
+
+lemma | `hunts/hardy_ten_zeros/` | grade: kernel-checked (Lean v4.35.0-rc2, pinned Mathlib,
+zero sorrys, axioms propext, Classical.choice, Quot.sound)
+
+In the partial phase `phi_n = delta log pi - delta log n + Σ_{j ≤ n} arctan(delta c_j/(c_j² + K))`
+of the entry above (`delta = (b-a)/2`, `K = ab/4`, `c_j = j + 1/4`), every arctangent is
+nonnegative, so the first `m` can be dropped: for `1 <= m <= n`,
+`phi_n >= delta(log pi - 1 - log m - K/(m² - 1/16)) - delta³/(m² - 1/16)`, from
+`Σ_{j=m}^{n} 1/c_j >= H_{n+1} - H_m >= log n - 1 - log m` and the telescoping
+`1/c_j² <= 1/(j - 1/4) - 1/(j + 3/4)`, which gives `Σ_{j>=m} 1/c_j³ <= 1/(m² - 1/16)`. The old
+lower end `delta(log pi - 1 - 2K) - 66 delta³` grows with the height and leaves the quarter
+turn at two-decimal brackets above `t` near 25.1 (`-6.19` at `49.77`, proved below `-pi/2`);
+with `m = 8` the new one stays above `-0.089` for every bracket of width `1/100` below 50.
+
+Evidence: hunts/hardy_ten_zeros/RESULTS.md section 1; lean/HardyTenZeros/PhaseShort.lean
+le_phi_tail, gammaR_re_pos_tail, gammaR_re_pos_short, window_132_fails_at_4977
+Prior art: unsearched as a stated lemma; the ingredients are textbook
+Reused in: lean/HardyTenZeros/TenSupport.lean zero_of_tables (all nine new intervals)
+Why it travels: Any formal sign-change argument for Hardy's Z at larger heights needs the
+phase increment of Gammaℝ over a short segment; this bound depends on the height only
+through `K/m²`, so one choice of `m` near `sqrt(K)` serves a whole range of heights.
+
+### Exp towers only at primes for kernel-checked Dirichlet term boxes
+
+computational technique | `hunts/hardy_ten_zeros/` | grade: kernel-checked (same build as
+above); the containment lemma is the lab's `ZetaLean.ComplexInterval.contains_cpow_mul_coarsen`
+(lean/ZetaLean/DHCertSupport.lean), restated in the hunt
+
+A table of boxes for `m^(-s)`, `1 <= m <= N`, needs an exp tower (`dirichletTermBox2`, a
+kernel-checked literal) only for prime `m`: for composite `m = f g` with `f` the smallest
+prime factor, the box is the `p`-bit coarsened product of the boxes of `f` and `g`, checked
+literal by literal by `decide +kernel`, and it contains `m^(-s)` because `n^(-s)` is
+multiplicative over the naturals. In hunt #133, 219 towers and 447 products covered 684
+terms at nine brackets up to `t = 49.78`, in 692 s of kernel time, with term widths at
+most `3e-8`; a planted wrong factorization is refused and its negation proved.
+
+Evidence: hunts/hardy_ten_zeros/RESULTS.md sections 1 and 5; gen_boxes.py table;
+lean/HardyTenZeros/TenSupport.lean contains_cpow_mul_coarsen; the Box*.lean files
+Prior art: the lab's own lemma (DHCertSupport.lean) and the mirror's `cpowBox`
+(scripts/61_rung3_mirror.py); not searched beyond the lab
+Reused in: hunts/hardy_ten_zeros/ (all nine bracket files)
+Why it travels: Any kernel-checked evaluation of a Dirichlet polynomial pays per exp
+tower; prime-only towers cut the count from `N` to about `N/log N` at the price of one
+interval product per composite.
 
 ## Certificates, verifiers and exact arithmetic
 
