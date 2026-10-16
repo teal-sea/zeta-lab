@@ -75,6 +75,23 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #134: which step of the quasi-Riemann argument fixes the number 7/8 (`seven_eighths_pin/`, 2026-10-16)
+
+**Status: answered within its scope; a reading of the paper, unreviewed by any person.**
+In OpenAI's 7/8 argument the target is where the direct bound meets the Mellin signal,
+`σ₀ = 5/6 + (M − 2ℓ)/12` (ℓ the prime-slot length, M the two averaging lengths), a line
+through both stages: Part I (ℓ = 0, M = 1) gives 11/12, Part II (ℓ = 1/6, M = 5/6) gives
+7/8. The paper's geometry is the corner of two direct-bound conditions, `M + ℓ ≤ 1` (line
+8246) and per-summand losslessness of the row norm, `M − 2ℓ ≥ 1/2` (line 8306), and the
+second alone gives exactly 7/8. Relaxing it, the high side binds instead: with the paper's
+row counts, no choice of (ℓ, M, b) passes the endpoint inequality below
+`5655673/6464057 ≈ 0.874942` (exact, one witness point), and the scan optimum is 0.874958.
+The binding rows have a zero near real part 0.69 and maximal prime-slot amplitude. Perfect
+row counts would stop at 13/15 (rows counted in full need `C₀ ≤ 0`). The Euler regions, the
+contour 17/50, the 11/12 input and Lemma plain's `κ ≥ 3/4` do not fix 7/8. 38 printed
+constants reproduced exactly; 39 citations checked against the pinned source; the moment
+lemmas' proofs not checked. See `seven_eighths_pin/RESULTS.md`.
+
 ### Hunt #133: at least ten kernel-checked zeros of zeta on the critical line below height 50 (`hardy_ten_zeros/`, 2026-10-14)
 
 **Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**

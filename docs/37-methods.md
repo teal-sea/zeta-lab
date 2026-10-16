@@ -5522,6 +5522,32 @@ Why it travels: any explicit bound |D| <= D(h) (from a zero-free region, GRH, or
 future theorem) becomes a complete class-number list by this sieve at cost about
 X * H additions, without a conditional class-group algorithm.
 
+### Locating the inequality that fixes a paper's constant: reproduce at the paper's values, then bound by one witness point
+
+technique | `hunts/seven_eighths_pin` | grade: exact rational arithmetic on formulas
+transcribed from the paper (38 printed constants reproduced, planted faults caught);
+the general-parameter readings that change which inequality is used are inferred
+
+To find what fixes a constant like the 7/8 of a zero-free half-plane: rewrite the
+final assembly's inequalities as functions of the parameters the paper chose (here the
+prime-slot length, the two averaging lengths, their offset), and evaluate each at the
+paper's values against the number it prints, so that a transcription error fails a test
+before any conclusion is drawn. Then use the shape of the binding inequality: at one
+fixed point of its inner variables it and the target are affine in the free parameters,
+so a two-variable linear program at that point gives an exact lower bound on the target
+over every parameter choice, and a constant-target direction with positive slope shows
+which boundary the optimum sits on. Here it gave target = 5/6 + (M - 2 ell)/12 through
+both stages of the argument, the corner M + ell = 1, M - 2 ell = 1/2 at the paper's
+geometry, and the exact bound 5655673/6464057 for every geometry with the paper's row
+counts; scaling the row-count excess to zero priced the whole input at 13/15.
+
+Evidence: RESULTS.md sections 2 to 6; `probe.py` (reproductions, `robust_single_point_bound`)
+Prior art: unsearched
+Reused in: none yet
+Why it travels: any long proof whose final section combines fixed exponents into one
+margin can be read this way, and the reproduction step is the control that makes the
+reading checkable without the reader being trusted.
+
 ## Primes in short intervals and explicit formulas
 
 Explicit short-interval prime counts from a smoothed explicit formula, with the sums over
