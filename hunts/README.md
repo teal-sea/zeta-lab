@@ -3609,3 +3609,99 @@ the kernel's LP is unfolded (`configuration_lp.py` line 3), so the raw range
 $(0,1/2)$ does not apply, and a factor 2 in the pair convention is open.
 Strip mass forces a crossing at large $y$; the content is where.
 Nothing bears on RH (`docs/08`).
+
+### Hunt #134: the Turán margin is a Cauchy-Schwarz deficit, and positivity alone is not the criterion (`gauss_positivity/`)
+
+> **Landed on main 2026-10-18.** Written on `pi/rh-resolve-20261003` as Hunt #120; on main #120 is
+> `qrh_rival_step`, so this hunt is #134. Its forward pointer in `RESULTS.md` section 6 is
+> corrected there: the explicit-threshold experiment it proposed was already done in the
+> literature, and hunt #135 (`jensen_wedge/`) records the frontier it actually meets.
+
+**Status: measured, instrument hardened, no RH statement claimed (2026-10-03).**
+Asks whether the positivity of the heat-flow weight `Φ` (`zeta/heatflow.py`,
+positive on the real axis) buys anything toward the real-rootedness of `Ξ`, via
+a Pólya-type criterion. Two computed counterexamples settle the shape of the
+question and neither is a statement about ζ.
+
+The folklore criterion (positive even weight with a convex Fourier-side
+exponent) is **false**: `φ(t)=e^{-t^4}` has a convex exponent and its transform
+has complex zeros by argument-principle count, and `φ(t)=e^{-|t|}` is the
+cheapest witness with zeros at `z=±i`. The sharper version, positivity of the
+weight alone, is **also false**, and this is the consequential one:
+`f(t) = 1 + cos t + cos 3t` is the cosine transform of the positive measure
+`δ₀+δ₁+δ₃` and has the complex zero `t = 1.13662270206 + 0.319561426779j`. So
+the target has to be Schoenberg's `PF_∞` of the weight (total positivity of
+every translation kernel), not positivity.
+
+What was built: from the module's own Mellin derivation, with
+`w(u) = e^{u/4}ω(e^u) > 0`, the moments `I_k = ∫u^{2k}w` are moments of a
+positive measure, so Cauchy-Schwarz gives `D_n := 1 − I_n²/(I_{n−1}I_{n+1}) ≥ 0`
+automatically, and the Turán inequality is `r_n = [(n+2)/(n+1)](1−D_n)(1+O(1/n²))`,
+i.e. exactly `D_n ≤ 1/(n+1)` up to a stated correction. Measured `0 < D_n < 1/(n+1)`
+at n = 100, 400, 1600, 3200 with `nD_n` falling 0.495 → 0.292. A saddle
+instrument (`πe^{u_*} = 1/4 + 2n/u_*`, `D_n ≈ 4/(u_*²A)`) reproduces the exact
+quadrature to 4-6 digits with error falling like `1/n`; the two routes are the
+hardening. The resulting law is `D_n ~ 2/(n log n)`, `r_n = 1 + 1/n − 2/(n log n) + o(1/(n log n))`,
+`n(r_n−1) → 1`, measured to 10²⁰.
+
+Recorded defects, in the hunt: a ratio routine that dropped an index offset and
+was caught against the committed table before any large-n use; an uncalibrated
+Fourier inversion that reported a positive weight for a rival and is **wrong**
+(the relation is `Ξ(t) = 8∫Φ(u)cos(2tu)du`, calibrated to 14 digits); and a
+**correction to the hunt's own Gate-3 claim**. An earlier version stated that
+`Ξ_a` zeros sit at `t = 1/2 + i(γ±a)`, off the real axis, giving an
+unconditional obstruction for the rival `W_a`. That was an algebra error (the
+`a` moved inside the factor `-i(ρ−1/2)`); the correct zero is `t = γ − a`, real,
+confirmed numerically (`|Ξ_a(13.884725141735)| = 9.9e-37` against `695.04` at
+the claimed value). The algebraic fact is that for a completed
+`Ξ_f(t) = F(1/2+it)` a zero `ρ = σ+iγ` of `F` gives a `t`-zero
+`t = γ − i(σ−1/2)`, **real iff `σ = 1/2`**. So the real-rootedness of `Ξ_f` in
+`t` *is* the critical-line statement transported, which makes `W_a` the **wrong
+rival** here: its transported statement is zeta's own RH, which is not known to
+fail. The correct rival is Davenport-Heilbronn, and the criterion genuinely
+fails for it: its off-line zero at `σ = 0.80851718245663738...` gives the
+complex `t`-zero `85.69934848537759 − 0.3085171824566374j` with
+`|Ξ_DH(t₀)| = 4.74e-53`. The `PF_∞` obligation for DH itself is still open.
+
+**A route closed by proof.** Newton's inequalities for the Jensen polynomial
+`J^{d,n}`, at every degree and order, are **implied by** the classical `d = 2`
+Turán inequality: Newton's normalised right-hand side is
+`k(d−k)/((k+1)(d−k+1)) < 1` for every `d ≥ 2` and `1 ≤ k ≤ d−1` (max
+`0.93548387` at `d = 59, k = 29`), while Turán makes the left-hand side `> 1`.
+So the 495-cell Newton table's margins (down to `1.2e-40`) are the `C(d,k)`
+normalisation counted repeatedly, not near-failures, and chasing Newton at
+higher `d` is closed by computation rather than by a search that found nothing.
+Hyperbolicity of `J^{d,n}` is strictly stronger than its Newton inequalities and
+is **not** closed.
+
+**Why the higher-degree version is closed from below, with a mechanism.**
+`hunts/jensen_clock` measured that finite Jensen degree acts on the zeros as
+de Bruijn-Newman heat with `t_eff(d) = |x0|/(8d)`, `x0 = (ρ−1/2)²` the pair's
+image. The Davenport-Heilbronn pair (`σ = 0.80851718, γ = 85.69935`) lands only
+at `d* = 20785.13` with `t* = 0.0441263`, and `|x0| = 7344.47351367`, so
+`t_eff = 459.03` at `d = 2`, `28.69` at `d = 32`, `0.9181` at `d = 1000`: the
+degree has already real-rooted the polynomial before it can be inspected, and a
+low-degree hyperbolicity scan **cannot fail**. Measured directly on ζ:
+`min|Im root|/|root|` over `J^{d,0}` is exactly `0.0` for every `d = 2..24`, so
+the condition is slack throughout the reachable range. This refines `docs/12`'s
+statement of the gap: at small `d` the unresolved set is not merely unresolved
+but unfalsifiable by a scan at that `d`, and a certificate must operate above
+`d*(x0) = |x0|/(8t*)`, which grows like `γ²` with height. The inherited null is
+that the clock reads zero **configuration, not arithmetic**
+(`jensen_clock` P5), the same information-class conclusion `epp_herglotz` and
+`local_positivity` reach from other sides.
+The Turán inequality is already known unconditionally (Csordas–Norfolk–Varga);
+this hunt does not improve on it and claims no progress on RH. Nothing here
+bears on RH (`docs/08`).
+
+### Hunt #135: the polynomial hyperbolicity wedge for Jensen polynomials of xi (`jensen_wedge/`, opened 2026-10-18)
+
+**Status: scoped, no measurement yet.** A depth hunt by owner decision, time-boxed to
+2026-11-29, against Holland's wedge `n^3 log^2(n+2) >= K d^5` (arXiv:2608.08682,
+August 2026). It asks whether the five-coefficient positive-root comparison extends
+to six coefficients (`d <~ n^{2/3}`), and whether the standing wedge's constant can
+be made explicit. It replaced the requested target, explicit thresholds at fixed
+degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
+Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
+preregistered with the prediction that the construction also succeeds for DH, which
+would make the wedge shared structure. Nothing here bears on RH (`docs/08`).

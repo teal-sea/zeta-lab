@@ -1,0 +1,23 @@
+{
+ "dps": 60,
+ "n_max": 60,
+ "d_max": 10,
+ "n_moments": 73,
+ "N1_logconvexity_worst": {
+  "value": 0.9928339256115869,
+  "n": 70
+ },
+ "N2_turan_min": {
+  "value": 1.0069166763294815,
+  "n": 70
+ },
+ "N3_cells_tested": 495,
+ "N3_failures": [],
+ "N3_n_failures": 0,
+ "N3_smallest_margin": {
+  "min_rel_newton": 1.1581280163658644e-40,
+  "d": 10,
+  "n": 50
+ },
+ "note": "All-pass is NOT evidence for RH (docs/08 section 3). The value is the first failure and the location of the smallest margin."
+}
