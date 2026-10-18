@@ -3693,3 +3693,15 @@ that the clock reads zero **configuration, not arithmetic**
 The Turán inequality is already known unconditionally (Csordas–Norfolk–Varga);
 this hunt does not improve on it and claims no progress on RH. Nothing here
 bears on RH (`docs/08`).
+
+### Hunt #135: the polynomial hyperbolicity wedge for Jensen polynomials of xi (`jensen_wedge/`, opened 2026-10-18)
+
+**Status: scoped, no measurement yet.** A depth hunt by owner decision, time-boxed to
+2026-11-29, against Holland's wedge `n^3 log^2(n+2) >= K d^5` (arXiv:2608.08682,
+August 2026). It asks whether the five-coefficient positive-root comparison extends
+to six coefficients (`d <~ n^{2/3}`), and whether the standing wedge's constant can
+be made explicit. It replaced the requested target, explicit thresholds at fixed
+degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
+Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
+preregistered with the prediction that the construction also succeeds for DH, which
+would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
