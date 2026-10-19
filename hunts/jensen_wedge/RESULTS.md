@@ -578,6 +578,17 @@ Lemma A gives (6) with
 that is r = O(sqrt(Bd) log d) with every constant explicit. Nothing here uses
 (C - D)/C -> 0.
 
+*Correction, 2026-10-19 (phase 2, from `REVIEW_PHASE1.md` R2):* the combination above uses
+two hypotheses it does not state. The step "zeros of the normalized factor in
+[1 - eta, 1 + eta], eta = 8 sqrt(d/D) by (79)" needs Holland's (77) for the second factor,
+(U, V) = (C, D): **D >= 32d and C >= D + d**. The gap bound (1 - eta) g_1/3 is positive only
+if eta < 1: **D > 64d**. With them the statement reads: *let p_F = p_1 [x]_d p_2 with p_1 as in
+Lemma B (A >= 8B, B >= 256d) and p_2(y) = 2F1(-d, C; D; Dy/C), D >= 32d, C >= D + d,
+D > 64d; then the zeros of p_F lie in [(B/2)(1 - eta), (3B/2)(1 + eta)], their smallest gap is
+at least (1 - eta) g_1/3, and (6) holds with the displayed r.* Both hypotheses follow from H1
+for d = o(n) (`H1_H3.md` section 5); phase 2 checks all five on every subinterval of its
+covers (`EFFECTIVE.md` section 6, section 18 below). The text above is kept as written.
+
 ### 12.4 The sixth-order residual
 
 Write w = n/(parameter) and mu = sum_i 1_[w_{U_i}, w_{V_i}] for the model (section 11.1).
@@ -614,6 +625,12 @@ O(sqrt(nd) log d), sup over Omega_r of |E| <= C d^3 log^6(d+2)/(n^2 log n) <= 1/
 zeros of J^{d,n}. As a delta against Holland's Theorem 1.1 (n^3 log^2(n+2) >= K d^5) this
 would move the exponent from 3/5 to 2/3 at the cost of a log^12 d factor, conditional on
 H1, H3 and review.
+
+*Correction, 2026-10-19 (phase 2, from `REVIEW_PHASE1.md` R3):* the parenthesis "all
+parameters are of order n" is wrong for A, which is of order n log n
+(A = 3nL(1 + O(1/L)), `H1_H3.md` 4.4). The conclusion stands for n >= n_0: Lemma B's
+A >= 8B holds because A/B ~ (3/2)L grows (from n = 346 on in the measured Pade model,
+review R4), and B, C, D are of order n. The sentence above is kept as written.
 
 The same Lemmas A to C applied to Holland's own m = 5 model replace his Lemma 9.1 and give
 his wedge with a log^10 d loss; that is a cross-check of the route, not an improvement.
@@ -845,3 +862,66 @@ unreviewed remark: any proved bound `K <= e^(1e21)` on Holland's K makes `c = 1`
 admissible in GORTTW Theorem 1.1, so the substantive explicit target is K. Whether to
 redirect phase 2 is the owner's decision. No kill condition of `MISSION.md` changes
 status.
+
+# Phase 2 (2026-10-19): explicit constants, MISSION question Q2
+
+## 18. Both wedges with explicit constants
+
+**Nothing in this section bears on RH.** `EFFECTIVE.md` has the derivations; `effective.py`
+evaluates every numeric step in Arb ball arithmetic (python-flint, checked through
+`zeta.rigor.BACKEND`), `results_effective.json` records the run and `test_effective.py` (36
+tests) pins it. **Grade: derivation, self-reviewed, not reviewed by an independent session,
+not a theorem.** `NOVELTY.md` (claim C) found no explicit constant for any wedge of this kind
+in the searched set.
+
+| statement | explicit constant | the chain covers | small n |
+| --- | --- | --- | --- |
+| (5a) `n^3 log^2(n+2) >= K d^5` implies `J^{d,n}` hyperbolic | **K = 17 900** | n >= 9.91e33 | GORTTW Cor. 1.3 (d <= 9.36e20, every n) |
+| (5s) `n^3 log^2(n+2) >= K d^5` implies d distinct negative zeros | **K = 9.10e19** | n >= 789 702 | wedge empty below |
+| (6a) `n^4 log^2(n+2) >= K' d^6 log^12(d+2)` implies hyperbolic | **K' = 7.21e9** | n >= 5.65e35 | GORTTW Cor. 1.3 |
+| (6s) the same, d distinct negative zeros | **K' = 3.61e30** | n >= 14 237 025 | wedge empty below |
+
+(5s) is Holland's Theorem 1.1 with its constant explicit; (5a) trades his small-n absorption
+for GORTTW's corollary, which rests on Platt's verification of RH to 3.06e10. In (5a), (6a) the
+zeros are distinct and negative for d > 9.36e20. By `NOVELTY.md`'s remark 2.3, (5a) makes
+`c = 1` admissible in GORTTW Theorem 1.1 (hyperbolic for every `n >= e^(d/2)`), with (5a)'s
+grade.
+
+**The missing step of section 16, closed.** `n_0` and the H3 constant inherited Holland's
+non-explicit Proposition 4.1. Lemma R replaces it: on `|z - x| <= x/4`, `x >= x_0`,
+`h(z) = const - (2z+1) log 4 + G(2z) + R(z)` with an explicit main term `G` (the complex
+saddle of the leading Mellin term) and `|R| <= lambda(x_0)`, from a Laplace bound on a contour
+through the complex saddle (Lemmas V and L). Its rate is `|z|^(-1/2 + eps)`, not Holland's
+`|z|^(-1 + eps_0)`, and only `|R| < 1` is needed. The derivatives of `G` are exact rational
+functions `F_k(e, m)` of the saddle; their first-order constants are `H_(k-2) - 1`, as in
+`H1_H3.md` Lemma S(c). Every later step of Holland's proof (Lemmas 4.3 to 10) has an explicit
+replacement: matching with `D = n/2` by an interval Krawczyk test, a sharper Gershgorin
+localisation (`C_loc <= 2.094`), his Lemma 9.1 closed by `a + b + theta < 1` with
+`K_6 = 2.53`, and his Lemma 8.1 with `Theta_5 <= 1.034` against the leading value 1. The
+six-coefficient chain uses an explicit H1 (Lemma M6), Lemmas A to C with R2's hypotheses (now
+written into 12.3), and the sixth-order residual with its Simpson cancellation kept
+(`Theta_6 <= 0.066` against `1/24`). **No step is left non-explicit; nothing is graded attempt
+unresolved.**
+
+**The kill condition.** `effectivity_check` is green for all four variants at the claimed
+constants. `planted_weakenings` moves each claimed constant (42 across the four variants)
+just past its recomputation and lowers `K_6` by 0.01 (two more plants); all 44 plants turn it
+red. **Not met.** Formula-level faults, which a
+recomputation cannot see, are caught by independent measurements: the Laplace remainder
+measured by quadrature on another contour (slack 785 to 6554), route B's derivatives and
+targets inside every enclosure at n = 1e8, 1e12, 1e20, mpmath Newton solutions inside every
+Krawczyk box, and the actual model polynomials at n = 1e12 (measured `C_loc` 1.52 and 1.79
+against 2.16; radius needed 1.14 and 1.24 against `K_6 = 2.82`; actual defects 0.795 of the
+Hermite-Genocchi bound). `test_effective.py` plants one formula fault per step and requires
+each to be caught. One was caught for real on the way: a first draft stated a diagonal bound
+of Lemma G without its case condition `U < 2V`, and the test on `U = 5405`, `V = 400` failed.
+
+What this changes. MISSION Q2 is answered for both wedges, with explicit constants and a
+check that fails when any of them is weakened. The constants are loose where the arguments
+are: in (5a) the closing condition of Lemma 9.1 accounts for up to about 1.2e3 in K (K grows
+like `K_6^10`, and `K_6 = 2.53` against a measured need near 1.24); in (6a) Lemmas A to C's
+radius is 36 to 44 times what (6) needs at n = 1e12, up to about 5e18 in K'. The standalone
+constants are set by where Lemma L and Lemma M6 stop closing (n_0 = 789 702 and 14 237 025).
+These are inputs for phase 3's "The doors", not measured ceilings. The planted-weakening
+kill condition, "not yet applicable" after phase 1 (section 13), is now checked and not met;
+no other kill condition of `MISSION.md` changes status.
