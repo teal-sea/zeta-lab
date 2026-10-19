@@ -5,8 +5,8 @@ mechanism worked for weeks rather than a one-day forage. The forage stop rule do
 not apply here. The hunt stops on a kill condition below or at the time box, and an
 absence of results before a checkpoint is not a kill condition. Time box: through
 **2026-11-29** (six weeks). Checkpoints on 2026-10-25, 2026-11-08 and 2026-11-22.
-The six-week figure is the opener's reading of "weeks, not days"; the owner sets it,
-and the allocation record belongs on fulcrum's roster, not here.
+The owner confirmed this funding and time box on 2026-10-18 ("Fund hunt #135 as
+scoped"), and the allocation record belongs on fulcrum's roster, not here.
 
 This hunt cannot promote its own claims (`hunts/README.md`). Nothing in it is a
 statement about RH, and section "What success would mean" says why that holds even
