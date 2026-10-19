@@ -74,3 +74,50 @@ artifacts:
   - hunts/jensen_wedge/results.json
   - hunts/jensen_wedge/RESULTS.md
 ```
+
+## Phase 1: unit timing, taken before the sweep (2026-10-18, worktree `.venv`, Python 3.14.0, mpmath 1.3.0, numpy 2.x)
+
+| unit (`probe_phase1.py --time-unit`) | time |
+| --- | --- |
+| route A, one block of 64 moments, dps 60, k = 3233..3296 | 0.07 s |
+| the four-parameter Pade solve (A, B, C, D) at n = 3200, dps 75 | 0.02 s |
+| one theta walk of the D-fixed family, 0.5 to 0.85, n = 3200 | 0.04 s |
+| route B by direct saddle evaluation, log R_0..R_6, n = 1e4 / 1e20 | 0.05 / 0.08 s |
+| the leading-order three-factor scan on a 150 + 40 grid, eps = 0.01 | 0.79 s |
+
+Estimate written before the trial: route A over k = 49..3296 is 51 blocks, about 4 s; the
+check route at 26 indices, about 1 to 1.5 min at phase 0's per-moment times; the theta map
+at 21 values of n, a few seconds each; the dense Pade solve at 3151 values of n, about
+1 min; route B at 6 subgrid points and 8 large n, a few minutes; the three-factor scans on
+the full 500 + 120 grid, (620/190)^2 x 0.8 s, about 9 s per eps and 1 min for six; root
+geometry at n = 3200 for d up to 96, not timed in advance (the degree-96 evaluations were
+the unknown). Total about 8 to 12 min.
+
+```runmanifest
+id: jensen_wedge-2026-10-18-phase1-trial
+hunt: jensen_wedge
+started: 2026-10-18T23:10-05:00
+finished: 2026-10-18T23:24-05:00
+ran:
+  - .venv/bin/python hunts/jensen_wedge/probe_phase1.py --out <session scratchpad>/trial1.json
+outcome: run after the unit timing above; stopped by hand in the large-n stage after 14 min, so no JSON was written; its log showed route A and its check route agreeing to 5.2e-75, theta_star equal to phase 0's crossings to 12 digits, E_S6 negative at all 3151 n, and route B agreeing with route A on E_S6 to relative 2e-18..2e-22, and it exposed three defects that were fixed before the recorded run: the theta grid (0.85, 0.9, 0.95) stepped over theta_inf into the B = infinity wall at n = 50..70 and n >= 500, and the fixed large-n grid did the same from n = 1e8, so the grids were refined (0.01 steps above 0.8, and a grid in units of 1/L at large n); in a side check of the root-geometry code the scale S was built at 15 digits, which polluted c_j at 1e-14; and the Jensen polynomial at d = 48 showed 6 complex pairs that a precision sweep traced to cancellation (about 77 digits lost in the monomial basis, against about 70 carried), so the root-geometry part got its own dps-260 route A block and dps 60 + 2d evaluation
+artifacts:
+```
+
+Measured: 400 s for the recorded run (check route 85 s, theta map 48 s, route B 45 s,
+leading-order model 48 s, root geometry 116 s, the rest the dense Pade solve and the
+validations). `results_phase1.json` records `git_head` as the base commit `5d34ddb`: the
+run used the working tree that the phase 1 commit lands, before it was committed.
+
+```runmanifest
+id: jensen_wedge-2026-10-18-phase1-a
+hunt: jensen_wedge
+started: 2026-10-18T23:24-05:00
+finished: 2026-10-18T23:32-05:00
+ran:
+  - .venv/bin/python hunts/jensen_wedge/probe_phase1.py --time-unit
+  - .venv/bin/python hunts/jensen_wedge/probe_phase1.py
+outcome: the recorded run, 400 s; route A to k = 3296 agrees with its check route to 5.2e-75 and with zeta/li.py's tables; theta_star and theta_inf found at all 21 subgrid n and all 8 large n with no failed walk, theta_star equal to phase 0's crossings to 12 digits; the Pade model solved at every n = 50..3200 with all parameters positive and its R_6 defect negative at all 3151 n and at every large n, n^5 L E_S(6) = -1.872 at 1e20; route B agrees with route A on E_S(6) to relative 1.8e-22 at n = 3200; the three-factor scan found admissible configurations at all six eps; every model and Jensen polynomial at n = 3200, d <= 96 has all roots real
+artifacts:
+  - hunts/jensen_wedge/results_phase1.json
+  - hunts/jensen_wedge/RESULTS.md
