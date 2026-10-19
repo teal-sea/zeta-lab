@@ -3704,7 +3704,18 @@ approached monotonically on the saddle route out to n = 1e20. One preset error r
 the saddle route missed at n = 150 and is kept in `RESULTS.md` section 3. The phase 1
 quantity, the R_5 defect after his five-coefficient match, is negative at his choice
 D = B_J/2 at every n measured, but its sign flips as D varies, at a crossing where
-(C - D)/D sits above the D/4 of his parameter window; measured, not claimed. A depth hunt
+(C - D)/D sits above the D/4 of his parameter window; measured, not claimed.
+**Phase 1 done 2026-10-18; no kill condition met; Q1 graded attempt unresolved.**
+Holland's PDF checks out line by line (four loose paraphrases corrected in `RESULTS.md`
+section 9). Phase 0's R_5 crossing is the [2/2] Pade approximant of a Stieltjes function:
+at leading order, matching R_0..R_(m-1) with Jacobi factors is rational approximation of
+(1 - z)^(2/L - 1). So his own two-factor family matches R_0..R_5 with every parameter
+positive and no third factor; its R_6 defect is negative at every n = 50..3200 and to
+1e20, tending to -2/(n^5 L). The price is a second factor with (C - D)/C near 1/2, outside
+his Lemma 9.1, and a third factor of his near-identity kind is obstructed at first order
+in 1/L (a Cauchy-Schwarz argument; self-reviewed). A conditional derivation (section 12)
+replaces Lemma 9.1 by a root-gap bound and would give n^4 log^2(n+2) >= K d^6 log^12(d+2),
+pending two unproved inputs and review. A depth hunt
 by owner decision, time-boxed to
 2026-11-29, against Holland's wedge `n^3 log^2(n+2) >= K d^5` (arXiv:2608.08682,
 August 2026). It asks whether the five-coefficient positive-root comparison extends

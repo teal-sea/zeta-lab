@@ -63,6 +63,13 @@ of GORTTW section 3, which is the same object `hunts/gauss_positivity` section 3
 reproduces in real form (`pi e^{u_*} = 1/4 + 2n/u_*`, hardened against exact
 quadrature to 4-6 digits at n = 100..3200).
 
+*Correction, 2026-10-18 (phase 1, from the PDF):* the paraphrase of Proposition 2.2
+above is loose. Its threshold is sup over Omega_r of |c - 1| <= eps < 16, on the
+2r-neighbourhood of [0, d], and it has a second hypothesis on the model alone, (6):
+|y^k p^(k)(y)/p(y)| <= r^k at every critical point y of p. The radius enters only
+through (6), which Holland's Lemma 9.1 verifies with r_F = K_6 sqrt(Bd).
+`RESULTS.md` section 9 has the line-by-line check.
+
 ## The questions, ranked
 
 **Q1 (exponent).** Can the matching be carried to order `m = 6`, giving

@@ -3400,7 +3400,9 @@ Prior art: cited: the complex saddle of Griffin, Ono, Rolen, Thorner, Tripp and 
 arXiv:1910.01227v3, section 3, is the same object in complex form; Holland,
 arXiv:2608.08682v1, eq. (16), uses the saddle in the t variable, x = L(pi e^L + 3/4).
 The real-index series with its generated corrections is the lab's; unsearched beyond these.
-Reused in: hunts/jensen_wedge (route B of phase 0, and the large-n table to n = 1e20)
+Reused in: hunts/jensen_wedge (route B of phase 0, and the large-n table to n = 1e20;
+phase 1 evaluates log gamma(n+j) - log gamma(n) directly from the same series, which
+agrees with the exact table on the R_6 defect to relative 2e-18..2e-22 at n = 800..3200)
 Why it travels: Anything that needs log gamma(n+j) at large n or its expansion in j
 (Jensen polynomials of xi at shift n, Turan-type ratios, coefficient-matching
 constructions) gets it to any order in u*/n without a quadrature, at n far past any table,
@@ -5691,6 +5693,22 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   (`hunts/paid_shortfall_scaling/`, computational): not carried.
 - Post-landing blindness window of sign-scan zero counting, measured by grid-phase sweep
   (`hunts/flow_repair/`, control): self-reviewed or measured only; not carried.
+- Positive-root comparison models for Jensen polynomials as rational approximation of a
+  Stieltjes function: at leading order in 1/n, matching R_0..R_(m-1) with a product of
+  Jacobi factors is agreement of prod (1 - w_U z)/(1 - w_V z) with (1 - z)^(2/L - 1)
+  through z^(m-2) (w = n/parameter), equivalently moment matching of an integer-valued
+  density against 1 - 2/L on [0, 1]; the first defect's sign is a sign-change count, the
+  two-factor sixth-order model is the [2/2] Pade point (Lobatto-Simpson as L -> infinity),
+  and near-identity factors at relative gap O(1/L) cannot match R_5 (a Cauchy-Schwarz
+  obstruction) (`hunts/jensen_wedge/` RESULTS.md section 11, derivation): self-reviewed,
+  with measured checks; not carried.
+- Holland's critical-point derivative ratios from root geometry alone: |y^k p^(k)(y)/p(y)|
+  <= (y sum_j 1/|y - y_j|)^k <= (y (4 + 3 H_d)/g)^k at a critical point (g the smallest
+  gap), with g bounded below for a finite-free product by Sturm comparison on one Jacobi
+  factor and log-mesh preservation (Martinez-Finkelshtein, Morales, Perales, Prop. 2.17);
+  replaces a perturbed-Jacobi recurrence at the cost of a log d factor
+  (`hunts/jensen_wedge/` RESULTS.md section 12, lemma): self-reviewed, measured at
+  n = 3200, d <= 96; not carried.
 - Jensen degree as de Bruijn-Newman heat: t_eff = |x0|/(8d) and the additive budget
   (`hunts/jensen_clock/`, calibration): self-reviewed or measured only; not carried.
 - Trichotomy of coefficient-side blindness: Jensen degree, Jensen shift, Li index
