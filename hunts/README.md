@@ -3715,7 +3715,11 @@ positive and no third factor; its R_6 defect is negative at every n = 50..3200 a
 his Lemma 9.1, and a third factor of his near-identity kind is obstructed at first order
 in 1/L (a Cauchy-Schwarz argument; self-reviewed). A conditional derivation (section 12)
 replaces Lemma 9.1 by a root-gap bound and would give n^4 log^2(n+2) >= K d^6 log^12(d+2),
-pending two unproved inputs and review. A depth hunt
+pending two unproved inputs and review. **Phase 2 done 2026-10-19; no kill condition met;
+Q2 answered by self-reviewed derivation.** Holland's wedge holds with K = 17 900 (with GORTTW
+Cor. 1.3 for d <= 9.36e20) or K = 9.10e19 (standalone), and the six-coefficient wedge with
+K' = 7.21e9 or 3.61e30, every numeric step in Arb balls (`EFFECTIVE.md`); 44 of 44 planted
+weakenings turn the effectivity check red. Not reviewed by an independent session. A depth hunt
 by owner decision, time-boxed to
 2026-11-29, against Holland's wedge `n^3 log^2(n+2) >= K d^5` (arXiv:2608.08682,
 August 2026). It asks whether the five-coefficient positive-root comparison extends

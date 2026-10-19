@@ -244,3 +244,46 @@ artifacts:
   - hunts/jensen_wedge/H1_H3.md
   - hunts/jensen_wedge/RESULTS.md
 ```
+
+## Phase 2 (effectivity): unit timing, taken before the sweeps (2026-10-19, worktree `.venv`, Python 3.14.0, python-flint 0.9.0, mpmath 1.3.0, sympy 1.14.0)
+
+| unit (`effective.py --time-unit`) | time |
+| --- | --- |
+| deriving F_2..F_7 exactly (sympy, once per process) | 3.4 s |
+| one Laplace bound (Lemmas V, L) | 0.003 s |
+| one subinterval of the five-coefficient chain (data, Krawczyk, Lemmas G, 9.1-E, 8.1-E) | 0.004 s |
+| one subinterval of the six-coefficient chain | 0.004 s |
+
+Estimate written before the recorded run: 600 subintervals per evaluation of all four
+variants, about 50 evaluations (claims, 44 plants, the checks), about 130 s at the unit;
+measurements (quadrature of I(s), route B, Newton solves, polynomials of degree 40 at
+n = 1e12) about 60 s. Measured: 53 s. Everything ran locally; nothing approached the
+ten-minute line for moving work to GitHub Actions.
+
+```runmanifest
+id: jensen_wedge-2026-10-19-effective-a
+hunt: jensen_wedge
+started: 2026-10-19T10:55-05:00
+finished: 2026-10-19T12:20-05:00
+ran:
+  - development scans from a scratch directory driving effective.py (cover steps 1e-4 and 5e-4, K_6 from 2.5 to 5, n_0 from 1e5 to 1e36, smallest_K bisections, derive_claims)
+outcome: chose the four specs and wrote the CLAIMS table; on the way found and fixed four instrument defects, each before any constant was recorded (square roots of balls touching 0 gave nan; Horner over an e-interval overestimated t_j twentyfold, replaced by the mean-value form; integer powers of complex boxes wrapped, enclosing 1/(1 + wy)^5 at 8e4 instead of about 80, replaced by exp(k log z); the Pade Krawczyk diverged below n ~ 1e10 because d/dx was enclosed by u_j'' over a hull, replaced by the exact difference quotient); and one mathematical misstatement (Lemma G's second diagonal bound stated without its case U < 2V, caught by test_effective.py; the case conditions are now checked on every subinterval and the claims stayed green). Standalone n_0 is limited by R_min >= 10 in Lemma L (five) and by Lemma M6 (six). Superseded by the recorded run
+artifacts:
+```
+
+```runmanifest
+id: jensen_wedge-2026-10-19-effective-b
+hunt: jensen_wedge
+started: 2026-10-19T12:35-05:00
+finished: 2026-10-19T12:36-05:00
+ran:
+  - .venv/bin/python hunts/jensen_wedge/effective.py --time-unit
+  - .venv/bin/python hunts/jensen_wedge/effective.py
+outcome: the recorded run, 53 s; all four variants green at the claimed constants (K = 17900 and 9.10e19 for n^3 log^2(n+2) >= K d^5, K' = 7.21e9 and 3.61e30 for n^4 log^2(n+2) >= K' d^6 log^12(d+2)); 44 of 44 planted weakenings turn the check red, so the MISSION's kill condition is not met; Laplace remainder 785 to 6554 times below lambda at n = 1e6, 1e8 (real and complex s); route B targets and Newton solutions inside every enclosure at n = 1e8, 1e12, 1e20; polynomials at n = 1e12 within every bound (C_loc 1.79 of 2.16, radius 1.24 of 2.82, defects 0.795 of the bound). results_effective.json records the git head of the base commit the run sat on; this commit lands the working tree that ran
+artifacts:
+  - hunts/jensen_wedge/effective.py
+  - hunts/jensen_wedge/results_effective.json
+  - hunts/jensen_wedge/EFFECTIVE.md
+  - hunts/jensen_wedge/test_effective.py
+  - hunts/jensen_wedge/RESULTS.md
+```

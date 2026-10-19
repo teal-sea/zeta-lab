@@ -1,0 +1,1381 @@
+{
+ "hunt": "jensen_wedge",
+ "phase": "2 (MISSION Q2, effectivity)",
+ "git_head": "8f6d18d3a0c5eb999843970abcebf95f6a1ab056",
+ "backend": "python-flint",
+ "prec_bits": 256,
+ "parameters": {
+  "a": "9/4",
+  "RHO": "1/4",
+  "T_STEP": "1/2",
+  "RHO_D": "1/8",
+  "PROP22_EPS": 16,
+  "PROP22_6_EPS": 32,
+  "D_GORTTW": "936000000000000000000"
+ },
+ "first_order_coefficients_F_k": {
+  "2": "-1",
+  "3": "0",
+  "4": "1/2",
+  "5": "5/6",
+  "6": "13/12",
+  "7": "77/60"
+ },
+ "variants": {
+  "five_assisted": {
+   "spec": {
+    "chain": "5",
+    "n0": "10000000000000000000000000000000000",
+    "step": "0.0001",
+    "K6": "2.53",
+    "gorttw": "True"
+   },
+   "claims": {
+    "K": "17900",
+    "K_req": "17710",
+    "lambda": "1.507e-16",
+    "rho_bar": "1.507e-16",
+    "C_rho": "1.888",
+    "log_ratio": "1.065",
+    "C_E": "354.1",
+    "C_loc": "2.094",
+    "a_plus_b_plus_theta": "0.997",
+    "Theta5": "1.034",
+    "n_min_over_n_cover": "12.64"
+   },
+   "recomputed": {
+    "lambda": "1.5062480e-16 (ball upper end 1.506248033e-16)",
+    "rho_bar": "1.5062480e-16 (ball upper end 1.506248033e-16)",
+    "C_rho": "1.8876079 (ball upper end 1.887607881)",
+    "K_req": "17700.979 (ball upper end 17700.97947)",
+    "log_ratio": "1.0645900 (ball upper end 1.064590047)",
+    "C_E": "354.07521 (ball upper end 354.0752138)",
+    "C_loc": "2.0931784 (ball upper end 2.093178438)",
+    "a_plus_b_plus_theta": "0.99692644 (ball upper end 0.9969264433)",
+    "Theta5": "1.0339305 (ball upper end 1.033930479)",
+    "n_min_over_n_cover": "12.649674 (ball upper end 12.6496736)"
+   },
+   "n_cover": "9908291059739545519984484263395328",
+   "subintervals": 136,
+   "laplace": {
+    "R_min": "72.989370 (ball upper end 72.98937018)",
+    "b": "0.25622686 (ball upper end 0.2562268639)",
+    "q": "0.013841674 (ball upper end 0.01384167397)",
+    "pieces_times_sqrt_p": {
+     "rho_3": "1.8876079 (ball upper end 1.887607881)",
+     "rho_G": "1.8553411e-8247264607933967689066521936723 (ball upper end 1e-300)",
+     "rho_4": "6.2487990e-9812349378337070699041692418540 (ball upper end 1e-300)",
+     "rho_2": "8.7336810e-7028692316062868954555156513629 (ball upper end 1e-300)",
+     "rho_1": "2.8705377e-3259639635964839360282719067907454 (ball upper end 1e-300)"
+    },
+    "conditions": {
+     "q < 1": true,
+     "b <= 1 (disk inside the half-strip)": true,
+     "R_min >= 10": true,
+     "|arg s| + 2 atan(2b/R) <= pi/2": true,
+     "M_3 T/6 <= Re Psi/4": true,
+     "segment bracket negative": true,
+     "rho_bar <= 1/2": true
+    }
+   },
+   "effectivity_check": {
+    "every condition of the chain holds": true,
+    "claimed lambda >= recomputed": true,
+    "claimed rho_bar >= recomputed": true,
+    "claimed C_rho >= recomputed": true,
+    "claimed K_req >= recomputed": true,
+    "claimed log_ratio >= recomputed": true,
+    "claimed C_E >= recomputed": true,
+    "claimed C_loc >= recomputed": true,
+    "claimed a_plus_b_plus_theta >= recomputed": true,
+    "claimed Theta5 >= recomputed": true,
+    "claimed n_min_over_n_cover <= recomputed": true,
+    "K >= K_req": true,
+    "n_min(K) >= n_cover": true
+   },
+   "verdict": "green",
+   "planted_weakenings_turn_red": {
+    "K": true,
+    "K_req": true,
+    "lambda": true,
+    "rho_bar": true,
+    "C_rho": true,
+    "log_ratio": true,
+    "C_E": true,
+    "C_loc": true,
+    "a_plus_b_plus_theta": true,
+    "Theta5": true,
+    "n_min_over_n_cover": true,
+    "K6": true
+   },
+   "kill_condition_met": false,
+   "rows_sample": [
+    {
+     "e": [
+      "0",
+      "1/10000"
+     ],
+     "n_lo": "1.3833718e+4347 (ball upper end inf)",
+     "X": [
+      "0.417 (ball upper end 0.4167638704)",
+      "0.667 (ball upper end 0.6668593538)",
+      "0.0833 (ball upper end 0.08338228828)"
+     ],
+     "K_req": "13839.777 (ball upper end 13839.77726)",
+     "C_loc": "2.0081702 (ball upper end 2.008170209)",
+     "a_b_theta": "0.95006708 (ball upper end 0.9500670804)",
+     "Theta5": "1.0035221 (ball upper end 1.00352213)"
+    },
+    {
+     "e": [
+      "11/10000",
+      "3/2500"
+     ],
+     "n_lo": "1.0690718e+365 (ball upper end inf)",
+     "X": [
+      "0.416 (ball upper end 0.4162528068)",
+      "0.667 (ball upper end 0.6670433517)",
+      "0.0830 (ball upper end 0.08305431133)"
+     ],
+     "K_req": "14195.024 (ball upper end 14195.02444)",
+     "C_loc": "2.0282449 (ball upper end 2.028244878)",
+     "a_b_theta": "0.95906387 (ball upper end 0.9590638735)",
+     "Theta5": "1.0060283 (ball upper end 1.00602833)"
+    },
+    {
+     "e": [
+      "11/5000",
+      "23/10000"
+     ],
+     "n_lo": "4.5507170e+191 (ball upper end 4.550716964e+191)",
+     "X": [
+      "0.416 (ball upper end 0.4157422675)",
+      "0.667 (ball upper end 0.667227752)",
+      "0.083 (ball upper end 0.08272726375)"
+     ],
+     "K_req": "14521.656 (ball upper end 14521.65606)",
+     "C_loc": "2.0390330 (ball upper end 2.039033)",
+     "a_b_theta": "0.96439674 (ball upper end 0.9643967406)",
+     "Theta5": "1.0085287 (ball upper end 1.008528707)"
+    },
+    {
+     "e": [
+      "33/10000",
+      "17/5000"
+     ],
+     "n_lo": "2.5021429e+130 (ball upper end 2.502142894e+130)",
+     "X": [
+      "0.415 (ball upper end 0.4152322493)",
+      "0.667 (ball upper end 0.6674125669)",
+      "0.082 (ball upper end 0.08240114718)"
+     ],
+     "K_req": "14838.349 (ball upper end 14838.34885)",
+     "C_loc": "2.0473728 (ball upper end 2.047372763)",
+     "a_b_theta": "0.96876608 (ball upper end 0.9687660838)",
+     "Theta5": "1.0110234 (ball upper end 1.011023402)"
+    },
+    {
+     "e": [
+      "11/2500",
+      "9/2000"
+     ],
+     "n_lo": "1.1292555e+99 (ball upper end 1.129255542e+99)",
+     "X": [
+      "0.415 (ball upper end 0.4147227417)",
+      "0.667 (ball upper end 0.6675977919)",
+      "0.0820 (ball upper end 0.08207595734)"
+     ],
+     "K_req": "15149.915 (ball upper end 15149.91472)",
+     "C_loc": "2.0544022 (ball upper end 2.054402249)",
+     "a_b_theta": "0.97262077 (ball upper end 0.9726207687)",
+     "Theta5": "1.0135124 (ball upper end 1.013512383)"
+    },
+    {
+     "e": [
+      "11/2000",
+      "7/1250"
+     ],
+     "n_lo": "1.0011932e+80 (ball upper end 1.00119323e+80)",
+     "X": [
+      "0.414 (ball upper end 0.4142137452)",
+      "0.668 (ball upper end 0.6677834387)",
+      "0.0817 (ball upper end 0.0817516957)"
+     ],
+     "K_req": "15458.661 (ball upper end 15458.66071)",
+     "C_loc": "2.0605795 (ball upper end 2.060579485)",
+     "a_b_theta": "0.97614125 (ball upper end 0.9761412546)",
+     "Theta5": "1.0159959 (ball upper end 1.015995874)"
+    },
+    {
+     "e": [
+      "33/5000",
+      "67/10000"
+     ],
+     "n_lo": "1.5492339e+67 (ball upper end 1.549233931e+67)",
+     "X": [
+      "0.414 (ball upper end 0.4137052482)",
+      "0.668 (ball upper end 0.6679695071)",
+      "0.081 (ball upper end 0.08142835931)"
+     ],
+     "K_req": "15765.936 (ball upper end 15765.93628)",
+     "C_loc": "2.0661437 (ball upper end 2.066143728)",
+     "a_b_theta": "0.97942171 (ball upper end 0.9794217128)",
+     "Theta5": "1.0184739 (ball upper end 1.018473873)"
+    },
+    {
+     "e": [
+      "77/10000",
+      "39/5000"
+     ],
+     "n_lo": "9.6118062e+57 (ball upper end 9.611806197e+57)",
+     "X": [
+      "0.413 (ball upper end 0.413197252)",
+      "0.668 (ball upper end 0.6681560025)",
+      "0.081 (ball upper end 0.08110594773)"
+     ],
+     "K_req": "16072.634 (ball upper end 16072.63353)",
+     "C_loc": "2.0712390 (ball upper end 2.071239012)",
+     "a_b_theta": "0.98251878 (ball upper end 0.9825187794)",
+     "Theta5": "1.0209465 (ball upper end 1.020946542)"
+    },
+    {
+     "e": [
+      "11/1250",
+      "89/10000"
+     ],
+     "n_lo": "1.1062739e+51 (ball upper end 1.106273906e+51)",
+     "X": [
+      "0.413 (ball upper end 0.4126897503)",
+      "0.668 (ball upper end 0.6683429263)",
+      "0.0807 (ball upper end 0.08078445869)"
+     ],
+     "K_req": "16379.381 (ball upper end 16379.38105)",
+     "C_loc": "2.0759599 (ball upper end 2.07595991)",
+     "a_b_theta": "0.98546961 (ball upper end 0.9854696051)",
+     "Theta5": "1.0234139 (ball upper end 1.023413949)"
+    },
+    {
+     "e": [
+      "99/10000",
+      "1/100"
+     ],
+     "n_lo": "4.2224845e+45 (ball upper end 4.222484532e+45)",
+     "X": [
+      "0.412 (ball upper end 0.4121827329)",
+      "0.668 (ball upper end 0.6685302842)",
+      "0.0804 (ball upper end 0.08046389136)"
+     ],
+     "K_req": "16686.653 (ball upper end 16686.65257)",
+     "C_loc": "2.0803726 (ball upper end 2.080372555)",
+     "a_b_theta": "0.98830014 (ball upper end 0.9883001409)",
+     "Theta5": "1.0258763 (ball upper end 1.025876293)"
+    },
+    {
+     "e": [
+      "11/1000",
+      "111/10000"
+     ],
+     "n_lo": "1.8898437e+41 (ball upper end 1.889843749e+41)",
+     "X": [
+      "0.412 (ball upper end 0.4116762008)",
+      "0.669 (ball upper end 0.6687180799)",
+      "0.0801 (ball upper end 0.0801442445)"
+     ],
+     "K_req": "16994.839 (ball upper end 16994.83854)",
+     "C_loc": "2.0845253 (ball upper end 2.084525293)",
+     "a_b_theta": "0.99102934 (ball upper end 0.9910293423)",
+     "Theta5": "1.0283344 (ball upper end 1.028334412)"
+    },
+    {
+     "e": [
+      "121/10000",
+      "61/5000"
+     ],
+     "n_lo": "5.1011536e+37 (ball upper end 5.101153581e+37)",
+     "X": [
+      "0.411 (ball upper end 0.4111701462)",
+      "0.669 (ball upper end 0.6689063166)",
+      "0.080 (ball upper end 0.0798255161)"
+     ],
+     "K_req": "17304.327 (ball upper end 17304.32652)",
+     "C_loc": "2.0884549 (ball upper end 2.088454915)",
+     "a_b_theta": "0.99367163 (ball upper end 0.9936716283)",
+     "Theta5": "1.0307912 (ball upper end 1.030791189)"
+    },
+    {
+     "e": [
+      "33/2500",
+      "133/10000"
+     ],
+     "n_lo": "5.3209439e+34 (ball upper end 5.320943898e+34)",
+     "X": [
+      "0.411 (ball upper end 0.4106645645)",
+      "0.669 (ball upper end 0.6690949986)",
+      "0.079 (ball upper end 0.07950770547)"
+     ],
+     "K_req": "17615.650 (ball upper end 17615.64992)",
+     "C_loc": "2.0921903 (ball upper end 2.092190327)",
+     "a_b_theta": "0.99623834 (ball upper end 0.9962383404)",
+     "Theta5": "1.0332551 (ball upper end 1.033255085)"
+    }
+   ]
+  },
+  "five_standalone": {
+   "spec": {
+    "chain": "5",
+    "n0": "800000",
+    "step": "0.0005",
+    "K6": "2.82",
+    "gorttw": "False"
+   },
+   "claims": {
+    "K": "91000000000000000000",
+    "K_req": "249300",
+    "lambda": "0.006978",
+    "rho_bar": "0.006954",
+    "C_rho": "2.029",
+    "log_ratio": "1.263",
+    "C_E": "1121",
+    "C_loc": "2.22",
+    "a_plus_b_plus_theta": "0.9977",
+    "Theta5": "1.571",
+    "absorption": "90820000000000000000"
+   },
+   "recomputed": {
+    "lambda": "0.0069774063 (ball upper end 0.006977406322)",
+    "rho_bar": "0.0069531207 (ball upper end 0.006953120739)",
+    "C_rho": "2.0288175 (ball upper end 2.02881747)",
+    "K_req": "249264.61 (ball upper end 249264.6139)",
+    "log_ratio": "1.2628855 (ball upper end 1.262885491)",
+    "C_E": "1120.0712 (ball upper end 1120.071172)",
+    "C_loc": "2.2194480 (ball upper end 2.219448026)",
+    "a_plus_b_plus_theta": "0.99767569 (ball upper end 0.9976756896)",
+    "Theta5": "1.5701744 (ball upper end 1.570174364)",
+    "absorption": "9.0813777e+19 (ball upper end 9.081377684e+19)"
+   },
+   "n_cover": "789702",
+   "subintervals": 186,
+   "laplace": {
+    "R_min": "10.207306 (ball upper end 10.20730569)",
+    "b": "0.28246028 (ball upper end 0.2824602796)",
+    "q": "0.10543084 (ball upper end 0.1054308397)",
+    "pieces_times_sqrt_p": {
+     "rho_3": "2.0288175 (ball upper end 2.02881747)",
+     "rho_G": "3.1963232e-4439 (ball upper end 1e-300)",
+     "rho_4": "5.4526476e-5282 (ball upper end 1e-300)",
+     "rho_2": "2.2820616e-3778 (ball upper end 1e-300)",
+     "rho_1": "2.5262138e-207923 (ball upper end 1e-300)"
+    },
+    "conditions": {
+     "q < 1": true,
+     "b <= 1 (disk inside the half-strip)": true,
+     "R_min >= 10": true,
+     "|arg s| + 2 atan(2b/R) <= pi/2": true,
+     "M_3 T/6 <= Re Psi/4": true,
+     "segment bracket negative": true,
+     "rho_bar <= 1/2": true
+    }
+   },
+   "effectivity_check": {
+    "every condition of the chain holds": true,
+    "claimed lambda >= recomputed": true,
+    "claimed rho_bar >= recomputed": true,
+    "claimed C_rho >= recomputed": true,
+    "claimed K_req >= recomputed": true,
+    "claimed log_ratio >= recomputed": true,
+    "claimed C_E >= recomputed": true,
+    "claimed C_loc >= recomputed": true,
+    "claimed a_plus_b_plus_theta >= recomputed": true,
+    "claimed Theta5 >= recomputed": true,
+    "claimed absorption >= recomputed": true,
+    "K >= K_req": true,
+    "K >= absorption(n_cover)": true
+   },
+   "verdict": "green",
+   "planted_weakenings_turn_red": {
+    "K": true,
+    "K_req": true,
+    "lambda": true,
+    "rho_bar": true,
+    "C_rho": true,
+    "log_ratio": true,
+    "C_E": true,
+    "C_loc": true,
+    "a_plus_b_plus_theta": true,
+    "Theta5": true,
+    "absorption": true,
+    "K6": true
+   },
+   "kill_condition_met": false,
+   "rows_sample": [
+    {
+     "e": [
+      "0",
+      "1/2000"
+     ],
+     "n_lo": "1.2193087e+872 (ball upper end inf)",
+     "X": [
+      "0.42 (ball upper end 0.4171662522)",
+      "0.67 (ball upper end 0.6676506212)",
+      "0.083 (ball upper end 0.08358502354)"
+     ],
+     "K_req": "42522.941 (ball upper end 42522.9408)",
+     "C_loc": "2.0182930 (ball upper end 2.018292994)",
+     "a_b_theta": "0.84189003 (ball upper end 0.841890027)",
+     "Theta5": "1.0179439 (ball upper end 1.017943935)"
+    },
+    {
+     "e": [
+      "3/400",
+      "1/125"
+     ],
+     "n_lo": "3.8004947e+56 (ball upper end 3.800494671e+56)",
+     "X": [
+      "0.413 (ball upper end 0.4137058329)",
+      "0.67 (ball upper end 0.6689269412)",
+      "0.081 (ball upper end 0.08136823916)"
+     ],
+     "K_req": "49065.720 (ball upper end 49065.72022)",
+     "C_loc": "2.0722846 (ball upper end 2.07228463)",
+     "a_b_theta": "0.86766882 (ball upper end 0.8676688164)",
+     "Theta5": "1.0350314 (ball upper end 1.035031355)"
+    },
+    {
+     "e": [
+      "3/200",
+      "31/2000"
+     ],
+     "n_lo": "1.0587344e+30 (ball upper end 1.058734369e+30)",
+     "X": [
+      "0.41 (ball upper end 0.410268384)",
+      "0.67 (ball upper end 0.6702231952)",
+      "0.079 (ball upper end 0.07919426648)"
+     ],
+     "K_req": "55488.052 (ball upper end 55488.05176)",
+     "C_loc": "2.0993916 (ball upper end 2.099391622)",
+     "a_b_theta": "0.88399087 (ball upper end 0.8839908698)",
+     "Theta5": "1.0518779 (ball upper end 1.051877912)"
+    },
+    {
+     "e": [
+      "9/400",
+      "23/1000"
+     ],
+     "n_lo": "5.2090775e+20 (ball upper end 5.209077507e+20)",
+     "X": [
+      "0.406 (ball upper end 0.4068523092)",
+      "0.67 (ball upper end 0.6715405467)",
+      "0.077 (ball upper end 0.07706265145)"
+     ],
+     "K_req": "62216.865 (ball upper end 62216.8651)",
+     "C_loc": "2.1195971 (ball upper end 2.119597123)",
+     "a_b_theta": "0.89790101 (ball upper end 0.8979010066)",
+     "Theta5": "1.0688747 (ball upper end 1.06887468)"
+    },
+    {
+     "e": [
+      "3/100",
+      "61/2000"
+     ],
+     "n_lo": "8.9327130e+15 (ball upper end 8.93271296e+15)",
+     "X": [
+      "0.403 (ball upper end 0.4034560341)",
+      "0.67 (ball upper end 0.6728800766)",
+      "0.075 (ball upper end 0.0749728906)"
+     ],
+     "K_req": "69639.574 (ball upper end 69639.57396)",
+     "C_loc": "2.1360756 (ball upper end 2.136075587)",
+     "a_b_theta": "0.91051458 (ball upper end 0.9105145835)",
+     "Theta5": "1.0881459 (ball upper end 1.088145852)"
+    },
+    {
+     "e": [
+      "3/80",
+      "19/500"
+     ],
+     "n_lo": "1.1095284e+13 (ball upper end 1.109528432e+13)",
+     "X": [
+      "0.40 (ball upper end 0.4000780158)",
+      "0.67 (ball upper end 0.6742428091)",
+      "0.073 (ball upper end 0.07292444225)"
+     ],
+     "K_req": "78365.935 (ball upper end 78365.93497)",
+     "C_loc": "2.1501521 (ball upper end 2.150152131)",
+     "a_b_theta": "0.92230306 (ball upper end 0.9223030568)",
+     "Theta5": "1.1129440 (ball upper end 1.112944004)"
+    },
+    {
+     "e": [
+      "9/200",
+      "91/2000"
+     ],
+     "n_lo": "1.2107156e+11 (ball upper end 1.210715628e+11)",
+     "X": [
+      "0.396 (ball upper end 0.3967167426)",
+      "0.67 (ball upper end 0.6756297288)",
+      "0.071 (ball upper end 0.07091673733)"
+     ],
+     "K_req": "89015.564 (ball upper end 89015.56438)",
+     "C_loc": "2.1625323 (ball upper end 2.162532287)",
+     "a_b_theta": "0.93351915 (ball upper end 0.933519152)",
+     "Theta5": "1.1454245 (ball upper end 1.145424542)"
+    },
+    {
+     "e": [
+      "21/400",
+      "53/1000"
+     ],
+     "n_lo": "4.6353178e+9 (ball upper end 4635317779)",
+     "X": [
+      "0.39 (ball upper end 0.393370882)",
+      "0.68 (ball upper end 0.6770420332)",
+      "0.069 (ball upper end 0.06894928668)"
+     ],
+     "K_req": "102107.09 (ball upper end 102107.0856)",
+     "C_loc": "2.1736273 (ball upper end 2.173627307)",
+     "a_b_theta": "0.94430771 (ball upper end 0.9443077124)",
+     "Theta5": "1.1861275 (ball upper end 1.18612753)"
+    },
+    {
+     "e": [
+      "3/50",
+      "121/2000"
+     ],
+     "n_lo": "3.9154860e+8 (ball upper end 391548595.3)",
+     "X": [
+      "0.39 (ball upper end 0.3900405127)",
+      "0.68 (ball upper end 0.6784831736)",
+      "0.067 (ball upper end 0.06702249887)"
+     ],
+     "K_req": "118091.48 (ball upper end 118091.4814)",
+     "C_loc": "2.1836919 (ball upper end 2.183691867)",
+     "a_b_theta": "0.95475514 (ball upper end 0.95475514)",
+     "Theta5": "1.2346337 (ball upper end 1.23463372)"
+    },
+    {
+     "e": [
+      "27/400",
+      "17/250"
+     ],
+     "n_lo": "5.6272265e+7 (ball upper end 56272264.72)",
+     "X": [
+      "0.386 (ball upper end 0.386731968)",
+      "0.68 (ball upper end 0.679966731)",
+      "0.065 (ball upper end 0.06514075062)"
+     ],
+     "K_req": "137486.96 (ball upper end 137486.9571)",
+     "C_loc": "2.1928989 (ball upper end 2.192898859)",
+     "a_b_theta": "0.96491897 (ball upper end 0.9649189712)",
+     "Theta5": "1.2905383 (ball upper end 1.290538296)"
+    },
+    {
+     "e": [
+      "3/40",
+      "151/2000"
+     ],
+     "n_lo": "1.1760267e+7 (ball upper end 11760266.64)",
+     "X": [
+      "0.38 (ball upper end 0.3834696911)",
+      "0.68 (ball upper end 0.6815352969)",
+      "0.063 (ball upper end 0.06331947167)"
+     ],
+     "K_req": "161205.99 (ball upper end 161205.9927)",
+     "C_loc": "2.2013906 (ball upper end 2.201390635)",
+     "a_b_theta": "0.97485202 (ball upper end 0.9748520249)",
+     "Theta5": "1.3547752 (ball upper end 1.354775233)"
+    },
+    {
+     "e": [
+      "33/400",
+      "83/1000"
+     ],
+     "n_lo": "3232240.0 (ball upper end 3232240.003)",
+     "X": [
+      "0.38 (ball upper end 0.3803166833)",
+      "0.68 (ball upper end 0.6832919557)",
+      "0.061 (ball upper end 0.06159635868)"
+     ],
+     "K_req": "191244.18 (ball upper end 191244.1834)",
+     "C_loc": "2.2093260 (ball upper end 2.209325968)",
+     "a_b_theta": "0.98463015 (ball upper end 0.9846301526)",
+     "Theta5": "1.4314212 (ball upper end 1.431421232)"
+    },
+    {
+     "e": [
+      "9/100",
+      "181/2000"
+     ],
+     "n_lo": "1092195.6 (ball upper end 1092195.566)",
+     "X": [
+      "0.38 (ball upper end 0.3774037569)",
+      "0.68 (ball upper end 0.685443563)",
+      "0.06 (ball upper end 0.0600454882)"
+     ],
+     "K_req": "231959.26 (ball upper end 231959.2577)",
+     "C_loc": "2.2169305 (ball upper end 2.216930523)",
+     "a_b_theta": "0.99438884 (ball upper end 0.9943888366)",
+     "Theta5": "1.5298515 (ball upper end 1.529851465)"
+    }
+   ]
+  },
+  "six_assisted": {
+   "spec": {
+    "chain": "6",
+    "n0": "1000000000000000000000000000000000000",
+    "step": "0.0001",
+    "d_min": "936000000000000000001",
+    "d_wedge_min": "936000000000000000001",
+    "gorttw": "True"
+   },
+   "claims": {
+    "K": "7210000000",
+    "K_req": "7200000000",
+    "lambda": "2.048e-17",
+    "rho_bar": "2.048e-17",
+    "C_rho": "1.887",
+    "log_ratio": "1.062",
+    "C_E": "279400",
+    "Theta6": "0.06606",
+    "bracket": "20.02",
+    "n_min_over_n_cover": "177.8"
+   },
+   "recomputed": {
+    "lambda": "2.0477767e-17 (ball upper end 2.047776714e-17)",
+    "rho_bar": "2.0477767e-17 (ball upper end 2.047776714e-17)",
+    "C_rho": "1.8867160 (ball upper end 1.886716033)",
+    "K_req": "7.1998759e+9 (ball upper end 7199875890)",
+    "log_ratio": "1.0619472 (ball upper end 1.061947228)",
+    "C_E": "279379.18 (ball upper end 279379.182)",
+    "Theta6": "0.066050491 (ball upper end 0.06605049141)",
+    "bracket": "20.0 (ball upper end 20.01345864)",
+    "n_min_over_n_cover": "177.88511 (ball upper end 177.8851075)"
+   },
+   "n_cover": "564636662498337290504789362498076672",
+   "subintervals": 129,
+   "laplace": {
+    "R_min": "76.979329 (ball upper end 76.97932946)",
+    "b": "0.25603879 (ball upper end 0.2560387853)",
+    "q": "0.013117271 (ball upper end 0.0131172712)",
+    "pieces_times_sqrt_p": {
+     "rho_3": "1.8867160 (ball upper end 1.886716033)",
+     "rho_G": "5.4575716e-445808784217125779611849051738672 (ball upper end 1e-300)",
+     "rho_4": "3.9392433e-530409991024401437091204859933262 (ball upper end 1e-300)",
+     "rho_2": "5.3599614e-379938431106699588457895198734889 (ball upper end 1e-300)",
+     "rho_1": "2.9506236e-186065298957019206315184291480969239 (ball upper end 1e-300)"
+    },
+    "conditions": {
+     "q < 1": true,
+     "b <= 1 (disk inside the half-strip)": true,
+     "R_min >= 10": true,
+     "|arg s| + 2 atan(2b/R) <= pi/2": true,
+     "M_3 T/6 <= Re Psi/4": true,
+     "segment bracket negative": true,
+     "rho_bar <= 1/2": true
+    }
+   },
+   "effectivity_check": {
+    "every condition of the chain holds": true,
+    "claimed lambda >= recomputed": true,
+    "claimed rho_bar >= recomputed": true,
+    "claimed C_rho >= recomputed": true,
+    "claimed K_req >= recomputed": true,
+    "claimed log_ratio >= recomputed": true,
+    "claimed C_E >= recomputed": true,
+    "claimed Theta6 >= recomputed": true,
+    "claimed bracket >= recomputed": true,
+    "claimed n_min_over_n_cover <= recomputed": true,
+    "K >= K_req": true,
+    "n_min(K) >= n_cover": true
+   },
+   "verdict": "green",
+   "planted_weakenings_turn_red": {
+    "K": true,
+    "K_req": true,
+    "lambda": true,
+    "rho_bar": true,
+    "C_rho": true,
+    "log_ratio": true,
+    "C_E": true,
+    "Theta6": true,
+    "bracket": true,
+    "n_min_over_n_cover": true
+   },
+   "kill_condition_met": false,
+   "rows_sample": [
+    {
+     "e": [
+      "0",
+      "1/10000"
+     ],
+     "n_lo": "1.3833718e+4347 (ball upper end inf)",
+     "X": [
+      "0.17 (ball upper end 0.1672633836)",
+      "0.667 (ball upper end 0.6669305762)",
+      "0.167 (ball upper end 0.1670217234)",
+      "0.500 (ball upper end 0.5006704431)"
+     ],
+     "K_req": "2.8229307e+9 (ball upper end 2822930658)",
+     "Theta6": "0.044758097 (ball upper end 0.04475809734)",
+     "bracket": "19.9 (ball upper end 19.90508911)"
+    },
+    {
+     "e": [
+      "1/1000",
+      "11/10000"
+     ],
+     "n_lo": "9.2873660e+397 (ball upper end inf)",
+     "X": [
+      "0.17 (ball upper end 0.1670430552)",
+      "0.666 (ball upper end 0.6667080656)",
+      "0.167 (ball upper end 0.1674680962)",
+      "0.500 (ball upper end 0.5009211282)"
+     ],
+     "K_req": "3.0828111e+9 (ball upper end 3082811091)",
+     "Theta6": "0.046376520 (ball upper end 0.04637651991)",
+     "bracket": "19.9 (ball upper end 19.91344693)"
+    },
+    {
+     "e": [
+      "1/500",
+      "21/10000"
+     ],
+     "n_lo": "4.7950896e+209 (ball upper end 4.7950896e+209)",
+     "X": [
+      "0.166 (ball upper end 0.1668235159)",
+      "0.666 (ball upper end 0.6664839691)",
+      "0.168 (ball upper end 0.1679152746)",
+      "0.50 (ball upper end 0.5011696553)"
+     ],
+     "K_req": "3.3517216e+9 (ball upper end 3351721632)",
+     "Theta6": "0.048001989 (ball upper end 0.04800198924)",
+     "bracket": "19.9 (ball upper end 19.92182323)"
+    },
+    {
+     "e": [
+      "3/1000",
+      "31/10000"
+     ],
+     "n_lo": "6.3059765e+142 (ball upper end 6.305976465e+142)",
+     "X": [
+      "0.166 (ball upper end 0.1666047515)",
+      "0.666 (ball upper end 0.6662582908)",
+      "0.168 (ball upper end 0.1683632524)",
+      "0.501 (ball upper end 0.5014160269)"
+     ],
+     "K_req": "3.6329785e+9 (ball upper end 3632978451)",
+     "Theta6": "0.049634190 (ball upper end 0.04963419008)",
+     "bracket": "19.9 (ball upper end 19.93021762)"
+    },
+    {
+     "e": [
+      "1/250",
+      "41/10000"
+     ],
+     "n_lo": "3.2271519e+108 (ball upper end 3.227151926e+108)",
+     "X": [
+      "0.166 (ball upper end 0.1663867539)",
+      "0.666 (ball upper end 0.6660310385)",
+      "0.168 (ball upper end 0.1688120362)",
+      "0.501 (ball upper end 0.5016602465)"
+     ],
+     "K_req": "3.9276549e+9 (ball upper end 3927654851)",
+     "Theta6": "0.051273096 (ball upper end 0.05127309608)",
+     "bracket": "19.9 (ball upper end 19.93863028)"
+    },
+    {
+     "e": [
+      "1/200",
+      "51/10000"
+     ],
+     "n_lo": "4.4089022e+87 (ball upper end 4.40890221e+87)",
+     "X": [
+      "0.17 (ball upper end 0.1661695246)",
+      "0.666 (ball upper end 0.6658022347)",
+      "0.169 (ball upper end 0.1692616386)",
+      "0.501 (ball upper end 0.5019023284)"
+     ],
+     "K_req": "4.2364502e+9 (ball upper end 4236450235)",
+     "Theta6": "0.052918743 (ball upper end 0.05291874273)",
+     "bracket": "19.9 (ball upper end 19.94706169)"
+    },
+    {
+     "e": [
+      "3/500",
+      "61/10000"
+     ],
+     "n_lo": "4.0420972e+73 (ball upper end 4.042097151e+73)",
+     "X": [
+      "0.17 (ball upper end 0.1659530481)",
+      "0.665 (ball upper end 0.6655718739)",
+      "0.169 (ball upper end 0.1697120503)",
+      "0.50 (ball upper end 0.502142274)"
+     ],
+     "K_req": "4.5599044e+9 (ball upper end 4559904432)",
+     "Theta6": "0.054571016 (ball upper end 0.05457101628)",
+     "bracket": "19.9 (ball upper end 19.95551136)"
+    },
+    {
+     "e": [
+      "7/1000",
+      "71/10000"
+     ],
+     "n_lo": "3.2591055e+63 (ball upper end 3.259105477e+63)",
+     "X": [
+      "0.165 (ball upper end 0.165737295)",
+      "0.665 (ball upper end 0.6653399642)",
+      "0.170 (ball upper end 0.170163277)",
+      "0.502 (ball upper end 0.5023800606)"
+     ],
+     "K_req": "4.8985043e+9 (ball upper end 4898504254)",
+     "Theta6": "0.056229844 (ball upper end 0.05622984403)",
+     "bracket": "19.9 (ball upper end 19.96397939)"
+    },
+    {
+     "e": [
+      "1/125",
+      "81/10000"
+     ],
+     "n_lo": "8.0211671e+55 (ball upper end 8.021167071e+55)",
+     "X": [
+      "0.165 (ball upper end 0.1655222866)",
+      "0.665 (ball upper end 0.6651065204)",
+      "0.170 (ball upper end 0.170615325)",
+      "0.502 (ball upper end 0.5026157268)"
+     ],
+     "K_req": "5.2527365e+9 (ball upper end 5252736517)",
+     "Theta6": "0.057895318 (ball upper end 0.05789531808)",
+     "bracket": "20.0 (ball upper end 19.97246596)"
+    },
+    {
+     "e": [
+      "9/1000",
+      "91/10000"
+     ],
+     "n_lo": "9.1568653e+49 (ball upper end 9.156865302e+49)",
+     "X": [
+      "0.16 (ball upper end 0.1653079963)",
+      "0.665 (ball upper end 0.6648715357)",
+      "0.171 (ball upper end 0.1710681868)",
+      "0.502 (ball upper end 0.502849256)"
+     ],
+     "K_req": "5.6230922e+9 (ball upper end 5623092204)",
+     "Theta6": "0.059567621 (ball upper end 0.05956762059)",
+     "bracket": "20.0 (ball upper end 19.98097071)"
+    },
+    {
+     "e": [
+      "1/100",
+      "101/10000"
+     ],
+     "n_lo": "1.5532886e+45 (ball upper end 1.553288608e+45)",
+     "X": [
+      "0.16 (ball upper end 0.1650944241)",
+      "0.664 (ball upper end 0.6646350222)",
+      "0.171 (ball upper end 0.1715218668)",
+      "0.50 (ball upper end 0.5030806604)"
+     ],
+     "K_req": "6.0102879e+9 (ball upper end 6010287890)",
+     "Theta6": "0.061248081 (ball upper end 0.06124808111)",
+     "bracket": "20.0 (ball upper end 19.9894937)"
+    },
+    {
+     "e": [
+      "11/1000",
+      "111/10000"
+     ],
+     "n_lo": "1.8898437e+41 (ball upper end 1.889843749e+41)",
+     "X": [
+      "0.164 (ball upper end 0.1648815575)",
+      "0.664 (ball upper end 0.6643969947)",
+      "0.172 (ball upper end 0.1719763786)",
+      "0.50 (ball upper end 0.5033099442)"
+     ],
+     "K_req": "6.4156196e+9 (ball upper end 6415619644)",
+     "Theta6": "0.062940671 (ball upper end 0.06294067116)",
+     "bracket": "20.0 (ball upper end 19.99803555)"
+    },
+    {
+     "e": [
+      "3/250",
+      "121/10000"
+     ],
+     "n_lo": "1.0126059e+38 (ball upper end 1.01260589e+38)",
+     "X": [
+      "0.164 (ball upper end 0.1646693764)",
+      "0.664 (ball upper end 0.6641574512)",
+      "0.172 (ball upper end 0.1724317143)",
+      "0.503 (ball upper end 0.5035370916)"
+     ],
+     "K_req": "6.8415109e+9 (ball upper end 6841510944)",
+     "Theta6": "0.064654112 (ball upper end 0.06465411176)",
+     "bracket": "20.0 (ball upper end 20.00659609)"
+    }
+   ]
+  },
+  "six_standalone": {
+   "spec": {
+    "chain": "6",
+    "n0": "15000000",
+    "step": "0.0005",
+    "d_min": "6",
+    "d_wedge_min": "1",
+    "gorttw": "False"
+   },
+   "claims": {
+    "K": "3610000000000000000000000000000",
+    "K_req": "14790000000000000",
+    "lambda": "0.00179",
+    "rho_bar": "0.001788",
+    "C_rho": "1.985",
+    "log_ratio": "1.228",
+    "C_E": "346600000",
+    "Theta6": "0.5381",
+    "bracket": "46.98",
+    "absorption": "3606000000000000000000000000000"
+   },
+   "recomputed": {
+    "lambda": "0.0017892069 (ball upper end 0.0017892069)",
+    "rho_bar": "0.0017876072 (ball upper end 0.001787607223)",
+    "C_rho": "1.9846780 (ball upper end 1.984677976)",
+    "K_req": "1.4789669e+16 (ball upper end 1.478966918e+16)",
+    "log_ratio": "1.2271161 (ball upper end 1.227116076)",
+    "C_E": "3.4651980e+8 (ball upper end 346519800.5)",
+    "Theta6": "0.53802604 (ball upper end 0.5380260415)",
+    "bracket": "5e+1 (ball upper end 46.97773374)",
+    "absorption": "3.6058055e+30 (ball upper end 3.605805547e+30)"
+   },
+   "n_cover": "14237025",
+   "subintervals": 149,
+   "laplace": {
+    "R_min": "12.879938 (ball upper end 12.87993806)",
+    "b": "0.27533258 (ball upper end 0.2753325845)",
+    "q": "0.082272606 (ball upper end 0.08227260632)",
+    "pieces_times_sqrt_p": {
+     "rho_3": "1.9846780 (ball upper end 1.984677976)",
+     "rho_G": "4.0786028e-64396 (ball upper end 1e-300)",
+     "rho_4": "6.5557249e-76617 (ball upper end 1e-300)",
+     "rho_2": "4.3801574e-54875 (ball upper end 1e-300)",
+     "rho_1": "3.5551493e-3975484 (ball upper end 1e-300)"
+    },
+    "conditions": {
+     "q < 1": true,
+     "b <= 1 (disk inside the half-strip)": true,
+     "R_min >= 10": true,
+     "|arg s| + 2 atan(2b/R) <= pi/2": true,
+     "M_3 T/6 <= Re Psi/4": true,
+     "segment bracket negative": true,
+     "rho_bar <= 1/2": true
+    }
+   },
+   "effectivity_check": {
+    "every condition of the chain holds": true,
+    "claimed lambda >= recomputed": true,
+    "claimed rho_bar >= recomputed": true,
+    "claimed C_rho >= recomputed": true,
+    "claimed K_req >= recomputed": true,
+    "claimed log_ratio >= recomputed": true,
+    "claimed C_E >= recomputed": true,
+    "claimed Theta6 >= recomputed": true,
+    "claimed bracket >= recomputed": true,
+    "claimed absorption >= recomputed": true,
+    "K >= K_req": true,
+    "K >= absorption(n_cover)": true
+   },
+   "verdict": "green",
+   "planted_weakenings_turn_red": {
+    "K": true,
+    "K_req": true,
+    "lambda": true,
+    "rho_bar": true,
+    "C_rho": true,
+    "log_ratio": true,
+    "C_E": true,
+    "Theta6": true,
+    "bracket": true,
+    "absorption": true
+   },
+   "kill_condition_met": false,
+   "rows_sample": [
+    {
+     "e": [
+      "0",
+      "1/2000"
+     ],
+     "n_lo": "1.2193087e+872 (ball upper end inf)",
+     "X": [
+      "0.2 (ball upper end 0.1727072788)",
+      "0.67 (ball upper end 0.6691468002)",
+      "0.17 (ball upper end 0.1703400182)",
+      "0.50 (ball upper end 0.5069399833)"
+     ],
+     "K_req": "1.2701708e+14 (ball upper end 1.270170793e+14)",
+     "Theta6": "0.073300418 (ball upper end 0.07330041779)",
+     "bracket": "4.4e+1 (ball upper end 44.75078499)"
+    },
+    {
+     "e": [
+      "3/500",
+      "13/2000"
+     ],
+     "n_lo": "1.5766751e+69 (ball upper end 1.576675059e+69)",
+     "X": [
+      "0.2 (ball upper end 0.1715308922)",
+      "0.67 (ball upper end 0.6678345601)",
+      "0.17 (ball upper end 0.1731554797)",
+      "0.50 (ball upper end 0.5085847605)"
+     ],
+     "K_req": "1.8321389e+14 (ball upper end 1.832138885e+14)",
+     "Theta6": "0.084448949 (ball upper end 0.08444894886)",
+     "bracket": "4.5e+1 (ball upper end 44.87430436)"
+    },
+    {
+     "e": [
+      "3/250",
+      "1/80"
+     ],
+     "n_lo": "6.9625514e+36 (ball upper end 6.962551432e+36)",
+     "X": [
+      "0.2 (ball upper end 0.1703845802)",
+      "0.66 (ball upper end 0.6664675955)",
+      "0.17 (ball upper end 0.1760047997)",
+      "0.5 (ball upper end 0.5101583086)"
+     ],
+     "K_req": "2.5360402e+14 (ball upper end 2.536040171e+14)",
+     "Theta6": "0.095993849 (ball upper end 0.09599384945)",
+     "bracket": "4.5e+1 (ball upper end 44.9997679)"
+    },
+    {
+     "e": [
+      "9/500",
+      "37/2000"
+     ],
+     "n_lo": "2.5370297e+25 (ball upper end 2.537029685e+25)",
+     "X": [
+      "0.16 (ball upper end 0.169266826)",
+      "0.66 (ball upper end 0.6650474676)",
+      "0.17 (ball upper end 0.1788888376)",
+      "0.5 (ball upper end 0.5116618983)"
+     ],
+     "K_req": "3.6904756e+14 (ball upper end 3.690475601e+14)",
+     "Theta6": "0.11222134 (ball upper end 0.1122213394)",
+     "bracket": "4.5e+1 (ball upper end 45.12741705)"
+    },
+    {
+     "e": [
+      "3/125",
+      "49/2000"
+     ],
+     "n_lo": "3.4139659e+19 (ball upper end 3.413965881e+19)",
+     "X": [
+      "0.16 (ball upper end 0.1681760696)",
+      "0.66 (ball upper end 0.6635754686)",
+      "0.18 (ball upper end 0.181808431)",
+      "0.5 (ball upper end 0.5130965848)"
+     ],
+     "K_req": "7.0788276e+14 (ball upper end 7.078827555e+14)",
+     "Theta6": "0.15088350 (ball upper end 0.1508834995)",
+     "bracket": "4.5e+1 (ball upper end 45.25860273)"
+    },
+    {
+     "e": [
+      "3/100",
+      "61/2000"
+     ],
+     "n_lo": "8.9327130e+15 (ball upper end 8.93271296e+15)",
+     "X": [
+      "0.16 (ball upper end 0.1671110617)",
+      "0.66 (ball upper end 0.6620527887)",
+      "0.18 (ball upper end 0.1847646008)",
+      "0.5 (ball upper end 0.5144636223)"
+     ],
+     "K_req": "1.7003862e+15 (ball upper end 1.700386152e+15)",
+     "Theta6": "0.22722085 (ball upper end 0.2272208458)",
+     "bracket": "4.5e+1 (ball upper end 45.39563057)"
+    },
+    {
+     "e": [
+      "9/250",
+      "73/2000"
+     ],
+     "n_lo": "3.4064810e+13 (ball upper end 3.406480983e+13)",
+     "X": [
+      "0.16 (ball upper end 0.16607061)",
+      "0.66 (ball upper end 0.6604803952)",
+      "0.18 (ball upper end 0.1877584173)",
+      "0.5 (ball upper end 0.5157641771)"
+     ],
+     "K_req": "3.8265767e+15 (ball upper end 3.826576695e+15)",
+     "Theta6": "0.33131376 (ball upper end 0.3313137643)",
+     "bracket": "4.5e+1 (ball upper end 45.54020027)"
+    },
+    {
+     "e": [
+      "21/500",
+      "17/400"
+     ],
+     "n_lo": "6.1153968e+11 (ball upper end 6.11539676e+11)",
+     "X": [
+      "0.2 (ball upper end 0.1650537437)",
+      "0.66 (ball upper end 0.6588591372)",
+      "0.19 (ball upper end 0.1907911435)",
+      "0.5 (ball upper end 0.5169995514)"
+     ],
+     "K_req": "6.9843274e+15 (ball upper end 6.984327434e+15)",
+     "Theta6": "0.43509117 (ball upper end 0.4350911674)",
+     "bracket": "4.5e+1 (ball upper end 45.69281612)"
+    },
+    {
+     "e": [
+      "6/125",
+      "97/2000"
+     ],
+     "n_lo": "2.9167791e+10 (ball upper end 2.916779092e+10)",
+     "X": [
+      "0.2 (ball upper end 0.164062061)",
+      "0.65 (ball upper end 0.6571904734)",
+      "0.19 (ball upper end 0.1938659954)",
+      "0.51 (ball upper end 0.5181741831)"
+     ],
+     "K_req": "1.0144630e+16 (ball upper end 1.014463032e+16)",
+     "Theta6": "0.50967212 (ball upper end 0.5096721218)",
+     "bracket": "4.5e+1 (ball upper end 45.85324366)"
+    },
+    {
+     "e": [
+      "27/500",
+      "109/2000"
+     ],
+     "n_lo": "2.6818190e+9 (ball upper end 2681818988)",
+     "X": [
+      "0.2 (ball upper end 0.1631158444)",
+      "0.65 (ball upper end 0.6554816538)",
+      "0.19 (ball upper end 0.197000896)",
+      "0.51 (ball upper end 0.5193165408)"
+     ],
+     "K_req": "1.1962957e+16 (ball upper end 1.196295721e+16)",
+     "Theta6": "0.53782167 (ball upper end 0.5378216661)",
+     "bracket": "4.6e+1 (ball upper end 46.02202911)"
+    },
+    {
+     "e": [
+      "3/50",
+      "121/2000"
+     ],
+     "n_lo": "3.9154860e+8 (ball upper end 391548595.3)",
+     "X": [
+      "0.2 (ball upper end 0.1623249968)",
+      "0.65 (ball upper end 0.6537686093)",
+      "0.2 (ball upper end 0.2002847288)",
+      "0.5 (ball upper end 0.5205712601)"
+     ],
+     "K_req": "1.2066814e+16 (ball upper end 1.206681361e+16)",
+     "Theta6": "0.52427340 (ball upper end 0.5242734008)",
+     "bracket": "4.6e+1 (ball upper end 46.20553183)"
+    },
+    {
+     "e": [
+      "33/500",
+      "133/2000"
+     ],
+     "n_lo": "8.0175602e+7 (ball upper end 80175601.88)",
+     "X": [
+      "0.2 (ball upper end 0.1621029502)",
+      "0.65 (ball upper end 0.6521859959)",
+      "0.20 (ball upper end 0.2040501366)",
+      "0.5 (ball upper end 0.5224785575)"
+     ],
+     "K_req": "1.1710860e+16 (ball upper end 1.171086002e+16)",
+     "Theta6": "0.49894612 (ball upper end 0.4989461245)",
+     "bracket": "4.6e+1 (ball upper end 46.43078016)"
+    },
+    {
+     "e": [
+      "9/125",
+      "29/400"
+     ],
+     "n_lo": "2.1186063e+7 (ball upper end 21186063.43)",
+     "X": [
+      "0.2 (ball upper end 0.1637679412)",
+      "0.65 (ball upper end 0.6511659728)",
+      "0.2 (ball upper end 0.2093628978)",
+      "0.5 (ball upper end 0.5267621469)"
+     ],
+     "K_req": "1.3201001e+16 (ball upper end 1.320100114e+16)",
+     "Theta6": "0.50345123 (ball upper end 0.503451227)",
+     "bracket": "4.6e+1 (ball upper end 46.78862464)"
+    }
+   ]
+  }
+ },
+ "measurements": {
+  "laplace": [
+   {
+    "n": 1000000,
+    "phi": 0.0,
+    "measured": 7.954566975604741e-06,
+    "lambda": 0.006244258484956199,
+    "slack": 784.9903714565787
+   },
+   {
+    "n": 1000000,
+    "phi": 0.2,
+    "measured": 7.809771965982885e-06,
+    "lambda": 0.006244258484956199,
+    "slack": 799.5442776247999
+   },
+   {
+    "n": 100000000,
+    "phi": 0.0,
+    "measured": 1.0984237770074799e-07,
+    "lambda": 0.0007123306086505238,
+    "slack": 6485.025393306586
+   },
+   {
+    "n": 100000000,
+    "phi": 0.15,
+    "measured": 1.0868739874144088e-07,
+    "lambda": 0.0007123306086505238,
+    "slack": 6553.939250539104
+   }
+  ],
+  "data_and_models": [
+   {
+    "n": 100000000,
+    "T_contains_route_B": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "model5_box_contains_newton": [
+     true,
+     true,
+     true
+    ],
+    "model6_box_contains_newton": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "model5_box": [
+     "[0.38691 +/- 1.75e-6]",
+     "[0.67844 +/- 2.95e-6]",
+     "[0.06535 +/- 1.22e-6]"
+    ],
+    "model6_box": [
+     "[0.1534 +/- 9.10e-5]",
+     "[0.6489 +/- 4.01e-5]",
+     "[0.198 +/- 4.15e-4]",
+     "[0.512 +/- 2.24e-4]"
+    ]
+   },
+   {
+    "n": 1000000000000,
+    "T_contains_route_B": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "model5_box_contains_newton": [
+     true,
+     true,
+     true
+    ],
+    "model6_box_contains_newton": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "model5_box": [
+     "[0.3976148858 +/- 6.47e-11]",
+     "[0.673933063 +/- 3.43e-10]",
+     "[0.0715479485 +/- 7.31e-11]"
+    ],
+    "model6_box": [
+     "[0.157992656 +/- 7.33e-10]",
+     "[0.656102653 +/- 2.58e-10]",
+     "[0.185904691 +/- 5.13e-10]",
+     "[0.50857631 +/- 2.27e-9]"
+    ]
+   },
+   {
+    "n": 100000000000000000000,
+    "T_contains_route_B": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "model5_box_contains_newton": [
+     true,
+     true,
+     true
+    ],
+    "model6_box_contains_newton": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "model5_box": [
+     "[0.405669126528 +/- 6.80e-13]",
+     "[0.670749202057 +/- 7.66e-13]",
+     "[0.076418328584 +/- 7.04e-13]"
+    ],
+    "model6_box": [
+     "[0.1615647464 +/- 6.14e-11]",
+     "[0.6609204104 +/- 5.01e-11]",
+     "[0.1775148432 +/- 6.78e-11]",
+     "[0.5053612471 +/- 7.60e-11]"
+    ]
+   }
+  ],
+  "polynomials_n_1e12": {
+   "n": 1000000000000,
+   "five": [
+    {
+     "d": 10,
+     "real_roots": 10,
+     "C_loc_measured": 1.5153694788173409,
+     "r_needed_over_sqrt_Bd": 1.141700598655676,
+     "max_abs_E_F_at_integers": 1.049375080734387e-46,
+     "C_loc_bound": 2.15557308148717,
+     "K6": 2.82,
+     "E_F_measured_over_bound": 0.7948741487039673
+    },
+    {
+     "d": 40,
+     "real_roots": 40,
+     "C_loc_measured": 1.7858097165324425,
+     "r_needed_over_sqrt_Bd": 1.2401175686480248,
+     "max_abs_E_F_at_integers": 2.7400688985337408e-43,
+     "C_loc_bound": 2.155586777390337,
+     "K6": 2.82,
+     "E_F_measured_over_bound": 0.7948743375083982
+    }
+   ],
+   "six": [
+    {
+     "d": 10,
+     "real_roots": 10,
+     "C_loc_measured": 2.1223186792821913,
+     "r_needed_over_sqrt_Bd": 0.8151924864250124,
+     "max_abs_E_F_at_integers": 5.1587183498927666e-52,
+     "r_12_3_over_sqrt_Bd": 32.130214839197684
+    },
+    {
+     "d": 40,
+     "real_roots": 40,
+     "C_loc_measured": 2.50107803543619,
+     "r_needed_over_sqrt_Bd": 0.8854637769620813,
+     "max_abs_E_F_at_integers": 8.942062486961502e-51,
+     "r_12_3_over_sqrt_Bd": 39.05091810032467
+    }
+   ]
+  }
+ },
+ "seconds": 52.7
+}
