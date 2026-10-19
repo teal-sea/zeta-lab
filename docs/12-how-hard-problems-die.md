@@ -300,9 +300,31 @@ Above 1, which is exactly the Turán inequality holding, and *shrinking toward 1
 **THEOREM (Csordas–Norfolk–Varga, *Trans. AMS* 296 (1986), 521–541)**, the Turán inequalities
 (`d = 2`) hold unconditionally; **THEOREM (Dimitrov–Lucas, *Proc. AMS* 139 (2011), 1013–1022)**,
 `d = 3`; **THEOREM (Griffin–Ono–Rolen–Zagier, *PNAS* 116 (2019), 11103–11110)**, for *each* degree
-`d`, `J^{d,n}` is hyperbolic for all sufficiently large `n`, which leaves a finite unresolved set for
-every `d`, and RH needs all of them. Same shape as "a positive proportion of zeros on the line"
-(`docs/08` §1.3): a real theorem on a different axis.
+`d`, `J^{d,n}` is hyperbolic for all sufficiently large `n`. **THEOREM
+(Griffin–Ono–Rolen–Thorner–Tripp–Wagner, *Adv. Math.* 397 (2022) 108186, arXiv:1910.01227v3)**,
+that threshold is effective, `n ≥ c·e^{d/2}` with `c` not computed (Theorem 1.1; the published
+version states `n ≥ c·e^d`, per Holland §12, journal text not checked here); and RH verified to
+height `T` gives hyperbolicity for *every* `n ≥ 0` once `d ≤ ⌊T⌋²` (Theorem 1.2, generalising
+Chasse, *Complex Var. Elliptic Equ.* 58 (2013), who had `d ≤ 2·10^17`), so Platt's `T = 3.06·10^10`
+settles all `n` for `d ≤ 9.36·10^20` (Corollary 1.3). **PREPRINT (Holland, arXiv:2608.08682v1,
+August 2026)**, Theorem 1.1: there is an absolute `K > 0` such that `n³log²(n+2) ≥ K·d⁵` implies
+`J^{d,n}` hyperbolic; `K` is not computed (its §12). So the unresolved region of the `(d, n)` plane
+begins above `d = 9.36·10^20` (above `9·10^24` if Theorem 1.2 is applied to the Platt–Trudgian
+height `3·10^12`, a step derived here and not quoted from either paper) and lies below Holland's
+wedge: finite for each such `d`, beyond any finite computation, and RH needs all of it. Same shape
+as "a positive proportion of zeros on the line" (`docs/08` §1.3): a real theorem on a different
+axis.
+
+**Corrected 2026-10-18.** This paragraph read the frontier from GORZ 2019 alone. It said that
+result *"leaves a finite unresolved set for every `d`, and RH needs all of them."* The second half
+stands. The first was false for every `d ≤ 2·10^17` before GORZ appeared (Chasse 2013) and for every
+`d ≤ 9.36·10^20` from the 2022 paper on: at those degrees no `n` is unresolved. The stale reading had
+a cost. `hunts/gauss_positivity` (hunt #134) proposed explicit thresholds at degree 4 and up as its
+next experiment, and the 2022 paper had done it before the hunt opened; its `RESULTS.md` §6 carries
+the matching correction, and `hunts/jensen_wedge` (hunt #135) is scoped against Holland's wedge
+instead. Whether any of this bears on RH: Farmer (*Adv. Math.* 411 (2022) 108781, arXiv:2008.07206)
+argues the Jensen route is not a plausible path to it; the 2022 paper's Remark 3 calls a converse
+from partial hyperbolicity to the zeros highly unlikely, and Holland's §12 says the wedge gives none.
 
 Note also what Marcus–Spielman–Srivastava had that we do not: a finite, explicitly constructed
 polynomial family. RH's Jensen family is doubly infinite, and by `docs/07` §4 its coefficients are as

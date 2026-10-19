@@ -223,7 +223,7 @@ Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `EPSTEIN_DIGITS_PE
 
 ### `zeta/li.py`, Li's criterion and Jensen polynomials, the real-rootedness lane.
 
-*1409 lines*
+*1423 lines*
 
 Constants: `DATA_DIR`, `GAMMA1`, `RADIUS_MAX`, `ZERO_DPS`
 

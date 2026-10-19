@@ -62,7 +62,21 @@ Two criteria live here.
     finitely many n give a hyperbolic J^{d,n}, and that the roots of J^{d,n},
     suitably renormalised, converge as n → ∞ to the roots of the Hermite
     polynomial H_d, the "GUE side" of the picture, since Hermite roots are the
-    zeros whose empirical measure is the semicircle law.
+    zeros whose empirical measure is the semicircle law.  That is not the
+    current frontier.  Griffin–Ono–Rolen–Thorner–Tripp–Wagner (Adv. Math. 397
+    (2022) 108186, arXiv:1910.01227v3) make the threshold effective,
+    n ≥ c·e^{d/2} with c not computed (Theorem 1.1), and prove J^{d,n}
+    hyperbolic for *every* n ≥ 0 when d ≤ ⌊T⌋², T a height to which RH is
+    verified (Theorem 1.2, generalising Chasse's d ≤ 2·10^17); Platt's
+    T = 3.06·10^10 gives d ≤ 9.36·10^20 (Corollary 1.3).  A preprint of
+    Holland (arXiv:2608.08682v1, August 2026) gives the polynomial wedge
+    n³·log²(n+2) ≥ K·d⁵, K absolute and not computed.  So no (d, n) this
+    module can reach is unresolved: the open region begins above
+    d = 9.36·10^20 and lies below Holland's wedge.  ``docs/12`` §8.1 has the
+    statements, and Farmer's case (Adv. Math. 411 (2022) 108781) that the
+    route is not a plausible path to RH.  (Corrected 2026-10-18: this
+    paragraph used to stop at GORZ, which read as a finite unresolved set of n
+    at every degree d.)
     :func:`hyperbolicity_scan` produces the (d, n) table; the honest reading of
     an all-``True`` table is "no violation found", never "evidence for RH"
     (``docs/08``; Littlewood).
