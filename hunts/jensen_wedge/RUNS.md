@@ -34,7 +34,7 @@ hunt: jensen_wedge
 started: 2026-10-18T21:46-05:00
 finished: 2026-10-18T21:56-05:00
 ran:
-  - /Users/thomas/Zeta/.venv/bin/python hunts/jensen_wedge/probe.py --out <session scratchpad>/trial.json
+  - <main checkout>/.venv/bin/python hunts/jensen_wedge/probe.py --out <session scratchpad>/trial.json
 outcome: both sign facts held at every n from 50 to 3200 and route B agreed in sign at all 21 subgrid points, but the preset route-B error rule (M = 4, Laplace part |M4 - M3|) missed at n = 150 and every theta = 1 finite-free solve failed, so the probe was revised before the recorded run; this run used the main checkout's interpreter (same Python 3.14.0 and mpmath 1.3.0) while the worktree venv was still installing, and its JSON was not kept
 artifacts:
 ```
