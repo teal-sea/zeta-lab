@@ -222,6 +222,48 @@ Used by the four hunts that build on it (`docs/39`), each cited where it is used
   strip, constants not explicit. **E. Bach**, Math. Comp. (1990): explicit GRH
   witness bounds. *For: hunt #125.*
 
+## 10. Jensen polynomials: the hyperbolicity frontier
+
+The `zeta/li.py` lane and `docs/12` §8.1. Checked against the primary sources
+on 2026-10-18, after this tree read the frontier from GORZ 2019 alone and
+proposed an experiment the 2022 paper had already done.
+
+- **Griffin, M., K. Ono, L. Rolen and D. Zagier, "Jensen polynomials for the
+  Riemann zeta function and other sequences"** (PNAS 116 (2019), no. 23,
+  11103–11110; arXiv:1902.07321). For each fixed degree `d`, `J^{d,n}` is
+  hyperbolic for all sufficiently large `n`, and its renormalised roots tend
+  to those of the Hermite polynomial `H_d`. **[FREE]** on arXiv. *For: the
+  `8·ξ(½+z)` normalisation `zeta/li.py` uses, and `jensen_roots_vs_gue`.*
+- **Chasse, M., "Laguerre multiplier sequences and sector properties of
+  entire functions"** (Complex Variables and Elliptic Equations 58 (2013),
+  no. 7, 875–885). Theorem 1.8: `J^{d,n}` is hyperbolic for every `n ≥ 0`
+  when `d ≤ 2·10^17`, from RH verified to a finite height. *For: the first
+  all-`n` range, which GORTTW Theorem 1.2 generalises.*
+- **Griffin, M. J., K. Ono, L. Rolen, J. Thorner, Z. Tripp and I. Wagner,
+  "Jensen polynomials for the Riemann xi-function"** (Advances in Mathematics
+  397 (2022), 108186; arXiv:1910.01227v3, 17 December 2020). Theorem 1.1:
+  hyperbolic for `n ≥ c·e^{d/2}` (v3; the published version states
+  `n ≥ c·e^d`), `c` not computed. Theorem 1.2: RH to height `T` gives
+  hyperbolicity for all `n ≥ 0` when `d ≤ ⌊T⌋²`. Corollary 1.3, with Platt's
+  `T = 3.06·10^10`: `d ≤ 9.36·10^20`. Remark 3 calls a converse from partial
+  hyperbolicity to the zeros highly unlikely. **[FREE]** on arXiv. *For: why
+  no finite unresolved set exists at any degree a computation can reach.*
+- **Holland, J., "A new hyperbolicity wedge and a joint semicircle limit for
+  Jensen polynomials of Riemann's ξ-function"** (arXiv:2608.08682v1, 9 August
+  2026; preprint). Theorem 1.1: there is an absolute `K > 0` such that
+  `n³log²(n+2) ≥ K·d⁵` implies `J^{d,n}` has `d` distinct negative real zeros;
+  §12 makes no attempt to optimise `K`. Proof by a real-rooted comparison
+  polynomial built from Jacobi and finite-free factors. **[FREE]** on arXiv.
+  *For: the current frontier, and the target `hunts/jensen_wedge` (hunt #135)
+  is a delta against.*
+- **Farmer, D. W., "Jensen polynomials are not a plausible route to proving
+  the Riemann Hypothesis"** (Advances in Mathematics 411 (2022), 108781;
+  arXiv:2008.07206). Argues that the Hermite connection of GORZ is evidence
+  neither for RH nor for random-matrix statistics of the zeros, that Jensen
+  polynomials are unlikely to be useful for attacking RH, and proposes
+  criteria for judging whether an RH equivalence is likely to be useful. **[FREE]** on arXiv. *For: the honest ceiling on this whole lane,
+  read alongside `docs/12` §8.1.*
+
 ## Reading orders
 
 - *Shortest honest path*: Bombieri → Conrey → Edwards chs. 1–3.
