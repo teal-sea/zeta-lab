@@ -815,3 +815,33 @@ here. The review's items R2 to R4 follow from H1 and are recorded in `H1_H3.md` 
 read xi only through the targets, so nothing in them separates zeta from
 Davenport-Heilbronn, consistent with section 15. No kill condition of `MISSION.md`
 changes status.
+
+# Literature search (2026-10-19)
+
+## 17. Claims A and B already have prior instances; claim C has none located
+
+**Nothing in this section bears on RH.** `NOVELTY.md` records a bounded literature search
+of 2026-10-19: OpenAlex and Semantic Scholar citation listings, Google Scholar, the arXiv
+API, zbMATH Open, Zenodo through OpenAlex, both 2026 Planat articles, and
+`the-omega-institute/trureturing` PRs. It lists every query and what it returned. Each
+verdict below is about the searched set only.
+
+| claim | verdict | prior instance |
+| --- | --- | --- |
+| A: the six-coefficient wedge `n^4 log^2(n+2) >= K d^6 log^12(d+2)` (section 12.5) | prior instance found | Savva, Zenodo 10.5281/zenodo.22293642, 3 September 2026: `n^2 log(n+2) >= K d^3`, the same exponent without the `log^12 d` loss, by Holland's family with D free matching six coefficients at the limit point of section 11.3. Unreviewed and AI-assisted by the author's own account; its proof was not checked here |
+| B: Holland's two-factor family matches the sixth coefficient at a [2/2] Pade point (section 11.3) | prior instance found | Sarnowski, Zenodo Papers 134Z and 134AA (10.5281/zenodo.22023893, 10.5281/zenodo.22025447), 20 August 2026: the rank-r diagonal Pade spine. At r = 2 its limits (`A ~ 3NL`, smallest parameter `~ N`, interior node 2, first unprotected derivative `~ -2/(N^5 L)`) are those of sections 11.3 and 11.4. Unreviewed |
+| C: an explicit value of Holland's K or GORTTW's c | no prior instance found in the searched set | Savva, Sarnowski and Ning (Zenodo 10.5281/zenodo.19891455, a `n + d >= C_0 d^3` wedge predating Holland) leave their constants uncomputed. Planat's `C_0 ~ 0.020` belongs to a weaker `n >= C_0 d^4` statement in an inconsistent normalisation (`NOVELTY.md` section 4) |
+
+Planat, Mathematics 14 (2026) 1884, is not a degree-uniform "all n >= C" result: its
+threshold is `n >= C_0 d^4`, with an exponent chosen to fit observed scaling and a
+constant partly fitted. It places a positive onset at `d >= 9`, which GORTTW Corollary 1.3
+excludes for the standard family, and it cites neither GORTTW nor Holland.
+
+What this changes. Phase 1's sixth-order construction and its conditional wedge
+independently re-derive results deposited 6 to 9 weeks before the hunt opened. They are
+not a delta against Holland that this lab can claim. Phase 2 (MISSION Q2, explicit
+constants) has no located prior instance. `NOVELTY.md` section 2.3 adds a derived,
+unreviewed remark: any proved bound `K <= e^(1e21)` on Holland's K makes `c = 1`
+admissible in GORTTW Theorem 1.1, so the substantive explicit target is K. Whether to
+redirect phase 2 is the owner's decision. No kill condition of `MISSION.md` changes
+status.

@@ -263,6 +263,53 @@ proposed an experiment the 2022 paper had already done.
   polynomials are unlikely to be useful for attacking RH, and proposes
   criteria for judging whether an RH equivalence is likely to be useful. **[FREE]** on arXiv. *For: the honest ceiling on this whole lane,
   read alongside `docs/12` §8.1.*
+- **O'Sullivan, C., "Zeros of Jensen polynomials and asymptotics for the
+  Riemann xi function"** (Research in the Mathematical Sciences 8 (2021),
+  Paper No. 46; arXiv:2007.13582). Detailed asymptotic expansions of the xi
+  Taylor coefficients; Theorem 1.3 makes a Hermite-modified family `P_{d,n}`
+  (not `J^{d,n}`) hyperbolic for `n/log²n ≥ d^{3/4}/2` once `d` is large
+  enough, with no explicit threshold. Holland cites it. **[FREE]** on arXiv.
+  *For: the coefficient asymptotics behind every wedge.*
+- **Ning, W., "An Effective d³-Scale Criterion for the Hyperbolicity of
+  Jensen Polynomials Associated with the Riemann ξ-Function"** (Zenodo
+  preprint, 29 April 2026, doi 10.5281/zenodo.19891455; not peer reviewed).
+  Theorem 9.4: an absolute `C₀` with `n + d ≥ C₀·d³` sufficient, so a
+  polynomial wedge `d ≲ n^{1/3}` that predates Holland; `C₀` is not
+  computed. **[FREE]**. *For: `hunts/jensen_wedge/NOVELTY.md`, claim C.*
+- **Sarnowski, M., "Paper 134Z: Multi-Jacobi Protected Spines and
+  Higher-Order Matching in the Riemann ξ Jensen Hierarchy"** and **"Paper
+  134AA: Jacobi Cancellation Skeletons and All-Large-Shift Geometry of
+  Multi-Jacobi Protected Spines"** (Zenodo, both 20 August 2026, doi
+  10.5281/zenodo.22023893 and 10.5281/zenodo.22025447; not peer reviewed;
+  part of a 45-deposit series). A rank-`r` rational quotient spine matches
+  `2r + 2` coefficients; it tends to the diagonal `[r/r]` Padé approximant of
+  `(1 + y)^{1 − ε_N}`, `ε_N ~ 2/L_N`, with a Jacobi cancellation skeleton at
+  `ε = 0`. At `r = 2` this is the six-coefficient two-Jacobi match of
+  `hunts/jensen_wedge` §11.3 and §11.4, constants included. Paper 134AE
+  (doi 10.5281/zenodo.22026880) adds the Beta-Stieltjes representation.
+  Diagnostics are non-interval and no new hyperbolicity region is claimed.
+  **[FREE]**. *For: the prior instance of hunt #135's claim B
+  (`hunts/jensen_wedge/NOVELTY.md`).*
+- **Savva, J., "A Two-Thirds Hyperbolicity Wedge for Jensen Polynomials of
+  Riemann's Xi-Function"** (Zenodo preprint, Version 1.1, 3 September 2026,
+  doi 10.5281/zenodo.22293642; repository `aimathpapers/Jensen-2-Thirds`).
+  Theorem 1.1: an absolute `K > 0` with `n²log(n+2) ≥ K·d³` sufficient for
+  `J^{d,n}` to have `d` distinct negative zeros, by Holland's `₃F₂` family
+  with `D` free matching six coefficients. The author states substantial AI
+  assistance and no human or peer review; the Lean development is
+  conditional on typed literature inputs. `K` is not computed. Not checked
+  here. **[FREE]**. *For: the prior instance of hunt #135's claim A
+  (`hunts/jensen_wedge/NOVELTY.md`).*
+- **Planat, M., "Asymptotic Hyperbolicity of Jensen Polynomials and the
+  Finite-Strip Obstruction to the Riemann Hypothesis"** (Mathematics 14
+  (2026), 1884, doi 10.3390/math14111884) and **"Parity Bifurcation, PIII(D6)
+  Topology, and a Stieltjes Framework to Jensen Polynomial Hyperbolicity"**
+  (Mathematics 14 (2026), 2240, doi 10.3390/math14132240). The first states
+  hyperbolicity for `n ≥ C₀d⁴`, `C₀ ≈ 0.020`; its normalisation drops the
+  `1/(2n)!` of the Taylor coefficients in places, and its positive onset at
+  `d ≥ 9` contradicts GORTTW Corollary 1.3 for the standard family. Neither
+  cites GORTTW. **[FREE]**. *For: a cautionary read; see
+  `hunts/jensen_wedge/NOVELTY.md` §4 before citing either.*
 
 ## Reading orders
 
