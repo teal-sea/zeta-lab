@@ -716,3 +716,42 @@ Pade model unchanged. That is a prediction, to be tested.
   near-collision, a live recomputation at n = 400 against phase 0's crossing, and the
   pins.
 - `RUNS.md`: phase 1 unit timing, estimate, and one manifest per run.
+
+# Rival gate (2026-10-19): Davenport-Heilbronn
+
+## 15. The prediction held
+
+**Nothing in this section bears on RH.** `MISSION.md` predicted before the run that the
+construction succeeds for Davenport-Heilbronn (DH) exactly as for zeta, since it reads the
+weight only through its double-exponential decay. **Graded: held, on every item, on both
+routes** (`DH_GATE.md` has the tables; `dh_gate.py`, `results_dh.json`,
+`test_dh_gate.py`). Grade: measured.
+
+- Holland's sign facts: the Laguerre defect at R_3 is positive and the Jacobi defect at R_4
+  negative at all 3151 n in 50..3200 on route A (DH's gamma table by quadrature), with route
+  B (Laplace series with DH's constants, no quadrature) agreeing in sign, resolving it and
+  sitting inside its stated error at all 21 subgrid n, and both signs holding at n = 1e4..1e20.
+- The sign map of E_F(5): negative at theta = 1/2 at every n on both routes; over theta the
+  map has zeta's shape at all 21 subgrid n (negative below theta_star, positive up to
+  theta_inf, A < 0 beyond), with theta_star(n) from 0.8466 at n = 50 to 0.9143 at n = 3200,
+  and route B's theta_star equal to route A's to 4.7e-13 at six n.
+- The [2/2] Pade match of R_5: solved at all 3151 n and all 8 large n with A > B > 0 and
+  C > D > 0, and theta_star is its D/B_J to all 12 printed digits. Its R_6 defect is negative
+  at every n, as for zeta.
+- With L read from DH's own weight (L_DH, the saddle of its leading moment), every
+  normalised constant approaches the limit Holland states or section 11 derives; at
+  n = 1e20 the DH values sit within 0.5 percent of zeta's.
+- The contrast: DH's Jensen non-hyperbolicity was found only at n = 0 (a complex pair at
+  d = 22000, landed at d = 20000, and landed at n = 1 for d = 30000, consistent with
+  `hunts/jensen_clock`'s d* = 20785.13), while every DH Jensen polynomial checked at the
+  wedge cells (n = 3200, d <= 96; n = 50, d <= 24) is real-rooted. No overlap; it is
+  structural, since a wedge of this shape excludes n = 0 for every constant.
+
+So the construction of phases 0 and 1 cannot tell an RH-true function from an RH-false one
+in this range: a measured, in-tree form of Farmer 2022 and GORTTW Remark 3 for this
+construction. One table defect was found and worked around on the way: jensen_clock's
+`omega_dh` cuts at an absolute floor and returns 0 above u = 2.86 at dps 75, so its literal
+table drifts from the true one past n = 100 (log gamma off by 1.6e-21 at n = 200, 1.7e-4 at
+n = 400 and 832 at n = 3200). The gate uses a relative cutoff; the two jensen_clock tables
+checked against it, in the ranges jensen_clock used, agree with it (`DH_GATE.md` section
+1). No kill condition of `MISSION.md` changes status.
