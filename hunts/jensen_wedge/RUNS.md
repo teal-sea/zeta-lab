@@ -183,3 +183,64 @@ artifacts:
   - hunts/jensen_wedge/DH_GATE.md
   - hunts/jensen_wedge/RESULTS.md
 ```
+
+## H1 and H3: unit timing, taken before the run (2026-10-19, worktree `.venv`, Python 3.14.0, mpmath 1.3.0, sympy 1.14.0)
+
+| unit (`probe_h1_h3.py --time-unit`) | time |
+| --- | --- |
+| route A, moments k = 3199..3206, dps 60 | 0.04 s |
+| one route B row (targets, Pade solve, contraction), n = 1e4 / 1e20 | 0.10 / 0.13 s |
+| G_0 derivatives by Cauchy's formula at one complex point | 0.07 s |
+| h on a 64-point complex circle at n = 400 | 6.3 s |
+
+Estimate written before the run: route A over k = 49..3206 at about 0.005 s per moment,
+about 16 s; 21 route A rows and 9 route B rows, about 4 s; 24 G_0 points, about 2 s; two
+complex circles, about 12 s. Total about 35 s. Measured: 17 to 27 s per run.
+
+```runmanifest
+id: jensen_wedge-2026-10-19-h1h3-a
+hunt: jensen_wedge
+started: 2026-10-19T09:44-05:00
+finished: 2026-10-19T09:45-05:00
+ran:
+  - .venv/bin/python hunts/jensen_wedge/probe_h1_h3.py --time-unit
+  - .venv/bin/python hunts/jensen_wedge/probe_h1_h3.py
+outcome: stopped by an exception in the G_0 stage, after route A and route B had run (the contraction inequality held from n = 1e7 to 1e20 and nowhere below); Holland's L_N solver from probe.py uses an absolute tolerance and failed at N = 1e50, so the probe got its own solver in relative form; no JSON was written
+artifacts:
+```
+
+```runmanifest
+id: jensen_wedge-2026-10-19-h1h3-b
+hunt: jensen_wedge
+started: 2026-10-19T09:45-05:00
+finished: 2026-10-19T09:46-05:00
+ran:
+  - .venv/bin/python hunts/jensen_wedge/probe_h1_h3.py
+outcome: 26 s, completed, superseded: the complex circle at n = 3200 disagreed with route B at k = 2 and 6 (relative deviations 0.49 and 861) while k = 3, 4, 5, 7 agreed to 1e-23, the signature of a 2 pi i branch error in four symmetric arcs, which the mean-value check cannot see; and the route B against route A comparison of the targets read route A from 15-digit strings, so its 1e-15 agreement was the string length; both fixed (unwrapping along the circle, full-precision targets) and the JSON rewritten by the next run
+artifacts:
+```
+
+```runmanifest
+id: jensen_wedge-2026-10-19-h1h3-c
+hunt: jensen_wedge
+started: 2026-10-19T09:46-05:00
+finished: 2026-10-19T09:47-05:00
+ran:
+  - .venv/bin/python hunts/jensen_wedge/probe_h1_h3.py
+outcome: 27 s; with unwrapping (88 corrections at n = 3200, none at 400) the circle agrees with route B to 5e-26..3e-23 at n = 3200; route B agrees with route A on every target to 1e-18..1e-23 at n = 400..3200; superseded only because the large-n rows were relabelled with their input strings (values unchanged)
+artifacts:
+```
+
+```runmanifest
+id: jensen_wedge-2026-10-19-h1h3-d
+hunt: jensen_wedge
+started: 2026-10-19T10:00-05:00
+finished: 2026-10-19T10:01-05:00
+ran:
+  - .venv/bin/python hunts/jensen_wedge/probe_h1_h3.py
+outcome: the recorded run, 17 s; route A k = 49..3206 coarse/fine 3.8e-74 and validated against zeta/li.py; the reformulated system vanishes at phase 1's solution (2e-60 or better on route A, 2e-68 on route B); the contraction inequality holds at all 6 route B points from 1e7 to 1e20 with the measured configuration inside its radius, and fails at all 21 route A points and at 1e4, 1e5, 1e6; L t_j, the scaled configuration and the parameters approach their first-order values monotonically; G_0's derivative ratios approach (-1)^k (k-2)!/(N^(k-1) L) with first-order constants H_(k-2) - 1 to N = 1e50 on three rays; h on the two complex circles matches route B to 1e-17 or better. results_h1_h3.json records git_head as the base d0ce271: the run used the working tree this commit lands
+artifacts:
+  - hunts/jensen_wedge/results_h1_h3.json
+  - hunts/jensen_wedge/H1_H3.md
+  - hunts/jensen_wedge/RESULTS.md
+```

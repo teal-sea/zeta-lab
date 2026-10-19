@@ -755,3 +755,63 @@ table drifts from the true one past n = 100 (log gamma off by 1.6e-21 at n = 200
 n = 400 and 832 at n = 3200). The gate uses a relative cutoff; the two jensen_clock tables
 checked against it, in the ranges jensen_clock used, agree with it (`DH_GATE.md` section
 1). No kill condition of `MISSION.md` changes status.
+
+# H1 and H3 (2026-10-19)
+
+## 16. The open inputs of the six-coefficient chain, closed by derivation
+
+**Nothing in this section bears on RH.** `H1_H3.md` has the derivations;
+`probe_h1_h3.py`, `results_h1_h3.json` and `test_h1_h3.py` the numbers and their pins.
+Both derivations are self-reviewed only, not externally reviewed, and are not theorems.
+No novelty search was run.
+
+| input | status before | status now | rests on |
+| --- | --- | --- | --- |
+| H1 (section 12.5): the system with D free has, for `n >= n_0`, a solution within relative `O(1/L)` of the [2/2] Pade configuration | open, measured | **proved by derivation (self-reviewed)**, `H1_H3.md` section 4 | Holland's Proposition 4.1 at r = 0 and the holomorphic branch of `L_N` on his sector, (P1) and (P2) |
+| H3 (section 12.5): `\|h^(6)(x + w)\| <= C_6/(x^5 log x)` on `\|w\| <= eta_6 x` | open, "routine" | **proved by derivation (self-reviewed)**, section 3 | one Cauchy estimate on Holland's (25); or (P1), (P2) by his own route, (19) at r = 6 and (29) once more |
+| R1 (`REVIEW_PHASE1.md`): the leading constant of h^(5), needed by H1 | open, measured | **proved by derivation (self-reviewed)**, Lemma S(b) at k = 5 | (P1), (P2) |
+
+How. Lemma S gives every derivative of h from (P1) and (P2) by Cauchy estimates on the
+error terms: `h^(k)(x) = (-1)^k 2 (k-2)!/(x^(k-1) L_x)(1 + (H_(k-2) - 1)/L_x + O(1/L_x^2))`,
+uniformly on complex disks, which is Holland's (21) to (25) at k = 2..5, sharpened at
+k = 5, and continued to every k. For H1 the matching system is rewritten exactly as gap
+moments, `tau_j = int_G u_j'` with `u_j'(t) = (j+1) t^j prod_{i<=j+1} (1 + i t/n)^(-1)`;
+in scaled variables its limit vanishes at Simpson's rule, `det J = -1` (phase 1's -1/24
+with rows rescaled), and an explicit contraction on a weighted box closes once the data
+`tau_j` are close enough to their limits. Every model-side constant is exact
+(`kappa = 4533/15625`, `nu_w = 86/9`, admissibility iff `eps < 2/3`).
+
+What is not explicit: `n_0`, and the constant of H3. Both inherit the non-explicit
+constants of Holland's Proposition 4.1 (the complex form of GORTTW (3.2)). That is the
+missing step for an explicit wedge and is phase 2's object (MISSION Q2), not a gap in H1
+or H3 as the chain uses them: as in Holland's section 10, `n < n_0` is absorbed into K.
+
+Measured beside the derivations (grade: measured):
+
+- The contraction inequality, evaluated on the measured targets, holds at every measured
+  n from 1e7 to 1e20 (route B) and fails at n <= 1e6 and on all of route A (n <= 3200);
+  where it holds, phase 1's solution lies inside the radius it predicts (0.0072 against
+  0.0128 at n = 1e20).
+- The first-order predictions are approached monotonically over 1e4..1e20:
+  `L t_j -> H_j` (0.954, 1.452, 1.792 at 1e20 against 1, 1.5, 1.833),
+  `A/(nL) = 3 + 7/L` (3.1687 against 3.1672), `(D - n)L/n = 1/3 + 2/(3L)`, and
+  `(B - 2n)L/n -> 5/3`, `(C - 2n)L/n -> -11/3` (1.719 and -3.341 at 1e20). The last two
+  answer section 11.3's open item on B and C individually: the interior node moves by
+  `1/(4L)`.
+- Holland's (P1) itself, at two n: h computed from his (15) by quadrature on a complex
+  circle `|z - n| = n/8` has Taylor coefficients agreeing with route B's real-axis
+  derivatives to 1e-17 or better for k = 2..7 at n = 400 and 3200, `sup |h^(6)|` on
+  `|z - n| = n/16` is 1.52 and 1.54 times `48/(n^5 L)`, and his remainder R varies on the
+  circle by at most 0.04/n. This measures (P1); it does not establish it.
+
+What this changes. The conditional wedge `n^4 log^2(n+2) >= K d^6 log^12(d+2)` of
+section 12.5 no longer has an open input of its own: it rests on inputs Holland's
+Theorem 1.1 also rests on (his Proposition 4.1, (79) and Lemma 7.1; MFMP Propositions
+2.7 and 2.17), on sections 11 and 12 (reviewed internally once, no step broken) and on
+`H1_H3.md` (self-reviewed). Its grade is that of its weakest step: a derivation,
+internally reviewed in part, not a theorem, pending external review, and not promoted
+here. The review's items R2 to R4 follow from H1 and are recorded in `H1_H3.md` section
+5; R2's two hypotheses still have to be written into 12.3's statement. The derivations
+read xi only through the targets, so nothing in them separates zeta from
+Davenport-Heilbronn, consistent with section 15. No kill condition of `MISSION.md`
+changes status.
