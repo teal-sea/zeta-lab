@@ -121,3 +121,65 @@ outcome: the recorded run, 400 s; route A to k = 3296 agrees with its check rout
 artifacts:
   - hunts/jensen_wedge/results_phase1.json
   - hunts/jensen_wedge/RESULTS.md
+```
+
+## Rival gate (DH): unit timing, taken before the sweep (2026-10-19, worktree `.venv`, Python 3.14.7, mpmath 1.3.0, python backend)
+
+| unit (`dh_gate.py --time-unit`, the run before the recorded one) | time |
+| --- | --- |
+| jensen_clock's node set (4.2, 16, 7) for the DH weight, dps 75, 3072 nodes | 2.0 s |
+| route A, 64 moments k = 3233..3296 on it | 0.55 s |
+| the construction at n = 3200 (three fits and the Pade solve) | 0.05 s |
+| one theta walk 0.5 to 0.85, n = 3200 | 0.06 s |
+| route B by direct Laplace evaluation, log R_0..R_6, n = 3200 / 1e20 | 0.16 / 1.8 s |
+| jensen_clock's literal table to j = 60 at dps 130 | 3.9 s |
+| node set (4.2, 16, 8) at dps 275 for the root-geometry block | 12.9 s |
+
+Estimate written before the first sweep: route A on two node sets, about 1 min; the floor
+record, 0.5 min; the three fits and the Pade solve at 3151 n, about 2 min at 0.04 s each;
+the subgrid on both routes, 0.5 min; the theta maps at 21 + 6 n, about 1 min; large n,
+about 1 min; root geometry, about 2.5 min (phase 1's took 116 s); the n = 0 contrast,
+0.5 min. Total about 9 to 10 min on one core, at phase 0's precedent, so it ran locally
+rather than on Actions. Measured: 442 s and 497 s.
+
+```runmanifest
+id: jensen_wedge-2026-10-19-dh-scoping
+hunt: jensen_wedge
+started: 2026-10-19T08:27-05:00
+finished: 2026-10-19T09:28-05:00
+ran:
+  - <session scratchpad>/t1.py (timing jensen_clock's DH nodes at Gauss-Legendre level 12, 600 segments)
+  - <session scratchpad>/t2.py (jensen_clock's literal node sets at dps 75, k up to 3302)
+  - <session scratchpad>/t3.py (the same with a relative cutoff in omega_dh)
+  - <session scratchpad>/t4.py (node-set accuracy at dps 275)
+  - <session scratchpad>/smoke.py (both routes and the construction at n = 50, 150, 3200)
+outcome: t1 produced nothing and was stopped by hand after about 50 min on one core, because mpmath's Gauss-Legendre degree argument is a level giving 3 * 2^(level-1) nodes per segment, so level 12 meant 3.7 million nodes; t2 showed jensen_clock's three literal node sets disagreeing by 6 to 19 percent at n = 1600, traced to omega_dh's absolute floor (weight exactly 0 above u = 2.86 at dps 75); t3, with a relative cutoff, had all four node sets agreeing to 1e-74 up to k = 3302; t4 showed level 7 holding 1e-183 and level 8 1e-275 at dps 275, so the root-geometry block uses level 8; the smoke test found every predicted item true on both routes at the three n; no JSON was kept
+artifacts:
+```
+
+```runmanifest
+id: jensen_wedge-2026-10-19-dh-a
+hunt: jensen_wedge
+started: 2026-10-19T09:28-05:00
+finished: 2026-10-19T09:36-05:00
+ran:
+  - .venv/bin/python hunts/jensen_wedge/dh_gate.py --time-unit
+  - .venv/bin/python hunts/jensen_wedge/dh_gate.py
+outcome: 442 s; the prediction held on every item on both routes and the contrast showed no overlap; superseded by the next run only because a check of jensen_clock's pair-2 table (dps 180, j <= 400) against the relative cutoff was added afterwards; every other value of the two JSONs is identical (diffed key by key, timings aside)
+artifacts:
+```
+
+```runmanifest
+id: jensen_wedge-2026-10-19-dh-b
+hunt: jensen_wedge
+started: 2026-10-19T09:38-05:00
+finished: 2026-10-19T09:47-05:00
+ran:
+  - .venv/bin/python hunts/jensen_wedge/dh_gate.py --time-unit
+  - .venv/bin/python hunts/jensen_wedge/dh_gate.py
+outcome: the recorded run, 497 s; route A's two node sets agree to 4.5e-72 over m = 50..3296; Laguerre R_3 defect positive, Jacobi R_4 defect negative, E_F(5) at theta = 1/2 negative, the Pade match positive and its R_6 defect negative at all 3151 n on route A, with route B agreeing, resolving and inside its stated error at all 21 subgrid n and every item true at all 8 large n; the theta map has zeta's shape at all 21 n with theta_star the Pade point; DH Jensen polynomials real-rooted at n = 3200 (d <= 96) and n = 50 (d <= 24); DH complex pair at (d, n) = (22000, 0), landed at (20000, 0) and (30000, 1); jensen_clock's literal tables agree with the relative cutoff to 1.6e-39 (dps 130, j <= 328) and 1.6e-63 (dps 180, j <= 400)
+artifacts:
+  - hunts/jensen_wedge/results_dh.json
+  - hunts/jensen_wedge/DH_GATE.md
+  - hunts/jensen_wedge/RESULTS.md
+```
