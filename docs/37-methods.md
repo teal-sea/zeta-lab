@@ -52,7 +52,7 @@ stays out of this file. No em dashes.
 - **Weil positivity, Gram forms and kernels** (55). Weil-form truncations, window
   optima, incidence laws, cell-table and interval certificates for kernel inequalities,
   and the ceilings on what out-of-band positivity can buy.
-- **Higher xi derivatives and moments** (13). Exact resolvent identities for xi
+- **Higher xi derivatives and moments** (14). Exact resolvent identities for xi
   derivatives, resummed Lambda-convolutions, mean-value inputs and the moment
   obstructions to counting simple zeros.
 - **Heat flow and de Bruijn-Newman constants** (14). Backward heat flow of xi-type
@@ -2978,6 +2978,8 @@ inputs and the moment obstructions to counting simple zeros.
 - control: Invariance claims need a control that moves the invariant's parameter
   (fault-injection power measurement) (`r_2ac05f`)
 - obstruction: Third-moment obstruction block diag(b+2, b+2, −2b) (`cycle_moments`)
+- computational: Real saddle of the xi moment weight, carried to a Laplace series in a real
+  index (`gauss_positivity`, reused in `jensen_wedge`)
 
 ### Exact distinct-cycle Möbius corrections with overlap statistics
 
@@ -3367,6 +3369,42 @@ route
 Why it travels: A concrete isospectral-type gadget showing which moment hypotheses are
 load-bearing; the shared negative direction trick generalises.
 Index note: Kernel-checked scalar part.
+
+### Real saddle of the xi moment weight, carried to a Laplace series in a real index
+
+computational | `hunts/gauss_positivity/` | grade: hardened (gauss_positivity section 3:
+the leading saddle against exact quadrature, 4 to 6 digits at n = 100..3200; jensen_wedge
+phase 0: with six Laplace corrections, log gamma(n+j) - log gamma(n) evaluated directly
+differs from the exact moment table by under 1e-17 at n = 125..200, and the order-7
+expansion in j sits within its stated error at all 21 points from n = 50 to 3200)
+
+With gamma(n) = 8 n! (J_{n-1} - J_n/4), J_k = I_k/(4^k (2k)!) and I_k = int_0^inf u^{2k}
+e^{u/4} omega(e^u) du (the Mellin route of `zeta/li.py`), each moment is, up to a relative
+O(e^{-3 pi e^u}), the Laplace integral of Psi(u) = 2k log u + u/4 - pi e^u, whose saddle
+solves pi e^{u*} = 1/4 + 2k/u*. Nothing requires k to be an integer, so log gamma(x) is an
+analytic function of real x and log R_j = log gamma(n+j)/gamma(n) becomes a polynomial in
+j with coefficients g_i = (d/dn)^i log gamma(n)/i! = O(n^{1-i}). The Laplace series in
+powers of u*/k is generated mechanically: weight each Psi^{(m)}(u*) t^m/m! by s^{m-2},
+exponentiate as a power series in s, keep total weight up to 2M, and take the Gaussian
+moments (2r-1)!!/A^r with A = -Psi''(u*). Two pitfalls were measured, not assumed. mp.taylor
+on a function of size n log n needs a step relative to n and extra working precision
+(relative=True, addprec=60), or the ninth derivative at n = 1e20 keeps 13 digits. And a
+single-increment error estimate |M_k - M_{k-1}| missed at n = 150, where the increment
+crossed zero while the error did not; the larger of the last two increments held at every
+point.
+
+Evidence: hunts/gauss_positivity/RESULTS.md section 3; hunts/jensen_wedge/RESULTS.md
+sections 2 and 3; hunts/jensen_wedge/probe.py (log_I_laplace, saddle_expansion,
+differentiation_check); hunts/jensen_wedge/test_jensen_wedge.py
+Prior art: cited: the complex saddle of Griffin, Ono, Rolen, Thorner, Tripp and Wagner,
+arXiv:1910.01227v3, section 3, is the same object in complex form; Holland,
+arXiv:2608.08682v1, eq. (16), uses the saddle in the t variable, x = L(pi e^L + 3/4).
+The real-index series with its generated corrections is the lab's; unsearched beyond these.
+Reused in: hunts/jensen_wedge (route B of phase 0, and the large-n table to n = 1e20)
+Why it travels: Anything that needs log gamma(n+j) at large n or its expansion in j
+(Jensen polynomials of xi at shift n, Turan-type ratios, coefficient-matching
+constructions) gets it to any order in u*/n without a quadrature, at n far past any table,
+with an error read off the series and checked against the table where both exist.
 
 ## Heat flow and de Bruijn-Newman constants
 
@@ -5624,6 +5662,11 @@ Candidates the sweep surfaced that do not meet the bar yet: measured once, self-
 only, not carried anywhere, or hunt-specific. Listed so the next sweep does not re-judge
 them, and so a hunt that later reuses one knows it has just earned an entry above.
 
+- Shared-grid trapezoid for a block of consecutive xi moments I_k: one window and step per
+  block of 64 indices, the weight e^{u/4} omega(e^u) evaluated once per node and u^{2k}
+  advanced by one multiplication per index, the error read off a coarse/fine pair; over a
+  thousand times faster per index than tanh-sinh at k ~ 3200 and agreeing with it to 1e-74
+  (`hunts/jensen_wedge/`, computational): measured; used only inside its hunt.
 - Per-cell sharding of a branch-and-bound certificate with exact terminal-count
   reproduction (`hunts/bloch_ceiling/`, computational): not carried.
 - Decision-trace reproduction: compare branch counters, not artifact digests

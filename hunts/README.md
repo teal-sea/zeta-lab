@@ -3696,7 +3696,16 @@ bears on RH (`docs/08`).
 
 ### Hunt #135: the polynomial hyperbolicity wedge for Jensen polynomials of xi (`jensen_wedge/`, opened 2026-10-18)
 
-**Status: scoped, no measurement yet.** A depth hunt by owner decision, time-boxed to
+**Status: phase 0 done 2026-10-18, measured; no kill condition met.** Holland's two sign
+facts reproduce at every integer n = 50..3200 on the exact moment table (Laguerre defect
+at R_3 positive, Jacobi defect at R_4 negative), and a saddle route that uses no
+quadrature agrees in sign at 21 points; his stated constants (2, 2, 6/5, 1/3, 1/24) are
+approached monotonically on the saddle route out to n = 1e20. One preset error rule for
+the saddle route missed at n = 150 and is kept in `RESULTS.md` section 3. The phase 1
+quantity, the R_5 defect after his five-coefficient match, is negative at his choice
+D = B_J/2 at every n measured, but its sign flips as D varies, at a crossing where
+(C - D)/D sits above the D/4 of his parameter window; measured, not claimed. A depth hunt
+by owner decision, time-boxed to
 2026-11-29, against Holland's wedge `n^3 log^2(n+2) >= K d^5` (arXiv:2608.08682,
 August 2026). It asks whether the five-coefficient positive-root comparison extends
 to six coefficients (`d <~ n^{2/3}`), and whether the standing wedge's constant can
