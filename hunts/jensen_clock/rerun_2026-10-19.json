@@ -1,0 +1,53 @@
+{
+ "commit": "36d6b19fbe9cb8a44926d27c6d9591c1fc3d161a",
+ "mpmath": "1.3.0",
+ "note": "jensen_clock stages PR 315 left unrun, re-run with both fixes on the re-run flow_repair PDE targets",
+ "omega_dh_cutoff": "relative",
+ "run": "https://github.com/teal-sea/zeta-lab/actions/runs/39355357518",
+ "stages": {
+  "additivity": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/jensen_clock/results.json:additivity",
+   "fields_compared": 13,
+   "identical": 13,
+   "missing": [],
+   "rerun": "jc_additivity.json:additivity"
+  },
+  "additivity2": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/jensen_clock/results.json:additivity2",
+   "fields_compared": 7,
+   "identical": 7,
+   "missing": [],
+   "rerun": "jc_shift.json:additivity2"
+  },
+  "shift": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/jensen_clock/results.json:shift",
+   "fields_compared": 31,
+   "identical": 31,
+   "missing": [],
+   "rerun": "jc_shift.json:shift"
+  },
+  "shift_ladder": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/jensen_clock/results.json:shift_ladder",
+   "fields_compared": 20,
+   "identical": 20,
+   "missing": [],
+   "rerun": "jc_shift.json:shift_ladder"
+  }
+ },
+ "totals": {
+  "added": 0,
+  "changed": 0,
+  "fields_compared": 71,
+  "identical": 71,
+  "missing": 0,
+  "stages": 4
+ }
+}

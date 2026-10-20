@@ -1,0 +1,156 @@
+{
+ "commit": "36d6b19fbe9cb8a44926d27c6d9591c1fc3d161a",
+ "mpmath": "1.3.0",
+ "note": "flow_repair stages that evaluate the DH weight, re-run with the relative cutoff",
+ "omega_dh_cutoff": "relative",
+ "run": "https://github.com/teal-sea/zeta-lab/actions/runs/39355357518",
+ "stages": {
+  "lesions": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:lesions",
+   "fields_compared": 45,
+   "identical": 45,
+   "missing": [],
+   "rerun": "results_lesions.json:lesions"
+  },
+  "pair1": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:pair1",
+   "fields_compared": 102,
+   "identical": 102,
+   "missing": [],
+   "rerun": "results_pair1.json:pair1"
+  },
+  "precision": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:precision",
+   "fields_compared": 21,
+   "identical": 21,
+   "missing": [],
+   "rerun": "results_precision.json:precision"
+  },
+  "survey.pair2": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:survey_2_3.pair2",
+   "fields_compared": 18,
+   "identical": 18,
+   "missing": [],
+   "rerun": "results_survey_2.json:survey_2.pair2"
+  },
+  "survey.pair3": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:survey_2_3.pair3",
+   "fields_compared": 18,
+   "identical": 18,
+   "missing": [],
+   "rerun": "results_survey_3.json:survey_3.pair3"
+  },
+  "survey.pair4": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:survey_4_5.pair4",
+   "fields_compared": 18,
+   "identical": 18,
+   "missing": [],
+   "rerun": "results_survey_4.json:survey_4.pair4"
+  },
+  "survey.pair5": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:survey_4_5.pair5",
+   "fields_compared": 18,
+   "identical": 18,
+   "missing": [],
+   "rerun": "results_survey_5.json:survey_5.pair5"
+  },
+  "survey.pair6": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:survey_6_7.pair6",
+   "fields_compared": 18,
+   "identical": 18,
+   "missing": [],
+   "rerun": "results_survey_6.json:survey_6.pair6"
+  },
+  "survey.pair7": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:survey_6_7.pair7",
+   "fields_compared": 18,
+   "identical": 18,
+   "missing": [],
+   "rerun": "results_survey_7.json:survey_7.pair7"
+  },
+  "survey.pair8": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:survey_8_9.pair8",
+   "fields_compared": 18,
+   "identical": 18,
+   "missing": [],
+   "rerun": "results_survey_8.json:survey_8.pair8"
+  },
+  "survey.pair9": {
+   "added": [],
+   "changed": [],
+   "committed": "hunts/flow_repair/results.json:survey_8_9.pair9",
+   "fields_compared": 18,
+   "identical": 18,
+   "missing": [],
+   "rerun": "results_survey_9.json:survey_9.pair9"
+  },
+  "validate": {
+   "added": [],
+   "changed": [
+    {
+     "committed": "5.35e-51",
+     "path": "validate.phi_evenness_defect.0.abs",
+     "rerun": "1.6e-50"
+    },
+    {
+     "committed": "2.35e-51",
+     "path": "validate.phi_evenness_defect.0.rel",
+     "rerun": "7.05e-51"
+    },
+    {
+     "committed": "8.02e-51",
+     "path": "validate.phi_evenness_defect.2.abs",
+     "rerun": "1.07e-50"
+    },
+    {
+     "committed": "4.15e-51",
+     "path": "validate.phi_evenness_defect.2.rel",
+     "rerun": "5.53e-51"
+    },
+    {
+     "committed": "5.35e-51",
+     "path": "validate.phi_evenness_defect.3.abs",
+     "rerun": "1.07e-50"
+    },
+    {
+     "committed": "3.47e-51",
+     "path": "validate.phi_evenness_defect.3.rel",
+     "rerun": "6.94e-51"
+    }
+   ],
+   "committed": "hunts/flow_repair/results.json:validate",
+   "fields_compared": 58,
+   "identical": 52,
+   "missing": [],
+   "rerun": "results_validate.json:validate"
+  }
+ },
+ "totals": {
+  "added": 0,
+  "changed": 6,
+  "fields_compared": 370,
+  "identical": 364,
+  "missing": 0,
+  "stages": 12
+ }
+}

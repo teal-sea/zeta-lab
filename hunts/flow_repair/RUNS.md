@@ -23,4 +23,11 @@ correction branch. mpmath pinned to 1.3.0 (the authoring host's), Python 3.12.
 Not run: `ode` and `figure`, which evaluate no DH weight and read only the
 polished zeros and the PDE t\* values.
 
-**Outcome.** Pending.
+**Outcome.** Run 39355357518 (commit 36d6b19f), all 15 jobs green,
+25 minutes wall (01:47 to 02:12 UTC, 2026-10-20). The runner ran at about
+the authoring host's speed (pair1 245 s against 256 s recorded), so the
+estimate's factor of two was pessimistic. Its validate output equals this
+host's re-run bit for bit. Comparison: flow_repair 12 stages, 370 fields,
+364 identical, 6 changed (validate's evenness defect, NOTES.md
+"Correction"); jensen_clock 4 stage blocks, 71 fields, all identical.
+Reports: `rerun_2026-10-19.json` here and in `hunts/jensen_clock/`.
