@@ -11,6 +11,11 @@ its weakest step. Novelty: `NOVELTY.md` (claim C) found no explicit value of Hol
 of any constant of a wedge at exponent 3/5 or 2/3 in the searched set; that search is about
 the searched set only.
 
+*Grade, 2026-10-19 (phase 3):* `REVIEW_PHASE2.md` reviewed this file once, independently,
+reproducing all four constants with its own code, and broke no step. The grade is now:
+derivation, self-reviewed and reviewed once by an independent session, not a theorem,
+pending external review. The paragraph above is kept as written.
+
 ## 0. The constants
 
 | statement | explicit constant | the chain covers | small n handled by |
@@ -177,6 +182,14 @@ smaller. (iii) With `delta = d_max/n`, `|delta'/delta| >= 0.2851/n` and
 `d_max'/d_max <= 0.715/n` for n >= 1000, so the logarithmic derivative is at most
 `-0.1426/n + 0.715/(n log(d_max + 2))`, negative once `log(d_max + 2) > 5.02`. QED. **Status: derivation, self-reviewed;** `n_lo >= 1000` is checked on every subinterval.
 
+*Note, 2026-10-19 (phase 3, `REVIEW_PHASE2.md` D1):* for (6a), `effective.py` defines
+`d_max(n)^6 log^12(9.36e20 + 3) = n^4 log^2(n+2)/K'`, not with `log^12 3`. That is valid
+because the (6a) chain handles only d > 9.36e20, where `log^12(d + 2)` is at least
+`log^12(9.36e20 + 3)`; (6s) uses `log^12 3` as written. (ii) and (iii) hold for both
+definitions: their proofs use only logarithmic derivatives, which a constant factor in
+`d_max^6` does not change, and the `d_max > 150` clause is checked with the definition the
+chain uses.
+
 **Targets.** `tau_j = (-1)^j n^(j+1)/j! Delta^(j+2) h(n)` is the cube average of
 `2 e_1 H_(j+2)(sigma/n)`, `H_k(y) := (-1)^k h^(k)(n(1+y)) n^(k-1)/(2 (k-2)! e_1)`, so
 `T_j := tau_j/(2 e_1)` lies in the hull of `H_(j+2)` over `y in [0, (j+2)/n]`, and Lemma D(ii)
@@ -311,6 +324,12 @@ subinterval: `A >= 8B`, `B >= 256 d`, `C >= D + d`, `D >= 32 d`, `D > 64 d`. The
 and `4 + 3 H_d <= c_H log(d + 2)` with `c_H = 3 + 5.983/log(d_min + 2)`
 (`H_d <= log(d + 2) + 0.6607`): `c_H = 5.878` for d >= 6, `3.124` for d > 9.36e20.
 
+*Note, 2026-10-19 (phase 3, `REVIEW_PHASE2.md` D2):* the residual step handles d >= 6
+only. For (6s) at d <= 5 the model matches every coefficient of `J^{d,n}` (`R_0..R_5`), so
+the Jensen polynomial is the model itself up to the change of variable, and its d zeros are
+distinct and negative by Lemmas B and C; the five conditions above are checked for every d
+up to `d_max`, so they cover d <= 5. `chain6`'s docstring said this; now this file does too.
+
 **The sixth-order residual, keeping the Simpson cancellation.** With
 `psi^(5)(y) = 24/y^5 + r_5`, `|r_5| <= 120/(Re y)^6` (`H1_H3.md` 3.3, item 1) and
 `omega_5(w) = w^5/(1 + w y)^5`:
@@ -318,7 +337,11 @@ and `4 + 3 H_d <= c_H log(d + 2)` with `c_H = 3 + 5.983/log(d_min + 2)`
     E_F^(6)(z) n^5/(24 eps) = H_6(y)/T_0 - [g0 w_A^4 (1 + w_A y)^(-5) + gx <omega_5'>_[w_B, w_C] + (g1 - beta_b) <omega_5'>_[w_D, w_b]] + rem,
 
 leading value `1 - 25/24 = -1/24`. `Theta_6 <= 0.0661` (assisted) and `0.538` (standalone);
-the triangle inequality on the same pieces would give about 2. Hermite-Genocchi with six
+the triangle inequality on the same pieces would give about 2. *Note, 2026-10-19
+(phase 3, `REVIEW_PHASE2.md` R13):* these are loose by a factor of about 1.4. The hull of
+`omega_5'` over `[w_B, w_C]` and `[w_D, w_b]` is valid but wide; the exact divided
+difference gives `0.0477` and `0.403`, and (6a) would close at `K' = 3.70e9`. The claims are
+kept, with that margin, and `effective.py` keeps the hull. Hermite-Genocchi with six
 nodes, Proposition 2.2_6 (`sup |E| < log 33`), and
 `d + 2r <= n sqrt(d/n) log(d + 2) [sqrt(d/n)/log(d_min + 2) + 2 rho_r sqrt(2.47 + 6.07/d_min)/sqrt(w_B)]`
 give `sup |E_F| <= C_E d^3 log^6(d+2)/(n^2 v_1)` with `C_E = T_0 Theta_6 [..]^6/15`, and
@@ -331,6 +354,10 @@ give `sup |E_F| <= C_E d^3 log^6(d+2)/(n^2 v_1)` with `C_E = T_0 Theta_6 [..]^6/
 **Measured:** at n = 1e12 the radius (6) needs is 0.82 (d = 10) and 0.89 (d = 40) times
 `sqrt(Bd)`, and 12.3's r is 32 and 39 times it: K' carries about `36^12 = 5e18` of slack from
 Lemmas A to C alone (`REVIEW_PHASE1.md` R5 measured the same looseness at n = 3200).
+*Correction, 2026-10-19 (phase 3):* 32 and 39 are 12.3's r in units of `sqrt(Bd)`
+(`results_effective.json`, `r_12_3_over_sqrt_Bd`), not in units of the need. Against the need
+(0.815, 0.885) it is 39 and 44 times, so the slack is up to `44^12 = 5e19`, not `36^12 = 5e18`.
+The sentence is kept as written; no constant changes.
 
 ## 7. The dependency chains
 
@@ -379,18 +406,37 @@ require each to be caught:
 | Lemma 8.1-E | actual `E_F(j)` | 1.26 | `Theta_5` halved |
 | (75), (76), (86), (90), `V_m` | eigenvalues against polynomial roots (relative 1e-40); (86), (90) and the `V_m` expansion in exact rationals | exact | wrong sign of `eps_p`; Lemma G's second bound outside its case |
 
+*Correction, 2026-10-19 (phase 3, `REVIEW_PHASE2.md` item P and D3):* the table lists the
+plants phase 2 chose, and it names no step as uncovered. Three steps were: the review's
+plants of a five times smaller `C_rho`, a Cauchy radius n/4 and Sturm constants divided by
+10 each passed all 36 tests. Phase 3 checks those steps against their derivation, and the
+suite replays the four review plants as source edits that must be rejected:
+
+| step | check added in phase 3 | slack | review plant now rejected |
+| --- | --- | --- | --- |
+| Lemma L, the cubic piece | `(1/6) int abs(t)^3 e^(-t^2/4) dt = 8/3` by quadrature, and `C_rho >= k3 e^T/(sqrt(2 pi) cos^2 b)` at all four thresholds | 1.007 to 1.067 | 8/3 as 8/15, and as 8/30 |
+| Lemma D(ii), the Cauchy part | the remainder ball, with `F_k` set to 0, is at least `k! lambda/((RHO - RHO_D) n)^k` normalised, k = 2..7, n = 1e8, 1e20; the n/4 circle about `n(1 + i/8)` leaves the sector holding every Lemma R disk | exact | radius n/4 |
+| Lemma B, the Sturm constants | the factor the chain uses against the derived `(32/13) d + 2.001 (32/13)^2/2`, and the actual smallest gap of `2F1(-6, A; B; y/A)` at the chain's A, B (n = 2e7) against the gap bound it implies | 1.003 (constants), 1.75 (gap) | 2.47, 6.07 as 0.247, 0.607 |
+
+Still not tested: Lemma W, `c_H` and the `psi` remainders of 5.4 and section 6 (samples
+only, or none). The review rederived them by hand (R10, R12). The sentence above the table,
+"the tests plant formula faults and require each to be caught", is kept as written.
+
 ## 9. What is not explicit, and what this does not show
 
 - **Nothing in either chain is left non-explicit;** no step is graded attempt unresolved.
   The inputs of section 1 are statements without constants.
 - **Grade.** Every lemma here is self-reviewed only. (6a), (6s) also take the grade of
   sections 11 and 12 (reviewed once) and of Lemma M6. Pending independent review, none of
-  the four is a theorem.
+  the four is a theorem. *(2026-10-19: reviewed once by an independent session,
+  `REVIEW_PHASE2.md`, no step broken; still none of the four is a theorem, pending external
+  review.)*
 - **Where the constants are loose.** In the five-coefficient chain the binding step is
   `a + b + theta < 1` with `C_loc` near 2: `K_6 = 2.53` against a measured need of about
   1.2 at n = 1e12, and K scales like `K_6^10`, so up to `(2.53/1.24)^10 = 1.2e3` in K is
   this argument's, not the mathematics'. In the six-coefficient chain Lemmas A to C's radius
-  is 36 to 44 times the need: up to about `5e18` in K'. The standalone constants are the
+  is 36 to 44 times the need: up to about `5e18` in K'. *(2026-10-19: 39 and 44 times, up to `5e19`; see the
+  correction in section 6.)* The standalone constants are the
   absorption `n_0^3 log^2 n_0` and `n_0^4 log^2 n_0/log^12 3`, set by where Lemma L
   (`R_min >= 10`) and Lemma M6 stop closing.
 - **D = n/2.** K is a constant for Holland's statement, proved through his family with a

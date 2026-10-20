@@ -73,6 +73,7 @@ What was built, what was measured, and what did not survive.
 | [41](41-the-module-that-missed-the-guard.md) | The module that missed the guard: the Epstein evaluator's failure surface in height and precision before #291, a loss derived rather than fitted, and a guard an adversary walked straight through because every rung of its fault ladder varied the wrong thing (hunt #129; the precision lift that fixed the routine landed in #291). |
 | [42](42-a-law-read-off-a-diagonal.md) | A law read off a diagonal: an elementary certificate barrier measured on a grid instead of a diagonal, a headline withdrawn when an adversary noticed the model comparison was not like for like, and the zero-weight cells that turn out to be what holds the excess up (hunt #130). |
 | [43](43-what-happens-to-a-claim.md) | What happens to a claim after it is recorded: a measurement of this laboratory rather than of zeta, how much of the record has a guard behind it, how rarely a correction installs one, and a correction rate withdrawn when a blind audit scored the classifier near chance and re-earned on a disjoint sample (hunt #131). |
+| [44](44-the-constant-in-the-wedge.md) | The constant in the wedge: explicit constants for Holland's Jensen hyperbolicity wedge (K = 17 900 with GORTTW's corollary, 9.10e19 without) and c = 1 in GORTTW's theorem, the earlier deposits that claimed the 2/3 wedge first, the Davenport-Heilbronn rival the construction cannot tell from zeta, and a test suite that claimed more than it checked (hunt #135). Nothing in it bears on RH. |
 
 ## Adding one
 

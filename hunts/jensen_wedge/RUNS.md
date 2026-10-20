@@ -287,3 +287,23 @@ artifacts:
   - hunts/jensen_wedge/test_effective.py
   - hunts/jensen_wedge/RESULTS.md
 ```
+
+## Phase 3 (2026-10-19): the review's formula plants against the extended suite
+
+Estimate written before the run: `review_p2/plant_formula_faults.py` runs the phase 2 suite
+five times (control plus four plants); the suite took about 50 s in phase 2 and the seven
+new tests add about 9 s, so about 5 to 6 minutes on one core, local.
+
+```runmanifest
+id: jensen_wedge-2026-10-19-phase3-plants
+hunt: jensen_wedge
+started: 2026-10-19T19:48-05:00
+finished: 2026-10-19T19:54-05:00
+ran:
+  - .venv/bin/python -m pytest -q -n0 hunts/jensen_wedge/test_effective.py -k "lemma_L_cubic or lemma_D_cauchy or lemma_B_sturm or formula_plants"
+  - .venv/bin/python hunts/jensen_wedge/review_p2/plant_formula_faults.py
+outcome: the seven new tests pass (8.9 s). The review's script, rerun on this tree, took 6 min: control green with 43 passed; all four formula plants red (8/3 as 8/15: 3 failed; 8/3 as 8/30: 4 failed; Cauchy radius n/4: 2 failed; Sturm constants divided by 10: 2 failed), each caught by the new derivation check for its step and by the replayed plant. The script overwrites review_p2/plants_review_p2.json; its output was saved as plants_phase3.json and the review's file restored unchanged
+artifacts:
+  - hunts/jensen_wedge/test_effective.py
+  - hunts/jensen_wedge/plants_phase3.json
+```

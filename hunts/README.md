@@ -3696,6 +3696,29 @@ bears on RH (`docs/08`).
 
 ### Hunt #135: the polynomial hyperbolicity wedge for Jensen polynomials of xi (`jensen_wedge/`, opened 2026-10-18)
 
+**Status: landed 2026-10-19 (phase 3); no kill condition met. Q1 had been answered in the
+literature first; Q2 is answered by a derivation reviewed once internally, not a theorem,
+pending external review.** Holland's wedge `n^3 log^2(n+2) >= K d^5` holds with
+K = 17 900 when GORTTW Cor. 1.3 covers d <= 9.36e20, or K = 9.10e19 with no outside input;
+the six-coefficient form `n^4 log^2(n+2) >= K' d^6 log^12(d+2)` holds with K' = 7.21e9 or
+3.61e30; and c = 1 is admissible in GORTTW Theorem 1.1. Every numeric step is an Arb
+enclosure. An independent session reproduced all four constants with its own code and broke
+no step (`REVIEW_PHASE2.md`); its finding that three of four planted formula faults passed
+the phase 2 suite is closed (seven tests added, all four plants now rejected), and a
+misread looseness figure was corrected at landing (`RESULTS.md` section 18). **Credit:** the
+2/3 wedge was posted first by Savva (Zenodo 10.5281/zenodo.22293642, 2026-09-03,
+`n^2 log(n+2) >= K d^3`, stronger than the hunt's `log^12` form, K not computed), and the
+Pade spine behind the sixth-coefficient match by Sarnowski (Zenodo Papers 134Z and 134AA,
+2026-08-20). Both are unreviewed and their proofs were not checked here. The hunt's own
+results with no prior instance in the searched set are the explicit constants (`RESULTS.md`
+section 19, `NOVELTY.md`). The Davenport-Heilbronn gate held as predicted, so the
+construction cannot tell an RH-true function from an RH-false one (section 15), and "The
+doors" (section 20) leaves the small-n, large-d corridor untouched. Front door: `docs/44`.
+Merged work: #304 (opened), #306 (phase 0), #307 (funding record), #308 (phase 1), #309
+(review), #310 (DH gate), #311 (H1, H3), #312 (literature search), #313 (review), #314
+(phase 2), #316 (review), then the landing PR; #305 and #315 are related corrections
+outside the hunt. The status history below is kept as written.
+
 **Status: phase 0 done 2026-10-18, measured; no kill condition met.** Holland's two sign
 facts reproduce at every integer n = 50..3200 on the exact moment table (Laguerre defect
 at R_3 positive, Jacobi defect at R_4 negative), and a saddle route that uses no
