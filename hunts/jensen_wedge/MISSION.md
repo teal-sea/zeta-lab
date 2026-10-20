@@ -8,6 +8,12 @@ absence of results before a checkpoint is not a kill condition. Time box: throug
 The owner confirmed this funding and time box on 2026-10-18 ("Fund hunt #135 as
 scoped"), and the allocation record belongs on fulcrum's roster, not here.
 
+> **Closed 2026-10-19 by owner decision**, after landing in PR #317, about six weeks
+> inside the time box. No kill condition fired. The remaining checkpoints and the rest
+> of the time box are released, and this is an allocation decision, not a mathematical
+> verdict. The open doors are listed in `RESULTS.md`, "The doors". Reopening them is a
+> new allocation.
+
 This hunt cannot promote its own claims (`hunts/README.md`). Nothing in it is a
 statement about RH, and section "What success would mean" says why that holds even
 if every phase succeeds.
