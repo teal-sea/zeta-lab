@@ -7,6 +7,85 @@ corollary that textbook-degree Jensen scans are structurally blind to an
 actual RH violation, and a null control showing the clock reads zero
 configuration, not arithmetic.**
 
+## Correction (2026-10-19): an absolute floor in the DH weight
+
+Added after the original record. Every section after this one is the original
+text, unchanged; where a number in it is affected, this section says so.
+
+**The defect.** `omega_dh` dropped every theta term below an absolute floor
+10^-(dps+8), so the Davenport-Heilbronn weight was exactly 0 wherever
+e^(-πx/5) fell below that floor: for u > ½·log(5(dps+8)·ln 10/π), which is
+u > 3.035 at dps 110, 3.113 at dps 130, 3.211 at dps 160 and 3.268 at
+dps 180. Every DH table this hunt built had zero-weight nodes (815 of the
+3072 default nodes at dps 130). A silent zero where the weight is small, not
+an error. Found by hunt #135's Davenport-Heilbronn gate,
+`hunts/jensen_wedge/DH_GATE.md` section 1, which measured it where it bites:
+at dps 75 (cut at u > 2.859, 1001 of 3072 nodes zeroed) log γ is off by
+1.7e-4 at m = 400 and by 832 at m = 3200. DH_GATE.md also checked this
+hunt's dps-130 and dps-180 tables.
+
+**The fix.** `omega_dh` now factors out the leading term and stops at a
+relative cutoff, 2^-(prec+20) of it: the logic of hunt #135's `omega_dh_rel`,
+reimplemented here. The original is kept as `omega_dh_absolute_floor`, for
+the record and as a planted fault. `test_jensen_clock.py` checks the fixed
+weight against a cutoff-free 30-term sum at dps 75 (log γ(400) agrees to
+below 1e-65) and goes red on the original floor (1.72e-4 off, 1001 zeroed
+nodes).
+
+**What the floor did to this hunt's tables.** The moments used here
+(j ≤ 400) are carried by u below the cut, so each table moved by a small
+relative amount, largest at the top index (node sets as (U, segments,
+Gauss-Legendre level)):
+
+| table | used by stages | max relative change |
+|---|---|---|
+| dps 110, j ≤ 280, (4.2, 16, 7) | precision | 7.1e-33 |
+| dps 130, j ≤ 320, (4.2, 16, 7) | precision, validate, trajectory, dstar | 1.2e-40 |
+| dps 130, j ≤ 328, (4.2, 16, 7) | map2 (DH_GATE.md: 1.6e-39) | 1.6e-39 |
+| the same, flowed to t = 0.05 (t = -0.31: 7.1e-40) | bounds additivity, shift, additivity2 | 1.9e-39 |
+| dps 130, j ≤ 320, (3.9, 13, 8) | precision, validate | 1.4e-40 |
+| dps 160, j ≤ 360, (4.5, 20, 7) | precision | 1.7e-55 |
+| dps 180, j ≤ 400, (4.2, 18, 7) | pair2 (DH_GATE.md) | 1.6e-63 |
+
+Stages planted and li use no DH weight.
+
+**Re-verification, 2026-10-19.** Each stage below was re-run with the fix and
+every field compared with `results.json` (measured; the comparison script is
+not committed, the `precision` re-run is):
+
+- **precision** (the dps-110 and dps-160 tables DH_GATE.md did not check,
+  plus both dps-130 node sets): identical in every digit. d\* = 20786.973402454
+  at dps 110 and 20785.132775918 in the other three runs, root Im at
+  d = 30000 to 20 digits, spread 8.86e-5. P7 stands as printed.
+  `results.json`'s `precision` block is now this re-run; only `seconds` and a
+  new `omega_dh_cutoff` field differ.
+- **dstar, map2**: identical in every field. d\* = 20785.13, the 0.097%
+  clock agreement and the 36-order truncation margin stand.
+- **trajectory, pair2**: every root and every number derived from them
+  identical. Only the size of the final Newton step changes, at the working
+  floor (1e-41 to 1e-43 at dps 130, 1e-54 to 1e-56 at dps 180); this page
+  quotes none of them.
+- **validate: one published number changes.** "Two unrelated quadratures
+  agree on the DH γ-table to 2.6e-41" (`gamma_two_quadratures_max_rel_defect`
+  = 2.63e-41) re-runs as **3.96e-130**. The printed figure measured the floor,
+  not the quadrature: the two node sets lose 1.15e-40 and 1.41e-40 of the top
+  moment to it, and 2.6e-41 is the difference. With the fix the two node sets
+  agree at working precision, so the point it supported (the γ-table is
+  quadrature-converged far below anything the instrument reads) holds more
+  strongly than stated. `newton_last_step` also changes, at the working floor
+  (3.62e-43 to 4.01e-42). The rest of validate is identical: the undamped
+  root against hunt #4's pair to 40 digits, 86.69 cancellation digits, ζ's
+  1.3e-51. `results.json`'s `validate` block still holds the original values.
+- **additivity, shift, additivity2: not re-run** (about 27 minutes as
+  recorded). Their flowed tables move by at most 1.9e-39 (t = 0.05 is above
+  every positive flow time they use; negative times shrink it), the same size
+  as the unflowed tables whose roots and d\* re-ran unchanged to 14 to 40
+  digits, and this page quotes at most 9 digits from them. That is a measured
+  bound on their input, not a re-run of their output.
+
+`hunts/flow_repair/probe.py`'s `omega_dh`, behind the PDE targets read here,
+has the same absolute floor; it is not changed or checked here.
+
 Everything below is the accurate regime (mpmath floats, measured cross-route
 defects). Raw numbers in `results.json`; predictions were pre-registered in
 `MISSION.md`; PDE-side targets are hunt #4's measurements
