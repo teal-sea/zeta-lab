@@ -3716,7 +3716,7 @@ construction cannot tell an RH-true function from an RH-false one (section 15), 
 doors" (section 20) leaves the small-n, large-d corridor untouched. Front door: `docs/44`.
 Merged work: #304 (opened), #306 (phase 0), #307 (funding record), #308 (phase 1), #309
 (review), #310 (DH gate), #311 (H1, H3), #312 (literature search), #313 (review), #314
-(phase 2), #316 (review), then the landing PR; #305 and #315 are related corrections
+(phase 2), #316 (review), #317 (landing); #305 and #315 are related corrections
 outside the hunt. The status history below is kept as written.
 
 **Status: phase 0 done 2026-10-18, measured; no kill condition met.** Holland's two sign
