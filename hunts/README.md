@@ -3696,7 +3696,7 @@ bears on RH (`docs/08`).
 
 ### Hunt #135: the polynomial hyperbolicity wedge for Jensen polynomials of xi (`jensen_wedge/`, opened 2026-10-18)
 
-**Status: landed 2026-10-19 (phase 3); no kill condition met. Q1 had been answered in the
+**Status: landed 2026-10-19 (phase 3) and closed the same day by owner decision; no kill condition met. Q1 had been answered in the
 literature first; Q2 is answered by a derivation reviewed once internally, not a theorem,
 pending external review.** Holland's wedge `n^3 log^2(n+2) >= K d^5` holds with
 K = 17 900 when GORTTW Cor. 1.3 covers d <= 9.36e20, or K = 9.10e19 with no outside input;
