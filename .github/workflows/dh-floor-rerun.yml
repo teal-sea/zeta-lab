@@ -1,0 +1,229 @@
+# The 2026-10-19 correction to the Davenport-Heilbronn weight, re-run off the
+# operator's machine.
+#
+# hunts/flow_repair and hunts/jensen_clock both built Phi_DH with an omega_dh
+# that dropped theta terms below an ABSOLUTE floor, so the weight read exactly
+# 0 past a cut (hunts/jensen_wedge/DH_GATE.md section 1). Both now use a
+# relative cutoff. This workflow re-runs, with both fixes in place:
+#
+#   * every flow_repair stage that evaluates the DH weight (validate, pair1,
+#     precision, lesions, survey pairs 2 to 9), each against the committed
+#     results.json;
+#   * the three jensen_clock stages PR #315 left unrun (additivity, shift,
+#     additivity2), after folding the re-run flow_repair pair1 and precision
+#     blocks, the PDE targets they read, into flow_repair's results.json.
+#
+# The ode and figure stages evaluate no DH weight; they read the PDE t* values,
+# so they are re-run only if a t* changes.
+#
+# Estimate (hunts/flow_repair/RUNS.md): one H evaluation is 0.035 s at dps 54
+# and 0.67 s at dps 165 on the authoring host; the recorded stage times sum to
+# 118 minutes there, the longest single stage being survey pair 9 (19 min) and
+# jensen_clock shift + additivity2 (17 min). On a runner at about twice that,
+# the longest chain is about 50 minutes wall.
+#
+# The compare job writes one report per hunt and fails if any stage's re-run
+# is missing: an absent re-run is not an unchanged one.
+name: dh-floor-rerun
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "claude/jovial-shaw-e30373"
+    paths:
+      - ".github/workflows/dh-floor-rerun.yml"
+      - "hunts/flow_repair/probe.py"
+      - "hunts/jensen_clock/probe.py"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dh-floor-rerun-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  flow-repair-core:
+    name: flow_repair ${{ matrix.stage }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # in their own job, so lesions and jensen_clock wait for these and
+          # not for survey pair 9
+          - {stage: validate, args: "validate"}
+          - {stage: pair1, args: "pair1"}
+          - {stage: precision, args: "precision"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install (mpmath pinned to the authoring host's 1.3.0)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check "mpmath==1.3.0" numpy scipy
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - name: run ${{ matrix.stage }}
+        run: |
+          SECONDS=0
+          python hunts/flow_repair/probe.py ${{ matrix.args }} \
+            --out hunts/flow_repair/results_${{ matrix.stage }}.json
+          echo "flow_repair ${{ matrix.stage }}: ${SECONDS}s" | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fr-${{ matrix.stage }}
+          path: hunts/flow_repair/results_${{ matrix.stage }}.json
+          if-no-files-found: error
+
+  flow-repair-survey:
+    name: flow_repair ${{ matrix.stage }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {stage: survey_2, args: "survey --pairs 2"}
+          - {stage: survey_3, args: "survey --pairs 3"}
+          - {stage: survey_4, args: "survey --pairs 4"}
+          - {stage: survey_5, args: "survey --pairs 5"}
+          - {stage: survey_6, args: "survey --pairs 6"}
+          - {stage: survey_7, args: "survey --pairs 7"}
+          - {stage: survey_8, args: "survey --pairs 8"}
+          - {stage: survey_9, args: "survey --pairs 9"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install (mpmath pinned to the authoring host's 1.3.0)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check "mpmath==1.3.0" numpy scipy
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - name: run ${{ matrix.stage }}
+        run: |
+          SECONDS=0
+          python hunts/flow_repair/probe.py ${{ matrix.args }} \
+            --out hunts/flow_repair/results_${{ matrix.stage }}.json
+          echo "flow_repair ${{ matrix.stage }}: ${SECONDS}s" | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fr-${{ matrix.stage }}
+          path: hunts/flow_repair/results_${{ matrix.stage }}.json
+          if-no-files-found: error
+
+  flow-repair-lesions:
+    name: flow_repair lesions (on the re-run pair1)
+    needs: flow-repair-core
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: |
+          python -m pip install --quiet --disable-pip-version-check "mpmath==1.3.0" numpy scipy
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - uses: actions/download-artifact@v4
+        with: {name: fr-pair1, path: hunts/flow_repair}
+      - name: fold the re-run pair1 in, then lesions
+        run: |
+          python hunts/flow_repair/probe.py merge
+          SECONDS=0
+          python hunts/flow_repair/probe.py lesions --out hunts/flow_repair/results_lesions.json
+          echo "flow_repair lesions: ${SECONDS}s" | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fr-lesions
+          path: hunts/flow_repair/results_lesions.json
+          if-no-files-found: error
+
+  jensen-clock:
+    name: jensen_clock ${{ matrix.stage }} (on the re-run PDE targets)
+    needs: flow-repair-core
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {stage: additivity, run: "additivity"}
+          - {stage: shift, run: "shift additivity2"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: |
+          python -m pip install --quiet --disable-pip-version-check "mpmath==1.3.0" numpy scipy
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - uses: actions/download-artifact@v4
+        with: {name: fr-pair1, path: hunts/flow_repair}
+      - uses: actions/download-artifact@v4
+        with: {name: fr-precision, path: hunts/flow_repair}
+      - name: fold the re-run pair1 and precision blocks into flow_repair's results
+        run: python hunts/flow_repair/probe.py merge
+      - name: run ${{ matrix.run }}
+        run: |
+          for s in ${{ matrix.run }}; do
+            SECONDS=0
+            python hunts/jensen_clock/probe.py "$s"
+            echo "jensen_clock $s: ${SECONDS}s" | tee -a "$GITHUB_STEP_SUMMARY"
+          done
+          cp hunts/jensen_clock/results.json "jc_${{ matrix.stage }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jc-${{ matrix.stage }}
+          path: jc_${{ matrix.stage }}.json
+          if-no-files-found: error
+
+  compare:
+    name: compare every field with the committed results
+    needs: [flow-repair-core, flow-repair-survey, flow-repair-lesions, jensen-clock]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install --quiet --disable-pip-version-check "mpmath==1.3.0"
+      - uses: actions/download-artifact@v4
+        with: {path: dl, merge-multiple: true}
+      - name: flow_repair
+        run: |
+          C=hunts/flow_repair/results.json
+          set -- --stage validate $C validate dl/results_validate.json validate \
+                 --stage pair1 $C pair1 dl/results_pair1.json pair1 \
+                 --stage precision $C precision dl/results_precision.json precision \
+                 --stage lesions $C lesions dl/results_lesions.json lesions
+          for k in 2 3 4 5 6 7 8 9; do
+            case $k in 2|3) g=2_3;; 4|5) g=4_5;; 6|7) g=6_7;; 8|9) g=8_9;; esac
+            set -- "$@" --stage "survey.pair$k" $C "survey_$g.pair$k" \
+                   "dl/results_survey_$k.json" "survey_$k.pair$k"
+          done
+          python hunts/flow_repair/compare_rerun.py --out fr_rerun.json "$@" \
+            --note "flow_repair stages that evaluate the DH weight, re-run with the relative cutoff"
+      - name: jensen_clock
+        if: ${{ !cancelled() }}
+        run: |
+          C=hunts/jensen_clock/results.json
+          python hunts/flow_repair/compare_rerun.py --out jc_rerun.json \
+            --stage additivity $C additivity dl/jc_additivity.json additivity \
+            --stage shift_ladder $C shift_ladder dl/jc_shift.json shift_ladder \
+            --stage shift $C shift dl/jc_shift.json shift \
+            --stage additivity2 $C additivity2 dl/jc_shift.json additivity2 \
+            --note "jensen_clock stages PR 315 left unrun, re-run with both fixes on the re-run flow_repair PDE targets"
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: rerun-report
+          path: |
+            fr_rerun.json
+            jc_rerun.json
+          if-no-files-found: error
