@@ -5,6 +5,74 @@ language throughout: *measured*, *observed*. Everything here is the
 accurate regime (mpmath floats with measured cross-route defects); no
 enclosure claims are made anywhere in this hunt.
 
+## Correction (2026-10-19): an absolute floor in the DH weight
+
+Added after the original record. Every section after this one is the
+original text, unchanged; where a number in it is affected, this section
+says so.
+
+**The defect.** `omega_dh` dropped every term n·e^(−πn²x/5) below an
+absolute floor 10^-(P+8), P the ambient precision, so Φ_DH was exactly 0
+wherever e^(−πx/5) fell below that floor: for u > ½·log(5(P+8)·ln 10/π),
+x = e^(2u). The same construction as `hunts/jensen_clock`'s, where hunt
+#135's Davenport-Heilbronn gate found it (`hunts/jensen_wedge/DH_GATE.md`
+section 1) and its own correction fixed it (PR #315).
+
+**The fix.** `omega_dh` now factors out the leading term and stops at
+2^-(prec+20) of it, jensen_clock's corrected logic, reimplemented. The
+original is kept as `omega_dh_absolute_floor`, for the record and as a
+planted fault. `test_flow_repair.py` checks the fixed weight against a
+cutoff-free 30-term sum past the cut at the pair-1 flow's precision (P = 64,
+cut at u = 2.788, where the original returns 0) and in the moment
+∫u⁸⁰⁰Φ_DH du at dps 75 (the original is off by 1.7e-4 in its log); with the
+original floor put back, 4 of its 5 tests go red.
+
+**What the floor reached here: no quadrature node.** `DHFlow` evaluates the
+weight at dps + 10 digits, so its floor sits at 10^-(dps+18), and ends its
+integral where the integrand of its design box (t ≤ 0.12, |Im z| ≤ 1.6)
+falls to 10^-(dps+12). In every rule a published stage built, that limit
+stops short of the cut, by 0.0125 in u at dps 40 (validate) closing to
+0.0013 at dps 165 (survey pair 9); the default rule would first cross it
+between dps 250 and 300. So no node ever carried weight 0. The floor did cut the n = 2
+term early in a band of u, so the weights at the nodes move with the fix,
+by at most 5.7e-45 relative (dps 40) down to 1.7e-138 (dps 165), and H and
+H′ at sampled contour points by at most 9.2e-44 relative (measured with
+both cutoffs on every published rule).
+
+**Re-verification, 2026-10-19.** Every stage that evaluates the DH weight
+was re-run with the fix on GitHub Actions (run 39355357518, `RUNS.md`) and
+every field compared with `results.json` by `compare_rerun.py`; the report
+is `rerun_2026-10-19.json`. 12 stage blocks, 370 fields, 364 identical as
+printed (only `seconds` is skipped), 6 changed, all in one figure.
+
+- **pair1, precision, lesions, survey pairs 2 to 9: identical in every
+  field.** Every t\* in §1 and §5 to its last stored digit, the headline
+  Λ_DH ≥ 0.0576518 (pair 5), the precision spread 0.0, the t = 0 checks of
+  §0 (y₀ to 24 digits, winding defect 8.5e-29, Δ(0) + 4y₀² = 4.7e-29), the
+  slope 9.248 and the lesion rows of §4 stand as printed.
+- **validate: one published number changes.** §0's "relative defect
+  ≤ 4.2e-51 for |u| ≤ 0.5 at dps 50" re-runs as **≤ 7.1e-51**
+  (`phi_evenness_defect`, relative, at u = 0.1, 0.2, 0.35, 0.5: 2.35e-51,
+  0.0, 4.15e-51, 3.47e-51 become 7.05e-51, 0.0, 5.53e-51, 6.94e-51; the
+  absolute column moves the same way). Both are rounding, not the floor: at
+  every probe, each side of the check is within 4 units of 2^-169 = 1.3e-51
+  (the dps-50 rounding unit) of a 120-digit reference, under either cutoff;
+  the fixed sum multiplies by the factored-out leading term, which rounds
+  differently. What it supported, Φ_DH even to working precision, stands.
+  The rest of validate is identical (route agreement 7.2e-41, |c − 1| =
+  4.2e-42, |a − 1| = 2.0e-18, the ζ sibling 5.4e-42, Φ_DH(0) to 25 digits).
+  `results.json`'s `validate` block keeps the original values.
+- **Not re-run: ode and figure.** They evaluate no DH weight; they read
+  the polished zeros (from `dh_f`, no weight) and the PDE t\* values, which
+  re-ran identical, so §3's table stands by construction.
+
+Readers of these numbers: `hunts/jensen_clock` reads the pair1 and
+precision blocks; its three stages that were waiting on this were re-run on
+the re-run blocks and are unchanged (its RESULTS.md, "Correction").
+`hunts/li_dh_onset` reads `results.json` only. `hunts/lambda_dh_bounds`
+builds `DHFlow` at dps up to 205, also short of the cut, so its flows lose
+no node either; its own published figures were not re-run here.
+
 ## 0. The instrument is telling the truth (stage `validate`, `pair1` t=0)
 
 - **Route agreement.** H₀^{DH}(z) by Φ_DH-quadrature vs

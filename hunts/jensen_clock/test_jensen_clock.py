@@ -164,3 +164,16 @@ def test_precision_stage_rerun_reproduces_the_published_digits():
     got = {(r["dps"], r["U"]): (r["root_im_at_d30000"], r["dstar"]) for r in rec["runs"]}
     assert got == PUBLISHED_PRECISION
     assert rec["omega_dh_cutoff"] == "relative"
+
+
+def test_flowed_stages_rerun_identical():
+    """The three stages PR #315 left unrun (additivity, shift with its
+    shift_ladder, additivity2), re-run on GitHub Actions with both fixes and
+    compared field by field with results.json (RESULTS.md, "Correction")."""
+    path = jc.os.path.join(jc.HERE, "rerun_2026-10-19.json")
+    with open(path, encoding="utf-8") as fh:
+        rec = json.load(fh)
+    assert rec["omega_dh_cutoff"] == "relative"
+    assert sorted(rec["stages"]) == ["additivity", "additivity2", "shift", "shift_ladder"]
+    assert rec["totals"] == {"stages": 4, "fields_compared": 71, "identical": 71,
+                             "changed": 0, "missing": 0, "added": 0}

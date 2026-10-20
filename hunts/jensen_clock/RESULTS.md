@@ -81,10 +81,24 @@ not committed, the `precision` re-run is):
   every positive flow time they use; negative times shrink it), the same size
   as the unflowed tables whose roots and d\* re-ran unchanged to 14 to 40
   digits, and this page quotes at most 9 digits from them. That is a measured
-  bound on their input, not a re-run of their output.
+  bound on their input, not a re-run of their output. *(The bullet as first
+  written; superseded by the next one.)*
+- **additivity, shift, additivity2: re-run 2026-10-19, identical in every
+  field.** Re-run on GitHub Actions with both fixes in place, this hunt's
+  `omega_dh` and `hunts/flow_repair`'s, against flow_repair's pair1 and
+  precision blocks re-run with its corrected weight (themselves identical to
+  the committed ones). Compared field by field with `results.json`:
+  additivity 13 fields, shift_ladder 20, shift 31, additivity2 7, all 71
+  identical as printed; only `seconds` differs. P6's 0.055% and 0.030%, Q1's
+  c₀ = 0.16278, c₁ = 0.18260 and overshoot 3.69, and Q5's defect 1.46e-5
+  stand as printed, and so does map2, which reads shift's g1. Run and
+  estimate in `hunts/flow_repair/RUNS.md`, report in `rerun_2026-10-19.json`.
 
 `hunts/flow_repair/probe.py`'s `omega_dh`, behind the PDE targets read here,
-has the same absolute floor; it is not changed or checked here.
+has the same absolute floor; it is not changed or checked here. *(Superseded
+2026-10-19: fixed there, and every flow_repair stage that evaluates the
+weight re-run; the targets read here did not change. See
+`hunts/flow_repair/NOTES.md`, "Correction".)*
 
 Everything below is the accurate regime (mpmath floats, measured cross-route
 defects). Raw numbers in `results.json`; predictions were pre-registered in

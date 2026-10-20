@@ -128,9 +128,40 @@ def mean_gap(gamma: float) -> float:
 def omega_dh(x, kap):
     """omega(x) = sum_{n>=1} n a_n exp(-pi n^2 x / 5) at ambient precision.
 
-    a_n has period 5: (1, kappa, -kappa, -1, 0).  The tail bound is the term
-    itself: n * exp(-pi n^2 x/5) below the ambient floor for three consecutive
-    n ends the sum.
+    a_n has period 5: (1, kappa, -kappa, -1, 0).  Summed as
+
+        e^{-pi x/5} * (1 + sum_{n>=2} n a_n e^{-pi (n^2-1) x/5})
+
+    until a term is below 2^-(prec+20) of the leading one.  The cutoff is
+    relative, so the weight keeps its full relative accuracy at every x.
+    Corrected 2026-10-19: the original cutoff (``omega_dh_absolute_floor``)
+    returned exactly 0 at large x; see NOTES.md, "Correction".  The logic is
+    ``hunts/jensen_clock``'s corrected omega_dh, reimplemented here.
+    """
+    a_pat = (mp.mpf(1), kap, -kap, mp.mpf(-1), mp.mpf(0))
+    eps = mp.mpf(2) ** (-(mp.prec + 20))
+    tot, n = mp.mpf(1), 2
+    while True:
+        t = mp.exp(-mp.pi * (n * n - 1) * x / 5)
+        a = a_pat[(n - 1) % 5]
+        if a != 0:
+            tot += n * a * t
+        if n * t < eps:
+            return mp.exp(-mp.pi * x / 5) * tot
+        n += 1
+
+
+def omega_dh_absolute_floor(x, kap):
+    """The original omega_dh, kept as the record of its defect and as the
+    planted fault in ``test_flow_repair.py``; do not build a flow with it.
+
+    It drops every term n * exp(-pi n^2 x/5) below the absolute floor
+    10^-(dps+8) (three consecutive small terms end the sum), so it returns
+    exactly 0 once e^{-pi x/5} is below the floor: for
+    u > (1/2) log(5 (dps+8) ln 10 / pi), with x = e^{2u}.  The same
+    construction as ``hunts/jensen_clock``'s, where hunt #135's
+    Davenport-Heilbronn gate found it (``hunts/jensen_wedge/DH_GATE.md``
+    section 1).
     """
     a_pat = (mp.mpf(1), kap, -kap, mp.mpf(-1), mp.mpf(0))
     total = mp.mpf(0)
@@ -149,12 +180,13 @@ def omega_dh(x, kap):
     return total
 
 
-def phi_dh_raw(u, kap):
+def phi_dh_raw(u, kap, omega=omega_dh):
     """The **unfolded** Phi_DH(u) = 4 e^{3u/2} omega(e^{2u}), trustworthy for
     Re u >= 0 only (for u < 0 the sum is a catastrophic cancellation, exactly
-    as documented for zeta's Phi in zeta/heatflow.py)."""
+    as documented for zeta's Phi in zeta/heatflow.py).  ``omega`` is there
+    only so the original floor can be put back as a planted fault."""
     u = mp.mpmathify(u)
-    return 4 * mp.exp(mp.mpf(3) / 2 * u) * omega_dh(mp.exp(2 * u), kap)
+    return 4 * mp.exp(mp.mpf(3) / 2 * u) * omega(mp.exp(2 * u), kap)
 
 
 def phi_dh(u, kap):
@@ -178,7 +210,7 @@ class DHFlow:
     """
 
     def __init__(self, dps: int, z_scale: float, t_max: float = 0.12,
-                 imz_max: float = 1.6):
+                 imz_max: float = 1.6, omega=omega_dh):
         self.dps = int(dps)
         self.z_scale = float(z_scale)
         self.t_max = float(t_max)
@@ -197,7 +229,7 @@ class DHFlow:
                     nodes.append(a + h * (x + 1) / 2)
                     weights.append(w * h / 2)
             self.nodes = nodes
-            self.phis = [phi_dh_raw(u, self.kap) for u in nodes]
+            self.phis = [phi_dh_raw(u, self.kap, omega) for u in nodes]
             self.weights = weights
         self.n_nodes = len(nodes)
 
