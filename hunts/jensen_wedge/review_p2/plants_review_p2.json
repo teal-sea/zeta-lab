@@ -1,0 +1,44 @@
+[
+ {
+  "plant": "none (control)",
+  "passed": 36,
+  "failed": 0,
+  "failed_tests": [],
+  "suite_red": false,
+  "summary": "36 passed in 62.47s (0:01:02)"
+ },
+ {
+  "plant": "Lemma L: cubic Taylor constant 8/3 -> 8/15 (C_rho 5x too small)",
+  "passed": 36,
+  "failed": 0,
+  "failed_tests": [],
+  "suite_red": false,
+  "summary": "36 passed in 73.14s (0:01:13)"
+ },
+ {
+  "plant": "Lemma L: cubic Taylor constant 8/3 -> 8/30 (C_rho 10x too small)",
+  "passed": 35,
+  "failed": 1,
+  "failed_tests": [
+   "test_laplace_bound_covers_the_measured_remainder_at_complex_s"
+  ],
+  "suite_red": true,
+  "summary": "1 failed, 35 passed in 59.95s"
+ },
+ {
+  "plant": "Lemma D(ii): Cauchy radius n/4 where only n/8 is available (2^k too small)",
+  "passed": 36,
+  "failed": 0,
+  "failed_tests": [],
+  "suite_red": false,
+  "summary": "36 passed in 50.10s"
+ },
+ {
+  "plant": "Lemma B: Sturm constants 2.47, 6.07 -> 0.247, 0.607 (r 3.2x too small)",
+  "passed": 36,
+  "failed": 0,
+  "failed_tests": [],
+  "suite_red": false,
+  "summary": "36 passed in 50.21s"
+ }
+]

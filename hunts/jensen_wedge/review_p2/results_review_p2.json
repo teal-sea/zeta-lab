@@ -1,0 +1,160 @@
+{
+ "5a": {
+  "name": "5a",
+  "K": "17900",
+  "K6": "253/100",
+  "n0": "9900000000000000000000000000000000",
+  "subintervals": 137,
+  "fails": [],
+  "agg": {
+   "K_req": 17698.025308415767,
+   "C_loc": 2.0931763439173583,
+   "abt": 0.9969254264834718,
+   "Theta5": 1.0338446577924447,
+   "C_E": 354.04566629737894,
+   "logratio": 1.064590620142516
+  },
+  "laplace": {
+   "R_min": 72.98854428094141,
+   "b": 0.2562269049654423,
+   "q": 0.01384183219885504,
+   "C_rho": 1.8876080761365572,
+   "lambda": 1.5068703195603089e-16
+  },
+  "laplace_conds": {
+   "q < 1": true,
+   "b <= 1 (disk inside the strip of H_V)": true,
+   "R_min >= 10": true,
+   "(i) theta + 2 atan(2b/R) <= pi/2": true,
+   "(ii) M_3 T/6 <= Re Psi/4": true,
+   "rho_G * sqrt(p) < 1e-300": true,
+   "rho_4 * sqrt(p) < 1e-300": true,
+   "rho_2 * sqrt(p) < 1e-300": true,
+   "rho_1 * sqrt(p) < 1e-300": true,
+   "C_rho/sqrt(p) < 1": true
+  },
+  "seconds": 7.616728067398071,
+  "K >= max K_req": true,
+  "threshold": true,
+  "green": true
+ },
+ "5s": {
+  "name": "5s",
+  "K": "91000000000000000000",
+  "K6": "141/50",
+  "n0": "789702",
+  "subintervals": 931,
+  "fails": [],
+  "agg": {
+   "K_req": 243035.95738323816,
+   "C_loc": 2.2187243058230064,
+   "abt": 0.9970935619794546,
+   "Theta5": 1.5519774806900473,
+   "C_E": 1105.9883982234023,
+   "logratio": 1.2628854965135643
+  },
+  "laplace": {
+   "R_min": 10.207305692772675,
+   "b": 0.282460279593004,
+   "q": 0.10543083967004233,
+   "C_rho": 2.028806567882841,
+   "lambda": 0.006977368696441682
+  },
+  "laplace_conds": {
+   "q < 1": true,
+   "b <= 1 (disk inside the strip of H_V)": true,
+   "R_min >= 10": true,
+   "(i) theta + 2 atan(2b/R) <= pi/2": true,
+   "(ii) M_3 T/6 <= Re Psi/4": true,
+   "rho_G * sqrt(p) < 1e-300": true,
+   "rho_4 * sqrt(p) < 1e-300": true,
+   "rho_2 * sqrt(p) < 1e-300": true,
+   "rho_1 * sqrt(p) < 1e-300": true,
+   "C_rho/sqrt(p) < 1": true
+  },
+  "seconds": 36.34744215011597,
+  "K >= max K_req": true,
+  "threshold": true,
+  "absorption": 9.081377684177048e+19,
+  "green": true
+ },
+ "6a": {
+  "name": "6a",
+  "K": "7210000000",
+  "K6": "0",
+  "n0": "560000000000000000000000000000000000",
+  "subintervals": 130,
+  "fails": [],
+  "agg": {
+   "K_req": 3695525511.1585817,
+   "Theta6": 0.04768763125839474,
+   "bracket": 20.027518362013485,
+   "C_E": 200156.47253921907,
+   "logratio": 1.0619523788129284,
+   "zeta": 6.49076276617293e-06
+  },
+  "laplace": {
+   "R_min": 76.97118883699964,
+   "b": 0.25603914874892475,
+   "q": 0.01311867198144684,
+   "C_rho": 1.8867177560498536,
+   "lambda": 2.056130671669884e-17
+  },
+  "laplace_conds": {
+   "q < 1": true,
+   "b <= 1 (disk inside the strip of H_V)": true,
+   "R_min >= 10": true,
+   "(i) theta + 2 atan(2b/R) <= pi/2": true,
+   "(ii) M_3 T/6 <= Re Psi/4": true,
+   "rho_G * sqrt(p) < 1e-300": true,
+   "rho_4 * sqrt(p) < 1e-300": true,
+   "rho_2 * sqrt(p) < 1e-300": true,
+   "rho_1 * sqrt(p) < 1e-300": true,
+   "C_rho/sqrt(p) < 1": true
+  },
+  "seconds": 11.255197048187256,
+  "K >= max K_req": true,
+  "threshold": true,
+  "green": true
+ },
+ "6s": {
+  "name": "6s",
+  "K": "3610000000000000000000000000000",
+  "K6": "0",
+  "n0": "14237025",
+  "subintervals": 746,
+  "fails": [],
+  "agg": {
+   "K_req": 6058767312221026.0,
+   "Theta6": 0.4031489553693817,
+   "bracket": 46.366942172255776,
+   "C_E": 230188544.95655045,
+   "logratio": 1.2271160771392469,
+   "zeta": 0.019482184143445973
+  },
+  "laplace": {
+   "R_min": 12.87993805962265,
+   "b": 0.2753325844725787,
+   "q": 0.0822726063240655,
+   "C_rho": 1.9846773923627092,
+   "lambda": 0.0017892063725365186
+  },
+  "laplace_conds": {
+   "q < 1": true,
+   "b <= 1 (disk inside the strip of H_V)": true,
+   "R_min >= 10": true,
+   "(i) theta + 2 atan(2b/R) <= pi/2": true,
+   "(ii) M_3 T/6 <= Re Psi/4": true,
+   "rho_G * sqrt(p) < 1e-300": true,
+   "rho_4 * sqrt(p) < 1e-300": true,
+   "rho_2 * sqrt(p) < 1e-300": true,
+   "rho_1 * sqrt(p) < 1e-300": true,
+   "C_rho/sqrt(p) < 1": true
+  },
+  "seconds": 75.03867793083191,
+  "K >= max K_req": true,
+  "threshold": true,
+  "absorption": 3.605805546583613e+30,
+  "green": true
+ }
+}
