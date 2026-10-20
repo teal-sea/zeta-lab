@@ -12,6 +12,9 @@ Phase 1 is sections 9 to 14: Holland's PDF checked line by line, the R_5 defect 
 the sixth coefficient matched by his own family at the [2/2] Pade point, and a conditional
 six-point stability derivation. Its verdict is section 13.
 
+Phase 3 (2026-10-19) lands the hunt: section 19 credits the prior deposits and states what
+is the hunt's own, and section 20 is "The doors".
+
 Reproduce:
 
 ```bash
@@ -720,6 +723,15 @@ that is through its double-exponential decay, which DH shares, so the MISSION's
 prediction that the construction also succeeds for DH is expected to carry over to the
 Pade model unchanged. That is a prediction, to be tested.
 
+*Credit, 2026-10-19 (phase 3, from `NOVELTY.md`):* rows (b) and (c) of the table above were
+posted first by others, before this hunt opened on 2026-10-18. The [2/2] Pade point is the
+r = 2 case of Sarnowski's diagonal Pade spine (Zenodo Papers 134Z and 134AA, 20 August
+2026), and the 2/3 wedge was posted by Savva (Zenodo 10.5281/zenodo.22293642, 3 September
+2026) as `n^2 log(n+2) >= K d^3`, stronger than row (c)'s `log^12 d` form. Both deposits are
+unreviewed, and this hunt did not check their proofs. Phase 1 is an independent
+re-derivation of them, not a delta against Holland that the lab can claim. Section 19 has
+the credit in full and what remains the hunt's own. The verdict above is kept as written.
+
 ## 14. Files (phase 1)
 
 - `probe_phase1.py`: the theta map through A = infinity, the four-parameter Pade solve,
@@ -925,3 +937,212 @@ constants are set by where Lemma L and Lemma M6 stop closing (n_0 = 789 702 and 
 These are inputs for phase 3's "The doors", not measured ceilings. The planted-weakening
 kill condition, "not yet applicable" after phase 1 (section 13), is now checked and not met;
 no other kill condition of `MISSION.md` changes status.
+
+*Grade, 2026-10-19 (phase 3, from `REVIEW_PHASE2.md`):* an independent session reproduced
+all four constants and the c = 1 remark with its own Arb code (`review_p2/`, no import of
+`effective.py`) and broke no step. The grade above now reads: derivation, self-reviewed and
+reviewed once by an independent session, not a theorem, pending external review. The
+sentence "not reviewed by an independent session" is kept as written.
+
+*Correction, 2026-10-19 (phase 3, from `REVIEW_PHASE2.md` item P and D3):* two sentences
+above claim more than the tests delivered. "Formula-level faults ... are caught by
+independent measurements" and "`test_effective.py` plants one formula fault per step and
+requires each to be caught" were true of the plants phase 2 chose, not of the steps. The
+review planted four formula faults into a copy of `effective.py`, each making a bound
+unsoundly smaller, and **three passed all 36 tests**: Lemma L's cubic Taylor constant 8/3
+written as 8/15 (`C_rho` five times too small, inside the quadrature slack of 785), Lemma
+D(ii)'s Cauchy radius n/4 where only n/8 is available (no measurement sees a remainder of
+order `lambda`), and Lemma B's Sturm constants 2.47, 6.07 divided by 10 (inside Lemmas A to
+C's measured looseness, 39 to 44 by the note below). The review rederived those steps by hand and found them
+correct, so no constant changes. Phase 3 adds seven tests (43 in all). Each of the three
+steps is now checked against its own derivation: the cubic constant against its defining
+Gaussian integral by quadrature; the Cauchy part against the radius the disk geometry
+leaves; the Sturm factor the chain uses against the derived minimum
+`(32/13) d + 2.001 (32/13)^2/2` and against the actual smallest gap of the first Jacobi
+factor at the chain's own A and B (measured slack 1.75). The review's four plants are
+replayed in the suite as source edits that these checks must reject, and the review's own
+`review_p2/plant_formula_faults.py`, rerun on this tree, now turns the suite red on all four.
+What a green suite attests, as of this correction: every claimed constant covers its
+recomputation; the steps in `EFFECTIVE.md` section 8's table agree with an independent
+measurement, or with their derivation, as far as the stated slack reaches. It does not
+attest to the derivation as a whole. Lemma W, `c_H` and the `psi` remainders of sections
+5.4 and 6 are tested only on samples or not at all, and rest on the review's hand
+rederivation (R10, R12), not on a test. The sentences above are kept as written.
+
+*Note, 2026-10-19 (phase 3, from `REVIEW_PHASE2.md` R13):* `Theta_6` is loose. The review
+encloses the two averages `<omega_5'>` by exact divided differences instead of the hull of
+`omega_5'` over each interval and gets `Theta_6 <= 0.0477` (6a) and `0.403` (6s), against
+`0.0661` and `0.538` here, a factor of about 1.4. Since K' grows like `Theta_6^2`, the same
+chain supports `K' = 3.70e9` for (6a) (review recomputation, upper end of its ball). The
+claimed constants are not changed: they hold with that margin, `effective.py` keeps its
+looser enclosure, and the effectivity check still compares against it. This is an input
+for section 20, not a defect.
+
+*Correction, 2026-10-19 (phase 3, found while writing section 20):* "36 to 44 times what (6)
+needs at n = 1e12, up to about 5e18 in K'" above, and `EFFECTIVE.md` section 6's "12.3's r is
+32 and 39 times it", misread `results_effective.json`. There 12.3's r is 32.1 and 39.1 times
+`sqrt(Bd)` (d = 10, 40) and the radius (6) needs is 0.815 and 0.885 times `sqrt(Bd)`, so the
+looseness is 39 and 44 times the need, and the room it leaves in K' (which moves like the
+twelfth power of the radius) is up to `44^12 = 5e19`, not 5e18. No constant changes; the
+looseness is larger than stated. The sentences above are kept as written.
+
+# Phase 3 (2026-10-19): landing
+
+## 19. Credit, the delta, and the grade
+
+**Nothing in this section bears on RH.** Every wedge of this shape leaves out n = 0, which
+is RH itself, and section 20 says why no improvement of these constants changes that.
+
+**Prior work, credited.** Two results this hunt derived had been posted by others before it
+opened on 2026-10-18 (`NOVELTY.md`, section 17):
+
+- **The 2/3 wedge.** John Savva, *A Two-Thirds Hyperbolicity Wedge for Jensen Polynomials
+  of Riemann's Xi-Function*, Zenodo 10.5281/zenodo.22293642, 3 September 2026: for an
+  absolute K, `n^2 log(n+2) >= K d^3` implies that `J^{d,n}` has d distinct negative zeros,
+  by Holland's two-Jacobi family with D free matching six coefficients. Squared, it is
+  section 12.5's `n^4 log^2(n+2) >= K d^6 log^12(d+2)` without the `log^12 d` loss, so it is
+  the stronger statement. Its K is not computed (`C_B6` and `N_analytic` are left implicit).
+  Written with substantial AI assistance and with no human review claimed, by its author's
+  account.
+- **The Pade spine.** Michael Sarnowski, Papers 134Z and 134AA, Zenodo
+  10.5281/zenodo.22023893 and 10.5281/zenodo.22025447, 20 August 2026: the rank-r diagonal
+  [r/r] Pade spine of the coefficient quotients, whose r = 2 case is section 11.3's [2/2]
+  point with section 11.4's constants. Unreviewed. `NOVELTY.md` does not record whether
+  these deposits were AI-assisted.
+
+This hunt did not check either proof. Sections 11.3, 11.4 and 12 are independent
+re-derivations of them, and (6a), (6s) are explicit constants for the weaker `log^12 d`
+form of a wedge already claimed in the literature, reached by a different stability step
+(Lemmas A to C, where Savva uses a shifted 3F2 recurrence).
+
+**What has no prior instance in the searched set.** `NOVELTY.md` (claim C) found no explicit
+constant for any wedge of this kind, and none for GORTTW's c. Stated as deltas:
+
+| source statement | as published | this hunt |
+| --- | --- | --- |
+| Holland, arXiv:2608.08682v1, Theorem 1.1 | an absolute `K > 0` with `n^3 log^2(n+2) >= K d^5` implying d distinct negative zeros; K not computed | **K = 9.10e19** suffices as stated, with no outside input (5s); **K = 17 900** suffices for hyperbolicity when GORTTW Corollary 1.3 is admitted for d <= 9.36e20, with distinct negative zeros for d > 9.36e20 (5a) |
+| GORTTW, arXiv:1910.01227v3, Theorem 1.1 | `J^{d,n}` hyperbolic for `n >= c e^(d/2)`, some c > 0 not computed (the published version states `n >= c e^d`) | **c = 1** is admissible in both forms, from (5a) and Corollary 1.3 (`NOVELTY.md` remark 2.3, review R15) |
+| section 12.5, the `log^12 d` form of the 2/3 wedge | `n^4 log^2(n+2) >= K' d^6 log^12(d+2)` with K' implicit; Savva's stronger form has K implicit too | **K' = 7.21e9** with Corollary 1.3 (6a); **K' = 3.61e30** standalone (6s) |
+
+(5a) and (6a) rest on Corollary 1.3, which rests on Platt's verification of RH to height
+3.06e10. K = 17 900 is a constant for Holland's statement reached through his family with
+`D = n/2`, not the constant of his exact model with `D = B_J/2` (`EFFECTIVE.md` section 9).
+
+**Grade.** Derivation; self-reviewed; reviewed once by an independent session
+(`REVIEW_PHASE2.md`: all four constants and c = 1 reproduced with independent code, no step
+broken); not a theorem; pending external review. (6a) and (6s) also take the grade of
+sections 11 and 12 and of `H1_H3.md`, each reviewed once internally. Every numeric step is
+an Arb enclosure, which makes each number a bound and does not review the derivation. The
+hunt does not promote its own claims (`hunts/README.md`). Promotion, and any contact with
+Holland, Savva or Sarnowski, are the owner's decisions.
+
+**The kill conditions at landing.**
+
+| kill condition (`MISSION.md`) | final status |
+| --- | --- |
+| Holland's sign facts at R_3 and R_4 fail to reproduce | not met (section 4) |
+| the saddle expansion disagrees with the exact table beyond its stated error at n <= 3200 | not met under the rule finally used; the preset rule missed once, at n = 150 (section 3) |
+| the R_5 defect changes sign within the measured n range on both routes | not met as written (section 13) |
+| every candidate third factor needs a parameter outside the positive-root class | not met (sections 11.3, 13) |
+| a planted weakening of an explicit constant does not turn the effectivity check red | not met: 44 of 44 constant plants red (section 18); since phase 3 the review's 4 formula plants are rejected too (`plants_phase3.json`) |
+| the time box of 2026-11-29 passes | not reached; the hunt lands 41 days early, and what the remaining time is spent on is the owner's call |
+
+**What the hunt did not do.** It makes no statement about RH. It leaves the small-n,
+large-d corridor untouched. It did not check Savva's or Sarnowski's proofs, and nothing in
+it has been reviewed outside this lab. No Lean formalisation was attempted (`MISSION.md`
+plan step 3 puts it out of scope).
+
+**Files (phase 3).** `test_effective.py` (seven tests added, section 18's correction);
+`plants_phase3.json` (the review's `plant_formula_faults.py` rerun on this tree: control
+green at 43 passed, all four plants red); dated notes in this file, `EFFECTIVE.md` and
+`MISSION.md`; `docs/44-the-constant-in-the-wedge.md` (front door); three entries in
+`docs/37-methods.md`.
+
+## 20. The doors
+
+Phase 2 measured no ceiling of the wedge. It produced the smallest self-consistent
+constants of one chain of arguments, and those are **candidates, not optima of the
+problem**: upper bounds on what Holland's K (and the `log^12` form's K') can be, with no
+lower bound on the true constant anywhere in this hunt.
+
+- **Candidate:** K = 17 900 (5a), 9.10e19 (5s); K' = 7.21e9 (6a), 3.61e30 (6s); c = 1.
+- **Range:** the chain covers n >= 9.91e33, 789 702, 5.65e35 and 14 237 025 respectively,
+  every d the wedge allows there; (5a) and (6a) hand d <= 9.36e20 to GORTTW Corollary 1.3.
+- **Proof status:** section 19's grade.
+
+### 20.1 Active constraints at the optimum
+
+No saturation curve was measured. Each constraint is ranked by the exponent with which its
+constant enters K, read off `EFFECTIVE.md`'s formulas: that exponent is its shadow price in
+log K. `K_req = (C_E max(log(n+2)/v_1)/log 17)^2` with
+`C_E = T_0 Theta_5 (sqrt(d/n) + 2 K_6/sqrt(w_B))^5/10` (five), and
+`K'_req = (C_E max(log(n+2)/v_1)/log 33)^2` with `C_E = T_0 Theta_6 [bracket]^6/15` (six).
+
+| variant | constraint, ranked | shadow price in log K | state at the optimum | measured room |
+| --- | --- | --- | --- | --- |
+| (5a) | 1. Lemma 9.1-E's closing condition `a + b + theta < 1`, which sets `K_6` | 10 (K moves like `K_6^10`; `sqrt(d/n)` is negligible past 1e33) | binding: 0.99693 at `K_6 = 2.53` and 1.0015 at 2.52, both on the subinterval at the start of the cover (n near 9.9e33), where `K_req` also peaks; on the subinterval containing n = infinity it is 0.950 | the radius actually needed at n = 1e12 is 1.14 to 1.24 `sqrt(Bd)`: up to `(2.53/1.24)^10 = 1.2e3` in K |
+| (5a) | 2. Lemma G's `C_loc`, which enters `a` and so sets the `K_6` that closes | through `K_6` (not computed separately) | `C_loc <= 2.094` over the cover | measured 1.52 (d = 10) and 1.79 (d = 40) at n = 1e12 |
+| (5a) | 3. Lemma 8.1-E's `Theta_5` | 2 | 1.034 against the leading value 1 | at most a factor 1.07 in K |
+| (5a) | 4. Proposition 2.2's `eps < 16`, through `log 17` | -2 in `log(1 + eps)` | fixed by Holland's proposition | none inside this chain |
+| (5s) | the absorption `K >= n_0^3 log^2(n_0 + 2) = 9.08e19`, with `n_0 = 789 702`, near where Lemma L's hypothesis `R_min >= 10` stops holding (`R_min = 10.21` there) | 3 in `n_0` (plus a log) | binding: the chain itself needs only `K_req = 2.49e5` | lowering `n_0` needs Lemma L below `R_min = 10`, and the chain's own `K_req` grows as `n_0` falls (`lambda = 7.0e-3`, `Theta_5 = 1.57` already at 789 702) |
+| (6a) | 1. the radius of Lemmas A to C, through `bracket = 20.02` | 12 | at n = 1e12 the radius is 32.1 and 39.1 `sqrt(Bd)` where (6) needs 0.815 and 0.885 (d = 10, 40): 39 and 44 times the need | up to `44^12 = 5e19` in K' |
+| (6a) | 2. `Theta_6` | 2 | 0.0661 | exact divided differences give 0.0477 (R13): a factor 1.95 in K', so K' = 3.70e9 |
+| (6a) | 3. Proposition 2.2_6's `eps < 32`, through `log 33` | -2 in `log(1 + eps)` | fixed by the proposition | none inside this chain |
+| (6s) | the absorption `K' >= n_0^4 log^2(n_0 + 2)/log^12 3 = 3.61e30`, with `n_0 = 14 237 025` where Lemma M6's Krawczyk test stops closing | 4 in `n_0` | binding: the chain itself needs only `K'_req = 1.48e16` | the test was not pushed below 1.4e7 |
+
+Inside the (6a) bracket, `2 rho_r sqrt(2.47 + 6.07/d)/sqrt(w_B)` with
+`rho_r = (9/(2 pi)) ((1 + eta)/(1 - eta)) c_H` carries every factor of the radius: Lemma C's
+`9/(2 pi)` (zero window over gap), Lemma A's `c_H = 3.124` (the `4 + 3 H_d` over
+`log(d + 2)`, the `log d` loss), Lemma B's Sturm factor and Lemma C's window
+`(1 + eta)/(1 - eta)`. Each enters K' to the twelfth power. The 39 to 44 times looseness
+is their product; which factor holds most of it was not measured.
+
+### 20.2 The frozen-constant inventory
+
+Every number below was chosen, not optimised. "Trade" marks a genuine trade shape, where
+relaxing the constant helps one step and hurts another.
+
+| constant | value | where | what relaxing it trades against | trade |
+| --- | --- | --- | --- | --- |
+| `RHO` | 1/4 | Lemma R's disks `\|z - x\| <= x/4` | a larger disk gives Cauchy more radius, but widens the sector `asin(RHO)`, which raises `b`, lowers `R_min` and tightens Lemma L's condition (i) | trade |
+| `RHO_D` | 1/8 | the derivative disk; Cauchy spends `RHO - RHO_D` | a larger `RHO_D` admits larger `zeta = (d + 2r)/n` (checked `<= RHO_D`), at a cost of `((RHO - RHO_D) n)^(-k)` in every remainder; that cost is below 1e-40 at the assisted thresholds and 3 percent of `Theta_5` at (5s) (review R3) | trade, nearly free in one direction at the assisted thresholds |
+| `T` | 1/2 | Lemma L's contour step | `C_rho`'s leading part grows like `e^T` and condition (ii) tightens; the Gaussian tails beyond T, below 1e-3700 relative at every threshold, grow as T shrinks | trade, low leverage: `lambda` enters K only through the remainder parts |
+| `R_min >= 10` | 10 | Lemma L's hypothesis | sets `n_0` of (5s), K moving like `n_0^3`; relaxing it means rebuilding the majorants where the `alpha - 1` tail and the segment piece are no longer negligible | trade |
+| `D` | n/2 | Lemma M5 (Holland's D is free within relative `O(1/L)` of n/2) | enters `C_loc` and `theta` through the second factor; not explored | unknown |
+| `B >= 256 d`, zero window `[B/2, 3B/2]` | 256 | Lemma B | a narrower window gives smaller Sturm constants (through 13/16 and 0.501) but needs larger B/d; the constants sit 1.003 above the derived minimum | trade, low leverage |
+| `eta = 8 sqrt(d/D)` | 8 | Holland's (79), used in Lemma C for the second factor | Lemma G shows the first factor's spread tends to 2, not `2(1 + sqrt 2)`; the six-coefficient chain still uses Holland's 8 | no trade found: a sharper row bound is free if it holds |
+| `4 + 3 H_d`, `c_H` | 3.124 (d > 9.36e20), 5.878 (d >= 6) | Lemma A | the `log d` loss; the radius needed grows far slower (`RESULTS.md` 12.6: 0.84 to 1.57 `sqrt(Bd)` at d <= 96) | none inside Lemma A; removing it needs a different stability step |
+| enclosure of `<omega_5'>` | hull | `Theta_6` | exact divided differences are tighter by 1.4 (R13), for more code | cost only |
+| cover step | 1e-4, 5e-4 | every chain | finer covers cost time; the review's finer (5s) cover moved `K_req` by 2.5 percent | cost only |
+| `eps < 16`, `< 32` | Holland's | Proposition 2.2, 2.2_6 | fixed by the proposition's proof (`eps sum_(k>=m) 2^-k < 1`) | not free here |
+| GORTTW cut | d <= 9.36e20 | (5a), (6a) hand-off | an outside input (Platt's height 3.06e10). Platt-Trudgian's 3e12 gives d <= 9e24 (`MISSION.md`), which moves the start of the cover up; since `a + b + theta` and `K_req` both peak at that start, a later start lowers the `K_6` that closes, and K with it (like `K_6^10`); not computed | a lever from outside the family: it reads more zeros |
+| `PREC` | 256 bits | every enclosure | time only | none |
+
+`K_6` is not frozen: it is optimised on a 0.01 grid. The doors with the largest shadow
+price are `K_6` with `C_loc` in (5a) and the Lemma A to C radius in (6a). Being top of this
+list gives neither automatic priority, and Savva's deposit already claims the 2/3 wedge
+without the `log d` loss, which bears on what an improved (6a) constant would be worth.
+Allocation is the owner's decision.
+
+### 20.3 The information class
+
+**Every door above stays inside the data the current family already reads**: the
+weight's Mellin moments through the saddle main term G and `lambda`, and the comparison
+model's parameters. Tightening `K_6`, `C_loc`, `Theta_6`, the Lemma A to C radius, `T` or
+`RHO` needs no new information about xi; each is slack in the proof technique.
+
+None of them reads arithmetic. The construction reads the weight only through its
+double-exponential decay (h and L, sections 11.1 and 16), which the Davenport-Heilbronn
+weight shares, and section 15 measured the whole construction succeeding for
+Davenport-Heilbronn on every item. So no door in 20.1 or 20.2 can separate zeta from an
+RH-false function, and tightening all of them would move K, not the shape of the wedge.
+
+**The untouched corridor: small n, large d.** Below the wedge with d > 9.36e20, and above
+all at n = 0, which is RH, nothing here applies, for any K: a wedge of this shape excludes
+n = 0 for every constant. Entering that corridor needs information this family does not
+read, something that tells zeta from Davenport-Heilbronn, whose `J^{d,0}` stops being
+hyperbolic near d = 20 785 (`hunts/jensen_clock`, section 15). That is arithmetic, a door
+of a different information class, and this hunt has no mechanism for it. Raising the GORTTW
+cut is also outside the family, since it reads more zeros (RH verified to a greater
+height). It moves where the chain starts, and with it the constant, because (5a) binds at
+the start of its cover (20.1); it does not move the corridor.

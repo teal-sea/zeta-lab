@@ -45,6 +45,19 @@ could reach. The unresolved region of the `(d, n)` plane begins above `d = 9.36e
 and lies below Holland's wedge. Every point in it is far beyond any finite check;
 it can be reached only by proof.
 
+*Frontier, 2026-10-19 (phase 3, from `NOVELTY.md`):* two deposits that predate this hunt
+reach past the list above. Both are unreviewed, and neither proof was checked here.
+**Savva**, Zenodo 10.5281/zenodo.22293642 (3 September 2026), posted the 2/3 wedge
+`n^2 log(n+2) >= K d^3` with K not computed, stronger than the
+`n^4 log^2(n+2) >= K d^6 log^12(d+2)` this hunt later derived; it is AI-assisted by its
+author's account. **Sarnowski**, Zenodo Papers 134Z and 134AA (20 August 2026), posted the
+rank-r diagonal Pade spine whose r = 2 case is this hunt's [2/2] Pade point. So Q1 had been
+answered, in unreviewed form, before this hunt asked it. What the hunt adds with no prior
+instance in the searched set is Q2: explicit constants, K = 17 900 with GORTTW Cor. 1.3 and
+K = 9.10e19 standalone for Holland's Theorem 1.1, K' = 7.21e9 and 3.61e30 for the `log^12`
+six-coefficient form, and c = 1 in GORTTW Theorem 1.1 (`RESULTS.md` section 19; derivation,
+reviewed once internally, not a theorem). The bullets above are kept as written.
+
 ## The mechanism this hunt works, as Holland states it
 
 Normalise `R_j = gamma(n+j)/gamma(n)`, so `J^{d,n}(X)/gamma(n) = sum_j C(d,j) R_j X^j`.
@@ -151,7 +164,7 @@ this lane is the deep route to RH.
 ```huntspec
 id: jensen_wedge
 question: Can Holland's five-coefficient positive-root comparison for J^{d,n} be carried to six coefficients, giving a hyperbolicity wedge n^4 log^2(n+2) >= K d^6, and can the constant of the standing wedge be made explicit?
-frontier: All n hyperbolic for d <= 9.36e20 (GORTTW Cor 1.3, arXiv:1910.01227v3, via RH to 3.06e10); n >= c e^{d/2} for every d with c not computed (GORTTW Thm 1.1); wedge n^3 log^2(n+2) >= K d^5 with K absolute and not computed (Holland, arXiv:2608.08682, Thm 1.1, August 2026).
+frontier: All n hyperbolic for d <= 9.36e20 (GORTTW Cor 1.3, arXiv:1910.01227v3, via RH to 3.06e10); n >= c e^{d/2} for every d with c not computed (GORTTW Thm 1.1); wedge n^3 log^2(n+2) >= K d^5 with K absolute and not computed (Holland, arXiv:2608.08682, Thm 1.1, August 2026). Added 2026-10-19: unreviewed deposits predating the hunt claim the 2/3 wedge n^2 log(n+2) >= K d^3 with K not computed (Savva, Zenodo 10.5281/zenodo.22293642, 2026-09-03) and the rank-r Pade spine (Sarnowski, Zenodo Papers 134Z, 134AA, 2026-08-20).
 proposed_attack: Reproduce Holland's sign facts at R_3 and R_4 from the exact gamma(n) table and the saddle expansion of log R_j, measure the sign and scaling of the R_5 defect after the five-coefficient match, attempt a third finite-free Jacobi or Laguerre factor and a six-point multiplier stability lemma, then make the constants of the standing wedge explicit with ball arithmetic.
 dead_routes:
   - Explicit N(d) at fixed degree d >= 4 plus a finite check; done in the literature (GORTTW Thm 1.1 and 1.2, Chasse), and the open region begins above d = 9.36e20, beyond any finite computation.

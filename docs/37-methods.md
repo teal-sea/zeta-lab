@@ -52,7 +52,7 @@ stays out of this file. No em dashes.
 - **Weil positivity, Gram forms and kernels** (55). Weil-form truncations, window
   optima, incidence laws, cell-table and interval certificates for kernel inequalities,
   and the ceilings on what out-of-band positivity can buy.
-- **Higher xi derivatives and moments** (14). Exact resolvent identities for xi
+- **Higher xi derivatives and moments** (15). Exact resolvent identities for xi
   derivatives, resummed Lambda-convolutions, mean-value inputs and the moment
   obstructions to counting simple zeros.
 - **Heat flow and de Bruijn-Newman constants** (14). Backward heat flow of xi-type
@@ -67,7 +67,7 @@ stays out of this file. No em dashes.
 - **Lean arm: formalised elementary number theory** (10). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
-- **Certificates, verifiers and exact arithmetic** (19). Exact rational acceptance of
+- **Certificates, verifiers and exact arithmetic** (21). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
 - **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
@@ -80,8 +80,10 @@ stays out of this file. No em dashes.
   primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (51). Surfaced by the sweep, below the bar for now.
 
-Totals: 176 entries from 67 hunts. Kinds: identity 22, lemma 44, bound 12, construction
-15, calibration 7, computational 18, control 37, obstruction 21.
+Totals: 184 entries from 70 hunts. Kinds: identity 22, lemma 48, bound 12, construction
+15, calibration 7, computational 21, control 38, obstruction 21. (Recounted from the
+entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
+the themes above already summed to 181.)
 
 ## Prime pairs and the circle method
 
@@ -2980,6 +2982,8 @@ inputs and the moment obstructions to counting simple zeros.
 - obstruction: Third-moment obstruction block diag(b+2, b+2, −2b) (`cycle_moments`)
 - computational: Real saddle of the xi moment weight, carried to a Laplace series in a real
   index (`gauss_positivity`, reused in `jensen_wedge`)
+- lemma: Explicit complex-saddle remainder for the xi moment weight on a sector
+  (`jensen_wedge`)
 
 ### Exact distinct-cycle Möbius corrections with overlap statistics
 
@@ -3407,6 +3411,41 @@ Why it travels: Anything that needs log gamma(n+j) at large n or its expansion i
 (Jensen polynomials of xi at shift n, Turan-type ratios, coefficient-matching
 constructions) gets it to any order in u*/n without a quadrature, at n far past any table,
 with an error read off the series and checked against the table where both exist.
+
+### Explicit complex-saddle remainder for the xi moment weight on a sector
+
+lemma | `hunts/jensen_wedge/` | grade: derivation, self-reviewed and reviewed once by an
+independent session (REVIEW_PHASE2.md R1 to R4, no step broken, C_rho reproduced to 5 digits
+by independent code); every numeric step an Arb enclosure; not a theorem
+
+Holland's moment is M_z = 2 pi^2 4^(-2z-1) I(2z), with I(s) = int_0^inf v^s e^(a v - pi e^v)
+alpha(v) dv and a = 9/4. Take as main term the complex saddle of that leading Mellin term,
+G(s) = s log v_0 + a v_0 - pi e^(v_0) + (1/2) log(2 pi/Psi), where v_0 solves s/v_0 + a =
+pi e^(v_0) and Psi = s/v_0^2 + s/v_0 + a. Then on the union of the disks |z - x| <= x/4,
+x >= x_0, h(z) = log M_z = const - (2z + 1) log 4 + G(2z) + R(z) with |R| <= lambda(x_0) =
+-log(1 - C_rho/sqrt(pi e^(R_min))). v_0 is located by a contraction on a half-strip (Lemma
+V), and the Laplace remainder is bounded on the horizontal line through the complex saddle
+by five explicit majorants (Lemma L): C_rho = 1.888 to 2.029, lambda = 1.5e-16 at x_0 =
+9.9e33 and 7.0e-3 at x_0 = 7.9e5. The derivatives of G are exact rational functions
+F_k(1/v_0, 1/(pi e^(v_0))) with first-order constants H_(k-2) - 1, and Cauchy on radius n/8
+turns lambda into |R^(k)| <= k! lambda (8/n)^k. The rate in |z| is |z|^(-1/2 + eps), weaker
+than Holland's |z|^(-1 + eps_0), and enough, because only a finite explicit bound on |R|
+enters. The true remainder is O(1/p): quadrature on another contour leaves slack 540 to 6554.
+
+Evidence: hunts/jensen_wedge/EFFECTIVE.md sections 2 and 3; effective.py sections B and C
+(derive_F, laplace_bound, deriv_ball); test_effective.py (route B derivatives inside the
+enclosures at n = 1e8 and 1e20; the cubic constant against its defining integral; the
+Cauchy radius against the disk geometry); REVIEW_PHASE2.md R1 to R4;
+review_p2/reproduce_p2.py
+Prior art: cited: it replaces the non-explicit Proposition 4.1 of Holland, arXiv:2608.08682v1,
+the complex form of Griffin, Ono, Rolen, Thorner, Tripp and Wagner, arXiv:1910.01227v3,
+(3.2). Searched-and-absent for explicit constants of this kind: hunts/jensen_wedge/NOVELTY.md
+(OpenAlex, Semantic Scholar, arXiv API, zbMATH Open, Zenodo through OpenAlex, 2026-10-19)
+Reused in: none yet; all four constants of jensen_wedge phase 2 rest on it
+Why it travels: Anything that needs log M_z, or log gamma(n), with an explicit error at
+complex shift (explicit Turan-type or Jensen-type thresholds, effective forms of GORTTW
+section 3) gets one from one contraction and one Laplace bound, with derivatives by
+Cauchy, wherever R_min >= 10 (here from x_0 of about 7.9e5).
 
 ## Heat flow and de Bruijn-Newman constants
 
@@ -4949,6 +4988,10 @@ and the controls that separate an instrument reading from a mathematical claim.
   verify the obligation that spends the constant (`r_908de5`)
 - control: Control: compare a sup only on the range the lemma asserts, and price
   depth-interval inflation before declaring a constant broken (`r_a7c12f`)
+- computational technique: Parametric interval Krawczyk for a matching system over a
+  cover of a uniformity parameter (`jensen_wedge`)
+- control: Claims against recomputation with planted weakenings, and formula plants
+  replayed as source edits (`jensen_wedge`)
 
 ### Signed-lattice binomial/trinomial sieve on a support torus
 
@@ -5508,6 +5551,71 @@ the change
 Reused in: none yet
 Why it travels: The Davenport-Heilbronn certificate's per-term cost model rests on
 `norm_num`; if `decide +kernel` holds its speed at that height it reprices the run.
+
+### Parametric interval Krawczyk for a matching system over a cover of a uniformity parameter
+
+computational technique | `hunts/jensen_wedge/` | grade: enclosure-carrying (Arb balls; the
+Krawczyk test is a theorem, its application a self-reviewed reduction, reimplemented
+independently in REVIEW_PHASE2.md R6 and R11)
+
+To show that a nonlinear system Phi(X; p) = 0 has exactly one solution in a box for every
+parameter value in an infinite range (here every n >= n_0), reparametrise by a variable
+that reaches the end of the range at a finite point (e = 1/v_1(2n) in [0, e(n_0)], with e =
+0 standing for n = infinity), cover it by closed subintervals, and on each one evaluate
+K(B) = x - Y Phi(x) + (I - Y DPhi(B))(B - x) with every parameter (e, the data t_j, 1/n) as
+a ball. Strict inclusion of K(B) in B gives existence and uniqueness for every parameter
+of the subinterval at once, and the box then carries the positivity conditions. Two
+pitfalls were measured. The Jacobian must be enclosed through exact difference quotients
+(for the Pade system, (j+1) g_x P_odd(j-1, x, eps g_x)): enclosing u_j'' over the interval
+made the operator diverge for n below about 1e10. And the data should be enclosed with
+their correlation in e kept (T_j - T_0 as one function of e), without which the review's
+boxes on the top subinterval were 14 times wider. A subinterval that fails is halved.
+
+Evidence: hunts/jensen_wedge/EFFECTIVE.md sections 4, 5.1 and 6 (Lemmas M5, M6);
+effective.py (krawczyk, m5_system, m6_system); test_effective.py (mpmath Newton solutions
+inside every box at n = 1e8 and 1e12, the limit box at e -> 0, a planted 1e-3 data shift
+caught); REVIEW_PHASE2.md R5, R6, R11
+Prior art: cited: the operator is standard interval analysis (R. Krawczyk, Computing 4
+(1969)); the reparametrisation to a compact parameter and its use on Holland's matching
+systems are the hunt's; unsearched beyond that
+Reused in: none yet
+Why it travels: Any uniform-in-n existence statement for a finite system whose
+coefficients have an asymptotic expansion (matching systems of comparison models, H1-type
+contractions, effective implicit-function steps) becomes a finite ball computation,
+including the point at infinity.
+
+### Claims against recomputation with planted weakenings, and formula plants replayed as source edits
+
+control | `hunts/jensen_wedge/` | grade: measured (the check and its plants run in
+test_effective.py; the coverage gap was found by an independent review)
+
+For an explicit constant built through a chain of lemmas, write every intermediate constant
+down as a claimed upper (or lower) bound, recompute all of them from the formulas on every
+subinterval, and call the check green only if each claim covers its recomputation and every
+hypothesis holds. Then plant, per constant, a value 0.1 percent past its recomputation on
+the unsafe side and require red (44 of 44 in jensen_wedge). That catches a weakened claim
+and cannot see a wrong formula, because a fault that makes a bound optimistic lowers the
+recomputation as well. The formula steps need a second layer: an independent measurement
+where its slack is small, and a check against the step's own derivation where it is not.
+Each formula fault is planted as a source edit of the module, loaded as a fresh module, and
+the check must reject it. The recorded miss: phase 2's measurements had slack 785 (the
+Laplace remainder), none (a Cauchy constant) and 39 to 44 (a radius), and an independent
+review's plants of a constant five times too small, a radius twice too large and Sturm
+constants ten times too small passed all 36 tests. Phase 3 closed them with a
+defining-integral check, a disk-geometry check and a Sturm-gap measurement (slack 1.75).
+The formula layer also caught a real fault before that: a first draft stated a Gershgorin
+diagonal bound without its case condition U < 2V, and the test at U = 5405, V = 400 failed.
+
+Evidence: hunts/jensen_wedge/effective.py (effectivity_check, planted_weakenings);
+test_effective.py (its last section replays REVIEW_PHASE2.md item P's four plants);
+REVIEW_PHASE2.md item P; review_p2/plant_formula_faults.py; RESULTS.md section 18 and its
+2026-10-19 correction
+Prior art: unsearched; it is mutation testing applied to the arithmetic of a proof, and the
+planted-fault ladder and independence-by-mutation entries of this theme are its neighbours
+Reused in: none yet
+Why it travels: Any explicit-constant chain (effective theorems, certificate verifiers with
+intermediate bounds) can be checked against weakened claims cheaply, and the second layer
+names the formula steps a green run does not attest to.
 
 ## Zero-free half-planes, L(1, chi) and class numbers
 

@@ -7,6 +7,13 @@ must turn `effectivity_check` red: that is the MISSION's kill condition. A wrong
 measurements of `effective.py` section H (independent routes) must catch it, as far
 as their slack allows.
 
+Phase 3 (2026-10-19) adds the last section: `REVIEW_PHASE2.md` item P planted four
+formula faults and three passed this whole suite, because a measurement with slack 785
+cannot see a constant five times too small. Those steps are now checked against their
+own derivation (a defining integral, a disk geometry, a Sturm bound on an actual
+polynomial), and each of the reviewer's plants is replayed here as a source edit that
+those checks must reject.
+
 Run: .venv/bin/python -m pytest -q -n0 hunts/jensen_wedge/test_effective.py
 """
 
@@ -16,6 +23,7 @@ import functools
 import json
 import math
 import sys
+import types
 from fractions import Fraction
 from pathlib import Path
 
@@ -389,3 +397,152 @@ def test_results_json_pins():
         assert all(v["planted_weakenings_turn_red"].values()), name
     assert r["backend"] == "python-flint"
     assert r["first_order_coefficients_F_k"]["6"] == "13/12"
+
+
+# ---------------------------------------------------------------------------
+# REVIEW_PHASE2.md item P: formula faults the measurements above cannot see
+# ---------------------------------------------------------------------------
+#
+# Each check below takes a module (the real `effective`, or a planted copy) and
+# compares one formula step with its derivation, written out here independently of
+# the module's code path for that step. The reviewer's plants are the same source
+# edits `review_p2/plant_formula_faults.py` applies; that script is not imported.
+
+
+def _lemma_L_cubic_ok(mod) -> bool:
+    """Lemma L's cubic Taylor piece. EFFECTIVE.md section 3: on |t| <= T the error is
+    at most (M_3/6) int |t|^3 e^{-Re Psi t^2/4} dt, normalised by sqrt(|Psi|/(2 pi)),
+    with M_3 >= p e^T, Re Psi <= p cos b and |Psi| >= p. So
+    C_rho >= k3 e^T/(sqrt(2 pi) cos^2 b), k3 = (1/6) int |t|^3 e^{-t^2/4} dt, which
+    the test takes from quadrature rather than from the module's 8/3."""
+    with mp.workdps(40):
+        k3 = mp.quad(lambda t: abs(t) ** 3 * mp.exp(-t * t / 4), [-mp.inf, 0, mp.inf]) / 6
+        assert abs(k3 - mp.mpf(8) / 3) < mp.mpf(10) ** -30
+        k3 = arb(mp.nstr(k3, 35))
+    with rigor._flint_prec(mod.PREC):
+        for x0 in (789702, 14237025, 9910 * 10**30, 565 * 10**33):
+            lb = mod.laplace_bound(x0)
+            floor_ = k3 * mod.ab(mod.T_STEP).exp() / ((2 * arb.pi()).sqrt() * lb.b.cos().upper() ** 2)
+            if not bool(lb.C_rho >= floor_):
+                return False
+    return True
+
+
+def _lemma_D_cauchy_ok(mod) -> bool:
+    """Lemma D(ii)'s Cauchy part: with F_k set to 0 the ball deriv_ball returns is the
+    remainder bound alone, and it must be at least k! lambda/(r n)^k normalised, with
+    r = RHO - RHO_D the radius left about a point of the derivative disk inside the
+    Lemma R disk (EFFECTIVE.md section 3)."""
+    r_avail = mod.ab(mod.RHO - mod.RHO_D)
+    orig = mod.F_ball
+    mod.F_ball = lambda k, e, m: arb(0)
+    try:
+        with rigor._flint_prec(mod.PREC):
+            for n in (10**8, 10**20):
+                lb = mod.laplace_bound(Fraction(n) / 2)
+                sub = mod.sub_around(n)
+                for k in range(2, 8):
+                    H = mod.deriv_ball(k, sub, lb, arb(0), lb.q)
+                    need = (mod.ab(k * (k - 1)) * lb.lam
+                            / (2 * r_avail**k * sub.n_lo * mod.ab(sub.e_hi))).lower()
+                    if not bool(arb(H.rad()) >= need):
+                        return False
+    finally:
+        mod.F_ball = orig
+    return True
+
+
+def _lemma_B_sturm_factor(mod):
+    """The Sturm factor sqrt(c1 + c2/d_min) that chain6 actually used, read back from
+    its bracket (d + 2r)/(n sqrt(delta) log(d+2)) on a narrow subinterval at n = 2e7,
+    together with the model's A, B there."""
+    spec = mod.SPECS["six_standalone"]
+    K, d, dw = mod.CLAIMS["six_standalone"]["K"], spec["d_min"], spec["d_wedge_min"]
+    with rigor._flint_prec(mod.PREC):
+        lb = mod.laplace_bound(14237025)
+        sub = mod.sub_around(2 * 10**7)
+        row = mod.chain6(sub, lb, K, d, dw)
+        M = mod.model6(mod.make_data(sub, lb, 3))
+        delta = mod.wedge_delta(sub, K, 6, 2, logd_lo=(mod.ab(dw) + 2).log().lower())
+        eta8 = 8 * mod.sqrt_nn(delta * M.w_D)
+        rho_r = (mod.ab(9) / (2 * arb.pi()) * (1 + eta8) / (1 - eta8)
+                 * mod.ab(mod.harmonic_log_constant(d))).mid()
+        first = (mod.sqrt_nn(delta) / (mod.ab(d) + 2).log().lower()).mid()
+        s = (row["bracket"].mid() - first) * M.w_B.mid().sqrt() / (2 * rho_r)
+        n = sub.n_lo.mid()
+        return d, s, n / M.w_A.mid(), n / M.w_B.mid()
+
+
+def _lemma_B_sturm_ok(mod) -> bool:
+    """Lemma B (RESULTS.md 12.3): on [B/2, 3B/2] with A >= 8B, R >= (B/2)(13/16),
+    |P| <= 0.501 B, |R'|, |P'| <= 1, R <= 3B/2, so Q B <= (32/13) d + 2.001 (32/13)^2/2.
+    Two checks: the factor the chain used is at least that, and the actual smallest
+    gap of 2F1(-d, A; B; y/A) at the chain's own A, B is at least the gap bound
+    pi sqrt(B/d)/s that the factor implies (measured slack about 1.75)."""
+    d, s, A, B = _lemma_B_sturm_factor(mod)
+    c1 = 1 / (Fraction(1, 2) * Fraction(13, 16))
+    c2 = (Fraction(501, 1000) + Fraction(3, 2)) / (2 * (Fraction(1, 2) * Fraction(13, 16)) ** 2)
+    if not bool(s * s >= mod.ab(c1 + c2 / d)):
+        return False
+    with mp.workdps(50):
+        A_, B_ = (mp.mpf(x.str(45, radius=False)) for x in (A, B))
+        assert A_ >= 8 * B_ and B_ >= 256 * d  # Lemma B's hypotheses hold at this instance
+        roots = sorted(mp.eigsy(_jacobi(d, A_, B_))[0])
+        gap = min(b - a for a, b in zip(roots, roots[1:]))
+        return bool(gap >= mp.pi * mp.sqrt(B_ / d) / mp.mpf(s.str(45, radius=False)))
+
+
+#: (source edit in effective.py, the check that must reject it); review item P's four plants
+FORMULA_PLANTS = {
+    "Lemma L: 8/3 -> 8/15": ("r3 = (1 + a1) * (ab(8) / 3) * m3", "r3 = (1 + a1) * (ab(8) / 15) * m3",
+                             _lemma_L_cubic_ok),
+    "Lemma L: 8/3 -> 8/30": ("r3 = (1 + a1) * (ab(8) / 3) * m3", "r3 = (1 + a1) * (ab(8) / 30) * m3",
+                             _lemma_L_cubic_ok),
+    "Lemma D(ii): radius n/4": ("(2 * ab(RHO - RHO_D) ** k * sub.n_lo",
+                                "(2 * ab(Fraction(1, 4)) ** k * sub.n_lo", _lemma_D_cauchy_ok),
+    "Lemma B: 2.47, 6.07 -> 0.247, 0.607": (
+        "s247 = (ab(Fraction(247, 100)) + ab(Fraction(607, 100)) / ab(d_min)).sqrt()",
+        "s247 = (ab(Fraction(247, 1000)) + ab(Fraction(607, 1000)) / ab(d_min)).sqrt()",
+        _lemma_B_sturm_ok),
+}
+
+
+def _planted_effective(old: str, new: str):
+    """A fresh copy of effective.py with one source edit, as its own module."""
+    path = HERE / "effective.py"
+    src = path.read_text()
+    if src.count(old) != 1:
+        pytest.fail(f"plant site not found exactly once in effective.py: {old!r}")
+    name = "effective_planted"
+    mod = types.ModuleType(name)
+    mod.__file__ = str(path)
+    sys.modules[name] = mod  # dataclasses resolve their annotations through sys.modules
+    try:
+        exec(compile(src.replace(old, new), str(path), "exec"), mod.__dict__)
+    finally:
+        sys.modules.pop(name, None)
+    mod.derive_F = E.derive_F  # untouched by every plant; reuse the cached sympy derivation
+    return mod
+
+
+def test_lemma_L_cubic_constant_matches_its_defining_integral():
+    assert _lemma_L_cubic_ok(E)
+
+
+def test_lemma_D_cauchy_part_uses_the_radius_the_geometry_leaves():
+    assert _lemma_D_cauchy_ok(E)
+    # the radius RHO (n/4) is not available: from z = n(1 + i RHO_D) the circle of
+    # radius RHO n reaches outside the sector |arg| <= asin(RHO), which contains every
+    # Lemma R disk |zeta - x| <= RHO x
+    far = 1 + 1j * float(E.RHO_D + E.RHO)
+    assert math.atan2(far.imag, far.real) > math.asin(float(E.RHO))
+
+
+def test_lemma_B_sturm_constants_match_the_derivation_and_an_actual_gap():
+    assert _lemma_B_sturm_ok(E)
+
+
+@pytest.mark.parametrize("label", list(FORMULA_PLANTS))
+def test_review_formula_plants_are_rejected(label):
+    old, new, check = FORMULA_PLANTS[label]
+    assert not check(_planted_effective(old, new)), label

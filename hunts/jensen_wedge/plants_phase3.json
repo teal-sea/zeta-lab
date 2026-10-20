@@ -1,0 +1,57 @@
+[
+ {
+  "plant": "none (control)",
+  "passed": 43,
+  "failed": 0,
+  "failed_tests": [],
+  "suite_red": false,
+  "summary": "43 passed in 88.14s (0:01:28)"
+ },
+ {
+  "plant": "Lemma L: cubic Taylor constant 8/3 -> 8/15 (C_rho 5x too small)",
+  "passed": 40,
+  "failed": 3,
+  "failed_tests": [
+   "test_lemma_L_cubic_constant_matches_its_defining_integral",
+   "test_review_formula_plants_are_rejected[Lemma",
+   "test_review_formula_plants_are_rejected[Lemma"
+  ],
+  "suite_red": true,
+  "summary": "3 failed, 40 passed in 68.19s (0:01:08)"
+ },
+ {
+  "plant": "Lemma L: cubic Taylor constant 8/3 -> 8/30 (C_rho 10x too small)",
+  "passed": 39,
+  "failed": 4,
+  "failed_tests": [
+   "test_laplace_bound_covers_the_measured_remainder_at_complex_s",
+   "test_lemma_L_cubic_constant_matches_its_defining_integral",
+   "test_review_formula_plants_are_rejected[Lemma",
+   "test_review_formula_plants_are_rejected[Lemma"
+  ],
+  "suite_red": true,
+  "summary": "4 failed, 39 passed in 69.64s (0:01:09)"
+ },
+ {
+  "plant": "Lemma D(ii): Cauchy radius n/4 where only n/8 is available (2^k too small)",
+  "passed": 41,
+  "failed": 2,
+  "failed_tests": [
+   "test_lemma_D_cauchy_part_uses_the_radius_the_geometry_leaves",
+   "test_review_formula_plants_are_rejected[Lemma"
+  ],
+  "suite_red": true,
+  "summary": "2 failed, 41 passed in 69.23s (0:01:09)"
+ },
+ {
+  "plant": "Lemma B: Sturm constants 2.47, 6.07 -> 0.247, 0.607 (r 3.2x too small)",
+  "passed": 41,
+  "failed": 2,
+  "failed_tests": [
+   "test_lemma_B_sturm_constants_match_the_derivation_and_an_actual_gap",
+   "test_review_formula_plants_are_rejected[Lemma"
+  ],
+  "suite_red": true,
+  "summary": "2 failed, 41 passed in 66.48s (0:01:06)"
+ }
+]

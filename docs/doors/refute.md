@@ -39,6 +39,13 @@ statistics. It is a modus tollens: if the Davenport–Heilbronn function has the
 property too, and it has zeros off the line, then the property cannot be why
 the zeros are on the line.
 
+It applies to proof routes, not only to patterns. Hunt #135 (`hunts/jensen_wedge/`,
+[docs/44](../44-the-constant-in-the-wedge.md)) predicted before its run that Holland's
+hyperbolicity-wedge construction for Jensen polynomials would also succeed for
+Davenport–Heilbronn, since it reads the weight only through its double-exponential decay.
+It did, on every item (its `RESULTS.md` section 15), so the wedge is shared structure and
+explains nothing about where the zeros are.
+
 **If your claim is about the Euler product, read this before you celebrate a
 pass.** Davenport–Heilbronn and the Epstein zetas are built by combining Euler
 products, so neither can test a claim whose content is the Euler product

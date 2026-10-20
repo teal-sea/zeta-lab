@@ -1244,6 +1244,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `41-the-module-that-missed-the-guard.md`, 41. The module that missed the guard the tree already had
 - `42-a-law-read-off-a-diagonal.md`, 42. A law read off a diagonal, and a headline read off a bad comparison
 - `43-what-happens-to-a-claim.md`, 43. What happens to a claim after it is recorded
+- `44-the-constant-in-the-wedge.md`, 44. The constant in the wedge: explicit constants for Jensen hyperbolicity, and whose wedge it is
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)
