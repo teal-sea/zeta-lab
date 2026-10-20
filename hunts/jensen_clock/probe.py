@@ -78,7 +78,35 @@ JMAX_DEFAULT = 320
 
 def omega_dh(x, kap):
     """omega(x) = sum_{n>=1} n a_n exp(-pi n^2 x/5), a_n period 5:
-    (1, kappa, -kappa, -1, 0).  Same construction as hunts/flow_repair."""
+    (1, kappa, -kappa, -1, 0), summed as
+
+        e^{-pi x/5} * (1 + sum_{n>=2} n a_n e^{-pi (n^2-1) x/5})
+
+    until a term is below 2^-(prec+20) of the leading one.  The cutoff is
+    relative, so the weight keeps its full relative accuracy at every x.
+    Corrected 2026-10-19: the original cutoff (``omega_dh_absolute_floor``)
+    returned exactly 0 at large x; see RESULTS.md, "Correction"."""
+    a_pat = (mp.mpf(1), kap, -kap, mp.mpf(-1), mp.mpf(0))
+    eps = mp.mpf(2) ** (-(mp.prec + 20))
+    tot, n = mp.mpf(1), 2
+    while True:
+        t = mp.exp(-mp.pi * (n * n - 1) * x / 5)
+        a = a_pat[(n - 1) % 5]
+        if a != 0:
+            tot += n * a * t
+        if n * t < eps:
+            return mp.exp(-mp.pi * x / 5) * tot
+        n += 1
+
+
+def omega_dh_absolute_floor(x, kap):
+    """The original omega_dh, kept as the record of its defect and as the
+    planted fault in ``test_jensen_clock.py``; do not build tables with it.
+    It drops every term below the absolute floor 10^-(dps+8), so it returns
+    exactly 0 once e^{-pi x/5} is below the floor (at dps 75: u > 2.859, where
+    1001 of the 3072 default nodes get weight 0).  Found by hunt #135's
+    Davenport-Heilbronn gate, ``hunts/jensen_wedge/DH_GATE.md`` section 1.
+    ``hunts/flow_repair``'s omega_dh is the same construction."""
     a_pat = (mp.mpf(1), kap, -kap, mp.mpf(-1), mp.mpf(0))
     total = mp.mpf(0)
     floor = mp.mpf(10) ** (-(mp.dps + 8))
@@ -115,11 +143,13 @@ def make_nodes(weight, U, segs, gldeg, dps):
     return out
 
 
-def dh_nodes(dps, U=U_DEFAULT, segs=SEGS_DEFAULT, gldeg=GLDEG_DEFAULT):
+def dh_nodes(dps, U=U_DEFAULT, segs=SEGS_DEFAULT, gldeg=GLDEG_DEFAULT, omega=omega_dh):
+    """Phi_DH(u) = 4 e^{3u/2} omega(e^{2u}) on the node set.  ``omega`` is
+    there only so the original floor can be put back as a planted fault."""
     kap = kappa(dps)
     with mp.workdps(dps):
         return make_nodes(
-            lambda u: 4 * mp.exp(mp.mpf(3) / 2 * u) * omega_dh(mp.exp(2 * u), kap),
+            lambda u: 4 * mp.exp(mp.mpf(3) / 2 * u) * omega(mp.exp(2 * u), kap),
             U, segs, gldeg, dps,
         )
 
@@ -754,6 +784,9 @@ def stage_precision():
     save("precision", {
         "runs": runs,
         "dstar_max_rel_spread": nstr(spread, 3),
+        # re-run 2026-10-19 after the omega_dh fix; the original run used the
+        # absolute floor (RESULTS.md, "Correction")
+        "omega_dh_cutoff": "relative",
         "seconds": round(time.time() - t0, 2),
     })
 

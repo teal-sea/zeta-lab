@@ -42,19 +42,19 @@ def test_relative_cutoff_omega_agrees_with_jensen_clock_where_its_floor_is_idle(
     kap = g.kap_at(W)
     with mp.workdps(W):
         for x in ("1", "3", "10", "30", "100"):
-            a, b = jc.omega_dh(mpf(x), kap), g.omega_dh_rel(mpf(x), kap)
+            a, b = jc.omega_dh_absolute_floor(mpf(x), kap), g.omega_dh_rel(mpf(x), kap)
             assert abs(a / b - 1) < mpf(10) ** -(W - 3), x
 
 
 def test_jensen_clock_floor_zeroes_the_weight_where_the_large_n_peaks_sit():
-    """At dps 75 jc.omega_dh is exactly 0 from u = 2.86; the n = 3200 peak is at
-    u = L_DH/2 = 3.62, where the true weight is about 1e-370."""
+    """At dps 75 jc.omega_dh_absolute_floor is exactly 0 from u = 2.86; the n = 3200
+    peak is at u = L_DH/2 = 3.62, where the true weight is about 1e-370."""
     kap = g.kap_at(W)
     with mp.workdps(W):
         u = g.L_dh(3200) / 2
         assert u > 3.6
         x = mp.exp(2 * u)
-        assert jc.omega_dh(x, kap) == 0
+        assert jc.omega_dh_absolute_floor(x, kap) == 0
         assert g.omega_dh_rel(x, kap) > 0
         assert abs(g.omega_dh_rel(x, kap) / mp.exp(-mp.pi * x / 5) - 1) < mpf(10) ** -(W - 3)
 
@@ -141,8 +141,9 @@ def test_live_theta_star_is_the_pade_point_and_matches_the_record(live_400):
 
 
 def test_planted_jensen_clock_floor_is_caught_by_both_checks():
-    """The literal jc.omega_dh, put back: the two node sets disagree (the check
-    raises), and route A leaves route B's stated error by orders of magnitude."""
+    """The literal jc.omega_dh_absolute_floor, put back: the two node sets disagree
+    (the check raises), and route A leaves route B's stated error by orders of
+    magnitude."""
     n = 1600
     ell, dev = g.route_A(DPS, n, n + 2, floor=True)
     with pytest.raises(RuntimeError, match="node sets disagree"):

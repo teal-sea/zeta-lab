@@ -33,6 +33,8 @@ n = 3200 integrand sits at u = 3.62. This probe keeps jensen_clock's constructio
 `make_nodes` and its two node sets, and replaces only the floor by a relative
 cutoff (`omega_dh_rel`). The literal table is compared with this one in
 `floor_record`, and `gammas_from_nodes` itself is reproduced on the same nodes.
+(jensen_clock fixed its `omega_dh` on 2026-10-19 to this relative cutoff and kept
+the literal floor as `omega_dh_absolute_floor`, which is what "literal" means here.)
 
 Route A: that table for n = 50..3296 on both node sets, dps 60 + 15 guard.
 Route B, no quadrature: in v = 2u, M_{2y} = 2^{1-2y} sum_m m a_m I_m(y) with
@@ -136,10 +138,10 @@ def omega_dh_rel(x, kap):
 
 def dh_nodes(dps: int, U, segs: int, gldeg: int, floor: bool = False) -> list:
     """jensen_clock's node table (make_nodes) for Phi_DH. floor=True puts the
-    literal jc.omega_dh back, which is jc.dh_nodes exactly: for the record of the
-    floor and for the planted-fault test."""
+    literal floor back (jc.omega_dh_absolute_floor, jc.dh_nodes's weight until its
+    2026-10-19 fix): for the record of the floor and for the planted-fault test."""
     kap = kap_at(dps)
-    omega = jc.omega_dh if floor else omega_dh_rel
+    omega = jc.omega_dh_absolute_floor if floor else omega_dh_rel
     with mp.workdps(dps):
         return jc.make_nodes(
             lambda u: 4 * mp.exp(mpf(3) / 2 * u) * omega(mp.exp(2 * u), kap), U, segs, gldeg, dps)
@@ -289,17 +291,17 @@ def normalised(c: dict, n, Ln) -> dict:
 
 
 def floor_record(dps: int, rel: dict) -> dict:
-    """Where jc.omega_dh's absolute floor cuts at this precision, the literal
-    table against `rel` (route A on jensen_clock's default node set), and
+    """Where jc.omega_dh_absolute_floor cuts at this precision, the literal table
+    against `rel` (route A on jensen_clock's default node set), and
     gammas_from_nodes reproduced by `moments` on the same nodes."""
     w = dps + GUARD
     kap = kap_at(w)
     with mp.workdps(w):
-        # jc.omega_dh's first term passes its floor while e^{-pi x/5} >= 10^-(dps+8)
+        # its first term passes the floor while e^{-pi x/5} >= 10^-(dps+8)
         x_cut = 5 * (w + 8) * mp.log(10) / mp.pi
         u_cut = mp.log(x_cut) / 2
-        below = jc.omega_dh(mp.exp(2 * (u_cut - mpf("0.01"))), kap)
-        above = jc.omega_dh(mp.exp(2 * (u_cut + mpf("0.01"))), kap)
+        below = jc.omega_dh_absolute_floor(mp.exp(2 * (u_cut - mpf("0.01"))), kap)
+        above = jc.omega_dh_absolute_floor(mp.exp(2 * (u_cut + mpf("0.01"))), kap)
         nd_lit, nd_rel = dh_nodes(w, *QUADS[0], floor=True), dh_nodes(w, *QUADS[0])
         zeroed = sum(1 for (_, a) in nd_lit if a == 0)
         lit = log_gamma_table(moments(nd_lit, FLOOR_NS[0], FLOOR_NS[-1], w), w)
@@ -320,7 +322,7 @@ def contrast(dps: int = jc.DPS) -> dict:
     (pair_delta on the damped series) on both tables at jensen_clock's precision."""
     t0 = time.perf_counter()
     jmax = jc.JMAX_DEFAULT + 8
-    G_lit = jc.gammas_from_nodes(jc.dh_nodes(dps), jmax, dps)
+    G_lit = jc.gammas_from_nodes(jc.dh_nodes(dps, omega=jc.omega_dh_absolute_floor), jmax, dps)
     M = moments(dh_nodes(dps, *QUADS[0]), 0, jmax, dps)
     with mp.workdps(dps):
         G = [mp.factorial(m) / mp.factorial(2 * m) * M[m] for m in range(jmax + 1)]
@@ -339,7 +341,8 @@ def contrast(dps: int = jc.DPS) -> dict:
     # jensen_clock's largest table (stage pair2: dps 180, j <= 400, its node set),
     # to read whether the floor touches any number jensen_clock recorded
     dps2, jmax2, q2 = 180, 400, ("4.2", 18, 7)
-    G2_lit = jc.gammas_from_nodes(jc.dh_nodes(dps2, U=q2[0], segs=q2[1], gldeg=q2[2]), jmax2, dps2)
+    G2_lit = jc.gammas_from_nodes(
+        jc.dh_nodes(dps2, *q2, omega=jc.omega_dh_absolute_floor), jmax2, dps2)
     M2 = moments(dh_nodes(dps2, *q2), 0, jmax2, dps2)
     with mp.workdps(dps2):
         lit_dev2 = max(abs(a / (mp.factorial(m) / mp.factorial(2 * m) * M2[m]) - 1)

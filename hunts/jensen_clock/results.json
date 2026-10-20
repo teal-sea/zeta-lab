@@ -259,6 +259,7 @@
  },
  "precision": {
   "dstar_max_rel_spread": "8.86e-5",
+  "omega_dh_cutoff": "relative",
   "runs": [
    {
     "U": "4.2",
@@ -297,7 +298,7 @@
     "segs": 13
    }
   ],
-  "seconds": 180.69
+  "seconds": 89.06
  },
  "shift": {
   "c0_over_half_inv_u0sq": "1.4362418",
