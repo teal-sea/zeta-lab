@@ -64,7 +64,7 @@ operator's machines, each taking seconds to a minute. `probe.py`, `results.json`
 id: seven_eighths_pin-2026-10-21-landing
 hunt: seven_eighths_pin
 started: 2026-10-21T15:30Z
-finished: 2026-10-21T16:10Z
+finished: 2026-10-21T15:56Z
 ran:
   - .venv/bin/python -m pytest -q -n0 -p no:cacheprovider hunts/seven_eighths_pin
 outcome: 114 tests pass, three landing checks among them; the hunt's formulas reproduce the public optimum sigma star, Liu's tight point at sigma dagger and Gao's boundary line
