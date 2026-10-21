@@ -3801,3 +3801,30 @@ degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
 Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
+
+### Hunt #150: six RH-direct mechanisms, each pushed to a construction or a located obstruction (`rh_moonshot/`, opened 2026-10-21)
+
+**Status: open; the first wave (construction, then challenge, then synthesis) has not yet
+reported.** The owner directed this hunt on 2026-10-21 as a genuine attempt at RH itself,
+beside the campaign's other tracks. It asks whether any of six materially different
+mechanisms can be pushed to a construction that proves RH, or else to a precisely located
+obstruction: `ccm_arithmetic` (step 2 of Connes, Consani and Moscovici, the convergence of
+the truncated Weil ground state's transform to Xi), `de_branges` (a Hermite-Biehler
+structure built from xi and the Euler product, set against the condition Conrey and Li
+refuted), `li_arithmetic` (a uniform bound on the arithmetic part of the Bombieri-Lagarias
+split of lambda_n), `positivity_geometry` (an arithmetic analogue of the Hodge index step
+in Weil's proof for curves, tested exactly on curves over F_p), `spectral_operator` (a
+finite-rank Hilbert-Polya candidate against the first 100 zeros) and `probe_tower` (theta
+probes of growing degree in place of the cubic-theta probe of OpenAI's 7/8 proof, asking
+whether the zero-free abscissa can tend to 1/2). Each construction names the step where
+zeta's Euler product or multiplicativity enters and tests it on Davenport-Heilbronn,
+Epstein (1,1,6) and W_a where they apply, since a construction that also works for a
+function with off-line zeros cannot prove RH; two sessions that did not build it then
+challenge it, one at that rival gate and one for circularity and known obstructions. The
+dead routes it starts from are the record's refuted forms, listed in `MISSION.md`, among
+them EPP/Herglotz (refuted by W_a), `weil_propagation`'s C1 and C3 (refuted by DH) and C2
+(refuted by Epstein (1,1,6)), Jensen wedges that exclude n = 0, and heat-flow clocks that
+read only the zero configuration. #150 was assigned by the campaign; several numbers
+between #138 and #150 are held by landings in open pull requests and by hunts on other
+branches. No claim about RH is made, and a finished construction would still owe its
+complete chain and its review (`docs/08`).
