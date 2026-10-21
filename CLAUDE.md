@@ -74,8 +74,10 @@ python scripts/science_preflight.py          # or --allow-fallback
 ```
 
 It reports interpreter, dependencies, whether `rigor.BACKEND` is Arb, whether
-Lean can build, and **the next free `docs/` number**; it exits non-zero if the
-environment cannot support this tree's claims. Then:
+the git history is complete, whether Lean can build, and **the next free
+`docs/` number**; it exits non-zero if the environment cannot support this
+tree's claims, and warns when the history is truncated or unreadable, or when
+`--allow-fallback` accepts a degraded ball-arithmetic backend. Then:
 
 - **Guess no number and no name**: take the doc number from the preflight.
 - **An artifact is not a commit**: say files were produced, not landed; never

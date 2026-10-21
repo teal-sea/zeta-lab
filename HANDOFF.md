@@ -297,6 +297,92 @@ where the previous one's minima were. Read the cell a refusal names; do not move
 
 ---
 
+## Record: three write-ups, three adversarial audits, and the pattern in what
+## they caught (2026-09-10)
+
+- **Believed:** that a hunt which measures carefully, states its grade, records
+  its controls and ends with a doors section has done the work. Four hunts in one
+  session did all of that.
+- **Invalidated by:** giving three of them to separate agents with no part in
+  producing the result, told to break the claim rather than review it. **All
+  three claims survived. All three write-ups needed correcting**, and the
+  corrections were not typographical:
+  - `euler_defect_axis`: eleven overclaims, including a residual presented as an
+    independent oracle when `R = |1 - a(1)| max|c(n)|` identically, and rows
+    called empty that are exactly the composite defect of `1 + Z_Q(s)`.
+  - `quotient_exponent`: the headline. It compared a three-parameter free fit
+    against a one-parameter reading of a conjecture whose own source states it
+    with a moving constant. Fitted like for like, the conjectured exponents win
+    with one parameter fewer. Its stated reason for reformulating the programme
+    was also false: the form it replaced returns the same optimum to `2.7e-14`.
+  - `epstein_height`: the guard. Six planted faults, all passing, and a call it
+    allows returns `0.59` of the 4 digits it promised, because every rung held
+    the form fixed and so tested the leading term rather than the term the hunt
+    had just derived. Its title was wrong too: `zeta/heatflow.py` and
+    `zeta/core.py` already carry this kind of guard.
+- **The pattern, which is the reason this is a record and not three notes.**
+  Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+  error. Every number in all three hunts reproduced. What failed each time was a
+  **comparison or a control**: a residual compared against something algebraically
+  forced to agree with it; a model compared against a version of its rival with
+  fewer degrees of freedom; a guard compared against faults that all varied the
+  same thing. A laboratory that checks its numbers and not its comparisons will
+  pass its own review every time.
+- **Now caught by:** nothing mechanical, and that is the honest state. What
+  worked is a separate agent, the write-up, the repository, and an instruction to
+  break it rather than read it. Three for three. The cheapest version of the
+  lesson, which does generalise: **when a control agrees with the thing it is
+  controlling, ask whether it could have disagreed.** Two of the three failures
+  are that question unasked.
+- **Justified conclusion:** the four control roles this tree already names
+  (rival, decoy, lesion, precision response) are about the *claim*. Nothing in
+  them looks at the *argument for* the claim, and all three failures here were
+  there. `hunts/*/AUDIT.md` carries each audit verbatim, including the attacks
+  that failed, because a list of only the hits reads as a review.
+
+> **Note on landing this record, 2026-10-21.** Ported verbatim from the
+> unmerged branch `claude/repo-hunt-content-2smbid` (commit `57cb2a5`). Its
+> three hunts are on main as #127 (`euler_defect_axis`, front door `docs/40`),
+> #129 (`epstein_height`, `docs/41`) and #130 (`quotient_exponent`,
+> `docs/42`). Read against their audits (`hunts/*/AUDIT.md`), three sentences
+> of the pattern paragraph do not hold as written:
+>
+> - "Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+>   error." Two of `euler_defect_axis`'s eleven overclaims are miscounts:
+>   "forms in the published table 44" with "forms whose a(1) equals 0: 30",
+>   and "all thirty of the others", where the artifact holds 41 forms, 27 of
+>   them non-principal. Replacing those counts is the first item under that
+>   audit's "Corrections required", from its attack 7 ("check the write-up's
+>   own arithmetic", outcome PARTIAL BREAK). `quotient_exponent`'s audit also
+>   required a count fix ("the 21 positive rows", where `artifacts/fit.json`
+>   holds 20) and a memory figure twice what its own formula gives (`3.2 GB`
+>   for `1.6 GB`), though neither is among the four attacks its summary says
+>   landed. (`epstein_height`'s eleven is its audit's summary line, "Eleven
+>   landed"; ten of its seventeen attack headings read BROKE IT, and attack 3,
+>   headed held, also led to a correction.)
+> - "Every number in all three hunts reproduced." The counts above did not.
+>   The headline measurements did reproduce, in the audits and again in main's
+>   2026-10-10 landing re-runs (the probes' artifacts, the Epstein grid, the LP
+>   values). Some secondary figures did not reproduce as printed, in all three
+>   hunts, and each is marked where it is stated: one count in
+>   `euler_defect_axis` (`RESULTS.md` section 2, `docs/40` section 3), four
+>   numbers in `epstein_height` (two of them in `docs/41` section 3) and four
+>   on `quotient_exponent`'s result page (noted in `docs/42` section 5).
+> - "What failed each time was a **comparison or a control**". True of the
+>   failure the record names in each hunt (the residual, the model comparison,
+>   the guard's fault ladder), not of every correction: the miscounts are
+>   counting errors, and `epstein_height`'s audit (attack 8) also found a step
+>   in `law.py`'s derivation that cancelled a real term against nothing.
+>
+> So read the pattern as describing each hunt's main failure, not every
+> correction: the audits caught arithmetic too. One figure in the record is
+> also tighter than its source: "the same optimum to `2.7e-14`" is the
+> `N = 10^3` row, and over the four diagonal cutoffs the relative difference
+> runs from `2.4e-14` to `7.0e-14` (`hunts/quotient_exponent/RESULTS.md`
+> section 2). The branch's other three `HANDOFF.md` records of that day are
+> not ported: issues #217, #218 and #219, closed by #287 and #291, supersede
+> them.
+
 ## Record: the start page carried a retracted number, in public, for eleven
 ## hours (2026-08-14)
 

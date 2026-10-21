@@ -426,6 +426,18 @@ renumbered there to #124 on 2026-09-16 after main took #119 for `lambda_dh_exact
 #127 because main had since taken #124 to #126. Its front door, numbered 38 on the branch, is
 `docs/40`. The rest of that branch is not landed.
 
+**Note, 2026-10-21.** "The rest of that branch is not landed" went stale the same day: the
+branch's other four hunts landed on 2026-10-10 as #128 to #131 (`li_dh_onset`, `epstein_height`,
+`quotient_exponent` and `claim_halflife`, in #298 to #301), each with its own renumbering note
+above. What the branch still held after that is settled by the landing of 2026-10-21 (#333).
+Its shallow-clone check in `scripts/science_preflight.py` landed, with the path that failed open
+fixed. Of its four `HANDOFF.md` records, the one on the three adversarial audits landed verbatim
+with a dated note, and the other three are superseded by issues #217, #218 and #219, closed by
+#287 and #291. `zeta/li.py`'s coefficient cache `data/li_gamma_dps60_methodintegral_n128.json`,
+written during the `li_dh_onset` run and committed on the branch in `a9eba317a`, was not landed:
+`tests/test_li.py` states that every committed `data/li_*.json` table was checked out of band,
+and it names no check of this one. Nothing else on the branch is missing from main.
+
 ### Robin's inequality for 25-free integers (`robin_tfree/`, 2026-10-04)
 
 **Status: candidate, ordinary derivation, unreviewed, pending external verification;
