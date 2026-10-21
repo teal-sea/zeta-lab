@@ -3752,3 +3752,15 @@ degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
 Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
+
+### Hunt #137: a kernel-checked RH to finite height for Mathlib's zeta (`rh_height_lean/`, opened 2026-10-21)
+
+**Status: open; waiting on the root Lean build on the campaign box.** The second track of
+the campaign the owner directed on 2026-10-21. The question is whether the laboratory can
+kernel-check, for Mathlib's own `riemannZeta`, that every nontrivial zero with
+`0 < Im rho <= T` is on the critical line and simple, first at T = 50 (10 zeros) and then
+at T = 100 (29 zeros). Hunts #132 and #133 supply ten located zeros below 50 but no upper
+count. The vendored `zeta23` argument principle and `zeta/rigor.py`'s ball-arithmetic count
+supply the rest of the plan. Two web searches found no prior kernel-checked finite-height
+verification, which is not a literature search, so no novelty is claimed. A finite-height
+statement says nothing beyond height T.
