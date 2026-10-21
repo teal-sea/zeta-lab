@@ -2,11 +2,12 @@
 
 **Hunt #139 (opened as #134), 2026-10-16. Status: answered within its stated scope;
 unreviewed by any person.** Grades: *cited* (a line of the paper, quoted and checked
-against the pinned file), *derived* (algebra done here from cited formulas and checked in exact rational
-arithmetic by `test_seven_eighths_pin.py`), *inferred* (a reading of a lemma's proof
-that no computation here checks). A composite claim takes the grade of its weakest
-step. Nothing here is a statement about RH, and nothing here checks the paper's
-lemmas: they are taken as cited inputs, at the exponents the paper proves them with.
+against the pinned file), *derived* (algebra done here from cited formulas and checked
+in exact rational arithmetic by `test_seven_eighths_pin.py`), *inferred* (a reading of
+a lemma's proof that no computation here checks). A composite claim takes the grade of
+its weakest step. Nothing here is a statement about RH, and nothing here checks the
+paper's lemmas: they are taken as cited inputs, at the exponents the paper proves them
+with.
 
 Source: `github.com/openai/math` at `adc7f1241b42e322a6451854ab7e4b4c146bf78a`,
 `preprints/The-Quasi-Riemann-Hypothesis-September-30-2026/build/paper.tex`, 16,677
@@ -16,9 +17,9 @@ Line numbers below refer to that file. `probe.py --paper PATH` checks that each 
 
 > **Landing note, 2026-10-21.** Opened as hunt #134 and renumbered #139 at landing,
 > because #134 on main is `gauss_positivity` and #136 to #138 are taken by other
-> open hunts and landings. The prior-art search this page had not run
-> was run at landing, and it found the re-optimized geometry of Summary item 3 and
-> section 4 already public before this hunt opened: J. Guo and B. Liu give its optimum
+> open hunts and landings. The prior-art search this page had not run was run at
+> landing, and it found the re-optimized geometry of Summary item 3 and section 4
+> already public before this hunt opened: J. Guo and B. Liu give its optimum
 > σ* = (1507 − 2√921)/1653 ≈ 0.8749570698 (8 October 2026). That number is not original
 > here, and neither is the small gain from tying the capacity to the target (section 7).
 > Section 10 records what was searched and found, and two consequences checked at
