@@ -1,0 +1,69 @@
+ok   line  6860  h = 13/16: got 13/16, paper 13/16
+ok   line  6861  l_x = 17/48: got 17/48, paper 17/48
+ok   line  6864  M + ell = 1: got 1, paper 1
+ok   line  6835  C_II shift 11/16: got 11/16, paper 11/16
+ok   line  8641  C_II(s) = l_x/2 + s - 1 + h/6: got 11/16, paper 11/16
+ok   line  8570  low exponent 3/16: got 3/16, paper 3/16
+ok   line  8642  target 7/8 from C_II(7/8) = 3/16: got 7/8, paper 7/8
+ok   line  8642  target closed form 5/6 + (M - 2 ell)/12: got 7/8, paper 7/8
+ok   line   190  Part I target 11/12 (ell = b = 0, M = 1): got 11/12, paper 11/12
+ok   line   190  Part I shift 2/3: got 2/3, paper 2/3
+ok   line  3717  Part I low exponent 1/4: got 1/4, paper 1/4
+ok   line  8306  row loss (d - 1/6)/4 at d = 0 is clipped to 0: got 0, paper 0
+ok   line  8306  row loss at d = ell is exactly 0: got 0, paper 0
+ok   line 15734  C_0 = -1/48: got -1/48, paper -1/48
+ok   line 15734  C_0 closed form: got -1/48, paper -1/48
+ok   line 15734  delta coefficient 2/3: got 2/3, paper 2/3
+ok   line 15734  q coefficient 1/6: got 1/6, paper 1/6
+ok   line 15847  floor bound -7/1200: got -7/1200, paper -7/1200
+ok   line 15945  large-delta endpoint -1/48 - delta/16 at delta = 5/6: got -7/96, paper -7/96
+ok   line 16159  intermediate constant -529/2400: got -529/2400, paper -529/2400
+ok   line 16159  intermediate slope 25/96: got 25/96, paper 25/96
+ok   line 16160  intermediate at delta = 5/6 is -49/14400: got -49/14400, paper -49/14400
+ok   line 15878  small-row margin -79/800: got -79/800, paper -79/800
+ok   line 15886  small-row saving 63/800: got -63/800, paper -63/800
+ok   line 15674  principal margin m_w = l_y/20: got 23/960, paper 23/960
+ok   line 15675  principal margin m_z = h/600: got 13/9600, paper 13/9600
+ok   line 15900  large-row B_0 = l_x/2 + 1 + l_y: got 53/32, paper 53/32
+ok   line 16101  high margin factor 1 - h/4: got 51/64, paper 51/64
+ok   line 16116  slot supply ell/h = 8/39: got 8/39, paper 8/39
+ok   line 16271  supply excess 8/39 - 7/37: got 23/1443, paper 23/1443
+ok   line 16123  extension ceiling 5 ell - h = 1/48: got 1/48, paper 1/48
+ok   line 16126  supply excess 1/5 - 7/37: got 2/185, paper 2/185
+ok   line 16015  D_x at c = 4/9 equals (37 + 34y)/18: got True, paper True
+ok   line 16016  P_x at c = 4/9 equals (7 + 18y + 8y^2)/9: got True, paper True
+ok   line 15300  e(r) slope: 1 - alpha + alpha r = (1 + 5r)/6: got True, paper True
+ok   line 16019  -E_* transcription equals the closed form (100 points): got True, paper True
+ok   line 16048  completed-square identity of the certificate: got True, paper True
+ok   line 16000  worst point delta = 79/204, x = 1/2: -E_* = 7/30672 >= 49/440640: got (Fraction(7, 30672), True), paper (Fraction(7, 30672), True)
+38/38 reproductions agree
+citations: 39/39 on their stated line 
+
+low side: target = 5/6 + (M - 2 ell)/12
+  paper corner M + ell = 1 and M - 2 ell = 1/2: ell = 1/6, M = 5/6, target 7/8
+  per-summand lossless (M - 2 ell >= 1/2) forces target >= 7/8 for every geometry
+
+floor-row corner: ell = 1/5, M = 4/5, b = 0 -> target 13/15 (C_0 = 0, dual slack 0, d=0 slack 0)
+
+endpoint inequality, exact bound for every geometry with M + ell <= 1, b >= 0:
+  target >= 5655673/6464057 = 0.8749417 (witness delta = 223/576, x = 1/2)
+  adding the Gram limit b <= 3(M - 2 ell)/8: target >= 44117/50422 = 0.8749554 (witness delta = 7/18, x = 1/2)
+
+endpoint inequality, float scan (M = 1 - ell), largest ell with min -E_* >= 0:
+  b = 0.00: c = 4/9 -> target 0.875683;  c tied to target -> 0.875683
+  b = 0.03: c = 4/9 -> target 0.875379;  c tied to target -> 0.875380
+  b = 0.06: c = 4/9 -> target 0.875155;  c tied to target -> 0.875155
+  b = 0.09: c = 4/9 -> target 0.875013;  c tied to target -> 0.875013
+  b = 0.12: c = 4/9 -> target 0.874958;  c tied to target -> 0.874958
+  b = 0.15: c = 4/9 -> target 0.874994;  c tied to target -> 0.874994
+  b = 0.18: c = 4/9 -> target 0.875148;  c tied to target -> 0.875148
+  best, c = 4/9: b = 0.12, ell = 0.166836, target 0.874958
+  best, c tied:  b = 0.12, ell = 0.166836, target 0.874958
+
+row-count excess scaled by lam (lam = 0: ideal count 1 - delta), best target:
+  lam = 1.00: ell = 0.166836, b = 0.12, target 0.874958
+  lam = 0.75: ell = 0.175245, b = 0.10, target 0.872856
+  lam = 0.50: ell = 0.183600, b = 0.07, target 0.870767
+  lam = 0.25: ell = 0.191864, b = 0.04, target 0.868701
+  lam = 0.00: ell = 0.200000, b = 0.00, target 0.866667
+exit=0

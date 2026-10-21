@@ -70,9 +70,10 @@ stays out of this file. No em dashes.
 - **Certificates, verifiers and exact arithmetic** (21). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
-- **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
-  bound from a fixed zero-free half-plane, and the exact sieve that spends it on
-  complete class-number lists.
+- **Zero-free half-planes, L(1, chi) and class numbers** (3). An explicit Littlewood
+  bound from a fixed zero-free half-plane, the exact sieve that spends it on complete
+  class-number lists, and a way to locate the inequality that fixes a paper's
+  half-plane constant.
 - **Primes in short intervals and explicit formulas** (2). Smoothed explicit formulas
   with closed-form sums over zeros split at a verified height; threshold exponents for
   primes between powers under a zero-free half-plane.
@@ -80,13 +81,15 @@ stays out of this file. No em dashes.
   primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (62). Surfaced by the sweep, below the bar for now.
 
-Totals: 188 entries from 71 hunts. Kinds: identity 24, lemma 48, bound 12, construction
-16, calibration 7, computational 21, control 39, obstruction 21. (Recounted from the
+Totals: 189 entries from 72 hunts. Kinds: identity 24, lemma 48, bound 12, construction
+16, calibration 7, computational 22, control 39, obstruction 21. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
 again from the entries. The seven Erdos #126 arms landed on 2026-10-21 (hunts #94, #97,
 #98, #99, #100, #106, #143) added eight items to "Seen and not admitted" and none above;
-that count was recounted from its items: 54 before them, where the line read 51.)
+that count was recounted from its items: 54 before them, where the line read 51. Hunt
+#139 added one on 2026-10-21, and the line was recounted from the entries again,
+counting each entry's originating hunt: it had read 188 from 71.)
 
 ## Prime pairs and the circle method
 
@@ -5825,6 +5828,53 @@ Reused in: none yet
 Why it travels: any explicit bound |D| <= D(h) (from a zero-free region, GRH, or a
 future theorem) becomes a complete class-number list by this sieve at cost about
 X * H additions, without a conditional class-group algorithm.
+
+### Locating the inequality that fixes a paper's constant: reproduce at the paper's values, then bound by one witness point
+
+computational technique | `hunts/seven_eighths_pin` | grade: exact rational arithmetic
+on formulas transcribed from the paper (38 printed constants reproduced, planted faults
+caught); the general-parameter readings that change which inequality is used are inferred
+
+To find what fixes a constant like the 7/8 of a zero-free half-plane: rewrite the
+final assembly's inequalities as functions of the parameters the paper chose (here the
+prime-slot length, the two averaging lengths, their offset), and evaluate each at the
+paper's values against the number it prints, so that a transcription error fails a test
+before any conclusion is drawn. Then use the shape of the binding inequality: at one
+fixed point of its inner variables it and the target are affine in the free parameters,
+so a two-variable linear program at that point gives an exact lower bound on the target
+over every parameter choice, and a constant-target direction with positive slope shows
+which boundary the optimum sits on. Here it gave target = 5/6 + (M - 2 ell)/12 through
+both stages of the argument, the corner M + ell = 1, M - 2 ell = 1/2 at the paper's
+geometry, and the exact bound 5655673/6464057 for every geometry with the paper's row
+counts; scaling the row-count excess to zero priced the whole input at 13/15. That bound
+is valid but loose: at the witness where the offset's coefficient vanishes, delta* =
+(49 - sqrt 921)/48, the same program returns sigma* = (1507 - 2 sqrt 921)/1653, the
+published optimum of the geometry (checked at landing on 2026-10-21, pinned to 35 digits).
+
+Evidence: RESULTS.md sections 2 to 6 and 10; `probe.py` (reproductions,
+`robust_single_point_bound`); `test_seven_eighths_pin.py` (the landing checks)
+Prior art: searched at landing on 2026-10-21 and found. Most of what the method gave here
+was public before the hunt opened (2026-10-16) and was derived here independently, so it
+is not novel. tomoto0 (github.com/tomoto0/quasi-riemann-hypothesis-7-8-verification,
+commit b83a73c6cb62, 7 October 2026) had already rebuilt the final section's inequalities
+as functions of the geometry, reproduced the printed margins, and found the target
+1 - h/6 + b/12, the floor-row ceiling 13/15 at the same corner and a geometry optimum near
+0.87496 with the zero-detected rows binding. J. Guo
+(github.com/aster2024/openai-math-followups, zero-free-beyond-7-8, commit 5750cc81e489)
+and B. Liu (arXiv:2610.12234), both 8 October, give the exact optimum
+sigma* = (1507 - 2 sqrt 921)/1653; Guo's sections 8 and 11 derive its binding bin from the
+vanishing coefficient of the offset and use that bin as a one-witness obstruction. Z. Gao
+(7 October, 20999/24000), Argonaut Math and LW56e2 (8 October) also state boundaries below
+7/8. Not found in the sources read (RESULTS.md section 10 lists them): the corner reading,
+M + ell <= 1 with per-summand losslessness M - 2 ell >= 1/2, which alone forces 7/8; the
+exact rational one-witness bounds; and the pricing of the row-count excess between its two
+ends. Liu's note itself was not read
+Reused in: none yet
+Why it travels: any long proof whose final section combines fixed exponents into one
+margin can be read this way, the reproduction step is the control that makes the
+reading checkable without the reader being trusted, and a witness placed where the free
+parameter's coefficient vanishes turns the lower bound into the optimum, as Guo's
+section 11 does for his endpoint.
 
 ## Primes in short intervals and explicit formulas
 
