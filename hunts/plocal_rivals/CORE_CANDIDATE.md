@@ -39,7 +39,8 @@ Pinned demonstration, with the claim "b(2^j) = b(2)^j for j <= 6 and |b(2)| = 1"
 
 Recommended default q = 17: 16 Hurwitz values per evaluation, P = 2, first off-line zero
 lower than Davenport-Heilbronn's (25.69 against 85.70), so box-local claims can be tested
-at low height. q = 73 (P = 4) is the deeper member and costs 72 Hurwitz values.
+at low height. q = 73 (P = 4) is the deeper member and costs 72 Hurwitz values; its
+first off-line zero is at 0.5763 + 91.8502 i (`ZEROS.md`).
 
 ## Scope caveat, to ship with it (as `SHIFTED_PRODUCT_SHIFT` ships with its own)
 

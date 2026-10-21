@@ -77,11 +77,38 @@ control roles, and the checks are the ones the tree already owns:
 
 ### Hunt #149: rivals that agree with an Euler product at every prime up to P (`plocal_rivals/`, 2026-10-21)
 
-**Status: open; the zero census below height 1000 is running.** F_chi = eps^(-1/2)
-L(s, chi) + eps^(1/2) L(s, chi-bar) for chi of order 4 mod q = 17 (P = 2) and q = 73
-(P = 4). Steps 1 to 3 are in `MATCH.md`, the restricted-class statement in
-`OBSTRUCTION.md`, the battery proposal in `CORE_CANDIDATE.md`. This entry is replaced
-when the census closes.
+**Status: all six steps done; a hunt result (a construction, a restricted-class
+obstruction and a battery proposal), not reviewed or landed.** F = [eps^(-1/2) L(s, chi)
++ eps^(1/2) L(s, chi-bar)] / (2 cos(theta/2)), chi of order 4 mod q, eps = e^(i theta);
+its coefficient constant k = tan(theta/2) comes from a linear solve of the
+functional-equation defect, as `zeta.epstein` derives kappa (q = 5 returns kappa; the
+Gauss sum and PARI's `lfunrootres` agree to 1e-38), and cos(theta/2) != 0 for every
+order-4 character because eps^2 = chi(-1) J(chi, chi)/sqrt q with J of norm q. At q = 17
+(P = 2) and q = 73 (P = 4) the defect is 1.3e-42 and 2.9e-42 at dps 40 and falls with
+precision; one coefficient moved by 1e-10 breaks it, and PARI's `lfuncheckfeq` agrees.
+Since chi(p) is real exactly at the quadratic residues, F carries the exact Euler factor
+of L(s, chi) at every residue prime, and -F'/F has coefficients Lambda(n) chi(n) except at
+the non-residue-composed n (exact for n <= 10^4, no accidental agreement). The band-N
+window forms of `galerkin.py` for F and L(s, chi) agree to below 1e-40 for every c <= P + 1
+tried and separate at once past the first non-residue (1.9e-4 at c = 3.001, 5.7e-5 at
+c = 5.001). Zeros, on two code-disjoint routes (mpmath, and Arb with `winding.py`'s
+segment rule, enclosure-carrying given the classical functional equation and a cited
+Rademacher bound), every window closing as n_box = n_line + 2 n_right: G_17 has 1099
+zeros with 0 < Im s < 1000.31, 46 of them in Re s > 1/2 (lowest 0.66703 + 25.69077 i),
+and G_73 has 1330 with 0 < Im s < 1000.02, 19 in Re s > 1/2 (lowest
+0.57630 + 91.85016 i); PARI re-locates every off-line zero inside route B's boxes of
+half-width 2^-30. The Euler-phase strip of
+`lambda_dh_bounds` ported to q gives |Re rho - 1/2| < 0.59896904163 (q = 17) and
+< 0.5445906373 (q = 73). `OBSTRUCTION.md` (ordinary argument, restricted class
+obstructed): no criterion reading only the conductor, the Gamma factor, the local data at
+primes <= P and the window forms with c <= P + 1 can separate F from L(s, chi), so none is
+sufficient for RH on a class containing F; by Hamburger's theorem zeta has no such rival at
+its own conductor, and C4 at S = {inf, 2} cannot use these rivals until ramified local
+Sonin data at q exist. `CORE_CANDIDATE.md` proposes `plocal_17` for `zeta.epstein.battery`:
+it turns "a unitary Euler factor at 2", which the battery now reports as distinguishing,
+into a shared claim. Landing it, and a `docs/37-methods.md` entry for the construction,
+are left to the landing change. Prior art unsearched beyond the cited ingredients; not a
+novelty claim. Nothing bears on RH (`docs/08`).
 
 ### Hunt #133: at least ten kernel-checked zeros of zeta on the critical line below height 50 (`hardy_ten_zeros/`, 2026-10-14)
 

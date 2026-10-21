@@ -615,7 +615,8 @@ def merge(q: int, ckpt: str, use_fix: bool = True) -> dict:
         all_close_B &= bool(close_B)
         windows.append({"j": j, "lo": lo, "hi": hi,
                         "A": {"n_box": r["n_box"], "n_line": n_line_A, "n_right": n_right_A,
-                              "closes": close_A},
+                              "closes": close_A,
+                              "line_rescanned": bool(wa) and "n_line_refined" in wa},
                         "B": {"n_box": n_box_B, "n_line": n_line_B, "n_right_boxed": n_unit_B,
                               "closes": bool(close_B),
                               "line_rescanned": n_line_B_refined is not None}})
@@ -630,10 +631,15 @@ def merge(q: int, ckpt: str, use_fix: bool = True) -> dict:
             "tiny_centre_B": d["tiny"].get("centre"),
             "polish_residual_B": d["tiny"].get("polish_residual"),
         })
+    # route A's folded counts are rounded to the nearest integer; the distance to
+    # it (the integrality defect) is what makes the rounding safe, so it is reported
+    defects_A = [_read(os.path.join(ckpt, f"psiA_q{q}_{j:04d}.json")).get("defect")
+                 for j in range(1, len(b))]
     out = {
         "q": q,
         "height": b[-1],
         "n_windows": len(windows),
+        "max_psi_defect_A": (max(defects_A) if None not in defects_A else None),
         "N_total_A": _countA(q, ckpt, len(b) - 1),
         "N_total_B": psiB[len(b) - 1].get("N"),
         "n_line_A": sum(w["A"]["n_line"] for w in windows),

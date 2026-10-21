@@ -64,6 +64,42 @@ Those 25 were computed with the earlier sampling (forced step 0.04, both halves 
 every later window uses step 0.08 with the upper half's count inferred by additivity.
 The two give the same zeros on the windows re-run to compare (25.69, 99.88).
 
+## Resumption (2026-10-21, from about 21:23)
+
+The first session ended at about 18:08 with q = 17 complete (merged at 18:07:35) and
+q = 73 stopped after 8 of route A's 41 scan chunks. A new session found no census process
+alive (checked by name and by working directory before touching anything), kept every
+checkpoint, and relaunched q = 73 with the same per-stage launcher (`launch3.py`, a copy
+of `launch2.py` with its own log) on the committed code. Route A's scan finished in
+189 s on 4 workers, its folded counts in 54 s, its 19 right-box windows in 594 s. Route
+B's scan began on 1 worker (the 1-minute load was 111 when the stage started); once the
+load fell to 61 a helper took route B's remaining scan chunks in reverse order on 3
+more workers (4 in all, the cap), each chunk still `census.py`'s own checkpointed unit,
+so neither process repeated the other's work beyond the one chunk where they met.
+
+| q = 73 stage (resumed run) | workers | wall | started at load1 |
+|---|---|---|---|
+| scanA, the 33 remaining chunks | 4 | 189 s | 36 |
+| psiA, 125 boundaries | 4 | 54 s | 60 |
+| winA, 19 windows with an excess | 4 | 594 s | 48 |
+| scanB, 34 chunks | 1, then 1 + 3 for the last 16 | 631 s | 111, then 61 |
+| psiB, 125 boundaries | 1 | 233 s | 72 |
+| boxB, 19 zeros | 1 | 306 s | 97 |
+| fixB, window 103 | 1 | 137 s | 118 |
+
+Wall time 21:26 to 22:02, about 36 minutes; summed over workers, about 1.4 CPU-hours,
+inside the estimate above (1.8 to 2.5 CPU-hours, which assumed a box under load 80 to
+100 throughout). Every window closed on both routes at the first pass except window 103,
+which each route closed with its own rescan. The q = 17 merge was re-run with two new
+reporting fields (route A's rescanned windows and its largest integrality defect); every
+earlier field came out identical.
+
+Assembly (`assemble.py`, one process, 22:02:33 to 22:08:23): a PARI Newton run from
+route A's root for each of the 65 off-line zeros (0.2 to 20 s each, longest at q = 73
+near height 857), the two non-Hurwitz PARI routes for the lowest zero of each q, and the
+audit, which returned no failure. Memory was never a constraint: the lowest
+`MemAvailable` the two launchers logged at a stage start was 68.2 GiB.
+
 ## Pilot (2026-10-21): q = 17 to height 120, 2 workers, 43 s wall
 
 `census.py --q 17 --stage all --workers 2 --tend 120`, scratch checkpoints. Both routes

@@ -39,11 +39,15 @@ at every residue prime, so on P-smooth integers b = chi exactly; this is checked
 arithmetic for n <= 10^4 (14 P-smooth integers for q = 17, 67 for q = 73, no failure).
 (3) The archimedean block of Q_{c,N} is a function of the data in (1); the prime block is a
 function of Lambda_f(n) for n < c, because the term at n = c carries weight
-1 - log n / log c = 0 and sin(2 pi k log n / log c) = 0. For c <= P + 1 every such n is at
-most P, hence P-smooth, and its divisors are P-smooth, so Lambda_f(n) is a function of (2):
-Lambda_F(n) = Lambda(n) chi(n), real. A complex coefficient enters the form only through
-its imaginary part, which vanishes here, so L's parity-coupling block is zero. Hence the
-forms coincide. []
+1 - log n / log c = 0 and sin(2 pi k log n / log c) = 0. That holds for a complex
+coefficient at n = c too (L's, when c = n(q) is itself the first non-residue): its
+imaginary part enters the parity-odd block through cos(2 pi k log c / log c) = 1, the same
+for every k, which cancels in the off-diagonal entries (C_m - C_n) / (pi (n - m)) of
+`MATCH.md` section 3, and through the weight 1 - log c / log c = 0 on the diagonal. For
+c <= P + 1 every n < c is at most P, hence P-smooth, and its divisors are P-smooth, so
+Lambda_f(n) is a function of (2): Lambda_F(n) = Lambda(n) chi(n), real. A complex
+coefficient enters the form only through its imaginary part, which vanishes for these n,
+so L's parity-coupling block is zero. Hence the forms coincide. []
 
 Measured confirmation (`MATCH.md` section 3): at N = 8 the full matrices agree to below
 1e-40 at every c tried up to P + 1, and separate as soon as c passes n(q), by 1.9e-4 at
