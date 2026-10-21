@@ -1,0 +1,31 @@
+{
+  "run_id": "bddff380-93b3-49fd-8ea2-0996b5e26640",
+  "status": "not-settled",
+  "conclusion": "The 57 H x S2 pair orbits only refine the 31 S8 x S3 triple orbits (S8 is transitive on perfect matchings) and add no branch coverage, so the inherited proposal to scale the sieve to 57 skeletons is redundant. The Groebner step ran sympy.groebner (grevlex) on the three target brackets entered as zero generators plus 6,558 relations, all homogeneous with no constant term and with no torus saturation, and stopped at its own 5-minute alarm. That ideal is proper, so no outcome of the computation could have excluded Support 7: the step reaches no algebraic conclusion.",
+  "confidence": "Exact finite check, two implementations, for the refinement: map_orbits.py over all 105^3 triples, and test_orbit_refinement.py on the slice against Hunt #71's census. The calibration items rerun main's own scripts and are not independent routes; the cap-4 replay is reported without an artifact here. The Groebner timeout carries no information about Support 7.",
+  "operator_decision_required": null,
+  "inherited": [
+    {"what": "Sparse polynomial sieve cap-3 and cap-4 results", "source": "hunts/r_044dd2/artifacts/orbit18-polynomial-07-cap4.json", "effect": "Cap-3 rerun with main's polynomial_sieve.py (cap3.json, byte-identical to main's output at landing); cap-4 reported without an artifact. A rerun, not an independent route."},
+    {"what": "Inherited proposal to scale to 57 pair orbits", "source": "hunts/r_31b6c1/HANDBACK.json", "effect": "Proved redundant; 57 pair orbits refine the 31 triple orbits and add no new branch coverage."}
+  ],
+  "threads": [
+    {"what": "Decide, for Support 7, whether the product of the three target brackets lies in the relation ideal saturated by the variables (Hunt #73, Result 4), or test infeasibility directly: is <relations, 1 - y*T0*T1*T2*x_0*...*x_137> the unit ideal?", "why_it_might_matter": "That is the question that can exclude Support 7. The ideal this run handed sympy, with the targets as zero generators and no saturation, is homogeneous and proper, so no backend can return [1] on it.", "first_step": "Encode the targets as a nonvanishing condition with the variables saturated, and confirm the encoding returns [1] on Supports 1, 2, 3 and 5, which Hunt #73 excludes by exact Laurent certificates, before running Support 7 in a compiled backend such as Singular."}
+  ],
+  "core_candidates": [],
+  "notes_for_operator": "The run id bddff380-93b3-49fd-8ea2-0996b5e26640 was adopted per instructions.",
+  "landing_audit": {
+    "date": "2026-10-21",
+    "hunt_number": 140,
+    "opened_as": 77,
+    "why_renumbered": "aimo2/ holds #77 on main; #138 and #139 are taken by the mobius_orbits/ landing (land/mobius-orbits-20261021) and the seven_eighths_pin/ landing (land/quasi-riemann-seven-eighths-20261021)",
+    "see": "RESULTS.md, Audit correction",
+    "replaced": {
+      "conclusion": "The unrestricted Groebner basis computation for the Support-7 restricted system (138 variables, 6561 equations) using sympy.groebner with grevlex timed out at 5 minutes and was priced. The 57 pair orbits merely refine the 31 triple orbits and add no new branch coverage, so the inherited proposal to scale to 57 skeletons is redundant.",
+      "confidence": "Absolute on the calibration, residual reproduction, and the redundancy of the 57 orbits. The timeout confirms that sympy.groebner is infeasible for the unrestricted support-7 system.",
+      "inherited[0].effect": "Reproduced as calibration gate",
+      "threads": [
+        {"what": "Implement exact ideal membership on the Support-7 restricted system with a compiled exact backend (e.g. pysingular or SageMath).", "why_it_might_matter": "sympy.groebner is too slow; a compiled characteristic-zero backend might resolve the 138-variable system.", "first_step": "Install SageMath or pysingular and replay the 138-variable system."}
+      ]
+    }
+  }
+}
