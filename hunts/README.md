@@ -3241,9 +3241,14 @@ kernel-leaf mirror, run 1's probe silently lost its Arb baseline (it printed
 leaving run 1's `results.json` and `HANDBACK.json` as they were. Every number
 that decides anything reproduced (344 cells at depth 20, minimum margin
 3632804926 ulp, all seven width ratios, 85 of 344 failing, 9/9 chunks, 476 cells
-at depth 22). The low digits of the failing-cell Arb margins depend on the
-python-flint version, and the "0.6 s end to end" runtime in `RESULTS.md` is out
-of date. Status stays settled; the grade stays measured, rung 1.
+at depth 22). The low digits of the failing-cell Arb margins are
+environment-dependent, and the cause is not identified: on a 2026-10-21 rerun
+machine (Linux x86_64) six of them differ from run 2's record by at most 56
+units on the `2^64` scale, with no verdict change, identically under
+python-flint 0.5.0, 0.6.0, 0.7.1, 0.8.0 and 0.9.0 and under run 1's and run 2's
+own code, and run 2's platform is not recorded. The "0.6 s end to end" runtime
+in `RESULTS.md` is out of date. Status stays settled; the grade stays measured,
+rung 1.
 
 ### Hunt #14: gate-5 property 6 is vacuous (`gate5_p6_b/`)
 
