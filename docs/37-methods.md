@@ -78,7 +78,7 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (55). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (56). Surfaced by the sweep, below the bar for now.
 
 Totals: 189 entries from 72 hunts. Kinds: identity 24, lemma 48, bound 12, construction
 16, calibration 7, computational 21, control 40, obstruction 21. (Recounted from the
@@ -86,7 +86,7 @@ entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
 again from the entries. Hunt #142 added one control the same day, and "Seen and not
 admitted" was recounted from its bullets: it had read 51 against 54 bullets before
-hunt #142 added one.)
+hunt #142 and the `frontier_math` gap A landing added one each.)
 
 ## Prime pairs and the circle method
 
@@ -6140,3 +6140,10 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   (`hunts/f1_engine_controls/`, lemma): derivation self-reviewed, measured against the
   eigenvalue count at every `N` from 10 to 260 and on a coarser scan to 800; used only
   inside its hunt.
+- Repair-and-scale verification of an SDP solved against a sampled constraint: project the
+  Gram matrix onto the positive-semidefinite cone, then take the largest scale keeping
+  `uhat <= M` on a grid two orders of magnitude finer than the solve grid; where `M`
+  vanishes any positive `uhat` forces the scale to 0, so the scale is the verdict, and the
+  case whose answer is proved must come back at scale 1 first. A scale-0 verdict at solver
+  tolerance leaves the question undecided rather than answered
+  (`hunts/frontier_math/sparse_sdp.py`, control): measured; used only inside its hunt.

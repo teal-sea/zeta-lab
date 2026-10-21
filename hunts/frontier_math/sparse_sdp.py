@@ -39,7 +39,8 @@ solution that fails `verify` is not a witness.
 Grade: measured.  Double precision, a finite family, no enclosure anywhere.
 Nothing here is evidence about RH.
 
-Run:  .venv/bin/python hunts/frontier_math/sparse_sdp.py --scan
+Run:  .venv/bin/python hunts/frontier_math/sparse_sdp.py \\
+          --json hunts/frontier_math/results_sparse_sdp.json
 """
 
 from __future__ import annotations
@@ -230,8 +231,9 @@ def verified(bandwidth: float, m: int, G: np.ndarray, n_fine: int = 40000) -> di
 
     Two repairs, in order.  The Gram matrix is projected onto the positive
     semidefinite cone, which restores `u >= 0` exactly: solutions here come
-    back with eigenvalues around `-1e-5`, and a `q` that is not a sum of
-    squares is not a `q` at all.  Then the whole thing is scaled by the largest
+    back with eigenvalues as low as `-1.4e-6` (`psd_repair` in
+    `results_sparse_sdp.json`), and a `q` that is not a sum of squares is not
+    a `q` at all.  Then the whole thing is scaled by the largest
     factor keeping `uhat <= M` on a grid far finer than the one solved on.
 
     The scale is the verdict.  Where `M > 0` a violation can always be scaled

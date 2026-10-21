@@ -186,10 +186,29 @@ violations of `J <= LP_v(rho)`.
 Four gaps as first written. Gap B is now closed; A remains the real one,
 and C and D are routine but unwritten. None should be described as detail.
 
-**Gap A, the sparse side. NARROWED, not closed. See section 6a.** For
+**Gap A, the sparse side. NARROWED, not closed. See sections 6a and 6b.** For
 `rho < 1/(2*pi)`, `LP(rho) > LP(1/(2*pi))` and the bound says nothing. It is
 not close: at `rho*2*pi = 0.4` the bound is `+2.15` against a true value of
 `-0.043`, a margin of `2.2`. **This is where the work is.**
+
+**Gap B, the rectification. CLOSED, see section 5a.** The concrete
+majorant `v = K_1(0)*(sin(x/2)/(x/2))^2` satisfies every constraint with
+margin `0.558`, so hypothesis H2 is gone and section 5 holds for every
+configuration at `rho >= 1/(2*pi)`.
+
+What is *not* closed about it: the two inequalities in 5a are verified
+numerically on a finite range with a settled tail, not enclosed. `rigor.py`
+is the natural next step and would turn this into an enclosure-carrying
+statement. Both are one-dimensional and should be well within reach.
+
+**Gap C, periodic to general.** `(*)` is stated for periodic configurations.
+General locally finite sets need the autocorrelation-measure form. Standard,
+and still a step.
+
+**Gap D, Poisson.** `(*)` needs justification for the `h` used. With `kappa`
+continuous and `L^1`, `kappa_hat` continuous and compactly supported, the sum
+on the right is finite and the formula is a sampling theorem. Routine, and
+not written out here.
 
 ## 6a. Gap A: the only possible route, and half of it is already closed off
 
@@ -251,7 +270,14 @@ tool established and what it did not.
 **The reduction in 6a is now independently derived.** This session reached
 `ghat(0) = 0`, `g(0) = -LAT/2`, and the forced vanishing of `uhat` at every
 non-zero integer from the Poisson side, before reading 6a, and landed on the
-same constants. Two derivations by different routes agree.
+same constants. Two derivations by different routes agree. Hunt #64
+(`r_b9552d` run 2, 2026-08-20) reaches the bandwidth-1 exclusion a third way,
+through a quoted Paley-Wiener factorisation with critical sampling, and with
+the same constants in other units: the multiplier it needs, `1.6984560`,
+against the admissible cap `1.4698290`, is 6a's `4.9441838` against
+`3.5076780` once `K_1(0)` is subtracted and the difference multiplied by
+`2*pi`. It also concludes that any `g` closing gap A must put Fourier mass
+outside `[-1,1]`, which is the region this SDP searches.
 
 **Calibration first, because 6a records an LP that failed one.** At bandwidth
 1 the SDP returns `u(0) = 0.558236` against the proved ceiling `0.5582643`,
@@ -260,23 +286,36 @@ needed. It reproduces the case whose answer is known, which the sampled LP
 did not.
 
 **Above bandwidth 1, solutions are returned and none of them verify.** Solves
-at `B` up to 4 return points reaching as high as `100.00%` of the value
-needed. Every one collapses to `0` under verification. The reason is specific:
+at `B` up to 4 return points, and every one collapses to `0` under
+verification. The reason is specific:
 after projecting the Gram matrix back onto the positive-semidefinite cone,
 `uhat` is strictly positive somewhere in `|xi| > 1`. There `M` vanishes, so no
 positive scaling recovers feasibility, unlike a violation inside `[-1,1]`.
 The solver output was not a witness, and reporting it as one would have
 repeated 6a's own lesson in a new place.
 
+How close the raw solutions came is not on record. `results_sparse_sdp.json`
+stores only verified values, so the figure this section first gave, raw
+solutions "reaching as high as `100.00%` of the value needed", rests on printed
+output that was not kept. A single re-solve during the landing review
+(2026-10-21, cvxpy 1.9.3 with Clarabel, not stored in any artifact) put the raw
+`u(0)` at `82.25%` of the needed value at `B = 1, m = 4` and at `94.11%` at
+`B = 2, m = 6`.
+
 **Why a generic solver will not settle this.** The feasible set has empty
 interior. 6a's knife-edge is forced: the lattice attains the bound at
 `rho = 1/(2*pi)`, so `B_g(1) >= LAT`, and with the zero-density requirement
 `B_g(0) <= LAT` this pins `uhat(0) = M(0)` and `u(0) = M(0)/(2*pi)` exactly.
 An interior-point method has no interior to find, which is what every
-`optimal_inaccurate` status and every eigenvalue near `-1e-5` is reporting.
-Settling bandwidth above 1 needs exact arithmetic or enclosures, or a
-formulation that carries the band-edge constraint structurally rather than as
-one more sampled inequality.
+`optimal_inaccurate` status is reporting, together with Gram eigenvalues as low
+as `-1.4e-6` (the `psd_repair` column of `results_sparse_sdp.json` runs from
+`1.2e-7` to `1.4e-6` across the four wider solves). The scale-0 verdicts sit at
+that tolerance: the out-of-band `uhat` that forces them is of order `1e-8` (the
+landing re-solve measured at most `2.1e-8` and `4.6e-8` at the two cases above,
+with minimum Gram eigenvalues `-2.5e-7` and `-1.0e-6`). So they show that the
+solver cannot decide the question, not that bandwidth above 1 fails. Settling
+it needs exact arithmetic or enclosures, or a formulation that carries the
+band-edge constraint structurally rather than as one more sampled inequality.
 
 **Three defects found on the way, recorded because each cost real time.**
 The x-space route is unusable here: with the constant in the basis the
@@ -286,25 +325,6 @@ the basis at all: `u = a*s` has `q` constant, which no family of decaying
 sincs contains, so leaving it out excludes the one solution known to exist.
 And a scan that read `problem.value` without `problem.status` reported
 `2.4e167` as a number.
-
-**Gap B, the rectification. CLOSED, see section 5a.** The concrete
-majorant `v = K_1(0)*(sin(x/2)/(x/2))^2` satisfies every constraint with
-margin `0.558`, so hypothesis H2 is gone and section 5 holds for every
-configuration at `rho >= 1/(2*pi)`.
-
-What is *not* closed about it: the two inequalities in 5a are verified
-numerically on a finite range with a settled tail, not enclosed. `rigor.py`
-is the natural next step and would turn this into an enclosure-carrying
-statement. Both are one-dimensional and should be well within reach.
-
-**Gap C, periodic to general.** `(*)` is stated for periodic configurations.
-General locally finite sets need the autocorrelation-measure form. Standard,
-and still a step.
-
-**Gap D, Poisson.** `(*)` needs justification for the `h` used. With `kappa`
-continuous and `L^1`, `kappa_hat` continuous and compactly supported, the sum
-on the right is finite and the formula is a sampling theorem. Routine, and
-not written out here.
 
 ## 7. Grade and scope
 
