@@ -1,0 +1,45 @@
+{
+  "run_id": "95a76f59-9645-4468-a692-e3b9f4263c32",
+  "status": "settled",
+  "conclusion": "The product route is closed, and closed by proof rather than by failure to find a bound: k >= log P / max_p (e_p log p) is exactly its strength, and two gcd-1 adversarial families cap that quantity at 1+o(1) for counting/range/residue estimates and at 2+o(1) once gcd normalisation and the one-step recursion on multiples of p are added. The separate smooth-counting lane is also capped, at k >= log n / loglog(2X), which exceeds Erdos-Turan's log_2 n only if the largest element X is below e^2.",
+  "confidence": "High on the negative results, which are short elementary proofs with explicit witnesses and numerics agreeing with the predicted limits (Omega' measured B=1.041 against limit n/(n-2)=1.0345; Omega measured B=2.125 against limit 2). Lower on P5b, the large-sieve sparsity bound n = O(sqrt(X) log X): the derivation is standard but its normalisation was not independently re-checked in this run, and it is the one claim here I would want a second pair of eyes on. The audit finding against r_186989's loose thread 3 is certain: an explicit infinite family refutes the suggested first step.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "Seven witness sets for g_N(k), k=1..7, and the proofs that f(n-1) <= f_0(n) <= f(n) and g(1)=2",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "Re-verified the witnesses by independent trial division and used them as the empirical rider in section 4; saved rebuilding a search. Auditing the file also produced finding A1, which retires one of its four loose threads."
+    },
+    {
+      "what": "The Erdos-Turan bound g(k) < 3*2^(k-1) as the target to beat",
+      "source": "https://www.erdosproblems.com/126 via the brief",
+      "effect": "Set the yardstick log_2 n against which the product route's ceiling of 2 is measured, which is what makes Theorem 4 a closure rather than a curiosity."
+    }
+  ],
+  "threads": [
+    {
+      "what": "A weighted or subset product, prod over a chosen graph E of (a+b), instead of all pairs",
+      "why_it_might_matter": "It is the only door Theorem 4 does not already cover: both adversarial families concentrate their prime mass on a specific pair structure that a chosen E could avoid. The trade is mass-concentration against the size of log P, which falls with |E|.",
+      "first_step": "For the antipodal family Omega, compute max_E B over E = the complement of the cross-pairs, and see whether B exceeds 2 by a margin that survives the adversary re-optimising p and m."
+    },
+    {
+      "what": "Is X bounded in terms of (n,k) after gcd normalisation?",
+      "why_it_might_matter": "It is the pivot of the entire sieve and smooth-counting lane: every estimate there is stated in X and is vacuous without a bound on it. Only n=2 examples with unbounded X are known here.",
+      "first_step": "Search for gcd-1 valid sets with n=3 and X large for S={2,3} and S={2,3,5}: exhaust X up to 10^7 and see whether the witnesses stay below 50 as r_186989 observed, or whether a sporadic large one exists.",
+      "landing_note": "Added on landing, 2026-10-21. Answered in part on main by Hunt #107 (support_95bb5cb7): at S={2,3}, primitive admissible 3-element sets have height that tracks the search cutoff over eleven orders of magnitude, from {217,1241,7975} to {3772777922353,41980806987569,559177175498959}, so the witnesses do not stay below 50 and X is not bounded in terms of (n,k) at that sub-extremal size (see also Hunts #103 and #105 on dilation). Whether sets of extremal size have bounded height is still open."
+    },
+    {
+      "what": "The occupancy lemma constrains A to a sum-free class structure modulo every prime outside S",
+      "why_it_might_matter": "It is the only structural constraint found here that does not mention X, before the large sieve reintroduces X. Something that exploits the occupancy pattern across many q jointly, rather than through a sieve inequality, would be in a new information class.",
+      "first_step": "Measure, on the seven known witnesses, whether the occupied class sets mod q outside S are near-extremal (close to (q+1)/2 classes) or far from it. If they are far from extremal, the sieve is losing most of its available strength."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A reusable 'method ceiling' probe: given a proposed bound of the form target >= F(A) over a hypothesis class, search a parameterised adversarial family for the supremum of F, and report the ceiling before anyone spends a run trying to prove the bound",
+      "why_reusable": "This run's whole value came from computing that ceiling in a few minutes rather than attempting the bound. Any hunt that proposes an inequality assembled from an identity plus a max, which is common, can be pre-screened the same way.",
+      "first_step": "Generalise probe.py's omega/omega_prime pattern into a small function taking a family generator and a functional, returning the measured sup and a fitted limit, then run it against one live conjectural bound elsewhere in the tree."
+    }
+  ],
+  "notes_for_operator": "The brief named gcd control, the large sieve, the larger sieve, largest-prime-factor results and averaging over pair sums. Four of the five are answered negatively and specifically here; largest-prime-factor results were not attempted, because they bound P(a+b) from below for almost all sums and the adversary is free to choose a thin exceptional-looking set, so they would need an averaging step that the unbounded X kills the same way. Case-log entry taken as Hunt #100 as assigned, though the highest existing entry in hunts/README.md is #91."
+}
