@@ -1,0 +1,100 @@
+{
+ "cfg": {
+  "L": "4/5",
+  "T": "40",
+  "env": "sine:16",
+  "N": 96,
+  "q": 64,
+  "prec": 256,
+  "h": "1/2",
+  "split": true,
+  "units": 2,
+  "tag": "odd_val40_L08_v1"
+ },
+ "input_hashes": {
+  "stage_b_odd_modal.py": "fd5bdcbec5bca6369a8b08cba3fd8c802fe686e39da48d868c87964db0b054ac",
+  "assemble.py": "4f019ffec671d0ac5af850eda85a4dcb626a53240daea2eb84998883b6e16c9e",
+  "harden.py": "22b1d4789af9e8e148ec9afab8a9c3280d5bcc073d088b83afea4696847ad330",
+  "envelope.json": "4c8f17b8a59c8011a726b88d2757c545e92e1f55c8dc9bb9416ff68cc6553e93"
+ },
+ "S": "[1.5552528467195560000 +/- 3e-24]",
+ "beta": "[0.27074954098503481929 +/- 1.80e-21]",
+ "unit_seconds": [
+  5.007981300354004,
+  6.314400911331177
+ ],
+ "unit_seconds_sum": 11.32238221168518,
+ "node_shift_upper": "2.0964e-75",
+ "eps_Q_max": "2.2446e-44",
+ "eps_D": "[1.0946e-250 +/- 4.40e-255]",
+ "eps_B": "[3.7709e-122 +/- 1.47e-127]",
+ "K": "[329.53032 +/- 4.53e-7]",
+ "lemma31": {
+  "T_ge_15/4": true,
+  "beta_positive_arb": true,
+  "S_global_bound": "envelope.json, P_L - H <= S on all of R"
+ },
+ "main": {
+  "e": "1.4439e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   4,
+   -0.00044831086030891845
+  ],
+  "negative_witness": {
+   "rayleigh_upper": "-1.35054774405466e-7",
+   "negative_arb": true
+  }
+ },
+ "lesion_flip_pole": {
+  "e": "1.4439e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   5,
+   -0.0016378703213047652
+  ],
+  "negative_witness": {
+   "rayleigh_upper": "-2.18861921000075e-6",
+   "negative_arb": true
+  }
+ },
+ "pole_control": {
+  "expected": "wrong positive pole can only increase the matrix",
+  "measured_increase": false,
+  "ratio": null,
+  "flip_refused": true
+ },
+ "lesion_dropH": {
+  "e": "1.4439e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   4,
+   -0.00034972918417644467
+  ],
+  "negative_witness": {
+   "rayleigh_upper": "-1.01001724391833e-7",
+   "negative_arb": true
+  }
+ },
+ "lesion_flipH": {
+  "e": "1.4439e-42",
+  "ok": false,
+  "failed_at": "unshifted midpoint Cholesky",
+  "pivot": [
+   4,
+   -0.00027720256960652427
+  ],
+  "negative_witness": {
+   "rayleigh_upper": "-7.64179686084542e-8",
+   "negative_arb": true
+  }
+ },
+ "negative_control": {
+  "endpoint_refused": true,
+  "negative_witness_enclosed": true
+ },
+ "reduce_seconds": 2.199155330657959
+}
