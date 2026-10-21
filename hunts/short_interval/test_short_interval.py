@@ -287,6 +287,9 @@ def test_the_flat_window_identity_and_the_xiprime_calibration() -> None:
     r = landscape.R_flat(1.0, landscape.F_xiprime)
     assert abs((2 - r) - 0.85838) <= 5e-6
     assert abs((3 - r) / 2 - 0.92919) <= 5e-6
+    # the six-decimal values MISSION.md section 6 and the case log print beside them
+    assert abs((2 - r) - 0.858384) <= 5e-7
+    assert abs((3 - r) / 2 - 0.929192) <= 5e-7
     assert abs((3 - sqrt(6)) - 0.5505102572) <= 1e-10
 
 
@@ -367,7 +370,18 @@ def test_the_derived_figures_the_hunt_quotes() -> None:
     # section 5: the whole value of window shape is 3.2e-4 of threshold
     assert abs(((3 - sqrt(6)) - theta_0) - 3.2e-4) <= 5e-6
     # section 5: at theta = 0.55 the window-shape game is worth about 9e-4
-    assert round(landscape.R_flat(0.55, landscape.F_zeta) - landscape.C_wang(0.55), 4) == 0.0009
+    game_055 = landscape.R_flat(0.55, landscape.F_zeta) - landscape.C_wang(0.55)
+    game_one = landscape.R_flat(1.0, landscape.F_zeta) - landscape.C_wang(1.0)
+    assert round(game_055, 4) == 0.0009
+    # section 5: "an n-point family whose bandwidth-one share of it is 2.4e-4 is worth
+    # roughly 4e-5". The text does not say where 2.4e-4 comes from; it matches the
+    # Phi_3 bridge's gain over the window optimum at bandwidth one (2.37e-4), and the
+    # 4e-5 is that share scaled by the window-shape game from bandwidth one to 0.55.
+    h = verify.c_simple(1.0)
+    assert round(verify.bridge("Phi_3", h) - h, 5) == 0.00024
+    assert round(2.4e-4 * game_055 / game_one, 5) == 0.00004
+    # section 6.2: the zeta constant 1/c*_1 = 2 - H at bandwidth one
+    assert abs((2 - MT_OPTIMUM) - 1.3274992963205884) <= 1e-15
     # section 7: the bandwidth-one headroom 0.00933, and the ladder 0.0078 short of the ceiling
     assert abs((CEILING_ONE - MT_OPTIMUM) - 0.00933) <= 5e-6
     assert round(CEILING_ONE - 0.6740762, 4) == 0.0078
