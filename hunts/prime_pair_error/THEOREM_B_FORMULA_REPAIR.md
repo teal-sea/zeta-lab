@@ -39,8 +39,10 @@ It does **not**:
 - modify THEOREM_B_SEQUENCE.md, which is left as the record of the failed argument;
 - reopen the hunt's completed numerical passes.
 
-The only new files are this one, `formula_repair_checks.py` and its results JSON, plus
-`AUTHOR_RESPONSE.md`.
+The new files the author wrote are this one, `formula_repair_checks.py` and its results
+JSON, plus `AUTHOR_RESPONSE.md`. The independent reviewer's record adds
+`THEOREM_B_FORMULA_REVIEW.md`, `formula_review_checks.py` and its results JSON, which the
+author did not edit.
 
 What is claimed, in one sentence: **the defective expansion is replaced by a truncated
 formula whose remainder is shape-explicit in `x` and `T` up to one absolute constant
@@ -802,13 +804,15 @@ formula.
 
 ## 12. Reproducibility note
 
-The worktree `theorem-b-formula-repair` has no `.venv` (it is gitignored and was never
-created here), so the repository rule "always `.venv/bin/python` from the repo root" could
-not be followed literally. The checks were run with the **main checkout's** interpreter:
+From the repository root, with the venv created per `CLAUDE.md` Setup:
 
-    /Users/thomas/zeta-lab/.venv/bin/python hunts/prime_pair_error/formula_repair_checks.py
+    .venv/bin/python hunts/prime_pair_error/formula_repair_checks.py
 
-Python 3.13.14, mpmath 1.3.0. (The worktree's system `python3` is 3.10 with mpmath 1.4.1;
-it was not used.) Anyone reproducing in a fresh clone should create the venv per
-`CLAUDE.md` Setup and run the script from the repository root. The script takes about 0.5 s,
-touches no network, writes only its own results JSON, and needs no ball-arithmetic backend.
+The script touches no network, writes only its own results JSON, and needs no
+ball-arithmetic backend. It was first run on 2026-09-20 from a worktree that had no venv of
+its own, with the main checkout's interpreter (Python 3.13.14, mpmath 1.3.0); that
+worktree's system `python3` (3.10, mpmath 1.4.1) was not used. At landing, 2026-10-21, it
+was re-run with Python 3.12.3 and mpmath 1.3.0, took about 6 s of wall time, and
+reproduced `results_formula_repair_checks.json` byte for byte. This note and the file list
+in section 0 were edited at landing, to drop a machine-specific path and to name the
+reviewer's files; nothing mathematical changed.

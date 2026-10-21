@@ -9,6 +9,13 @@ is required before the later constructive resonance steps can be used.
 See `FAREY_BASELINE_REPAIR.md`, Appendix B. The nonconstructive Theorem B
 in `RESULTS.md` and `REFEREE.md` does not depend on this construction.
 
+**Pointer, 2026-10-21.** That truncated expansion is now derived, with review, as
+Proposition 3 of `THEOREM_B_FORMULA_REPAIR.md` (2026-09-20). With it the isolated-witness
+case becomes that file's Theorem 4, a conditional theorem under (H-ISO), an isolated
+witness zero (which implies that GRH fails for L(s, chi_3)), and (H-TRANSFER),
+Theta < Theta_chi; the general case remains unresolved (its section 10). The text below
+is unchanged, as the record of the original argument.
+
 RESULTS.md Section 18 proves Theorem B, E(N) = Omega(N^{1 + 2 Theta_chi - eps}), in the
 case Theta < Theta_chi <= 1 by a pole-vs-boundedness contradiction on the Mellin
 transform of I(x) = sum_{m <= x} Lambda(m) chi(m) (x/2 - m), concluding "there is an
