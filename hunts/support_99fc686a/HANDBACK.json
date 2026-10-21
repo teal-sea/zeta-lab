@@ -1,0 +1,44 @@
+{
+  "run_id": "99fc686a-10ed-4e35-a696-42b3a94a498b",
+  "status": "settled",
+  "conclusion": "The low-rank matrix arm is a rediscovery: M_ij = a_i + a_j with rank <= 2 and S-unit off-diagonal entries is exactly the matrix in Alon-Solymosi, Corollary 10, and their bound is exp(256k), far worse than 3*2^(k-1). Rank 2 is special enough that the general machinery is unnecessary: two rows collapse the problem to one two-variable S-unit equation, giving the explicit g(k) <= 2 + 3*7^(2k+3), which is still base 49 and so does not improve 2^k.",
+  "confidence": "High on the negative verdict and on the reduction. The reduction is a four-line proof, checked mechanically on all seven r_186989 witnesses (rank exactly 2, rectangle condition, validity and injectivity of the map d -> (a+d, b+d)). Medium-low on the exact constants I quote from the literature: Evertse's 3*7^([K:Q]+2|S|) and Beukers-Schlickewei's 2^(8(r+2)) came from search-result summaries, not from the primary papers, and should be re-checked against Evertse-Gyory's book before anything is published. Alon-Solymosi's log n <= r*d^8 I read directly from their PDF. No novelty is claimed for the reduction; it is elementary enough to be folklore.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "the seven exact witnesses g_N(k) for k=1..7 and the framing g(k) = exp(o(k)) <=> f(n)/log n -> infinity",
+      "source": "hunts/r_186989/RESULTS.md sections 1 and 3",
+      "effect": "gave a ready test set for the structural checks; removed the need to re-run any search. All seven re-verified from scratch by trial division."
+    },
+    {
+      "what": "the parent's door-3 call that the top-ranked door is S-unit counting rather than enumeration",
+      "source": "hunts/r_186989/RESULTS.md, 'The doors', information class",
+      "effect": "correct, and this run makes it quantitative: the door is exactly N_Q(k), and it is currently base 49 against the incumbent's base 2."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Simultaneous S-unit equations. Fixing m elements of A gives every other d a point in the intersection of m-1 unit-equation solution sets, all with the same unknown.",
+      "why_it_might_matter": "It is the only place in this arm where an improvement could live. Every bound quoted here throws away n-2 of the n rows of M.",
+      "first_step": "Search for any counting theorem for systems alpha_i X + beta_i Y_i = 1 whose bound decreases in the number of equations. If none exists, the arm is closed permanently rather than just today."
+    },
+    {
+      "what": "The two-row collapse generalises for free: any field K, any finitely generated Gamma of rank r, gives |A| <= 2 + 3*7^([K:Q]+2|S|), and it also covers A-A (Roche-Newton-Zhelezov) by the same argument with (a-d, b-d).",
+      "why_it_might_matter": "It is a strictly better constant than the published subspace-theorem route in the rank-2 case, which may be worth a short note if a search confirms it is unrecorded.",
+      "first_step": "Check Evertse-Gyory, 'Unit Equations in Diophantine Number Theory', for the rank-2 sumset corollary; and check whether Alon-Solymosi's concluding remarks already note it."
+    },
+    {
+      "what": "The counting theorem is loose by 14 orders of magnitude on the instances this problem produces (9 solutions forced vs 7e14 permitted at k=7).",
+      "why_it_might_matter": "It says the loss is not in the reduction but entirely in the Diophantine input, which is where any future gain must come from.",
+      "first_step": "Tabulate, for k=1..7 and every pair (a,b) in each witness, the true number of S-unit solutions of X-Y=a-b inside a bounded box, and compare growth in k against 2^k."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A small exact-rank utility: Fraction-based Gaussian elimination plus an S-smoothness test, used here to check rank, the rectangle condition and unit-equation membership on integer matrices.",
+      "why_reusable": "Every hunt that claims a structural property of an integer matrix currently rewrites this. It is thirty lines and it is what makes a structural claim checkable rather than asserted.",
+      "first_step": "If a second hunt needs it, lift probe.py's rank_over_Q and is_s_unit into a shared place. Not before: there is one consumer today."
+    }
+  ],
+  "notes_for_operator": "The parent asked a question that the literature had already answered, and finding that out cost one PDF and three searches. The cheap habit that would have caught it earlier: search the *object* (\"matrix with entries from a multiplicative group\") rather than the *problem*, because the object is what gets named in a paper title. The negative verdict is firm: no route through low-rank matrices or S-unit counting improves 3*2^(k-1) with today's Diophantine technology, and the gap is a factor of about (49/2)^k. The one thing worth keeping is the conditional in RESULTS.md section 5, with its direction checked: subexponential counting for two-term S-unit equations implies Erdos #126, and the known lower bound exp(k^(1/2+o(1))) does not obstruct it."
+}
