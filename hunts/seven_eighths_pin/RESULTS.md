@@ -341,21 +341,23 @@ above) at hand for the cited lines:
 - tomoto0, `github.com/tomoto0/quasi-riemann-hypothesis-7-8-verification` at
   `b83a73c6cb62` (the repository's only commit, 7 October 2026): the README, and
   `reports/barrier_analysis.md` and `reports/improvement_exploration.md` in full (both in
-  Japanese); `scripts/numerical_checks.py` and `data/numerical_checks_results.json`
-  searched, with the grid check C18 read;
+  Japanese); its other reports, `scripts/numerical_checks.py` and
+  `data/numerical_checks_results.json` searched, with the grid check C18 read;
 - Argonaut Math, `github.com/Argonaut-Math/argonaut-math-quasi-riemann-boundary` at
   `5971383edcb0` (8 October 2026): the README with its announcement; in
   `preprints/Beyond_the_Seven_Eighths_Barrier.tex` the introduction, the outline and
   section 3 (the low side) read, the rest searched;
 - LW56e2, `github.com/LW56e2/quasi-riemann-improved` at `b83dbbd914c5` (8 October 2026):
   the README (the repository holds Lean files and no manuscript);
-- Guo's paper source, in the directory and commit above: sections 3 (the low bound), 8
-  (the quadratic endpoint) and 11 (the limit of his envelope) read, sections 1 and 6
-  searched;
+- Guo's paper source, in the directory and commit above: section 8 (the quadratic
+  endpoint) in full, the end of section 3's low-side proof (the row-energy bound and the
+  sum over rescaled tuples) and the first subsection of section 11 (the limit of his
+  envelope) read; the rest of sections 3 and 11, and sections 1 and 6, searched;
 - Z. Gao, `github.com/Gaozhongpai/seven-eighths-refinement-certificates` at
   `309a757ea539` (the version Guo cites, committed 8 October 2026, draft dated 7 October):
-  the README and `REPORT.md`, the low-side lemma and its use in manuscript sections 2 and
-  3, the rest of the manuscript searched.
+  the low-side lemma of manuscript section 2 and its use in section 3, the opening of the
+  README and the closing section of `REPORT.md` read; the rest of those files and of the
+  manuscript searched.
 
 Liu's note itself was not read, only its abstract, and no proof was checked. Every
 translation below between this page's variables and a source's is pinned in exact
