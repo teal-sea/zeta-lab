@@ -344,19 +344,44 @@ where the previous one's minima were. Read the cell a refusal names; do not move
 > unmerged branch `claude/repo-hunt-content-2smbid` (commit `57cb2a5`). Its
 > three hunts are on main as #127 (`euler_defect_axis`, front door `docs/40`),
 > #129 (`epstein_height`, `docs/41`) and #130 (`quotient_exponent`,
-> `docs/42`). One sentence above is overtaken: "Every number in all three
-> hunts reproduced." The headline measurements did reproduce, in the audits
-> and again in main's 2026-10-10 landing re-runs (the probes' artifacts, the
-> Epstein grid, the LP values). Some secondary figures did not reproduce as
-> printed, in all three hunts, and each is marked where it is stated: one count
-> in `euler_defect_axis` (`RESULTS.md` section 2, `docs/40` section 3), four
-> numbers in `epstein_height` (two of them in `docs/41` section 3) and four on
-> `quotient_exponent`'s result page (noted in `docs/42` section 5). The
-> `euler_defect_axis` audit had already caught two such counts (44 forms and 30
-> non-principal ones, where the artifact holds 41 and 27). So read the sentence
-> as true of the headline measurements, not of every printed figure. The
-> branch's other three `HANDOFF.md` records of that day are not ported: issues
-> #217, #218 and #219, closed by #287 and #291, supersede them.
+> `docs/42`). Read against their audits (`hunts/*/AUDIT.md`), three sentences
+> of the pattern paragraph do not hold as written:
+>
+> - "Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+>   error." Two of `euler_defect_axis`'s eleven overclaims are miscounts:
+>   "forms in the published table 44" with "forms whose a(1) equals 0: 30",
+>   and "all thirty of the others", where the artifact holds 41 forms, 27 of
+>   them non-principal. Replacing those counts is the first item under that
+>   audit's "Corrections required", from its attack 7 ("check the write-up's
+>   own arithmetic", outcome PARTIAL BREAK). `quotient_exponent`'s audit also
+>   required a count fix ("the 21 positive rows", where `artifacts/fit.json`
+>   holds 20) and a memory figure twice what its own formula gives (`3.2 GB`
+>   for `1.6 GB`), though neither is among the four attacks its summary says
+>   landed. (`epstein_height`'s eleven is its audit's summary line, "Eleven
+>   landed"; ten of its seventeen attack headings read BROKE IT, and attack 3,
+>   headed held, also led to a correction.)
+> - "Every number in all three hunts reproduced." The counts above did not.
+>   The headline measurements did reproduce, in the audits and again in main's
+>   2026-10-10 landing re-runs (the probes' artifacts, the Epstein grid, the LP
+>   values). Some secondary figures did not reproduce as printed, in all three
+>   hunts, and each is marked where it is stated: one count in
+>   `euler_defect_axis` (`RESULTS.md` section 2, `docs/40` section 3), four
+>   numbers in `epstein_height` (two of them in `docs/41` section 3) and four
+>   on `quotient_exponent`'s result page (noted in `docs/42` section 5).
+> - "What failed each time was a **comparison or a control**". True of the
+>   failure the record names in each hunt (the residual, the model comparison,
+>   the guard's fault ladder), not of every correction: the miscounts are
+>   counting errors, and `epstein_height`'s audit (attack 8) also found a step
+>   in `law.py`'s derivation that cancelled a real term against nothing.
+>
+> So read the pattern as describing each hunt's main failure, not every
+> correction: the audits caught arithmetic too. One figure in the record is
+> also tighter than its source: "the same optimum to `2.7e-14`" is the
+> `N = 10^3` row, and over the four diagonal cutoffs the relative difference
+> runs from `2.4e-14` to `7.0e-14` (`hunts/quotient_exponent/RESULTS.md`
+> section 2). The branch's other three `HANDOFF.md` records of that day are
+> not ported: issues #217, #218 and #219, closed by #287 and #291, supersede
+> them.
 
 ## Record: the start page carried a retracted number, in public, for eleven
 ## hours (2026-08-14)
