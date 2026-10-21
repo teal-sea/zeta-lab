@@ -3724,7 +3724,9 @@ Nothing here is evidence for or against RH.
 
 **Status: probe, complete. Instrument kept; no claim promoted; the headline is
 a negative result about globalisation, plus an honest boundary on what the gate
-actually tests.**
+actually tests. Corrected 2026-10-21: the local equivalence is an unreviewed
+derivation, not a consequence of the closed form, and the gate is a
+measurement of it whose regime test misreads oscillating weights.**
 
 An ontology attempt in the sense of `docs/09` §4, pushed at Requirement C of
 §5.1: construct, from prime data alone, a structure in which the Weil form is a
@@ -3742,9 +3744,16 @@ localisation is exactly where it dies. Raw numbers in
   positivity is therefore compatible with either sign of `W`. Files under
   `docs/09` §5.1's taxonomy item #5, *finite approximants*.
 - **Gate #3, with a crisp answer.** The place kernel has the closed form
-  `K_p^(d)(θ) = Σ_j (1−|α_j|²/p)/|1−α_j p^{−1/2}e^{iθ}|²`, so `c_p ≤ d` is
-  *exactly* the local bound `|α_j| ≤ √p`, with `d` read off each object's own
-  gamma factors and never chosen. ζ and `L(χ)` quadratic mod 5 measure
+  `K_p^(d)(θ) = Σ_j (1−|α_j|²/p)/|1−α_j p^{−1/2}e^{iθ}|²` when every
+  `|α_j| < √p`, and `c_p ≤ d` reads the local bound `|α_j| ≤ √p`, with `d`
+  read off each object's own gamma factors and never chosen. *Corrected
+  2026-10-21* (`local_positivity/CORRECTIONS.md`, "Later correction"): the
+  forward direction is derived; the converse was read off the closed form,
+  which cannot carry it (at `p = 2`, `α = (3√2, 0, 0, 0)` the rational
+  expression is `≥ 1` while the series diverges; the gate itself reports
+  `"divergent"` and FAILs there). With `c_p` read as the least PSD Toeplitz
+  diagonal, the converse rests on a PSD-boundedness derivation that is
+  unreviewed. ζ and `L(χ)` quadratic mod 5 measure
   `c_p = 0.8284` and PASS (matching `2/(√p+1)` to 12 digits);
   Davenport–Heilbronn measures `1.8361` and FAILS at `p = 2, 3`; both disc −23
   Epstein forms FAIL, at `5.995` and `6.462`. "Where exactly does DH fail to
@@ -3758,12 +3767,22 @@ localisation is exactly where it dies. Raw numbers in
 - **Lesion.** Interpolating ζ → DH, blindness sets in at `ε* = 0.184`, so a
   PASS means "no violation above ~18% of the way from ζ to DH at the tested
   places", and nothing stronger. The PASS side is not vacuous either: across 60
-  Satake angles the genuine degree-2 family keeps margin ≥ 0.343.
+  Satake angles the genuine degree-2 family keeps margin ≥ 0.343. Those are
+  margins of the truncated `c`. Since the gate's regime test was added
+  (2026-08-11) its *verdict* on that family is FAIL at 22 of the 60 angles: the
+  test reads two weighted terms near the truncation edge, and a conjugate pair
+  of Satake parameters makes them oscillate, which misleads it on either side
+  of the bound (measured 2026-10-21, pinned in `test_closed_form.py`).
 - **The honest boundary, stated so nobody overclaims it.** The gate is *not* a
-  test for "has an Euler product". A genuine degree-2 product with
-  `α = 2.3, 1/α`, legitimate in the Selberg class, violating Ramanujan, is
-  rejected at `p = 5` with `c_p = 65.24`. It tests the local Selberg bound, and
-  `localpos.scope()` says so inside the module rather than only in prose.
+  test for "has an Euler product". A genuine degree-2 Euler factor with
+  `α = 2.3, 1/α`, violating Ramanujan, is rejected at `p = 5`, in the
+  `"divergent"` regime where `c_p = +∞` by the module's convention (the printed
+  `65.24` is the series truncated at depth 41, not the value). This entry used
+  to call that factor legitimate in the Selberg class; it is not, since
+  `docs/09` §3's axioms (4) and (5) both exclude `|α| > √5`. It reads the local
+  bound `|α_j| ≤ √p`, forward direction derived and converse an unreviewed
+  derivation, and `localpos.scope()` says so inside the module rather than
+  only in prose.
 
 **Disposition:** instrument kept, avenue closed and recorded so nobody reopens
 it; no ledger entry. Nothing here is evidence for or against RH. This is the
@@ -3772,15 +3791,18 @@ separation (§4), to read arithmetic and stay blind to the *position* of the
 critical line. **The reason recorded here was wrong, and the `ROADMAP.md` call
 it asked for has now been made, the answer is no** (2026-08-11, `docs/25`).
 `ζ(s−δ)` does *not* have the same coefficients: it has `n^δ a_n`, and `c_p`
-reads that twist with threshold exactly `δ = ½` (`c_p = 2x/(1+x)`,
-`x = p^{δ−½}`). Blindness is a property of a statistic invariant under that
+reads that twist with threshold `δ = ½` (`c_p = 2x/(1+x)`, `x = p^{δ−½}`, for
+`δ < ½`; at `δ = ½` the gate reports INDETERMINATE; the `δ > ½` side is the
+converse above, unreviewed). Blindness is a property of a statistic invariant under that
 twist, not of reading arithmetic, and a coefficient-side statistic equivalent
 to RH is already in this tree (Mertens, `criteria.py` face 1). So the
 repetition across three instruments does **not** rise to a standing constraint
 on the coefficient-side programme, and must not be recorded as one. Full record in
 `docs/24-the-local-positivity-attempt.md`; the session's own corrections,
 including a citation defect it found in `docs/12`, are in
-`local_positivity/CORRECTIONS.md`.
+`local_positivity/CORRECTIONS.md`, whose "Later correction" (2026-10-21)
+grades the local equivalence and records the gate's regime-test defect, which
+this correction pins but does not repair.
 
 ### Hunt #4: repairing the counterexample (`flow_repair/`)
 
