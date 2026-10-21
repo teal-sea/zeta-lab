@@ -75,6 +75,55 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
+
+**Status: ordinary argument with an independent model challenge (a model review, not human
+review) and exact finite checks at the stated scope. The fixed-prime route is an unresolved
+attempt and the energy continuation was paused by allocation on 2026-09-27; neither is a
+refutation, RH is unresolved, and no novelty is claimed.** The hunt takes up, in a scoped
+form, the multi-prime mechanisms that `prime_pair_error/MOBIUS_PAIRING.md` left
+unconstrained. For a fixed squarefree P, writing a=dm with d|P and gcd(m,P)=1 regroups each
+Sigma2 row exactly by orbits and keeps every incomplete orbit; a complete orbit has the
+fixed-sign kernel K_m=-Phi_P(floor(N/(mb))), so the oscillation left is mu(m) alone. A
+separate Mertens level-set identity rewrites each row exactly, and a transfer bound prices
+it by a Mertens envelope with no unpriced floor jumps. The specified absolute-value
+majorant, which discards |mu(m)|<=1, has leading constant (phi(P)/P)^2/48 at fixed P
+(1/192, 1/432, 1/675 and 4/3675 at P=2, 6, 30 and 210) and the same N(log N)^3 order. Under
+`ALIGNMENT.md` section 5 that is category 3, an attempt that did not establish the needed
+statement, and it obstructs neither a signed estimate nor a growing-P construction. Exact
+integer and rational checks cover 1196 (N,P) cases and 8412 b-rows (N=4..300, 1000 and
+10000) with zero defect, a trial-division check of the Mobius sieve, and two planted faults
+(a dropped boundary, a reversed complete-orbit sign), both caught; at P=210, N=10000 there
+is no complete orbit and all of Sigma2 is boundary. The owner-directed continuation
+(`ENERGY.md`) moves to the Baez-Duarte criterion, where the squared error E_N is
+nonincreasing by standard approximation geometry. It adds a Schur-complement block
+identity, a compensated one-direction update along the predeclared Mobius shell
+v_n=-mu(n)log(2N/n), and a residual-matched fallback whose gain is at least M_N/T_N under
+the trace cap T_N<(log(2pi)-gamma)log 2. These pass Arb ball checks at N=4, 8, 16, 32 and 64
+at 128 and 192 bits, conditional on Vasyunin's published Gram formula, with an mpmath
+cross-check at N=4. The inequality that would finish the route, `ENERGY.md` (7) or the
+weaker (12), is unproved, and the normalized trace values behind (12) fall from 4.28 to
+0.243 over the five shells. The pause is category 4: no new uniform estimate toward RH was
+established, and it refutes neither the identities nor the Nyman-Beurling method.
+`REVIEW.md` and `ENERGY_REVIEW.md` are separate-context model reviews of the written
+mathematics, not of the code. Cited: Baez-Duarte math/0202141v2, Vasyunin's formula, and
+Bettin-Conrey-Farmer arXiv:1211.5191, which assumes RH and so is not an input. No
+literature search for novelty was run.
+
+**Landed 2026-10-21.** From the local branch `iris/rh-mobius-orbits-sep26` (three commits of
+2026-09-26 and 2026-09-27, tip `16aff65f8`, base `8941a80`), merged whole and not rewritten.
+Its entry carried no number; #138 was the next free one, with #136 and #137 held by hunts on
+open branches. Four landing changes, none of them to a claim: the status above replaces the
+branch's, which predated the pause; the doors section of `RESULTS.md` was 97 words with no
+active-constraint part, which `tests/test_hunt_doors.py` refuses, and is completed by a
+dated addition below the original bullets; `energy_test.py` is now `test_energy.py`,
+because the nightly `scripts/run_hunt_tests.py` collects only `test_*.py` and would never
+have run its 8 tests (the commands in `ENERGY_RUNS.md` stay as run, with a dated note); and
+the methods are indexed in `docs/37` (two identities, a construction, a control). On
+landing the hunt's 20 tests passed, and the two probes regenerated `results.json`,
+`pilot.json` and `energy_reviewed.json` identically apart from timing and reproduced every
+field of the two pre-review energy files. Landing promotes none of the hunt's claims.
+
 ### Hunt #133: at least ten kernel-checked zeros of zeta on the critical line below height 50 (`hardy_ten_zeros/`, 2026-10-14)
 
 **Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**
