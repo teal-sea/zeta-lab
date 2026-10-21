@@ -1,0 +1,3 @@
+FAIL: hunts/oob_envelope/MISSION.md has no huntspec block
+FAIL: missing hunts/oob_envelope/RUNS.md
+FAIL: missing hunts/oob_envelope/RESULTS.md
