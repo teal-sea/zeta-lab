@@ -37,3 +37,36 @@ artifacts:
   - hunts/seven_eighths_pin/results.json
   - hunts/seven_eighths_pin/probe_output.txt
 ```
+
+## 2026-10-21, landing check against the public follow-ups
+
+At landing the hunt was renumbered #139 and the prior-art search of `RESULTS.md`
+section 10 was run. It found the re-optimized geometry already published, so three
+checks ran against this hunt's own formulas, on a 32-vCPU Linux box and not on the
+operator's machines, each taking seconds to a minute. `probe.py`, `results.json` and
+`probe_output.txt` were not rerun or changed.
+
+- Two scratch refinements of the float scan, kept out of the tree, took the minimum
+  over δ at x = 1/2 continuously from the grid's minimum with a bounded scalar
+  minimizer, bisected ℓ for 60 steps and searched b in [0.115, 0.13]. With c = 4/9 they
+  gave best b = 0.123405 and target 0.8749570698, and 0.8749572006 at b = 1/8; with the
+  capacity tied to the target, 0.8749570194 at b = 0.123406.
+- An exact symbolic computation (sympy) found that at x = 1/2 and c = 4/9 the
+  b-coefficient of −E_* vanishes where 288δ² − 588δ + 185 = 0, at
+  δ* = (49 − √921)/48, and that the one-witness program there gives
+  (1507 − 2√921)/1653 exactly, tight at ℓ* = 11/551 + 8√921/1653 and
+  b* = −4/29 + 230√921/26709.
+- The last three tests of `test_seven_eighths_pin.py` pin these agreements with Gao,
+  Guo and Liu at 45 digits. Planted faults in the slope α, in the default capacity
+  coefficient and in the sign of the offset term each turned at least one of them red.
+
+```runmanifest
+id: seven_eighths_pin-2026-10-21-landing
+hunt: seven_eighths_pin
+started: 2026-10-21T15:30Z
+finished: 2026-10-21T16:10Z
+ran:
+  - .venv/bin/python -m pytest -q -n0 -p no:cacheprovider hunts/seven_eighths_pin
+outcome: 114 tests pass, three landing checks among them; the hunt's formulas reproduce the public optimum sigma star, Liu's tight point at sigma dagger and Gao's boundary line
+artifacts:
+```

@@ -1,8 +1,8 @@
 # Results: which step of the quasi-Riemann argument fixes the number 7/8
 
-**Hunt #134, 2026-10-16. Status: answered within its stated scope; unreviewed by any
-person.** Grades: *cited* (a line of the paper, quoted and checked against the pinned
-file), *derived* (algebra done here from cited formulas and checked in exact rational
+**Hunt #139 (opened as #134), 2026-10-16. Status: answered within its stated scope;
+unreviewed by any person.** Grades: *cited* (a line of the paper, quoted and checked
+against the pinned file), *derived* (algebra done here from cited formulas and checked in exact rational
 arithmetic by `test_seven_eighths_pin.py`), *inferred* (a reading of a lemma's proof
 that no computation here checks). A composite claim takes the grade of its weakest
 step. Nothing here is a statement about RH, and nothing here checks the paper's
@@ -13,6 +13,18 @@ Source: `github.com/openai/math` at `adc7f1241b42e322a6451854ab7e4b4c146bf78a`,
 lines, sha256 `42a5ee0febca59fd1def55cfd6c6808c322ef4237d7726303ea52f711deac6a3`.
 Line numbers below refer to that file. `probe.py --paper PATH` checks that each of the
 39 cited snippets sits on its stated line (all 39 do).
+
+> **Landing note, 2026-10-21.** Opened as hunt #134 and renumbered #139 at landing,
+> because #134 on main is `gauss_positivity` and #136 to #138 are taken by other
+> open hunts and landings. The prior-art search this page had not run
+> was run at landing, and it found the re-optimized geometry of Summary item 3 and
+> section 4 already public before this hunt opened: J. Guo and B. Liu give its optimum
+> σ* = (1507 − 2√921)/1653 ≈ 0.8749570698 (8 October 2026). That number is not original
+> here, and neither is the small gain from tying the capacity to the target (section 7).
+> Section 10 records what was searched and found, and two consequences checked at
+> landing against this hunt's own formulas: the exact bound 0.874942 is valid but loose,
+> and the scan optimum 0.874958 is a grid reproduction of σ*. The rest of this page is
+> as the hunt wrote it.
 
 ## Summary
 
@@ -254,10 +266,67 @@ The curve is close to linear, about 0.0021 per quarter of the excess removed (me
 
 ## 10. Prior art
 
-Not searched. This is a reading of a two-week-old preprint's internal constants; the
-paper itself does not say which inequality fixes 7/8, and `docs/38` records that
-nobody here had read past its section 3. Original to this laboratory as a reading;
-whether anyone else has published the same observation is unknown.
+*As written on 2026-10-16:* Not searched. This is a reading of a two-week-old
+preprint's internal constants; the paper itself does not say which inequality fixes
+7/8, and `docs/38` records that nobody here had read past its section 3. Original to
+this laboratory as a reading; whether anyone else has published the same observation
+is unknown.
+
+**Searched 2026-10-21, at landing.** Searched: the follow-up that main already cites in
+`hunts/qrh_nonresidue/RESULTS.md`, J. Guo's `github.com/aster2024/openai-math-followups`,
+directory `zero-free-beyond-7-8` (its README as of commit `5750cc81e489`, 9 October
+2026, unchanged at the repository's head on 2026-10-21); the arXiv abstract of B. Liu,
+arXiv:2610.12234 (v1 8 October, v2 12 October 2026); and one web search for the Xu and
+Sang figure that hunt #136 records. No paper's proofs were read. Found:
+
+- **The re-optimized geometry is public, and is not original here.** Guo's README states
+  that optimising the skew parameter (the offset b here) gives the endpoint
+  σ* = (1507 − 2√921)/1653 ≈ 0.8749570698, and that widening Lemma plain's
+  fourth-moment range from [3/4, 1] to [37/50, 1] gives σ† ≈ 0.8749570194, the root of
+  7884s³ − 18819s² + 14643s − 3686 in (0.8749570194, 0.8749570195). It credits B. Liu
+  with σ* independently (8 October) and Z. Gao with 20999/24000 at ℓ = 1001/6000,
+  b = 1/8 (a draft of 7 October), whose fixed-offset envelope it gives as about
+  0.8749572006. Liu's v2 abstract varies b, ℓ and κ, gives σ† in closed form as
+  B_new = (18ξ + 7)/(18ξ + 9) with ξ the root of 1188ξ³ − 2160ξ² + 171ξ + 190 in
+  (0.38858, 0.38859), and states that its optimality is proved "within the explicitly
+  specified exponent comparison system". Gao's 20999/24000 is this page's target line
+  11/12 − ℓ/4 at ℓ = 1001/6000, exactly.
+- **Checked at landing against this hunt's own formulas** (the last three tests of
+  `test_seven_eighths_pin.py`, which run the exact code at 45-digit rational
+  approximations of the closed forms):
+  - *The exact bound of Summary item 3 is valid but loose.* The one-witness program
+    holds at every witness where its b-coefficient is at most zero. At x = 1/2 that
+    coefficient vanishes at δ* = (49 − √921)/48 ≈ 0.3885837, and the recorded witness
+    223/576 ≈ 0.3871528 sits below it. At δ* the same program returns σ* itself: with
+    the paper's row counts, no geometry with M + ℓ ≤ 1 and b ≥ 0 passes the endpoint
+    inequality below σ* (derived, at the grade of the recorded bound; the closed forms
+    come from an exact symbolic computation at landing and are pinned to 35 digits).
+    The inequality is tight at δ* for ℓ* = 11/551 + 8√921/1653 ≈ 0.1668384 and
+    b* = −4/29 + 230√921/26709 ≈ 0.1234054. So re-choosing the geometry gains at most
+    7/8 − σ* ≈ 4.29 × 10⁻⁵, inside the "at most 5.8 × 10⁻⁵" of Summary item 3, and
+    Guo and Liu state that this gain is attained (cited). That the inequality holds at
+    every other (δ, x) at that geometry is their claim; a refinement of this page's
+    float scan at landing agrees (measured, `RUNS.md`), and no exact check of it ran here.
+  - *The scan optimum 0.874958 at b = 0.12 is a grid reproduction.* The offset grid of
+    0.01 leaves it 5.9 × 10⁻⁷ above σ* (measured).
+  - *Section 7's tied capacity is Liu's κ.* Liu's κ_new = (18ξ + 5)/(18ξ + 9) =
+    2B_new − 1 is the tie c = 1/(3(2σ₀ − 1)). With it, this page's endpoint formula at
+    Liu's ξ, ℓ_new and b_new is zero at δ = ξ and x = 1/2, a minimum in δ and flat in b,
+    with B_new on the target line. So Liu's ξ is this page's binding δ, and the "less
+    than 10⁻⁶" measured in section 7 is the step of 5.0 × 10⁻⁸ from σ* to σ†.
+- **What stays original to this laboratory** is the reading: that 7/8 sits at the
+  corner of M + ℓ ≤ 1 and the per-summand condition M − 2ℓ ≥ 1/2 (section 3), the
+  floor-row ceiling 13/15 (section 5) and the pricing of the row-count excess by λ
+  (section 6). Whether Guo or Liu say in words which rows bind, or why the paper's
+  geometry sits at 7/8, is unchecked, because their proofs were not read.
+- **Open check.** Xu and Sang's 0.8748867, as hunt #136 (`below_seven_eighths/`, open on
+  branch `hunt/below-seven-eighths`) records it, and the 0.874887 for Hecke
+  L-functions over every number field that the same record attributes to Liu, both lie
+  below σ*, the bound above for every geometry with the paper's row counts. Each must
+  therefore change an input beyond the geometry (row counts, capacities, the comparison
+  system or the probe). Neither source was read here, and the web search did not find
+  Xu and Sang's. If either changed only the geometry, that would refute this page's
+  bound, which is a kill condition.
 
 ## The doors
 

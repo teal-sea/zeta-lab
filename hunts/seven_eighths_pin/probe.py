@@ -1,4 +1,4 @@
-"""Hunt #134: which inequality of OpenAI's 7/8 argument fixes the number 7/8.
+"""Hunt #139 (opened as #134): which inequality of OpenAI's 7/8 argument fixes the number 7/8.
 
 Every formula below is transcribed from the LaTeX source of the preprint of
 2026-09-30 (github.com/openai/math at adc7f124,

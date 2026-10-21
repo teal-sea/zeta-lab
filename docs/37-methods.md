@@ -70,9 +70,10 @@ stays out of this file. No em dashes.
 - **Certificates, verifiers and exact arithmetic** (21). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
-- **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
-  bound from a fixed zero-free half-plane, and the exact sieve that spends it on
-  complete class-number lists.
+- **Zero-free half-planes, L(1, chi) and class numbers** (3). An explicit Littlewood
+  bound from a fixed zero-free half-plane, the exact sieve that spends it on complete
+  class-number lists, and a way to locate the inequality that fixes a paper's
+  half-plane constant.
 - **Primes in short intervals and explicit formulas** (2). Smoothed explicit formulas
   with closed-form sums over zeros split at a verified height; threshold exponents for
   primes between powers under a zero-free half-plane.
@@ -80,10 +81,12 @@ stays out of this file. No em dashes.
   primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (51). Surfaced by the sweep, below the bar for now.
 
-Totals: 184 entries from 70 hunts. Kinds: identity 22, lemma 48, bound 12, construction
-15, calibration 7, computational 21, control 38, obstruction 21. (Recounted from the
-entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
-the themes above already summed to 181.)
+Totals: 185 entries from 71 hunts. Kinds: identity 22, lemma 48, bound 12, construction
+15, calibration 7, computational 22, control 38, obstruction 21. (Recounted from the
+entries on 2026-10-21, when hunt #139 added one, counting each entry's originating hunt;
+the line had read 184 from 70. The recount before that, on 2026-10-19, was made when
+hunt #135 added three and the line had read 176 from 67 while the themes above already
+summed to 181.)
 
 ## Prime pairs and the circle method
 
@@ -5672,9 +5675,9 @@ X * H additions, without a conditional class-group algorithm.
 
 ### Locating the inequality that fixes a paper's constant: reproduce at the paper's values, then bound by one witness point
 
-technique | `hunts/seven_eighths_pin` | grade: exact rational arithmetic on formulas
-transcribed from the paper (38 printed constants reproduced, planted faults caught);
-the general-parameter readings that change which inequality is used are inferred
+computational technique | `hunts/seven_eighths_pin` | grade: exact rational arithmetic
+on formulas transcribed from the paper (38 printed constants reproduced, planted faults
+caught); the general-parameter readings that change which inequality is used are inferred
 
 To find what fixes a constant like the 7/8 of a zero-free half-plane: rewrite the
 final assembly's inequalities as functions of the parameters the paper chose (here the
@@ -5687,14 +5690,24 @@ over every parameter choice, and a constant-target direction with positive slope
 which boundary the optimum sits on. Here it gave target = 5/6 + (M - 2 ell)/12 through
 both stages of the argument, the corner M + ell = 1, M - 2 ell = 1/2 at the paper's
 geometry, and the exact bound 5655673/6464057 for every geometry with the paper's row
-counts; scaling the row-count excess to zero priced the whole input at 13/15.
+counts; scaling the row-count excess to zero priced the whole input at 13/15. That bound
+is valid but loose: at the witness where the offset's coefficient vanishes, delta* =
+(49 - sqrt 921)/48, the same program returns sigma* = (1507 - 2 sqrt 921)/1653, the
+published optimum of the geometry (checked at landing on 2026-10-21, pinned to 35 digits).
 
-Evidence: RESULTS.md sections 2 to 6; `probe.py` (reproductions, `robust_single_point_bound`)
-Prior art: unsearched
+Evidence: RESULTS.md sections 2 to 6 and 10; `probe.py` (reproductions,
+`robust_single_point_bound`); `test_seven_eighths_pin.py` (the landing checks)
+Prior art: searched at landing, 2026-10-21: the re-optimized geometry and its optimum
+are public (J. Guo, github.com/aster2024/openai-math-followups, zero-free-beyond-7-8, and
+B. Liu, arXiv:2610.12234, both 8 October 2026, sigma* = (1507 - 2 sqrt 921)/1653; Z. Gao,
+7 October, 20999/24000 at b = 1/8), so the re-optimized number is a reproduction; the
+reading of which inequality fixes 7/8 was not found in the README and abstract searched,
+and the papers' proofs were not read
 Reused in: none yet
 Why it travels: any long proof whose final section combines fixed exponents into one
-margin can be read this way, and the reproduction step is the control that makes the
-reading checkable without the reader being trusted.
+margin can be read this way, the reproduction step is the control that makes the
+reading checkable without the reader being trusted, and a witness placed where the free
+parameter's coefficient vanishes turns the lower bound into the optimum.
 
 ## Primes in short intervals and explicit formulas
 

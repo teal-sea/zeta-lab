@@ -75,23 +75,6 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
-### Hunt #134: which step of the quasi-Riemann argument fixes the number 7/8 (`seven_eighths_pin/`, 2026-10-16)
-
-**Status: answered within its scope; a reading of the paper, unreviewed by any person.**
-In OpenAI's 7/8 argument the target is where the direct bound meets the Mellin signal,
-`σ₀ = 5/6 + (M − 2ℓ)/12` (ℓ the prime-slot length, M the two averaging lengths), a line
-through both stages: Part I (ℓ = 0, M = 1) gives 11/12, Part II (ℓ = 1/6, M = 5/6) gives
-7/8. The paper's geometry is the corner of two direct-bound conditions, `M + ℓ ≤ 1` (line
-8246) and per-summand losslessness of the row norm, `M − 2ℓ ≥ 1/2` (line 8306), and the
-second alone gives exactly 7/8. Relaxing it, the high side binds instead: with the paper's
-row counts, no choice of (ℓ, M, b) passes the endpoint inequality below
-`5655673/6464057 ≈ 0.874942` (exact, one witness point), and the scan optimum is 0.874958.
-The binding rows have a zero near real part 0.69 and maximal prime-slot amplitude. Perfect
-row counts would stop at 13/15 (rows counted in full need `C₀ ≤ 0`). The Euler regions, the
-contour 17/50, the 11/12 input and Lemma plain's `κ ≥ 3/4` do not fix 7/8. 38 printed
-constants reproduced exactly; 39 citations checked against the pinned source; the moment
-lemmas' proofs not checked. See `seven_eighths_pin/RESULTS.md`.
-
 ### Hunt #133: at least ten kernel-checked zeros of zeta on the critical line below height 50 (`hardy_ten_zeros/`, 2026-10-14)
 
 **Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**
@@ -3769,3 +3752,33 @@ degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
 Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
+
+### Hunt #139: which step of the quasi-Riemann argument fixes the number 7/8 (`seven_eighths_pin/`, 2026-10-16)
+
+> **Landed on main 2026-10-21.** Opened on `claude/hunt-134-seven-eighths-pin` as Hunt #134; on main #134
+> is `gauss_positivity` and #136 to #138 are held by other open hunts and landings, so this hunt is #139.
+> The prior-art search the hunt had not run was run at
+> landing (`RESULTS.md` section 10). The re-optimized geometry was already public: J. Guo and B. Liu
+> (arXiv:2610.12234), both 8 October 2026, give its optimum σ* = (1507 − 2√921)/1653 ≈ 0.8749570698,
+> and Z. Gao (7 October) gives 20999/24000 at b = 1/8. So the scan optimum 0.874958 below is a grid
+> reproduction of σ*, not an original result. The exact bound below is valid but loose: the same
+> one-witness program at the binding δ* = (49 − √921)/48 returns σ* itself (pinned at landing).
+> Original here is the reading: the corner, the per-summand condition, the floor-row ceiling 13/15
+> and the pricing of the row-count excess. Open check: Xu and Sang's 0.8748867, as hunt #136 records
+> it, lies below σ*, so it must change an input beyond the geometry; if it changed only the geometry,
+> that would refute this hunt's bound.
+
+**Status: answered within its scope; a reading of the paper, unreviewed by any person.**
+In OpenAI's 7/8 argument the target is where the direct bound meets the Mellin signal,
+`σ₀ = 5/6 + (M − 2ℓ)/12` (ℓ the prime-slot length, M the two averaging lengths), a line
+through both stages: Part I (ℓ = 0, M = 1) gives 11/12, Part II (ℓ = 1/6, M = 5/6) gives
+7/8. The paper's geometry is the corner of two direct-bound conditions, `M + ℓ ≤ 1` (line
+8246) and per-summand losslessness of the row norm, `M − 2ℓ ≥ 1/2` (line 8306), and the
+second alone gives exactly 7/8. Relaxing it, the high side binds instead: with the paper's
+row counts, no choice of (ℓ, M, b) passes the endpoint inequality below
+`5655673/6464057 ≈ 0.874942` (exact, one witness point), and the scan optimum is 0.874958.
+The binding rows have a zero near real part 0.69 and maximal prime-slot amplitude. Perfect
+row counts would stop at 13/15 (rows counted in full need `C₀ ≤ 0`). The Euler regions, the
+contour 17/50, the 11/12 input and Lemma plain's `κ ≥ 3/4` do not fix 7/8. 38 printed
+constants reproduced exactly; 39 citations checked against the pinned source; the moment
+lemmas' proofs not checked. See `seven_eighths_pin/RESULTS.md`.

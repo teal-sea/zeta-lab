@@ -1,11 +1,12 @@
 # MISSION: `seven_eighths_pin`, which step of the quasi-Riemann argument fixes the number 7/8
 
-**Opened 2026-10-16. Hunt #134.** Nothing in this directory is a result until the
-case log in `hunts/README.md` says how it ended. Grades used here: *cited* (a line of
-the paper's LaTeX source, quoted), *derived* (algebra done here from cited formulas,
-checked in exact rational arithmetic by this hunt's test), *inferred* (a reading of
-the paper's structure that no computation here checks). The reserved enclosure word
-belongs to `zeta/rigor.py` and appears nowhere in this directory.
+**Opened 2026-10-16 as Hunt #134; Hunt #139 on main** (renumbered at landing on
+2026-10-21, because #134 on main is `gauss_positivity` and #136 to #138 are taken). Nothing in this directory is
+a result until the case log in `hunts/README.md` says how it ended. Grades used here:
+*cited* (a line of the paper's LaTeX source, quoted), *derived* (algebra done here from
+cited formulas, checked in exact rational arithmetic by this hunt's test), *inferred* (a
+reading of the paper's structure that no computation here checks). The reserved
+enclosure word belongs to `zeta/rigor.py` and appears nowhere in this directory.
 
 ## The question
 

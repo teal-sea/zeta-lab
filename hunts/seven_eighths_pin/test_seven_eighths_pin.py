@@ -1,9 +1,14 @@
-"""Hunt #134: every number RESULTS.md states is pinned here.
+"""Hunt #139 (opened as #134): every number RESULTS.md states is pinned here.
 
 All tests are live and exact (Python fractions): the reproductions of the paper's
 printed constants, the derived identities, the two walls and the exact bound.  The
-float scans are not re-run; ``results.json`` holds them and the last test checks the
+float scans are not re-run; ``results.json`` holds them and one test checks the
 prose quotes it.  Planted faults show that the reproductions can fail.
+
+The last three tests are the landing checks of 2026-10-21 (RESULTS.md section 10).
+They run the same exact code at 45-digit rational approximations of the public
+closed forms of Guo, Liu and Gao, which are irrational, so they hold to a stated
+tolerance rather than exactly.
 """
 
 from __future__ import annotations
@@ -14,6 +19,7 @@ import sys
 from fractions import Fraction as Fr
 
 import pytest
+from mpmath import mp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
@@ -197,3 +203,105 @@ def test_results_json_matches_the_prose():
     text = open(os.path.join(HERE, "RESULTS.md")).read()
     for s in ("5655673/6464057", "44117/50422", "13/15", "0.874958", "7/30672"):
         assert s in text
+
+
+# ------------------------------------------------ landing checks, 2026-10-21
+
+HALF = Fr(1, 2)
+
+
+def _rational(value, digits=45):
+    """A rational within 10**-digits of an mpmath value, so probe's exact code can take it."""
+    return Fr(int(mp.nint(value * 10**digits)), 10**digits)
+
+
+def test_gao_boundary_lies_on_this_hunts_target_line():
+    """Z. Gao (draft of 2026-10-07): 20999/24000 at ell = 1001/6000, b = 1/8."""
+    ell = Fr(1001, 6000)
+    assert probe.target(ell, Fr(1, 8), 1 - ell) == Fr(20999, 24000) == Fr(11, 12) - ell / 4
+
+
+def test_one_witness_bound_at_the_binding_delta_is_the_public_optimum():
+    """Guo and Liu (2026-10-08): sigma* = (1507 - 2 sqrt 921)/1653, the re-optimized geometry.
+
+    At x = 1/2 and c = 4/9 the b-coefficient of -E_* vanishes at delta* = (49 - sqrt 921)/48.
+    The one-witness bound holds at every witness where that coefficient is <= 0, the
+    recorded 223/576 among them, and at delta* it is sigma* itself.  The endpoint
+    inequality is tight there, at ell* = 11/551 + 8 sqrt 921/1653 and
+    b* = -4/29 + 230 sqrt 921/26709: zero at delta*, a minimum in delta, the cap x = 1/2
+    binding.
+    """
+    with mp.workdps(60):
+        r = mp.sqrt(921)
+        d_star = _rational((49 - r) / 48)
+        sigma_star = _rational((1507 - 2 * r) / 1653)
+        ell = _rational(mp.mpf(11) / 551 + 8 * r / 1653)
+        b = _rational(-mp.mpf(4) / 29 + 230 * r / 26709)
+
+    def b_coefficient(delta):
+        def f(ell_, b_):
+            return probe.endpoint_neg_e_closed(ell_, b_, delta, HALF, 1 - ell_)
+        return f(Fr(0), Fr(1)) - f(Fr(0), Fr(0))
+
+    eps = Fr(1, 10**12)
+    assert b_coefficient(d_star - eps) < 0 < b_coefficient(d_star + eps)
+    bound = probe.robust_single_point_bound(d_star - Fr(1, 10**40), HALF)
+    assert bound is not None and abs(bound - sigma_star) < Fr(1, 10**35)
+    assert probe.robust_single_point_bound(d_star + eps, HALF) is None
+    # the recorded bound is valid and looser; the gain over 7/8 is 4.29e-5, not 5.8e-5
+    assert probe.robust_single_point_bound(*probe.ROBUST_WITNESS) < bound < Fr(7, 8)
+    assert Fr(429, 10**7) < Fr(7, 8) - sigma_star < Fr(430, 10**7)
+
+    assert abs(probe.target(ell, b, 1 - ell) - sigma_star) < Fr(1, 10**40)
+
+    def neg_e(delta, x=HALF):
+        return probe.endpoint_neg_e_closed(ell, b, delta, x, 1 - ell)
+
+    assert abs(neg_e(d_star)) < Fr(1, 10**35)
+    for step in (Fr(1, 10**3), Fr(1, 10**6)):
+        assert neg_e(d_star - step) > 0 and neg_e(d_star + step) > 0
+    assert neg_e(d_star, HALF - Fr(1, 10**6)) > neg_e(d_star)
+    # the recorded float scan (offset grid 0.01) sits 5.9e-7 above sigma*
+    res = json.load(open(os.path.join(HERE, "results.json")))
+    gap = res["endpoint_best_c_fixed"]["sigma0_c_fixed"] - float(sigma_star)
+    assert 5.8e-7 < gap < 6.0e-7
+
+
+def test_liu_closed_form_is_the_tight_point_with_the_capacity_tied():
+    """B. Liu, arXiv:2610.12234v2 (2026-10-12): B_new = (18 xi + 7)/(18 xi + 9), Guo's sigma_dagger.
+
+    xi is the root of 1188 xi^3 - 2160 xi^2 + 171 xi + 190 in (0.38858, 0.38859), with
+    ell_new = (5 - 6 xi)/(9 + 18 xi), b_new below and kappa_new = (18 xi + 5)/(18 xi + 9)
+    = 2 B_new - 1, which is section 7's tied capacity c = 1/(3 kappa_0), kappa_0 =
+    2 sigma_0 - 1.  With that c this hunt's endpoint formula is zero at delta = xi,
+    x = 1/2, a minimum in delta and flat in b, and B_new is on the target line: Liu's xi is
+    this hunt's binding delta.
+    """
+    with mp.workdps(60):
+        xi = mp.findroot(lambda t: 1188 * t**3 - 2160 * t**2 + 171 * t + 190, mp.mpf("0.388585"))
+        ell = (5 - 6 * xi) / (9 + 18 * xi)
+        b = (8 * (3 * xi - 1) * (12 * xi**2 - 40 * xi + 15)
+             / (9 * (2 * xi + 1) * (24 * xi**2 - 20 * xi + 5)))
+        bound_new = (18 * xi + 7) / (18 * xi + 9)
+        kappa_new = (18 * xi + 5) / (18 * xi + 9)
+        guo = mp.findroot(lambda s: 7884 * s**3 - 18819 * s**2 + 14643 * s - 3686,
+                          mp.mpf("0.874957"))
+        sigma_star = (1507 - 2 * mp.sqrt(921)) / 1653
+        xi, ell, b, bound_new, kappa_new, guo, sigma_star = (
+            _rational(v) for v in (xi, ell, b, bound_new, kappa_new, guo, sigma_star))
+    assert Fr(38858, 10**5) < xi < Fr(38859, 10**5)
+    assert Fr(8749570194, 10**10) < guo < Fr(8749570195, 10**10)
+    assert abs(bound_new - guo) < Fr(1, 10**40)
+    assert Fr(50, 10**9) < sigma_star - guo < Fr(51, 10**9)  # the step from sigma* to sigma_dagger
+    sigma = probe.target(ell, b, 1 - ell)
+    assert abs(sigma - bound_new) < Fr(1, 10**40)
+    assert abs(kappa_new - (2 * sigma - 1)) < Fr(1, 10**40)
+    c = 1 / (3 * kappa_new)
+
+    def neg_e(delta, b_=b):
+        return probe.endpoint_neg_e_closed(ell, b_, delta, HALF, 1 - ell, c)
+
+    assert abs(neg_e(xi)) < Fr(1, 10**35)
+    for step in (Fr(1, 10**3), Fr(1, 10**6)):
+        assert neg_e(xi - step) > 0 and neg_e(xi + step) > 0
+    assert abs(neg_e(xi, b + 1) - neg_e(xi)) < Fr(1, 10**35)  # affine in b, with slope zero
