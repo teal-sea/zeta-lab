@@ -3752,3 +3752,14 @@ degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
 Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
+
+### Hunt #136: pushing the zero-free half-plane under 7/8 (`below_seven_eighths/`, opened 2026-10-21)
+
+**Status: open; first wave running.** The owner directed the laboratory on 2026-10-21 to
+attack RH, and this is the campaign's first track. The question is whether the zero-free
+half-plane for every Dirichlet L-function can go below the best public abscissa, 0.8748867
+(Xu and Sang), either by strengthening the row-count inputs of OpenAI's Part II assembly,
+whose ceiling hunt #134 places at 13/15, or by a probe whose constants are not tied to the
+sextic pole. It builds on hunt #134 (`seven_eighths_pin/`, unlanded), reads the pinned paper
+source by line number and checks every printed constant in exact arithmetic. Nothing here
+bears on real part 1/2.
