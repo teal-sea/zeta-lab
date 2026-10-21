@@ -16,11 +16,14 @@ residual is not of definite sign (measured: 52 of 60 places positive, 8
 negative).
 
 What survives is not a proof strategy but an instrument: a place-local
-criterion `c_p ≤ d` that is **exactly** the Selberg-class bound `|α_j| ≤ √p`,
-computed from coefficients alone. It passes ζ and Dirichlet L-functions,
-fails Davenport–Heilbronn and both discriminant −23 Epstein forms, and, unlike
-the Imposter Gauntlet of `docs/15`, which "never actually consults ζ", it
-demonstrably reads its input. Code: `localpos.py`. Every number below is
+criterion `c_p ≤ d` that reads the local bound `|α_j| ≤ √p`, computed
+from coefficients alone. The forward direction is derived; the converse is not
+established by the closed form and rests on an unreviewed derivation (§2 and
+`hunts/local_positivity/CORRECTIONS.md`, "Later correction", 2026-10-21). It
+passes ζ and Dirichlet L-functions, fails Davenport–Heilbronn and both
+discriminant −23 Epstein forms, and, unlike the Imposter Gauntlet of
+`docs/15`, which "never actually consults ζ", it demonstrably reads its input.
+Code: `localpos.py`. Every number below is
 recomputed by the module, and every reference verdict re-derives.
 
 ---
@@ -35,9 +38,16 @@ log-derivative coefficients `λ_m = b_{p^m}/log p` at the place `p`. Define the
     K_p^{(d)}(θ) = d + 2 Σ_{m≥1} λ_m p^{−m/2} cos(mθ)
 ```
 
-and the normalisation-free threshold `c_p := −min_θ 2 Σ_{m≥1} λ_m p^{−m/2} cos(mθ)`,
-so that `K_p^{(d)} ≥ 0 ⟺ c_p ≤ d`. Nothing is fitted: `c_p` is a minimum, and
-`d` is the degree read off the object's own gamma factors.
+and the normalisation-free threshold `c_p`, the least diagonal for which every
+finite Toeplitz section with off-diagonals `λ_m p^{−m/2}` is positive
+semidefinite, so the form with diagonal `d` is PSD exactly when `c_p ≤ d`. On a
+summable sequence `c_p = −min_θ 2 Σ_{m≥1} λ_m p^{−m/2} cos(mθ)`, which is what
+the module evaluates; on a growing sequence `c_p = +∞` (the module's
+`"divergent"` regime); at `|α_j| = √p` the cosine series diverges while the
+least diagonal can stay finite (exactly `d` for `ζ(s − ½)`, where the gate
+reports INDETERMINATE; §2 records where the gate's regime reading goes wrong).
+This one reading is used throughout. Nothing is fitted: `c_p` is a minimum,
+and `d` is the degree read off the object's own gamma factors.
 
 **Why the kernel is the thing.** Let `Φ_p f = Σ_{m≥0} p^{−m/2} f(· − m log p)`
 be the one-sided local shift-average. Then the prime side of the Riemann–Weil
@@ -53,19 +63,53 @@ agreeing to 22 digits once the place sum runs to `p ≤ 8000`. Each `Q_p ≥ 0`
 *by construction*, it is a norm. That is Requirement C's norm identity,
 obtained locally and canonically.
 
-## 2. The theorem behind the statistic
+## 2. The derivation behind the statistic
 
 If the place has a genuine Euler factor with Satake parameters `α_j`, then
-`λ_m = Σ_j α_j^m` and the series sums in closed form:
+`λ_m = Σ_j α_j^m` and, inside the bound, the series sums in closed form:
 
 ```
     K_p^{(d)}(θ)  =  Σ_j  (1 − |α_j|²/p) / |1 − α_j p^{−1/2} e^{iθ}|²
 ```
 
-a sum of manifestly nonnegative terms exactly when `|α_j| ≤ √p`. Checked
+a sum of manifestly nonnegative terms when every `|α_j| < √p` and the
+coefficients are real (parameters real or conjugate-paired). Checked
 numerically: series `2.7203325546805037` against closed form
-`2.7203325546805086` at `p = 7`, degree 2. So the gate is a *decision
-procedure* for the local Selberg bound, not a heuristic, and the ζ case has
+`2.7203325546805086` at `p = 7`, degree 2.
+
+What this establishes is the **forward direction**: every `|α_j| ≤ √p` gives
+`c_p ≤ d` (derived; at `|α_j| = √p` each parameter contributes a rank-one PSD
+Toeplitz matrix with unit diagonal). An earlier version of this section read
+the converse off the closed form, and that step is invalid: at `p = 2`,
+`α = (3√2, 0, 0, 0)` the rational expression is `3 − 8/(10 − 6 cos θ) ≥ 1`
+although one parameter exceeds `√p`, and the Fourier series it was supposed to
+sum diverges. The gate is not fooled by that input, since it never evaluates
+the rational expression: `threshold` reports `"divergent"` and `gate` returns
+FAIL. The converse for `c_p` as defined in §1 rests on a separate argument: a
+PSD section with diagonal `c` has `|s_m| ≤ c`, and `s_m = Σ_j (α_j/√p)^m` is
+unbounded once some `|α_j| > √p` (no cancellation among the parameters
+prevents it), so `c_p = +∞`. That derivation is written out in
+`hunts/local_positivity/CORRECTIONS.md` ("Later correction") and is not
+independently reviewed, so the iff is an unreviewed derivation, pending
+external verification, not a decision procedure on the strength of the closed
+form.
+
+The gate is not a decision procedure on its own account either. It truncates
+the series and reads the regime off two weighted terms a decade apart near the
+truncation edge, and for a conjugate pair of Satake parameters the weights
+oscillate, so that reading can land on either side of the bound: measured
+2026-10-21, `α = 0.9·√2·e^{±0.2i}` at `p = 2` FAILs although `c_p ≈ 1.894 < 2`,
+`α = 1.2·√7·e^{±0.4i}` at `p = 7` PASSes although `c_p = +∞`, and the
+unit-modulus degree-2 family of §4's 60-angle control gets FAIL at 22 of the 60
+angles (the original gate of 2026-08-10 passed all 60). In the summable regime
+an excess smaller than ten tail estimates is read as PASS rather than as
+undecided (for the shift `ζ(s − δ)` of §6 at `δ = 0.49`, `p = 2`, the truncated
+`c` is 15.99 against `d = 1` with a tail estimate of 149.9, while the true value
+is 0.9965). All of this is pinned in
+`hunts/local_positivity/test_closed_form.py`, and the gate itself is
+unchanged.
+
+The ζ case has
 the exact closed form `c_p = 2/(√p + 1)`, reproduced to 12 digits at
 `p = 2, 3, 5, 7, 97` with an explicit truncation bound below `3.4e-14`. (The
 bound is elementary, `2·max|λ|·p^{−(M+1)/2}/(1−p^{−1/2})`, and computed in
@@ -117,15 +161,26 @@ finding with a different statistic.
 the smallest detected violation is `ε* = 0.184`. A PASS therefore means "no
 violation above ~18 % of the way from ζ to DH at the tested places", and
 nothing stronger. The PASS side is not vacuous either: across 60 Satake angles
-the genuine degree-2 family keeps a margin of at least `0.343`.
+the genuine degree-2 family keeps a margin of at least `0.343`. (Those are
+margins of the truncated `c`. Since the regime test was added on 2026-08-11
+the gate's verdict on that family is FAIL at 22 of the 60 angles, §2.)
 
 ## 5. The honest boundary
 
 **The gate is not a test for "has an Euler product."** A genuine degree-2 Euler
-product with `α = 2.3, 1/α`, legitimate in the Selberg class, violating
-Ramanujan, is **rejected** at `p = 5` with `c_p = 65.24`. The gate tests the
-local bound `|α_j| ≤ √p`, and the closed form pins the failure point at exactly
-`√p` (`1.41421356` for p = 2, `9.84885780` for p = 97). Claiming it detects
+factor with `α = 2.3, 1/α`, violating Ramanujan, is **rejected** at `p = 5`.
+The place is in the `"divergent"` regime (`2.3/√5 ≈ 1.0286`), so `c_p = +∞` by
+the module's convention; the `65.24` printed there is the series truncated at
+depth 41 (22.46 at depth 23, 110.80 at depth 52), not the value. This section
+used to call that factor legitimate in the Selberg class; it is not, since
+`docs/09` §3's axioms (4) (`θ < ½`, which needs `|α| < √5` at `p = 5`) and (5)
+(Ramanujan) both exclude it. The gate reads the
+local bound `|α_j| ≤ √p` (forward direction derived, converse an unreviewed
+derivation, §2). For a single parameter the failure point is exactly `√p`
+(`1.41421356` for p = 2, `9.84885780` for p = 97): the closed form's one
+summand changes sign there, §2's derivation puts the jump of `c_p` from `≤ d`
+to `+∞` at the same place, and the gate's verdict changes within a relative
+`10^{−6}` of it (measured at p = 2 and 97). Claiming it detects
 Euler products would be an overclaim; it detects Euler products *with a
 Ramanujan-type bound*.
 
@@ -168,9 +223,16 @@ gives `M(x) = O(x^{½+ε}) ⟺ RH`, a criterion in the coefficients of `1/ζ` al
 What is true is sharper and has a number in it. For `ζ(s−δ)` the local parameter
 is `α_p = p^δ`, so `c_p = 2x/(1+x)` with `x = p^{δ−½}`, and
 
-> `c_p ≤ d` holds **exactly when `δ ≤ ½`**, simultaneously at every place.
+> `c_p ≤ d` holds **exactly when `δ ≤ ½`**, simultaneously at every place,
 
-So `c_p` is blind on `|δ| ≤ ½` and not beyond it: `δ = 0.1` is a function the
+with `c_p` the least PSD diagonal of §1. For `δ < ½` that is the formula
+above; at `δ = ½` the cosine series diverges but the least PSD diagonal is
+exactly `1 = d` (measured on every section up to `N = 400`), and the gate
+reports INDETERMINATE there; for `δ > ½` the power sums `p^{m(δ−½)}` are
+unbounded and `c_p = +∞`. So the answer to `c_p ≤ d` is yes for every
+`δ ≤ ½` and no beyond, and the gate agrees where it was pinned (PASS at `δ = 0.1`,
+INDETERMINATE at `½`, FAIL at `0.6`; close below `½` its PASS is the default
+for an excess it cannot resolve, §2): `δ = 0.1` is a function the
 gate passes whose zeros sit on `Re s = 0.6`, which is the conclusion this
 section needs, a PASS cannot locate the critical line, obtained with a
 witness instead of a false universal. That threshold is not new: it is the
@@ -183,8 +245,9 @@ of coefficient provenance.
 
 ## 7. What is worth keeping
 
-The instrument, not the strategy. `c_p ≤ d` is a cheap, exact, coefficient-only
-Gate 3 test with measured power and a stated blindness threshold, the thing to
+The instrument, not the strategy. `c_p ≤ d` is a cheap, coefficient-only Gate 3
+test (forward direction derived, converse an unreviewed derivation, §2) with
+measured power and a stated blindness threshold, the thing to
 run in an afternoon on the next proposed ontology, which is what `docs/09` §5
 asks for and what `docs/15` failed to deliver. As an attack on RH this is a
 closed avenue, and it is recorded here so nobody reopens it.

@@ -78,15 +78,17 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (56). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (64). Surfaced by the sweep, below the bar for now.
 
 Totals: 189 entries from 72 hunts. Kinds: identity 24, lemma 48, bound 12, construction
 16, calibration 7, computational 21, control 40, obstruction 21. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
-again from the entries. Hunt #142 added one control the same day, and "Seen and not
-admitted" was recounted from its bullets: it had read 51 against 54 bullets before
-hunt #142 and the `frontier_math` gap A landing added one each.)
+again from the entries. The seven Erdos #126 arms landed on 2026-10-21 (hunts #94, #97,
+#98, #99, #100, #106, #143) added eight items to "Seen and not admitted" and none above;
+that count was recounted from its items: 54 before them, where the line read 51. Hunt
+#142 added one control the same day, and it and the `frontier_math` gap A landing added
+one item each to "Seen and not admitted", recounted again from its items.)
 
 ## Prime pairs and the circle method
 
@@ -2945,28 +2947,39 @@ realizability constraint as the only remaining lever.
 ### Place-local Selberg-bound gate and the non-assembly of local norms
 
 obstruction | `hunts/local_positivity/` | grade: measured (float; the file states it
-carries no enclosure at any step)
+carries no enclosure at any step); the local equivalence is an unreviewed derivation
 
 For a degree-d object with Satake parameters alpha_j at p, the place-local kernel
 K_p^{(d)}(theta) = d + 2 sum_m lambda_m p^{-m/2} cos(m theta) has closed form sum_j (1 -
-|alpha_j|^2/p)/|1 - alpha_j p^{-1/2} e^{i theta}|^2, so the coefficient-computable test
-c_p <= d is exactly the local bound |alpha_j| <= sqrt p (zeta's threshold 2/(sqrt p + 1)
-to 12 digits). Calibration: decoy swap moves the verdict by 15 orders; 300 random
+|alpha_j|^2/p)/|1 - alpha_j p^{-1/2} e^{i theta}|^2 when every |alpha_j| < sqrt p. With c_p
+the least PSD Toeplitz diagonal, the coefficient-computable test c_p <= d reads the local
+bound |alpha_j| <= sqrt p: forward direction derived; the converse cannot be read off the
+closed form (p = 2, alpha = (3 sqrt 2, 0, 0, 0): rational expression >= 1, series
+divergent, gate FAILs) and rests on an unreviewed PSD-boundedness derivation (corrected
+2026-10-21, CORRECTIONS.md 'Later correction'). zeta's threshold 2/(sqrt p + 1) to 12
+digits. Calibration: decoy swap moves the verdict by 15 orders; 300 random
 period-5 nulls fail 100% with DH at the 6th percentile; lesion blindness threshold eps*
 = 0.184 on the zeta -> DH interpolation; degree-2 family keeps margin >= 0.343 over 60
-Satake angles; a legitimate degree-2 product with alpha = 2.3, 1/alpha is rejected at p
-= 5 (c_p = 65.24), so the gate tests the local Selberg/Ramanujan bound, not 'has an
-Euler product'. Obstruction: the prime side of the explicit formula decomposes place by
+Satake angles (margins of the truncated c: the current gate's verdict on that family is
+FAIL at 22 of the 60 angles, because its regime test reads two weighted terms near the
+truncation edge and conjugate-pair parameters make them oscillate, misleading it on
+either side of the bound; measured 2026-10-21, pinned, not repaired); a genuine degree-2
+Euler factor with alpha = 2.3, 1/alpha, outside the Selberg class (docs/09 section 3,
+axioms (4) and (5), exclude |alpha| > sqrt 5), is rejected at p = 5 (divergent regime,
+c_p = +infinity by convention; 65.24 is a depth-41 truncation), so the gate tests the
+local bound |alpha_j| <= sqrt p, not 'has an Euler product'. Obstruction: the prime
+side of the explicit formula decomposes place by
 place as -sum_p log p (Q_p(f) - ||f||^2) with Q_p = (1 - 1/p) ||Phi_p f||^2 a genuine
 norm at every place (reconstruction to 22 digits), but Q_p - ||f||^2 is not of definite
 sign (52 of 60 places positive, 8 negative), so local positivity does not assemble into
 a global one and is compatible with either sign of W. Director's adjudication:
-c_p(zeta(. - delta)) = 2x/(1 + x), x = p^{delta - 1/2}, c_p <= d iff delta <= 1/2, is
+c_p(zeta(. - delta)) = 2x/(1 + x), x = p^{delta - 1/2} for delta < 1/2, c_p <= d iff
+delta <= 1/2 (least-PSD-diagonal reading; gate INDETERMINATE at delta = 1/2), is
 KNOWN (Selberg-class theta < 1/2).
 
 Evidence: CORRECTIONS.md section '2. New hunt: hunts/local_positivity/' (paragraphs
 'What it establishes', 'Reference table', 'Controls', 'Where it dies', 'The honest
-boundary'); localpos.py; director_run/CLAIMS.md C-SHIFT-01, C-SHIFT-02
+boundary') and section 'Later correction'; localpos.py; test_closed_form.py; director_run/CLAIMS.md C-SHIFT-01, C-SHIFT-02
 Prior art: searched-and-found by the director run for the shift computation
 (Conrey-Ghosh 1992 theta < 1/2; Jacquet-Shalika, stated sharp by Sarnak); the closed
 form is standard Satake arithmetic; the assembly obstruction is the hunt's own
@@ -2974,7 +2987,9 @@ Reused in: docs/24-the-local-positivity-attempt.md; hunts/director_run/CLAIMS.md
 Why it travels: The place-local decomposition with the measured sign-indefiniteness
 closes the 'prove Weil positivity place by place' route with a mechanism, and the gate
 with its calibrated blindness threshold is a ready coefficient-side instrument for any
-rival battery.
+rival battery, with one caveat: its regime test misreads oscillating weights (measured
+for conjugate-pair parameters), so a verdict on such an input needs the
+least-PSD-diagonal check of test_closed_form.py beside it.
 
 ### Ceiling: positive-definite (Gram) kernels cannot spend out-of-band form-factor positivity
 
@@ -6132,6 +6147,48 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   scaled by 1.1, with the original bytes held in memory and the restore asserted, never
   `git checkout` in a shared tree (`hunts/claim_halflife/`, control): measured; used only
   inside its hunt.
+- Two-set relaxation bracket for Erdos #126: g(k) <= g_2(k) + 2 <= N(k) + 2, with N(k)
+  the coprime S-unit count of lambda x + mu y = nu z (Gyory-Stewart-Tijdeman 1986 section
+  3, read in primary text), while Erdos-Stewart-Tijdeman 1988 put g_2(k) >= exp((4+o(1))
+  sqrt(k/log k)) (secondary), so the two-set route can settle #126 but can never give a
+  polynomial bound (`hunts/support_fcffa3b9/`, obstruction): literature map from a
+  targeted search; the first step is an ordinary argument, unreviewed; not carried.
+- Residue-only pruning ceiling for Erdos #126: on a full residue system mod prod T the
+  largest subset whose pair sums are all prime to prod T has exactly prod (p-1)/2 + r
+  elements, below 2^{-r}|A|, so no argument reading only residues mod prod T beats base
+  2; and g(k) <= 2/rho_min(k) <= 2g(k) makes block pruning a restatement of #126
+  (`hunts/support_d176e366/`, obstruction): ordinary argument, unreviewed; the formula
+  matched exhaustive branch and bound on four blocks; not carried.
+- The pair-sum matrix a_i + a_j is Alon-Solymosi's rank-2 matrix (Corollary 10 of "Rank
+  of matrices with entries from a multiplicative group"); their rectangle condition
+  reduces to the distinctness of A, so their Theorem 9 applies to every admissible set
+  while their Theorem 1 does not (the diagonal 2a_j is an S-unit in all seven measured
+  witnesses), and their explicit form gives exp(256k) (`hunts/support_99fc686a/`,
+  identity): Alon-Solymosi read in primary text; the expansion is an ordinary derivation,
+  unreviewed; not carried.
+- Cover-data realizability for Erdos #126: A = {1} u {2(3j+1)}, S = {2,3}, gcd 1, has its
+  two residue graphs covering K_n for every n, so no cover, Ramsey, rank or container
+  bound on n follows from incidence data alone (`hunts/support_d0f0aefb/`, obstruction):
+  ordinary argument, unreviewed, checked at n = 5, 20, 60; not carried.
+- Three-anchor injective reduction g(k) <= 3 + N_3(k), with N_3 counting nondegenerate
+  solutions of x + y + z = 1 in S-units over the same k primes: fixing three anchors and
+  varying the fourth element makes the four-element reduction injective
+  (`hunts/support_d0f0aefb/`, lemma): ordinary argument, unreviewed; prior art
+  unsearched; not carried.
+- A composition law for Erdos #126 forces g(k) = 2^k exactly: superadditivity makes the
+  Fekete limit of g(k)^{1/k} a supremum, at least g(1) = 2, and Erdos-Turan's 3 * 2^{k-1}
+  caps the limit at 2, so a proof of g(3) <= 7 would falsify the composition programme
+  (`hunts/support_311c14a5/`, lemma): ordinary argument, unreviewed; not carried.
+- Product-route ceiling for Erdos #126: from P = prod (a+b) the only inequality is k >=
+  B(A) = log P / max_p e_p log p, and two gcd-1 families cap B at 1+o(1) for estimates
+  from distinctness, range and residue counts, and at 2+o(1) with gcd normalisation and
+  the one-step recursion added; weighted and subset products are outside the class
+  (`hunts/support_95a76f59/`, obstruction): ordinary argument, unreviewed, B measured in
+  floating point; not carried.
+- Crown-versus-K_{2,m} loss for Erdos #126: exhaustive bounded-box g_N(k) against the
+  two-term count N_2^(N)(k), 2, 4, 5, 6, 8 against 1, 7, 32, 75, 141 for k = 1..5,
+  measures what the two-anchor reduction discards (`hunts/support_6da47ca3/`,
+  computational): measured, bounded boxes, lower bounds only; not carried.
 - Dead-end kernel law for a degenerate eigenvalue of a prime graph: in the antisymmetric
   matrix of `ontology/04_transcendental_matrix.py`, the nodes `u` with `2u <= N < 3u` carry
   a private `ln 2` rung, so the multiplicity of `i ln 2` is `dim ker C` for the incidence

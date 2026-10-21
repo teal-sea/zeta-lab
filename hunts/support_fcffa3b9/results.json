@@ -1,0 +1,52 @@
+{
+  "run_id": "fcffa3b9-6c9d-4828-85f5-bab872313a7c",
+  "arm": "literature-map",
+  "problem": "Erdos #126: f(n)/log n -> infinity, equivalently g(k) = exp(o(k)) where g(k) is the max size of a set of distinct positive integers whose off-diagonal pairwise sums are all S-smooth for a set S of k primes",
+  "date": "2026-08-24",
+  "headline": "The 1934 Erdos-Turan bound g(k) <= 3*2^(k-1)-1 is still the record; the S-unit route (Gyory-Stewart-Tijdeman 1986) is quantitatively worse (49^k) but isolates the single lever, and a subexponential uniform bound on the number of solutions of the two-variable S-unit equation implies Erdos #126.",
+  "search_scope": "erdosproblems.com/126 bibliography; Erdos-Turan 1934 full text; Gyory-Stewart-Tijdeman I full text incl. proofs; forward citation chase to Feb 2026; S-unit counting literature; OEIS. Targeted, not exhaustive.",
+  "theorems": [
+    {"id": "T1", "cite": "Erdos & Turan, Amer. Math. Monthly 41 (1934), 608-611", "statement": "The two-term sums of 3*2^(k-1) positive integers cannot all be composed of k given primes.", "k_dependence": "g(k) <= 3*2^(k-1) - 1", "verification": "primary, full text read", "helps": "incumbent record; only bound of the right shape"},
+    {"id": "T1p", "cite": "same, Theorem II", "statement": "corollary via A={1..ceil(n/2)}", "k_dependence": "f(n) >> log n", "verification": "primary", "helps": "the classical lower bound"},
+    {"id": "T1pp", "cite": "same, remark after Theorem I", "statement": "'The order of the maximum n(k) ... is probably n(k)=O(k^{1+eps})'", "k_dependence": "conjectured polynomial, i.e. f(n) = n^{1-o(1)}", "verification": "primary", "helps": "shows #126 is far weaker than what the authors expected"},
+    {"id": "T2", "cite": "Erdos & Suranyi, Topics in the Theory of Numbers, Springer 2003", "statement": "same conclusion for |A| >= 2^k + 1", "k_dependence": "g(k) <= 2^k", "verification": "secondary (Furedi-Gyarmati 2026 sec.1)", "helps": "constant factor 3/2 only; base unchanged"},
+    {"id": "T3", "cite": "Gyory, Stewart & Tijdeman, Compositio Math. 59 (1986), 81-88, Thm 1", "statement": "A,B finite positive, |B|>=2, k=|A|: omega(prod_{a,b}(a+b)) > c*log k", "k_dependence": "g_2(k) <= 3*7^(2k+3) ~ 49^k", "verification": "primary, full text incl. section 3 proof", "helps": "structurally yes (isolates the bottleneck), numerically no (worse than 2^k)"},
+    {"id": "T4", "cite": "Evertse 1984, quoted as GST Lemma 4", "statement": "lambda x + mu y = nu z has at most 3*7^(2w+3) coprime triples composed of w given primes", "k_dependence": "49^k", "verification": "primary as quoted in T3; original not read", "helps": "THE lever: exp(o(k)) here implies Erdos #126"},
+    {"id": "T5", "cite": "Erdos, Stewart & Tijdeman, Compositio Math. 66 (1988), 37-56", "statement": "for all eps>0 and large k there are A,B with |A|=k, |B|=2 and omega(prod(a+b)) < (1/8+eps)(log k)^2 loglog k", "k_dependence": "g_2(w) >= exp((4+o(1)) sqrt(w/log w))", "verification": "secondary (Furedi-Gyarmati 2026 Thm C)", "helps": "yes as a map: blocks polynomial bounds on the two-set route, leaves the whole subexponential range open"},
+    {"id": "T6", "cite": "Beukers & Schlickewei 1996", "statement": "x+y=1 in a rank-r group has at most 2^(8r+8) solutions; weighted version 2^(9(r+1))", "k_dependence": "256^k / 512^k", "verification": "secondary", "helps": "no, worse than T4 here"},
+    {"id": "T7", "cite": "Evertse, Schlickewei & Schmidt, Ann. of Math. 155 (2002)", "statement": "a_1x_1+...+a_nx_n=1 has at most e^{(6n)^{3n}(r+1)} non-degenerate solutions", "k_dependence": "exp(c_n k), c_n astronomical", "verification": "secondary", "helps": "no; needed only by the strictly worse 4-element route"},
+    {"id": "T8", "cite": "Sarkozy & Stewart; Balog & Sarkozy (as cited in T3 sec.1)", "statement": "dense A,B in [1,N] force P(a+b) >> N", "k_dependence": "n/a", "verification": "primary as quoted in T3", "helps": "no: extremal sets here are extremely sparse"},
+    {"id": "T9", "cite": "Gyory, Sarkozy & Stewart, Acta Arith. 74 (1996), 365-385", "statement": "prime factors of ab+1", "k_dependence": "n/a", "verification": "secondary", "helps": "no, different form"},
+    {"id": "T10", "cite": "Furedi & Gyarmati, arXiv:2602.07545 (Feb 2026)", "statement": "Erdos-Turan analogue over Eulerian integers, omega_E > (log(|A|-1)-log 18)/log 2", "k_dependence": "same log order", "verification": "primary (arXiv HTML)", "helps": "no; corroborates that no improvement of T1/T3 exists as of Feb 2026"},
+    {"id": "T11", "cite": "derived here; equals the trivial f(n) << n/log n on erdosproblems.com/126", "statement": "A={1,...,m} has all sums < 2m, so k = pi(2m-1)", "k_dependence": "g(k) >= (1/2+o(1)) k log k", "verification": "derived", "helps": "gives the only nontrivial lower bound on g(k) found anywhere"}
+  ],
+  "derived_reduction": {
+    "definitions": {"g(k)": "max |A| with all off-diagonal a+b S-smooth", "g_2(k)": "max |A| such that there exist b1 != b2 with a+b1 and a+b2 S-smooth for all a in A", "N(k)": "max over nonzero lambda,mu,nu of the number of coprime triples (x,y,z) composed of k given primes with lambda x + mu y = nu z"},
+    "steps": [
+      {"claim": "g(k) <= g_2(k) + 2", "proof": "pick b1,b2 in an extremal A and apply the definition to A minus {b1,b2}", "status": "proved here, elementary"},
+      {"claim": "g_2(k) <= N(k)", "proof": "GST 1986 sec.3 verbatim: a_i gives (x,y,z) = (a_i+b1, a_i+b2, 1) solving x - y = (b1-b2) z; z=1 makes the triple coprime; distinct a_i give distinct triples", "status": "quoted from primary source"},
+      {"claim": "log N(k) = o(k) implies g(k) = exp(o(k)) implies Erdos #126", "proof": "compose the two steps", "status": "proved here, conditional"}
+    ],
+    "converse": "FALSE / not available. #126 does not imply the S-unit improvement: step 2 discards all but 2(n-2) of the binom(n,2) sums, and the loss is real -- g_2(k) >= exp(c sqrt(k/log k)) by T5 while g(k) <= 3*2^(k-1) by T1.",
+    "room": "exp((4+o(1)) sqrt(k/log k)) <= g_2(k) <= 3*7^(2k+3). Everything strictly below exp(o(k)) in that window settles #126, and no known construction obstructs it."
+  },
+  "closest_theorem_that_would_imply_subexponential_g": {
+    "statement": "A uniform bound N(k) <= exp(o(k)) on the number of coprime S-unit solutions of lambda x + mu y = nu z, |S| = k, uniform in the coefficients and in the choice of primes.",
+    "current_best": "3 * 7^(2k+3) (Evertse 1984)",
+    "known_obstruction": "none below exp((4+o(1)) sqrt(k/log k)) (Erdos-Stewart-Tijdeman 1988)",
+    "status": "open problem in Diophantine approximation; I did not find an explicit conjecture that the subexponential bound is true"
+  },
+  "audit_of_r_186989": [
+    {"finding": "Arm 2's parity headline (2 in S is decisive) is stated verbatim on page 1 of Erdos-Turan 1934", "effect": "correct proof, zero novelty"},
+    {"finding": "Arm 3's kill is stronger than claimed: supermultiplicativity gives g(k) >= 2^k, which must fit inside T1's 3*2^(k-1)-1, forcing the 1934 bound to be sharp up to a factor 3/2 and contradicting the 1934 authors' own conjecture n(k)=O(k^{1+eps})", "effect": "strengthens the kill"},
+    {"finding": "The measured table 2,4,5,6,8,10,11 carries no asymptotic information the literature lacks; the trivial construction A={1..m} already gives g(k) >> k log k", "effect": "confirms the hunt's own 'seven points decide nothing' verdict"},
+    {"finding": "OEIS thread closed negatively: 20 coincidental numeric matches (top hit A340932), no concept match", "effect": "thread retired"},
+    {"finding": "The hunt's top-ranked door (the S-unit counting bound) is correct, and section 2 makes it precise", "effect": "door confirmed and sharpened"}
+  ],
+  "not_settled": [
+    "Whether log N(k) = o(k) is a stated conjecture of the field. Costs one look at Evertse-Gyory, Unit Equations in Diophantine Number Theory (CUP 2015), ch. 6.",
+    "Whether max(A) is effectively bounded in terms of S. The obvious Baker/Gyory-Yu route is circular because the coefficient nu = b1-b2 is bounded only by max(A).",
+    "T2 (2^k+1) and T5 (constant 1/8) are secondary citations via Furedi-Gyarmati 2026 and were not checked against the originals."
+  ],
+  "rh_relevance": "none (docs/08)"
+}
