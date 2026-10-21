@@ -237,3 +237,129 @@ Results read back from the volume: `stageBval2_L08_result.json`,
   against the form's floor; recorded, not claimed as a pass.
 - Main row reproduced bit for bit (≥ 1.14675686334e-17 at 0.99 λ_meas;
   ≥ 1.15822443198e-17 at 0.9999).
+
+## Odd sector, 2026-09-28: authorized four-core-hour task
+
+Owner: this foreground Codex session, branch teal-sea/oob-odd, starting
+46c896b0. Thomas explicitly authorized validation and main run, Modal only,
+4 core-hours total, local edits and tiny checks only, no push. This supersedes
+older HOLD text for this odd task alone. Writes remain in numerics: new
+filenames contain odd; existing RUNS/RESULTS/PROGRESS are append-only.
+
+Runner: stage_b_odd_modal.py. Derivation: odd_derivation.md. The original
+even runner and theory inputs remain untouched. Every checkpoint records
+SHA-256 of runner, assemble.py, harden.py and envelope.json; the reducer
+refuses a mismatch. Odd tags are isolated from even checkpoints.
+
+Pre-validation estimate from the even measurement (N=96, 200 panels,
+2 units in 30 core-seconds): N=200, 300 panels scales conservatively as
+30*(200/96)^2*(300/200)=196 core-seconds, plus 30 s for the reducer and
+pole-sign control. Allow 0.10 core-hour for Zhu, 0.05 for envelope validation
+and low-T control. Actual timings replace these estimates below.
+
+Zhu gate: L=4/5, T#=150, H=0, N=200, GL-64, 256 bits, h=1/2, six units.
+The source uses 200 odd modes and reports 9.1183e-15 measured, with a lower
+bound 8.2065e-15. The runner blocks later configurations unless the measured
+value agrees to 1 percent and the enclosed lower endpoint is positive.
+Next: val at L=4/5, T#=100, sine:16, N=96; val40 is a prospective negative
+control, not presumed to be indefinite. Wrong pole sign must raise the
+measured floor. A failed approximate pivot is followed by a ball-enclosed
+Rayleigh witness, so a refusal alone is not called proof of indefiniteness.
+
+Main remains N=500, T#=500, GL-96, 384 bits, h=1/2, 50 units. Only after
+validation, time unit 49 on Modal and multiply by 50, add validation and
+reducer allowance, then append that estimate BEFORE launching the main job.
+No detached apps, retries disabled, at most 12 one-CPU unit containers.
+Each unit checkpoints to oob-envelope-stages; reducer has one CPU.
+
+Tiny local check (1.1 s): first three odd Legendre modes, direct Fourier
+and sinh integrals, orthonormality, double factorial indices and actual
+cut ratios pass. Maximum measured direct-integral defect 1.02e-56 at 55 dps.
+All four configurations have both tail ratios below one (largest 0.08807).
+The exact checks and measured checks are distinguished in check_odd.py.
+
+### Odd Zhu validation, terminal
+
+App ap-uvTBLRYDv5KdLXmzacpTWr, command:
+`modal run hunts/oob_envelope/numerics/stage_b_odd_modal.py --cfg zhu`.
+Six units 111.432 core-seconds, reducer 9.186 s; app wall 48 s.
+Volume readback odd_zhu_result.json; app confirmed stopped.
+Measured 9.11833845450e-15, source 9.1183e-15 (ratio 1.0000042173).
+Lower endpoint rounded down 9.02715506995e-15, above source 8.2065e-15.
+Wrong positive pole gives 6.40880126462e-10, a measured 70284.75-fold
+increase. The sign-direction check fires; positivity does not reject this
+wrong sign, as expected since it adds a positive rank-one matrix.
+The 1.01-times overshift is refused in both rows.
+
+### Odd envelope validation and negative control, terminal
+
+val: app ap-Lfjwjx0GIZ20PL1zZkL1AI, units 36.802 core-seconds, reducer
+1.781 s, wall 34 s; odd_val_result.json. Measured 9.50644182948e-15;
+lower endpoint 9.41137741118e-15. Wrong positive pole raises the measured
+floor to 7.36487811883e-10. Drop-H and flip-H stay positive
+(9.40521108856e-15 and 9.28959833914e-15), so these lesions do not
+discriminate at this window. The 1.01 overshift fails in all four rows.
+
+val40: app ap-mHTe5wmfzkcIiwJ9nSWS4c, units 11.322 core-seconds, reducer
+2.199 s, wall 21 s; odd_val40_result.json. The valid beta gate opens,
+but the main head is indefinite: a Schur witness has enclosed Rayleigh
+upper endpoint < -1.35054e-7 after quadrature error. No positive endpoint
+is returned. All three altered forms also fail, with enclosed negative
+witnesses. Their witnesses differ, so these values are not eigenvalue
+comparisons; the JSON pole comparison is unevaluated (null ratio) here.
+Both apps confirmed stopped. Validation total is below 0.05 timed core-hour.
+
+Next authorized run is ONLY main unit 49 (panels 980:1000). The even run
+timed that unit at 210 s; reserve 300 s for the odd pilot, then estimate
+the complete run from its actual duration before proceeding.
+
+### Odd main run estimate, written before launch
+
+Pilot app ap-ng9DiaREARkLBjGwtAMuO1 completed and stopped: unit 49,
+panels 980:1000, 223.455382 core-seconds, 229 s app wall. Checkpoint is already
+on the volume and will be skipped by the complete run.
+
+Conservative extrapolation: 50 * 223.455382 = 11172.769 core-seconds for all units
+(including the pilot once), plus 172.723 validation core-seconds, 180 s for
+the reducer, and 300 s startup/serialization allowance = 3.285 core-hours.
+This is below the authorized 4.0 core-hours. No parameter changes: N=500,
+T#=500, sine:16, GL-96, 384 bits, h=1/2. Launching all remaining units and
+the reducer in one foreground app, watching checkpoints and stopping the
+app at terminal state. Invocation:
+`modal run hunts/oob_envelope/numerics/stage_b_odd_modal.py --cfg B`.
+No claim yet about the main odd eigenvalue or lower endpoint.
+
+### Odd main run, terminal and read back
+
+App ap-OlmaObfN0y2EzyA3R6lFcm, foreground, source runner from 93f1fc6;
+launch commit 710b7a8. All 50 units present, including skipped pilot unit 49.
+Units total 5134.263733 core-seconds, including the pilot exactly once;
+reducer 128.776208 s; main app wall 649 s. Two client heartbeat timeouts
+were logged, with no unit failure, retry or restart. Longest unit 253.664 s.
+Result downloaded from volume oob-envelope-stages, path
+odd_stageB_L119_v1_result.json, to odd_main_result.json. All source/input
+hashes match the local files. The original even runner is unchanged.
+
+Result: measured lambda_min 3.46316654753e-44; full odd-space lower endpoint
+rounded DOWN 3.42853488205e-44. The exact dyadic lower endpoint is in JSON.
+The 1.01-times overshift fails at pivot 179. Numerical step is
+single-route enclosure-carrying; the complete fixed-window claim is a
+candidate pending independent reproduction, including its ordinary reduction.
+
+Total task compute: 5435.763058 timed one-CPU function-seconds =
+1.509934183 core-hours, versus the 3.285 estimate and 4.0 allowance.
+This timer excludes checkpoint serialization/commit and container startup.
+For a conservative budget check, sum each app's entire lifetime times the
+maximum possible one-CPU containers in that app: 51*7 + 40*4 + 30*4 +
+236*2 + 655*14 = 10279 core-seconds, or 2.855277778 core-hours. This even
+counts idle gate containers and non-overlapping reducers simultaneously.
+All five owned apps have state stopped and zero tasks, recorded in
+odd_apps_terminal.json. No billing dollar estimate or invoice was queried.
+
+Post-run checks: 50 distinct panel blocks; source SHA-256 matches for all
+four reducers; positive decimals do not exceed exact rational endpoints;
+all positive main rows refuse the 1.01 overshift; even and odd L/H match;
+odd endpoint exceeds even endpoint. Source/doc/JSON whitespace check passes.
+Raw CLI logs retain their emitted whitespace. No broad local numerical
+suite was run: local work was edits, compilation, tiny formula and artifact
+checks. No push. A computation manifest records the result and artifact hashes.

@@ -1,0 +1,45 @@
+{
+  "what": "Landing rerun of run_groebner.py, unchanged, on Support 7 (repair of PR #329, 2026-10-21)",
+  "how": "PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -v nice -n 10 .venv/bin/python hunts/r_abf47b/run_groebner.py, run from a scratch directory whose hunts/r_044dd2 links to this branch's copy, so the script wrote its results.json there and the committed results.json is untouched",
+  "machine": "swarm box: Linux 6.8.0-136-generic x86_64, 32 vCPU, shared with other jobs",
+  "python": "3.12.3",
+  "sympy": "1.14.0",
+  "psutil": "7.2.2",
+  "started": "2026-10-21T21:30:41Z",
+  "finished": "2026-10-21T21:36:45Z",
+  "load_average_1min_at_start": 48.78,
+  "load_average_1min_at_finish": 143.96,
+  "stdout": [
+    "Building system...",
+    "Support size: 138",
+    "Targets: 3",
+    "Relations: 6558",
+    "Total polynomials: 6561",
+    "Computing Groebner basis (grevlex)...",
+    "Timeout reached."
+  ],
+  "results_json_as_written_by_the_script": {
+    "solver": "sympy.groebner",
+    "ordering": "grevlex",
+    "variables": 138,
+    "equations": 6561,
+    "wall_clock_seconds": 304.45435333251953,
+    "peak_memory_mb": 600.54296875,
+    "stopped_at": "Timeout (5 minutes)"
+  },
+  "usr_bin_time": {
+    "elapsed_wall_clock": "6:03.42",
+    "user_seconds": 69.98,
+    "system_seconds": 5.27,
+    "percent_of_cpu": "20%",
+    "maximum_resident_set_kbytes": 611096,
+    "exit_status": 0
+  },
+  "rss_before_the_groebner_call_mb": {
+    "after_import_sympy": 59.03,
+    "after_build_system": 70.38,
+    "after_building_the_6561_polynomials": 84.41
+  },
+  "rss_before_the_groebner_call_how": "a separate process ran run_groebner.py's setup steps without the Groebner call and read psutil's resident set size after each, in MB as the script computes them (rss / 1024 / 1024)",
+  "units": "MB here is rss / 1024 / 1024, as run_groebner.py computes peak_memory_mb"
+}

@@ -1,0 +1,57 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-XXYjuxO0XEJyrQxtC3FKhQ
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/run_odd_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/ODD_FORMULAS.md
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/frozen_envelope_L119.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/independent.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/l119.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/odd.py
+└── 🔨 Created function execute.
+    └── ⚠ Non-preemptible functions are billed at 3.0x the list rate for CPU and
+        Memory.
+{"unit": "panels_zhu_0030_0040", "status": "completed", "elapsed_s": 18.067019939422607}
+{"unit": "panels_zhu_0000_0010", "status": "completed", "elapsed_s": 18.773274898529053}
+{"unit": "panels_zhu_0010_0020", "status": "completed", "elapsed_s": 18.874199151992798}
+{"unit": "panels_zhu_0070_0080", "status": "completed", "elapsed_s": 19.58611297607422}
+{"unit": "panels_zhu_0060_0070", "status": "completed", "elapsed_s": 21.10453987121582}
+{"unit": "panels_zhu_0050_0060", "status": "completed", "elapsed_s": 22.443278312683105}
+{"unit": "panels_zhu_0020_0030", "status": "completed", "elapsed_s": 25.34040594100952}
+{"unit": "panels_zhu_0080_0090", "status": "completed", "elapsed_s": 27.620028018951416}
+{"unit": "panels_zhu_0040_0050", "status": "completed", "elapsed_s": 31.403608322143555}
+{"unit": "panels_zhu_0100_0110", "status": "completed", "elapsed_s": 16.946041345596313}
+{"unit": "panels_zhu_0110_0120", "status": "completed", "elapsed_s": 18.40789794921875}
+{"unit": "panels_zhu_0120_0130", "status": "completed", "elapsed_s": 18.970237970352173}
+{"unit": "panels_zhu_0090_0100", "status": "completed", "elapsed_s": 34.57004117965698}
+{"unit": "panels_zhu_0130_0140", "status": "completed", "elapsed_s": 18.353159427642822}
+{"unit": "panels_zhu_0140_0150", "status": "completed", "elapsed_s": 18.131283044815063}
+{"unit": "panels_zhu_0150_0160", "status": "completed", "elapsed_s": 18.904417037963867}
+{"unit": "panels_zhu_0170_0180", "status": "completed", "elapsed_s": 18.53763437271118}
+{"unit": "panels_zhu_0180_0190", "status": "completed", "elapsed_s": 21.311902284622192}
+{"unit": "panels_zhu_0200_0210", "status": "completed", "elapsed_s": 19.210833072662354}
+{"unit": "panels_zhu_0230_0240", "status": "completed", "elapsed_s": 18.066258907318115}
+{"unit": "panels_zhu_0220_0230", "status": "completed", "elapsed_s": 19.11704182624817}
+{"unit": "panels_zhu_0210_0220", "status": "completed", "elapsed_s": 21.376582622528076}
+{"unit": "panels_zhu_0240_0250", "status": "completed", "elapsed_s": 19.902625799179077}
+{"unit": "panels_zhu_0160_0170", "status": "completed", "elapsed_s": 33.71827435493469}
+{"unit": "panels_zhu_0190_0200", "status": "completed", "elapsed_s": 29.337862014770508}
+{"unit": "panels_zhu_0260_0270", "status": "completed", "elapsed_s": 20.531420469284058}
+{"unit": "panels_zhu_0250_0260", "status": "completed", "elapsed_s": 27.469772577285767}
+{"unit": "panels_zhu_0270_0280", "status": "completed", "elapsed_s": 18.449742317199707}
+{"unit": "panels_zhu_0280_0290", "status": "completed", "elapsed_s": 18.319266319274902}
+{"unit": "panels_zhu_0290_0300", "status": "completed", "elapsed_s": 18.836390256881714}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-XXYjuxO0XEJyrQxtC3FKhQ
