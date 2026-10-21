@@ -922,6 +922,13 @@ screen flags is [228, 248], which holds the pair at gamma = 240.4046 that
 had not yet seen this case log's growth past #52, and main took that number
 for `r_e2ee73/` first; the directory name never changed.
 
+### Reversal minimax probe (`reversal_minimax/`, 2026-09-04)
+
+Whole-laboratory structural scout. It tests the pressure optimization's
+reversal symmetry and constructs a finite mixed adversary to check the
+reported optimum independently of the search. Status and exact scope are
+recorded in that hunt's `RESULTS.md`; no new zeta proportion is asserted.
+
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
 **Status: settled** (support run `e6241336`, serving run `872d7dce` /
