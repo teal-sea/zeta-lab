@@ -1,0 +1,450 @@
+{
+ "29": {
+  "kind": "zeta",
+  "c": "29",
+  "dps": 320,
+  "lam1": "4.73274997284834e-135",
+  "lam2": "1.2178188e-126",
+  "residual": "2.3855e-211",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "4.8491e-20",
+  "seed_shift": "0.0",
+  "rects": {
+   "gap": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     84.74609375,
+     87.4150390625
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 3.92e-321,
+     "integral": true,
+     "evals": 392
+    }
+   },
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     85.3994140625,
+     85.9990234375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1e-322,
+     "integral": true,
+     "evals": 164
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     82.91038085408603,
+     84.73549298051705,
+     87.42527461312523,
+     88.80911120763446
+    ],
+    "n_real": 4,
+    "n_real_inside_rect": 4,
+    "rect": [
+     80.5,
+     90.5
+    ],
+    "winding": {
+     "n": 4,
+     "defect": 4.5533e-320,
+     "integral": true,
+     "evals": 1104
+    }
+   }
+  },
+  "elapsed_s": 406.3
+ },
+ "30": {
+  "kind": "zeta",
+  "c": "30",
+  "dps": 320,
+  "lam1": "2.1458859214459e-138",
+  "lam2": "6.4898804e-130",
+  "residual": "2.8905e-215",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "4.5909e-21",
+  "seed_shift": "0.0",
+  "rects": {
+   "gap": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     84.74609375,
+     87.4150390625
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1.89e-321,
+     "integral": true,
+     "evals": 392
+    }
+   },
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     85.3994140625,
+     85.9990234375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 2e-323,
+     "integral": true,
+     "evals": 164
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     82.91038085408603,
+     84.73549298051705,
+     87.42527461312523,
+     88.80911120763446
+    ],
+    "n_real": 4,
+    "n_real_inside_rect": 4,
+    "rect": [
+     80.5,
+     90.48828125
+    ],
+    "winding": {
+     "n": 4,
+     "defect": 1.012e-320,
+     "integral": true,
+     "evals": 1104
+    }
+   }
+  },
+  "elapsed_s": 442.0
+ },
+ "61/2": {
+  "kind": "zeta",
+  "c": "61/2",
+  "dps": 320,
+  "lam1": "8.02555729713002e-140",
+  "lam2": "2.1894324e-131",
+  "residual": "2.8972e-216",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "7.1769e-21",
+  "seed_shift": "0.0",
+  "rects": {
+   "gap": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     84.74609375,
+     87.4150390625
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1.136e-321,
+     "integral": true,
+     "evals": 392
+    }
+   },
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     85.3994140625,
+     85.9990234375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 5.24e-322,
+     "integral": true,
+     "evals": 164
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     82.91038085408603,
+     84.73549298051705,
+     87.42527461312523,
+     88.80911120763446
+    ],
+    "n_real": 4,
+    "n_real_inside_rect": 4,
+    "rect": [
+     80.5,
+     90.5
+    ],
+    "winding": {
+     "n": 4,
+     "defect": 6.071e-320,
+     "integral": true,
+     "evals": 1104
+    }
+   }
+  },
+  "elapsed_s": 379.9
+ },
+ "245/8": {
+  "kind": "zeta",
+  "c": "245/8",
+  "dps": 320,
+  "lam1": "3.2922283202807e-140",
+  "lam2": "9.1795086e-132",
+  "residual": "9.9016e-217",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "6.366e-21",
+  "seed_shift": "0.0",
+  "rects": {
+   "gap": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     84.74609375,
+     87.4150390625
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1.5e-321,
+     "integral": true,
+     "evals": 392
+    }
+   },
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     85.3994140625,
+     85.9990234375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1.1e-322,
+     "integral": true,
+     "evals": 164
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     82.91038085408603,
+     84.73549298051705,
+     87.42527461312523,
+     88.80911120763446
+    ],
+    "n_real": 4,
+    "n_real_inside_rect": 4,
+    "rect": [
+     80.5,
+     90.5
+    ],
+    "winding": {
+     "n": 4,
+     "defect": 1.012e-320,
+     "integral": true,
+     "evals": 1104
+    }
+   }
+  },
+  "elapsed_s": 300.6
+ },
+ "31": {
+  "kind": "zeta",
+  "c": "31",
+  "dps": 320,
+  "lam1": "2.85571471270679e-141",
+  "lam2": "7.2548013e-133",
+  "residual": "2.0648e-217",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "3.4318e-21",
+  "seed_shift": "0.0",
+  "rects": {
+   "gap": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     84.74609375,
+     87.4150390625
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1.596e-321,
+     "integral": true,
+     "evals": 392
+    }
+   },
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     85.3994140625,
+     85.9638671875
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 2.08e-322,
+     "integral": true,
+     "evals": 162
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     82.91038085408603,
+     84.73549298051705,
+     87.42527461312523,
+     88.80911120763446
+    ],
+    "n_real": 4,
+    "n_real_inside_rect": 4,
+    "rect": [
+     80.5390625,
+     90.5
+    ],
+    "winding": {
+     "n": 4,
+     "defect": 2.5296e-320,
+     "integral": true,
+     "evals": 1102
+    }
+   }
+  },
+  "elapsed_s": 322.5
+ },
+ "63/2": {
+  "kind": "zeta",
+  "c": "63/2",
+  "dps": 320,
+  "lam1": "1.01532225298354e-142",
+  "lam2": "2.5689418e-134",
+  "residual": "7.9946e-219",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "2.4893e-21",
+  "seed_shift": "0.0",
+  "rects": {
+   "gap": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     84.74609375,
+     87.3857421875
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 4.45e-322,
+     "integral": true,
+     "evals": 384
+    }
+   },
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     85.3994140625,
+     85.9990234375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1e-323,
+     "integral": true,
+     "evals": 164
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     82.91038085408603,
+     84.73549298051705,
+     87.42527461312523,
+     88.80911120763446
+    ],
+    "n_real": 4,
+    "n_real_inside_rect": 4,
+    "rect": [
+     80.5,
+     90.5
+    ],
+    "winding": {
+     "n": 4,
+     "defect": 2.0237e-320,
+     "integral": true,
+     "evals": 1104
+    }
+   }
+  },
+  "elapsed_s": 463.9
+ },
+ "47": {
+  "kind": "zeta",
+  "c": "47",
+  "dps": 320,
+  "lam1": "3.36674583456399e-175",
+  "lam2": "6.7560157e-167",
+  "residual": "4.1226e-250",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "2.299e-29",
+  "seed_shift": "0.0",
+  "rects": {
+   "gap": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     84.74609375,
+     87.4150390625
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 3.15e-321,
+     "integral": true,
+     "evals": 392
+    }
+   },
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     85.3994140625,
+     85.9990234375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 4.4e-323,
+     "integral": true,
+     "evals": 164
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     82.91038085408603,
+     84.73549298051705,
+     87.42527461312523,
+     88.80911120763446
+    ],
+    "n_real": 4,
+    "n_real_inside_rect": 4,
+    "rect": [
+     80.5,
+     90.5
+    ],
+    "winding": {
+     "n": 4,
+     "defect": 4.0474e-320,
+     "integral": true,
+     "evals": 1104
+    }
+   }
+  },
+  "elapsed_s": 379.6
+ }
+}
