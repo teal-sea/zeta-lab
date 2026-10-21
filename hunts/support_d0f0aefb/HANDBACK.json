@@ -1,0 +1,49 @@
+{
+  "run_id": "d0f0aefb-a1ab-4db0-b98a-fbbd895d2cb4",
+  "status": "settled",
+  "conclusion": "The graph/Ramsey arm is provably a dead end at the level it was briefed: k=2 residue graphs with gcd(A)=1 can cover K_n for every n, so no cover, Ramsey, rank or container theorem can bound |A| from the incidence data alone. What the arm does yield is one conditional sharpening (elements coprime to prod S give |A| <= 2^k, better than 3*2^(k-1)) and, once the exact valuations are used rather than the graph, a rigorous one-directional reduction g(k) <= 3 + N_3(k) to counting nondegenerate solutions of x+y+z=1 in S-units over the same k primes.",
+  "confidence": "High on the four theorems: each is a short proof written out in RESULTS.md, and each is confirmed on the parent's own seven witnesses by a stdlib probe that reruns in three seconds. High on the refutation of the parent's '|A| <= p-1 when p not in S' thread, which has an explicit verified witness {1,4,124} with S={2,5}. Medium on the framing of Theorem 4 as a live door: the two literature bounds cited (Evertse's exponential upper bound, the Erdos-Stewart-Tijdeman exp((4+o(1))(s/log s)^{1/2}) lower bound) were checked by web search rather than read in the sources, and no search was run for whether the reduction itself is folklore. Assume it is folklore until searched.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "The seven exhaustive lower-bound witnesses for g(k), k=1..7, and the restatement f(n)/log n -> infinity <=> g(k) = exp(o(k))",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "Removed the need to run any search of my own for structure: the witnesses became the test data every structural claim here is checked against. All seven re-verified as genuinely S-smooth-sum sets."
+    },
+    {
+      "what": "Arm 3's finding that a composition law would refute rather than prove the conjecture",
+      "source": "hunts/r_186989/RESULTS.md section 4",
+      "effect": "Made checking the implication direction of my own reduction the first thing I did rather than the last. Re-derived and confirmed correct."
+    },
+    {
+      "what": "The loose thread 'prove |A| <= p-1 when p not in S is small'",
+      "source": "hunts/r_186989/RESULTS.md, loose threads",
+      "effect": "Refuted, so the parent should not fund it. The pigeonhole does not close because several elements may share one residue class mod p; only p=2 bounds anything, because there every class is its own negative."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Bound T_p, the number of distinct values of v_p on A, in terms of k",
+      "why_it_might_matter": "The unconditional version of my Theorem 2 is |A| <= 2^k * prod_p T_p. Any bound T_p <= k^{o(1)} would make a near-2^k bound unconditional and beat Erdos-Turan outright. Each extra p-adic level appears to cost new primes, since 1 + p^j must be S-smooth for the powers-of-p family.",
+      "first_step": "Measure max_p T_p over exhaustive optimal witnesses for k <= 6, then attempt T_p <= 1 + log_p(h(k))."
+    },
+    {
+      "what": "The sign and fixed-coefficient structure of the S-unit solutions Theorem 4 produces",
+      "why_it_might_matter": "Its solutions all satisfy X > 0, Y > 0, Z < 0 with Y's numerator fixed across the whole family. General subspace-theorem counts use none of that. It is the only visible slack between the reduction and the literature bound, and closing that gap subexponentially would settle Erdos #126.",
+      "first_step": "For k <= 3 and a height cutoff, count nondegenerate solutions satisfying those sign constraints against all nondegenerate solutions, and see whether the restricted count grows visibly slower."
+    },
+    {
+      "what": "Whether Theorem 4 (g(k) <= 3 + N_3(k)) is already in the Gyory-Evertse literature",
+      "why_it_might_matter": "It is the load-bearing statement of this run. It is original in the provenance sense but three-term S-unit reductions are standard technique, and the lab's original-versus-novel rule forbids claiming more until searched.",
+      "first_step": "arXiv and zbMATH search for 'S-unit' with 'pairwise sums' or Erdos problem 126; check Gyory's Asterisque 209 survey section on applications."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A small reusable checker that takes a claimed combinatorial structure theorem and a list of witnesses and reports, per witness, whether the predicted component classification and chromatic bound hold",
+      "why_reusable": "I wrote this by hand for G_p and it immediately caught a false sub-claim of mine (chi <= 2 T_p is true for odd p and false for p=2, because the unit class mod 2 is its own negative). A structure theorem that is checked against real witnesses before it is written down costs minutes and saves a wrong lemma.",
+      "first_step": "Nothing to build until a second hunt wants it. Fulcrum decides; this run does not build it."
+    }
+  ],
+  "notes_for_operator": "The parent asked for a sharper cover theorem or a realizable obstruction. It gets both, and they are the same finding seen from two sides: the cover structure is so rigid that it is nearly information-free, so the sharpening only exists under an arithmetic hypothesis. The one thing worth carrying forward past this arm is Theorem 4, because it converts Erdos #126 into a statement about S-unit equation counting whose known lower bounds are exp(k^{1/2+o(1)}), that is, consistent with the conjecture, so the door is open rather than closed. That is a different verdict from r_186989's door list, which named the S-unit machinery as the wall; it is more precisely the same open gap as the conjecture, not an obstruction to it. Note also that r_186989's door 1 (optimise S per k) is under the ceiling my Theorem 3 sets, so funding it buys constants at best."
+}
