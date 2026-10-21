@@ -17,19 +17,29 @@ What is pinned, and at what grade:
    proved series tail; ball arithmetic only for Wang's transcendental
    `c(theta)` in the zeta control).
 3. `landscape.py`: the float-grade landscape table, the Alpoge-Furman
-   calibration, the vacuity thresholds and the band-edge price cells that
-   `MISSION.md` quotes.
+   calibration, the vacuity thresholds, every cell of the band-edge price
+   table, and the method-error and derived figures that `MISSION.md` and the
+   case log quote.
 4. `ceiling_theta.py`: the cheapest rung recomputed and compared with the
    committed checkpoint, and the ladder values `RESULTS.md` section 8 quotes.
+5. Two figures that were quoted wrong and corrected on 2026-10-21 (the series
+   tail constant `rho_M` in `RESULTS.md` section 9, and the band-edge gain in
+   the case log), read from the documents themselves so the corrected value
+   stays the one printed; and the `2 * T` count in the bridge that finding two
+   quotes.
+
+Counts and figures the hunt quotes from its audits, its search logs, papers
+or other hunts are cited, not recomputed, and are not pinned here.
 """
 
 from __future__ import annotations
 
 import importlib.util
 import json
+import re
 import sys
 from fractions import Fraction
-from math import sqrt, tan
+from math import e, exp, sqrt, tan
 from pathlib import Path
 
 import pytest
@@ -37,6 +47,11 @@ import pytest
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 ARTIFACTS = HERE / "artifacts"
+
+#: The bandwidth-one configuration ceiling and the Montgomery-Taylor optimum,
+#: as quoted (the ceiling from `Zeta23/PairCeiling/`, not recomputed here).
+CEILING_ONE = 0.6818286874638
+MT_OPTIMUM = 0.6725007036794116
 
 
 def _load(name: str, path: Path):
@@ -59,6 +74,14 @@ ROWS = ENCLOSE["rows"]
 def _row(theta: str, kernel: str) -> dict:
     (row,) = [r for r in ROWS if r["theta"] == theta and r["kernel"] == kernel]
     return row
+
+
+def _case_log_entry() -> str:
+    """This hunt's entry in `hunts/README.md`, found by directory, not number."""
+    text = (ROOT / "hunts" / "README.md").read_text(encoding="utf-8")
+    (entry,) = [s for s in text.split("\n### ")
+                if s.startswith("Hunt #") and "(`short_interval/`" in s.splitlines()[0]]
+    return entry
 
 
 @pytest.fixture(scope="module")
@@ -149,20 +172,34 @@ def test_the_flat_window_gives_the_closed_form_for_zeta_exactly(forms) -> None:
 
 @pytest.mark.parametrize("theta", sorted({r["theta"] for r in ROWS}))
 def test_the_zeta_bound_sits_below_wang_and_within_6e_12(theta: str) -> None:
-    """Control (i): a one-window bound can never exceed the optimum c(theta)."""
-    bound = Fraction(_row(theta, "zeta")["lower_bound_exact"])
+    """Control (i): a one-window bound can never exceed the optimum c(theta).
+
+    Also the stored enclosure width, `1e-30`, that RESULTS.md section 9 quotes:
+    both ends are kept to thirty decimals, the upper one padded upward.
+    """
+    row = _row(theta, "zeta")
+    bound = Fraction(row["lower_bound_exact"])
     lo, hi, _backend = enclose.wang_enclosure(Fraction(theta))
     assert bound <= lo
     assert hi - bound <= Fraction(61, 10**13)
+    stored = row["control_wang"]
+    stored_lo = Fraction(stored["c_theta_enclosure_lower"])
+    stored_hi = Fraction(stored["c_theta_enclosure_upper"])
+    assert stored_lo <= lo and hi <= stored_hi
+    assert stored_hi - stored_lo == Fraction(1, 10**30)
 
 
 def test_the_published_windows_at_bandwidth_one_reproduce(forms) -> None:
-    """Control (ii): Alpoge-Furman Remark 7.1, quartic 0.86864 and flat 0.85838."""
+    """Control (ii): Alpoge-Furman Remark 7.1, quartic 0.86864 and flat 0.85838.
+
+    The twelve-decimal values are the ones RESULTS.md section 9 prints.
+    """
     P, b, G = forms
-    for window, published in ((enclose.QUARTIC, enclose.AF_QUARTIC),
-                              (enclose.FLAT, enclose.AF_FLAT)):
+    for window, published, printed in ((enclose.QUARTIC, enclose.AF_QUARTIC, "0.868640515166"),
+                                       (enclose.FLAT, enclose.AF_FLAT, "0.858384054709")):
         R, tail = enclose.exact_R(Fraction(1), "xiprime", window, P, b, G)
         assert 2 - R - tail >= published
+        assert enclose.trunc_down(2 - R - tail) == printed
 
 
 def test_the_float_landscape_lies_above_the_enclosed_bounds() -> None:
@@ -184,6 +221,43 @@ def test_the_quoted_xiprime_bounds_and_tail() -> None:
     assert 1.5e-20 < top["tail_upper_bound_float"] < 1.7e-20
     assert 1.0e-31 < bottom["tail_upper_bound_float"] < 1.2e-31
     assert Fraction(top["lower_bound_exact"]) <= Fraction(enclose.LAB_H_STAR)
+    # "sits 1.6e-11 below the laboratory's full-window H*" (RESULTS.md section 9)
+    assert abs((enclose.LAB_H_STAR - float(Fraction(top["lower_bound_exact"]))) - 1.6e-11) <= 5e-13
+
+
+#: The first transcription of rho_M in RESULTS.md section 9, which lost 18
+#: digits of its denominator. It stays visible beside its dated correction.
+_RHO_SUPERSEDED = Fraction(45088768, 2828846926)
+
+
+def test_the_series_tail_constant_results_quotes_is_the_one_the_code_uses() -> None:
+    """`rho_M` as RESULTS.md section 9 prints it, against the artifact and the code.
+
+    Every `rho_M = p/q` in RESULTS.md must be the constant `tail_bound(M)`
+    computes and the artifact stores, except the superseded transcription,
+    which may appear only in the original sentence and in the 2026-10-21 note
+    that corrects it. The constant must also majorize the series tail it
+    stands for, summed exactly here to k = 200 with a geometric remainder.
+    """
+    rho = enclose.tail_bound(enclose.M)
+    assert ENCLOSE["tail_bound"].endswith(f"rho_M = {enclose.frac_str(rho)}")
+    assert 1.5e-20 < float(rho) < 1.7e-20  # the "about 1.6e-20" printed beside it
+
+    results = (HERE / "RESULTS.md").read_text(encoding="utf-8")
+    quoted = [Fraction(int(p), int(q)) for p, q in re.findall(r"rho_M = (\d+)/(\d+)", results)]
+    assert rho in quoted
+    assert set(quoted) <= {rho, _RHO_SUPERSEDED}
+    assert quoted.count(_RHO_SUPERSEDED) <= 2
+    if _RHO_SUPERSEDED in quoted:
+        assert "**Corrected 2026-10-21, on landing.** The fraction printed above" in results
+
+    K = 200
+    tail = sum(enclose.a_coeff(k) for k in range(enclose.M + 1, K + 1))
+    ratio = Fraction(2 * (K + 1), (K + 2) * (2 * K + 3))
+    tail_upper = tail + enclose.a_coeff(K + 1) / (1 - ratio)
+    assert tail_upper <= rho
+    assert abs(float(tail) - 1.593747e-20) <= 5e-27      # "1.593747e-20" in the note
+    assert abs(float((rho - tail_upper) / tail_upper) - 9.1e-5) <= 5e-7  # "slack 9.1e-5"
 
 
 # ---------------------------------------------------------------------------
@@ -231,16 +305,76 @@ def test_the_vacuity_thresholds() -> None:
     assert abs(xt - 0.51332) <= 5e-6
 
 
-def test_the_band_edge_price_cells() -> None:
+#: MISSION.md section 8, every cell, keyed by (B, L). `None` is a cell the
+#: table prints as "sign-changing": the minimizer leaves Lamzouri's class, so
+#: its value is not a bound.
+_PRICE_TABLE = {
+    (2.0, 1.05): 0.702950, (2.0, 1.10): 0.726768, (2.0, 1.20): 0.760859,
+    (3.0, 1.05): 0.701549, (3.0, 1.10): 0.721863, (3.0, 1.20): 0.746779,
+    (6.0, 1.05): 0.697810, (6.0, 1.10): 0.710023, (6.0, 1.20): 0.718168,
+    (20.0, 1.05): 0.686561, (20.0, 1.10): None, (20.0, 1.20): None,
+}
+
+
+@pytest.mark.parametrize("B, L", sorted(_PRICE_TABLE), ids=lambda x: f"{x:g}")
+def test_the_band_edge_price_table(B: float, L: float) -> None:
     """MISSION.md section 8: a measured price, not a bound that exists."""
+    value, ok = landscape.bound_with_outband_cap(L, B)
+    expected = _PRICE_TABLE[(B, L)]
+    if expected is None:
+        assert not ok, "a sign-changing minimizer is outside Lamzouri's class and is not a bound"
+    else:
+        assert ok and abs(value - expected) <= 5e-7
+
+
+def test_the_band_edge_baseline_and_the_gain_the_case_log_quotes() -> None:
+    """Baseline `0.672508`; `B = 20` on a sliver of width `0.05` gains `0.0141`.
+
+    The case log first printed `0.0142`, from the source branch; the gain is
+    `0.01405` against this baseline and `0.01406` against the exact optimum,
+    and it exceeds the bandwidth-one headroom either way. The corrected figure
+    is read from the entry so it stays the one printed (2026-10-21).
+    """
     base, ok = landscape.bound_with_outband_cap(1.0, 0.0)
     assert ok and abs(base - 0.672508) <= 5e-7
-    value, ok = landscape.bound_with_outband_cap(1.20, 2.0)
-    assert ok and abs(value - 0.760859) <= 5e-7
     value, ok = landscape.bound_with_outband_cap(1.05, 20.0)
-    assert ok and abs(value - 0.686561) <= 5e-7
-    _value, ok = landscape.bound_with_outband_cap(1.10, 20.0)
-    assert not ok, "a sign-changing minimizer is outside Lamzouri's class and is not a bound"
+    assert ok
+    assert abs((value - base) - 0.01405) <= 5e-6
+    assert abs((value - MT_OPTIMUM) - 0.01406) <= 5e-6
+    assert round(value - base, 4) == round(value - MT_OPTIMUM, 4) == 0.0141
+    assert value - base > CEILING_ONE - MT_OPTIMUM
+    entry = _case_log_entry()
+    assert "still gains `0.0142`" in entry  # the original, kept visible
+    assert "(**corrected 2026-10-21**: `0.0141`;" in entry
+
+
+def test_the_method_error_mission_section_6_quotes() -> None:
+    """The zeta control's `+1.2e-5` at bandwidth one, and the xi' solve's `+1.9e-5` over H*.
+
+    Both at the settings of the section 6 table; the second is method error,
+    not a gain, because the first is.
+    """
+    z = 2 - landscape.R_optimal(1.0, landscape.F_zeta)
+    x = 2 - landscape.R_optimal(1.0, landscape.F_xiprime)
+    exact = 2 - (0.5 + (1 / sqrt(2)) / tan(1 / sqrt(2)))
+    assert abs((z - exact) - 1.2e-5) <= 5e-7
+    assert abs((x - enclose.LAB_H_STAR) - 1.9e-5) <= 5e-7
+
+
+def test_the_derived_figures_the_hunt_quotes() -> None:
+    """Small figures in MISSION.md sections 5 to 8 and the case log, from pinned inputs."""
+    theta_0 = verify._bisect(verify.c_simple, 0.5, 0.6)
+    # section 5: the whole value of window shape is 3.2e-4 of threshold
+    assert abs(((3 - sqrt(6)) - theta_0) - 3.2e-4) <= 5e-6
+    # section 5: at theta = 0.55 the window-shape game is worth about 9e-4
+    assert round(landscape.R_flat(0.55, landscape.F_zeta) - landscape.C_wang(0.55), 4) == 0.0009
+    # section 7: the bandwidth-one headroom 0.00933, and the ladder 0.0078 short of the ceiling
+    assert abs((CEILING_ONE - MT_OPTIMUM) - 0.00933) <= 5e-6
+    assert round(CEILING_ONE - 0.6740762, 4) == 0.0078
+    # section 6.1: Rezvyakova's simple on-line proportion at k = 1 is about 0.413
+    assert round(1 - (e ** 2 + 2) / 16, 3) == 0.413
+    # section 8: at alpha = 1.05, log T = 100, c = 2 the residual is already 1.4 times the main term
+    assert 1.4 < exp(100 * 0.05) / 100 < 1.5
 
 
 # ---------------------------------------------------------------------------
@@ -257,6 +391,19 @@ def test_the_ladders_quoted_in_results_section_8_match_the_checkpoints() -> None
     assert round(low["rungs"][-1]["value"], 7) == 0.0103512
     assert abs(low["extrapolated_value"] - 0.000689) <= 5e-7
     assert one["landscape_violations"] == [] and low["landscape_violations"] == []
+
+
+def test_the_dyadic_count_in_the_bridge_that_finding_two_quotes() -> None:
+    """`2 * T` in the bridge's `Main.lean`: 21 lines, 28 occurrences.
+
+    Finding two first wrote "21 occurrences"; 21 counts lines, and the
+    correction (2026-10-21) gives both. The file is read as it stands, so an
+    edit to the bridge that changes the count shows up here.
+    """
+    main = ROOT / "lean" / "bridge" / "Zeta23Ext" / "Bridge" / "Main.lean"
+    text = main.read_text(encoding="utf-8")
+    assert sum("2 * T" in line for line in text.splitlines()) == 21
+    assert text.count("2 * T") == 28
 
 
 def test_the_cheapest_rung_reproduces_and_reduces_to_bandwidth_one() -> None:

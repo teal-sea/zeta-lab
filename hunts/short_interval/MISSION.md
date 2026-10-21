@@ -13,7 +13,7 @@ attempt rather than a closed one.
 ```huntspec
 id: short_interval
 question: Wang's short-interval bound is the laboratory's own bandwidth landscape evaluated at lambda = theta. Given that, what does this tree hold on that axis that nobody else does, and what is the band edge worth?
-frontier: the zeta landscape 2 - lambda/2 - (1/sqrt 2) cot(lambda/sqrt 2) is already computed in hunts/frontier_map/frontier.py from the source paper's eq. (7.4), agrees with Wang's c(theta) to 1e-16 and dies at 0.5501939647441547; the xi-prime landscape is computed on the same grid, sits 0.11 to 0.20 higher at every bandwidth, dies at 0.51332, and has no short-interval counterpart in the literature; the bandwidth-one configuration ceiling is 0.6818286874638 against a window optimum of 0.6725007036794116, and the bandwidth-theta ceiling is computed nowhere
+frontier: the zeta landscape 2 - lambda/2 - (1/sqrt 2) cot(lambda/sqrt 2) is already computed in hunts/frontier_map/frontier.py from the source paper's eq. (7.4), agrees with Wang's c(theta) to 1e-16 and dies at 0.5501939647441547; the xi-prime landscape is computed on the same grid, sits 0.11 to 0.20 higher at every bandwidth, dies at 0.51332, and has no short-interval counterpart in the literature; the bandwidth-one configuration ceiling is 0.6818286874638 against a window optimum of 0.6725007036794116, and the bandwidth-theta ceiling is computed nowhere (rescoped 2026-10-21, on landing: "no short-interval counterpart in the literature" and "computed nowhere" mean none was found in the search logged in RESULTS.md section 4.1, which did not open six sources and whose eight arXiv API queries never ran)
 proposed_attack: the gate passed, so write the short-interval xi-prime theorem along the eight-step outline in AUDIT-dyadic.md section 6, localizing the kernel-checked xi-prime second moment by Wang's Montgomery-Vaughan and grid-end arguments, with the bandwidth-theta constants enclosed by ball arithmetic before any number is stated; the bandwidth-theta configuration ceiling needs the PairCeiling construction rebuilt with the band as a parameter, since the measure-level LP in this tree reproduces the window optimum and not the ceiling
 dead_routes:
   - substituting c(theta) into the affine bridges Phi_3 and Phi_4: the certificate's cost is proportional to the second moment, which diverges like 1/theta, so the gain is negative below theta 0.808 and no re-optimization repairs it; the bridges are also band-width-one and dyadic (section 4)
@@ -181,7 +181,9 @@ the bridges read `[-1, 1]`, and `hunts/family_wall/famlib.py` holds `H` as a
 module constant with a kernel that is the closed form of
 `integral_{-1/2}^{1/2} cos(sqrt 2 t) cos(2 pi x t) dt` with no free
 half-length. **And the bridges are dyadic**: 21 occurrences of `2 * T` in
-`Bridge/Main.lean` alone, with `S8` concluding in `N(T, 2T)`, `S9` absorbing
+`Bridge/Main.lean` alone (**corrected 2026-10-21**: 21 lines of
+`lean/bridge/Zeta23Ext/Bridge/Main.lean` contain `2 * T`; the occurrences
+number 28), with `S8` concluding in `N(T, 2T)`, `S9` absorbing
 deleted end strips of width `2 pi L` against it, and `S15`'s span bound being
 `LT/2pi = N(T,2T) + o(N(T,2T))`. A per-block error absorbed against
 `N(T,2T)` and reappearing against `HL = T^theta log T` **carries a hidden
@@ -225,7 +227,8 @@ re-optimization.**
 
 **The best bet here, and the only place the tree holds something the field
 does not. A literature search was run on 2026-09-12 and is recorded in
-`RESULTS.md` §4; its verdict and its one near-miss are below.**
+`RESULTS.md` §4; its verdict and its one near-miss are below.** (Scope of
+"the field does not": see the 2026-10-21 note in §6.1.)
 
 `hunts/frontier_map/frontier.py` computes the landscape for **two** kernels:
 Montgomery's `F(x) = |x|` for zeta, and Farmer-Gonek-Lee's
@@ -277,6 +280,23 @@ unconditional.** Specifically:
 - Of the 191 `math.NT` listings from 2026-09-05 to 2026-09-12, Wang's is the
   only short-interval zero paper and none concerns derivatives. Semantic
   Scholar reports zero citations of Wang and one of Lamzouri (Wang).
+
+> **Rescoped 2026-10-21, on landing.** The verdict above states an absence
+> as fact, and the search behind it supports less: `RESULTS.md` §4.1 records
+> six sources it did not open, and eight arXiv API queries and two Semantic
+> Scholar searches that never ran. Read it as "not found in the logged
+> search", the scope §8 already gives the band-edge search. The statements in
+> this file that rest on the same search carry the same scope: the huntspec
+> `frontier`, "the only place the tree holds something the field does not"
+> (§6), Hardy's `Z'` "equally absent from the short-interval literature"
+> (§6.2), the bandwidth-theta ceiling "computed nowhere" (§7), and "the
+> frozen choice where the tree holds something the field does not" (§13,
+> door 2). In the next paragraph, "first short-interval statement for `xi'`
+> would be **false**" stands, since it rests on Conrey and Rezvyakova, who
+> were found and read. "First power-length statement" rests on this verdict,
+> so until the unopened sources and the unrun queries are checked it supports
+> no more than "no earlier power-length statement was found in the logged
+> search".
 
 **The near-miss that fixes the wording.** Conrey (JNT 17 (1983), as restated
 by Rezvyakova) and Rezvyakova (Izv. Math. 69 (2005) and 70 (2006)) already
@@ -406,8 +426,9 @@ search; anything about RH.
 
 Hardy's `Z'` is formalized in the same tree (`hardyW_simple_on_line`,
 `0.85838 / 0.92919`) and is equally absent from the short-interval
-literature; it is a second target of the same shape and should be mentioned
-in the same paper if the first succeeds.
+literature (scope: see the 2026-10-21 note in §6.1); it is a second target of
+the same shape and should be mentioned in the same paper if the first
+succeeds.
 
 **Do not conflate the two constants both called `c*`.** The zeta one has
 kernel `|alpha|`, `1/c*_1 = 1.3274992963205884`, and is Wang's. The `xi'` one
@@ -463,6 +484,22 @@ the n-point program on this axis, and still the most valuable formalization
 target, for the reason given before: a cap is what this laboratory produces
 and nobody else does. But it is a build, not a run, and §6 does not wait on
 it.
+
+> **Corrected 2026-10-21, on landing.** Withdrawn: "and still the most
+> valuable formalization target, for the reason given before: a cap is what
+> this laboratory produces and nobody else does". The reason is contradicted
+> by this file's own record: the start of this section notes that
+> Alpöge-Furman §7.2 and `Zeta23/PairCeiling/` give a ceiling for
+> bandwidth-one certificates, `p_0 <= 0.6818287`, and `RESULTS.md` §8 says
+> its authors built it. Checked on 2026-10-21 against the source,
+> arXiv:2608.13637v2 (revised 2026-08-19): its §7.2, "Sharpness and limits of
+> the method", states that ceiling for certificates whose test functions have
+> Fourier support in `[-1, 1]`, through the Lean theorem
+> `Zeta23.PairCeiling.ceiling_law256`. What holds is narrower: the search
+> logged in `RESULTS.md` §4.1 found no bandwidth-theta ceiling. The ranking
+> goes with its reason, since which target to formalize is an allocation
+> decision and not part of this record. The first clause, that the ceiling is
+> the stopping criterion for the n-point program on this axis, is unaffected.
 
 ## 8. The band edge: priced, then searched; the attempt is unresolved
 
@@ -719,7 +756,8 @@ two restricted classes of argument obstructed.
 2. **The kernel.** The zeta arm is fixed to `F(alpha) = |alpha|`. The tree also
    computes the `F_1` landscape and Wang does not, so this is the frozen choice
    where the tree holds something the field does not. §6. Changes the
-   information class.
+   information class. (Scope of "the field does not": see the 2026-10-21
+   note in §6.1.)
 3. **The dyadic counting range.** Frozen in the Lean development by what
    was available to formalize. For the `xi'` arm the audit in
    `AUDIT-dyadic.md` prices the door exactly: two named exponent conditions,

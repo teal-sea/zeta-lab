@@ -59,7 +59,9 @@ re-optimization repairs that**, which is why §3 matters.
 Independently the transplant has no analytic footing: the band is
 `(-theta, theta)`, open and strict, while the bridges read `[-1, 1]` with no
 free half-length anywhere in `famlib.py`; and the bridges are dyadic, with 21
-occurrences of `2 * T` in `Bridge/Main.lean` alone and `S8`, `S9` and `S15`
+occurrences of `2 * T` in `Bridge/Main.lean` alone (**corrected 2026-10-21**:
+21 is the number of lines of `lean/bridge/Zeta23Ext/Bridge/Main.lean` that
+contain `2 * T`; the occurrences number 28) and `S8`, `S9` and `S15`
 all absorbing errors against `N(T, 2T)`. A per-block error absorbed against
 `N(T, 2T)` and reappearing against `T^theta log T` **carries a hidden
 `T^(1-theta)`**, and that hazard recurs on every route here.
@@ -96,6 +98,21 @@ unrun were substituted by the arXiv web search UI and listing pages.
 **Verdict: not in the literature.** No paper states a proportion of simple,
 or critical, zeros of `xi'` (or of `xi^(k)`, `zeta^(k)`) in
 `(T, T + T^theta]` as a function of theta, conditional or unconditional.
+
+> **Rescoped 2026-10-21, on landing.** The verdict above states an absence
+> as fact, and the search behind it supports less. This section records six
+> sources it did not open (under "Not opened, blocked", below), eight arXiv
+> API queries that returned HTTP 503 and two Semantic Scholar searches that
+> returned HTTP 429, none of which ran. Read the verdict as "not found in the
+> logged search", the scope §4.2's verdict carries. The same scope applies,
+> below, to "Nowhere in print" for the `xi'` prime side and to Hardy's `Z'`
+> being "equally absent from the short-interval literature". Of the wording
+> in the next paragraph, "never 'first short-interval statement'" stands,
+> since it rests on Conrey and Rezvyakova, who were found and read. "First
+> power-length statement, as a function of theta" rests on this verdict, so
+> until the unopened sources and the unrun queries are checked it supports no
+> more than "no earlier power-length statement was found in the logged
+> search".
 
 **The near-miss.** Conrey (JNT 17 (1983)) and Rezvyakova (Izv. Math. 69
 (2005), 70 (2006)) work in sub-dyadic windows `U = T (log(T/2 pi))^(-10)`:
@@ -485,7 +502,8 @@ exact endpoint extraction) enters only the zeta control, where Wang's
 is an exact rational, for both `F(x) = |x|` (zeta) and Farmer-Gonek-Lee's
 `F_1` (xi'), the latter truncated at `k = M = 20` with the omitted tail bounded
 above by `theta^(2M+3) rho_M (int v^2)/(int v)^2`, `rho_M = 45088768/2828846926`
-(about `1.6e-20`), the geometric majorant of `hunts/wide_search/
+(about `1.6e-20`; the fraction is mistranscribed, see the 2026-10-21 note after
+this paragraph), the geometric majorant of `hunts/wide_search/
 certify_bound.py` carrying the extra `theta^(2M+3)` because
 `|theta (s-s')| <= theta <= 1`, and Cauchy-Schwarz on `|I| = 1` in place of
 any positivity assumption on `v`. The bound `2 - R_theta(v)` is a valid lower
@@ -497,6 +515,17 @@ denominators at most 1000; how it was chosen carries no proof weight and a
 poor choice only loosens the bound. The zeta column shows how little that
 costs: the degree-6 polynomial sits within `6e-12` of Wang's optimum at every
 bandwidth.
+
+> **Corrected 2026-10-21, on landing.** The fraction printed above,
+> `rho_M = 45088768/2828846926`, lost 18 digits of its denominator in
+> transcription and is about `0.016`. The constant that
+> `enclose_theta.tail_bound(20)` computes, and that
+> `artifacts/enclose-theta.json` stores under `tail_bound`, is
+> `rho_M = 45088768/2828846926917599723269509375`, about `1.594e-20`, the
+> value the parenthetical gives. Summed exactly, the tail `sum_{k>20} a_k` is
+> `1.593747e-20`, so that constant is a valid majorant with relative slack
+> `9.1e-5`, and no bound in the table moves. `test_short_interval.py` pins
+> this note's fraction against the artifact and the code.
 
 Bounds are truncated downward at twelve decimals, never rounded. The
 `c(theta)` column is the lower end of the Arb enclosure, truncated at ten.

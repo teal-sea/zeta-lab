@@ -1137,7 +1137,8 @@ proportional to the one quantity that blows up in a short window, break-even
 is `theta = 0.8082`, and no re-optimization repairs it. Independently there is
 no analytic footing: the band is `(-theta, theta)` open and strict while the
 bridges read `[-1, 1]` with no free half-length in `famlib.py`, and the
-bridges are dyadic, 21 occurrences of `2 * T` in `Bridge/Main.lean` alone with
+bridges are dyadic, 21 occurrences of `2 * T` in `Bridge/Main.lean` alone
+(**corrected 2026-10-21**: 21 lines, 28 occurrences) with
 `S8`, `S9` and `S15` absorbing errors against `N(T, 2T)`. **A per-block error
 absorbed against `N(T,2T)` and reappearing against `T^theta log T` carries a
 hidden `T^(1-theta)`**, and that hazard recurs on every route here.
@@ -1166,7 +1167,15 @@ nowhere; the bandwidth-one number is `0.6818286874638` against a window optimum
 of `0.6725007`, headroom `0.00933`, and the theta version is the stopping
 criterion for the whole axis and the best formalization target, since a cap is
 what this lab produces and others do not. (3) **The price of the band edge**,
-below.
+below. **Corrected 2026-10-21**: withdrawn, "and the best formalization
+target, since a cap is what this lab produces and others do not". Others do
+produce one: Alpöge-Furman arXiv:2608.13637v2 §7.2 gives the bandwidth-one
+ceiling `p_0 <= 0.6818287` (`MISSION.md` §7, checked against the paper the
+same day). What holds is that the logged search found no bandwidth-theta
+ceiling, and which target to formalize is an allocation decision, not part of
+this record. "Computed nowhere" and "the one place the tree holds something
+the field does not" carry the scope of the search verdict below: not found in
+the logged search.
 
 **A door nobody had priced.** `hunts/outband_certificate/RESULTS.md` states the
 reason for bandwidth one: "`F` has no unconditional upper bound outside the
@@ -1175,7 +1184,10 @@ Priced in `landscape.py` by capping `F <= B` beyond the band and **checking the
 minimizer's sign**, since a sign-changing minimizer is outside Lamzouri's class
 and its value is not a bound: `B = 2` at `L = 1.2` gives `0.760859`, and
 `B = 20` on a sliver of width `0.05` still gains `0.0142` against the `0.00933`
-headroom. Mechanism: a linear shadow price,
+headroom (**corrected 2026-10-21**: `0.0141`; `landscape.py` gives `0.686561`
+for that cell against the baseline `0.672508`, a gain of `0.01405`, or
+`0.01406` against the exact `0.6725007`, still above the headroom, and
+`test_short_interval.py` now pins it). Mechanism: a linear shadow price,
 `c'(1) = (1/2)cot^2(1/sqrt 2) = (3/2 - H)^2 = 0.6847550854111`, against
 quadratically small out-of-band mass. **Not established: that a constant `B`
 exists unconditionally.** Positive definiteness gives only `F(alpha) <= F(0)`,
@@ -1226,7 +1238,16 @@ arguments cannot give `B delta < 1`. **So the band-edge door is priced and
 unopened**: no bound was found, which leaves the attempt unresolved rather
 than shows it impossible, and the two class obstructions are derived here
 and unreviewed. The price is kept so the next person to derive it knows what
-is behind the door and which arguments cannot open it.
+is behind the door and which arguments cannot open it. **Corrected
+2026-10-21**: the `xi'` verdict, "not in the literature", states an absence
+the search does not establish, and is rescoped to "not found in the logged
+search", as the band-edge verdict already was: the search did not open six
+sources, and eight arXiv API queries and two Semantic Scholar searches never
+ran (`RESULTS.md` §4.1). "No published statement" for the `xi'` prime side
+carries the same scope, and so does "first power-length statement", which
+until those checks are made supports no more than "no earlier power-length
+statement was found"; "never 'first short-interval'" stands, since it rests
+on papers that were found and read.
 
 **The gate passed, 2026-09-12, with conditions** (`hunts/short_interval/AUDIT-dyadic.md`,
 kept verbatim). A statement-by-statement audit of `anthropics/formal-math`
@@ -1281,8 +1302,10 @@ the workflow is written and deliberately not dispatched.
 manual-dispatch workflow `hunt-short-interval-ceiling.yml`, the credit entries
 in `harness/departments/review_ledger.py` and `graveyard_ledger.py`, one
 `meta/interventions.jsonl` entry, and `short_interval/test_short_interval.py`,
-added on landing, which re-evaluates the exact bounds and pins the quoted
-numbers for `scripts/run_hunt_tests.py`. `CORRESPONDENCE.md` was cut to the
+added on landing, which re-evaluates the exact bounds and pins the numbers
+the hunt computes and quotes, for `scripts/run_hunt_tests.py`; counts and
+figures quoted from the audits, the search logs, papers and other hunts are
+cited, not recomputed. `CORRESPONDENCE.md` was cut to the
 credit. Not landed, and held on the source branch: the arXiv literature
 monitor (script, tests on placeholder fixtures, a scheduled workflow) and its
 brief, pending an operator decision on where the monitor lives and real
