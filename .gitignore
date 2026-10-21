@@ -98,3 +98,9 @@ boards/*.run.json
 boards/*.live.json
 hunts/*/board.run.json
 hunts/*/board.live.json
+
+# Inspect run logs at the repo root (its default ./logs): never sweep another
+# session's runs into a commit. Anchored, so the committed logs under
+# meta/evals/logs/ stay tracked.
+/logs/
+/logs-tooled/
