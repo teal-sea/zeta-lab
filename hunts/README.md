@@ -677,6 +677,7 @@ negative even-sector eigenvalue at `(c, N) = (31, 60)`) plus a Guinand-Weil
 dictionary argued for DH, which together force an off-line DH zero. Grade:
 ordinary argument, internally reviewed, pending external verification. The
 conclusion is classical (Spira 1994); only the route is the lab's.
+Lane `weil_propagation/ghost_zeros/` (2026-10-21, preregistered in its `PREREG.md`): at band N = 128, DH's even ground-state transform has exactly one zero with |Im z| <= 1/2 over the on-line gap (83.109, 87.647), real and 0.019 to 0.035 above the off-line ordinate 85.699, at each of the seven preregistered windows from c = 29 to 47, on both sides of the even sign flip at c = 30.647, and an exploratory scan finds a zero within 0.3 of that ordinate at every scan window from c = 15 on; removing the off-line quadruple's term removes it, an on-line sham does not, zeta has no zero in its gap, and Epstein (1,1,6) shows the same at its own off-line zero; hardened counts for the band-128 matrix only, no continuum or RH claim (`weil_propagation/ghost_zeros/RESULTS.md`).
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
