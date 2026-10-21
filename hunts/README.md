@@ -1665,6 +1665,57 @@ which answers the run's open question whether it is in the literature; the
 four-element route of its §3 is that of Hunts #93, #95 and #105. Nothing bears
 on RH (`docs/08`).
 
+### Hunt #98: the cover premise of Erdős #126 has no bound in it (`support_d0f0aefb/`)
+
+**Status: not settled. A restricted-class obstruction for incidence and cover
+data, plus a refuted candidate (`ALIGNMENT.md` §5, dispositions 2 and 1), with
+a conditional bound and a one-way reduction as by-products.** Theorems 1 to 4
+are ordinary arguments, unreviewed, and one clause of Theorem 1 was corrected
+on landing (below); the two literature bounds behind Theorem 4's door were
+checked by web search, not read in the sources, and the reduction's prior art
+is unsearched (the run says to assume folklore). Landed 2026-10-21 from a
+local-only branch, `support/d0f0aefb`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all". A support arm
+launched by Hunt #91's run, asked whether the graphs $G_p$
+($a \sim b \iff p \mid a+b$), which together cover $K_n$, admit a cover,
+Ramsey, rank or container bound. **They do not, and that is argued in full:**
+$A = \{1\} \cup \{2(3j+1)\}$ with $S = \{2,3\}$ has $\gcd = 1$ and its two
+residue graphs cover $K_n$ for *every* $n$, so no theorem deriving a bound on
+$n$ from the incidence data alone can exist. Generic graph methods stall
+because the combinatorial shadow of the problem is realizable at every size;
+the content is in the arithmetic the shadow discards. Two things came out of
+the rubble. First, a structure theorem: mod $p$ the matrix $(a_i+a_j)$ has
+rank $\le 2$, and $G_p$ is the disjoint union of complete bipartite blocks
+between the classes $r$ and $-r$ among the elements prime to $p$ (one clique
+among them for $p = 2$) and a single clique on the multiples of $p$. The run
+stated a finer level-set structure on the multiples of $p$, which fails above
+level 0 on its own $k=7$ witness and takes its chromatic corollary
+$\chi(G_p)\le 2T_p$ with it ($\{3,15,21,33\}$, $S=\{2,3\}$, has $G_3 = K_4$ and
+$T_3 = 1$); it is corrected in place in `RESULTS.md` §2. Under the hypothesis
+that every element is coprime to $\prod S$ the structure peels to
+$|A| \le 2^k$, sharper than Erdős–Turán's $3\cdot2^{k-1}$ by $3/2$ (unaffected
+by the correction); the hypothesis resists normalisation because
+$\{a \in A : p \mid a\}$ divided by $p$ is again a set of the same kind over the
+same $S$. Second, and the thing worth keeping: using the *exact* valuations
+rather than the graph gives $g(k) \le 3 + N_3(k)$, where $N_3(k)$ counts
+nondegenerate solutions of $x+y+z=1$ in $S$-units over the **same** $k$ primes,
+by an injective map. The run said the third term is what keeps $S$ from
+growing by the primes of $a_1-a_2$; it is not needed for that, since Evertse's
+bound is uniform in the coefficients (Hunts #96 and #104), and that remark is
+corrected in place too. The implication runs one way only, and it runs the
+useful way: $N_3(k) = \exp(o(k))$ would prove Erdős #126. Known lower bounds
+for such counts are $\exp(k^{1/2+o(1)})$, so nothing known closes that door.
+Hunt #91's loose thread "$|A| \le p-1$ when $p \notin S$" is **refuted**:
+$\{1,4,124\}$ with $S = \{2,5\}$ has all three elements $\equiv 1$ mod $3$ and
+$|A| = 3 > 2$; only $p = 2$ bounds anything, because there every residue class
+is its own negative. All seven of Hunt #91's witnesses were re-verified.
+Overlap with main, recorded in `RESULTS.md`: the coprime bound $2^k$ is Hunt
+#101's primitive descent (and Hunt #94's Lemma 2, landed with this entry); the
+three-term reduction sits beside the four-element reductions of Hunts #93, #95
+and #105 and adds the injectivity they lack; the loose-thread-3 refutation was
+on main already (Hunts #93, #95, #101, #103). Nothing here bears on RH
+(`docs/08`).
+
 ### Hunt #143: Erdős #126, the 92-year wall, and the one lever behind it (`support_fcffa3b9/`)
 
 **Status: not settled. A literature map from a targeted search, not an
