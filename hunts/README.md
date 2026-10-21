@@ -3757,8 +3757,8 @@ would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
 
 > **Landed on main 2026-10-21.** Opened on `claude/hunt-134-seven-eighths-pin` as Hunt #134; on main #134
 > is `gauss_positivity` and #136 to #138 are held by other open hunts and landings, so this hunt is #139.
-> The prior-art search the hunt had not run was run at
-> landing (`RESULTS.md` section 10). The re-optimized geometry was already public: J. Guo and B. Liu
+> The prior-art search the hunt had not run was run at landing (`RESULTS.md` section 10).
+> The re-optimized geometry was already public: J. Guo and B. Liu
 > (arXiv:2610.12234), both 8 October 2026, give its optimum σ* = (1507 − 2√921)/1653 ≈ 0.8749570698,
 > and Z. Gao (7 October) gives 20999/24000 at b = 1/8. So the scan optimum 0.874958 below is a grid
 > reproduction of σ*, not an original result. The exact bound below is valid but loose: the same
