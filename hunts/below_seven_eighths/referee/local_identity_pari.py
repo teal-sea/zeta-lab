@@ -1,10 +1,11 @@
 """Referee route for the scalar Euler identity (Lemma 7.1) of the quasi-Riemann paper.
 
-Hunt #136 (`below_seven_eighths`), referee lane, wave 1.  A second, code-disjoint
-route for the claim that carries the Euler product: OpenAI's Lemma 7.1
-(`lem:local-euler`, paper.tex lines 4010-4067) and its Gauss-sum inputs, Lemma 4.2
-(`lem:prime-gauss-identities`, lines 766-775) and Equation (4.7) (`eq:signal`,
-lines 964-969).
+Hunt #136 (`below_seven_eighths`), referee lane, wave 1 (repaired after an adversarial
+review, REFEREE_W1.md section 7).  A second route, sharing no module or function with
+the first-wave lanes (REFEREE_W1.md note N3), for the claim that carries the Euler
+product: OpenAI's Lemma 7.1 (`lem:local-euler`, paper.tex lines 4010-4067) and its
+Gauss-sum inputs, Lemma 4.2 (`lem:prime-gauss-identities`, lines 766-775) and Equation
+(4.7) (`eq:signal`, lines 964-969).
 
 Every Gauss sum and every residue symbol here is computed with PARI/GP through
 cypari2: residue symbols by PARI's `nfmodpr` reduction to the residue field and a
@@ -510,11 +511,11 @@ def lemma_4_2_checks(prime: FPrime, fault: str | None = None) -> dict:
     )
     out["J(H^2, H^2) = -p (line 833)"] = jacobi(prime, cyc, 2, 2) == -pi
     out["tau_2^3 = -p P (line 834)"] = G[2] ** 3 == -pi * P
-    # facts quoted inside the proof of Lemma 7.1 (lines 3886, 4079, 4117-4122)
+    # facts quoted inside the proof of Lemma 7.1 (lines 3886, 4079, 4117-4121, 4124)
     wp = prime.omega_p()
     out["G_1 G_{-1} = omega_p Q (line 3886)"] = G[1] * G[5] == wp * P * cyc.one
     out["gamma_3^2 = omega_p (line 4079)"] = G[3] ** 2 == wp * P * cyc.one
-    out["gamma_2 gamma_4 = 1 (line 4122)"] = G[2] * G[4] == P * cyc.one
+    out["gamma_2 gamma_4 = 1 (line 4124)"] = G[2] * G[4] == P * cyc.one
     out["gamma_1 gamma_2 = -alpha(p) conj(chi_p(4)) gamma_3 (line 4117)"] = (
         G[1] * G[2] == -pi * hbar4 * G[3]
     )
@@ -1364,8 +1365,9 @@ def separation_checks(p: FPrime, q: FPrime, u, local_cases, eta_dirichlet=None, 
 #
 # Placement.  The identity reads the target only through eta(A) in the coefficient
 # (local-full-coefficient); the paper places a Dirichlet character chi into that slot
-# as eta(a) = chi(N a) (Proposition 11.3's proof, line 6725).  The same rule, applied
-# to a rival's Dirichlet coefficients a(n), puts f(a) = a(N a) in the slot.  Because
+# as eta(a) = chi(N a) (in the proof of prop:hecke-dirichlet-transfer, line 6725).
+# This lane extends that rule, stated for characters only, to a rival's Dirichlet
+# coefficients a(n): f(a) = a(N a) goes in the slot.  Because
 # K is linear in eta, for DH this is c_1 (chi o N) + c_2 (chibar o N), a linear
 # combination of two Hecke characters of F; the rival's bad primes join S.
 
@@ -1552,6 +1554,66 @@ def rival_cross_term(name: str, p: FPrime, q: FPrime, u=ONE):
     }
 
 
+# --- which step fails where: both steps, on the same primes ---------------------------
+#
+# Separation reduces to the coefficients: K is linear in eta and reads it only through
+# eta(A), and the trivial character separates (`rival_cross_term` checks both at every
+# computed pair), so K_f(pq) = K_f(p) K_f(q) exactly when f(pq) = f(p) f(q).  The u = 1
+# row's coefficient at X^6 V is f(p^6) times the character-case coefficient, which is
+# nonzero at every prime (it carries C_p(6, 0, 6) = Q^6 - Q^5), and below t = 6 that row
+# reads only f(p^0) and f(p^1); so that row fails at X^6 V exactly when f(p^6) != f(p)^6.
+
+def dh_residue_structure() -> dict:
+    """The placed DH coefficient f(a) = a(N a), exhaustively over N p mod 5 (exact).
+
+    f depends only on N a mod 5.  For each nonzero residue x: `chi_real[x]` is whether
+    chi(x) is real, read off as chi^2(x) = (x/5) = 1 (chi^2 is the quadratic character);
+    `local[x]` is f(p^t) = f(p)^t for t = 1..13 (DH agrees with a Hecke character on the
+    powers of p); `sixth[x]` is f(p^6) = f(p)^6.  For each pair of residues,
+    `pairs[(x, y)]` is f(pq) = f(p) f(q).
+    """
+    cyc = Cyc(20)
+    res = (1, 2, 3, 4)
+
+    def a(n):
+        return dh_coefficient(n, cyc)
+
+    return {
+        "chi_real": {x: int(pari.kronecker(x, 5)) == 1 for x in res},
+        "local": {x: all(a(x ** t) == a(x) ** t for t in range(1, 14)) for x in res},
+        "sixth": {x: a(x ** 6) == a(x) ** 6 for x in res},
+        "pairs": {(x, y): a(x * y) == a(x) * a(y) for x in res for y in res},
+        "inert norms": sorted({(x * x) % 5 for x in res}),
+    }
+
+
+def epstein_split_structure(ell_max: int = 200) -> dict:
+    """The placed Epstein coefficient f(a) = r(N a)/2 at split primes of F, exactly.
+
+    For each rational prime ell = 1 mod 3 below `ell_max` (each splits as p pbar in O):
+    f(p^t) = r(ell^t)/2 for both primes above ell.  Reports whether f(p^6) = f(p)^6 (the
+    u = 1 coefficient at X^6 V), whether f(p pbar) = f(ell^2) equals f(p) f(pbar) =
+    f(ell)^2 (separation at the conjugate pair), and, for every pair of distinct such
+    primes ell, ell', whether f(ell ell') = f(ell) f(ell') (separation across distinct
+    rational primes).  Also checks f(ell^t) = sum_{i <= t} chi_5(ell)^i for t <= 6.
+    """
+    ells = [ell for ell in range(7, ell_max) if ell % 3 == 1 and _prime_factors(ell) == [ell]]
+    f = epstein_coefficient
+    closed = all(
+        f(ell ** t) == sum(int(pari.kronecker(5, ell)) ** i for i in range(t + 1))
+        for ell in ells for t in range(7)
+    )
+    return {
+        "ells": ells,
+        "f(p^t) = sum chi_5(ell)^i": closed,
+        "sixth": {ell: f(ell ** 6) == f(ell) ** 6 for ell in ells},
+        "conjugate pair separates": {ell: f(ell ** 2) == f(ell) ** 2 for ell in ells},
+        "distinct pairs separate": {
+            (e1, e2): f(e1 * e2) == f(e1) * f(e2) for i, e1 in enumerate(ells) for e2 in ells[i + 1:]
+        },
+    }
+
+
 # ---------------------------------------------------------------------------
 # G. Lower-order probes S1, S2 (over F) and S3 (over Q(i)), at one prime each
 # ---------------------------------------------------------------------------
@@ -1732,6 +1794,55 @@ def s1_two_prime_product(p: FPrime, q: FPrime) -> bool:
     g2 = gauss_index([p, q], 2, cyc)
     g4 = gauss_index([p, q], 4, cyc)
     return g2 * g4 == onorm(omul(p.pi, q.pi)) * cyc.one
+
+
+def s1_pair_phase(p: FPrime, q: FPrime, insert_G: bool = True) -> dict:
+    """S1 and the paper's probe at c = p, q and pq, in the paper's row normalization, exactly.
+
+    `insert_G=False` drops the conj(G(c)) insertion, a lesion that must flip both
+    separation verdicts wherever R(p, q) != 1.
+
+    The squarefree part of the u-row coefficient, that is the factors that are not
+    characters of A (eta, Xi, xi(A), chi_A(b_*) and chi_c(u) are, and cancel in the ratio):
+    X_e(c) = gamma_2(c) gamma_e(c) conj(alpha(c)) conj(G(c)), with e = 1 for the paper's
+    sextic twist and e = 4 for S1.  By Equation (4.7) X_1(c) = mu(c), which separates.
+    For S1, gamma_2 gamma_4 = 1 leaves X_4(c) = conj(alpha(c) G(c)), and G(pq) = G(p) G(q)
+    R(p, q), so X_4(pq) = conj(R(p, q)) X_4(p) X_4(q).  Gamma(c) = S_Gamma(c)/|c| is
+    summed directly (no four-term formula) and R(p, q) = Gamma(pq)/(Gamma(p) Gamma(q)).
+    """
+    cyc = _field_for_moduli([12 * p.ell, 12 * q.ell])
+    parts = {}
+    for name, primes in (("p", [p]), ("q", [q]), ("pq", [p, q])):
+        c = ONE
+        for pr in primes:
+            c = omul(c, pr.pi)
+        qc = onorm(c)
+        sq = sqrt_int(cyc, qc)
+        g2 = gauss_index(primes, 2, cyc)
+        gam = quad_sum(c, cyc) / sq                         # Gamma(c)
+        k4 = chi_index_power(primes, (4, 0), 1)
+        Gc = cyc.zeta6(-k4) * gam                           # G(c) = conj(chi_c(4)) Gamma(c)
+        abar_c = cyc.conj(cyc.from_O(c) / sq)
+        corr = cyc.conj(Gc) if insert_G else cyc.one
+        X = {e: g2 * gauss_index(primes, e, cyc) / qc * abar_c * corr for e in (1, 4)}
+        parts[name] = {"X": X, "Gamma": gam, "c": c,
+                       "gamma_2 gamma_4 = 1": g2 * gauss_index(primes, 4, cyc) == qc * cyc.one}
+    R = parts["pq"]["Gamma"] / (parts["p"]["Gamma"] * parts["q"]["Gamma"])
+    R4 = four_term(parts["pq"]["c"], cyc) / (four_term(parts["p"]["c"], cyc) * four_term(parts["q"]["c"], cyc))
+    X1 = {k: v["X"][1] for k, v in parts.items()}
+    X4 = {k: v["X"][4] for k, v in parts.items()}
+    return {
+        "R(p,q)": cyc.number(R),
+        "R = -1": R == -cyc.one,
+        "R = +1": R == cyc.one,
+        "R agrees with the four-term formula": R == R4,
+        "gamma_2 gamma_4 = 1 at p, q, pq": all(v["gamma_2 gamma_4 = 1"] for v in parts.values()),
+        "paper's probe: X_1 = mu at p, q, pq": (X1["p"] == -cyc.one and X1["q"] == -cyc.one
+                                               and X1["pq"] == cyc.one),
+        "paper's probe separates": X1["pq"] == X1["p"] * X1["q"],
+        "S1 separates": X4["pq"] == X4["p"] * X4["q"],
+        "S1: X_4(pq) = conj(R) X_4(p) X_4(q)": X4["pq"] == cyc.conj(R) * X4["p"] * X4["q"],
+    }
 
 
 # --- S3: the classical theta over Q(i) with the quartic twist ------------------------

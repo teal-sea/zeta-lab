@@ -76,6 +76,9 @@ def test_paper_is_the_pinned_source():
     (4086, r"\label{eq:local-family-table}"),
     (4117, r"\gamma_1\gamma_2"),
     (4120, r"\frac{\gamma_4}{\gamma_1}"),
+    (4124, r"$\gamma_2\gamma_4=1$"),
+    (3416, r"\overline{G(A)}=\sum_{\theta\in\widehat T}a_\theta\theta(A)"),
+    (4002, r"\omega_p^{tk-e_0l-l(l-1)/2}"),
     (4148, r"For $p\nmid u$ and $\vartheta=(-w_r)_+$"),
     (4185, r"the asserted $O(P_0^{-4/5})$ estimate"),
     (841, r"\label{lem:quadratic-four-term}"),
@@ -86,6 +89,15 @@ def test_cited_lines_say_what_the_report_says(line, label):
         pytest.skip("paper.tex cache not present on this machine")
     window = "\n".join(L.paper_lines(line - 1, line + 1))
     assert label in window
+
+
+def test_gamma_2_gamma_4_is_cited_at_line_4124():
+    """Corrected citation: gamma_2 gamma_4 = 1 is stated on line 4124; line 4122 closes the display."""
+    if not L.PAPER_PATH.is_file():
+        pytest.skip("paper.tex cache not present on this machine")
+    assert r"$\gamma_2\gamma_4=1$" in L.paper_lines(4124, 4124)[0]
+    assert L.paper_lines(4122, 4122)[0].strip() == r"\]"
+    assert "gamma_2 gamma_4 = 1 (line 4124)" in L.lemma_4_2_checks(L.FPrime(7))
 
 
 def test_lemma_numbers_follow_the_environment_order():
@@ -439,6 +451,49 @@ def test_rival_cross_term(name, a, b, separates, fpq, fpfq):
     assert r["K(pq) = f(pq) K_1(pq)"]
 
 
+def test_row_zero_reads_only_t_0_1_below_six():
+    """The u = 1 row has monomials only at t in {0, 1, 6, 7, 12, 13} in the box, and X^6 V is
+    one of them: so that row fails at X^6 V exactly when f(p^6) != f(p)^6."""
+    for norm in (7, 13, 19, 25):
+        ld = local_data(norm)
+        for rk in (0, 1):
+            keys = L.series_local_P(ld, 0, rk, BOX)
+            assert sorted({t for (t, _, _) in keys}) == [0, 1, 6, 7, 12, 13], norm
+            assert (6, 0, 1) in keys and (6, 0, 0) not in keys
+    for ell in (7, 13, 19, 5):
+        p = L.FPrime(ell)
+        small = p.small_field()
+        assert L.C_p(p, L.gauss_sums(p, small), 6, 0, 6, small) == (p.Q ** 6 - p.Q ** 5) * small.one
+
+
+def test_dh_both_steps_fail_on_the_same_primes():
+    """Exhaustive over N p mod 5: DH is locally the character chi o N exactly where chi(N p)
+    is real, and f(pq) = f(p) f(q) fails exactly when both chi(N p) and chi(N q) are not real.
+    So every pair that fails separation is made of two primes that fail the single-prime step."""
+    d = L.dh_residue_structure()
+    assert d["chi_real"] == {1: True, 2: False, 3: False, 4: True}
+    assert d["local"] == d["sixth"] == d["chi_real"]
+    for (x, y), ok in d["pairs"].items():
+        assert ok == (d["chi_real"][x] or d["chi_real"][y]), (x, y)
+    failing = sorted(k for k, ok in d["pairs"].items() if not ok)
+    assert failing == [(2, 2), (2, 3), (3, 2), (3, 3)]
+    assert all(not d["local"][x] and not d["local"][y] for (x, y) in failing)
+    assert d["inert norms"] == [1, 4]  # an inert prime has square norm: chi(N p) is real there
+    # the residues of the computed primes: 7, 13 non-real; 19, 31 real
+    assert [d["chi_real"][n % 5] for n in (7, 13, 19, 31)] == [False, False, True, True]
+
+
+def test_epstein_single_prime_fails_everywhere_and_separation_only_at_conjugates():
+    """At every split ell < 200: f(p^6) != f(p)^6 and f(ell^2) != f(ell)^2 (the conjugate pair);
+    across distinct rational primes the coefficient is multiplicative (210 pairs)."""
+    e = L.epstein_split_structure(200)
+    assert len(e["ells"]) == 21 and e["ells"][:4] == [7, 13, 19, 31]
+    assert e["f(p^t) = sum chi_5(ell)^i"]
+    assert not any(e["sixth"].values())
+    assert not any(e["conjugate pair separates"].values())
+    assert len(e["distinct pairs separate"]) == 210 and all(e["distinct pairs separate"].values())
+
+
 # ---------------------------------------------------------------------------
 # (3) the lower-order probes, one prime each
 # ---------------------------------------------------------------------------
@@ -478,6 +533,29 @@ def test_S1_scalar_factorization_with_the_target_in_the_numerator(ell):
     assert r["pure X and X^2 absent from H - 1"]
     assert r["largest size exponent of H - 1, region one corners (measured at this prime)"][0] < -1
     assert r["largest size exponent of H - 1, region two (measured at this prime)"][0] < -1.6
+
+
+@pytest.mark.parametrize("a, b, R", [
+    ((7, 0), (13, 0), -1), ((7, 0), (19, 0), -1), ((13, 0), (19, 0), -1), ((7, 0), (31, 0), -1),
+    ((7, 0), (7, 1), 1), ((13, 0), (13, 1), 1), ((19, 0), (19, 1), 1),
+])
+def test_S1_does_not_separate_in_the_paper_row_normalization(a, b, R):
+    """With the conj(alpha) conj(G) insertion, the paper's probe gives mu(c) and separates, while
+    S1 gives conj(alpha(c) G(c)), which carries the pair phase: X_4(pq) = conj(R(p,q)) X_4(p) X_4(q)."""
+    r = L.s1_pair_phase(L.FPrime(*a), L.FPrime(*b))
+    assert r["gamma_2 gamma_4 = 1 at p, q, pq"]
+    assert r["R agrees with the four-term formula"]
+    assert r["paper's probe: X_1 = mu at p, q, pq"] and r["paper's probe separates"]
+    assert r["S1: X_4(pq) = conj(R) X_4(p) X_4(q)"]
+    assert r["R = -1"] == (R == -1) and r["R = +1"] == (R == 1)
+    assert r["S1 separates"] == (R == 1)
+
+
+def test_S1_pair_phase_lesion_without_the_G_insertion():
+    """Planted lesion: dropping conj(G(c)) flips both verdicts at (7, 13), where R = -1."""
+    r = L.s1_pair_phase(L.FPrime(7), L.FPrime(13), insert_G=False)
+    assert not r["paper's probe separates"]
+    assert r["S1 separates"]
 
 
 def test_S3_at_norm_13():
@@ -538,3 +616,19 @@ def test_disagreements_file_is_consistent_with_the_report():
         md = fh.read()
     assert "disagreement D1" in md
     assert ("Not performed" in md) == (d["comparison_with_lane_files"]["performed"] is False)
+    # the repaired rival verdict: both steps fail, on the same primes; the old reading is withdrawn
+    assert "both steps" in d["rivals"]["verdict"] and "withdrawn" in d["rivals"]
+    assert set(d["rivals"]["where_each_step_fails"]) == {"DH", "Epstein-15"}
+    assert "both, on the same primes" in md and "reading is withdrawn" in md
+    assert "line 6725" in d["rivals"]["placement"] and "extended by this lane" in d["rivals"]["placement"]
+    # D1 carries the three post-review items; the paper-normalization pair phase is pinned
+    assert [x["item"] for x in d["disagreements"][0]["after_adversarial_review"]] == ["a", "b", "c"]
+    assert "test_S1_does_not_separate_in_the_paper_row_normalization" in d["disagreements"][0]["evidence"]
+    # corrected citation and versions
+    assert "4117-4121 and 4124" in md and "4117-4122)" not in md
+    assert "cypari2 package version 2.2.4" in md
+    # every test the report names exists in this module (file names such as test_x.py excluded)
+    import re
+    pat = r"(test_[A-Za-z0-9_]+)(?!\.py|[A-Za-z0-9_])"
+    names = set(re.findall(pat, md)) | set(re.findall(pat, json.dumps(d)))
+    assert len(names) >= 10 and all(n in globals() for n in names), sorted(n for n in names if n not in globals())
