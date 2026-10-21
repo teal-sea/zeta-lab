@@ -14,6 +14,11 @@ this checkout, whose depth depends on how it was cloned. Every way of not
 knowing the history must give a warning, a real shallow clone must give one,
 and a complete history must give none, so that the warnings are shown to be
 able to stay quiet as well as to fire.
+
+The verdict had the same hole one section earlier: a degraded ball-arithmetic
+backend accepted with ``--allow-fallback`` left no trace in it. That warning is
+pinned here too, against the control that a run with no warning at all still
+ends on the full readiness line.
 """
 
 from __future__ import annotations
@@ -125,10 +130,10 @@ def test_a_git_too_old_to_answer_warns(monkeypatch, complete_repo):
     assert len(warnings) == 1 and warnings[0].startswith(UNREADABLE)
 
 
-def _verdict(monkeypatch, capsys, history: list[str]) -> tuple[int, str]:
-    """Run ``main`` with every other check stubbed out to pass."""
+def _verdict(monkeypatch, capsys, history=(), backend=()) -> tuple[int, str]:
+    """Run ``main`` with the checks stubbed to report only the given warnings."""
     monkeypatch.setattr(preflight, "_check_interpreter", lambda: [])
-    monkeypatch.setattr(preflight, "_check_backend", lambda allow_fallback: [])
+    monkeypatch.setattr(preflight, "_check_backend", lambda allow_fallback: ([], list(backend)))
     monkeypatch.setattr(preflight, "_check_history", lambda: list(history))
     monkeypatch.setattr(preflight.sys, "argv", ["science_preflight.py"])
     code = preflight.main()
@@ -136,7 +141,7 @@ def _verdict(monkeypatch, capsys, history: list[str]) -> tuple[int, str]:
 
 
 def test_a_history_warning_narrows_the_verdict(monkeypatch, capsys):
-    code, verdict = _verdict(monkeypatch, capsys, [f"{UNREADABLE}: stub"])
+    code, verdict = _verdict(monkeypatch, capsys, history=[f"{UNREADABLE}: stub"])
     assert code == 0
     assert f"WARNING: {UNREADABLE}" in verdict
     assert EVERY_CLAIM not in verdict
@@ -144,7 +149,31 @@ def test_a_history_warning_narrows_the_verdict(monkeypatch, capsys):
 
 def test_with_nothing_wrong_the_verdict_says_so(monkeypatch, capsys):
     """The control: the narrowed verdict is not simply printed every time."""
-    code, verdict = _verdict(monkeypatch, capsys, [])
+    code, verdict = _verdict(monkeypatch, capsys)
     assert code == 0
     assert "WARNING" not in verdict
     assert EVERY_CLAIM in verdict
+
+
+def test_an_accepted_fallback_is_a_warning_not_nothing(monkeypatch):
+    """``--allow-fallback`` continues past a degraded backend; it must not vanish.
+
+    Before 2026-10-21 the accepted fallback left no trace in the verdict, which
+    then said every claim was available on a run that had just given up the
+    two-backend cross-check.
+    """
+    from zeta import rigor
+
+    monkeypatch.setattr(rigor, "BACKEND", "mpmath.iv")
+    monkeypatch.setattr(rigor, "available_backends", lambda: ("mpmath.iv",))
+    problems, warnings = preflight._check_backend(allow_fallback=False)
+    assert len(problems) == 1 and warnings == []
+    problems, warnings = preflight._check_backend(allow_fallback=True)
+    assert problems == [] and len(warnings) == 1
+
+
+def test_an_accepted_fallback_narrows_the_verdict(monkeypatch, capsys):
+    code, verdict = _verdict(monkeypatch, capsys, backend=["ball-arithmetic backend: stub"])
+    assert code == 0
+    assert "WARNING: ball-arithmetic backend" in verdict
+    assert EVERY_CLAIM not in verdict

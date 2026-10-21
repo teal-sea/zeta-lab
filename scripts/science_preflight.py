@@ -32,11 +32,11 @@ Run this first, read the verdict, then work::
     python scripts/science_preflight.py --allow-fallback   # accept non-Arb numerics
 
 Exit status is 0 when the environment can support the claims this repository
-knows how to make, and 1 when it cannot. A truncated or unreadable git history
-is a WARNING with exit 0, and the verdict then says it is ready only for work
-that does not read the history. ``--allow-fallback`` downgrades the
-ball-arithmetic backend finding to a warning, for exploratory work that will
-not use the word.
+knows how to make, and 1 when it cannot. Two findings are a WARNING with exit 0
+instead, and the verdict then says it is ready only for what they leave open: a
+truncated or unreadable git history, and a degraded ball-arithmetic backend
+accepted with ``--allow-fallback``, for exploratory work that will not use the
+word.
 """
 
 from __future__ import annotations
@@ -99,15 +99,22 @@ def _check_interpreter() -> list[str]:
     return problems
 
 
-def _check_backend(allow_fallback: bool) -> list[str]:
-    """The finding that decides whether certified language is available."""
+def _check_backend(allow_fallback: bool) -> tuple[list[str], list[str]]:
+    """The finding that decides whether certified language is available.
+
+    Returns ``(problems, warnings)``. A degraded backend is a problem, and with
+    ``--allow-fallback`` it is a warning rather than nothing: until 2026-10-21
+    it was nothing, so a run that had just accepted the fallback ended on
+    "Ready. Every claim this repository knows how to make is available."
+    """
     problems: list[str] = []
+    warnings: list[str] = []
     _head("3. ball-arithmetic backend (decides what you may claim)")
     try:
         from zeta import rigor
     except ImportError as exc:  # pragma: no cover - environment dependent
         print(f"  could not import zeta.rigor: {exc}")
-        return ["zeta.rigor is not importable"]
+        return ["zeta.rigor is not importable"], warnings
 
     backend = rigor.BACKEND
     available = list(rigor.available_backends())
@@ -131,12 +138,16 @@ def _check_backend(allow_fallback: bool) -> list[str]:
         print("                  requirements.txt).")
         if allow_fallback:
             print("                  --allow-fallback given: continuing as a warning.")
+            warnings.append(
+                "ball-arithmetic backend is degraded, accepted with "
+                "--allow-fallback: make no certified claim from this environment"
+            )
         else:
             problems.append(
                 "ball-arithmetic backend is degraded; pass --allow-fallback to "
                 "proceed with non-certified numerics only"
             )
-    return problems
+    return problems, warnings
 
 
 def _git(*args: str) -> str:
@@ -330,25 +341,26 @@ def main() -> int:
         print("  plainly rather than implying the tree was changed.")
 
     problems = _check_interpreter()
-    problems += _check_backend(args.allow_fallback)
-    history_problems = _check_history()
+    backend_problems, warnings = _check_backend(args.allow_fallback)
+    problems += backend_problems
+    warnings += _check_history()
     _check_plotting()
     _check_lean()
     _where_to_write()
     _rules()
 
     _head("verdict")
-    for h in history_problems:
-        print(f"  WARNING: {h}")
+    for w in warnings:
+        print(f"  WARNING: {w}")
     if problems:
         for p in problems:
             print(f"  BLOCKED: {p}")
         print("\n  Exit 1. Fix the above, or re-run with --allow-fallback if you")
         print("  are doing exploratory work that will make no certified claim.")
         return 1
-    if history_problems:
-        print("  Ready for work that does not read git history. The warning above")
-        print("  is not a block, and it is not optional reading either.")
+    if warnings:
+        print("  Ready only for the work the warnings above leave open. They are")
+        print("  not blocks, and they are not optional reading either.")
         return 0
     print("  Ready. Every claim this repository knows how to make is available.")
     return 0
