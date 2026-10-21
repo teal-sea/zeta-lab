@@ -1083,7 +1083,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `P`, `CURVE_A`, `CURVE_B`, `
 
 ### `harness/departments/graveyard_ledger.py`, The repository's graveyard, the opening graves, entered from the records.
 
-*74 lines*
+*81 lines*
 
 Constants: `GRAVES`
 
@@ -1111,7 +1111,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/review_ledger.py`, The repository's standing-review ledger, real claims, real attacks.
 
-*773 lines*
+*809 lines*
 
 Constants: `CLAIMS`, `OUTCOMES`
 
