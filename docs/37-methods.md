@@ -43,13 +43,13 @@ stays out of this file. No em dashes.
 
 ## Themes
 
-- **Prime pairs and the circle method** (22). Shifted prime correlations at a modulus,
+- **Prime pairs and the circle method** (24). Shifted prime correlations at a modulus,
   the centered circle-method budget, character-twisted pair sums, exceptional-zero
   corrections and the controls that kept the fits honest.
 - **Factorial and LP certificates for psi(N)** (16). Chebyshev-type factorial
   certificates for psi(N) as linear programs: the quotient relaxation, its floor, exact
   duals, repair budgets and the rank and transport obstructions.
-- **Weil positivity, Gram forms and kernels** (55). Weil-form truncations, window
+- **Weil positivity, Gram forms and kernels** (57). Weil-form truncations, window
   optima, incidence laws, cell-table and interval certificates for kernel inequalities,
   and the ceilings on what out-of-band positivity can buy.
 - **Higher xi derivatives and moments** (15). Exact resolvent identities for xi
@@ -80,10 +80,11 @@ stays out of this file. No em dashes.
   primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (51). Surfaced by the sweep, below the bar for now.
 
-Totals: 184 entries from 70 hunts. Kinds: identity 22, lemma 48, bound 12, construction
-15, calibration 7, computational 21, control 38, obstruction 21. (Recounted from the
+Totals: 188 entries from 71 hunts. Kinds: identity 24, lemma 48, bound 12, construction
+16, calibration 7, computational 21, control 39, obstruction 21. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
-the themes above already summed to 181.)
+the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
+again from the entries.)
 
 ## Prime pairs and the circle method
 
@@ -99,6 +100,10 @@ fits honest.
   (`prime_pair_error`)
 - identity: Exact p=2 Mobius pairing partition inside a hyperbola block
   (`prime_pair_error`)
+- identity: Complete-orbit identity for a fixed squarefree P, with every incomplete
+  orbit kept (`mobius_orbits`)
+- identity: Mertens level-set identity for a hyperbola-block row, and its uniform
+  transfer (`mobius_orbits`)
 - lemma: Theorem A: double-zero kernel bound for the Wronskian via Perron with a moving
   weight (`prime_pair_error`)
 - lemma: Theorem B: character-weighted Cauchy-Schwarz plus Landau pole gives an
@@ -243,6 +248,68 @@ Reused in: FINAL_ACCEPTANCE.md; RESULTS.md Fourth pass 'Doors of this mechanism'
 Why it travels: A general bookkeeping identity for pairing a Mobius-weighted sum with
 its 2-multiples, with the head/tail boundary written out exactly; applies to any kernel
 w.
+
+### Complete-orbit identity for a fixed squarefree P, with every incomplete orbit kept
+
+identity | `hunts/mobius_orbits/` | grade: ordinary derivation with an independent model
+challenge (REVIEW.md, a model review, not human review), exact integer and rational checks
+of 1196 (N,P) cases and 8412 b-rows; the specified fixed-P majorant gains only a constant;
+attempt unresolved
+
+For N>=4, H=floor(N/2), U=floor(sqrt H), b in [2,U], V_b=floor(H/b) and a squarefree P>1:
+every a with mu(a) nonzero factors uniquely as a=dm with d|P and gcd(m,P)=1, and
+mu(a)=mu(d)mu(m), so the row T_b=sum_{U<a<=V_b}mu(a)[1-floor(N/(ab))] equals
+sum_{m<=V_b, gcd(m,P)=1}mu(m)K_m exactly, with K_m=sum_{d|P, U<dm<=V_b}mu(d)[1-floor(N/(dmb))]
+and no cutoff term discarded. An orbit is complete when U<m and Pm<=V_b, and then
+K_m=-Phi_P(floor(N/(mb))), where Phi_P(x) counts the j<=x coprime to P (from
+sum_{d|P}mu(d)=0 and sum_{d|P}mu(d)floor(x/d)=Phi_P(x)). The complete-orbit kernel has a
+fixed sign, so the oscillation left is mu(m). Discarding |mu(m)|<=1 gives a majorant equal
+to (phi(P)/P)^2/48 N(log N)^3+O_P(N(log N)^2) at fixed P (1/192, 1/432, 1/675 and 4/3675 at
+P=2, 6, 30 and 210; 1/192 is the p=2 pairing's constant), not uniformly in growing P.
+Incomplete orbits cost O_P(N(log N)^2) in all, with the review's row bound
+(2N/b)sigma_{-1}(P)(1+log P); at P=210, N=10000 no orbit is complete and all of Sigma2 is
+boundary.
+
+Evidence: hunts/mobius_orbits/RESULTS.md sections 2, 3 and 6; REVIEW.md; probe.py
+check_case (asserts the regrouping, the complete-orbit kernel and the majorant in every
+b-row, with the dropped-boundary and reversed-sign lesions); test_probe.py (the identity at
+N=4..300 for four P, both planted faults, the four constants as Fractions); results.json
+Prior art: cited as standard: mu(dm)=mu(d)mu(m) for coprime d, m and inclusion-exclusion
+over d|P; it extends the p=2 pairing of `prime_pair_error` (MOBIUS_PAIRING.md); no
+literature search was run
+Reused in: none yet
+Why it travels: Any Mobius-weighted hyperbola-block sum can be regrouped by the orbits of a
+fixed squarefree P with every boundary written out, so a signed argument on mu(m) can be
+tried without a hidden cutoff, and the majorant shows what discarding those signs costs.
+
+### Mertens level-set identity for a hyperbola-block row, and its uniform transfer
+
+identity | `hunts/mobius_orbits/` | grade: ordinary derivation with an independent model
+challenge (REVIEW.md), exact rational checks in every b-row of the same 1196 cases; the
+corollary with a classical Mertens envelope is conditional on that input
+
+With the notation above, M(t)=sum_{a<=t}mu(a) and Q_b=floor(N/[b(U+1)]): writing
+floor(N/(ab))-1 as the number of k in [2, floor(N/(ab))] and interchanging the finite sums
+gives T_b=-sum_{k=2..Q_b}[M(floor(N/(bk)))-M(U)] exactly. For k>=2 the upper a cutoff is at
+most floor(N/(2b))=V_b, so no V endpoint is missing; for k<=Q_b it is at least U+1; if
+Q_b<2 both sides are empty, and odd N is covered. Transfer: if |M(t)|<=t E_U for every
+integer t>=U, then |T_b|<=(2N/b)E_U sum_{k=2..Q_b}1/k in each nonempty row, with no
+assumption on where floor jumps occur, since both Mertens arguments are at least U and
+floor(N/(bk))<=N/(bk); summing gives |Sigma2|<=2N E_U(log U)(1+log U)log N for U>=2.
+Inserting a classical envelope E_U=C exp(-c sqrt(log U)) gives a subexponential saving over
+N(log N)^3, conditional on that input, and nothing near the N^(1/2+eps) joint target.
+
+Evidence: hunts/mobius_orbits/RESULTS.md section 4, equations (5) to (7); REVIEW.md
+'Accepted within the stated hypotheses'; probe.py check_case (the level-set
+reconstruction equals the direct row, and the row bound holds with the exact finite
+envelope max over U<=t<=floor(H/2) of |M(t)|/t, both as Fractions)
+Prior art: the classical Mertens bound is cited as an input and not re-proved; no
+literature search was run on the identity
+Reused in: none yet
+Why it travels: It turns a Mobius-weighted floor kernel into Mertens values at floor levels
+with both endpoints exact, so any bound on M(t)/t transfers to the row with its constants
+visible; it prices the endpoints and uniformity that the parent factorization note
+(`prime_pair_error/FACTORIZATION_NEXT_STEP.md`) left unpriced.
 
 ### Theorem A: double-zero kernel bound for the Wronskian via Perron with a moving weight
 
@@ -1291,6 +1358,8 @@ can buy.
   rival control) with attribution by dictionary decomposition (`rogue_frontier`)
 - construction: Source-admissible closure certificate: exact rational strict-concavity
   plus C^3 endpoint tapers (`wide_search`)
+- construction: Compensated one-direction Schur update for the Baez-Duarte energy, with a
+  residual-matched fallback and a trace cap (`mobius_orbits`)
 - calibration: Cover level c(n−1)/2 for the near-zero cover at n ≥ 4
   (`ainta_seven_point`)
 - computational technique: Exhaustive kernel-zero seeding for the F_n minimiser
@@ -1331,6 +1400,8 @@ can buy.
   (`r_ac9ca3`)
 - control: Dictionary attribution: isolating the off-line quadruple as the sole negative
   term of the explicit-formula decomposition (`r_ac9ca3`)
+- control: Plateau control for descent claims, with sign-reversed and omitted-cross-term
+  lesions of a line update (`mobius_orbits`)
 - obstruction: Scalar and moment-matched obstruction families: no universal recovery
   coefficient from rank, trace and positive-index inputs (`frontier_math`)
 - obstruction: Sieve wall: constant-factor prime-pair upper bounds cannot open the λ > 1
@@ -2177,6 +2248,48 @@ lies in the closure of a constrained physical class: rational trial + tail bound
 derivative bound for shape, then an explicit C^3 taper with exact norms for
 approximation.
 
+### Compensated one-direction Schur update for the Baez-Duarte energy, with a residual-matched fallback and a trace cap
+
+construction | `hunts/mobius_orbits/` | grade: ordinary linear algebra with an independent
+model challenge (ENERGY_REVIEW.md, a model review); Arb ball checks at N=4, 8, 16, 32 and
+64 at 128 and 192 bits, conditional on Vasyunin's published Gram formula, with an mpmath
+cross-check at N=4; the decrease inequality that would finish the route is unproved;
+paused by allocation on 2026-09-27, not refuted
+
+In the Baez-Duarte criterion (e_k(t)={1/(kt)} on L^2(0,inf), E_N=inf_a||chi-sum_{k<=N}a_k
+e_k||^2, RH iff E_N -> 0), nesting gives 0<=E_(2N)<=E_N<=1. Split the doubling Gram matrix
+as [G C; C^T D] and the target as [b; d], with a=G^(-1)b, S=D-C^T G^(-1)C and u=d-C^T a;
+then E_(2N)=E_N-u^T S^(-1)u exactly, every cross term kept. For a nonzero shell vector v put
+q=v^T u, h=v^T S v and alpha=q/h. The update a_old=a-alpha G^(-1)Cv, a_shell=alpha v, whose
+first part compensates what the shell shares with the old span, has error exactly
+E_N-2tq+t^2h at step t, so E_(2N)<=E_N-q^2/h. The tested shell is predeclared,
+v_n=-mu(n)log(2N/n) on (N,2N]. The fallback v=u cannot be orthogonal to a nonzero u: its
+gain M_N^2/(u^T S u) is at least M_N/T_N, with M_N=u^T u and T_N=tr S, and
+T_N<=tr D=(log(2pi)-gamma)sum_{n=N+1..2N}1/n<(log(2pi)-gamma)log 2 prices the denominator
+with no eigenvalue bound. Keeping the larger exact gain cannot do worse than either
+direction; the Mobius shell won at all five tested N. The missing leaf is named: a fixed
+kappa>0 with (v^T u)^2>=kappa E_N^2(v^T S v) at every N=4*2^j would give
+1/E_(2N)>=1/E_N+kappa, hence E_N -> 0 and, through the criterion, RH; more weakly,
+divergence of sum_j M_(N_j)/(T_(N_j)E_(N_j)^2) suffices, for instance
+M_(N_j)>=c T_(N_j)E_(N_j)^2/(j+1). Neither is proved. The measured normalized trace values
+fall 4.28, 0.955, 0.546, 0.327 and 0.243 over the five shells, so no constant is inferred.
+
+Evidence: hunts/mobius_orbits/ENERGY.md sections 2 to 5 and 7, equations (1) to (12);
+ENERGY_REVIEW.md; energy_probe.py one_case (Schur identity, line-update identity, adaptive
+update and trace cap as Arb balls, overlapping across the two precisions with shrinking
+radii) and independent_small (a separate mpmath Gram and solve at N=4, and three
+cotangent-free Gram quadratures); test_energy.py; energy_results.json and
+energy_reviewed.json
+Prior art: cited: Baez-Duarte math/0202141v2 for the criterion, and Vasyunin's Gram formula
+through hunts/rogue_frontier/nyman_beurling/SOURCES.md; the Nyman-Beurling criterion,
+least-squares monotonicity and Schur complements are standard; Bettin-Conrey-Farmer
+arXiv:1211.5191 assumes RH and is not an input; no novelty search was run
+Reused in: none yet; it reads the Gram implementation of `rogue_frontier/nyman_beurling`
+Why it travels: Any nested least-squares criterion can be advanced one block at a time
+with an exact decrease and a fixed arithmetic witness, so a proof attempt reduces to one
+named lower bound on a correlation or on the residual moment, rather than on the optimized
+distance, and the trace cap prices the denominator for free.
+
 ### Cover level c(n−1)/2 for the near-zero cover at n ≥ 4
 
 calibration | `hunts/ainta_seven_point/` | grade: kernel-checked as part of the
@@ -2702,6 +2815,34 @@ and (47, 64))
 Why it travels: Converts 'the form went negative' into 'this zero made it negative' for
 any quadratic form with an explicit-formula expansion over zeros, and gives a
 falsifiable kill condition for the attribution.
+
+### Plateau control for descent claims, with sign-reversed and omitted-cross-term lesions of a line update
+
+control | `hunts/mobius_orbits/` | grade: exact rational control, and lesions run as Arb
+ball checks at N=4 to 64 at 128 and 192 bits; a control on an inference, not a rival with
+zeta's arithmetic
+
+The energy F_j=1/4+3/[4(j+1)] decreases at every step, stays in (1/4, 1] and tends to 1/4,
+and its normalized decrease (F_j-F_(j+1))/F_j^2 tends to zero. Recorded beside a descent
+diagnostic, it stops nonincrease, or a strictly positive finite run of gains, from being
+read as convergence to zero. Two lesions show that the update check can fail: negating the
+optimal step gives exactly E_N+3q^2/h, an observed strict increase, and replacing the
+Schur complement S by D (dropping the cross-block subtraction) breaks the block identity
+with a ball that excludes zero. A synthetic exact control with S=I_2, u=(1/2,0) and
+v=(0,1) gives the fixed direction zero gain and the residual-matched one gain 1/4, the
+directional blindness the fallback removes.
+
+Evidence: hunts/mobius_orbits/ENERGY.md section 5 'Controls actually run';
+ENERGY_REVIEW.md 'Checks subsequently run by the parent'; energy_probe.py plateau_control
+and one_case (wrong_energy, omitted_cross); test_energy.py
+(test_monotone_error_is_not_zero_limit,
+test_residual_matched_fallback_catches_directional_blindness, and the lesion asserts in
+test_predeclared_shell_and_block_identities)
+Prior art: elementary; no search was run
+Reused in: none yet
+Why it travels: An argument that reads monotone decrease of an approximation error as
+progress toward zero needs this counterexample beside it, and a compensated update needs
+the sign and cross-term lesions to show that its check can go red.
 
 ### Scalar and moment-matched obstruction families: no universal recovery coefficient from rank, trace and positive-index inputs
 

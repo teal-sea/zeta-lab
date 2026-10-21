@@ -847,7 +847,7 @@ def test_euler_product_positivity_verdict_depends_on_the_truncation():
     """
     import functools
 
-    from zeta.epstein import epstein_interface
+    from zeta.epstein import dh_interface, epstein_interface
 
     short = battery(functools.partial(claim_euler_product_positivity, n_max=40), dps=25)
     assert short["shared_with"] == ("epstein_1_1_6", "shifted_product")
@@ -864,11 +864,33 @@ def test_euler_product_positivity_verdict_depends_on_the_truncation():
         assert "a_1 = 0" in verdict["undefined_reasons"]["epstein_2_1_3"]
 
     lam = log_derivative_coefficients(
-        epstein_interface((1, 1, 6), 25)["coefficient"], 60, dps=25
+        epstein_interface((1, 1, 6), 25)["coefficient"], 200, dps=25
     )
     assert all(abs(lam[n]) < mp.mpf("1e-20") for n in (24, 32, 36, 40))
-    assert lam[48] < -7
+    # the docstring of claim_euler_product_positivity quotes two values for
+    # each of the two rivals that fail: the first negative value, and the most
+    # negative value up to 200.  The principal Epstein form (1,1,6) first.
+    assert abs(lam[48] - mp.mpf("-7.742")) < mp.mpf("1e-3")
+    worst = min(range(2, 201), key=lambda n: lam[n])
+    assert worst == 144
+    assert abs(lam[144] - mp.mpf("-19.88")) < mp.mpf("1e-2")
     assert min(range(2, 61), key=lambda n: lam[n]) == 48
+
+    # then Davenport-Heilbronn.  Lambda_F(2) = kappa log 2 > 0, so n = 3 is
+    # the first failure, and 3 is prime, so the recursion has no divisor
+    # terms there: Lambda_F(3) = b_3 log 3 = -kappa log 3 exactly.  That is
+    # the value quoted at n = 3; the minimum sits elsewhere, at n = 156.
+    lam_dh = log_derivative_coefficients(
+        dh_interface(25)["coefficient"], 200, dps=25
+    )
+    assert lam_dh[2] > 0
+    with mp.workdps(25):
+        closed_form = -mp.mpf(KAPPA_REF) * mp.log(3)
+        assert abs(lam_dh[3] - closed_form) < mp.mpf("1e-20")
+    assert abs(lam_dh[3] - mp.mpf("-0.3121")) < mp.mpf("1e-4")
+    worst_dh = min(range(2, 201), key=lambda n: lam_dh[n])
+    assert worst_dh == 156
+    assert abs(lam_dh[156] - mp.mpf("-6.779")) < mp.mpf("1e-3")
 
 
 def test_battery_names_a_partially_applied_claim_without_an_address():
