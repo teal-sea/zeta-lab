@@ -2486,6 +2486,44 @@ session took it, renumber. Nothing here bears on RH (docs/08).
 ### Hunt #73: Krenn-Gu 8x3 support frontier (`r_044dd2/`)
 
 **Status: support census settled; algebraic sieve open.** This hunt corrects the scope of Hunt #71: the 31 target-matching orbits do not quotient the full 252-variable polynomial system. All 31 branches have independently replayed support survivors, with 76 to 132 active entries and median 118, so the inherited support conditions close zero branches by themselves. On the sparsest branch, four survivors are excluded by exact signed-Laurent certificates. The size-2 stabilizer mirrors those into four more replayable cuts. Support 7 passes the independent support audit and avoids all eight cuts. Exact fixed-degree cap-3 and cap-4 spans do not exclude it. Cap-5 closure produced 13,379,522 relation multiples, but the first sparse elimination ordering hit measured fill-in before a membership decision. No branch is closed and no complex witness has been found.
+
+### Hunt #140: Krenn-Gu 8x3: bounded unrestricted Groebner step on Support 7 (`r_abf47b/`)
+
+> **Renumbered on landing, 2026-10-21.** Opened as #77 on `hunt/r-abf47b-bddff380`
+> (run `bddff380`, 2026-08-22); renumbered on landing because `aimo2/` holds #77.
+> It takes #140 because two landings opened the same hour take the numbers below it:
+> `mobius_orbits/` takes #138 (`land/mobius-orbits-20261021`) and `seven_eighths_pin/`
+> takes #139 (`land/quasi-riemann-seven-eighths-20261021`).
+> `hunts/r_abf47b/` is the stable reference.
+
+**Status: attempt unresolved, no algebraic conclusion; one exact orbit result.**
+Continues Hunt #74 (`r_31b6c1/`) on Hunt #73's Support 7 for orbit 18, in two parts.
+*The orbit refinement stands.* The 57 H x S2 orbits on matching pairs (H = S2 wr S4,
+the stabilizer of M0) only refine the 31 S8 x S3 orbits on matching triples: S8 is
+transitive on the 105 perfect matchings, so every triple orbit meets the slice
+{M0} x PM x PM, and the 57 map onto the 31 (fibres of one, two and three pair orbits
+over 8, 20 and 3 triple orbits). Two skeletons over one triple orbit are symmetric
+copies, so Hunt #74's thread, scale the sieve to the 57 pair-orbit skeletons, adds no
+branch. Exact finite check on two routes: `map_orbits.py` over all 105^3 triples, and
+`test_orbit_refinement.py`, added on landing, on the slice alone against Hunt #71's
+orbit sizes. *The Groebner step does not test Support 7.* `run_groebner.py` gave
+`sympy.groebner` (grevlex) the three monochromatic target brackets as zero generators
+next to the 6,558 relations of Hunt #73's `build_system`: 6,561 generators in 138
+variables, every one homogeneous of degree 3 or 4 with no constant term, and no torus
+saturation. That ideal is proper, the origin being a common zero, so its basis can
+never be [1] and the 300 s timeout says nothing about Support 7. The question Hunt #73
+Result 4 poses is membership of the target product in the relation ideal saturated by
+the variables. The run also stopped at its own 5-minute alarm although the mission
+allowed 20 minutes. Its "32.59 MB peak" is the run's own report and is unverified: by
+the script's code it would be the resident set size at the alarm, and the committed
+script, rerun unchanged at landing, read 600.5 MB there and already 84.4 MB before the
+Groebner call starts. The calibration reruns main's code (`cap3.json` is
+byte-identical to a fresh cap-3 screen; r_31b6c1's 6x3 gate) and is not an independent
+route, and its cap-4 4,216 replay is reported without an artifact. `RESULTS.md` keeps
+the run's text and carries the "Audit correction" that governs it; `PROBE_RESULTS.md`
+is retitled as this hunt's rerun of r_31b6c1's probe. Orbit 18 remains open, no branch
+is closed, and no complex witness has been found. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 
 **Status: closed (2026-08-16), gate verdict publication candidate; hardened
