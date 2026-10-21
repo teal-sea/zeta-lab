@@ -231,7 +231,7 @@ def verified(bandwidth: float, m: int, G: np.ndarray, n_fine: int = 40000) -> di
 
     Two repairs, in order.  The Gram matrix is projected onto the positive
     semidefinite cone, which restores `u >= 0` exactly: solutions here come
-    back with eigenvalues as low as `-1.4e-6` (`psd_repair` in
+    back with eigenvalues as low as `-1.2e-6` (`psd_repair` in
     `results_sparse_sdp.json`), and a `q` that is not a sum of squares is not
     a `q` at all.  Then the whole thing is scaled by the largest
     factor keeping `uhat <= M` on a grid far finer than the one solved on.
@@ -241,6 +241,13 @@ def verified(bandwidth: float, m: int, G: np.ndarray, n_fine: int = 40000) -> di
     survives every positive scaling: the scale collapses to zero and the point
     is not a witness at all.  That is what separates the calibration case from
     every wider-bandwidth solve found so far.
+
+    Two raw readings are returned beside the verdict, so the stored scan says
+    how close a failed solve came and why it failed: `raw_u0`, the objective
+    at the solver's own matrix before any repair, and `max_uhat_out_of_band`,
+    the largest `uhat` of the repaired matrix on `xi > 1`, where `M` vanishes.
+    A scale-0 verdict whose out-of-band maximum is of the order of the solver
+    tolerance says the solver cannot decide, not that the family fails.
     """
     eigenvalues, vectors = np.linalg.eigh(G)
     projected = (vectors * np.clip(eigenvalues, 0.0, None)) @ vectors.T
@@ -256,6 +263,8 @@ def verified(bandwidth: float, m: int, G: np.ndarray, n_fine: int = 40000) -> di
         "scale": scale,
         "residual": float(np.max(scale * uhat - M)),
         "psd_repair": float(-min(eigenvalues.min(), 0.0)),
+        "raw_u0": float(np.sum(G * E)),
+        "max_uhat_out_of_band": float(np.max(uhat[xis > 1.0])),
     }
 
 
@@ -271,11 +280,15 @@ def scan(cases=((0.5, 0), (1.0, 4), (1.0, 6), (2.0, 6), (4.0, 8))) -> list[dict]
         row = {"bandwidth_q": bandwidth, "m": m, "status": status,
                "needed_u0": NEEDED_U0, "bandwidth_one_u0": BANDWIDTH_ONE_U0}
         row.update(verified(bandwidth, m, G) if G is not None
-                   else {"verified_u0": float("nan"), "scale": float("nan")})
+                   else {"verified_u0": float("nan"), "scale": float("nan"),
+                         "raw_u0": float("nan"), "max_uhat_out_of_band": float("nan")})
         rows.append(row)
         print(f"  B={bandwidth:<5} m={m:<3} {status:<20} "
+              f"raw u(0)={row['raw_u0']:9.6f} "
+              f"({100 * row['raw_u0'] / NEEDED_U0:6.2f}% of needed)  "
               f"verified u(0)={row['verified_u0']:9.6f} "
-              f"({100 * row['verified_u0'] / NEEDED_U0:6.2f}% of needed)  scale={row['scale']:.4f}")
+              f"({100 * row['verified_u0'] / NEEDED_U0:6.2f}% of needed)  scale={row['scale']:.4f}  "
+              f"max uhat on xi>1={row['max_uhat_out_of_band']:.2e}")
     return rows
 
 

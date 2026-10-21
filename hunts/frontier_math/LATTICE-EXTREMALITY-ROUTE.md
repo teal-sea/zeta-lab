@@ -294,13 +294,21 @@ positive scaling recovers feasibility, unlike a violation inside `[-1,1]`.
 The solver output was not a witness, and reporting it as one would have
 repeated 6a's own lesson in a new place.
 
-How close the raw solutions came is not on record. `results_sparse_sdp.json`
-stores only verified values, so the figure this section first gave, raw
-solutions "reaching as high as `100.00%` of the value needed", rests on printed
-output that was not kept. A single re-solve during the landing review
-(2026-10-21, cvxpy 1.9.3 with Clarabel, not stored in any artifact) put the raw
-`u(0)` at `82.25%` of the needed value at `B = 1, m = 4` and at `94.11%` at
-`B = 2, m = 6`.
+How close the raw solutions came is now on record. The first scan stored only
+verified values, so the figure this section first gave, raw solutions
+"reaching as high as `100.00%` of the value needed", rested on printed output
+that was not kept. The scan was re-run at landing (2026-10-21, cvxpy 1.9.3
+with Clarabel 0.11.1), and `results_sparse_sdp.json` now also stores each
+case's raw objective (`raw_u0`) and the largest out-of-band `uhat` of its
+repaired matrix (`max_uhat_out_of_band`). The raw `u(0)` comes to `82.25%` of
+the value needed at `B = 1, m = 4`, `85.52%` at `B = 1, m = 6`, `94.11%` at
+`B = 2, m = 6` and `100.00%`, reached from below, at `B = 4, m = 8`, so the
+first figure is reproduced, and every one of these points still verifies to
+`0`. The first
+scan's statuses and verified values reproduced exactly; only the `psd_repair`
+column moved, as it can for solves the solver itself reports as inaccurate.
+The stored figures are pinned by `test_sparse_sdp.py`, by a test that reads
+the JSON and needs no solver.
 
 **Why a generic solver will not settle this.** The feasible set has empty
 interior. 6a's knife-edge is forced: the lattice attains the bound at
@@ -308,12 +316,11 @@ interior. 6a's knife-edge is forced: the lattice attains the bound at
 `B_g(0) <= LAT` this pins `uhat(0) = M(0)` and `u(0) = M(0)/(2*pi)` exactly.
 An interior-point method has no interior to find, which is what every
 `optimal_inaccurate` status is reporting, together with Gram eigenvalues as low
-as `-1.4e-6` (the `psd_repair` column of `results_sparse_sdp.json` runs from
-`1.2e-7` to `1.4e-6` across the four wider solves). The scale-0 verdicts sit at
-that tolerance: the out-of-band `uhat` that forces them is of order `1e-8` (the
-landing re-solve measured at most `2.1e-8` and `4.6e-8` at the two cases above,
-with minimum Gram eigenvalues `-2.5e-7` and `-1.0e-6`). So they show that the
-solver cannot decide the question, not that bandwidth above 1 fails. Settling
+as `-1.2e-6` (the `psd_repair` column of `results_sparse_sdp.json` runs from
+`1.2e-7` to `1.2e-6` across the four wider solves). The scale-0 verdicts sit at
+that tolerance: the out-of-band `uhat` that forces them runs from `2.1e-8` to
+`4.8e-8` (`max_uhat_out_of_band`). So they show that the solver cannot decide
+the question, not that bandwidth above 1 fails. Settling
 it needs exact arithmetic or enclosures, or a formulation that carries the
 band-edge constraint structurally rather than as one more sampled inequality.
 

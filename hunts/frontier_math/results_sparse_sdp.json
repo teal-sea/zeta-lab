@@ -8,7 +8,9 @@
     "verified_u0": 0.5582361819777502,
     "scale": 1.0,
     "residual": 0.0,
-    "psd_repair": -0.0
+    "psd_repair": -0.0,
+    "raw_u0": 0.5582361819777502,
+    "max_uhat_out_of_band": 0.0
   },
   {
     "bandwidth_q": 1.0,
@@ -19,7 +21,9 @@
     "verified_u0": 0.0,
     "scale": 0.0,
     "residual": 0.0,
-    "psd_repair": 3.2408252575087435e-07
+    "psd_repair": 2.4870527142744115e-07,
+    "raw_u0": 0.6471897380864482,
+    "max_uhat_out_of_band": 2.1416765567083748e-08
   },
   {
     "bandwidth_q": 1.0,
@@ -30,7 +34,9 @@
     "verified_u0": 0.0,
     "scale": 0.0,
     "residual": 0.0,
-    "psd_repair": 1.3955636114931634e-06
+    "psd_repair": 1.2290557179650397e-06,
+    "raw_u0": 0.6729842675415275,
+    "max_uhat_out_of_band": 4.842562029400165e-08
   },
   {
     "bandwidth_q": 2.0,
@@ -41,7 +47,9 @@
     "verified_u0": 0.0,
     "scale": 0.0,
     "residual": 0.0,
-    "psd_repair": 8.880219205242101e-07
+    "psd_repair": 1.0475732141674912e-06,
+    "raw_u0": 0.7405300449232999,
+    "max_uhat_out_of_band": 4.617074630499629e-08
   },
   {
     "bandwidth_q": 4.0,
@@ -52,6 +60,8 @@
     "verified_u0": 0.0,
     "scale": 0.0,
     "residual": 0.0,
-    "psd_repair": 1.1797861972390962e-07
+    "psd_repair": 1.194782686754788e-07,
+    "raw_u0": 0.7868906253442853,
+    "max_uhat_out_of_band": 4.2445008372243726e-08
   }
 ]
