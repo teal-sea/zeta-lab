@@ -1,8 +1,16 @@
 # Research target: a compounding simple-zero bound
 
-Recorded 2026-09-05. Continuation from `fd71337`.
+Recorded 2026-09-05 and committed 2026-09-14. Continuation from `1c4625b04`
+(the counting audit commit).
 Status: research proposal. No new correlation estimate, bootstrap theorem,
 or route to 80% has been established.
+
+*Landing note, 2026-10-21.* The commit references in this file were first
+written against a local, never-pushed copy of the hunt branch (`575669f`,
+`fd71337`). They now name the same commits as they reached the public record,
+`7415efa1b` and `1c4625b04`. Statements about the state of the repository are
+dated to 2026-09-14, when this note was committed, and carry an update in
+place where main has since moved.
 
 ## The target
 
@@ -19,14 +27,24 @@ new correlation information.
 
 ## Where the previous work stopped
 
-- `575669f`: preserved the reversal minimax witness. This bounds an intermediate
+- `7415efa1b`: preserved the reversal minimax witness. This bounds an intermediate
   optimization problem; it does not improve the zeta proportion.
-- `fd71337`: saved `counting_audit.py`, its tests and `counting_audit.json`.
+- `1c4625b04`: saved `counting_audit.py`, its tests and `counting_audit.json`.
   Retaining actual window incidences reduces a pressure overcharge.
-- The existing four-point Lean instance gives approximately
+- As of 2026-09-14, the existing four-point Lean instance (the registered
+  one, `c = 2310/10^6`, `m = 435`, `p = 2500`) gives approximately
   `0.6728470197666888`; the counting correction projects
   `0.6728525496941030`. These values are reproduced by the counting audit.
   The corrected analytic assembly has not been checked end to end in Lean.
+  *Update at landing, 2026-10-21:* main's four-point theorem has since been
+  strengthened and kernel-checked at `c = 2330/10^6`, `m = 432`, `p = 2500`,
+  with coefficient `(14400000 H - 17240)/14366681`, approximately
+  `0.6728603588` (`hunts/four_point_pressure/`). That build still uses the
+  coarse span count: the audit's old formula at those parameters reproduces
+  its coefficient exactly. The refined count projects
+  `(14400000 H - 17160)/14366681`, approximately `0.6728659273`, a further
+  `80/14366681`, about `5.57e-6`. That projection is a candidate; no
+  replacement assembly has been built or checked.
 - Finite Gram examples show that splitting into blocks can discard positive
   spectral defect. They do not establish a uniform positive gain, or a gain
   that grows with scale. The suggestion that this alone might compound toward
@@ -55,12 +73,18 @@ inequality does not improve it. In particular,
 
     (H-b)/(1-a) <= H*m/(m-1).
 
-At the current `m = 435`, even discarding the entire pressure penalty and
-allowing the largest permitted `a` gives only
-`435*H/434 = 0.674050244471299691`, or about `67.4050%`.
+At the then-current `m = 435` (as of 2026-09-14), even discarding the entire
+pressure penalty and allowing the largest permitted `a` gives only
+`435*H/434 = 0.674050244471299691`, or about `67.4050%`. At `m = 432`, the
+block size of main's later kernel-checked four-point build, the same bound is
+`432*H/431 = 0.674061030138`, about `67.4061%`.
 Since `m >= n`, the upper bound is at most `H*n/(n-1)`, tending back to
 `H` as `n` grows. This obstruction applies to the capped assembly, including
 the proposed counting correction. It does not cover arbitrary replacements.
+(Landing note, 2026-10-21: the bound is elementary. For the coarse count,
+`hunts/family_wall/` already records the sharper `Phi_n <= H*m/(m-1) - k/p`
+in the case `Phi_n > H`, the witness-leg barrier indexed in
+`docs/37-methods.md`; this note did not cite it.)
 
 There is also a proposed extension of the existing witness argument. Set
 `k = n-1`, `t = m-k`. For the corrected formula,
@@ -132,6 +156,12 @@ estimate. Any claim about RH remains outside the scope of this target.
 - Exact current interfaces: `lean/bridge/Zeta23Ext/Bridge/S6.lean`, `S7.lean`,
   `S11.lean`, `S15.lean`, `Main.lean`, and `lean/bridge/FourPoint/Main.lean`.
 
-No higher-correlation experiment has been run for this target. This note
-preserves the proposed question and its first test; it does not launch a new
-hunt or authorize publication, proof replacement, or a large compute run.
+As of 2026-09-14, no higher-correlation experiment had been run for this
+target. The landing on 2026-10-21 did not re-survey the tree for one. The
+nearest related record it noticed is `hunts/cycle_moments/` (opened
+2026-09-05), which studies spectral-moment counting inequalities for finite
+Gram matrices, including an exact obstruction to using only second and third
+moments; this note does not cite it, and the two have not been reconciled.
+This note preserves the proposed question and its first test; it does not
+launch a new hunt or authorize publication, proof replacement, or a large
+compute run.

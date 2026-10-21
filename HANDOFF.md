@@ -133,24 +133,10 @@ The entries below are historical snapshots.
 
 Concise records: what was believed, what invalidated it, what now catches the
 problem, what conclusion is currently justified. Decisions live in
-`ROADMAP.md`; this file is the between-session state. Latest continuation:
-2026-09-05 (proposed simple-zero research target, linked below). Earlier
-records are historical snapshots, not statements of current repository state.
-
-## Resume here: a compounding simple-zero bound (2026-09-05)
-
-Read [the research target](hunts/reversal_minimax/RESEARCH_TARGET.md) first.
-It preserves the proposed direction, known obstructions, exact source paths,
-and the first mathematical test. The goal is a substantial improvement toward
-80% through new joint information about zeros. No route to that number has
-been established, and no higher-correlation experiment has been launched.
-
-The previous counting audit is saved at `fd71337`; its small projected gain
-still lacks a complete Lean replacement assembly. The new proposal is to
-identify an unconditional higher-correlation constraint and test whether it
-excludes the configurations that limit the existing argument. Repeating the
-old capped feedback is not a compounding mechanism. This is a continuation
-pointer to exploratory work, not a promotion of a mathematical claim.
+`ROADMAP.md`; this file is the between-session state. Last snapshot:
+2026-08-14 (the public surface, corrected and widened). The 2026-08-12
+token-constraint record below is still the fullest statement of continuation
+state for the mathematics.
 
 ---
 

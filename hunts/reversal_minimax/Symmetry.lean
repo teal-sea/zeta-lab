@@ -1,13 +1,23 @@
-import Mathlib.Data.Real.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Data.Real.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 Reversal averaging and finite adversaries. Abstract deduction only: this file
 does not assert that any transcendental entry in adversary.json has been
 checked by Lean. Those entries are checked separately by verify.py.
+
+Status at landing (2026-10-21): this file has never been run through Lean.
+No check of it was recorded (`modal_check.py` would have written
+`lean_check.json`, and none exists). The `module` header and `public import`
+lines were added at landing to match the repository's Lean 4.35 module port,
+without a build. Nothing in this file is kernel-checked.
 -/
 
 open Finset

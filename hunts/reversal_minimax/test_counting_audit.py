@@ -99,3 +99,37 @@ def test_zero_interaction_control_has_no_pinching_refund():
     identity = np.eye(4)
     assert audit.defect(identity) == 0
     assert audit.defect(identity[:2,:2]) + audit.defect(identity[2:,2:]) == 0
+
+
+def test_main_later_four_point_build_uses_the_coarse_count():
+    # Pins RESULTS.md section 8, third table row, and RESEARCH_TARGET.md.
+    # Main's four-point build (hunts/four_point_pressure/, 2026-09-28) has
+    # coefficient (14400000 H - 17240)/14366681 at c = 2330/10^6, m = 432,
+    # p = 2500; tests/test_four_point_build_evidence.py pins its decimal.
+    later = audit.projection(4, Q(2330, 10**6), 432, 2500)
+    assert Q(later["H_coefficient"]) == Q(14400000, 14366681)
+    assert Q(later["old_subtracted_constant"]) == Q(17240, 14366681)
+    assert Q(later["new_subtracted_constant"]) == Q(17160, 14366681)
+    assert Q(later["exact_gain"]) == Q(80, 14366681)
+    assert abs(float(later["old_proportion_measured"]) - 0.6728603588388667) < 1e-14
+    assert later["new_proportion_candidate_measured"].startswith("0.6728659272")
+    registered = audit.projection(4, Q(2310, 10**6), 435, 2500)
+    assert float(registered["new_proportion_candidate_measured"]) < float(later["old_proportion_measured"])
+
+
+def test_every_capped_projection_stays_under_the_elementary_obstruction():
+    # Pins RESEARCH_TARGET.md: (H-b)/(1-a) <= H*m/(m-1) for the capped assembly,
+    # with the two values it quotes, and checks it at every projected point.
+    from mpmath import mp
+
+    with mp.workdps(40):
+        h = mp.mpf(3) / 2 - mp.cot(1 / mp.sqrt(2)) / mp.sqrt(2)
+        assert abs(h * 435 / 434 - mp.mpf("0.674050244471299691")) < mp.mpf("1e-18")
+        assert abs(h * 432 / 431 - mp.mpf("0.674061030138")) < mp.mpf("1e-12")
+        for args in ((3, Q(1345, 10**6), 745, 3000), (4, Q(2310, 10**6), 435, 2500),
+                     (4, Q(2330, 10**6), 432, 2500)):
+            point = audit.projection(*args)
+            block = args[2]
+            ceiling = h * block / (block - 1)
+            assert mp.mpf(point["new_proportion_candidate_measured"]) < ceiling
+            assert mp.mpf(point["old_proportion_measured"]) < ceiling
