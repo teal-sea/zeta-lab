@@ -434,9 +434,9 @@ Its shallow-clone check in `scripts/science_preflight.py` landed, with the path 
 fixed. Of its four `HANDOFF.md` records, the one on the three adversarial audits landed verbatim
 with a dated note, and the other three are superseded by issues #217, #218 and #219, closed by
 #287 and #291. `zeta/li.py`'s coefficient cache `data/li_gamma_dps60_methodintegral_n128.json`,
-written during the `li_dh_onset` run, was not committed: `tests/test_li.py` states that every
-committed `data/li_*.json` table was checked out of band, and it names no check of this one.
-Nothing else on the branch is missing from main.
+written during the `li_dh_onset` run and committed on the branch in `a9eba317a`, was not landed:
+`tests/test_li.py` states that every committed `data/li_*.json` table was checked out of band,
+and it names no check of this one. Nothing else on the branch is missing from main.
 
 ### Robin's inequality for 25-free integers (`robin_tfree/`, 2026-10-04)
 
