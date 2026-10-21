@@ -1620,6 +1620,51 @@ already (Hunts #93, #95, #101, #103). The run's remark that the optima "live in
 the small integers" is annotated in place, since Hunts #103, #105 and #107
 refuted it. Nothing bears on RH (`docs/08`).
 
+### Hunt #97: Erdős #126, the low-rank matrix arm was already in the literature (`support_99fc686a/`)
+
+**Status: not settled. A verdict restricted to the two-row $S$-unit route and
+to the counting bounds now known: the arm is a rediscovery, and with those
+bounds it loses to a proof from 1934.** Alon–Solymosi was read from the PDF
+(primary). The Evertse and Beukers–Schlickewei constants came from search
+summaries, which the run itself rates medium-low, and both are hedged in
+`RESULTS.md`: Evertse's form agrees with Győry–Stewart–Tijdeman's quotation of
+it as read in primary text by Hunt #143, while the Beukers–Schlickewei form
+$2^{8(r+2)}$ differs from the $2^{8r+8}$ on main in Hunt #104. The two-row
+collapse is an ordinary argument, unreviewed. Landed 2026-10-21 from a
+local-only branch, `support/99fc686a`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all". Support run for
+`r_186989`'s successor, on one arm: the symmetric matrix $M_{ij} = a_i + a_j$
+has rank $\le 2$ and $S$-unit off-diagonal entries, so what do results on
+low-rank matrices over finitely generated multiplicative groups give? Answer:
+**Alon and Solymosi, "Rank of matrices with entries from a multiplicative
+group", Corollary 10** constructs this exact matrix, observes its rank is at
+most two, and concludes $|A| \le f(r)$. Their explicit form $\log n \le r d^8$
+at $d = 2$ gives $\exp(256k)$ against Erdős–Turán's $3 \cdot 2^{k-1}$. Rank 2
+does not need that machinery, and the run's own route is cheaper: fix distinct
+$a, b \in A$; then for every other $d$, $(a+d) - (b+d) = a - b$, so
+$(a+d, b+d)$ solves a **two-variable $S$-unit equation** with coefficients not
+depending on $d$, and $d \mapsto a+d$ is injective. Hence
+$g(k) \le 2 + N_{\mathbb{Q}}(k) \le 2 + 3 \cdot 7^{2k+3}$ (Evertse 1984), base
+49 against base 2. **No improvement, and none available from today's counting
+bounds**: the loss is entirely in the Diophantine input, measured at $k=7$ as
+9 solutions forced against $7\times10^{14}$ permitted. The nondegeneracy
+question the brief asked to isolate has an exact answer and it is
+anticlimactic: in the two-row route there is none at all (a two-term
+equation's proper subsums are units, hence nonzero), and in the general-rank
+route it is precisely Alon–Solymosi's *rectangle condition*, which for this
+matrix expands to $(a_j - a_i)(a_j - a_k) \ne 0$, i.e. the distinctness of
+$A$. That condition is not decoration: their Theorem 1 assumes diagonal
+entries lie outside $\Gamma$, and $2a_j$ often is an $S$-unit (in 7 of 7
+witnesses). One thing kept, direction checked: **if two-term $S$-unit
+equations have $\exp(o(k))$ solutions then Erdős #126 is true**, and the known
+lower bound $\exp(k^{1/2+o(1)})$ (Erdős–Stewart–Tijdeman) does not obstruct
+that. The converse fails. Overlap with main, recorded in `RESULTS.md`: the
+two-row collapse is the reduction of Hunts #96 and #104, and it is
+Győry–Stewart–Tijdeman 1986 §3 (quoted by Hunt #143, landed with this entry),
+which answers the run's open question whether it is in the literature; the
+four-element route of its §3 is that of Hunts #93, #95 and #105. Nothing bears
+on RH (`docs/08`).
+
 ### Hunt #143: Erdős #126, the 92-year wall, and the one lever behind it (`support_fcffa3b9/`)
 
 **Status: not settled. A literature map from a targeted search, not an
