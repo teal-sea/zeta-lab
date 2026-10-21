@@ -297,6 +297,67 @@ where the previous one's minima were. Read the cell a refusal names; do not move
 
 ---
 
+## Record: three write-ups, three adversarial audits, and the pattern in what
+## they caught (2026-09-10)
+
+- **Believed:** that a hunt which measures carefully, states its grade, records
+  its controls and ends with a doors section has done the work. Four hunts in one
+  session did all of that.
+- **Invalidated by:** giving three of them to separate agents with no part in
+  producing the result, told to break the claim rather than review it. **All
+  three claims survived. All three write-ups needed correcting**, and the
+  corrections were not typographical:
+  - `euler_defect_axis`: eleven overclaims, including a residual presented as an
+    independent oracle when `R = |1 - a(1)| max|c(n)|` identically, and rows
+    called empty that are exactly the composite defect of `1 + Z_Q(s)`.
+  - `quotient_exponent`: the headline. It compared a three-parameter free fit
+    against a one-parameter reading of a conjecture whose own source states it
+    with a moving constant. Fitted like for like, the conjectured exponents win
+    with one parameter fewer. Its stated reason for reformulating the programme
+    was also false: the form it replaced returns the same optimum to `2.7e-14`.
+  - `epstein_height`: the guard. Six planted faults, all passing, and a call it
+    allows returns `0.59` of the 4 digits it promised, because every rung held
+    the form fixed and so tested the leading term rather than the term the hunt
+    had just derived. Its title was wrong too: `zeta/heatflow.py` and
+    `zeta/core.py` already carry this kind of guard.
+- **The pattern, which is the reason this is a record and not three notes.**
+  Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+  error. Every number in all three hunts reproduced. What failed each time was a
+  **comparison or a control**: a residual compared against something algebraically
+  forced to agree with it; a model compared against a version of its rival with
+  fewer degrees of freedom; a guard compared against faults that all varied the
+  same thing. A laboratory that checks its numbers and not its comparisons will
+  pass its own review every time.
+- **Now caught by:** nothing mechanical, and that is the honest state. What
+  worked is a separate agent, the write-up, the repository, and an instruction to
+  break it rather than read it. Three for three. The cheapest version of the
+  lesson, which does generalise: **when a control agrees with the thing it is
+  controlling, ask whether it could have disagreed.** Two of the three failures
+  are that question unasked.
+- **Justified conclusion:** the four control roles this tree already names
+  (rival, decoy, lesion, precision response) are about the *claim*. Nothing in
+  them looks at the *argument for* the claim, and all three failures here were
+  there. `hunts/*/AUDIT.md` carries each audit verbatim, including the attacks
+  that failed, because a list of only the hits reads as a review.
+
+> **Note on landing this record, 2026-10-21.** Ported verbatim from the
+> unmerged branch `claude/repo-hunt-content-2smbid` (commit `57cb2a5`). Its
+> three hunts are on main as #127 (`euler_defect_axis`, front door `docs/40`),
+> #129 (`epstein_height`, `docs/41`) and #130 (`quotient_exponent`,
+> `docs/42`). One sentence above is overtaken: "Every number in all three
+> hunts reproduced." The headline measurements did reproduce, in the audits
+> and again in main's 2026-10-10 landing re-runs (the probes' artifacts, the
+> Epstein grid, the LP values). Some secondary figures did not reproduce as
+> printed, in all three hunts, and each is marked where it is stated: one count
+> in `euler_defect_axis` (`RESULTS.md` section 2, `docs/40` section 3), four
+> numbers in `epstein_height` (two of them in `docs/41` section 3) and four on
+> `quotient_exponent`'s result page (noted in `docs/42` section 5). The
+> `euler_defect_axis` audit had already caught two such counts (44 forms and 30
+> non-principal ones, where the artifact holds 41 and 27). So read the sentence
+> as true of the headline measurements, not of every printed figure. The
+> branch's other three `HANDOFF.md` records of that day are not ported: issues
+> #217, #218 and #219, closed by #287 and #291, supersede them.
+
 ## Record: the start page carried a retracted number, in public, for eleven
 ## hours (2026-08-14)
 
