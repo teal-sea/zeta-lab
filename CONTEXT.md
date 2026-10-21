@@ -181,7 +181,7 @@ Constants: `GAMMA1`
 
 ### `zeta/epstein.py`, The counterexample battery: Davenport-Heilbronn, gate #3 made computational.
 
-*1700 lines*
+*1702 lines*
 
 Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `EPSTEIN_DIGITS_PER_UNIT_HEIGHT`, `SHIFTED_PRODUCT_SHIFT`
 
@@ -1090,7 +1090,7 @@ Constants: `GRAVES`
 
 ### `harness/departments/guard_ledger.py`, The repository's guard ledger, the guard offensive's opening entries.
 
-*324 lines*
+*348 lines*
 
 Constants: `GUARDS`
 
@@ -1311,7 +1311,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2322 test functions across 142 files (the collected count differs where tests are parametrised):
+2329 test functions across 142 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1430,7 +1430,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_rung3_ball_assembly.py`, 7
 - `tests/test_rung3_ball_atom_budget.py`, 4
 - `tests/test_rung3_ball_cert_support.py`, 1
-- `tests/test_rung3_ball_compile.py`, 15
+- `tests/test_rung3_ball_compile.py`, 22
 - `tests/test_rung3_ball_generator.py`, 8
 - `tests/test_rung3_ball_mirror.py`, 7
 - `tests/test_rung3_ball_shards.py`, 8

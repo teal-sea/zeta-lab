@@ -1,0 +1,54 @@
+{
+  "run_id": "311c14a5-a33f-4dfb-b6ec-8dad0de30f71",
+  "status": "settled",
+  "conclusion": "The narrowest theorem upgrade that yields log g(k)=o(k) is a subexponential-in-k bound on the number of solutions of the weighted two-term S-unit equation alpha*X+beta*Y=1, uniform in alpha,beta; a three-line elementary reduction (g(k) <= 2 + E(k), at rank exactly k, no loss) proves sufficiency, and the known extremal lower bound for that equation is exp(Theta(sqrt(k/log k))), which is exp(o(k)) and so does not obstruct the target. Quantitatively the route is today far weaker than Erdos-Turan 1934: Evertse gives g(k) <= 2 + exp(4k+10), base e^4 against base 2.",
+  "confidence": "High on the reduction and on the implication direction: the proof is four lines, elementary, and its mechanics were re-verified on all seven of the parent's witnesses (identity, S-unit property and injectivity, 165 pair-cases, all pass). High on the two audit corrections, both of which are two-line arguments with an explicit computed witness. Medium on the cited constants (Evertse exp(4s+6), Beukers-Schlickewei 2^(8(r+2)), Erdos-Stewart-Tijdeman exp((4+o(1))sqrt(s/log s))): they come from one web search each and were not read out of the source papers in-session. The comparison 'much weaker than 1934' survives any plausible slip in those constants, but do not quote the exponents as pinned.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "The g <-> f staircase inversion and the restatement of Erdos #126 as g(k)^{1/k} -> 1",
+      "source": "hunts/r_186989/RESULTS.md §1",
+      "effect": "Used as-is after checking it. Removed the need to re-derive the target; every statement in this arm is phrased against g(k) because of it."
+    },
+    {
+      "what": "The seven exhaustive witnesses g_N(k) >= 2,4,5,6,8,10,11 for k=1..7",
+      "source": "hunts/r_186989/RESULTS.md §3",
+      "effect": "Re-verified independently by trial division and, at k=3, by a from-scratch branch-and-bound solver that reproduced g_N(3)=5 with the same witness. Reused as the test corpus for the reduction's mechanics rather than building one."
+    },
+    {
+      "what": "The composition-law observation: supermultiplicativity plus Fekete gives g(k) >= 2^k and therefore refutes #126",
+      "source": "hunts/r_186989/RESULTS.md §4",
+      "effect": "Confirmed correct, and sharpened. Adding the Erdos-Turan upper bound forces the Fekete supremum to be exactly 2, so a composition law would pin g(k) = 2^k for every k, not merely bound it below. That converts a qualitative refutation into a finite falsifiable test at k=3."
+    },
+    {
+      "what": "Loose thread 3: 'the parity cap generalises mod small primes, |A| <= p-1 when p not in S'",
+      "source": "hunts/r_186989/RESULTS.md, Loose threads",
+      "effect": "Refuted. For odd p, A may sit entirely in one nonzero residue class mod p and the pigeonhole is vacuous. Explicit witness found and verified: S={2,5,7,11} omits 3 and admits {1,9,13,19,31}, size 5. Removes a briefed direction before anyone spends on it."
+    }
+  ],
+  "threads": [
+    {
+      "what": "The coupled system: every pair (a,b) in A gives its own equation alpha_ab*X + beta_ab*Y = 1, and all of them are solved by one common set of c's.",
+      "why_it_might_matter": "It is the only place where the problem's real hypothesis (all pairwise sums smooth simultaneously) is still unused. The reduction in this arm reads only 2n-2 of the n(n-1)/2 smooth sums and throws the rest away, so any bound better than E(k) has to come from the coupling.",
+      "first_step": "For n=4, ask whether the four equations combine into a single Diophantine constraint on (a,b,c,d) whose solution count is rank-independent."
+    },
+    {
+      "what": "Prove g(3) <= 7 unconditionally.",
+      "why_it_might_matter": "It permanently disposes of the composition-law arm, which predicts g(3)=8 exactly (see the sharpening above). Finite, self-contained, and cheap relative to anything else in this problem.",
+      "first_step": "Normalise admissible sets for |S|=3 into a bounded box via gcd-and-scaling plus a height bound on solutions of X-Y=d in {2,3,5}-units, then run the finite check."
+    },
+    {
+      "what": "Is 2,4,5,6,8,10,11 an OEIS sequence?",
+      "why_it_might_matter": "The parent raised it and did not run it; we independently reproduced the k=3 term but also did not run the query. If it is tabulated, the attached literature says whether these lower bounds are sharp or badly weak.",
+      "first_step": "One OEIS query behind ontology/knownness.py. Reported as unrun rather than as checked."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A small S-smooth / S-unit toolkit: smooth-number enumeration to a bound, S-smoothness test, and an exhaustive branch-and-bound max-clique on a 'sum lies in a given multiplicative semigroup' graph.",
+      "why_reusable": "This is the third time in this problem family that the same three routines have been hand-written from scratch (parent's probe, this probe, and any successor working the g(3) thread). Each is ten lines and each is a place to get an off-by-one wrong silently, which is exactly the shape of thing that should be written once and pinned by a test.",
+      "first_step": "Decide whether it earns a home at all: it has two live consumers today, both in hunts/, so it may not clear the repo's own no-abstraction-without-a-consumer bar. If it does, the smallest version is a single module under the successor hunt, not a package."
+    }
+  ],
+  "notes_for_operator": "The deliverable is a sufficiency theorem plus an honest quantitative verdict, not a new bound on g(k). Nobody should read this arm as improving the 1934 constant; it improves the target. If this problem is funded further, the two cheapest next moves are the g(3) <= 7 disposal (finite, kills a whole arm) and the coupled system (the only unread structure). Do not fund additive energy, Freiman or sum-product here: section 4 gives the structural reason each fails, and the energy inequality is measurably dominated by a one-line pigeonhole. Nothing in this run bears on RH."
+}

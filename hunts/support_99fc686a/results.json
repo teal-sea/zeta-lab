@@ -1,0 +1,74 @@
+{
+  "run_id": "99fc686a-10ed-4e35-a696-42b3a94a498b",
+  "arm": "low-rank-matrix",
+  "problem": "Erdos #126: g(k) = max |A| with all pairwise sums of distinct elements S-smooth over k primes; conjecture log g(k) = o(k)",
+  "verdict": "settled: the arm is a rediscovery of Alon-Solymosi Corollary 10 and does not improve 3*2^(k-1)",
+
+  "reduction": {
+    "name": "two-row collapse",
+    "statement": "Fix distinct a,b in A. For every d in A\\{a,b}, (a+d, b+d) is a pair of S-units with (a+d)-(b+d) = a-b, i.e. a solution of alpha*X + beta*Y = 1 in S-units with alpha = 1/(a-b), beta = -1/(a-b). The map d -> (a+d, b+d) is injective.",
+    "consequence": "g(k) <= 2 + N_Q(k), N_Q(k) = max number of solutions of a two-variable S-unit equation over Q with |S| = k primes",
+    "uses": "only that rank(M) <= 2, i.e. that any two rows of M differ by a constant vector",
+    "requires": "a solution count uniform in the coefficients alpha, beta, since a-b need not be an S-unit",
+    "proved": true,
+    "novelty_claim": "none; elementary enough to be folklore, provenance claimed only"
+  },
+
+  "bounds_in_k": [
+    {"route": "Erdos-Turan 1934", "bound": "3*2^(k-1) - 1", "base_per_prime": 2.0, "status": "incumbent"},
+    {"route": "two-row collapse + Evertse 1984", "bound": "2 + 3*7^(2k+3)", "base_per_prime": 49.0, "status": "derived here"},
+    {"route": "two-row collapse + Beukers-Schlickewei 1996", "bound": "2 + 2^(8*(2k+3))", "base_per_prime": 65536.0, "status": "derived here, worse"},
+    {"route": "Alon-Solymosi Cor. 10 as published", "bound": "exp(256k) for large k, from log n <= r*d^8 with d=2, r=k", "base_per_prime": 1.5e111, "status": "published"},
+    {"route": "4-element identity + 3-term subspace theorem", "bound": "does not bound |A| without further work (map from 4-subsets to solutions is not injective)", "base_per_prime": 1e1341, "status": "dead"}
+  ],
+  "improves_2_to_the_k": false,
+  "improvement_factor_against_incumbent": "loses by about (49/2)^k at best",
+
+  "nondegeneracy": {
+    "two_row_route": "none. A two-term equation alpha*X + beta*Y = 1 has proper subsums alpha*X and beta*Y, both nonzero because X, Y are units. No hypothesis on A beyond a != b.",
+    "general_rank_route": "exactly the Alon-Solymosi rectangle condition a_jj*a_ik != a_jk*a_ij for i<j!=k. For M_ij = a_i+a_j it expands to (a_j-a_i)(a_j-a_k) != 0, i.e. exactly the distinctness of the elements of A. It is needed because their Theorem 1 assumes m_jj not in Gamma, which fails here: 2a_j is often an S-unit.",
+    "four_element_route": "X+Y-Z=1 from (a_i+a_j)+(a_l+a_m)=(a_i+a_l)+(a_j+a_m). Vanishing proper subsums would force X+Y=0 (impossible, positive), a_i=a_m, or a_l=a_j. All solutions are nondegenerate, again by distinctness."
+  },
+
+  "literature": [
+    {"cite": "N. Alon, J. Solymosi, Rank of matrices with entries from a multiplicative group", "relevance": "Corollary 10 is this exact problem, with this exact matrix. Theorem 1: rank(M) >= (log n / r)^(1/8). Theorem 9 replaces the diagonal hypothesis by the rectangle condition.", "verdict": "the arm was already done, qualitatively, with a much worse constant"},
+    {"cite": "O. Roche-Newton, D. Zhelezov", "relevance": "same statement for A-A contained in a small-rank group", "verdict": "parallel result"},
+    {"cite": "Evertse-Schlickewei-Schmidt, with Amoroso-Viada bound A(m,r) <= (8m)^(4m^4(m+mr+1))", "relevance": "engine under all of it", "verdict": "ineffective and enormous"},
+    {"cite": "J.-H. Evertse 1984, On equations in S-units and the Thue-Mahler equation", "relevance": "ax+by=1 has at most 3*7^([K:Q]+2|S|) S-unit solutions, uniform in a,b", "verdict": "the best available input to the two-row collapse"},
+    {"cite": "F. Beukers, H.P. Schlickewei 1996, The equation x+y=1 in finitely generated groups", "relevance": "at most 2^(8(r+2)) solutions for rank-r groups", "verdict": "worse over Q"},
+    {"cite": "P. Erdos, C.L. Stewart, R. Tijdeman", "relevance": "lower bound exp((4+o(1))(s/log s)^(1/2)) on the number of solutions", "verdict": "subexponential, so it does NOT obstruct the conditional route"},
+    {"cite": "arXiv 2602.07545, Erdos-Turan theorem and Eulerian integers (2026)", "relevance": "restates 3*2^(k-1); extends to a^2 +- ab + b^2 via a Gyory-Sarkozy-Stewart lemma", "verdict": "does not improve the constant"}
+  ],
+
+  "conditional_implication": {
+    "statement": "If N_Q(k) = exp(o(k)) then g(k) = exp(o(k)), i.e. Erdos #126 holds.",
+    "direction_checked": true,
+    "converse_holds": false,
+    "converse_reason": "g(k) small says nothing about N_Q(k); a unit-equation solution set need not come from a set with all pairwise sums smooth",
+    "target_status": "open. Upper bound exp(O(k)) (Evertse); lower bound exp(k^(1/2+o(1))) (Erdos-Stewart-Tijdeman). The lower bound is consistent with exp(o(k))."
+  },
+
+  "verification": {
+    "script": "hunts/support_99fc686a/probe.py",
+    "witnesses_from": "hunts/r_186989/RESULTS.md section 3",
+    "all_hypotheses_hold": true,
+    "all_rank_exactly_2": true,
+    "all_rectangle_condition": true,
+    "all_two_row_reduction_valid": true,
+    "all_two_row_map_injective": true,
+    "diagonal_entries_in_Gamma_by_k": {"1": 1, "2": 1, "3": 2, "4": 5, "5": 4, "6": 7, "7": 9},
+    "measured_slack_at_k7": {
+      "witness": [1, 3, 5, 6, 7, 11, 15, 19, 21, 29, 49],
+      "pair": [1, 3],
+      "unit_equation": "X - Y = -2 in {2,3,5,7,11,13,17}-units",
+      "solutions_forced": 9,
+      "solutions_permitted_by_evertse": "3*7^17 ~ 7e14"
+    }
+  },
+
+  "not_settled": [
+    "whether the two-row collapse is already recorded in the literature",
+    "whether simultaneous unit equations (m > 2 fixed elements) admit a bound decaying in m; no such theorem is known to us and none is cited in this literature",
+    "any bound with base below 2; not attempted, no candidate"
+  ]
+}
