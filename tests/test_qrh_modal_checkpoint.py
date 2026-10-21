@@ -68,14 +68,20 @@ def test_failed_checkpoint_still_stops_the_build(tmp_path):
     ticks = tmp_path / "ticks"
 
     def fail():
+        # The group is paused during every checkpoint, so fail only once the
+        # build has ticked: a slow start cannot race the first interval, and
+        # the check below cannot pass on a build that never ran.
+        if not (ticks.exists() and ticks.read_text()):
+            return
         raise OSError("injected storage failure")
 
     with pytest.raises(OSError, match="injected storage failure"):
         checkpoint.run_checkpointed(
             ticking_command(ticks), env=os.environ, checkpoint=fail,
-            interval=0.15, timeout=2,
+            interval=0.15, timeout=10,
         )
     final = ticks.read_text()
+    assert final
     time.sleep(0.04)
     assert ticks.read_text() == final
 
