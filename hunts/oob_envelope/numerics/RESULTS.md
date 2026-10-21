@@ -1,7 +1,11 @@
 # RESULTS: numerics lane (oob_envelope)
 
-2026-09-28: the L = 0.8 bound and the L = 1.19 stage B bound both passed
-independent referee review (`referee/REVIEW.md`, sections "L = 1.19" and 5).
+2026-09-28: the L = 0.8 bound and the L = 1.19 stage B bound, both in the
+even sector, passed independent referee review (`referee/REVIEW.md`,
+sections "L = 1.19" and 5). The odd-sector bound at L = 1.19 (the "Odd"
+sections near the end) passed its own independent referee review the same
+day (`referee/ODD_REVIEW.md`, verdict PASS); that is recorded below in
+"Grade update, 2026-10-21", written for the landing of both odd lanes.
 Every grade uses the AGENTS.md ladder.
 
 ## Item 6. L = 1.19 (support 2.38), stage B: candidate, hardened by two independent routes
@@ -32,7 +36,9 @@ Grades, weakest first:
   (`referee/REVIEW.md`, "L = 1.19", verdict lines 1 to 5, PASS).
 - So the composite is a **candidate** positivity bound at support 2.38,
   hardened by two independent implementations (sharing python-flint),
-  resting on a refereed ordinary derivation; even sector only, not
+  resting on a refereed ordinary derivation; even sector only (the odd
+  sector at this window is bounded separately, at the same two-route grade,
+  with the complex-f consequence in "Grade update, 2026-10-21" below), not
   kernel-checked, pending external verification.
 - Controls (RUNS.md "Negative controls"): at L = 4/5, T# = 60, where the
   form is indefinite, the step returns no bound; a planted in-band constant
@@ -274,6 +280,68 @@ task, and a conservative app-lifetime reservation envelope below 2.856
 core-hours, against the 4-core-hour limit. Five owned apps stopped. The
 unit checkpoints remain on volume oob-envelope-stages; see RUNS.md for
 commands, app IDs, the pre-run estimate and exact accounting. Nothing pushed.
+
+## Grade update, 2026-10-21: the odd sector reproduced independently
+
+Written for the joint landing of this lane's odd work (branch
+`teal-sea/oob-odd`, 08ff0491) and the odd referee (branch
+`teal-sea/oob-odd-referee`, a5c40f7), both merged with their commits kept.
+The two odd sections above are kept as recorded on 2026-09-28;
+their "pending independent reproduction" is superseded by this section.
+The same phrase heads `odd_derivation.md`, which is left byte-identical
+because `odd_manifest.json` and `referee/outputs_odd/comparison.json`
+record its SHA-256.
+
+`referee/ODD_REVIEW.md` (verdict PASS, 2026-09-28) re-derived the odd
+reduction independently in `referee/ODD_FORMULAS.md`: odd orders 2i+1, the
+negative rank-one sinh pole, first omitted order 1001 with the pole tail
+charged in eps_D, exact cancellation of H at every frequency of size at
+least 2L (the boundary included), and the parity and real/imaginary split.
+It found no gap. Formulas and exact shifts were frozen at 3ce6ab9 and the
+independent results at cefd6363, before any of this lane's artifacts were
+read; the brief disclosed this lane's endpoint, and no Python from this
+lane was read at any point. The referee route is Clenshaw-Curtis-192 with
+its own quadrature, Bessel and tail bounds, at 768 bits (Zhu case) and
+1280 bits (main case): 132 Modal inputs, none failed, 2.348 core-hours of
+recorded input work (`referee/ODD_RUNS.md`). Both routes run on
+python-flint, so the arithmetic library is shared.
+
+| real odd f, full sector | this lane (GL) | referee (CC-192) |
+|---|---:|---:|
+| L = 4/5, T# = 150, H = 0, N = 200 (Zhu section 6.2) | ≥ 9.02715506995e-15 | > 7.99e-15 |
+| L = 119/100, T# = 500, sine:16, N = 500 | ≥ 3.42853488205e-44 | > 2.99e-44 |
+
+The referee's exact dyadic Rayleigh witnesses for the reduced forms,
+9.1183384545008638e-15 and [3.463166547529606864e-44 +/- 2.77e-63], agree
+with this lane's measured head values 9.11833845450e-15 and
+3.46316654753e-44 at their displayed precision. Its lower endpoints are
+smaller because its shifts were fixed in advance (8e-15 and 3e-44), so the
+referee did not reproduce this lane's tighter 3.42853488205e-44, which
+stays a single-route value. Both referee controls passed: flipping -2pp^T
+to +2pp^T changes the form and fails the independently integrated pole
+identity, and the artificial operator R - 1e-42 I is refused with an
+enclosed negative Rayleigh value.
+
+Grades after this update, weakest first:
+- Q ≥ R_H on real odd f: ordinary derivation, written by this lane and
+  re-derived independently by the referee, no gap found. It uses the
+  out-of-band lemma, the sine:16 envelope and Zhu's digamma inequality as
+  before. Not kernel-checked.
+- The odd numerical step at L = 1.19: hardened, two independent
+  implementations sharing python-flint, every error term enclosed on both.
+- So for real odd f with supp f ⊆ [−1.19, 1.19], Q(f) > 2.99e-44 ‖f‖²
+  (this lane alone: ≥ 3.42853488205e-44 ‖f‖²) is a candidate at the same
+  grade as item 6's even bound.
+- With item 6, for every complex f ∈ L² with supp f ⊆ [−1.19, 1.19],
+  Q(f) ≥ 5.71789230595e-48 ‖f‖². Each route gives this on its own, since on
+  both the even endpoint is the smaller one. Candidate, hardened by two
+  independent implementations sharing python-flint, resting on ordinary
+  derivations, pending external verification. A fixed-window statement,
+  not a route to RH, with no claim at unbounded support.
+
+The L = 4/5 odd rows are validations against Zhu's section 6.2. This record
+does not combine them with summary line 4 into a complex-f statement at
+L = 0.8.
 
 ## The doors
 
