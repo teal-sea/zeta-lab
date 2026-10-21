@@ -10,15 +10,26 @@ kernel-checks each module in manifest order with:
 input and ``-o`` paths are absolute files derived from that parent, the
 output root, and the relative manifest entry, because a relative input is
 not resolved against ``--root``.  The manifest itself stays relative and
-traversal-safe.  ``LEAN_PATH`` always contains the generated source root.
-Same-root imports still load ``SOURCE_ROOT/module.olean``, not an olean
-that lives only under ``--output-root``, so every successful olean is also
-linked next to its source.  ``lake`` is invoked only as ``lake env lean ...``;
-this driver never runs ``lake build``, never installs a toolchain, and never
-deletes sources or oleans.
+traversal-safe.  ``LEAN_PATH`` lists the generated source root first, then
+the output root when it differs.  Lean resolves ``import R.X`` to
+``P/R/X.olean`` for the first search-path entry ``P`` that holds an ``R/``
+directory, and it does not look further when that file is missing.  The
+source root holds the ``R/`` sources, so a same-root import always reads
+``SOURCE_ROOT/R/X.olean`` and never the copy under ``--output-root``.  Every
+successful olean is therefore also linked next to its source, after a compile
+and again on resume (see ``ensure_root_olean``).  ``lake`` is invoked only as
+``lake env lean ...``; this driver never runs ``lake build``, never installs
+a toolchain, and never deletes a source or an olean under ``--output-root``.
+The one file it removes is a ``SOURCE_ROOT/<module>.olean`` that is not the
+checkpointed olean: it is replaced by a link to the checkpointed one, so a
+dependent cannot import a stale olean left beside its source.
 
 Each successful module is checkpointed atomically under ``--output-root``
-with status, return code, byte count, and a SHA-256 of the source.  A later
+with status, return code, byte count, and a SHA-256 of the source, plus its
+wall time and its user time, system time and peak RSS in bytes from
+``wait4`` (``null`` where ``os.wait4`` is unavailable).  Whenever
+``compile_site`` returns, whatever the status, it also writes the site record
+atomically to ``OUTPUT_ROOT/results/<root>.json``.  A later
 run skips a module only when that checkpoint, the olean, the live byte
 count, and the live source hash all match.  Manifest byte counts are checked
 against the sources before any compile.  Recompiling one module invalidates only its transitive dependents;
@@ -162,12 +173,45 @@ def olean_path(output_root: Path, module_path: str) -> Path:
 
 
 def root_olean_path(source_root: Path, module_path: str) -> Path:
+    """Return ``SOURCE_ROOT/<module>.olean``, the file a same-root import reads.
+
+    The directory part must resolve inside the source root, as the sources
+    do.  The final component is deliberately not resolved: it may be the
+    symlink into ``--output-root`` that ``ensure_root_olean`` falls back to
+    when a hard link fails, or a stale link to replace.  Following it would
+    fail the inside-root check on every resume.
+    """
     rel = str(Path(module_path).with_suffix(".olean")).replace("\\", "/")
-    return resolve_inside(source_root, rel)
+    if not _is_relative_module_path(rel):
+        raise CompileError(f"path must be relative and traversal-safe, got {rel!r}")
+    parent, _, name = rel.rpartition("/")
+    base = resolve_inside(source_root, parent) if parent else Path(source_root).resolve()
+    return base / name
 
 
 def ensure_root_olean(source_root: Path, module_path: str, olean_abs: Path) -> Path:
-    """Make SOURCE_ROOT/module.olean exist. Lean --root ignores LEAN_PATH for it."""
+    """Make ``SOURCE_ROOT/<module>.olean`` a link to the checkpointed olean.
+
+    The cause is ``LEAN_PATH`` order, not ``--root``, which only names the
+    module being compiled.  ``SearchPath.findWithExt`` (``Lean/Util/Path.lean``
+    in the pinned toolchain) resolves ``import R.X`` against the first entry
+    that holds an ``R/`` directory and does not check that ``R/X.olean`` is
+    there.  ``compile_site`` lists ``SOURCE_ROOT`` before ``--output-root``,
+    and ``lake env`` prepends only the workspace's library directories
+    (``Workspace.augmentedLeanPath``), which hold the project's own roots and
+    not a generated ``C<site>`` one.  So ``SOURCE_ROOT`` is chosen and the
+    output-root entry is never searched for a same-root import.  Listing
+    ``--output-root`` first is an alternative this driver has not tried.
+
+    Nothing changes when the path already is that olean (the output root is
+    the source root, or an earlier link is still in place).  Otherwise a hard
+    link is tried first and a symlink second, and any other file already at
+    the path is unlinked and replaced, so a dependent cannot import a stale
+    olean left beside its source.  Only the ``.olean`` is linked.  That is
+    enough for the plain files the generator emits today.  A ``module`` file
+    is also read through the ``.olean.server`` and ``.olean.private`` parts
+    beside its olean, and those would need links too.
+    """
     olean_abs = Path(olean_abs)
     if not olean_abs.is_file():
         raise CompileError(f"olean missing: {olean_abs}")

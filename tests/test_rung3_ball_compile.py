@@ -1,6 +1,7 @@
 """The sharded ball compile driver is resume-safe, ordered, and fail-closed."""
 from __future__ import annotations
 
+import errno
 import importlib.util
 import json
 import os
@@ -250,6 +251,102 @@ def test_resume_relinks_source_olean_for_skipped_module(tmp_path):
     assert [m["status"] for m in second[0]["modules"]] == ["skipped", "skipped"]
     assert src_olean.is_file()
     assert _load(tmp_path / "log") == []
+
+
+def test_stale_source_olean_is_replaced_by_the_checkpointed_one(tmp_path):
+    # Lean imports SOURCE_ROOT/<module>.olean whenever the source tree holds
+    # the root directory, so a different olean left there must not survive.
+    _write_fake_lake(tmp_path)
+    modules = ["Cstale/Base.lean", "Cstale.lean"]
+    man = _site(tmp_path, "Cstale", modules)
+    src_olean = tmp_path / "gen" / "Cstale" / "Base.olean"
+    out_olean = tmp_path / "out" / "Cstale" / "Base.olean"
+
+    # Compile path: a stale regular file beside the source is replaced.
+    src_olean.write_bytes(b"stale olean from an earlier build\n")
+    first = _run(tmp_path, [man])
+    assert first[0]["status"] == "ok"
+    assert [m["status"] for m in first[0]["modules"]] == ["ok", "ok"]
+    assert os.path.samefile(src_olean, out_olean)
+    assert src_olean.read_bytes() == out_olean.read_bytes() == b"olean\n"
+
+    # Resume path: a symlink to some other olean is replaced too, and only the
+    # link is removed, not the file it pointed at.  Unlink first: writing
+    # through the hard link would change the checkpointed olean itself.
+    elsewhere = tmp_path / "elsewhere.olean"
+    elsewhere.write_bytes(b"another build's olean\n")
+    src_olean.unlink()
+    os.symlink(elsewhere, src_olean)
+    (tmp_path / "log").write_text("")
+    second = _run(tmp_path, [man])
+    assert second[0]["status"] == "ok"
+    assert [m["status"] for m in second[0]["modules"]] == ["skipped", "skipped"]
+    assert _load(tmp_path / "log") == []
+    assert os.path.samefile(src_olean, out_olean)
+    assert src_olean.read_bytes() == out_olean.read_bytes() == b"olean\n"
+    assert elsewhere.read_bytes() == b"another build's olean\n"
+
+
+def test_symlink_fallback_survives_resume_and_recompile(tmp_path, monkeypatch):
+    # A hard link fails across filesystems, which a separate --output-root
+    # can easily be.  The symlink the driver falls back to points outside
+    # SOURCE_ROOT, and later runs must keep it rather than refuse it.
+    def no_hard_links(*args, **kwargs):
+        raise OSError(errno.EXDEV, "Invalid cross-device link")
+
+    monkeypatch.setattr(drv.os, "link", no_hard_links)
+    _write_fake_lake(tmp_path)
+    modules = ["Csym/Base.lean", "Csym.lean"]
+    man = _site(tmp_path, "Csym", modules)
+    src_olean = tmp_path / "gen" / "Csym" / "Base.olean"
+    out_olean = tmp_path / "out" / "Csym" / "Base.olean"
+
+    first = _run(tmp_path, [man])
+    assert first[0]["status"] == "ok"
+    assert src_olean.is_symlink()
+    assert os.path.samefile(src_olean, out_olean)
+
+    (tmp_path / "log").write_text("")
+    second = _run(tmp_path, [man])
+    assert second[0]["status"] == "ok"
+    assert [m["status"] for m in second[0]["modules"]] == ["skipped", "skipped"]
+    assert _load(tmp_path / "log") == []
+    assert src_olean.is_symlink()
+    assert os.path.samefile(src_olean, out_olean)
+
+    mutated = tmp_path / "gen" / modules[0]
+    mutated.write_text(mutated.read_text().replace("Base", "Bass", 1))
+    payload = json.loads(man.read_text())
+    payload["modules"][0]["bytes"] = mutated.stat().st_size
+    man.write_text(json.dumps(payload, indent=2) + "\n")
+    third = _run(tmp_path, [man])
+    assert third[0]["status"] == "ok"
+    assert [m["status"] for m in third[0]["modules"]] == ["ok", "ok"]
+    assert src_olean.is_symlink()
+    assert os.path.samefile(src_olean, out_olean)
+
+
+def test_root_olean_path_refuses_escapes_but_keeps_the_final_link(tmp_path):
+    gen = tmp_path / "gen"
+    (gen / "Cpath").mkdir(parents=True)
+    outside = tmp_path / "outside.olean"
+    outside.write_text("olean\n")
+    os.symlink(outside, gen / "Cpath" / "Base.olean")
+    assert drv.root_olean_path(gen, "Cpath/Base.lean") == (
+        gen.resolve() / "Cpath" / "Base.olean")
+    assert drv.root_olean_path(gen, "Cpath.lean") == gen.resolve() / "Cpath.olean"
+    for bad in ("../Cpath/Base.lean", "/abs/Base.lean", "Cpath/../../x.lean"):
+        try:
+            drv.root_olean_path(gen, bad)
+            assert False, f"{bad} must fail closed"
+        except drv.CompileError:
+            pass
+    os.symlink(tmp_path, gen / "Cesc")
+    try:
+        drv.root_olean_path(gen, "Cesc/Base.lean")
+        assert False, "a directory that resolves outside the root must fail"
+    except drv.CompileError:
+        pass
 
 
 def test_peak_rss_bytes_converts_linux_kib_and_darwin_bytes(monkeypatch):
