@@ -73,10 +73,22 @@ the saturated encoding returns `[1]`.
 
 ### B. Time and memory
 
-`MISSION.md` allowed 20 minutes for this step. `run_groebner.py` set a 5-minute alarm
-and stopped there, at 300.03 s, so the run used a quarter of its allowance. The 32.59 MB
-reported as peak memory (`results.json`, `peak_memory_mb`) is the resident set size
-`psutil` read when the alarm fired. It is not a peak.
+`MISSION.md` allowed 20 minutes for this step. `run_groebner.py` sets a 5-minute alarm,
+and `results.json` reports a stop there at 300.03 s, so the run used a quarter of its
+allowance. The same file reports 32.59 MB as `peak_memory_mb`. By the script's code
+that field is the resident set size `psutil` reads when the alarm fires, not a peak.
+Both figures are the run's own report, not a landing measurement.
+
+The memory figure is unverified, and a rerun does not reproduce it. On the swarm box
+(2026-10-21; Python 3.12.3, sympy 1.14.0) the script's process holds 59.0 MB after
+`import sympy` and 84.4 MB once the 6,561 polynomials are built, before the Groebner
+call starts. The committed script, rerun unchanged on the same input, also stopped at
+its alarm (304.5 s; the whole process got 75 s of CPU, at load average 49 to 144) and
+read 600.5 MB there (`landing_groebner_rerun.json`). The run's own `probe_results.json`
+records 60.4 and 63.5 MB for far smaller sympy jobs on its machine. A reading of
+32.59 MB at the alarm fits none of these, and the record does not say how the run got
+it. No conclusion depends on it: the Groebner step carries no information either way
+(part A).
 
 ### C. The calibration reruns main's own code
 

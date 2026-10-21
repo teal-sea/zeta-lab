@@ -2502,13 +2502,15 @@ saturation. That ideal is proper, the origin being a common zero, so its basis c
 never be [1] and the 300 s timeout says nothing about Support 7. The question Hunt #73
 Result 4 poses is membership of the target product in the relation ideal saturated by
 the variables. The run also stopped at its own 5-minute alarm although the mission
-allowed 20 minutes, and its "32.59 MB peak" is the resident set size when the alarm
-fired. The calibration reruns main's code (`cap3.json` is byte-identical to a fresh
-cap-3 screen; r_31b6c1's 6x3 gate) and is not an independent route, and its cap-4
-4,216 replay is reported without an artifact. `RESULTS.md` keeps the run's text and
-carries the "Audit correction" that governs it; `PROBE_RESULTS.md` is retitled as this
-hunt's rerun of r_31b6c1's probe. Orbit 18 remains open, no branch is closed, and no
-complex witness has been found. Nothing here bears on RH (`docs/08`).
+allowed 20 minutes. Its "32.59 MB peak" is the run's own report and is unverified: by
+the script's code it would be the resident set size at the alarm, and the committed
+script, rerun unchanged at landing, read 600.5 MB there and already 84.4 MB before the
+Groebner call starts. The calibration reruns main's code (`cap3.json` is
+byte-identical to a fresh cap-3 screen; r_31b6c1's 6x3 gate) and is not an independent
+route, and its cap-4 4,216 replay is reported without an artifact. `RESULTS.md` keeps
+the run's text and carries the "Audit correction" that governs it; `PROBE_RESULTS.md`
+is retitled as this hunt's rerun of r_31b6c1's probe. Orbit 18 remains open, no branch
+is closed, and no complex witness has been found. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 

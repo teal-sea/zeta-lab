@@ -2,7 +2,7 @@
 
 The run kept no ledger. The first three entries reconstruct its computations on
 landing (2026-10-21) from `RESULTS.md`, `results.json` and `HANDBACK.json`; their start
-and finish times were not recorded. The last entry is the landing's own checks.
+and finish times were not recorded. The last two entries are the landing's own checks.
 
 ## R-ABF47B-CALIBRATION
 
@@ -44,7 +44,7 @@ started: unknown
 finished: unknown
 ran:
   - run_groebner.py, sympy.groebner in grevlex on the three target brackets entered as zero generators plus 6,558 relations in 138 variables, under a 5-minute alarm
-outcome: stopped by its own alarm at 300.03 s; the generators are homogeneous with no constant term, so no outcome could have excluded Support 7; no algebraic conclusion
+outcome: results.json reports a stop at its own alarm at 300.03 s with 32.59 MB resident there, and a landing rerun also stopped at the alarm but read 600.54 MB, so the memory figure is not reproduced (r_abf47b-landing-groebner-rerun); the generators are homogeneous with no constant term, so no outcome could have excluded Support 7; no algebraic conclusion
 artifacts:
   - results.json
 ```
@@ -64,4 +64,19 @@ ran:
 outcome: map_orbits.py reproduces 57 onto 31; cap3.json is byte-identical to the rerun; every generator is homogeneous of degree 3 or 4 with no constant term; the slice route agrees with map_orbits.py and with Hunt #71's orbit sizes
 artifacts:
   - test_orbit_refinement.py
+```
+
+## R-ABF47B-LANDING-GROEBNER-RERUN
+
+```runmanifest
+id: r_abf47b-landing-groebner-rerun
+hunt: r_abf47b
+started: 2026-10-21T21:30Z
+finished: 2026-10-21T21:37Z
+ran:
+  - run_groebner.py unchanged under /usr/bin/time -v, from a scratch directory whose hunts/r_044dd2 is this branch's copy, so the committed results.json is untouched
+  - run_groebner.py's setup steps without the Groebner call, reading the resident set size after import sympy, after build_system and after building the 6,561 polynomials
+outcome: the rerun stopped at its alarm at 304.45 s and read 600.54 MB resident there, with 75 s of CPU for the whole process at load average 49 to 144, against 59.03 MB after import sympy and 84.41 MB before the Groebner call, so results.json's 32.59 MB is not reproduced
+artifacts:
+  - landing_groebner_rerun.json
 ```
