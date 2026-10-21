@@ -185,12 +185,14 @@ jobs:
                    Zeta23Ext.Bridge.ThreePoint.Phi_three \
                    Zeta23Ext.Bridge.ThreePoint.three_point_bound \
                    Zeta23Ext.Bridge.ThreePoint.three_point_bound_ratio \
+                   Zeta23Ext.Bridge.ThreePoint.three_point_bound_cumulative \
                    Zeta23Ext.Bridge.FourPoint.F4_eq \
                    Zeta23Ext.Bridge.FourPoint.cover1 \
                    Zeta23Ext.Bridge.FourPoint.four_point_cert \
                    Zeta23Ext.Bridge.FourPoint.Phi_four \
                    Zeta23Ext.Bridge.FourPoint.four_point_bound \
                    Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio \
+                   Zeta23Ext.Bridge.FourPoint.four_point_bound_cumulative \
                    Zeta23Ext.PalomarV2.n_point_bound \
                    Zeta23Ext.PalomarV2.eight_point_bound \
                    Zeta23Ext.PalomarV2.eight_point_bound_ratio \
@@ -203,7 +205,7 @@ jobs:
               exit 1
             fi
           done
-          echo "axiom audit clean: nineteen declarations, all [propext, Classical.choice, Quot.sound]"
+          echo "axiom audit clean: twenty-one declarations, all [propext, Classical.choice, Quot.sound]"
 
       - name: the Challenge carries exactly seven sorrys, the Solution none
         working-directory: .

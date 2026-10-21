@@ -69,6 +69,13 @@ build at a package root, which they do here.
 | `NOTICE` | Licence attribution for the one adapted file. |
 | `assemble.sh` | `lake build` with the prebuilt Mathlib and `Zeta23` stores symlinked in. |
 
+`ThreePoint/Main.lean` and `FourPoint/Main.lean` also state the two unconditional bounds over
+cumulative windows `(0, T]`, as `three_point_bound_cumulative` and `four_point_bound_cumulative`.
+Each is the dyadic bound passed through `Zeta23.cumulative_of_dyadic`, the wrapper Zeta23's own
+cumulative theorems use, so it carries no hypothesis. Both were kernel-checked on Lean 4.33.0-rc2
+with `anthropics/zeta-23-lean` at `3635e748`; `AXIOM-AUDIT.md` names the runs. Neither is part of
+the seven-declaration Palomar surface.
+
 The mathematics, the step table, the hypotheses and what each is believed on are
 in `hunts/ainta_seven_point/BRIDGE.md`; the three-point certificate is in
 `hunts/ainta_seven_point/THREE-POINT.md`, and the four-point certificate is in

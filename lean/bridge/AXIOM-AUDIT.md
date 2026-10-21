@@ -38,6 +38,13 @@ A later successful run, `33217377329` of 2026-08-28, audits the same seven decla
 same axioms over a moved tree (`692dd279…`). It is the more recent evidence and the weaker
 citation, because its tree is not the frozen one.
 
+That run, and run `32919381995` of 2026-08-26 over the same tree, also audit
+`three_point_bound_cumulative` and `four_point_bound_cumulative`, the cumulative-window forms of
+the three- and four-point bounds, to `[propext, Classical.choice, Quot.sound]`, with no `sorryAx`
+in either log. Both runs used Lean 4.33.0-rc2 with `anthropics/zeta-23-lean` at `3635e748`,
+before this package moved to Lean 4.35.0-rc2 and the vendored Zeta23. Neither form is among the
+seven advertised declarations, and `audit-v2-frozen.log` predates both.
+
 ## What the log contains
 
 109 distinct declarations across the Bridge, ThreePoint, FourPoint and PalomarV2 modules, one
