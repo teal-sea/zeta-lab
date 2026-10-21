@@ -220,7 +220,7 @@ move; the displayed regions are unambiguous.
 | Tao's blog: ninth, tenth and eleventh threads and the 2019 paper post, with comments | the 2024 check; the plan to give the conditional section fewer details |
 | `teorth/optimizationproblems` `constants/21a.md`, PRs 208 and 210 | rows and anchors (REDUCTION.md) |
 | Zenodo 21175533 and the fork commits `6baae4c`, `cc81078` | attribution of row 2's right region to a sweep the Polymath record does not contain [Q:Z11] |
-| arXiv API, newest 60 de Bruijn-Newman abstracts; author search | six 2024 to 2026 papers, none about row 2; no paper by the 2024 commenter |
+| arXiv API, newest 60 de Bruijn-Newman abstracts; author search | six 2024 to 2026 papers, none about row 2 in its abstract (abstracts only were read); no paper by the 2024 commenter |
 | Crossref, OpenAlex | published Polymath text blocked; published Platt-Trudgian closed |
 
 ## 5. What would change this

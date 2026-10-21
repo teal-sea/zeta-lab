@@ -680,7 +680,7 @@
   },
   {
    "where": "arXiv API: newest 60 abstracts with de Bruijn-Newman; author Imparato",
-   "found": "six 2024 to 2026 papers, none about row 2; no paper by the 2024 commenter"
+   "found": "six 2024 to 2026 papers, none about row 2 in its abstract (abstracts only were read); no paper by the 2024 commenter"
   },
   {
    "where": "Crossref and OpenAlex for the published Polymath and Platt-Trudgian papers",
