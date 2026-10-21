@@ -83,6 +83,14 @@ docs/24-the-local-positivity-attempt.md
 figures/localpos_gate.png
 ```
 
+> **Corrected 2026-10-21 ("Later correction" at the end of this file).** The
+> closed form below does not give the converse of the equivalence it is
+> offered for, which now rests on a separate derivation that has not been
+> independently reviewed. The example under "The honest boundary" is not in
+> the Selberg class, and its `65.24` is a truncation of a divergent series.
+> The 60-angle control under "Controls" holds for its margins, but the gate
+> as it now stands FAILs 22 of those 60 angles.
+
 **What it establishes.** The place-local kernel
 `K_p^{(d)}(θ) = d + 2Σ λ_m p^{−m/2}cos(mθ)` has the closed form
 `Σ_j (1−|α_j|²/p)/|1−α_j p^{−1/2}e^{iθ}|²`, so `c_p ≤ d` is **exactly** the local
@@ -194,3 +202,148 @@ in `ROADMAP.md` under known gaps as a *standing constraint on the whole
 coefficient-side programme*: any Requirement-A-compliant statistic is blind to
 the critical line by construction, so a future candidate that claims to see it
 must explain where the zero-information enters without violating provenance.
+
+---
+
+## Later correction: the closed form does not establish the local iff
+
+**What is false, and where it was stated.** The docstring of
+`localpos.satake_kernel` said the rational expression
+`Σ_j (1−|α_j|²/p)/|1−α_j p^{−1/2}e^{iθ}|²` is nonnegative for all `θ` exactly
+when every `|α_j| ≤ √p`. That is false. For `p = 2` and `α = (3√2, 0, 0, 0)`
+the expression is `3 − 8/(10 − 6 cos θ)`, which stays in `[1, 5/2]` while one
+parameter exceeds `√p`. Its defining Fourier series has coefficients of
+magnitude `3^m` and diverges, so the rational expression is not its sum there.
+The step that read the iff off the closed form (the module docstring, section 2
+of this record under "What it establishes", `MISSION.md`, and `docs/24` §2) is
+therefore not a valid argument for the converse.
+
+**What the counterexample does not refute.** The iff for `c_p` as the module
+defines it. `gate()` never evaluates the rational expression (`satake_kernel`
+is called only by `satake_check`). On exactly this input `threshold()` reports
+regime `"divergent"` and `gate(..., 4, primes=[2])` returns FAIL, both now
+pinned by `test_closed_form.py`. The recorded verdicts and `results.json`,
+whose `scope()` line is a statement about `c_p`, stand as historical
+measurements; their wording "exact" and "decision procedure" is graded below.
+
+**One reading of `c_p`, used everywhere from now on.** `c_p` is the least
+diagonal `c` for which every finite Toeplitz section with diagonal `c` and
+off-diagonals `s_m = λ_m p^{−m/2}` is positive semidefinite. On an absolutely
+summable sequence this equals the cosine-series minimum the module evaluates
+(the standard Toeplitz–symbol correspondence). On a growing sequence it is
+`+∞`, which is the module's existing `"divergent"` convention. At
+`|α_j| = √p` the two readings part: the cosine series diverges, while the
+least PSD diagonal can stay finite. For `ζ(s − ½)` it is exactly `1 = d`
+(measured `1.000000` on every section `N = 5, 50, 200, 400`), and on that
+input `gate()` reports INDETERMINATE; it does not do so at every input on the
+bound (finding 3 below).
+
+**Derivation of both directions (written in this landing, 2026-10-21; not
+independently reviewed).** Assumptions: a degree-`d` Euler factor at `p` with
+real coefficients, so its Satake parameters are real or come in conjugate
+pairs; write `β_j = α_j/√p`, so `s_m = Σ_j β_j^m` is real for `m ≥ 1`.
+
+1. *Forward: every `|α_j| ≤ √p` gives `c_p ≤ d`.* The section with diagonal
+   `d` is the sum over `j` of the Hermitian Toeplitz matrices with entries
+   `β_j^{i−k}` for `i ≥ k` and conjugates above the diagonal (the sum matches
+   because `s_m` is real). For `|β_j| < 1` that matrix holds the Fourier
+   coefficients of the Poisson kernel `(1−|β_j|²)/|1−β_j e^{iθ}|² ≥ 0`, hence
+   is PSD; for `|β_j| = 1` it is the rank-one Gram matrix `v v*` with
+   `v_i = β_j^i`. Each has unit diagonal, so the sum is PSD with diagonal `d`.
+2. *Converse: some `|α_j| > √p` gives `c_p = +∞`.* A PSD matrix has every
+   `2×2` principal minor nonnegative, so `|s_m| ≤ c` for all `m`. But
+   `Σ_{m≥1} s_m z^m = Σ_j β_j z/(1 − β_j z)` is rational with a pole at `1/β`
+   for each nonzero `β` among the `β_j`, residue `−k/β` for multiplicity `k`.
+   Copies of one `β` add and distinct `β` give distinct poles, so nothing
+   cancels. With `R = max_j |β_j| > 1` the radius of convergence is `1/R`, so
+   `limsup |s_m|^{1/m} = R > 1` and `s_m` is unbounded: no finite `c` works.
+
+Measured support for step 2, pinned by `test_closed_form.py`: a single
+parameter with `|β| = 1.05` has least PSD diagonal `1.2806`, `77.31` and
+`1.770e5` on the sections `N = 5, 50, 200`.
+
+**Grade after this correction.** The forward direction is derived. The
+converse is not established by the closed form; for `c_p` read as the least PSD
+diagonal it rests on the derivation in step 2, which is elementary but
+unreviewed, so the iff as a whole is an unreviewed derivation, pending external
+verification, and the words "exact" and "decision procedure" in the original
+record should be read at that grade. The `c_p = 65.24` recorded for the
+`α = 2.3, 1/α` violator is a finite-depth truncation in the `"divergent"`
+regime (`2.3/√5 ≈ 1.0286 > 1`), where the module's own convention is
+`c_p = +∞`; the FAIL it records stands, the number is not the value.
+
+**Found while landing this correction (2026-10-21).** Five findings, measured
+in the landing worktree on top of `origin/main` at `fb647bfc7`. They lie
+outside the closed-form question but concern the same instrument or the same
+sentences. Each is pinned in `test_closed_form.py`, none changes a verdict in
+the reference table, and this landing does not change `gate()`.
+
+1. *`gate()` misreads oscillating weights, in both directions.* `threshold()`
+   decides summable, divergent or boundary from two weighted terms about a
+   decade apart near the truncation edge, a test added on 2026-08-11 (commit
+   `5eed14344`; `docs/25` §6; C-LOCPOS-01). For a conjugate pair of Satake
+   parameters the weights oscillate, so that comparison can fall on either
+   side of 1 whatever their envelope does. Inside the bound,
+   `α = 0.9·√2·e^{±0.2i}` at `p = 2` is called divergent and FAILs although
+   `c_p ≈ 1.894 < d = 2`. Outside it, `α = 1.2·√7·e^{±0.4i}` at `p = 7` is
+   called summable and PASSes although `c_p = +∞` (least PSD diagonal above
+   `10^9` on the `N = 120` section). On it, `α = √2·e^{±0.9i}` at `p = 2`
+   FAILs although `c_p = d = 2` exactly.
+2. *The 60-angle positive control regressed when that test went in.* Section
+   2 above records that "across 60 Satake angles the genuine degree-2 family
+   keeps margin ≥ 0.343". Re-run on 60 equally spaced angles `φ` from 0.05 to
+   `π − 0.05` (`α = e^{±iφ}`, the default 25 primes), which reproduces that
+   minimum margin (`0.3434`), the statement still holds for the margins of the
+   truncated `c`. But the current gate's *verdict* on the family is FAIL at 22
+   of the 60 angles, while the module as first committed (`e3e4426b4`,
+   2026-08-10) passes all 60 when re-run. `docs/25` §6 and C-LOCPOS-01 report
+   the hunt's recorded verdicts unchanged by the repair. That holds for the
+   verdicts `docs/25` §6 lists (ζ, `L(χ)`, Davenport–Heilbronn, both Epstein
+   forms, the violator), and the reference table, the lesion threshold
+   `ε* = 0.1841` and the null distribution reproduce exactly, but the 60-angle
+   control was not among them.
+3. *INDETERMINATE on the bound holds only for steady weights.* `threshold()`'s
+   comments equated its regime test with the bound: a ratio above 1 "is
+   exactly `|alpha| > sqrt(p)`", and the boundary regime is "`|alpha| =
+   sqrt(p)` to numerical resolution". That holds when the weighted terms near
+   the edge keep a steady modulus. `ζ(s − ½)`, the single real parameters
+   `+√2`, `−√3` and `+√97`, and the pair `±√5` all give INDETERMINATE, and for
+   one real parameter the verdict changes within a relative `10^{−6}` of `√p`
+   (PASS below, INDETERMINATE inside, FAIL above; measured at `p = 2, 97`).
+   For a conjugate pair on the bound the gate can say FAIL (`φ = 0.9`,
+   `p = 2`) or PASS (`φ = 2.0`, `p = 2`, with the regime called summable),
+   where `c_p = d` exactly. The comments are now scoped; the code is
+   unchanged.
+4. *The honest-boundary example is not in the Selberg class.* Section 2
+   above, `MISSION.md`, `docs/24` §5, the case log, `docs/37`,
+   `ramanujan_violator` and the `note` stored in `results.json` called
+   `α = 2.3, 1/α` legitimate in, or allowed by, the Selberg class. At `p = 5`
+   it is excluded twice over: by `docs/09` §3's axiom (5) (Ramanujan,
+   `a_n ≪ n^ε`) and by its axiom (4) (`b_n ≪ n^θ` with `θ < ½`, which needs
+   `|α| < √5`). It is a genuine Euler factor outside the local bound, which is
+   all the honest boundary needs, and the gate rejects it for that reason.
+   `results.json` keeps its note as the historical record.
+5. *The violator's `65.24` moves with the truncation depth.* Beyond the grade
+   above: the same call reads 22.46 at depth 23 (`tol = 1e-8`), 65.24 at the
+   default depth 41 and 110.80 at depth 52 (`tol = 1e-18`), and the least PSD
+   diagonal of its `N = 200` section exceeds `10^3`.
+
+Two smaller points, both pinned as well:
+
+- *An excess the gate cannot resolve reads as PASS.* In the summable regime a
+  place whose truncated `c` exceeds `d` by less than ten tail estimates is no
+  witness, so the verdict is PASS rather than undecided. For `ζ(s − δ)` at
+  `δ = 0.49`, `p = 2`, the truncated `c` is 15.99 against `d = 1`, the tail
+  estimate is 149.9, and the PASS is right only because the true
+  `c_p = 0.9965` lies below `d`.
+- *A rejected universal still stood in the module docstring.* C-SHIFT-01 lists
+  the `localpos.py` docstring among the places that stated "no coefficient
+  functional can read the position of the critical line". The director run
+  corrected `provenance_report()`, `docs/24` §6 and the case log, but the
+  docstring's "Why the kernel is the thing" section still stated it until this
+  landing.
+
+A repair of the regime test is a deliberate act: it has to re-measure the
+hunt's recorded numbers and change the tests that pin findings 1 to 3. This
+landing records and pins the defect and leaves the gate as it is. Nothing here
+is evidence for or against RH.
