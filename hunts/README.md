@@ -1716,6 +1716,50 @@ and #105 and adds the injectivity they lack; the loose-thread-3 refutation was
 on main already (Hunts #93, #95, #101, #103). Nothing here bears on RH
 (`docs/08`).
 
+### Hunt #99: Erdős #126, the narrowest upgrade is a unit-equation count (`support_311c14a5/`)
+
+**Status: not settled, and no new bound on $g(k)$. A sufficiency reduction
+and a quantitative comparison, both ordinary arguments, unreviewed; the
+attempt at a bound is unresolved and one parent thread is a refuted candidate
+(`ALIGNMENT.md` §5).** The cited constants came from one web search each and
+the run says not to quote their exponents as pinned. Landed 2026-10-21 from a
+local-only branch, `support/311c14a5`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all". Support run for Hunt
+#91, working the additive-combinatorics arm. The deliverable is an elementary
+reduction with no loss: if $A$ is admissible for $S$ and $a \ne b$ in $A$ with
+$d = a-b$, then $c \mapsto (a+c, b+c)$ injects $A \setminus \{a,b\}$ into the
+solutions of $(1/d)X + (-1/d)Y = 1$ in $S$-units, so $g(k) \le 2 + E(k)$ where
+$E(k)$ counts solutions of $\alpha X + \beta Y = 1$ in $S$-units, uniformly in
+$\alpha,\beta$. Keeping the constants in the *coefficients* rather than the
+group holds the rank at exactly $k$. Hence **$E(k) = \exp(o(k))$ implies Erdős
+#126**, and that is the narrowest upgrade the run could name; the converse does
+not hold and is not claimed. Quantitatively the route is today much *weaker*
+than 1934: the run quotes Evertse as $g(k) \le 2 + e^{4k+10}$, base $e^4$
+against Erdős–Turán's base $2$. That form is from a search; GST's primary-text
+quotation of Evertse, $3\cdot7^{2k+3}$ (Hunt #143, and Hunts #96 and #106), is
+smaller for every $k$ and gives base 49, and `RESULTS.md` §3 annotates the
+discrepancy in place without changing the verdict. The route's floor is
+$\exp(\Theta(\sqrt{k/\log k}))$ from Erdős–Stewart–Tijdeman, which is
+$\exp(o(k))$, so the known extremal examples do not obstruct the target. The
+three briefed tools are reported inapplicable with reasons: Freiman needs small
+doubling and these sets have maximal doubling, sum-product needs the
+multiplicative structure on $A$ rather than on $A+A$, and the additive-energy
+inequality is measurably dominated by a one-line pigeonhole. Two audit results
+against Hunt #91: its composition law, combined with the Erdős–Turán upper
+bound, forces $g(k) = 2^k$ *exactly* rather than merely $\ge 2^k$, which makes
+it falsifiable at $k=3$ (it needs an 8-element set; exhaustive search inside
+$[1, 60\,000]$ finds 5); and its loose thread that the parity cap generalises
+mod odd primes is **false**, since $A$ may sit in a single nonzero class mod
+$p$, with witness $S=\{2,5,7,11\}$ omitting $3$ and $A = \{1,9,13,19,31\}$ of
+size 5. All seven of Hunt #91's witnesses re-verified; $g_N(3)=5$ independently
+reproduced by a from-scratch solver. Overlap with main, recorded in
+`RESULTS.md`: the reduction is that of Hunts #96 and #104; the composition
+sharpening tightens Hunt #105's corridor $[2^k, 1.5\cdot2^k]$, which already
+noted that $g(3)\le 7$ retires the programme, and Hunt #93 has the general
+amplification form; loose thread 3 was refuted on main already (Hunts #93,
+#95, #101, #103), and the run's OEIS thread was closed by the literature arm
+(Hunt #143). Nothing here bears on RH (`docs/08`).
+
 ### Hunt #143: Erdős #126, the 92-year wall, and the one lever behind it (`support_fcffa3b9/`)
 
 **Status: not settled. A literature map from a targeted search, not an
