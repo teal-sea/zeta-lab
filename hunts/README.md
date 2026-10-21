@@ -75,6 +75,19 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Multi-prime Mobius orbits (`mobius_orbits/`)
+
+**Status: ordinary argument, independent model challenge completed.**
+Exact finite checks retain every incomplete orbit and compare the direct
+Sigma2 sum with both multi-prime grouping and a Mertens level-set formula.
+The fixed-P asymptotic concerns one specified absolute-value majorant,
+not the true signed sum or all multi-prime methods. No RH proof, novelty
+claim, or change to earlier records. See [the attempt](mobius_orbits/RESULTS.md).
+The owner-directed [controlled-energy continuation](mobius_orbits/ENERGY.md)
+keeps an RH-equivalent approximation error nonincreasing by a compensated
+block update. A prescribed Mobius shell passes finite descent checks; the
+uniform quantitative decrease remains an explicit unproved inequality.
+
 ### Hunt #133: at least ten kernel-checked zeros of zeta on the critical line below height 50 (`hardy_ten_zeros/`, 2026-10-14)
 
 **Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**
