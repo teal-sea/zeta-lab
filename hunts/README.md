@@ -1800,6 +1800,62 @@ bounded in terms of $(n,k)$ is answered for sub-extremal sizes by Hunt #107
 (unbounded height at $S=\{2,3\}$), annotated in place in `RESULTS.md` and
 `HANDBACK.json`. Nothing here bears on RH (`docs/08`).
 
+### Hunt #106: Erdős #126 reduces to counting $S$-unit equations (`support_6da47ca3/`)
+
+**Status: not settled, but the wall is located and named; the attempt is
+unresolved (`ALIGNMENT.md` §5) and one parent thread is a refuted
+candidate.** Theorem 1 and its corollaries are ordinary arguments,
+unreviewed; Corollary 2's constant uses Evertse's bound as the run recalled it,
+without re-reading it; the Győry–Hajdu–Tijdeman verdict rests on the abstracts;
+the measured table is exhaustive inside bounded boxes. Landed 2026-10-21 from a
+local-only branch, `support/6da47ca3`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all". A support run for the
+Erdős #126 scout (Hunt #91), asked to turn $A$ and $-A$ into the bipartite
+$S$-unit difference pattern and specialise the Győry–Hajdu–Tijdeman
+representation theorems. The bipartite framing is right and the bipartiteness
+is not what carries the weight: all the quantitative force sits in the
+sub-pattern $K_{2,m}$, giving **Theorem 1, $g(k) \le N_2(k) + 2$**, where
+$N_2(k)$ is the maximum number of solutions of a two-term $S$-unit equation
+$u - v = c$ over $|S| = k$ and $c \in \mathbb{Q}^*$. The correspondence is
+exact (solutions of $u-v=c$ are in bijection with the common neighbours of two
+vertices), so nothing is lost at that step. With Evertse's 1984 bound
+$3\cdot 7^{d+2s}$ this gives the unconditional explicit
+$g(k) \le 3\cdot 7^{2k+3}+2$, i.e. $f(n) \ge 0.2569\log n - 1.78$, a re-proof
+of the classical $f(n) \gg \log n$ with a tracked constant and **no movement on
+the problem**. The load-bearing consequence is the conditional: **if a two-term
+$S$-unit equation has $\exp(o(k))$ solutions uniformly in its coefficients,
+Erdős #126 follows.** Every known lower bound on that count
+(Erdős–Stewart–Tijdeman $\exp(k^{1/2+o(1)})$; Konyagin–Soundararajan
+$\exp(k^{2-\sqrt2-o(1)})$) is subexponential, so the hypothesis is consistent
+with everything known, and the 92-year wall on #126 is the same wall as the
+gap between $\exp(O(k))$ and $\exp(k^{0.59})$ in unit-equation counting. The
+run also calls that hypothesis the field's "standard (open) conjecture" and #126
+"a consequence of a believed conjecture"; neither phrase cites a source, the
+literature arm (Hunt #143) looked for the statement and did not find it, and
+both are annotated in place in `RESULTS.md`. Sufficient, not necessary, and
+measurably lossy: exhaustive search gives $g_N(5) = 8$ against
+$N_2^{(N)}(5) \ge 141$. The briefed within-part pair-sum structure **buys no
+improvement in the exponent**; it does buy a free nondegeneracy guarantee for
+$(a+b)+(c+d) = (a+c)+(b+d)$ (all terms positive, every vanishing subsum forces
+two elements equal), but routing through it needs three-term unit equations
+whose best uniform bound has slope $\sim 2\times 10^{11}$ against Evertse's
+$2\log 7 = 3.892$. The GHT papers themselves are representability results, not
+counting results, and contain no bound of the form $|A| \le F(|S|)$; their
+cubical criterion touches ours only through the $K_{2,3}$ obstruction, which is
+exactly the pattern Theorem 1 exploits. Audit of Hunt #91: all seven witnesses
+re-verified, $g_N(k)$ for $k \le 5$ reproduced independently with identical
+optimal witnesses, and its §2 and §4 proofs read and correct; but its **loose
+thread 3 is refuted** ($|A| \le p-1$ when $p \notin S$ fails for every odd $p$,
+e.g. $\{1,3,7\}$ with $S=\{2,5\}$ and $\{1,3,5,11,13\}$ with $S=\{2,3,7\}$), so
+the parity fact is a $p=2$ accident and not an iterable lemma. Overlap with
+main, recorded in `RESULTS.md`: Theorem 1 is the reduction of Hunts #96 and
+#104 (and of #97 and #99, landed with this entry), Lemma 4 is the nondegeneracy
+step of the four-element reductions of Hunts #93, #95 and #105, the
+loose-thread-3 refutation was on main already (Hunts #93, #95, #101, #103), and
+the OEIS thread the run left open was closed by Hunt #143. Its audit line that
+the optima "live below 50" is annotated in place, since Hunts #103, #105 and
+#107 refuted it. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #143: Erdős #126, the 92-year wall, and the one lever behind it (`support_fcffa3b9/`)
 
 **Status: not settled. A literature map from a targeted search, not an
