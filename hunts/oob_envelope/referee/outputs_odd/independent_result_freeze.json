@@ -1,0 +1,20 @@
+{
+  "frozen_at_utc": "2026-09-29T01:01:07.338731+00:00",
+  "worker_result_artifacts_read": false,
+  "worker_implementation_read": false,
+  "known_comparison_input": "Endpoint in ODD_BRIEF.md only",
+  "independent_safe_odd_endpoint": "2.99e-44",
+  "deciding_artifact_sha256": {
+    "3ce6ab9/main/controls.json": "1dfdeb0bc839de04578543a9b3e97f70f3dae647c58e9e379bee41c41bbaa0d2",
+    "3ce6ab9/main/positivity.json": "0b9745071920c53aaf897eeb0b9f1841291ba7caf861c58685c64bead77ba593",
+    "3ce6ab9/main/result.json": "9d7f5a629fef6f4649742364869f30486cf997423cdc30ed4947249e4ca628ce",
+    "3ce6ab9/main/assembly_manifest.json": "ea7d5ce25fa77bf74450a47aea1b5b81c880600878b7bcfe31db227d8d3044e9",
+    "3ce6ab9/main/matrix.json.gz": "3084011572bfb699519f6fe76f9bc0b534b2c70f4aa691605ec55d546d5c0b66",
+    "3ce6ab9/main/ritz.json": "4b0ffea8814c6822ff40b65146f1e0bdb72687061f0e39d8bd18c54f4f2434f2",
+    "3ce6ab9/main/download_verification.json": "7c3fee3a278dfb865bb72e5d799900f83c27845ca58f0503a0b7c39feab62a39",
+    "3ce6ab9/main/factor.json.gz": "b6d00342da99f9505a274b89b764e1710fa8cb658b729300142a7e4720104b74",
+    "3ce6ab9/main/budget.json": "c0fc676620299cf75fee32e0581025fd16259a8e8b9971b1aedb6157e952cc5f",
+    "3ce6ab9/main/quadrature_checks.json": "adec41b3584f0c4295d69fd6b1af4f80a4382ab951818e47e5913aaa4150c8fe",
+    "3ce6ab9/main/manifest.json": "a027e9054fe00ee8aa582e7cf069fa285920189503e0944eb7c3a2deabb4fd12"
+  }
+}

@@ -700,14 +700,26 @@ PASS). With it, for real even f:
   `≥ 5.71789230595e-48`, referee Clenshaw-Curtis-192 route `> 5.7179e-48`,
   N = 500 even Legendre modes, T# = 500, all error terms enclosed).
 
-Scope: even sector only; the odd sector is not bounded. No window claim found
-in the searched literature exceeds half-width 17/16 (Liu, unrefereed); Zhu
-withdrew his own `L = 1.19` claim. The threshold stays doubly exponential
-(the best out-of-band constant grows like `e^L`), so this is a fixed-window
-result, not a route to RH. Methods: `docs/37-methods.md` (out-of-band
-envelope lemma; residual-enclosed shifted Cholesky). Record:
+For real odd f at support 2.38 (`L = 1.19`, N = 500 odd Legendre modes,
+T# = 500, the same sine:16 envelope, all error terms enclosed): numerics
+GL-96 route `Q(f) ≥ 3.42853488205e-44 ‖f‖²`, referee Clenshaw-Curtis-192
+route `Q(f) > 2.99e-44 ‖f‖²` (1280-bit Arb; formulas and shift frozen
+before any worker code or artifact was read, though the brief disclosed
+the worker's endpoint; verdict PASS). The odd reduction was derived by the
+numerics worker and independently re-derived by the referee. Parity and
+real/imaginary cross terms cancel, so the even sector is the binding one:
+`Q(f) ≥ 5.7178e-48 ‖f‖²` for every complex `f ∈ L²` with
+`supp f ⊆ [-1.19, 1.19]`. That composite is a candidate, hardened by two
+independent implementations that share python-flint, resting on ordinary
+derivations, pending external verification. The `L = 0.8` line remains a
+real even statement. No window claim found in the searched literature
+exceeds half-width 17/16 (Liu, unrefereed); Zhu withdrew his own `L = 1.19`
+claim. The threshold stays doubly exponential (the best out-of-band
+constant grows like `e^L`), so this is a fixed-window result, not a route
+to RH. Methods: `docs/37-methods.md` (out-of-band envelope lemma;
+residual-enclosed shifted Cholesky). Record:
 `oob_envelope/numerics/RESULTS.md`, `oob_envelope/theory/RESULTS.md`,
-`oob_envelope/referee/REVIEW.md`.
+`oob_envelope/referee/REVIEW.md`, `oob_envelope/referee/ODD_REVIEW.md`.
 
 ### Weil positivity propagation across window size (`weil_propagation/`, 2026-09-23)
 
