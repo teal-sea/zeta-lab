@@ -865,12 +865,12 @@ exceeds the signal whenever delta < 1 - beta_0, and that the s = -1 polar term i
 log x + nu (a double pole, since chi_3 is odd), not a constant. Its Theorem 4 removes
 the eps of Theorem B along x_n = exp((2 pi n - phi_0)/gamma_0), but only under (H-ISO),
 an isolated witness zero of L(s, chi_3), which implies that GRH fails for L(s, chi_3),
-and (H-TRANSFER), Theta < Theta_chi. That sequence is a closed form in a hypothetical zero, so no sequence
-of numbers is exhibited. Its section 10 writes down the inequality still missing in the
-unconditional case. Status, kept apart: Lemma 0, Lemma 1, the polar structure and
-Proposition 3 are derived, and Theorem 4 is a conditional theorem. The first version
-(`95ae36b`) was reviewed independently and revised in answer; a targeted follow-up review
-of the revision (`3006ef2`) cleared all of them, Theorem 4 as conditional
+and (H-TRANSFER), Theta < Theta_chi. That sequence is a closed form in a hypothetical
+zero, so no sequence of numbers is exhibited. Its section 10 writes down the inequality
+still missing in the unconditional case. Status, kept apart: Lemma 0, Lemma 1, the polar
+structure and Proposition 3 are derived, and Theorem 4 is a conditional theorem. The first
+version (`95ae36b`) was reviewed independently and revised in answer; a targeted follow-up
+review of the revision (`3006ef2`) cleared all of them, Theorem 4 as conditional
 ([THEOREM_B_FORMULA_REVIEW.md](THEOREM_B_FORMULA_REVIEW.md), with each finding answered in
 [AUTHOR_RESPONSE.md](AUTHOR_RESPONSE.md)). The unconditional variant of section 10 is an
 attempt unresolved (ALIGNMENT.md section 5); the edits answering the follow-up review's

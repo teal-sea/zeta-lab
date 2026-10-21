@@ -39,10 +39,17 @@ It does **not**:
 - modify THEOREM_B_SEQUENCE.md, which is left as the record of the failed argument;
 - reopen the hunt's completed numerical passes.
 
+*Landing note, 2026-10-21.* The landing added two dated notes to THEOREM_B_SEQUENCE.md:
+a pointer to this file under its 2026-09-12 scope correction, and a correction in its
+section 6 about the inherited zero list (see the end of section 8). Its argument and the
+rest of its text are unchanged.
+
 The new files the author wrote are this one, `formula_repair_checks.py` and its results
 JSON, plus `AUTHOR_RESPONSE.md`. The independent reviewer's record adds
 `THEOREM_B_FORMULA_REVIEW.md`, `formula_review_checks.py` and its results JSON, which the
-author did not edit.
+author did not edit. At landing one docstring line of `formula_review_checks.py` was
+changed to drop a machine-specific path; the script's header records that change, and
+nothing else in the reviewer's three files was changed.
 
 What is claimed, in one sentence: **the defective expansion is replaced by a truncated
 formula whose remainder is shape-explicit in `x` and `T` up to one absolute constant
@@ -589,6 +596,28 @@ proof. A scan of step 0.25 can miss a close pair, and C8 cannot detect that; it 
 only that the listed ordinates are near genuine zeros and that the list is not obviously
 short. No claim in this file depends on the list being complete.
 
+**Correction, 2026-10-21 (at landing).** The paragraph above understates the gap and
+misdescribes the scan. The inherited list misses a zero of `L(s, chi_3)` at
+`gamma = 50.3751386506`, inside its gap from 47.514 to 52.497. That zero is isolated, not
+one of a close pair. The probe is not a sign-change scan: `landau_zero_probe.py` keeps the
+local minima of `|L(1/2 + it)|` on a step-0.25 grid that fall below `0.5` and refines each
+by a Newton solve, as THEOREM_B_SEQUENCE.md section 6 says. Near this zero the grid
+minimum is `0.538` at `t = 50.5`, above that cutoff, so it was never refined. Counting it
+gives 22 zeros to height 60 against the predicted `22.61`, so C8's deficit of `-1.61`
+becomes `-0.61`. Three routes agree on the zero. The independent verification of this
+landing found it with a step-0.01 sign-change scan of the Hardy-type function in mpmath
+(22 zeros on `(0, 60]`). PARI/GP 2.17.2, which shares no code with mpmath, returns 22
+zeros up to height 60 from `lfunzeros(lfuncreate(-3), 60)`: the 21 listed ordinates and
+this one. Ball arithmetic in python-flint 0.9.0 encloses the completed function
+`Lambda(s) = (3/pi)^{(s+1)/2} Gamma((s+1)/2) L(s, chi_3)`, which is real on the critical
+line because the root number is 1 (section 5), as `[-8.1504288e-19 +/- 1.7e-27]` at
+`t = 50.37` and `[7.6373067e-19 +/- 1.4e-27]` at `t = 50.38`, so a zero with
+`50.37 < t < 50.38` exists. These were run by hand at landing (`RUNS.md`) and no test
+pins them. The existence of this unlisted zero is hardened; that there are exactly 22
+zeros to height 60 is measured by two routes and not proved. The paragraph above is left
+as written. Nothing in this file uses the list's completeness: C5, C8 and the reviewer's
+coefficient identity read only the 21 listed ordinates, and their recorded results stand.
+
 ---
 
 ## 9. Reproducible checks. NOT PROOF.
@@ -619,6 +648,14 @@ particular that the grouped series converges slowly for small `s`, so C7 asks on
 truncation gap stay inside a tail bound proved on the spot, not that it be tiny. C8 answers
 the reviewer's provenance question in the two directions a cheap check can answer it, and
 records in the results JSON that it does not establish completeness.
+
+*Landing notes, 2026-10-21.* The C6 row's `112 -> 0.073` gives the first and last
+tabulated values. At `T = x^{0.45}` the ratio is 112.5, 284.0, 452.3, 286.7, 28.8 and
+0.0727 at `x = 10^4, 10^8, 10^16, 10^32, 10^64, 10^128`
+(`results_formula_repair_checks.json`), so it rises to about 452 before it falls, and
+"decays" describes the last rows, not every row. The C8 row's count deficit of `-1.61`
+includes one missing zero, not a close pair, and counting it leaves `-0.61`: see the
+correction at the end of section 8. Both rows are left as written.
 
 ---
 
@@ -815,4 +852,6 @@ worktree's system `python3` (3.10, mpmath 1.4.1) was not used. At landing, 2026-
 was re-run with Python 3.12.3 and mpmath 1.3.0, took about 6 s of wall time, and
 reproduced `results_formula_repair_checks.json` byte for byte. This note and the file list
 in section 0 were edited at landing, to drop a machine-specific path and to name the
-reviewer's files; nothing mathematical changed.
+reviewer's files. Dated landing notes were also added to sections 0, 8 and 9; the one in
+section 8 corrects what C8 says about the inherited zero list. No derivation, check or
+recorded result in this file changed.

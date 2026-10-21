@@ -7,8 +7,17 @@ NOT proof. Finite precision, finite range. Complements (does not re-run)
 the author's formula_repair_checks.py; never writes outside its own JSON.
 
 Run from the repository root with the main venv:
-    /Users/thomas/zeta-lab/.venv/bin/python hunts/prime_pair_error/formula_review_checks.py
+    .venv/bin/python hunts/prime_pair_error/formula_review_checks.py
 Writes hunts/prime_pair_error/results_formula_review_checks.json.
+
+Landing note, 2026-10-21: the command above gave the interpreter as an absolute
+path under the owner's home directory, which tests/test_repo_hygiene.py bars from
+tracked files. It now gives the repository-relative .venv/bin/python, the same
+edit made to section 12 of THEOREM_B_FORMULA_REPAIR.md; the original line is in
+commit a5fc63040. That line is the only change made at landing to the reviewer's
+three files (this script, THEOREM_B_FORMULA_REVIEW.md and
+results_formula_review_checks.json). No check, value or result changed, and a
+re-run after the edit reproduced the results JSON byte for byte.
 """
 
 from __future__ import annotations

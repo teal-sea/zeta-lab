@@ -14,7 +14,8 @@ Proposition 3 of `THEOREM_B_FORMULA_REPAIR.md` (2026-09-20). With it the isolate
 case becomes that file's Theorem 4, a conditional theorem under (H-ISO), an isolated
 witness zero (which implies that GRH fails for L(s, chi_3)), and (H-TRANSFER),
 Theta < Theta_chi; the general case remains unresolved (its section 10). The text below
-is unchanged, as the record of the original argument.
+is unchanged, as the record of the original argument, apart from one dated correction
+note in section 6.
 
 RESULTS.md Section 18 proves Theorem B, E(N) = Omega(N^{1 + 2 Theta_chi - eps}), in the
 case Theta < Theta_chi <= 1 by a pole-vs-boundedness contradiction on the Mellin
@@ -243,6 +244,14 @@ so a witness forced (by obstruction A) to appear only at very large height would
 were ever exhibited, still hand back a comparatively dense and cheaply computable
 sequence - the expense is entirely in the exhibiting, not in what the exhibited zero
 would deliver.
+
+**Correction, 2026-10-21.** The scan missed one zero, at gamma = 50.3751386506, between
+47.51 and 52.50. Its grid minimum, |L| = 0.538 at t = 50.5, lies above the probe's 0.5
+cutoff for candidates. PARI/GP's `lfunzeros` and an independent step-0.01 scan both find
+22 zeros up to height 60, not 21; that count is measured and not proved. Details and
+grades are in `THEOREM_B_FORMULA_REPAIR.md`, end of section 8. The lowest and highest
+ordinates, and so the two illustrative gaps above, are unchanged. The paragraph above is
+left as written.
 
 ## 7. What this does and does not settle
 

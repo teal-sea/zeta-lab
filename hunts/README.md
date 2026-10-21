@@ -869,6 +869,22 @@ identity-plus-heuristic is the one statement recorded as worth proving. The Gold
 analogue is Bhowmik, Halupczok, Matsumoto and Suzuki (Mathematika 2019); nothing here is
 claimed new.
 
+**Later passes, noted 2026-10-21.** The status line above covers the first two passes
+only. The third pass (2026-09-06, `RESULTS.md` sections 14 to 19, audited in `REFEREE.md`)
+proves Theorem A, T(N) = I(N) + O(N^{Theta + Theta_chi} log^4 N) under no hypothesis,
+whose interesting case is conditional on RH for zeta and for L(s, chi_3), and Theorem B,
+E(N) = Omega(N^{1 + 2 Theta_chi - eps}), unconditional and informative only if GRH fails
+for L(s, chi_3). Both are written proofs on cited lemmas, corrected and independently
+audited, not kernel-checked and not claimed novel. The fourth pass (2026-09-20,
+`FINAL_ACCEPTANCE.md`) found no new bound and is an attempt unresolved.
+`THEOREM_B_FORMULA_REPAIR.md` (2026-09-20, landed 2026-10-21) replaces the defective zero
+expansion of `THEOREM_B_SEQUENCE.md` with a truncated explicit formula, Proposition 3,
+derived and cleared by two independent review rounds. Its Theorem 4 removes Theorem B's
+eps along a closed-form sequence only under an isolated witness zero, which implies that
+GRH fails for L(s, chi_3), and Theta < Theta_chi; the unconditional case is unresolved.
+This note does not index every file in the directory. Nothing here bears on RH
+(`docs/08`).
+
 ### Hunt #119: is Lambda_DH exactly Delta^2/2? (`lambda_dh_exact/`)
 
 **Status: OPEN, theory phase only (2026-08-18).** Asks whether Hunt #61's
