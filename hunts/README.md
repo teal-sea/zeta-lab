@@ -1760,6 +1760,46 @@ amplification form; loose thread 3 was refuted on main already (Hunts #93,
 #95, #101, #103), and the run's OEIS thread was closed by the literature arm
 (Hunt #143). Nothing here bears on RH (`docs/08`).
 
+### Hunt #100: Erdős #126, the product route has a ceiling of 2 (`support_95a76f59/`)
+
+**Status: not settled. A restricted-class obstruction (`ALIGNMENT.md` §5,
+disposition 2) for the unweighted product $P = \prod_{a\ne b}(a+b)$ read
+through $k \ge B(A)$, with the prime masses estimated from distinctness,
+range, residue counts, whole-set gcd normalisation and the one-step recursion
+on multiples of $p$; weighted or subset products, and any estimate that reads
+the additive structure of $A$, are outside the class, as the run's own doors
+section says.** The arguments are ordinary, unreviewed; the large-sieve
+normalisation of (5b) was not re-checked, which the run flags itself; the
+values of $B$ are floating-point measurements. Landed 2026-10-21 from a
+local-only branch, `support/95a76f59`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all" and cited it as the
+closed "Analytic NT" lane. A support run for the #126 scout, asked to attack
+the original product $P$ and lower-bound its number of distinct prime
+divisors. Within that class it is closed instead. The product yields exactly
+one inequality, $k \ge B(A) = \log P / \max_p (e_p \log p)$, and two
+adversarial families of distinct positive integers with $\gcd = 1$ cap $B$:
+$\Omega' = \{1\}\cup\{i p^m\}$ drives $B \to n/(n-2) \to 1$ against any estimate
+built from distinctness, range and residue counts, and
+$\Omega = \{ip^m+1\}\cup\{jp^m-1\}$, which no gcd normalisation or one-step
+recursion touches, drives $B \to 2$. Measured $B = 1.041$ and $2.125$. So the
+product route, in this class, cannot reproduce Erdős–Turán's $\log_2 n$, let
+alone improve it, and on the seven known optimal witnesses it already loses to
+$\log_2 n$ at $k \ge 6$. The smooth-counting lane is capped too:
+$k \ge \log n/\log\log 2X$ beats $\log_2 n$ only when $X < e^2$. Two things
+survive: a large-sieve sparsity bound $n = O(\sqrt X \log X)$ from the fact
+that $A$ occupies at most $(q+1)/2$ classes mod every prime $q \notin S$, and an
+audit finding that retires one of Hunt #91's loose threads (its "prove
+$|A| \le p-1$ by pigeonhole mod $p$" is false: $\{1+iM\}$ is antipodal-free mod
+every odd $q \le Q$ at any size). Number #100 was assigned by the launching
+brief, not chosen. Overlap with main, recorded in `RESULTS.md`: the
+normalisation is Hunt #103's lemma, the occupancy count $(q+1)/2$ is Hunt #95's
+Lemma A, the smooth-counting inequality is Hunt #107's counting horn, which
+pins it from both sides, and the loose-thread refutation was on main already
+(Hunts #93, #95, #101, #103). The run's open question whether $\max A$ is
+bounded in terms of $(n,k)$ is answered for sub-extremal sizes by Hunt #107
+(unbounded height at $S=\{2,3\}$), annotated in place in `RESULTS.md` and
+`HANDBACK.json`. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #143: Erdős #126, the 92-year wall, and the one lever behind it (`support_fcffa3b9/`)
 
 **Status: not settled. A literature map from a targeted search, not an
