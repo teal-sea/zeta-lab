@@ -851,6 +851,35 @@ pair part of sum_k chi(k) e(N, k) is a bilinear antisymmetric form in the psi(x,
 over the characters psi_j mod q, to which Step 2 applies pairwise, but its main term
 would have to be derived afresh.
 
+**Naming the sequence: the truncated formula (2026-09-20, landed 2026-10-21).**
+`THEOREM_B_SEQUENCE.md` asks whether the sequence above can be exhibited, and its section 3
+rests on a zero expansion of I(x) that is not absolutely convergent (its scope correction
+of 2026-09-12 and `FAREY_BASELINE_REPAIR.md` Appendix B). That expansion is replaced in
+[THEOREM_B_FORMULA_REPAIR.md](THEOREM_B_FORMULA_REPAIR.md). Its Proposition 3 is a
+truncated explicit formula with the same zero coefficients (rho' - 1)/(2 rho' (rho' + 1))
+and remainder C_1 x^2 T^{-1} log^2(xT) + 2 C_1 x log x + C_2 for all x, T >= 4, derived
+from Montgomery and Vaughan's Theorem 12.10 as read in the primary source. The remainder
+is shape-explicit only: no value of C_1 is computed, so nothing there is numerically
+effective. The file also shows that at the source's height T = x^delta the error bound
+exceeds the signal whenever delta < 1 - beta_0, and that the s = -1 polar term is
+log x + nu (a double pole, since chi_3 is odd), not a constant. Its Theorem 4 removes
+the eps of Theorem B along x_n = exp((2 pi n - phi_0)/gamma_0), but only under (H-ISO),
+an isolated witness zero of L(s, chi_3), which implies that GRH fails for L(s, chi_3),
+and (H-TRANSFER), Theta < Theta_chi. That sequence is a closed form in a hypothetical
+zero, so no sequence of numbers is exhibited. Its section 10 writes down the inequality
+still missing in the unconditional case. Status, kept apart: Lemma 0, Lemma 1, the polar
+structure and Proposition 3 are derived, and Theorem 4 is a conditional theorem. The first
+version (`95ae36b`) was reviewed independently and revised in answer; a targeted follow-up
+review of the revision (`3006ef2`) cleared all of them, Theorem 4 as conditional
+([THEOREM_B_FORMULA_REVIEW.md](THEOREM_B_FORMULA_REVIEW.md), with each finding answered in
+[AUTHOR_RESPONSE.md](AUTHOR_RESPONSE.md)). The unconditional variant of section 10 is an
+attempt unresolved (ALIGNMENT.md section 5); the edits answering the follow-up review's
+findings F1 to F3, all in section 10, were checked by the coordinator of that work and
+have not been re-reviewed. The checks in `formula_repair_checks.py` and the reviewer's
+`formula_review_checks.py` are measured, float grade, and not proof; re-run at landing,
+both reproduced their results JSON byte for byte. Nothing there is kernel-checked or
+enclosure-carrying, no novelty is claimed, and Theorem B above is unchanged.
+
 ## 19. Placement: known, consequence, or additional
 
 - **Is (T) a known estimate?** Not in what was read. The sum-side average
