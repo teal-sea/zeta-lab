@@ -30,7 +30,14 @@ GRAVES: tuple[KilledResult, ...] = (
         recurrence_guard=(
             "the squared-modulus block scan that had zero power against this "
             "bug is retained as an instrument-defect control, and the "
-            "standing-review checklist names transpose-for-adjoint swaps"
+            "standing-review checklist names transpose-for-adjoint swaps. "
+            "The general rule, contributed from outside the laboratory on "
+            "2026-09-08 and recorded in "
+            "hunts/short_interval/CORRESPONDENCE.md: do not square, "
+            "Hermitianize, or pass to a positive quadratic object until the "
+            "signed or oriented carrier has been discharged, because such a "
+            "reduction can be non-faithful on exactly the datum the theorem "
+            "still needs"
         ),
         record="hunts/frontier_math/CLEAN-KILL-REPORT.md",
     ),

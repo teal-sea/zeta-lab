@@ -1,0 +1,26 @@
+[
+ {
+  "theta": 1.0,
+  "c_theta": 0.6725007036794115,
+  "last_X": 320.0,
+  "last_value": 0.6756339304289014,
+  "extrapolated": 0.6740761955531211,
+  "p": 0.5837172338223665,
+  "extrapolated_excess": 0.0015754918737096446,
+  "ratio_to_headroom_one": 0.1688995082030954,
+  "theta_cubed": 1.0,
+  "landscape_violations": 0
+ },
+ {
+  "theta": 0.55,
+  "c_theta": -0.000577327053327803,
+  "last_X": 320.0,
+  "last_value": 0.010351216548059705,
+  "extrapolated": 0.0006886456056795489,
+  "p": 0.8514289043871422,
+  "extrapolated_excess": 0.001265972659007352,
+  "ratio_to_headroom_one": 0.13571771652585057,
+  "theta_cubed": 0.16637500000000005,
+  "landscape_violations": 0
+ }
+]
