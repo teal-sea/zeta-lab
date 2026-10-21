@@ -14,9 +14,11 @@ the value needed in the stored scan (`raw_u0` at `B = 4, m = 8` in
 verification. The number the solver prints is not the number the point
 achieves, and this file exists so that distinction cannot quietly rot.
 
-`cvxpy` is not in `requirements.txt`: it is a tool this hunt installed, so
-everything that needs a solver skips without it. The pin on the stored scan
-reads only the JSON and runs without a solver, as do the two basis checks.
+`cvxpy` is in `hunts/frontier_math/requirements.txt`, not in the repository's
+`requirements.txt`: the nightly installs it for the hunts' own tests, and
+anywhere else everything that needs a solver skips without it. The pin on the
+stored scan reads only the JSON and runs without a solver, as do the two basis
+checks.
 """
 
 import json
