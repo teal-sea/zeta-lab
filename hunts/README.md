@@ -3752,3 +3752,31 @@ degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
 Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
+
+### Hunt #147: the de Bruijn-Newman chain at the verified height (`dbn_pt_height/`, opened 2026-10-21)
+
+**Status: open. The chain lane's sourcing is done (2026-10-21); the evaluator lane is
+running.** The task that opened this hunt proposed #140; the campaign orchestrator
+assigned #147 because #138 to #144 are held for landings being renumbered, and #140 is
+already printed by the ref `land/krenn-gu-orbits-20261021`. Reading only, no Lambda
+bound stated. Platt and Trudgian (arXiv:2004.09765) take Lambda <= 0.2 from Polymath
+15's Table 1, row 2 (X = 5e12 + 194858, t0 = 0.186, y0 = 0.16733, N0 = 630783). In the
+Polymath record that row's asymptotic-region hypothesis was checked **only at N = N0**:
+the table's lower bound 0.0376 is the Euler-2 bound at N0, the paper (v1 and v2) says the
+authors "expect to be able to verify" the rest, no sweep at row 2's parameters exists at any
+commit of the project repository, and in issue #131 (2019-04-15) the paper's
+administrator wrote that N0 alone is not quite enough and that he was not concerned
+about verifying it carefully. The only reported full sweep is an outside reader's blog comment of 5 July
+2024 with unpublished code and no stated precision or y-range. Disposition: a gap in the
+published chain, attempt unresolved, not a refutation. The same Section 10 sentence
+swaps the hypothesis labels of Theorem 1.2, in both arXiv versions, and the swap recurs
+in the 0.1875 bundle. The task's four "0.1875" pieces (collision exclusion, interior,
+exterior to 66476100549959, tail) are the 0.16 package's modules; the 0.1875 package
+itself instantiates the Polymath criterion at X = 6000000185827, and its finite-window
+leg consumes a banked lower bound that the Zenodo bundle does not contain. Both the 0.16
+and the 0.1595 rows depend on it through the anchor 3/16; the 0.172422 row's stated
+anchor is 0.2. The zeta-specific inputs are the verification height and the
+Euler-mollified lower bound; Davenport-Heilbronn fails the first (zero 0.8085 +
+85.699i), so the structural DH gate passes. Every quotation (129) is re-read from hashed
+sources by `test_chain.py`. `CHAIN.md`, `REDUCTION.md`. Nothing here bears on RH
+(`docs/08`).
