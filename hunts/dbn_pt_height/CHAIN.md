@@ -106,7 +106,10 @@ point $X$" [Q:R1]. The repository's sweeps of the right region live in
 the only one starting at N = 630783 is at t = 0.17, y = 0.2 [Q:R5], a
 different parameter point (an earlier rung, 0.17 + 0.2^2/2 = 0.19) that does
 not imply the hypothesis at (t0, y0) = (0.186, 0.16733). The test lists every
-file that path has ever held and checks both statements.
+file that path has ever held and checks both statements. A search of the whole
+history for the string 0.16733 touches only the writeup, row 2's barrier output
+and y = 0.2 sweep files where the digits sit inside other numbers; the test
+pins that too.
 
 **The issue threads.** Issue #131 (opened 2019-01-25) proposed that for the
 conditional rows the mollified triangle bound "can be made positive already at

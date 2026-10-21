@@ -278,6 +278,19 @@ def test_no_sweep_at_row2_parameters_in_any_commit() -> None:
 
 
 @needs_cache
+def test_the_row2_y0_string_never_entered_a_sweep_file() -> None:
+    """A history search for 0.16733 touches only the writeup, row 2's barrier output, and y = 0.2 sweeps."""
+    repo = CACHE / SRC["DBN_REPO"]["cache_path"]
+    out = subprocess.run(["git", "-C", str(repo), "log", "--all", "-S0.16733", "--format=", "--name-only"],
+                         capture_output=True, text=True, check=True).stdout
+    paths = sorted({p for p in out.split("\n") if p.strip()})
+    barrier = "output/windingnumbers/windnum_nolemma_x5000000194858_y_0.16733_1_t_0_0.186.txt"
+    assert barrier in paths
+    for p in paths:
+        assert p.startswith("Writeup/") or p == barrier or (p.startswith("output/eulerbounds/") and "y_0.2" in p), p
+
+
+@needs_cache
 def test_the_banked_window_bound_has_no_producer_in_the_bundle() -> None:
     """REDUCTION.md A4: the members naming lwin2 are exactly the recorded list, and none is C or GP source."""
     want = set(next(r for r in CHAIN["reduction_1875"] if r["id"] == "A4")["lwin2_naming_members"])
