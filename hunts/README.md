@@ -1573,6 +1573,55 @@ be circular for this arm anyway), the ladder at $k=4$ (the enumeration exceeded
 ten minutes), and any upper bound on $g(k)$ at all. Nothing bears on RH
 (`docs/08`).
 
+### Hunt #143: Erdős #126, the 92-year wall, and the one lever behind it (`support_fcffa3b9/`)
+
+**Status: not settled. A literature map from a targeted search, not an
+exhaustive one; it refutes nothing and closes no route.** Primary text was read
+for Erdős–Turán 1934 and for Győry–Stewart–Tijdeman 1986 including its §3
+proof. Erdős–Surányi's $2^k$ and the Erdős–Stewart–Tijdeman constant $1/8$ are
+secondary citations through Füredi–Gyarmati 2026, not checked against the
+originals; Evertse's bound is quoted through GST; the one reduction step of the
+run's own is an ordinary argument, unreviewed. **Renumbered on landing:** the
+run's brief assigned #91, which `r_186989` already held, so the run took #92 on
+its branch; #92 is `support_517b887f` on main, so the entry takes #143, the
+next free number, and `HANDBACK.json` keeps the run's #92. Landed 2026-10-21
+from a local-only branch, `support/fcffa3b9`, that was never pushed; PR #144
+counted the arm among the seven that "produced no branch at all". A support arm
+for the scout (Hunt #91), answering one question: what does the literature
+actually have, from 1934 to now? Four things, three of them from primary text.
+**The 1934 bound is still the record**: Erdős and Turán prove
+$g(k) \le 3\cdot2^{k-1}-1$, and the search found nothing in 92 years that
+improves the base 2, only the constant ($g(k)\le 2^k$, Erdős–Surányi). **The
+$S$-unit machinery is already in the literature and is quantitatively worse**:
+Győry–Stewart–Tijdeman 1986 reproves $f(n)\gg\log n$ through Evertse's counting
+bound and lands at $3\cdot7^{2k+3}\approx 49^k$, because its reduction keeps
+only $2(n-2)$ of the $\binom n2$ sums. **It is still the lever, and the run
+makes that precise**: with $g_2$ the two-set relaxation,
+$g(k)\le g_2(k)+2 \le N(k)+2$ where $N(k)$ counts coprime $S$-unit solutions of
+$\lambda x+\mu y=\nu z$ (step one the run's own, step two quoted verbatim from
+GST §3; the branch's entry dropped the final $+2$, which its own `RESULTS.md`
+§2 carries), so **a uniform $\exp(o(k))$ bound on $N(k)$ implies Erdős #126**.
+The converse fails, and the route is not blocked: Erdős–Stewart–Tijdeman 1988
+forbids only *polynomial* bounds on $g_2$, leaving the whole window
+$\exp(\tilde\Theta(\sqrt k)) \ldots \exp(o(k))$ open, every point of which
+settles the problem. Two audit findings against the scout: its arm-2 parity
+headline is on page 1 of the 1934 paper verbatim, and its arm-3 kill is
+stronger than claimed, since a composition law would force the 1934 bound to
+be sharp up to $3/2$ and contradict its own authors' conjecture
+$n(k)=O(k^{1+\varepsilon})$, a conjecture no modern summary of the problem
+mentions. The scout's OEIS thread is closed negatively (a sequence query with
+twenty coincidental matches and a keyword search with none, so no tabulation of
+$g(k)$). What could not be settled:
+whether the subexponential $S$-unit bound is a *stated* conjecture of that
+field, which is the difference between "#126 needs a new idea" and "#126 is a
+corollary of a believed conjecture". Overlap with main, recorded in
+`RESULTS.md`: the reduction is that of Hunts #96 and #104 (and of #97, #99 and
+#106, landed with this entry), and #105 makes the same 3/2-corridor point,
+which #99 sharpens to $g(k)=2^k$. One statement relied on the scout's "every
+optimal witness lives below 50", which Hunts #103, #105 and #107 refuted; it is
+annotated in place (`RESULTS.md` §3, the T8 row). Nothing here bears on RH
+(`docs/08`).
+
 ### Hunt #90: the leader's certificate does not replay at its own HEAD (`amtopa_ceiling/`)
 
 **Status (2026-09-06, `RESULTS.md` section 7.7): the `+3.96e-06` candidate is WITHDRAWN.
