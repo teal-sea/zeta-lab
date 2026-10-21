@@ -4175,7 +4175,7 @@ would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
 > corner of `M + ℓ ≤ 1` and per-summand losslessness, which alone forces 7/8 for every geometry; the
 > exact rational bounds; and the pricing of the row-count excess between its two ends. tomoto0's
 > bootstrap figure near 0.8745 treats the slope α as 2β* − 1, while the paper's lines 15100 to 15104 say
-> α is fixed and κ = 2β* − 1 is the dynamic parameter, and the other follow-ups keep α = 5/6. Open
+> α is fixed and κ = 2β* − 1 is the dynamic parameter, and Gao, Guo and Argonaut Math keep α = 5/6. Open
 > check: Xu and Sang's 0.8748867, as hunt #136 records it, lies below σ*, so it must change an input
 > beyond the geometry; if it changed only the geometry, that would refute this hunt's bound.
 
