@@ -87,6 +87,22 @@ def test_the_landscape_copy_in_verify_still_matches_frontier_py(lam: float, fron
     assert abs(frontier.zeta_H_closed(lam) - verify.c_simple(lam)) <= 1e-14
 
 
+def test_the_bridge_diagnostic_of_finding_two() -> None:
+    """`Phi_3` in the coordinate `R = 2 - c`: `R -> 1.001343 R - 0.002019`.
+
+    A relative 0.134% of the second moment against a fixed absolute gain,
+    break-even at `R = 1.5037`, that is `theta = 0.8082` (MISSION.md section 4).
+    """
+    slope = verify.bridge("Phi_3", 1.0) - verify.bridge("Phi_3", 0.0)
+    intercept = verify.bridge("Phi_3", 0.0)
+    assert abs(slope - 1.001343) <= 5e-7
+    assert abs((2 - 2 * slope - intercept) - (-0.002019)) <= 1e-6
+    breakeven = -intercept / (slope - 1)
+    assert abs((2 - breakeven) - 1.5037) <= 5e-5
+    theta = verify._bisect(lambda t: verify.c_simple(t) - breakeven, 0.56, 0.999)
+    assert abs(theta - 0.8082) <= 5e-5
+
+
 def test_the_shadow_price_of_bandwidth_at_one() -> None:
     """`c'(1) = (1/2) cot^2(1/sqrt 2) = (3/2 - H)^2`, MISSION.md section 13."""
     h = verify.c_simple(1.0)
@@ -198,6 +214,14 @@ def test_the_flat_window_identity_and_the_xiprime_calibration() -> None:
     assert abs((2 - r) - 0.85838) <= 5e-6
     assert abs((3 - r) / 2 - 0.92919) <= 5e-6
     assert abs((3 - sqrt(6)) - 0.5505102572) <= 1e-10
+
+
+@pytest.mark.parametrize("lam, gap", [(0.6, 0.00122), (1.0, 0.00583)])
+def test_flat_minus_optimal_is_about_lambda_cubed_over_180(lam: float, gap: float) -> None:
+    """Finding three: the whole value of window shape, against `lambda^3/180`."""
+    measured = landscape.R_flat(lam, landscape.F_zeta) - landscape.C_wang(lam)
+    assert abs(measured - gap) <= 5e-6
+    assert abs(measured - lam ** 3 / 180) <= 0.1 * lam ** 3 / 180
 
 
 def test_the_vacuity_thresholds() -> None:

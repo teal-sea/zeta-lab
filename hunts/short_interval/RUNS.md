@@ -138,13 +138,13 @@ the wall times below run long.
 id: short_interval-2026-10-21-landing-replay
 hunt: short_interval
 started: 2026-10-21T15:31Z
-finished: 2026-10-21T15:58Z
+finished: 2026-10-21T16:03Z
 ran:
   - .venv/bin/python hunts/short_interval/verify.py
   - .venv/bin/python hunts/short_interval/enclose_theta.py
   - .venv/bin/python hunts/short_interval/landscape.py
   - .venv/bin/python -m pytest -q -n0 -p no:cacheprovider hunts/short_interval
-outcome: verify.py passed every cross-check; enclose_theta.py passed every control and rewrote artifacts/enclose-theta.json byte for byte; landscape.py reproduced its printed tables in 17 s; the new test_short_interval.py, which re-evaluates the twenty exact bounds from their committed windows without writing the artifact, recomputes the X = 40 ceiling rung and pins the landscape and band-price numbers MISSION.md quotes, passed 54 of 54; no number moved
+outcome: verify.py passed every cross-check; enclose_theta.py passed every control and rewrote artifacts/enclose-theta.json byte for byte; landscape.py reproduced its printed tables in 17 s; the new test_short_interval.py, which re-evaluates the twenty exact bounds from their committed windows without writing the artifact, recomputes the X = 40 ceiling rung and pins the landscape and band-price numbers MISSION.md quotes, passed 54 of 54, and 57 of 57 once checks of the Phi_3 bridge diagnostic and the lambda^3/180 window gap were added; no number moved
 artifacts:
   - hunts/short_interval/test_short_interval.py
 ```
