@@ -70,3 +70,33 @@ ran:
 outcome: 114 tests pass, three landing checks among them; the hunt's formulas reproduce the public optimum sigma star, Liu's tight point at sigma dagger and Gao's boundary line
 artifacts:
 ```
+
+## 2026-10-21, prior-art extension
+
+The landing's search had stopped at Guo's README. It was extended the same day to the
+three works that README names and to the follow-ups' own manuscripts, as listed in
+`RESULTS.md` section 10. Each source was fetched read-only through the GitHub API at the
+stated commit into a scratch directory outside the tree, on the same Linux box, and read
+as data; nothing in it was executed. The pinned `paper.tex` was fetched again (sha256
+matches) to read lines 15085 to 15119 and 15290 to 15311. One scratch comparison in
+mpmath at 40 digits put LW56e2's 4374785349/5000000000 at 8.3 × 10⁻¹³ above σ*.
+`probe.py`, `results.json` and `probe_output.txt` were not rerun or changed.
+
+Section 10 states several translations between this hunt's variables and the sources'
+(tomoto0's E is C₀ on M + ℓ = 1, its corner condition is M − 2ℓ ≥ 3/8 + b, the
+follow-ups' low-side loss is `row_loss` on that line). A block of exact tests added
+before the landing checks pins each of them. Planted faults (13/12 changed to 13/11 in
+tomoto0's exponent, the loss denominator 4 changed to 3, `row_loss` with M − d in place
+of M − 2d, LW56e2's numerator lowered by one, and the corner constant 3/8 changed to 1/4)
+each turned at least one of those tests red.
+
+```runmanifest
+id: seven_eighths_pin-2026-10-21-prior-art-extension
+hunt: seven_eighths_pin
+started: 2026-10-21T21:27Z
+finished: 2026-10-21T21:50Z
+ran:
+  - .venv/bin/python -m pytest -q -n0 -p no:cacheprovider hunts/seven_eighths_pin
+outcome: 133 tests pass, 19 of them new exact checks of the translations section 10 states; the extension changed text and tests only
+artifacts:
+```

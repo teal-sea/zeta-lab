@@ -18,14 +18,29 @@ Line numbers below refer to that file. `probe.py --paper PATH` checks that each 
 > **Landing note, 2026-10-21.** Opened as hunt #134 and renumbered #139 at landing,
 > because #134 on main is `gauss_positivity` and #136 to #138 are taken by other
 > open hunts and landings. The prior-art search this page had not run was run at
-> landing, and it found the re-optimized geometry of Summary item 3 and section 4
-> already public before this hunt opened: J. Guo and B. Liu give its optimum
-> σ* = (1507 − 2√921)/1653 ≈ 0.8749570698 (8 October 2026). That number is not original
-> here, and neither is the small gain from tying the capacity to the target (section 7).
-> Section 10 records what was searched and found, and two consequences checked at
-> landing against this hunt's own formulas: the exact bound 0.874942 is valid but loose,
-> and the scan optimum 0.874958 is a grid reproduction of σ*. The rest of this page is
-> as the hunt wrote it.
+> landing and extended the same day to the three works its first source names and to
+> the follow-ups' own manuscripts (section 10 lists what was read, with commits). Much
+> of this page was public before the hunt opened on 2026-10-16, so it was derived here
+> independently and is not novel:
+>
+> - a model computation by tomoto0 (7 October 2026) has the target formula of Summary
+>   item 1 with its ζ_F(6z) pole, the floor-row ceiling 13/15 of Summary item 5 at the
+>   same corner, a geometry optimum near 0.87496 with the zero-detected rows binding (the
+>   two ends of section 6), and on a grid the worst point and margin of Summary item 4 at
+>   the paper's geometry;
+> - J. Guo and B. Liu (8 October 2026) give the exact optimum of the re-optimized geometry
+>   of Summary item 3 and section 4, σ* = (1507 − 2√921)/1653 ≈ 0.8749570698, and the
+>   further gain of section 7's tied capacity; Guo derives the binding bin
+>   δ* = (49 − √921)/48 at x = 1/2 from the vanishing coefficient of the offset;
+> - the total accounting of section 3, marked inferred below, is a proof step on the line
+>   M + ℓ = 1 in Z. Gao's draft (7 October) and in Guo's and Argonaut Math's papers
+>   (8 October).
+>
+> Section 10 also records two consequences checked at landing against this hunt's own
+> formulas (the exact bound 0.874942 is valid but loose, and the scan optimum 0.874958 is
+> a grid reproduction of σ*), what was not found in the sources read, and one
+> disagreement with tomoto0 over the slope α. The rest of this page is as the hunt wrote
+> it.
 
 ## Summary
 
@@ -280,11 +295,11 @@ directory `zero-free-beyond-7-8` (its README as of commit `5750cc81e489`, 9 Octo
 arXiv:2610.12234 (v1 8 October, v2 12 October 2026); and one web search for the Xu and
 Sang figure that hunt #136 records. No paper's proofs were read. Found:
 
-- **The re-optimized geometry is public, and is not original here.** Guo's README states
-  that optimising the skew parameter (the offset b here) gives the endpoint
-  σ* = (1507 − 2√921)/1653 ≈ 0.8749570698, and that widening Lemma plain's
-  fourth-moment range from [3/4, 1] to [37/50, 1] gives σ† ≈ 0.8749570194, the root of
-  7884s³ − 18819s² + 14643s − 3686 in (0.8749570194, 0.8749570195). It credits B. Liu
+- **The re-optimized geometry was public before this hunt opened, so it is not novel
+  here.** Guo's README states that optimising the skew parameter (the offset b here)
+  gives the endpoint σ* = (1507 − 2√921)/1653 ≈ 0.8749570698, and that widening Lemma
+  plain's fourth-moment range from [3/4, 1] to [37/50, 1] gives σ† ≈ 0.8749570194, the
+  root of 7884s³ − 18819s² + 14643s − 3686 in (0.8749570194, 0.8749570195). It credits B. Liu
   with σ* independently (8 October) and Z. Gao with 20999/24000 at ℓ = 1001/6000,
   b = 1/8 (a draft of 7 October), whose fixed-offset envelope it gives as about
   0.8749572006. Liu's v2 abstract varies b, ℓ and κ, gives σ† in closed form as
@@ -301,13 +316,15 @@ Sang figure that hunt #136 records. No paper's proofs were read. Found:
     223/576 ≈ 0.3871528 sits below it. At δ* the same program returns σ* itself: with
     the paper's row counts, no geometry with M + ℓ ≤ 1 and b ≥ 0 passes the endpoint
     inequality below σ* (derived, at the grade of the recorded bound; the closed forms
-    come from an exact symbolic computation at landing and are pinned to 35 digits).
-    The inequality is tight at δ* for ℓ* = 11/551 + 8√921/1653 ≈ 0.1668384 and
-    b* = −4/29 + 230√921/26709 ≈ 0.1234054. So re-choosing the geometry gains at most
-    7/8 − σ* ≈ 4.29 × 10⁻⁵, inside the "at most 5.8 × 10⁻⁵" of Summary item 3, and
-    Guo and Liu state that this gain is attained (cited). That the inequality holds at
-    every other (δ, x) at that geometry is their claim; a refinement of this page's
-    float scan at landing agrees (measured, `RUNS.md`), and no exact check of it ran here.
+    come from an exact symbolic computation at landing and are pinned to 35 digits; they
+    are Guo's, as the extension below found). The inequality is tight at δ* for
+    ℓ* = 11/551 + 8√921/1653 ≈ 0.1668384 and b* = −4/29 + 230√921/26709 ≈ 0.1234054.
+    So re-choosing the geometry gains at most 7/8 − σ* ≈ 4.29 × 10⁻⁵, inside the "at
+    most 5.8 × 10⁻⁵" of Summary item 3, and Guo and Liu state that this gain is attained
+    (cited). That the inequality holds at every other (δ, x) at that geometry is shown in
+    Guo's section 8 by an exact decomposition of the endpoint numerator (read in the
+    extension, not re-run or checked here); a refinement of this page's float scan at
+    landing agrees (measured, `RUNS.md`).
   - *The scan optimum 0.874958 at b = 0.12 is a grid reproduction.* The offset grid of
     0.01 leaves it 5.9 × 10⁻⁷ above σ* (measured).
   - *Section 7's tied capacity is Liu's κ.* Liu's κ_new = (18ξ + 5)/(18ξ + 9) =
@@ -315,11 +332,105 @@ Sang figure that hunt #136 records. No paper's proofs were read. Found:
     Liu's ξ, ℓ_new and b_new is zero at δ = ξ and x = 1/2, a minimum in δ and flat in b,
     with B_new on the target line. So Liu's ξ is this page's binding δ, and the "less
     than 10⁻⁶" measured in section 7 is the step of 5.0 × 10⁻⁸ from σ* to σ†.
-- **What stays original to this laboratory** is the reading: that 7/8 sits at the
-  corner of M + ℓ ≤ 1 and the per-summand condition M − 2ℓ ≥ 1/2 (section 3), the
-  floor-row ceiling 13/15 (section 5) and the pricing of the row-count excess by λ
-  (section 6). Whether Guo or Liu say in words which rows bind, or why the paper's
-  geometry sits at 7/8, is unchecked, because their proofs were not read.
+
+**Extended 2026-10-21, the same day.** The first search stopped at Guo's README, whose
+related-work paragraphs name three more works, and it read none of the follow-ups' own
+manuscripts. Read in the extension, as data, with the pinned `paper.tex` (sha256 as
+above) at hand for the cited lines:
+
+- tomoto0, `github.com/tomoto0/quasi-riemann-hypothesis-7-8-verification` at
+  `b83a73c6cb62` (the repository's only commit, 7 October 2026): the README, and
+  `reports/barrier_analysis.md` and `reports/improvement_exploration.md` in full (both in
+  Japanese); `scripts/numerical_checks.py` and `data/numerical_checks_results.json`
+  searched, with the grid check C18 read;
+- Argonaut Math, `github.com/Argonaut-Math/argonaut-math-quasi-riemann-boundary` at
+  `5971383edcb0` (8 October 2026): the README with its announcement; in
+  `preprints/Beyond_the_Seven_Eighths_Barrier.tex` the introduction, the outline and
+  section 3 (the low side) read, the rest searched;
+- LW56e2, `github.com/LW56e2/quasi-riemann-improved` at `b83dbbd914c5` (8 October 2026):
+  the README (the repository holds Lean files and no manuscript);
+- Guo's paper source, in the directory and commit above: sections 3 (the low bound), 8
+  (the quadratic endpoint) and 11 (the limit of his envelope) read, sections 1 and 6
+  searched;
+- Z. Gao, `github.com/Gaozhongpai/seven-eighths-refinement-certificates` at
+  `309a757ea539` (the version Guo cites, committed 8 October 2026, draft dated 7 October):
+  the README and `REPORT.md`, the low-side lemma and its use in manuscript sections 2 and
+  3, the rest of the manuscript searched.
+
+Liu's note itself was not read, only its abstract, and no proof was checked. Every
+translation below between this page's variables and a source's is pinned in exact
+arithmetic by the block of tests just before the landing checks in
+`test_seven_eighths_pin.py`; the sources' own numbers are cited, not re-derived. Found:
+
+- **tomoto0 had much of this page nine days before the hunt opened.** It calls its
+  figures model computations that use the paper's exponent formulas outside their stated
+  ranges. As far as those files show:
+  - the target σ₀ = 1 − h/6 + b/12 at both stages, with the 1/6 from the pole of ζ_F(6z),
+    and σ₀ = 2/3 + l_x/2 + b/4 on M + ℓ = 1, the same line as 11/12 − ℓ/4
+    (`barrier_analysis.md` section 1): Summary item 1;
+  - the floor-row ceiling (section 2, its "barrier B"): rows near Re s = 1/2 are counted
+    with R = 1, which no row count improves, and E = 1 − (5/2)l_x − (13/12)b < 0 forces
+    σ₀ > 13/15, the limit at l_x = 2/5, b = 0, that is ℓ = 1/5, M = 4/5. Its E is this
+    page's C₀ on M + ℓ = 1. Scenarios 5 and 6 of `improvement_exploration.md` give
+    0.86979 with ideal counts R = 1 − δ and the floor 51/100 binding, and the infimum 13/15
+    with the floor removed: Summary item 5 and the λ = 0 end of section 6;
+  - a geometry optimum 0.87496 at (l_x, b, ℓ, h) = (0.3545, 0.1241, 0.1668, 0.8123),
+    4 × 10⁻⁵ below 7/8, with the adaptive range (the zero-detected rows) binding
+    (`barrier_analysis.md` section 3, scenario 1): the scan optimum of Summary item 3 and
+    the λ = 1 end of section 6;
+  - at the paper's geometry, the minimum of −E_* on a 401 × 401 grid, 2.28 × 10⁻⁴ at
+    δ = 0.3875, x = 1/2, about twice 49/440640 (README section 2, check C18), where
+    Summary item 4 has the exact 7/30672 at δ = 79/204.
+
+  These were derived here independently (the hunt read only the paper, `RUNS.md`) and
+  are not novel.
+- **The low-side loss behind section 3 is handled in three follow-ups.** Gao's draft,
+  Guo's section 3 and Argonaut Math's section 3 each bound the row energy of a summand
+  rescaled by Z^d by M' + (5ℓ − 1 + d)₊/4 on the line M + ℓ = 1, which is this page's loss
+  ((1 + 3ℓ − 2M + d)/4)₊ on that line, and show that the rescaling absorbs it,
+  −d + (5ℓ − 1 + d)₊/8 ≤ −7d/8, which holds once ℓ ≤ 1/5. That is the total
+  accounting section 3 marks inferred, used there as a proof step of an unreviewed
+  preprint, so its grade here does not change. In the parts read, none of them says that
+  per-summand losslessness is what places the paper's geometry at 7/8. tomoto0 explains
+  the Part II corner by the paper's sufficient condition l_x − ℓ ≥ 3/16, that is
+  h ≤ 13/16 (`barrier_analysis.md` section 1). That condition is M − 2ℓ ≥ 3/8 + b: the
+  same line as this page's M − 2ℓ ≥ 1/2 at the paper's b = 1/8, and a different one at
+  any other b.
+- **Guo names the binding bin.** His section 8 takes d_* = (49 − √921)/48, the root of
+  288δ² − 588δ + 185 where the coefficient of b in the endpoint numerator at x = 1/2
+  vanishes, with ℓ_* = (33 + 8√921)/1653, the same b_* as above and σ_* = 11/12 − ℓ_*/4.
+  His section 11 shows that at this bin the high exponent is (3/4 + 3d_*/2)(ℓ − ℓ_*)
+  whatever b is, so every admissible geometry has ℓ ≤ ℓ_*: section 4's one-witness bound,
+  placed at its best witness, inside his envelope with M + ℓ = 1.
+- **Argonaut Math and LW56e2** (both 8 October 2026, with Lean files) state the boundaries
+  7/8 − 1/4000000 = 3499999/4000000 and 4374785349/5000000000, a rational just above σ*.
+  Argonaut Math moves ℓ up and M down by τ = 10⁻⁶ along M + ℓ = 1 at b = 1/8. LW56e2's
+  README records an exact two-bin obstruction to lowering its boundary by 10⁻¹² with the
+  same two parameters; its Lean files were not read.
+- **A disagreement with tomoto0, over the slope α.** tomoto0's bootstrap scenarios
+  (`barrier_analysis.md` section 3 and `improvement_exploration.md` scenarios 2 and 3:
+  0.87451 at α = 3/4, and a fixed point near 0.8745) set α = 2β* − 1 from the prior
+  bound on the zero. The paper, at lines 15100 to 15104, sets κ = 2β* − 1 = 3/4 + 2Δ and
+  α := 5/6, and says: "The parameter κ remains dynamic; α is the fixed slope from
+  sixth-power amplification." On that reading
+  (section 7), feeding 7/8 back caps the bins at δ ≤ 3/4, far above the binding
+  δ ≈ 0.39, and through κ moves only Lemma plain's capacity, which is section 7's tied
+  capacity (less than 10⁻⁶, and only if that lemma's range extends below κ = 3/4). The
+  follow-ups read agree: Gao and Argonaut Math both take κ = 3/4 from the 7/8 bound and
+  keep α = 5/6 (Argonaut Math's bins stop at δ ≤ 3/4), and Guo's envelope keeps 5/6 while
+  κ = 2β − 1 varies. So, as read here, tomoto0's 0.87451 and 0.8745 do not follow from
+  the paper as written. This page's own early scratch scan made the same substitution,
+  reached the same apparent fixed point near 0.8745 and was discarded for that reason
+  (`RUNS.md`).
+- **Not found in the sources read,** and so this hunt's own as far as this search goes:
+  the reading that 7/8 is the corner of M + ℓ ≤ 1 (read as an inequality from line 8246;
+  Gao, Guo, Argonaut Math and tomoto0 all fix M + ℓ = 1) and of per-summand losslessness
+  M − 2ℓ ≥ 1/2, which alone forces 7/8 for every (ℓ, M, b), with section 4's
+  constant-target slope putting the optimum on M + ℓ = 1; the exact rational bounds
+  5655673/6464057 and 44117/50422 and the
+  exact margin 7/30672 at δ = 79/204; the pricing of the row-count excess between the two
+  ends of section 6; and the use of lines 15100 to 15104 against the bootstrap figure.
+  This is a statement about the sources listed, not a novelty claim.
 - **Open check.** Xu and Sang's 0.8748867, as hunt #136 (`below_seven_eighths/`, open on
   branch `hunt/below-seven-eighths`) records it, and the 0.874887 for Hecke
   L-functions over every number field that the same record attributes to Liu, both lie

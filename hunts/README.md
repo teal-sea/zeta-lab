@@ -4160,16 +4160,24 @@ would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
 
 > **Landed on main 2026-10-21.** Opened on `claude/hunt-134-seven-eighths-pin` as Hunt #134; on main #134
 > is `gauss_positivity` and #136 to #138 are held by other open hunts and landings, so this hunt is #139.
-> The prior-art search the hunt had not run was run at landing (`RESULTS.md` section 10).
-> The re-optimized geometry was already public: J. Guo and B. Liu
-> (arXiv:2610.12234), both 8 October 2026, give its optimum σ* = (1507 − 2√921)/1653 ≈ 0.8749570698,
-> and Z. Gao (7 October) gives 20999/24000 at b = 1/8. So the scan optimum 0.874958 below is a grid
-> reproduction of σ*, not an original result. The exact bound below is valid but loose: the same
-> one-witness program at the binding δ* = (49 − √921)/48 returns σ* itself (pinned at landing).
-> Original here is the reading: the corner, the per-summand condition, the floor-row ceiling 13/15
-> and the pricing of the row-count excess. Open check: Xu and Sang's 0.8748867, as hunt #136 records
-> it, lies below σ*, so it must change an input beyond the geometry; if it changed only the geometry,
-> that would refute this hunt's bound.
+> The prior-art search the hunt had not run was run at landing and extended the same day to the works
+> its first source names and to the follow-ups' manuscripts (`RESULTS.md` section 10). Much of the hunt
+> was already public, so it was derived here independently and is not novel. A model computation by
+> tomoto0 (7 October 2026, nine days before the hunt opened) has the target formula with its ζ_F(6z)
+> pole, the floor-row ceiling 13/15 at the same corner, and a geometry optimum near 0.87496 with the
+> zero-detected rows binding. J. Guo and B. Liu (arXiv:2610.12234), both 8 October, give the exact
+> optimum σ* = (1507 − 2√921)/1653 ≈ 0.8749570698, and Guo derives its binding bin δ* = (49 − √921)/48.
+> Z. Gao (7 October) gives 20999/24000 at b = 1/8, and Argonaut Math (7/8 − 1/4000000) and LW56e2
+> (4374785349/5000000000), both 8 October, also state boundaries below 7/8. Gao, Guo and Argonaut Math
+> carry the low-side loss accounting that the hunt marks inferred. So the scan optimum 0.874958 below is
+> a grid reproduction of σ*, and the exact bound below is valid but loose: the same one-witness program
+> at δ* returns σ* itself (pinned at landing). Not found in the sources read: the reading of 7/8 as the
+> corner of `M + ℓ ≤ 1` and per-summand losslessness, which alone forces 7/8 for every geometry; the
+> exact rational bounds; and the pricing of the row-count excess between its two ends. tomoto0's
+> bootstrap figure near 0.8745 treats the slope α as 2β* − 1, while the paper's lines 15100 to 15104 say
+> α is fixed and κ = 2β* − 1 is the dynamic parameter, and the other follow-ups keep α = 5/6. Open
+> check: Xu and Sang's 0.8748867, as hunt #136 records it, lies below σ*, so it must change an input
+> beyond the geometry; if it changed only the geometry, that would refute this hunt's bound.
 
 **Status: answered within its scope; a reading of the paper, unreviewed by any person.**
 In OpenAI's 7/8 argument the target is where the direct bound meets the Mellin signal,

@@ -8,7 +8,9 @@ prose quotes it.  Planted faults show that the reproductions can fail.
 The last three tests are the landing checks of 2026-10-21 (RESULTS.md section 10).
 They run the same exact code at 45-digit rational approximations of the public
 closed forms of Guo, Liu and Gao, which are irrational, so they hold to a stated
-tolerance rather than exactly.
+tolerance rather than exactly.  The block just before them, added the same day with
+the prior-art extension, pins in exact arithmetic each translation section 10 states
+between this hunt's variables and those of tomoto0, Gao, Guo, Argonaut Math and LW56e2.
 """
 
 from __future__ import annotations
@@ -203,6 +205,75 @@ def test_results_json_matches_the_prose():
     text = open(os.path.join(HERE, "RESULTS.md")).read()
     for s in ("5655673/6464057", "44117/50422", "13/15", "0.874958", "7/30672"):
         assert s in text
+
+
+# ------------------------ prior-art translations, 2026-10-21 (RESULTS.md section 10)
+#
+# The prior-art extension compares this hunt with sources that write the same
+# quantities in other variables.  These exact checks pin each translation that
+# section 10 states, so the comparison does not rest on algebra done in prose.
+
+@pytest.mark.parametrize("l_x", [Fr(1, 3), Fr(17, 48), Fr(3, 8), Fr(2, 5)])
+@pytest.mark.parametrize("b", [Fr(0), Fr(1, 12), Fr(1, 8)])
+def test_tomoto0_target_floor_exponent_and_corner_in_this_hunts_terms(l_x, b):
+    """tomoto0 (2026-10-07) works on M + ell = 1 in (l_x, b): M = 2 l_x + b, ell = 1 - M.
+
+    Its target 2/3 + l_x/2 + b/4 is this hunt's 11/12 - ell/4; its floor-row exponent
+    E = 1 - (5/2) l_x - (13/12) b is this hunt's C_0 on that line; and its corner
+    condition l_x - ell >= 3/16 (h <= 13/16) is M - 2 ell >= 3/8 + b, the per-summand
+    line M - 2 ell = 1/2 only at b = 1/8.
+    """
+    M = 2 * l_x + b
+    ell = 1 - M
+    g = probe.geometry(ell, b, M)
+    assert g["l_x"] == l_x and g["h"] == 2 - 3 * l_x - b
+    assert probe.target(ell, b, M) == Fr(2, 3) + l_x / 2 + b / 4 == Fr(11, 12) - ell / 4
+    e_tomoto0 = 1 - Fr(5, 2) * l_x - Fr(13, 12) * b
+    assert probe.c0(ell, b, M) == probe.c0_closed(ell, b, M) == e_tomoto0
+    assert (l_x - ell) - Fr(3, 16) == ((M - 2 * ell) - (Fr(3, 8) + b)) / 2
+    if b == Fr(1, 8):
+        assert (l_x - ell >= Fr(3, 16)) == (M - 2 * ell >= Fr(1, 2))
+    if (l_x, b) == (Fr(2, 5), Fr(0)):  # tomoto0's limit point is this hunt's floor corner
+        assert (ell, M) == (Fr(1, 5), Fr(4, 5)) and e_tomoto0 == 0
+        assert probe.target(ell, b, M) == Fr(13, 15)
+
+
+@pytest.mark.parametrize("ell", [Fr(0), Fr(1, 6), Fr(1001, 6000), Fr(3, 17), Fr(1, 5)])
+def test_follow_ups_low_side_loss_is_this_hunts_total_accounting(ell):
+    """Gao, Guo and Argonaut Math: row energy M' + (5 ell - 1 + d)_+/4 on M + ell = 1, and
+    -d + (5 ell - 1 + d)_+/8 <= -7d/8 once ell <= 1/5.
+
+    That loss is this hunt's row_loss on the line, the absorption is its total accounting
+    (only d = 0 must be lossless), and per-summand losslessness on the line is ell <= 1/6,
+    the paper's corner.
+    """
+    M = 1 - ell
+    for k in range(13):
+        d = ell * Fr(k, 12)
+        loss = max(Fr(0), (5 * ell - 1 + d) / 4)
+        assert probe.row_loss(ell, M, d) == loss
+        assert -d + loss / 2 <= -Fr(7, 8) * d
+    assert probe.low_side_ok_total(ell, M)
+    assert probe.low_side_ok_per_summand(ell, M) == (ell <= Fr(1, 6))
+
+
+def test_follow_ups_absorption_fails_just_past_one_fifth():
+    ell = Fr(1, 5) + Fr(1, 1000)
+    assert not probe.low_side_ok_total(ell, 1 - ell)
+    assert probe.row_loss(ell, 1 - ell, Fr(0)) > 0  # the unrescaled summand now loses
+
+
+def test_lw56e2_and_argonaut_boundaries_against_sigma_star():
+    """LW56e2 (2026-10-08): 4374785349/5000000000, which Guo's README calls just above
+    sigma*; Argonaut Math (2026-10-08): 7/8 - 1/4000000.  Guo writes ell_* as
+    (33 + 8 sqrt 921)/1653, this hunt as 11/551 + 8 sqrt 921/1653.
+    """
+    with mp.workdps(60):
+        sigma_star = _rational((1507 - 2 * mp.sqrt(921)) / 1653)
+    lw56e2 = Fr(4374785349, 5000000000)
+    assert Fr(8, 10**13) < lw56e2 - sigma_star < Fr(9, 10**13)
+    assert Fr(3499999, 4000000) == Fr(7, 8) - Fr(1, 4000000) > lw56e2
+    assert Fr(33, 1653) == Fr(11, 551)
 
 
 # ------------------------------------------------ landing checks, 2026-10-21

@@ -5853,17 +5853,28 @@ published optimum of the geometry (checked at landing on 2026-10-21, pinned to 3
 
 Evidence: RESULTS.md sections 2 to 6 and 10; `probe.py` (reproductions,
 `robust_single_point_bound`); `test_seven_eighths_pin.py` (the landing checks)
-Prior art: searched at landing, 2026-10-21: the re-optimized geometry and its optimum
-are public (J. Guo, github.com/aster2024/openai-math-followups, zero-free-beyond-7-8, and
-B. Liu, arXiv:2610.12234, both 8 October 2026, sigma* = (1507 - 2 sqrt 921)/1653; Z. Gao,
-7 October, 20999/24000 at b = 1/8), so the re-optimized number is a reproduction; the
-reading of which inequality fixes 7/8 was not found in the README and abstract searched,
-and the papers' proofs were not read
+Prior art: searched at landing on 2026-10-21 and found. Most of what the method gave here
+was public before the hunt opened (2026-10-16) and was derived here independently, so it
+is not novel. tomoto0 (github.com/tomoto0/quasi-riemann-hypothesis-7-8-verification,
+commit b83a73c6cb62, 7 October 2026) had already rebuilt the final section's inequalities
+as functions of the geometry, reproduced the printed margins, and found the target
+1 - h/6 + b/12, the floor-row ceiling 13/15 at the same corner and a geometry optimum near
+0.87496 with the zero-detected rows binding. J. Guo
+(github.com/aster2024/openai-math-followups, zero-free-beyond-7-8, commit 5750cc81e489)
+and B. Liu (arXiv:2610.12234), both 8 October, give the exact optimum
+sigma* = (1507 - 2 sqrt 921)/1653; Guo's sections 8 and 11 derive its binding bin from the
+vanishing coefficient of the offset and use that bin as a one-witness obstruction. Z. Gao
+(7 October, 20999/24000), Argonaut Math and LW56e2 (8 October) also state boundaries below
+7/8. Not found in the sources read (RESULTS.md section 10 lists them): the corner reading,
+M + ell <= 1 with per-summand losslessness M - 2 ell >= 1/2, which alone forces 7/8; the
+exact rational one-witness bounds; and the pricing of the row-count excess between its two
+ends. Liu's note itself was not read
 Reused in: none yet
 Why it travels: any long proof whose final section combines fixed exponents into one
 margin can be read this way, the reproduction step is the control that makes the
 reading checkable without the reader being trusted, and a witness placed where the free
-parameter's coefficient vanishes turns the lower bound into the optimum.
+parameter's coefficient vanishes turns the lower bound into the optimum, as Guo's
+section 11 does for his endpoint.
 
 ## Primes in short intervals and explicit formulas
 
