@@ -75,6 +75,14 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #149: rivals that agree with an Euler product at every prime up to P (`plocal_rivals/`, 2026-10-21)
+
+**Status: open; the zero census below height 1000 is running.** F_chi = eps^(-1/2)
+L(s, chi) + eps^(1/2) L(s, chi-bar) for chi of order 4 mod q = 17 (P = 2) and q = 73
+(P = 4). Steps 1 to 3 are in `MATCH.md`, the restricted-class statement in
+`OBSTRUCTION.md`, the battery proposal in `CORE_CANDIDATE.md`. This entry is replaced
+when the census closes.
+
 ### Hunt #133: at least ten kernel-checked zeros of zeta on the critical line below height 50 (`hardy_ten_zeros/`, 2026-10-14)
 
 **Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**
