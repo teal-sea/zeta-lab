@@ -93,5 +93,12 @@ artifacts:
   - hunts/mobius_orbits/energy_results.json
 ```
 
+## Landing note, 2026-10-21
 
-
+On landing, `energy_test.py` was renamed `test_energy.py`, because the
+nightly `scripts/run_hunt_tests.py` collects only `test_*.py` and would never
+have run its 8 tests. Its contents are unchanged. The commands and artifact
+paths in the two manifests above are left as they were run on 2026-09-26;
+read `energy_test.py` there as today's `test_energy.py`. On landing the
+renamed file was discovered by the runner and its 8 tests passed beside the
+12 in `test_probe.py`, in the runner's own invocation.

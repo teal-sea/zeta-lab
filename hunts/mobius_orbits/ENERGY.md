@@ -262,4 +262,3 @@ The error after either corrected line update is a projection error onto
 the old span plus one orthogonalized direction. Hence the approximation's
 function norm is also at most 1. This is not a bound on the coefficient
 vector, and it does not imply that the remaining error is zero.
-

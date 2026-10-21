@@ -222,3 +222,45 @@ Nothing is published, and no prior manuscript or accepted result is changed.
   dividing P, coprimality, and |mu(m)|<=1. A signed rough-index estimate
   or a joint cancellation argument with S_smooth+Sigma1 retains information
   discarded by (3). No further run is launched or presumed justified here.
+
+**Completed on landing, 2026-10-21.** The three bullets above are the hunt's
+text of 2026-09-26. They name no active constraint and predate the energy
+continuation and its pause, so the parts below complete the section from the
+hunt's own record. No claim, run or grade changes.
+
+- **Active constraint at the optimum, fixed-prime route:** the step
+  |mu(m)|<=1 on the rough-index terms of (3). With those signs discarded, the
+  specified majorant gains only a constant from the complete-orbit kernel
+  (2): by (4) the leading constant falls from 1/192 at P=2 through 1/432 and
+  1/675 to 4/3675 at P=210, and the order N(log N)^3 stays. Set against that constant is
+  boundary mass, which grows with P. The review's boundary estimate carries
+  the factor sigma_{-1}(P)(1+log P), and at N=10000 the exact counts of
+  complete (b,m) orbits in `results.json` fall from 2745 at P=2 to 331, 5
+  and 0 at P=6, 30 and 210, so at P=210 all of Sigma2 is boundary. No shadow
+  price is computed. Raising P moves the constant and the boundary and
+  leaves the discarded signs discarded.
+- **Active constraint, energy route:** the unproved correlation bound
+  `ENERGY.md` (7), or its weaker form (12), which suffices through the
+  divergence condition (11). The block identity and the trace cap (10) are
+  exact, and the cap has room: tr S measured 0.148 to 0.180 against the cap
+  0.874 (`energy_reviewed.json`). What binds is a lower bound on the
+  correlation, or on the residual moment, relative to E_N^2 and the Schur
+  cost. The normalized trace values M_N/(T_N E_N^2) fall from 4.28 through
+  0.955, 0.546 and 0.327 to 0.243 over the shells N=4 to 64, while the
+  shell's own gain_N/E_N^2 stays between 7.80 and 10.98. Neither finite
+  range supplies a constant.
+- **Frozen constants, energy route:** the dyadic schedule N=4*2^j, the
+  predeclared shell weight log(2N/n) of `ENERGY.md` (3), the five shells and
+  the precisions of 128 and 192 bits. Fitting the shell to the block optimum
+  would buy gain and give up what makes (7) a target: it is specified by the
+  Gram matrix and the shell alone, not a new name for the optimized distance
+  (`ENERGY.md` section 4). Larger shells were not run; the route is paused
+  by allocation, not closed.
+- **Information class, energy route:** the construction reads only the
+  Baez-Duarte Gram matrix and target vector, through the existing Vasyunin
+  implementation, and mu on (N,2N]. Another predeclared shell, weight or
+  block schedule stays inside that class. A proof of (7) or (12) needs an
+  unconditional lower bound on the correlation q or on the residual moment
+  M_N, which neither Gram positivity nor the construction supplies. The
+  Bettin-Conrey-Farmer result for the smoothed Mobius shape assumes RH, so
+  it cannot be that input.

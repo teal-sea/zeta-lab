@@ -66,4 +66,3 @@ artifacts:
   - hunts/mobius_orbits/RESULTS.md
   - hunts/mobius_orbits/REVIEW.md
 ```
-
