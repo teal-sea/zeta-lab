@@ -1558,8 +1558,10 @@ def claim_euler_product_positivity(
 
     **Measured verdicts at** ``n_max = 200``: holds for zeta (most negative
     coefficient -9.2e-41, i.e. round-off); fails for Davenport-Heilbronn
-    immediately at ``n = 3`` (``Lambda_F = -6.78``); fails for the principal
-    Epstein form ``(1,1,6)`` at ``n = 48`` (``-19.88``); **undefined** for the
+    immediately at ``n = 3`` (``Lambda_F(3) = -kappa log 3 = -0.3121``; the
+    most negative up to 200 is ``-6.779`` at ``n = 156``); fails for the
+    principal Epstein form ``(1,1,6)`` at ``n = 48`` (``-7.742``; the most
+    negative up to 200 is ``-19.88`` at ``n = 144``); **undefined** for the
     non-principal form ``(2,1,3)``, which does not represent 1, so ``a_1 = 0``
     and there is no such series.  The claim **raises** there rather than
     returning a verdict it has not earned, and :func:`battery` records that as
