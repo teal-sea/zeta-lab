@@ -78,13 +78,15 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (51). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (62). Surfaced by the sweep, below the bar for now.
 
 Totals: 188 entries from 71 hunts. Kinds: identity 24, lemma 48, bound 12, construction
 16, calibration 7, computational 21, control 39, obstruction 21. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
-again from the entries.)
+again from the entries. The seven Erdos #126 arms landed on 2026-10-21 (hunts #94, #97,
+#98, #99, #100, #106, #143) added eight items to "Seen and not admitted" and none above;
+that count was recounted from its items: 54 before them, where the line read 51.)
 
 ## Prime pairs and the circle method
 
@@ -6111,3 +6113,45 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   scaled by 1.1, with the original bytes held in memory and the restore asserted, never
   `git checkout` in a shared tree (`hunts/claim_halflife/`, control): measured; used only
   inside its hunt.
+- Two-set relaxation bracket for Erdos #126: g(k) <= g_2(k) + 2 <= N(k) + 2, with N(k)
+  the coprime S-unit count of lambda x + mu y = nu z (Gyory-Stewart-Tijdeman 1986 section
+  3, read in primary text), while Erdos-Stewart-Tijdeman 1988 put g_2(k) >= exp((4+o(1))
+  sqrt(k/log k)) (secondary), so the two-set route can settle #126 but can never give a
+  polynomial bound (`hunts/support_fcffa3b9/`, obstruction): literature map from a
+  targeted search; the first step is an ordinary argument, unreviewed; not carried.
+- Residue-only pruning ceiling for Erdos #126: on a full residue system mod prod T the
+  largest subset whose pair sums are all prime to prod T has exactly prod (p-1)/2 + r
+  elements, below 2^{-r}|A|, so no argument reading only residues mod prod T beats base
+  2; and g(k) <= 2/rho_min(k) <= 2g(k) makes block pruning a restatement of #126
+  (`hunts/support_d176e366/`, obstruction): ordinary argument, unreviewed; the formula
+  matched exhaustive branch and bound on four blocks; not carried.
+- The pair-sum matrix a_i + a_j is Alon-Solymosi's rank-2 matrix (Corollary 10 of "Rank
+  of matrices with entries from a multiplicative group"); their rectangle condition
+  reduces to the distinctness of A, so their Theorem 9 applies to every admissible set
+  while their Theorem 1 does not (the diagonal 2a_j is an S-unit in all seven measured
+  witnesses), and their explicit form gives exp(256k) (`hunts/support_99fc686a/`,
+  identity): Alon-Solymosi read in primary text; the expansion is an ordinary derivation,
+  unreviewed; not carried.
+- Cover-data realizability for Erdos #126: A = {1} u {2(3j+1)}, S = {2,3}, gcd 1, has its
+  two residue graphs covering K_n for every n, so no cover, Ramsey, rank or container
+  bound on n follows from incidence data alone (`hunts/support_d0f0aefb/`, obstruction):
+  ordinary argument, unreviewed, checked at n = 5, 20, 60; not carried.
+- Three-anchor injective reduction g(k) <= 3 + N_3(k), with N_3 counting nondegenerate
+  solutions of x + y + z = 1 in S-units over the same k primes: fixing three anchors and
+  varying the fourth element makes the four-element reduction injective
+  (`hunts/support_d0f0aefb/`, lemma): ordinary argument, unreviewed; prior art
+  unsearched; not carried.
+- A composition law for Erdos #126 forces g(k) = 2^k exactly: superadditivity makes the
+  Fekete limit of g(k)^{1/k} a supremum, at least g(1) = 2, and Erdos-Turan's 3 * 2^{k-1}
+  caps the limit at 2, so a proof of g(3) <= 7 would falsify the composition programme
+  (`hunts/support_311c14a5/`, lemma): ordinary argument, unreviewed; not carried.
+- Product-route ceiling for Erdos #126: from P = prod (a+b) the only inequality is k >=
+  B(A) = log P / max_p e_p log p, and two gcd-1 families cap B at 1+o(1) for estimates
+  from distinctness, range and residue counts, and at 2+o(1) with gcd normalisation and
+  the one-step recursion added; weighted and subset products are outside the class
+  (`hunts/support_95a76f59/`, obstruction): ordinary argument, unreviewed, B measured in
+  floating point; not carried.
+- Crown-versus-K_{2,m} loss for Erdos #126: exhaustive bounded-box g_N(k) against the
+  two-term count N_2^(N)(k), 2, 4, 5, 6, 8 against 1, 7, 32, 75, 141 for k = 1..5,
+  measures what the two-anchor reduction discards (`hunts/support_6da47ca3/`,
+  computational): measured, bounded boxes, lower bounds only; not carried.
