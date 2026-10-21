@@ -1573,6 +1573,53 @@ be circular for this arm anyway), the ladder at $k=4$ (the enumeration exceeded
 ten minutes), and any upper bound on $g(k)$ at all. Nothing bears on RH
 (`docs/08`).
 
+### Hunt #94: Erdős #126, the p-adic block-pruning arm, and a target set one notch too low (`support_d176e366/`)
+
+**Status: not settled. No block lemma below base 2, and a restricted-class
+obstruction for residue-only pruning (`ALIGNMENT.md` §5, disposition 2); the
+attempt below base 2 is unresolved.** Lemmas 1 and 2 and Theorems 3, 3′ and 4
+are ordinary arguments, unreviewed; the checks are exact finite ones on blocks
+of at most three primes, and the cross-prime correlations are measurements on
+$|A| \le 11$. Landed 2026-10-21 from a local-only branch, `support/d176e366`,
+that was never pushed; PR #144 counted the arm among the seven that "produced
+no branch at all". A support run for `r_186989`, asked whether a block of $r$
+primes can be pruned from $S$ while retaining more than $2^{-r+o(r)}$ of $A$.
+It answers the question and contradicts its premise. **Lemma 1**: pruning a
+block $T$ is the independent-set problem for $\bigcup_{p\in T} G_p$, where
+$G_p$ is the antipodal graph mod $p$ (disjoint complete bipartite graphs
+between class $c$ and class $-c$, plus a clique on the class $c \equiv -c$),
+so valuations beyond $v_p(a) = 0$ are invisible here and "valuation vector"
+means "residue vector", which is why the ultrametric framing buys nothing.
+**Lemma 2**: a genuinely joint one-shot random half-system argument gives
+retention $\ge 2^{-r}$ over the elements coprime to the block, landing on
+exactly the constant that pruning one prime at a time gives. **Theorem 3**: on
+a full residue system mod $\prod T$ the optimum is exactly
+$\prod_{p\in T}\frac{p-1}{2} + r$ (matched by exhaustive branch-and-bound for
+$\{3,5\},\{3,7\},\{5,7\},\{3,5,7\}$: 4, 5, 8, 9, four for four), which is
+*below* $2^{-r}|A|$, so no argument reading only residues mod $\prod T$ can
+beat base 2; and by **Theorem 4** ($g(k) \le 2/\rho_{\min}(k) \le 2g(k)$, from
+the endgame lemma that no three integers have all pairwise sums powers of 2)
+the block programme is not a proxy for Erdős #126 but a restatement of it. Two
+consequences the brief did not anticipate: retention $2^{-r+o(r)}$ **is** the
+Erdős–Turán bound, so the named target is worth nothing even if proved, and
+only base $c<2$ counts; and the smoothness hypothesis is used nowhere in this
+arm except the endgame, only divisibility. Measured on the seven verified
+witnesses, real admissible sets beat $2^{-r}$ retention by up to a factor of
+11.6 with strong positive correlation across primes, reported as a direction
+indicator only, since $|A| \le 11$ and the full-block column is Theorem 4
+restated rather than evidence. Audit of `r_186989`: all seven witnesses
+re-verified admissible, its power-of-2 lemma re-derived independently, and its
+loose thread 3 (a claimed $|A| \le p-1$ for $p \notin S$) **refuted**:
+$\{1, 1+q, 1+2q, \dots\}$ has every pair sum $\equiv 2 \bmod q$ at unbounded
+size. One drafted claim of the run's own ($\varphi$ = number of sign-orbits
+met) was false and is kept in the file with its counterexample. Overlap with
+main, recorded in `RESULTS.md`: that residue data cannot beat base 2 is also
+the finding of Hunts #92 and #101 (#101's relaxation is this arm's covering
+reformulation, solved exactly), and the loose-thread-3 refutation was on main
+already (Hunts #93, #95, #101, #103). The run's remark that the optima "live in
+the small integers" is annotated in place, since Hunts #103, #105 and #107
+refuted it. Nothing bears on RH (`docs/08`).
+
 ### Hunt #143: Erdős #126, the 92-year wall, and the one lever behind it (`support_fcffa3b9/`)
 
 **Status: not settled. A literature map from a targeted search, not an
