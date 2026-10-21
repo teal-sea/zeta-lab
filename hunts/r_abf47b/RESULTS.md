@@ -85,7 +85,7 @@ The memory figure is unverified, and a rerun does not reproduce it. On the swarm
 call starts. The committed script, rerun unchanged on the same input, also stopped at
 its alarm (304.5 s; the whole process got 75 s of CPU, at load average 49 to 144) and
 read 600.5 MB there (`landing_groebner_rerun.json`). The run's own `probe_results.json`
-records 60.4 and 63.5 MB for far smaller sympy jobs on its machine. A reading of
+records 60.4 and 63.5 MB for far smaller sympy jobs in the same run. A reading of
 32.59 MB at the alarm fits none of these, and the record does not say how the run got
 it. No conclusion depends on it: the Groebner step carries no information either way
 (part A).
