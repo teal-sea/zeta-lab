@@ -635,6 +635,14 @@ did not write them, starting with Proposition 6.1 and Lemma 6.2, whose
 Status, remark 2); or a Lean port, which the draft's §12 sizes at about forty
 touch points and which must thread the range through `PrimeSide.Setting`.
 
+The draft's §10 states its claim "in the form the literature search of
+`RESULTS.md` §4.1 licenses", as a "First power-length statement" for the
+zeros of `xi'`, and `AUDIT-dyadic.md` §6, step 8, recommends the same
+wording. Both files are kept verbatim. Since the §4.1 verdict was rescoped on
+2026-10-21 to "not found in the logged search", read that wording as no more
+than "no earlier power-length statement was found in the logged search" until
+the unopened sources and the unrun queries of §4.1 are checked.
+
 ## The doors
 
 Preliminary: this hunt has measured no ceiling of its own, so the inventory is
