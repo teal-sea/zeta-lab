@@ -315,10 +315,11 @@ the reference table, and this landing does not change `gate()`.
    where `c_p = d` exactly. The comments are now scoped; the code is
    unchanged.
 4. *The honest-boundary example is not in the Selberg class.* Section 2
-   above, `MISSION.md`, `docs/24` §5, the case log, `docs/37`,
-   `ramanujan_violator` and the `note` stored in `results.json` called
-   `α = 2.3, 1/α` legitimate in, or allowed by, the Selberg class. At `p = 5`
-   it is excluded twice over: by `docs/09` §3's axiom (5) (Ramanujan,
+   above, `MISSION.md`, `docs/24` §5 and the case log called `α = 2.3, 1/α`
+   legitimate in the Selberg class; the note `ramanujan_violator` returns, also
+   stored in `results.json`, said `|alpha| > sqrt(p)` "is allowed in the
+   Selberg class"; `docs/37` and the `ramanujan_violator` docstring called the
+   factor legitimate. At `p = 5` it is excluded twice over: by `docs/09` §3's axiom (5) (Ramanujan,
    `a_n ≪ n^ε`) and by its axiom (4) (`b_n ≪ n^θ` with `θ < ½`, which needs
    `|α| < √5`). It is a genuine Euler factor outside the local bound, which is
    all the honest boundary needs, and the gate rejects it for that reason.

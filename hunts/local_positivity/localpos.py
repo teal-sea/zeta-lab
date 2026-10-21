@@ -511,11 +511,12 @@ def ramanujan_violator(alpha: float = 2.3, p: int = 5) -> dict:
     ``c_p = +∞`` by the module's convention; the ``c_p`` returned is a
     finite-depth truncation (65.24 at the default depth 41, 22.46 at depth 23,
     110.80 at depth 52), not the value. An earlier version of this docstring
-    called the factor legitimate in the Selberg class with its functional
-    equation intact. It is not in the Selberg class: that class's Ramanujan
-    axiom and, at ``p = 5``, its Euler-product bound ``θ < ½`` both exclude
-    ``|α| > √5`` (``docs/09`` §3, axioms (4) and (5)). Nor does anything in
-    this module construct or check a functional equation for it.
+    called the factor legitimate, with its functional equation intact, and the
+    returned note said ``|alpha| > sqrt(p)`` "is allowed in the Selberg class".
+    It is not: that class's Ramanujan axiom and, at ``p = 5``, its
+    Euler-product bound ``θ < ½`` both exclude ``|α| > √5`` (``docs/09`` §3,
+    axioms (4) and (5)). Nor does anything in this module construct or check a
+    functional equation for it.
     """
     aloc = satake_local([alpha, 1 / alpha])
     c, tail, tail_ok = threshold(aloc, p)
