@@ -1,0 +1,1681 @@
+{
+  "arm": "graph-ramsey",
+  "claims": [
+    {
+      "checked_by": "parity_bound",
+      "grade": "proved",
+      "id": "P",
+      "statement": "2 not in S implies |A| <= 2."
+    },
+    {
+      "checked_by": "witness_audit[*].per_prime",
+      "grade": "proved",
+      "id": "T1",
+      "statement": "G_p is the disjoint union of G_p|V_0 and a complete multipartite join of the level sets V_t, t>=1; for odd p each G_p|V_t is a disjoint union of complete bipartite graphs, for p=2 each is a clique. chi(G_p) <= 2 T_p for odd p."
+    },
+    {
+      "checked_by": "coprime_subproblem",
+      "grade": "proved",
+      "id": "T2",
+      "statement": "If every a in A is coprime to prod S then |A| <= 2^k. Sharper than the Erdos-Turan 3*2^(k-1) on that sub-family."
+    },
+    {
+      "checked_by": "residue_cover_unbounded",
+      "grade": "proved",
+      "id": "T3",
+      "statement": "For every n there is A with |A|=n, gcd(A)=1, and k=2 primes whose graphs G_p cover K_n. Hence no bound on n follows from the cover structure alone."
+    },
+    {
+      "checked_by": "s_unit_reduction",
+      "grade": "proved",
+      "id": "T4",
+      "statement": "g(k) <= 3 + N_3(k), N_3 = max number of nondegenerate solutions of x+y+z=1 in S-units of Q with |S|=k. One-directional: N_3(k)=exp(o(k)) implies Erdos #126; not conversely."
+    },
+    {
+      "checked_by": "p_not_in_S_thread",
+      "grade": "refutation",
+      "id": "R1",
+      "statement": "r_186989 loose thread '|A| <= p-1 when p not in S' is false for odd p. Witness {1,4,124}, S={2,5}, p=3."
+    }
+  ],
+  "coprime_subproblem": [
+    {
+      "N": 3000,
+      "S": [
+        2
+      ],
+      "holds": true,
+      "k": 1,
+      "max_size": 2,
+      "theorem_bound_2^k": 2,
+      "witness": [
+        1,
+        3
+      ]
+    },
+    {
+      "N": 3000,
+      "S": [
+        2,
+        3
+      ],
+      "holds": true,
+      "k": 2,
+      "max_size": 4,
+      "theorem_bound_2^k": 4,
+      "witness": [
+        1,
+        5,
+        7,
+        11
+      ]
+    },
+    {
+      "N": 2000,
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "holds": true,
+      "k": 3,
+      "max_size": 5,
+      "theorem_bound_2^k": 8,
+      "witness": [
+        1,
+        19,
+        31,
+        89,
+        161
+      ]
+    },
+    {
+      "N": 1500,
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "holds": true,
+      "k": 4,
+      "max_size": 6,
+      "theorem_bound_2^k": 16,
+      "witness": [
+        1,
+        11,
+        17,
+        19,
+        31,
+        53
+      ]
+    }
+  ],
+  "p_not_in_S_thread": {
+    "A": [
+      1,
+      4,
+      124
+    ],
+    "S": [
+      2,
+      5
+    ],
+    "actual": 3,
+    "claim_bound": 2,
+    "good": true,
+    "p_absent": 3,
+    "p_divides_no_sum": true,
+    "residues_mod_p": [
+      1
+    ],
+    "sums": {
+      "1+124": 125,
+      "1+4": 5,
+      "4+124": 128
+    },
+    "thread_refuted": true
+  },
+  "parity_bound": {
+    "S": [
+      3,
+      5,
+      7
+    ],
+    "bound_holds_in_range": true,
+    "limit": 400,
+    "pairs_found": true,
+    "triples_found": []
+  },
+  "residue_cover_unbounded": [
+    {
+      "A_head": [
+        1,
+        2,
+        8,
+        14,
+        20
+      ],
+      "S": [
+        2,
+        3
+      ],
+      "actually_good": false,
+      "cover_holds": true,
+      "gcd": 1,
+      "n": 5
+    },
+    {
+      "A_head": [
+        1,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38
+      ],
+      "S": [
+        2,
+        3
+      ],
+      "actually_good": false,
+      "cover_holds": true,
+      "gcd": 1,
+      "n": 20
+    },
+    {
+      "A_head": [
+        1,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38
+      ],
+      "S": [
+        2,
+        3
+      ],
+      "actually_good": false,
+      "cover_holds": true,
+      "gcd": 1,
+      "n": 60
+    }
+  ],
+  "run_id": "d0f0aefb-a1ab-4db0-b98a-fbbd895d2cb4",
+  "s_unit_reduction": [
+    {
+      "S": [
+        2
+      ],
+      "applicable": false,
+      "k": 1
+    },
+    {
+      "S": [
+        2,
+        3
+      ],
+      "a1": 1,
+      "a2": 5,
+      "a3": 7,
+      "all_checks_pass": true,
+      "applicable": true,
+      "c": 12,
+      "c_prime": 8,
+      "count": 1,
+      "k": 2,
+      "n_minus_3": 1,
+      "solutions": [
+        {
+          "X": "3/4",
+          "Y": "3/4",
+          "Z": "-1/2",
+          "a_i": 11,
+          "s_unit": true
+        }
+      ]
+    },
+    {
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "a1": 1,
+      "a2": 3,
+      "a3": 7,
+      "all_checks_pass": true,
+      "applicable": true,
+      "c": 10,
+      "c_prime": 8,
+      "count": 2,
+      "k": 3,
+      "n_minus_3": 2,
+      "solutions": [
+        {
+          "X": "9/10",
+          "Y": "1/2",
+          "Z": "-2/5",
+          "a_i": 17,
+          "s_unit": true
+        },
+        {
+          "X": "24/25",
+          "Y": "1/5",
+          "Z": "-4/25",
+          "a_i": 47,
+          "s_unit": true
+        }
+      ]
+    },
+    {
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "a1": 1,
+      "a2": 2,
+      "a3": 3,
+      "all_checks_pass": true,
+      "applicable": true,
+      "c": 5,
+      "c_prime": 4,
+      "count": 3,
+      "k": 4,
+      "n_minus_3": 3,
+      "solutions": [
+        {
+          "X": "6/7",
+          "Y": "5/7",
+          "Z": "-4/7",
+          "a_i": 5,
+          "s_unit": true
+        },
+        {
+          "X": "8/9",
+          "Y": "5/9",
+          "Z": "-4/9",
+          "a_i": 7,
+          "s_unit": true
+        },
+        {
+          "X": "14/15",
+          "Y": "1/3",
+          "Z": "-4/15",
+          "a_i": 13,
+          "s_unit": true
+        }
+      ]
+    },
+    {
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "a1": 1,
+      "a2": 2,
+      "a3": 5,
+      "all_checks_pass": true,
+      "applicable": true,
+      "c": 7,
+      "c_prime": 6,
+      "count": 5,
+      "k": 5,
+      "n_minus_3": 5,
+      "solutions": [
+        {
+          "X": "10/11",
+          "Y": "7/11",
+          "Z": "-6/11",
+          "a_i": 9,
+          "s_unit": true
+        },
+        {
+          "X": "14/15",
+          "Y": "7/15",
+          "Z": "-2/5",
+          "a_i": 13,
+          "s_unit": true
+        },
+        {
+          "X": "20/21",
+          "Y": "1/3",
+          "Z": "-2/7",
+          "a_i": 19,
+          "s_unit": true
+        },
+        {
+          "X": "24/25",
+          "Y": "7/25",
+          "Z": "-6/25",
+          "a_i": 23,
+          "s_unit": true
+        },
+        {
+          "X": "32/33",
+          "Y": "7/33",
+          "Z": "-2/11",
+          "a_i": 31,
+          "s_unit": true
+        }
+      ]
+    },
+    {
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13
+      ],
+      "a1": 1,
+      "a2": 2,
+      "a3": 3,
+      "all_checks_pass": true,
+      "applicable": true,
+      "c": 5,
+      "c_prime": 4,
+      "count": 7,
+      "k": 6,
+      "n_minus_3": 7,
+      "solutions": [
+        {
+          "X": "6/7",
+          "Y": "5/7",
+          "Z": "-4/7",
+          "a_i": 5,
+          "s_unit": true
+        },
+        {
+          "X": "8/9",
+          "Y": "5/9",
+          "Z": "-4/9",
+          "a_i": 7,
+          "s_unit": true
+        },
+        {
+          "X": "10/11",
+          "Y": "5/11",
+          "Z": "-4/11",
+          "a_i": 9,
+          "s_unit": true
+        },
+        {
+          "X": "14/15",
+          "Y": "1/3",
+          "Z": "-4/15",
+          "a_i": 13,
+          "s_unit": true
+        },
+        {
+          "X": "20/21",
+          "Y": "5/21",
+          "Z": "-4/21",
+          "a_i": 19,
+          "s_unit": true
+        },
+        {
+          "X": "24/25",
+          "Y": "1/5",
+          "Z": "-4/25",
+          "a_i": 23,
+          "s_unit": true
+        },
+        {
+          "X": "48/49",
+          "Y": "5/49",
+          "Z": "-4/49",
+          "a_i": 47,
+          "s_unit": true
+        }
+      ]
+    },
+    {
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        17
+      ],
+      "a1": 1,
+      "a2": 3,
+      "a3": 5,
+      "all_checks_pass": true,
+      "applicable": true,
+      "c": 8,
+      "c_prime": 6,
+      "count": 8,
+      "k": 7,
+      "n_minus_3": 8,
+      "solutions": [
+        {
+          "X": "7/9",
+          "Y": "8/9",
+          "Z": "-2/3",
+          "a_i": 6,
+          "s_unit": true
+        },
+        {
+          "X": "4/5",
+          "Y": "4/5",
+          "Z": "-3/5",
+          "a_i": 7,
+          "s_unit": true
+        },
+        {
+          "X": "6/7",
+          "Y": "4/7",
+          "Z": "-3/7",
+          "a_i": 11,
+          "s_unit": true
+        },
+        {
+          "X": "8/9",
+          "Y": "4/9",
+          "Z": "-1/3",
+          "a_i": 15,
+          "s_unit": true
+        },
+        {
+          "X": "10/11",
+          "Y": "4/11",
+          "Z": "-3/11",
+          "a_i": 19,
+          "s_unit": true
+        },
+        {
+          "X": "11/12",
+          "Y": "1/3",
+          "Z": "-1/4",
+          "a_i": 21,
+          "s_unit": true
+        },
+        {
+          "X": "15/16",
+          "Y": "1/4",
+          "Z": "-3/16",
+          "a_i": 29,
+          "s_unit": true
+        },
+        {
+          "X": "25/26",
+          "Y": "2/13",
+          "Z": "-3/26",
+          "a_i": 49,
+          "s_unit": true
+        }
+      ]
+    }
+  ],
+  "witness_audit": [
+    {
+      "A": [
+        1,
+        3
+      ],
+      "S": [
+        2
+      ],
+      "cover_holds": true,
+      "gcd": 1,
+      "good": true,
+      "k": 1,
+      "max_chi": 2,
+      "n": 2,
+      "per_prime": {
+        "2": {
+          "T_p": 1,
+          "alpha": 1,
+          "chi": 2,
+          "chi_eq_max_parity_class": true,
+          "chi_le_2T_odd_p": null,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                3
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        }
+      },
+      "product_bound_vacuous": true,
+      "product_of_chi": 2
+    },
+    {
+      "A": [
+        1,
+        5,
+        7,
+        11
+      ],
+      "S": [
+        2,
+        3
+      ],
+      "cover_holds": true,
+      "gcd": 1,
+      "good": true,
+      "k": 2,
+      "max_chi": 4,
+      "n": 4,
+      "per_prime": {
+        "2": {
+          "T_p": 1,
+          "alpha": 1,
+          "chi": 4,
+          "chi_eq_max_parity_class": true,
+          "chi_le_2T_odd_p": null,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                5,
+                7,
+                11
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        },
+        "3": {
+          "T_p": 1,
+          "alpha": 2,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                5,
+                7,
+                11
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        }
+      },
+      "product_bound_vacuous": true,
+      "product_of_chi": 8
+    },
+    {
+      "A": [
+        1,
+        3,
+        7,
+        17,
+        47
+      ],
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "cover_holds": true,
+      "gcd": 1,
+      "good": true,
+      "k": 3,
+      "max_chi": 5,
+      "n": 5,
+      "per_prime": {
+        "2": {
+          "T_p": 1,
+          "alpha": 1,
+          "chi": 5,
+          "chi_eq_max_parity_class": true,
+          "chi_le_2T_odd_p": null,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                3,
+                7,
+                17,
+                47
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        },
+        "3": {
+          "T_p": 2,
+          "alpha": 3,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                7,
+                17,
+                47
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                3
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "5": {
+          "T_p": 1,
+          "alpha": 4,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "isolated",
+              "vertices": [
+                1
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                3,
+                7,
+                17,
+                47
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        }
+      },
+      "product_bound_vacuous": true,
+      "product_of_chi": 20
+    },
+    {
+      "A": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        13
+      ],
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "cover_holds": true,
+      "gcd": 1,
+      "good": true,
+      "k": 4,
+      "max_chi": 5,
+      "n": 6,
+      "per_prime": {
+        "2": {
+          "T_p": 2,
+          "alpha": 2,
+          "chi": 5,
+          "chi_eq_max_parity_class": true,
+          "chi_le_2T_odd_p": null,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                3,
+                5,
+                7,
+                13
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                2
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "3": {
+          "T_p": 2,
+          "alpha": 4,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                2,
+                5,
+                7,
+                13
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                3
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "5": {
+          "T_p": 2,
+          "alpha": 4,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "isolated",
+              "vertices": [
+                1
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                2,
+                3,
+                7,
+                13
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                5
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "7": {
+          "T_p": 2,
+          "alpha": 4,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                13
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                2,
+                5
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                3
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                7
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        }
+      },
+      "product_bound_vacuous": true,
+      "product_of_chi": 40
+    },
+    {
+      "A": [
+        1,
+        2,
+        5,
+        9,
+        13,
+        19,
+        23,
+        31
+      ],
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "cover_holds": true,
+      "gcd": 1,
+      "good": true,
+      "k": 5,
+      "max_chi": 7,
+      "n": 8,
+      "per_prime": {
+        "11": {
+          "T_p": 1,
+          "alpha": 6,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "isolated",
+              "vertices": [
+                1
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                2,
+                9,
+                13,
+                31
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                5
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                19
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                23
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        },
+        "2": {
+          "T_p": 2,
+          "alpha": 2,
+          "chi": 7,
+          "chi_eq_max_parity_class": true,
+          "chi_le_2T_odd_p": null,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                5,
+                9,
+                13,
+                19,
+                23,
+                31
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                2
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "3": {
+          "T_p": 2,
+          "alpha": 5,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                2,
+                5,
+                13,
+                19,
+                23,
+                31
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                9
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "5": {
+          "T_p": 2,
+          "alpha": 5,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                9,
+                19,
+                31
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                2,
+                13,
+                23
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                5
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "7": {
+          "T_p": 1,
+          "alpha": 5,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                13
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                2,
+                5,
+                9,
+                19,
+                23
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                31
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        }
+      },
+      "product_bound_vacuous": true,
+      "product_of_chi": 112
+    },
+    {
+      "A": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        9,
+        13,
+        19,
+        23,
+        47
+      ],
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13
+      ],
+      "cover_holds": true,
+      "gcd": 1,
+      "good": true,
+      "k": 6,
+      "max_chi": 9,
+      "n": 10,
+      "per_prime": {
+        "11": {
+          "T_p": 1,
+          "alpha": 8,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "isolated",
+              "vertices": [
+                1
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                2,
+                9,
+                13
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                3,
+                19,
+                47
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                5
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                7
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                23
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        },
+        "13": {
+          "T_p": 2,
+          "alpha": 7,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "isolated",
+              "vertices": [
+                1
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                2
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                3,
+                23
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                5,
+                47
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                7,
+                19
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                9
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                13
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "2": {
+          "T_p": 2,
+          "alpha": 2,
+          "chi": 9,
+          "chi_eq_max_parity_class": true,
+          "chi_le_2T_odd_p": null,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                3,
+                5,
+                7,
+                9,
+                13,
+                19,
+                23,
+                47
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                2
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "3": {
+          "T_p": 3,
+          "alpha": 5,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                2,
+                5,
+                7,
+                13,
+                19,
+                23,
+                47
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                3,
+                9
+              ]
+            }
+          ],
+          "n_multiples_of_p": 2,
+          "structure_ok": true
+        },
+        "5": {
+          "T_p": 2,
+          "alpha": 6,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                9,
+                19
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                2,
+                3,
+                7,
+                13,
+                23,
+                47
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                5
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "7": {
+          "T_p": 2,
+          "alpha": 6,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                13
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                2,
+                5,
+                9,
+                19,
+                23,
+                47
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                3
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                7
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        }
+      },
+      "product_bound_vacuous": true,
+      "product_of_chi": 288
+    },
+    {
+      "A": [
+        1,
+        3,
+        5,
+        6,
+        7,
+        11,
+        15,
+        19,
+        21,
+        29,
+        49
+      ],
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        17
+      ],
+      "cover_holds": true,
+      "gcd": 1,
+      "good": true,
+      "k": 7,
+      "max_chi": 10,
+      "n": 11,
+      "per_prime": {
+        "11": {
+          "T_p": 2,
+          "alpha": 7,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                21
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                3,
+                19
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                5,
+                6,
+                49
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                7,
+                15,
+                29
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                11
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "13": {
+          "T_p": 1,
+          "alpha": 7,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "isolated",
+              "vertices": [
+                1
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                3,
+                29,
+                49
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                5,
+                21
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                6,
+                7,
+                19
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                11,
+                15
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        },
+        "17": {
+          "T_p": 1,
+          "alpha": 8,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "isolated",
+              "vertices": [
+                1
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                3
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                5,
+                29
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                6,
+                11
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                7
+              ]
+            },
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                15,
+                19,
+                49
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                21
+              ]
+            }
+          ],
+          "n_multiples_of_p": 0,
+          "structure_ok": true
+        },
+        "2": {
+          "T_p": 2,
+          "alpha": 2,
+          "chi": 10,
+          "chi_eq_max_parity_class": true,
+          "chi_le_2T_odd_p": null,
+          "components": [
+            {
+              "kind": "clique",
+              "vertices": [
+                1,
+                3,
+                5,
+                7,
+                11,
+                15,
+                19,
+                21,
+                29,
+                49
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                6
+              ]
+            }
+          ],
+          "n_multiples_of_p": 1,
+          "structure_ok": true
+        },
+        "3": {
+          "T_p": 2,
+          "alpha": 5,
+          "chi": 4,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                5,
+                7,
+                11,
+                19,
+                29,
+                49
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                3,
+                6,
+                15,
+                21
+              ]
+            }
+          ],
+          "n_multiples_of_p": 4,
+          "structure_ok": true
+        },
+        "5": {
+          "T_p": 2,
+          "alpha": 6,
+          "chi": 2,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                6,
+                11,
+                19,
+                21,
+                29,
+                49
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                3,
+                7
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                5,
+                15
+              ]
+            }
+          ],
+          "n_multiples_of_p": 2,
+          "structure_ok": true
+        },
+        "7": {
+          "T_p": 3,
+          "alpha": 7,
+          "chi": 3,
+          "chi_eq_max_parity_class": null,
+          "chi_le_2T_odd_p": true,
+          "components": [
+            {
+              "kind": "complete-bipartite",
+              "vertices": [
+                1,
+                6,
+                15,
+                29
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                3,
+                11
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                5
+              ]
+            },
+            {
+              "kind": "clique",
+              "vertices": [
+                7,
+                21,
+                49
+              ]
+            },
+            {
+              "kind": "isolated",
+              "vertices": [
+                19
+              ]
+            }
+          ],
+          "n_multiples_of_p": 3,
+          "structure_ok": true
+        }
+      },
+      "product_bound_vacuous": true,
+      "product_of_chi": 1920
+    }
+  ]
+}

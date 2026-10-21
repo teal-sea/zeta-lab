@@ -17,21 +17,53 @@ The **place-p kernel** is the Toeplitz form
 
 and the object this module computes is the *normalization-free* threshold
 
-    c_p := − min_θ 2 Σ_{m≥1} λ_m p^{−m/2} cos(mθ),
+    c_p := the least diagonal ``c`` for which every finite Toeplitz section
+           with diagonal ``c`` and off-diagonals ``λ_m p^{−m/2}`` is positive
+           semidefinite,
 
-so that ``K_p^{(d)} ≥ 0 ⟺ c_p ≤ d``. Nothing is chosen: ``d`` is the degree
-read off the object's own gamma factors, and ``c_p`` is a minimum, not a fit.
+so that the place-``p`` Toeplitz form with diagonal ``d`` is PSD exactly when
+``c_p ≤ d``. When the weighted sequence is absolutely summable this is the
+cosine-series minimum ``c_p = − min_θ 2 Σ_{m≥1} λ_m p^{−m/2} cos(mθ)``
+(standard: a Toeplitz form with summable symbol is PSD iff the symbol is
+nonnegative), and that is what :func:`threshold` evaluates. When the weighted
+sequence grows (regime ``"divergent"``) the module's convention is
+``c_p = +∞``. At ``|α_j| = √p`` the cosine series diverges but the least PSD
+diagonal can still be finite: for ``ζ(s − ½)`` it is exactly ``1 = d``
+(measured, every section up to N = 400), :func:`threshold` reports the
+``"boundary"`` regime there, and :func:`gate` says INDETERMINATE rather than
+a number. The regime is read off two weighted terms a decade apart near the
+truncation edge, so weights that oscillate (Satake parameters in a conjugate
+pair) can be misread on either side of the bound, which is measured in
+:func:`scope` and ``CORRECTIONS.md``. This one reading of ``c_p`` is used
+throughout. Nothing is chosen: ``d`` is the degree read off the object's own
+gamma factors, and ``c_p`` is a minimum, not a fit.
 
-The theorem behind it (proved by the closed form, checked numerically in
-:func:`satake_check`): if the place has a genuine Euler factor with Satake
-parameters ``α_j``, then ``λ_m = Σ_j α_j^m`` and the series sums to
+For a genuine Euler factor with real coefficients (Satake parameters real or
+in conjugate pairs) ``λ_m = Σ_j α_j^m``, and for ``|α_j| < √p`` the convergent
+series sums to
 
     K_p^{(d)}(θ) = Σ_j (1 − |α_j|²/p) / |1 − α_j p^{−1/2} e^{iθ}|²,
 
-which is a sum of manifestly nonnegative terms exactly when ``|α_j| ≤ √p``.
-So ``c_p ≤ d`` is *equivalent* to the local Selberg-class bound at ``p``,
-not to "has an Euler product", which is the trap this module is built to
-avoid asserting (see :func:`ramanujan_violator`).
+each summand nonnegative. **Forward direction (derived):** if every
+``|α_j| ≤ √p`` then ``c_p ≤ d``, because each parameter contributes a PSD
+Toeplitz matrix with unit diagonal (a Poisson kernel's coefficients below
+``√p``, a rank-one Gram matrix at ``√p``).
+
+**Converse (not established by the closed form):** positivity of the
+rational expression says nothing outside the convergence regime. At
+``p = 2``, ``α = (3√2, 0, 0, 0)`` it is ``3 − 8/(10 − 6 cos θ) ≥ 1`` although
+one parameter exceeds ``√p``; the defining series diverges there, and the
+module does not use the rational expression: :func:`threshold` reports
+``"divergent"`` and :func:`gate` returns FAIL (pinned by
+``test_closed_form.py``). The converse for ``c_p`` as defined above rests on
+a separate argument: a PSD section with diagonal ``c`` has ``|s_m| ≤ c`` (its
+``2×2`` principal minors), while ``s_m = Σ_j (α_j/√p)^m`` is unbounded once
+some ``|α_j| > √p`` (no cancellation among the parameters prevents it), so
+``c_p = +∞``. That
+argument is written down in ``CORRECTIONS.md`` ("Later correction") as an
+unreviewed derivation; read the iff as forward-derived, converse unreviewed.
+Either way the gate is not a test for "has an Euler product" (see
+:func:`ramanujan_violator`).
 
 Why the kernel is the thing
 ---------------------------
@@ -50,11 +82,13 @@ And the wall, stated in the same breath: ``Q_p − ‖f‖²`` is **not** of def
 sign (measured: 52 of 60 places positive, 8 negative, for the autocorrelation
 pair). The local norms do not assemble into a global one. Positivity of every
 ``Q_p`` is therefore compatible with either sign of ``W(h)``, and this
-construction does not decide RH. It never could: Requirement A forbids
-importing zeros, and ``c_p`` is a coefficient functional, while by ``docs/18``
-§6 no coefficient functional can read the *position* of the critical line,
-``ζ(s−δ)`` has the same ``a_n`` up to a shift and its zeros are nowhere near
-``Re s = ½``.
+construction does not decide RH. Nor can ``c_p`` locate the critical line:
+for ``ζ(s−δ)``, ``c_p ≤ d`` holds at every place for every ``δ ≤ ½``
+(:func:`provenance_report`, ``docs/24`` §6), so ``δ = 0.1``, whose functional
+equation is symmetric about ``Re s = 0.6``, passes. The reason that stood here
+until 2026-10-21, that by ``docs/18`` §6 no coefficient functional can read
+the position of the critical line, is false and mis-cited; the director run
+rejected it (``docs/25``, C-SHIFT-01) and this paragraph had not caught up.
 
 Provenance (``docs/09`` §5.1 Requirement A)
 -------------------------------------------
@@ -308,6 +342,10 @@ def threshold(
     # the remainder really is a geometric series and can be bounded; at or
     # above 1 the weighted series does not converge, which is not a numerical
     # nuisance but the violation itself (it is exactly |alpha| > sqrt(p)).
+    # [2026-10-21] Only when the weights near the edge keep a steady modulus,
+    # e.g. one real parameter. Two terms cannot read the envelope of
+    # oscillating weights (a conjugate pair), and the regime is then misread
+    # in both directions: see gate() and test_closed_form.py.
     w = np.abs(weights)
     nz = np.flatnonzero(w > 0)
     if nz.size >= 2:
@@ -323,7 +361,7 @@ def threshold(
         regime = "divergent"  # c_p is +infinity; any finite degree is violated
         tail = float("inf")
     else:
-        regime = "boundary"  # |alpha| = sqrt(p) to numerical resolution
+        regime = "boundary"  # |alpha| = sqrt(p) to numerical resolution (steady-modulus weights)
         tail = float("inf")
     return float(-series.min()), float(tail), regime
 
@@ -347,8 +385,13 @@ def kernel(
 def satake_kernel(alphas: Sequence[complex], p: int, theta: float | np.ndarray) -> np.ndarray:
     """The closed form ``Σ_j (1 − |α_j|²/p)/|1 − α_j p^{−1/2}e^{iθ}|²``.
 
-    This is what makes the gate a theorem rather than a statistic: it is
-    nonnegative for all ``θ`` exactly when every ``|α_j| ≤ √p``.
+    This equals the kernel's Fourier series only when all ``|α_j| < √p``
+    (with real or conjugate-paired parameters). An earlier version of this
+    docstring said the expression is nonnegative for all ``θ`` exactly when
+    every ``|α_j| ≤ √p``; that is false. With ``p = 2`` and
+    ``α = (3√2, 0, 0, 0)`` it is everywhere at least 1, while the defining
+    Fourier series diverges. :func:`gate` never evaluates this expression;
+    it is used only by :func:`satake_check`.
     """
     th = np.atleast_1d(np.asarray(theta, dtype=float))
     out = np.zeros_like(th)
@@ -387,6 +430,23 @@ def gate(
     condition both failures share. That follows ``zeta.rigor``'s discipline:
     the safe answer to "cannot decide" is a third value, never the pleasant
     one of the two.
+
+    **What that regime test cannot see (measured 2026-10-21).** It compares
+    two weighted terms a decade apart, and for a conjugate pair of Satake
+    parameters the weights oscillate, so the comparison can land on either
+    side of 1 whatever the envelope does. ``α = 0.9·√2·e^{±0.2i}`` at
+    ``p = 2`` is called divergent and FAILs although ``c_p ≈ 1.894 < 2``;
+    ``α = 1.2·√7·e^{±0.4i}`` at ``p = 7`` PASSes although ``c_p = +∞``; and
+    the unit-modulus degree-2 family that the 60-angle control measures gets
+    FAIL at 22 of its 60 angles, while the original gate of 2026-08-10 passed
+    all 60. Separately, in the summable regime a place whose truncated ``c``
+    exceeds ``d`` by less than ``margin·tail`` is no witness, so the verdict
+    is PASS although nothing was decided: for ``ζ(s−δ)`` at ``δ = 0.49``,
+    ``p = 2``, the truncated ``c`` reads 15.99 against ``d = 1`` with a tail
+    estimate of 149.9, and the PASS is right only because the true value,
+    0.9965, happens to lie below ``d``. ``test_closed_form.py`` pins all of
+    these, so changing the regime test is a deliberate act; this function
+    has not been changed.
     """
     primes = list(primes)
     cs, tails, oks = [], [], []
@@ -431,7 +491,7 @@ def gate(
 
 
 def satake_check(alphas: Sequence[complex], p: int, theta: float = 1.1) -> dict:
-    """Series vs. closed form at one point: the identity the gate rests on."""
+    """Series vs. closed form at one point, valid within the convergence regime."""
     aloc = satake_local(alphas)
     return {
         "series": float(kernel(aloc, p, theta, len(alphas))[0]),
@@ -442,11 +502,21 @@ def satake_check(alphas: Sequence[complex], p: int, theta: float = 1.1) -> dict:
 def ramanujan_violator(alpha: float = 2.3, p: int = 5) -> dict:
     """A **genuine** Euler product the gate rejects, the honest boundary.
 
-    ``α, 1/α`` with ``α`` large is a legitimate degree-2 Euler factor (real
-    coefficients, functional equation intact) that violates the Ramanujan
-    bound. The gate fails it at small ``p``. So the gate does *not* test
-    "has an Euler product"; it tests the local Selberg bound ``|α_j| ≤ √p``,
-    and a report that claimed the former would be overclaiming.
+    ``α, 1/α`` with ``α`` large is a genuine degree-2 Euler factor (real
+    coefficients) that violates the Ramanujan bound. The gate fails it at
+    small ``p``. So the gate does *not* test "has an Euler product". What it
+    reads is the local bound ``|α_j| ≤ √p``: the forward direction is
+    derived, the converse is an unreviewed derivation (module docstring).
+    Here ``α = 2.3 > √5`` puts the place in the ``"divergent"`` regime, so
+    ``c_p = +∞`` by the module's convention; the ``c_p`` returned is a
+    finite-depth truncation (65.24 at the default depth 41, 22.46 at depth 23,
+    110.80 at depth 52), not the value. An earlier version of this docstring
+    called the factor legitimate, with its functional equation intact, and the
+    returned note said ``|alpha| > sqrt(p)`` "is allowed in the Selberg class".
+    It is not: that class's Ramanujan axiom and, at ``p = 5``, its
+    Euler-product bound ``θ < ½`` both exclude ``|α| > √5`` (``docs/09`` §3,
+    axioms (4) and (5)). Nor does anything in this module construct or check a
+    functional equation for it.
     """
     aloc = satake_local([alpha, 1 / alpha])
     c, tail, tail_ok = threshold(aloc, p)
@@ -461,7 +531,11 @@ def ramanujan_violator(alpha: float = 2.3, p: int = 5) -> dict:
             else ("PASS" if (tail_ok == "summable" and c <= 2 + 10 * tail) else "FAIL")
         ),
         "sqrt_p": math.sqrt(p),
-        "note": "genuine Euler product; rejected because |alpha| > sqrt(p) is allowed in the Selberg class",
+        "note": (
+            "genuine Euler factor; rejected because |alpha| > sqrt(p), so the weighted local "
+            "series diverges and c_p = +inf (the c_p above is a truncation); the Selberg class "
+            "excludes such a factor"
+        ),
     }
 
 
@@ -590,9 +664,12 @@ def provenance_report() -> dict:
         "note": (
             "c_p is a functional of the coefficient sequence alone. It is NOT blind to a real "
             "shift, and the earlier note here said it was: for zeta(s-delta) the local parameter "
-            "is alpha_p = p^delta, so c_p = 2x/(1+x) with x = p^(delta-1/2), and c_p <= d holds "
-            "exactly when delta <= 1/2 -- one threshold, simultaneously at every place. What "
-            "follows is weaker and is the honest statement: on |delta| <= 1/2 the verdict does "
+            "is alpha_p = p^delta, so c_p = 2x/(1+x) with x = p^(delta-1/2) for delta < 1/2. "
+            "At delta = 1/2 the cosine series diverges but the least PSD diagonal is 1 = d "
+            "(measured; gate() reports INDETERMINATE there), and for delta > 1/2 c_p = +infinity. "
+            "So c_p <= d holds exactly when delta <= 1/2 under the least-PSD-diagonal reading "
+            "(delta > 1/2 direction: unbounded power sums, see CORRECTIONS.md). What "
+            "follows is weaker and is the honest statement: on |delta| < 1/2 the verdict does "
             "not move, so a PASS cannot locate the critical line; delta = 0.1 is a passing "
             "function whose zeros sit on Re s = 0.6. The threshold is the Selberg-class Euler "
             "product axiom's theta < 1/2 (Conrey-Ghosh 1992, remark 5) and, on the automorphic "
@@ -611,14 +688,26 @@ def scope() -> dict:
     """What a verdict from this module does and does not mean."""
     return {
         "is": (
-            "an exact local criterion: c_p <= d at p is equivalent to the Selberg-class bound "
-            "|alpha_j| <= sqrt(p) at p, and the place-p kernel is then a manifest norm."
+            "a local coefficient criterion with c_p the least PSD Toeplitz diagonal: for real or "
+            "conjugate-paired Satake parameters, |alpha_j| <= sqrt(p) implies c_p <= d (derived); "
+            "the converse is not established by the closed form and rests on an unreviewed "
+            "PSD-boundedness derivation (CORRECTIONS.md, 'Later correction'). On the bound "
+            "|alpha_j| = sqrt(p), gate() reports INDETERMINATE when the weighted terms keep a "
+            "constant modulus near the truncation edge (measured: zeta(s - 1/2); single real "
+            "parameters +sqrt(2), -sqrt(3), +sqrt(97); the pair +-sqrt(5)), and can return FAIL "
+            "or PASS for a conjugate pair there (see is_not)."
         ),
         "is_not": [
             "evidence for RH (docs/08); nothing computed here could be",
             "a test for 'has an Euler product', see ramanujan_violator()",
             "a global positivity statement: Q_p - ||f||^2 is not of definite sign, so the "
             "local norms do not assemble into a global one",
+            "a decision procedure: gate() measures c_p in floating point by truncation and reads "
+            "the regime off two weighted terms near the truncation edge, which conjugate-pair "
+            "Satake parameters mislead in both directions (alpha = 0.9 sqrt(2) e^(+-0.2i) at "
+            "p = 2 FAILs with c_p ~ 1.894 < 2; alpha = 1.2 sqrt(7) e^(+-0.4i) at p = 7 PASSes "
+            "with c_p = +inf; 22 of the 60 unit-modulus degree-2 control angles FAIL); "
+            "pinned in test_closed_form.py",
         ],
         "pass_means": (
             "no violation above the measured blindness threshold at the tested places; "
