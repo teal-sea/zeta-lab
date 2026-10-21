@@ -2943,28 +2943,39 @@ realizability constraint as the only remaining lever.
 ### Place-local Selberg-bound gate and the non-assembly of local norms
 
 obstruction | `hunts/local_positivity/` | grade: measured (float; the file states it
-carries no enclosure at any step)
+carries no enclosure at any step); the local equivalence is an unreviewed derivation
 
 For a degree-d object with Satake parameters alpha_j at p, the place-local kernel
 K_p^{(d)}(theta) = d + 2 sum_m lambda_m p^{-m/2} cos(m theta) has closed form sum_j (1 -
-|alpha_j|^2/p)/|1 - alpha_j p^{-1/2} e^{i theta}|^2, so the coefficient-computable test
-c_p <= d is exactly the local bound |alpha_j| <= sqrt p (zeta's threshold 2/(sqrt p + 1)
-to 12 digits). Calibration: decoy swap moves the verdict by 15 orders; 300 random
+|alpha_j|^2/p)/|1 - alpha_j p^{-1/2} e^{i theta}|^2 when every |alpha_j| < sqrt p. With c_p
+the least PSD Toeplitz diagonal, the coefficient-computable test c_p <= d reads the local
+bound |alpha_j| <= sqrt p: forward direction derived; the converse cannot be read off the
+closed form (p = 2, alpha = (3 sqrt 2, 0, 0, 0): rational expression >= 1, series
+divergent, gate FAILs) and rests on an unreviewed PSD-boundedness derivation (corrected
+2026-10-21, CORRECTIONS.md 'Later correction'). zeta's threshold 2/(sqrt p + 1) to 12
+digits. Calibration: decoy swap moves the verdict by 15 orders; 300 random
 period-5 nulls fail 100% with DH at the 6th percentile; lesion blindness threshold eps*
 = 0.184 on the zeta -> DH interpolation; degree-2 family keeps margin >= 0.343 over 60
-Satake angles; a legitimate degree-2 product with alpha = 2.3, 1/alpha is rejected at p
-= 5 (c_p = 65.24), so the gate tests the local Selberg/Ramanujan bound, not 'has an
-Euler product'. Obstruction: the prime side of the explicit formula decomposes place by
+Satake angles (margins of the truncated c: the current gate's verdict on that family is
+FAIL at 22 of the 60 angles, because its regime test reads two weighted terms near the
+truncation edge and conjugate-pair parameters make them oscillate, misleading it on
+either side of the bound; measured 2026-10-21, pinned, not repaired); a genuine degree-2
+Euler factor with alpha = 2.3, 1/alpha, outside the Selberg class (docs/09 section 3,
+axioms (4) and (5), exclude |alpha| > sqrt 5), is rejected at p = 5 (divergent regime,
+c_p = +infinity by convention; 65.24 is a depth-41 truncation), so the gate tests the
+local bound |alpha_j| <= sqrt p, not 'has an Euler product'. Obstruction: the prime
+side of the explicit formula decomposes place by
 place as -sum_p log p (Q_p(f) - ||f||^2) with Q_p = (1 - 1/p) ||Phi_p f||^2 a genuine
 norm at every place (reconstruction to 22 digits), but Q_p - ||f||^2 is not of definite
 sign (52 of 60 places positive, 8 negative), so local positivity does not assemble into
 a global one and is compatible with either sign of W. Director's adjudication:
-c_p(zeta(. - delta)) = 2x/(1 + x), x = p^{delta - 1/2}, c_p <= d iff delta <= 1/2, is
+c_p(zeta(. - delta)) = 2x/(1 + x), x = p^{delta - 1/2} for delta < 1/2, c_p <= d iff
+delta <= 1/2 (least-PSD-diagonal reading; gate INDETERMINATE at delta = 1/2), is
 KNOWN (Selberg-class theta < 1/2).
 
 Evidence: CORRECTIONS.md section '2. New hunt: hunts/local_positivity/' (paragraphs
 'What it establishes', 'Reference table', 'Controls', 'Where it dies', 'The honest
-boundary'); localpos.py; director_run/CLAIMS.md C-SHIFT-01, C-SHIFT-02
+boundary') and section 'Later correction'; localpos.py; test_closed_form.py; director_run/CLAIMS.md C-SHIFT-01, C-SHIFT-02
 Prior art: searched-and-found by the director run for the shift computation
 (Conrey-Ghosh 1992 theta < 1/2; Jacquet-Shalika, stated sharp by Sarnak); the closed
 form is standard Satake arithmetic; the assembly obstruction is the hunt's own
@@ -2972,7 +2983,9 @@ Reused in: docs/24-the-local-positivity-attempt.md; hunts/director_run/CLAIMS.md
 Why it travels: The place-local decomposition with the measured sign-indefiniteness
 closes the 'prove Weil positivity place by place' route with a mechanism, and the gate
 with its calibrated blindness threshold is a ready coefficient-side instrument for any
-rival battery.
+rival battery, with one caveat: its regime test misreads oscillating weights (measured
+for conjugate-pair parameters), so a verdict on such an input needs the
+least-PSD-diagonal check of test_closed_form.py beside it.
 
 ### Ceiling: positive-definite (Gram) kernels cannot spend out-of-band form-factor positivity
 
