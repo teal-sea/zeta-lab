@@ -79,7 +79,7 @@ allowance. The same file reports 32.59 MB as `peak_memory_mb`. By the script's c
 that field is the resident set size `psutil` reads when the alarm fires, not a peak.
 Both figures are the run's own report, not a landing measurement.
 
-The memory figure is unverified, and a rerun does not reproduce it. On the swarm box
+The memory figure is unverified, and a rerun does not reproduce it. On a 32-core Linux server
 (2026-10-21; Python 3.12.3, sympy 1.14.0) the script's process holds 59.0 MB after
 `import sympy` and 84.4 MB once the 6,561 polynomials are built, before the Groebner
 call starts. The committed script, rerun unchanged on the same input, also stopped at

@@ -213,7 +213,7 @@ workflow before it earns it, no meta-system. Kill funded work on evidence.
   `docs/08` always means `08-why-it-is-hard.md`. `docs/doors/` has one page per
   audience; a new purpose costs a page plus a test. Keep `README.md` an index,
   not a manual.
-- `lean/`: kernel-checked arm; next rung in `HANDOFF.md`, `.lake/` gitignored.
+- `lean/`: kernel-checked arm; `.lake/` gitignored.
 - `interactive_lab/`: illustrations, not results.
 - `conjectures/`: **gitignored** private ledger, not evidence. Publish
   `ontology.metrics.render_text`, never the log (`scripts/ledger_sync.sh`).
