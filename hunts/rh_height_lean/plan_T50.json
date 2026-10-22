@@ -1,0 +1,3073 @@
+{
+ "schema": "rh_height_lean numeric contour plan, version 1",
+ "generated_by": "hunts/rh_height_lean/numeric_plan.py",
+ "versions": {
+  "python-flint": "0.9.0",
+  "mpmath": "1.3.0"
+ },
+ "T": "50",
+ "mission_count": 10,
+ "counts": {
+  "rigor_zero_count_routine": 10,
+  "rigor_replay": 10,
+  "rigor_rh_height_routine": 10,
+  "proven_sign_changes": 10,
+  "lean_contour_exact": 10,
+  "lean_contour_budget": 10,
+  "skeleton_contour_exact": 10,
+  "skeleton_contour_budget": 10,
+  "rigor_difference_T2_minus_T1": 10,
+  "mpmath_nzeros": 10,
+  "zetazero_below_T": 10,
+  "arb_turing_count": 10
+ },
+ "counts_agree": true,
+ "good_heights": {
+  "top": "50",
+  "bottom": "10",
+  "top_why": "every sub-segment of the top leg has Re(zeta conj c) > 0 for its axis direction c, so zeta has no zero on [1/2, 2] x {50}; Re s >= 1 is zero-free (Mathlib) and the zeros are symmetric under s -> 1 - conj s, so no nontrivial zero has ordinate T",
+  "bottom_why": "the same, on the bottom leg; and zeta has no zero with 0 < Im s <= T1 (low_height below)",
+  "top_nearest_ordinates": [
+   49.7738324776723,
+   52.970321477714464
+  ],
+  "top_distance_to_nearest_ordinate": 0.22616752232769782,
+  "skeleton": {
+   "bottom": "3",
+   "top": "52",
+   "why": "the same half-plane argument, on the skeleton contour's legs, every sub-segment in Re zeta > 0"
+  }
+ },
+ "plan_of_record": "skeleton_contour: the heights the skeleton states (lean/RHHeight/Skeleton.lean and PLAN.md); lean_contour at T1 = 10 is an independent route and the fallback",
+ "skeleton_contour": {
+  "source": "hunts/rh_height_lean/PLAN.md, sections 4, 5 and 7 (2026-10-21), and lean/RHHeight/Skeleton.lean, whose count_eq_ten_of concludes Ncount 3 52 = 10",
+  "T1": "3",
+  "T2": "52",
+  "contour": {
+   "T1": "3",
+   "T2": "52",
+   "taylor_order": 1,
+   "directions_allowed": [
+    "+1"
+   ],
+   "gamma_route": "digamma_stirling",
+   "formula": "Ncount T1 T2 = (theta(T2) - theta(T1))/pi + Q/2 + (A2 - A1)/pi",
+   "legs": {
+    "bottom": {
+     "height": "3",
+     "path": "1/2 + 3 i -> 2 + 3 i",
+     "orientation": "rightwards",
+     "taylor_order": 1,
+     "em_order": 4,
+     "subsegments": [
+      {
+       "sigma_from": "1/2",
+       "sigma_to": "7/8",
+       "midpoint": "11/16",
+       "half_length": "3/16",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 2,
+       "main_term_lower": "0.571040120731785035",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.154168830509719271",
+       "crude_derivative_bound": "0.822233762718502778",
+       "em4_remainder_upper": "0.0893333973909112474",
+       "lean_margin": "0.205776778880839258",
+       "safety_achieved": "2.34507144207655286",
+       "true_margin": "0.485981735493093577",
+       "delta_arg_rightwards": [
+        "-0.0198935769575643766",
+        "-0.0198935769575643765"
+       ]
+      },
+      {
+       "sigma_from": "7/8",
+       "sigma_to": "5/4",
+       "midpoint": "17/16",
+       "half_length": "3/16",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 2,
+       "main_term_lower": "0.643455789690708385",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.119249502860013934",
+       "crude_derivative_bound": "0.635997348586740977",
+       "em4_remainder_upper": "0.100509372064287481",
+       "lean_margin": "0.313807477304256265",
+       "safety_achieved": "2.92796270417907364",
+       "true_margin": "0.588349757121146064",
+       "delta_arg_rightwards": [
+        "-0.00194790479493520566",
+        "-0.00194790479493520565"
+       ]
+      },
+      {
+       "sigma_from": "5/4",
+       "sigma_to": "2",
+       "midpoint": "13/8",
+       "half_length": "3/8",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 2,
+       "main_term_lower": "0.743819437764315580",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.185526924132419751",
+       "crude_derivative_bound": "0.494738464353119335",
+       "em4_remainder_upper": "0.145745772032534368",
+       "lean_margin": "0.246900393516884402",
+       "safety_achieved": "2.24530861243675415",
+       "true_margin": "0.668858038706647049",
+       "delta_arg_rightwards": [
+        "0.0272902550909159385",
+        "0.0272902550909159386"
+       ]
+      }
+     ],
+     "arg_change_along_path": [
+      "0.00544877333841635634",
+      "0.00544877333841635635"
+     ],
+     "directions_along_path": [
+      "+1",
+      "+1",
+      "+1"
+     ],
+     "n_subsegments": 3,
+     "term_boxes": 3,
+     "prime_towers": 0,
+     "max_N": 2,
+     "worst_lean_margin": "0.205776778880839258",
+     "worst_true_margin": "0.485981735493093577"
+    },
+    "right": {
+     "path": "2 + 3 i -> 2 + 52 i",
+     "direction": "+1",
+     "e": 0,
+     "condition": "Re zeta > 0",
+     "lean_lemma": "Zeta23.RvM.re_riemannZeta_two_pos (vendored): Re zeta(2+it) > 0, indeed >= 2 - pi^2/6",
+     "vendored_lower_bound": "0.355065933151773563",
+     "true_margin": "0.668120402003246252",
+     "n_subsegments": 1
+    },
+    "top": {
+     "height": "52",
+     "path": "2 + 52 i -> 1/2 + 52 i",
+     "orientation": "leftwards",
+     "taylor_order": 1,
+     "em_order": 4,
+     "subsegments": [
+      {
+       "sigma_from": "1/2",
+       "sigma_to": "19/32",
+       "midpoint": "35/64",
+       "half_length": "3/64",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 12,
+       "main_term_lower": "1.70201886587699424",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.361386014743469971",
+       "crude_derivative_bound": "7.70956831452735937",
+       "em4_remainder_upper": "0.660001473091282519",
+       "lean_margin": "0.169927634124865509",
+       "safety_achieved": "1.66636941038419851",
+       "true_margin": "1.56557975447978003",
+       "delta_arg_rightwards": [
+        "0.0535982445866421951",
+        "0.0535982445866421952"
+       ]
+      },
+      {
+       "sigma_from": "19/32",
+       "sigma_to": "11/16",
+       "midpoint": "41/64",
+       "half_length": "3/64",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 11,
+       "main_term_lower": "1.58863680123664369",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.277467793830909447",
+       "crude_derivative_bound": "5.91931293505940153",
+       "em4_remainder_upper": "0.723299255559259927",
+       "lean_margin": "0.0874762271513896359",
+       "safety_achieved": "1.58740917999318066",
+       "true_margin": "1.46815092345629174",
+       "delta_arg_rightwards": [
+        "0.0520796274817085453",
+        "0.0520796274817085454"
+       ]
+      },
+      {
+       "sigma_from": "11/16",
+       "sigma_to": "7/8",
+       "midpoint": "25/32",
+       "half_length": "3/32",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 12,
+       "main_term_lower": "1.43067762033162032",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.511623918100889367",
+       "crude_derivative_bound": "5.45732179307615325",
+       "em4_remainder_upper": "0.399965207832762752",
+       "lean_margin": "0.0632839314311421486",
+       "safety_achieved": "1.56942155147619446",
+       "true_margin": "1.32170694670572063",
+       "delta_arg_rightwards": [
+        "0.0942331958146417343",
+        "0.0942331958146417344"
+       ]
+      },
+      {
+       "sigma_from": "7/8",
+       "sigma_to": "17/16",
+       "midpoint": "31/32",
+       "half_length": "3/32",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 11,
+       "main_term_lower": "1.29800469614804965",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.339754826551995759",
+       "crude_derivative_bound": "3.62405148322128810",
+       "em4_remainder_upper": "0.351491128100978595",
+       "lean_margin": "0.261125764168588127",
+       "safety_achieved": "1.87776100158109552",
+       "true_margin": "1.22224260009612707",
+       "delta_arg_rightwards": [
+        "0.0755299848899095224",
+        "0.0755299848899095225"
+       ]
+      },
+      {
+       "sigma_from": "17/16",
+       "sigma_to": "5/4",
+       "midpoint": "37/32",
+       "half_length": "3/32",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 9,
+       "main_term_lower": "1.13695813522769934",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.212908252286315164",
+       "crude_derivative_bound": "2.27102135772069508",
+       "em4_remainder_upper": "0.539396748405758996",
+       "lean_margin": "0.00849063418958810619",
+       "safety_achieved": "1.51128615944567329",
+       "true_margin": "1.15445677631182497",
+       "delta_arg_rightwards": [
+        "0.0551639977692609616",
+        "0.0551639977692609617"
+       ]
+      },
+      {
+       "sigma_from": "5/4",
+       "sigma_to": "13/8",
+       "midpoint": "23/16",
+       "half_length": "3/16",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 9,
+       "main_term_lower": "1.08277260037216146",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.320597467869509954",
+       "crude_derivative_bound": "1.70985316197071976",
+       "em4_remainder_upper": "0.349693742798955176",
+       "lean_margin": "0.0773257843694637743",
+       "safety_achieved": "1.61536147742762231",
+       "true_margin": "1.07655138989754653",
+       "delta_arg_rightwards": [
+        "0.0592837042064340041",
+        "0.0592837042064340042"
+       ]
+      },
+      {
+       "sigma_from": "13/8",
+       "sigma_to": "2",
+       "midpoint": "29/16",
+       "half_length": "3/16",
+       "direction": "+1",
+       "e": 0,
+       "condition": "Re zeta > 0",
+       "N": 8,
+       "main_term_lower": "1.04074387393613880",
+       "taylor_terms_upper": "0",
+       "taylor_tail_upper": "0.175780530231855814",
+       "crude_derivative_bound": "0.937496161236564338",
+       "em4_remainder_upper": "0.273723937185938387",
+       "lean_margin": "0.366477172809447508",
+       "safety_achieved": "2.31529150291808656",
+       "true_margin": "1.03946563249224118",
+       "delta_arg_rightwards": [
+        "0.0153743881326036002",
+        "0.0153743881326036003"
+       ]
+      }
+     ],
+     "arg_change_along_path": [
+      "-0.405263142881200564",
+      "-0.405263142881200563"
+     ],
+     "directions_along_path": [
+      "+1",
+      "+1",
+      "+1",
+      "+1",
+      "+1",
+      "+1",
+      "+1"
+     ],
+     "n_subsegments": 7,
+     "term_boxes": 65,
+     "prime_towers": 30,
+     "max_N": 12,
+     "worst_lean_margin": "0.00849063418958810619",
+     "worst_true_margin": "1.03946563249224118"
+    }
+   },
+   "junctions": [],
+   "quarter_turns_Q": 0,
+   "A1": {
+    "point": "1/2 + 3 i",
+    "direction": "+1",
+    "e": 0,
+    "zeta": [
+     [
+      "0.532736670974232883",
+      "0.532736670974232884"
+     ],
+     [
+      "-0.0788965134258333827",
+      "-0.0788965134258333826"
+     ]
+    ],
+    "rotated": [
+     [
+      "0.532736670974232883",
+      "0.532736670974232884"
+     ],
+     [
+      "-0.0788965134258333827",
+      "-0.0788965134258333826"
+     ]
+    ],
+    "A": [
+     "-0.147027957578968003",
+     "-0.147027957578968002"
+    ],
+    "lean_N": 3,
+    "lean_box_arg": [
+     "-0.146640262791581176",
+     "-0.146640262791581175"
+    ],
+    "lean_half_width": "0.0179216197427697228",
+    "crude_arctan_interval": [
+     "-0.168874727682479892",
+     "0"
+    ]
+   },
+   "A2": {
+    "point": "1/2 + 52 i",
+    "direction": "+1",
+    "e": 0,
+    "zeta": [
+     [
+      "1.73936094771794779",
+      "1.73936094771794780"
+     ],
+     [
+      "-0.501857279538577437",
+      "-0.501857279538577436"
+     ]
+    ],
+    "rotated": [
+     [
+      "1.73936094771794779",
+      "1.73936094771794780"
+     ],
+     [
+      "-0.501857279538577437",
+      "-0.501857279538577436"
+     ]
+    ],
+    "A": [
+     "-0.280900642136937922",
+     "-0.280900642136937921"
+    ],
+    "lean_N": 30,
+    "lean_box_arg": [
+     "-0.281475937147026517",
+     "-0.281475937147026516"
+    ],
+    "lean_half_width": "0.0183919954461473329",
+    "crude_arctan_interval": [
+     "-0.314314692203689015",
+     "0"
+    ]
+   },
+   "gamma_side": {
+    "identity": "gamma_side (vendored): (1/pi) Im halfContour (logDeriv Gammaℝ) T1 T2 = int_{T1}^{T2} mu, and int mu = (theta(T2) - theta(T1))/pi",
+    "theta_T1": [
+     "-2.99456469601082524",
+     "-2.99456469601082523"
+    ],
+    "theta_T2": [
+     "28.5552345244450770",
+     "28.5552345244450771"
+    ],
+    "increment_over_pi": [
+     "10.0426129989847659",
+     "10.0426129989847660"
+    ],
+    "stirling_main": [
+     "10.0447236808462424",
+     "10.0447236808462425"
+    ],
+    "stirling_main_formula": "G(T2) - G(T1), G(t) = (t log(t/(2 pi)) - t)/(2 pi)",
+    "true_remainder": [
+     "-0.00211068186147657551",
+     "-0.00211068186147657550"
+    ],
+    "vendored_constant": "20/(2 pi), from Zeta23.StirlingVert.mu_stirling (its proof)",
+    "vendored_budget": "0.999819514295239930",
+    "vendored_budget_formula": "(20/(2 pi)) (1/T1 - 1/T2)",
+    "digamma_main": [
+     "10.0261882541303684",
+     "10.0261882541303685"
+    ],
+    "digamma_main_formula": "F(T2) - F(T1), F(t) = ((t/2) log((1+4t^2)/16) - t - arctan(2t)/2 - t log pi)/(2 pi)",
+    "digamma_true_remainder": [
+     "0.0164247448543974397",
+     "0.0164247448543974398"
+    ],
+    "digamma_budget": "0.599891708577143958",
+    "digamma_budget_formula": "(12/(2 pi)) (1/T1 - 1/T2), from digamma_stirling directly"
+   },
+   "count_exact": [
+    "9.99999999999999999",
+    "10.0000000000000001"
+   ],
+   "count": 10,
+   "exact_margin_to_other_integers": "0.999999999999999999",
+   "count_lean_budget": [
+    "9.37181803467792188",
+    "10.5947194172676222"
+   ],
+   "lean_count": 10,
+   "lean_margin_to_other_integers": "0.371818034677921889",
+   "count_lean_crude_arctan": [
+    "9.32624707165197507",
+    "10.6798344580554413"
+   ],
+   "crude_arctan_count": 10,
+   "crude_arctan_margin_to_other_integers": "0.320165541944558747",
+   "sensitivity": {
+    "d_count_d_log_2pi": [
+     "-7.7985923",
+     "-7.7985922"
+    ],
+    "note": "an error e in a Lean bound for log(2 pi) moves the Stirling main term by about (T2 - T1) e/(2 pi); the margin above tolerates it while that stays well below the margin"
+   },
+   "term_boxes_total": 99,
+   "prime_towers_total": 41,
+   "projected_kernel_seconds": 125,
+   "projection_basis": "prime exp towers times hunt #133's measured 52 s per 17 towers; for Taylor orders above 1 the derivative boxes add products this does not count",
+   "worst_lean_margin": "0.00849063418958810619",
+   "worst_true_margin": "0.485981735493093577"
+  },
+  "gamma_route_interval": [
+   "9.42629654555322451",
+   "10.6260799627075125"
+  ],
+  "stated_gamma_bounds": [
+   "46/5",
+   "109/10"
+  ],
+  "gamma_inside_stated": true,
+  "gamma_route_inside_stated": true,
+  "gamma_route_room": "0.226296545553224518",
+  "A1_check": {
+   "point": "1/2 + 3 i",
+   "stated": [
+    "-1/5",
+    "0"
+   ],
+   "A": [
+    "-0.147027957578968003",
+    "-0.147027957578968002"
+   ],
+   "inside": true,
+   "smallest_N": {
+    "bare": {
+     "N": 3,
+     "radius": "0.00645103992306106166",
+     "interval": [
+      "-0.161737702949885138",
+      "0"
+     ],
+     "room": "0"
+    },
+    "safety": {
+     "N": 3,
+     "radius": "0.00967155988459159248",
+     "interval": [
+      "-0.168874727682479892",
+      "0"
+     ],
+     "room": "0"
+    }
+   }
+  },
+  "A2_check": {
+   "point": "1/2 + 52 i",
+   "stated": [
+    "-1/3",
+    "0"
+   ],
+   "A": [
+    "-0.280900642136937922",
+    "-0.280900642136937921"
+   ],
+   "inside": true,
+   "smallest_N": {
+    "bare": {
+     "N": 24,
+     "radius": "0.0499270550489863423",
+     "interval": [
+      "-0.326372752111914520",
+      "0"
+     ],
+     "room": "0"
+    },
+    "safety": {
+     "N": 26,
+     "radius": "0.0559339205660078664",
+     "interval": [
+      "-0.332706739907119115",
+      "0"
+     ],
+     "room": "0"
+    }
+   }
+  },
+  "count_from_stated_bounds": [
+   "9.09389670460540310",
+   "10.9636619772367582"
+  ],
+  "stated_bounds_count": 10,
+  "stated_bounds_margin": "0.0363380227632418656",
+  "stated_bottom_partition": [
+   {
+    "sigma_from": "1/2",
+    "sigma_to": "15/16",
+    "N": 2,
+    "left_end_main_term_lower": "0.534474644319000476",
+    "variation_upper": "0.359888744698570624",
+    "em4_remainder_upper": "0.0925775848106239821",
+    "margin_bare": "0.0819983148098058709",
+    "margin_safety_on_radius": "0.0357095224044938799",
+    "margin_safety_on_both": "-0.144234849944791432",
+    "true_margin": "0.485981735493093577"
+   },
+   {
+    "sigma_from": "15/16",
+    "sigma_to": "25/16",
+    "N": 2,
+    "left_end_main_term_lower": "0.619570351456852277",
+    "variation_upper": "0.381894661132403834",
+    "em4_remainder_upper": "0.119716034511004555",
+    "margin_bare": "0.117949655813443889",
+    "margin_safety_on_radius": "0.0580916385579416121",
+    "margin_safety_on_both": "-0.132855692008260305",
+    "true_margin": "0.602866906474085176"
+   },
+   {
+    "sigma_from": "25/16",
+    "sigma_to": "2",
+    "N": 2,
+    "left_end_main_term_lower": "0.733438949496693070",
+    "variation_upper": "0.174293768618401136",
+    "em4_remainder_upper": "0.135763184907018316",
+    "margin_bare": "0.423371995971273619",
+    "margin_safety_on_radius": "0.355490403517764461",
+    "margin_safety_on_both": "0.268343519208563893",
+    "true_margin": "0.727150970989909547"
+   }
+  ],
+  "stated_bottom_closes_bare": true,
+  "stated_bottom_closes_safety_on_radius": true,
+  "stated_bottom_closes_safety_on_both": false,
+  "stated_top_partition": [
+   {
+    "sigma_from": "1/2",
+    "sigma_to": "9/16",
+    "N": 12,
+    "left_end_main_term_lower": "1.77486311019139111",
+    "variation_upper": "0.481847911495003336",
+    "em4_remainder_upper": "0.659938260109323017",
+    "margin_bare": "0.633066938587064768",
+    "margin_safety_on_radius": "0.303097808532403260",
+    "margin_safety_on_both": "0.0621738527849015924",
+    "true_margin": "1.60247065624439975"
+   },
+   {
+    "sigma_from": "9/16",
+    "sigma_to": "21/32",
+    "N": 13,
+    "left_end_main_term_lower": "1.61535312968393513",
+    "variation_upper": "0.699708698880642403",
+    "em4_remainder_upper": "0.409481561229281216",
+    "margin_bare": "0.506152869574011522",
+    "margin_safety_on_radius": "0.301412088959370914",
+    "margin_safety_on_both": "-0.0484422604809502865",
+    "true_margin": "1.49855764276785317"
+   },
+   {
+    "sigma_from": "21/32",
+    "sigma_to": "3/4",
+    "N": 12,
+    "left_end_main_term_lower": "1.55826926141721258",
+    "variation_upper": "0.541587599856635587",
+    "em4_remainder_upper": "0.434587065532295552",
+    "margin_bare": "0.582084596028281448",
+    "margin_safety_on_radius": "0.364791063262133672",
+    "margin_safety_on_both": "0.0939972633338158791",
+    "true_margin": "1.41291777208606819"
+   },
+   {
+    "sigma_from": "3/4",
+    "sigma_to": "7/8",
+    "N": 12,
+    "left_end_main_term_lower": "1.45942496002632214",
+    "variation_upper": "0.609272277427853122",
+    "em4_remainder_upper": "0.338560223724149140",
+    "margin_bare": "0.511582458874319885",
+    "margin_safety_on_radius": "0.342302347012245315",
+    "margin_safety_on_both": "0.0376662082983187549",
+    "true_margin": "1.32170694670572063"
+   },
+   {
+    "sigma_from": "7/8",
+    "sigma_to": "33/32",
+    "N": 11,
+    "left_end_main_term_lower": "1.36119888597777420",
+    "variation_upper": "0.566257825219494497",
+    "em4_remainder_upper": "0.351449903102954031",
+    "margin_bare": "0.443481157655325682",
+    "margin_safety_on_radius": "0.267756206103848667",
+    "margin_safety_on_both": "-0.0153727065058985808",
+    "true_margin": "1.23628216206799254"
+   },
+   {
+    "sigma_from": "33/32",
+    "sigma_to": "5/4",
+    "N": 11,
+    "left_end_main_term_lower": "1.26242822921313115",
+    "variation_upper": "0.609283840096477617",
+    "em4_remainder_upper": "0.235947314286633912",
+    "margin_bare": "0.417187074830019632",
+    "margin_safety_on_radius": "0.299213417686702676",
+    "margin_safety_on_both": "-0.00542850236153613163",
+    "true_margin": "1.15445677631182497"
+   },
+   {
+    "sigma_from": "5/4",
+    "sigma_to": "25/16",
+    "N": 11,
+    "left_end_main_term_lower": "1.16944564714365156",
+    "variation_upper": "0.609261827509289529",
+    "em4_remainder_upper": "0.135424328591105180",
+    "margin_bare": "0.424749491043256860",
+    "margin_safety_on_radius": "0.357037326747704271",
+    "margin_safety_on_both": "0.0524064129930595068",
+    "true_margin": "1.08582528983803028"
+   },
+   {
+    "sigma_from": "25/16",
+    "sigma_to": "2",
+    "N": 9,
+    "left_end_main_term_lower": "1.06671880032933033",
+    "variation_upper": "0.475221445112172930",
+    "em4_remainder_upper": "0.170393101171675309",
+    "margin_bare": "0.421094254045482100",
+    "margin_safety_on_radius": "0.335897703459644446",
+    "margin_safety_on_both": "0.0982869809035579813",
+    "true_margin": "1.03946563249224118"
+   }
+  ],
+  "stated_top_closes_bare": true,
+  "stated_top_closes_safety_on_radius": true,
+  "stated_top_closes_safety_on_both": false
+ },
+ "low_height": {
+  "T1": "10",
+  "rigor_zero_count_at_T1": 0,
+  "rigor_enclosure_at_T1": [
+   "-2.02211159994685088E-57",
+   "2.25117024765434727E-57"
+  ],
+  "rigor_all_steps_closed": true,
+  "arb_turing_count": 0,
+  "mpmath_nzeros": 0,
+  "first_ordinate": 14.134725141734695,
+  "note": "the zero-count routine's contour runs along the real axis, so N(T1) = 0 there is an enclosure-carrying statement that no zero has 0 < Im s < T1; the Lean proof still needs its own low-height exclusion"
+ },
+ "rigor_template": {
+  "T": "50",
+  "prec_bits": 192,
+  "vertical_leg_lemma": {
+   "statement": "|zeta(2+iy) - 1| <= zeta(2) - 1 < 1 for every real y",
+   "zeta_2": [
+    "1.64493406684822643",
+    "1.64493406684822644"
+   ],
+   "zeta_2_minus_1_below_1": true
+  },
+  "vertical_leg": {
+   "path": "2 -> 2 + 50 i",
+   "re_zeta_2_plus_iT": [
+    "0.773950933156690760",
+    "0.773950933156690761"
+   ],
+   "arg_zeta_2_plus_iT": [
+    "0.161315576987577159",
+    "0.161315576987577160"
+   ]
+  },
+  "horizontal_leg": {
+   "path": "2 + 50 i -> 1/2 + 50 i",
+   "segments": [
+    {
+     "sigma_from": "2",
+     "sigma_to": "5/4",
+     "box_abs_lower": "0.253487976166391202",
+     "re_quotient_lower": "0.769689347047913280",
+     "delta_arg": [
+      "0.232399610567427468",
+      "0.232399610567427469"
+     ],
+     "arg_room_to_half_pi": "1.33839671622746915"
+    },
+    {
+     "sigma_from": "5/4",
+     "sigma_to": "17/16",
+     "box_abs_lower": "0.269664768197551029",
+     "re_quotient_lower": "0.881068581145375321",
+     "delta_arg": [
+      "0.120804662258688465",
+      "0.120804662258688466"
+     ],
+     "arg_room_to_half_pi": "1.44999166453620815"
+    },
+    {
+     "sigma_from": "17/16",
+     "sigma_to": "31/32",
+     "box_abs_lower": "0.289937685557294453",
+     "re_quotient_lower": "0.921217004595474295",
+     "delta_arg": [
+      "0.0841659820801803775",
+      "0.0841659820801803776"
+     ],
+     "arg_room_to_half_pi": "1.48663034471471624"
+    },
+    {
+     "sigma_from": "31/32",
+     "sigma_to": "7/8",
+     "box_abs_lower": "0.169229095118783111",
+     "re_quotient_lower": "0.904145018281111625",
+     "delta_arg": [
+      "0.110791409669820158",
+      "0.110791409669820159"
+     ],
+     "arg_room_to_half_pi": "1.46000491712507646"
+    },
+    {
+     "sigma_from": "7/8",
+     "sigma_to": "25/32",
+     "box_abs_lower": "0.0203198572541513243",
+     "re_quotient_lower": "0.884273456810076010",
+     "delta_arg": [
+      "0.152799670001035730",
+      "0.152799670001035731"
+     ],
+     "arg_room_to_half_pi": "1.41799665679386088"
+    },
+    {
+     "sigma_from": "25/32",
+     "sigma_to": "47/64",
+     "box_abs_lower": "0.156698585549780599",
+     "re_quotient_lower": "0.937119351932977454",
+     "delta_arg": [
+      "0.0996240746399395483",
+      "0.0996240746399395484"
+     ],
+     "arg_room_to_half_pi": "1.47117225215495707"
+    },
+    {
+     "sigma_from": "47/64",
+     "sigma_to": "11/16",
+     "box_abs_lower": "0.122335777722681670",
+     "re_quotient_lower": "0.935474111260507045",
+     "delta_arg": [
+      "0.120444050162563043",
+      "0.120444050162563044"
+     ],
+     "arg_room_to_half_pi": "1.45035227663233357"
+    },
+    {
+     "sigma_from": "11/16",
+     "sigma_to": "41/64",
+     "box_abs_lower": "0.0969439487438654966",
+     "re_quotient_lower": "0.938052250728995610",
+     "delta_arg": [
+      "0.145430603859365090",
+      "0.145430603859365091"
+     ],
+     "arg_room_to_half_pi": "1.42536572293553152"
+    },
+    {
+     "sigma_from": "41/64",
+     "sigma_to": "19/32",
+     "box_abs_lower": "0.0656954198512006641",
+     "re_quotient_lower": "0.948105727538404120",
+     "delta_arg": [
+      "0.172906069514105143",
+      "0.172906069514105144"
+     ],
+     "arg_room_to_half_pi": "1.39789025728079147"
+    },
+    {
+     "sigma_from": "19/32",
+     "sigma_to": "35/64",
+     "box_abs_lower": "0.0275876995603481472",
+     "re_quotient_lower": "0.969419077087119384",
+     "delta_arg": [
+      "0.198237202480051818",
+      "0.198237202480051819"
+     ],
+     "arg_room_to_half_pi": "1.37255912431484480"
+    },
+    {
+     "sigma_from": "35/64",
+     "sigma_to": "67/128",
+     "box_abs_lower": "0.163935317454528753",
+     "re_quotient_lower": "1.00258814386312540",
+     "delta_arg": [
+      "0.105942456901625845",
+      "0.105942456901625846"
+     ],
+     "arg_room_to_half_pi": "1.46485386989327077"
+    },
+    {
+     "sigma_from": "67/128",
+     "sigma_to": "1/2",
+     "box_abs_lower": "0.151172778294130111",
+     "re_quotient_lower": "1.01305812603740489",
+     "delta_arg": [
+      "0.108106443024349649",
+      "0.108106443024349650"
+     ],
+     "arg_room_to_half_pi": "1.46268988377054697"
+    }
+   ],
+   "split_segments": [
+    {
+     "sigma_from": "2",
+     "sigma_to": "1/2",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "-0.0350967037396236732",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "5/4",
+     "sigma_to": "1/2",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "0.0829376226094245957",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "7/8",
+     "sigma_to": "1/2",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "0.331556671267202711",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "11/16",
+     "sigma_to": "1/2",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "0.690360628139397541",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "19/32",
+     "sigma_to": "1/2",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "0.930757744958167861",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "35/64",
+     "sigma_to": "1/2",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "1.00395800123654540",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "11/16",
+     "sigma_to": "19/32",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "0.866622510462906297",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "7/8",
+     "sigma_to": "11/16",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "0.739439787801259568",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "25/32",
+     "sigma_to": "11/16",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "0.866045575760722560",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "5/4",
+     "sigma_to": "7/8",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "0.709540180019204859",
+     "failed": "box meets 0"
+    },
+    {
+     "sigma_from": "17/16",
+     "sigma_to": "7/8",
+     "box_abs_lower": "0",
+     "re_quotient_lower": "0.825096551839282684",
+     "failed": "box meets 0"
+    }
+   ]
+  },
+  "n_segments": 12,
+  "theta_T": [
+   "26.4613660701614096",
+   "26.4613660701614097"
+  ],
+  "S_T": [
+   "0.577085577939301453",
+   "0.577085577939301454"
+  ],
+  "N_T": [
+   "9.99999999999999999",
+   "10.0000000000000001"
+  ],
+  "count": 10,
+  "margin_to_other_integers": "0.999999999999999999",
+  "defect_from_integer": "1.32968E-56",
+  "worst": {
+   "box_abs_lower": "0.0203198572541513243",
+   "re_quotient_lower": "0.769689347047913280",
+   "arg_room_to_half_pi": "1.33839671622746915"
+  },
+  "routine": {
+   "file": "zeta/rigor.py",
+   "line": 763,
+   "cited_line": 763,
+   "role": "zero count N(T) by the argument principle, Riemann-von Mangoldt form N(T) = 1 + theta(T)/pi + S(T)",
+   "count": 10,
+   "n_segments": 12,
+   "all_steps_closed": true,
+   "arb_turing_count": 10,
+   "mpmath_nzeros": 10,
+   "replay_matches_routine": true
+  },
+  "bottom": "none: the routine's contour starts at s = 2 on the real axis, and the 1 in N(T) = 1 + theta(T)/pi + S(T) carries the real-axis part",
+  "top_height_why": "condition 1 holds on every sub-segment (the Arb box of zeta over the whole sub-segment misses 0, box_abs_lower > 0), so zeta has no zero on [1/2, 2] x {T}; with Re s >= 1 zero-free and the zeros symmetric under s -> 1 - conj s, T is not the ordinate of any nontrivial zero",
+  "precision_scan": [
+   {
+    "bits": 4,
+    "count": null,
+    "n_segments": 0,
+    "enclosure_width": null
+   },
+   {
+    "bits": 5,
+    "count": null,
+    "n_segments": 0,
+    "enclosure_width": null
+   },
+   {
+    "bits": 6,
+    "count": null,
+    "n_segments": 5,
+    "enclosure_width": 2.7342321865726262
+   },
+   {
+    "bits": 7,
+    "count": 10,
+    "n_segments": 5,
+    "enclosure_width": 1.368359491287265
+   },
+   {
+    "bits": 8,
+    "count": 10,
+    "n_segments": 5,
+    "enclosure_width": 0.5899923476681579
+   },
+   {
+    "bits": 9,
+    "count": 10,
+    "n_segments": 5,
+    "enclosure_width": 0.2949961738413549
+   },
+   {
+    "bits": 10,
+    "count": 10,
+    "n_segments": 5,
+    "enclosure_width": 0.14563298992652562
+   },
+   {
+    "bits": 12,
+    "count": 10,
+    "n_segments": 5,
+    "enclosure_width": 0.036408247481631406
+   },
+   {
+    "bits": 16,
+    "count": 10,
+    "n_segments": 5,
+    "enclosure_width": 0.002457653845453933
+   },
+   {
+    "bits": 24,
+    "count": 10,
+    "n_segments": 5,
+    "enclosure_width": 8.3764681078069e-06
+   },
+   {
+    "bits": 32,
+    "count": 10,
+    "n_segments": 5,
+    "enclosure_width": 3.446221749463241e-08
+   },
+   {
+    "bits": 48,
+    "count": 10,
+    "n_segments": 5,
+    "enclosure_width": 5.088887490583259e-13
+   },
+   {
+    "bits": 64,
+    "count": 10,
+    "n_segments": 7,
+    "enclosure_width": 7.916012696509064e-18
+   },
+   {
+    "bits": 96,
+    "count": 10,
+    "n_segments": 9,
+    "enclosure_width": 1.8671961449581177e-27
+   },
+   {
+    "bits": 128,
+    "count": 10,
+    "n_segments": 9,
+    "enclosure_width": 4.25386193427328e-37
+   },
+   {
+    "bits": 192,
+    "count": 10,
+    "n_segments": 12,
+    "enclosure_width": 2.4023715871410224e-56
+   }
+  ],
+  "min_prec_bits": 7
+ },
+ "rh_template": {
+  "routine": {
+   "file": "zeta/rigor.py",
+   "line": 1110,
+   "cited_line": 1110,
+   "sign_scan_line": 639,
+   "role": "RH to height T: proven sign changes of Hardy's Z on (0, T) against the zero count",
+   "count": 10,
+   "proven_sign_changes": 10,
+   "all_on_line": true,
+   "all_steps_closed": true,
+   "n_samples": 332,
+   "prec_bits": 64,
+   "max_escalations": 8,
+   "count_prec_bits": 192,
+   "undecided_points": 0
+  },
+  "grid": "t_k = 50 k / 331, k = 0..331",
+  "sign_change_brackets": [
+   {
+    "k": 1,
+    "t_from": "4650/331",
+    "t_to": "4700/331",
+    "t_from_float": 14.04833836858006,
+    "t_to_float": 14.19939577039275,
+    "zetazero_inside": [
+     1
+    ],
+    "zetazero_k": 14.134725141734695
+   },
+   {
+    "k": 2,
+    "t_from": "6950/331",
+    "t_to": "7000/331",
+    "t_from_float": 20.996978851963746,
+    "t_to_float": 21.148036253776436,
+    "zetazero_inside": [
+     2
+    ],
+    "zetazero_k": 21.022039638771556
+   },
+   {
+    "k": 3,
+    "t_from": "8250/331",
+    "t_to": "8300/331",
+    "t_from_float": 24.924471299093657,
+    "t_to_float": 25.075528700906343,
+    "zetazero_inside": [
+     3
+    ],
+    "zetazero_k": 25.01085758014569
+   },
+   {
+    "k": 4,
+    "t_from": "10050/331",
+    "t_to": "10100/331",
+    "t_from_float": 30.362537764350453,
+    "t_to_float": 30.513595166163142,
+    "zetazero_inside": [
+     4
+    ],
+    "zetazero_k": 30.424876125859512
+   },
+   {
+    "k": 5,
+    "t_from": "10900/331",
+    "t_to": "10950/331",
+    "t_from_float": 32.93051359516616,
+    "t_to_float": 33.081570996978854,
+    "zetazero_inside": [
+     5
+    ],
+    "zetazero_k": 32.93506158773919
+   },
+   {
+    "k": 6,
+    "t_from": "12400/331",
+    "t_to": "12450/331",
+    "t_from_float": 37.46223564954683,
+    "t_to_float": 37.61329305135952,
+    "zetazero_inside": [
+     6
+    ],
+    "zetazero_k": 37.586178158825675
+   },
+   {
+    "k": 7,
+    "t_from": "13500/331",
+    "t_to": "13550/331",
+    "t_from_float": 40.78549848942598,
+    "t_to_float": 40.93655589123867,
+    "zetazero_inside": [
+     7
+    ],
+    "zetazero_k": 40.9187190121475
+   },
+   {
+    "k": 8,
+    "t_from": "14300/331",
+    "t_to": "14350/331",
+    "t_from_float": 43.202416918429,
+    "t_to_float": 43.353474320241695,
+    "zetazero_inside": [
+     8
+    ],
+    "zetazero_k": 43.327073280915
+   },
+   {
+    "k": 9,
+    "t_from": "15850/331",
+    "t_to": "15900/331",
+    "t_from_float": 47.88519637462235,
+    "t_to_float": 48.036253776435046,
+    "zetazero_inside": [
+     9
+    ],
+    "zetazero_k": 48.00515088116716
+   },
+   {
+    "k": 10,
+    "t_from": "16450/331",
+    "t_to": "16500/331",
+    "t_from_float": 49.69788519637462,
+    "t_to_float": 49.848942598187314,
+    "zetazero_inside": [
+     10
+    ],
+    "zetazero_k": 49.7738324776723
+   }
+  ],
+  "replayed_sign_changes": 10,
+  "replay_matches_routine": true,
+  "min_abs_Z_on_grid": "0.0062782266",
+  "min_bits_without_escalation": 16,
+  "hardy_brackets": [
+   {
+    "k": 1,
+    "bracket": [
+     "1413/100",
+     "707/50"
+    ],
+    "zetazero": 14.134725141734695,
+    "Z_from": [
+     "-0.0037463384",
+     "-0.0037463383"
+    ],
+    "Z_to": [
+     "0.0041856189",
+     "0.0041856190"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #132"
+   },
+   {
+    "k": 2,
+    "bracket": [
+     "1051/50",
+     "2103/100"
+    ],
+    "zetazero": 21.022039638771556,
+    "Z_from": [
+     "0.0023189901",
+     "0.0023189902"
+    ],
+    "Z_to": [
+     "-0.0090458097",
+     "-0.0090458096"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #133"
+   },
+   {
+    "k": 3,
+    "bracket": [
+     "2501/100",
+     "1251/50"
+    ],
+    "zetazero": 25.01085758014569,
+    "Z_from": [
+     "-0.0011762302",
+     "-0.0011762301"
+    ],
+    "Z_to": [
+     "0.012555638",
+     "0.012555639"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #133"
+   },
+   {
+    "k": 4,
+    "bracket": [
+     "1521/50",
+     "3043/100"
+    ],
+    "zetazero": 30.424876125859512,
+    "Z_from": [
+     "0.0063652171",
+     "0.0063652172"
+    ],
+    "Z_to": [
+     "-0.0066734208",
+     "-0.0066734207"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #133"
+   },
+   {
+    "k": 5,
+    "bracket": [
+     "3293/100",
+     "1647/50"
+    ],
+    "zetazero": 32.93506158773919,
+    "Z_from": [
+     "-0.0069862510",
+     "-0.0069862509"
+    ],
+    "Z_to": [
+     "0.0068344517",
+     "0.0068344518"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #133"
+   },
+   {
+    "k": 6,
+    "bracket": [
+     "1879/50",
+     "3759/100"
+    ],
+    "zetazero": 37.586178158825675,
+    "Z_from": [
+     "0.011971377",
+     "0.011971378"
+    ],
+    "Z_to": [
+     "-0.0073981896",
+     "-0.0073981895"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #133"
+   },
+   {
+    "k": 7,
+    "bracket": [
+     "4091/100",
+     "1023/25"
+    ],
+    "zetazero": 40.9187190121475,
+    "Z_from": [
+     "-0.013009488",
+     "-0.013009487"
+    ],
+    "Z_to": [
+     "0.0019091728",
+     "0.0019091729"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #133"
+   },
+   {
+    "k": 8,
+    "bracket": [
+     "1083/25",
+     "4333/100"
+    ],
+    "zetazero": 43.327073280915,
+    "Z_from": [
+     "0.012941732",
+     "0.012941733"
+    ],
+    "Z_to": [
+     "-0.0053708097",
+     "-0.0053708096"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #133"
+   },
+   {
+    "k": 9,
+    "bracket": [
+     "48",
+     "4801/100"
+    ],
+    "zetazero": 48.00515088116716,
+    "Z_from": [
+     "-0.0080954126",
+     "-0.0080954125"
+    ],
+    "Z_to": [
+     "0.0075869688",
+     "0.0075869689"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #133"
+   },
+   {
+    "k": 10,
+    "bracket": [
+     "4977/100",
+     "2489/50"
+    ],
+    "zetazero": 49.7738324776723,
+    "Z_from": [
+     "0.0054312352",
+     "0.0054312353"
+    ],
+    "Z_to": [
+     "-0.0087687631",
+     "-0.0087687630"
+    ],
+    "sign_change_proven": true,
+    "kernel_checked_by": "hunt #133"
+   }
+  ]
+ },
+ "lean_contour": {
+  "recommended_taylor_order": 1,
+  "constants": {
+   "safety": "3/2",
+   "box_allowance": "1/100000",
+   "nmax": 200,
+   "arg_tol": "1/50",
+   "sigma_piece": "1/128",
+   "t_piece": "1/8",
+   "ball_prec_bits": 128
+  },
+  "by_taylor_order": {
+   "1": {
+    "T1": "10",
+    "T2": "50",
+    "taylor_order": 1,
+    "directions_allowed": [
+     "+1",
+     "+i",
+     "-1",
+     "-i"
+    ],
+    "gamma_route": "mu_stirling",
+    "formula": "Ncount T1 T2 = (theta(T2) - theta(T1))/pi + Q/2 + (A2 - A1)/pi",
+    "legs": {
+     "bottom": {
+      "height": "10",
+      "path": "1/2 + 10 i -> 2 + 10 i",
+      "orientation": "rightwards",
+      "taylor_order": 1,
+      "em_order": 4,
+      "subsegments": [
+       {
+        "sigma_from": "1/2",
+        "sigma_to": "5/4",
+        "midpoint": "7/8",
+        "half_length": "3/8",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 3,
+        "main_term_lower": "1.44123067135720507",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.453178329379059607",
+        "crude_derivative_bound": "1.20847554501082562",
+        "em4_remainder_upper": "0.413947194823249864",
+        "lean_margin": "0.140532385053740869",
+        "safety_achieved": "1.66206694547830331",
+        "true_margin": "1.32248535216257661",
+        "delta_arg_rightwards": [
+         "-0.00304976967165138959",
+         "-0.00304976967165138958"
+        ]
+       },
+       {
+        "sigma_from": "5/4",
+        "sigma_to": "2",
+        "midpoint": "13/8",
+        "half_length": "3/8",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 3,
+        "main_term_lower": "1.26107205764636113",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.227810271544209624",
+        "crude_derivative_bound": "0.607494057451225664",
+        "em4_remainder_upper": "0.220198832339077289",
+        "lean_margin": "0.589048401821430768",
+        "safety_achieved": "2.81481346409176253",
+        "true_margin": "1.19653846514497845",
+        "delta_arg_rightwards": [
+         "0.0115774673203558640",
+         "0.0115774673203558641"
+        ]
+       }
+      ],
+      "arg_change_along_path": [
+       "0.00852769764870447444",
+       "0.00852769764870447445"
+      ],
+      "directions_along_path": [
+       "+1",
+       "+1"
+      ],
+      "n_subsegments": 2,
+      "term_boxes": 4,
+      "prime_towers": 2,
+      "max_N": 3,
+      "worst_lean_margin": "0.140532385053740869",
+      "worst_true_margin": "1.19653846514497845"
+     },
+     "right": {
+      "path": "2 + 10 i -> 2 + 50 i",
+      "direction": "+1",
+      "e": 0,
+      "condition": "Re zeta > 0",
+      "lean_lemma": "Zeta23.RvM.re_riemannZeta_two_pos (vendored): Re zeta(2+it) > 0, indeed >= 2 - pi^2/6",
+      "vendored_lower_bound": "0.355065933151773563",
+      "true_margin": "0.668120402003246252",
+      "n_subsegments": 1
+     },
+     "top": {
+      "height": "50",
+      "path": "2 + 50 i -> 1/2 + 50 i",
+      "orientation": "leftwards",
+      "taylor_order": 1,
+      "em_order": 4,
+      "subsegments": [
+       {
+        "sigma_from": "1/2",
+        "sigma_to": "131/256",
+        "midpoint": "259/512",
+        "half_length": "3/512",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 17,
+        "main_term_lower": "0.340640844158701774",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0656127197034772524",
+        "crude_derivative_bound": "11.1979041627267844",
+        "em4_remainder_upper": "0.152018517335419550",
+        "lean_margin": "0.0141839886003565708",
+        "safety_achieved": "1.56517441518664664",
+        "true_margin": "0.297573547731468579",
+        "delta_arg_rightwards": [
+         "-0.0541920445391464835",
+         "-0.0541920445391464834"
+        ]
+       },
+       {
+        "sigma_from": "131/256",
+        "sigma_to": "67/128",
+        "midpoint": "265/512",
+        "half_length": "3/512",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 17,
+        "main_term_lower": "0.340614810259710973",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0639967811846854525",
+        "crude_derivative_bound": "10.9221173221863173",
+        "em4_remainder_upper": "0.146673078472788199",
+        "lean_margin": "0.0246000207735004965",
+        "safety_achieved": "1.61677048066342979",
+        "true_margin": "0.298968047620408862",
+        "delta_arg_rightwards": [
+         "-0.0539143984852031657",
+         "-0.0539143984852031656"
+        ]
+       },
+       {
+        "sigma_from": "67/128",
+        "sigma_to": "35/64",
+        "midpoint": "137/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 21,
+        "main_term_lower": "0.331409679794617556",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.154478502951235308",
+        "crude_derivative_bound": "13.1821655851720796",
+        "em4_remainder_upper": "0.0644717482562999184",
+        "lean_margin": "0.00297430298331471803",
+        "safety_achieved": "1.51358437803524363",
+        "true_margin": "0.289908406862745235",
+        "delta_arg_rightwards": [
+         "-0.105942456901625846",
+         "-0.105942456901625845"
+        ]
+       },
+       {
+        "sigma_from": "35/64",
+        "sigma_to": "73/128",
+        "midpoint": "143/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 19,
+        "main_term_lower": "0.337010882196288216",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.132751910231254188",
+        "crude_derivative_bound": "11.3281630064003574",
+        "em4_remainder_upper": "0.0867614425937449829",
+        "lean_margin": "0.00773085295878946098",
+        "safety_achieved": "1.53521814440578776",
+        "true_margin": "0.292587834143189245",
+        "delta_arg_rightwards": [
+         "-0.101878496943316501",
+         "-0.101878496943316500"
+        ]
+       },
+       {
+        "sigma_from": "73/128",
+        "sigma_to": "19/32",
+        "midpoint": "149/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 19,
+        "main_term_lower": "0.336163043310945152",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.126096146247825280",
+        "crude_derivative_bound": "10.7602044798144239",
+        "em4_remainder_upper": "0.0805526378475068565",
+        "lean_margin": "0.0261798671679469487",
+        "safety_achieved": "1.62668773872809014",
+        "true_margin": "0.294679561264760179",
+        "delta_arg_rightwards": [
+         "-0.0963587055367353184",
+         "-0.0963587055367353183"
+        ]
+       },
+       {
+        "sigma_from": "19/32",
+        "sigma_to": "79/128",
+        "midpoint": "155/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 17,
+        "main_term_lower": "0.337357321953596827",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.107633479881428070",
+        "crude_derivative_bound": "9.18472361654852860",
+        "em4_remainder_upper": "0.114203980542923826",
+        "lean_margin": "0.00459113131706898399",
+        "safety_achieved": "1.52069592443172865",
+        "true_margin": "0.296222859429965446",
+        "delta_arg_rightwards": [
+         "-0.0899026557514346595",
+         "-0.0899026557514346594"
+        ]
+       },
+       {
+        "sigma_from": "79/128",
+        "sigma_to": "41/64",
+        "midpoint": "161/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 17,
+        "main_term_lower": "0.335693800130421837",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.102479288584547268",
+        "crude_derivative_bound": "8.74489929254803347",
+        "em4_remainder_upper": "0.106333737002243809",
+        "lean_margin": "0.0224642617502352241",
+        "safety_achieved": "1.60758074927130527",
+        "true_margin": "0.297250896578281133",
+        "delta_arg_rightwards": [
+         "-0.0830034137626704842",
+         "-0.0830034137626704841"
+        ]
+       },
+       {
+        "sigma_from": "41/64",
+        "sigma_to": "85/128",
+        "midpoint": "167/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 17,
+        "main_term_lower": "0.333745058568161161",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0975908572948012217",
+        "crude_derivative_bound": "8.32775315582303758",
+        "em4_remainder_upper": "0.0990101059858501693",
+        "lean_margin": "0.0388336136471840750",
+        "safety_achieved": "1.69752504259985947",
+        "true_margin": "0.297814584665547242",
+        "delta_arg_rightwards": [
+         "-0.0760627511258713519",
+         "-0.0760627511258713518"
+        ]
+       },
+       {
+        "sigma_from": "85/128",
+        "sigma_to": "11/16",
+        "midpoint": "173/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 16,
+        "main_term_lower": "0.318418680482806806",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0878794917194971129",
+        "crude_derivative_bound": "7.49904996006375364",
+        "em4_remainder_upper": "0.116789916382472751",
+        "lean_margin": "0.0114045683298520115",
+        "safety_achieved": "1.55572190018827853",
+        "true_margin": "0.297817465312304038",
+        "delta_arg_rightwards": [
+         "-0.0693678527334937384",
+         "-0.0693678527334937383"
+        ]
+       },
+       {
+        "sigma_from": "11/16",
+        "sigma_to": "91/128",
+        "midpoint": "179/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 15,
+        "main_term_lower": "0.332808774068676263",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0789730697343972339",
+        "crude_derivative_bound": "6.73903528400189729",
+        "em4_remainder_upper": "0.140474221197459144",
+        "lean_margin": "0.00362783767089169751",
+        "safety_achieved": "1.51653170406199376",
+        "true_margin": "0.297310244151348025",
+        "delta_arg_rightwards": [
+         "-0.0630979985533535790",
+         "-0.0630979985533535789"
+        ]
+       },
+       {
+        "sigma_from": "91/128",
+        "sigma_to": "47/64",
+        "midpoint": "185/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 15,
+        "main_term_lower": "0.329920473546211654",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0754092754886097097",
+        "crude_derivative_bound": "6.43492484169469523",
+        "em4_remainder_upper": "0.131225645937715302",
+        "lean_margin": "0.0199580914067241383",
+        "safety_achieved": "1.59658624625963878",
+        "true_margin": "0.296458159776367018",
+        "delta_arg_rightwards": [
+         "-0.0573460516092094642",
+         "-0.0573460516092094641"
+        ]
+       },
+       {
+        "sigma_from": "47/64",
+        "sigma_to": "97/128",
+        "midpoint": "191/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 15,
+        "main_term_lower": "0.326844703733921494",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0720196013740865816",
+        "crude_derivative_bound": "6.14567265058872163",
+        "em4_remainder_upper": "0.122590977576196106",
+        "lean_margin": "0.0349188353084974648",
+        "safety_achieved": "1.67942927613106894",
+        "true_margin": "0.295289137718591414",
+        "delta_arg_rightwards": [
+         "-0.0521432196683580552",
+         "-0.0521432196683580551"
+        ]
+       },
+       {
+        "sigma_from": "97/128",
+        "sigma_to": "25/32",
+        "midpoint": "197/256",
+        "half_length": "3/256",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 15,
+        "main_term_lower": "0.323598916270931999",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0687951097001656278",
+        "crude_derivative_bound": "5.87051602774746691",
+        "em4_remainder_upper": "0.114529082968518214",
+        "lean_margin": "0.0486026272679062381",
+        "safety_achieved": "1.76511845796448844",
+        "true_margin": "0.293829330699137481",
+        "delta_arg_rightwards": [
+         "-0.0474808549715814932",
+         "-0.0474808549715814931"
+        ]
+       },
+       {
+        "sigma_from": "25/32",
+        "sigma_to": "53/64",
+        "midpoint": "103/128",
+        "half_length": "3/128",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 18,
+        "main_term_lower": "0.307986801370752621",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.153294287713398541",
+        "crude_derivative_bound": "6.54055627577167105",
+        "em4_remainder_upper": "0.0513558085100699026",
+        "lean_margin": "0.00100165703554995762",
+        "safety_achieved": "1.50489448602289536",
+        "true_margin": "0.290133728028316172",
+        "delta_arg_rightwards": [
+         "-0.0829656237265924334",
+         "-0.0829656237265924333"
+        ]
+       },
+       {
+        "sigma_from": "53/64",
+        "sigma_to": "7/8",
+        "midpoint": "109/128",
+        "half_length": "3/128",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 15,
+        "main_term_lower": "0.335418171618700930",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.120060633380127134",
+        "crude_derivative_bound": "5.12258702421875771",
+        "em4_remainder_upper": "0.0934176121691051046",
+        "lean_margin": "0.0151908032948525729",
+        "safety_achieved": "1.57115855414573977",
+        "true_margin": "0.295247802936971816",
+        "delta_arg_rightwards": [
+         "-0.0698340462744432967",
+         "-0.0698340462744432966"
+        ]
+       },
+       {
+        "sigma_from": "7/8",
+        "sigma_to": "59/64",
+        "midpoint": "115/128",
+        "half_length": "3/128",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 14,
+        "main_term_lower": "0.367829871876724518",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.103819643571855334",
+        "crude_derivative_bound": "4.42963812573249425",
+        "em4_remainder_upper": "0.108695581110111487",
+        "lean_margin": "0.0490470348537742877",
+        "safety_achieved": "1.73079304048533055",
+        "true_margin": "0.336430412413828878",
+        "delta_arg_rightwards": [
+         "-0.0594931286816427970",
+         "-0.0594931286816427969"
+        ]
+       },
+       {
+        "sigma_from": "59/64",
+        "sigma_to": "31/32",
+        "midpoint": "121/128",
+        "half_length": "3/128",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 12,
+        "main_term_lower": "0.418657941952213723",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0841874706580436468",
+        "crude_derivative_bound": "3.59199874807652893",
+        "em4_remainder_upper": "0.183395105807086209",
+        "lean_margin": "0.0172740772545189409",
+        "safety_achieved": "1.56455606146975724",
+        "true_margin": "0.374213912656684861",
+        "delta_arg_rightwards": [
+         "-0.0512982809881773620",
+         "-0.0512982809881773619"
+        ]
+       },
+       {
+        "sigma_from": "31/32",
+        "sigma_to": "17/16",
+        "midpoint": "65/64",
+        "half_length": "3/64",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 13,
+        "main_term_lower": "0.448199919377732966",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.165085673706206072",
+        "crude_derivative_bound": "3.52182770573239619",
+        "em4_remainder_upper": "0.114710278538359367",
+        "lean_margin": "0.0284959910108848095",
+        "safety_achieved": "1.60184561564342035",
+        "true_margin": "0.408926356465312350",
+        "delta_arg_rightwards": [
+         "-0.0841659820801803776",
+         "-0.0841659820801803775"
+        ]
+       },
+       {
+        "sigma_from": "17/16",
+        "sigma_to": "37/32",
+        "midpoint": "71/64",
+        "half_length": "3/64",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 11,
+        "main_term_lower": "0.492266755760829161",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.123910374847742414",
+        "crude_derivative_bound": "2.64342133008517149",
+        "em4_remainder_upper": "0.186265552349492483",
+        "lean_margin": "0.0269928649649768179",
+        "safety_achieved": "1.58702437100417717",
+        "true_margin": "0.470288294888424746",
+        "delta_arg_rightwards": [
+         "-0.0665315332000546569",
+         "-0.0665315332000546568"
+        ]
+       },
+       {
+        "sigma_from": "37/32",
+        "sigma_to": "5/4",
+        "midpoint": "77/64",
+        "half_length": "3/64",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 10,
+        "main_term_lower": "0.538069549086379040",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.0994205554056469272",
+        "crude_derivative_bound": "2.12097184865380112",
+        "em4_remainder_upper": "0.227420256156845186",
+        "lean_margin": "0.0477983317426408714",
+        "safety_achieved": "1.64624346180679400",
+        "true_margin": "0.522537872128278114",
+        "delta_arg_rightwards": [
+         "-0.0542731290586338089",
+         "-0.0542731290586338088"
+        ]
+       },
+       {
+        "sigma_from": "5/4",
+        "sigma_to": "23/16",
+        "midpoint": "43/32",
+        "half_length": "3/32",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 10,
+        "main_term_lower": "0.600430932609862352",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.171800005139609975",
+        "crude_derivative_bound": "1.83253338815583973",
+        "em4_remainder_upper": "0.181155032885530460",
+        "lean_margin": "0.0709883755721517018",
+        "safety_achieved": "1.70112583169048095",
+        "true_margin": "0.567311252600236715",
+        "delta_arg_rightwards": [
+         "-0.0839662724279281932",
+         "-0.0839662724279281931"
+        ]
+       },
+       {
+        "sigma_from": "23/16",
+        "sigma_to": "13/8",
+        "midpoint": "49/32",
+        "half_length": "3/32",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 8,
+        "main_term_lower": "0.715488075748659878",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.113422174414572996",
+        "crude_derivative_bound": "1.20983652708877862",
+        "em4_remainder_upper": "0.350834250603792765",
+        "lean_margin": "0.0190934382211112387",
+        "safety_achieved": "1.54112692295072903",
+        "true_margin": "0.639478430957780704",
+        "delta_arg_rightwards": [
+         "-0.0623826457697318645",
+         "-0.0623826457697318644"
+        ]
+       },
+       {
+        "sigma_from": "13/8",
+        "sigma_to": "2",
+        "midpoint": "29/16",
+        "half_length": "3/16",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 8,
+        "main_term_lower": "0.763570305561777543",
+        "taylor_terms_upper": "0",
+        "taylor_tail_upper": "0.175587239252486365",
+        "crude_derivative_bound": "0.936465276013260613",
+        "em4_remainder_upper": "0.234169772473748494",
+        "lean_margin": "0.148924787972425256",
+        "safety_achieved": "1.86344658836960735",
+        "true_margin": "0.694656008684542257",
+        "delta_arg_rightwards": [
+         "-0.0860506923697674111",
+         "-0.0860506923697674110"
+        ]
+       }
+      ],
+      "arg_change_along_path": [
+       "1.65165223515915233",
+       "1.65165223515915234"
+      ],
+      "directions_along_path": [
+       "+1",
+       "+1",
+       "+1",
+       "+1",
+       "+1",
+       "+1",
+       "+1",
+       "+1",
+       "+1",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i",
+       "+i"
+      ],
+      "n_subsegments": 23,
+      "term_boxes": 316,
+      "prime_towers": 131,
+      "max_N": 21,
+      "worst_lean_margin": "0.00100165703554995762",
+      "worst_true_margin": "0.289908406862745235"
+     }
+    },
+    "junctions": [
+     {
+      "at": "53/64 + 50 i",
+      "from": "+1",
+      "to": "+i",
+      "quarter_turns": 1
+     }
+    ],
+    "quarter_turns_Q": 1,
+    "A1": {
+     "point": "1/2 + 10 i",
+     "direction": "+1",
+     "e": 0,
+     "zeta": [
+      [
+       "1.54489522029675276",
+       "1.54489522029675277"
+      ],
+      [
+       "-0.115336465271273376",
+       "-0.115336465271273375"
+      ]
+     ],
+     "rotated": [
+      [
+       "1.54489522029675276",
+       "1.54489522029675277"
+      ],
+      [
+       "-0.115336465271273376",
+       "-0.115336465271273375"
+      ]
+     ],
+     "A": [
+      "-0.0745182572998979468",
+      "-0.0745182572998979467"
+     ],
+     "lean_N": 6,
+     "lean_box_arg": [
+      "-0.0761481674566557301",
+      "-0.0761481674566557300"
+     ],
+     "lean_half_width": "0.0151925052133833983",
+     "crude_arctan_interval": [
+      "-0.0929479268087765974",
+      "0"
+     ]
+    },
+    "A2": {
+     "point": "1/2 + 50 i",
+     "direction": "+i",
+     "e": 1,
+     "zeta": [
+      [
+       "-0.0817121083209799751",
+       "-0.0817121083209799750"
+      ],
+      [
+       "0.330792194038661295",
+       "0.330792194038661296"
+      ]
+     ],
+     "rotated": [
+      [
+       "0.330792194038661295",
+       "0.330792194038661296"
+      ],
+      [
+       "0.0817121083209799750",
+       "0.0817121083209799751"
+      ]
+     ],
+     "A": [
+      "0.242171485351832879",
+      "0.242171485351832880"
+     ],
+     "lean_N": 45,
+     "lean_box_arg": [
+      "0.242879158281118035",
+      "0.242879158281118036"
+     ],
+     "lean_half_width": "0.0194250353255841713",
+     "crude_arctan_interval": [
+      "0",
+      "0.273249632000427892"
+     ]
+    },
+    "gamma_side": {
+     "identity": "gamma_side (vendored): (1/pi) Im halfContour (logDeriv Gammaℝ) T1 T2 = int_{T1}^{T2} mu, and int mu = (theta(T2) - theta(T1))/pi",
+     "theta_T1": [
+      "-3.06707439628989530",
+      "-3.06707439628989529"
+     ],
+     "theta_T2": [
+      "26.4613660701614096",
+      "26.4613660701614097"
+     ],
+     "increment_over_pi": [
+      "9.39919452406095360",
+      "9.39919452406095361"
+     ],
+     "stirling_main": [
+      "9.39972542551098806",
+      "9.39972542551098807"
+     ],
+     "stirling_main_formula": "G(T2) - G(T1), G(t) = (t log(t/(2 pi)) - t)/(2 pi)",
+     "true_remainder": [
+      "-0.000530901450034462162",
+      "-0.000530901450034462161"
+     ],
+     "vendored_constant": "20/(2 pi), from Zeta23.StirlingVert.mu_stirling (its proof)",
+     "vendored_budget": "0.254647908947032538",
+     "vendored_budget_formula": "(20/(2 pi)) (1/T1 - 1/T2)",
+     "digamma_main": [
+      "9.39495652422329194",
+      "9.39495652422329195"
+     ],
+     "digamma_main_formula": "F(T2) - F(T1), F(t) = ((t/2) log((1+4t^2)/16) - t - arctan(2t)/2 - t log pi)/(2 pi)",
+     "digamma_true_remainder": [
+      "0.00423799983766165415",
+      "0.00423799983766165416"
+     ],
+     "digamma_budget": "0.152788745368219523",
+     "digamma_budget_formula": "(12/(2 pi)) (1/T1 - 1/T2), from digamma_stirling directly"
+    },
+    "count_exact": [
+     "9.99999999999999999",
+     "10.0000000000000001"
+    ],
+    "count": 10,
+    "exact_margin_to_other_integers": "0.999999999999999999",
+    "count_lean_budget": [
+     "9.73560796292014388",
+     "10.2669419915920521"
+    ],
+    "lean_count": 10,
+    "lean_margin_to_other_integers": "0.733058008407947991",
+    "count_lean_crude_arctan": [
+     "9.64507751656395552",
+     "10.2709376377233605"
+    ],
+    "crude_arctan_count": 10,
+    "crude_arctan_margin_to_other_integers": "0.645077516563955527",
+    "sensitivity": {
+     "d_count_d_log_2pi": [
+      "-6.3661978",
+      "-6.3661977"
+     ],
+     "note": "an error e in a Lean bound for log(2 pi) moves the Stirling main term by about (T2 - T1) e/(2 pi); the margin above tolerates it while that stays well below the margin"
+    },
+    "term_boxes_total": 369,
+    "prime_towers_total": 150,
+    "projected_kernel_seconds": 459,
+    "projection_basis": "prime exp towers times hunt #133's measured 52 s per 17 towers; for Taylor orders above 1 the derivative boxes add products this does not count",
+    "worst_lean_margin": "0.00100165703554995762",
+    "worst_true_margin": "0.289908406862745235"
+   },
+   "2": {
+    "T1": "10",
+    "T2": "50",
+    "taylor_order": 2,
+    "directions_allowed": [
+     "+1",
+     "+i",
+     "-1",
+     "-i"
+    ],
+    "gamma_route": "mu_stirling",
+    "formula": "Ncount T1 T2 = (theta(T2) - theta(T1))/pi + Q/2 + (A2 - A1)/pi",
+    "legs": {
+     "bottom": {
+      "height": "10",
+      "path": "1/2 + 10 i -> 2 + 10 i",
+      "orientation": "rightwards",
+      "taylor_order": 2,
+      "em_order": 4,
+      "subsegments": [
+       {
+        "sigma_from": "1/2",
+        "sigma_to": "2",
+        "midpoint": "5/4",
+        "half_length": "3/4",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 4,
+        "main_term_lower": "1.32584057105043393",
+        "taylor_terms_upper": "0.162633420264650774",
+        "taylor_tail_upper": "0.617024671332664321",
+        "crude_derivative_bound": "2.19386549807169537",
+        "em4_remainder_upper": "0.108790002675677455",
+        "lean_margin": "0.0744751397732704975",
+        "safety_achieved": "1.60260903015638749",
+        "true_margin": "1.19653846514497845",
+        "delta_arg_rightwards": [
+         "0.00852769764870447444",
+         "0.00852769764870447445"
+        ]
+       }
+      ],
+      "arg_change_along_path": [
+       "0.00852769764870447444",
+       "0.00852769764870447445"
+      ],
+      "directions_along_path": [
+       "+1"
+      ],
+      "n_subsegments": 1,
+      "term_boxes": 3,
+      "prime_towers": 2,
+      "max_N": 4,
+      "worst_lean_margin": "0.0744751397732704975",
+      "worst_true_margin": "1.19653846514497845"
+     },
+     "right": {
+      "path": "2 + 10 i -> 2 + 50 i",
+      "direction": "+1",
+      "e": 0,
+      "condition": "Re zeta > 0",
+      "lean_lemma": "Zeta23.RvM.re_riemannZeta_two_pos (vendored): Re zeta(2+it) > 0, indeed >= 2 - pi^2/6",
+      "vendored_lower_bound": "0.355065933151773563",
+      "true_margin": "0.668120402003246252",
+      "n_subsegments": 1
+     },
+     "top": {
+      "height": "50",
+      "path": "2 + 50 i -> 1/2 + 50 i",
+      "orientation": "leftwards",
+      "taylor_order": 2,
+      "em_order": 4,
+      "subsegments": [
+       {
+        "sigma_from": "1/2",
+        "sigma_to": "11/16",
+        "midpoint": "19/32",
+        "half_length": "3/32",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 20,
+        "main_term_lower": "0.327831032710919795",
+        "taylor_terms_upper": "0.00265451413161889839",
+        "taylor_tail_upper": "0.131288382781762501",
+        "crude_derivative_bound": "29.8754008818944002",
+        "em4_remainder_upper": "0.0833555366287355852",
+        "lean_margin": "0.00320063946355376846",
+        "safety_achieved": "1.51491139125834108",
+        "true_margin": "0.286595200872811444",
+        "delta_arg_rightwards": [
+         "-0.730622775779497548",
+         "-0.730622775779497547"
+        ]
+       },
+       {
+        "sigma_from": "11/16",
+        "sigma_to": "7/8",
+        "midpoint": "25/32",
+        "half_length": "3/32",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 15,
+        "main_term_lower": "0.321917426749410821",
+        "taylor_terms_upper": "0.0136002361476048084",
+        "taylor_tail_upper": "0.0584850708268973671",
+        "crude_derivative_bound": "13.3086027837206454",
+        "em4_remainder_upper": "0.140558495059786490",
+        "lean_margin": "0.00974184177178022891",
+        "safety_achieved": "1.54894326389493188",
+        "true_margin": "0.285548968539128728",
+        "delta_arg_rightwards": [
+         "-0.372867794803538322",
+         "-0.372867794803538321"
+        ]
+       },
+       {
+        "sigma_from": "7/8",
+        "sigma_to": "5/4",
+        "midpoint": "17/16",
+        "half_length": "3/16",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 15,
+        "main_term_lower": "0.481124238718057247",
+        "taylor_terms_upper": "0.107617515264273344",
+        "taylor_tail_upper": "0.157208078574056174",
+        "crude_derivative_bound": "8.94339291443519567",
+        "em4_remainder_upper": "0.0816739183835277514",
+        "lean_margin": "0.0151737280174080159",
+        "safety_achieved": "1.56351976377735269",
+        "true_margin": "0.336430412413828878",
+        "delta_arg_rightwards": [
+         "-0.315762054008689003",
+         "-0.315762054008689002"
+        ]
+       },
+       {
+        "sigma_from": "5/4",
+        "sigma_to": "2",
+        "midpoint": "13/8",
+        "half_length": "3/8",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 10,
+        "main_term_lower": "0.691928289569963336",
+        "taylor_terms_upper": "0.0997888087150050444",
+        "taylor_tail_upper": "0.199381182823994952",
+        "crude_derivative_bound": "2.83564348905237265",
+        "em4_remainder_upper": "0.181677611217585660",
+        "lean_margin": "0.0205412897925873750",
+        "safety_achieved": "1.55390582795563547",
+        "true_margin": "0.567311252600236715",
+        "delta_arg_rightwards": [
+         "-0.232399610567427469",
+         "-0.232399610567427468"
+        ]
+       }
+      ],
+      "arg_change_along_path": [
+       "1.65165223515915233",
+       "1.65165223515915234"
+      ],
+      "directions_along_path": [
+       "+1",
+       "+1",
+       "+i",
+       "+i"
+      ],
+      "n_subsegments": 4,
+      "term_boxes": 56,
+      "prime_towers": 24,
+      "max_N": 20,
+      "worst_lean_margin": "0.00320063946355376846",
+      "worst_true_margin": "0.285548968539128728"
+     }
+    },
+    "junctions": [
+     {
+      "at": "7/8 + 50 i",
+      "from": "+1",
+      "to": "+i",
+      "quarter_turns": 1
+     }
+    ],
+    "quarter_turns_Q": 1,
+    "A1": {
+     "point": "1/2 + 10 i",
+     "direction": "+1",
+     "e": 0,
+     "zeta": [
+      [
+       "1.54489522029675276",
+       "1.54489522029675277"
+      ],
+      [
+       "-0.115336465271273376",
+       "-0.115336465271273375"
+      ]
+     ],
+     "rotated": [
+      [
+       "1.54489522029675276",
+       "1.54489522029675277"
+      ],
+      [
+       "-0.115336465271273376",
+       "-0.115336465271273375"
+      ]
+     ],
+     "A": [
+      "-0.0745182572998979468",
+      "-0.0745182572998979467"
+     ],
+     "lean_N": 6,
+     "lean_box_arg": [
+      "-0.0761481674566557301",
+      "-0.0761481674566557300"
+     ],
+     "lean_half_width": "0.0151925052133833983",
+     "crude_arctan_interval": [
+      "-0.0929479268087765974",
+      "0"
+     ]
+    },
+    "A2": {
+     "point": "1/2 + 50 i",
+     "direction": "+i",
+     "e": 1,
+     "zeta": [
+      [
+       "-0.0817121083209799751",
+       "-0.0817121083209799750"
+      ],
+      [
+       "0.330792194038661295",
+       "0.330792194038661296"
+      ]
+     ],
+     "rotated": [
+      [
+       "0.330792194038661295",
+       "0.330792194038661296"
+      ],
+      [
+       "0.0817121083209799750",
+       "0.0817121083209799751"
+      ]
+     ],
+     "A": [
+      "0.242171485351832879",
+      "0.242171485351832880"
+     ],
+     "lean_N": 45,
+     "lean_box_arg": [
+      "0.242879158281118035",
+      "0.242879158281118036"
+     ],
+     "lean_half_width": "0.0194250353255841713",
+     "crude_arctan_interval": [
+      "0",
+      "0.273249632000427892"
+     ]
+    },
+    "gamma_side": {
+     "identity": "gamma_side (vendored): (1/pi) Im halfContour (logDeriv Gammaℝ) T1 T2 = int_{T1}^{T2} mu, and int mu = (theta(T2) - theta(T1))/pi",
+     "theta_T1": [
+      "-3.06707439628989530",
+      "-3.06707439628989529"
+     ],
+     "theta_T2": [
+      "26.4613660701614096",
+      "26.4613660701614097"
+     ],
+     "increment_over_pi": [
+      "9.39919452406095360",
+      "9.39919452406095361"
+     ],
+     "stirling_main": [
+      "9.39972542551098806",
+      "9.39972542551098807"
+     ],
+     "stirling_main_formula": "G(T2) - G(T1), G(t) = (t log(t/(2 pi)) - t)/(2 pi)",
+     "true_remainder": [
+      "-0.000530901450034462162",
+      "-0.000530901450034462161"
+     ],
+     "vendored_constant": "20/(2 pi), from Zeta23.StirlingVert.mu_stirling (its proof)",
+     "vendored_budget": "0.254647908947032538",
+     "vendored_budget_formula": "(20/(2 pi)) (1/T1 - 1/T2)",
+     "digamma_main": [
+      "9.39495652422329194",
+      "9.39495652422329195"
+     ],
+     "digamma_main_formula": "F(T2) - F(T1), F(t) = ((t/2) log((1+4t^2)/16) - t - arctan(2t)/2 - t log pi)/(2 pi)",
+     "digamma_true_remainder": [
+      "0.00423799983766165415",
+      "0.00423799983766165416"
+     ],
+     "digamma_budget": "0.152788745368219523",
+     "digamma_budget_formula": "(12/(2 pi)) (1/T1 - 1/T2), from digamma_stirling directly"
+    },
+    "count_exact": [
+     "9.99999999999999999",
+     "10.0000000000000001"
+    ],
+    "count": 10,
+    "exact_margin_to_other_integers": "0.999999999999999999",
+    "count_lean_budget": [
+     "9.73560796292014388",
+     "10.2669419915920521"
+    ],
+    "lean_count": 10,
+    "lean_margin_to_other_integers": "0.733058008407947991",
+    "count_lean_crude_arctan": [
+     "9.64507751656395552",
+     "10.2709376377233605"
+    ],
+    "crude_arctan_count": 10,
+    "crude_arctan_margin_to_other_integers": "0.645077516563955527",
+    "sensitivity": {
+     "d_count_d_log_2pi": [
+      "-6.3661978",
+      "-6.3661977"
+     ],
+     "note": "an error e in a Lean bound for log(2 pi) moves the Stirling main term by about (T2 - T1) e/(2 pi); the margin above tolerates it while that stays well below the margin"
+    },
+    "term_boxes_total": 108,
+    "prime_towers_total": 43,
+    "projected_kernel_seconds": 132,
+    "projection_basis": "prime exp towers times hunt #133's measured 52 s per 17 towers; for Taylor orders above 1 the derivative boxes add products this does not count",
+    "worst_lean_margin": "0.00320063946355376846",
+    "worst_true_margin": "0.285548968539128728"
+   },
+   "3": {
+    "T1": "10",
+    "T2": "50",
+    "taylor_order": 3,
+    "directions_allowed": [
+     "+1",
+     "+i",
+     "-1",
+     "-i"
+    ],
+    "gamma_route": "mu_stirling",
+    "formula": "Ncount T1 T2 = (theta(T2) - theta(T1))/pi + Q/2 + (A2 - A1)/pi",
+    "legs": {
+     "bottom": {
+      "height": "10",
+      "path": "1/2 + 10 i -> 2 + 10 i",
+      "orientation": "rightwards",
+      "taylor_order": 3,
+      "em_order": 4,
+      "subsegments": [
+       {
+        "sigma_from": "1/2",
+        "sigma_to": "2",
+        "midpoint": "5/4",
+        "half_length": "3/4",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 3,
+        "main_term_lower": "1.33943025627329188",
+        "taylor_terms_upper": "0.224782707546954508",
+        "taylor_tail_upper": "0.0842362838088031426",
+        "crude_derivative_bound": "1.19802714750297803",
+        "em4_remainder_upper": "0.449684992695532092",
+        "lean_margin": "0.313755633969834524",
+        "safety_achieved": "2.08764399880079877",
+        "true_margin": "1.19653846514497845",
+        "delta_arg_rightwards": [
+         "0.00852769764870447444",
+         "0.00852769764870447445"
+        ]
+       }
+      ],
+      "arg_change_along_path": [
+       "0.00852769764870447444",
+       "0.00852769764870447445"
+      ],
+      "directions_along_path": [
+       "+1"
+      ],
+      "n_subsegments": 1,
+      "term_boxes": 2,
+      "prime_towers": 1,
+      "max_N": 3,
+      "worst_lean_margin": "0.313755633969834524",
+      "worst_true_margin": "1.19653846514497845"
+     },
+     "right": {
+      "path": "2 + 10 i -> 2 + 50 i",
+      "direction": "+1",
+      "e": 0,
+      "condition": "Re zeta > 0",
+      "lean_lemma": "Zeta23.RvM.re_riemannZeta_two_pos (vendored): Re zeta(2+it) > 0, indeed >= 2 - pi^2/6",
+      "vendored_lower_bound": "0.355065933151773563",
+      "true_margin": "0.668120402003246252",
+      "n_subsegments": 1
+     },
+     "top": {
+      "height": "50",
+      "path": "2 + 50 i -> 1/2 + 50 i",
+      "orientation": "leftwards",
+      "taylor_order": 3,
+      "em_order": 4,
+      "subsegments": [
+       {
+        "sigma_from": "1/2",
+        "sigma_to": "7/8",
+        "midpoint": "11/16",
+        "half_length": "3/16",
+        "direction": "+i",
+        "e": 1,
+        "condition": "Im zeta > 0",
+        "N": 18,
+        "main_term_lower": "0.319654171468920174",
+        "taylor_terms_upper": "0.0227430881489407948",
+        "taylor_tail_upper": "0.0662915878817797152",
+        "crude_derivative_bound": "60.3400764363932697",
+        "em4_remainder_upper": "0.123111037125618252",
+        "lean_margin": "0.0127971458088824304",
+        "safety_achieved": "1.56756583129923664",
+        "true_margin": "0.285548968539128728",
+        "delta_arg_rightwards": [
+         "-1.10349057058303587",
+         "-1.10349057058303586"
+        ]
+       },
+       {
+        "sigma_from": "7/8",
+        "sigma_to": "5/4",
+        "midpoint": "17/16",
+        "half_length": "3/16",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 12,
+        "main_term_lower": "0.489975516591614763",
+        "taylor_terms_upper": "0.119184224725172158",
+        "taylor_tail_upper": "0.0146030634611794615",
+        "crude_derivative_bound": "13.2920328748869054",
+        "em4_remainder_upper": "0.207937527209492249",
+        "lean_margin": "0.0369704058604350419",
+        "safety_achieved": "1.66612882058512176",
+        "true_margin": "0.336430412413828878",
+        "delta_arg_rightwards": [
+         "-0.315762054008689003",
+         "-0.315762054008689002"
+        ]
+       },
+       {
+        "sigma_from": "5/4",
+        "sigma_to": "2",
+        "midpoint": "13/8",
+        "half_length": "3/8",
+        "direction": "+1",
+        "e": 0,
+        "condition": "Re zeta > 0",
+        "N": 9,
+        "main_term_lower": "0.707046557545638840",
+        "taylor_terms_upper": "0.106472419219773573",
+        "taylor_tail_upper": "0.0371113946356757463",
+        "crude_derivative_bound": "4.22245201188132935",
+        "em4_remainder_upper": "0.299708894218552534",
+        "lean_margin": "0.0953337050445228482",
+        "safety_achieved": "1.78304026865134040",
+        "true_margin": "0.567311252600236715",
+        "delta_arg_rightwards": [
+         "-0.232399610567427469",
+         "-0.232399610567427468"
+        ]
+       }
+      ],
+      "arg_change_along_path": [
+       "1.65165223515915233",
+       "1.65165223515915234"
+      ],
+      "directions_along_path": [
+       "+1",
+       "+1",
+       "+i"
+      ],
+      "n_subsegments": 3,
+      "term_boxes": 36,
+      "prime_towers": 16,
+      "max_N": 18,
+      "worst_lean_margin": "0.0127971458088824304",
+      "worst_true_margin": "0.285548968539128728"
+     }
+    },
+    "junctions": [
+     {
+      "at": "7/8 + 50 i",
+      "from": "+1",
+      "to": "+i",
+      "quarter_turns": 1
+     }
+    ],
+    "quarter_turns_Q": 1,
+    "A1": {
+     "point": "1/2 + 10 i",
+     "direction": "+1",
+     "e": 0,
+     "zeta": [
+      [
+       "1.54489522029675276",
+       "1.54489522029675277"
+      ],
+      [
+       "-0.115336465271273376",
+       "-0.115336465271273375"
+      ]
+     ],
+     "rotated": [
+      [
+       "1.54489522029675276",
+       "1.54489522029675277"
+      ],
+      [
+       "-0.115336465271273376",
+       "-0.115336465271273375"
+      ]
+     ],
+     "A": [
+      "-0.0745182572998979468",
+      "-0.0745182572998979467"
+     ],
+     "lean_N": 6,
+     "lean_box_arg": [
+      "-0.0761481674566557301",
+      "-0.0761481674566557300"
+     ],
+     "lean_half_width": "0.0151925052133833983",
+     "crude_arctan_interval": [
+      "-0.0929479268087765974",
+      "0"
+     ]
+    },
+    "A2": {
+     "point": "1/2 + 50 i",
+     "direction": "+i",
+     "e": 1,
+     "zeta": [
+      [
+       "-0.0817121083209799751",
+       "-0.0817121083209799750"
+      ],
+      [
+       "0.330792194038661295",
+       "0.330792194038661296"
+      ]
+     ],
+     "rotated": [
+      [
+       "0.330792194038661295",
+       "0.330792194038661296"
+      ],
+      [
+       "0.0817121083209799750",
+       "0.0817121083209799751"
+      ]
+     ],
+     "A": [
+      "0.242171485351832879",
+      "0.242171485351832880"
+     ],
+     "lean_N": 45,
+     "lean_box_arg": [
+      "0.242879158281118035",
+      "0.242879158281118036"
+     ],
+     "lean_half_width": "0.0194250353255841713",
+     "crude_arctan_interval": [
+      "0",
+      "0.273249632000427892"
+     ]
+    },
+    "gamma_side": {
+     "identity": "gamma_side (vendored): (1/pi) Im halfContour (logDeriv Gammaℝ) T1 T2 = int_{T1}^{T2} mu, and int mu = (theta(T2) - theta(T1))/pi",
+     "theta_T1": [
+      "-3.06707439628989530",
+      "-3.06707439628989529"
+     ],
+     "theta_T2": [
+      "26.4613660701614096",
+      "26.4613660701614097"
+     ],
+     "increment_over_pi": [
+      "9.39919452406095360",
+      "9.39919452406095361"
+     ],
+     "stirling_main": [
+      "9.39972542551098806",
+      "9.39972542551098807"
+     ],
+     "stirling_main_formula": "G(T2) - G(T1), G(t) = (t log(t/(2 pi)) - t)/(2 pi)",
+     "true_remainder": [
+      "-0.000530901450034462162",
+      "-0.000530901450034462161"
+     ],
+     "vendored_constant": "20/(2 pi), from Zeta23.StirlingVert.mu_stirling (its proof)",
+     "vendored_budget": "0.254647908947032538",
+     "vendored_budget_formula": "(20/(2 pi)) (1/T1 - 1/T2)",
+     "digamma_main": [
+      "9.39495652422329194",
+      "9.39495652422329195"
+     ],
+     "digamma_main_formula": "F(T2) - F(T1), F(t) = ((t/2) log((1+4t^2)/16) - t - arctan(2t)/2 - t log pi)/(2 pi)",
+     "digamma_true_remainder": [
+      "0.00423799983766165415",
+      "0.00423799983766165416"
+     ],
+     "digamma_budget": "0.152788745368219523",
+     "digamma_budget_formula": "(12/(2 pi)) (1/T1 - 1/T2), from digamma_stirling directly"
+    },
+    "count_exact": [
+     "9.99999999999999999",
+     "10.0000000000000001"
+    ],
+    "count": 10,
+    "exact_margin_to_other_integers": "0.999999999999999999",
+    "count_lean_budget": [
+     "9.73560796292014388",
+     "10.2669419915920521"
+    ],
+    "lean_count": 10,
+    "lean_margin_to_other_integers": "0.733058008407947991",
+    "count_lean_crude_arctan": [
+     "9.64507751656395552",
+     "10.2709376377233605"
+    ],
+    "crude_arctan_count": 10,
+    "crude_arctan_margin_to_other_integers": "0.645077516563955527",
+    "sensitivity": {
+     "d_count_d_log_2pi": [
+      "-6.3661978",
+      "-6.3661977"
+     ],
+     "note": "an error e in a Lean bound for log(2 pi) moves the Stirling main term by about (T2 - T1) e/(2 pi); the margin above tolerates it while that stays well below the margin"
+    },
+    "term_boxes_total": 87,
+    "prime_towers_total": 34,
+    "projected_kernel_seconds": 104,
+    "projection_basis": "prime exp towers times hunt #133's measured 52 s per 17 towers; for Taylor orders above 1 the derivative boxes add products this does not count",
+    "worst_lean_margin": "0.0127971458088824304",
+    "worst_true_margin": "0.285548968539128728"
+   }
+  },
+  "cross_check_with_rigor": {
+   "top_leg_arg_change_lean_chain": [
+    "1.65165223515915233",
+    "1.65165223515915234"
+   ],
+   "top_leg_arg_change_rigor_replay": [
+    "1.65165223515915233",
+    "1.65165223515915234"
+   ],
+   "top_leg_agrees": true,
+   "rigor_count_at_T1": 0,
+   "rigor_count_at_T2": 10,
+   "count_via_rigor_difference": 10,
+   "agrees_with_lean_contour": true
+  },
+  "bottom_height_options": [
+   {
+    "T1": "2",
+    "closes": false,
+    "count": 10,
+    "lean_count": null,
+    "vendored_gamma_budget": "1.52788745368219523",
+    "lean_margin_to_other_integers": null,
+    "bottom_subsegments": 3,
+    "bottom_term_boxes": 3,
+    "bottom_worst_true_margin": "0.385772862644883244"
+   },
+   {
+    "T1": "4",
+    "closes": true,
+    "count": 10,
+    "lean_count": 10,
+    "vendored_gamma_budget": "0.732112738222718545",
+    "lean_margin_to_other_integers": "0.256687742501377123",
+    "bottom_subsegments": 3,
+    "bottom_term_boxes": 3,
+    "bottom_worst_true_margin": "0.562672845979061862"
+   },
+   {
+    "T1": "6",
+    "closes": true,
+    "count": 10,
+    "lean_count": 10,
+    "vendored_gamma_budget": "0.466854499736226319",
+    "lean_margin_to_other_integers": "0.523087688003023202",
+    "bottom_subsegments": 2,
+    "bottom_term_boxes": 4,
+    "bottom_worst_true_margin": "0.789459748114945479"
+   },
+   {
+    "T1": "8",
+    "closes": true,
+    "count": 10,
+    "lean_count": 10,
+    "vendored_gamma_budget": "0.334225380492980206",
+    "lean_margin_to_other_integers": "0.652938147147011915",
+    "bottom_subsegments": 2,
+    "bottom_term_boxes": 4,
+    "bottom_worst_true_margin": "1.11696372630737264"
+   },
+   {
+    "T1": "10",
+    "closes": true,
+    "count": 10,
+    "lean_count": 10,
+    "vendored_gamma_budget": "0.254647908947032538",
+    "lean_margin_to_other_integers": "0.733058008407947991",
+    "bottom_subsegments": 2,
+    "bottom_term_boxes": 4,
+    "bottom_worst_true_margin": "1.19653846514497845"
+   },
+   {
+    "T1": "12",
+    "closes": true,
+    "count": 10,
+    "lean_count": 10,
+    "vendored_gamma_budget": "0.201596261249734092",
+    "lean_margin_to_other_integers": "0.785558612376285248",
+    "bottom_subsegments": 3,
+    "bottom_term_boxes": 9,
+    "bottom_worst_true_margin": "0.955051919526614101"
+   },
+   {
+    "T1": "14",
+    "closes": true,
+    "count": 10,
+    "lean_count": 10,
+    "vendored_gamma_budget": "0.163702227180235203",
+    "lean_margin_to_other_integers": "0.823235410613007874",
+    "bottom_subsegments": 20,
+    "bottom_term_boxes": 102,
+    "bottom_worst_true_margin": "0.0563848140583841496"
+   }
+  ],
+  "min_ball_bits": 5
+ },
+ "independent_checks": {
+  "mpmath_nzeros": 10,
+  "mpmath_nzeros_method": "Gram points and Rosser blocks, floating point (mpmath source)",
+  "zetazero_ordinates": [
+   14.134725141734695,
+   21.022039638771556,
+   25.01085758014569,
+   30.424876125859512,
+   32.93506158773919,
+   37.586178158825675,
+   40.9187190121475,
+   43.327073280915,
+   48.00515088116716,
+   49.7738324776723,
+   52.970321477714464
+  ],
+  "zetazero_last_below": 49.7738324776723,
+  "zetazero_first_above": 52.970321477714464,
+  "distance_below": 0.22616752232769782,
+  "distance_above": 2.9703214777144606,
+  "zetazero_count_below_T": 10,
+  "arb_turing_count": 10,
+  "arb_turing_method": "Arb's zero counter, which uses Turing's method (rigor.py's zero-count docstring and Arb's documentation)",
+  "arb_backlund_S": [
+   "0.577085577939301453",
+   "0.577085577939301454"
+  ],
+  "gram_points": [
+   {
+    "n": -1,
+    "g_n": 9.666908056130191,
+    "sign_Z": -1,
+    "gram_law": true
+   },
+   {
+    "n": 0,
+    "g_n": 17.84559954041086,
+    "sign_Z": 1,
+    "gram_law": true
+   },
+   {
+    "n": 1,
+    "g_n": 23.170282701246308,
+    "sign_Z": -1,
+    "gram_law": true
+   },
+   {
+    "n": 2,
+    "g_n": 27.67018221781634,
+    "sign_Z": 1,
+    "gram_law": true
+   },
+   {
+    "n": 3,
+    "g_n": 31.717979954764054,
+    "sign_Z": -1,
+    "gram_law": true
+   },
+   {
+    "n": 4,
+    "g_n": 35.46718429710022,
+    "sign_Z": 1,
+    "gram_law": true
+   },
+   {
+    "n": 5,
+    "g_n": 38.99920996402607,
+    "sign_Z": -1,
+    "gram_law": true
+   },
+   {
+    "n": 6,
+    "g_n": 42.36355039205734,
+    "sign_Z": 1,
+    "gram_law": true
+   },
+   {
+    "n": 7,
+    "g_n": 45.59302898150352,
+    "sign_Z": -1,
+    "gram_law": true
+   },
+   {
+    "n": 8,
+    "g_n": 48.710776621793336,
+    "sign_Z": 1,
+    "gram_law": true
+   },
+   {
+    "n": 9,
+    "g_n": 51.73384281334611,
+    "sign_Z": -1,
+    "gram_law": true
+   }
+  ],
+  "gram_law_holds_throughout": true
+ }
+}
