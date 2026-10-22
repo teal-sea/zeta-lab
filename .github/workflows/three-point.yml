@@ -13,8 +13,8 @@
 #  3. `V2Challenge` carries exactly seven `sorry`, one per advertised statement,
 #     and no more.
 #
-# Why this file exists at all: the author's machine cannot run `lake build`
-# (a 13-inch laptop; Lean builds crash it), so this workflow IS the build loop.
+# Why this file exists at all: Lean builds run on CI, not on the authoring
+# machine, so this workflow IS the build loop.
 # Two consequences shape it.
 #
 #  1. The cache is restore-then-save with a rolling key, not a fixed key. A

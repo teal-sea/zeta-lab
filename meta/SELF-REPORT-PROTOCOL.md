@@ -473,6 +473,6 @@ beside them. Changed at landing, each pinned by `tests/test_meta_self_report.py`
   refuse to start.
 
 Every build writes a module into, and runs `lake` in, `ZETA_LEAN_ROOT`. A
-re-run belongs on GitHub Actions or the swarm box, never on the operator's
+re-run belongs on GitHub Actions or a larger remote machine, never on the operator's
 machines, against a checkout that has a built Mathlib and that nobody else is
 working in. See the compute rules in `CLAUDE.md`.
