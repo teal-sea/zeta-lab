@@ -59,7 +59,7 @@ below that function's first off-line zero, at height 85.699.
 - **Out of scope.** Any claim beyond height T, any claim about RH itself, and any
   change to `zeta/`.
 - **Compute.** The campaign box (32 vCPU, 115 GiB). Under `CLAUDE.md` compute rule 6
-  as ruled for the swarm box, Lean and numerics may run side by side while
+  as ruled for that machine, Lean and numerics may run side by side while
   `MemAvailable` stays above 20 GiB. Rule 7 applies: never run Lake in a copied
   `.lake`.
 
@@ -85,7 +85,7 @@ agents_may:
   - derive
   - code
   - formalize
-  - build with lake under the swarm-box rules
+  - build with lake under that machine's rules
   - attack the construction
 agents_may_not:
   - declare novelty

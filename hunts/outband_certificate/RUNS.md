@@ -61,7 +61,7 @@ launched here because it spends the operator's Modal budget.
 The sessions above predate this hunt's manifests. They were not re-run in full here, and
 no manifest is back-filled for them from their prose: a block written from prose would look
 pinned and would not be. The block below records only what was re-run on 2026-10-10, on a
-shared four-core Linux container (scipy 1.18.1, numpy 2.5.3), not the operator's Mac.
+shared four-core Linux container (scipy 1.18.1, numpy 2.5.3), not a laptop.
 
 - **Re-solved** by `replay.py`, which writes nothing: every row of
   `artifacts/ladder-narrow-strip.json` at X <= 160, sixteen rows. Thirteen agree to within

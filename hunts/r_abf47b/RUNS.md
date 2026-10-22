@@ -57,7 +57,7 @@ hunt: r_abf47b
 started: 2026-10-21T15:33Z
 finished: 2026-10-21T15:42Z
 ran:
-  - map_orbits.py rerun unchanged, 131 s of CPU and 205 MB peak resident set on the swarm box under load
+  - map_orbits.py rerun unchanged, 131 s of CPU and 205 MB peak resident set on a 32-core Linux server under load
   - polynomial_sieve.py at relation cap 3 on Support 7, compared byte for byte with cap3.json
   - build_system on Support 7, the census of the generators run_groebner.py hands sympy
   - test_orbit_refinement.py, five tests, and five planted faults that each turn it red

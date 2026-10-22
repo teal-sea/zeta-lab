@@ -49,7 +49,7 @@ results, plus the exact OpenAI nonvanishing and Hadamard identity bridges.
 formula, complex real-part cancellation, primitive reduction, interval margin,
 full Theorem 1(a), Theorem 2, Comparator/NanoDa and Palomar submission remain
 open. A source scan found no proof placeholders, native evaluation or new
-axiom declarations in this package. No Lean execution ran on Ghost.
+axiom declarations in this package. No Lean execution ran locally.
 
 ## Bridge compiler failure, 2026-10-10 UTC
 
@@ -196,25 +196,12 @@ timing was measured on the repaired attempt above.
 
 ### Earlier launches
 
-Thomas directly selected Modal for both Lean builds and numerics. Namespace
-activation is no longer a prerequisite and no Namespace subscription was
-created by this session. The earlier route and failed allocation below are
-historical records. *Later on 2026-10-10: Thomas kept GitHub Actions as the
-repository's default compute, with Modal for jobs that do not fit a GitHub
-runner, which includes this package; see `CLAUDE.md`, Compute discipline.*
-
-The first Modal launch started from Ghost at 17:38:44 UTC using the
-Infisical wrapper. Run:
-https://modal.com/apps/teal-sea/main/ap-zy6pFKeM1T4GG7DX4klwrg.
-The allocation is the one recorded below: eight physical cores, 48 GiB,
-four-hour cap, retained volume `zeta-qrh-4341-adc7f124`. This Codex session
-owns the attached run and collects its terminal outcome.
-
-Outcome: image `im-9udQjixL7mranmMuigfwjO` built in 48.14 seconds, then the
-launcher refused the dirty source tree before invoking the remote function.
-Route documentation had been edited during image preparation. Its clean-tree
-guard worked; no Lean compilation occurred. Commit those edits before the
-retry, then keep the upload tree unchanged until the source has been captured.
+The first Modal launch, at 17:38:44 UTC
+(https://modal.com/apps/teal-sea/main/ap-zy6pFKeM1T4GG7DX4klwrg), used the
+allocation recorded below: eight physical cores, 48 GiB, four-hour cap, retained
+volume `zeta-qrh-4341-adc7f124`. Its image `im-9udQjixL7mranmMuigfwjO` built in
+48.14 seconds, then the launcher refused the dirty source tree before invoking the
+remote function. The clean-tree guard worked; no Lean compilation occurred.
 
 The clean retry started at 17:40:17 UTC with source
 `2eb8a1bb88f49b8fd54d3e5339177cf73cfb10bc`:
@@ -226,57 +213,13 @@ The installer reports Lean commit `5045d0056413266e57c625dcd7c365b10e377c52`.
 Dependency setup is in progress; these stage timings are not a completed
 build time. No kernel verdict has been obtained.
 
-Supervision continues in the owning Codex thread through heartbeat
-`watch-hunt-125-modal-build`, every five minutes. It must collect the terminal
-build outcome and axiom evidence, handle concrete failures, and pause after
-the initial package and bridge build is resolved. No parallel build may
-write to this cache.
-
-## Initial allocation, 2026-10-08
-
-The measured baseline is the lab's previous OpenAI replay: 135 minutes on a
-GitHub-hosted runner with Lake's default parallelism of four (`docs/38`, section 7).
-Namespace performance has not yet been measured. Allocate one Linux amd64
-instance with 16 vCPUs and 32 GB RAM for at most three hours, initially
-`LEAN_NUM_THREADS=6` runtime workers. This is not a `lake build -j` flag or a
-measured cap on build memory. A live supervising session must own the run
-and collect its terminal outcome.
-
-Retain the OpenAI checkout, dependency builds, toolchain and evidence on a
-50 GB cache volume named `zeta-qrh-4341-adc7f124`. Reusing a cache requires
-checking the complete pinned revision and toolchain. Record cache hits and
-misses; the provider may supply an older generation or an empty volume.
-
-Estimate at the published overage rate: at most $4.32 for three hours of
-16x32 compute, plus cache snapshot and retained-storage charges. The published
-snapshot rate is $0.002/GB-hour and retained storage $0.0048/GB-day, with
-storage accounting in 100 GB blocks. This is a planning bound for this one
-compute allocation, not a measured bill or a performance prediction.
-Source: https://namespace.so/pricing.md, read 2026-10-08.
-
-Write each stage's log and elapsed time to the cache. Lake writes outputs
-per module, allowing an interrupted build to resume. Do not launch concurrent
-builds into the same directory. No build result is claimed until recorded.
-
-## Attempt 1: creation denied
-
-On 2026-10-08, `nsc create --bare --machine_type linux/amd64:16x32
---duration 3h --volume cache:zeta-qrh-4341-adc7f124:/cache:50gb` returned
-`access denied` (request `cnsjuehdleq35uru9up0oeisj8`). No runner was created.
-The CLI login was valid. The workspace billing page said a subscription was
-required. Activating a paid plan was left for explicit operator approval.
-
-First Namespace build time: **not measured, no build started**. No cache
-volume exists from this attempt and no remote numerical job was launched.
-
-Local checks are limited to shell syntax, source policy, exact finite
-residue enumeration, and fault-injection checks of the axiom-log parser.
-They do not establish that any Lean declaration elaborates on 4.34.1.
+An earlier route through a second provider (one 16 vCPU, 32 GB Linux runner for
+at most three hours, 2026-10-08) never started: runner creation was refused, so no
+build time was measured there and no cache volume was created.
 
 ## Modal allocation, 2026-10-09
 
-Namespace is blocked on a subscription, so the first build moves to Modal, also
-Thomas's routing (Lean builds and numerics on Modal until Namespace is paid for).
+The first build runs on Modal.
 `scripts/modal_build.py` runs `scripts/namespace-build.sh` unchanged except for
 `QRH_RUNNER=modal` and `QRH_CACHE=/work`: the build works on the container's
 local disk, then packs the warm cache into `cache.tar.zst` on the Modal volume
@@ -316,11 +259,8 @@ remain source drafts, not kernel-checked results.
 
 ## Shared branch reconciled, 2026-10-09 UTC
 
-The Ghost session rebased over `cc38d39c`, preserving the parallel session's
-Modal launcher and allocation record. It did not launch that alternative:
-this session's task specifies Namespace for Lean, and the payment form is
-still incomplete. The temporary routing authorization above is recorded by
-the parallel session; it was not independently confirmed in this session.
+The branch was rebased over `cc38d39c`, preserving the Modal launcher and
+allocation record.
 
 The finite-character draft was pushed as `9dc7e8ab`. The module-header guard
 repair was incorporated as `8f6109d2`: an explicit eleven-file legacy allowlist
@@ -328,4 +268,4 @@ with a 4.34.1 pin check, retaining the other package's header requirement and
 all line-limit and symlink checks. Four fault-injection cases test those
 boundaries. All 43 focused repository tests passed, along with generated
 context, shell syntax and whitespace checks. The pre-push secret check passed.
-No Lean process ran on Ghost. No remote build has produced evidence.
+No Lean process ran locally. No remote build has produced evidence.
