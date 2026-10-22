@@ -22,7 +22,7 @@ serialised by Inspect's ``concurrency`` context instead of a module-level
 earlier version.
 
 Never run this on the operator's machines: every build writes into, and runs
-lake in, a checkout with a built Mathlib. Re-runs belong on CI or the swarm box.
+lake in, a checkout with a built Mathlib. Re-runs belong on CI or a larger remote machine.
 """
 
 from __future__ import annotations

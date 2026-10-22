@@ -5,8 +5,8 @@
 # eval modules then at evals/ (now meta/evals/), and it ran lake in
 # ZETA_LEAN_ROOT=~/zeta-lab, the operator's main checkout. CLAUDE.md's compute
 # rules now keep Lean builds off the operator's machines, so this copy refuses
-# to start. A re-run is a new, pre-registered round on GitHub Actions or the
-# swarm box, invoking
+# to start. A re-run is a new, pre-registered round on GitHub Actions or a
+# larger remote machine, invoking
 #   inspect eval meta/evals/self_report.py (or self_report_tooled.py)
 # with ZETA_LEAN_ROOT naming a checkout that has a built Mathlib and that
 # nobody else is working in.
