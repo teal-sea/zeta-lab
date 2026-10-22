@@ -3755,7 +3755,12 @@ would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #137: a kernel-checked RH to finite height for Mathlib's zeta (`rh_height_lean/`, opened 2026-10-21)
 
-**Status: open; waiting on the root Lean build on the campaign box.** The second track of
+**Status: first target closed, kernel-checked; T = 100 open.** On 2026-10-22,
+`RHHeight.rh_height_fifty` and `RHHeight.zero_count_fifty` compiled from source with zero
+`sorry` and only the three standard axioms: every zero of Mathlib's `riemannZeta` with
+`0 < Re rho < 1` and `0 < Im rho <= 50` is on the critical line and simple, and there are
+exactly 10 of them (`rh_height_lean/RESULTS.md`). A second kernel check has not been run.
+The second track of
 the campaign the owner directed on 2026-10-21. The question is whether the laboratory can
 kernel-check, for Mathlib's own `riemannZeta`, that every nontrivial zero with
 `0 < Im rho <= T` is on the critical line and simple, first at T = 50 (10 zeros) and then
