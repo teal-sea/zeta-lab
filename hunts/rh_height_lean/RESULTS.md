@@ -52,9 +52,27 @@ Nothing above height 52 and nothing about the Riemann hypothesis (`docs/08`). Li
 finite-height verification it cannot tell `zeta` from the Davenport-Heilbronn function
 below that function's first off-line zero, at height 85.699. RH has been verified
 numerically far higher (Platt and Trudgian, 2021, to 3.0e12). What is new here is the
-kernel check, not the range. The campaign's two web searches found no earlier
-kernel-checked finite-height verification. That is not a literature search, so no novelty
-is claimed.
+kernel check, not the range.
+
+**Novelty search, 2026-10-22.** Seven web searches (Lean, Mathlib and its Zulip, Isabelle and
+the Archive of Formal Proofs, Coq, HOL Light, PrimeNumberTheoremAnd, arXiv on formalized
+Turing-method verification), plus a read of the vendored `zeta-23-lean` sources, found no
+earlier formal proof that zeta has no zeros off the line up to a positive height, nor a formal
+complete zero count up to a height. What does exist, and is not this result:
+
+- `anthropics/zeta-23-lean` (arXiv 2608.13637): a proportion theorem (at least 2/3 of zeros
+  simple and on the line). This hunt vendors its folded argument principle and Stirling
+  bound. It locates no individual zero.
+- Formal zero-free regions: the 7/8 half-plane in Lean (OpenAI's quasi-RH and the
+  `tomoto0/quasi-riemann-hypothesis-7-8-verification` replay) and the Isabelle AFP
+  `PNT_with_Remainder` region near `Re s = 1`. Neither touches the critical strip at finite
+  height.
+- Several self-published "Lean proofs of RH" on Zenodo and GitHub. Those we read assume the
+  analytic content as hypotheses.
+
+A web search does not cover unpublished or non-indexed work, and OEIS and zbMATH were not
+consulted. So this is a search record, not a novelty claim: the search found nothing
+earlier.
 
 ## Open
 
