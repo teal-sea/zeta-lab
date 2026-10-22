@@ -243,3 +243,27 @@ Not done, optional: theory §1.7's sampled B_T at L = 0.8, T = 30..70.
   independent in construction and quadrature but shares python-flint with
   this lane, and that this lane's GL entry radii were not audited. L = 1.19
   unresolved; stage B unapproved. Holding.
+
+## Odd worker, 2026-09-28
+
+Active under Thomas's explicit four-core-hour Modal authorization.
+Derived odd orders, sinh pole, step-two tail ratios and parity cross-term
+cancellation in odd_derivation.md. Tiny local formula checks pass.
+Next gate: Zhu section 6.2 at L=4/5, T#=150, H=0. No main run yet.
+
+Odd validation gates passed. Zhu measured 9.11833845450e-15; sine:16
+T#=100 lower endpoint 9.41137741118e-15. T#=40 control is refused with
+an enclosed negative witness. Timing the last main unit next.
+
+## Odd worker finished, 2026-09-28
+
+Odd L=119/100 lower endpoint 3.42853488205e-44; measured head minimum
+3.46316654753e-44. Same sine:16 H and N/T#/q/precision as the even run.
+Together with the even endpoint, the candidate bound for all complex
+window functions is 5.71789230595e-48. Cross terms are explicitly derived
+in odd_derivation.md; numerical grade is enclosure-carrying, single route,
+pending independent reproduction. Zhu validation and low-T negative control
+passed; non-firing H lesions are recorded honestly in RESULTS.md.
+Task total 1.509934183 timed core-hours; conservative reservation envelope
+2.855277778 core-hours. All five apps stopped, no outstanding remote job.
+Results and source hashes read back and checked; no push. No further compute.

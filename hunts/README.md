@@ -75,6 +75,55 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
+
+**Status: ordinary argument with an independent model challenge (a model review, not human
+review) and exact finite checks at the stated scope. The fixed-prime route is an unresolved
+attempt and the energy continuation was paused by allocation on 2026-09-27; neither is a
+refutation, RH is unresolved, and no novelty is claimed.** The hunt takes up, in a scoped
+form, the multi-prime mechanisms that `prime_pair_error/MOBIUS_PAIRING.md` left
+unconstrained. For a fixed squarefree P, writing a=dm with d|P and gcd(m,P)=1 regroups each
+Sigma2 row exactly by orbits and keeps every incomplete orbit; a complete orbit has the
+fixed-sign kernel K_m=-Phi_P(floor(N/(mb))), so the oscillation left is mu(m) alone. A
+separate Mertens level-set identity rewrites each row exactly, and a transfer bound prices
+it by a Mertens envelope with no unpriced floor jumps. The specified absolute-value
+majorant, which discards |mu(m)|<=1, has leading constant (phi(P)/P)^2/48 at fixed P
+(1/192, 1/432, 1/675 and 4/3675 at P=2, 6, 30 and 210) and the same N(log N)^3 order. Under
+`ALIGNMENT.md` section 5 that is category 3, an attempt that did not establish the needed
+statement, and it obstructs neither a signed estimate nor a growing-P construction. Exact
+integer and rational checks cover 1196 (N,P) cases and 8412 b-rows (N=4..300, 1000 and
+10000) with zero defect, a trial-division check of the Mobius sieve, and two planted faults
+(a dropped boundary, a reversed complete-orbit sign), both caught; at P=210, N=10000 there
+is no complete orbit and all of Sigma2 is boundary. The owner-directed continuation
+(`ENERGY.md`) moves to the Baez-Duarte criterion, where the squared error E_N is
+nonincreasing by standard approximation geometry. It adds a Schur-complement block
+identity, a compensated one-direction update along the predeclared Mobius shell
+v_n=-mu(n)log(2N/n), and a residual-matched fallback whose gain is at least M_N/T_N under
+the trace cap T_N<(log(2pi)-gamma)log 2. These pass Arb ball checks at N=4, 8, 16, 32 and 64
+at 128 and 192 bits, conditional on Vasyunin's published Gram formula, with an mpmath
+cross-check at N=4. The inequality that would finish the route, `ENERGY.md` (7) or the
+weaker (12), is unproved, and the normalized trace values behind (12) fall from 4.28 to
+0.243 over the five shells. The pause is category 4: no new uniform estimate toward RH was
+established, and it refutes neither the identities nor the Nyman-Beurling method.
+`REVIEW.md` and `ENERGY_REVIEW.md` are separate-context model reviews of the written
+mathematics, not of the code. Cited: Baez-Duarte math/0202141v2, Vasyunin's formula, and
+Bettin-Conrey-Farmer arXiv:1211.5191, which assumes RH and so is not an input. No
+literature search for novelty was run.
+
+**Landed 2026-10-21.** From the local branch `iris/rh-mobius-orbits-sep26` (three commits of
+2026-09-26 and 2026-09-27, tip `16aff65f8`, base `8941a80`), merged whole and not rewritten.
+Its entry carried no number; #138 was the next free one, with #136 and #137 held by hunts on
+open branches. Four landing changes, none of them to a claim: the status above replaces the
+branch's, which predated the pause; the doors section of `RESULTS.md` was 97 words with no
+active-constraint part, which `tests/test_hunt_doors.py` refuses, and is completed by a
+dated addition below the original bullets; `energy_test.py` is now `test_energy.py`,
+because the nightly `scripts/run_hunt_tests.py` collects only `test_*.py` and would never
+have run its 8 tests (the commands in `ENERGY_RUNS.md` stay as run, with a dated note); and
+the methods are indexed in `docs/37` (two identities, a construction, a control). On
+landing the hunt's 20 tests passed, and the two probes regenerated `results.json`,
+`pilot.json` and `energy_reviewed.json` identically apart from timing and reproduced every
+field of the two pre-review energy files. Landing promotes none of the hunt's claims.
+
 ### Hunt #133: at least ten kernel-checked zeros of zeta on the critical line below height 50 (`hardy_ten_zeros/`, 2026-10-14)
 
 **Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**
@@ -651,14 +700,26 @@ PASS). With it, for real even f:
   `≥ 5.71789230595e-48`, referee Clenshaw-Curtis-192 route `> 5.7179e-48`,
   N = 500 even Legendre modes, T# = 500, all error terms enclosed).
 
-Scope: even sector only; the odd sector is not bounded. No window claim found
-in the searched literature exceeds half-width 17/16 (Liu, unrefereed); Zhu
-withdrew his own `L = 1.19` claim. The threshold stays doubly exponential
-(the best out-of-band constant grows like `e^L`), so this is a fixed-window
-result, not a route to RH. Methods: `docs/37-methods.md` (out-of-band
-envelope lemma; residual-enclosed shifted Cholesky). Record:
+For real odd f at support 2.38 (`L = 1.19`, N = 500 odd Legendre modes,
+T# = 500, the same sine:16 envelope, all error terms enclosed): numerics
+GL-96 route `Q(f) ≥ 3.42853488205e-44 ‖f‖²`, referee Clenshaw-Curtis-192
+route `Q(f) > 2.99e-44 ‖f‖²` (1280-bit Arb; formulas and shift frozen
+before any worker code or artifact was read, though the brief disclosed
+the worker's endpoint; verdict PASS). The odd reduction was derived by the
+numerics worker and independently re-derived by the referee. Parity and
+real/imaginary cross terms cancel, so the even sector is the binding one:
+`Q(f) ≥ 5.7178e-48 ‖f‖²` for every complex `f ∈ L²` with
+`supp f ⊆ [-1.19, 1.19]`. That composite is a candidate, hardened by two
+independent implementations that share python-flint, resting on ordinary
+derivations, pending external verification. The `L = 0.8` line remains a
+real even statement. No window claim found in the searched literature
+exceeds half-width 17/16 (Liu, unrefereed); Zhu withdrew his own `L = 1.19`
+claim. The threshold stays doubly exponential (the best out-of-band
+constant grows like `e^L`), so this is a fixed-window result, not a route
+to RH. Methods: `docs/37-methods.md` (out-of-band envelope lemma;
+residual-enclosed shifted Cholesky). Record:
 `oob_envelope/numerics/RESULTS.md`, `oob_envelope/theory/RESULTS.md`,
-`oob_envelope/referee/REVIEW.md`.
+`oob_envelope/referee/REVIEW.md`, `oob_envelope/referee/ODD_REVIEW.md`.
 
 ### Weil positivity propagation across window size (`weil_propagation/`, 2026-09-23)
 
@@ -1524,6 +1585,338 @@ be circular for this arm anyway), the ladder at $k=4$ (the enumeration exceeded
 ten minutes), and any upper bound on $g(k)$ at all. Nothing bears on RH
 (`docs/08`).
 
+### Hunt #94: Erdős #126, the p-adic block-pruning arm, and a target set one notch too low (`support_d176e366/`)
+
+**Status: not settled. No block lemma below base 2, and a restricted-class
+obstruction for residue-only pruning (`ALIGNMENT.md` §5, disposition 2); the
+attempt below base 2 is unresolved.** Lemmas 1 and 2 and Theorems 3, 3′ and 4
+are ordinary arguments, unreviewed; the checks are exact finite ones on blocks
+of at most three primes, and the cross-prime correlations are measurements on
+$|A| \le 11$. Landed 2026-10-21 from a local-only branch, `support/d176e366`,
+that was never pushed; PR #144 counted the arm among the seven that "produced
+no branch at all". A support run for `r_186989`, asked whether a block of $r$
+primes can be pruned from $S$ while retaining more than $2^{-r+o(r)}$ of $A$.
+It answers the question and contradicts its premise. **Lemma 1**: pruning a
+block $T$ is the independent-set problem for $\bigcup_{p\in T} G_p$, where
+$G_p$ is the antipodal graph mod $p$ (disjoint complete bipartite graphs
+between class $c$ and class $-c$, plus a clique on the class $c \equiv -c$),
+so valuations beyond $v_p(a) = 0$ are invisible here and "valuation vector"
+means "residue vector", which is why the ultrametric framing buys nothing.
+**Lemma 2**: a genuinely joint one-shot random half-system argument gives
+retention $\ge 2^{-r}$ over the elements coprime to the block, landing on
+exactly the constant that pruning one prime at a time gives. **Theorem 3**: on
+a full residue system mod $\prod T$ the optimum is exactly
+$\prod_{p\in T}\frac{p-1}{2} + r$ (matched by exhaustive branch-and-bound for
+$\{3,5\},\{3,7\},\{5,7\},\{3,5,7\}$: 4, 5, 8, 9, four for four), which is
+*below* $2^{-r}|A|$, so no argument reading only residues mod $\prod T$ can
+beat base 2; and by **Theorem 4** ($g(k) \le 2/\rho_{\min}(k) \le 2g(k)$, from
+the endgame lemma that no three integers have all pairwise sums powers of 2)
+the block programme is not a proxy for Erdős #126 but a restatement of it. Two
+consequences the brief did not anticipate: retention $2^{-r+o(r)}$ **is** the
+Erdős–Turán bound, so the named target is worth nothing even if proved, and
+only base $c<2$ counts; and the smoothness hypothesis is used nowhere in this
+arm except the endgame, only divisibility. Measured on the seven verified
+witnesses, real admissible sets beat $2^{-r}$ retention by up to a factor of
+11.6 with strong positive correlation across primes, reported as a direction
+indicator only, since $|A| \le 11$ and the full-block column is Theorem 4
+restated rather than evidence. Audit of `r_186989`: all seven witnesses
+re-verified admissible, its power-of-2 lemma re-derived independently, and its
+loose thread 3 (a claimed $|A| \le p-1$ for $p \notin S$) **refuted**:
+$\{1, 1+q, 1+2q, \dots\}$ has every pair sum $\equiv 2 \bmod q$ at unbounded
+size. One drafted claim of the run's own ($\varphi$ = number of sign-orbits
+met) was false and is kept in the file with its counterexample. Overlap with
+main, recorded in `RESULTS.md`: that residue data cannot beat base 2 is also
+the finding of Hunts #92 and #101 (#101's relaxation is this arm's covering
+reformulation, solved exactly), and the loose-thread-3 refutation was on main
+already (Hunts #93, #95, #101, #103). The run's remark that the optima "live in
+the small integers" is annotated in place, since Hunts #103, #105 and #107
+refuted it. Nothing bears on RH (`docs/08`).
+
+### Hunt #97: Erdős #126, the low-rank matrix arm was already in the literature (`support_99fc686a/`)
+
+**Status: not settled. A verdict restricted to the two-row $S$-unit route and
+to the counting bounds now known: the arm is a rediscovery, and with those
+bounds it loses to a proof from 1934.** Alon–Solymosi was read from the PDF
+(primary). The Evertse and Beukers–Schlickewei constants came from search
+summaries, which the run itself rates medium-low, and both are hedged in
+`RESULTS.md`: Evertse's form agrees with Győry–Stewart–Tijdeman's quotation of
+it as read in primary text by Hunt #143, while the Beukers–Schlickewei form
+$2^{8(r+2)}$ differs from the $2^{8r+8}$ on main in Hunt #104. The two-row
+collapse is an ordinary argument, unreviewed. Landed 2026-10-21 from a
+local-only branch, `support/99fc686a`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all". Support run for
+`r_186989`'s successor, on one arm: the symmetric matrix $M_{ij} = a_i + a_j$
+has rank $\le 2$ and $S$-unit off-diagonal entries, so what do results on
+low-rank matrices over finitely generated multiplicative groups give? Answer:
+**Alon and Solymosi, "Rank of matrices with entries from a multiplicative
+group", Corollary 10** constructs this exact matrix, observes its rank is at
+most two, and concludes $|A| \le f(r)$. Their explicit form $\log n \le r d^8$
+at $d = 2$ gives $\exp(256k)$ against Erdős–Turán's $3 \cdot 2^{k-1}$. Rank 2
+does not need that machinery, and the run's own route is cheaper: fix distinct
+$a, b \in A$; then for every other $d$, $(a+d) - (b+d) = a - b$, so
+$(a+d, b+d)$ solves a **two-variable $S$-unit equation** with coefficients not
+depending on $d$, and $d \mapsto a+d$ is injective. Hence
+$g(k) \le 2 + N_{\mathbb{Q}}(k) \le 2 + 3 \cdot 7^{2k+3}$ (Evertse 1984), base
+49 against base 2. **No improvement, and none available from today's counting
+bounds**: the loss is entirely in the Diophantine input, measured at $k=7$ as
+9 solutions forced against $7\times10^{14}$ permitted. The nondegeneracy
+question the brief asked to isolate has an exact answer and it is
+anticlimactic: in the two-row route there is none at all (a two-term
+equation's proper subsums are units, hence nonzero), and in the general-rank
+route it is precisely Alon–Solymosi's *rectangle condition*, which for this
+matrix expands to $(a_j - a_i)(a_j - a_k) \ne 0$, i.e. the distinctness of
+$A$. That condition is not decoration: their Theorem 1 assumes diagonal
+entries lie outside $\Gamma$, and $2a_j$ often is an $S$-unit (in 7 of 7
+witnesses). One thing kept, direction checked: **if two-term $S$-unit
+equations have $\exp(o(k))$ solutions then Erdős #126 is true**, and the known
+lower bound $\exp(k^{1/2+o(1)})$ (Erdős–Stewart–Tijdeman) does not obstruct
+that. The converse fails. Overlap with main, recorded in `RESULTS.md`: the
+two-row collapse is the reduction of Hunts #96 and #104, and it is
+Győry–Stewart–Tijdeman 1986 §3 (quoted by Hunt #143, landed with this entry),
+which answers the run's open question whether it is in the literature; the
+four-element route of its §3 is that of Hunts #93, #95 and #105. Nothing bears
+on RH (`docs/08`).
+
+### Hunt #98: the cover premise of Erdős #126 has no bound in it (`support_d0f0aefb/`)
+
+**Status: not settled. A restricted-class obstruction for incidence and cover
+data, plus a refuted candidate (`ALIGNMENT.md` §5, dispositions 2 and 1), with
+a conditional bound and a one-way reduction as by-products.** Theorems 1 to 4
+are ordinary arguments, unreviewed, and one clause of Theorem 1 was corrected
+on landing (below); the two literature bounds behind Theorem 4's door were
+checked by web search, not read in the sources, and the reduction's prior art
+is unsearched (the run says to assume folklore). Landed 2026-10-21 from a
+local-only branch, `support/d0f0aefb`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all". A support arm
+launched by Hunt #91's run, asked whether the graphs $G_p$
+($a \sim b \iff p \mid a+b$), which together cover $K_n$, admit a cover,
+Ramsey, rank or container bound. **They do not, and that is argued in full:**
+$A = \{1\} \cup \{2(3j+1)\}$ with $S = \{2,3\}$ has $\gcd = 1$ and its two
+residue graphs cover $K_n$ for *every* $n$, so no theorem deriving a bound on
+$n$ from the incidence data alone can exist. Generic graph methods stall
+because the combinatorial shadow of the problem is realizable at every size;
+the content is in the arithmetic the shadow discards. Two things came out of
+the rubble. First, a structure theorem: mod $p$ the matrix $(a_i+a_j)$ has
+rank $\le 2$, and $G_p$ is the disjoint union of complete bipartite blocks
+between the classes $r$ and $-r$ among the elements prime to $p$ (one clique
+among them for $p = 2$) and a single clique on the multiples of $p$. The run
+stated a finer level-set structure on the multiples of $p$, which fails above
+level 0 on its own $k=7$ witness and takes its chromatic corollary
+$\chi(G_p)\le 2T_p$ with it ($\{3,15,21,33\}$, $S=\{2,3\}$, has $G_3 = K_4$ and
+$T_3 = 1$); it is corrected in place in `RESULTS.md` §2. Under the hypothesis
+that every element is coprime to $\prod S$ the structure peels to
+$|A| \le 2^k$, sharper than Erdős–Turán's $3\cdot2^{k-1}$ by $3/2$ (unaffected
+by the correction); the hypothesis resists normalisation because
+$\{a \in A : p \mid a\}$ divided by $p$ is again a set of the same kind over the
+same $S$. Second, and the thing worth keeping: using the *exact* valuations
+rather than the graph gives $g(k) \le 3 + N_3(k)$, where $N_3(k)$ counts
+nondegenerate solutions of $x+y+z=1$ in $S$-units over the **same** $k$ primes,
+by an injective map. The run said the third term is what keeps $S$ from
+growing by the primes of $a_1-a_2$; it is not needed for that, since Evertse's
+bound is uniform in the coefficients (Hunts #96 and #104), and that remark is
+corrected in place too. The implication runs one way only, and it runs the
+useful way: $N_3(k) = \exp(o(k))$ would prove Erdős #126. Known lower bounds
+for such counts are $\exp(k^{1/2+o(1)})$, so nothing known closes that door.
+Hunt #91's loose thread "$|A| \le p-1$ when $p \notin S$" is **refuted**:
+$\{1,4,124\}$ with $S = \{2,5\}$ has all three elements $\equiv 1$ mod $3$ and
+$|A| = 3 > 2$; only $p = 2$ bounds anything, because there every residue class
+is its own negative. All seven of Hunt #91's witnesses were re-verified.
+Overlap with main, recorded in `RESULTS.md`: the coprime bound $2^k$ is Hunt
+#101's primitive descent (and Hunt #94's Lemma 2, landed with this entry); the
+three-term reduction sits beside the four-element reductions of Hunts #93, #95
+and #105 and adds the injectivity they lack; the loose-thread-3 refutation was
+on main already (Hunts #93, #95, #101, #103). Nothing here bears on RH
+(`docs/08`).
+
+### Hunt #99: Erdős #126, the narrowest upgrade is a unit-equation count (`support_311c14a5/`)
+
+**Status: not settled, and no new bound on $g(k)$. A sufficiency reduction
+and a quantitative comparison, both ordinary arguments, unreviewed; the
+attempt at a bound is unresolved and one parent thread is a refuted candidate
+(`ALIGNMENT.md` §5).** The cited constants came from one web search each and
+the run says not to quote their exponents as pinned. Landed 2026-10-21 from a
+local-only branch, `support/311c14a5`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all". Support run for Hunt
+#91, working the additive-combinatorics arm. The deliverable is an elementary
+reduction with no loss: if $A$ is admissible for $S$ and $a \ne b$ in $A$ with
+$d = a-b$, then $c \mapsto (a+c, b+c)$ injects $A \setminus \{a,b\}$ into the
+solutions of $(1/d)X + (-1/d)Y = 1$ in $S$-units, so $g(k) \le 2 + E(k)$ where
+$E(k)$ counts solutions of $\alpha X + \beta Y = 1$ in $S$-units, uniformly in
+$\alpha,\beta$. Keeping the constants in the *coefficients* rather than the
+group holds the rank at exactly $k$. Hence **$E(k) = \exp(o(k))$ implies Erdős
+#126**, and that is the narrowest upgrade the run could name; the converse does
+not hold and is not claimed. Quantitatively the route is today much *weaker*
+than 1934: the run quotes Evertse as $g(k) \le 2 + e^{4k+10}$, base $e^4$
+against Erdős–Turán's base $2$. That form is from a search; GST's primary-text
+quotation of Evertse, $3\cdot7^{2k+3}$ (Hunt #143, and Hunts #96 and #106), is
+smaller for every $k$ and gives base 49, and `RESULTS.md` §3 annotates the
+discrepancy in place without changing the verdict. The route's floor is
+$\exp(\Theta(\sqrt{k/\log k}))$ from Erdős–Stewart–Tijdeman, which is
+$\exp(o(k))$, so the known extremal examples do not obstruct the target. The
+three briefed tools are reported inapplicable with reasons: Freiman needs small
+doubling and these sets have maximal doubling, sum-product needs the
+multiplicative structure on $A$ rather than on $A+A$, and the additive-energy
+inequality is measurably dominated by a one-line pigeonhole. Two audit results
+against Hunt #91: its composition law, combined with the Erdős–Turán upper
+bound, forces $g(k) = 2^k$ *exactly* rather than merely $\ge 2^k$, which makes
+it falsifiable at $k=3$ (it needs an 8-element set; exhaustive search inside
+$[1, 60\,000]$ finds 5); and its loose thread that the parity cap generalises
+mod odd primes is **false**, since $A$ may sit in a single nonzero class mod
+$p$, with witness $S=\{2,5,7,11\}$ omitting $3$ and $A = \{1,9,13,19,31\}$ of
+size 5. All seven of Hunt #91's witnesses re-verified; $g_N(3)=5$ independently
+reproduced by a from-scratch solver. Overlap with main, recorded in
+`RESULTS.md`: the reduction is that of Hunts #96 and #104; the composition
+sharpening tightens Hunt #105's corridor $[2^k, 1.5\cdot2^k]$, which already
+noted that $g(3)\le 7$ retires the programme, and Hunt #93 has the general
+amplification form; loose thread 3 was refuted on main already (Hunts #93,
+#95, #101, #103), and the run's OEIS thread was closed by the literature arm
+(Hunt #143). Nothing here bears on RH (`docs/08`).
+
+### Hunt #100: Erdős #126, the product route has a ceiling of 2 (`support_95a76f59/`)
+
+**Status: not settled. A restricted-class obstruction (`ALIGNMENT.md` §5,
+disposition 2) for the unweighted product $P = \prod_{a\ne b}(a+b)$ read
+through $k \ge B(A)$, with the prime masses estimated from distinctness,
+range, residue counts, whole-set gcd normalisation and the one-step recursion
+on multiples of $p$; weighted or subset products, and any estimate that reads
+the additive structure of $A$, are outside the class, as the run's own doors
+section says.** The arguments are ordinary, unreviewed; the large-sieve
+normalisation of (5b) was not re-checked, which the run flags itself; the
+values of $B$ are floating-point measurements. Landed 2026-10-21 from a
+local-only branch, `support/95a76f59`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all" and cited it as the
+closed "Analytic NT" lane. A support run for the #126 scout, asked to attack
+the original product $P$ and lower-bound its number of distinct prime
+divisors. Within that class it is closed instead. The product yields exactly
+one inequality, $k \ge B(A) = \log P / \max_p (e_p \log p)$, and two
+adversarial families of distinct positive integers with $\gcd = 1$ cap $B$:
+$\Omega' = \{1\}\cup\{i p^m\}$ drives $B \to n/(n-2) \to 1$ against any estimate
+built from distinctness, range and residue counts, and
+$\Omega = \{ip^m+1\}\cup\{jp^m-1\}$, which no gcd normalisation or one-step
+recursion touches, drives $B \to 2$. Measured $B = 1.041$ and $2.125$. So the
+product route, in this class, cannot reproduce Erdős–Turán's $\log_2 n$, let
+alone improve it, and on the seven known optimal witnesses it already loses to
+$\log_2 n$ at $k \ge 6$. The smooth-counting lane is capped too:
+$k \ge \log n/\log\log 2X$ beats $\log_2 n$ only when $X < e^2$. Two things
+survive: a large-sieve sparsity bound $n = O(\sqrt X \log X)$ from the fact
+that $A$ occupies at most $(q+1)/2$ classes mod every prime $q \notin S$, and an
+audit finding that retires one of Hunt #91's loose threads (its "prove
+$|A| \le p-1$ by pigeonhole mod $p$" is false: $\{1+iM\}$ is antipodal-free mod
+every odd $q \le Q$ at any size). Number #100 was assigned by the launching
+brief, not chosen. Overlap with main, recorded in `RESULTS.md`: the
+normalisation is Hunt #103's lemma, the occupancy count $(q+1)/2$ is Hunt #95's
+Lemma A, the smooth-counting inequality is Hunt #107's counting horn, which
+pins it from both sides, and the loose-thread refutation was on main already
+(Hunts #93, #95, #101, #103). The run's open question whether $\max A$ is
+bounded in terms of $(n,k)$ is answered for sub-extremal sizes by Hunt #107
+(unbounded height at $S=\{2,3\}$), annotated in place in `RESULTS.md` and
+`HANDBACK.json`. Nothing here bears on RH (`docs/08`).
+
+### Hunt #106: Erdős #126 reduces to counting $S$-unit equations (`support_6da47ca3/`)
+
+**Status: not settled, but the wall is located and named; the attempt is
+unresolved (`ALIGNMENT.md` §5) and one parent thread is a refuted
+candidate.** Theorem 1 and its corollaries are ordinary arguments,
+unreviewed; Corollary 2's constant uses Evertse's bound as the run recalled it,
+without re-reading it; the Győry–Hajdu–Tijdeman verdict rests on the abstracts;
+the measured table is exhaustive inside bounded boxes. Landed 2026-10-21 from a
+local-only branch, `support/6da47ca3`, that was never pushed; PR #144 counted
+the arm among the seven that "produced no branch at all". A support run for the
+Erdős #126 scout (Hunt #91), asked to turn $A$ and $-A$ into the bipartite
+$S$-unit difference pattern and specialise the Győry–Hajdu–Tijdeman
+representation theorems. The bipartite framing is right and the bipartiteness
+is not what carries the weight: all the quantitative force sits in the
+sub-pattern $K_{2,m}$, giving **Theorem 1, $g(k) \le N_2(k) + 2$**, where
+$N_2(k)$ is the maximum number of solutions of a two-term $S$-unit equation
+$u - v = c$ over $|S| = k$ and $c \in \mathbb{Q}^*$. The correspondence is
+exact (solutions of $u-v=c$ are in bijection with the common neighbours of two
+vertices), so nothing is lost at that step. With Evertse's 1984 bound
+$3\cdot 7^{d+2s}$ this gives the unconditional explicit
+$g(k) \le 3\cdot 7^{2k+3}+2$, i.e. $f(n) \ge 0.2569\log n - 1.78$, a re-proof
+of the classical $f(n) \gg \log n$ with a tracked constant and **no movement on
+the problem**. The load-bearing consequence is the conditional: **if a two-term
+$S$-unit equation has $\exp(o(k))$ solutions uniformly in its coefficients,
+Erdős #126 follows.** Every known lower bound on that count
+(Erdős–Stewart–Tijdeman $\exp(k^{1/2+o(1)})$; Konyagin–Soundararajan
+$\exp(k^{2-\sqrt2-o(1)})$) is subexponential, so the hypothesis is consistent
+with everything known, and the 92-year wall on #126 is the same wall as the
+gap between $\exp(O(k))$ and $\exp(k^{0.59})$ in unit-equation counting. The
+run also calls that hypothesis the field's "standard (open) conjecture" and #126
+"a consequence of a believed conjecture"; neither phrase cites a source, the
+literature arm (Hunt #143) looked for the statement and did not find it, and
+both are annotated in place in `RESULTS.md`. Sufficient, not necessary, and
+measurably lossy: exhaustive search gives $g_N(5) = 8$ against
+$N_2^{(N)}(5) \ge 141$. The briefed within-part pair-sum structure **buys no
+improvement in the exponent**; it does buy a free nondegeneracy guarantee for
+$(a+b)+(c+d) = (a+c)+(b+d)$ (all terms positive, every vanishing subsum forces
+two elements equal), but routing through it needs three-term unit equations
+whose best uniform bound has slope $\sim 2\times 10^{11}$ against Evertse's
+$2\log 7 = 3.892$. The GHT papers themselves are representability results, not
+counting results, and contain no bound of the form $|A| \le F(|S|)$; their
+cubical criterion touches ours only through the $K_{2,3}$ obstruction, which is
+exactly the pattern Theorem 1 exploits. Audit of Hunt #91: all seven witnesses
+re-verified, $g_N(k)$ for $k \le 5$ reproduced independently with identical
+optimal witnesses, and its §2 and §4 proofs read and correct; but its **loose
+thread 3 is refuted** ($|A| \le p-1$ when $p \notin S$ fails for every odd $p$,
+e.g. $\{1,3,7\}$ with $S=\{2,5\}$ and $\{1,3,5,11,13\}$ with $S=\{2,3,7\}$), so
+the parity fact is a $p=2$ accident and not an iterable lemma. Overlap with
+main, recorded in `RESULTS.md`: Theorem 1 is the reduction of Hunts #96 and
+#104 (and of #97 and #99, landed with this entry), Lemma 4 is the nondegeneracy
+step of the four-element reductions of Hunts #93, #95 and #105, the
+loose-thread-3 refutation was on main already (Hunts #93, #95, #101, #103), and
+the OEIS thread the run left open was closed by Hunt #143. Its audit line that
+the optima "live below 50" is annotated in place, since Hunts #103, #105 and
+#107 refuted it. Nothing here bears on RH (`docs/08`).
+
+### Hunt #143: Erdős #126, the 92-year wall, and the one lever behind it (`support_fcffa3b9/`)
+
+**Status: not settled. A literature map from a targeted search, not an
+exhaustive one; it refutes nothing and closes no route.** Primary text was read
+for Erdős–Turán 1934 and for Győry–Stewart–Tijdeman 1986 including its §3
+proof. Erdős–Surányi's $2^k$ and the Erdős–Stewart–Tijdeman constant $1/8$ are
+secondary citations through Füredi–Gyarmati 2026, not checked against the
+originals; Evertse's bound is quoted through GST; the one reduction step of the
+run's own is an ordinary argument, unreviewed. **Renumbered on landing:** the
+run's brief assigned #91, which `r_186989` already held, so the run took #92 on
+its branch; #92 is `support_517b887f` on main, so the entry takes #143, the
+next free number, and `HANDBACK.json` keeps the run's #92. Landed 2026-10-21
+from a local-only branch, `support/fcffa3b9`, that was never pushed; PR #144
+counted the arm among the seven that "produced no branch at all". A support arm
+for the scout (Hunt #91), answering one question: what does the literature
+actually have, from 1934 to now? Four things, three of them from primary text.
+**The 1934 bound is still the record**: Erdős and Turán prove
+$g(k) \le 3\cdot2^{k-1}-1$, and the search found nothing in 92 years that
+improves the base 2, only the constant ($g(k)\le 2^k$, Erdős–Surányi). **The
+$S$-unit machinery is already in the literature and is quantitatively worse**:
+Győry–Stewart–Tijdeman 1986 reproves $f(n)\gg\log n$ through Evertse's counting
+bound and lands at $3\cdot7^{2k+3}\approx 49^k$, because its reduction keeps
+only $2(n-2)$ of the $\binom n2$ sums. **It is still the lever, and the run
+makes that precise**: with $g_2$ the two-set relaxation,
+$g(k)\le g_2(k)+2 \le N(k)+2$ where $N(k)$ counts coprime $S$-unit solutions of
+$\lambda x+\mu y=\nu z$ (step one the run's own, step two quoted verbatim from
+GST §3; the branch's entry dropped the final $+2$, which its own `RESULTS.md`
+§2 carries), so **a uniform $\exp(o(k))$ bound on $N(k)$ implies Erdős #126**.
+The converse fails, and the route is not blocked: Erdős–Stewart–Tijdeman 1988
+forbids only *polynomial* bounds on $g_2$, leaving the whole window
+$\exp(\tilde\Theta(\sqrt k)) \ldots \exp(o(k))$ open, every point of which
+settles the problem. Two audit findings against the scout: its arm-2 parity
+headline is on page 1 of the 1934 paper verbatim, and its arm-3 kill is
+stronger than claimed, since a composition law would force the 1934 bound to
+be sharp up to $3/2$ and contradict its own authors' conjecture
+$n(k)=O(k^{1+\varepsilon})$, a conjecture no modern summary of the problem
+mentions. The scout's OEIS thread is closed negatively (a sequence query with
+twenty coincidental matches and a keyword search with none, so no tabulation of
+$g(k)$). What could not be settled:
+whether the subexponential $S$-unit bound is a *stated* conjecture of that
+field, which is the difference between "#126 needs a new idea" and "#126 is a
+corollary of a believed conjecture". Overlap with main, recorded in
+`RESULTS.md`: the reduction is that of Hunts #96 and #104 (and of #97, #99 and
+#106, landed with this entry), and #105 makes the same 3/2-corridor point,
+which #99 sharpens to $g(k)=2^k$. One statement relied on the scout's "every
+optimal witness lives below 50", which Hunts #103, #105 and #107 refuted; it is
+annotated in place (`RESULTS.md` §3, the T8 row). Nothing here bears on RH
+(`docs/08`).
+
 ### Hunt #90: the leader's certificate does not replay at its own HEAD (`amtopa_ceiling/`)
 
 **Status (2026-09-06, `RESULTS.md` section 7.7): the `+3.96e-06` candidate is WITHDRAWN.
@@ -2093,6 +2486,44 @@ session took it, renumber. Nothing here bears on RH (docs/08).
 ### Hunt #73: Krenn-Gu 8x3 support frontier (`r_044dd2/`)
 
 **Status: support census settled; algebraic sieve open.** This hunt corrects the scope of Hunt #71: the 31 target-matching orbits do not quotient the full 252-variable polynomial system. All 31 branches have independently replayed support survivors, with 76 to 132 active entries and median 118, so the inherited support conditions close zero branches by themselves. On the sparsest branch, four survivors are excluded by exact signed-Laurent certificates. The size-2 stabilizer mirrors those into four more replayable cuts. Support 7 passes the independent support audit and avoids all eight cuts. Exact fixed-degree cap-3 and cap-4 spans do not exclude it. Cap-5 closure produced 13,379,522 relation multiples, but the first sparse elimination ordering hit measured fill-in before a membership decision. No branch is closed and no complex witness has been found.
+
+### Hunt #140: Krenn-Gu 8x3: bounded unrestricted Groebner step on Support 7 (`r_abf47b/`)
+
+> **Renumbered on landing, 2026-10-21.** Opened as #77 on `hunt/r-abf47b-bddff380`
+> (run `bddff380`, 2026-08-22); renumbered on landing because `aimo2/` holds #77.
+> It takes #140 because two landings opened the same hour take the numbers below it:
+> `mobius_orbits/` takes #138 (`land/mobius-orbits-20261021`) and `seven_eighths_pin/`
+> takes #139 (`land/quasi-riemann-seven-eighths-20261021`).
+> `hunts/r_abf47b/` is the stable reference.
+
+**Status: attempt unresolved, no algebraic conclusion; one exact orbit result.**
+Continues Hunt #74 (`r_31b6c1/`) on Hunt #73's Support 7 for orbit 18, in two parts.
+*The orbit refinement stands.* The 57 H x S2 orbits on matching pairs (H = S2 wr S4,
+the stabilizer of M0) only refine the 31 S8 x S3 orbits on matching triples: S8 is
+transitive on the 105 perfect matchings, so every triple orbit meets the slice
+{M0} x PM x PM, and the 57 map onto the 31 (fibres of one, two and three pair orbits
+over 8, 20 and 3 triple orbits). Two skeletons over one triple orbit are symmetric
+copies, so Hunt #74's thread, scale the sieve to the 57 pair-orbit skeletons, adds no
+branch. Exact finite check on two routes: `map_orbits.py` over all 105^3 triples, and
+`test_orbit_refinement.py`, added on landing, on the slice alone against Hunt #71's
+orbit sizes. *The Groebner step does not test Support 7.* `run_groebner.py` gave
+`sympy.groebner` (grevlex) the three monochromatic target brackets as zero generators
+next to the 6,558 relations of Hunt #73's `build_system`: 6,561 generators in 138
+variables, every one homogeneous of degree 3 or 4 with no constant term, and no torus
+saturation. That ideal is proper, the origin being a common zero, so its basis can
+never be [1] and the 300 s timeout says nothing about Support 7. The question Hunt #73
+Result 4 poses is membership of the target product in the relation ideal saturated by
+the variables. The run also stopped at its own 5-minute alarm although the mission
+allowed 20 minutes. Its "32.59 MB peak" is the run's own report and is unverified: by
+the script's code it would be the resident set size at the alarm, and the committed
+script, rerun unchanged at landing, read 600.5 MB there and already 84.4 MB before the
+Groebner call starts. The calibration reruns main's code (`cap3.json` is
+byte-identical to a fresh cap-3 screen; r_31b6c1's 6x3 gate) and is not an independent
+route, and its cap-4 4,216 replay is reported without an artifact. `RESULTS.md` keeps
+the run's text and carries the "Audit correction" that governs it; `PROBE_RESULTS.md`
+is retitled as this hunt's rerun of r_31b6c1's probe. Orbit 18 remains open, no branch
+is closed, and no complex witness has been found. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 
 **Status: closed (2026-08-16), gate verdict publication candidate; hardened
@@ -3343,7 +3774,9 @@ Nothing here is evidence for or against RH.
 
 **Status: probe, complete. Instrument kept; no claim promoted; the headline is
 a negative result about globalisation, plus an honest boundary on what the gate
-actually tests.**
+actually tests. Corrected 2026-10-21: the local equivalence is an unreviewed
+derivation, not a consequence of the closed form, and the gate is a
+measurement of it whose regime test misreads oscillating weights.**
 
 An ontology attempt in the sense of `docs/09` §4, pushed at Requirement C of
 §5.1: construct, from prime data alone, a structure in which the Weil form is a
@@ -3361,9 +3794,16 @@ localisation is exactly where it dies. Raw numbers in
   positivity is therefore compatible with either sign of `W`. Files under
   `docs/09` §5.1's taxonomy item #5, *finite approximants*.
 - **Gate #3, with a crisp answer.** The place kernel has the closed form
-  `K_p^(d)(θ) = Σ_j (1−|α_j|²/p)/|1−α_j p^{−1/2}e^{iθ}|²`, so `c_p ≤ d` is
-  *exactly* the local bound `|α_j| ≤ √p`, with `d` read off each object's own
-  gamma factors and never chosen. ζ and `L(χ)` quadratic mod 5 measure
+  `K_p^(d)(θ) = Σ_j (1−|α_j|²/p)/|1−α_j p^{−1/2}e^{iθ}|²` when every
+  `|α_j| < √p`, and `c_p ≤ d` reads the local bound `|α_j| ≤ √p`, with `d`
+  read off each object's own gamma factors and never chosen. *Corrected
+  2026-10-21* (`local_positivity/CORRECTIONS.md`, "Later correction"): the
+  forward direction is derived; the converse was read off the closed form,
+  which cannot carry it (at `p = 2`, `α = (3√2, 0, 0, 0)` the rational
+  expression is `≥ 1` while the series diverges; the gate itself reports
+  `"divergent"` and FAILs there). With `c_p` read as the least PSD Toeplitz
+  diagonal, the converse rests on a PSD-boundedness derivation that is
+  unreviewed. ζ and `L(χ)` quadratic mod 5 measure
   `c_p = 0.8284` and PASS (matching `2/(√p+1)` to 12 digits);
   Davenport–Heilbronn measures `1.8361` and FAILS at `p = 2, 3`; both disc −23
   Epstein forms FAIL, at `5.995` and `6.462`. "Where exactly does DH fail to
@@ -3377,12 +3817,22 @@ localisation is exactly where it dies. Raw numbers in
 - **Lesion.** Interpolating ζ → DH, blindness sets in at `ε* = 0.184`, so a
   PASS means "no violation above ~18% of the way from ζ to DH at the tested
   places", and nothing stronger. The PASS side is not vacuous either: across 60
-  Satake angles the genuine degree-2 family keeps margin ≥ 0.343.
+  Satake angles the genuine degree-2 family keeps margin ≥ 0.343. Those are
+  margins of the truncated `c`. Since the gate's regime test was added
+  (2026-08-11) its *verdict* on that family is FAIL at 22 of the 60 angles: the
+  test reads two weighted terms near the truncation edge, and a conjugate pair
+  of Satake parameters makes them oscillate, which misleads it on either side
+  of the bound (measured 2026-10-21, pinned in `test_closed_form.py`).
 - **The honest boundary, stated so nobody overclaims it.** The gate is *not* a
-  test for "has an Euler product". A genuine degree-2 product with
-  `α = 2.3, 1/α`, legitimate in the Selberg class, violating Ramanujan, is
-  rejected at `p = 5` with `c_p = 65.24`. It tests the local Selberg bound, and
-  `localpos.scope()` says so inside the module rather than only in prose.
+  test for "has an Euler product". A genuine degree-2 Euler factor with
+  `α = 2.3, 1/α`, violating Ramanujan, is rejected at `p = 5`, in the
+  `"divergent"` regime where `c_p = +∞` by the module's convention (the printed
+  `65.24` is the series truncated at depth 41, not the value). This entry used
+  to call that factor legitimate in the Selberg class; it is not, since
+  `docs/09` §3's axioms (4) and (5) both exclude `|α| > √5`. It reads the local
+  bound `|α_j| ≤ √p`, forward direction derived and converse an unreviewed
+  derivation, and `localpos.scope()` says so inside the module rather than
+  only in prose.
 
 **Disposition:** instrument kept, avenue closed and recorded so nobody reopens
 it; no ledger entry. Nothing here is evidence for or against RH. This is the
@@ -3391,15 +3841,18 @@ separation (§4), to read arithmetic and stay blind to the *position* of the
 critical line. **The reason recorded here was wrong, and the `ROADMAP.md` call
 it asked for has now been made, the answer is no** (2026-08-11, `docs/25`).
 `ζ(s−δ)` does *not* have the same coefficients: it has `n^δ a_n`, and `c_p`
-reads that twist with threshold exactly `δ = ½` (`c_p = 2x/(1+x)`,
-`x = p^{δ−½}`). Blindness is a property of a statistic invariant under that
+reads that twist with threshold `δ = ½` (`c_p = 2x/(1+x)`, `x = p^{δ−½}`, for
+`δ < ½`; at `δ = ½` the gate reports INDETERMINATE; the `δ > ½` side is the
+converse above, unreviewed). Blindness is a property of a statistic invariant under that
 twist, not of reading arithmetic, and a coefficient-side statistic equivalent
 to RH is already in this tree (Mertens, `criteria.py` face 1). So the
 repetition across three instruments does **not** rise to a standing constraint
 on the coefficient-side programme, and must not be recorded as one. Full record in
 `docs/24-the-local-positivity-attempt.md`; the session's own corrections,
 including a citation defect it found in `docs/12`, are in
-`local_positivity/CORRECTIONS.md`.
+`local_positivity/CORRECTIONS.md`, whose "Later correction" (2026-10-21)
+grades the local equivalence and records the gate's regime-test defect, which
+this correction pins but does not repair.
 
 ### Hunt #4: repairing the counterexample (`flow_repair/`)
 

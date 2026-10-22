@@ -1,0 +1,49 @@
+{
+  "run_id": "d176e366-ba6f-406b-8ae8-650be794e2ec",
+  "status": "not-settled",
+  "conclusion": "No block lemma below base 2 and no unconditional obstruction, but the arm is now exactly located: pruning a block T is the independent-set problem for the union of antipodal graphs mod p in T, the joint probabilistic bound lands on exactly 2^-r, and that constant is unimprovable by any argument reading only residues mod prod(T). The brief's own target is one notch too low: g(k) <= 2/rho_min(k) <= 2g(k) makes block-pruning equivalent to Erdos #126, so retention 2^{-r+o(r)} merely reproduces Erdos-Turan and only c^{-r} with c<2 is progress.",
+  "confidence": "The four statements labelled lemma/theorem in RESULTS.md are proved and independently machine-checked where checkable (Theorem 3's exact formula matches exhaustive branch-and-bound 4 times out of 4; Lemma 1 has 0 mismatches in 200 random instances). Lean on those. Do not lean on section 7's measured positive correlation across primes: n <= 11, and its most striking column is the conjecture restated rather than evidence for it. One drafted claim (phi = number of sign-orbits met) was false and is recorded as such with its counterexample.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "Seven admissible witnesses and the g_N(k) table for k=1..7",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "Re-verified all seven from scratch and reused them as the substrate for the block-retention measurements in section 7; removed the need to re-run a clique search above N=120."
+    },
+    {
+      "what": "The no-three-pairwise-sums-are-powers-of-2 lemma (its arm 3)",
+      "source": "hunts/r_186989/RESULTS.md section 4",
+      "effect": "Re-derived independently and used as the endgame lemma that pins the constant 2 in Theorem 4; agreement raised confidence enough to build on it immediately."
+    },
+    {
+      "what": "Its loose thread 3, the proposed bound |A| <= p-1 for p outside S",
+      "source": "hunts/r_186989/RESULTS.md loose threads",
+      "effect": "Audited and refuted with an unbounded counterexample family; stopped a follow-up run from spending a pass on it."
+    }
+  ],
+  "threads": [
+    {
+      "what": "The covering reformulation: K_n is covered by a triangle-free graph (pair sums that are powers of 2) together with the antipodal graphs mod each odd prime of S, so Hansel-type bipartite-covering bounds apply off the zero classes and reproduce 2^r.",
+      "why_it_might_matter": "It turns the base-2 wall into finite combinatorics, where refinements of Hansel's bound (Radhakrishnan-Srinivasan) are sensitive to exactly the structure the antipodal graphs have.",
+      "first_step": "Bound the covering cost of the triangle-free power-of-2 graph without the sqrt(n) loss of the naive independent-set route, then run Hansel on the remainder."
+    },
+    {
+      "what": "The smoothness hypothesis is never used in this arm, only divisibility. The budget sum_p v_p(a+b) log p = log(a+b) <= log(2 max A) is unspent.",
+      "why_it_might_matter": "It is the entire remaining slack; every bound here would survive replacing 'S-smooth' by 'divisible by something in S', which is a much weaker hypothesis and cannot be enough.",
+      "first_step": "Prune to a fixed valuation v_p(a+b) = m_p rather than to 0, and count over levels of the p-adic tree."
+    },
+    {
+      "what": "Weighted half-systems: Lemma 2 picks each antipodal half uniformly; a frequency-weighted choice could recover part of the factor 11.6 by which real witnesses beat 2^-r.",
+      "why_it_might_matter": "It separates 'the cross-prime correlation is real' from 'the correlation is reachable by a proof technique', which is the difference between a measurement and a lemma.",
+      "first_step": "Twenty lines added to hunts/support_d176e366/probe.py comparing uniform against frequency-weighted choice on the seven witnesses."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "An exact maximum-independent-set / max-clique helper with branch and bound, plus the discipline of replacing a triple loop over integers by a loop over exponent vectors.",
+      "why_reusable": "Two hunts in a row (r_186989 and this one) hand-rolled the same clique search, and this run's first probe had to be killed at 600 s because a C(4000,3) scan was written where a 60^3 exponent scan was meant. Both are generic.",
+      "first_step": "Decide whether it belongs in a shared hunts utility module at all, given the repository's standing rule against infrastructure with no live consumer; two consumers now exist."
+    }
+  ],
+  "notes_for_operator": "The brief's bounded question contains a threshold that is, by Theorem 4, exactly the Erdos-Turan bound restated. Whoever writes the next brief on this lane should set the target at base c < 2, not at 2^{-r+o(r)}. That is a briefing-quality observation and therefore Fulcrum's, not the repository's, so it is named here and not written into the tree."
+}

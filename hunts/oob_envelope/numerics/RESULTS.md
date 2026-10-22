@@ -1,7 +1,11 @@
 # RESULTS: numerics lane (oob_envelope)
 
-2026-09-28: the L = 0.8 bound and the L = 1.19 stage B bound both passed
-independent referee review (`referee/REVIEW.md`, sections "L = 1.19" and 5).
+2026-09-28: the L = 0.8 bound and the L = 1.19 stage B bound, both in the
+even sector, passed independent referee review (`referee/REVIEW.md`,
+sections "L = 1.19" and 5). The odd-sector bound at L = 1.19 (the "Odd"
+sections near the end) passed its own independent referee review the same
+day (`referee/ODD_REVIEW.md`, verdict PASS); that is recorded below in
+"Grade update, 2026-10-21", written for the landing of both odd lanes.
 Every grade uses the AGENTS.md ladder.
 
 ## Item 6. L = 1.19 (support 2.38), stage B: candidate, hardened by two independent routes
@@ -32,7 +36,9 @@ Grades, weakest first:
   (`referee/REVIEW.md`, "L = 1.19", verdict lines 1 to 5, PASS).
 - So the composite is a **candidate** positivity bound at support 2.38,
   hardened by two independent implementations (sharing python-flint),
-  resting on a refereed ordinary derivation; even sector only, not
+  resting on a refereed ordinary derivation; even sector only (the odd
+  sector at this window is bounded separately, at the same two-route grade,
+  with the complex-f consequence in "Grade update, 2026-10-21" below), not
   kernel-checked, pending external verification.
 - Controls (RUNS.md "Negative controls"): at L = 4/5, T# = 60, where the
   form is indefinite, the step returns no bound; a planted in-band constant
@@ -188,3 +194,166 @@ reducer; `--reduce-only` to rerun the reducer on the stored units) and
 
 Stage B (enclosure-carrying L = 1.19, needs approval), N-convergence at
 L = 1.19, the joint LP/SDP envelope, theory §1.7's B_T scan.
+
+## Odd sector validation, 2026-09-28
+
+New odd-specific runner stage_b_odd_modal.py, derived in odd_derivation.md;
+the even runner is unchanged. The theory file's complex pole calculation
+and parity row were checked against Zhu v2 Lemma 6.1. Both multiplier and
+pole cross terms vanish as shown explicitly in odd_derivation.md section 1.
+Thus the weaker of valid odd and even bounds applies to all complex f.
+
+| odd configuration | measured head lambda_min | downward-rounded full-space lower endpoint |
+|---|---:|---:|
+| L=4/5, T#=150, H=0, N=200 | 9.11833845450e-15 | 9.02715506995e-15 |
+| L=4/5, T#=100, sine:16, N=96 | 9.50644182948e-15 | 9.41137741118e-15 |
+
+Zhu section 6.2 reports 9.1183e-15 measured and 8.2065e-15 as its lower
+bound. The measured ratio is 1.0000042173. Both validations use GL-64,
+h=1/2, 256 bits. JSON artifacts: odd_zhu_result.json, odd_val_result.json.
+The full-space steps carry Arb enclosures; the eigenvalue measurements do
+not. These are one route, pending independent reproduction.
+
+Controls: changing -2ss^T to +2ss^T raises the measured floors to
+6.40880126462e-10 and 7.36487811883e-10, respectively. The direction check
+fires, but a positive-pole lesion is not expected to be rejected by a
+positivity checker. At 1.01 times each measured eigenvalue, the shifted
+Cholesky fails. Dropping H or reversing H at T#=100 does NOT discriminate:
+the measured floors remain positive, 9.40521108856e-15 and
+9.28959833914e-15. These are recorded as non-firing lesions.
+
+The T#=40 control (L=4/5, sine:16, N=96) is refused despite a positive beta.
+Its head has an Arb-enclosed Rayleigh upper endpoint below -1.35054e-7,
+including quadrature error. This proves that reduced form is indefinite,
+not that the original Q is negative. All altered control forms at T#=40
+also have enclosed negative witnesses. Artifact: odd_val40_result.json.
+
+## Odd main result at L = 119/100, 2026-09-28
+
+For real odd f supported in [-119/100,119/100], the computed reduction gives
+
+    Q(f) >= R_H(f) >= 3.42853488205e-44 ||f||_2^2.
+
+This is a candidate fixed-window statement. Its numerical step is
+single-route enclosure-carrying, pending independent reproduction. Its
+analytic reduction is the ordinary derivation in odd_derivation.md, using
+the existing sine:16 envelope and Zhu's digamma inequality. It is not
+kernel-checked and makes no assertion at unbounded support.
+
+Artifact odd_main_result.json stores the exact dyadic endpoint and input
+SHA-256 values. Parameters: N=500 odd modes, orders 1,3,...,999; first
+discarded order 1001; T#=500; GL-96, h=1/2, 384-bit Arb. No change to the
+even-run parameters or to H. Measured head lambda_min = 3.46316654753e-44.
+The lower shift is 0.99 times the measured value, snapped to an exact dyadic.
+
+| term | enclosure budget, displayed outward with slack |
+|---|---:|
+| beta | > 0.511253705003063 |
+| maximum quadrature error per entry, including node shift | < 6.873e-66 |
+| e, maximum row sum of head radius plus quadrature error | < 2.294e-63 |
+| r, maximum absolute row sum of exact-factor residual | < 1.101e-113 |
+| eps_D, tail deviation from beta I | < 1.565e-185 |
+| eps_B, head-tail coupling norm | < 4.295e-88 |
+| node displacement | < 7.334e-113 |
+
+The code evaluates min(lambda0-r-e, beta-eps_D)-eps_B in Arb and reports
+its lower endpoint, then rounds the displayed decimal downward. The error
+budget is far below the retained head floor. A 1.01-times overshift fails
+at pivot 179, so the positivity step can reject a proposed lower bound.
+Validation and other controls are recorded immediately above; the H lesions
+that did not fire remain non-firing controls, not successful checks.
+
+With the unchanged even result stage_b_result.json, whose downward-rounded
+endpoint is 5.71789230595e-48, parity and real/imaginary splitting give the
+combined candidate
+
+    Q(f) >= 5.71789230595e-48 ||f||_2^2
+
+for every complex L^2 f supported in [-119/100,119/100], on the finite form
+domain and with the extended positive value allowed otherwise. Each of the
+four orthogonal real parity components satisfies its sector's inequality;
+their squared norms sum to ||f||_2^2. The odd sector is not the limiting one.
+The combined claim retains the weaker review status of its component steps.
+
+All Modal work finished: 1.509934183 timed core-hours for the complete odd
+task, and a conservative app-lifetime reservation envelope below 2.856
+core-hours, against the 4-core-hour limit. Five owned apps stopped. The
+unit checkpoints remain on volume oob-envelope-stages; see RUNS.md for
+commands, app IDs, the pre-run estimate and exact accounting. Nothing pushed.
+
+## Grade update, 2026-10-21: the odd sector reproduced independently
+
+Written for the joint landing of this lane's odd work (branch
+`teal-sea/oob-odd`, 08ff0491) and the odd referee (branch
+`teal-sea/oob-odd-referee`, a5c40f7), both merged with their commits kept.
+The two odd sections above are kept as recorded on 2026-09-28;
+their "pending independent reproduction" is superseded by this section.
+The same phrase heads `odd_derivation.md`, which is left byte-identical
+because `odd_manifest.json` and `referee/outputs_odd/comparison.json`
+record its SHA-256.
+
+`referee/ODD_REVIEW.md` (verdict PASS, 2026-09-28) re-derived the odd
+reduction independently in `referee/ODD_FORMULAS.md`: odd orders 2i+1, the
+negative rank-one sinh pole, first omitted order 1001 with the pole tail
+charged in eps_D, exact cancellation of H at every frequency of size at
+least 2L (the boundary included), and the parity and real/imaginary split.
+It found no gap. Formulas and exact shifts were frozen at 3ce6ab9 and the
+independent results at cefd6363, before any of this lane's artifacts were
+read; the brief disclosed this lane's endpoint, and no Python from this
+lane was read at any point. The referee route is Clenshaw-Curtis-192 with
+its own quadrature, Bessel and tail bounds, at 768 bits (Zhu case) and
+1280 bits (main case): 132 Modal inputs, none failed, 2.348 core-hours of
+recorded input work (`referee/ODD_RUNS.md`). Both routes run on
+python-flint, so the arithmetic library is shared.
+
+| real odd f, full sector | this lane (GL) | referee (CC-192) |
+|---|---:|---:|
+| L = 4/5, T# = 150, H = 0, N = 200 (Zhu section 6.2) | ≥ 9.02715506995e-15 | > 7.99e-15 |
+| L = 119/100, T# = 500, sine:16, N = 500 | ≥ 3.42853488205e-44 | > 2.99e-44 |
+
+The referee's exact dyadic Rayleigh witnesses for the reduced forms,
+9.1183384545008638e-15 and [3.463166547529606864e-44 +/- 2.77e-63], agree
+with this lane's measured head values 9.11833845450e-15 and
+3.46316654753e-44 at their displayed precision. Its lower endpoints are
+smaller because its shifts were fixed in advance (8e-15 and 3e-44), so the
+referee did not reproduce this lane's tighter 3.42853488205e-44, which
+stays a single-route value. Both referee controls passed: flipping -2pp^T
+to +2pp^T changes the form and fails the independently integrated pole
+identity, and the artificial operator R - 1e-42 I is refused with an
+enclosed negative Rayleigh value.
+
+Grades after this update, weakest first:
+- Q ≥ R_H on real odd f: ordinary derivation, written by this lane and
+  re-derived independently by the referee, no gap found. It uses the
+  out-of-band lemma, the sine:16 envelope and Zhu's digamma inequality as
+  before. Not kernel-checked.
+- The odd numerical step at L = 1.19: hardened, two independent
+  implementations sharing python-flint, every error term enclosed on both.
+- So for real odd f with supp f ⊆ [−1.19, 1.19], Q(f) > 2.99e-44 ‖f‖²
+  (this lane alone: ≥ 3.42853488205e-44 ‖f‖²) is a candidate at the same
+  grade as item 6's even bound.
+- With item 6, for every complex f ∈ L² with supp f ⊆ [−1.19, 1.19],
+  Q(f) ≥ 5.71789230595e-48 ‖f‖². Each route gives this on its own, since on
+  both the even endpoint is the smaller one. Candidate, hardened by two
+  independent implementations sharing python-flint, resting on ordinary
+  derivations, pending external verification. A fixed-window statement,
+  not a route to RH, with no claim at unbounded support.
+
+The L = 4/5 odd rows are validations against Zhu's section 6.2. This record
+does not combine them with summary line 4 into a complex-f statement at
+L = 0.8.
+
+## The doors
+
+No optimum or ceiling was sought. At this single candidate, parameter range
+L=1.19, T#=500, N=500, sine:16, the retained head eigenvalue is the limiting
+term, not beta-eps_D or the error budget. The 0.99 shift deliberately leaves
+one percent of the measured value unused. No shadow prices were measured.
+Frozen choices: L is the requested target; T# trades a sharper reduction
+against quadrature and tail cost; N trades smaller coupling against matrix
+cost; q=96 and 384 bits trade smaller numerical error against compute;
+h=1/2 trades panel count against ellipse size; sine:16 trades its envelope
+constant against frequency growth in the quadrature bound. Adjusting these
+stays within the same symbol data and information class. Independent
+reproduction tests this result rather than enlarging that information class.
+No further run or allocation is proposed by this record.
