@@ -631,10 +631,15 @@ a cancellation between two nonvanishing products of Dirichlet L-functions, so
 none is a counterexample (`docs/08` section 4.3): the rival lacks the
 hypothesis, its reciprocal's coefficients being non-multiplicative and
 unbounded (exact to 10^6). The Davenport-Heilbronn function has no zero past
-7/8 below height 300 and none known to the lab anywhere (its deepest census
-pair sits at 0.86953). Controls: gamma_1 recovered to 2e-16, planted faults
-detected, the class-number-one form sees nothing. Scan ranges are stated as
-limits in `qrh_rival_step/RESULTS.md`, which ends with the doors.
+7/8 below height 300 in this hunt's scan. The v6 census
+(doi:10.5281/zenodo.23585903) lists six right-side zeros past 7/8 for
+0 < Im s < 20,000; its deepest is at 0.897750155 + 2442.53029247i.
+These catalogue coordinates are external input, not part of this hunt's
+original scan. DH has no Euler product, so these zeros do not contradict
+the single-L-function theorem under discussion.
+Controls: gamma_1 recovered to 2e-16, planted faults detected, the
+class-number-one form sees nothing. Scan ranges are stated as limits in
+`qrh_rival_step/RESULTS.md`, which ends with the doors.
 
 ### Direct resolution attempt (`rh_resolve/`, 2026-10-03)
 
