@@ -1,4 +1,4 @@
-# 45. RH to height 50, kernel-checked
+# 45. RH to height 50, then 100, kernel-checked
 
 > On 2026-10-22 this laboratory finished a Lean proof, about Mathlib's own
 > `riemannZeta`, that every nontrivial zero up to height 50 lies on the critical
@@ -6,20 +6,25 @@
 > the sense this repository reserves for the word: Lean's kernel accepts it with
 > zero `sorry` and only the three standard axioms. This page leads with it and
 > carries forward the results of [docs/39](39-built-on-the-quasi-riemann-theorem.md).
+> On 2026-10-23 a clean Lean source build also closed height 100: 29 distinct
+> zeros in the open critical strip, all on the line and simple. Independent
+> whole-closure replay was accepted by `con-ron --verified` on 2026-10-24.
 
-The theorem is finite. It says nothing above height 52 and nothing about the
+The theorems are finite. The height-100 result says nothing above 100 or about the
 Riemann hypothesis ([docs/08](08-why-it-is-hard.md)). Numerical verification of RH
-reaches far higher, to 3 * 10^12; what is new here is that the statement is a
-kernel-checked theorem that takes no outside computation on trust. A search of the
-formal literature on 2026-10-22 found Lean statements of RH to a height that rest on
-axioms recording external computations, and none proved from the standard axioms alone. The rows carried from docs/39 keep their own
+reaches far higher, to 3 * 10^12; the distinction here is a Lean-kernel-checked
+theorem with no outside computation assumed as an axiom. A bounded search on
+2026-10-22 found Lean statements of RH to a height that rest on external
+computations as axioms, and found no earlier standard-axiom formal proof. That
+search does not establish priority. The rows carried from docs/39 keep their own
 grades: they are conditional on OpenAI's theorem and unreviewed by any person.
 
 ## The results
 
 | Result | Statement | Against | Grade | Where |
 | --- | --- | --- | --- | --- |
-| RH to height 50 | Every zero rho of Mathlib's riemannZeta with 0 < Re rho < 1 and 0 < Im rho <= 50 has Re rho = 1/2 and is simple, and there are exactly 10 of them; the same holds to height 52 | RH verified numerically to height 3 * 10^12 (Platt and Trudgian, 2021), a computation, not a formal proof. The closest formal work, gersh/ternary-goldbach-lean, states RH to a height in Lean but takes every instance from an outside computation as an axiom; anthropics/zeta-23-lean proves a proportion and locates no zero. A search found no earlier proof of RH to any height from the standard axioms alone | kernel-checked: Lean 4 and Mathlib, zero sorry, only the three standard axioms, on Lean's kernel; a second kernel has not been run | [hunt #137](../hunts/rh_height_lean/RESULTS.md) |
+| RH to height 100 | Every zero rho of Mathlib's riemannZeta with 0 < Re rho < 1 and 0 < Im rho <= 100 has Re rho = 1/2 and analytic order 1; exactly 29 distinct zeros in this window, upper endpoint included | Numerical RH verification reaches 3 * 10^12 (Platt and Trudgian, 2021). The bounded formal-prior-art search is described in hunt #137; no priority claim | kernel-checked by Lean 4 and Mathlib in a clean source build, zero sorry, three standard axioms only; independent `con-ron --verified` whole-closure acceptance (earlier bounded attempts inconclusive) | [hunt #137](../hunts/rh_height_lean/RESULTS.md) |
+| RH to height 50 | Every zero rho of Mathlib's riemannZeta with 0 < Re rho < 1 and 0 < Im rho <= 50 has Re rho = 1/2 and is simple, and there are exactly 10 of them; the same holds to height 52 | RH verified numerically to height 3 * 10^12 (Platt and Trudgian, 2021), a computation, not a formal proof. The closest formal work in the bounded search, gersh/ternary-goldbach-lean, assumes outside computations; anthropics/zeta-23-lean proves a proportion, not individual locations | kernel-checked by Lean 4 and Mathlib, zero sorry, three standard axioms only; the height-100 final-declaration export has independent whole-closure acceptance, not a separate height-50 export verdict | [hunt #137](../hunts/rh_height_lean/RESULTS.md) |
 | The input, replayed | Lean's kernel and the independent NanoDa kernel accept OpenAI's statements that zeta(s) and every Dirichlet L(s, chi) are nonzero for Re s > 7/8, and its Siegel-zero gap, with only the three standard axioms | OpenAI's own build; no outside replay was known | kernel-checked on two kernels, on this laboratory's compute; the argument is unreviewed by any person | [docs/38](38-the-quasi-riemann-claim.md), section 7 |
 | Class numbers up to 1500 | h(D) >= sqrt(q) / (10 pi log log q) for every negative fundamental discriminant D, with q = -D; hence the complete list of imaginary quadratic fields of class number h, for every h <= 1500: 9,245,562 fields, the largest with q = 562,394,347 | Watkins (2004): h <= 100 unconditionally. [Cremona-Sutherland (2023), section 5](https://arxiv.org/html/2301.11169v4#S5): all h <= 1000, including even h, under GRH. OpenAI: the same shape of bound, constant not computed | proved, given the input; constants enclosure-carrying; lists by exact computation; unreviewed | [hunt #124](../hunts/qrh_class_number/RESULTS.md) |
 | Primes between seventh powers | For every integer n >= 1 there is a prime p with n^7 < p < (n+1)^7, given also Kadiri, Lumley and Ng's explicit zero-density estimate; an eighth-power version on the same route is its audited predecessor | k = 9 from the input alone (hunt #126, next row); k = 86 for every n, unconditional (Lee, arXiv:2602.14340, 2026); already known for every n under full RH ([Chamberland-Straub](https://arxiv.org/abs/2602.22502)) | written conditional candidate, given the input and the density estimate; every numerical step enclosure-carrying; independent written audit by a separate agent context passed; reviewed by no person; not formalized | [October 8 extensions](../hunts/oct08_extensions/RESULTS.md) |
@@ -27,26 +32,42 @@ grades: they are conditional on OpenAI's theorem and unreviewed by any person.
 | Small witnesses | For every nonprincipal Dirichlet character chi mod q >= 3, the least n with chi(n) not in {0, 1} is at most (log q)^8, so the least quadratic nonresidue mod p is at most (log p)^8; every odd composite n has a Miller-Rabin witness at most (0.7 log n)^8 | OpenAI: least quadratic nonresidue at most C (log p)^32, with C not stated | proved, given the input; enclosure-carrying; unreviewed | [hunt #125](../hunts/qrh_nonresidue/RESULTS.md) |
 | Linnik's constant | The least prime congruent to a mod q, for (a, q) = 1, is at most C(eps) q^(7/3 + eps), with C(eps) effective | L = 5, unconditional (Xylouris 2011 and 2018) | proved, given the input and the Chen-Gupta-Li density estimate (arXiv:2507.08296, a preprint); 12/5 from refereed inputs alone; unreviewed | [hunt #123](../hunts/qrh_linnik/RESULTS.md) |
 
-## RH to height 50
+## RH to height 100
 
 Riemann's hypothesis says every nontrivial zero of zeta has real part 1/2. Computers
-have checked trillions of zeros, but a computation in floating-point or interval
-arithmetic is not a proof a machine can check. Hunt #137 proves the first stretch in
-Lean: up to height 50 there are exactly ten zeros, all on the line, all simple. The
-route counts every zero in the strip with the argument principle, encloses the
-Gamma-side term with a Stirling bound and the zeta side with interval boxes the kernel
-decides, and matches the count against ten zeros already located on the line by sign
-changes of Hardy's Z (hunts #132 and #133). Because the upper count is exact, no
-zero off the line and no double zero can hide below height 50. Like every finite-height
-verification it cannot distinguish zeta from the Davenport-Heilbronn function below
-that function's first off-line zero, at height 85.699. The second target, height 100
-with 29 zeros, has its numerical plan; nineteen more located zeros and new top-edge
-enclosures are what it needs.
+have checked trillions of zeros, including rigorous interval-arithmetic work,
+but that is distinct from a formal kernel proof. Hunt #137 first proved height
+50 (ten zeros) and then height 100 (29 distinct zeros) in Lean. The route counts
+every zero in the strip with the argument principle, encloses the Gamma-side
+term with a Stirling bound and the zeta side with interval boxes the kernel
+decides, and matches the count against ten zeros already located on the line by
+sign changes of Hardy's Z (hunts #132 and #133), plus nineteen further zeros
+in generated boxes. The count on `3 < Im rho <= 100` lies strictly between
+28 and 30, hence equals 29; the low-height lemma excludes zeros with
+`0 < Im rho <= 3`. Because the upper count matches all 29 located zeros,
+no off-line or multiple zero hides in the open strip at positive ordinate
+through the inclusive upper endpoint 100. The height-50 theorem is below
+the Davenport-Heilbronn function's first off-line zero at height 85.699;
+height 100 crosses it, but neither finite result proves RH.
 
 ```bash
-LAKE_DIR=$PWD/lean/.lake bash hunts/rh_height_lean/lean/build.sh --full <OUT>   # about 20 minutes, one core
-.venv/bin/python lean/check_axioms.py <OUT>/<build log> --full                 # standard axioms only
+OUT=/path/to/fresh-output
+LEAN="$(cd lean && elan which lean)" LAKE_DIR="$PWD/lean/.lake" \
+  bash hunts/rh_height_lean/lean/build.sh --full100 "$OUT" > "$OUT.build.log" 2>&1
+.venv/bin/python hunts/rh_height_lean/lean/check_axioms.py "$OUT.build.log" --full100
+.venv/bin/python -m pytest -q hunts/rh_height_lean
 ```
+
+Use the root package's pinned Lean v4.35.0-rc2 and Mathlib
+`065356127b1dc0016f66b7283ce0ce2c4055aa55` dependency objects. The clean build of
+2026-10-23 exited 0, and the final axiom audit accepted all 100 reports with only
+`propext`, `Classical.choice` and `Quot.sound`. On 2026-10-24 the independent checker
+`con-ron --verified` accepted the exported closure of the three final theorems:
+82,680 declarations accepted, 81,674 of 81,674 checks done, exit 0. Earlier runs of
+`con-ron`, NanoDa and `leanchecker --fresh` stopped at time or memory bounds without
+a verdict; none rejected the proof. Commands, hashes and every attempt are in
+[hunt #137's RESULTS](../hunts/rh_height_lean/RESULTS.md). This is acceptance by two
+proof checkers, not review by a person.
 
 ## The earlier results
 

@@ -4208,17 +4208,27 @@ would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #137: a kernel-checked RH to finite height for Mathlib's zeta (`rh_height_lean/`, opened 2026-10-21)
 
-**Status: first target closed, kernel-checked; T = 100 open.** On 2026-10-22,
-`RHHeight.rh_height_fifty` and `RHHeight.zero_count_fifty` compiled from source with zero
-`sorry` and only the three standard axioms: every zero of Mathlib's `riemannZeta` with
-`0 < Re rho < 1` and `0 < Im rho <= 50` is on the critical line and simple, and there are
-exactly 10 of them (`rh_height_lean/RESULTS.md`). A second kernel check has not been run.
-The second track of
-the campaign the owner directed on 2026-10-21. The question is whether the laboratory can
-kernel-check, for Mathlib's own `riemannZeta`, that every nontrivial zero with
-`0 < Im rho <= T` is on the critical line and simple, first at T = 50 (10 zeros) and then
-at T = 100 (29 zeros). Hunts #132 and #133 supply ten located zeros below 50 but no upper
-count. The vendored `zeta23` argument principle and `zeta/rigor.py`'s ball-arithmetic count
-supply the rest of the plan. Two web searches found no prior kernel-checked finite-height
-verification, which is not a literature search, so no novelty is claimed. A finite-height
-statement says nothing beyond height T.
+**Status: both targets closed by a clean Lean-kernel build; independent
+`con-ron --verified` whole-closure acceptance.** On 2026-10-22 the height-50
+theorem and exact count (ten zeros) compiled from source. On 2026-10-23
+`RHHeight100.rh_height_hundred` and
+`RHHeight100.zero_count_hundred` compiled from source and the final audit accepted
+100 reports with only the three standard axioms. Every zero of Mathlib's
+`riemannZeta` in `0 < Re rho < 1`, `0 < Im rho <= 100` is on the critical line,
+has analytic order one, and there are exactly 29 distinct zeros in that window.
+The build retained 102 objects. `CheckMain100.lean` pins the unfolded final
+types; [RESULTS.md](rh_height_lean/RESULTS.md) records the build, reproduction,
+limitations and inconclusive checker attempts. `con-ron --verified` timed out
+at a 60,000/81,674 progress marker; a retry with `--progress=5000` showed no
+further marker, not evidence of zero completed checks. A later 8-worker
+`--progress=1` gate continued checking to 61,363/81,674 before its 1,200-second
+wall stop; its local receipt is in the bundle's `evidence/gate8/`. NanoDa reached
+a 43 GiB RSS bound, and Lean's `leanchecker --fresh` timed out. These are
+inconclusive, not rejections. A subsequent 8-worker `con-ron --verified` run
+on the same exported closure and checker binary exited 0 on 2026-10-24:
+81,674/81,674 checks and 82,680 accepted declarations. Its receipt and
+raw logs are kept in the local evidence bundle described in RESULTS.md.
+The argument uses the vendored `zeta23` folded count, rigorous Lean enclosures,
+and hunts #132 and #133's first ten located zeros plus nineteen new boxes.
+The novelty search in RESULTS.md is bounded and makes no priority claim. This
+finite theorem says nothing above 100 or about RH itself.

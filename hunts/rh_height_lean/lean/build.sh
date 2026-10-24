@@ -4,6 +4,7 @@
 #   LAKE_DIR=/path/to/zeta-lab/lean/.lake bash hunts/rh_height_lean/lean/build.sh [OUT_DIR]
 #   LAKE_DIR=/path/to/zeta-lab/lean/.lake bash hunts/rh_height_lean/lean/build.sh --assembly [OUT_DIR]
 #   LAKE_DIR=/path/to/zeta-lab/lean/.lake bash hunts/rh_height_lean/lean/build.sh --full [OUT_DIR]
+#   LAKE_DIR=/path/to/zeta-lab/lean/.lake bash hunts/rh_height_lean/lean/build.sh --full100 [OUT_DIR]
 #   LAKE_DIR=/path/to/zeta-lab/lean/.lake bash hunts/rh_height_lean/lean/build.sh \
 #       --file RHHeight/Statement.lean [OUT_DIR]
 #
@@ -45,6 +46,7 @@ LAKE_DIR="${LAKE_DIR:-$TREE_LEAN/.lake}"
 ONE=""
 ASSEMBLY=""
 FULL=""
+FULL100=""
 if [ "${1:-}" = "--file" ]; then
   ONE="${2:?--file needs a path relative to $HERE}"
   shift 2
@@ -54,6 +56,11 @@ elif [ "${1:-}" = "--assembly" ]; then
 elif [ "${1:-}" = "--full" ]; then
   ASSEMBLY=1
   FULL=1
+  shift
+elif [ "${1:-}" = "--full100" ]; then
+  ASSEMBLY=1
+  FULL=1
+  FULL100=1
   shift
 fi
 OUT="${1:-$(mktemp -d)}"
@@ -79,14 +86,14 @@ compile() {
   mkdir -p "$(dirname "$OUT/$rel")"
   mem_gate
   echo "== $mod $(date -u +%H:%M:%S)"
-  ( cd "$root" && "$LEAN" --root="$root" "$@" "$rel.lean" -o "$OUT/$rel.olean" )
+  ( cd "$root" && nice -n 10 "$LEAN" -j 2 --root="$root" "$@" "$rel.lean" -o "$OUT/$rel.olean" )
 }
 
 # check FILE: run a check file of this package (pins and axiom reports) against OUT
 check() {
   mem_gate
   echo "== check $1 $(date -u +%H:%M:%S)"
-  ( cd "$HERE" && "$LEAN" -DautoImplicit=false -DrelaxedAutoImplicit=false "$1" )
+  ( cd "$HERE" && nice -n 10 "$LEAN" -j 2 -DautoImplicit=false -DrelaxedAutoImplicit=false "$1" )
 }
 
 hunt() {
@@ -165,5 +172,20 @@ if [ -n "$FULL" ]; then
   mem_gate
   echo "== the theorem: statements and axioms $(date -u +%H:%M:%S)"
   "$LEAN" "$HERE/CheckMain.lean"
+fi
+
+if [ -n "$FULL100" ]; then
+  hunt RHHeight100.Skeleton100
+  hunt RHHeight100.Support
+  for tag in 5297 5644 5934 6083 6511 67075 6954 7206 7570 7714 7933 \
+      8291 8473 8742 8880 9249 9465 95865 9883; do
+    hunt "RHHeight100.Box$tag"
+  done
+  hunt RHHeight100.GammaIncrement100
+  for m in LegsTop100A LegsTop100B LegsArg100 HorizontalLegs100 \
+      TwentyNineZeros Main100; do
+    hunt "RHHeight100.$m"
+  done
+  check CheckMain100.lean
 fi
 echo "== done $(date -u +%H:%M:%S)"
