@@ -1246,6 +1246,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `43-what-happens-to-a-claim.md`, 43. What happens to a claim after it is recorded
 - `44-the-constant-in-the-wedge.md`, 44. The constant in the wedge: explicit constants for Jensen hyperbolicity, and whose wedge it is
 - `45-rh-to-height-fifty.md`, 45. RH to height 50, then 100, kernel-checked
+- `46-davenport-heilbronn-v6-arb-replay.md`, 46. The Davenport-Heilbronn v6 census: a same-verifier Arb replay
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)
@@ -1297,6 +1298,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/71_contribution_check.py`, Check that an external research hunt carries the lab's review contract.
 - `scripts/72_rung3_ball_compile.py`, Resumable compile driver for sharded rung-3 ball certificates.
 - `scripts/check_secrets.py`, Refuse to publish a credential. Scans git objects for secret patterns.
+- `scripts/dh_v6_replay_audit.py`, Recompute the Davenport-Heilbronn v6 replay counts from the raw receipts.
 - `scripts/make_context.py`, Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py`, Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py`, Which of Mathlib's 1000 famous theorems are still unformalized.
@@ -1312,7 +1314,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2343 test functions across 142 files (the collected count differs where tests are parametrised):
+2346 test functions across 143 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1331,6 +1333,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_department_conformance.py`, 19
 - `tests/test_detector.py`, 11
 - `tests/test_detectors.py`, 4
+- `tests/test_dh_v6_replay_audit.py`, 3
 - `tests/test_discovery_funnel.py`, 89
 - `tests/test_discovery_historical_validation.py`, 48
 - `tests/test_discovery_knownness.py`, 102
