@@ -634,9 +634,9 @@ unbounded (exact to 10^6). The Davenport-Heilbronn function has no zero past
 7/8 below height 300 in this hunt's scan. The v6 census
 (doi:10.5281/zenodo.23585903) lists six right-side zeros past 7/8 for
 0 < Im s < 20,000; its deepest is at 0.897750155 + 2442.53029247i.
-Those catalogue coordinates are measured input here, not a complete in-tree
-replay of the package's 400 counting windows. DH has no Euler product, so
-these zeros do not contradict the single-L-function theorem under discussion.
+These catalogue coordinates are external input, not part of this hunt's
+original scan. DH has no Euler product, so these zeros do not contradict
+the single-L-function theorem under discussion.
 Controls: gamma_1 recovered to 2e-16, planted faults detected, the
 class-number-one form sees nothing. Scan ranges are stated as limits in
 `qrh_rival_step/RESULTS.md`, which ends with the doors.
