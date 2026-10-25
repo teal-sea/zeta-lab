@@ -255,12 +255,13 @@ def _unwrapped_log(values: Sequence) -> list:
     ``test_arg_xi_needs_unwrapping_not_a_principal_branch_guard`` needs a
     shift, so there the unwrapped branch agrees with ``mp.log``.
     ``test_cauchy_radius_independence`` pins r ∈ {0.3, 0.5, 0.7, 0.9}
-    agreeing bit for bit at n = 6.  This function does not recompute the
-    committed ``data/li_lambda_*.json`` tables.  An earlier note said they
-    recomputed bit-identically after the unwrap, and gave a count (144
-    entries at n_max ≤ 64, plus 304 at dps 20) that did not match the six
-    lambda tables with n_max ≤ 64 in that commit (192 entries).  That census
-    is not kept.  The tested radius past the old guard is r = 0.92
+    agreeing bit for bit at n = 6.  Every committed ``data/li_lambda_*.json``
+    table is recomputed by ``test_committed_li_tables_match_a_fresh_run``.
+    An earlier note said they recomputed bit-identically after the unwrap,
+    and gave a count (144 entries at n_max ≤ 64, plus 304 at dps 20) that
+    did not match the six lambda tables with n_max ≤ 64 in that commit (192
+    entries).  That census is not kept.  The tested radius past the old guard
+    is r = 0.92
     (``test_arg_xi_needs_unwrapping_not_a_principal_branch_guard``, n = 3,
     dps = 15, same coefficients as r = 0.5).  r = 0.929 is the bound only:
     ``test_radius_bound_is_the_one_gamma1_certifies`` asserts
@@ -1057,10 +1058,11 @@ def xi_taylor_coefficients(
     the Ξ integral is checked by
     ``test_gamma_against_riemanns_other_integral_an_independent_oracle``,
     which asserts relative error < 5e-31 for n ≤ 8.  The 9.2e-32 figure in
-    that test's docstring is a measured note, not the assertion.  A figure
-    for the committed n = 128 table in the same docstring is an out-of-band
-    run.  It is not an assertion, and this function does not recompute the
-    other committed tables.
+    that test's docstring is a measured note, not the assertion.  Every
+    committed gamma table, including n = 128, is recomputed digit for digit
+    by ``test_committed_li_tables_match_a_fresh_run``.  The ω′ comparison at
+    n = 128 in that other docstring is an out-of-band run.  It is not an
+    assertion.
 
     Cached under ``data/li_gamma_*.json``.
     """

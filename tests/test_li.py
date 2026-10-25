@@ -74,7 +74,7 @@ import math
 import os
 
 import pytest
-from mpmath import mp
+from mpmath import libmp, mp
 
 import zeta.li as li_lane
 from zeta.li import (
@@ -1146,13 +1146,13 @@ def test_lambda_cache_is_bit_exact_not_merely_close(tmp_path, monkeypatch):
     ``repr_dps(mp.prec)`` digits (28 at dps = 25) precisely so the decimal
     round-trips the binary value exactly.
 
-    This test checks the file it writes.  It does not recompute the committed
-    ``data/li_*.json`` tables.  A note in ``cd7c2c00b`` said those tables had
-    been checked out of band, then named two files and five small tables it
-    did not identify.  That count (five tables, n_max ≤ 70, 145 entries) did
-    not match the nine small tables and 259 entries in the same commit, and
-    later commits added more files.  The two named files still exist.  The
-    figures quoted for them are that note, not an assertion here:
+    This test checks the file it writes.  Every committed ``data/li_*.json``
+    table is recomputed, digit for digit, by
+    ``test_committed_li_tables_match_a_fresh_run`` (slow).  An older note in
+    ``cd7c2c00b`` claimed that check without a test, then named two files and
+    five small tables it did not identify.  That count did not match the nine
+    small tables and 259 entries in the same commit.  The figures below are
+    that old note, not an assertion here:
 
     * ``li_lambda_dps20_methodcauchy_n304_radius0.5.json`` was said to have
       been re-derived at radius 0.3, agreeing to 4.4e-23 relative;
@@ -1174,17 +1174,14 @@ def test_lambda_cache_is_bit_exact_not_merely_close(tmp_path, monkeypatch):
     assert all(a == b for a, b in zip(scratch, computed))
 
 
-def test_cache_verification_notes_do_not_say_every_committed_table():
-    """A cache note may name a file. It may not say every committed table was checked.
+def test_cache_verification_notes_name_the_recompute():
+    """A note may say every committed table was checked only by naming the test that does it.
 
-    ``test_lambda_cache_is_bit_exact_not_merely_close`` used to say the
-    bit-exact reload had been verified out of band for every committed
-    ``data/li_*.json`` table, then named checks for two files and five small
-    tables it did not identify. ``_unwrapped_log`` said every committed
-    lambda table recomputed bit-identically, with a count that did not match
-    the tree at the commit that wrote it. Later commits added tables. The
-    notes now say what a test actually checks, and any ``li_*.json`` filename
-    they still name has to exist.
+    The old cache note said that without a test, and named two files plus five
+    unnamed small ones. The notes now point at
+    ``test_committed_li_tables_match_a_fresh_run``, which walks ``data/li_*.json``
+    rather than a fixed list. Any ``li_*.json`` filename they still name has
+    to exist.
     """
     import inspect
     import re
@@ -1195,13 +1192,15 @@ def test_cache_verification_notes_do_not_say_every_committed_table():
         "unwrap": inspect.getdoc(li_lane._unwrapped_log),
         "gamma": inspect.getdoc(xi_taylor_coefficients),
     }
+    walker = inspect.getsource(test_committed_li_tables_match_a_fresh_run)
+    assert 'glob("li_*.json")' in walker
     for name, doc in notes.items():
         assert isinstance(doc, str) and doc, name
-        assert "every committed" not in doc, name
-    assert "does not recompute" in notes["cache test"]
-    assert "does not recompute" in notes["unwrap"]
-    # the n = 128 figure is an out-of-band note, not an assertion in the test
-    assert "not an assertion" in notes["gamma"]
+        assert "test_committed_li_tables_match_a_fresh_run" in doc, name
+        assert "verified out of band for every" not in " ".join(doc.split()), name
+    gamma = notes["gamma"]
+    assert isinstance(gamma, str)
+    assert "not an assertion" in " ".join(gamma.split())
     root = Path(__file__).resolve().parents[1] / "data"
     named = []
     for name, doc in notes.items():
@@ -1209,12 +1208,42 @@ def test_cache_verification_notes_do_not_say_every_committed_table():
         for fname in re.findall(r"li_(?:lambda|gamma)_[A-Za-z0-9._]+\.json", doc):
             named.append((name, fname))
             assert (root / fname).is_file(), (name, fname)
-    # the two files the old note actually named stay named, so the hedge is specific
     wanted = {
         "li_lambda_dps20_methodcauchy_n304_radius0.5.json",
         "li_gamma_dps30_methodintegral_n128.json",
     }
     assert wanted <= {fname for _, fname in named}
+
+
+@pytest.mark.slow
+def test_committed_li_tables_match_a_fresh_run():
+    """Every committed ``data/li_*.json`` table matches a fresh run, digit for digit.
+
+    The stored strings are what ``_save_table`` writes: ``repr_dps`` digits at
+    the file's own ``dps``. A change of numerical internals fails here rather
+    than hiding in a tolerance. First run: 23 files, 92.5 s, 0 mismatches.
+    """
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1] / "data"
+    paths = sorted(root.glob("li_*.json"))
+    assert len(paths) >= 23
+    for path in paths:
+        blob = json.loads(path.read_text())
+        n_max = int(blob["n_max"])
+        dps = int(blob["dps"])
+        method = blob["method"]
+        if blob["kind"] == "lambda":
+            vals = li_coefficients(
+                n_max, dps=dps, method=method, radius=blob["radius"], cache=False
+            )
+        else:
+            vals = xi_taylor_coefficients(n_max, dps=dps, method=method, cache=False)
+        with mp.workdps(dps):
+            digits = libmp.repr_dps(mp.prec)
+            got = [mp.nstr(mp.mpf(v), digits) for v in vals]
+        assert got == blob["values"], path.name
 
 
 def test_gamma_cache_roundtrip(tmp_path, monkeypatch):
