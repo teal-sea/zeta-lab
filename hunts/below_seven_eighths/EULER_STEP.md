@@ -261,7 +261,7 @@ this G is inferred; the 11/12 form is in any case checked directly below.
 | (4.6) G(p^3) = gamma_3(p) by summation over O/p^3, and Gamma(p^t) against the four-term formula, t up to 3 | 25 prime ideals: both primes over every split ell up to 100, the inert 5 and 11 (t up to 3) and the inert 17 (t up to 2); 14 of them, the split ell up to 43 and the inert 5 and 11, in the fast tier | derived on the range; the sign at odd t enclosed | holds |
 | Jacobi route: J(H^2, H^2) = -p (line 834), J(H, H^3) = H(4) J(H, H) (803) | the same 1234 | derived on the range | holds |
 | 11/12 (Appendix A.1) form at p | the same 1234 | derived on the range | holds |
-| inert p = -ell: G_r = ell for r not divisible by 6 | all 616 inert ell in [5, 10^4] by the reduction below plus the exact values chi_p(4) = chi_p(-1) = 1; direct sums for all 32 inert ell up to 300 | derived | holds |
+| inert p = -ell: G_r = ell for r not divisible by 6 | all 616 inert ell in [5, 10^4] by the reduction below plus the exact values chi_p(4) = chi_p(-1) = 1; direct sums for the 32 inert ell up to 300 | derived | holds |
 | (4.7) and the 11/12 form on squarefree composites | 7 composites, norms 7*13, 7*7 (a conjugate pair), 7*25, 13*19, 7*13*19, 25*121, 7*13*25 | derived; sign enclosed | holds |
 | CRT rule gamma_j(ab) (line 1043) and R(a, b) as its cross factor (1048) | 4 pairs | derived | holds |
 | sextic reciprocity (938) and the supplement chi_c(4) = (c / -2)_3 (1005 to 1009) | 93 primes of norm at most 500, 8556 ordered pairs, 3600 of them with R = -1 | derived on the range | holds |

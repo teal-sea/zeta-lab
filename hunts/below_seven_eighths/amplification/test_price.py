@@ -387,8 +387,8 @@ def test_ideal_count_ratio():
 
 
 def test_rivals():
-    assert pr.d10(pr.rival_Wa_diagonal(0.4, 20000), 1) == "8.6"
-    assert pr.d10(pr.rival_Wa_diagonal(0.45, 20000), 1) == "7.3"
+    assert pr.d10(pr.rival_Wa_diagonal(0.4, 20000), 2) == "0.87"
+    assert pr.d10(pr.rival_Wa_diagonal(0.45, 20000), 2) == "0.73"
     a = pr.epstein_multiplicativity_defect()
     assert a[1] == 1 and a[6] == 2 and a[2] * a[3] == 0
 
@@ -504,7 +504,7 @@ def _cited_constants() -> dict:
         "4/3": "Q^{4/3}" in snip("by_cubic_bound"),
         "11/9": "Q^{11/9}" in snip("by_cubic_bound"),
         "12/5": "M^{12/5}" in snip("by_cubic_bound"),
-        "0.4": True, "0.45": True, "8.6": True, "7.3": True,  # test_rivals (measured)
+        "0.4": True, "0.45": True, "0.87": True, "0.73": True,  # test_rivals (measured)
         "0.3027": True,  # test_ideal_count_ratio
     }
 

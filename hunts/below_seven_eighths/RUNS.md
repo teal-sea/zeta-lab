@@ -241,15 +241,16 @@ artifacts:
 id: below_seven_eighths-2026-10-26-resume
 hunt: below_seven_eighths
 started: 2026-10-26T12:44Z
-finished: 2026-10-26T13:40Z
+finished: 2026-10-26T13:16Z
 ran:
   - git commit of the stalled lane files after the operator-detail scrub; git merge origin/main (hunts/README.md conflict resolved, both entries kept)
   - .venv/bin/python -m pytest -q -n0 tests/test_hunt_probe_discipline.py tests/test_hunt_numbering.py tests/test_docs_numbering.py tests/test_doors.py tests/test_hunt_doors.py tests/test_huntspec.py
-  - .venv/bin/python -m pytest -q -n0 hunts/below_seven_eighths
+  - .venv/bin/python -m pytest -q -n0 hunts/below_seven_eighths (killed by its 1100 s timeout under a box load near 56, no result)
+  - .venv/bin/python -m pytest -q -n0 -m "not slow" on each of the seven lane test files, one at a time (two failures inherited from the stalled state, then green after the repair below)
   - gh api reads of github.com/GTimG/QuasiRiemannTracker (pull list, PR files, main at 01c21abe) and a blobless clone with pull/63 to pull/79 heads, sources extracted to session scratch and deleted after reading
   - an import-closure script over each PR's Candidate.Main and pattern searches of its closure (session scratch, not kept)
   - .venv/bin/python -m pytest -q -n0 hunts/below_seven_eighths/test_followups_identities.py, and one planted-fault run against a mutated copy of followups.json
-outcome: checkpoint committed and merged with main; X1 to X18 pinned by a test except X3, which the tree cannot pin; tracker PRs 63 to 79 read against the 13/15 floor model (all inside, inferred); live bar 0.8746075; disposition drafted in MISSION.md
+outcome: checkpoint committed and merged with main; two failures inherited from the stalled 2026-10-21 state were repaired for consistency (test_price.py and guo_h11.md still had the old D^(2a)/log D normalization that the uncommitted price.py had dropped; EULER_STEP.md's "all 32 inert ell" collided with the doc-sync pattern for the 616 count); the lane's slow tier was not run; X1 to X18 pinned by a test except X3, which the tree cannot pin; tracker PRs 63 to 79 read against the 13/15 floor model (all inside, inferred); live bar 0.8746075; disposition drafted in MISSION.md
 artifacts:
   - hunts/below_seven_eighths/test_followups_identities.py
   - hunts/below_seven_eighths/FOLLOWUPS.md (section 14)

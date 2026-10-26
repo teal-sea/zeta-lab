@@ -161,9 +161,9 @@ multiplicativity and squarefree support (the exact column identity, line 12428);
   would make `zeta_F(s - a)` zero-free in `Re s > 73/80`, that is `zeta_F = zeta L(s, chi_-3)`
   zero-free in `Re w > 73/80 - a < 1/2`, against Hardy's theorem for `zeta` (the argument of
   section 2(b), its Mellin step inferred; Hardy cited from the literature). For `3/8 < a <= 33/80` failure is
-  **not shown** here. Its diagonal alone, `(1/D) sum_{n <= D} mu_a(n)^2`, grows like `D^(2a)/log D`
+  **not shown** here. Its diagonal alone, `(1/D) sum_{n <= D} mu_a(n)^2`, grows like `D^(2a)`
   against the `D^eps` per row that the hypothesis allows (measured over the rational integers: the
-  ratio to `D^(2a)/log D` is 8.6 at `a = 0.4` and 7.3 at `a = 0.45`, `D = 20000`), but in the range
+  ratio to `D^(2a)` is 0.87 at `a = 0.4` and 0.73 at `a = 0.45`, `D = 20000`), but in the range
   `D <= H <= D^(101/100)` the off-diagonal is not controlled by anything checked here.
 - **Epstein zeta of discriminant -15.** The coefficients `r_Q(n)/2` of `Q = x^2 + xy + 4y^2` are
   not multiplicative: `a(6) = 2` while `a(2) a(3) = 0` (derived, `zeta.epstein`), so the column
