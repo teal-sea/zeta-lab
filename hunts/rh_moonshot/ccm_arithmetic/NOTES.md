@@ -5,8 +5,8 @@ owner resumed the hunt in place. Status: constructed and measured; not challenge
 unreviewed by any person.** Nothing here is a result until the case log in
 `hunts/README.md` says how this hunt ended. Files: `ccm_common.py` (assembly, transform,
 radical vectors), `measure.py` (the grid), `rigidity.py` (moving one prime atom),
-`wa_threshold.py` and `wa_dial.py` (the W_a rival), `summarize.py` (prints the tables below
-from `data/`), `test_ccm_arithmetic.py` and `test_ccm_arithmetic_data.py` (the pins),
+`wa_threshold.py` and `wa_dial.py` (the W_a rival), `capture_m4.py` (the m = 4 capture bound), `summarize.py` (prints the
+tables below from `data/`), `test_ccm_arithmetic.py` and `test_ccm_arithmetic_data.py` (the pins),
 `data/` (every number below), `RUNS.md`, this page.
 
 Grades are the hunt's (`MISSION.md`, top): *measured*, *hardened*, *derived* with its
@@ -112,8 +112,10 @@ is at least 2.8e4 on every cell (7.4e133 at c = 60, N = 128), while the actual d
 at most 6.6e-4: mu, the bottom of the form on R_2-perp, is itself exponentially small
 (1.2e-169 at c = 60, N = 128) because lambda_2's eigenvector is also radical times a
 polynomial (its Sturm count is 1), and the leakage eta is about 1e-35. A Davis-Kahan
-argument at m = 2 proves nothing on this grid. Whether m = 4 changes that is the pending
-run of `RUNS.md`.
+argument at m = 2 proves nothing on this grid. At m = 4 (`capture_m4.py`, run 2026-10-26
+with its prediction pre-registered in `RUNS.md`) it still proves nothing on the three
+largest windows: the bound is 5.9e96, 1.1e108 and 5.4e120 at c = 43, 50, 60 (N = 128),
+with mu up about 13 orders of magnitude from m = 2 and eta still about 1e-35.
 
 ## 4. The distinguishing step and the rivals
 
@@ -176,7 +178,8 @@ Readings, each measured:
   decay in c is not established.
 - **Simplicity** is measured (lambda_2 / lambda_1 >= 1.6e6), not bracketed: no Temple
   bound was computed.
-- **Perturbative capture fails at m = 2** on every cell (section 3).
+- **Perturbative capture fails at m = 2** on every cell, and at m = 4 on the three
+  largest windows (section 3).
 
 ## 6. Tests run
 
@@ -211,9 +214,10 @@ here, and these numbers were not compared with their tables.
 
 ## 9. Next step
 
-1. The capture bound at m = 4 on (43, 128), (50, 128), (60, 128): estimated in `RUNS.md`,
-   pending the coordinator's approval. Pre-registered prediction: still vacuous, because
-   lambda_2 and lambda_3's eigenvectors are also near R_4.
+1. Done 2026-10-26: the capture bound at m = 4 on (43, 128), (50, 128), (60, 128) is
+   vacuous, as pre-registered. A perturbative proof of capture would need a subspace
+   whose complement has a gap above the leakage; R_m with m <= 4 does not give one, and
+   the next attempt should bound the leakage eta directly rather than raise m.
 2. A fine c-grid for DH on (30.6, 33) at N = 64: locate the loss of capture against the
    sign change and the gap scale, to decide whether capture is positivity or something
    strictly weaker.
