@@ -132,8 +132,8 @@ hunt: rh_moonshot
 started: 2026-10-26T13:13:00Z
 finished: 2026-10-26T13:16:02Z
 ran:
-  - nice -n 10 /Users/thomas/zeta-lab/.venv/bin/python hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py --write hunts/rh_moonshot/ccm_arithmetic/challenge/results_rival.json
-  - /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/ccm_arithmetic/challenge/test_rival_gate.py
+  - nice -n 10 .venv/bin/python hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py --write hunts/rh_moonshot/ccm_arithmetic/challenge/results_rival.json
+  - .venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/ccm_arithmetic/challenge/test_rival_gate.py
 outcome: independent Galerkin assembly locates capture loss for DH and W_1/4 and a sign change for Epstein, while shifted zeta fails the fixed normalization; no rival refutes the complete implication and the zeta convergence step remains unresolved
 artifacts:
   - hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py
@@ -148,8 +148,8 @@ hunt: rh_moonshot
 started: 2026-10-26T13:35:00Z
 finished: 2026-10-26T13:36:56Z
 ran:
-  - nice -n 10 /Users/thomas/zeta-lab/.venv/bin/python hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py --write hunts/rh_moonshot/ccm_arithmetic/challenge/results_rival.json
-  - nice -n 10 /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/ccm_arithmetic/challenge/test_rival_gate.py
+  - nice -n 10 .venv/bin/python hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py --write hunts/rh_moonshot/ccm_arithmetic/challenge/results_rival.json
+  - nice -n 10 .venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/ccm_arithmetic/challenge/test_rival_gate.py
 outcome: shifted zeta fails the fixed-half even-sector hypothesis; after recentering at 0.6 its Galerkin matrix and radical are exactly zeta's, and its measured c = 13, N = 32 cell is captured
 artifacts:
   - hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py

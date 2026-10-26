@@ -115,8 +115,8 @@ hunt: rh_moonshot
 started: 2026-10-26T13:08:00Z
 finished: 2026-10-26T13:10:00Z
 ran:
-  - /Users/thomas/zeta-lab/.venv/bin/python hunts/rh_moonshot/probe_tower/challenge/rival_gate.py --write hunts/rh_moonshot/probe_tower/challenge/results_rival.json
-  - /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/probe_tower/challenge/test_rival_gate.py
+  - .venv/bin/python hunts/rh_moonshot/probe_tower/challenge/rival_gate.py --write hunts/rh_moonshot/probe_tower/challenge/results_rival.json
+  - .venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/probe_tower/challenge/test_rival_gate.py
 outcome: exact independent algebra obstructs the stated order-k template at a 3/5 floor, while every required rival lacks at least one complete hypothesis
 artifacts:
   - hunts/rh_moonshot/probe_tower/challenge/rival_gate.py
