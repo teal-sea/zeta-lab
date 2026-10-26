@@ -801,3 +801,64 @@ def test_screen_hi_correction_leaves_the_y0_above_040_selection_unchanged():
     fixed = [z["y0"] for z in hi if z["beta"] > 0.85] + [true_y0]
     assert len(fixed) == 111
     assert sum(y > 0.40 for y in fixed) == 9 and round(max(fixed), 6) == 0.437058
+
+
+# ---------------------------------------------------------------------------
+# 9. the stage_locate box guard (unit 4; deep_zeros.locate_part)
+# ---------------------------------------------------------------------------
+
+def _guarded(monkeypatch, sigma_c, a, b, first=None):
+    import deep_zeros as dz
+    monkeypatch.setattr(dz, "SIGMA_C", sigma_c)
+    if PLANT:   # planted: the guard switched off, every root accepted wherever it lands
+        monkeypatch.setattr(dz, "in_box", lambda rho, ta, tb: True)
+    return dz.locate_part(a, b, 1, first=first)
+
+
+def test_guard_refuses_a_planted_outside_start_and_relocates(monkeypatch):
+    """[12460, 12480] at sigma_c 0.82: a planted start at beta 0.8027 is refused; the box search
+    returns the zero relocated.json records (gamma 12468.3898)."""
+    rel = next(r for r in load("census_runs/full_r1/relocated.json")["rows"] if r["window"] == [12460.0, 12480.0])
+    w = rel["wrong_root"]
+    got, refused = _guarded(monkeypatch, 0.82, 12460.0, 12480.0, first=complex(w["beta"], w["gamma"]))
+    assert refused is not None and abs(refused["beta"] - w["beta"]) < 1e-12
+    assert len(got) == 1 and got[0].real > 0.82
+    assert abs(got[0].imag - rel["found"][0]["gamma"]) < 1e-6
+
+
+def test_guard_accepts_an_in_box_start(monkeypatch):
+    """The same window with the true root as the start: accepted, nothing refused."""
+    import deep_zeros as dz
+    monkeypatch.setattr(dz, "SIGMA_C", 0.82)
+    rel = next(r for r in load("census_runs/full_r1/relocated.json")["rows"] if r["window"] == [12460.0, 12480.0])
+    f = rel["found"][0]
+    got, refused = dz.locate_part(12460.0, 12480.0, 1, first=complex(f["beta"], f["gamma"]))
+    assert refused is None and len(got) == 1 and abs(got[0] - complex(f["beta"], f["gamma"])) < 1e-12
+
+
+def _known_windows():
+    return load("census_runs/full_r1/relocated.json")["rows"]
+
+
+def test_guard_fixes_the_three_lowest_known_windows(monkeypatch):
+    """Three of the 17 affected windows: unguarded locate lands outside, guarded lands inside."""
+    import deep_zeros as dz
+    for r in sorted(_known_windows(), key=lambda r: r["window"][0])[:3]:
+        a, b = r["window"]
+        got, refused = _guarded(monkeypatch, r["sigma_c"], a, b)
+        assert refused is not None
+        assert len(got) == 1 and got[0].real > r["sigma_c"] and a <= got[0].imag <= b
+        assert abs(got[0].imag - r["found"][0]["gamma"]) < 1e-6
+
+
+@pytest.mark.slow
+def test_guard_fixes_all_17_known_windows(monkeypatch):
+    """All 17 affected windows (16 census, 1 screen_hi): every guarded root is in its box."""
+    rows = _known_windows()
+    assert len(rows) == 17
+    for r in rows:
+        a, b = r["window"]
+        got, refused = _guarded(monkeypatch, r["sigma_c"], a, b)
+        assert refused is not None, r["window"]
+        assert len(got) == 1 and got[0].real > r["sigma_c"] and a <= got[0].imag <= b, r["window"]
+        assert abs(got[0].imag - r["found"][0]["gamma"]) < 1e-6, r["window"]
