@@ -123,3 +123,39 @@ outcome: 2,582 s; the phase identities, F in three routes, C_p, the separation o
 artifacts:
   - hunts/ff_probe/results_step2.json
 ```
+
+The next manifest was written on 2026-10-26 by the resuming session, from `results_step2b.json`
+and its modification time (box clock); the second session of 2026-10-21 ended before writing it.
+
+```runmanifest
+id: ff_probe-2026-10-21-step2b
+hunt: ff_probe
+started: 2026-10-21T22:24Z
+finished: 2026-10-21T22:50Z
+ran:
+  - .venv/bin/python hunts/ff_probe/ffprobe.py --part step2b
+outcome: 1,612.5 s; the remaining probe triples of total degree at most 6 on the selection-rule class; nine have an empty frequency box and a zero direct sum; at the four D_s = 0 triples (0,0,5), (1,0,5), (3,0,5), (4,0,5) the direct, Poisson and Euler representations agree exactly, zero at the first two and nonzero at the last two
+artifacts:
+  - hunts/ff_probe/results_step2b.json
+```
+
+## The crosscheck run (2026-10-26, opened before launch)
+
+Resumed by the owner's decision of 2026-10-26 and pre-approved by the coordinator as one
+single-process run. `results_second.partial.json` held 4 of 15 items (symbols, C_routes,
+F_routes, C_p) from 2026-10-21; `crosscheck.py` resumes after them. The estimate is the one
+above, 60 to 120 minutes on one process, which is under the coordinator's one-core-hour
+approval gate at its low end and was approved as written. At launch the 1-minute load
+average was 51 and `MemAvailable` 68 GiB.
+
+```runmanifest
+id: ff_probe-2026-10-26-crosscheck
+hunt: ff_probe
+started: 2026-10-26T12:52Z
+finished: pending
+ran:
+  - nice -n 10 .venv/bin/python hunts/ff_probe/crosscheck.py
+outcome: pending
+artifacts:
+  - hunts/ff_probe/results_second.json
+```
