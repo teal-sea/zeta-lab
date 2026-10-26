@@ -77,14 +77,25 @@ control roles, and the checks are the ones the tree already owns:
 
 ### Hunt #151: where Li's criterion first fails for Davenport-Heilbronn, enclosure-carrying (`li_dh_onset_hardened/`, opened 2026-10-26)
 
-**Status: in flight (first wave).** Resumes the question #128 (`li_dh_onset/`)
-priced at about 20,000 core-hours: an explicit n\* with lambda_{n\*}(DH) < 0 and
-every earlier coefficient positive, every step in ball arithmetic. The repricing
-under test moves the contour radius from 0.99 to sqrt(1 - 1/c), c = 5000, which
-trades the old n^3 precision cost for an admissibility certificate (an
-argument-principle box count equal to the line sign changes plus the located
-off-line quadruples) and a rigorous aliasing bound. Nothing here bears on RH
-(`docs/08`).
+**Status: first wave done; production priced and not run; n\* not yet
+found (attempt unresolved).** Resumes the question #128 (`li_dh_onset/`)
+priced at about 20,000 core-hours: an explicit n\* with lambda_{n\*}(DH) < 0
+and every earlier coefficient positive, every step in Arb balls. An admissibility
+certificate closes exactly at 128 bits. On [-3/4, 7/4] x (0, 160) the
+argument-principle count is 98, and that equals the 94 sign changes on the line
+plus twice the two off-line zeros located in squares of count one. Dropping a
+quadruple or displacing a square breaks the equality. Hence
+R_a = |1 - 1/rho_1| = 0.99995800 (pair1 binds) and r = sqrt(1 - 1/c) is
+admissible for every c up to 11,904. A ball trapezoid then gives
+lambda_n(DH) > 0 *hardened* for n <= 200. It has two radii that agree to 2e-30,
+an mpmath.iv route meeting the Arb evaluator at 20 nodes, and an xi control
+that contains the committed table, which two planted faults flip. With a
+rigorous aliasing bound (M(rho) <= 1.0e5 by a ball arc cover), production at
+c = 5000, n <= 500,000 prices at 2^21 nodes and about 0.4 to 0.6 core-hours.
+That reprices #128's wall as a cost wall of the r <= 0.99 family. Prior work
+(Bucur, Ernvall-Hytönen, Odžak, Smajlović 2016) computed Arb tau-Li
+coefficients for the *associated* DH function, not the classical one; novelty is
+not claimed. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 
