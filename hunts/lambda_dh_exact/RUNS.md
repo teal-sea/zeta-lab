@@ -728,3 +728,73 @@ pending (checked with `gh run list` just before).
 The six calibration landings (measured, recorded here, not read against the
 pre-registration until the merged census exists) are 0.0287 to 0.0394,
 none later than y0^2/2.
+
+## Run 17: the full census (run 40360558359, 2026-10-26): K-d fires, census void
+
+```runmanifest
+id: R17-census-full
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed on Actions (36 of 36 shards, merge success); evaluated against RESULTS.md 8.12: K-d fires, so the census is void as registered
+ran:
+  - lambda-dh-census.yml, mode full, request attempt 1, run_attempt 1 (9 jobs x 4 processes, max-parallel 4)
+  - evaluate_census.py (locally, 3.6 min)
+artifacts:
+  - census_runs/full_r1/census_1e5.json (sha256 84e8ec88a7dcc75d33318edba9a8fa9b99fbc106efaa61df6238f6135331af72; equals the merge job's printed sha256; artifact zip lambda-dh-census-r1-merged-attempt1 digest sha256:85790e6fc92fdaeade731a3de0539d93c65c775ddb6e6e817b01191e6d803b0b, equal to the downloaded zip)
+  - census_runs/full_r1/evaluation.json
+```
+
+Wall 16:35 to 17:39 (64 min). **11.05 core-hours** of CPU summed over the
+36 shard records (projected 9.95; K-e's stop is 30). Peak RSS 0.258 GiB
+(max over shards). 162 rows, 161 landed, 1 unaccounted (γ = 88167.40
+again). **K-d fails:** seven of the eight targeted pairs re-land to
+3e-12 relative or better, but γ = 20011.16 (y0 0.4002) is absent from the
+census. Cause: `deep_zeros.stage_locate` accepted a root at γ = 20017.93,
+β = 0.727, for the flagged window [20000, 20020]. That root lies outside the
+counted box β > 0.82, so the window's true zero was never located. The
+check in `stage_locate` is on height only (`pa - 0.5 <= Im <= pb + 0.5`),
+not on β > sigma_c. **16 of the 282 located census zeros are mislocated
+this way** (β <= 0.82, listed in `evaluation.json`'s companion,
+`census_runs/full_r1/mislocated.json`). The completed 0.85 `screen_hi`
+of Run 9 has one too (β = 0.7132).
+
+### Estimate before spending: relocating the missed zeros (diagnostic)
+
+17 windows (16 census, 1 screen_hi), each a constrained search on its own
+20-unit window: grid minima of |f| over Re s in [sigma_c + 0.005, 1.15]
+(24 rows x 400 points), Newton kept inside the box, then a float count on
+the box to confirm exactly one. At heights to 9e4 that is about 20 to 40 s
+per window, **about 0.2 core-hours**, one process, nice 10. Measured grade
+(float, diagnostic only). It does not repair the census: the census stays
+void as registered.
+
+## Run 18: relocating the mislocated windows (diagnostic, 2026-10-26)
+
+```runmanifest
+id: R18-relocate
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; all 17 windows count 1 in their box and hold exactly one root found by the constrained search; 8 census candidates with y0 > 0.3396 were missed (deepest 0.4002 at γ = 20011.16); the screen_hi window's true zero has y0 0.3742
+ran:
+  - relocate_missed.py (one process, nice 10)
+artifacts:
+  - census_runs/full_r1/mislocated.json
+  - census_runs/full_r1/relocated.json
+```
+
+360.7 s (0.10 core-hours), against an estimate of 0.2. Measured grade,
+diagnostic. It does not repair the census (RESULTS.md section 8.13).
+
+### Unit 3 final test outcomes (2026-10-26)
+
+- Fast tier: 47 passed, 1 deselected, 15 s. Both tiers: **48 passed, 127 s.**
+- `LDH_PLANT_FAULT=1`: **12 failed, 36 passed**. Exactly the planted tests
+  go red: the 4 recomputations of Run 13, the two-sided control window, the
+  pin drift, the RSS record, and the 5 census tests of `RESULTS.md` 8.13
+  (merged-hash byte, K-d with the missing pair restored, an evaluation
+  that let K-d pass, a kept wrong root, the screen_hi true zero made
+  deeper).
+- Gates (without `tests/test_doors.py`): 81 passed, 3 xfailed.
+  `make_context.py --check`: up to date.

@@ -707,3 +707,97 @@ def test_census_records_peak_rss_and_calib_reports_it(tmp_path):
     assert cal["peak_rss_gb"] == peak and cal["four_x_peak_rss_gb"] == 4 * peak
     assert cal["four_x_peak_rss_ok_13gb"] is True
     assert cal["cpu_s_per_census_window"] == 300.0 and cal["cpu_s_per_screen_window"] == 60.0 / 125
+
+
+# ---------------------------------------------------------------------------
+# 8. the census run (RESULTS.md section 8.13): void by K-d
+# ---------------------------------------------------------------------------
+
+CENSUS_SHA = "84e8ec88a7dcc75d33318edba9a8fa9b99fbc106efaa61df6238f6135331af72"
+
+
+def test_census_merged_artifact_hash_and_shape():
+    """census_runs/full_r1/census_1e5.json: the merge job's sha256; 36 shards, 162 rows, 161 landed."""
+    import hashlib
+    raw = (HERE / "census_runs" / "full_r1" / "census_1e5.json").read_bytes()
+    if PLANT:
+        raw = raw + b" "        # planted: one byte appended to the merged census
+    assert hashlib.sha256(raw).hexdigest() == CENSUS_SHA
+    c = json.loads(raw)
+    assert c["plan_sha256"] == PLAN_SHA and len(c["shards"]) == 36
+    assert sorted(s["shard"] for s in c["shards"]) == list(range(36))
+    assert len(c["rows"]) == 162 and sum(r["landing_ode"] is not None for r in c["rows"]) == 161
+    cpu = sum(sum(s["cpu_seconds"].values()) for s in c["shards"]) / 3600
+    assert round(cpu, 2) == 11.05 and cpu <= 30
+    assert max(s["peak_rss"]["peak_gb"] for s in c["shards"]) < 0.26
+
+
+def _kd(rows, deep):
+    out = []
+    for d in deep:
+        if d["landing_ode"] is None:
+            continue
+        m = [r for r in rows if abs(r["gamma"] - d["gamma"]) < 1e-3]
+        out.append((round(d["gamma"], 2), (abs(m[0]["landing_ode"] / d["landing_ode"] - 1) if m else None)))
+    return out
+
+
+def test_census_K_d_fails_exactly_at_20011():
+    """census_1e5.json vs census_deep4_1e5.json, recomputed here: 7 of 8 replicate, 20011.16 missing."""
+    rows = load("census_runs/full_r1/census_1e5.json")["rows"]
+    deep = load("census_deep4_1e5.json")["rows"]
+    if PLANT:   # planted: pretend the missing pair was landed; the K-d failure must then vanish
+        d = next(x for x in deep if abs(x["gamma"] - 20011.16) < 0.01)
+        rows = rows + [d]
+    kd = dict(_kd(rows, deep))
+    assert len(kd) == 8 and kd[20011.16] is None
+    assert all(v is not None and v < 1e-11 for g, v in kd.items() if g != 20011.16)
+
+
+def test_census_evaluation_void_with_values_kept():
+    """census_runs/full_r1/evaluation.json: K-a..K-e as recorded; every verdict void; values kept."""
+    e = load("census_runs/full_r1/evaluation.json")
+    if PLANT:
+        e["K_d_ok"] = True      # planted: an evaluation that let K-d pass
+    assert e["K_b_ok"] and e["K_c_ok"] and e["K_e_ok"] and not e["K_d_ok"] and not e["census_valid"]
+    assert e["n_unaccounted"] == 1 and e["unaccounted_gammas"] == [88167.4]
+    for k in ("verdict_floor", "verdict_KC4", "verdict_P5", "verdict_P8", "verdict_two_sided_oos"):
+        assert e[k].startswith("void (K_d_ok failed)"), k
+    assert e["floor_beaten_by"] == [] and round(e["m4"], 5) == 0.04877
+    assert round(e["m4_at"]["gamma"], 2) == 24415.48 and e["P8_count"] == 0
+    assert round(e["P5_argmax"]["gamma"], 2) == 240.40
+    t = e["two_sided_oos"]
+    assert t["n"] == 154 and t["n_in_band"] == 126 and round(t["rms"], 3) == 0.158
+
+
+def test_mislocated_roots_lie_outside_their_boxes_and_relocate():
+    """mislocated.json + relocated.json: 17 windows; each true root is inside its box; 8 census misses."""
+    mis = load("census_runs/full_r1/mislocated.json")["rows"]
+    rel = load("census_runs/full_r1/relocated.json")
+    assert len(mis) == 17 and sum(m["source"].startswith("census") for m in mis) == 16
+    assert all(m["wrong_root"]["beta"] <= m["sigma_c"] for m in mis)
+    rows = rel["rows"]
+    assert rel["n_ok"] == 17 and all(r["count_in_box"] == 1 and len(r["found"]) == 1 for r in rows)
+    sig = {tuple(r["window"]): r["sigma_c"] for r in rows}
+    for r in rows:
+        f = r["found"][0]
+        bad = PLANT and r["source"] == "census shard 4"     # planted: pretend the wrong root was kept
+        beta = r["wrong_root"]["beta"] if bad else f["beta"]
+        assert beta > r["sigma_c"] and r["window"][0] < f["gamma"] < r["window"][1]
+    cen = [r["found"][0] for r in rows if r["source"].startswith("census")]
+    assert sum(f["y0"] > 0.3396 for f in cen) == 8
+    assert round(max(f["y0"] for f in cen), 4) == 0.4002
+
+
+def test_screen_hi_correction_leaves_the_y0_above_040_selection_unchanged():
+    """deep_zeros_hi_20261026.json with its one mislocated root replaced: still 9 zeros above 0.40."""
+    hi = load("deep_zeros_hi_20261026.json")["zeros"]
+    rel = load("census_runs/full_r1/relocated.json")["rows"]
+    fix = next(r for r in rel if r["source"].startswith("screen_hi"))
+    assert fix["window"] == [16620.0, 16640.0] and round(fix["found"][0]["y0"], 4) == 0.3742
+    wrong = [z for z in hi if z["beta"] <= 0.85]
+    assert len(wrong) == 1 and round(wrong[0]["gamma"], 2) == 16637.67
+    true_y0 = fix["found"][0]["y0"] + (0.05 if PLANT else 0.0)   # planted: the true zero 0.05 deeper
+    fixed = [z["y0"] for z in hi if z["beta"] > 0.85] + [true_y0]
+    assert len(fixed) == 111
+    assert sum(y > 0.40 for y in fixed) == 9 and round(max(fixed), 6) == 0.437058

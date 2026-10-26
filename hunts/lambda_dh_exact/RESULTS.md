@@ -786,6 +786,71 @@ the float screen sees, landed if y0 > 0.3396):
 - *K-e*: the calibration projects more than 30 core-hours: stop and re-ask
   before `full`.
 
+
+### 8.13 Outcome of the 8.12 PREREG: the census is void (K-d)
+
+Run 17 in `RUNS.md`. The run is GitHub Actions run 40360558359, mode full,
+36 of 36 shards, merge success. Its output is
+`census_runs/full_r1/census_1e5.json`, sha256 84e8ec88...31af72, equal to
+the merge job's printed hash, in an artifact zip whose digest matches.
+`evaluate_census.py` applies section 8.12 as written and writes
+`census_runs/full_r1/evaluation.json`.
+
+**Kill conditions of the run:**
+
+| | condition | outcome |
+|---|---|---|
+| K-a | preflight | passed on all 9 jobs (smoke landing exact) |
+| K-b | every shard present and complete | passed (36 of 36) |
+| K-c | unaccounted windows <= 10 percent | passed (1 of 162, γ = 88167.40 again) |
+| **K-d** | **the 8 targeted landings replicate to 1e-6** | **fails**: 7 replicate to <= 3e-12; γ = 20011.16 is absent |
+| K-e | <= 30 core-hours | passed (11.05 core-hours; projected 9.95) |
+
+**By K-d the census is void**, so none of the five decided items is stated
+as a verdict. The computed values, all voided, are kept for the record:
+- no landing above the floor band;
+- m4 = 0.04877 at γ = 24415.48 (KC4 would not fire);
+- the largest landing below 10^5 is still at height 240 (P5 would be
+  refuted up to 10^5);
+- 0 of 161 later than y0^2/2;
+- the two-sided model out of sample: rms 0.158 over 154 windows, 126 in
+  band. That is under the 0.160 expectation but well above the in-sample
+  0.112.
+
+**Why K-d fired: an instrument defect, found by the kill condition built to
+find it.** The census's first window at γ = 20011.16, [20000, 20020], was
+correctly flagged with one zero at β > 0.82. `deep_zeros.stage_locate`
+then accepted a root at γ = 20017.93 with β = 0.727, outside the counted
+box, because its acceptance test checks height only. **16 of the 282
+located census zeros are mislocated this way**
+(`census_runs/full_r1/mislocated.json`). A constrained search on each window
+(`relocate_missed.py`, `relocated.json`, measured) finds exactly one root
+inside the box in all of them. 8 of the 16 have y0 > 0.3396, so they were
+census candidates that were never landed; the deepest is γ = 20011.16 at
+y0 = 0.4002. The 162 census rows therefore cover 162 of about 170
+candidates.
+
+**Correction to section 8.3 (and Run 9), recorded here.** The completed 0.85
+`screen_hi` has the same defect once. Window [16620, 16640] lists a root at
+γ = 16637.67 with β = 0.7132, and its true zero is γ = 16620.38 with
+y0 = 0.3742 (measured). The count of 111 zeros with β > 0.85 in
+[10^4, 10^5] stands. The list of 111 has one wrong entry. Every claim
+that read the list is unaffected:
+- the deepest is still 0.437058;
+- the per-decade-tenth maximum for [10^4, 2 x 10^4] is still 0.3906, above 0.3742;
+- the nine zeros with y0 > 0.40, and hence section 8.8's selection, are unchanged.
+
+The low screen below 10^4 is clean: none of its 21 roots lies outside its
+box, and all 21 are decided (section 8.3).
+
+**What is left open by it.** The decade's census needs a locate step that
+rejects roots outside the counted box. It also needs the 8 missed candidates
+landed, or the full run repeated with that guard. Both need a new request,
+which is the coordinator's decision (they asked to be told before any
+re-request). The kill condition did its job: a census that had read only its
+own landings would have reported "no pair beats the floor" over a list
+missing 8 candidates.
+
 ### The doors (updated 2026-10-26)
 
 The 2026-09-12 doors above stand as written; this is what changed in them.
@@ -863,4 +928,17 @@ shard plan), not triggered.
 
 No item is *obstructed* (disposition 2): nothing here is ruled out by a
 theorem.
+
+**Census update (2026-10-26, after run 40360558359).** The census ran and is
+void by K-d (section 8.13). Rows of the table above that change: *census
+over [10^4, 10^5]* becomes "ran, void by K-d; a guarded re-request awaits
+the coordinator", disposition 4 (paused by allocation). *KC4* and *P5*
+stay as they were: void computations are no evidence, though both voided
+values lean the same way as the measured data below 10^4. *Window
+γ = 88167.40* stays open (unaccounted again). New row: *`stage_locate`
+accepts roots outside the counted box*, an instrument defect, measured on
+17 windows. Repair: a beta > sigma_c guard plus the constrained search of
+`relocate_missed.py`. Disposition 4, paused until the re-request. The
+cheapest next door is a guarded re-request of the 8 missed candidates
+(about 1 core-hour on Actions); a full guarded re-run costs about 11.
 
