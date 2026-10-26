@@ -1,47 +1,56 @@
 # PRODUCTION: runbook for the 215 sites of plan v2 and their assembly
 
-Hunt #145, written 2026-10-26. The owner granted the production window on cloud compute
-that day (`MISSION.md`, "Owner decision, 2026-10-26"). The Novita account had zero
-balance, so **nothing here has been launched**. This page is what the coordinator runs
-once compute is funded. Every cost below is a projection from one pilot site and a few
-towers (`PILOT.md` sections 4 and 7), not a measurement of production.
+Hunt #145, written 2026-10-26, revised the same day after the whole-tower re-pilot. The
+owner granted the production window on cloud compute that day (`MISSION.md`, "Owner
+decision, 2026-10-26"). The Novita account had zero balance, so **nothing here has been
+launched**. This page is what the coordinator runs once compute is funded. Every cost
+below is a projection from one pilot site (`PILOT.md` sections 4 and 9), not a
+measurement of production.
 
 ## 0. Decide before launch
 
-1. **Which tower route.** The generator today (`scripts/69`) emits each prime tower as 75
-   staged equalities closed by `norm_num` plus a containment theorem. Priced that way,
-   production is **416 core-hours** (`PILOT.md` section 4). A tower proved through one
-   `decide +kernel` of `dirichletTermBallB ... = lit` and `contains_dirichletTermBallB`
-   cost 3.4 to 5.3 CPU-s net in the pilot, against about 66 under `norm_num`. With every
-   tower emitted that way, production is projected at **50 to 58 core-hours**
-   (`PILOT.md` section 7). That route needs a change to `scripts/69`, which is outside
-   this hunt's write scope, then one pilot site recompiled from the new generator and the
-   faults in section 4 re-run on it, before any shard launches. Recommendation: make the
-   change first. It costs about one site compile and cuts the bill by a factor of about 7.
-2. **One thread per process.** `scripts/72` runs `lean` at its default threads. `-j1`
+1. **Use `--tower whole`.** The generator now has an opt-in whole-tower mode
+   (`scripts/60 --tower whole`). Each prime tower is one `decide +kernel` of
+   `dirichletTermBallB ... = lit` plus `contains_dirichletTermBallB`. The pilot site
+   compiled in it end to end with both planted tower faults refused (`PILOT.md` section
+   9). Projected: **30 core-hours** (29.8) against **416 core-hours** for the default
+   `staged` mode, and 14.8 to 16.0 GB of oleans against 123 to 146 GB.
+2. **Where.** On these projections the sites fit GitHub Actions shards and the assembly
+   fits one 32 GB machine (section 1). That is assessed, not tested. One single cloud
+   machine is the simpler alternative.
+3. **One thread per process.** `scripts/72` runs `lean` at its default threads. `-j1`
    buys predictable sharing and no saving (`OWNER_MEMO.md`, item 3).
-3. **Where the assembly runs** (section 3). It needs the whole olean output on one disk
-   and, by the pilot's ratio, 81 to 96 GB of resident memory in one process. That is
-   untested.
 
 ## 1. Machine shape
 
-| resource | staged route (today's generator) | whole-decision route (after the change) |
+| resource | `--tower whole` (recommended) | `staged` (default) |
 |---|---|---|
-| CPU | 416 core-hours | 50 to 58 core-hours |
-| wall clock, 32 dedicated cores | about 13 to 19 h (`OWNER_MEMO.md` wall table) | about 2 h plus generation, by the same scaling |
-| RAM per compile process | peak RSS 7.8 GiB, at most 1.91 GiB anonymous; the rest is Mathlib's oleans in the page cache, shared | not measured in shards; standalone whole-route towers peaked at 6.6 GB |
-| RAM for the assembly | 81 to 96 GB projected for one process (untested): **128 GiB machine** | the same, if the tower oleans are about as large (unmeasured) |
-| disk | 123 to 146 GB of site oleans, 6.3 GB of tower sources, 7.6 GB of Mathlib build: **a 250 GB volume** | not measured; plan for the same |
+| CPU, 215 sites | 29.8 core-hours; largest site the centre, 2,173 CPU-s | 416 core-hours; the centre 31,817 CPU-s |
+| wall clock, 32 dedicated cores | about 1 h plus generation | about 13 to 19 h |
+| RAM per compile process | peak RSS 6.5 GiB, most of it Mathlib's oleans in the shared page cache | peak RSS 7.8 GiB, at most 1.91 GiB anonymous |
+| oleans, 215 sites | 14.8 to 16.0 GB (centre at most 0.37 GB) | 123 to 146 GB |
+| assembly, one process | about 17 to 18 GB RSS: 6.7 GB of support modules plus 0.70 x the oleans | 81 to 96 GB above the support modules |
+| disk | about 16 GB of oleans, 0.19 GB of sources, 7.6 GB of Mathlib build | a 250 GB volume |
 
-Shape: one machine of 32 or more cores, 128 GiB RAM and 250 GB of disk carries both the
-sites and the assembly. Sites are independent, so several smaller machines can run them
-in parallel (16 GB is enough per process). Their oleans must then be copied to the
-assembly machine. Never run Lake in a copied `.lake` (`CLAUDE.md`, compute rule 7).
+Where production fits, in whole mode (`PILOT.md` section 9 gives the reasons):
+
+- **(a) The shared box: no**, while the co-tenant holds its disk floor and the owner's
+  decision keeps it to pilots. Its CPU and memory would suffice.
+- **(b) GitHub Actions shards of 4 vCPU, 16 GB, 14 GB disk and 6 h, with the assembly on
+  one larger machine: yes, on these numbers.** Use about 20 jobs of about 11 sites each,
+  balanced by projected CPU (`whole_projection.rows` in `pilot.json`). That is about 1.5
+  core-hours and 0.8 GB of oleans per job. Each job uploads its `$OUT` oleans and its site
+  records. The assembly machine needs at least 32 GB of RAM and 40 GB of disk; a 16 GB
+  runner falls short. Not measured: a runner's speed, restoring the Mathlib cache within
+  14 GB, and whether the artifact quota holds 16 GB.
+- **(c) One cloud machine** of 32 cores, 32 GB and 40 GB of disk does everything in about
+  1 to 2 hours. It is not required.
+
+Never run Lake in a copied `.lake` (`CLAUDE.md`, compute rule 7).
 
 ## 2. Commands
 
-From a fresh clone of the branch commit, on the production machine:
+From a fresh clone of the branch commit, on the production machine (or in each job):
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/pip install -e .
@@ -51,18 +60,20 @@ lake build ZetaLean.BallCertSupport ZetaLean.BallTerm   # the 15 ZetaLean module
 cd ..
 ```
 
-Generate every site (Python only; `B_right_06` took 2 s and the centre 27 s, so the 215
-sites take at most about 1.6 hours serially and parallelise per site with `--only <id>`):
+Generate the sites. This is Python only: the census of all 215 sites in whole mode took
+51 CPU-minutes, the centre 69 s and a grid point about 20 s. It parallelises per site
+with `--only <id>`:
 
 ```bash
 GEN=/data/rung3/gen OUT=/data/rung3/out
-.venv/bin/python scripts/60_rung3_generate.py lean/cert/rung3_plan2.json "$GEN" --arith ball --shard
-ls "$GEN"/*.manifest.json | wc -l      # 215
+.venv/bin/python scripts/60_rung3_generate.py lean/cert/rung3_plan2.json "$GEN" \
+  --arith ball --shard --tower whole            # or --only <id>, once per site of a job
+ls "$GEN"/*.manifest.json | wc -l      # 215 on one machine
 ```
 
 Compile, resume-safe. `--jobs` (sites) times `--module-jobs` (modules per site) is the
-number of concurrent `lean` processes. Keep it at or below the cores, and keep
-MemAvailable above 20 GiB:
+number of concurrent `lean` processes. Keep it at or below the cores (2 on a 16 GB
+runner), and keep MemAvailable above 20 GiB on a large machine:
 
 ```bash
 nice -n 10 .venv/bin/python scripts/72_rung3_ball_compile.py --lean-project lean \
@@ -116,8 +127,11 @@ export RUNG3_PILOT_WORK=/data/rung3/faults
 .venv/bin/python hunts/rung3_ball_production/pilot.py centre-eps                                 # eps' refused at and below the bound
 ```
 
-If the whole-decision route is adopted, also re-run `decide_pilot.py`'s two faults
-(`TowerDecideFault.lean`, `TowerWholeFault_p2.lean`) against the new generator's output.
+In whole mode, also re-run the two tower faults on that site (`whole_pilot.py faults`
+with `RUNG3_WHOLE_WORK` pointing at a whole-mode compile of `B_right_06` made by
+`whole_pilot.py site`). Each must be refused at the faulted tower's `ev_whole`. The four
+`pilot.py` faults above run on the staged sources that `pilot.py site` generates. The
+tail-rad, M and centre faults sit in modules that whole mode leaves unchanged.
 
 ## 5. Axiom audit
 

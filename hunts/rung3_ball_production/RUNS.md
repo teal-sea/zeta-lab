@@ -266,3 +266,41 @@ root at their 2026-10-21 cost of about 150 to 200 CPU-s, so 250 to 400 CPU-s. Tw
 recompiles of `Primes.lean`, about 110 CPU-s each. Four import probes, about 12 CPU-s
 each. Under 15 core-minutes, one process, `nice -n 10`, gated as before; outputs under
 `<cache>/rung3-ball-production-whole`, expected well under 300 MB.
+
+### What ran (UTC)
+
+- 13:40 to 13:42: `whole_pilot.py site`, which generated the site (3 s) and compiled 5
+  modules at one process (111.5 s wall); the load was 24 at the gate.
+- 13:43 to 13:45: `whole_pilot.py imports` (4 probes), then `whole_pilot.py faults`
+  (2 recompiles). That first fault run's records are kept in `runs.first-faults.jsonl`.
+  They were re-run at 13:45 to 13:46 after a fix to how the instrument names the enclosing
+  namespace of an error; the outcomes did not change.
+- 13:46 to 14:05: `whole_pilot.py census`, added after the estimate above. It is Python
+  only: every site emitted in whole mode in memory, nothing written but one JSON line per
+  site. Timed on its first four sites at 20 to 69 s each and estimated at about 50
+  core-minutes, it was split across 3 processes (`--part`). It used 50.7 CPU-minutes.
+- Then `whole_pilot.py summarize` wrote `whole_site` and `whole_projection` into
+  `pilot.json`.
+
+In all, about 6 core-minutes of Lean and 51 of Python. The whole follow-up was just under
+the one core-hour cap for this box. The census was not in the estimate, which is a miss
+recorded here. Disk: 17 MB under `<cache>/rung3-ball-production-whole`.
+
+```runmanifest
+id: rung3_ball_production-2026-10-26-whole
+hunt: rung3_ball_production
+started: 2026-10-26T13:40Z
+finished: 2026-10-26T14:05Z
+ran:
+  - hunts/rung3_ball_production/whole_pilot.py site
+  - hunts/rung3_ball_production/whole_pilot.py imports
+  - hunts/rung3_ball_production/whole_pilot.py faults
+  - hunts/rung3_ball_production/whole_pilot.py census --part {0,1,2} --parts 3
+  - hunts/rung3_ball_production/whole_pilot.py summarize
+outcome: B_right_06 compiled in whole mode with every module exit 0 (163.6 CPU-s, 16.8 MB of oleans, against 1861 CPU-s and 180 MB staged); both one-unit tower faults refused at ev_whole; the import ratio re-measured at 0.70; the census emitted all 215 sites with every whole-tower literal equal to the staged chain's, and production re-projects to 29.8 core-hours and 14.8 to 16.0 GB of oleans; no production shard was launched
+artifacts:
+  - hunts/rung3_ball_production/pilot.json (whole_site, whole_projection)
+  - <cache>/rung3-ball-production-whole/runs.jsonl
+  - <cache>/rung3-ball-production-whole/site/out/results/CB_right_06.json
+  - <cache>/rung3-ball-production-whole/census.jsonl and census.{0,1,2}.jsonl
+```

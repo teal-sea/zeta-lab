@@ -132,6 +132,13 @@ whole-decision towers comes to 50 to 58 core-hours instead of 416, which needs a
 lemma against hunt #137's RH to height 100. Its body elaborated against 214 stub site
 interfaces and `B_right_06`'s real oleans, and rests only on the standard axioms and the
 stubs; `davenport_heilbronn` stays unproved. `PRODUCTION.md` is the runbook.
+In a follow-up the same day, under a scope extension from the coordinator,
+`scripts/60`/`69` gained an opt-in `--tower whole` mode; the default output is
+byte-identical. The pilot site recompiled in it end to end (measured): 163.6 CPU-s and
+16.8 MB of oleans, against 1,861 CPU-s and 180 MB staged. Two one-unit tower faults were
+refused. Extrapolated from that site, production comes to 29.8 core-hours and 14.8 to
+16.0 GB of oleans, with an assembly import of about 17 to 18 GB of RSS. On those
+projections the sites fit GitHub Actions shards and the assembly fits one 32 GB machine.
 
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 

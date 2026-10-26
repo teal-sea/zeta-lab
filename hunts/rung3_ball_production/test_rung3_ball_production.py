@@ -457,9 +457,11 @@ def test_the_stub_harness_rests_on_the_stubs_and_the_real_pilot_site():
 
 def test_production_runbook_quotes_both_prices():
     text = " ".join((HERE / "PRODUCTION.md").read_text().split())
-    lo, hi = DK["reprice"]["total_core_hours"]
+    wp = PILOT["whole_projection"]
     assert f"**{PILOT['projection']['total_core_hours']:.0f} core-hours**" in text
-    assert f"**{lo:.0f} to {hi:.0f} core-hours**" in text
+    assert f"**{wp['total_core_hours']:.0f} core-hours** ({wp['total_core_hours']})" in text
+    lo, hi = wp["olean_gb"]
+    assert f"{lo:.1f} to {hi:.1f} GB of oleans" in text
     assert "nothing here has been launched" in text
 
 
@@ -515,3 +517,40 @@ def test_whole_site_import_ratio_follows_from_its_probes():
     ip = WS["import_probe"]
     ratio = (ip["root_peak_rss_bytes"] - ip["base_peak_rss_bytes"]) / WS["olean_bytes_total"]
     assert ip["rss_bytes_per_imported_olean_byte"] == pytest.approx(ratio, abs=0.001)
+
+
+WP = PILOT["whole_projection"]
+
+
+def test_whole_projection_covers_the_plan_and_adds_up():
+    ids = [sid for sid, _ in assembly.sites(PLAN2)]
+    assert sorted(r["id"] for r in WP["rows"]) == sorted(ids) and WP["sites"] == 215
+    assert WP["towers"] == PILOT["decide_kernel"]["reprice"]["towers"] == 15608
+    assert WP["modules"] == sum(r["modules"] for r in WP["rows"])
+    assert WP["total_core_hours"] == pytest.approx(
+        sum(r["cpu_s"] for r in WP["rows"]) / 3600, abs=0.05)
+    lo, hi = WP["olean_gb"]
+    assert lo == pytest.approx(min(sum(r["olean_bytes"] for r in WP["rows"]),
+                                   sum(r["olean_bytes_by_source"] for r in WP["rows"])) / 1e9,
+                               abs=0.01)
+    ratio = WS["import_probe"]["rss_bytes_per_imported_olean_byte"]
+    assert WP["assembly_import_rss_gb"] == [round(ratio * lo, 2), round(ratio * hi, 2)]
+
+
+def test_whole_projection_model_reproduces_the_pilot_site():
+    row = next(r for r in WP["rows"] if r["id"] == "B_right_06")
+    assert row["cpu_s"] == pytest.approx(WS["cpu_s_total"], rel=0.02)
+    assert row["olean_bytes"] == pytest.approx(WS["olean_bytes_total"], rel=0.001)
+
+
+def test_pilot_md_quotes_the_whole_mode_numbers():
+    text = " ".join((HERE / "PILOT.md").read_text().split())
+    lo, hi = WP["olean_gb"]
+    a, b = WP["assembly_import_rss_gb"]
+    for quoted in (f"**{WS['cpu_s_total']:.1f}**", f"**{WS['olean_bytes_total']:,}**",
+                   f"**{WP['total_core_hours']:.1f} core-hours**",
+                   f"**{lo:.1f} to {hi:.1f} GB**", f"**{a:.1f} to {b:.1f} GB**",
+                   f"{WS['import_probe']['rss_bytes_per_imported_olean_byte']:.2f} bytes of RSS",
+                   f"{WP['largest_site']['cpu_s']:,.0f} CPU-s",
+                   "(a) This box: not as it is run today", "(b) GitHub Actions shards"):
+        assert quoted in text, quoted
