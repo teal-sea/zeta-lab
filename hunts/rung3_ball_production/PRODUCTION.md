@@ -48,7 +48,40 @@ Where production fits, in whole mode (`PILOT.md` section 9 gives the reasons):
 
 Never run Lake in a copied `.lake` (`CLAUDE.md`, compute rule 7).
 
-## 2. Commands
+## 2. The workflow: `.github/workflows/rung3-production.yml`
+
+The sites run on GitHub Actions by the workflow, which `production.py` drives step by
+step (`test_production.py` pins both). It is triggered only by a push of
+`RUN_REQUEST.json` to `hunt/rung3-ball-production`, never by the workflow file, and only
+after the coordinator's 'go'. Limits: `permissions: contents: read`, a concurrency group,
+350 minutes per job with compiles stopping themselves at 300, and at most 6 jobs at once.
+
+- `{"mode": "calibrate", ...}`: one job compiling the centre (K = 361, the largest site)
+  and `B_right_06`, one Lean process at a time. `sites.json` in its record artifact gives
+  each site's CPU, wall, peak RSS and olean bytes on a runner. Those numbers replace this
+  box's rates in the full run's sizing.
+- `{"mode": "full", "jobs": 20, "lean_jobs": 2, "fault_site": "B_right_06", ...}`: 20
+  site jobs of about 1.5 projected core-hours each, plus the job `fault`, whose kernel
+  must refuse a one-unit radius fault at `Prime_2.ev_whole`. The `verdict` job counts the
+  run only if all 215 sites compiled, every site theorem rests on exactly `propext`,
+  `Classical.choice` and `Quot.sound`, and the fault was refused.
+
+Each job removes unused runner toolchains to free disk, then restores `~/.elan` and
+`~/.cache/mathlib` (Mathlib's downloaded archives, keyed on revision `065356127b1d`). It
+builds a fresh `lean/.lake` with `lake exe cache get` and never restores a `.lake`. It
+checks that every package is its own git toplevel. It runs the fail-closed preflight:
+pinned toolchain, Mathlib revision, request shape, and the staged default's byte identity
+against the 2026-10-21 hashes. Then it builds the `ZetaLean` closure, generates its sites
+(`scripts/60 --tower whole`), compiles them (`scripts/72`) and audits the axioms. It
+uploads `rung3-production-job<N>-attempt<A>` (oleans, checkpoints, manifests, logs) and a
+small `rung3-production-record-job<N>-attempt<A>`. A re-run attempt downloads its job's
+earlier artifacts and resumes from their checkpoints.
+
+The planted-fault path and the axiom audit ran on this box against the whole-mode pilot
+site before the workflow was pushed. The fault was refused at `Prime_2.ev_whole`, and
+`upper_B_right_06` printed exactly the three axioms. The workflow itself has not run.
+
+## 2a. Commands, for a single machine instead
 
 From a fresh clone of the branch commit, on the production machine (or in each job):
 
@@ -151,3 +184,37 @@ tail-rad, M and centre faults sit in modules that whole mode leaves unchanged.
 Only after that audit does `davenport_heilbronn` get a grade, through the hunt's case log
 and review (`ALIGNMENT.md`). It is a statement about the Davenport-Heilbronn function and
 says nothing about RH (`docs/08`).
+
+## 6. Where the assembly runs (the coordinator decides when the sites are done)
+
+The assembly imports every site's oleans in one process. Projected from one site, that
+is 14.8 to 16.0 GB of oleans and about 17 to 18 GB of resident memory: 6.7 GB for the
+support modules plus 0.70 bytes per olean byte, all of it mapped files and no anonymous
+growth measured. A GitHub runner (16 GB RAM, 14 GB disk) holds neither. The options:
+
+1. **The shared box, with the oleans on a RAM-backed tmpfs.** Its disk sits below the
+   co-tenant's floor, so nothing large may land on it. `/dev/shm` is already a tmpfs
+   there (58 GB, so no `sudo` is needed). The steps:
+   - Download the 20 job artifacts one at a time into `/dev/shm/rung3-assembly`,
+     unzipping each and deleting its zip before the next. The peak is then the oleans
+     plus one zip, under 17 GB.
+   - Build `Support.olean` there, then compile `Assembly.lean` with that directory on
+     `LEAN_PATH`, against this checkout's existing `lean/.lake` (no new Mathlib).
+   - Memory: the mapped oleans are the tmpfs pages themselves, so they are not counted
+     twice. The run needs about 16 GB of tmpfs, the Mathlib and support oleans in page
+     cache (about 7 GB, mostly resident already) and a few GB of anonymous memory. Start
+     only while `MemAvailable` is above 45 GiB, the 20 GiB guard plus about 25 GiB, and
+     with the 1-minute load at most 64.
+   - Watch `MemAvailable` every 10 s. Below 20 GiB, stop the Lean process, then
+     `rm -rf /dev/shm/rung3-assembly` to return the memory. A tmpfs is lost on reboot,
+     so the artifacts stay on GitHub (30-day retention) until the assembly olean exists.
+   - The import itself is under 30 minutes of one core by the harness's 124 CPU-s plus
+     the import, which is within the one core-hour cap for this box. Placing it here is
+     the owner's or coordinator's call, since the 2026-10-26 decision reserves the box
+     for pilots.
+2. **A funded cloud machine**: at least 32 GB of RAM and 40 GB of disk, with a fresh
+   `lake exe cache get`. Simplest and with no co-tenant risk, but it waits for funding.
+
+Either way, run the axiom audit of section 5 on `davenport_heilbronn` afterwards. The
+17 to 18 GB figure is extrapolated from one small site (`PILOT.md` section 9); the
+calibration's centre olean bytes check it first.

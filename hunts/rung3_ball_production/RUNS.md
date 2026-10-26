@@ -304,3 +304,26 @@ artifacts:
   - <cache>/rung3-ball-production-whole/site/out/results/CB_right_06.json
   - <cache>/rung3-ball-production-whole/census.jsonl and census.{0,1,2}.jsonl
 ```
+
+## Follow-up 2026-10-26: the production workflow (not yet run)
+
+`.github/workflows/rung3-production.yml` and `production.py` were added; `PRODUCTION.md`
+section 2 describes them. They were pushed **without** `RUN_REQUEST.json`, so nothing
+runs until the coordinator's 'go' and the request commit.
+
+Smoke on this box before pushing, all Python except two small Lean runs under the usual
+gate:
+- `production.py plan` on the calibrate and full requests;
+- `assign(20)`: 215 sites in 20 jobs of 1.45 to 1.51 projected core-hours each;
+- `preflight` and `toplevels` against this checkout;
+- `axioms` and `record` on the whole-mode pilot site, where `upper_B_right_06` printed
+  the three standard axioms and the record gave 16,758,440 olean bytes;
+- `fault`, then `scripts/72`, then `refused` in `<cache>/rung3-ball-production-wfsmoke`.
+  The first try was refused by `scripts/72`'s manifest byte check, not by the kernel: the
+  fault step now records the planted file's size, as `pilot.py fault` does. The second
+  try was refused by the kernel at `Prime_2.ev_whole`, after 44.8 CPU-s.
+
+**Estimate for the calibration run**, before spending (at this box's rates; a runner's
+speed is unmeasured): the centre at 2,173 CPU-s and `B_right_06` at 162. That is about 40
+minutes at one process, plus about 15 to 25 minutes of setup (cache get and the
+`ZetaLean` closure), so about 1 hour of one job. It runs on free GitHub Actions minutes.
