@@ -302,8 +302,8 @@ written before the fact.)
   records the equivalence as classical.
 - **Two numbering coincidences, killed before they grow.** OpenAI family 126
   ("Exponential semidefinite complexity of perfect matching") has nothing to
-  do with Erdos problem #126, which hunts #91 to #107 work on. OpenAI family
-  040 ("Bloch's conjecture for complex surfaces") has nothing to do with
+  do with Erdos problem #126, which hunts #91 to #107 and #143 work on. OpenAI
+  family 040 ("Bloch's conjecture for complex surfaces") has nothing to do with
   Bloch's constant, which hunt #80 (`bloch_ceiling/`) measures.
 
 ## 7. What a replay needs
@@ -449,8 +449,8 @@ closure depends on one of them (section 4).
 
 The 372 family abstracts were scanned for every subject this tree works on.
 No family addresses Robin's inequality (PR #270), Erdos #126 (hunts #91 to
-#107), Bloch's constant (hunt #80), sphere packing or kissing numbers (issue
-#110), the Erdos minimum-overlap problem (hunts #85, #86), Montgomery pair
+#107 and #143), Bloch's constant (hunt #80), sphere packing or kissing numbers
+(issue #110), the Erdos minimum-overlap problem (hunts #85, #86), Montgomery pair
 correlation, simple zeros, the de Bruijn-Newman constant, Li's criterion,
 Lehmer pairs, Mertens's constants, Hardy-Ramanujan, Erdos-Kac, the prime zeta
 function or Davenport-Heilbronn. Nothing in this tree is superseded or

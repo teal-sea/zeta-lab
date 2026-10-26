@@ -1,0 +1,60 @@
+{
+  "run_id": "6da47ca3-1ca7-4d3f-9dac-153e56aacdad",
+  "status": "settled",
+  "conclusion": "The bipartite A/-A picture reduces Erdos #126 to one counting statement: g(k) <= N_2(k) + 2 where N_2(k) is the maximum number of solutions of a two-term S-unit equation u - v = c over |S| = k and c in Q*, so log N_2(k) = o(k) implies the conjecture. The briefed within-part pair-sum structure yields no improvement in the exponent, only a free nondegeneracy guarantee, and the Gyory-Hajdu-Tijdeman line is representability rather than counting and contains no bound of the form |A| <= F(|S|).",
+  "confidence": "Theorem 1 and its proof are elementary and self-contained; lean on them fully. Corollary 2's explicit constant depends on Evertse 1984's 3*7^(d+2s) as I recall it, which I did not re-read in-session, so treat the numeral 3.892 as needing one citation check while the exp(O(k)) shape is safe. Corollary 3's conditional is only as strong as the uniformity of the expected subexponential truth in the coefficients alpha, beta, which I flagged as unverified. Section 8 rests on abstracts because both PDFs came back as undecoded binary.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "The inversion f <-> g(k) = max{n : f(n) <= k}, so the conjecture is exactly log g(k) = o(k)",
+      "source": "hunts/r_186989/RESULTS.md section 1",
+      "effect": "Made the whole arm a statement about one integer sequence; every theorem here is phrased in g and would have needed re-deriving otherwise."
+    },
+    {
+      "what": "Seven exhaustive witnesses g_N(k) >= 2,4,5,6,8,10,11 and the observation that optima live below 50",
+      "source": "hunts/r_186989/RESULTS.md section 3",
+      "effect": "Re-verified all seven and reproduced k=1..5 independently in boxes 60-1000x smaller, which is what made the audit cheap; also supplied the measured left-hand side for the lossiness table.",
+      "landing_note": "Added on landing, 2026-10-21. The 'optima live below 50' half did not survive on main: admissible sets are closed under S-smooth dilation, so a wider box only adds larger copies (Hunts #103 and #105), and a primitive extremal 5-set for S={2,3,5} reaches 475 (Hunt #107, {5,11,25,245,475}). The seven witnesses and the reproduced rows stand."
+    },
+    {
+      "what": "The composition-law finding (a supermultiplicative gadget would refute, not prove)",
+      "source": "hunts/r_186989/RESULTS.md section 4",
+      "effect": "Kept me from re-running arm 3; Corollary 3 now sharpens it, since supermultiplicativity would also contradict the expected subexponential unit-equation count."
+    },
+    {
+      "what": "The door analysis requirement for ceiling hunts",
+      "source": "AGENTS.md, 'Door analysis: what every ceiling hunt owes'",
+      "effect": "Forced the ranked frozen-constant table, which is where the single actionable door (Evertse's slope 2 log 7) got isolated."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Is the conjectured exp(k^theta) truth for S-unit equations asserted uniformly in the coefficients alpha, beta, or only for x + y = 1?",
+      "why_it_might_matter": "Corollary 3 needs the uniform form. If the expectation is only coefficient-free, the reduction is weaker than stated and the headline conditional has to be softened.",
+      "first_step": "Evertse-Gyory, 'Unit Equations in Diophantine Number Theory' (CUP 2015), the chapter on the number of solutions; check whether the conjectural upper bound is stated for alpha*x + beta*y = 1."
+    },
+    {
+      "what": "The crown surplus: g_N(5) = 8 against N_2^(N)(5) >= 141, and the ratio is widening",
+      "why_it_might_matter": "It is the only measured evidence that the full crown is much stronger than K_{2,m}, and that surplus is the one place a better-than-N_2 bound could come from.",
+      "first_step": "Measure g_N(k) against N_2^(N)(k) for k <= 7 and see whether the ratio grows polynomially or exponentially in k."
+    },
+    {
+      "what": "Restricting c to realizable differences a_1 - a_2 rather than all of Q*",
+      "why_it_might_matter": "The measured argmax c values (2520, 10800) are highly smooth; if the extremal c cannot arise as a difference inside an admissible A, Theorem 1 could be sharpened for free.",
+      "first_step": "Recompute N_2^(N) restricted to c arising as a difference within a maximal admissible A."
+    },
+    {
+      "what": "Hunt #91's OEIS thread for 2,4,5,6,8,10,11 is still unqueried",
+      "why_it_might_matter": "Would say whether the lower bounds are sharp or badly weak, which the reduction cannot say.",
+      "first_step": "Query OEIS via ontology/knownness.py's backend."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A PDF-to-text fallback for WebFetch on arXiv papers",
+      "why_reusable": "Both arXiv PDFs this run needed came back as undecoded FlateDecode binary, which is why section 8 rests on abstracts instead of theorem numbers. Any literature-facing hunt in this lab hits the same wall.",
+      "first_step": "Try arxiv.org/abs/<id>v<n> HTML (ar5iv or the new arXiv HTML renderer) before the PDF, and fall back to a local pdftotext pass on the saved binary."
+    }
+  ],
+  "notes_for_operator": "Hunt number 106 was free and is used. The one substantive correction to a sibling's record is that hunts/r_186989's loose thread 3 (|A| <= p-1 when p is not in S) is false for every odd p, with explicit counterexamples; the parent run is working from that file and should be told. I did not edit r_186989, per scope."
+}

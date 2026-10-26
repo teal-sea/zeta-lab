@@ -1,0 +1,429 @@
+{
+  "audit_r_186989_witnesses": {
+    "1": {
+      "S": [
+        2
+      ],
+      "all_sums_S_smooth": true,
+      "max_element": 3,
+      "size": 2,
+      "violations": [],
+      "witness": [
+        1,
+        3
+      ]
+    },
+    "2": {
+      "S": [
+        2,
+        3
+      ],
+      "all_sums_S_smooth": true,
+      "max_element": 11,
+      "size": 4,
+      "violations": [],
+      "witness": [
+        1,
+        5,
+        7,
+        11
+      ]
+    },
+    "3": {
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "all_sums_S_smooth": true,
+      "max_element": 47,
+      "size": 5,
+      "violations": [],
+      "witness": [
+        1,
+        3,
+        7,
+        17,
+        47
+      ]
+    },
+    "4": {
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "all_sums_S_smooth": true,
+      "max_element": 13,
+      "size": 6,
+      "violations": [],
+      "witness": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        13
+      ]
+    },
+    "5": {
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "all_sums_S_smooth": true,
+      "max_element": 31,
+      "size": 8,
+      "violations": [],
+      "witness": [
+        1,
+        2,
+        5,
+        9,
+        13,
+        19,
+        23,
+        31
+      ]
+    },
+    "6": {
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13
+      ],
+      "all_sums_S_smooth": true,
+      "max_element": 47,
+      "size": 10,
+      "violations": [],
+      "witness": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        9,
+        13,
+        19,
+        23,
+        47
+      ]
+    },
+    "7": {
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        17
+      ],
+      "all_sums_S_smooth": true,
+      "max_element": 49,
+      "size": 11,
+      "violations": [],
+      "witness": [
+        1,
+        3,
+        5,
+        6,
+        7,
+        11,
+        15,
+        19,
+        21,
+        29,
+        49
+      ]
+    }
+  },
+  "chain_demo": {
+    "A": [
+      1,
+      2,
+      5,
+      9,
+      13,
+      19,
+      23,
+      31
+    ],
+    "S": [
+      2,
+      3,
+      5,
+      7,
+      11
+    ],
+    "all_u_smooth": true,
+    "all_v_smooth": true,
+    "anchors": [
+      1,
+      2
+    ],
+    "c": -1,
+    "count": 6,
+    "differences_all_equal_c": true,
+    "solutions_u_minus_v_equals_c": [
+      [
+        6,
+        7
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        14,
+        15
+      ],
+      [
+        20,
+        21
+      ],
+      [
+        24,
+        25
+      ],
+      [
+        32,
+        33
+      ]
+    ]
+  },
+  "hunt": "support_6da47ca3",
+  "independent_g_N": {
+    "1": {
+      "N": 200,
+      "S": [
+        2
+      ],
+      "exhaustive": true,
+      "g_N": 2,
+      "witness": [
+        1,
+        3
+      ]
+    },
+    "2": {
+      "N": 200,
+      "S": [
+        2,
+        3
+      ],
+      "exhaustive": true,
+      "g_N": 4,
+      "witness": [
+        1,
+        5,
+        7,
+        11
+      ]
+    },
+    "3": {
+      "N": 200,
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "exhaustive": true,
+      "g_N": 5,
+      "witness": [
+        1,
+        3,
+        7,
+        17,
+        47
+      ]
+    },
+    "4": {
+      "N": 120,
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "exhaustive": true,
+      "g_N": 6,
+      "witness": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        13
+      ]
+    },
+    "5": {
+      "N": 90,
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "exhaustive": true,
+      "g_N": 8,
+      "witness": [
+        1,
+        2,
+        5,
+        9,
+        13,
+        19,
+        23,
+        31
+      ]
+    }
+  },
+  "loose_thread_3_test": [
+    {
+      "S": [
+        2,
+        5
+      ],
+      "claimed_cap": 2,
+      "measured_max": 3,
+      "p_absent": 3,
+      "refutes_cap": true,
+      "witness": [
+        1,
+        3,
+        7
+      ]
+    },
+    {
+      "S": [
+        2,
+        7
+      ],
+      "claimed_cap": 2,
+      "measured_max": 3,
+      "p_absent": 3,
+      "refutes_cap": true,
+      "witness": [
+        1,
+        3,
+        13
+      ]
+    },
+    {
+      "S": [
+        2,
+        5,
+        7
+      ],
+      "claimed_cap": 2,
+      "measured_max": 4,
+      "p_absent": 3,
+      "refutes_cap": true,
+      "witness": [
+        1,
+        3,
+        7,
+        13
+      ]
+    },
+    {
+      "S": [
+        2,
+        3,
+        7
+      ],
+      "claimed_cap": 4,
+      "measured_max": 5,
+      "p_absent": 5,
+      "refutes_cap": true,
+      "witness": [
+        1,
+        3,
+        5,
+        11,
+        13
+      ]
+    }
+  ],
+  "n2_measured": {
+    "1": {
+      "N": 1000000,
+      "N2_measured": 1,
+      "S": [
+        2
+      ],
+      "argmax_c": 1,
+      "reduction_upper_bound_on_g": 3
+    },
+    "2": {
+      "N": 1000000,
+      "N2_measured": 7,
+      "S": [
+        2,
+        3
+      ],
+      "argmax_c": 24,
+      "reduction_upper_bound_on_g": 9
+    },
+    "3": {
+      "N": 1000000,
+      "N2_measured": 32,
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "argmax_c": 10800,
+      "reduction_upper_bound_on_g": 34
+    },
+    "4": {
+      "N": 100000,
+      "N2_measured": 75,
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "argmax_c": 2520,
+      "reduction_upper_bound_on_g": 77
+    },
+    "5": {
+      "N": 100000,
+      "N2_measured": 141,
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "argmax_c": 2520,
+      "reduction_upper_bound_on_g": 143
+    }
+  },
+  "nothing_here_is_evidence_about_RH": true,
+  "question": "bipartite S-unit difference pattern for Erdos #126",
+  "reduction": {
+    "conditional": "If log N2(k) = o(k) then Erdos #126 holds. The known lower bounds on S-unit-equation solution counts (Erdos-Stewart-Tijdeman 1988; Konyagin-Soundararajan 2007, exp(k^(2-sqrt2-o(1)))) are all exp(k^theta) with theta < 1, so log N2(k) = o(k) is consistent with everything known and is the expected truth. Sufficient, not necessary: the reduction is measurably lossy.",
+    "explicit_corollary": {
+      "bound_on_f": "f(n) > k whenever n > 2 + 3*7^(2k+3); i.e. f(n) >= (log(n-2) - log 3)/(2 log 7) - 3/2",
+      "bound_on_g": "g(k) <= 3 * 7^(2k+3) + 2",
+      "input": "Evertse 1984, Invent. Math. 75: alpha*x + beta*y = 1 in S-units of a degree-d field with s places has at most 3 * 7^(d + 2s) solutions; here d = 1, s = k + 1.",
+      "log_slope": 3.8918202981106265
+    },
+    "improvement_from_within_part_structure": "None in the exponent. The extra sums buy a free nondegeneracy guarantee for the 4-term relation (a+b)+(c+d)=(a+c)+(b+d), but routing through it needs 3-term unit equations whose best uniform bound exp((6n)^(3n)(r+1)) with n=3 is exp(~2e11 * k), vastly worse than 7^(2k).",
+    "proof_sketch": "Fix a1 != a2 in A, c = a1 - a2. For every other x in A the pair (u,v) = (x+a1, x+a2) consists of S-units with u - v = c, and x is recovered as u - a1, so the map is injective.",
+    "statement": "g(k) <= N2(k) + 2, where N2(k) = max over |S|=k and c in Q* of #{(u,v) in (Z_S^*)^2 : u - v = c}.",
+    "uses_only_pattern": "K_{2,m} (two anchors joined to m vertices)"
+  }
+}

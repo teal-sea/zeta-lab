@@ -1,0 +1,63 @@
+{
+  "unit_counts": {
+    "completed": 132,
+    "failed": 0,
+    "inconclusive": 0
+  },
+  "total_inputs": 132,
+  "assembly_inputs": 130,
+  "reducer_inputs": 2,
+  "assembly_panels": 1300,
+  "CC_node_evaluations_in_assembly": 250900,
+  "factor_proposals": 3,
+  "positive_factors": 2,
+  "expected_negative_factor_rejections": 1,
+  "controls_passed": 2,
+  "quota_blocked": false,
+  "recorded_input_core_seconds": 8452.92747759819,
+  "recorded_input_core_hours": 2.348035410443942,
+  "app_occupancy_bounds": [
+    {
+      "app_id": "ap-MDXpk3KteZl2PtytdCXKFA",
+      "wall_seconds": 262.0,
+      "maximum_cores": 1,
+      "core_seconds_bound": 262.0
+    },
+    {
+      "app_id": "ap-oyXeqoiRrDLKIDCKlkzXlj",
+      "wall_seconds": 838.0,
+      "maximum_cores": 10,
+      "core_seconds_bound": 8380.0
+    },
+    {
+      "app_id": "ap-FRG5XG7ywfOtMwX6OlcjI9",
+      "wall_seconds": 50.0,
+      "maximum_cores": 1,
+      "core_seconds_bound": 50.0
+    },
+    {
+      "app_id": "ap-XXYjuxO0XEJyrQxtC3FKhQ",
+      "wall_seconds": 91.0,
+      "maximum_cores": 10,
+      "core_seconds_bound": 910.0
+    },
+    {
+      "app_id": "ap-F5KLwbmFxNF1jLkY7PfYBU",
+      "wall_seconds": 78.0,
+      "maximum_cores": 1,
+      "core_seconds_bound": 78.0
+    }
+  ],
+  "conservative_core_seconds_bound": 9680.0,
+  "all_apps_stopped": true,
+  "versions": {
+    "container_python": "3.12 image series; patch version not logged",
+    "packages": {
+      "python-flint": "0.9.0",
+      "mpmath": "1.3.0",
+      "gmpy2": "2.2.1"
+    },
+    "modal_client": "1.5.5",
+    "local_python": "3.13.14"
+  }
+}

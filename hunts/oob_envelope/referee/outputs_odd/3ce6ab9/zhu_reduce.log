@@ -1,0 +1,28 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-FRG5XG7ywfOtMwX6OlcjI9
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/ODD_FORMULAS.md
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/run_odd_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/frozen_envelope_L119.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/independent.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/l119.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/odd.py
+└── 🔨 Created function execute.
+    └── ⚠ Non-preemptible functions are billed at 3.0x the list rate for CPU and
+        Memory.
+{"unit": "reduce_zhu", "status": "completed", "elapsed_s": 42.71830892562866}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-FRG5XG7ywfOtMwX6OlcjI9

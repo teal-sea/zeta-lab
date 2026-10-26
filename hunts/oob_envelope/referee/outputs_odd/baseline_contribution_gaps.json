@@ -1,0 +1,14 @@
+{
+  "hunts/oob_envelope/MISSION.md": {
+    "exists_at_base": true,
+    "huntspec_marker_present": false
+  },
+  "hunts/oob_envelope/RUNS.md": {
+    "exists_at_base": false,
+    "huntspec_marker_present": null
+  },
+  "hunts/oob_envelope/RESULTS.md": {
+    "exists_at_base": false,
+    "huntspec_marker_present": null
+  }
+}

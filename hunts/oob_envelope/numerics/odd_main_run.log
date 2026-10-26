@@ -1,0 +1,192 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-OlmaObfN0y2EzyA3R6lFcm
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/s
+│   tage_b_odd_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/e
+│   nvelope.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/a
+│   ssemble.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/h
+│   arden.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/s
+│   tage_b_odd_modal.py
+├── 🔨 Created function unit.
+├── 🔨 Created function reduce.
+└── 🔨 Created function check_zhu.
+{"unit": [40, 60], "seconds": 32.090436935424805}
+{"unit": [60, 80], "seconds": 33.961180210113525}
+{"unit": [20, 40], "seconds": 38.81207585334778}
+{"unit": [120, 140], "seconds": 38.38693141937256}
+{"unit": [0, 20], "seconds": 40.97016739845276}
+{"unit": [160, 180], "seconds": 40.88769721984863}
+{"unit": [80, 100], "seconds": 42.731677532196045}
+{"unit": [100, 120], "seconds": 44.46743893623352}
+{"unit": [200, 220], "seconds": 54.004981994628906}
+{"unit": [220, 240], "seconds": 53.42307925224304}
+{"unit": [180, 200], "seconds": 55.38256621360779}
+{"unit": [140, 160], "seconds": 56.59420824050903}
+{"unit": [240, 260], "seconds": 45.429548025131226}
+{"unit": [260, 280], "seconds": 47.81828284263611}
+{"unit": [300, 320], "seconds": 49.816195011138916}
+{"unit": [340, 360], "seconds": 52.15287637710571}
+{"unit": [280, 300], "seconds": 60.41208291053772}
+{"unit": [360, 380], "seconds": 64.16421937942505}
+{"unit": [380, 400], "seconds": 63.57631158828735}
+{"unit": [320, 340], "seconds": 69.39998960494995}
+{"unit": [420, 440], "seconds": 71.3971176147461}
+{"unit": [400, 420], "seconds": 69.35867547988892}
+{"unit": [440, 460], "seconds": 78.71759343147278}
+{"unit": [460, 480], "seconds": 84.82746481895447}
+{"unit": [480, 500], "seconds": 60.881598711013794}
+{"unit": [500, 520], "seconds": 63.6088707447052}
+{"unit": [520, 540], "seconds": 64.18957686424255}
+{"unit": [540, 560], "seconds": 65.7201464176178}
+{"unit": [560, 580], "seconds": 83.61835265159607}
+{"unit": [580, 600], "seconds": 79.61491274833679}
+{"unit": [600, 620], "seconds": 81.57811284065247}
+{"unit": [620, 640], "seconds": 98.19366979598999}
+[modal-client] 2026-09-28T23:25:02+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=62.18, time_since_heartbeat_success=62.18, error=ConnectionError('Deadline exceeded'))
+{"unit": [640, 660], "seconds": 90.83460831642151}
+{"unit": [660, 680], "seconds": 92.61922597885132}
+{"unit": [720, 740], "seconds": 77.66825604438782}
+[modal-client] 2026-09-28T23:25:20+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=62.67, time_since_heartbeat_success=62.67, error=ConnectionError('Deadline exceeded'))
+{"unit": [680, 700], "seconds": 98.11583805084229}
+{"unit": [700, 720], "seconds": 105.74085092544556}
+{"unit": [740, 760], "seconds": 120.81923055648804}
+{"unit": [980, 1000], "skipped": true}
+{"unit": [780, 800], "seconds": 188.76554203033447}
+{"unit": [760, 780], "seconds": 191.17345547676086}
+{"unit": [800, 820], "seconds": 225.2440574169159}
+{"unit": [820, 840], "seconds": 219.67126035690308}
+{"unit": [920, 940], "seconds": 187.96237802505493}
+{"unit": [840, 860], "seconds": 227.53964686393738}
+{"unit": [900, 920], "seconds": 222.84256219863892}
+{"unit": [880, 900], "seconds": 226.86575627326965}
+{"unit": [860, 880], "seconds": 253.6632697582245}
+{"unit": [940, 960], "seconds": 247.5672562122345}
+{"unit": [960, 980], "seconds": 247.52711725234985}
+units wall 514 s
+{
+ "cfg": {
+  "L": "119/100",
+  "T": "500",
+  "env": "sine:16",
+  "N": 500,
+  "q": 96,
+  "prec": 384,
+  "h": "1/2",
+  "split": false,
+  "units": 50,
+  "tag": "odd_stageB_L119_v1"
+ },
+ "input_hashes": {
+  "stage_b_odd_modal.py": "fd5bdcbec5bca6369a8b08cba3fd8c802fe686e39da48d868c87964db0b054ac",
+  "assemble.py": "4f019ffec671d0ac5af850eda85a4dcb626a53240daea2eb84998883b6e16c9e",
+  "harden.py": "22b1d4789af9e8e148ec9afab8a9c3280d5bcc073d088b83afea4696847ad330",
+  "envelope.json": "4c8f17b8a59c8011a726b88d2757c545e92e1f55c8dc9bb9416ff68cc6553e93"
+ },
+ "S": "[3.8634773270097820000 +/- 3e-24]",
+ "beta": "[0.51125370500306425908 +/- 3.92e-21]",
+ "unit_seconds": [
+  40.97016739845276,
+  38.81207585334778,
+  32.090436935424805,
+  33.961180210113525,
+  42.731677532196045,
+  44.46743893623352,
+  38.38693141937256,
+  56.59420824050903,
+  40.88769721984863,
+  55.38256621360779,
+  54.004981994628906,
+  53.42307925224304,
+  45.429548025131226,
+  47.81828284263611,
+  60.41208291053772,
+  49.816195011138916,
+  69.39998960494995,
+  52.15287637710571,
+  64.16421937942505,
+  63.57631158828735,
+  69.35867547988892,
+  71.3971176147461,
+  78.71759343147278,
+  84.82746481895447,
+  60.881598711013794,
+  63.6088707447052,
+  64.18957686424255,
+  65.7201464176178,
+  83.61835265159607,
+  79.61491274833679,
+  81.57811284065247,
+  98.19366979598999,
+  90.83460831642151,
+  92.61922597885132,
+  98.11583805084229,
+  105.74085092544556,
+  77.66825604438782,
+  120.81923055648804,
+  191.17345547676086,
+  188.76554203033447,
+  225.2440574169159,
+  219.67126035690308,
+  227.53964686393738,
+  253.6632697582245,
+  226.86575627326965,
+  222.84256219863892,
+  187.96237802505493,
+  247.5672562122345,
+  247.52711725234985,
+  223.45538234710693
+ ],
+ "unit_seconds_sum": 5134.263733148575,
+ "node_shift_upper": "7.3323e-113",
+ "eps_Q_max": "6.8712e-66",
+ "eps_D": "[1.5639e-185 +/- 1.84e-190]",
+ "eps_B": "[4.2941e-88 +/- 7.72e-94]",
+ "K": "[7427.3154 +/- 1.80e-5]",
+ "lemma31": {
+  "T_ge_15/4": true,
+  "beta_positive_arb": true,
+  "S_global_bound": "envelope.json, P_L - H <= S on all of R"
+ },
+ "main": {
+  "e": "2.2927e-63",
+  "lambda_meas": "3.46316654753e-44",
+  "t_measure_s": 15.985519409179688,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "30126333742083339143497727916051120006961262236797824232530396454979710222326491699101094587348795902948966158659747/878694100496718043517683302282418331810487718418343092402491322775749527474899974671687634004666183037093927858109549828751614463963730408009475621262727315456",
+  "lambda0": "3.42853488205e-44",
+  "r": "1.0995e-113",
+  "lambdaA_lower_rounded_down": "342853488205e-55",
+  "beta_minus_epsD": "[0.511253705003064 +/- 2.60e-16]",
+  "lower_bound_exact": "15063166871041669570741588593186537325695581236217904411634775074715861657223297562332298103961841090782163000071579/439347050248359021758841651141209165905243859209171546201245661387874763737449987335843817002333091518546963929054774914375807231981865204004737810631363657728",
+  "lower_bound_rounded_down": "342853488205e-55",
+  "t_total_s": 32.976216077804565,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    179,
+    -2.9243928848825425
+   ]
+  }
+ },
+ "reduce_seconds": 128.77620840072632
+}
+total wall 649 s
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-OlmaObfN0y2EzyA3R6lFcm

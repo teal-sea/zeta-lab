@@ -1,11 +1,7 @@
-# Hunt `amtopa_ceiling` -- every computation this hunt makes, off the operator's
-# machine.
+# Hunt `amtopa_ceiling` -- every computation this hunt makes, on CI.
 #
-# The authoring host is under a hard local-compute cap: a laptop with a guard
-# that kills anything heavy, no Lean, and one process of this hunt's own already
-# took it down at 1.8 GB. So after that incident the rule became absolute --
-# nothing beyond seconds runs there, and every number in RESULTS.md that costs
-# more than a second comes from a job in this file.
+# Every number in RESULTS.md that costs more than a second comes from a job in
+# this file.
 #
 # Three things are genuinely expensive:
 #
