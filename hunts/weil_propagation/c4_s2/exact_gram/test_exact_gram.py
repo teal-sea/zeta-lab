@@ -145,9 +145,25 @@ def test_gate_still_refuses_epstein_and_W_a():
 # --- PREREG s6: the guard fails closed ----------------------------------------
 
 
-def test_key_refuses_while_no_rebuild_module_is_committed():
+def test_the_rebuild_closure_is_what_it_imports():
+    """rebuild.py is committed (2026-10-26): its HEAD closure holds the modules it runs, and
+    key() either keys a clean tree or refuses a dirty one; it never keys a dirty one."""
+    try:
+        digest, paths, names = GD.head_closure()
+    except GD.GuardRefused:
+        pytest.skip("rebuild.py not yet in HEAD (before its first commit)")
+    for f in ("exact_gram/rebuild.py", "exact_gram/bounds.py", "exact_gram/guard.py", "two_adic/ta_data.py"):
+        assert f"{GD.C4S2}/{f}" in paths, f
+    try:
+        k = GD.key()
+        assert k["rebuild_digest"] == digest
+    except GD.GuardRefused as e:
+        assert "dirty" in str(e)
+
+
+def test_key_refuses_an_absent_root():
     with pytest.raises(GD.GuardRefused, match="absent"):
-        GD.key()
+        GD.head_closure(root=f"{GD.C4S2}/exact_gram/no_such_module.py")
 
 
 def _fake_tree():

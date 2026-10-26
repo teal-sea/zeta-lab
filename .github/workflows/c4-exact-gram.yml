@@ -1,0 +1,90 @@
+# The exact-Gram rebuild of Delta_T at 280 modes (hunts/weil_propagation/c4_s2/exact_gram/).
+#
+# Ruling of 2026-10-26 (exact_gram/RUNS.md s6): triggered ONLY by a push to
+# hunt/c4-exact-gram that touches exact_gram/RUN_REQUEST.json, which carries
+# the run parameters; never by this file. The request is committed only after
+# the coordinator's 'go', and that waits for P4 (PREREG row D0).
+#
+# Estimate (RUNS.md s2): about 155 core-hours, 1,250 blocks of about 412 s at
+# dps 40, plus the dps-60 replay of every 16th block. 7 jobs of 4 worker
+# processes = 28 shards of about 45 blocks each, about 5.4 h of blocks per
+# process. Each process stops itself at 335 minutes, so its last checkpoint is
+# uploaded inside the 350-minute job limit, and a rerun resumes from it.
+#
+# Before any compute each job checks the ball backend (Arb, not the mpmath
+# fallback) and the snapshot guard (exact_gram/guard.py: the rebuild's
+# import closure and checker/'s T_S input digest, fail closed).
+name: c4-exact-gram
+
+on:
+  push:
+    branches:
+      - "hunt/c4-exact-gram"
+    paths:
+      - "hunts/weil_propagation/c4_s2/exact_gram/RUN_REQUEST.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: c4-exact-gram
+  cancel-in-progress: false
+
+env:
+  PYTHONUNBUFFERED: "1"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  FLINT_NUM_THREADS: "1"
+  EG: hunts/weil_propagation/c4_s2/exact_gram
+
+jobs:
+  shards:
+    name: shards ${{ matrix.job }} (4 processes)
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 7
+      matrix:
+        job: [0, 1, 2, 3, 4, 5, 6]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install (versions pinned in requirements.txt)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - name: preflight (ball backend, snapshot guard, request)
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          from zeta import rigor
+          assert rigor.BACKEND == "python-flint", rigor.BACKEND
+          sys.path.insert(0, os.environ["EG"])
+          import guard
+          k = guard.key()  # raises GuardRefused on a dirty or absent closure
+          req = json.load(open(os.path.join(os.environ["EG"], "RUN_REQUEST.json")))
+          assert req["gram"] == "exact" and req["shards"] == 28, req
+          print("guard", k)
+          PY
+      - name: run 4 shards
+        run: |
+          mkdir -p out
+          for p in 0 1 2 3; do
+            shard=$(( 4 * ${{ matrix.job }} + p ))
+            timeout 335m python "$EG/rebuild.py" run --request "$EG/RUN_REQUEST.json" \
+              --shard "$shard" --shards 28 --out out > "out/log_$shard.txt" 2>&1 &
+          done
+          status=0
+          for job in $(jobs -p); do wait "$job" || status=$?; done
+          tail -n 5 out/log_*.txt
+          echo "exit status $status" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit $status
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c4-exact-gram-job${{ matrix.job }}
+          path: out/
+          if-no-files-found: warn
