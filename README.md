@@ -22,6 +22,15 @@ separate repository; this one holds the record, not the presentation of it.
 
 ## Current results (October 2026)
 
+**RH to height 100, kernel-checked** ([docs/45](docs/45-rh-to-height-fifty.md),
+[hunt #137](hunts/rh_height_lean/RESULTS.md)). A Lean proof about Mathlib's own
+`riemannZeta`: every zero with 0 < Re rho < 1 and 0 < Im rho <= 100 lies on the
+critical line and is simple, and there are exactly 29 of them. Lean's kernel accepts
+it from a clean build with zero `sorry` and only the three standard axioms, and the
+independent checker `con-ron --verified` accepts the exported proof as well. No
+outside computation is taken on trust. RH has been verified numerically far higher;
+this is a finite theorem and says nothing about RH itself.
+
 On 2026-10-06 OpenAI released a proof that no Dirichlet L-function, zeta
 included, has a zero with real part above 7/8. This laboratory rebuilt its Lean
 proof on its own compute, two independent proof kernels accepted it

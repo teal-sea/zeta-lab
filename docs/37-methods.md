@@ -67,7 +67,7 @@ stays out of this file. No em dashes.
 - **Lean arm: formalised elementary number theory** (10). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
-- **Certificates, verifiers and exact arithmetic** (21). Exact rational acceptance of
+- **Certificates, verifiers and exact arithmetic** (23). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
 - **Zero-free half-planes, L(1, chi) and class numbers** (3). An explicit Littlewood
@@ -81,15 +81,15 @@ stays out of this file. No em dashes.
   primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (62). Surfaced by the sweep, below the bar for now.
 
-Totals: 189 entries from 72 hunts. Kinds: identity 24, lemma 48, bound 12, construction
-16, calibration 7, computational 22, control 39, obstruction 21. (Recounted from the
+Totals: 191 entries from 73 hunts. Kinds: identity 24, lemma 48, bound 12, construction
+16, calibration 7, computational 22, control 40, obstruction 22. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
 again from the entries. The seven Erdos #126 arms landed on 2026-10-21 (hunts #94, #97,
 #98, #99, #100, #106, #143) added eight items to "Seen and not admitted" and none above;
 that count was recounted from its items: 54 before them, where the line read 51. Hunt
-#139 added one on 2026-10-21, and the line was recounted from the entries again,
-counting each entry's originating hunt: it had read 188 from 71.)
+#140 added two on 2026-10-21, recounted again from the entries. Hunt #139 added one the
+same day, recounted again from the entries, counting each entry's originating hunt.)
 
 ## Prime pairs and the circle method
 
@@ -5151,6 +5151,10 @@ and the controls that separate an instrument reading from a mathematical claim.
   cover of a uniformity parameter (`jensen_wedge`)
 - control: Claims against recomputation with planted weakenings, and formula plants
   replayed as source edits (`jensen_wedge`)
+- control: A Groebner infeasibility test must be able to return [1]: encode the targets
+  as nonvanishing and saturate the torus (`r_abf47b`)
+- obstruction: Stabilizer-slice orbit census: a coordinate stabilizer's orbits refine
+  the full orbits and add no branches (`r_abf47b`)
 
 ### Signed-lattice binomial/trinomial sieve on a support torus
 
@@ -5775,6 +5779,62 @@ Reused in: none yet
 Why it travels: Any explicit-constant chain (effective theorems, certificate verifiers with
 intermediate bounds) can be checked against weakened claims cheaply, and the second layer
 names the formula steps a green run does not attest to.
+
+### Control: a Groebner infeasibility test must be able to return [1]; encode the targets as nonvanishing and saturate the torus
+
+control | `hunts/r_abf47b/` | grade: exact (an elementary fact about homogeneous ideals,
+with a planted two-variable control in test_orbit_refinement.py); found by the landing
+audit, not by the run
+
+To show that a polynomial system has no solution with some target brackets nonzero, on a
+torus where every variable is nonzero, a Groebner run has to be able to return the unit
+ideal. Entering the targets as zero generators makes that impossible whenever every
+generator is homogeneous without a constant term, because the ideal then lies inside the
+maximal ideal of the origin. Hunt #140's run did exactly that on Krenn-Gu Support 7
+(3 target brackets and 6,558 relations, all homogeneous of degree 3 or 4, in 138
+variables) and priced a 300 s timeout that could carry no information. The check costs
+seconds: before spending, confirm that the generators are not all homogeneous without a
+constant term, since if they are, `[1]` is out of reach; and encode the nonvanishing
+condition the Rabinowitsch way, `<relations, 1 - y*T*x_1*...*x_n>`, which is the unit
+ideal exactly when no torus point satisfies the relations with `T` nonzero. Then require
+`[1]` on a planted infeasible system: with the relation `x + y` and
+the target `x + y`, the zero-generator encoding returns `[x + y]` and the saturated one
+returns `[1]`.
+
+Evidence: hunts/r_abf47b/RESULTS.md 'Audit correction' part A; test_orbit_refinement.py
+(the generator census and the control)
+Prior art: textbook (the Rabinowitsch trick and saturation); not searched further
+Reused in: none yet
+Why it travels: Any hunt that prices an algebraic infeasibility run (Groebner bases,
+Nullstellensatz degree bounds, ideal membership) can check in seconds whether its encoding
+can say no at all, before it pays for the solver.
+
+### Stabilizer-slice orbit census: a coordinate stabilizer's orbits refine the full orbits and add no branches
+
+obstruction | `hunts/r_abf47b/` | grade: exact finite check on two implementations
+(map_orbits.py over all triples; test_orbit_refinement.py on the slice)
+
+Let G act transitively on a set P with stabilizer K of a point p0, and let G x S3 act on
+P^3 (G diagonally, S3 permuting coordinates). Every orbit meets the slice
+{p0} x P x P, and the orbits of K x S2 on the slice (S2 swapping the last two
+coordinates) map onto the G x S3 orbits. So a branch cover by the K x S2 orbits is never
+wider than the cover by the full orbits; it only splits full orbits into symmetric
+copies. For Krenn-Gu 8x3 the 57 H x S2 pair orbits (H = S2 wr S4, order 384) map onto the
+31 S8 x S3 triple orbits with fibres of 1, 2 and 3 over 8, 20 and 3 orbits, which closes
+Hunt #74's proposal to sieve 57 skeletons. The census itself needs only the slice: fix
+r_X with r_X(X) = p0 for each X, join slice points by K-moves and by the lifts
+t -> r_X(pi t), and read each orbit's size as |P| times its slice count. On the 8x3
+instance that replaces an enumeration of 1,157,625 triples (about 130 s of CPU) by a
+union-find on 11,025 points (about a second), and it reproduces Hunt #71's 31 orbit
+sizes.
+
+Evidence: hunts/r_abf47b/RESULTS.md section 2 and 'Audit correction' part D;
+map_orbits.py; test_orbit_refinement.py
+Prior art: an elementary orbit-stabilizer argument; no novelty claimed; not searched
+Reused in: none yet
+Why it travels: A symmetry-reduced branch search should check a proposed finer cover
+against the full group's orbits before paying for it, and any orbit census of tuples
+under a transitive group can be run on one slice.
 
 ## Zero-free half-planes, L(1, chi) and class numbers
 

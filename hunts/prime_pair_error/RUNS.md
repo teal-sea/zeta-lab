@@ -6,7 +6,7 @@
 whole script 3.1 s; the FFT is N log N, so 10^7 was priced at about 15 to 20 s for the
 decomposition plus the sieves, under a minute in all, with the padded FFT of length
 2^25 costing about 1 GB and the per-k arrays another gigabyte. Measured: 33.5 s wall,
-2.2 GB maximum resident set, 3.9 GB peak footprint, on the operator's 16 GB laptop.
+2.2 GB maximum resident set, 3.9 GB peak footprint, on a 16 GB laptop.
 Nothing checkpoints because nothing runs long enough to need it. The final run, after
 the singular-series cross-check was added, took 31.7 s wall and 2.7 GB resident.
 
@@ -36,7 +36,7 @@ about 1.6 GB (the closed-form check at q = 3 holds about fourteen arrays of leng
 at once). Nothing checkpoints because nothing runs long enough to need it.
 
 **Measured.** 177 s wall, 3.27 GB maximum resident set, 4.4 GB peak footprint, on
-the operator's 16 GB laptop: the time estimate was low by half and the memory
+a 16 GB laptop: the time estimate was low by half and the memory
 estimate by a factor of two. The memory is the q = 3 closed-form check and the q = 30
 product form each holding a dozen arrays of length N beside the four corrections; both
 are checks, not predictions, and the next pass should compute them at one cutoff
@@ -63,7 +63,7 @@ N plus one FFT pair count per cutoff to check the identity against T(N); priced 
 `residue.py`'s per-cutoff figures at a few seconds in all and about 2.5 GB resident at
 7 x 10^6 (the FFT of length 2^24 and a dozen arrays of length N). Nothing checkpoints.
 
-**Measured.** 3.0 s wall, 2.45 GB maximum resident set, on the operator's 16 GB laptop,
+**Measured.** 3.0 s wall, 2.45 GB maximum resident set, on a 16 GB laptop,
 for all five cutoffs with the pair count included.
 
 ```runmanifest
