@@ -174,3 +174,34 @@ any run: a full tower (the `decide +kernel` file with its containment theorem, n
 import baseline) at **at most 10 CPU-s** confirms the repricing of production to roughly
 20 to 90 core-hours; above that, the `norm_num` price in `OWNER_MEMO.md` (416 core-hours)
 stands.
+
+## Resumed 2026-10-26: what ran (UTC)
+
+- Before 12:56: `decide_pilot.py emit`, then a one-off smoke compile of
+  `Composite_decide.lean` and `WholeEval.lean` outside the log, to check the syntax before
+  the logged run.
+- 12:56 to 13:01: `decide_pilot.py run`, 16 Lean runs, one at a time.
+- 13:03 to 13:05: `decide_pilot.py run --only` the full `norm_num` tower control and
+  the three whole-route files (6 runs), added after the first run showed that the whole
+  decision finished in seconds. They are inside the same pre-approved one core-hour unit.
+- Then `decide_pilot.py summarize` wrote `pilot.json`'s `decide_kernel` section.
+
+In all, 22 logged Lean runs and 7.4 core-minutes of CPU, against the estimate of under
+30.
+
+```runmanifest
+id: rung3_ball_production-2026-10-26-decide
+hunt: rung3_ball_production
+started: 2026-10-26T12:50Z
+finished: 2026-10-26T13:05Z
+ran:
+  - hunts/rung3_ball_production/decide_pilot.py emit
+  - hunts/rung3_ball_production/decide_pilot.py run
+  - hunts/rung3_ball_production/decide_pilot.py run --only TowerNormNum.lean TowerWhole_p2.lean TowerWhole_p1801_box.lean TowerWholeFault_p2.lean
+  - hunts/rung3_ball_production/decide_pilot.py summarize
+outcome: every decide +kernel file with correct literals was accepted with only the three standard axioms, both planted one-unit faults were refused at the named declaration, the staged variant missed the 10 CPU-s threshold (43.4 net) and the whole-decision tower met it (3.4 and 5.3 net), repricing production to 50 to 58 core-hours by extrapolation, conditional on a generator change; no production shard was launched
+artifacts:
+  - hunts/rung3_ball_production/pilot.json (decide_kernel)
+  - <cache>/rung3-ball-production-decide/runs.jsonl
+  - <cache>/rung3-ball-production-decide/src
+```

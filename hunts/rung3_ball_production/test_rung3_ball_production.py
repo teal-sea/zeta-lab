@@ -325,3 +325,69 @@ def test_documents_carry_no_em_dash(doc):
     # The reserved-word scan for every file under hunts/ is
     # tests/test_hunt_probe_discipline.py; it is not repeated here.
     assert "\u2014" not in (HERE / doc).read_text(), f"{doc} has an em dash"
+
+
+# --------------------------------------------------------------------------- 2026-10-26: decide +kernel
+
+DK = PILOT["decide_kernel"]
+
+
+def test_decide_net_cpu_follows_from_its_samples():
+    base = st.median(DK["baseline_cpu_s"])
+    assert DK["baseline_cpu_s_median"] == pytest.approx(base)
+    for name in ("TowerNormNum", "TowerNormNumEq", "TowerDecide", "TowerDecideEq",
+                 "WholeDecide", "TowerWhole_p2", "TowerWhole_p1801_box",
+                 "Composite_decide", "Kappa_decide"):
+        r = DK[name]
+        assert set(r["returncodes"]) == {0}, name
+        assert r["net_cpu_s_median"] == pytest.approx(st.median(r["cpu_s"]) - base, abs=0.01)
+
+
+def test_decide_planted_faults_were_refused_where_planted():
+    assert DK["fault"]["returncode"] == 1 and DK["fault"]["refused_decls"] == ["ev_mul_29"]
+    assert DK["whole_fault"]["returncode"] == 1 and DK["whole_fault"]["refused_decls"] == ["ev_p2"]
+    assert DK["whole"]["returncode"] == 0 and not DK["whole"]["timed_out"]
+    assert DK["whole"]["eval_stdout"] == "true"
+    for line in DK["axioms_printed"]:
+        assert line.endswith("depends on axioms: [propext, Classical.choice, Quot.sound]")
+
+
+def test_decide_verdict_against_the_threshold_recorded_in_advance():
+    v = DK["verdict"]
+    assert DK["threshold_full_tower_cpu_s"] == 10.0
+    assert "**at most 10 CPU-s** confirms the repricing" in (HERE / "RUNS.md").read_text()
+    assert v["staged_decide_full_tower_net_cpu_s"] == DK["TowerDecide"]["net_cpu_s_median"]
+    assert not v["staged_meets_threshold"] and v["whole_meets_threshold"]
+    assert v["whole_decision_full_tower_net_cpu_s"] == [
+        DK["TowerWhole_p2"]["net_cpu_s_median"], DK["TowerWhole_p1801_box"]["net_cpu_s_median"]]
+
+
+def test_decide_reprice_adds_up():
+    r = DK["reprice"]
+    assert r["towers"] == PILOT["atom_only"]["tower_atoms"] // 30 == 15608
+    lo, hi = sorted(DK["verdict"]["whole_decision_full_tower_net_cpu_s"])
+    assert r["tower_core_hours"] == [round(r["towers"] * lo / 3600, 1),
+                                     round(r["towers"] * hi / 3600, 1)]
+    rest = sum(v for k, v in PILOT["projection"]["core_hours"].items() if k != "tower")
+    assert r["other_core_hours_unchanged"] == pytest.approx(rest, abs=0.01)
+    assert 20 <= r["total_core_hours"][0] <= r["total_core_hours"][1] <= 90
+
+
+def test_pilot_md_quotes_the_decide_numbers():
+    text = " ".join((HERE / "PILOT.md").read_text().split())
+    for name in ("TowerNormNum", "TowerNormNumEq", "TowerDecide", "TowerDecideEq",
+                 "WholeDecide", "TowerWhole_p2", "TowerWhole_p1801_box"):
+        assert f"| {DK[name]['net_cpu_s_median']:.1f} |" in text, name
+    lo, hi = DK["reprice"]["total_core_hours"]
+    assert f"**{lo:.0f} to {hi:.0f} core-hours**" in text
+    assert f"{DK['reprice']['towers']:,} prime towers" in text
+
+
+def test_no_file_in_this_hunt_carries_the_reserved_word():
+    """The lexical rule covers every file type here, `.lean` included (the discipline
+    test scans only `.py`, `.md` and `.json`)."""
+    word = "certi" + "fied"
+    hits = [str(p.relative_to(HERE)) for p in HERE.rglob("*")
+            if p.is_file() and "__pycache__" not in p.parts and ".lake" not in p.parts
+            and word in p.read_text(errors="ignore").lower()]
+    assert not hits, hits

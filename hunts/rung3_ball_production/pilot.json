@@ -5371,5 +5371,359 @@
    "CB_right_06.lean": "d9540405e931772a49f3519d056838752db7ffb06ff9bfda98a3771e434c5d54"
   },
   "identical": true
+ },
+ "decide_kernel": {
+  "date": "2026-10-26",
+  "prime": 2,
+  "staged_atoms": 30,
+  "threshold_full_tower_cpu_s": 10.0,
+  "baseline_cpu_s": [
+   11.4,
+   10.19
+  ],
+  "baseline_cpu_s_median": 10.795,
+  "TowerDecideEq": {
+   "runs": 2,
+   "returncodes": [
+    0,
+    0
+   ],
+   "cpu_s": [
+    15.3,
+    15.84
+   ],
+   "wall_s": [
+    19.02,
+    18.98
+   ],
+   "maxrss_kb": [
+    6594816.0,
+    6603300.0
+   ],
+   "load1_before": [
+    49.04,
+    53.6
+   ],
+   "net_cpu_s_median": 4.78
+  },
+  "TowerDecide": {
+   "runs": 2,
+   "returncodes": [
+    0,
+    0
+   ],
+   "cpu_s": [
+    53.7,
+    54.59
+   ],
+   "wall_s": [
+    61.25,
+    56.09
+   ],
+   "maxrss_kb": [
+    6775028.0,
+    6777532.0
+   ],
+   "load1_before": [
+    60.47,
+    59.18
+   ],
+   "net_cpu_s_median": 43.35
+  },
+  "TowerNormNumEq": {
+   "runs": 1,
+   "returncodes": [
+    0
+   ],
+   "cpu_s": [
+    23.84
+   ],
+   "wall_s": [
+    12.41
+   ],
+   "maxrss_kb": [
+    6666584.0
+   ],
+   "load1_before": [
+    43.22
+   ],
+   "net_cpu_s_median": 13.04
+  },
+  "TowerDecideFault": {
+   "runs": 1,
+   "returncodes": [
+    1
+   ],
+   "cpu_s": [
+    14.9
+   ],
+   "wall_s": [
+    13.12
+   ],
+   "maxrss_kb": [
+    6608504.0
+   ],
+   "load1_before": [
+    39.36
+   ],
+   "net_cpu_s_median": null
+  },
+  "TowerNormNum": {
+   "runs": 1,
+   "returncodes": [
+    0
+   ],
+   "cpu_s": [
+    76.93
+   ],
+   "wall_s": [
+    64.98
+   ],
+   "maxrss_kb": [
+    6786760.0
+   ],
+   "load1_before": [
+    43.75
+   ],
+   "net_cpu_s_median": 66.14
+  },
+  "Composite_decide": {
+   "runs": 2,
+   "returncodes": [
+    0,
+    0
+   ],
+   "cpu_s": [
+    9.23,
+    9.81
+   ],
+   "wall_s": [
+    9.4,
+    11.26
+   ],
+   "maxrss_kb": [
+    6564912.0,
+    6561932.0
+   ],
+   "load1_before": [
+    34.48,
+    39.22
+   ],
+   "net_cpu_s_median": -1.28
+  },
+  "Composite_normnum": {
+   "runs": 1,
+   "returncodes": [
+    0
+   ],
+   "cpu_s": [
+    11.75
+   ],
+   "wall_s": [
+    12.79
+   ],
+   "maxrss_kb": [
+    6563464.0
+   ],
+   "load1_before": [
+    45.52
+   ],
+   "net_cpu_s_median": 0.96
+  },
+  "Kappa_decide": {
+   "runs": 2,
+   "returncodes": [
+    0,
+    0
+   ],
+   "cpu_s": [
+    10.15,
+    12.34
+   ],
+   "wall_s": [
+    10.94,
+    12.5
+   ],
+   "maxrss_kb": [
+    6557388.0,
+    6548116.0
+   ],
+   "load1_before": [
+    40.33,
+    36.99
+   ],
+   "net_cpu_s_median": 0.45
+  },
+  "Kappa_normnum": {
+   "runs": 1,
+   "returncodes": [
+    0
+   ],
+   "cpu_s": [
+    12.61
+   ],
+   "wall_s": [
+    13.63
+   ],
+   "maxrss_kb": [
+    6555384.0
+   ],
+   "load1_before": [
+    42.43
+   ],
+   "net_cpu_s_median": 1.81
+  },
+  "WholeEval": {
+   "runs": 1,
+   "returncodes": [
+    0
+   ],
+   "cpu_s": [
+    12.49
+   ],
+   "wall_s": [
+    13.65
+   ],
+   "maxrss_kb": [
+    6538444.0
+   ],
+   "load1_before": [
+    39.64
+   ],
+   "net_cpu_s_median": 1.7
+  },
+  "WholeDecide": {
+   "runs": 1,
+   "returncodes": [
+    0
+   ],
+   "cpu_s": [
+    13.29
+   ],
+   "wall_s": [
+    15.19
+   ],
+   "maxrss_kb": [
+    6590176.0
+   ],
+   "load1_before": [
+    41.41
+   ],
+   "net_cpu_s_median": 2.49
+  },
+  "TowerWhole_p2": {
+   "runs": 2,
+   "returncodes": [
+    0,
+    0
+   ],
+   "cpu_s": [
+    13.79,
+    14.53
+   ],
+   "wall_s": [
+    14.79,
+    15.88
+   ],
+   "maxrss_kb": [
+    6593232.0,
+    6593364.0
+   ],
+   "load1_before": [
+    33.42,
+    32.57
+   ],
+   "net_cpu_s_median": 3.37
+  },
+  "TowerWhole_p1801_box": {
+   "runs": 2,
+   "returncodes": [
+    0,
+    0
+   ],
+   "cpu_s": [
+    16.93,
+    15.17
+   ],
+   "wall_s": [
+    23.07,
+    20.68
+   ],
+   "maxrss_kb": [
+    6606336.0,
+    6611676.0
+   ],
+   "load1_before": [
+    39.08,
+    45.06
+   ],
+   "net_cpu_s_median": 5.26
+  },
+  "TowerWholeFault_p2": {
+   "runs": 1,
+   "returncodes": [
+    1
+   ],
+   "cpu_s": [
+    12.79
+   ],
+   "wall_s": [
+    14.61
+   ],
+   "maxrss_kb": [
+    6613248.0
+   ],
+   "load1_before": [
+    45.48
+   ],
+   "net_cpu_s_median": null
+  },
+  "fault": {
+   "expected_refused": "ev_mul_29",
+   "returncode": 1,
+   "refused_decls": [
+    "ev_mul_29"
+   ]
+  },
+  "whole": {
+   "timeout_s": 600,
+   "timed_out": false,
+   "returncode": 0,
+   "errors": [],
+   "eval_stdout": "true"
+  },
+  "whole_fault": {
+   "expected_refused": "ev_p2",
+   "returncode": 1,
+   "refused_decls": [
+    "ev_p2"
+   ]
+  },
+  "axioms_printed": [
+   "'tower_p1801' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "'tower_p2' depends on axioms: [propext, Classical.choice, Quot.sound]"
+  ],
+  "verdict": {
+   "staged_decide_full_tower_net_cpu_s": 43.35,
+   "staged_meets_threshold": false,
+   "whole_decision_full_tower_net_cpu_s": [
+    3.37,
+    5.26
+   ],
+   "whole_meets_threshold": true
+  },
+  "reprice": {
+   "towers": 15608,
+   "tower_core_hours": [
+    14.6,
+    22.8
+   ],
+   "other_core_hours_unchanged": 35.49,
+   "total_core_hours": [
+    50.1,
+    58.3
+   ],
+   "norm_num_total_core_hours": 416.0
+  }
  }
 }

@@ -330,3 +330,64 @@ davenport_heilbronn : davenport_heilbronn_statement`. The cell hypotheses of tha
 (`cell_requirements` in `scripts/60`); in Lean they would be discharged in the assembly
 module, which does not exist. On this route, production of the 215 site theorems is
 necessary for the target and not sufficient.
+
+## 7. Resumed 2026-10-26: the tower under `decide +kernel`
+
+**Measured**, one session on the shared box, one Lean process at a time under `nice -n 10`,
+each run gated on a 1-minute load of at most 64 (the load before each run was 33 to 60).
+The instrument is `decide_pilot.py`; its raw records are in
+`<cache>/rung3-ball-production-decide/runs.jsonl` and its summary is the `decide_kernel`
+section of `pilot.json`, written by `decide_pilot.py summarize` (not by `report.py`, whose
+tables above are unchanged). Every file imports `ZetaLean.BallCertSupport`; "net" is CPU
+(user plus system, `/usr/bin/time -v`) minus the median of two import-only runs, 10.8
+CPU-s, whose own spread is 1.2 CPU-s.
+
+The threshold, written in `RUNS.md` before any run: a full tower at most 10 CPU-s net
+confirms a repricing of production to roughly 20 to 90 core-hours; above that the
+`norm_num` price (416 core-hours) stands.
+
+| file (prime 2 at the `scripts/68` oracle point unless named) | net CPU-s |
+|---|---|
+| `scripts/68` tower, staged equalities by `norm_num`, full file (1 run) | 66.1 |
+| the same, equalities only (1 run) | 13.0 |
+| every staged equality by `decide +kernel`, full file (2 runs) | 43.4 |
+| the same, equalities only (2 runs) | 4.8 |
+| whole tower, `dirichletTermBallB 32 20 64 2 10 2 S = lit := by decide +kernel` (1 run) | 2.5 |
+| full tower through the whole decision: `contains_dirichletTermBallB`, its norm side condition by `decide +kernel`, then the decision (2 runs) | 3.4 |
+| the same at p = 1801 on `B_right_06`'s input ball (radius 357/32768) (2 runs) | 5.3 |
+| one composite product (6 = 2 x 3), `decide +kernel` (2 runs) / `norm_num` (1 run) | within the baseline's spread / 1.0 |
+| one kappa product (`coeffBall 2` times the p = 2 ball), `decide +kernel` (2 runs) / `norm_num` (1 run) | 0.5 / 1.8 |
+
+What the kernel did:
+
+- **Every `decide +kernel` file with correct literals was accepted**, and both whole-route
+  towers print only `propext`, `Classical.choice` and `Quot.sound`. The literal for the
+  whole decision is the mirror's `dirichletTermBox2`; an `#eval decide (...)` of the same
+  equality printed `true` before the kernel run.
+- **Planted faults.** In the staged file, `Sq_10`'s radius one unit of 2^-64 low is refused
+  at `ev_mul_29` and nowhere else. In the whole decision, the final ball's radius one unit
+  of 2^-64 low is refused at `ev_p2`. The tactic's message there says it "failed to reduce"
+  the proposition, because after the kernel rejects it the tactic retries the reduction in
+  the elaborator, which stops at `round`. The file with the correct literal is accepted, and
+  the two files differ in that literal only, so the kernel evaluated the tower in both.
+- **The whole decision did not need its ten-minute timeout**: `Nat.sqrt`
+  (`lean/ZetaLean/Ball.lean`, `sqrtUpperQ`) and the recursive `expCrB` evaluate in the
+  kernel in about 2.5 CPU-s for the p = 2 tower.
+
+**Verdict against the threshold.** The staged variant misses it: 43.4 CPU-s net, because
+the staged equalities were never most of the tower's cost (13.0 of 66.1 CPU-s under
+`norm_num`); the containment theorem around them is. The whole-decision route meets it at
+3.4 and 5.3 CPU-s net for the two towers measured. So the repricing holds **for the
+whole-decision route**. Priced the same way as section 4 (15,608 prime towers in the 215
+sites, every other component kept at its 2026-10-21 price of 35.5 core-hours), production
+comes to **50 to 58 core-hours** (`decide_kernel.reprice` in `pilot.json`) against the
+416 of section 4.
+
+That figure is an extrapolation, hedged here at its point of use. It comes from two
+towers in standalone files, not from shards. The 2026-10-21 shards cost 10 to 20 percent
+more per tower than standalone `scripts/68` files. The other 35.5 core-hours could also
+fall under `decide +kernel`, which has not been measured beyond one composite and one
+kappa product. Most importantly, **no generator emits the whole-decision tower yet**:
+`scripts/69` emits the staged form, and changing it is outside this hunt's write scope. A
+site compiled from today's generator still costs the section 4 price. `PRODUCTION.md`
+lists that change as a decision for the owner before launch.
