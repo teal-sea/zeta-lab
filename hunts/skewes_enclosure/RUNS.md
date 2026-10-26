@@ -133,3 +133,24 @@ Shard 216 (zero indices 21500001 .. 21600000, height ~1.02e7), 64-bit, sample 20
 under `/usr/bin/time -v`, as the coordinator asked for the workflow's memory rule.
 Estimate: 27 to 36 ms/zero, so 2700 to 3600 s, **0.75 to 1.0 core-hour**,
 single process. Its JSON is a production-B shard and is kept.
+
+Ran 15:50:30 to 16:27:28 UTC (load 9 to 37): **22.1 ms/zero, 2214 s = 0.62 core-hour**,
+under the estimate. **Peak RSS 44,976 kB** (`/usr/bin/time -v` and the shard's own
+`max_rss_kb` agree). A 1e4-zero probe at index 21900001 peaked at 38,144 kB
+(23.9 ms/zero). The workflow's `SHARD_RSS_KB = 120000` is therefore a 2.7x margin.
+All balls are ordered and disjoint, and 20/20 route-2 brackets show a sign change.
+`shards_b/shard_216.json` is kept as a production-B shard. On this box a top-of-range
+shard costs 0.62 core-hour, which is the reference for the pilot's
+<= 1.1 core-hour/shard condition.
+
+```runmanifest
+id: skewes_enclosure-2026-10-26-shard216
+hunt: skewes_enclosure
+started: 2026-10-26T15:50:30+00:00
+finished: 2026-10-26T16:27:28+00:00
+ran:
+  - /usr/bin/time -v nice -n 10 python -u hunts/skewes_enclosure/zero_layer.py --n0 21500001 --num 100000 --batch 5000 --prec 64 --sample 20 --seed 152216 --out shards_b/shard_216.json
+outcome: shard 216 at 22.1 ms per zero, peak RSS 44976 kB, balls ordered and disjoint, 20 of 20 sampled brackets show a sign change
+artifacts:
+  - hunts/skewes_enclosure/shards_b/shard_216.json
+```
