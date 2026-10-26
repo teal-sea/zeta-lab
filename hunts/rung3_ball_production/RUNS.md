@@ -388,3 +388,47 @@ artifacts:
   - hunts/rung3_ball_production/pilot.json (calibration_runner; the first run is calibration_runner_v1)
   - GitHub artifacts of run 40350287309, 30-day retention
 ```
+
+## 2026-10-26: the full run, and the assembly on this box (estimate before spending)
+
+Full run 40353536947 started at 15:52Z from `RUN_REQUEST.json` at `85cabd55b`. Its
+watcher, a detached process on this box (`<cache>/rung3-ball-production-full/watcher.log`),
+waits for the run's terminal state and writes it to `terminal.json`; its outcome is
+recorded below when it ends. No second request will be pushed while the run is live.
+
+The coordinator placed the assembly on this box, with the oleans on `/dev/shm`, on these
+conditions:
+
+- start only while `MemAvailable` is above 45 GiB and the load is below 64, and abort
+  below 20 GiB;
+- one Lean process under `nice -n 10`, with `lean` and `LEAN_PATH` only, against this
+  checkout's own `lean/.lake`;
+- downloads straight to `/dev/shm`, each zip checked against GitHub's digest;
+- everything in `/dev/shm` deleted at the end, keeping receipts, hashes and logs.
+
+Prepared before the verdict (measured):
+
+- **The combined `LEAN_PATH` for the separation.** Hunt #137's oleans
+  (`<cache>/rh100-out`) carry their own `ZetaLean.Rigor`, `IntervalExp` and
+  `IntervalCExp`. Their bytes differ from this checkout's, but `lean/CompareOleans.lean`
+  (in this hunt) reads all three parts of each and finds every constant's name, kind, type
+  and value identical (264, 155 and 262 constants); a control pair of different modules
+  is reported as different. So one overlay directory, holding this checkout's `ZetaLean`
+  oleans plus hunt #137's `HardyZ`, serves both. A probe importing `RHHeight100.Main100`
+  with `Rung3Assembly.Support` through that overlay elaborated with no error (12.3 CPU-s,
+  6.7 GB), and checked `RHHeight100.rh_height_hundred : RHHeight.RHHeight100`.
+- `tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one` runs now, as one
+  process.
+
+**Estimate**, from this hunt's measurements:
+
+| unit | basis | estimate |
+|---|---|---|
+| collect: 20 zips (about 5 GB compressed, about 16 GB unzipped) into `/dev/shm`, SHA-256 each | the calibration artifact (113 MB) took seconds | 5 to 10 min wall, under 5 CPU-min |
+| `Support.olean` | 10.6 CPU-s measured | under 1 min |
+| `Assembly.lean`, 215 roots | the two-site harness 127 CPU-s, plus imports | 5 to 15 CPU-min, 17 to 18 GB RSS |
+| `Separation.lean` and `#print axioms` on every final declaration | the probe above, plus the 215-root import again | 5 to 10 CPU-min |
+| four planted faults on the production output (tower radius, tail radius, M, centre eps') | 35 to 110 CPU-s each on 2026-10-21 and today | under 8 CPU-min |
+
+That totals 20 to 40 core-minutes, under the one core-hour cap. Anything beyond goes back
+to the coordinator first.
