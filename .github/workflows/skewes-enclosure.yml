@@ -35,6 +35,12 @@ concurrency:
   group: skewes-enclosure-${{ github.ref }}
   cancel-in-progress: false
 
+defaults:
+  run:
+    # GitHub's default `bash -e {0}` has no pipefail, so `check | tee` would take
+    # tee's exit status and the fail-closed gates would pass on failure.
+    shell: bash --noprofile --norc -eo pipefail {0}
+
 env:
   # Peak RSS of one 64-bit shard process near height 1e7, measured on the lab
   # box (RUNS.md, 2026-10-26), rounded up.
@@ -104,7 +110,6 @@ jobs:
       - name: Smoke check against the lab box reference (fail-closed)
         run: timeout 300 python3 hunts/skewes_enclosure/smoke_check.py
       - name: Run this block's shards, each under its own timeout
-        shell: bash
         run: |
           avail=$(awk '/MemAvailable/ {print $2}' /proc/meminfo)
           bymem=$(( avail * 8 / 10 / SHARD_RSS_KB ))
@@ -119,6 +124,7 @@ jobs:
               && echo "shard $k done" || echo "shard $k FAILED or timed out"'
           ls -la out
       - name: Every requested shard is sound (fail-closed)
+        shell: bash --noprofile --norc -eo pipefail {0}
         run: python3 hunts/skewes_enclosure/check_block.py out ${{ matrix.block.list }} | tee -a "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
