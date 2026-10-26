@@ -62,6 +62,7 @@ OUT = os.path.join(_HERE, "census_1e4.json")
 HALF = 40.0
 SIG_IN = 0.505
 SIG_ALL = -1.05
+SIG_FALLBACK = 0.5005
 FLOOR = 0.05765184034869543
 
 
@@ -130,10 +131,17 @@ def _newton(seed: complex, a: float, b: float, iters: int = 60):
     return z
 
 
-def offline_zeros(a: float, b: float, want: int):
-    """Locate zeros with beta > SIG_IN in [a, b]: grid minima, Newton, dedupe."""
+def offline_zeros(a: float, b: float, want: int, sig_in: float | None = None):
+    """Locate zeros with beta > sig_in (default SIG_IN) in [a, b]: grid minima, Newton, dedupe.
+
+    Below SIG_IN (the accounting fallback, added 2026-10-26) the grid gets extra
+    rows just right of sig_in, where a near-line pair lives.
+    """
+    sig_in = SIG_IN if sig_in is None else sig_in
     found = []
-    xs = np.linspace(SIG_IN + 0.005, 1.15, 24)
+    xs = np.linspace(sig_in + 0.005, 1.15, 24)
+    if sig_in < SIG_IN:
+        xs = np.concatenate([np.linspace(sig_in + 0.0003, SIG_IN + 0.004, 8), xs])
     step = 0.05
     npts = int((b - a) / step) + 1
     grid = np.array([np.abs(dz.f_vline(float(x), a, step, npts)) for x in xs])
@@ -148,7 +156,7 @@ def offline_zeros(a: float, b: float, want: int):
     cand.sort(key=lambda c: c[0])
     for _, seed in cand:
         z = _newton(seed, a, b)
-        if z is None or not (SIG_IN < z.real < 1.2 and a <= z.imag <= b):
+        if z is None or not (sig_in < z.real < 1.2 and a <= z.imag <= b):
             continue
         if abs(dz.f_one(z)) > 1e-9:
             continue
@@ -184,7 +192,18 @@ def census_one(gamma: float, y0: float) -> dict:
         reals = line_zeros(a, b, per_gap=240)
         entry["n_line_refined"] = len(reals)
         entry["accounting_ok"] = bool(n_all == len(reals) + 2 * n_right)
-    offl = offline_zeros(a, b, n_right)
+    sig_used = SIG_IN
+    if not entry["accounting_ok"]:
+        # Fallback (2026-10-26, hunt #119 unit 4): a pair with beta in
+        # (SIG_FALLBACK, SIG_IN) makes no line sign change and is not counted
+        # at SIG_IN; the window at gamma = 88167.40 held one at beta 0.50479.
+        n_fb, d_fb = count_float(SIG_FALLBACK, a, b)
+        entry["accounting_fallback"] = {"sig_in": SIG_FALLBACK, "n_right": n_fb, "defect": d_fb}
+        if n_all == len(reals) + 2 * n_fb:
+            entry["accounting_ok"] = True
+            n_right, sig_used = n_fb, SIG_FALLBACK
+    entry["sig_in_used"] = sig_used
+    offl = offline_zeros(a, b, n_right, sig_used)
     entry["n_offline_located"] = len(offl)
     entry["offline_located_ok"] = bool(len(offl) == n_right)
     me = min(offl, key=lambda z: abs(z - complex(0.5 + y0, gamma))) if offl else None

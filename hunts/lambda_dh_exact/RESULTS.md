@@ -851,6 +851,71 @@ re-request). The kill condition did its job: a census that had read only its
 own landings would have reported "no pair beats the floor" over a list
 missing 8 candidates.
 
+
+### 8.14 Unit 4 (2026-10-26): the locate guard, the audit, the window at 88167.40
+
+**The guard.** `deep_zeros.stage_locate` now accepts a root only inside the
+box its count was taken on: SIGMA_C < beta < SIGMA_R, and inside the part's
+t-range. A refused root triggers a search constrained to the box
+(`locate_part`, `locate_in_box`). A part that counts n zeros now gets n,
+where the old code took the first and stopped. A shortfall is written to an
+`unlocated` list instead of vanishing. Tests (section 9 of the test module):
+- a planted out-of-box start is refused and relocated;
+- the three lowest of the 17 known windows (fast tier) and all 17 (slow tier)
+  give in-box roots equal to `relocated.json`'s;
+- with the guard switched off under `LDH_PLANT_FAULT=1`, they fail.
+
+**The audit, dated corrections.** Every result that consumed located roots
+was re-located under the guard, from scratch copies of the recorded screens
+with the roots stripped (`census_runs/audit_u4/guarded_locate.json`,
+Run 19; measured):
+
+| screen | recorded roots | under the guard | change |
+|---|---|---|---|
+| low, [8, 10^4] at 0.85 | 21 | 21, bit-identical, none refused | **none** |
+| `screen_hi`, [10^4, 10^5] at 0.85 | 111 | 110 bit-identical; 16637.67 (beta 0.7132) refused, replaced by **16620.3825, y0 0.3742** | **one root**, as 8.13 already recorded |
+| 10^6, [1000000, 1001200] at 0.85 | 1 | 1, within 1.3e-13 | **none** |
+
+The 0.55 and 0.75 control screens and `deep_zeros.json` hold no located
+roots.
+
+**Claims that do not change, stated explicitly:**
+- every decided enclosure (8.2, 8.3, 8.5);
+- the census below 10^4, its 21 landings and every verdict of 8.7;
+- the 10^6 zero;
+- the count of 111 at beta > 0.85 in [10^4, 10^5], its maximum y0 0.437058,
+  its per-decade-tenth maxima, and its nine zeros with y0 > 0.40, hence the
+  targeted check of 8.8;
+- the two-sided model's 29 windows (8.11), which come from the decided low
+  zeros and the targeted pairs.
+
+**Claim that changes:** 8.3's list of 111 has one corrected entry, as
+recorded in 8.13.
+
+**Window gamma = 88167.40: resolved, and the fix rides in attempt 2.**
+Diagnosis (Run 20, about 0.3 core-hours of the 1 core-hour cap):
+- strip 142, line 128, and 6 zeros counted at beta > 0.505, so 2 zeros were
+  unaccounted;
+- a count at beta > 0.5005 (and at 0.501 and 0.502) gives **7**, so the
+  missing pair is near the line, not two missed line zeros;
+- isolated by bisection and located at **gamma = 88132.180, beta = 0.50479
+  (y0 = 0.0048)**, |f| = 4e-11, just under the old 0.505 edge. A pair that
+  shallow makes no sign change on the line.
+
+**Fix** (`census_1e4.census_one`): when a window's accounting fails after the
+refined line scan, it recounts at beta > 0.5005 and searches with grid rows
+just right of it. Windows whose accounting closes on the first try, which is
+every other window so far including the smoke row, never reach the fallback
+and are unchanged. Re-landed under the fix, the window closes
+(142 = 128 + 2 x 7), all 7 off-line zeros are located, and the pair at
+88167.40 lands at **0.04012** (shave 51.6 percent; measured,
+`census_runs/audit_u4/w88167_relanded.json`). That is not a census result;
+attempt 2 measures it afresh.
+
+**Attempt 2.** Same plan, same plan_sha256, the 8.12 text unchanged, and
+evaluated mechanically on attempt 2 alone. Attempt 1 stays void, with its
+values recorded in 8.13.
+
 ### The doors (updated 2026-10-26)
 
 The 2026-09-12 doors above stand as written; this is what changed in them.

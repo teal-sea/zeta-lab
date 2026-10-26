@@ -798,3 +798,79 @@ diagnostic. It does not repair the census (RESULTS.md section 8.13).
   deeper).
 - Gates (without `tests/test_doors.py`): 81 passed, 3 xfailed.
   `make_context.py --check`: up to date.
+
+## Unit 4 (2026-10-26): estimate before spending, the audit under the guard
+
+Coordinator's decision: re-run the whole census on guarded code (request
+attempt 2), with no splicing onto the void attempt 1. The guard is commit
+"stage_locate box guard". Audit of every result that consumed
+`stage_locate` output, re-located from scratch copies of the recorded screens
+with the located roots stripped. Nothing recorded is overwritten.
+
+| screen | flagged windows | estimate |
+|---|---|---|
+| low, [8, 1e4] at 0.85 (`deep_zeros_locate_20261026.json`) | 21 | about 15 s |
+| screen_hi, [1e4, 1e5] at 0.85 (`deep_zeros_hi_20261026.json`) | 111 | about 6 min (Run 9's locate took 323 s) |
+| 1e6, [1000000, 1001200] at 0.85 (`deep_zeros_1e6.json`) | 1 | about 5 min (head about 2.4e6 terms) |
+
+Total about 0.2 core-hours, three processes, nice 10. The two control screens
+(`deep_zeros_control.json`) and `deep_zeros.json` hold no located roots and
+are not affected.
+
+### Estimate before spending: re-landing the window at γ = 88167.40 with the fallback
+
+One census window at 8.8e4 under the new accounting fallback: about 8 min
+(Run 12 measured 455 s for this window), 0.13 core-hours. The diagnosis so
+far is about 3 min. Bounded total for step 3: under 0.25 of the 1 core-hour cap.
+
+## Run 19: the audit under the guard (2026-10-26)
+
+```runmanifest
+id: R19-audit-guard
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; low 21 identical, 1e6 identical to 1.3e-13, screen_hi 110 identical and one root replaced (the known one)
+ran:
+  - deep_zeros.py locate on scratch copies of the low, screen_hi and 1e6 screens (three processes, nice 10)
+artifacts:
+  - census_runs/audit_u4/guarded_locate.json
+```
+
+Low 15 s, screen_hi about 7 min, 1e6 about 5 min: about 0.2 core-hours, as
+estimated.
+
+## Run 20: the window at γ = 88167.40 (2026-10-26)
+
+```runmanifest
+id: R20-w88167
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: resolved; a near-line pair at γ 88132.180, β 0.50479 was the 2 unaccounted zeros; with the 0.5005 accounting fallback the window closes and lands at 0.04012
+ran:
+  - float counts at β > 0.5005, 0.501, 0.502 (65 s)
+  - bisection on the 0.502 versus 0.505 counts and a box search (83 s)
+  - census_one under the fallback (1060 s)
+artifacts:
+  - census_runs/audit_u4/w88167_relanded.json
+```
+
+About 0.34 core-hours, against the 1 core-hour cap.
+
+## Estimate before spending: the full census, attempt 2 (guarded)
+
+Basis: attempt 1 *measured* 11.05 runner core-hours on the same plan and
+code, apart from the guard and the fallback. Additions:
+- 8 previously missed candidates at about 250 s each: 0.56;
+- guard box searches on about 17 refused roots at about 30 s each: 0.14;
+- accounting-fallback windows (one known, 1060 s locally): 0.3.
+
+**About 12.0 core-hours**, under the pre-approved 15, and K-e stops at 30.
+Peak RSS: the guard's search grid has the same shape as the census's
+off-line search; attempt 1 measured 0.258 GiB, so 4 x peak is about
+1.0 GB against 13. Guard tests pass (section 9; all 17 windows in the slow
+tier). The smoke row passes locally under the guarded code, landing
+0.057665659795901776 exactly as before. All four pre-approved conditions are
+met, so no calibrate run is needed: the projection rests on attempt 1's
+measured runner cost.

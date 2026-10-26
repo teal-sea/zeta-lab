@@ -862,3 +862,63 @@ def test_guard_fixes_all_17_known_windows(monkeypatch):
         assert refused is not None, r["window"]
         assert len(got) == 1 and got[0].real > r["sigma_c"] and a <= got[0].imag <= b, r["window"]
         assert abs(got[0].imag - r["found"][0]["gamma"]) < 1e-6, r["window"]
+
+
+# ---------------------------------------------------------------------------
+# 10. the audit under the guard, and the window at gamma = 88167.40 (unit 4)
+# ---------------------------------------------------------------------------
+
+def test_audit_low_and_1e6_roots_unchanged_under_the_guard():
+    """census_runs/audit_u4/guarded_locate.json: low 21 identical, 1e6 within 1e-12, nothing refused."""
+    a = load("census_runs/audit_u4/guarded_locate.json")
+    key = lambda z: complex(z["beta"], z["gamma"])
+    for name, rec, tol in (("low", "deep_zeros_locate_20261026.json", 0.0),
+                           ("1e6", "deep_zeros_1e6.json", 1e-12)):
+        new = a[name]["zeros"]
+        old = load(rec)["zeros"]
+        if PLANT and name == "low":
+            new = new[:-1]           # planted: one root lost by the guard
+        assert len(new) == len(old) and a[name]["unlocated"] == []
+        assert not any(z["guard"]["first_root_refused"] for z in new)
+        assert max(min(abs(key(o) - key(n)) for n in new) for o in old) <= tol
+
+
+def test_audit_screen_hi_exactly_one_root_replaced():
+    """guarded_locate.json screen_hi: 110 roots identical; 16637.67 (beta 0.7132) -> 16620.3825 (y0 0.3742)."""
+    a = load("census_runs/audit_u4/guarded_locate.json")["screen_hi"]
+    old = load("deep_zeros_hi_20261026.json")["zeros"]
+    new = a["zeros"]
+    key = lambda z: complex(z["beta"], z["gamma"])
+    gone = [o for o in old if min(abs(key(o) - key(n)) for n in new) > 1e-9]
+    came = [n for n in new if min(abs(key(o) - key(n)) for o in old) > 1e-9]
+    if PLANT:
+        came = came + [dict(came[0], gamma=50000.0)]   # planted: a second change
+    assert len(new) == 111 and a["unlocated"] == []
+    assert [round(g["gamma"], 2) for g in gone] == [16637.67]
+    assert [(round(c["gamma"], 4), round(c["y0"], 4)) for c in came] == [(16620.3825, 0.3742)]
+    assert came[0]["guard"]["first_root_refused"]["beta"] < 0.85
+    assert min(z["beta"] for z in new) > 0.85
+    assert sum(z["y0"] > 0.40 for z in new) == 9 and round(max(z["y0"] for z in new), 6) == 0.437058
+
+
+def test_window_88167_closes_with_the_fallback():
+    """census_runs/audit_u4/w88167_relanded.json: 142 = 128 + 2 x 7 at sigma_in 0.5005; landing 0.04012."""
+    e = load("census_runs/audit_u4/w88167_relanded.json")
+    fb = e["accounting_fallback"]
+    n_right = fb["n_right"] + (1 if PLANT else 0)    # planted: one zero too many in the fallback count
+    assert e["n_strip"] == e["n_line"] + 2 * n_right == 142
+    assert e["n_line"] == 128 and e["n_right_beta_gt_0.505"] == 6 and e["sig_in_used"] == 0.5005
+    assert e["accounting_ok"] and e["offline_located_ok"] and e["self_found"]
+    assert round(e["landing_ode"], 5) == 0.04012 and e["landing_ode"] < FLOOR_MEASURED
+    shallow = [p for p in e["other_pairs"] if p[1] < 0.005]
+    assert len(shallow) == 1 and round(shallow[0][0], 2) == 88132.18 and round(shallow[0][1], 4) == 0.0048
+
+
+@pytest.mark.slow
+def test_fallback_search_finds_the_near_line_zero():
+    """census_1e4.offline_zeros below SIG_IN: the beta 0.50479 zero at 88132.18 is found; at SIG_IN it is not."""
+    import census_1e4 as cz
+    a, b = 88131.9, 88132.5
+    near = cz.offline_zeros(a, b, 1, sig_in=cz.SIG_FALLBACK if not PLANT else cz.SIG_IN)
+    assert any(abs(z.imag - 88132.1802) < 1e-3 and 0.5005 < z.real < 0.505 for z in near)
+    assert not any(z.real < cz.SIG_IN for z in cz.offline_zeros(a, b, 1))

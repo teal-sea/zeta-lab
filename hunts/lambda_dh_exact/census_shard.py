@@ -170,6 +170,10 @@ def stage_run(i: int, out_dir: str) -> None:
             "screen_complete": sc["screen_c82"]["complete"],
             "n_screen_windows": len(sc["screen_c82"]["boundaries"]) - 1,
             "n_located": len(sc.get("zeros", [])), "n_candidates": n_cand,
+            "n_unlocated": len(sc.get("unlocated", [])), "unlocated": sc.get("unlocated", []),
+            "n_relocated_by_guard": sum(bool(z.get("guard", {}).get("first_root_refused"))
+                                        for z in sc.get("zeros", [])),
+            "n_accounting_fallback": sum("accounting_fallback" in r for r in rows),
             "n_landed": sum(r["landing_ode"] is not None for r in rows),
             "n_unaccounted": sum(not r["accounting_ok"] for r in rows),
             "cpu_seconds": cpu, "peak_rss": rss, "finished": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}

@@ -23,7 +23,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
-RUN = os.environ.get("LDH_CENSUS_RUN") or os.path.join(HERE, "census_runs", "full_r1")  # override: dry runs only
+RUN = os.environ.get("LDH_CENSUS_RUN") or os.path.join(HERE, "census_runs", os.environ.get("LDH_CENSUS_ATTEMPT", "full_r1"))
 FLOOR = 0.05765184034869543
 BAND = 0.0004
 M2, M3 = 0.05767, 0.05586          # per-decade maxima as registered (section 8.8)
@@ -77,6 +77,12 @@ def main() -> None:
     out["unaccounted_fraction"] = n_unacc / len(rows) if rows else None
     out["unaccounted_gammas"] = [round(r["gamma"], 2) for r in rows if not r["accounting_ok"]]
     out["K_c_ok"] = out["unaccounted_fraction"] is not None and out["unaccounted_fraction"] <= KC_UNACCOUNTED
+    # reported beside K-c, not inside it (8.12's text is unchanged): flagged windows whose
+    # zero the guarded locate could not place, roots the guard refused and relocated, and
+    # windows whose accounting closed only on the 0.5005 fallback (attempt 2 onward)
+    out["n_unlocated_windows"] = sum(s.get("n_unlocated", 0) for s in shards)
+    out["n_relocated_by_guard"] = sum(s.get("n_relocated_by_guard", 0) for s in shards)
+    out["n_accounting_fallback"] = sum("accounting_fallback" in r for r in rows)
     # K-d: replication of the eight targeted landings
     rep = []
     for d in deep:
