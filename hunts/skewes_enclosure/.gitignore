@@ -5,3 +5,4 @@ shards_b/*.log
 shards_b/*.tmp
 shards_b/*.started
 shards_b/*.finished
+shards_b/**/*.log

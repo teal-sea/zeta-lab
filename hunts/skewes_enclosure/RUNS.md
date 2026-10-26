@@ -162,3 +162,23 @@ shard 216 on the box: 0.62 core-hour per shard, so **about 2.5 core-hours and
 40 to 60 min wall** if the runner matches the box. Pass conditions, set by the
 coordinator: 4/4 shards complete with no timeouts, the smoke check passes, and
 the measured cost is at most 1.1 core-hours per shard.
+
+Pilot outcome (run 40359429542, commit a29106dc6, 22 min 46 s job): **passed all
+three conditions**. 4/4 shards completed with no timeouts, and the smoke check
+reproduced the box's digest, both partial sums and run A's gamma_2000000
+exactly. Cost was 13.3 to 13.5 ms/zero, **0.369 to 0.375 core-hour per shard**,
+against a limit of 1.1. Peak RSS was 47.5 to 48.3 MB. Every ball is ordered and
+disjoint, and 20/20 route-2 brackets per shard show a sign change. The runner was an
+AMD EPYC 9V45 with 4 vCPU and 16 GB, running python-flint 0.9.0 and mpmath 1.3.0.
+Its manifest and the four shard JSONs are in `shards_b/`.
+
+## 2026-10-26: main run for production B (pre-approved on the pilot's numbers)
+
+Remaining shards: 21 to 215. That is 195 shards, not the 196 the plan
+assumed, because shard 216 already ran on the box. Sizing from the pilot: at
+most 0.375 core-hour, so about 23 min per shard at the top of the range and
+less below. 16 shards per job give 13 jobs, each running 4 rounds of 4.
+Rounds x per-shard timeout = 4 x 80 min = 320 min <= 330, so even a block whose
+every shard hit the timeout fits the job cap. Expected cost is **195 x 0.30 to
+0.375 = 59 to 73 runner core-hours**. Expected wall is 4 waves (max-parallel 4)
+x about 1.6 h, roughly **6.5 h**. The 80-minute per-shard timeout is kept.
