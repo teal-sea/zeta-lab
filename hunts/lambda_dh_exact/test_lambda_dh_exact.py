@@ -675,3 +675,29 @@ def test_census_preflight_refuses_a_wrong_plan_hash(tmp_path):
     r = subprocess.run([sys.executable, str(HERE / "census_shard.py"), "preflight", "--request", str(req)],
                        capture_output=True, text=True, cwd=HERE.parents[1])
     assert r.returncode != 0 and "plan_sha256 does not match" in (r.stderr + r.stdout)
+
+
+def test_census_records_peak_rss_and_calib_reports_it(tmp_path):
+    """census_shard: peak_rss_gb() covers child processes; calib reports 4 x peak against 13 GB."""
+    import subprocess
+    import census_shard as cs
+    subprocess.run([sys.executable, "-c", "x = bytearray(64 * 2**20)"], check=True)   # a 64 MiB child
+    r = cs.peak_rss_gb()
+    assert r["children_gb"] >= 64 / 1024 and r["peak_gb"] == max(r["self_gb"], r["children_gb"])
+    plan = tmp_path / "plan.json"
+    plan.write_text(json.dumps({**cs.plan_obj(), "shards": [[55000, 57500]]}))
+    peak = 0.25 if not PLANT else 3.5           # planted: a runner-busting peak must fail the 13 GB check
+    (tmp_path / "shard_0.json").write_text(json.dumps({
+        "interval": [55000, 57500], "n_screen_windows": 125, "n_candidates": 4,
+        "cpu_seconds": {"screen": 50.0, "locate": 10.0, "census": 1200.0},
+        "peak_rss": {"self_gb": 0.02, "children_gb": peak, "peak_gb": peak}}))
+    saved = cs.PLAN
+    try:
+        cs.PLAN = str(plan)
+        cs.stage_calib(str(tmp_path), 0)
+    finally:
+        cs.PLAN = saved
+    cal = json.loads((tmp_path / "calibration.json").read_text())
+    assert cal["peak_rss_gb"] == peak and cal["four_x_peak_rss_gb"] == 4 * peak
+    assert cal["four_x_peak_rss_ok_13gb"] is True
+    assert cal["cpu_s_per_census_window"] == 300.0 and cal["cpu_s_per_screen_window"] == 60.0 / 125

@@ -650,3 +650,31 @@ calibration replaces all of this with runner numbers.
   pin).
 - Gates (`tests/test_doors.py` excluded per the brief; CI runs it):
   81 passed, 3 xfailed. `make_context.py --check`: up to date.
+
+### Coordinator's go, and the memory record (2026-10-26)
+
+Reply to the ask: go for `{"mode": "calibrate", "attempt": 1, "plan_sha256":
+"461079f9..."}` after one change, recording memory. `census_shard.py run`
+now writes `peak_rss` into each shard JSON: `RUSAGE_SELF` as asked, and
+`RUSAGE_CHILDREN`, because the screen, locate and census stages run as child
+processes. The driver alone measured 0.017 GiB against 0.22 GiB for its
+children on the local mini-plan, so `RUSAGE_SELF` alone would have
+understated memory 13-fold. `calib` reports `peak_rss_gb`,
+`four_x_peak_rss_gb` and the 13 GB check in `calibration.json` and in the
+step summary. Pinned by `test_census_records_peak_rss_and_calib_reports_it`;
+a planted 3.5 GiB peak turns it red.
+
+Measured before pushing: the whole window machinery (both counts, line
+zeros, location) at the top of the decade, γ = 99500, peaks at **0.23 GiB**
+(`/usr/bin/time -v`: 239836 kB), so 4 x peak is about 0.9 GB. It took
+**6.6 min** without the ODE. Per-candidate cost grows with height (131 s
+in total at 2.4e4), so the projection is revised: about 320 s per candidate
+averaged over the decade, x about 180, plus the screen, **about 17
+core-hours (10 to 25)**. That is still under the coordinator's 20-hour bar
+for the full run, but nearer it. The mid-decade calibration shard measures
+the average, and its number decides.
+
+Pre-approved conditions for `full` (coordinator): the smoke row passes;
+projected core-hours <= 20; 4 x peak RSS <= 13 GB. Otherwise, report the
+numbers instead. Never push a second request while a run is running or
+pending.

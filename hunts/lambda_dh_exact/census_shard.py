@@ -127,6 +127,19 @@ def _cpu(cmd: list[str]) -> float:
     return (after.children_user - before.children_user) + (after.children_system - before.children_system)
 
 
+def peak_rss_gb() -> dict:
+    """Peak resident set sizes in GiB (Linux ru_maxrss is in KiB).
+
+    The shard's work runs in child processes (screen, locate, census), so
+    RUSAGE_SELF alone measures only this driver. RUSAGE_CHILDREN is the peak
+    of the largest child waited for so far, and the peak is the larger of the two.
+    """
+    import resource
+    me = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 2**20
+    kids = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss / 2**20
+    return {"self_gb": me, "children_gb": kids, "peak_gb": max(me, kids)}
+
+
 def stage_run(i: int, out_dir: str) -> None:
     plan = json.load(open(PLAN))
     t0, t1 = plan["shards"][i]
@@ -150,13 +163,16 @@ def stage_run(i: int, out_dir: str) -> None:
     prev = json.load(open(summary))["cpu_seconds"] if os.path.exists(summary) else {}
     runs = (json.load(open(summary)).get("runs", 1) + 1) if os.path.exists(summary) else 1
     cpu = {k: cpu[k] + prev.get(k, 0.0) for k in cpu}
+    rss = peak_rss_gb()
+    prev_rss = json.load(open(summary)).get("peak_rss", {}) if os.path.exists(summary) else {}
+    rss["peak_gb"] = max(rss["peak_gb"], prev_rss.get("peak_gb", 0.0))
     body = {"shard": i, "interval": [t0, t1], "plan_sha256": plan_sha(), "runs": runs,
             "screen_complete": sc["screen_c82"]["complete"],
             "n_screen_windows": len(sc["screen_c82"]["boundaries"]) - 1,
             "n_located": len(sc.get("zeros", [])), "n_candidates": n_cand,
             "n_landed": sum(r["landing_ode"] is not None for r in rows),
             "n_unaccounted": sum(not r["accounting_ok"] for r in rows),
-            "cpu_seconds": cpu, "finished": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+            "cpu_seconds": cpu, "peak_rss": rss, "finished": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     with open(summary, "w") as fh:
         json.dump(body, fh, indent=1)
     print(json.dumps(body))
@@ -182,6 +198,9 @@ def stage_calib(out_dir: str, i: int = 0) -> None:
            "n_085_zeros_in_shard": n85_here, "projected_candidates_scaled": n_cand_scaled,
            "projected_core_hours_scaled": (per_screen * n_windows + per_census * n_cand_scaled) / 3600
            if n_cand_scaled is not None else None,
+           "peak_rss_gb": s["peak_rss"]["peak_gb"],
+           "four_x_peak_rss_gb": 4 * s["peak_rss"]["peak_gb"],
+           "four_x_peak_rss_ok_13gb": 4 * s["peak_rss"]["peak_gb"] <= 13.0,
            "from_shard": s}
     with open(os.path.join(out_dir, "calibration.json"), "w") as fh:
         json.dump(out, fh, indent=1)
