@@ -125,8 +125,8 @@ hunt: rh_moonshot
 started: 2026-10-26T13:03:00Z
 finished: 2026-10-26T13:04:31Z
 ran:
-  - /Users/thomas/zeta-lab/.venv/bin/python hunts/rh_moonshot/positivity_geometry/challenge/rival_gate.py --write hunts/rh_moonshot/positivity_geometry/challenge/results_rival.json
-  - /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/positivity_geometry/challenge/test_rival_gate.py
+  - .venv/bin/python hunts/rh_moonshot/positivity_geometry/challenge/rival_gate.py --write hunts/rh_moonshot/positivity_geometry/challenge/results_rival.json
+  - .venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/positivity_geometry/challenge/test_rival_gate.py
 outcome: all four required rivals and the golden fake were recomputed independently; none of the four meets every normalized hypothesis, and the mechanism remains unresolved at the missing ambient geometry
 artifacts:
   - hunts/rh_moonshot/positivity_geometry/challenge/rival_gate.py

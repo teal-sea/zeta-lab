@@ -121,8 +121,8 @@ hunt: rh_moonshot
 started: 2026-10-26T13:19:00Z
 finished: 2026-10-26T13:22:20Z
 ran:
-  - nice -n 10 /Users/thomas/zeta-lab/.venv/bin/python hunts/rh_moonshot/li_arithmetic/challenge/rival_gate.py --write hunts/rh_moonshot/li_arithmetic/challenge/results_rival.json
-  - nice -n 10 /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/li_arithmetic/challenge/test_rival_gate.py
+  - nice -n 10 .venv/bin/python hunts/rh_moonshot/li_arithmetic/challenge/rival_gate.py --write hunts/rh_moonshot/li_arithmetic/challenge/results_rival.json
+  - nice -n 10 .venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/li_arithmetic/challenge/test_rival_gate.py
 outcome: the independent recurrence separates non-Euler rivals, the zero-side route reproduces the negative W_1/4 value, and shifted zeta fails unitarity and fixed-half normalization; the zeta all-n signed estimate remains unresolved
 artifacts:
   - hunts/rh_moonshot/li_arithmetic/challenge/rival_gate.py
