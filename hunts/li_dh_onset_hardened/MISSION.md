@@ -135,3 +135,46 @@ agents_may_not:
   - promote their own claim
   - write any sentence implying a computation bears on the Riemann Hypothesis
 ```
+
+## Pre-registration of the production runs (2026-10-26, committed before run A starts)
+
+Written and committed alone, before any production coefficient exists.
+
+**The prediction under test.** Hunt #128 (`li_dh_onset/artifacts/onset.json`)
+extrapolated the first negative index to **n\* = 328997** under four background
+variants (325229 under a zeta-shaped one). Its recorded sensitivity is about
+530: a shift of the background constant b by -0.05 moves the index to 328469,
+one period 2 pi/psi of the dominant quadruple's oscillation. The background is
+about 1.98e6 there and the dip is about 0.11 per cent of it, so lambda_{n\*} is
+predicted near -2e3. The prediction counts as **confirmed** if the first
+ball-decided negative index lies in [328997 - 600, 328997 + 600], and as
+**located elsewhere** otherwise. Either outcome is reported.
+
+**The statement a positive outcome hardens.** An explicit n\* <= 500,000 with
+the Arb ball of lambda_{n\*}(DH) entirely below 0 and the ball of lambda_n(DH)
+entirely above 0 for every 1 <= n < n\*. Every step is enclosure-carrying:
+- the admissibility certificate (`artifacts/admissibility.json`);
+- M(rho) from the ball arc cover;
+- node samples in Arb, with the branch tracked by ball steps and closing;
+- `acb.dft`;
+- the aliasing bound (A) added as a ball to every coefficient.
+The grade is *hardened*, not kernel-checked.
+
+**Runs, in order, one process each.**
+- **Run A:** c = 5000, rho = 1 - 4.6e-5, N = 2^21, 192 bits, n <= 500,000.
+- **Run B:** c = 2500, rho = 1 - 4.6e-5, N = 2^19, 256 bits, n <= 500,000.
+- **Both runs** carry the xi positive control (all 48 committed values
+  contained, both planted faults flipping it) and the 20-node mpmath.iv
+  subsample on their own circle, and their outcome is void if either fails.
+
+**The two-radii rule (kill condition 2).** At every n <= 500,000 the A and B
+balls must intersect. One disjoint pair is a defect. It is investigated before
+any n\* is reported, and no n\* is reported from a run that fails it.
+
+**What "undecided" means.** If some ball for n < n\* contains 0, the statement
+above is not established. The report then gives the undecided indices and the
+radius, and does not claim n\*.
+
+**The stop rule.** If no ball-decided negative coefficient appears for
+n <= 500,000, stop. Record the positivity range actually hardened and
+re-estimate (a larger n_max changes N and the bits) before any further spend.
