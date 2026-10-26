@@ -3708,6 +3708,12 @@
    "source": "PR210",
    "field": "merged_at",
    "date": "2026-10-18"
+  },
+  {
+   "id": "H06",
+   "file": "hunts/README.md",
+   "kind": "resumed_date",
+   "phrase": "resumed in place on 2026-10-26"
   }
  ],
  "resumed": "2026-10-26"
