@@ -515,11 +515,12 @@ Ranked by how directly each binds a survivor's open step:
 ```runmanifest
 id: rh_moonshot-synthesis-2026-10-26
 hunt: rh_moonshot
-started: 2026-10-26T15:55+00:00
-finished: 2026-10-26T16:25+00:00
+started: 2026-10-26T16:14+00:00
+finished: 2026-10-26T16:24+00:00
 ran:
-  - git merge origin/hunt/rh-moonshot-challenge-rival origin/hunt/rh-moonshot-challenge-circularity (two merges, no conflict)
-  - nice -n 10 .venv/bin/python -m pytest -q -n0 on each */challenge directory and each mechanism's own test files, one process per directory
+  - git merge --no-edit origin/hunt/rh-moonshot-challenge-rival (no conflict)
+  - git merge --no-edit origin/hunt/rh-moonshot-challenge-circularity (no conflict)
+  - nice -n 10 .venv/bin/python -m pytest -q -n0 on each of the six */challenge directories and each mechanism's own test_*.py files, one process per directory (12 processes in sequence)
   - .venv/bin/python -m pytest -q -n0 tests/test_hunt_doors.py tests/test_hunt_probe_discipline.py tests/test_huntspec.py tests/test_docs_numbering.py
   - .venv/bin/python scripts/make_context.py --check
 outcome: both challenges merged; every challenge directory (80 tests) and every mechanism's own tests (166) pass with -n0, plus the repo checks test_hunt_doors, test_hunt_probe_discipline, test_huntspec, test_docs_numbering and make_context --check; six dispositions recorded (ccm_arithmetic alive; de_branges, li_arithmetic, positivity_geometry unresolved; spectral_operator self-adjointness restricted class obstructed with link (3) unresolved; probe_tower restricted class obstructed); no route established in the searched set
