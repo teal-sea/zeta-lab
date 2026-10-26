@@ -251,3 +251,15 @@ covers therefore need many more segments than Arb's.
 That is about 25,000 evaluations at 0.02 to 0.045 s, so **about 0.3 core-hours,
 and at most about 1.2 even at three times the estimate**. This is under the 3
 core-hour line, so it is run, after its pre-registration (MISSION.md).
+
+```runmanifest
+id: li_dh_onset_hardened-2026-10-26-admissibility-iv
+hunt: li_dh_onset_hardened
+started: 2026-10-26T18:11:06
+finished: 2026-10-26T18:19:59
+ran:
+  - .venv/bin/python hunts/li_dh_onset_hardened/admissibility_iv.py   (PID 2236188, nice 10, load 12 to 16, MemAvailable 66 GiB)
+outcome: the certificate replayed with every f, log G and S evaluation in mpmath.iv reproduces N_box 98, N_line 94, q 2, the closing equality and R_a; its balls meet Arb's at S(3/2), S(7/4), f(s0), the N_box ball, Z at all 10241 grid points and both squares' |1 - 1/s|; dropping a quadruple or displacing a square breaks it; 533 s, 0.15 core-hours against Estimate 4's 0.3
+artifacts:
+  - hunts/li_dh_onset_hardened/artifacts/admissibility_iv.json
+```

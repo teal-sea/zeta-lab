@@ -99,7 +99,10 @@ before the runs.
   the same Arb evaluator for f. A pre-registered rerun of run B with every f and
   log Gamma evaluation in mpmath.iv reproduces n\* = 328997 and the sign of
   every lambda_n, n <= 500,000, and its balls intersect B's at every n. That
-  failure mode is excluded for run B's table; the grade is unchanged.
+  failure mode is excluded for run B's table; the grade is unchanged. The
+  admissibility certificate, the last Arb-only link, was replayed in mpmath.iv
+  under its own pre-registration. It reproduces N_box 98 = 94 + 2 x 2 and R_a,
+  with balls meeting Arb's wherever both evaluate.
 - **Prior work.** Bucur, Ernvall-Hytönen, Odžak, Smajlović 2016 computed Arb
   tau-Li coefficients for the *associated* DH function, n <= 500.
   arXiv:1410.4384 has no DH numerics. Johansson 2015 is zeta to n = 100,000.

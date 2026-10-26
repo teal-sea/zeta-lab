@@ -499,3 +499,61 @@ and author and journal lookups for the items below.
 
 The result is original to this lab. It is not claimed novel beyond the stated
 search.
+
+## Addendum, 2026-10-26 (night): the admissibility certificate replayed in mpmath.iv
+
+**Pre-registration.** `MISSION.md`, "Pre-registration of the iv replay of the
+admissibility certificate", commit 9fc682c24, committed before any of this
+replay ran. It also carries Estimate 4 in RUNS.md: about 0.3 core-hours, at
+most 1.2.
+
+**What was done** (`admissibility_iv.py`, `artifacts/admissibility_iv.json`,
+128 bits, T = 160). Every value of f, log G and S is evaluated in mpmath.iv, by
+Euler-Maclaurin with its own kappa and `iv.loggamma`. Arb only holds converted
+boxes and does the argument arithmetic of `balls.segment_arg_change`. The
+route differs from the Arb certificate in one place. The iv sum cannot
+evaluate f at the removable pole s = 1, so f > 0 near 1 comes from
+f(1 + 1/256) = 0.92335523610976966761... and a Cauchy drift bound. The drift is
+at most 0.0253, from max |f| <= 1.0638 on |s - 1| = 1/4 (1024 iv arcs). Arb
+used `dirichlet_l` at s = 1 itself.
+
+**Outcome, as pre-registered:**
+
+| item | iv replay | Arb certificate | balls meet |
+|---|---|---|---|
+| S(3/2), S(7/4) | 0.737590649449041496..., 0.417701370183416113... | same | yes, both |
+| f > 0 on [1/2, 7/4] | yes (697 + 597 real boxes, drift bound near 1) | yes (82 balls, f(1)) | f(s0) meets |
+| N_box at T = 160 | **98** ([98 +/- 1e-22]; 195 top-edge evaluations) | 98 | yes |
+| N_line (grid 1/64) | **94** | 94 | Z meets at all 10,241 points |
+| pair1, pair2 squares | count 1, count 1 | 1, 1 | \|1 - 1/s\| meets for both |
+| N_box = N_line + 2q | **closes** | closes | |
+| drop a quadruple; displace a square | both break | both break | |
+| R_a lower bound; r (c = 5000) below it | 0.99995800, yes | same | |
+
+**The rule holds.** The conclusion is reproduced, the balls meet everywhere
+both routes evaluate, and the faults break it. The cost was 533 s.
+`test_the_iv_replay_reproduces_the_certificate` pins the artifact.
+`test_the_iv_box_count_at_height_100_and_a_planted_kappa_fault` recomputes
+the iv box count at T = 100, which is #128's 54. It also plants kappa + 2^-80
+in the iv context and checks that Z(1/2 + 20i) then misses the Arb ball, and
+meets it again once kappa is restored.
+
+**What this excludes, and what it does not.** The certificate was the last
+Arb-only link in the chain from the zeros to n\*. With it replayed, every
+*evaluation* of f, log Gamma and S that the result depends on has been done in
+Arb and again in mpmath.iv:
+- the zeros behind admissibility;
+- the samples behind run B;
+- the M(rho) and branch covers.
+The two evaluators agree wherever compared.
+
+Still not excluded, as before:
+- the shared argument arithmetic of `segment_arg_change` (now also used by the
+  replay);
+- the shared DFT, aliasing-bound, tracking and node-geometry code;
+- run A, which was not repeated in iv;
+- the mathematics both routes encode in the same way: the Euler-Maclaurin
+  remainder bound, the Backlund fold, and the argument-principle reasoning.
+
+**The grade is unchanged:** *hardened*, pending external verification. It is
+not kernel-checked and has had no outside review.

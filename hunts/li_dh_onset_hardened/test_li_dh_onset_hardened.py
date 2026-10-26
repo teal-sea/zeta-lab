@@ -268,3 +268,42 @@ def test_the_independent_rerun_agrees_with_run_B():
     assert c["sign_disagreement_count"] == 0
     assert c["sample_size"] == 1000 and c["sample_miss_count"] == 0
     assert all(v["intersect"] for v in c["named"].values())
+
+
+# ---------------------------------------------------------------------------
+# the admissibility certificate replayed in mpmath.iv (pre-registered)
+# ---------------------------------------------------------------------------
+
+def test_the_iv_replay_reproduces_the_certificate():
+    d = _load("admissibility_iv.json")
+    assert d["evaluator"] == "mpmath.iv" and d["prec_bits"] == 128 and d["T"] == "160"
+    assert (d["equality"]["N_box"], d["equality"]["N_line"], d["q"]) == (98, 94, 2)
+    assert d["equality"]["closes"] and d["radius"]["r_c5000_below_R_a"]
+    assert all(d["rule"].values())
+    assert d["line"]["arb_miss_count"] == 0 and d["line"]["points"] == 10241
+    assert d["faults"]["displaced_square"] == 0
+
+
+def test_the_iv_box_count_at_height_100_and_a_planted_kappa_fault():
+    """The iv box count at T = 100 is #128's 54. With kappa moved by 2^-80 inside
+    the iv context, Z(1/2 + it) no longer meets the Arb ball: the comparison
+    the replay relies on has teeth."""
+    import admissibility_iv as X
+    from flint import arb as _arb
+    from mpmath import iv
+    from balls import f_ball, logG_ball, point
+    assert X.box_count(Q(100))["N_box"] == 54
+    C = X.ctx()
+    keep = (C.kappa, list(C.c))
+    try:
+        with X._ivprec(128):
+            C.kappa = C.kappa + iv.mpf(2) ** -80
+            C.c = [iv.mpf(1), C.kappa, -C.kappa, iv.mpf(-1)]
+        with prec_guard(128):
+            s = point(Q(1, 2), Q(20))
+            assert not X.F_iv(s).overlaps(logG_ball(s, 128).exp() * f_ball(s, 128))
+    finally:
+        C.kappa, C.c = keep[0], keep[1]
+    with prec_guard(128):
+        s = point(Q(1, 2), Q(20))
+        assert X.F_iv(s).overlaps(logG_ball(s, 128).exp() * f_ball(s, 128))
