@@ -916,6 +916,64 @@ attempt 2 measures it afresh.
 evaluated mechanically on attempt 2 alone. Attempt 1 stays void, with its
 values recorded in 8.13.
 
+
+### 8.15 Outcome of the 8.12 PREREG, attempt 2 (guarded code): valid
+
+Run 21 in `RUNS.md`. GitHub Actions run 40379449770, request attempt 2,
+commit 912d89a75, same plan (sha256 461079f9...26eaa9) and the 8.12 text
+unchanged. 36 of 36 shards, merge success. The output is
+`census_runs/full_r2/census_1e5.json`, sha256 3787b389...645d643e, equal to
+the merge job's printed hash, in an artifact zip whose digest matches.
+`evaluate_census.py` was run on attempt 2 alone, giving
+`census_runs/full_r2/evaluation.json`.
+
+**Kill conditions of the run, attempt 1 beside attempt 2:**
+
+| | condition | attempt 1 (8.13) | attempt 2 |
+|---|---|---|---|
+| K-a | preflight | passed | passed (smoke landing exact) |
+| K-b | 36 shards present and complete | passed | passed |
+| K-c | unaccounted <= 10 percent | passed (1 of 162) | passed (**0 of 170**; 88167.40 closed by the fallback) |
+| K-d | the 8 targeted landings replicate to 1e-6 | **failed** (20011.16 missing) | **passed** (all 8, max 2.8e-12) |
+| K-e | <= 30 core-hours | passed (11.05) | passed (**13.16**; projected 12.0) |
+
+Reported beside K-c (not part of 8.12's text): 0 unlocated windows; 16
+roots refused and relocated by the guard, the 16 known ones; 1 window
+closed on the 0.5005 accounting fallback.
+
+**The five items, attempt 2 beside attempt 1.** Every verdict is
+*measured*. The coverage is zeros with beta > 0.82 that the float screen
+sees in [10^4, 10^5], landed if y0 > 0.3396: 170 pairs, all accounted and
+all landed.
+
+| item | attempt 1 | attempt 2 verdict |
+|---|---|---|
+| 1. the floor in this decade | void | **no pair with y0 > 0.3396 in [10^4, 10^5] lands above 0.0576518 x 1.0004.** The largest landing is 0.04902 (γ = 20011.16, y0 0.4002). No landing exceeds 0.9 x the floor. Shaves run from 29.9 to 71.0 percent. |
+| 2. KC4 (fires iff m4 > m3 = 0.05586) | void | **does not fire up to 10^5.** m4 = 0.04902 < m3 < m2 = 0.05767, so the measured per-decade maxima fall over three decades. |
+| 3. P5 up to 10^5 | void | **refuted up to 10^5** (ALIGNMENT section 5, disposition 1, within that range). The largest measured landing below 10^5 is at height 240, depth 0.3695, outside both of P5's ranges. Beyond 10^5 it is unresolved. |
+| 4. P8 | void | **not observed**: 0 of 170 land later than y0^2/2. With the 21 below 10^4, that is 0 of 191 census landings. |
+| 5. the two-sided model, out of sample | void | **expectation met**: rms 0.154 < 0.160 over 162 new windows, 134 in [0.85, 1.25]. It is well above the in-sample 0.112, so most of section 8.11's improvement does not carry out of sample. Recorded as met, as registered, and not re-read. |
+
+**Attempt 2 against attempt 1, as a consistency check** (not part of the
+evaluation): attempt 2 contains all 161 of attempt 1's landings, agreeing to
+2e-12 relative. It adds exactly 9 windows: the 8 candidates the mislocation
+had dropped (15442.11, 16620.38, 20011.16, 54447.38, 65942.07, 74280.37,
+86726.64, 90724.37) and the formerly open 88167.40. The latter lands at
+0.0401154, equal to the local re-landing of 8.14 to 1e-14. The void
+attempt 1 stays recorded as it was, and nothing here was spliced onto it.
+
+**What the hunt is now entitled to say, in addition to section 8.7:**
+- no pair below height 10^5 that this lab has landed lands above the
+  measured floor 0.0576518 (measured; coverage y0 > 0.35 below 10^4 and
+  y0 > 0.3396 above). The closest is gamma = 2442.53 at 0.05586, 3.1
+  percent under, and nothing in [10^4, 10^5] comes within 10 percent;
+- the measured sup of landings peaks below 10^3 and falls over the next two
+  decades (measured);
+- P5 is refuted up to 10^5, and KC4 does not fire up to 10^5.
+
+Hunt #61's bracket is unchanged in every digit. Nothing here is evidence
+about the Riemann Hypothesis (P9; `docs/08`).
+
 ### The doors (updated 2026-10-26)
 
 The 2026-09-12 doors above stand as written; this is what changed in them.
@@ -1006,4 +1064,38 @@ accepts roots outside the counted box*, an instrument defect, measured on
 `relocate_missed.py`. Disposition 4, paused until the re-request. The
 cheapest next door is a guarded re-request of the 8 missed candidates
 (about 1 core-hour on Actions); a full guarded re-run costs about 11.
+
+**Unit 4 update (2026-10-26, after attempt 2).** The guarded census ran
+valid (section 8.15). The rows of the dispositions table that change:
+
+| item | state after attempt 2 | disposition |
+|---|---|---|
+| census over [10^4, 10^5] | ran valid; 170 of 170 accounted and landed | closed (its verdicts are in 8.15) |
+| P5 | refuted up to 10^5; beyond, unresolved | 1, refuted within [0, 10^5]; 3 beyond |
+| KC4 | does not fire up to 10^5 | closed up to 10^5; 3, unresolved beyond |
+| P8 | 0 of 191 census landings | 3, unresolved (shallower pairs not landed) |
+| window γ = 88167.40 | closed by the 0.5005 fallback; landed 0.0401 | closed |
+| `stage_locate` accepting out-of-box roots | repaired (box guard), tested, audited | closed |
+| two-sided frozen-neighbour model | out of sample rms 0.154, in sample 0.112 | 1 as a sub-0.08 description (unchanged); the improvement over the frozen model is mostly in-sample |
+| moving-neighbour gap model | the next door | 3, unresolved |
+| census above 10^5 | not estimated; the 10^6 exhaustive census is out of scope | 4, paused by allocation |
+
+Unchanged: the hunt's question, P1 (both forms), P7 / KC3, the second
+backend for the KC2 count, decided landing times, the depth near 10^6, and
+the band y0 in (0.3396, 0.35] below 10^4. Each keeps its disposition from the
+unit 3 table. Nothing is obstructed (disposition 2).
+
+**The doors after attempt 2, in brief.** *Active constraints:* the shave.
+Between 10^4 and 10^5 it is 29.9 to 71 percent, and it grows with height at
+fixed depth, so every landing in the decade sits below 0.9 x the floor. The
+deepest pair located below 10^5 (y0 = 0.437) lands at 0.0348. Depth does
+grow with height, but crowding takes more than it gives. *Frozen constants
+that now bind:* the census depth cut y0 > 0.3396, since a pair below it
+would need a shave under 6 percent, against a decade minimum of 29.9; and
+the accounting fallback edge 0.5005, since a pair at beta < 0.5005 would
+still go uncounted. *Information class:* closing the ceiling question past
+10^5 needs reading more (a census above 10^5 or decided landings). The
+moving-neighbour model is inside the data the census already holds. It is
+the cheapest door, and the one that says whether any model of this family
+can extrapolate to depths near Delta.
 

@@ -922,3 +922,89 @@ def test_fallback_search_finds_the_near_line_zero():
     near = cz.offline_zeros(a, b, 1, sig_in=cz.SIG_FALLBACK if not PLANT else cz.SIG_IN)
     assert any(abs(z.imag - 88132.1802) < 1e-3 and 0.5005 < z.real < 0.505 for z in near)
     assert not any(z.real < cz.SIG_IN for z in cz.offline_zeros(a, b, 1))
+
+
+# ---------------------------------------------------------------------------
+# 11. the census, attempt 2 on the guarded code (RESULTS.md section 8.15)
+# ---------------------------------------------------------------------------
+
+CENSUS2_SHA = "3787b389cf4c3c09365e3d3211dbb525c8be9528c773502c58871c14645d643e"
+R2 = "census_runs/full_r2/"
+
+
+def test_census2_merged_artifact_hash_and_shape():
+    """census_runs/full_r2/census_1e5.json: the merge job's sha256; 36 shards, 170 rows, all landed."""
+    import hashlib
+    raw = (HERE / R2 / "census_1e5.json").read_bytes()
+    if PLANT:
+        raw = raw.replace(b"170", b"171", 1)     # planted: one digit changed
+    assert hashlib.sha256(raw).hexdigest() == CENSUS2_SHA
+    c = json.loads(raw)
+    assert c["plan_sha256"] == PLAN_SHA and sorted(s["shard"] for s in c["shards"]) == list(range(36))
+    assert len(c["rows"]) == 170 and all(r["landing_ode"] is not None for r in c["rows"])
+    assert all(r["accounting_ok"] for r in c["rows"])
+    cpu = sum(sum(s["cpu_seconds"].values()) for s in c["shards"]) / 3600
+    assert round(cpu, 2) == 13.16 and cpu <= 15
+    assert sum(s["n_unlocated"] for s in c["shards"]) == 0
+    assert sum(s["n_relocated_by_guard"] for s in c["shards"]) == 16
+
+
+def test_census2_kill_conditions_and_verdicts_recomputed():
+    """census_runs/full_r2/census_1e5.json + census_1e4.json: K-b..K-e and the five 8.12 items, here."""
+    rows = load(R2 + "census_1e5.json")["rows"]
+    if PLANT:
+        rows = rows + [dict(rows[0], landing_ode=0.0600, gamma=60000.0)]   # planted: a landing above the floor
+    deep = load("census_deep4_1e5.json")["rows"]
+    kd = dict(_kd(rows, deep))
+    assert len(kd) == 8 and all(v is not None and v < 1e-11 for v in kd.values())        # K-d
+    assert sum(not r["accounting_ok"] for r in rows) == 0                                  # K-c
+    assert none_beats_floor([r["landing_ode"] for r in rows])                              # floor
+    m4 = max(r["landing_ode"] for r in rows)
+    m4row = max(rows, key=lambda r: r["landing_ode"])
+    assert round(m4, 5) == 0.04902 and round(m4row["gamma"], 2) == 20011.16
+    assert m4 < 0.05586                                                                    # KC4 does not fire
+    low = [r for r in load("census_1e4.json")["rows"]]
+    best = max(low + rows, key=lambda r: r["landing_ode"])
+    assert best["gamma"] < 1e3                                                             # P5 refuted up to 1e5
+    assert not any(r["later_than_naive"] for r in rows)                                    # P8: 0 of 170
+
+
+def test_census2_evaluation_record():
+    """census_runs/full_r2/evaluation.json: valid; verdicts as recorded; two-sided OOS rms 0.154."""
+    e = load(R2 + "evaluation.json")
+    if PLANT:
+        e["K_d_ok"] = False      # planted: a failed replication
+    assert e["census_valid"] and e["K_b_ok"] and e["K_c_ok"] and e["K_d_ok"] and e["K_e_ok"]
+    assert e["verdict_floor"] == "no pair with y0 > 0.3396 in [1e4, 1e5] beats it"
+    assert e["verdict_KC4"] == "does not fire up to 1e5" and e["m4_gt_m2"] is False
+    assert e["verdict_P5"] == "refuted up to 1e5" and e["verdict_P8"] == "not observed"
+    t = e["two_sided_oos"]
+    assert t["n"] == 162 and t["n_in_band"] == 134 and round(t["rms"], 3) == 0.154
+    assert e["verdict_two_sided_oos"] == "expectation met (rms < 0.160)"
+    assert e["n_accounting_fallback"] == 1 and e["n_unlocated_windows"] == 0
+
+
+def test_census2_extends_attempt1_by_exactly_the_missed_windows():
+    """Attempt 2 contains attempt 1's 161 landings (to 1e-11) plus exactly the 9 recovered windows."""
+    r1 = {round(r["gamma"], 2): r["landing_ode"] for r in load("census_runs/full_r1/census_1e5.json")["rows"]
+          if r["landing_ode"] is not None}
+    r2 = {round(r["gamma"], 2): r["landing_ode"] for r in load(R2 + "census_1e5.json")["rows"]}
+    if PLANT:
+        r2.pop(24415.48)         # planted: one attempt-1 landing lost
+    assert set(r1) <= set(r2)
+    assert max(abs(r2[g] / r1[g] - 1) for g in r1) < 1e-11
+    assert sorted(set(r2) - set(r1)) == [15442.11, 16620.38, 20011.16, 54447.38, 65942.07,
+                                         74280.37, 86726.64, 88167.4, 90724.37]
+    w = load("census_runs/audit_u4/w88167_relanded.json")["landing_ode"]
+    assert abs(r2[88167.4] / w - 1) < 1e-12
+
+
+def test_census2_closest_to_the_floor_statement():
+    """RESULTS 8.15: nothing in [1e4, 1e5] within 10 percent of the floor; the closest below 1e5 is 2442.53."""
+    rows = load(R2 + "census_1e5.json")["rows"]
+    low = [r for r in load("census_1e4.json")["rows"] if abs(r["gamma"] - 240.4047) > 0.01]
+    if PLANT:
+        rows = rows + [dict(rows[0], landing_ode=0.053)]    # planted: a decade landing within 10 percent
+    assert all(r["landing_ode"] < 0.9 * FLOOR_MEASURED for r in rows)
+    best = max(low + rows, key=lambda r: r["landing_ode"])
+    assert round(best["gamma"], 2) == 2442.53 and round(100 * (1 - best["landing_ode"] / FLOOR_MEASURED), 1) == 3.1

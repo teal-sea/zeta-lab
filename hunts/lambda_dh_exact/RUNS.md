@@ -874,3 +874,40 @@ tier). The smoke row passes locally under the guarded code, landing
 0.057665659795901776 exactly as before. All four pre-approved conditions are
 met, so no calibrate run is needed: the projection rests on attempt 1's
 measured runner cost.
+
+## Run 21: the full census, attempt 2, on the guarded code (run 40379449770, 2026-10-26)
+
+```runmanifest
+id: R21-census-full-attempt2
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed on Actions (36 of 36 shards, merge success); evaluated against RESULTS.md 8.12 on attempt 2 alone: valid; all of K-a to K-e pass
+ran:
+  - lambda-dh-census.yml, mode full, request attempt 2, run_attempt 1, commit 912d89a75
+  - evaluate_census.py with LDH_CENSUS_ATTEMPT=full_r2 (locally)
+artifacts:
+  - census_runs/full_r2/census_1e5.json (sha256 3787b389cf4c3c09365e3d3211dbb525c8be9528c773502c58871c14645d643e, equal to the merge job's printed sha256; artifact zip lambda-dh-census-r2-merged-attempt1, digest sha256:16a0e8c600c4e62d6f31f191be4e001caf53888ec210aefb38adfc1c0b923b16, equal to the downloaded zip)
+  - census_runs/full_r2/evaluation.json
+```
+
+Wall 18:38 to 19:50 (72 min). **13.16 core-hours** (projected 12.0;
+pre-approved bar 15; K-e 30). Peak RSS 0.2585 GiB. 170 rows, 170 landed,
+0 unaccounted, 0 unlocated, 16 relocated by the guard, 1 accounting
+fallback. No second request was pushed while the run was live, and no shard
+failed. The local evaluation (two-sided out-of-sample line scans over 162
+windows) took about 4 min. Pinned in `test_lambda_dh_exact.py` section 11
+with planted faults.
+
+### Unit 4 test outcomes (2026-10-26)
+
+- Fast tier: 57 passed, 3 deselected, 22 s (largest single test 6.2 s).
+  Both tiers: **61 passed, 247 s.**
+- `LDH_PLANT_FAULT=1`: **24 failed, 37 passed**, exactly the planted tests.
+  These are the 12 of unit 3; the 3 guard tests (one slow), with the guard
+  switched off; 4 for the audit, the window and the fallback; and 5 for
+  attempt 2 (merged hash, the recomputed verdicts with a landing above the
+  floor injected, the evaluation record with K-d failed, the attempt-1
+  superset with a landing dropped, and the closest-to-floor statement).
+- Gates (without `tests/test_doors.py`): 81 passed, 3 xfailed.
+  `make_context.py --check`: up to date.
