@@ -67,3 +67,48 @@ on completion (checkpoint per unit); a restarted run skips finished units.
 | run | started (UTC) | outcome | compute |
 |---|---|---|---|
 | scout unit 31, timing (`scout.py --time-unit 31`) | 22:27 | success, file written | 396 s |
+
+## Resumed 2026-10-26 (owner's decision to resume the lane in place)
+
+Box rules for this session are stricter than the MISSION's: at most 4 processes,
+wait while the one-minute load exceeds 64, `nice -n 10`, no file over 100 MB, at
+most 200 MB added to disk. The heavy artifacts stay in `<cache>/weil_dh_line/`
+(about 1.3 GB, out of git). Load during the session: 9 to 60.
+
+**Provenance of the scout units.** All 32 files in `<cache>/weil_dh_line/scout_L140/`
+record `env = <cache>/weil_dh_line/parts/provisional_1.4.json`, `N = 560`,
+`prec = 640`, `q = 64`, even parity, fast Bessel column. `provisional_1.4.json`
+(SHA-256 `bf81f528...20c0bc`) carries the same two clusters, with identical
+`omega`, dyadic `h` and `U`, as the part files `zeta_1.4_a.json` (`{3,7,13}`,
+`d57d58c5...fa626`) and `zeta_1.4_b.json` (`{2,5,11}`, `6096db02...abfb2`); its
+`S` is the sum of the two `U`, `4.117980522896958`. The 2026-10-21 merge log
+(`merge_zeta_1.4.log`) ends after `{3,7,13}`; `{2,5,11}` was never re-checked.
+So `joint_1.4.json` is built by `price.py --merge` of the two part files, and the
+scout's `C` and `G` (which depend on `H`, not on `S`) are valid for it.
+
+**Thread note.** The first merge launch (12:54:45 UTC) let numpy's BLAS start
+about 12 threads (1966 CPU seconds in 163 s of wall time). It was stopped and
+relaunched at 12:57:43 UTC with `OMP_NUM_THREADS=OPENBLAS_NUM_THREADS=MKL_NUM_THREADS=1`;
+every later run here sets the same caps.
+
+### Estimates (written before any run they price)
+
+- **Merge of zeta at `L_DH`** (four parts, item 3). A merge re-runs the
+  whole-torus box bound, and its cost tracks the build's `sup_bound` seconds
+  (`{3,7,13}` at 7/5: 135 s at build, 153 s and 162 s at merge). The four parts
+  record 678 s (`{2,17,29}`), 3819 s (`{3,13,23}`), 3687 s (`{5,11,19}`) and
+  0.5 s (`{7}`, the LP version), so about **8200 core-seconds, 2.3 core-hours**
+  (wall about 65 min on three processes). Over one core-hour: asked first.
+- **K2, DH at `L_DH`** (item 6). The DH merge (`dh_L_DH_v2.json`) records
+  201 + 83 + 3241 + 21 s of box bound, about **1.0 core-hour**. The parts give
+  `S >= 6.039784733` before the dropped `l1` tail is added, so `beta* > 0` needs
+  `T# > 2 pi e^S / 5`, about 528. A stage-A run comparable to the zeta scout
+  (`beta*` about 0.4 at the top) needs `T#` to 800, `N = 856` even modes
+  (`2N/x = 1.25`), 1280 bits (the bits rule at `L_DH`), 40 units of 40 panels.
+  **Timed slice**: panels 1596 to 1600 (the largest arguments), in memory, no file
+  written, 12:56 to 12:59 UTC under load about 50: **174 s**. A unit is then
+  about 1740 s and the units about **19 core-hours**; the reducer (17 midpoint
+  LDLs of an 856 x 856 block at 1280 bits in Python) adds, scaling the 7/5
+  estimate by `(856/560)^3 x 2`, about **3 to 6 core-hours**. Each unit file
+  would be about 140 MB (5.6 GB in all), which breaks the box's 100 MB per-file
+  and 200 MB per-session limits. Asked first; see the ledger for the answer.
