@@ -157,3 +157,55 @@ artifacts:
 
 Compute: about 3 s of one core for the script, under 10 s for the tests; no estimate block
 needed.
+
+## Amendment 2026-10-26 (follow-up): field 5, prior art and published refutations
+
+Added after the scorecard above was accepted; the original text is kept unchanged. All
+queries were web searches on 2026-10-26; hits are as the result pages and arXiv abstract
+pages returned them, and no paper was read beyond its abstract.
+
+| # | query (abridged) | hits that bear on the mechanism |
+| --- | --- | --- |
+| 1 | "quasi-Riemann hypothesis", Dirichlet L-functions, Re s > 7/8, OpenAI 2026 | OpenAI, *The Quasi-Riemann Hypothesis* (30 Sep 2026; https://github.com/openai/math/tree/main/preprints/The-Quasi-Riemann-Hypothesis-September-30-2026), the pinned source; press and expositions (Scientific American; J. Gomila's exposition); S. Kintali, *A Short Proof of the Quasi-Riemann Hypothesis* (7 Oct 2026, https://shivakintali.github.io/papers/QRH.pdf), Re s > 47/48 |
+| 2 | quasi-Riemann tracker, improvements below 7/8, metaplectic and cubic theta follow-ups | B. Liu, *Improved zero-free half-planes for the quasi-Riemann hypothesis*, arXiv 2610.12234 (8 and 12 Oct 2026): B_new ~ 0.874957, with **optimality proved within the explicitly specified exponent comparison system** (abstract); Y. Xu and H. Sang, *Amplified moments and a refinement of the quasi-Riemann hypothesis*, arXiv 2610.15291 (11 and 15 Oct 2026): 0.8748867 assuming the analytic inputs of the prior work; neither abstract discusses other character orders or higher-order theta functions |
+| 3 | Liu arXiv 2610.26835, fields containing mu_12 | B. Liu, *Zero-free half-planes for Hecke L-functions over number fields*, arXiv 2610.26835 (19 Oct 2026): cubic-theta argument extended to Hecke L-functions over fields containing mu_12, Re s > B ~ 0.874887, then to every number field; the abstract does not mention zeta_F(6z) |
+| 4 | MathOverflow, quasi-Riemann 7/8 limitation, cannot reach 1/2, higher-order theta | no MathOverflow thread returned; S. Bettin and S. M. Gonek, *The theta = infinity conjecture implies the Riemann hypothesis*, Mathematika 63 (2017) 29-33, arXiv 1604.02740 |
+| 5 | Lean Zulip, quasi-Riemann 7/8 formalization | news reports that the 7/8 paper's main result is Lean-checked by its authors, review pending; no Zulip thread returned |
+| 6 | (first pass) quasi-Riemann 7/8 Patterson cubic theta higher order metaplectic theta order k | C. David, A. Dunn, A. Hamieh, H. Lin, arXiv 2306.11875 (quartic Gauss sums, metaplectic theta), the source the NOTES cite for L1 |
+
+**What changes.**
+
+- **Liu's optimality theorem (hit 2) is a published restricted-class result at k = 6.** It
+  proves the 0.874957 endpoint optimal within its exponent comparison system, which
+  matches hunt #134's 0.874958 that the NOTES reproduce at k = 6 (lines 177-178, 284).
+  It covers the k = 6 member of the template, not the tower over k, and is consistent
+  with the NOTES' floor wall 13/15 being a lower bound under weaker bookkeeping. It
+  strengthens the k = 6 column; it does not reach the k-reading of P1.
+- **Liu's mu_12 paper exists (hit 3)** with the arXiv number the NOTES give (line 272);
+  that it "keeps zeta_F^S(6z)" is not on its abstract page and stays a reading quoted
+  from hunt #136, unverified here.
+- **No published order-k tower, and no published barrier at 1/2 for this method, was
+  found** (hits 2, 4, 6). The nearest structural analogue is Bettin and Gonek's
+  conditional tower (hit 4), where a mean-value conjecture at level theta is tied to the
+  zero-free abscissa and only theta = infinity gives RH; it goes the right way in its
+  parameter, where the order-k template goes the wrong way. It is a different mechanism
+  (not a refutation).
+- **Disposition: unchanged** (restricted class obstructed for the order-k template,
+  composite grade inferred).
+
+**Correction to the run manifest above.** Its `finished` time, 13:30, was written before
+the work finished and is not a measured time, nor is its `started` time; the follow-up below has its `finished`
+time read from the clock and an approximate `started` time.
+
+```runmanifest
+id: rh_moonshot-probe_tower-2026-10-26-challenge-circularity-field5
+hunt: rh_moonshot
+started: 2026-10-26T13:30+00:00
+finished: 2026-10-26T13:38+00:00
+ran:
+  - web searches 1-6 of the table above and the arXiv abstract pages of 2610.12234, 2610.15291, 2610.26835 and 1604.02740
+  - .venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/probe_tower/challenge
+outcome: Liu proves the k = 6 endpoint 0.874957 optimal within its comparison system; no published order-k tower or barrier at 1/2 found; disposition unchanged
+artifacts:
+  - hunts/rh_moonshot/probe_tower/challenge/CHALLENGE_circularity.md
+```

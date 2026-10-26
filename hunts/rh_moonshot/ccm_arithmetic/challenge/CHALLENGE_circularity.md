@@ -135,3 +135,51 @@ Compute: under a second; no estimate block needed. The builder's tests pass in t
 checkout: `.venv/bin/python -m pytest -q -n0 hunts/rh_moonshot` gave 142 passed in 97 s,
 the whole hunt with the four challenge directories in one process. The full grid at
 c = 60, N = 128 was not rebuilt here.
+
+## Amendment 2026-10-26 (follow-up): field 5, prior art and published refutations
+
+Added after the scorecard above was accepted; the original text is kept unchanged. All
+queries were web searches on 2026-10-26; hits are as the result pages and arXiv abstract
+pages returned them, and no paper was read beyond its abstract or excerpts.
+
+| # | query (abridged) | hits that bear on the mechanism |
+| --- | --- | --- |
+| 1 | Connes Consani Moscovici "zeta spectral triples" arXiv 2511.22755, truncated Weil form, ground state | A. Connes, C. Consani, H. Moscovici, *Zeta Spectral Triples*, arXiv 2511.22755 (27 Nov 2025): rank-one perturbations of a spectral triple built from Euler products over p <= x, numerical agreement with the low zeros, and "A rigorous proof of this convergence would establish the Riemann Hypothesis" (abstract); no mention of DH or of functions without an Euler product on the abstract page. A. Groskin, *High-Precision Approximation of Riemann Zeros via the Truncated Weil Form*, arXiv 2605.20224 (2026, v4): an implementation of the Connes-van Suijlekom Galerkin matrix at sixteen cutoffs, no proof claimed, convergence called open; no rivals tested on the abstract page. A Zenodo record (https://zenodo.org/records/23441946) claiming evenness from simplicity, unreviewed and not assessed here |
+| 2 | Connes van Suijlekom arXiv 2511.23257, lowest eigenvalue simple, even eigenfunction, real zeros | A. Connes and W. D. van Suijlekom, *Quadratic Forms, Real Zeros and Echoes of the Spectral Action*, arXiv 2511.23257, Commun. Math. Phys. 406 (2025) 312: the cited Prop. 4.1 (real zeros of the ground state's transform for any real distribution, under simplicity, isolation and evenness), proved through a Caratheodory-Fejer corollary and Hurwitz; the authors flag verifying that the minimal eigenvalue is simple as the key difficulty |
+| 3 | Davenport-Heilbronn, Weil quadratic form, small eigenvalue, prolate approximation, off-line zeros | A. Connes, C. Consani, H. Moscovici, *Zeta zeros and prolate wave operators*, arXiv 2310.18423 (2024); A. Connes and C. Consani, *Spectral triples and zeta-cycles*, arXiv 2106.01715; *A finite Guinand-Weil dictionary and archimedean tail order for the truncated Weil quadratic form*, arXiv 2607.02828; X. Zhu, *Weil positivity in compact windows: a finite reduction, [one word elided under the lexical rule] two-sided bounds, and a Landau-Widom decay law*, arXiv 2608.24827 (2026): lower bounds at window L = 0.8, variational upper bounds beyond, and the empirical law -ln lambda_min(L) ~ 2 pi^2 N(T*)/ln N(T*) with T* = 2 pi e^(2L); under RH lambda_min(L) <= exp(-L e^L) for large L. No published test of the CCM steps on DH or another function without an Euler product was found |
+| 4 | (from the positivity_geometry searches) Connes-Consani, *Weil positivity and trace formula, the archimedean place*, arXiv 2006.13771 | positivity of the Weil form at the archimedean place via Hermitian Toeplitz matrices and prolate functions |
+| 5 | Lean Zulip, CCM, truncated Weil form | no thread returned by the searches above; the Zulip archive was not browsed |
+
+**What changes.**
+
+- **C1 is consistent with the published picture.** Zhu (hit 3) finds that the window
+  infimum lambda_min(L) is positive but plunges doubly exponentially in the window, and
+  establishes a lower bound only at L = 0.8. The ground-state eigenvalues reported here
+  (1e-192 at c = 60, N = 128) are of that kind. They are band-level upper bounds on a
+  quantity whose positivity is open at these windows. C1 stands, now with a citation.
+- **The cited Prop. 4.1 is published** (hit 2, Commun. Math. Phys.); its proof's own
+  flagged difficulty is link (1), simplicity, which this mechanism measures only at band
+  level.
+- **CCM's own statement** that convergence would establish RH (hit 1) is the mechanism's
+  target; no published proof or refutation of step 2 was found, and no published rival
+  test of it. The rival table of NOTES section 4 is, as far as these searches reach, not
+  in the literature (novelty not established; this is a search result, not a claim).
+- **Disposition: unchanged** (unresolved).
+
+**Correction to the run manifest above.** Its `finished` time, 14:30, was written before
+the work finished and is later than the clock at the time; it is not a measured time, and its `started` time is an estimate as well. The follow-up's
+`finished` time below is read from the clock and its `started` time is approximate (to
+about 10 minutes).
+
+```runmanifest
+id: rh_moonshot-ccm_arithmetic-2026-10-26-challenge-circularity-field5
+hunt: rh_moonshot
+started: 2026-10-26T13:30+00:00
+finished: 2026-10-26T13:38+00:00
+ran:
+  - web searches 1-5 of the table above and the arXiv abstract pages of 2511.22755, 2608.24827 and 2605.20224
+  - .venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/ccm_arithmetic/challenge
+outcome: no published proof, refutation or rival test of CCM step 2 found; Zhu's Landau-Widom law is consistent with C1; disposition unchanged
+artifacts:
+  - hunts/rh_moonshot/ccm_arithmetic/challenge/CHALLENGE_circularity.md
+```

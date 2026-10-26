@@ -161,3 +161,65 @@ artifacts:
 
 Compute: about 2 s of one core for the script, a few seconds for the tests; no estimate
 block needed (well under one core-hour).
+
+## Amendment 2026-10-26 (follow-up): field 5, prior art and published refutations
+
+Added after the scorecard above was accepted; the original text is kept unchanged. All
+queries were web searches on 2026-10-26 (arXiv full text and author pages as the search
+engine indexes them; zbMATH Open, MathOverflow and the Lean Zulip archive targeted by
+query terms, not browsed directly). The hits are as the search results and abstract pages
+returned them; no paper below was read beyond its abstract or excerpts.
+
+| # | query (abridged) | hits that bear on the mechanism |
+| --- | --- | --- |
+| 1 | Ihara zeta non-Ramanujan graph violates RH, functional equation, Euler product, Stark-Terras | H. M. Stark and A. A. Terras, *Zeta functions of finite graphs and coverings* I-III (Adv. Math. 1996, 2000, 2007, years from memory; III at https://mathweb.ucsd.edu/~aterras/BrauerSiegel.pdf); M. D. Horton, H. M. Stark, A. A. Terras, *What are zeta functions of graphs and what are they good for?*, Contemp. Math. (https://mathweb.ucsd.edu/~aterras/snowbird.pdf): a (q+1)-regular graph's Ihara zeta has an Euler product over primes (closed non-backtracking cycles), a functional equation under u = q^(-s), and satisfies its RH exactly when the graph is Ramanujan; for irregular graphs no functional equation is known |
+| 2 | Hodge index analogue Spec Z, intersection pairing, scaling site, Connes-Consani | A. Connes, *The Riemann Hypothesis: Past, Present and a Letter Through Time*, arXiv 2602.04022 (2026): Weil's proof as intersection pairing plus Hodge index; A. Connes and C. Consani, *Riemann-Roch for Spec Z*, Bull. Sci. Math. 187 (2023) 103293; J. S. Milne, *The Riemann Hypothesis over Finite Fields: From Weil to the Present Day*, arXiv 1509.00797: the missing ingredients are a Kunneth formula and a Hodge index theorem; no Hodge index theorem for a square of Spec Z found |
+| 3 | Weil positivity function field finite window Toeplitz 2g, Fejer, Caratheodory, Pisarenko | A. Connes and C. Consani, *Weil positivity and trace formula, the archimedean place*, Selecta Math. (2021), arXiv 2006.13771: Hermitian Toeplitz matrices control the Weil distribution against the Sonin trace; X. Zhu, *Weil positivity in compact windows*, arXiv 2608.24827 (2026); nothing on a window-2g statement for curves |
+| 4 | finite-field zeta, rational, functional equation, Euler product, nonnegative counts, not RH (MathOverflow) | L. Weng's non-abelian zeta functions for curves over finite fields (arXiv math/0007145, math/0102064; discussed in arXiv 2201.03703): the original definition gives a rational function with the standard functional equation that fails every form of RH; no MathOverflow thread returned |
+| 5 | zbMATH, function-field analogue of Davenport-Heilbronn | L. Ferry et al., *On Davenport and Heilbronn-type of functions*, arXiv 1602.06328 (number field only); no F_q[T] analogue returned |
+| 6 | Lean Zulip, Weil conjectures for curves, Hodge index, Bombieri-Stepanov formalization | no Zulip thread returned; expository notes only (Milne, arXiv 1509.00797; R. Joshi's notes on RH for curves) |
+| 7 | (from the ccm search, see that page) Connes and van Suijlekom, *Quadratic Forms, Real Zeros and Echoes of the Spectral Action*, arXiv 2511.23257, Commun. Math. Phys. 406 (2025) 312 | its first step is a corollary of the 1911 Caratheodory-Fejer theorem: a positive semidefinite Hermitian Toeplitz matrix of rank n - 1 has a kernel polynomial with all zeros on the unit circle |
+
+**What changes.**
+
+- **The window-2g lemma (NOTES 2.4) has a classical neighbour.** The Caratheodory-Fejer
+  theorem (hit 7, and the classical theory it cites) says that a positive semidefinite
+  Hermitian Toeplitz matrix T_m of rank r < m is the moment matrix of r point masses on
+  the unit circle. For the curve's multiset of 2g normalized eigenvalues, T_{2g+1} has
+  rank <= 2g, so the theorem applies to the window of length 2g + 1. It does not by
+  itself place the curve's own u_i on the circle: that needs an identification of the
+  circle atoms with the multiset (weights and power sums), which this session did not
+  derive. The NOTES' interpolation proof does the whole job directly at window 2g and is
+  one step sharper. The builder's "probably known in the language of positive Toeplitz
+  forms" (NOTES line 196) is therefore plausible but not confirmed by these searches;
+  novelty stays "not established", and the lemma is recorded as adjacent to
+  Caratheodory-Fejer.
+- **The golden fake's phenomenon has two published neighbours.** Ihara zeta functions of
+  non-Ramanujan regular graphs (hit 1) and Weng's original non-abelian zeta functions
+  (hit 4) both have rationality and a functional equation and fail RH; the Ihara ones
+  also have an Euler product with nonnegative prime counts. Neither has the curve's pole
+  structure together with a +-1 local factor per place of F_q(t), so neither is the exact
+  form. D3 above stands, now with citations.
+- **H_Q as a reformulation** is in print (hit 2 and the Connes, Consani and Marcolli
+  reference of field 5); no published proof or refutation of a Hodge index theorem for a
+  square of Spec Z was found.
+- **Disposition: unchanged** (unresolved; the golden fake a refutation of the
+  function-field implication, D2). No hit refutes or proves the mechanism's step G3.
+
+**Correction to the run manifest above.** Its `finished` time, 13:20, was written before
+the work finished and is not a measured time, nor is its `started` time; the follow-up
+manifest below has its `finished` time read from the clock and an approximate `started`
+time.
+
+```runmanifest
+id: rh_moonshot-positivity_geometry-2026-10-26-challenge-circularity-field5
+hunt: rh_moonshot
+started: 2026-10-26T13:30+00:00
+finished: 2026-10-26T13:38+00:00
+ran:
+  - web searches 1-7 of the table above
+  - .venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/positivity_geometry/challenge
+outcome: Caratheodory-Fejer is a classical neighbour of the window-2g lemma, not a proof of it; Ihara and Weng zeta functions are published neighbours of the golden fake, not its exact form; disposition unchanged
+artifacts:
+  - hunts/rh_moonshot/positivity_geometry/challenge/CHALLENGE_circularity.md
+```

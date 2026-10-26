@@ -143,3 +143,60 @@ artifacts:
 Compute: the script, with its sieve to 10^8 and the n = 100..1000 scan, took 4 min 40 s of
 one core (timed); the tests run the same routines at X = 10^6 in seconds. Under one
 core-hour, so no estimate was sent.
+
+## Amendment 2026-10-26 (follow-up): field 5, prior art and published refutations
+
+Added after the scorecard above was accepted; the original text is kept unchanged. All
+queries were web searches on 2026-10-26; hits are as the result pages and abstracts
+returned them, and no paper was read beyond its abstract or excerpts. Journal volumes and
+years for Keiper, Voros and Johansson are from memory and unchecked; the arXiv numbers were
+returned by the searches.
+
+| # | query (abridged) | hits that bear on the mechanism |
+| --- | --- | --- |
+| 1 | Bombieri-Lagarias 1999 "Complements to Li's criterion", arithmetic formula, archimedean and finite places | E. Bombieri and J. C. Lagarias, *Complements to Li's criterion for the Riemann hypothesis*, J. Number Theory 77 (1999) 274-287 (Theorem 3: the arithmetic formula for lambda_n, a limit of prime-power sums plus archimedean terms; the multiset theorem); S. K. Sekatskii, *Generalized Bombieri-Lagarias' theorem and generalized Li's criterion with its arithmetic interpretation*, Ukrainian Math. J. 66 (2014), https://umj.imath.kiev.ua/index.php/umj/article/view/2139 |
+| 2 | Keiper 1992 power series of xi, Li/Keiper constants; Coffey "Toward verification of the Riemann hypothesis: application of the Li criterion" | J. B. Keiper, *Power series expansions of Riemann's xi function*, Math. Comp. 58 (1992) (the coefficients, lambda^K_n = sum_rho [1 - (1 - 1/rho)^n] / n, and RH implies their positivity); M. W. Coffey, *Toward verification of the Riemann hypothesis: application of the Li criterion*, Math. Phys. Anal. Geom. 8 (2005) 211-255, arXiv math-ph/0505052 (the split lambda_n = S_inf(n) - S_f(n) + 1 and a lower bound on the archimedean part, his Theorem 2); M. W. Coffey, *New results concerning power series expansions of the Riemann xi function and the Li/Keiper constants* (https://cyberleninka.org/article/n/1003304); J. Arias de Reyna, *Asymptotics of Keiper-Li coefficients* (https://personal.us.es/arias/56-2RHB.pdf) |
+| 3 | Li criterion, Davenport-Heilbronn, first negative index, height relation | A. Voros, *Discretized Keiper/Li approach to the Riemann Hypothesis*, arXiv 1703.02844 (2017): a discretized Li-type sequence already negative at its second term for a DH function; A. Voros, *Simplifications of the Keiper/Li approach*, arXiv 1602.03292; A. Voros, *From asymptotic to closed forms for the Keiper/Li approach*, arXiv 2204.01036; a Li-type criterion for zero-free regions of Dirichlet series with real coefficients, LMS J. Comput. Math. 19 (2016) 259-280 (negative tau-Li coefficients with exponentially growing amplitude); no published first negative index of the standard lambda_n of DH (the only hit was this laboratory's own pull request #298, hunt #128) |
+| 4 | Voros "Sharpenings of Li's criterion" | A. Voros, *Sharpenings of Li's criterion for the Riemann Hypothesis*, Math. Phys. Anal. Geom. (2006), arXiv math/0506326 (and math/0404213): lambda_n ~ n (A log n + B) with explicit A > 0 and B **if and only if RH**, and a non-tempered oscillatory form otherwise |
+| 5 | Johansson, Keiper-Li coefficients to n = 100000 with Arb | F. Johansson, *Rigorous high-precision computation of the Hurwitz zeta function and its derivatives*, Numer. Algorithms (2015), arXiv 1309.2877: interval values of lambda_0..lambda_n computed for n up to 100000 (about 71000 s, 48.7 GB) |
+| 6 | Li criterion, integral representation with psi(x) - x and a Laguerre kernel | nothing returned that states the Laguerre-kernel integral form P_n of NOTES section 2 |
+| 7 | Lean Zulip, Li's criterion, Mathlib, Keiper-Li coefficients | D. Loeffler and M. Stoll, *Formalizing zeta and L-functions in Lean*, arXiv 2503.00959 (Mathlib's `riemannZeta` and `RiemannHypothesis`); no Lean formalization or Zulip thread on Li coefficients returned; also K. Maslanka's numerics (arXiv math/0402168, math/0406312) and *Numerical investigations of the Keiper-Li criterion*, arXiv 2311.06294 |
+
+**What changes.**
+
+- **The onset heuristic of NOTES section 5 is a known mechanism.** Voros (hit 4) proves
+  the dichotomy: tempered growth n (A log n + B) exactly under RH, a non-tempered
+  oscillation otherwise, driven by the off-line zeros. The builder's root of
+  n log R = log((n/4) log n) is a quantitative reading of that dichotomy and should cite
+  it. Not a refutation.
+- **The measured range is small beside the record.** Johansson (hit 5) has lambda_n with
+  interval enclosures to n = 100000; this mechanism's n <= 5000 and the laboratory's
+  earlier n <= 58 rows are far inside it. Not a refutation; field 4 (finite stand-ins)
+  is unaffected, since no step claims uniformity.
+- **The split is Bombieri-Lagarias's Theorem 3 and Coffey's S_inf / S_f split** (hits 1,
+  2), as the NOTES say. Coffey's lower bound on the archimedean part is the published
+  ingredient nearest to "an inequality on the arithmetic part"; no published uniform
+  bound on S_f(n) was found, and none that would finish.
+- **No published refutation** of the exact form "P_n <= M(n) for all n from the Euler
+  product" was found, nor any treatment of the Laguerre-kernel prime integral (hit 6).
+- **Disposition: unchanged** (unresolved; the target a reformulation under kill
+  condition 3).
+
+**Correction to the run manifest above.** Its `finished` time, 14:30, was written before
+the work finished and is later than the clock at the time; it is not a measured time, and its `started` time is an estimate as well. The follow-up's
+`finished` time below is read from the clock and its `started` time is approximate (to
+about 10 minutes).
+The follow-up manifest below has its `finished` time read from the clock and an approximate `started` time.
+
+```runmanifest
+id: rh_moonshot-li_arithmetic-2026-10-26-challenge-circularity-field5
+hunt: rh_moonshot
+started: 2026-10-26T13:30+00:00
+finished: 2026-10-26T13:38+00:00
+ran:
+  - web searches 1-7 of the table above
+  - .venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/li_arithmetic/challenge
+outcome: Voros's sharpening is the published form of the onset dichotomy; Johansson has lambda_n to n = 100000; no published refutation or uniform arithmetic-part bound found; disposition unchanged
+artifacts:
+  - hunts/rh_moonshot/li_arithmetic/challenge/CHALLENGE_circularity.md
+```
