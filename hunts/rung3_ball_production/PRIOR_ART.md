@@ -34,8 +34,12 @@ to check before any novelty claim goes beyond "searched-and-absent in the source
   a counting argument). A 2015 note and a 2016 paper raise an ambiguity about the points
   symmetric to Spira's across the critical line
   ([arXiv:1503.05129](https://arxiv.org/pdf/1503.05129),
-  [arXiv:1602.06328](https://arxiv.org/abs/1602.06328)). None of these is a rigorous
-  enclosure or a formal proof.
+  [arXiv:1602.06328](https://arxiv.org/abs/1602.06328)). Balanzario and Sanchez-Ortiz,
+  "Zeros of the Davenport-Heilbronn counterexample", Math. Comp. 76 (2007) 2045-2049
+  ([AMS](https://www.ams.org/journals/mcom/2007-76-260/S0025-5718-07-01999-0/S0025-5718-07-01999-0.pdf)),
+  also cited by `docs/29`, computed off-line zeros. This search did not read it closely
+  enough to say whether its computation encloses a zero rigorously, so the claim below
+  leaves room for it. None of the others is a rigorous enclosure or a formal proof.
 - **Analytic results** on the function's zeros, all on the critical line and not about
   the off-line zero: Gritsenko, "On the zeros of the Davenport-Heilbronn function"
   ([Proc. Steklov Inst. 2017](https://link.springer.com/article/10.1134/S0081543817010060));
