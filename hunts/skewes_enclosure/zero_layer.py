@@ -25,6 +25,7 @@ written (one ``mid +/- rad`` line per zero, not committed).
 from __future__ import annotations
 
 import argparse
+import gzip
 import hashlib
 import json
 import random
@@ -98,10 +99,21 @@ def zeros_digest(gammas) -> str:
     return h.hexdigest()
 
 
-def run_shard(n0: int, num: int, batch: int, sample: int, seed: int, prec: int = 128) -> dict:
+def write_zeros(gammas, path: Path) -> None:
+    """The zeros as printed balls, one per line, gzipped; the decompressed bytes
+    hash to the shard's ``zeros_sha256``."""
+    with gzip.open(path, "wt", encoding="ascii") as f:
+        for g in gammas:
+            f.write(g.str(45) + "\n")
+
+
+def run_shard(n0: int, num: int, batch: int, sample: int, seed: int, prec: int = 128,
+              omegas=None, zeros_out: Path | None = None) -> dict:
     t0 = time.perf_counter()
     gammas, times = arb_zeros(n0, num, batch, prec)
     t_zeros = time.perf_counter() - t0
+    if zeros_out is not None:
+        write_zeros(gammas, zeros_out)
 
     t1 = time.perf_counter()
     sums = {
@@ -109,6 +121,10 @@ def run_shard(n0: int, num: int, batch: int, sample: int, seed: int, prec: int =
         "saouter_demichel": st.lehman_sum(gammas, st.SAOUTER_DEMICHEL.omega,
                                           st.SAOUTER_DEMICHEL.alpha),
     }
+    grid = {}
+    if omegas:
+        grid = {k: v.str(40) for k, v in
+                st.lehman_sum_grid(gammas, omegas, st.SAOUTER_DEMICHEL.alpha).items()}
     t_sums = time.perf_counter() - t1
 
     rng = random.Random(seed)
@@ -132,6 +148,8 @@ def run_shard(n0: int, num: int, batch: int, sample: int, seed: int, prec: int =
         "ms_per_zero": 1e3 * t_zeros / num,
         "seconds_sums": t_sums,
         "partial_sums": {k: v.str(40) for k, v in sums.items()},
+        "grid_alpha": st.SAOUTER_DEMICHEL.alpha if omegas else None,
+        "grid_sums": grid,
         "route2_sample": {"seed": seed, "size": len(picks),
                           "all_sign_changes": all(route2.values()),
                           "failures": [k for k, v in route2.items() if not v],
@@ -150,11 +168,16 @@ def main() -> None:
     ap.add_argument("--sample", type=int, default=200)
     ap.add_argument("--seed", type=int, default=152)
     ap.add_argument("--prec", type=int, default=128)
+    ap.add_argument("--omegas", type=Path, help="JSON file with an 'omegas' list (alpha 6e12)")
+    ap.add_argument("--zeros-out", type=Path, help="write the zeros here, gzipped")
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
-    res = run_shard(a.n0, a.num, a.batch, a.sample, a.seed, a.prec)
+    res = run_shard(a.n0, a.num, a.batch, a.sample, a.seed, a.prec,
+                    json.loads(a.omegas.read_text())["omegas"] if a.omegas else None,
+                    a.zeros_out)
     a.out.write_text(json.dumps(res, indent=1))
-    print(json.dumps({k: v for k, v in res.items() if k != "seconds_per_batch"}, indent=1))
+    print(json.dumps({k: v for k, v in res.items()
+                      if k not in ("seconds_per_batch", "grid_sums")}, indent=1))
 
 
 if __name__ == "__main__":

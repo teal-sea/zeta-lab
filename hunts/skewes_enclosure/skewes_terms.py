@@ -122,6 +122,32 @@ def lehman_sum(gammas, omega, alpha, second_order: bool = True) -> arb:
         flint.ctx.prec = old
 
 
+def lehman_sum_grid(gammas, omegas, alpha) -> dict:
+    """``lehman_sum`` at every omega in ``omegas`` in one pass over the zeros.
+
+    Same terms as ``lehman_sum(..., second_order=True)``; the omega-free parts
+    (1/rho, 1/rho^2, the Gaussian weight) are computed once per zero.
+    Returns {omega string: arb}.
+    """
+    old = flint.ctx.prec
+    flint.ctx.prec = PREC
+    try:
+        ws = [(str(w), _b(w)) for w in omegas]
+        al2 = 2 * _b(alpha)
+        totals = {k: acb(0) for k, _ in ws}
+        half = arb(1) / 2
+        for g in gammas:
+            g = _b(g)
+            inv = 1 / acb(half, g)
+            inv2 = inv * inv
+            wt = (-(g * g) / al2).exp()
+            for k, w in ws:
+                totals[k] += acb(0, g * w).exp() * (inv + inv2 / w) * wt
+        return {k: 2 * v.real for k, v in totals.items()}
+    finally:
+        flint.ctx.prec = old
+
+
 def partial_F(gammas, omega) -> arb:
     """Revers section 8's f_T(omega) = -1 - sum_{0<|gamma|<=T} e^{i omega gamma}/rho."""
     old = flint.ctx.prec

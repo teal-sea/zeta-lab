@@ -187,8 +187,12 @@ x about 1.6 h, roughly **6.5 h**. The 80-minute per-shard timeout is kept.
 
 13/13 jobs succeeded between 16:53 and 22:33 UTC. 195 shards ran, all sound;
 per-block speed was 8.2 to 16 ms/zero, varying by runner. **Total isolation over
-all 220 shards was 97 core-hours**, about 64 of them on runners, within the
-estimate. `combine.py --target saouter_demichel`: completeness holds, but **the gate failed**
+all 220 shards was 97 core-hours**. **Correction (2026-10-26):** an earlier
+version said "about 64 of them on runners, within the estimate". In fact shards
+21 to 215 cost **87.4 runner core-hours** (88.6 by job wall time x 4), **over** the
+59 to 73 estimate. The cause is the per-CPU spread. Runner speed was 8.2 to 16 ms/zero
+depending on the CPU model a job landed on, against the pilot's 13.4. The estimate
+extrapolated from one CPU, and the upper blocks drew slower ones. `combine.py --target saouter_demichel`: completeness holds, but **the gate failed**
 (RESULTS.md section 6). The combined JSON is `shards_b/combined_saouter_demichel.json`,
 and checksums are in `shards_b/SHA256SUMS`.
 
@@ -206,3 +210,17 @@ artifacts:
   - hunts/skewes_enclosure/shards_b/combined_saouter_demichel.json
   - hunts/skewes_enclosure/shards_b/SHA256SUMS
 ```
+
+## 2026-10-26: rerun of target B on the pre-registered omega grid (estimate)
+
+Pre-registration: `PREREG_B2.md` and `omega_grid.json`, commit e5b33dc90. The
+coordinator directed all 220 shards on runners, with a cap of 100 runner core-hours.
+Sized from the measured spread, not the mean: 8 to 16 ms/zero by CPU model, so 0.23
+to 0.45 core-hour per shard. The grid adds 0.23 ms/zero (under 2%), and gzipping the
+zeros costs seconds. **220 shards x 0.23 to 0.45 = 51 to 99 core-hours; the
+central estimate, from the last run's actual 89.2 core-hours for shards 21 to 220
+plus about 5 for shards 1 to 20 at runner speed and 2% for the grid, is about
+96 core-hours.** That is close to the cap. A watcher projects the run's total
+from finished shards and stops the run if the projection passes 100. Plan: 14
+jobs of 16 shards (the last has 12), max-parallel 4, per-shard timeout 80 min. At
+16 ms/zero a shard is about 27 min, so a job is about 110 min.

@@ -126,7 +126,10 @@ pilot, and 21 to 215 from Actions run 40363428968) are sound. Indices are
 contiguous, every ball is ordered and disjoint within and across shards, the last
 zero is below T = 10379600, and Arb's Turing count gives N(T) = 22,000,000
 exactly. All 5150 route-2 brackets show a sign change. Isolation took
-349,099 core-seconds = 97 core-hours in total, about 64 of them on runners.
+349,099 core-seconds = 97 core-hours in total: 87.4 on runners for shards 21 to 215
+(88.6 by job wall time x 4 vCPU), plus 1.5 for the pilot, 0.6 for shard 216 and 7.5
+for target A on the box. (An earlier version of this line said "about 64 on
+runners". That was an unchecked guess, corrected on 2026-10-26.)
 
 | quantity | value |
 | --- | --- |

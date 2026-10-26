@@ -115,20 +115,31 @@ jobs:
           bymem=$(( avail * 8 / 10 / SHARD_RSS_KB ))
           par=$(nproc); [ "$bymem" -lt "$par" ] && par=$bymem; [ "$par" -lt 1 ] && par=1
           echo "parallelism $par (nproc $(nproc), MemAvailable ${avail} kB)" | tee -a "$GITHUB_STEP_SUMMARY"
+          mkdir -p zeros
           printf '%s\n' ${{ matrix.block.list }} | xargs -P "$par" -I{} bash -c '
             k={}; n0=$(( (k - 1) * 100000 + 1 )); f=$(printf "out/shard_%03d" "$k")
             timeout --signal=INT --kill-after=2m 80m \
               python3 -u hunts/skewes_enclosure/zero_layer.py \
               --n0 "$n0" --num 100000 --batch 5000 --prec 64 --sample 20 \
-              --seed $((152000 + k)) --out "$f.json" > "$f.log" 2>&1 \
+              --seed $((152000 + k)) --omegas hunts/skewes_enclosure/omega_grid.json \
+              --zeros-out "$(printf "zeros/zeros_%03d" "$k").txt.gz" \
+              --out "$f.json" > "$f.log" 2>&1 \
               && echo "shard $k done" || echo "shard $k FAILED or timed out"'
           ls -la out
       - name: Every requested shard is sound (fail-closed)
         shell: bash --noprofile --norc -eo pipefail {0}
-        run: python3 hunts/skewes_enclosure/check_block.py out ${{ matrix.block.list }} | tee -a "$GITHUB_STEP_SUMMARY"
+        run: python3 hunts/skewes_enclosure/check_block.py --grid-file hunts/skewes_enclosure/omega_grid.json out ${{ matrix.block.list }} | tee -a "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: shards-${{ matrix.block.first }}-${{ matrix.block.last }}-a${{ github.run_attempt }}
           path: out/
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zeros-${{ matrix.block.first }}-${{ matrix.block.last }}-a${{ github.run_attempt }}
+          path: zeros/
+          compression-level: 0
+          retention-days: 90
           if-no-files-found: warn

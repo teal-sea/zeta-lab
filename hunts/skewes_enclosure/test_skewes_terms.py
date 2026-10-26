@@ -161,3 +161,40 @@ def test_second_order_term_matters(low_zeros):
     a = st.lehman_sum(low_zeros, w, al)
     b = st.lehman_sum(low_zeros, w, al, second_order=False)
     assert bool(abs(a - b) > arb("1e-6"))
+
+
+def test_grid_sum_equals_single_omega_sums(low_zeros):
+    """The one-pass grid sum reproduces lehman_sum at both stored omegas."""
+    sd, cp = st.SAOUTER_DEMICHEL, st.CHAO_PLYMEN
+    g = st.lehman_sum_grid(low_zeros, [sd.omega, "727.951335792"], sd.alpha)
+    one = st.lehman_sum(low_zeros, sd.omega, sd.alpha)
+    assert abs(g[sd.omega] - one) <= arb("1e-30") + one.rad()
+    g2 = st.lehman_sum_grid(low_zeros, [cp.omega], cp.alpha)
+    one2 = st.lehman_sum(low_zeros, cp.omega, cp.alpha)
+    assert abs(g2[cp.omega] - one2) <= arb("1e-30") + one2.rad()
+
+
+def test_planted_fault_grid_shifted_by_one_step_fails(low_zeros):
+    """A grid point one 5e-8 step away is distinguishable from the stored omega."""
+    sd = st.SAOUTER_DEMICHEL
+    one = st.lehman_sum(low_zeros, sd.omega, sd.alpha)
+    shifted = st.lehman_sum_grid(low_zeros, ["727.95134005"], sd.alpha)["727.95134005"]
+    assert not shifted.overlaps(one)
+
+
+def test_zeros_file_hashes_to_the_digest(tmp_path, low_zeros):
+    import gzip
+    import hashlib
+
+    f = tmp_path / "z.txt.gz"
+    zl.write_zeros(low_zeros, f)
+    assert hashlib.sha256(gzip.open(f).read()).hexdigest() == zl.zeros_digest(low_zeros)
+
+
+def test_omega_grid_file_is_the_preregistered_one():
+    import json
+
+    d = json.loads((Path(__file__).resolve().parent / "omega_grid.json").read_text())
+    assert d["decisive"] == ["727.951335792", "727.951335426"]
+    assert d["control"] == "727.95134"
+    assert len(d["omegas"]) == 83 and len(set(d["omegas"])) == 83
