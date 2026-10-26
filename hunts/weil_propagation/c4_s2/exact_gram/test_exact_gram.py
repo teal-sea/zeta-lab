@@ -273,7 +273,8 @@ def test_workflow_matches_the_ruling():
     assert wf["permissions"] == {"contents": "read"}
     assert wf["concurrency"]["group"] == "c4-exact-gram"
     sh = wf["jobs"]["shards"]
-    assert sh["timeout-minutes"] <= 350 and sh["strategy"]["max-parallel"] <= 6
+    assert sh["timeout-minutes"] <= 350 and sh["strategy"]["max-parallel"] <= 4  # shared 20-job pool (RUNS s11)
+    assert wf["defaults"] == {"run": {"shell": "bash"}}  # bash -eo pipefail in every run step
     for v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "FLINT_NUM_THREADS"):
         assert wf["env"][v] == "1"
     steps = [s.get("name", s.get("uses", "")) for s in sh["steps"]]
@@ -284,10 +285,18 @@ def test_workflow_matches_the_ruling():
         import hashlib
 
         assert hashlib.sha256(open(rr, "rb").read()).hexdigest() in _read("RUNS.md")
-        assert json.load(open(rr))["mode"] == "calibrate"
+        req = json.load(open(rr))
+        assert req["mode"] in ("calibrate", "full")
+        if req["mode"] == "full":  # the calibration's Gram, by digest (RUNS s11)
+            assert req["gram_sha256"] == hashlib.sha256(open(os.path.join(HERE, "gram.json"), "rb").read()).hexdigest()
     jobs = wf["jobs"]
     assert list(jobs) == ["plan", "gram", "merge", "shards"]
-    assert jobs["gram"]["timeout-minutes"] <= 350 and jobs["gram"]["strategy"]["max-parallel"] <= 6
+    assert jobs["gram"]["timeout-minutes"] <= 350 and jobs["gram"]["strategy"]["max-parallel"] <= 4
+    # full mode never recomputes the Gram: gram and merge run in calibrate mode only
+    assert jobs["gram"]["if"] == jobs["merge"]["if"] == "needs.plan.outputs.mode == 'calibrate'"
+    assert "needs.merge.result == 'skipped' && needs.plan.outputs.mode == 'full'" in sh["if"]
+    gstep = next(s for s in sh["steps"] if s.get("name", "").startswith("the calibration's Gram"))
+    assert gstep["if"] == "needs.plan.outputs.mode == 'full'" and 'test "$got" = "$want"' in gstep["run"]
     assert jobs["merge"]["needs"] == ["plan", "gram"] and jobs["shards"]["needs"] == ["plan", "merge"]
     assert "merge-gram" in text and "gram-part" in text and "c4-exact-gram-gram-attempt" in text
     # every directory a step writes into exists before the step, on attempt 1 too (run 40342431754)
@@ -331,3 +340,42 @@ def test_gram_unit_cost_quoted_in_runs():
     t = _read("RUNS.md")
     for s in ("about 23 to 25 core-hours", "about 25 to 27 core-hours", "m_max = 101", "t_max = 125"):
         assert s in t, s
+
+
+def _worst_process_s(req, cal):
+    import rebuild as R
+
+    bl, rep, need = R.blocks(req), req.get("replay_every") or 0, 0
+    for sh in range(req["shards"]):  # the preflight's rule, per shard (c4-exact-gram.yml)
+        r = R.shard_range(len(bl), sh, req["shards"])
+        nrep = sum(1 for b in r if rep and b % rep == 0)
+        need = max(need, (len(r) - nrep) * cal["block_wall_s"] + nrep * cal["replay_block_wall_s"] + cal["setup_s"])
+    return need
+
+
+def test_calibration_figures_and_the_full_request_headroom():
+    import re
+
+    c = json.load(open(os.path.join(HERE, "calibration_40342895119.json")))
+    assert c["run"] == 40342895119 and round(c["gram_cpu_hours"], 1) == 13.1
+    assert len(c["gram_parts"]) == 24 and max(v["cpu_s"] for v in c["gram_parts"].values()) == 3977.5
+    ordinary = [s for blks in c["block_seconds"].values() for b, s in blks if b % 16 and s > 800]
+    assert len(ordinary) == 6 and max(ordinary) == 931.8  # the four-at-once blocks; block 1 ran alone
+    assert c["gram_json"]["sha256"] == "2b907a79a8a127e0626f9ade01ee7f8335761e7cbf564a48d386cb5854a94872"
+    t = _read("RUNS.md")
+    s11 = t[t.index("## 11."):]
+    req = json.loads(re.findall(r"```json\n(.*?)```", s11, re.DOTALL)[-1])
+    base = json.load(open(os.path.join(HERE, "RUN_REQUEST.json")))
+    drop = {"mode", "blocks", "attempt", "gram_sha256", "calibration"}
+    assert {k: v for k, v in req.items() if k not in drop} == {k: v for k, v in base.items() if k not in drop}
+    assert req["mode"] == "full" and req["gram_sha256"] == c["gram_json"]["sha256"]
+    cal = req["calibration"]
+    assert cal["block_wall_s"] >= max(ordinary) and cal["peak_rss_gb"] >= 1.397 and 4 * cal["peak_rss_gb"] < 13
+    need = _worst_process_s(req, cal)
+    assert need == 9 * 932 + 3600 + 60 == 12048
+    assert need <= 0.75 * 335 * 60 and cal["table_build_s"] + need + 180 <= 0.75 * 350 * 60
+    # planted: a block half again as dear fails the job headroom
+    slow = dict(cal, block_wall_s=1.5 * cal["block_wall_s"])
+    assert cal["table_build_s"] + _worst_process_s(req, slow) > 0.75 * 350 * 60
+    for s in ("12,048 s (200.8 min)", "36 % under", "about 11.2 hours wall", "104 core-hours", "13.1 core-hours"):
+        assert s in s11, s

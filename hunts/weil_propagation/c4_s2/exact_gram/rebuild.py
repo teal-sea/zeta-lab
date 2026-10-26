@@ -508,6 +508,11 @@ def setup(req):
     gate(tuple(req["local_data"]) if isinstance(req["local_data"], list) else req["local_data"])
     modes = B.prolate_modes(req["nvec"], req.get("dps", 40))
     gfile = os.path.join(req["prepared"], "gram.json") if req.get("prepared") else None
+    if req.get("gram_sha256"):  # a full run reuses a calibration's Gram by digest, never recomputes it (RUNS s11)
+        if not (gfile and os.path.exists(gfile)):
+            raise GD.GuardRefused("the request names a Gram by sha256 and prepared/gram.json is absent")
+        if _sha256(gfile) != req["gram_sha256"]:
+            raise GD.GuardRefused("prepared/gram.json does not have the request's sha256")
     if gfile and os.path.exists(gfile):
         g = json.load(open(gfile))
         if g["request"] != _gram_key(req):
@@ -542,6 +547,8 @@ def run_shard(req, shard, shards, outdir, key_fn, fault=None, state=None, max_bl
         tag = f"shard{shard:02d}of{shards:02d}"
         bl = blocks(req)
         rng = list(shard_range(len(bl), shard, shards))
+        if not rng:  # 338 blocks in 36 shards of 10: shards 34 and 35 hold none (assemble skips them too)
+            return None
         k0 = key_fn()
         payload = None
         last = rng[0] - 1

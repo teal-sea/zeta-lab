@@ -14,11 +14,14 @@
 #   calibrate  job 0 only, 4 processes, each `blocks` blocks of its shard; per
 #              process the per-block wall time and the peak RSS (/usr/bin/time -v)
 #              go into calibration.json in the artifact.
-#   full       9 jobs x 4 processes = 36 shards (max-parallel 6). The preflight
-#              refuses (fail closed) unless the request's "calibration" record
-#              gives at least 25 % headroom inside the 335-minute self-stop, 4 x peak
-#              RSS < 13 GB and the on-disk mode table < 10 GB, and rebuild.py has
-#              the disk-backed table (the next unit, with P4).
+#   full       9 jobs x 4 processes = 36 shards (max-parallel 4: the repo's 20-job
+#              pool is shared). No gram or merge job: the shards take the calibration's
+#              gram.json, committed beside the request and named by its sha256
+#              ("gram_sha256"), checked here and again by rebuild.setup (fail closed).
+#              The preflight refuses (fail closed) unless the request's "calibration"
+#              record gives at least 25 % headroom for the worst shard (its replay block
+#              priced apart) inside the 335-minute self-stop and, with the table build,
+#              inside the 350-minute job limit; 4 x peak RSS < 13 GB; table < 10 GB.
 #
 # Estimate (RUNS.md s2, s8): about 155 core-hours at S' = 1e4, about 22 at the
 # stored S with the a posteriori tail (BOUNDS.md s3.3); the calibration replaces
@@ -40,6 +43,12 @@ permissions:
 concurrency:
   group: c4-exact-gram
   cancel-in-progress: false
+
+# GitHub runs `shell: bash` as bash -eo pipefail; a step with no shell key runs bash -e
+# without pipefail, where a failing command piped to tee passes.
+defaults:
+  run:
+    shell: bash
 
 env:
   PYTHONUNBUFFERED: "1"
@@ -71,16 +80,19 @@ jobs:
           print("jobs=" + json.dumps([0] if mode == "calibrate" else list(range(9))))
           assert req["gram_parts"] % 4 == 0, req["gram_parts"]
           print("gram_jobs=" + json.dumps(list(range(req["gram_parts"] // 4))))
+          if mode == "full":  # the calibration's Gram is reused, never recomputed (RUNS.md s11)
+              assert len(req["gram_sha256"]) == 64 and "calibration" in req, req
           PY
 
   gram:
     name: gram parts ${{ matrix.job }} (P4, 4 processes)
     needs: plan
+    if: needs.plan.outputs.mode == 'calibrate'
     runs-on: ubuntu-latest
     timeout-minutes: 350
     strategy:
       fail-fast: false
-      max-parallel: 6
+      max-parallel: 4
       matrix:
         job: ${{ fromJSON(needs.plan.outputs.gram_jobs) }}
     steps:
@@ -126,6 +138,7 @@ jobs:
   merge:
     name: merge the Gram parts
     needs: [plan, gram]
+    if: needs.plan.outputs.mode == 'calibrate'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -154,11 +167,15 @@ jobs:
   shards:
     name: shards ${{ matrix.job }} (4 processes, ${{ needs.plan.outputs.mode }})
     needs: [plan, merge]
+    # merge is skipped in full mode; a failed or cancelled merge still stops the shards
+    if: >-
+      ${{ !cancelled() && needs.plan.result == 'success' && (needs.merge.result == 'success'
+      || (needs.merge.result == 'skipped' && needs.plan.outputs.mode == 'full')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 350
     strategy:
       fail-fast: false
-      max-parallel: 6
+      max-parallel: 4
       matrix:
         job: ${{ fromJSON(needs.plan.outputs.jobs) }}
     steps:
@@ -170,9 +187,19 @@ jobs:
           python -m pip install --quiet --disable-pip-version-check -r requirements.txt
           python -m pip install --quiet --disable-pip-version-check --no-deps -e .
       - uses: actions/download-artifact@v4
+        if: needs.plan.outputs.mode == 'calibrate'
         with:
           name: c4-exact-gram-gram-attempt${{ github.run_attempt }}
           path: prepared/
+      - name: the calibration's Gram (full mode), checked by sha256 fail closed
+        if: needs.plan.outputs.mode == 'full'
+        run: |
+          mkdir -p prepared
+          cp "$EG/gram.json" prepared/gram.json
+          want=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['gram_sha256'])")
+          got=$(sha256sum prepared/gram.json | cut -d' ' -f1)
+          echo "gram.json sha256 $got (request: $want)"
+          test "$got" = "$want"
       - name: resume (re-run attempts only)
         if: ${{ fromJSON(github.run_attempt) > 1 }}
         uses: actions/download-artifact@v4
@@ -197,10 +224,17 @@ jobs:
           if req["mode"] == "full":
               import rebuild
               assert hasattr(rebuild, "DiskModeTable"), "full mode needs the disk-backed mode table"
-              cal = req["calibration"]  # measured by a calibrate run on a runner (RUNS.md s8)
-              per_shard = math.ceil(len(rebuild.blocks(req)) / req["shards"])
-              need = per_shard * cal["block_wall_s"]
-              assert need <= 0.75 * 335 * 60, f"headroom: {need:.0f} s of blocks per process"
+              cal = req["calibration"]  # measured by calibration run 40342895119 (RUNS.md s11)
+              bl, rep = rebuild.blocks(req), req.get("replay_every") or 0
+              need = 0
+              for sh in range(req["shards"]):
+                  r = rebuild.shard_range(len(bl), sh, req["shards"])
+                  nrep = sum(1 for b in r if rep and b % rep == 0)
+                  need = max(need, (len(r) - nrep) * cal["block_wall_s"]
+                             + nrep * cal["replay_block_wall_s"] + cal["setup_s"])
+              assert need <= 0.75 * 335 * 60, f"headroom: {need:.0f} s for the worst process"
+              assert cal["table_build_s"] + need <= 0.75 * 350 * 60, f"job headroom: {need:.0f} s"
+              assert req["gram_sha256"] and os.path.exists("prepared/gram.json"), "full mode reuses the Gram"
               assert 4 * cal["peak_rss_gb"] < 13, cal
               assert cal["table_disk_gb"] < 10, cal
           PY
@@ -244,7 +278,7 @@ jobs:
               txt = open(f).read()
               m = re.search(r"Maximum resident set size \(kbytes\): (\d+)", txt)
               rec[shard] = {"peak_rss_gb": int(m.group(1)) / 2**20 if m else None}
-          for f in glob.glob("out/shard*_block*.json"):
+          for f in sorted(glob.glob("out/shard*_block*.json")):  # sorted: the last block's file carries all
               body = json.load(open(f))
               sh = int(re.search(r"shard(\d+)of", f).group(1))
               rec.setdefault(sh, {})["block_seconds"] = body["payload"]["block_seconds"]

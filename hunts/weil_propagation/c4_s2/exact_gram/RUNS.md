@@ -294,3 +294,219 @@ spent). Fixed in a3cd044f1 (`mkdir -p` before every step that writes,
 pinned by `test_workflow_matches_the_ruling`). **Attempt 2**, approved by
 the coordinator: the approved request with the single added line
 `"attempt": 2`, everything else byte-identical, sha256 5503a14f41fb82e1775e376eb002bcc4bba0185f837036e6d4a9c989e91253ca.
+
+## 11. The calibration's outcome and the full run's size (2026-10-26, unit 4)
+
+**Terminal outcome: success.** Run 40342895119 (attempt 2's request), every
+job `success`, 14:47:10Z to 17:15:03Z. The eight artifacts were downloaded as
+zips through the API and each zip's SHA-256 matched GitHub's recorded digest
+(8 of 8). The figures below are read from them by `collect_calibration.py`
+into `calibration_40342895119.json`, and from the job step times in the API.
+All are **measured**, one run, GitHub-hosted `ubuntu-latest` (4 vCPU).
+
+```runmanifest
+id: c4_s2_exact_gram-2026-10-26-calibration
+hunt: c4_s2_exact_gram
+started: 2026-10-26T14:47Z
+finished: 2026-10-26T17:15Z
+ran:
+  - GitHub Actions run 40342895119 (workflow c4-exact-gram, RUN_REQUEST.json sha256 5503a14f41fb82e1775e376eb002bcc4bba0185f837036e6d4a9c989e91253ca)
+  - .venv/bin/python hunts/weil_propagation/c4_s2/exact_gram/collect_calibration.py <artifacts>
+outcome: success; the Gram cost 13.1 core-hours in 24 parts, a block of 128 nodes costs 841 to 932 s per process with four running, the dps-60 replay block about 3,600 s
+artifacts:
+  - hunts/weil_propagation/c4_s2/exact_gram/calibration_40342895119.json
+  - hunts/weil_propagation/c4_s2/exact_gram/gram.json
+```
+
+**Per job** (wall from the API; CPU is the sum of the four processes'
+user plus system seconds; peak RSS is the largest single process):
+
+| job | wall | CPU | peak RSS per process |
+|---|---|---|---|
+| plan | 8 s | | |
+| gram parts 0 (parts 0 to 3) | 67.4 min | 12,414 s | 6.33 GiB |
+| gram parts 1 (4 to 7) | 46.5 min | 9,002 s | 6.28 GiB |
+| gram parts 2 (8 to 11) | 40.3 min | 7,095 s | 6.15 GiB |
+| gram parts 3 (12 to 15) | 33.9 min | 5,438 s | 5.47 GiB |
+| gram parts 4 (16 to 19) | 31.2 min | 5,637 s | 5.40 GiB |
+| gram parts 5 (20 to 23) | 39.9 min | 7,703 s | 5.33 GiB |
+| merge | 1.1 min | | |
+| shards 0 (calibrate) | 79.1 min | 8,892 s plus the table build | 1.40 GiB (0.97 GiB table build) |
+
+**Per Gram part** (CPU seconds): 0: 3,977 (G_z rides with part 0);
+1: 3,446; 2: 3,546; 3: 1,444; 4: 2,729; 5: 2,062; 6: 1,698; 7: 2,513;
+8: 1,782; 9: 1,233; 10: 1,719; 11: 2,361; 12: 1,403; 13: 1,982; 14: 1,435;
+15: 619; 16: 1,277; 17: 1,807; 18: 1,075; 19: 1,478; 20: 2,327; 21: 1,576;
+22: 2,126; 23: 1,674. Total **13.1 core-hours**, against s9's estimate of
+23 to 25 (an overestimate by about 1.8). The partition is unbalanced (619 to
+3,977 s, a factor 6.4): `gram_b_assign` deals region A round-robin and the
+IBP t-groups by count, not by cost. No part is recomputed (below), so the
+partition is left as it is; a recompute would first re-deal the units by
+these measured costs. The four Gram processes of a job each peaked at 5.3
+to 6.3 GiB, 21 to 25 GiB summed, above a 16 GB runner: the peaks did not
+coincide in this run, and a recompute would have to check memory first.
+
+**Shards** (job 0, shards 0 to 3, two blocks each, four processes at once):
+
+| process | blocks (s each) | wall | peak RSS |
+|---|---|---|---|
+| shard 0 | block 0: 2,938 (with the dps-60 replay); block 1: 546 (alone, after the others ended) | 3,505 s | 1.40 GiB |
+| shard 1 | 932, 859 | 1,812 s | 0.71 GiB |
+| shard 2 | 932, 841 | 1,795 s | 0.70 GiB |
+| shard 3 | 921, 857 | 1,800 s | 0.71 GiB |
+
+Setup (loading the Gram, opening the table) is about 21 s per process.
+A block is 841 to 932 s with four processes running and 546 s alone: the
+four processes slow each other by about 1.6 (shared memory bandwidth). The
+replay block ran 1,800 s alongside the others and 1,138 s alone; at the
+contended rate that is about 1,800 + 1,138 × 1.6 ≈ 3,600 s (**estimate**
+from the measured parts), which is the price used below. Against s8's
+re-pricing (28 core-hours, built on the box's 412 s block alone) the block
+is about 2.3 times dearer on a runner with four running.
+
+**Table and disk.** The mode table built in 1,194 s (one process, 0.97 GiB
+peak) to **2.58 GiB** on the runner's disk, under the preflight's 10 GB.
+Each block checkpoint is about 8.5 MB (the running sums at every (c, N));
+every block's file is uploaded, so the full run would upload about 338 ×
+8.5 MB ≈ 2.9 GB of artifacts. Only each shard's last file is read by
+`assemble`; pruning the superseded ones before upload is a door, not taken.
+
+**The calibration record's defect.** The workflow's `calibration.json`
+listed shard 0 with block 0 only: it read the checkpoints in `glob` order
+and kept the last one read, not the last block. The table above reads every
+checkpoint; the step now sorts (the last block's file carries all the
+times), and so does `collect_calibration.py`.
+
+**A defect found while sizing.** 338 blocks in 36 shards of 10 leave shards
+34 and 35 empty, and `run_shard` read `rng[0]` of an empty range: job 8
+would have failed with an IndexError after its other shards finished.
+`run_shard` now returns `None` for an empty shard without reading a key or
+writing a file (`assemble` already skipped them), pinned by
+`test_a_shard_with_no_blocks_returns_none`.
+
+### 11.1 The Gram is reused, by digest
+
+`gram.json` from the merge job is **20,048,277 bytes, sha256
+2b907a79a8a127e0626f9ade01ee7f8335761e7cbf564a48d386cb5854a94872**, under
+the 50 MB limit, so it is **committed** beside the request
+(`exact_gram/gram.json`; no cross-run download, no `actions: read`).
+Checked here before committing: its request key equals `_gram_key` of the
+request, `is_bound` is true, both matrices load and invert in balls at
+133 bits (largest radius 1.0e−11 in G_z and 6.0e−11 in G_b; in the inverses
+3.1e−11 and 4.5e−10). The radii are far above the 1e−20 target named by
+`gram_target_exp`. They are carried in every ρ, so this costs nothing in
+validity. It is a door on ε_q that is not taken: the binding term sits elsewhere, below.
+
+In full mode the workflow runs no gram and no merge job. The shards job
+copies `exact_gram/gram.json` into `prepared/` and refuses unless its
+sha256 equals the request's `gram_sha256`. `rebuild.setup` checks the same
+digest again and refuses if the file is absent, so a missing Gram can no
+longer fall through to recomputing it in-process. Both refusals are
+pinned (`test_a_gram_named_by_sha256_is_fail_closed`, with a one-byte
+planted change; `test_workflow_matches_the_ruling`).
+
+### 11.2 The full run, sized from the calibration
+
+Per process, the worst shard holds 9 ordinary blocks and one replay block
+(the replay set is every 16th block; no shard of 10 holds two):
+
+- worst process: 9 × 932 + 3,600 + 60 = **12,048 s (200.8 min)**, against
+  0.75 × 335 = 251 min inside the processes' self-stop;
+- worst job: install and download (about 3 min) + table build (1,200 s) +
+  200.8 min ≈ **224 min**, against the 350-minute cap: **36 % under** (at
+  least 25 % required). The preflight checks both, per shard, from the
+  request's `calibration` record;
+- every one of the 9 jobs holds a replay shard, so each projects at about
+  224 min;
+- **max-parallel 4** (rung 3's production and the Skewes main run share the
+  repo's 20-job pool; PR CI needs slots): 9 jobs in three waves,
+  **about 11.2 hours wall**;
+- **compute**: 104 core-hours of shard processes (316 ordinary blocks at
+  932 s, 22 replay blocks at 3,600 s, setup), 3 of table builds; the runners
+  are held about 2,014 runner-minutes (4 vCPU each), GitHub Actions only,
+  0 USD;
+- memory: 4 × 1.40 GiB = 5.6 GiB per runner, under the preflight's 13 GB.
+
+The 932 s is the slowest ordinary block measured, the 3,600 s is the
+estimate above, and the cost of a block does not depend on s: the work per
+block is the same table products and sin_cos over the same logs, and s
+enters only as their arguments.
+
+**Pipefail.** The workflow now sets `defaults: run: shell: bash`, which
+GitHub runs as `bash -eo pipefail`; without a shell key a step runs
+`bash -e` without pipefail, and a failing command piped to `tee` passes.
+The piped lines today are echo only, so this is a guard, not a fix.
+
+### 11.3 What the full run evaluates, and when it stops
+
+With ε_t null (LEMMA.md does not close the truncation), the run can reach
+PREREG rows **D0, D1 or D2** at each c, never D3. Its output is the 34
+shards' window sums. `assemble` and the C_N(ε) counts are run afterwards on
+them, as PREREG s2 and s4 fix.
+
+- **D0** if ε_q is not finite, a Gram fails to invert in balls, or a check
+  of PREREG s4 fails;
+- **D1** if ε_q is finite and below 1.18e−2 (c = 2.9): C_8, C_16, C_32 at
+  ε_q + ε_aux on the three spaces, about R^(280) only;
+- **D2** if ε_q is finite and at or above 1.18e−2.
+
+**Radius only, for feasibility** (no centre read): after the calibration's
+8 blocks the Frobenius norm of the radius of the partial ΔT sum at
+(2.9, 32) is at most 1.1e−6 per shard and falls with s (6.4e−7, 4.2e−7,
+2.2e−9 for shards 1 to 3). The ball radius is therefore not expected to be
+the binding term of ε_q. The P3 alias and the a posteriori tail are the
+binding terms (E1 target 7.0e−4, s8).
+
+**Kill conditions** (each stops the run or its reading, never skips):
+1. a dps-60 replay block whose balls do not intersect the 133-bit balls
+   (PREREG s4 item 1): the process raises, that job fails, nothing is
+   counted;
+2. a guard refusal: the closure moved or is dirty, a checkpoint has a
+   stale key, or the Gram's sha256 differs from the request's;
+3. a preflight failure: backend not Arb, headroom, memory or table size;
+4. a process reaching its 335-minute self-stop: its job fails with
+   checkpoints uploaded, and the run is **not** resumed without a new ask
+   (the projection said 201 min, so the calibration was wrong);
+5. `assemble` refusing a missing or short shard.
+
+**The full request** (sent to the coordinator, **not committed** until its
+reply). It is the calibration request with `mode: full`, `blocks` and
+`attempt` removed, and `gram_sha256` and `calibration` added:
+
+```json
+{
+ "mode": "full",
+ "shards": 36,
+ "gram_parts": 24,
+ "prepared": "prepared",
+ "nvec": 280,
+ "dps": 40,
+ "prec": 133,
+ "Kmax": 14,
+ "S_prime": 2700,
+ "delta_num": 1,
+ "delta_den": 16,
+ "block": 128,
+ "M": 34,
+ "J": 40,
+ "kb": 90,
+ "cells": ["2.2", "2.5", "2.9"],
+ "Ns": [8, 16, 32],
+ "gram": "exact",
+ "gram_target_exp": 20,
+ "gram_R": 120,
+ "local_data": ["satake", [1]],
+ "replay_every": 16,
+ "replay_prec": 200,
+ "gram_sha256": "2b907a79a8a127e0626f9ade01ee7f8335761e7cbf564a48d386cb5854a94872",
+ "calibration": {
+  "run": 40342895119,
+  "block_wall_s": 932,
+  "replay_block_wall_s": 3600,
+  "setup_s": 60,
+  "table_build_s": 1200,
+  "peak_rss_gb": 1.40,
+  "table_disk_gb": 2.58
+ }
+}
+```

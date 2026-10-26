@@ -766,6 +766,12 @@ Third unit: P4 closes (G_b's integration-by-parts regions, each checked
 against quadrature with a planted fault), lifting PREREG row D0's
 precondition. A disk-backed mode table fits four workers per runner. The
 calibration run is asked for, not yet run.
+Fourth unit: the calibration ran on GitHub Actions (run 40342895119,
+success). Measured there: the Gram took 13.1 core-hours in 24 unbalanced
+parts, and an s-block of 128 nodes took 841 to 932 s with four processes
+per runner. The Gram (20 MB, by sha256) is committed for reuse. The full
+rebuild is sized from these figures at about 104 core-hours and 11 hours
+wall, and it is asked for, not yet run. No ΔT number has been read.
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 

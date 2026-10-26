@@ -129,6 +129,34 @@ def test_calibration_stops_after_max_blocks(state, tmp_path):
     assert pay["last_block"] == 0 and len(pay["block_seconds"]) == 1 and pay["block_seconds"][0][1] > 0
 
 
+def test_a_shard_with_no_blocks_returns_none(state, tmp_path):
+    # 4 toy blocks in 6 shards leave shards 4 and 5 empty, as 338 blocks in 36 leave 34 and 35
+    assert len(R.blocks(REQ)) == 4 and len(R.shard_range(4, 5, 6)) == 0
+
+    def never():
+        raise AssertionError("an empty shard reads no key and writes nothing")
+
+    assert R.run_shard(REQ, 5, 6, str(tmp_path), never, state=state) is None
+    assert os.listdir(tmp_path) == []
+
+
+def test_a_gram_named_by_sha256_is_fail_closed(tmp_path):
+    # the full run reuses the calibration's gram.json by digest (RUNS s11): absent or altered refuses
+    req = dict(REQ, prepared=str(tmp_path / "prep"))
+    R.prepare(req, req["prepared"])
+    g = tmp_path / "prep" / "gram.json"
+    R.setup(dict(req, gram_sha256=R._sha256(str(g))))
+    with pytest.raises(GD.GuardRefused, match="sha256"):
+        R.setup(dict(req, gram_sha256="0" * 64))
+    good = R._sha256(str(g))
+    g.write_text(g.read_text().replace("]", " ]", 1))  # planted: one byte changed, same JSON
+    with pytest.raises(GD.GuardRefused, match="sha256"):
+        R.setup(dict(req, gram_sha256=good))
+    g.unlink()
+    with pytest.raises(GD.GuardRefused, match="absent"):
+        R.setup(dict(req, gram_sha256=good))
+
+
 # --- the disk-backed table (unit 3) ---------------------------------------------------
 
 
