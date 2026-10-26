@@ -7,7 +7,7 @@ are this hunt's report, not a reviewer's.
 
 ## 1. The bounded result (target A, Chao-Plymen region)
 
-Parameters (Revers 2025, section 4): omega = 727.952018, alpha = 1.34e11,
+Parameters (Revers 2025, subsection 6.2): omega = 727.952018, alpha = 1.34e11,
 A = 1.022e7, T = 1131944.4719, which Arb counts to exactly 2,000,000 zeros.
 
 | quantity | value | how |
@@ -75,11 +75,28 @@ search), which is not a literature search. No priority is claimed.
 - In Revers's Saouter-Demichel table, the row printed as eta = 0.0000155 with
   R = 5.15554e1 is the value at eta = 0.0000156. At 0.0000155, Theorem 3.1 gives
   R = 5473.12. Both rows are negative, so the paper's conclusion is unaffected.
-- Revers writes T = gamma_2000000 < 1131944.4718 and T = gamma_22000000 <
-  10379599.7274. Arb's Turing count gives N(1131944.4718) = 1999999 and
-  N(10379599.7274) = 21999999, so both decimals are lower bounds on those zeros
-  (truncations). The effect on his sums is one omitted or included zero, about
-  1e-8, far below his margins.
+- **An observation about two printed values**, not about the paper's results.
+  arXiv:2501.04488 v2, subsection 6.2 ("Reworked Bays-Hudson region by
+  Chao-Plymen, 2010"), prints "T=\gamma_{2000000}<1131944.4718". Subsection 6.3
+  ("The Saouter-Demichel region, 2010") prints "T=\gamma_{22000000}<10379599.7274".
+  Both are quoted from the TeX source. Two routes place each zero just above
+  its printed value:
+
+  | | Arb (route 1, Turing count) | mpmath (route 2, `nzeros`/`zetazero`, not rigorous) |
+  | --- | --- | --- |
+  | N(1131944.4718) | 1999999 | 1999999 |
+  | N(1131944.4719) | 2000000 | 2000000 |
+  | gamma_2000000 | [1131944.471824862268 +/- 5.91e-13] | 1131944.471824862268492 |
+  | N(10379599.7274) | 21999999 | 21999999 |
+  | N(10379600) | 22000000 | 22000000 |
+  | gamma_22000000 | not isolated yet | 10379599.72743106015977 |
+
+  So each printed decimal is the zero truncated to four places, a lower bound,
+  where the text has "<". The same sentences also print
+  "\gamma<1131945" and "\gamma<10379600", which are correct upper bounds. If T
+  were taken literally as the printed decimal, the sum would omit one zero, a
+  term of at most about 1.5e-8, far below either margin. This hunt sums to
+  T = 1131944.4719 and 10379600, which both routes count to exactly 2e6 and 2.2e7.
 
 ## 4. Cost
 

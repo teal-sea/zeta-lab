@@ -143,7 +143,7 @@ def lower_bound_I(sum_ball: arb, p: LehmanParams) -> arb:
     return -1 - sum_ball - revers_R(p)["R"]
 
 
-#: [Rev25] section 4 parameter sets. The paper writes T = gamma_2000000 <
+#: [Rev25] section 6 (subsections 6.2 and 6.3) parameter sets. The paper writes T = gamma_2000000 <
 #: 1131944.4718 and T = gamma_22000000 < 10379599.7274, but Arb's Turing count
 #: gives N(1131944.4718) = 1999999 and N(10379599.7274) = 21999999: those decimals
 #: are lower bounds on the zeros (truncations), not upper bounds. The T used here

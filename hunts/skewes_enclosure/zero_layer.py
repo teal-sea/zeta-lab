@@ -28,6 +28,7 @@ import argparse
 import hashlib
 import json
 import random
+import resource
 import sys
 import time
 from pathlib import Path
@@ -136,6 +137,7 @@ def run_shard(n0: int, num: int, batch: int, sample: int, seed: int, prec: int =
                           "failures": [k for k, v in route2.items() if not v],
                           "seconds": t_route2},
         "zeros_sha256": zeros_digest(gammas),
+        "max_rss_kb": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
         "python_flint": flint.__version__,
     }
 

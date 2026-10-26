@@ -36,7 +36,7 @@ def _contains_decimal(ball, printed: str) -> bool:
     return bool(abs(ball - arb(printed)) <= ulp + ball.rad())
 
 
-# [Rev25] section 4: eta -> printed R, Saouter-Demichel and Chao-Plymen tables.
+# [Rev25] subsections 6.2 and 6.3: eta -> printed R, Saouter-Demichel and Chao-Plymen tables.
 SD_TABLE = [("0.0000228", "2.79507e-3"), ("0.0000200", "2.79503e-3"),
             ("0.0000180", "2.79500e-3"), ("0.0000160", "2.79527e-3"),
             ("0.0000159", "2.83095e-3"), ("0.0000158", "6.97516e-3")]
@@ -101,6 +101,16 @@ def test_cutoffs_count_exactly_the_intended_zeros():
     for key, p in (("chao_plymen", st.CHAO_PLYMEN), ("saouter_demichel", st.SAOUTER_DEMICHEL)):
         assert zl.count_below(p.T) == st.N_ZEROS[key]
         assert zl.count_below(st.REVERS_PRINTED_T[key]) == st.N_ZEROS[key] - 1
+
+
+def test_cutoffs_by_the_mpmath_route():
+    """Route 2 (mpmath, not rigorous) agrees with Arb on both cutoffs."""
+    import mpmath
+
+    with mpmath.workdps(30):
+        for key, p in (("chao_plymen", st.CHAO_PLYMEN), ("saouter_demichel", st.SAOUTER_DEMICHEL)):
+            assert mpmath.nzeros(mpmath.mpf(p.T)) == st.N_ZEROS[key]
+            assert mpmath.nzeros(mpmath.mpf(st.REVERS_PRINTED_T[key])) == st.N_ZEROS[key] - 1
 
 
 def test_zero_count_matches_ground_truth():

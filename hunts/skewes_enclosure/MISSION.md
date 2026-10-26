@@ -38,7 +38,7 @@ Sources read, with what was read:
 - **[Rev25]** M. Revers, *New bounds in R.S. Lehman's estimates for the difference
   pi(x) - li(x)*, arXiv:2501.04488 v2 (J. Number Theory 2025,
   doi S0022314X25002045). Read: the arXiv TeX source, Theorems 2.1 and 3.1 and
-  section 4 (numerics).
+  section 6 (numerical applications, subsections 6.1 to 6.4).
 
 ### (a) Novelty: did any of them carry every step in interval arithmetic?
 
@@ -69,7 +69,7 @@ which returned nothing newer than [Rev25]):
 ### (b) Bits per zero needed
 
 The sum's sensitivity to one zero is |d s / d gamma| <= 1508.2 / gamma at
-omega ~ 727.95 ([Rev25] section 4, its bound labelled RieleS1 in the source). Summed over
+omega ~ 727.95 ([Rev25] subsection 6.1, its bound labelled RieleS1 in the source). Summed over
 zeros with sum 1/gamma ~ (1/4 pi) log^2(T/2 pi) = 16.31 at T = 1.038e7, a uniform
 zero error eps moves the sum by at most about 2.46e4 eps. To keep that under
 1e-7, a thousandth of the expected margin, needs eps <= 4e-12 ~ 2^-38 absolute.
@@ -211,7 +211,7 @@ dead_routes:
 required_oracles:
   - Arb ball arithmetic (python-flint 0.9.0, acb_dirichlet zero isolation and Turing count)
   - Hardy Z sign checks in mpmath at Arb bracket endpoints, a code-disjoint second route
-  - published float values in the two resizing tables of Revers 2025 section 4 as the reproduction target
+  - published float values in the two resizing tables of Revers 2025 subsections 6.2 and 6.3 as the reproduction target
 kill_conditions:
   - a published crossover paper already carries the pi(x) - li(x) zero sum in interval arithmetic with rigorous zeros
   - the precision needed per zero exceeds what Arb isolation delivers at the affordable working precision

@@ -126,3 +126,10 @@ On GitHub Actions (`.github/workflows/skewes-enclosure.yml`), 16 shards per
 on a runner before the remaining shards are requested. The workflow triggers only
 on a push touching `hunts/skewes_enclosure/RUN_REQUEST.json`, which is not
 committed until the coordinator replies "go".
+
+## 2026-10-26: peak-RSS shard on the box (estimate before running)
+
+Shard 216 (zero indices 21500001 .. 21600000, height ~1.02e7), 64-bit, sample 20,
+under `/usr/bin/time -v`, as the coordinator asked for the workflow's memory rule.
+Estimate: 27 to 36 ms/zero, so 2700 to 3600 s, **0.75 to 1.0 core-hour**,
+single process. Its JSON is a production-B shard and is kept.

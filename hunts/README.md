@@ -4256,7 +4256,7 @@ their zeros in floating point. Both use an analytic zero-error budget, and
 neither cites a rigorous zero source. Platt-Trudgian 2015 already carried the
 analogous theta(x) - x sum in MPFI interval arithmetic with rigorous zeros, so
 the method is not new to interval arithmetic and no novelty is claimed.
-`skewes_terms.py` reproduces the R column of both of Revers's section-4
+`skewes_terms.py` reproduces the R column of both of Revers's section-6
 resizing tables from Theorem 3.1. It also found that the row printed as
 eta = 1.55e-5 is the value at eta = 1.56e-5, a label slip with no effect on the
 paper's conclusion. The expected margin at the Saouter-Demichel parameters is
