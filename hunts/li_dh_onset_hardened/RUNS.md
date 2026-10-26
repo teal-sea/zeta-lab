@@ -230,3 +230,24 @@ checkpointing in `trapezoid.py` is in the follow-up commit, which changes no
 values): `nice -n 10 .venv/bin/python hunts/li_dh_onset_hardened/ivpipe.py
 --procs 4`. It takes about 1.1 h on 4 processes for phase 1, plus 1.7 h on one
 process, then `sha256sum ~/.cache/zeta-lab/li_dh_onset_hardened/lambda_B_iv.txt`.
+
+## Estimate 4 (2026-10-26, night): replaying the admissibility certificate in iv
+
+I timed one unit: `iv_fast.f_fast` plus `logG_fast` at 128 bits, 5 repeats,
+single process, at s = 1/2 + it. It costs 0.022 s at t = 1, 0.039 s at
+t = 40, 0.030 s at t = 85 and 0.045 s at t = 160. The same call on a 0.01 x
+0.01 box costs the same, but returns an enclosure about 200 times wider than
+Arb's (interval wrapping): width about 1 to 2 against Arb's about 0.01. The iv
+covers therefore need many more segments than Arb's.
+
+| piece | Arb used | iv evaluations, estimated |
+|---|---|---|
+| line grid, t = j/64 to 160 | 10,241 points | 10,241 (f + log G each) |
+| top edge, Im s = 160 | 55 | about 2,000 |
+| real axis [1/2, 7/4] and the Cauchy circle near s = 1 | 82 + 256 | about 3,000 |
+| two location squares, half-width 1e-15, and one displaced square | about 260 | about 10,000 |
+| S(3/2), S(7/4) | 2 | 8 Hurwitz values |
+
+That is about 25,000 evaluations at 0.02 to 0.045 s, so **about 0.3 core-hours,
+and at most about 1.2 even at three times the estimate**. This is under the 3
+core-hour line, so it is run, after its pre-registration (MISSION.md).

@@ -208,3 +208,31 @@ every evaluation enclosed. Any failure is a defect between the two evaluators.
 It is investigated before anything else is reported, and the headline is not
 withdrawn or changed until that investigation says so. Neither outcome changes
 the headline grade (hardened, pending external verification).
+
+## Pre-registration of the iv replay of the admissibility certificate (2026-10-26, committed before it runs)
+
+**Why.** The certificate (`admissibility.py`, `artifacts/admissibility.json`) is
+the remaining Arb-only link in the chain RESULTS.md describes. It is replayed
+with every evaluation of f, log G and S taken from mpmath.iv (`iv_fast.py`,
+`iv_route.py`). Arb is used only to hold converted boxes and for the argument
+arithmetic on them, exactly as in `ivpipe.py`.
+
+**Where iv must differ.** Near s = 1, Arb computed f(1) through `dirichlet_l`.
+The iv Euler-Maclaurin sum cannot evaluate at the removable pole. The replay
+therefore bounds |f(sigma) - f(s0)| at an exact point s0 near 1 by a Cauchy
+estimate on a circle around 1. That is a different route to the same
+statement.
+
+**The rule.** The replay at T = 160, 128 bits must reproduce the certificate's
+admissibility conclusion:
+- S(3/2) < 1 and S(7/4) < 1;
+- f > 0 on [1/2, 7/4];
+- N_box = 98, N_line = 94, both pair1 and pair2 squares counting exactly 1;
+- the equality N_box = N_line + 2q closing;
+- R_a's lower bound above r for c = 5000.
+
+Its balls must intersect Arb's wherever both evaluate: S(3/2), S(7/4), the
+N_box ball, the value of Z at every line grid point, and |1 - 1/s| over each
+square. The planted faults must break it as before: drop a quadruple, displace
+a square. Any failure is a defect between the evaluators, investigated before
+anything else, with the headline grade unchanged either way.
