@@ -4,7 +4,7 @@ Usage (from the worktree root):
     PYTHONPATH=$PWD <venv python> hunts/weil_propagation/c4_s2/kernel/run_cells.py --dps 40
     PYTHONPATH=$PWD <venv python> hunts/weil_propagation/c4_s2/kernel/run_cells.py --dps 60
 
-Measured wall time on the operator laptop: see RESULTS.md s6 (each run < 10 min).
+Measured wall time on a laptop: see RESULTS.md s6 (each run < 10 min).
 Every number is written as a decimal string at the run's dps.
 """
 

@@ -181,7 +181,7 @@ Constants: `GAMMA1`
 
 ### `zeta/epstein.py`, The counterexample battery: Davenport-Heilbronn, gate #3 made computational.
 
-*1700 lines*
+*1702 lines*
 
 Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `EPSTEIN_DIGITS_PER_UNIT_HEIGHT`, `SHIFTED_PRODUCT_SHIFT`
 
@@ -1090,7 +1090,7 @@ Constants: `GRAVES`
 
 ### `harness/departments/guard_ledger.py`, The repository's guard ledger, the guard offensive's opening entries.
 
-*324 lines*
+*348 lines*
 
 Constants: `GUARDS`
 
@@ -1245,6 +1245,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `42-a-law-read-off-a-diagonal.md`, 42. A law read off a diagonal, and a headline read off a bad comparison
 - `43-what-happens-to-a-claim.md`, 43. What happens to a claim after it is recorded
 - `44-the-constant-in-the-wedge.md`, 44. The constant in the wedge: explicit constants for Jensen hyperbolicity, and whose wedge it is
+- `45-rh-to-height-fifty.md`, 45. RH to height 50, then 100, kernel-checked
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)
@@ -1311,7 +1312,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2312 test functions across 141 files (the collected count differs where tests are parametrised):
+2343 test functions across 142 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1383,6 +1384,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_li.py`, 56
 - `tests/test_meta_evals.py`, 17
 - `tests/test_meta_ledger.py`, 24
+- `tests/test_meta_self_report.py`, 24
 - `tests/test_moments.py`, 26
 - `tests/test_o9_cell_counts.py`, 3
 - `tests/test_o9_leaves_kernel.py`, 6
@@ -1430,7 +1432,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_rung3_ball_assembly.py`, 7
 - `tests/test_rung3_ball_atom_budget.py`, 4
 - `tests/test_rung3_ball_cert_support.py`, 1
-- `tests/test_rung3_ball_compile.py`, 15
+- `tests/test_rung3_ball_compile.py`, 22
 - `tests/test_rung3_ball_generator.py`, 8
 - `tests/test_rung3_ball_mirror.py`, 7
 - `tests/test_rung3_ball_shards.py`, 8

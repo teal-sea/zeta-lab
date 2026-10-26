@@ -1,8 +1,8 @@
 # Replay of openai/math family 003 (the quasi-Riemann hypothesis: a zero-free
 # half-plane Re s > 7/8 for every Dirichlet L-function) on this laboratory's
 # default compute. What it is for, what it checks and what it does not is
-# docs/38-the-quasi-riemann-claim.md, section 7. Nothing here runs on anyone's
-# laptop; nothing here is a claim until the logs say so.
+# docs/38-the-quasi-riemann-claim.md, section 7. Nothing here runs locally;
+# nothing here is a claim until the logs say so.
 #
 # Three modes, dispatched by hand, one at a time (the concurrency group
 # serialises them):

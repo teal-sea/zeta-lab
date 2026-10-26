@@ -10,7 +10,7 @@ exponent of 2.81 in X, so the remaining rungs price at roughly 123 s
 - Lane A, one pass over five rungs: about 22 minutes. Two passes, out-of-band
   on and the in-band control, about 44 minutes.
 - Lane B, seven solves at the fixed `X=80, J=320` grid: about 5 minutes.
-- **Total estimate: about 49 minutes**, on the operator's laptop. Peak memory
+- **Total estimate: about 49 minutes**, on a laptop. Peak memory
   at the largest rung is a constraint matrix near 200 MB, which is why the
   ladder stops at `X=240`; anything larger goes to GitHub Actions.
 

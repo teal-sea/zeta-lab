@@ -1,0 +1,144 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-uvTBLRYDv5KdLXmzacpTWr
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/s
+│   tage_b_odd_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/e
+│   nvelope.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/h
+│   arden.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/s
+│   tage_b_odd_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/a
+│   ssemble.py
+├── 🔨 Created function reduce.
+├── 🔨 Created function unit.
+└── 🔨 Created function check_zhu.
+{"unit": [0, 50], "seconds": 9.590654134750366}
+{"unit": [50, 100], "seconds": 15.592038869857788}
+{"unit": [150, 200], "seconds": 19.182888746261597}
+{"unit": [100, 150], "seconds": 19.687601566314697}
+{"unit": [200, 250], "seconds": 21.355297803878784}
+{"unit": [250, 300], "seconds": 26.023725509643555}
+units wall 32 s
+{
+ "cfg": {
+  "L": "4/5",
+  "T": "150",
+  "env": "none",
+  "N": 200,
+  "q": 64,
+  "prec": 256,
+  "h": "1/2",
+  "split": true,
+  "units": 6,
+  "tag": "odd_zhu_L08_v1"
+ },
+ "input_hashes": {
+  "stage_b_odd_modal.py": "fd5bdcbec5bca6369a8b08cba3fd8c802fe686e39da48d868c87964db0b054ac",
+  "assemble.py": "4f019ffec671d0ac5af850eda85a4dcb626a53240daea2eb84998883b6e16c9e",
+  "harden.py": "22b1d4789af9e8e148ec9afab8a9c3280d5bcc073d088b83afea4696847ad330",
+  "envelope.json": "4c8f17b8a59c8011a726b88d2757c545e92e1f55c8dc9bb9416ff68cc6553e93"
+ },
+ "S": "[2.9419735252236204555 +/- 3.92e-21]",
+ "beta": "[0.22411803579662314428 +/- 2.77e-21]",
+ "unit_seconds": [
+  9.590654134750366,
+  15.592038869857788,
+  19.687601566314697,
+  19.182888746261597,
+  21.355297803878784,
+  26.023725509643555
+ ],
+ "unit_seconds_sum": 111.43220663070679,
+ "node_shift_upper": "8.2584e-75",
+ "eps_Q_max": "3.3607e-44",
+ "eps_D": "[2.7736e-314 +/- 6.50e-320]",
+ "eps_B": "[1.6805e-153 +/- 4.32e-158]",
+ "K": "[595.84076 +/- 4.04e-6]",
+ "lemma31": {
+  "T_ge_15/4": true,
+  "beta_positive_arb": true,
+  "S_global_bound": "finite prime sum"
+ },
+ "main": {
+  "e": "4.4920e-42",
+  "lambda_meas": "9.11833845450e-15",
+  "t_measure_s": 0.8406248092651367,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "36777279282900662839181491094387777589200943167182349349915526892373704378397/4074071952668972172536891376818756322102936787331872501272280898708762599526673412366794752",
+  "lambda0": "9.02715506996e-15",
+  "r": "6.6363e-76",
+  "lambdaA_lower_rounded_down": "902715506995e-26",
+  "beta_minus_epsD": "[0.224118035796623 +/- 1.45e-16]",
+  "lower_bound_exact": "73554558565801325678362982152173753915257815835186379626831153490798426162999/8148143905337944345073782753637512644205873574663745002544561797417525199053346824733589504",
+  "lower_bound_rounded_down": "902715506995e-26",
+  "t_total_s": 1.717895746231079,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    42,
+    -0.5311162351855329
+   ]
+  }
+ },
+ "lesion_flip_pole": {
+  "e": "4.4920e-42",
+  "lambda_meas": "6.40880126462e-10",
+  "t_measure_s": 0.8433611392974854,
+  "lambda0_tries": [
+   {
+    "fac": "0.99",
+    "ok": true,
+    "fail": null
+   }
+  ],
+  "ok": true,
+  "lambda0_exact": "78884333214093874074055389033047628563928592254903066973579578440509125163349/124330809102446660538845562036705210025114037699336929360115994223289874253133343883264",
+  "lambda0": "6.34471325197e-10",
+  "r": "5.0533e-76",
+  "lambdaA_lower_rounded_down": "634471325197e-21",
+  "beta_minus_epsD": "[0.224118035796623 +/- 1.45e-16]",
+  "lower_bound_exact": "78884333214093874074055389033047070064763810393475772382529270214511137932237/124330809102446660538845562036705210025114037699336929360115994223289874253133343883264",
+  "lower_bound_rounded_down": "634471325197e-21",
+  "t_total_s": 1.628530740737915,
+  "lesion_overshoot_1.01": {
+   "cholesky_ok": false,
+   "fail": [
+    40,
+    -3.83610746890112
+   ]
+  }
+ },
+ "pole_control": {
+  "expected": "wrong positive pole can only increase the matrix",
+  "measured_increase": true,
+  "ratio": "70284.7486589751",
+  "flip_refused": false
+ },
+ "validation_zhu62": {
+  "source": "https://arxiv.org/html/2608.24827v2#S6.SS2",
+  "reference_measured": "9.1183e-15",
+  "reference_lower": "8.2065e-15",
+  "ratio_measured": 1.0000042172883103,
+  "within_one_percent": true,
+  "lower_exceeds_published": true
+ },
+ "reduce_seconds": 9.186473608016968
+}
+total wall 48 s
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-uvTBLRYDv5KdLXmzacpTWr
