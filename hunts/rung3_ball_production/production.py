@@ -156,8 +156,10 @@ def job_sites(req: dict, job: int) -> list[str]:
 
 def cmd_plan(req: dict) -> None:
     validate(req)
-    jobs = {"calibrate": ["0"], "fault": ["fault"],
-            "full": [str(j) for j in range(req["jobs"])] + ["fault"]}[req["mode"]]
+    if req["mode"] == "full":
+        jobs = [str(j) for j in range(req["jobs"])] + ["fault"]
+    else:
+        jobs = {"calibrate": ["0"], "fault": ["fault"]}[req["mode"]]
     print("mode=" + req["mode"])
     print("jobs=" + json.dumps(jobs))
     print("lean_jobs=" + str(req["lean_jobs"]))

@@ -251,6 +251,18 @@ def test_fault_mode_plans_the_fault_job_alone():
         prod.validate({k: v for k, v in req.items() if k != "completes_run"})
 
 
+@pytest.mark.parametrize("req,jobs", [
+    (CALIBRATE, ["0"]),
+    (FULL, [str(j) for j in range(20)] + ["fault"]),
+    ({"mode": "fault", **BASE, "fault_site": "B_right_06", "lean_jobs": 1,
+      "completes_run": 40353536947, "attempt": 2}, ["fault"])])
+def test_plan_prints_the_matrix_for_every_mode(req, jobs, capsys):
+    prod.cmd_plan(req)
+    out = dict(line.split("=", 1) for line in capsys.readouterr().out.splitlines())
+    assert out["mode"] == req["mode"] and json.loads(out["jobs"]) == jobs
+    assert out["lean_jobs"] == str(req["lean_jobs"])
+
+
 def test_verdict_pairs_a_full_run_with_a_fault_run(tmp_path):
     full = tmp_path / "records" / "000040353536947" / "rung3-production-record-job0-attempt1"
     fault = tmp_path / "records" / "000040999999999" / "rung3-production-record-jobfault-attempt1"
