@@ -192,3 +192,72 @@ At 36 shards the 280-mode rebuild is about 10 blocks per process (about
 that fewer jobs suffice. The shard count follows the calibration, not this
 table. Sweep B stays deferred (coordinator) until it is re-asked with these
 prices.
+
+## 9. Unit 3 (2026-10-26): P4 closed, the disk table, the calibration request
+
+**Grades of the s8 figures** (asked by the coordinator). The re-priced
+rebuild (about 28 core-hours) and sweep B (72 / 209 / 658 / 844) are
+**estimates** built on three things: the measured block price (s1, measured
+on this box, one block), the measured ζ-family tail mass (m_z = 21.8 at
+S = 2266, measured, float64, closed-form hats checked against the ball hats
+to about 1e−12), and the assumption that the b family's tail mass follows
+the same model (not measured). The tail bound used in a run is
+a posteriori: the run's own sums replace the model. None of the five
+figures is a measurement of a run.
+
+**P4 closed** (BOUNDS.md s4.5, s4.6). G_b's regions B and C are built by
+integration by parts against the fast factor's expansion, with each region
+checked against direct quadrature and a planted fault per region
+(`test_p4.py`, 12 tests). PREREG row D0's precondition is lifted.
+
+**The Gram at 280 modes, priced** (`gram_unit_cost.json`, measured on this
+box at load average about 30):
+- region A, one 12-node panel at m = 1: 0.58 to 0.60 s at u = 100 and
+  5000, 1.30 s at u = 10. About 0.1 s of that is the panel itself; the rest
+  is a per-call entry loop, now done once per G_b. About 2.3e5 panels
+  (5.5e6 node evaluations at K = 14) gives **about 7 core-hours**;
+- one endpoint derivative table (R = 120, 280 modes): 7.0 s;
+- regions B and C: one piece with its two endpoints, 92 s; eight pieces
+  sharing the same two endpoints, 115 s. So about 3.3 s per piece with
+  about 90 s fixed per endpoint pair. With M = 34, m_max = 101 and
+  t_max = 125 at target 1e−20 that is about 127 t-groups of about 7 to
+  8 minutes, **about 16 core-hours**;
+- the m = 0 tail and G_z: under 1 core-hour.
+
+**Gram total: about 23 to 25 core-hours on this box (estimate from these
+units, load average about 30)**, sharded into 24 parts (`gram_b_assign`:
+region A units round-robin, the IBP units in t-groups so that each part
+builds few endpoint tables). That is about 1 hour per part here, more on a
+runner, and the calibration measures it. Over one core-hour in total: the
+calibration ask states it.
+
+**The disk-backed mode table** (`rebuild.DiskModeTable`): one file per
+dyadic level, 40 bytes per ball (mantissa, exponent and radius from
+`man_exp`), a sha256 per file verified at open (fail closed), streamed in
+chunks of 2048 nodes. The dps-60 replay streams its own table and stores
+nothing (`StreamTable`). Measured at 20 modes (`rss_probe.py`,
+`rss_probe.json`, fresh subprocesses):
+
+| | in memory | disk-backed |
+|---|---|---|
+| table | 184 bytes per ball resident | 40 bytes per ball on disk, 0 resident |
+| one block of hats | +222 MB over the start | +67 MB over the start |
+
+At 280 modes and S' = 2,700 (6.9e7 balls) that is about 12.8 GB resident per
+process in memory, against about 2.6 GiB on disk, with a few hundred MB of
+streaming buffers per process (extrapolated: buffers scale with the chunk
+and nvec, about 0.2 to 0.4 GB). The 280-mode start-up RSS is 98 MB, with a
+615 MB peak while the prolate data are built. Four processes are estimated
+at 4 to 5 GB per runner, under the 13 GB the preflight requires. The
+calibration measures it on a runner.
+
+**The calibration request** (sent to the coordinator, **not committed**):
+`mode: calibrate`, `blocks: 2`, 36 shards (job 0: shards 0 to 3, two blocks
+each, block 0 replayed at dps 60), the 280-mode grid at S' = 2,700, G_b in
+24 parts (6 jobs of 4 processes, max-parallel 6) merged by one job, cells
+2.2, 2.5, 2.9 and N = 8, 16, 32. Estimated cost: the Gram (about 23 to 25
+core-hours, above), plus one table build (about 0.2 core-hours), plus
+8 blocks (about 0.6 core-hours at the box's block time) plus one dps-60
+replay: **about 25 to 27 core-hours**, all of it GitHub Actions (0 USD).
+The Gram is reused by the full run only if it is re-uploaded; as written,
+the full run recomputes it (a door, not taken).

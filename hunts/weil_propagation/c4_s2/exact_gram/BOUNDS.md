@@ -223,3 +223,75 @@ block, which is PREREG row D0 (coordinator, 2026-10-26: 'go' waits for
 P4). The toy provider `toy-region-a` (G_b from region A only) exists for the
 pipeline tests and is never read as a bound: `rebuild.assemble` marks such a
 run D0.
+
+## 4.5 G_b, regions B and C (2026-10-26, third unit)
+
+`bounds.ibp_pieces`, `bounds.gram_b`; tests `test_p4.py`. **Grade: derived
+(ordinary argument), unreviewed; each region checked against direct
+quadrature at toy size (measured), each with a planted fault that the check
+catches.**
+
+**The fast factor.** For m ≥ 1 and u in a piece with 2^m u ≥ 2^K, write
+ζ_j(2^m u) by its M-term expansion (P2 (i)):
+ζ_j(λu) = Σ_{p<M} D_jp Σ_{σ=±1} (σi)^{−(p+1)}(2πλu)^{−(p+1)} e^{σi2πλu} + R_j,
+D_jp = norm_j (−1)^p φ̃_j^{(p)}(1), |R_j| ≤ norm_j‖φ̃_j^{(M)}‖_1 (2πλu)^{−M}.
+This holds in regions B (t < K ≤ t + m) and C (t ≥ K, m ≥ 1) alike.
+
+**Prop P4b (one term).** For f(u) = ζ_i(u)u^{−(p+1)}, Ω = 2πλ, λ = 2^m ≥ 2
+and an exact interval [a, b] ⊂ [1, ∞):
+
+    ∫_a^b f e^{iσΩu} du = Σ_{r<R} (−1)^r [f^{(r)}(u) e^{iσΩu}/(iσΩ)^{r+1}]_a^b + ρ_R,
+    |ρ_R| ≤ (b − a) · 2 norm_i Σ_{k≤R} C(R, k)(2π)^k (p + 1)↑_{R−k} a^{−(p+1+R−k)} / Ω^R.
+
+*Proof.* R integrations by parts. Leibniz with
+|ζ_i^{(k)}(u)| = norm_i|∫ξ_i(y)(2πiy)^k e^{2πiuy}dy| ≤ 2 norm_i (2π)^k
+and |d^b u^{−(p+1)}| = (p + 1)↑_b u^{−(p+1+b)}. ∎ The ratio of successive
+terms is about (2π + (p + R)/a)/Ω ≈ 1/λ: the slowest is m = 1 (ratio ½).
+
+**Endpoint derivatives.** f^{(r)} at the dyadic endpoints follows by Leibniz
+from ζ_i^{(a)}(u) = Σ_r CM[r, i] (d/du)^a j_{k_r}(2πu). The Bessel
+derivatives come from j_k' = (k j_{k−1} − (k + 1) j_{k+1})/(2k + 1)
+applied a times to a ball table j_0 .. j_{kmax+R} (`zeta_derivs`, checked by
+a Taylor expansion and by the bound |ζ^{(a)}| ≤ 2 norm (2π)^a).
+
+**Assembly.** P_ij(m, t) = Σ_{p,σ} D_jp (σi)^{−(p+1)}(2πλ)^{−(p+1)} J^σ_i(p)
++ the expansion remainder, which is at most
+C_i norm_j‖φ̃_j^{(M)}‖_1(2πλ)^{−M} ∫_a^b u^{−5/6−M}du (Landau for ζ_i). In
+matrix form this is one product per piece, the endpoint sums being shared by
+every piece that meets the endpoint.
+
+**Region C, m = 0.** Σ_{t≥K} w_t P(0, t) = 2 Z(2^K) − Σ_{t≥K} 2^{−t}(Z(2^t) −
+Z(2^{t+1})), Z(W) = ∫_W^∞ ζ_iζ_j (the G_z tail of s4.2, a ball matrix).
+
+**The remainders beyond m_max and t_max** (Landau, s0):
+Σ_{m>m_max} ≤ 6 C_iC_j 2^{−5(m_max+1)/6}/(1 − 2^{−5/6});
+Σ_{t>t_max, m≥1} ≤ 6 C_iC_j W^{−2/3}/(1 − 2^{−5/6}), W = 2^{t_max+1};
+the m = 0 correction beyond t_max ≤ 2^{−(t_max+1)}·1.5 C_iC_j W^{−2/3}.
+`gram_b` picks m_max and t_max from these for a target radius and adds
+them to every entry.
+
+**Checks (toy, 2 modes, K = 6; `test_p4.py`):**
+- Region B: pieces (m, t) = (3, 4), (2, 5) and (5, 1) overlap direct
+  quadrature. **Planted:** R = 2 with the remainder suppressed does not.
+- Region C, m ≥ 1: (1, 6), (3, 6) and (2, 7) overlap. **Planted:** a
+  2-term expansion with its remainder suppressed does not.
+- Region C, m = 0: Z(64) − Z(128) overlaps quadrature on [64, 128].
+  **Planted:** Z(64) alone does not.
+- The whole G_b at target 1e−8: symmetric, positive definite in balls,
+  m_max = 53, t_max = 66, radius below 1e−6.
+- **Two routes** (slow test): G_b in v-space against the hats' Plancherel
+  sum (Δ/2π)Σ|b̂|² on |s| ≤ 200 (w-quadrature, P1, P2). The gap is a tail,
+  non-negative up to aliasing, a few percent, and the off-diagonal gap
+  obeys Cauchy-Schwarz.
+
+## 4.6 Status against PREREG row D0
+
+**P4 is closed** as a derivation with an implementation: G_z (s4.2) and
+G_b (s4.3 region A, s4.5 regions B and C, with all truncations bounded).
+With P1 to P3 (s1 to s3), every prerequisite of PREREG s1 now has a
+derivation, code and a test. **PREREG row D0's precondition is lifted.**
+A run with the exact provider no longer stops at setup. Whether any
+rebuilt row closes (its ε_q finite) is decided by the run, not by this
+file. All of it is ordinary argument, unreviewed, on the cited inequalities
+of s0. The production cost of the Gram at 280 modes is an estimate, not a
+measurement (RUNS.md s9).

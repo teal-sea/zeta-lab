@@ -22,7 +22,7 @@ import os
 import sys
 from dataclasses import dataclass, field
 
-from flint import acb, arb, arb_mat, ctx
+from flint import acb, acb_mat, arb, arb_mat, ctx
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 KERNEL = os.path.normpath(os.path.join(HERE, "..", "kernel"))
@@ -131,16 +131,41 @@ def point(left, right=None, n=0, j=0):
     return lambda: (arb(left) + arb(right)) / 2 + (arb(right) - arb(left)) / 2 * gauss_rule(n)[j][0]
 
 
+def coef_matrix(modes):
+    """CM (Kdim x nvec): zeta_n(w) = sum_r j_{k_r}(2 pi w) CM[r, n], CM[r, n] = 2 (-1)^{k_r/2} c_{n r} norm_n."""
+    key = ("CM", ctx.prec)
+    if key not in modes._cache:
+        sgn = [2 * (-1) ** (k // 2) for k in modes.ks]
+        modes._cache[key] = arb_mat([[sgn[r] * modes.coef[n][r] * modes.norm[n] for n in range(modes.nvec)]
+                                     for r in range(len(modes.ks))])
+    return modes._cache[key]
+
+
 def zeta_values(modes, pts, scale=1):
-    """zeta_n(scale * w) for w in pts (functions from point()), as an arb_mat (len(pts) x nvec)."""
+    """zeta_n(scale * w) for w in pts (functions from point()), as an arb_mat (len(pts) x nvec):
+    one Bessel table per point, then one ball matrix product."""
     kmax = max(modes.ks)
-    sgn = [2 * (-1) ** (k // 2) for k in modes.ks]
     rows = []
     for p in pts:
         tab = bessel_table(lambda: two_pi() * scale * p(), kmax)
-        jk = [tab[k] * s for k, s in zip(modes.ks, sgn)]
-        rows.append([modes.norm[n] * sum((c * j for c, j in zip(modes.coef[n], jk)), arb(0)) for n in range(modes.nvec)])
-    return arb_mat(rows)
+        rows.append([tab[k] for k in modes.ks])
+    return arb_mat(rows) * coef_matrix(modes)
+
+
+def zeta_derivs(modes, u, R):
+    """zeta_n^{(a)}(u), a = 0..R, at an exact point u >= 1: arb_mat ((R+1) x nvec).
+    j_k'(x) = (k j_{k-1}(x) - (k+1) j_{k+1}(x)) / (2k+1) applied a times to the table j_0..j_{kmax+R}
+    (each application loses the top order), times (2 pi)^a for d/du (BOUNDS.md s4.3)."""
+    kmax = max(modes.ks)
+    tab = bessel_table(lambda: two_pi() * arb(u), kmax + R + 1)
+    rows = [[tab[k] for k in modes.ks]]
+    cur = tab
+    tp = two_pi()
+    for a in range(1, R + 1):
+        nxt = [-cur[1]] + [(k * cur[k - 1] - (k + 1) * cur[k + 1]) / (2 * k + 1) for k in range(1, len(cur) - 1)]
+        cur = nxt
+        rows.append([cur[k] * tp**a for k in modes.ks])
+    return arb_mat(rows) * coef_matrix(modes)
 
 
 def bessel_table(zfun, kmax, extra_bits=64):
@@ -325,6 +350,12 @@ def p3_total(Ginv_abs_z, Ginv_abs_b, Cz, Cb, L, N, delta, S_prime):
 
 
 def quad_pair(modes, a, b, m, per_panel=12, rho_max=15.0):
+    acc, err = _quad_pair_core(modes, a, b, m, per_panel, rho_max)
+    nv = modes.nvec
+    return arb_mat([[acc[i, j] + _pm(err * modes.norm[i] * modes.norm[j]) for j in range(nv)] for i in range(nv)])
+
+
+def _quad_pair_core(modes, a, b, m, per_panel=12, rho_max=15.0):
     """int_a^b zeta_i(u) zeta_j(2^m u) du (all i, j) by Gauss panels of width at most
     1 / (1 + 2^m), with the panel bound added to every entry (BOUNDS.md s4.1). Returns arb_mat.
     Nodes and weights are arb's (legendre_p_root), so the rule is the exact Gauss rule."""
@@ -352,7 +383,7 @@ def quad_pair(modes, a, b, m, per_panel=12, rho_max=15.0):
             raise ArithmeticError("quad_pair: ellipse reaches u <= 0")
         err += gauss_panel_error(hh, 4 * (two_pi() * beta * (1 + lam)).exp(), rho, per_panel)
         left = right
-    return arb_mat([[acc[i, j] + _pm(err * modes.norm[i] * modes.norm[j]) for j in range(nv)] for i in range(nv)])
+    return acc, err  # the panel bound for entry (i, j) is err * norm_i * norm_j
 
 
 def _pm(r):
@@ -376,36 +407,41 @@ def _asym_int(a, beta, W, J):
 
 def gram_z_tail(modes, W, M, J=40):
     """P4, region C for G_z: int_W^inf zeta_i zeta_j by the product of the two M-term expansions,
-    with every remainder bounded (BOUNDS.md s4.2). W must be in the convergent range (kmax_for)."""
+    with every remainder bounded (BOUNDS.md s4.2). W must be in the convergent range (kmax_for).
+    Matrix form: D I D^T with D[i, p] = norm_i (-1)^p phi~_i^{(p)}(1)."""
     nv = modes.nvec
     W = arb(W)
     tp = two_pi()
-    D = [[modes.norm[i] * (-1) ** p * modes.deriv_at_1(i, p) for p in range(M)] for i in range(nv)]
-    I = [[acb(0) for _ in range(M)] for _ in range(M)]
-    R = [[arb(0) for _ in range(M)] for _ in range(M)]
+    D = arb_mat([[modes.norm[i] * (-1) ** p * modes.deriv_at_1(i, p) for p in range(M)] for i in range(nv)])
+    Dabs = arb_mat([[abs(D[i, p]) for p in range(M)] for i in range(nv)])
+    I = acb_mat(M, M)
+    Rm = arb_mat(M, M)
     for p in range(M):
         for q in range(M):
             e = p + q + 2
+            tot = acb(0)
+            rr = arb(0)
             for sg in (1, -1):
                 for tg in (1, -1):
                     c = acb(0, sg) ** (-(p + 1)) * acb(0, tg) ** (-(q + 1)) * tp ** (-e)
                     if sg + tg == 0:
-                        I[p][q] += c * W ** (-(e - 1)) / (e - 1)
+                        tot += c * W ** (-(e - 1)) / (e - 1)
                     else:
                         v, r = _asym_int((sg + tg) * tp, -e, W, J)
-                        I[p][q] += c * v
-                        R[p][q] += r * tp ** (-e)
+                        tot += c * v
+                        rr += r * tp ** (-e)
+            I[p, q] = tot
+            Rm[p, q] = rr
+    val = acb_mat(D) * I * acb_mat(D.transpose())
+    e_ser = Dabs * Rm * Dabs.transpose()
     rem = [modes.norm[i] * modes.dl1(i, M) * tp ** (-M) for i in range(nv)]
     out = []
     for i in range(nv):
         row = []
         for j in range(nv):
-            val = sum((D[i][p] * I[p][q] * D[j][q] for p in range(M) for q in range(M)), acb(0)).real
-            e_ser = sum((abs(D[i][p]) * abs(D[j][q]) * R[p][q] for p in range(M) for q in range(M)), arb(0))
             e_rem = (modes.C(i) * rem[j] + rem[i] * modes.C(j)) * W ** (arb(1) / 6 - M) / (M - arb(1) / 6) \
                 + rem[i] * rem[j] * W ** (1 - 2 * arb(M)) / (2 * M - 1)
-            r = e_ser + e_rem
-            row.append(val + arb(0).union(r).union(-r))
+            row.append(val[i, j].real + _pm(e_ser[i, j] + e_rem + abs(val[i, j].imag)))
         out.append(row)
     return arb_mat(out)
 
@@ -439,6 +475,217 @@ def gram_b_region_a(modes, Kmax, per_panel=12):
     return acc
 
 
-def gram_b(modes, Kmax):
-    raise NotImplementedError("P4: G_b regions B and C (integration by parts) are not built yet; "
-                              "production stays at PREREG row D0 (BOUNDS.md s4.4)")
+def _gpoch(p, r):
+    """(p+1)(p+2)...(p+r): |d^r/du^r u^{-(p+1)}| = _gpoch(p, r) u^{-(p+1+r)}."""
+    out = 1
+    for i in range(1, r + 1):
+        out *= p + i
+    return out
+
+
+def ibp_endpoint(modes, u, M, R):
+    """For an exact endpoint u: F[p] (nvec x R) with F[p][i, r] = f_{i,p}^{(r)}(u), f_{i,p}(v) = zeta_i(v) v^{-(p+1)}
+    (Leibniz on the derivative table of zeta_i at u)."""
+    Zd = zeta_derivs(modes, u, R)  # (R+1) x nvec
+    U = arb(u)
+    out = []
+    for p in range(M):
+        T = arb_mat(R + 1, R)
+        for r in range(R):
+            for a in range(r + 1):
+                bb = r - a
+                T[a, r] = math.comb(r, a) * (-1) ** bb * _gpoch(p, bb) * U ** (-(p + 1 + bb))
+        out.append(Zd.transpose() * T)
+    return out
+
+
+def ibp_remainder(modes, i, p, a, b, Omega, R):
+    """|int_a^b f^{(R)} e^{i Omega u} du| / Omega^R with |zeta_i^{(k)}| <= 2 norm_i (2 pi)^k (BOUNDS.md s4.3)."""
+    A = arb(a)
+    sup = sum((math.comb(R, k) * two_pi() ** k * _gpoch(p, R - k) * A ** (-(p + 1 + R - k)) for k in range(R + 1)), arb(0))
+    return (arb(b) - A) * 2 * modes.norm[i] * sup / arb(Omega) ** R
+
+
+def ibp_pieces(modes, K, M, m_max, t_max, R, target, pieces=None):
+    """P4, regions B and C with m >= 1 (BOUNDS.md s4.3): {(m, t): P(m, t)} for t + m >= K, 1 <= m <= m_max,
+    0 <= t <= t_max, P_ij(m, t) = int_{2^t}^{2^{t+1}} zeta_i(u) zeta_j(2^m u) du, the fast factor by its
+    M-term expansion (valid: 2^m u >= 2^K), each term integrated by parts R(m) times."""
+    nv = modes.nvec
+    tp = two_pi()
+    D = [[modes.norm[j] * (-1) ** p * modes.deriv_at_1(j, p) for p in range(M)] for j in range(nv)]
+    dsum = [sum((abs(D[j][p]) for j in range(nv)), arb(0)) for p in range(M)]
+    Cs = [modes.C(i) for i in range(nv)]
+    nd = [modes.norm[j] * modes.dl1(j, M) for j in range(nv)]
+    need = sorted({(m, t) for t in range(t_max + 1) for m in range(1, m_max + 1) if t + m >= K})
+    if pieces is not None:
+        need = [mt for mt in need if mt in pieces]
+    ends = sorted({2.0**t for _, t in need} | {2.0 ** (t + 1) for _, t in need})
+    ms = sorted({m for m, _ in need})
+    X = {}  # (e, p) -> acb_mat nvec x (2 len(ms)): sum_r (-1)^r f^{(r)}(e) e^{i s Om e} / (i s Om)^{r+1}
+    for e in ends:
+        F = ibp_endpoint(modes, e, M, R)
+        for p in range(M):
+            V = acb_mat(R, 2 * len(ms))
+            for c, m in enumerate(ms):
+                Om = tp * 2**m
+                for sg in (1, -1):
+                    col = 2 * c + (0 if sg == 1 else 1)
+                    ph = (acb(0, sg * Om * arb(e))).exp()
+                    for r in range(R):
+                        V[r, col] = (-1) ** r * ph / acb(0, sg * Om) ** (r + 1)
+            X[(e, p)] = acb_mat(F[p]) * V
+    out = {}
+    Ccache = {}
+    for m, t in need:
+        a, bnd = 2.0**t, 2.0 ** (t + 1)
+        c = ms.index(m)
+        Om = tp * 2**m
+        lam = arb(2) ** m
+        if m not in Ccache:  # the fast factor's coefficients depend on m only
+            Cre, Cim = arb_mat(2 * M, nv), arb_mat(2 * M, nv)
+            for p in range(M):
+                f = (tp * lam) ** (-(p + 1))
+                for sg in (1, -1):
+                    k = 2 * p + (0 if sg == 1 else 1)
+                    z = acb(0, sg) ** (-(p + 1)) * f
+                    for j in range(nv):
+                        v = z * D[j][p]
+                        Cre[k, j], Cim[k, j] = v.real, v.imag
+            Ccache[m] = (Cre, Cim)
+        Cre, Cim = Ccache[m]
+        Jre, Jim = arb_mat(nv, 2 * M), arb_mat(nv, 2 * M)
+        for p in range(M):
+            Xb, Xa = X[(bnd, p)], X[(a, p)]
+            for sg in (1, -1):
+                col = 2 * c + (0 if sg == 1 else 1)
+                k = 2 * p + (0 if sg == 1 else 1)
+                for i in range(nv):
+                    v = Xb[i, col] - Xa[i, col]
+                    Jre[i, k], Jim[i, k] = v.real, v.imag
+        Pc = Jre * Cre - Jim * Cim  # the integral is real: Re(J C) encloses it
+        rib = sum((ibp_remainder(modes, 0, p, a, bnd, Om, R) / modes.norm[0] * 2 * dsum[p] * (tp * lam) ** (-(p + 1))
+                   for p in range(M)), arb(0))
+        fac = (tp * lam) ** (-M) * (arb(a) ** (arb(1) / 6 - M) - arb(bnd) ** (arb(1) / 6 - M)) / (M - arb(1) / 6)
+        # radius of entry (i, j): norm_i * rib + C_i * fac * norm_j ||phi~_j^(M)||_1
+        out[(m, t)] = (Pc, rib, fac)
+    return out
+
+
+def ibp_balls(modes, M, piece):
+    """A piece of ibp_pieces as a ball matrix (for tests)."""
+    Pc, rib, fac = piece
+    nv = modes.nvec
+    nd = [modes.norm[j] * modes.dl1(j, M) for j in range(nv)]
+    return arb_mat([[Pc[i, j] + _pm(modes.norm[i] * rib + modes.C(i) * fac * nd[j]) for j in range(nv)] for i in range(nv)])
+
+
+
+
+
+def gram_b_plan(modes, Kmax, M=None, target=arb(10) ** -20):
+    """M, m_max and t_max for G_b at a target radius (BOUNDS.md s4.5)."""
+    K = Kmax
+    if M is None:
+        M = choose_M(modes, 2.0**K)
+    C = [modes.C(i) for i in range(modes.nvec)]
+    cmax = max(C, key=lambda x: float(x.upper()))
+    q = arb(2) ** (-arb(5) / 6)
+    m_max = 1  # Landau: 6 C_i C_j 2^{-5(m0+1)/6} / (1 - 2^{-5/6}) below target
+    while 6 * cmax * cmax * q ** (m_max + 1) / (1 - q) > target:
+        m_max += 1
+    t_max = K  # Landau: the m >= 1 pieces beyond 2^{t_max+1}
+    while 8 * cmax * cmax * arb(2) ** (-arb(2) * (t_max + 1) / 3) > target:
+        t_max += 1
+    return M, m_max, t_max
+
+
+def gram_b_units(K, m_max, t_max):
+    """Every unit of work of G_b: ('A', m, t), ('B', m, t) (regions B and C with m >= 1), ('C0',)."""
+    units = [("A", m, t) for t in range(K) for m in range(K - t)]
+    units += [("B", m, t) for t in range(t_max + 1) for m in range(1, m_max + 1) if t + m >= K]
+    return units + [("C0",)]
+
+
+def gram_b_assign(units, part, nparts):
+    """Units of this part: region A units and the C0 unit round-robin; the IBP units grouped by t
+    (each t-group shares its two endpoint tables) and the groups round-robin."""
+    a = [u for u in units if u[0] != "B"]
+    mine = [u for k, u in enumerate(a) if k % nparts == part]
+    ts = sorted({u[2] for u in units if u[0] == "B"})
+    my_t = {t for k, t in enumerate(ts) if k % nparts == part}
+    return mine + [u for u in units if u[0] == "B" and u[2] in my_t]
+
+
+def gram_b(modes, Kmax, M=None, m_max=None, t_max=None, R=None, target=arb(10) ** -20, per_panel=12,
+           part=0, nparts=1):
+    """P4: G_b = sum_t w_t [P(0, t) + sum_{m >= 1} (P(m, t) + P(m, t)^T)], w_t = 2 - 2^-t (BOUNDS.md s4.3, s4.5).
+    Region A (t + m + 1 <= K) by quadrature; B and C with m >= 1 by ibp_pieces; C with m = 0 from the
+    G_z tail; the m > m_max and t > t_max remainders by Landau. Every entry is a ball.
+    With nparts > 1 this returns part `part` of the sum (units dealt round-robin; the Landau tails in
+    part 0 only), so that G_b is the sum of the parts (`gram_b_merge`)."""
+    K = Kmax
+    pM, pm, pt = gram_b_plan(modes, K, M, target)
+    M = pM if M is None else M
+    m_max = pm if m_max is None else m_max
+    t_max = pt if t_max is None else t_max
+    R = 120 if R is None else R
+    nv = modes.nvec
+    mine = gram_b_assign(gram_b_units(K, m_max, t_max), part, nparts)
+    G = arb_mat(nv, nv)
+    r_quad = arb(0)  # entry (i, j) radius r_quad * norm_i * norm_j
+    r_ib = arb(0)  # entry (i, j) radius r_ib * (norm_i + norm_j)
+    r_fac = arb(0)  # entry (i, j) radius r_fac * (C_i nd_j + C_j nd_i)
+    for u in mine:
+        if u[0] == "A":
+            _, m, t = u
+            A, err = _quad_pair_core(modes, 2.0**t, 2.0 ** (t + 1), m, per_panel)
+            w = 2 - arb(2) ** (-t)
+            if m == 0:
+                G += A * w
+                r_quad += err * w
+            else:
+                G += (A + A.transpose()) * w
+                r_quad += 2 * err * w
+        elif u[0] == "C0":
+            # sum_{t >= K} (2 - 2^-t) P(0, t) = 2 gzt(2^K) - sum_{t >= K} 2^-t (gzt(2^t) - gzt(2^{t+1}))
+            gz = {t: gram_z_tail(modes, 2.0**t, M) for t in range(K, t_max + 2)}
+            G += gz[K] * 2
+            for t in range(K, t_max + 1):
+                G -= (gz[t] - gz[t + 1]) * (arb(2) ** (-t))
+    ibp = [(u[1], u[2]) for u in mine if u[0] == "B"]
+    if ibp:
+        for (m, t), (Pc, rib, fac) in ibp_pieces(modes, K, M, m_max, t_max, R, target, pieces=set(ibp)).items():
+            w = 2 - arb(2) ** (-t)
+            G += (Pc + Pc.transpose()) * w
+            r_ib += rib * w
+            r_fac += fac * w
+    C = [modes.C(i) for i in range(nv)]
+    nd = [modes.norm[j] * modes.dl1(j, M) for j in range(nv)]
+    q = arb(2) ** (-arb(5) / 6)
+    Wt = arb(2) ** (t_max + 1)
+    rows = []
+    for i in range(nv):
+        row = []
+        for j in range(nv):
+            r = r_quad * modes.norm[i] * modes.norm[j] + r_ib * (modes.norm[i] + modes.norm[j]) \
+                + r_fac * (C[i] * nd[j] + C[j] * nd[i])
+            if part == 0:
+                r += 6 * C[i] * C[j] * q ** (m_max + 1) / (1 - q)  # m > m_max, every t
+                r += 4 * C[i] * C[j] * arb(1.5) * Wt ** (-arb(2) / 3) / (1 - q)  # m >= 1, t > t_max
+                r += arb(2) ** (-(t_max + 1)) * arb(1.5) * C[i] * C[j] * Wt ** (-arb(2) / 3)  # m = 0, t > t_max
+            row.append(G[i, j] + _pm(r))
+        rows.append(row)
+    G = arb_mat(rows)
+    info = {"M": M, "m_max": m_max, "t_max": t_max, "R": R, "units": len(mine), "part": part, "nparts": nparts}
+    return G, info
+
+
+def gram_b_merge(parts):
+    """The sum of the parts of gram_b (every part from the same plan)."""
+    plans = {(i["M"], i["m_max"], i["t_max"], i["R"], i["nparts"]) for _, i in parts}
+    if len(plans) != 1 or sorted(i["part"] for _, i in parts) != list(range(parts[0][1]["nparts"])):
+        raise ValueError("gram_b_merge: parts from different plans, or a part missing")
+    G = parts[0][0]
+    for P, _ in parts[1:]:
+        G = G + P
+    return G

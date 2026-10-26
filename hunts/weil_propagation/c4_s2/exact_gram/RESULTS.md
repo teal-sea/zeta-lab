@@ -95,3 +95,28 @@ its grade.
 3. **Information class:** unchanged. The closed-form ζ hats (Tate) are an
    implementation door: they could replace the ζ half of the w-quadrature
    in the rebuild (no E3, E4 there). The b hats still need it.
+
+## Update, 2026-10-26 (third unit): P4 closed, the disk table
+
+1. **P4 is closed** (BOUNDS.md s4.5, s4.6). G_b's regions B and C are
+   built by integration by parts against the expansion of the fast factor,
+   using endpoint derivative tables up to R = 120, m_max = 101 and
+   t_max = 125 at target 1e−20. The m and t tails are bounded by Landau.
+   Each region overlaps direct quadrature at toy size, and each region's
+   planted fault is caught. The whole G_b passes a two-route Plancherel
+   check against the hats. **PREREG row D0's precondition is lifted.**
+   Whether a rebuilt row closes is the run's to say. Grade: ordinary
+   argument, unreviewed; the checks are measured.
+2. **The toy now runs as a bound**: with the exact provider, 2 modes, it
+   assembles with `is_bound` true and a finite ε_q (`test_rebuild.py`,
+   slow).
+3. **The disk-backed mode table** is built, sha256-checked at open and
+   streamed. At 20 modes, measured: 184 bytes per ball in memory against
+   40 on disk, plus 67 MB per block streaming. At 280 modes the in-memory
+   table would be about 12.8 GB per process, against about 2.6 GiB on disk
+   (extrapolated). Its first version truncated a level written in more than
+   one chunk, which the toy test caught.
+4. **The Gram's production cost** is about 23 to 25 core-hours (estimate
+   from 280-mode units measured on this box), sharded into 24 parts with a
+   merge job. The calibration ask is sent with its exact request; no
+   RUN_REQUEST.json is committed.

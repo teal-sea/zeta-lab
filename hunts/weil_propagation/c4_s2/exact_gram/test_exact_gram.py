@@ -280,6 +280,11 @@ def test_workflow_matches_the_ruling():
     assert steps.index("preflight (ball backend, snapshot guard, request, headroom, memory)") < steps.index("run 4 shards")
     assert "guard.key()" in text and "github.run_attempt" in text and "if: always()" in text
     assert not os.path.exists(os.path.join(HERE, "RUN_REQUEST.json")), "committed only after 'go'"
+    jobs = wf["jobs"]
+    assert list(jobs) == ["plan", "gram", "merge", "shards"]
+    assert jobs["gram"]["timeout-minutes"] <= 350 and jobs["gram"]["strategy"]["max-parallel"] <= 6
+    assert jobs["merge"]["needs"] == ["plan", "gram"] and jobs["shards"]["needs"] == ["plan", "merge"]
+    assert "merge-gram" in text and "gram-part" in text and "c4-exact-gram-gram-attempt" in text
 
 
 def test_tail_mass_and_the_aposteriori_reprice():
@@ -295,3 +300,24 @@ def test_tail_mass_and_the_aposteriori_reprice():
             ("rebuild_280", "sweep_364", "sweep_500", "sweep_700", "sweep_700_N64")] == [28, 72, 209, 658, 844]
     for s in ("28 core-hours", "**72**", "**209**", "**658**", "**844**"):
         assert s in _read("RUNS.md"), s
+
+
+def test_rss_probe_and_its_extrapolation():
+    r = json.load(open(os.path.join(HERE, "rss_probe.json")))
+    assert r["nvec"] == 20 and r["balls"] == r["nodes"] * 21
+    assert abs(r["disk_bytes"] / r["balls"] - 40) < 0.01  # 40 bytes per ball on disk (plus meta.json)
+    assert 150 < r["memory_table_bytes_per_ball"] < 220  # measured 184
+    balls280 = 246768 * 281  # S' = 2700 grid at 280 modes (estimate.json, builds_aposteriori)
+    assert balls280 * r["memory_table_bytes_per_ball"] / 2**30 > 10  # in memory: does not fit a 16 GB runner
+    assert balls280 * 40 / 2**30 < 3  # on disk: about 2.6 GiB, under the 10 GB preflight limit
+    assert r["disk_hats_extra_kib"] < 100 * 1024 and r["baseline280"]["rss_kib"] < 200 * 1024
+
+
+def test_gram_unit_cost_quoted_in_runs():
+    u = json.load(open(os.path.join(HERE, "gram_unit_cost.json")))
+    assert u["M"] == 34 and 6 < u["endpoint_s"] < 8
+    marginal = (u["opt_8pieces_2endpoints_s"] - u["opt_1piece_2endpoints_s"]) / 7
+    assert 2.5 < marginal < 4.0  # about 3.3 s per piece once its endpoints exist
+    t = _read("RUNS.md")
+    for s in ("about 23 to 25 core-hours", "about 25 to 27 core-hours", "m_max = 101", "t_max = 125"):
+        assert s in t, s

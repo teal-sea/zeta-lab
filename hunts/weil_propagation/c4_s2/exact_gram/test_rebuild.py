@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 import sys
 
@@ -14,6 +15,14 @@ if HERE not in sys.path:
 
 import guard as GD  # noqa: E402
 import rebuild as R  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def _prec():
+    old = ctx.prec
+    ctx.prec = 133
+    yield
+    ctx.prec = old
 
 REQ = {"nvec": 2, "dps": 40, "Kmax": 6, "S_prime": 12, "delta_num": 1, "delta_den": 16, "block": 64,
        "M": 14, "J": 14, "kb": 24, "cells": ["2.9"], "Ns": [2], "gram": "toy-region-a",
@@ -57,10 +66,7 @@ def test_gate_accepts_zeta_and_refuses_the_rivals():
         R.gate(("satake", (-1,)))  # unitary but not zeta's: the rebuild builds zeta only
 
 
-def test_the_exact_provider_stops_at_P4_and_the_cli_refuses_toys(state, tmp_path):
-    modes = state[0]
-    with pytest.raises(NotImplementedError):
-        R.provider("exact", modes, 6)
+def test_the_cli_refuses_toys(state, tmp_path):
     req = tmp_path / "req.json"
     req.write_text(__import__("json").dumps(REQ))
     with pytest.raises(R.NotABound):
@@ -121,3 +127,77 @@ def test_inner_mass_and_eps_q(full):
 def test_calibration_stops_after_max_blocks(state, tmp_path):
     pay = R.run_shard(REQ, 0, 1, str(tmp_path), lambda: KEY, state=state, max_blocks=1)
     assert pay["last_block"] == 0 and len(pay["block_seconds"]) == 1 and pay["block_seconds"][0][1] > 0
+
+
+# --- the disk-backed table (unit 3) ---------------------------------------------------
+
+
+def test_disk_table_reproduces_the_memory_table(state, tmp_path):
+    modes, _, _, table, _ = state
+    # chunk 100 < the largest level (408 nodes): a level written in several chunks (a truncation
+    # defect of the first version, found by this test at chunk 300)
+    disk = R.DiskModeTable.build(str(tmp_path / "t"), modes, REQ["Kmax"], REQ["S_prime"], chunk=100)
+    s = [arb(0), arb(5) / 16, arb(12)]
+    Z1, B1 = R.hats_block(table, s, 14, 14, 24)
+    Z2, B2 = R.hats_block(disk, s, 14, 14, 24)
+    assert all(Z1[i, j].overlaps(Z2[i, j]) and B1[i, j].overlaps(B2[i, j]) for i in range(2) for j in range(3))
+    assert disk.disk_bytes() == 40 * (modes.nvec + 1) * sum(disk.counts) + os.path.getsize(str(tmp_path / "t" / "meta.json"))
+    # a table for other parameters is refused
+    with pytest.raises(ValueError, match="does not match"):
+        R.DiskModeTable(str(tmp_path / "t"), modes, REQ["Kmax"], 13.0)
+
+
+def test_disk_table_planted_corruptions_are_caught(state, tmp_path):
+    """Two layers: the sha256 refuses any changed byte; the dps-60 replay catches a corruption above
+    the hats' radius even with the hash check off. A flip below the radius is the hash's job alone."""
+    modes = state[0]
+    path = tmp_path / "t"
+    R.DiskModeTable.build(str(path), modes, REQ["Kmax"], REQ["S_prime"])
+    f = path / "level00.bin"
+    raw = bytearray(f.read_bytes())
+    raw[40 + 2] ^= 0x01  # a low mantissa bit of the first node's first mode
+    f.write_bytes(bytes(raw))
+    with pytest.raises(ValueError, match="sha256"):
+        R.DiskModeTable(str(path), modes, REQ["Kmax"], REQ["S_prime"])
+    raw[40 + 2] ^= 0x01
+    raw[40 + 16] ^= 0x01  # a high mantissa bit: a change far above any radius
+    f.write_bytes(bytes(raw))
+    bad = R.DiskModeTable(str(path), modes, REQ["Kmax"], REQ["S_prime"], verify=False)
+    s = [arb(1), arb(2)]
+    Zd, Bd = R.hats_block(bad, s, 14, 14, 24)
+    with pytest.raises(R.ReplayMismatch):
+        R.replay_check(dict(REQ, replay_prec=200), modes, s, Zd, Bd)
+
+
+@pytest.mark.slow
+def test_toy_with_the_exact_provider_is_a_bound(tmp_path):
+    req = dict(REQ, gram="exact", gram_target_exp=8, gram_R=40, prepared=str(tmp_path / "prep"))
+    old = ctx.prec
+    ctx.prec = 133
+    try:
+        nbytes = R.prepare(req, req["prepared"])
+        assert nbytes > 0
+        R.run_shard(req, 0, 1, str(tmp_path / "out"), lambda: KEY)
+        res = R.assemble(req, 1, str(tmp_path / "out"), lambda: KEY)
+    finally:
+        ctx.prec = old
+    assert "_reading" not in res and res["2.9|2"]["is_bound"]
+    assert res["2.9|2"]["eps_q"].is_finite()
+
+
+@pytest.mark.slow
+def test_gram_parts_merge_to_the_prepared_gram(tmp_path):
+    req = dict(REQ, gram="exact", gram_target_exp=8, gram_R=40, prepared=str(tmp_path / "prep"))
+    for p in range(2):
+        R.gram_part(req, req["prepared"], p, 2)
+    R.merge_gram(req, req["prepared"], 2)
+    whole = tmp_path / "whole"
+    R.prepare(req, str(whole), gram=True, table=False)
+    a = json.load(open(tmp_path / "prep" / "gram.json"))
+    b = json.load(open(whole / "gram.json"))
+    for key in ("Gz", "Gb"):
+        A, Bm = R._mat_load(a[key]), R._mat_load(b[key])
+        assert all(A[i, j].overlaps(Bm[i, j]) for i in range(2) for j in range(2))
+    (tmp_path / "prep" / "gram_part01of02.json").unlink()
+    with pytest.raises(FileNotFoundError):
+        R.merge_gram(req, req["prepared"], 2)

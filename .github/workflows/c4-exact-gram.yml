@@ -6,6 +6,10 @@
 # the coordinator's 'go': first {"mode": "calibrate"} once P4 closes, then the
 # full run sized from the calibration numbers.
 #
+# Jobs: plan (reads the request) -> gram (P4's G_b in gram_parts parts, 4 per job; G_z with part 0)
+# -> merge (sums the parts into gram.json, refusing a missing one) -> shards (each job downloads gram.json, builds the disk-backed mode table once on its runner's
+# disk, checks its size, then runs 4 worker processes that stream it).
+#
 # Modes (RUN_REQUEST.json "mode"):
 #   calibrate  job 0 only, 4 processes, each `blocks` blocks of its shard; per
 #              process the per-block wall time and the peak RSS (/usr/bin/time -v)
@@ -52,6 +56,7 @@ jobs:
     outputs:
       jobs: ${{ steps.p.outputs.jobs }}
       mode: ${{ steps.p.outputs.mode }}
+      gram_jobs: ${{ steps.p.outputs.gram_jobs }}
     steps:
       - uses: actions/checkout@v4
       - id: p
@@ -64,11 +69,90 @@ jobs:
           assert req["shards"] == 36, req["shards"]
           print("mode=" + mode)
           print("jobs=" + json.dumps([0] if mode == "calibrate" else list(range(9))))
+          assert req["gram_parts"] % 4 == 0, req["gram_parts"]
+          print("gram_jobs=" + json.dumps(list(range(req["gram_parts"] // 4))))
           PY
+
+  gram:
+    name: gram parts ${{ matrix.job }} (P4, 4 processes)
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        job: ${{ fromJSON(needs.plan.outputs.gram_jobs) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install (versions pinned in requirements.txt)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - name: resume (re-run attempts only)
+        if: ${{ fromJSON(github.run_attempt) > 1 }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: c4-exact-gram-gramparts-job${{ matrix.job }}-attempt*
+          merge-multiple: true
+          path: prepared/
+      - name: preflight (ball backend, snapshot guard)
+        run: |
+          python -c "from zeta import rigor; assert rigor.BACKEND == 'python-flint', rigor.BACKEND"
+          python -c "import sys; sys.path.insert(0, '$EG'); import guard; print(guard.key())"
+      - name: 4 Gram parts
+        run: |
+          N=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['gram_parts'])")
+          for p in 0 1 2 3; do
+            part=$(( 4 * ${{ matrix.job }} + p ))
+            /usr/bin/time -v -o "prepared/gram_time_$part.txt" timeout 335m \
+              python "$EG/rebuild.py" gram-part --request "$EG/RUN_REQUEST.json" --part "$part" --parts "$N" \
+              --out prepared > "prepared/gram_log_$part.txt" 2>&1 &
+          done
+          status=0
+          for job in $(jobs -p); do wait "$job" || status=$?; done
+          tail -n 3 prepared/gram_log_*.txt
+          exit $status
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c4-exact-gram-gramparts-job${{ matrix.job }}-attempt${{ github.run_attempt }}
+          path: prepared/
+          if-no-files-found: warn
+
+  merge:
+    name: merge the Gram parts
+    needs: [plan, gram]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install (versions pinned in requirements.txt)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: c4-exact-gram-gramparts-job*
+          merge-multiple: true
+          path: prepared/
+      - name: merge (refuses a missing part or a part from another request)
+        run: |
+          N=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['gram_parts'])")
+          python "$EG/rebuild.py" merge-gram --request "$EG/RUN_REQUEST.json" --parts "$N" --out prepared
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c4-exact-gram-gram-attempt${{ github.run_attempt }}
+          path: prepared/gram.json
+          if-no-files-found: error
 
   shards:
     name: shards ${{ matrix.job }} (4 processes, ${{ needs.plan.outputs.mode }})
-    needs: plan
+    needs: [plan, merge]
     runs-on: ubuntu-latest
     timeout-minutes: 350
     strategy:
@@ -84,6 +168,10 @@ jobs:
         run: |
           python -m pip install --quiet --disable-pip-version-check -r requirements.txt
           python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - uses: actions/download-artifact@v4
+        with:
+          name: c4-exact-gram-gram-attempt${{ github.run_attempt }}
+          path: prepared/
       - name: resume (re-run attempts only)
         if: ${{ fromJSON(github.run_attempt) > 1 }}
         uses: actions/download-artifact@v4
@@ -104,6 +192,7 @@ jobs:
           print("guard", k)
           req = json.load(open(os.path.join(eg, "RUN_REQUEST.json")))
           assert req["gram"] == "exact" and req["shards"] == 36, req
+          assert req["prepared"] == "prepared", req.get("prepared")
           if req["mode"] == "full":
               import rebuild
               assert hasattr(rebuild, "DiskModeTable"), "full mode needs the disk-backed mode table"
@@ -114,6 +203,14 @@ jobs:
               assert 4 * cal["peak_rss_gb"] < 13, cal
               assert cal["table_disk_gb"] < 10, cal
           PY
+      - name: mode table on runner disk (once per job), size checked fail closed
+        run: |
+          SECONDS=0
+          /usr/bin/time -v -o out_table_time.txt python "$EG/rebuild.py" prepare --table-only \
+            --request "$EG/RUN_REQUEST.json" --out prepared
+          GB=$(du -sb prepared/table | awk '{print $1 / 2^30}')
+          echo "table: ${SECONDS}s, ${GB} GiB on disk" | tee -a "$GITHUB_STEP_SUMMARY"
+          python3 -c "import sys; sys.exit(0 if float('$GB') < 10 else 1)"
       - name: run 4 shards
         run: |
           mkdir -p out
@@ -139,6 +236,7 @@ jobs:
           python3 - <<'PY'
           import glob, json, re
           rec = {}
+          import os
           for f in sorted(glob.glob("out/time_*.txt")):
               shard = int(re.search(r"time_(\d+)", f).group(1))
               txt = open(f).read()
@@ -148,6 +246,12 @@ jobs:
               body = json.load(open(f))
               sh = int(re.search(r"shard(\d+)of", f).group(1))
               rec.setdefault(sh, {})["block_seconds"] = body["payload"]["block_seconds"]
+          if os.path.exists("out_table_time.txt"):
+              m = re.search(r"Maximum resident set size \(kbytes\): (\d+)", open("out_table_time.txt").read())
+              rec["table_build_peak_rss_gb"] = int(m.group(1)) / 2**20 if m else None
+          if os.path.isdir("prepared/table"):
+              rec["table_disk_gb"] = sum(os.path.getsize(os.path.join("prepared/table", f))
+                                         for f in os.listdir("prepared/table")) / 2**30
           json.dump(rec, open("out/calibration.json", "w"), indent=1)
           print(json.dumps(rec, indent=1))
           PY

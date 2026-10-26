@@ -167,9 +167,6 @@ def test_planted_float_endpoints_exclude_the_identity(modes4, monkeypatch):
     assert any(not G[i, j].overlaps(arb(1 if i == j else 0)) for i in range(4) for j in range(4))
 
 
-def test_gram_b_is_not_built_yet(modes4):
-    with pytest.raises(NotImplementedError, match="regions B and C"):
-        B.gram_b(modes4, 10)
 
 
 # --- the production-size numbers BOUNDS.md and RUNS.md quote ------------------

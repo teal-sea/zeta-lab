@@ -78,41 +78,192 @@ def w_panel_ends(Kmax, s_max):
 
 
 class ModeTable:
-    """zeta_n(w) * w_j * w^{-1/2} on every Gauss node of every w panel, grouped by dyadic level."""
+    """zeta_n(w) * w_j * w^{-1/2} on every Gauss node of every w panel, grouped by dyadic level
+    (in memory). DiskModeTable is the same table streamed from disk."""
 
-    def __init__(self, modes, Kmax, s_max, per_panel=12):
-        self.modes, self.Kmax, self.per_panel = modes, Kmax, per_panel
-        ends = w_panel_ends(Kmax, s_max)
-        rule = B.gauss_rule(per_panel)
-        self.levels = [([], []) for _ in range(Kmax)]  # (log w nodes, rows of weighted zeta)
-        for a, b in zip(ends[:-1], ends[1:]):
-            lev = int(math.floor(math.log2(a) + 1e-12))
-            pts = [B.point(a, b, per_panel, j) for j in range(per_panel)]
-            Z = B.zeta_values(modes, pts)
-            half = (arb(b) - arb(a)) / 2
-            for j, p in enumerate(pts):
-                w = p()
-                f = rule[j][1] * half / w.sqrt()
-                self.levels[lev][0].append(w.log())
-                self.levels[lev][1].append([Z[j, n] * f for n in range(modes.nvec)])
-        self.F = [arb_mat(rows) if rows else None for _, rows in self.levels]
-        self.s_max = s_max
+    def __init__(self, modes, Kmax, s_max, per_panel=12, chunk=2048):
+        self.modes, self.Kmax, self.per_panel, self.s_max = modes, Kmax, per_panel, s_max
+        self.levels = [([], []) for _ in range(Kmax)]
+        for lev, logs, F in table_rows(modes, Kmax, s_max, per_panel, chunk):
+            self.levels[lev][0].extend(logs)
+            self.levels[lev][1].append(F)
+        self.F = []
+        for lev in range(Kmax):
+            mats = self.levels[lev][1]
+            self.F.append(_vstack(mats) if mats else None)
 
-    def radii(self, M, J, kb):
-        """P1 and P2 radii for every mode, valid for every |s| <= s_max (computed once)."""
-        key = (M, J, kb)
-        if getattr(self, "_radii_key", None) != key:
-            md, K, S = self.modes, self.Kmax, max(self.s_max, 1.0)
-            e3 = B.e3_hat_bound(K, S, self.per_panel)
-            q2 = 1 / (1 - arb(2) ** (-arb(0.5)))
-            rz, rb = [], []
-            for n in range(md.nvec):
-                e4 = B.e4_tail_bound(md, n, 2.0**K, S, M, J)
-                ek = sum((arb(2) ** (-arb(k) / 2) * B.e4_tail_bound(md, n, 2.0**k, S, M, J) for k in range(K + 1, kb)), arb(0))
-                rz.append(md.norm[n] * e3 + e4)
-                rb.append((md.norm[n] * e3 + e4) * q2 + ek + B.b_kseries_tail(md, n, kb))
-            self._radii, self._radii_key = (rz, rb), key
-        return self._radii
+    def chunks(self):
+        for k in range(self.Kmax):
+            if self.levels[k][0]:
+                yield k, self.levels[k][0], self.F[k]
+
+    radii = None  # set below (shared with DiskModeTable and StreamTable)
+
+
+class StreamTable:
+    """The table generated chunk by chunk and never stored (the dps-60 replay at 280 modes)."""
+
+    def __init__(self, modes, Kmax, s_max, per_panel=12, chunk=2048):
+        self.modes, self.Kmax, self.per_panel, self.s_max, self.chunk = modes, Kmax, per_panel, s_max, chunk
+
+    def chunks(self):
+        yield from table_rows(self.modes, self.Kmax, self.s_max, self.per_panel, self.chunk)
+
+
+def _vstack(mats):
+    rows = []
+    for m in mats:
+        rows.extend([[m[i, j] for j in range(m.ncols())] for i in range(m.nrows())])
+    return arb_mat(rows)
+
+
+def table_rows(modes, Kmax, s_max, per_panel=12, chunk=2048):
+    """Yield (level, [log w], arb_mat chunk x nvec of zeta_n(w) * weight / sqrt(w)) over the w panels,
+    one ball matrix product per chunk of nodes (BOUNDS.md s1)."""
+    ends = w_panel_ends(Kmax, s_max)
+    rule = B.gauss_rule(per_panel)
+    buf = {}
+    for a, b in zip(ends[:-1], ends[1:]):
+        lev = int(math.floor(math.log2(a) + 1e-12))
+        half = (arb(b) - arb(a)) / 2
+        for j in range(per_panel):
+            buf.setdefault(lev, []).append((B.point(a, b, per_panel, j), rule[j][1] * half))
+        if len(buf[lev]) >= chunk:
+            yield _emit(modes, lev, buf.pop(lev))
+    for lev in sorted(buf):
+        yield _emit(modes, lev, buf[lev])
+
+
+def _emit(modes, lev, items):
+    pts = [p for p, _ in items]
+    Z = B.zeta_values(modes, pts)
+    logs, scale = [], []
+    for p, wt in items:
+        w = p()
+        logs.append(w.log())
+        scale.append(wt / w.sqrt())
+    S = arb_mat([[scale[i] if i == j else arb(0) for j in range(len(items))] for i in range(len(items))])
+    return lev, logs, S * Z
+
+
+class DiskModeTable:
+    """The mode table on disk (one file per level, fixed-width balls), streamed in chunks: what lets
+    four processes share a 16 GB runner (RUNS.md s4, s9). Built once per job by build()."""
+
+    REC = 40  # bytes per ball: mantissa 24 (signed), exponent 4, radius mantissa 8, radius exponent 4
+
+    def __init__(self, path, modes, Kmax, s_max, per_panel=12, chunk=2048, verify=True):
+        self.path, self.modes, self.Kmax, self.per_panel, self.s_max, self.chunk = path, modes, Kmax, per_panel, s_max, chunk
+        meta = os.path.join(path, "meta.json")
+        if not os.path.exists(meta):
+            raise FileNotFoundError(f"no mode table at {path}: build it first")
+        m = json.load(open(meta))
+        want = {"nvec": modes.nvec, "Kmax": Kmax, "s_max": s_max, "per_panel": per_panel, "prec": ctx.prec}
+        if {k: m[k] for k in want} != want:
+            raise ValueError(f"mode table {m} does not match {want}")
+        self.counts = m["counts"]
+        if verify:  # fail closed on any byte changed since build (a ball cannot see a flipped low bit)
+            for f, h in m["sha256"].items():
+                if _sha256(os.path.join(path, f)) != h:
+                    raise ValueError(f"mode table {f}: sha256 mismatch")
+
+    @classmethod
+    def build(cls, path, modes, Kmax, s_max, per_panel=12, chunk=2048):
+        import struct  # noqa: F401  (used by _pack)
+
+        os.makedirs(path, exist_ok=True)
+        counts = [0] * Kmax
+        fhs = {}
+        for lev, logs, F in table_rows(modes, Kmax, s_max, per_panel, chunk):
+            if lev not in fhs:  # open once: a second "wb" open would truncate what the first chunk wrote
+                fhs[lev] = open(os.path.join(path, f"level{lev:02d}.bin"), "wb")
+            fh = fhs[lev]
+            for i, lw in enumerate(logs):
+                fh.write(_pack(lw) + b"".join(_pack(F[i, j]) for j in range(modes.nvec)))
+            counts[lev] += len(logs)
+        for fh in fhs.values():
+            fh.close()
+        sha = {f"level{lev:02d}.bin": _sha256(os.path.join(path, f"level{lev:02d}.bin")) for lev in fhs}
+        with open(os.path.join(path, "meta.json"), "w") as fh:
+            json.dump({"nvec": modes.nvec, "Kmax": Kmax, "s_max": s_max, "per_panel": per_panel,
+                       "prec": ctx.prec, "counts": counts, "sha256": sha}, fh)
+        return cls(path, modes, Kmax, s_max, per_panel, chunk)
+
+    def disk_bytes(self):
+        return sum(os.path.getsize(os.path.join(self.path, f)) for f in os.listdir(self.path))
+
+    def chunks(self):
+        for k in range(self.Kmax):
+            for logs, F in self._level(k):
+                yield k, logs, F
+
+    def _level(self, k):
+        n = self.counts[k]
+        if not n:
+            return
+        nv = self.modes.nvec
+        row = self.REC * (nv + 1)
+        with open(os.path.join(self.path, f"level{k:02d}.bin"), "rb") as fh:
+            for i0 in range(0, n, self.chunk):
+                cnt = min(self.chunk, n - i0)
+                raw = fh.read(cnt * row)
+                logs, rows = [], []
+                for i in range(cnt):
+                    rec = raw[i * row:(i + 1) * row]
+                    vals = [_unpack(rec[q * self.REC:(q + 1) * self.REC]) for q in range(nv + 1)]
+                    logs.append(vals[0])
+                    rows.append(vals[1:])
+                yield logs, arb_mat(rows)
+
+
+def _sha256(path):
+    import hashlib
+
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for blk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(blk)
+    return h.hexdigest()
+
+
+def _pack(x):
+    import struct
+
+    mm, me = x.mid().man_exp()
+    rm, re_ = x.rad().man_exp()
+    return int(mm).to_bytes(24, "little", signed=True) + struct.pack("<iQi", int(me), int(rm), int(re_))
+
+
+def _unpack(b):
+    import struct
+
+    from flint import arf
+
+    mm = int.from_bytes(b[:24], "little", signed=True)
+    me, rm, re_ = struct.unpack("<iQi", b[24:40])
+    return arb(arf((mm, me)), arf((rm, re_)))
+
+
+def _radii(self, M, J, kb):
+    """P1 and P2 radii for every mode, valid for every |s| <= s_max (computed once)."""
+    key = (M, J, kb)
+    if getattr(self, "_radii_key", None) != key:
+        md, K, S = self.modes, self.Kmax, max(self.s_max, 1.0)
+        e3 = B.e3_hat_bound(K, S, self.per_panel)
+        q2 = 1 / (1 - arb(2) ** (-arb(0.5)))
+        rz, rb = [], []
+        for n in range(md.nvec):
+            e4 = B.e4_tail_bound(md, n, 2.0**K, S, M, J)
+            ek = sum((arb(2) ** (-arb(k) / 2) * B.e4_tail_bound(md, n, 2.0**k, S, M, J) for k in range(K + 1, kb)), arb(0))
+            rz.append(md.norm[n] * e3 + e4)
+            rb.append((md.norm[n] * e3 + e4) * q2 + ek + B.b_kseries_tail(md, n, kb))
+        self._radii, self._radii_key = (rz, rb), key
+    return self._radii
+
+
+ModeTable.radii = _radii
+DiskModeTable.radii = _radii
+StreamTable.radii = _radii
 
 
 def _tail_T(modes, W, s, M, J):
@@ -145,16 +296,14 @@ def hats_block(table, s_list, M, J, kb, fault=None):
     """(zeta^, b^) as acb_mat (nvec x len(s_list)) with the P1 and P2 radii added (BOUNDS.md s1, s2)."""
     md, K = table.modes, table.Kmax
     ns, nv = len(s_list), md.nvec
-    lev = []
-    for k in range(K):
-        logs, _ = table.levels[k]
-        if not logs:
-            lev.append((arb_mat(ns, nv), arb_mat(ns, nv)))
-            continue
+    acc = {k: [arb_mat(ns, nv), arb_mat(ns, nv)] for k in range(K)}
+    for k, logs, Fk in table.chunks():
         cs = [[(s * l).sin_cos() for l in logs] for s in s_list]
         Cm = arb_mat([[x[1] for x in row] for row in cs])
         Sm = arb_mat([[x[0] for x in row] for row in cs])
-        lev.append((Cm * table.F[k], Sm * table.F[k]))  # zeta^ partial = C F - i S F
+        acc[k][0] += Cm * Fk
+        acc[k][1] += Sm * Fk  # zeta^ partial = C F - i S F
+    lev = [tuple(acc[k]) for k in range(K)]
     if max(abs(float(s.mid())) for s in s_list) > table.s_max:
         raise ValueError("hats_block: s beyond the table's s_max (its panels and radii)")
     rad_z, rad_b = table.radii(M, J, kb)
@@ -240,12 +389,89 @@ def window_sums(rz, rb, s_list, weights, cells):
 # --------------------------------------------------------------------------
 
 
-def provider(name, modes, Kmax):
+def provider(name, modes, Kmax, req=None):
+    req = req or {}
     if name == "exact":
-        return B.gram_z(modes, Kmax), B.gram_b(modes, Kmax), True
+        tgt = arb(10) ** (-int(req.get("gram_target_exp", 20)))
+        Gb, _ = B.gram_b(modes, Kmax, target=tgt, R=int(req.get("gram_R", 120)))
+        return B.gram_z(modes, Kmax), Gb, True
     if name == "toy-region-a":
         return B.gram_z(modes, Kmax), B.gram_b_region_a(modes, Kmax), False
     raise ValueError(f"unknown Gram provider {name!r}")
+
+
+def _gram_key(req):
+    return {k: req.get(k) for k in ("nvec", "dps", "Kmax", "gram", "gram_target_exp", "gram_R", "prec")}
+
+
+def _mat_dump(G):
+    return [[[str(G[i, j].mid()), str(G[i, j].rad())] for j in range(G.ncols())] for i in range(G.nrows())]
+
+
+def _mat_load(rows):
+    return arb_mat([[arb(a, b) for a, b in r] for r in rows])
+
+
+def gram_part(req, outdir, part, nparts):
+    """One part of G_b (and G_z with part 0), written to gram_part{part:02d}of{nparts:02d}.json."""
+    old = ctx.prec
+    ctx.prec = req.get("prec", PROD_PREC)
+    try:
+        gate(tuple(req["local_data"]) if isinstance(req["local_data"], list) else req["local_data"])
+        if req["gram"] != "exact":
+            raise NotABound("gram parts are for the exact provider")
+        modes = B.prolate_modes(req["nvec"], req.get("dps", 40))
+        tgt = arb(10) ** (-int(req.get("gram_target_exp", 20)))
+        Gb, info = B.gram_b(modes, req["Kmax"], target=tgt, R=int(req.get("gram_R", 120)), part=part, nparts=nparts)
+        body = {"request": _gram_key(req), "Gb_part": _mat_dump(Gb), "info": info}
+        if part == 0:
+            body["Gz"] = _mat_dump(B.gram_z(modes, req["Kmax"]))
+        os.makedirs(outdir, exist_ok=True)
+        with open(os.path.join(outdir, f"gram_part{part:02d}of{nparts:02d}.json"), "w") as fh:
+            json.dump(body, fh)
+    finally:
+        ctx.prec = old
+
+
+def merge_gram(req, outdir, nparts):
+    """gram.json from the parts; refuses a missing part or a part from another request or plan."""
+    old = ctx.prec
+    ctx.prec = req.get("prec", PROD_PREC)
+    try:
+        parts, Gz = [], None
+        for p in range(nparts):
+            body = json.load(open(os.path.join(outdir, f"gram_part{p:02d}of{nparts:02d}.json")))
+            if body["request"] != _gram_key(req):
+                raise ValueError(f"gram part {p} is from another request")
+            parts.append((_mat_load(body["Gb_part"]), body["info"]))
+            if p == 0:
+                Gz = _mat_load(body["Gz"])
+        Gb = B.gram_b_merge(parts)
+        with open(os.path.join(outdir, "gram.json"), "w") as fh:
+            json.dump({"request": _gram_key(req), "Gz": _mat_dump(Gz), "Gb": _mat_dump(Gb), "is_bound": True,
+                       "plan": parts[0][1]}, fh)
+    finally:
+        ctx.prec = old
+
+
+def prepare(req, outdir, gram=True, table=True):
+    """The Gram matrices (P4; once per run) and the disk-backed mode table (once per job), for every
+    worker to load. Returns the table's bytes on disk (0 if not built here)."""
+    old = ctx.prec
+    ctx.prec = req.get("prec", PROD_PREC)
+    try:
+        gate(tuple(req["local_data"]) if isinstance(req["local_data"], list) else req["local_data"])
+        modes = B.prolate_modes(req["nvec"], req.get("dps", 40))
+        os.makedirs(outdir, exist_ok=True)
+        if gram:
+            Gz, Gb, is_bound = provider(req["gram"], modes, req["Kmax"], req)
+            with open(os.path.join(outdir, "gram.json"), "w") as fh:
+                json.dump({"request": _gram_key(req), "Gz": _mat_dump(Gz), "Gb": _mat_dump(Gb), "is_bound": is_bound}, fh)
+        if table:
+            return DiskModeTable.build(os.path.join(outdir, "table"), modes, req["Kmax"], req["S_prime"]).disk_bytes()
+        return 0
+    finally:
+        ctx.prec = old
 
 
 def s_nodes(req):
@@ -281,8 +507,18 @@ def _cells(req):
 def setup(req):
     gate(tuple(req["local_data"]) if isinstance(req["local_data"], list) else req["local_data"])
     modes = B.prolate_modes(req["nvec"], req.get("dps", 40))
-    Gz, Gb, is_bound = provider(req["gram"], modes, req["Kmax"])
-    table = ModeTable(modes, req["Kmax"], req["S_prime"])
+    gfile = os.path.join(req["prepared"], "gram.json") if req.get("prepared") else None
+    if gfile and os.path.exists(gfile):
+        g = json.load(open(gfile))
+        if g["request"] != _gram_key(req):
+            raise ValueError("prepared Gram does not match this request")
+        Gz, Gb, is_bound = _mat_load(g["Gz"]), _mat_load(g["Gb"]), g["is_bound"]
+    else:
+        Gz, Gb, is_bound = provider(req["gram"], modes, req["Kmax"], req)
+    if req.get("prepared"):
+        table = DiskModeTable(os.path.join(req["prepared"], "table"), modes, req["Kmax"], req["S_prime"])
+    else:
+        table = ModeTable(modes, req["Kmax"], req["S_prime"])
     Giz, Gib = Gz.inv(), Gb.inv()
     Cz = [modes.C(n) for n in range(modes.nvec)]
     q5 = 1 / (1 - arb(2) ** (-arb(5) / 6))
@@ -360,7 +596,7 @@ def replay_check(req, modes, ss, Z, Bh):
     old = ctx.prec
     ctx.prec = req.get("replay_prec", 200)
     try:
-        t2 = ModeTable(modes, req["Kmax"], req["S_prime"])
+        t2 = StreamTable(modes, req["Kmax"], req["S_prime"])
         Z2, B2 = hats_block(t2, [arb(s.mid()) if s.rad() == 0 else s for s in ss], req["M"], req["J"], req["kb"])
     finally:
         ctx.prec = old
@@ -417,17 +653,34 @@ def assemble(req, shards, outdir, key_fn):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["run", "assemble"])
+    ap.add_argument("cmd", choices=["prepare", "gram-part", "merge-gram", "run", "assemble"])
+    ap.add_argument("--part", type=int, default=0)
+    ap.add_argument("--parts", type=int, default=1)
     ap.add_argument("--request", required=True)
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--shards", type=int, default=1)
     ap.add_argument("--out", required=True)
     ap.add_argument("--max-blocks", type=int, default=None)
+    ap.add_argument("--gram-only", action="store_true")
+    ap.add_argument("--table-only", action="store_true")
     a = ap.parse_args(argv)
     req = json.load(open(a.request))
     if req["gram"] != "exact":
         raise NotABound("production runs use the exact Gram provider only")
-    if a.cmd == "run":
+    if a.cmd == "gram-part":
+        GD.key()
+        f = os.path.join(req["prepared"], f"gram_part{a.part:02d}of{a.parts:02d}.json")
+        if os.path.exists(f) and json.load(open(f))["request"] == _gram_key(req):
+            print(f"part {a.part} already done (resumed)")
+        else:
+            gram_part(req, req["prepared"], a.part, a.parts)
+    elif a.cmd == "merge-gram":
+        merge_gram(req, req["prepared"], a.parts)
+    elif a.cmd == "prepare":
+        GD.key()
+        nbytes = prepare(req, req["prepared"], gram=not a.table_only, table=not a.gram_only)
+        print(json.dumps({"table_disk_bytes": nbytes}))
+    elif a.cmd == "run":
         run_shard(req, a.shard, a.shards, a.out, GD.key, max_blocks=a.max_blocks)
     else:
         res = assemble(req, a.shards, a.out, GD.key)

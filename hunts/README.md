@@ -762,6 +762,10 @@ closes, and its identity check caught a float-endpoint defect. G_b's
 integration-by-parts regions remain, so the run waits on them. The tail-mass
 step closes as a Poisson identity, which re-prices the rebuild at about
 28 core-hours.
+Third unit: P4 closes (G_b's integration-by-parts regions, each checked
+against quadrature with a planted fault), lifting PREREG row D0's
+precondition. A disk-backed mode table fits four workers per runner. The
+calibration run is asked for, not yet run.
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
