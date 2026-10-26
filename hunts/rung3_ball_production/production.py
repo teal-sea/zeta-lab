@@ -27,6 +27,9 @@ Subcommands (every one fails closed with a non-zero exit):
     collect    (assembly machine) download each job's latest oleans artifact of a run,
                check its SHA-256 against GitHub's digest, unzip, delete the zip, and
                check that every site the job owns has a checkpointed root olean
+    assemble   (assembly machine) emit and compile Support, Assembly and Separation, one
+               Lean process at a time under the MemAvailable guard, then print the axioms
+               of every final declaration verbatim
 """
 from __future__ import annotations
 
@@ -391,11 +394,94 @@ def cmd_collect(req: dict, run: int, dest: Path, repo: str) -> None:
     (dest / "collected.json").write_text(json.dumps({"run": run, "artifacts": log}, indent=1) + "\n")
 
 
+FINAL = ["big_bottom", "big_top", "big_left", "big_right", "big_frontier", "deriv_bound_small",
+         "small_bottom", "small_top", "small_left", "small_right", "small_frontier",
+         "centre_small", "dh_zero_located", "dh_zero_located'", "davenport_heilbronn",
+         "dh_separation_of", "dh_separation_hundred"]
+START_GIB, STOP_GIB = 45.0, 20.0
+
+
+def mem_available_gib() -> float:
+    for line in Path("/proc/meminfo").read_text().splitlines():
+        if line.startswith("MemAvailable:"):
+            return int(line.split()[1]) / 2**20
+    raise RuntimeError("no MemAvailable")
+
+
+def run_guarded(tag: str, lean_args: list[str], lean_path: list[Path], logdir: Path) -> dict:
+    """One `lean` under nice, with LEAN_PATH; refuse to start below START_GIB or above
+    load 64, and kill it if MemAvailable falls below STOP_GIB."""
+    import time
+    load = float(Path("/proc/loadavg").read_text().split()[0])
+    mem = mem_available_gib()
+    if mem < START_GIB or load > 64:
+        sys.exit(f"{tag}: not starting (MemAvailable {mem:.1f} GiB, load {load})")
+    lp = ":".join(str(x) for x in lean_path)
+    tfile = logdir / f"{tag}.time"
+    cmd = ["lake", "env", "sh", "-c",
+           f'LEAN_PATH="{lp}:$LEAN_PATH" exec nice -n 10 /usr/bin/time -v -o "{tfile}" lean '
+           + " ".join(f'"{a}"' for a in lean_args)]
+    t0, low = time.time(), mem
+    with (logdir / f"{tag}.log").open("w") as log:
+        proc = subprocess.Popen(cmd, cwd=LEAN, stdout=log, stderr=subprocess.STDOUT)
+        killed = False
+        while proc.poll() is None:
+            time.sleep(10)
+            m = mem_available_gib()
+            low = min(low, m)
+            if m < STOP_GIB:
+                proc.kill()
+                killed = True
+        rc = proc.wait()
+    txt = tfile.read_text() if tfile.exists() else ""
+    rss = re.search(r"Maximum resident set size \(kbytes\): (\d+)", txt)
+    cpu = sum(float(x) for x in re.findall(r"(?:User|System) time \(seconds\): ([\d.]+)", txt))
+    rec = {"tag": tag, "returncode": rc, "killed_by_guard": killed, "wall_s": round(time.time() - t0, 1),
+           "cpu_s": round(cpu, 1), "peak_rss_bytes": int(rss.group(1)) * 1024 if rss else None,
+           "mem_available_gib_start": round(mem, 1), "mem_available_gib_low": round(low, 1),
+           "load_start": load}
+    print(json.dumps(rec), flush=True)
+    if killed:
+        sys.exit(f"{tag}: stopped by the MemAvailable guard ({low:.1f} GiB)")
+    return rec
+
+
+def cmd_assemble(dest: Path, overlay: Path, rh100: Path) -> None:
+    asm, out, logdir = dest / "asm", dest / "out", dest / "logs"
+    logdir.mkdir(parents=True, exist_ok=True)
+    subprocess.run([sys.executable, str(HERE / "assembly.py"), "--out", str(asm), "--check"],
+                   check=True)
+    hl = HERE / "lean"
+    recs = [run_guarded("support", [f"--root={hl}", "-o", str(asm / "Rung3Assembly" / "Support.olean"),
+                                    str(hl / "Rung3Assembly" / "Support.lean")], [asm], logdir)]
+    lp = [overlay, asm, out, rh100]
+    for name in ("Assembly", "Separation"):
+        recs.append(run_guarded(name.lower(), [f"--root={asm}", "-o",
+                                               str(asm / "Rung3Assembly" / f"{name}.olean"),
+                                               str(asm / "Rung3Assembly" / f"{name}.lean")],
+                                lp, logdir))
+        if recs[-1]["returncode"]:
+            sys.exit(f"{name}.lean failed: see {logdir / (name.lower() + '.log')}")
+    probe = asm / "PrintAxioms.lean"
+    probe.write_text("import Rung3Assembly.Separation\n" + "".join(
+        f"#print axioms ZetaLean.DH.Rung3Assembly.Plan2.{n}\n" for n in FINAL))
+    recs.append(run_guarded("axioms", [str(probe)], lp, logdir))
+    printed = (logdir / "axioms.log").read_text()
+    found = parse_axioms(printed)
+    verdict = {n: found.get(f"ZetaLean.DH.Rung3Assembly.Plan2.{n}") for n in FINAL}
+    (dest / "assemble.json").write_text(json.dumps({"runs": recs, "axioms": verdict,
+                                                    "printed": printed}, indent=1) + "\n")
+    bad = [n for n, ax in verdict.items() if not axioms_ok(ax)]
+    print(printed)
+    if bad:
+        sys.exit(f"axioms other than the standard three, or missing, for {bad}")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["plan", "preflight", "toplevels", "sites", "generate",
                                     "axioms", "record", "fault", "refused", "verdict",
-                                    "collect"])
+                                    "collect", "assemble"])
     ap.add_argument("--request", type=Path, default=REQUEST)
     ap.add_argument("--job", type=int, default=0)
     ap.add_argument("--gen", type=Path, default=Path("gen"))
@@ -405,6 +491,8 @@ def main() -> None:
     ap.add_argument("--run", type=int, help="collect: the workflow run id")
     ap.add_argument("--dest", type=Path, help="collect: where the oleans land")
     ap.add_argument("--repo", default="teal-sea/zeta-lab")
+    ap.add_argument("--overlay", type=Path, help="assemble: one ZetaLean/ for both trees")
+    ap.add_argument("--rh100", type=Path, help="assemble: hunt #137's olean directory")
     args = ap.parse_args()
     if args.cmd == "toplevels":
         return cmd_toplevels()
@@ -428,6 +516,8 @@ def main() -> None:
         cmd_refused(req, gen, out, args.rc)
     elif args.cmd == "collect":
         cmd_collect(req, args.run, args.dest.resolve(), args.repo)
+    elif args.cmd == "assemble":
+        cmd_assemble(args.dest.resolve(), args.overlay.resolve(), args.rh100.resolve())
     else:
         cmd_verdict(req, args.records.resolve())
 
