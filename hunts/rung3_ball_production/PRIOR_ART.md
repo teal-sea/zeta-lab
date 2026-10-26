@@ -58,9 +58,10 @@ to check before any novelty claim goes beyond "searched-and-absent in the source
 
 ## Absent
 
-No source found states a kernel-checked, formally verified or rigorously enclosed proof
-that the Davenport-Heilbronn function (or any function with its Dirichlet series and
-functional equation) has a zero off the critical line. **Status: searched-and-absent in
+No source found states a kernel-checked or formally verified proof that the
+Davenport-Heilbronn function (or any function with its Dirichlet series and functional
+equation) has a zero off the critical line. Whether Balanzario and Sanchez-Ortiz (2007)
+enclose one rigorously by hand-checked numerics is not assessed here. **Status: searched-and-absent in
 the sources above. That is not a novelty claim.** The lab's own claim, if the full run
 and the assembly succeed, is *original*: a kernel-checked theorem produced here. It is
 stated as a delta against Spira (1994): the same zero, now enclosed in the closed square
