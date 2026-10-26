@@ -72,7 +72,10 @@ REPO_ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 RESULTS = os.path.join(HERE, "results_probe_tower.json")
 
 PAPER_SHA256 = "42a5ee0febca59fd1def55cfd6c6808c322ef4237d7726303ea52f711deac6a3"
-PAPER_DEFAULT = "/home/thomas/.cache/zeta-lab/openai-math-adc7f124/paper.tex"
+PAPER_DEFAULT = os.environ.get(
+    "ZETA_LAB_OPENAI_PAPER",
+    os.path.expanduser("~/.cache/zeta-lab/openai-math-adc7f124/paper.tex"),
+)
 
 # ---------------------------------------------------------------------------
 # citations: (line, snippet that must occur on that line, what it supplies)

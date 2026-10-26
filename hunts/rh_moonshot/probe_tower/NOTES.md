@@ -14,7 +14,7 @@ reading that no computation here checks), *measured* (one floating route, mpmath
 Nothing here is hardened or kernel-checked. A composite claim takes the grade of its
 weakest step. The paper is OpenAI, *The Quasi-Riemann Hypothesis*, 2026-09-30,
 `github.com/openai/math` at `adc7f124`, read by line number from
-`/home/thomas/.cache/zeta-lab/openai-math-adc7f124/paper.tex`, SHA-256
+`<cache>/openai-math-adc7f124/paper.tex`, SHA-256
 `42a5ee0febca59fd1def55cfd6c6808c322ef4237d7726303ea52f711deac6a3` (49 cited lines, all
 found on their stated lines).
 
