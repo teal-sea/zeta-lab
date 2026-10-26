@@ -44,6 +44,12 @@ concurrency:
   group: lambda-dh-census
   cancel-in-progress: false
 
+# bash -eo pipefail for every run step: a failing command piped into tee
+# (the calibration record) must fail its step, not go green with no numbers
+defaults:
+  run:
+    shell: bash
+
 env:
   PYTHONUNBUFFERED: "1"
   OMP_NUM_THREADS: "1"

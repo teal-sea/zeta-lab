@@ -678,3 +678,14 @@ Pre-approved conditions for `full` (coordinator): the smoke row passes;
 projected core-hours <= 20; 4 x peak RSS <= 13 GB. Otherwise, report the
 numbers instead. Never push a second request while a run is running or
 pending.
+
+### Workflow fix after the calibrate push (2026-10-26)
+
+The coordinator's fix (add `shell: bash` so `calib | tee` runs under
+`-o pipefail`) reached this session after the calibrate request had already
+been pushed (964847327, run 40357487645 in progress). It went in as a
+workflow-level `defaults: run: shell: bash` in the next commit, pinned by
+the guard-rail test. The in-flight calibrate run uses the file as it was at
+964847327, so its calibration record step could go green on a failing
+`calib`. Its numbers are therefore re-derived from the uploaded `shard_18.json`
+with `census_shard.py calib` before anything is read from the step summary.

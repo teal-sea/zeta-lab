@@ -631,6 +631,7 @@ def test_census_request_valid_and_workflow_guard_rails():
     assert on["push"]["paths"] == ["hunts/lambda_dh_exact/RUN_REQUEST.json"]
     assert w["permissions"] == {"contents": "read"}
     assert w["concurrency"]["group"] == "lambda-dh-census"
+    assert w["defaults"]["run"]["shell"] == "bash"     # pipefail: a failing calib | tee fails its step
     for name, job in w["jobs"].items():
         assert job["timeout-minutes"] <= 350, name
         mp = job.get("strategy", {}).get("max-parallel")
