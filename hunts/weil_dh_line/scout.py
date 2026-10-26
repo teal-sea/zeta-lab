@@ -325,17 +325,56 @@ def beta_star(kind: str, T: arb, S: arb) -> arb:
     return (arch * T / (2 * arb.pi())).log() - 1 / T - S
 
 
-def reduce(L: Fraction, env_path: Path, N: int, h: Fraction, units, checkpoints, prec: int,
-           responses=None, parity: str = "even"):
-    """Sum unit files in panel order; at each checkpoint T (on a unit boundary)
-    report beta*, midpoint LDL inertia and lambda_min of the block."""
-    ctx.prec = prec
+def checkpoint_row(T: Fraction, kind: str, Sa: arb, P2: arb_mat, I: arb_mat, C: arb_mat, G: arb_mat,
+                   N: int, prec: int, responses=None) -> dict:
+    """One checkpoint of the reducer: beta*, and where beta* > 0 the midpoint
+    LDL inertia and lambda_min of R(T#), with the N and precision responses
+    at the checkpoints listed in `responses`."""
+    Ta = price.to_arb(T)
+    beta = beta_star(kind, Ta, Sa)
+    rec = {"T": float(T), "beta": float(beta.mid())}
+    if bool(beta > 0):
+        R = P2 + C + beta * (I - G)
+        t0 = time.time()
+        neg, und, small = ldl_midpoint(R)
+        lam, res = lam_min_estimate(R, neg)
+        rec.update(n_neg=neg, undecided=und, min_abs_pivot=small,
+                   lam_min=lam.mid().str(12, radius=False),
+                   residual=float(res.upper()), seconds=time.time() - t0)
+        if responses and float(T) in responses:
+            # mode-count response: the leading N - N//13 block (Cauchy
+            # interlacing puts its least eigenvalue at or above the full block's)
+            n2 = N - max(1, N // 13)
+            R2 = arb_mat(n2, n2, [R[i, j] for i in range(n2) for j in range(n2)])
+            neg2, _, _ = ldl_midpoint(R2)
+            lam2, _ = lam_min_estimate(R2, neg2)
+            # precision response of the reduction: the same data rounded to prec - 128 bits
+            with ctx.workprec(prec - 128):
+                R3 = arb_mat(N, N, [arb(R[i, j].mid()) for i in range(N) for j in range(N)])
+                neg3, _, _ = ldl_midpoint(R3)
+                lam3, _ = lam_min_estimate(R3, neg3)
+                lam3s = lam3.mid().str(12, radius=False)
+            rec["response"] = {f"N_{n2}": {"n_neg": neg2, "lam_min": lam2.mid().str(12, radius=False)},
+                               f"prec_{prec - 128}": {"n_neg": neg3, "lam_min": lam3s}}
+    return rec
+
+
+def _fixed_terms(L: Fraction, env_path: Path, N: int, parity: str):
     S, _, kind = load_envelope(env_path, with_kind=True)
-    Sa = price.to_arb(S)
     _, _, pvec = basis(L, N, parity)
     pole = 0 if kind == "dh" else (2 if parity == "even" else -2)
     P2 = arb_mat(N, N, [pole * pvec[i] * pvec[j] for i in range(N) for j in range(N)])
     I = arb_mat(N, N, [1 if i == j else 0 for i in range(N) for j in range(N)])
+    return S, kind, price.to_arb(S), P2, I
+
+
+def reduce(L: Fraction, env_path: Path, N: int, h: Fraction, units, checkpoints, prec: int,
+           responses=None, parity: str = "even", keep: dict | None = None):
+    """Sum unit files in panel order; at each checkpoint T (on a unit boundary)
+    report beta*, midpoint LDL inertia and lambda_min of the block. `keep`, if
+    given, receives the final sums C and G."""
+    ctx.prec = prec
+    _, kind, Sa, P2, I = _fixed_terms(L, env_path, N, parity)
     C, G = arb_mat(N, N), arb_mat(N, N)
     rows = []
     for path in sorted(units, key=lambda p: int(Path(p).stem.split("_")[-2])):
@@ -345,35 +384,174 @@ def reduce(L: Fraction, env_path: Path, N: int, h: Fraction, units, checkpoints,
         G += _dec(u["G"], N)
         T = h * u["k1"]
         if float(T) in checkpoints:
-            Ta = price.to_arb(T)
-            beta = beta_star(kind, Ta, Sa)
-            rec = {"T": float(T), "beta": float(beta.mid())}
-            if bool(beta > 0):
-                R = P2 + C + beta * (I - G)
-                t0 = time.time()
-                neg, und, small = ldl_midpoint(R)
-                lam, res = lam_min_estimate(R, neg)
-                rec.update(n_neg=neg, undecided=und, min_abs_pivot=small,
-                           lam_min=lam.mid().str(12, radius=False),
-                           residual=float(res.upper()), seconds=time.time() - t0)
-                if responses and float(T) in responses:
-                    # mode-count response: the leading N - N//13 block (Cauchy
-                    # interlacing puts its least eigenvalue at or above the full block's)
-                    n2 = N - max(1, N // 13)
-                    R2 = arb_mat(n2, n2, [R[i, j] for i in range(n2) for j in range(n2)])
-                    neg2, _, _ = ldl_midpoint(R2)
-                    lam2, _ = lam_min_estimate(R2, neg2)
-                    # precision response of the reduction: the same data rounded to prec - 128 bits
-                    with ctx.workprec(prec - 128):
-                        R3 = arb_mat(N, N, [arb(R[i, j].mid()) for i in range(N) for j in range(N)])
-                        neg3, _, _ = ldl_midpoint(R3)
-                        lam3, _ = lam_min_estimate(R3, neg3)
-                        lam3s = lam3.mid().str(12, radius=False)
-                    rec["response"] = {f"N_{n2}": {"n_neg": neg2, "lam_min": lam2.mid().str(12, radius=False)},
-                                       f"prec_{prec - 128}": {"n_neg": neg3, "lam_min": lam3s}}
+            rec = checkpoint_row(T, kind, Sa, P2, I, C, G, N, prec, responses)
             rows.append(rec)
             print(json.dumps(rec), flush=True)
+    if keep is not None:
+        keep.update(C=C, G=G)
     return rows
+
+
+# ------------------------------------------------------------- the streaming driver
+#
+# The units are consumed in panel order as they finish (ordered imap), added to
+# the running sums C and G, and every checkpoint row is computed as soon as its
+# unit arrives. No unit file is written: the restart checkpoint is the running
+# sums, saved after every unit in files of at most _CHUNK encoded entries (about
+# 20 MB at 1280 bits, under a 100 MB per-file limit), with at most two
+# generations on disk. Midpoint arithmetic does not see radii, so dropping the
+# radii of the running sums at a restart leaves every row unchanged.
+
+_CHUNK = 100_000
+
+
+def _stream_job(args):
+    """One unit for the streaming driver: computed, or (src given) read from a
+    unit file written by run_unit."""
+    L, env_path, N, q, h, k0, k1, prec, parity, bessel, src = args
+    if src:
+        with open(src, "rb") as fh:
+            u = pickle.load(fh)
+        return k0, k1, u["C"], u["G"], u["seconds"], u["node_shift"]
+    t0 = time.time()
+    C, G, shift = unit(L, Path(env_path), N, q, h, k0, k1, prec, parity, bessel)
+    return k0, k1, _enc(C), _enc(G), time.time() - t0, shift
+
+
+def mem_available_gib() -> float:
+    try:
+        for line in Path("/proc/meminfo").read_text().splitlines():
+            if line.startswith("MemAvailable:"):
+                return int(line.split()[1]) / 2 ** 20
+    except OSError:
+        pass
+    return float("inf")
+
+
+def _write_atomic(path: Path, data: bytes):
+    tmp = path.with_name(path.name + ".tmp")
+    with open(tmp, "wb") as fh:
+        fh.write(data)
+        fh.flush()
+        os.fsync(fh.fileno())
+    os.replace(tmp, path)
+
+
+def _save_state(state_dir: Path, C: arb_mat, G: arb_mat, meta: dict):
+    gen = f"state_{meta['k1']:05d}"
+    files = {}
+    for name, M in (("C", C), ("G", G)):
+        enc = _enc(M)
+        files[name] = []
+        for i in range(0, len(enc), _CHUNK):
+            f = f"{gen}_{name}_{i // _CHUNK:03d}.pkl"
+            _write_atomic(state_dir / f, pickle.dumps(enc[i:i + _CHUNK], protocol=5))
+            files[name].append(f)
+    _write_atomic(state_dir / "state.json", json.dumps(dict(meta, files=files), indent=1).encode())
+    keep = set(files["C"]) | set(files["G"])
+    for f in state_dir.glob("state_*.pkl"):
+        if f.name not in keep:
+            f.unlink()
+
+
+def _load_state(state_dir: Path, N: int):
+    meta = json.loads((state_dir / "state.json").read_text())
+    mats = []
+    for name in ("C", "G"):
+        enc = []
+        for f in meta["files"][name]:
+            with open(state_dir / f, "rb") as fh:
+                enc += pickle.load(fh)
+        mats.append(_dec(enc, N))
+    return meta, mats[0], mats[1]
+
+
+def stream(L: Fraction, env_path: Path, N: int, q: int, h: Fraction, units, prec: int, state_dir: Path,
+           checkpoints, responses=None, parity: str = "even", bessel: str = "fast", procs: int = 1,
+           sources=None, stop_after: int | None = None, cap_core_seconds: float | None = None,
+           min_mem_gib: float = 0.0, keep: dict | None = None):
+    """Units and reduction in one pass (see the comment above). Resumes from
+    state_dir/state.json if present. `sources` maps (k0, k1) to a unit file to
+    read instead of computing (tests); `stop_after` stops after that many units
+    are consumed in this call (tests); the run also stops, with its state saved,
+    if the projected core-seconds pass `cap_core_seconds` or MemAvailable falls
+    below `min_mem_gib`. Returns (rows, status) with status 'done' or the reason
+    it stopped. Rows are appended to state_dir/rows.jsonl as they arrive."""
+    import multiprocessing as mpc
+    ctx.prec = prec
+    state_dir = Path(state_dir)
+    state_dir.mkdir(parents=True, exist_ok=True)
+    _, kind, Sa, P2, I = _fixed_terms(L, env_path, N, parity)
+    params = {"L": f"{L.numerator}/{L.denominator}", "env": Path(env_path).name, "N": N, "q": q, "h": str(h),
+              "prec": prec, "parity": parity, "bessel": bessel, "units": [list(u) for u in units]}
+    if (state_dir / "state.json").exists():
+        meta, C, G = _load_state(state_dir, N)
+        if meta["params"] != params:
+            raise SystemExit(f"state in {state_dir} was made with other parameters")
+    else:
+        meta = {"params": params, "k1": 0, "rows": [], "unit_seconds": [], "reduce_seconds": 0.0,
+                "max_entry_radius": 0.0, "max_node_shift": 0.0}
+        C, G = arb_mat(N, N), arb_mat(N, N)
+    rows = meta["rows"]
+    (state_dir / "rows.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
+    todo = [(k0, k1) for k0, k1 in units if k1 > meta["k1"]]
+    live_cps = [T for T in (float(h * k1) for _, k1 in units)
+                if T in checkpoints and bool(beta_star(kind, price.to_arb(Fraction(T)), Sa) > 0)]
+    sources = sources or {}
+    jobs = [(L, str(env_path), N, q, h, k0, k1, prec, parity, bessel, sources.get((k0, k1))) for k0, k1 in todo]
+    status = "done"
+    pool = mpc.get_context("spawn").Pool(procs) if procs > 1 else None
+    try:
+        it = pool.imap(_stream_job, jobs, chunksize=1) if pool else map(_stream_job, jobs)
+        for n_done, (k0, k1, Ce, Ge, sec, shift) in enumerate(it, 1):
+            if k0 != meta["k1"]:
+                raise RuntimeError(f"unit {k0}..{k1} arrived after panel {meta['k1']}")
+            C += _dec(Ce, N)
+            G += _dec(Ge, N)
+            meta["unit_seconds"].append(sec)
+            meta["max_entry_radius"] = max(meta["max_entry_radius"], max(r for _, _, r in Ce),
+                                           max(r for _, _, r in Ge))
+            meta["max_node_shift"] = max(meta["max_node_shift"], shift)
+            del Ce, Ge
+            T = h * k1
+            new_row = None
+            if float(T) in checkpoints:
+                t0 = time.time()
+                new_row = checkpoint_row(T, kind, Sa, P2, I, C, G, N, prec, responses)
+                meta["reduce_seconds"] += time.time() - t0
+                rows.append(new_row)
+            meta["k1"] = k1
+            _save_state(state_dir, C, G, meta)
+            if new_row is not None:
+                with open(state_dir / "rows.jsonl", "a") as fh:
+                    fh.write(json.dumps(new_row) + "\n")
+                print(json.dumps(new_row), flush=True)
+            us = meta["unit_seconds"]
+            n_left = len(units) - len(us)
+            cps_done = sum(1 for r in rows if "n_neg" in r)
+            per_cp = meta["reduce_seconds"] / cps_done if cps_done else 0.0
+            proj = sum(us) + n_left * sum(us) / len(us) + meta["reduce_seconds"] \
+                + per_cp * max(0, len(live_cps) - cps_done)
+            print(json.dumps({"unit": [k0, k1], "seconds": sec, "projected_core_seconds": proj,
+                              "mem_available_gib": round(mem_available_gib(), 1)}), flush=True)
+            if k1 == units[-1][1]:
+                break
+            if cap_core_seconds is not None and proj > cap_core_seconds:
+                status = f"stopped: projected {proj:.0f} core-seconds > cap {cap_core_seconds:.0f}"
+                break
+            if mem_available_gib() < min_mem_gib:
+                status = f"stopped: MemAvailable below {min_mem_gib} GiB"
+                break
+            if stop_after is not None and n_done >= stop_after:
+                status = "stopped: stop_after"
+                break
+    finally:
+        if pool:
+            pool.terminate()
+            pool.join()
+    if keep is not None:
+        keep.update(C=C, G=G, meta=meta)
+    return rows, status
 
 
 def plan(T_max: float, units_per: int, h: Fraction, T_min: float = 0.0):
@@ -438,6 +616,12 @@ def main():
                     help="unit order; a second instance on the same directory can take the other end")
     ap.add_argument("--units-only", action="store_true", help="run the units and stop before the reducer")
     ap.add_argument("--reduce", action="store_true")
+    ap.add_argument("--stream", action="store_true",
+                    help="units and reduction in one ordered pass, no unit files; --dir holds the restart state")
+    ap.add_argument("--cap-core-hours", type=float, default=None,
+                    help="streaming: stop, state saved, if the projected core-hours pass this")
+    ap.add_argument("--min-mem-gib", type=float, default=20.0,
+                    help="streaming: stop, state saved, if MemAvailable falls below this")
     ap.add_argument("--out", default=str(HERE / "scout_L140.json"))
     ap.add_argument("--bessel-timing", default=None, help="write the Bessel column timing table to this file")
     args = ap.parse_args()
@@ -449,6 +633,32 @@ def main():
     units = plan(args.Tmax, args.unit_panels, h)
     job = [(L, args.env, args.N, args.q, h, k0, k1, args.prec, args.dir, args.tag, args.parity, args.bessel)
            for k0, k1 in units]
+    if args.stream:
+        cps = set(args.checkpoints or [float(h * k1) for _, k1 in units])
+        t0 = time.time()
+        keep = {}
+        rows, status = stream(L, Path(args.env), args.N, args.q, h, units, args.prec, Path(args.dir), cps,
+                              responses=set(args.responses or []), parity=args.parity, bessel=args.bessel,
+                              procs=min(args.procs, 3),
+                              cap_core_seconds=None if args.cap_core_hours is None else 3600 * args.cap_core_hours,
+                              min_mem_gib=args.min_mem_gib, keep=keep)
+        meta = keep["meta"]
+        print(json.dumps({"status": status, "k1": meta["k1"], "wall_seconds": time.time() - t0}), flush=True)
+        if status != "done":
+            raise SystemExit(3)
+        S, _, kind = load_envelope(Path(args.env), with_kind=True)
+        us = meta["unit_seconds"]
+        out = {"L": args.L, "N": args.N, "q": args.q, "h": args.h, "prec": args.prec, "Tmax": args.Tmax,
+               "parity": args.parity, "bessel": args.bessel, "kind": kind,
+               "envelope": Path(args.env).name, "S_exact": f"{S.numerator}/{S.denominator}", "S": float(S),
+               "grade": "measured: no quadrature, Legendre tail or coupling bound; midpoint LDL and inverse iteration",
+               "driver": "stream (ordered units, running sums, no unit files)",
+               "units": len(units), "unit_core_seconds": sum(us), "unit_seconds_max": max(us),
+               "max_entry_radius": meta["max_entry_radius"], "max_node_shift": meta["max_node_shift"],
+               "reduce_seconds": meta["reduce_seconds"], "rows": rows}
+        Path(args.out).write_text(json.dumps(out, indent=1))
+        print("wrote", args.out)
+        return
     if args.time_unit is not None:
         path, dt = run_unit(job[args.time_unit])
         print(json.dumps({"unit": args.time_unit, "panels": units[args.time_unit], "seconds": dt, "file": path}))

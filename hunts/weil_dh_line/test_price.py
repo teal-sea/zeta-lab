@@ -541,6 +541,126 @@ def test_scout_rows():
     assert abs(d["S"] - joint_env["S"]) < 1e-12
 
 
+# ------------------------------------------------------------- the streaming driver
+#
+# A small DH case at 7/5 (k2env_dh_1.4.json, N = 10 even modes, 256 bits, q = 16,
+# 8 units of 20 panels to T# = 80; beta* > 0 from T# = 60), so units, reducer and
+# streaming driver all run in seconds.
+
+_SM = dict(L=Fraction(7, 5), env=HERE / "k2env_dh_1.4.json", N=10, q=16, h=Fraction(1, 2), prec=256)
+_SM_UNITS = scout.plan(80, 20, Fraction(1, 2))
+_SM_CPS = {float(Fraction(1, 2) * k1) for _, k1 in _SM_UNITS}
+_SM_RESP = {60.0, 80.0}
+
+
+def _strip(rows):
+    return [{k: v for k, v in r.items() if k != "seconds"} for r in rows]
+
+
+def _sm_stream(state_dir, **kw):
+    return scout.stream(_SM["L"], _SM["env"], _SM["N"], _SM["q"], _SM["h"], _SM_UNITS, _SM["prec"],
+                        state_dir, _SM_CPS, responses=_SM_RESP, **kw)
+
+
+@pytest.fixture(scope="module")
+def small_units(tmp_path_factory):
+    d = tmp_path_factory.mktemp("units")
+    files = [scout.run_unit((_SM["L"], str(_SM["env"]), _SM["N"], _SM["q"], _SM["h"], k0, k1, _SM["prec"],
+                             str(d), "sm", "even", "fast"))[0] for k0, k1 in _SM_UNITS]
+    keep = {}
+    rows = scout.reduce(_SM["L"], _SM["env"], _SM["N"], _SM["h"], files, _SM_CPS, _SM["prec"],
+                        responses=_SM_RESP, keep=keep)
+    return {"files": files, "rows": rows, "C": keep["C"], "G": keep["G"]}
+
+
+def _sources(files):
+    return {(int(Path(f).stem.split("_")[-2]), int(Path(f).stem.split("_")[-1])): f for f in files}
+
+
+def test_streaming_rows_equal_the_reducer_rows(small_units, tmp_path):
+    """Same unit files through the ordered pool: identical rows (every midpoint
+    string, pivot count, residual) and running sums whose midpoints equal the
+    reducer's and whose balls overlap them."""
+    ref = small_units["rows"]
+    assert [r["T"] for r in ref] == sorted(_SM_CPS)
+    assert sum("n_neg" in r for r in ref) == 3 and all("response" in r for r in ref if r["T"] in _SM_RESP)
+    keep = {}
+    rows, status = _sm_stream(tmp_path / "s", procs=2, sources=_sources(small_units["files"]), keep=keep)
+    assert status == "done"
+    assert _strip(rows) == _strip(ref)
+    on_disk = [json.loads(x) for x in (tmp_path / "s" / "rows.jsonl").read_text().splitlines()]
+    assert _strip(on_disk) == _strip(ref)
+    N = _SM["N"]
+    for name in ("C", "G"):
+        A, B = keep[name], small_units[name]
+        for i in range(N):
+            for j in range(N):
+                assert A[i, j].mid() == B[i, j].mid()
+                assert A[i, j].overlaps(B[i, j])
+    # computing the units inside the driver (no unit files) gives the same rows
+    rows2, _ = _sm_stream(tmp_path / "c", procs=1)
+    assert _strip(rows2) == _strip(ref)
+
+
+def test_a_perturbed_unit_changes_the_streaming_rows(small_units, tmp_path):
+    """Planted fault: one unit's C diagonal scaled by 1 + 2^-12 before the
+    checkpoints with beta* > 0; every live row after it changes."""
+    import pickle
+    files = list(small_units["files"])
+    bad = tmp_path / Path(files[1]).name
+    with open(files[1], "rb") as fh:
+        u = pickle.load(fh)
+    N, k = _SM["N"], 0
+    enc = []
+    for i in range(N):
+        for j in range(i + 1):
+            m, e, r = u["C"][k]
+            enc.append((m + (m >> 12) if i == j else m, e, r))
+            k += 1
+    u["C"] = enc
+    with open(bad, "wb") as fh:
+        pickle.dump(u, fh)
+    files[1] = str(bad)
+    rows, _ = _sm_stream(tmp_path / "s", sources=_sources(files))
+    ref = small_units["rows"]
+    live = [(a, b) for a, b in zip(rows, ref) if "n_neg" in b]
+    assert live and all(a["lam_min"] != b["lam_min"] for a, b in live)
+
+
+@pytest.mark.parametrize("k", [1, 6])
+def test_streaming_resume_after_a_stop_gives_identical_rows(small_units, tmp_path, k):
+    """Stopped after unit k (state saved, a stale row appended to rows.jsonl as
+    if the kill came between the two writes), then resumed: identical rows, and
+    at most two generations of state files on disk."""
+    src = _sources(small_units["files"])
+    rows, status = _sm_stream(tmp_path / "s", sources=src, stop_after=k)
+    assert status == "stopped: stop_after"
+    meta = json.loads((tmp_path / "s" / "state.json").read_text())
+    assert meta["k1"] == _SM_UNITS[k - 1][1]
+    with open(tmp_path / "s" / "rows.jsonl", "a") as fh:
+        fh.write(json.dumps({"T": -1.0}) + "\n")
+    rows, status = _sm_stream(tmp_path / "s", sources=src)
+    assert status == "done"
+    assert _strip(rows) == _strip(small_units["rows"])
+    on_disk = [json.loads(x) for x in (tmp_path / "s" / "rows.jsonl").read_text().splitlines()]
+    assert _strip(on_disk) == _strip(small_units["rows"])
+    assert len(list((tmp_path / "s").glob("state_*.pkl"))) <= 4
+
+
+def test_streaming_refuses_a_state_from_other_parameters(small_units, tmp_path):
+    src = _sources(small_units["files"])
+    _sm_stream(tmp_path / "s", sources=src, stop_after=1)
+    with pytest.raises(SystemExit):
+        scout.stream(_SM["L"], _SM["env"], _SM["N"], _SM["q"], _SM["h"], _SM_UNITS, _SM["prec"] + 64,
+                     tmp_path / "s", _SM_CPS, sources=src)
+
+
+def test_streaming_stops_at_the_core_hour_cap(small_units, tmp_path):
+    rows, status = _sm_stream(tmp_path / "s", sources=_sources(small_units["files"]), cap_core_seconds=1e-9)
+    assert status.startswith("stopped: projected")
+    assert json.loads((tmp_path / "s" / "state.json").read_text())["k1"] == _SM_UNITS[0][1]
+
+
 # ------------------------------------------------------------- explorations
 
 def test_overlapping_clusters_value():

@@ -138,6 +138,30 @@ parent holds two full `856 x 856` Arb matrices at 1280 bits (a few hundred MB of
 RAM); and a crash loses only the units in flight. Not implemented here: nothing
 in this session would consume it.
 
+### Decision changed: run B here, streamed (coordinator, 2026-10-26, evening)
+
+Cloud compute stayed unfunded, and the owner's compute rules let a session
+already on this box use it for work that fits. With the streaming reducer B
+fits, so B now runs here. **Estimate, written before launch**:
+
+- the DH merge at `L_DH` (`price.py --merge parts/dh_L_DH_v2.json`, four
+  clusters, 3 processes): about **1.0 core-hour**, about 55 min wall (bounded by
+  `{11,19,29}`, 3241 s at build);
+- the units: 40 units of 40 panels (`T#` to 800, `N = 856` even, 1280 bits,
+  `q = 64`, `h = 1/2`), about 1740 s each from the timed slice, **about 19
+  core-hours**, about 6.5 h wall on 3 worker processes;
+- the reduction, in the parent process as each checkpoint completes: 14
+  checkpoints with `beta* > 0` (`T#` = 540 to 800), plus the `N` and precision
+  responses at 540 and 800, **3 to 6 core-hours**.
+
+**Total 23 to 26 core-hours, hard cap 30.** The projection is recomputed from
+measured unit times as units finish, and the run stops if it passes 30. At most
+4 processes (3 workers and the parent), `nice -n 10`, BLAS threads capped at 1,
+no launch while the one-minute load exceeds 64, and the newest job stops if
+`MemAvailable` falls below 20 GiB. Disk: no unit file is written, and the
+restart checkpoint is the running `C` and `G` in files under 100 MB, two
+generations at most, about 300 MB at peak (cap 1 GB). Watched by recorded PID.
+
 ### Ledger (2026-10-26)
 
 ```runmanifest
