@@ -126,7 +126,7 @@ outcome: 5 s, 31 s and 17 s; lambda_1, misfit, R_m distances, a2 fit, compact er
 artifacts:
 ```
 
-## Pending: the capture bound at m = 4 (not run)
+## The capture bound at m = 4
 
 Asked for: kappa, mu, eta and the bound eta / (mu - lambda_1) on dist(v_1, R_4) at
 (c, N) = (43, 128), (50, 128), (60, 128), zeta, at 1600 bits. Estimate written before any
@@ -137,3 +137,25 @@ eigendecompositions at 1600 bits, the zero scans and the m = 2 capture): 183 s, 
 core-hour; this record's estimate is lower, and the run waits for the coordinator either
 way. Prediction, pre-registered: still vacuous (bound above 1), because the second and
 third eigenvectors are also radical times a polynomial.
+
+The coordinator approved the run on 2026-10-26 (one process, `nice 10`). It took 145 s,
+inside the estimate. **The prediction held**: the bound is 5.9e96, 1.1e108 and 5.4e120 at
+c = 43, 50, 60. Against m = 2 at the same cells, mu rose by about 13 orders of magnitude
+on each cell (3.0e-145 to 4.1e-132 at c = 43; 9.2e-157 to 1.4e-143 at c = 50; 1.2e-169 to
+1.7e-156 at c = 60), but the leakage eta stays
+about 1e-35, far above mu. dist^2(v_1, R_4) came back equal to `measure.py`'s recorded
+value on all three cells.
+
+```runmanifest
+id: rh_moonshot-ccm_arithmetic-2026-10-26-capture-m4
+hunt: rh_moonshot
+started: 2026-10-26T13:14Z
+finished: 2026-10-26T13:17Z
+ran:
+  - nice -n 10 .venv/bin/python hunts/rh_moonshot/ccm_arithmetic/capture_m4.py > hunts/rh_moonshot/ccm_arithmetic/data/log_capture_m4.txt
+outcome: 48 s, 51 s and 47 s at 1600 bits, 1-minute load about 34; the m = 4 perturbation bound is 5.9e96, 1.1e108 and 5.4e120 against actual distances 1.1e-13, 8.2e-14 and 1.6e-12, vacuous as predicted
+artifacts:
+  - hunts/rh_moonshot/ccm_arithmetic/capture_m4.py
+  - hunts/rh_moonshot/ccm_arithmetic/data/capture_m4.json
+  - hunts/rh_moonshot/ccm_arithmetic/data/log_capture_m4.txt
+```
