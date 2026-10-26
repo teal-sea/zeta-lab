@@ -656,7 +656,7 @@
  },
  "polymath_row2_barrier_log": {
   "available": true,
-  "path": "/home/thomas/.cache/zeta-lab/dbn/chain-github-dbn_upper_bound/repo/output/windingnumbers/windnum_nolemma_x5000000194858_y_0.16733_1_t_0_0.186.txt",
+  "path": "<cache>/dbn/chain-github-dbn_upper_bound/repo/output/windingnumbers/windnum_nolemma_x5000000194858_y_0.16733_1_t_0_0.186.txt",
   "sha256": "3406175695291ea000e37c9e6466c4d34975a58a76472ba6bde204ddb34022c7",
   "columns": "t, ceiling(ddt bound), ceiling(ddz bound), winding number, min mesh |(A+B)/B0|, mesh points",
   "n_rectangles": 435,

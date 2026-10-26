@@ -4,7 +4,7 @@ Source, read as data and never executed: D.H.J. Polymath, "Effective
 approximation of heat flow evolution of the Riemann xi function, and a new upper
 bound for the de Bruijn-Newman constant", arXiv:1904.12438v2.  The source tarball
 was downloaded on 2026-10-21 into
-``/home/thomas/.cache/zeta-lab/dbn/evaluator-arxiv-1904.12438v2/`` (sha256
+``<cache>/dbn/evaluator-arxiv-1904.12438v2/`` (sha256
 ``1be3bc38d203ad0142f1c97c267c7deaa06b84c97716c9a1ec1f56456d826863``); line
 numbers below refer to its ``debruijn.tex``.
 
@@ -295,6 +295,25 @@ def _eps_tilde(sigma: arb, T: arb, a: arb) -> arb:
     ) * (_c("3.49") / (T - 4)).exp()
 
 
+def _eC_pair(x: arb, y: arb, t: arb) -> tuple[arb, arb]:
+    """(e_C, e_{C,0}) exactly as defined in (ecc-def) and (ec-def), lines 972-973.
+
+    e_{C,0} = exp(t pi^2/64) |M_0(iT')| / |M_t(s_+)| (1 + eps~(s_-) + eps~(s_+)) and
+    e_C is the same without the 1.  No sum over n is involved, so the inputs may
+    be wide balls: the result then contains the value at every (x, y) in them.
+    ``point`` and the rectangle error bound both use this one function.
+    """
+    pi = arb.pi()
+    s_plus = acb(1 + y, -x) / 2
+    T = x / 2
+    Tp = x / 2 + pi * t / 8
+    a = (Tp / (2 * pi)).sqrt()
+    lM0_iT = log_M0(acb(0, Tp))
+    ratio_mod = (t * pi * pi / 64 + lM0_iT.real - log_Mt(s_plus, t).real).exp()
+    et = _eps_tilde((1 - y) / 2, T, a) + _eps_tilde((1 + y) / 2, T, a)
+    return ratio_mod * et, ratio_mod * (1 + et)
+
+
 @dataclass
 class Point:
     """Everything Theorem 1.3 needs at one point (x, y, t).  All balls."""
@@ -385,6 +404,14 @@ class Point:
 
 
 def _check_region(x: arb, y: arb, t: arb) -> None:
+    """The region (region), line 169: 0 < t <= 1/2, 0 <= y <= 1, x >= 200.
+
+    t = 0 is admitted as well.  The paper states Theorem 1.3 and Corollaries
+    6.4 and 6.5 only for t > 0; at t = 0 they follow by letting t -> 0+, since at
+    fixed (x, y) both sides are continuous in t and N(x, t) = N(x, 0) for all
+    small t > 0 (floor is right-continuous).  That extension is this lab's
+    derivation, unreviewed; EVALUATOR.md says which results rest on it.
+    """
     if not (x >= 200):
         raise ValueError("Theorem 1.3 needs x >= 200")
     if not (y >= 0 and y <= 1):
@@ -473,11 +500,7 @@ def point(x: Any, y: Any, t: Any, prec: int | None = None, error_mode: str = "ex
             2 * sign * (-i * pi * y / 8).exp() * (t * pi * pi / 64).exp() * Wtilde.real
             * (acb(lM0_iT.real) - lMt_plus).exp()
         )
-        ratio_mod = (t * pi * pi / 64 + lM0_iT.real - lMt_plus.real).exp()
-        et_minus = _eps_tilde((1 - y) / 2, T, a)
-        et_plus = _eps_tilde((1 + y) / 2, T, a)
-        e_C = ratio_mod * (et_minus + et_plus)
-        e_C0 = ratio_mod * (1 + et_minus + et_plus)
+        e_C, e_C0 = _eC_pair(x, y, t)
         cur = ctx.prec
     return Point(
         x=x, y=y, t=t, prec=cur, N=N, s_plus=s_plus, s_minus=s_minus,
@@ -501,6 +524,14 @@ def theorem_bounds(P: Point) -> dict[str, arb]:
     Theorem's printed form with 4y(1+y)/x^2; ``res_bound_prop`` is Proposition
     (estimates)(ii)'s 8y(1-y)/x^2, which is what the proof at lines 1032-1041
     actually derives.  They differ for y < 1/3 by O(t/x^4).
+
+    ``eC_upper_prop`` and ``eC0_upper_prop`` are Proposition 6.6(vi) as printed
+    (lines 992-996).  They are not bounds everywhere in the region: just above a
+    jump x_N with small N the exact e_C exceeds the printed (vi) (by about 14%
+    at N = 4; pinned by ``test_prop66_vi_fails_just_above_small_jumps``).  The
+    step at line 1107 that replaces 0.397 9^sigma e^{3.49/(T-4)}/(a - 0.865) by
+    1.24 3^{+-y}/(a - 0.125) needs a large a.  Nothing in this module relies on
+    (vi): the barrier rectangle uses the exact (ec-def) through ``_eC_pair``.
     """
     with workprec(P.prec):
         x, y, t, N = P.x, P.y, P.t, P.N
@@ -823,7 +854,13 @@ def euler_mollified_F(
 # --------------------------------------------------------------------------- #
 
 def derivative_bounds(
-    x_lo: Any, x_hi: Any, y_grid: Sequence[Any], t: Any, N: int | None = None, prec: int | None = None
+    x_lo: Any,
+    x_hi: Any,
+    y_grid: Sequence[Any],
+    t: Any,
+    N: int | None = None,
+    prec: int | None = None,
+    n_range: tuple[int, int] | None = None,
 ) -> dict[str, Any]:
     """Upper bounds for |df_t/dz| and |df_t/dt| on the rectangle [x_lo, x_hi] x [y_0, y_J].
 
@@ -838,6 +875,14 @@ def derivative_bounds(
     over [y_j, y_{j+1}] is max(M(y_j), M(y_{j+1})).  ``line_z[j]`` and
     ``line_t[j]`` are M(y_j), bounds on the whole segment y = y_j, x_lo <= x <= x_hi;
     ``strip_z[j]`` and ``strip_t[j]`` bound the strip [x_lo, x_hi] x [y_j, y_{j+1}].
+
+    ``line_z_beta`` and ``line_z_gamma`` (and the ``_t`` pair) are the two parts
+    of the Lemma's majorant, the first sum (b_n n^{-s_*}) and the second
+    (gamma b_n n^{-s_**}); ``line_z`` is their sum.  Each part dominates, term by
+    term, the exact |d/dz| of the corresponding summand, which is what the tests
+    compare it with.  ``n_range = (n_lo, n_hi)`` restricts every sum to
+    n_lo <= n <= n_hi; it exists so that a test can see each weight in a window
+    of n where it is nearly sharp, and the barrier never passes it.
     """
     with workprec(prec):
         x_lo, x_hi, t = to_arb(x_lo), to_arb(x_hi), to_arb(t)
@@ -847,6 +892,9 @@ def derivative_bounds(
             N = N_of(x_lo, t)
             if N_of(x_hi, t) != N:
                 raise ValueError("N jumps inside [x_lo, x_hi]; f_t is not holomorphic there")
+        n_lo, n_hi = (1, N) if n_range is None else (int(n_range[0]), int(n_range[1]))
+        if not (1 <= n_lo <= n_hi <= N):
+            raise ValueError("n_range must satisfy 1 <= n_lo <= n_hi <= N")
         pi = arb.pi()
         xs = _hull(x_lo, x_hi)
         yb = _hull(ys[0], ys[-1])
@@ -861,13 +909,15 @@ def derivative_bounds(
         ct_g = (pi / 2 + 8 / (x_lo - 6)) * (lX4hi + 8 / (x_lo - 6)) / 4
         # gamma-part exponent slope in y: 0.02 - (1/2) log(x_lo/4pi) + (1/2) L
         g0 = _c("0.02") - lX4lo / 2
-        line_z = [arb(0)] * J
-        line_t = [arb(0)] * J
+        line_zb = [arb(0)] * J   # first-sum part of the |df/dz| majorant
+        line_zg = [arb(0)] * J   # second-sum part
+        line_tb = [arb(0)] * J
+        line_tg = [arb(0)] * J
         plain_b = [arb(0)] * J   # majorant of sum b_n n^{-Re s_*}, for e_A + e_B
         plain_g = [arb(0)] * J   # majorant of |gamma| N^|kappa| sum n^y b_n n^{-Re s_*}
         tq = t / 4
         half = arb(1) / 2
-        for n in range(1, N + 1):
+        for n in range(n_lo, n_hi + 1):
             L = arb(n).log()
             base = (tq * L * L - (half + tau_lo) * L).exp()  # b_n n^{-1/2 - tau_lo}
             lx = (x_hi / (4 * pi * n)).log()
@@ -879,27 +929,63 @@ def derivative_bounds(
             for j, yv in enumerate(ys):
                 pb = base * (-(yv / 2) * L).exp()        # beta-part: n^{-(1+y)/2 - tau_lo} b_n
                 pg = Nk * base * (yv * slope_g).exp()    # gamma-part majorant
-                line_z[j] += pb * wz_b + pg * wz_g
-                line_t[j] += pb * wt_b + pg * wt_g
+                line_zb[j] += pb * wz_b
+                line_zg[j] += pg * wz_g
+                line_tb[j] += pb * wt_b
+                line_tg[j] += pg * wt_g
                 plain_b[j] += pb
                 plain_g[j] += pg
+        line_z = [line_zb[j] + line_zg[j] for j in range(J)]
+        line_t = [line_tb[j] + line_tg[j] for j in range(J)]
         strip_z = [_max_upper(line_z[j], line_z[j + 1]) for j in range(J - 1)]
         strip_t = [_max_upper(line_t[j], line_t[j + 1]) for j in range(J - 1)]
         return {
-            "N": N, "tau_lo": tau_lo, "line_z": line_z, "line_t": line_t,
+            "N": N, "n_range": (n_lo, n_hi), "tau_lo": tau_lo, "line_z": line_z, "line_t": line_t,
+            "line_z_beta": line_zb, "line_z_gamma": line_zg, "line_t_beta": line_tb, "line_t_gamma": line_tg,
             "strip_z": strip_z, "strip_t": strip_t, "plain_b": plain_b, "plain_g": plain_g,
             "y_grid": ys,
         }
 
 
-def _rectangle_error_bound(x_lo: arb, y_lo: arb, y_hi: arb, t: arb, N: int, db: dict[str, Any]) -> dict[str, arb]:
-    """An upper bound for e_A + e_B + e_{C,0} on the whole rectangle (x >= x_lo).
+def _eC0_upper_on_box(x_lo: arb, x_hi: arb, y_lo: arb, y_hi: arb, t: arb, nx: int, ny: int) -> arb:
+    """An exact point >= e_{C,0}(x + iy) for every x in [x_lo, x_hi], y in [y_lo, y_hi].
 
-    e_A + e_B: (eab-bound) with the n-dependence of the exponential factor
-    bounded by its value at n = 1 (log^2(x/(4 pi n^2)) <= log^2(x/(4 pi)) for
-    1 <= n <= N, line 1053) and the sums by the derivative pass's majorants.
-    e_{C,0}: Proposition (estimates)(vi), evaluated with y as the ball [y_lo, y_hi]
-    and x = x_lo (the expression decreases in x, line 1317).
+    e_{C,0} is the exact (ec-def) of ``_eC_pair``, evaluated on each of nx x ny
+    sub-boxes with x and y as balls; the maximum of the upper ends bounds the
+    supremum.  Subdividing only controls the overestimate from the dependency
+    of |M_0(iT')| and |M_t(s_+)| on the same x (each varies like e^{-pi x/8});
+    soundness does not depend on nx, ny.
+    """
+    best: arb | None = None
+    for i in range(nx):
+        xa = x_lo + (x_hi - x_lo) * i / nx
+        xb = x_lo + (x_hi - x_lo) * (i + 1) / nx
+        xs = _hull(xa, xb)
+        for j in range(ny):
+            ya = y_lo + (y_hi - y_lo) * j / ny
+            yb = y_lo + (y_hi - y_lo) * (j + 1) / ny
+            _, eC0 = _eC_pair(xs, _hull(ya, yb), t)
+            if not eC0.is_finite():
+                raise ArithmeticError("e_{C,0} enclosure is not finite on a sub-box")
+            u = eC0.upper()
+            if best is None or u > best:
+                best = u
+    assert best is not None
+    return best
+
+
+def _rectangle_error_bound(
+    x_lo: arb, x_hi: arb, y_lo: arb, y_hi: arb, t: arb, N: int, db: dict[str, Any], nx: int = 64, ny: int = 16
+) -> dict[str, arb]:
+    """An upper bound for e_A + e_B + e_{C,0} on the whole rectangle.
+
+    e_A + e_B: (eab-bound) of Theorem 1.3 with the n-dependence of the exponential
+    factor bounded by its value at n = 1 (log^2(x/(4 pi n^2)) <= log^2(x/(4 pi)) for
+    1 <= n <= N, line 1053), its x-dependence at x = x_lo (it decreases in x), and
+    the sums by the derivative pass's majorants.
+    e_{C,0}: the exact (ec-def), bounded over the rectangle by ``_eC0_upper_on_box``.
+    An earlier version used Proposition 6.6(vi) here, which is false just above
+    jumps x_N with small N (see ``theorem_bounds``).
     """
     pi = arb.pi()
     lX4 = (x_lo / (4 * pi)).log()
@@ -908,19 +994,26 @@ def _rectangle_error_bound(x_lo: arb, y_lo: arb, y_hi: arb, t: arb, N: int, db: 
     sb = _max_upper(db["plain_b"][0], db["plain_b"][-1])
     sg = _max_upper(db["plain_g"][0], db["plain_g"][-1])
     eAB = d1 * (sb + sg)
-    y = _hull(y_lo, y_hi)
-    lab = acb(lX4, pi / 2)
-    pref = (-((1 + y) / 4) * lX4).exp() * (
-        -(t / 16) * lX4 * lX4 + (3 * abs(lab) + _c("3.58")) / (x_lo - _c("8.52"))
-    ).exp()
-    inner = _c("1.24") * ((arb(3) ** y) + (arb(3) ** (-y))) / (N - _c("0.125")) + _c("6.92") / (x_lo - 12)
-    eC0 = pref * (1 + inner)
-    return {"eAB": eAB.upper(), "eC0": eC0.upper(), "E": (eAB + eC0).upper()}
+    eC0 = _eC0_upper_on_box(x_lo, x_hi, y_lo, y_hi, t, nx, ny)
+    return {"eAB": eAB.upper(), "eC0": eC0, "E": (eAB + eC0).upper()}
 
 
 # --------------------------------------------------------------------------- #
 #  Taylor multi-evaluation (Section 7), at one fixed time t
 # --------------------------------------------------------------------------- #
+
+def _taylor_tail_bound(A: arb, rho: arb, K: int, fact_K: arb) -> arb:
+    """A sum_{k>=K} rho^k/k! <= A rho^K / (K! (1 - rho/(K+1))), for 0 <= rho < K + 1.
+
+    The k-th term is (rho^K/K!) rho^{k-K} K!/k! <= (rho^K/K!) (rho/(K+1))^{k-K}:
+    a geometric majorant.  It bounds the omitted part of
+    sum_n c_n exp(-delta ell_n) = sum_k (-delta)^k sum_n c_n ell_n^k/k! truncated at
+    K terms, with A = sum_n |c_n| and rho = |delta| max|ell_n|.
+    """
+    if not (rho < K + 1):
+        raise ValueError("rho must be below K + 1 for the geometric tail bound")
+    return A * _pow_ui_upper(rho, K) / (fact_K * (1 - rho / (K + 1)))
+
 
 @dataclass
 class _Block:
@@ -1027,18 +1120,20 @@ class FixedTimeMultiEval:
                 self._head.append((L, tq * L * L))
         self.setup_seconds = time.perf_counter() - t0
 
-    def evaluate(self, x: Any, y: Any) -> acb:
-        """An enclosure of f_t(x + iy), N fixed at ``self.N``."""
+    def evaluate_parts(self, x: Any, y: Any) -> tuple[acb, acb, acb]:
+        """Enclosures of (sum_n b_n n^{-s_*}, sum_n b_n n^{-s_**}, gamma) at x + iy.
+
+        f_t = first + gamma * second.  Returned separately so that a test can hold
+        each sum against direct summation; ``evaluate`` combines them.
+        """
         with workprec(self.prec):
             x, y = to_arb(x), to_arb(y)
             t_ = self.t
-            tq = t_ / 4
             sp = acb(1 + y, -x) / 2
             sm = acb(1 - y, x) / 2
             s_star = sp + (t_ / 2) * alpha(sp)
             s_2star = sm + (t_ / 2) * alpha(sm)
             gamma = (log_Mt(sm, t_) - log_Mt(sp, t_)).exp()
-            del tq
             sumB = acb(0)
             sumA = acb(0)
             for L, qL in self._head:
@@ -1054,14 +1149,20 @@ class FixedTimeMultiEval:
                 rhoA = (aA_abs * b.ell_max).upper()
                 if not (rhoB < K + 1 and rhoA < K + 1):
                     raise ValueError("evaluation point too far from the expansion centre")
-                tailB = b.absB * _pow_ui_upper(rhoB, K) / (self._fact_K * (1 - rhoB / (K + 1)))
-                tailA = b.absA * _pow_ui_upper(rhoA, K) / (self._fact_K * (1 - rhoA / (K + 1)))
+                tailB = _taylor_tail_bound(b.absB, rhoB, K, self._fact_K)
+                tailA = _taylor_tail_bound(b.absA, rhoA, K, self._fact_K)
                 prefB = (-dB * b.Lc).exp()
                 prefA = (-dA * b.Lc).exp()
                 vB = b.polyB(dB) + _disk(tailB)
                 vA = b.polyA(dA) + _disk(tailA)
                 sumB += prefB * vB
                 sumA += prefA * vA
+            return sumB, sumA, gamma
+
+    def evaluate(self, x: Any, y: Any) -> acb:
+        """An enclosure of f_t(x + iy), N fixed at ``self.N``."""
+        sumB, sumA, gamma = self.evaluate_parts(x, y)
+        with workprec(self.prec):
             return sumB + gamma * sumA
 
 
@@ -1082,6 +1183,7 @@ def barrier_rectangle(
     prec: int | None = None,
     margin_target: float | None = None,
     progress: bool = False,
+    eC0_subdivisions: tuple[int, int] = (64, 16),
 ) -> dict[str, Any]:
     """Section 8.4 on one rectangle R = [x_lo, x_hi] x [y_lo, y_hi] at time t.
 
@@ -1093,12 +1195,21 @@ def barrier_rectangle(
     computed as a ball (1/2pi) sum Arg(f_{j+1}/f_j).  ``winding`` is the integer
     that ball contains, or None.  The result is a statement about this one
     rectangle at this one time; the t-direction is not covered.
+
+    ``segments`` lists every accepted segment in boundary order with the data its
+    acceptance used (edge, dyadic endpoints num0/den and num1/den of the edge
+    parameter, the derivative bound D, and the two endpoint balls), so that the
+    whole decision can be re-derived independently; the tests do exactly that.
     """
     timings: dict[str, float] = {}
     t_all = time.perf_counter()
     with workprec(prec):
         x_lo, x_hi, y_lo, y_hi, t = (to_arb(v) for v in (x_lo, x_hi, y_lo, y_hi, t))
         cur_prec = ctx.prec
+        if not (x_lo < x_hi and y_lo < y_hi):
+            raise ValueError("the rectangle needs x_lo < x_hi and y_lo < y_hi")
+        _check_region(x_lo, y_lo, t)
+        _check_region(x_hi, y_hi, t)
         N = N_of(x_lo, t)
         if N_of(x_hi, t) != N:
             raise ValueError("N jumps inside the rectangle")
@@ -1106,7 +1217,9 @@ def barrier_rectangle(
         t1 = time.perf_counter()
         db = derivative_bounds(x_lo, x_hi, ys, t, N=N)
         timings["derivative_bounds"] = time.perf_counter() - t1
-        eb = _rectangle_error_bound(x_lo, y_lo, y_hi, t, N, db)
+        t1 = time.perf_counter()
+        eb = _rectangle_error_bound(x_lo, x_hi, y_lo, y_hi, t, N, db, *eC0_subdivisions)
+        timings["error_bound"] = time.perf_counter() - t1
         E = eb["E"]
         xc = (x_lo + x_hi) / 2
         yc = (y_lo + y_hi) / 2
@@ -1155,6 +1268,7 @@ def barrier_rectangle(
             return cache[key]
 
         accepted: list[tuple[int, int, int, int]] = []  # (edge, num0, num1, den)
+        seg_D: dict[tuple[int, int, int, int], arb] = {}
         failed: list[tuple[int, int, int, int]] = []
         min_abs = None
         min_margin = None
@@ -1173,6 +1287,7 @@ def barrier_rectangle(
                 lb = fb.abs_lower()
                 if la > need and lb > need:
                     accepted.append((e_, a, b, den))
+                    seg_D[(e_, a, b, den)] = D
                     lo_ab = la if la < lb else lb          # exact points
                     m = (lo_ab - need).lower()
                     if min_margin is None or m < min_margin:
@@ -1189,8 +1304,8 @@ def barrier_rectangle(
         timings["mesh"] = time.perf_counter() - t1
         winding = None
         wind_ball = None
+        accepted.sort(key=lambda s: (s[0], s[1] / s[3]))
         if not failed:
-            accepted.sort(key=lambda s: (s[0], s[1] / s[3]))
             tot = arb(0)
             for (e_, a, b, den) in accepted:
                 fa = fval(e_, a, den)
@@ -1201,14 +1316,21 @@ def barrier_rectangle(
             hi = math.floor(_upper_float(wind_ball))
             if lo == hi:
                 winding = int(lo)
+        segments = [
+            {"edge": e_, "num0": a, "num1": b, "den": den, "D": seg_D[(e_, a, b, den)],
+             "f0": fval(e_, a, den), "f1": fval(e_, b, den)}
+            for (e_, a, b, den) in accepted
+        ]
         timings["total"] = time.perf_counter() - t_all
         return {
             "N": N,
             "prec": cur_prec,
             "K": K,
+            "n_strips": n_strips,
             "E_upper": E,
             "eAB_upper": eb["eAB"],
             "eC0_upper": eb["eC0"],
+            "segments": segments,
             "Dz_bottom": db["line_z"][0],
             "Dz_top": db["line_z"][-1],
             "Dz_strips": db["strip_z"],

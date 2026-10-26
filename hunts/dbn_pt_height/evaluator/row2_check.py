@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import platform
 import sys
 import time
@@ -47,8 +48,9 @@ T0 = "0.186"
 Y0_PRINTED = "0.16733"
 N0_PRINTED = 630783
 PRINTED_BOUND = "0.0376"
-POLYMATH_WINDNUM = Path(
-    "/home/thomas/.cache/zeta-lab/dbn/chain-github-dbn_upper_bound/repo/output/"
+DBN_CACHE = Path(os.environ.get("DBN_CACHE_ROOT", os.path.expanduser("~/.cache/zeta-lab/dbn")))
+POLYMATH_WINDNUM = (
+    DBN_CACHE / "chain-github-dbn_upper_bound/repo/output/"
     "windingnumbers/windnum_nolemma_x5000000194858_y_0.16733_1_t_0_0.186.txt"
 )
 
@@ -195,7 +197,7 @@ def polymath_reference() -> dict:
     rect = [ln for ln in lines if ln.startswith("Rectangle(")]
     return {
         "available": True,
-        "path": str(POLYMATH_WINDNUM),
+        "path": "<cache>/dbn/" + str(POLYMATH_WINDNUM.relative_to(DBN_CACHE)),
         "sha256": hashlib.sha256(raw).hexdigest(),
         "columns": "t, ceiling(ddt bound), ceiling(ddz bound), winding number, min mesh |(A+B)/B0|, mesh points",
         "n_rectangles": len(rect),
