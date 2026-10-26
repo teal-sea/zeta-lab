@@ -639,3 +639,32 @@ nothing measurable.
 **Full plan, re-sized from attempt 2:** 20 jobs, one Lean process each (11.31 GB
 peak). Every job is bounded at 1.32 to 1.37 hours, setup included. On runners that comes
 to about 16.9 core-hours, scaled by the larger ratio.
+
+## 13. The full run's fault job left no verdict, and the fix
+
+In full run 40353536947, the job `sites fault (full)` failed (job 121679942724,
+17:16:52 to 17:21:29). The coordinator read its log. The faulted compile failed as
+intended: `CB_right_06/Primes.lean` failed after 15.3 s and `Base.lean` compiled. But the
+step had no `shell:` key, so GitHub ran it as `bash -e {0}`. The step's `set -uo
+pipefail` left that `-e` in force, so the failing compile pipeline ended the step before
+`rc=${PIPESTATUS[0]}` and `production.py refused` ran. No `fault.json` was written. The
+per-module logs that name the refusing declaration were not uploaded either, because the
+oleans upload skips the fault job. **The run's fault evidence is therefore void, not
+negative:** `Primes.lean` was rejected, but the record does not say where. The 20 site
+jobs are unaffected: their compile steps fail closed, as intended.
+
+The fix:
+
+- the step suspends `-e` around the compile (`set +e`, capture `PIPESTATUS[0]`, `set -e`)
+  before `refused` decides;
+- the fault job now uploads its compile log, per-module logs, results, `fault.json` and
+  the planted `Primes.lean` as `rung3-production-fault-logs-attempt<A>`;
+- `test_production.py` runs the step's own script under `bash -e`, with a stub compiler
+  that exits 1, and checks that `refused` runs with `--rc 1`. Its control runs the old
+  script the same way and shows `refused` never runs.
+
+Then only the fault is re-run, in a new run (`"mode": "fault"`, `"completes_run":
+40353536947`), with no production site regenerated or uploaded again. The verdict pairs
+the two runs: `production.py verdict --runs 40353536947 <fault run>` takes the sites and
+axioms from the first and the fault from the second, and `collect --run` takes several
+runs the same way.

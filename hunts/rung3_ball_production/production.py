@@ -8,7 +8,10 @@ The workflow is triggered only by a push of `RUN_REQUEST.json` (this directory) 
   and one small site) under `--tower whole`, one Lean process at a time;
 * `full`: all 215 sites under `--tower whole`, assigned to `request["jobs"]` jobs by
   projected CPU (`whole_projection.rows` in pilot.json, longest first onto the lightest
-  job), plus one planted-fault job that must be refused.
+  job), plus one planted-fault job that must be refused;
+* `fault`: the planted-fault job alone (a re-run of the full run's fault job, which
+  compiles no production site); the request names the full run it completes
+  (`"completes_run"`), and `verdict --runs` pairs the two.
 
 Subcommands (every one fails closed with a non-zero exit):
 
@@ -96,6 +99,9 @@ def validate(req: dict) -> None:
         assert 2 <= req["jobs"] <= MAX_JOBS and 1 <= req["lean_jobs"] <= 2, req
         assert req["fault_site"] in known, req
         check_calibration(req)
+    elif req["mode"] == "fault":
+        assert req["fault_site"] in known and req["lean_jobs"] == 1, req
+        assert isinstance(req.get("completes_run"), int) and isinstance(req.get("attempt"), int), req
     else:
         raise AssertionError(f"unknown mode {req['mode']!r}")
 
@@ -150,8 +156,10 @@ def job_sites(req: dict, job: int) -> list[str]:
 
 def cmd_plan(req: dict) -> None:
     validate(req)
+    jobs = {"calibrate": ["0"], "fault": ["fault"],
+            "full": [str(j) for j in range(req["jobs"])] + ["fault"]}[req["mode"]]
     print("mode=" + req["mode"])
-    print("jobs=" + json.dumps(list(range(req["jobs"]))))
+    print("jobs=" + json.dumps(jobs))
     print("lean_jobs=" + str(req["lean_jobs"]))
 
 
@@ -320,6 +328,15 @@ def cmd_refused(req: dict, gen: Path, out: Path, rc: int) -> None:
         sys.exit("the planted fault was NOT refused as expected: this run does not count")
 
 
+def download_records(runs: list[int], records: Path, repo: str) -> None:
+    """Each run's record artifacts into records/<run>/; later runs come later in rglob."""
+    for run in runs:
+        d = records / f"{run:012d}"
+        d.mkdir(parents=True, exist_ok=True)
+        subprocess.run(["gh", "run", "download", str(run), "--repo", repo,
+                        "-p", "rung3-production-record-*", "-D", str(d)], check=True)
+
+
 def cmd_verdict(req: dict, records: Path) -> None:
     sites, axioms, fault = {}, {}, None
     for p in sorted(records.rglob("sites.json")):
@@ -328,7 +345,8 @@ def cmd_verdict(req: dict, records: Path) -> None:
         axioms.update(json.loads(p.read_text()))
     for p in records.rglob("fault.json"):
         fault = json.loads(p.read_text())
-    want = set(plan_sites()) if req["mode"] == "full" else set(req["sites"])
+    want = {"full": set(plan_sites()), "fault": set()}.get(req["mode"]) \
+        if req["mode"] in ("full", "fault") else set(req["sites"])
     ok_sites = {s for s, r in sites.items() if r.get("status") == "ok"}
     clean = {s for s, r in axioms.items() if r.get("ok")}
     summary = {"mode": req["mode"], "sites_wanted": len(want), "sites_ok": len(ok_sites & want),
@@ -342,7 +360,7 @@ def cmd_verdict(req: dict, records: Path) -> None:
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
             f.write("```json\n" + json.dumps(summary, indent=1) + "\n```\n")
     good = not summary["missing"] and not summary["unclean"]
-    if req["mode"] == "full":
+    if req["mode"] in ("full", "fault"):
         good = good and bool(fault) and fault.get("refused_at_ev_whole") is True
     if not good:
         sys.exit("verdict: the run does not count")
@@ -356,19 +374,25 @@ def pick_artifacts(artifacts: list[dict], jobs: int) -> dict[int, dict]:
         if not m or a.get("expired"):
             continue
         job, attempt = int(m.group(1)), int(m.group(2))
-        if job not in best or attempt > best[job]["attempt"]:
+        key = (a.get("run_order", 0), attempt)
+        if job not in best or key > (best[job].get("run_order", 0), best[job]["attempt"]):
             best[job] = {**a, "attempt": attempt}
     missing = sorted(set(range(jobs)) - set(best))
     assert not missing, f"no oleans artifact for jobs {missing}"
     return best
 
 
-def cmd_collect(req: dict, run: int, dest: Path, repo: str) -> None:
+def cmd_collect(req: dict, runs: list[int], dest: Path, repo: str) -> None:
+    """Oleans of one or more runs: for each job the latest attempt among the runs given
+    (a later run's artifact of the same job wins, so pass the runs in order)."""
     import zipfile
-    listing = subprocess.run(
-        ["gh", "api", "--paginate", f"repos/{repo}/actions/runs/{run}/artifacts",
-         "--jq", ".artifacts[] | tojson"], check=True, capture_output=True, text=True)
-    arts = [json.loads(line) for line in listing.stdout.splitlines() if line]
+    arts = []
+    for order, run in enumerate(runs):
+        listing = subprocess.run(
+            ["gh", "api", "--paginate", f"repos/{repo}/actions/runs/{run}/artifacts",
+             "--jq", ".artifacts[] | tojson"], check=True, capture_output=True, text=True)
+        arts += [{**json.loads(line), "run_order": order}
+                 for line in listing.stdout.splitlines() if line]
     jobs = req["jobs"] if req["mode"] == "full" else 1
     dest.mkdir(parents=True, exist_ok=True)
     log = []
@@ -391,7 +415,7 @@ def cmd_collect(req: dict, run: int, dest: Path, repo: str) -> None:
             assert (dest / "out" / "checkpoints" / f"C{sid}" / f"C{sid}.lean.ok.json").is_file(), sid
         log.append({"job": job, "artifact": a["name"], "sha256": h, "bytes": a["size_in_bytes"]})
         print(log[-1], flush=True)
-    (dest / "collected.json").write_text(json.dumps({"run": run, "artifacts": log}, indent=1) + "\n")
+    (dest / "collected.json").write_text(json.dumps({"runs": runs, "artifacts": log}, indent=1) + "\n")
 
 
 FINAL = ["big_bottom", "big_top", "big_left", "big_right", "big_frontier", "deriv_bound_small",
@@ -488,7 +512,9 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=Path("out"))
     ap.add_argument("--rc", type=int, default=0, help="refused: the fault compile's exit")
     ap.add_argument("--records", type=Path, default=Path("records"))
-    ap.add_argument("--run", type=int, help="collect: the workflow run id")
+    ap.add_argument("--run", type=int, nargs="+", help="collect: the workflow run id(s)")
+    ap.add_argument("--runs", type=int, nargs="+",
+                    help="verdict: download these runs' records first (sites from one, fault from another)")
     ap.add_argument("--dest", type=Path, help="collect: where the oleans land")
     ap.add_argument("--repo", default="teal-sea/zeta-lab")
     ap.add_argument("--overlay", type=Path, help="assemble: one ZetaLean/ for both trees")
@@ -519,6 +545,8 @@ def main() -> None:
     elif args.cmd == "assemble":
         cmd_assemble(args.dest.resolve(), args.overlay.resolve(), args.rh100.resolve())
     else:
+        if args.runs:
+            download_records(args.runs, args.records.resolve(), args.repo)
         cmd_verdict(req, args.records.resolve())
 
 

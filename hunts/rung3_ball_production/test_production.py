@@ -194,3 +194,72 @@ def test_no_public_name_repeats_across_the_215_whole_mode_sites():
     assert f"declare {c['whole_public_names']:,} public names, and **none repeats**" in text
     assert f"{c['staged_repeated_names']:,} repeated" in text
     assert f"({c['staged_distinct_colliding_names']:,} distinct names)" in text
+
+
+# --------------------------------------------------------------------------- the fault step under bash -e
+
+def _fault_step_script() -> str:
+    steps = _wf()["jobs"]["sites"]["steps"]
+    return next(s for s in steps if s.get("name") == "compile the faulted site (must be refused)")["run"]
+
+
+def _run_under_bash_e(script: str, tmp_path: Path) -> tuple[int, Path]:
+    """GitHub's `bash -e {0}`, with `python` stubbed: the compile exits 1 (a refused
+    fault), `refused` records its arguments."""
+    import os
+    import subprocess
+    bindir = tmp_path / "bin"
+    bindir.mkdir()
+    marker = tmp_path / "refused.args"
+    (bindir / "python").write_text(
+        "#!/usr/bin/env bash\n"
+        'case "$*" in\n'
+        '  *72_rung3_ball_compile.py*) echo "Primes.lean failed"; exit 1 ;;\n'
+        f'  *" refused "*) echo "$*" > "{marker}"; exit 0 ;;\n'
+        "esac\nexit 3\n")
+    (bindir / "python").chmod(0o755)
+    (tmp_path / "gen").mkdir()
+    (tmp_path / "gen" / "CB_right_06.manifest.json").write_text("{}")
+    env = dict(os.environ, PATH=f"{bindir}:{os.environ['PATH']}", HUNT="h", REQ="r.json")
+    p = subprocess.run(["bash", "-e", "-c", script], cwd=tmp_path, env=env,
+                       capture_output=True, text=True)
+    return p.returncode, marker
+
+
+def test_fault_step_reaches_refused_under_bash_e(tmp_path):
+    rc, marker = _run_under_bash_e(_fault_step_script(), tmp_path)
+    assert rc == 0 and marker.is_file()
+    assert "--rc 1" in marker.read_text() and " refused " in f" {marker.read_text()} "
+
+
+def test_the_old_fault_step_lost_its_verdict_under_bash_e(tmp_path):
+    """The control: the step as run in 40353536947 aborts before `refused`."""
+    old = ("set -uo pipefail\nmkdir -p out\n"
+           "python scripts/72_rung3_ball_compile.py --lean-project lean --output-root out \\\n"
+           "  --jobs 1 --module-jobs 1 gen/*.manifest.json 2>&1 | tee out/compile.log\n"
+           "rc=${PIPESTATUS[0]}\n"
+           'python "$HUNT/production.py" refused --request "$REQ" --gen gen --out out --rc "$rc"\n')
+    rc, marker = _run_under_bash_e(old, tmp_path)
+    assert rc != 0 and not marker.exists()
+
+
+def test_fault_mode_plans_the_fault_job_alone():
+    req = {"mode": "fault", **BASE, "fault_site": "B_right_06", "lean_jobs": 1,
+           "completes_run": 40353536947, "attempt": 2}
+    prod.validate(req)
+    with pytest.raises(AssertionError):
+        prod.validate({k: v for k, v in req.items() if k != "completes_run"})
+
+
+def test_verdict_pairs_a_full_run_with_a_fault_run(tmp_path):
+    full = tmp_path / "records" / "000040353536947" / "rung3-production-record-job0-attempt1"
+    fault = tmp_path / "records" / "000040999999999" / "rung3-production-record-jobfault-attempt1"
+    full.mkdir(parents=True)
+    fault.mkdir(parents=True)
+    sites = sorted(prod.plan_sites())
+    (full / "sites.json").write_text(json.dumps({s: {"status": "ok"} for s in sites}))
+    (full / "axioms.json").write_text(json.dumps({s: {"ok": True} for s in sites}))
+    with pytest.raises(SystemExit):                 # sites alone: no fault, no count
+        prod.cmd_verdict(FULL, tmp_path / "records")
+    (fault / "fault.json").write_text(json.dumps({"refused_at_ev_whole": True}))
+    prod.cmd_verdict(FULL, tmp_path / "records")

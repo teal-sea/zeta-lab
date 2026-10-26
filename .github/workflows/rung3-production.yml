@@ -18,6 +18,9 @@
 #              must refuse at that tower's ev_whole. The verdict job counts the run
 #              only if all 215 sites compiled, every site theorem's axioms are exactly
 #              propext, Classical.choice and Quot.sound, and the fault was refused.
+#   fault      the job "fault" alone, completing a full run whose fault job left no
+#              verdict ("completes_run"); `production.py verdict --runs <full> <fault>`
+#              then takes the sites and axioms from the one and the fault from the other.
 #
 # Each job builds a FRESH lean/.lake with `lake exe cache get` (never a copied
 # .lake: CLAUDE.md compute rule 7); only elan's toolchains and Mathlib's
@@ -64,15 +67,7 @@ jobs:
           set -euo pipefail
           python "$HUNT/production.py" plan --request "$REQ" > plan.txt
           cat plan.txt
-          mode=$(sed -n 's/^mode=//p' plan.txt)
-          jobs=$(sed -n 's/^jobs=//p' plan.txt)
-          if [ "$mode" = full ]; then
-            jobs=$(python3 -c "import json,sys; print(json.dumps([str(j) for j in json.loads(sys.argv[1])] + ['fault']))" "$jobs")
-          else
-            jobs=$(python3 -c "import json,sys; print(json.dumps([str(j) for j in json.loads(sys.argv[1])]))" "$jobs")
-          fi
-          echo "mode=$mode" >> "$GITHUB_OUTPUT"
-          echo "jobs=$jobs" >> "$GITHUB_OUTPUT"
+          sed -n 's/^mode=/mode=/p; s/^jobs=/jobs=/p' plan.txt >> "$GITHUB_OUTPUT"
           sed -n 's/^lean_jobs=/lean_jobs=/p' plan.txt >> "$GITHUB_OUTPUT"
 
   sites:
@@ -172,12 +167,17 @@ jobs:
 
       - name: compile the faulted site (must be refused)
         if: ${{ matrix.job == 'fault' }}
+        # GitHub runs `bash -e {0}`: the compile is meant to fail, so -e is suspended
+        # around it and its exit captured; `refused` then decides (run 40353536947 lost
+        # its fault verdict to -e, PILOT.md section 13).
         run: |
-          set -uo pipefail
+          set -u
           mkdir -p out
+          set +e
           python scripts/72_rung3_ball_compile.py --lean-project lean --output-root out \
             --jobs 1 --module-jobs 1 gen/*.manifest.json 2>&1 | tee out/compile.log
           rc=${PIPESTATUS[0]}
+          set -e
           python "$HUNT/production.py" refused --request "$REQ" --gen gen --out out --rc "$rc"
 
       - name: per-site record (CPU, wall, peak RSS, olean bytes)
@@ -202,6 +202,21 @@ jobs:
             gen/*.manifest.json
           if-no-files-found: warn
           retention-days: 30
+
+      - name: upload the fault job's logs (the refusing declaration, the planted source)
+        if: ${{ always() && matrix.job == 'fault' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: rung3-production-fault-logs-attempt${{ github.run_attempt }}
+          path: |
+            out/compile.log
+            out/logs/
+            out/results/
+            out/fault.json
+            gen/*/Primes.lean
+            gen/*.manifest.json
+          if-no-files-found: warn
+          retention-days: 90
 
       - name: upload the record
         if: always()
