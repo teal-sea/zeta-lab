@@ -18,16 +18,25 @@ breakages are silent:
   used a reserved word inside ``hunts/``; both are now caught by
   ``tests/test_docs_numbering.py`` and ``tests/test_hunt_probe_discipline.py``,
   but only if you run them.
+* A shallow clone truncates the history and not the working tree, so every file
+  reads current and nothing warns. Anything that counts commits, reads a date
+  or asks when a file last changed is then wrong, and guards that need the
+  history skip rather than run (``tests/test_dossier_hardy_z.py`` is one). On
+  2026-09-10 a container's default checkout held 262 commits of 1084 and said
+  nothing. A tree whose git cannot answer at all, such as a snapshot mounted
+  without ``.git``, has the same blind spot.
 
 Run this first, read the verdict, then work::
 
     python scripts/science_preflight.py
     python scripts/science_preflight.py --allow-fallback   # accept non-Arb numerics
 
-Exit status is 0 when the environment can support every claim this repository
-knows how to make, and 1 when it cannot. ``--allow-fallback`` downgrades the
-ball-arithmetic backend finding to a warning, for exploratory work that will
-not use the word.
+Exit status is 0 when the environment can support the claims this repository
+knows how to make, and 1 when it cannot. Two findings are a WARNING with exit 0
+instead, and the verdict then says it is ready only for what they leave open: a
+truncated or unreadable git history, and a degraded ball-arithmetic backend
+accepted with ``--allow-fallback``, for exploratory work that will not use the
+word.
 """
 
 from __future__ import annotations
@@ -37,6 +46,7 @@ import importlib
 import os
 import re
 import shutil
+import subprocess
 import sys
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -89,15 +99,22 @@ def _check_interpreter() -> list[str]:
     return problems
 
 
-def _check_backend(allow_fallback: bool) -> list[str]:
-    """The finding that decides whether certified language is available."""
+def _check_backend(allow_fallback: bool) -> tuple[list[str], list[str]]:
+    """The finding that decides whether certified language is available.
+
+    Returns ``(problems, warnings)``. A degraded backend is a problem, and with
+    ``--allow-fallback`` it is a warning rather than nothing: until 2026-10-21
+    it was nothing, so a run that had just accepted the fallback ended on
+    "Ready. Every claim this repository knows how to make is available."
+    """
     problems: list[str] = []
+    warnings: list[str] = []
     _head("3. ball-arithmetic backend (decides what you may claim)")
     try:
         from zeta import rigor
     except ImportError as exc:  # pragma: no cover - environment dependent
         print(f"  could not import zeta.rigor: {exc}")
-        return ["zeta.rigor is not importable"]
+        return ["zeta.rigor is not importable"], warnings
 
     backend = rigor.BACKEND
     available = list(rigor.available_backends())
@@ -121,11 +138,94 @@ def _check_backend(allow_fallback: bool) -> list[str]:
         print("                  requirements.txt).")
         if allow_fallback:
             print("                  --allow-fallback given: continuing as a warning.")
+            warnings.append(
+                "ball-arithmetic backend is degraded, accepted with "
+                "--allow-fallback: make no certified claim from this environment"
+            )
         else:
             problems.append(
                 "ball-arithmetic backend is degraded; pass --allow-fallback to "
                 "proceed with non-certified numerics only"
             )
+    return problems, warnings
+
+
+def _git(*args: str) -> str:
+    """One read-only git query against this tree; raises on any failure."""
+    return subprocess.run(
+        ["git", *args], cwd=REPO_ROOT, capture_output=True, text=True,
+        check=True, timeout=60,
+    ).stdout.strip()
+
+
+def _why(exc: Exception) -> str:
+    """The first line of git's own complaint, or of the exception."""
+    stderr = getattr(exc, "stderr", None)
+    text = stderr.strip() if isinstance(stderr, str) and stderr.strip() else str(exc)
+    return (text.splitlines() or [type(exc).__name__])[0]
+
+
+def _check_history() -> list[str]:
+    """Is the git history complete, or is this a truncated clone?
+
+    Added 2026-09-10, after a session measured this tree's own correction rate on
+    a container whose default checkout held 262 commits of 1084 and said nothing.
+    Shallow truncates history, not the working tree, so every file reads current
+    and every count over history is wrong. The same session's fast tier reported
+    green because `tests/test_dossier_hardy_z.py` skips on a shallow history, and
+    went red the moment the clone was completed.
+
+    This is a WARNING and not a block: most work here needs no history at all.
+    It is a block only for the thing it silently ruins, which is anything that
+    counts commits, dates them, or asks when a file last changed.
+
+    It must not fail open (fixed on landing, 2026-10-21). The first version,
+    when git could not answer, printed one line and returned no warning, so on
+    a snapshot mounted without ``.git``, the environment this preflight exists
+    for, the verdict read "Ready. Every claim this repository knows how to make
+    is available." A history nobody can read has the same blind spot as a
+    shallow one and gets the same kind of warning, and so do two answers that
+    would otherwise be taken on trust: git answering for an enclosing
+    repository, as it does for a snapshot unpacked inside one, and a git too
+    old to say whether the clone is shallow. ``tests/test_science_preflight.py``
+    pins each case.
+    """
+    _head("3b. git history")
+    problems: list[str] = []
+    try:
+        top = _git("rev-parse", "--show-toplevel")
+        if not os.path.samefile(top, REPO_ROOT):
+            raise RuntimeError(f"git answers for {top}, not for this tree")
+        answer = _git("rev-parse", "--is-shallow-repository")
+        if answer not in ("true", "false"):
+            raise RuntimeError(
+                f"git cannot say whether this clone is shallow ({answer!r})"
+            )
+        shallow = answer == "true"
+        count = _git("rev-list", "--count", "HEAD")
+    except Exception as exc:
+        print(f"  NOT READABLE: {_why(exc)}")
+        print("  Same blind spot as a shallow clone: anything that counts commits,")
+        print("  reads a date, or asks when a file last changed cannot be done on")
+        print("  this tree, and guards that need the history do not run.")
+        print("  Fix:  work from a complete clone for anything that needs it.")
+        problems.append("git history not readable here: anything that counts "
+                        "commits, reads a date or asks when a file last changed "
+                        "cannot be done on this tree")
+        return problems
+
+    if shallow:
+        print(f"  SHALLOW CLONE: {count} commits, and the rest is not here.")
+        print("  Files are current; history is not. Nothing warns you.")
+        print("  Anything that counts commits, reads a date, or asks when a file")
+        print("  last changed is WRONG on this checkout, and some guards silently")
+        print("  skip rather than run (tests/test_dossier_hardy_z.py is one).")
+        print("  Fix:  git fetch --unshallow origin")
+        problems.append("shallow clone: run `git fetch --unshallow origin` before "
+                        "any measurement over git history, and before trusting a "
+                        "green suite")
+    else:
+        print(f"  complete: {count} commits")
     return problems
 
 
@@ -241,19 +341,27 @@ def main() -> int:
         print("  plainly rather than implying the tree was changed.")
 
     problems = _check_interpreter()
-    problems += _check_backend(args.allow_fallback)
+    backend_problems, warnings = _check_backend(args.allow_fallback)
+    problems += backend_problems
+    warnings += _check_history()
     _check_plotting()
     _check_lean()
     _where_to_write()
     _rules()
 
     _head("verdict")
+    for w in warnings:
+        print(f"  WARNING: {w}")
     if problems:
         for p in problems:
             print(f"  BLOCKED: {p}")
         print("\n  Exit 1. Fix the above, or re-run with --allow-fallback if you")
         print("  are doing exploratory work that will make no certified claim.")
         return 1
+    if warnings:
+        print("  Ready only for the work the warnings above leave open. They are")
+        print("  not blocks, and they are not optional reading either.")
+        return 0
     print("  Ready. Every claim this repository knows how to make is available.")
     return 0
 

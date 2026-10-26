@@ -510,6 +510,105 @@ renumbered there to #124 on 2026-09-16 after main took #119 for `lambda_dh_exact
 #127 because main had since taken #124 to #126. Its front door, numbered 38 on the branch, is
 `docs/40`. The rest of that branch is not landed.
 
+**Note, 2026-10-21.** "The rest of that branch is not landed" went stale the same day: the
+branch's other four hunts landed on 2026-10-10 as #128 to #131 (`li_dh_onset`, `epstein_height`,
+`quotient_exponent` and `claim_halflife`, in #298 to #301), each with its own renumbering note
+above. What the branch still held after that is settled by the landing of 2026-10-21 (#333).
+Its shallow-clone check in `scripts/science_preflight.py` landed, with the path that failed open
+fixed. Of its four `HANDOFF.md` records, the one on the three adversarial audits landed verbatim
+with a dated note (below, since `HANDOFF.md` is retired), and the other three are superseded
+by issues #217, #218 and #219, closed by #287 and #291. `zeta/li.py`'s coefficient cache `data/li_gamma_dps60_methodintegral_n128.json`,
+written during the `li_dh_onset` run and committed on the branch in `a9eba317a`, was not landed:
+`tests/test_li.py` states that every committed `data/li_*.json` table was checked out of band,
+and it names no check of this one. Nothing else on the branch is missing from main.
+
+**Record (2026-09-10): three write-ups, three adversarial audits, and the pattern in what
+they caught.** Moved here from `HANDOFF.md` when that file was retired on 2026-10-22; the
+text below is as it landed there, including its landing note.
+
+- **Believed:** that a hunt which measures carefully, states its grade, records
+  its controls and ends with a doors section has done the work. Four hunts in one
+  session did all of that.
+- **Invalidated by:** giving three of them to separate agents with no part in
+  producing the result, told to break the claim rather than review it. **All
+  three claims survived. All three write-ups needed correcting**, and the
+  corrections were not typographical:
+  - `euler_defect_axis`: eleven overclaims, including a residual presented as an
+    independent oracle when `R = |1 - a(1)| max|c(n)|` identically, and rows
+    called empty that are exactly the composite defect of `1 + Z_Q(s)`.
+  - `quotient_exponent`: the headline. It compared a three-parameter free fit
+    against a one-parameter reading of a conjecture whose own source states it
+    with a moving constant. Fitted like for like, the conjectured exponents win
+    with one parameter fewer. Its stated reason for reformulating the programme
+    was also false: the form it replaced returns the same optimum to `2.7e-14`.
+  - `epstein_height`: the guard. Six planted faults, all passing, and a call it
+    allows returns `0.59` of the 4 digits it promised, because every rung held
+    the form fixed and so tested the leading term rather than the term the hunt
+    had just derived. Its title was wrong too: `zeta/heatflow.py` and
+    `zeta/core.py` already carry this kind of guard.
+- **The pattern, which is the reason this is a record and not three notes.**
+  Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+  error. Every number in all three hunts reproduced. What failed each time was a
+  **comparison or a control**: a residual compared against something algebraically
+  forced to agree with it; a model compared against a version of its rival with
+  fewer degrees of freedom; a guard compared against faults that all varied the
+  same thing. A laboratory that checks its numbers and not its comparisons will
+  pass its own review every time.
+- **Now caught by:** nothing mechanical, and that is the honest state. What
+  worked is a separate agent, the write-up, the repository, and an instruction to
+  break it rather than read it. Three for three. The cheapest version of the
+  lesson, which does generalise: **when a control agrees with the thing it is
+  controlling, ask whether it could have disagreed.** Two of the three failures
+  are that question unasked.
+- **Justified conclusion:** the four control roles this tree already names
+  (rival, decoy, lesion, precision response) are about the *claim*. Nothing in
+  them looks at the *argument for* the claim, and all three failures here were
+  there. `hunts/*/AUDIT.md` carries each audit verbatim, including the attacks
+  that failed, because a list of only the hits reads as a review.
+
+> **Note on landing this record, 2026-10-21.** Ported verbatim from the
+> unmerged branch `claude/repo-hunt-content-2smbid` (commit `57cb2a5`). Its
+> three hunts are on main as #127 (`euler_defect_axis`, front door `docs/40`),
+> #129 (`epstein_height`, `docs/41`) and #130 (`quotient_exponent`,
+> `docs/42`). Read against their audits (`hunts/*/AUDIT.md`), three sentences
+> of the pattern paragraph do not hold as written:
+>
+> - "Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+>   error." Two of `euler_defect_axis`'s eleven overclaims are miscounts:
+>   "forms in the published table 44" with "forms whose a(1) equals 0: 30",
+>   and "all thirty of the others", where the artifact holds 41 forms, 27 of
+>   them non-principal. Replacing those counts is the first item under that
+>   audit's "Corrections required", from its attack 7 ("check the write-up's
+>   own arithmetic", outcome PARTIAL BREAK). `quotient_exponent`'s audit also
+>   required a count fix ("the 21 positive rows", where `artifacts/fit.json`
+>   holds 20) and a memory figure twice what its own formula gives (`3.2 GB`
+>   for `1.6 GB`), though neither is among the four attacks its summary says
+>   landed. (`epstein_height`'s eleven is its audit's summary line, "Eleven
+>   landed"; ten of its seventeen attack headings read BROKE IT, and attack 3,
+>   headed held, also led to a correction.)
+> - "Every number in all three hunts reproduced." The counts above did not.
+>   The headline measurements did reproduce, in the audits and again in main's
+>   2026-10-10 landing re-runs (the probes' artifacts, the Epstein grid, the LP
+>   values). Some secondary figures did not reproduce as printed, in all three
+>   hunts, and each is marked where it is stated: one count in
+>   `euler_defect_axis` (`RESULTS.md` section 2, `docs/40` section 3), four
+>   numbers in `epstein_height` (two of them in `docs/41` section 3) and four
+>   on `quotient_exponent`'s result page (noted in `docs/42` section 5).
+> - "What failed each time was a **comparison or a control**". True of the
+>   failure the record names in each hunt (the residual, the model comparison,
+>   the guard's fault ladder), not of every correction: the miscounts are
+>   counting errors, and `epstein_height`'s audit (attack 8) also found a step
+>   in `law.py`'s derivation that cancelled a real term against nothing.
+>
+> So read the pattern as describing each hunt's main failure, not every
+> correction: the audits caught arithmetic too. One figure in the record is
+> also tighter than its source: "the same optimum to `2.7e-14`" is the
+> `N = 10^3` row, and over the four diagonal cutoffs the relative difference
+> runs from `2.4e-14` to `7.0e-14` (`hunts/quotient_exponent/RESULTS.md`
+> section 2). The branch's other three `HANDOFF.md` records of that day are
+> not ported: issues #217, #218 and #219, closed by #287 and #291, supersede
+> them.
+
 ### Robin's inequality for 25-free integers (`robin_tfree/`, 2026-10-04)
 
 **Status: candidate, ordinary derivation, unreviewed, pending external verification;
@@ -1022,6 +1121,45 @@ screen flags is [228, 248], which holds the pair at gamma = 240.4046 that
 **Renumbered from #52 on 2026-09-12.** The hunt was opened on a branch that
 had not yet seen this case log's growth past #52, and main took that number
 for `r_e2ee73/` first; the directory name never changed.
+
+### Hunt #144: a finite reversal-closed adversary excludes the recorded pressure target (`reversal_minimax/`, 2026-09-04)
+
+*Numbered on landing, 2026-10-21.* Opened unnumbered on 2026-09-04, when
+this entry read "Reversal minimax probe", and landed by merge from
+`docs/simple-zero-research-target`, so its commits `7415efa1b`, `1c4625b04`
+and `43217587d` keep their hashes. #136 to #143 were held by other open
+hunts and same-day landings (this landing first took #143, which a
+concurrent landing of `support_fcffa3b9/` had also taken), so this
+entry takes #144.
+
+**Status: candidate refuted at the stated scope (`ALIGNMENT.md` section 5,
+disposition 1); hardened numerical leaves inside an unreviewed ordinary
+derivation, pending external verification. No new zeta proportion is
+claimed.** Whole-laboratory structural scout of the pressure optimization's
+reversal symmetry. At AMTOPA's fixed 17-term window and total pressure
+B = 93/23000, a finite mixed adversary (seven rational gap vectors from
+`amtopa_ceiling/`'s saved 2,200-cut pool, each with its reversal) bounds the
+supremum over the whole pair-weight and pressure polytope of inf_g F by
+182022320819207/23000000000000000, below 0.007914014. That excludes
+`amtopa_ceiling/`'s recorded endpoint 0.007916857810 and the targets
+19791/2500000 and 19786/2500000, for asymmetric coefficients too, and only
+for that window and B. The leaves carry Arb enclosures at 128 and 256 bits,
+agree with an independent mpmath quadrature at all 148 distances, and
+combine in exact rational arithmetic. `Symmetry.lean` (the averaging and
+budget deductions) has never been run through Lean, so nothing here is
+kernel-checked. `amtopa_ceiling/` section 7.7 withdrew the same endpoint on
+2026-09-06 by a different route; this bound agrees with that hunt's later
+bracket [0.0079107, 0.0079111939]; it is looser than that bracket's upper
+end, a float LP value, but enclosure-carrying. A counting audit shows the
+bridge's early span estimate overcharges pressure: an interior gap lies in
+(n-1)(m-n+1) local windows across all blocks, but the estimate charges it
+(n-1)(m-1) times. Its projected gains, 5/904171
+on the registered four-point coefficient and 80/14366681 on main's later
+m = 432 build, which still uses the coarse count, are candidates awaiting a
+replacement assembly. `RESEARCH_TARGET.md` records a proposed
+higher-correlation direction and the elementary bound H*m/(m-1) on the
+capped assembly. See [the results, the counting audit and the
+doors](reversal_minimax/RESULTS.md).
 
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
@@ -3371,6 +3509,23 @@ which says the 344-cell table was never put to the kernel: it was, on
 2026-08-13, and refuted on 7 of 9 chunks. No Lean was built here, so 476 is
 measured, one route, and the route is a model of the kernel. Nothing here bears
 on RH.
+
+**Run 2 (7b33f41e, 2026-08-19):** a reproduction under the same brief. After
+e585b52cb (2026-08-15) switched `o9_leaf.leaves()` and `build()` to the
+kernel-leaf mirror, run 1's probe silently lost its Arb baseline (it printed
+476 baseline cells, width ratios of 1.0 and 0 failures). Run 2 repaired it on
+`o9_leaf.leaves_arb`, and the repaired probe writes `results-7b33f41e.json`,
+leaving run 1's `results.json` and `HANDBACK.json` as they were. Every number
+that decides anything reproduced (344 cells at depth 20, minimum margin
+3632804926 ulp, all seven width ratios, 85 of 344 failing, 9/9 chunks, 476 cells
+at depth 22). The low digits of the failing-cell Arb margins are
+environment-dependent, and the cause is not identified: on a 2026-10-21 rerun
+machine (Linux x86_64) six of them differ from run 2's record by at most 56
+units on the `2^64` scale, with no verdict change, identically under
+python-flint 0.5.0, 0.6.0, 0.7.1, 0.8.0 and 0.9.0 and under run 1's and run 2's
+own code, and run 2's platform is not recorded. The "0.6 s end to end" runtime
+in `RESULTS.md` is out of date. Status stays settled; the grade stays measured,
+rung 1.
 
 ### Hunt #14: gate-5 property 6 is vacuous (`gate5_p6_b/`)
 

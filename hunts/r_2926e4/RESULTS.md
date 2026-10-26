@@ -8,6 +8,39 @@ every cell decided.
 Run `.venv/bin/python hunts/r_2926e4/probe.py` (0.6 s end to end); the numbers
 below are `results.json` verbatim.
 
+> **Run 2 (7b33f41e, 2026-08-19), a reproduction under the same brief.** After
+> e585b52cb (2026-08-15) switched `o9_leaf.leaves()` and `o9_leaf.build()` to
+> the kernel-leaf mirror, run 1's probe no longer had an Arb baseline: on main
+> at fb647bfc7 it printed 476 baseline cells, every kernel/Arb width ratio 1.0,
+> 0 of 476 failing and 2/12 chunk agreement. Run 2 repaired the probe
+> (`build_arb`, `cell_verdict_arb` and `damage_iv_arb` on `o9_leaf.leaves_arb`,
+> and `leaf_width_gap` reading `leaves_arb`), and the repaired probe now writes
+> `results-7b33f41e.json`, so `results.json` and `HANDBACK.json` stay run 1's
+> record. Every number that decides anything reproduced: 344 cells at depth 20
+> with minimum margin 3632804926 ulp, all seven width ratios, 85 of 344
+> failing, 9/9 chunk agreement, and 476 cells at depth 22. The low digits of
+> the failing-cell Arb margins are environment-dependent, and the cause is not
+> identified. A rerun on 2026-10-21 (Linux x86_64, Python 3.12.3) differs from
+> `results-7b33f41e.json` in seven values, each of which depends on the Arb
+> leaves: five of the eight listed failing-cell margins and the largest
+> failing-cell margin, by at most 56 units on the `2^64` scale, and the last
+> bit of the `sinX2` mean width ratio. No verdict, count or chunk result
+> changes. The python-flint version does not move them: on that machine
+> python-flint 0.5.0, 0.6.0, 0.7.1, 0.8.0 and 0.9.0 give bit-identical
+> output. Nor does the committed code: there, run 1's and run 2's own probes
+> (at the digests their telemetry records, each on its start commit's
+> `o9_leaf.py`) also give the rerun's values, while run 1's and run 2's
+> records carry identical digits. Run 2's platform and library versions are
+> not recorded; run 1's telemetry records a macOS terminal. The "0.6 s end to
+> end" above is out of date: run 2's recorded stages sum to about 3.7 s, and
+> the 2026-10-21 rerun took about 4 s wall time. Besides itself, run 2's
+> telemetry record lists three artifacts its branch wrote: `results.json`
+> (sha256 `d0cac9d0…`), which landed renamed as `results-7b33f41e.json` with
+> the same digest; `HANDBACK.json`, which was not landed; and `probe.py`
+> (sha256 `84a9817d…`). The landed `probe.py` (sha256 `40fe3878…`) is that
+> file with `RUN_ID`, `OUT_NAME` and docstring item 1 changed, so it no longer
+> matches the recorded digest. The grade is unchanged: measured, rung 1.
+
 ## 1. The caveat, put to a number
 
 The caveat says the Arb leaves and `BandCert/Leaves.lean`'s Taylor leaves
