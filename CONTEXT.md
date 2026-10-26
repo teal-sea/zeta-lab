@@ -1245,6 +1245,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `42-a-law-read-off-a-diagonal.md`, 42. A law read off a diagonal, and a headline read off a bad comparison
 - `43-what-happens-to-a-claim.md`, 43. What happens to a claim after it is recorded
 - `44-the-constant-in-the-wedge.md`, 44. The constant in the wedge: explicit constants for Jensen hyperbolicity, and whose wedge it is
+- `45-rh-to-height-fifty.md`, 45. RH to height 50, then 100, kernel-checked
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)
@@ -1311,7 +1312,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2319 test functions across 141 files (the collected count differs where tests are parametrised):
+2343 test functions across 142 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1383,6 +1384,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_li.py`, 56
 - `tests/test_meta_evals.py`, 17
 - `tests/test_meta_ledger.py`, 24
+- `tests/test_meta_self_report.py`, 24
 - `tests/test_moments.py`, 26
 - `tests/test_o9_cell_counts.py`, 3
 - `tests/test_o9_leaves_kernel.py`, 6

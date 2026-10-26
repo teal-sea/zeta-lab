@@ -1,0 +1,128 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-oyXeqoiRrDLKIDCKlkzXlj
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/run_odd_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/ODD_FORMULAS.md
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/frozen_envelope_L119.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/independent.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/l119.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd-referee/hunts/oob_envelope/re
+│   feree/odd.py
+└── 🔨 Created function execute.
+    └── ⚠ Non-preemptible functions are billed at 3.0x the list rate for CPU and
+        Memory.
+{"unit": "panels_main_0080_0090", "status": "completed", "elapsed_s": 61.37798881530762}
+{"unit": "panels_main_0030_0040", "status": "completed", "elapsed_s": 70.8524432182312}
+{"unit": "panels_main_0020_0030", "status": "completed", "elapsed_s": 71.39849781990051}
+{"unit": "panels_main_0090_0100", "status": "completed", "elapsed_s": 70.83136010169983}
+[modal-client] 2026-09-29T00:42:06+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=74.10, time_since_heartbeat_success=74.10, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_main_0060_0070", "status": "completed", "elapsed_s": 72.66115403175354}
+{"unit": "panels_main_0040_0050", "status": "completed", "elapsed_s": 74.15871906280518}
+{"unit": "panels_main_0010_0020", "status": "completed", "elapsed_s": 74.49456357955933}
+{"unit": "panels_main_0050_0060", "status": "completed", "elapsed_s": 75.50366234779358}
+{"unit": "panels_main_0070_0080", "status": "completed", "elapsed_s": 82.41301655769348}
+{"unit": "panels_main_0000_0010", "status": "completed", "elapsed_s": 86.12283658981323}
+{"unit": "panels_main_0100_0110", "status": "completed", "elapsed_s": 72.7722487449646}
+{"unit": "panels_main_0110_0120", "status": "completed", "elapsed_s": 69.16891980171204}
+{"unit": "panels_main_0160_0170", "status": "completed", "elapsed_s": 69.64132189750671}
+{"unit": "panels_main_0140_0150", "status": "completed", "elapsed_s": 70.8437716960907}
+{"unit": "panels_main_0120_0130", "status": "completed", "elapsed_s": 80.42178440093994}
+{"unit": "panels_main_0130_0140", "status": "completed", "elapsed_s": 84.75393009185791}
+{"unit": "panels_main_0170_0180", "status": "completed", "elapsed_s": 83.45726943016052}
+{"unit": "panels_main_0150_0160", "status": "completed", "elapsed_s": 88.34137439727783}
+{"unit": "panels_main_0190_0200", "status": "completed", "elapsed_s": 74.35391592979431}
+{"unit": "panels_main_0180_0190", "status": "completed", "elapsed_s": 86.07050633430481}
+{"unit": "panels_main_0200_0210", "status": "completed", "elapsed_s": 70.12444186210632}
+{"unit": "panels_main_0210_0220", "status": "completed", "elapsed_s": 70.24562287330627}
+{"unit": "panels_main_0230_0240", "status": "completed", "elapsed_s": 71.81644892692566}
+{"unit": "panels_main_0220_0230", "status": "completed", "elapsed_s": 75.62537670135498}
+{"unit": "panels_main_0270_0280", "status": "completed", "elapsed_s": 60.14179825782776}
+{"unit": "panels_main_0240_0250", "status": "completed", "elapsed_s": 72.01006054878235}
+{"unit": "panels_main_0250_0260", "status": "completed", "elapsed_s": 72.3214783668518}
+{"unit": "panels_main_0280_0290", "status": "completed", "elapsed_s": 66.07579326629639}
+{"unit": "panels_main_0260_0270", "status": "completed", "elapsed_s": 73.80583572387695}
+{"unit": "panels_main_0290_0300", "status": "completed", "elapsed_s": 75.44352102279663}
+{"unit": "panels_main_0320_0330", "status": "completed", "elapsed_s": 57.65146040916443}
+{"unit": "panels_main_0300_0310", "status": "completed", "elapsed_s": 78.5456612110138}
+{"unit": "panels_main_0310_0320", "status": "completed", "elapsed_s": 74.09966492652893}
+{"unit": "panels_main_0360_0370", "status": "completed", "elapsed_s": 61.058027505874634}
+{"unit": "panels_main_0330_0340", "status": "completed", "elapsed_s": 75.08854103088379}
+{"unit": "panels_main_0340_0350", "status": "completed", "elapsed_s": 73.18240261077881}
+{"unit": "panels_main_0370_0380", "status": "completed", "elapsed_s": 71.23720717430115}
+{"unit": "panels_main_0350_0360", "status": "completed", "elapsed_s": 81.89094471931458}
+{"unit": "panels_main_0380_0390", "status": "completed", "elapsed_s": 75.01822280883789}
+{"unit": "panels_main_0390_0400", "status": "completed", "elapsed_s": 87.2156617641449}
+{"unit": "panels_main_0400_0410", "status": "completed", "elapsed_s": 71.66992378234863}
+{"unit": "panels_main_0420_0430", "status": "completed", "elapsed_s": 68.23560690879822}
+{"unit": "panels_main_0410_0420", "status": "completed", "elapsed_s": 72.49764037132263}
+{"unit": "panels_main_0430_0440", "status": "completed", "elapsed_s": 73.6154477596283}
+{"unit": "panels_main_0440_0450", "status": "completed", "elapsed_s": 73.10871315002441}
+{"unit": "panels_main_0460_0470", "status": "completed", "elapsed_s": 68.98878717422485}
+{"unit": "panels_main_0450_0460", "status": "completed", "elapsed_s": 74.3831684589386}
+{"unit": "panels_main_0470_0480", "status": "completed", "elapsed_s": 69.56519365310669}
+{"unit": "panels_main_0480_0490", "status": "completed", "elapsed_s": 70.32791662216187}
+{"unit": "panels_main_0490_0500", "status": "completed", "elapsed_s": 71.84911608695984}
+{"unit": "panels_main_0500_0510", "status": "completed", "elapsed_s": 72.47618317604065}
+{"unit": "panels_main_0510_0520", "status": "completed", "elapsed_s": 74.4157280921936}
+{"unit": "panels_main_0520_0530", "status": "completed", "elapsed_s": 75.42568874359131}
+{"unit": "panels_main_0540_0550", "status": "completed", "elapsed_s": 71.06503796577454}
+{"unit": "panels_main_0550_0560", "status": "completed", "elapsed_s": 73.06566882133484}
+{"unit": "panels_main_0560_0570", "status": "completed", "elapsed_s": 72.8327956199646}
+{"unit": "panels_main_0570_0580", "status": "completed", "elapsed_s": 74.92223620414734}
+{"unit": "panels_main_0580_0590", "status": "completed", "elapsed_s": 75.06957125663757}
+{"unit": "panels_main_0530_0540", "status": "completed", "elapsed_s": 95.45668458938599}
+{"unit": "panels_main_0590_0600", "status": "completed", "elapsed_s": 77.88271427154541}
+{"unit": "panels_main_0620_0630", "status": "completed", "elapsed_s": 65.82105159759521}
+{"unit": "panels_main_0610_0620", "status": "completed", "elapsed_s": 71.54384422302246}
+{"unit": "panels_main_0630_0640", "status": "completed", "elapsed_s": 62.11881709098816}
+{"unit": "panels_main_0600_0610", "status": "completed", "elapsed_s": 88.62797474861145}
+{"unit": "panels_main_0640_0650", "status": "completed", "elapsed_s": 71.80134844779968}
+{"unit": "panels_main_0650_0660", "status": "completed", "elapsed_s": 72.52033567428589}
+{"unit": "panels_main_0670_0680", "status": "completed", "elapsed_s": 72.08197903633118}
+{"unit": "panels_main_0660_0670", "status": "completed", "elapsed_s": 87.32557225227356}
+{"unit": "panels_main_0680_0690", "status": "completed", "elapsed_s": 86.54246759414673}
+{"unit": "panels_main_0690_0700", "status": "completed", "elapsed_s": 75.43455266952515}
+{"unit": "panels_main_0710_0720", "status": "completed", "elapsed_s": 73.02284383773804}
+{"unit": "panels_main_0700_0710", "status": "completed", "elapsed_s": 73.96626949310303}
+[modal-client] 2026-09-29T00:51:03+0000 Modal Client → Modal Worker Heartbeat attempt failed (attempt_dur=65.06, time_since_heartbeat_success=65.06, error=ConnectionError('Deadline exceeded'))
+{"unit": "panels_main_0720_0730", "status": "completed", "elapsed_s": 84.68985605239868}
+{"unit": "panels_main_0740_0750", "status": "completed", "elapsed_s": 74.47680187225342}
+{"unit": "panels_main_0770_0780", "status": "completed", "elapsed_s": 62.43183135986328}
+{"unit": "panels_main_0730_0740", "status": "completed", "elapsed_s": 89.76068615913391}
+{"unit": "panels_main_0760_0770", "status": "completed", "elapsed_s": 87.60036563873291}
+{"unit": "panels_main_0750_0760", "status": "completed", "elapsed_s": 95.03532266616821}
+{"unit": "panels_main_0780_0790", "status": "completed", "elapsed_s": 73.72120714187622}
+{"unit": "panels_main_0790_0800", "status": "completed", "elapsed_s": 79.16751003265381}
+{"unit": "panels_main_0800_0810", "status": "completed", "elapsed_s": 74.90250134468079}
+{"unit": "panels_main_0830_0840", "status": "completed", "elapsed_s": 73.61918783187866}
+{"unit": "panels_main_0840_0850", "status": "completed", "elapsed_s": 64.09701418876648}
+{"unit": "panels_main_0810_0820", "status": "completed", "elapsed_s": 90.60411763191223}
+{"unit": "panels_main_0820_0830", "status": "completed", "elapsed_s": 83.53800868988037}
+{"unit": "panels_main_0850_0860", "status": "completed", "elapsed_s": 73.41784334182739}
+{"unit": "panels_main_0860_0870", "status": "completed", "elapsed_s": 66.69268774986267}
+{"unit": "panels_main_0870_0880", "status": "completed", "elapsed_s": 81.90964245796204}
+{"unit": "panels_main_0880_0890", "status": "completed", "elapsed_s": 90.24296307563782}
+{"unit": "panels_main_0890_0900", "status": "completed", "elapsed_s": 75.59652781486511}
+{"unit": "panels_main_0910_0920", "status": "completed", "elapsed_s": 59.87742209434509}
+{"unit": "panels_main_0900_0910", "status": "completed", "elapsed_s": 75.30056262016296}
+{"unit": "panels_main_0920_0930", "status": "completed", "elapsed_s": 73.48708653450012}
+{"unit": "panels_main_0940_0950", "status": "completed", "elapsed_s": 71.93721604347229}
+{"unit": "panels_main_0930_0940", "status": "completed", "elapsed_s": 74.84835696220398}
+{"unit": "panels_main_0950_0960", "status": "completed", "elapsed_s": 75.92926836013794}
+{"unit": "panels_main_0960_0970", "status": "completed", "elapsed_s": 72.88452243804932}
+{"unit": "panels_main_0970_0980", "status": "completed", "elapsed_s": 83.72921538352966}
+{"unit": "panels_main_0980_0990", "status": "completed", "elapsed_s": 80.91419577598572}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-oyXeqoiRrDLKIDCKlkzXlj
