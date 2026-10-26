@@ -9,15 +9,15 @@
   "N0": 630783,
   "lower_bound_column": "0.0376"
  },
- "grade": "Arb enclosures of the stated formulas (python-flint); the analytic inputs are the paper's Theorem 1.3, Corollary 5.3 and Lemma 10.1 as published",
+ "grade": "Arb enclosures of the stated formulas (python-flint); the analytic inputs are the paper's Theorem 1.3, Corollary 6.4 and Lemma 10.1 as published",
  "environment": {
   "python": "3.12.3",
   "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39"
  },
  "loadavg_at_start": [
-  "73.14",
-  "86.52",
-  "108.19"
+  "59.18",
+  "43.74",
+  "25.69"
  ],
  "euler2": [
   {
@@ -111,7 +111,7 @@
       "lower": "-0.6958210234905194",
       "upper": "-0.6958210234905191"
      },
-     "seconds": 9.87
+     "seconds": 2.88
     },
     "uniform": {
      "sigma": {
@@ -189,7 +189,7 @@
       "lower": "-0.6972188451587966",
       "upper": "-0.6972178793296516"
      },
-     "seconds": 8.43
+     "seconds": 2.45
     },
     "polymath_moll2_analytic": {
      "value_bounds_abs_E2_f_approximately": {
@@ -303,7 +303,7 @@
       "lower": "-0.6958073814595679",
       "upper": "-0.6958073814595676"
      },
-     "seconds": 4.88
+     "seconds": 3.51
     },
     "uniform": {
      "sigma": {
@@ -381,7 +381,7 @@
       "lower": "-0.6972051892667164",
       "upper": "-0.6972042234474213"
      },
-     "seconds": 2.91
+     "seconds": 2.3
     },
     "polymath_moll2_analytic": {
      "value_bounds_abs_E2_f_approximately": {
@@ -512,7 +512,7 @@
     "upper": "1.6840112812199748"
    }
   },
-  "seconds_direct_evaluation": 36.62
+  "seconds_direct_evaluation": 21.07
  },
  "rectangle_t0": {
   "rectangle": [
@@ -533,9 +533,9 @@
   "n_segments": 64,
   "n_failed": 0,
   "E_upper": {
-   "str": "[1.03069e-7 +/- 8.12e-14]",
-   "lower": "1.0306908115789688e-07",
-   "upper": "1.0306908115789692e-07"
+   "str": "[1.06684e-7 +/- 4.26e-13]",
+   "lower": "1.066835748171903e-07",
+   "upper": "1.0668357481719034e-07"
   },
   "eAB_upper": {
    "str": "[1.16980e-12 +/- 3.11e-18]",
@@ -543,9 +543,9 @@
    "upper": "1.1698031085183971e-12"
   },
   "eC0_upper": {
-   "str": "[1.03068e-7 +/- 8.88e-14]",
-   "lower": "1.0306791124376605e-07",
-   "upper": "1.0306791124376609e-07"
+   "str": "[1.06682e-7 +/- 4.06e-13]",
+   "lower": "1.0668240501408178e-07",
+   "upper": "1.0668240501408182e-07"
   },
   "Dz_bottom": {
    "str": "[8.4892745 +/- 4.32e-9]",
@@ -568,21 +568,22 @@
    "upper": "1.445802158835543"
   },
   "min_margin": {
-   "str": "[1.307564341 +/- 2.21e-10]",
-   "lower": "1.307564340779269",
-   "upper": "1.3075643407792696"
+   "str": "[1.307564337 +/- 1.65e-10]",
+   "lower": "1.3075643371647754",
+   "upper": "1.307564337164776"
   },
   "blocks": 20,
   "n_head": 32,
   "K": 16,
   "prec_bits": 128,
   "timings": {
-   "derivative_bounds": 73.16,
-   "multieval_setup": 45.33,
-   "mesh": 0.3,
-   "total": 118.79
+   "derivative_bounds": 36.44,
+   "error_bound": 0.08,
+   "multieval_setup": 25.19,
+   "mesh": 0.08,
+   "total": 61.8
   },
-  "seconds_total": 118.79
+  "seconds_total": 61.8
  },
  "rectangle_t_zero": {
   "rectangle": [
@@ -603,9 +604,9 @@
   "n_segments": 576,
   "n_failed": 0,
   "E_upper": {
-   "str": "[0.000411923 +/- 3.71e-10]",
-   "lower": "0.0004119233700643412",
-   "upper": "0.0004119233700643414"
+   "str": "[0.000426369 +/- 1.21e-10]",
+   "lower": "0.00042636912028242737",
+   "upper": "0.00042636912028242753"
   },
   "eAB_upper": {
    "str": "[1.33811e-10 +/- 1.56e-17]",
@@ -613,9 +614,9 @@
    "upper": "1.3381098450624348e-10"
   },
   "eC0_upper": {
-   "str": "[0.000411923 +/- 2.36e-10]",
-   "lower": "0.0004119232357986094",
-   "upper": "0.00041192323579860955"
+   "str": "[0.000426369 +/- 1.36e-11]",
+   "lower": "0.0004263689864714429",
+   "upper": "0.00042636898647144305"
   },
   "Dz_bottom": {
    "str": "[10085.468 +/- 4.06e-4]",
@@ -638,21 +639,22 @@
    "upper": "4.683149798092796"
   },
   "min_margin": {
-   "str": "[0.1367720355 +/- 3.51e-11]",
-   "lower": "0.1367720355350504",
-   "upper": "0.1367720355350505"
+   "str": "[0.1367575898 +/- 1.52e-11]",
+   "lower": "0.13675758978483232",
+   "upper": "0.1367575897848324"
   },
   "blocks": 20,
   "n_head": 32,
   "K": 16,
   "prec_bits": 128,
   "timings": {
-   "derivative_bounds": 69.11,
-   "multieval_setup": 45.28,
-   "mesh": 0.91,
-   "total": 115.31
+   "derivative_bounds": 38.92,
+   "error_bound": 0.11,
+   "multieval_setup": 26.04,
+   "mesh": 0.79,
+   "total": 65.87
   },
-  "seconds_total": 115.32
+  "seconds_total": 65.87
  },
  "polymath_row2_barrier_log": {
   "available": true,
@@ -667,5 +669,5 @@
    "cpu/wall(s): 1.84467e+10 133.169"
   ]
  },
- "seconds_total": 321.18
+ "seconds_total": 169.82
 }

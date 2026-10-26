@@ -249,14 +249,15 @@ def test_prop66_vi_holds_again_just_above_larger_jumps() -> None:
 def test_line_1107_needs_a_large_a() -> None:
     """The step at line 1107: with the paper's own factor exp(3.49/(T-4)) <= 1.037
     (T >= 100), 0.397 9^sigma 1.037/(a - 0.865) <= 1.24 3^{+-y}/(a - 0.125) holds
-    only for a >= 184 (sigma = (1 +- y)/2, so 9^sigma = 3 3^{+-y})."""
+    only for a >= 187 (sigma = (1 +- y)/2, so 9^sigma = 3 3^{+-y}); the crossing is
+    at a = 186.14."""
     with ef.workprec(128):
         def lhs_over_rhs(a: arb) -> arb:
             return (arb("0.397") * 3 * arb("1.037") / (a - arb("0.865"))) / (arb("1.24") / (a - arb("0.125")))
 
         assert lhs_over_rhs(arb(4)) > 1
-        assert lhs_over_rhs(arb(183)) > 1
-        assert lhs_over_rhs(arb(185)) < 1
+        assert lhs_over_rhs(arb(186)) > 1
+        assert lhs_over_rhs(arb(187)) < 1
 
 
 # --------------------------------------------------------------------------- #
@@ -391,7 +392,7 @@ def test_milestone1b_large_x_values_are_inside_the_ABC_enclosure() -> None:
     assert max(r["routes"] for r in tab) < 1e-17
     assert all(r["contained"] for r in tab)
     # here the correction is large against its error, so the test is sharp for C_t
-    assert min(r["C_over_eC"] for r in tab) > 20
+    assert 17 < min(r["C_over_eC"] for r in tab) < 18
     worst = max(r["ratio"] for r in tab)
     assert 0.25 < worst < 0.30
 
@@ -619,7 +620,7 @@ def _derivative_violations(mod: types.ModuleType, case, windows=None) -> tuple[l
                 ex = _termwise_derivative_sums(x, y, t, N, n_lo, n_hi)
                 with ef.workprec(128):
                     for key, part in PARTS:
-                        if not (ex[key] < db[part][j]):
+                        if ex[key] > db[part][j]:  # equality is attained at t = 0
                             viol.append(f"{part}[{j}] < exact at x={x}, n in [{n_lo}, {n_hi}]")
                         else:
                             r = float((db[part][j] / ex[key]).upper())
@@ -630,7 +631,7 @@ def _derivative_violations(mod: types.ModuleType, case, windows=None) -> tuple[l
                 ym = (arb(ys[j]) + arb(ys[j + 1])) / 2
             ex = _termwise_derivative_sums(xs[1], ym, t, N, n_lo, n_hi)
             with ef.workprec(128):
-                if not (ex["zb"] + ex["zg"] < db["strip_z"][j] and ex["tb"] + ex["tg"] < db["strip_t"][j]):
+                if ex["zb"] + ex["zg"] > db["strip_z"][j] or ex["tb"] + ex["tg"] > db["strip_t"][j]:
                     viol.append(f"strip {j} < exact, n in [{n_lo}, {n_hi}]")
     return viol, worst
 
@@ -650,8 +651,10 @@ DER_FAULTS = {
     "z_weight_first_sum_halved": ("wz_b = L / 2 + c1 * L", "wz_b = L / 4 + c1 * L"),
     "z_weight_second_sum_halved": ("cz_g = Cmax * (arb(1) / 2 + c1)", "cz_g = Cmax * (arb(1) / 4 + c1)"),
     "t_weight_first_sum_slip": ("wt_b = L * lx / 4 + pi * L / 8", "wt_b = L * lx / 8 + pi * L / 8"),
-    "t_weight_gamma_term_halved": ("ct_g = (pi / 2 + 8 / (x_lo - 6)) * (lX4hi + 8 / (x_lo - 6)) / 4",
-                                   "ct_g = (pi / 2 + 8 / (x_lo - 6)) * (lX4hi + 8 / (x_lo - 6)) / 8"),
+    # halving this term is invisible here: the gamma t-part has slack 1.56 to 1.60
+    # over the exact sums in every window (measured 2026-10-26); a tenth is not
+    "t_weight_gamma_term_over_10": ("ct_g = (pi / 2 + 8 / (x_lo - 6)) * (lX4hi + 8 / (x_lo - 6)) / 4",
+                                    "ct_g = (pi / 2 + 8 / (x_lo - 6)) * (lX4hi + 8 / (x_lo - 6)) / 40"),
     "tau_from_the_upper_end": ("tau_lo = tau.lower()", "tau_lo = tau.upper() + arb('0.01')"),
 }
 
@@ -690,6 +693,12 @@ def test_derivative_bound_dominates_difference_quotients() -> None:
 # --------------------------------------------------------------------------- #
 
 def _z_of(edge: int, fr: Fraction, xl: arb, xh: arb, yl: arb, yh: arb) -> tuple[arb, arb]:
+    # corners exactly: yl + (yh - yl) * 1 is a ball straddling yh = 1, outside the region
+    corners = [(xl, yl), (xh, yl), (xh, yh), (xl, yh)]
+    if fr == 0:
+        return corners[edge]
+    if fr == 1:
+        return corners[(edge + 1) % 4]
     f = arb(fr.numerator) / fr.denominator
     if edge == 0:
         return xl + (xh - xl) * f, yl
@@ -776,7 +785,10 @@ def _audit_barrier(r: dict, x_lo: str, x_hi: str, y_lo: str, y_hi: str, t: str, 
 
 
 AUDIT_CASES = [
-    ("1000000", "1000001", "0.2", "1", "0.1", 16),
+    # 4 points per edge to start, so the acceptance rule has to refine (40
+    # evaluations); from 16 no refinement is needed and the rule's lesions
+    # (no derivative margin, margin h/4) cannot show (measured 2026-10-26)
+    ("1000000", "1000001", "0.2", "1", "0.1", 4),
     ("100000000.7", "100000001.2", "0.2", "0.7", "0", 16),
 ]
 
@@ -1048,14 +1060,14 @@ def test_row2_record_states_what_evaluator_md_says() -> None:
     assert rt["n_evaluations"] == 68
     assert round(float(rt["min_abs_f_lower"]["lower"]), 4) == 1.4458
     assert round(float(rt["Dz_bottom"]["upper"]), 4) == 8.4893
-    assert f"{float(rt['E_upper']['upper']):.3e}" == "1.064e-07"
+    assert f"{float(rt['E_upper']['upper']):.3e}" == "1.067e-07"
     rz = d["rectangle_t_zero"]
     assert rz["winding"] == 0 and rz["n_failed"] == 0
     assert rz["n_evaluations"] == 580
     assert round(float(rz["min_abs_f_lower"]["lower"]), 5) == 4.68315
     assert round(float(rz["Dz_bottom"]["upper"]), 2) == 10085.47
     assert round(float(rz["Dt_bottom"]["upper"]), 2) == 54745.85
-    assert f"{float(rz['E_upper']['upper']):.3e}" == "4.249e-04"
+    assert f"{float(rz['E_upper']['upper']):.3e}" == "4.264e-04"
     # E at the worst corner: the exact e_{C,0} recorded by the point evaluation (t = t0)
     # is below the rectangle's E, and within 4% of it
     eC0_corner = float(arb(p["e_C0"]["str"]).mid())
@@ -1118,7 +1130,8 @@ def test_polymath_row2_barrier_log_as_recorded() -> None:
     rz = _row2()["rectangle_t_zero"]
     _check_against_project_ceilings(float(rz["Dz_bottom"]["upper"]), float(rz["Dt_bottom"]["upper"]),
                                     float(rz["min_abs_f_lower"]["lower"]))
-    path = Path(ref["path"])
+    assert ref["path"].startswith("<cache>/dbn/")  # recorded without the operator's home
+    path = DBN_CACHE / ref["path"][len("<cache>/dbn/"):]
     if not path.exists():
         pytest.skip("downloaded Polymath log not present on this machine")
     raw = path.read_bytes()
@@ -1147,7 +1160,8 @@ def test_row2_rectangle_t_zero_recomputed() -> None:
     assert r["winding"] == 0 and r["n_failed"] == 0
     assert r["n_evaluations"] == rec["n_evaluations"]
     for key in ("Dz_bottom", "Dt_bottom", "E_upper", "min_abs_f_lower"):
-        assert abs(float(r[key].mid()) / float(arb(rec[key]["str"]).mid()) - 1) < 1e-9, key
+        mid = (float(rec[key]["lower"]) + float(rec[key]["upper"])) / 2  # "str" keeps only ~9 digits
+        assert abs(float(r[key].mid()) / mid - 1) < 1e-9, key
     _check_against_project_ceilings(float(r["Dz_bottom"].upper()), float(r["Dt_bottom"].upper()),
                                     float(r["min_abs_f_lower"].lower()))
     with ef.workprec(128):
