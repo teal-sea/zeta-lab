@@ -230,6 +230,20 @@ artifacts:
   - inputs zeta_L_DH_a.json 6f274baf020c26bc3f0cc455f390f13f1b3ac24259442f107d8f832940be9051, zeta_L_DH_b.json ff74f3436a3d383bbffe51924358ebf8eee875b9dc0da01679df5026d4bee9ff, zeta_L_DH_c_no7.json 4592eedf056f4387a9bd7bc15a7fbbf2459cf8da49f6150ab707d2ab8420831f (zeta_L_DH_c.json 5387fdee18308d468322f45fd3ba6f21b2b8fa3ce006d5f22680a146f3abc250 with its superseded {7} cluster removed), zeta_L_DH_d.json 6aa6b41aa7baba0f920b17d4759b480c10641950a68e6682fac642205f7496ea
 ```
 
+```runmanifest
+id: weil_dh_line-2026-10-26-merge-dh-L_DH
+hunt: weil_dh_line
+started: 2026-10-26T16:45Z
+finished: 2026-10-26T17:23Z
+ran:
+  - OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMBA_NUM_THREADS=1 nice -n 10 .venv/bin/python hunts/weil_dh_line/price.py --merge <cache>/weil_dh_line/parts/dh_L_DH_v2.json --merge-procs 3 --out k2env_dh_L_DH.json
+outcome: success (first step of run B), 37 min 50 s wall, 2012 s user and 247 s system (about 0.63 core-hours against the 1.0 estimated), 0.68 GB peak; every cluster re-bounded to its build value ({2,3,7} U 3.4565192383627505, 485 100 boxes; {2,13} U 0.7662182682168919, 219 816 boxes; {11,19,29} U 1.5014327584236216, 15 974 930 boxes; {17,23} U 0.31561446800606674, 132 332 boxes), frequency audit, Arb spot check and Arb box check ok in each cluster, weights cover the DH comb; dropped l1 tail at most 1.6e-76; S = 6.039784733009331 (S_exact in the file), so beta* > 0 needs T# above about 527.5
+artifacts:
+  - hunts/weil_dh_line/k2env_dh_L_DH.json (SHA-256 a4426e2179497454688488cbe4d3c1ab0527e3d0ef7e1846eec9b16f46f398ba)
+  - <cache>/weil_dh_line/parts/merge_dh_L_DH.log (SHA-256 57d063ad778c54f5cdde92823e108c255bb2691f860b494fb6b0371b96bc90d7)
+  - input <cache>/weil_dh_line/parts/dh_L_DH_v2.json (SHA-256 13ada3f5da5ec89ddfd3ea87f1f1fa6952c4e54b03e1e74a57128b1265dcc149)
+```
+
 Unit files of the scout at `L = 7/5` (`<cache>/weil_dh_line/scout_L140/`, about 30 MB each, kept out of git):
 
 ```

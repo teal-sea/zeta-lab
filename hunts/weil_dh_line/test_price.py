@@ -448,6 +448,26 @@ def test_joint_envelope_frequencies_and_bounds(tag):
     assert d["S"] < float(tab["S_sep"]["lower"])
 
 
+def test_dh_envelope_at_the_dh_line():
+    """k2env_dh_L_DH.json, the envelope of the K2 run on DH at L_DH: every cluster
+    re-bounded at merge time, its checks ok, S the sum of the cluster bounds plus
+    the dropped l1 tail, and beta* > 0 from T# = 540 (not at 520)."""
+    d = _load(HERE / "k2env_dh_L_DH.json")
+    L = price.WINDOWS["L_DH"]
+    assert d["kind"] == "dh" and Fraction(d["L"]) == L and d["weights_cover_comb"]
+    total = Fraction(0)
+    for c in d["clusters"]:
+        assert joint.frequency_audit(L, c["primes"], [tuple(k) for k in c["omega"]])["ok"]
+        assert c["sup_bound_recheck"]["U"] == c["U"] and not c["sup_bound"]["unresolved"]
+        assert c["arb_spot_check"]["ok"] and c["arb_box_check"]["ok"]
+        total += Fraction(c["U"])
+    S = Fraction(d["S_exact"])
+    assert total <= S <= total + Fraction(d["dropped_l1_upper"]) * 2
+    assert abs(float(S) - 6.039784733009331) < 1e-12
+    beta = lambda T: math.log(5 * T / (2 * math.pi)) - 1 / T - float(S)
+    assert beta(520) < 0 < beta(540)
+
+
 # ------------------------------------------------------------- K2 and DH data
 
 def test_dh_comb_reproduces_the_oob_envelope_k2_constant():
