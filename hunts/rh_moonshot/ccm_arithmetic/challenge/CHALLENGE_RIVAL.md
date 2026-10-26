@@ -84,7 +84,28 @@ the zero-matching phenomenon as a reproduction of CCM.
 | DH | Has the required real symmetry but no scalar Euler product. My independent cells find negative form values at c = 31 and c = 33, capture at c = 31, and loss of capture by c = 33. It lacks the arithmetic hypothesis and is refused at the proposed distinguishing step. |
 | Epstein (1,1,6) | Has a functional equation and an off-line zero but no scalar Euler product. The independent N = 32 form changes sign between c = 29 and c = 29.5. It lacks the named arithmetic input and is not a full counterexample. |
 | W_1/4 | Has a scalar Euler product and central symmetry, but local root moduli p^(1/4) and p^(-1/4) are not unitary. The independent N = 32 cells show a positive value with partial capture at c = 2 and a negative value with misfit above 0.998 at c = 3. It lacks unitarity and is not a counterexample to a unitary-local-root capture theorem. |
-| zeta(s - 0.1) | Has a scalar Euler product but is symmetric about 0.6, not 0.5, and has nonunitary local coefficients n^0.1. At 0.37 + 7.25i, the defect about its actual center is 2.09e-53 while the fixed-half defect is 0.0103207777726. It does not define the real even-sector distribution used by this construction without recentering, after which it is zeta itself. |
+| zeta(s - 0.1) | Has a scalar Euler product but is symmetric about 0.6, not 0.5, and has nonunitary local coefficients n^0.1. At the fixed half-center it lacks the even functional equation, so the even-sector cell is inapplicable. Recentered at 0.6, its data reduce exactly to zeta's and the independent (c, N) = (13, 32) cell has lowest value 2.258931190572945e-49 and radical misfit 0.0002269225529380233. It meets the recentered hypotheses and the conclusion, so it is not a counterexample. |
+
+#### Dated amendment, 2026-10-26
+
+The wave-2 challenge ran the previously missing shifted-zeta cell with delta =
+0.1. On the fixed line, the first node for c = 13 has evenness defect
+0.00988960093269. Thus the real even-sector construction does not apply there.
+The earlier symmetry check agrees: the defect about center 0.6 is 2.09e-53,
+while the fixed-half defect is 0.0103207777726.
+
+Recentring gives an exact rather than empirical identification. With center
+0.6, the gamma parameter is (0.6 - 0.1)/2 = 1/4, each raw prime weight
+Lambda(n)n^0.1 is multiplied by n^-0.6 and becomes Lambda(n)n^-1/2, and the
+two pole offsets are again plus or minus 1/2. The test
+`test_shifted_zeta_recentered_cell_is_exactly_the_zeta_cell` independently
+assembles both (c, N) = (6, 4) matrices and finds maximum entry defect below
+1e-50. At (13, 32), the recentered shifted cell has lowest value
+2.258931190572945e-49 and radical misfit 0.0002269225529380233. Ordinary
+double precision gives -1.4025498905815245e-15 at this scale and is discarded
+for the sign. The recentered rival passes capture because it is zeta under a
+coordinate translation. It also has its zeros on its own symmetry line, so it
+does not violate the conclusion.
 
 No listed rival meets every complete hypothesis and violates the conclusion.
 The computations therefore locate discrimination but do not prove the zeta
@@ -114,6 +135,22 @@ ran:
   - nice -n 10 /Users/thomas/zeta-lab/.venv/bin/python hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py --write hunts/rh_moonshot/ccm_arithmetic/challenge/results_rival.json
   - /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/ccm_arithmetic/challenge/test_rival_gate.py
 outcome: independent Galerkin assembly locates capture loss for DH and W_1/4 and a sign change for Epstein, while shifted zeta fails the fixed normalization; no rival refutes the complete implication and the zeta convergence step remains unresolved
+artifacts:
+  - hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py
+  - hunts/rh_moonshot/ccm_arithmetic/challenge/results_rival.json
+  - hunts/rh_moonshot/ccm_arithmetic/challenge/test_rival_gate.py
+  - hunts/rh_moonshot/ccm_arithmetic/challenge/CHALLENGE_RIVAL.md
+```
+
+```runmanifest
+id: rh_moonshot-ccm-arithmetic-rival-shifted-zeta-2026-10-26
+hunt: rh_moonshot
+started: 2026-10-26T13:35:00Z
+finished: 2026-10-26T13:36:56Z
+ran:
+  - nice -n 10 /Users/thomas/zeta-lab/.venv/bin/python hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py --write hunts/rh_moonshot/ccm_arithmetic/challenge/results_rival.json
+  - nice -n 10 /Users/thomas/zeta-lab/.venv/bin/python -m pytest -q -n0 hunts/rh_moonshot/ccm_arithmetic/challenge/test_rival_gate.py
+outcome: shifted zeta fails the fixed-half even-sector hypothesis; after recentering at 0.6 its Galerkin matrix and radical are exactly zeta's, and its measured c = 13, N = 32 cell is captured
 artifacts:
   - hunts/rh_moonshot/ccm_arithmetic/challenge/rival_gate.py
   - hunts/rh_moonshot/ccm_arithmetic/challenge/results_rival.json

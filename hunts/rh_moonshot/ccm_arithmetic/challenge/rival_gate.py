@@ -25,6 +25,7 @@ from zeta.epstein import (
 )
 
 FORM_116 = (1, 1, 6)
+SHIFT_DELTA = mp.mpf("0.1")
 
 
 def _prime_base(n: int) -> int | None:
@@ -176,6 +177,14 @@ def _prime_coefficients(kind: str, c: float, shift=mp.mpf("0.25")):
             for n in range(2, n_max + 1)
             if (p := _prime_base(n)) is not None
         ]
+    if kind == "zeta_shift_recentered":
+        delta = mp.mpf(shift)
+        center = mp.mpf(1) / 2 + delta
+        return [
+            (n, mp.log(p) * mp.power(n, delta) * mp.power(n, mp.mpf(1) / 2 - center))
+            for n in range(2, n_max + 1)
+            if (p := _prime_base(n)) is not None
+        ]
     if kind == "dh":
         lam = _log_derivative(lambda n: dh_coefficient(n, dps=60), n_max)
         return [(n, lam[n]) for n in range(2, n_max + 1)]
@@ -195,13 +204,22 @@ def matrix(kind: str, c: float, band: int, dps: int = 70):
     """Direct assembly of one even-sector truncated form."""
     with mp.workdps(dps):
         zero = [mp.mpf(0)] * (band + 1)
-        if kind in {"zeta", "dh"}:
-            parameter = mp.mpf(1) / 4 if kind == "zeta" else mp.mpf(3) / 4
-            conductor_term = -mp.log(mp.pi) if kind == "zeta" else -mp.log(mp.pi / 5)
+        if kind in {"zeta", "zeta_shift_recentered", "dh"}:
+            if kind == "zeta_shift_recentered":
+                center = mp.mpf(1) / 2 + SHIFT_DELTA
+                parameter = (center - SHIFT_DELTA) / 2
+                conductor_term = -mp.log(mp.pi)
+                coefficients = _prime_coefficients(kind, c, SHIFT_DELTA)
+            else:
+                parameter = mp.mpf(1) / 4 if kind == "zeta" else mp.mpf(3) / 4
+                conductor_term = -mp.log(mp.pi) if kind == "zeta" else -mp.log(mp.pi / 5)
+                coefficients = _prime_coefficients(kind, c)
             S, diagonal = _arch_sequences(c, band, parameter, conductor_term, dps)
-            P, R = _prime_sequences(c, band, _prime_coefficients(kind, c))
+            P, R = _prime_sequences(c, band, coefficients)
             base = _sequence_matrix(S, diagonal, P, R)
-            return _add(base, _pole_matrix(c, band, [mp.mpf(1) / 2])) if kind == "zeta" else base
+            if kind in {"zeta", "zeta_shift_recentered"}:
+                return _add(base, _pole_matrix(c, band, [mp.mpf(1) / 2]))
+            return base
         if kind == "epstein":
             s1, d1 = _arch_sequences(c, band, mp.mpf(1) / 4, -mp.log(mp.pi), dps)
             s2, d2 = _arch_sequences(c, band, mp.mpf(3) / 4, -mp.log(mp.pi / 5), dps)
@@ -245,6 +263,9 @@ def _completed(kind: str, t, dps: int):
     s = mp.mpf(1) / 2 + mp.j * t
     if kind == "zeta":
         return xi(s, dps=dps)
+    if kind == "zeta_shift_recentered":
+        center = mp.mpf(1) / 2 + SHIFT_DELTA
+        return xi(center + mp.j * t - SHIFT_DELTA, dps=dps)
     if kind == "dh":
         return completed_dh(s, dps=dps)
     if kind == "epstein":
@@ -289,15 +310,26 @@ def shifted_normalization(delta=mp.mpf("0.1"), dps: int = 50):
         value = xi(s - delta, dps=dps)
         actual = xi(1 + 2 * delta - s - delta, dps=dps)
         fixed = xi(1 - s - delta, dps=dps)
+        omega = 2 * mp.pi / mp.log(13)
+        fixed_plus = xi(mp.mpf(1) / 2 - delta + mp.j * omega, dps=dps)
+        fixed_minus = xi(mp.mpf(1) / 2 - delta - mp.j * omega, dps=dps)
+        centered_plus = xi(mp.mpf(1) / 2 + mp.j * omega, dps=dps)
+        centered_minus = xi(mp.mpf(1) / 2 - mp.j * omega, dps=dps)
         return {
             "delta": mp.nstr(delta, 12),
             "actual_center": mp.nstr(mp.mpf("0.5") + delta, 12),
             "actual_defect": mp.nstr(abs(value - actual), 12),
             "fixed_center_defect": mp.nstr(abs(value - fixed), 12),
+            "fixed_even_defect_at_first_node": mp.nstr(abs(fixed_plus - fixed_minus), 12),
+            "recentered_even_defect_at_first_node": mp.nstr(
+                abs(centered_plus - centered_minus), 12
+            ),
         }
 
 
 def report() -> dict:
+    shifted_cell = cell("zeta_shift_recentered", 13, 32, True)
+    shifted_cell.update({"delta": "0.1", "symmetry_center": "0.6"})
     cells = [
         cell("dh", 31, 64, True),
         cell("dh", 33, 64, True),
@@ -305,6 +337,7 @@ def report() -> dict:
         cell("epstein", 29.5, 32, False),
         cell("wa", 2, 32, True),
         cell("wa", 3, 32, True),
+        shifted_cell,
     ]
     return {
         "parameters": {"matrix_dps": 70, "radical_dps": 50},

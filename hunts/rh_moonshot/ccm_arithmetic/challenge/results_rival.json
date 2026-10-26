@@ -45,6 +45,16 @@
       "lambda_1": "-0.0007055346303098329",
       "lambda_1_numpy": "-7.0553463030957413e-04",
       "radical_misfit": "0.9987359365546526"
+    },
+    {
+      "band": 32,
+      "c": "13",
+      "delta": "0.1",
+      "kind": "zeta_shift_recentered",
+      "lambda_1": "2.258931190572945e-49",
+      "lambda_1_numpy": "-1.4025498905815245e-15",
+      "radical_misfit": "0.0002269225529380233",
+      "symmetry_center": "0.6"
     }
   ],
   "parameters": {
@@ -55,6 +65,8 @@
     "actual_center": "0.6",
     "actual_defect": "2.08809742976e-53",
     "delta": "0.1",
-    "fixed_center_defect": "0.0103207777726"
+    "fixed_center_defect": "0.0103207777726",
+    "fixed_even_defect_at_first_node": "0.00988960093269",
+    "recentered_even_defect_at_first_node": "3.58213326276e-62"
   }
 }

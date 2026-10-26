@@ -61,6 +61,21 @@ def test_shifted_zeta_lacks_the_fixed_even_normalization(payload):
     assert row["actual_center"] == "0.6"
     assert mp.mpf(row["actual_defect"]) < mp.mpf("1e-40")
     assert mp.mpf(row["fixed_center_defect"]) > mp.mpf("1e-3")
+    assert mp.mpf(row["fixed_even_defect_at_first_node"]) > mp.mpf("1e-4")
+    assert mp.mpf(row["recentered_even_defect_at_first_node"]) < mp.mpf("1e-40")
+
+
+def test_shifted_zeta_recentered_cell_is_exactly_the_zeta_cell(payload):
+    row = _cell(payload, "zeta_shift_recentered", "13")
+    assert row["delta"] == "0.1"
+    assert row["symmetry_center"] == "0.6"
+    assert mp.mpf(row["lambda_1"]) > 0
+    assert mp.mpf(row["radical_misfit"]) < mp.mpf("0.003")
+
+    shifted = R.matrix("zeta_shift_recentered", 6, 4, dps=60)
+    zeta = R.matrix("zeta", 6, 4, dps=60)
+    defect = max(abs(shifted[i, j] - zeta[i, j]) for i in range(5) for j in range(5))
+    assert defect < mp.mpf("1e-50")
 
 
 def test_challenge_is_independent_and_obeys_lexical_rules():
