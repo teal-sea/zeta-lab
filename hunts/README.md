@@ -75,6 +75,13 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #146: the out-of-band reduction priced at the Davenport-Heilbronn line (`weil_dh_line/`, 2026-10-21)
+
+**Status: open (being written).** Asks whether zeta's Weil window positivity can be
+proved with enclosures on a window where the Davenport-Heilbronn form is provably
+negative, half-width `L >= (log 30.617188)/2 = 1.7107808`. Record:
+`weil_dh_line/PRICE.md`, `weil_dh_line/MISSION.md`.
+
 ### Hunt #133: at least ten kernel-checked zeros of zeta on the critical line below height 50 (`hardy_ten_zeros/`, 2026-10-14)
 
 **Status: the target theorem compiles; a hunt result, not yet reviewed or landed.**

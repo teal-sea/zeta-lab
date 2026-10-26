@@ -1,0 +1,246 @@
+{
+ "1.4": {
+  "L": "7/5",
+  "c": 16.444646771097048,
+  "comb_terms": 12,
+  "comb": [
+   [
+    2,
+    0.2784707961133226
+   ],
+   [
+    3,
+    -0.3603736416418637
+   ],
+   [
+    4,
+    -1.4422319646064572
+   ],
+   [
+    6,
+    1.5810281160197042
+   ],
+   [
+    7,
+    0.41787169658100365
+   ],
+   [
+    8,
+    0.011236422373522474
+   ],
+   [
+    9,
+    -1.5239223874950911
+   ],
+   [
+    11,
+    1.4459852557162
+   ],
+   [
+    12,
+    -0.44044751381121067
+   ],
+   [
+    13,
+    -0.4041813888074496
+   ],
+   [
+    14,
+    -1.524475035934259
+   ],
+   [
+    16,
+    0.6908900729992591
+   ]
+  ],
+  "coupling_components": [
+   [
+    2,
+    3,
+    7
+   ],
+   [
+    11
+   ],
+   [
+    13
+   ]
+  ],
+  "S_pipeline": 9.196030969837528,
+  "S_parts": {
+   "2,3,7": [
+    "H = 0 on 3 primes, sum |c_n| over 10 terms",
+    8.270947647575694
+   ],
+   "11": [
+    "one-dimensional floor |c_p|/2",
+    0.7229926278581
+   ],
+   "13": [
+    "one-dimensional floor |c_p|/2",
+    0.2020906944037248
+   ]
+  },
+  "T_min_for_beta_positive": 12386.833747479901,
+  "T_feasible": 1000000.0,
+  "N_rule_at_T_min": 23569.63356154251,
+  "gate_closed_to_T_feasible": false,
+  "verdict": "the gate opens: the positivity step decides",
+  "dh_comb_floor_galerkin": 2.5433376745106306,
+  "T_oracle_floor": 15.987014971882404,
+  "note": "T_oracle_floor = (2 pi/5) e^{lambda_max(P_DH)} is the least split any envelope for the DH comb could reach (weak duality); no evaluable DH envelope is known to reach it"
+ },
+ "L_DH": {
+  "L": "171079/100000",
+  "c": 30.617752873631126,
+  "comb_terms": 22,
+  "comb": [
+   [
+    2,
+    0.2784707961133226
+   ],
+   [
+    3,
+    -0.3603736416418637
+   ],
+   [
+    4,
+    -1.4422319646064572
+   ],
+   [
+    6,
+    1.5810281160197042
+   ],
+   [
+    7,
+    0.41787169658100365
+   ],
+   [
+    8,
+    0.011236422373522474
+   ],
+   [
+    9,
+    -1.5239223874950911
+   ],
+   [
+    11,
+    1.4459852557162
+   ],
+   [
+    12,
+    -0.44044751381121067
+   ],
+   [
+    13,
+    -0.4041813888074496
+   ],
+   [
+    14,
+    -1.524475035934259
+   ],
+   [
+    16,
+    0.6908900729992591
+   ],
+   [
+    17,
+    0.3904127669078648
+   ],
+   [
+    18,
+    0.4183041373495743
+   ],
+   [
+    19,
+    -1.3510012584851134
+   ],
+   [
+    21,
+    1.4359689253917127
+   ],
+   [
+    23,
+    -0.3714593369255915
+   ],
+   [
+    24,
+    0.11315390163784499
+   ],
+   [
+    26,
+    1.3810607556221883
+   ],
+   [
+    27,
+    -0.009694159450564808
+   ],
+   [
+    28,
+    0.3866583023517838
+   ],
+   [
+    29,
+    -1.2505822757830296
+   ]
+  ],
+  "coupling_components": [
+   [
+    2,
+    3,
+    7,
+    13
+   ],
+   [
+    11
+   ],
+   [
+    17
+   ],
+   [
+    19
+   ],
+   [
+    23
+   ],
+   [
+    29
+   ]
+  ],
+  "S_pipeline": 14.824689665095727,
+  "S_parts": {
+   "2,3,7,13": [
+    "H = 0 on 4 primes, sum |c_n| over 17 terms",
+    12.419969218186813
+   ],
+   "11": [
+    "one-dimensional floor |c_p|/2",
+    0.7229926278581
+   ],
+   "17": [
+    "one-dimensional floor |c_p|/2",
+    0.1952063834539324
+   ],
+   "19": [
+    "one-dimensional floor |c_p|/2",
+    0.6755006292425567
+   ],
+   "23": [
+    "one-dimensional floor |c_p|/2",
+    0.18572966846279576
+   ],
+   "29": [
+    "one-dimensional floor |c_p|/2",
+    0.6252911378915148
+   ]
+  },
+  "T_min_for_beta_positive": 3447391.889291505,
+  "T_feasible": 1000000.0,
+  "N_rule_at_T_min": 8015891.77082131,
+  "gate_closed_to_T_feasible": true,
+  "verdict": "no bound: the envelope gate is closed at every T# up to T_feasible",
+  "dh_comb_floor_galerkin": 3.682683414233155,
+  "T_oracle_floor": 49.954998402609874,
+  "note": "T_oracle_floor = (2 pi/5) e^{lambda_max(P_DH)} is the least split any envelope for the DH comb could reach (weak duality); no evaluable DH envelope is known to reach it"
+ }
+}
