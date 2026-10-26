@@ -1,6 +1,6 @@
 # Runs: `field_audit`
 
-One night, one host (13-inch laptop, no cloud, no Lean build). Every external
+One night, one host (one laptop, no cloud, no Lean build). Every external
 repository was read or replayed read-only; nothing was posted, opened,
 commented, forked or starred anywhere.
 

@@ -1,0 +1,34 @@
+{
+  "volume": "oob-envelope-referee",
+  "directory": "/out/odd/3ce6ab9/panels_zhu_0100_0110",
+  "manifest": {
+    "unit": "panels_zhu_0100_0110",
+    "revision": "3ce6ab9",
+    "started_unix": 1790642263.0286398,
+    "status": "completed",
+    "cpu": 1,
+    "memory_limit_MiB": 1792,
+    "profile": "teal-sea",
+    "packages": {
+      "python-flint": "0.9.0",
+      "mpmath": "1.3.0",
+      "gmpy2": "2.2.1"
+    },
+    "input_sha256": {
+      "odd.py": "1626eaacac1f5b07711cd503f7d4b7528b99b8c3027beff3d7b8586f70d43110",
+      "l119.py": "331fe97835dc313b84603149983623c529b40779eddcbe7f8a69b05bdc7dc155",
+      "independent.py": "45a2cc82df77a926cd7a6bf2a39f31e9d907a94f82bbec394c8c6aeb89c14bfd",
+      "frozen_envelope_L119.json": "4c8f17b8a59c8011a726b88d2757c545e92e1f55c8dc9bb9416ff68cc6553e93",
+      "ODD_FORMULAS.md": "9bffd922674872169de8688858e749e89e51890d29ce1760c2a6f8a3af373083"
+    },
+    "work_limit_s": 165,
+    "elapsed_s": 16.946041345596313,
+    "output_sha256": {
+      "budget.json": "ec8c4461986102f726d49ba773a3de6fccdf79b7dae68f04757ef65cd82a7339",
+      "matrix.json": "41f30b4214fd4416a3ae766dc501a7bb9fc6a5b90fa23847494ad1e625ea61c8",
+      "matrix.json.gz": "ee658e4d792f8fd7d35cf56d5b25869aeb869f7f90f4c8484afd174020c4db28",
+      "progress.json": "41605fe2c99bfcd55c122be89692698f2fe9be6dbbbb0ed9ca47932074438edf",
+      "result.json": "839b39eb22edaad3ecc94b5c8f819e3c3b759ee768fa12e8326296eb4f23b285"
+    }
+  }
+}

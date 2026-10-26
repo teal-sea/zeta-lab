@@ -432,11 +432,98 @@ branch's other four hunts landed on 2026-10-10 as #128 to #131 (`li_dh_onset`, `
 above. What the branch still held after that is settled by the landing of 2026-10-21 (#333).
 Its shallow-clone check in `scripts/science_preflight.py` landed, with the path that failed open
 fixed. Of its four `HANDOFF.md` records, the one on the three adversarial audits landed verbatim
-with a dated note, and the other three are superseded by issues #217, #218 and #219, closed by
-#287 and #291. `zeta/li.py`'s coefficient cache `data/li_gamma_dps60_methodintegral_n128.json`,
+with a dated note (below, since `HANDOFF.md` is retired), and the other three are superseded
+by issues #217, #218 and #219, closed by #287 and #291. `zeta/li.py`'s coefficient cache `data/li_gamma_dps60_methodintegral_n128.json`,
 written during the `li_dh_onset` run and committed on the branch in `a9eba317a`, was not landed:
 `tests/test_li.py` states that every committed `data/li_*.json` table was checked out of band,
 and it names no check of this one. Nothing else on the branch is missing from main.
+
+**Record (2026-09-10): three write-ups, three adversarial audits, and the pattern in what
+they caught.** Moved here from `HANDOFF.md` when that file was retired on 2026-10-22; the
+text below is as it landed there, including its landing note.
+
+- **Believed:** that a hunt which measures carefully, states its grade, records
+  its controls and ends with a doors section has done the work. Four hunts in one
+  session did all of that.
+- **Invalidated by:** giving three of them to separate agents with no part in
+  producing the result, told to break the claim rather than review it. **All
+  three claims survived. All three write-ups needed correcting**, and the
+  corrections were not typographical:
+  - `euler_defect_axis`: eleven overclaims, including a residual presented as an
+    independent oracle when `R = |1 - a(1)| max|c(n)|` identically, and rows
+    called empty that are exactly the composite defect of `1 + Z_Q(s)`.
+  - `quotient_exponent`: the headline. It compared a three-parameter free fit
+    against a one-parameter reading of a conjecture whose own source states it
+    with a moving constant. Fitted like for like, the conjectured exponents win
+    with one parameter fewer. Its stated reason for reformulating the programme
+    was also false: the form it replaced returns the same optimum to `2.7e-14`.
+  - `epstein_height`: the guard. Six planted faults, all passing, and a call it
+    allows returns `0.59` of the 4 digits it promised, because every rung held
+    the form fixed and so tested the leading term rather than the term the hunt
+    had just derived. Its title was wrong too: `zeta/heatflow.py` and
+    `zeta/core.py` already carry this kind of guard.
+- **The pattern, which is the reason this is a record and not three notes.**
+  Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+  error. Every number in all three hunts reproduced. What failed each time was a
+  **comparison or a control**: a residual compared against something algebraically
+  forced to agree with it; a model compared against a version of its rival with
+  fewer degrees of freedom; a guard compared against faults that all varied the
+  same thing. A laboratory that checks its numbers and not its comparisons will
+  pass its own review every time.
+- **Now caught by:** nothing mechanical, and that is the honest state. What
+  worked is a separate agent, the write-up, the repository, and an instruction to
+  break it rather than read it. Three for three. The cheapest version of the
+  lesson, which does generalise: **when a control agrees with the thing it is
+  controlling, ask whether it could have disagreed.** Two of the three failures
+  are that question unasked.
+- **Justified conclusion:** the four control roles this tree already names
+  (rival, decoy, lesion, precision response) are about the *claim*. Nothing in
+  them looks at the *argument for* the claim, and all three failures here were
+  there. `hunts/*/AUDIT.md` carries each audit verbatim, including the attacks
+  that failed, because a list of only the hits reads as a review.
+
+> **Note on landing this record, 2026-10-21.** Ported verbatim from the
+> unmerged branch `claude/repo-hunt-content-2smbid` (commit `57cb2a5`). Its
+> three hunts are on main as #127 (`euler_defect_axis`, front door `docs/40`),
+> #129 (`epstein_height`, `docs/41`) and #130 (`quotient_exponent`,
+> `docs/42`). Read against their audits (`hunts/*/AUDIT.md`), three sentences
+> of the pattern paragraph do not hold as written:
+>
+> - "Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+>   error." Two of `euler_defect_axis`'s eleven overclaims are miscounts:
+>   "forms in the published table 44" with "forms whose a(1) equals 0: 30",
+>   and "all thirty of the others", where the artifact holds 41 forms, 27 of
+>   them non-principal. Replacing those counts is the first item under that
+>   audit's "Corrections required", from its attack 7 ("check the write-up's
+>   own arithmetic", outcome PARTIAL BREAK). `quotient_exponent`'s audit also
+>   required a count fix ("the 21 positive rows", where `artifacts/fit.json`
+>   holds 20) and a memory figure twice what its own formula gives (`3.2 GB`
+>   for `1.6 GB`), though neither is among the four attacks its summary says
+>   landed. (`epstein_height`'s eleven is its audit's summary line, "Eleven
+>   landed"; ten of its seventeen attack headings read BROKE IT, and attack 3,
+>   headed held, also led to a correction.)
+> - "Every number in all three hunts reproduced." The counts above did not.
+>   The headline measurements did reproduce, in the audits and again in main's
+>   2026-10-10 landing re-runs (the probes' artifacts, the Epstein grid, the LP
+>   values). Some secondary figures did not reproduce as printed, in all three
+>   hunts, and each is marked where it is stated: one count in
+>   `euler_defect_axis` (`RESULTS.md` section 2, `docs/40` section 3), four
+>   numbers in `epstein_height` (two of them in `docs/41` section 3) and four
+>   on `quotient_exponent`'s result page (noted in `docs/42` section 5).
+> - "What failed each time was a **comparison or a control**". True of the
+>   failure the record names in each hunt (the residual, the model comparison,
+>   the guard's fault ladder), not of every correction: the miscounts are
+>   counting errors, and `epstein_height`'s audit (attack 8) also found a step
+>   in `law.py`'s derivation that cancelled a real term against nothing.
+>
+> So read the pattern as describing each hunt's main failure, not every
+> correction: the audits caught arithmetic too. One figure in the record is
+> also tighter than its source: "the same optimum to `2.7e-14`" is the
+> `N = 10^3` row, and over the four diagonal cutoffs the relative difference
+> runs from `2.4e-14` to `7.0e-14` (`hunts/quotient_exponent/RESULTS.md`
+> section 2). The branch's other three `HANDOFF.md` records of that day are
+> not ported: issues #217, #218 and #219, closed by #287 and #291, supersede
+> them.
 
 ### Robin's inequality for 25-free integers (`robin_tfree/`, 2026-10-04)
 
@@ -643,10 +730,15 @@ a cancellation between two nonvanishing products of Dirichlet L-functions, so
 none is a counterexample (`docs/08` section 4.3): the rival lacks the
 hypothesis, its reciprocal's coefficients being non-multiplicative and
 unbounded (exact to 10^6). The Davenport-Heilbronn function has no zero past
-7/8 below height 300 and none known to the lab anywhere (its deepest census
-pair sits at 0.86953). Controls: gamma_1 recovered to 2e-16, planted faults
-detected, the class-number-one form sees nothing. Scan ranges are stated as
-limits in `qrh_rival_step/RESULTS.md`, which ends with the doors.
+7/8 below height 300 in this hunt's scan. The v6 census
+(doi:10.5281/zenodo.23585903) lists six right-side zeros past 7/8 for
+0 < Im s < 20,000; its deepest is at 0.897750155 + 2442.53029247i.
+These catalogue coordinates are external input, not part of this hunt's
+original scan. DH has no Euler product, so these zeros do not contradict
+the single-L-function theorem under discussion.
+Controls: gamma_1 recovered to 2e-16, planted faults detected, the
+class-number-one form sees nothing. Scan ranges are stated as limits in
+`qrh_rival_step/RESULTS.md`, which ends with the doors.
 
 ### Direct resolution attempt (`rh_resolve/`, 2026-10-03)
 
@@ -712,14 +804,26 @@ PASS). With it, for real even f:
   `≥ 5.71789230595e-48`, referee Clenshaw-Curtis-192 route `> 5.7179e-48`,
   N = 500 even Legendre modes, T# = 500, all error terms enclosed).
 
-Scope: even sector only; the odd sector is not bounded. No window claim found
-in the searched literature exceeds half-width 17/16 (Liu, unrefereed); Zhu
-withdrew his own `L = 1.19` claim. The threshold stays doubly exponential
-(the best out-of-band constant grows like `e^L`), so this is a fixed-window
-result, not a route to RH. Methods: `docs/37-methods.md` (out-of-band
-envelope lemma; residual-enclosed shifted Cholesky). Record:
+For real odd f at support 2.38 (`L = 1.19`, N = 500 odd Legendre modes,
+T# = 500, the same sine:16 envelope, all error terms enclosed): numerics
+GL-96 route `Q(f) ≥ 3.42853488205e-44 ‖f‖²`, referee Clenshaw-Curtis-192
+route `Q(f) > 2.99e-44 ‖f‖²` (1280-bit Arb; formulas and shift frozen
+before any worker code or artifact was read, though the brief disclosed
+the worker's endpoint; verdict PASS). The odd reduction was derived by the
+numerics worker and independently re-derived by the referee. Parity and
+real/imaginary cross terms cancel, so the even sector is the binding one:
+`Q(f) ≥ 5.7178e-48 ‖f‖²` for every complex `f ∈ L²` with
+`supp f ⊆ [-1.19, 1.19]`. That composite is a candidate, hardened by two
+independent implementations that share python-flint, resting on ordinary
+derivations, pending external verification. The `L = 0.8` line remains a
+real even statement. No window claim found in the searched literature
+exceeds half-width 17/16 (Liu, unrefereed); Zhu withdrew his own `L = 1.19`
+claim. The threshold stays doubly exponential (the best out-of-band
+constant grows like `e^L`), so this is a fixed-window result, not a route
+to RH. Methods: `docs/37-methods.md` (out-of-band envelope lemma;
+residual-enclosed shifted Cholesky). Record:
 `oob_envelope/numerics/RESULTS.md`, `oob_envelope/theory/RESULTS.md`,
-`oob_envelope/referee/REVIEW.md`.
+`oob_envelope/referee/REVIEW.md`, `oob_envelope/referee/ODD_REVIEW.md`.
 
 ### Weil positivity propagation across window size (`weil_propagation/`, 2026-09-23)
 
@@ -2486,6 +2590,44 @@ session took it, renumber. Nothing here bears on RH (docs/08).
 ### Hunt #73: Krenn-Gu 8x3 support frontier (`r_044dd2/`)
 
 **Status: support census settled; algebraic sieve open.** This hunt corrects the scope of Hunt #71: the 31 target-matching orbits do not quotient the full 252-variable polynomial system. All 31 branches have independently replayed support survivors, with 76 to 132 active entries and median 118, so the inherited support conditions close zero branches by themselves. On the sparsest branch, four survivors are excluded by exact signed-Laurent certificates. The size-2 stabilizer mirrors those into four more replayable cuts. Support 7 passes the independent support audit and avoids all eight cuts. Exact fixed-degree cap-3 and cap-4 spans do not exclude it. Cap-5 closure produced 13,379,522 relation multiples, but the first sparse elimination ordering hit measured fill-in before a membership decision. No branch is closed and no complex witness has been found.
+
+### Hunt #140: Krenn-Gu 8x3: bounded unrestricted Groebner step on Support 7 (`r_abf47b/`)
+
+> **Renumbered on landing, 2026-10-21.** Opened as #77 on `hunt/r-abf47b-bddff380`
+> (run `bddff380`, 2026-08-22); renumbered on landing because `aimo2/` holds #77.
+> It takes #140 because two landings opened the same hour take the numbers below it:
+> `mobius_orbits/` takes #138 (`land/mobius-orbits-20261021`) and `seven_eighths_pin/`
+> takes #139 (`land/quasi-riemann-seven-eighths-20261021`).
+> `hunts/r_abf47b/` is the stable reference.
+
+**Status: attempt unresolved, no algebraic conclusion; one exact orbit result.**
+Continues Hunt #74 (`r_31b6c1/`) on Hunt #73's Support 7 for orbit 18, in two parts.
+*The orbit refinement stands.* The 57 H x S2 orbits on matching pairs (H = S2 wr S4,
+the stabilizer of M0) only refine the 31 S8 x S3 orbits on matching triples: S8 is
+transitive on the 105 perfect matchings, so every triple orbit meets the slice
+{M0} x PM x PM, and the 57 map onto the 31 (fibres of one, two and three pair orbits
+over 8, 20 and 3 triple orbits). Two skeletons over one triple orbit are symmetric
+copies, so Hunt #74's thread, scale the sieve to the 57 pair-orbit skeletons, adds no
+branch. Exact finite check on two routes: `map_orbits.py` over all 105^3 triples, and
+`test_orbit_refinement.py`, added on landing, on the slice alone against Hunt #71's
+orbit sizes. *The Groebner step does not test Support 7.* `run_groebner.py` gave
+`sympy.groebner` (grevlex) the three monochromatic target brackets as zero generators
+next to the 6,558 relations of Hunt #73's `build_system`: 6,561 generators in 138
+variables, every one homogeneous of degree 3 or 4 with no constant term, and no torus
+saturation. That ideal is proper, the origin being a common zero, so its basis can
+never be [1] and the 300 s timeout says nothing about Support 7. The question Hunt #73
+Result 4 poses is membership of the target product in the relation ideal saturated by
+the variables. The run also stopped at its own 5-minute alarm although the mission
+allowed 20 minutes. Its "32.59 MB peak" is the run's own report and is unverified: by
+the script's code it would be the resident set size at the alarm, and the committed
+script, rerun unchanged at landing, read 600.5 MB there and already 84.4 MB before the
+Groebner call starts. The calibration reruns main's code (`cap3.json` is
+byte-identical to a fresh cap-3 screen; r_31b6c1's 6x3 gate) and is not an independent
+route, and its cap-4 4,216 replay is reported without an artifact. `RESULTS.md` keeps
+the run's text and carries the "Audit correction" that governs it; `PROBE_RESULTS.md`
+is retitled as this hunt's rerun of r_31b6c1's probe. Orbit 18 remains open, no branch
+is closed, and no complex witness has been found. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 
 **Status: closed (2026-08-16), gate verdict publication candidate; hardened
@@ -4167,3 +4309,30 @@ degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
 Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
+
+### Hunt #137: a kernel-checked RH to finite height for Mathlib's zeta (`rh_height_lean/`, opened 2026-10-21)
+
+**Status: both targets closed by a clean Lean-kernel build; independent
+`con-ron --verified` whole-closure acceptance.** On 2026-10-22 the height-50
+theorem and exact count (ten zeros) compiled from source. On 2026-10-23
+`RHHeight100.rh_height_hundred` and
+`RHHeight100.zero_count_hundred` compiled from source and the final audit accepted
+100 reports with only the three standard axioms. Every zero of Mathlib's
+`riemannZeta` in `0 < Re rho < 1`, `0 < Im rho <= 100` is on the critical line,
+has analytic order one, and there are exactly 29 distinct zeros in that window.
+The build retained 102 objects. `CheckMain100.lean` pins the unfolded final
+types; [RESULTS.md](rh_height_lean/RESULTS.md) records the build, reproduction,
+limitations and inconclusive checker attempts. `con-ron --verified` timed out
+at a 60,000/81,674 progress marker; a retry with `--progress=5000` showed no
+further marker, not evidence of zero completed checks. A later 8-worker
+`--progress=1` gate continued checking to 61,363/81,674 before its 1,200-second
+wall stop; its local receipt is in the bundle's `evidence/gate8/`. NanoDa reached
+a 43 GiB RSS bound, and Lean's `leanchecker --fresh` timed out. These are
+inconclusive, not rejections. A subsequent 8-worker `con-ron --verified` run
+on the same exported closure and checker binary exited 0 on 2026-10-24:
+81,674/81,674 checks and 82,680 accepted declarations. Its receipt and
+raw logs are kept in the local evidence bundle described in RESULTS.md.
+The argument uses the vendored `zeta23` folded count, rigorous Lean enclosures,
+and hunts #132 and #133's first ten located zeros plus nineteen new boxes.
+The novelty search in RESULTS.md is bounded and makes no priority claim. This
+finite theorem says nothing above 100 or about RH itself.

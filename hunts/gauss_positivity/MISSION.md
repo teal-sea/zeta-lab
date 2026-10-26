@@ -43,7 +43,7 @@ criterion and testing whether `Φ` meets it is the work.
 
 ## Compute discipline
 
-Heavy work runs on Modal, never on the operator's machines, per `AGENTS.md`
+Heavy work runs on Modal, never locally, per `AGENTS.md`
 "Compute discipline". One unit is measured and multiplied before any sweep.
 Budget and per-run notes in `RUNS.md`.
 
@@ -89,5 +89,5 @@ agents_may_not:
   - declare novelty
   - declare theorem status
   - promote their own claim
-  - run heavy work on the operator's machines
+  - run heavy work locally
 ```

@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "claim_id": "oob-envelope-odd-L119-candidate",
+  "repository": {
+    "commit": "710b7a8461ec81cfc4accdac3bcc350aec17727a",
+    "dirty": true,
+    "runner_introduced_at": "93f1fc6"
+  },
+  "command": "modal run hunts/oob_envelope/numerics/stage_b_odd_modal.py --cfg B",
+  "environment": {
+    "software": [
+      "Python 3.12 (Modal image)",
+      "python-flint 0.9.0 (pinned image)",
+      "Modal CLI 1.5.5"
+    ],
+    "hardware": "Modal CPU containers, one requested CPU each; at most 12 unit containers; reducer one CPU"
+  },
+  "mathematics": {
+    "assertion_tested": "Odd full-space reduced-form lower endpoint at L=119/100, using a 500-mode head plus tail and coupling bounds.",
+    "coefficient_domain": "Arb real balls at 384 bits; exact rational inputs and dyadic midpoint factors and lower endpoints.",
+    "conventions": "Fourier exp(itx); normalized odd Legendre orders 2i+1; multiplier columns F/i; pole -2ss^T with sinh moments; first discarded order 1001.",
+    "inputs": [
+      {
+        "path": "hunts/oob_envelope/numerics/stage_b_odd_modal.py",
+        "sha256": "fd5bdcbec5bca6369a8b08cba3fd8c802fe686e39da48d868c87964db0b054ac"
+      },
+      {
+        "path": "hunts/oob_envelope/numerics/assemble.py",
+        "sha256": "4f019ffec671d0ac5af850eda85a4dcb626a53240daea2eb84998883b6e16c9e"
+      },
+      {
+        "path": "hunts/oob_envelope/numerics/harden.py",
+        "sha256": "22b1d4789af9e8e148ec9afab8a9c3280d5bcc073d088b83afea4696847ad330"
+      },
+      {
+        "path": "hunts/oob_envelope/numerics/envelope.json",
+        "sha256": "4c8f17b8a59c8011a726b88d2757c545e92e1f55c8dc9bb9416ff68cc6553e93"
+      }
+    ],
+    "bounds": {
+      "L": "119/100",
+      "T": "500",
+      "N": 500,
+      "q": 96,
+      "h": "1/2",
+      "prec_bits": 384,
+      "env": "sine:16",
+      "validation_L": "4/5",
+      "validation_T": [
+        150,
+        100,
+        40
+      ],
+      "modal_budget_core_hours": 4
+    },
+    "non_claims": [
+      "No claim about RH or unbounded support.",
+      "No independent reproduction of this odd main run.",
+      "No optimality or ceiling claim.",
+      "The ordinary analytic reduction and existing envelope remain explicit dependencies."
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "none",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-09-28T23:21:06Z",
+    "runtime_seconds": 649,
+    "exit_status": 0,
+    "task_timed_core_seconds": 5435.763058185577,
+    "task_conservative_core_hour_envelope": 2.855277777777778,
+    "all_owned_apps_stopped": true
+  },
+  "outputs": [
+    {
+      "path": "hunts/oob_envelope/numerics/odd_zhu_result.json",
+      "sha256": "eb05fedea0a118c5f8a162e432d82d2e9b3caa3eb54e04df96dc96b9d5d13a30"
+    },
+    {
+      "path": "hunts/oob_envelope/numerics/odd_val_result.json",
+      "sha256": "ea74950f18a1d188a5e754655d04bfc4ea3836257056bbd73d17f8a83333b7bf"
+    },
+    {
+      "path": "hunts/oob_envelope/numerics/odd_val40_result.json",
+      "sha256": "e6e2da23a9c7442a8c0525cb65d2ada5fe60ee87960e7e9be0a9122595b2c4f8"
+    },
+    {
+      "path": "hunts/oob_envelope/numerics/odd_main_result.json",
+      "sha256": "7b5316e742ca6cf579e3be839d340188d7939371fed9f9174680982c7ada5034"
+    },
+    {
+      "path": "hunts/oob_envelope/numerics/odd_main_run.log",
+      "sha256": "2841939e3fb69dc99b584281dd2564af4a0e1277b5079e5489092b488849ec63"
+    },
+    {
+      "path": "hunts/oob_envelope/numerics/odd_pilot_run.log",
+      "sha256": "71685aa1c6632528ceba05d585e4d5cfb3aa629902ebcbae59692d6ac1329389"
+    },
+    {
+      "path": "hunts/oob_envelope/numerics/odd_apps_terminal.json",
+      "sha256": "d81611cf6ab720d803884a289cf9e2edb1efef881bc72ba19d5796c7ca275bdd"
+    },
+    {
+      "path": "hunts/oob_envelope/numerics/odd_derivation.md",
+      "sha256": "e5060dc0f60558204afd57c687a8328ea16907c0227c32e82bc5f500220874bc"
+    }
+  ],
+  "checks": [
+    "Tiny direct-integral checks on the first three odd modes: maximum measured defect 1.02e-56 at 55 dps.",
+    "Odd cut double factorials and decreasing geometric tail ratios checked in all four configurations.",
+    "Zhu measured eigenvalue ratio 1.0000042173; enclosed lower endpoint exceeds his published value.",
+    "Positive pole raises measured eigenvalue by factors 70284.75 and 77472.50 in the two validation runs.",
+    "T=40 reduction refused; negative Rayleigh witness enclosed after quadrature error.",
+    "Every positive main row rejects the 1.01-times overshift.",
+    "Drop-H and flip-H do not discriminate at T=100.",
+    "All 50 distinct main unit blocks complete; pilot counted once.",
+    "All four downloaded reducer source hashes match local inputs.",
+    "Positive decimal endpoints are no larger than exact rational endpoints.",
+    "Odd and even configurations use identical L and H; the even endpoint is smaller.",
+    "All five owned apps stopped, zero tasks."
+  ],
+  "result": "Odd endpoint >=3.42853488205e-44; measured head lambda_min 3.46316654753e-44. With the prior even run, the all-complex fixed-window candidate is >=5.71789230595e-48.",
+  "residual_risks": [
+    "Single route with shared assemble.py, harden.py and envelope.json dependencies.",
+    "Analytic derivation is ordinary mathematics, not kernel-checked.",
+    "Timed core-seconds exclude startup and checkpoint serialization; the conservative app-lifetime envelope includes them.",
+    "Two heartbeat warnings occurred; all units and the reducer completed without restart.",
+    "Version-1 manifest records explicit input hashes, but has no automatic before/after execution capture; source equality was checked on readback."
+  ]
+}

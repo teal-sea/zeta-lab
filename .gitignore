@@ -104,3 +104,7 @@ hunts/*/board.live.json
 # meta/evals/logs/ stay tracked.
 /logs/
 /logs-tooled/
+
+# Operator-specific agent instructions and local tool state (not public record)
+CLAUDE.local.md
+.ostoyae/

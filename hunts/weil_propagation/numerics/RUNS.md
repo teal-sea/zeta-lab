@@ -1,6 +1,6 @@
 # RUNS: estimates written before launch
 
-Machine: operator laptop (M-series, 16 GB). Every run is single-process,
+Machine: an M-series laptop, 16 GB. Every run is single-process,
 under 10 minutes, under 1 GB, checkpointed per unit (resumable).
 
 | run | unit cost (measured) | units | estimate | actual |
