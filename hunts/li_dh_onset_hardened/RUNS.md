@@ -182,3 +182,51 @@ evaluator measured 0.14 s on the same nodes.
 | the branch cover in iv (B needed about 20k arc evaluations) | about 0.3 core-hours |
 | DFT, extraction, comparison | under 0.05 core-hours |
 | **total** | **about 5 core-hours**, inside the pre-approved 6 |
+
+**Overrun against the pre-approved 6 core-hours, and its cause.** Phase 1 (all
+262,145 nodes in mpmath.iv, 4 processes) took 3833 s wall, 4.26 core-hours,
+close to Estimate 3. Phase 2 is single-process: the M(rho) arc cover and the
+branch-cover arc balls, both in iv. Estimate 3 under-priced it. The measured
+iv/Arb cost ratio on covers is about 200x: the rho = 0.95 cover took about 140 s
+in iv against 0.7 s in Arb. That ratio is much larger than the per-node ratio,
+because a cover evaluates f on wide interval boxes at |s| up to about 150,
+where the Euler-Maclaurin length grows with |s|. Projected total: about 6 to 7.5
+core-hours. The coordinator approved up to 9 core-hours at 16:16, with the rule:
+stop and report partial results if the projection passes 9. They also asked
+for per-arc checkpoints. The first phase 2 attempt (PID 1269549) had none, so it
+was stopped after 17 minutes (0.29 core-hours, lost). Checkpointing was added
+to `trapezoid.bound_M` (every 50 arcs) and `trapezoid.sample_upper` (every 100
+blocks), and resume was checked against an uninterrupted run (identical M and
+closure). Phase 2 was relaunched at 16:18:56 as PID 1696302, reading phase 1 from
+the cache, and watched by `kill -0` on that PID.
+
+```runmanifest
+id: li_dh_onset_hardened-2026-10-26-B-iv
+hunt: li_dh_onset_hardened
+started: 2026-10-26T14:57
+finished: 2026-10-26T18:00:51
+ran:
+  - .venv/bin/python hunts/li_dh_onset_hardened/ivpipe.py --procs 4   (phase 1; phase 2 stopped at 16:18 to add checkpoints)
+  - .venv/bin/python hunts/li_dh_onset_hardened/ivpipe.py --procs 1   (PID 1696302; phase 1 from cache, phase 2 to the end)
+outcome: run B repeated with every evaluation of f, log G and S(3/2) in mpmath.iv; first ball-negative index 328997 with none undecided; signs agree with run B at all 500000 indices, all decided by both; the balls intersect at every n, at 328996 and 328997, and at all 1000 pre-registered sample indices
+artifacts:
+  - hunts/li_dh_onset_hardened/artifacts/production_B_iv.json
+  - <cache>/li_dh_onset_hardened/lambda_B_iv.txt (out of git, 25009633 bytes, sha256 901380462bf4f7435bddcd510e6787e231ca09b54cfb5651d68aeadc54924aa2)
+```
+
+**Actuals against the approved 9 core-hours.** Phase 1: 3833 s on 4 processes,
+4.26 core-hours. The stopped phase 2 attempt: 0.29. Phase 2: 6114 s on one
+process, 1.70 core-hours. Within that, the M(rho) cover took 3540 s (15,313
+arcs, against about 5,100 in Arb), tracking took 2546 s (6,192 cover balls,
+34,007 splits and 1,436 arc bisections, against 3,573, 16,012 and 82 in Arb),
+and the DFT took 11 s. Profiling and smoke runs added about 0.2.
+**Total: about 6.45 core-hours**: 0.45 over the pre-approved 6 and 2.55 under
+the approved 9. The overrun came entirely from the covers, which ran 140 to 200
+times Arb's time, as stated above. The phase 1 checkpoints (66 MB) were deleted
+after the run. The cache holds only the three tables (77 MB in all).
+
+Regenerating `lambda_B_iv.txt` at commit 485359c38 or later (the
+checkpointing in `trapezoid.py` is in the follow-up commit, which changes no
+values): `nice -n 10 .venv/bin/python hunts/li_dh_onset_hardened/ivpipe.py
+--procs 4`. It takes about 1.1 h on 4 processes for phase 1, plus 1.7 h on one
+process, then `sha256sum ~/.cache/zeta-lab/li_dh_onset_hardened/lambda_B_iv.txt`.

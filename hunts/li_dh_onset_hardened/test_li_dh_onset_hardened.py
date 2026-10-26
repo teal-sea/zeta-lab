@@ -229,3 +229,42 @@ def test_the_two_radii_rule_held():
     assert t["n_common"] == 500_000 and t["disjoint_count"] == 0 and t["rule_holds"]
     assert t["sha256_A"] == _load("production_A.json")["table"]["sha256"]
     assert t["sha256_B"] == _load("production_B.json")["table"]["sha256"]
+
+
+# ---------------------------------------------------------------------------
+# the independent-evaluator rerun of run B (pre-registered, MISSION.md)
+# ---------------------------------------------------------------------------
+
+def test_the_sample_is_the_preregistered_one():
+    import ivpipe
+    s = ivpipe.sample_indices()
+    assert (ivpipe.SAMPLE_SEED, len(s)) == (1512026, 1000)
+    assert s[:5] == [312, 546, 986, 1390, 1759] and s[-3:] == [498499, 499466, 499616]
+
+
+def test_iv_fast_meets_arb_and_the_slow_iv_route():
+    import evaluator
+    import iv_fast
+    import iv_route
+    from balls import f_ball
+    from trapezoid import node, s_of
+    C = iv_fast.Ctx(256)
+    for k in (0, 977, 131072):
+        s = iv_route.node_s(2500, k, 2 ** 19, 256)
+        b = iv_route.bounds(iv_fast.f_fast(s, C))
+        assert evaluator.meets(b, iv_route.bounds(iv_route.f_iv(s, 256, C.kappa)))
+        with prec_guard(256):
+            r = (1 - 1 / q_arb(2500)).sqrt()
+            fb = f_ball(s_of(node(r, k, 2 ** 19)), 256)
+        assert evaluator.meets(evaluator.ball_box(fb), b)
+
+
+def test_the_independent_rerun_agrees_with_run_B():
+    d = _load("production_B_iv.json")
+    assert d["evaluator"].startswith("mpmath.iv")
+    assert d["decision"]["first_ball_negative_n"] == 328997
+    assert d["decision"]["undecided_count"] == 0
+    c = d["comparison_with_B"]
+    assert c["sign_disagreement_count"] == 0
+    assert c["sample_size"] == 1000 and c["sample_miss_count"] == 0
+    assert all(v["intersect"] for v in c["named"].values())

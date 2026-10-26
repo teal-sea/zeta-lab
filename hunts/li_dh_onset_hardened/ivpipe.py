@@ -262,11 +262,18 @@ def main() -> None:
         r = (1 - 1 / q_arb(C_RUN)).sqrt()
         rho = q_arb(RHO)
     t0 = time.time()
-    bm = bound_M(rho, 128, model=model)
+    mpath = os.path.join(CACHE, "ckpt_iv", "M_result.json")
+    if os.path.exists(mpath):
+        bm = json.load(open(mpath))
+    else:
+        bm = bound_M(rho, 128, model=model,
+                     ckpt=os.path.join(CACHE, "ckpt_iv", "M_cover.pkl"))
+        json.dump(bm, open(mpath, "w"))
     out["M"] = {"M_upper": bm["M_upper"], "closure_contains_0": bm["closure_contains_0"],
                 "stats": bm["stats"], "seconds": round(time.time() - t0, 1)}
     log(f"M(rho) <= {bm['M_upper']} (iv), {out['M']['seconds']} s")
-    res = li_balls(model, r, N, 500_000, PREC, rho, bm["M_upper"], evaluated=(L, H, P))
+    res = li_balls(model, r, N, 500_000, PREC, rho, bm["M_upper"], evaluated=(L, H, P),
+                   ckpt=os.path.join(CACHE, "ckpt_iv", "track.pkl"))
     lam = res["lambda"]
     out["stats"] = res["stats"]
     out["decision"] = decide(lam)

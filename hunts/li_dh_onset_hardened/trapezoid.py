@@ -48,7 +48,7 @@ import sys
 import time
 from fractions import Fraction as Q
 
-from flint import acb, arb
+from flint import acb, arb, fmpz
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -60,6 +60,29 @@ SIGMA_P = Q(3, 2)        # principal-branch half-plane, S(3/2) < 1
 #: on a ball hundreds wide is slow and its image always meets 0 anyway
 #: (measured: a rehearsal at N = 2^17 spent over 13 CPU-minutes on such balls).
 S_BALL_MAX = 0.5
+
+
+def _pk(x):
+    """Exact (mantissa, exponent) pairs of an arb's midpoint and radius, or None."""
+    if x is None:
+        return None
+    m, e = x.mid().man_exp()
+    rm, re = x.rad().man_exp()
+    return (int(m), int(e), int(rm), int(re))
+
+
+def _uk(t):
+    if t is None:
+        return None
+    m, e, rm, re = t
+    return arb(arb(fmpz(m)) * arb(2) ** e, arb(fmpz(rm)) * arb(2) ** re)
+
+
+def _save(path, obj) -> None:
+    import pickle
+    with open(path + ".tmp", "wb") as fh:
+        pickle.dump(obj, fh)
+    os.replace(path + ".tmp", path)
 
 
 def _narrow(sb) -> bool:
@@ -139,7 +162,8 @@ def principal_bound(prec: int) -> arb:
         return arb((-(1 - S).log() + S.asin()).upper())
 
 
-def bound_M(rho: arb, prec: int = 128, max_depth: int = 60, model=None) -> dict:
+def bound_M(rho: arb, prec: int = 128, max_depth: int = 60, model=None,
+            ckpt: str | None = None, every: int = 50) -> dict:
     """An upper bound for max |g| on |z| = rho, from an adaptive arc cover.
 
     Walks the upper half circle q in [0, 1] (angle pi q) left to right with a
@@ -163,7 +187,18 @@ def bound_M(rho: arb, prec: int = 128, max_depth: int = 60, model=None) -> dict:
             if not (h0.real > 0 and h0.imag.contains(0)):
                 raise RuntimeError("no anchor for the arg of h")
             arg_anchor = arb(0)
+        if ckpt and os.path.exists(ckpt):          # resume an interrupted cover
+            import pickle
+            st = pickle.load(open(ckpt, "rb"))
+            stack, M, stats, pending = st["stack"], st["M"], st["stats"], st["pending"]
+            arg_anchor = _uk(st["arg_anchor"])
+        done_since = 0
         while stack:
+            if ckpt and done_since >= every:
+                _save(ckpt, {"stack": stack, "M": M, "stats": stats, "pending": pending,
+                             "arg_anchor": _pk(arg_anchor)})
+                done_since = 0
+            done_since += 1
             q0, q1, depth = stack.pop()
             zb = arc_ball(rho, q0, q1)
             sb = s_of(zb)
@@ -343,7 +378,8 @@ def evaluate_nodes(model, r: arb, N: int, prec: int, k0: int, k1: int) -> tuple:
 
 
 def sample_upper(model, r: arb, N: int, prec: int, block: int = 256,
-                 fault: str | None = None, evaluated: tuple | None = None) -> tuple[list, dict]:
+                 fault: str | None = None, evaluated: tuple | None = None,
+                 ckpt: str | None = None, every: int = 100) -> tuple[list, dict]:
     """g(z_k) for k = 0..N/2 as balls, with arg h continued by ball steps.
 
     ``fault='skip_unwrap'`` adds 2 pi i to every tracked sample after the
@@ -375,7 +411,19 @@ def sample_upper(model, r: arb, N: int, prec: int, block: int = 256,
             arg[0] = arb(0)
             k = 1
         i = k - 1                               # last node with a known arg
+        if ckpt and os.path.exists(ckpt):       # resume an interrupted tracking
+            import pickle
+            st = pickle.load(open(ckpt, "rb"))
+            i, stats = st["i"], st["stats"]
+            for m, t in enumerate(st["arg"]):
+                arg[m] = _uk(t)
+        blocks_since = 0
         while i < half:
+            if ckpt and blocks_since >= every:
+                _save(ckpt, {"i": i, "stats": stats,
+                             "arg": [_pk(a) for a in arg[:i + 1]]})
+                blocks_since = 0
+            blocks_since += 1
             j = min(i + block, half)
             while True:
                 zb = arc_ball(r, Q(2 * i, N), Q(2 * j, N))
@@ -416,9 +464,11 @@ def sample_upper(model, r: arb, N: int, prec: int, block: int = 256,
 
 
 def li_balls(model, r: arb, N: int, n_max: int, prec: int, rho: arb, M: float,
-             fault: str | None = None, evaluated: tuple | None = None) -> dict:
+             fault: str | None = None, evaluated: tuple | None = None,
+             ckpt: str | None = None) -> dict:
     """lambda_n, 1 <= n <= n_max, as real balls including the aliasing bound (A)."""
-    g_up, stats = sample_upper(model, r, N, prec, fault=fault, evaluated=evaluated)
+    g_up, stats = sample_upper(model, r, N, prec, fault=fault, evaluated=evaluated,
+                               ckpt=ckpt)
     t0 = time.time()
     with prec_guard(prec):
         g = g_up + [g_up[N - k].conjugate() for k in range(N // 2 + 1, N)]

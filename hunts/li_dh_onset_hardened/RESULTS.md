@@ -413,3 +413,89 @@ excludes such a zero from the disc.
 A measured optimum is not a proved ceiling. These costs are estimates fitted
 to timed units on a contended box, at the stated tol and n_max, and nothing in
 them is proved.
+
+## Addendum, 2026-10-26 (evening): the named shared failure mode, tested
+
+**Pre-registration.** `MISSION.md`, "Pre-registration of the
+independent-evaluator rerun of run B", commit 485359c38. It was committed
+before the run, and it fixes the seed (1512026), the sample rule and three
+rules.
+
+**What was done.** Run B (c = 2500, N = 2^19, 256 bits, rho = 1 - 4.6e-5,
+n <= 500,000) was repeated with a second evaluator (`iv_fast.py`, `ivpipe.py`).
+It shares no evaluation code with the Arb one:
+- f by Euler-Maclaurin in mpmath.iv, with its own kappa solve and its own
+  rigorous remainder;
+- log Gamma by `mpmath.iv.loggamma`;
+- S(3/2) in iv.
+
+Every use of f went through it: the 262,145 node samples, the 40,199
+branch-cover arc boxes, and the 15,313-arc M(rho) cover, which gave
+M(rho) <= 99,865 against Arb's 101,111. Shared with run B on purpose: the node
+geometry, the tracking logic, `acb.dft` and the aliasing arithmetic. Arb only
+holds and transforms numbers there. Before the run, the iv evaluator was
+checked against Arb and against the slower `iv_route` at nodes including an
+exactly real s.
+
+**Outcome, as pre-registered:**
+
+| rule | result |
+|---|---|
+| 1. first ball-negative index 328997, none undecided before it | **holds**: 328997, 0 undecided |
+| 2. signs agree wherever both decide, n <= 500,000 | **holds**: both decide all 500,000, 0 disagreements |
+| 3. balls intersect at 328996, 328997 and the 1000 sampled n | **holds**: all intersect; in fact the balls intersect at every n <= 500,000 |
+
+At the onset, iv gives lambda_{328996} = [1385.31521851949223176 +/- 5.9e-18]
+and lambda_{328997} = [-2379.96470663976248371 +/- 5.8e-18]. Arb run B gives
+the same digits with radius 5.9e-18 and 5.8e-18. The largest midpoint difference
+over the sample is 4.9e-15, below either run's ball radius there. The iv table
+is `<cache>/li_dh_onset_hardened/lambda_B_iv.txt`, sha256
+901380462bf4f7435bddcd510e6787e231ca09b54cfb5651d68aeadc54924aa2. Cost:
+6.45 core-hours (RUNS.md).
+
+**What this excludes, and at which grade.** The failure mode RESULTS.md named,
+"both radii use the same Arb evaluator for f", is **excluded for run B's
+table**. An mpmath.iv evaluation of every value f and log Gamma contribute
+reproduces the same n\* and the same sign at every n <= 500,000, at interval
+grade (every evaluation enclosed). Run A at c = 5000 was not repeated in iv. It
+is tied to the iv route through the A/B intersection at every n.
+
+**What it does not exclude:**
+- a fault in the shared machinery: `acb.dft`, the aliasing bound (A) as
+  derived here, the tracking logic, or the node geometry;
+- a fault in the mathematics both routes encode identically: the
+  Euler-Maclaurin remainder bound, and the admissibility argument.
+
+The admissibility certificate itself is Arb-only. An iv replay of the box count
+was not done.
+
+**The grade is unchanged:** *hardened*, pending external verification. It is not
+kernel-checked and has had no outside review. This addendum narrows which
+failure modes remain open; it does not change the rung.
+
+**Novelty, as a delta against the recorded search.** Searches were run on
+2026-10-26 by web search plus the arXiv abstract pages and full PDFs. zbMATH
+and Google Scholar were not queried directly. Queries:
+`"Davenport-Heilbronn" "Li coefficients"`,
+`"Li's criterion" "Davenport-Heilbronn" first negative Li coefficient`,
+`"Li coefficients" Epstein zeta function negative off-line zeros computation`,
+`arXiv "Li-type criterion for zero-free regions"`, a DOI lookup through OpenAlex,
+and author and journal lookups for the items below.
+- **arXiv:1410.4384** (Ernvall-Hytönen, Odžak, Smajlović, Šušić): no
+  Davenport-Heilbronn numerics at all. The word does not occur in its text.
+  Its examples are a product of shifted zetas, n <= 500, in floating point.
+- **Bucur, Ernvall-Hytönen, Odžak, Smajlović, LMS J. Comput. Math. 19 (2016)
+  259-280:** Arb tau-Li coefficients for the *associated* function
+  L_DH(s, xi-) only, n <= 500, with first negative indices only as a figure.
+  The classical function (xi+, our kappa = 0.284079...) is not computed.
+- **Johansson, Numer. Algorithms 69 (2015), arXiv:1309.2877:** rigorous
+  Keiper-Li coefficients for **zeta** up to n = 100,000, in Arb.
+
+**The delta:**
+- the classical Davenport-Heilbronn function;
+- ordinary Li coefficients;
+- every lambda_n for n <= 500,000 enclosed by two radii and two evaluators;
+- the explicit first negative index n\* = 328997.
+
+The result is original to this lab. It is not claimed novel beyond the stated
+search.

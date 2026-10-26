@@ -95,8 +95,11 @@ before the runs.
   intersect at all n <= 500,000, and the xi control and the mpmath.iv node
   check passed inside each run. Total cost 0.46 core-hours, so #128's wall was
   a cost wall of the r <= 0.99 family.
-- **Named shared failure mode.** Both radii use the same Arb evaluator for f,
-  which the iv route checks at 20 nodes per run.
+- **Named shared failure mode, tested 2026-10-26 (evening).** Both radii used
+  the same Arb evaluator for f. A pre-registered rerun of run B with every f and
+  log Gamma evaluation in mpmath.iv reproduces n\* = 328997 and the sign of
+  every lambda_n, n <= 500,000, and its balls intersect B's at every n. That
+  failure mode is excluded for run B's table; the grade is unchanged.
 - **Prior work.** Bucur, Ernvall-Hytönen, Odžak, Smajlović 2016 computed Arb
   tau-Li coefficients for the *associated* DH function, n <= 500.
   arXiv:1410.4384 has no DH numerics. Johansson 2015 is zeta to n = 100,000.
