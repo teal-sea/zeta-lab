@@ -689,3 +689,42 @@ the guard-rail test. The in-flight calibrate run uses the file as it was at
 964847327, so its calibration record step could go green on a failing
 `calib`. Its numbers are therefore re-derived from the uploaded `shard_18.json`
 with `census_shard.py calib` before anything is read from the step summary.
+
+## Run 16: census calibration on Actions (run 40357487645, 2026-10-26)
+
+```runmanifest
+id: R16-census-calibrate
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; preflight ok on the runner (smoke landing exact); all three pre-approved conditions for the full run met
+ran:
+  - lambda-dh-census.yml, mode calibrate, request attempt 1, run_attempt 1, shard 18 = [55000, 57500], one process
+artifacts:
+  - census_runs/calibrate_r1/shard_18.json (sha256 795a3fbd9c288ffe56164fd26d2513e2a81186d175c334e282d2040d1d84bdbc)
+  - census_runs/calibrate_r1/calibration.json (sha256 fb8fc6ec3daadc0ef7a029ed7984de32fa366acd8cf9dce9269ec85800711e9d)
+  - census_runs/calibrate_r1/census_18.json (sha256 b7ec99cba72e769f75a024f04785fb27d64474c5b055b2ea563f153c377dbd89)
+  - not committed: screen_18.json (7259dc7c...42bd), log_18.txt (c512c1f7...59b0), in artifact lambda-dh-census-r1-job0-attempt1
+```
+
+Shard job 17 min 23 s of wall time. Preflight on the runner: pins equal, Arb
+backend, plan hash equal, smoke landing 0.057665659795901776 (identical to
+`census_1e4.json`), 13.7 s. Shard 18: 125 screen windows, 9 zeros located
+at Re s > 0.82, 6 candidates with y0 > 0.3396, 6 landed, 0 unaccounted.
+CPU: screen 22.95 s, locate 16.15 s, census 930.46 s. **0.313 CPU-s per
+screened window, 155.1 CPU-s per census window.** Projected core-hours:
+**9.70** (x36) and **9.95** (scaled from the 111 zeros at 0.85). Peak RSS
+0.238 GiB (children; driver 0.018), **4 x peak 0.95 GB**.
+`calibration.json` was re-derived locally from `shard_18.json` with
+`census_shard.py calib` and agrees in every field. This run used the
+workflow before the pipefail fix, so the step summary was not trusted on
+its own.
+
+Pre-approved conditions (coordinator, 2026-10-26): smoke passes (yes),
+projected <= 20 core-hours (9.95), 4 x peak RSS <= 13 GB (0.95). **All met,
+so the full request is pushed next.** No other census run was running or
+pending (checked with `gh run list` just before).
+
+The six calibration landings (measured, recorded here, not read against the
+pre-registration until the merged census exists) are 0.0287 to 0.0394,
+none later than y0^2/2.

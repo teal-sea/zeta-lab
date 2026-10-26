@@ -1,0 +1,38 @@
+{
+ "cpu_s_per_screen_window": 0.31279999999999997,
+ "cpu_s_per_census_window": 155.07666666666668,
+ "projected_candidates": 216,
+ "projected_core_hours": 9.6956,
+ "n_085_zeros_in_shard": 3,
+ "projected_candidates_scaled": 222.0,
+ "projected_core_hours_scaled": 9.954061111111113,
+ "peak_rss_gb": 0.238189697265625,
+ "four_x_peak_rss_gb": 0.9527587890625,
+ "four_x_peak_rss_ok_13gb": true,
+ "from_shard": {
+  "shard": 18,
+  "interval": [
+   55000,
+   57500
+  ],
+  "plan_sha256": "461079f90cf78f9c635b44ab365d9cf956cbe8bce23532fc55c6d4eef226eaa9",
+  "runs": 1,
+  "screen_complete": true,
+  "n_screen_windows": 125,
+  "n_located": 9,
+  "n_candidates": 6,
+  "n_landed": 6,
+  "n_unaccounted": 0,
+  "cpu_seconds": {
+   "screen": 22.95,
+   "locate": 16.15,
+   "census": 930.46
+  },
+  "peak_rss": {
+   "self_gb": 0.017887115478515625,
+   "children_gb": 0.238189697265625,
+   "peak_gb": 0.238189697265625
+  },
+  "finished": "2026-10-26T16:33:51Z"
+ }
+}
