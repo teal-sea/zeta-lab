@@ -67,7 +67,7 @@ stays out of this file. No em dashes.
 - **Lean arm: formalised elementary number theory** (10). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
-- **Certificates, verifiers and exact arithmetic** (21). Exact rational acceptance of
+- **Certificates, verifiers and exact arithmetic** (23). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
 - **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
@@ -78,13 +78,16 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (51). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (62). Surfaced by the sweep, below the bar for now.
 
-Totals: 188 entries from 71 hunts. Kinds: identity 24, lemma 48, bound 12, construction
-16, calibration 7, computational 21, control 39, obstruction 21. (Recounted from the
+Totals: 190 entries from 72 hunts. Kinds: identity 24, lemma 48, bound 12, construction
+16, calibration 7, computational 21, control 40, obstruction 22. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
-again from the entries.)
+again from the entries. The seven Erdos #126 arms landed on 2026-10-21 (hunts #94, #97,
+#98, #99, #100, #106, #143) added eight items to "Seen and not admitted" and none above;
+that count was recounted from its items: 54 before them, where the line read 51. Hunt
+#140 added two on 2026-10-21, recounted again from the entries.)
 
 ## Prime pairs and the circle method
 
@@ -2943,28 +2946,39 @@ realizability constraint as the only remaining lever.
 ### Place-local Selberg-bound gate and the non-assembly of local norms
 
 obstruction | `hunts/local_positivity/` | grade: measured (float; the file states it
-carries no enclosure at any step)
+carries no enclosure at any step); the local equivalence is an unreviewed derivation
 
 For a degree-d object with Satake parameters alpha_j at p, the place-local kernel
 K_p^{(d)}(theta) = d + 2 sum_m lambda_m p^{-m/2} cos(m theta) has closed form sum_j (1 -
-|alpha_j|^2/p)/|1 - alpha_j p^{-1/2} e^{i theta}|^2, so the coefficient-computable test
-c_p <= d is exactly the local bound |alpha_j| <= sqrt p (zeta's threshold 2/(sqrt p + 1)
-to 12 digits). Calibration: decoy swap moves the verdict by 15 orders; 300 random
+|alpha_j|^2/p)/|1 - alpha_j p^{-1/2} e^{i theta}|^2 when every |alpha_j| < sqrt p. With c_p
+the least PSD Toeplitz diagonal, the coefficient-computable test c_p <= d reads the local
+bound |alpha_j| <= sqrt p: forward direction derived; the converse cannot be read off the
+closed form (p = 2, alpha = (3 sqrt 2, 0, 0, 0): rational expression >= 1, series
+divergent, gate FAILs) and rests on an unreviewed PSD-boundedness derivation (corrected
+2026-10-21, CORRECTIONS.md 'Later correction'). zeta's threshold 2/(sqrt p + 1) to 12
+digits. Calibration: decoy swap moves the verdict by 15 orders; 300 random
 period-5 nulls fail 100% with DH at the 6th percentile; lesion blindness threshold eps*
 = 0.184 on the zeta -> DH interpolation; degree-2 family keeps margin >= 0.343 over 60
-Satake angles; a legitimate degree-2 product with alpha = 2.3, 1/alpha is rejected at p
-= 5 (c_p = 65.24), so the gate tests the local Selberg/Ramanujan bound, not 'has an
-Euler product'. Obstruction: the prime side of the explicit formula decomposes place by
+Satake angles (margins of the truncated c: the current gate's verdict on that family is
+FAIL at 22 of the 60 angles, because its regime test reads two weighted terms near the
+truncation edge and conjugate-pair parameters make them oscillate, misleading it on
+either side of the bound; measured 2026-10-21, pinned, not repaired); a genuine degree-2
+Euler factor with alpha = 2.3, 1/alpha, outside the Selberg class (docs/09 section 3,
+axioms (4) and (5), exclude |alpha| > sqrt 5), is rejected at p = 5 (divergent regime,
+c_p = +infinity by convention; 65.24 is a depth-41 truncation), so the gate tests the
+local bound |alpha_j| <= sqrt p, not 'has an Euler product'. Obstruction: the prime
+side of the explicit formula decomposes place by
 place as -sum_p log p (Q_p(f) - ||f||^2) with Q_p = (1 - 1/p) ||Phi_p f||^2 a genuine
 norm at every place (reconstruction to 22 digits), but Q_p - ||f||^2 is not of definite
 sign (52 of 60 places positive, 8 negative), so local positivity does not assemble into
 a global one and is compatible with either sign of W. Director's adjudication:
-c_p(zeta(. - delta)) = 2x/(1 + x), x = p^{delta - 1/2}, c_p <= d iff delta <= 1/2, is
+c_p(zeta(. - delta)) = 2x/(1 + x), x = p^{delta - 1/2} for delta < 1/2, c_p <= d iff
+delta <= 1/2 (least-PSD-diagonal reading; gate INDETERMINATE at delta = 1/2), is
 KNOWN (Selberg-class theta < 1/2).
 
 Evidence: CORRECTIONS.md section '2. New hunt: hunts/local_positivity/' (paragraphs
 'What it establishes', 'Reference table', 'Controls', 'Where it dies', 'The honest
-boundary'); localpos.py; director_run/CLAIMS.md C-SHIFT-01, C-SHIFT-02
+boundary') and section 'Later correction'; localpos.py; test_closed_form.py; director_run/CLAIMS.md C-SHIFT-01, C-SHIFT-02
 Prior art: searched-and-found by the director run for the shift computation
 (Conrey-Ghosh 1992 theta < 1/2; Jacquet-Shalika, stated sharp by Sarnak); the closed
 form is standard Satake arithmetic; the assembly obstruction is the hunt's own
@@ -2972,7 +2986,9 @@ Reused in: docs/24-the-local-positivity-attempt.md; hunts/director_run/CLAIMS.md
 Why it travels: The place-local decomposition with the measured sign-indefiniteness
 closes the 'prove Weil positivity place by place' route with a mechanism, and the gate
 with its calibrated blindness threshold is a ready coefficient-side instrument for any
-rival battery.
+rival battery, with one caveat: its regime test misreads oscillating weights (measured
+for conjugate-pair parameters), so a verdict on such an input needs the
+least-PSD-diagonal check of test_closed_form.py beside it.
 
 ### Ceiling: positive-definite (Gram) kernels cannot spend out-of-band form-factor positivity
 
@@ -5133,6 +5149,10 @@ and the controls that separate an instrument reading from a mathematical claim.
   cover of a uniformity parameter (`jensen_wedge`)
 - control: Claims against recomputation with planted weakenings, and formula plants
   replayed as source edits (`jensen_wedge`)
+- control: A Groebner infeasibility test must be able to return [1]: encode the targets
+  as nonvanishing and saturate the torus (`r_abf47b`)
+- obstruction: Stabilizer-slice orbit census: a coordinate stabilizer's orbits refine
+  the full orbits and add no branches (`r_abf47b`)
 
 ### Signed-lattice binomial/trinomial sieve on a support torus
 
@@ -5758,6 +5778,62 @@ Why it travels: Any explicit-constant chain (effective theorems, certificate ver
 intermediate bounds) can be checked against weakened claims cheaply, and the second layer
 names the formula steps a green run does not attest to.
 
+### Control: a Groebner infeasibility test must be able to return [1]; encode the targets as nonvanishing and saturate the torus
+
+control | `hunts/r_abf47b/` | grade: exact (an elementary fact about homogeneous ideals,
+with a planted two-variable control in test_orbit_refinement.py); found by the landing
+audit, not by the run
+
+To show that a polynomial system has no solution with some target brackets nonzero, on a
+torus where every variable is nonzero, a Groebner run has to be able to return the unit
+ideal. Entering the targets as zero generators makes that impossible whenever every
+generator is homogeneous without a constant term, because the ideal then lies inside the
+maximal ideal of the origin. Hunt #140's run did exactly that on Krenn-Gu Support 7
+(3 target brackets and 6,558 relations, all homogeneous of degree 3 or 4, in 138
+variables) and priced a 300 s timeout that could carry no information. The check costs
+seconds: before spending, confirm that the generators are not all homogeneous without a
+constant term, since if they are, `[1]` is out of reach; and encode the nonvanishing
+condition the Rabinowitsch way, `<relations, 1 - y*T*x_1*...*x_n>`, which is the unit
+ideal exactly when no torus point satisfies the relations with `T` nonzero. Then require
+`[1]` on a planted infeasible system: with the relation `x + y` and
+the target `x + y`, the zero-generator encoding returns `[x + y]` and the saturated one
+returns `[1]`.
+
+Evidence: hunts/r_abf47b/RESULTS.md 'Audit correction' part A; test_orbit_refinement.py
+(the generator census and the control)
+Prior art: textbook (the Rabinowitsch trick and saturation); not searched further
+Reused in: none yet
+Why it travels: Any hunt that prices an algebraic infeasibility run (Groebner bases,
+Nullstellensatz degree bounds, ideal membership) can check in seconds whether its encoding
+can say no at all, before it pays for the solver.
+
+### Stabilizer-slice orbit census: a coordinate stabilizer's orbits refine the full orbits and add no branches
+
+obstruction | `hunts/r_abf47b/` | grade: exact finite check on two implementations
+(map_orbits.py over all triples; test_orbit_refinement.py on the slice)
+
+Let G act transitively on a set P with stabilizer K of a point p0, and let G x S3 act on
+P^3 (G diagonally, S3 permuting coordinates). Every orbit meets the slice
+{p0} x P x P, and the orbits of K x S2 on the slice (S2 swapping the last two
+coordinates) map onto the G x S3 orbits. So a branch cover by the K x S2 orbits is never
+wider than the cover by the full orbits; it only splits full orbits into symmetric
+copies. For Krenn-Gu 8x3 the 57 H x S2 pair orbits (H = S2 wr S4, order 384) map onto the
+31 S8 x S3 triple orbits with fibres of 1, 2 and 3 over 8, 20 and 3 orbits, which closes
+Hunt #74's proposal to sieve 57 skeletons. The census itself needs only the slice: fix
+r_X with r_X(X) = p0 for each X, join slice points by K-moves and by the lifts
+t -> r_X(pi t), and read each orbit's size as |P| times its slice count. On the 8x3
+instance that replaces an enumeration of 1,157,625 triples (about 130 s of CPU) by a
+union-find on 11,025 points (about a second), and it reproduces Hunt #71's 31 orbit
+sizes.
+
+Evidence: hunts/r_abf47b/RESULTS.md section 2 and 'Audit correction' part D;
+map_orbits.py; test_orbit_refinement.py
+Prior art: an elementary orbit-stabilizer argument; no novelty claimed; not searched
+Reused in: none yet
+Why it travels: A symmetry-reduced branch search should check a proposed finer cover
+against the full group's orbits before paying for it, and any orbit census of tuples
+under a transitive group can be run on one slice.
+
 ## Zero-free half-planes, L(1, chi) and class numbers
 
 ### Two-cutoff Littlewood bound for log L(1, chi) under a zero-free half-plane, with Hadamard positivity for the zero sum
@@ -6098,3 +6174,45 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   scaled by 1.1, with the original bytes held in memory and the restore asserted, never
   `git checkout` in a shared tree (`hunts/claim_halflife/`, control): measured; used only
   inside its hunt.
+- Two-set relaxation bracket for Erdos #126: g(k) <= g_2(k) + 2 <= N(k) + 2, with N(k)
+  the coprime S-unit count of lambda x + mu y = nu z (Gyory-Stewart-Tijdeman 1986 section
+  3, read in primary text), while Erdos-Stewart-Tijdeman 1988 put g_2(k) >= exp((4+o(1))
+  sqrt(k/log k)) (secondary), so the two-set route can settle #126 but can never give a
+  polynomial bound (`hunts/support_fcffa3b9/`, obstruction): literature map from a
+  targeted search; the first step is an ordinary argument, unreviewed; not carried.
+- Residue-only pruning ceiling for Erdos #126: on a full residue system mod prod T the
+  largest subset whose pair sums are all prime to prod T has exactly prod (p-1)/2 + r
+  elements, below 2^{-r}|A|, so no argument reading only residues mod prod T beats base
+  2; and g(k) <= 2/rho_min(k) <= 2g(k) makes block pruning a restatement of #126
+  (`hunts/support_d176e366/`, obstruction): ordinary argument, unreviewed; the formula
+  matched exhaustive branch and bound on four blocks; not carried.
+- The pair-sum matrix a_i + a_j is Alon-Solymosi's rank-2 matrix (Corollary 10 of "Rank
+  of matrices with entries from a multiplicative group"); their rectangle condition
+  reduces to the distinctness of A, so their Theorem 9 applies to every admissible set
+  while their Theorem 1 does not (the diagonal 2a_j is an S-unit in all seven measured
+  witnesses), and their explicit form gives exp(256k) (`hunts/support_99fc686a/`,
+  identity): Alon-Solymosi read in primary text; the expansion is an ordinary derivation,
+  unreviewed; not carried.
+- Cover-data realizability for Erdos #126: A = {1} u {2(3j+1)}, S = {2,3}, gcd 1, has its
+  two residue graphs covering K_n for every n, so no cover, Ramsey, rank or container
+  bound on n follows from incidence data alone (`hunts/support_d0f0aefb/`, obstruction):
+  ordinary argument, unreviewed, checked at n = 5, 20, 60; not carried.
+- Three-anchor injective reduction g(k) <= 3 + N_3(k), with N_3 counting nondegenerate
+  solutions of x + y + z = 1 in S-units over the same k primes: fixing three anchors and
+  varying the fourth element makes the four-element reduction injective
+  (`hunts/support_d0f0aefb/`, lemma): ordinary argument, unreviewed; prior art
+  unsearched; not carried.
+- A composition law for Erdos #126 forces g(k) = 2^k exactly: superadditivity makes the
+  Fekete limit of g(k)^{1/k} a supremum, at least g(1) = 2, and Erdos-Turan's 3 * 2^{k-1}
+  caps the limit at 2, so a proof of g(3) <= 7 would falsify the composition programme
+  (`hunts/support_311c14a5/`, lemma): ordinary argument, unreviewed; not carried.
+- Product-route ceiling for Erdos #126: from P = prod (a+b) the only inequality is k >=
+  B(A) = log P / max_p e_p log p, and two gcd-1 families cap B at 1+o(1) for estimates
+  from distinctness, range and residue counts, and at 2+o(1) with gcd normalisation and
+  the one-step recursion added; weighted and subset products are outside the class
+  (`hunts/support_95a76f59/`, obstruction): ordinary argument, unreviewed, B measured in
+  floating point; not carried.
+- Crown-versus-K_{2,m} loss for Erdos #126: exhaustive bounded-box g_N(k) against the
+  two-term count N_2^(N)(k), 2, 4, 5, 6, 8 against 1, 7, 32, 75, 141 for k = 1..5,
+  measures what the two-anchor reduction discards (`hunts/support_6da47ca3/`,
+  computational): measured, bounded boxes, lower bounds only; not carried.

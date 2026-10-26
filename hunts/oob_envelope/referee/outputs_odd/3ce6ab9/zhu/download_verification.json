@@ -1,0 +1,15 @@
+{
+  "verified": true,
+  "hashes": {
+    "result.json": "df8c0cf9478317de0a042527bd5f521572c162ad579b9fd6c8a11768f83c5010",
+    "budget.json": "ec8c4461986102f726d49ba773a3de6fccdf79b7dae68f04757ef65cd82a7339",
+    "quadrature_checks.json": "0705f693f0fd73d62b9176e617d3b3bdfb8039169d727f9d6b5a7beeaf806306",
+    "assembly_manifest.json": "3a70759626c1ad7f008d9b6479b17f4ec4fe9a44fafc25b7757e943811569e86",
+    "positivity.json": "aa9eb5bba6b414ac671f2ff77b3eb30db0bc27f0d24dea5b014e937da986c6a8",
+    "ritz.json": "73c16e4c875628c5bfa5778b0a3065e12a5f7a6728ff5e40a51d9df380f110c9",
+    "matrix.json.gz": "138954803160b3940a467b9085671cd84478b0328ca6d7b64f5888e6bb7bbb6c",
+    "matrix.json.gz:decompressed": "b837952b66ae08c0a95e81598dc7eac1801a22df6ea50c528f0fbe3f0a8f13b1",
+    "factor.json.gz": "58c11b459de25f42dcd3d0673c3d42923a53ffe780b4189d6446636751b5498c",
+    "factor.json.gz:decompressed": "4c5531ae7fa46d854fb66a9b12d4d597e29817da2eca19a17008a56ca7890caf"
+  }
+}

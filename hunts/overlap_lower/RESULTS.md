@@ -472,9 +472,8 @@ was not observed.
 
 - **The full program was not run at White's parameters.** `N, T, R = 25000,
   7000, 10` needs a conic solver and roughly a hundredfold more compute than
-  was available. The machine this hunt ran on is a 13-inch laptop that had
-  already crashed under this lab's own compute that day, so nothing over about
-  a minute of CPU was run on it.
+  was available. Nothing over about a minute of CPU was run on the authoring
+  machine.
 - **The sweep did not run on CI, though it was written for it.** The workflow
   is `hunts/overlap_lower/ci-sweep.yml`, complete and shardable at 25 minutes
   per job. It is not installed under `.github/workflows/` because the

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Run only on a remote Linux builder: a Namespace runner with /cache mounted
 # persistently, or a Modal container (scripts/modal_build.py), never on the
-# operator's Macs. QRH_CACHE names the working cache directory; on Namespace it
+# local machines. QRH_CACHE names the working cache directory; on Namespace it
 # must be the attached volume, on Modal it is the container's local disk and
 # the launcher checkpoints it to a Modal volume during and after the run.
 set -euo pipefail

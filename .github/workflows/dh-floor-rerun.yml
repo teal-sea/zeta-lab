@@ -1,5 +1,4 @@
-# The 2026-10-19 correction to the Davenport-Heilbronn weight, re-run off the
-# operator's machine.
+# The 2026-10-19 correction to the Davenport-Heilbronn weight, re-run on CI.
 #
 # hunts/flow_repair and hunts/jensen_clock both built Phi_DH with an omega_dh
 # that dropped theta terms below an ABSOLUTE floor, so the weight read exactly

@@ -1,0 +1,27 @@
+✓ Initialized. View run at 
+https://modal.com/apps/teal-sea/main/ap-ng9DiaREARkLBjGwtAMuO1
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/s
+│   tage_b_odd_modal.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/e
+│   nvelope.json
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/h
+│   arden.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/a
+│   ssemble.py
+├── 🔨 Created mount 
+│   /Users/thomas/orca/workspaces/zeta-lab/oob-odd/hunts/oob_envelope/numerics/s
+│   tage_b_odd_modal.py
+├── 🔨 Created function unit.
+├── 🔨 Created function check_zhu.
+└── 🔨 Created function reduce.
+{"unit": [980, 1000], "seconds": 223.45538234710693}
+units wall 229 s
+total wall 229 s
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/teal-sea/main/ap-ng9DiaREARkLBjGwtAMuO1
