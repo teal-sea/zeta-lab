@@ -4240,7 +4240,14 @@ finite theorem says nothing above 100 or about RH itself.
 
 ### Hunt #148: the 7/8 probe's local identity over F_q[T], and the biquadratic case (`ff_probe/`, opened 2026-10-21)
 
-**Status: open; full runs in progress.** A lane of the campaign the owner directed on
+**Status: closed 2026-10-26; candidate refuted at the stated parameters.** Over F_13[T]
+the biquadratic theta's degree-3 coefficients are not multiplicative up to phases (zero at
+234 of the 286 triples of linear primes, abs(H)^2 = 52 at the rest), so the quartic probe has
+no scalar local identity, and hunt #136's template prices nothing for it. The cubic control
+over F_7[T] reproduces Lemma 7.1 exactly. A PARI second implementation reproduced every
+exact number it recomputes. Carrying the verdict to S4 over Q(i) is inferred, so S4 there
+stays an unresolved attempt. See [RESULTS.md](ff_probe/RESULTS.md). The lane was resumed in
+place on 2026-10-26 by the owner's decision. A lane of the campaign the owner directed on
 2026-10-21. The workflow proposed the number 141; #138 to #144 are held for landings being
 renumbered elsewhere, so this hunt is #148. Over F_q[T] the Fourier coefficients of
 higher-order metaplectic theta functions are finite Gauss-sum expressions (Hoffstein 1992,
