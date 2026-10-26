@@ -631,10 +631,15 @@ a cancellation between two nonvanishing products of Dirichlet L-functions, so
 none is a counterexample (`docs/08` section 4.3): the rival lacks the
 hypothesis, its reciprocal's coefficients being non-multiplicative and
 unbounded (exact to 10^6). The Davenport-Heilbronn function has no zero past
-7/8 below height 300 and none known to the lab anywhere (its deepest census
-pair sits at 0.86953). Controls: gamma_1 recovered to 2e-16, planted faults
-detected, the class-number-one form sees nothing. Scan ranges are stated as
-limits in `qrh_rival_step/RESULTS.md`, which ends with the doors.
+7/8 below height 300 in this hunt's scan. The v6 census
+(doi:10.5281/zenodo.23585903) lists six right-side zeros past 7/8 for
+0 < Im s < 20,000; its deepest is at 0.897750155 + 2442.53029247i.
+These catalogue coordinates are external input, not part of this hunt's
+original scan. DH has no Euler product, so these zeros do not contradict
+the single-L-function theorem under discussion.
+Controls: gamma_1 recovered to 2e-16, planted faults detected, the
+class-number-one form sees nothing. Scan ranges are stated as limits in
+`qrh_rival_step/RESULTS.md`, which ends with the doors.
 
 ### Direct resolution attempt (`rh_resolve/`, 2026-10-03)
 
@@ -700,14 +705,26 @@ PASS). With it, for real even f:
   `≥ 5.71789230595e-48`, referee Clenshaw-Curtis-192 route `> 5.7179e-48`,
   N = 500 even Legendre modes, T# = 500, all error terms enclosed).
 
-Scope: even sector only; the odd sector is not bounded. No window claim found
-in the searched literature exceeds half-width 17/16 (Liu, unrefereed); Zhu
-withdrew his own `L = 1.19` claim. The threshold stays doubly exponential
-(the best out-of-band constant grows like `e^L`), so this is a fixed-window
-result, not a route to RH. Methods: `docs/37-methods.md` (out-of-band
-envelope lemma; residual-enclosed shifted Cholesky). Record:
+For real odd f at support 2.38 (`L = 1.19`, N = 500 odd Legendre modes,
+T# = 500, the same sine:16 envelope, all error terms enclosed): numerics
+GL-96 route `Q(f) ≥ 3.42853488205e-44 ‖f‖²`, referee Clenshaw-Curtis-192
+route `Q(f) > 2.99e-44 ‖f‖²` (1280-bit Arb; formulas and shift frozen
+before any worker code or artifact was read, though the brief disclosed
+the worker's endpoint; verdict PASS). The odd reduction was derived by the
+numerics worker and independently re-derived by the referee. Parity and
+real/imaginary cross terms cancel, so the even sector is the binding one:
+`Q(f) ≥ 5.7178e-48 ‖f‖²` for every complex `f ∈ L²` with
+`supp f ⊆ [-1.19, 1.19]`. That composite is a candidate, hardened by two
+independent implementations that share python-flint, resting on ordinary
+derivations, pending external verification. The `L = 0.8` line remains a
+real even statement. No window claim found in the searched literature
+exceeds half-width 17/16 (Liu, unrefereed); Zhu withdrew his own `L = 1.19`
+claim. The threshold stays doubly exponential (the best out-of-band
+constant grows like `e^L`), so this is a fixed-window result, not a route
+to RH. Methods: `docs/37-methods.md` (out-of-band envelope lemma;
+residual-enclosed shifted Cholesky). Record:
 `oob_envelope/numerics/RESULTS.md`, `oob_envelope/theory/RESULTS.md`,
-`oob_envelope/referee/REVIEW.md`.
+`oob_envelope/referee/REVIEW.md`, `oob_envelope/referee/ODD_REVIEW.md`.
 
 ### Weil positivity propagation across window size (`weil_propagation/`, 2026-09-23)
 
@@ -2474,6 +2491,44 @@ session took it, renumber. Nothing here bears on RH (docs/08).
 ### Hunt #73: Krenn-Gu 8x3 support frontier (`r_044dd2/`)
 
 **Status: support census settled; algebraic sieve open.** This hunt corrects the scope of Hunt #71: the 31 target-matching orbits do not quotient the full 252-variable polynomial system. All 31 branches have independently replayed support survivors, with 76 to 132 active entries and median 118, so the inherited support conditions close zero branches by themselves. On the sparsest branch, four survivors are excluded by exact signed-Laurent certificates. The size-2 stabilizer mirrors those into four more replayable cuts. Support 7 passes the independent support audit and avoids all eight cuts. Exact fixed-degree cap-3 and cap-4 spans do not exclude it. Cap-5 closure produced 13,379,522 relation multiples, but the first sparse elimination ordering hit measured fill-in before a membership decision. No branch is closed and no complex witness has been found.
+
+### Hunt #140: Krenn-Gu 8x3: bounded unrestricted Groebner step on Support 7 (`r_abf47b/`)
+
+> **Renumbered on landing, 2026-10-21.** Opened as #77 on `hunt/r-abf47b-bddff380`
+> (run `bddff380`, 2026-08-22); renumbered on landing because `aimo2/` holds #77.
+> It takes #140 because two landings opened the same hour take the numbers below it:
+> `mobius_orbits/` takes #138 (`land/mobius-orbits-20261021`) and `seven_eighths_pin/`
+> takes #139 (`land/quasi-riemann-seven-eighths-20261021`).
+> `hunts/r_abf47b/` is the stable reference.
+
+**Status: attempt unresolved, no algebraic conclusion; one exact orbit result.**
+Continues Hunt #74 (`r_31b6c1/`) on Hunt #73's Support 7 for orbit 18, in two parts.
+*The orbit refinement stands.* The 57 H x S2 orbits on matching pairs (H = S2 wr S4,
+the stabilizer of M0) only refine the 31 S8 x S3 orbits on matching triples: S8 is
+transitive on the 105 perfect matchings, so every triple orbit meets the slice
+{M0} x PM x PM, and the 57 map onto the 31 (fibres of one, two and three pair orbits
+over 8, 20 and 3 triple orbits). Two skeletons over one triple orbit are symmetric
+copies, so Hunt #74's thread, scale the sieve to the 57 pair-orbit skeletons, adds no
+branch. Exact finite check on two routes: `map_orbits.py` over all 105^3 triples, and
+`test_orbit_refinement.py`, added on landing, on the slice alone against Hunt #71's
+orbit sizes. *The Groebner step does not test Support 7.* `run_groebner.py` gave
+`sympy.groebner` (grevlex) the three monochromatic target brackets as zero generators
+next to the 6,558 relations of Hunt #73's `build_system`: 6,561 generators in 138
+variables, every one homogeneous of degree 3 or 4 with no constant term, and no torus
+saturation. That ideal is proper, the origin being a common zero, so its basis can
+never be [1] and the 300 s timeout says nothing about Support 7. The question Hunt #73
+Result 4 poses is membership of the target product in the relation ideal saturated by
+the variables. The run also stopped at its own 5-minute alarm although the mission
+allowed 20 minutes. Its "32.59 MB peak" is the run's own report and is unverified: by
+the script's code it would be the resident set size at the alarm, and the committed
+script, rerun unchanged at landing, read 600.5 MB there and already 84.4 MB before the
+Groebner call starts. The calibration reruns main's code (`cap3.json` is
+byte-identical to a fresh cap-3 screen; r_31b6c1's 6x3 gate) and is not an independent
+route, and its cap-4 4,216 replay is reported without an artifact. `RESULTS.md` keeps
+the run's text and carries the "Audit correction" that governs it; `PROBE_RESULTS.md`
+is retitled as this hunt's rerun of r_31b6c1's probe. Orbit 18 remains open, no branch
+is closed, and no complex witness has been found. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 
 **Status: closed (2026-08-16), gate verdict publication candidate; hardened
@@ -4155,6 +4210,33 @@ degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
 Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
+
+### Hunt #137: a kernel-checked RH to finite height for Mathlib's zeta (`rh_height_lean/`, opened 2026-10-21)
+
+**Status: both targets closed by a clean Lean-kernel build; independent
+`con-ron --verified` whole-closure acceptance.** On 2026-10-22 the height-50
+theorem and exact count (ten zeros) compiled from source. On 2026-10-23
+`RHHeight100.rh_height_hundred` and
+`RHHeight100.zero_count_hundred` compiled from source and the final audit accepted
+100 reports with only the three standard axioms. Every zero of Mathlib's
+`riemannZeta` in `0 < Re rho < 1`, `0 < Im rho <= 100` is on the critical line,
+has analytic order one, and there are exactly 29 distinct zeros in that window.
+The build retained 102 objects. `CheckMain100.lean` pins the unfolded final
+types; [RESULTS.md](rh_height_lean/RESULTS.md) records the build, reproduction,
+limitations and inconclusive checker attempts. `con-ron --verified` timed out
+at a 60,000/81,674 progress marker; a retry with `--progress=5000` showed no
+further marker, not evidence of zero completed checks. A later 8-worker
+`--progress=1` gate continued checking to 61,363/81,674 before its 1,200-second
+wall stop; its local receipt is in the bundle's `evidence/gate8/`. NanoDa reached
+a 43 GiB RSS bound, and Lean's `leanchecker --fresh` timed out. These are
+inconclusive, not rejections. A subsequent 8-worker `con-ron --verified` run
+on the same exported closure and checker binary exited 0 on 2026-10-24:
+81,674/81,674 checks and 82,680 accepted declarations. Its receipt and
+raw logs are kept in the local evidence bundle described in RESULTS.md.
+The argument uses the vendored `zeta23` folded count, rigorous Lean enclosures,
+and hunts #132 and #133's first ten located zeros plus nineteen new boxes.
+The novelty search in RESULTS.md is bounded and makes no priority claim. This
+finite theorem says nothing above 100 or about RH itself.
 
 ### Hunt #142: controls for the F1 discovery engine (`f1_engine_controls/`, opened 2026-08-21, landed 2026-10-21)
 

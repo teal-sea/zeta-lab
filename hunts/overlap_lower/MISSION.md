@@ -46,7 +46,7 @@ restriction.
 
 `hunts/overlap_lower/` only, plus one case-log line in `hunts/README.md` and
 one workflow file `.github/workflows/hunt-overlap-lower.yml` that exists so
-the sweep runs on CI runners rather than on the operator's laptop.
+the sweep runs on CI runners rather than locally.
 
 ## Scope, stated before the numbers
 

@@ -21,8 +21,8 @@ serialised by Inspect's ``concurrency`` context instead of a module-level
 ``asyncio.Lock``. Round-one logs in meta/evals/logs/ were produced by the
 earlier version.
 
-Never run this on the operator's machines: every build writes into, and runs
-lake in, a checkout with a built Mathlib. Re-runs belong on CI or the swarm box.
+Never run this locally: every build writes into, and runs
+lake in, a checkout with a built Mathlib. Re-runs belong on CI or a larger remote machine.
 """
 
 from __future__ import annotations

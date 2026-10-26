@@ -96,7 +96,7 @@ Every layer from `Base` to `Chunks15` has a receipt in at least one of these
 logs, so no layer is unaccounted for. Two gaps are stated rather than hidden:
 
 1. These older logs are **not committed** (about 1.7 MB, with failed and
-   cancelled attempts). They remain on the operator's machine and are named
+   cancelled attempts). They are held outside the repository and are named
    here with hashes so a reader can ask for them.
 2. From the logs alone I did not reconstruct the image lineage that put the
    `Chunks9` to `Chunks15` receipts, produced in launch 20260928t161214, into

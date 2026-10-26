@@ -1,11 +1,9 @@
-# Hunt `overlap_lower` -- the ceiling sweep, off the operator's machine.
+# Hunt `overlap_lower` -- the ceiling sweep, on CI.
 #
 # The sweep this hunt needs is a few hundred interior-point solves of linear
 # programs with up to 2N+2T structural variables. That is minutes of CPU per
-# point at the large end, and the machine this hunt was authored on is a
-# 13-inch laptop that had already crashed under the lab's own compute that
-# day. So the sweep lives here, on the free runners this public repository
-# gets, and the laptop only ever ran the smoke tests.
+# point at the large end, so the sweep lives here, on CI runners, and the
+# authoring machine only ran the smoke tests.
 #
 # GitHub cancels a job at its timeout, so each front is its own job with its
 # own budget and its own artifact. A front that dies takes only its own row

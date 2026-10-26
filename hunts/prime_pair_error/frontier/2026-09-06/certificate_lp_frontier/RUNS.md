@@ -1,6 +1,6 @@
 # Runs
 
-All on the operator's laptop (16 GB M4) under a foreign load average of
+All on a 16 GB M4 laptop under a foreign load average of
 60 to 140 from another session's agent fleet, so wall times are inflated
 several-fold. Memory stayed under 300 MB per job except the one noted.
 
