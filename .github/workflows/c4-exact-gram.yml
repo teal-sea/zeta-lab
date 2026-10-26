@@ -104,6 +104,7 @@ jobs:
           python -c "import sys; sys.path.insert(0, '$EG'); import guard; print(guard.key())"
       - name: 4 Gram parts
         run: |
+          mkdir -p prepared  # attempt 1 has no download to create it (the defect of run 40342431754)
           N=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['gram_parts'])")
           for p in 0 1 2 3; do
             part=$(( 4 * ${{ matrix.job }} + p ))
@@ -205,6 +206,7 @@ jobs:
           PY
       - name: mode table on runner disk (once per job), size checked fail closed
         run: |
+          mkdir -p prepared out
           SECONDS=0
           /usr/bin/time -v -o out_table_time.txt python "$EG/rebuild.py" prepare --table-only \
             --request "$EG/RUN_REQUEST.json" --out prepared

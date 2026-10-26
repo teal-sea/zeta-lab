@@ -279,12 +279,22 @@ def test_workflow_matches_the_ruling():
     steps = [s.get("name", s.get("uses", "")) for s in sh["steps"]]
     assert steps.index("preflight (ball backend, snapshot guard, request, headroom, memory)") < steps.index("run 4 shards")
     assert "guard.key()" in text and "github.run_attempt" in text and "if: always()" in text
-    assert not os.path.exists(os.path.join(HERE, "RUN_REQUEST.json")), "committed only after 'go'"
+    rr = os.path.join(HERE, "RUN_REQUEST.json")
+    if os.path.exists(rr):  # committed only after the coordinator's approval: the approved bytes (RUNS s10)
+        import hashlib
+
+        assert hashlib.sha256(open(rr, "rb").read()).hexdigest() in _read("RUNS.md")
+        assert json.load(open(rr))["mode"] == "calibrate"
     jobs = wf["jobs"]
     assert list(jobs) == ["plan", "gram", "merge", "shards"]
     assert jobs["gram"]["timeout-minutes"] <= 350 and jobs["gram"]["strategy"]["max-parallel"] <= 6
     assert jobs["merge"]["needs"] == ["plan", "gram"] and jobs["shards"]["needs"] == ["plan", "merge"]
     assert "merge-gram" in text and "gram-part" in text and "c4-exact-gram-gram-attempt" in text
+    # every directory a step writes into exists before the step, on attempt 1 too (run 40342431754)
+    gram_run = next(s for s in jobs["gram"]["steps"] if s.get("name") == "4 Gram parts")["run"]
+    assert gram_run.index("mkdir -p prepared") < gram_run.index("prepared/gram_time_")
+    tab = next(s for s in sh["steps"] if s.get("name", "").startswith("mode table"))["run"]
+    assert tab.index("mkdir -p prepared") < tab.index("out_table_time")
 
 
 def test_tail_mass_and_the_aposteriori_reprice():
