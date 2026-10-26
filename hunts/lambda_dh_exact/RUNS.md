@@ -561,3 +561,25 @@ take under 5 s per window. For 29 windows that is **under 0.05 core-hours**,
 then 29 one-dimensional integrals, about a second in total. Cap from the
 coordinator: 0.5 core-hours, one process, nice -n 10, wait while loadavg
 exceeds 64.
+
+## Run 15: the two-sided local gap (unit 3, step 1, 2026-10-26)
+
+```runmanifest
+id: R15-twosided
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; gate clean (max defect 1.3e-11); pre-registered verdict IMPROVES (rms 0.112, 26 of 29 in band), not PASS
+ran:
+  - twosided.py (one process, nice 10, loadavg 18.6 at start)
+artifacts:
+  - twosided.json
+```
+
+12.8 s of compute (0.004 core-hours), against the estimate of under 0.05
+and the cap of 0.5. The PREREG (RESULTS.md section 8.10) was committed and
+pushed as a31d30911 before the run. Pinned in `test_lambda_dh_exact.py`
+section 6. The planted fault (under `LDH_PLANT_FAULT=1`, the lower neighbour
+of the control window moved by 5 percent of a gap) turns
+`test_recompute_twosided_control_window` red, and only that test among the
+twosided ones.

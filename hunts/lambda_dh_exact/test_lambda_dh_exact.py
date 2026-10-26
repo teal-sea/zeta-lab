@@ -525,3 +525,70 @@ def test_refit_dh_recomputes_from_the_census():
     r = d[2442.53]
     assert abs(r["model_frozen_dbar"] - float(th.t_star_gap(r["y0"], r["gamma"]))) < 1e-12
     assert abs(float(th.t_star_gap(r["y0"], r["gamma"], dfac=r["d_over_h_inverse"])) - r["landing_ode"]) < 1e-7
+
+
+# ---------------------------------------------------------------------------
+# 6. the two-sided local gap, PREREG RESULTS.md section 8.10 (twosided.json)
+# ---------------------------------------------------------------------------
+
+def test_twosided_prereg_verdict_improves_not_pass():
+    """twosided.json: gate clean; rms 0.112 (frozen 0.160, pass bar 0.080); 26 of 29 in band."""
+    d = load("twosided.json")
+    assert d["n"] == 29 and d["gate_ok"] is True and d["max_gate_defect"] < 1e-9
+    assert round(d["rms_dev_from_1"], 3) == 0.112
+    assert d["n_in_band"] == 26 and d["n_second_nearest_same_side"] == 1
+    assert (round(d["min_ratio"], 3), round(d["max_ratio"], 3)) == (0.981, 1.339)
+    import twosided as ts
+    assert ts.rule(d["rms_dev_from_1"], [r["ratio"] for r in d["rows"]]) == d["verdict"] == "IMPROVES"
+    out = sorted(round(r["gamma"], 2) for r in d["rows"] if r["ratio"] > 1.25)
+    assert out == [4935.62, 49688.34, 77163.41]
+    assert all(min(r["d_L_over_h"], r["d_R_over_h"]) < 0.123 for r in d["rows"] if r["ratio"] > 1.25)
+
+
+def test_twosided_rule_is_the_preregistered_one():
+    """twosided.rule: PASS, IMPROVES and FAIL at the thresholds written in section 8.10."""
+    import twosided as ts
+    assert ts.rule(0.080, [1.0] * 29) == "PASS"
+    assert ts.rule(0.050, [1.0] * 28 + [1.26]) == "IMPROVES"   # band fails, rms passes
+    assert ts.rule(0.159, [1.0] * 29) == "IMPROVES"
+    assert ts.rule(0.160, [1.0] * 29) == "FAIL"
+
+
+def test_recompute_twosided_control_window():
+    """twosided.json, gamma = 240.4047: line scan and t*_2 recomputed; same d_L, d_R and ratio."""
+    import twosided as ts
+    import census_1e4 as cz
+    rec = next(r for r in load("twosided.json")["rows"] if abs(r["gamma"] - 240.4047) < 0.01)
+    g, h = rec["gamma"], rec["h"]
+    reals = cz.line_zeros(g - 4 * h, g + 4 * h)
+    d_l = g - max(x for x in reals if x < g)
+    d_r = min(x for x in reals if x > g) - g
+    if PLANT:
+        d_l += 0.05 * h          # planted: the lower neighbour misplaced by 5 percent of a gap
+    assert abs(d_l / h - rec["d_L_over_h"]) < 1e-9 and abs(d_r / h - rec["d_R_over_h"]) < 1e-9
+    t2 = ts.t_star_two(rec["y0"], d_l, d_r, h)
+    assert abs(rec["landing_ode"] / t2 - rec["ratio"]) < 1e-9
+
+
+def test_twosided_reduces_to_the_frozen_model():
+    """t_star_two(d_L = d_R = DBAR h) equals theory.t_star_gap exactly (2442.53)."""
+    import twosided as ts
+    th = _theory()
+    g, y0 = 2442.5303, 0.3977501
+    h = ts.h_mean(g)
+    assert ts.t_star_two(y0, th.DBAR * h, th.DBAR * h, h) == float(th.t_star_gap(y0, g))
+
+
+def test_twosided_comparison_table_of_section_8_11():
+    """refit_dh.json + twosided.json: in-band counts 25 / 22 / 26; the 25 non-collision ratios."""
+    f = load("refit_dh.json")["rows"]
+    t = load("twosided.json")["rows"]
+    band = lambda q: 0.85 <= q <= 1.25
+    assert sum(band(r["ratio_frozen"]) for r in f) == 25
+    assert sum(band(r["ratio_plugin"]) for r in f) == 22
+    assert sum(band(r["ratio"]) for r in t) == 26
+    assert round(max(1 / r["ratio_frozen"] for r in f), 1) == 1.9
+    rest = [r["ratio"] for r in t if min(r["d_L_over_h"], r["d_R_over_h"]) >= 0.123]
+    assert len(rest) == 25 and (round(min(rest), 3), round(max(rest), 2)) == (0.981, 1.11)
+    r74 = next(r for r in t if round(r["gamma"], 2) == 74189.64)
+    assert round(r74["ratio"], 3) == 1.173

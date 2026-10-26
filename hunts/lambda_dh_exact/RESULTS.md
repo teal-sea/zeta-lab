@@ -699,6 +699,45 @@ two-sided. It is not a theorem and says nothing about pairs near Delta,
 which no window here reaches. A FAIL refutes this form of it
 (ALIGNMENT section 5, disposition 1, at these 29 windows).
 
+
+### 8.11 Outcome of the 8.10 PREREG: IMPROVES, does not pass
+
+`twosided.py`, `twosided.json`, Run 15 in `RUNS.md`; *measured*.
+
+**Gate: clean.** min(d_L, d_R)/h reproduces the census's recorded d/h in all
+29 windows, max defect 1.3e-11. **Verdict under the pre-registered rule:
+IMPROVES.** rms 0.112, below the frozen 0.160 but above the pass bar 0.080.
+26 of 29 ratios are in [0.85, 1.25], against 25 of 29 for the frozen model.
+Ratio range 0.981 to 1.339, mean 1.066. In one window the second-nearest line
+zero sits on the same side as the nearest.
+
+| model | rms | ratios in [0.85, 1.25] | range |
+|---|---|---|---|
+| frozen, DBAR h on both sides | 0.160 | 25 of 29 | 0.527 to 0.997 |
+| one-sided plug-in, d/h on both sides | 0.393 | 22 of 29 | 0.982 to 2.088 |
+| **two-sided, d_L and d_R** | **0.112** | **26 of 29** | **0.981 to 1.339** |
+
+The three misses are the three near-collision windows, gamma = 4935.62,
+49688.34 and 77163.41, each with a line zero at d/h < 0.123 (0.101, 0.122,
+0.045). The fourth such window, 74189.64 at d/h = 0.008, lands at 1.173, just
+inside the band. The sign flipped: the frozen model over-predicted these
+landings by up to a factor 1.9, and the two-sided model under-predicts them by
+up to a factor 1.34. A line zero that close is pushed away as the pair falls,
+and both models hold it fixed. This is the frozen-neighbour bias `MISSION.md`
+section 4.7 measured on polynomials, now seen in F at measured grade. The
+fit everywhere else is tight: excluding the four near-collision windows
+(not a pre-registered cut, reported only as a description), all 25 ratios
+lie in [0.981, 1.11].
+
+What it settles: the gap correction is two-sided (the one-sided plug-in is
+refuted, section 8.9, and the two-sided form improves on the frozen DBAR
+with zero free parameters). What it does not settle: the pre-registered PASS
+bar, which this form misses because of moving neighbours. Disposition: the
+two-sided frozen-neighbour model is **refuted as a sub-0.08 description at
+these 29 windows** (disposition 1, measured). The two-sided mechanism with
+moving neighbours is **unresolved** (disposition 3). It needs the
+neighbour's own motion, which the ODE has and this model does not.
+
 ### The doors (updated 2026-10-26)
 
 The 2026-09-12 doors above stand as written; this is what changed in them.
