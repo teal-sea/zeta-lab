@@ -4237,3 +4237,23 @@ The argument uses the vendored `zeta23` folded count, rigorous Lean enclosures,
 and hunts #132 and #133's first ten located zeros plus nineteen new boxes.
 The novelty search in RESULTS.md is bounded and makes no priority claim. This
 finite theorem says nothing above 100 or about RH itself.
+
+### Hunt #152: a ball-arithmetic Lehman localization of a sign change of pi(x) - li(x) (`skewes_enclosure/`, opened 2026-10-26)
+
+**Status: open; day-one read done, GO with the novelty claim narrowed; production
+waits on the compute gate.** The question is whether a sign change of
+pi(x) - li(x) can be localized with every computed step carried by Arb balls. The
+method is Lehman's integral with Revers's 2025 error terms (arXiv:2501.04488,
+JNT 2025) over the first ~2.2e7 zeros. The day-one read of three papers found
+that Saouter-Trudgian-Demichel 2015 (submitted version) and Revers 2025 sum
+their zeros in floating point. Both use an analytic zero-error budget, and
+neither cites a rigorous zero source. Platt-Trudgian 2015 already carried the
+analogous theta(x) - x sum in MPFI interval arithmetic with rigorous zeros, so
+the method is not new to interval arithmetic and no novelty is claimed.
+`skewes_terms.py` reproduces the R column of both of Revers's section-4
+resizing tables from Theorem 3.1. It also found that the row printed as
+eta = 1.55e-5 is the value at eta = 1.56e-5, a label slip with no effect on the
+paper's conclusion. The expected margin at the Saouter-Demichel parameters is
+about 1.28e-4, and the zero precision it needs (~62 bits) is far inside what Arb
+isolation delivers. Unit timings and the production estimate are in
+[RUNS.md](skewes_enclosure/RUNS.md); nothing is a result yet.
