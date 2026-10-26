@@ -967,7 +967,7 @@ condition 1 does not fire. `screen_hi` was finished on a copy (111 zeros in
 `complete: false` artifact is marked superseded. A targeted check (not a census) landed eight of the nine pairs with y0 > 0.40 in [10^4, 10^5]: best 0.04902, none near the floor, so P5 stays unresolved with measured evidence against and kill condition 4 does not fire on what was measured. A slip
 inherited from `flow_repair/NOTES.md` (y0 = 0.3695261 for the floor pair;
 the value is 0.3695306) is recorded, not propagated. The full 10^5 census
-(about 15 core-hours) is estimated and not run.
+(about 15 core-hours) is estimated and not run. *Follow-up, same day:* `test_lambda_dh_exact.py` pins every decided and measured number of `RESULTS.md` section 8 and every verdict against its artifact, with real two-backend and Arb recomputations whose planted faults are shown red (31 fast tests, 32 in both tiers). Three more slips of the same kind (pairs 2 to 4) were found and all four corrected in this hunt's files; `flow_repair/NOTES.md` still carries them. The per-pair d/h refit of the shave model fails as a plug-in (rms 0.393 against the frozen 0.160), and the d/h it would need tracks the measured one at r = 0.967, pointing to a two-sided gap (measured).
 
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 

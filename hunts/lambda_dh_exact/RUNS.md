@@ -490,3 +490,64 @@ artifacts:
 gamma = 88167.40 kept N_strip = 142 against 128 line zeros + 2 x 6 off-line
 after the line grid was refined to 1/240 of a gap, so that pair was not
 landed. **Total resumption spend: about 3.5 core-hours.**
+
+## Run 13: the test module and its planted faults (follow-up, 2026-10-26)
+
+```runmanifest
+id: R13-pins
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; both tiers pass, and the planted-fault run turns exactly the recomputation tests red
+ran:
+  - pytest -q -n0 -m "not slow" hunts/lambda_dh_exact
+  - pytest -q -n0 hunts/lambda_dh_exact
+  - LDH_PLANT_FAULT=1 pytest -q -n0 hunts/lambda_dh_exact
+artifacts:
+  - test_lambda_dh_exact.py
+```
+
+Estimate before spending: the recomputations were timed first (Arb leg of
+one low zero 0.03 s, iv leg 10.4 s, falling to 2.8 s once `IvRoute` cached
+its Euler-Maclaurin coefficients; the |t| <= 8 rectangle 0.5 s; the 2442
+window 6 s; the lowest KC2 shard about 125 s, so that one is `slow`). The
+cache multiplies the same intervals in the same order as before, so no
+recorded enclosure depends on it. Outcomes are recorded below, under
+"Run 13 outcomes".
+
+## Run 14: the slip effect and the per-pair d/h refit (follow-up, 2026-10-26)
+
+```runmanifest
+id: R14-slips-refit
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; four inherited y0 slips corrected in this hunt (flow_repair untouched), their effect measured below every reported digit; the one-sided d/h plug-in is worse than the frozen DBAR, the inverse tracks measured d/h at r = 0.967
+ran:
+  - slip_effect.py (stage 5 and stage 6 with recorded and corrected y0; 9 s)
+  - refit_dh.py (29 landings, plug-in and inverse; 2 s)
+artifacts:
+  - slip_effect.json
+  - refit_dh.json
+```
+
+Both under a core-minute. See `RESULTS.md` section 8.9.
+
+### Run 13 outcomes
+
+- `pytest -q -n0 -m "not slow" hunts/lambda_dh_exact`: **31 passed, 1
+  deselected, 12.9 s.**
+- `pytest -q -n0 hunts/lambda_dh_exact`: **32 passed, 131 s** (the slow
+  shard recompute about 112 s of it).
+- `LDH_PLANT_FAULT=1 pytest -q -n0 hunts/lambda_dh_exact`: **4 failed, 28
+  passed, 126 s**. The four red tests are exactly the recomputations:
+  `test_recompute_one_low_zero_on_both_backends` (zero pushed four
+  half-widths past its interval), `test_recompute_kc2_below8_slice` and
+  `test_recompute_kc2_edge_sensitivity_at_2442` (count off by one), and
+  `test_recompute_kc2_lowest_shard_matches_record` (one extra winding on the
+  slice). The pins and the four always-on fault tests stay green, as they
+  should, because they do not read the switch.
+- Gates `tests/test_hunt_probe_discipline.py`, `test_hunt_numbering.py`,
+  `test_docs_numbering.py`, `test_doors.py`, `test_hunt_doors.py`,
+  `test_huntspec.py`: 86 passed, 3 xfailed. `scripts/make_context.py --check`:
+  up to date.

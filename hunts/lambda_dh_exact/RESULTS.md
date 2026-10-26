@@ -82,7 +82,7 @@ the landing time. The two deepest depths this laboratory has located are:
 
 | height gamma | depth y0 | source |
 |---|---|---|
-| 240.4046 | 0.3695261 | hunts/flow_repair, hunts/lambda_dh_bounds |
+| 240.4046 | 0.3695306 (corrected 2026-10-26 from 0.3695261, section 8.9) | hunts/flow_repair, hunts/lambda_dh_bounds |
 | 1000459.7433532759 | 0.35831185907344154 | this hunt, `deep_zeros_1e6.json` |
 
 Shallower at four thousand times the height, which is the direction the theory
@@ -225,7 +225,7 @@ shape.
 | Frozen | Value | Where | What relaxing it trades |
 |---|---|---|---|
 | the depth-law exponent p | 0.5, 1.0, 1.5, 2.0 sampled, none fitted | `theory.py` stage 6 | Everything. Fitting it against measured depths replaces the registered range with an interval, and excludes p = 0.5 on evidence rather than on self-consistency. Costs new depths at new heights. |
-| the depth-law anchor | y_max(600) = 0.3695261 | stage 6, sets c_p | One data point, `flow_repair`'s deepest pair, pins the whole law. A deeper pair anywhere re-anchors it upward and raises every sup in the table. |
+| the depth-law anchor | y_max(600) = 0.3695306 (corrected 2026-10-26 from 0.3695261, section 8.9) | stage 6, sets c_p | One data point, `flow_repair`'s deepest pair, pins the whole law. A deeper pair anywhere re-anchors it upward and raises every sup in the table. |
 | local-gap parameter DBAR | 1.4284 | module constant, fitted as mean d/h over nine landings | Fitted, not guessed, but it is one scalar standing for all gap geometry, with nine samples and a spread of 1.335 to 1.568. Re-fitting per height, or carrying the spread rather than the mean, trades a tighter model against more parameters than nine points can support. |
 | lattice phase theta | 0.5 | `t_star_lattice` | The pair sits exactly midway between its neighbours, the most symmetric and plausibly the most favourable position. Sampling theta trades a cheap recomputation against a sup that may only fall. |
 | lattice truncation K | 6000 terms | `t_star_gap` | Pure numerics. Cheap to push; expected to move nothing, which is why it should be checked once rather than assumed. |
@@ -551,7 +551,7 @@ best is 0.04902 (gamma = 20011.16), 15 percent under 0.0576518, and the
 deepest pair this lab has located below 10^5 (y0 = 0.437) lands at 0.0348.
 The shaves are 38.8 to 71.0 percent, against 15.5 to 55.8 below 10^4, and the
 model is again a near-ceiling (ODE / model 0.53 to 0.99, never above 1). The
-three pairs with ratios under 0.7 all have a line zero within d/h <= 0.12,
+three pairs with ratios under 0.7 all have a line zero within d/h < 0.123,
 the same signature as gamma = 4935.6 below 10^4.
 
 **P5 and kill condition 4, only as far as this supports.**
@@ -575,6 +575,84 @@ the same signature as gamma = 4935.6 below 10^4.
   decline in that decade is not shown.
 - *P8* (a pair landing later than its own y0^2/2): 0 of 8 here as well,
   0 of 29 over sections 8.6 and 8.8. Not observed, measured.
+
+
+### 8.9 Follow-up, 2026-10-26: pins, the slips corrected, the d/h refit
+
+**Pins.** `test_lambda_dh_exact.py` now pins every number section 8 calls
+decided or measured, against the artifact it came from. Each test's
+docstring names that artifact. It also re-derives every verdict of sections
+8.4 to 8.8 from those numbers, not from the prose. It recomputes too: one
+low-screen zero (gamma = 240.4047) decided again on both backends, the
+|t| <= 8 rectangle of the kill-condition-2 count and a five-unit window at
+gamma = 2442.53 on Arb, and, in the slow tier, the whole lowest left-edge
+shard (0.90 + i[8, 1257], about 2 minutes) against its recorded arg-variation
+ball. Default tier: 31 tests in about 13 s. Both tiers: 32. Planted faults,
+each shown red (Run 13 in `RUNS.md`): with `LDH_PLANT_FAULT=1` the zero is
+pushed four half-widths past its interval and the counts are put off by one,
+and exactly the four recomputation tests fail. Separate tests feed each
+checker a faulted input it must reject.
+
+Writing the pins caught one overstatement of mine in sections 8.8 and the
+doors below: the four large model misses sit at d/h < 0.123, not "<= 0.12"
+(the largest is 0.1223). Corrected in place, same day.
+
+**The slips, corrected in this hunt.** Section 8.1 recorded one slip, y0 =
+0.3695261 for the floor pair. Checking the other eight inherited depths
+against `hunts/flow_repair/results.json` found **three more of the same
+kind**, pairs 2 to 4, in the same table of `hunts/flow_repair/NOTES.md`
+section 1. In each row the y0 digits are wrong, while the y0^2/2 column next
+to them matches the `results.json` value:
+
+| pair | gamma | NOTES.md y0 (slip) | results.json y0, 7 dp | NOTES y0^2/2 matches |
+|---|---|---|---|---|
+| 2 | 114.1633 | 0.1508270 | 0.1508301 | 0.1508301 |
+| 3 | 166.4793 | 0.0743505 | 0.0743561 | 0.0743561 |
+| 4 | 176.7025 | 0.2242763 | 0.2242577 | 0.2242577 |
+| 5 | 240.4046 | 0.3695261 | 0.3695306 | 0.3695306 |
+
+Corrected 2026-10-26, each with a dated note at the point of use, in
+`theory.py` (the calibration table `NINE` and the stage-6 anchor),
+`landing.py` (`PUBLISHED`), `landing.json` (four y0 fields plus a
+`corrections_2026_10_26` note), `MISSION.md` (section 0, the huntspec
+frontier, C3 and P2) and this file (sections 4 and the 2026-09-12 doors).
+**`hunts/flow_repair/NOTES.md` is untouched and still carries all four old
+values** (pinned by `test_flow_repair_notes_still_carries_the_old_values`).
+It belongs to another hunt.
+
+What the corrections move, measured by `slip_effect.py` / `slip_effect.json`
+(recomputing stage 5 and stage 6 with old and corrected values; the
+old-value recomputation reproduces `theory_results.json` to 1e-15): the
+fitted mean d/h goes from 1.42844 to 1.42519. `DBAR = 1.4284` stays as
+registered, because every model number of sections 8.6 to 8.8 was computed
+with it. Every stage-6 number (y_max(10^4) and the sup, all four exponents)
+moves by less than 4e-6. No verdict changes, and kill condition 5's p = 0.5
+branch stays below 36/625 (0.055751). `theory_results.json` is kept as
+recorded (computed with the old values), and the difference is in
+`slip_effect.json`.
+
+**The per-pair d/h refit** (`refit_dh.py`, `refit_dh.json`, Run 14;
+*measured*). This is the door section 8.7 ranked first: feed each pair's
+measured d/h to `t_star_gap` in place of DBAR, over all 29 ODE landings.
+
+| model | ODE / model, mean | rms deviation from 1 | range |
+|---|---|---|---|
+| frozen, DBAR = 1.4284 | 0.907 | 0.160 | 0.527 to 0.997 |
+| plug-in, dfac = measured d/h | 1.235 | 0.393 | 0.982 to 2.088 |
+
+**The plug-in is worse**: it overcorrects in 28 of 29 pairs, by up to a
+factor 2.09 at the pairs with a line zero almost on top of them. The inverse
+asks what dfac reproduces each ODE landing exactly (brentq). It tracks the
+measured d/h closely, Pearson r = 0.967, with dfac_inverse = 0.567 +
+0.674 d/h (rms residual 0.071, max 0.155). The reading this supports
+(measured, one instrument, 29 points) is a mechanism, not a fit. `t_star_gap`
+places the local gap symmetrically, a line zero at distance dfac h on *both*
+sides of the pair, while a real pair has one close neighbour and a farther
+one, so the gap the model needs sits between the two sides rather than at the
+near one (slope 0.674 < 1, intercept 0.567 > 0). That reading is a
+conjecture about the shape of the correction, untested here: the census rows store only the
+nearest line zero, so the two-sided model needs the second-nearest distance,
+which `census_1e4.py` computes and discards.
 
 ### The doors (updated 2026-10-26)
 
@@ -612,8 +690,14 @@ landing in that decade), which were the cheapest test of P5 and kill condition 4
 have now been landed (section 8.8, none near the floor); the full 10^5
 census (about 15 core-hours) for the 102 shallower pairs; and any decided
 landing, which needs the Xi-plane route, out of reach above about 10^3 on
-this box. After section 8.8 the door with the most left in it is inside the
+this box. After section 8.8 the door with the most left in it was inside the
 current data: refit the shave model with each pair's measured d/h in place of
 DBAR. All 29 landings (21 + 8) already carry it, the model's four large
-misses (ODE / model under 0.7) all sit at d/h <= 0.122, and it is the step that decides whether a
-model of this family can say anything about pairs near Delta.
+misses (ODE / model under 0.7) all sit at d/h < 0.123, and it is the step that decides whether a
+model of this family can say anything about pairs near Delta. *Walked
+through 2026-10-26 (section 8.9):* the one-sided plug-in fails (rms 0.393
+against 0.160), and the inverse says the gap the model needs is two-sided.
+The next door is the two-sided local gap, nearest and second-nearest line
+zero, which needs only a re-scan of the 29 windows already accounted (inside
+data the census reads, about 0.1 core-hours; the line-zero lists were
+computed and not stored).

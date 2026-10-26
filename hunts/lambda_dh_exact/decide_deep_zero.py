@@ -271,6 +271,18 @@ class IvRoute:
             self.c = c
         self.head_seconds = time.time() - t0
 
+    def _em_coeff(self, k: int):
+        """B_{2k}/(2k)! * 5^{2k-1} as an interval, cached per route (same value
+        as computing it in place; caching only removes the repeated bernfrac
+        and factorial work from every evaluation)."""
+        cache = self.__dict__.setdefault("_em_cache", {})
+        c = cache.get(k)
+        if c is None:
+            bp, bq = mpmath.bernfrac(2 * k)
+            c = iv.mpf(int(bp)) / iv.mpf(int(bq) * math.factorial(2 * k)) * iv.mpf(5) ** (2 * k - 1)
+            cache[k] = c
+        return c
+
     def _tail(self, s, sig):
         """sum_a c_a [EM tail on [N, inf)] plus the remainder disc, for s in the box."""
         N = self.N
@@ -286,9 +298,7 @@ class IvRoute:
             Xpow = Xs / X                                # X^{-s-1}
             inv_X2 = 1 / (X * X)
             for k in range(1, p):
-                bp, bq = mpmath.bernfrac(2 * k)
-                coeff = iv.mpf(int(bp)) / iv.mpf(int(bq) * math.factorial(2 * k))
-                part += coeff * iv.mpf(5) ** (2 * k - 1) * poch * Xpow
+                part += self._em_coeff(k) * poch * Xpow
                 poch = poch * (s + (2 * k - 1)) * (s + 2 * k)   # (s)_{2k+1}
                 Xpow = Xpow * inv_X2
             # (s)_{2p} = (s)_{2p-1} * (s + 2p - 1); poch is now (s)_{2p-1}

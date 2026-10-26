@@ -19,7 +19,7 @@ later phases must find, with numbers, before any of them runs.
 ```huntspec
 id: lambda_dh_exact
 question: Does the crowding shave vanish along a sequence of Davenport-Heilbronn zeros whose depth approaches Delta, so that sup t* = Delta^2/2 and the bracket 0.0576 < Lambda_DH <= 0.19242481458 collapses to a point, or does the shave stay bounded away from zero so the gap is real?
-frontier: narrow frame, decided both sides: 36/625 = 0.0576 < Lambda_DH <= 0.19242481458026887663805 = Delta^2/2 with Delta = 0.62036249819 sharp (Bombieri-Ghosh 2011 Theorem 7; necessary half re-derived and decided in STRIP2.md); ratio 3.341; best measured landing 0.05765184035 at gamma = 240.4046, y0 = 0.3695261
+frontier: narrow frame, decided both sides: 36/625 = 0.0576 < Lambda_DH <= 0.19242481458026887663805 = Delta^2/2 with Delta = 0.62036249819 sharp (Bombieri-Ghosh 2011 Theorem 7; necessary half re-derived and decided in STRIP2.md); ratio 3.341; best measured landing 0.05765184035 at gamma = 240.4046, y0 = 0.3695306 (corrected 2026-10-26 from 0.3695261, a transcription slip in hunts/flow_repair/NOTES.md; RESULTS.md section 8.9)
 proposed_attack: derive the landing law dy/dt = -1/y - 2 pi rho from the N-body identity dQ/dt = 2 - 4Q sum 1/((x-a)^2 - Q), calibrate it on ten already-measured Davenport-Heilbronn landings, and decide whether sup over pairs of t* can reach Delta^2/2 given that depth near Delta forces great height and great height forces large rho
 dead_routes:
   - raising the floor by surveying above height 600 without first raising the depth: the census of hunts/lambda_dh_bounds found six quadruples in (412, 600) and none beat 0.0576518, and the derived law says depth, not height, is the only variable that helps
@@ -70,7 +70,7 @@ Everything in this section is inherited, with its grade, from
 | `Delta = sigma_0' - 1/2` | `0.62036249819` | decided |
 | upper bound `Delta^2/2` | `0.19242481458026887663805` | cited (de Bruijn Th. 13) plus decided |
 | floor `36/625` | `0.0576` | decided (winding `N = 1`) |
-| best measured landing | `0.05765184035` at `gamma = 240.4046`, `y0 = 0.3695261` | measured |
+| best measured landing | `0.05765184035` at `gamma = 240.4046`, `y0 = 0.3695306` (corrected 2026-10-26 from 0.3695261; RESULTS.md section 8.9) | measured |
 
 **The one inherited fact this hunt is entirely built on, and it is cited, not
 derived here.** Bombieri and Ghosh determine `sigma(tau_+, 1) = 1.120362` as
@@ -473,7 +473,8 @@ theorem and would be a defect in the instrument, not a discovery.
 
 **C3 (the sup).** Model the deepest available depth as
 `y_max(gamma) = Delta (1 - c_p / L(gamma)^p)`, anchored at
-`y_max(600) = 0.3695261`, and maximize `t*(y_max(gamma), gamma)` over `gamma`:
+`y_max(600) = 0.3695306` (corrected 2026-10-26 from 0.3695261; the table
+below was computed with the old anchor and moves by at most 4e-6, RESULTS.md section 8.9), and maximize `t*(y_max(gamma), gamma)` over `gamma`:
 
 | `p` | `y_max(10^4)` | model sup `t*` | at `gamma` | with `y0` | wide frame 4x |
 |---|---|---|---|---|---|
@@ -536,7 +537,8 @@ laws of sections 3 and 4, both fixed before this list was written.
 - **P2 (the deepest zero below height 10^4).** `y_max(10^4)` lands in
   **[0.40, 0.52]**, point estimate **0.45**, that is `beta_max` in
   `[0.90, 1.02]` with point estimate 0.95. Below 0.40 or above 0.52 refutes.
-  For scale: `y_max(600) = 0.3695261` today, and the strip ceiling is
+  For scale: `y_max(600) = 0.3695306` today (corrected
+  2026-10-26 from 0.3695261; RESULTS.md section 8.9), and the strip ceiling is
   `Delta = 0.62036249819`.
 
 - **P3 (the shave at that depth).** The calibrated model at
