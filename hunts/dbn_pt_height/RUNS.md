@@ -256,7 +256,7 @@ outcome: the DH function, its wide-frame heat flow and Polymath-shaped main term
 id: dbn_pt_height-2026-10-26-evaluator-dh-gate-build
 hunt: dbn_pt_height
 started: 2026-10-26T13:40Z
-finished: 2026-10-26T15:10Z
+finished: 2026-10-26T14:28Z
 ran:
   - web searches recorded in evaluator/DH_LITERATURE.md
   - scratchpad probes of the sharp residual (108 points, x 2000 to 2600), the cutoff (N 22 to 34 at three x), Spira's zeros (mpmath findroot), F_split against the oracle, the Gaussian-average attempt (stopped after ten minutes), and dh_gate on the development boxes D0 and D1
@@ -269,6 +269,55 @@ artifacts:
   - hunts/dbn_pt_height/evaluator/test_dh.py
   - hunts/dbn_pt_height/evaluator/test_dh_gate.py
 outcome: the correction term is the sharp-minus-smoothed difference, enclosure-carrying at t = 0 and through hunt #61's instrument at t > 0; |A + B - C| at the two measured zeros is the enclosure radius (below 1e-20 and 1e-10 of |B|); the gate is preregistered and has not been run
+```
+
+### E7. The DH gate, run as preregistered (2026-10-26)
+
+The preregistration commit 2ba8cbba3 (`evaluator/DH_GATE_PREREG.md`) was pushed
+at 14:27:58Z. The run started at 14:28:06Z on that commit (load 28) and ended at
+14:39:32Z: 686 s, 33 MB, one process at nice 10, against an estimate of under
+20 core-minutes. The full output is `evaluator/dh_gate_results.json`.
+
+- **Truth** (hunt #61's decided counts): one zero in each of Z1 to Z4, none in
+  C1 or C2. No box was excluded.
+- **The clean pipeline: PASS.** Z1 to Z4 are REFUSE, each decided winding 1
+  (133, 32, 39 and 36 evaluations). C1 and C2 are DISCRIMINATES, each decided 0
+  (59 and 32).
+- **The two faults that had to be caught were caught.**
+  - `one_corner` gives FAIL: all four zero boxes were called zero-free from one
+    nonzero corner value. This is the row-2 pattern of `CHAIN.md` (one check at
+    N0 and y0, the rest argued), shown here to accept boxes that hold zeros.
+  - `main_terms_only` gives FAIL: with the sharp A + B and no correction, all
+    four zero boxes are decided winding 0.
+  - So by the preregistered criterion the gate is accepted as a control.
+- **The others.**
+  - `no_margin` and `no_M2` give PASS and are not caught, as preregistered as
+    possible: on these boxes |H| on the boundary is far above any margin. The
+    gate cannot see the size of the margin.
+  - `narrow_frame` gives FAIL and **is caught, against the preregistered
+    expectation** ("stricter, not caught", from D0). Read unconverted, Z2 and
+    Z3 become boxes at twice the height and four times the time, where the flow
+    has no zero, so the faulty pipeline decides 0 for them. On Z1, Z4 and C1
+    it ran out of its 600 evaluations. The expectation was wrong and the result
+    stands as recorded.
+- **What the verdict means, and what it does not.** On these six boxes, the
+  zeta pipeline's barrier rule, with the DH function swapped in and evaluated
+  in balls, refuses every box that holds a DH zero, and it still decides the
+  two zero-free controls. A one-corner check and a main-terms-only evaluation
+  do not refuse. The verdict says nothing about Theorem 1.3's error terms
+  (on DH, E = 0) or about the Euler-mollified sweep (DH has no Euler product).
+  It is not a statement about any de Bruijn-Newman constant.
+
+```runmanifest
+id: dbn_pt_height-2026-10-26-evaluator-dh-gate-run
+hunt: dbn_pt_height
+started: 2026-10-26T14:28Z
+finished: 2026-10-26T14:40Z
+ran:
+  - .venv/bin/python hunts/dbn_pt_height/evaluator/dh_gate.py hunts/dbn_pt_height/evaluator/dh_gate_results.json (commit 2ba8cbba3, 686 s)
+artifacts:
+  - hunts/dbn_pt_height/evaluator/dh_gate_results.json
+outcome: clean pipeline PASS; must-catch faults one_corner and main_terms_only caught (FAIL); no_margin and no_M2 not caught; narrow_frame caught, against its preregistered expectation
 ```
 
 ## Chain lane (`MISSION.md`, `CHAIN.md`, `REDUCTION.md`, `chain.json`, `sources.json`)

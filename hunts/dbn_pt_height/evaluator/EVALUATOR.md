@@ -287,8 +287,10 @@ the mesh.
   0.2304 < Lambda_DH <= 0.7697 (wide frame; `docs/29`,
   `hunts/lambda_dh_bounds/SEPARATION.md`), from a winding count of 1 at narrow
   t = 36/625 that the hunt grades decided, with the frame factor 4 derived in
-  its `FRAME.md`. `dh.py` is the first code for the control, and `DH.md` is
-  its design and status: main terms only, no correction term and no error
-  bound yet, so the control has not been run.
+  its `FRAME.md`. The control has since been built, preregistered
+  (`DH_GATE_PREREG.md`) and run (`../RUNS.md`, E7). The barrier rule passes it
+  on six boxes; a one-corner check and a main-terms-only evaluation fail it.
+  It exercises the barrier rule only. Theorem 1.3's error terms and the
+  Euler-mollified sweep are not tested by it (`DH.md`).
 - The methods index `docs/37-methods.md` has no entry for this instrument;
   adding one is outside this lane's write scope.

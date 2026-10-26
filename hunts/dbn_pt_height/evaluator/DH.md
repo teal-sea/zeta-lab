@@ -3,7 +3,10 @@
 **Status (2026-10-26, later the same day): built and preregistered.** The
 literature record is `DH_LITERATURE.md`, the gate code is `dh_gate.py` with
 `test_dh_gate.py`, and the preregistration is `DH_GATE_PREREG.md`, committed
-before the run. The result is in `../RUNS.md` (E7). Steps 3 to 5 below were
+before the run (commit 2ba8cbba3). **The gate was run as preregistered:
+the clean pipeline PASSes (four zero boxes refused, each with decided winding
+1; two controls decided 0), and both must-catch faults (`one_corner`,
+`main_terms_only`) are caught** (`../RUNS.md`, E7; `dh_gate_results.json`). Steps 3 to 5 below were
 done differently from the plan written earlier the same day:
 
 - Step 3: the literature has no explicit-remainder Riemann-Siegel formula for

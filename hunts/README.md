@@ -4242,8 +4242,9 @@ finite theorem says nothing above 100 or about RH itself.
 
 **Status: open. The chain lane's sourcing is done and was repaired after an adversarial
 review (2026-10-21); resumed in place on 2026-10-26, when the evaluator's large-x
-containment checks were documented and the Davenport-Heilbronn refusal gate got its first
-code, not yet run (`evaluator/DH.md`).** The task that opened this hunt
+containment checks were documented and the Davenport-Heilbronn refusal gate was built,
+preregistered and run: the barrier rule refuses every box holding a DH zero and decides
+both controls, and a one-corner check is caught accepting them (`evaluator/DH.md`).** The task that opened this hunt
 proposed #140; the campaign orchestrator assigned #147 because #138 to #144 are held for
 landings being renumbered, and #140 is already printed by the ref
 `land/krenn-gu-orbits-20261021`. Reading only, no Lambda bound stated. Platt and Trudgian

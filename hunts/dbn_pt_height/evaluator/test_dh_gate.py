@@ -101,3 +101,25 @@ def test_the_verdict_rule() -> None:
     assert v({"Z1": "REFUSE_WEAK", "C1": "DISCRIMINATES"}) == "INCONCLUSIVE"
     assert v({"Z1": "REFUSE", "C1": "NON_DISCRIMINATING"}) == "INCONCLUSIVE"
     assert v({"Z1": "REFUSE", "Z2": "TRUTH_EMPTY", "C1": "DISCRIMINATES"}) == "PASS"
+
+
+def test_the_recorded_gate_run_is_the_preregistered_one() -> None:
+    """dh_gate_results.json holds the run of RUNS.md E7: the preregistered boxes,
+    every fault, and the verdicts recorded there."""
+    import json
+
+    d = json.loads((HERE / "dh_gate_results.json").read_text())
+    assert d["preregistration"] == "DH_GATE_PREREG.md"
+    assert set(d["truth"]) == set(G.GATE_BOXES)
+    assert all(v["status"] == "decided" for v in d["truth"].values())
+    assert {k: v["N"] for k, v in d["truth"].items()} == {"Z1": 1, "Z2": 1, "Z3": 1, "Z4": 1, "C1": 0, "C2": 0}
+    assert set(d["runs"]) == {"clean", *G.FAULTS}
+    want = {"clean": "PASS", "one_corner": "FAIL", "main_terms_only": "FAIL",
+            "no_margin": "PASS", "no_M2": "PASS", "narrow_frame": "FAIL"}
+    assert {k: v["verdict"] for k, v in d["runs"].items()} == want
+    for k, run in d["runs"].items():  # the verdicts follow from the rows by the preregistered rule
+        assert G.verdict(run["rows"]) == run["verdict"]
+        for box, row in run["rows"].items():
+            g = G.GATE_BOXES[box]
+            assert G.classify(g["kind"], d["truth"][box]["N"], run["outputs"][box]["winding"]) == row
+    assert all(o["winding"] == 1 for b, o in d["runs"]["clean"]["outputs"].items() if b.startswith("Z"))
