@@ -75,6 +75,17 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #151: where Li's criterion first fails for Davenport-Heilbronn, enclosure-carrying (`li_dh_onset_hardened/`, opened 2026-10-26)
+
+**Status: in flight (first wave).** Resumes the question #128 (`li_dh_onset/`)
+priced at about 20,000 core-hours: an explicit n\* with lambda_{n\*}(DH) < 0 and
+every earlier coefficient positive, every step in ball arithmetic. The repricing
+under test moves the contour radius from 0.99 to sqrt(1 - 1/c), c = 5000, which
+trades the old n^3 precision cost for an admissibility certificate (an
+argument-principle box count equal to the line sign changes plus the located
+off-line quadruples) and a rigorous aliasing bound. Nothing here bears on RH
+(`docs/08`).
+
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 
 **Status: ordinary argument with an independent model challenge (a model review, not human
