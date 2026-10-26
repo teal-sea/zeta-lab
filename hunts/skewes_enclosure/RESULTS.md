@@ -1,8 +1,9 @@
 # RESULTS: `skewes_enclosure` (hunt #152)
 
-Status on 2026-10-26: **production A done, its gate passed.** Production B (2.2e7
-zeros, the Saouter-Demichel region) is approved in principle and waits on the
-coordinator's review of its workflow. Nothing here is promoted: the grades below
+Status on 2026-10-26: **production A done, its gate passed. Production B ran
+(2.2e7 zeros) and its gate FAILED** (section 6). That attempt is unresolved:
+the leading hypothesis is a rounded omega in the source, and testing it needs a
+recompute. Nothing here is promoted: the grades below
 are this hunt's report, not a reviewer's.
 
 ## 1. The bounded result (target A, Chao-Plymen region)
@@ -117,6 +118,47 @@ hunts/skewes_enclosure/run_shards.sh <outdir> 1 2 ... 20      # ~7.5 core-hours
 The committed `shards/` are this run's outputs. `combine.py` on them reproduces
 `shards/combined_chao_plymen.json`. Shard 1 was run with `--sample 200 --seed 152`
 and shards 2 to 20 with `--sample 50 --seed 152000+k`.
+
+## 6. Production B, 2026-10-26: the gate failed (attempt unresolved)
+
+All 220 shards (1 to 20 from target A, 216 on the box, 217 to 220 from the
+pilot, and 21 to 215 from Actions run 40363428968) are sound. Indices are
+contiguous, every ball is ordered and disjoint within and across shards, the last
+zero is below T = 10379600, and Arb's Turing count gives N(T) = 22,000,000
+exactly. All 5150 route-2 brackets show a sign change. Isolation took
+349,099 core-seconds = 97 core-hours in total, about 64 of them on runners.
+
+| quantity | value |
+| --- | --- |
+| S at omega = 727.95134, alpha = 6e12 | [-0.99067672 +/- 1.89e-9] |
+| Revers's printed S* | -1.002922947193156 |
+| difference | 0.012246, about 470x his zero budget (2.6e-5) |
+| lower bound on I at eta = 2.28e-5 | [-0.01211835 +/- 3.6e-9] (negative: no conclusion) |
+
+By the kill condition, the gate failed, so this hunt stops target B and asks
+which side is wrong. What is known:
+
+- **The pipeline reproduces Revers at the Chao-Plymen parameters** (section 1),
+  with the same code and zero layer, to 1.7e-10. The runner shards reproduce the
+  box bit for bit (smoke check), and target A's shards 1 to 20 feed both sums.
+- **Leading hypothesis: omega.** Subsection 6.3 prints "\omega=727.95134".
+  Revers's own history table gives the Saouter-Demichel omega as 727.951335792,
+  and 727.951335792 rounded to five decimals is 727.95134. At alpha = 6e12 the
+  Gaussian kernel has width about alpha^{-1/2} = 4e-7 in omega, so the
+  4.2e-6 difference is about 10 widths. Over the first 1e4 zeros (Arb, 128-bit
+  sums) the two omegas give -0.977409433 and -0.977376629, which differ by only
+  3.3e-5, because gamma * Delta omega < 0.04 there. The phase shift grows like
+  gamma and reaches 4 to 40 rad for gamma between 1e6 and 1e7. That is where the
+  remaining -0.013 (ours) versus -0.026 (Revers) of the sum lives. **This is
+  consistent with the hypothesis but does not test it.**
+- **Why it cannot be tested from the stored data.** Shards store the zeros'
+  SHA-256 and partial sums at the two fixed omegas only, so a new omega needs the
+  zeros recomputed. Storing sums on an omega grid at almost no cost would have
+  avoided this. That design gap is ours.
+- Disposition (ALIGNMENT section 5): **attempt unresolved** for target B. It is not
+  a refutation of Revers. The ball sum at omega = 727.95134 is itself a valid
+  enclosure-carrying measurement, and at that omega the lower bound gives no
+  conclusion.
 
 ## The doors
 

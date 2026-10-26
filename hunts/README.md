@@ -4240,8 +4240,10 @@ finite theorem says nothing above 100 or about RH itself.
 
 ### Hunt #152: a ball-arithmetic Lehman localization of a sign change of pi(x) - li(x) (`skewes_enclosure/`, opened 2026-10-26)
 
-**Status: open. Target A passed its gate; target B (2.2e7 zeros) waits on workflow
-review.** On 2026-10-26, a 2e6-zero ball sum (7.5 core-hours) contained Revers's
+**Status: open. Target A passed its gate; target B ran (2.2e7 zeros, complete by
+Turing count) and its gate failed: the sum at Revers's printed omega = 727.95134
+misses his S* by 0.0122. The leading hypothesis is that the printed omega is
+727.951335792 rounded. That is unresolved and needs a recompute.** On 2026-10-26, a 2e6-zero ball sum (7.5 core-hours) contained Revers's
 printed S* = -1.006553478788955. The resulting lower bound on Lehman's integral
 is positive down to eta = 1.061e-4 at omega = 727.952018, so pi(x) > li(x) for
 some x with log x in [727.9519119, 727.9521241]. Grade: a hardened computation on

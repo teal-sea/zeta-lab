@@ -1,0 +1,13 @@
+{
+ "git_sha": "ffdfe4d2611af44f1188c8c2953ce7c4dc5e3664",
+ "run_id": "40363428968",
+ "run_attempt": "1",
+ "shards": "133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148",
+ "cpu_model": "AMD EPYC 9V45 96-Core Processor",
+ "nproc": 4,
+ "mem_total_kb": 16373448,
+ "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+ "python_flint": "0.9.0",
+ "mpmath": "1.3.0",
+ "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+}

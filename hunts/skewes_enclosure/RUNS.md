@@ -182,3 +182,27 @@ Rounds x per-shard timeout = 4 x 80 min = 320 min <= 330, so even a block whose
 every shard hit the timeout fits the job cap. Expected cost is **195 x 0.30 to
 0.375 = 59 to 73 runner core-hours**. Expected wall is 4 waves (max-parallel 4)
 x about 1.6 h, roughly **6.5 h**. The 80-minute per-shard timeout is kept.
+
+## 2026-10-26: main run outcome (Actions run 40363428968)
+
+13/13 jobs succeeded between 16:53 and 22:33 UTC. 195 shards ran, all sound;
+per-block speed was 8.2 to 16 ms/zero, varying by runner. **Total isolation over
+all 220 shards was 97 core-hours**, about 64 of them on runners, within the
+estimate. `combine.py --target saouter_demichel`: completeness holds, but **the gate failed**
+(RESULTS.md section 6). The combined JSON is `shards_b/combined_saouter_demichel.json`,
+and checksums are in `shards_b/SHA256SUMS`.
+
+```runmanifest
+id: skewes_enclosure-2026-10-26-productionB
+hunt: skewes_enclosure
+started: 2026-10-26T16:53:28+00:00
+finished: 2026-10-26T22:33:12+00:00
+ran:
+  - GitHub Actions skewes-enclosure run 40363428968 (RUN_REQUEST shards 21-215, 16 per job)
+  - .venv/bin/python hunts/skewes_enclosure/combine.py --target saouter_demichel --shards <all 220 shards> --out shards_b/combined_saouter_demichel.json
+outcome: 2.2e7 zeros complete by Turing count, but the ball sum at omega 727.95134 misses Revers's printed S* by 0.0122, so the gate failed and target B is unresolved
+artifacts:
+  - hunts/skewes_enclosure/shards_b/shard_021.json .. shard_220.json
+  - hunts/skewes_enclosure/shards_b/combined_saouter_demichel.json
+  - hunts/skewes_enclosure/shards_b/SHA256SUMS
+```
