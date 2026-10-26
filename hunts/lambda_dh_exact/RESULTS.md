@@ -654,6 +654,51 @@ conjecture about the shape of the correction, untested here: the census rows sto
 nearest line zero, so the two-sided model needs the second-nearest distance,
 which `census_1e4.py` computes and discards.
 
+
+### 8.10 PREREG (written 2026-10-26, before the run): the two-sided local gap
+
+Registered and pushed before `twosided.py` was run; the outcome is appended
+below it as section 8.11, whatever it is.
+
+**Model (zero free parameters).** For a pair at height gamma, depth y0, mean
+gap h = 2 pi / log(5 gamma / 2 pi): let d_L = gamma - (nearest line zero
+below gamma) and d_R = (nearest line zero above gamma) - gamma, from a line
+scan of the pair's own accounted window. Then
+
+    S2(y) = sum_{k=0}^{5999} [ 1/((d_L + k h)^2 + y^2) + 1/((d_R + k h)^2 + y^2) ],
+    t*_2  = int_0^{y0} y dy / (1 + 2 y^2 S2(y)),
+
+which is `theory.t_star_gap` exactly when d_L = d_R = DBAR h. One of d_L,
+d_R is the nearest line zero, and the other is the nearest on the other side.
+That other one is the second-nearest overall unless two line zeros sit on the
+same side closer than any on the other. How often that happens is recorded,
+and it does not change the model.
+
+**Data.** The 29 accounted, landed windows: 21 in `census_1e4.json` and 8 in
+`census_deep4_1e5.json`. The window at gamma = 88167.40 is excluded because
+its accounting is open. Line zeros come from `census_1e4.line_zeros` (grid
+1/60 mean gap, 30 bisections) on [gamma - 4h, gamma + 4h].
+
+**Gate (fixed in advance).** For every window, min(d_L, d_R) / h must
+reproduce the census's recorded `gap_ratio_d_over_h` to within 1e-4.
+Otherwise the run is void and nothing is graded.
+
+**Metric.** rms over the 29 of (ODE t* / t*_2 - 1), on the same footing as
+section 8.9's frozen-DBAR 0.160 and one-sided plug-in 0.393, with the same
+ODE landings and the same integral.
+
+**Pass/fail rule (fixed in advance).**
+
+- **PASS:** rms <= 0.080 (half the frozen value) *and* every one of the 29
+  ratios in [0.85, 1.25] (P3's band).
+- **IMPROVES, does not pass:** rms < 0.160 but not PASS.
+- **FAIL:** rms >= 0.160.
+
+A PASS supports, at measured grade, the reading that the gap correction is
+two-sided. It is not a theorem and says nothing about pairs near Delta,
+which no window here reaches. A FAIL refutes this form of it
+(ALIGNMENT section 5, disposition 1, at these 29 windows).
+
 ### The doors (updated 2026-10-26)
 
 The 2026-09-12 doors above stand as written; this is what changed in them.

@@ -551,3 +551,13 @@ Both under a core-minute. See `RESULTS.md` section 8.9.
   `test_docs_numbering.py`, `test_doors.py`, `test_hunt_doors.py`,
   `test_huntspec.py`: 86 passed, 3 xfailed. `scripts/make_context.py --check`:
   up to date.
+
+## Estimate before spending: the two-sided gap (unit 3, step 1)
+
+Line scan of [gamma - 4h, gamma + 4h] per window, about 480 grid points plus
+about 8 x 30 bisections. The fast evaluator costs about 1 ms per point at
+gamma = 5e4 (about 1.2e5 head terms) and much less below 1e4, so it should
+take under 5 s per window. For 29 windows that is **under 0.05 core-hours**,
+then 29 one-dimensional integrals, about a second in total. Cap from the
+coordinator: 0.5 core-hours, one process, nice -n 10, wait while loadavg
+exceeds 64.
