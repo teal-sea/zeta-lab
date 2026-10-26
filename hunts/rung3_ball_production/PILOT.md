@@ -394,12 +394,17 @@ lists that change as a decision for the owner before launch.
 
 ## 8. Resumed 2026-10-26: the assembly module, emitted and elaborated against stubs
 
-`assembly.py` reads `lean/cert/rung3_plan2.json` alone and writes
-`lean/Rung3Assembly/Assembly.lean` and `Separation.lean` in this directory, on top of the
-hand-written `lean/Rung3Assembly/Support.lean`. The hunt test checks that the emitted text
-is byte-stable and committed, that it imports each of the 215 site roots `C<id>` once, and
-that it uses each `upper_<id>` once, each grid point's `beta_<id>` once at a corner of its
-edge and twice inside, and `centre_lt_centre` once.
+`assembly.py` reads `lean/cert/rung3_plan2.json` alone and emits `Assembly.lean` and
+`Separation.lean` on top of the committed module `lean/Rung3Assembly/Support.lean`. The two
+emitted files are written to a work directory, not committed. `Assembly.lean` imports the
+site roots `scripts/69` emits, which are not `module` files, and Lean refuses that import
+from a `module` ("cannot import non-`module` ... from `module`", tried here); the tree
+requires every committed `.lean` file to be a `module` (`tests/test_palomar_module_port.py`,
+which failed CI on the first push of these files). `pilot.json` pins their SHA-256
+(`assembly_emitted`). The hunt test checks that the text is byte-stable and matches the pin,
+that it imports each of the 215 site roots `C<id>` once, and that it uses each `upper_<id>`
+once, each grid point's `beta_<id>` once at a corner of its edge and twice inside, and
+`centre_lt_centre` once.
 
 How the module argues, every step a lemma of `lean/ZetaLean` or of `Support.lean`:
 
@@ -432,12 +437,12 @@ coordinator's decision of 2026-10-26. The hunt test scans every file here for th
 task's rounded figures do not follow from it: Re s >= 0.7619 is above the square's left
 edge 0.761642, and |Im s - 85.699| <= 3/64 ignores the centre's 0.000348.
 
-**Elaborated, measured.** On the shared box, one process: `Support.lean` compiled to an
-olean, with no errors. Then the emitted body (the text of `Assembly.lean` after its import
+**Elaborated, measured.** On the shared box, one process at a time: `Support.lean` (as a
+`module`) compiled to an olean, with no errors. Then the emitted body (the text of `Assembly.lean` after its import
 lines) was compiled under a harness, with `B_right_06` taken from its compiled 2026-10-21
 oleans and the other 214 sites as stub interfaces. A stub is the site's `SI_<id>` or
 `z_<id>` as `scripts/69` emits it, plus its theorem as an `axiom` with the generator's
-statement (each β at its cell need). Result: exit 0, no errors, 124.2 CPU-s, peak RSS 6.8
+statement (each β at its cell need). Result: exit 0, no errors, 124.1 CPU-s, peak RSS 6.8
 GiB. `davenport_heilbronn`, `dh_zero_located'` and `dh_separation_of` each print exactly
 `propext`, `Classical.choice`, `Quot.sound` and the 214 stubs, and never
 `upper_B_right_06`, whose real theorem was used (`assembly_harness` in `pilot.json`). This

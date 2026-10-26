@@ -119,6 +119,20 @@ the pilot's 0.66 bytes of RSS per olean byte 81 to 96 GB in one process (unteste
 memo asks for a production window and launches nothing. No method here meets the bar of
 `docs/37`.
 
+*Resumed 2026-10-26 by the owner's decision, which granted the production window on cloud
+compute; production waits for funding and none was launched.* Measured, one process:
+proving a prime tower through one `decide +kernel` of the whole `dirichletTermBallB`
+value plus `contains_dirichletTermBallB` cost 3.4 CPU-s net at p = 2 and 5.3 at p = 1801
+on a box ball. That meets the threshold of 10 recorded in advance. The staged tower with
+`decide +kernel` in place of `norm_num` did not meet it (43.4 CPU-s, against 66.1 under
+`norm_num`). Both planted one-unit faults were refused. Extrapolated, production with
+whole-decision towers comes to 50 to 58 core-hours instead of 416, which needs a change to
+`scripts/69` outside this hunt. `assembly.py` emits the module that would prove
+`davenport_heilbronn` from the 215 site theorems, with a located zero and a separation
+lemma against hunt #137's RH to height 100. Its body elaborated against 214 stub site
+interfaces and `B_right_06`'s real oleans, and rests only on the standard axioms and the
+stubs; `davenport_heilbronn` stays unproved. `PRODUCTION.md` is the runbook.
+
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 
 **Status: ordinary argument with an independent model challenge (a model review, not human

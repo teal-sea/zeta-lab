@@ -1,9 +1,18 @@
-/-
+module
+
+public import ZetaLean.DHCertSupport
+public import Mathlib.NumberTheory.LSeries.RiemannZeta
+public import Mathlib.Analysis.Analytic.Order
+
+@[expose] public section
+
+/-!
 Hunt #145 (`rung3_ball_production`): the plan-independent lemmas the emitted assembly uses.
 
 Everything here is generic in the square, the boxes and the grid; `assembly.py` emits the
-plan-specific module `Rung3Assembly/Assembly.lean` on top of it.  Nothing here proves
-`davenport_heilbronn`: that needs the 215 site theorems.
+plan-specific `Rung3Assembly/Assembly.lean` on top of it, at production time and outside
+the tree (it imports the generator's site roots, which are not `module` files, so it cannot
+be one).  Nothing here proves `davenport_heilbronn`: that needs the 215 site theorems.
 
 `dh_zero_of_square` and `dh_statement_of_square` restate the square criterion of
 `lean/ZetaLean/DHZeroCriterion.lean` (the theorem at line 185, cited by line because its
@@ -11,9 +20,6 @@ name carries the word this directory may not use) with the same proof, so that n
 under `hunts/` names it.  `dh_zero_of_square` also keeps the zero's location, which the
 original drops.
 -/
-import ZetaLean.DHCertSupport
-import Mathlib.NumberTheory.LSeries.RiemannZeta
-import Mathlib.Analysis.Analytic.Order
 
 open Complex Set
 

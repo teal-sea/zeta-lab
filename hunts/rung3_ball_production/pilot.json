@@ -5733,9 +5733,9 @@
   ],
   "returncode": 0,
   "errors": 0,
-  "cpu_s": 124.21,
-  "wall_s": 86.13,
-  "maxrss_kb": 7100572,
+  "cpu_s": 124.06,
+  "wall_s": 78.48,
+  "maxrss_kb": 7126560,
   "axioms": {
    "davenport_heilbronn": [
     "Classical.choice",
@@ -6394,6 +6394,18 @@
     "upper_B_top_21",
     "upper_B_top_22"
    ]
+  }
+ },
+ "assembly_emitted": {
+  "Assembly.lean": {
+   "sha256": "5ae46eb4a60303498c6f821a433e6154a6f20fee06a83b97ebad963891155799",
+   "bytes": 85705,
+   "lines": 1024
+  },
+  "Separation.lean": {
+   "sha256": "2ad0703b9b0ccae3c3b774809e0033e3c64050cb30902488e259821d08adf783",
+   "bytes": 679,
+   "lines": 17
   }
  }
 }

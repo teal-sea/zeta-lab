@@ -211,26 +211,31 @@ artifacts:
 Estimate before spending: `Support.lean` about 15 CPU-s (one module, against the built
 `ZetaLean`); the stub module about 20 CPU-s; the harness about 1,100 small `norm_num`
 calls, guessed at 2 to 10 CPU-min. Under 15 core-minutes in all, one process, gated as
-above. Measured: 12.7, 17.8 and 124.2 CPU-s.
+above. Measured: 12.7, 17.8 and 124.2 CPU-s. CI then refused the committed emitted files,
+which are not `module` files and cannot be (`PILOT.md` section 8). So `Support.lean` became
+a `module`, the emitted files moved out of the tree with a SHA-256 pin, and the three
+compiles ran again from 13:16 (10.6, 17.1 and 124.1 CPU-s, exit 0, no errors). The record
+in `pilot.json` is the second run.
 
 ```runmanifest
 id: rung3_ball_production-2026-10-26-assembly
 hunt: rung3_ball_production
 started: 2026-10-26T13:09Z
-finished: 2026-10-26T13:14Z
+finished: 2026-10-26T13:21Z
 ran:
   - hunts/rung3_ball_production/assembly.py --stubs <cache>/rung3-ball-production-assembly --real B_right_06
+  - (from 13:16, after the module change) hunts/rung3_ball_production/assembly.py --out <cache>/rung3-ball-production-assembly --stubs <cache>/rung3-ball-production-assembly --real B_right_06 --pin, then the three compiles below again
   - lake env lean --root=hunts/rung3_ball_production/lean -o <cache>/rung3-ball-production-assembly/Rung3Assembly/Support.olean hunts/rung3_ball_production/lean/Rung3Assembly/Support.lean
   - lake env lean --root=<cache>/rung3-ball-production-assembly -o <cache>/rung3-ball-production-assembly/StubSites.olean StubSites.lean (LEAN_PATH adds the work directory and the pilot site's gen directory)
   - lake env lean <cache>/rung3-ball-production-assembly/Harness.lean (same LEAN_PATH)
-  - hunts/rung3_ball_production/assembly.py --check --real B_right_06 --record <cache>/rung3-ball-production-assembly/harness.record.log
+  - hunts/rung3_ball_production/assembly.py --real B_right_06 --record <cache>/rung3-ball-production-assembly/harness.record.log --check
 outcome: Support.lean and the emitted assembly body elaborated with exit 0 and no errors against 214 stub site interfaces and the real B_right_06 oleans; the three theorems rest on the three standard axioms and the 214 stubs only; no production shard was launched and davenport_heilbronn is not proved
 artifacts:
-  - hunts/rung3_ball_production/lean/Rung3Assembly/Assembly.lean
-  - hunts/rung3_ball_production/lean/Rung3Assembly/Separation.lean
+  - hunts/rung3_ball_production/lean/Rung3Assembly/Support.lean
+  - <cache>/rung3-ball-production-assembly/Rung3Assembly/Assembly.lean and Separation.lean (pinned in pilot.json, assembly_emitted)
   - hunts/rung3_ball_production/pilot.json (assembly_harness)
   - <cache>/rung3-ball-production-assembly/harness.log
 ```
 
-The harness log's exit status (0) was recorded by the shell at the time and prepended as
-`rc=0` to `harness.record.log`, which `--record` parses.
+The second run's shell wrote the harness's exit status into `harness.record.log` as
+`rc=<status>`, which `--record` parses.

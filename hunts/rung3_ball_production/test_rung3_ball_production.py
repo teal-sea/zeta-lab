@@ -320,7 +320,8 @@ def test_the_case_log_entry_quotes_pilot_json():
     assert "#145" in entry and "rung3_ball_production/" in entry
 
 
-@pytest.mark.parametrize("doc", ["PILOT.md", "OWNER_MEMO.md", "RUNS.md", "MISSION.md"])
+@pytest.mark.parametrize("doc", ["PILOT.md", "OWNER_MEMO.md", "RUNS.md", "MISSION.md",
+                                 "PRODUCTION.md"])
 def test_documents_carry_no_em_dash(doc):
     # The reserved-word scan for every file under hunts/ is
     # tests/test_hunt_probe_discipline.py; it is not repeated here.
@@ -397,18 +398,24 @@ def test_no_file_in_this_hunt_carries_the_reserved_word():
 
 assembly = _load("rung3_ball_production_assembly", HERE / "assembly.py")
 PLAN2 = json.loads((ROOT / "lean" / "cert" / "rung3_plan2.json").read_text())
-EMITTED = HERE / "lean" / "Rung3Assembly"
+SUPPORT = HERE / "lean" / "Rung3Assembly" / "Support.lean"
+EMITTED = assembly.emitted(PLAN2)
 
 
-def test_assembly_is_byte_stable_and_committed():
-    once, twice = assembly.emitted(PLAN2), assembly.emitted(PLAN2)
-    assert once == twice
-    for name, text in once.items():
-        assert (EMITTED / name).read_text() == text, f"{name} is stale: rerun assembly.py"
+def test_assembly_is_byte_stable_and_pinned():
+    """The emitted modules are not committed (they cannot be `module` files: see
+    assembly.py); pilot.json pins their SHA-256, the text the harness elaborated."""
+    assert assembly.emitted(PLAN2) == EMITTED
+    assert PILOT["assembly_emitted"] == assembly.pins(PLAN2)
+    assert not (HERE / "lean" / "Rung3Assembly" / "Assembly.lean").exists()
+
+
+def test_the_committed_lean_is_a_module():
+    assert SUPPORT.read_text().startswith("module\n")
 
 
 def test_assembly_imports_every_site_root_exactly_once():
-    text = (EMITTED / "Assembly.lean").read_text()
+    text = EMITTED["Assembly.lean"]
     imports = [l.split()[1] for l in text.splitlines() if l.startswith("import ")]
     roots = [m for m in imports if m != "Rung3Assembly.Support"]
     ids = [sid for sid, _ in assembly.sites(PLAN2)]
@@ -420,7 +427,7 @@ def test_assembly_uses_each_site_theorem_where_the_plan_puts_it():
     """Each big box bounds exactly one boundary piece; each grid point closes the cells on
     either side of it (one at a corner of its edge, two inside); the centre is used once."""
     import re
-    text = (EMITTED / "Assembly.lean").read_text()
+    text = EMITTED["Assembly.lean"]
     for b in PLAN2["big"]["boxes"]:
         assert len(re.findall(rf"\bupper_{b['id']}\b", text)) == 1, b["id"]
     for seg in ("bottom", "top", "left", "right"):
@@ -431,7 +438,7 @@ def test_assembly_uses_each_site_theorem_where_the_plan_puts_it():
     assert len(re.findall(r"\bcentre_lt_centre\b", text)) == 1
     assert "theorem davenport_heilbronn : davenport_heilbronn_statement :=" in text
     assert "sorry" not in text and "axiom" not in text
-    assert "sorry" not in (EMITTED / "Support.lean").read_text()
+    assert "sorry" not in SUPPORT.read_text()
 
 
 def test_the_stub_harness_rests_on_the_stubs_and_the_real_pilot_site():
@@ -446,3 +453,11 @@ def test_the_stub_harness_rests_on_the_stubs_and_the_real_pilot_site():
     for name in ("davenport_heilbronn", "dh_zero_located'", "dh_separation_of"):
         assert h["axioms"][name] == sorted(std + stubs), name
     assert len(stubs) == 214
+
+
+def test_production_runbook_quotes_both_prices():
+    text = " ".join((HERE / "PRODUCTION.md").read_text().split())
+    lo, hi = DK["reprice"]["total_core_hours"]
+    assert f"**{PILOT['projection']['total_core_hours']:.0f} core-hours**" in text
+    assert f"**{lo:.0f} to {hi:.0f} core-hours**" in text
+    assert "nothing here has been launched" in text
