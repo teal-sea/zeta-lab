@@ -1038,6 +1038,45 @@ screen flags is [228, 248], which holds the pair at gamma = 240.4046 that
 had not yet seen this case log's growth past #52, and main took that number
 for `r_e2ee73/` first; the directory name never changed.
 
+### Hunt #144: a finite reversal-closed adversary excludes the recorded pressure target (`reversal_minimax/`, 2026-09-04)
+
+*Numbered on landing, 2026-10-21.* Opened unnumbered on 2026-09-04, when
+this entry read "Reversal minimax probe", and landed by merge from
+`docs/simple-zero-research-target`, so its commits `7415efa1b`, `1c4625b04`
+and `43217587d` keep their hashes. #136 to #143 were held by other open
+hunts and same-day landings (this landing first took #143, which a
+concurrent landing of `support_fcffa3b9/` had also taken), so this
+entry takes #144.
+
+**Status: candidate refuted at the stated scope (`ALIGNMENT.md` section 5,
+disposition 1); hardened numerical leaves inside an unreviewed ordinary
+derivation, pending external verification. No new zeta proportion is
+claimed.** Whole-laboratory structural scout of the pressure optimization's
+reversal symmetry. At AMTOPA's fixed 17-term window and total pressure
+B = 93/23000, a finite mixed adversary (seven rational gap vectors from
+`amtopa_ceiling/`'s saved 2,200-cut pool, each with its reversal) bounds the
+supremum over the whole pair-weight and pressure polytope of inf_g F by
+182022320819207/23000000000000000, below 0.007914014. That excludes
+`amtopa_ceiling/`'s recorded endpoint 0.007916857810 and the targets
+19791/2500000 and 19786/2500000, for asymmetric coefficients too, and only
+for that window and B. The leaves carry Arb enclosures at 128 and 256 bits,
+agree with an independent mpmath quadrature at all 148 distances, and
+combine in exact rational arithmetic. `Symmetry.lean` (the averaging and
+budget deductions) has never been run through Lean, so nothing here is
+kernel-checked. `amtopa_ceiling/` section 7.7 withdrew the same endpoint on
+2026-09-06 by a different route; this bound agrees with that hunt's later
+bracket [0.0079107, 0.0079111939]; it is looser than that bracket's upper
+end, a float LP value, but enclosure-carrying. A counting audit shows the
+bridge's early span estimate overcharges pressure: an interior gap lies in
+(n-1)(m-n+1) local windows across all blocks, but the estimate charges it
+(n-1)(m-1) times. Its projected gains, 5/904171
+on the registered four-point coefficient and 80/14366681 on main's later
+m = 432 build, which still uses the coarse count, are candidates awaiting a
+replacement assembly. `RESEARCH_TARGET.md` records a proposed
+higher-correlation direction and the elementary bound H*m/(m-1) on the
+capped assembly. See [the results, the counting audit and the
+doors](reversal_minimax/RESULTS.md).
+
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
 **Status: settled** (support run `e6241336`, serving run `872d7dce` /
