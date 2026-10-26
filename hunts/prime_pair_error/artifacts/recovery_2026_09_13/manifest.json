@@ -213,22 +213,25 @@
       "source": "PR #211 at 338430d457f3"
     },
     {
-      "path": "hunts/lambda_dh_exact/MISSION.md",
+      "path": "hunts/prime_pair_error/artifacts/recovery_2026_09_13/files/hunts/lambda_dh_exact/MISSION.md",
       "bytes": 32060,
       "sha256": "0dee3861977fa1f717197e4c5fd631a56d840e6a9e19e358d4115b784980bafc",
-      "source": "PR #226 at 6d139c37528b"
+      "source": "PR #226 at 6d139c37528b",
+      "original_path": "hunts/lambda_dh_exact/MISSION.md"
     },
     {
-      "path": "hunts/lambda_dh_exact/RESULTS.md",
+      "path": "hunts/prime_pair_error/artifacts/recovery_2026_09_13/files/hunts/lambda_dh_exact/RESULTS.md",
       "bytes": 16200,
       "sha256": "7724826fa1e0dd07721ad1e7587bfac316b4b7e237aa03f034097e7a5d5e1aa1",
-      "source": "PR #226 at 6d139c37528b"
+      "source": "PR #226 at 6d139c37528b",
+      "original_path": "hunts/lambda_dh_exact/RESULTS.md"
     },
     {
-      "path": "hunts/lambda_dh_exact/RUNS.md",
+      "path": "hunts/prime_pair_error/artifacts/recovery_2026_09_13/files/hunts/lambda_dh_exact/RUNS.md",
       "bytes": 6880,
       "sha256": "3272ff0bb745a39f78ecdf20fbef8c8f85b07db816e5e66e781c63f7eb443184",
-      "source": "PR #226 at 6d139c37528b"
+      "source": "PR #226 at 6d139c37528b",
+      "original_path": "hunts/lambda_dh_exact/RUNS.md"
     },
     {
       "path": "hunts/lambda_dh_exact/deep_zeros.json",
@@ -237,10 +240,11 @@
       "source": "PR #226 at 6d139c37528b"
     },
     {
-      "path": "hunts/lambda_dh_exact/deep_zeros.py",
+      "path": "hunts/prime_pair_error/artifacts/recovery_2026_09_13/files/hunts/lambda_dh_exact/deep_zeros.py",
       "bytes": 28852,
       "sha256": "fff081b7e2e8baa96aff8a4bb4565e8c005b8501cb508c9e8c8027ca4076f24d",
-      "source": "PR #226 at 6d139c37528b"
+      "source": "PR #226 at 6d139c37528b",
+      "original_path": "hunts/lambda_dh_exact/deep_zeros.py"
     },
     {
       "path": "hunts/lambda_dh_exact/deep_zeros_1e6.json",
@@ -255,22 +259,25 @@
       "source": "PR #226 at 6d139c37528b"
     },
     {
-      "path": "hunts/lambda_dh_exact/landing.json",
+      "path": "hunts/prime_pair_error/artifacts/recovery_2026_09_13/files/hunts/lambda_dh_exact/landing.json",
       "bytes": 12814,
       "sha256": "e57425652b54b30933e79459b7a6e53241a7f0d03654f864e6608267857a633c",
-      "source": "PR #226 at 6d139c37528b"
+      "source": "PR #226 at 6d139c37528b",
+      "original_path": "hunts/lambda_dh_exact/landing.json"
     },
     {
-      "path": "hunts/lambda_dh_exact/landing.py",
+      "path": "hunts/prime_pair_error/artifacts/recovery_2026_09_13/files/hunts/lambda_dh_exact/landing.py",
       "bytes": 25788,
       "sha256": "faa575dbb42fb73c09069c9bb6dae98ee995079b15f6da5ae67a81387e9c4473",
-      "source": "PR #226 at 6d139c37528b"
+      "source": "PR #226 at 6d139c37528b",
+      "original_path": "hunts/lambda_dh_exact/landing.py"
     },
     {
-      "path": "hunts/lambda_dh_exact/theory.py",
+      "path": "hunts/prime_pair_error/artifacts/recovery_2026_09_13/files/hunts/lambda_dh_exact/theory.py",
       "bytes": 15252,
       "sha256": "131e83bba9232bd43a165df62f7a5fcaaedd598d611dd8a2462de7960948afb6",
-      "source": "PR #226 at 6d139c37528b"
+      "source": "PR #226 at 6d139c37528b",
+      "original_path": "hunts/lambda_dh_exact/theory.py"
     },
     {
       "path": "hunts/lambda_dh_exact/theory_results.json",
@@ -314,5 +321,6 @@
       "sha256": "134bf64b72b7aa2466ba3df795a51de78d8c0ce8bfd7f7a37f7bc723d93407c9",
       "source": "Original recorded September 8 file patches and output"
     }
-  ]
+  ],
+  "archived_copies": "Rows with original_path: hunt #119 resumed on 2026-10-26 and edits those live files, so their recovered bytes are kept under files/ and pinned there (2026-10-26)."
 }

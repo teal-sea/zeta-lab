@@ -251,11 +251,21 @@ def _unwrapped_log(values: Sequence) -> list:
       has a zero inside the circle, which contradicts :data:`RADIUS_MAX`; it is
       a genuine alarm, not a numerical nuisance.
 
-    For r ≤ 0.9 no node ever needs a shift, so this reproduces ``mp.log``
-    exactly: every committed ``data/li_lambda_*.json`` table (144 entries at
-    n_max ≤ 64, plus 304 entries at dps 20) recomputes **bit-identically**
-    after the change, and r ∈ {0.3, 0.5, 0.7, 0.9} still agree bit for bit.
-    What is new is that r = 0.92 and r = 0.929 now work at all.
+    For r ≤ 0.9 no sampled node on the grids in
+    ``test_arg_xi_needs_unwrapping_not_a_principal_branch_guard`` needs a
+    shift, so there the unwrapped branch agrees with ``mp.log``.
+    ``test_cauchy_radius_independence`` pins r ∈ {0.3, 0.5, 0.7, 0.9}
+    agreeing bit for bit at n = 6.  Every committed ``data/li_lambda_*.json``
+    table is recomputed by ``test_committed_li_tables_match_a_fresh_run``.
+    An earlier note said they recomputed bit-identically after the unwrap,
+    and gave a count (144 entries at n_max ≤ 64, plus 304 at dps 20) that
+    did not match the six lambda tables with n_max ≤ 64 in that commit (192
+    entries).  That census is not kept.  The tested radius past the old guard
+    is r = 0.92
+    (``test_arg_xi_needs_unwrapping_not_a_principal_branch_guard``, n = 3,
+    dps = 15, same coefficients as r = 0.5).  r = 0.929 is the bound only:
+    ``test_radius_bound_is_the_one_gamma1_certifies`` asserts
+    0.929 < RADIUS_MAX < 0.9293, and does not compute coefficients there.
     """
     two_pi = 2 * mp.pi
     args = [mp.arg(v) for v in values]
@@ -558,10 +568,14 @@ def li_coefficients(
     the sup is not resolved by coarse sampling) and 1.987 at r = 0.92, so
     :func:`_unwrapped_log` builds the analytic branch by continuity from
     z = r (where ξ is real and positive) and checks the winding number is 0.
-    The operative evidence that the branch is right is *tested*: a branch error
-    would be radius-dependent, and the coefficients are identical to all
-    returned digits for r ∈ {0.3, 0.5, 0.7, 0.9, 0.92, 0.929}, and match the
-    literal d^n/ds^n definition to ~50 significant digits.
+    The operative evidence that the branch is right is *tested* where a test
+    runs: the coefficients agree bit for bit for r ∈ {0.3, 0.5, 0.7, 0.9}
+    at n = 6 (``test_cauchy_radius_independence``) and for r = 0.92 against
+    r = 0.5 at n = 3, dps = 15
+    (``test_arg_xi_needs_unwrapping_not_a_principal_branch_guard``).
+    r = 0.929 is not one of those circles.  The identity against the literal
+    derivative is checked by ``test_generating_function_equals_the_literal_definition``,
+    which asserts a defect below 1e-45 at dps = 20 for n ≤ 4.
 
     Error accounting: aliasing contributes Σ_{k≥1} c_{n+kN} r^{kN} with
     c_m = λ_m/m growing only like log m, so N ≈ work·ln10/ln(1/r) nodes puts it
@@ -1041,8 +1055,14 @@ def xi_taylor_coefficients(
     over the whole grid the tests pin: n_max ∈ {4, 12, 20, 30} × dps ∈ {30, 80}
     × radius ∈ {4, 10, 30, 100, 300}, plus n ≤ 20 at dps = 30 and 50 on the
     default circle.  A third, wholly independent route: Riemann's ω′ form of
-    the Ξ integral, reproduces γ(0…8) to 9.2e-32 relative and the committed
-    n = 128 table to 4.7e-32 (``tests/test_li.py``).
+    the Ξ integral is checked by
+    ``test_gamma_against_riemanns_other_integral_an_independent_oracle``,
+    which asserts relative error < 5e-31 for n ≤ 8.  The 9.2e-32 figure in
+    that test's docstring is a measured note, not the assertion.  Every
+    committed gamma table, including n = 128, is recomputed digit for digit
+    by ``test_committed_li_tables_match_a_fresh_run``.  The ω′ comparison at
+    n = 128 in that other docstring is an out-of-band run.  It is not an
+    assertion.
 
     Cached under ``data/li_gamma_*.json``.
     """
