@@ -949,6 +949,26 @@ outcomes are appended to `RESULTS.md` as dated sections. Correction recorded
 on resumption: the decided floor is 36/625 = 0.0576; 0.05765 is a measured
 landing, not a decided one.
 
+**Status after the first resumed wave (2026-10-26): OPEN, Lambda_DH bracket
+unchanged.** *Decided, both ball backends* (Arb and a hand-rolled mpmath.iv
+Euler-Maclaurin, argument-principle counts of exactly one zero in exact
+rectangles, planted faults flipping them): the height-10^6 zero, y0 in
+[0.3583118516, 0.3583118665], and all 21 zeros with beta > 0.85 below 10^4.
+*Decided, Arb only*: no zero with beta >= 0.90 for |t| <= 10^4. So **P2 is
+refuted** (y_max(10^4) is in [0.39775015, 0.40), against [0.40, 0.52]) and
+**kill condition 2 fires**, withdrawing the stage-6 depth law and P1's
+stronger band, P4's point and P5's location, which were derived from it.
+*Measured* (N-body ODE landings, control +0.024 percent on the floor pair,
+21 of 21 windows accounted): no pair below 10^4 lands above 0.0576518; P3
+holds (0.986 of the model at the deepest pair); **P6 is refuted** (d/h mean
+0.95, 10 of 20 new pairs in [1.1, 1.8]); P8 is not observed (0 of 21); kill
+condition 1 does not fire. `screen_hi` was finished on a copy (111 zeros in
+[10^4, 10^5], deepest y0 0.437 at gamma 49688, measured), and the recorded
+`complete: false` artifact is marked superseded. A targeted check (not a census) landed eight of the nine pairs with y0 > 0.40 in [10^4, 10^5]: best 0.04902, none near the floor, so P5 stays unresolved with measured evidence against and kill condition 4 does not fire on what was measured. A slip
+inherited from `flow_repair/NOTES.md` (y0 = 0.3695261 for the floor pair;
+the value is 0.3695306) is recorded, not propagated. The full 10^5 census
+(about 15 core-hours) is estimated and not run.
+
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
 **Status: settled** (support run `e6241336`, serving run `872d7dce` /

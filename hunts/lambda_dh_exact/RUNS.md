@@ -328,3 +328,165 @@ over [8, 10^4] that is about 7500 s, **about 2.1 core-hours**, twice the
 1 core-hour priced in the ask (the price assumed about 2e5 points; the edge
 needs about 60 per unit near 10^4). Within the factor-2 band stated there, so
 it runs as 8 height shards, 4 at a time, about 35 min of wall time.
+
+### Deferred: the 10^5 leg, and the workflow proposed for it (not added)
+
+Deferred by the coordinator until the 10^4 results are in. The estimate
+stands as above: about 15 core-hours (7 to 30). What it would answer: P4 and
+P5 past 10^4 (does the measured sup of landings peak and fall, kill
+condition 4), and the landing of the deepest pair seen in that decade,
+y0 = 0.437058 at gamma = 49688.34 (`deep_zeros_hi_20261026.json`, float),
+whose y0^2/2 = 0.0955 is the largest naive landing this hunt has located.
+`screen_hi` is already complete at Re s = 0.85, so the leg needs only the
+deeper re-screen at 0.82 for the band y0 in (0.32, 0.35), the window census,
+and the ODE landings.
+
+Proposed GitHub Actions workflow, written here rather than added under
+`.github/` (the brief forbids adding one unasked; nothing in this PR touches
+`.github/`):
+
+```yaml
+# .github/workflows/hunt119-census-1e5.yml  (PROPOSAL, not committed)
+name: hunt119-census-1e5
+on: workflow_dispatch
+jobs:
+  shard:
+    runs-on: ubuntu-latest           # 4 vCPU / 16 GB / 6 h
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        lo: [10000, 19000, 28000, 37000, 46000, 55000, 64000, 73000, 82000, 91000]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python -c "from zeta import rigor; assert rigor.BACKEND == 'python-flint'"
+      - name: re-screen, locate, window census, ODE landings for [lo, lo + 9000]
+        run: |
+          python hunts/lambda_dh_exact/deep_zeros.py screen --t0 ${{ matrix.lo }} \
+            --t1 $(( ${{ matrix.lo }} + 9000 )) --sigma-c 0.82 \
+            --out shard.json --key screen_c82
+          python hunts/lambda_dh_exact/deep_zeros.py locate --out shard.json --key screen_c82
+          python hunts/lambda_dh_exact/census_1e4.py --source shard.json --out census_${{ matrix.lo }}.json
+      - uses: actions/upload-artifact@v4
+        with: {name: "census-${{ matrix.lo }}", path: "census_*.json shard.json"}
+```
+
+It needs one change to `census_1e4.py` before it can run: a `--source`
+option reading float locations from a screen artifact instead of
+`decide_low_zeros.json`. Ten shards of about 1.5 core-hours each fit one
+runner's 6 h with a factor of 4 to spare; outcomes would be recorded here by
+artifact SHA-256.
+
+### Census to 10^4, timed before the run
+
+Control on the floor pair (gamma = 240.4047): window accounting closes
+(strip 67 = 65 line + 2 x 1), ODE t* = 0.0576657 against the recorded
+Xi-plane 0.05765184 (+0.024 percent, inside the 0.04 percent band), 16.2 s.
+The 21 candidates at heights up to 10^4 should cost 16 to about 120 s each
+(line zeros in the window grow from 65 to about 113, ODE cost as n^2), so
+**about 0.3 core-hours**, under the 1.1 priced. One process, sequential.
+
+## Run 10: kill condition 2 by a decided zero-free count (2026-10-26)
+
+```runmanifest
+id: R10-kc2-decided
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: decided on Arb; zero zeros of f in [0.90, 2.05] x [8, 10^4]; planted faults give 1 and 0 as required
+ran:
+  - decide_kc2.py shard --i 0..7 --n 8 (4 at a time, nice 10)
+  - decide_kc2.py short
+  - decide_kc2.py fault
+  - decide_kc2.py combine --n 8
+artifacts:
+  - kc2/left_0_of_8.json ... kc2/left_7_of_8.json
+  - kc2/short_edges.json
+  - kc2/faults.json
+  - decide_kc2.json
+```
+
+Arb (python-flint) only, 96 bits. Left edge Re s = 0.90: 79936 blocks of 1/8,
+448092 point evaluations, 6579 core-seconds (1.83 core-hours, inside the
+revised 2.1), no block needed splitting, worst clearance-over-tube 1.0000007
+(every accepted segment has clearance strictly above its tube; segments that
+did not were halved). Short edges: right edge by the decided bound
+S = sum_{n>=2} |a_n| n^{-2.05} in 0.24597836634965556 +- 5e-28 < 1; bottom
+and top by the chord tube. Total winding ball [-5.4e-12, 8.0e-12], count 0.
+Faults: [0.89, 2.05] x [2400, 2500] gives 1 (the zero at gamma = 2442.53,
+beta = 0.89775), [0.90, 2.05] x [2400, 2500] gives 0.
+
+Why one backend: the mpmath.iv route costs about 1 s per point evaluation at
+these heights against Arb's 1 to 30 ms, so the 448092 points would be about
+120 core-hours. The second backend was not run, and the count is graded
+decided on Arb alone.
+
+## Run 11: the landing census to height 10^4 (2026-10-26)
+
+```runmanifest
+id: R11-census-1e4
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; 21 of 21 windows accounted and landed by the ODE; control within band; no landing beats 0.0576518
+ran:
+  - census_1e4.py --index 4 (control, the floor pair, scratch output)
+  - census_1e4.py --only 21
+  - kc2/below8.py (the strip |t| <= 8 for kill condition 2, decided count 0)
+artifacts:
+  - census_1e4.json
+  - kc2/below8.json
+```
+
+21 candidates, 32.7 to 65.6 s each, about 0.3 core-hours, as timed. Window
+accounting N_strip = N_line + 2 N_right closed at the first line-zero grid in
+all 21. One instrument bug met before the run: Newton on the fast evaluator
+diverged to NaN from a poor grid seed; `census_1e4.py` carries its own
+box-guarded Newton (`deep_zeros.py` is unchanged). `kc2/below8.py` first
+failed on the real axis at s near 1, where the four Hurwitz poles cancel and
+a ball evaluation is useless; the rectangle was made symmetric about the real
+axis so s = 1 is interior.
+
+**Total resumption spend**: about 2.6 core-hours (step 1 0.15, step 2 0.25,
+KC2 1.85, census 0.3, controls and timing 0.05), against 2.5 approved for the
+KC2 count and the census plus the earlier sub-hour steps.
+
+### Targeted check above 10^4, estimate before spending
+
+Coordinator-approved 2026-10-26: land the four pairs with y0 > 0.40 in
+[10^4, 10^5] (float locations from `deep_zeros_hi_20261026.json`), chosen with
+the registered model, as a targeted check and not a census. At gamma about
+2e4 to 5e4 a +-40 window holds about 120 to 135 line zeros, so about 2 to 4
+min each with the window counts: about 0.2 core-hours, sequential.
+
+Correction to the ask, recorded when it was noticed: the decade holds
+**nine** zeros with y0 > 0.40, not four (0.43706, 0.41860, 0.41833, 0.41614,
+0.41031, 0.40897, 0.40718, 0.40569, 0.40022). The four named in the ask were
+those whose model landing exceeds 0.85 x 0.0576518, and a first correction
+written here said seven because only the top of a sorted list had been
+printed; both slips were in the writer's reading, not in the artifact. The run
+lands all nine, which is the approved selection rule (y0 > 0.40), at about
+0.8 core-hours (about 5 to 7.5 min each at these heights) rather than 0.2.
+
+## Run 12: the targeted check above 10^4 (2026-10-26)
+
+```runmanifest
+id: R12-deep-above-1e4
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; nine pairs with y0 > 0.40 in [10^4, 10^5] attempted, eight landed (none near the floor), one left unlanded because its window accounting stayed open
+ran:
+  - census_1e4.py --source deep_zeros_hi_20261026.json --min-y0 0.40 --out census_deep4_1e5.json
+artifacts:
+  - census_deep4_1e5.json
+```
+
+3137 core-seconds (0.87 core-hours), 279 to 455 s per pair. The window at
+gamma = 88167.40 kept N_strip = 142 against 128 line zeros + 2 x 6 off-line
+after the line grid was refined to 1/240 of a gap, so that pair was not
+landed. **Total resumption spend: about 3.5 core-hours.**
