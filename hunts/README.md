@@ -81,6 +81,7 @@ control roles, and the checks are the ones the tree already owns:
 proved with enclosures on a window where the Davenport-Heilbronn form is provably
 negative, half-width `L >= (log 30.617188)/2 = 1.7107808`. Record:
 `weil_dh_line/PRICE.md`, `weil_dh_line/MISSION.md`.
+
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 
 **Status: ordinary argument with an independent model challenge (a model review, not human
