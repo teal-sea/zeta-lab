@@ -112,12 +112,12 @@ def cmd_site(work: Path) -> None:
 
 def _fault_text(gen: Path, prime: int, field: str, delta: F) -> str:
     text = (gen / ROOTMOD / "Primes.lean").read_text()
-    ns = f"namespace Prime_{prime}\n"
+    ns = f"namespace Prime_{SITE}_{prime}\n"
     start = text.index(ns)
     m = re.compile(r"def Sq_10 : ComplexBall := \(⟨\((-?\d+)(?:/(\d+))? : ℚ\), "
                    r"\((-?\d+)(?:/(\d+))? : ℚ\), \((-?\d+)(?:/(\d+))? : ℚ\)⟩ : ComplexBall\)")
     hit = m.search(text, start)
-    assert hit and hit.start() < text.index(f"end Prime_{prime}", start)
+    assert hit and hit.start() < text.index(f"end Prime_{SITE}_{prime}", start)
     vals = [F(int(hit.group(i)), int(hit.group(i + 1) or 1)) for i in (1, 3, 5)]
     idx = {"cre": 0, "cim": 1, "rad": 2}[field]
     vals[idx] += delta
@@ -201,6 +201,81 @@ def cmd_census(work: Path, part: int = 0, parts: int = 1) -> None:
         with path.open("a") as f:
             f.write(json.dumps(rec) + "\n")
         print(rec, flush=True)
+
+
+def cmd_names(work: Path, part: int, parts: int) -> None:
+    """Public declaration names of every site in whole mode, for the cross-site check."""
+    spec = importlib.util.spec_from_file_location("rung3_generate_names",
+                                                  ROOT / "scripts" / "60_rung3_generate.py")
+    assert spec is not None and spec.loader is not None
+    gen = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gen)
+    back = gen._ball_backend()
+    plan = json.loads((LEAN / "cert" / "rung3_plan2.json").read_text())
+    need = gen.cell_requirements(plan)
+    sites = []
+    c = dict(plan["centre"], id="centre", eps=plan["small"]["eps"])
+    c["re_lo"] = c["re_hi"] = plan["small"]["cre"]
+    c["im_lo"] = c["im_hi"] = plan["small"]["cim"]
+    sites.append((c, "centre"))
+    for g in plan["grid"]:
+        g = dict(g)
+        h = g["segment"] in ("bottom", "top")
+        g["re_lo"] = g["re_hi"] = g["x"] if h else g["fixed"]
+        g["im_lo"] = g["im_hi"] = g["fixed"] if h else g["x"]
+        g["beta"], g["beta_need"] = None, str(need[g["id"]]) if g["id"] in need else None
+        sites.append((g, "grid"))
+    for b in plan["big"]["boxes"]:
+        sites.append((dict(b, M=plan["M"]), "big"))
+    d = work / "names"
+    d.mkdir(parents=True, exist_ok=True)
+    path = d / f"names.{part}.jsonl"
+    done = {json.loads(l)["id"] for p in d.glob("names.*.jsonl")
+            for l in p.read_text().splitlines() if l}
+    for i, (site, kind) in enumerate(sites):
+        if i % parts != part or site["id"] in done:
+            continue
+        files, stats = gen.emit_site_modules(site, kind, tower="whole")
+        names = back.public_declarations(files)
+        primes = sorted(int(n.split(".")[-2].rsplit("_", 1)[1]) for n in names
+                        if n.endswith(".pilot_contains_cpow"))
+        with path.open("a") as f:
+            f.write(json.dumps({"id": site["id"], "names": names, "primes": primes}) + "\n")
+        print(site["id"], len(names), len(primes), flush=True)
+
+
+def namespace_census(work: Path) -> dict:
+    """Across the 215 whole-mode sites: no public name repeats.  For the staged default,
+    whose tower namespaces are Prime_<p>, the collisions the same towers would make."""
+    from collections import Counter
+    recs = {}
+    for p in sorted((work / "names").glob("names.*.jsonl")):
+        for l in p.read_text().splitlines():
+            if l:
+                r = json.loads(l)
+                recs.setdefault(r["id"], r)
+    names = Counter(n for r in recs.values() for n in r["names"])
+    spec = importlib.util.spec_from_file_location("rung3_generate_staged",
+                                                  ROOT / "scripts" / "60_rung3_generate.py")
+    gen = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gen)
+    plan = json.loads((LEAN / "cert" / "rung3_plan2.json").read_text())
+    site = dict(next(b for b in plan["big"]["boxes"] if b["id"] == SITE), M=plan["M"])
+    staged = gen._ball_backend().public_declarations(gen.emit_site_modules(site, "big")[0])
+    per_tower = Counter(n.split(".")[-2] for n in staged if ".Prime_" in n)
+    k = set(per_tower.values())
+    assert len(k) == 1, per_tower
+    k = k.pop()
+    sites_per_prime = Counter(p for r in recs.values() for p in r["primes"])
+    return {"sites": len(recs), "whole_public_names": sum(names.values()),
+            "whole_repeated_names": sum(c - 1 for c in names.values() if c > 1),
+            "prime_towers": sum(sites_per_prime.values()),
+            "distinct_primes": len(sites_per_prime),
+            "staged_public_names_per_tower": k,
+            "staged_repeated_names": k * sum(c - 1 for c in sites_per_prime.values()),
+            "staged_distinct_colliding_names": k * sum(1 for c in sites_per_prime.values()
+                                                       if c > 1),
+            "staged_sites_sharing_prime_2": sites_per_prime[2]}
 
 
 def _olean_bytes(out: Path) -> dict[str, int]:
@@ -319,7 +394,8 @@ def reproject(ws: dict, pilot: dict, census: list[dict]) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["site", "faults", "imports", "census", "summarize"])
+    ap.add_argument("cmd", choices=["site", "faults", "imports", "census", "names",
+                                    "names-summary", "summarize"])
     ap.add_argument("--work", default=str(DEFAULT_WORK))
     ap.add_argument("--part", type=int, default=0, help="census: this worker's share")
     ap.add_argument("--parts", type=int, default=1)
@@ -334,6 +410,14 @@ def main() -> None:
         cmd_imports(work)
     elif args.cmd == "census":
         cmd_census(work, args.part, args.parts)
+    elif args.cmd == "names":
+        cmd_names(work, args.part, args.parts)
+    elif args.cmd == "names-summary":
+        pj = HERE / "pilot.json"
+        pilot = json.loads(pj.read_text())
+        pilot["namespace_census"] = namespace_census(work)
+        pj.write_text(json.dumps(pilot, indent=1) + "\n")
+        print(json.dumps(pilot["namespace_census"], indent=1))
     else:
         pj = HERE / "pilot.json"
         pilot = json.loads(pj.read_text())

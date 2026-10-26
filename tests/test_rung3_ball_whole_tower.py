@@ -60,7 +60,8 @@ def test_whole_mode_exports_the_names_the_power_lemmas_use():
     assert "contains_dirichletTermBallB" in text
     assert "private lemma ev_mul_" not in text and "Pow_19" not in text
     for p in (2, 3, 89):
-        assert f"Prime_{p}.pilot_contains_cpow hSp" in text
+        assert f"Prime_B_right_06_{p}.pilot_contains_cpow hSp" in text
+        assert f"namespace Prime_B_right_06_{p}\n" in text
         assert f"dirichletTermBallB 32 20 64 {p.bit_length()} 10 {p} S = Sq_10" in text
 
 
@@ -105,3 +106,30 @@ def test_whole_mode_shards_are_small_and_keep_the_site_theorem():
     primes = [t for rel, t in files if re.match(r"CB_right_06/Primes\d*\.lean$", rel)]
     assert sum(t.count("theorem pilot_contains_cpow") for t in primes) == 23
     assert stats["max_file_bytes"] < 200_000
+
+
+SMALL = ("B_right_06", "B_bottom_23", "B_top_22")       # the three K = 17 big boxes
+
+
+def test_whole_mode_sites_declare_disjoint_public_names():
+    """Two site roots import together only if their public names are disjoint; whole
+    mode qualifies every tower namespace by site, so they are."""
+    seen: dict[str, str] = {}
+    for sid in SMALL:
+        files, _ = gen.emit_site_modules(_site(sid), "big", tower="whole")
+        names = back.public_declarations(files)
+        assert names and len(names) == len(set(names)), sid
+        for n in names:
+            assert sid in n, n
+            assert n not in seen, (n, seen.get(n), sid)
+            seen[n] = sid
+
+
+def test_staged_default_keeps_its_cross_site_collision():
+    """Recorded, not fixed: the staged default is byte-identical by ruling, and its tower
+    namespaces Prime_<p> repeat across sites."""
+    a, _ = gen.emit_site_modules(_site("B_right_06"), "big")
+    b, _ = gen.emit_site_modules(_site("B_bottom_23"), "big")
+    common = set(back.public_declarations(a)) & set(back.public_declarations(b))
+    assert common and all(n.startswith("ZetaLean.DH.Cert.Prime_") for n in common)
+    assert "ZetaLean.DH.Cert.Prime_2.pilot_contains_cpow" in common

@@ -348,3 +348,29 @@ artifacts:
   - hunts/rung3_ball_production/pilot.json (calibration_runner)
   - GitHub artifacts rung3-production-job0-attempt1 (oleans of both sites) and rung3-production-record-job0-attempt1, 30-day retention
 ```
+
+## 2026-10-26: the full run cancelled, the cross-site name collision fixed
+
+- 14:50: full run 40343451044 started from `RUN_REQUEST.json` at `0f42610de`.
+- Minutes later, the two-root import probe (`PILOT.md` section 11) showed that site roots
+  collide on `ZetaLean.DH.Cert.Prime_<p>.*`. The coordinator cancelled the run at once.
+  Its final state: `cancelled`, ended 14:55:15. Jobs 0 to 5 ran about 4 minutes each,
+  through setup only (about 24 runner-minutes); no site compiled, and their artifacts hold
+  only records of about 250 bytes. The other 15 jobs and the fault job were cancelled while
+  queued. The verdict job failed, as it must for an incomplete run.
+- The fix, in whole mode only, is `Prime_<sid>_<p>`. The staged default was re-checked
+  byte-identical.
+- On this box, one Lean process at a time beside 3 Python processes for the census:
+  - `B_right_06` re-run through `whole_pilot.py site`, `faults` and `imports`, in
+    `<cache>/rung3-ball-production-whole2`;
+  - `B_bottom_23` generated and compiled there (`site2`, 159.2 CPU-s);
+  - the two-root probe (9.8 CPU-s);
+  - the assembly harness with both real sites (126.8 CPU-s);
+  - `production.py fault` and `refused` again (refused at `Prime_B_right_06_2.ev_whole`);
+  - the centre import probe on the runner oleans (2 x 3 runs, under 20 CPU-s each).
+- `whole_pilot.py names` (Python, 3 processes) emitted all 215 sites in whole mode and
+  recorded their public names (`namespace_census`).
+
+About 12 core-minutes of Lean and the census's Python, about 50 core-minutes, together
+under the one core-hour cap. Next: the calibration re-run with the new names (`"attempt":
+2` in the request), then a new full request for the coordinator's 'go'.

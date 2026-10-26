@@ -17,6 +17,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import math
+import re
 from fractions import Fraction as F
 from pathlib import Path
 from types import SimpleNamespace
@@ -122,6 +123,36 @@ def _whole_tower(prime: int, S, namespace: str, staged_final) -> str:
         f"end {namespace}", ""])
 
 
+def tower_namespace(sid: str, prime: int, tower_mode: str = "staged") -> str:
+    """The namespace a prime tower's declarations live in.  ``staged`` keeps the
+    historical ``Prime_<p>``, which is not site-qualified: two staged sites sharing a
+    prime declare the same names and cannot be imported together.  ``whole`` qualifies
+    it by site, so the assembly can import every site root in one environment."""
+    return f"Prime_{sid}_{prime}" if tower_mode == "whole" else f"Prime_{prime}"
+
+
+_DECL = re.compile(r"^(?:noncomputable )?(?:def|theorem|lemma|abbrev|instance) ([^\s:({\[]+)")
+
+
+def public_declarations(files: list[tuple[str, str]]) -> list[str]:
+    """Fully qualified names of the non-private declarations in emitted site files.
+
+    Two site roots can be imported into one environment only if these are disjoint."""
+    names = []
+    for _, text in files:
+        stack: list[str] = []
+        for line in text.split("\n"):
+            if line.startswith("namespace "):
+                stack.append(line.split()[1])
+            elif line.startswith("end ") and stack and line.split()[1] == stack[-1]:
+                stack.pop()
+            else:
+                m = _DECL.match(line)
+                if m:
+                    names.append(".".join(stack + [m.group(1)]))
+    return names
+
+
 def _needed_powers(N: int) -> list[int]:
     values = [m for m in range(1, N) if m % 5]
     values.extend(range(N + 1, N + 5))
@@ -161,7 +192,8 @@ def _prepare_site(site: dict, kind: str, tower_mode: str = "staged") -> SimpleNa
         else:
             f = ball._spf(m)
             if f == m:
-                fragment, value = _tower_fragment(m, Sval, f"Prime_{m}", tower_mode)
+                fragment, value = _tower_fragment(m, Sval, tower_namespace(sid, m, tower_mode),
+                                                  tower_mode)
                 prime_fragments[m] = fragment
                 pow_kind[m] = ("prime",)
             else:
@@ -219,7 +251,7 @@ def _prepare_site(site: dict, kind: str, tower_mode: str = "staged") -> SimpleNa
         relo=relo, rehi=rehi, imlo=imlo, imhi=imhi, tail_r=tail_r,
         SI=SI, SB=SB, Sval=Sval, half_width=half_width,
         pow_values=pow_values, pow_kind=pow_kind, pow_order=pow_order,
-        prime_fragments=prime_fragments, term_values=term_values,
+        prime_fragments=prime_fragments, term_values=term_values, tower_mode=tower_mode,
         partial=partial, m1=m1, m2=m2, m3=m3, m4=m4,
         pair=pair, block=block, five_one_sub=five_one_sub, anti_v=anti_v,
         anti_pair=anti_pair, anti_sum=anti_sum, anti=anti,
@@ -284,10 +316,11 @@ def emit_site_ball(site: dict, kind: str,
         elif mode[0] == "prime":
             a(f"private lemma hp_{sid}_{m} {{s : ℂ}} (hS : {SB}.contains s) :")
             a(f"    {name}.contains ((({m} : ℕ) : ℂ) ^ (-s)) := by")
-            a(f"  have hSp : Prime_{m}.S.contains s := by")
-            a(f"    simpa [Prime_{m}.S, {SB}] using hS")
-            a(f"  have h := Prime_{m}.pilot_contains_cpow hSp")
-            a(f"  simpa [{name}, Prime_{m}.Sq_{KE}] using h")
+            ns = tower_namespace(sid, m, b.tower_mode)
+            a(f"  have hSp : {ns}.S.contains s := by")
+            a(f"    simpa [{ns}.S, {SB}] using hS")
+            a(f"  have h := {ns}.pilot_contains_cpow hSp")
+            a(f"  simpa [{name}, {ns}.Sq_{KE}] using h")
         else:
             _, left, right = mode
             left_name, right_name = f"Pow_{sid}_{left}", f"Pow_{sid}_{right}"
@@ -761,10 +794,11 @@ def _pow_block(b: SimpleNamespace, m: int, exported: bool) -> str:
     elif mode[0] == "prime":
         a(f"{kw} hp_{sid}_{m} {{s : ℂ}} (hS : {SB}.contains s) :")
         a(f"    {name}.contains ((({m} : ℕ) : ℂ) ^ (-s)) := by")
-        a(f"  have hSp : Prime_{m}.S.contains s := by")
-        a(f"    simpa [Prime_{m}.S, {SB}] using hS")
-        a(f"  have h := Prime_{m}.pilot_contains_cpow hSp")
-        a(f"  simpa [{name}, Prime_{m}.Sq_{KE}] using h")
+        ns = tower_namespace(sid, m, b.tower_mode)
+        a(f"  have hSp : {ns}.S.contains s := by")
+        a(f"    simpa [{ns}.S, {SB}] using hS")
+        a(f"  have h := {ns}.pilot_contains_cpow hSp")
+        a(f"  simpa [{name}, {ns}.Sq_{KE}] using h")
     else:
         _, left, right = mode
         left_name, right_name = f"Pow_{sid}_{left}", f"Pow_{sid}_{right}"

@@ -441,18 +441,19 @@ def test_assembly_uses_each_site_theorem_where_the_plan_puts_it():
     assert "sorry" not in SUPPORT.read_text()
 
 
-def test_the_stub_harness_rests_on_the_stubs_and_the_real_pilot_site():
-    """The emitted body elaborated against 214 stub interfaces and B_right_06's own
-    oleans: only the three standard axioms and the 214 stubs appear, never the pilot."""
+def test_the_stub_harness_rests_on_the_stubs_and_two_real_sites():
+    """The emitted body elaborated against 213 stub interfaces and the oleans of two real
+    whole-mode sites, imported together: only the three standard axioms and the 213 stubs
+    appear, never the real sites' theorems."""
     h = PILOT["assembly_harness"]
-    assert h["returncode"] == 0 and h["errors"] == 0 and h["real_sites"] == ["B_right_06"]
+    real = ["B_right_06", "B_bottom_23"]
+    assert h["returncode"] == 0 and h["errors"] == 0 and h["real_sites"] == real
     std = ["Classical.choice", "Quot.sound", "propext"]
     stubs = sorted([f"beta_{g['id']}" for g in PLAN2["grid"]] + ["centre_lt_centre"]
-                   + [f"upper_{b['id']}" for b in PLAN2["big"]["boxes"]
-                      if b["id"] != "B_right_06"])
+                   + [f"upper_{b['id']}" for b in PLAN2["big"]["boxes"] if b["id"] not in real])
     for name in ("davenport_heilbronn", "dh_zero_located'", "dh_separation_of"):
         assert h["axioms"][name] == sorted(std + stubs), name
-    assert len(stubs) == 214
+    assert len(stubs) == 213
 
 
 def test_production_runbook_quotes_both_prices():
@@ -467,7 +468,8 @@ def test_production_runbook_quotes_both_prices():
 
 # --------------------------------------------------------------------------- the whole-tower mode
 
-WS = PILOT["whole_site"]
+WS = PILOT["whole_site"]          # with site-qualified tower namespaces (the current generator)
+WS1 = PILOT["whole_site_v1"]      # the first whole-mode run, Prime_<p>; PILOT.md section 9
 gen60 = _load("rung3_generate_for_hunt", ROOT / "scripts" / "60_rung3_generate.py")
 
 
@@ -506,9 +508,12 @@ def test_whole_site_compiled_and_its_totals_add_up():
 
 def test_whole_mode_faults_are_refused_at_the_faulted_tower():
     f = WS["faults"]
-    assert f["p2-rad-low"]["returncode"] == 1 and "Prime_2.ev_whole" in f["p2-rad-low"]["refused"]
+    assert f["p2-rad-low"]["returncode"] == 1
+    assert "Prime_B_right_06_2.ev_whole" in f["p2-rad-low"]["refused"]
     assert f["p89-cre-high"]["returncode"] == 1
-    assert "Prime_89.ev_whole" in f["p89-cre-high"]["refused"]
+    assert "Prime_B_right_06_89.ev_whole" in f["p89-cre-high"]["refused"]
+    for tag, v in WS1["faults"].items():          # the first run, before the rename
+        assert v["returncode"] == 1 and any(r.endswith(".ev_whole") for r in v["refused"])
     for tag in f:
         assert all(r.startswith(("Prime_", "ZetaLean.DH.Cert.hp_")) for r in f[tag]["refused"])
 
@@ -533,24 +538,31 @@ def test_whole_projection_covers_the_plan_and_adds_up():
     assert lo == pytest.approx(min(sum(r["olean_bytes"] for r in WP["rows"]),
                                    sum(r["olean_bytes_by_source"] for r in WP["rows"])) / 1e9,
                                abs=0.01)
-    ratio = WS["import_probe"]["rss_bytes_per_imported_olean_byte"]
+    ratio = WS1["import_probe"]["rss_bytes_per_imported_olean_byte"]
     assert WP["assembly_import_rss_gb"] == [round(ratio * lo, 2), round(ratio * hi, 2)]
 
 
 def test_whole_projection_model_reproduces_the_pilot_site():
     row = next(r for r in WP["rows"] if r["id"] == "B_right_06")
-    assert row["cpu_s"] == pytest.approx(WS["cpu_s_total"], rel=0.02)
-    assert row["olean_bytes"] == pytest.approx(WS["olean_bytes_total"], rel=0.001)
+    assert row["cpu_s"] == pytest.approx(WS1["cpu_s_total"], rel=0.02)
+    assert row["olean_bytes"] == pytest.approx(WS1["olean_bytes_total"], rel=0.001)
 
 
 def test_pilot_md_quotes_the_whole_mode_numbers():
     text = " ".join((HERE / "PILOT.md").read_text().split())
     lo, hi = WP["olean_gb"]
     a, b = WP["assembly_import_rss_gb"]
-    for quoted in (f"**{WS['cpu_s_total']:.1f}**", f"**{WS['olean_bytes_total']:,}**",
+    for quoted in (f"**{WS1['cpu_s_total']:.1f}**", f"**{WS1['olean_bytes_total']:,}**",
                    f"**{WP['total_core_hours']:.1f} core-hours**",
                    f"**{lo:.1f} to {hi:.1f} GB**", f"**{a:.1f} to {b:.1f} GB**",
-                   f"{WS['import_probe']['rss_bytes_per_imported_olean_byte']:.2f} bytes of RSS",
+                   f"{WS1['import_probe']['rss_bytes_per_imported_olean_byte']:.2f} bytes of RSS",
                    f"{WP['largest_site']['cpu_s']:,.0f} CPU-s",
                    "(a) This box: not as it is run today", "(b) GitHub Actions shards"):
         assert quoted in text, quoted
+
+
+def test_the_centre_import_probe_ratio():
+    c = PILOT["import_probe_centre"]
+    assert c["olean_bytes"] == PILOT["calibration_runner"]["sites"]["centre"]["olean_bytes"]
+    ratio = (c["root_peak_rss_bytes"] - c["base_peak_rss_bytes"]) / c["olean_bytes"]
+    assert c["rss_bytes_per_imported_olean_byte"] == pytest.approx(ratio, abs=0.001)

@@ -191,36 +191,83 @@ Only after that audit does `davenport_heilbronn` get a grade, through the hunt's
 and review (`ALIGNMENT.md`). It is a statement about the Davenport-Heilbronn function and
 says nothing about RH (`docs/08`).
 
-## 6. Where the assembly runs (the coordinator decides when the sites are done)
+## 6. The assembly: collect, check, import (the coordinator decides placement)
 
-The assembly imports every site's oleans in one process. Projected from one site, that
-is 14.8 to 16.0 GB of oleans and about 17 to 18 GB of resident memory: 6.7 GB for the
-support modules plus 0.70 bytes per olean byte, all of it mapped files and no anonymous
-growth measured. A GitHub runner (16 GB RAM, 14 GB disk) holds neither. The options:
+**Prerequisite:** whole-mode site oleans with site-qualified tower namespaces
+(`Prime_<sid>_<p>`, `PILOT.md` section 11), from a full run whose verdict job counted it.
+Output of the staged default, or of whole mode before that fix, cannot be imported two
+sites at a time.
+
+**Size, re-projected from the runner.** The calibration's centre measured 343.5 MB of
+oleans, inside the projected 316 to 371 MB, so the projected 14.8 to 16.0 GB total
+stands until the full run's records give the exact sum. Importing the runner-built
+centre raised peak RSS by 0.708 bytes per olean byte over the 6.57 GB of the support
+imports (`import_probe_centre`). By that ratio the 215-root import needs **10.4 to 11.3
+GB above the support modules, about 17.0 to 17.9 GB in all**, nearly all of it mapped
+olean pages. Still untested: one process importing all 215 roots. The two-site harness
+(section 8 of `PILOT.md`) is the largest real import so far.
+
+**Collect and check.** On the assembly machine, from this checkout:
+
+```bash
+D=/dev/shm/rung3-assembly       # or a directory on the cloud machine's disk
+.venv/bin/python hunts/rung3_ball_production/production.py collect \
+  --request hunts/rung3_ball_production/RUN_REQUEST.json --run <full run id> --dest "$D"
+```
+
+`collect` takes each job's latest-attempt `rung3-production-job<N>-attempt<A>`. It
+downloads the zip through the API and checks its SHA-256 against GitHub's recorded
+`digest`, refusing on any mismatch. It unzips into `$D`, deletes the zip before the next
+one (so the peak is the oleans plus one zip), and checks that every site the job owns
+has its root olean and its root checkpoint. It writes `$D/collected.json` with every
+artifact's hash. Then:
+
+- confirm `rung3-production-record-*` says every site `ok` and every axiom audit clean.
+  The verdict job already did this; re-run `production.py verdict --records <dir>` on the
+  downloaded records to see it locally;
+- optionally, regenerate the sources (`scripts/60 --tower whole`, about 51 CPU-minutes)
+  and compare their SHA-256 with the `sha256` in each `out/checkpoints/C<id>/*.ok.json`.
+  This ties every olean to the generator at the tested commit.
+
+The oleans are trusted as the runners' kernel left them; the import does not re-check
+their proofs. For an independent re-check, run the toolchain's `leanchecker` over the
+assembly's environment. That replays every declaration in the kernel, at a cost of
+about the sites' compile CPU; it is not yet sized.
+
+**Import.** Emit and compile, with `$D/out` (all jobs' outputs merged, file names
+disjoint by site) on `LEAN_PATH`:
+
+```bash
+.venv/bin/python hunts/rung3_ball_production/assembly.py --out "$D/asm" --check
+cd lean
+lake env lean --root=../hunts/rung3_ball_production/lean -o "$D/asm/Rung3Assembly/Support.olean" \
+  ../hunts/rung3_ball_production/lean/Rung3Assembly/Support.lean
+lake env sh -c "LEAN_PATH=$D/asm:$D/out:\$LEAN_PATH lean --root=$D/asm \
+  -o $D/asm/Rung3Assembly/Assembly.olean $D/asm/Rung3Assembly/Assembly.lean"
+```
+
+Then run the axiom audit of section 5 on `ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn`.
+
+**Placement options**, against about 17 to 18 GB of resident memory and about 16 GB of
+oleans:
 
 1. **The shared box, with the oleans on a RAM-backed tmpfs.** Its disk sits below the
-   co-tenant's floor, so nothing large may land on it. `/dev/shm` is already a tmpfs
-   there (58 GB, so no `sudo` is needed). The steps:
-   - Download the 20 job artifacts one at a time into `/dev/shm/rung3-assembly`,
-     unzipping each and deleting its zip before the next. The peak is then the oleans
-     plus one zip, under 17 GB.
-   - Build `Support.olean` there, then compile `Assembly.lean` with that directory on
-     `LEAN_PATH`, against this checkout's existing `lean/.lake` (no new Mathlib).
-   - Memory: the mapped oleans are the tmpfs pages themselves, so they are not counted
-     twice. The run needs about 16 GB of tmpfs, the Mathlib and support oleans in page
-     cache (about 7 GB, mostly resident already) and a few GB of anonymous memory. Start
-     only while `MemAvailable` is above 45 GiB, the 20 GiB guard plus about 25 GiB, and
-     with the 1-minute load at most 64.
-   - Watch `MemAvailable` every 10 s. Below 20 GiB, stop the Lean process, then
-     `rm -rf /dev/shm/rung3-assembly` to return the memory. A tmpfs is lost on reboot,
-     so the artifacts stay on GitHub (30-day retention) until the assembly olean exists.
-   - The import itself is under 30 minutes of one core by the harness's 124 CPU-s plus
-     the import, which is within the one core-hour cap for this box. Placing it here is
-     the owner's or coordinator's call, since the 2026-10-26 decision reserves the box
-     for pilots.
-2. **A funded cloud machine**: at least 32 GB of RAM and 40 GB of disk, with a fresh
-   `lake exe cache get`. Simplest and with no co-tenant risk, but it waits for funding.
+   co-tenant's floor, so `$D` is `/dev/shm/rung3-assembly`, which is already a 58 GB
+   tmpfs and needs no `sudo`. This checkout's existing `lean/.lake` serves Mathlib, so no
+   new Mathlib is fetched. The mapped oleans are the tmpfs pages themselves and are not
+   counted twice. The total is about 16 GB of tmpfs, Mathlib and support oleans in page
+   cache (about 7 GB, mostly resident already) and a few GB of anonymous memory.
+   - **Start** only while `MemAvailable` is above 45 GiB (the 20 GiB guard plus about
+     25 GiB) and the 1-minute load is at most 64.
+   - **Guard:** read `MemAvailable` every 10 s. Below 20 GiB, stop the Lean process and
+     `rm -rf /dev/shm/rung3-assembly`. A tmpfs is lost on reboot, so the artifacts stay
+     on GitHub (30 days) until `Assembly.olean` exists.
+   - **Cost:** the harness's import took 127 CPU-s with two real sites; the full import is
+     projected under 30 core-minutes, within this box's one core-hour cap.
+   - **Decision:** the 2026-10-26 owner decision reserves the box for pilots, so placing
+     the assembly here is the coordinator's or owner's call.
+2. **A funded cloud machine** with at least 32 GB of RAM and 40 GB of disk, using a
+   fresh `lake exe cache get`. It has no co-tenant risk, but it waits for funding.
 
-Either way, run the axiom audit of section 5 on `davenport_heilbronn` afterwards. The
-17 to 18 GB figure is extrapolated from one small site (`PILOT.md` section 9); the
-calibration's centre olean bytes check it first.
+The calibration's centre olean bytes already checked the projection once. The full run's
+`olean_gb` in its verdict summary checks it again before the import starts.

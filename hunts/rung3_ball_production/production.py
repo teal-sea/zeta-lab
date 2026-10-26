@@ -24,6 +24,9 @@ Subcommands (every one fails closed with a non-zero exit):
     fault      plant a one-unit radius fault in the fault site's Prime_2 tower
     refused    the fault compile must have failed, at that tower's `ev_whole`
     verdict    across all jobs' records: 215 sites ok, every audit clean, fault refused
+    collect    (assembly machine) download each job's latest oleans artifact of a run,
+               check its SHA-256 against GitHub's digest, unzip, delete the zip, and
+               check that every site the job owns has a checkpointed root olean
 """
 from __future__ import annotations
 
@@ -253,11 +256,12 @@ def cmd_fault(req: dict, gen: Path) -> None:
     cmd_generate({**req, "mode": "calibrate", "sites": [sid]}, 0, gen)
     path = gen / f"C{sid}" / "Primes.lean"
     text = path.read_text()
-    start = text.index("namespace Prime_2\n")
+    ns = f"Prime_{sid}_2"                       # scripts/69 tower_namespace, whole mode
+    start = text.index(f"namespace {ns}\n")
     pat = re.compile(r"def Sq_10 : ComplexBall := \(⟨(\([^⟩]*?\)), (\([^⟩]*?\)), "
                      r"\((-?\d+)(?:/(\d+))? : ℚ\)⟩ : ComplexBall\)")
     m = pat.search(text, start)
-    assert m and m.start() < text.index("end Prime_2", start), "no Prime_2 Sq_10"
+    assert m and m.start() < text.index(f"end {ns}", start), f"no {ns}.Sq_10"
     rad = F(int(m.group(3)), int(m.group(4) or 1)) - F(1, 2**64)
     new = (f"def Sq_10 : ComplexBall := (⟨{m.group(1)}, {m.group(2)}, "
            f"({rad.numerator}/{rad.denominator} : ℚ)⟩ : ComplexBall)")
@@ -271,7 +275,7 @@ def cmd_fault(req: dict, gen: Path) -> None:
     assert len(hits) == 1, rel
     hits[0]["bytes"] = len(path.read_bytes())
     man_path.write_text(json.dumps(man, indent=2) + "\n")
-    print(f"planted: C{sid}/Primes.lean Prime_2.Sq_10 radius one unit of 2^-64 low")
+    print(f"planted: C{sid}/Primes.lean {ns}.Sq_10 radius one unit of 2^-64 low")
 
 
 def error_decls(log: str, source: str, name: str) -> list[str]:
@@ -303,7 +307,7 @@ def cmd_refused(req: dict, gen: Path, out: Path, rc: int) -> None:
     decls = error_decls(logs, src.read_text(), src.name)
     verdict = {"compile_returncode": rc, "site_status": res.get("status"),
                "failed_modules": [m["path"] for m in failed], "error_decls": decls,
-               "refused_at_ev_whole": bool(decls) and decls[0] == "Prime_2.ev_whole"}
+               "refused_at_ev_whole": bool(decls) and decls[0] == f"Prime_{sid}_2.ev_whole"}
     (out / "fault.json").write_text(json.dumps(verdict, indent=1) + "\n")
     print(json.dumps(verdict, indent=1))
     ok = (rc != 0 and res.get("status") != "ok"
@@ -341,16 +345,66 @@ def cmd_verdict(req: dict, records: Path) -> None:
         sys.exit("verdict: the run does not count")
 
 
+def pick_artifacts(artifacts: list[dict], jobs: int) -> dict[int, dict]:
+    """The latest attempt of each job's oleans artifact; every job must have one."""
+    best: dict[int, dict] = {}
+    for a in artifacts:
+        m = re.fullmatch(r"rung3-production-job(\d+)-attempt(\d+)", a["name"])
+        if not m or a.get("expired"):
+            continue
+        job, attempt = int(m.group(1)), int(m.group(2))
+        if job not in best or attempt > best[job]["attempt"]:
+            best[job] = {**a, "attempt": attempt}
+    missing = sorted(set(range(jobs)) - set(best))
+    assert not missing, f"no oleans artifact for jobs {missing}"
+    return best
+
+
+def cmd_collect(req: dict, run: int, dest: Path, repo: str) -> None:
+    import zipfile
+    listing = subprocess.run(
+        ["gh", "api", "--paginate", f"repos/{repo}/actions/runs/{run}/artifacts",
+         "--jq", ".artifacts[] | tojson"], check=True, capture_output=True, text=True)
+    arts = [json.loads(line) for line in listing.stdout.splitlines() if line]
+    jobs = req["jobs"] if req["mode"] == "full" else 1
+    dest.mkdir(parents=True, exist_ok=True)
+    log = []
+    for job, a in sorted(pick_artifacts(arts, jobs).items()):
+        zpath = dest / f"{a['name']}.zip"
+        with zpath.open("wb") as f:
+            subprocess.run(["gh", "api", f"repos/{repo}/actions/artifacts/{a['id']}/zip"],
+                           check=True, stdout=f)
+        digest = hashlib.sha256()
+        with zpath.open("rb") as f:
+            for chunk in iter(lambda: f.read(1 << 24), b""):
+                digest.update(chunk)
+        h = digest.hexdigest()
+        assert a["digest"] == f"sha256:{h}", (a["name"], a["digest"], h)
+        with zipfile.ZipFile(zpath) as z:
+            z.extractall(dest)
+        zpath.unlink()
+        for sid in job_sites(req, job):
+            assert (dest / "out" / f"C{sid}.olean").is_file(), f"C{sid}.olean missing"
+            assert (dest / "out" / "checkpoints" / f"C{sid}" / f"C{sid}.lean.ok.json").is_file(), sid
+        log.append({"job": job, "artifact": a["name"], "sha256": h, "bytes": a["size_in_bytes"]})
+        print(log[-1], flush=True)
+    (dest / "collected.json").write_text(json.dumps({"run": run, "artifacts": log}, indent=1) + "\n")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["plan", "preflight", "toplevels", "sites", "generate",
-                                    "axioms", "record", "fault", "refused", "verdict"])
+                                    "axioms", "record", "fault", "refused", "verdict",
+                                    "collect"])
     ap.add_argument("--request", type=Path, default=REQUEST)
     ap.add_argument("--job", type=int, default=0)
     ap.add_argument("--gen", type=Path, default=Path("gen"))
     ap.add_argument("--out", type=Path, default=Path("out"))
     ap.add_argument("--rc", type=int, default=0, help="refused: the fault compile's exit")
     ap.add_argument("--records", type=Path, default=Path("records"))
+    ap.add_argument("--run", type=int, help="collect: the workflow run id")
+    ap.add_argument("--dest", type=Path, help="collect: where the oleans land")
+    ap.add_argument("--repo", default="teal-sea/zeta-lab")
     args = ap.parse_args()
     if args.cmd == "toplevels":
         return cmd_toplevels()
@@ -372,6 +426,8 @@ def main() -> None:
         cmd_fault(req, gen)
     elif args.cmd == "refused":
         cmd_refused(req, gen, out, args.rc)
+    elif args.cmd == "collect":
+        cmd_collect(req, args.run, args.dest.resolve(), args.repo)
     else:
         cmd_verdict(req, args.records.resolve())
 

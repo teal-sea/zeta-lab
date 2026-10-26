@@ -569,3 +569,51 @@ What changes:
 bounded by setup plus 1.5 times its runner-scaled CPU at one core: 1.43 to 1.49 hours,
 against the 4-hour target and the 350-minute limit. At 6 jobs at once, the 21 jobs (20
 plus the fault job) run in 4 waves.
+
+## 11. A miss: site roots could not be imported together, and the fix
+
+**What was wrong.** While writing the assembly runbook, an import of two runner-built
+site roots (`import Ccentre` and `import CB_right_06`, from calibration run 40340279740)
+failed: `environment already contains 'ZetaLean.DH.Cert.Prime_79.S' from
+Ccentre.Primes`. `scripts/69` put every prime tower's public declarations in
+`ZetaLean.DH.Cert.Prime_<p>`, which is not qualified by site, so any two sites sharing a
+prime declare the same names. The assembly imports all 215 roots in one environment, so
+it could not have elaborated with that output in either tower mode. The harness of
+section 8 used one real site and stubs for the rest, so it never imported two real towers
+together. That was this lane's miss, and the full run started at 14:50 was cancelled for
+it (`RUNS.md`).
+
+**The fix.** In `--tower whole` only, the tower namespace is now `Prime_<sid>_<p>`
+(`scripts/69` `tower_namespace`). The staged default is unchanged and still
+byte-identical: the 94 files of `B_right_06` and the centre hash equal before and after.
+The staged default therefore keeps the collision, recorded below.
+
+**Checked, measured on this box:**
+
+- **Statically, the whole mode qualifies every name.**
+  `tests/test_rung3_ball_whole_tower.py` checks that the three K = 17 sites declare
+  disjoint public names, each containing its site id, and that two staged sites still
+  collide. A census of all 215 sites counts every public name in whole mode
+  (`namespace_census` in `pilot.json`, figures below).
+- **Two real sites import together.** `B_right_06` and `B_bottom_23` were recompiled in
+  whole mode, at 153.8 and 159.2 CPU-s. One probe module importing both roots elaborated
+  with no error, and each site's `Prime_<sid>_2.pilot_contains_cpow` resolves.
+- **The harness now uses two real sites.** The assembly body elaborated against the
+  oleans of `B_right_06` and `B_bottom_23` plus 213 stubs: exit 0, no errors, 126.8
+  CPU-s. `davenport_heilbronn` rests on the three standard axioms and the 213 stubs only
+  (`assembly_harness`).
+- **The renamed towers are still refused when faulted.** One unit of 2^-64 off is refused
+  at `Prime_B_right_06_2.ev_whole` and at `Prime_B_right_06_89.ev_whole`, both in the
+  re-run pilot (`whole_site`) and through `production.py fault` and `refused`.
+  `whole_site_v1` keeps the first run, on which section 9's numbers and projection rest.
+- **The import ratio on a large site:** importing the runner-built centre oleans (343.5
+  MB) from `/dev/shm` raised peak RSS by 0.708 bytes per olean byte
+  (`import_probe_centre`). That matches the 0.70 of section 9. The small renamed site's
+  probe gave 0.87, on a 15 MB difference, which is within that probe's noise.
+
+**The census of names** (`namespace_census`). All 215 sites emitted in whole mode
+declare 532,652 public names, and **none repeats**. Under the staged default, each of the
+15,608 towers declares the same 79 public names in `Prime_<p>`, so 1,211,070 repeated
+declarations would collide (8,216 distinct names). Prime 2's tower alone appears in all
+215 sites. That is the defect the staged default keeps, by the ruling that it stay
+byte-identical.

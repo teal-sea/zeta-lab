@@ -5729,13 +5729,14 @@
  "assembly_harness": {
   "date": "2026-10-26",
   "real_sites": [
-   "B_right_06"
+   "B_right_06",
+   "B_bottom_23"
   ],
   "returncode": 0,
   "errors": 0,
-  "cpu_s": 124.06,
-  "wall_s": 78.48,
-  "maxrss_kb": 7126560,
+  "cpu_s": 126.82,
+  "wall_s": 75.6,
+  "maxrss_kb": 7053252,
   "axioms": {
    "davenport_heilbronn": [
     "Classical.choice",
@@ -5869,7 +5870,6 @@
     "upper_B_bottom_20",
     "upper_B_bottom_21",
     "upper_B_bottom_22",
-    "upper_B_bottom_23",
     "upper_B_left_00",
     "upper_B_left_01",
     "upper_B_left_02",
@@ -6088,7 +6088,6 @@
     "upper_B_bottom_20",
     "upper_B_bottom_21",
     "upper_B_bottom_22",
-    "upper_B_bottom_23",
     "upper_B_left_00",
     "upper_B_left_01",
     "upper_B_left_02",
@@ -6307,7 +6306,6 @@
     "upper_B_bottom_20",
     "upper_B_bottom_21",
     "upper_B_bottom_22",
-    "upper_B_bottom_23",
     "upper_B_left_00",
     "upper_B_left_01",
     "upper_B_left_02",
@@ -6417,78 +6415,78 @@
    {
     "path": "CB_right_06/Base.lean",
     "status": "ok",
-    "cpu_s": 12.59,
-    "wall_s": 13.4,
-    "peak_rss_bytes": 6768107520,
+    "cpu_s": 10.23,
+    "wall_s": 10.44,
+    "peak_rss_bytes": 6769385472,
     "olean_bytes": 124152
    },
    {
     "path": "CB_right_06/Primes.lean",
     "status": "ok",
-    "cpu_s": 38.56,
-    "wall_s": 41.18,
-    "peak_rss_bytes": 6959456256,
-    "olean_bytes": 481672
+    "cpu_s": 35.9,
+    "wall_s": 34.0,
+    "peak_rss_bytes": 6945800192,
+    "olean_bytes": 481880
    },
    {
     "path": "CB_right_06/Composites.lean",
     "status": "ok",
-    "cpu_s": 44.92,
-    "wall_s": 18.68,
-    "peak_rss_bytes": 6971117568,
+    "cpu_s": 42.77,
+    "wall_s": 15.53,
+    "peak_rss_bytes": 6980521984,
     "olean_bytes": 6976512
    },
    {
     "path": "CB_right_06/Terms.lean",
     "status": "ok",
-    "cpu_s": 43.74,
-    "wall_s": 19.44,
-    "peak_rss_bytes": 6972026880,
+    "cpu_s": 42.83,
+    "wall_s": 16.2,
+    "peak_rss_bytes": 6991482880,
     "olean_bytes": 5369688
    },
    {
     "path": "CB_right_06.lean",
     "status": "ok",
-    "cpu_s": 23.77,
-    "wall_s": 18.61,
-    "peak_rss_bytes": 6878113792,
+    "cpu_s": 22.11,
+    "wall_s": 12.95,
+    "peak_rss_bytes": 6900027392,
     "olean_bytes": 3806416
    }
   ],
   "module_count": 5,
-  "cpu_s_total": 163.6,
-  "wall_s_total": 111.3,
-  "max_peak_rss_bytes": 6972026880,
-  "olean_bytes_total": 16758440,
-  "import_cpu_s_median": 11.1,
+  "cpu_s_total": 153.8,
+  "wall_s_total": 89.1,
+  "max_peak_rss_bytes": 6991482880,
+  "olean_bytes_total": 16758648,
+  "import_cpu_s_median": 8.99,
   "sources": {
    "CB_right_06/Base.lean": "ebbbc1466f080d4dead75b07481ba01c45a0a1baaed1637e56207fd17dcf02f1",
    "CB_right_06/Composites.lean": "d85c676ba8699b433bfc10f79a3e09ab977c4ee46345eeb35a6de9a411171591",
-   "CB_right_06/Primes.lean": "847dbf4d2fe34538dd5fef3e5ce444a81fdeb482b28725bae54030a7e9301640",
+   "CB_right_06/Primes.lean": "00189832cdeea0ed95e78037542f32d025601ff291be1eb961c00d0d98f6a72b",
    "CB_right_06/Terms.lean": "fceb67be7bec1f060489db0b3a8417e7c81e178edb947d5633c21ddc41fd9865",
    "CB_right_06.lean": "d9540405e931772a49f3519d056838752db7ffb06ff9bfda98a3771e434c5d54"
   },
-  "source_bytes_total": 211379,
+  "source_bytes_total": 212897,
   "faults": {
    "p2-rad-low": {
     "returncode": 1,
     "refused": [
-     "Prime_2.ev_whole",
+     "Prime_B_right_06_2.ev_whole",
      "ZetaLean.DH.Cert.hp_B_right_06_2"
     ]
    },
    "p89-cre-high": {
     "returncode": 1,
     "refused": [
-     "Prime_89.ev_whole",
+     "Prime_B_right_06_89.ev_whole",
      "ZetaLean.DH.Cert.hp_B_right_06_89"
     ]
    }
   },
   "import_probe": {
-   "base_peak_rss_bytes": 6728843264.0,
-   "root_peak_rss_bytes": 6740510720.0,
-   "rss_bytes_per_imported_olean_byte": 0.696
+   "base_peak_rss_bytes": 6727239680.0,
+   "root_peak_rss_bytes": 6741856256.0,
+   "rss_bytes_per_imported_olean_byte": 0.872
   },
   "staged_2026_10_21": {
    "module_count": 10,
@@ -6497,7 +6495,8 @@
    "max_peak_rss_gib": 7.832,
    "olean_bytes_total": 179767088,
    "source_bytes_total": 7868637
-  }
+  },
+  "note": "re-run 2026-10-26 after tower namespaces were qualified by site (Prime_<sid>_<p>); whole_site_v1 is the first run, with Prime_<p>"
  },
  "whole_projection": {
   "sites": 215,
@@ -8090,5 +8089,116 @@
    "centre": 0.62,
    "B_right_06": 0.407
   }
+ },
+ "whole_site_v1": {
+  "date": "2026-10-26",
+  "site": "B_right_06",
+  "tower": "whole",
+  "status": "ok",
+  "modules": [
+   {
+    "path": "CB_right_06/Base.lean",
+    "status": "ok",
+    "cpu_s": 12.59,
+    "wall_s": 13.4,
+    "peak_rss_bytes": 6768107520,
+    "olean_bytes": 124152
+   },
+   {
+    "path": "CB_right_06/Primes.lean",
+    "status": "ok",
+    "cpu_s": 38.56,
+    "wall_s": 41.18,
+    "peak_rss_bytes": 6959456256,
+    "olean_bytes": 481672
+   },
+   {
+    "path": "CB_right_06/Composites.lean",
+    "status": "ok",
+    "cpu_s": 44.92,
+    "wall_s": 18.68,
+    "peak_rss_bytes": 6971117568,
+    "olean_bytes": 6976512
+   },
+   {
+    "path": "CB_right_06/Terms.lean",
+    "status": "ok",
+    "cpu_s": 43.74,
+    "wall_s": 19.44,
+    "peak_rss_bytes": 6972026880,
+    "olean_bytes": 5369688
+   },
+   {
+    "path": "CB_right_06.lean",
+    "status": "ok",
+    "cpu_s": 23.77,
+    "wall_s": 18.61,
+    "peak_rss_bytes": 6878113792,
+    "olean_bytes": 3806416
+   }
+  ],
+  "module_count": 5,
+  "cpu_s_total": 163.6,
+  "wall_s_total": 111.3,
+  "max_peak_rss_bytes": 6972026880,
+  "olean_bytes_total": 16758440,
+  "import_cpu_s_median": 11.1,
+  "sources": {
+   "CB_right_06/Base.lean": "ebbbc1466f080d4dead75b07481ba01c45a0a1baaed1637e56207fd17dcf02f1",
+   "CB_right_06/Composites.lean": "d85c676ba8699b433bfc10f79a3e09ab977c4ee46345eeb35a6de9a411171591",
+   "CB_right_06/Primes.lean": "847dbf4d2fe34538dd5fef3e5ce444a81fdeb482b28725bae54030a7e9301640",
+   "CB_right_06/Terms.lean": "fceb67be7bec1f060489db0b3a8417e7c81e178edb947d5633c21ddc41fd9865",
+   "CB_right_06.lean": "d9540405e931772a49f3519d056838752db7ffb06ff9bfda98a3771e434c5d54"
+  },
+  "source_bytes_total": 211379,
+  "faults": {
+   "p2-rad-low": {
+    "returncode": 1,
+    "refused": [
+     "Prime_2.ev_whole",
+     "ZetaLean.DH.Cert.hp_B_right_06_2"
+    ]
+   },
+   "p89-cre-high": {
+    "returncode": 1,
+    "refused": [
+     "Prime_89.ev_whole",
+     "ZetaLean.DH.Cert.hp_B_right_06_89"
+    ]
+   }
+  },
+  "import_probe": {
+   "base_peak_rss_bytes": 6728843264.0,
+   "root_peak_rss_bytes": 6740510720.0,
+   "rss_bytes_per_imported_olean_byte": 0.696
+  },
+  "staged_2026_10_21": {
+   "module_count": 10,
+   "cpu_s_total": 1861.364,
+   "wall_s_total": 1347.453,
+   "max_peak_rss_gib": 7.832,
+   "olean_bytes_total": 179767088,
+   "source_bytes_total": 7868637
+  }
+ },
+ "import_probe_centre": {
+  "date": "2026-10-26",
+  "oleans": "calibration run 40340279740 artifact, on /dev/shm",
+  "base_peak_rss_bytes": 6730891264,
+  "root_peak_rss_bytes": 6974177280,
+  "olean_bytes": 343533352,
+  "rss_bytes_per_imported_olean_byte": 0.708,
+  "two_old_name_roots": "import Ccentre + import CB_right_06 refused: environment already contains ZetaLean.DH.Cert.Prime_79.S"
+ },
+ "namespace_census": {
+  "sites": 215,
+  "whole_public_names": 532652,
+  "whole_repeated_names": 0,
+  "prime_towers": 15608,
+  "distinct_primes": 278,
+  "staged_public_names_per_tower": 79,
+  "staged_repeated_names": 1211070,
+  "staged_distinct_colliding_names": 8216,
+  "staged_sites_sharing_prime_2": 215
  }
 }

@@ -178,3 +178,16 @@ def test_pilot_md_quotes_the_runner_calibration():
         assert row in text, sid
     assert f"took {c['job_s']} s in all, of which {c['setup_s']} s was setup" in text
     assert "run 40340279740" in text
+
+
+def test_no_public_name_repeats_across_the_215_whole_mode_sites():
+    c = PILOT_JSON["namespace_census"]
+    assert c["sites"] == 215 and c["whole_repeated_names"] == 0
+    assert c["prime_towers"] == PILOT_JSON["whole_projection"]["towers"] == 15608
+    assert c["staged_repeated_names"] == c["staged_public_names_per_tower"] * (
+        c["prime_towers"] - c["distinct_primes"])
+    assert c["staged_sites_sharing_prime_2"] == 215
+    text = " ".join((HERE / "PILOT.md").read_text().split())
+    assert f"declare {c['whole_public_names']:,} public names, and **none repeats**" in text
+    assert f"{c['staged_repeated_names']:,} repeated" in text
+    assert f"({c['staged_distinct_colliding_names']:,} distinct names)" in text
