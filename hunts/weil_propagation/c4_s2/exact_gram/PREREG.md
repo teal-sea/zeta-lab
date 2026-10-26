@@ -162,3 +162,24 @@ silently. Assembly sums the shards in index order and refuses if a shard is
 missing or does not end at its last block. Every 16th block (the replay
 set, s4) also keeps its own block sum. Outputs stay outside git and are
 recorded by SHA-256.
+
+## Amendment 1, 2026-10-26 (before any rebuilt row exists; approved by the coordinator)
+
+The text above is kept as registered. One change to s1, with its reason:
+
+- **The s-rule.** s1 registered Gauss-Legendre panels of width 1/2 with 8
+  nodes, with the window integral's Gauss error bounded on a Bernstein
+  ellipse (prerequisite P3). That bound does not close with any constant
+  available: it needs |ρ(z)| in the strip, and the hats' continuation there
+  is controlled only through pointwise bounds on the modes, which give
+  per-panel constants of order 1e10 (BOUNDS.md s3.1). The rule is
+  therefore changed to the **uniform trapezoid grid s_k = kΔ, Δ = 1/16
+  (the same 16 nodes per unit of s), on |s| ≤ S' = 10^4**, again computed
+  on s ≥ 0 by the symmetry ρ(−s) = ρ(s). Its error has an exact form by
+  Poisson summation (aliasing at the shifts 2πμ/Δ, μ ≠ 0) and is bounded
+  through Landau's inequality |J_ν(x)| ≤ 0.7858 x^{−1/3} (BOUNDS.md s3).
+  The cost is unchanged (RUNS.md s2's count of nodes holds). The
+  truncation |s| > S' is bounded as before, with the discrete sum in
+  place of the integral (BOUNDS.md s3.3).
+- Nothing else in s1 to s6 changes. P4 is not closed at this amendment, so
+  production stays at row D0 until it is (coordinator, 2026-10-26).
