@@ -117,3 +117,23 @@ PREREG s1's prerequisites P1 to P4 (the a priori quadrature and tail
 bounds) must be derived and committed, `rebuild.py` written and committed
 (guard.py refuses to key on its absence today), and the gate test of
 PREREG s4 item 3 must pass inside it.
+
+## 6. The coordinator's ruling on the ask (2026-10-26)
+
+- **(A) the 280-mode rebuild: approved on GitHub Actions, after P1 to P4
+  land.** Order: commit P1 to P4 and `rebuild.py` with tests; then a
+  workflow in the house pattern (`.github/workflows/bloch-higher.yml`,
+  `dh-floor-rerun.yml`): triggered only by a push to `hunt/c4-exact-gram`
+  that touches `exact_gram/RUN_REQUEST.json` (the run parameters), not by
+  the workflow file; `permissions: contents: read`; a concurrency group;
+  `timeout-minutes` at most 350; at most 7 parallel jobs; per-shard
+  checkpoints as artifacts; BLAS and OpenMP threads pinned; the guard
+  checked before compute. The workflow is pushed **without**
+  `RUN_REQUEST.json`, the coordinator reviews it in PR #362 and replies
+  "go", and only then is `RUN_REQUEST.json` committed. Estimate for that
+  run: s2 (155 core-hours, 7 jobs of 6 h).
+- **(B) the sweep: deferred** until a bounded attempt (at most 3 agent-days)
+  at the tail-mass lemma for E1, then re-priced. s3's prices
+  (341 / 869 / 2,398 / 3,636 core-hours) stand as the correction of the
+  brief's 100 to 300.
+- Nothing has run under either ruling yet.
