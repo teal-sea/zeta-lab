@@ -151,3 +151,26 @@ artifacts:
   - <cache>/rung3-ball-production-pilot-2/loadlog.tsv
   - <cache>/rung3-ball-production-pilot-2/site/B_right_06/out/results/CB_right_06.json
 ```
+
+## Resumed 2026-10-26: `decide +kernel` re-pricing pilot, estimate before spending
+
+Owner decision of 2026-10-26 (`MISSION.md`): this box takes pilots under one core-hour
+only; this unit was pre-approved by the coordinator under that cap. One Lean process at a
+time, `nice -n 10`, gated on a 1-minute load of at most 64 and `MemAvailable` of at least
+30 GiB before each run. Instrument: `decide_pilot.py`, work directory
+`<cache>/rung3-ball-production-decide`. Every figure in this table is a prior estimate.
+
+| unit | basis | estimate |
+|---|---|---|
+| import-only baseline, 2 runs | about 10 CPU-s each on 2026-10-21 | under 1 min |
+| `scripts/68` tower p = 2, staged equalities by `norm_num`, equalities only, 1 run | 2.09 CPU-s per atom, 30 atoms, plus import | about 75 CPU-s |
+| the same tower with every staged equality by `decide +kernel`, equalities only and full file, 2 runs each | unknown; bounded above by the `norm_num` run if the kernel is no slower | under 6 min |
+| planted fault: one staged literal one unit of 2^-64 off, 1 run | as one decide run | under 2 min |
+| one composite product and one kappa product, `decide +kernel` (2 runs) and `norm_num` (1 run) each | about 0.67 CPU-s per composite atom plus import | under 3 min |
+| whole-tower `dirichletTermBallB ... = lit := by decide +kernel`, 1 run | unknown; `Nat.sqrt` and the recursive tower in the kernel | capped at 10 min wall by a timeout |
+
+Total under 30 core-minutes, well inside the one core-hour cap. Threshold recorded before
+any run: a full tower (the `decide +kernel` file with its containment theorem, net of the
+import baseline) at **at most 10 CPU-s** confirms the repricing of production to roughly
+20 to 90 core-hours; above that, the `norm_num` price in `OWNER_MEMO.md` (416 core-hours)
+stands.
