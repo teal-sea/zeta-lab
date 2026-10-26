@@ -213,7 +213,7 @@ workflow before it earns it, no meta-system. Kill funded work on evidence.
   `docs/08` always means `08-why-it-is-hard.md`. `docs/doors/` has one page per
   audience; a new purpose costs a page plus a test. Keep `README.md` an index,
   not a manual.
-- `lean/`: kernel-checked arm; next rung in `HANDOFF.md`, `.lake/` gitignored.
+- `lean/`: kernel-checked arm; `.lake/` gitignored.
 - `interactive_lab/`: illustrations, not results.
 - `conjectures/`: **gitignored** private ledger, not evidence. Publish
   `ontology.metrics.render_text`, never the log (`scripts/ledger_sync.sh`).
@@ -260,25 +260,26 @@ priority over other mechanisms; allocation is the owner's decision.
 
 ## Compute discipline
 
-1. **Nothing heavy on the operator's machines** (16 GB M4 laptop, 8 GB M1
-   desktop, often driven by phone). A guard kills `lake build`: build remotely
-   (rule 2), don't evade it.
-2. **GitHub Actions is the default compute; Modal takes what does not fit.**
-   Actions is free here, 20 parallel jobs, not preempted; `full.yml` caches
-   `elan` and `.lake`, and runs the nightly suite, the hunts' own tests and
-   the Lean builds. A job that does not fit a GitHub runner (16 GB) goes to
-   Modal: Thomas superseded the Namespace route on 2026-10-09 ("there's no
-   namespace just modal then"), and the OpenAI-pinned hunt 125 package
-   (`lean/qrh`) builds on an 8-core, 48 GiB Modal machine with its checkout
-   and dependency builds kept on a volume, so the 135-minute OpenAI cold build
-   is not repeated. Ghost only launches and supervises the remote job;
-   allocations and outcomes go in `lean/qrh/RUNS.md`. Thomas confirmed this
-   split on 2026-10-10. Paid compute only when Actions cannot; say why.
+1. **Heavy work runs where it fits.** Lean builds and long numerics go to a
+   machine sized for them: CI, a remote runner, or a dedicated box. Local
+   operator constraints, if any, are in `CLAUDE.local.md` (not committed).
+2. **CI is the default compute for checks.** `full.yml` caches `elan` and
+   `.lake`, and runs the nightly suite, the hunts' own tests and the Lean
+   builds. A job too large for a CI runner goes to a larger remote machine;
+   allocations and outcomes go in that package's `RUNS.md`.
 3. **Estimate before you spend**: time one unit, multiply, write it in `RUNS.md`.
 4. **Anything over about twenty minutes checkpoints per unit.**
-5. **Every detached job has an owner**: a watcher, or `fulcrum adopt` then
-   `fulcrum observe` with a terminal outcome.
-6. **One `lake build` at a time, never beside heavy numerics**, even in CI.
+5. **Every detached job has an owner**: a watcher that records a terminal
+   outcome.
+6. **One `lake build` at a time, never beside heavy numerics**, on any machine
+   with 16 GB or less. On a larger machine they may run side by side while
+   `MemAvailable` stays above 20 GiB; stop the newest job first when it falls
+   below.
+7. **Never run Lake in a copied `.lake`.** A package whose `.git` is a stub
+   makes git fall through to zeta-lab itself: `lake exe cache get` in a copied
+   tree once repointed zeta-lab's `origin` at Mathlib and fetched 352 Mathlib
+   tags into it. Check that `git -C <package> rev-parse --show-toplevel` names
+   the package, or let Lake clone fresh.
 
 ## How to run things
 

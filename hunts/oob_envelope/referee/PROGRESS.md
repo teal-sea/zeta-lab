@@ -1,4 +1,24 @@
-# Referee progress, 2026-09-28
+# Odd referee completion, 2026-09-28
+
+**PASS: independent odd bound >2.99e-44 at L=119/100.**
+Zhu L=4/5, T=150, H=0 validation passes with lower endpoint 7.99e-15.
+The pole-sign fault and negative-operator control both pass. The independent
+result was frozen at `cefd6363` before reading the worker's
+result JSON and derivation; no odd-worker Python code was read or imported.
+ODD_REVIEW.md records the analytic audit, full error budget and limitations.
+
+All 132 Modal inputs completed: 130 assemblies and two reducers, zero failed
+or inconclusive inputs. Three factor proposals include one expected refusal
+of an enclosed negative operator. Recorded input work is below 2.3481
+core-hours; the conservative app-occupancy bound is below 2.689 hours.
+All five owned apps are stopped with zero tasks. No quota block, no push.
+The deciding source, exact inputs, head matrices, factors, controls, endpoint
+pairs and manifests are saved under outputs_odd/. Grade: enclosure-carrying
+numerical step plus ordinary analytic derivation, pending external verification.
+No odd task remains open. Existing hunt-level contribution paperwork gaps
+are documented, outside this lane's scope.
+
+# Earlier even referee progress, 2026-09-28
 
 **COMPLETE: L=1.19 passes independent review on the full even sector.**
 The CC-192/Arb route, N=500, proves lambda_min(R_H) >5.7179e-48.

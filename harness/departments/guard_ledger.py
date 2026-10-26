@@ -90,12 +90,29 @@ GUARDS: tuple[GuardRecord, ...] = (
             "tests/test_guard_ledger.py::test_the_reserved_word_guard_fires_on_a_probe_file"
         ),
         known_misses=(
-            "synonyms, 'verified', 'confirmed', 'definitively', 'proves' "
-            "are separately banned but by other checks; a hunt overclaiming "
-            "in fresh vocabulary passes this guard",
-            "file types outside .py/.md/.json (a .txt overclaim passes)",
+            "morphological variants of the reserved word ('certify', "
+            "'certification', 'certifiable' pass, probe battery 0/3 in "
+            "hunts/r_03a798/probe.py)",
+            "synonyms and fresh overclaim vocabulary ('verified', 'confirmed', "
+            "'definitively', 'proves', 'establishes', 'settles' pass, probe "
+            "battery 0/13 in hunts/r_03a798/probe.py); that hunt's census "
+            "found no test in tests/ enforcing the first four, so they are "
+            "not banned by other checks, and their documented ban was "
+            "withdrawn on 2026-08-14 because nothing enforced it",
+            "typographic evasions (hyphenation across lines, markdown "
+            "formatting mid-word, zero-width spaces, Cyrillic homoglyphs, "
+            "letter-spacing pass, probe battery 0/5 in hunts/r_03a798/probe.py)",
         ),
-        scope="a lexical scan of bytes under hunts/; intent is not consulted",
+        scope=(
+            "a case-insensitive substring scan of the bytes of .py, .md and "
+            ".json files under hunts/, skipping vendored build directories "
+            "and the top-level case log; intent is not consulted; file types "
+            "outside .py/.md/.json (e.g. .txt, .lean, .sh, .toml) are "
+            "excluded by design and pass unconditionally (measured by "
+            "hunts/r_365c6c/probe.py, 0/39 non-{py,md,json} specimens caught; "
+            "its 2026-08-19 census found 76 of the 450 files then under "
+            "hunts/ unscanned)"
+        ),
         incident="",
     ),
     GuardRecord(
@@ -129,12 +146,8 @@ GUARDS: tuple[GuardRecord, ...] = (
             "hunts/r_414eed/results.json and RESULTS.md)"
         ),
         known_misses=(
-            "public functions added under compiler/, likewise unscanned "
-            "(B02)",
             "documents added under docs/doors/, doc_index globs docs/*.md, "
             "not docs/**/*.md (B03)",
-            "test files whose names do not match test_*.py, e.g. "
-            "tests/mutant_helper.py (B04)",
             "a public docstring changed below its first line, only the "
             "first line is indexed (B07, by construction)",
         ),
@@ -153,7 +166,18 @@ GUARDS: tuple[GuardRecord, ...] = (
             "(4/4) and edits altering line count are 100% caught. Unscanned "
             "packages like meta/ are completely excluded from the index pipeline "
             "(measured by hunts/r_2946de/probe.py, 0/16 curated mutants and 0/32 "
-            "public symbols detected, 0.0%)"
+            "public symbols detected, 0.0%), and compiler/ likewise (measured "
+            "by hunts/r_dc6e6f/probe.py, 0/17 curated mutants and 0/37 public "
+            "symbols detected, 0.0%). Within tests/ the index records only "
+            "each top-level test_*.py file's name and its count of test_ "
+            "functions, so non-test_*.py files (e.g. tests/mutant_helper.py, "
+            "tests/conftest.py), test files nested under subdirectories, test "
+            "assets, and edits inside a test_*.py file that leave its test_ "
+            "count unchanged (an appended helper, added comments) pass "
+            "silently (measured by hunts/r_c35cd1/probe.py, 0/22 specimens "
+            "caught, 0.0%), while a changed test_ count (an added test, a "
+            "test renamed out of the test_ prefix) and a new test_*.py file "
+            "are caught (3/3)"
         ),
         incident="",
     ),

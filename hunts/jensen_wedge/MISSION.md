@@ -202,13 +202,13 @@ agents_may_not:
   - declare theorem status
   - promote their own claim
   - claim any bearing on RH
-  - run heavy work on the operator's machines
+  - run heavy work locally
 ```
 
 ## Compute discipline
 
 Phases 0 and 1 are light: the `gamma(n)` table to a few thousand terms and saddle
-expansions at symbolic `n`. Anything heavier runs on GitHub Actions, never on the
-operator's machines (`AGENTS.md`, "Compute discipline"). Time one unit and write the
+expansions at symbolic `n`. Anything heavier runs on GitHub Actions, never
+locally (`AGENTS.md`, "Compute discipline"). Time one unit and write the
 estimate in `RUNS.md` before any sweep. Every run appends a `runmanifest` block to
 `RUNS.md`, including runs that produced nothing.

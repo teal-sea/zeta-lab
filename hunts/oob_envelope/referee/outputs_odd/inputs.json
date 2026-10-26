@@ -1,0 +1,35 @@
+{
+  "base_revision": "06fdc801d58fe19977dd865134487bfdbf07cecd",
+  "source_revision": "3ce6ab9",
+  "worker_implementation_read": false,
+  "cases": {
+    "zhu": {
+      "L": "4/5",
+      "T": 150,
+      "N": 200,
+      "bits": 768,
+      "CC_degree": 192,
+      "shift": "8e-15",
+      "safe_endpoint": "7.99e-15",
+      "H": "0"
+    },
+    "main": {
+      "L": "119/100",
+      "T": 500,
+      "N": 500,
+      "bits": 1280,
+      "CC_degree": 192,
+      "shift": "3e-44",
+      "safe_endpoint": "2.99e-44",
+      "H": "frozen sine:16 witness"
+    }
+  },
+  "source_sha256": {
+    "odd.py": "1626eaacac1f5b07711cd503f7d4b7528b99b8c3027beff3d7b8586f70d43110",
+    "run_odd_modal.py": "bf5161ff3c261449b9e7e1ebceba0baa872e309f632d25eb25adcce65742803c",
+    "l119.py": "331fe97835dc313b84603149983623c529b40779eddcbe7f8a69b05bdc7dc155",
+    "independent.py": "45a2cc82df77a926cd7a6bf2a39f31e9d907a94f82bbec394c8c6aeb89c14bfd",
+    "frozen_envelope_L119.json": "4c8f17b8a59c8011a726b88d2757c545e92e1f55c8dc9bb9416ff68cc6553e93",
+    "ODD_FORMULAS.md": "9bffd922674872169de8688858e749e89e51890d29ce1760c2a6f8a3af373083"
+  }
+}
