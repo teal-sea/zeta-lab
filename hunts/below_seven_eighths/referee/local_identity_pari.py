@@ -34,6 +34,7 @@ Conventions are the paper's, re-derived where it matters:
 from __future__ import annotations
 
 import hashlib
+import os
 import math
 from fractions import Fraction
 from pathlib import Path
@@ -44,7 +45,7 @@ import cypari2
 # A. Infrastructure
 # ---------------------------------------------------------------------------
 
-PAPER_PATH = Path("/home/thomas/.cache/zeta-lab/openai-math-adc7f124/paper.tex")
+PAPER_PATH = Path(os.environ.get("ZETA_LAB_CACHE", os.path.expanduser("~/.cache/zeta-lab"))) / "openai-math-adc7f124" / "paper.tex"
 PAPER_SHA256 = "42a5ee0febca59fd1def55cfd6c6808c322ef4237d7726303ea52f711deac6a3"
 
 pari = cypari2.Pari()

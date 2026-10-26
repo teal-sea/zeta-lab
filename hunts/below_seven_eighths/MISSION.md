@@ -40,7 +40,7 @@ belongs to `zeta/rigor.py` and appears nowhere in this directory.
   `preprints/The-Quasi-Riemann-Hypothesis-September-30-2026/build/paper.tex`, 16,677
   lines, SHA-256 `42a5ee0febca59fd1def55cfd6c6808c322ef4237d7726303ea52f711deac6a3`.
   That hash matches hunt #134's record. It is read as data from a copy outside the
-  tree, at `/home/thomas/.cache/zeta-lab/openai-math-adc7f124/paper.tex` on the campaign
+  tree, at `<cache>/openai-math-adc7f124/paper.tex` on the campaign
   box.
 
 ## Scope

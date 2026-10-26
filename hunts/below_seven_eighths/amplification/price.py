@@ -23,7 +23,9 @@ This module prices both inputs in exact arithmetic, in two comparison systems:
 The amplification law is generalised to e(r) = max{1, e0 + alpha r}.  The paper's
 family is e0 = 1 - alpha (the slope alone moves); the raw-moment-threshold family is
 e0 = 1/6, alpha = 5 theta/6 (sixth-power amplification fed by a mean square valid for
-H >= D^theta; theta = 1 is the paper, theta = 99/100 is Guo's Hypothesis 11.1).
+every H >= D^theta; theta = 1 is the paper; theta = 99/100 is Guo's Hypothesis 11.1,
+which is a window D^(99/100) <= H <= D^(101/100), together with the paper's raw moment
+above the window, as Guo uses it at 11_limits.tex line 54).
 
 Grades (MISSION.md): every number this module returns is *derived* (exact rational or
 quadratic-field arithmetic, or an exact root isolation) unless a function says
@@ -36,6 +38,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import itertools
 import math
 import sys
@@ -48,7 +51,7 @@ import numpy as np
 import sympy as sp
 
 HERE = Path(__file__).resolve().parent
-CACHE = Path("/home/thomas/.cache/zeta-lab")
+CACHE = Path(os.environ.get("ZETA_LAB_CACHE", os.path.expanduser("~/.cache/zeta-lab")))
 FOLLOW = CACHE / "followups" / "run-2026-10-21T1440Z"
 
 # ------------------------------------------------------------------ sources
@@ -64,6 +67,8 @@ SOURCES = {
               "e81e698dadc6a190b2a32cd4bab09f90818c4e8da649b0877dcd729c4cffeb8a"),
     "guo05": (FOLLOW / "guo_zf" / "source" / "sections" / "05_count.tex",
               "579f88ecb740185d06642ba352941bb8a5ace9c0af0edddb17157485d1d6f6a8"),
+    "guo12": (FOLLOW / "guo_zf" / "source" / "sections" / "12_partii.tex",
+              "891441ea17cd81f1326a80cec9b758443623473956b3f5543c720f73f4db92ae"),
     "by": (CACHE / "baier-young-0804.2233v3" / "cubicmeanvalues2008-09-01.tex",
            "0d36f78f30565c4756072eb19b7c0a3f91ed64d0971e9a5eff8e2599c2fc7aaa"),
 }
@@ -153,10 +158,25 @@ CITATIONS = {
     "guo_endpoint": ("guo06", 15, r"E_g(\delta,x)=-1/4+b/6+5\ell/4-b\delta/2"),
     "guo_criterion": ("guo06", 22, r"E_g(\delta,x)\le0\qquad(0\le\delta\le3/4,\ 0\le x\le1/2),"),
     "guo_long_paper": ("guo05", 32, r"L(t)&=1-\delta+(5/6-\delta)(t-1).\label{eq:longcount}"),
+    "guo_title": ("guo11", 39, r"Mean-square estimate for $H\ge D^{99/100}$; unproved"),
+    "guo_uses_1787": ("guo11", 54, r"For larger $H$ the existing unmarked bound \src{(17.87)} covers the range"),
+    "guo_1787_zero_slot": ("guo12", 85, r"Finally \src{(17.87)--(17.90)} use its zero-slot specialization, scale Sobolev"),
+    # the lengths the scale supremum needs, and which exponents take eta
+    "unmarked": ("paper", 12345, r"We first extract an unmarked consequence on all element rows."),
+    "scale_supremum": ("paper", 12396, r"\sup_{0<D'\le D}|M_v(D';W)|^2"),
+    "scale_supremum_range": ("paper", 12397, r"\ll H(HD)^\epsilon,\qquad H\ge\max(2,D^{1+c})."),
+    "raw_scale": ("paper", 15695, r"scale $Z^{C(7/8)}$."),
+    "small_lines": ("paper", 15859, r"\Re s=\beta_*+e,\qquad \Re w=1/2,\qquad \Re z=17/50"),
+    "small_relative": ("paper", 15882, r"Equation~\eqref{eq:small-row-sum}, measured relative to \(C(\beta_*)\),"),
     # Baier and Young 2010 (arXiv:0804.2233v3)
     "by_cubic_bound": ("by", 171, r"\min\left\{Q^{5/3}+M,Q^{4/3}+Q^{1/2}M,Q^{11/9}+Q^{2/3}M, Q+Q^{1/3}M^{5/3}+M^{12/5}\right\}"),
     "by_sextic": ("by", 205, r"remain valid when the condition $\chi^3=\chi_0$ is replaced by the weaker condition $\chi^6=\chi_0$."),
     "by_heath_brown_cubic": ("by", 195, r"\ll (M + N + (MN)^{2/3})(MN)^{\varepsilon} \sum_{m \leq M} |a_m|^2,"),
+    "by_mytheo": ("by", 79, r"\newtheorem{mytheo}{Theorem}[section]"),
+    "by_mycoro": ("by", 83, r"\newtheorem{mycoro}[mytheo]{Corollary}"),
+    "by_coro_env": ("by", 153, r"\begin{mycoro}"),
+    "by_cubic_env": ("by", 167, r"\begin{mytheo} \label{cubiclargesieve}"),
+    "by_sextic_env": ("by", 204, r"\begin{mytheo} \label{sexticlargesieve}"),
 }
 
 
@@ -764,6 +784,14 @@ class SystemP:
                 prime supply ell/h > 7/37 and 5 ell > h (lines 16116 to 16126), small rows.
     frame "P2": P1 with every bin ceiling at delta <= 3/4 (bins of a step justified by
                 beta_* <= 7/8, as Guo and Liu use them).
+
+    eta, an improvement of the direct exponent l_x/2 + b/12, lowers the target by eta and
+    enters every exponent the paper measures against the raw scale Z^(C(7/8)) with the
+    target explicit (line 15695): the endpoint, the floor bin and the intermediate rows
+    (through C0 and E_general).  The small-row exponent is measured relative to
+    C(beta_*) on the lines Re s = beta_* + e (lines 15859, 15882), so the target cancels
+    from it and it does not take eta (a reading, inferred); the same holds for Liu's
+    condition (4c) in SystemL.
     """
 
     frame: str = "P0"
@@ -843,6 +871,7 @@ class SystemP:
                  lambda z: -(self.E_general(z, Fr(1, 2), dint, dint / 2, Fr(76, 75) - Fr(2, 3) * dint)), False),
                 ("supply: ell/h > 7/37", lambda z: 37 * z[0] - 7 * self.h(z), True),
                 ("extension: 5 ell > h", lambda z: 5 * z[0] - self.h(z), True),
+                # relative to C(beta_*), target-free: no eta (see the class docstring)
                 ("small rows", lambda z: -(self.h(z) * (Fr(17, 50) - Fr(1, 6)) - self.l_y(z) / 2 + Fr(2, 100)), True),
             ]
         return cons
@@ -967,6 +996,7 @@ class SystemL:
                 ("(2) l_y < 1/2", lambda z: Fr(1, 2) - self.l_y(z), True),
                 ("(4) C0 + (1/2 + 3 ell/2)/50 < -1/100",
                  lambda z: Fr(-1, 100) - (self.C0(z) + self.eta + (Fr(1, 2) + Fr(3, 2) * z[0]) / 50), True),
+                # the small-row exponent, relative to C(beta_*): no eta (SystemP docstring)
                 ("(4) 13h/75 - l_y/2 + 1/50 < -1/20",
                  lambda z: Fr(-1, 20) - (Fr(13, 75) * self.h(z) - self.l_y(z) / 2 + Fr(1, 50)), True),
                 ("(4) C0 < -1/250", lambda z: Fr(-1, 250) - (self.C0(z) + self.eta), True),
@@ -1022,7 +1052,8 @@ class SystemL:
 
     def admissibility(self, z) -> dict:
         """Liu's conditions (1), (2), (4) (lines 9010 to 9023), exact; eta added to the
-        exponent conditions of (4)."""
+        two conditions of (4) that contain C0 (target explicit), not to the small-row
+        condition 13h/75 - l_y/2 + 1/50 < -1/20 (relative to C(beta_*), target-free)."""
         ell, b = z
         h, ly, lx = self.h(z), self.l_y(z), self.l_x(z)
         k = self.kappa
@@ -1245,7 +1276,10 @@ def alpha_needed_regime_A_P(level, c=C_PAPER) -> Fr:
 
     sigma = 11/12 - (5 - 6 d)/(36 (1 + 2 d)) gives d rationally, and the critical
     equation 48 d^2 - (90 alpha + 23) d + 37 alpha = 0 (at c = 4/9) is linear in alpha.
-    Valid only where regime A holds (checked separately)."""
+    The result is returned only if regime A holds there (the regime-A target at that
+    alpha equals level, with b > 0 and the Gram condition); otherwise ValueError.  For
+    level 13/15 the formula would give 1/3, where regime A fails (b = 0 binds), and the
+    true answer is the limit alpha -> 0 (``LOSS_MAP.md`` section 2.5)."""
     level = Fr(level)
     k = 33 - 36 * level
     d = (5 - k) / (6 + 2 * k)
@@ -1253,7 +1287,15 @@ def alpha_needed_regime_A_P(level, c=C_PAPER) -> Fr:
     # general: (3P - 2D) d^2 + (2 alpha D + 2(D - P)/3 - P(3 alpha + 2 e0 - 2)) d - 2 alpha D/3 = 0
     # with e0 = 1 - alpha: 3 alpha + 2 e0 - 2 = alpha
     # => alpha (2 D d - P d - 2 D/3) = -(3P - 2D) d^2 - 2 (D - P) d/3
-    return (-(3 * P - 2 * D) * d * d - Fr(2, 3) * (D - P) * d) / (2 * D * d - P * d - Fr(2, 3) * D)
+    alpha = (-(3 * P - 2 * D) * d * d - Fr(2, 3) * (D - P) * d) / (2 * D * d - P * d - Fr(2, 3) * D)
+    try:
+        ra = regime_A_P(Law.slope(alpha), c)
+        ok = ra.target == Quad(level) and ra.delta == Quad(d) and ra.notes["b_positive"] and ra.notes["gram_ok"]
+    except AssertionError:
+        ok = False
+    if not ok:
+        raise ValueError(f"regime A does not hold at alpha = {alpha} for level {level}")
+    return alpha
 
 
 def theta_needed_regime_A_P(level, c=C_PAPER) -> Fr:
@@ -1608,24 +1650,32 @@ def guo_bound_holds() -> bool:
 
 # ------------------------------------------------- loss-map support
 
-def amplification_maxplus(r, h0) -> tuple[Fr, Fr]:
+def amplification_maxplus(r, h0, mult=Fr(1, 6), radii: int = 41) -> tuple[Fr, Fr]:
     """The amplification step as a max-plus LP in exponents (base D).
 
     Unknown: f(v) = log_D of the mean-square mass of the sixth-power-free rows of norm
-    D^v.  Inputs used by the proof: for every ball radius D^h with h >= h0,
-    max_v [f(v) + (h - v)/6] <= h (raw moment over the ball, each row counted once per
-    sixth power a with q_{u a^6} <= D^h).  Output: f(u) at u = 1/r, in base U.
-    Returns (dual bound from the single constraint h = h0, value of the primal
-    configuration that puts all mass on the rows of norm D^u), both in base U."""
-    r, h0 = Fr(r), Fr(h0)
+    D^v.  Inputs used by the proof: for every ball radius D^h with h >= h0 and h >= v,
+    f(v) + mult (h - v) <= h (raw moment over the ball, each row counted once per
+    amplifier a with q_{u a^6} <= D^h; there are D^((h - v)/6) of them, so mult = 1/6).
+    Output: f(u) at u = 1/r, in base U.
+
+    Returns (dual, primal), computed independently, both in base U:
+    * dual: the optimum of max f(u) subject to those constraints at the radii
+      h = max(h0, u) + i/10, i < radii, found by ``exact_lp_max`` (an exact LP solve; it
+      knows no closed form);
+    * primal: the configuration that puts all mass on the rows of norm D^u at the level
+      f(u) = (1 - mult) max(h0, u) + mult u (closed form), checked feasible exactly at
+      every radius of the grid and, since each constraint's slack h (1 - mult) - f(u) +
+      mult u grows with h, at every h >= max(h0, u).
+    Equality of the two is the statement that the step is tight within its inputs."""
+    r, h0, mult = Fr(r), Fr(h0), Fr(mult)
     u = 1 / r
-    dual = (Fr(5, 6) * h0 + u / 6) / u
-    f_u = Fr(5, 6) * h0 + u / 6
-    # primal check on a grid of ball radii h >= h0: f(u) + (h - u)/6 <= h
-    for i in range(0, 41):
-        hh = h0 + Fr(i, 10)
-        assert f_u + (hh - u) / 6 <= hh
-    return dual, f_u / u
+    hs = [max(h0, u) + Fr(i, 10) for i in range(radii)]
+    rows = [([Fr(1)], hh - mult * (hh - u)) for hh in hs]
+    dual_val, _z, _active = exact_lp_max([Fr(1)], rows)
+    f_u = (1 - mult) * max(h0, u) + mult * u
+    assert all(f_u + mult * (hh - u) <= hh for hh in hs) and mult < 1
+    return dual_val / u, f_u / u
 
 
 def amplified_exponent(r, law: Law = PAPER_LAW) -> Fr:
@@ -1634,10 +1684,163 @@ def amplified_exponent(r, law: Law = PAPER_LAW) -> Fr:
 
 def trivial_route_abscissa(theta) -> Fr:
     """Zero-free abscissa from the raw moment alone, rows u = units (U = 1):
+    for a raw moment valid for every H >= D^theta (a half-line, so that Lemma 17.6's
+    scale supremum over the shorter lengths D' <= D is covered),
     sum |M_u(D)|^2 << H/P = H^(5/6) with H = D^theta gives
     sum mu(n) nu(n) W(q_n/D) << D^(1/2 + 5 theta/12), i.e. no zero right of
-    1/2 + 5 theta/12 for any fixed L(s, nu) (inferred step: Mellin inversion)."""
+    1/2 + 5 theta/12 for any fixed L(s, nu) (inferred step: Mellin inversion).
+    For a window hypothesis such as Guo's see ``h11_alone_U1``."""
     return Fr(1, 2) + Fr(5, 12) * Fr(theta)
+
+
+def h11_alone_U1(theta_lo=Fr(99, 100)) -> dict:
+    """What a window hypothesis gives at U = 1 on its own (derived bookkeeping).
+
+    Hypothesis: sum_v Phi(q_v/H) |M_v(D; W)|^2 << H D^eps for D^theta_lo <= H <= D^theta_hi
+    with theta_hi > 1 (Guo: 99/100 and 101/100).  Lemma 17.6's own proof needs its scale
+    supremum at the lengths D/q_d, d | rad a, down to D/P (lines 12394 to 12397), where
+    H = D^theta_lo is above the window; this route avoids them.
+
+    Take prime amplifiers a, P/2 < q_a <= P, P = H^(1/6), H = D^theta_lo, about P/log P of
+    them.  For a prime the column identity (line 12428) has two terms,
+        M_1(D) = M_{a^6}(D) - nu(a) q_a^(-1/2) M_{a^6}(D/q_a),
+    and |M_{a^6}(D/q_a)| << (D/q_a)^(1/2) trivially (|mu nu| <= 1), so the second term is
+    << D^(1/2)/P.  Averaging |M_1(D)|^2 <= 2 |M_{a^6}(D)|^2 + O(D/P^2) over the a, with the
+    rows a^6 distinct and of norm <= P^6 = H, gives
+        |M_1(D)|^2 << (log P/P) H D^eps + D/P^2 = D^(T0 + eps) + D^T1,
+    T0 = theta_lo - p, T1 = 1 - 2p, p = theta_lo/6, using the hypothesis at the length D
+    only.  The row u = 1 alone gives |M_1(D)|^2 << D^(theta_lo + eps).  The abscissa is
+    1/2 + kappa/2 for |M_1|^2 << D^kappa (Mellin step, inferred)."""
+    th = Fr(theta_lo)
+    p = th / 6
+    T0, T1 = th - p, 1 - 2 * p
+    kappa = max(T0, T1)
+    return {"p": p, "T0": T0, "T1": T1, "kappa": kappa, "abscissa": Fr(1, 2) + kappa / 2,
+            "row_u1_abscissa": Fr(1, 2) + th / 2}
+
+
+def rival_bootstrap_U1(a, theta_lo=Fr(99, 100)) -> dict:
+    """The same at U = 1 for the rival W_a = zeta_F(s + a) zeta_F(s - a), i.e. the window
+    hypothesis with mu nu replaced by the coefficients mu_a of 1/W_a (derived bookkeeping).
+
+    mu_a is multiplicative, supported on cube-free ideals, mu_a(p) = -(q^a + q^-a),
+    mu_a(p^2) = 1; it is not bounded, so the trivial bound of ``h11_alone_U1`` is lost.
+    Bootstrap: (i) the row u = 1 gives |M_1(Y)|^2 << Y^(2 k1 + eps), k1 = theta_lo/2, at
+    every length Y.  (ii) For a prime, M_{a^6}(X) = sum_j g_j q^(-j/2) M_1(X/q^j) with
+    sum_j g_j Y^j = 1/((1 - q^a Y)(1 - q^-a Y)), |g_j| <= (j + 1) q^(aj): the inverted
+    column identity, convergent for a < 1/2 + k1, so |M_{a^6}(X)| << X^(k1 + eps)
+    uniformly in a.  (iii) The column identity has three terms j = 0, 1, 2; the two short
+    ones are bounded by (ii): squares << D^(2 k1) P^(2a - 1 - 2 k1) and
+    D^(2 k1) P^(-2 - 4 k1).  (iv) The j = 0 term averages to (log P/P) H D^eps as before.
+    Returns the exponents and the abscissa 1/2 + kappa/2."""
+    a, th = Fr(a), Fr(theta_lo)
+    k1 = th / 2
+    if not a < Fr(1, 2) + k1:
+        raise ValueError("the inverted column identity needs a < 1/2 + theta_lo/2")
+    p = th / 6
+    T0 = th - p
+    T1 = 2 * k1 + p * (2 * a - 1 - 2 * k1)
+    T2 = 2 * k1 - p * (2 + 4 * k1)
+    kappa = max(T0, T1, T2)
+    return {"p": p, "T0": T0, "T1": T1, "T2": T2, "kappa": kappa, "abscissa": Fr(1, 2) + kappa / 2,
+            "row_u1_abscissa": Fr(1, 2) + th / 2}
+
+
+def rival_fails(a, theta_lo=Fr(99, 100)) -> bool:
+    """True when the window hypothesis transplanted to mu_a is contradicted by a zero of
+    zeta on the critical line (Hardy): 1/W_a has a pole at s = 1/2 + a + i gamma, so it
+    fails once 1/2 + a exceeds the abscissa the hypothesis gives (row u = 1, or the
+    bootstrap when that applies).  Mellin step inferred, Hardy cited."""
+    a, th = Fr(a), Fr(theta_lo)
+    best = Fr(1, 2) + th / 2
+    if a < Fr(1, 2) + th / 2:
+        best = min(best, rival_bootstrap_U1(a, th)["abscissa"])
+    return Fr(1, 2) + a > best
+
+
+def _multiplicative_table(N: int, a=None) -> np.ndarray:
+    """f(n) for n <= N over the rational integers: mu (a None) or mu_a, the coefficients
+    of 1/(zeta(s + a) zeta(s - a)), mu_a(p) = -(p^a + p^-a), mu_a(p^2) = 1 (measured)."""
+    spf = np.arange(N + 1)
+    for i in range(2, int(N ** 0.5) + 1):
+        if spf[i] == i:
+            sl = spf[i * i::i]
+            sl[sl == np.arange(i * i, N + 1, i)] = i
+            spf[i * i::i] = sl
+    spf = spf.tolist()
+    f = np.zeros(N + 1)
+    f[1] = 1.0
+    for n in range(2, N + 1):
+        p = spf[n]
+        m, e = n, 0
+        while m % p == 0:
+            m //= p
+            e += 1
+        if a is None:
+            loc = -1.0 if e == 1 else 0.0
+        else:
+            loc = -(p ** a + p ** (-a)) if e == 1 else (1.0 if e == 2 else 0.0)
+        f[n] = f[m] * loc
+    return f
+
+
+def _bump(y):
+    y = np.asarray(y, dtype=float)
+    out = np.zeros_like(y)
+    m = (y > 0.5) & (y < 2.0)
+    t = (y[m] - 0.5) / 1.5
+    out[m] = np.exp(-1.0 / (t * (1.0 - t)))
+    return out
+
+
+def column_identity_check(a=None, q: int = 7, X: float = 150000.0, N: int = 400000, g=None) -> dict:
+    """Measured control of the two identities used at U = 1, over the rational integers
+    (the Dirichlet-series algebra is the same over the ideals of O): with
+    M_1(X) = X^(-1/2) sum f(n) w(n/X) and M_q(X) the same over (n, q) = 1,
+        M_1(X) = sum_j f(q^j) q^(-j/2) M_q(X/q^j)          (column identity)
+        M_q(X) = sum_j g_j q^(-j/2) M_1(X/q^j)              (its inversion),
+    g_j = 1 for mu, g_j = sum_{i <= j} q^(a(2i - j)) for mu_a.  ``g`` overrides g_j (for a
+    planted fault).  Returns the four sides."""
+    f = _multiplicative_table(N, a)
+    n = np.arange(N + 1, dtype=float)
+    coprime = (np.arange(N + 1) % q != 0)
+    coprime[0] = False
+
+    def M1(x):
+        return x ** -0.5 * float(np.sum(f[1:] * _bump(n[1:] / x)))
+
+    def Mq(x):
+        return x ** -0.5 * float(np.sum(f[coprime] * _bump(n[coprime] / x)))
+
+    if g is None:
+        g = (lambda j: 1.0) if a is None else (lambda j: sum(q ** (a * (2 * i - j)) for i in range(j + 1)))
+    fq = [1.0, f[q], f[q * q]]
+    return {"M1": M1(X), "columns": sum(fq[j] * q ** (-j / 2) * Mq(X / q ** j) for j in range(3)),
+            "Mq": Mq(X), "inverted": sum(g(j) * q ** (-j / 2) * M1(X / q ** j) for j in range(14))}
+
+
+def by_theorem_numbers() -> dict:
+    """The numbers LaTeX gives the environments of section 1 of Baier and Young's source:
+    mytheo is numbered within sections and myprop, mycoro, mylemma and mydefi share its
+    counter (lines 79 to 85).  Returns {line: "Theorem 1.4", ...} for section 1 (exact
+    reading of the source; nothing is executed)."""
+    path, want = SOURCES["by"]
+    lines = path.read_bytes().decode("utf-8").splitlines()
+    names = {"mytheo": "Theorem", "myprop": "Proposition", "mycoro": "Corollary",
+             "mylemma": "Lemma", "mydefi": "Definition"}
+    sec, cnt, out = 0, 0, {}
+    for i, line in enumerate(lines, 1):
+        s = line.strip()
+        if s.startswith("%"):
+            continue
+        if s.startswith(r"\section{"):
+            sec, cnt = sec + 1, 0
+        for env, label in names.items():
+            if s.startswith(r"\begin{" + env + "}"):
+                cnt += 1
+                if sec == 1:
+                    out[i] = f"{label} {sec}.{cnt}"
+    return out
 
 
 # Eisenstein integers a + b w, w^2 = -1 - w ----------------------------------------
@@ -1776,37 +1979,15 @@ def duality_lower_bound(K: int, D: int) -> tuple[int, int]:
 
 def rival_Wa_diagonal(a: float, Dmax: int = 20000) -> float:
     """Measured: (1/D) sum_{n <= D} |mu_a(n)|^2 for the coefficients mu_a of
-    1/(zeta(s + a) zeta(s - a)), divided by D^(2a)/log D (bounded below means the
-    rival's diagonal grows like D^(2a)/log D, so no mean value of diagonal size holds
-    for it)."""
-    mu = [0] * (Dmax + 1)
-    mu[1] = 1
-    primes = []
-    is_comp = [False] * (Dmax + 1)
-    for i in range(2, Dmax + 1):
-        if not is_comp[i]:
-            primes.append(i)
-            for j in range(i * i, Dmax + 1, i):
-                is_comp[j] = True
-    mu_a = np.zeros(Dmax + 1)
-    mu_a[1] = 1.0
-    # multiplicative: mu_a(p) = -(p^a + p^-a), mu_a(p^2) = 1, mu_a(p^k) = 0 for k >= 3
-    spf = list(range(Dmax + 1))
-    for p in primes:
-        for j in range(p, Dmax + 1, p):
-            if spf[j] == j:
-                spf[j] = p
-    for n in range(2, Dmax + 1):
-        p = spf[n]
-        m, e = n, 0
-        while m % p == 0:
-            m //= p
-            e += 1
-        loc = {1: -(p ** a + p ** (-a)), 2: 1.0}.get(e, 0.0)
-        mu_a[n] = mu_a[m] * loc
+    1/(zeta(s + a) zeta(s - a)) over the rational integers, divided by D^(2a).  Its
+    Dirichlet series is about zeta(s - 2a) times a series convergent further left, so
+    the diagonal grows like a constant times D^(2a) (no logarithm); a stable ratio is
+    the check.  Fewer rows than columns make the diagonal no lower bound for the mean
+    square, so this is an indication, not a proof."""
+    mu_a = _multiplicative_table(Dmax, a)
     D = Dmax
     diag = float(np.sum(mu_a[1:D + 1] ** 2)) / D
-    return diag / (D ** (2 * a) / math.log(D))
+    return diag / D ** (2 * a)
 
 
 def epstein_multiplicativity_defect():
@@ -1914,7 +2095,8 @@ def report(verbose: bool = True) -> dict:
     out["alpha_P_record"] = alpha_needed_regime_A_P(LEVEL_RECORD)
     out["alpha_L_record"] = alpha_needed_liu_fixed_point(LEVEL_RECORD)
     out["alpha_L1_record"] = alpha_needed_liu_one_step(LEVEL_RECORD)
-    out["alpha_P_13_15"] = alpha_needed_regime_A_P(LEVEL_13_15)
+    # 13/15 is not reached in regime A; in P0 it is the limit alpha -> 0 (section 2.5)
+    out["h11_alone_U1"] = h11_alone_U1()
     if verbose:
         print("system P (hunt #134), paper's inputs, regime A:")
         print(f"  target {raP.target} = {float(raP.target):.10f}")
@@ -1926,6 +2108,8 @@ def report(verbose: bool = True) -> dict:
         print(f"  dB/dalpha = {float(raL['d_alpha']):.10f}, dB/deta = {float(raL['d_eta']):.10f},"
               f" dB/dtheta = {float(raL['d_theta']):.10f}")
         print(f"  alpha for {LEVEL_RECORD}: {out['alpha_L_record']} = {float(out['alpha_L_record']):.10f}")
+        h = out["h11_alone_U1"]
+        print(f"Guo's window hypothesis alone at U = 1: abscissa {h['abscissa']} (row u = 1: {h['row_u1_abscissa']})")
     return out
 
 

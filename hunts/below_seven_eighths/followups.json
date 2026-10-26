@@ -1,0 +1,3009 @@
+{
+ "schema": "zeta-lab hunt 136 followups lane, v4 (repair r4, a re-run of the repair step on verifier r1's list, on top of r3; adds the tracker re-check of 2026-10-21T21:28Z to 21:38Z)",
+ "hunt": "below_seven_eighths",
+ "lane": "followups",
+ "compiled_utc": "2026-10-21T15:00Z",
+ "repaired_utc": "2026-10-21T22:07Z",
+ "grades": {
+  "cited": "quoted from the named source; line-addressed where the source is a text file, otherwise a substring of the downloaded file; every quotation sits in an evidence block",
+  "scratch-exact": "recomputed in exact arithmetic (fractions, sympy) by the scratch checkers check_followups_r3p.py and check_followups_r4.py outside the tree; NOT pinned by a test in this tree, so weaker than this hunt's 'derived'",
+  "measured": "observed by a computation here (hash comparisons, listings)",
+  "inferred": "a reading no computation here checks"
+ },
+ "decimal_convention": "a decimal expansion of an exact value is a truncation, not a rounding; a gap between two numbers is given to the stated significant figures, rounded",
+ "download_root": "<cache>/followups/run-2026-10-21T1440Z",
+ "download_root_note": "outside the tree, written by the original followups lane run of 2026-10-21; the repairs added no file there and only hashed files that were already saved; no tree test can replay these sources until they are vendored or re-fetched by hash (open issue)",
+ "sources": {
+  "liu_v1": {
+   "path": "liu_2610.12234v1/combine_v2.tex",
+   "sha256": "2c2f7988c6c1fccd610f22f6623e7a9107f40dddfc6a83b5ef21d6c10cb77e8a",
+   "what": "arXiv:2610.12234v1 TeX source"
+  },
+  "liu_v2": {
+   "path": "liu_2610.12234v2/combine_v2-2.tex",
+   "sha256": "ca549f8c3dfa9d1ad7efeb32fba46d78a89aa8305b4ab621a81364833eb426bf",
+   "what": "arXiv:2610.12234v2 TeX source"
+  },
+  "xs_v1": {
+   "path": "src_2610.15291v1/seven_eighths_and_beyond_v5.tex",
+   "sha256": "14b07f5da3c1ca548ca3a876a51b7131a744332b77a1edf7edeb5aa1a066e9e8",
+   "what": "arXiv:2610.15291v1 TeX source"
+  },
+  "xs_v2": {
+   "path": "src_2610.15291v2/seven_eighths_and_beyond_v7.tex",
+   "sha256": "cce2cb4621a1ad32fe6babe6b7fb6755f8ecd8bfd25d1826d77c8fb4d3f47e5a",
+   "what": "arXiv:2610.15291v2 TeX source"
+  },
+  "liu_nf": {
+   "path": "src_2610.26835v1/number_fields_v2.tex",
+   "sha256": "c55f17c6212777973adcdc06fea0f0cbfeae51c8ddada3b112f0981cde7a626f",
+   "what": "arXiv:2610.26835v1 TeX source"
+  },
+  "guo_readme": {
+   "path": "guo_zf/README.md",
+   "sha256": "edc98e6613c93c0edbba0a87ed745ed7d132b268fe2fa6d7b33fb7960cb0abaa",
+   "what": "aster2024/openai-math-followups zero-free-beyond-7-8/README.md"
+  },
+  "guo_intro": {
+   "path": "guo_zf/source/sections/01_introduction.tex",
+   "sha256": "e66847aeb0ac3d79c3646ad1c1b2f7b5a74b3be4e23d9db7d5d6bf65935f01fe",
+   "what": "Guo source, section 1"
+  },
+  "guo_rational": {
+   "path": "guo_zf/source/sections/07_rational.tex",
+   "sha256": "6acde3b87348060e20ea1f51744a7d8aefc7fe4436b625573fd4c895d8ccf7a1",
+   "what": "Guo source, section 7"
+  },
+  "guo_fourth": {
+   "path": "guo_zf/source/sections/09_fourth.tex",
+   "sha256": "0a10c8642e3ff33bed4f665feb4647fbae0f125fec509b00d94b06b0b127b707",
+   "what": "Guo source, section 9"
+  },
+  "guo_cubic": {
+   "path": "guo_zf/source/sections/10_cubic.tex",
+   "sha256": "587f3f1f3f4f1f6c394b1108c446fd9862437b8ce36cdfd777f46d0bbdf5e6f8",
+   "what": "Guo source, section 10"
+  },
+  "guo_limits": {
+   "path": "guo_zf/source/sections/11_limits.tex",
+   "sha256": "59442f55c72f7d5244afcb502134b20a6f6cb034da3ab1f3a872235b77772017",
+   "what": "Guo source, section 11"
+  },
+  "ct_v2": {
+   "path": "ct/src_v2/DedekindZeta.tex",
+   "sha256": "f54808ad0f967b5429c7ac30d7b27ff25671e02d7fb43cf753b2b826c9d35df4",
+   "what": "hexagon:2610.00200v2 TeX source"
+  },
+  "tomoto": {
+   "path": "early/tomoto_barrier.md",
+   "sha256": "21c43333b599e346863c3e1fd08a40fade077a1bb6c3e03600391e347c7734fe",
+   "what": "tomoto0 reports/barrier_analysis.md at b83a73c6"
+  },
+  "gao_oct7": {
+   "path": "early/gao_oct7_README.md",
+   "sha256": "f0ea5572aeb81e9a739a149762caf09f8aea0a30f27e561f0c978d62c53c4986",
+   "what": "README of Zhongpai Gao's draft repository (GitHub owner Gaozhongpai) at commit 309a757ea539e2bf11558d8b5539e1269b792386; the repository name is not reproduced because it contains the reserved stem"
+  },
+  "lw56e2": {
+   "path": "early/lw56e2_README.md",
+   "sha256": "adf323bbf239a1a206a798237cfe869c4342debf719c9a7ab48fb9fb74cbe26d",
+   "what": "LW56e2/quasi-riemann-improved README at b83dbbd9"
+  },
+  "argonaut": {
+   "path": "early/argonaut_README.md",
+   "sha256": "b649c301aa40d5b23d471c85801a4a6a86109bed556a62dedc807e8d50057264",
+   "what": "Argonaut-Math README at 5971383e"
+  },
+  "catalogue": {
+   "path": "tracker/catalogue.json",
+   "sha256": "d83028c2b31fcef63ea264e67c8493ec8e22cd052eea7bcacde327eb59cc5532",
+   "what": "gtimg.github.io/QuasiRiemannTracker/catalogue.json, as_of 2026-10-21"
+  },
+  "pulls": {
+   "path": "tracker/pulls_all.json",
+   "sha256": "5b2f0b09967e8a69b7c10ed021e723f2246dbf34a1a2a59c0e799c9bbce35ef9",
+   "what": "GitHub API pulls list, GTimG/QuasiRiemannTracker"
+  },
+  "challenge": {
+   "path": "tracker/upstream-challenge.lean",
+   "sha256": "8fb13ad977bca104591fcbc6ef01a58496e7385053c9b1445f95749afc0eff54",
+   "what": "QuasiRiemannTracker verifier/upstream-challenge.lean on main: the canonical target, stated with 7/8 (the tracker README says the submitted bound is substituted for it)"
+  },
+  "milestones": {
+   "path": "tracker/src_bound-milestones.ts",
+   "sha256": "5e637b2336363a093b9eecf35840bec911b174da2909e552fefbb04930c238bf",
+   "what": "QuasiRiemannTracker src/bound-milestones.ts"
+  },
+  "cycle61": {
+   "path": "tracker_papers/cycle61_paper.tex",
+   "sha256": "d1aa492e2e1f88b23feca2e72136d6ee12461f0d3d034b4c9f28e305a42effc8",
+   "what": "Collet, Cycle61 paper.tex"
+  },
+  "local44": {
+   "path": "tracker_papers/local44_explanation.md",
+   "sha256": "ad907991a54f2469d58e1d0abbdb33979b33346b2f1230f6499522f0dbe6effc",
+   "what": "nielstron local44 explanation.md at ef2ae62e"
+  },
+  "gao5": {
+   "path": "tracker_papers/gao_five_step.txt",
+   "sha256": "a80358d5ce0c7c4c9192e62b96f437a3b7713f2f32f76aef04de9ac810c34e99",
+   "what": "text extracted here from Gao five-step paper.pdf"
+  },
+  "newton": {
+   "path": "newton/first5.txt",
+   "sha256": "a8738e13e30366d8b1a9e5f83ff8347fe6eeed92e3fc1b47ec592576484d06a0",
+   "what": "text extracted here from Newton Zenodo PDF pages 1 to 5"
+  },
+  "banks": {
+   "path": "siegel/banks_abs.txt",
+   "sha256": "af9d47654f76018fe7247a2484f60fbb0596e20fc8c8564b54f707e52980a3ee",
+   "what": "arXiv:2610.15483 abstract page, text"
+  },
+  "kerr": {
+   "path": "siegel/kerr_abs.txt",
+   "sha256": "0fdd29f1a0271df352630e59f5efce05c012ea37cffd8e0c6653567264cc7e19",
+   "what": "arXiv:2610.21099 abstract page, text"
+  },
+  "green": {
+   "path": "siegel/green_v2.txt",
+   "sha256": "9b6e619853bb0a1e03b92758c15d6e9bda0f8765c0b64f6a5b8e93d4db570e2b",
+   "what": "hexagon:2610.00311v2 page, text"
+  },
+  "tao": {
+   "path": "commentary/tao_1019.txt",
+   "sha256": "a6a2b45599b119e516c60279242ffd41f8655718b1822918c37bf79bfdbdd8d7",
+   "what": "terrytao.wordpress.com 2026-10-19 post, text"
+  },
+  "quanta": {
+   "path": "commentary/quanta_1019.txt",
+   "sha256": "2869ef26beaa9253cca187e84e52513ef0fb0d0bb1c858b5af99de16a042a131",
+   "what": "Quanta 2026-10-19 article, text"
+  },
+  "guo_cm": {
+   "path": "guo_repo_api/cm_README.md",
+   "sha256": "b1f810f0ba8b71e62042bea0c80edc451a71aff12649b17b7022aca2482c5fe9",
+   "what": "aster2024 cm-elliptic-curves/README.md"
+  },
+  "oai_oct5": {
+   "path": "openai/oct5_README.md",
+   "sha256": "35c877a13fd9208ac0d4fb82a21560d9d7c79679982387760c73da9f82220026",
+   "what": "openai/math October-5 README at adc7f124"
+  },
+  "hu": {
+   "path": "hexagon/h_2610.00216v1.txt",
+   "sha256": "d43df55a050c762a1d7814be69359f9099353be6b84468750f843662ed0a66c8",
+   "what": "hexagon:2610.00216v1 page, text"
+  },
+  "rubinstein": {
+   "path": "hexagon/h_2610.00220v1.txt",
+   "sha256": "1fecabb90b0623d8f064e15e269cb69d2bb53cc36e176634d0e09bfdd265ba56",
+   "what": "hexagon:2610.00220v1 page, text"
+  },
+  "tracker_readme": {
+   "path": "tracker/README.md",
+   "sha256": "f1f47aa71fb5edd00900b459e2a445005650460762c2d7ffdb85f94360f4274f",
+   "what": "GTimG/QuasiRiemannTracker README.md on main, saved by the original lane run, first hashed in repair r2"
+  },
+  "guo_low": {
+   "path": "guo_zf/source/sections/03_low.tex",
+   "sha256": "b66412559d97cfa3a8c48483b7d54f10e8f0eabad4dcf1ca29647d280481c65e",
+   "what": "Guo source, section 3 (the same SHA-256 as the line for this file in Guo's own SHA256SUMS)"
+  },
+  "guo_refs": {
+   "path": "guo_zf/source/references.bib",
+   "sha256": "7bcb8e1e79242564e00446d996bcdacf35f5a654fbc756cd05e7b91288777233",
+   "what": "Guo source, bibliography"
+  },
+  "ct_axiom_readme": {
+   "path": "ct/axiom_README.md",
+   "sha256": "9418b33d234d7b49f8cbc2a52c5f0f7bbe24251976996f1d5a3c09d834b75b83",
+   "what": "AxiomMath/DedekindZetaZeroFree README.md"
+  },
+  "guo_commits": {
+   "path": "guo_repo_api/commits.json",
+   "sha256": "b437e52687c4dd2dc8c8891d6745718d733cda9e77dd12d1be89b8e6b4594a1b",
+   "what": "GitHub API commit list of aster2024/openai-math-followups, saved by the original lane run, first hashed in repair r4"
+  },
+  "tomoto_commit": {
+   "path": "early/tomoto_commit.json",
+   "sha256": "686026548b8b3aafe8589455dbadc947ab2e448a4defe025c0590a83746042c1",
+   "what": "GitHub API record of tomoto0's commit b83a73c6 (quasi-riemann-hypothesis-7-8-verification), saved by the original lane run, first hashed in repair r4"
+  },
+  "guo_readme_cacbab49": {
+   "root": "/tmp/claude-1001/-Users-thomas-zeta-lab/6d3ec2ab-c21c-4ee5-9749-13037110fa30/scratchpad/verify_followups_r1/dl_guo",
+   "path": "readme_cacbab49.md",
+   "sha256": "5bd98faf473201cc279c293d539862bf12eee8e171ad5bca54725fb3a352448f",
+   "what": "aster2024/openai-math-followups zero-free-beyond-7-8/README.md at commit cacbab49dd26305f27a6d7339b5d716f9596aadc, re-fetched by verifier r1 at 2026-10-21T15:24Z into session scratch storage"
+  },
+  "liu_nf_abs": {
+   "path": "abs_2610.26835.txt",
+   "sha256": "4b93fe6ced1d55f614dc31b1c859015ef6dbee2dd0198a718d9b44f1853cd60b",
+   "what": "arXiv abstract page of 2610.26835, text, saved by the original lane run, first hashed in repair r4"
+  },
+  "pulls_2128": {
+   "root": "/tmp/claude-1001/-Users-thomas-zeta-lab/6d3ec2ab-c21c-4ee5-9749-13037110fa30/scratchpad/followups_repair_r4/live_dl_2126",
+   "path": "pulls_recent.json",
+   "sha256": "2bc0f9767bbe47a52bbd0fc91e698021ecb535dd0239145667112d9c57bdb29b",
+   "what": "GitHub API, the ten newest pull requests of GTimG/QuasiRiemannTracker (state all, sorted by creation, descending), fetched 2026-10-21T21:28:16Z by repair r4 into session scratch storage"
+  },
+  "catalogue_2128": {
+   "root": "/tmp/claude-1001/-Users-thomas-zeta-lab/6d3ec2ab-c21c-4ee5-9749-13037110fa30/scratchpad/followups_repair_r4/live_dl_2126",
+   "path": "catalogue_live.json",
+   "sha256": "d83028c2b31fcef63ea264e67c8493ec8e22cd052eea7bcacde327eb59cc5532",
+   "what": "gtimg.github.io/QuasiRiemannTracker/catalogue.json fetched 2026-10-21T21:28:09Z by repair r4; byte-identical to the saved catalogue"
+  },
+  "pr69_checks": {
+   "root": "/tmp/claude-1001/-Users-thomas-zeta-lab/6d3ec2ab-c21c-4ee5-9749-13037110fa30/scratchpad/followups_repair_r4/live_dl_2126",
+   "path": "pr69_checkruns.json",
+   "sha256": "f422a970153cb73bff7a59def3f83fa9edb531d572c0f05aa571d0ef395029f8",
+   "what": "GitHub API check runs on GTimG/QuasiRiemannTracker for PR 69's head ac76d5ef6008d976a7b8f3c1d921af2317e79ce9, fetched 2026-10-21T21:38:40Z by repair r4"
+  }
+ },
+ "openai_paper": {
+  "path": "<cache>/openai-math-adc7f124/paper.tex",
+  "sha256": "42a5ee0febca59fd1def55cfd6c6808c322ef4237d7726303ea52f711deac6a3",
+  "lines": 16677,
+  "unchanged_at_later_commits": [
+   "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+   "1581d4cbdd69a0faf34b2089614fe2a814316a6a"
+  ],
+  "unchanged_grade": "measured (SHA-256 of build/paper.tex fetched at both commits)"
+ },
+ "frontier": {
+  "mission_frontier_as_stated": "0.8748867 (Xu and Sang), hunts/below_seven_eighths/MISSION.md",
+  "status": "claims below 0.8748867 were on the public record before this hunt opened (commit 9c1f21c5, 2026-10-21T14:57Z), and a smaller one was posted after it opened, in an open draft (tracker PR 69, 2026-10-21T19:58:25Z); none is refereed and none was replayed here",
+  "best_dirichlet_paper_record": {
+   "value": "B_flat = 0.874886647039964",
+   "meaning": "the smallest abscissa claimed in a paper outside the tracker, not a refereed record",
+   "sources": [
+    "Liu arXiv:2610.26835 (2026-10-19, unrefereed; the paper says its Lean files do not yet cover the complete analytic argument)",
+    "the same algebraic number as Collet's tracker PR 9 boundary of 2026-10-10 (identity X4), for which the tracker reports Comparator verification of the exact quartic bound and of the rational 683505193/781250000 just above it"
+   ]
+  },
+  "best_dirichlet_on_record": {
+   "value": "8748087/10000000",
+   "decimal": "0.8748087",
+   "source": "QuasiRiemannTracker PR 68 (Zhongpai Gao), merged 2026-10-21T07:16:31Z, first verified 2026-10-21T02:06:55Z",
+   "status": "the tracker reports Comparator plus Lean, NanoDa and con-ron acceptance of the canonical all-Dirichlet statement, and its README says results are added after review and merge without stating what that review covers; four-page paper; no check of its mathematics by a person is reported in what was read; not replayed here; not refereed",
+   "gap_to_xu_sang": "39/500000",
+   "gap_to_7_8": "1913/10000000",
+   "gap_to_13_15_decimal": "0.0081420333",
+   "canonical_target": "Mathlib DirichletCharacter.LFunction chi s != 0 for every q with NeZero q, Re s > theta, principal pole excluded",
+   "canonical_target_evidence": [
+    {
+     "src": "challenge",
+     "line": 10,
+     "snippet": "(hs : (7 / 8 : ℝ) < s.re) (hpole : ¬ (χ = 1 ∧ s = 1)) :"
+    },
+    {
+     "src": "challenge",
+     "line": 11,
+     "snippet": "_root_.DirichletCharacter.LFunction χ s ≠ 0 := by"
+    },
+    {
+     "src": "tracker_readme",
+     "line": 106,
+     "snippet": "substituted for $7/8$. Lean, NanoDa, and con-ron must all accept the proof."
+    },
+    {
+     "src": "catalogue",
+     "line": 3,
+     "snippet": "\"as_of\": \"2026-10-21\""
+    },
+    {
+     "src": "tracker_readme",
+     "line": 104,
+     "snippet": "the statement and allowed axioms against the"
+    },
+    {
+     "src": "tracker_readme",
+     "line": 105,
+     "snippet": "with the submitted bound"
+    },
+    {
+     "src": "tracker_readme",
+     "line": 107,
+     "snippet": "After review and merge, the website adds the result automatically."
+    },
+    {
+     "src": "catalogue",
+     "line": 1657,
+     "snippet": "Comparator checked the canonical all-Dirichlet statement at 8748087/10000000"
+    },
+    {
+     "src": "catalogue",
+     "line": 1674,
+     "snippet": "Four-page paper: finite-depth affine source returns"
+    }
+   ],
+   "meaning": "the smallest abscissa merged on the tracker (Lean per tracker) that this lane found; at 21:38Z a smaller bound was claimed only in the open draft PR 69 (smallest_claim_open_draft)",
+   "catalogue_recheck": "the live catalogue fetched 2026-10-21T21:28:09Z is byte-identical to the saved one (measured, SHA-256), so no bound was merged between the copy saved at 14:49Z and 21:28Z"
+  },
+  "best_every_number_field": {
+   "value": "B_flat",
+   "source": "Liu arXiv:2610.26835 (unrefereed; Lean in progress)"
+  },
+  "grade": "cited; differences scratch-exact",
+  "newton_conditional_geometry_refinement": {
+   "value": "43744332481/50000000000",
+   "source": "Newton (2026-10-16), conditional on Xu and Sang's analytic inputs",
+   "note": "a geometry refinement inside Xu and Sang's system, conditional on their analytic inputs; it lies 2.58e-9 above B_flat (scratch-exact, X11), which the tracker had on 2026-10-10, so it was not the smallest claimed abscissa when posted, nor on 2026-10-21"
+  },
+  "tracker_gain_below_b_flat": {
+   "from": "B_flat",
+   "to": "8748087/10000000",
+   "width_decimal": "7.79e-5",
+   "grade": "scratch-exact (X13)"
+  },
+  "room_left_for_part_a": {
+   "from": "8748087/10000000",
+   "to": "13/15",
+   "width_decimal": "0.0081420333",
+   "meaning": "the window in which a part (a) result would both beat the smallest merged public bound and respect hunt 134's 13/15 ceiling for perfect row counts in OpenAI's assembly; 0.0081063 wide if PR 69's draft is verified (X15)",
+   "condition": "rests on hunt 134's 13/15 ceiling (derived there; hunt 134 is unlanded) and on the public bound; it does not need the tracker's own entries to stay inside the floor model",
+   "grade": "scratch-exact for the width; the window is an inferred reading of the question"
+  },
+  "smallest_claim_open_draft": {
+   "value": "8747729897/10000000000",
+   "decimal": "0.8747729897",
+   "source": "QuasiRiemannTracker PR 69, opened as a draft by GitHub user HaileyStorm (the body names Hailey Collet as sole human author) at 2026-10-21T19:58:25Z, after this hunt opened; head ac76d5ef",
+   "status": "open draft: not merged and not in the catalogue at 21:28Z (measured); its body says verification is pending and local verification incomplete; the tracker's verify check on its head was in progress at 21:38Z (measured, check-runs API); only the pull-request text, metadata and check list were read; not replayed; not refereed",
+   "builds_on": "PR 67 (two-level-affine-20261019), Levy's weighted numerator and the rest of the chain its metadata lists",
+   "scope": "the smallest abscissa found that is claimed without an unproved extra hypothesis; Guo's 328/375 is smaller but conditional on his unproved Hypothesis 11.1",
+   "gap_to_pr68": "357103/10000000000",
+   "gap_to_7_8": "2270103/10000000000",
+   "gap_to_13_15_decimal": "0.0081063",
+   "grade": "cited (PR body and API fields); gaps scratch-exact (X15); catalogue absence measured",
+   "evidence": [
+    {
+     "src": "pulls_2128",
+     "line": 10,
+     "snippet": "\"number\": 69,"
+    },
+    {
+     "src": "pulls_2128",
+     "line": 11,
+     "snippet": "\"state\": \"open\","
+    },
+    {
+     "src": "pulls_2128",
+     "line": 64,
+     "snippet": "\"draft\": true,"
+    },
+    {
+     "src": "pulls_2128",
+     "line": 36,
+     "snippet": "\"created_at\": \"2026-10-21T19:58:25Z\","
+    },
+    {
+     "src": "pulls_2128",
+     "line": 39,
+     "snippet": "\"merged_at\": null,"
+    },
+    {
+     "src": "pulls_2128",
+     "line": 35,
+     "snippet": "QRH-Bound: 8747729897/10000000000"
+    },
+    {
+     "src": "pulls_2128",
+     "line": 35,
+     "snippet": "verification pending"
+    },
+    {
+     "src": "pulls_2128",
+     "line": 35,
+     "snippet": "Local verification is incomplete."
+    },
+    {
+     "src": "pulls_2128",
+     "line": 35,
+     "snippet": "the accepted PR67 input"
+    },
+    {
+     "src": "pulls_2128",
+     "line": 35,
+     "snippet": "\\\"two-level-affine-20261019\\\""
+    },
+    {
+     "src": "pulls_2128",
+     "line": 35,
+     "snippet": "\\\"akashlevy-20261009-weighted-numerator\\\""
+    },
+    {
+     "src": "pulls_2128",
+     "line": 35,
+     "snippet": "\\\"openai-baseline\\\""
+    },
+    {
+     "src": "pulls_2128",
+     "line": 35,
+     "snippet": "Hailey Collet is the sole human author."
+    },
+    {
+     "src": "pr69_checks",
+     "line": 123,
+     "snippet": "\"name\": \"verify (hailey-collet-1252270103)\","
+    },
+    {
+     "src": "pr69_checks",
+     "line": 125,
+     "snippet": "\"head_sha\": \"ac76d5ef6008d976a7b8f3c1d921af2317e79ce9\","
+    },
+    {
+     "src": "pr69_checks",
+     "line": 130,
+     "snippet": "\"status\": \"in_progress\","
+    },
+    {
+     "src": "pr69_checks",
+     "line": 132,
+     "snippet": "\"started_at\": \"2026-10-21T20:00:15Z\","
+    },
+    {
+     "src": "catalogue_2128",
+     "line": 3,
+     "snippet": "\"as_of\": \"2026-10-21\""
+    },
+    {
+     "src": "tracker_readme",
+     "line": 103,
+     "snippet": "GitHub Actions checks the exact PR head, including drafts."
+    }
+   ]
+  },
+  "part_a_strict_setting": {
+   "best_public": "B_new",
+   "meaning": "part (a) keeps OpenAI's Part II assembly, so the paper's pointwise reflected numerator; the smallest public abscissa found that keeps it is B_new (Guo; Liu v2; the same number as nielstron's exact cubic on the tracker), which Liu v2 claims is the infimum with the paper's counts and kappa in [13/18, 1]; the only catalogue records between B_flat and B_new are Levy's and Collet's PR 9, and every catalogue record below B_new is Levy's weighted-numerator record or has it in its builds_on closure (measured)",
+   "gain_needed_over_B_new": "1.48e-4",
+   "gain_meaning": "B_new - 8748087/10^7, rounded to three figures (X16): what a part (a) result must gain over B_new by row counts alone to beat the merged public bound",
+   "grade": "inferred classification (section 2's relation column); gap scratch-exact (X16)"
+  },
+  "tracker_line_floor_condition": "whether the tracker's own line is bounded by 13/15 depends on whether PR 63, 66, 67 and 68 (and the draft PR 69, which builds on PR 67) keep M + ell = 1, the h/6 signal and the floor rows counted in full; open (I9)"
+ },
+ "records_improvements": [
+  {
+   "id": "gao_2026_10_07",
+   "kind": "improvement",
+   "authors": [
+    "Zhongpai Gao"
+   ],
+   "title": "A quantitative refinement of the seven-eighths zero-free half-plane (draft)",
+   "date": "2026-10-07 (draft date); cited commit 309a757e committed 2026-10-08T02:01Z",
+   "venue": "GitHub draft repository of Zhongpai Gao, unsubmitted draft (owner URL plus commit; the repository name is omitted because it contains the reserved stem)",
+   "url": "https://github.com/Gaozhongpai",
+   "abscissa": {
+    "exact": "20999/24000",
+    "decimal": "0.87495833"
+   },
+   "families": "Dirichlet, finite-order Hecke over Q(sqrt(-3))",
+   "changed": [
+    {
+     "object": "slot length ell",
+     "from": "1/6",
+     "to": "1001/6000"
+    },
+    {
+     "object": "offset b",
+     "from": "1/8",
+     "to": "1/8 (unchanged)"
+    },
+    {
+     "object": "kappa",
+     "from": "3/4",
+     "to": "3/4 (unchanged)"
+    }
+   ],
+   "relation": "inside hunt 134 assembly: geometry only, row counts fixed",
+   "lean": "repository lists build and axiom evidence; not inspected",
+   "grade": "cited (Gao README; Guo introduction line 30)",
+   "evidence": [
+    {
+     "src": "gao_oct7",
+     "line": 10,
+     "snippet": "\\theta=\\frac{20999}{24000}=\\frac78-\\frac1{24000}."
+    },
+    {
+     "src": "guo_intro",
+     "line": 30,
+     "snippet": "The boundary $20999/24000=7/8-1/24000$ of Theorem~\\ref{thm:rational2} was obtained independently by Z.~Gao in a draft dated 7 October 2026"
+    },
+    {
+     "src": "gao_oct7",
+     "line": 20,
+     "snippet": "This is an unsubmitted draft; independent mathematical and priority review"
+    }
+   ],
+   "note": "Guo reports Gao's fixed-skew envelope limit as approximately 0.8749572006 (cited, Guo README)",
+   "refereed": false,
+   "commit": "309a757ea539e2bf11558d8b5539e1269b792386",
+   "abscissa_value": {
+    "rational": "20999/24000"
+   },
+   "md_row_key": "Z. Gao, GitHub draft"
+  },
+  {
+   "id": "guo_2026_10_08",
+   "kind": "improvement",
+   "authors": [
+    "Jizhou Guo"
+   ],
+   "title": "A zero-free half-plane beyond seven eighths for Dirichlet L-functions and finite-order Hecke L-functions over Q(sqrt(-3))",
+   "date": "2026-10-08 (commit cacbab49 at 2026-10-08T05:02:15Z per the saved commit list; the README at that commit already states sigma_dagger and its cubic)",
+   "venue": "GitHub aster2024/openai-math-followups, zero-free-beyond-7-8",
+   "url": "https://github.com/aster2024/openai-math-followups/tree/main/zero-free-beyond-7-8",
+   "abscissa": {
+    "exact": "sigma_dagger = B_new (root of 7884s^3 - 18819s^2 + 14643s - 3686 in (0.8749570194, 0.8749570195))",
+    "decimal": "0.8749570194",
+    "rational_corollary": "43747851/50000000"
+   },
+   "stages": [
+    {
+     "stage": "rational 1",
+     "value": "349999/400000"
+    },
+    {
+     "stage": "rational 2",
+     "value": "20999/24000"
+    },
+    {
+     "stage": "quadratic",
+     "value": "B_alg"
+    },
+    {
+     "stage": "cubic",
+     "value": "B_new"
+    },
+    {
+     "stage": "conditional on unproved Hypothesis 11.1",
+     "value": "328/375"
+    }
+   ],
+   "families": "Dirichlet, zeta, finite-order Hecke over Q(sqrt(-3))",
+   "changed": [
+    {
+     "object": "geometry (ell, b)",
+     "from": "(1/6, 1/8)",
+     "to": "optimised; quadratic endpoint at the skew optimum"
+    },
+    {
+     "object": "Lemma 18.1 kappa range",
+     "from": "[3/4, 1]",
+     "to": "[37/50, 1], self-consistent kappa = 2 sigma - 1"
+    },
+    {
+     "object": "low estimate",
+     "from": "per-summand row norm at ell = 1/6",
+     "to": "rederived for 0 <= ell <= 1/5 with rescaled-tuple loss [5 ell + d_J - 1]_+/4"
+    },
+    {
+     "object": "(conditional only) sixth-power amplification e(r)",
+     "from": "max{1, (1+5r)/6}",
+     "to": "max{1, 1/6 + 33r/40} under Hypothesis 11.1"
+    }
+   ],
+   "relation": "inside hunt 134 assembly for the unconditional stages (geometry plus an extended moment range); the conditional 328/375 changes the amplification input",
+   "lean": "none; Python exact-arithmetic scripts in anc/",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "guo_intro",
+     "line": 17,
+     "snippet": "G(s)=7884s^3-18819s^2+14643s-3686."
+    },
+    {
+     "src": "guo_rational",
+     "line": 5,
+     "snippet": "\\Rea s>\\frac{349999}{400000}=\\frac78-\\frac1{400000}."
+    },
+    {
+     "src": "guo_fourth",
+     "line": 9,
+     "snippet": "37/50\\le\\kappa\\le1,"
+    },
+    {
+     "src": "guo_cubic",
+     "line": 44,
+     "snippet": "F(u)=1188u^3-2160u^2+171u+190"
+    },
+    {
+     "src": "guo_limits",
+     "line": 51,
+     "snippet": "zero-free in $\\Rea s>328/375$."
+    },
+    {
+     "src": "guo_limits",
+     "line": 30,
+     "snippet": "This proves the stated envelope limitation, including geometry allowed to depend on $\\beta$."
+    },
+    {
+     "src": "guo_low",
+     "line": 41,
+     "snippet": "&\\ll Z^{M'+\\pos{5\\ell+d_J-1}/4+\\eps},\\label{eq:completed}"
+    },
+    {
+     "src": "guo_low",
+     "line": 161,
+     "snippet": "-d_J+\\pos{5\\ell+d_J-1}/8\\le-7d_J/8\\le0,"
+    },
+    {
+     "src": "guo_limits",
+     "line": 39,
+     "snippet": "Mean-square estimate for $H\\ge D^{99/100}$; unproved"
+    },
+    {
+     "src": "guo_commits",
+     "line": 2627,
+     "snippet": "\"sha\": \"cacbab49dd26305f27a6d7339b5d716f9596aadc\","
+    },
+    {
+     "src": "guo_commits",
+     "line": 2633,
+     "snippet": "\"date\": \"2026-10-08T05:02:15Z\""
+    },
+    {
+     "src": "guo_readme_cacbab49",
+     "line": 6,
+     "snippet": "Here sigma_dagger is the unique root in (0.8749570194, 0.8749570195) of"
+    },
+    {
+     "src": "guo_readme_cacbab49",
+     "line": 8,
+     "snippet": "7884 s^3 - 18819 s^2 + 14643 s - 3686."
+    }
+   ],
+   "note": "recorded in hunt 125 (qrh_nonresidue) as Guo's unreviewed sigma_dagger; it is the same algebraic number as Liu's v2 B_new (identity X1)",
+   "refereed": false,
+   "abscissa_value": {
+    "algebraic": "B_new"
+   },
+   "md_row_key": "J. Guo, GitHub"
+  },
+  {
+   "id": "liu_v1_2026_10_08",
+   "kind": "improvement",
+   "authors": [
+    "Baiying Liu"
+   ],
+   "title": "Slightly improved zero-free half-planes for the quasi-Riemann hypothesis",
+   "date": "2026-10-08 (arXiv v1 16:18:53 UTC)",
+   "venue": "arXiv:2610.12234v1",
+   "url": "https://arxiv.org/abs/2610.12234v1",
+   "abscissa": {
+    "exact": "B_alg = (1507 - 2 sqrt(921))/1653",
+    "decimal": "0.874957069799",
+    "rational_stage": "B_r = 34999/40000"
+   },
+   "families": "Dirichlet, zeta, finite-order Hecke over Q(sqrt(-3))",
+   "changed": [
+    {
+     "object": "ell",
+     "from": "1/6",
+     "to": "1/6 + 1/10000 (B_r); (33 + 8 sqrt(921))/1653 (B_alg)"
+    },
+    {
+     "object": "b",
+     "from": "1/8",
+     "to": "1/8 (B_r); -4/29 + 230 sqrt(921)/26709 (B_alg)"
+    },
+    {
+     "object": "kappa",
+     "from": "3/4",
+     "to": "3/4"
+    }
+   ],
+   "relation": "inside hunt 134 assembly: geometry only",
+   "lean": "Lean repository at 7d10420d; the tracker reports Comparator verification of the exact bound (1507 - 2 sqrt 921)/1653 and three-kernel acceptance (first verified 2026-10-10T09:10Z)",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "liu_v1",
+     "line": 48,
+     "snippet": "$$B_{\\mathrm r}=\\frac{34999}{40000}=0.874975"
+    },
+    {
+     "src": "liu_v1",
+     "line": 51,
+     "snippet": "B_{\\mathrm{new}}=\\frac{1507-2\\sqrt{921}}{1653}"
+    },
+    {
+     "src": "liu_v1",
+     "line": 370,
+     "snippet": "=\\left(\\frac{d_J+5\\ell-1}4\\right)_+,"
+    },
+    {
+     "src": "liu_v1",
+     "line": 2227,
+     "snippet": "\\ll Z^{M'+\\pos{d_{\\mathcal I}+5\\ell-1}/4+\\eps}."
+    },
+    {
+     "src": "liu_v1",
+     "line": 2309,
+     "snippet": "-d_{\\mathcal I}+\\pos{d_{\\mathcal I}+5\\ell-1}/8"
+    },
+    {
+     "src": "catalogue",
+     "line": 226,
+     "snippet": "Comparator verified the all-Dirichlet, zeta and finite-order Eisenstein Hecke statements at (1507 − 2√921) / 1653"
+    }
+   ],
+   "refereed": false,
+   "abscissa_value": {
+    "algebraic": "B_alg"
+   },
+   "md_row_key": "B. Liu, arXiv:2610.12234v1"
+  },
+  {
+   "id": "argonaut_2026_10_08",
+   "kind": "improvement",
+   "authors": [
+    "Argonaut Math"
+   ],
+   "title": "refinement of the quasi-Riemann zero-free boundary",
+   "date": "2026-10-08",
+   "venue": "GitHub Argonaut-Math/argonaut-math-quasi-riemann-boundary at 5971383e",
+   "url": "https://github.com/Argonaut-Math/argonaut-math-quasi-riemann-boundary",
+   "abscissa": {
+    "exact": "3499999/4000000",
+    "decimal": "0.87499975"
+   },
+   "families": "Dirichlet, zeta, finite-order Hecke over Q(sqrt(-3))",
+   "changed": [
+    {
+     "object": "ell",
+     "from": "1/6",
+     "to": "1/6 + 10^-6"
+    },
+    {
+     "object": "b",
+     "from": "1/8",
+     "to": "1/8"
+    }
+   ],
+   "relation": "inside hunt 134 assembly: geometry only",
+   "lean": "tracker reports Comparator plus three-kernel acceptance (first verified 2026-10-10T10:09Z)",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "argonaut",
+     "line": 12,
+     "snippet": "\\frac78-\\frac1{4000000}=0.87499975,"
+    }
+   ],
+   "refereed": false,
+   "abscissa_value": {
+    "rational": "3499999/4000000"
+   },
+   "md_row_key": "Argonaut Math"
+  },
+  {
+   "id": "lw56e2_2026_10_08",
+   "kind": "improvement",
+   "authors": [
+    "GitHub user LW56e2"
+   ],
+   "title": "quasi-riemann-improved (Lean formalization)",
+   "date": "2026-10-08 (commit b83dbbd9 at 19:25Z)",
+   "venue": "GitHub LW56e2/quasi-riemann-improved",
+   "url": "https://github.com/LW56e2/quasi-riemann-improved/tree/b83dbbd914c5751acf9bc3389cde58970437278f",
+   "abscissa": {
+    "exact": "4374785349/5000000000",
+    "decimal": "0.8749570698"
+   },
+   "families": "Dirichlet, zeta, Hecke (per README)",
+   "changed": [
+    {
+     "object": "geometry",
+     "from": "(1/6, 1/8)",
+     "to": "rational point next to the B_alg optimum (exceeds B_alg by about 8.3e-13, scratch-exact)"
+    }
+   ],
+   "relation": "inside hunt 134 assembly: geometry only",
+   "lean": "README reports standard axioms only; not on the tracker; not replayed",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "lw56e2",
+     "line": 3,
+     "snippet": "improving the zero-free boundary from **7/8 to 0.8749570698**"
+    }
+   ],
+   "refereed": false,
+   "abscissa_value": {
+    "rational": "4374785349/5000000000"
+   },
+   "md_row_key": "LW56e2"
+  },
+  {
+   "id": "proofcouncil_2026_10_09",
+   "kind": "improvement",
+   "authors": [
+    "Tim Gehrunger, ProofCouncil"
+   ],
+   "title": "tracker record proofcouncil-20261009",
+   "date": "2026-10-09 (first verified 2026-10-09T11:37Z)",
+   "venue": "QuasiRiemannTracker catalogue",
+   "url": "https://gtimg.github.io/QuasiRiemannTracker/",
+   "abscissa": {
+    "exact": "874957019421/1000000000000",
+    "decimal": "0.874957019421"
+   },
+   "families": "Dirichlet, zeta, Eisenstein Hecke",
+   "changed": [
+    {
+     "object": "masked moment and detector range",
+     "from": "paper ranges",
+     "to": "extended (metadata wording; not read in detail)"
+    }
+   ],
+   "relation": "inside hunt 134 assembly as far as the metadata says; a rational 9.0e-13 above B_new (scratch-exact, X14), not the same number",
+   "lean": "tracker: framework-verified",
+   "grade": "cited (tracker catalogue method text)",
+   "evidence": [
+    {
+     "src": "catalogue",
+     "line": 257,
+     "snippet": "Extends the actual masked moment and detector range"
+    }
+   ],
+   "refereed": false,
+   "abscissa_value": {
+    "rational": "874957019421/1000000000000"
+   },
+   "md_row_key": "ProofCouncil"
+  },
+  {
+   "id": "nielstron_2026_10_09",
+   "kind": "improvement",
+   "authors": [
+    "nielstron"
+   ],
+   "title": "tracker records nielstron-20261009-tightening and nielstron-algebraic-20261009",
+   "date": "2026-10-09",
+   "venue": "QuasiRiemannTracker",
+   "url": "https://github.com/GTimG/QuasiRiemannTracker",
+   "abscissa": {
+    "exact": "11/12 - e/4, e the root in [1/6, 1/5] of 657e^3 - 954e^2 + 21e + 20 (= B_new, identity X2)",
+    "decimal": "0.874957019420"
+   },
+   "changed": [
+    {
+     "object": "ProofCouncil rational slack",
+     "from": "874957019421/10^12",
+     "to": "exact cubic endpoint"
+    }
+   ],
+   "relation": "inside hunt 134 assembly (kappa extension, as ProofCouncil)",
+   "lean": "tracker: framework-verified",
+   "grade": "cited (tracker catalogue method text and verification note)",
+   "evidence": [
+    {
+     "src": "catalogue",
+     "line": 317,
+     "snippet": "unique real root in [1/6,1/5] of 657e³−954e²+21e+20=0"
+    },
+    {
+     "src": "catalogue",
+     "line": 335,
+     "snippet": "three exact algebraic bounds and unique root existence"
+    }
+   ],
+   "refereed": false,
+   "abscissa_value": {
+    "algebraic": "B_new"
+   },
+   "md_row_key": "ProofCouncil"
+  },
+  {
+   "id": "levy_2026_10_10",
+   "kind": "improvement",
+   "authors": [
+    "Akash Levy"
+   ],
+   "title": "tracker record akashlevy-20261009-weighted-numerator",
+   "date": "PR 6 submitted 2026-10-10T03:22Z; first verified 2026-10-10T13:35Z",
+   "venue": "QuasiRiemannTracker PR 6",
+   "url": "https://github.com/GTimG/QuasiRiemannTracker/pull/6",
+   "abscissa": {
+    "exact": "10499/12000",
+    "decimal": "0.874916666"
+   },
+   "families": "Dirichlet, zeta, Eisenstein Hecke",
+   "changed": [
+    {
+     "object": "high side: reflected numerator",
+     "from": "pointwise bound",
+     "to": "weighted fourth moment of the reflected physical numerator, unused length carrying selected primes"
+    },
+    {
+     "object": "kappa",
+     "from": "3/4",
+     "to": "3/4"
+    },
+    {
+     "object": "ell",
+     "from": "1/6",
+     "to": "167/1000"
+    }
+   ],
+   "relation": "changes structure: high-exponent form (numerator averaged); row counts kept",
+   "lean": "tracker: framework-verified (228 modules)",
+   "grade": "cited (tracker catalogue method text and PR 6 body)",
+   "evidence": [
+    {
+     "src": "catalogue",
+     "line": 369,
+     "snippet": "Replaces the pointwise numerator bound in the cubic-theta probe"
+    },
+    {
+     "src": "catalogue",
+     "line": 369,
+     "snippet": "theta = 11/12 - ell/4 = 10499/12000"
+    },
+    {
+     "src": "pulls",
+     "line": 22326,
+     "snippet": "no independent rerun and no external human peer review"
+    }
+   ],
+   "note": "earliest numerator-averaging result found; PR 6 was opened about 23.5 hours, and first verified about 13.3 hours, before Xu and Sang's arXiv v1 (2026-10-11T02:55Z); no priority judgment is made here",
+   "refereed": false,
+   "abscissa_value": {
+    "rational": "10499/12000"
+   },
+   "md_row_key": "A. Levy"
+  },
+  {
+   "id": "collet_cycle25_2026_10_10",
+   "kind": "improvement",
+   "authors": [
+    "Hailey Collet"
+   ],
+   "title": "tracker record cycle25-quartic-20261010 (quartic boundary)",
+   "date": "PR 9 opened 2026-10-10T12:08Z; first verified 2026-10-10T16:09Z",
+   "venue": "QuasiRiemannTracker PR 9",
+   "url": "https://github.com/GTimG/QuasiRiemannTracker/pull/9",
+   "abscissa": {
+    "exact": "11/12 - l/4, l the root in [1/6, 1/5] of 927l^4 - 3135l^3 + 2433l^2 + 275l - 100 (= B_flat, identity X4)",
+    "decimal": "0.87488664703",
+    "rational": "683505193/781250000",
+    "rational_decimal": "0.87488664704"
+   },
+   "changed": [
+    {
+     "object": "kappa",
+     "from": "3/4",
+     "to": "variable (variable-kappa moment estimate)"
+    },
+    {
+     "object": "high side",
+     "from": "pointwise numerator",
+     "to": "Levy's weighted numerator at the new parameters"
+    }
+   ],
+   "relation": "changes structure: averaged numerator plus extended moment range",
+   "lean": "tracker: framework-verified; Comparator verified the rational and the exact quartic bounds and quartic root existence and uniqueness (verification note)",
+   "grade": "cited (tracker catalogue method text and verification note, PR 9 body)",
+   "evidence": [
+    {
+     "src": "catalogue",
+     "line": 494,
+     "snippet": "927ℓ⁴−3135ℓ³+2433ℓ²+275ℓ−100=0"
+    },
+    {
+     "src": "catalogue",
+     "line": 520,
+     "snippet": "Comparator verified the rational and exact quartic all-Dirichlet"
+    },
+    {
+     "src": "pulls",
+     "line": 21167,
+     "snippet": "where ℓ₀ is the root in [1/6, 1/5] of 927ℓ⁴ − 3135ℓ³ + 2433ℓ² + 275ℓ − 100"
+    },
+    {
+     "src": "pulls",
+     "line": 21168,
+     "snippet": "\"created_at\": \"2026-10-10T12:08:27Z\","
+    }
+   ],
+   "note": "same algebraic number as Liu's B_flat of 2026-10-19 (scratch-exact identity X4)",
+   "refereed": false,
+   "abscissa_value": {
+    "algebraic": "B_flat"
+   },
+   "md_row_key": "H. Collet, tracker PR 9"
+  },
+  {
+   "id": "xu_sang_2026_10_11",
+   "kind": "improvement",
+   "authors": [
+    "Hejian Sang (v1)",
+    "Yuanda Xu and Hejian Sang (v2)"
+   ],
+   "title": "v1: Refining the 7/8 zero-free half-plane for Hecke and Dirichlet L-functions; v2: Amplified moments and a refinement of the quasi-Riemann hypothesis",
+   "date": "v1 2026-10-11T02:55Z; v2 2026-10-15T17:41Z",
+   "venue": "arXiv:2610.15291",
+   "url": "https://arxiv.org/abs/2610.15291",
+   "abscissa": {
+    "exact": "8748867/10000000",
+    "decimal": "0.8748867",
+    "first_stage": "69991/80000"
+   },
+   "families": "Dirichlet, zeta, finite-order Hecke over Q(sqrt(-3)); conditional on the analytic inputs of the OpenAI paper",
+   "changed": [
+    {
+     "object": "low estimate",
+     "from": "per-summand",
+     "to": "retains the decay of rescaled prime tuples, allowing ell > 1/6"
+    },
+    {
+     "object": "high side: reflected numerator",
+     "from": "pointwise bound",
+     "to": "amplified first moment over the detected row class, sum over B of |L(1/2 + theta + it)| << U^{(3R+1)/4 - theta/2}"
+    },
+    {
+     "object": "Lemma 18.1 kappa range",
+     "from": "[3/4, 1]",
+     "to": "[13/18, 1]"
+    },
+    {
+     "object": "parameters",
+     "from": "(kappa, b, ell) = (3/4, 1/8, 1/6)",
+     "to": "(3/4, 173/2000, 10027/60000) then (29991/40000, 17307/200000, 1253399/7500000)"
+    }
+   ],
+   "relation": "changes structure: high-exponent form; keeps the row counts R_kappa",
+   "lean": "none (partial Lean mention commented out in the source)",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "xs_v2",
+     "line": 151,
+     "snippet": "\\Rea s>\\Bnew=\\frac{8748867}{10000000}"
+    },
+    {
+     "src": "xs_v2",
+     "line": 171,
+     "snippet": "B_0=69991/80000&0.8748875&"
+    },
+    {
+     "src": "xs_v2",
+     "line": 282,
+     "snippet": "\\ \\Longrightarrow\\ \\kappa=\\frac{29991}{40000}"
+    },
+    {
+     "src": "xs_v2",
+     "line": 495,
+     "snippet": "13/18\\le\\kappa\\le1."
+    },
+    {
+     "src": "xs_v2",
+     "line": 118,
+     "snippet": "We change the high-side estimate itself: instead of"
+    },
+    {
+     "src": "xs_v2",
+     "line": 248,
+     "snippet": "First, the low estimate retains the decay attached to"
+    },
+    {
+     "src": "xs_v2",
+     "line": 1150,
+     "snippet": "\\ll U^{(3R+1)/4-\\vartheta/2+\\eps}(1+H)^{A'}."
+    },
+    {
+     "src": "xs_v1",
+     "line": 21,
+     "snippet": "\\title{Refining the \\(7/8\\) zero-free half-plane\\\\"
+    }
+   ],
+   "refereed": false,
+   "abscissa_value": {
+    "rational": "8748867/10000000"
+   },
+   "md_row_key": "arXiv:2610.15291"
+  },
+  {
+   "id": "newton_2026_10_16",
+   "kind": "improvement",
+   "authors": [
+    "Tony Newton"
+   ],
+   "title": "Prime Errors and the Quasi-Riemann Frontier (Zenodo preprint; full title shortened here)",
+   "date": "2026-10-16",
+   "venue": "Zenodo",
+   "url": "https://doi.org/10.5281/zenodo.23414581",
+   "abscissa": {
+    "exact": "43744332481/50000000000",
+    "decimal": "0.87488664962"
+   },
+   "families": "Hecke over Q(sqrt(-3)) and Dirichlet, conditional on Xu and Sang's analytic inputs",
+   "changed": [
+    {
+     "object": "(b, ell) at Xu and Sang's second-stage kappa = 29991/40000",
+     "from": "(17307/200000, 1253399/7500000)",
+     "to": "(17307/200000, 6267002557/37500000000)"
+    }
+   ],
+   "relation": "geometry only, inside Xu and Sang's system; Theorem 2 barrier B_lim for that system with kappa in [29991/40000, 3/4]; 2.58e-9 above B_flat (scratch-exact, X11), so never the smallest claimed abscissa",
+   "lean": "none (exact arithmetic program)",
+   "grade": "cited (PDF text extraction, page 1 to 3)",
+   "evidence": [
+    {
+     "src": "newton",
+     "line": null,
+     "snippet": "Re s > 43744332481 50000000000 = 0 . 87488664962"
+    },
+    {
+     "src": "newton",
+     "line": null,
+     "snippet": "B lim = 0 . 8748866496166314190983511171306785975"
+    }
+   ],
+   "refereed": false,
+   "abscissa_value": {
+    "rational": "43744332481/50000000000"
+   },
+   "md_row_key": "T. Newton"
+  },
+  {
+   "id": "liu_v2_2026_10_12",
+   "kind": "improvement",
+   "authors": [
+    "Baiying Liu"
+   ],
+   "title": "Improved zero-free half-planes for the quasi-Riemann hypothesis",
+   "date": "2026-10-12 (arXiv v2 20:09:44 UTC)",
+   "venue": "arXiv:2610.12234v2",
+   "url": "https://arxiv.org/abs/2610.12234v2",
+   "abscissa": {
+    "exact": "B_new = (18 xi + 7)/(18 xi + 9), xi the root in (0.38858, 0.38859) of 1188xi^3 - 2160xi^2 + 171xi + 190",
+    "decimal": "0.874957019420098946"
+   },
+   "families": "Dirichlet, zeta, finite-order Hecke over Q(sqrt(-3))",
+   "changed": [
+    {
+     "object": "Lemma 18.1 kappa range",
+     "from": "[3/4, 1]",
+     "to": "[13/18, 1], iterated to kappa_new = 2 B_new - 1 = 0.7499140388"
+    },
+    {
+     "object": "(b, ell)",
+     "from": "(1/8, 1/6)",
+     "to": "(0.1234056854, 0.1668385889) in the limit",
+     "note": "truncations of Liu's printed b_new and ell_new (lines 329 and 332)"
+    }
+   ],
+   "relation": "inside hunt 134 assembly: geometry plus an extended moment range; an optimality theorem for the specified exponent comparison system is claimed with proof (Theorem 34.4, unrefereed)",
+   "lean": "author reports Lean formalizations for B_r, B_alg, B_new; B_new repository scope not inspected",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "liu_v2",
+     "line": 131,
+     "snippet": "=0.874957019420098946\\ldots,"
+    },
+    {
+     "src": "liu_v2",
+     "line": 135,
+     "snippet": "1188\\xi^3-2160\\xi^2+171\\xi+190=0."
+    },
+    {
+     "src": "liu_v2",
+     "line": 282,
+     "snippet": "to $13/18\\le\\kappa\\le1$, retaining the indispensable hypothesis"
+    },
+    {
+     "src": "liu_v2",
+     "line": 3003,
+     "snippet": "-d_{\\mathcal I}+\\pos{d_{\\mathcal I}+5\\ell-1}/8"
+    },
+    {
+     "src": "liu_v2",
+     "line": 5810,
+     "snippet": "\\inf_{\\mathfrak C\\in\\mathscr A}B(\\mathfrak C)=B_{\\mathrm{new}}."
+    },
+    {
+     "src": "liu_v2",
+     "line": 329,
+     "snippet": "=0.123405685419541002\\ldots,\\\\"
+    },
+    {
+     "src": "liu_v2",
+     "line": 332,
+     "snippet": "=0.166838588986270882\\ldots,\\\\"
+    },
+    {
+     "src": "liu_v2",
+     "line": 3004,
+     "snippet": "\\le-7d_{\\mathcal I}/8\\le0."
+    }
+   ],
+   "refereed": false,
+   "abscissa_value": {
+    "algebraic": "B_new"
+   },
+   "md_row_key": "arXiv:2610.12234v2"
+  },
+  {
+   "id": "liu_nf_2026_10_19",
+   "kind": "improvement and scope",
+   "authors": [
+    "Baiying Liu"
+   ],
+   "title": "Zero-free half-planes for Hecke L-functions over number fields",
+   "date": "2026-10-19 (arXiv v1 17:57:27 UTC; TeX dated 18 October 2026)",
+   "venue": "arXiv:2610.26835v1",
+   "url": "https://arxiv.org/abs/2610.26835",
+   "abscissa": {
+    "exact": "B_flat, root near 0.8749 of 133488B^4 - 376596B^3 + 384534B^2 - 167541B + 26231",
+    "decimal": "0.874886647039964",
+    "rational_chain_end": "874886647041/10^12"
+   },
+   "families": "every finite-order Hecke character of every number field (Dirichlet characters as the case K = Q, inferred)",
+   "changed": [
+    {
+     "object": "high side",
+     "from": "pointwise numerator",
+     "to": "Xu and Sang's averaged numerator, extended to F containing mu_12"
+    },
+    {
+     "object": "kappa",
+     "from": "fixed stages",
+     "to": "varying justifying bound in one limiting contradiction step, kappa_flat = 2 B_flat - 1 = 0.749773294"
+    },
+    {
+     "object": "base field",
+     "from": "Q(sqrt(-3))",
+     "to": "K(zeta_12) with class-field descent"
+    }
+   ],
+   "relation": "changes structure (averaged numerator, new base field); keeps the counts R_kappa",
+   "lean": "in progress; the paper states its Lean files do not yet formalize the complete analytic argument",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "liu_nf",
+     "line": 122,
+     "snippet": "B_\\flat=0.874886647039964\\ldots<B_{\\mathrm{new}},\\\\"
+    },
+    {
+     "src": "liu_nf",
+     "line": 123,
+     "snippet": "133488B_\\flat^4-376596B_\\flat^3+384534B_\\flat^2-167541B_\\flat+26231=0."
+    },
+    {
+     "src": "liu_nf",
+     "line": 128,
+     "snippet": "For every number field $K$ and every finite-order Hecke character $\\chi$"
+    },
+    {
+     "src": "liu_nf",
+     "line": 1725,
+     "snippet": "arithmetic implications stated in its declarations; it does not yet"
+    },
+    {
+     "src": "liu_nf_abs",
+     "line": 34,
+     "snippet": "Mon, 19 Oct 2026 17:57:27 UTC"
+    },
+    {
+     "src": "liu_nf",
+     "line": 968,
+     "snippet": "$\\ll Z^{M'+\\pos{d_{\\mathcal I}+5\\ell-1}/4+\\eps}$ \\LiuLoc{(16.1)}."
+    },
+    {
+     "src": "liu_nf",
+     "line": 969,
+     "snippet": "The net exponent of a subset is at most $-7d_{\\mathcal I}/8$."
+    }
+   ],
+   "refereed": false,
+   "abscissa_value": {
+    "algebraic": "B_flat"
+   },
+   "md_row_key": "arXiv:2610.26835v1"
+  }
+ ],
+ "tracker_frontier_records": [
+  {
+   "id": "local44-20261013",
+   "pr": 26,
+   "theta": "87487/100000",
+   "decimal": "0.874870000000",
+   "author": "nielstron",
+   "mechanism": "local fourth-moment estimate with prime cost 22/5 in place of 9/2 = 6 kappa, used above h - 1/1000 with 6 kappa below that junction",
+   "relation_to_hunt_134_assembly": "row-count input: moment capacity",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "evidence": [
+    {
+     "src": "local44",
+     "line": 10,
+     "snippet": "local fourth-moment estimate with prime cost `22/5`"
+    },
+    {
+     "src": "local44",
+     "line": 11,
+     "snippet": "in place of `9/2`"
+    },
+    {
+     "src": "local44",
+     "line": 21,
+     "snippet": "The source uses the local cost `22/5` above `h - 1/1000`"
+    },
+    {
+     "src": "local44",
+     "line": 22,
+     "snippet": "cost `6*κ` below that junction"
+    }
+   ],
+   "merged_at": "2026-10-13T06:45:53Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "affine-local-20261013",
+   "pr": 37,
+   "theta": "4374347/5000000",
+   "decimal": "0.874869400000",
+   "author": "Kari Roegnvaldsson",
+   "mechanism": "affine local-moment capacity replacing the 22/5 slice",
+   "relation_to_hunt_134_assembly": "row-count input: moment capacity",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-13T14:53:44Z",
+   "lowered_catalogue_minimum_at_merge": true,
+   "evidence": [
+    {
+     "src": "pulls",
+     "line": 11372,
+     "snippet": "The LOW architecture remains unchanged; this does not cross its 13/15 barrier."
+    }
+   ]
+  },
+  {
+   "id": "reserve-local-20261013",
+   "pr": 38,
+   "theta": "87486797/100000000",
+   "decimal": "0.874867970000",
+   "author": "Kari Roegnvaldsson",
+   "mechanism": "reserve reallocation, affine defect allowance 1/250",
+   "relation_to_hunt_134_assembly": "row-count input plus reserves",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-13T15:24:43Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "gao-asymmetric-reserves-20261013",
+   "pr": 41,
+   "theta": "8748673/10000000",
+   "decimal": "0.874867300000",
+   "author": "Zhongpai Gao",
+   "mechanism": "affine local capacity defect 1/241 with asymmetric LOW reserves",
+   "relation_to_hunt_134_assembly": "row-count input plus reserves",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-13T20:53:36Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "cycle61-c0125139",
+   "pr": 42,
+   "theta": "874861/1000000",
+   "decimal": "0.874861000000",
+   "author": "Hailey Collet",
+   "mechanism": "fixed-dictionary density rho(delta) = 1 - 10 delta/(3(5 - 2 delta)) on 33/40 <= a <= 7/8 and interior affine moment Lambda = 19312/4787",
+   "relation_to_hunt_134_assembly": "row-count inputs: density count and moment capacity; common probe",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-13T20:55:29Z",
+   "lowered_catalogue_minimum_at_merge": true,
+   "evidence": [
+    {
+     "src": "cycle61",
+     "line": 276,
+     "snippet": "N(Y,a,T)\\le C(1+T)^JY^{\\rho(2a-1)+\\varepsilon},"
+    },
+    {
+     "src": "cycle61",
+     "line": 277,
+     "snippet": "\\quad \\rho(\\delta)=1-\\frac{10\\delta}{3(5-2\\delta)},"
+    },
+    {
+     "src": "cycle61",
+     "line": 278,
+     "snippet": "\\quad \\frac{33}{40}\\le a\\le\\frac78."
+    },
+    {
+     "src": "cycle61",
+     "line": 397,
+     "snippet": "\\Lambda=19312/4787,\\quad B_0=14200/14361,\\quad B=B_0-10^{-5}."
+    },
+    {
+     "src": "cycle61",
+     "line": 415,
+     "snippet": ".41M\\le n_1,n_2\\le.44M,\\quad .034M\\le z_I\\le.04M,"
+    },
+    {
+     "src": "cycle61",
+     "line": 416,
+     "snippet": "\\quad n_1+n_2+\\Lambda z_I\\le BM."
+    }
+   ]
+  },
+  {
+   "id": "gao-cycle61-plane-20261013",
+   "pr": 43,
+   "theta": "4374299/5000000",
+   "decimal": "0.874859800000",
+   "author": "Zhongpai Gao",
+   "mechanism": "Cycle61 parameter coupling and exact reserves",
+   "relation_to_hunt_134_assembly": "parameters on Cycle61",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-14T11:47:05Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "marked-high-count-20261014",
+   "pr": 48,
+   "theta": "437429/500000",
+   "decimal": "0.874858000000",
+   "author": "timbalud",
+   "mechanism": "high-zero counting retains prime-slot amplitudes; source gain 33/20000 before losses",
+   "relation_to_hunt_134_assembly": "row-count input: marked count",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-15T01:14:54Z",
+   "lowered_catalogue_minimum_at_merge": false
+  },
+  {
+   "id": "radical-asymmetric-count-20261014",
+   "pr": 50,
+   "theta": "8748559/10000000",
+   "decimal": "0.874855900000",
+   "author": "timbalud",
+   "mechanism": "separate inverse and plain slot selections, common-radical penalty retained; source saving 37/10000 before charged errors",
+   "relation_to_hunt_134_assembly": "row-count input: marked count",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-14T23:12:08Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "certb-local-20261013",
+   "pr": 53,
+   "theta": "10935831/12500000",
+   "decimal": "0.874866480000",
+   "author": "Devin Watson",
+   "mechanism": "affine local defect 1/250 to 429/100000; Lean module B127 with a hard-limit hierarchy including a 13/15 low-side floor",
+   "relation_to_hunt_134_assembly": "row-count input plus a formal ceiling statement",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-15T09:14:58Z",
+   "lowered_catalogue_minimum_at_merge": false,
+   "evidence": [
+    {
+     "src": "catalogue",
+     "line": 1035,
+     "snippet": "the universal 13/15 low-side LP floor"
+    },
+    {
+     "src": "pulls",
+     "line": 5124,
+     "snippet": "universal 13/15 LP floor"
+    }
+   ]
+  },
+  {
+   "id": "detector-affine-c0125154",
+   "pr": 56,
+   "theta": "437423/500000",
+   "decimal": "0.874846000000",
+   "author": "DaysSky",
+   "mechanism": "affine moment in the detector per-fiber count: capacity (1 - 2m)/(6 kappa) becomes (B - 2m)/Lambda for m in [0.4137, 0.4235]",
+   "relation_to_hunt_134_assembly": "row-count input: detector count",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-15T03:57:21Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "gao-affine-asymmetric-20261015",
+   "pr": 60,
+   "theta": "21871/25000",
+   "decimal": "0.874840000000",
+   "author": "Zhongpai Gao",
+   "mechanism": "combines PR 50 and PR 56 with the Cycle61 affine moment",
+   "relation_to_hunt_134_assembly": "row-count inputs combined",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-15T10:56:12Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "gao-directional-affine-20261016",
+   "pr": 62,
+   "theta": "218709/250000",
+   "decimal": "0.874836000000",
+   "author": "Zhongpai Gao",
+   "mechanism": "moving marked HIGH width and valuation coupling",
+   "relation_to_hunt_134_assembly": "row-count input: marked source",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-16T18:30:05Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "gao-balanced-marked-20261017",
+   "pr": 63,
+   "theta": "87483/100000",
+   "decimal": "0.874830000000",
+   "author": "Zhongpai Gao",
+   "mechanism": "balanced common-geometry normalization, density-adaptive marked caps, two-plane affine source",
+   "relation_to_hunt_134_assembly": "row-count inputs plus LOW-side normalization",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-18T08:42:24Z",
+   "lowered_catalogue_minimum_at_merge": true,
+   "evidence": [
+    {
+     "src": "catalogue",
+     "line": 1314,
+     "snippet": "combining balanced common-geometry normalization"
+    }
+   ]
+  },
+  {
+   "id": "no-hardcoding-20261017",
+   "pr": 64,
+   "theta": "874835173/1000000000",
+   "decimal": "0.874835173000",
+   "author": "ArviFoxy",
+   "mechanism": "marked-ledger constants computed in Lean from their constraints; Lean theorem that no other bin split and intercept admitted by that ledger does better",
+   "relation_to_hunt_134_assembly": "parameters on the marked ledger, with an optimality statement",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-18T00:27:51Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "sil-uneven-normalization-20261019",
+   "pr": 66,
+   "theta": "874828524351/1000000000000",
+   "decimal": "0.874828524351",
+   "author": "Sil",
+   "mechanism": "saturated marked capacities, retained sixth-root weights, short-width moment bootstrap, clipped uneven normalization with common-factor cost 2/5",
+   "relation_to_hunt_134_assembly": "row-count inputs plus normalization",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-20T00:58:18Z",
+   "lowered_catalogue_minimum_at_merge": true,
+   "evidence": [
+    {
+     "src": "catalogue",
+     "line": 1476,
+     "snippet": "clipped uneven normalization with common-factor cost 2/5"
+    }
+   ]
+  },
+  {
+   "id": "two-level-affine-20261019",
+   "pr": 67,
+   "theta": "174963413/200000000",
+   "decimal": "0.874817065000",
+   "author": "ArviFoxy",
+   "mechanism": "second affine step for the LOW children, joint count of returned HIGH rows",
+   "relation_to_hunt_134_assembly": "changes structure: LOW-side source recursion",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-20T08:30:51Z",
+   "lowered_catalogue_minimum_at_merge": true
+  },
+  {
+   "id": "gao-five-step-affine-20261020",
+   "pr": 68,
+   "theta": "8748087/10000000",
+   "decimal": "0.874808700000",
+   "author": "Zhongpai Gao",
+   "mechanism": "five affine stages, joint returned-source counting, uniform root moment m1 + m2 + lambda s <= B with lambda = 3.741331371862391 and B = 0.982029506308942 as printed, input price kappa_0 = 4499/6000",
+   "relation_to_hunt_134_assembly": "changes structure: LOW-side source recursion; row-count inputs",
+   "status": "framework-verified per tracker catalogue (Comparator plus Lean, NanoDa, con-ron); merged after a review whose scope the tracker does not state",
+   "refereed": false,
+   "grade": "cited (tracker catalogue metadata; not replayed here)",
+   "merged_at": "2026-10-21T07:16:31Z",
+   "lowered_catalogue_minimum_at_merge": true,
+   "evidence": [
+    {
+     "src": "gao5",
+     "line": 2,
+     "snippet": "The native input price is κ 0 = 4499 / 6000"
+    },
+    {
+     "src": "gao5",
+     "line": 2,
+     "snippet": "λ = 3 . 741331371862391"
+    },
+    {
+     "src": "gao5",
+     "line": 2,
+     "snippet": "B = 0 . 982029506308942"
+    },
+    {
+     "src": "gao5",
+     "line": 2,
+     "snippet": "m 1 + m 2 + λs ≤ B."
+    }
+   ]
+  }
+ ],
+ "tracker_frontier_records_note": "despite the key name, these are all catalogue records with a bound below B_flat, not only record-setting ones: lowered_catalogue_minimum_at_merge compares each bound with every record merged earlier or listed without a merge time, and PR 48 and PR 53 did not lower it (scratch-exact, X12); the transitive builds_on closure of every row contains openai-baseline, akashlevy-20261009-weighted-numerator and cycle25-quartic-20261010",
+ "tracker_other_records": [
+  {
+   "id": "single-prime-29-33-20261010",
+   "pr": 8,
+   "theta": "29/33",
+   "note": "single compensating prime construction (Collet); above 7/8, a different probe",
+   "evidence": [
+    {
+     "src": "catalogue",
+     "line": 435,
+     "snippet": "A single compensating-prime construction and finite descent give all-Dirichlet nonvanishing to the right of 29/33."
+    }
+   ]
+  },
+  {
+   "id": "count-affine-plain-20261014 (open PR 52)",
+   "pr": 52,
+   "theta": "2187109/2500000",
+   "note": "work in progress with explicit sorry; not counted; in the pull list saved at 14:50Z, the only open bound PR",
+   "evidence": [
+    {
+     "src": "pulls",
+     "line": 5517,
+     "snippet": "the Lean proof is incomplete and contains explicit sorry"
+    }
+   ]
+  },
+  {
+   "id": "gao-local-moment-20261011 (closed PR 15, unmerged)",
+   "pr": 15,
+   "theta": "4374433/5000000",
+   "note": "endpoint formalization pending at closing; not counted",
+   "evidence": [
+    {
+     "src": "pulls",
+     "line": 20008,
+     "snippet": "Complete endpoint formalization, clean dependency replay, Comparator verification, and three-kernel checks remain pending."
+    }
+   ]
+  },
+  {
+   "id": "hailey-collet-1252270103 (open draft PR 69)",
+   "pr": 69,
+   "theta": "8747729897/10000000000",
+   "note": "opened as a draft at 2026-10-21T19:58:25Z, after the pull list saved at 14:50Z and after this hunt opened; verification pending per its body; verify check in progress at 21:38Z; not merged, not counted as a catalogue record; evidence under frontier.smallest_claim_open_draft"
+  }
+ ],
+ "scope_extensions": [
+  {
+   "id": "cureton_thorner",
+   "authors": [
+    "Dean Cureton",
+    "Jesse Thorner"
+   ],
+   "title": "A quasi-Riemann hypothesis for Dedekind zeta functions (report)",
+   "date": "v1 2026-10-12, v2 2026-10-14 (page header: v2 Oct 12)",
+   "venue": "hexagon:2610.00200",
+   "url": "https://hexagonmath.org/2610.00200v2",
+   "result": "zeta_K(s) != 0 for Re s > 31/32, every number field K; finite-order Hecke L-functions over K likewise",
+   "abscissa": "31/32",
+   "lean": "AxiomMath/DedekindZetaZeroFree; the authors report the results proved and formalized in Lean with AxiomProver, and its README states the three standard axioms only; not replayed",
+   "relation": "different structure: OpenAI's Primitive-roots adelic comparison over K(zeta_12); does not improve the Dirichlet abscissa",
+   "evidence": [
+    {
+     "src": "ct_v2",
+     "line": 172,
+     "snippet": "If $K$ is any number field, then $\\zeta_K(s)\\neq 0$ when $\\Rea s > 31/32$ and $s\\ne1$."
+    },
+    {
+     "src": "ct_v2",
+     "line": 293,
+     "snippet": "making this refinement less suited to the present work on Dedekind zeta functions."
+    },
+    {
+     "src": "ct_v2",
+     "line": 63,
+     "snippet": "These results were proved and formalized in Lean using AxiomProver."
+    },
+    {
+     "src": "ct_axiom_readme",
+     "line": 24,
+     "snippet": "The formal proof uses only Lean's three standard axioms: `propext`,"
+    }
+   ],
+   "refereed": false,
+   "grade": "cited"
+  },
+  {
+   "id": "liu_nf",
+   "note": "see improvement record liu_nf_2026_10_19: B_flat for every number field"
+  },
+  {
+   "id": "hu_2610_00216",
+   "authors": [
+    "Boyang Hu"
+   ],
+   "title": "A seven-eighths zero-free half-plane for unitary Weil L-functions",
+   "date": "2026-10-13",
+   "venue": "hexagon:2610.00216v1",
+   "result": "7/8 for every unitary Hecke character of every number field, infinite order included (claim)",
+   "abscissa": "7/8",
+   "refereed": false,
+   "grade": "cited (abstract)",
+   "evidence": [
+    {
+     "src": "hu",
+     "line": null,
+     "snippet": "A seven-eighths zero-free half-plane for unitary Weil L-functions"
+    },
+    {
+     "src": "hu",
+     "line": 8,
+     "snippet": "including characters of infinite order"
+    }
+   ]
+  },
+  {
+   "id": "rubinstein_restrepo_2610_00220",
+   "authors": [
+    "Michael Rubinstein",
+    "Mateo Restrepo Borrero"
+   ],
+   "title": "A zero-free strip for the L-functions of the elliptic curves y^2 = x^3 + d",
+   "date": "2026-10-13",
+   "venue": "hexagon:2610.00220v1",
+   "result": "Part I adapts 11/12: L(E_d, s) != 0 for Re s > 17/12; Part II adapts 7/8: L(s, conj(alpha) eta) != 0 for Re s > 7/8, hence L(E_d, s) != 0 for Re s > 11/8; in the analytic normalization the two boundaries are 11/12 and 7/8; the authors do not claim that a human mathematician has checked the complete proof",
+   "abscissa": "7/8 (analytic normalization); 17/12 and 11/8 for L(E_d, s) in the arithmetic one",
+   "refereed": false,
+   "grade": "cited (abstract)",
+   "evidence": [
+    {
+     "src": "rubinstein",
+     "line": 10,
+     "snippet": "ℜ s > 17/12"
+    },
+    {
+     "src": "rubinstein",
+     "line": 12,
+     "snippet": "ℜ s > 7/8"
+    },
+    {
+     "src": "rubinstein",
+     "line": 14,
+     "snippet": "ℜ s > 11/8"
+    },
+    {
+     "src": "rubinstein",
+     "line": 16,
+     "snippet": "are 11 / 12 11/12 11/12 and 7 / 8 7/8 7/8 within 0 < ℜ s < 1"
+    },
+    {
+     "src": "rubinstein",
+     "line": 24,
+     "snippet": "We do not claim that the complete proof has been independently checked and understood by a human mathematician."
+    }
+   ]
+  },
+  {
+   "id": "guo_cm",
+   "authors": [
+    "Jizhou Guo"
+   ],
+   "title": "A zero-free half-plane for Hecke L-functions of nonzero angular type over Q(sqrt(-3)) and for the elliptic curves y^2 = x^3 + D",
+   "date": "2026-10-08",
+   "venue": "GitHub aster2024/openai-math-followups/cm-elliptic-curves",
+   "result": "11/12 for nonzero angular type; 17/12 for L(E_D, s)",
+   "abscissa": "11/12",
+   "refereed": false,
+   "grade": "cited (README)",
+   "evidence": [
+    {
+     "src": "guo_cm",
+     "line": null,
+     "snippet": "L_K(s, η) ≠ 0    for Re s > 11/12."
+    }
+   ]
+  }
+ ],
+ "companions": [
+  {
+   "id": "openai_11_12",
+   "authors": [
+    "OpenAI"
+   ],
+   "title": "The Quasi-Riemann Hypothesis (paper2.pdf)",
+   "date": "2026-10-05",
+   "venue": "github.com/openai/math, preprints/The-Quasi-Riemann-Hypothesis-October-5-2026 (in the initial commit adc7f124 of 2026-10-06)",
+   "result": "Re s > 11/12 for the same families by a shorter argument",
+   "human_assistance": "README: written with human assistance",
+   "lean": "not formalized (Quanta: not yet formally verified)",
+   "relation": "a weaker abscissa by a different argument; its Proposition 3.1 mean square (H = D^{1+theta}, 0 < theta <= 1/10) is the input Guo's Hypothesis 11.1 asks to extend to H >= D^{99/100}",
+   "refereed": false,
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "oai_oct5",
+     "line": null,
+     "snippet": "This paper was written with human assistance."
+    },
+    {
+     "src": "quanta",
+     "line": 124,
+     "snippet": "(and is not yet formally verified)"
+    },
+    {
+     "src": "quanta",
+     "line": 141,
+     "snippet": "the 11/12 result is the only one of the 722 OpenAI papers released on October 6 to have been edited by a person"
+    },
+    {
+     "src": "guo_limits",
+     "line": 33,
+     "snippet": "which proves the mean-square bound on the nonzero row ball for $H=D^{1+\\vartheta}$, $0<\\vartheta\\le1/10$"
+    },
+    {
+     "src": "guo_refs",
+     "line": 13,
+     "snippet": "OpenAI Math Release preprint, 5 October 2026 (zero-free half-plane $\\operatorname{Re}s>11/12$)"
+    }
+   ]
+  },
+  {
+   "id": "openai_primitive_roots",
+   "authors": [
+    "OpenAI"
+   ],
+   "title": "Primitive roots for every admissible integer base",
+   "date": "2026-10-04",
+   "result": "Re s > 1 - 10^-6 for finite-order Hecke L-functions over cyclotomic fields containing mu_12 (as cited by Cureton and Thorner)",
+   "relation": "base of the Cureton and Thorner and Liu number-field arguments",
+   "refereed": false,
+   "grade": "cited via Cureton and Thorner",
+   "evidence": [
+    {
+     "src": "ct_v2",
+     "line": 168,
+     "snippet": "does not vanish when $\\Rea s>1-10^{-6}$"
+    }
+   ]
+  }
+ ],
+ "siegel_writeups": [
+  {
+   "id": "banks",
+   "authors": [
+    "William D. Banks"
+   ],
+   "title": "On the OpenAI proof that Landau-Siegel zeros do not exist",
+   "date": "2026-10-11",
+   "venue": "arXiv:2610.15483v1 (19 pages; report number MPIM-Bonn-2026)",
+   "result": "(1 - beta) log q >= 3.0e-3 for q >= 10^10; for every q >= 3 combined with a computation of Lu, Zaman and Zhao",
+   "refereed": false,
+   "grade": "cited (abstract)",
+   "evidence": [
+    {
+     "src": "banks",
+     "line": null,
+     "snippet": "one can take $q_0=10^{10}$ and $\\delta_0=3.0\\times 10^{-3}$"
+    }
+   ]
+  },
+  {
+   "id": "kerr",
+   "authors": [
+    "Bryce Kerr"
+   ],
+   "title": "A simpler proof that there are no Landau--Siegel zeros",
+   "date": "2026-10-15",
+   "venue": "arXiv:2610.21099v1",
+   "result": "absolute c > 0, no explicit value; pigeonhole construction plus Masser's degree lower bound in place of interpolation determinants",
+   "refereed": false,
+   "grade": "cited (abstract and source)",
+   "evidence": [
+    {
+     "src": "kerr",
+     "line": null,
+     "snippet": "This paper simplifies the recent OpenAI proof that there are no Landau--Siegel zeros."
+    }
+   ]
+  },
+  {
+   "id": "green",
+   "authors": [
+    "Ben Green"
+   ],
+   "title": "On Landau--Siegel zeros",
+   "date": "v1 2026-10-17, v2 2026-10-18",
+   "venue": "hexagon:2610.00311v2",
+   "result": "sum over p <= X = q^C with chi(p) = -1 of (log p)/p <= (1/2 + O(1/C)) log X + O_C(1); v2 decouples two parameters for a better constant; provenance: arguments due to ChatGPT, text human-written",
+   "refereed": false,
+   "grade": "cited (page and source)",
+   "evidence": [
+    {
+     "src": "green",
+     "line": null,
+     "snippet": "In v2, two parameters are decoupled to give a better constant in the main theorem."
+    }
+   ]
+  },
+  {
+   "id": "tao",
+   "authors": [
+    "Terence Tao"
+   ],
+   "title": "A sketch of the proof of non-existence of Siegel zeroes",
+   "date": "2026-10-19",
+   "venue": "terrytao.wordpress.com",
+   "result": "sketch of Green's formulation; the quasi-Riemann papers are explicitly not discussed",
+   "refereed": false,
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "tao",
+     "line": null,
+     "snippet": "they are still in the process of being fully digested, and I will not be discussing them further here."
+    }
+   ]
+  }
+ ],
+ "commentary": [
+  {
+   "id": "quanta",
+   "who": "Konstantin Kakaes (Quanta Magazine)",
+   "date": "2026-10-19",
+   "url": "https://www.quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019/",
+   "content": "the experts' write-ups of seven to 13 pages concern the 11/12 paper, which mathematicians study instead of the 7/8 paper; those experts largely agree that the result is correct; Sarnak will not call it a theorem until humans check and understand all the details",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "quanta",
+     "line": 125,
+     "snippet": "mathematicians have set aside the 7/8 paper to focus on the 11/12 one"
+    },
+    {
+     "src": "quanta",
+     "line": 142,
+     "snippet": "range from seven to 13 pages"
+    },
+    {
+     "src": "quanta",
+     "line": 142,
+     "snippet": "These experts largely agree that the result is correct"
+    },
+    {
+     "src": "quanta",
+     "line": 150,
+     "snippet": "until humans check and understand all the details"
+    },
+    {
+     "src": "quanta",
+     "line": 79,
+     "snippet": "October 19, 2026"
+    }
+   ]
+  }
+ ],
+ "commentary_scope_note": "statements about how far these methods are from RH itself were removed in repair r2: MISSION.md puts statements about RH out of scope, and they do not bear on the half-plane question",
+ "ceilings_and_barriers": [
+  {
+   "id": "tomoto0_13_15",
+   "source": "tomoto0, reports/barrier_analysis.md (commit b83a73c6, 2026-10-07T20:30Z)",
+   "statement": "in the cubic-theta exponent model with M + ell = 1, rows near the critical line counted in full force target > 13/15 even with density-hypothesis row counts; optimum l_x = 2/5, b = 0; with the 51/100 floor the floor alone gives 0.86979",
+   "assumes": "M + ell = 1 and R(0) = 1 near the critical line, with some exponent formulas extended beyond the ranges proved in the paper; the tracker says the barrier applies to that model",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "tomoto",
+     "line": 32,
+     "snippet": "\\sigma_0=\\tfrac23+\\tfrac{l_x}{2}+\\tfrac b4>\\tfrac23+\\tfrac15=\\tfrac{13}{15}\\approx0.8667"
+    },
+    {
+     "src": "tomoto",
+     "line": 34,
+     "snippet": "$R=1-\\delta$"
+    },
+    {
+     "src": "tomoto",
+     "line": 35,
+     "snippet": "\\sigma_0\\ge 0.86979"
+    },
+    {
+     "src": "milestones",
+     "line": 34,
+     "snippet": "Limit of OpenAI’s method"
+    },
+    {
+     "src": "milestones",
+     "line": 35,
+     "snippet": "In tomoto0’s analysis, this approach reaches a limit at"
+    },
+    {
+     "src": "milestones",
+     "line": 36,
+     "snippet": "the normalization \\(M+\\ell=1\\) and the row count \\(R(0)=1\\) near the critical line force \\(\\theta>13/15\\)"
+    },
+    {
+     "src": "milestones",
+     "line": 36,
+     "snippet": "This barrier applies to that model."
+    },
+    {
+     "src": "milestones",
+     "line": 36,
+     "snippet": "beyond the ranges proved in the paper"
+    }
+   ],
+   "relation_to_hunt_134": "same floor-row ceiling and same corner as hunt 134 section 5 (identities X7, X8), nine days earlier"
+  },
+  {
+   "id": "tomoto0_fixed_point",
+   "source": "tomoto0 barrier_analysis.md lines 45 to 47",
+   "statement": "optimum 0.87496 with the paper's counts; 0.87451 and a fixed point near 0.8745 after re-applying 7/8",
+   "assessment": "the second and third numbers lower the bin ceiling and the amplification slope together; hunt 134 RUNS.md records the same scratch error (alpha = 5/6 is the sextic amplification slope, paper lines 15101 to 15104) and discards its 0.8745",
+   "grade": "cited; the assessment is inferred",
+   "evidence": [
+    {
+     "src": "tomoto",
+     "line": 47,
+     "snippet": "**≈0.8745**"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15101,
+     "snippet": "\\alpha:=\\frac56."
+    },
+    {
+     "src": "openai_paper",
+     "line": 15103,
+     "snippet": "\\(\\alpha\\) is the fixed slope"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15104,
+     "snippet": "from sixth-power amplification."
+    }
+   ]
+  },
+  {
+   "id": "watson_b127",
+   "source": "tracker PR 53 (Devin Watson, opened 2026-10-14, merged 2026-10-15), Lean module B127",
+   "statement": "formal hard-limit hierarchy of the cubic-theta strip architecture, including a universal 13/15 low-side LP floor and an interior envelope down to 328/375",
+   "grade": "cited (tracker catalogue method text for certb-local-20261013 and the PR 53 body); the Lean module was not read",
+   "evidence": [
+    {
+     "src": "catalogue",
+     "line": 1035,
+     "snippet": "the universal 13/15 low-side LP floor"
+    },
+    {
+     "src": "catalogue",
+     "line": 1035,
+     "snippet": "Regime V interior coupled variable-slope physical envelope down to 328/375"
+    },
+    {
+     "src": "pulls",
+     "line": 5124,
+     "snippet": "universal 13/15 LP floor"
+    },
+    {
+     "src": "pulls",
+     "line": 5125,
+     "snippet": "\"created_at\": \"2026-10-14T20:34:45Z\","
+    }
+   ]
+  },
+  {
+   "id": "acer_3_4",
+   "source": "X post by Acer, 2026-10-06, as cited by the tracker milestones",
+   "statement": "a further obstruction at 3/4 in the method",
+   "grade": "cited at second hand (the post was not read)",
+   "evidence": [
+    {
+     "src": "milestones",
+     "line": null,
+     "snippet": "pointed out a further obstruction at"
+    }
+   ]
+  },
+  {
+   "id": "guo_envelope",
+   "source": "Guo section 11.1",
+   "statement": "sigma_dagger is the limit of the specified envelope (M + ell = 1, low exponent l_x/2 + b/12, signal C_g, marked inverse and plain moments, unmarked sixth-power amplification, absolute high comparison on every bin), geometry allowed to depend on beta",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "guo_limits",
+     "line": 30,
+     "snippet": "A different mean value, correlation, signed cancellation, or low-side estimate lies outside this model."
+    }
+   ]
+  },
+  {
+   "id": "liu_v2_optimality",
+   "source": "Liu v2 Theorem 34.4 (thm:iv-system-optimality)",
+   "statement": "inf over the admissible set equals B_new",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "liu_v2",
+     "line": 5810,
+     "snippet": "\\inf_{\\mathfrak C\\in\\mathscr A}B(\\mathfrak C)=B_{\\mathrm{new}}."
+    }
+   ]
+  },
+  {
+   "id": "liu_nf_optimality",
+   "source": "Liu number-field Theorem v:thm:refined-optimality",
+   "statement": "B_flat is the exact infimum of the refined comparison system and is not attained by finite chains starting above it",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "liu_nf",
+     "line": 9914,
+     "snippet": "Hence $B_\\flat$ is the exact infimum of the system. These are scalar"
+    }
+   ]
+  },
+  {
+   "id": "newton_barrier",
+   "source": "Newton Theorem 2",
+   "statement": "within Xu and Sang's unchanged endpoint admissibility system with 29991/40000 <= kappa <= 3/4 and positive margin, B >= B_lim",
+   "grade": "cited (PDF text)",
+   "evidence": [
+    {
+     "src": "newton",
+     "line": null,
+     "snippet": "Parameter-system barrier"
+    }
+   ]
+  },
+  {
+   "id": "xu_sang_sextic",
+   "source": "Xu and Sang, arXiv:2610.17675 (v2 2026-10-14)",
+   "statement": "matching lower bound of scale A^{5/6} B^{1/3} for the squarefree sextic residue-character matrix over the Eisenstein integers in B^{16/11 + delta} <= A <= B^{2 - delta}; the authors state it does not establish optimality of the zero-free boundary",
+   "grade": "cited (Xu and Sang 2610.15291v2 introduction)",
+   "evidence": [
+    {
+     "src": "xs_v2",
+     "line": null,
+     "snippet": "In a companion manuscript \\cite{XuSextic}, we prove a matching"
+    }
+   ]
+  }
+ ],
+ "liu_optimality_holds_fixed": {
+  "B_new_system": {
+   "source": "arXiv:2610.12234v2, section 34 (lines 5774 to 5861)",
+   "held_fixed": [
+    "the paper's direct estimate in its balanced and free-total-length forms (exponent l_x/2 + b/12, signal C_b(s) = s - (4+b)/6)",
+    "the pointwise reflected-numerator high exponent E_B(d) of the paper's section 20, required <= 0 for every permitted zero and amplitude class, including classes whose nonemptiness is unknown",
+    "the counting exponents from the separate moment estimates with zero losses: Lemma 17.1 marked inverse, Lemma 17.6 sixth-power amplification (alpha = 5/6), Lemma 18.1 plain moment with kappa in [13/18, 1] and capacity 6 kappa z",
+    "the detector of Proposition 8.3 (cutoffs t in [1, 3/2]) and the contour choices, lower zero-class thresholds and norm ranges examined in Lemma iv-necessary-branches",
+    "the moment compatibility B <= (1 + kappa)/2 with each moment justified by a previously proved bound"
+   ],
+   "allowed_to_vary": [
+    "l_x, l_y, ell, b, free total length M, kappa in [13/18, 1], the detector cutoff t, the contours, any finite chain of steps"
+   ],
+   "excluded_by_the_author": [
+    "an estimate excluding a critical class",
+    "a relation between large values from different detector choices",
+    "a stronger analytic estimate"
+   ],
+   "evidence": [
+    {
+     "src": "liu_v2",
+     "line": 5789,
+     "snippet": "13/18\\le\\kappa\\le1,\\qquad B\\le(1+\\kappa)/2,\\\\"
+    },
+    {
+     "src": "liu_v2",
+     "line": 5860,
+     "snippet": "An estimate excluding a critical class, a relation between the large values arising from different detector"
+    },
+    {
+     "src": "liu_v2",
+     "line": 5861,
+     "snippet": "choices, or a stronger analytic estimate changes the system."
+    }
+   ],
+   "grade": "cited"
+  },
+  "B_flat_system": {
+   "source": "arXiv:2610.26835v1, section v:sec:refined-optimality (lines 9877 to 9998)",
+   "held_fixed": [
+    "balanced lengths l_x = (1 - b - ell)/2, l_y = (1 + b - ell)/2 with b > 0 and 0 < ell <= 1/5",
+    "the direct majorant matched at B(ell) = 11/12 - ell/4",
+    "the counts R_kappa of the pointwise system (marked inverse, sixth-power amplification, plain moment)",
+    "the averaged numerator of Xu and Sang at every class with delta >= 1/8, with shift 0 <= theta <= g/(6 kappa), evaluated at d = h",
+    "the endpoint exponent <= 0 for all 1/8 <= delta <= 2B(ell) - 1 and 0 <= x <= 1/2, the formal class x = 1/2 included",
+    "kappa in [13/18, 1] justified by a previously proved bound, kappa >= 2 B_prev - 1"
+   ],
+   "excluded_by_the_author": [
+    "a class-by-class mix of averaged and pointwise numerators",
+    "unequal lengths",
+    "a smaller count at the critical class",
+    "a larger admissible prime length in M2",
+    "a sharper Gram or reflected-energy estimate",
+    "a smaller amplification exponent"
+   ],
+   "evidence": [
+    {
+     "src": "liu_nf",
+     "line": 9887,
+     "snippet": "of balanced lengths with $b>0$ and $0<\\ell\\le1/5$, the direct majorant"
+    },
+    {
+     "src": "liu_nf",
+     "line": 9983,
+     "snippet": "system: balanced lengths with $\\ell\\le1/5$, the counts"
+    },
+    {
+     "src": "liu_nf",
+     "line": 9989,
+     "snippet": "unequal lengths, or stronger analytic inputs (a"
+    },
+    {
+     "src": "liu_nf",
+     "line": 9990,
+     "snippet": "smaller count at the critical class, a larger admissible prime length in M2, a"
+    },
+    {
+     "src": "liu_nf",
+     "line": 9991,
+     "snippet": "sharper Gram or reflected-energy estimate, a smaller amplification"
+    }
+   ],
+   "grade": "cited",
+   "consequence": "the tracker's results below B_flat (PR 26 onward) change inputs that this system holds fixed (the counts R_kappa, through moment capacity, density, detector and marked counts; from PR 63 on, also the normalization and the LOW side), so they do not contradict Liu's optimality statement (inferred)"
+  }
+ },
+ "part_ii_inputs": [
+  {
+   "id": "I1",
+   "name": "marked inverse moment (paper Lemma 17.1, lem:marked)",
+   "paper_lines": [
+    9250,
+    9254
+   ],
+   "value": "width conditions r + 2z <= m - c1 and 2r + 8z <= 3m - c2, inverse capacity (1 - r)/2 at row width one",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 9250,
+     "snippet": "\\begin{lemma}[Marked inverse moment]\\label{lem:marked}"
+    },
+    {
+     "src": "openai_paper",
+     "line": 9254,
+     "snippet": "r+2z\\le m-c_1,\\qquad 2r+8z\\le3m-c_2."
+    }
+   ],
+   "status": "NOT IMPROVED as a lemma by any follow-up read here; its use in the count was changed (marked counting PR 48, PR 50; saturated marked capacities PR 66)",
+   "status_grade": "inferred from the follow-ups' statements and the tracker metadata; the tracker Lean sources were not read",
+   "classification": "not improved"
+  },
+  {
+   "id": "I2",
+   "name": "sixth-power amplification (paper Lemma 17.6, lem:inverse-amplification)",
+   "paper_lines": [
+    12362,
+    12383,
+    15101,
+    15103,
+    15104
+   ],
+   "value": "e(r) = max{1, (1+5r)/6}, fixed slope alpha = 5/6",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 12362,
+     "snippet": "\\begin{lemma}[Sixth-power amplification]\\label{lem:inverse-amplification}"
+    },
+    {
+     "src": "openai_paper",
+     "line": 12383,
+     "snippet": "e(r)=\\max\\{1,(1+5r)/6\\}."
+    },
+    {
+     "src": "openai_paper",
+     "line": 15101,
+     "snippet": "\\alpha:=\\frac56."
+    },
+    {
+     "src": "openai_paper",
+     "line": 15103,
+     "snippet": "\\(\\alpha\\) is the fixed slope"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15104,
+     "snippet": "from sixth-power amplification."
+    }
+   ],
+   "status": "NOT IMPROVED unconditionally by any follow-up read here; Guo's Hypothesis 11.1 (unproved) would give e_99(r) = max{1, 1/6 + 33r/40}; Liu lists a smaller amplification exponent as outside both of his systems",
+   "status_grade": "cited for Guo and Liu; absence elsewhere inferred",
+   "extra_evidence": [
+    {
+     "src": "guo_limits",
+     "line": 63,
+     "snippet": "e_{99}(r)=\\max\\{1,\\ 1/6+33r/40\\}\\qquad(D=U^r),"
+    },
+    {
+     "src": "liu_nf",
+     "line": 9991,
+     "snippet": "sharper Gram or reflected-energy estimate, a smaller amplification"
+    }
+   ],
+   "classification": "not improved"
+  },
+  {
+   "id": "I3",
+   "name": "plain fourth moment with short prime factors (paper Lemma 18.1, lem:plain)",
+   "paper_lines": [
+    12531,
+    12532,
+    12561,
+    12564,
+    12581
+   ],
+   "value": "kappa in [3/4, 1], capacity n1 + n2 + 6 kappa z <= M, zero-free premise beta_* <= (1+kappa)/2 when kappa < 1",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 12531,
+     "snippet": "\\begin{lemma}[Fourth moment with short prime factors]\\label{lem:plain}"
+    },
+    {
+     "src": "openai_paper",
+     "line": 12532,
+     "snippet": "Let \\(3/4\\le\\kappa\\le1\\)."
+    },
+    {
+     "src": "openai_paper",
+     "line": 12561,
+     "snippet": "n_1+n_2+6\\kappa z=A+(6\\kappa-1)z\\le M."
+    },
+    {
+     "src": "openai_paper",
+     "line": 12564,
+     "snippet": "If \\(\\kappa<1\\), assume in addition that"
+    },
+    {
+     "src": "openai_paper",
+     "line": 12581,
+     "snippet": "The application to the \\(7/8\\) bound sets \\(\\kappa=2\\beta_*-1\\), so"
+    }
+   ],
+   "status": "IMPROVED: kappa range to [37/50, 1] (Guo) and [13/18, 1] (Liu v2; Xu and Sang); prime cost 6 kappa = 9/2 replaced by 22/5 near the endpoint (tracker PR 26); affine interior capacity n1 + n2 + Lambda z <= B with Lambda = 19312/4787, B = 14200/14361 - 1e-5 on 0.41 <= n_i <= 0.44, 0.034 <= z <= 0.04 (Collet, PR 42); further affine capacities (PR 37, 38, 41, 53, 68)",
+   "status_grade": "cited",
+   "classification": "improved"
+  },
+  {
+   "id": "I4",
+   "name": "two saturated witnesses (paper Proposition 8.3, prop:detector-witness)",
+   "paper_lines": [
+    4510,
+    4513,
+    4521,
+    4522,
+    4530
+   ],
+   "value": "for every t in [1, 3/2]: r <= t, r + m >= t, 0 <= m <= 1/2",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 4510,
+     "snippet": "\\begin{proposition}[Two saturated witnesses]\\label{prop:detector-witness}"
+    },
+    {
+     "src": "openai_paper",
+     "line": 4513,
+     "snippet": "For every \\(t\\in[1,3/2]\\),"
+    },
+    {
+     "src": "openai_paper",
+     "line": 4521,
+     "snippet": "r\\le t+O(1/\\log U),\\qquad"
+    },
+    {
+     "src": "openai_paper",
+     "line": 4522,
+     "snippet": "r+m\\ge t-O(1/\\log U),\\qquad"
+    },
+    {
+     "src": "openai_paper",
+     "line": 4530,
+     "snippet": "\\qquad 0\\le m\\le\\tfrac12+O(\\epsilon),\\\\"
+    }
+   ],
+   "status": "NOT IMPROVED as stated by any follow-up read here; the counts built on it were changed (PR 56 per-fiber count); ProofCouncil's metadata says it extends the detector range, not read in detail",
+   "status_grade": "inferred",
+   "classification": "not improved"
+  },
+  {
+   "id": "I5",
+   "name": "no-slot row count (paper Proposition 19.2, prop:detector-counts)",
+   "paper_lines": [
+    15185,
+    15215
+   ],
+   "value": "#B << U^{1 - 2 delta/3}",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 15185,
+     "snippet": "\\begin{proposition}[Row counts from the witnesses]\\label{prop:detector-counts}"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15215,
+     "snippet": "U^{1-2\\delta/3+\\epsilon}(1+T_1)^{A_{\\mathcal A}},"
+    }
+   ],
+   "status": "IMPROVED on 33/40 <= a <= 7/8 by Collet's fixed-dictionary density rho(delta) = 1 - 10 delta/(3(5 - 2 delta)) (Cycle61 Lemma 2.1), which is below 1 - 2 delta/3 for 0 < delta < 5/2",
+   "status_grade": "cited; the comparison with 1 - 2 delta/3 is scratch-exact",
+   "classification": "improved"
+  },
+  {
+   "id": "I6",
+   "name": "selected-slot row count R_short with D_x, P_x (paper Proposition 19.2)",
+   "paper_lines": [
+    15192,
+    15193,
+    15195,
+    15206
+   ],
+   "value": "D_x = 3 - 17x/9, P_x = (2 - 8x/9)(1 - x), R_short(t) = 1 - delta + (delta P_x/D_x)(3/2 - t), prime supply above 7/37",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 15192,
+     "snippet": "D_x=3-\\frac{17x}{9},\\qquad"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15193,
+     "snippet": "P_x=\\left(2-\\frac{8x}{9}\\right)(1-x)."
+    },
+    {
+     "src": "openai_paper",
+     "line": 15195,
+     "snippet": "Assume the total available prime length exceeds \\(7/37\\) by a"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15206,
+     "snippet": "R_{\\rm short}(t)=1-\\delta+\\frac{\\delta P_x}{D_x}(3/2-t),"
+    }
+   ],
+   "status": "IMPROVED: the capacity coefficient c = 1/(3 kappa) inside D_x and P_x moves with the kappa extension (Guo, Liu v2, Xu and Sang); on the critical region the count is replaced by a kappa-independent closed form using the affine moment (PR 56); marked counts retain slot amplitudes (PR 48, PR 50). The 7/37 supply condition is a lower bound and nobody needed to change it",
+   "status_grade": "cited from the follow-ups' statements; tracker parts from metadata only",
+   "classification": "improved"
+  },
+  {
+   "id": "I7",
+   "name": "floor bin a = 51/100 counted in full (paper line 15847)",
+   "paper_lines": [
+    15843,
+    15847
+   ],
+   "value": "R = 1 on the floor bin, E(h) <= C_0 + (3/4) delta_0 = -7/1200",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 15843,
+     "snippet": "The floor bin \\(a=51/100\\) has \\(\\delta_0=1/50\\) and requires no"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15847,
+     "snippet": "E(h)\\le C_0+\\frac34\\delta_0=-\\frac7{1200}<0."
+    }
+   ],
+   "status": "NOT IMPROVED by any follow-up read here. In the model with M + ell = 1 and the h/6 signal, any count of these rows, even the density-hypothesis count R = 1 - delta, tends to R = 1 as the floor approaches 1/2, which is what forces the 13/15 floor (tomoto0 2026-10-07; Watson's B127 as described in PR 53; hunt 134); whether the tracker's PR 63, 66, 67 and 68, and the draft PR 69, stay inside that model is open (see I9)",
+   "status_grade": "inferred for the absence of an improvement (from the papers and the tracker metadata read here); cited for the floor mechanism (tomoto0, Watson's B127 as described in PR 53, hunt 134); the floor's reach over the tracker's later entries is open",
+   "classification": "not improved"
+  },
+  {
+   "id": "I8",
+   "name": "pointwise reflected-numerator bound in the high exponent (paper section 20)",
+   "paper_lines": [
+    15726,
+    15729,
+    15734,
+    15742,
+    15781,
+    15801
+   ],
+   "value": "numerator reflected to Re w = 1 - a - 6e and bounded pointwise, cost U^(delta/2 + O(e))",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 15726,
+     "snippet": "\\begin{equation}\\label{eq:common-high-exponent}"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15729,
+     "snippet": "&=a-\\frac78+h\\left(\\frac{17}{50}-\\frac16\\right)"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15734,
+     "snippet": "\\qquad C_0=-\\frac1{48}."
+    },
+    {
+     "src": "openai_paper",
+     "line": 15742,
+     "snippet": "\\Re s=a+16e,\\qquad \\Re w=1-a-6e,\\qquad \\Re z=\\frac{17}{50},"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15781,
+     "snippet": "The required reflected primitive numerator bound follows from the"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15801,
+     "snippet": "\\ll{}&U^{\\delta/2+O(e)+\\epsilon}(1+T_1)^{A_1}\\\\"
+    }
+   ],
+   "status": "IMPROVED (structure): replaced by an averaged numerator, Levy's weighted fourth moment (tracker PR 6, Lean per tracker), Xu and Sang's amplified first moment (arXiv:2610.15291), adapted by Liu (arXiv:2610.26835)",
+   "status_grade": "cited",
+   "classification": "improved"
+  },
+  {
+   "id": "I9",
+   "name": "direct (low) estimate: reflected energy and Gram bound (paper Lemma 14.3 and Proposition 15.2), combined in the compensated low estimate, exponent l_x/2 + b/12",
+   "paper_lines": [
+    7747,
+    8340,
+    8564,
+    8570,
+    8641,
+    8642
+   ],
+   "value": "|I_mod| << Z^{l_x/2 + b/12}, signal C_II(s) = l_x/2 + s - 1 + h/6",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 7747,
+     "snippet": "\\begin{lemma}[Reflected energy]\\label{lem:reflected-energy}"
+    },
+    {
+     "src": "openai_paper",
+     "line": 8340,
+     "snippet": "\\begin{proposition}[A quantitative additive Gram bound]\\label{prop:probe-gram}"
+    },
+    {
+     "src": "openai_paper",
+     "line": 8564,
+     "snippet": "\\begin{proposition}[The compensated low estimate]\\label{prop:probe-low}"
+    },
+    {
+     "src": "openai_paper",
+     "line": 8570,
+     "snippet": "\\ll Z^{l_x/2+b/12+\\epsilon}=Z^{3/16+\\epsilon}."
+    },
+    {
+     "src": "openai_paper",
+     "line": 8641,
+     "snippet": "C_{\\mathrm{II}}(s)=l_x/2+s-1+h/6=s-11/16,\\\\"
+    },
+    {
+     "src": "openai_paper",
+     "line": 8642,
+     "snippet": "C_{\\mathrm{II}}(7/8)=3/16=l_x/2+b/12."
+    }
+   ],
+   "status": "OPEN: the exponent l_x/2 + b/12 and the h/6 signal are retained by every printed follow-up read at source level (Liu v1 and v2, Guo, Xu and Sang), which replace the per-summand row-norm condition by total accounting of rescaled tuples, the step that allows ell > 1/6; the tracker's PR 63, 66, 67 and 68 change what its records call LOW-side source handling and normalization (the open draft PR 69 builds on PR 67), and whether they keep the exponent, the h/6 signal and M + ell = 1 was not extracted",
+   "status_grade": "cited for Liu, Guo, Xu and Sang; open for the tracker entries",
+   "classification": "open"
+  },
+  {
+   "id": "I10",
+   "name": "bin ceiling delta <= alpha from the 11/12 input, and the prime supply above 7/37",
+   "paper_lines": [
+    15100,
+    15101,
+    15195
+   ],
+   "value": "kappa = 2 beta_* - 1 in (3/4, 5/6], delta <= kappa <= alpha = 5/6; total prime length above 7/37",
+   "evidence": [
+    {
+     "src": "openai_paper",
+     "line": 15100,
+     "snippet": "\\kappa=2\\beta_*-1=\\frac34+2\\Delta\\in(3/4,5/6],\\qquad"
+    },
+    {
+     "src": "openai_paper",
+     "line": 15101,
+     "snippet": "\\alpha:=\\frac56."
+    },
+    {
+     "src": "openai_paper",
+     "line": 15195,
+     "snippet": "Assume the total available prime length exceeds \\(7/37\\) by a"
+    }
+   ],
+   "status": "NOT IMPROVED (not changed) by any follow-up read here, and not binding (hunt 134 section 7)",
+   "status_grade": "inferred",
+   "classification": "not improved"
+  }
+ ],
+ "inputs_not_improved": [
+  "I1 (as a lemma)",
+  "I2 (unconditionally)",
+  "I4",
+  "I7",
+  "I10"
+ ],
+ "inputs_improved": [
+  "I3",
+  "I5",
+  "I6",
+  "I8"
+ ],
+ "inputs_open": [
+  "I9 (exponent l_x/2 + b/12, the h/6 signal and M + ell = 1, for tracker PR 63, 66, 67 and 68, and the open draft PR 69)"
+ ],
+ "total_accounting_scope": "the rederived direct estimate for ell > 1/6 was read at source level in Liu v1 (lines 370, 2227, 2309), Liu v2 (lines 3003 and 3004), Liu's number-field paper (lines 968 and 969), Guo (section 3, lines 41 and 161) and Xu and Sang (line 248); Newton works inside Xu and Sang's system, conditional on their analytic inputs, and so inherits it (inferred); Gao's draft, Argonaut and LW56e2 were read at README level only and the tracker's Lean sources were not read, so for them it is inferred",
+ "prior_art_for_hunt_134": [
+  {
+   "hunt_134_claim": "target sigma_0 = 1 - h/6 + b/12 = 5/6 + (M - 2 ell)/12, and 11/12 - ell/4 on M + ell = 1",
+   "public_antecedent": "tomoto0 barrier analysis section 1 (commit b83a73c6 at 2026-10-07T20:30:04Z, which added reports/barrier_analysis.md); Liu v1 equation (intro-length-boundary) (2026-10-08)",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "tomoto_commit",
+     "line": 2,
+     "snippet": "\"sha\": \"b83a73c6cb626a391e551baafdb7d0cceafaa55a\","
+    },
+    {
+     "src": "tomoto_commit",
+     "line": 8,
+     "snippet": "\"date\": \"2026-10-07T20:30:04Z\""
+    },
+    {
+     "src": "tomoto_commit",
+     "line": 214,
+     "snippet": "\"filename\": \"reports/barrier_analysis.md\","
+    },
+    {
+     "src": "tomoto_commit",
+     "line": 215,
+     "snippet": "\"status\": \"added\","
+    }
+   ]
+  },
+  {
+   "hunt_134_claim": "floor-row ceiling 13/15 at ell = 1/5, M = 4/5, b = 0",
+   "public_antecedent": "tomoto0 (2026-10-07, l_x = 2/5, b = 0, identical condition by identity X7); Watson's B127 Lean module (tracker PR 53, opened 2026-10-14, merged 2026-10-15; catalogue method text and PR body)",
+   "grade": "cited plus scratch-exact identity"
+  },
+  {
+   "hunt_134_claim": "re-optimized geometry with the paper's counts at about 0.874958 (float), exact lower bounds 5655673/6464057 and 44117/50422 (printed in hunt 134 as 0.8749417 and 0.8749554, rounded)",
+   "public_antecedent": "the exact optimum B_alg = 0.8749570698 (Guo and Liu, 2026-10-08), consistent with all three hunt 134 numbers (identity X9)",
+   "grade": "cited plus scratch-exact"
+  },
+  {
+   "hunt_134_claim": "only the unrescaled summand must be lossless (total accounting), inferred there",
+   "public_antecedent": "claimed with proof in unrefereed preprints: Liu v1 (lines 370, 2227, 2309), Liu v2 Proposition balanced-low (lines 3003 and 3004, net exponent -d + [d + 5 ell - 1]_+/8 <= -7d/8), Liu's number-field paper (lines 968 and 969), Guo Theorem 3.2 (section 3, lines 41 and 161), Xu and Sang refinement one (line 248)",
+   "grade": "cited",
+   "evidence": [
+    {
+     "src": "liu_v1",
+     "line": 370,
+     "snippet": "=\\left(\\frac{d_J+5\\ell-1}4\\right)_+,"
+    },
+    {
+     "src": "liu_v2",
+     "line": 3003,
+     "snippet": "-d_{\\mathcal I}+\\pos{d_{\\mathcal I}+5\\ell-1}/8"
+    },
+    {
+     "src": "liu_v1",
+     "line": 2227,
+     "snippet": "\\ll Z^{M'+\\pos{d_{\\mathcal I}+5\\ell-1}/4+\\eps}."
+    },
+    {
+     "src": "liu_v1",
+     "line": 2309,
+     "snippet": "-d_{\\mathcal I}+\\pos{d_{\\mathcal I}+5\\ell-1}/8"
+    },
+    {
+     "src": "guo_low",
+     "line": 41,
+     "snippet": "&\\ll Z^{M'+\\pos{5\\ell+d_J-1}/4+\\eps},\\label{eq:completed}"
+    },
+    {
+     "src": "guo_low",
+     "line": 161,
+     "snippet": "-d_J+\\pos{5\\ell+d_J-1}/8\\le-7d_J/8\\le0,"
+    },
+    {
+     "src": "xs_v2",
+     "line": 248,
+     "snippet": "First, the low estimate retains the decay attached to"
+    },
+    {
+     "src": "liu_v2",
+     "line": 3004,
+     "snippet": "\\le-7d_{\\mathcal I}/8\\le0."
+    },
+    {
+     "src": "liu_nf",
+     "line": 968,
+     "snippet": "$\\ll Z^{M'+\\pos{d_{\\mathcal I}+5\\ell-1}/4+\\eps}$ \\LiuLoc{(16.1)}."
+    },
+    {
+     "src": "liu_nf",
+     "line": 969,
+     "snippet": "The net exponent of a subset is at most $-7d_{\\mathcal I}/8$."
+    }
+   ]
+  }
+ ],
+ "algebraic_numbers": [
+  {
+   "id": "B_alg",
+   "aka": [
+    "Liu v1 B_new",
+    "Liu v2 B_alg",
+    "Guo sigma_*",
+    "tracker liu-20261008"
+   ],
+   "closed_form": "(1507 - 2*sqrt(921))/1653",
+   "poly_in_s": [
+    2732409,
+    -4982142,
+    2267365
+   ],
+   "poly_note": "1653^2 s^2 - 2*1507*1653 s + (1507^2 - 4*921), smaller root",
+   "interval": [
+    "874957069799168740/10^18",
+    "874957069799168741/10^18"
+   ],
+   "decimal": "0.87495706979916874001834",
+   "nearby_rationals": [
+    {
+     "value": "4374785349/5000000000",
+     "who": "LW56e2",
+     "above_by": "8.3e-13"
+    }
+   ]
+  },
+  {
+   "id": "B_new",
+   "aka": [
+    "Guo sigma_dagger",
+    "Liu v2 B_new",
+    "nielstron exact cubic"
+   ],
+   "poly_in_s": [
+    7884,
+    -18819,
+    14643,
+    -3686
+   ],
+   "poly_note": "Guo G(s) = 7884 s^3 - 18819 s^2 + 14643 s - 3686",
+   "interval": [
+    "8749570194/10^10",
+    "8749570195/10^10"
+   ],
+   "decimal": "0.8749570194200989461286",
+   "nearby_rationals": [
+    {
+     "value": "874957019421/1000000000000",
+     "who": "ProofCouncil (tracker)",
+     "above_by": "9.0e-13"
+    },
+    {
+     "value": "43747851/50000000",
+     "who": "Guo's rational corollary",
+     "above_by": "5.8e-10"
+    }
+   ]
+  },
+  {
+   "id": "B_flat",
+   "aka": [
+    "Liu number-field B_flat",
+    "Collet Cycle25 exact quartic boundary"
+   ],
+   "poly_in_s": [
+    133488,
+    -376596,
+    384534,
+    -167541,
+    26231
+   ],
+   "poly_note": "Liu quartic in B",
+   "interval": [
+    "874886647039964/10^15",
+    "874886647039965/10^15"
+   ],
+   "decimal": "0.87488664703996413094",
+   "nearby_rationals": [
+    {
+     "value": "683505193/781250000",
+     "who": "Collet (tracker PR 9)",
+     "above_by": "3.6e-14"
+    },
+    {
+     "value": "874886647041/1000000000000",
+     "who": "Liu's rational chain end",
+     "above_by": "1.0e-12"
+    }
+   ]
+  },
+  {
+   "id": "B_lim_Newton",
+   "aka": [
+    "Newton Theorem 2 barrier, kappa in [29991/40000, 3/4]"
+   ],
+   "construction": "delta0 = root in [1/8, 5/6] of 71656266561 d^2 - 151802815309 d + 55463106075; c0 = 40000/89973; ell0 = (5 - 6 delta0)/(9 + 6(1 + c0) delta0); B_lim = 11/12 - ell0/4",
+   "interval": [
+    "8748866496166314/10^16",
+    "8748866496166315/10^16"
+   ],
+   "decimal": "0.87488664961663141909"
+  }
+ ],
+ "identities_checked_in_scratch": [
+  {
+   "id": "X1",
+   "claim": "Guo G((7+18u)/(9+18u)) = 108 F(u)/(9+18u)^3 with F(u) = 1188u^3 - 2160u^2 + 171u + 190, Liu's cubic in xi",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X2",
+   "claim": "nielstron's cubic 657e^3 - 954e^2 + 21e + 20 with e = 11/3 - 4 theta equals (-16/3) G(theta)",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X3",
+   "claim": "Liu's b_new and Guo's b_dagger agree modulo F",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X4",
+   "claim": "Collet's quartic 927l^4 - 3135l^3 + 2433l^2 + 275l - 100 with l = 4(11/12 - B) equals (16/9) times Liu's quartic in B",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X5",
+   "claim": "B_flat < Newton B_lim < Newton B_N < Xu and Sang 8748867/10^7 < B_new < B_alg < 7/8",
+   "grade": "scratch-exact (isolating intervals)"
+  },
+  {
+   "id": "X6",
+   "claim": "every rational geometry stage equals 11/12 - ell/4 at its stated ell (Liu B_r, Argonaut, Gao and Guo 20999/24000, Levy 10499/12000, Xu and Sang B_0 and B_1, Guo 328/375)",
+   "grade": "scratch-exact (fractions)"
+  },
+  {
+   "id": "X7",
+   "claim": "hunt 134 floor condition C_0 = 1/2 + ell/2 - 3M/4 + b/6 on M = 1 - ell, with l_x = (M - b)/2, equals tomoto0's barrier exponent 1 - (5/2) l_x - (13/12) b",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X8",
+   "claim": "with the paper's floor delta_0 = 1/50 and b = 0 the floor rows alone give target 167/192 = 0.869791..., matching tomoto0's 0.86979",
+   "grade": "scratch-exact (fractions)"
+  },
+  {
+   "id": "X9",
+   "claim": "B_alg lies strictly between hunt 134's exact Gram-limit bound 44117/50422 and its float scan value 0.874958",
+   "grade": "scratch-exact"
+  },
+  {
+   "id": "X10",
+   "claim": "Collet's fixed-dictionary density rho(delta) = 1 - 10 delta/(3(5 - 2 delta)) minus (1 - 2 delta/3) equals 4 delta^2/(3(2 delta - 5)), negative on 0 < delta < 5/2",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X11",
+   "claim": "Newton's 43744332481/50000000000 exceeds B_flat by 2.58e-9 (rounded to three figures)",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X12",
+   "claim": "the catalogue holds exactly 17 records below B_flat; of them only PR 48 and PR 53 did not lower the catalogue minimum when merged",
+   "grade": "scratch-exact (fractions, catalogue merge times)"
+  },
+  {
+   "id": "X13",
+   "claim": "B_flat - 8748087/10^7 = 7.79e-5 (rounded to three figures)",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X14",
+   "claim": "ProofCouncil's 874957019421/10^12 exceeds B_new by 9.0e-13 (rounded to two figures)",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X15",
+   "claim": "PR 69's 8747729897/10^10 lies 357103/10^10 below PR 68's 8748087/10^7, 2270103/10^10 below 7/8 and 0.0081063 (rounded) above 13/15",
+   "grade": "scratch-exact (fractions, sympy)"
+  },
+  {
+   "id": "X16",
+   "claim": "B_new - 8748087/10^7 = 1.48e-4 (rounded to three figures)",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X17",
+   "claim": "with xi Liu's root of 1188xi^3 - 2160xi^2 + 171xi + 190 in (0.38858, 0.38859), ell_new = (5 - 6xi)/(9 + 18xi) and b_new = 8(3xi - 1)(12xi^2 - 40xi + 15)/(9(2xi + 1)(24xi^2 - 20xi + 5)) reproduce Liu's printed 18 digits (lines 329 and 332), and 0.1234056854 and 0.1668385889 are their truncations",
+   "grade": "scratch-exact (sympy)"
+  },
+  {
+   "id": "X18",
+   "claim": "on balanced lengths l_x = (1 - b - ell)/2 with h = 1 - l_x + ell, the target 1 - h/6 + b/12 equals 11/12 - ell/4, the direct majorant of Liu's B_flat system",
+   "grade": "scratch-exact (sympy)"
+  }
+ ],
+ "not_found": [
+  "any refereed follow-up: none of the items above is refereed",
+  "any follow-up below 7/8 whose probe is not the sextic cubic-theta probe",
+  "any unconditional change to the sixth-power amplification slope alpha = 5/6",
+  "any follow-up claiming a route toward real part 1/2",
+  "any report, in what was read, of a person checking the mathematics of a tracker proof or of the 7/8 argument; Quanta says mathematicians set the 7/8 paper aside for the 11/12 one"
+ ],
+ "open_issues": [
+  "the cited sources live outside the tree under download_root, and repair r4's re-fetches and verifier r1's copy of Guo's README at cacbab49 sit in session scratch storage that is swept when idle; no tree test can replay the hashes or quotations until they are vendored or re-fetched by URL, commit and hash",
+  "identities X1 to X18 and the page's numbers are scratch-exact only, pinned by no test in the tree; the scratch checkers pin numbers, hashes, quotations and selected prose, and most prose-level grades remain unpinned",
+  "the tracker's Lean sources were not read; whether PR 63, 66, 67 and 68, and the draft PR 69, keep the low exponent l_x/2 + b/12, the h/6 signal and M + ell = 1, and so stay inside the 13/15 floor model, is not established",
+  "the open draft PR 69 (8747729897/10^10) was read only at the level of its pull-request text, metadata and check list; it may be verified and merged, changed or closed after 21:38Z, so re-check it before using either 0.8748087 or 0.8747729897 as the bar",
+  "MISSION.md (question, frontier, huntspec) and the hunts/README.md case-log entry still name 0.8748867; the smallest bound merged on the tracker is 0.8748087, B_flat is the smallest in a paper outside it, and the open draft PR 69 claims 0.8747729897",
+  "this hunt's probe_table.py, rowcounts.py and amplification/price.py use 8748087/10^7 as the record; that is right for merged bounds, but they do not weigh the draft PR 69",
+  "not read first-hand: Acer's 3/4 post, Watson's B127 module, Liu's v2 Lean repository, Newton's full record, PR 69's Lean sources and paper",
+  "repair passes r2 and r3 overlapped without coordination; r3 merged r2's changes, and r4 checked the r3 hashes before writing"
+ ],
+ "repair_log": [
+  "r2 (15:52Z, partial): status wording, Newton relabelled, the URL with the stem replaced by an owner URL and a commit, Guo's page count dropped, RH commentary dropped, README line 106 hashed and quoted, PR 26 and PR 53 citations repointed, I2, I8, I9 and I10 lines extended, I9 opened, the total-accounting step reworded as claimed with proof in unrefereed preprints",
+  "r3: the 13/15 room for part (a) made conditional on the floor model reaching tracker PR 63, 66, 67 and 68",
+  "r3: the total-accounting statement restricted to the follow-ups read at source level, with Liu v1 and Guo section 3 quoted",
+  "r3: every listed paper line carries a quotation; every input has a classification checked against the lists and the page",
+  "r3: tracker rows pinned to the catalogue (pr, author, merge time, decimal); 'frontier' corrected: PR 48 and PR 53 did not lower the minimum when merged",
+  "r3: README line 107 ('After review and merge') recorded; the page now says no check of the mathematics by a person is reported, and that the tracker's review has unstated scope",
+  "r3: Rubinstein and Restrepo Borrero's 11/8 consequence added; Levy's and B_lim's decimals made truncations; Collet's decimal separated from its rational; the ProofCouncil rational removed from B_new's aka list",
+  "r3: empty evidence lists filled for ProofCouncil, nielstron, Levy, Collet, Rubinstein, the primitive-roots base and PR 8, PR 15, PR 52",
+  "r4: the live tracker re-checked at 21:28Z to 21:38Z: catalogue unchanged; open draft PR 69 (8747729897/10^10, verification pending) recorded in the frontier block and tracker_other_records",
+  "r4: part (a) reframed: the window between 13/15 and the merged public bound does not depend on the tracker's floor model; the tracker line is the closest public analogue of part (a), not part (a) itself; the strict setting's best public number is B_new (X16)",
+  "r4: Liu v2's -7d/8 cited at line 3004 (it is not on line 3003); Liu's number-field paper added to the total-accounting citations (lines 968 and 969); the universal sentence about follow-ups read at source level restricted to the five quoted",
+  "r4: Liu v2's limiting ell given as the truncation 0.1668385889 in place of v3's rounding (X17), with lines 329 and 332 quoted",
+  "r4: I7's grade split into an inferred absence and a cited floor mechanism; Liu's B_flat consequence now says the tracker changes inputs the system holds fixed, without claiming an exact match to the author's list",
+  "r4: provenance: Guo's commit time and his README at cacbab49, and tomoto0's commit record, hashed and quoted; hunt 134's two exact lower bounds given as fractions; Watson's PR 53 dates split into opened and merged",
+  "r4: v1's open issue on Bhargava's N = 6000 recorded as closed: a half-plane Re s > 31/32 contains Re s > 1 - 1/6000, so it is a weaker use, not a conflict (the verifier's reading; Bhargava's page not read here)",
+  "r4: the ROWCOUNTS.md wording issue closed: that file now says claim, or claimed, with proof in unrefereed preprints, at lines 54 to 55, 378 to 379 and 481, and no longer says in print (read at 2026-10-21T21:43Z)"
+ ],
+ "source_root_override_note": "a source with its own 'root' key lives outside download_root, in session scratch storage that is swept when idle: repair r4's re-fetches of 21:28Z to 21:38Z and verifier r1's copy of Guo's README at commit cacbab49; each 'what' names the URL or commit to re-fetch it by"
+}
