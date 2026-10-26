@@ -461,3 +461,57 @@ def test_production_runbook_quotes_both_prices():
     assert f"**{PILOT['projection']['total_core_hours']:.0f} core-hours**" in text
     assert f"**{lo:.0f} to {hi:.0f} core-hours**" in text
     assert "nothing here has been launched" in text
+
+
+# --------------------------------------------------------------------------- the whole-tower mode
+
+WS = PILOT["whole_site"]
+gen60 = _load("rung3_generate_for_hunt", ROOT / "scripts" / "60_rung3_generate.py")
+
+
+def _pilot_site():
+    site = dict(next(b for b in PLAN2["big"]["boxes"] if b["id"] == "B_right_06"))
+    site["M"] = PLAN2["M"]
+    return site
+
+
+def test_default_emission_is_byte_identical_to_the_2026_10_21_sources():
+    """The generator change leaves the default (staged) output alone: the pilot site's
+    sources hash as they did when the 2026-10-21 pilot compiled them."""
+    import hashlib
+    files, _ = gen60.emit_site_modules(_pilot_site(), "big")
+    got = {rel: hashlib.sha256(text.encode()).hexdigest() for rel, text in files}
+    assert got == PILOT["generator_replay"]["this_run"]
+
+
+def test_whole_site_sources_are_the_generator_output():
+    import hashlib
+    files, _ = gen60.emit_site_modules(_pilot_site(), "big", tower="whole")
+    got = {rel: hashlib.sha256(text.encode()).hexdigest() for rel, text in files}
+    assert got == WS["sources"] and WS["module_count"] == len(files) == 5
+
+
+def test_whole_site_compiled_and_its_totals_add_up():
+    assert WS["status"] == "ok" and all(m["status"] == "ok" for m in WS["modules"])
+    assert WS["cpu_s_total"] == pytest.approx(sum(m["cpu_s"] for m in WS["modules"]), abs=0.1)
+    assert WS["olean_bytes_total"] == sum(m["olean_bytes"] for m in WS["modules"])
+    assert WS["max_peak_rss_bytes"] == max(m["peak_rss_bytes"] for m in WS["modules"])
+    old = WS["staged_2026_10_21"]
+    assert old["cpu_s_total"] == PILOT["site"]["modules_cpu_s"]
+    assert WS["cpu_s_total"] < old["cpu_s_total"] / 10
+    assert WS["olean_bytes_total"] < old["olean_bytes_total"] / 10
+
+
+def test_whole_mode_faults_are_refused_at_the_faulted_tower():
+    f = WS["faults"]
+    assert f["p2-rad-low"]["returncode"] == 1 and "Prime_2.ev_whole" in f["p2-rad-low"]["refused"]
+    assert f["p89-cre-high"]["returncode"] == 1
+    assert "Prime_89.ev_whole" in f["p89-cre-high"]["refused"]
+    for tag in f:
+        assert all(r.startswith(("Prime_", "ZetaLean.DH.Cert.hp_")) for r in f[tag]["refused"])
+
+
+def test_whole_site_import_ratio_follows_from_its_probes():
+    ip = WS["import_probe"]
+    ratio = (ip["root_peak_rss_bytes"] - ip["base_peak_rss_bytes"]) / WS["olean_bytes_total"]
+    assert ip["rss_bytes_per_imported_olean_byte"] == pytest.approx(ratio, abs=0.001)

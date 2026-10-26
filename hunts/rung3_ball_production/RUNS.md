@@ -239,3 +239,30 @@ artifacts:
 
 The second run's shell wrote the harness's exit status into `harness.record.log` as
 `rc=<status>`, which `--record` parses.
+
+## Follow-up 2026-10-26: the opt-in whole-tower generator mode
+
+**The change.** The coordinator extended this lane's scope under the owner's production
+grant. `scripts/69_rung3_ball_generate.py` gained `tower_mode="whole"` and
+`scripts/60_rung3_generate.py` a `--tower {staged,whole}` flag, `staged` by default. In
+whole mode each prime tower is one `private lemma ev_whole : dirichletTermBallB ... = Sq_10
+:= by decide +kernel` plus `theorem pilot_contains_cpow` through
+`contains_dirichletTermBallB`, in the same `Prime_<p>` namespace with the same exported
+names, so nothing downstream changes. The literal is the mirror's `dirichletTermBox2`. The
+generator raises if it differs from the staged chain's last ball in any field. **Why:**
+section 7 of `PILOT.md` measured 3.4 to 5.3 CPU-s per tower this way against about 66
+staged, which reprices production by a factor of about 7.
+
+**Byte identity of the default.** Before the change (at `304dee102`) and after it,
+`scripts/60 ... --arith ball --shard --only <id>` wrote 94 files for `B_right_06` and the
+centre. Their SHA-256 lists compare equal (`cmp` of the two sorted `sha256sum` lists).
+`tests/test_rung3_ball_whole_tower.py` pins that an explicit `staged` equals the default,
+and the hunt test pins the default `B_right_06` sources against the SHA-256 recorded on
+2026-10-21.
+
+**Estimate before spending** (prior figures): generation a few seconds. The site in whole
+mode is 5 modules: towers at about 4 CPU-s each (23 of them), the composites, terms and
+root at their 2026-10-21 cost of about 150 to 200 CPU-s, so 250 to 400 CPU-s. Two fault
+recompiles of `Primes.lean`, about 110 CPU-s each. Four import probes, about 12 CPU-s
+each. Under 15 core-minutes, one process, `nice -n 10`, gated as before; outputs under
+`<cache>/rung3-ball-production-whole`, expected well under 300 MB.
