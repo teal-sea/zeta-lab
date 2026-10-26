@@ -744,6 +744,19 @@ dictionary argued for DH, which together force an off-line DH zero. Grade:
 ordinary argument, internally reviewed, pending external verification. The
 conclusion is classical (Spira 1994); only the route is the lab's.
 
+**Update, 2026-10-26 (`weil_propagation/c4_s2/exact_gram/`, branch
+`hunt/c4-exact-gram`).** The compute sweep resumes C4 at S = {∞, 2}, whose
+c = 2.9 negative count 4, 10, 20 at N = 8, 16, 32 is graded by a response
+band, not a bound. The exact-Gram ball rebuild that would close
+bound_quad/'s E2 is priced on the box. One 280-mode block costs 258 s at
+dps 40, and the full rebuild is estimated at about 155 core-hours, which fits
+7 GitHub Actions jobs. It has not run. Its reading and decision table were
+committed before any rebuilt row existed (`PREREG.md`). The (U-S) gate
+now also refuses Davenport-Heilbronn, by an exact composite atom at n = 6.
+A first pass at the truncation lemma finds the bound_trunc/ route obstructed
+on the full window space (at least 0.13 at 280 modes against the 1.18e−2
+scale) and open on continuous windows (0.0063). No RH claim.
+
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
 **Status: candidate ordinary argument with enclosure-carrying numerical steps;

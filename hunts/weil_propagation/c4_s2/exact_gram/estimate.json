@@ -1,0 +1,188 @@
+{
+ "e1_target": 0.0007,
+ "replay_every": 16,
+ "builds": {
+  "rebuild_280": {
+   "dps40": {
+    "bits": 133,
+    "nvec": 280,
+    "N": [
+     8,
+     16,
+     32
+    ],
+    "S_prime": 10000.0,
+    "Kmax": 14,
+    "nw": 382068,
+    "blocks": 1250,
+    "block_core_s": 411.52434738128744,
+    "one_time_core_s": 2265.538491556494,
+    "core_hours": 143.51971464393495
+   },
+   "dps60": {
+    "bits": 200,
+    "nvec": 280,
+    "N": [
+     8,
+     16,
+     32
+    ],
+    "S_prime": 10000.0,
+    "Kmax": 14,
+    "nw": 382068,
+    "blocks": 1250,
+    "block_core_s": 542.3787954045845,
+    "one_time_core_s": 2120.6689890831044,
+    "core_hours": 188.9150453457816
+   },
+   "replay_core_hours": 11.902201343600604,
+   "production_core_hours": 155.42191598753556
+  },
+  "sweep_364": {
+   "dps40": {
+    "bits": 133,
+    "nvec": 364,
+    "N": [
+     8,
+     16,
+     32
+    ],
+    "S_prime": 11400.0,
+    "Kmax": 15,
+    "nw": 619644,
+    "blocks": 1425,
+    "block_core_s": 791.421627828117,
+    "one_time_core_s": 5555.427025226003,
+    "core_hours": 314.8142351889702
+   },
+   "dps60": {
+    "bits": 200,
+    "nvec": 364,
+    "N": [
+     8,
+     16,
+     32
+    ],
+    "S_prime": 11400.0,
+    "Kmax": 15,
+    "nw": 619644,
+    "blocks": 1425,
+    "block_core_s": 1050.701434082124,
+    "one_time_core_s": 5199.1962194084235,
+    "core_hours": 417.34687216289865
+   },
+   "replay_core_hours": 26.2675358520531,
+   "production_core_hours": 341.08177104102333
+  },
+  "sweep_500": {
+   "dps40": {
+    "bits": 133,
+    "nvec": 500,
+    "N": [
+     8,
+     16,
+     32
+    ],
+    "S_prime": 13400.0,
+    "Kmax": 16,
+    "nw": 1070388,
+    "blocks": 1675,
+    "block_core_s": 1714.7178789676034,
+    "one_time_core_s": 14596.731261982923,
+    "core_hours": 801.8747718146441
+   },
+   "dps60": {
+    "bits": 200,
+    "nvec": 500,
+    "N": [
+     8,
+     16,
+     32
+    ],
+    "S_prime": 13400.0,
+    "Kmax": 16,
+    "nw": 1070388,
+    "blocks": 1675,
+    "block_core_s": 2294.3648720220044,
+    "one_time_core_s": 13660.440803163125,
+    "core_hours": 1071.3115559555613
+   },
+   "replay_core_hours": 66.91897543397513,
+   "production_core_hours": 868.7937472486192
+  },
+  "sweep_700": {
+   "dps40": {
+    "bits": 133,
+    "nvec": 700,
+    "N": [
+     8,
+     16,
+     32
+    ],
+    "S_prime": 15800.0,
+    "Kmax": 17,
+    "nw": 1928628,
+    "blocks": 1975,
+    "block_core_s": 4010.8016958924513,
+    "one_time_core_s": 39567.98071418472,
+    "core_hours": 2211.361480583827
+   },
+   "dps60": {
+    "bits": 200,
+    "nvec": 700,
+    "N": [
+     8,
+     16,
+     32
+    ],
+    "S_prime": 15800.0,
+    "Kmax": 17,
+    "nw": 1928628,
+    "blocks": 1975,
+    "block_core_s": 5404.178924958588,
+    "one_time_core_s": 37030.67304932057,
+    "core_hours": 2975.078902734037
+   },
+   "replay_core_hours": 186.14394074857358,
+   "production_core_hours": 2397.5054213324006
+  },
+  "sweep_700_N64": {
+   "dps40": {
+    "bits": 133,
+    "nvec": 700,
+    "N": [
+     8,
+     16,
+     32,
+     64
+    ],
+    "S_prime": 22300.0,
+    "Kmax": 17,
+    "nw": 2074896,
+    "blocks": 2788,
+    "block_core_s": 4315.611996501456,
+    "one_time_core_s": 39804.00665747827,
+    "core_hours": 3353.2584035843156
+   },
+   "dps60": {
+    "bits": 200,
+    "nvec": 700,
+    "N": [
+     8,
+     16,
+     32,
+     64
+    ],
+    "S_prime": 22300.0,
+    "Kmax": 17,
+    "nw": 2074896,
+    "blocks": 2788,
+    "block_core_s": 5814.322750212008,
+    "one_time_core_s": 37251.20215357612,
+    "core_hours": 4513.217508262404
+   },
+   "replay_core_hours": 282.6406892464171,
+   "production_core_hours": 3635.8990928307326
+  }
+ }
+}

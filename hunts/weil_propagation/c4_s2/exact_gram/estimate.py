@@ -47,7 +47,7 @@ BUILDS = [  # (name, nvec, N values carried by the window sums)
 
 
 def s_prime(nvec: int, N: int) -> float:
-    S = 100.0
+    S = 1000.0  # above 2 pi N / L for every N here (kappa requires it)
     while float((E.kappa(2.9, N, S) * nvec).upper()) > E1_TARGET:
         S += 100.0
     return S
