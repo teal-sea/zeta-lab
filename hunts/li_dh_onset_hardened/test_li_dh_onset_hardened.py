@@ -202,3 +202,30 @@ def test_the_sizing_artifact():
     assert p["N_power_of_two"] >= p["N_aliasing"] and p["N_power_of_two"] > 500_000
     assert math.log2(p["N_power_of_two"]).is_integer()
     assert sz["c_1e4"]["midpoint_circle_inside_R_a"] is False
+
+
+# ---------------------------------------------------------------------------
+# the pre-registered production runs
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("tag,c,N", [("A", 5000, 2 ** 21), ("B", 2500, 2 ** 19)])
+def test_the_production_run_establishes_the_onset(tag, c, N):
+    d = _load(f"production_{tag}.json")
+    assert (d["c"], d["N"], d["n_max"], d["rho"]) == (c, N, 500_000, "499977/500000")
+    assert d["controls"]["ok"] and d["controls"]["xi"]["clean"]["contained"] == 48
+    assert d["controls"]["iv"]["all_meet"]
+    assert d["stats"]["closure_contains_0"] and d["stats"]["imag_parts_contain_0"]
+    dec = d["decision"]
+    assert dec["first_ball_negative_n"] == 328997
+    assert dec["undecided_count"] == 0 and dec["statement_established"]
+    with prec_guard(256):
+        assert arb(d["near_n_star"]["328996"]) > 0
+        assert arb(d["near_n_star"]["328997"]) < 0
+        assert arb(d["near_n_star"]["328997"]).overlaps(arb("-2379.9647066397624837") + arb(0, 1e-15))
+
+
+def test_the_two_radii_rule_held():
+    t = _load("two_radii.json")
+    assert t["n_common"] == 500_000 and t["disjoint_count"] == 0 and t["rule_holds"]
+    assert t["sha256_A"] == _load("production_A.json")["table"]["sha256"]
+    assert t["sha256_B"] == _load("production_B.json")["table"]["sha256"]

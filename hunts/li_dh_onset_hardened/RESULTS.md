@@ -1,18 +1,39 @@
-# RESULTS: the first wave of hunt #151
+# RESULTS: hunt #151
 
-**Status, 2026-10-26: first wave done, production not run.** No n\* has been
-found yet. The wave settles whether the 20,000 core-hour wall that hunt #128
-(`li_dh_onset`) priced is mathematical or a cost wall: it is a cost wall of
-the r <= 0.99 family. Moving the radius to r = sqrt(1 - 1/c) is licensed by an
-admissibility certificate that closes exactly in balls, and the ball trapezoid
-on that circle prices at **under one core-hour** for every n <= 500,000.
-Nothing here bears on the Riemann Hypothesis (`docs/08`): every number is about
-the Davenport-Heilbronn function f, which has no Euler product.
+**Status, 2026-10-26: the pre-registered statement is established at the grade
+*hardened*.** For the classical Davenport-Heilbronn function:
 
-Grades, weakest step first. Steps 1 and 3 are *hardened*: every step carries
-an Arb ball, and a second route agrees where one exists. The production
-estimate in step 3 is *measured*: a float model fitted to timed units. Step 2's
-timings are *measured*; its cross-checks are hardened comparisons.
+> **lambda_{328997}(DH) < 0, and lambda_n(DH) > 0 for every 1 <= n < 328997.**
+
+The values: lambda_{328997} = [-2379.96470663976248370528984220 +/- 4.4e-27]
+and lambda_{328996} = [+1385.31521851949223176484827912 +/- 2.9e-27]. Every one
+of the 328,996 earlier balls lies entirely above 0, none undecided, and the
+smallest is lambda_1 = 0.0976361468... Two production runs at different radii
+(c = 5000 with 2^21 nodes, c = 2500 with 2^19) give the same n\*. Their balls
+intersect at every n <= 500,000, and both runs passed the xi control and the
+mpmath.iv node check inside the run. The index is exactly the n\* = 328997 that
+hunt #128 extrapolated 66 times past its data, so the pre-registered prediction
+is **confirmed** (section 4).
+
+*Hardened* means two things here. Every step carries an Arb ball: the
+admissibility certificate, M(rho), the node samples, the branch steps, the DFT
+and the aliasing bound. And independent routes agree where they exist: two
+radii, mpmath.iv at sampled nodes, and #128's float table. It is **not
+kernel-checked**, and not reviewed outside this lab, so it is pending external
+verification. One shared failure mode is named and not excluded: both radii use
+the same Arb evaluator for f (four `acb.zeta` calls), and the independent
+mpmath.iv route checks it at 20 nodes per run, not at all 1.3 million.
+
+The repricing: hunt #128 priced this at about 20,000 core-hours. Both runs
+together cost **0.46 core-hours** (1211 s and 447 s, single process). The wall
+was a cost wall of the r <= 0.99 family, refuted at the stated parameters by
+the run itself (category 1 below). Nothing here bears on the Riemann Hypothesis
+(`docs/08`): every number is about the Davenport-Heilbronn function f, which
+has no Euler product.
+
+The first-wave record follows unchanged (its status line read "first wave done,
+production not run"); section 4 and the dispositions are the production
+addendum.
 
 ## 1. The admissibility certificate (`admissibility.py`)
 
@@ -200,16 +221,86 @@ not by N: 13 s at N = 2^14, 18 s at 2^17); the DFT about 30 s; M(rho) 45 s.
 **About 0.4 to 0.6 core-hours, single process, under 2 GB of memory.** At
 c = 2500 (N = 2^19, 234 bits), about 0.15 to 0.3.
 
+## 4. The production runs, reported as pre-registered (`production.py`, `compare.py`)
+
+Pre-registration: `MISSION.md`, "Pre-registration of the production runs",
+commit 8964573b4. It was committed alone before run A started.
+
+| | run A | run B |
+|---|---|---|
+| c, r | 5000, 0.99990000 | 2500, 0.99979998 |
+| aliasing circle rho, M(rho) <= | 1 - 4.6e-5, 101,111 | same |
+| N, precision | 2^21, 192 bits | 2^19, 256 bits |
+| in-run controls | xi 48/48, both faults flip; iv 20/20 meet, kappa fault caught at 17 | same |
+| principal / tracked nodes | 3,338 / 1,045,239 | 1,181 / 260,964 |
+| branch closure at s = 1/(1+r) | [+/- 2.5e-49], contains 0 | [+/- 6.6e-69], contains 0 |
+| imaginary parts of all lambda_n contain 0 | yes | yes |
+| largest ball radius, n <= 500,000 | 4.6e-21 | 4.2e-15 |
+| first ball-negative index | **328997** | **328997** |
+| undecided indices before it | 0 | 0 |
+| wall time (contended box, load 28 to 40 on 32 vCPU) | 1211 s (sampling 1098) | 447 s (sampling 367) |
+| table, out of git | `artifacts/big/lambda_A.txt`, 26,953,876 bytes, sha256 5ebe8608...f87396b | `lambda_B.txt`, 25,007,262 bytes, sha256 b46903b3...590bbd2e4 |
+
+**The two-radii rule held** (`artifacts/two_radii.json`): the A and B balls
+intersect at all 500,000 indices, with a largest midpoint difference of
+5.0e-15, set by B's wider balls. **No kill condition fired.**
+
+Further checks on run A:
+- **Against #128.** A's balls lie within 1e-20 of #128's 30-digit float table
+  at every n <= 5000; the largest difference is 1.0e-25.
+- **Against the prediction.** #128's background models predicted
+  lambda_{n\*} between -2217 and -2317. The ball is -2379.96.
+
+Around the onset (run A):
+
+| n | lambda_n(DH) |
+|---|---|
+| 328992 | [19135.5323142982959541146984752 +/- 3.0e-26] |
+| 328995 | [5420.11034980594646449706675502 +/- 5.1e-27] |
+| 328996 | [1385.31521851949223176484827912 +/- 2.9e-27] |
+| **328997** | **[-2379.96470663976248370528984220 +/- 4.4e-27]** |
+| 328998 | [-5875.18237299302494479232020911 +/- 2.7e-27] |
+| 329002 | [-17145.8812949163996232699459861 +/- 2.0e-26] |
+
+**The outcome as pre-registered:**
+- **The prediction is confirmed.** The first ball-decided negative index is
+  328997, at distance 0 from #128's extrapolation and inside the window
+  [328397, 329597].
+- **The statement is established.** lambda_{328997}(DH) < 0 and
+  lambda_n(DH) > 0 for every 1 <= n < 328997, hardened.
+- **The stop rule was not triggered.**
+
+Two notes on what the number means:
+- **The extrapolation hit exactly, but within a known period.** #128 fitted a
+  background a n log n + b n + c plus the explicit quadruple terms. The sign
+  change sits on a dip of the dominant quadruple's oscillation, of period
+  2 pi/psi, about 530. A background error would have moved n\* by whole
+  periods, which is what #128's sensitivity table records. So landing on the
+  right period is the background's accuracy, and landing on the exact index
+  within that period is the quadruple term's.
+- **Past the onset, the table is still enclosure-carrying.** To n = 500,000
+  the off-line pair dominates: lambda_{500000} = 2.55e9, of the order of
+  2 R^n with R - 1 = 4.2e-5. Positivity fails on whole half-periods after
+  328997. The table records those signs but they are not analysed here.
+
+**Cost.** 0.34 + 0.12 = 0.46 core-hours of wall time, against an estimate of
+0.4 to 0.6 for A and 0.15 to 0.3 for B. #128's plan was priced at about 20,000
+core-hours, so this is a factor of about 4e4.
+
 ## Dispositions (`ALIGNMENT.md` section 5)
 
-- **n\*: attempt unresolved (category 3).** Production has not run, so no
-  negative coefficient has been computed and nothing here locates n\*.
-- **#128's wall ("the direct route does not reach the onset"):** it was a cost
-  wall of its own family. The binding constant, r <= 0.99, was the top of a
-  scan, not a limit. This is not yet a refutation of the wall, because the
-  refutation is the production run. It is a repricing from timed units, graded
-  measured.
-- **No kill condition fired.**
+- **n\*: established at the hardened grade.** The question is answered at the
+  stated grade: n\* = 328997. It is pending external verification and is not
+  kernel-checked.
+- **#128's wall ("the direct route does not reach the onset"): candidate
+  refuted (category 1), at its stated scope.** The identified invalid step is
+  the treatment of r <= 0.99 as a limit. The production run at
+  r = sqrt(1 - 1/c) reaches the onset in 0.46 core-hours. #128's own
+  measurements stand: its tables, its extrapolation (now confirmed) and its
+  cost model *for its family*.
+- **First-wave status line** ("n\*: attempt unresolved"): superseded by
+  section 4, and left in place as the record of what was known before the run.
+- **No kill condition fired** in either wave.
 
 ## Prior work searched
 
@@ -251,17 +342,34 @@ PDFs; zbMATH and Google Scholar were not queried directly):
   first negative Li coefficient for the classical DH function, and no Li
   computation for any Epstein zeta.
 
-**Delta against the closest source (Bucur et al. 2016):** a different member of
-the family (xi+, the classical function), ordinary Li coefficients (tau = 1),
-and a contour route whose cost at n ~ 3e5 is priced here. The hardened
-lambda_n(DH) > 0 for n <= 200 above is **original** (this lab produced it). It is
-not claimed novel: the search is recorded above, and Bucur et al. compute the
-neighbouring function at comparable n in balls.
+**Deltas, as the coordinator asked, against the two named sources:**
+- **arXiv:1410.4384** (Ernvall-Hytönen, Odžak, Smajlović, Šušić): it computes
+  no Davenport-Heilbronn coefficient. Its numerics are tau-Li coefficients of a
+  product of shifted zetas, in floating point from zero sums, for n up to 500.
+  The delta is the whole result: the classical DH function, tau = 1, n to
+  500,000, every step in balls, an explicit first negative index.
+- **Johansson, Numer. Algorithms 69 (2015)**: rigorous Keiper-Li coefficients
+  in Arb, for **zeta**, up to n = 100,000, by power series. The delta is a
+  different function, one whose coefficients do turn negative, five times the
+  range, and a contour route made admissible by a zero-location certificate
+  instead of a power series.
+- **Bucur, Ernvall-Hytönen, Odžak, Smajlović, LMS J. Comput. Math. 19 (2016),
+  the closest source:** Arb tau-Li coefficients for the *associated* function
+  L_DH(s, xi-), n <= 500, first negative indices only as a figure. The delta is
+  the classical member xi+, ordinary Li coefficients, and n\* = 328997 stated
+  and enclosed.
+
+The result is **original** (this lab produced it). It is not claimed novel.
+The search behind these deltas is recorded above. It is bounded (web search,
+the arXiv pages and PDFs; zbMATH and Google Scholar were not queried directly)
+and found no stated first negative Li coefficient for the classical
+Davenport-Heilbronn function.
 
 ## The doors
 
 The ceiling this wave measures is the cost of n_max on the ball trapezoid, as
-a function of c.
+a function of c. (The production runs since then confirm the model: about 0.34
+core-hours for A against 0.4 to 0.6 estimated.)
 
 ### Active constraints at the optimum
 

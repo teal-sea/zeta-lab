@@ -100,3 +100,47 @@ Both together, as a production-scale two-radii check: under one core-hour, one
 process at a time, under 2 GB each. The lambda table (5e5 balls) stays out of git
 and is recorded by SHA-256; only the sign summary, n\*, and the balls near n\*
 are committed. Sent to the coordinator as an `ask` before any spend.
+
+## Production, 2026-10-26 (approved by the coordinator: A then B, sequential)
+
+Pre-registered in `MISSION.md` (commit 8964573b4), before run A started.
+`trapezoid.S_BALL_MAX`, the refactor to `evaluate_nodes`, and the incremental
+rho^{-n} in `li_balls` landed after the first-wave artifacts were written. They
+change how a decision is reached, not what it is. The xi control and both DH
+radii tests were rerun live against the changed code and passed. Box during the
+runs: load 28 to 40 on 32 vCPU, MemAvailable 65 to 69 GiB, peak RSS about
+3.7 GB (run A).
+
+```runmanifest
+id: li_dh_onset_hardened-2026-10-26-production-A
+hunt: li_dh_onset_hardened
+started: 2026-10-26T13:50:44
+finished: 2026-10-26T14:10:55
+ran:
+  - .venv/bin/python hunts/li_dh_onset_hardened/production.py --tag A --c 5000 --log2N 21 --prec 192
+outcome: controls passed in-run; 1048577 node evaluations in 1098 s, tracking 26 s, DFT 31 s; branch closed; the first ball-negative index is 328997 with no undecided index before it; 1211 s in all
+artifacts:
+  - hunts/li_dh_onset_hardened/artifacts/production_A.json
+  - hunts/li_dh_onset_hardened/artifacts/big/lambda_A.txt (out of git, sha256 5ebe86082023966b65f06d1c11c020bd5718b6ff7c85b8fcf0450e041f87396b)
+```
+
+```runmanifest
+id: li_dh_onset_hardened-2026-10-26-production-B
+hunt: li_dh_onset_hardened
+started: 2026-10-26T14:11:08
+finished: 2026-10-26T14:18:35
+ran:
+  - .venv/bin/python hunts/li_dh_onset_hardened/production.py --tag B --c 2500 --log2N 19 --prec 256
+  - .venv/bin/python hunts/li_dh_onset_hardened/compare.py
+outcome: controls passed in-run; the first ball-negative index is again 328997 with none undecided; the A and B balls intersect at all 500000 indices; 447 s
+artifacts:
+  - hunts/li_dh_onset_hardened/artifacts/production_B.json
+  - hunts/li_dh_onset_hardened/artifacts/two_radii.json
+  - hunts/li_dh_onset_hardened/artifacts/big/lambda_B.txt (out of git, sha256 b46903b3e8141688d1ca52f5733f3deb5ba999e4653eaa35ae745c2590bbd2e4)
+```
+
+The chunk checkpoints (`artifacts/ckpt_A/` 92 MB, `ckpt_B/` 27 MB) were
+deleted after the runs landed. They are working files: a rerun rebuilds them.
+The two tables (50 MB) stay out of git in `artifacts/big/`. This workspace is
+swept when idle, so the SHA-256 values above are the durable record, and a
+rerun reproduces the tables in about 28 minutes.
