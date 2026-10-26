@@ -244,6 +244,23 @@ artifacts:
   - input <cache>/weil_dh_line/parts/dh_L_DH_v2.json (SHA-256 13ada3f5da5ec89ddfd3ea87f1f1fa6952c4e54b03e1e74a57128b1265dcc149)
 ```
 
+```runmanifest
+id: weil_dh_line-2026-10-26-k2-dh-L_DH-stream
+hunt: weil_dh_line
+started: 2026-10-26T17:23Z
+finished: 2026-10-26T22:57Z
+ran:
+  - OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMBA_NUM_THREADS=1 nice -n 10 .venv/bin/python hunts/weil_dh_line/scout.py --stream --L 171079/100000 --env k2env_dh_L_DH.json --N 856 --q 64 --h 1/2 --prec 1280 --Tmax 800 --unit-panels 40 --parity even --bessel fast --procs 3 --responses 540 800 --dir <cache>/weil_dh_line/k2/dh_LDH_even --out <cache>/weil_dh_line/k2/dh_LDH_even.json --cap-core-hours 29.3 --min-mem-gib 20
+  - .venv/bin/python hunts/weil_dh_line/price.py --k2-scouts <cache>/weil_dh_line/k2   (adds dh_LDH_even to k2_scouts.json; the four earlier cases unchanged)
+outcome: success (run B), status done, 5 h 33 min wall, 58 228 s user and 237 s system, about 16.2 core-hours (units 51 150 s, 1258 to 1356 s each against the 1740 s estimated; reduction 8267 s, 443 to 531 s per checkpoint), so 16.9 core-hours with the merge against 23 to 26 estimated and the 30 cap (the driver's last projection 59 417 s); 3 workers and the parent, 2.66 GB peak resident in one process, MemAvailable at least 28.5 GiB, restart state 125 MB per generation, 188 MB at the sampled peak; no unit file written; max entry radius 1.8e-75. Result: beta* > 0 from T# = 540; at all 14 checkpoints from 540 to 800 one negative pivot and no undecided one, lambda_min from -6.68685229203e-30 (540) to -4.15160674834e-30 (800), shrinking in magnitude as T# grows, residuals 4e-84 to 3e-86; at 540 and 800 the N = 791 block and the 1152-bit reduction keep n_neg = 1 and the same lambda_min to 12 digits
+artifacts:
+  - hunts/weil_dh_line/k2_scouts.json (entry dh_LDH_even)
+  - <cache>/weil_dh_line/k2/dh_LDH_even.json (SHA-256 a41f8792804d3240ee1bde295373571a3ecba1bc629da3ee82e84141c2fd8451)
+  - <cache>/weil_dh_line/k2/dh_LDH_even.log (SHA-256 abdc54896597464850b9b74deb3d15202765f1fcd71a7282088f1f0e1917167f)
+  - <cache>/weil_dh_line/k2/dh_LDH_even/rows.jsonl 53139308b9a898b430d0ac1b3e4a0a8f00bc51c4cebd2ee568e8903368e5d54d, state.json e0e99762edc260ad608a1d3790bcb01971237a780feb40793b410f2705809329
+  - final restart state, the sums C and G at T# = 800 (8 files of 12 to 18 MB, not committed): state_01600_C_000.pkl 5d62bc91ce5d463c8dcfb98693526c1eb87145ce8b728242a44ab61fd5bf2bb1, C_001 f84a6bf9d3114ee44005388ab8d92ebb161723f86b44e44d265994d0d34584ea, C_002 4c0da7737983a8819d8805266f28a2524c975c27d99e84df51c218b6256da7c0, C_003 8a09941a673a6e157b4cf24b1d00910a2cc00aaabca8109abfeb259e4c5daafb, G_000 2db89a3b5b4404b4a53b29ce59374f54d0f568a9620761867def4c47a714caf6, G_001 86faa4e75bfccdecb308f1a6ec2f62c2ba2476532f39e4254f2c49c71249f116, G_002 bb3e64ba537af9bac4cfe2bd6fd30b55d8b2207443224ab27cc80d4859f0139b, G_003 8189516cebb36601d0355109819d7d7fc069709cd1ace483f6d90e16443c2bea
+```
+
 Unit files of the scout at `L = 7/5` (`<cache>/weil_dh_line/scout_L140/`, about 30 MB each, kept out of git):
 
 ```

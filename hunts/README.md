@@ -79,7 +79,8 @@ control roles, and the checks are the ones the tree already owns:
 
 **Status: open, on a draft pull request; resumed in place on 2026-10-26 by the owner's
 decision. No-go at the gate for the searched envelopes (attempt unresolved, measured);
-K2 on DH at the DH line not run (paused by allocation).** Asks whether zeta's Weil window
+K2 on DH at the DH line run on 2026-10-26 (streamed): the pipeline refuses at every
+checkpoint to `T# = 800`, so the binding kill condition did not fire (measured, stage A only).** Asks whether zeta's Weil window
 positivity can be proved with enclosures on a window where the Davenport-Heilbronn form is
 provably negative, half-width `L >= (log 30.617188)/2 = 1.7107808`, through the out-of-band
 reduction of `oob_envelope/`. The comb floor `S*_L` at `L_DH` lies in `[5.637302, 5.643859]`
@@ -87,7 +88,9 @@ reduction of `oob_envelope/`. The comb floor `S*_L` at `L_DH` lies in `[5.637302
 envelope found gives `6.418111`, and the best partition into three-prime clusters has the
 Arb floor `6.174396`. A measured stage-A scout at `L = 7/5` (envelope `S = 4.117981`) has
 negative pivots at `T# = 400` to `440` and none from `460` to `640`, stable under the mode
-and precision responses. K2 refuses Epstein `(1,1,6)` wherever its form is known negative.
+and precision responses. K2 refuses Epstein `(1,1,6)` wherever its form is known negative,
+and DH at `L_DH` (`N = 856`, 1280 bits): one negative pivot at all 14 checkpoints with
+`beta* > 0`, `lambda_min` about `-5e-30` and shrinking in magnitude as `T#` grows.
 Nothing here is kernel-checked, no novelty is claimed, and nothing bears on RH. Record:
 `weil_dh_line/PRICE.md`, `weil_dh_line/RUNS.md`, `weil_dh_line/MISSION.md`.
 

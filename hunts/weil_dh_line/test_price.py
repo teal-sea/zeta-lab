@@ -526,6 +526,47 @@ def test_k2_scouts_refuse_where_the_form_is_known_negative():
         assert all(r["n_neg"] >= 1 for r in rows), key
 
 
+def _k2_case_file(d: dict) -> dict:
+    keys = ("S", "S_exact", "envelope", "N", "q", "prec", "Tmax", "parity", "kind", "unit_core_seconds", "rows")
+    return {k: d[k] for k in keys}
+
+
+def test_k2_dh_at_the_dh_line(tmp_path):
+    """The binding kill condition (MISSION: no positive bound for DH at L_DH).
+    Streamed stage-A run, N = 856 even modes, 1280 bits, T# to 800: one
+    negative pivot, no undecided pivot, at each of the 14 checkpoints with
+    beta* > 0 (T# = 540 to 800), lambda_min from -6.687e-30 to -4.152e-30,
+    resolved (residual below 1e-83), and the N = 791 and 1152-bit responses
+    at 540 and 800 keep n_neg and lambda_min. Planted fault: the same rows
+    with one negative pivot removed are no longer refused everywhere."""
+    d = _load(K2_SCOUTS)["dh_LDH_even"]
+    assert d["form_known_negative"] and d["kind"] == "dh" and d["envelope"] == "k2env_dh_L_DH.json"
+    assert (d["N"], d["prec"], d["q"], d["Tmax"], d["parity"]) == (856, 1280, 64, 800.0, "even")
+    assert abs(d["S"] - _load(HERE / "k2env_dh_L_DH.json")["S"]) < 1e-15
+    live = [r for r in d["rows"] if "n_neg" in r]
+    assert [r["T"] for r in live] == [540.0 + 20 * i for i in range(14)]
+    assert all(r["n_neg"] == 1 and r["undecided"] == 0 and r["residual"] < 1e-83 for r in live)
+    lams = [float(r["lam_min"]) for r in live]
+    assert abs(lams[0] / -6.68685229203e-30 - 1) < 1e-9 and abs(lams[-1] / -4.15160674834e-30 - 1) < 1e-9
+    assert all(a < b < 0 for a, b in zip(lams, lams[1:]))
+    for r in (live[0], live[-1]):
+        assert set(r["response"]) == {"N_791", "prec_1152"}
+        for resp in r["response"].values():
+            assert resp["n_neg"] == 1 and resp["lam_min"] == r["lam_min"]
+    for r in d["rows"]:
+        beta = math.log(5 * r["T"] / (2 * math.pi)) - 1 / r["T"] - d["S"]
+        assert abs(beta - r["beta"]) < 1e-9
+    assert d["refused_everywhere"] and d["first_T_with_beta_positive"] == 540.0
+    # planted fault through the assembler
+    for flip in (False, True):
+        f = _k2_case_file(d)
+        if flip:
+            f["rows"] = [dict(r) for r in f["rows"]]
+            next(r for r in f["rows"] if r["T"] == 700.0)["n_neg"] = 0
+        (tmp_path / "dh_LDH_even.json").write_text(json.dumps(f))
+        assert price.assemble_k2_scouts(tmp_path)["dh_LDH_even"]["refused_everywhere"] is (not flip)
+
+
 # ------------------------------------------------------------- prices
 
 def test_price_rules():

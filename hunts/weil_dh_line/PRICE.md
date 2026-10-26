@@ -78,11 +78,26 @@ RH (`docs/08`).
    at `7/5` the DH form is not known negative (`c = 16.44 < 30.617188`), so a
    positive stage-A block there contradicts nothing, and the binding kill
    condition is the huntspec's narrower one, DH at `L_DH` (dated correction 3 in
-   `MISSION.md`). **DH at `L_DH` was not run** (category 4, paused by
-   allocation): its merge is about 1 core-hour and its stage-A run about 19
-   core-hours of units plus 3 to 6 of reduction, with 40 unit files of about
-   140 MB each (`RUNS.md`, decision of 2026-10-26). Until it runs, K2 at the DH
-   line is open. The transfer witness (`price.py --transfer`) was not produced.
+   `MISSION.md`). **DH at `L_DH`** (run B, streamed on 2026-10-26: envelope
+   `k2env_dh_L_DH.json`, `S = 6.039785`, every cluster re-bounded at merge time;
+   `N = 856` even modes, 1280 bits, `T#` to 800): `beta* > 0` from `T# = 540`,
+   and at all 14 checkpoints from 540 to 800 the midpoint LDL has exactly one
+   negative pivot and no undecided one, with `lambda_min` from `-6.687e-30` to
+   `-4.152e-30` (inverse-iteration residuals below `1e-83`). At 540 and 800 the
+   leading `N = 791` block and the 1152-bit reduction keep the pivot count and
+   `lambda_min` to 12 digits. So the pipeline refuses DH at the DH line at every
+   checkpoint it reached, and the binding kill condition (a positive bound for
+   DH at `L_DH`) **did not fire**. Scope and grade: *measured*, the `N`-mode
+   block of stage A on `T# <= 800`, with no quadrature error, Legendre tail or
+   coupling bound, so it is evidence about the pipeline at these parameters and
+   not a soundness theorem for it. The negative eigenvalue is tiny, as expected
+   just past the DH line (`c = 30.6178` against `30.617188`), and its magnitude
+   shrinks as `T#` grows (by about 38% from 540 to 800); whether it stays below
+   0 beyond `T# = 800` is not measured. Item 6 therefore leaves category 4: the
+   check ran and passed at its stated scope, and the full soundness statement
+   (stage B with its error terms) remains **attempt unresolved (category 3)**.
+   The run cost about 16.9 core-hours with the merge (`RUNS.md`), with no unit
+   files written. The transfer witness (`price.py --transfer`) was not produced.
 
 ## 2. Partition floors
 
@@ -114,7 +129,13 @@ The per-prime sine-kernel envelopes at degree 64 give `5.481097` (`7/5`),
    prime (`[12,4,4]`, `[9,6,6]`; genuine trade against LP size and box count),
    the bound's tolerance `tau = 5e-4` (trade against box count), the LP
    oversampling and rounds, and the dyadic rounding of `h`.
-3. **Information class.** Every door above stays inside the data the current
+3. **K2 margin.** At `L_DH` the DH refusal rests on one eigenvalue of size
+   about `5e-30` whose magnitude falls as `T#` grows. The doors above that
+   lower `S` (larger clusters, a tighter `H`), applied to the same pipeline on
+   DH, also raise DH's `beta*`, which pushes this eigenvalue up. The refusal is
+   not known to survive such a change, so an envelope method that passes the
+   gate has to be re-run through K2 at the DH line.
+4. **Information class.** Every door above stays inside the data the current
    family reads: the prime comb on `[-L, L]` and out-of-band frequencies at least
    `2L`. Overlapping clusters (`overlap_L_DH.json`) are the same class. None reads
    more arithmetic.
