@@ -374,3 +374,17 @@ artifacts:
 About 12 core-minutes of Lean and the census's Python, about 50 core-minutes, together
 under the one core-hour cap. Next: the calibration re-run with the new names (`"attempt":
 2` in the request), then a new full request for the coordinator's 'go'.
+
+```runmanifest
+id: rung3_ball_production-2026-10-26-calibrate-runner-attempt2
+hunt: rung3_ball_production
+started: 2026-10-26T15:32Z
+finished: 2026-10-26T15:48Z
+ran:
+  - .github/workflows/rung3-production.yml, mode calibrate, "attempt": 2, run 40350287309 (https://github.com/teal-sea/zeta-lab/actions/runs/40350287309), commit 4bac8d79d
+  - gh run download 40350287309 -n rung3-production-record-job0-attempt1 (into <cache>/rung3-ball-production-calib/40350287309)
+outcome: success; with site-qualified tower namespaces the centre (1229.1 CPU-s, 533.8 s wall, 11.31 GB, 343.5 MB of oleans) and B_right_06 (58.1 CPU-s, 7.19 GB) compiled with exactly the three standard axioms; setup 308 s; the full plan is bounded at 1.32 to 1.37 h per job
+artifacts:
+  - hunts/rung3_ball_production/pilot.json (calibration_runner; the first run is calibration_runner_v1)
+  - GitHub artifacts of run 40350287309, 30-day retention
+```

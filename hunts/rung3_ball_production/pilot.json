@@ -8043,9 +8043,9 @@
   ]
  },
  "calibration_runner": {
-  "run": 40340279740,
-  "url": "https://github.com/teal-sea/zeta-lab/actions/runs/40340279740",
-  "commit": "c697df4f0",
+  "run": 40350287309,
+  "url": "https://github.com/teal-sea/zeta-lab/actions/runs/40350287309",
+  "commit": "4bac8d79d",
   "date": "2026-10-26",
   "runner": "ubuntu-latest (4 vCPU, 16 GB)",
   "conclusion": "success",
@@ -8053,19 +8053,19 @@
    "centre": {
     "status": "ok",
     "modules": 5,
-    "cpu_s": 1348.1,
-    "wall_s": 556.6,
-    "peak_rss_bytes": 11322949632,
-    "olean_bytes": 343533352,
+    "cpu_s": 1229.1,
+    "wall_s": 533.8,
+    "peak_rss_bytes": 11308318720,
+    "olean_bytes": 343535408,
     "projected_cpu_s": 2173.2
    },
    "B_right_06": {
     "status": "ok",
     "modules": 5,
-    "cpu_s": 65.9,
-    "wall_s": 39.7,
-    "peak_rss_bytes": 7199490048,
-    "olean_bytes": 16758408,
+    "cpu_s": 58.1,
+    "wall_s": 37.6,
+    "peak_rss_bytes": 7186382848,
+    "olean_bytes": 16758616,
     "projected_cpu_s": 162.1
    }
   },
@@ -8074,21 +8074,22 @@
    "B_right_06": true
   },
   "steps_s": {
-   "free_disk": 119,
-   "cache_get": 91,
-   "preflight": 1,
-   "zetalean_build": 50,
-   "generate": 28,
-   "compile": 596,
-   "axioms": 9,
-   "uploads": 13
+   "free_disk": 146,
+   "cache_get": 71,
+   "preflight": 2,
+   "zetalean_build": 43,
+   "generate": 21,
+   "compile": 572,
+   "axioms": 8,
+   "uploads": 10
   },
-  "job_s": 928,
-  "setup_s": 295,
+  "job_s": 909,
+  "setup_s": 308,
   "cpu_scale": {
-   "centre": 0.62,
-   "B_right_06": 0.407
-  }
+   "centre": 0.566,
+   "B_right_06": 0.358
+  },
+  "note": "attempt 2: tower namespaces qualified by site (Prime_<sid>_<p>)"
  },
  "whole_site_v1": {
   "date": "2026-10-26",
@@ -8200,5 +8201,53 @@
   "staged_repeated_names": 1211070,
   "staged_distinct_colliding_names": 8216,
   "staged_sites_sharing_prime_2": 215
+ },
+ "calibration_runner_v1": {
+  "run": 40340279740,
+  "url": "https://github.com/teal-sea/zeta-lab/actions/runs/40340279740",
+  "commit": "c697df4f0",
+  "date": "2026-10-26",
+  "runner": "ubuntu-latest (4 vCPU, 16 GB)",
+  "conclusion": "success",
+  "sites": {
+   "centre": {
+    "status": "ok",
+    "modules": 5,
+    "cpu_s": 1348.1,
+    "wall_s": 556.6,
+    "peak_rss_bytes": 11322949632,
+    "olean_bytes": 343533352,
+    "projected_cpu_s": 2173.2
+   },
+   "B_right_06": {
+    "status": "ok",
+    "modules": 5,
+    "cpu_s": 65.9,
+    "wall_s": 39.7,
+    "peak_rss_bytes": 7199490048,
+    "olean_bytes": 16758408,
+    "projected_cpu_s": 162.1
+   }
+  },
+  "axioms_ok": {
+   "centre": true,
+   "B_right_06": true
+  },
+  "steps_s": {
+   "free_disk": 119,
+   "cache_get": 91,
+   "preflight": 1,
+   "zetalean_build": 50,
+   "generate": 28,
+   "compile": 596,
+   "axioms": 9,
+   "uploads": 13
+  },
+  "job_s": 928,
+  "setup_s": 295,
+  "cpu_scale": {
+   "centre": 0.62,
+   "B_right_06": 0.407
+  }
  }
 }

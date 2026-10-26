@@ -617,3 +617,25 @@ declare 532,652 public names, and **none repeats**. Under the staged default, ea
 declarations would collide (8,216 distinct names). Prime 2's tower alone appears in all
 215 sites. That is the defect the staged default keeps, by the ruling that it stay
 byte-identical.
+
+## 12. Calibration again, with the renamed towers (attempt 2)
+
+**Measured**, run 40350287309 at commit `4bac8d79d`, the same request with `"attempt":
+2`, which succeeded (`calibration_runner`; section 10's run is kept as
+`calibration_runner_v1`). Both sites compiled with the site-qualified tower namespaces,
+and both site theorems print exactly `propext`, `Classical.choice` and `Quot.sound`.
+
+| site | CPU-s | wall s | peak RSS GB | olean bytes | projected CPU-s (this box) | runner / projected |
+|---|---|---|---|---|---|---|
+| centre (K = 361) | 1,229.1 | 533.8 | 11.31 | 343,535,408 | 2,173.2 | 0.566 |
+| `B_right_06` (K = 17) | 58.1 | 37.6 | 7.19 | 16,758,616 | 162.1 | 0.358 |
+
+The job took 909 s in all, of which 308 s was setup: 146 s to free disk, 71 s for the
+cache fetch (from the archive cache saved by the first run), 2 s of preflight and 43 s
+for the `ZetaLean` build. The results match attempt 1 within runner variation (centre
+CPU 9 percent lower, olean bytes equal to within 2.1 kB, the same peak RSS). The rename cost
+nothing measurable.
+
+**Full plan, re-sized from attempt 2:** 20 jobs, one Lean process each (11.31 GB
+peak). Every job is bounded at 1.32 to 1.37 hours, setup included. On runners that comes
+to about 16.9 core-hours, scaled by the larger ratio.

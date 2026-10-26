@@ -152,7 +152,7 @@ def test_verdict_counts_only_a_complete_clean_run(tmp_path):
 
 def test_full_plan_is_sized_from_the_runner_calibration():
     c = PILOT_JSON["calibration_runner"]
-    assert c["conclusion"] == "success" and c["run"] == 40340279740
+    assert c["conclusion"] == "success" and c["run"] == 40350287309      # attempt 2
     assert set(c["sites"]) == {"centre", "B_right_06"}
     assert all(v["status"] == "ok" for v in c["sites"].values()) and all(c["axioms_ok"].values())
     for sid, v in c["sites"].items():
@@ -169,15 +169,18 @@ def test_full_plan_is_sized_from_the_runner_calibration():
 PILOT_JSON = json.loads((HERE / "pilot.json").read_text())
 
 
-def test_pilot_md_quotes_the_runner_calibration():
+@pytest.mark.parametrize("key,run", [("calibration_runner_v1", 40340279740),
+                                     ("calibration_runner", 40350287309)])
+def test_pilot_md_quotes_the_runner_calibration(key, run):
     text = " ".join((HERE / "PILOT.md").read_text().split())
-    c = PILOT_JSON["calibration_runner"]
+    c = PILOT_JSON[key]
+    assert c["run"] == run and c["conclusion"] == "success" and all(c["axioms_ok"].values())
     for sid, v in c["sites"].items():
         row = (f"| {v['cpu_s']:,.1f} | {v['wall_s']:,.1f} | {v['peak_rss_bytes'] / 1e9:.2f} | "
                f"{v['olean_bytes']:,} | {v['projected_cpu_s']:,.1f} | {c['cpu_scale'][sid]:.3f} |")
         assert row in text, sid
     assert f"took {c['job_s']} s in all, of which {c['setup_s']} s was setup" in text
-    assert "run 40340279740" in text
+    assert f"run {run}" in text
 
 
 def test_no_public_name_repeats_across_the_215_whole_mode_sites():

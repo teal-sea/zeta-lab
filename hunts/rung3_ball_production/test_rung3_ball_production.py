@@ -563,6 +563,6 @@ def test_pilot_md_quotes_the_whole_mode_numbers():
 
 def test_the_centre_import_probe_ratio():
     c = PILOT["import_probe_centre"]
-    assert c["olean_bytes"] == PILOT["calibration_runner"]["sites"]["centre"]["olean_bytes"]
+    assert c["olean_bytes"] == PILOT["calibration_runner_v1"]["sites"]["centre"]["olean_bytes"]
     ratio = (c["root_peak_rss_bytes"] - c["base_peak_rss_bytes"]) / c["olean_bytes"]
     assert c["rss_bytes_per_imported_olean_byte"] == pytest.approx(ratio, abs=0.001)

@@ -14,7 +14,7 @@
 #   full       request["jobs"] jobs (about 20), sites assigned by projected CPU
 #              (pilot.json whole_projection; about 1.5 core-hours each at the shared
 #              box's rates, every job under 4 h projected), plus the job "fault":
-#              one site with Prime_2's radius one unit of 2^-64 low, which the kernel
+#              one site with its Prime_<site>_2 radius one unit of 2^-64 low, which the kernel
 #              must refuse at that tower's ev_whole. The verdict job counts the run
 #              only if all 215 sites compiled, every site theorem's axioms are exactly
 #              propext, Classical.choice and Quot.sound, and the fault was refused.

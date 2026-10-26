@@ -62,11 +62,11 @@ after the coordinator's 'go'. Limits: `permissions: contents: read`, a concurren
   box's rates in the full run's sizing.
 - `{"mode": "full", "jobs": 20, "lean_jobs": 1, "fault_site": "B_right_06",
   "calibration": {...}, ...}`: 20 site jobs, plus the job `fault`, whose kernel must
-  refuse a one-unit radius fault at `Prime_2.ev_whole`. The `calibration` block must equal
-  the recorded runner calibration (`production.py calibration()`; `PILOT.md` section 10).
-  Each job is then bounded at 1.43 to 1.49 hours: setup plus 1.5 times its runner-scaled
-  CPU at one core. `lean_jobs` stays 1 because the centre peaked at 11.3 GB. The `verdict` job counts the
-  run only if all 215 sites compiled, every site theorem rests on exactly `propext`,
+  refuse a one-unit radius fault at `Prime_B_right_06_2.ev_whole`. The `calibration`
+  block must equal the recorded runner calibration (`production.py calibration()`;
+  `PILOT.md` sections 10 and 12). With attempt 2's figures, each job is bounded at 1.32
+  to 1.37 hours: setup plus 1.5 times its runner-scaled CPU at one core. `lean_jobs`
+  stays 1 because the centre peaked at 11.3 GB. The `verdict` job counts the run only if all 215 sites compiled, every site theorem rests on exactly `propext`,
   `Classical.choice` and `Quot.sound`, and the fault was refused.
 
 Each job removes unused runner toolchains to free disk, then restores `~/.elan` and
@@ -82,6 +82,7 @@ earlier artifacts and resumes from their checkpoints.
 
 The planted-fault path and the axiom audit ran on this box against the whole-mode pilot
 site before the workflow was pushed. The fault was refused at `Prime_2.ev_whole`, and
+at `Prime_B_right_06_2.ev_whole` after the rename of `PILOT.md` section 11.
 `upper_B_right_06` printed exactly the three axioms. The calibrate mode then ran on a
 runner and succeeded (run 40340279740, `PILOT.md` section 10): the centre took 1,348
 CPU-s and 557 s of wall at an 11.3 GB peak, with a 295 s setup. On runners, production
