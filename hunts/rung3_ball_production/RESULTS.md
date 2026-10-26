@@ -8,13 +8,37 @@ Hunt #145, closed 2026-10-26. Grade: **kernel-checked** (Lean 4 `v4.35.0-rc2`, M
 
 ## 1. The theorems, exactly as compiled
 
-**What carries the result** is `dh_separation_hundred` (below height 100, `DH` has a zero
-in the open strip off the line, and Mathlib's `riemannZeta` has none there) and
-`dh_zero_located` (a zero of `DH` in the plan's closed square), read with
+**What carries the result** is one theorem, `davenport_heilbronn_strip`: some entire
+function with the Davenport-Heilbronn Dirichlet series for Re s > 1 and its functional
+equation has a zero in the open critical strip, off the line. It was added on 2026-10-26
+(door 2 of section 6) in a module of its own, by a re-assembly of the same 215 site oleans.
+Before it, the result was two theorems read together: `dh_separation_hundred` (below
+height 100, `DH` has a zero in the open strip off the line, and Mathlib's `riemannZeta`
+has none there) and `dh_zero_located` (a zero of `DH` in the plan's closed square), with
 `dh_analytic_half` (`lean/ZetaLean/DHAnalytic.lean`: `DH` is entire, has the series for
-Re s > 1 and satisfies the functional equation). Their grade is the one above:
-kernel-checked, pending external verification. The assembly's `davenport_heilbronn` is
-weaker than its name, as the paragraph after the first listing says.
+Re s > 1 and satisfies the functional equation). All of them have the grade above:
+kernel-checked, pending external verification. `dh_separation_hundred` still says more
+than the bundled theorem, since it adds the comparison with `riemannZeta`. The assembly's
+`davenport_heilbronn` is weaker than its name: the statement it proves is also met by the
+trivial zero s = -1, as the paragraphs after the second listing say.
+
+In `ZetaLean.DH.Rung3Assembly.Plan2` (module `Rung3Assembly.Strip`, emitted by
+`assembly.py`, SHA-256 `c763fa289c8b7285...` pinned in `pilot.json` `assembly_emitted`;
+it imports `Rung3Assembly.Assembly` alone, so it lies outside the sites' import closure,
+which ends at `ZetaLean.BallCertSupport`):
+
+```lean
+theorem davenport_heilbronn_strip :
+    ∃ (f : ℂ → ℂ) (s : ℂ), Differentiable ℂ f ∧ dh_series_rep f ∧ dh_functional_eq f ∧
+      f s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ s.re ≠ 1/2
+```
+
+The witness is `f = DH` and `s` is the zero of `dh_zero_located`, whose real part lies in
+[380821/500000, 26731/31250] = [0.761642, 0.855392]; `linarith` and `norm_num` give the
+three strip conditions from those two bounds. `dh_analytic_half` states only
+`∃ f, Differentiable ℂ f ∧ dh_series_rep f ∧ dh_functional_eq f` and so hides its witness;
+the proof uses the three theorems it bundles (`DH_differentiable`, `DH_series_rep`,
+`DH_functional_eq`), as `dh_analytic_half`'s own proof term does.
 
 In `ZetaLean.DH.Rung3Assembly.Plan2` (module `Rung3Assembly.Assembly`, emitted by
 `assembly.py` from `lean/cert/rung3_plan2.json`, SHA-256 `5ae46eb4a6030349...` pinned in
@@ -88,6 +112,13 @@ assemble`, log kept in the receipts):
 Each of the 215 site theorems (`upper_<id>`, `beta_<id>`, `centre_lt_centre`) printed the
 same three axioms, in the per-job audit of `rung3-production.yml`.
 
+The strip re-assembly (section 3) printed the same 17 lines, and this one for the new
+theorem (`pilot.json` `production.strip_assembly`, log in its receipts):
+
+```
+'ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
 ## 3. How it was built
 
 - **Sites (GitHub Actions, run 40353536947 at `85cabd55b`).** 20 jobs compiled all 215
@@ -110,6 +141,18 @@ same three axioms, in the per-job audit of `rung3-production.yml`.
   shared modules have identical constants. `/dev/shm` was cleared afterwards. The
   receipts (site-root and assembly olean SHA-256, logs) are in
   `<cache>/rung3-ball-production-full/receipts`.
+- **The strip re-assembly (this box, oleans on disk), 2026-10-26, 23:36 to 23:43 UTC.**
+  The same steps, with `Strip.lean` added after `Separation.lean`, from this branch at
+  `6bbe67707` plus the emitter change. A guarded `leanchecker` job held about 7 GB, so
+  the oleans went under `<cache>`, not `/dev/shm`. `collect` downloaded the same 20 artifacts again,
+  every digest equal to GitHub's and to the first collect's, in 116.8 CPU-s and 192 s of
+  wall. The 215 root oleans are byte-identical to the first receipts, and every site has
+  its root checkpoint. `assemble` used this checkout's `ZetaLean` oleans of 2026-10-21
+  with no Lake build: their 195 files hash the same before and after. Support 8.2 CPU-s,
+  Assembly 73.8 CPU-s at 18.03 GB peak RSS, Separation 10.9, Strip 10.7, the axioms print
+  10.8. `MemAvailable` never fell below 63.7 GiB. The Support, Assembly and Separation
+  oleans hash exactly as the first assembly's, so nothing they declare moved. The
+  receipts are in `<cache>/rung3-ball-production-full/receipts-strip-20261026`.
 
 ## 4. What the kernel refused
 
@@ -125,7 +168,19 @@ All on production output, recorded in `pilot.json` `production.box_faults` and
 | the centre's eps' at the bound, and at 1/4000 | `centre_lt_centre` (the probe of its last step) |
 
 The eps' bracket holds: the probe is accepted at 1/2000 and at the next multiple of 2^-64
-above the bound, and refused at the bound and at 1/4000. The standing test
+above the bound, and refused at the bound and at 1/4000.
+
+On the strip theorem, two faults were planted in scratch copies of `Strip.lean`, compiled
+against the re-assembled environment (`production.py strip-faults`; `pilot.json`
+`production.strip_assembly.strip_faults`). Lean refused both at
+`davenport_heilbronn_strip`, in its tactics, before any proof term reached the kernel:
+
+| planted fault in the statement | Lean's error |
+|---|---|
+| `s.re < 19/25` (0.76, just left of the square's edge 0.761642) for `s.re < 1` | `linarith failed to find a contradiction` |
+| `s.re ≠ 4/5` (a line through the square) for `s.re ≠ 1/2` | `unsolved goals` |
+
+The unchanged copy, compiled the same way, was accepted. The standing test
 `tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one` passes. It is
 measured, not rigorous: the mpmath argument principle at 20 digits counts no zero with
 Re s in [0.55, 2] and 0.3 < Im s < 80.3, and one with 80.3 < Im s < 90.3. Within that
@@ -148,7 +203,8 @@ not chosen.
   imported them against this box's `ZetaLean` oleans of 2026-10-21, through the overlay.
   The sources of the sites' import closure have not changed since 2026-09-28 apart from
   comments, so the two builds' constants are expected to agree, but they were never
-  compared. The replay would close this as well.
+  compared. The replay would close this as well. The strip re-assembly used the same
+  `ZetaLean` oleans, unchanged, so it inherits this join and adds no new one.
 - The staged default of `scripts/60` cannot produce an assemblable output: its tower
   namespaces collide across sites (`PILOT.md` section 11). Only `--tower whole` can.
 
@@ -183,14 +239,22 @@ number of sites against K.
 
 1. An independent kernel replay of the assembled environment, which reads more: the same
    oleans in another checker.
-2. A bundled strip statement, inside the data the current family reads: one theorem
-   `∃ f s, Differentiable ℂ f ∧ dh_series_rep f ∧ dh_functional_eq f ∧ f s = 0 ∧
-   0 < s.re ∧ s.re < 1 ∧ s.re ≠ 1/2`, defined outside the sites' import closure (for
-   example in `Support.lean`), emitted by `assembly.py` and compiled by re-running
-   `production.py collect` and `assemble` on the box (on 2026-10-26 these took 106 CPU-s
-   and 118 CPU-s, about 4 core-minutes together). It would replace the
+2. **Done, 2026-10-26.** A bundled strip statement, inside the data the current family
+   reads. The theorem, in module `Rung3Assembly.Strip`, emitted by `assembly.py`
+   (`STRIP_STATEMENT`, pinned by the hunt test) and importing `Rung3Assembly.Assembly`
+   alone, outside the sites' import closure:
+   `theorem davenport_heilbronn_strip : ∃ (f : ℂ → ℂ) (s : ℂ), Differentiable ℂ f ∧
+   dh_series_rep f ∧ dh_functional_eq f ∧ f s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ s.re ≠ 1/2`.
+   It compiled by re-running `production.py collect` and `assemble` on the box, and it
+   prints `propext`, `Classical.choice` and `Quot.sound` only (section 2). Both planted
+   faults in the strip condition were refused (section 4). It replaces the
    reading-together of `dh_separation_hundred` and `dh_analytic_half`, and
-   `davenport_heilbronn_statement`, which the trivial zero s = -1 meets.
+   `davenport_heilbronn_statement`, which the trivial zero s = -1 meets. Cost: 116.8
+   CPU-s for `collect` and 114.4 CPU-s of Lean for `assemble`, against 106 and 118 the
+   first time. Receipts: `<cache>/rung3-ball-production-full/receipts-strip-20261026`
+   (the zips' SHA-256 in `collected.json`, the 215 root and the assembly oleans' SHA-256,
+   the `ZetaLean` build's SHA-256 before and after, the emitted sources, the fault copies
+   and every log).
 3. Composites and terms by `decide +kernel`, inside the data the current family reads.
 4. A smaller square or a different eps', inside the same data, but it needs a new plan
    and mirror validation.
@@ -200,4 +264,4 @@ number of sites against K.
 Doors 1 and 2 are cheapest before the site oleans' GitHub artifacts expire, about
 2026-11-25 (30-day retention from run 40353536947). The box kept only their SHA-256 and
 the logs, so after that date both need the 215 sites compiled again, 16.1 runner
-core-hours at the measured rate.
+core-hours at the measured rate. Door 2 is now done; door 1 still has that deadline.

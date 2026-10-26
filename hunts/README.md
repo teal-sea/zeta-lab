@@ -86,7 +86,12 @@ verification. The assembly's `davenport_heilbronn : davenport_heilbronn_statemen
 weaker: the statement, as defined, is also met by the trivial zero s = -1
 (`lean/ZetaLean/DHTrivialZero.lean`, found by the PR #353 review). Original;
 searched-and-absent in `PRIOR_ART.md`, not a novelty claim; nothing here bears on RH.**
-`RESULTS.md` states the theorems as compiled. *2026-10-21 status, superseded:* open ledger
+`RESULTS.md` states the theorems as compiled. *Added 2026-10-26:* one theorem now carries
+the strip result, `davenport_heilbronn_strip` (an entire function with the
+Davenport-Heilbronn series and functional equation has a zero s with 0 < Re s < 1 and
+Re s ≠ 1/2, witness `DH`), in an emitted module outside the sites' import closure,
+compiled by a second on-box assembly of the same 215 site oleans with the same three
+axioms (`RESULTS.md` section 1 and door 2). *2026-10-21 status, superseded:* open ledger
 hunt; a pilot on one shared box in one session, measured; the pilot site's two theorems
 kernel-checked and its planted faults refused; no production shard launched;
 `davenport_heilbronn` unproved, and no file emitted the assembly module that would prove

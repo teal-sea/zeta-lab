@@ -314,6 +314,37 @@ def test_every_final_declaration_rests_on_the_standard_axioms():
                for r in PROD["assembly_box"]["runs"])
 
 
+def test_the_strip_reassembly_rests_on_the_standard_axioms_and_moved_nothing():
+    """Door 2: the re-assembly of the same 215 site oleans with `Strip.lean`. The new
+    theorem and the 17 old declarations print exactly the three axioms, quoted verbatim in
+    RESULTS.md; the downloads and the oleans of the first assembly came back byte for byte;
+    each planted fault in the strip condition was refused at the new theorem."""
+    s = PROD["strip_assembly"]
+    ax = s["axioms"]
+    assert list(ax) == prod.FINAL + prod.STRIP and len(ax) == 18
+    assert all(prod.axioms_ok(a) for a in ax.values())
+    results = (HERE / "RESULTS.md").read_text()
+    for line in s["printed"].strip().splitlines():
+        assert line in results, line
+    assert [r["tag"] for r in s["runs"]] == ["support", "assembly", "separation", "strip", "axioms"]
+    assert all(r["returncode"] == 0 and not r["killed_by_guard"] and r["mem_available_gib_low"] > 20
+               for r in s["runs"])
+    assert s["collect"]["artifacts"] == PROD["collect"]["artifacts"]   # the same 20 digests
+    assert s["collect"]["same_artifacts_as_first"] is True
+    assert s["site_root_oleans"] == {"count": 215, "sha256_equal_first_receipts": True}
+    assert s["zetalean_build_unchanged"] is True
+    olean = s["assembly_oleans"]
+    assert all(v["equal_first"] for k, v in olean.items() if "Strip" not in k)
+    assert {k for k in olean if "Strip" in k} == {"Rung3Assembly/Strip.olean"}
+    f = s["strip_faults"]
+    want = ["ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip"]
+    assert f["control"]["returncode"] == 0 and f["control"]["refused_at"] == []
+    for tag in ("re-below-square", "line-through-square"):
+        assert f[tag]["returncode"] == 1 and f[tag]["refused_at"] == want, tag
+        assert not f[tag]["killed_by_guard"], tag
+    assert "oleans on disk under <cache>/" in s["where"]
+
+
 def test_the_box_faults_were_each_refused_where_planted():
     bf = PROD["box_faults"]
     assert bf["fault-tower-whole-outcome"]["refused_at"][0] == "Prime_B_right_06_2.ev_whole"

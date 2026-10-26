@@ -407,7 +407,49 @@ def test_assembly_is_byte_stable_and_pinned():
     assembly.py); pilot.json pins their SHA-256, the text the harness elaborated."""
     assert assembly.emitted(PLAN2) == EMITTED
     assert PILOT["assembly_emitted"] == assembly.pins(PLAN2)
-    assert not (HERE / "lean" / "Rung3Assembly" / "Assembly.lean").exists()
+    for name in EMITTED:
+        assert not (HERE / "lean" / "Rung3Assembly" / name).exists(), name
+
+
+# The shape the coordinator fixed for the bundled strip theorem on 2026-10-26.
+STRIP_SHAPE = ("theorem davenport_heilbronn_strip : ∃ (f : ℂ → ℂ) (s : ℂ), Differentiable ℂ f "
+               "∧ dh_series_rep f ∧ dh_functional_eq f ∧ f s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ "
+               "s.re ≠ 1/2")
+
+
+def test_the_strip_theorem_states_the_fixed_shape():
+    """`davenport_heilbronn_strip` is the statement `assembly.py` pins, in its own emitted
+    module downstream of the 215 sites, proved from `DH`'s analytic half and the located
+    zero; adding it left the two modules first compiled byte for byte as they were."""
+    assert " ".join(assembly.STRIP_STATEMENT.split()) == STRIP_SHAPE
+    text = EMITTED["Strip.lean"]
+    assert text.count(assembly.STRIP_STATEMENT + " := by\n") == 1
+    assert [l for l in text.splitlines() if l.startswith("import ")] == \
+        ["import Rung3Assembly.Assembly"]
+    proof = text.split(assembly.STRIP_STATEMENT, 1)[1]
+    for name in ("dh_zero_located", "DH_differentiable", "DH_series_rep", "DH_functional_eq"):
+        assert name in proof, name
+    assert "sorry" not in text and "axiom" not in text
+    assert "davenport_heilbronn_strip" not in EMITTED["Assembly.lean"] + EMITTED["Separation.lean"]
+    pins = PILOT["assembly_emitted"]
+    assert pins["Assembly.lean"]["sha256"].startswith("5ae46eb4a6030349")    # RESULTS.md, 1
+    assert pins["Separation.lean"]["sha256"].startswith("2ad0703b9b0ccae3")
+
+
+def test_the_strip_faults_change_only_the_statement():
+    """The scratch copies `production.py strip-faults` compiles: the control is the emitted
+    module itself, and each fault breaks the strip condition in the statement alone."""
+    v = assembly.strip_variants(PLAN2)
+    assert set(v) == {"control", "re-below-square", "line-through-square"}
+    assert v["control"] == EMITTED["Strip.lean"]
+    proof = EMITTED["Strip.lean"].split(assembly.STRIP_STATEMENT, 1)[1]
+    for tag, claim in (("re-below-square", "s.re < 19/25 ∧"),
+                       ("line-through-square", "s.re ≠ 4/5")):
+        assert v[tag] != v["control"] and claim in v[tag], tag
+        assert v[tag].endswith(proof) and assembly.STRIP_STATEMENT not in v[tag], tag
+    lo = F(PLAN2["small"]["cre"]) - F(PLAN2["small"]["w"])
+    hi = F(PLAN2["small"]["cre"]) + F(PLAN2["small"]["w"])
+    assert F(19, 25) < lo < F(4, 5) < hi and (lo, hi) == (F(380821, 500000), F(26731, 31250))
 
 
 def test_the_committed_lean_is_a_module():

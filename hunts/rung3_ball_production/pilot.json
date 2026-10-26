@@ -6404,6 +6404,11 @@
    "sha256": "2ad0703b9b0ccae3c3b774809e0033e3c64050cb30902488e259821d08adf783",
    "bytes": 679,
    "lines": 17
+  },
+  "Strip.lean": {
+   "sha256": "c763fa289c8b7285cf93dd62997e7fb2ffca155ae1b856ac7ab0a5635c41b38b",
+   "bytes": 1057,
+   "lines": 21
   }
  },
  "whole_site": {
@@ -10545,6 +10550,366 @@
     ]
    }
   },
-  "receipts": "<cache>/rung3-ball-production-full/receipts (site and assembly olean SHA-256, logs)"
+  "receipts": "<cache>/rung3-ball-production-full/receipts (site and assembly olean SHA-256, logs)",
+  "strip_assembly": {
+   "date": "2026-10-26",
+   "commit": "6bbe67707bdcfe682e4148612bac07742e20b357",
+   "where": "this box, one Lean process at a time under nice -n 10 and the MemAvailable guard; oleans on disk under <cache>/rung3-ball-production-strip-20261026, not /dev/shm",
+   "receipts": "<cache>/rung3-ball-production-full/receipts-strip-20261026",
+   "collect": {
+    "runs": [
+     40353536947
+    ],
+    "artifacts": [
+     {
+      "job": 0,
+      "artifact": "rung3-production-job0-attempt1",
+      "sha256": "d3529827ebaa185f89a2b4177585fe0c4284b3b5fe48d13f3f951680975dc288",
+      "bytes": 246439965
+     },
+     {
+      "job": 1,
+      "artifact": "rung3-production-job1-attempt1",
+      "sha256": "dcd122bdf302b934f6a15038565e94f296e07b1993c88b6b9b88764f9576e92e",
+      "bytes": 237859666
+     },
+     {
+      "job": 2,
+      "artifact": "rung3-production-job2-attempt1",
+      "sha256": "880f1ce17165bb961733da36563efd8f80ef5d377bc03049a98215a5dd94900b",
+      "bytes": 236248325
+     },
+     {
+      "job": 3,
+      "artifact": "rung3-production-job3-attempt1",
+      "sha256": "9d90ad72f8b5ba5655685d2516259dbf35705e199387a2f4f84d064d54b888f5",
+      "bytes": 238729992
+     },
+     {
+      "job": 4,
+      "artifact": "rung3-production-job4-attempt1",
+      "sha256": "ff51c1552adc35becebbcd545f71892fd3bf9add52ac96d21b9e969c05c8c955",
+      "bytes": 237546124
+     },
+     {
+      "job": 5,
+      "artifact": "rung3-production-job5-attempt1",
+      "sha256": "59631fb8b85355c1020a4e36ac4b781f3bc3ff650248da141a6872a7e4c8caf0",
+      "bytes": 236769082
+     },
+     {
+      "job": 6,
+      "artifact": "rung3-production-job6-attempt1",
+      "sha256": "fa50916825dfc23ccecd6804b108d86e96ed1c3af4bc18768f44c110cf5a1d1e",
+      "bytes": 238446747
+     },
+     {
+      "job": 7,
+      "artifact": "rung3-production-job7-attempt1",
+      "sha256": "d7b6a9052a648fbc2750032a5e821e3960ab3aeb61137f1dcb34228d332275af",
+      "bytes": 238136770
+     },
+     {
+      "job": 8,
+      "artifact": "rung3-production-job8-attempt1",
+      "sha256": "036b6f3133773c0918245050a71693dcc74d01febed6c35c5ed66158709a017a",
+      "bytes": 237429583
+     },
+     {
+      "job": 9,
+      "artifact": "rung3-production-job9-attempt1",
+      "sha256": "fa5a3eda2e1d8c046e4a0dc4337991573bb3e2730a5a7606a661cf29ba379bbb",
+      "bytes": 232090899
+     },
+     {
+      "job": 10,
+      "artifact": "rung3-production-job10-attempt1",
+      "sha256": "b7be88a89a44a9b9ee6767280ccabf82b4d2fb1d2e8173f08a2a168fdd79de88",
+      "bytes": 231434354
+     },
+     {
+      "job": 11,
+      "artifact": "rung3-production-job11-attempt1",
+      "sha256": "8b9223aadb0fb48929beab7b5f57a8c5d4dfed12ea9dd87fb48ed7899e9deabe",
+      "bytes": 237232980
+     },
+     {
+      "job": 12,
+      "artifact": "rung3-production-job12-attempt1",
+      "sha256": "546c7c089fcd39791d341453edbf99822f181732eca2e2c595049e065709001b",
+      "bytes": 236120198
+     },
+     {
+      "job": 13,
+      "artifact": "rung3-production-job13-attempt1",
+      "sha256": "2816ed12887824dfb78753d317f1298b3a98e478eca9a6f635bc76cd9c7044fe",
+      "bytes": 241223011
+     },
+     {
+      "job": 14,
+      "artifact": "rung3-production-job14-attempt1",
+      "sha256": "bd69ffd751313ff36c93383cf6b47b5a8a274005ab4316ad4691ba0801b7bfe9",
+      "bytes": 236405705
+     },
+     {
+      "job": 15,
+      "artifact": "rung3-production-job15-attempt1",
+      "sha256": "5bae85033ade35cf6eccce3c27738db31f5a92a7e5294c75cb63c6b1b857c700",
+      "bytes": 231790264
+     },
+     {
+      "job": 16,
+      "artifact": "rung3-production-job16-attempt1",
+      "sha256": "c5c060f72fe95e90e416733a3393412013852932887535a3757b5cde1944ab63",
+      "bytes": 237712357
+     },
+     {
+      "job": 17,
+      "artifact": "rung3-production-job17-attempt1",
+      "sha256": "fbe61ece70fa4d6245fcc59ecbc9e664a59462a790d9e00d1eb7ceb0785470f4",
+      "bytes": 236821481
+     },
+     {
+      "job": 18,
+      "artifact": "rung3-production-job18-attempt1",
+      "sha256": "2660886cefe76209181e5ae95443a9ad95f69fdf032fa0308989a5a6d7c02e53",
+      "bytes": 238255259
+     },
+     {
+      "job": 19,
+      "artifact": "rung3-production-job19-attempt1",
+      "sha256": "ce8219a21ae267bcbc522fb47e4ad97c9ab7fd07c56f6c908e741b61244cb6c3",
+      "bytes": 237953702
+     }
+    ],
+    "same_artifacts_as_first": true,
+    "cpu_s": 116.8,
+    "wall_s": 192.0,
+    "peak_rss_bytes": 72916992
+   },
+   "site_root_oleans": {
+    "count": 215,
+    "sha256_equal_first_receipts": true
+   },
+   "site_olean_dir_bytes": 15125743627,
+   "assembly_oleans": {
+    "Rung3Assembly/Assembly.olean": {
+     "sha256": "9645e513abce388d14accd40d371fcc4e1415f522cb9d49c5021da2128221b56",
+     "equal_first": true
+    },
+    "Rung3Assembly/Separation.olean": {
+     "sha256": "a55f1f818a34cc18365f9892924f42387d7e321fe9551d78bb1ea531f38c15f0",
+     "equal_first": true
+    },
+    "Rung3Assembly/Strip.olean": {
+     "sha256": "519d50c585e1b58f0758227285dd08add23588e7901a7b04286e1c8d45db9df2",
+     "equal_first": false
+    },
+    "Rung3Assembly/Support.olean": {
+     "sha256": "3423ec924398be580aae282db550648427c85ec452593003ce9193ac6814034f",
+     "equal_first": true
+    },
+    "Rung3Assembly/Support.olean.private": {
+     "sha256": "7f7b243eb1e3038eb3129a35f3b975df4237f4477c592d8882f2b46d7f838956",
+     "equal_first": true
+    },
+    "Rung3Assembly/Support.olean.server": {
+     "sha256": "c16f9eeef00e42441e9214e320ba52cdf036c5c44465f5951c74b25764cc46f9",
+     "equal_first": true
+    }
+   },
+   "zetalean_build_unchanged": true,
+   "zetalean_build_files": 195,
+   "runs": [
+    {
+     "tag": "support",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 10.0,
+     "cpu_s": 8.2,
+     "peak_rss_bytes": 3898732544,
+     "mem_available_gib_start": 65.1,
+     "mem_available_gib_low": 65.0,
+     "load_start": 9.64
+    },
+    {
+     "tag": "assembly",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 40.1,
+     "cpu_s": 73.8,
+     "peak_rss_bytes": 18030092288,
+     "mem_available_gib_start": 65.0,
+     "mem_available_gib_low": 63.7,
+     "load_start": 9.71
+    },
+    {
+     "tag": "separation",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 20.0,
+     "cpu_s": 10.9,
+     "peak_rss_bytes": 17713688576,
+     "mem_available_gib_start": 65.9,
+     "mem_available_gib_low": 65.3,
+     "load_start": 12.26
+    },
+    {
+     "tag": "strip",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 20.0,
+     "cpu_s": 10.7,
+     "peak_rss_bytes": 17618288640,
+     "mem_available_gib_start": 66.1,
+     "mem_available_gib_low": 65.2,
+     "load_start": 10.93
+    },
+    {
+     "tag": "axioms",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 20.0,
+     "cpu_s": 10.8,
+     "peak_rss_bytes": 17723854848,
+     "mem_available_gib_start": 66.0,
+     "mem_available_gib_low": 65.1,
+     "load_start": 9.22
+    }
+   ],
+   "axioms": {
+    "big_bottom": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "big_top": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "big_left": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "big_right": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "big_frontier": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "deriv_bound_small": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_bottom": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_top": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_left": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_right": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_frontier": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "centre_small": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "dh_zero_located": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "dh_zero_located'": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "davenport_heilbronn": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "dh_separation_of": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "dh_separation_hundred": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "davenport_heilbronn_strip": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ]
+   },
+   "printed": "'ZetaLean.DH.Rung3Assembly.Plan2.big_bottom' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.big_top' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.big_left' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.big_right' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.big_frontier' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.deriv_bound_small' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.small_bottom' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.small_top' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.small_left' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.small_right' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.small_frontier' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.centre_small' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located'' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_of' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_hundred' depends on axioms: [propext, Classical.choice, Quot.sound]\n'ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+   "strip_faults": {
+    "control": {
+     "returncode": 0,
+     "refused_at": [],
+     "sha256": "c763fa289c8b7285cf93dd62997e7fb2ffca155ae1b856ac7ab0a5635c41b38b",
+     "cpu_s": 11.3,
+     "peak_rss_bytes": 17612861440,
+     "mem_available_gib_low": 65.1,
+     "killed_by_guard": false,
+     "errors": []
+    },
+    "re-below-square": {
+     "returncode": 1,
+     "refused_at": [
+      "ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip"
+     ],
+     "sha256": "a32fea9d74afb5b7444d278424126f28f6cd81d5c88e2afc609e533481971bc7",
+     "cpu_s": 11.1,
+     "peak_rss_bytes": 17611255808,
+     "mem_available_gib_low": 65.1,
+     "killed_by_guard": false,
+     "errors": [
+      "linarith failed to find a contradiction"
+     ]
+    },
+    "line-through-square": {
+     "returncode": 1,
+     "refused_at": [
+      "ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip"
+     ],
+     "sha256": "210b9905299f9775715c086149519ccfc9f97a88517b45a4639d381c59488b3a",
+     "cpu_s": 10.3,
+     "peak_rss_bytes": 17612582912,
+     "mem_available_gib_low": 64.9,
+     "killed_by_guard": false,
+     "errors": [
+      "unsolved goals"
+     ]
+    }
+   }
+  }
  }
 }

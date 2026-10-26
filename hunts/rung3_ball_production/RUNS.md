@@ -479,3 +479,100 @@ artifacts:
   - hunts/rung3_ball_production/pilot.json (production)
   - <cache>/rung3-ball-production-full/receipts
 ```
+
+## 2026-10-26: the strip re-assembly on this box (estimate before spending)
+
+Door 2 of `RESULTS.md`: one theorem, `davenport_heilbronn_strip`, in a new emitted module
+`Strip.lean` that imports `Rung3Assembly.Assembly` alone (`assembly.py`). `Assembly.lean`
+and `Separation.lean` are emitted byte for byte as before (`cmp` against the copies in the
+first receipts). The site oleans are gone from this box, so `collect` downloads run
+40353536947's 20 artifacts again.
+
+Conditions set by the coordinator for this run:
+
+- **No Lake build.** No `lake build`, `lake update` or `lake exe cache` in this worktree;
+  the `ZetaLean` oleans are this checkout's of 2026-10-21 under `lean/.lake`, used as last
+  time through the overlay, and only `lake env lean` runs. Their SHA-256 list is taken
+  before and after.
+- **On disk, not `/dev/shm`.** A guarded `leanchecker` job of about 7 GB holds RAM, so
+  `--dest` is `<cache>/rung3-ball-production-strip-20261026`, on `/` (47 GB free).
+  `production.py` does not hard-code `/dev/shm`: `collect` and `assemble` already take
+  `--dest`, so nothing was patched.
+- **Memory.** `MemAvailable` above 20 GiB throughout: `run_guarded` refuses to start a
+  Lean process below 45 GiB and kills it below 20 GiB; `ulimit -s unlimited` before every
+  Lean process; one Lean process at a time under `nice -n 10`.
+- **Integrity.** `collect` checks each zip's SHA-256 against GitHub's digest and each
+  site's root olean and root checkpoint; the 215 root oleans are also compared with the
+  SHA-256 list in the first receipts.
+
+A syntax smoke ran first, outside the log: the emitted `Strip.lean` body after a scratch
+file that states `dh_zero_located` as a stub (`lake env lean`, importing
+`ZetaLean.DHAnalytic` only). Exit 0, 8.8 CPU-s, 6.7 GB; it printed the three standard
+axioms and the stub, as a stub harness must.
+
+**Estimate**, from the first assembly's measurements (`production.assembly_box`):
+
+| unit | basis | estimate |
+|---|---|---|
+| `collect`: 20 zips, 4,744,646,464 bytes, to disk; about 15.1 GB unzipped | 106 CPU-s and 179 s of wall into `/dev/shm` | 100 to 150 CPU-s; 3 to 10 min wall, since the unzip writes to disk |
+| `Support.olean` | 9.1 CPU-s, 3.8 GB | about 10 CPU-s |
+| `Assembly.lean`, 215 roots | 85.3 CPU-s, 17.87 GB | 85 to 120 CPU-s, 17.5 to 18.5 GB peak RSS |
+| `Separation.lean` | 11.8 CPU-s, 17.57 GB | about 12 CPU-s, the same RSS |
+| `Strip.lean`, which imports `Assembly` | the same import as `Separation` | 10 to 20 CPU-s, the same RSS |
+| `#print axioms`, 18 declarations | 11.6 CPU-s | about 12 CPU-s |
+| `strip-faults`: the control and two planted faults | three imports as above | 30 to 60 CPU-s, one process at a time |
+
+In all, 250 to 400 CPU-s (4 to 7 core-minutes) and 17.5 to 18.5 GB peak RSS per Lean
+process. With the oleans in the page cache instead of a tmpfs, `MemAvailable` is expected
+to start near 65 GiB and stay above 40 GiB. Disk: about 15.1 GB of oleans plus one zip.
+
+### What ran (UTC, measured)
+
+- Before 23:36: the syntax smoke above (8.8 CPU-s).
+- 23:36:19 to 23:39:31: `production.py collect --request <receipts>/RUN_REQUEST.full.json
+  --run 40353536947 --dest <cache>/rung3-ball-production-strip-20261026`. The request is
+  the full-mode one of `85cabd55b`, copied into the receipts, because the committed
+  `RUN_REQUEST.json` is the later fault request, which names one job. 20 zips,
+  4,744,646,464 bytes, every SHA-256 equal to GitHub's digest and to the first collect's
+  `collected.json`. 116.8 CPU-s, 192 s of wall, 71 MB peak RSS. Then, by hand: the 215
+  root oleans' SHA-256 equal the first receipts' list, all 215 root checkpoints are
+  present, and the output directory holds 15,125,743,627 bytes, as the first time.
+- 23:40:20 to 23:42:11: `production.py assemble` (`ulimit -s unlimited`, `nice -n 10`):
+  Support 8.2 CPU-s at 3.90 GB; Assembly 73.8 CPU-s at 18.03 GB; Separation 10.9 at
+  17.71 GB; Strip 10.7 at 17.62 GB; the axioms print 10.8 at 17.72 GB. All exit 0, none
+  stopped by the guard; `MemAvailable` started at 65.0 to 66.1 GiB and its low was
+  63.7 GiB. All 18 declarations print exactly `propext`, `Classical.choice` and
+  `Quot.sound`. The Support, Assembly and Separation oleans hash exactly as in the first
+  receipts.
+- 23:42 to 23:43: `production.py strip-faults`: the control 11.3 CPU-s, exit 0; `s.re <
+  19/25` 11.1 CPU-s and `s.re ≠ 4/5` 10.3 CPU-s, each exit 1 and refused at
+  `davenport_heilbronn_strip`; each at about 17.6 GB, `MemAvailable` low 64.9 GiB.
+- After: the `ZetaLean` build's 195 files hash as before the run, and no file under
+  `lean/.lake/build` is newer than the run's start. The record went into `pilot.json`
+  `production.strip_assembly`, the receipts into
+  `<cache>/rung3-ball-production-full/receipts-strip-20261026`.
+
+Against the estimate: about 280 CPU-s in all (collect 116.8; assemble 121.5 for the
+driver, 114.4 of it Lean; the faults 32.7; the smoke 8.8), inside 250 to 400; peak RSS
+18.03 GB, inside 17.5 to 18.5; `MemAvailable` low 63.7 GiB, above the 40 expected.
+Assembly took less CPU than the first time (73.8 against 85.3) with the oleans in the
+page cache straight after the unzip; that comparison is one run each.
+
+Then the unpacked oleans (`<cache>/rung3-ball-production-strip-20261026`, about 15 GB)
+were deleted, keeping the receipts, with the zips' digests in `collected.json`.
+
+```runmanifest
+id: rung3_ball_production-2026-10-26-strip
+hunt: rung3_ball_production
+started: 2026-10-26T23:36Z
+finished: 2026-10-26T23:43Z
+ran:
+  - hunts/rung3_ball_production/production.py collect --request <receipts>/RUN_REQUEST.full.json --run 40353536947 --dest <cache>/rung3-ball-production-strip-20261026
+  - hunts/rung3_ball_production/production.py assemble --dest <cache>/rung3-ball-production-strip-20261026 --overlay <cache>/rung3-ball-production-assembly/overlay --rh100 <cache>/rh100-out
+  - hunts/rung3_ball_production/production.py strip-faults --dest <cache>/rung3-ball-production-strip-20261026 --overlay <cache>/rung3-ball-production-assembly/overlay
+outcome: theorem davenport_heilbronn_strip compiled with zero sorry and prints exactly propext, Classical.choice and Quot.sound, as do the 17 earlier final declarations; the 20 artifacts, the 215 root oleans and the Support, Assembly and Separation oleans are byte-identical to the first assembly's; both planted strip faults refused at davenport_heilbronn_strip and the control accepted; no Lake build, the ZetaLean oleans unchanged; the unpacked oleans deleted afterwards
+artifacts:
+  - hunts/rung3_ball_production/RESULTS.md
+  - hunts/rung3_ball_production/pilot.json (production.strip_assembly)
+  - <cache>/rung3-ball-production-full/receipts-strip-20261026
+```

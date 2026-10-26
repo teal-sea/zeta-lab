@@ -30,9 +30,16 @@ Subcommands (every one fails closed with a non-zero exit):
     collect    (assembly machine) download each job's latest oleans artifact of a run,
                check its SHA-256 against GitHub's digest, unzip, delete the zip, and
                check that every site the job owns has a checkpointed root olean
-    assemble   (assembly machine) emit and compile Support, Assembly and Separation, one
-               Lean process at a time under the MemAvailable guard, then print the axioms
-               of every final declaration verbatim
+    assemble   (assembly machine) emit and compile Support, Assembly, Separation and Strip,
+               one Lean process at a time under the MemAvailable guard, then print the
+               axioms of every final declaration verbatim
+    strip-faults  (assembly machine, after assemble) compile scratch copies of Strip.lean:
+               the unchanged copy must compile and each planted fault in the strip
+               condition must be refused at davenport_heilbronn_strip
+
+`collect` and `assemble` take `--dest`, which may be any directory with room for about
+16 GB of oleans: on-disk under ~/.cache on 2026-10-26 for the strip re-assembly, /dev/shm
+for the first assembly the same day.
 """
 from __future__ import annotations
 
@@ -426,6 +433,7 @@ FINAL = ["big_bottom", "big_top", "big_left", "big_right", "big_frontier", "deri
          "small_bottom", "small_top", "small_left", "small_right", "small_frontier",
          "centre_small", "dh_zero_located", "dh_zero_located'", "davenport_heilbronn",
          "dh_separation_of", "dh_separation_hundred"]
+STRIP = ["davenport_heilbronn_strip"]      # Strip.lean, added after the first assembly
 START_GIB, STOP_GIB = 45.0, 20.0
 
 
@@ -483,7 +491,7 @@ def cmd_assemble(dest: Path, overlay: Path, rh100: Path) -> None:
     recs = [run_guarded("support", [f"--root={hl}", "-o", str(asm / "Rung3Assembly" / "Support.olean"),
                                     str(hl / "Rung3Assembly" / "Support.lean")], [asm], logdir)]
     lp = [overlay, asm, out, rh100]
-    for name in ("Assembly", "Separation"):
+    for name in ("Assembly", "Separation", "Strip"):
         recs.append(run_guarded(name.lower(), [f"--root={asm}", "-o",
                                                str(asm / "Rung3Assembly" / f"{name}.olean"),
                                                str(asm / "Rung3Assembly" / f"{name}.lean")],
@@ -491,12 +499,12 @@ def cmd_assemble(dest: Path, overlay: Path, rh100: Path) -> None:
         if recs[-1]["returncode"]:
             sys.exit(f"{name}.lean failed: see {logdir / (name.lower() + '.log')}")
     probe = asm / "PrintAxioms.lean"
-    probe.write_text("import Rung3Assembly.Separation\n" + "".join(
-        f"#print axioms ZetaLean.DH.Rung3Assembly.Plan2.{n}\n" for n in FINAL))
+    probe.write_text("import Rung3Assembly.Separation\nimport Rung3Assembly.Strip\n" + "".join(
+        f"#print axioms ZetaLean.DH.Rung3Assembly.Plan2.{n}\n" for n in FINAL + STRIP))
     recs.append(run_guarded("axioms", [str(probe)], lp, logdir))
     printed = (logdir / "axioms.log").read_text()
     found = parse_axioms(printed)
-    verdict = {n: found.get(f"ZetaLean.DH.Rung3Assembly.Plan2.{n}") for n in FINAL}
+    verdict = {n: found.get(f"ZetaLean.DH.Rung3Assembly.Plan2.{n}") for n in FINAL + STRIP}
     (dest / "assemble.json").write_text(json.dumps({"runs": recs, "axioms": verdict,
                                                     "printed": printed}, indent=1) + "\n")
     bad = [n for n, ax in verdict.items() if not axioms_ok(ax)]
@@ -505,11 +513,40 @@ def cmd_assemble(dest: Path, overlay: Path, rh100: Path) -> None:
         sys.exit(f"axioms other than the standard three, or missing, for {bad}")
 
 
+def cmd_strip_faults(dest: Path, overlay: Path) -> None:
+    """Scratch copies of the emitted Strip.lean (`assembly.strip_variants`), compiled
+    against the assembled environment, never written over the real one: the control must
+    compile, and each fault must be refused at `davenport_heilbronn_strip`."""
+    asm, out, logdir, work = dest / "asm", dest / "out", dest / "logs", dest / "strip-faults"
+    assert (asm / "Rung3Assembly" / "Strip.olean").is_file(), "run assemble first"
+    work.mkdir(parents=True, exist_ok=True)
+    emitter = _load("rung3_assembly_for_strip_faults", HERE / "assembly.py")
+    plan = json.loads((LEAN / "cert" / "rung3_plan2.json").read_text())
+    want = f"ZetaLean.DH.Rung3Assembly.Plan2.{STRIP[0]}"
+    results, bad = {}, []
+    for tag, text in emitter.strip_variants(plan).items():
+        src = work / f"Strip_{tag.replace('-', '_')}.lean"
+        src.write_text(text)
+        rec = run_guarded(f"strip-{tag}", [str(src)], [overlay, asm, out], logdir)
+        log = (logdir / f"strip-{tag}.log").read_text(errors="ignore")
+        rec["refused_at"] = sorted(set(error_decls(log, text, src.name)))
+        rec["sha256"] = hashlib.sha256(text.encode()).hexdigest()
+        results[tag] = rec
+        ok = (rec["returncode"] == 0 and not rec["refused_at"]) if tag == "control" else \
+            (rec["returncode"] != 0 and rec["refused_at"] == [want])
+        if not ok:
+            bad.append(tag)
+    (dest / "strip_faults.json").write_text(json.dumps(results, indent=1) + "\n")
+    print(json.dumps({t: (r["returncode"], r["refused_at"]) for t, r in results.items()}))
+    if bad:
+        sys.exit(f"strip faults not as expected: {bad}")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["plan", "preflight", "toplevels", "sites", "generate",
                                     "axioms", "record", "fault", "refused", "verdict",
-                                    "collect", "assemble"])
+                                    "collect", "assemble", "strip-faults"])
     ap.add_argument("--request", type=Path, default=REQUEST)
     ap.add_argument("--job", type=int, default=0)
     ap.add_argument("--gen", type=Path, default=Path("gen"))
@@ -548,6 +585,8 @@ def main() -> None:
         cmd_collect(req, args.run, args.dest.resolve(), args.repo)
     elif args.cmd == "assemble":
         cmd_assemble(args.dest.resolve(), args.overlay.resolve(), args.rh100.resolve())
+    elif args.cmd == "strip-faults":
+        cmd_strip_faults(args.dest.resolve(), args.overlay.resolve())
     else:
         if args.runs:
             download_records(args.runs, args.records.resolve(), args.repo)
