@@ -7,7 +7,7 @@
 set -u
 out="$1"; shift
 here="$(cd "$(dirname "$0")" && pwd)"
-py=/Users/thomas/zeta-lab/.venv/bin/python
+py="${PYTHON:-python3}"   # e.g. PYTHON=.venv/bin/python run_shards.sh ...
 mkdir -p "$out"
 for k in "$@"; do
   n0=$(( (k - 1) * 100000 + 1 ))
