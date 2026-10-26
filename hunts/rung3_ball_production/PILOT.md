@@ -1,0 +1,332 @@
+# PILOT: one prime tower, composite atoms and one big-box site at Lean v4.35.0-rc2
+
+Hunt #145, lane `rung3-pilot`, 2026-10-21. **Grade: measured** (one box, one session, one
+route per number) for every cost below. The kernel outcomes are observations of what Lean
+accepted and refused on this box. The only kernel-checked objects are the pilot site's two
+theorems, whose axioms are printed in section 2; they say that `‖DH s‖ ≤ 25499/10000` on
+one box of the big square's boundary, and nothing more. No production shard was launched,
+and `davenport_heilbronn` is still unproved: no file emits the assembly module (section
+6).
+
+Every table between `<!-- table:... -->` markers is rendered by `report.py` from
+`pilot.json` (`render_docs.py` writes them in), and `test_rung3_ball_production.py` fails
+if a table here differs from what `pilot.json` renders. Numbers in the prose restate those
+tables or are pinned by that test.
+
+## 1. Environment and what ran
+
+<!-- table:setup -->
+| item | value |
+|---|---|
+| box | `<box>`: 32 vCPU (Intel Core Processor (Haswell, no TSX)), 115.1 GiB, no swap, shared |
+| Lean | `leanprover/lean4:v4.35.0-rc2`; Lean (version 4.35.0-rc2, x86_64-unknown-linux-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release) |
+| Mathlib | `065356127b1d` (`lean/lake-manifest.json`) |
+| Lake packages | 9; every package's git toplevel is the package itself: yes; every HEAD equals its manifest revision: yes |
+| `ZetaLean` modules built | 15: `Ball`, `BallCertSupport`, `BallTerm`, `DHAnalytic`, `DHAssembly`, `DHCertSupport`, `DHTailBound`, `DHTailBound2`, `DHZeroCriterion`, `DavenportHeilbronn`, `DirichletEval`, `IntervalCExp`, `IntervalExp`, `OracleDH`, `Rigor` |
+<!-- /table:setup -->
+
+Lake ran only in this worktree's `lean/.lake`, which `lake exe cache get` filled from
+scratch in the first attempt; no `.lake` was copied (compute rule 7), and each package's
+git toplevel and HEAD were checked again when `pilot.json` was written. The 15 `ZetaLean`
+modules are `Ball`, `BallTerm`, `BallCertSupport`, `DHCertSupport`, `DHAssembly` and
+`DHTailBound2` with their imports, built from this branch's sources. `scripts/72` is
+`main`'s version (`MISSION.md`, "Starting point"); `tests/test_rung3_ball_compile.py`
+passes against it (22 tests). Every Lean process ran through `pilot.py`, which waits
+before each run while the 1-minute load average is above a threshold (64 before the site
+compile and the fault recompiles, 96 before single small files) or `MemAvailable` is below
+30 GiB, and records argv, working directory, `LEAN_PATH`, wall time, user and system CPU
+and peak RSS from `wait4`, and the load before and after.
+
+The pilot site was generated and compiled with these two command lines, which `pilot.py
+site` ran and `pilot.json` records verbatim. The work directory is outside the tree, and
+any empty directory replays it. The generator is deterministic: the first attempt's ten
+sources and this run's are byte-identical (`generator_replay` in `pilot.json` compares
+their SHA-256), and `pilot.json` keeps each source's hash:
+
+<!-- table:commands -->
+```bash
+# from the worktree root; Lean from elan
+export PATH="$HOME/.elan/bin:$PATH"
+cd .
+.venv/bin/python scripts/60_rung3_generate.py lean/cert/rung3_plan2.json <cache>/rung3-ball-production-pilot-2/site/B_right_06/gen --arith ball --shard --only B_right_06
+cd .
+.venv/bin/python scripts/72_rung3_ball_compile.py --lean-project lean --output-root <cache>/rung3-ball-production-pilot-2/site/B_right_06/out --jobs 1 --module-jobs 1 <cache>/rung3-ball-production-pilot-2/site/B_right_06/gen/CB_right_06.manifest.json
+```
+<!-- /table:commands -->
+
+## 2. Kernel outcomes
+
+`B_right_06` is one of the three big boxes with the smallest K in plan v2 (K = 17, with
+`B_bottom_23` and `B_top_22`; big boxes run to K = 61, grid points from 85 to 114, the
+centre is 361), the same K as the unsharded whole-file record in `scripts/67`. It has 23
+prime towers (p = 2 to 89), 48 composites, 68 nonzero terms and N = 85 series terms, 774
+atoms by `scripts/67`'s count. `scripts/60` split it into 10 modules: `Base`, five prime
+shards, the `Primes` barrel, `Composites`, `Terms` and the root `CB_right_06`, which
+states
+
+```lean
+theorem upper_B_right_06 {s : ℂ} (hS : SI_B_right_06.contains s) :
+    ‖DH s‖ ≤ (((25499/10000 : ℚ)) : ℝ)
+```
+
+`scripts/72` compiled the ten in manifest order at one process, each with exit 0, and
+recorded the site `ok` (section 3 has the per-module record). `pilot.py axioms` then
+printed the axioms of `upper_B_right_06` and of `enc_B_right_06` (the enclosure theorem it
+rests on) from the compiled oleans: `propext`, `Classical.choice` and `Quot.sound`, and no
+`sorryAx`. That is the kernel-checked content of the pilot, one box of the big square's
+boundary bounded by `M`.
+
+### Planted faults in the site
+
+<!-- table:faults -->
+| fault | change planted | expected refusal | errors at | driver exit | module refused | modules recompiled |
+|---|---|---|---|---|---|---|
+| tower-rad | `Prime_89.Sq_10` radius lowered by one unit of its denominator (`13609794713164397/18446744073709551616` to `3402448678291099/4611686018427387904`) | `Prime_89.ev_mul_29` | `Prime_89.ev_mul_29`, `hp_B_right_06_89` | 1 | `CB_right_06/Primes04.lean` | 1 |
+| tail-rad | tail radius `r` set 9.6e-13 below the tail bound, all 3 occurrences | `enc_B_right_06` | `enc_B_right_06` | 1 | `CB_right_06.lean` | 1 |
+| M | `M` set 9.1e-13 below `u + rad` of the inflated ball | `upper_B_right_06` | `upper_B_right_06` | 1 | `CB_right_06.lean` | 1 |
+<!-- /table:faults -->
+
+Each fault was planted by `pilot.py fault` in a copy of the generated sources, and the
+copy was recompiled by the same driver against a copy of the clean output root, so
+`scripts/72` skipped every module whose source hash was unchanged and recompiled only the
+touched one. Two of the three are emitted radii: the last squaring of the largest prime's
+tower (`Prime_89.Sq_10`, radius lowered by one unit of its denominator 2^64) and the tail
+radius `r` of `enc_B_right_06` (set just below the tail bound that its hypothesis `hr`
+must clear, in all three places it occurs). The third lowers `M` in `upper_B_right_06` to
+just below the bound the enclosure delivers. In each case Lean refused the module at the
+declaration named in the table: the `norm_num` step that proves the perturbed equality or
+inequality fails, so no proof term for it reaches the kernel, the module writes no olean,
+and the driver marks the site failed and schedules none of its dependents. The radius
+fault was caught twice inside its module: at `ev_mul_29`, whose product no longer equals
+the literal, and at `hp_B_right_06_89`, where the site's own copy of that ball
+(`Pow_B_right_06_89`, the ball the rest of the site reads for 89^(-s)) no longer matches
+the perturbed `Sq_10`.
+
+### eps': the centre theorem's last step, with the enclosure as a hypothesis
+
+<!-- table:centre -->
+| probe | eps' stated | u + rad of the centre ball | lean exit |
+|---|---|---|---|
+| control | 5.000000e-04 | 3.855242e-04 | 0 |
+| eps-above-bound | 3.855242e-04 | 3.855242e-04 | 0 |
+| eps-at-bound | 3.855242e-04 | 3.855242e-04 | 1 |
+| eps-half | 2.500000e-04 | 3.855242e-04 | 1 |
+<!-- /table:centre -->
+
+eps' (`1/2000` in plan v2) appears in one emitted theorem, `centre_lt_centre : ‖DH
+z_centre‖ < ((1/2000 : ℚ) : ℝ)`. Its site has K = 361, 278 prime towers and 10,233 atoms
+by `scripts/67`'s count; compiling it is production, so it was generated (Python only) and
+not compiled. `pilot.py centre-eps` compiles that theorem's last step verbatim, from the
+emitted `B_centre` and `z_centre` literals, with the enclosure `henc : (B_centre.inflate
+r).contains (DH z_centre)` taken as a hypothesis instead of proved, at four values of
+eps'. The step needs `u + rad < eps'`, where `u` bounds the centre's modulus and `rad` is
+the inflated radius. Lean accepted the plan's value and the next multiple of 2^-64 above
+`u + rad`, and refused `u + rad` itself (the claim is strict) and half the plan's value,
+each refusal an error inside the probe's theorem. This shows that the eps' literal is
+checked against the emitted enclosure, to the last unit; it does not show that the
+centre's enclosure compiles. The other place eps' enters, the cell hypotheses `eps' +
+L*h/2 <= beta`, lives in the assembly module (section 6).
+
+### The mirror and the kernel on `B_right_06`
+
+The kernel accepted every emitted equality of the site, ending with `evB_B_right_06`,
+which says that the computed partial sum plus correction equals the literal
+`B_B_right_06`. So the kernel's value of that ball is the emitted literal. `pilot.py
+mirror` compares it with the bit-exact Fraction mirror as `scripts/65` runs it. The
+centres agree exactly. The radii do not: `scripts/65`'s ball is wider by exactly
+738083614955/2^64 (about 4.0e-8), which is the radius `scripts/63`'s `cpowBox` gives to
+1^(-s), because `scripts/65` evaluates the m = 1 term through the generic power chain
+while the generator seeds it as the exact ball (1, 0, 0) (`Pow_B_right_06_1` in the site's
+`Base` module). A copy of `scripts/65`'s assembly with m = 1 seeded the same way
+reproduces the emitted literal bit for bit, and the unseeded copy reproduces
+`scripts/65`'s value. So on this site the mirror and the kernel agree once that seed is
+accounted for, and `scripts/65`'s recorded normBound (the value in
+`lean/cert/rung3_ball_validation.json`) is the larger, conservative one. The hunt test
+pins each of these equalities.
+
+## 3. Cost per atom and per module
+
+<!-- table:cost -->
+| quantity | v4.33.0-rc2 record | this pilot | ratio |
+|---|---|---|---|
+| CPU-s per prime-tower atom, `scripts/68` tower at p = 2, 171 KB of text (net of import) | 1.2504 | 2.0896 (1.7822 to 2.3673, 3 runs) | 1.67 |
+| CPU-s per prime-tower atom, `scripts/68` tower at p = 2, with `lean -j1` | not measured | 2.2548 (2.1798 to 2.3951, 3 runs) | 1.80 |
+| CPU-s per prime-tower atom, `scripts/68` tower at p = 2, with Lean's linters off (`-Dlinter.all=false`) | not measured | 2.2527 (2.1989 to 2.3045, 3 runs) | 1.80 |
+| CPU-s per prime-tower atom, `scripts/68` tower at p = 1801, 532 KB of text | not measured | 2.2259 (2 runs) | 1.78 |
+| CPU-s per prime-tower atom in the site's prime shards (p = 2 to 89, 23 towers) | not measured | 2.4219 | 1.94 |
+| CPU-s per composite atom, `scripts/66`, 100 atoms (net of import) | 0.55 | 0.4865 (3 runs) | 0.88 |
+| CPU-s per composite in the site's `Composites` module (48 composites) | not measured | 0.6741 | 1.23 |
+| CPU-s per nonzero term in the site's `Terms` module (68 terms) | not measured | 0.513 | |
+| root module net CPU-s (term function, partial sums, assembly; N = 85) | not measured | 16.0 | |
+| import-only CPU-s per module, `Base` imports (median) | 4.576 | 10.079 | 2.20 |
+| import-only CPU-s per module, root imports (whole site loaded) | not measured | 9.805 | |
+| peak RSS added by importing the site's other oleans (root probe minus `Base` probe), per olean byte imported | not measured | 0.66 | |
+| peak RSS per process, largest module (wait4) | not recorded | 7.83 GiB | |
+| of which anonymous, largest module (sampled each second; the rest is file-backed olean mappings, shared between processes) | not recorded | 1.91 GiB | |
+| cores busy per process, site compile at one process (CPU / wall) | not recorded | 1.38 | |
+<!-- /table:cost -->
+
+<!-- table:modules -->
+| module | towers | composites | terms | source KB | olean MB | wall s | CPU s | import CPU s | net CPU s | peak RSS GiB | anon RSS GiB | load | warnings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `CB_right_06/Base.lean` |  |  |  | 1.4 | 0.1 | 18.0 | 11.1 | 10.1 | 1.0 | 6.33 | 0.40 | n/a | 2 |
+| `CB_right_06/Primes00.lean` | 7 |  |  | 1,853.4 | 47.7 | 217.1 | 521.6 | 9.9 | 511.7 | 7.83 | 1.91 | 70 | 308 |
+| `CB_right_06/Primes01.lean` | 5 |  |  | 1,685.8 | 35.6 | 261.9 | 375.6 | 10.3 | 365.3 | 7.44 | 1.47 | 91 | 220 |
+| `CB_right_06/Primes02.lean` | 5 |  |  | 1,789.8 | 35.9 | 323.3 | 387.6 | 10.8 | 376.8 | 7.44 | 1.50 | 112 | 220 |
+| `CB_right_06/Primes03.lean` | 5 |  |  | 1,961.1 | 36.5 | 258.3 | 358.2 | 10.2 | 348.1 | 7.43 | 1.48 | 95 | 220 |
+| `CB_right_06/Primes04.lean` | 1 |  |  | 396.8 | 7.9 | 167.8 | 82.1 | 12.9 | 69.2 | 6.58 | 0.66 | 85 | 44 |
+| `CB_right_06/Primes.lean` |  |  |  | 0.2 | 0.0 | 24.4 | 10.2 | 10.5 | -0.3 | 6.40 | 0.40 | 84 | 0 |
+| `CB_right_06/Composites.lean` |  | 48 |  | 55.3 | 7.0 | 30.7 | 43.3 | 11.0 | 32.4 | 6.62 | 0.59 | 84 | 0 |
+| `CB_right_06/Terms.lean` |  |  | 68 | 89.8 | 5.4 | 25.5 | 45.8 | 10.9 | 34.9 | 6.59 | 0.58 | 74 | 0 |
+| `CB_right_06.lean` |  |  |  | 35.0 | 3.8 | 20.6 | 25.8 | 9.8 | 16.0 | 6.56 | 0.52 | 65 | 0 |
+| **site total** | 23 | 48 | 68 | 7,868.6 | 179.8 | 1,347.5 | 1,861.4 | 106.3 | | | | | 1014 |
+<!-- /table:modules -->
+
+Every rate is CPU net of an import-only run with the same imports: `import
+ZetaLean.BallTerm` for the `scripts/68` and `scripts/66` files, and for each site module a
+probe file holding that module's own import lines (`pilot.py imports`, two runs each, the
+median taken). The import itself is a large and noisy share on this box, so a file must
+carry enough atoms to rise above it: ten composite atoms cost a few CPU-s against an
+import of about ten, and the composite rate is taken from a file of 100 (`pilot.json`
+keeps both). In the site, the five prime shards give the in-situ tower rate, and the
+`Composites`, `Terms` and root modules give the composite, term and root rates; those
+three modules import every prime shard's olean, and their probes say what that import
+costs. The modules table also counts the Lean warnings in each module's log, almost all of
+them Mathlib's `<;>` style linter.
+
+### Threads per process
+
+<!-- table:threads -->
+| `CB_right_06/Primes02.lean` (5 towers) | default threads (`scripts/72`) | `lean -j1` |
+|---|---|---|
+| CPU-s | 387.6 | 369.3 |
+| wall s | 323.3 | 463.7 |
+| CPU-s net of the module's import probe | 376.8 | 358.5 |
+| net CPU-s per tower atom | 2.512 | 2.390 |
+| peak RSS GiB (anonymous) | 7.44 (1.50) | 7.28 (1.33) |
+<!-- /table:threads -->
+
+`scripts/72` runs `lean` with its default thread count. Across the two attempts the same
+prime shards ran at very different parallelism (CPU over wall, from the replay table
+below) while their CPU totals stayed within the spread shown there, so on this evidence
+threads move wall time and not CPU. One shard was also recompiled with `lean -j1`
+(`pilot.py shard`, into a scratch olean, the site's own oleans untouched), and the
+`scripts/68` tower was run at `-j1` as well (the cost table's `-j1` row). At `-j1` the
+shard's CPU net of import came out slightly below its default-thread figure (threads
+table), and the tower's CPU per atom at `-j1` fell inside the spread of its default-thread
+runs, while each single-threaded run's wall time was its CPU time stretched by the load.
+So threads per process change how production shares cores, not what it costs: a driver
+could run one thread per process and as many processes as it is given cores, at the
+anonymous memory per process the `-j1` shard recorded (threads table, last row).
+
+### Replaying the timings
+
+<!-- table:replay -->
+| module | same source | first attempt CPU s (wall s) | this run CPU s (wall s) | CPU ratio | wall ratio |
+|---|---|---|---|---|---|
+| `CB_right_06/Base.lean` | yes | 13.6 (19.1) | 11.1 (18.0) | 0.82 | 0.94 |
+| `CB_right_06/Primes00.lean` | yes | 560.4 (166.3) | 521.6 (217.1) | 0.93 | 1.30 |
+| `CB_right_06/Primes01.lean` | yes | 402.7 (135.1) | 375.6 (261.9) | 0.93 | 1.94 |
+| `CB_right_06/Primes02.lean` | yes | 372.5 (117.4) | 387.6 (323.3) | 1.04 | 2.75 |
+<!-- /table:replay -->
+
+The four modules the interrupted first attempt compiled are byte-identical to this run's
+(same SHA-256), so they are a replay at a different load: the table gives the CPU and wall
+ratios. A second agent replaying the site with the two command lines of section 1 should
+compare CPU (user plus system), not wall time, and should expect agreement of the kernel
+outcome (every module exit 0) exactly and of CPU to roughly the spread shown here, given a
+similar load. Wall time moved far more than CPU between the two attempts for the same
+files (the last column).
+
+## 4. Projection to the 215 sites
+
+<!-- table:projection -->
+| component | core-hours |
+|---|---|
+| prime towers (468,240 atoms) | 380.5 |
+| composites | 9.1 |
+| term products | 9.1 |
+| root and partial sums | 4.2 |
+| imports (4,696 modules) | 13.2 |
+| **total, projected from this pilot** | **416.0** |
+| atom-only, `scripts/67` formula at the `scripts/68` and `scripts/66` rates of this box | 282.7 |
+| atom-only, `scripts/67` formula at the in-situ rates of this site | 330.2 |
+| atom-only, `scripts/67` as recorded (v4.33.0-rc2 rates) | 175.0 |
+| *oleans left on disk, GB (scaled per tower, or per byte of tower text)* | *123 to 146* |
+<!-- /table:projection -->
+
+<!-- table:wall -->
+| concurrent processes | wall hours, one core per process | wall hours at 1.38 cores per process (capped at 32 vCPU) |
+|---|---|---|
+| 16 | 26.0 | 18.8 |
+| 20 | 20.8 | 15.1 |
+| 24 | 17.3 | 13.0 |
+<!-- /table:wall -->
+
+<!-- table:sensitivity -->
+| tower cost model | tower core-hours | total core-hours | wall hours at 16 | wall hours at 24 |
+|---|---|---|---|---|
+| in-situ shard CPU per source byte (the request uses this one) | 380.5 | 416.0 | 18.8 | 13.0 |
+| in-situ shard CPU per tower, flat in the prime | 315.0 | 350.5 | 15.9 | 10.9 |
+| least-squares fit, per tower plus per byte, over `scripts/68` towers and the shards | 311.6 | 347.1 | 15.7 | 10.8 |
+| `lean -j1` shard CPU per source byte, one core per process | 350.6 | 386.1 | 24.1 | 16.1 |
+<!-- /table:sensitivity -->
+
+How the projection is built (`report.py`, `projection`): for each of the 215 sites, from
+its K alone, the primes up to 5K + 4 (multiples of 5 skipped, as the generator skips them)
+each get a tower whose Lean text `scripts/69` emits at one representative point per site
+kind; the rest are composites; there are 4K nonzero terms and N = 5K series terms. Modules
+are packed under `scripts/69`'s 2 MB cap, and every module pays the `Base` import probe,
+plus, for the modules that import the site's prime shards, a per-byte cost of those oleans
+(zero when the pilot's probes could not resolve it). Composite, term and root costs are
+the pilot's in-situ rates, scaled linearly. Towers are priced two ways from the five prime
+shards, per byte of tower text and flat per tower, and the request uses the larger. That
+rule was fixed at 22:07 UTC, before the p = 1801 tower ran, from four shards of which two
+had been miscounted (`RUNS.md`, with its correction). With the right counts the shards
+cost about the same CPU per tower (69 to 75 CPU-s net) from p = 2 to p = 89 while their
+text roughly doubled, which favours the flat model in that range; above p = 89 only the
+`scripts/68` tower at p = 1801 speaks (cost table). That tower cost close to the same CPU
+per atom as the p = 2 tower with about three times the text, so the flat model holds at
+the top of the plan's primes as well, and the per-byte total most likely overprices the
+towers. The rule is kept as recorded, so the flat total is the low end of the range and
+the per-byte total is what the request uses. The wall table divides the core-hours by the
+cores n processes would hold, at one core each or at the pilot site's measured cores per
+process, capped at the box's 32 vCPU. That measured figure comes from a loaded box; the
+replay table shows the same shards running at roughly twice the parallelism at a lower
+load, so on a free box the cap binds sooner and the capped column is the one to read. Both
+columns assume the CPU per atom stays at this pilot's rate when production saturates the
+box, which this pilot could not test.
+
+## 5. What these numbers do not say
+
+- **One site, one K.** `B_right_06` has K = 17. Plan v2's sites run to K = 361 (the
+  centre), and the grid sites carry most of the work (341,718 of the 549,149 atoms that
+  `scripts/67` counts). The projection scales the pilot's tower, composite, term and
+  series-term rates linearly; nothing here tests that linearity beyond K = 17, except that
+  the two tower models are set against one `scripts/68` tower at p = 1801 (section 3).
+- **A shared, loaded box.** Each run records its 1-minute load. CPU time (user plus
+  system, from `wait4`) is the quantity priced; wall time on this box says more about the
+  other workflows than about Lean. The replay table in section 3 shows how far CPU time
+  moved between two runs of the same modules at different loads.
+- **Not a version comparison.** The `v4.33.0-rc2` rates were measured on a machine the
+  record does not name, so each ratio column mixes the Lean version, the machine and the
+  load. Separating them would take a `v4.33.0-rc2` toolchain and Mathlib on this box.
+- **Memory.** `wait4`'s peak RSS counts the file-backed mappings of Mathlib's oleans,
+  which concurrent processes share through the page cache; the anonymous column is what
+  each extra process costs.
+- **Disk and the assembly.** The site's oleans are large next to its sources (the modules
+  table). Production would leave the estimate in section 4's last row on disk, and the
+  assembly module, importing 215 site roots as the sites are generated today, would load
+  all of them into one process. Neither the disk nor that import was tested.
+
+## 6. What is not built
+
+`scripts/60` emits one site theorem per point or box: `upper_<id>` (big boxes),
+`beta_<id>` (grid points) and `centre_lt_centre`. No script emits the module that combines
+the 215 of them with `norm_deriv_DH_le`, `DH_lower_on_hcell`, `DH_lower_on_vcell` and the
+square criterion (`lean/ZetaLean/DHZeroCriterion.lean`, line 185) into `theorem
+davenport_heilbronn : davenport_heilbronn_statement`. The cell hypotheses of that module,
+`eps' + L*h/2 <= beta`, are today checked only in Python by the generator
+(`cell_requirements` in `scripts/60`); in Lean they would be discharged in the assembly
+module, which does not exist. On this route, production of the 215 site theorems is
+necessary for the target and not sufficient.
