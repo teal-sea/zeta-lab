@@ -154,3 +154,11 @@ outcome: shard 216 at 22.1 ms per zero, peak RSS 44976 kB, balls ordered and dis
 artifacts:
   - hunts/skewes_enclosure/shards_b/shard_216.json
 ```
+
+## 2026-10-26: pilot request for production B (GitHub Actions)
+
+Coordinator-approved pilot: shards 217 to 220, one 4-shard job. Estimate from
+shard 216 on the box: 0.62 core-hour per shard, so **about 2.5 core-hours and
+40 to 60 min wall** if the runner matches the box. Pass conditions, set by the
+coordinator: 4/4 shards complete with no timeouts, the smoke check passes, and
+the measured cost is at most 1.1 core-hours per shard.
