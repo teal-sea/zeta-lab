@@ -126,3 +126,26 @@ agents_may_not:
   - push, publish or contact outside parties
   - edit zeta, ontology or harness
 ```
+
+## Corrections (2026-10-26)
+
+Appended when the owner resumed this lane in place on 2026-10-26. The text above
+is left as written on 2026-10-21.
+
+1. **The odd sector is on main.** "Starting point" and the huntspec `frontier`
+   cite the odd sector `3.42853488205e-44` at `L = 1.19` as being "on a local-only
+   branch" and "never merged". That was true when this hunt opened; main merged
+   it the same day in PR #327 (merge commit `f7ff060aa`, from
+   `land/oob-odd-sector-20261021`). It now lives in
+   `hunts/oob_envelope/numerics/RESULTS.md`, with the referee's weaker
+   reproduction recorded beside it. Read it there, not with `git show`.
+2. **Push and pull request.** "Rules" says no push and no pull request. The
+   owner's decision of 2026-10-26 superseded that for this branch: it is pushed to
+   `origin/hunt/weil-dh-line` and carried by a draft pull request. The other rules
+   stand.
+3. **What K2 at `L = 7/5` can say.** Task 3 asks that K2 "on DH at `L = 7/5` and
+   at `L_DH` must return no bound". The DH form is known negative only on windows
+   `L >= 1.7107808`, so at `L = 7/5` there is no negativity for the pipeline to
+   detect, and a stage-A block with no negative pivot there contradicts nothing.
+   The kill condition was always the narrower one in the huntspec (a positive
+   bound for DH at `L = 1.71079`). `PRICE.md` item 6 records the reconciliation.
