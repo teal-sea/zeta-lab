@@ -285,3 +285,12 @@ asked for, with the exact full request):
 
 The outcome of this run is not recorded yet. It belongs in a later dated
 section, from its artifacts.
+
+**Attempt 1 failed before any compute** (run 40342431754). The plan job and
+every Gram job's preflight passed, but the "4 Gram parts" step wrote into
+`prepared/`, which only a resume download creates. All six Gram jobs
+exited within a minute, and merge and shards were skipped (no compute
+spent). Fixed in a3cd044f1 (`mkdir -p` before every step that writes,
+pinned by `test_workflow_matches_the_ruling`). **Attempt 2**, approved by
+the coordinator: the approved request with the single added line
+`"attempt": 2`, everything else byte-identical, sha256 5503a14f41fb82e1775e376eb002bcc4bba0185f837036e6d4a9c989e91253ca.
