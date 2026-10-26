@@ -261,3 +261,27 @@ core-hours, above), plus one table build (about 0.2 core-hours), plus
 replay: **about 25 to 27 core-hours**, all of it GitHub Actions (0 USD).
 The Gram is reused by the full run only if it is re-uploaded; as written,
 the full run recomputes it (a door, not taken).
+
+## 10. The calibration run (2026-10-26)
+
+**Approved by the coordinator, exactly as quoted**, and committed as
+`RUN_REQUEST.json` (sha256 8eeae788a323296caa186693a6be82b4e3e7635396f7931dbc87013d2b20c7e7,
+commit 46491c421). Run: https://github.com/teal-sea/zeta-lab/actions/runs/40342431754
+(push event; the plan job succeeded and six Gram jobs started).
+
+**The coordinator's conditions for the full run** (to be met before it is
+asked for, with the exact full request):
+1. **Reuse this calibration's gram.json**, never recompute it (about
+   24 core-hours). Either commit gram.json to the branch, if it is under
+   about 10 MB, with its sha256 here, or download it across runs
+   (`permissions: actions: read`, `actions/download-artifact@v4` with
+   `run-id` and `github-token`) and have the preflight check the sha256
+   recorded from this run.
+2. **Record** the per-part Gram times, the table build time and size, and
+   the per-block wall time and peak RSS per process, all from this run's
+   artifacts (`calibration.json`, `gram_time_*.txt`).
+3. **Re-size** the full plan from those numbers with at least 25 percent
+   headroom, then ask with the exact full request.
+
+The outcome of this run is not recorded yet. It belongs in a later dated
+section, from its artifacts.
