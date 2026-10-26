@@ -1,7 +1,7 @@
 {
  "hunt": "dbn_pt_height",
  "lane": "chain",
- "cache_root": "/home/thomas/.cache/zeta-lab/dbn",
+ "cache_root": "<cache>/dbn",
  "written_utc": "2026-10-21",
  "sources": {
   "PT_EPRINT": {
@@ -489,7 +489,7 @@
    "sha256": "f85a37a8f7cf40a402e82aa2fb8f5c922c9920ee5b4a04ef985090777c49ac37",
    "bytes": 496374,
    "cache_path": "chain-zenodo-kornaus-22658444-pdf/kornaus-v1.1.pdf",
-   "note": "Kornaus v1.1 paper PDF (md5 matches the record); hashed, not read (no PDF text tool on this box)"
+   "note": "Kornaus v1.1 paper PDF (md5 matches the record); hashed, not read (no PDF text tool on this box); superseded for reading by KOR_V11_TEX, whose anchor statements were also checked against this PDF in the session's PDF reader"
   },
   "ARXIV_SEARCH": {
    "kind": "file",
@@ -553,6 +553,87 @@
    "commit": "cc8107854fedd5a96d7eb695178f405568712f35",
    "cache_path": "chain-github-fork-463464q435q43/at-cc81078",
    "note": "git archive of the pinned commit; members are cited by basename and SHA-256 only"
+  },
+  "DBN_I107": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/107/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T22:08:12Z",
+   "sha256": "df577d88cd0a3a3f0051253bf6c843d24930931ffa9b9554339200143abb4b57",
+   "bytes": 74790,
+   "cache_path": "chain-r2-issues/issue107-comments.json",
+   "note": "comments of issue #107, Corrections to figures (30 comments, one page)"
+  },
+  "DBN_I118": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/118/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T22:08:12Z",
+   "sha256": "86cf141278b2c59843576b3bf14d4abbf82b009e89655dbd3cd02d68fe1b18e0",
+   "bytes": 74764,
+   "cache_path": "chain-r2-issues/issue118-comments.json",
+   "note": "comments of issue #118, Writing up the barrier computation (26 comments, one page)"
+  },
+  "DBN_I126_P1": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/126/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T22:08:13Z",
+   "sha256": "273f074180081faf9c50827356150d0293193832db7bb92d27f2666710c873b7",
+   "bytes": 280646,
+   "cache_path": "chain-r2-issues/issue126-comments.json",
+   "note": "comments of issue #126, Help need for evaluation of latest wiki page equations, page 1 of 2"
+  },
+  "DBN_I126_P2": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/126/comments?per_page=100&page=2",
+   "retrieved_utc": "2026-10-21T22:10:18Z",
+   "sha256": "4e501f5c8797e1a157384a84dc356c5542a82ae206ee336af177dbc1ca76fb8a",
+   "bytes": 139669,
+   "cache_path": "chain-r2-issues/issue126-comments-p2.json",
+   "note": "comments of issue #126, page 2 of 2 (154 comments in all)"
+  },
+  "REF_REPORT1": {
+   "kind": "file",
+   "url": "https://terrytao.files.wordpress.com/2019/07/de-bruijn-newman-report.pdf",
+   "retrieved_utc": "2026-10-21T22:08:06Z",
+   "sha256": "e8abfedc0cf4ccf083b1ec17933c7ffbeada7545a3c101a05d232146e6a47cd3",
+   "bytes": 107497,
+   "cache_path": "chain-r2-referee/de-bruijn-newman-report.pdf",
+   "note": "the first 2019 referee report on the Polymath 15 paper, linked from paper-post comment 518938; one page; read in the session's PDF reader, not re-read by test_chain.py"
+  },
+  "REF_REPORT2": {
+   "kind": "file",
+   "url": "https://terrytao.files.wordpress.com/2019/07/condensed-review.pdf",
+   "retrieved_utc": "2026-10-21T22:08:06Z",
+   "sha256": "c841b0910ea2d5daf7d78fa2eba5a2e372e2a4ac56d2bef0fa6a191d1b80d4fd",
+   "bytes": 161986,
+   "cache_path": "chain-r2-referee/condensed-review.pdf",
+   "note": "the second 2019 referee report, linked from the same comment; three pages, a numbered list of corrections; read in the session's PDF reader, not re-read by test_chain.py"
+  },
+  "BLOG_10_TABLE": {
+   "kind": "file",
+   "url": "https://terrytao.wordpress.com/wp-content/uploads/2018/09/numerics5.png",
+   "retrieved_utc": "2026-10-21T22:08:14Z",
+   "sha256": "040d9323715281c5d6fba5a3a395484eb4c8e024f083739b77486d696e3e4702",
+   "bytes": 114450,
+   "cache_path": "chain-r2-blogimg/numerics5.png",
+   "note": "the results table of the tenth-thread post (an image, 1079 by 537 pixels); read in the session's image reader, not re-read by test_chain.py"
+  },
+  "KOR_V11_ZIP": {
+   "kind": "file",
+   "url": "https://zenodo.org/api/records/22658444/files/Zenodo_T020_v1.1_FINAL_SUBMISSION%20(10).zip/content",
+   "retrieved_utc": "2026-10-21T22:11:54Z",
+   "sha256": "63cc29bd7cd998f736c13632712851f179c528c69c51bed2862551606651c176",
+   "bytes": 4516835,
+   "cache_path": "chain-r2-kornaus-v11-zip/kornaus-v1.1-submission.zip",
+   "note": "the submission archive of Zenodo record 22658444 (the 0.172422 package, version 1.1), stored under a neutral name; its md5 matches the record's checksum; 20 entries, no symlinks or parent paths; extracted under chain-r2-kornaus-v11-zip/extracted"
+  },
+  "KOR_V11_TEX": {
+   "kind": "derived",
+   "url": "derived from KOR_V11_ZIP by unzip",
+   "retrieved_utc": "2026-10-21T22:12:00Z",
+   "sha256": "cb79cfa1b9bd4a7a9114558a30c81c8ef95d80cda58e81f6ccc7ec753f7da4e4",
+   "bytes": 51016,
+   "cache_path": "chain-r2-kornaus-v11-zip/extracted/Zenodo_T020_v1.1_FINAL_SUBMISSION/Collision_Exclusion_in_the_de_Bruijn_Newman_Heat_Flow_v1.1.tex",
+   "note": "the TeX source of the 0.172422 paper, version 1.1, dated 8 September 2026 in its own text"
   }
  }
 }

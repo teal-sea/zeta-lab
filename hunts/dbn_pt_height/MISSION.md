@@ -39,14 +39,16 @@ tracks (`teorth/optimizationproblems`, `constants/21a.md`), and every
 self-archived row below it reuses the same structure: an RH verification
 height, a barrier, and an Euler-mollified lower bound in the region to the
 right of the barrier. If a published step was never carried out, the bound is
-a conditional statement in the published record and the later rows inherit
-the gap. If it was carried out, the record says where. Either answer is an
-observation a stranger can check from hashed sources.
+a conditional statement in the published record, and any later row that takes
+it as its anchor inherits the gap (REDUCTION.md, part C, found that none of the
+catalogued rows does in the version the catalogue cites). If it was carried
+out, the record says where. Either answer is an observation a stranger can
+check from hashed sources.
 
 ## Scope
 
 - **In scope.** Downloading the primary sources into new directories under
-  `/home/thomas/.cache/zeta-lab/dbn/` (treated as untrusted data, never
+  `<cache>/dbn/` (treated as untrusted data, never
   executed), reading them, and writing the chain lane's files above. Light
   arithmetic in exact rationals or Arb to check stated parameter identities.
 - **Out of scope.** Any statement that Lambda is or is not below a value; any

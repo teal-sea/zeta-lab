@@ -1,10 +1,11 @@
 # REDUCTION: what the 0.1875 package reduces Lambda <= 3/16 to, and what the 0.16 and 0.1595 rows add
 
-Chain lane of hunt #147, 2026-10-21. Reading only; every citation `[Q:ID]` is
-re-read from its hashed source by `test_chain.py` (see CHAIN.md, "How to read
-this file"). Bundle members are cited by basename, line and SHA-256 (all in
-`chain.json`); their directory names are not written here because they carry
-the stem this tree reserves for `zeta/rigor.py`.
+Chain lane of hunt #147, 2026-10-21, repaired the same day after an adversarial
+review. Reading only; every citation `[Q:ID]` is re-read from its hashed source
+by `test_chain.py` (see CHAIN.md, "How to read this file"). Bundle members are
+cited by basename, line and SHA-256 (all in `chain.json`); their directory
+names are not written here because they carry the stem this tree reserves for
+`zeta/rigor.py`.
 
 ## 0. Which reduction is which
 
@@ -18,7 +19,9 @@ criterion at the site X' = 6000000185827 [Q:Z1] [Q:Z2]. Both are listed below:
 part A is the 0.1875 reduction, part B the collision-exclusion reduction that
 the 0.16 and 0.1595 rows build on top of it. All rows below 0.2 are
 self-archived and unrefereed; the catalogue's own note says so: "The last
-refereed bound is $0.2$" [Q:C2].
+refereed bound is $0.2$" [Q:C2]. The paper deposited in the 0.1875 record is,
+by the bundle's own description, the 0.1965 paper [Q:Z31]; the 0.1875 claim
+itself is read here from the bundle's assembly writeup.
 
 ## A. The 0.1875 package: Lambda <= 1680/10^4 + (39/1000)/2 = 3/16
 
@@ -28,9 +31,9 @@ refereed bound is $0.2$" [Q:C2].
 | A1 | effective approximation H_t/B_t = f_t + O(e_A + e_B + e_C0) | Polymath 15 Theorem 1.3 (refereed); the bundle's error-terms audit, e.g. about 1.03e-7 at the row-2 barrier corner [Q:Z19] | the region of Theorem 1.3 | the project's PARI code uses a sub-term smaller than the published one [Q:Z20]; the audit calls it harmless (not rerun here) |
 | A2 | hypothesis (i): RH to X'/2 = 3000000092913.5, margin 350479773/2 [Q:Z3] | Platt-Trudgian Theorem 1 [Q:PT1] (refereed) | none beyond the published theorem | none. **Zeta-specific input 1** |
 | A3 | hypothesis (iii): boundary winding 0 on [X', X'+1] x [33/200, 1] for all t in [0, 1809/10^4] [Q:Z4], with N = 690988 constant on the slab | the bundle's barrier-slab leg: output of the Polymath C barrier code at the 6e12 site (the same site as the 2020 run [Q:R6]), a corner-audit second line, a site-glue leg | the Polymath barrier method's mesh and derivative bounds; (33/200)^2 <= 39/1000 so the slab covers the triangle | a barrier computation in no refereed record [Q:Z4] [Q:C2]; issue 151 reports a typo in the paper's printed barrier condition and says the production code does not consume it [Q:I9] |
-| A4 | hypothesis (ii), finite windows N in [690988, 2745000], all y in [sqrt(39/1000), sqrt(1 - 2t)], t in [1680, 1685]/10^4 [Q:Z5] | the bundle's `lwin2_compose` leg, composing a banked lower bound of at least 19/200 for an Euler-3 L-type functional with mollifier {1,2,3,6} [Q:Z21] [Q:Z9] | the banked fact as cited; the y-transfer A6; the error budget A1 | **the banked lower bound over about two million windows is cited, not re-proved** [Q:Z8] [Q:Z10]. No member of the bundle holds the run behind it: every member naming `lwin2`, the tile t-values or the cap 2745000 is a composition, an assembly, a map or a log of those, and the sweep programs that do ship run the 0.1965 chain's t-range [0.1770, 0.1775] [Q:Z22] (the test re-lists those members). The README nonetheless says every claim can be re-verified from the bundle alone [Q:Z17]. **Zeta-specific input 2** |
+| A4 | hypothesis (ii), finite windows N in [690988, 2745000], all y in [sqrt(39/1000), sqrt(1 - 2t)], t in [1680, 1685]/10^4 [Q:Z5] | the bundle's `lwin2_compose` leg, composing a banked lower bound of at least 19/200 for an Euler-3 L-type functional with mollifier {1,2,3,6} [Q:Z21] [Q:Z9], banked on eleven t-tiles [Q:Z28] | the banked fact as cited; the y-transfer A6; the error budget A1 | **the banked lower bound over about two million windows is cited and not reproduced** [Q:Z8] [Q:Z10]. A producer that could regenerate it ships: the parametric sweep program of the 0.1965 chain takes the t-tile, y^2 and the mollifier type as arguments [Q:Z24], its type 3 is the divisor set {1,2,3,6} [Q:Z25], and it evaluates the repository's L-type functional [Q:Z26]. Its invocation for the lwin2 tiles and its output are absent: the only run script calls it at t in [0.1770, 0.1775] with type 2 [Q:Z27] [Q:Z22], and every compressed log in the bundle belongs to a run at t = 0.1770, 0.1775 or the box between them [Q:Z29] [Q:Z30] (the test re-lists the members naming `lwin2` or the cap 2745000, none of them C or GP source: writeups, maps, manifests, verifiers and their logs; and it classifies every log). The README states that every claim can be re-verified from the bundle alone [Q:Z17]; for this leg that would mean running the shipped producer at the lwin2 tiles. **Zeta-specific input 2** |
 | A5 | hypothesis (ii), tail N >= 2745000 on the band [1680, 1696]/10^4, full y-range [Q:Z6] | recomputed live in the assembly script | the package's tail device and its monotonicity constants | own device, unrefereed [Q:Z6] [Q:C2]. **Zeta-specific input 2** |
-| A6 | y-transfer: a sweep at y = y0 covers [y0, y_max] [Q:Z15] | the bundle's `y_reduction` Theorem 1 | the "standard window majorant" form | own lemma, unrefereed [Q:Z15] [Q:C2]; the Polymath project found its earlier y-monotonicity assumption false [Q:I5] |
+| A6 | y-transfer: a sweep at y = y0 covers [y0, y_max] [Q:Z15] | the bundle's `y_reduction` Theorem 1 | the bound must have the form the writeup calls a standard window majorant [Q:Z34] | own lemma, unrefereed [Q:Z15] [Q:C2]; the Polymath project found its earlier y-monotonicity assumption false [Q:I5] |
 | A7 | composition: Lambda <= 3/16 at X', sole RH input Platt-Trudgian [Q:Z1] [Q:Z7] | the bundle's `assembly_1875` leg | A0 to A6 | self-archived, unrefereed [Q:C2] |
 
 The arithmetic of A2 and A3 (3/16, X'/2, the margin, the slab floor, N
@@ -38,14 +41,15 @@ constant on the slab) is re-derived by `test_chain.py`.
 
 ## B. Collision exclusion anchored at 3/16: the 0.16 and 0.1595 rows
 
-Both packages prove that H_t has no multiple real zero for every t in a closed
-band [a, 3/16] and every real x, and conclude Lambda < a: a = 4/25 for the
-0.16 row [Q:F1] [Q:F2], a = 319/2000 for the 0.1595 row [Q:G2]. The sole RH
-input is Platt-Trudgian at X'/2 [Q:F2].
+Both packages state (they are unrefereed, and the 0.1595 claim was refused on
+the evidence by an outside reader, below) that H_t has no multiple real zero
+for every t in a closed band [a, 3/16] and every real x, and conclude
+Lambda < a: a = 4/25 for the 0.16 row [Q:F1] [Q:F2], a = 319/2000 for the
+0.1595 row [Q:G2]. The sole RH input is Platt-Trudgian at X'/2 [Q:F2].
 
 | # | rows | lemma | source | hypotheses | gaps |
 |---|---|---|---|---|---|
-| B0 | both | anchor Lambda <= b = 3/16 | bank line V1-H-213, which is the `assembly_1875` package of part A [Q:F5] [Q:F17] [Q:G7] | all of part A | cited, not re-verified [Q:F15]; the frozen copy in the 0.16 bundle differs from the Zenodo writeup in one word at line 74 [Q:F18], a redaction |
+| B0 | both | anchor Lambda <= b = 3/16 | bank line V1-H-213, which is the `assembly_1875` package of part A [Q:F5] [Q:F17] [Q:G7] | all of part A | cited, not re-verified [Q:F15]. The frozen copy in the 0.16 bundle differs from the Zenodo writeup in one word at line 74, a substitution: "campaign-targeted" in the Zenodo writeup [Q:Z23], "operator-targeted" in the copy [Q:F18]; no mathematical content differs (the test diffs the two files) |
 | B1 | both | collision principle: if a <= Lambda <= b with a > 0, then H_Lambda has a multiple real zero, using a uniform remote tail (zeros with \|Re z\| >= 4 pi exp(128/r) + 1 real and simple for t in [r, 1/2]) [Q:F4] | bank lines 590 and 588; proof shipped as frozen text | the tail theorem with its explicit constant | own theorem, unrefereed [Q:F4] [Q:C2]; Polymath's Theorem 1.5 (distribution of zeroes) has only unspecified absolute constants [Q:P19] |
 | B2 | both | **interior** x in [0, X']: Platt-Trudgian at X'/2 makes every zero of H_0 with \|Re z\| <= X' real [Q:F6]; a compact separator and Hermite propagation keep them real on [0, b], simple on (0, b] | bank lines 590, 617, 599 | the separator B3 | own lemmas, unrefereed [Q:F6] [Q:C2]. **Zeta-specific input 1** |
 | B3 | both | separator: H_t(+-X' + iy) != 0 for t in [0, b], \|y\| <= 1, normalized modulus above 7/800 [Q:F7] | bank lines 596 and 616, a frozen numerical summary | de Bruijn's strip for the padding | the numerical production is not rerun by the bundle [Q:F13] |
@@ -69,14 +73,25 @@ referee's verdict" [Q:C11].
 | 0.1875 | its own site X' [Q:Z2] | it is the reduction | no |
 | **0.16** | Lambda <= 3/16 [Q:C3] [Q:C5] [Q:F5] | **yes** | no |
 | **0.1595** | Lambda <= 3/16 [Q:C4] [Q:C8] [Q:G7] | **yes** | no |
-| 0.172422 | Lambda <= 0.2, as its v1 record and its September 2026 announcement state [Q:K1] [Q:K2] | no | yes |
+| 0.172422 | version 1 states the published Lambda <= 0.2 [Q:K1] [Q:K2]; version 1.1, which the catalogue cites [Q:C12], derives its own Lambda <= 0.2 (its own unrefereed claim) [Q:K4] [Q:K5] [Q:K6] | no | no, as cited (version 1 as stated did) |
 
 So **both the 0.16 and the 0.1595 rows depend on the 0.1875 reduction**, through
 the anchor b = 3/16, and on everything in part A, including the banked A4
-bound that the 0.1875 bundle does not ship. The catalogue's note that all three
-0.16-range rows descend from the 0.1875 row [Q:C2] holds for the 0.16 and
-0.1595 rows; for the 0.172422 row the record and the announcement name 0.2
-instead (its v1.1 PDF was hashed, not read).
+bound whose run the 0.1875 bundle does not hold. The 0.172422 row depends on
+neither the 0.1875 reduction nor row 2 in the version the catalogue cites. Its
+first record, created on 5 September 2026, combined its collision exclusion
+"with the published bound" 0.2 [Q:K1], as did its announcement on the blog that
+day [Q:K2]. Its version 1.1 (the catalogue's "v2" [Q:C12]), whose record was
+created on 8 September 2026, recalls that Platt and Trudgian "recorded the
+resulting bound" 0.2 [Q:K7] but derives its own
+anchor from its separator, its tail theorem and Platt and Trudgian's height
+[Q:K4], so that the final argument "does not depend logically on an external
+assertion" [Q:K5]; it keeps the endpoint 0.172422 [Q:K3]. That anchor rests on
+the package's own unrefereed theorems, which this lane did not examine. The
+catalogue's note "The three $0.16$-range packages all descend from the
+$0.1875$ row" [Q:C2] holds for the 0.16 and 0.1595 rows; if the third package
+it means is the 0.172422 row (the only other row below 0.1875; the note names
+none), it does not hold for that one in either version.
 
 ## D. The two zeta-specific inputs, and Davenport-Heilbronn
 
@@ -125,3 +140,16 @@ Grades: the DH zero is *measured* in the laboratory (mpmath, |F| small,
 winding number 1) and matches a published independent value, so the failure of
 input 1 for DH is as firm as that zero. The lemma inventory above is a reading
 of the sources, graded as what each source shows.
+
+## E. Open issues
+
+- Input 2 was not tested for Davenport-Heilbronn; that needs a DH analogue of
+  f_t with error terms (the evaluator lane's refusal gate).
+- The 0.172422 package's own anchor theorems (its separator and its tail
+  theorem) were not examined; part C records only what each version states it
+  depends on.
+- The paper PDF of the 0.1875 record was hashed, not read; the 0.1875 claim
+  was read in the bundle's writeups.
+- Whether the shipped producer, run at the lwin2 tiles, would reproduce the
+  banked bound was not tested: this lane does not compile or run downloaded
+  code.

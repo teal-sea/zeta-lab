@@ -148,12 +148,12 @@ verification height allows X/2 <= 3e12; N0 <= 690988 there):
   to about 208 MB). No job was detached and nothing ran longer than a few
   seconds, so no checkpointing was needed.
 - Every download went into a new, empty directory under
-  `/home/thomas/.cache/zeta-lab/dbn/` whose name starts `chain-`; nothing there
+  `<cache>/dbn/` whose name starts `chain-`; nothing there
   was executed. Archives were listed for symlinks and parent paths before
   extraction. Each file's URL, SHA-256, size and retrieval time is in
   `sources.json`.
-- `test_chain.py` re-reads all 129 quotations from those hashed bytes and runs in
-  about 7 s on one core.
+- `test_chain.py`, as first written, re-read all 129 quotations of this pass
+  from those hashed bytes and ran in about 7 s on one core.
 
 ```runmanifest
 id: dbn_pt_height-2026-10-21-chain
@@ -161,7 +161,7 @@ hunt: dbn_pt_height
 started: 2026-10-21T16:23Z
 finished: 2026-10-21T17:23Z
 ran:
-  - curl downloads of the arXiv sources, the Polymath wiki snapshots, the blog threads, the GitHub API records and the Zenodo files into new directories under /home/thomas/.cache/zeta-lab/dbn
+  - curl downloads of the arXiv sources, the Polymath wiki snapshots, the blog threads, the GitHub API records and the Zenodo files into new directories under <cache>/dbn
   - git clone of km-git-acc/dbn_upper_bound and teorth/optimizationproblems, and a no-checkout clone of the 463464q435q43 fork exported at its two pinned commits
   - a quotation builder run with the venv python in isolated mode from the scratchpad, writing chain.json and sources.json
   - .venv/bin/python -m pytest -q -n0 hunts/dbn_pt_height/test_chain.py
@@ -173,4 +173,50 @@ artifacts:
   - hunts/dbn_pt_height/sources.json
   - hunts/dbn_pt_height/test_chain.py
 outcome: row 2's asymptotic-region hypothesis was found verified only at N = N0 in the Polymath record, and the 0.16 and 0.1595 rows were found to depend on the 0.1875 reduction, whose zeta-specific inputs are the verification height and the Euler-mollified lower bound
+```
+
+### C2. Repair after the adversarial review (2026-10-21, evening UTC)
+
+- Estimate before starting: reading and a handful of small downloads, no
+  numerics beyond the lane's own tests; under one CPU-minute in total and well
+  under 1 GB of memory. Nothing was detached and nothing ran longer than a
+  minute, so no checkpointing was needed.
+- New downloads, each into a new, empty directory under
+  `<cache>/dbn/` whose name starts `chain-r2-`: the two 2019
+  referee reports, the comments of issues 107, 118 and 126, the tenth-thread
+  results table (an image), and the 0.172422 package's version 1.1 submission
+  archive (4516835 bytes, its md5 equal to the record's), which was listed for
+  symlinks and parent paths before extraction. Nothing there was executed. A
+  second download of the issue 131 comments had the recorded SHA-256 and was
+  deleted.
+- The referee reports, the results table and the version 1.1 PDF were read in
+  the session's PDF and image readers. The version 1.1 TeX in the archive
+  carries the same anchor statements and is what the test re-reads.
+- `test_chain.py` now re-reads every quotation, checks every fact and runs in
+  about nine seconds on one core. Planted edits, one at a time and restored
+  after each: the adversary's kinds (commit counts, two dates, the float digits,
+  19/200, an attribution, a negated headline, the DH zero, a locator, numbers of
+  four or more digits) and others (a parent comment, "the same day", "no reply",
+  a case-log date, a line number, the 2018 table, the part C dependency cells).
+  All were refused once two checks were added for the last two kinds; the
+  first run refused all but those two.
+
+```runmanifest
+id: dbn_pt_height-2026-10-21-chain-repair
+hunt: dbn_pt_height
+started: 2026-10-21T21:55Z
+finished: 2026-10-21T23:00Z
+ran:
+  - curl downloads of the referee reports, the issue 107, 118 and 126 comments, the tenth-thread results table and the 0.172422 version 1.1 archive into new chain-r2- directories under <cache>/dbn
+  - a repair builder and a facts builder run with the venv python in isolated mode from the scratchpad, rewriting chain.json and sources.json from their committed versions
+  - .venv/bin/python -m pytest -q -n0 hunts/dbn_pt_height/test_chain.py
+  - a planted-fault runner in the scratchpad that edits one note at a time, runs the lane test and restores the file
+artifacts:
+  - hunts/dbn_pt_height/CHAIN.md
+  - hunts/dbn_pt_height/REDUCTION.md
+  - hunts/dbn_pt_height/chain.json
+  - hunts/dbn_pt_height/sources.json
+  - hunts/dbn_pt_height/test_chain.py
+  - hunts/README.md
+outcome: the verdict now says N0 and y0 only, quotes the 2019-04-15 sentence in full, adds the 2018 routes and the corrected 2024 thread; the 0.172422 row was found not to inherit the row-2 gap in the version the catalogue cites; the A4 gap was restated as a shipped producer with no shipped run
 ```
