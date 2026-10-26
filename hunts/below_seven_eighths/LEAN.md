@@ -1064,6 +1064,13 @@ would surface only when the rebuild fails.
   `analysis/` and `analysis-session2/`, the scripts and Lean files in `scratch/`),
   outside the tree and not durable. This page is the durable record; the bridge files
   are reproduced in section 6 so that it does not depend on the cache.
+- **2026-10-26: the cache is gone.** When the lane was resumed in place on 2026-10-26,
+  `<cache>/qrh-build/` no longer existed on the campaign box (measured, `ls`), so none of
+  the evidence directories, dumps or scratch scripts named above can be re-read, and the
+  logs behind every *(measured)* number on this page are lost. The numbers stay as
+  recorded; nothing on this page was rebuilt or re-checked, and the resumed lane ran no
+  Lean build (the box is shared and its disk is near its floor). A replay needs a fresh
+  pinned checkout and build on a machine sized for it (`CLAUDE.md` compute rule 1).
 - `scratch/closure.py` in the cache reads hunt 137's vendored tree and was not used by
   this lane.
 - `OAI.NumberTheory.DirichletL.Hecke.Nonvanishing` was not built or checked; 12 of

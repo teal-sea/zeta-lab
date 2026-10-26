@@ -518,3 +518,68 @@ Repair r4 (from 21:22Z):
   Newton's full record, and PR 69's Lean sources and paper.
 - Repair passes r2 and r3 edited these two files without coordinating; r3 merged r2's
   changes, and r4 checked before writing that the files were still r3's.
+
+## 14. The live bar on 2026-10-26, and tracker PRs 63 to 79 against the 13/15 floor model
+
+Read 2026-10-26 between 12:40Z and 12:57Z, when the lane was resumed in place by the owner's
+decision of that day. Source: `github.com/GTimG/QuasiRiemannTracker`, read only through
+`gh api` and a blobless clone (main at `01c21abe`, committed 2026-10-26T01:30:16Z); each PR
+head was fetched as `pull/N/head` and its submission directory extracted to session scratch
+storage, which is swept when idle. Heads and tree hashes are in `RUNS.md`. Nothing was
+built, replayed or posted. Bounds are the ones stated in each PR's `src/Candidate/Main.lean`
+(pinned as fractions with their decimals by `test_followups_identities.py`, X21).
+
+**The bar.** Smallest merged on the tracker: **349843/400000 = 0.8746075** (PR 76, ArviFoxy,
+merged 2026-10-26T01:30:22Z). That is 2012/10^7 below the 0.8748087 this page used on
+2026-10-21 and 9529/1200000 = 0.0079408 above 13/15 (X22). PR 69 (0.8747729897), still a draft
+on 2026-10-21, was merged on 2026-10-23. Claimed but not merged: 4373037/5000000 = 0.8746074,
+one unit in the seventh decimal below PR 76, first as PR 78 (closed unmerged at 09:03:18Z) and
+now as the open PR 79 (opened 09:04:09Z, head `3dcd2742`). Nothing in this paragraph is
+refereed or replayed here; "merged" means the tracker's Comparator, Lean, NanoDa and con-ron
+checks plus a review of unstated scope (section 4).
+
+**What "inside the floor model" is checked against.** The model in which tomoto0, Watson and
+hunt #134 place 13/15 has M + l = 1, the h/6 Mellin signal C(s) = s - (4 + b)/6, the low
+exponent l_x/2 + b/12 at the direct majorant theta = 11/12 - l/4, and rows near the line
+counted in full (section 6). In the Lean sources these show up as `length_sum : lx+ly =
+1-ell` (or x and y defined so that x + y = 1 - ell), `signalShift := -(4 + b)/6` or its
+balanced forms `-(5/6-x/3-ell/6)` and `-(4+y-x)/6` (equal on x + y = 1 - ell, X19), and
+`signal_low : signal theta = lx/2 + b/12`. For each PR the import closure of
+`Candidate.Main` was computed from its `import` lines, and these patterns were searched in
+the closure's files. A pattern found in the closure does not show that the final proof term
+uses it; that needs Lean, which this lane did not run. The fourth marker, rows near the line
+counted in full, was not checked. The token 51/100 (the paper's floor bin) occurs in every
+closure, but how those rows are counted was not read. The column is therefore *inferred*.
+
+| PR | bound (Main.lean) | author | opened, settled (UTC) | change (metadata, paraphrased) | floor-model markers in the import closure | reading |
+|---|---|---|---|---|---|---|
+| [63](https://github.com/GTimG/QuasiRiemannTracker/pull/63) | 87483/100000 | Z. Gao | 10-17, merged 10-18 08:42 | balanced common-geometry normalization, density-adaptive marked caps | length_sum, -(4+b)/6 and the balanced shift, signal_low, theta = 11/12 - ell/4 | inside |
+| [64](https://github.com/GTimG/QuasiRiemannTracker/pull/64) | 874835173/10^9 | ArviFoxy | 10-17, merged 10-18 00:27 | marked-ledger constants computed in Lean | length_sum, -(4+b)/6, signal_low, theta = 11/12 - ell/4 | inside |
+| [66](https://github.com/GTimG/QuasiRiemannTracker/pull/66) | 874828524351/10^12 | Sil | 10-19, merged 10-20 00:58 | saturated marked capacities, uneven normalization with common-factor cost 2/5 | length_sum, both shifts, signal_low, theta = 11/12 - ell/4 | inside |
+| [67](https://github.com/GTimG/QuasiRiemannTracker/pull/67) | 174963413/200000000 | ArviFoxy | 10-20, merged 10-20 08:30 | second affine step for the LOW children | length_sum, both shifts | inside |
+| [68](https://github.com/GTimG/QuasiRiemannTracker/pull/68) | 8748087/10^7 | Z. Gao | 10-20, merged 10-21 07:16 | five affine LOW stages, joint returned-source count | length_sum, both shifts | inside |
+| [69](https://github.com/GTimG/QuasiRiemannTracker/pull/69) | 8747729897/10^10 | H. Collet | 10-21 (draft), merged 10-23 01:30 | finite ordinary-source induction from PR 67's bound | length_sum, all three shifts, signal_low, theta = 11/12 - ell/4 | inside |
+| [70](https://github.com/GTimG/QuasiRiemannTracker/pull/70) | 437386453/500000000 | M. Lewko | 10-23, merged 10-23 17:05 | two acyclic ordinary-source steps; "not a new analytic method" | length_sum, all three shifts, signal_low, theta = 11/12 - ell/4 | inside |
+| [71](https://github.com/GTimG/QuasiRiemannTracker/pull/71) | 21869322649/25000000000 | Rexyysilent | 10-24, merged 10-25 17:32 | recosted source graph on PR 69; "parameter improvement" | length_sum, all three shifts | inside |
+| [72](https://github.com/GTimG/QuasiRiemannTracker/pull/72) | 174954253/200000000 | subhanjandas | 10-25, open | two-round source refinement on PR 70, imported as a dependency | -(4+y-x)/6 with x = 1 + ell - h, y = h - 2 ell, theta = 1 - c, ell = 4c - 1/3 (X20) | inside |
+| [73](https://github.com/GTimG/QuasiRiemannTracker/pull/73) | 8747289/10^7 | ArviFoxy | 10-25, merged 10-25 21:01 | marked slots reused up to eight times in the HIGH count; per-class detector cutoff | length_sum, all three shifts | inside |
+| [74](https://github.com/GTimG/QuasiRiemannTracker/pull/74) | 1749387/2000000 | Sil | 10-25, merged 10-25 21:50 | fourth-power Gauss-sum source moment | length_sum, all three shifts | inside |
+| [75](https://github.com/GTimG/QuasiRiemannTracker/pull/75) | 21867321/25000000 | Runbo Li (CareyRunboLi) | 10-25, closed unmerged 10-26 00:44 | second return on PR 74 | length_sum, all three shifts | inside |
+| [76](https://github.com/GTimG/QuasiRiemannTracker/pull/76) | 349843/400000 | ArviFoxy | 10-25, merged 10-26 01:30 | PR 73's repeated-mark chain on PR 74's fourth-power face, slot cost 3.72 for 9/2 | length_sum, all three shifts | inside |
+| [77](https://github.com/GTimG/QuasiRiemannTracker/pull/77) | 21867321/25000000 | Runbo Li (CareyRunboLi) | 10-26, closed unmerged 10-26 02:14 | resubmission of PR 75 (same head `3b505786`) | as PR 75 | inside |
+| [78](https://github.com/GTimG/QuasiRiemannTracker/pull/78) | 4373037/5000000 | Runbo Li (CareyRunboLi) | 10-26, closed unmerged 10-26 09:03 | PR 76 with a new final return cover | length_sum, all three shifts | inside |
+| [79](https://github.com/GTimG/QuasiRiemannTracker/pull/79) | 4373037/5000000 | Runbo Li (CareyRunboLi) | 10-26, open | resubmission of PR 78 (head `3dcd2742`, a different tree) | not searched (same submission directory as PR 78) | not read |
+
+PR 65 is not a pull request in that range of the API listing. "Inside" means: the geometry the
+closure defines keeps M + l = 1 and the h/6 signal, and none of the PRs states a bound at or
+below 13/15 (X21). Every change in the metadata is to source moments, counts, normalization,
+returns and their exact covers, which are the row-count and moment inputs of section 5 (I1, I3, I5,
+I6). None of it touches the floor rows (I7) or the direct estimate (I9) as far as the
+metadata says. No PR was found that leaves the model. PR 71's only match for `sorry` is a
+comment ("no axiom or sorry is introduced"); no `sorry` and no `axiom` declaration occurs in
+any of the closures searched.
+
+So the section 13 question is answered at the grade *inferred*: PR 63 to 68, PR 69 and every
+later entry keep the floor model's geometry and signal, and the tracker line is bounded by
+13/15 if the floor rows are still counted in full, which was not checked. The window for part
+(a) is now 0.0079408 wide below 0.8746075 (X22).

@@ -94,3 +94,52 @@ agents_may_not:
   - promote their own claim
   - push, publish or contact outside parties
 ```
+
+## Disposition draft, 2026-10-26 (resumed in place; the owner decides)
+
+Added when the lane was resumed in place by the owner's decision of 2026-10-26. The text above
+is the mission as opened and is kept unchanged. This section is a draft: a hunt cannot
+promote or close itself, and allocation is the owner's call.
+
+**The bar has moved.** The question names 0.8748867. On 2026-10-21 the lane recorded smaller
+public claims, down to 0.8748087 merged and 0.8747729897 in a draft (`FOLLOWUPS.md` section
+1). On 2026-10-26 the smallest bound merged on QuasiRiemannTracker is 349843/400000 =
+0.8746075 (PR 76, merged 2026-10-26T01:30:22Z), and the open PR 79 claims 4373037/5000000 =
+0.8746074 (`FOLLOWUPS.md` section 14). None is refereed or replayed here. Every tracker entry
+from PR 63 to PR 78 keeps M + l = 1 and the h/6 signal in its Lean import closure (inferred
+from a source reading; not built). So the 13/15 floor model still frames that line, if its
+floor rows are still counted in full, which was not checked.
+
+**The kill condition, read honestly.** "A claimed improvement is matched or beaten by a public
+follow-up already on record" needs a claimed improvement, and this hunt has none: every lane
+page says that no smaller half-plane is claimed. The condition is therefore not triggered. That
+is not a success. It only shows that the condition was written for a candidate the hunt never
+produced. Its intent was not to spend on what the public record already covers, and that
+intent now applies with more force. Part (a) would have to land between 13/15 and 0.8746075,
+a window 0.0079408 wide (X22). The public line works on the same row-count and moment inputs
+(section 5 of `FOLLOWUPS.md`: I1, I3, I5, I6) and moved 2.0e-4 in five days. This hunt's
+row-count lane found no recount that gains at the paper's inputs.
+
+**Dispositions (ALIGNMENT.md section 5), proposed:**
+
+- **Part (a), row counts inside the Part II assembly: attempt unresolved.** Nine possible
+  sharpenings were examined. Five died under exact enumeration or algebra, three hold but buy
+  nothing at the paper's inputs, and the floor rows (I7) were not recounted (`ROWCOUNTS.md`).
+  This is not an obstruction. 13/15 is the perfect-count ceiling of a model (hunt #134,
+  unlanded, derived there), not a theorem about every count.
+- **Part (b), a probe not tied to the sextic pole: attempt unresolved.** It was priced, not
+  proved. Orders below 6 are cheaper in principle, and no system of such order was found with
+  the lemmas it needs (`PROBE.md`).
+- **The Euler-product step: no candidate refuted, nothing promoted.** Lemma 7.1 and its
+  Gauss-sum inputs agree with two code-disjoint exact routes on the stated primes and boxes
+  (`EULER_STEP.md`, `referee/REFEREE_W1.md`). This is *derived* on those ranges, not a proof
+  of the lemma.
+- **The sixth-power amplification (I2): priced as a door outside the assembly**
+  (`amplification/LOSS_MAP.md`). Guo's Hypothesis 11.1 remains unproved.
+- **The hunt as a whole: paused by allocation (proposed).** Further progress on part (a) needs
+  a new lemma at I7, I9 or I2, the inputs the public line has not moved. Beating a public line
+  that moves on the other inputs every few days does not look like the lab's best use of
+  money. This is an allocation judgement, not a mathematical no-go, and the owner decides it.
+
+Grades: the bar and the PR states are *cited* from the tracker's API; the floor-model reading
+of each PR is *inferred*; the gaps are *derived* (pinned by `test_followups_identities.py`).

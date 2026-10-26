@@ -4213,7 +4213,15 @@ would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #136: pushing the zero-free half-plane under 7/8 (`below_seven_eighths/`, opened 2026-10-21)
 
-**Status: open; first wave running.** The owner directed the laboratory on 2026-10-21 to
+**Status: paused by allocation (proposed 2026-10-26; the owner decides). No improvement of
+the half-plane is claimed.** The first wave (2026-10-21) found no row-count sharpening that
+gains at the paper's inputs (part (a), attempt unresolved), priced but did not prove probes
+of lower order (part (b), attempt unresolved), and checked the Euler-product step exactly on
+stated ranges. By 2026-10-26 the smallest bound merged on QuasiRiemannTracker was 0.8746075
+(PR 76), on tracker entries that keep the 13/15 floor model's geometry as far as their Lean
+sources were read (inferred). The kill condition is not triggered, because the hunt has no
+candidate to match. See the dated disposition section of `MISSION.md`.
+The owner directed the laboratory on 2026-10-21 to
 attack RH, and this is the campaign's first track. The question is whether the zero-free
 half-plane for every Dirichlet L-function can go below the best public abscissa, 0.8748867
 (Xu and Sang), either by strengthening the row-count inputs of OpenAI's Part II assembly,
