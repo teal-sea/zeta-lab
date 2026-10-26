@@ -66,9 +66,9 @@ projects and not four:**
 
 | id | project | task | status |
 | --- | --- | --- | --- |
-| port-A-gridincidence | `bbd1c2a0-2eea-4507-b061-15594381a402` | `rw [MeasureTheory.L2.inner_def]` (109) and `rw [Complex.real_smul]` (290) both fail with "did not find an occurrence of the pattern"; `simp only` makes no progress either. Both lemmas exist unchanged, so the drift is in the goal shape upstream of each site. | submitted |
-| port-B-floorcert | `f4d78035-5d82-4375-bf39-50b127268b74` | line 82 `ring_nf` made no progress on the goal | submitted |
-| port-C-bandcert-leaves | `d0703744-f625-4a39-8234-a9f44465feda` | line 144 type mismatch after simplification; prompt also carries the import-path correction below | submitted |
+| port-A-gridincidence | `bbd1c2a0-2eea-4507-b061-15594381a402` | `rw [MeasureTheory.L2.inner_def]` (109) and `rw [Complex.real_smul]` (290) both fail with "did not find an occurrence of the pattern"; `simp only` makes no progress either. Both lemmas exist unchanged, so the drift is in the goal shape upstream of each site. | **collected, accepted** |
+| port-B-floorcert | `f4d78035-5d82-4375-bf39-50b127268b74` | line 82 `ring_nf` made no progress on the goal | **collected, refused, repaired here** |
+| port-C-bandcert-leaves | `d0703744-f625-4a39-8234-a9f44465feda` | line 144 type mismatch after simplification; prompt also carries the import-path correction below | **collected, accepted** |
 
 Prompts pinned at `~/.claude/jobs/8633dae1/tmp/prompts/` for this session;
 each required zero `sorry`/`admit`/`axiom`/`native_decide` and forbade
@@ -120,7 +120,7 @@ non-building artifact, that is the failure mode to keep expecting.
 | id | project | task | status |
 | --- | --- | --- | --- |
 | bridge-A-algebra | `d54aea65-6679-46f9-9c7d-b64f154cf9a1` | the three Bridge identities (Hermitian expansion, Gram identity, and `D = R + 2 tr(PQ) + ‖Q‖²_F`), self-contained over Mathlib with upstream's definitions carried verbatim | **collected, accepted** |
-| port-D-pairenergy | `f7dc3271-da10-4b1d-97cf-8fdb4a77d96a` | `PairEnergy.lean`, the last assembly blocker: `Matrix.posSemidef_iff_eq_conjTranspose_mul_self` does not exist under this Mathlib (lines 87, 230), plus a brittle `<;>` simp chain at 314 | submitted |
+| port-D-pairenergy | `f7dc3271-da10-4b1d-97cf-8fdb4a77d96a` | `PairEnergy.lean`, the last assembly blocker: `Matrix.posSemidef_iff_eq_conjTranspose_mul_self` does not exist under this Mathlib (lines 87, 230), plus a brittle `<;>` simp chain at 314 | **collected, accepted** |
 
 **bridge-A accepted, and note what its acceptance did NOT rest on.** Its summary
 carried the same caveat that produced a refusal in batch 2, it could only build
@@ -151,7 +151,7 @@ from hardened grade to kernel-checked.
 
 | id | project | task | status |
 | --- | --- | --- | --- |
-| retention-algebra | `281fd3e5-8077-44c4-8497-a51b613092a0` | `margin_eq` (the exact retention margin from the gap identity) and `energy_sub_card` (`E[F] − n` equals twice the strictly-upper-triangular repulsion sum, from the energy identity plus the diagonal normalisation) | submitted |
+| retention-algebra | `281fd3e5-8077-44c4-8497-a51b613092a0` | `margin_eq` (the exact retention margin from the gap identity) and `energy_sub_card` (`E[F] − n` equals twice the strictly-upper-triangular repulsion sum, from the energy identity plus the diagonal normalisation) | **collected, accepted** |
 
 **Stated over abstract reals on purpose.** Aristotle does not have this
 package's `EForm3` modules, and the reduction needs none of them: both
@@ -210,8 +210,8 @@ the fourth module set in this package landed without ever being built there.
 
 | id | project | task | status |
 | --- | --- | --- | --- |
-| eform3-A-taylor | `24b0a7ad-f71f-4b7e-b4be-c54178785c6f` | `Taylor.lean`: type mismatches after simplification at 42, 57, 85, 104; `ring_nf` no progress at 63, 109 | submitted |
-| eform3-B-closedform | `e3753571-74c1-4efd-abb1-034021025dc2` | `ClosedForm.lean`: `field_simp` no progress at 74, 104 | submitted |
+| eform3-A-taylor | `24b0a7ad-f71f-4b7e-b4be-c54178785c6f` | `Taylor.lean`: type mismatches after simplification at 42, 57, 85, 104; `ring_nf` no progress at 63, 109 | **collected, accepted** |
+| eform3-B-closedform | `e3753571-74c1-4efd-abb1-034021025dc2` | `ClosedForm.lean`: `field_simp` no progress at 74, 104 | **collected, accepted** |
 
 Both prompts carry the two failure classes this package's port has already
 taught us, `convert … using 1` leaving an instance-equality goal first, and
@@ -234,7 +234,7 @@ before landing rather than after.
 | --- | --- |
 | eform3-A-taylor | **collected, accepted.** Builds under `v4.33.0-rc2`, declarations byte-identical, scan clean. |
 | eform3-B-closedform | **collected, accepted.** Same, and it repaired two further sites carrying the identical fragile pattern that had not been reported as failing. |
-| eform3-C-numerics | `c272510e-da2d-427c-8e57-433cb95bc866`, the last blocker in the chain (lines 95, 138, 143). Submitted. |
+| eform3-C-numerics | `c272510e-da2d-427c-8e57-433cb95bc866`, the last blocker in the chain (lines 95, 138, 143), submitted 2026-08-13. **collected, accepted** (landed with `edf58553f`): declarations byte-identical, imports preserved, scan clean, and it unblocked `EForm3.Main`, which had not built since the port began. Its repairs follow the sibling modules' style, `HasDerivAt.congr_deriv` against an explicitly ascribed term and an explicit function identity in place of `hasDerivAt_pow`'s cast-and-exponent form, so nothing depends on a tactic's normal form. |
 
 **Both repairs removed the dependence rather than patching the symptom**, which
 is why each fixed several reported sites at once. `Taylor` replaced every
@@ -252,6 +252,53 @@ drift gets a durable repair rather than another brittle one.
 above it. That is the expected shape of a port and not a new defect, but it
 does mean "the survey found N sites" is a lower bound until the chain builds
 end to end.
+
+## O9 lemma submissions outside the numbered batches (2026-08-13/14)
+
+Two O9 submissions went out from side branches and were recorded there, each
+under the label "Batch 7", which collides with the other and with the Pub 1
+heading below. They carry no batch number here; the project id is the key.
+
+| id | project | task | status |
+| --- | --- | --- | --- |
+| o9-shc-taylor | `e7a77aa2-2421-4f25-adab-13f5d7933d5d` | the truncation bound for `sinh t / t`, uniform down to `t = 0`: the one O9 lemma that could not be borrowed, since `sinh_taylor`'s bound divided by `\|t\|` blows up exactly where the branch is used | submitted 2026-08-13; **collected, accepted** (landed with `c270bb2a2`) |
+| o9-box-sound | `8c39ae10-9969-4dbb-b310-d45db409c75b` | prove `Retention.o9Box_sound_nonzero` without weakening it: extract the real damage inequality from either successful `o9Box` mode once the interval quotients are identified with `Qre` and `Qim / y`. The prompt pointed at branch `codex/frontier-o9-denominator-bridge` at `d933e7f` | submitted 2026-08-14; **no collection recorded**; superseded |
+
+**o9-shc-taylor: the prompt carried the hinge and the artifact used it.**
+`shc_eq_tsum`, that the removable branch *is* the divided series for every
+`t`, zero included, was proved here first and supplied as a given, which
+turned the task from "find a route that survives `t = 0`" into "bound a tail".
+The returned proof's `hasSum_shc` is that identity in `HasSum` form, reached
+independently from the hint: `Real.hasSum_sinh` divided by `t` away from zero,
+`hasSum_single` at zero. The tail is a geometric comparison: `factorial_pow_le`
+gives `2^k (2n+1)! ≤ (2(n+k)+1)!`, `abs_term_le` turns that into a `(1/2)^k`
+bound per tail term, and `Summable.sum_add_tsum_nat_add` sums it to exactly
+`1/(2n+1)! · 2`, the constant asked for and not a weakened one. Verified here
+rather than taken on report: statement byte-identical, scan clean, builds
+under `v4.33.0-rc2`, axioms `[propext, Classical.choice, Quot.sound]`. This is
+the entry `EForm3/ShcBranch.lean` cites.
+
+**o9-box-sound was never collected, and nothing now depends on it.** Its
+target statement, `o9Box_sound_nonzero`, existed only in the prompt and never
+landed in the tree. The per-box bound it was meant to supply was later proved
+locally by another route, as `Retention.dam_le_of_box` in `O9Modes` (hunt
+`r_88dc5e`, 2026-08-18). The row is kept because this file promises a row for
+every submission; whatever the project returned, if anything, is unexamined
+and counts for nothing.
+
+## Ledger hygiene, recorded because it failed twice
+
+Batches 2, 3, 4 and 5 carried rows reading `submitted` long after their
+artifacts were collected, verified and merged: the outcome was written in prose
+below each table and never into the table. Seven rows (port-A, port-B, port-C,
+port-D, retention-algebra, eform3-A, eform3-B) were first corrected on a side
+branch on 2026-08-16 and reach this file with the 2026-10-21 landing, along
+with eform3-C's outcome and the two O9 rows above, which had no entry here at
+all.
+
+The rule this breaks is the one this file opens with: a submission gets a row
+and its collection gets an outcome. A status column that lies is worse than an
+absent one, because the prose underneath is what a reader checks *second*.
 
 ## Batches 5-7: Pub 1 source-admissible strong closure (submitted 2026-08-16)
 
