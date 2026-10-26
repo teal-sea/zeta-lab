@@ -220,3 +220,41 @@ artifacts:
   - hunts/README.md
 outcome: the verdict now says N0 and y0 only, quotes the 2019-04-15 sentence in full, adds the 2018 routes and the corrected 2024 thread; the 0.172422 row was found not to inherit the row-2 gap in the version the catalogue cites; the A4 gap was restated as a shipped producer with no shipped run
 ```
+
+### C3. Did the C2 final pass complete? A re-run (2026-10-26)
+
+- The question. The C2 manifest says the repair ran to 23:00Z, but no file of
+  the hunt in the stalled checkout was modified after 22:45Z (`CHAIN.md` was
+  last, at 22:45:09Z; the other notes between 22:39Z and 22:44Z). The C2
+  planted-fault runner was a scratchpad script that was not kept, and no log
+  of its last pass survives. So the record cannot say whether the final pass
+  completed: C2's "finished: 23:00Z" and "All were refused" are unconfirmed.
+- The re-run. `planted_faults.py` reconstructs the runner from the kinds C2
+  lists, seventeen faults in all, one edit at a time, restored after each. On
+  the checkpoint commit (the notes exactly as left on 2026-10-21), sixteen were
+  refused and one was not: swapping the tag after the 5 July 2024 comment for
+  another existing tag. The tag checks asked only that a cited quotation
+  exist. If that is the kind C2 called "a locator", C2's last claim did not
+  hold for the files it left; if C2 meant something else, it was not
+  re-tested.
+- The repair. A new check ties each quotation-bound fact to its own tag in the
+  same paragraph (three facts that point back at a block quotation are named
+  exemptions, and the case-log entry carries no tags), with a planted swap as
+  its control. After it, all seventeen faults are refused. The lane test
+  passes, with the cache present, in about six seconds on one core.
+
+```runmanifest
+id: dbn_pt_height-2026-10-26-chain-planted-faults
+hunt: dbn_pt_height
+started: 2026-10-26T12:50Z
+finished: 2026-10-26T12:56Z
+ran:
+  - .venv/bin/python -m pytest -q -n0 hunts/dbn_pt_height/test_chain.py (checkpoint commit 44daad385: 262 passed, 6.2 s)
+  - .venv/bin/python hunts/dbn_pt_height/planted_faults.py (checkpoint: 16 of 17 refused, the [Q:B1] to [Q:B2] swap not)
+  - .venv/bin/python hunts/dbn_pt_height/planted_faults.py (with the tag-placement check: 17 of 17 refused)
+  - .venv/bin/python -m pytest -q -n0 hunts/dbn_pt_height/test_chain.py (264 passed)
+artifacts:
+  - hunts/dbn_pt_height/planted_faults.py
+  - hunts/dbn_pt_height/test_chain.py
+outcome: whether the C2 final pass completed is not determinable from the record; on the checkpointed notes one of seventeen reconstructed faults (a swapped citation tag) passed, and after a tag-placement check all seventeen are refused
+```

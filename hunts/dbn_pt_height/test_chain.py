@@ -200,6 +200,40 @@ def test_every_cited_quote_exists() -> None:
     assert len(QUOTES) == len(CHAIN["quotes"]), "duplicate quotation id"
 
 
+# Facts whose phrase points at a quotation printed elsewhere instead of tagging it.
+TAG_ELSEWHERE = {
+    "C15": "the quotation follows as a block quote, which carries [Q:I1]",
+    "C21": "refers back to that block quote",
+    "C34": "refers back to that block quote",
+}
+
+
+def _tag_misplacements(text_of) -> list[str]:
+    bad = []
+    for f in FACTS:
+        if "quote" not in f or f["file"] == "hunts/README.md" or f["id"] in TAG_ELSEWHERE:
+            continue  # the case-log entry carries no citation tags by convention
+        paras = [p for p in re.split(r"\n\s*\n", text_of(f["file"])) if norm(f["phrase"]) in norm(p)]
+        if not any(f"[Q:{f['quote']}]" in p for p in paras):
+            bad.append(f"{f['id']}: [Q:{f['quote']}] is not in the paragraph of {f['phrase']!r}")
+    return bad
+
+
+def test_a_fact_bound_to_a_quotation_sits_beside_its_tag() -> None:
+    """A tag swapped for another existing tag passes the existence check; this
+    check ties each quotation-bound fact to its own tag (added 2026-10-26, after
+    the planted-fault re-run let a swapped [Q:B1] through)."""
+    assert _tag_misplacements(note_text) == []
+    assert set(TAG_ELSEWHERE) <= {f["id"] for f in FACTS}
+
+
+def test_a_swapped_citation_tag_is_refused() -> None:
+    text = note_text("CHAIN.md")
+    assert "[Q:B1]" in text
+    planted = text.replace("[Q:B1]", "[Q:B2]", 1)  # the tag after the 5 July 2024 comment
+    assert _tag_misplacements(lambda n: planted if n == "CHAIN.md" else note_text(n))
+
+
 def test_citation_tags_are_well_formed() -> None:
     """A tag the existence check cannot parse would escape it: refuse any other shape."""
     for name in NOTES_REGISTERED:
