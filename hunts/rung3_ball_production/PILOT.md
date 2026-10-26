@@ -533,3 +533,39 @@ scaled from the pilot site by towers, composites and K, or by source byte.
   16 GB.
 - **(c) A big cloud machine is no longer required.** It remains the simplest single
   route: 32 cores, 32 GB and 40 GB of disk, about 1 to 2 hours.
+
+## 10. Calibration on a GitHub runner, 2026-10-26
+
+**Measured** on one `ubuntu-latest` runner (4 vCPU, 16 GB) by `rung3-production.yml` in
+calibrate mode, run 40340279740 at commit `c697df4f0`, which succeeded
+(`calibration_runner` in `pilot.json`). Both sites compiled under `--tower whole` at one
+Lean process. Both site theorems print exactly `propext`, `Classical.choice` and
+`Quot.sound`, and the verdict job counted the run.
+
+| site | CPU-s | wall s | peak RSS GB | olean bytes | projected CPU-s (this box) | runner / projected |
+|---|---|---|---|---|---|---|
+| centre (K = 361) | 1,348.1 | 556.6 | 11.32 | 343,533,352 | 2,173.2 | 0.620 |
+| `B_right_06` (K = 17) | 65.9 | 39.7 | 7.20 | 16,758,408 | 162.1 | 0.407 |
+
+The job took 928 s in all, of which 295 s was setup. That setup was 119 s to free disk,
+91 s for `lake exe cache get` into a fresh `lean/.lake` (the archive cache was empty on
+this first run), 1 s of preflight, 50 s to build the `ZetaLean` closure and uploads.
+Generation took 28 s, the compile 596 s and the axiom audit 9 s.
+
+What changes:
+
+- **The runner is faster than the shared box.** It used 0.41 to 0.62 of the CPU this box
+  projects; the import alone, which dominates a small site, is much cheaper there.
+  Scaled by the larger ratio, production is about **18.5 core-hours** on runners against
+  29.8 at this box's rates. This is still an extrapolation, from two sites.
+- **The centre's olean bytes fall inside the projection** (316 to 371 MB projected,
+  343.5 MB measured), which supports the 14.8 to 16.0 GB total for the assembly.
+- **Peak RSS grows with the site.** It was 11.3 GB for the centre, against 6.5 to 7.2
+  GiB for small sites, so two centre-sized processes do not fit a 16 GB runner. The full
+  plan therefore runs one Lean process per job (`lean_jobs: 1`), and `production.py`
+  refuses a request in which `lean_jobs` times the calibrated peak exceeds 14 GB.
+
+**The full plan, re-sized:** 20 jobs as before, assigned by projected CPU. Each job is
+bounded by setup plus 1.5 times its runner-scaled CPU at one core: 1.43 to 1.49 hours,
+against the 4-hour target and the 350-minute limit. At 6 jobs at once, the 21 jobs (20
+plus the fault job) run in 4 waves.

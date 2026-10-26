@@ -60,9 +60,12 @@ after the coordinator's 'go'. Limits: `permissions: contents: read`, a concurren
   and `B_right_06`, one Lean process at a time. `sites.json` in its record artifact gives
   each site's CPU, wall, peak RSS and olean bytes on a runner. Those numbers replace this
   box's rates in the full run's sizing.
-- `{"mode": "full", "jobs": 20, "lean_jobs": 2, "fault_site": "B_right_06", ...}`: 20
-  site jobs of about 1.5 projected core-hours each, plus the job `fault`, whose kernel
-  must refuse a one-unit radius fault at `Prime_2.ev_whole`. The `verdict` job counts the
+- `{"mode": "full", "jobs": 20, "lean_jobs": 1, "fault_site": "B_right_06",
+  "calibration": {...}, ...}`: 20 site jobs, plus the job `fault`, whose kernel must
+  refuse a one-unit radius fault at `Prime_2.ev_whole`. The `calibration` block must equal
+  the recorded runner calibration (`production.py calibration()`; `PILOT.md` section 10).
+  Each job is then bounded at 1.43 to 1.49 hours: setup plus 1.5 times its runner-scaled
+  CPU at one core. `lean_jobs` stays 1 because the centre peaked at 11.3 GB. The `verdict` job counts the
   run only if all 215 sites compiled, every site theorem rests on exactly `propext`,
   `Classical.choice` and `Quot.sound`, and the fault was refused.
 
@@ -79,7 +82,10 @@ earlier artifacts and resumes from their checkpoints.
 
 The planted-fault path and the axiom audit ran on this box against the whole-mode pilot
 site before the workflow was pushed. The fault was refused at `Prime_2.ev_whole`, and
-`upper_B_right_06` printed exactly the three axioms. The workflow itself has not run.
+`upper_B_right_06` printed exactly the three axioms. The calibrate mode then ran on a
+runner and succeeded (run 40340279740, `PILOT.md` section 10): the centre took 1,348
+CPU-s and 557 s of wall at an 11.3 GB peak, with a 295 s setup. On runners, production
+is about 18.5 core-hours. The full mode has not run; it needs its own 'go'.
 
 ## 2a. Commands, for a single machine instead
 

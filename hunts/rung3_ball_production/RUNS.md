@@ -327,3 +327,24 @@ gate:
 speed is unmeasured): the centre at 2,173 CPU-s and `B_right_06` at 162. That is about 40
 minutes at one process, plus about 15 to 25 minutes of setup (cache get and the
 `ZetaLean` closure), so about 1 hour of one job. It runs on free GitHub Actions minutes.
+
+## 2026-10-26: the calibration run on GitHub Actions
+
+After the coordinator's 'go', `RUN_REQUEST.json` (calibrate: the centre and
+`B_right_06`) was committed at `c697df4f0` and pushed; that push started run
+40340279740. The estimate above was about 1 hour of one job; it took 15.5 minutes. The
+figures are in `PILOT.md` section 10.
+
+```runmanifest
+id: rung3_ball_production-2026-10-26-calibrate-runner
+hunt: rung3_ball_production
+started: 2026-10-26T14:30Z
+finished: 2026-10-26T14:47Z
+ran:
+  - .github/workflows/rung3-production.yml, mode calibrate, run 40340279740 (https://github.com/teal-sea/zeta-lab/actions/runs/40340279740), commit c697df4f0
+  - gh run download 40340279740 -n rung3-production-record-job0-attempt1 (the record, into <cache>/rung3-ball-production-calib)
+outcome: plan, sites 0 and verdict succeeded; the centre (1348.1 CPU-s, 556.6 s wall, 11.32 GB peak RSS, 343.5 MB of oleans) and B_right_06 (65.9 CPU-s, 7.20 GB, 16.8 MB) compiled under --tower whole with exactly the three standard axioms; setup 295 s; the full plan is re-sized to 20 jobs at one Lean process each, every job bounded at 1.43 to 1.49 h
+artifacts:
+  - hunts/rung3_ball_production/pilot.json (calibration_runner)
+  - GitHub artifacts rung3-production-job0-attempt1 (oleans of both sites) and rung3-production-record-job0-attempt1, 30-day retention
+```

@@ -31,7 +31,8 @@ BASE = {"tower": "whole", "plan": "lean/cert/rung3_plan2.json",
         "toolchain": prod.TOOLCHAIN, "mathlib": prod.MATHLIB}
 CALIBRATE = {"mode": "calibrate", **BASE, "sites": ["centre", "B_right_06"],
              "jobs": 1, "lean_jobs": 1}
-FULL = {"mode": "full", **BASE, "jobs": 20, "lean_jobs": 2, "fault_site": "B_right_06"}
+FULL = {"mode": "full", **BASE, "jobs": 20, "lean_jobs": 1, "fault_site": "B_right_06",
+        "calibration": prod.calibration()}
 
 
 # --------------------------------------------------------------------------- the workflow
@@ -85,7 +86,9 @@ def test_requests_validate():
     for bad in ({**CALIBRATE, "tower": "staged"}, {**CALIBRATE, "sites": ["B_right_06"]},
                 {**CALIBRATE, "mathlib": "0" * 40}, {**FULL, "jobs": 40},
                 {**FULL, "lean_jobs": 4}, {**FULL, "fault_site": "nope"},
-                {**FULL, "mode": "other"}):
+                {**FULL, "mode": "other"}, {k: v for k, v in FULL.items() if k != "calibration"},
+                {**FULL, "calibration": {**FULL["calibration"], "cpu_scale": 0.3}},
+                {**FULL, "lean_jobs": 2}, {**FULL, "jobs": 3}):
         with pytest.raises(AssertionError):
             prod.validate(bad)
 
@@ -145,3 +148,33 @@ def test_verdict_counts_only_a_complete_clean_run(tmp_path):
         prod.cmd_verdict(CALIBRATE, tmp_path / "records")
     with pytest.raises(SystemExit):           # full mode with no fault record never counts
         prod.cmd_verdict(FULL, tmp_path / "records")
+
+
+def test_full_plan_is_sized_from_the_runner_calibration():
+    c = PILOT_JSON["calibration_runner"]
+    assert c["conclusion"] == "success" and c["run"] == 40340279740
+    assert set(c["sites"]) == {"centre", "B_right_06"}
+    assert all(v["status"] == "ok" for v in c["sites"].values()) and all(c["axioms_ok"].values())
+    for sid, v in c["sites"].items():
+        assert c["cpu_scale"][sid] == round(v["cpu_s"] / v["projected_cpu_s"], 3)
+    assert c["setup_s"] == c["job_s"] - c["steps_s"]["generate"] - c["steps_s"]["compile"] \
+        - c["steps_s"]["axioms"]
+    cal = prod.calibration()
+    assert cal["cpu_scale"] == max(c["cpu_scale"].values())
+    walls = [prod.job_wall_bound_s(FULL, ids) for ids in prod.assign(FULL["jobs"])]
+    assert max(walls) <= prod.JOB_WALL_S_MAX
+    assert 2 * cal["peak_rss_gb"] > prod.RUNNER_RSS_GB          # why lean_jobs is 1
+
+
+PILOT_JSON = json.loads((HERE / "pilot.json").read_text())
+
+
+def test_pilot_md_quotes_the_runner_calibration():
+    text = " ".join((HERE / "PILOT.md").read_text().split())
+    c = PILOT_JSON["calibration_runner"]
+    for sid, v in c["sites"].items():
+        row = (f"| {v['cpu_s']:,.1f} | {v['wall_s']:,.1f} | {v['peak_rss_bytes'] / 1e9:.2f} | "
+               f"{v['olean_bytes']:,} | {v['projected_cpu_s']:,.1f} | {c['cpu_scale'][sid]:.3f} |")
+        assert row in text, sid
+    assert f"took {c['job_s']} s in all, of which {c['setup_s']} s was setup" in text
+    assert "run 40340279740" in text

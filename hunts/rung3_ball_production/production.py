@@ -47,6 +47,9 @@ MATHLIB = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
 STANDARD_AXIOMS = ["propext", "Classical.choice", "Quot.sound"]
 PER_JOB_CPU_S_MAX = 4 * 3600          # projected (this box's rates) per job, at most 4 h
 MAX_JOBS = 30
+JOB_WALL_S_MAX = 4 * 3600             # a full-mode job, setup included, sized from the runner
+WALL_MARGIN = 1.5                     # on the runner's CPU, bounding wall by CPU at one core
+RUNNER_RSS_GB = 14.0                  # what a 16 GB runner leaves for concurrent Lean processes
 
 
 def _load(name: str, path: Path):
@@ -86,8 +89,32 @@ def validate(req: dict) -> None:
     elif req["mode"] == "full":
         assert 2 <= req["jobs"] <= MAX_JOBS and 1 <= req["lean_jobs"] <= 2, req
         assert req["fault_site"] in known, req
+        check_calibration(req)
     else:
         raise AssertionError(f"unknown mode {req['mode']!r}")
+
+
+def calibration() -> dict:
+    """The full run's sizing inputs, read off the recorded calibration run."""
+    c = pilot()["calibration_runner"]
+    assert c["conclusion"] == "success" and all(c["axioms_ok"].values()), c
+    return {"run": c["run"], "cpu_scale": max(c["cpu_scale"].values()),
+            "setup_s": c["setup_s"],
+            "peak_rss_gb": round(max(v["peak_rss_bytes"] for v in c["sites"].values()) / 1e9, 2)}
+
+
+def job_wall_bound_s(req: dict, ids: list[str]) -> float:
+    cal = req["calibration"]
+    return cal["setup_s"] + WALL_MARGIN * cal["cpu_scale"] * projected_cpu(ids)
+
+
+def check_calibration(req: dict) -> None:
+    """Fail closed unless the request carries the recorded calibration and every job
+    fits: setup plus 1.5 x runner CPU under 4 h, and the concurrent peak RSS in 16 GB."""
+    assert req.get("calibration") == calibration(), (req.get("calibration"), calibration())
+    assert req["lean_jobs"] * req["calibration"]["peak_rss_gb"] <= RUNNER_RSS_GB, req
+    for ids in assign(req["jobs"]):
+        assert job_wall_bound_s(req, ids) <= JOB_WALL_S_MAX, ids
 
 
 def assign(jobs: int) -> list[list[str]]:
