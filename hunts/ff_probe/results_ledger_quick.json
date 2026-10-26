@@ -1,0 +1,88 @@
+{
+ "F_abs2_generic": {
+  "checked": 417,
+  "equal_q_times_qA": 417
+ },
+ "F_vs_elementary_bound": {
+  "at": [
+   0,
+   0,
+   "1",
+   "1",
+   "2"
+  ],
+  "max_ratio": 0.3779644730092273,
+  "nonzero_cases": 63870,
+  "range": "deg s, deg A <= 2, deg H <= 1"
+ },
+ "principal_correction": {
+  "absolute_convergence_abscissa": "2/3",
+  "circles": {
+   "17/24": {
+    "max_abs_H_minus_1": 0.27717873258871667,
+    "min_abs_H": 0.7233164677054094
+   },
+   "3/4": {
+    "max_abs_H_minus_1": 0.24643352534881885,
+    "min_abs_H": 0.7538979611728676
+   },
+   "5/6": {
+    "max_abs_H_minus_1": 0.2101168656364528,
+    "min_abs_H": 0.7900580154195711
+   },
+   "7/8": {
+    "max_abs_H_minus_1": 0.19889990084508535,
+    "min_abs_H": 0.8011971104658192
+   }
+  },
+  "prime_degree_cutoff": 4
+ },
+ "seconds": 111.5,
+ "target_L": {
+  "abs2_c1_equals_q": true,
+  "coefficients": [
+   {
+    "N": 84,
+    "abs": 1.0,
+    "im": 0.0,
+    "poly": "1",
+    "re": 1.0
+   },
+   {
+    "N": 84,
+    "abs": 2.6457513110645903,
+    "im": 1.022618791871794,
+    "poly": "2*x^22 + (-1)*x^20 + (-2)*x^18 + 2*x^12 + x^10 + (-1)*x^8 + x^4 + 1",
+    "re": 2.4401333583455376
+   },
+   {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   }
+  ],
+  "degree_one": true
+ },
+ "template_walls": {
+  "4": {
+   "balanced": "7/8",
+   "corner": "13/16",
+   "floor": "4/5"
+  },
+  "6": {
+   "balanced": "11/12",
+   "corner": "7/8",
+   "floor": "13/15"
+  }
+ },
+ "truth_in_Fq[T]": "1/2"
+}

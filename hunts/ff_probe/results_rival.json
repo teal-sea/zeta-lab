@@ -1,0 +1,4577 @@
+{
+ "counts": {
+  "characters": 210,
+  "degenerate": 0,
+  "functional_equation_holds": 210,
+  "off_iff_disc_positive": true,
+  "with_zeros_off_circle": 66
+ },
+ "example": {
+  "alpha": 2,
+  "beta": 2,
+  "beta_real": true,
+  "d2_equals_q_d0": true,
+  "disc": 37.298578491,
+  "e": 2,
+  "functional_equation": true,
+  "off_circle_by_enclosure": [
+   true,
+   true
+  ],
+  "root_abs_times_sqrtq": [
+   0.37295594628331585,
+   2.681281823802969
+  ],
+  "sigma": [
+   1.006855351605677,
+   -0.006855351530248299
+  ]
+ },
+ "example_L": [
+  {
+   "N": 84,
+   "abs": 1.0,
+   "im": 0.0,
+   "poly": "1",
+   "re": 1.0
+  },
+  {
+   "N": 84,
+   "abs": 3.2736842745292263,
+   "im": 2.99300842678412,
+   "poly": "x^20 + x^16 + x^14 + x^12 + (-1)*x^6 + (-1)*x^2 + (-1)",
+   "re": -1.3262387743159947
+  },
+  {
+   "N": 84,
+   "abs": 7.0,
+   "im": -5.185422069541291,
+   "poly": "(-6)*x^22 + (-3)*x^20 + 5*x^18 + (-1)*x^14 + (-3)*x^12 + (-1)*x^10 + 4*x^8 + 4*x^6 + (-3)*x^4 + (-2)*x^2 + (-5)",
+   "re": -4.702275827800206
+  }
+ ],
+ "example_eps": {
+  "N": 84,
+  "abs": 1.0,
+  "im": -0.7407745813630415,
+  "poly": "(-6/7)*x^22 + (-3/7)*x^20 + 5/7*x^18 + (-1/7)*x^14 + (-3/7)*x^12 + (-1/7)*x^10 + 4/7*x^8 + 4/7*x^6 + (-3/7)*x^4 + (-2/7)*x^2 + (-5/7)",
+  "re": -0.6717536896857438
+ },
+ "example_poly": [
+  {
+   "N": 84,
+   "abs": 0.8102423221657286,
+   "im": -0.7407745813630415,
+   "poly": "(-6/7)*x^22 + (-3/7)*x^20 + 5/7*x^18 + (-1/7)*x^14 + (-3/7)*x^12 + (-1/7)*x^10 + 4/7*x^8 + 4/7*x^6 + (-3/7)*x^4 + (-2/7)*x^2 + 2/7",
+   "re": 0.3282463103142561
+  },
+  {
+   "N": 84,
+   "abs": 6.547368549058453,
+   "im": 5.98601685356824,
+   "poly": "2*x^20 + 2*x^16 + 2*x^14 + 2*x^12 + (-2)*x^6 + (-2)*x^2 + (-2)",
+   "re": -2.6524775486319894
+  },
+  {
+   "N": 84,
+   "abs": 5.671696255160101,
+   "im": -5.185422069541291,
+   "poly": "(-6)*x^22 + (-3)*x^20 + 5*x^18 + (-1)*x^14 + (-3)*x^12 + (-1)*x^10 + 4*x^8 + 4*x^6 + (-3)*x^4 + (-2)*x^2 + 2",
+   "re": 2.2977241721997927
+  }
+ ],
+ "largest_sigma_not_above_1": 0.86952649708393,
+ "local_identity": {
+  "chi": {
+   "bound": [
+    3,
+    1,
+    0
+   ],
+   "first_mismatch": null,
+   "lhs_at_first": null,
+   "mismatched_monomials": [],
+   "rhs_at_first": null
+  },
+  "rival": {
+   "bound": [
+    3,
+    1,
+    0
+   ],
+   "first_mismatch": [
+    2,
+    0,
+    0
+   ],
+   "lhs_at_first": {
+    "N": 84,
+    "abs": 3.717008729299947,
+    "im": 0.0,
+    "poly": "(-3)*x^20 + (-1)*x^18 + x^16 + 2*x^14 + x^12 + (-1)*x^10 + (-1)*x^8 + x^6 + 3*x^4 + 3*x^2 + (-3)",
+    "re": 3.717008729299947
+   },
+   "mismatched_monomials": [
+    [
+     2,
+     0,
+     0
+    ],
+    [
+     2,
+     1,
+     0
+    ],
+    [
+     3,
+     0,
+     0
+    ],
+    [
+     3,
+     1,
+     0
+    ]
+   ],
+   "rhs_at_first": {
+    "N": 84,
+    "abs": 20.550187829858984,
+    "im": -1.4432899320127035e-15,
+    "poly": "(-1)*x^22 + (-11)*x^20 + x^18 + 8*x^16 + 13*x^14 + 5*x^12 + (-14)*x^10 + (-14)*x^8 + (-1)*x^6 + 12*x^4 + 18*x^2 + 2",
+    "re": 20.550187829858984
+   }
+  }
+ },
+ "non_multiplicative_at": {
+  "P1": "x + 6",
+  "P2": "x + 5",
+  "d_P1P2": {
+   "N": 84,
+   "abs": 2.4661037436596525,
+   "im": -1.1102230246251565e-16,
+   "poly": "(-1)*x^18 + x^10 + x^4 + 1",
+   "re": 2.4661037436596525
+  },
+  "d_P1_d_P2": {
+   "N": 84,
+   "abs": 0.1701514012586105,
+   "im": -2.220446049250313e-16,
+   "poly": "2*x^22 + x^20 + (-2)*x^18 + (-5)*x^16 + (-4)*x^14 + x^12 + 6*x^10 + 5*x^8 + x^6 + (-2)*x^4 + (-3)*x^2 + (-1)",
+   "re": -0.1701514012586105
+  }
+ },
+ "scan": [
+  {
+   "alpha": 0,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 62.523217252,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.3037334952666511,
+    3.2923599649648736
+   ],
+   "sigma": [
+    1.112363640198316,
+    -0.11236364011340484
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 44.309234054,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    2.8649710461807287,
+    0.34904366698381223
+   ],
+   "sigma": [
+    -0.040907936875453556,
+    1.0409079369980845
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.318839653,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998780587,
+    0.9999999998840636
+   ],
+   "sigma": [
+    0.5000000000626653,
+    0.5000000000595793
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 17.151292125,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    2.0525139545994624,
+    0.4872074062592345
+   ],
+   "sigma": [
+    0.13047350284860085,
+    0.86952649708393
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -7.036638134,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997567003,
+    0.9999999997567003
+   ],
+   "sigma": [
+    0.5000000001250311,
+    0.5000000001250311
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.090820632,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999103294,
+    0.9999999997195126
+   ],
+   "sigma": [
+    0.5000000000460815,
+    0.5000000001441419
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -24.436557437,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998838776,
+    0.9999999998838776
+   ],
+   "sigma": [
+    0.5000000000596749,
+    0.5000000000596749
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -11.100784483,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000000152776,
+    0.9999999996790261
+   ],
+   "sigma": [
+    0.4999999999921487,
+    0.5000000001649478
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -24.047648157,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997625997,
+    0.9999999999901809
+   ],
+   "sigma": [
+    0.5000000001219994,
+    0.5000000000050459
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -16.311754568,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.999999999959576,
+    0.999999999959576
+   ],
+   "sigma": [
+    0.5000000000207736,
+    0.5000000000207736
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.836382931,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999800775,
+    0.9999999999800775
+   ],
+   "sigma": [
+    0.500000000010238,
+    0.500000000010238
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2291.558984557,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    18.14834794159519,
+    0.05510143418636648
+   ],
+   "sigma": [
+    -0.9895752177836167,
+    1.9895752179403106
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.494917422,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998401076,
+    0.9999999997658782
+   ],
+   "sigma": [
+    0.5000000000821683,
+    0.5000000001203148
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 0.476190183,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    1.1388776389768545,
+    0.8780574536212419
+   ],
+   "sigma": [
+    0.4331709892715238,
+    0.5668290109000208
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -2.400725807,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997051905,
+    0.9999999997277377
+   ],
+   "sigma": [
+    0.5000000001515019,
+    0.5000000001399151
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -22.112891717,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998456196,
+    0.9999999998456196
+   ],
+   "sigma": [
+    0.5000000000793356,
+    0.5000000000793356
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 38.568930225,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.36824882209732696,
+    2.7155551879152977
+   ],
+   "sigma": [
+    1.013382605450197,
+    -0.013382605085377822
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.370685053,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000000283087,
+    1.0000000000109928
+   ],
+   "sigma": [
+    0.499999999985452,
+    0.49999999999435063
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.494917422,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997658782,
+    0.9999999998401076
+   ],
+   "sigma": [
+    0.5000000001203148,
+    0.5000000000821683
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 0.476190183,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.8780574536212419,
+    1.1388776389768545
+   ],
+   "sigma": [
+    0.5668290109000208,
+    0.4331709892715238
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -2.400725807,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997277377,
+    0.9999999997051905
+   ],
+   "sigma": [
+    0.5000000001399151,
+    0.5000000001515019
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -22.112891717,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998456196,
+    0.9999999998456196
+   ],
+   "sigma": [
+    0.5000000000793356,
+    0.5000000000793356
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 38.568930225,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    2.7155551879152977,
+    0.36824882209732696
+   ],
+   "sigma": [
+    -0.013382605085377822,
+    1.013382605450197
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.370685053,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000000109928,
+    1.0000000000283087
+   ],
+   "sigma": [
+    0.49999999999435063,
+    0.499999999985452
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -24.436557437,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998838776,
+    0.9999999998838776
+   ],
+   "sigma": [
+    0.5000000000596749,
+    0.5000000000596749
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -11.100784483,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999996790261,
+    1.0000000000152776
+   ],
+   "sigma": [
+    0.5000000001649478,
+    0.4999999999921487
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -24.047648157,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999901809,
+    0.9999999997625997
+   ],
+   "sigma": [
+    0.5000000000050459,
+    0.5000000001219994
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -16.311754568,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.999999999959576,
+    0.999999999959576
+   ],
+   "sigma": [
+    0.5000000000207736,
+    0.5000000000207736
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.836382931,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999800775,
+    0.9999999999800775
+   ],
+   "sigma": [
+    0.500000000010238,
+    0.500000000010238
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2291.558984557,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.05510143418636648,
+    18.14834794159519
+   ],
+   "sigma": [
+    1.9895752179403106,
+    -0.9895752177836167
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 62.523217252,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    3.2923599649648736,
+    0.3037334952666511
+   ],
+   "sigma": [
+    -0.11236364011340484,
+    1.112363640198316
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 44.309234054,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.34904366698381223,
+    2.8649710461807287
+   ],
+   "sigma": [
+    1.0409079369980845,
+    -0.040907936875453556
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.318839653,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998840636,
+    0.9999999998780587
+   ],
+   "sigma": [
+    0.5000000000595793,
+    0.5000000000626653
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 17.151292125,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.4872074062592345,
+    2.0525139545994624
+   ],
+   "sigma": [
+    0.86952649708393,
+    0.13047350284860085
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -7.036638134,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997567003,
+    0.9999999997567003
+   ],
+   "sigma": [
+    0.5000000001250311,
+    0.5000000001250311
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.090820632,
+   "e": 1,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997195126,
+    0.9999999999103294
+   ],
+   "sigma": [
+    0.5000000001441419,
+    0.5000000000460815
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.304222047,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999996554043,
+    0.999999999730714
+   ],
+   "sigma": [
+    0.500000000177087,
+    0.5000000001383855
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 4788.699291345,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.038177438265070605,
+    26.19348088420389
+   ],
+   "sigma": [
+    2.178140463357797,
+    -1.1781404630515144
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 75.843288615,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.2799861577950707,
+    3.5716051382726737
+   ],
+   "sigma": [
+    1.1542003566295693,
+    -0.15420035654020178
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.77691904,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998125683,
+    0.9999999998851711
+   ],
+   "sigma": [
+    0.5000000000963207,
+    0.5000000000590102
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -4.811572809,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997869183,
+    0.9999999997869183
+   ],
+   "sigma": [
+    0.5000000001095022,
+    0.5000000001095022
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 55.350133937,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.3193539738674544,
+    3.1313216103036567
+   ],
+   "sigma": [
+    1.086591912270062,
+    -0.08659191211975192
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.124682813,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998620622,
+    0.9999999998620622
+   ],
+   "sigma": [
+    0.5000000000708859,
+    0.5000000000708859
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -15.329483905,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997956887,
+    0.9999999997956887
+   ],
+   "sigma": [
+    0.5000000001049951,
+    0.5000000001049951
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 198.13822378,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    5.502038456065728,
+    0.18175081971112395
+   ],
+   "sigma": [
+    -0.37625764877996587,
+    1.3762576490512664
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2.869306102,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.7298706926442972,
+    1.3701057043567912
+   ],
+   "sigma": [
+    0.6618203667042454,
+    0.33817963358621284
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -14.573648959,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000000019733,
+    0.9999999995664786
+   ],
+   "sigma": [
+    0.49999999999898576,
+    0.5000000002227858
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -19.715600655,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997028861,
+    0.9999999997866545
+   ],
+   "sigma": [
+    0.5000000001526862,
+    0.5000000001096377
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -19.715600655,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997866545,
+    0.9999999997866545
+   ],
+   "sigma": [
+    0.5000000001096377,
+    0.5000000001096377
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 37.298578491,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.37295594628331585,
+    2.681281823802969
+   ],
+   "sigma": [
+    1.006855351605677,
+    -0.006855351530248299
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.49575957,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999785398,
+    0.9999999999785398
+   ],
+   "sigma": [
+    0.5000000000110282,
+    0.5000000000110282
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.806441647,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999299225,
+    0.9999999999140246
+   ],
+   "sigma": [
+    0.5000000000360125,
+    0.5000000000441824
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.465824906,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998719779,
+    0.9999999998826135
+   ],
+   "sigma": [
+    0.5000000000657902,
+    0.5000000000603246
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.124682813,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998620622,
+    0.9999999998620622
+   ],
+   "sigma": [
+    0.5000000000708859,
+    0.5000000000708859
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -17.160540338,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999417465,
+    0.9999999997006195
+   ],
+   "sigma": [
+    0.5000000000299362,
+    0.5000000001538509
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.465824906,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998826135,
+    0.9999999998826135
+   ],
+   "sigma": [
+    0.5000000000603246,
+    0.5000000000603246
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2.869306102,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.7298706923362913,
+    1.3701057049728032
+   ],
+   "sigma": [
+    0.6618203669211108,
+    0.3381796333551595
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 198.13822378,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    5.502038456065728,
+    0.18175081971112395
+   ],
+   "sigma": [
+    -0.37625764877996587,
+    1.3762576490512664
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 37.298578491,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.37295594628331585,
+    2.6812818225709454
+   ],
+   "sigma": [
+    1.006855351605677,
+    -0.006855351290141698
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.409854313,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997162312,
+    0.9999999997274102
+   ],
+   "sigma": [
+    0.5000000001458281,
+    0.5000000001400834
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -17.160540338,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999417465,
+    0.9999999997006195
+   ],
+   "sigma": [
+    0.5000000000299362,
+    0.5000000001538509
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.465824906,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998826135,
+    0.9999999998826135
+   ],
+   "sigma": [
+    0.5000000000603246,
+    0.5000000000603246
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2.869306102,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.7298706923362913,
+    1.3701057049728032
+   ],
+   "sigma": [
+    0.6618203669211108,
+    0.3381796333551595
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 198.13822378,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    5.502038456065728,
+    0.18175081971112395
+   ],
+   "sigma": [
+    -0.37625764877996587,
+    1.3762576490512664
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 37.298578491,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.37295594628331585,
+    2.6812818225709454
+   ],
+   "sigma": [
+    1.006855351605677,
+    -0.006855351290141698
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.409854313,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997162312,
+    0.9999999997274102
+   ],
+   "sigma": [
+    0.5000000001458281,
+    0.5000000001400834
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -19.715600655,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997866545,
+    0.9999999997866545
+   ],
+   "sigma": [
+    0.5000000001096377,
+    0.5000000001096377
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 37.298578491,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.37295594628331585,
+    2.681281823802969
+   ],
+   "sigma": [
+    1.006855351605677,
+    -0.006855351530248299
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.49575957,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999785398,
+    0.9999999999785398
+   ],
+   "sigma": [
+    0.5000000000110282,
+    0.5000000000110282
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.806441647,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999299225,
+    0.9999999999140246
+   ],
+   "sigma": [
+    0.5000000000360125,
+    0.5000000000441824
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.465824906,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998719779,
+    0.9999999998826135
+   ],
+   "sigma": [
+    0.5000000000657902,
+    0.5000000000603246
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.124682813,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998620622,
+    0.9999999998620622
+   ],
+   "sigma": [
+    0.5000000000708859,
+    0.5000000000708859
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.124682813,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998620622,
+    0.9999999998620622
+   ],
+   "sigma": [
+    0.5000000000708859,
+    0.5000000000708859
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -15.329483905,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997956887,
+    0.9999999997956887
+   ],
+   "sigma": [
+    0.5000000001049951,
+    0.5000000001049951
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 198.13822378,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    5.502038456065728,
+    0.18175081971112395
+   ],
+   "sigma": [
+    -0.37625764877996587,
+    1.3762576490512664
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2.869306102,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.7298706926442972,
+    1.3701057043567912
+   ],
+   "sigma": [
+    0.6618203667042454,
+    0.33817963358621284
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -14.573648959,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000000019733,
+    0.9999999995664786
+   ],
+   "sigma": [
+    0.49999999999898576,
+    0.5000000002227858
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -19.715600655,
+   "e": 2,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997028861,
+    0.9999999997866545
+   ],
+   "sigma": [
+    0.5000000001526862,
+    0.5000000001096377
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    3.896395321232955,
+    0.2566474695042327
+   ],
+   "sigma": [
+    -0.198928390800536,
+    1.1989283911178321
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997009332,
+    1.0000000001323963
+   ],
+   "sigma": [
+    0.5000000001536897,
+    0.49999999993196154
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997009332,
+    1.0000000001323963
+   ],
+   "sigma": [
+    0.5000000001536897,
+    0.49999999993196154
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.2566474695042327,
+    3.896395321232955
+   ],
+   "sigma": [
+    1.1989283911178321,
+    -0.198928390800536
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997009332,
+    1.0000000001323963
+   ],
+   "sigma": [
+    0.5000000001536897,
+    0.49999999993196154
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.2566474695042327,
+    3.896395321232955
+   ],
+   "sigma": [
+    1.1989283911178321,
+    -0.198928390800536
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    3.896395321232955,
+    0.2566474695042327
+   ],
+   "sigma": [
+    -0.198928390800536,
+    1.1989283911178321
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997009332,
+    1.0000000001323963
+   ],
+   "sigma": [
+    0.5000000001536897,
+    0.49999999993196154
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000001323963,
+    0.9999999997009332
+   ],
+   "sigma": [
+    0.49999999993196154,
+    0.5000000001536897
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.2566474695042327,
+    3.896395321232955
+   ],
+   "sigma": [
+    1.1989283911178321,
+    -0.198928390800536
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    3.896395321232955,
+    0.2566474695042327
+   ],
+   "sigma": [
+    -0.198928390800536,
+    1.1989283911178321
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000001323963,
+    0.9999999997009332
+   ],
+   "sigma": [
+    0.49999999993196154,
+    0.5000000001536897
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997009332,
+    1.0000000001323963
+   ],
+   "sigma": [
+    0.5000000001536897,
+    0.49999999993196154
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    3.896395321232955,
+    0.2566474695042327
+   ],
+   "sigma": [
+    -0.198928390800536,
+    1.1989283911178321
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.2566474695042327,
+    3.896395321232955
+   ],
+   "sigma": [
+    1.1989283911178321,
+    -0.198928390800536
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997009332,
+    1.0000000001323963
+   ],
+   "sigma": [
+    0.5000000001536897,
+    0.49999999993196154
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000001323963,
+    0.9999999997009332
+   ],
+   "sigma": [
+    0.49999999993196154,
+    0.5000000001536897
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    3.896395321232955,
+    0.2566474695042327
+   ],
+   "sigma": [
+    -0.198928390800536,
+    1.1989283911178321
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.2566474695042327,
+    3.896395321232955
+   ],
+   "sigma": [
+    1.1989283911178321,
+    -0.198928390800536
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000001323963,
+    0.9999999997009332
+   ],
+   "sigma": [
+    0.49999999993196154,
+    0.5000000001536897
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.2566474695042327,
+    3.896395321232955
+   ],
+   "sigma": [
+    1.1989283911178321,
+    -0.198928390800536
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000001323963,
+    0.9999999997009332
+   ],
+   "sigma": [
+    0.49999999993196154,
+    0.5000000001536897
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -10.193013433,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000001323963,
+    0.9999999997009332
+   ],
+   "sigma": [
+    0.49999999993196154,
+    0.5000000001536897
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.541337659,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997573511,
+    0.9999999997573511
+   ],
+   "sigma": [
+    0.5000000001246968,
+    0.5000000001246968
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 92.734351092,
+   "e": 3,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    3.896395321232955,
+    0.2566474695042327
+   ],
+   "sigma": [
+    -0.198928390800536,
+    1.1989283911178321
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 55.350133937,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.3193539738674544,
+    3.1313216103036567
+   ],
+   "sigma": [
+    1.086591912270062,
+    -0.08659191211975192
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -4.811572809,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997869183,
+    0.9999999997869183
+   ],
+   "sigma": [
+    0.5000000001095022,
+    0.5000000001095022
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.77691904,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998851711,
+    0.9999999998125683
+   ],
+   "sigma": [
+    0.5000000000590102,
+    0.5000000000963207
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 75.843288615,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.2799861577950707,
+    3.5716051382726737
+   ],
+   "sigma": [
+    1.1542003566295693,
+    -0.15420035654020178
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 4788.699291345,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.038177438265070605,
+    26.19348088420389
+   ],
+   "sigma": [
+    2.178140463357797,
+    -1.1781404630515144
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.304222047,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.999999999730714,
+    0.9999999996554043
+   ],
+   "sigma": [
+    0.5000000001383855,
+    0.500000000177087
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -19.715600655,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997866545,
+    0.9999999997028861
+   ],
+   "sigma": [
+    0.5000000001096377,
+    0.5000000001526862
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -14.573648959,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999995664786,
+    1.0000000000019733
+   ],
+   "sigma": [
+    0.5000000002227858,
+    0.49999999999898576
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2.869306102,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.7298706926442972,
+    1.3701057043567912
+   ],
+   "sigma": [
+    0.6618203667042454,
+    0.33817963358621284
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 198.13822378,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    5.502038456065728,
+    0.18175081971112395
+   ],
+   "sigma": [
+    -0.37625764877996587,
+    1.3762576490512664
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -15.329483905,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997956887,
+    0.9999999997956887
+   ],
+   "sigma": [
+    0.5000000001049951,
+    0.5000000001049951
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.124682813,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998620622,
+    0.9999999998620622
+   ],
+   "sigma": [
+    0.5000000000708859,
+    0.5000000000708859
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.124682813,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998620622,
+    0.9999999998620622
+   ],
+   "sigma": [
+    0.5000000000708859,
+    0.5000000000708859
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.465824906,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998826135,
+    0.9999999998719779
+   ],
+   "sigma": [
+    0.5000000000603246,
+    0.5000000000657902
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.806441647,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999140246,
+    0.9999999999299225
+   ],
+   "sigma": [
+    0.5000000000441824,
+    0.5000000000360125
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.49575957,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999785398,
+    0.9999999999785398
+   ],
+   "sigma": [
+    0.5000000000110282,
+    0.5000000000110282
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 37.298578491,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.37295594628331585,
+    2.681281823802969
+   ],
+   "sigma": [
+    1.006855351605677,
+    -0.006855351530248299
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -19.715600655,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997866545,
+    0.9999999997866545
+   ],
+   "sigma": [
+    0.5000000001096377,
+    0.5000000001096377
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.409854313,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997274102,
+    0.9999999997162312
+   ],
+   "sigma": [
+    0.5000000001400834,
+    0.5000000001458281
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 37.298578491,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.37295594628331585,
+    2.6812818225709454
+   ],
+   "sigma": [
+    1.006855351605677,
+    -0.006855351290141698
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 198.13822378,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    5.502038456065728,
+    0.18175081971112395
+   ],
+   "sigma": [
+    -0.37625764877996587,
+    1.3762576490512664
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2.869306102,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.7298706923362913,
+    1.3701057049728032
+   ],
+   "sigma": [
+    0.6618203669211108,
+    0.3381796333551595
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.465824906,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998826135,
+    0.9999999998826135
+   ],
+   "sigma": [
+    0.5000000000603246,
+    0.5000000000603246
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -17.160540338,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997006195,
+    0.9999999999417465
+   ],
+   "sigma": [
+    0.5000000001538509,
+    0.5000000000299362
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.409854313,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997274102,
+    0.9999999997162312
+   ],
+   "sigma": [
+    0.5000000001400834,
+    0.5000000001458281
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 37.298578491,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.37295594628331585,
+    2.6812818225709454
+   ],
+   "sigma": [
+    1.006855351605677,
+    -0.006855351290141698
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 198.13822378,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    5.502038456065728,
+    0.18175081971112395
+   ],
+   "sigma": [
+    -0.37625764877996587,
+    1.3762576490512664
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2.869306102,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.7298706923362913,
+    1.3701057049728032
+   ],
+   "sigma": [
+    0.6618203669211108,
+    0.3381796333551595
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.465824906,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998826135,
+    0.9999999998826135
+   ],
+   "sigma": [
+    0.5000000000603246,
+    0.5000000000603246
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -17.160540338,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997006195,
+    0.9999999999417465
+   ],
+   "sigma": [
+    0.5000000001538509,
+    0.5000000000299362
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.124682813,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998620622,
+    0.9999999998620622
+   ],
+   "sigma": [
+    0.5000000000708859,
+    0.5000000000708859
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.465824906,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998826135,
+    0.9999999998719779
+   ],
+   "sigma": [
+    0.5000000000603246,
+    0.5000000000657902
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -26.806441647,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999140246,
+    0.9999999999299225
+   ],
+   "sigma": [
+    0.5000000000441824,
+    0.5000000000360125
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.49575957,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999785398,
+    0.9999999999785398
+   ],
+   "sigma": [
+    0.5000000000110282,
+    0.5000000000110282
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 37.298578491,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.37295594628331585,
+    2.681281823802969
+   ],
+   "sigma": [
+    1.006855351605677,
+    -0.006855351530248299
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -19.715600655,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997866545,
+    0.9999999997866545
+   ],
+   "sigma": [
+    0.5000000001096377,
+    0.5000000001096377
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -19.715600655,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997866545,
+    0.9999999997028861
+   ],
+   "sigma": [
+    0.5000000001096377,
+    0.5000000001526862
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -14.573648959,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999995664786,
+    1.0000000000019733
+   ],
+   "sigma": [
+    0.5000000002227858,
+    0.49999999999898576
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2.869306102,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.7298706926442972,
+    1.3701057043567912
+   ],
+   "sigma": [
+    0.6618203667042454,
+    0.33817963358621284
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 198.13822378,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    5.502038456065728,
+    0.18175081971112395
+   ],
+   "sigma": [
+    -0.37625764877996587,
+    1.3762576490512664
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -15.329483905,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997956887,
+    0.9999999997956887
+   ],
+   "sigma": [
+    0.5000000001049951,
+    0.5000000001049951
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -23.124682813,
+   "e": 4,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998620622,
+    0.9999999998620622
+   ],
+   "sigma": [
+    0.5000000000708859,
+    0.5000000000708859
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 0,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -28.0,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999233027,
+    0.9999999999233027
+   ],
+   "sigma": [
+    0.5000000000394145,
+    0.5000000000394145
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.090820632,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999103294,
+    0.9999999997195126
+   ],
+   "sigma": [
+    0.5000000000460815,
+    0.5000000001441419
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -7.036638134,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997567003,
+    0.9999999997567003
+   ],
+   "sigma": [
+    0.5000000001250311,
+    0.5000000001250311
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 17.151292125,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.4872074062592345,
+    2.0525139545994624
+   ],
+   "sigma": [
+    0.86952649708393,
+    0.13047350284860085
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.318839653,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998780587,
+    0.9999999998840636
+   ],
+   "sigma": [
+    0.5000000000626653,
+    0.5000000000595793
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 44.309234054,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.34904366698381223,
+    2.8649710461807287
+   ],
+   "sigma": [
+    1.0409079369980845,
+    -0.040907936875453556
+   ]
+  },
+  {
+   "alpha": 1,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 62.523217252,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    3.2923599649648736,
+    0.3037334952666511
+   ],
+   "sigma": [
+    -0.11236364011340484,
+    1.112363640198316
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2291.558984557,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.05510143418636648,
+    18.14834794159519
+   ],
+   "sigma": [
+    1.9895752179403106,
+    -0.9895752177836167
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.836382931,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999800775,
+    0.9999999999800775
+   ],
+   "sigma": [
+    0.500000000010238,
+    0.500000000010238
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -16.311754568,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.999999999959576,
+    0.999999999959576
+   ],
+   "sigma": [
+    0.5000000000207736,
+    0.5000000000207736
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -24.047648157,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997625997,
+    0.9999999999901809
+   ],
+   "sigma": [
+    0.5000000001219994,
+    0.5000000000050459
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -11.100784483,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000000152776,
+    0.9999999996790261
+   ],
+   "sigma": [
+    0.4999999999921487,
+    0.5000000001649478
+   ]
+  },
+  {
+   "alpha": 2,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -24.436557437,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998838776,
+    0.9999999998838776
+   ],
+   "sigma": [
+    0.5000000000596749,
+    0.5000000000596749
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.370685053,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000000283087,
+    1.0000000000109928
+   ],
+   "sigma": [
+    0.499999999985452,
+    0.49999999999435063
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 38.568930225,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    2.7155551879152977,
+    0.36824882209732696
+   ],
+   "sigma": [
+    -0.013382605085377822,
+    1.013382605450197
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -22.112891717,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998456196,
+    0.9999999998456196
+   ],
+   "sigma": [
+    0.5000000000793356,
+    0.5000000000793356
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -2.400725807,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997051905,
+    0.9999999997277377
+   ],
+   "sigma": [
+    0.5000000001515019,
+    0.5000000001399151
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 0.476190183,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.8780574536212419,
+    1.1388776389768545
+   ],
+   "sigma": [
+    0.5668290109000208,
+    0.4331709892715238
+   ]
+  },
+  {
+   "alpha": 3,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.494917422,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998401076,
+    0.9999999997658782
+   ],
+   "sigma": [
+    0.5000000000821683,
+    0.5000000001203148
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.370685053,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    1.0000000000109928,
+    1.0000000000283087
+   ],
+   "sigma": [
+    0.49999999999435063,
+    0.499999999985452
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 38.568930225,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.36824882209732696,
+    2.7155551879152977
+   ],
+   "sigma": [
+    1.013382605450197,
+    -0.013382605085377822
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -22.112891717,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998456196,
+    0.9999999998456196
+   ],
+   "sigma": [
+    0.5000000000793356,
+    0.5000000000793356
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -2.400725807,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997277377,
+    0.9999999997051905
+   ],
+   "sigma": [
+    0.5000000001399151,
+    0.5000000001515019
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 0.476190183,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    1.1388776389768545,
+    0.8780574536212419
+   ],
+   "sigma": [
+    0.4331709892715238,
+    0.5668290109000208
+   ]
+  },
+  {
+   "alpha": 4,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.494917422,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997658782,
+    0.9999999998401076
+   ],
+   "sigma": [
+    0.5000000001203148,
+    0.5000000000821683
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 2291.558984557,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    18.14834794159519,
+    0.05510143418636648
+   ],
+   "sigma": [
+    -0.9895752177836167,
+    1.9895752179403106
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.836382931,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999800775,
+    0.9999999999800775
+   ],
+   "sigma": [
+    0.500000000010238,
+    0.500000000010238
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -16.311754568,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.999999999959576,
+    0.999999999959576
+   ],
+   "sigma": [
+    0.5000000000207736,
+    0.5000000000207736
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -24.047648157,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999999901809,
+    0.9999999997625997
+   ],
+   "sigma": [
+    0.5000000000050459,
+    0.5000000001219994
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -11.100784483,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999996790261,
+    1.0000000000152776
+   ],
+   "sigma": [
+    0.5000000001649478,
+    0.4999999999921487
+   ]
+  },
+  {
+   "alpha": 5,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -24.436557437,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998838776,
+    0.9999999998838776
+   ],
+   "sigma": [
+    0.5000000000596749,
+    0.5000000000596749
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 1,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -21.090820632,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997195126,
+    0.9999999999103294
+   ],
+   "sigma": [
+    0.5000000001441419,
+    0.5000000000460815
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 2,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -7.036638134,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999997567003,
+    0.9999999997567003
+   ],
+   "sigma": [
+    0.5000000001250311,
+    0.5000000001250311
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 3,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 17.151292125,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    2.0525139545994624,
+    0.4872074062592345
+   ],
+   "sigma": [
+    0.13047350284860085,
+    0.86952649708393
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 4,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": -27.318839653,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    false,
+    false
+   ],
+   "root_abs_times_sqrtq": [
+    0.9999999998840636,
+    0.9999999998780587
+   ],
+   "sigma": [
+    0.5000000000595793,
+    0.5000000000626653
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 5,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 44.309234054,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    2.8649710461807287,
+    0.34904366698381223
+   ],
+   "sigma": [
+    -0.040907936875453556,
+    1.0409079369980845
+   ]
+  },
+  {
+   "alpha": 6,
+   "beta": 6,
+   "beta_real": true,
+   "d2_equals_q_d0": true,
+   "disc": 62.523217252,
+   "e": 5,
+   "functional_equation": true,
+   "off_circle_by_enclosure": [
+    true,
+    true
+   ],
+   "root_abs_times_sqrtq": [
+    0.3037334952666511,
+    3.2923599649648736
+   ],
+   "sigma": [
+    1.112363640198316,
+    -0.11236364011340484
+   ]
+  }
+ ],
+ "seconds": 15.7,
+ "sigma_max_over_scan": 2.178140463357797
+}

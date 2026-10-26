@@ -70,9 +70,10 @@ stays out of this file. No em dashes.
 - **Certificates, verifiers and exact arithmetic** (21). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
-- **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
-  bound from a fixed zero-free half-plane, and the exact sieve that spends it on
-  complete class-number lists.
+- **Zero-free half-planes, L(1, chi) and class numbers** (3). An explicit Littlewood
+  bound from a fixed zero-free half-plane, the exact sieve that spends it on complete
+  class-number lists, and an exact function-field control for the Euler identities that
+  half-plane arguments rest on.
 - **Primes in short intervals and explicit formulas** (2). Smoothed explicit formulas
   with closed-form sums over zeros split at a verified height; threshold exponents for
   primes between powers under a zero-free half-plane.
@@ -5669,6 +5670,36 @@ Reused in: none yet
 Why it travels: any explicit bound |D| <= D(h) (from a zero-free region, GRH, or a
 future theorem) becomes a complete class-number list by this sieve at cost about
 X * H additions, without a conditional class-group algorithm.
+
+### Function-field transplant of a Gauss-sum Euler identity as an exact control, with a three-prime modulus test
+
+control | `hunts/ff_probe` | grade: exact finite checks in cyclotomic arithmetic at the
+stated parameters, every number reproduced by a PARI/GP second implementation; unreviewed
+
+Move a number-field identity whose local factors are built from Gauss sums and Hecke
+characters to F_q[T] with q = 1 mod 2n. There every angular datum (the Hecke character of
+infinity type, the supplementary symbols) becomes a character of the degree, every Gauss sum
+is a finite sum, and the identity's two sides become finite sums in Q(zeta_N) that can be
+compared coefficient by coefficient, with residue symbols by resultant and by Frobenius and
+Gauss sums by enumeration and by Davenport-Hasse. For Lemma 7.1 of OpenAI's 7/8 paper over
+F_7[T] (cubic theta, sextic averaging) the closed form with the paper's six J_j equals the
+local factor by definition, and the probe's original, Poisson and Euler representations agree
+at every triple of total degree at most 6 that its selection rule leaves; the transplant
+also exposes that the correction product converges absolutely from Re x = 2/3 (derived), not
+the 7/8 the paper uses. Before pricing an identity whose input is in doubt, test it in
+modulus: an Euler product forces |K(P1 P2 P3)| = |K(P1)| |K(P2)| |K(P3)| in the principal
+row, so a theta row whose squarefree coefficients vanish at some triples of linear primes and
+not at others has no scalar local identity (the biquadratic theta over F_13[T]: zero at 234
+of the 286 triples).
+
+Evidence: hunts/ff_probe/LOCAL_IDENTITY.md sections 2 and 3; S4.md sections 3 and 4;
+VERIFICATION.md; ffprobe.py, ffprobe_pari.py, crosscheck.py, test_ffprobe.py
+Prior art: unsearched as a control; the function-field theta coefficients are Hoffstein's and
+Patterson's (hunts/ff_probe/SOURCES.md, with the errata found there)
+Reused in: none yet
+Why it travels: any proposed Euler factorization of a Gauss-sum or theta-twisted series can be
+put through an exact finite test before its analytic consequences are priced, and three
+primes refute one cheaply.
 
 ## Primes in short intervals and explicit formulas
 

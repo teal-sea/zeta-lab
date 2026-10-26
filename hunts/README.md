@@ -3752,3 +3752,14 @@ degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
 Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
+
+### Hunt #148: the 7/8 probe's local identity over F_q[T], and the biquadratic case (`ff_probe/`, opened 2026-10-21)
+
+**Status: open; full runs in progress.** A lane of the campaign the owner directed on
+2026-10-21. The workflow proposed the number 141; #138 to #144 are held for landings being
+renumbered elsewhere, so this hunt is #148. Over F_q[T] the Fourier coefficients of
+higher-order metaplectic theta functions are finite Gauss-sum expressions (Hoffstein 1992,
+Patterson 2007 and 2014) and RH is a theorem, so the question hunt #136 left open by reading,
+whether a biquadratic-theta probe with quartic averaging has a scalar local Euler identity
+like Lemma 7.1 of OpenAI's 7/8 paper, can be tested exactly. The cubic case over F_7[T] is
+the control. Nothing here bears on RH over Q (`docs/08`).
