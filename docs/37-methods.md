@@ -43,13 +43,13 @@ stays out of this file. No em dashes.
 
 ## Themes
 
-- **Prime pairs and the circle method** (22). Shifted prime correlations at a modulus,
+- **Prime pairs and the circle method** (24). Shifted prime correlations at a modulus,
   the centered circle-method budget, character-twisted pair sums, exceptional-zero
   corrections and the controls that kept the fits honest.
 - **Factorial and LP certificates for psi(N)** (16). Chebyshev-type factorial
   certificates for psi(N) as linear programs: the quotient relaxation, its floor, exact
   duals, repair budgets and the rank and transport obstructions.
-- **Weil positivity, Gram forms and kernels** (55). Weil-form truncations, window
+- **Weil positivity, Gram forms and kernels** (57). Weil-form truncations, window
   optima, incidence laws, cell-table and interval certificates for kernel inequalities,
   and the ceilings on what out-of-band positivity can buy.
 - **Higher xi derivatives and moments** (15). Exact resolvent identities for xi
@@ -67,7 +67,7 @@ stays out of this file. No em dashes.
 - **Lean arm: formalised elementary number theory** (10). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
-- **Certificates, verifiers and exact arithmetic** (21). Exact rational acceptance of
+- **Certificates, verifiers and exact arithmetic** (23). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
 - **Zero-free half-planes, L(1, chi) and class numbers** (3). An explicit Littlewood
@@ -79,12 +79,17 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (51). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (62). Surfaced by the sweep, below the bar for now.
 
-Totals: 184 entries from 70 hunts. Kinds: identity 22, lemma 48, bound 12, construction
-15, calibration 7, computational 21, control 38, obstruction 21. (Recounted from the
+Totals: 191 entries from 73 hunts. Kinds: identity 24, lemma 48, bound 12, construction
+16, calibration 7, computational 21, control 41, obstruction 22. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
-the themes above already summed to 181.)
+the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
+again from the entries. The seven Erdos #126 arms landed on 2026-10-21 (hunts #94, #97,
+#98, #99, #100, #106, #143) added eight items to "Seen and not admitted" and none above;
+that count was recounted from its items: 54 before them, where the line read 51. Hunt
+#140 added two on 2026-10-21, recounted again from the entries. Hunt #148 added one
+control on 2026-10-26; the themes above sum to 191.)
 
 ## Prime pairs and the circle method
 
@@ -100,6 +105,10 @@ fits honest.
   (`prime_pair_error`)
 - identity: Exact p=2 Mobius pairing partition inside a hyperbola block
   (`prime_pair_error`)
+- identity: Complete-orbit identity for a fixed squarefree P, with every incomplete
+  orbit kept (`mobius_orbits`)
+- identity: Mertens level-set identity for a hyperbola-block row, and its uniform
+  transfer (`mobius_orbits`)
 - lemma: Theorem A: double-zero kernel bound for the Wronskian via Perron with a moving
   weight (`prime_pair_error`)
 - lemma: Theorem B: character-weighted Cauchy-Schwarz plus Landau pole gives an
@@ -244,6 +253,68 @@ Reused in: FINAL_ACCEPTANCE.md; RESULTS.md Fourth pass 'Doors of this mechanism'
 Why it travels: A general bookkeeping identity for pairing a Mobius-weighted sum with
 its 2-multiples, with the head/tail boundary written out exactly; applies to any kernel
 w.
+
+### Complete-orbit identity for a fixed squarefree P, with every incomplete orbit kept
+
+identity | `hunts/mobius_orbits/` | grade: ordinary derivation with an independent model
+challenge (REVIEW.md, a model review, not human review), exact integer and rational checks
+of 1196 (N,P) cases and 8412 b-rows; the specified fixed-P majorant gains only a constant;
+attempt unresolved
+
+For N>=4, H=floor(N/2), U=floor(sqrt H), b in [2,U], V_b=floor(H/b) and a squarefree P>1:
+every a with mu(a) nonzero factors uniquely as a=dm with d|P and gcd(m,P)=1, and
+mu(a)=mu(d)mu(m), so the row T_b=sum_{U<a<=V_b}mu(a)[1-floor(N/(ab))] equals
+sum_{m<=V_b, gcd(m,P)=1}mu(m)K_m exactly, with K_m=sum_{d|P, U<dm<=V_b}mu(d)[1-floor(N/(dmb))]
+and no cutoff term discarded. An orbit is complete when U<m and Pm<=V_b, and then
+K_m=-Phi_P(floor(N/(mb))), where Phi_P(x) counts the j<=x coprime to P (from
+sum_{d|P}mu(d)=0 and sum_{d|P}mu(d)floor(x/d)=Phi_P(x)). The complete-orbit kernel has a
+fixed sign, so the oscillation left is mu(m). Discarding |mu(m)|<=1 gives a majorant equal
+to (phi(P)/P)^2/48 N(log N)^3+O_P(N(log N)^2) at fixed P (1/192, 1/432, 1/675 and 4/3675 at
+P=2, 6, 30 and 210; 1/192 is the p=2 pairing's constant), not uniformly in growing P.
+Incomplete orbits cost O_P(N(log N)^2) in all, with the review's row bound
+(2N/b)sigma_{-1}(P)(1+log P); at P=210, N=10000 no orbit is complete and all of Sigma2 is
+boundary.
+
+Evidence: hunts/mobius_orbits/RESULTS.md sections 2, 3 and 6; REVIEW.md; probe.py
+check_case (asserts the regrouping, the complete-orbit kernel and the majorant in every
+b-row, with the dropped-boundary and reversed-sign lesions); test_probe.py (the identity at
+N=4..300 for four P, both planted faults, the four constants as Fractions); results.json
+Prior art: cited as standard: mu(dm)=mu(d)mu(m) for coprime d, m and inclusion-exclusion
+over d|P; it extends the p=2 pairing of `prime_pair_error` (MOBIUS_PAIRING.md); no
+literature search was run
+Reused in: none yet
+Why it travels: Any Mobius-weighted hyperbola-block sum can be regrouped by the orbits of a
+fixed squarefree P with every boundary written out, so a signed argument on mu(m) can be
+tried without a hidden cutoff, and the majorant shows what discarding those signs costs.
+
+### Mertens level-set identity for a hyperbola-block row, and its uniform transfer
+
+identity | `hunts/mobius_orbits/` | grade: ordinary derivation with an independent model
+challenge (REVIEW.md), exact rational checks in every b-row of the same 1196 cases; the
+corollary with a classical Mertens envelope is conditional on that input
+
+With the notation above, M(t)=sum_{a<=t}mu(a) and Q_b=floor(N/[b(U+1)]): writing
+floor(N/(ab))-1 as the number of k in [2, floor(N/(ab))] and interchanging the finite sums
+gives T_b=-sum_{k=2..Q_b}[M(floor(N/(bk)))-M(U)] exactly. For k>=2 the upper a cutoff is at
+most floor(N/(2b))=V_b, so no V endpoint is missing; for k<=Q_b it is at least U+1; if
+Q_b<2 both sides are empty, and odd N is covered. Transfer: if |M(t)|<=t E_U for every
+integer t>=U, then |T_b|<=(2N/b)E_U sum_{k=2..Q_b}1/k in each nonempty row, with no
+assumption on where floor jumps occur, since both Mertens arguments are at least U and
+floor(N/(bk))<=N/(bk); summing gives |Sigma2|<=2N E_U(log U)(1+log U)log N for U>=2.
+Inserting a classical envelope E_U=C exp(-c sqrt(log U)) gives a subexponential saving over
+N(log N)^3, conditional on that input, and nothing near the N^(1/2+eps) joint target.
+
+Evidence: hunts/mobius_orbits/RESULTS.md section 4, equations (5) to (7); REVIEW.md
+'Accepted within the stated hypotheses'; probe.py check_case (the level-set
+reconstruction equals the direct row, and the row bound holds with the exact finite
+envelope max over U<=t<=floor(H/2) of |M(t)|/t, both as Fractions)
+Prior art: the classical Mertens bound is cited as an input and not re-proved; no
+literature search was run on the identity
+Reused in: none yet
+Why it travels: It turns a Mobius-weighted floor kernel into Mertens values at floor levels
+with both endpoints exact, so any bound on M(t)/t transfers to the row with its constants
+visible; it prices the endpoints and uniformity that the parent factorization note
+(`prime_pair_error/FACTORIZATION_NEXT_STEP.md`) left unpriced.
 
 ### Theorem A: double-zero kernel bound for the Wronskian via Perron with a moving weight
 
@@ -1292,6 +1363,8 @@ can buy.
   rival control) with attribution by dictionary decomposition (`rogue_frontier`)
 - construction: Source-admissible closure certificate: exact rational strict-concavity
   plus C^3 endpoint tapers (`wide_search`)
+- construction: Compensated one-direction Schur update for the Baez-Duarte energy, with a
+  residual-matched fallback and a trace cap (`mobius_orbits`)
 - calibration: Cover level c(n−1)/2 for the near-zero cover at n ≥ 4
   (`ainta_seven_point`)
 - computational technique: Exhaustive kernel-zero seeding for the F_n minimiser
@@ -1332,6 +1405,8 @@ can buy.
   (`r_ac9ca3`)
 - control: Dictionary attribution: isolating the off-line quadruple as the sole negative
   term of the explicit-formula decomposition (`r_ac9ca3`)
+- control: Plateau control for descent claims, with sign-reversed and omitted-cross-term
+  lesions of a line update (`mobius_orbits`)
 - obstruction: Scalar and moment-matched obstruction families: no universal recovery
   coefficient from rank, trace and positive-index inputs (`frontier_math`)
 - obstruction: Sieve wall: constant-factor prime-pair upper bounds cannot open the λ > 1
@@ -2178,6 +2253,48 @@ lies in the closure of a constrained physical class: rational trial + tail bound
 derivative bound for shape, then an explicit C^3 taper with exact norms for
 approximation.
 
+### Compensated one-direction Schur update for the Baez-Duarte energy, with a residual-matched fallback and a trace cap
+
+construction | `hunts/mobius_orbits/` | grade: ordinary linear algebra with an independent
+model challenge (ENERGY_REVIEW.md, a model review); Arb ball checks at N=4, 8, 16, 32 and
+64 at 128 and 192 bits, conditional on Vasyunin's published Gram formula, with an mpmath
+cross-check at N=4; the decrease inequality that would finish the route is unproved;
+paused by allocation on 2026-09-27, not refuted
+
+In the Baez-Duarte criterion (e_k(t)={1/(kt)} on L^2(0,inf), E_N=inf_a||chi-sum_{k<=N}a_k
+e_k||^2, RH iff E_N -> 0), nesting gives 0<=E_(2N)<=E_N<=1. Split the doubling Gram matrix
+as [G C; C^T D] and the target as [b; d], with a=G^(-1)b, S=D-C^T G^(-1)C and u=d-C^T a;
+then E_(2N)=E_N-u^T S^(-1)u exactly, every cross term kept. For a nonzero shell vector v put
+q=v^T u, h=v^T S v and alpha=q/h. The update a_old=a-alpha G^(-1)Cv, a_shell=alpha v, whose
+first part compensates what the shell shares with the old span, has error exactly
+E_N-2tq+t^2h at step t, so E_(2N)<=E_N-q^2/h. The tested shell is predeclared,
+v_n=-mu(n)log(2N/n) on (N,2N]. The fallback v=u cannot be orthogonal to a nonzero u: its
+gain M_N^2/(u^T S u) is at least M_N/T_N, with M_N=u^T u and T_N=tr S, and
+T_N<=tr D=(log(2pi)-gamma)sum_{n=N+1..2N}1/n<(log(2pi)-gamma)log 2 prices the denominator
+with no eigenvalue bound. Keeping the larger exact gain cannot do worse than either
+direction; the Mobius shell won at all five tested N. The missing leaf is named: a fixed
+kappa>0 with (v^T u)^2>=kappa E_N^2(v^T S v) at every N=4*2^j would give
+1/E_(2N)>=1/E_N+kappa, hence E_N -> 0 and, through the criterion, RH; more weakly,
+divergence of sum_j M_(N_j)/(T_(N_j)E_(N_j)^2) suffices, for instance
+M_(N_j)>=c T_(N_j)E_(N_j)^2/(j+1). Neither is proved. The measured normalized trace values
+fall 4.28, 0.955, 0.546, 0.327 and 0.243 over the five shells, so no constant is inferred.
+
+Evidence: hunts/mobius_orbits/ENERGY.md sections 2 to 5 and 7, equations (1) to (12);
+ENERGY_REVIEW.md; energy_probe.py one_case (Schur identity, line-update identity, adaptive
+update and trace cap as Arb balls, overlapping across the two precisions with shrinking
+radii) and independent_small (a separate mpmath Gram and solve at N=4, and three
+cotangent-free Gram quadratures); test_energy.py; energy_results.json and
+energy_reviewed.json
+Prior art: cited: Baez-Duarte math/0202141v2 for the criterion, and Vasyunin's Gram formula
+through hunts/rogue_frontier/nyman_beurling/SOURCES.md; the Nyman-Beurling criterion,
+least-squares monotonicity and Schur complements are standard; Bettin-Conrey-Farmer
+arXiv:1211.5191 assumes RH and is not an input; no novelty search was run
+Reused in: none yet; it reads the Gram implementation of `rogue_frontier/nyman_beurling`
+Why it travels: Any nested least-squares criterion can be advanced one block at a time
+with an exact decrease and a fixed arithmetic witness, so a proof attempt reduces to one
+named lower bound on a correlation or on the residual moment, rather than on the optimized
+distance, and the trace cap prices the denominator for free.
+
 ### Cover level c(n−1)/2 for the near-zero cover at n ≥ 4
 
 calibration | `hunts/ainta_seven_point/` | grade: kernel-checked as part of the
@@ -2704,6 +2821,34 @@ Why it travels: Converts 'the form went negative' into 'this zero made it negati
 any quadratic form with an explicit-formula expansion over zeros, and gives a
 falsifiable kill condition for the attribution.
 
+### Plateau control for descent claims, with sign-reversed and omitted-cross-term lesions of a line update
+
+control | `hunts/mobius_orbits/` | grade: exact rational control, and lesions run as Arb
+ball checks at N=4 to 64 at 128 and 192 bits; a control on an inference, not a rival with
+zeta's arithmetic
+
+The energy F_j=1/4+3/[4(j+1)] decreases at every step, stays in (1/4, 1] and tends to 1/4,
+and its normalized decrease (F_j-F_(j+1))/F_j^2 tends to zero. Recorded beside a descent
+diagnostic, it stops nonincrease, or a strictly positive finite run of gains, from being
+read as convergence to zero. Two lesions show that the update check can fail: negating the
+optimal step gives exactly E_N+3q^2/h, an observed strict increase, and replacing the
+Schur complement S by D (dropping the cross-block subtraction) breaks the block identity
+with a ball that excludes zero. A synthetic exact control with S=I_2, u=(1/2,0) and
+v=(0,1) gives the fixed direction zero gain and the residual-matched one gain 1/4, the
+directional blindness the fallback removes.
+
+Evidence: hunts/mobius_orbits/ENERGY.md section 5 'Controls actually run';
+ENERGY_REVIEW.md 'Checks subsequently run by the parent'; energy_probe.py plateau_control
+and one_case (wrong_energy, omitted_cross); test_energy.py
+(test_monotone_error_is_not_zero_limit,
+test_residual_matched_fallback_catches_directional_blindness, and the lesion asserts in
+test_predeclared_shell_and_block_identities)
+Prior art: elementary; no search was run
+Reused in: none yet
+Why it travels: An argument that reads monotone decrease of an approximation error as
+progress toward zero needs this counterexample beside it, and a compensated update needs
+the sign and cross-term lesions to show that its check can go red.
+
 ### Scalar and moment-matched obstruction families: no universal recovery coefficient from rank, trace and positive-index inputs
 
 obstruction | `hunts/frontier_math/` | grade: exact integer/rational arithmetic
@@ -2803,28 +2948,39 @@ realizability constraint as the only remaining lever.
 ### Place-local Selberg-bound gate and the non-assembly of local norms
 
 obstruction | `hunts/local_positivity/` | grade: measured (float; the file states it
-carries no enclosure at any step)
+carries no enclosure at any step); the local equivalence is an unreviewed derivation
 
 For a degree-d object with Satake parameters alpha_j at p, the place-local kernel
 K_p^{(d)}(theta) = d + 2 sum_m lambda_m p^{-m/2} cos(m theta) has closed form sum_j (1 -
-|alpha_j|^2/p)/|1 - alpha_j p^{-1/2} e^{i theta}|^2, so the coefficient-computable test
-c_p <= d is exactly the local bound |alpha_j| <= sqrt p (zeta's threshold 2/(sqrt p + 1)
-to 12 digits). Calibration: decoy swap moves the verdict by 15 orders; 300 random
+|alpha_j|^2/p)/|1 - alpha_j p^{-1/2} e^{i theta}|^2 when every |alpha_j| < sqrt p. With c_p
+the least PSD Toeplitz diagonal, the coefficient-computable test c_p <= d reads the local
+bound |alpha_j| <= sqrt p: forward direction derived; the converse cannot be read off the
+closed form (p = 2, alpha = (3 sqrt 2, 0, 0, 0): rational expression >= 1, series
+divergent, gate FAILs) and rests on an unreviewed PSD-boundedness derivation (corrected
+2026-10-21, CORRECTIONS.md 'Later correction'). zeta's threshold 2/(sqrt p + 1) to 12
+digits. Calibration: decoy swap moves the verdict by 15 orders; 300 random
 period-5 nulls fail 100% with DH at the 6th percentile; lesion blindness threshold eps*
 = 0.184 on the zeta -> DH interpolation; degree-2 family keeps margin >= 0.343 over 60
-Satake angles; a legitimate degree-2 product with alpha = 2.3, 1/alpha is rejected at p
-= 5 (c_p = 65.24), so the gate tests the local Selberg/Ramanujan bound, not 'has an
-Euler product'. Obstruction: the prime side of the explicit formula decomposes place by
+Satake angles (margins of the truncated c: the current gate's verdict on that family is
+FAIL at 22 of the 60 angles, because its regime test reads two weighted terms near the
+truncation edge and conjugate-pair parameters make them oscillate, misleading it on
+either side of the bound; measured 2026-10-21, pinned, not repaired); a genuine degree-2
+Euler factor with alpha = 2.3, 1/alpha, outside the Selberg class (docs/09 section 3,
+axioms (4) and (5), exclude |alpha| > sqrt 5), is rejected at p = 5 (divergent regime,
+c_p = +infinity by convention; 65.24 is a depth-41 truncation), so the gate tests the
+local bound |alpha_j| <= sqrt p, not 'has an Euler product'. Obstruction: the prime
+side of the explicit formula decomposes place by
 place as -sum_p log p (Q_p(f) - ||f||^2) with Q_p = (1 - 1/p) ||Phi_p f||^2 a genuine
 norm at every place (reconstruction to 22 digits), but Q_p - ||f||^2 is not of definite
 sign (52 of 60 places positive, 8 negative), so local positivity does not assemble into
 a global one and is compatible with either sign of W. Director's adjudication:
-c_p(zeta(. - delta)) = 2x/(1 + x), x = p^{delta - 1/2}, c_p <= d iff delta <= 1/2, is
+c_p(zeta(. - delta)) = 2x/(1 + x), x = p^{delta - 1/2} for delta < 1/2, c_p <= d iff
+delta <= 1/2 (least-PSD-diagonal reading; gate INDETERMINATE at delta = 1/2), is
 KNOWN (Selberg-class theta < 1/2).
 
 Evidence: CORRECTIONS.md section '2. New hunt: hunts/local_positivity/' (paragraphs
 'What it establishes', 'Reference table', 'Controls', 'Where it dies', 'The honest
-boundary'); localpos.py; director_run/CLAIMS.md C-SHIFT-01, C-SHIFT-02
+boundary') and section 'Later correction'; localpos.py; test_closed_form.py; director_run/CLAIMS.md C-SHIFT-01, C-SHIFT-02
 Prior art: searched-and-found by the director run for the shift computation
 (Conrey-Ghosh 1992 theta < 1/2; Jacquet-Shalika, stated sharp by Sarnak); the closed
 form is standard Satake arithmetic; the assembly obstruction is the hunt's own
@@ -2832,7 +2988,9 @@ Reused in: docs/24-the-local-positivity-attempt.md; hunts/director_run/CLAIMS.md
 Why it travels: The place-local decomposition with the measured sign-indefiniteness
 closes the 'prove Weil positivity place by place' route with a mechanism, and the gate
 with its calibrated blindness threshold is a ready coefficient-side instrument for any
-rival battery.
+rival battery, with one caveat: its regime test misreads oscillating weights (measured
+for conjugate-pair parameters), so a verdict on such an input needs the
+least-PSD-diagonal check of test_closed_form.py beside it.
 
 ### Ceiling: positive-definite (Gram) kernels cannot spend out-of-band form-factor positivity
 
@@ -4993,6 +5151,10 @@ and the controls that separate an instrument reading from a mathematical claim.
   cover of a uniformity parameter (`jensen_wedge`)
 - control: Claims against recomputation with planted weakenings, and formula plants
   replayed as source edits (`jensen_wedge`)
+- control: A Groebner infeasibility test must be able to return [1]: encode the targets
+  as nonvanishing and saturate the torus (`r_abf47b`)
+- obstruction: Stabilizer-slice orbit census: a coordinate stabilizer's orbits refine
+  the full orbits and add no branches (`r_abf47b`)
 
 ### Signed-lattice binomial/trinomial sieve on a support torus
 
@@ -5618,6 +5780,62 @@ Why it travels: Any explicit-constant chain (effective theorems, certificate ver
 intermediate bounds) can be checked against weakened claims cheaply, and the second layer
 names the formula steps a green run does not attest to.
 
+### Control: a Groebner infeasibility test must be able to return [1]; encode the targets as nonvanishing and saturate the torus
+
+control | `hunts/r_abf47b/` | grade: exact (an elementary fact about homogeneous ideals,
+with a planted two-variable control in test_orbit_refinement.py); found by the landing
+audit, not by the run
+
+To show that a polynomial system has no solution with some target brackets nonzero, on a
+torus where every variable is nonzero, a Groebner run has to be able to return the unit
+ideal. Entering the targets as zero generators makes that impossible whenever every
+generator is homogeneous without a constant term, because the ideal then lies inside the
+maximal ideal of the origin. Hunt #140's run did exactly that on Krenn-Gu Support 7
+(3 target brackets and 6,558 relations, all homogeneous of degree 3 or 4, in 138
+variables) and priced a 300 s timeout that could carry no information. The check costs
+seconds: before spending, confirm that the generators are not all homogeneous without a
+constant term, since if they are, `[1]` is out of reach; and encode the nonvanishing
+condition the Rabinowitsch way, `<relations, 1 - y*T*x_1*...*x_n>`, which is the unit
+ideal exactly when no torus point satisfies the relations with `T` nonzero. Then require
+`[1]` on a planted infeasible system: with the relation `x + y` and
+the target `x + y`, the zero-generator encoding returns `[x + y]` and the saturated one
+returns `[1]`.
+
+Evidence: hunts/r_abf47b/RESULTS.md 'Audit correction' part A; test_orbit_refinement.py
+(the generator census and the control)
+Prior art: textbook (the Rabinowitsch trick and saturation); not searched further
+Reused in: none yet
+Why it travels: Any hunt that prices an algebraic infeasibility run (Groebner bases,
+Nullstellensatz degree bounds, ideal membership) can check in seconds whether its encoding
+can say no at all, before it pays for the solver.
+
+### Stabilizer-slice orbit census: a coordinate stabilizer's orbits refine the full orbits and add no branches
+
+obstruction | `hunts/r_abf47b/` | grade: exact finite check on two implementations
+(map_orbits.py over all triples; test_orbit_refinement.py on the slice)
+
+Let G act transitively on a set P with stabilizer K of a point p0, and let G x S3 act on
+P^3 (G diagonally, S3 permuting coordinates). Every orbit meets the slice
+{p0} x P x P, and the orbits of K x S2 on the slice (S2 swapping the last two
+coordinates) map onto the G x S3 orbits. So a branch cover by the K x S2 orbits is never
+wider than the cover by the full orbits; it only splits full orbits into symmetric
+copies. For Krenn-Gu 8x3 the 57 H x S2 pair orbits (H = S2 wr S4, order 384) map onto the
+31 S8 x S3 triple orbits with fibres of 1, 2 and 3 over 8, 20 and 3 orbits, which closes
+Hunt #74's proposal to sieve 57 skeletons. The census itself needs only the slice: fix
+r_X with r_X(X) = p0 for each X, join slice points by K-moves and by the lifts
+t -> r_X(pi t), and read each orbit's size as |P| times its slice count. On the 8x3
+instance that replaces an enumeration of 1,157,625 triples (about 130 s of CPU) by a
+union-find on 11,025 points (about a second), and it reproduces Hunt #71's 31 orbit
+sizes.
+
+Evidence: hunts/r_abf47b/RESULTS.md section 2 and 'Audit correction' part D;
+map_orbits.py; test_orbit_refinement.py
+Prior art: an elementary orbit-stabilizer argument; no novelty claimed; not searched
+Reused in: none yet
+Why it travels: A symmetry-reduced branch search should check a proposed finer cover
+against the full group's orbits before paying for it, and any orbit census of tuples
+under a transitive group can be run on one slice.
+
 ## Zero-free half-planes, L(1, chi) and class numbers
 
 ### Two-cutoff Littlewood bound for log L(1, chi) under a zero-free half-plane, with Hadamard positivity for the zero sum
@@ -5988,3 +6206,45 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   scaled by 1.1, with the original bytes held in memory and the restore asserted, never
   `git checkout` in a shared tree (`hunts/claim_halflife/`, control): measured; used only
   inside its hunt.
+- Two-set relaxation bracket for Erdos #126: g(k) <= g_2(k) + 2 <= N(k) + 2, with N(k)
+  the coprime S-unit count of lambda x + mu y = nu z (Gyory-Stewart-Tijdeman 1986 section
+  3, read in primary text), while Erdos-Stewart-Tijdeman 1988 put g_2(k) >= exp((4+o(1))
+  sqrt(k/log k)) (secondary), so the two-set route can settle #126 but can never give a
+  polynomial bound (`hunts/support_fcffa3b9/`, obstruction): literature map from a
+  targeted search; the first step is an ordinary argument, unreviewed; not carried.
+- Residue-only pruning ceiling for Erdos #126: on a full residue system mod prod T the
+  largest subset whose pair sums are all prime to prod T has exactly prod (p-1)/2 + r
+  elements, below 2^{-r}|A|, so no argument reading only residues mod prod T beats base
+  2; and g(k) <= 2/rho_min(k) <= 2g(k) makes block pruning a restatement of #126
+  (`hunts/support_d176e366/`, obstruction): ordinary argument, unreviewed; the formula
+  matched exhaustive branch and bound on four blocks; not carried.
+- The pair-sum matrix a_i + a_j is Alon-Solymosi's rank-2 matrix (Corollary 10 of "Rank
+  of matrices with entries from a multiplicative group"); their rectangle condition
+  reduces to the distinctness of A, so their Theorem 9 applies to every admissible set
+  while their Theorem 1 does not (the diagonal 2a_j is an S-unit in all seven measured
+  witnesses), and their explicit form gives exp(256k) (`hunts/support_99fc686a/`,
+  identity): Alon-Solymosi read in primary text; the expansion is an ordinary derivation,
+  unreviewed; not carried.
+- Cover-data realizability for Erdos #126: A = {1} u {2(3j+1)}, S = {2,3}, gcd 1, has its
+  two residue graphs covering K_n for every n, so no cover, Ramsey, rank or container
+  bound on n follows from incidence data alone (`hunts/support_d0f0aefb/`, obstruction):
+  ordinary argument, unreviewed, checked at n = 5, 20, 60; not carried.
+- Three-anchor injective reduction g(k) <= 3 + N_3(k), with N_3 counting nondegenerate
+  solutions of x + y + z = 1 in S-units over the same k primes: fixing three anchors and
+  varying the fourth element makes the four-element reduction injective
+  (`hunts/support_d0f0aefb/`, lemma): ordinary argument, unreviewed; prior art
+  unsearched; not carried.
+- A composition law for Erdos #126 forces g(k) = 2^k exactly: superadditivity makes the
+  Fekete limit of g(k)^{1/k} a supremum, at least g(1) = 2, and Erdos-Turan's 3 * 2^{k-1}
+  caps the limit at 2, so a proof of g(3) <= 7 would falsify the composition programme
+  (`hunts/support_311c14a5/`, lemma): ordinary argument, unreviewed; not carried.
+- Product-route ceiling for Erdos #126: from P = prod (a+b) the only inequality is k >=
+  B(A) = log P / max_p e_p log p, and two gcd-1 families cap B at 1+o(1) for estimates
+  from distinctness, range and residue counts, and at 2+o(1) with gcd normalisation and
+  the one-step recursion added; weighted and subset products are outside the class
+  (`hunts/support_95a76f59/`, obstruction): ordinary argument, unreviewed, B measured in
+  floating point; not carried.
+- Crown-versus-K_{2,m} loss for Erdos #126: exhaustive bounded-box g_N(k) against the
+  two-term count N_2^(N)(k), 2, 4, 5, 6, 8 against 1, 7, 32, 75, 141 for k = 1..5,
+  measures what the two-anchor reduction discards (`hunts/support_6da47ca3/`,
+  computational): measured, bounded boxes, lower bounds only; not carried.

@@ -239,7 +239,7 @@ files (INTERFACE §5).
   10^{−30} [test_json_recompute_N8]. The N = 32 check at c = 2 is marked slow.
 - **Truncations** (JSON `prolate`): 20 weighted prolates, 74 Taylor terms
   and a 76-function Legendre basis at dps 40; 23 prolates at dps 60.
-- **Runtime.** One run each, single process on the operator laptop:
+- **Runtime.** One run each, single process on a laptop:
   `run_cells.py --dps 40` about 216 s, `--dps 60` about 365 s, both under
   the 600 s limit (the stored `seconds_total` is checked against that
   limit). The kernel test tier runs under pytest `-n 2` (s9).

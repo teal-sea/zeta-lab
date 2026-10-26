@@ -216,7 +216,7 @@ artifacts:
 
 Note on the 2026-09-05 manifest above: its artifact paths `FourPoint/Main.lean`
 and `FourPoint/Cells.lean` are historical. The module root was renamed to
-`FourPointCand` on 2026-09-27 (see `REPAIR-RESULT.md`); the current paths are
+`FourPointCand` on 2026-09-27 (commit 5522b9631); the current paths are
 `hunts/ainta_seven_point/lean-four-point/FourPointCand/Main.lean` and
 `.../Cells.lean`. The old manifest is left as recorded.
 
