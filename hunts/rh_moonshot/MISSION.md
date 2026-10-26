@@ -338,3 +338,14 @@ test name, or a computation the challenger ran:
    and grade.
 7. **Circularity.** Whether any input assumes RH, GRH, an RH-equivalent statement or the
    zeros themselves, and where.
+
+## Correction (2026-10-26)
+
+The frontier paragraph "All heights" above says that hunt #137 (`rh_height_lean`) "aims at
+a kernel-checked statement to T = 50". That was its target when this hunt opened. Hunt
+#137 has since landed on `main` (pull request #351) with a kernel-checked theorem to
+height 100: every zero of Mathlib's `riemannZeta` with 0 < Re rho < 1 and
+0 < Im rho <= 100 lies on the critical line and is simple, and there are exactly 29 of
+them (`hunts/README.md`, hunt #137's case-log entry; `rh_height_lean/RESULTS.md`). The
+original sentence is left as written. A finite-height theorem says nothing above its
+height, so the frontier this hunt starts from is otherwise unchanged.
