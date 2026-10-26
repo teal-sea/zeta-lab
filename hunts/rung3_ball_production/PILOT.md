@@ -391,3 +391,66 @@ kappa product. Most importantly, **no generator emits the whole-decision tower y
 `scripts/69` emits the staged form, and changing it is outside this hunt's write scope. A
 site compiled from today's generator still costs the section 4 price. `PRODUCTION.md`
 lists that change as a decision for the owner before launch.
+
+## 8. Resumed 2026-10-26: the assembly module, emitted and elaborated against stubs
+
+`assembly.py` reads `lean/cert/rung3_plan2.json` alone and writes
+`lean/Rung3Assembly/Assembly.lean` and `Separation.lean` in this directory, on top of the
+hand-written `lean/Rung3Assembly/Support.lean`. The hunt test checks that the emitted text
+is byte-stable and committed, that it imports each of the 215 site roots `C<id>` once, and
+that it uses each `upper_<id>` once, each grid point's `beta_<id>` once at a corner of its
+edge and twice inside, and `centre_lt_centre` once.
+
+How the module argues, every step a lemma of `lean/ZetaLean` or of `Support.lean`:
+
+1. The 110 big boxes tile the four edges of the big square (half-width 7/32) end to end;
+   the emitter asserts it. `hseg_of_box` / `vseg_of_box` turn each `upper_<id>` into
+   `‖DH‖ ≤ 25499/10000` on its piece, `icc_merge` chains the pieces, and `frontier_cover`
+   (through `frontier_dhSquare`) gives the bound on the big square's frontier.
+2. `deriv_bound` applies `norm_deriv_DH_le` to that bound and weakens M / (w2 - w) to
+   L = 16 on the closed small square.
+3. The 104 grid points span each edge of the small square (half-width 3/64) corner to
+   corner. Each pair of neighbours closes one cell by `hcell` / `vcell`, which wrap
+   `DH_lower_on_hcell` / `DH_lower_on_vcell`. Each `beta_<id>` enters as
+   `le_trans (by norm_num) beta_<id>`, so Lean reads β off the site theorem and `norm_num`
+   checks it against the cell's need eps' + L h / 2. The emitter needs no β literal.
+4. `centre_lt_centre` and the lower bound on the small frontier feed `dh_zero_of_square`,
+   which gives `dh_zero_located` (a zero of `DH` with real part in
+   [808517/1000000 - 3/64, 808517/1000000 + 3/64] and imaginary part within 3/64 of
+   21424837/250000), and `dh_statement_of_square`, which gives
+   `theorem davenport_heilbronn : davenport_heilbronn_statement`.
+5. `dh_separation_of` pairs that zero (in the open strip, off the line, at height at most
+   100) with RH to height 100 for Mathlib's `riemannZeta`, taken as a hypothesis whose
+   text is the body of hunt #137's `RHUpToHeight 100`. `Separation.lean` discharges the
+   hypothesis with `RHHeight100.rh_height_hundred`.
+
+`dh_zero_of_square` and `dh_statement_of_square` restate the square criterion at
+`lean/ZetaLean/DHZeroCriterion.lean`, line 185, with the same proof. The criterion's name
+carries the word this directory may not use, so no file here names it; this was the
+coordinator's decision of 2026-10-26. The hunt test scans every file here for that word,
+`.lean` included. The location corollary is stated with the plan's exact square. The
+task's rounded figures do not follow from it: Re s >= 0.7619 is above the square's left
+edge 0.761642, and |Im s - 85.699| <= 3/64 ignores the centre's 0.000348.
+
+**Elaborated, measured.** On the shared box, one process: `Support.lean` compiled to an
+olean, with no errors. Then the emitted body (the text of `Assembly.lean` after its import
+lines) was compiled under a harness, with `B_right_06` taken from its compiled 2026-10-21
+oleans and the other 214 sites as stub interfaces. A stub is the site's `SI_<id>` or
+`z_<id>` as `scripts/69` emits it, plus its theorem as an `axiom` with the generator's
+statement (each β at its cell need). Result: exit 0, no errors, 124.2 CPU-s, peak RSS 6.8
+GiB. `davenport_heilbronn`, `dh_zero_located'` and `dh_separation_of` each print exactly
+`propext`, `Classical.choice`, `Quot.sound` and the 214 stubs, and never
+`upper_B_right_06`, whose real theorem was used (`assembly_harness` in `pilot.json`). This
+shows that the assembly's logic closes over the site statements. It does not prove
+`davenport_heilbronn`, which needs the 214 real sites.
+
+**Untested, precisely:**
+
+- the 214 real sites, and whether each compiled statement matches its stub (for
+  `B_right_06` it does, since it replaced its stub);
+- `Assembly.lean` itself, which imports the 215 site roots in one process: 81 to 96 GB of
+  mapped oleans by section 4's ratio, with no measurement;
+- `Separation.lean`, which needs hunt #137's olean closure (built against the Mathlib
+  vendored in `lean/vendor/zeta23`) in the same process as `lean/.lake`'s Mathlib. Both
+  pin revision `065356127b1d`, but no run has combined them; only its last line and the
+  import are untested, since `dh_separation_of` elaborated.

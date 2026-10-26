@@ -391,3 +391,58 @@ def test_no_file_in_this_hunt_carries_the_reserved_word():
             if p.is_file() and "__pycache__" not in p.parts and ".lake" not in p.parts
             and word in p.read_text(errors="ignore").lower()]
     assert not hits, hits
+
+
+# --------------------------------------------------------------------------- the assembly emitter
+
+assembly = _load("rung3_ball_production_assembly", HERE / "assembly.py")
+PLAN2 = json.loads((ROOT / "lean" / "cert" / "rung3_plan2.json").read_text())
+EMITTED = HERE / "lean" / "Rung3Assembly"
+
+
+def test_assembly_is_byte_stable_and_committed():
+    once, twice = assembly.emitted(PLAN2), assembly.emitted(PLAN2)
+    assert once == twice
+    for name, text in once.items():
+        assert (EMITTED / name).read_text() == text, f"{name} is stale: rerun assembly.py"
+
+
+def test_assembly_imports_every_site_root_exactly_once():
+    text = (EMITTED / "Assembly.lean").read_text()
+    imports = [l.split()[1] for l in text.splitlines() if l.startswith("import ")]
+    roots = [m for m in imports if m != "Rung3Assembly.Support"]
+    ids = [sid for sid, _ in assembly.sites(PLAN2)]
+    assert len(ids) == len(set(ids)) == 215
+    assert sorted(roots) == sorted(f"C{sid}" for sid in ids) and len(roots) == len(set(roots))
+
+
+def test_assembly_uses_each_site_theorem_where_the_plan_puts_it():
+    """Each big box bounds exactly one boundary piece; each grid point closes the cells on
+    either side of it (one at a corner of its edge, two inside); the centre is used once."""
+    import re
+    text = (EMITTED / "Assembly.lean").read_text()
+    for b in PLAN2["big"]["boxes"]:
+        assert len(re.findall(rf"\bupper_{b['id']}\b", text)) == 1, b["id"]
+    for seg in ("bottom", "top", "left", "right"):
+        pts = [g for g in PLAN2["grid"] if g["segment"] == seg]
+        for i, g in enumerate(pts):
+            want = 1 if i in (0, len(pts) - 1) else 2
+            assert len(re.findall(rf"\bbeta_{g['id']}\b", text)) == want, g["id"]
+    assert len(re.findall(r"\bcentre_lt_centre\b", text)) == 1
+    assert "theorem davenport_heilbronn : davenport_heilbronn_statement :=" in text
+    assert "sorry" not in text and "axiom" not in text
+    assert "sorry" not in (EMITTED / "Support.lean").read_text()
+
+
+def test_the_stub_harness_rests_on_the_stubs_and_the_real_pilot_site():
+    """The emitted body elaborated against 214 stub interfaces and B_right_06's own
+    oleans: only the three standard axioms and the 214 stubs appear, never the pilot."""
+    h = PILOT["assembly_harness"]
+    assert h["returncode"] == 0 and h["errors"] == 0 and h["real_sites"] == ["B_right_06"]
+    std = ["Classical.choice", "Quot.sound", "propext"]
+    stubs = sorted([f"beta_{g['id']}" for g in PLAN2["grid"]] + ["centre_lt_centre"]
+                   + [f"upper_{b['id']}" for b in PLAN2["big"]["boxes"]
+                      if b["id"] != "B_right_06"])
+    for name in ("davenport_heilbronn", "dh_zero_located'", "dh_separation_of"):
+        assert h["axioms"][name] == sorted(std + stubs), name
+    assert len(stubs) == 214
