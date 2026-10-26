@@ -1,0 +1,31 @@
+epstein 1/2 {"max_D_arb": -0.0481589279956, "n_points": 166, "n_positive": 0, "n_undecided": 0, "max_abs_mp_minus_arb": 4.64e-12, "n_mp": 16, "positive_x": []} {'14.1347251417': None, '16.2902157204': None} t=228.6s
+epstein 3/8 {"max_D_arb": 1.34913046369, "n_points": 166, "n_positive": 2, "n_undecided": 0, "max_abs_mp_minus_arb": 4.47e-12, "n_mp": 16, "positive_x": ["16.2902157204"]} {'14.1347251417': None, '16.2902157204': (0.01, 0.22)} t=242.2s
+Traceback (most recent call last):
+  File "hunts/rh_moonshot/de_branges/dbr_grid.py", line 122, in <module>
+    run(k)
+  File "hunts/rh_moonshot/de_branges/dbr_grid.py", line 88, in run
+    pts.append(point(kind, h, x, y, do_mp=(i % every == 0)))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "hunts/rh_moonshot/de_branges/dbr_grid.py", line 67, in point
+    a = D.defect_mp(kind, h, x, y, dps=15 if kind == "epstein" else 20)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "hunts/rh_moonshot/de_branges/dbr_common.py", line 177, in defect_mp
+    b = abs(mp_completed(kind, sp, dps))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "hunts/rh_moonshot/de_branges/dbr_common.py", line 93, in mp_completed
+    return s * (s - 1) * EP.epstein_completed(s, EPSTEIN_FORM, dps=mp.dps)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "zeta/epstein.py", line 1005, in epstein_completed
+    mellin = first + second / mp.sqrt(d) + 1 / (mp.sqrt(d) * (s - 1)) - 1 / s
+                                           ~~^~~~~~~~~~~~~~~~~~~~~~~~
+  File "<venv>/site-packages/mpmath/ctx_mp_python.py", line 565, in __rdiv__
+    return t / s
+           ~~^~~
+  File "<string>", line 17, in __div__
+  File "<venv>/site-packages/mpmath/libmp/libmpc.py", line 224, in mpc_mpf_div
+    re = mpf_div(mpf_mul(a,p), m, prec, rnd)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<venv>/site-packages/mpmath/libmp/libmpf.py", line 956, in mpf_div
+    if t == fzero: raise ZeroDivisionError
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+ZeroDivisionError

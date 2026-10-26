@@ -57,3 +57,30 @@ artifacts:
   - hunts/rh_moonshot/de_branges/data/log_grid_dh.txt
   - hunts/rh_moonshot/de_branges/data/log_grid_wa_zshift.txt
 ```
+
+```runmanifest
+id: rh_moonshot-de_branges-2026-10-26-grid-epstein
+hunt: rh_moonshot
+started: 2026-10-26T13:36Z
+finished: 2026-10-26T14:10Z
+ran:
+  - nice -n 10 .venv/bin/python hunts/rh_moonshot/de_branges/dbr_grid.py epstein > hunts/rh_moonshot/de_branges/data/log_grid_epstein_part1.txt (h = 1/2 and 3/8 in 471 s, then a ZeroDivisionError at s = 1 in the lattice route; paths in the traceback made repo-relative)
+  - the same command restarted at 13:49Z after a wrong limit at s = 1 was found and corrected, stopped within a minute (no output kept)
+  - nice -n 10 .venv/bin/python hunts/rh_moonshot/de_branges/dbr_grid.py epstein > hunts/rh_moonshot/de_branges/data/log_grid_epstein.txt (from 13:51Z, with the circle mean at s = 0 and 1; resumed at h = 3/10)
+outcome: 1618 s of grid for 7 values of h, 166 points each with 16 by the lattice route, inside the 30 to 40 minute estimate; positive at x = 16.290 for h <= 3/8 and at x = 29.5 for h <= 1/4, routes agreeing to 4.7e-12
+artifacts:
+  - hunts/rh_moonshot/de_branges/data/grid_epstein.json
+  - hunts/rh_moonshot/de_branges/data/log_grid_epstein_part1.txt
+  - hunts/rh_moonshot/de_branges/data/log_grid_epstein.txt
+```
+
+```runmanifest
+id: rh_moonshot-de_branges-2026-10-26-epstein-zero
+hunt: rh_moonshot
+started: 2026-10-26T14:11Z
+finished: 2026-10-26T14:12Z
+ran:
+  - nice -n 10 .venv/bin/python -c (mp.findroot on the Arb route of s(s-1) Lambda_Q near 0.77 + 29.5i; the lattice route at the root and at the root + 0.01)
+outcome: a zero at 0.797997157178680 + 29.551761098629115i, offset 0.2980, with the lattice route at 9e-47 against 1.3e-18 nearby; the pinned zero at 16.29 refound to 15 digits
+artifacts:
+```

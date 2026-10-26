@@ -157,3 +157,25 @@ def test_grid_epstein():
     assert g["1/2"]["summary"]["n_positive"] == 0
     for h in ("3/8", "3/10", "1/4", "1/5", "1/10", "1/20"):
         assert "16.2902157204" in g[h]["summary"]["positive_x"]
+    # the second off-line zero, offset 0.2980, near x = 29.55
+    for h in ("3/8", "3/10"):
+        assert "29.5" not in g[h]["summary"]["positive_x"]
+    for h in ("1/4", "1/5", "1/10", "1/20"):
+        assert "29.5" in g[h]["summary"]["positive_x"]
+    mp_diffs = [float(p["mp_minus_arb"]) for v in g.values() for pts in v["rows"].values() for p in pts if "mp" in p and p["mp_minus_arb"] != "nan"]
+    assert len(mp_diffs) >= 100 and max(mp_diffs) < 5e-12
+
+
+def test_epstein_second_offline_zero():
+    """A zero of s(s-1) Lambda_Q at 0.7979971571787 + 29.5517610986291 i, found by
+    findroot on the Arb route and confirmed small on the lattice route."""
+
+    def f(s):
+        b = D.arb_completed("epstein", s, prec=300)
+        return mp.mpc(b.real.mid().str(40, radius=False), b.imag.mid().str(40, radius=False))
+
+    with mp.workdps(30):
+        r = mp.findroot(f, mp.mpc("0.79", "29.5"), tol=1e-25)
+        assert abs(r - mp.mpc("0.797997157178680", "29.551761098629115")) < 1e-12
+        far = abs(f(r + mp.mpf("0.01")))
+        assert abs(f(r)) < far * 1e-20
