@@ -2968,6 +2968,18 @@
      40
     ]
    }
+  },
+  {
+   "id": "AX1",
+   "source": "ARXIV_2610_32694",
+   "text": "bounds the de Bruijn--Newman constant by $\\Lambda\\le433/2500=0.1732$ without a QRH assumption.",
+   "kind": "html_page",
+   "locator": {
+    "lines": [
+     121,
+     121
+    ]
+   }
   }
  ],
  "numbering": {
@@ -3681,6 +3693,22 @@
     "BLOG_11",
     "BLOG_PAPER"
    ]
+  },
+  {
+   "id": "R07",
+   "file": "REDUCTION.md",
+   "kind": "resumed_date",
+   "phrase": "## F. Context recorded on 2026-10-26"
+  },
+  {
+   "id": "R08",
+   "file": "REDUCTION.md",
+   "kind": "json_date",
+   "phrase": "was merged on 2026-10-18 (UTC)",
+   "source": "PR210",
+   "field": "merged_at",
+   "date": "2026-10-18"
   }
- ]
+ ],
+ "resumed": "2026-10-26"
 }

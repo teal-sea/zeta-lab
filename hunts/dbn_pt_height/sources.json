@@ -634,6 +634,15 @@
    "bytes": 51016,
    "cache_path": "chain-r2-kornaus-v11-zip/extracted/Zenodo_T020_v1.1_FINAL_SUBMISSION/Collision_Exclusion_in_the_de_Bruijn_Newman_Heat_Flow_v1.1.tex",
    "note": "the TeX source of the 0.172422 paper, version 1.1, dated 8 September 2026 in its own text"
+  },
+  "ARXIV_2610_32694": {
+   "kind": "file",
+   "url": "https://arxiv.org/abs/2610.32694",
+   "retrieved_utc": "2026-10-26T12:59:27Z",
+   "sha256": "e9775f0ddaad95531d87dca3136693f3fc871d74420ac1aafe204113f2ba7cab",
+   "bytes": 78633,
+   "cache_path": "chain-r3-arxiv-2610.32694/abs.html",
+   "note": "arXiv abstract page of 2610.32694 (Planat, version of 2026/10/23); only the abstract was read"
   }
  }
 }

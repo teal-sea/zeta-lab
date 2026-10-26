@@ -153,3 +153,16 @@ of the sources, graded as what each source shows.
 - Whether the shipped producer, run at the lwin2 tiles, would reproduce the
   banked bound was not tested: this lane does not compile or run downloaded
   code.
+
+## F. Context recorded on 2026-10-26
+
+This hunt audits the refereed 0.2 chain. It is not a race to a lower bound,
+and nothing here ranks the rows below 0.2. When the lanes were resumed, the
+catalogue's self-archived rows reached 0.1595: PR 210, which carries that row
+together with the 0.16 row of PR 208, was merged on 2026-10-18 (UTC). Parts B
+and C read both rows in the versions the catalogue cites. Separately, the
+abstract of an arXiv preprint, 2610.32694 by Michel Planat, states that its
+argument "bounds the de Bruijn--Newman constant by $\Lambda\le433/2500=0.1732$
+without a QRH assumption." [Q:AX1]. That claim is unrefereed, and only the
+abstract was read. Whether it inherits the row-2 gap of CHAIN.md, or anchors
+at 3/16, was not examined.

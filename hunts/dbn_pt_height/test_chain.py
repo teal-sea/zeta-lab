@@ -145,7 +145,8 @@ def test_sources_have_url_time_and_digest() -> None:
         if s["kind"] in {"file", "derived"}:
             assert re.fullmatch(r"[0-9a-f]{64}", s["sha256"]), key
             assert isinstance(s["bytes"], int) and s["bytes"] > 0, key
-            assert re.fullmatch(r"2026-10-21T\d\d:\d\d:\d\dZ", s["retrieved_utc"]), key
+            # 2026-10-26: the resumption's one download (the preprint abstract, part F)
+            assert re.fullmatch(r"2026-10-2[16]T\d\d:\d\d:\d\dZ", s["retrieved_utc"]), key
             assert s["url"], key
         elif s["kind"] == "git":
             assert re.fullmatch(r"[0-9a-f]{40}", s["head"]), key
@@ -427,6 +428,8 @@ def _check_fact(f: dict) -> None:
         assert len(QUOTES) == f["value"] and str(f["value"]) in f["phrase"], f"{f['id']}: {len(QUOTES)} quotations"
     elif kind == "self_date":
         assert CHAIN["written"] in f["phrase"]
+    elif kind == "resumed_date":
+        assert CHAIN["resumed"] in f["phrase"]
     elif kind == "arith":
         assert F(f["t0"]) + F(f["y0"]) ** 2 / 2 == F(f["Lambda"]), f"{f['id']}: t0 + y0^2/2"
         for key in ("t0", "y0", "Lambda"):
@@ -442,7 +445,7 @@ def _check_fact(f: dict) -> None:
 @pytest.mark.parametrize("fid", [f["id"] for f in FACTS])
 def test_fact_holds_in_the_evidence(fid: str) -> None:
     f = next(f for f in FACTS if f["id"] == fid)
-    if f["kind"] not in {"quote_text", "quote_count", "self_date", "arith"} and not CACHE.is_dir():
+    if f["kind"] not in {"quote_text", "quote_count", "self_date", "resumed_date", "arith"} and not CACHE.is_dir():
         pytest.skip("download cache not present on this machine")
     _check_fact(f)
 
