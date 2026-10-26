@@ -14,22 +14,32 @@ what was proved, how, and what it does and does not mean. The full record is hun
 ## 1. What is proved
 
 In Lean 4 (`v4.35.0-rc2`, Mathlib `065356127b1d`), with zero `sorry` and only the three
-standard axioms (`propext`, `Classical.choice`, `Quot.sound`):
+standard axioms (`propext`, `Classical.choice`, `Quot.sound`), three theorems together
+carry the result:
 
-- `davenport_heilbronn : davenport_heilbronn_statement`: some entire function is given by
-  the Davenport-Heilbronn Dirichlet series for Re s > 1, satisfies its functional
-  equation, and has a zero s with Re s ≠ 1/2 (`lean/ZetaLean/DavenportHeilbronn.lean`,
-  line 96). The function is `DH`, built from the quartic character mod 5
-  (`lean/ZetaLean/DHAnalytic.lean`).
-- `dh_zero_located`: that zero lies in the closed square of half-width 3/64 about
+- `dh_separation_hundred`: below height 100, `DH` has a zero s with 0 < Re s < 1,
+  0 < Im s ≤ 100 and Re s ≠ 1/2, while every zero of Mathlib's `riemannZeta` in that
+  region has real part 1/2. The second half is hunt #137's RH to height 100 (`docs/45`).
+- `dh_zero_located`: a zero of `DH` lies in the closed square of half-width 3/64 about
   808517/10^6 + (21424837/250000) i, so its real part is at least 0.761642.
-- `dh_separation_hundred`: below height 100, `DH` has a zero in the open critical strip
-  off the line, while Mathlib's `riemannZeta` has none there. The second half is hunt
-  #137's RH to height 100 (`docs/45`).
+- `dh_analytic_half` (`lean/ZetaLean/DHAnalytic.lean`): this `DH`, built from the quartic
+  character mod 5, is entire, is given by the Davenport-Heilbronn Dirichlet series for
+  Re s > 1, and satisfies its functional equation.
 
-The grade is **kernel-checked, pending external verification**. No outside
-mathematician has reviewed it, and no independent kernel has replayed the assembled
-environment.
+The assembly also proves `davenport_heilbronn : davenport_heilbronn_statement`
+(`lean/ZetaLean/DavenportHeilbronn.lean`, line 129): some entire function with that
+series and functional equation has a zero s with Re s ≠ 1/2. **That statement, as
+defined, is also met by the trivial zero s = -1**, so it carries none of the result and
+needs none of the 215 sites. `DH` combines the L-functions of two odd characters, which
+vanish at s = -1, -3, -5, …, and `davenport_heilbronn_statement_of_trivial_zero`
+(`lean/ZetaLean/DHTrivialZero.lean`) proves the statement from `DH (-1) = 0` alone. The
+same statement for `riemannZeta` holds at its trivial zero s = -2. The adversarial review
+of PR #353 found this on 2026-10-26; the definition stays as it is because the 215 site
+oleans were compiled against the module that holds it.
+
+The grade of the three theorems above is **kernel-checked, pending external
+verification**. No outside mathematician has reviewed them, and no independent kernel
+has replayed the assembled environment.
 
 ## 2. How
 
@@ -55,20 +65,28 @@ about half a million literal facts about `DH` on the square's boundary.
 
 ## 3. What it means, and what it does not
 
-- **It shows the functional equation alone cannot give RH.** Any proof of RH must use
-  something zeta has and `DH` lacks, such as the Euler product. This was known since
-  1936; what is new is that the counterexample is now a kernel-checked theorem in this
-  repository, usable as a battery rival (`zeta.epstein.battery`, `docs/08` section 4)
-  with its off-line zero proved rather than computed.
+- **It shows the functional equation alone cannot give RH.** `dh_separation_hundred`,
+  read with `dh_analytic_half`, says so: a function with zeta's kind of series and
+  functional equation has a zero in the open strip off the line, below a height where
+  `riemannZeta` has none. Any proof of RH must use something zeta has and `DH` lacks,
+  such as the Euler product. This was known since 1936; what is new is that the
+  counterexample is now a kernel-checked theorem in this repository, usable as a battery
+  rival (`zeta.epstein.battery`, `docs/08` section 4) with its off-line zero proved
+  rather than computed. A rival must use these strip theorems, not
+  `davenport_heilbronn_statement`, whose analogue for zeta holds at a trivial zero.
 - **It says nothing about RH.** It is a statement about a different function.
-- **Novelty.** The lab produced it, so it is *original*. A search found no
-  kernel-checked or formally verified proof of a Davenport-Heilbronn off-line zero
-  (`hunts/rung3_ball_production/PRIOR_ART.md`, which also lists what was not searched).
-  "Novel" goes no further than that search.
+- **Prior art.** The lab produced it, so it is *original*. For a kernel-checked or
+  formally verified proof of a non-trivial Davenport-Heilbronn zero off the line, the
+  record is *searched-and-absent* in four web queries
+  (`hunts/rung3_ball_production/PRIOR_ART.md`, which lists what was not searched,
+  including zbMATH Open and the Lean Zulip). That is not a novelty claim.
 
 ## 4. Doors
 
 The first door is an independent replay of the assembled environment by a second
-checker. The next is cheaper composites and terms by the same kernel decision. After
+checker. Beside it is one bundled theorem stating the strip result in a single
+declaration, by re-running the on-box assembly. Both are cheapest before the site oleans'
+GitHub artifacts expire, about 2026-11-25; after that they need the 16 core-hours of
+sites again. The next is cheaper composites and terms by the same kernel decision. After
 those come Spira's next off-line zeros, at heights 114.16, 166.48 and 176.70, which need
 new plans. `hunts/rung3_ball_production/RESULTS.md`, "The doors", ranks them.

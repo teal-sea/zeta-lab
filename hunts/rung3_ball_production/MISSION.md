@@ -142,3 +142,29 @@ The owner resumed this lane in place on 2026-10-26 and decided:
   for the assembly module that would prove `davenport_heilbronn` from the 215 site
   theorems, with its own Lean sources here and none in `lean/ZetaLean`; and
   `PRODUCTION.md`.
+
+## Supersession record, 2026-10-26 (after the PR #353 review)
+
+What the lane did after the owner decision above went beyond the text of this file. The
+record of who allowed each step:
+
+- **Production ran on GitHub Actions, not on funded cloud compute.** The calibration and
+  full requests were pushed after the coordinator's 'go' (`RUNS.md`, and the commit
+  messages of `c697df4f0`, `0f42610de` and `85cabd55b`), and the coordinator placed
+  the assembly on the shared box (`RUNS.md`, "the full run, and the assembly on this
+  box"). This supersedes "Production waits for funding" and the `agents_may_not` entry
+  "launch any production shard or compile any site beyond the pilot" for that run only.
+- **The landing declared theorem status and edited `harness/`.** Commit `a3bc93e53`
+  added the review-ledger entry `davenport-heilbronn-rung3` to
+  `harness/departments/review_ledger.py` and the status lines in `RESULTS.md` and
+  `hunts/README.md`, against the `agents_may_not` entries "edit zeta, ontology, harness
+  ..." and "declare theorem status for davenport_heilbronn, which no file proves yet".
+  The ledger entry asks for review; it promotes nothing.
+- **The PR #353 review found the headline statement weak.** `davenport_heilbronn_statement`
+  is also met by the trivial zero s = -1. On the coordinator's direction of 2026-10-26
+  the record fix added `lean/ZetaLean/DHTrivialZero.lean` (a new module under
+  `lean/ZetaLean`, outside the sites' import closure, against "none in `lean/ZetaLean`"
+  above), amended the ledger entry, and moved the headline to `dh_separation_hundred` and
+  `dh_zero_located` with `dh_analytic_half`. No definition in `lean/ZetaLean` changed.
+- **Novelty is still not declared.** The record says searched-and-absent
+  (`PRIOR_ART.md`), not novel.

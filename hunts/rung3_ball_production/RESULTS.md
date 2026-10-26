@@ -6,7 +6,15 @@ Hunt #145, closed 2026-10-26. Grade: **kernel-checked** (Lean 4 `v4.35.0-rc2`, M
 `RUNS.md` and the `production` section of `pilot.json`. The result says nothing about RH
 (`docs/08`).
 
-## 1. The theorem, exactly as compiled
+## 1. The theorems, exactly as compiled
+
+**What carries the result** is `dh_separation_hundred` (below height 100, `DH` has a zero
+in the open strip off the line, and Mathlib's `riemannZeta` has none there) and
+`dh_zero_located` (a zero of `DH` in the plan's closed square), read with
+`dh_analytic_half` (`lean/ZetaLean/DHAnalytic.lean`: `DH` is entire, has the series for
+Re s > 1 and satisfies the functional equation). Their grade is the one above:
+kernel-checked, pending external verification. The assembly's `davenport_heilbronn` is
+weaker than its name, as the paragraph after the first listing says.
 
 In `ZetaLean.DH.Rung3Assembly.Plan2` (module `Rung3Assembly.Assembly`, emitted by
 `assembly.py` from `lean/cert/rung3_plan2.json`, SHA-256 `5ae46eb4a6030349...` pinned in
@@ -23,11 +31,20 @@ theorem dh_zero_located' : ∃ z : ℂ, DH z = 0 ∧
     ((380821/500000 : ℚ) : ℝ) ≤ z.re ∧ |z.im - ((21424837/250000 : ℚ) : ℝ)| ≤ ((3/64 : ℚ) : ℝ)
 ```
 
-`davenport_heilbronn_statement` (`lean/ZetaLean/DavenportHeilbronn.lean`, line 96) says:
+`dh_zero_located` puts a zero of `DH` in the closed square of half-width 3/64 about
+0.808517 + 85.699348 i. That is the plan's exact square; the task's rounded bounds
+(Re s ≥ 0.7619) do not follow from it.
+
+`davenport_heilbronn_statement` (`lean/ZetaLean/DavenportHeilbronn.lean`, line 129) says:
 some entire function has the Davenport-Heilbronn Dirichlet series for Re s > 1, satisfies
-its functional equation, and has a zero s with Re s ≠ 1/2. The witness is `DH`, and its
-zero lies in the closed square of half-width 3/64 about 0.808517 + 85.699348 i. That is
-the plan's exact square; the task's rounded bounds (Re s ≥ 0.7619) do not follow from it.
+its functional equation, and has a zero s with Re s ≠ 1/2. **As defined, it is also met
+by the trivial zero s = -1**: `DH` combines the L-functions of two odd characters mod 5,
+which vanish at s = -1, -3, -5, …, so `davenport_heilbronn_statement_of_trivial_zero`
+(`lean/ZetaLean/DHTrivialZero.lean`) proves it from `DH (-1) = 0` and
+`dh_analytic_half` alone, with none of the 215 sites. The same statement for
+`riemannZeta` holds at s = -2. The adversarial review of PR #353 found this on
+2026-10-26. So `davenport_heilbronn` is a true theorem that carries none of the result;
+the definition stays as it is because the site oleans were compiled against its module.
 
 In module `Rung3Assembly.Separation`:
 
@@ -109,18 +126,29 @@ All on production output, recorded in `pilot.json` `production.box_faults` and
 
 The eps' bracket holds: the probe is accepted at 1/2000 and at the next multiple of 2^-64
 above the bound, and refused at the bound and at 1/4000. The standing test
-`tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one` passes: no off-line
-zero lies below this one, so the target was forced, not chosen.
+`tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one` passes. It is
+measured, not rigorous: the mpmath argument principle at 20 digits counts no zero with
+Re s in [0.55, 2] and 0.3 < Im s < 80.3, and one with 80.3 < Im s < 90.3. Within that
+range, which covers non-trivial zeros only and leaves out 1/2 < Re s < 0.55 and
+0 < Im s ≤ 0.3, no off-line zero lies below this one, so the target was forced there,
+not chosen.
 
 ## 5. What this is and is not
 
-- **Original**: this lab produced it. **Novel** only against the search in
-  `PRIOR_ART.md`, which found no kernel-checked or formally verified proof of a
-  Davenport-Heilbronn off-line zero. The zero itself is Spira's (1994), and the delta is
-  its enclosure by the Lean kernel.
+- **Original**: this lab produced it. **Searched-and-absent**, not a novelty claim:
+  the four queries in `PRIOR_ART.md` found no kernel-checked or formally verified proof
+  of a non-trivial Davenport-Heilbronn zero off the line, in the critical strip, and
+  that file lists the sources not searched. The zero itself is Spira's (1994), and the
+  delta is its enclosure by the Lean kernel.
 - **Trust.** Each site olean was produced by the runner's kernel. The assembly imports
   them without re-checking their proofs. No independent replay (`leanchecker`, a second
   kernel) has run over the assembled environment; that is the first door below.
+- **The ZetaLean join.** The sites were kernel-checked against each runner's own
+  `ZetaLean` build at `85cabd55b`, which the workflow did not upload. The assembly
+  imported them against this box's `ZetaLean` oleans of 2026-10-21, through the overlay.
+  The sources of the sites' import closure have not changed since 2026-09-28 apart from
+  comments, so the two builds' constants are expected to agree, but they were never
+  compared. The replay would close this as well.
 - The staged default of `scripts/60` cannot produce an assemblable output: its tower
   namespaces collide across sites (`PILOT.md` section 11). Only `--tower whole` can.
 
@@ -155,8 +183,21 @@ number of sites against K.
 
 1. An independent kernel replay of the assembled environment, which reads more: the same
    oleans in another checker.
-2. Composites and terms by `decide +kernel`, inside the data the current family reads.
-3. A smaller square or a different eps', inside the same data, but it needs a new plan
+2. A bundled strip statement, inside the data the current family reads: one theorem
+   `∃ f s, Differentiable ℂ f ∧ dh_series_rep f ∧ dh_functional_eq f ∧ f s = 0 ∧
+   0 < s.re ∧ s.re < 1 ∧ s.re ≠ 1/2`, defined outside the sites' import closure (for
+   example in `Support.lean`), emitted by `assembly.py` and compiled by re-running
+   `production.py collect` and `assemble` on the box (on 2026-10-26 these took 106 CPU-s
+   and 118 CPU-s, about 4 core-minutes together). It would replace the
+   reading-together of `dh_separation_hundred` and `dh_analytic_half`, and
+   `davenport_heilbronn_statement`, which the trivial zero s = -1 meets.
+3. Composites and terms by `decide +kernel`, inside the data the current family reads.
+4. A smaller square or a different eps', inside the same data, but it needs a new plan
    and mirror validation.
-4. The next off-line zeros (Spira's 114.16, 166.48, 176.70), which read more: new
+5. The next off-line zeros (Spira's 114.16, 166.48, 176.70), which read more: new
    plans. Allocation among these is the owner's.
+
+Doors 1 and 2 are cheapest before the site oleans' GitHub artifacts expire, about
+2026-11-25 (30-day retention from run 40353536947). The box kept only their SHA-256 and
+the logs, so after that date both need the 215 sites compiled again, 16.1 runner
+core-hours at the measured rate.

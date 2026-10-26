@@ -13,6 +13,7 @@ public import ZetaLean.DirichletEval
 public import ZetaLean.OracleDH
 public import ZetaLean.DavenportHeilbronn
 public import ZetaLean.DHAnalytic
+public import ZetaLean.DHTrivialZero
 public import ZetaLean.DHTailBound
 public import ZetaLean.DHTailBound2
 public import ZetaLean.DHAssembly

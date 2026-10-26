@@ -60,7 +60,11 @@ to check before any novelty claim goes beyond "searched-and-absent in the source
 
 No source found states a kernel-checked or formally verified proof that the
 Davenport-Heilbronn function (or any function with its Dirichlet series and functional
-equation) has a zero off the critical line. Whether Balanzario and Sanchez-Ortiz (2007)
+equation) has a non-trivial zero off the critical line, that is, one in the critical
+strip. The qualifier matters: a zero off the line with no such restriction is already
+formal, since Mathlib proves that the L-function of an odd Dirichlet character vanishes
+at s = -1, and this tree's `lean/ZetaLean/DHTrivialZero.lean` applies that to `DH`
+(added 2026-10-26, after the PR #353 review). Whether Balanzario and Sanchez-Ortiz (2007)
 enclose one rigorously by hand-checked numerics is not assessed here. **Status: searched-and-absent in
 the sources above. That is not a novelty claim.** The lab's own claim, if the full run
 and the assembly succeed, is *original*: a kernel-checked theorem produced here. It is

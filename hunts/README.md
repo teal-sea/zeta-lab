@@ -77,11 +77,15 @@ control roles, and the checks are the ones the tree already owns:
 
 ### Hunt #145: the Davenport-Heilbronn zero off the critical line, kernel-checked (`rung3_ball_production/`, 2026-10-21 to 2026-10-26)
 
-**Status: closed 2026-10-26. `theorem davenport_heilbronn : davenport_heilbronn_statement`
-is kernel-checked (Lean v4.35.0-rc2, Mathlib 065356127b1d, zero `sorry`, only `propext`,
-`Classical.choice` and `Quot.sound`), pending external verification, with the zero
-located in the plan's closed square and paired against hunt #137's RH to height 100;
-original; novel only against the search in `PRIOR_ART.md`; nothing here bears on RH.**
+**Status: closed 2026-10-26. `dh_separation_hundred` (below height 100, `DH` has a zero
+in the open strip off the line and `riemannZeta` has none, from hunt #137's RH to height
+100) and `dh_zero_located` (a zero of `DH` in the plan's closed square), read with
+`dh_analytic_half`, are kernel-checked (Lean v4.35.0-rc2, Mathlib 065356127b1d, zero
+`sorry`, only `propext`, `Classical.choice` and `Quot.sound`), pending external
+verification. The assembly's `davenport_heilbronn : davenport_heilbronn_statement` is
+weaker: the statement, as defined, is also met by the trivial zero s = -1
+(`lean/ZetaLean/DHTrivialZero.lean`, found by the PR #353 review). Original;
+searched-and-absent in `PRIOR_ART.md`, not a novelty claim; nothing here bears on RH.**
 `RESULTS.md` states the theorems as compiled. *2026-10-21 status, superseded:* open ledger
 hunt; a pilot on one shared box in one session, measured; the pilot site's two theorems
 kernel-checked and its planted faults refused; no production shard launched;
