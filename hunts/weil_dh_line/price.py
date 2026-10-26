@@ -877,46 +877,59 @@ def run_joint_spec(spec: dict) -> dict:
     return out
 
 
-def merge_parts(paths, drop=()) -> dict:
+def _recheck_cluster(job) -> dict:
+    """Every merge check on one saved cluster (see ``merge_parts``)."""
+    tag, kind, c = job
+    sys.path.insert(0, str(HERE))
+    import joint  # noqa: E402
+    L = WINDOWS[tag] if tag in WINDOWS else Fraction(tag)
+    om = [tuple(k) for k in c["omega"]]
+    hq = [Fraction(x) for x in c["h"]]
+    w = _weights_from_spec(c.get("weights"))
+    sb = joint.sup_bound(L, c["primes"], om, hq, tau=c["sup_bound"]["tau"], kind=kind, weights=w)
+    sb.pop("best_points", None)
+    c["sup_bound_recheck"] = sb
+    if abs(sb["U"] - c["U"]) > 2 * c["sup_bound"]["tau"]:
+        raise RuntimeError(f"recheck disagrees for {c['primes']}: {sb['U']} vs {c['U']}")
+    c["U"] = max(c["U"], sb["U"])
+    c["frequency_audit"] = joint.frequency_audit(L, c["primes"], om)
+    if not c["frequency_audit"]["ok"]:
+        raise RuntimeError("in-band frequency")
+    sc = joint.arb_spot_check(L, c["primes"], om, hq, n=60, kind=kind, weights=w)
+    c["arb_spot_check"] = {"n": 60, "max_deviation": float(sc["max_deviation"]),
+                           "a_priori_bound": float(sc["a_priori_bound"]), "ok": bool(sc["ok"])}
+    c["arb_box_check"] = joint.arb_box_check(L, c["primes"], om, hq, n=12, kind=kind, weights=w)
+    print(json.dumps({"cluster": c["primes"], "U": c["U"], "recheck_U": sb["U"], "boxes": sb["boxes"],
+                      "seconds": sb["seconds"]}), flush=True)
+    return c
+
+
+def merge_parts(paths, drop=(), procs: int = 1) -> dict:
     """Merge part files of one window and kind into a joint envelope, re-running
     every check with the current code on the saved dyadic coefficients: the
     whole-torus bound, the frequency audit at 512 bits, the Arb spot check of
     centre values and the Arb check of whole box bounds; and, for overlapping
-    clusters, that every comb term's weights sum to exactly 1."""
-    sys.path.insert(0, str(HERE))
-    import joint  # noqa: E402
+    clusters, that every comb term's weights sum to exactly 1. With procs > 1
+    the clusters are checked in parallel processes; the output is the same."""
     parts = [json.loads(Path(f).read_text()) for f in paths]
     tag, kind = parts[0]["tag"], parts[0].get("kind", "zeta")
     L = WINDOWS[tag] if tag in WINDOWS else Fraction(tag)
     out = {"tag": tag, "L": parts[0]["L"], "kind": kind, "clusters": []}
-    total = Fraction(0)
+    jobs = []
     for part in parts:
         if part["tag"] != tag or part.get("kind", "zeta") != kind:
             raise ValueError("parts of different windows or kinds")
-        for c in part["clusters"]:
-            if tuple(c["primes"]) in drop:
-                continue
-            om = [tuple(k) for k in c["omega"]]
-            hq = [Fraction(x) for x in c["h"]]
-            w = _weights_from_spec(c.get("weights"))
-            sb = joint.sup_bound(L, c["primes"], om, hq, tau=c["sup_bound"]["tau"], kind=kind, weights=w)
-            sb.pop("best_points", None)
-            c["sup_bound_recheck"] = sb
-            if abs(sb["U"] - c["U"]) > 2 * c["sup_bound"]["tau"]:
-                raise RuntimeError(f"recheck disagrees for {c['primes']}: {sb['U']} vs {c['U']}")
-            c["U"] = max(c["U"], sb["U"])
-            c["frequency_audit"] = joint.frequency_audit(L, c["primes"], om)
-            if not c["frequency_audit"]["ok"]:
-                raise RuntimeError("in-band frequency")
-            sc = joint.arb_spot_check(L, c["primes"], om, hq, n=60, kind=kind, weights=w)
-            c["arb_spot_check"] = {"n": 60, "max_deviation": float(sc["max_deviation"]),
-                                   "a_priori_bound": float(sc["a_priori_bound"]), "ok": bool(sc["ok"])}
-            bc = joint.arb_box_check(L, c["primes"], om, hq, n=12, kind=kind, weights=w)
-            c["arb_box_check"] = bc
-            total += Fraction(c["U"])
-            out["clusters"].append(c)
-            print(json.dumps({"cluster": c["primes"], "U": c["U"], "recheck_U": sb["U"], "boxes": sb["boxes"],
-                              "seconds": sb["seconds"]}), flush=True)
+        jobs += [(tag, kind, c) for c in part["clusters"] if tuple(c["primes"]) not in drop]
+    if procs > 1:
+        import multiprocessing as mpc
+        with mpc.get_context("spawn").Pool(min(procs, len(jobs))) as pool:
+            checked = pool.map(_recheck_cluster, jobs, chunksize=1)
+    else:
+        checked = [_recheck_cluster(j) for j in jobs]
+    total = Fraction(0)
+    for c in checked:
+        total += Fraction(c["U"])
+        out["clusters"].append(c)
     check_weight_cover(L, kind, [(c["primes"], _weights_from_spec(c.get("weights"))) for c in out["clusters"]])
     out["weights_cover_comb"] = True
     if kind == "dh":
@@ -948,6 +961,7 @@ def main():
                     help="clusters (comma-separated primes) to leave out of a merge, e.g. a superseded build")
     ap.add_argument("--merge", nargs="*", default=None,
                     help="joint part files to merge and re-bound with the current sup_bound")
+    ap.add_argument("--merge-procs", type=int, default=1, help="processes for the merge checks (one per cluster)")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
     if args.prices:
@@ -956,7 +970,7 @@ def main():
         (HERE / "k2_scouts.json").write_text(json.dumps(assemble_k2_scouts(Path(args.k2_scouts)), indent=1))
     if args.merge is not None:
         drop = tuple(tuple(int(x) for x in g.split(",")) for g in (args.drop or []))
-        out = merge_parts([Path(f) for f in args.merge], drop)
+        out = merge_parts([Path(f) for f in args.merge], drop, procs=args.merge_procs)
         Path(args.out or HERE / f"joint_{out['tag']}.json").write_text(json.dumps(out, indent=1))
     if args.table is not None:
         tags = args.table or list(WINDOWS)

@@ -112,3 +112,119 @@ every later run here sets the same caps.
   estimate by `(856/560)^3 x 2`, about **3 to 6 core-hours**. Each unit file
   would be about 140 MB (5.6 GB in all), which breaks the box's 100 MB per-file
   and 200 MB per-session limits. Asked first; see the ledger for the answer.
+
+### Decision on the two runs over one core-hour (coordinator, 2026-10-26)
+
+Asked through the coordinator with the estimates above. Answer: **run A** (the
+four-cluster zeta merge at `L_DH`, at most 3 processes) and **defer B** (K2 on DH
+at `L_DH`). B is recorded as **estimated, not run**: about 1 core-hour of merge,
+about 19 core-hours of units, 3 to 6 core-hours of reducer, 40 units of about
+140 MB each. It goes to funded cloud compute when the owner tops that up (cloud
+compute was unfunded on 2026-10-26); it was not shrunk to fit.
+
+**Could the reducer consume units as a stream?** Yes, and that would make B fit
+an ordinary disk. The reducer reads each unit exactly once, in panel order, and
+needs only the prefix sums `C(T#)` and `G(T#)` at unit boundaries (`scout.reduce`).
+A streaming driver would run the units in ascending order on a pool with ordered
+results (`imap`, not `imap_unordered`), hand each unit's `C` and `G` to the
+parent through the pipe instead of a file, add them to the running sums, run
+the checkpoint LDL and inverse iteration at once, write that row (a few hundred
+bytes) and keep only the running sums on disk as the restart checkpoint. Disk at
+peak is then one copy of the running sums, about the size of one unit file
+(about 140 MB at `N = 856`, 1280 bits; split into row blocks to stay under a
+100 MB per-file limit), instead of 5.6 GB. Costs: a checkpoint row waits for
+every lower unit, which is harmless because unit cost is nearly uniform; the
+parent holds two full `856 x 856` Arb matrices at 1280 bits (a few hundred MB of
+RAM); and a crash loses only the units in flight. Not implemented here: nothing
+in this session would consume it.
+
+### Ledger (2026-10-26)
+
+```runmanifest
+id: weil_dh_line-2026-10-26-merge-1.4
+hunt: weil_dh_line
+started: 2026-10-26T12:57Z
+finished: 2026-10-26T13:08Z
+ran:
+  - OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 nice -n 10 .venv/bin/python hunts/weil_dh_line/price.py --merge <cache>/weil_dh_line/parts/zeta_1.4_a.json <cache>/weil_dh_line/parts/zeta_1.4_b.json --out joint_1.4.json
+outcome: success, 10 min 35 s wall, 425 s user, 0.42 GB peak; both clusters re-bounded to the build value ({3,7,13} U 1.8622602217962332, 2 216 872 boxes; {2,5,11} U 2.2557203011007245, 4 455 782 boxes), frequency audit, Arb spot check and Arb box check all ok, weights cover the comb; S_exact 18545735548437699/4503599627370496 = 4.117980522896958, identical to provisional_1.4.json, so the scout units built on that file stand
+artifacts:
+  - hunts/weil_dh_line/joint_1.4.json (SHA-256 598ef7d2bec612db9b0deffe6487142370d64e9a3457a074b4e4079a0f1b5aad)
+  - <cache>/weil_dh_line/parts/merge_zeta_1.4_v2.log
+```
+
+```runmanifest
+id: weil_dh_line-2026-10-26-scout-reduce-1.4
+hunt: weil_dh_line
+started: 2026-10-26T13:08Z
+finished: 2026-10-26T13:33Z
+ran:
+  - OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 nice -n 10 .venv/bin/python hunts/weil_dh_line/scout.py --reduce --env joint_1.4.json --N 560 --Tmax 640 --prec 640 --q 64 --h 1/2 --unit-panels 40 --responses 400 640 --out scout_L140.json
+outcome: success, 24 min 31 s wall (inside the 20 to 40 min estimate), 1307 s user, 0.66 GB peak; 32 checkpoints, 13 with beta* > 0 (T# = 400 to 640); n_neg = 2 at 400, 1 at 420 and 440, 0 from 460 to 640; the N = 517 and 512-bit responses at 400 and 640 keep n_neg (2 and 0) and lambda_min; units recorded 9159 core-seconds on 2026-10-21
+artifacts:
+  - hunts/weil_dh_line/scout_L140.json (SHA-256 98a2b49d82733fbaa1bc2d6e359f0028c8f33608b8e5a8bd6f352494f14652de)
+  - <cache>/weil_dh_line/scout_L140_reduce.log
+  - <cache>/weil_dh_line/scout_L140/ (32 unit files, 945 MB, not committed; SHA-256 below)
+```
+
+```runmanifest
+id: weil_dh_line-2026-10-26-k2-scouts
+hunt: weil_dh_line
+started: 2026-10-26T12:58Z
+finished: 2026-10-26T12:58Z
+ran:
+  - .venv/bin/python hunts/weil_dh_line/price.py --k2-scouts <cache>/weil_dh_line/k2
+outcome: success; assembled from the four K2 stage-A runs of 2026-10-21 (dh_140_even, ep_LDH_even, ep_16615_odd, ep_16615_even); dh_LDH_even was never run and is absent (deferred, see the decision above)
+artifacts:
+  - hunts/weil_dh_line/k2_scouts.json
+  - inputs <cache>/weil_dh_line/k2/dh_140_even.json e9cffd1a2cee33c5170113edaaa73e3f6b6eb0a014c6a86ff3734ccf2096a875, ep_16615_even.json 76089cdd1e76a12bdf5c89e48f22dccbb2fbd3cc596440c043d530048493f06a, ep_16615_odd.json 8f3a386aefddd16eee7f23028f0e70de3c48f2bb00b19e37b424d75540f2275e, ep_LDH_even.json e00d8b04e53534d9c3b5ce50e2389ab1cda87d852f56095c05f3f0c8882e938e
+```
+
+```runmanifest
+id: weil_dh_line-2026-10-26-time-dh-L_DH
+hunt: weil_dh_line
+started: 2026-10-26T12:56Z
+finished: 2026-10-26T12:59Z
+ran:
+  - nice -n 10 .venv/bin/python <scratch>/time_dh_ldh.py hunts/weil_dh_line <cache>/weil_dh_line/parts/dh_L_DH_v2.json <scratch>/env_dh_ldh.json 856 1280 1600  (scout.unit on panels 1596 to 1600, kind dh, even, in memory)
+outcome: success, 174 s for 4 panels at N = 856, 1280 bits; the S used to load the envelope (6.039784733, sum of the part U values without the dropped l1 tail) does not enter C or G
+artifacts:
+  - none (timing only; the estimate above uses it)
+```
+
+Unit files of the scout at `L = 7/5` (`<cache>/weil_dh_line/scout_L140/`, about 30 MB each, kept out of git):
+
+```
+583ab7cb3d4f45b6ac16ecc52e4de30cf60cdb1d02b30380f2d4463bc2c2a2e0 scout_panels_00000_00040.pkl
+cee420ad9e56662b31598ba83b060c9536bb24050dddee14ff98c72e290c7b5e scout_panels_00040_00080.pkl
+6e8c597d4bc636af291e2f8eb0dae0271dd04b4da764e8abbb1aacdd9f2161d6 scout_panels_00080_00120.pkl
+646baa3b42b945a353e55670b1cc9fa6ee22ecc328c1e569c1f3234bfa316401 scout_panels_00120_00160.pkl
+d821149e54bf375ccf8e49f47fa1873cb857ff7fe6d98a37308c93e739ea3f36 scout_panels_00160_00200.pkl
+effe85282c7051a1ea6d51936564e27e6f50550d7a346ab169576730436fb9bc scout_panels_00200_00240.pkl
+e92a095232cce11979685eeb3a68924ebc83814f7fa1ec2143467a62d3bfa874 scout_panels_00240_00280.pkl
+af6e85fbf156b40141ca1951f45875c40416dfe55fbca6b941628a26845c5df2 scout_panels_00280_00320.pkl
+e0b5998ae8b7adac72b6028450152f81ec885d76295d59a5602083341291d3ef scout_panels_00320_00360.pkl
+31907bd09c1788a4576c001a454dc6c249e1238cb003825bfc21b903fdc4844e scout_panels_00360_00400.pkl
+7ac4c6961057050cd5fe85bec9163558dfe7c25c7967cf2516739d55481902f4 scout_panels_00400_00440.pkl
+1e28e455f60dd5424c2f85c79dc50f2a596cf3a381d362b3484a2c4b5df1ea1b scout_panels_00440_00480.pkl
+81c450a0856ddb2903fec892c79b1d5515d720b3d3e1d46438d1a28feb78de16 scout_panels_00480_00520.pkl
+2fc81511dc2aa3c6d5ff2edf96a307322d0c07285ad539182bd36cd484063929 scout_panels_00520_00560.pkl
+2ac5610a29ff59483c99faf3795a2163c4549d83f5ef70ff46b5c42e0cabd9c1 scout_panels_00560_00600.pkl
+6bc7de7feccf04951a361377eff1908b1cce49ac87a2bdd5e2f353b0e1fe9e27 scout_panels_00600_00640.pkl
+015cb2538fc1031369d05b1f6a92390aa64a0fa2ff38e70ffc3ecfd9c3f7b22a scout_panels_00640_00680.pkl
+2133f2d13c91d87f7a3e599dd55d5ac274673d1ba7f2dd4f726e5340a0a442ae scout_panels_00680_00720.pkl
+c98df750bfea953661de2fa61021b9226882e7220e858cd53c4b3e512d85b408 scout_panels_00720_00760.pkl
+cc7b07410a18dc8db247ff2d91c9a92e162d6545f87997f87eb081c3730e66f7 scout_panels_00760_00800.pkl
+deb6b968801d84454a07895a53660532430a75b6f672f2c09a68449692e8f1c4 scout_panels_00800_00840.pkl
+0fde951c7ba1eca20514f425ea47f684dff1f7afe124da7c11c53e8d56ef3bfe scout_panels_00840_00880.pkl
+94a03c1c851b95be1f564a0d56fe0e728ce1494de7b0d37676ececb52d9de361 scout_panels_00880_00920.pkl
+63035abb54ffed418872ccef85feeccb8ecfe757b9f9b9d2d8fada154f700f80 scout_panels_00920_00960.pkl
+5fe03b44305011c303d153a1807b5d5cbefb366c058dc3c14055720a5bf162e6 scout_panels_00960_01000.pkl
+fa59933272226283b14b1a8d1d9641fb54bed3310e9f3b3e80525c5b36f225d8 scout_panels_01000_01040.pkl
+1ef3587f7b1ecee35817a14708cc92ab28b249b60f2cea5dfe6112ddc9dcee59 scout_panels_01040_01080.pkl
+582ccbdf28ffb0ed24c220f2096df53c778d259dad5e3ad13bbca835cf171c2f scout_panels_01080_01120.pkl
+3a0e79c74b052102deaa3aa050d01de078570e84a1641d3e2fac062ea0f82b01 scout_panels_01120_01160.pkl
+396a9e27a688b7e9971bd5ae52d74837409d6ef183850e4c4920532ae6562f5a scout_panels_01160_01200.pkl
+1064dd74e0c7b3ba22f1913eb74b1b8eaba033d6da573ad0e330c8881e4e3548 scout_panels_01200_01240.pkl
+f621655399a312e2b4835ebf0de154697dd20e319b2ddc3c75bca00d20362a16 scout_panels_01240_01280.pkl
+```
