@@ -192,6 +192,20 @@ artifacts:
   - none (timing only; the estimate above uses it)
 ```
 
+```runmanifest
+id: weil_dh_line-2026-10-26-merge-L_DH
+hunt: weil_dh_line
+started: 2026-10-26T13:00Z
+finished: 2026-10-26T14:10Z
+ran:
+  - OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMBA_NUM_THREADS=1 nice -n 10 .venv/bin/python hunts/weil_dh_line/price.py --merge <cache>/weil_dh_line/parts/zeta_L_DH_a.json <cache>/weil_dh_line/parts/zeta_L_DH_b.json <cache>/weil_dh_line/parts/zeta_L_DH_c_no7.json <cache>/weil_dh_line/parts/zeta_L_DH_d.json --merge-procs 3 --out joint_L_DH.json
+outcome: success (run A of the decision above), 1 h 9 min 51 s wall, 6236 s user and 1813 s system (about 2.2 core-hours against the 2.3 estimated), 0.76 GB peak; every cluster re-bounded to its build value ({2,17,29} U 1.9060110552607548, 5 787 856 boxes; {3,13,23} U 1.9396377024317553, 16 467 956 boxes; {5,11,19} U 1.8364049896574703, 15 942 328 boxes; {7} U 0.7360570900158183, 15 162 boxes), frequency audit, Arb spot check (60 points) and Arb box check (12 boxes) ok in each cluster, weights cover the comb; S_exact 28904601575583153/4503599627370496 = 6.4181108373657985
+artifacts:
+  - hunts/weil_dh_line/joint_L_DH.json (SHA-256 702c118e3eaa325b2a22928b0641a8a5ffd43021b734b548c256858d7b443ee3)
+  - <cache>/weil_dh_line/parts/merge_zeta_L_DH.log (SHA-256 5b1625d6d134e421ee3d2600ea01483c1b78e941a3d7caa380855ae34163aa00)
+  - inputs zeta_L_DH_a.json 6f274baf020c26bc3f0cc455f390f13f1b3ac24259442f107d8f832940be9051, zeta_L_DH_b.json ff74f3436a3d383bbffe51924358ebf8eee875b9dc0da01679df5026d4bee9ff, zeta_L_DH_c_no7.json 4592eedf056f4387a9bd7bc15a7fbbf2459cf8da49f6150ab707d2ab8420831f (zeta_L_DH_c.json 5387fdee18308d468322f45fd3ba6f21b2b8fa3ce006d5f22680a146f3abc250 with its superseded {7} cluster removed), zeta_L_DH_d.json 6aa6b41aa7baba0f920b17d4759b480c10641950a68e6682fac642205f7496ea
+```
+
 Unit files of the scout at `L = 7/5` (`<cache>/weil_dh_line/scout_L140/`, about 30 MB each, kept out of git):
 
 ```

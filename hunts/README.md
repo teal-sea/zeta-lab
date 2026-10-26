@@ -77,10 +77,19 @@ control roles, and the checks are the ones the tree already owns:
 
 ### Hunt #146: the out-of-band reduction priced at the Davenport-Heilbronn line (`weil_dh_line/`, 2026-10-21)
 
-**Status: open (being written).** Asks whether zeta's Weil window positivity can be
-proved with enclosures on a window where the Davenport-Heilbronn form is provably
-negative, half-width `L >= (log 30.617188)/2 = 1.7107808`. Record:
-`weil_dh_line/PRICE.md`, `weil_dh_line/MISSION.md`.
+**Status: open, on a draft pull request; resumed in place on 2026-10-26 by the owner's
+decision. No-go at the gate for the searched envelopes (attempt unresolved, measured);
+K2 on DH at the DH line not run (paused by allocation).** Asks whether zeta's Weil window
+positivity can be proved with enclosures on a window where the Davenport-Heilbronn form is
+provably negative, half-width `L >= (log 30.617188)/2 = 1.7107808`, through the out-of-band
+reduction of `oob_envelope/`. The comb floor `S*_L` at `L_DH` lies in `[5.637302, 5.643859]`
+(hardened), so weak duality allows the gate `S <= about 6.2`; the best evaluable joint
+envelope found gives `6.418111`, and the best partition into three-prime clusters has the
+Arb floor `6.174396`. A measured stage-A scout at `L = 7/5` (envelope `S = 4.117981`) has
+negative pivots at `T# = 400` to `440` and none from `460` to `640`, stable under the mode
+and precision responses. K2 refuses Epstein `(1,1,6)` wherever its form is known negative.
+Nothing here is kernel-checked, no novelty is claimed, and nothing bears on RH. Record:
+`weil_dh_line/PRICE.md`, `weil_dh_line/RUNS.md`, `weil_dh_line/MISSION.md`.
 
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 
