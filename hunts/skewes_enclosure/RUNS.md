@@ -33,11 +33,51 @@ route-2 sample of 200 mpmath brackets. Interpolating the table above, between
 estimate of **15 to 35 ms/zero, so 1500 to 3500 s, about 0.4 to 1.0 core-hour**,
 single process. That is at most the one-core-hour line, so it runs without an ask.
 
+## 2026-10-26: the 1e5-zero shard (ran; inside the estimate)
+
+13:07:07 to 13:38:20 UTC, one process, `nice -n 10`, load 29 to 40, process at
+84 to 89% CPU. Isolation of gamma_1 .. gamma_100000 (last = 74920.8274989941868)
+took **1749.9 s = 17.5 ms/zero = 0.49 core-hour**, inside the 1500 to 3500 s
+estimate. Per 5000-zero batch the cost ran 9.0, 16.5, 20.5, 22.9, 25.2, then
+settled at 15 to 20 ms/zero. Every ball is disjoint from and below the next, and
+the max radius is 7.3e-15. Partial sums over these zeros:
+Chao-Plymen [-0.9941173437 +/- 5.43e-11], Saouter-Demichel
+[-0.9835492370 +/- 5.20e-11]. The radius is the 64-bit zero radii propagated
+through the sum, as MISSION.md (b) predicts. Summing took 1.3 s.
+**Route 2**: 200 random brackets (seed 152), widened to +/- 1e-8, all show a
+sign change of mpmath `siegelz`, with no failures. They took **121 s, 0.6 s per
+zero** at heights up to 7.5e4, which is 35 times the cost of isolation. Route 2
+therefore cannot cover every zero at this cost and stays a sample.
+Output JSON sha256 924aedc4c16d4ca720e57729d11c8292375b0fcd4f78e673f6e93b968e01ec4e,
+zeros digest 9af0e310bf275fdcca609e15d49c734c730f46870c327f26b37fda1730443a3e
+(scratch only, not committed).
+
+```runmanifest
+id: skewes_enclosure-2026-10-26-shard1
+hunt: skewes_enclosure
+started: 2026-10-26T13:07:07+00:00
+finished: 2026-10-26T13:38:20+00:00
+ran:
+  - nice -n 10 .venv/bin/python -u hunts/skewes_enclosure/zero_layer.py --n0 1 --num 100000 --batch 5000 --prec 64 --sample 200 --out shard_000001_100000.json
+outcome: 1e5 zeros isolated at 17.5 ms per zero, all balls ordered and disjoint, 200 of 200 sampled brackets show a sign change in mpmath, partial sums recorded
+artifacts:
+  - scratch shard_000001_100000.json, sha256 924aedc4c16d4ca720e57729d11c8292375b0fcd4f78e673f6e93b968e01ec4e, not committed
+```
+
 ## 2026-10-26: production estimate (not run; asked of the coordinator)
 
-Pending the shard result below. Bracket from the unit timings: the top of the
-range costs 27 to 36 ms/zero at 64 bits on this loaded box. If the cost were
-flat at that level, 2.2e7 zeros would take **2.2e7 x 0.027 to 0.036 s =
-165 to 220 core-hours**, and 2e6 zeros (Chao-Plymen, T = 1131944.47) would take
-**2e6 x 0.02 to 0.05 s = 11 to 28 core-hours**. Both are far over the one-core-hour
-line and wait for the coordinator's answer.
+Measured cost per zero at 64 bits: 17.5 ms (heights up to 7.5e4), 27 to 36 ms
+(height 1e7). The figure at height 6e5 is 51 ms, but it came from a 200-zero
+batch at 128 bits, so it overstates the cost. Taking 17.5 to 36 ms/zero as the
+range:
+
+| target | zeros | core-hours | wall on this box, 4 processes |
+| --- | --- | --- | --- |
+| Chao-Plymen (alpha = 1.34e11, T = 1131944.47) | 2.0e6 | 2e6 x 0.0175 to 0.036 s = **10 to 20** | 2.5 to 5 h |
+| Saouter-Demichel (alpha = 6e12, T = 10379599.73) | 2.2e7 | 2.2e7 x 0.0175 to 0.036 s = **107 to 220** | 27 to 55 h |
+
+Route 2 at 0.6 s/zero or more stays a sample: 2000 zeros per target costs about
+0.3 to 1 core-hour, more at height 1e7 if `siegelz` cost grows with sqrt(t).
+Disk: one JSON of about 2 KB per 1e5-zero shard. Zeros are not stored, only
+digested, so the disk budget is untouched. Both targets are over the
+one-core-hour line, so production waits for the coordinator.
