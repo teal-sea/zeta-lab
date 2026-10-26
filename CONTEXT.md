@@ -1247,6 +1247,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `44-the-constant-in-the-wedge.md`, 44. The constant in the wedge: explicit constants for Jensen hyperbolicity, and whose wedge it is
 - `45-rh-to-height-fifty.md`, 45. RH to height 50, then 100, kernel-checked
 - `46-davenport-heilbronn-v6-arb-replay.md`, 46. The Davenport-Heilbronn v6 census: a same-verifier Arb replay
+- `47-the-davenport-heilbronn-zero.md`, 47. The Davenport-Heilbronn zero, kernel-checked
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)

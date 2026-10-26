@@ -1,5 +1,3 @@
-This draft becomes doc number 47 under `docs/` (slug `the-davenport-heilbronn-zero`) once PR #350's document, number 46, is on main: then `git mv` it there and add its index entry in `docs/README.md`, in one commit (coordinator, 2026-10-26).
-
 # 47. The Davenport-Heilbronn zero, kernel-checked
 
 Riemann's zeta function satisfies a functional equation, `xi(s) = xi(1 - s)`, and all of
