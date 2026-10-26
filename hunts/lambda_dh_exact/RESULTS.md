@@ -738,6 +738,54 @@ these 29 windows** (disposition 1, measured). The two-sided mechanism with
 moving neighbours is **unresolved** (disposition 3). It needs the
 neighbour's own motion, which the ODE has and this model does not.
 
+
+### 8.12 PREREG (written 2026-10-26, before any trigger): the census over [10^4, 10^5]
+
+Registered before `RUN_REQUEST.json` exists. The run is
+`.github/workflows/lambda-dh-census.yml` driving `census_shard.py` over the
+36 shards of `census_plan_1e5.json` (sha256 461079f9...26eaa9). Each shard
+screens at Re s = 0.82, locates, and lands every zero with y0 > 0.3396 with
+the section 8.6 instrument. Results will be appended as a new section,
+whatever they are.
+
+**What it decides** (all *measured*; coverage: zeros with beta > 0.82 that
+the float screen sees, landed if y0 > 0.3396):
+
+1. **The floor in this decade.** Does any landed pair exceed
+   0.0576518 x 1.0004 (the instrument band)? *Yes* raises the measured floor
+   and names the pair. *No* means no pair in [10^4, 10^5] with
+   y0 > 0.3396 beats it.
+2. **Kill condition 4.** Let m4 be the largest landing in [10^4, 10^5],
+   against m2 = 0.05767 ([10^2, 10^3]) and m3 = 0.05586 ([10^3, 10^4]). The
+   registered text asks for a rise "over at least two decades", and m2 > m3
+   already, so the only rise these decades can show is across [10^3, 10^5].
+   Fixed reading: **KC4 fires iff m4 > m3**, and m4 > m2 is reported
+   separately. Otherwise KC4 does not fire up to 10^5.
+3. **P5 as registered.** P5 *holds up to 10^5* iff the largest measured
+   landing below 10^5 has height in [10^3, 10^5] and depth in [0.40, 0.52].
+   Otherwise it is *refuted up to 10^5*. Beyond 10^5 it stays unresolved.
+4. **P8.** The count of pairs landing later than y0^2/2. More than 15
+   percent would widen P1's band (as registered).
+5. **The two-sided model, out of sample.** rms of (ODE / t*_2 - 1) over the
+   new windows (excluding the 29 of section 8.11), against the in-sample
+   0.112. Expectation registered here: rms < 0.160, the IMPROVES class.
+   Its failure would undo section 8.11's reading.
+
+**Kill conditions for the run itself:**
+
+- *K-a*: preflight fails (pins, plan hash, smoke row): nothing runs, and
+  nothing is read.
+- *K-b*: a shard is missing or its screen incomplete at merge: no
+  decade-wide statement. Per-shard results are reported as such.
+- *K-c*: more than 10 percent of candidate windows unaccounted: statement 1
+  is not made, and the unaccounted windows are listed.
+- *K-d*: replication. The eight pairs already landed in
+  `census_deep4_1e5.json` are landed again. If any differs by more than 1e-6
+  relative, the census is void as instrument drift. Measured locally: the
+  re-landing of gamma = 24415.48 differs by 6e-14.
+- *K-e*: the calibration projects more than 30 core-hours: stop and re-ask
+  before `full`.
+
 ### The doors (updated 2026-10-26)
 
 The 2026-09-12 doors above stand as written; this is what changed in them.
@@ -785,3 +833,34 @@ The next door is the two-sided local gap, nearest and second-nearest line
 zero, which needs only a re-scan of the 29 windows already accounted (inside
 data the census reads, about 0.1 core-hours; the line-zero lists were
 computed and not stored).
+
+**Unit 3 update (2026-10-26).** The two-sided local gap was walked through
+(sections 8.10 and 8.11). It improves on the frozen model, but the misses are
+neighbours that move. The door after it is a moving-neighbour gap, which
+needs the neighbour's own drift from the ODE (inside data the census
+reads). The census over [10^4, 10^5] is prepared (section 8.12, workflow and
+shard plan), not triggered.
+
+**Every still-open item, with its ALIGNMENT section 5 disposition:**
+
+| item | state | disposition |
+|---|---|---|
+| The hunt's question: does the bracket collapse to Delta^2/2? | no landing anywhere near Delta^2/2 = 0.1924; the best is 0.0577 | 3, unresolved |
+| P1, weak form (sup t* < 0.14432) | untouched; no landing above 0.058 | 3, unresolved |
+| P1, stronger band [0.058, 0.075] | derivation withdrawn by KC2 | 3, unresolved |
+| P5 | measured maximum at height 240, outside its window | 3, unresolved (decided up to 10^5 by the census, 8.12) |
+| P7 / KC3, no creation | 400 samples, not proved; not touched this wave | 3, unresolved |
+| P8 | 0 of 29 | 3, unresolved (the census raises the count) |
+| KC4 | does not fire on what was measured | 4, paused by allocation until the census runs |
+| census over [10^4, 10^5] | prepared, not triggered | 4, paused by allocation (awaiting 'go') |
+| window gamma = 88167.40 | accounting open | 4, paused; the census re-scans it |
+| below 10^4, y0 in (0.3396, 0.35] not landed | needs a shave under 5.9 percent; measured minimum 15.5 | 4, paused by allocation (about 0.5 core-hours) |
+| moving-neighbour gap model | the next door | 3, unresolved |
+| two-sided frozen-neighbour model as a sub-0.08 description | rms 0.112 > 0.080 | 1, refuted at these 29 windows |
+| second backend for the KC2 count | about 120 core-hours of iv | 4, paused by allocation |
+| decided landing times | Xi-plane route out of reach above about 10^3 on this box | 4, paused by allocation (no theorem obstructs it) |
+| depth near 10^6 below y0 = 0.35 | the 0.85 screen cannot see it | 4, paused by allocation |
+
+No item is *obstructed* (disposition 2): nothing here is ruled out by a
+theorem.
+

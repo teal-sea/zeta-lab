@@ -583,3 +583,70 @@ section 6. The planted fault (under `LDH_PLANT_FAULT=1`, the lower neighbour
 of the control window moved by 5 percent of a gap) turns
 `test_recompute_twosided_control_window` red, and only that test among the
 twosided ones.
+
+## The 1e5 census on Actions: prepared, not triggered (unit 3, step 2)
+
+**Workflow**: `.github/workflows/lambda-dh-census.yml`. It runs only on a push
+to `hunt/lambda-dh-exact-resume` that touches
+`hunts/lambda_dh_exact/RUN_REQUEST.json`, which is *not* in the tree.
+Limits: `permissions: contents: read`, concurrency group `lambda-dh-census`,
+`timeout-minutes` 350 per shard job (each process self-stops at 335), matrix
+`max-parallel: 4`. Artifacts are named
+`lambda-dh-census-r<request attempt>-job<j>-attempt<run_attempt>`. A re-run
+attempt downloads its job's earlier attempts into separate directories, and
+`census_shard.py gather` keeps the most advanced copy of each shard, so a
+stale copy cannot win by download order. The shard run itself resumes: the
+screen from its checkpoint, the census by skipping landed rows.
+
+**Shard plan**: `census_plan_1e5.json`, sha256
+`461079f90cf78f9c635b44ab365d9cf956cbe8bce23532fc55c6d4eef226eaa9`. 36 shards
+of 2500 units tile [10^4, 10^5]: 9 jobs x 4 processes, so 16 shards at a
+time. Per shard: screen at Re s = 0.82, locate, land every zero with
+y0 > 0.3396.
+
+**Preflight, fail closed** (`census_shard.py preflight`, every job):
+- the exact versions in `census_constraints.txt` (python-flint 0.9.0,
+  mpmath 1.3.0, numpy 2.5.4, scipy 1.18.1: those that made `census_1e4.json`);
+- `rigor.BACKEND == "python-flint"`;
+- `RUN_REQUEST.json`'s `plan_sha256` equal to the committed plan's, and the
+  committed plan equal to the one the code generates;
+- the smoke row: `census_1e4.json`'s γ = 240.4047 window recomputed, with
+  integer counts equal and the landing within 1e-6 relative. Locally it
+  reproduces 0.057665659795901776 exactly, in 16 s.
+
+A wrong hash exits non-zero before any computation (pinned by a test).
+
+**Calibration mode** (`{"mode": "calibrate"}`): one job runs one shard,
+`calibrate_shard` (default 18 = [55000, 57500], mid-decade height, 3 zeros at
+0.85 against a decade mean of 3.1), in one process. `census_shard.py calib`
+then reports CPU seconds (user + sys of the stage subprocesses) per screened
+20-unit window and per census window. It projects core-hours two ways: x36,
+and scaled from the decade's 111 zeros at 0.85 by the shard's ratio.
+
+**Local dry run** (mini-plan [24400, 24440], one candidate): screen 7.0 s,
+locate 6.6 s, census 130.9 s CPU. The landing of γ = 24415.48 reproduces
+`census_deep4_1e5.json` to 6e-14 relative. The second run resumed (census
+6.3 s), and gather and merge worked. One defect was found and fixed: a
+resumed run overwrote the CPU record instead of adding to it.
+
+**Projected cost, before calibration**: screen at 0.82, 4500 windows at about
+0.5 s (the 0.85 screen measured 0.37 s per window over the decade), about
+0.6 core-hours. Candidates: about 111 at y0 > 0.35, times about 1.6 for the
+band (0.3396, 0.35] (half of the low screen's 21 lie in [0.35, 0.36)),
+about 180. Census about 150 to 350 s each (131 s measured unloaded at
+γ = 24415, 279 to 455 s under load at 2e4 to 9e4). **About 13 core-hours
+(8 to 20)**, inside K-e's 30. Wall about 2 h at 16 concurrent shards. The
+calibration replaces all of this with runner numbers.
+
+### Unit 3 test outcomes (2026-10-26)
+
+- `pytest -q -n0 -m "not slow" hunts/lambda_dh_exact`: 41 passed, 1
+  deselected, 15 s.
+- `pytest -q -n0 hunts/lambda_dh_exact`: **42 passed, 129 s.**
+- `LDH_PLANT_FAULT=1`: **6 failed, 36 passed**. The four recomputations of
+  Run 13, plus `test_recompute_twosided_control_window` (a neighbour moved
+  5 percent of a gap) and
+  `test_census_pins_match_the_versions_that_made_the_artifacts` (a drifted
+  pin).
+- Gates (`tests/test_doors.py` excluded per the brief; CI runs it):
+  81 passed, 3 xfailed. `make_context.py --check`: up to date.

@@ -592,3 +592,86 @@ def test_twosided_comparison_table_of_section_8_11():
     assert len(rest) == 25 and (round(min(rest), 3), round(max(rest), 2)) == (0.981, 1.11)
     r74 = next(r for r in t if round(r["gamma"], 2) == 74189.64)
     assert round(r74["ratio"], 3) == 1.173
+
+
+# ---------------------------------------------------------------------------
+# 7. the 1e5 census, prepared for Actions and not triggered
+# ---------------------------------------------------------------------------
+
+WORKFLOW = HERE.parents[1] / ".github" / "workflows" / "lambda-dh-census.yml"
+PLAN_SHA = "461079f90cf78f9c635b44ab365d9cf956cbe8bce23532fc55c6d4eef226eaa9"
+
+
+def test_census_plan_is_the_generated_one_and_hash_pinned():
+    """census_plan_1e5.json: 36 shards of 2500 tiling [1e4, 1e5]; sha256 pinned in RUNS.md."""
+    import census_shard as cs
+    plan = load("census_plan_1e5.json")
+    assert plan == cs.plan_obj()
+    assert cs.plan_sha(str(HERE / "census_plan_1e5.json")) == PLAN_SHA
+    sh = plan["shards"]
+    assert len(sh) == 36 and sh[0][0] == 10000 and sh[-1][1] == 100000
+    assert all(a[1] == b[0] and a[1] - a[0] == 2500 for a, b in zip(sh, sh[1:]))
+    assert plan["sigma_c"] == 0.82 and plan["min_y0"] == 0.3396
+    assert plan["min_y0"] ** 2 / 2 > FLOOR_MEASURED > 0.3395 ** 2 / 2
+
+
+def test_census_not_triggered_and_workflow_guard_rails():
+    """No RUN_REQUEST.json in the tree; the workflow triggers only on it, with the agreed limits."""
+    yaml = pytest.importorskip("yaml")
+    assert not (HERE / "RUN_REQUEST.json").exists()
+    w = yaml.safe_load(WORKFLOW.read_text())
+    on = w.get("on", w.get(True))
+    assert list(on) == ["push"]
+    assert on["push"]["branches"] == ["hunt/lambda-dh-exact-resume"]
+    assert on["push"]["paths"] == ["hunts/lambda_dh_exact/RUN_REQUEST.json"]
+    assert w["permissions"] == {"contents": "read"}
+    assert w["concurrency"]["group"] == "lambda-dh-census"
+    for name, job in w["jobs"].items():
+        assert job["timeout-minutes"] <= 350, name
+        mp = job.get("strategy", {}).get("max-parallel")
+        assert mp is None or mp <= 4, name
+    text = WORKFLOW.read_text()
+    assert "attempt${{ github.run_attempt }}" in text and "-r${{ needs.plan.outputs.req }}-" in text
+    assert "census_shard.py\" preflight" in text and "census_constraints.txt" in text
+
+
+def test_census_pins_match_the_versions_that_made_the_artifacts():
+    """census_constraints.txt: exact pins, equal to this environment's (which made census_1e4)."""
+    from importlib.metadata import version
+    import census_shard as cs
+    pins = cs._pins()
+    assert set(pins) == {"mpmath", "numpy", "python-flint", "scipy"}
+    if PLANT:
+        pins["numpy"] = "0.0.0"      # planted: a drifted pin must be noticed
+    assert all(version(n) == v for n, v in pins.items())
+
+
+def test_census_gather_picks_the_most_advanced_copy(tmp_path):
+    """census_shard.gather: a complete later copy beats a stale partial one, whatever the order."""
+    import census_shard as cs
+    plan = tmp_path / "plan.json"
+    plan.write_text(json.dumps({**cs.plan_obj(), "shards": [[10000, 10040]]}))
+    old, new = tmp_path / "prior" / "a2", tmp_path / "prior" / "a1"   # names sort the stale one last
+    old.mkdir(parents=True), new.mkdir(parents=True)
+    (old / "screen_0.json").write_text(json.dumps({"partial": True}))
+    (new / "screen_0.json").write_text(json.dumps({"screen_c82": {"complete": True}}))
+    (new / "census_0.json").write_text(json.dumps({"rows": [{"gamma": 1.0}]}))
+    (new / "shard_0.json").write_text(json.dumps({"screen_complete": True, "runs": 1}))
+    saved = cs.PLAN
+    try:
+        cs.PLAN = str(plan)
+        cs.stage_gather(str(tmp_path / "prior"), str(tmp_path / "out"))
+    finally:
+        cs.PLAN = saved
+    got = json.loads((tmp_path / "out" / "screen_0.json").read_text())
+    assert got == {"screen_c82": {"complete": True}}
+
+
+def test_census_preflight_refuses_a_wrong_plan_hash(tmp_path):
+    """census_shard.py preflight exits non-zero before any computation when the hash is wrong."""
+    import subprocess
+    req = tmp_path / "req.json"
+    req.write_text(json.dumps({"mode": "calibrate", "attempt": 1, "plan_sha256": "0" * 64}))
+    r = subprocess.run([sys.executable, str(HERE / "census_shard.py"), "preflight", "--request", str(req)],
+                       capture_output=True, text=True, cwd=HERE.parents[1])
+    assert r.returncode != 0 and "plan_sha256 does not match" in (r.stderr + r.stdout)
