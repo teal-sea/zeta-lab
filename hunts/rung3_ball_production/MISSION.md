@@ -123,3 +123,22 @@ production window), a hunt test pinning those numbers, and a case-log entry in
 `hunts/README.md`. The instruments: `pilot.py` (every Lean run, gated and timed),
 `report.py` (`pilot.json` and the rendered tables, from the run log alone) and
 `render_docs.py` (writes those tables into the two documents).
+
+## Owner decision, 2026-10-26
+
+The owner resumed this lane in place on 2026-10-26 and decided:
+
+- **The production window `OWNER_MEMO.md` requested is granted, on cloud compute.** The
+  shared box takes only pilots under one core-hour each.
+- **Production waits for funding.** The Novita account had zero balance on 2026-10-26, so
+  nothing in this lane launches production; `PRODUCTION.md` is the runbook for the day it
+  is funded.
+- **Scope of the supersession.** The text above stands as written, including the
+  `agents_may_not` entry "launch any production shard or compile any site beyond the
+  pilot" (line 109). This decision supersedes that entry for the future, funded production
+  run only; until then it binds as before.
+- **Added to scope for the resumed lane:** one `decide +kernel` re-pricing pilot of a
+  `scripts/68` tower (one process, under one core-hour); an emitter, in this directory,
+  for the assembly module that would prove `davenport_heilbronn` from the 215 site
+  theorems, with its own Lean sources here and none in `lean/ZetaLean`; and
+  `PRODUCTION.md`.
