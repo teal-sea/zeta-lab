@@ -4240,8 +4240,24 @@ finite theorem says nothing above 100 or about RH itself.
 
 ### Hunt #150: six RH-direct mechanisms, each pushed to a construction or a located obstruction (`rh_moonshot/`, opened 2026-10-21)
 
-**Status: open; the first wave (construction, then challenge, then synthesis) has not yet
-reported.** The owner directed this hunt on 2026-10-21 as a genuine attempt at RH itself,
+**Status: first wave reported 2026-10-26 (construction, two challenges, synthesis in
+`rh_moonshot/RESULTS.md`); no route to RH was established in the searched set under the
+stated inputs, and continuing any mechanism is the owner's call.** Dispositions:
+`ccm_arithmetic` alive (CCM step 2 measured to hold for zeta on c <= 60, N <= 128, with
+every rival losing capture at a located window; its positivity is band-level and
+measured, and whether capture is Weil positivity restated is open); `de_branges`
+unresolved, recorded as a reformulation (for the Lagarias family E_h the Hermite-Biehler
+property is exactly a zero-free half-plane); `li_arithmetic` unresolved, the target a
+reformulation, with two absolute-value bounds refuted and W_{1/4} refuting the coarse
+Euler-product package at n = 8260 (hardened); `positivity_geometry` unresolved, with its
+golden fake over F_5 a refutation of one function-field implication (derived,
+self-reviewed); `spectral_operator`'s self-adjointness restricted class obstructed (Connes
+and van Suijlekom's theorem, met by DH), its convergence step unresolved and merged with
+`ccm_arithmetic`; `probe_tower` restricted class obstructed (the order-k template, its
+abscissa increasing to 1; composite grade inferred). Kept regardless of RH: five off-line
+zeros of the Epstein zeta of x^2 + xy + 6y^2 below height 60.5, four of them new to this
+tree, all measured and none enclosed; W_{1/4}'s first negative Li coefficient at n = 8260;
+and zeta(s - delta), whose lambda_n are all positive while it violates RH. The owner directed this hunt on 2026-10-21 as a genuine attempt at RH itself,
 beside the campaign's other tracks. It asks whether any of six materially different
 mechanisms can be pushed to a construction that proves RH, or else to a precisely located
 obstruction: `ccm_arithmetic` (step 2 of Connes, Consani and Moscovici, the convergence of

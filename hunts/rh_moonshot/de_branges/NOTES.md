@@ -224,3 +224,29 @@ construction: Suzuki's de Branges space of the Weil form (arXiv:2301.00421, whic
 RH) or his screw-function form (arXiv:2606.09096) are the candidates the record names,
 and either would first have to say which inequality on the screw function would be new.
 The h-range itself moves only with a new zero-free strip (`probe_tower`, hunt #136).
+
+## Correction (2026-10-26, synthesis session)
+
+Added by the synthesis session of hunt #150, which did not build this mechanism; the text
+above is left as written. The circularity challenge (`challenge/CHALLENGE_circularity.md`,
+findings B2 and B5) shows that two statements above are about the sample, not about the
+functions:
+
+- **Epstein (1,1,6) has more off-line zeros than section 4's table row and section 5's
+  Epstein bullet list.** An argument-principle census of [0.55, 1.6] x [0.5, 60.5] on an
+  independent Chowla-Selberg route finds five, not two: besides 0.953260 + 16.290216i and
+  0.797997 + 29.551761i, also 0.663652 + 33.650101i, 0.809992 + 43.858664i and
+  0.782379 + 46.960994i (offsets 0.1637, 0.3100, 0.2824), each measured by two routes and
+  a winding count, none enclosed. The zero at 33.650 lies inside this page's grid
+  (x <= 40); the grid's step of 1/2 in x missed its failure region (defect +0.457 at
+  x = 33.6501, negative at the grid points 33.5 and 34.0, h = 1/20, y = 1/20). So the
+  table's "h <= 3/8 at x = 16.290, and h <= 1/4 also at x = 29.5" and section 5's "fails
+  for h below its offsets 0.4533 and 0.2980" should read: by (a), E_h fails below each of
+  the offsets 0.4533, 0.3100, 0.2980, 0.2824 and 0.1637 (and below any offset of a zero
+  outside the census box); the grid sampled two of them. Statement (a) is unaffected.
+- **DH fails for every h <= 1/2, not only h <= 3/10.** By Saias and Weingartner (Acta
+  Arith. 140 (2009), abstract), DH has zeros with real part in (1, 1 + eta), so by (a)
+  E_h^DH is not Hermite-Biehler for any h <= 1/2. Section 5's "the grid passes DH at
+  h = 3/8 and 1/2" is a finite stand-in that the theorem overrides.
+
+The Epstein zeros are recorded in `../RESULTS.md` section 9 with their grade.
