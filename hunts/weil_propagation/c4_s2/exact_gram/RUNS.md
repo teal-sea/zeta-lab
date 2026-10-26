@@ -510,3 +510,16 @@ reply). It is the calibration request with `mode: full`, `blocks` and
  }
 }
 ```
+
+### 11.4 The full run
+
+**Approved by the coordinator** ("go", 2026-10-26), exactly as quoted above.
+It is committed as `RUN_REQUEST.json`, sha256
+e5ad7bce8fd7762d47f75c9a5ed2b2ab8a3bc3956943deb40452c46de1c4f5be. The
+coordinator's conditions:
+- no second request while this run is pending or running;
+- on any kill condition, report the shards and the reason, and ask before
+  any re-request, which names only those shards with a new `attempt` field;
+- after a clean finish, run `assemble` and the C_N(ε) counts and read
+  D0, D1 and D2 per c exactly as PREREG s3 writes them, never D3 while
+  ε_t is null.

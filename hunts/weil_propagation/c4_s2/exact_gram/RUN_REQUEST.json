@@ -1,7 +1,5 @@
 {
- "mode": "calibrate",
- "blocks": 2,
- "attempt": 2,
+ "mode": "full",
  "shards": 36,
  "gram_parts": 24,
  "prepared": "prepared",
@@ -23,5 +21,15 @@
  "gram_R": 120,
  "local_data": ["satake", [1]],
  "replay_every": 16,
- "replay_prec": 200
+ "replay_prec": 200,
+ "gram_sha256": "2b907a79a8a127e0626f9ade01ee7f8335761e7cbf564a48d386cb5854a94872",
+ "calibration": {
+  "run": 40342895119,
+  "block_wall_s": 932,
+  "replay_block_wall_s": 3600,
+  "setup_s": 60,
+  "table_build_s": 1200,
+  "peak_rss_gb": 1.40,
+  "table_disk_gb": 2.58
+ }
 }
