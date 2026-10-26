@@ -1,0 +1,182 @@
+{
+  "what": "decided argument-principle count of zeros of the Davenport-Heilbronn f in an exact rectangle near the height-1e6 float zero of deep_zeros_1e6.json",
+  "date": "2026-10-26",
+  "python": "3.12.3",
+  "mpmath": "1.3.0",
+  "rigor_BACKEND": "python-flint",
+  "steering": {
+    "route": "mpmath Hurwitz zeta, Newton, dps 40 (measured)",
+    "s": [
+      "0.858311859061963",
+      "1000459.74335328"
+    ],
+    "abs_f": 1.1977852845901994e-36,
+    "abs_fprime": 1.7383633049291243
+  },
+  "rectangle": {
+    "sigma": [
+      "943723861105/1099511627776",
+      "943723877489/1099511627776"
+    ],
+    "t": [
+      "537117734833355/536870912",
+      "537117734833363/536870912"
+    ],
+    "half_width": "1/134217728"
+  },
+  "routes": {
+    "python-flint": {
+      "segments": 16,
+      "point_evals": 16,
+      "second_derivative": {
+        "R": "1/8192",
+        "B_abs_f_on_square": 0.03718230244703594,
+        "M2": 4991133.406871303
+      },
+      "worst_clearance_over_tube": 1420.4901137515699,
+      "winding_lo": 0.9999999999999991,
+      "winding_hi": 1.0000000000000009,
+      "seconds": 30.64,
+      "status": "decided",
+      "count": 1,
+      "prec_bits": 128
+    },
+    "mpmath.iv": {
+      "segments": 16,
+      "point_evals": 16,
+      "second_derivative": {
+        "R": "1/8192",
+        "B_abs_f_on_square": 0.000303283570711742,
+        "M2": 40711.00125364238
+      },
+      "worst_clearance_over_tube": 174150.85462290255,
+      "winding_lo": 0.9999999999999991,
+      "winding_hi": 1.0000000000000009,
+      "seconds": 10.88,
+      "status": "decided",
+      "count": 1,
+      "prec_bits": 128,
+      "N": 199153,
+      "p": 293,
+      "K": 14,
+      "head_seconds": 383.2
+    }
+  },
+  "faults": {
+    "python-flint": {
+      "kappa_plus_1e-3": {
+        "segments": 16,
+        "point_evals": 16,
+        "second_derivative": {
+          "R": "1/8192",
+          "B_abs_f_on_square": 0.037811518239323084,
+          "M2": 5075595.630949245
+        },
+        "worst_clearance_over_tube": 89600903.66433486,
+        "winding_lo": -8.79631860374851e-21,
+        "winding_hi": 9.537770746593212e-21,
+        "seconds": 32.5,
+        "status": "decided",
+        "count": 0
+      },
+      "rectangle_shifted_4_half_widths": {
+        "segments": 16,
+        "point_evals": 16,
+        "second_derivative": {
+          "R": "1/8192",
+          "B_abs_f_on_square": 0.03718232660321522,
+          "M2": 4991136.649454614
+        },
+        "worst_clearance_over_tube": 4487.744655712879,
+        "winding_lo": -1.7559312303913164e-16,
+        "winding_hi": 1.7559312303913164e-16,
+        "seconds": 32.08,
+        "status": "decided",
+        "count": 0
+      }
+    },
+    "mpmath.iv": {
+      "rectangle_shifted_4_half_widths": {
+        "segments": 16,
+        "point_evals": 16,
+        "second_derivative": {
+          "R": "1/8192",
+          "B_abs_f_on_square": 0.0003033205707132319,
+          "M2": 40715.96791604189
+        },
+        "worst_clearance_over_tube": 550126.8414080255,
+        "winding_lo": -1.7559312303913164e-16,
+        "winding_hi": 1.7559312303913164e-16,
+        "seconds": 10.9,
+        "status": "decided",
+        "count": 0
+      }
+    }
+  },
+  "cross_check": [
+    {
+      "s": [
+        "943723861105/1099511627776",
+        "537117734833355/536870912"
+      ],
+      "arb": [
+        -1.3086038494114791e-08,
+        -1.3475125764235864e-08,
+        1.834095837241124e-33,
+        6.994592834784628e-33
+      ],
+      "iv": [
+        -1.3086038494114791e-08,
+        -1.3475125764235864e-08,
+        5.216126805023739e-31,
+        5.299084083805925e-31
+      ],
+      "intersect": true
+    },
+    {
+      "s": [
+        "943723877489/1099511627776",
+        "537117734833363/536870912"
+      ],
+      "arb": [
+        1.3074108089683426e-08,
+        1.216942557570649e-08,
+        1.8340973496569514e-33,
+        6.994592191936155e-33
+      ],
+      "iv": [
+        1.3074108089683426e-08,
+        1.216942557570649e-08,
+        5.216128893731967e-31,
+        5.299085598241864e-31
+      ],
+      "intersect": true
+    },
+    {
+      "s": [
+        "943723869297/1099511627776",
+        "537117734833359/536870912"
+      ],
+      "arb": [
+        -5.965222541499416e-12,
+        -6.528498291024679e-10,
+        1.834094250208956e-33,
+        6.99459255927814e-33
+      ],
+      "iv": [
+        -5.965222541499416e-12,
+        -6.528498291024679e-10,
+        5.216128081557538e-31,
+        5.299084786066874e-31
+      ],
+      "intersect": true
+    }
+  ],
+  "rectangle_right_of_half_line": true,
+  "float_datum_inside": true,
+  "depth_y0_enclosure": [
+    "393968047217/1099511627776",
+    "393968063601/1099511627776"
+  ],
+  "seconds_total": 525.0
+}

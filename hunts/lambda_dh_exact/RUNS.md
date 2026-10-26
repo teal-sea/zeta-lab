@@ -198,3 +198,133 @@ each one complex exponential plus a degree-6 Taylor update, about
 8e5 x 200 us = 160 s once for the Taylor coefficients; each later evaluation
 is a polynomial plus a 4 x 165-term tail, under 1 s. Total step 1: about
 10 core-minutes, under the one core-hour gate, so no ask.
+
+## Run 7: the height-10^6 zero, decided on both backends (2026-10-26)
+
+```runmanifest
+id: R7-decide-deep
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: decided; exactly one zero of f in an exact rectangle of half-width 2^-27 lying wholly in Re s > 1/2, same integer on Arb and on mpmath.iv, planted faults flip it to 0
+ran:
+  - decide_deep_zero.py --quick (Arb leg alone, first)
+  - decide_deep_zero.py (both legs, faults, cross-check)
+artifacts:
+  - decide_deep_zero.json
+```
+
+Backends: python-flint (Arb, 128 bits, Arb's Hurwitz zeta) and mpmath.iv
+(128 bits, hand-rolled Euler-Maclaurin, N = 199153, p = 293, Taylor model of
+degree K = 14 about the rectangle centre, head built once in 383 s). Total
+wall time 525 s on one core, against the 10 core-minute estimate above.
+Rectangle: sigma in [943723861105, 943723877489] / 2^40, t in
+[537117734833355, 537117734833363] / 2^29. Both legs: 16 segments, winding
+enclosure [0.9999999999999991, 1.0000000000000009], count 1. Worst
+clearance-over-tube margin 1420 (Arb) and 174151 (iv). Planted faults: kappa
++ 1e-3 (Arb) and the rectangle shifted right by four half-widths (both legs)
+each decide count 0. Cross-check: Arb and iv enclosures of f intersect at two
+corners and the centre, radii 7e-33 and 5e-31.
+
+Two instrument bugs met and fixed on the way, both before any count was read:
+the segment-ball test was replaced by the chord tube after Arb's ball over a
+segment measured about 120 |f'| times the segment radius (it would have
+needed about 1400 segments), and mpmath 1.3's interval `conjugate()` raises,
+so the conjugate is built from parts. A third was met in Run 8.
+
+## Run 8: the 21 low-screen zeros, located and decided (2026-10-26)
+
+```runmanifest
+id: R8-locate-low
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; stage_locate found 21 zeros, one per flagged window, and all 21 are decided count 1 on both backends
+ran:
+  - deep_zeros.py locate --out deep_zeros_locate_20261026.json
+  - decide_low_zeros.py
+artifacts:
+  - deep_zeros_locate_20261026.json
+  - decide_low_zeros.json
+```
+
+`stage_locate` wrote into a copy of the low screen (`deep_zeros.json` is
+unchanged), 10.5 s. `decide_low_zeros.py` then ran the Run 7 instrument
+around each zero, 270 s for all 21 on both backends. The iv leg first came
+back "undecided" at gamma = 240: it chose the Euler-Maclaurin order p from
+|s| alone, and below height about 600, 2p > |s| makes the Pochhammer factor
+grow factorially (the point enclosure was 1e85 wide). Fixed by fixing p first
+and taking N from |s| + 2p; the deep run was rerun after the fix and is the
+one recorded.
+
+## Run 9: screen_hi finished (2026-10-26)
+
+```runmanifest
+id: R9-screen-hi
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; the sweep stopped on 2026-08-18 at t = 82480 was resumed from its own checkpoint and finished at t = 100000
+ran:
+  - deep_zeros.py screen --t0 10000 --t1 100000 --out deep_zeros_hi_20261026.json --key screen_hi
+artifacts:
+  - deep_zeros_hi_20261026.json
+```
+
+Resumed on a copy, so the recorded `deep_zeros.json["screen_hi"]` still reads
+`complete: false` and is now superseded by the copy, which reads
+`complete: true`, 536 s for the last 17520 units, 111 flagged windows, each
+of winding 1, worst defect 4.4e-12.
+
+## Estimate before spending: the landing census to 10^4 and 10^5 (step 3, not run)
+
+Asked of the coordinator before any of it runs (over the one core-hour gate).
+
+**Route.** The Xi-plane contour-moment landing measurement is out of reach at
+these heights: `hunts/lambda_dh_bounds/census_results.json` records 1126 s
+for one pair at gamma = 412 (dps 165) and projects 35 to 60 min at gamma =
+531 (dps about 206, about 27000 nodes). dps and node count both grow linearly
+in gamma, so cost goes roughly as gamma^2.6, about 1e3 core-hours per pair at
+10^4. The census therefore uses the N-body ODE landing that
+`lambda_dh_bounds` validated against the Xi-plane measurement to 0.04 percent
+on flow_repair pairs 1 to 5: 77.7 s for one pair at gamma = 531 with 69 line
+zeros in a 40-unit window, 800 steps. Its grade is *measured*.
+
+**Who needs a landing.** A pair can beat the measured landing 0.0576518 only
+if y0^2/2 exceeds it (up to the delay mechanism, 6 of 300), so y0 > 0.3395;
+screen at Re s = 0.82 (y0 > 0.32) for margin.
+
+| piece | unit cost (measured) | units | core-hours |
+|---|---|---|---|
+| screen [8, 1e4] at 0.82 | 13.6 s at 0.85 | x2 for the deeper edge | 0.01 |
+| screen [1e4, 1e5] at 0.82 | 1143 s + 536 s at 0.85 | x1.3 | 0.6 |
+| locate | 0.5 s (low), about 5 s (1e5) | about 40 + 200 | 0.3 |
+| line-zero scan per pair | float evaluator, seconds | 240 | 0.1 |
+| ODE landing, gamma < 1e4 | about 100 s | about 40 pairs | 1.1 |
+| ODE landing, 1e4 to 1e5 | about 240 s (window holds 1.75x the line zeros, O(n^2)) | about 200 pairs | 13 |
+
+Pair counts extrapolate the 0.85 counts measured here (21 below 1e4, 111 in
+[1e4, 1e5]) by about 1.8 for the deeper edge, from the nesting control's
+slope. **Total: about 1.5 core-hours to 10^4, about 15 core-hours more to
+10^5**, each uncertain by a factor 2 either way, so 0.7 to 3 and 7 to 30.
+That sits inside the recon's 10 to 50. Wall time on this box at 4 processes:
+about 25 min to 10^4 and 4 h to 10^5. Sharded by height on GitHub Actions
+(4 vCPU jobs, 10 shards), the 10^5 leg is about 1 h of wall time.
+
+**Also priced: a decided zero-free statement for kill condition 2.** Count
+the zeros of f with beta >= 0.90 in t in [8, 10^4] by the Run 7 instrument
+along the edge Re s = 0.90 (the right edge at Re s = 2.05 is free, where
+sum_{n>=2} |a_n| n^{-2.05} < 1). Arb costs 1 to 30 ms per evaluation below
+10^4; about 2e5 boundary points plus one second-derivative ball per block
+comes to about 1 core-hour, 15 min of wall time at 4 processes.
+
+### Revised estimate for the decided KC2 count, timed before the run
+
+Coordinator's reply to the ask (2026-10-26): run the decided KC2 count first,
+then the census to 10^4; defer 10^5. `decide_kc2.py time` on 5-unit pieces of
+the left edge Re s = 0.90 (blocks of 1/8, chord-tube margins 1.003 to 1.19):
+0.08 s per unit of height at t = 500, 0.64 at 5000, 1.56 at 9900. Integrated
+over [8, 10^4] that is about 7500 s, **about 2.1 core-hours**, twice the
+1 core-hour priced in the ask (the price assumed about 2e5 points; the edge
+needs about 60 per unit near 10^4). Within the factor-2 band stated there, so
+it runs as 8 height shards, 4 at a time, about 35 min of wall time.
