@@ -110,3 +110,18 @@ def test_rigidity_scales():
             d = json.load(fh)
         assert abs(float(_ball(d["eps_positivity_scale"]).mid()) / pos - 1) < 1e-3
         assert abs(float(_ball(d["eps_gap_scale"]).mid()) / gap - 1) < 1e-3
+
+
+def test_capture_bound_at_m4_is_vacuous():
+    with open(os.path.join(DATA, "capture_m4.json")) as fh:
+        a = json.load(fh)["cells"]
+    z = _cells("zeta")
+    assert sorted(a) == ["43:128", "50:128", "60:128"]
+    for key, r in a.items():
+        cap = r["capture_m4"]
+        assert float(cap["bound_dist"]) > 1e96
+        assert float(cap["eta"]) > 1e-36
+        assert float(cap["actual_dist"]) < 2e-12
+        assert r["dist2_R4"] == z[key]["proj_residual"][4]
+        gain = float(cap["mu"]) / float(z[key]["capture_m2"]["mu"])
+        assert 1e12 < gain < 1e14
