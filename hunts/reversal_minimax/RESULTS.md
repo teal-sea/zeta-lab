@@ -47,7 +47,8 @@ contradicts that hunt's reported lower endpoint 0.007916857810 and excludes
 its proposed rational target 19791/2500000 = 0.0079164. The countercertificate
 uses seven rational gap vectors and their reversals, extracted from the
 hunt's already saved cut pool. It applies to every feasible coefficient
-choice, so recovering the missing candidate file is unnecessary.
+choice, so it covers that hunt's saved candidate files without inspecting
+them.
 
 It does not refute AMTOPA's smaller target 0.0079107, establish a new lower
 bound for zeta zeros, or bound constructions with a different window or
@@ -69,9 +70,10 @@ read 2026-09-04. Define
 
 \[
 K(x)=\int_{-1/2}^{1/2}v(t)\cos(2\pi xt)\,dt,\qquad
-W(x)=\left(K(x)/K(0)\right)^2.
+W(x)=\left(K(x)/K(0)\right)^2,
 \]
 
+where K(0) > 0 (`verify.py` encloses it away from zero; see section 3).
 For g in [0,infinity)^6, put y_0 = 0, y_j = g_1+...+g_j, and
 
 \[
@@ -117,7 +119,8 @@ For arbitrary (a,b) in the polytope,
 \end{aligned}
 \]
 
-The first inequality needs only a finite probability measure. The last
+The first inequality needs only a finite probability measure supported in
+[0,infinity)^6. The last
 needs only nonnegative coefficients and their exact budgets. No minimax
 interchange, global minimizer, LP feasibility tolerance, or strong duality
 is involved in verification.
@@ -160,8 +163,8 @@ F_{(a,b)+R(a,b)\over2}(g)
 \]
 
 Consequently averaging coefficients with their reflection cannot reduce a
-uniform floor. The achievable floors, and hence the supremum, are exactly
-the same with or without palindromic coefficient restrictions. This does
+uniform floor. The set of achievable floor levels, and hence the supremum,
+is the same with or without palindromic coefficient restrictions. This does
 not say every optimizer is symmetric, nor that one hand-picked symmetric
 candidate is optimal. It says asymmetry provides no additional optimal
 value over the full symmetric subspace.
