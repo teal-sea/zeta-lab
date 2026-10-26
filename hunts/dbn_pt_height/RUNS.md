@@ -138,6 +138,85 @@ verification height allows X/2 <= 3e12; N0 <= 690988 there):
   control that gates any Lambda statement, which needs an effective
   approximation for the DH heat flow that `effective.py` does not have.
 
+### E4. Milestone 1b, resumed: the stalled run, fresh test runs, one regenerated record (2026-10-26)
+
+- **The 2026-10-21 run that wrote `large_x_oracles.jsonl`** has no entry of its
+  own; the lane stalled before writing one. File times in the stalled checkout
+  put it at about 22:39Z to 22:42Z on 2026-10-21 (script 22:39:39Z, data
+  22:42:10Z). Its points record 143.6 s of compute in all: 0.1 to 0.5 s for
+  each t = 0 point, 23 to 43 s for each t > 0 point.
+- **Estimate before today's runs.** Each run below was timed from a unit
+  already on record (E2, and the per-point seconds above) at under five
+  core-minutes. All of them together come to under 15 core-minutes, below the
+  one core-hour that needs the coordinator. Each was started only once the
+  1-minute load average was under 64, and at nice 10. None was detached
+  without a watcher. None needed a checkpoint.
+- **Test run on the checkpoint** (12:50:59Z to 12:55:35Z, load about 9 at
+  launch): 92 passed, 11 failed, 1 skipped, in 275 s and 156 MB. The causes
+  and repairs are in the commit that follows the checkpoint, and in
+  `evaluator/EVALUATOR.md`, Milestone 1b.
+- **`row2_check.py`, regenerated** (12:58:29Z to 13:01:19Z, load 59 at launch):
+  170 s and 34 MB, into the scratchpad first and then compared with the
+  committed record. Winding numbers, evaluation counts, D_z, D_t and the mesh
+  minima are unchanged. E rose to 1.067e-7 (t = t0) and 4.264e-4 (t = 0) from
+  1.031e-7 and 4.119e-4, because the error bound changed. The grade string now
+  names Corollary 6.4.
+- **`large_x_oracles.py`, re-run** (13:14:12Z to 13:16:18Z, load 36): 126 s
+  and 44 MB. All 12 points are identical to the committed file in every field
+  except the wall-clock seconds.
+- **Test run after the repairs** (13:06:08Z to 13:10:26Z, slow tests
+  included): 103 passed and 1 skipped, in 251 s and 153 MB. The skip was the
+  Polymath-log test, which read the scrubbed `<cache>/dbn/` path literally;
+  after that fix it and the arXiv-hash test pass with the cache present and
+  skip without it (`DBN_CACHE_ROOT` pointed at a missing directory).
+
+```runmanifest
+id: dbn_pt_height-2026-10-26-evaluator-milestone1b
+hunt: dbn_pt_height
+started: 2026-10-26T12:50Z
+finished: 2026-10-26T13:17Z
+ran:
+  - .venv/bin/python -m pytest -n0 hunts/dbn_pt_height/evaluator/test_effective.py (checkpoint cba1812bf: 92 passed, 11 failed, 1 skipped, 275 s)
+  - .venv/bin/python hunts/dbn_pt_height/evaluator/row2_check.py --out <scratchpad>/row2_check.json (170 s; copied over the committed record)
+  - .venv/bin/python -m pytest -n0 hunts/dbn_pt_height/evaluator/test_effective.py (after the repairs: 103 passed, 1 skipped, 251 s)
+  - .venv/bin/python hunts/dbn_pt_height/evaluator/large_x_oracles.py <scratchpad>/lxo.jsonl (126 s; identical to the committed jsonl apart from seconds)
+  - scratchpad probes of the derivative and barrier lesions at three cases and three starting meshes (about 3 core-minutes)
+artifacts:
+  - hunts/dbn_pt_height/evaluator/row2_check.json
+  - hunts/dbn_pt_height/evaluator/test_effective.py
+  - hunts/dbn_pt_height/evaluator/EVALUATOR.md
+outcome: Milestone 1b holds as documented after eleven test repairs, none of which changed a containment result; the row-2 record was regenerated with a larger, still dominating E; the large-x oracle file reproduces exactly
+```
+
+### E5. The Davenport-Heilbronn gate: first code (2026-10-26)
+
+- Estimate before starting: the main terms cost milliseconds (N <= 199 up to
+  x = 10^5). The mpmath oracle was timed on one point of each kind before the
+  probes: 0.2 s at t = 0, x of about 171; about 16 s at t = 0.2304, x of about
+  480, with 80 nodes. The probes and the test file come to a few
+  core-minutes.
+- Probes in the scratchpad: kappa, the functional equation, both gate zeros
+  and the main terms there (about 30 s); the t = 0 residual
+  |H - (A + B)|/|B| at 12 points, x = 300 to 10^5 (about 25 s). The eight
+  points up to 10^4 are pinned in `test_dh.py`; the four at 3e4 and 10^5
+  (residual 0.016 to 0.044, under 0.62 (5x/(4 pi))^{-1/4}) are not.
+- `test_dh.py`: 20 passed in 50 s, 130 MB.
+
+```runmanifest
+id: dbn_pt_height-2026-10-26-evaluator-dh-first-code
+hunt: dbn_pt_height
+started: 2026-10-26T13:00Z
+finished: 2026-10-26T13:13Z
+ran:
+  - scratchpad probes dh_probe.py and dh_scale.py with the venv python
+  - .venv/bin/python -m pytest -q -n0 hunts/dbn_pt_height/evaluator/test_dh.py (20 passed, 50 s)
+artifacts:
+  - hunts/dbn_pt_height/evaluator/dh.py
+  - hunts/dbn_pt_height/evaluator/test_dh.py
+  - hunts/dbn_pt_height/evaluator/DH.md
+outcome: the DH function, its wide-frame heat flow and Polymath-shaped main terms exist; hunt #61's t = 0.2304 zero is a zero of this independent route in the wide frame; the main terms alone leave |A + B| near a quarter of |B| at both gate zeros, so the gate needs the DH correction and error terms that are the next step
+```
+
 ## Chain lane (`MISSION.md`, `CHAIN.md`, `REDUCTION.md`, `chain.json`, `sources.json`)
 
 ### C1. Sourcing and reading (2026-10-21 16:23 to 17:23 UTC)

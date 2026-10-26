@@ -1,9 +1,10 @@
 # EVALUATOR: Polymath 15's effective approximation in Arb
 
-**Status: built and checked against two independent routes to H_t; the
-printed Table 1 row 2 bound is reproduced, together with a reading of what
-it bounds; one barrier rectangle wound at two times. A hunt instrument, not a
-result.** Nothing here is a statement about the de Bruijn-Newman constant, and
+**Status: built and checked against two independent routes to H_t, at
+small x and (Milestone 1b) at large x where the correction term is tested
+sharply; the printed Table 1 row 2 bound is reproduced, together with a
+reading of what it bounds; one barrier rectangle wound at two times, and the
+barrier decision audited from outside. A hunt instrument, not a result.** Nothing here is a statement about the de Bruijn-Newman constant, and
 no sweep was launched. The evaluator lane of hunt `dbn_pt_height` (see
 `../MISSION.md`); every number below is asserted by `test_effective.py`, either
 recomputed or read from the data files the scripts here wrote.
@@ -44,7 +45,11 @@ implements (enclosure-carrying, the ladder's second rung). The analytic steps,
 Theorem 1.3, Corollary 6.4, Lemma 10.1 and the derivative lemma, are the
 paper's, used as published and not reviewed here; a conclusion that leans on
 them takes their status, and the lab has no kernel-checked or outside-reviewed
-version of any of them.
+version of any of them. The paper states Theorem 1.3 and Corollaries 6.4 and
+6.5 for t > 0; `effective.py` also admits t = 0, by letting t -> 0+ (the lab's
+derivation, unreviewed, in `_check_region`). The results that rest on it are
+the t = 0 rows: the second row-2 rectangle, the barrier audit at x = 1e8 + 0.7,
+the zero-refusal control and the t = 0 points of Milestones 1 and 1b.
 
 `oracles.py` holds the two independent routes: `zeta.heatflow.H_t` (Phi
 quadrature) and an mpmath quadrature of the paper's heat-kernel
@@ -69,6 +74,91 @@ at x = 1000 and 2000 (`agreement_phi.jsonl`, `agreement_hk.jsonl`).
   grid points, under both routes at each, among them (x, y, t) = (200, 1, 0),
   which the test also recomputes live. So e_C is load-bearing, not
   decorative.
+
+## Milestone 1b: containment at large x, and the checks that came with it
+
+On the Milestone 1 grid (x <= 2000) the correction C_t/B_t is about as large
+as its own error term e_C, so containment there cannot tell a right C_t from
+several wrong ones. `large_x_oracles.py` wrote 12 values of H_t where it can
+(`large_x_oracles.jsonl`):
+
+- 8 at t = 0, x from 1e5 + 0.3 to 1e8 + 0.73, as (1/8) xi((1 - y + ix)/2) by
+  mpmath and by PARI/GP (through cypari2), two routes sharing no code; they
+  agree to a relative 8.7e-27 to 2.5e-23.
+- 4 at t in {0.05, 0.2, 0.4, 0.5}, x from 1e5 to 1e6 + 0.5, by Gauss-Hermite
+  quadrature of the heat-kernel representation at 80 and at 120 nodes; the two
+  node counts agree to a relative 2.9e-22 to 4.5e-21.
+
+What the tests show (`test_effective.py`; measured, since the oracles are
+floating point):
+
+- **Containment.** All 12 values lie inside the A + B - C ball. The worst
+  measured error uses 25 to 30 per cent of the radius (0.031 on the small-x
+  grid), and |C_t/B_t| is at least 17.6 times e_C at every point, so the test
+  is sharp for C_t. One t = 0 value (x = 1e6 + 0.37, y = 1) is recomputed live.
+- **C_t lesions.** Four planted faults in C_t (the y-phase conjugated,
+  e^{i pi/8} dropped, exp(t pi^2/64) dropped, the sign of C flipped) each put
+  some large-x value outside its ball. The first three pass the whole x <= 2000
+  grid unnoticed, which is why this milestone exists.
+- **A re-derivation from the TeX.** `oracles.formula_mpmath` re-evaluates f_t,
+  C_t/B_t and the four error quantities in mpmath, written from the paper in a
+  different algebraic form (the second sum of (ft-def) with conj(s_*) + kappa,
+  and E_A, E_B of Corollary 6.4). It agrees with `point` to a relative 1e-26 at
+  five points from x = 211.7 to 1e8 + 0.73, and it sees two slips (C_0
+  conjugated, kappa dropped) that are too small for any containment test.
+- **Proposition 6.6(vi), a source erratum, measured.** Just above a jump x_N
+  with small N, the exact e_C of (ecc-def) exceeds the printed bound (vi) by a
+  factor between 1.02 and 1.15 (N = 4, 5, 6, 10); at N = 20 and 50 the bound
+  holds again. Theorem 1.3's (ec-bound) for e_{C,0} still held at those points.
+  `effective.py` no longer uses (vi) anywhere: the rectangle error bound takes
+  the exact (ec-def) over a mesh of sub-boxes (`_eC0_upper_on_box`), and stays
+  above the exact e_A + e_B + e_{C,0} just above x_4, where (vi) would not.
+- **The step at line 1107.** Replacing 0.397 9^sigma e^{3.49/(T-4)}/(a - 0.865)
+  by 1.24 3^{+-y}/(a - 0.125), with the paper's factor e^{3.49/(T-4)} <= 1.037,
+  holds only for a >= 187 (the two sides cross at a = 186.14; a = sqrt(T'/2 pi),
+  so x of about 4.4e5), while the paper's region starts at a = 4. Only
+  `theorem_bounds`, the closed forms, uses that step; nothing that feeds an
+  enclosure does.
+- **The Taylor tail is charged, and sharply.** For one exponential the charged
+  tail lies between the exact omitted part and that part divided by
+  1 - rho/(K + 1) (K = 2 to 16, rho = 0.05 to 2). In a two-term configuration
+  built so the tail is nearly attained, the actual truncation error uses 85 to
+  100 per cent of it; halving the tail, or dividing the B-sum tail by 1000,
+  leaves the direct value outside the ball.
+- **The derivative majorants, part by part.** Each of the four parts of the
+  Lemma's majorant dominates the exact termwise derivative sums of the Lemma's
+  proof (lines 1464-1505) in the windows n in [1, 25], [N - 24, N] and [1, N],
+  at x = 1e6 (t = 0 and 0.4) and 1e8 (t = 0.1). The first-sum z-part is
+  attained exactly at t = 0 and is within 1.0001 of exact at 1e8; no part is
+  looser than a factor 3. Five planted slips are caught (either z-weight
+  halved, the first-sum t-weight slip, the gamma t-term divided by 10, tau
+  taken from the upper end). Halving the gamma t-term is not caught: that part
+  has slack 1.56 to 1.60 over the exact sums in every window, so a halving
+  stays above them. The lesion was therefore strengthened, not dropped.
+- **The barrier decision, audited from outside.** `_audit_barrier` re-derives a
+  `barrier_rectangle` decision from its returned segments alone. It checks the
+  tiling of every edge, the rule |f| > E + D h/2 with f by direct summation and
+  h recomputed, E against the exact e_A + e_B + e_{C,0} at every mesh point, D
+  against the strip majorants and the exact termwise sums, the
+  multi-evaluator's values against direct ones, and the winding number from
+  direct values. Two rectangles pass: [1e6, 1e6 + 1] x [0.2, 1] at t = 0.1,
+  starting from 4 points per edge and refining to 40, and
+  [1e8 + 0.7, 1e8 + 1.2] x [0.2, 0.7] at t = 0. E is within 5 per cent of the
+  largest exact value. Four planted faults each fail the audit: the margin
+  h/4, no derivative margin, D divided by 10, e_{C,0} dropped from E. The first
+  two could not show from 16 starting points per edge, where the rule never
+  has to refine; that is why the first case starts from 4.
+- **A zero on the boundary is refused.** A rectangle whose bottom edge y = 0
+  passes through the zero x = 2 t_z of H_0 (t_z = 50000000.48372..., a sign
+  change of mpmath's `siegelz`, located in the test) reports no winding number.
+  The same x-range moved up to y in [0.2, 0.7] passes, so the refusal is caused
+  by the zero.
+
+Grade: the containment, re-derivation and lesion results are measured
+(floating-point oracles against enclosures of the formulas). The majorant and
+audit checks are enclosure-carrying comparisons of the module against exact
+termwise values at finitely many points, not proofs that the majorants hold
+everywhere.
 
 ## Milestone 2: Table 1, row 2
 
@@ -114,8 +204,15 @@ by the |f| bound, only by the |E_2 f| bound; nothing in the row's logic used
 
 | t | winding | evaluations | min \|f\| on mesh (lower) | D_z, bottom edge | E = e_A + e_B + e_{C,0} on R |
 |---|---|---|---|---|---|
-| 0.186 | 0 | 68 | 1.4458 | 8.4893 | 1.031e-7 |
-| 0 | 0 | 580 | 4.68315 | 10085.47 | 4.119e-4 |
+| 0.186 | 0 | 68 | 1.4458 | 8.4893 | 1.067e-7 |
+| 0 | 0 | 580 | 4.68315 | 10085.47 | 4.264e-4 |
+
+The E column is from the record regenerated on 2026-10-26 (`RUNS.md`, E4). The
+2026-10-21 record had 1.031e-7 and 4.119e-4, from the earlier rectangle error
+bound that used Proposition 6.6(vi), which Milestone 1b found to fail just
+above small jumps. Every other entry of the table is unchanged. The new E
+stays above the exact e_A + e_B + e_{C,0} at the worst corner, within 4 per
+cent of it (a slow test, one O(N) evaluation per time).
 
 The project's own log of this barrier (`output/windingnumbers/windnum_nolemma_x5000000194858_y_0.16733_1_t_0_0.186.txt`,
 sha256 `3406175695291ea000e37c9e6466c4d34975a58a76472ba6bde204ddb34022c7`,
@@ -184,10 +281,14 @@ the mesh.
 ## Open
 
 - The full barrier, the asymptotic sweep and any Lambda statement are out of
-  this lane's scope and gated on the pipeline refusing the Davenport-Heilbronn
-  rival below Lambda_DH = 0.2304 (wide frame; the value is the campaign's gate,
-  quoted from the task and not recomputed here); that control has not been run
-  and needs a DH analogue of the effective approximation, which this module
-  does not provide.
+  this lane's scope. They are gated on the pipeline refusing the
+  Davenport-Heilbronn rival where its heat flow still has non-real zeros.
+  0.2304 is not Lambda_DH. It is the floor of hunt #61's bracket
+  0.2304 < Lambda_DH <= 0.7697 (wide frame; `docs/29`,
+  `hunts/lambda_dh_bounds/SEPARATION.md`), from a winding count of 1 at narrow
+  t = 36/625 that the hunt grades decided, with the frame factor 4 derived in
+  its `FRAME.md`. `dh.py` is the first code for the control, and `DH.md` is
+  its design and status: main terms only, no correction term and no error
+  bound yet, so the control has not been run.
 - The methods index `docs/37-methods.md` has no entry for this instrument;
   adding one is outside this lane's write scope.
