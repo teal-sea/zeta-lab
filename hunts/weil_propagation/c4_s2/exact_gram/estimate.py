@@ -46,19 +46,31 @@ BUILDS = [  # (name, nvec, N values carried by the window sums)
 ]
 
 
-def s_prime(nvec: int, N: int) -> float:
+def tail_mass_model(nvec: int, S: float) -> float:
+    """Model of the Mellin tail mass beyond S: sum_n (4n + 1) / (pi S). At 280 modes the measured m_z(S)
+    (tailmass.json) lies below it at every S tried, by 3.3 percent at S = 1200 and by at most 1 percent
+    from 2266 up; assumed for both families (LEMMA s5)."""
+    return (2 * nvec * nvec - nvec) / (math.pi * S)
+
+
+def s_prime(nvec: int, N: int, rule: str = "crude") -> float:
+    """Smallest S' (to 100) with the E1 term at most E1_TARGET at c = 2.9.
+    crude: kappa(S') * nvec (bound_quad/ Prop 2), the rule of the 2026-10-26 first pricing;
+    aposteriori: kappa(S') * m(S'), m from tail_mass_model (BOUNDS s3.3: the run's own sums fix m)."""
     S = 1000.0  # above 2 pi N / L for every N here (kappa requires it)
-    while float((E.kappa(2.9, N, S) * nvec).upper()) > E1_TARGET:
+    while True:
+        m = nvec if rule == "crude" else tail_mass_model(nvec, S)
+        if float((E.kappa(2.9, N, S) * m).upper()) <= E1_TARGET:
+            return S
         S += 100.0
-    return S
 
 
-def build_estimate(price: dict, bits: int, nvec: int, Ns) -> dict:
+def build_estimate(price: dict, bits: int, nvec: int, Ns, rule: str = "crude") -> dict:
     blk = next(b for b in price["block"] if b["bits"] == bits)
     rw = next(r for r in price["rho_window"] if r["bits"] == bits)
     bes = next(b for b in price["bessel"] if b["bits"] == bits)
     m = price["meta"]
-    S = s_prime(nvec, max(Ns))
+    S = s_prime(nvec, max(Ns), rule)
     K = TP.kmax_for(nvec)
     nw = int(TM.w_nodes(K, S, 12)[0].size)
     blocks = math.ceil(int(round(S / m["s_width"])) * m["s_per_panel"] / m["block"])
@@ -77,13 +89,14 @@ def build_estimate(price: dict, bits: int, nvec: int, Ns) -> dict:
 
 def main() -> None:
     price = json.load(open(PRICE))
-    out = {"e1_target": E1_TARGET, "replay_every": REPLAY_EVERY, "builds": {}}
-    for name, nvec, Ns in BUILDS:
-        lo = build_estimate(price, 133, nvec, Ns)
-        hi = build_estimate(price, 200, nvec, Ns)
-        replay_h = math.ceil(lo["blocks"] / REPLAY_EVERY) * hi["block_core_s"] / 3600.0
-        out["builds"][name] = {"dps40": lo, "dps60": hi, "replay_core_hours": replay_h,
-                               "production_core_hours": lo["core_hours"] + replay_h}
+    out = {"e1_target": E1_TARGET, "replay_every": REPLAY_EVERY, "builds": {}, "builds_aposteriori": {}}
+    for key, rule in (("builds", "crude"), ("builds_aposteriori", "aposteriori")):
+        for name, nvec, Ns in BUILDS:
+            lo = build_estimate(price, 133, nvec, Ns, rule)
+            hi = build_estimate(price, 200, nvec, Ns, rule)
+            replay_h = math.ceil(lo["blocks"] / REPLAY_EVERY) * hi["block_core_s"] / 3600.0
+            out[key][name] = {"dps40": lo, "dps60": hi, "replay_core_hours": replay_h,
+                              "production_core_hours": lo["core_hours"] + replay_h}
     with open(OUT, "w") as fh:
         json.dump(out, fh, indent=1)
     print(json.dumps(out, indent=1))

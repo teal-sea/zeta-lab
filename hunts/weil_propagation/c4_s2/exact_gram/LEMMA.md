@@ -85,3 +85,43 @@ allocation at the end of this dispatch**, not abandoned. The next unit, if
 funded: the ball enclosure of W₀(σ) on H at n = 280 (minutes of compute),
 then the constants of (L1) and (L2), which decide whether a·W₀ + leak can
 fall below about 6e−3.
+
+## 5. The tail-mass lemma, first pass (2026-10-26, second unit)
+
+Asked for by the coordinator (RUNS.md s6, (B)): a bound on the Mellin tail
+mass m(S) = (1/2π)∫_{|s|>S} ρ_Q, which enters E1 as κ(S)·m(S). bound_quad/'s
+Prop 2 used m ≤ nvec.
+
+**Outcome: the step closes as an identity, not a lemma, for the trapezoid
+rule of amendment 1.** By Poisson summation (BOUNDS.md s3.2), the sum over
+all nodes is exact up to aliasing: (Δ/2π) Σ_{k∈ℤ} ρ_Q(kΔ) = nvec +
+Σ_ij G^{−1}_ij alias_ij. Since ρ_Q ≥ 0 pointwise, the omitted part is
+
+    (Δ/2π) Σ_{|kΔ|>S'} ρ_Q(kΔ) = nvec + alias − (Δ/2π) Σ_{|kΔ|≤S'} ρ_Q(kΔ),
+
+and the inner sum is computed in balls by the run itself (`rebuild.py`
+accumulates it per family, `assemble` forms the tail). So E1 becomes
+a posteriori: κ(S') times the tail mass the run actually leaves, with no
+estimate of the modes' decay at all. **Grade: derived (Poisson summation
+plus positivity), unreviewed; implemented and exercised on the toy
+(`test_rebuild.py::test_inner_mass_and_eps_q`).** It needs only what P3
+already needs: G exactly, so it inherits P4's open step for the b family.
+
+**How large it is, measured** (`tailmass.py`, `tailmass.json`). The ζ hats
+have a closed form (Tate's local functional equation for the [0, ∞) part,
+the power series of Fξ for the [0, 1] part), checked against the ball hats
+of `rebuild.ModeTable` to about 1e−12 on the toy modes. At 280 modes the ζ
+family's tail mass is **m_z = 40.1, 21.8, 8.3, 5.0 at S = 1200, 2266.1, 6000,
+10^4**, below Σ_n (4n + 1)/(πS) at every S, by 3.3 percent at S = 1200 and by at most 1 percent from 2266 up, against the crude 280. Per
+mode, τ_n(S) ≈ (4n + 1)/(πS): the oscillation tail of A_n sin(2πv)/v with
+A_n² = 4n + 1. **Grade: measured (float64, one route for the masses, two
+routes agreeing on the hats).** The b family's tail mass is not measured
+(b̂ has no closed form). The re-pricing assumes it follows the same model,
+and the run's own sums replace the assumption.
+
+**What it buys.** At the record's E1 target 7.0e−4, S' falls from 10^4 to
+2,700 for the 280-mode rebuild, and the estimate from about 155 to about
+28 core-hours. The sweep re-prices from 341 / 869 / 2,398 / 3,636 to
+**72 / 209 / 658 / 844** core-hours (RUNS.md s8). **ALIGNMENT s5 status:
+the tail-mass step is closed as an identity (conditional on P4 for the b
+family). The 3-agent-day allowance was not needed beyond this pass.**

@@ -1,19 +1,26 @@
 # The exact-Gram rebuild of Delta_T at 280 modes (hunts/weil_propagation/c4_s2/exact_gram/).
 #
-# Ruling of 2026-10-26 (exact_gram/RUNS.md s6): triggered ONLY by a push to
+# Ruling of 2026-10-26 (exact_gram/RUNS.md s6, s8): triggered ONLY by a push to
 # hunt/c4-exact-gram that touches exact_gram/RUN_REQUEST.json, which carries
 # the run parameters; never by this file. The request is committed only after
-# the coordinator's 'go', and that waits for P4 (PREREG row D0).
+# the coordinator's 'go': first {"mode": "calibrate"} once P4 closes, then the
+# full run sized from the calibration numbers.
 #
-# Estimate (RUNS.md s2): about 155 core-hours, 1,250 blocks of about 412 s at
-# dps 40, plus the dps-60 replay of every 16th block. 7 jobs of 4 worker
-# processes = 28 shards of about 45 blocks each, about 5.4 h of blocks per
-# process. Each process stops itself at 335 minutes, so its last checkpoint is
-# uploaded inside the 350-minute job limit, and a rerun resumes from it.
+# Modes (RUN_REQUEST.json "mode"):
+#   calibrate  job 0 only, 4 processes, each `blocks` blocks of its shard; per
+#              process the per-block wall time and the peak RSS (/usr/bin/time -v)
+#              go into calibration.json in the artifact.
+#   full       9 jobs x 4 processes = 36 shards (max-parallel 6). The preflight
+#              refuses (fail closed) unless the request's "calibration" record
+#              gives at least 25 % headroom inside the 335-minute self-stop, 4 x peak
+#              RSS < 13 GB and the on-disk mode table < 10 GB, and rebuild.py has
+#              the disk-backed table (the next unit, with P4).
 #
-# Before any compute each job checks the ball backend (Arb, not the mpmath
-# fallback) and the snapshot guard (exact_gram/guard.py: the rebuild's
-# import closure and checker/'s T_S input digest, fail closed).
+# Estimate (RUNS.md s2, s8): about 155 core-hours at S' = 1e4, about 22 at the
+# stored S with the a posteriori tail (BOUNDS.md s3.3); the calibration replaces
+# both with runner numbers. Each process stops itself at 335 minutes, so its last
+# checkpoint uploads inside the 350-minute job limit; a re-run attempt downloads
+# this job's checkpoints from the earlier attempts and resumes from them.
 name: c4-exact-gram
 
 on:
@@ -39,15 +46,36 @@ env:
   EG: hunts/weil_propagation/c4_s2/exact_gram
 
 jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      jobs: ${{ steps.p.outputs.jobs }}
+      mode: ${{ steps.p.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: p
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          req = json.load(open("hunts/weil_propagation/c4_s2/exact_gram/RUN_REQUEST.json"))
+          mode = req["mode"]
+          assert mode in ("calibrate", "full"), mode
+          assert req["shards"] == 36, req["shards"]
+          print("mode=" + mode)
+          print("jobs=" + json.dumps([0] if mode == "calibrate" else list(range(9))))
+          PY
+
   shards:
-    name: shards ${{ matrix.job }} (4 processes)
+    name: shards ${{ matrix.job }} (4 processes, ${{ needs.plan.outputs.mode }})
+    needs: plan
     runs-on: ubuntu-latest
     timeout-minutes: 350
     strategy:
       fail-fast: false
-      max-parallel: 7
+      max-parallel: 6
       matrix:
-        job: [0, 1, 2, 3, 4, 5, 6]
+        job: ${{ fromJSON(needs.plan.outputs.jobs) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -56,35 +84,76 @@ jobs:
         run: |
           python -m pip install --quiet --disable-pip-version-check -r requirements.txt
           python -m pip install --quiet --disable-pip-version-check --no-deps -e .
-      - name: preflight (ball backend, snapshot guard, request)
+      - name: resume (re-run attempts only)
+        if: ${{ fromJSON(github.run_attempt) > 1 }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: c4-exact-gram-job${{ matrix.job }}-attempt*
+          merge-multiple: true
+          path: out/
+      - name: preflight (ball backend, snapshot guard, request, headroom, memory)
         run: |
           python - <<'PY'
-          import json, os, sys
+          import json, math, os, sys
           from zeta import rigor
           assert rigor.BACKEND == "python-flint", rigor.BACKEND
-          sys.path.insert(0, os.environ["EG"])
+          eg = os.environ["EG"]
+          sys.path.insert(0, eg)
           import guard
-          k = guard.key()  # raises GuardRefused on a dirty or absent closure
-          req = json.load(open(os.path.join(os.environ["EG"], "RUN_REQUEST.json")))
-          assert req["gram"] == "exact" and req["shards"] == 28, req
+          k = guard.key()  # raises GuardRefused on a dirty or absent closure: fail closed
           print("guard", k)
+          req = json.load(open(os.path.join(eg, "RUN_REQUEST.json")))
+          assert req["gram"] == "exact" and req["shards"] == 36, req
+          if req["mode"] == "full":
+              import rebuild
+              assert hasattr(rebuild, "DiskModeTable"), "full mode needs the disk-backed mode table"
+              cal = req["calibration"]  # measured by a calibrate run on a runner (RUNS.md s8)
+              per_shard = math.ceil(len(rebuild.blocks(req)) / req["shards"])
+              need = per_shard * cal["block_wall_s"]
+              assert need <= 0.75 * 335 * 60, f"headroom: {need:.0f} s of blocks per process"
+              assert 4 * cal["peak_rss_gb"] < 13, cal
+              assert cal["table_disk_gb"] < 10, cal
           PY
       - name: run 4 shards
         run: |
           mkdir -p out
+          MODE=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['mode'])")
+          EXTRA=""
+          if [ "$MODE" = calibrate ]; then
+            EXTRA="--max-blocks $(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['blocks'])")"
+          fi
           for p in 0 1 2 3; do
             shard=$(( 4 * ${{ matrix.job }} + p ))
-            timeout 335m python "$EG/rebuild.py" run --request "$EG/RUN_REQUEST.json" \
-              --shard "$shard" --shards 28 --out out > "out/log_$shard.txt" 2>&1 &
+            /usr/bin/time -v -o "out/time_$shard.txt" timeout 335m \
+              python "$EG/rebuild.py" run --request "$EG/RUN_REQUEST.json" \
+              --shard "$shard" --shards 36 --out out $EXTRA > "out/log_$shard.txt" 2>&1 &
           done
           status=0
           for job in $(jobs -p); do wait "$job" || status=$?; done
           tail -n 5 out/log_*.txt
           echo "exit status $status" | tee -a "$GITHUB_STEP_SUMMARY"
           exit $status
+      - name: calibration record (peak RSS, per-block wall)
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import glob, json, re
+          rec = {}
+          for f in sorted(glob.glob("out/time_*.txt")):
+              shard = int(re.search(r"time_(\d+)", f).group(1))
+              txt = open(f).read()
+              m = re.search(r"Maximum resident set size \(kbytes\): (\d+)", txt)
+              rec[shard] = {"peak_rss_gb": int(m.group(1)) / 2**20 if m else None}
+          for f in glob.glob("out/shard*_block*.json"):
+              body = json.load(open(f))
+              sh = int(re.search(r"shard(\d+)of", f).group(1))
+              rec.setdefault(sh, {})["block_seconds"] = body["payload"]["block_seconds"]
+          json.dump(rec, open("out/calibration.json", "w"), indent=1)
+          print(json.dumps(rec, indent=1))
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: c4-exact-gram-job${{ matrix.job }}
+          name: c4-exact-gram-job${{ matrix.job }}-attempt${{ github.run_attempt }}
           path: out/
           if-no-files-found: warn

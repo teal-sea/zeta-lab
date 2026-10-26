@@ -255,3 +255,43 @@ def test_runs_quotes_the_price_and_the_estimate():
     for s in ("258 s", "340 s", "155 core-hours", "341 core-hours", "869 core-hours", "2,398 core-hours",
               "3,636 core-hours", "412 s", "7 jobs"):
         assert s in t, s
+
+
+# --- the workflow, as ruled (RUNS.md s6, s8) -------------------------------------
+
+
+def test_workflow_matches_the_ruling():
+    import yaml
+
+    path = os.path.join(REPO, ".github", "workflows", "c4-exact-gram.yml")
+    text = open(path).read()
+    wf = yaml.safe_load(text)
+    on = wf.get(True, wf.get("on"))  # YAML 1.1 reads the key `on` as True
+    assert set(on) == {"push"}, "push only: no workflow_dispatch, no schedule"
+    assert on["push"]["branches"] == ["hunt/c4-exact-gram"]
+    assert on["push"]["paths"] == ["hunts/weil_propagation/c4_s2/exact_gram/RUN_REQUEST.json"]
+    assert wf["permissions"] == {"contents": "read"}
+    assert wf["concurrency"]["group"] == "c4-exact-gram"
+    sh = wf["jobs"]["shards"]
+    assert sh["timeout-minutes"] <= 350 and sh["strategy"]["max-parallel"] <= 6
+    for v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "FLINT_NUM_THREADS"):
+        assert wf["env"][v] == "1"
+    steps = [s.get("name", s.get("uses", "")) for s in sh["steps"]]
+    assert steps.index("preflight (ball backend, snapshot guard, request, headroom, memory)") < steps.index("run 4 shards")
+    assert "guard.key()" in text and "github.run_attempt" in text and "if: always()" in text
+    assert not os.path.exists(os.path.join(HERE, "RUN_REQUEST.json")), "committed only after 'go'"
+
+
+def test_tail_mass_and_the_aposteriori_reprice():
+    tm = json.load(open(os.path.join(HERE, "tailmass.json")))["S"]
+    got = [tm[k]["m_z"] for k in ("1200.0", "2266.1020257693895", "6000.0", "10000.0")]
+    assert [round(x, 1) for x in got] == [40.1, 21.8, 8.3, 5.0]
+    model = [(2 * 280 * 280 - 280) / (3.141592653589793 * S) for S in (1200.0, 2266.1020257693895, 6000.0, 10000.0)]
+    assert all(g < m for g, m in zip(got, model))  # LEMMA s5: the model is above the measurement
+    assert abs(got[0] / model[0] - 1) < 0.034 and all(abs(g / m - 1) < 0.01 for g, m in zip(got[1:], model[1:]))
+    est = json.load(open(os.path.join(HERE, "estimate.json")))["builds_aposteriori"]
+    assert est["rebuild_280"]["dps40"]["S_prime"] == 2700.0
+    assert [round(est[k]["production_core_hours"]) for k in
+            ("rebuild_280", "sweep_364", "sweep_500", "sweep_700", "sweep_700_N64")] == [28, 72, 209, 658, 844]
+    for s in ("28 core-hours", "**72**", "**209**", "**658**", "**844**"):
+        assert s in _read("RUNS.md"), s

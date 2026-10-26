@@ -109,3 +109,15 @@ def test_planted_hat_fault_is_caught_by_the_replay(state, tmp_path):
     req = dict(REQ, replay_every=1, replay_prec=200)
     with pytest.raises(R.ReplayMismatch, match="zeta"):
         R.run_shard(req, 0, 1, str(tmp_path), lambda: KEY, fault="hat", state=state)
+
+
+def test_inner_mass_and_eps_q(full):
+    r = full["2.9|2"]
+    for t in r["tail_mass"]:  # nvec + alias - inner: a negative tail would be a defect
+        assert t.upper() > 0 and t.lower() > -1e-20
+    assert r["eps_q"].is_finite() and r["eps_q"] > r["radius_F"]
+
+
+def test_calibration_stops_after_max_blocks(state, tmp_path):
+    pay = R.run_shard(REQ, 0, 1, str(tmp_path), lambda: KEY, state=state, max_blocks=1)
+    assert pay["last_block"] == 0 and len(pay["block_seconds"]) == 1 and pay["block_seconds"][0][1] > 0

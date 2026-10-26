@@ -40,3 +40,58 @@ construction), not a mathematical one.
 
 A measured cost is not a lower bound on cost: candidate, at the parameters
 above, estimate grade.
+
+## Update, 2026-10-26 (second unit): the bounds, the toy rebuild, the workflow, the tail mass
+
+Lines 1 to 5 above are kept as written. This section adds; each item gives
+its grade.
+
+1. **P1, P2, P3 close** (BOUNDS.md s1 to s3; derived, unreviewed, on two
+   cited Bessel inequalities spot-checked against arb). P1 (Gauss panels in
+   w, Bernstein ellipse) sums to below 1e−15 per hat on the production grid.
+   P2 (integration-by-parts and series remainders) closes at the rebuild's
+   choice of M (below 1e−20 at the highest mode). P3 needed PREREG
+   amendment 1 (9ab86b1d0, before any row): the Gauss s-panels do not admit
+   a usable analytic bound, while the uniform trapezoid at the same 16 nodes
+   per unit has an exact Poisson aliasing formula. Its bound is sharp on a
+   model case, and its planted variant (e^{−U/2}) is caught.
+2. **P4 is half closed.** G_z closes. On four prolates it contains the
+   identity in every entry, an independent check, since double
+   orthogonality is used nowhere. That check caught a real defect first:
+   float64 panel midpoints left ulp gaps the balls could not see, and G_z
+   excluded 1 by 2e−16 (BOUNDS s1.1, now a planted-fault test). G_b's
+   quadrature region is built; its regions B and C (integration by parts at
+   frequency 2^m, m up to about 50) are not, so production stays at
+   PREREG row D0.
+3. **rebuild.py runs end to end at toy size**: gate, Gram, hats with P1 and
+   P2 radii, ρ, window sums, checkpoints, replay, assembly with ε_q. Its
+   tests catch a key moved mid-shard, a stale checkpoint, a missing shard,
+   a planted hat error (by the dps-60 replay), the rivals at the gate
+   (W_a, Epstein (1,1,6), DH) and any provider that is not a bound. The
+   guard's first committed version keyed folder-relative paths and so never
+   found its root. A test that skipped instead of failing hid it, and the
+   test no longer skips.
+4. **The workflow** was reviewed with changes requested (resume across
+   attempts, a calibration mode, 25 percent headroom, 36 shards at
+   max-parallel 6, and memory limits checked fail closed); all are made and
+   pinned. No RUN_REQUEST.json exists; the calibration waits for P4.
+5. **The tail-mass step closes as an identity** (LEMMA.md s5): with the
+   trapezoid, the omitted tail is nvec + alias minus the inner sum the run
+   computes, so E1 is a posteriori. Measured for the ζ family at 280
+   modes: m_z = 21.8 at S = 2266 (crude: 280). It re-prices the rebuild
+   from about 155 to about 28 core-hours and the sweep from
+   341 to 3,636 to **72 to 844** core-hours (RUNS.md s8). Grade: identity
+   derived and unreviewed; masses measured.
+
+### The doors (updated)
+
+1. **Active constraint:** P4's G_b regions B and C, now the only step
+   between the record and a run. After it, the calibration on a real
+   runner, which sets the shard count.
+2. **Frozen constants, changed:** S' now follows the a posteriori tail
+   (2,700 at the E1 target 7.0e−4; genuine trade: target against cost,
+   about S'^{−3}). Δ = 1/16 (aliasing about e^{−2π/(3Δ)}, about 1e−4 in norm at
+   280 modes; genuine trade against nodes). The rest as before.
+3. **Information class:** unchanged. The closed-form ζ hats (Tate) are an
+   implementation door: they could replace the ζ half of the w-quadrature
+   in the rebuild (no E3, E4 there). The b hats still need it.

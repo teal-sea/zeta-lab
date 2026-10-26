@@ -137,3 +137,58 @@ PREREG s4 item 3 must pass inside it.
   (341 / 869 / 2,398 / 3,636 core-hours) stand as the correction of the
   brief's 100 to 300.
 - Nothing has run under either ruling yet.
+
+## 7. P1 to P4 and the toy (2026-10-26, second unit)
+
+Derivations in BOUNDS.md, code in `bounds.py` and `rebuild.py`, tests in
+`test_bounds.py` and `test_rebuild.py`. Runs on the box, each under a
+minute, single process, `nice -n 10`, none needing an ask:
+
+- toy rebuild (2 modes, Kmax 6, S' = 12, Δ = 1/16, 193 nodes): about 15 s
+  (about 22 s with the dps-60 replay); the test file runs in about 48 s;
+- G_z of four prolates at K = 10: about 9 s; it contains the identity
+  entrywise (BOUNDS.md s4.2);
+- the production-size bound checks (280 modes; `test_bounds.py`, slow):
+  about 55 s;
+- `tailmass.py` (280 modes, s up to 10^4, closed form, float64): about
+  2 minutes.
+
+P4 is not closed: G_b's regions B and C are not built (BOUNDS.md s4.3, s4.4),
+so a run with the exact provider stops at setup (PREREG row D0).
+
+## 8. The workflow review and the re-pricing (2026-10-26)
+
+**Review (coordinator, 2026-10-26): changes requested, made.** Trigger,
+permissions, concurrency, thread pinning, preflight and the `if: always()`
+upload are kept. Added:
+(1) **resume**: a re-run attempt downloads this job's earlier-attempt
+checkpoint artifacts, named with the attempt number;
+(2) **headroom**: a `{"mode": "calibrate", "blocks": n}` request runs job 0
+only and records per-block wall time and peak RSS per process
+(`calibration.json`). The full run is 9 jobs × 4 processes = 36 shards,
+max-parallel 6, and its preflight refuses unless the request's calibration
+record gives at least 25 percent headroom inside the 335-minute self-stop;
+(3) **memory**: the full-mode preflight requires 4 × peak RSS < 13 GB and
+the on-disk mode table < 10 GB, and refuses while `rebuild.py` has no
+disk-backed table (`DiskModeTable`, the next unit with P4).
+`test_exact_gram.py::test_workflow_matches_the_ruling` pins the shape. The
+calibration may run once P4 closes and the coordinator is asked; 'go' for
+the full rebuild follows its numbers. No RUN_REQUEST.json is committed.
+
+**Re-pricing with the a posteriori tail** (LEMMA.md s5; `estimate.py`,
+`estimate.json` key `builds_aposteriori`; same block price, same E1 target
+7.0e−4, tail mass from the measured model Σ(4n + 1)/(πS)):
+
+| build | S' | nw | blocks | production (was, s2, s3) |
+|---|---|---|---|---|
+| rebuild, 280 modes | 2,700 | 246,768 | 338 | **28 core-hours** (155) |
+| 364 modes | 3,200 | 456,924 | 400 | **72** (341) |
+| 500 modes | 3,900 | 869,172 | 488 | **209** (869) |
+| 700 modes | 4,900 | 1,683,216 | 613 | **658** (2,398) |
+| 700 modes, N = 64 | 6,200 | 1,712,544 | 775 | **844** (3,636) |
+
+At 36 shards the 280-mode rebuild is about 10 blocks per process (about
+45 minutes at the box's block time), so the calibration will likely show
+that fewer jobs suffice. The shard count follows the calibration, not this
+table. Sweep B stays deferred (coordinator) until it is re-asked with these
+prices.

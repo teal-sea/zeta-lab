@@ -283,17 +283,25 @@ def setup(req):
     modes = B.prolate_modes(req["nvec"], req.get("dps", 40))
     Gz, Gb, is_bound = provider(req["gram"], modes, req["Kmax"])
     table = ModeTable(modes, req["Kmax"], req["S_prime"])
-    return modes, (Gz.inv(), Gb.inv()), is_bound, table
+    Giz, Gib = Gz.inv(), Gb.inv()
+    Cz = [modes.C(n) for n in range(modes.nvec)]
+    q5 = 1 / (1 - arb(2) ** (-arb(5) / 6))
+    Cb = [c * q5 for c in Cz]
+    absm = lambda G: [[abs(G[i, j]) for j in range(G.ncols())] for i in range(G.nrows())]
+    weights = (B.alias_weight(absm(Giz), Cz), B.alias_weight(absm(Gib), Cb))
+    return modes, (Giz, Gib), is_bound, table, weights
 
 
-def run_shard(req, shard, shards, outdir, key_fn, fault=None, state=None):
-    """Compute (or resume) one shard; the key is read before every block. Returns the checkpoint payload."""
+def run_shard(req, shard, shards, outdir, key_fn, fault=None, state=None, max_blocks=None):
+    """Compute (or resume) one shard; the key is read before every block. Returns the checkpoint payload.
+    max_blocks: stop after that many new blocks (calibration). Each block's wall time is recorded."""
+    import time
     old = ctx.prec
     ctx.prec = req.get("prec", PROD_PREC)
     try:
         if state is None:
             state = setup(req)
-        modes, (Giz, Gib), is_bound, table = state
+        modes, (Giz, Gib), is_bound, table, weights = state
         s_all, d = s_nodes(req)
         tag = f"shard{shard:02d}of{shards:02d}"
         bl = blocks(req)
@@ -307,9 +315,15 @@ def run_shard(req, shard, shards, outdir, key_fn, fault=None, state=None):
                 last = bi
                 break
         sums = {k: tuple(_deser(m) for m in v) for k, v in payload["sums"].items()} if payload else None
+        mass = [arb(a, b) for a, b in payload["mass"]] if payload else [arb(0), arb(0)]
+        timing = list(payload["block_seconds"]) if payload else []
+        done = 0
         for bi in rng:
             if bi <= last:
                 continue
+            if max_blocks is not None and done >= max_blocks:
+                break
+            t0 = time.perf_counter()
             k = key_fn()
             if k["rebuild_digest"] != k0["rebuild_digest"] or k["ts_inputs_digest"] != k0["ts_inputs_digest"]:
                 raise GD.GuardRefused("key moved during the shard")
@@ -320,15 +334,23 @@ def run_shard(req, shard, shards, outdir, key_fn, fault=None, state=None):
             if req.get("replay_every") and bi % req["replay_every"] == 0:
                 replay_check(req, modes, ss, Z, Bh)
             rz, rb = rho(Z, Giz), rho(Bh, Gib)
+            for s, w, a, b in zip(ss, ws, rz, rb):  # (Delta/2pi) sum over +-s of rho: the inner mass (BOUNDS s3.3)
+                f = (1 if s == 0 else 2) * w / B.two_pi()
+                mass = [mass[0] + f * a, mass[1] + f * b]
             part = window_sums(rz, rb, ss, ws, _cells(req))
             key_s = {f"{c}|{N}": v for (c, N), v in part.items()}
             if sums is None:
                 sums = key_s
             else:
                 sums = {kk: (sums[kk][0] + v[0], sums[kk][1] + v[1]) for kk, v in key_s.items()}
+            timing.append([bi, time.perf_counter() - t0])
             payload = {"last_block": bi, "first_block": rng[0], "is_bound": is_bound,
-                       "sums": {kk: [_ser(v[0]), _ser(v[1])] for kk, v in sums.items()}}
+                       "sums": {kk: [_ser(v[0]), _ser(v[1])] for kk, v in sums.items()},
+                       "mass": [[str(m.mid()), str(m.rad())] for m in mass],
+                       "alias_weights": [[str(w.mid()), str(w.rad())] for w in weights],
+                       "block_seconds": timing}
             GD.save_block(outdir, tag, bi, k, payload)
+            done += 1
         return payload
     finally:
         ctx.prec = old
@@ -355,6 +377,8 @@ def assemble(req, shards, outdir, key_fn):
     bl = blocks(req)
     total = None
     is_bound = True
+    mass = [arb(0), arb(0)]
+    weights = None
     for sh in range(shards):
         rng = shard_range(len(bl), sh, shards)
         if len(rng) == 0:
@@ -363,6 +387,8 @@ def assemble(req, shards, outdir, key_fn):
         if pay is None or pay["last_block"] != rng[-1] or pay["first_block"] != rng[0]:
             raise GD.GuardRefused(f"shard {sh} missing or incomplete")
         is_bound = is_bound and pay["is_bound"]
+        mass = [m + arb(a, b) for m, (a, b) in zip(mass, pay["mass"])]
+        weights = [arb(a, b) for a, b in pay["alias_weights"]]
         part = {kk: tuple(_deser(m) for m in v) for kk, v in pay["sums"].items()}
         total = part if total is None else {kk: (total[kk][0] + v[0], total[kk][1] + v[1]) for kk, v in part.items()}
     out = {}
@@ -373,7 +399,17 @@ def assemble(req, shards, outdir, key_fn):
         for i in range(D.nrows()):
             for j in range(D.ncols()):
                 rad += D[i, j].real.rad() ** 2
-        out[kk] = {"delta_T": D, "radius_F": rad.sqrt(), "is_bound": is_bound}
+        c, N = kk.split("|")
+        N = int(N)
+        L = c_exact(c).log()
+        d = arb(req["delta_num"]) / req["delta_den"]
+        alias = (2 * N + 1) * (B.p3_alias_entry(weights[0], L, d) + B.p3_alias_entry(weights[1], L, d))
+        # a posteriori tail beyond S' (BOUNDS s3.3): (Delta/2pi) sum over all k of rho = nvec + alias, rho >= 0
+        tails = [req["nvec"] + B.p3_alias_rho(w, d) - m for w, m in zip(weights, mass)]
+        tail = B.kappa(L, N, req["S_prime"]) * max(tails[0].upper(), tails[1].upper())
+        eps_q = rad.sqrt() + alias + tail
+        out[kk] = {"delta_T": D, "radius_F": rad.sqrt(), "p3_alias": alias, "tail_mass": tails,
+                   "e1_aposteriori": tail, "eps_q": eps_q, "is_bound": is_bound}
     if not is_bound:
         out["_reading"] = "PREREG row D0: a provider that is not a bound was used"
     return out
@@ -386,15 +422,17 @@ def main(argv=None):
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--shards", type=int, default=1)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--max-blocks", type=int, default=None)
     a = ap.parse_args(argv)
     req = json.load(open(a.request))
     if req["gram"] != "exact":
         raise NotABound("production runs use the exact Gram provider only")
     if a.cmd == "run":
-        run_shard(req, a.shard, a.shards, a.out, GD.key)
+        run_shard(req, a.shard, a.shards, a.out, GD.key, max_blocks=a.max_blocks)
     else:
         res = assemble(req, a.shards, a.out, GD.key)
-        print(json.dumps({k: {"radius_F": str(v["radius_F"])} for k, v in res.items() if not k.startswith("_")}))
+        print(json.dumps({k: {"radius_F": str(v["radius_F"]), "eps_q": str(v["eps_q"])}
+                          for k, v in res.items() if not k.startswith("_")}))
 
 
 if __name__ == "__main__":

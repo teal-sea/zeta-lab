@@ -756,6 +756,12 @@ now also refuses Davenport-Heilbronn, by an exact composite atom at n = 6.
 A first pass at the truncation lemma finds the bound_trunc/ route obstructed
 on the full window space (at least 0.13 at 280 modes against the 1.18e−2
 scale) and open on continuous windows (0.0063). No RH claim.
+Later the same day: the a priori bounds P1 to P3 close (the s-rule was
+changed to a uniform trapezoid by a dated amendment, before any row). G_z
+closes, and its identity check caught a float-endpoint defect. G_b's
+integration-by-parts regions remain, so the run waits on them. The tail-mass
+step closes as a Poisson identity, which re-prices the rebuild at about
+28 core-hours.
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
