@@ -322,8 +322,20 @@ def arc_change(model, r: arb, qa: Q, qb: Q, ha: acb, hb: acb, prec: int,
             + arc_change(model, r, qm, qb, hm, hb, prec, stats, depth + 1, max_depth))
 
 
+def evaluate_nodes(model, r: arb, N: int, prec: int, k0: int, k1: int) -> tuple:
+    """(L, h, principal) at nodes k0 <= k < k1, the expensive part of sampling."""
+    L, H, P = [], [], []
+    with prec_guard(prec):
+        for k in range(k0, k1):
+            s = s_of(node(r, k, N))
+            L.append(model.L(s, prec))
+            H.append(model.h(s, prec))
+            P.append(model.principal(s))
+    return L, H, P
+
+
 def sample_upper(model, r: arb, N: int, prec: int, block: int = 256,
-                 fault: str | None = None) -> tuple[list, dict]:
+                 fault: str | None = None, evaluated: tuple | None = None) -> tuple[list, dict]:
     """g(z_k) for k = 0..N/2 as balls, with arg h continued by ball steps.
 
     ``fault='skip_unwrap'`` adds 2 pi i to every tracked sample after the
@@ -335,14 +347,9 @@ def sample_upper(model, r: arb, N: int, prec: int, block: int = 256,
     t0 = time.time()
     stats = {"principal_nodes": 0, "tracked_nodes": 0, "cover_balls": 0,
              "cover_splits": 0}
+    L, H, P = evaluated if evaluated is not None else \
+        evaluate_nodes(model, r, N, prec, 0, half + 1)
     with prec_guard(prec):
-        S, L, H, P = [], [], [], []
-        for k in range(half + 1):
-            s = s_of(node(r, k, N))
-            S.append(s)
-            L.append(model.L(s, prec))
-            H.append(model.h(s, prec))
-            P.append(model.principal(s))
         t1 = time.time()
         arg = [None] * (half + 1)
         # principal stretch from k = 0
@@ -401,9 +408,9 @@ def sample_upper(model, r: arb, N: int, prec: int, block: int = 256,
 
 
 def li_balls(model, r: arb, N: int, n_max: int, prec: int, rho: arb, M: float,
-             fault: str | None = None) -> dict:
+             fault: str | None = None, evaluated: tuple | None = None) -> dict:
     """lambda_n, 1 <= n <= n_max, as real balls including the aliasing bound (A)."""
-    g_up, stats = sample_upper(model, r, N, prec, fault=fault)
+    g_up, stats = sample_upper(model, r, N, prec, fault=fault, evaluated=evaluated)
     t0 = time.time()
     with prec_guard(prec):
         g = g_up + [g_up[N - k].conjugate() for k in range(N // 2 + 1, N)]
@@ -411,11 +418,13 @@ def li_balls(model, r: arb, N: int, n_max: int, prec: int, rho: arb, M: float,
         Mb = q_arb(Q(M))
         x = (r / rho) ** N
         lam, worst_rad, imag_ok = [], 0.0, True
-        rn = arb(1)
+        rn, rho_inv, rho_n = arb(1), 1 / rho, arb(1)
+        xx = x / (1 - x)
         for n in range(1, n_max + 1):
             rn = rn * r
+            rho_n = rho_n * rho_inv                  # rho^{-n}, a ball by products
             v = arb(n) * W[n] / (arb(N) * rn)
-            alias = arb(n) * Mb * rho ** (-n) * x / (1 - x)
+            alias = arb(n) * Mb * rho_n * xx
             if not v.imag.contains(0):
                 imag_ok = False
             re = v.real + arb(0, alias.upper())
