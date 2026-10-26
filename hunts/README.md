@@ -939,6 +939,16 @@ screen flags is [228, 248], which holds the pair at gamma = 240.4046 that
 had not yet seen this case log's growth past #52, and main took that number
 for `r_e2ee73/` first; the directory name never changed.
 
+**Resumed 2026-10-26 (compute sweep, branch `hunt/lambda-dh-exact-resume`),
+same number.** First wave in the recorded resume order: decide the
+height-10^6 zero on both ball backends, run `stage_locate` on the low screen's
+21 windows and give `screen_hi` an explicit artifact state, evaluate P2 and
+kill condition 2 as written, then price the census to 10^4 and 10^5 before
+spending on it. Scope and gates are appended to `MISSION.md` section 8;
+outcomes are appended to `RESULTS.md` as dated sections. Correction recorded
+on resumption: the decided floor is 36/625 = 0.0576; 0.05765 is a measured
+landing, not a decided one.
+
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
 **Status: settled** (support run `e6241336`, serving run `872d7dce` /

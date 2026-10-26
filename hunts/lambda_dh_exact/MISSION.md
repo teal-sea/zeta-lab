@@ -612,3 +612,69 @@ polynomial surrogates. Everything in section 4.6 is *measured* plus a fit. The
 inherited constants in section 0 are as graded there. Section 2's (NC) is
 *derived with a named gap* and is the one place where the hunt's central
 sentence is conditional.
+
+---
+
+## 8. Resumption, 2026-10-26 (compute sweep)
+
+Appended on resumption; nothing above is rewritten. The hunt keeps its number
+(#119), its nine predictions and its five kill conditions exactly as
+registered on 2026-08-18. Branch `hunt/lambda-dh-exact-resume`.
+
+**Question for this wave.** The recorded resume order (`RESULTS.md` section 7),
+taken in order:
+
+1. Decide the off-line zero near gamma = 1000459.74 (`deep_zeros_1e6.json`)
+   with ball arithmetic on both backends, Arb (python-flint) and mpmath.iv:
+   an argument-principle count of exactly one zero in a small exact rectangle
+   lying wholly to the right of Re s = 1/2. Outcome is *decided* or *refuted*;
+   anything else is recorded as undecided with the failing segment.
+2. `stage_locate` on the 21 flagged windows of the completed low screen
+   (t in [8, 10000], Re s in [0.85, 2.05]); give `screen_hi` an explicit
+   artifact state (finished or abandoned); evaluate P2 and kill condition 2
+   exactly as written in section 6 and the huntspec.
+3. Price a depth census to height 10^4 and 10^5 and ask the coordinator
+   before running it. An exhaustive census to 10^6 is out of scope.
+
+**Why.** The only evaluation datum the hunt ever produced is float grade, and
+the screen artifacts sit in a state (`complete: false`, no `zeros` key) that
+invites misreading. Each step is cheap relative to what it unlocks.
+
+**Inputs and their grades.** Hunt #61 bracket as graded in section 0 (floor
+36/625 = 0.0576 decided; the landing 0.05765184035 is *measured*, not
+decided). kappa: closed form sqrt(1 + phi^2) - phi, cited (Bombieri-Ghosh 2011
+section 6), and decided equal to the self-duality kappa on both backends in
+`hunts/lambda_dh_bounds/KAPPA-CLOSED-FORM.md`. The height-10^6 zero: measured,
+float grade. The 21 low-screen windows: measured candidate locations.
+
+**Rivals and the gate.** For step 1 the two routes are deliberately different
+code: Arb's own Hurwitz zeta (`acb.zeta(s, a)`) on one side, and on the other a
+hand-rolled Euler-Maclaurin in mpmath.iv with an explicit remainder bound
+(`2 zeta(2p)/(2pi)^{2p}` times the integral of the 2p-th derivative) and a
+Taylor model in s about the box centre. The gate: both routes must return the
+same integer count 1 on the same exact rectangle, the iv route must agree with
+Arb at test points to within the union of their enclosures, and a planted
+fault (a perturbed kappa, and a rectangle shifted off the zero) must turn the
+count to a different integer or to undecided. A count that cannot fail is not
+a check.
+
+**Kill conditions for this wave** (in addition to the five registered ones,
+which are not altered):
+
+- the two backends return different integers on the same rectangle: the
+  instrument is broken and no grade moves;
+- the planted faults do not change the outcome: the instrument is retired;
+- the decided rectangle does not lie wholly in Re s > 1/2 or does not contain
+  the float location: the float datum is refuted as stated.
+
+**May write**: `hunts/lambda_dh_exact/` (new files and dated appended sections
+only; recorded results are never deleted or rewritten) and this hunt's
+case-log entry in `hunts/README.md`. **May not**: `zeta/`, `ontology/`,
+`harness/`, `lean/`, `scripts/`, any other hunt, or `docs/`. Helpers live in
+this directory; `hunts/lambda_dh_bounds` is imported read-only.
+
+**Compute rules.** Shared 32-vCPU box: at most 4 processes, `nice -n 10`,
+wait while the 1-minute load exceeds 64, stop the newest job if MemAvailable
+falls below 20 GiB, no file over 100 MB, under 300 MB added. Every estimate is
+written in `RUNS.md` before spending; anything over one core-hour is asked of
+the coordinator first.

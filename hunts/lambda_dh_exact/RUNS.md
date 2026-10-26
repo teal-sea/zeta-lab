@@ -180,3 +180,21 @@ Recorded because a null run that is not written down looks like a run that was
 never planned. The five kill conditions in `MISSION.md` are therefore all
 unfired rather than survived, and the pre-registered verdict (that the bracket
 does not collapse) is unevaluated.
+
+## Resumption, 2026-10-26: estimates before spending
+
+Measured unit costs on the shared box (load about 10 of 32), python-flint
+backend confirmed (`rigor.BACKEND == "python-flint"`):
+
+- Arb: one evaluation of f(s) = 5^{-s} sum_a c_a zeta(s, a/5) at
+  s = 0.858 + 1000459.74 i, 128 bits: 1.7 s (2.3 s at 192 bits).
+- mpmath.iv: one term n^{-s} at that height, 96 bits: 134 microseconds.
+
+**Step 1 (decide the deep zero).** Arb leg: a rectangle boundary of about 32
+segments needs about 32 point plus 32 segment evaluations, about 64 x 1.7 s,
+call it 2 to 4 minutes with subdivision. iv leg: Euler-Maclaurin with
+N = ceil(1.25 |s| / 2pi), about 2.0e5, so a head of about 8.0e5 nonzero terms,
+each one complex exponential plus a degree-6 Taylor update, about
+8e5 x 200 us = 160 s once for the Taylor coefficients; each later evaluation
+is a polynomial plus a 4 x 165-term tail, under 1 s. Total step 1: about
+10 core-minutes, under the one core-hour gate, so no ask.
