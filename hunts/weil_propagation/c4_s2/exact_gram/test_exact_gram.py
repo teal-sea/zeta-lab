@@ -148,10 +148,7 @@ def test_gate_still_refuses_epstein_and_W_a():
 def test_the_rebuild_closure_is_what_it_imports():
     """rebuild.py is committed (2026-10-26): its HEAD closure holds the modules it runs, and
     key() either keys a clean tree or refuses a dirty one; it never keys a dirty one."""
-    try:
-        digest, paths, names = GD.head_closure()
-    except GD.GuardRefused:
-        pytest.skip("rebuild.py not yet in HEAD (before its first commit)")
+    digest, paths, names = GD.head_closure()  # no skip: a skip here once hid a path bug
     for f in ("exact_gram/rebuild.py", "exact_gram/bounds.py", "exact_gram/guard.py", "two_adic/ta_data.py"):
         assert f"{GD.C4S2}/{f}" in paths, f
     try:

@@ -45,8 +45,14 @@ class GuardRefused(RuntimeError):
     """The rebuild's inputs are dirty, absent, or a checkpoint's key differs."""
 
 
+def _top() -> str:
+    return subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=HERE, capture_output=True, text=True,
+                          check=True).stdout.strip()
+
+
 def _git(*args: str) -> str:
-    return subprocess.run(["git", *args], cwd=HERE, capture_output=True, text=True, check=True).stdout
+    """git from the repository top, so that every path it prints and reads is a repo path."""
+    return subprocess.run(["git", *args], cwd=_top(), capture_output=True, text=True, check=True).stdout
 
 
 def closure(blobs: dict, read, root: str = REBUILD_ROOT, data=DATA, folders=FOLDERS):
@@ -81,7 +87,7 @@ def head_closure(root: str = REBUILD_ROOT, rev: str = "HEAD"):
     for ln in _git("ls-tree", "-r", rev, "--", *FOLDERS).splitlines():
         meta, path = ln.split("\t", 1)
         blobs[path] = meta.split()[2]
-    top = _git("rev-parse", "--show-toplevel").strip()
+    top = _top()
 
     def read(p):
         return subprocess.run(["git", "cat-file", "blob", blobs[p]], cwd=top, capture_output=True, check=True).stdout
