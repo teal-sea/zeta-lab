@@ -133,7 +133,7 @@ Asked for: kappa, mu, eta and the bound eta / (mu - lambda_1) on dist(v_1, R_4) 
 run, from the recorded full-cell times (which include a matrix build, two 129 x 129
 eigendecompositions at 1600 bits, the zero scans and the m = 2 capture): 183 s, 118 s and
 105 s, so a capture-only rerun at m = 4 is bounded by about 410 s on one core, about
-0.11 core-hour (memory not measured; the full cells ran without trouble beside three other processes). The task brief estimated it near one
+0.11 core-hour (memory not measured). The task brief estimated it near one
 core-hour; this record's estimate is lower, and the run waits for the coordinator either
 way. Prediction, pre-registered: still vacuous (bound above 1), because the second and
 third eigenvectors are also radical times a polynomial.
