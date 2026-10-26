@@ -1,10 +1,16 @@
 {
- "mode": "calibrate",
+ "mode": "full",
  "tower": "whole",
  "plan": "lean/cert/rung3_plan2.json",
- "sites": ["centre", "B_right_06"],
- "jobs": 1,
+ "jobs": 20,
  "lean_jobs": 1,
+ "fault_site": "B_right_06",
  "toolchain": "leanprover/lean4:v4.35.0-rc2",
- "mathlib": "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+ "mathlib": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+ "calibration": {
+  "run": 40340279740,
+  "cpu_scale": 0.62,
+  "setup_s": 295,
+  "peak_rss_gb": 11.32
+ }
 }
