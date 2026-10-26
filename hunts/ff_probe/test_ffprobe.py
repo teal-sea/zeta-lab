@@ -917,3 +917,66 @@ def test_leading_terms_of_the_correction(S6, Pr):
     assert abs2[(6, 0, 1)] == 4233649                                  # about Q^8: the Q^(4-6x-6z) term
     lowest = min(sum(e) for e in t)
     assert {e for e in t if sum(e) == lowest} == {(0, 1, 1), (1, 0, 1), (1, 1, 0)}
+
+
+def test_norm2_of_zero():
+    """crosscheck.norm2 at an exact zero: PARI's poldegree(0) is -oo, which crashed the s4
+    item of the 2026-10-26 run (RUNS.md) before this guard."""
+    import crosscheck as CC
+
+    assert CC.norm2(CC.pari("Mod(0, polcyclo(12, z))"), 12) == 0
+    assert CC.norm2(CC.pari("Mod(z, polcyclo(12, z))"), 12) == 1
+
+
+def test_second_implementation_reproduces_the_primary_numbers():
+    """results_second.json (crosscheck.py, PARI) against the primary results files: the
+    counts each side records must be equal, and the only rows short of their checked count
+    are the four source errata of SOURCES.md rows 2, 8 and 9, reproduced exactly."""
+    import render_verification as RV
+
+    sec = _results("second")
+    s1, s2, s3 = _results("step1"), _results("step2"), _results("step3")
+    led, rv = _results("ledger"), _results("rival")
+    for key in ("q7_n3", "q7_n6", "q13_n4"):
+        a, b = sec["davenport_hasse"][key], s1["davenport_hasse"][key]
+        assert a["mismatches"] == b["mismatches"]
+        if a["max_deg"] == b["max_deg"]:
+            assert a["checked"] == b["checked"]
+    assert sec["rho0_relations"]["hecke_infinity"] == s1["hecke_infinity"]
+    assert sec["structural"]["checked"] == sec["structural"]["agree"] == s1["structural_vs_brute"]["checked"] == 319200
+    assert sec["F_routes"]["checked"] == s2["F_routes"]["checked"] == 30576
+    assert sec["C_p"]["checked"] == sec["C_p"]["agree"] == s2["C_p_values"]["checked"] == 720
+    for a, b in zip(sec["K"]["specs"], s2["K_multiplicative"]):
+        assert a["checked"] == a["agree"] == b["checked"] and a["nonzero"] == b["nonzero"]
+    assert sec["lemma"]["cases"] == s2["lemma_7_1_local"]["checked"] == 72
+    assert sec["lemma"]["agree"] == sec["lemma"]["coefficients"]
+    triples = {k: v for k, v in sec["probe"].items() if k[0].isdigit()}
+    assert all(v.get("equal_to_stored", v.get("frequency_box_empty")) for v in triples.values())
+    assert all(b["abs_I_paper_normalization"] == pytest.approx(b["stored"], rel=1e-12)
+               for b in sec["probe"]["balanced"])
+    assert sec["ledger"]["F_abs2_generic"] == led["F_abs2_generic"]
+    assert sec["ledger"]["F_vs_elementary_bound"]["nonzero_cases"] == led["F_vs_elementary_bound"]["nonzero_cases"]
+    assert sec["ledger"]["F_vs_elementary_bound"]["max_ratio"] == pytest.approx(7 ** -0.5, rel=1e-12)
+    for k in ("characters", "functional_equation_holds", "with_zeros_off_circle", "off_iff_disc_positive"):
+        assert sec["rival"][k] == rv["counts"][k]
+    assert sec["rival"]["beyond_one"] == 50
+    assert sec["rival"]["local_identity"]["rival"]["mismatched"] == rv["local_identity"]["rival"]["mismatched_monomials"]
+    assert sec["rival"]["local_identity"]["chi"]["mismatched"] == []
+    assert sec["s4"]["degree3_census"] == s3["degree3_census"]
+    assert sec["s4"]["moduli_by_lambda"] == s3["moduli_by_lambda"]
+    assert sec["s4"]["relations"] == s3["relations"]
+    for k, v in s3["three_body"].items():
+        w = sec["s4"]["three_body"][k]
+        assert (w["defect"], w["all_equal_one"]) == (v["defect"], v["all_equal_one"])
+    # three_body "not all one" is S4.md's defect itself, a finding; the s4 Hecke row at
+    # infinity is the n = 3 sign fit tried at n = 4 (step3's relations_note), 10 of 20 there too
+    short = {(item, ".".join(p)) for item in sec for p, _, _, ok in RV.rows(sec[item])
+             if not ok and not (item == "s4" and p[0] == "three_body")}
+    assert short == {
+        ("s4", "relations.hecke_infinity_corrected.hold"),
+        ("davenport_hasse", "q13_n4.mismatches.2007_with_2014_character"),
+        ("davenport_hasse", "q7_n6.mismatches.2007_with_2014_character"),
+        ("rho0_relations", "hecke_infinity.printed_2007.hold"),
+        ("rho0_relations", "hecke_infinity.printed_2014.hold"),
+    }
+    assert RV.main(["--check"]) == 0

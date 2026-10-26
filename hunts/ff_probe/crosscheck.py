@@ -54,6 +54,8 @@ def norm2(pv, N) -> Fraction:
     """|a|^2 as a rational number (asserted rational)."""
     v = pv * PC.conj(pv, N)
     lifted = pari.lift(v)
+    if lifted == 0:  # poldegree(0) is -oo, which has no int
+        return Fraction(0)
     assert int(pari.poldegree(lifted)) <= 0, "not rational"
     x = pari.polcoef(lifted, 0)
     return Fraction(int(pari.numerator(x)), int(pari.denominator(x)))

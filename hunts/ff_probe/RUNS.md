@@ -152,10 +152,11 @@ average was 51 and `MemAvailable` 68 GiB.
 id: ff_probe-2026-10-26-crosscheck
 hunt: ff_probe
 started: 2026-10-26T12:52Z
-finished: pending
+finished: 2026-10-26T16:02Z
 ran:
   - nice -n 10 .venv/bin/python hunts/ff_probe/crosscheck.py
-outcome: pending
+  - nice -n 10 .venv/bin/python hunts/ff_probe/crosscheck.py --item s4
+outcome: resumed after the four items of 2026-10-21 (symbols, C_routes, F_routes, C_p, in results_second.partial.json); 10 items in 4,709 s (davenport_hasse 513.5, structural 519.1, pari_internal 38.0, rho0_relations 1,158.4, phase_identities 28.3, K 870.6, lemma 250.5, probe 977.2, ledger 331.7, rival 22.2, then s4 crashed at 15:14Z after about 50 min); the crash was a crosscheck.py bug (norm2 asked PARI for the degree of an exact zero, poldegree(0) = -oo), not a disagreement; fixed (test_norm2_of_zero) and s4 rerun alone from the checkpoint, 2,838.7 s, ending 16:02Z; all 15 items agree with the primary run (VERIFICATION.md section 2); about 3.2 core-hours of wall clock in all, against the 1 to 2 estimated, under a load average of 30 to 50; MemAvailable stayed above 65 GiB
 artifacts:
   - hunts/ff_probe/results_second.json
 ```
