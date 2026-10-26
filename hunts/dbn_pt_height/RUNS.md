@@ -217,6 +217,60 @@ artifacts:
 outcome: the DH function, its wide-frame heat flow and Polymath-shaped main terms exist; hunt #61's t = 0.2304 zero is a zero of this independent route in the wide frame; the main terms alone leave |A + B| near a quarter of |B| at both gate zeros, so the gate needs the DH correction and error terms that are the next step
 ```
 
+### E6. The DH gate, built: literature, correction term, pipeline, preregistration (2026-10-26)
+
+- **Literature first** (`evaluator/DH_LITERATURE.md`). No published effective
+  approximation of H_t^DH was found, and no Riemann-Siegel formula with an
+  explicit remainder for L(s, chi) (Hiary 2016 states the gap). Rubinstein's
+  smoothed approximate functional equation is what applies.
+- **The sharp residual, measured.** On 108 points with x from 2000 to 2600 (t = 0,
+  y = 0), the residual |H - (A + B)|/|B| times (5x/(4 pi))^{1/4} is not a
+  smooth function of the fractional position p within a fixed N. It ranges
+  from 0.02 to 4.0. Moving the cutoff N by up to 6 does not shrink it. So no
+  zeta-style Psi(p) correction was fitted.
+- **The correction, built.** `dh.F_split` splits F at x = e^{+-i phi},
+  phi = pi/2 - 0.02, into two incomplete-gamma sums, P1 (smoothed A) and P2
+  (smoothed B). This is exact up to an n-tail with a derived bound. It agrees
+  with the mpmath oracle to 1e-35 at three points, with x up to 1000.7 at
+  727 bits. C = A + B - H then splits about evenly at the t = 0 zero:
+  |A - P1| and |B - P2| are about 0.13 |B| each.
+  - For t > 0 a rigorous Gaussian average of the split over v was tried. It did
+    not finish one point in ten minutes and was stopped.
+  - Hunt #61's `instrument.H_ball` is used instead (0.07 to 0.25 s a point).
+    Its normalisation equals this one exactly (H_wide(z, t) = H_61(z/2, t/4),
+    checked at t = 0 and t = 0.2304).
+- **Development boxes** (not in the gate), with hunt #61's decided counts as
+  truth:
+  - D0 (t = 0, around Spira's zero z = 332.959 + 0.149i): the pipeline
+    decides 1 (44 evaluations, 6.7 s). `one_corner` and `main_terms_only` call
+    it zero-free; `no_margin` and `no_M2` still decide 1; `narrow_frame` fails
+    every segment.
+  - D1 (t = 0.1, [600, 600.5] x [0.1, 0.3]): truth 0, and the pipeline decides
+    0 once the precision follows the height. At 320 bits every segment failed,
+    because the enclosures of |H| ~ 1e-102 held 0.
+- **Estimate for the gate run** (`evaluator/DH_GATE_PREREG.md`, "Cost"): under
+  20 core-minutes for six boxes, truth plus clean plus five faults. That is
+  below one core-hour, so it runs without asking.
+
+```runmanifest
+id: dbn_pt_height-2026-10-26-evaluator-dh-gate-build
+hunt: dbn_pt_height
+started: 2026-10-26T13:40Z
+finished: 2026-10-26T15:10Z
+ran:
+  - web searches recorded in evaluator/DH_LITERATURE.md
+  - scratchpad probes of the sharp residual (108 points, x 2000 to 2600), the cutoff (N 22 to 34 at three x), Spira's zeros (mpmath findroot), F_split against the oracle, the Gaussian-average attempt (stopped after ten minutes), and dh_gate on the development boxes D0 and D1
+  - .venv/bin/python -m pytest -q -n0 hunts/dbn_pt_height/evaluator/test_dh.py hunts/dbn_pt_height/evaluator/test_dh_gate.py (40 passed, 103 s)
+artifacts:
+  - hunts/dbn_pt_height/evaluator/DH_LITERATURE.md
+  - hunts/dbn_pt_height/evaluator/DH_GATE_PREREG.md
+  - hunts/dbn_pt_height/evaluator/dh.py
+  - hunts/dbn_pt_height/evaluator/dh_gate.py
+  - hunts/dbn_pt_height/evaluator/test_dh.py
+  - hunts/dbn_pt_height/evaluator/test_dh_gate.py
+outcome: the correction term is the sharp-minus-smoothed difference, enclosure-carrying at t = 0 and through hunt #61's instrument at t > 0; |A + B - C| at the two measured zeros is the enclosure radius (below 1e-20 and 1e-10 of |B|); the gate is preregistered and has not been run
+```
+
 ## Chain lane (`MISSION.md`, `CHAIN.md`, `REDUCTION.md`, `chain.json`, `sources.json`)
 
 ### C1. Sourcing and reading (2026-10-21 16:23 to 17:23 UTC)

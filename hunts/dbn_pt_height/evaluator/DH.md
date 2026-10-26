@@ -1,9 +1,23 @@
 # DH: the Davenport-Heilbronn refusal gate, design and status
 
-**Status (2026-10-26): designed, first code written (`dh.py`, `test_dh.py`,
-20 tests). The gate has not been run.** It needs a correction term and an error
-bound for DH that do not exist yet (steps 3 and 4 below). Everything here is
-measured; nothing here is a statement about any de Bruijn-Newman constant.
+**Status (2026-10-26, later the same day): built and preregistered.** The
+literature record is `DH_LITERATURE.md`, the gate code is `dh_gate.py` with
+`test_dh_gate.py`, and the preregistration is `DH_GATE_PREREG.md`, committed
+before the run. The result is in `../RUNS.md` (E7). Steps 3 to 5 below were
+done differently from the plan written earlier the same day:
+
+- Step 3: the literature has no explicit-remainder Riemann-Siegel formula for
+  L-functions, and the measured sharp residual is not a smooth function of p.
+  The correction C is therefore the difference between the sharp sums and
+  Rubinstein's smoothed split (`dh.F_split`). It is an exact identity at t = 0;
+  at t > 0 it goes through hunt #61's enclosure of H.
+- Step 4: there is no DH analogue of Theorem 1.3. On DH the pipeline evaluates
+  H itself in balls, so E = 0.
+- Step 5: `dh_gate.dh_barrier` is `effective.barrier_rectangle`'s rule with the
+  function swapped.
+
+What follows is the plan as first written. Nothing here is a statement about
+any de Bruijn-Newman constant.
 
 ## What the gate is for
 
