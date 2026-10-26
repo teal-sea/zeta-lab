@@ -615,10 +615,15 @@ def test_census_plan_is_the_generated_one_and_hash_pinned():
     assert plan["min_y0"] ** 2 / 2 > FLOOR_MEASURED > 0.3395 ** 2 / 2
 
 
-def test_census_not_triggered_and_workflow_guard_rails():
-    """No RUN_REQUEST.json in the tree; the workflow triggers only on it, with the agreed limits."""
+def test_census_request_valid_and_workflow_guard_rails():
+    """RUN_REQUEST.json, when present (pushed only after the coordinator's go), names this plan
+    and a known mode; the workflow triggers only on it, with the agreed limits."""
     yaml = pytest.importorskip("yaml")
-    assert not (HERE / "RUN_REQUEST.json").exists()
+    req_path = HERE / "RUN_REQUEST.json"
+    if req_path.exists():
+        req = json.loads(req_path.read_text())
+        assert req["mode"] in ("calibrate", "full") and isinstance(req["attempt"], int)
+        assert req["plan_sha256"] == PLAN_SHA
     w = yaml.safe_load(WORKFLOW.read_text())
     on = w.get("on", w.get(True))
     assert list(on) == ["push"]
