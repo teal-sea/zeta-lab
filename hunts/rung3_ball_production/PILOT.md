@@ -668,3 +668,12 @@ Then only the fault is re-run, in a new run (`"mode": "fault"`, `"completes_run"
 the two runs: `production.py verdict --runs 40353536947 <fault run>` takes the sites and
 axioms from the first and the fault from the second, and `collect --run` takes several
 runs the same way.
+
+## 14. Production, and the theorem
+
+The production record is `RESULTS.md`; its numbers come from the `production` section of
+`pilot.json`. In brief: 215/215 sites compiled on GitHub Actions under `--tower whole` in
+16.1 runner core-hours. The oleans total 15.12 GB, inside the projected 14.8 to 16.0.
+The assembly peaked at 17.87 GB RSS, inside the projected 17.0 to 17.9.
+`theorem davenport_heilbronn : davenport_heilbronn_statement` and the located zero rest
+on the three standard axioms.

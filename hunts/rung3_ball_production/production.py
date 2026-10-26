@@ -203,9 +203,11 @@ def cmd_generate(req: dict, job: int, gen: Path) -> None:
 
 def parse_axioms(text: str) -> dict[str, list[str]]:
     out = {}
-    for name, body in re.findall(r"'([\w.]+)' depends on axioms: \[(.*?)\]", text, re.S):
+    # a Lean name may end in primes (dh_zero_located'), so the quoted name runs to the
+    # last quote before " depends"
+    for name, body in re.findall(r"^'(.+?)' depends on axioms: \[(.*?)\]", text, re.S | re.M):
         out[name] = sorted(a.strip() for a in body.split(",") if a.strip())
-    for name in re.findall(r"'([\w.]+)' does not depend on any axioms", text):
+    for name in re.findall(r"^'(.+?)' does not depend on any axioms", text, re.M):
         out[name] = []
     return out
 

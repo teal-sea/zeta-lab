@@ -275,3 +275,66 @@ def test_verdict_pairs_a_full_run_with_a_fault_run(tmp_path):
         prod.cmd_verdict(FULL, tmp_path / "records")
     (fault / "fault.json").write_text(json.dumps({"refused_at_ev_whole": True}))
     prod.cmd_verdict(FULL, tmp_path / "records")
+
+
+def test_axiom_parser_reads_names_ending_in_a_prime():
+    out = prod.parse_axioms(
+        "'ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located' depends on axioms: [propext]\n"
+        "'ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located'' depends on axioms: "
+        "[propext, Classical.choice, Quot.sound]\n")
+    assert out["ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located'"] == sorted(prod.STANDARD_AXIOMS)
+    assert out["ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located"] == ["propext"]
+
+
+# --------------------------------------------------------------------------- the production record
+
+PROD = PILOT_JSON.get("production", {})
+
+
+def test_production_verdict_follows_from_its_site_records():
+    v, sites = PROD["verdict"], PROD["sites"]
+    assert set(sites) == set(prod.plan_sites()) and v["sites"] == 215
+    assert v["sites_ok"] == sum(1 for r in sites.values() if r["status"] == "ok") == 215
+    assert v["axioms_clean"] == 215 and v["axiom_sets"] == [["Classical.choice", "Quot.sound", "propext"]]
+    assert v["olean_bytes"] == sum(r["olean_bytes"] for r in sites.values())
+    assert v["cpu_core_hours"] == pytest.approx(sum(r["cpu_s"] for r in sites.values()) / 3600, abs=0.01)
+    assert PROD["fault_run"]["fault"]["refused_at_ev_whole"] is True
+    assert PROD["fault_run"]["fault"]["error_decls"][0] == "Prime_B_right_06_2.ev_whole"
+
+
+def test_every_final_declaration_rests_on_the_standard_axioms():
+    ax = PROD["assembly_box"]["axioms"]
+    assert set(ax) == set(prod.FINAL) and len(ax) == 17
+    assert all(prod.axioms_ok(a) for a in ax.values())
+    printed = PROD["assembly_box"]["printed"]
+    results = (HERE / "RESULTS.md").read_text()
+    for line in printed.strip().splitlines():
+        assert line in results, line                       # quoted verbatim
+    assert all(r["returncode"] == 0 and not r["killed_by_guard"]
+               for r in PROD["assembly_box"]["runs"])
+
+
+def test_the_box_faults_were_each_refused_where_planted():
+    bf = PROD["box_faults"]
+    assert bf["fault-tower-whole-outcome"]["refused_at"][0] == "Prime_B_right_06_2.ev_whole"
+    assert bf["fault-tail-rad-outcome"]["refused_at"] == ["ZetaLean.DH.Cert.enc_B_right_06"]
+    assert bf["fault-M-outcome"]["refused_at"] == ["ZetaLean.DH.Cert.upper_B_right_06"]
+    assert bf["centre-eps-eps-at-bound"]["returncode"] == 1
+    assert bf["centre-eps-eps-half"]["returncode"] == 1
+    assert bf["centre-eps-eps-at-bound"]["refused_at"] == ["centre_lt_centre"]
+    assert bf["centre-eps-control"]["returncode"] == 0 and bf["centre-eps-control"]["eps"] == "1/2000"
+    assert bf["centre-eps-eps-above-bound"]["returncode"] == 0
+    for tag in ("fault-tail-rad-outcome", "fault-M-outcome"):
+        assert bf[tag]["recompiled"] == ["CB_right_06.lean"]   # only the touched module
+
+
+def test_results_md_quotes_the_production_numbers():
+    text = " ".join((HERE / "RESULTS.md").read_text().split())
+    v, asm = PROD["verdict"], {r["tag"]: r for r in PROD["assembly_box"]["runs"]}
+    zipped = sum(a["bytes"] for a in PROD["collect"]["artifacts"])
+    for q in (f"{v['cpu_core_hours']} runner core-hours", f"{v['olean_bytes']:,} bytes",
+              f"{zipped:,} bytes zipped", f"{asm['assembly']['cpu_s']} CPU-s",
+              f"{asm['assembly']['peak_rss_bytes'] / 1e9:.2f} GB peak RSS",
+              "run 40353536947", "run 40372531479", "verdict --runs 40353536947 40372531479"):
+        assert q in text, q
+    assert len(PROD["collect"]["artifacts"]) == 20

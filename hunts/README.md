@@ -75,12 +75,18 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
-### Hunt #145: the rung-3 ball certificate at Lean v4.35.0-rc2, one big-box site compiled and production priced (`rung3_ball_production/`, 2026-10-21)
+### Hunt #145: the Davenport-Heilbronn zero off the critical line, kernel-checked (`rung3_ball_production/`, 2026-10-21 to 2026-10-26)
 
-**Status: open ledger hunt. A pilot on one shared box in one session, measured; the pilot
-site's two theorems kernel-checked and its planted faults refused; no production shard
-launched; `davenport_heilbronn` unproved, and no file emits the assembly module that would
-prove it; nothing promoted; no novelty claimed.** The `rung3-pilot` lane of the campaign
+**Status: closed 2026-10-26. `theorem davenport_heilbronn : davenport_heilbronn_statement`
+is kernel-checked (Lean v4.35.0-rc2, Mathlib 065356127b1d, zero `sorry`, only `propext`,
+`Classical.choice` and `Quot.sound`), pending external verification, with the zero
+located in the plan's closed square and paired against hunt #137's RH to height 100;
+original; novel only against the search in `PRIOR_ART.md`; nothing here bears on RH.**
+`RESULTS.md` states the theorems as compiled. *2026-10-21 status, superseded:* open ledger
+hunt; a pilot on one shared box in one session, measured; the pilot site's two theorems
+kernel-checked and its planted faults refused; no production shard launched;
+`davenport_heilbronn` unproved, and no file emitted the assembly module that would prove
+it; nothing promoted; no novelty claimed. The `rung3-pilot` lane of the campaign
 the owner directed on 2026-10-21 (route 3). The task proposed #138; the launching workflow
 reserved #138 to #144 for landings it is renumbering and assigned #145. Lean `v4.35.0-rc2`
 against Mathlib `065356127b1d`, fetched fresh into the worktree's own `lean/.lake` (nine
@@ -139,6 +145,19 @@ byte-identical. The pilot site recompiled in it end to end (measured): 163.6 CPU
 refused. Extrapolated from that site, production comes to 29.8 core-hours and 14.8 to
 16.0 GB of oleans, with an assembly import of about 17 to 18 GB of RSS. On those
 projections the sites fit GitHub Actions shards and the assembly fits one 32 GB machine.
+*Closed the same day.* The whole-mode tower namespaces were first site-qualified
+(`Prime_<sid>_<p>`), because two site roots could not be imported together; the staged
+default keeps that collision by ruling. `.github/workflows/rung3-production.yml` then
+compiled all 215 sites on GitHub Actions (run 40353536947: 215/215 sites, every site
+theorem on the three standard axioms, 16.1 runner core-hours, 15.1 GB of oleans). Its fault
+job left no verdict (GitHub's `bash -e`), and after the fix the fault ran alone (run
+40372531479: refused at `Prime_B_right_06_2.ev_whole`). The pair counts. On this box, from
+oleans on `/dev/shm` with every zip checked against GitHub's digest, the assembly compiled
+(85.3 CPU-s, 17.87 GB peak), and so did the separation against `RHHeight100.rh_height_hundred`.
+All 17 final declarations print only the three standard axioms. Four planted faults on
+production output were refused: the tower radius at `ev_whole`, the tail radius at `enc_`,
+M at `upper_`, and eps' at and below the bound in `centre_lt_centre`. No independent
+kernel replay of the assembled environment has run yet; that is the first door.
 
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 

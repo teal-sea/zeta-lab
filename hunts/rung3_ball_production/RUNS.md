@@ -432,3 +432,50 @@ Prepared before the verdict (measured):
 
 That totals 20 to 40 core-minutes, under the one core-hour cap. Anything beyond goes back
 to the coordinator first.
+
+### The full run's terminal state, the fault re-run, and the assembly (measured)
+
+- **Run 40353536947** (watcher's `terminal.json`): conclusion `failure`, ended
+  17:44:11Z. Plan and all 20 site jobs succeeded. `sites fault (full)` failed because
+  `bash -e` ended its step before the exit code was captured, so its evidence is void
+  (`PILOT.md` section 13). The verdict job failed because no `fault.json` existed, as it
+  had to. The records give 215/215 sites `ok`, every site theorem on exactly `propext`,
+  `Classical.choice` and `Quot.sound`, 16.1 runner core-hours, and 15,123,966,128 bytes
+  of oleans.
+- **Run 40372531479** at `78e91a542` (`"mode": "fault"`, `"completes_run": 40353536947`):
+  success. The fault was refused at `Prime_B_right_06_2.ev_whole`, and its logs are kept
+  as `rung3-production-fault-logs-attempt1` (90 days). `production.py verdict --runs
+  40353536947 40372531479` counts the pair.
+- **On this box**, one Lean process at a time under `nice -n 10`, gated:
+  - `collect`: 20 zips, 4,744,646,464 bytes, straight to `/dev/shm`, every SHA-256 equal
+    to GitHub's digest, 106 CPU-s and 179 s of wall;
+  - the four planted faults against the downloaded `B_right_06` oleans, each refused
+    where planted, with only the touched module recompiled (`pilot.json`
+    `production.box_faults`);
+  - `assemble`: Support 9.1 CPU-s; Assembly 85.3 CPU-s at 17.87 GB peak RSS; Separation
+    11.8 CPU-s; the axioms print 11.6 CPU-s. `MemAvailable` started at 50.1 to 50.4 GiB
+    and its low was 48.9 GiB.
+
+  Then `/dev/shm` was deleted, and the receipts (site-root and assembly olean SHA-256,
+  logs, `collected.json`, `assemble.json`) were kept in
+  `<cache>/rung3-ball-production-full/receipts`. On-box total: about 10 core-minutes,
+  inside the estimate of 20 to 40.
+
+```runmanifest
+id: rung3_ball_production-2026-10-26-production
+hunt: rung3_ball_production
+started: 2026-10-26T15:52Z
+finished: 2026-10-26T18:00Z
+ran:
+  - .github/workflows/rung3-production.yml mode full, run 40353536947 (https://github.com/teal-sea/zeta-lab/actions/runs/40353536947), commit 85cabd55b
+  - .github/workflows/rung3-production.yml mode fault, run 40372531479 (https://github.com/teal-sea/zeta-lab/actions/runs/40372531479), commit 78e91a542
+  - hunts/rung3_ball_production/production.py verdict --runs 40353536947 40372531479
+  - hunts/rung3_ball_production/production.py collect --run 40353536947 --dest /dev/shm/rung3-assembly
+  - hunts/rung3_ball_production/pilot.py fault --kind tail-rad and --kind M, production.py fault + scripts/72 + refused, pilot.py centre-eps (work directory <cache>/rung3-ball-production-faults4)
+  - hunts/rung3_ball_production/production.py assemble --dest /dev/shm/rung3-assembly --overlay <cache>/rung3-ball-production-assembly/overlay --rh100 <cache>/rh100-out
+outcome: theorem davenport_heilbronn, dh_zero_located, dh_zero_located' and dh_separation_hundred compiled with zero sorry, and all 17 final declarations print exactly propext, Classical.choice and Quot.sound; 215/215 sites ok; every planted fault refused at its declaration; /dev/shm cleared
+artifacts:
+  - hunts/rung3_ball_production/RESULTS.md
+  - hunts/rung3_ball_production/pilot.json (production)
+  - <cache>/rung3-ball-production-full/receipts
+```

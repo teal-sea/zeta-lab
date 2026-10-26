@@ -31,6 +31,17 @@ independent checker `con-ron --verified` accepts the exported proof as well. No
 outside computation is taken on trust. RH has been verified numerically far higher;
 this is a finite theorem and says nothing about RH itself.
 
+**The Davenport-Heilbronn zero, kernel-checked** ([hunt #145](hunts/rung3_ball_production/RESULTS.md),
+rung 3 of [the Lean ladder](docs/doors/certify.md)). A Lean proof that a function with
+zeta's kind of Dirichlet series and functional equation, the Davenport-Heilbronn
+function `DH`, has a zero off the critical line, located in the closed square of
+half-width 3/64 about 0.808517 + 85.699348 i (Spira's zero, 1994). Paired with hunt #137,
+it shows that below height 100 `DH` has an off-line zero and `riemannZeta` has none.
+Lean's kernel accepts it with zero `sorry` and only the three standard axioms, from 215
+site theorems compiled on GitHub Actions and one assembly; planted one-unit faults are
+refused. No independent replay of the assembled environment has run yet. The result
+shows that the functional equation alone cannot give RH. It is not progress toward RH.
+
 On 2026-10-06 OpenAI released a proof that no Dirichlet L-function, zeta
 included, has a zero with real part above 7/8. This laboratory rebuilt its Lean
 proof on its own compute, two independent proof kernels accepted it
