@@ -302,3 +302,39 @@ agents_may_not:
   - write outside hunts/rh_moonshot/ except this hunt's case-log entry
   - push, publish or contact outside parties
 ```
+
+## Challenge-phase scoring rubric (pre-registered 2026-10-26)
+
+Appended on 2026-10-26, when the owner resumed this hunt in place, before the `NOTES.md` of
+`ccm_arithmetic` or `li_arithmetic` was written, so that the challengers of every mechanism
+score against a rubric fixed before they read the constructions. The builder of a
+mechanism does not fill in its scorecard. Each challenger records, per mechanism, one
+scorecard with these seven fields, each answered with a citation to a file and line, a
+test name, or a computation the challenger ran:
+
+1. **Disposition.** Exactly one of: refuted, restricted class obstructed, unresolved,
+   paused by allocation (`ALIGNMENT.md` section 5), or alive (a stated next step and no
+   located failure). For refuted, the counterexample or invalid step and its parameters;
+   for restricted class obstructed, the theorem or primary source and why its hypotheses
+   apply.
+2. **Grade per step.** Each step of the chain from the construction to its stated target,
+   with its grade as defined at the top of this file (measured, hardened, derived with its
+   review status, kernel-checked), and the composite grade, which is the weakest step's.
+   A step graded above its evidence is recorded with the grade it should carry.
+3. **The Euler-product step.** Whether the step that uses the Euler product or
+   multiplicativity is named, whether it is tested against a rival that lacks it, and
+   with what result. A construction with no such step, or with one untested, is scored so.
+4. **Finite stand-ins.** Whether any finite computation (a range of n, of windows c, of
+   band sizes N, of heights T, of degrees k) stands in for an all-order, all-window,
+   all-height or all-degree step, and if so which step and at what range.
+5. **Novelty search.** Whether a search for the construction's key statement is recorded
+   (what was searched, where, and what was found). Absence downgrades nothing; it is
+   recorded as absent.
+6. **Rival results on complete hypotheses.** For each of DH, Epstein (1,1,6), W_{1/4} and
+   zeta(s - delta) (zeta shifted off its line by a stated delta > 0), one of: meets every
+   hypothesis and violates the conclusion (refutes the implication); lacks a named
+   hypothesis (not that counterexample); passes only a shared lemma (no verdict on the
+   whole); computation not run or failed (excludes nothing). Each entry states its range
+   and grade.
+7. **Circularity.** Whether any input assumes RH, GRH, an RH-equivalent statement or the
+   zeros themselves, and where.
