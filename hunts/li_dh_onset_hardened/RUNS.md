@@ -144,3 +144,41 @@ deleted after the runs landed. They are working files: a rerun rebuilds them.
 The two tables (50 MB) stay out of git in `artifacts/big/`. This workspace is
 swept when idle, so the SHA-256 values above are the durable record, and a
 rerun reproduces the tables in about 28 minutes.
+
+## Follow-up, 2026-10-26: durability, and the independent evaluator
+
+**The tables, made durable.** They are copied out of the sweepable workspace to
+`${ZETA_LAB_CACHE:-~/.cache/zeta-lab}/li_dh_onset_hardened/` (out of git) and
+checked:
+
+    $ sha256sum ~/.cache/zeta-lab/li_dh_onset_hardened/lambda_*.txt
+    5ebe86082023966b65f06d1c11c020bd5718b6ff7c85b8fcf0450e041f87396b  lambda_A.txt
+    b46903b3e8141688d1ca52f5733f3deb5ba999e4653eaa35ae745c2590bbd2e4  lambda_B.txt
+
+Both match the production manifests above.
+
+**Regenerating each table.** Use the commit whose code produced them,
+cd1a04cb1 (the production driver). The result commit 109593233 changed no code
+the runs use. From the repository root:
+
+    git worktree add ../regen-151 cd1a04cb1 && cd ../regen-151
+    .venv/bin/python -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/pip install -e .   # or reuse a venv with python-flint 0.9.0, mpmath 1.3.0
+    nice -n 10 .venv/bin/python hunts/li_dh_onset_hardened/production.py --tag A --c 5000 --log2N 21 --prec 192   # about 20 min
+    nice -n 10 .venv/bin/python hunts/li_dh_onset_hardened/production.py --tag B --c 2500 --log2N 19 --prec 256   # about 8 min
+    sha256sum hunts/li_dh_onset_hardened/artifacts/big/lambda_A.txt hunts/li_dh_onset_hardened/artifacts/big/lambda_B.txt
+
+The tables are deterministic given the code and the python-flint version: a
+resumed run reproduced its table bit for bit (the smoke test before run A).
+
+**Estimate 3 (before the independent run).** I timed `iv_fast` (f and log G in
+mpmath.iv at 256 bits) on 1000 nodes spread over the upper half of the c = 2500,
+N = 2^19 circle, 4 processes x 250: 0.057 s per node. The older `iv_route`
+evaluator measured 0.14 s on the same nodes.
+
+| part | estimate |
+|---|---|
+| 262,145 node evaluations | 4.2 core-hours (about 1.1 h wall on 4 processes) |
+| the M(rho) arc cover in iv | 0.2 to 0.5 core-hours (the r = 0.95 cover took about 140 s against Arb's 1) |
+| the branch cover in iv (B needed about 20k arc evaluations) | about 0.3 core-hours |
+| DFT, extraction, comparison | under 0.05 core-hours |
+| **total** | **about 5 core-hours**, inside the pre-approved 6 |

@@ -148,7 +148,11 @@ def bound_M(rho: arb, prec: int = 128, max_depth: int = 60, model=None) -> dict:
     closure value of arg f at q = 1 (s = 1/(1+rho), real, f > 0 there).
     """
     model = model or DHModel()
-    PB = principal_bound(prec) if model.name == "dh" else None
+    if hasattr(model, "principal_bound"):
+        PB = model.principal_bound(prec)
+    else:
+        PB = principal_bound(prec) if model.name == "dh" else None
+    pending = None             # right end q of the last principal arc, anchored lazily
     stats = {"arcs": 0, "principal_arcs": 0, "tracked_arcs": 0, "splits": 0}
     M = 0.0
     arg_anchor = None          # continuous arg h at the left end of the next arc
@@ -171,12 +175,16 @@ def bound_M(rho: arb, prec: int = 128, max_depth: int = 60, model=None) -> dict:
             if ok and PB is not None and model.principal(sb):
                 M = _up(M, abs(Lb).upper() + PB)
                 stats["principal_arcs"] += 1
-                # anchor the continuous arg at the right end by the principal value
-                fr = model.h(s_of(acb(rho * q_arb(q1).cos_pi(), rho * q_arb(q1).sin_pi())), prec)
-                a = rarg(fr, 0)
-                arg_anchor = a if a is not None else None
+                # the continuous arg at the right end is the principal value there;
+                # it is evaluated only if a tracked arc follows (lazily)
+                pending, arg_anchor = q1, None
                 stats["arcs"] += 1
                 continue
+            if ok and arg_anchor is None and pending is not None:
+                fr = model.h(s_of(acb(rho * q_arb(pending).cos_pi(),
+                                      rho * q_arb(pending).sin_pi())), prec)
+                arg_anchor = rarg(fr, 0)
+                pending = None
             if ok and arg_anchor is not None:
                 Lb = model.L(sb, prec)
                 fb = model.h(sb, prec)

@@ -178,3 +178,33 @@ radius, and does not claim n\*.
 **The stop rule.** If no ball-decided negative coefficient appears for
 n <= 500,000, stop. Record the positivity range actually hardened and
 re-estimate (a larger n_max changes N and the bits) before any further spend.
+
+## Pre-registration of the independent-evaluator rerun of run B (2026-10-26, committed before it starts)
+
+Committed before `ivpipe.py` runs. **Why:** RESULTS.md names a shared failure
+mode, that both production radii evaluate f with the same Arb code (four
+`acb.zeta` calls). The rerun repeats run B (c = 2500, N = 2^19, 256 bits,
+rho = 1 - 4.6e-5, n <= 500,000) with every evaluation of f, log G and S(3/2)
+taken from mpmath.iv instead (`iv_fast.py`: Euler-Maclaurin, its own kappa
+solve, `mpmath.iv.loggamma`). That covers the node samples, the branch-cover arc
+balls and the M(rho) cover. The node geometry, the tracking logic, `acb.dft` and
+the aliasing arithmetic are shared with run B on purpose ("run the same DFT").
+
+**The comparison sample.** `sorted(random.Random(1512026).sample(range(1, 500001), 1000))`,
+`ivpipe.sample_indices()`. It begins 312, 546, 986, 1390, 1759, ends 498499,
+499466, 499616, and does not contain 328996 or 328997.
+
+**The rules.**
+1. The iv run's first ball-negative index must be 328997, with no undecided
+   index before it. Undecided iv balls are reported as undecided, not as a
+   disagreement.
+2. At every n <= 500,000 where both runs decide the sign, the signs must agree.
+3. The iv ball and run B's ball must intersect at n = 328996, at n = 328997 and
+   at all 1000 sampled indices.
+
+**Verdict.** If all three hold, the named shared failure mode is excluded for
+run B's table, at the grade the iv route carries: interval arithmetic, with
+every evaluation enclosed. Any failure is a defect between the two evaluators.
+It is investigated before anything else is reported, and the headline is not
+withdrawn or changed until that investigation says so. Neither outcome changes
+the headline grade (hardened, pending external verification).
