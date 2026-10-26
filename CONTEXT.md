@@ -223,7 +223,7 @@ Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `EPSTEIN_DIGITS_PE
 
 ### `zeta/li.py`, Li's criterion and Jensen polynomials, the real-rootedness lane.
 
-*1423 lines*
+*1443 lines*
 
 Constants: `DATA_DIR`, `GAMMA1`, `RADIUS_MAX`, `ZERO_DPS`
 
@@ -1312,7 +1312,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2343 test functions across 142 files (the collected count differs where tests are parametrised):
+2345 test functions across 142 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1381,7 +1381,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_lambda_dh_separation.py`, 13
 - `tests/test_leeyang.py`, 7
 - `tests/test_lesion_sets_are_pinned.py`, 4
-- `tests/test_li.py`, 56
+- `tests/test_li.py`, 58
 - `tests/test_meta_evals.py`, 17
 - `tests/test_meta_ledger.py`, 24
 - `tests/test_meta_self_report.py`, 24
