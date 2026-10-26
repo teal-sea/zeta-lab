@@ -1,0 +1,7 @@
+zeta 1/2 {"max_D_arb": -0.00230956163352, "n_points": 404, "n_positive": 0, "n_undecided": 0, "max_abs_mp_minus_arb": 5e-13, "n_mp": 404, "positive_x": []} {'14.1347251417': None} t=3.1s
+zeta 3/8 {"max_D_arb": -0.00173247568545, "n_points": 404, "n_positive": 0, "n_undecided": 0, "max_abs_mp_minus_arb": 4.62e-12, "n_mp": 404, "positive_x": []} {'14.1347251417': None} t=1.9s
+zeta 3/10 {"max_D_arb": -0.00138609335557, "n_points": 404, "n_positive": 0, "n_undecided": 1, "max_abs_mp_minus_arb": 4.78e-12, "n_mp": 404, "positive_x": []} {'14.1347251417': None} t=3.1s
+zeta 1/4 {"max_D_arb": -0.00115512887677, "n_points": 404, "n_positive": 0, "n_undecided": 0, "max_abs_mp_minus_arb": 4.87e-12, "n_mp": 404, "positive_x": []} {'14.1347251417': None} t=1.6s
+zeta 1/5 {"max_D_arb": -0.000924136542381, "n_points": 404, "n_positive": 0, "n_undecided": 0, "max_abs_mp_minus_arb": 1.94e-11, "n_mp": 404, "positive_x": []} {'14.1347251417': None} t=1.6s
+zeta 1/10 {"max_D_arb": -0.000462090569705, "n_points": 404, "n_positive": 0, "n_undecided": 0, "max_abs_mp_minus_arb": 4.54e-12, "n_mp": 404, "positive_x": []} {'14.1347251417': None} t=2.7s
+zeta 1/20 {"max_D_arb": -0.000231048072572, "n_points": 404, "n_positive": 0, "n_undecided": 0, "max_abs_mp_minus_arb": 4.33e-11, "n_mp": 404, "positive_x": []} {'14.1347251417': None} t=1.9s
