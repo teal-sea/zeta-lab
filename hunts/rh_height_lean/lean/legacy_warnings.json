@@ -1,0 +1,103 @@
+{
+  "Zeta23/FromPNTPlus/Fourier.lean": {
+    "sha256": "50396a0bbfd78d813b3cdcb3a18239ef273f36a46533b891f7aae1f5a043407d",
+    "warnings": [
+      "Zeta23/FromPNTPlus/Fourier.lean:33:94: warning: This simp argument is unused:"
+    ]
+  },
+  "Zeta23/FromPNTPlus/StrongPNTPrefix.lean": {
+    "sha256": "fb896b2c07c22ae03cf33de4e3cd619bd4c43861724a7751cd557dd777e4f5bb",
+    "warnings": [
+      "Zeta23/FromPNTPlus/StrongPNTPrefix.lean:65:71: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/StrongPNTPrefix.lean:206:9: warning: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead",
+      "Zeta23/FromPNTPlus/StrongPNTPrefix.lean:280:14: warning: `dif_pos` has been deprecated: Use `dite_eq_left` instead",
+      "Zeta23/FromPNTPlus/StrongPNTPrefix.lean:288:14: warning: `dif_neg` has been deprecated: Use `dite_eq_right` instead",
+      "Zeta23/FromPNTPlus/StrongPNTPrefix.lean:347:10: warning: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead",
+      "Zeta23/FromPNTPlus/StrongPNTPrefix.lean:372:48: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/StrongPNTPrefix.lean:394:10: warning: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead",
+      "Zeta23/FromPNTPlus/StrongPNTPrefix.lean:436:48: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead"
+    ]
+  },
+  "Zeta23/FromPNTPlus/ZetaBounds.lean": {
+    "sha256": "1274579451f49f99040983ef8a67eed4425a0e8ebeec29e559b3f8a6543b7121",
+    "warnings": [
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:863:13: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:956:13: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1096:13: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1103:32: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1109:56: warning: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1119:56: warning: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1123:17: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1139:54: warning: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1161:22: warning: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1173:15: warning: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1173:59: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1189:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1839:19: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1841:45: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1844:28: warning: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1848:28: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1904:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:1910:20: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:2095:13: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:2888:17: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/FromPNTPlus/ZetaBounds.lean:2944:17: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead"
+    ]
+  },
+  "Zeta23/RvM/Backlund.lean": {
+    "sha256": "e6fec52b346268bf17b7107f9f8eca235140c7982088cd0c570443ee32ebf481",
+    "warnings": [
+      "Zeta23/RvM/Backlund.lean:127:24: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead"
+    ]
+  },
+  "Zeta23/RvM/Halving.lean": {
+    "sha256": "a97101d4a2cc91989b4cc2f2712d41c81a200e1dcb6bacb55784761d783d4c29",
+    "warnings": [
+      "Zeta23/RvM/Halving.lean:56:55: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/RvM/Halving.lean:66:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead",
+      "Zeta23/RvM/Halving.lean:74:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead"
+    ]
+  },
+  "Zeta23/RvM/NcountWindow.lean": {
+    "sha256": "18cf3db903aef8694132f9c353aab830357a2bb970765553e349173fd1b536a4",
+    "warnings": [
+      "Zeta23/RvM/NcountWindow.lean:27:22: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead"
+    ]
+  },
+  "Zeta23/RvM/ReZeroCount.lean": {
+    "sha256": "0ed40a210943cce357bf811caaa5e2dacbb399515b64b688976df2188bbb38cc",
+    "warnings": [
+      "Zeta23/RvM/ReZeroCount.lean:276:15: warning: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead"
+    ]
+  },
+  "Zeta23/Statement.lean": {
+    "sha256": "ace63b9fc16dbe85007e4f9301a7ece03d2a6b7a106b862fd1560a2040f39a9b",
+    "warnings": [
+      "Zeta23/Statement.lean:152:30: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead"
+    ]
+  },
+  "Zeta23/Statement/Seam.lean": {
+    "sha256": "f0b467ce6fc1ee94e3acb9241403a543aa6b4fb9086ed12fe5d43b598e32340a",
+    "warnings": [
+      "Zeta23/Statement/Seam.lean:63:13: warning: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead"
+    ]
+  },
+  "Zeta23/ZetaReflect.lean": {
+    "sha256": "757c8087bf6be6de3212df02f5c2c44f1cdbae8b960bf982c9d4d4022f89d29f",
+    "warnings": [
+      "Zeta23/ZetaReflect.lean:95:17: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead"
+    ]
+  },
+  "ZetaLean/HardyZ.lean": {
+    "sha256": "21259011d07285653f190ba574140bed167e09f067c72d0bcc90446173dd9a21",
+    "warnings": [
+      "ZetaLean/HardyZ.lean:120:46: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice"
+    ]
+  },
+  "ZetaLean/IntervalCExp.lean": {
+    "sha256": "854ed3f83c75b44b4e0b2879eaf901155d5371b51f2a54ad585d0b11042b2db4",
+    "warnings": [
+      "ZetaLean/IntervalCExp.lean:411:60: warning: Variable name `hnL` is not explicitly referenced."
+    ]
+  }
+}
