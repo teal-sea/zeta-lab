@@ -1,0 +1,84 @@
+{
+  "arithmetic": {
+    "W_1_4": {
+      "coefficient_defect_2_3": "-1.06910588403687826e-50",
+      "first_negative": null,
+      "first_non_prime_power": null
+    },
+    "davenport_heilbronn": {
+      "coefficient_defect_2_3": "1.08070090314928289",
+      "first_negative": [
+        3,
+        "-0.312092728516163622"
+      ],
+      "first_non_prime_power": [
+        6,
+        "1.93635607662103879"
+      ]
+    },
+    "epstein_1_1_6": {
+      "coefficient_defect_2_3": "2.0",
+      "first_negative": [
+        48,
+        "-7.74240202181578186"
+      ],
+      "first_non_prime_power": [
+        6,
+        "3.58351893845611"
+      ]
+    },
+    "zeta": {
+      "coefficient_defect_2_3": "0.0",
+      "first_negative": null,
+      "first_non_prime_power": null
+    },
+    "zeta_shift_delta_0_1": {
+      "coefficient_defect_2_3": "2.67276471009219565e-51",
+      "first_negative": null,
+      "first_non_prime_power": null
+    }
+  },
+  "golden_fake": {
+    "castelnuovo_severi_margin_n1": -5,
+    "minimum_place_count_to_n_max": 1,
+    "n_max": 80,
+    "normalized_root_moduli": [
+      "1.61803398874989484820458683437",
+      "0.618033988749894848204586834366"
+    ],
+    "places_1_to_6": [
+      1,
+      5,
+      25,
+      110,
+      500,
+      2215
+    ],
+    "points_1_to_6": [
+      1,
+      11,
+      76,
+      451,
+      2501,
+      13376
+    ]
+  },
+  "parameters": {
+    "delta": "0.1",
+    "dps": 50,
+    "n_max": 60
+  },
+  "shifted_zeta_normalization": {
+    "actual_center": "0.6",
+    "actual_symmetry_defect": "2.08809742976e-53",
+    "delta": "0.1",
+    "fixed_half_symmetry_defect": "0.0103207777726",
+    "pole": "1.1"
+  },
+  "zero_residuals": {
+    "W_1_4": "3.61812771902e-35",
+    "davenport_heilbronn": "5.01018988234e-49",
+    "epstein_1_1_6": "4.30212194893e-11",
+    "zeta_shift_delta_0_1": "5.18930729997e-32"
+  }
+}
