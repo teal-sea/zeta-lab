@@ -51,6 +51,8 @@ def test_log_derivative_coefficients_separate_the_rivals(payload):
     assert rows["davenport_heilbronn"]["first_non_prime_power"][0] == 6
     assert rows["epstein_1_1_6"]["first_negative"][0] == 48
     assert rows["epstein_1_1_6"]["first_non_prime_power"][0] == 6
+    assert mp.mpf(payload["zero_residuals"]["davenport_heilbronn"]) < mp.mpf("1e-40")
+    assert mp.mpf(payload["zero_residuals"]["epstein_1_1_6"]) < mp.mpf("1e-9")
 
 
 def test_shifted_zeta_passes_prime_sign_but_loses_fixed_normalization(payload):
