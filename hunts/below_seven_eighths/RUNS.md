@@ -281,3 +281,31 @@ Tracker heads read on 2026-10-26 (PR, head commit, tree of the submission direct
 ```
 
 Tracker `main` at `01c21abe8547304d033798ae7e4752dba4038209` (committed 2026-10-26T01:30:16Z).
+
+## Slow tier, 2026-10-26
+
+Each file was run on its own: `-m slow`, `-n0`, `nice -n 10`, with a 30-minute timeout, and
+only after the first field of `/proc/loadavg` was at or below 64. The load given is the
+one-minute load when the file finished (measured). Every slow test passed; nothing was edited.
+
+| file | started (UTC) | wall | load at end | result |
+|---|---|---|---|---|
+| test_followups_identities.py | 13:28 | 1 s | 31.1 | no slow tests (30 deselected) |
+| test_assembly.py | 13:28 | 2 s | 31.1 | no slow tests (91 deselected) |
+| test_probe_table.py | 13:28 | 2 s | 32.2 | no slow tests (114 deselected) |
+| test_rowcounts.py | 13:28 | 144 s | 47.8 | 10 passed |
+| test_euler_step.py | 13:30 | 478 s | 26.0 | 6 passed |
+| amplification/test_price.py | 13:38 | 1 s | 26.0 | no slow tests (37 deselected) |
+| referee/test_local_identity_pari.py | 13:38 | 253 s | 44.8 | 12 passed |
+
+```runmanifest
+id: below_seven_eighths-2026-10-26-slow-tier
+hunt: below_seven_eighths
+started: 2026-10-26T13:28Z
+finished: 2026-10-26T13:42Z
+ran:
+  - timeout 1800 nice -n 10 .venv/bin/python -m pytest -q -n0 -m slow hunts/below_seven_eighths/<file>, for each of the seven lane test files in turn, each started only while the one-minute load was at or below 64
+outcome: all 28 slow tests passed (rowcounts 10, euler_step 6, referee 12); four files have no slow tests; total wall 881 s on one core at a time; with the fast tier this covers every test of the lane at commit 8614bb0fc
+artifacts:
+  - hunts/below_seven_eighths/RUNS.md
+```
