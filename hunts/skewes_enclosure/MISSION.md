@@ -88,7 +88,7 @@ about 24x this hunt's, and is out of scope here.
 
 `skewes_terms.py` (this directory) re-evaluates [Rev25] Theorem 3.1's R1 to R6
 at the Saouter-Demichel parameters omega = 727.95134, alpha = 6e12, A = 6.85e7,
-T = 10379599.7274. It reproduces the R column of [Rev25]'s Saouter-Demichel resizing table to all six printed digits at
+T = 10379600 (see the T note in `skewes_terms.py`). It reproduces the R column of [Rev25]'s Saouter-Demichel resizing table to all six printed digits at
 eta = 2.28e-5, 1.6e-5, 1.59e-5 and 1.58e-5 (2.79507e-3, 2.79527e-3, 2.83095e-3,
 6.97516e-3). R is dominated by R1 = 2/(omega - eta) + ... = 2.763e-3 and
 R4 = 3.2e-5. With [Rev25]'s float sum S* = -1.002922947193156:
@@ -117,6 +117,25 @@ hypothesis that RH holds to height A = 6.85e7 as a cited theorem (Platt 2017,
 Platt-Trudgian 2021). The hardened grade covers the computation; the composite
 claim is "hardened computation on top of a cited derivation". That is weaker
 than an interval-grade result whose analytic step was also checked here.
+
+## Coordinator decision (2026-10-26)
+
+- **Production A approved**: the Chao-Plymen target, 2e6 zeros, on this box. The
+  gate is that Revers's printed S* = -1.006553478788955 lies inside the ball
+  sum, or within his stated zero-error budget. The result is recorded either way.
+- **Production B approved in principle, conditional on A passing**: 2.2e7
+  zeros through a GitHub Actions workflow on this branch, reviewed by the
+  coordinator before its trigger file is committed.
+- **Novelty, stated plainly.** Platt-Trudgian 2015 already carried theta(x) - x
+  in MPFI interval arithmetic. The claim this hunt can make is an
+  enclosure-carrying localization of a pi(x) - li(x) sign change. It is novel
+  only against the recorded search in section (a): three papers and one web
+  search. That is not a literature search, and no priority is claimed.
+- **Recorded observation.** In [Rev25]'s Saouter-Demichel resizing table, the
+  row printed as eta = 0.0000155 with R = 5.15554e1 is the value of Theorem 3.1's
+  R at eta = 0.0000156. At 0.0000155 the formula gives R = 5473.12. Both rows are
+  negative lower bounds, so the paper's conclusion is unaffected. This is pinned by
+  `test_revers_row_labelled_1_55e_5_is_the_value_at_1_56e_5`.
 
 ## Inputs and their grades
 

@@ -143,10 +143,15 @@ def lower_bound_I(sum_ball: arb, p: LehmanParams) -> arb:
     return -1 - sum_ball - revers_R(p)["R"]
 
 
-#: [Rev25] section 4 parameter sets. T values are the paper's stated upper
-#: bounds for gamma_2000000 and gamma_22000000.
-CHAO_PLYMEN = LehmanParams("727.952018", "0.00016", "1.34e11", "1.022e7", "1131944.4718")
-SAOUTER_DEMICHEL = LehmanParams("727.95134", "0.0000228", "6e12", "6.85e7", "10379599.7274")
+#: [Rev25] section 4 parameter sets. The paper writes T = gamma_2000000 <
+#: 1131944.4718 and T = gamma_22000000 < 10379599.7274, but Arb's Turing count
+#: gives N(1131944.4718) = 1999999 and N(10379599.7274) = 21999999: those decimals
+#: are lower bounds on the zeros (truncations), not upper bounds. The T used here
+#: is the next decimal up, which Arb counts to exactly 2000000 and 22000000.
+REVERS_PRINTED_T = {"chao_plymen": "1131944.4718", "saouter_demichel": "10379599.7274"}
+CHAO_PLYMEN = LehmanParams("727.952018", "0.00016", "1.34e11", "1.022e7", "1131944.4719")
+SAOUTER_DEMICHEL = LehmanParams("727.95134", "0.0000228", "6e12", "6.85e7", "10379600")
+N_ZEROS = {"chao_plymen": 2_000_000, "saouter_demichel": 22_000_000}
 
 #: [Rev25]'s printed float sums S* at those parameter sets (Mathematica).
 REVERS_S_STAR = {

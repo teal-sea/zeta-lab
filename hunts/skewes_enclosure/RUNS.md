@@ -81,3 +81,48 @@ Route 2 at 0.6 s/zero or more stays a sample: 2000 zeros per target costs about
 Disk: one JSON of about 2 KB per 1e5-zero shard. Zeros are not stored, only
 digested, so the disk budget is untouched. Both targets are over the
 one-core-hour line, so production waits for the coordinator.
+
+## 2026-10-26: production A, Chao-Plymen, 2e6 zeros (ran; coordinator approved)
+
+Estimate (above): 10 to 20 core-hours. The coordinator answered "A now" on
+2026-10-26. Shards 2 to 20 ran as 4 workers of `run_shards.sh` from 13:41:32 to
+15:34:04 UTC (wall 1.9 h). Every shard checkpoints to its own JSON. Load
+stayed between 22 and 45, and MemAvailable above 60 GiB. **Total isolation
+26,981 s = 7.5 core-hours**, under the estimate: per-shard cost was 12.5 to
+17.5 ms/zero, falling with height in this range. No shard failed. `combine.py`
+then joined the shards in seconds. Outcome in RESULTS.md section 1: the gate
+passed and the lower bound is positive down to eta = 1.061e-4.
+
+```runmanifest
+id: skewes_enclosure-2026-10-26-productionA
+hunt: skewes_enclosure
+started: 2026-10-26T13:41:32+00:00
+finished: 2026-10-26T15:34:04+00:00
+ran:
+  - hunts/skewes_enclosure/run_shards.sh shards 2 6 10 14 18
+  - hunts/skewes_enclosure/run_shards.sh shards 3 7 11 15 19
+  - hunts/skewes_enclosure/run_shards.sh shards 4 8 12 16 20
+  - hunts/skewes_enclosure/run_shards.sh shards 5 9 13 17
+  - .venv/bin/python hunts/skewes_enclosure/combine.py --target chao_plymen --out shards/combined_chao_plymen.json
+outcome: 2e6 zeros in 7.5 core-hours, N(T) = 2000000, Revers S* inside the ball sum, lower bound on I positive down to eta = 1.061e-4, both planted faults detected
+artifacts:
+  - hunts/skewes_enclosure/shards/shard_001.json .. shard_020.json
+  - hunts/skewes_enclosure/shards/combined_chao_plymen.json
+  - hunts/skewes_enclosure/shards/SHA256SUMS
+```
+
+## 2026-10-26: production B estimate (workflow pushed for review; not triggered)
+
+Target: shards 1..220 (zero indices 1..2.2e7, T = 10379600, which Arb counts to
+exactly 22,000,000). On this box, cost ran 12.5 to 17.5 ms/zero below height
+1.13e6 and 27 to 36 ms/zero near 1e7. Taking about 25 ms/zero as the mean over
+the range gives **2.2e7 x 0.025 s = 153 core-hours**, with a range of 107 to 220.
+Shards 1 to 20 are already done (target A's zeros; their Saouter-Demichel partial
+sums are in the same JSONs), so 200 shards remain: about 140 to 200 core-hours.
+On GitHub Actions (`.github/workflows/skewes-enclosure.yml`), 16 shards per
+4-vCPU job means 13 jobs; at max-parallel 6 that is 3 waves of at most about
+4.5 h, roughly 13 h wall. Runner speed is unmeasured, so the first request is a
+4-shard pilot at the top of the range (shards 217 to 220). It measures ms/zero
+on a runner before the remaining shards are requested. The workflow triggers only
+on a push touching `hunts/skewes_enclosure/RUN_REQUEST.json`, which is not
+committed until the coordinator replies "go".

@@ -1,0 +1,88 @@
+# Hunt `skewes_enclosure` (#152), production B: the 2.2e7-zero Saouter-Demichel sum.
+#
+# Each job isolates a contiguous block of 1e5-zero shards with Arb (python-flint),
+# one shard per core, and uploads the per-shard JSON partial sums (about 2 KB
+# each). Zeros themselves are never uploaded: each shard records their SHA-256.
+# `combine.py --target saouter_demichel` joins the 220 shards locally.
+#
+# Trigger: a push to the hunt branch that touches RUN_REQUEST.json, which names
+# the shard range to run. Editing this file alone runs nothing.
+#
+# Cost estimate (RUNS.md): 27 to 36 ms/zero near height 1e7 on the lab box, so a
+# 1e5-zero shard takes 45 to 60 min on one core; runner speed is unmeasured.
+# A job runs its block four shards at a time (4 vCPU), 16 shards per job by
+# default, so four rounds of at most 60 min fit inside the 350-minute cap. Each
+# shard also carries its own 80-minute timeout, so a slow shard is reported as
+# failed instead of silently eating the job. Artifacts are per run: a rerun names
+# the missing shards in RUN_REQUEST.json. The first request is meant to be a
+# 4-shard pilot that measures runner speed before the full 220.
+name: skewes-enclosure
+
+on:
+  push:
+    branches:
+      - "hunt/skewes-enclosure"
+    paths:
+      - "hunts/skewes_enclosure/RUN_REQUEST.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skewes-enclosure-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      blocks: ${{ steps.plan.outputs.blocks }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: plan
+        run: |
+          python3 - <<'EOF' >> "$GITHUB_OUTPUT"
+          import json
+          req = json.load(open("hunts/skewes_enclosure/RUN_REQUEST.json"))
+          shards = req["shards"]                    # explicit list of shard indices
+          per_job = int(req.get("shards_per_job", 16))
+          blocks = [shards[i:i + per_job] for i in range(0, len(shards), per_job)]
+          print("blocks=" + json.dumps([" ".join(map(str, b)) for b in blocks]))
+          EOF
+
+  shards:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        block: ${{ fromJSON(needs.plan.outputs.blocks) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install the pinned ball-arithmetic backend
+        run: |
+          pip install "python-flint==0.9.0" "mpmath>=1.3"
+          python3 -c "import flint; print('python-flint', flint.__version__)"
+      - name: Run this block's shards, four at a time, each under its own timeout
+        shell: bash
+        run: |
+          mkdir -p out
+          printf '%s\n' ${{ matrix.block }} | xargs -P "$(nproc)" -I{} bash -c '
+            k={}; n0=$(( (k - 1) * 100000 + 1 ))
+            timeout --signal=INT 80m python3 -u hunts/skewes_enclosure/zero_layer.py \
+              --n0 "$n0" --num 100000 --batch 5000 --prec 64 --sample 20 \
+              --seed $((152000 + k)) --out "out/shard_$(printf %03d "$k").json" \
+              > "out/shard_$(printf %03d "$k").log" 2>&1 \
+              && echo "shard $k done" || echo "shard $k FAILED or timed out"'
+          ls -la out
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shards-${{ strategy.job-index }}
+          path: out/
+          if-no-files-found: warn

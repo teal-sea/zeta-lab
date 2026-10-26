@@ -96,6 +96,13 @@ def low_zeros():
     return g
 
 
+def test_cutoffs_count_exactly_the_intended_zeros():
+    """Revers's printed T are truncations: one zero short; ours count exactly n."""
+    for key, p in (("chao_plymen", st.CHAO_PLYMEN), ("saouter_demichel", st.SAOUTER_DEMICHEL)):
+        assert zl.count_below(p.T) == st.N_ZEROS[key]
+        assert zl.count_below(st.REVERS_PRINTED_T[key]) == st.N_ZEROS[key] - 1
+
+
 def test_zero_count_matches_ground_truth():
     assert zl.count_below("100") == 29
     assert zl.count_below("1000") == 649
