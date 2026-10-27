@@ -1131,6 +1131,42 @@ screen flags is [228, 248], which holds the pair at gamma = 240.4046 that
 had not yet seen this case log's growth past #52, and main took that number
 for `r_e2ee73/` first; the directory name never changed.
 
+**Resumed 2026-10-26 (compute sweep, branch `hunt/lambda-dh-exact-resume`),
+same number.** First wave in the recorded resume order: decide the
+height-10^6 zero on both ball backends, run `stage_locate` on the low screen's
+21 windows and give `screen_hi` an explicit artifact state, evaluate P2 and
+kill condition 2 as written, then price the census to 10^4 and 10^5 before
+spending on it. Scope and gates are appended to `MISSION.md` section 8;
+outcomes are appended to `RESULTS.md` as dated sections. Correction recorded
+on resumption: the decided floor is 36/625 = 0.0576; 0.05765 is a measured
+landing, not a decided one.
+
+**Status after the first resumed wave (2026-10-26): OPEN, Lambda_DH bracket
+unchanged.** *Decided, both ball backends* (Arb and a hand-rolled mpmath.iv
+Euler-Maclaurin, argument-principle counts of exactly one zero in exact
+rectangles, planted faults flipping the 10^6 count and, in the tests, one
+recounted low zero): the height-10^6 zero, y0 in [0.3583118516, 0.3583118666]
+(rounded outward), and each of the 21 zeros with beta > 0.85 that the float
+screen found below 10^4. That these 21 are all such zeros is measured, not
+decided.
+*Decided, Arb only*: no zero with beta >= 0.90 for |t| <= 10^4. So **P2 is
+refuted** (y_max(10^4) is in [0.39775014, 0.40), against [0.40, 0.52]) and
+**kill condition 2 fires**, withdrawing the stage-6 depth law and P1's
+stronger band, P4's point and P5's location, which were derived from it.
+*Measured* (N-body ODE landings, control +0.024 percent on the floor pair,
+21 of 21 windows accounted): no pair below 10^4 lands above 0.0576518; P3
+holds (0.986 of the model at the deepest pair); **P6 is refuted** (d/h mean
+0.95, 10 of 20 new pairs in [1.1, 1.8]); P8 is not observed (0 of 21); kill
+condition 1 does not fire. `screen_hi` was finished on a copy (111 zeros in
+[10^4, 10^5], deepest y0 0.437 at gamma 49688, measured), and the recorded
+`complete: false` artifact is marked superseded. A targeted check (not a census) landed eight of the nine pairs with y0 > 0.40 in [10^4, 10^5]: best 0.04902, none near the floor, so P5 stays unresolved with measured evidence against and kill condition 4 does not fire on what was measured (as of that check, 2026-10-26; the census below supersedes both). A slip
+inherited from `flow_repair/NOTES.md` (y0 = 0.3695261 for the floor pair;
+the value is 0.3695306) is recorded, not propagated (first wave, 2026-10-26;
+the follow-up below corrected it in this hunt's code and data, and `RESULTS.md`
+section 8.9 holds the corrections). The full 10^5 census
+(about 15 core-hours) is estimated and not run (first wave, 2026-10-26; it ran
+later that day, below). *Follow-up, same day:* `test_lambda_dh_exact.py` pins every decided and measured number of `RESULTS.md` section 8 and every verdict against its artifact, with real two-backend and Arb recomputations whose planted faults are shown red (31 fast tests, 32 in both tiers). Three more slips of the same kind (pairs 2 to 4) were found and all four corrected in this hunt's files; `flow_repair/NOTES.md` still carries them. The per-pair d/h refit of the shave model fails as a plug-in (rms 0.393 against the frozen 0.160), and the d/h it would need tracks the measured one at r = 0.967, pointing to a two-sided gap (measured). *Units 3 and 4, same day:* the two-sided gap, run against its pre-registration, improves on the frozen model but does not pass (rms 0.112; out of sample 0.154). The census over [10^4, 10^5] ran on GitHub Actions. Attempt 1 was void by its own kill condition K-d, which exposed `stage_locate` accepting roots outside the counted box (16 of 282). Attempt 2, on guarded code, was valid: 170 of 170 pairs accounted and landed, none above 0.0576518 (largest 0.04902). KC4 does not fire up to 10^5, P5 is refuted up to 10^5 (within the screens' coverage; `RESULTS.md` section 8.15 states the scope and a stronger reading) and P8 is not observed (0 of 21 below 10^4, its registered scope; this read 0 of 191, which pooled 170 pairs above 10^4), all measured. The audit under the guard changed one recorded root (screen_hi) and no claim. *Review, same day (`RESULTS.md` section 8.16):* every decided decimal interval is requoted rounded outward (printed to nearest, several were not enclosures); the Arb-versus-iv cross-check of the 10^6 zero is rerun on exact endpoints, because the recorded float version could not fail, and the enclosures intersect at all three points; the in-place slip corrections to registered text are reverted, with the corrections kept in `RESULTS.md` section 8.9; P4 is unresolved with evidence against; and two latent fail-open paths in the census evaluation are recorded as known limits. No verdict moves.
+
 ### Hunt #144: a finite reversal-closed adversary excludes the recorded pressure target (`reversal_minimax/`, 2026-09-04)
 
 *Numbered on landing, 2026-10-21.* Opened unnumbered on 2026-09-04, when

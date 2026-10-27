@@ -62,12 +62,16 @@ DELTA = 0.62036249819
 UPPER = DELTA ** 2 / 2  # 0.19242481458...
 
 # hunts/flow_repair/NOTES.md section 1: the nine published landings
+# Corrected 2026-10-26: y0 of pairs 2 to 5 were transcription slips inherited from
+# hunts/flow_repair/NOTES.md (was 0.1508270, 0.0743505, 0.2242763, 0.3695261);
+# these are flow_repair/results.json's polished values to 7 dp. landing.json
+# was computed with the old values; slip_effect.json measures the difference.
 PUBLISHED = {
     1: (85.6993, 0.3085172, 0.04412634450),
-    2: (114.1633, 0.1508270, 0.01112958794),
-    3: (166.4793, 0.0743505, 0.00274784849),
-    4: (176.7025, 0.2242763, 0.02366473172),
-    5: (240.4046, 0.3695261, 0.05765184035),
+    2: (114.1633, 0.1508301, 0.01112958794),
+    3: (166.4793, 0.0743561, 0.00274784849),
+    4: (176.7025, 0.2242577, 0.02366473172),
+    5: (240.4046, 0.3695306, 0.05765184035),
     6: (320.8765, 0.3195496, 0.04468146893),
     7: (331.0503, 0.2682231, 0.03217819397),
     8: (366.6409, 0.1285081, 0.00803041920),

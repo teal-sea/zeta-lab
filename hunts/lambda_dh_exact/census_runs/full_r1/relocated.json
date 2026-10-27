@@ -1,0 +1,402 @@
+{
+ "what": "true zeros of the mislocated windows, constrained search (measured)",
+ "n": 17,
+ "n_ok": 17,
+ "max_y0_found": 0.400222738720189,
+ "n_y0_gt_0.3396": 9,
+ "n_y0_gt_0.40": 1,
+ "rows": [
+  {
+   "source": "census shard 0",
+   "sigma_c": 0.82,
+   "window": [
+    12460.0,
+    12480.0
+   ],
+   "wrong_root": {
+    "gamma": 12478.45922302878,
+    "beta": 0.8026782850093567
+   },
+   "count_in_box": 1,
+   "count_defect": 9.57012247226885e-14,
+   "found": [
+    {
+     "gamma": 12468.389807540065,
+     "beta": 0.8375516518471081,
+     "y0": 0.3375516518471081
+    }
+   ],
+   "ok": true,
+   "seconds": 8.7
+  },
+  {
+   "source": "census shard 2",
+   "sigma_c": 0.82,
+   "window": [
+    15440.0,
+    15460.0
+   ],
+   "wrong_root": {
+    "gamma": 15452.03448115071,
+    "beta": 0.7675258762949578
+   },
+   "count_in_box": 1,
+   "count_defect": 1.0369483049998962e-13,
+   "found": [
+    {
+     "gamma": 15442.110152533463,
+     "beta": 0.8535157505489679,
+     "y0": 0.3535157505489679
+    }
+   ],
+   "ok": true,
+   "seconds": 8.2
+  },
+  {
+   "source": "census shard 2",
+   "sigma_c": 0.82,
+   "window": [
+    16620.0,
+    16640.0
+   ],
+   "wrong_root": {
+    "gamma": 16637.673571795756,
+    "beta": 0.7132015821504094
+   },
+   "count_in_box": 1,
+   "count_defect": 1.7419399256368706e-13,
+   "found": [
+    {
+     "gamma": 16620.3824929535,
+     "beta": 0.8741866549274055,
+     "y0": 0.37418665492740555
+    }
+   ],
+   "ok": true,
+   "seconds": 6.2
+  },
+  {
+   "source": "census shard 4",
+   "sigma_c": 0.82,
+   "window": [
+    20000.0,
+    20020.0
+   ],
+   "wrong_root": {
+    "gamma": 20017.93480172445,
+    "beta": 0.7269487977686521
+   },
+   "count_in_box": 1,
+   "count_defect": 3.730349362740526e-14,
+   "found": [
+    {
+     "gamma": 20011.16034435249,
+     "beta": 0.900222738720189,
+     "y0": 0.400222738720189
+    }
+   ],
+   "ok": true,
+   "seconds": 10.2
+  },
+  {
+   "source": "census shard 5",
+   "sigma_c": 0.82,
+   "window": [
+    22980.0,
+    23000.0
+   ],
+   "wrong_root": {
+    "gamma": 22991.988801274216,
+    "beta": 0.6926794372618891
+   },
+   "count_in_box": 1,
+   "count_defect": 1.1446399383885364e-13,
+   "found": [
+    {
+     "gamma": 22984.88791674896,
+     "beta": 0.8273577011962191,
+     "y0": 0.3273577011962191
+    }
+   ],
+   "ok": true,
+   "seconds": 9.9
+  },
+  {
+   "source": "census shard 10",
+   "sigma_c": 0.82,
+   "window": [
+    37120.0,
+    37140.0
+   ],
+   "wrong_root": {
+    "gamma": 37124.0333318039,
+    "beta": 0.7770547120985682
+   },
+   "count_in_box": 1,
+   "count_defect": 5.032640970625835e-13,
+   "found": [
+    {
+     "gamma": 37134.12492126908,
+     "beta": 0.8315746385118818,
+     "y0": 0.33157463851188185
+    }
+   ],
+   "ok": true,
+   "seconds": 16.0
+  },
+  {
+   "source": "census shard 12",
+   "sigma_c": 0.82,
+   "window": [
+    42140.0,
+    42160.0
+   ],
+   "wrong_root": {
+    "gamma": 42145.55416744233,
+    "beta": 0.712902068083665
+   },
+   "count_in_box": 1,
+   "count_defect": 5.395683899678261e-14,
+   "found": [
+    {
+     "gamma": 42155.639030538,
+     "beta": 0.8204216636813464,
+     "y0": 0.3204216636813464
+    }
+   ],
+   "ok": true,
+   "seconds": 16.3
+  },
+  {
+   "source": "census shard 17",
+   "sigma_c": 0.82,
+   "window": [
+    54440.0,
+    54460.0
+   ],
+   "wrong_root": {
+    "gamma": 54457.432481530566,
+    "beta": 0.7745092365479346
+   },
+   "count_in_box": 1,
+   "count_defect": 5.416778137146139e-13,
+   "found": [
+    {
+     "gamma": 54447.381587630916,
+     "beta": 0.8432291208679368,
+     "y0": 0.3432291208679368
+    }
+   ],
+   "ok": true,
+   "seconds": 22.8
+  },
+  {
+   "source": "census shard 20",
+   "sigma_c": 0.82,
+   "window": [
+    60600.0,
+    60620.0
+   ],
+   "wrong_root": {
+    "gamma": 60611.88069471283,
+    "beta": 0.6229299887172295
+   },
+   "count_in_box": 1,
+   "count_defect": 2.696731726814505e-13,
+   "found": [
+    {
+     "gamma": 60601.60765714206,
+     "beta": 0.8240483018964612,
+     "y0": 0.32404830189646117
+    }
+   ],
+   "ok": true,
+   "seconds": 23.9
+  },
+  {
+   "source": "census shard 22",
+   "sigma_c": 0.82,
+   "window": [
+    65940.0,
+    65960.0
+   ],
+   "wrong_root": {
+    "gamma": 65959.15830711291,
+    "beta": 0.801790522320487
+   },
+   "count_in_box": 1,
+   "count_defect": 8.661960038125471e-13,
+   "found": [
+    {
+     "gamma": 65942.06655016974,
+     "beta": 0.8454702578584924,
+     "y0": 0.3454702578584924
+    }
+   ],
+   "ok": true,
+   "seconds": 25.1
+  },
+  {
+   "source": "census shard 23",
+   "sigma_c": 0.82,
+   "window": [
+    67580.0,
+    67600.0
+   ],
+   "wrong_root": {
+    "gamma": 67589.76050884485,
+    "beta": 0.7268402721642822
+   },
+   "count_in_box": 1,
+   "count_defect": 2.0898838215543947e-12,
+   "found": [
+    {
+     "gamma": 67582.91574549007,
+     "beta": 0.820889162040378,
+     "y0": 0.320889162040378
+    }
+   ],
+   "ok": true,
+   "seconds": 22.2
+  },
+  {
+   "source": "census shard 25",
+   "sigma_c": 0.82,
+   "window": [
+    74280.0,
+    74300.0
+   ],
+   "wrong_root": {
+    "gamma": 74299.01488910915,
+    "beta": 0.6297967027982834
+   },
+   "count_in_box": 1,
+   "count_defect": 6.148415110374117e-13,
+   "found": [
+    {
+     "gamma": 74280.37069802705,
+     "beta": 0.8563143494674343,
+     "y0": 0.35631434946743434
+    }
+   ],
+   "ok": true,
+   "seconds": 24.9
+  },
+  {
+   "source": "census shard 30",
+   "sigma_c": 0.82,
+   "window": [
+    86720.0,
+    86740.0
+   ],
+   "wrong_root": {
+    "gamma": 86736.76264168834,
+    "beta": 0.8073883051751999
+   },
+   "count_in_box": 1,
+   "count_defect": 2.1826984664130578e-13,
+   "found": [
+    {
+     "gamma": 86726.64255951003,
+     "beta": 0.8418921793141011,
+     "y0": 0.3418921793141011
+    }
+   ],
+   "ok": true,
+   "seconds": 35.0
+  },
+  {
+   "source": "census shard 32",
+   "sigma_c": 0.82,
+   "window": [
+    90520.0,
+    90540.0
+   ],
+   "wrong_root": {
+    "gamma": 90524.05435708788,
+    "beta": 0.7614078034693312
+   },
+   "count_in_box": 1,
+   "count_defect": 9.745537710159624e-13,
+   "found": [
+    {
+     "gamma": 90534.14330586774,
+     "beta": 0.8237373710252647,
+     "y0": 0.3237373710252647
+    }
+   ],
+   "ok": true,
+   "seconds": 36.0
+  },
+  {
+   "source": "census shard 32",
+   "sigma_c": 0.82,
+   "window": [
+    90720.0,
+    90740.0
+   ],
+   "wrong_root": {
+    "gamma": 90734.4163020599,
+    "beta": 0.7150823738950343
+   },
+   "count_in_box": 1,
+   "count_defect": 9.147127499886665e-13,
+   "found": [
+    {
+     "gamma": 90724.3734830056,
+     "beta": 0.8540191079491195,
+     "y0": 0.3540191079491195
+    }
+   ],
+   "ok": true,
+   "seconds": 29.6
+  },
+  {
+   "source": "census shard 33",
+   "sigma_c": 0.82,
+   "window": [
+    93000.0,
+    93020.0
+   ],
+   "wrong_root": {
+    "gamma": 93017.34453111015,
+    "beta": 0.8126412788030691
+   },
+   "count_in_box": 1,
+   "count_defect": 1.0105249970138175e-12,
+   "found": [
+    {
+     "gamma": 93000.07320085377,
+     "beta": 0.8237492387849793,
+     "y0": 0.3237492387849793
+    }
+   ],
+   "ok": true,
+   "seconds": 36.7
+  },
+  {
+   "source": "screen_hi (Run 9)",
+   "sigma_c": 0.85,
+   "window": [
+    16620.0,
+    16640.0
+   ],
+   "wrong_root": {
+    "gamma": 16637.673571795756,
+    "beta": 0.7132015821503452
+   },
+   "count_in_box": 1,
+   "count_defect": 1.5765166949677223e-13,
+   "found": [
+    {
+     "gamma": 16620.3824929535,
+     "beta": 0.8741866549274325,
+     "y0": 0.3741866549274325
+    }
+   ],
+   "ok": true,
+   "seconds": 29.0
+  }
+ ],
+ "seconds": 360.7
+}
