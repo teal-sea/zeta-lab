@@ -550,3 +550,54 @@ def test_arb_envelope_bound_refuses_settings_that_would_drop_a_cluster():
         price.arb_envelope_bound(ENV, [1] * (n - 2), [7] * n, [1] * n)
     with pytest.raises(ValueError):
         price.arb_envelope_bound(ENV, [1] * n, [7] * n, [1] * (n - 1) + [0])
+
+
+# ------------------------------------------------------------------ the Gauss-rate correction (2026-10-27)
+
+def _stage_a_correction(rec_name: str, vec_name: str, key: str) -> dict:
+    """The corrected t- and y-quadrature bounds for a recorded stage-A run, and how far they move it
+    (PRICE.md, correction of 2026-10-27). Each F_v ball of the run was short of the corrected y-bound by
+    3/4 of it; |F_v| <= 2 L sup|f_v|, the panel weights sum to T/pi, and |Psi + H| on the real line is
+    below the strip bound t_quad_bound uses, recovered from its own value."""
+    ctx.prec = W.PREC
+    d = _load(HERE / rec_name)
+    v = [arb(arb(s).mid()) for s in json.loads((HERE / vec_name).read_text())[key]]
+    vv = sum((x * x for x in v), arb(0))
+    La = price.to_arb(L)
+    h, q, T = Fraction(1, 2), d["q"], Fraction(d["T"])
+    ha, b = price.to_arb(h), arb(1)
+    rho = (b + (b * b + (ha / 2) ** 2).sqrt()) / (ha / 2)
+    tq = W.t_quad_bound(L, ENV, v, h, q, T)
+    npan = int(T / h)
+    M = tq / (arb(64) / 15 * rho ** (2 - 2 * q) / (rho * rho - 1) * (ha / 2) * npan)
+    Fb = 2 * (La * b).cosh() * (La / 2).sqrt() * vv.sqrt()
+    sym = M * arb.pi() / (Fb * Fb)
+    ey = W.y_quad_bound(v, L, d["n_y"], price.to_arb(T), Fraction(2), W.sup_f_bound(v, L))
+    delta = 3 * ey / 4
+    fmax = 2 * La * W.sup_f_bound(v, L)
+    beta = abs(arb(d["beta"]))
+    d_rq = price.to_arb(T) / arb.pi() * (2 * fmax * delta + delta * delta) * (sym + beta) / vv
+    d_exact = (1 + beta) * (tq - arb(d["t_quad_bound"])) / vv
+    return {"d": d, "tq": tq, "rho2": rho * rho, "d_rq": d_rq,
+            "exact_upper": float((arb(d["rq_exact_integrals_upper"]) + d_exact + d_rq).upper())}
+
+
+def test_gauss_rate_correction_keeps_the_stage_a_records():
+    """y_quad_bound and t_quad_bound used rho^{-2n}, the (n+1)-point rate, for n-point rules. The fixed
+    code gives rho^2 = 65.98 times each recorded t-bound (the records carry the old rate), and the
+    recorded stage-A enclosures, widened by the corrected bounds, keep every margin the tests above read:
+    the widening from the y-bound is below 1e-130 against recorded radii near 1e-72."""
+    a = _stage_a_correction("stage_a_v800.json", "v800_T800.json", "x")
+    w = _stage_a_correction("stage_a_witness.json", "witness_v856.json", "v")
+    for c in (a, w):
+        assert abs(float((c["tq"] / arb(c["d"]["t_quad_bound"])).mid()) / float(c["rho2"].mid()) - 1) < 1e-9
+        assert 5.29e-87 < float(c["tq"].upper()) < 5.30e-87 and float(c["d_rq"].upper()) < 1e-130
+    assert a["exact_upper"] < -4.1516067483e-30
+    rec = _load(RECORD)
+    assert w["exact_upper"] < rec["witness"]["rq_upper_with_eps"]
+    # the margin back to 540 (test_s_bound_in_arb_and_the_margin_back_to_540) with the corrected bounds
+    mid = _load(HERE / "stage_a_witness_540_800.json")
+    q = rec["witness"]["rq_upper_with_eps"]
+    m800 = w["d"]["mass_above_T_upper"] + float(w["tq"].upper())
+    m540 = m800 + mid["mass_between_upper_exact"] + float(w["rho2"].upper()) * mid["t_quad_bound"]
+    assert q + 12 * m800 < 0 and q + 6.8 * m540 < -2.7e-31

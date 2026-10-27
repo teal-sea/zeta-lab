@@ -764,16 +764,17 @@ def sup_f_bound(v, L: Fraction) -> arb:
 
 
 def y_quad_bound(v, L: Fraction, n_y: int, t_max: arb, rho: Fraction = Fraction(2), supf: arb | None = None) -> arb:
-    """|F_v(t) - 2 GL_{n_y}[f_v cos(t .)]| for 0 <= t <= t_max: Gauss-Legendre on
-    [0, L] errs by at most (64/15) M rho^{-2n}/(rho^2 - 1) (L/2) for an integrand
+    """|F_v(t) - 2 GL_{n_y}[f_v cos(t .)]| for 0 <= t <= t_max: n-point Gauss-Legendre on
+    [0, L] errs by at most (64/15) M rho^{2-2n}/(rho^2 - 1) (L/2) (n >= 2) for an integrand
     bounded by M on the Bernstein ellipse; |f_v| <= sup|f_v| rho^D (Bernstein,
-    D = 2N - 2) and |cos(tz)| <= cosh(t b), b = (L/4)(rho - 1/rho)."""
+    D = 2N - 2) and |cos(tz)| <= cosh(t b), b = (L/4)(rho - 1/rho).
+    Corrected 2026-10-27: the exponent was -2n, the (n+1)-point rate (PRICE.md, correction)."""
     La = price.to_arb(L)
     rh = price.to_arb(rho)
     D = 2 * len(v) - 2
     b = La / 4 * (rh - 1 / rh)
     M = (sup_f_bound(v, L) if supf is None else supf) * rh ** D * (t_max * b).cosh()
-    return 2 * arb(64) / 15 * M * rh ** (-2 * n_y) / (rh * rh - 1) * (La / 2)
+    return 2 * arb(64) / 15 * M * rh ** (2 - 2 * n_y) / (rh * rh - 1) * (La / 2)
 
 
 def _stage_a_panels(args):
@@ -830,8 +831,9 @@ def _dec_arb(x):
 
 def t_quad_bound(L: Fraction, env_path: Path, v, h: Fraction, q: int, T: Fraction, b: Fraction = Fraction(1)) -> arb:
     """|sum_k w_k phi(t_k) - int_0^T phi| for phi = (Psi + H) F_v^2 / pi and for
-    phi = F_v^2 / pi (the larger bound is returned): per panel of width h,
-    Gauss-Legendre errs by at most (64/15) M rho^{-2q}/(rho^2 - 1) (h/2), rho the
+    phi = F_v^2 / pi (the larger bound is returned): per panel of width h, q-point
+    Gauss-Legendre errs by at most (64/15) M rho^{2-2q}/(rho^2 - 1) (h/2) (corrected
+    2026-10-27 from rho^{-2q}, the (q+1)-point rate; PRICE.md, correction), rho the
     ellipse through +-i b, M the maximum of |phi| there. On |Im z| <= b < 3/2:
     |F_v(z)| <= 2 cosh(L b) sqrt(L/2) |v|; |H| <= sum |h_k| cosh(omega_k b);
     |P| <= sum |c_n| cosh(b log n); Re digamma and log(5/pi) are bounded by
@@ -862,7 +864,7 @@ def t_quad_bound(L: Fraction, env_path: Path, v, h: Fraction, q: int, T: Fractio
     sym_b = dg + abs((arb(5) / arb.pi()).log()) + Pb + Hb
     M = sym_b * Fb * Fb / arb.pi()
     rho = (ba + (ba * ba + (ha / 2) ** 2).sqrt()) / (ha / 2)
-    per = arb(64) / 15 * M * rho ** (-2 * q) / (rho * rho - 1) * (ha / 2)
+    per = arb(64) / 15 * M * rho ** (2 - 2 * q) / (rho * rho - 1) * (ha / 2)
     npan = int(Fraction(T) / h)
     return per * npan
 
