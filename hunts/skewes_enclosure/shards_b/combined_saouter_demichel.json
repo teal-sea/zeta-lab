@@ -1,0 +1,68 @@
+{
+ "target": "saouter_demichel",
+ "params": {
+  "omega": "727.95134",
+  "eta": "0.0000228",
+  "alpha": "6e12",
+  "A": "6.85e7",
+  "T": "10379600"
+ },
+ "checks": {
+  "contiguous_indices": true,
+  "ordered_within_shards": true,
+  "ordered_across_shards": true,
+  "last_zero_below_T": true,
+  "turing_count_N(T)": 22000000,
+  "complete": true,
+  "route2_all_sign_changes": true,
+  "route2_sample_size": 5150
+ },
+ "gate": {
+  "S": "[-0.99067672 +/- 1.89e-9]",
+  "S_radius": "[1.0705e-9 +/- 3.02e-15]",
+  "revers_S_star": "-1.002922947193156",
+  "abs_difference": "[0.012246 +/- 2.28e-7]",
+  "S_star_inside_ball": false,
+  "within_revers_budget": false
+ },
+ "lower_bounds": {
+  "0.0000228": {
+   "lower_bound_I": "[-0.01211835 +/- 3.62e-9]",
+   "positive": false
+  },
+  "0.00002": {
+   "lower_bound_I": "[-0.01211831 +/- 3.00e-9]",
+   "positive": false
+  },
+  "0.000018": {
+   "lower_bound_I": "[-0.01211828 +/- 4.77e-9]",
+   "positive": false
+  },
+  "0.000016": {
+   "lower_bound_I": "[-0.01211855 +/- 5.91e-9]",
+   "positive": false
+  },
+  "0.0000159": {
+   "lower_bound_I": "[-0.01215423 +/- 2.66e-9]",
+   "positive": false
+  },
+  "0.0000158": {
+   "lower_bound_I": "[-0.01629844 +/- 5.63e-9]",
+   "positive": false
+  }
+ },
+ "planted_faults": {
+  "drop_R4": {
+   "eta": "0.0000158",
+   "R4": "[3.20205e-5 +/- 3.66e-11]",
+   "lower_bound_without_R4": "[-0.01626642 +/- 5.10e-9]",
+   "sign_flips_to_positive": false
+  },
+  "perturb_gamma_1_by_1e-6": {
+   "S_faulted": "[-0.99075466 +/- 3.39e-9]",
+   "shift": "[7.794e-5 +/- 5.27e-9]",
+   "faulted_S_still_contains_revers_S_star": false
+  }
+ },
+ "seconds_isolation_total": 349099.166053396
+}

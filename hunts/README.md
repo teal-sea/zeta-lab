@@ -4554,3 +4554,50 @@ The argument uses the vendored `zeta23` folded count, rigorous Lean enclosures,
 and hunts #132 and #133's first ten located zeros plus nineteen new boxes.
 The novelty search in RESULTS.md is bounded and makes no priority claim. This
 finite theorem says nothing above 100 or about RH itself.
+
+### Hunt #152: a ball-arithmetic Lehman localization of a sign change of pi(x) - li(x) (`skewes_enclosure/`, opened 2026-10-26)
+
+**Status: open (2026-10-27).** Three outcomes, (1) to (3), all under the same
+grade: a hardened computation on a cited derivation (Revers Theorem 3.1 and RH
+to A), with rigorous completeness on Arb's Turing count alone, mpmath `nzeros`
+agreeing on N(T) at float grade, and an mpmath second route for the zeros on a
+sample. Item (4) is a post-hoc observation at measured grade.
+(1) Target A, 2e6 zeros: the gate passed (Revers's S* inside the ball sum), and
+pi(x) > li(x) for some x with log x in [727.9519119, 727.9521241].
+(2) Target B, 2.2e7 zeros at the printed omega = 727.95134: the gate failed
+(missing by 0.0122), recorded permanently.
+(3) The pre-registered omega-grid rerun: hypothesis H (the printed omega is
+727.951335792 rounded) is **not supported by its rule**. The gap shrinks to
+3.37e-5, still over Revers's 2.60e-5 budget, so reproducing S* stays
+unresolved. The pre-declared localization at 727.951335792 holds: pi(x) > li(x)
+for some x with log x in [727.951319892, 727.9513517], with eta = 1.59e-5, as in
+Revers ([RESULTS.md](skewes_enclosure/RESULTS.md) section 7). (Corrected
+2026-10-27: the lower end was first quoted as 727.9513199, rounded inward from
+the exact 727.951319892.) Neither interval is a new record.
+(4) Post-hoc review, 2026-10-27, measured, not pre-registered: the 3.37e-5 gap
+is twice the second-order sum S2. Revers's printed S* equals the
+Saouter-Demichel first-order value he quotes, minus S2, to 1.0e-9, where his
+Theorem 3.1 adds S2. Our first-order sum matches Saouter-Demichel's to 4.7e-8,
+an end-to-end check of the 2.2e7 zeros. The verdict on H stands, but H's omega
+was right in substance (RESULTS.md sections 3, 7 and 8). The review also
+corrected the doors: A is a binding constant just above the R6 cliff, not a
+free door. The question is whether a sign change of
+pi(x) - li(x) can be localized with every computed step carried by Arb balls. The
+method is Lehman's integral with Revers's 2025 error terms (arXiv:2501.04488,
+JNT 2025) over the first ~2.2e7 zeros. The day-one read of three papers found
+that Saouter-Trudgian-Demichel 2015 (submitted version) and Revers 2025 sum
+their zeros in floating point. Both use an analytic zero-error budget, and
+neither cites a rigorous zero source. Platt-Trudgian 2015 already carried the
+analogous theta(x) - x sum in MPFI interval arithmetic with rigorous zeros, so
+the method is not new to interval arithmetic and no novelty is claimed.
+`skewes_terms.py` reproduces the R column of both of Revers's section-6
+resizing tables from Theorem 3.1. It also found that the row printed as
+eta = 1.55e-5 is the value at eta = 1.56e-5, a label slip with no effect on the
+paper's conclusion. The day-one expected margin at the Saouter-Demichel
+parameters was about 1.28e-4, from Revers's printed S*, and the zero precision
+it needs (~62 bits) is far inside what Arb isolation delivers. The measured
+margin at omega = 727.951335792 and eta = 2.28e-5 is 9.42e-5. Unit timings,
+estimates and costs are in [RUNS.md](skewes_enclosure/RUNS.md), and the results
+are in [RESULTS.md](skewes_enclosure/RESULTS.md). (Updated 2026-10-27: this
+paragraph first ended "nothing is a result yet", which was written when the hunt
+opened.)

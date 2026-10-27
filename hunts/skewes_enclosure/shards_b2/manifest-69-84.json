@@ -1,0 +1,13 @@
+{
+ "git_sha": "d05455e5a4b266809c757ce4441c2cbddfe5b06c",
+ "run_id": "40426999125",
+ "run_attempt": "1",
+ "shards": "69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84",
+ "cpu_model": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz",
+ "nproc": 4,
+ "mem_total_kb": 16372436,
+ "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+ "python_flint": "0.9.0",
+ "mpmath": "1.3.0",
+ "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+}
