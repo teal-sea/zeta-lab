@@ -149,3 +149,28 @@ is left as written on 2026-10-21.
    detect, and a stage-A block with no negative pivot there contradicts nothing.
    The kill condition was always the narrower one in the huntspec (a positive
    bound for DH at `L = 1.71079`). `PRICE.md` item 6 records the reconciliation.
+
+## Corrections (2026-10-27)
+
+Appended when the owner asked, after the adversarial review of PR #356, for the
+measured refusal at `T# <= 800` to be raised or shown unraisable. The text above
+is left as written.
+
+4. **Kill condition 3 at every `T#`.** The stage-A block `R(T#)` increases to the
+   `N`-mode DH form `Q_N` (no split) as `T#` grows, under the pipeline's own
+   inputs, so K2 refuses DH at `L_DH` at every `T#` exactly when `Q_N` has a
+   negative eigenvalue. `witness.py` assembles `Q_N` in position space in Arb:
+   it has one, `-1.943e-30` at `N = 856`, and every leading block from 101 modes
+   on has one (`PRICE.md` item 7, hardened). The kill condition "the K2
+   pipeline returns a positive bound for DH at `L = 1.71079`" therefore cannot
+   fire at stage A at any `T#` or any `N >= 101` while `S` is valid; the
+   composite is measured at the validity of `S`.
+5. **Kill condition 4 was not tested** by the recorded responses: the leading
+   `N - N//13` block is a principal submatrix (interlacing), not a refinement,
+   and the `prec - 128` reduction copied the data unrounded (`PRICE.md` items 5
+   and 6). `scout.responses_of` now rounds the data.
+6. **Deliverables added**: `witness.py`, `test_witness.py`, `witness_q856.json`,
+   `witness_v856.json`, `witness_v101.json`, `v800_T800.json`,
+   `c800_block100.json` (the leading 100-mode block of the stored `C(800)` and
+   `G(800)`, for the calibration and lesion tests), `stage_a_v800.json`,
+   `stage_a_witness.json`, and the `lesion_S` record in `k2_scouts.json`.

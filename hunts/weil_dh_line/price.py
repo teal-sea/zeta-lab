@@ -855,6 +855,36 @@ def assemble_k2_scouts(scout_dir: Path) -> dict:
     return out
 
 
+def lesion_record(paths) -> dict:
+    """The S-lesion record of one K2 case from scout.py --lesion outputs: rows
+    sorted by dS, and the interval in which the stage-A verdict flips (largest
+    dS still refused, least dS no longer refused). A row is refused when its
+    midpoint LDL has a negative pivot (full rows) or, for nearest-only rows,
+    when the eigenvalue nearest 0 is negative (valid near the flip, where the
+    lowest eigenvalue is the one nearest 0)."""
+    rows, meta = [], None
+    for p in paths:
+        d = json.loads(Path(p).read_text())
+        if meta is None:
+            meta = {k: d[k] for k in ("T", "N", "prec", "envelope", "S_exact", "kind")}
+        elif any(meta[k] != d[k] for k in meta):
+            raise ValueError(f"{p}: lesion made at other parameters")
+        rows += d["rows"]
+    rows.sort(key=lambda r: Fraction(r["dS"]))
+
+    def refused(r):
+        return r["n_neg"] >= 1 if "n_neg" in r else float(r["lam_nearest"]) < 0
+    ref = [Fraction(r["dS"]) for r in rows if refused(r)]
+    acc = [Fraction(r["dS"]) for r in rows if not refused(r)]
+    lo = max(ref) if ref else None
+    hi = min(acc) if acc else None
+    if lo is not None and hi is not None and not lo < hi:
+        raise ValueError("lesion rows do not flip monotonically in dS")
+    return dict(meta, rows=rows, flip_between=[None if lo is None else str(lo), None if hi is None else str(hi)],
+                note="R(T#) depends on S only through beta*; understating S by dS adds dS (I - G) to the block. "
+                     "An envelope bound low by less than the flip point leaves the verdict at T# unchanged.")
+
+
 def run_joint_spec(spec: dict) -> dict:
     """Build every cluster of a spec with joint.build_cluster (optimizer, then
     the whole-torus bound) and return a part file."""
@@ -957,6 +987,8 @@ def main():
     ap.add_argument("--transfer", default=None, help="window tag: K2 envelope-transfer witness")
     ap.add_argument("--prices", action="store_true", help="write prices.json from the table and joint files")
     ap.add_argument("--k2-scouts", default=None, help="directory of K2 scout outputs: write k2_scouts.json")
+    ap.add_argument("--k2-lesion", nargs="*", default=None,
+                    help="KEY FILE...: add the S-lesion record of K2 case KEY (scout.py --lesion outputs)")
     ap.add_argument("--drop", nargs="*", default=None,
                     help="clusters (comma-separated primes) to leave out of a merge, e.g. a superseded build")
     ap.add_argument("--merge", nargs="*", default=None,
@@ -967,7 +999,10 @@ def main():
     if args.prices:
         (HERE / "prices.json").write_text(json.dumps(price_table_all(), indent=1))
     if args.k2_scouts:
-        (HERE / "k2_scouts.json").write_text(json.dumps(assemble_k2_scouts(Path(args.k2_scouts)), indent=1))
+        k2s = assemble_k2_scouts(Path(args.k2_scouts))
+        if args.k2_lesion:
+            k2s[args.k2_lesion[0]]["lesion_S"] = lesion_record(args.k2_lesion[1:])
+        (HERE / "k2_scouts.json").write_text(json.dumps(k2s, indent=1))
     if args.merge is not None:
         drop = tuple(tuple(int(x) for x in g.split(",")) for g in (args.drop or []))
         out = merge_parts([Path(f) for f in args.merge], drop, procs=args.merge_procs)

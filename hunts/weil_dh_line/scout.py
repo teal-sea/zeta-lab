@@ -16,7 +16,7 @@ p_n = 2 sqrt(L nu_n) i_n(L/2); DH is entire, s = 0. beta*(T) is the margin
 the archimedean lower bound leaves above the envelope constant S:
 
     zeta     log(T/2 pi) - 1/T - S                 (Zhu Lemma 3.1)
-    dh       log(5T/2 pi) - 1/T - S                (Re psi(3/4 + it/2) >= log(t/2) - 1/t, checked on a grid)
+    dh       log(5T/2 pi) - 1/T - S                (Re psi(3/4 + it/2) >= log(t/2) - 1/t for t >= 2: Binet, PRICE.md item 7)
     epstein  log 23 + 2 log(T/2 pi) - 2/T - S      (both bounds)
 
 H is a joint cluster envelope from joint.py (exact dyadic coefficients,
@@ -342,21 +342,68 @@ def checkpoint_row(T: Fraction, kind: str, Sa: arb, P2: arb_mat, I: arb_mat, C: 
                    lam_min=lam.mid().str(12, radius=False),
                    residual=float(res.upper()), seconds=time.time() - t0)
         if responses and float(T) in responses:
-            # mode-count response: the leading N - N//13 block (Cauchy
-            # interlacing puts its least eigenvalue at or above the full block's)
-            n2 = N - max(1, N // 13)
-            R2 = arb_mat(n2, n2, [R[i, j] for i in range(n2) for j in range(n2)])
-            neg2, _, _ = ldl_midpoint(R2)
-            lam2, _ = lam_min_estimate(R2, neg2)
-            # precision response of the reduction: the same data rounded to prec - 128 bits
-            with ctx.workprec(prec - 128):
-                R3 = arb_mat(N, N, [arb(R[i, j].mid()) for i in range(N) for j in range(N)])
-                neg3, _, _ = ldl_midpoint(R3)
-                lam3, _ = lam_min_estimate(R3, neg3)
-                lam3s = lam3.mid().str(12, radius=False)
-            rec["response"] = {f"N_{n2}": {"n_neg": neg2, "lam_min": lam2.mid().str(12, radius=False)},
-                               f"prec_{prec - 128}": {"n_neg": neg3, "lam_min": lam3s}}
+            rec["response"] = responses_of(R, N, prec)
     return rec
+
+
+def responses_of(R: arb_mat, N: int, prec: int) -> dict:
+    """Two responses of one checkpoint block (measured).
+
+    leading_N_<n2>: the leading N - N//13 principal block. By Cauchy
+    interlacing its least eigenvalue lies at or above the full block's, and a
+    larger N can only lower it, so this shows where a negative direction lives;
+    it is not a mode-count refinement and cannot undo a refusal.
+
+    rounded_<prec-128>: every entry of the block rounded to prec - 128 bits
+    (unary plus rounds to the working precision; arb(x.mid()) would copy x
+    exactly), then reduced at that precision. It tests the reduction and the
+    last 128 bits of the stored data, not the assembly (which would need the
+    units recomputed at another precision).
+
+    Rows written before 2026-10-27 carry the older keys N_<n2> and
+    prec_<prec-128>; their precision response copied the data unrounded."""
+    n2 = N - max(1, N // 13)
+    R2 = arb_mat(n2, n2, [R[i, j] for i in range(n2) for j in range(n2)])
+    neg2, _, _ = ldl_midpoint(R2)
+    lam2, _ = lam_min_estimate(R2, neg2)
+    with ctx.workprec(prec - 128):
+        R3 = arb_mat(N, N, [+(R[i, j].mid()) for i in range(N) for j in range(N)])
+        neg3, _, _ = ldl_midpoint(R3)
+        lam3, _ = lam_min_estimate(R3, neg3)
+        lam3s = lam3.mid().str(12, radius=False)
+    return {f"leading_N_{n2}": {"n_neg": neg2, "lam_min": lam2.mid().str(12, radius=False)},
+            f"rounded_{prec - 128}": {"n_neg": neg3, "lam_min": lam3s}}
+
+
+def lesion_rows(T: Fraction, kind: str, S: Fraction, C: arb_mat, G: arb_mat, N: int, prec: int,
+                dS_list, full: bool = True) -> list[dict]:
+    """S-lesion of one checkpoint: the block C + (beta* + dS)(I - G), i.e. the
+    pipeline run with the envelope constant understated by dS (an invalid
+    envelope). R(T#) depends on S only through beta*, so no unit is recomputed.
+    full=True gives checkpoint rows (LDL inertia and lambda_min); full=False
+    only the eigenvalue nearest 0 (inverse iteration), for bisection. DH has
+    no pole term (P2 = 0). Measured."""
+    ctx.prec = prec
+    if kind != "dh":
+        raise ValueError("lesion rows are written for the entire DH case only")
+    I = arb_mat(N, N, [1 if i == j else 0 for i in range(N) for j in range(N)])
+    Z = arb_mat(N, N)
+    out = []
+    for dS in dS_list:
+        Sa = price.to_arb(S) - price.to_arb(Fraction(dS))
+        t0 = time.time()
+        if full:
+            rec = checkpoint_row(T, kind, Sa, Z, I, C, G, N, prec)
+        else:
+            beta = beta_star(kind, price.to_arb(T), Sa)
+            lam, res = lam_nearest(C + beta * (I - G))
+            rec = {"T": float(T), "beta": float(beta.mid()), "lam_nearest": lam.mid().str(12, radius=False),
+                   "residual": float(res.upper())}
+        rec["dS"] = str(Fraction(dS))
+        rec["seconds"] = time.time() - t0
+        out.append(rec)
+        print(json.dumps(rec), flush=True)
+    return out
 
 
 def _fixed_terms(L: Fraction, env_path: Path, N: int, parity: str):
@@ -624,9 +671,36 @@ def main():
                     help="streaming: stop, state saved, if MemAvailable falls below this")
     ap.add_argument("--out", default=str(HERE / "scout_L140.json"))
     ap.add_argument("--bessel-timing", default=None, help="write the Bessel column timing table to this file")
+    ap.add_argument("--lesion", nargs="*", default=None,
+                    help="S-lesion rows at the restart state in --dir (exact rationals dS, e.g. 0 7085/1000)")
+    ap.add_argument("--lesion-nearest", action="store_true", help="lesion: eigenvalue nearest 0 only (no LDL)")
+    ap.add_argument("--responses-at-state", action="store_true",
+                    help="the responses (leading block, rounded data) of the block at the restart state in --dir")
     args = ap.parse_args()
     if args.bessel_timing:
         Path(args.bessel_timing).write_text(json.dumps(bessel_timing(), indent=1))
+        return
+    if args.lesion is not None or args.responses_at_state:
+        L, h = Fraction(args.L), Fraction(args.h)
+        ctx.prec = args.prec
+        meta, C, G = _load_state(Path(args.dir), args.N)
+        S, _, kind = load_envelope(Path(args.env), with_kind=True)
+        T = h * meta["k1"]
+        out = {"state_k1": meta["k1"], "T": float(T), "N": args.N, "prec": args.prec, "envelope": Path(args.env).name,
+               "S_exact": f"{S.numerator}/{S.denominator}", "kind": kind}
+        if args.lesion is not None:
+            out["rows"] = lesion_rows(T, kind, S, C, G, args.N, args.prec, [Fraction(x) for x in args.lesion],
+                                      full=not args.lesion_nearest)
+        if args.responses_at_state:
+            Sa = price.to_arb(S)
+            beta = beta_star(kind, price.to_arb(T), Sa)
+            I = arb_mat(args.N, args.N, [1 if i == j else 0 for i in range(args.N) for j in range(args.N)])
+            t0 = time.time()
+            out["responses"] = responses_of(C + beta * (I - G), args.N, args.prec)
+            out["responses_seconds"] = time.time() - t0
+            print(json.dumps(out["responses"]), flush=True)
+        Path(args.out).write_text(json.dumps(out, indent=1))
+        print("wrote", args.out)
         return
     L, h = Fraction(args.L), Fraction(args.h)
     Path(args.dir).mkdir(parents=True, exist_ok=True)

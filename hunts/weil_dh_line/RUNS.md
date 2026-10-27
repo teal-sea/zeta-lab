@@ -297,3 +297,165 @@ fa59933272226283b14b1a8d1d9641fb54bed3310e9f3b3e80525c5b36f225d8 scout_panels_01
 1064dd74e0c7b3ba22f1913eb74b1b8eaba033d6da573ad0e330c8881e4e3548 scout_panels_01200_01240.pkl
 f621655399a312e2b4835ebf0de154697dd20e319b2ddc3c75bca00d20362a16 scout_panels_01240_01280.pkl
 ```
+
+## Raised 2026-10-27: the full form Q_856 in position space (estimate before launch)
+
+Task from the owner after the adversarial review of PR #356: replace the measured
+refusal at `T# <= 800` by a decisive statement about every `T#`. `R(T#)` increases
+to the 856-mode DH form `Q_856` in the Loewner order, so the pipeline refuses at
+every `T#` exactly when `lambda_min(Q_856) < 0`. `witness.py` assembles `Q_856`
+with no `T#` split, through the explicit formula in position space, in Arb.
+
+**Timed unit** (2026-10-27 01:44 UTC, load average 4 to 9): one node (a Gram
+matrix of the 856 Chebyshev modes on the `M = 1711` mirrored Gauss nodes) takes
+**10.5 s** and peaks at about 1.1 GB. The assembly needs 1830 nodes (`G(0)`, 1801
+Gauss nodes in `x` on `[0, 2L]`, 28 comb points), so about **19 200 core-seconds,
+5.4 core-hours**, about 45 min wall on 8 processes at `nice -n 10`, plus about
+2 min for `K Q K^T` and the error bounds. Units of 24 nodes (about 4.3 min each,
+77 units); the running sums are saved after every unit (one file of about 40 MB
+in `<cache>/raise_2026-10-27/q856/`, a new directory; nothing of run B's state is
+touched), so a restart loses only the units in flight. Calibration before launch
+(`N = 20` and `40`, seconds): agreement with the stored `C(800)` block on smooth
+vectors to `1e-39` and with the CCM closed-form assembly to `1e-61` (see below).
+
+The other runs of the raise were each estimated below 20 minutes of one or two
+processes, and run at most 8 numeric processes at a time at `nice -n 10`
+with BLAS threads capped at 1, watched by recorded PID to a terminal state
+(`MemAvailable` at least 49 GiB throughout; one-minute load 13 to 22, mostly
+other jobs). One estimate missed: the single-vector stage-A runs were estimated
+at about 8 min from the cost of `Psi + H` (10.3 ms a node at 256 bits) and took
+about 45 min, because every job rebuilt the Chebyshev change of basis `K` from
+exact binomials (135 s a call); `K_matrix` now uses the recurrence for
+`a_j` (0.44 s), which changes no value (the test checks the enclosures
+overlap).
+
+### Ledger (2026-10-27)
+
+```runmanifest
+id: weil_dh_line-2026-10-27-q856
+hunt: weil_dh_line
+started: 2026-10-27T01:47Z
+finished: 2026-10-27T02:35Z
+ran:
+  - OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py --N 856 --procs 8 --unit-points 24 --dir <cache>/raise_2026-10-27/q856 --out <cache>/raise_2026-10-27/q856.pkl
+outcome: success, 48 min 11 s wall, 20 297 core-seconds of units (5.6 core-hours against 5.4 estimated; 250 to 274 s a unit of 24 nodes), 8 workers of about 0.7 GB and the parent; 1824 nodes (G(0), 1801 Gauss nodes in x, 22 comb points); E_psi 3.52e-70, eps 5.98e-64, quadrature bound 6.22e-92, dropped comb mass 1.58e-76, |K G(0) K^T - I| <= 5.8e-74
+artifacts:
+  - <cache>/raise_2026-10-27/q856.pkl (Q_856 lower triangle at 256 bits, 18.5 MB, not committed; SHA-256 04d022fba445f5094aaad8e9cedce3935902b8591ce66923a0af874a1b6c9430)
+  - <cache>/raise_2026-10-27/q856/state.pkl (final running sums, 55 MB; 9a599a8350e27898853d1f1e6a17d2aa1cc3599df06b3dae931040ad7d323ce7)
+```
+
+```runmanifest
+id: weil_dh_line-2026-10-27-analysis
+hunt: weil_dh_line
+started: 2026-10-27T02:36Z
+finished: 2026-10-27T02:58Z
+ran:
+  - nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py --analyze <cache>/raise_2026-10-27/q856.pkl --out <cache>/raise_2026-10-27/witness_q856.json --vec-out <cache>/raise_2026-10-27/witness_v856.json --v800 hunts/weil_dh_line/v800_T800.json --state <cache>/k2/dh_LDH_even --blocks 400 500 550 600 650 700 750 800
+  - leading blocks 50 to 350 and 100 to 145 (scratch driver over witness.ldl_inertia, lowest_eigenpair and quad_form on the same q856.pkl), the 101-mode witness vector, and the independent assembly of Q_101 (witness.unit at N = 101, Nx = 291, 320 bits, 32 s)
+  - Sylvester counts of (Q_856 - R(800)) + sigma I, sigma = 1e-66 to 1e-50, R(800) from the run-B restart state (read only)
+outcome: success, one process at a time (about 3 GB with the stored state loaded). Midpoint LDL of Q_856: 1 negative pivot, 855 positive; lambda_min -1.94308362498385e-30 (residual 3e-78); the stored 40-digit eigenvector has an enclosed Rayleigh quotient [-1.94308362498385e-30 +/- 3.5e-70], below 0 with 2 eps added. Leading blocks: none negative at 50 and 100 modes, one negative eigenvalue at every tested size from 101 (-4.49000370077e-32) to 800 (-1.93813662196e-30). The independent Q_101 reproduces the 101-mode quotient to 15 digits. Q_856 at the T# = 800 eigenvector +6.36613886240e-30 (enclosed, positive); R(800) there -4.15160674834e-30, the stored row. (Q_856 - R(800)) + 1e-66 I has no negative pivot.
+artifacts:
+  - hunts/weil_dh_line/witness_q856.json (the merged record; SHA-256 39bf78cfe51d3ea956197c07dafa8ee7c09304412ffb2c87a24389276bf4cb00)
+  - hunts/weil_dh_line/witness_v856.json (779d9d5456994275c8d282b8f4e9f120de51a7cb202506a52e2df4513b7c5395), hunts/weil_dh_line/witness_v101.json (85c9a0aee3d1c6e53c8b3bb54a78f4d6e2d3200a710b7a20499ca18b2cdf3402)
+  - <cache>/raise_2026-10-27/analyze.log (29a594522090c78618f78903a1ff840cf73b0a195aa76c465555c05135b88750), d_check.json (b877822bf15795a0b033bedb8074f1a999ca1def5fd6bf93be4c68fb0f2d7274), blocks_small.json, blocks_onset.json, blocks_onset2.json, witness_v101_reassembled.json
+  - input hunts/weil_dh_line/v800_T800.json (the T# = 800 eigenvector, 40 digits, from the adversarial review's inverse iteration on the restart state; its R(800) quotient reproduces the stored row)
+```
+
+```runmanifest
+id: weil_dh_line-2026-10-27-lesion-S
+hunt: weil_dh_line
+started: 2026-10-27T02:32Z
+finished: 2026-10-27T03:07Z
+ran:
+  - nice -n 10 .venv/bin/python hunts/weil_dh_line/scout.py --L 171079/100000 --env hunts/weil_dh_line/k2env_dh_L_DH.json --N 856 --prec 1280 --h 1/2 --dir <cache>/k2/dh_LDH_even --lesion DS [--lesion-nearest] --out <cache>/raise_2026-10-27/lesion/...  (one process per dS; full rows at 0, 1417/200, 5917/200, 43, 44, 12477/100; eigenvalue nearest 0 only at 40, 43, 44, 45, 50)
+  - .venv/bin/python hunts/weil_dh_line/price.py --k2-scouts <cache>/k2 --k2-lesion dh_LDH_even <the full rows and the nearest-only rows at 40, 45, 50>  (the five existing entries of k2_scouts.json regenerate unchanged)
+outcome: success; full rows 441 to 449 s, nearest-only 289 to 317 s, about 1.15 core-hours in all. dS = 0 reproduces the recorded row (one negative pivot, -4.15160674834e-30); one negative pivot at 7.085 (-1.89171050630e-30), 29.585 (-4.48677787439e-31), 43 (-2.00511481317e-32); none at 44 (+7.00109338881e-33) and 124.77 (+1.31838669984e-30); nearest 0: -1.046e-31 at 40, +3.352e-32 at 45, +1.589e-31 at 50. Flip between 43 and 44.
+artifacts:
+  - hunts/weil_dh_line/k2_scouts.json (entry dh_LDH_even, key lesion_S)
+  - <cache>/raise_2026-10-27/lesion/ full_0.json c011d6872f2a7a8483b05e5e9c3a4a2d7643ef2201c8ba36d7ce9641a160fdac, full_7085_1000.json (dS = 1417/200) 1d7fcffbc7bd8d670761beebba7f212e62e46185b175b5854062b43d077f1f4f, full_29585_1000.json (dS = 5917/200) ebb42a6e698b67996ce2774c34b1ea4e0c08ea925e85a346533d199bcc16d4ff, full_43 525d8d60c309e85450ee2f0e5b828cce5095ab8bfc466e47bb92ad27526a8edc, full_44 e9751c6a2805e47eb0a6c32ef63638d876a08f6b72dc3993898362fb2d1a7c35, full_12477_100 5f7defbdb829e89216e12b2fe753071a878dd48df6e5cf37c9af798a5a2c9db3, nearest_40 f6c6884dee8ba01d7ef660df57c5a4eea4b013944c300bb353a8d75de6890be5, nearest_45 1af338d524875b95a65dd64fe057b7b76387a8686a4e42d442905720d634d28e, nearest_50 d9ce5321361ebe0085066aceee20dff61655e4b2e137b2ce9fd0a87bd469cfed
+```
+
+```runmanifest
+id: weil_dh_line-2026-10-27-timed-slices
+hunt: weil_dh_line
+started: 2026-10-27T02:32Z
+finished: 2026-10-27T02:39Z
+ran:
+  - nice -n 10 .venv/bin/python <scratch>/time_slice.py L N 1280 k0 k1  (scout.unit in memory, envelope k2env_dh_L_DH.json, even, q = 64, h = 1/2, fast Bessel; no file written): (171079/100000, 856, panels 2396 to 2400), (8503/5000, 856, panels 1596 to 1600), (171079/100000, 1711, panel 3199)
+outcome: success; 31.76 s a panel at T# = 1198 to 1200 and N = 856 (0.75 GB), 32.04 s a panel below the line (c = 30.0006, the same 22 comb terms) and N = 856, 123.47 s a panel at T# = 1600 and N = 1711 (2.2 GB). These price the two runs not launched ("The doors" item 5 of PRICE.md).
+artifacts:
+  - <cache>/raise_2026-10-27/time_slices.log (cce7d13eb6a2e0c6559f93d99ef83b18f21810f9cb7808e1efc518ecd55cdf0c)
+```
+
+```runmanifest
+id: weil_dh_line-2026-10-27-stage-a-v800
+hunt: weil_dh_line
+started: 2026-10-27T02:36Z
+finished: 2026-10-27T03:20Z
+ran:
+  - OMP_NUM_THREADS=1 nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py stage-a hunts/weil_dh_line/v800_T800.json x 800 <cache>/raise_2026-10-27/stage_a_v800.json 64 2
+outcome: success, 43 min 53 s wall on 2 workers (about 1.5 core-hours, of which about 1.2 the per-job rebuild of K noted above); v^T R(800) v / v^T v = [-4.15160674833728e-30 +/- 1.0e-72] for the scout's discrete rule, the stored row to its 12 digits; exact integrals within 8.0e-89; tail mass above 800 1.4883465e-30. The F_v balls of this run were not widened for the scout's node snapping (shift below 2^-1268); the change of F_v under it is below 2 L sqrt(L/2) |v| 2^-1268 < 1e-370, far inside the recorded radius, and witness.py now widens them.
+artifacts:
+  - hunts/weil_dh_line/stage_a_v800.json (the record with that note; SHA-256 918680ebd1d8bafd4bec7504e7d95e791110b3858e30536c419b656f07b74955)
+  - <cache>/raise_2026-10-27/stage_a_v800.json f9a4db31a3787f0d8e048877039cc2a3c2be21c1edac89766d0116a241ba6acd, stage_a_v800.log 58b1935b4be3b5d36d5da444ee94d0161d7b6e550b7ebe7fe8defc925ca02fb8
+```
+
+```runmanifest
+id: weil_dh_line-2026-10-27-responses-T800
+hunt: weil_dh_line
+started: 2026-10-27T02:59Z
+finished: 2026-10-27T03:13Z
+ran:
+  - OMP_NUM_THREADS=1 nice -n 10 .venv/bin/python hunts/weil_dh_line/scout.py --L 171079/100000 --env hunts/weil_dh_line/k2env_dh_L_DH.json --N 856 --prec 1280 --h 1/2 --dir <cache>/k2/dh_LDH_even --responses-at-state --out <cache>/raise_2026-10-27/responses_T800.json
+outcome: success, 822 s; the responses of scout.responses_of at T# = 800 from the stored state: leading_N_791 one negative pivot, lambda_min -4.15160674834e-30; rounded_1152 (the data rounded to 1152 bits, then reduced) one negative pivot, lambda_min -4.15160674834e-30
+artifacts:
+  - <cache>/raise_2026-10-27/responses_T800.json 2843a364501c14f2090fd248867e700febd8b733ca6200d8f9987289a6d2f10b, responses_T800.log 4016972b6020ae364202cf648ed8a9e3a0dfc7431cb24b5ddde879e57da15608
+```
+
+### Two runs priced, not launched (owner's instruction, 2026-10-27)
+
+- **The stream past `T# = 800`** at run B's settings (restart from the stored
+  state; the driver would need its unit plan extended, a small change). A unit of
+  40 panels (20 in `T#`) is about `40 x 31.8 = 1270` s and a checkpoint about
+  500 s (run B: 443 to 531). To `T# = 880`, past the `beta = 1/2` operating point
+  `870.8`: 4 units and 4 checkpoints, about **2.0 core-hours**, about 1 h wall.
+  To `T# = 1600`: 40 units, about 50 900 s, and 8 checkpoints (one every 100),
+  about 4 000 s: **about 15 core-hours, about 2 h wall on 8 workers**; with a
+  checkpoint every 20, about 20 core-hours and about 6 h wall (the serial
+  reduction binds). Disk: the restart state, 125 MB a generation. With the mode
+  rule `2N/x = 1.25` instead (`N = 1711` at `T# = 1600`, a new assembly from
+  `T# = 0`): `3200 x 123.5 s`, about **110 core-hours** of units plus about 9 of
+  reduction, about 15 h wall on 8 workers, 2.2 GB a worker.
+- **The below-the-line discrimination control**: DH at `L' = 8503/5000`
+  (`c = 30.0006`), `N = 856`, 1280 bits, `T#` to 800, with `k2env_dh_L_DH.json`
+  (valid at `L'`: the same comb, and every frequency at least `2 L_DH > 2L'`).
+  40 units of `40 x 32.0 s` and 14 checkpoints: **about 16.2 core-hours**, about
+  5.5 h wall on 3 workers (run B's configuration) or about 2.5 h on 7. Its
+  decisive companion, `Q_856` at `L'` by `witness.py --L 8503/5000`: **5.6
+  core-hours, 48 min wall on 8 processes**, as measured at `L_DH`.
+
+```runmanifest
+id: weil_dh_line-2026-10-27-stage-a-v800
+hunt: weil_dh_line
+started: 2026-10-27T02:36Z
+finished: 2026-10-27T03:19Z
+ran:
+  - nohup nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py stage-a hunts/weil_dh_line/v800_T800.json x 800 <cache>/raise_2026-10-27/stage_a_v800.json 64 2   (PID 856926, two pool workers; log <cache>/raise_2026-10-27/stage_a_v800.log)
+outcome: success, exit 0, 43 min 53 s wall on 2 workers (about 1.5 core-hours, against about 8 min estimated: the K rebuild, above). v^T R(800) v / v^T v for the discrete stage-A rule = [-4.15160674833728e-30 +/- 1.03e-72]; for the exact integrals of R(800), the same within the t-quadrature bound 8.03e-89; tail mass above 800 1.4883465e-30; beta*(800) 0.415137840683351
+artifacts:
+  - hunts/weil_dh_line/stage_a_v800.json
+```
+
+Recorded in flight before waiting on it, then completed:
+
+```runmanifest
+id: weil_dh_line-2026-10-27-stage-a-witness
+hunt: weil_dh_line
+started: 2026-10-27T02:51Z
+finished: 2026-10-27T03:36Z
+ran:
+  - nohup nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py stage-a <cache>/raise_2026-10-27/witness_v856.json v 800 <cache>/raise_2026-10-27/stage_a_witness.json 64 2   (PID 917918, pool workers 917927 and 917928; log stage_a_witness.log)
+outcome: success, exit 0, 44 min 33 s wall on 2 workers (about 1.5 core-hours). v^T R(800) v / v^T v at the 856-mode witness = [-2.83155721280920e-30 +/- 1.03e-72] (the stored-state value of the analysis, -2.83155721281e-30, by a route independent of it), exact integrals within 8.03e-89; tail mass above 800 m_800 = 1.4220221e-31 (upper 1.42202215e-31), so the refusal at every T# >= 800 survives an envelope bound low by any delta < 1.9430836e-30 / 1.4220222e-31 = 13.66
+artifacts:
+  - hunts/weil_dh_line/stage_a_witness.json
+```

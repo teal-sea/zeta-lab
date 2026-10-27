@@ -80,7 +80,14 @@ control roles, and the checks are the ones the tree already owns:
 **Status: open, on a draft pull request; resumed in place on 2026-10-26 by the owner's
 decision. No-go at the gate for the searched envelopes (attempt unresolved, measured);
 K2 on DH at the DH line run on 2026-10-26 (streamed): the pipeline refuses at every
-checkpoint to `T# = 800`, so the binding kill condition did not fire (measured, stage A only).** Asks whether zeta's Weil window
+checkpoint to `T# = 800`, so the binding kill condition did not fire (measured, stage A only).
+Raised 2026-10-27: the `T# -> infinity` limit of the stage-A block, the DH form on the
+scout's even Legendre modes, has a negative eigenvalue on every leading block of 101 or
+more modes (`-1.943e-30` at 856; hardened: an enclosed Rayleigh quotient, reproduced by an
+independent assembly), so the stage-A block refuses DH at `L_DH` at every `T#` and every
+`N >= 101` given the pipeline's own inputs (the composite is measured at the validity of
+`S`); the `T# = 800` eigenvector itself is not a witness, and K2 at `T# = 800` keeps its
+verdict with `S` understated by up to 43, so it does not test `S`.** Asks whether zeta's Weil window
 positivity can be proved with enclosures on a window where the Davenport-Heilbronn form is
 provably negative, half-width `L >= (log 30.617188)/2 = 1.7107808`, through the out-of-band
 reduction of `oob_envelope/`. The comb floor `S*_L` at `L_DH` lies in `[5.637302, 5.643859]`
@@ -90,7 +97,8 @@ Arb floor `6.174396`. A measured stage-A scout at `L = 7/5` (envelope `S = 4.117
 negative pivots at `T# = 400` to `440` and none from `460` to `640`, stable under the mode
 and precision responses. K2 refuses Epstein `(1,1,6)` wherever its form is known negative,
 and DH at `L_DH` (`N = 856`, 1280 bits): one negative pivot at all 14 checkpoints with
-`beta* > 0`, `lambda_min` about `-5e-30` and shrinking in magnitude as `T#` grows.
+`beta* > 0`, `lambda_min` about `-5e-30` and shrinking in magnitude as `T#` grows; the
+limit form's own least eigenvalue is `-1.943e-30` (PRICE.md item 7).
 Nothing here is kernel-checked, no novelty is claimed, and nothing bears on RH. Record:
 `weil_dh_line/PRICE.md`, `weil_dh_line/RUNS.md`, `weil_dh_line/MISSION.md`.
 
