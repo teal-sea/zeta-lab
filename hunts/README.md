@@ -4532,6 +4532,25 @@ Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival ga
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
 
+### Hunt #136: pushing the zero-free half-plane under 7/8 (`below_seven_eighths/`, opened 2026-10-21)
+
+**Status: paused by allocation (proposed 2026-10-26; the owner decides). No improvement of
+the half-plane is claimed.** The first wave (2026-10-21) found no row-count sharpening that
+gains at the paper's inputs (part (a), attempt unresolved), priced but did not prove probes
+of lower order (part (b), attempt unresolved), and checked the Euler-product step exactly on
+stated ranges. By 2026-10-26 the smallest bound merged on QuasiRiemannTracker was 0.8746075
+(PR 76), on tracker entries that keep the 13/15 floor model's geometry as far as their Lean
+sources were read (inferred). The kill condition is not triggered, because the hunt has no
+candidate to match. See the dated disposition section of `MISSION.md`.
+The owner directed the laboratory on 2026-10-21 to
+attack RH, and this is the campaign's first track. The question is whether the zero-free
+half-plane for every Dirichlet L-function can go below the best public abscissa, 0.8748867
+(Xu and Sang), either by strengthening the row-count inputs of OpenAI's Part II assembly,
+whose ceiling hunt #139 places at 13/15, or by a probe whose constants are not tied to the
+sextic pole. It builds on hunt #139 (`seven_eighths_pin/`, unlanded; opened as #134 on
+`claude/hunt-134-seven-eighths-pin`), reads the pinned paper source by line number and
+checks every printed constant in exact arithmetic. Nothing here bears on real part 1/2.
+
 ### Hunt #137: a kernel-checked RH to finite height for Mathlib's zeta (`rh_height_lean/`, opened 2026-10-21)
 
 **Status: both targets closed by a clean Lean-kernel build; independent

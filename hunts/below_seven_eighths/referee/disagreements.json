@@ -1,0 +1,115 @@
+{
+  "lane": "b78-referee",
+  "hunt": "136 below_seven_eighths",
+  "date": "2026-10-21",
+  "revision": "repaired after the adversarial review of 2026-10-21 (REFEREE_W1.md section 7)",
+  "rule": "Every disagreement is listed and none is resolved here; resolution is the owner's call.",
+  "source": {
+    "repository": "github.com/openai/math",
+    "commit": "adc7f124",
+    "file": "preprints/The-Quasi-Riemann-Hypothesis-September-30-2026/build/paper.tex",
+    "sha256": "42a5ee0febca59fd1def55cfd6c6808c322ef4237d7726303ea52f711deac6a3",
+    "checked_by": "test_paper_is_the_pinned_source"
+  },
+  "comparison_with_lane_files": {
+    "performed": false,
+    "files": [
+      "hunts/below_seven_eighths/euler_step.py",
+      "hunts/below_seven_eighths/probe_table.py"
+    ],
+    "reason": "Both files were untracked on hunt/below-seven-eighths at every check (HEAD 9c1f21c52 in wave 1, baa41597e at the repair); the task forbids treating uncommitted files as final. This lane has not opened them.",
+    "status": "outstanding: to be made against the committed versions, once they exist"
+  },
+  "disagreements": [
+    {
+      "id": "D1",
+      "subject": "the probe lane's kill of S1, cubic theta with the conjugate cubic twist (k = 3)",
+      "kill_as_described_in_the_task": "leaves the angular factor alpha-bar(c), so that the denominator is L(s, eta alpha-bar)",
+      "referee_finding": "gamma_2 gamma_4 = 1 exactly at norm 7 and at the two-prime indices 7, (1+3w)(4+3w), (1+3w)(-2+3w), (4+3w)(-2+3w), (1+3w)(1+6w), 13 and 19, and at every squarefree c prime to 6 by a short argument (tau(H^2) tau(H^4) = H^2(-1) P = P at a prime; the CRT cross factors multiply to prod chi_{p_i}(p_j)^6 = 1). Paper's row normalization: at one prime the u = 1 coefficient of X = Q^{-x} is +conj(alpha(p) G(p)) eta rho^{-4}, so the angular factor appears, together with conj(G(p)); across primes the coefficient does not separate, since its squarefree part conj(alpha(c) G(c)) picks up the pair phase conj(R(p, q)), which is -1 at (7,13), (7,19), (13,19) and (7,31) and +1 at the conjugate pairs above 7, 13 and 19, while the paper's own probe gives mu(c) and separates. Bare row (no angular, G or R insertion, each of which exists to cancel phases produced by gamma_1 gamma_2 = mu alpha G and absent here): the coefficient of X is exactly +eta rho^{-4} and separates, and at norms 7 and 13, inside the box t <= 7, k <= 2, m <= 3, the local factor has the shape (1-V)^{-1} (1-W)^{-1} (1 - eta^2 X^2)(1 - eta X)^{-1} H with no pure X or X^2 in H - 1, so the target enters as L(x, eta)/L(2x, eta^2): in the numerator. No convergence of the correction product is shown; the size exponents of H - 1 are floats measured at those two primes.",
+      "points_of_disagreement": [
+        "exponent of the target: in the bare row the coefficient of X is +eta rho^{-4} and the local factor (norms 7 and 13, in the box) has the target in the numerator, not the denominator",
+        "the angular factor is an artifact of the paper's row normalization, not forced by the probe",
+        "in the paper's row normalization the S1 coefficient does not separate into prime factors (pair phase conj(R(p, q)) = -1 at the four computed pairs over distinct rational primes), so there is no single Euler product L(s, eta alpha-bar) in either position; reading line 3416, only a finite combination over T-hat remains (inferred)"
+      ],
+      "agreement": "a factorization with 1/L(x, eta), the shape the zero detector needs, is absent in both normalizations; the kill's conclusion stands for a different reason",
+      "after_adversarial_review": [
+        {
+          "item": "a",
+          "source": "reported by the adversarial review from the probe lane's PROBE.md, which is uncommitted and which this lane has not opened",
+          "note": "the probe lane defines S1 as 'cubic, j = 4', the chi^4 twist used here; D1 is therefore not a mismatch about the twist, and what remains is normalization and decomposition"
+        },
+        {
+          "item": "b",
+          "source": "this lane, exact (s1_pair_phase, test_S1_does_not_separate_in_the_paper_row_normalization)",
+          "note": "the wave-1 statement about the paper's row normalization was single-prime only; at two-prime indices that normalization leaves the pair phase conj(R(p, q)) and the S1 coefficient does not separate"
+        },
+        {
+          "item": "c",
+          "source": "adversarial review; the pole 1/3 is as reported, not checked here",
+          "note": "this lane's S1 keeps H = u a^6 with V = Q^{-6z} and twists the s-side character to chi^{4k}, while the probe lane prices S1 with pole 1/3; the full local-factor shape is specific to this lane's construction, and the D1 sign, which depends only on the (t, k, m) = (1, 0, 0) coefficient, is unaffected"
+        }
+      ],
+      "evidence": "REFEREE_W1.md section 3; tests test_twist_products_at_norm_7, test_S1_and_S2_at_norm_7, test_S1_scalar_factorization_with_the_target_in_the_numerator, test_S1_does_not_separate_in_the_paper_row_normalization",
+      "grade": "derived (exact, PARI): the bare-row sign at every squarefree c prime to 6 (argument, checked at the listed indices); the bare-row local factor at norms 7 and 13 in the box; the paper-normalization pair phase at the seven computed pairs. Inferred: the T-hat reading of line 3416.",
+      "caveat": "The referee's S1 is its own construction from the task's one-line description; the lane's definition was not read by this lane. By the review's report the twist agrees, so the disagreement may be one of normalization and decomposition rather than of mathematics.",
+      "resolution": "not resolved; for the owner"
+    }
+  ],
+  "consistent_with_the_task_descriptions": [
+    {
+      "subject": "S2, the quadratic twist (k = 2): said to have no scalar Euler identity",
+      "referee_finding": "At norm 7 the X coefficient has alpha-exponent 1/3 (bare row), -2/3 (paper's row normalization) and -1/3 (conjugate theta). Since gamma_2^3 = -alpha(p) and alpha(p) is not a root of unity, no finite-ray phase or integer power of alpha makes it scalar. The attempt to exhibit a scalar identity failed.",
+      "grade": "derived at norm 7"
+    },
+    {
+      "subject": "S3, classical theta with a quartic twist: said to lack squarefree coefficients",
+      "referee_finding": "Over Q(i), at the prime -1+2i of norm 5 by direct summation through t = 4 and at 3+2i of norm 13: theta coefficients 2, 0, 2, 0, 2 at p^t, so no X term in any row; the non-scalar twist values (quartic Gauss sums, alpha-exponent 1/2 and -1/2) sit only at odd t where the theta vanishes; every surviving coefficient is scalar and the u = 1 row starts at X^4. Consistent; in addition, a scalar local factor does exist, in Q^{-2x} and Q^{-4x}, which no zero detector at abscissa x can use.",
+      "grade": "derived at norms 5 and 13 of Z[i]"
+    }
+  ],
+  "paper": {
+    "defects_found": [],
+    "checked": "Lemma 4.2 (21 identities), Equation (4.7) at squarefree indices with one to three prime factors, Lemma 4.3 and Equation (4.6), the lift of lines 3877-3883, the local scalar table, Lemma 7.1's closed form for all six rows and all six unit phases through t <= 13, k <= 2, m <= 4, the raw phase bookkeeping, the global coefficient (local-full-coefficient) and its separation into prime factors, the H_p defect formula, the region exponents, and the claims at the primes above 6",
+    "primes": "norms 7, 13, 19, 25 (and 31 for Lemma 4.2, the prime battery and the slow tier)",
+    "grade": "derived at those primes and boxes; not a proof for all primes; nothing kernel-checked"
+  },
+  "rivals": {
+    "placement": "the paper's rule for a Dirichlet character, a -> chi(N a) (line 6725), extended by this lane to the rival's Dirichlet coefficients: f(a) = a(N a), with S enlarged by (5)",
+    "verdict": "the identity fails for both rivals at both steps, the single-prime closed form and the separation into prime factors (line 3994); no tested index has a rival pass the single-prime step and fail only the separation",
+    "failing_term": "single prime: the R(1-Q^{-1}) entry (X^6 V) of the u = 1 row (DH at norms 7 and 13, Epstein at 7, 13, 19 and 31). Separation: the u = 1 coefficient at c = 7 = (1+3w)(-2-3w), the product D_p D_pbar of the two J_0 entries: DH -1 against kappa^2 = 0.0807009; Epstein 1 against 0",
+    "where_each_step_fails": {
+      "DH": "both steps fail on the same primes, those with chi(N p) not real (N p = 2, 3 mod 5; norms 7 and 13): the single-prime closed form at X^6 V (f(p^6) = -1 against kappa^6), and separation at every pair of two such primes and at no other pair. Where chi(N p) is real (N p = 1, 4 mod 5; norms 19 and 31 and every inert prime) DH agrees with the Hecke character chi o N on every power of p and both steps pass. Exhaustive over the residues mod 5 for the coefficients; closed form computed at 7, 13, 19, 31; global coefficient at (7,7bar), (7,13), (19,19bar), (7,19).",
+      "Epstein-15": "the single-prime closed form fails at every tested prime (7, 13, 19, 31) and, from the coefficients, at all 21 split ell below 200; separation fails at the conjugate pairs over one rational prime ((7,7bar) and (19,19bar) computed; all 21 from the coefficients) and holds across distinct rational primes ((7,13) and (7,19) computed; all 210 pairs from the coefficients)."
+    },
+    "shared_lemma": "the single-prime identity is shared with DH only at primes with real chi(N p), where DH is locally a character and separation holds as well; for Epstein no tested prime passes the single-prime step, and separation is shared at pairs over distinct rational primes",
+    "withdrawn": "wave 1's reading that the single-prime identity is a shared lemma for DH and the separation the distinguishing step; the computed values it rested on are unchanged",
+    "evidence": "test_rival_local_first_failure, test_rival_cross_term, test_row_zero_reads_only_t_0_1_below_six, test_dh_both_steps_fail_on_the_same_primes, test_epstein_single_prime_fails_everywhere_and_separation_only_at_conjugates"
+  },
+  "corrections": [
+    "rival verdict withdrawn and replaced (major): both steps fail, on the same primes",
+    "D1: three additions after the review (twist agreement as reported, non-separation in the paper's row normalization, scope of this lane's construction)",
+    "S1 factorization sentence scoped to norms 7 and 13 and the stated box; the argument for the sign at every squarefree c written out",
+    "citation: gamma_2 gamma_4 = 1 is on paper line 4124, not 4122",
+    "versions: PARI library 2.17.2, cypari2 package 2.2.4",
+    "push status: the branch was pushed after wave 1, not by this lane",
+    "wording: the placement is this lane's extension of line 6725; the raw and global routes are distinct derivations sharing one module, not independent implementations"
+  ],
+  "notes": [
+    {
+      "id": "N1",
+      "note": "The closed form contains no Gauss sum, so a check of (local-P) against the closed form alone cannot see the planted sign error G_1 -> -G_1 outside rows 3 and 4; Lemma 4.2 and the raw-coefficient route see it in every row."
+    },
+    {
+      "id": "N2",
+      "note": "The worktree branch hunt/below-seven-eighths is based on d5d1dfc81, not on origin/main fb647bfc7 as the task's override states (fb647bfc7 is not an ancestor of HEAD). Only files under referee/ were written."
+    },
+    {
+      "id": "N3",
+      "note": "A process listing taken to find this lane's own background job displayed another session's command lines naming tests and planted-fault strings of the uncommitted euler_step.py and test_euler_step.py. Those files were not opened and no module or function is shared. The adversarial review reports six textually identical lines (the SHA-256 constant, the future import, three lines of generic Z[omega] arithmetic, and the omega_p exponent line of (local-P), variable name om_exp included); that exponent line transcribes paper line 4002. This lane still has not opened euler_step.py."
+    },
+    {
+      "id": "N4",
+      "note": "The adversarial review reports an independent reproduction with its own code (no PARI, no python-flint) at further primes and one level deeper in the global coefficient. That code is outside the repository and was not inspected by this lane; no grade here rests on it."
+    }
+  ]
+}
