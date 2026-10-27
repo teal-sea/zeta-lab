@@ -168,3 +168,18 @@ record of who allowed each step:
   `dh_zero_located` with `dh_analytic_half`. No definition in `lean/ZetaLean` changed.
 - **Novelty is still not declared.** The record says searched-and-absent
   (`PRIOR_ART.md`), not novel.
+
+## Supersession record, 2026-10-27 (door 1, Stage B on a fleet)
+
+The operator's brief of 2026-10-27 asked for the independent `con-ron --verified` check of
+the whole assembled closure, split site by site across InstaBox VMs (primary) and Novita
+sandboxes (second provider), exported on the shared box one artifact zip at a time, under a
+hard cap of USD 40, a 12-hour dead-man over every VM of the run, and the box's memory and
+disk floors. That brief authorized, for this run only: paid cloud compute; export,
+compression and checking of all 215 sites and a top shard; a full re-collect and
+re-assembly on the box to rebuild the assembly oleans Stage A had deleted (they came back
+byte for byte); edits to `RESULTS.md`, `RUNS.md`, `harness/departments/review_ledger.py`,
+`docs/47` section 1 and the README front page. The instruments are new files in this
+directory (`conron_fleet.py`, `conron_shard.py`, `shard_manifest.py`,
+`lean/ExportShard.lean`, `test_stage_b.py`); no definition in `lean/ZetaLean` changed and
+no Lake build ran in this worktree.

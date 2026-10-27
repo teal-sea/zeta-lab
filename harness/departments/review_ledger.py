@@ -569,8 +569,14 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "without re-checking their proofs. On 2026-10-27 a same-kernel "
             "fresh replay (leanchecker --fresh Rung3Assembly.Final, Lean's own "
             "kernel, which its docstring calls 'not an external verifier') "
-            "re-checked the assembled closure's constants and accepted; no "
-            "independent kernel has checked the whole closure",
+            "re-checked the assembled closure's constants and accepted. The "
+            "same day a second kernel, con-ron --verified, accepted the closure "
+            "on a site-wise split with coverage shown (door 1 Stage B): its top "
+            "shard checks the 18 final declarations abstracted over the 435 site "
+            "theorems the assembly names (Rung3Glue.*, built by "
+            "lean/ExportShard.lean and checked by Lean's kernel first), and the "
+            "join of the 216 shards rests on kernel hashes of every exported "
+            "declaration (shard_manifest.py), not on a single run",
             "the separation's LEAN_PATH joins hunt #137's oleans with this "
             "tree's through one ZetaLean overlay; the shared modules' constants "
             "are identical by CompareOleans.lean, not by byte equality",
@@ -634,11 +640,23 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "7 h 17 min; a missing module exits 1, and "
             "a scratch olean with one tower radius one unit low is refused at "
             "Prime_B_right_06_2.ev_whole (kernel application type mismatch)",
-            "con-ron --verified, a second kernel, on samples only: it accepts "
+            "con-ron --verified, a second kernel, on samples first: it accepts "
             "the exported closure of upper_B_right_06 (61,782 declarations) and "
             "of three centre towers, and rejects the same one-unit radius "
-            "fault at the same declaration; the full closure was not exported "
-            "or checked (projected about 1,300 core-hours)",
+            "fault at the same declaration",
+            "con-ron --verified on the whole closure, site by site (2026-10-27, "
+            "InstaBox VMs and Novita sandboxes, 834 core-hours, USD 8.93): all "
+            "216 shards accepted (the 215 sites, each with every constant of its "
+            "modules, and the glued top shard; 13,982,741 declarations); no "
+            "constant shared by two shards differs in kernel hash; all 435 "
+            "Rung3Glue.T definitions hash as their site theorems' types; none of "
+            "the 675,388 constants in the closure of the 18 final declarations, "
+            "computed in the real assembled environment, is unchecked; the "
+            "one-byte radius fault, exported as a whole site shard, is rejected "
+            "at Prime_B_right_06_2.ev_whole._proof_1_1 on both providers "
+            "(RESULTS.md door 1 Stage B; pilot.json production.replay."
+            "stage_b_fleet). Grade of this step: accepted by an independent "
+            "checker on a site-wise split, with coverage shown",
         ),
         author_reasoning=(
             "215 site theorems (110 big boxes bounding ||DH|| <= 2.5499 on the "
