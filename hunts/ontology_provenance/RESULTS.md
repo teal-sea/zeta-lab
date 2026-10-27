@@ -19,11 +19,13 @@ zero counters, zero tables, ordinate statistics), and then walks the
 repository's own import graph.
 
 `from module import name` follows that name, not the rest of the module. A
-name defined in the file is exempt from the file's own consumer check: a file
-that manufactures a xi-phase is a `provider`, and a frame that imports the
-phase is the consumer. `import module` still follows the module. Relative
-imports are resolved against the file's module name, so `from .zeros import`
-inside `zeta/` is an import of `zeta.zeros`.
+reference to a name counts, not only a call, and a from-import that a file
+only re-exports is followed to its source. A name defined in the file is
+exempt from the file's own consumer check: a file that manufactures a
+xi-phase is a `provider`, and a frame that imports the phase is the consumer.
+`import module` still follows the module. Relative imports are resolved
+against the file's module name, so `from .zeros import` inside `zeta/` is an
+import of `zeta.zeros`.
 
 | verdict | meaning |
 | --- | --- |
@@ -109,22 +111,76 @@ and followed `first_zeros` into `zeta.quasicrystal` and `zeta.synthesis`.
 5. **It says nothing about Requirements B and C.** An arithmetic-provenance
    construction can still be wrong about the maths. That is what the doors, the
    battery, and the certainty ladder are for.
+6. **An attribute re-export still reads clean.** `from helper import f` in an
+   intermediate module is a symbol, and a consumer of that re-export is tainted
+   when `f` is. `import helper` followed by `f = helper.f` is not: the
+   right-hand side is an attribute, not a from-imported name, and the assigned
+   name is a local definition the scanner does not follow. That is the residual
+   fail-open. It is not the fifteen-frame table, and it is not closed here.
 
 ## 4. The doors
 
-Doors here are limits of the instrument, not a queue of work.
+Doors here are limits of the instrument, not a queue of work. This scan does
+not optimize a bound. The three parts below say what actually binds, what was
+chosen and not optimized, and whether closing a door would require data this
+scan does not already read.
 
-- **Whole-module imports remain coarse.** The limit in blind spot 1 is the
-  remaining granularity gap. Closing it would mean tracking attribute uses on
-  a module object. This hunt does not do that.
-- **A declared-exemption channel.** Blind spot 2 could be narrowed by an
-  explicit in-file annotation that records a decision instead of hiding it.
-  It also creates a bypass, so it needs a policy before it exists. This hunt
-  does not add one.
+### Active constraints at the optimum
+
+There is no numerical optimum, so there is no shadow price and no
+saturation-curve slope to rank. What binds the published table is the rule
+set, ranked by which column moves if the rule is relaxed.
+
+1. **Banned modules and banned names.** Importing `zeta.zeros` flags frames
+   03, 05, 06 and 08. Using `mpmath.zetazero` flags frame 11. Relaxing the
+   banned-module entry moves those four; relaxing the banned name moves 11.
+   That is the constraint the tainted column sits on.
+2. **Symbol-level resolution, including every name reference, not only a
+   call.** Frame 07 imports only `dh_coefficient`. A module-level read of
+   `zeta.epstein` flagged it; following the imported name, and every load of
+   a name, keeps it clean. Relaxing this back to a whole-module hit moves 07,
+   and the two scouts that import a clean name from `ontology.knownness`,
+   from clean to tainted. That is the constraint the clean column sits on.
+3. **A bare `import module` follows the whole module.** None of the fifteen
+   frames is tainted only by that coarser edge. It does not bind this table.
+   It is still the constraint that would flag a file which imports a tainted
+   module and uses only a clean attribute.
+
+### The frozen-constant inventory
+
+This scan has no chosen numeric constant: no cutoff, no height, no working
+precision. The frozen constants are membership decisions, each chosen and not
+optimized.
+
+| constant | frozen as | what relaxing it trades against |
+| --- | --- | --- |
+| `BANNED_NAMES` and `BANNED_MODULES` | the rule set in `provenance.py` | dropping a name misses that ingredient, which is a fail-open; adding a homonym false-flags a prime-side use. The word "zero" in an identifier is already not a hit. |
+| `import module` granularity | the whole module, not the attribute | attribute tracking would clear a file that imports a tainted module only to use a clean name, and would cost a walker this hunt does not build. Fewer coarse hits, against a new miss if the walker drops a load. |
+| dynamic execution | `exec`, `eval`, `__import__`, `importlib` and `runpy` are undecided, not clean | calling them clean fails open. Resolving them means running the file, which this scan does not do. |
+| `import zeta` | not an edge into `zeta.zeros` | treating the package import as the zero module would taint every file that imports the package, including frames that never name a zero. |
+| from-import re-export | followed to the source symbol | no longer frozen open. An attribute re-export, `import helper` then `f = helper.f`, is still not followed. Closing it stays inside the same AST. This hunt does not do it. |
+
+### The information class of each door
+
+Each door stays inside the data the current family reads: the Python source
+under `ontology/` and `zeta/`, parsed as an AST. None of them requires a zero
+table, a numerical sweep, or a new family of inputs.
+
+- **Whole-module imports.** Closing the gap is a finer read of the same
+  source. It does not require reading more. This hunt does not build that
+  walker.
+- **A declared-exemption channel.** An in-file annotation would still be
+  static source, not a new measurement, and it is also a bypass. It needs a
+  policy before it exists. This hunt does not add one.
 - **Not wired into the funnel.** `ontology/registry.py` already refuses a
   generator that grades its own candidates. Making this scan blocking would
   be a change to `ontology/`, which this hunt does not make. The scan stays
-  advisory.
+  advisory. That change is the same information class: static source, not a
+  new datum.
+- **Attribute re-export.** Following `f = helper.f` is again a read of source
+  already in the tree. The residual is named in the blind spots. This hunt
+  does not close it: the from-import case was the one that could be closed
+  without moving the 53 published verdicts.
 
 ## Reproduce
 

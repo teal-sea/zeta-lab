@@ -5856,10 +5856,14 @@ control | `hunts/ontology_provenance/` | grade: measured
 A static read of a Python file against a named rule set of zero-derived
 quantities (ordinates, xi-phases, zero finders, zero counters, zero tables,
 ordinate statistics). `from module import name` follows that name, including
-same-file calls and a from-import the name itself calls. `import module`
+every name the body reads, not only a call, and a from-import the name reads.
+A from-import that a file only re-exports follows its source. An attribute
+re-export (`import helper` then `f = helper.f`) does not, and RESULTS names
+that residual. `import module`
 follows the module. A name the file defines is a provider of that name, not a
 consumer of it. Dynamic execution and a name that cannot be resolved are
-undecided, never clean. Ten planted violations must come back tainted, a
+undecided, never clean. The planted violations in the lesion suite must come
+back tainted, a
 clean control whose only crime is the word zero in an identifier must stay
 clean, and frame 07 (which imports only `dh_coefficient`) must not be reported
 tainted. The scan establishes name reachability. It does not establish that a

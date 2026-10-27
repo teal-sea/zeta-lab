@@ -190,6 +190,148 @@ def test_importing_the_tainted_sibling_is_reachable() -> None:
     assert "uses_zero" in got.witness
 
 
+def test_an_alias_of_a_tainted_function_is_not_read_clean() -> None:
+    """``g = f`` is the tainted function, even when ``g`` is never called.
+
+    A walk that records only call targets reports the alias clean. Importing
+    that alias must still be tainted: a miss here is a fail-open.
+    """
+    helper = analyse_source(
+        "from mpmath import zetazero\n"
+        "def f():\n"
+        "    return zetazero(1)\n"
+        "g = f\n",
+        path="lab/helper.py",
+        module="lab.helper",
+    )
+    assert helper.symbols["f"] == TAINTED
+    assert helper.symbols["g"] == TAINTED, helper.symbols
+    candidate = analyse_source(
+        "from lab.helper import g\n",
+        path="lab/candidate.py",
+        module="lab.candidate",
+    )
+    universe = {"lab.helper": helper, "lab.candidate": candidate}
+    propagate_symbol_taint(universe)
+    got = resolve("lab.candidate", universe)
+    assert got.status == TAINTED
+    assert "g" in (got.witness or "")
+
+
+def test_a_default_argument_holding_a_zero_table_is_not_read_clean() -> None:
+    """A default argument is a reference. A zero table there taints the function.
+
+    The body never calls the table. A call-only walk reports the function clean
+    and the importer clean with it.
+    """
+    helper = analyse_source(
+        "from mpmath import zetazero\n"
+        "ZS = [zetazero(1)]\n"
+        "def coeff(n, table=ZS):\n"
+        "    return table[n]\n",
+        path="lab/helper.py",
+        module="lab.helper",
+    )
+    assert helper.symbols["ZS"] == TAINTED
+    assert helper.symbols["coeff"] == TAINTED, helper.symbols
+    candidate = analyse_source(
+        "from lab.helper import coeff\n",
+        path="lab/candidate.py",
+        module="lab.candidate",
+    )
+    universe = {"lab.helper": helper, "lab.candidate": candidate}
+    propagate_symbol_taint(universe)
+    got = resolve("lab.candidate", universe)
+    assert got.status == TAINTED
+    assert "coeff" in (got.witness or "")
+
+
+def test_a_reexport_of_a_tainted_function_is_not_read_clean() -> None:
+    """``from mid import f`` follows f when mid only re-exports it.
+
+    The intermediate file defines no symbol of its own. Without an imported-name
+    entry, resolve falls through and the consumer reads clean.
+    """
+    helper = analyse_source(
+        "from mpmath import zetazero\n"
+        "def f():\n"
+        "    return zetazero(1)\n",
+        path="lab/helper.py",
+        module="lab.helper",
+    )
+    mid = analyse_source(
+        "from lab.helper import f\n",
+        path="lab/mid.py",
+        module="lab.mid",
+    )
+    candidate = analyse_source(
+        "from lab.mid import f\n",
+        path="lab/candidate.py",
+        module="lab.candidate",
+    )
+    universe = {"lab.helper": helper, "lab.mid": mid, "lab.candidate": candidate}
+    propagate_symbol_taint(universe)
+    assert universe["lab.mid"].symbols["f"] == TAINTED
+    got = resolve("lab.candidate", universe)
+    assert got.status == TAINTED
+    assert got.tier == "reachable"
+    assert "f" in (got.witness or "")
+
+
+def test_a_reexport_of_a_zero_table_is_not_read_clean() -> None:
+    """A module-level zero table re-exported by name is still that table."""
+    helper = analyse_source(
+        "from mpmath import zetazero\n"
+        "ZS = [zetazero(1)]\n",
+        path="lab/helper.py",
+        module="lab.helper",
+    )
+    mid = analyse_source(
+        "from lab.helper import ZS\n",
+        path="lab/mid.py",
+        module="lab.mid",
+    )
+    candidate = analyse_source(
+        "from lab.mid import ZS\n",
+        path="lab/candidate.py",
+        module="lab.candidate",
+    )
+    universe = {"lab.helper": helper, "lab.mid": mid, "lab.candidate": candidate}
+    propagate_symbol_taint(universe)
+    assert universe["lab.mid"].symbols["ZS"] == TAINTED
+    got = resolve("lab.candidate", universe)
+    assert got.status == TAINTED
+    assert "ZS" in (got.witness or "")
+
+
+def test_a_reexport_of_a_clean_sibling_stays_clean() -> None:
+    """Following a re-export must not smear a tainted sibling onto a clean name."""
+    helper = analyse_source(
+        "from mpmath import zetazero\n"
+        "def f():\n"
+        "    return zetazero(1)\n"
+        "def g(n):\n"
+        "    return n + 1\n",
+        path="lab/helper.py",
+        module="lab.helper",
+    )
+    mid = analyse_source(
+        "from lab.helper import g\n",
+        path="lab/mid.py",
+        module="lab.mid",
+    )
+    candidate = analyse_source(
+        "from lab.mid import g\n",
+        path="lab/candidate.py",
+        module="lab.candidate",
+    )
+    universe = {"lab.helper": helper, "lab.mid": mid, "lab.candidate": candidate}
+    propagate_symbol_taint(universe)
+    assert universe["lab.mid"].symbols["g"] == CLEAN
+    got = resolve("lab.candidate", universe)
+    assert got.status == CLEAN, got.witness or got.reason
+
+
 def test_a_wrapper_around_an_imported_tainted_symbol_is_tainted() -> None:
     helper = analyse_source(
         "def uses_zero():\n"

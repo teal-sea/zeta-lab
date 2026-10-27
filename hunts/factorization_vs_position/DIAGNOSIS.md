@@ -66,9 +66,11 @@ The mechanism is exact proportionality, not a shared sample. `family.Z_kappa`
 returns the real part of one fixed rotation, `expjpi(dh_theta(t)/pi)`, times
 `f_kappa`. That real part is `(1 + 0.284079*kappa)` times one fixed function
 of t. `0.284079` is the leading digits of `zeta.epstein.KAPPA_REF`. The ratio
-`Z_kappa(t, 1) / Z_kappa(t, 0)` equals `1 + KAPPA_REF` to 20 digits at
-t = 4, 12.3, 30.3, 50 and 77.7, with a zero residual at that precision
-(`test_kappa_proportionality.py`). The factor is positive for kappa in [0, 1],
+`Z_kappa(t, 1) / Z_kappa(t, 0)` tracks `1 + KAPPA_REF` at
+t = 4, 12.3, 30.3, 50 and 77.7. The values are float64: `family.Z_kappa`
+returns `float(mp.re(val))`. Proportionality is confirmed numerically at
+roughly 1e-16 relative residual in float64, not to 20 digits
+(`test_kappa_proportionality.py` pins the identity at `rel=1e-12`). The factor is positive for kappa in [0, 1],
 so sign changes of the scanner's output cannot depend on kappa. The sweep is
 reading one fixed zero set, not nine.
 

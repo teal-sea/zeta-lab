@@ -33,8 +33,12 @@ ordinary case, which is the case that occurs.
 One deliberate coarse decision: ``import zeta`` is not treated as an edge into
 ``zeta.zeros``, because ``zeta/__init__.py`` re-exports everything and importing
 the package is not importing the zeros. A module that reaches the zeros writes
-``from zeta.zeros import ...``, calls a named zero function, or imports a helper
-that does, and all three are caught.
+``from zeta.zeros import ...``, reads a named zero-derived quantity, or imports
+a helper that does, and all three are caught. A reference counts, not only a
+call. A from-import that a file only re-exports follows its source. An
+attribute re-export does not: ``import helper`` and then ``f = helper.f`` is
+a local definition whose right-hand side is an attribute, and that name still
+reads clean. RESULTS names that residual.
 
 A second coarse decision, made because the first rule set false-flagged a
 coefficient-only import: ``from module import name`` follows that name, not the
@@ -127,7 +131,8 @@ class Analysis:
     symbols: dict[str, str] = field(default_factory=dict)
     # local name -> "module::original", for from-imports this file binds
     imported_symbols: dict[str, str] = field(default_factory=dict)
-    # defined name -> names it calls, so taint can cross a from-import
+    # defined name -> names it reads. Calls and other loads both count:
+    # an alias, a value, and a default argument are references, not calls.
     symbol_calls: dict[str, tuple[str, ...]] = field(default_factory=dict)
 
 
@@ -238,11 +243,17 @@ def _body_kind(nodes: Iterable[ast.AST], bindings: set[str]) -> str:
 
 
 def _called_names(nodes: Iterable[ast.AST]) -> set[str]:
-    called: set[str] = set()
-    for node in nodes:
-        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
-            called.add(node.func.id)
-    return called
+    """Every name read in these nodes, not only call targets.
+
+    A zero table held at module level, an alias ``g = f``, a function passed
+    as a value, and a default argument are all loads. Counting only calls
+    reported those constructions clean.
+    """
+    return {
+        node.id
+        for node in nodes
+        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load)
+    }
 
 
 def _symbol_statuses(tree: ast.Module) -> dict[str, str]:
@@ -460,12 +471,22 @@ def collect(root: Path) -> dict[str, Analysis]:
 
 
 def propagate_symbol_taint(universe: dict[str, Analysis]) -> None:
-    """Push tainted symbols across ``from module import name`` call sites.
+    """Push tainted symbols across ``from module import name`` references.
 
-    Same-file calls are already closed inside ``_symbol_statuses``. This pass
-    closes the remaining hole: a function that calls an imported name whose
-    body, in another file, reaches a zero-derived quantity.
+    Same-file references are already closed inside ``_symbol_statuses``. This
+    pass closes the remaining hole: a function that reads an imported name
+    whose body, in another file, reaches a zero-derived quantity. A read
+    counts whether or not the name is called.
+
+    A from-import this file does not itself define is also a symbol, so a
+    re-export (``from helper import f`` in an intermediate module, then
+    ``from intermediate import f``) follows the source instead of falling
+    through. A local definition is not overwritten: it shadows the import.
+    An attribute re-export (``import helper`` then ``f = helper.f``) is such
+    a local definition. The right-hand side is an attribute, not a from-import,
+    and this pass does not follow it. That name still reads clean.
     """
+    local_defs = {id(analysis): set(analysis.symbols) for analysis in universe.values()}
     changed = True
     while changed:
         changed = False
@@ -501,6 +522,28 @@ def propagate_symbol_taint(universe: dict[str, Analysis]) -> None:
                         if analysis.symbols.get(name) == CLEAN:
                             analysis.symbols[name] = UNDECIDED
                             changed = True
+
+            defined = local_defs[id(analysis)]
+            for local_name, edge in analysis.imported_symbols.items():
+                if local_name in defined or _SYMBOL_EDGE not in edge:
+                    continue
+                mod, sym = edge.split(_SYMBOL_EDGE, 1)
+                if sym in BANNED_NAMES:
+                    remote = TAINTED
+                else:
+                    dep = universe.get(mod)
+                    remote = None if dep is None else dep.symbols.get(sym)
+                if remote not in (TAINTED, UNDECIDED, CLEAN):
+                    continue
+                current = analysis.symbols.get(local_name)
+                if current == remote:
+                    continue
+                if current == TAINTED:
+                    continue
+                if current == UNDECIDED and remote != TAINTED:
+                    continue
+                analysis.symbols[local_name] = remote
+                changed = True
 
 
 def resolve(module: str, universe: dict[str, Analysis]) -> Analysis:
