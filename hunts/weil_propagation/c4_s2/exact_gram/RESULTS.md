@@ -120,3 +120,95 @@ its grade.
    from 280-mode units measured on this box), sharded into 24 parts with a
    merge job. The calibration ask is sent with its exact request; no
    RUN_REQUEST.json is committed.
+
+## Update, 2026-10-27 (fourth unit): the full rebuild and its rows
+
+Everything above is kept as written; one figure there is superseded below
+(item 5).
+
+1. **The full 280-mode rebuild ran** (GitHub Actions run 40371181784,
+   success, attempt 1, 11.96 h wall). All 338 blocks finished, all 22
+   dps-60 replays intersected the production balls (PREREG s4 item 1),
+   and every artifact matched GitHub's digest. The shard processes used
+   132.0 CPU core-hours against about 104 projected. The 25 percent
+   headroom rule was broken: one job ended 4.2 percent under the 350-minute
+   cap. The main cause is contention when three replay blocks share a
+   runner, but one job is not explained by that (RUNS.md s11.6). Grade:
+   measured.
+2. **PREREG row D1 at every c**: ε_q is finite, is a bound
+   (`is_bound`), and sits below the 1.18e−2 scale for every N:
+
+   | c | ε_q, max over N | below the scale by |
+   |---|---|---|
+   | 2.2 | 9.22e−4 | 12.8× |
+   | 2.5 | 7.83e−4 | 15.1× |
+   | 2.9 | 6.66e−4 | 17.7× |
+
+   ε_t is null, so D3 is not read and no growth G is stated.
+3. **The counts C_N(ε) = n_−(R_centre + εI)** at ε = ε_q + ε_aux, plus
+   bounds on |Im ΔT| (below 6e−36) and on the asymmetry (0). Each is an
+   exact rational inertia; the counts on V_4 are decided by ball
+   elimination:
+
+   | c | N = 8 (full, H, V_4) | N = 16 | N = 32 |
+   |---|---|---|---|
+   | 2.2 | 4, 4, 2 | 7, 6, 4 | 18, 18, 16 |
+   | 2.5 | 5, 5, 3 | 10, 9, 8 | 21, 20, 20 |
+   | 2.9 | 5, 5, 3 | 11, 10, 8 | 23, 22, 20 |
+
+   By PREREG s2.3, these are **statements about the 280-mode object
+   R^(280) = Q − T∞ − ΔT_280,exact only**. Every R within ε of the rebuilt
+   centre has at least these many negative eigenvalues on that space.
+   They say nothing about R_S: the mode limit stays bound_trunc/ claim (i)'s
+   unproven assumption. The stored record's 4, 10, 20 at c = 2.9 were read
+   on the stored centre with a band, a different object and a different
+   rule, so the two rows are not compared count by count here.
+   Grade: the inertia is exact and the ΔT enclosures are carried in balls.
+   ε_q rests on BOUNDS.md P1 to P4 and LEMMA.md s5's tail identity, which
+   are derived and unreviewed, so the composite takes that grade.
+4. **The stored-row comparison** (PREREG s4 item 2, float64, measured):
+   ‖centre(ΔT_rb(2.9, 32)) − ΔT_stored(280, 2266)‖₂ = 5.15e−3, inside
+   band + ε_q = 8.87e−3. The band did not understate the stored error at
+   that build. The two norms are 0.4818 (rebuilt) and 0.4830 (stored).
+5. **The calibration's Gram** cost 13.1 core-hours (run 40342895119),
+   against the 23 to 25 estimated in the third unit, item 4.
+6. **Pinned** (`test_read_rows.py`): the rows file and the exact centres
+   (`rows_40371181784.json`, `centres_40371181784.json`) are checked by
+   sha256. The D1 rule is re-applied to the recorded ε, with the scale
+   added as a planted fault (it must read D2). The N = 8 counts are recounted
+   from the centres, and a planted −1e−2·I shift must raise them. The N = 16
+   and N = 32 recounts run in the slow tier.
+
+### The doors (updated)
+
+This folder's reading is now a measured bound row, not a ceiling. Rows:
+candidate D1 at c = 2.2, 2.5, 2.9, N = 8, 16, 32, 280 modes, S' = 2,700.
+
+1. **Active constraints**, ranked:
+   - **ε_t (the truncation lemma) binds the reading.** It alone separates
+     D1, about R^(280), from D3, about R_S. LEMMA.md left it unresolved on
+     H, with the missing step named.
+   - Within ε_q, the a posteriori tail dominates: at (2.9, 32) it is
+     6.62e−4 of 6.66e−4, against a P3 alias of 1.3e−6 and a ball radius
+     of 2.9e−6.
+   - The N = 32 counts are ε-sensitive. R_centre has 25, 25 and 27
+     negative eigenvalues at c = 2.9, 2.5 and 2.2 against C_32 = 23, 21
+     and 18, so a smaller ε could only raise C_32, by up to 2, 4 and 9.
+     At (2.5, 16) the last surviving eigenvalue clears −ε by about 5e−6
+     (float, measured).
+2. **Frozen constants:**
+   - S' = 2,700. A genuine trade: the tail falls about as S'^−3, against
+     cost linear in S'.
+   - Four processes per runner, with a replay every 16th block. A genuine
+     trade, now measured: when replays coincide they cost up to about 1.9×
+     wall. Placing the replays apart is free.
+   - nvec = 280, the truncation side's to decide.
+   - Δ = 1/16, unchanged.
+3. **Information class:**
+   - S' and the placement of the replays stay inside the data already read.
+   - ε_t needs a new derivation, possibly on H only, which changes the
+     space counted on but not the data.
+   - More modes reads more of the same prolate family.
+
+A finite bound row is not a uniform statement and not an RH result; the
+allocation of the next step is the owner's.

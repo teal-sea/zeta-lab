@@ -1,6 +1,7 @@
 """The rebuilt rows read as PREREG s2 to s4 fix them, after the full run (RUNS.md s11.4).
 
     python read_rows.py OUTDIR > rows.json      # OUTDIR: every shard's checkpoints, from the run's artifacts
+    python read_rows.py OUTDIR CENTRES.json > rows.json   # also the exact centre(Delta_T) of every cell
 
 assemble() (rebuild.py) sums the 34 shards and gives Delta_T per (c, N) in balls with eps_q; here
 R_centre = Q_mp - T_inf_mp - centre(Delta_T) in exact rationals, eps = eps_q + eps_aux (+ the two
@@ -133,12 +134,40 @@ def stored_comparison(D, eps_q: fmpq) -> dict:
             "stored_norm2": float(np.linalg.norm(stored, 2)), "rebuilt_norm2": float(np.linalg.norm(ours, 2))}
 
 
-def read(req: dict, outdir: str, key_fn) -> dict:
+def dyadic(x) -> list:
+    """The ball midpoint of x as [m, e] with x.mid() = m 2^e exactly."""
+    m, e = x.mid().man_exp()
+    return [int(m), int(e)]
+
+
+def centres_from(cells: dict):
+    """{cell: acb_mat} from a centres file's {cell: rows of [m, e]}: exact midpoints, radius 0."""
+    from flint import acb, acb_mat
+
+    out = {}
+    for kk, rows in cells.items():
+        n = len(rows)
+        D = acb_mat(n, n)
+        for i in range(n):
+            for j in range(n):
+                m, e = rows[i][j]
+                D[i, j] = acb(arb(m) * arb(2) ** e)
+        out[kk] = D
+    return out
+
+
+def read(req: dict, outdir: str, key_fn, centres: dict | None = None) -> dict:
+    """The rows; if `centres` is a dict, it is filled with every cell's centre(Delta_T) as dyadics."""
     import assemble as AS
 
     import rebuild as RB
 
     res = RB.assemble(req, req["shards"], outdir, key_fn)
+    if centres is not None:
+        for kk, r in res.items():
+            if not kk.startswith("_"):
+                D = r["delta_T"]
+                centres[kk] = [[dyadic(D[i, j].real) for j in range(D.ncols())] for i in range(D.nrows())]
     is_bound = "_reading" not in res
     out = {"cells": {}, "is_bound": is_bound, "rows": {}}
     for c in req["cells"]:
@@ -187,6 +216,9 @@ if __name__ == "__main__":
 
     req = json.load(open(os.path.join(HERE, "RUN_REQUEST.json")))
     od = sys.argv[1]
-    body = read(req, od, GD.key)
+    cen = {} if len(sys.argv) > 2 else None
+    body = read(req, od, GD.key, cen)
     body["checkpoints_sha256"] = checkpoint_digests(od, req)
     print(json.dumps(body, indent=1))
+    if cen is not None:  # python read_rows.py OUTDIR CENTRES.json: also the exact centres
+        json.dump(cen, open(sys.argv[2], "w"), separators=(",", ":"))

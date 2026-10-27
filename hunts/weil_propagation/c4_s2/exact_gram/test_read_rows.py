@@ -83,3 +83,77 @@ def test_r_centre_bounds_the_imaginary_part_and_the_asymmetry():
     D[0, 1] = acb(arb("1e-3"))  # planted: an asymmetric real part
     R2, _, e_asym = RR.r_centre(D, "2.9", N)
     assert e_asym >= fmpq(7, 10 ** 4) and R2[0][1] == R2[1][0]
+
+
+# The full run 40371181784 (RUNS.md s11.6, RESULTS fourth unit): its rows and the exact centres
+RUN_ROWS = os.path.join(HERE, "rows_40371181784.json")
+RUN_CENTRES = os.path.join(HERE, "centres_40371181784.json")
+PINNED = {  # cell: (full, H, V4) = C_N(eps) on the three spaces
+    "2.2|8": (4, 4, 2), "2.2|16": (7, 6, 4), "2.2|32": (18, 18, 16),
+    "2.5|8": (5, 5, 3), "2.5|16": (10, 9, 8), "2.5|32": (21, 20, 20),
+    "2.9|8": (5, 5, 3), "2.9|16": (11, 10, 8), "2.9|32": (23, 22, 20),
+}
+
+
+def _sha(path):
+    import hashlib
+
+    return hashlib.sha256(open(path, "rb").read()).hexdigest()
+
+
+def _run():
+    import json
+
+    return json.load(open(RUN_ROWS))
+
+
+def test_the_full_run_files_by_digest():
+    assert _sha(RUN_ROWS) == "6c367e44fc96ac5784ebc33c1817a06d0c28602cbcaae74baa0844d324ae4311"
+    assert _sha(RUN_CENTRES) == "1b5bf15b58d61c805e973f90a78f5544723dc27f46ee771b8c1e6e22aa0aa366"
+    assert len(_run()["checkpoints_sha256"]) == 34  # shards 34 and 35 hold no block
+
+
+def test_the_full_run_reads_d1_at_every_c():
+    r = _run()
+    assert r["is_bound"] is True
+    eq = {"2.2": 9.219e-4, "2.5": 7.826e-4, "2.9": 6.662e-4}
+    for c, v in eq.items():
+        row = r["rows"][c]
+        assert row["row"] == "D1" and abs(row["eps_q_max"] - v) < 1e-7
+        # the rule re-applied to the recorded eps_q; planted: the same eps_q at the scale reads D2
+        q = max(fmpq(*r["cells"][f"{c}|{N}"]["eps"]) for N in (8, 16, 32))
+        assert RR.row(q, True, True) == "D1" and RR.row(q + RR.SCALE, True, True) == "D2"
+    for kk, (f, h, v4) in PINNED.items():
+        C = r["cells"][kk]["C"]
+        assert (C["full"], C["H"], C["V4"]) == (f, h, v4) and C["V4_by"] == "balls"
+        assert f - 1 <= h <= f and f - 3 <= v4 <= f  # interlacing (codim 1 and 3)
+        assert r["cells"][kk]["e_asym"] == 0 and r["cells"][kk]["e_im"] < 1e-35
+    sc = r["stored_comparison"]
+    assert abs(sc["norm2"] - 5.148e-3) < 1e-6 and sc["exceeds"] is False
+    assert sc["norm2"] < sc["band_plus_eps_q"] < 1.8 * sc["norm2"]  # planted: 1.8 times the norm exceeds
+
+
+def _recount(kk, shift=None):
+    import json
+
+    D = RR.centres_from({kk: json.load(open(RUN_CENTRES))[kk]})[kk]
+    c, N = kk.split("|")
+    R, _, _ = RR.r_centre(D, c, int(N))
+    if shift is not None:
+        R = [[R[i][j] + (shift if i == j else 0) for j in range(len(R))] for i in range(len(R))]
+    C = RR.counts(R, fmpq(*_run()["cells"][kk]["eps"]), int(N), c)
+    return C["full"], C["H"], C["V4"]
+
+
+def test_n8_counts_recomputed_from_the_centres():
+    for c in ("2.2", "2.5", "2.9"):
+        assert _recount(f"{c}|8") == PINNED[f"{c}|8"]
+    # planted: R_centre shifted by -1e-2 (the scale's size) raises the counts
+    assert _recount("2.9|8", fmpq(-1, 100))[0] == 6
+    assert _recount("2.2|8", fmpq(-1, 100))[0] == 5
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("kk", [k for k in PINNED if not k.endswith("|8")])
+def test_n16_n32_counts_recomputed_from_the_centres(kk):
+    assert _recount(kk) == PINNED[kk]

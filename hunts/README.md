@@ -772,6 +772,16 @@ parts, and an s-block of 128 nodes took 841 to 932 s with four processes
 per runner. The Gram (20 MB, by sha256) is committed for reuse. The full
 rebuild is sized from these figures at about 104 core-hours and 11 hours
 wall, and it is asked for, not yet run. No ΔT number has been read.
+2026-10-27: the full rebuild ran (run 40371181784, success, 12 h wall,
+132 CPU core-hours). The headroom rule was broken: one job ended 4 percent
+under the 350-minute cap, mostly through contention between replay blocks.
+PREREG row D1 holds at c = 2.2, 2.5 and 2.9. ε_q is a bound, at most
+9.2e−4, 13 to 18 times below the 1.18e−2 scale. At c = 2.9, C_8, C_16 and
+C_32 at ε are 5, 11, 23 on the full space and 3, 8, 20 on V_4. These are
+statements about the 280-mode object R^(280) only, since the truncation
+bound ε_t is null and D3 is not read. Grade: exact inertia and ball
+enclosures, resting on unreviewed derivations (BOUNDS.md P1 to P4). No RH
+claim.
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 

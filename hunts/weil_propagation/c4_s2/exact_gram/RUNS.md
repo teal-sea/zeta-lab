@@ -523,3 +523,89 @@ coordinator's conditions:
 - after a clean finish, run `assemble` and the C_N(ε) counts and read
   D0, D1 and D2 per c exactly as PREREG s3 writes them, never D3 while
   ε_t is null.
+
+### 11.5 Run 40371181784 in flight: measured against the projection
+
+Started 17:42:52Z. As measured from the job logs of the two jobs that finished
+(calibration record step, `block_seconds` per block):
+
+| job | shards | wall | worst process (s) | contended block (s) | replay block (s) | table (s) |
+|---|---|---|---|---|---|---|
+| 1 | 4 to 7 | 17:43:31Z to 21:18:04Z, 214.6 min | 11,501 (shard 4) | 908 to 1,069 | 3,138 (b48), 4,014 (b64) | 1,284 |
+| 3 | 12 to 15 | 17:43:17Z to 21:42:32Z, 239.3 min | 12,850 (shard 14) | 1,023 to 1,180 | 3,460 (b128), 4,220 (b144) | 1,414 |
+
+Every shard completed its 10 blocks. Peak RSS 1.44 GiB per process.
+Against the pricing in s11.2 (block 932 s, replay 3,600 s, table 1,200 s): the
+contended block ran 0 to 15% over on job 1 and 10 to 27% over on job 3, and
+the replay ran from 13% under to 17% over. The two jobs differ by about 12% per
+block on identical work, which reads as runner speed rather than block content.
+The replay block is the worst process's single largest term (about a third
+of it).
+
+Jobs 0 (shards 0 to 3) and 2 (shards 8 to 11) were still running at 267 min
+(22:10Z). Both hold three replay blocks among their four processes (blocks 0,
+16, 32 and 80, 96, 112), against two in jobs 1 and 3; the cause of the extra
+wall is recorded here when their logs exist, not guessed.
+
+**A timing defect in the workflow.** The `timeout 335m` self-stop starts with
+the shard processes, after the 21 to 24 minute table build, so the 350-minute
+job cap (about 23:33Z for jobs 0 and 2) arrives before it (about 23:42Z). A job
+that overruns is cancelled by the cap, not self-stopped; its `if: always()`
+record and upload steps still run, and the checkpoints of completed blocks
+survive. The fix (a self-stop counted from job start) changes the workflow and
+is left for after this run.
+
+### 11.6 Run 40371181784: the outcome
+
+**Terminal outcome: success**, 2026-10-26T17:42:52Z to 2026-10-27T05:40:35Z
+(11.96 h wall, attempt 1). Every one of the 9 shard jobs succeeded; no process
+reached its self-stop and no job reached the 350-minute cap, so neither case
+of the coordinator's pre-approval (checkpoints uploaded, or not) arose and
+nothing was re-run. Every replay block (22: blocks 0, 16, ..., 336) passed
+PREREG s4 item 1, since a miss raises and fails the job. The guard key in the
+logs is the committed one (`a8dbfb22...`, `b2e7787b...`). All 9 artifacts'
+zip SHA-256 match GitHub's digests; the last checkpoint of each of the 34
+non-empty shards is kept (sha256 in `rows_40371181784.json`), the zips
+deleted after extraction.
+
+| job | shards | wall (min) | worst process (s) | replay blocks (s) | contended blocks (s) |
+|---|---|---|---|---|---|
+| 0 | 0 to 3 | 316.5 | 17,209 | 5,525, 5,377, 5,336 | 766 to 1,535 |
+| 1 | 4 to 7 | 214.6 | 11,501 | 3,138, 4,014 | 551 to 1,069 |
+| 2 | 8 to 11 | 311.4 | 16,786 | 5,414, 5,261, 5,310 | 787 to 1,453 |
+| 3 | 12 to 15 | 239.2 | 12,850 | 3,460, 4,220 | 636 to 1,180 |
+| 4 | 16 to 19 | **335.3** | 18,361 | 5,935, 5,751, 5,710 | 788 to 1,645 |
+| 5 | 20 to 23 | 316.3 | 17,163 | 4,469, 5,506 | 811 to 1,592 |
+| 6 | 24 to 27 | 313.3 | 17,030 | 5,441, 5,305, 5,318 | 758 to 1,488 |
+| 7 | 28 to 31 | 235.9 | 12,660 | 3,382, 4,166 | 635 to 1,165 |
+| 8 | 32 to 35 | 167.1 | 8,533 | 2,754, 2,672 | 466 to 705 |
+
+Totals: 2,449.6 runner-minutes (40.8 runner-hours; 163.3 vCPU-hours at 4
+vCPU), against 2,014 projected; the shard processes used **132.0 CPU
+core-hours** (user + system, `/usr/bin/time`), against about 104 projected,
+plus 9 table builds of 1,284 to 1,414 s. The longest process ran 306.8 min.
+Peak RSS 1.42 to 1.44 GiB per process.
+
+**The sizing rule was broken.** s11.2 required every job at least 25% under
+the 350-minute cap; job 4 ended 4.2% under it, and jobs 0, 2, 5 and 6 9 to
+11% under. **The cause, from the logs, is contention, and mostly between
+replay blocks.** Jobs 0, 2, 4 and 6, at 311 to 335 min, are the ones in which
+three of the four processes hold a replay block. There the replay block cost
+5,261 to 5,935 s, against 3,138 to 4,220 s in jobs 1, 3 and 7 (two each),
+and the contended blocks of the process without a replay 1,311 to 1,645 s,
+against 908 to 1,180 s. Job 5 is the exception and is not explained: it has
+two replay processes, yet its contended blocks ran 1,406 to 1,592 s and its
+replays 4,469 and 5,506 s, as slow as the three-replay jobs. So the replay
+count is not the whole cause; runner speed (about 12% between jobs 1 and 3,
+s11.5) and what else shares the runner are not separated by these logs.
+The last blocks of the longest processes, run after the shorter processes on
+the same runner have finished, take 551 to 800 s, close to the 546 s
+measured alone in the calibration, which is consistent with contention
+rather than block content. The calibration measured the replay with one
+replay process per runner, which is why it read low.
+
+**For any later request** (none is made here): price from these
+measurements, not from s11.2. Per process: 1,650 s per contended block and
+6,000 s per replay block, the worst seen rounded up, or spread replays so
+that no runner holds more than one at a time (a shard-to-job assignment
+change, same blocks). The self-stop must count from job start (s11.5).
