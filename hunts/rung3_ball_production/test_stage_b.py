@@ -142,3 +142,74 @@ def test_the_shards_cover_the_closure_of_the_18_final_declarations():
 def test_the_run_stayed_under_its_cap_and_left_no_vm():
     assert FLEET["cost_usd"]["instabox"] + FLEET["cost_usd"]["novita_list"] < 40
     assert FLEET["registry_alive"] == 0
+
+
+class _Clock:
+    """A fake `time` for the dead-man: sleep advances the clock, nothing waits."""
+
+    def __init__(self, t0: float):
+        self.t = t0
+        self.gmtime, self.strftime = __import__("time").gmtime, __import__("time").strftime
+
+    def time(self) -> float:
+        return self.t
+
+    def sleep(self, s: float) -> None:
+        self.t += s
+
+
+def _fake_providers(run: Path, clock: _Clock, late_at: float):
+    """InstaBox and Novita fakes. One machine is registered when the dead-man fires; a second,
+    whose create was in flight, appears in InstaBox's own listing only at `late_at`, after the
+    first clean sweep. Every delete records whether RUN/STOP already existed."""
+    deletes: list[tuple[str, bool]] = []
+    alive = {"m-early"}
+
+    class IB:
+        def delete(self, mid):
+            deletes.append((mid, (run / "STOP").exists()))
+            alive.discard(mid)
+
+        def machine(self, mid):
+            return None if mid not in alive else {"id": mid}
+
+        def list_mine(self):
+            if clock.t >= late_at and "m-late" not in {d for d, _ in deletes}:
+                alive.add("m-late")
+            return [{"id": m, "name": m, "state": "running"} for m in sorted(alive)]
+
+    class NV:
+        def kill(self, sid):
+            return True
+
+        def list_mine(self):
+            return []
+
+    return IB, NV, deletes
+
+
+def test_deadman_writes_stop_before_deleting_and_outlasts_an_in_flight_create(tmp_path, monkeypatch):
+    """Review of #366 (P1): at the deadline the dead-man deleted VMs without persisting
+    RUN/STOP, and Fleet.step gates launches on STOP, so the fleet could provision replacements
+    after the sweep. Now STOP is written before the first delete, and the dead-man stays until
+    the providers have been empty for DEADMAN_QUIET_S, so a machine whose create was in flight
+    (here one appearing 10 minutes after the first clean sweep) is still deleted."""
+    clock = _Clock(1_000_000.0)
+    IB, NV, deletes = _fake_providers(tmp_path, clock, late_at=clock.t + 600)
+    monkeypatch.setattr(fleet, "RUN", tmp_path)
+    monkeypatch.setattr(fleet, "REG", tmp_path / "vms.jsonl")
+    monkeypatch.setattr(fleet, "time", clock)
+    monkeypatch.setattr(fleet, "InstaBox", IB)
+    monkeypatch.setattr(fleet, "Novita", NV)
+    monkeypatch.setattr(fleet, "log", lambda *a: None)
+    fleet.registry_add({"provider": "instabox", "id": "m-early", "event": "created"})
+
+    class A:
+        deadline = clock.t - 1                  # the deadline has passed and STOP is absent
+
+    assert not (tmp_path / "STOP").exists()
+    fleet.cmd_deadman(A)
+    assert (tmp_path / "STOP").exists() and "deadman deadline" in (tmp_path / "STOP").read_text()
+    assert deletes and all(stop_was_there for _, stop_was_there in deletes)
+    assert {"m-early", "m-late"} <= {d for d, _ in deletes}
+    assert fleet.DEADMAN_QUIET_S > fleet.PROVISION_TIMEOUT_S

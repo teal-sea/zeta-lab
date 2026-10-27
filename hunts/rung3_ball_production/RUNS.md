@@ -1000,3 +1000,23 @@ artifacts:
   - hunts/rung3_ball_production/pilot.json (production.replay.stage_b_fleet)
   - <cache>/rung3-conron-fleet-20261027
 ```
+
+### 2026-10-27: dead-man defect found after the run, fixed before any reuse
+
+An automated code review of #366 (P1, `conron_fleet.py` `cmd_deadman`) found that at the
+**deadline** the dead-man deleted VMs without writing `RUN/STOP`. `Fleet.step` and `wait_for`
+gate every launch on `STOP`, not on the deadline, so a fleet still running at its deadline
+could provision replacements after the sweep had finished and the dead-man had exited.
+
+The completed run was not affected. It ended after 4 h 6 min, well inside its 12-hour
+deadline. Its dead-man was triggered by the stop file (above), not by the deadline, and its
+final sweep found nothing left on either provider.
+
+The fix (branch `fix/conron-deadman-stop`):
+- `cmd_deadman` now persists `RUN/STOP` (`stop_fleet`) before its first delete, whichever
+  trigger fired.
+- It returns only after both providers have stayed empty for `DEADMAN_QUIET_S =
+  PROVISION_TIMEOUT_S + 120`, so a create already in flight when it fired is still swept.
+- `test_deadman_writes_stop_before_deleting_and_outlasts_an_in_flight_create` uses a fake
+  clock and fake providers, with a machine that appears 10 minutes after the first clean
+  sweep. It passes on the fix and fails on the original code at the missing `STOP`.
