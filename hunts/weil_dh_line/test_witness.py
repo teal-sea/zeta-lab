@@ -538,3 +538,15 @@ def test_arb_sup_bound_live_and_a_planted_target_below_the_supremum():
     bad = joint.arb_sup_bound(L, c["primes"], om, hq, Fraction(r["best_centre_value_lower"]) - Fraction(1, 100),
                               kind="dh", weights=w, level0=7, max_boxes=12000)
     assert not bad["ok"]
+
+
+def test_arb_envelope_bound_refuses_settings_that_would_drop_a_cluster():
+    """Review 2026-10-27: zip() over shorter settings lists once let the driver
+    return ok with clusters missing (planted: two slacks for four clusters gave
+    ok True, S_bound 3.08), and a part count of 0 would pass a cluster on
+    all([]). Both now raise before any box is evaluated."""
+    n = len(_load(ENV)["clusters"])
+    with pytest.raises(ValueError):
+        price.arb_envelope_bound(ENV, [1] * (n - 2), [7] * n, [1] * n)
+    with pytest.raises(ValueError):
+        price.arb_envelope_bound(ENV, [1] * n, [7] * n, [1] * (n - 1) + [0])

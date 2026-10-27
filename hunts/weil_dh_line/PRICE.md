@@ -296,7 +296,8 @@ RH (`docs/08`).
         checkpoint with `beta* > 0` (no margin was computed for
         `527.5 < T# < 540`), and every `N >= 856`. There link 5 is
         **enclosure-carrying**: the refusal no longer assumes that `S` is
-        valid, only that it is within 6.8 of `sup(P_DH - H)`, which is proved.
+        valid, only that `sup(P_DH - H) <= S + 6.8`, which is
+        enclosure-carrying (hardened): every step in Arb or exact rationals.
 
      So: "`E_856` (and every leading `E_N`, `N >= 101`) has a negative
      eigenvalue" is **hardened**; "`Q_856` has one" adds link 2, a derivation

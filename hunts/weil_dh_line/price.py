@@ -916,6 +916,13 @@ def arb_envelope_bound(env_path: Path, slacks, level0s, parts, procs: int = 1) -
     L = Fraction(env["L"])
     clusters = env["clusters"]
     check_weight_cover(L, "dh", [(c["primes"], _weights_from_spec(c.get("weights"))) for c in clusters])
+    # zip() would silently drop clusters past the shortest list, and a cluster
+    # with no parts would pass on all([]); either one would fail open.
+    if not (len(slacks) == len(level0s) == len(parts) == len(clusters)):
+        raise ValueError(f"need one slack, level0 and part count per cluster ({len(clusters)}), got "
+                         f"{len(slacks)}, {len(level0s)}, {len(parts)}")
+    if any(int(np_) < 1 for np_ in parts):
+        raise ValueError(f"every cluster needs at least one part, got {list(parts)}")
     targets = [Fraction(c["U"]) + Fraction(sl) for c, sl in zip(clusters, slacks)]
     jobs = [(env["L"], c, t, lv, part, np_) for c, t, lv, np_ in zip(clusters, targets, level0s, parts)
             for part in range(np_)]
@@ -929,8 +936,10 @@ def arb_envelope_bound(env_path: Path, slacks, level0s, parts, procs: int = 1) -
     dropped = Fraction(env["dropped_l1_upper"]) if env.get("dropped_l1_upper") is not None else Fraction(0)
     total = sum(targets, Fraction(0)) + dropped
     per = []
-    for c, t in zip(clusters, targets):
+    for c, t, np_ in zip(clusters, targets, parts):
         rs = [r for r in res if r["primes"] == c["primes"]]
+        if len(rs) != int(np_):
+            raise RuntimeError(f"cluster {c['primes']}: {len(rs)} results for {np_} parts")
         per.append({"primes": c["primes"], "U_float": c["U"], "target": str(t), "target_float": float(t),
                     "ok": all(r["ok"] for r in rs), "evaluated": sum(r["evaluated"] for r in rs),
                     "best_centre_value_lower": max(r["best_centre_value_lower"] for r in rs),
