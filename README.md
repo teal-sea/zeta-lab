@@ -27,9 +27,10 @@ separate repository; this one holds the record, not the presentation of it.
 `riemannZeta`: every zero with 0 < Re rho < 1 and 0 < Im rho <= 100 lies on the
 critical line and is simple, and there are exactly 29 of them. Lean's kernel accepts
 it from a clean build with zero `sorry` and only the three standard axioms, and the
-independent checker `con-ron --verified` accepts the exported proof as well (NanoDa and
-a fresh `leanchecker` replay stopped at the laboratory's memory and time caps without a
-verdict). No outside computation enters as an axiom or hypothesis; generated numerical
+independent checker `con-ron --verified` accepts the exported proof as well. A fresh
+replay of the whole closure by Lean's own kernel (`leanchecker --fresh`, rerun without a
+time cap on 2026-10-26) accepts it too. The independent NanoDa kernel stopped at the
+laboratory's memory cap without a verdict. No outside computation enters as an axiom or hypothesis; generated numerical
 data is checked by the kernel. RH has been verified numerically far higher; this is a
 finite theorem, reviewed by no person, and says nothing about RH itself.
 
