@@ -1,7 +1,9 @@
 # MISSION: the Requirement A gate, mechanized
 
-**Scope:** `hunts/ontology_provenance/` only. No edits to `zeta/`, `ontology/`,
-`harness/`, or `docs/`.
+**Scope:** `hunts/ontology_provenance/` for the scanner, plus the case-log line,
+the methods-index entry `hunts/README.md` requires, and the diagnosis note
+under `hunts/factorization_vs_position/`. No edits to `zeta/`, `ontology/`,
+or `harness/`.
 
 ## Why this hunt
 
@@ -54,7 +56,7 @@ This is a lexical and import-graph analysis, not a semantic proof. It can be
 evaded by `getattr`, indirection through data files, or arithmetic that
 reconstructs ordinates from a formula. It is a floor of the same kind as
 `scripts/check_secrets.py`: it catches the ordinary case, which is the case that
-actually occurs, and it must never be described as certifying Requirement A.
+actually occurs, and it must never be described as establishing Requirement A.
 A clean verdict means "nothing zero-derived is reachable by name", not "this
 construction is prime-derived".
 
@@ -71,3 +73,29 @@ construction is prime-derived".
 A scanner, a lesion suite that goes red on planted violations, and a table over
 the laboratory's existing candidate frames stating tier and witness for each.
 No claim beyond that table.
+
+```huntspec
+id: ontology_provenance
+question: Does a proposed frame reach a zero-derived name, by a static read of its source?
+frontier: docs/09 section 5.1 says Requirement A is mechanically checkable; before this hunt that sentence had no scan
+proposed_attack: parse the file, classify banned names, and follow from-imports at symbol granularity
+dead_routes:
+  - treating a module-level import of a coefficient function as use of every name in that module
+  - reading lexical reachability as definitional use of the zeros
+required_oracles:
+  - the lesion suite in test_provenance.py, which must go red on planted violations
+  - a reading of each flagged frame against its source, not against the scanner headline
+kill_conditions:
+  - a flagged module whose definition never touches the zeros is a false positive and the rule set is wrong
+  - a planted violation passes
+  - a verdict depends on which unrelated module was scanned first
+agents_may:
+  - parse
+  - classify names
+  - report a tier and a witness
+agents_may_not:
+  - declare a clean frame prime-derived
+  - promote a lexical hit to a definitional rejection
+  - assign theorem status
+```
+

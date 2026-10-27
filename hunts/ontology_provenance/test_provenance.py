@@ -16,6 +16,7 @@ from provenance import (
     UNDECIDED,
     Analysis,
     analyse_source,
+    propagate_symbol_taint,
     resolve,
 )
 
@@ -140,3 +141,113 @@ def test_order_independence() -> None:
     second = resolve("a", universe)
     assert first.status == second.status
     assert first.path_to_taint == second.path_to_taint
+
+
+def test_a_clean_symbol_is_not_tainted_by_a_sibling() -> None:
+    helper = analyse_source(
+        "from mpmath import zetazero\n"
+        "def uses_zero():\n"
+        "    return zetazero(1)\n"
+        "def coefficients_only(n):\n"
+        "    return n + 1\n",
+        path="lab/helper.py",
+        module="lab.helper",
+    )
+    assert helper.status == TAINTED
+    assert helper.symbols["uses_zero"] == TAINTED
+    assert helper.symbols["coefficients_only"] == CLEAN
+    candidate = analyse_source(
+        "from lab.helper import coefficients_only\n"
+        "def build(n):\n"
+        "    return coefficients_only(n)\n",
+        path="lab/candidate.py",
+        module="lab.candidate",
+    )
+    assert candidate.status == CLEAN
+    universe = {"lab.helper": helper, "lab.candidate": candidate}
+    got = resolve("lab.candidate", universe)
+    assert got.status == CLEAN, got.witness or got.reason
+
+
+def test_importing_the_tainted_sibling_is_reachable() -> None:
+    helper = analyse_source(
+        "def uses_zero():\n"
+        "    return zetazero(1)\n"
+        "def coefficients_only(n):\n"
+        "    return n + 1\n",
+        path="lab/helper.py",
+    )
+    candidate = analyse_source(
+        "from lab.helper import uses_zero\n",
+        path="lab/candidate.py",
+    )
+    got = resolve(
+        "lab.candidate",
+        {"lab.helper": helper, "lab.candidate": candidate},
+    )
+    assert got.status == TAINTED
+    assert got.tier == "reachable"
+    assert "uses_zero" in got.witness
+
+
+def test_a_wrapper_around_an_imported_tainted_symbol_is_tainted() -> None:
+    helper = analyse_source(
+        "def uses_zero():\n"
+        "    return zetazero(1)\n",
+        path="lab/helper.py",
+        module="lab.helper",
+    )
+    mid = analyse_source(
+        "from lab.helper import uses_zero\n"
+        "def wrap():\n"
+        "    return uses_zero()\n",
+        path="lab/mid.py",
+        module="lab.mid",
+    )
+    universe = {"lab.helper": helper, "lab.mid": mid}
+    propagate_symbol_taint(universe)
+    assert universe["lab.mid"].symbols["wrap"] == TAINTED
+    outer = analyse_source(
+        "from lab.mid import wrap\n",
+        path="lab/outer.py",
+        module="lab.outer",
+    )
+    universe["lab.outer"] = outer
+    got = resolve("lab.outer", universe)
+    assert got.status == TAINTED
+    assert got.tier == "reachable"
+
+
+def test_frame_07_is_clean_and_the_numbered_frames_match_the_reading() -> None:
+    """The known false positive stays out of the verdict table.
+
+    07 imports only ``dh_coefficient``. A module-level read of ``zeta.epstein``
+    flagged it; symbol-level resolution must not.
+    """
+    from pathlib import Path
+
+    from provenance import collect
+
+    root = Path(__file__).resolve().parents[2]
+    universe = collect(root)
+    assert universe["zeta.epstein"].symbols["dh_coefficient"] == CLEAN
+    expected = {
+        "ontology.01_f1_geometry": CLEAN,
+        "ontology.02_acoustic_f1_matrix": CLEAN,
+        "ontology.03_inverse_spectral_geometry": TAINTED,
+        "ontology.04_transcendental_matrix": CLEAN,
+        "ontology.05_berry_keating_grid": TAINTED,
+        "ontology.06_the_polya_hilbert_prototype": TAINTED,
+        "ontology.07_the_imposter_gauntlet": CLEAN,
+        "ontology.08_riemann_beats_audio": TAINTED,
+        "ontology.09_hermite_prime_waves": CLEAN,
+        "ontology.10_geometric_dust_torus": CLEAN,
+        "ontology.11_quantum_chaos_gue": TAINTED,
+        "ontology.13_dirichlet_polya_hilbert": CLEAN,
+        "ontology.14_hunting_ln2": CLEAN,
+        "ontology.15_fixing_the_density": CLEAN,
+        "ontology.16_adelic_acoustic_absorber": CLEAN,
+    }
+    for module, status in expected.items():
+        got = resolve(module, universe)
+        assert got.status == status, (module, got.status, got.witness or got.reason)

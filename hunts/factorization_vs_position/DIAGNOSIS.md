@@ -1,11 +1,16 @@
 # DIAGNOSIS: the saved defect-vs-position correlation is a scanning artifact
 
-> Written 2026-10-24 on `swarm-trial-b2-120` by Vizier, on Thomas's instruction to
-> work on new ontologies. This hunt has data (`results.json`, `results2.json`) and
-> no written outcome. This file is the missing outcome: the lead does not survive.
-> Grade: **measured**, one route, float/mpmath values, no enclosure. It is a
-> kill, so the usual ladder does not apply: a negative result does not need a
-> certificate to be worth recording, only a reproduction.
+> Written 2026-10-24, corrected 2026-10-27. Grade: **measured**, one route,
+> float/mpmath values, no enclosure. It is a kill, so the usual ladder does
+> not apply: a negative result does not need a certificate to be worth
+> recording, only a reproduction.
+>
+> This is not the missing outcome of the hunt. `hunts/README.md` Hunt #2
+> already withdraws the recorded correlation, on three defects checked in
+> tree: the completeness gate was never called, a lesion shows an incomplete
+> on-line list forges the off-line signal at zero factorization defect, and
+> the test set is the rival set. This file is an additional, independent
+> defect in the same scanner. It does not replace that withdrawal.
 
 ## What was claimed
 
@@ -18,7 +23,10 @@ to sit on the line, which is the MISSION's hypothesis.
 ## What is actually there
 
 Re-run on 2026-10-24 with the hunt's own modules (`detector.py`, `family.py`),
-same parameters, c grid 20, 40, 60, 80, 86, 90, 95, t_max 110, n_max 2000:
+same parameters, c grid 20, 40, 60, 80, 86, 90, 95, t_max 110, n_max 2000.
+The script that prints these numbers is
+`hunts/factorization_vs_position/diagnose_kappa_scan.py`. It imports
+`detector.py` and `family.py` unchanged.
 
 ```
 kappa = 0.0   defect = 1.5823   online zeros = 59
@@ -42,9 +50,11 @@ kappa = 1.0   defect = 105.9511  online zeros = 59
    95       5.4911       5.1623       0.3289
 ```
 
-Three defects, in order of severity.
+Three defects, in order of severity. Defect 1 is the one this file adds.
+Defects of completeness, the lesion, and the rival set are Hunt #2's, already
+withdrawn there.
 
-### 1. The zero list does not depend on kappa
+### 1. The scanner's output does not depend on kappa
 
 `zeroside` is identical at every c for the two ends of the family:
 2.7761, 4.3832, 4.3640, 4.5661, 1.4059, 4.7697, 5.1623 in both runs, and
@@ -52,12 +62,21 @@ Three defects, in order of severity.
 side is a functional of one list of zeros, so an unchanged zero side means the
 same zeros were found for every member.
 
-`family.Z_kappa` rotates by `expjpi(dh_theta(t)/pi)`, the Davenport-Heilbronn
-root number, for every kappa. That rotation makes `Z` real only at the DH
-parameter. At kappa = 0 and kappa = 1 the quantity is complex, and
-`float(mp.re(val))` takes the real part of a complex value, so sign changes of
-that real part are not zeros of `F_kappa`. The sweep is reading one fixed zero
-set, not nine.
+The mechanism is exact proportionality, not a shared sample. `family.Z_kappa`
+returns the real part of one fixed rotation, `expjpi(dh_theta(t)/pi)`, times
+`f_kappa`. That real part is `(1 + 0.284079*kappa)` times one fixed function
+of t. `0.284079` is the leading digits of `zeta.epstein.KAPPA_REF`. The ratio
+`Z_kappa(t, 1) / Z_kappa(t, 0)` equals `1 + KAPPA_REF` to 20 digits at
+t = 4, 12.3, 30.3, 50 and 77.7, with a zero residual at that precision
+(`test_kappa_proportionality.py`). The factor is positive for kappa in [0, 1],
+so sign changes of the scanner's output cannot depend on kappa. The sweep is
+reading one fixed zero set, not nine.
+
+The rotation is the Davenport-Heilbronn root number for every kappa, so the
+quantity is real only at the DH parameter. At kappa = 0 and kappa = 1,
+`float(mp.re(val))` takes the real part of a complex value. Those sign changes
+are not zeros of `F_kappa`. Proportionality is why the list cannot move even
+before that point is reached: a positive scalar does not move a sign change.
 
 ### 2. The extremum is therefore fixed by construction
 
@@ -77,7 +96,8 @@ f_0(n)  +1  0  0 -1  0 +1  0  0 -1  0 +1  0
 ```
 
 Nonzero at 1, 4, 6, 9, 11 with signs +, -, +, -, +. This is not a Dirichlet
-character and not zeta: it is a theta-series style object. Its
+character and not zeta. `f_0 = (L(chi) + L(chibar))/2` is a linear combination
+of `L(chi)` and `L(chibar)` without a scalar Euler product. Its
 `factorization_defect` of 1.58 is therefore not a deviation from an Euler
 product it was supposed to have. The family never interpolates zeta to DH; both
 ends lack the property the x-axis is supposed to be measuring.
@@ -90,32 +110,15 @@ on that axis.
 
 ## Verdict
 
-The saved correlation is withdrawn. It is not a weak lead, it is three separate
-measurement errors composing into a monotone-looking table. Nothing about
-factorization defect versus zero position is established here, in either
-direction.
+The saved correlation is withdrawn. Hunt #2 already withdrew it on completeness,
+the lesion, and the rival set. This file adds an independent defect: the
+scanner's output is a positive multiple of one fixed function, so the zero list
+cannot depend on kappa. Nothing about factorization defect versus zero position
+is established here, in either direction.
 
-Reproduce with `../.venv/bin/python` (backend `python-flint`) and the diagnostic
-kept at the path named in the commit message; the numbers above are printed by a
-script that imports `detector.py` and `family.py` unchanged.
+Reproduce with the repository interpreter (backend `python-flint`) and:
 
-## What a working frame would need
-
-If the defect-versus-position question is worth keeping, it needs three things
-this hunt did not have:
-
-1. **An axis with a real zero.** Start at zeta, stay inside Dirichlet
-   L-functions where the Euler product is a theorem for principal and primitive
-   characters, and ablate a named axiom (multiplicativity of the coefficient
-   sequence) by a controlled amount. kappa on a theta series is not an ablation.
-2. **Zeros computed from the member's own function**, with the correct root
-   number and gamma factor per member, and a stated completeness interval.
-   A Hardy Z built with another function's rotation is not a zero finder.
-3. **No scan over a free parameter as the response.** A maximum over c is a
-   maximum over a choice the analyst made. Measure the position defect at a
-   matched point, or over a range proved to contain the extremum.
-
-The doors, such as they are: a corrected family is cheap to build on this host;
-the completeness question for off-line zeros needs `count_zeros_box` rather than
-a sign scan; and the whole frame still fails the standing test unless a
-Davenport-Heilbronn rival can be distinguished from zeta by it.
+```bash
+python hunts/factorization_vs_position/diagnose_kappa_scan.py
+python -m pytest hunts/factorization_vs_position/test_kappa_proportionality.py -q
+```

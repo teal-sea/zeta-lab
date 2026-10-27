@@ -36,6 +36,11 @@ the package is not importing the zeros. A module that reaches the zeros writes
 ``from zeta.zeros import ...``, calls a named zero function, or imports a helper
 that does, and all three are caught.
 
+A second coarse decision, made because the first rule set false-flagged a
+coefficient-only import: ``from module import name`` follows that name, not the
+rest of the module. ``import module`` still follows the module. A name whose
+body cannot be read is undecided, not clean and not tainted.
+
 Usage
 -----
     python hunts/ontology_provenance/provenance.py <files-or-dirs...> [--json]
@@ -117,6 +122,13 @@ class Analysis:
     path_to_taint: list[str] = field(default_factory=list)
     edges: set[str] = field(default_factory=set)
     reason: str = ""
+    # Per defined name: clean, tainted, or undecided. A consumer that imports
+    # one name follows this table, not the file's module-level verdict.
+    symbols: dict[str, str] = field(default_factory=dict)
+    # local name -> "module::original", for from-imports this file binds
+    imported_symbols: dict[str, str] = field(default_factory=dict)
+    # defined name -> names it calls, so taint can cross a from-import
+    symbol_calls: dict[str, tuple[str, ...]] = field(default_factory=dict)
 
 
 def _module_name(path: Path, root: Path) -> str:
@@ -137,6 +149,148 @@ def _chain(node: ast.AST) -> str:
         parts.append(node.id)
         return ".".join(reversed(parts))
     return ""
+
+
+# ``from module import name`` is recorded as ``module::name``. A whole-module
+# edge (``import module``, a star import, or a banned module) stays a bare name.
+_SYMBOL_EDGE: Final = "::"
+
+
+def _absolute_module(current: str, node: ast.ImportFrom) -> str:
+    """Resolve ``from .x import`` against the file's module name, or leave it."""
+    name = node.module or ""
+    if not node.level:
+        return name
+    parts = current.split(".") if current else []
+    if node.level > len(parts):
+        return name
+    base = parts[: len(parts) - node.level]
+    if name:
+        base.append(name)
+    return ".".join(base)
+
+
+def _local_imported(alias: ast.alias) -> str:
+    return alias.asname or alias.name
+
+
+def _tainted_bindings(tree: ast.Module) -> set[str]:
+    """Local names bound to a banned module or a banned quantity."""
+    out: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                local = _local_imported(alias)
+                if local in BANNED_NAMES or alias.name in BANNED_NAMES:
+                    out.add(local)
+                for banned in BANNED_MODULES:
+                    if alias.name == banned or alias.name.startswith(banned + "."):
+                        out.add(local)
+        elif isinstance(node, ast.ImportFrom):
+            mod = node.module or ""
+            mod_banned = mod in BANNED_MODULES
+            for alias in node.names:
+                local = _local_imported(alias)
+                if mod_banned or alias.name in BANNED_NAMES or local in BANNED_NAMES:
+                    out.add(local)
+    return out
+
+
+def _body_kind(nodes: Iterable[ast.AST], bindings: set[str]) -> str:
+    """Direct use inside one body: tainted, undecided, or clean."""
+    undecided = False
+    for node in nodes:
+        if isinstance(node, ast.Name):
+            if node.id in bindings or node.id in BANNED_NAMES:
+                return TAINTED
+            if node.id in DYNAMIC_CALLS:
+                undecided = True
+        elif isinstance(node, ast.Attribute):
+            root: ast.AST = node
+            while isinstance(root, ast.Attribute):
+                root = root.value
+            if isinstance(root, ast.Name) and root.id in bindings:
+                return TAINTED
+            dotted = _chain(node)
+            if not dotted:
+                continue
+            for banned in BANNED_MODULES:
+                if dotted == banned or dotted.startswith(banned + "."):
+                    return TAINTED
+            if dotted.rsplit(".", 1)[-1] in BANNED_NAMES:
+                return TAINTED
+        elif isinstance(node, ast.Import):
+            for alias in node.names:
+                if alias.name in DYNAMIC_MODULES:
+                    undecided = True
+                for banned in BANNED_MODULES:
+                    if alias.name == banned or alias.name.startswith(banned + "."):
+                        return TAINTED
+        elif isinstance(node, ast.ImportFrom):
+            mod = node.module or ""
+            if mod in BANNED_MODULES or mod in DYNAMIC_MODULES:
+                return TAINTED if mod in BANNED_MODULES else UNDECIDED
+            for alias in node.names:
+                local = _local_imported(alias)
+                if alias.name in BANNED_NAMES or local in BANNED_NAMES:
+                    return TAINTED
+    return UNDECIDED if undecided else CLEAN
+
+
+def _called_names(nodes: Iterable[ast.AST]) -> set[str]:
+    called: set[str] = set()
+    for node in nodes:
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            called.add(node.func.id)
+    return called
+
+
+def _symbol_statuses(tree: ast.Module) -> dict[str, str]:
+    """Taint of each top-level name this file defines.
+
+    A name in the banned set is tainted for consumers even when this file is
+    the one that manufactures it: the file-level verdict can still be
+    ``provider``. A sibling that never reaches a tainted binding stays clean,
+    which is what keeps a coefficient-only function out of a module-level hit.
+    """
+    bindings = _tainted_bindings(tree)
+    direct: dict[str, str] = {}
+    calls: dict[str, set[str]] = {}
+
+    def record(name: str, node: ast.AST) -> None:
+        walked = list(ast.walk(node))
+        if name in BANNED_NAMES:
+            direct[name] = TAINTED
+        else:
+            direct[name] = _body_kind(walked, bindings)
+        calls[name] = _called_names(walked)
+
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            record(node.name, node)
+        elif isinstance(node, ast.Assign):
+            for target in node.targets:
+                if isinstance(target, ast.Name):
+                    record(target.id, node)
+        elif isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name):
+            record(node.target.id, node)
+
+    changed = True
+    while changed:
+        changed = False
+        for name, called in calls.items():
+            if direct.get(name) == TAINTED:
+                continue
+            for callee in called:
+                callee_status = direct.get(callee)
+                if callee in bindings or callee in BANNED_NAMES or callee_status == TAINTED:
+                    direct[name] = TAINTED
+                    changed = True
+                    break
+                if callee_status == UNDECIDED and direct.get(name) != UNDECIDED:
+                    direct[name] = UNDECIDED
+                    changed = True
+    return direct
 
 
 def _definitions(tree: ast.Module) -> set[str]:
@@ -194,6 +348,25 @@ def analyse_source(text: str, path: str = "<string>", module: str = "") -> Analy
         return out
 
     defined = _definitions(tree)
+    out.symbols = _symbol_statuses(tree)
+    out.symbol_calls = {
+        name: tuple(sorted(_called_names(list(ast.walk(node)))))
+        for node in tree.body
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+        for name in (node.name,)
+    }
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ImportFrom):
+            continue
+        mod = _absolute_module(module, node)
+        if not mod:
+            continue
+        for alias in node.names:
+            if alias.name == "*":
+                continue
+            out.imported_symbols[_local_imported(alias)] = (
+                f"{mod}{_SYMBOL_EDGE}{alias.name}"
+            )
 
     # 1. imports first: importing a banned name is a direct hit regardless of defs
     for node in ast.walk(tree):
@@ -206,19 +379,30 @@ def analyse_source(text: str, path: str = "<string>", module: str = "") -> Analy
                         out.witness = f"imports {alias.name}: {why}"
                         return out
         elif isinstance(node, ast.ImportFrom):
-            mod = node.module or ""
-            out.edges.add(mod)
+            mod = _absolute_module(module, node)
             if mod in BANNED_MODULES:
+                out.edges.add(mod)
                 out.status, out.tier = TAINTED, "direct"
                 out.witness = f"imports {mod}: {BANNED_MODULES[mod]}"
                 return out
+            specific: list[str] = []
             for alias in node.names:
-                if alias.name in BANNED_NAMES:
+                local = _local_imported(alias)
+                if alias.name in BANNED_NAMES or local in BANNED_NAMES:
+                    why = BANNED_NAMES.get(alias.name) or BANNED_NAMES[local]
+                    shown = local if local in BANNED_NAMES else alias.name
+                    out.edges.add(mod)
                     out.status, out.tier = TAINTED, "direct"
-                    out.witness = (
-                        f"imports {alias.name} from {mod}: {BANNED_NAMES[alias.name]}"
-                    )
+                    out.witness = f"imports {shown} from {mod}: {why}"
                     return out
+                if alias.name == "*":
+                    out.edges.add(mod)
+                    specific = []
+                    break
+                specific.append(alias.name)
+            else:
+                for name in specific:
+                    out.edges.add(f"{mod}{_SYMBOL_EDGE}{name}")
 
     # 2. every body in the file, exempting only names this file manufactures
     #    (a name defined here is a provider of that thing, not a consumer of it)
@@ -271,11 +455,61 @@ def collect(root: Path) -> dict[str, Analysis]:
             out[module] = analysis
             continue
         out[module] = analyse_source(text, path=str(rel), module=module)
+    propagate_symbol_taint(out)
     return out
 
 
+def propagate_symbol_taint(universe: dict[str, Analysis]) -> None:
+    """Push tainted symbols across ``from module import name`` call sites.
+
+    Same-file calls are already closed inside ``_symbol_statuses``. This pass
+    closes the remaining hole: a function that calls an imported name whose
+    body, in another file, reaches a zero-derived quantity.
+    """
+    changed = True
+    while changed:
+        changed = False
+        for analysis in universe.values():
+            for name, called in analysis.symbol_calls.items():
+                if analysis.symbols.get(name) == TAINTED:
+                    continue
+                for callee in called:
+                    local = analysis.symbols.get(callee)
+                    if local == TAINTED or callee in BANNED_NAMES:
+                        analysis.symbols[name] = TAINTED
+                        changed = True
+                        break
+                    edge = analysis.imported_symbols.get(callee)
+                    if not edge or _SYMBOL_EDGE not in edge:
+                        if local == UNDECIDED and analysis.symbols.get(name) == CLEAN:
+                            analysis.symbols[name] = UNDECIDED
+                            changed = True
+                        continue
+                    mod, sym = edge.split(_SYMBOL_EDGE, 1)
+                    dep = universe.get(mod)
+                    if dep is None:
+                        continue
+                    remote = dep.symbols.get(sym)
+                    if remote == TAINTED or sym in BANNED_NAMES:
+                        analysis.symbols[name] = TAINTED
+                        changed = True
+                        break
+                    if remote == UNDECIDED and analysis.symbols.get(name) == CLEAN:
+                        analysis.symbols[name] = UNDECIDED
+                        changed = True
+                    elif remote is None and dep.status in (TAINTED, UNDECIDED):
+                        if analysis.symbols.get(name) == CLEAN:
+                            analysis.symbols[name] = UNDECIDED
+                            changed = True
+
+
 def resolve(module: str, universe: dict[str, Analysis]) -> Analysis:
-    """Promote a clean module to reachable-tainted when its imports are tainted."""
+    """Promote a clean module to reachable-tainted when its imports are tainted.
+
+    A ``module::name`` edge follows that name's symbol status. A bare module
+    edge still follows the module verdict. An unresolved name in a tainted
+    module is undecided, not tainted: module granularity is not a verdict.
+    """
     if module not in universe:
         return Analysis(path="", status=UNDECIDED, reason="not in universe")
     start = universe[module]
@@ -283,11 +517,45 @@ def resolve(module: str, universe: dict[str, Analysis]) -> Analysis:
         return start
 
     seen = {module}
+    seen_symbols: set[tuple[str, str]] = set()
     queue: deque[list[str]] = deque([[module]])
     while queue:
         trail = queue.popleft()
         current = trail[-1]
         for edge in sorted(universe.get(current, Analysis(path="")).edges):
+            if _SYMBOL_EDGE in edge:
+                target, sym = edge.split(_SYMBOL_EDGE, 1)
+                if (target, sym) in seen_symbols or target not in universe:
+                    continue
+                seen_symbols.add((target, sym))
+                dep = universe[target]
+                sym_status = dep.symbols.get(sym)
+                if sym_status == TAINTED or sym in BANNED_NAMES:
+                    return Analysis(
+                        path=start.path,
+                        status=TAINTED,
+                        tier="reachable",
+                        witness=f"{dep.path}: {sym} is zero-derived",
+                        path_to_taint=trail + [target],
+                        edges=start.edges,
+                    )
+                if sym_status == UNDECIDED or sym_status is None and dep.status in (
+                    TAINTED,
+                    UNDECIDED,
+                ):
+                    why = (
+                        dep.reason
+                        if dep.status == UNDECIDED
+                        else f"{sym} is not resolved at symbol granularity"
+                    )
+                    return Analysis(
+                        path=start.path,
+                        status=UNDECIDED,
+                        reason=f"reaches {dep.path}: {why}",
+                        path_to_taint=trail + [target],
+                        edges=start.edges,
+                    )
+                continue
             target = edge
             if target not in universe:
                 continue

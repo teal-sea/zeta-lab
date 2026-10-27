@@ -75,6 +75,22 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #153: Requirement A as a static provenance scan (`ontology_provenance/`, 2026-10-24)
+
+**Status: measured, static scan, no claim promoted.** A name and import-graph
+scan of whether a proposed frame reaches a zero-derived name (`docs/09` section
+5.1, Requirement A). It is a floor, not a proof that a clean frame is
+prime-derived. Of the fifteen numbered ontology frames, the scan flags five
+files as reaching a zero-derived name. Reading those files: two construct from
+zeros (03, 08); two build from primes and mention zeros only as a printed
+comparison (05, 06); one compares GUE spacings with zero spacings (11). Frame
+07 imports only `dh_coefficient` and is clean at symbol granularity. Nothing
+here is evidence for RH. Record: `ontology_provenance/MISSION.md`,
+`ontology_provenance/RESULTS.md`. The same change records an additional defect
+in `factorization_vs_position/DIAGNOSIS.md`, independent of the Hunt #2
+withdrawal: the kappa scanner's output is `(1 + 0.284079*kappa)` times one
+fixed function, so its sign changes cannot depend on kappa.
+
 ### Hunt #146: the out-of-band reduction priced at the Davenport-Heilbronn line (`weil_dh_line/`, 2026-10-21)
 
 **Status: open, on a draft pull request; resumed in place on 2026-10-26 by the owner's

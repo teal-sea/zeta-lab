@@ -1,110 +1,130 @@
 # RESULTS: Requirement A, scanned
 
-> Bounded outcome of `hunts/ontology_provenance/`, 2026-10-24, on
-> `swarm-trial-b2-120`. Acceptance: `20 passed` on `test_provenance.py`,
-> including ten planted violations that must go red and a `clean` case whose only
-> crime is the word "zero" in an identifier.
+> Bounded outcome of `hunts/ontology_provenance/`, 2026-10-24, corrected
+> 2026-10-27. Acceptance: `test_provenance.py`, including planted violations
+> that must go red, a `clean` case whose only crime is the word "zero" in an
+> identifier, and a pin that frame 07 is not reported tainted.
 >
 > **Nothing here is a proof, a certificate, or evidence for RH.** It is a
-> static name and import-graph analysis with stated blind spots.
+> static name and import-graph analysis with stated blind spots. A clean
+> verdict means nothing zero-derived is reachable by name, not that the
+> construction is prime-derived.
 
 ## 1. What was built
 
-`provenance.py` answers one question about a proposed frame: is anything it is
-built from zero-derived? It parses the file, classifies the names it uses against
+`provenance.py` answers one question about a proposed frame: is anything it
+reaches zero-derived? It parses the file, classifies the names it uses against
 a rule set of zero-derived quantities (ordinates, xi-phases, zero finders,
 zero counters, zero tables, ordinate statistics), and then walks the
-repository's own import graph to find taint the defining file does not show.
+repository's own import graph.
 
-Four verdicts, and the fourth exists because of a false positive this scan
-produced on its own first run:
+`from module import name` follows that name, not the rest of the module. A
+name defined in the file is exempt from the file's own consumer check: a file
+that manufactures a xi-phase is a `provider`, and a frame that imports the
+phase is the consumer. `import module` still follows the module. Relative
+imports are resolved against the file's module name, so `from .zeros import`
+inside `zeta/` is an import of `zeta.zeros`.
 
 | verdict | meaning |
 | --- | --- |
-| `clean` | no zero-derived name reachable, directly or through the import graph |
+| `clean` | no zero-derived name reachable, directly or through the followed edges |
 | `tainted (direct)` | the defining file names one |
-| `tainted (reachable)` | a file it imports does, and the path is printed |
-| `provider` | this file *manufactures* a zero-derived quantity |
-| `undecided` | dynamic execution or a syntax error makes a static read worthless |
+| `tainted (reachable)` | a name it imports is zero-derived, and the path is printed |
+| `provider` | this file manufactures a zero-derived quantity |
+| `undecided` | dynamic execution, a syntax error, or a name that cannot be resolved |
 
-`provider` was added because the first rule set called `zeta.core` tainted for
-defining `rs_theta`, which is the opposite of the intent: a file that defines a
-xi-phase is where that phase lives, not a construction that consumes it. Names
-defined in the file are now exempt from its own taint, and only consumers are
-flagged.
+The first rule set called a coefficient-only import tainted because the
+imported module used `hardy_Z` in another function. That is the false positive
+the kill condition forbids. Symbol-level resolution is what the scanner does
+now. Frame 07 is clean. It is not left in the table as tainted.
 
 ## 2. The table: the laboratory's own candidate frames
 
-Run on the fifteen numbered prototypes in `ontology/`:
+Run on the fifteen numbered prototypes in `ontology/`. The verdict is what the
+scan reports. The reading column is a reading of the source, not a second
+verdict: the scan does not decide definitional use.
 
-| frame | verdict | witness |
-| --- | --- | --- |
-| `01_f1_geometry` | clean | |
-| `02_acoustic_f1_matrix` | clean | |
-| `03_inverse_spectral_geometry` | **tainted (direct)** | imports `zeta.zeros` |
-| `04_transcendental_matrix` | clean | |
-| `05_berry_keating_grid` | **tainted (direct)** | imports `zeta.zeros` |
-| `06_the_polya_hilbert_prototype` | **tainted (direct)** | imports `zeta.zeros` |
-| `07_the_imposter_gauntlet` | **tainted (reachable)** | via `zeta.epstein`, which uses `hardy_Z` |
-| `08_riemann_beats_audio` | **tainted (direct)** | imports `zeta.zeros` |
-| `09_hermite_prime_waves` | clean | |
-| `10_geometric_dust_torus` | clean | |
-| `11_quantum_chaos_gue` | **tainted (direct)** | uses `mpmath.zetazero` |
-| `13_dirichlet_polya_hilbert` | clean | |
-| `14_hunting_ln2` | clean | |
-| `15_fixing_the_density` | clean | |
-| `16_adelic_acoustic_absorber` | clean | |
+| frame | scan | witness | reading |
+| --- | --- | --- | --- |
+| `01_f1_geometry` | clean | | |
+| `02_acoustic_f1_matrix` | clean | | |
+| `03_inverse_spectral_geometry` | **tainted (direct)** | imports `zeta.zeros` | constructs a matrix from `first_n_zeros` |
+| `04_transcendental_matrix` | clean | | |
+| `05_berry_keating_grid` | **tainted (direct)** | imports `zeta.zeros` | operator built from primes; `first_n_zeros` only under `__main__`, to print a comparison |
+| `06_the_polya_hilbert_prototype` | **tainted (direct)** | imports `zeta.zeros` | operator built from primes; `first_n_zeros` only under `__main__`, to print a comparison |
+| `07_the_imposter_gauntlet` | clean | | imports only `dh_coefficient`, which reads coefficients |
+| `08_riemann_beats_audio` | **tainted (direct)** | imports `zeta.zeros` | synthesizes audio from the zeros |
+| `09_hermite_prime_waves` | clean | | |
+| `10_geometric_dust_torus` | clean | | |
+| `11_quantum_chaos_gue` | **tainted (direct)** | uses `mpmath.zetazero` | compares GUE spacings with zero spacings; not a construction |
+| `13_dirichlet_polya_hilbert` | clean | | |
+| `14_hunting_ln2` | clean | | |
+| `15_fixing_the_density` | clean | | |
+| `16_adelic_acoustic_absorber` | clean | | |
 
-**Six of fifteen frames are built on the zeros.** They are candidates by the
-laboratory's own definition, and Requirement A rejects them at the definition
-stage, before any computation: a frame handed the answer cannot explain it. The
-six are not thereby wrong in what they compute, and none of the nine clean frames
-is thereby right. Provenance is orthogonal to truth, which is why the table says
-`clean` and not `good`.
+**What the scan establishes.** Five of the fifteen files reach a zero-derived
+name: 03, 05, 06, 08 and 11. That is lexical and import-graph reachability.
+It is not the claim that six frames are built on the zeros, and it is not
+Requirement A rejecting them at the definition stage.
 
-Whole-package run (`ontology/` and `zeta/`, 53 modules): 28 clean, 21 tainted,
-1 provider, 3 undecided. The calibration rows behave: `zeta.factorization` is
-clean (coefficient-only by construction), `zeta.zeros` is tainted on
-`mp.zetazero`, and `zeta.weil` is tainted through the ordinate statistics its zero
-side uses.
+On reading the five files: only 03 and 08 construct from zeros. 05 and 06
+build their operators from prime data and call `first_n_zeros` only to print
+a comparison. 11 compares GUE spacings with zero spacings. Requirement A is a
+test of constructions. A comparison is not one, and a printed column is not
+the definition. Frame 07 is the case the first rule set got wrong. It is
+clean. The nine other clean frames are not thereby right. Provenance is
+orthogonal to truth, which is why the table says `clean` and not `good`.
+
+Whole-package run (`ontology/` and `zeta/`, 53 modules): 27 clean, 24 tainted,
+1 provider, 1 undecided. `ontology/` alone is 28 modules: 20 clean, 7 tainted,
+1 undecided. `zeta/` alone is 25 modules: 7 clean, 17 tainted, 1 provider.
+The calibration rows behave: `zeta.factorization` is clean (coefficient-only
+by construction), `zeta.zeros` is tainted on `mp.zetazero`, and `zeta.weil`
+is tainted because it imports `zeta.statistics`.
+
+These package totals are not the module-level totals of the first run. Two
+changes moved them. Symbol-level edges cleared frame 07 and the two scouts
+that import names from `ontology.knownness` other than `safe_eval_expression`.
+Resolving relative imports against the file's module name flagged `zeta.li`
+and `zeta.leeyang`, which a bare `from .zeros` / `from .heatflow` had missed,
+and followed `first_zeros` into `zeta.quasicrystal` and `zeta.synthesis`.
 
 ## 3. Blind spots, named because they bound the table
 
-1. **Module granularity.** Taint is per file, except for names a file defines.
-   A clean function housed in a module that also contains zero machinery is
-   flagged `reachable`. `07_the_imposter_gauntlet` is that case: it imports
-   `dh_coefficient`, which reads only coefficients, from a module that uses
-   `hardy_Z` elsewhere. The verdict is honest for a module-level read and
-   pessimistic for the function actually used.
+1. **`import module` is still the whole module.** Symbol resolution applies to
+   `from module import name`. A bare import of a tainted module is tainted
+   even if the file only calls a clean attribute. That case is not frame 07.
 2. **`undecided` is not a pass and not an accusation.** `ontology.knownness`
-   evaluates a whitelisted AST through `eval`, which is safe by inspection and
-   invisible to static reading, so it and the two scouts that depend on it are
-   reported `undecided`. A reader should read those three files, not assume
-   either verdict.
+   evaluates a whitelisted AST through `eval`. The function that does so,
+   `safe_eval_expression`, is undecided. The names the scouts actually import
+   do not reach it, so those two files are clean. A name the scanner cannot
+   resolve inside a tainted or unreadable module is undecided, not clean.
 3. **Evasion is trivial and expected.** `getattr(mod, "zeta" + "zero")`, a data
    file of ordinates, or a formula that reconstructs them all pass. This is a
-   floor of the `check_secrets.py` kind: it catches the ordinary case, which is
-   the case that occurs, because nobody writes a zero-importing frame on purpose.
-4. **It says nothing about Requirements B and C.** An arithmetic-provenance
+   floor of the `check_secrets.py` kind: it catches the ordinary case.
+4. **Reachability is not definitional use.** The scan does not distinguish a
+   name used to build the object from a name used under `__main__` to print a
+   comparison. Section 2's reading column is that distinction, done by reading,
+   and it is not a scanner verdict.
+5. **It says nothing about Requirements B and C.** An arithmetic-provenance
    construction can still be wrong about the maths. That is what the doors, the
    battery, and the certainty ladder are for.
 
 ## 4. The doors
 
-- **Symbol-level precision.** The obvious improvement is per-function taint so
-  `07` resolves to clean or tainted on `dh_coefficient` alone. It is a bounded
-  change to the same module and it removes blind spot 1.
-- **A declared-exemption channel.** Blind spot 2 could be narrowed by an explicit
-  in-file annotation (`# provenance: whitelisted-eval`) that records a decision
-  instead of hiding it. It also creates a bypass, so it needs an operator policy
-  before it exists.
-- **Wire it into the funnel.** `ontology/registry.py` already refuses a generator
-  that grades its own candidates. The same seam could refuse a frame that fails
-  Requirement A, which would make the scan blocking rather than advisory. That is
-  a change to `ontology/`, which this hunt is not permitted to make.
-- **Retrofit or retire the six.** Each of `03`, `05`, `06`, `08`, `11` and `07`
-  is either rebuilt from coefficient and prime-power data or retired. That is an
-  allocation decision, and it is the owner's.
+Doors here are limits of the instrument, not a queue of work.
+
+- **Whole-module imports remain coarse.** The limit in blind spot 1 is the
+  remaining granularity gap. Closing it would mean tracking attribute uses on
+  a module object. This hunt does not do that.
+- **A declared-exemption channel.** Blind spot 2 could be narrowed by an
+  explicit in-file annotation that records a decision instead of hiding it.
+  It also creates a bypass, so it needs a policy before it exists. This hunt
+  does not add one.
+- **Not wired into the funnel.** `ontology/registry.py` already refuses a
+  generator that grades its own candidates. Making this scan blocking would
+  be a change to `ontology/`, which this hunt does not make. The scan stays
+  advisory.
 
 ## Reproduce
 
