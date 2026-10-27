@@ -879,7 +879,8 @@ audited, not kernel-checked and not claimed novel. The fourth pass (2026-09-20,
 `FINAL_ACCEPTANCE.md`) found no new bound and is an attempt unresolved.
 `THEOREM_B_FORMULA_REPAIR.md` (2026-09-20, landed 2026-10-21) replaces the defective zero
 expansion of `THEOREM_B_SEQUENCE.md` with a truncated explicit formula, Proposition 3,
-derived and cleared by two independent review rounds. Its Theorem 4 removes Theorem B's
+derived, reviewed at `95ae36b` (finding R1 against its statement), revised, and cleared
+by a targeted follow-up review of `3006ef2`. Its Theorem 4 removes Theorem B's
 eps along a closed-form sequence only under an isolated witness zero, which implies that
 GRH fails for L(s, chi_3), and Theta < Theta_chi; the unconditional case is unresolved.
 This note does not index every file in the directory. Nothing here bears on RH
