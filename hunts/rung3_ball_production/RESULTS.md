@@ -6,7 +6,11 @@ Hunt #145, closed 2026-10-26. Grade: **kernel-checked** (Lean 4 `v4.35.0-rc2`, M
 `RUNS.md` and the `production` section of `pilot.json`. The result says nothing about RH
 (`docs/08`). On 2026-10-27 Lean's own kernel replayed the whole assembled closure into an
 empty environment and accepted it (`leanchecker --fresh`, section 3). That is a
-same-kernel replay, not an independent check, and it leaves the grade where it was.
+same-kernel replay, not an independent check, and it leaves the grade where it was. The
+same day a second kernel, `con-ron --verified` (different code), checked the closure split
+site by site on a fleet of cloud VMs: **accepted by an independent checker on a site-wise
+split, with coverage shown** (door 1, Stage B, section 3). That does not move the grade
+either: the ladder ends at kernel-checked, and no person has reviewed the result.
 
 ## 1. The theorems, exactly as compiled
 
@@ -179,6 +183,56 @@ theorem (`pilot.json` `production.strip_assembly`, log in its receipts):
   `<cache>/rung3-ball-production-full/receipts-replay-20261027` (`leanchecker-fresh.receipt.json`,
   the census, the sample and its estimate, every log); record: `pilot.json`
   `production.replay`.
+- **Door 1, Stage B: the independent kernel on a site-wise split (2026-10-27, 15:03 to
+  19:12 UTC).** `con-ron --verified` (the toolchain's second kernel, SHA-256
+  `4e5616d94374cae3...`) checked 216 shards on InstaBox VMs (8 vCPU, 16 GiB) and Novita
+  sandboxes (2 vCPU, 4 GiB), each VM checking one shard and deleted when it ended. A site
+  shard holds every constant of one site's five modules, with its closure (Mathlib's and
+  `ZetaLean`'s part included). `con-ron` declines any axiom but the three standard ones, so
+  the top shard cannot take the site theorems as axioms; instead `lean/ExportShard.lean`
+  abstracts them: for each of the 435 site theorems the assembly modules name (the 215
+  site theorems and the 220 proof fields of the big boxes' interval structures) a
+  definition `Rung3Glue.T.S : Prop := <type of S>`, and for each of the 18 final
+  declarations, the only assembly constants that reach a site theorem, `Rung3Glue.c :
+  ∀ (h₁ : Rung3Glue.T.S₁) … (h₄₃₅ : Rung3Glue.T.S₄₃₅), <type of c>`, whose value is `c`'s own
+  compiled value with each `Sᵢ` replaced by `hᵢ`. Lean's kernel checked each glue
+  declaration as it was added; every shard was written by the toolchain's own exporter
+  (`LeanExport.dumpEnv`, byte-identical to `leanexport` on a control). The assembly oleans,
+  deleted after Stage A, were rebuilt on this box and hash exactly as Stage A's. **All 216
+  shards accepted**, 13,982,741 declarations in all, each shard's count equal to the
+  declaration records of its stream; the export's SHA-256 was checked on each VM before
+  the run. The join (`conron_fleet.py coverage`, `shard_manifest.py`): every constant held
+  by more than one shard has the same kernel hash in all of them (5,140 differ only in
+  binder names or binder info, which the exporter takes from whichever equal expression it
+  wrote first and the kernel ignores); each of the 435 `Rung3Glue.T.S` hashes as the type
+  of `S` in its site shard; and of the **675,388 constants in the dependency closure of the
+  18 final declarations**, computed in the real assembled environment, 675,370 are in
+  accepted shards and the other 18, the final declarations themselves, are checked through
+  their `Rung3Glue` forms. By Stage A's census:
+
+  | origin | constants | in the closure of the 18 | in an accepted shard |
+  |---|---|---|---|
+  | the 215 sites | 761,387 | 583,346 | 761,387 |
+  | Mathlib | 580,690 | 61,252 | 61,252 |
+  | Lean's core | 182,964 | 7,869 | 7,869 |
+  | dependencies | 19,389 | 192 | 192 |
+  | hunt #137 | 24,311 | 22,288 | 22,288 |
+  | `ZetaLean` | 733 | 411 | 411 |
+  | the assembly | 31 | 30 | 12 (and the 18 final declarations through `Rung3Glue`) |
+  | all | 1,569,505 | 675,388 | 853,411 |
+
+  Every site constant is in an accepted shard, the 178,041 outside the closure included.
+  Outside the sites the shards hold exactly the closure; the 716,076 constants in no shard
+  are all outside it (Mathlib 519,438, core 175,095, dependencies 19,197, hunt #137 2,023,
+  `ZetaLean` 322, the assembly 1), and Stage A's replay covered them with Lean's kernel.
+  The planted one-byte fault, exported as a whole site shard, was rejected on both
+  providers (section 4). Wall: the first VM at 15:07, the last deleted at 19:12, set by
+  the centre, whose shard took 3.2 hours on 8 cores (24.8 core-hours, 14.8 GB peak RSS);
+  834 core-hours of `con-ron` in all. Cost: InstaBox USD 8.25 (its usage API, per
+  machine), Novita USD 0.68 at list price; 222 VMs, none left on either provider. Receipts:
+  `<cache>/rung3-conron-fleet-20261027` (the state files, the VM registry, every
+  receipt, manifest and log); record: `pilot.json` `production.replay.stage_b_fleet`;
+  `RUNS.md` has the run.
 
 ## 4. What the kernel refused
 
@@ -192,6 +246,7 @@ All on production output, recorded in `pilot.json` `production.box_faults` and
 | the tail radius just under its bound | `ZetaLean.DH.Cert.enc_B_right_06` |
 | M just under the enclosure's bound | `ZetaLean.DH.Cert.upper_B_right_06` |
 | the centre's eps' at the bound, and at 1/4000 | `centre_lt_centre` (the probe of its last step) |
+| the tower radius one unit low, one byte of a scratch `CB_right_06/Primes.olean`, exported as a whole site shard and checked by `con-ron --verified` on InstaBox and on Novita (door 1, Stage B) | `Prime_B_right_06_2.ev_whole._proof_1_1`, "application type mismatch", on both |
 
 The eps' bracket holds: the probe is accepted at 1/2000 and at the next multiple of 2^-64
 above the bound, and refused at the bound and at 1/4000.
@@ -235,9 +290,11 @@ not chosen.
   delta is its enclosure by the Lean kernel.
 - **Trust.** Each site olean was produced by the runner's kernel. The assembly imports
   them without re-checking their proofs. Since 2026-10-27 the same kernel has re-checked
-  the whole assembled closure from an empty environment (section 3, door 1 Stage A). No
-  second, independent kernel has checked the whole closure: `con-ron` has checked samples
-  only (door 1 below).
+  the whole assembled closure from an empty environment (section 3, door 1 Stage A), and
+  a second kernel, `con-ron --verified`, has accepted it on a site-wise split with coverage
+  shown (door 1 Stage B). That split rests on two things a single run would not: the
+  abstraction of the site theorems in the top shard, and the hash join of the shards,
+  both recorded and both mechanical.
 - **The ZetaLean join.** The sites were kernel-checked against each runner's own
   `ZetaLean` build at `85cabd55b`, which the workflow did not upload. The assembly
   imported them against this box's `ZetaLean` oleans of 2026-10-21, through the overlay.
@@ -283,8 +340,10 @@ number of sites against K.
 1. An independent kernel replay of the assembled environment, which reads more: the same
    oleans in another checker. **Stage A done, 2026-10-27**: the same-kernel fresh replay
    (section 3) accepted the closure of all 18 final declarations; it is not the
-   independent half. **Stage B, priced, not run**: `leanexport` of that closure, checked
-   by `con-ron --verified`. On samples, `con-ron` accepted the exported closure of
+   independent half. **Stage B done, 2026-10-27, site by site** (section 3): accepted by
+   an independent checker on a site-wise split, with coverage shown; 834 core-hours
+   of `con-ron` on cloud VMs, USD 8.93. The pricing that came first, for one run over
+   the whole closure: on samples, `con-ron` accepted the exported closure of
    `upper_B_right_06` (61,782 declarations, 690 s, 2.2 GB) and of the centre's towers for
    p = 2, 401 and 1801 (26,575 declarations), and rejected the one-byte olean fault at
    `Prime_B_right_06_2.ev_whole` (section 4). Those are second-kernel acceptances of
@@ -295,7 +354,9 @@ number of sites against K.
    kernel. That is 81 hours of wall at 16 workers, past this box's 24-hour and memory
    bounds, so it waits for a machine of about 128 GB and 64 cores (about 20 hours).
    Exporting site by site would hold `con-ron` to about 4 GB a run but not cut the CPU, and
-   would leave the assembly's own closure to check apart. `RUNS.md` has the samples.
+   would leave the assembly's own closure to check apart. That is what ran: the VMs' cores
+   did a tower in about half the time this box's did, and the assembly's closure became
+   the glued top shard. `RUNS.md` has the samples and the run.
 2. **Done, 2026-10-26.** A bundled strip statement, inside the data the current family
    reads. The theorem, in module `Rung3Assembly.Strip`, emitted by `assembly.py`
    (`STRIP_STATEMENT`, pinned by the hunt test) and importing `Rung3Assembly.Assembly`
@@ -321,6 +382,5 @@ number of sites against K.
 Doors 1 and 2 are cheapest before the site oleans' GitHub artifacts expire, about
 2026-11-25 (30-day retention from run 40353536947). The box kept only their SHA-256 and
 the logs, so after that date both need the 215 sites compiled again, 16.1 runner
-core-hours at the measured rate. Door 2 is now done; door 1 still has that deadline.
-Door 1's Stage A is done too, so the deadline binds only its Stage B, the independent
-kernel.
+core-hours at the measured rate. Doors 1 and 2 are both done, so the deadline binds
+neither now; the exports' SHA-256 and manifests are kept, not the exports.

@@ -761,3 +761,242 @@ artifacts:
   - hunts/rung3_ball_production/lean/ReplayProgress.lean
   - <cache>/rung3-ball-production-full/receipts-replay-20261027
 ```
+
+## 2026-10-27: door 1, Stage B on a fleet: design, pilot estimate (before spending)
+
+The operator's brief of 2026-10-27: run `con-ron --verified` (the toolchain's second kernel,
+SHA-256 `4e5616d94374cae3...`) over the whole assembled closure, split site by site across
+InstaBox VMs (primary) and Novita sandboxes (second provider), exported on this box one
+artifact zip at a time. Hard cap USD 40 across both providers; a dead-man deletes every VM
+of this run 12 hours after the first launch or when a stop file appears. Work directory and
+state: `<cache>/rung3-conron-fleet-20261027` (`exports.json`, `phase0.json`, `fleet.json`,
+the VM registry `vms.jsonl`, the spool, the manifests, the receipts and every log).
+
+**Why the top shard is glued, not stubbed.** `con-ron --verified` declines any axiom but the
+three standard ones (measured on a two-line scratch export: `declined: non-standard axiom`,
+exit 2), so the site theorems cannot enter the top shard as axioms. `lean/ExportShard.lean`
+(compiled with `lean -c` and `leanc`, no Lake) instead abstracts them: for each of the site
+theorems `S` the assembly modules name, a definition `Rung3Glue.T.S : Prop := <type of S>`,
+and for each assembly constant `c` that reaches one, `Rung3Glue.c : ∀ h₁ … hₙ, <type of c>`,
+whose value is `c`'s own value with `Sᵢ` replaced by `hᵢ`. Lean's kernel checks each new
+declaration as it is added, then the toolchain's own exporter (`LeanExport.dumpEnv`, the
+code of `leanexport`) writes the shard. A site shard holds every constant of one site's five
+modules (not only its theorem's closure), each with its closure. `shard_manifest.py` hashes
+every declaration of every shard (BLAKE2b Merkle hashes over the exported structure), so the
+coverage step can match the shards' shared constants and each `Rung3Glue.T.S` against the
+type of `S` in its site shard. The assembled oleans were deleted after Stage A, so `phase0`
+re-collects all 20 zips onto `/dev/shm` once, re-assembles, compares the assembly oleans with
+the Stage A receipts, writes the census and the closure of the 18 final declarations in the
+real environment, exports the top shard, and clears `/dev/shm`. The site shards then stream
+one zip at a time (`export`), compressed with `zstd -9` into a spool capped at 7 GB, with
+free disk kept above 10 GB.
+
+**Controls measured before any VM (this box).**
+
+- The wrapper changes nothing: `exportshard names CB_right_06 ZetaLean.DH.Cert.upper_B_right_06`
+  and the stock `leanexport` with the same arguments both hash `bc13524f33e1320a...`, the
+  hash of Stage A's sample export; 54 s each, 6.7 GB peak RSS.
+- The full site shard of `B_right_06` (910 constants of its five modules, 64,226
+  declarations in all): 486,899,931 bytes, 9,088,543 lines, 41.7 s wall, 6.9 GB peak RSS.
+  `zstd -9 -T8` makes it 64.2 MB in 2.5 s (`zstd -19 --long=27`, 53.3 MB, and `xz -6`, 46.3
+  MB, cost 50 to 120 s; not worth it). `shard_manifest.py` reads it in 27.8 s at 0.7 GB, and
+  finds exactly the three standard axioms.
+- Novita's real quota, read through its API: the free tier (5 sandboxes, 2 vCPU and 4 GiB
+  each, 1 hour per sandbox). Its default template has 512 MiB, so a template
+  `zr3c-conron-2x4` (the base image plus `zstd`, 2 vCPU, 4096 MiB) was built. InstaBox: Pro
+  sizes 2/4, 4/8 and 8/16, 100 running at once.
+
+**Pilot estimate.** Three shards: `site:B_right_06` on an InstaBox 8/16 VM (Stage A's sample
+took 690 s at 8 workers here, so about 15 minutes with boot and upload, about USD 0.02),
+the same file on a Novita 2/4 sandbox (about 4,300 CPU-s, so 40 to 50 minutes at 2 workers,
+list about USD 0.09), and the grid site `site:g_left_16` on an InstaBox 8/16 VM (96 towers,
+interpolated in log p at about 8 core-hours, so about 1 to 1.5 hours, about USD 0.10). In
+all, under USD 0.25. The full estimate follows from the pilot, before the full launch.
+
+Launched (detached, `setsid nohup`):
+
+- 15:03 UTC: `conron_fleet.py export --jobs 11 --workers 3` (the 11 sites of zip 11, which
+  holds `B_right_06`, and the planted-fault shard), PID 3788667, log
+  `<cache>/rung3-conron-fleet-20261027/logs/export-job11.log`.
+- 15:04 UTC: the dead-man, `conron_fleet.py deadman --deadline <15:04 + 12 h>` (deadline
+  2026-10-28T03:04:12Z), PID 3793391, log `<cache>/rung3-conron-fleet-20261027/logs/deadman.log`.
+  At the deadline or on the stop file `STOP` it deletes every VM in the registry by its
+  recorded id, then lists each provider by this run's label (`project=zeta-rung3-conron`,
+  names starting `zr3c-`) and deletes anything left, until both listings are empty.
+- 15:05 UTC: `conron_fleet.py phase0`, PID 3798086, log
+  `<cache>/rung3-conron-fleet-20261027/logs/phase0.log`: the 20 zips onto `/dev/shm`
+  (`production.py collect`, every digest against GitHub's and Stage A's), `production.py
+  assemble`, the assembly oleans against Stage A's `assembly-oleans.sha256`, then
+  `exportshard census`, `closure` and `top` against `Rung3Assembly.Final`, then `/dev/shm`
+  cleared. The box's 1-minute load was about 100 (other workflows) when these started, so
+  every export runs at a fraction of a core; nothing here waits on speed.
+- 15:07 UTC: the pilot fleet, `conron_fleet.py run --want site:g_left_16,site:B_right_06,site:B_right_06#novita
+  --instabox-max 4 --novita --novita-max 2 --poll-s 120`, PID 3805913, log
+  `<cache>/rung3-conron-fleet-20261027/logs/fleet-pilot.log`, state `fleet.json`.
+- 15:07 UTC, two setup misses in the pilot, neither a verdict. (1) The InstaBox template has
+  no `zstd` and `apt-get install` needs an `apt-get update` first: the first VM stopped at
+  "no zstd on the VM" and was deleted by the orchestrator. I then stopped the orchestrator
+  with SIGTERM (PID 3805913) while it was creating the second VM, which left that VM
+  (`m_agqx3zx4edrxumpan6glszr57i`) created but not yet in the registry; the label listing
+  found it, it was registered by hand, used to test the install (4 s with the update) and
+  deleted at 15:08. Since then SIGTERM or a `DRAIN` file only drains the orchestrator: it
+  finishes what is in flight and launches nothing, and every create carries an
+  Idempotency-Key per shard and attempt. (2) `phase0`'s `assemble` found no `lake` on the
+  detached process's `PATH` (`~/.elan/bin` added); the collect before it had finished (20
+  digests equal to GitHub's and Stage A's, the 215 root oleans equal to Stage A's).
+- 15:08 UTC: the pilot fleet again, PID 3812131 (same log); `site:g_left_16` started on an
+  8/16 VM, booted in 4.7 s, its four files uploaded and hashed by the API in 10.0 s.
+- 15:09 UTC: `phase0` again, PID 3814613 (same log), resuming at `assemble`.
+- 15:13 to 15:20 UTC: `site:B_right_06` on InstaBox 8/16 (AMD EPYC): **accepted 62,005
+  declarations (--verified)**, exit 0, con-ron wall 367.4 s, CPU 2,240.7 s, peak RSS 2.31
+  GB; the export's SHA-256 checked on the VM before the run. That is 1.9 times faster than
+  the same closure on this box (690 s). The orchestrator first marked it "review", because
+  its expected count (declarations less the four `quot`) was wrong: `con-ron` counts one
+  declaration per record of the stream (an inductive block is one record), less the four
+  `quot` records it installs as built-ins, so 62,009 records less 4 = 62,005. The rule was
+  fixed and the receipt re-verified, without re-running the check. The VM was deleted at
+  15:20:31.
+- The planted-fault shard: `CB_right_06/Primes.olean` with byte 62304 changed (SHA-256
+  `82f66105...` to `695e7e49...`, as in Stage A), exported as a whole site shard. The first
+  attempt's check, that the export differs from the clean one in one line, was wrong and
+  stopped the exporter: the radius literal is shared, so its unchanged value is written
+  anew where the site uses it again and the later indices shift. The check is now the
+  manifests: exactly four declarations differ (`Prime_B_right_06_2.Sq_10`, `Pow_B_right_06_2`
+  and their `eq_1` lemmas, which share the literal), with the same 64,226 names. Spooled at
+  15:23, started on InstaBox at 15:24.
+- 15:24 UTC: the exporter for the 19 other zips (zip 0, with the centre, first), PID 3897463,
+  log `<cache>/rung3-conron-fleet-20261027/logs/export-all.log`; the pilot fleet again
+  (adding the fault shard), PID 3894717.
+- 15:24 to 15:29 UTC: the planted-fault shard on InstaBox 8/16: **`con-ron: rejected:
+  application type mismatch [at thm
+  _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold
+  position 16241] (--verified)`**, exit 1, 190.7 s, the declaration Stage A's fault named.
+- 15:13 to 15:35 UTC: `site:B_right_06` again on a Novita 2/4 sandbox (AMD EPYC, 2 vCPU):
+  accepted 62,005 declarations, exit 0, wall 1,211 s, CPU 2,403 s, peak RSS 1.53 GB. Two
+  providers, the same file, the same count.
+- 15:08 to 15:54 UTC: the grid site `site:g_left_16` (96 towers) on InstaBox 8/16: accepted
+  66,331 declarations, exit 0, wall 2,713 s, CPU 19,994 s (92 % of 8 cores), peak RSS 3.16 GB.
+- `phase0`: assemble at 15:11 (the Support, Assembly, Separation, Strip and Final oleans hash
+  exactly as Stage A's `assembly-oleans.sha256`, all 18 declarations on the three standard
+  axioms); census 15:11 to 15:41 (1,804 s): **1,569,505 constants in 11,955 modules, by
+  origin exactly Stage A's** (sites 761,387, Mathlib 580,690, core 182,964, dependencies
+  19,389, hunt #137 24,311, `ZetaLean` 733, assembly 31); the dependency closure of the 18
+  final declarations, 15:41 to 15:46 (269 s): **675,388 constants**. The top shard's export
+  started at 15:46.
+
+Pilot spend: InstaBox about USD 0.07, Novita about USD 0.04 at list price.
+
+**The full estimate, from the pilot (written 15:58 UTC, before the full launch).** The tower
+model of Stage A (`tower_cpu_s`, interpolated in log p) over-prices the VMs: measured CPU
+over model is 0.466 for `B_right_06` (23 towers, p up to 89) and 0.592 for `g_left_16` (96
+towers, p up to 509), so the ratio grows with p. Charging big boxes at 0.55, grid sites at
+0.60 and the centre (278 towers, p past 1,800) at 0.80:
+
+| class | sites | con-ron CPU |
+|---|---|---|
+| big boxes | 110 | 236 core-hours |
+| grid points | 104 | 523 core-hours |
+| centre | 1 | 30 core-hours (107,000 CPU-s, about 4.1 h of wall on 8 workers) |
+| top shard | 1 | about 1 core-hour |
+
+About 790 core-hours, so about 141 VM-hours of InstaBox 8/16 at 80 % use plus 5 minutes per
+VM, **about USD 9.6 (band 7.7 to 14.4)**; eight small big boxes (23 to 36 towers, at most
+about 4,000 CPU-s each, so about 35 minutes on 2 vCPU) and a second fault shard go to Novita,
+about USD 0.7 at list price. Wall: about 4 to 5 hours, set by the centre. Peak RSS per shard
+1.5 to 3.2 GB measured, about 4 GB expected for the centre (export 788 MB, against 487 to
+566 MB for the others). Far under the USD 40 cap; the orchestrator stops launching if its
+running projection (spent plus what is left, priced the same way) reaches USD 36.
+
+### The full fleet, launched 15:57 UTC
+
+`conron_fleet.py run --add <the centre, the 104 grid sites by projected cost, the top shard,
+the 110 big boxes, a second fault shard on Novita> --novita --novita-max 5 --novita-shards
+<8 small big boxes> --instabox-max 90 --workers 8 --poll-s 300 --scale 0.6`, PID 4031895, log
+`<cache>/rung3-conron-fleet-20261027/logs/fleet-full.log`, state `fleet.json` (one record per
+shard: its VMs with ids, creation and deletion times, every status poll, the verdict). The
+exporter (PID 3897463) keeps feeding the spool; a shard is launched once its export is
+spooled. The dead-man (PID 3793391) still holds the 03:04 UTC deadline.
+- 15:46 to 16:16 UTC: `exportshard top` (1,813 s, 17.6 GB peak RSS, most of it the mapped
+  oleans of the closure; the time is the constant-to-module lookups over all 1.57 million
+  constants, as in the census). Lean's kernel accepted every glue declaration. The site
+  theorems the assembly modules name: **435**, the 215 site theorems and the 220 proof
+  fields `SI_<id>._proof_1` and `_proof_2` of the big boxes' interval structures; the
+  assembly constants that reach them: **18**, exactly the 18 final declarations; the site
+  constants reached otherwise: 111 (the 110 interval definitions `SI_<id>` and `z_centre`),
+  which the top shard holds with their values. The shard: 543,271,093 bytes, 71.1 MB
+  compressed, only the three standard axioms. `phase0` finished at 16:17 and cleared
+  `/dev/shm`.
+- 16:38 UTC, a dry run of the coverage join on the first 48 accepted shards found 9,365
+  constants (Mathlib's `PiNat.*` among them) whose manifest hash differed between shards,
+  each in two classes. Cause, confirmed on three spooled shards: the exporter keys its
+  expression table by Lean's `BEq Expr`, which ignores binder names and binder info, so
+  which binder names a shard carries depends on what it wrote first. The kernel ignores
+  both, so `shard_manifest.py` now also writes kernel hashes that leave them out; on the
+  three shards the kernel hashes agree on every shared constant (57,095 and 63,322 of them)
+  while the old hashes differ on 3,309 and 571. Coverage now compares kernel hashes and
+  counts the binder-only differences apart. A shard's spooled export is deleted only once
+  its manifest has the kernel hashes; `conron_fleet.py remanifest` (PID 21325, log
+  `logs/remanifest.log`) rewrites the older manifests from the spool, or, where the export
+  was already deleted, by exporting the site again from its zip, refusing any export whose
+  SHA-256 differs from the one `con-ron` checked. The orchestrator was drained and
+  restarted for this rule (PID 19895; one restart in between sent its log nowhere for a
+  few seconds and was drained at once).
+
+### The full fleet: the outcome (measured)
+
+- **Every shard accepted.** The 215 site shards and the top shard, each `con-ron:
+  accepted N declarations (--verified)`, exit 0, with N equal to the declaration records
+  of its stream: 13,982,741 declarations in all. The top shard 84,534 (wall 4,110 s, CPU
+  32,585 s, peak RSS 3.55 GB; it carries hunt #137's closure, so it cost about nine times
+  the allowance written above). The centre 77,618 (wall 11,526 s, CPU 89,357 s, peak RSS
+  14.8 GB, against about 4 GB expected: the closest any shard came to its VM's 16 GiB).
+  Site walls from 367 s to 11,526 s, median 1,887 s; every other shard under 3.7 GB.
+  `con-ron` CPU in all: 834 core-hours, against the 790 estimated. Eight small big boxes
+  ran on Novita (`B_bottom_23`, `B_top_22`, `B_right_00` to `B_right_05`), all inside its
+  one-hour limit (the longest 2,297 s), the rest on InstaBox. One shard was provisioned
+  more than once (`g_left_16`, the pilot's two setup misses); no shard needed a retry for
+  any other reason, and no verdict was a rejection.
+- **The planted fault, on both providers**: InstaBox (15:24 to 15:29) and Novita (16:03 to 16:11):
+  `con-ron: rejected: application type mismatch [at thm
+  _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1,
+  fold position 16241] (--verified)`, exit 1.
+- **Coverage** (`conron_fleet.py coverage`, `<cache>/rung3-conron-fleet-20261027/coverage.json`):
+  216 of 216 shards accepted; no constant held by two shards differs in its kernel hash
+  (5,140 differ only in binder names or binder info); all 435 `Rung3Glue.T.S` hash as
+  their site theorem's type; the 18 abstracted constants all have their `Rung3Glue` form
+  in the top shard; of the 675,388 constants in the closure of the 18 final declarations,
+  none is unchecked (675,370 in accepted shards, the 18 final declarations through glue);
+  all 761,387 site constants are in accepted shards. `RESULTS.md` section 3 has the table
+  by origin.
+- **The binder-name rewrite** (`remanifest`, 16:42 to 18:45): 65 manifests from the
+  spool and 61 by exporting the site again from its zip; every re-export hashed exactly
+  as the export `con-ron` had checked.
+- **Wall and cost.** First VM 15:07:01, last deleted 19:12:52 (4 h 6 min). InstaBox USD
+  8.25 by its usage API over 211 VMs (121.3 VM-hours of 8/16, all deleted); Novita USD
+  0.68 at list price over 11 sandboxes. Total USD 8.93, inside the band of 7.7 to 14.4
+  written before the launch and far under the USD 40 cap; the orchestrator's projection
+  never came near its USD 36 stop.
+- **Nothing left.** The orchestrator deleted each VM when its receipt was in (the registry
+  `vms.jsonl` has 222 creations and 222 deletions); at 19:13 both providers' listings by
+  this run's label were empty, and the dead-man, triggered by the stop file, found nothing
+  and exited (19:13:50). The Novita template `zr3c-conron-2x4` was deleted too. On this
+  box, `/dev/shm` was cleared and free disk never went under 18 GB.
+
+```runmanifest
+id: rung3_ball_production-2026-10-27-door1-stage-b
+hunt: rung3_ball_production
+started: 2026-10-27T14:35Z
+finished: 2026-10-27T19:14Z
+ran:
+  - hunts/rung3_ball_production/conron_fleet.py build (lean -c and leanc on lean/ExportShard.lean; no Lake)
+  - hunts/rung3_ball_production/conron_fleet.py phase0 (production.py collect and assemble on /dev/shm; exportshard census, closure and top against Rung3Assembly.Final)
+  - hunts/rung3_ball_production/conron_fleet.py export (the 215 site shards and the planted-fault shard, one zip at a time)
+  - hunts/rung3_ball_production/conron_fleet.py run (pilot, then the full fleet; conron_shard.py on each VM)
+  - hunts/rung3_ball_production/conron_fleet.py deadman --deadline 2026-10-28T03:04:12Z
+  - hunts/rung3_ball_production/conron_fleet.py remanifest; coverage; record --write-pilot
+outcome: con-ron --verified accepted all 216 shards (the 215 sites and the glued top shard, 13,982,741 declarations); the coverage join found no clash in kernel hash across shards, all 435 glue types equal to their site theorems' types, and no constant of the 675,388 in the closure of the 18 final declarations unchecked; the planted one-byte fault was rejected on InstaBox and on Novita at Prime_B_right_06_2.ev_whole._proof_1_1; 834 core-hours, USD 8.93; every VM deleted
+artifacts:
+  - hunts/rung3_ball_production/RESULTS.md
+  - hunts/rung3_ball_production/pilot.json (production.replay.stage_b_fleet)
+  - <cache>/rung3-conron-fleet-20261027
+```

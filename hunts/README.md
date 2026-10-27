@@ -124,7 +124,11 @@ the strip result, `davenport_heilbronn_strip` (an entire function with the
 Davenport-Heilbronn series and functional equation has a zero s with 0 < Re s < 1 and
 Re s ≠ 1/2, witness `DH`), in an emitted module outside the sites' import closure,
 compiled by a second on-box assembly of the same 215 site oleans with the same three
-axioms (`RESULTS.md` section 1 and door 2). *2026-10-21 status, superseded:* open ledger
+axioms (`RESULTS.md` section 1 and door 2). *Added 2026-10-27:* Lean's own kernel replayed
+the whole assembled closure into an empty environment and accepted it, and the independent
+checker `con-ron --verified` accepted it split into 216 shards on cloud VMs, with coverage
+shown (door 1, Stages A and B); the grade stays kernel-checked, pending external
+verification. *2026-10-21 status, superseded:* open ledger
 hunt; a pilot on one shared box in one session, measured; the pilot site's two theorems
 kernel-checked and its planted faults refused; no production shard launched;
 `davenport_heilbronn` unproved, and no file emitted the assembly module that would prove

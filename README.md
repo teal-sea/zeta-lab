@@ -45,9 +45,11 @@ off-line zero (hunt #137). Lean's kernel accepts them with zero `sorry` and only
 three standard axioms, from 215 site theorems compiled on GitHub Actions and one
 assembly; planted one-unit faults are refused. A fresh replay of the whole assembled
 closure by Lean's own kernel (`leanchecker --fresh`, 2026-10-27, 1.57 million constants
-in 7 h 17 min) accepts it too; that is a re-check by the same kernel, and no independent
-kernel has checked the whole closure. The grade is kernel-checked, pending external
-verification. The older `davenport_heilbronn_statement` is also met by the trivial zero
+in 7 h 17 min) accepts it too; that is a re-check by the same kernel. The independent
+checker `con-ron --verified` accepts the whole closure split site by site, with coverage
+shown (216 shards; the assembly's declarations abstracted over the site theorems; every
+constant of their dependency closure checked). The grade is kernel-checked, pending
+external verification. The older `davenport_heilbronn_statement` is also met by the trivial zero
 s = -1 (`lean/ZetaLean/DHTrivialZero.lean`), so it carries none of the result.
 It shows that the functional equation alone cannot give RH. It is not progress toward RH.
 

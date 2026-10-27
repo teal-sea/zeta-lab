@@ -56,10 +56,14 @@ of PR #353 found this on 2026-10-26; the definition stays as it is because the 2
 oleans were compiled against the module that holds it.
 
 The grade of `davenport_heilbronn_strip` and the three theorems above is
-**kernel-checked, pending external verification**. No outside mathematician has reviewed them, and no independent kernel
-has replayed the assembled environment. Lean's own kernel did replay the whole closure
-into an empty environment on 2026-10-27 (`leanchecker --fresh`, 1.57 million constants,
-accepted in 7 h 17 min), a re-check by the same kernel rather than an independent one.
+**kernel-checked, pending external verification**. No outside mathematician has reviewed them. Lean's own kernel
+replayed the whole closure into an empty environment on 2026-10-27 (`leanchecker --fresh`,
+1.57 million constants, accepted in 7 h 17 min), a re-check by the same kernel rather than
+an independent one. The same day the independent checker `con-ron --verified` accepted the
+closure split into 216 shards, one per site and one for the assembly, with coverage shown:
+each of the 675,388 constants the final declarations depend on was checked in an accepted
+shard (the final declarations themselves in a form abstracted over the site theorems),
+and the shards agree on every constant they share (`RESULTS.md`, door 1).
 
 ## 2. How
 
