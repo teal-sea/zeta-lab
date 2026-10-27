@@ -5659,7 +5659,9 @@ lines 108-128
 Prior art: unsearched
 Reused in: scripts/60_rung3_generate.py and scripts/65_rung3_full_validation.py
 (generator assertion and validation verdict changed); docs/25 section 4.3 prediction
-refuted
+refuted; hunt #145's production run, whose 104 grid sites carry beta read off the
+enclosure, and whose assembly takes each beta from the site theorem's type and checks
+eps' + L h/2 <= beta by `norm_num` (`hunts/rung3_ball_production/assembly.py`)
 Why it travels: Any certificate pipeline that copies a numerically fitted constant into
 a proof obligation has this failure mode; the fix (read the constant off the enclosure,
 assert the consuming inequality at generation) is generic.
@@ -5709,9 +5711,18 @@ lean/HardyFirstZero/Boxes.lean; gen_boxes.py
 Prior art: the staged literal pipeline of `scripts/60_rung3_generate.py` and
 `scripts/69_rung3_ball_generate.py` is the same idea with `norm_num`; `decide +kernel` is
 the change
-Reused in: none yet
-Why it travels: The Davenport-Heilbronn certificate's per-term cost model rests on
-`norm_num`; if `decide +kernel` holds its speed at that height it reprices the run.
+Reused in: `hunts/rung3_ball_production/` (hunt #145, 2026-10-26). There each prime tower
+of the Davenport-Heilbronn certificate is one `decide +kernel` of the whole
+`dirichletTermBallB` value at the DH height (`nLog = 32`, `nExp = 20`, `p = 64`,
+`kE = 10`), plus `contains_dirichletTermBallB`: 3.4 to 5.3 CPU-s per tower in standalone
+files and 1.19 in situ, against about 66 for the staged `norm_num` tower. It became
+`scripts/60 --tower whole`, and production compiled in 16.1 runner core-hours instead
+of the 416 projected (its `PILOT.md` sections 7, 9 and 12). That instance decides one
+whole tower, not one per box: at this height a single tower fits the kernel's budget,
+where the 29-box sum above did not.
+Why it travels: It did reprice the Davenport-Heilbronn run. Any recursive enclosure
+whose value the kernel can reduce in seconds is cheaper decided whole, with its
+containment lemma, than staged literal by literal under `norm_num`.
 
 ### Parametric interval Krawczyk for a matching system over a cover of a uniformity parameter
 

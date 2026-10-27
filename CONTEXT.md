@@ -1111,7 +1111,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/review_ledger.py`, The repository's standing-review ledger, real claims, real attacks.
 
-*773 lines*
+*862 lines*
 
 Constants: `CLAIMS`, `OUTCOMES`
 
@@ -1247,6 +1247,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `44-the-constant-in-the-wedge.md`, 44. The constant in the wedge: explicit constants for Jensen hyperbolicity, and whose wedge it is
 - `45-rh-to-height-fifty.md`, 45. RH to height 50, then 100, kernel-checked
 - `46-davenport-heilbronn-v6-arb-replay.md`, 46. The Davenport-Heilbronn v6 census: a same-verifier Arb replay
+- `47-the-davenport-heilbronn-zero.md`, 47. The Davenport-Heilbronn zero, kernel-checked
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)
@@ -1314,7 +1315,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2358 test functions across 144 files (the collected count differs where tests are parametrised):
+2366 test functions across 145 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1440,6 +1441,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_rung3_ball_mirror.py`, 7
 - `tests/test_rung3_ball_shards.py`, 8
 - `tests/test_rung3_ball_tower_pilot.py`, 4
+- `tests/test_rung3_ball_whole_tower.py`, 8
 - `tests/test_rung3_mirror.py`, 9
 - `tests/test_rung3_mirror_matches_kernel.py`, 4
 - `tests/test_science_preflight.py`, 10
