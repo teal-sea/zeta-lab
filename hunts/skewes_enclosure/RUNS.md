@@ -224,3 +224,34 @@ plus about 5 for shards 1 to 20 at runner speed and 2% for the grid, is about
 from finished shards and stops the run if the projection passes 100. Plan: 14
 jobs of 16 shards (the last has 12), max-parallel 4, per-shard timeout 80 min. At
 16 ms/zero a shard is about 27 min, so a job is about 110 min.
+
+## 2026-10-27: rerun 40415010866 stopped by the watcher's projection rule
+
+The watcher cancelled the run at 00:27 UTC on a projection of 104.9 runner core-hours.
+**The projection was my modelling error, not a real overrun.** For shards 1 to 20
+it used target A's box costs x 0.6 as the runner-speed guess (4.5 core-hours); the
+measured runner cost was 6.95. On the 48 shards (21 to 68) directly comparable
+with the last run, the new/old cost ratio is 0.986, and the corrected projection
+for the whole rerun is about 95 process core-hours.
+
+At the cancel, shards 1 to 68 had finished and been saved. All are sound, with grid
+sums at all 83 omegas, and are in `shards_b2/`. Zero files for all 68 shards are uploaded (90-day
+artifacts; the 65 to 80 artifact holds 65 to 68), and the decompressed SHA-256 of
+all 68 equals each shard's `zeros_sha256`. **Spent: 27.1 runner core-hours by job wall x 4**
+(22.9 process core-hours in the saved shards; the rest is setup plus the work lost
+in the four jobs that were mid-flight). Remaining shards 69 to 220 project
+to 72.1 process core-hours (about 76 by job wall). The total for the rerun would be about
+95 process core-hours, or about 103 by job wall, which straddles the 100 cap. So,
+per the rule, the run stopped and the decision went back to the coordinator.
+
+```runmanifest
+id: skewes_enclosure-2026-10-27-rerunB2-part1
+hunt: skewes_enclosure
+started: 2026-10-26T22:46:50+00:00
+finished: 2026-10-27T00:28:39+00:00
+ran:
+  - GitHub Actions skewes-enclosure run 40415010866 (RUN_REQUEST shards 1-220, omega grid), cancelled by the projecting watcher
+outcome: shards 1 to 68 complete with grid sums; run cancelled on a projection later traced to a wrong runner-speed assumption for shards 1 to 20; nothing evaluated
+artifacts:
+  - hunts/skewes_enclosure/shards_b2/shard_001.json .. shard_068.json
+```
