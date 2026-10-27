@@ -1283,16 +1283,39 @@ def cmd_run(a) -> None:
     fl.loop()
 
 
+# The dead-man only reports "nothing remains" after the providers have stayed empty for this
+# long, longer than one provisioning can take, so a create already in flight when it fired
+# is either swept or has timed out by then.
+DEADMAN_QUIET_S = PROVISION_TIMEOUT_S + 120
+
+
+def stop_fleet(reason: str) -> None:
+    """Persist RUN/STOP. Fleet.step and wait_for gate every launch on this file, so writing
+    it is what stops new provisioning; deleting machines alone does not."""
+    p = RUN / "STOP"
+    if not p.exists():
+        p.write_text(f"{reason} {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}\n")
+
+
 def cmd_deadman(a) -> None:
-    """Deletes every registered VM at the deadline or when RUN/STOP appears, then checks
-    each provider's own listing for anything left with this run's label."""
+    """At the deadline or when RUN/STOP appears: persist RUN/STOP first, so the fleet stops
+    launching and drains, then delete every registered VM and check each provider's own
+    listing for anything left with this run's label, until both stay empty for
+    DEADMAN_QUIET_S."""
     deadline = a.deadline
     log("deadman start", os.getpid(), "deadline", time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(deadline)))
     while time.time() < deadline and not (RUN / "STOP").exists():
         time.sleep(30)
-    log("deadman triggered:", "deadline" if time.time() >= deadline else "STOP")
+    why = "deadline" if time.time() >= deadline else "STOP"
+    log("deadman triggered:", why)
+    # Review of #366 (2026-10-27): at the deadline the dead-man used to delete VMs without
+    # writing STOP, and Fleet.step gates launches on STOP, not the deadline, so the fleet
+    # could provision replacements after the sweep had finished.
+    stop_fleet(f"deadman {why}")
     ib, nv = InstaBox(), Novita()
-    for rnd in range(10):
+    clean_since = None
+    rounds = DEADMAN_QUIET_S // 60 + 10
+    for rnd in range(rounds):
         left = registry()
         for (prov, vid), r in left.items():
             try:
@@ -1321,10 +1344,15 @@ def cmd_deadman(a) -> None:
             log("deadman stray novita", s.sandbox_id)
             nv.kill(s.sandbox_id)
         if not registry() and not stray_ib and not stray_nv:
-            log("deadman: nothing of this run remains on either provider")
-            return
+            if clean_since is None:
+                clean_since = time.time()
+            if time.time() - clean_since >= DEADMAN_QUIET_S:
+                log("deadman: nothing of this run remains on either provider")
+                return
+        else:
+            clean_since = None
         time.sleep(60)
-    log("deadman: gave up after 10 rounds; check by hand")
+    log(f"deadman: gave up after {rounds} rounds; check by hand")
 
 
 def cmd_sweep(a) -> None:
