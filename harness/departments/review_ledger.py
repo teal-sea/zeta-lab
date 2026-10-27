@@ -540,6 +540,95 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "so the parameters are not a discovery"
         ),
     ),
+    ClaimUnderReview(
+        name="davenport-heilbronn-rung3",
+        claim=(
+            "dh_separation_hundred: paired with hunt #137, below height 100 the "
+            "Davenport-Heilbronn function DH has a zero s with 0 < Re s < 1, "
+            "0 < Im s <= 100 and Re s != 1/2, and every zero of Mathlib's "
+            "riemannZeta there has Re = 1/2; dh_zero_located: a zero of DH lies "
+            "in the closed square of half-width 3/64 about 808517/10^6 + "
+            "(21424837/250000) i; read with dh_analytic_half "
+            "(lean/ZetaLean/DHAnalytic.lean), which makes DH entire with the DH "
+            "Dirichlet series for Re s > 1 and its functional equation (hunt "
+            "#145, hunts/rung3_ball_production/, PR #353, 2026-10-26). The "
+            "assembly's theorem davenport_heilbronn : "
+            "davenport_heilbronn_statement (lean/ZetaLean/DavenportHeilbronn.lean, "
+            "line 129) is not part of the claim: the statement, as defined, is "
+            "also met by the trivial zero s = -1 "
+            "(lean/ZetaLean/DHTrivialZero.lean). Grade: kernel-checked at Lean "
+            "v4.35.0-rc2 against Mathlib 065356127b1d, zero sorry, only propext, "
+            "Classical.choice and Quot.sound, pending external verification"
+        ),
+        author="hunt #145 session (rung3_ball_production, branch hunt/rung3-ball-production, 2026-10-26)",
+        assumptions=(
+            "the 215 site oleans are what GitHub Actions run 40353536947 "
+            "produced from scripts/60 --tower whole at 85cabd55b: each zip's "
+            "SHA-256 equals GitHub's digest, and the pilot site's regenerated "
+            "sources hash as its checkpoints record; the assembly imports them "
+            "without re-checking their proofs, and no independent kernel "
+            "replay of the assembled environment has run",
+            "the separation's LEAN_PATH joins hunt #137's oleans with this "
+            "tree's through one ZetaLean overlay; the shared modules' constants "
+            "are identical by CompareOleans.lean, not by byte equality",
+            "the emitted Assembly.lean and Separation.lean are not committed "
+            "(they import non-module site roots); pilot.json pins their SHA-256",
+            "the site oleans were kernel-checked against the runners' own "
+            "ZetaLean build at 85cabd55b, which was not uploaded, while the "
+            "assembly imported them against this box's ZetaLean oleans of "
+            "2026-10-21 through the overlay; the two were built from the same "
+            "sources of the sites' import closure (unchanged since 2026-09-28 "
+            "except comments), so their constants are expected to agree, but "
+            "they were never compared; an independent replay of the assembled "
+            "environment would close this",
+        ),
+        code_paths=(
+            "hunts/rung3_ball_production/RESULTS.md",
+            "hunts/rung3_ball_production/PILOT.md",
+            "hunts/rung3_ball_production/RUNS.md",
+            "hunts/rung3_ball_production/pilot.json",
+            "hunts/rung3_ball_production/assembly.py",
+            "hunts/rung3_ball_production/production.py",
+            "hunts/rung3_ball_production/lean/Rung3Assembly/Support.lean",
+            "hunts/rung3_ball_production/lean/CompareOleans.lean",
+            ".github/workflows/rung3-production.yml",
+            "scripts/69_rung3_ball_generate.py",
+            "tests/test_rung3_ball_whole_tower.py",
+            "lean/ZetaLean/DHAnalytic.lean",
+            "lean/ZetaLean/DHTrivialZero.lean",
+        ),
+        controls_run=(
+            "#print axioms on all 17 final declarations and on all 215 site "
+            "theorems: exactly propext, Classical.choice and Quot.sound "
+            "(RESULTS.md section 2)",
+            "planted one-unit faults refused on production output: a tower "
+            "radius at Prime_B_right_06_2.ev_whole (runner run 40372531479 and "
+            "this box), the tail radius at enc_B_right_06, M at "
+            "upper_B_right_06, and eps' at and below the bound in "
+            "centre_lt_centre, with 1/2000 and the bound plus 2^-64 accepted",
+            "the generator refuses any whole-mode tower literal that differs "
+            "from the bit-exact mirror's staged chain; the census of all 215 "
+            "sites passed it for 15,608 towers and found no repeated public "
+            "name across sites",
+            "tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one "
+            "passes: measured by the mpmath argument principle, no zero with "
+            "Re s in [0.55, 2] and 0.3 < Im s < 80.3, and one in the window "
+            "80.3 < Im s < 90.3 (non-trivial zeros only; not rigorous)",
+            "lean/ZetaLean/DHTrivialZero.lean elaborated with lake env lean "
+            "(2026-10-26): DH_neg_one, dh_trivial_zero_witness and "
+            "davenport_heilbronn_statement_of_trivial_zero print exactly "
+            "propext, Classical.choice and Quot.sound, and a copy claiming "
+            "DH (-2) = 0 instead is refused",
+        ),
+        author_reasoning=(
+            "215 site theorems (110 big boxes bounding ||DH|| <= 2.5499 on the "
+            "big square's edges, 104 grid points bounding ||DH|| from below, "
+            "the centre bounding it above) combine through norm_deriv_DH_le and "
+            "DH_lower_on_hcell/vcell into the minimum-modulus square criterion "
+            "of DHZeroCriterion.lean (restated in Support.lean); the zero is "
+            "Spira's (1994), and the delta is its enclosure by the kernel"
+        ),
+    ),
 )
 
 OUTCOMES: tuple[AttackOutcome, ...] = (

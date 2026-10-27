@@ -73,7 +73,7 @@ hidden.
 |---|---|
 | 1 (done) | the lab's ground-truth facts wired to their Mathlib proofs |
 | 2 (done) | the κ derivation behind the Davenport–Heilbronn counterexample |
-| 3 (mathematics done; compute outstanding) | Davenport–Heilbronn itself, that zeta-shaped symmetry alone cannot give RH |
+| 3 (done, 2026-10-26; pending external verification) | Davenport–Heilbronn itself, that zeta-shaped symmetry alone cannot give RH (`dh_separation_hundred` and `dh_zero_located`, with `dh_analytic_half`) |
 
 Rung 3's analytic half is kernel-checked in `ZetaLean/DHAnalytic.lean`: the
 DH function built from the quartic character mod 5, entire, summing the
@@ -133,6 +133,26 @@ re-pricing the offline run at tens of core-hours; the boundary
 certificate runs through a kernel-checked maximum-modulus + Cauchy +
 mean-value layer (`DHCertSupport.lean`), and `HANDOFF.md` records the two
 measured dead ends that forced that architecture.
+
+**Rung 3 closed on 2026-10-26** (hunt #145, `hunts/rung3_ball_production/RESULTS.md`).
+`dh_separation_hundred` compiles with zero `sorry` and only `propext`,
+`Classical.choice` and `Quot.sound`: paired with hunt #137, below height 100 `DH` has a
+zero in the open critical strip off the line and Mathlib's `riemannZeta` has none. With
+it come a located zero (`dh_zero_located`: a zero of `DH` in the closed square of
+half-width 3/64 about 0.808517 + 85.699348 i) and, from `DHAnalytic.lean`,
+`dh_analytic_half`, which ties `DH` to its series and functional equation. These three
+carry the rung. The assembly also proves `theorem davenport_heilbronn :
+davenport_heilbronn_statement`, but that statement has a third defect, found by the PR
+#353 review on 2026-10-26 and left in the definition because the site oleans were
+compiled against it: it is also met by the trivial zero s = -1
+(`davenport_heilbronn_statement_of_trivial_zero`, `ZetaLean/DHTrivialZero.lean`), so it
+carries none of the result, and the same statement for zeta holds at s = -2. The compute
+came to 16.1 core-hours on GitHub Actions, not months. Each prime tower is one
+`decide +kernel` of its whole ball value (`scripts/60 --tower whole`); the 215 site
+theorems compiled in 20 jobs, and one assembly imported them all (17.9 GB). Planted
+one-unit faults are refused at the declaration they touch. No independent replay of the
+assembled environment has run yet; that, and an outside review, are what "pending
+external verification" waits for.
 
 The ladder and the next rung live in `HANDOFF.md`;
 `references/mathlib-open-targets.md` tracks what Mathlib itself records as

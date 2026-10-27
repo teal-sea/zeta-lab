@@ -27,9 +27,27 @@ separate repository; this one holds the record, not the presentation of it.
 `riemannZeta`: every zero with 0 < Re rho < 1 and 0 < Im rho <= 100 lies on the
 critical line and is simple, and there are exactly 29 of them. Lean's kernel accepts
 it from a clean build with zero `sorry` and only the three standard axioms, and the
-independent checker `con-ron --verified` accepts the exported proof as well. No
-outside computation is taken on trust. RH has been verified numerically far higher;
-this is a finite theorem and says nothing about RH itself.
+independent checker `con-ron --verified` accepts the exported proof as well. A fresh
+replay of the whole closure by Lean's own kernel (`leanchecker --fresh`, rerun without a
+time cap on 2026-10-26) accepts it too. The independent NanoDa kernel stopped at the
+laboratory's memory cap without a verdict. No outside computation enters as an axiom or hypothesis; generated numerical
+data is checked by the kernel. RH has been verified numerically far higher; this is a
+finite theorem, reviewed by no person, and says nothing about RH itself.
+
+**The Davenport-Heilbronn zero, kernel-checked** ([hunt #145](hunts/rung3_ball_production/RESULTS.md),
+rung 3 of [the Lean ladder](docs/doors/certify.md)). A Lean proof, `dh_separation_hundred`,
+that below height 100 the Davenport-Heilbronn function `DH`, which has zeta's kind of
+Dirichlet series and functional equation (`dh_analytic_half`), has a zero in the open
+critical strip off the line, while `riemannZeta` has none there (hunt #137). A zero of
+`DH` lies in the closed square of half-width 3/64 about 0.808517 + 85.699348 i
+(`dh_zero_located`; Spira's zero, 1994). Lean's kernel accepts it with zero `sorry` and
+only the three standard axioms, from 215 site theorems compiled on GitHub Actions and one
+assembly; planted one-unit faults are refused. The grade is kernel-checked, pending
+external verification: no independent replay of the assembled environment has run yet.
+The assembly also proves `davenport_heilbronn_statement`, but as defined that statement
+is also met by the trivial zero s = -1 (`lean/ZetaLean/DHTrivialZero.lean`), so the
+strip theorems carry the result.
+It shows that the functional equation alone cannot give RH. It is not progress toward RH.
 
 On 2026-10-06 OpenAI released a proof that no Dirichlet L-function, zeta
 included, has a zero with real part above 7/8. This laboratory rebuilt its Lean
