@@ -13,7 +13,9 @@ the Lean lane (one build, 3:09:51 wall, 10.4 CPU-hours; LEAN.md section 1) each 
 arithmetic and tests on one core for well under a core-hour (inferred from the pages; no
 lane timed itself). The caches the runs read (`<cache>/openai-math-adc7f124/paper.tex`,
 `<cache>/followups/run-2026-10-21T1440Z/`) are outside the tree; `<cache>/qrh-build/` no longer
-exists (LEAN.md, 2026-10-26 note).
+exists (LEAN.md, 2026-10-26 note). 50 lane tests skip when the paper.tex cache is
+absent (measured: 499 passed, 50 skipped with an empty HOME), so the green CI fast tier
+covers less than a full local run.
 
 ## Files left uncommitted
 

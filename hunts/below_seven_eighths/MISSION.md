@@ -6,6 +6,8 @@ is the RH-direct quantity the field is moving right now, and the only one whose
 argument consumes the Euler product at a named step. Nothing in this directory is a
 result until the case log in `hunts/README.md` says how it ended.
 
+Renumbering: `seven_eighths_pin/` takes #139 on main's case log (opened as #134 on `claude/hunt-134-seven-eighths-pin`); in-hunt references below still say #134.
+
 Grades used here: *cited* (a line of a paper's LaTeX source, quoted), *derived*
 (algebra done here, checked in exact rational arithmetic by this hunt's tests),
 *inferred* (a reading of a paper's structure that no computation here checks),
