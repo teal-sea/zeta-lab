@@ -50,10 +50,13 @@ of it is known here, and no systematic search has been done that would establish
 that none exists.
 
 This is a Lake package of its own because the theorem depends on
-`anthropics/zeta-23-lean` (pinned in `lake-manifest.json`), which the
-laboratory's `lean/` package does not require, and because the Palomar Registry
-replays the *selected project*: the theorem and its whole import closure have to
-build at a package root, which they do here.
+`anthropics/zeta-23-lean`, which the laboratory's `lean/` package does not
+require, and because the Palomar Registry replays the *selected project*: the
+theorem and its whole import closure have to build at a package root, which they
+do here. That dependency was a Git pin in `lake-manifest.json` until the Lean
+4.35.0-rc2 port. It is now the copy vendored at `lean/vendor/zeta23` (upstream
+`3635e748`, with the port's edits listed in `lean/vendor/zeta23/UPSTREAM.md`),
+required by path from `lakefile.toml`.
 
 | Path | What it is |
 | --- | --- |
@@ -67,7 +70,14 @@ build at a package root, which they do here.
 | `V2Challenge.lean` | The intended surface's statements, over Mathlib alone. Seven deliberate `sorry`s. |
 | `V2Solution.lean` | The same seven statements, proved from the bridge plus the three- and four-point certificate libraries. |
 | `NOTICE` | Licence attribution for the one adapted file. |
-| `assemble.sh` | `lake build` with the prebuilt Mathlib and `Zeta23` stores symlinked in. |
+| `assemble.sh` | `lake build` with the prebuilt Mathlib store symlinked in from `lean/`; Zeta23 is the vendored path dependency. |
+
+`ThreePoint/Main.lean` and `FourPoint/Main.lean` also state the two unconditional bounds over
+cumulative windows `(0, T]`, as `three_point_bound_cumulative` and `four_point_bound_cumulative`.
+Each is the dyadic bound passed through `Zeta23.cumulative_of_dyadic`, the wrapper Zeta23's own
+cumulative theorems use, so it carries no hypothesis. Both were kernel-checked on Lean 4.33.0-rc2
+with `anthropics/zeta-23-lean` at `3635e748`; `AXIOM-AUDIT.md` names the runs. Neither is part of
+the seven-declaration Palomar surface.
 
 The mathematics, the step table, the hypotheses and what each is believed on are
 in `hunts/ainta_seven_point/BRIDGE.md`; the three-point certificate is in
