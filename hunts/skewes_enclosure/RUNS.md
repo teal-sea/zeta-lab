@@ -271,3 +271,32 @@ Coordinator answer: continue, with a cap of 115 runner core-hours by job wall fo
 | `.github/workflows/skewes-enclosure.yml` | 66137ba6f7d38bc466e3bab95ac143c7edab037b45216f87f84ca800e44f17c6 |
 
 Pinned in the workflow: python-flint 0.9.0, mpmath 1.3.0. The watcher now measures job-wall time (4 vCPU x job duration, in-progress jobs counted at their elapsed time) and projects remaining work only from shards comparable with production B, scaled by the measured job-wall/process factor. It stops the run if the projected total passes 115.
+
+### Cap changes and watcher incidents during the B2 continuation (2026-10-27)
+
+- **Cap 100 -> 115** (coordinator, about 00:30Z): the first B2 run stopped on a
+  projection inflated by my wrong runner-speed guess for shards 1 to 20 (above).
+- **Cap 115 -> 130** (coordinator, about 02:16Z, before the watcher fired): at 02:14Z
+  the projection was 113.2 and rising about 0.6 per 5 min. The cause was slower
+  runners. The four first-wave jobs of run 40426999125 were 1 h 45 min in with
+  none finished, where production B's comparable blocks took about 1.2 to 1.6 h.
+  A cancel at 115 would have discarded about 25 to 30 core-hours of in-flight
+  work. Above 130, the watcher now stops only at a wave boundary (no in-flight
+  job holding more than 0.5 core-hour) and escalates once.
+- **Watcher defects found and fixed, none of which fired a cancel:**
+  - watch2 read GitHub's placeholder `completedAt = 0001-01-01` on in-progress
+    jobs as an end time and produced a negative projection. That is a
+    fail-open bug, caught at 00:37Z.
+  - watch3 double-counted in-progress jobs (elapsed wall plus full remaining
+    work). It was replaced by a per-job max(elapsed, expected).
+  - Twice, a `pkill -f`/`pgrep -f` pattern matched its own shell. That only
+    killed my command, never a run.
+- Per-run runner speeds are recorded at the end of the run, from the shard JSONs.
+- **Cap 130 -> 150** (coordinator, about 02:30Z): at 02:26Z three first-wave
+  blocks (85, 101, 117) finished at a new/old cost ratio of 1.36 against
+  production B. These runners were about 36% slower, which put the projection
+  at 134.9. The run was not cancelled: watch4 was waiting for a wave boundary
+  when the new cap arrived. watch4's boundary test (every in-flight job under
+  0.5 core-hours) could never be met with staggered waves, so watch5 replaces it.
+  Above the cap, watch5 records the jobs in flight at the crossing, lets them
+  finish, and then cancels. Only jobs started after the crossing lose work.
