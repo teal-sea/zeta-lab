@@ -885,6 +885,65 @@ def lesion_record(paths) -> dict:
                      "An envelope bound low by less than the flip point leaves the verdict at T# unchanged.")
 
 
+def _arb_sup_job(job) -> dict:
+    """One part of one cluster for arb_envelope_bound."""
+    import itertools
+    sys.path.insert(0, str(HERE))
+    import joint  # noqa: E402
+    Ls, c, target, level0, part, parts = job
+    L = Fraction(Ls)
+    d = len(c["primes"])
+    grid = [tuple(j) for j in itertools.product(range(2 ** (level0 - 1)), *[range(2 ** level0)] * (d - 1))]
+    boxes = grid[part::parts]
+    r = joint.arb_sup_bound(L, c["primes"], [tuple(k) for k in c["omega"]], [Fraction(x) for x in c["h"]],
+                            target, kind="dh", weights=_weights_from_spec(c.get("weights")), level0=level0,
+                            max_level=level0 + 8, boxes0=boxes)
+    r.update(part=part, parts=parts)
+    print(json.dumps({k: r[k] for k in ("primes", "part", "ok", "evaluated", "seconds")}), flush=True)
+    return r
+
+
+def arb_envelope_bound(env_path: Path, slacks, level0s, parts, procs: int = 1) -> dict:
+    """An Arb bound for the envelope constant of a joint DH envelope, at a
+    coarse tolerance and with no float rounding model: for each cluster c,
+    joint.arb_sup_bound proves sup (Phi_c - H_c) <= U_c + slack_c on the whole
+    torus (the starting grid split into `parts` disjoint parts). With the
+    weights covering the comb exactly (check_weight_cover) and the dropped comb
+    mass added, sup_t (P_DH - H)(t) <= S_used + delta, delta = sum of the
+    targets + dropped - S_used, every step in Arb or exact rationals."""
+    import multiprocessing as mpc
+    env = json.loads(Path(env_path).read_text())
+    L = Fraction(env["L"])
+    clusters = env["clusters"]
+    check_weight_cover(L, "dh", [(c["primes"], _weights_from_spec(c.get("weights"))) for c in clusters])
+    targets = [Fraction(c["U"]) + Fraction(sl) for c, sl in zip(clusters, slacks)]
+    jobs = [(env["L"], c, t, lv, part, np_) for c, t, lv, np_ in zip(clusters, targets, level0s, parts)
+            for part in range(np_)]
+    t0 = time.time()
+    if procs > 1:
+        with mpc.get_context("spawn").Pool(procs) as pool:
+            res = list(pool.imap_unordered(_arb_sup_job, jobs))
+    else:
+        res = [_arb_sup_job(j) for j in jobs]
+    S_used = Fraction(env["S_exact"])
+    dropped = Fraction(env["dropped_l1_upper"]) if env.get("dropped_l1_upper") is not None else Fraction(0)
+    total = sum(targets, Fraction(0)) + dropped
+    per = []
+    for c, t in zip(clusters, targets):
+        rs = [r for r in res if r["primes"] == c["primes"]]
+        per.append({"primes": c["primes"], "U_float": c["U"], "target": str(t), "target_float": float(t),
+                    "ok": all(r["ok"] for r in rs), "evaluated": sum(r["evaluated"] for r in rs),
+                    "best_centre_value_lower": max(r["best_centre_value_lower"] for r in rs),
+                    "max_discarded_bound": max(r["max_discarded_bound"] for r in rs if r["max_discarded_bound"] is not None),
+                    "M2": rs[0]["M2"], "seconds": sum(r["seconds"] for r in rs)})
+    return {"envelope": Path(env_path).name, "L": env["L"], "S_used": str(S_used), "dropped_l1_upper": str(dropped),
+            "clusters": per, "ok": all(p["ok"] for p in per), "S_bound": str(total), "S_bound_float": float(total),
+            "delta": str(total - S_used), "delta_float": float(total - S_used),
+            "core_seconds": sum(r["seconds"] for r in res), "wall_seconds": time.time() - t0,
+            "grade": "every step in Arb (centre values, gradients, Taylor remainder) or exact rationals (targets, "
+                     "weights); no float rounding model"}
+
+
 def run_joint_spec(spec: dict) -> dict:
     """Build every cluster of a spec with joint.build_cluster (optimizer, then
     the whole-torus bound) and return a part file."""
@@ -987,6 +1046,11 @@ def main():
     ap.add_argument("--transfer", default=None, help="window tag: K2 envelope-transfer witness")
     ap.add_argument("--prices", action="store_true", help="write prices.json from the table and joint files")
     ap.add_argument("--k2-scouts", default=None, help="directory of K2 scout outputs: write k2_scouts.json")
+    ap.add_argument("--arb-sup", default=None,
+                    help="joint DH envelope JSON: an Arb bound for its S (with --arb-slack, --arb-level, --arb-parts)")
+    ap.add_argument("--arb-slack", nargs="*", default=None, help="per-cluster slack (exact rationals)")
+    ap.add_argument("--arb-level", nargs="*", type=int, default=None, help="per-cluster starting level")
+    ap.add_argument("--arb-parts", nargs="*", type=int, default=None, help="per-cluster number of parts")
     ap.add_argument("--k2-lesion", nargs="*", default=None,
                     help="KEY FILE...: add the S-lesion record of K2 case KEY (scout.py --lesion outputs)")
     ap.add_argument("--drop", nargs="*", default=None,
@@ -998,6 +1062,11 @@ def main():
     args = ap.parse_args()
     if args.prices:
         (HERE / "prices.json").write_text(json.dumps(price_table_all(), indent=1))
+    if args.arb_sup:
+        res = arb_envelope_bound(Path(args.arb_sup), [Fraction(x) for x in args.arb_slack], args.arb_level,
+                                 args.arb_parts, procs=args.merge_procs)
+        Path(args.out).write_text(json.dumps(res, indent=1))
+        print(json.dumps({k: res[k] for k in ("ok", "S_bound_float", "delta_float", "core_seconds")}), flush=True)
     if args.k2_scouts:
         k2s = assemble_k2_scouts(Path(args.k2_scouts))
         if args.k2_lesion:

@@ -59,6 +59,7 @@ Phi_c - H_c on the whole torus.
 from __future__ import annotations
 
 import itertools
+import json
 import math
 import time
 from fractions import Fraction
@@ -805,3 +806,103 @@ def build_cluster(L: Fraction, primes: list[int], D: list[int], tau: float = 2e-
             if opt["omega"] else 0.0,
             "outer_iterations": it + 1, "seconds_total": time.time() - t0,
             "optimizer_history": opt["history"]}
+
+
+# ------------------------------------------------------------------ a coarse bound with every step in Arb
+#
+# sup_bound above is rigorous under an IEEE 754 rounding model. This is the same
+# question at a coarse tolerance with no rounding model: centre values and
+# gradients in Arb, and the second-order Taylor remainder
+#
+#     f(c + x) <= f(c) + sum_i |g_i| r + (1/2) r^2 sum_k |a_k| |k|_1^2,   |x_i| <= r,
+#
+# since |x^T Hess f x| = |sum_k a_k (k.x)^2 cos(.)| <= sum_k |a_k| (|k|_1 r)^2.
+# Boxes cover the half torus u_1 in [0, 1/2], u in [0, 1)^(d-1), theta = 2 pi u
+# (f is a cosine sum, so f(-u) = f(u)); a box is discarded once its bound is at
+# most `target`, otherwise split into 2^d children.
+
+def arb_sup_bound(L: Fraction, primes: list[int], Om, hq, target: Fraction, kind: str = "zeta", weights=None,
+                  level0: int = 3, max_level: int = 18, prec: int = 128, max_boxes: int | None = None,
+                  log_every: int = 0, boxes0=None) -> dict:
+    """Prove sup_{T^d} (Phi_c - H_c) <= target with Arb, or report that it was
+    not reached within max_level / max_boxes. Returns ok, boxes evaluated per
+    level, the largest bound among discarded boxes, and the largest centre
+    value seen (a lower bound on the supremum). boxes0, if given, is the list
+    of starting boxes at level0 (index tuples), so that disjoint parts of the
+    level0 grid can run in separate processes; the parts must cover the grid."""
+    t_start = time.time()
+    with ctx.workprec(prec):
+        comb = cluster_comb(L, primes, kind, weights)
+        terms = [(tuple(int(x) for x in k), c) for k, c in comb] + \
+                [(tuple(int(x) for x in k), -price.to_arb(h)) for k, h in zip(Om, hq)]
+        d = len(primes)
+        K = [k for k, _ in terms]
+        A = [a for _, a in terms]
+        absA = [abs(a) for a in A]
+        M2 = sum((absA[j] * sum(abs(x) for x in K[j]) ** 2 for j in range(len(K))), arb(0))
+        T = price.to_arb(Fraction(target))
+        two_pi = 2 * arb.pi()
+        cache: dict = {}
+
+        def sc(level, m):
+            key = (level, m)
+            v = cache.get(key)
+            if v is None:
+                v = (two_pi * m / 2 ** (level + 1)).sin_cos()
+                cache[key] = v
+            return v
+
+        level = level0
+        boxes = list(boxes0) if boxes0 is not None else \
+            [tuple(j) for j in itertools.product(range(2 ** (level0 - 1)), *[range(2 ** level0)] * (d - 1))]
+        per_level, max_disc, best_centre, n_eval = {}, None, None, 0
+        ok = True
+        while boxes:
+            if level > max_level or (max_boxes is not None and n_eval + len(boxes) > max_boxes):
+                ok = False
+                break
+            r = two_pi / 2 ** (level + 1)
+            rem = M2 * r * r / 2
+            mod = 2 ** (level + 1)
+            nxt = []
+            for J in boxes:
+                odd = [2 * j + 1 for j in J]
+                f = arb(0)
+                g = [arb(0)] * d
+                for k, a in zip(K, A):
+                    m = sum(ki * oi for ki, oi in zip(k, odd)) % mod
+                    s_, c_ = sc(level, m)
+                    f += a * c_
+                    as_ = a * s_
+                    for i in range(d):
+                        if k[i]:
+                            g[i] -= as_ * k[i]
+                ub = f + r * sum((abs(x) for x in g), arb(0)) + rem
+                n_eval += 1
+                if best_centre is None or bool(f.lower() > best_centre):
+                    best_centre = arb(f.lower())
+                if bool(ub <= T):
+                    max_disc = ub.upper() if max_disc is None else max(max_disc, ub.upper())
+                else:
+                    for off in itertools.product((0, 1), repeat=d):
+                        nxt.append(tuple(2 * j + o for j, o in zip(J, off)))
+                if log_every and n_eval % log_every == 0:
+                    print(json.dumps({"primes": primes, "level": level, "evaluated": n_eval, "queued": len(nxt),
+                                      "seconds": round(time.time() - t_start, 1)}), flush=True)
+            per_level[level] = len(boxes)
+            boxes = nxt
+            level += 1
+            cache.clear()
+    return {"primes": primes, "target": str(Fraction(target)), "ok": ok, "boxes_per_level": per_level,
+            "evaluated": n_eval, "max_discarded_bound": None if max_disc is None else float(arb(max_disc).upper()),
+            "best_centre_value_lower": None if best_centre is None else float(best_centre.lower()),
+            "M2": float(M2.upper()), "terms": len(K), "prec": prec, "seconds": time.time() - t_start}
+
+
+def m2_bound(L: Fraction, primes: list[int], Om, hq, kind: str = "zeta", weights=None, prec: int = 128) -> float:
+    """sum_k |a_k| |k|_1^2 for f = Phi_c - H_c (the constant of arb_sup_bound's remainder)."""
+    with ctx.workprec(prec):
+        comb = cluster_comb(L, primes, kind, weights)
+        tot = sum((abs(c) * sum(abs(int(x)) for x in k) ** 2 for k, c in comb), arb(0))
+        tot += sum((abs(price.to_arb(h)) * sum(abs(int(x)) for x in k) ** 2 for k, h in zip(Om, hq)), arb(0))
+        return float(tot.upper())

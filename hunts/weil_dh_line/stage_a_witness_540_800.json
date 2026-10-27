@@ -1,0 +1,17 @@
+{
+ "vector": "witness_v856.json",
+ "panels": [
+  1080,
+  1600
+ ],
+ "T_range": [
+  540.0,
+  800.0
+ ],
+ "mass_between_mid": "1.029451610e-31",
+ "mass_between_upper_exact": 1.0294516102404665e-31,
+ "C_between_mid": "4.738830320e-31",
+ "t_quad_bound": 2.6088995225871962e-89,
+ "wall_seconds": 167.21832084655762,
+ "procs": 2
+}

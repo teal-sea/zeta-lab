@@ -174,3 +174,8 @@ is left as written.
    `c800_block100.json` (the leading 100-mode block of the stored `C(800)` and
    `G(800)`, for the calibration and lesion tests), `stage_a_v800.json`,
    `stage_a_witness.json`, and the `lesion_S` record in `k2_scouts.json`.
+7. **`S` bounded in Arb (later on 2026-10-27).** Correction 4's "while `S` is
+   valid" is no longer needed for `T# >= 540` and `N >= 856`: an Arb
+   branch-and-bound proves `sup(P_DH - H) <= S + 34/5`, inside the witness's
+   margin there (`PRICE.md` item 7, link 6). The claim then rests on two
+   unreviewed derivations, not on a measured step.

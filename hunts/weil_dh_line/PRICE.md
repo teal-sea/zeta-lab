@@ -278,12 +278,41 @@ RH (`docs/08`).
         (the margin uses the 856-mode witness); for `101 <= N < 856` no margin
         was computed. It does not depend on `S` being exactly right, only on
         its error being below that.
+     6. *`S` bounded in Arb* (added 2026-10-27, after the review of ee06df8af).
+        `price.arb_envelope_bound` runs `joint.arb_sup_bound` on every cluster
+        of `k2env_dh_L_DH.json`: a branch-and-bound over the cluster's half
+        torus whose centre values, gradients and second-order Taylor remainder
+        `(1/2) r^2 sum_k |a_k| |k|_1^2` are all in Arb at 128 bits, with the
+        weight cover checked in exact rationals and the dropped comb mass
+        added. It proves `sup_t (P_DH - H)(t) <= S_used + 34/5`
+        (`arb_S_delta6.8.json`, every cluster at target `U_c + (5/2, 1, 23/10,
+        1)`; also `<= S_used + 12`, `arb_S_delta12.json`), with no float
+        rounding model. So `delta <= 6.8` in link 5. The witness's tail mass
+        from 540 is `m_540 <= m_800 + 1.0294516e-31 = 2.4514738e-31`
+        (`stage_a_witness_540_800.json`: panels 540 to 800 by the single-vector
+        route, enclosed, with their t-quadrature bound), and `m_{T#} <= m_540`
+        for `T# >= 540`, so `v^T R(T#) v / |v|^2 <= -1.9430836e-30 + 6.8 x
+        2.4514738e-31 = -2.76e-31 < 0` at every `T# >= 540`, the first
+        checkpoint with `beta* > 0` (no margin was computed for
+        `527.5 < T# < 540`), and every `N >= 856`. There link 5 is
+        **enclosure-carrying**: the refusal no longer assumes that `S` is
+        valid, only that it is within 6.8 of `sup(P_DH - H)`, which is proved.
 
      So: "`E_856` (and every leading `E_N`, `N >= 101`) has a negative
      eigenvalue" is **hardened**; "`Q_856` has one" adds link 2, a derivation
      with measured calibration; "the stage-A block refuses DH at `L_DH` at every
      `T#` and every `N >= 101`" adds links 4 and 5 and is **measured** at link
      5, the validity of `S`.
+
+     Regraded 2026-10-27 after link 6 (the paragraph above is left as
+     written): every numerical step of "the stage-A block (exact integrals)
+     refuses DH at `L_DH` at every `T# >= 540` and every `N >= 856`" is now
+     enclosed or bounded (links 3, 5 and 6), and the claim rests on the two
+     derivations, links 2 and 4, which stay **unreviewed** (an independent
+     review of ee06df8af re-derived both and found no error; that is not
+     outside review). For `101 <= N < 856`, and for `527.5 < T# < 540`, the
+     refusal still assumes a valid `S`, measured as before. Nothing is
+     kernel-checked.
    - *Stage A at `T# = 800` with honest radii.* The stored block's entries
      carry no radius from the fast Bessel column, so the block was recomputed at
      one vector instead (a full recompute with enclosed columns would cost more

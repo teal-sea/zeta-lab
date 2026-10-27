@@ -1058,6 +1058,35 @@ def merge_record(analysis: Path, blocks, onset_vec: Path, reassembled: Path, cou
     return rec
 
 
+def stage_a_range(vec_path: Path, key: str, k0: int, k1: int, procs: int = 4, q: int = 64,
+                  h: Fraction = Fraction(1, 2), n_y: int = 1500, T_max: Fraction = Fraction(800)) -> dict:
+    """Panels k0..k1-1 of the scout's discrete rule at one vector, enclosed as in
+    stage_a_form: (1/pi) sum w F_v^2 (the tail mass between h k0 and h k1) and
+    the C part, with the t-quadrature bound for those panels (per-panel bound of
+    t_quad_bound up to T_max, times the panel count)."""
+    import multiprocessing as mpc
+    ctx.prec = PREC
+    v = [arb(s).mid() for s in json.loads(Path(vec_path).read_text())[key]]
+    venc = [x.mid().man_exp() for x in v]
+    step = max(1, (k1 - k0 + 4 * procs - 1) // (4 * procs))
+    jobs = [(L_DH_WINDOW, str(HERE / "k2env_dh_L_DH.json"), venc, k, min(k + step, k1), q, h, PREC, n_y,
+             Fraction(2), T_max) for k in range(k0, k1, step)]
+    t0 = time.time()
+    with mpc.get_context("spawn").Pool(procs) as pool:
+        res = list(pool.imap_unordered(_stage_a_panels, jobs))
+    ctx.prec = PREC
+    vC = sum((_dec_arb(c) for _, _, c, _ in res), arb(0))
+    vG = sum((_dec_arb(g) for _, _, _, g in res), arb(0))
+    vv = sum((x * x for x in v), arb(0))
+    per_panel = t_quad_bound(L_DH_WINDOW, HERE / "k2env_dh_L_DH.json", v, h, q, T_max) / int(T_max / h)
+    tq = per_panel * (k1 - k0)
+    return {"vector": Path(vec_path).name, "panels": [k0, k1], "T_range": [float(h * k0), float(h * k1)],
+            "mass_between_mid": (vG / vv).mid().str(10, radius=False),
+            "mass_between_upper_exact": float(((vG + arb(0, tq.upper())) / vv).upper()),
+            "C_between_mid": (vC / vv).mid().str(10, radius=False), "t_quad_bound": float(tq.upper()),
+            "wall_seconds": time.time() - t0, "procs": procs}
+
+
 def derived_main(argv):
     """CLI for the derived records: blocks Q.pkl OUT N...; block-witness Q.pkl n OUT;
     reassemble VEC prec OUT; shifted-counts Q.pkl STATE OUT; record OUT analysis
@@ -1077,6 +1106,10 @@ def derived_main(argv):
     elif cmd == "shifted-counts":
         res = shifted_counts(Path(argv[1]), Path(argv[2]), HERE / "k2env_dh_L_DH.json")
         Path(argv[3]).write_text(json.dumps(res, indent=1))
+    elif cmd == "stage-a-range":
+        res = stage_a_range(Path(argv[1]), argv[2], int(argv[3]), int(argv[4]), int(argv[6]) if len(argv) > 6 else 4)
+        Path(argv[5]).write_text(json.dumps(res, indent=1))
+        print(json.dumps(res))
     elif cmd == "record":
         out, analysis, onset_vec, reas, counts, resp, slices, sha = argv[1:9]
         res = merge_record(Path(analysis), argv[9:], Path(onset_vec), Path(reas), Path(counts), Path(resp),
@@ -1089,7 +1122,8 @@ def derived_main(argv):
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "stage-a":
         stage_a_main()
-    elif len(sys.argv) > 1 and sys.argv[1] in ("blocks", "block-witness", "reassemble", "shifted-counts", "record"):
+    elif len(sys.argv) > 1 and sys.argv[1] in ("blocks", "block-witness", "reassemble", "shifted-counts", "record",
+                                                 "stage-a-range"):
         derived_main(sys.argv[1:])
     else:
         main()

@@ -495,3 +495,46 @@ def test_runs_md_hashes_match_the_committed_artifacts(tmp_path):
     bad = bytearray((HERE / name).read_bytes())
     bad[-1] ^= 1
     assert hashlib.sha256(bytes(bad)).hexdigest() != h
+
+
+def test_s_bound_in_arb_and_the_margin_back_to_540():
+    """PRICE.md item 7, link 6: the Arb branch-and-bound proves
+    sup(P_DH - H) <= S_used + 34/5 (every cluster at its target, the targets
+    U_c + slack_c summing with the dropped mass to S_used + 6.8 exactly), and
+    with the enclosed tail mass from 540 the refusal margin is positive at every
+    T# >= 540 for N >= 856: Q(v) + 6.8 m_540 < 0. The coarser record gives 12,
+    which covers T# >= 800 (margin 13.66)."""
+    env = _load(ENV)
+    for name, delta in (("arb_S_delta6.8.json", Fraction(34, 5)), ("arb_S_delta12.json", Fraction(12))):
+        d = _load(HERE / name)
+        assert d["ok"] and all(c["ok"] for c in d["clusters"]) and d["envelope"] == "k2env_dh_L_DH.json"
+        assert Fraction(d["delta"]) == delta and Fraction(d["S_used"]) == Fraction(env["S_exact"])
+        assert Fraction(d["S_bound"]) == Fraction(env["S_exact"]) + delta
+        for c, ce in zip(d["clusters"], env["clusters"]):
+            assert c["primes"] == ce["primes"] and c["U_float"] == ce["U"]
+            assert c["best_centre_value_lower"] <= ce["U"] <= c["target_float"]    # the float U is not contradicted
+    rec, s800 = _load(RECORD), _load(HERE / "stage_a_witness.json")
+    mid = _load(HERE / "stage_a_witness_540_800.json")
+    assert mid["panels"] == [1080, 1600] and mid["vector"] == "witness_v856.json"
+    q = rec["witness"]["rq_upper_with_eps"]
+    m800 = s800["mass_above_T_upper"] + s800["t_quad_bound"]
+    m540 = m800 + mid["mass_between_upper_exact"]
+    assert q + 12 * m800 < 0 and q + 6.8 * m540 < -2.7e-31
+    assert q + 12 * m540 > 0                       # why the tighter bound was needed for 540
+
+
+def test_arb_sup_bound_live_and_a_planted_target_below_the_supremum():
+    """The Arb branch-and-bound re-proved here on the cluster {17, 23} at
+    target U + 1 (about 7 s), and a planted target just below its own best
+    centre value cannot be proved (the run stops at the box cap with ok False)."""
+    sys.path.insert(0, str(HERE))
+    import joint
+    env = _load(ENV)
+    c = next(c for c in env["clusters"] if c["primes"] == [17, 23])
+    om, hq = [tuple(k) for k in c["omega"]], [Fraction(x) for x in c["h"]]
+    w = price._weights_from_spec(c.get("weights"))
+    r = joint.arb_sup_bound(L, c["primes"], om, hq, Fraction(c["U"]) + 1, kind="dh", weights=w, level0=7)
+    assert r["ok"] and r["max_discarded_bound"] <= c["U"] + 1
+    bad = joint.arb_sup_bound(L, c["primes"], om, hq, Fraction(r["best_centre_value_lower"]) - Fraction(1, 100),
+                              kind="dh", weights=w, level0=7, max_boxes=12000)
+    assert not bad["ok"]

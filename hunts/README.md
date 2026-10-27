@@ -103,6 +103,10 @@ through two unreviewed derivations). The `T# = 800` eigenvector itself is not a 
 and K2 at `T# = 800` keeps its verdict with `S` understated by up to 43, so it does not
 test `S`. The responses called "mode and precision responses" above are not refinements
 (`PRICE.md` items 5 to 7).
+Later the same day `S` itself was bounded in Arb (`sup(P_DH - H) <= S + 34/5`), which
+lies inside the witness's margin for `T# >= 540` and `N >= 856`: there every numerical
+step is enclosed, and the refusal rests on two unreviewed derivations (`PRICE.md` item 7,
+link 6).
 
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 

@@ -485,3 +485,62 @@ the keys `responses_T800` and `timed_slices` of `witness_q856.json`). It was
 committed unreviewed; this correction reviewed it: the widening is right
 (`|F_v'| <= 2 L sqrt(L/2) |v|`), the two keys copy their sources faithfully, and
 the manifests are corrected above.
+
+## The envelope constant `S` bounded in Arb (2026-10-27, after the review)
+
+The one assumption of the K2 refusal at every `T#` is that `S` bounds
+`sup(P_DH - H)`; it rested on the branch-and-bound of `joint.py`, rigorous under
+an IEEE 754 rounding model. Link 5 of `PRICE.md` item 7 needs much less: a bound
+`S_true <= S_used + delta` with `delta < 13.66` (for `T# >= 800`, `N >= 856`).
+The trivial bound `sum |c_n| + sum |h_k|` gives `delta = 111.7` (Arb), too weak.
+`joint.arb_sup_bound` is a branch-and-bound with every step in Arb at 128 bits
+(centre values and gradients at dyadic centres, the remainder
+`(1/2) r^2 sum |a_k| |k|_1^2`), and `price.arb_envelope_bound` runs it per
+cluster with target `U_c + slack_c`, checks the weight cover exactly, and adds
+the dropped comb mass.
+
+**Timed slices (2026-10-27 04:16Z to 04:21Z, load about 30):** `{17,23}` at slack
+2 passes in 2.1 s (2588 boxes, 0.8 ms a box); `{2,13}` at slack 2 in 3.2 s (3104
+boxes); `{2,3,7}`, 18 688 boxes at levels 3 to 5 in 14.3 s (0.77 ms a box; nothing
+can be discarded before level 6, where the remainder `(1/2) M2 r^2`, `M2 = 1721`,
+falls to 2.05); `{11,19,29}`, 300 level-7 boxes in 0.82 s (2.7 ms a box, 952 + 18
+terms, `M2 = 1682`). **Price**, slacks `(4, 2, 4, 2)` (total 12, so
+`delta <= 12 < 13.66`), the 3-D clusters started at level 6 (131 072 boxes each):
+about `131072 x (0.77 + 2.7) ms`, 455 s, plus refinement near the maxima and the
+2-D clusters, **about 0.15 to 0.25 core-hours**, a few minutes of wall on 6
+processes. Under the 3 core-hour line, so run.
+
+**The margin back to `T# = 540`** (the first checkpoint with `beta* > 0`) needs
+the witness's tail mass `m_540 = m_800 + (1/pi) int_540^800 F_v^2`: the
+single-vector stage-A route on panels 1080 to 1599 only, 33 280 nodes at about
+10 ms, **about 0.1 core-hours**, on 2 processes.
+
+Recorded in flight before waiting (launched 04:25Z, `setsid nohup nice -n 10`, BLAS threads 1):
+
+- `price.py --arb-sup hunts/weil_dh_line/k2env_dh_L_DH.json --arb-slack 4 2 4 2 --arb-level 6 3 6 3 --arb-parts 3 1 5 1 --merge-procs 6 --out <cache>/raise_2026-10-27/sbound/arb_S_LDH.json` (PID 1312370 and its 6 pool workers; log sbound/arb_S_LDH.log)
+- `witness.py stage-a-range hunts/weil_dh_line/witness_v856.json v 1080 1600 <cache>/raise_2026-10-27/sbound/mass_540_800.json 2` (PID 1312369 and 2 pool workers; log sbound/mass_540_800.log)
+
+First outcome (04:26Z, exit 0): `delta <= 12` holds, every cluster proved at its
+target (`{2,3,7}` and `{11,19,29}` every box discarded at level 6, 131 072 each;
+largest level-6 bounds 5.887 = `U + 2.43` and 3.731 = `U + 2.23`), 523
+core-seconds, 117 s wall. The tail mass between 540 and 800 (exit 0, 167 s on 2
+processes) is `1.0294516e-31`, so `m_540 <= 2.4514738e-31` and the margin at
+`T# = 540` is `7.93`, below 12. **Second run, priced from the first**: slacks
+`(5/2, 1, 23/10, 1)`, total 6.8, the 3-D clusters again at level 6 (their
+level-6 bounds already fit these targets), the 2-D clusters from level 7: about
+the same 0.15 core-hours. Recorded in flight before waiting (launched 04:29Z,
+`setsid nohup nice -n 10`):
+
+- `price.py --arb-sup hunts/weil_dh_line/k2env_dh_L_DH.json --arb-slack 5/2 1 23/10 1 --arb-level 6 7 6 7 --arb-parts 3 1 4 1 --merge-procs 8 --out <cache>/raise_2026-10-27/sbound/arb_S_LDH_tight.json` (PID 1327955 and its pool workers; log sbound/arb_S_LDH_tight.log)
+
+Second outcome (04:29Z, exit 0): `delta <= 34/5` holds, every cluster proved at
+its target (`{2,3,7}` and `{11,19,29}` again entirely at level 6; `{2,13}` and
+`{17,23}` from level 7, 8192 boxes each), 561 core-seconds, 112 s wall. With
+`m_540 <= 2.4514738e-31`, `-1.9430836e-30 + 6.8 x 2.4514738e-31 = -2.76e-31`, so
+the refusal holds at every `T# >= 540` for `N >= 856` with `S` bounded in Arb
+(`PRICE.md` item 7, link 6). The S bound took about 0.3 core-hours in all.
+Artifacts:
+
+- hunts/weil_dh_line/arb_S_delta6.8.json (SHA-256 9a8ae23169e5122875bdbe69bace17c71e40c90b449837463500e82bbfa2d7b2)
+- hunts/weil_dh_line/arb_S_delta12.json (SHA-256 a6673dcbbe4471f67b0c7ab01ae2a0901bf829bf8c4b7a6d18cf28fe295c225b)
+- hunts/weil_dh_line/stage_a_witness_540_800.json (SHA-256 8a17acdd9d7fe5f10f313d5427bd49fedc21cecd7919c4afa390ca03987c40b0)
