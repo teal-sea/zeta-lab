@@ -460,3 +460,42 @@ The per-prime sine-kernel envelopes at degree 64 give `5.481097` (`7/5`),
    48 min wall on 8 processes, as measured at `L_DH`.
 
 This is a measured optimum over a searched family, not a proved ceiling.
+
+## Correction, 2026-10-27: the Gauss rate in `y_quad_bound` and `t_quad_bound`
+
+`witness.y_quad_bound` (the 1500-node y-quadrature of `F_v`) and
+`witness.t_quad_bound` (the `q = 64` t-panels of stage A) used
+`(64/15) M rho^{-2n}/(rho^2 - 1)` for an n-point Gauss-Legendre rule. That is
+the rate of the (n + 1)-point rule. For n points the bound is `rho^2` larger,
+`(64/15) M rho^{2-2n}/(rho^2 - 1)` (n >= 2). The derivation, and T_24 at 12
+nodes as a counterexample to the old rate, are in
+`weil_propagation/c4_s2/exact_gram/BOUNDS.md` s5 (PR #362, where a review
+found the same line). `quad_error_bound` (the x-quadrature of `Q`) is a
+different argument, a Chebyshev truncation at degree `2 Nx - 1 - 2D`, and is
+correctly indexed; it is unchanged. Both functions are fixed in `witness.py`.
+
+The recorded stage-A runs used the old rate. Item 7 above, as written:
+
+> The exact integrals of `R(800)` differ from the discrete rule by at most
+> `8.0e-89` at this vector
+
+and `8.0e-89` "in all" earlier in item 7. **Corrected:** `rho = 8.123` for
+the ellipse through `+-i` at panel width 1/2, so the t-bound is
+`rho^2 = 65.98` times the recorded one: **5.30e-87** at `v_800` and at the
+856-mode witness (recorded `8.03e-89` in `stage_a_v800.json` and
+`stage_a_witness.json`), and **1.72e-87** on the 540 to 800 range (recorded
+`2.61e-89` in `stage_a_witness_540_800.json`). The y-bound is `rho_y^2 = 4`
+times the old one, at most `3.8e-165` per `F_v` value. Widening the recorded
+enclosures by both changes `v^T R(800) v / |v|^2` by at most `1e-130` from
+the y-bound (`|F_v| <= 2 L sup|f_v|`, panel weights summing to `T/pi`, and
+`|Psi + H|` below the strip bound `t_quad_bound` uses) and by at most
+`(1 + |beta|) 5.3e-87` from the t-bound. The per-panel t-bound is about
+`3.3e-90`, not `5e-92`. The recorded radii are near `1e-72`, and the smallest
+margin item 7 reads is of order `1e-31` (the refusal margin back to 540,
+`Q(v) + 6.8 m_540 < -2.7e-31`), so every conclusion of item 7 stands with
+the corrected bounds. The JSON records are kept as written, with the old
+figures. Pinned in
+`test_witness.py::test_gauss_rate_correction_keeps_the_stage_a_records`,
+which recomputes both bounds with the fixed code, checks that each
+recorded t-bound is the corrected one divided by `rho^2`, and re-checks
+the margins with the widened figures.
