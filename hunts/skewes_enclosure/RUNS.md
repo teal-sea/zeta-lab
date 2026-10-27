@@ -255,3 +255,19 @@ outcome: shards 1 to 68 complete with grid sums; run cancelled on a projection l
 artifacts:
   - hunts/skewes_enclosure/shards_b2/shard_001.json .. shard_068.json
 ```
+
+## 2026-10-27: continuation of the omega-grid rerun (shards 69 to 220)
+
+Coordinator answer: continue, with a cap of 115 runner core-hours by job wall for the whole rerun, including the 27.1 already spent. The computing code is byte-identical to run 40415010866 (commit 2f9ca057cb9060c509e6ff5a3389ed704b3f7551). SHA-256 at that commit and at the continuation commit:
+
+| file | sha256 (both commits) |
+| --- | --- |
+| `hunts/skewes_enclosure/zero_layer.py` | 5c86f34f0c933ff847dceeb8a76266bc0e72104e94f475ea44056134a18e2874 |
+| `hunts/skewes_enclosure/skewes_terms.py` | a9bf93ef39e76815b0eb18d0141efce5036b6c0681c027c353dad302d16babf1 |
+| `hunts/skewes_enclosure/omega_grid.json` | ee863c3bf5f7d33a4d5b28949fc784f167ada581b6ec42bc554b9fd5d16c5a45 |
+| `hunts/skewes_enclosure/smoke_check.py` | 0978475028b718b8400344b970aa2a7f80540bcd2cf9d28e5b48c2c37757384b |
+| `hunts/skewes_enclosure/smoke_reference.json` | 6620de72dbea23b02431b33784fe81d861eeb0773058acb632be819adb2dc28d |
+| `hunts/skewes_enclosure/check_block.py` | 207ca8dba075153781efe702b3c18f56d50fbabeed7f04050b7a7f6b10ecc799 |
+| `.github/workflows/skewes-enclosure.yml` | 66137ba6f7d38bc466e3bab95ac143c7edab037b45216f87f84ca800e44f17c6 |
+
+Pinned in the workflow: python-flint 0.9.0, mpmath 1.3.0. The watcher now measures job-wall time (4 vCPU x job duration, in-progress jobs counted at their elapsed time) and projects remaining work only from shards comparable with production B, scaled by the measured job-wall/process factor. It stops the run if the projected total passes 115.
