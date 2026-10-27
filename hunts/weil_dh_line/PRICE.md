@@ -1,7 +1,8 @@
 # PRICE: the out-of-band reduction at the Davenport-Heilbronn line
 
 Hunt #146 (`weil_dh_line`), opened 2026-10-21, items 3 to 6 completed or priced on
-2026-10-26 after the owner resumed the lane. Question, windows and rules: `MISSION.md`.
+2026-10-26 after the owner resumed the lane. Question, windows and rules: `MISSION.md`. Item 7, the dated corrections
+and doors 5 and the additions to doors 2 to 4 were added on 2026-10-27.
 Every number below comes from a JSON artifact in this directory and is pinned by
 `test_price.py`, or is hedged where it stands. Grades follow `CLAUDE.md`:
 *measured* (one float route), *hardened* (ball enclosures carry every step, or
@@ -61,19 +62,25 @@ RH (`docs/08`).
    midpoint LDL of `R(T#)` has 2 negative pivots at `T# = 400`
    (`beta* = 0.033`), 1 at 420 and 440, and none at every checkpoint from 460 to
    640, where the eigenvalue nearest 0 grows from `3.62e-78` to `6.71e-78`. At
-   400 and 640 the leading `N = 517` block and a 512-bit reduction keep both the
-   pivot count and `lambda_min`. (Corrected 2026-10-27: neither response is a
-   refinement. The leading block is a principal submatrix, whose least eigenvalue
-   Cauchy interlacing puts at or above the full block's, and the 512-bit
-   reduction copied the 640-bit data unrounded, since `arb(x.mid())` does not
-   round, so it re-ran only the reduction's arithmetic. Kill condition 4, a sign
-   change under a precision or mode-count refinement, was therefore not tested
-   here; for a positive block the refinement that matters is a larger `N`, which
-   can only lower `lambda_min`, and none was run.) This is the `N`-mode block alone: no quadrature error,
+   400 and 640 the leading `N = 517` block and the same data at 512 bits keep both
+   the pivot count and `lambda_min`, so no sign changed under refinement (kill
+   condition 4 not met). This is the `N`-mode block alone: no quadrature error,
    Legendre tail or coupling bound is computed, so it is a scout and not a bound
    on `R_H`. The scout units were built on `parts/provisional_1.4.json`, whose two
    clusters are coefficient for coefficient those of `joint_1.4.json`; the merge
    reproduced its `S` exactly (`RUNS.md`).
+   (Correction 2026-10-27, the text above left as written. The sentence "At
+   400 and 640 the leading `N = 517` block and the same data at 512 bits keep both
+   the pivot count and `lambda_min`, so no sign changed under refinement (kill
+   condition 4 not met)" overstates both responses. Neither is a refinement: the
+   leading block is a principal submatrix, whose least eigenvalue Cauchy
+   interlacing puts at or above the full block's, and the "same data at 512
+   bits" were the 640-bit midpoints copied unrounded (`arb(x.mid())` does not
+   round), so that response re-ran only the reduction's arithmetic. Kill
+   condition 4 was therefore not tested at `7/5`, rather than not met; for a
+   positive block the refinement that matters is a larger `N`, which can only
+   lower `lambda_min`, and none was run. `scout.responses_of` now rounds the
+   data.)
 6. **K2** (`k2_scouts.json`, *measured*, stage-A blocks as in item 5).
    Epstein `(1,1,6)` at `L_DH` even (form known negative, `c >= 29.304199`) and at
    `L = 1.6615` odd (known negative, `c >= 27.741699`): one negative pivot at
@@ -90,34 +97,47 @@ RH (`docs/08`).
    and at all 14 checkpoints from 540 to 800 the midpoint LDL has exactly one
    negative pivot and no undecided one, with `lambda_min` from `-6.687e-30` to
    `-4.152e-30` (inverse-iteration residuals below `1e-83`). At 540 and 800 the
-   leading `N = 791` block and a 1152-bit reduction keep the pivot count and
-   `lambda_min` to 12 digits (corrected 2026-10-27: the same two responses as in
-   item 5, with the same limits; neither is a refinement, and the 1152-bit one
-   reduced the 1280-bit data unrounded). So the pipeline refuses DH at the DH
-   line at every checkpoint it reached, and the binding kill condition (a
-   positive bound for DH at `L_DH`) **did not fire**. Scope and grade:
-   *measured*, the `N`-mode block of stage A on `T# <= 800`, with no quadrature
-   error, Legendre tail or coupling bound, so it is evidence about the pipeline
-   at these parameters and not a soundness theorem for it. The negative
-   eigenvalue shrinks in magnitude as `T#` grows (by about 38% from 540 to 800,
-   with `lambda_min T#` nearly constant). (Corrected 2026-10-27: as recorded on
-   2026-10-26, whether it stays below 0 beyond `T# = 800` was open, and the
-   refusal was established only at the checkpoints. Item 7 settles it: the
-   limit of `R(T#)` is the 856-mode DH form, which has a negative eigenvalue
-   with an enclosure, so the stage-A block refuses at every `T#`; and the
-   `T# = 800` eigenvector itself is not a witness, its refusal coming from the
-   frequency tail the split discards.) The full soundness statement (stage B
-   with its error terms) remains **attempt unresolved (category 3)**. The run
-   cost about 16.9 core-hours with the merge (`RUNS.md`), with no unit files
-   written. The transfer witness (`price.py --transfer`) was not produced.
+   leading `N = 791` block and the 1152-bit reduction keep the pivot count and
+   `lambda_min` to 12 digits. So the pipeline refuses DH at the DH line at every
+   checkpoint it reached, and the binding kill condition (a positive bound for
+   DH at `L_DH`) **did not fire**. Scope and grade: *measured*, the `N`-mode
+   block of stage A on `T# <= 800`, with no quadrature error, Legendre tail or
+   coupling bound, so it is evidence about the pipeline at these parameters and
+   not a soundness theorem for it. The negative eigenvalue is tiny, as expected
+   just past the DH line (`c = 30.6178` against `30.617188`), and its magnitude
+   shrinks as `T#` grows (by about 38% from 540 to 800); whether it stays below
+   0 beyond `T# = 800` is not measured. Item 6 therefore leaves category 4: the
+   check ran and passed at its stated scope, and the full soundness statement
+   (stage B with its error terms) remains **attempt unresolved (category 3)**.
+   The run cost about 16.9 core-hours with the merge (`RUNS.md`), with no unit
+   files written. The transfer witness (`price.py --transfer`) was not produced.
+   (Corrections 2026-10-27, the text above left as written. (a) "At 540 and 800
+   the leading `N = 791` block and the 1152-bit reduction keep the pivot count
+   and `lambda_min` to 12 digits": the same two responses as in item 5, with the
+   same limits; the 1152-bit one reduced the 1280-bit data unrounded. Re-run
+   with the data rounded (`scout.responses_of`) from the stored state at
+   `T# = 800`, both keep one negative pivot and `lambda_min =
+   -4.15160674834e-30`. (b) "The negative eigenvalue is tiny, as expected just
+   past the DH line": tininess alone says little, since the form's whole
+   near-null spectrum is on that scale (the leading 100-mode block's eigenvalue
+   nearest 0 is `+4.06e-32`); the comparison that matters is with the limit
+   form, whose least eigenvalue `-1.943e-30` is about half the stage-A value at
+   800 (item 7). (c) "whether it stays below 0 beyond `T# = 800` is not
+   measured. Item 6 therefore leaves category 4": item 7 settles it for every
+   `T#`: the limit of `R(T#)` is the 856-mode DH form, which has a negative
+   eigenvalue (hardened), so the stage-A block refuses at every `T#` given a
+   valid `S`, the composite measured at that assumption; and the `T# = 800`
+   eigenvector itself is not a witness, its refusal at 800 coming from the
+   frequency tail the split discards. Item 6 leaves category 4 on that ground,
+   not on the checkpoint record.)
 7. **The raise (2026-10-27): K2 at the DH line at every `T#`** (`witness.py`,
    `witness_q856.json`, `witness_v856.json`, `witness_v101.json`,
    `stage_a_v800.json`, `stage_a_witness.json`, the `lesion_S` record of
    `k2_scouts.json`; runs in `RUNS.md`). The stage-A block is `R(T#) = C(T#) +
    beta*(T#)(I - G(T#))`, and `R(T#) <= Q_N` in the Loewner order, increasing to
    `Q_N` as `T#` grows, whenever `S` bounds `P_DH - H` on the whole line (the
-   archimedean bound the scout uses beyond `T#` is proved below, link 4 of the
-   chain). Here `Q_N` is the `N`-mode DH form `(1/pi) int_0^inf
+   archimedean bound the scout uses beyond `T#` is derived below, unreviewed,
+   link 4 of the chain). Here `Q_N` is the `N`-mode DH form `(1/pi) int_0^inf
    Psi_DH(t) F(t) F(t)^T dt` on the scout's even Legendre basis, with no split.
    So the pipeline refuses DH at every `T#` exactly when `Q_N` has a negative
    eigenvalue. `witness.py` assembles `Q_856` through the explicit formula in
@@ -146,14 +166,24 @@ RH (`docs/08`).
      enclosed quantity is the position-space form, equal to `Q_856` by the
      identity of link 2 below, a derivation). The
      negativity sets in at the 101st mode: the leading 100-mode block has no
-     negative pivot (eigenvalue nearest 0 `+4.06e-32`), the leading 101-mode
+     negative pivot (eigenvalue nearest 0 `+4.06e-32`; midpoint LDL, so
+     measured), the leading 101-mode
      block has `Q_101(v)/|v|^2 <= -4.4900037e-32` for the stored vector of
      `witness_v101.json`, and every leading block tested from 101 to 856 modes
      has one negative eigenvalue, falling from `-4.49e-32` (101) through
-     `-1.17e-30` (150) and `-1.84e-30` (400) to `-1.94e-30` (856). An
-     independent assembly of `Q_101` at its own size (201 Gauss nodes in `y`
-     instead of 1711, 291 in `x` instead of 1801, 320 bits instead of 256)
-     reproduces the 101-mode quotient to 15 digits.
+     `-1.17e-30` (150) and `-1.84e-30` (400) to `-1.94e-30` (856). A
+     re-assembly of `Q_101` by the same code at its own size (201 Gauss nodes in
+     `y` instead of 1711, 291 in `x` instead of 1801, 320 bits instead of 256)
+     reproduces the 101-mode quotient to 15 digits: a check of nodes and
+     precision, not of the code. The independent check (added 2026-10-27, after
+     review) is the reviewer's separate implementation (its own Gauss nodes by
+     Newton, its own Legendre-to-Chebyshev conversion, `f` evaluated at `u` and
+     at `u - s` without the mirror pairing, its own comb and constants;
+     midpoint arithmetic, so a cross-check and not an enclosure), which
+     reproduced the position-space form at the 856-mode witness as
+     `-1.943083624983854853685878e-30`, at `v_800` as
+     `+6.366138862397569e-30`, and at the 101-mode witness as
+     `-4.4900037007714099e-32` (at 260 and 320 bits).
    - *The `T# = 800` eigenvector is not a witness.* `Q_856(v_800) =
      +6.36613886240e-30`, enclosed and positive, while `R(800)(v_800) =
      -4.15160674834e-30` (the stored row, reproduced). The difference
@@ -203,8 +233,9 @@ RH (`docs/08`).
         mass (`1.6e-76`) added; the radii dropped by the midpoint products are
         carried as a bound (`E_psi`); `eps = 6.0e-64` collects these and is
         applied doubled to cover the float roundings of its own bookkeeping.
-        The 101-mode witness is reproduced by an independent assembly. **Grade:
-        hardened.**
+        **Grade: hardened**, resting on the enclosures; the reviewer's separate
+        implementation reproduces `E_856` and `E_101` (midpoint, a
+        cross-check).
      4. *A negative `Q_N(v)` means refusal at every `T#`.* Because every
         frequency of `H` is at least `2L` (decided in Arb) and `g` vanishes
         outside `(-2L, 2L)`, `int_0^inf H F_v^2 = 0`, so
@@ -212,15 +243,25 @@ RH (`docs/08`).
         F_v^2 dt`. For `t >= T#` the bracket is the sum of `[Re digamma(3/4 +
         it/2) - log(t/2) + 1/t]`, `[log(5t/2pi) - 1/t - log(5T#/2pi) + 1/T#]`
         and `[S - (P_DH - H)(t)]`. The second is at least 0 (an increasing
-        function). The first is at least 0 for `t >= 2`: Binet's second formula
+        function). The first is at least 0 for `t >= 27/16`: Binet's second formula
         gives `digamma(z) = log z - 1/(2z) - 2 int_0^inf s ds / ((s^2 + z^2)
         (e^{2 pi s} - 1))`, and for `z = 3/4 + it/2`, `|s^2 + z^2| >= |Im z^2| =
         3t/4` and `int_0^inf s/(e^{2 pi s} - 1) ds = 1/24`, so `Re digamma >=
-        log(t/2) - 3/(2t^2) - 1/(9t) >= log(t/2) - 1/t` (a derivation, ordinary
-        and unreviewed, checked in Arb from `t = 2` to `1e9` in
-        `test_witness.py`; this replaces the grid check of `scout.py`). The
+        log(t/2) - 3/(2t^2) - 1/(9t)`, which is at least `log(t/2) - 1/t` exactly
+        when `t >= 27/16` (a derivation, ordinary and unreviewed, checked in Arb
+        at 14 points from `t = 2` to `1e9` in `test_witness.py`; this replaces
+        the grid check of `scout.py`). The
         third is at least 0 exactly when `S` is a valid envelope bound. Then
-        `v^T R(T#) v <= Q_N(v) < 0` at every `T#`, and since the leading 101
+        `v^T R(T#) v <= Q_N(v) < 0` at every `T#`, where `R(T#)` is the block
+        of exact integrals. The scout's discrete rule (`q = 64` on panels of
+        width 1/2) differs from it by the Gauss-Legendre error, bounded only at
+        `T# = 800`, by `8.0e-89` in all, about `5e-92` a panel (item 7, stage
+        A); every factor of that per-panel bound except the digamma bound is
+        independent of `T#`, and the digamma bound grows like `log T#`, so the
+        discrete rule stays far inside `|Q_N(v)|` of the exact block for `T#`
+        far beyond any run (a scaling argument, not computed beyond 800).
+        Below about `T# = 528`, `beta* <= 0` and the pipeline claims nothing,
+        so "every `T#`" is vacuous there. And and since the leading 101
         modes of `R_N(T#)` are `R_101(T#)`, the same holds for every
         `N >= 101` with the 101-mode witness (padded by zeros). (A derivation,
         unreviewed.)
@@ -233,8 +274,10 @@ RH (`docs/08`).
         int_{T#}^inf F_v^2 <= m_800(v)` for `T# >= 800`. At the 856-mode
         witness `m_800 = 1.4220221e-31` (enclosed, `stage_a_witness.json`), so
         the refusal at every `T# >= 800` survives an `S` too low by any
-        `delta < 1.9430836e-30 / 1.4220222e-31 = 13.66`; it does not depend on
-        `S` being exactly right, only on its error being below that.
+        `delta < 1.9430836e-30 / 1.4220222e-31 = 13.66`, for every `N >= 856`
+        (the margin uses the 856-mode witness); for `101 <= N < 856` no margin
+        was computed. It does not depend on `S` being exactly right, only on
+        its error being below that.
 
      So: "`E_856` (and every leading `E_N`, `N >= 101`) has a negative
      eigenvalue" is **hardened**; "`Q_856` has one" adds link 2, a derivation
@@ -262,7 +305,10 @@ RH (`docs/08`).
      `R(800)(v)/|v|^2 = [-2.83155721280920e-30 +/- 1.0e-72]`
      (`stage_a_witness.json`), the value the analysis found from the stored
      state (`-2.83155721281e-30`), below the witness's `Q_856`, as `R <= Q`
-     requires, with tail mass `1.4220221e-31`. The count of negative
+     requires, with tail mass `1.4220221e-31`. (The `F_v` balls of these two runs were
+     not widened for the scout's node snapping, a shift below `2^-1268`;
+     `|F_v'| <= 2 L sqrt(L/2) |v|` moves `F_v` by less than `1e-370` under it, far
+     inside the recorded radii, and `witness.py` now widens them.) The count of negative
      eigenvalues (one) stays measured: a ball LDL without pivoting loses its
      radius after about 50 pivots here.
    - *Controls replaced.* The `prec - 128` response now rounds the data
@@ -273,7 +319,8 @@ RH (`docs/08`).
      by interlacing). A true re-assembly at another precision and with an
      independent quadrature is the single-vector route above (256 bits against
      1280, position-space transforms against the Bessel column) and, for the
-     form itself, the independent 101-mode assembly (320 bits, other nodes). A
+     form itself, the re-assembly of `Q_101` by the same code (320 bits, other
+     nodes) and the reviewer's separate implementation. A
      real larger-`N` stage-A run is not needed for a refusal: by interlacing a
      larger `N` can only lower `lambda_min`. Its price is that of the mode-rule
      stream in door 5.
@@ -321,43 +368,44 @@ The per-prime sine-kernel envelopes at degree 64 give `5.481097` (`7/5`),
    floor by `0.28` at a much larger bound cost), the coefficient box `D` per
    prime (`[12,4,4]`, `[9,6,6]`; genuine trade against LP size and box count),
    the bound's tolerance `tau = 5e-4` (trade against box count), the LP
-   oversampling and rounds, and the dyadic rounding of `h`. The K2 run at the
-   DH line (run B) froze, in addition (added 2026-10-27): `T#max = 800`, which
-   stopped at `beta* = 0.415`, short of the `beta = 1/2` operating point
-   `T# = 870.8` (each further 20 of `T#` costs one unit and one checkpoint,
-   door 5; item 7 makes the verdict at every `T#` a consequence of the
-   pipeline's inputs, so more `T#` now buys a measured confirmation, not
-   reach); `N = 856` (`2N/x = 1.25` at 800; a larger `N` can only lower
-   `lambda_min`, and the form is negative from 101 modes); 1280 bits (the bits
-   rule; the form and the single-vector enclosures of item 7 run at 256 and
-   320 bits); `q = 64`, `h = 1/2` (bounded at the vectors of item 7); and the
-   response choices `N - N//13` and `prec - 128`, the first uninformative for a
-   refusal by interlacing, the second now rounding the data
-   (`scout.responses_of`). For the witness: `Nx = 2N - 1 + 90` and the ellipse
-   parameter `7/2` (trade: quadrature bound against nodes; the bound,
+   oversampling and rounds, and the dyadic rounding of `h`. (Added 2026-10-27.) The K2 run at
+   the DH line (run B) also froze: `T#max = 800`, which stopped at
+   `beta* = 0.415`, short of the `beta = 1/2` operating point `T# = 870.8`
+   (each further 20 of `T#` costs one unit and one checkpoint, door 5; item 7
+   makes the verdict at every `T#` a consequence of a valid `S`, so more `T#` now
+   buys a measured confirmation, not reach); `N = 856` (`2N/x = 1.25` at 800; a
+   larger `N` can only lower `lambda_min`, and the form is negative from 101
+   modes); 1280 bits (the bits rule; the form and the single-vector enclosures
+   of item 7 run at 256 and 320 bits); `q = 64`, `h = 1/2` (bounded at the
+   vectors of item 7); and the response choices `N - N//13` and `prec - 128`,
+   the first uninformative for a refusal by interlacing, the second now rounding
+   the data (`scout.responses_of`). For the witness: `Nx = 2N - 1 + 90` and the
+   ellipse parameter `7/2` (trade: quadrature bound against nodes; the bound,
    `6.2e-92`, is far from binding).
-3. **K2 at the DH line** (rewritten 2026-10-27; the 2026-10-26 text read: "At
-   `L_DH` the DH refusal rests on one eigenvalue of size about `5e-30` whose
-   magnitude falls as `T#` grows. The doors above that lower `S` (larger
-   clusters, a tighter `H`), applied to the same pipeline on DH, also raise DH's
-   `beta*`, which pushes this eigenvalue up. The refusal is not known to survive
-   such a change, so an envelope method that passes the gate has to be re-run
-   through K2 at the DH line."). What binds the refusal is the negative
-   eigenvalue of the DH form on the first 101 or more even modes (item 7),
-   which no envelope can move: a lower `S` raises `beta*` and so `R(T#)` at
-   each `T#`, but every valid envelope leaves `R(T#) <= Q_N` with the same
-   limit. A tighter envelope can shrink the refusal at a finite `T#` but cannot
-   end it, at any `T#`, while it is valid: the block's least eigenvalue stays at
-   or below `lambda_min(Q_N) < 0`. What a lower `S` does change is how
-   much of the refusal at a finite `T#` is truncation: at `T# = 800` the
-   eigenvector's refusal is all tail (item 7), and the margin in `S` is 43
-   (the lesion). So K2 at the DH line is a test of the rival's form and of
-   `R(T#) <= Q_N`, not of the size of `S`.
+3. **K2 margin.** At `L_DH` the DH refusal rests on one eigenvalue of size
+   about `5e-30` whose magnitude falls as `T#` grows. The doors above that
+   lower `S` (larger clusters, a tighter `H`), applied to the same pipeline on
+   DH, also raise DH's `beta*`, which pushes this eigenvalue up. The refusal is
+   not known to survive such a change, so an envelope method that passes the
+   gate has to be re-run through K2 at the DH line.
+   (Added 2026-10-27; the text above is left as written, and its conclusion is
+   superseded.) What binds the refusal is the negative eigenvalue of the DH form
+   on the first 101 or more even modes (item 7), which no valid envelope can
+   move: a lower `S` raises `beta*` and so `R(T#)` at each `T#`, but every valid
+   envelope leaves `R(T#) <= Q_N` with the same limit. A tighter envelope can
+   shrink the refusal at a finite `T#` but cannot end it, at any `T#`, while it
+   is valid: the block's least eigenvalue stays at or below
+   `lambda_min(Q_N) < 0`. What a lower `S` does change is how much of the
+   refusal at a finite `T#` is truncation: at `T# = 800` the eigenvector's
+   refusal is all tail (item 7), and the margin in `S` is 43 (the lesion). So K2
+   at the DH line is a test of the rival's form and of `R(T#) <= Q_N`, not of
+   the size of `S`.
 4. **Information class.** Every door above stays inside the data the current
    family reads: the prime comb on `[-L, L]` and out-of-band frequencies at least
    `2L`. Overlapping clusters (`overlap_L_DH.json`) are the same class. None reads
-   more arithmetic. The witness of item 7 reads the same data (the DH comb and
-   Gamma factor on `[-L, L]`) and no new class.
+   more arithmetic. (Added 2026-10-27.) The witness of item 7 reads the same
+   data (the DH comb and Gamma factor on `[-L, L]`) and no new class.
+
 5. **Two runs priced, not launched** (2026-10-27, from timed slices in
    `RUNS.md`; funded separately). *The stream past `T# = 800`* at run B's
    settings (`N = 856`, 1280 bits, `q = 64`): a timed slice at `T# = 1198` to

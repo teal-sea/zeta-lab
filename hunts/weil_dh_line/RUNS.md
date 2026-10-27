@@ -351,11 +351,10 @@ started: 2026-10-27T02:36Z
 finished: 2026-10-27T02:58Z
 ran:
   - nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py --analyze <cache>/raise_2026-10-27/q856.pkl --out <cache>/raise_2026-10-27/witness_q856.json --vec-out <cache>/raise_2026-10-27/witness_v856.json --v800 hunts/weil_dh_line/v800_T800.json --state <cache>/k2/dh_LDH_even --blocks 400 500 550 600 650 700 750 800
-  - leading blocks 50 to 350 and 100 to 145 (scratch driver over witness.ldl_inertia, lowest_eigenpair and quad_form on the same q856.pkl), the 101-mode witness vector, and the independent assembly of Q_101 (witness.unit at N = 101, Nx = 291, 320 bits, 32 s)
-  - Sylvester counts of (Q_856 - R(800)) + sigma I, sigma = 1e-66 to 1e-50, R(800) from the run-B restart state (read only)
-outcome: success, one process at a time (about 3 GB with the stored state loaded). Midpoint LDL of Q_856: 1 negative pivot, 855 positive; lambda_min -1.94308362498385e-30 (residual 3e-78); the stored 40-digit eigenvector has an enclosed Rayleigh quotient [-1.94308362498385e-30 +/- 3.5e-70], below 0 with 2 eps added. Leading blocks: none negative at 50 and 100 modes, one negative eigenvalue at every tested size from 101 (-4.49000370077e-32) to 800 (-1.93813662196e-30). The independent Q_101 reproduces the 101-mode quotient to 15 digits. Q_856 at the T# = 800 eigenvector +6.36613886240e-30 (enclosed, positive); R(800) there -4.15160674834e-30, the stored row. (Q_856 - R(800)) + 1e-66 I has no negative pivot.
+  - leading blocks 50 to 350 and 100 to 145, the 101-mode witness vector, the re-assembly of Q_101 by the same code (witness.unit at N = 101, Nx = 291, 320 bits, 32 s) and the Sylvester counts of (Q_856 - R(800)) + sigma I, sigma = 1e-66 to 1e-50 (R(800) from the run-B restart state, read only): first run by scratch drivers over the functions of witness.py; corrected 2026-10-27: now the committed subcommands `witness.py blocks`, `block-witness`, `reassemble` and `shifted-counts`, and the merge `witness.py record`, which reproduced every piece (reproduction manifest below)
+outcome: success, one process at a time (about 3 GB with the stored state loaded). Midpoint LDL of Q_856: 1 negative pivot, 855 positive; lambda_min -1.94308362498385e-30 (residual 3e-78); the stored 40-digit eigenvector has an enclosed Rayleigh quotient [-1.94308362498385e-30 +/- 3.5e-70], below 0 with 2 eps added. Leading blocks: none negative at 50 and 100 modes, one negative eigenvalue at every tested size from 101 (-4.49000370077e-32) to 800 (-1.93813662196e-30). The re-assembly of Q_101 by the same code at its own nodes and precision reproduces the 101-mode quotient to 15 digits (corrected 2026-10-27: first called independent; it is not a separate implementation). Q_856 at the T# = 800 eigenvector +6.36613886240e-30 (enclosed, positive); R(800) there -4.15160674834e-30, the stored row. (Q_856 - R(800)) + 1e-66 I has no negative pivot.
 artifacts:
-  - hunts/weil_dh_line/witness_q856.json (the merged record; SHA-256 39bf78cfe51d3ea956197c07dafa8ee7c09304412ffb2c87a24389276bf4cb00)
+  - hunts/weil_dh_line/witness_q856.json (the merged record as committed, SHA-256 788a5974f1a362afe6ff5dd594661c14341b321643a072d78817bdc9cc5095fb; it also carries the responses at T# = 800 and the timed slices; corrected 2026-10-27 from 39bf78cf..., the hash of an earlier merge without those two keys)
   - hunts/weil_dh_line/witness_v856.json (779d9d5456994275c8d282b8f4e9f120de51a7cb202506a52e2df4513b7c5395), hunts/weil_dh_line/witness_v101.json (85c9a0aee3d1c6e53c8b3bb54a78f4d6e2d3200a710b7a20499ca18b2cdf3402)
   - <cache>/raise_2026-10-27/analyze.log (29a594522090c78618f78903a1ff840cf73b0a195aa76c465555c05135b88750), d_check.json (b877822bf15795a0b033bedb8074f1a999ca1def5fd6bf93be4c68fb0f2d7274), blocks_small.json, blocks_onset.json, blocks_onset2.json, witness_v101_reassembled.json
   - input hunts/weil_dh_line/v800_T800.json (the T# = 800 eigenvector, 40 digits, from the adversarial review's inverse iteration on the restart state; its R(800) quotient reproduces the stored row)
@@ -393,10 +392,10 @@ hunt: weil_dh_line
 started: 2026-10-27T02:36Z
 finished: 2026-10-27T03:20Z
 ran:
-  - OMP_NUM_THREADS=1 nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py stage-a hunts/weil_dh_line/v800_T800.json x 800 <cache>/raise_2026-10-27/stage_a_v800.json 64 2
+  - OMP_NUM_THREADS=1 nohup nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py stage-a hunts/weil_dh_line/v800_T800.json x 800 <cache>/raise_2026-10-27/stage_a_v800.json 64 2   (PID 856926, two pool workers; exit 0)
 outcome: success, 43 min 53 s wall on 2 workers (about 1.5 core-hours, of which about 1.2 the per-job rebuild of K noted above); v^T R(800) v / v^T v = [-4.15160674833728e-30 +/- 1.0e-72] for the scout's discrete rule, the stored row to its 12 digits; exact integrals within 8.0e-89; tail mass above 800 1.4883465e-30. The F_v balls of this run were not widened for the scout's node snapping (shift below 2^-1268); the change of F_v under it is below 2 L sqrt(L/2) |v| 2^-1268 < 1e-370, far inside the recorded radius, and witness.py now widens them.
 artifacts:
-  - hunts/weil_dh_line/stage_a_v800.json (the record with that note; SHA-256 918680ebd1d8bafd4bec7504e7d95e791110b3858e30536c419b656f07b74955)
+  - hunts/weil_dh_line/stage_a_v800.json (the raw output, SHA-256 f9a4db31a3787f0d8e048877039cc2a3c2be21c1edac89766d0116a241ba6acd; the snapping note is in this manifest, not in the file; corrected 2026-10-27 from 918680eb..., a version with the note that was not committed. This manifest was written twice on 2026-10-27, the second copy is removed)
   - <cache>/raise_2026-10-27/stage_a_v800.json f9a4db31a3787f0d8e048877039cc2a3c2be21c1edac89766d0116a241ba6acd, stage_a_v800.log 58b1935b4be3b5d36d5da444ee94d0161d7b6e550b7ebe7fe8defc925ca02fb8
 ```
 
@@ -434,18 +433,6 @@ artifacts:
   decisive companion, `Q_856` at `L'` by `witness.py --L 8503/5000`: **5.6
   core-hours, 48 min wall on 8 processes**, as measured at `L_DH`.
 
-```runmanifest
-id: weil_dh_line-2026-10-27-stage-a-v800
-hunt: weil_dh_line
-started: 2026-10-27T02:36Z
-finished: 2026-10-27T03:19Z
-ran:
-  - nohup nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py stage-a hunts/weil_dh_line/v800_T800.json x 800 <cache>/raise_2026-10-27/stage_a_v800.json 64 2   (PID 856926, two pool workers; log <cache>/raise_2026-10-27/stage_a_v800.log)
-outcome: success, exit 0, 43 min 53 s wall on 2 workers (about 1.5 core-hours, against about 8 min estimated: the K rebuild, above). v^T R(800) v / v^T v for the discrete stage-A rule = [-4.15160674833728e-30 +/- 1.03e-72]; for the exact integrals of R(800), the same within the t-quadrature bound 8.03e-89; tail mass above 800 1.4883465e-30; beta*(800) 0.415137840683351
-artifacts:
-  - hunts/weil_dh_line/stage_a_v800.json
-```
-
 Recorded in flight before waiting on it, then completed:
 
 ```runmanifest
@@ -455,7 +442,46 @@ started: 2026-10-27T02:51Z
 finished: 2026-10-27T03:36Z
 ran:
   - nohup nice -n 10 .venv/bin/python hunts/weil_dh_line/witness.py stage-a <cache>/raise_2026-10-27/witness_v856.json v 800 <cache>/raise_2026-10-27/stage_a_witness.json 64 2   (PID 917918, pool workers 917927 and 917928; log stage_a_witness.log)
-outcome: success, exit 0, 44 min 33 s wall on 2 workers (about 1.5 core-hours). v^T R(800) v / v^T v at the 856-mode witness = [-2.83155721280920e-30 +/- 1.03e-72] (the stored-state value of the analysis, -2.83155721281e-30, by a route independent of it), exact integrals within 8.03e-89; tail mass above 800 m_800 = 1.4220221e-31 (upper 1.42202215e-31), so the refusal at every T# >= 800 survives an envelope bound low by any delta < 1.9430836e-30 / 1.4220222e-31 = 13.66
+outcome: success, exit 0, 44 min 33 s wall on 2 workers (about 1.5 core-hours). v^T R(800) v / v^T v at the 856-mode witness = [-2.83155721280920e-30 +/- 1.03e-72] (the stored-state value of the analysis, -2.83155721281e-30, by a route independent of it), exact integrals within 8.03e-89; tail mass above 800 m_800 = 1.4220221e-31 (upper 1.42202215e-31), so the refusal at every T# >= 800 survives an envelope bound low by any delta < 1.9430836e-30 / 1.4220222e-31 = 13.66 (for N >= 856). This run, like the v800 run, started before witness.py widened F_v for the node snapping; the same note applies (a change below 1e-370, far inside the radius)
 artifacts:
-  - hunts/weil_dh_line/stage_a_witness.json
+  - hunts/weil_dh_line/stage_a_witness.json (SHA-256 fec84f2311bf4528de456c8d920ad330e8ee26d6b94e0092a3be7d01d427cef8)
 ```
+
+## Corrections and reproduction (2026-10-27, after the review of ee06df8af)
+
+Recorded in flight before waiting (the derived pieces of `witness_q856.json`
+re-run from committed code, `witness.py` subcommands, into
+`<cache>/raise_2026-10-27/repro/`; launched 04:08Z with `setsid nohup nice -n 10`,
+BLAS threads 1):
+
+- `witness.py blocks <cache>/raise_2026-10-27/q856.pkl repro/blocks.json 50 100 101 ... 350` (PID 1242189, log repro/blocks.log)
+- `witness.py shifted-counts <cache>/raise_2026-10-27/q856.pkl <cache>/k2/dh_LDH_even repro/counts.json` (PID 1242191, log repro/counts.log)
+- `witness.py reassemble hunts/weil_dh_line/witness_v101.json 320 repro/reassembled_101.json` (PID 1242192, log repro/reas.log)
+- `witness.py block-witness <cache>/raise_2026-10-27/q856.pkl 101 repro/witness_v101.json` (finished in seconds)
+
+Outcome (04:15Z, all exit 0; about 0.15 core-hours): every piece reproduced.
+`blocks` gave the 23 leading-block rows of `blocks_small`, `blocks_onset` and
+`blocks_onset2` identically; `block-witness 101` gave `witness_v101.json`
+byte for byte; `reassemble` gave the same quotient `-4.49000370077141e-32`
+(32.8 s); `shifted-counts` gave the same six counts. `witness.py record` merges
+them with the analysis record, the stored responses and the timed slices into a
+file identical to the committed `witness_q856.json` except one wall-clock
+field (the re-assembly's `seconds`, 32.78 against 32.20), so the committed file
+stands. Outputs: repro/blocks.json 34acfbb36e85c69c8dab124ff2e44a45d0af3bedfccd7b9c8cd8b459b37440d4,
+repro/counts.json 16fae8c143f2800cd99a0abcce934892b0059a76d7f18a2829ccc76d077213b4,
+repro/reassembled_101.json 4ab73dcdaff052ecea06492d88766bf48a4261a8dc91445283ae1bb3afe73182,
+repro/witness_q856.json 80948a9e9ee5bdcca6480fcaa3ecf7aa24d62c20468d4808707007b2402f9e28.
+
+Other corrections from the review: the "independent assembly" of `Q_101` is
+the same code at other nodes and precision (the independent check is the
+reviewer's separate implementation, `PRICE.md` item 7); every SHA-256 named
+here for a committed artifact now matches its bytes, and
+`test_witness.py::test_runs_md_hashes_match_the_committed_artifacts` keeps it so.
+
+Provenance: part of ee06df8af was written in this checkout by a second, resumed
+copy of the session after a restart around 03:00Z (the widening of `F_v` for
+the node snapping in `witness.py`, the stage-A v800 and responses manifests, and
+the keys `responses_T800` and `timed_slices` of `witness_q856.json`). It was
+committed unreviewed; this correction reviewed it: the widening is right
+(`|F_v'| <= 2 L sqrt(L/2) |v|`), the two keys copy their sources faithfully, and
+the manifests are corrected above.

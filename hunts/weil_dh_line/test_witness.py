@@ -299,11 +299,12 @@ def test_the_onset_and_the_leading_blocks():
                           "witness_file": "witness_v101.json"}
 
 
-def test_the_101_mode_witness_from_an_independent_assembly():
-    """The onset witness re-verified from scratch: Q_101 assembled at its own
-    size (201 Gauss nodes in y, 291 in x, 320 bits, none shared with the
-    N = 856 assembly), evaluated at the stored vector with its own error
-    budget: strictly negative and equal to the recorded quotient. Q_101 is the
+def test_the_101_mode_witness_from_a_reassembly_at_its_own_size():
+    """The onset witness re-verified from scratch: Q_101 assembled by the same
+    code at its own size (201 Gauss nodes in y, 291 in x, 320 bits, none shared
+    with the N = 856 assembly; a check of nodes and precision, not an
+    independent implementation), evaluated at the stored vector with its own
+    error budget: strictly negative and equal to the recorded quotient. Q_101 is the
     leading block of Q_N for every N >= 101, so this one check carries the
     negative eigenvalue at every N >= 101. About 30 s."""
     v = _load(HERE / "witness_v101.json")
@@ -409,9 +410,9 @@ def test_lesion_record_flips_between_43_and_44(tmp_path):
 
 def test_binet_lower_bound_for_the_archimedean_term():
     """Link 4 of PRICE.md item 7: from Binet's second formula,
-    Re digamma(3/4 + it/2) >= log(t/2) - 3/(2t^2) - 1/(9t) >= log(t/2) - 1/t
-    for t >= 2 (the bound the scout uses for beta*). Checked in Arb at points
-    from 2 to 1e9; the slack of the first inequality tends to 1/(9t) as the
+    Re digamma(3/4 + it/2) >= log(t/2) - 3/(2t^2) - 1/(9t), which is at least
+    log(t/2) - 1/t exactly when t >= 27/16 (the bound the scout uses for
+    beta*). Checked in Arb at 14 points from 2 to 1e9, not a proof; the slack of the first inequality tends to 1/(9t) as the
     integral term vanishes faster than its bound. Planted check: the bound
     with the integral term dropped fails at small t."""
     ctx.prec = 128
@@ -463,3 +464,34 @@ def test_the_witness_vector_reproduces_its_recorded_enclosure_on_a_leading_check
     x = [arb(s) for s in v["v"]]
     mu = sum((x[i] * ((arb(4 * i + 1) / 2) / La).sqrt() for i in range(len(x))), arb(0))
     assert abs(float(mu.mid()) / float(d["witness"]["boundary_value_f_L"]) - 1) < 1e-4
+
+
+def _runs_md_hash_claims():
+    """(line number, file name, SHA-256) for every committed artifact of this
+    hunt that RUNS.md names with a hash: the first 64-hex word after the name
+    on the same line."""
+    import re
+    out = []
+    for i, line in enumerate((HERE / "RUNS.md").read_text().splitlines(), 1):
+        for m in re.finditer(r"hunts/weil_dh_line/([\w.]+)", line):
+            hs = re.findall(r"\b[0-9a-f]{64}\b", line[m.end():])
+            if hs and (HERE / m.group(1)).exists():
+                out.append((i, m.group(1), hs[0]))
+    return out
+
+
+def test_runs_md_hashes_match_the_committed_artifacts(tmp_path):
+    """Every SHA-256 that RUNS.md gives for a committed artifact of this hunt is
+    the hash of its bytes. Planted fault: a one-byte change to a hashed file is
+    caught."""
+    import hashlib
+    claims = _runs_md_hash_claims()
+    names = {n for _, n, _ in claims}
+    assert {"witness_q856.json", "witness_v856.json", "witness_v101.json", "stage_a_v800.json",
+            "stage_a_witness.json", "joint_L_DH.json", "k2env_dh_L_DH.json"} <= names
+    for line, name, h in claims:
+        assert hashlib.sha256((HERE / name).read_bytes()).hexdigest() == h, (line, name)
+    line, name, h = claims[0]
+    bad = bytearray((HERE / name).read_bytes())
+    bad[-1] ^= 1
+    assert hashlib.sha256(bytes(bad)).hexdigest() != h

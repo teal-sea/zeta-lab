@@ -30,7 +30,7 @@ so
 
 Exact pieces. On [0, 2L], g is a polynomial of degree at most 2D + 1 (D the
 degree of f), and g(x) = int_{x-L}^{L} f(y) f(y - x) dy is a Gauss-Legendre sum
-with M = D + 1 nodes, exact. The comb needs g at the 28 points log n only.
+with M = D + 1 nodes, exact. The comb needs g at the 22 points log n only (the nonzero DH comb terms).
 
 The one truncation. int_0^{2L} w(x)(g(0) - g(x)) dx = int q(x) r(x) dx with
 q = (g(0) - g)/x a polynomial of degree at most 2D and r = x w(x) analytic in a
@@ -931,8 +931,165 @@ def stage_a_main(argv=None):
     print(json.dumps(rec), flush=True)
 
 
+# ------------------------------------------------------------------ derived records (reproducible drivers)
+#
+# The pieces of witness_q856.json beyond the analysis: leading blocks, the
+# block witness at the onset, its re-assembly by this code at its own size,
+# and the Sylvester counts of Q_N - R(800) + sigma I. Each reads the assembled
+# Q (q856.pkl); `record` merges them as committed.
+
+def _load_q(q_path: Path):
+    ctx.prec = PREC
+    d = pickle.loads(Path(q_path).read_bytes())
+    return d, dec_mat(d["Q"], d["N"]), 2 * arb(d["eps_spectral"])
+
+
+def leading_blocks(q_path: Path, sizes) -> list[dict]:
+    """Midpoint LDL inertia of the leading n x n blocks of Q (measured) and,
+    where a negative pivot appears, the lowest eigenpair and the enclosed
+    Rayleigh upper bound (with the doubled eps of the full assembly) at its
+    40-digit eigenvector."""
+    d, Q, eps = _load_q(q_path)
+    Qm = Q.mid()
+    out = []
+    for n in sizes:
+        A = _sub(Qm, n)
+        ng, ps, ud, sm = ldl_inertia(A, balls=False)
+        row = {"N": n, "neg": ng, "undecided": ud}
+        if ng >= 1:
+            lam, x, r = lowest_eigenpair(A)
+            q = quad_form(_sub(Q, n), [arb(s) for s in _vec_dec(x)])
+            row.update(lam=lam.str(12, radius=False), residual=r,
+                       rq_upper_with_eps=float((q + arb(0, eps.upper())).upper()))
+        else:
+            lam, _, r = inverse_iteration(A)
+            row.update(lam_nearest_0=lam.str(12, radius=False), residual=r)
+        out.append(row)
+        print(json.dumps(row), flush=True)
+    return out
+
+
+def block_witness(q_path: Path, n: int) -> dict:
+    """The n-mode block witness: lowest eigenpair of the leading block, its
+    40-digit vector and enclosed quotient (witness_v101.json for n = 101)."""
+    d, Q, eps = _load_q(q_path)
+    lam, x, r = lowest_eigenpair(_sub(Q.mid(), n))
+    vd = _vec_dec(x)
+    v = [arb(s) for s in vd]
+    q = quad_form(_sub(Q, n), v)
+    La = price.to_arb(Fraction(d["L"]))
+    mu = sum((v[i] * ((arb(4 * i + 1) / 2) / La).sqrt() for i in range(n)), arb(0))
+    return {"L": d["L"], "N": n, "basis": f"scout even T_{{2i}}, i < N (the leading {n} modes of Q_{d['N']})",
+            "v": vd, "rq_mid": q.mid().str(15, radius=False), "rq_rad": float(q.rad()),
+            "eps_used": float(eps.upper()), "rq_upper_with_eps": float((q + arb(0, eps.upper())).upper()),
+            "lam": lam.str(15, radius=False), "residual": r, "boundary_value_f_L": mu.mid().str(6, radius=False)}
+
+
+def reassemble(vec_path: Path, prec: int = 320, L: Fraction = L_DH_WINDOW) -> dict:
+    """Q_N assembled again by this code at its own size N = len(v) (its own
+    Gauss nodes in y and x, precision prec) and evaluated at the stored vector,
+    with its own error budget (eps doubled). Not an independent implementation."""
+    v = json.loads(Path(vec_path).read_text())["v"]
+    N = len(v)
+    ctx.prec = prec
+    Nx = default_Nx(N)
+    t0 = time.time()
+    red = reduce_parts(L, N, [unit(L, N, Nx, 0, 10 ** 9, prec=prec)], prec)
+    _, dropped = comb(L)
+    eps = 2 * spectral_eps(L, N, Nx, red["E_psi"], red["K"], dropped)
+    q = quad_form(red["Q"], [arb(s) for s in v])
+    return {"N": N, "Nx": Nx, "M": 2 * N - 1, "prec": prec, "seconds": time.time() - t0,
+            "rq_mid": q.mid().str(15, radius=False), "rq_rad": float(q.rad()), "eps": eps,
+            "rq_upper_with_eps": float((q + arb(0, eps)).upper())}
+
+
+def shifted_counts(q_path: Path, state_dir: Path, env_path: Path, exps=(-66, -64, -62, -60, -55, -50)) -> dict:
+    """Sylvester counts of (Q_N - R(T#)) + sigma I on midpoints at 256 bits,
+    R(T#) = C + beta*(I - G) from the stored restart state (read only, 1280
+    bits, rounded). Measured."""
+    import scout
+    d, Q, _ = _load_q(q_path)
+    N = d["N"]
+    with ctx.workprec(1280):
+        meta, C, G = scout._load_state(Path(state_dir), N)
+        S, _, kind = scout.load_envelope(Path(env_path), with_kind=True)
+        T = Fraction(1, 2) * meta["k1"]
+        beta = scout.beta_star(kind, price.to_arb(T), price.to_arb(S))
+        I = arb_mat(N, N, [1 if i == j else 0 for i in range(N) for j in range(N)])
+        R = C + beta * (I - G)
+    R256 = arb_mat(N, N, [+(R[i, j].mid()) for i in range(N) for j in range(N)])
+    del C, G, R
+    D = (Q.mid() - R256).mid()
+    I = arb_mat(N, N, [1 if i == j else 0 for i in range(N) for j in range(N)])
+    out = {"N": N, "T": float(T), "counts": []}
+    for e in exps:
+        neg, pos, und, sm = ldl_inertia((D + arb(10) ** e * I).mid(), balls=False)
+        row = {"sigma": f"1e{e}", "neg": neg, "pos": pos, "undecided": und}
+        out["counts"].append(row)
+        print(json.dumps(row), flush=True)
+    return out
+
+
+def merge_record(analysis: Path, blocks, onset_vec: Path, reassembled: Path, counts: Path, responses: Path,
+                 slices: Path, q_pkl_sha256: str) -> dict:
+    """witness_q856.json: the analysis record with the leading blocks merged in
+    order of size, the onset, the counts, the re-assembly, the responses of the
+    stored T# = 800 block and the timed slices."""
+    rec = json.loads(Path(analysis).read_text())
+    by = {b["N"]: b for b in rec["leading_blocks"]}
+    for f in blocks:
+        for b in json.loads(Path(f).read_text()):
+            by[b["N"]] = b
+    rec["leading_blocks"] = [by[n] for n in sorted(by)]
+    first = min(n for n, b in by.items() if b["neg"] >= 1)
+    last = max(n for n, b in by.items() if b["neg"] == 0 and n < first)
+    rec["onset"] = {"last_block_without_negative_pivot": last, "first_block_with_one": first,
+                    "witness_file": Path(onset_vec).name}
+    rec["Q_minus_R800_shifted_counts"] = json.loads(Path(counts).read_text())["counts"]
+    rec["reassembled_101"] = json.loads(Path(reassembled).read_text())
+    rec["assembly_q856_pkl_sha256"] = q_pkl_sha256
+    rec["grade"] = ("hardened: ball enclosures carry every step of the witness quotients (exact Gauss sums for g, "
+                    "Arb-bounded Gauss-Legendre error in x, carried dropped-radius bound, dropped comb mass); "
+                    "inertia counts and lambda values are midpoint (measured)")
+    r = json.loads(Path(responses).read_text())
+    rec["responses_T800"] = {"source": "scout.py --responses-at-state on the run-B restart state at T# = 800 "
+                                       "(1280 bits)", "responses": r["responses"], "seconds": r["responses_seconds"]}
+    rec["timed_slices"] = [json.loads(line) for line in Path(slices).read_text().splitlines() if line.startswith("{")]
+    return rec
+
+
+def derived_main(argv):
+    """CLI for the derived records: blocks Q.pkl OUT N...; block-witness Q.pkl n OUT;
+    reassemble VEC prec OUT; shifted-counts Q.pkl STATE OUT; record OUT analysis
+    onset_vec reassembled counts responses slices q_sha blocks..."""
+    cmd = argv[0]
+    if cmd == "blocks":
+        res = leading_blocks(Path(argv[1]), [int(x) for x in argv[3:]])
+        Path(argv[2]).write_text(json.dumps(res, indent=1))
+    elif cmd == "block-witness":
+        res = block_witness(Path(argv[1]), int(argv[2]))
+        Path(argv[3]).write_text(json.dumps(res, indent=0))
+        print(json.dumps({k: v for k, v in res.items() if k != "v"}))
+    elif cmd == "reassemble":
+        res = reassemble(Path(argv[1]), int(argv[2]))
+        Path(argv[3]).write_text(json.dumps(res, indent=1))
+        print(json.dumps(res))
+    elif cmd == "shifted-counts":
+        res = shifted_counts(Path(argv[1]), Path(argv[2]), HERE / "k2env_dh_L_DH.json")
+        Path(argv[3]).write_text(json.dumps(res, indent=1))
+    elif cmd == "record":
+        out, analysis, onset_vec, reas, counts, resp, slices, sha = argv[1:9]
+        res = merge_record(Path(analysis), argv[9:], Path(onset_vec), Path(reas), Path(counts), Path(resp),
+                           Path(slices), sha)
+        Path(out).write_text(json.dumps(res, indent=1))
+    else:
+        raise SystemExit(f"unknown command {cmd}")
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "stage-a":
         stage_a_main()
+    elif len(sys.argv) > 1 and sys.argv[1] in ("blocks", "block-witness", "reassemble", "shifted-counts", "record"):
+        derived_main(sys.argv[1:])
     else:
         main()
