@@ -8,7 +8,9 @@ Checks, each decided on balls or exact integers:
    balls ordered and disjoint within each shard, and shard k's last zero below
    shard k+1's first);
 2. the last zero is below T, and Arb's Turing count gives N(T) = K*1e5, so the
-   sum is over exactly the zeros with 0 < gamma <= T (completeness, route 1 only);
+   sum is over exactly the zeros with 0 < gamma <= T (rigorous completeness on
+   route 1 only; mpmath ``nzeros``, code-disjoint and float grade, agrees on N(T)
+   at both cutoffs, see ``test_cutoffs_by_the_mpmath_route``);
 3. every route-2 sampled bracket showed a sign change;
 4. the gate: Revers's printed S* against the ball sum;
 5. the lower bound -1 - S - R at each eta of Revers's resizing table;

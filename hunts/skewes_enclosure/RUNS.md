@@ -305,7 +305,9 @@ Pinned in the workflow: python-flint 0.9.0, mpmath 1.3.0. The watcher now measur
 
 10/10 jobs succeeded between 00:32 and 06:29 UTC. **The whole B2 rerun cost 106.2
 runner core-hours by job wall**: 27.1 in run 40415010866 and 79.1 in this run,
-against a final cap of 150. Process time was 22.9 + 77.2 = 100.1 core-hours.
+against a final cap of 150. Process time was 22.9 + 77.2 = 100.0 core-hours
+(isolation, the `seconds_zeros` of the shard JSONs: 22.87 + 77.15 = 100.02).
+(Corrected 2026-10-27: this line first said 100.1, a rounding slip.)
 Per-run runner speed: shards 1 to 68 ran at 6.9 to 18.0 ms/zero, and shards 69 to
 220 at 8.7 to 25.5 ms/zero, depending on the CPU model. That spread is the cause
 of both cap changes. `evaluate_b2.py` ran once, on all 220 shards, exactly as
@@ -325,4 +327,27 @@ artifacts:
   - hunts/skewes_enclosure/shards_b2/evaluation.json
   - hunts/skewes_enclosure/shards_b2/SHA256SUMS
   - zeros-* artifacts of runs 40415010866 and 40426999125 (90-day retention)
+```
+
+## 2026-10-27: S2 over the first 2e4 zeros (post-hoc review of PR #360)
+
+Estimate before running, from the review's own run of the same sum (287 s for
+2e4 zeros at 64 bits, sums under a second): **about 5 core-minutes**, one
+process, well under the one-core-hour line, so no ask. Ran on the lab box
+under `setsid nohup nice -n 10`, 14:05:33 to 14:10:15 UTC: isolation 282 s,
+**0.08 core-hour**. A duplicate launch (my mistake in reading `ps`) was killed
+within seconds, before it wrote anything. `compare` then took 0.3 s.
+
+```runmanifest
+id: skewes_enclosure-2026-10-27-s2-first20000
+hunt: skewes_enclosure
+started: 2026-10-27T14:05:33+00:00
+finished: 2026-10-27T14:10:15+00:00
+ran:
+  - nice -n 10 .venv/bin/python hunts/skewes_enclosure/s2_check.py compute --n 20000 --out s2_first20000.json
+  - .venv/bin/python hunts/skewes_enclosure/s2_check.py compare --out hunts/skewes_enclosure/s2_comparison.json
+outcome: S2 at omega 727.951335792 is 1.685921553e-5 over 2e4 zeros; Revers's 6.3 S* equals the Saouter-Demichel value minus S2 to 1.0e-9 (post hoc, measured; RESULTS.md section 7)
+artifacts:
+  - hunts/skewes_enclosure/s2_first20000.json
+  - hunts/skewes_enclosure/s2_comparison.json
 ```

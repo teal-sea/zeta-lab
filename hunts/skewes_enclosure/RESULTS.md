@@ -1,6 +1,6 @@
 # RESULTS: `skewes_enclosure` (hunt #152)
 
-Status on 2026-10-27, three outcomes:
+Status on 2026-10-27, three outcomes and one post-hoc finding:
 
 - **Target A (Chao-Plymen, 2e6 zeros): gate passed.** pi(x) > li(x) for some x
   with log x in [727.9519119, 727.9521241] (section 1).
@@ -9,8 +9,21 @@ Status on 2026-10-27, three outcomes:
 - **The pre-registered omega-grid rerun (B2): hypothesis H not supported by its
   rule.** At omega = 727.951335792, the sum misses Revers's S* by 3.37e-5,
   against a budget of 2.60e-5. The pre-declared localization at that omega
-  holds anyway: pi(x) > li(x) for some x with log x in [727.9513199, 727.9513517]
+  holds anyway: pi(x) > li(x) for some x with log x in [727.951319892, 727.9513517]
   (section 7).
+- **Post-hoc review finding (2026-10-27, measured, not pre-registered).** The
+  3.37e-5 gap is twice the second-order sum S2: Revers's printed S* for the
+  Saouter-Demichel region equals Saouter-Demichel's printed first-order sum
+  minus S2, to 1.0e-9, where Theorem 3.1 adds S2. Our own first-order sum
+  matches Saouter-Demichel's to 4.7e-8 (sections 3, 7 and 8). The
+  pre-registered verdict stands.
+
+**Correction (2026-10-27, review of PR #360).** The B interval was first quoted
+with lower end 727.9513199. That rounds the exact lower end, 727.951335792 -
+0.0000159 = 727.951319892, inward, so the quoted interval was not the one
+proved. The quote above is exact at the lower end and rounded outward at the
+upper end (exact: 727.951351692). `test_quoted_intervals_contain_the_exact_ones`
+pins every quoted interval in this file and in the case log.
 
 Nothing here is promoted: the grades below are this hunt's report, not a
 reviewer's.
@@ -28,7 +41,9 @@ A = 1.022e7, T = 1131944.4719, which Arb counts to exactly 2,000,000 zeros.
 | eta = 1.061e-4 | **[0.000147477 +/- 2.21e-10] > 0** | |
 | eta = 1.060e-4 | [-0.000124308 +/- 5.29e-10] < 0 | the floor, as in Revers |
 
-**Measured claim, with its dependencies.** With every computed step carried by
+**The claim, with its dependencies.** (Corrected 2026-10-27: this heading
+first read "Measured claim", which contradicts the hardened grade given below.)
+With every computed step carried by
 Arb balls, I(727.952018, 1.061e-4) > 1.4747e-4 > 0. By the positivity argument
 in Revers's "Runs of successive integers" subsection, pi(x) > li(x) for some x with log x in
 [727.9519119, 727.9521241]. This rests on four inputs:
@@ -38,10 +53,15 @@ in Revers's "Runs of successive integers" subsection, pi(x) > li(x) for some x w
    They reproduce both of his resizing tables (13 rows, `test_skewes_terms.py`).
 2. **RH to height A = 1.022e7.** Cited: Platt (2017, to 3.06e10) and
    Platt-Trudgian (2021, to 3e12).
-3. **The zeros and their completeness: route 1 only.** Arb's
+3. **The zeros and their completeness: rigorous on route 1 only.** Arb's
    `acb_dirichlet_zeta_zeros` and Turing count. Every ball is disjoint from
    and below the next, both within and across shards. The last zero is below T,
-   and N(T) = 2,000,000.
+   and N(T) = 2,000,000. (Corrected 2026-10-27: this item first said "route 1
+   only". The count N(T) also has a float-grade second route: mpmath `nzeros`,
+   which shares no code with Arb and is not rigorous, gives N(T) = 2,000,000 at
+   T = 1131944.4719 and 22,000,000 at T = 10379600, and one less at each of
+   Revers's printed T; `test_cutoffs_by_the_mpmath_route`. That route checks
+   the count only, not that each ball holds a zero.)
 4. **Route 2 is a sample.** 1150 of the 2e6 Arb brackets (200 in shard 1 and
    50 in each later shard, seeded) show a sign change of mpmath `siegelz`
    at +/- 1e-8. mpmath shares no code with Arb but is float grade, and it checks
@@ -99,7 +119,11 @@ search), which is not a literature search. No priority is claimed.
   | gamma_2000000 | [1131944.471824862268 +/- 5.91e-13] | 1131944.471824862268492 |
   | N(10379599.7274) | 21999999 | 21999999 |
   | N(10379600) | 22000000 | 22000000 |
-  | gamma_22000000 | not isolated yet | 10379599.72743106015977 |
+  | gamma_22000000 | [10379599.72743106016 +/- 1.23e-12] | 10379599.72743106015977 |
+
+  (Updated 2026-10-27: the Arb cell for gamma_22000000 first read "not isolated
+  yet". Production B isolated it; the value is `last` in
+  `shards_b2/shard_220.json`, and it agrees with mpmath.)
 
   So each printed decimal is the zero truncated to four places, a lower bound,
   where the text has "<". The same sentences also print
@@ -107,6 +131,31 @@ search), which is not a literature search. No priority is claimed.
   were taken literally as the printed decimal, the sum would omit one zero, a
   term of at most about 1.5e-8, far below either margin. This hunt sums to
   T = 1131944.4719 and 10379600, which both routes count to exactly 2e6 and 2.2e7.
+- **Added 2026-10-27 (post-hoc review, measured, not pre-registered): the
+  subsection 6.3 S* subtracts the second-order sum.** Split Revers's sum as
+  S = S1 + S2, with S1 the first-order (Lehman) part over 1/rho and S2 the
+  second-order part over 1/(omega rho^2), both with the same Gaussian weight.
+  Subsection 6.3 quotes "the Saouter-Demichel machine value with size
+  -1.002906086981405" (first order, S1 only, at their omega = 727.951335792,
+  alpha = 6e12, 2.2e7 zeros). With S2 at omega = 727.951335792 from the first
+  2e4 zeros, 1.68592e-5 (section 7 has the tail estimate),
+
+      Saouter-Demichel's S1 - S2 = -1.0029229462,  Revers's S* = -1.0029229472,
+
+  which agree to 1.0e-9. Theorem 3.1 adds S2, and so do our sums. At the
+  Chao-Plymen point Revers's S* agrees with ours, that is with +S2, to 1.7e-10
+  (section 1), and his quoted Chao-Plymen value -1.006569 is our S1 to its six
+  printed decimals. So the 6.3 value appears to subtract S2 where the theorem
+  adds it. Driver and data: `s2_check.py`, `s2_first20000.json`,
+  `s2_comparison.json`, pinned by `test_skewes_terms.py`.
+- **Added 2026-10-27 (measured): an apparent digit slip in the 6.3 table.**
+  Every other positive row of both resizing tables equals -1 - S* - Delta S1 -
+  Delta S2 - R, recomputed from the printed S*, R and Delta S values, to within
+  5e-9 (R is printed to six digits). The row eta = 0.0000159 prints 0.000015987,
+  but the printed values give 6.5986e-5 there, 4.9999e-5 more. A "1" for a "6"
+  in the leading digit fits. The row is positive either way, so the paper's
+  conclusion is unaffected. Pinned by
+  `test_revers_saouter_demichel_row_1_59e_5_is_a_digit_slip`.
 
 ## 4. Cost
 
@@ -210,6 +259,48 @@ inequality was not the pre-registered rule, so this is noted, not used.
 Revers's S*. It is not a refutation of his result, whose positive conclusion
 holds at our value too (below).
 
+**Superseded in part, 2026-10-27 (post-hoc review of PR #360; measured; not
+pre-registered).** The paragraph above is kept as recorded. Its three candidate
+explanations are replaced by one that was measured afterwards, and none of the
+three is it. Split S = S1 + S2 as in section 3 (S2 is the 1/(omega rho^2) part).
+
+- **S2 at omega = 727.951335792** over the first 2e4 zeros (gamma_20000 =
+  18046.46) is 1.685921553e-5, an Arb ball of radius 2e-18. The tail beyond
+  gamma_20000 is not bounded rigorously. A main-term estimate,
+  (2/omega)(log(Gamma/2 pi) + 1)/(2 pi Gamma) = 2.2e-7, bounds it if N(t)
+  followed its main term. Going from 1e3 to 2e4 zeros moved S2 by 2.4e-8, about
+  1% of the same estimate at 1e3 zeros (2.0e-6). So the tail is probably of
+  order 1e-9.
+- **The identity.** Saouter-Demichel's printed first-order sum minus S2,
+  -1.002906086981405 - 1.68592e-5 = -1.0029229462, equals Revers's S* =
+  -1.0029229472 to 1.0e-9. With +S2, as Theorem 3.1 has it, the miss is 3.37e-5.
+- **The rule gap is 2 S2.** S - S* = 3.3673e-5, and 2 S2 = 3.3718e-5. The
+  4.6e-8 difference is the next item.
+- **An end-to-end check of the 2.2e7-zero list.** Our first-order sum,
+  S - S2 = -1.0029061335, matches Saouter-Demichel's independently computed
+  -1.0029060870 to 4.7e-8. That is about 1/1250 of the 5.8e-5 margin at
+  eta = 1.59e-5. One zero at height gamma moves S by up to about
+  2 e^{-gamma^2/2 alpha}/gamma, depending on its phase. Below height about 5e6
+  that can exceed 4.7e-8, so a missing or spurious zero there could show at
+  this level. Above 5e6 a single zero moves S by at most about 5e-8, and it
+  would take over 1000 of them to erase the margin.
+- **Target A is consistent with +S2.** There S2 = 1.595e-5. Revers's S* matches
+  our S1 + S2 to 1.7e-10 (section 1) and misses S1 - S2 by 3.19e-5. Chao-Plymen's
+  quoted -1.006569 is our S1 = -1.0065694 to its six printed decimals.
+- **The alternative omega is far worse.** omega = 727.9513358 is 727.951335792
+  to seven decimals. Interpolating the pre-registered grid (degree-7 polynomial
+  through the 8 nearest points) gives S(727.9513358) - S* = -8.0e-7. That is
+  about 800 times the 1.0e-9 residual of the identity, and it uses +S2.
+
+The pre-registered verdict stands: **H is not supported by its rule.** In
+substance, though, H's omega was right. The S* Revers printed is built from the
+sum at 727.951335792, and the rule failed on the sign of S2, not on omega. The
+grade is measured: it uses two printed decimals from the source and S2 truncated
+at 2e4 zeros with an estimated tail. The disposition for reproducing Revers's
+S* becomes **explained at measured grade, post hoc**. Driver: `s2_check.py`
+(`compute` writes `s2_first20000.json` in about 5 core-minutes; `compare` writes
+`s2_comparison.json` in seconds). Pinned in `test_skewes_terms.py`.
+
 **Descriptive grid** (all 83 values are in `evaluation.json`, and no claim is made
 from them): S ranges from -1.00664805 to -0.99067672. No grid point meets the
 rule. The nearest, 727.951337542, is 2.88e-5 away.
@@ -226,12 +317,17 @@ A = 6.85e7, T = 10379600):
 | **1.59e-5** | **[5.833e-5 +/- 5.9e-9] > 0** |
 | 1.58e-5 | [-4.08588e-3 +/- 3.3e-9] < 0 |
 
-So **pi(x) > li(x) for some x with log x in [727.9513199, 727.9513517]**. The
-grade matches target A: a hardened computation on a cited derivation (Revers
+So **pi(x) > li(x) for some x with log x in [727.951319892, 727.9513517]**
+(exact: [727.951319892, 727.951351692]). (Corrected 2026-10-27: the lower end
+was first quoted as 727.9513199, rounded inward; see the correction at the top.)
+The grade matches target A: a hardened computation on a cited derivation (Revers
 Theorem 3.1, RH to A = 6.85e7), with completeness on Arb alone and route 2
 sampled. This is the Saouter-Demichel region at Revers's narrowest eta. It is
-not a new record: Saouter-Trudgian-Demichel 2015's interval is narrower and
-lower. At omega_0 = 727.951335426 every bound is negative (about -1.43e-3), so
+not a new record: Saouter-Trudgian-Demichel 2015's interval is narrower and lies
+inside this one. (Corrected 2026-10-27: this sentence first said "narrower and
+lower". STD15's [727.951334747, 727.951336105] lies inside this interval, so its
+lower end is higher than ours, not lower. The localization here follows from
+theirs, if theirs holds.) At omega_0 = 727.951335426 every bound is negative (about -1.43e-3), so
 nothing is claimed there. That is expected, because STD15 used alpha = 1.61e15
 and 5.25e8 zeros, not this family.
 
@@ -244,6 +340,25 @@ a final cap of 150 (RUNS.md has the cap history and watcher incidents). The
 zeros of all 220 shards are uploaded as 90-day artifacts, and each one's
 decompressed SHA-256 equals its shard's `zeros_sha256`. A new omega or alpha
 therefore no longer needs a recompute until they expire.
+
+## 8. Literature note (2026-10-27)
+
+M. Revers, *New bounds in R.S. Lehman's estimates for the difference
+pi(x) - li(x)*, arXiv:2501.04488 v2 (J. Number Theory 2025), subsection 6.3,
+appears to subtract the second-order sum S2 where its Theorem 3.1 adds it. The
+printed S* = -1.002922947193156 equals the Saouter-Demichel first-order value
+it quotes, minus S2 at omega = 727.951335792, to 1.0e-9. With +S2, the miss is
+3.37e-5. Subsection 6.2 uses +S2 and agrees with our ball sum to 1.7e-10. The
+evidence is in section 7. The grade is measured: two printed decimals, plus S2
+truncated at 2e4 zeros with an estimated tail. The same subsection's table also
+has an apparent digit slip at eta = 0.0000159, and its eta = 0.0000155 row is
+the value at 0.0000156 (section 3).
+
+None of these changes the paper's conclusions. At omega = 727.951335792, Theorem
+3.1 with the correct +S2 still gives a positive lower bound at eta = 1.59e-5:
+5.83e-5 (section 7). The paper's printed S* and R give 9.20e-5 there before
+its Delta S. This lab
+does not contact authors. The note is recorded here only.
 
 ## The doors
 
@@ -270,8 +385,30 @@ much of R they hold at eta = 1.061e-4 (R = 6.406e-3):
 - T = gamma_2000000. More zeros cut R4 sharply. Cost is linear at about
   13 ms/zero.
 - A = 1.022e7, a cited input. RH is known to 3e12, so A could be raised for free
-  inside R6.
+  inside R6. (Corrected 2026-10-27: false, see below.)
 - The 64-bit isolation precision, and the route-2 sample of 1150. Neither binds.
+
+**Correction (2026-10-27, review of PR #360): A is a binding constant with a
+two-sided trade, not a free door.** R6 has two terms. The first,
+(1 + 22/(A omega)) 8.283 log A e^{-alpha eta^2/4 + (omega+eta)/2}, grows like
+log A. The second, 7.152 eta A log A e^{-A^2/2 alpha + (omega+eta)/2}, falls off
+a cliff once A^2 is well above alpha omega, that is A above sqrt(alpha omega) =
+9.9e6 here. So the best A sits just above the cliff, which is where Revers put
+it, and raising A toward the verified RH height costs margin. R6 and the lower
+bound at eta = 1.061e-4, with our S and every other parameter as in section 1
+(all hypotheses of Theorem 3.1 hold at each A):
+
+| A | R6 | lower bound on I |
+| --- | --- | --- |
+| 1.0e7 | 12.885 | -12.884 |
+| **1.022e7 (Revers)** | **2.634e-4** | **+1.475e-4** |
+| 6.85e7 | 2.935e-4 | +1.173e-4 |
+| 3.06e10 | 3.928e-4 | +1.807e-5 |
+| 3e12 | 4.674e-4 | -5.653e-5 |
+
+At A = 3e12 the bound is negative, so "raise A for free" would have destroyed
+the result. Raising alpha also forces A up like sqrt(alpha omega), so the alpha
+door pays this log A cost too. Pinned by `test_doors_A_is_binding_not_free`.
 
 **The information class of each door.** Re-choosing omega and A stays inside the
 data the current run reads: the same 2e6 zeros and a cited RH height. Raising
@@ -279,7 +416,10 @@ alpha or T needs more zeros, which means reading more of the same kind of data
 (target B is that door at 2.2e7 zeros). Lowering R1 needs new analysis on the
 prime side, not more data: Saouter-Trudgian-Demichel's weighted kernel
 (1 + 2u + 9.336u^2) is one such route, and it is not computed here. This is a
-measured optimum at one parameter family, not a proved ceiling.
+measured optimum at one parameter family, not a proved ceiling. (Corrected
+2026-10-27: re-choosing A needs no new data, but it is not an open door. A is
+already near its optimum, just above the R6 cliff, and moving it either way
+costs margin, per the table above.)
 
 **Doors at the Saouter-Demichel point (added 2026-10-27).** At omega =
 727.951335792, alpha = 6e12, the floor is eta = 1.59e-5. R = 2.831e-3 there:
@@ -293,4 +433,20 @@ STD15's omega_0 needs alpha near 1.6e15 and about 5e8 zeros, which reads more of
 the same data. Lowering R1 needs new prime-side analysis (STD15's weighted
 kernel), not more data. The uploaded zero balls make any alpha <= 6e12 study on
 these 2.2e7 zeros free of isolation cost until the artifacts expire.
+
+(Corrected 2026-10-27: "the frozen constants are the same" carried over the false
+"A for free" door. At B, A = 6.85e7 is again just above the R6 cliff,
+sqrt(alpha omega) = 6.6e7. At eta = 1.59e-5 and omega = 727.951335792:
+
+| A | R6 | lower bound on I |
+| --- | --- | --- |
+| 6.6e7 | 3.585e5 | -3.585e5 |
+| 6.7e7 | 5.597 | -5.597 |
+| **6.85e7 (Revers)** | **3.624e-5** | **+5.832e-5** |
+| 1e8 | 3.674e-5 | +5.782e-5 |
+| 3.06e10 | 4.816e-5 | +4.640e-5 |
+| 3e12 | 5.730e-5 | +3.726e-5 |
+
+Here the bound stays positive at A = 3e12, but the margin falls by 36%. A is
+binding at both points.)
 

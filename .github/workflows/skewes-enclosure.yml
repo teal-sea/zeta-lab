@@ -2,7 +2,9 @@
 #
 # Each job isolates a block of 1e5-zero shards with Arb (python-flint) and
 # uploads the per-shard JSON partial sums (about 2 KB each) plus a job manifest.
-# Zeros themselves are never uploaded: each shard records their SHA-256.
+# Each shard records the SHA-256 of its zeros. Since the omega-grid rerun (B2) the
+# zeros are also uploaded, gzipped, as 90-day `zeros-*` artifacts (updated
+# 2026-10-27: this comment first said zeros were never uploaded).
 # `combine.py --target saouter_demichel` joins the 220 shards locally.
 #
 # Trigger: a push to the hunt branch that touches RUN_REQUEST.json, which names

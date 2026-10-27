@@ -228,3 +228,164 @@ def test_B2_preregistered_evaluation_is_pinned():
     assert lb["0.0000159"]["positive"] and not lb["0.0000158"]["positive"]
     assert not any(v["positive"] for v in r["lower_bounds_at_decisive_points"]["727.951335426"].values())
     assert all(f["gamma1_fault_leaves_own_ball"] for f in r["planted_faults"].values())
+
+
+# --- Added 2026-10-27, review of PR #360 -------------------------------------
+
+#: The proved intervals [omega - eta, omega + eta] of targets A and B, exact.
+EXACT_INTERVALS = {
+    "A": ("727.952018", "0.0001061"),
+    "B": ("727.951335792", "0.0000159"),
+}
+
+
+def _exact(key):
+    from decimal import Decimal
+
+    w, e = (Decimal(x) for x in EXACT_INTERVALS[key])
+    return w - e, w + e
+
+
+def _quote_contains_exact(lo: str, hi: str) -> bool:
+    """A quoted [lo, hi] must contain the exact interval it overlaps (outward or exact)."""
+    from decimal import Decimal
+
+    qlo, qhi = Decimal(lo), Decimal(hi)
+    for key in EXACT_INTERVALS:
+        elo, ehi = _exact(key)
+        if qlo <= ehi and elo <= qhi:
+            return qlo <= elo and qhi >= ehi
+    return False
+
+
+def _quoted_intervals(text: str) -> list[tuple[str, str]]:
+    import re
+
+    return re.findall(r"log x in\s+\[(\d+\.\d+), (\d+\.\d+)\]", text)
+
+
+def _case_log_entry() -> str:
+    text = (HERE.parent / "README.md").read_text()
+    start = text.index("### Hunt #152:")
+    nxt = text.find("\n### Hunt #", start + 1)
+    return text[start:] if nxt < 0 else text[start:nxt]
+
+
+def test_quoted_intervals_contain_the_exact_ones():
+    """Every 'log x in [lo, hi]' in RESULTS.md and the case log contains the
+    exact [omega - eta, omega + eta] it reports, so no quote is rounded inward."""
+    for name, text in (("RESULTS.md", (HERE / "RESULTS.md").read_text()),
+                       ("case log", _case_log_entry())):
+        quotes = _quoted_intervals(text)
+        assert len(quotes) >= 2, name
+        assert all(_quote_contains_exact(lo, hi) for lo, hi in quotes), (name, quotes)
+        # both targets are quoted in each file
+        assert any(_quote_contains_exact(lo, hi) and lo.startswith("727.9519") for lo, hi in quotes)
+        assert any(_quote_contains_exact(lo, hi) and lo.startswith("727.95131") for lo, hi in quotes)
+
+
+def test_planted_fault_an_inward_digit_fails_the_interval_check():
+    """The first quote of B, lower end 727.9513199, was rounded inward."""
+    assert _exact("B")[0] < __import__("decimal").Decimal("727.9513199")
+    assert not _quote_contains_exact("727.9513199", "727.9513517")
+    assert not _quote_contains_exact("727.9519120", "727.9521241")  # one digit inward at A
+    assert _quote_contains_exact("727.951319892", "727.9513517")
+    text = "pi(x) > li(x) for some x with log x in [727.9513199, 727.9513517]"
+    assert not all(_quote_contains_exact(lo, hi) for lo, hi in _quoted_intervals(text))
+
+
+def test_revers_saouter_demichel_row_1_59e_5_is_a_digit_slip():
+    """[Rev25] tables: lower estimate = -1 - S* - Delta S1 - Delta S2 - R from the
+    printed values. Every positive row agrees to 5e-9 except eta = 0.0000159,
+    printed 0.000015987 where the printed values give 6.5986e-5."""
+    cp, sd = arb(st.REVERS_S_STAR["chao_plymen"]), arb(st.REVERS_S_STAR["saouter_demichel"])
+    d_cp = arb("1.89855e-5") + arb("4.9599e-11")
+    d_sd = arb("2.6011e-5") + arb("4.9599e-11")
+    rows = [(cp, d_cp, "6.14384e-3", "0.000390651"), (cp, d_cp, "6.14369e-3", "0.000390805"),
+            (cp, d_cp, "6.14353e-3", "0.000390959"), (cp, d_cp, "6.20670e-3", "0.000327792"),
+            (cp, d_cp, "6.40600e-3", "0.000128492"),
+            (sd, d_sd, "2.79507e-3", "0.000101863"), (sd, d_sd, "2.79503e-3", "0.000101907"),
+            (sd, d_sd, "2.79500e-3", "0.000101939"), (sd, d_sd, "2.79527e-3", "0.000101670")]
+    for s, d, R, printed in rows:
+        assert abs(-1 - s - d - arb(R) - arb(printed)) < arb("5e-9"), (R, printed)
+    off = -1 - sd - d_sd - arb("2.83095e-3") - arb("0.000015987")
+    assert abs(off - arb("4.9999e-5")) < arb("1e-8")
+
+
+def _lb(p, S):
+    return st.lower_bound_I(S, p)
+
+
+def test_doors_A_is_binding_not_free():
+    """RESULTS.md 'The doors' (corrected 2026-10-27): raising A toward the verified
+    RH height costs margin through log A in R6; lowering it hits the cliff near
+    sqrt(alpha omega)."""
+    S_A = arb("[-1.006553479 +/- 3.85e-10]")
+    lb = {A: _lb(dataclasses.replace(st.CHAO_PLYMEN, eta="0.0001061", A=A), S_A)
+          for A in ("1.0e7", "1.022e7", "3.06e10", "3e12")}
+    for A in lb:
+        assert all(st.check_hypotheses(dataclasses.replace(st.CHAO_PLYMEN, eta="0.0001061",
+                                                           A=A)).values())
+    assert lb["1.0e7"] < 0 and lb["1.022e7"] > 0 and lb["3e12"] < 0
+    assert lb["3.06e10"] < lb["1.022e7"]
+    S_B = arb("[-1.00288927 +/- 5.39e-9]")
+    pb = dataclasses.replace(st.SAOUTER_DEMICHEL, omega="727.951335792", eta="0.0000159")
+    lbB = {A: _lb(dataclasses.replace(pb, A=A), S_B) for A in ("6.7e7", "6.85e7", "3e12")}
+    assert lbB["6.7e7"] < 0 and lbB["6.85e7"] > 0 and lbB["3e12"] > 0
+    assert lbB["3e12"] < arb("0.7") * lbB["6.85e7"]  # the margin falls by about 36%
+
+
+def test_split_sums_add_up_to_lehman_sum(low_zeros):
+    import s2_check
+
+    w, al = "727.951335792", "6e12"
+    s1, s2 = s2_check.split_sums(low_zeros, w, al)[len(low_zeros)]
+    full = st.lehman_sum(low_zeros, w, al)
+    first = st.lehman_sum(low_zeros, w, al, second_order=False)
+    assert (s1 + s2).overlaps(full) and abs(s1 + s2 - full) < arb("1e-25")
+    assert s1.overlaps(first) and abs(s1 - first) < arb("1e-25")
+    assert bool(s2 > 0)
+
+
+S2_FILE = HERE / "s2_first20000.json"
+
+
+@pytest.mark.skipif(not S2_FILE.exists(), reason="S2 data absent")
+def test_s2_data_reproduces_from_the_driver():
+    """The committed S2 file's 1000-zero checkpoint is what the driver computes now."""
+    import json
+
+    import s2_check
+
+    d = json.loads(S2_FILE.read_text())
+    assert d["n"] == 20000
+    g, _ = zl.arb_zeros(1, 1000, 5000, 64)
+    for label, (w, al) in s2_check.POINTS.items():
+        s1, s2 = s2_check.split_sums(g, w, al)[1000]
+        rec = d["points"][label]["by_count"]["1000"]
+        assert s1.overlaps(arb(rec["S1"])) and s2.overlaps(arb(rec["S2"])), label
+
+
+@pytest.mark.skipif(not (S2_FILE.exists() and (HERE / "shards_b2" / "shard_220.json").exists()
+                         and (HERE / "shards" / "shard_020.json").exists()),
+                    reason="S2 data or shards absent")
+def test_sign_slip_in_revers_6_3_post_hoc():
+    """Post-hoc, measured (RESULTS.md sections 3, 7, 8): Revers's 6.3 S* is the
+    Saouter-Demichel first-order value minus S2, not plus; our S1 matches theirs."""
+    import s2_check
+
+    r = s2_check.compare(S2_FILE, HERE / "shards", HERE / "shards_b2")
+    a = {k: arb(v) for k, v in r.items() if isinstance(v, str) and v.startswith("[")}
+    assert abs(a["SD_minus_S2_minus_Sstar (sign-slip identity)"]) < arb("2e-9")
+    # planted fault: Theorem 3.1's own sign does not reproduce S*
+    assert abs(a["SD_plus_S2_minus_Sstar (Theorem 3.1's sign)"]) > arb("3e-5")
+    assert abs(a["gap_minus_two_S2"]) < arb("5e-8")
+    e2e = abs(a["our_S1_minus_SD (end-to-end check of the 2.2e7 zeros)"])
+    assert bool(e2e > arb("4.5e-8")) and bool(e2e < arb("4.8e-8"))
+    assert abs(a["A_our_S1_minus_CP (CP printed to 6 decimals)"]) <= arb("5e-7")
+    assert abs(a["A_S_minus_Sstar (plus S2, as Theorem 3.1)"]) < arb("2e-10")
+    assert abs(a["A_S_minus_2S2_minus_Sstar (minus S2 convention)"]) > arb("3e-5")
+    alt = r["alt_omega_727.9513358_interpolated_S_minus_Sstar"]
+    assert -8.1e-7 < alt < -7.9e-7
+    assert r["alt_over_sign_slip_residual"] > 500
+    assert r["S2_tail_estimate_B"] < 2.5e-7
