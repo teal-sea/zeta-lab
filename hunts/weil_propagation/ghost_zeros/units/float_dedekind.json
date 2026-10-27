@@ -1,0 +1,355 @@
+{
+ "29": {
+  "kind": "dedekind",
+  "c": "29",
+  "dps": 60,
+  "lam1": "7.24550259444003e-5",
+  "lam2": "0.51794123",
+  "residual": "2.5588e-61",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "0.31452",
+  "seed_shift": "7.2455026e-5",
+  "rects": {
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     15.990234375,
+     16.58984375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1.667471054210319e-61,
+     "integral": true,
+     "evals": 184
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     12.712169158743103,
+     14.018948143622529,
+     15.703625244912129,
+     18.650158236189657,
+     19.722034784291488
+    ],
+    "n_real": 5,
+    "n_real_inside_rect": 5,
+    "rect": [
+     12.0,
+     21.0
+    ],
+    "winding": {
+     "n": 5,
+     "defect": 6.223015277861142e-61,
+     "integral": true,
+     "evals": 1024
+    }
+   }
+  },
+  "elapsed_s": 78.6
+ },
+ "30": {
+  "kind": "dedekind",
+  "c": "30",
+  "dps": 60,
+  "lam1": "4.60464519374275e-5",
+  "lam2": "0.44754611",
+  "residual": "9.6728e-61",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "0.33859",
+  "seed_shift": "4.6046452e-5",
+  "rects": {
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     15.990234375,
+     16.58984375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1.1606527059468576e-62,
+     "integral": true,
+     "evals": 184
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     12.695203157316564,
+     13.996691184880394,
+     15.688824681836511,
+     18.274379280899048,
+     19.475932452221354
+    ],
+    "n_real": 5,
+    "n_real_inside_rect": 5,
+    "rect": [
+     12.0,
+     21.0
+    ],
+    "winding": {
+     "n": 5,
+     "defect": 2.4892061111444567e-60,
+     "integral": true,
+     "evals": 1028
+    }
+   }
+  },
+  "elapsed_s": 122.0
+ },
+ "61/2": {
+  "kind": "dedekind",
+  "c": "61/2",
+  "dps": 60,
+  "lam1": "3.72805022257752e-5",
+  "lam2": "0.4204835",
+  "residual": "1.267e-61",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "0.3481",
+  "seed_shift": "3.7280502e-5",
+  "rects": {
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     15.990234375,
+     16.58984375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 1.2302918683036691e-61,
+     "integral": true,
+     "evals": 184
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     12.688094448670917,
+     13.986998999689483,
+     15.681386099076654,
+     18.069731490929435,
+     19.40703234105241
+    ],
+    "n_real": 5,
+    "n_real_inside_rect": 5,
+    "rect": [
+     12.0,
+     21.0
+    ],
+    "winding": {
+     "n": 5,
+     "defect": 1.8669045833583425e-60,
+     "integral": true,
+     "evals": 1032
+    }
+   }
+  },
+  "elapsed_s": 136.7
+ },
+ "245/8": {
+  "kind": "dedekind",
+  "c": "245/8",
+  "dps": 60,
+  "lam1": "3.55558448135818e-5",
+  "lam2": "0.41472337",
+  "residual": "3.0146e-61",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "0.35013",
+  "seed_shift": "3.5555845e-5",
+  "rects": {
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     15.990234375,
+     16.58984375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 5.609821412076479e-63,
+     "integral": true,
+     "evals": 184
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     12.686564924107554,
+     13.984878784097562,
+     15.67965813820204,
+     18.023155124301134,
+     19.394415005341738
+    ],
+    "n_real": 5,
+    "n_real_inside_rect": 5,
+    "rect": [
+     12.0,
+     21.0
+    ],
+    "winding": {
+     "n": 5,
+     "defect": 0.0,
+     "integral": true,
+     "evals": 1034
+    }
+   }
+  },
+  "elapsed_s": 144.7
+ },
+ "31": {
+  "kind": "dedekind",
+  "c": "31",
+  "dps": 60,
+  "lam1": "3.14662095333962e-5",
+  "lam2": "0.39994683",
+  "residual": "2.5808e-61",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "0.35531",
+  "seed_shift": "3.146621e-5",
+  "rects": {
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     15.990234375,
+     16.58984375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 6.867195176852241e-62,
+     "integral": true,
+     "evals": 184
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     12.682720019366462,
+     13.97948697980097,
+     15.675077637618799,
+     17.902884344089042,
+     19.365560850509016,
+     20.999907326411435
+    ],
+    "n_real": 6,
+    "n_real_inside_rect": 6,
+    "rect": [
+     12.0,
+     21.0
+    ],
+    "winding": {
+     "n": 6,
+     "defect": 0.0,
+     "integral": true,
+     "evals": 1048
+    }
+   }
+  },
+  "elapsed_s": 141.3
+ },
+ "63/2": {
+  "kind": "dedekind",
+  "c": "63/2",
+  "dps": 60,
+  "lam1": "2.63632998742158e-5",
+  "lam2": "0.37805321",
+  "residual": "1.6342e-61",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "0.35267",
+  "seed_shift": "2.63633e-5",
+  "rects": {
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     15.990234375,
+     16.58984375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 2.940320188398706e-62,
+     "integral": true,
+     "evals": 184
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     12.677375058707725,
+     13.971821528701863,
+     15.668037469459819,
+     17.729025910262305,
+     19.331035382866588,
+     20.976404894549134
+    ],
+    "n_real": 6,
+    "n_real_inside_rect": 6,
+    "rect": [
+     12.0,
+     21.0
+    ],
+    "winding": {
+     "n": 6,
+     "defect": 6.223015277861142e-61,
+     "integral": true,
+     "evals": 1032
+    }
+   }
+  },
+  "elapsed_s": 99.4
+ },
+ "47": {
+  "kind": "dedekind",
+  "c": "47",
+  "dps": 60,
+  "lam1": "1.06225323117686e-7",
+  "lam2": "0.012698911",
+  "residual": "1.7527e-61",
+  "n_neg_at_midshift": 1,
+  "smallest_pivot": "0.0027688",
+  "seed_shift": "1.0622532e-7",
+  "rects": {
+   "ghost": {
+    "real_zeros": [],
+    "n_real": 0,
+    "n_real_inside_rect": 0,
+    "rect": [
+     15.990234375,
+     16.58984375
+    ],
+    "winding": {
+     "n": 0,
+     "defect": 3.1724507295880776e-62,
+     "integral": true,
+     "evals": 184
+    }
+   },
+   "ctx": {
+    "real_zeros": [
+     12.596587951873799,
+     13.787791461349864,
+     14.893218336774884,
+     15.815641995320586,
+     18.89310796932567,
+     19.778773312328465
+    ],
+    "n_real": 6,
+    "n_real_inside_rect": 6,
+    "rect": [
+     12.0,
+     21.0
+    ],
+    "winding": {
+     "n": 6,
+     "defect": 2.4892061111444567e-60,
+     "integral": true,
+     "evals": 1028
+    }
+   }
+  },
+  "elapsed_s": 74.1
+ }
+}
