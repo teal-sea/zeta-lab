@@ -23,11 +23,17 @@ Lesions act on the DH matrix: ``q1`` subtracts the off-line quadruple term
 (4/L) Re(a(z_1) a(z_1)^T), z_1 = gamma_1 - i delta_1; ``sham`` subtracts the
 on-line term (2/L) a(g) a(g)^T at the DH zero g = 89.4392...
 
-The ``float`` command is an independent route that shares no code with the
-above below the assembly formulas: ``galerkin.Truncation`` (mpmath) matrices,
-mpmath inverse iteration seeded from a float64 spectrum, an mpmath LDL^T
-inertia, the sinc form of F, and a sampled winding number with an
-integrality guard.
+The ``float`` command is a second implementation of the same assembly formulas
+(``galerkin.Truncation`` is the mpmath original of which
+``enclosures.BallTruncation`` is the ball twin), so it checks the code, not
+the derivation of those formulas. The two routes also share the prime-power
+sieve ``galerkin.prime_powers_upto`` (imported by the Arb assembly) and, for
+Epstein and Dedekind, the integer representation counts of
+``zeta.epstein.epstein_representation_count``. The inverse iteration, the
+inertia, the transform (sinc form against the partial-fraction form), the
+zero scan and the winding number are separate code: mpmath inverse iteration
+seeded from a float64 spectrum, an mpmath LDL^T inertia, the sinc form of F,
+and a sampled winding number with an integrality guard.
 
 Usage, from the repository root with the repository root on PYTHONPATH:
 
