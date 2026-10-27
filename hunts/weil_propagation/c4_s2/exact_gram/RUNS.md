@@ -729,3 +729,42 @@ memory (the preflight refuses first if the request's figures do not fit).
  }
 }
 ```
+
+### 12.1 Launched, and its owner
+
+**Launched** by the push of 1f1b379dd (commits fc477841b and 1f1b379dd on
+fb43d2578): run **40531548491**,
+https://github.com/teal-sea/zeta-lab/actions/runs/40531548491, push event,
+attempt 1, started 2026-10-27T15:29:50Z. The plan job succeeded; by 15:40Z
+the first six Gram jobs had passed their preflight (Arb backend, guard key,
+Gram memory) and were computing, with six queued.
+
+**Owner: a detached watcher** on the box (`swarm-trial-b2-120`), **PID
+3919962**, started 2026-10-27T15:30Z as
+
+    setsid nohup /usr/bin/python3 ~/.cache/zeta-lab/c4-rerun-2026-10-27/watch.py \
+      40531548491 ~/.cache/zeta-lab/c4-rerun-2026-10-27 22 aac8a184...
+
+It polls the run every 300 s and gives up after 60 h. Every outcome ends in
+one `TERMINAL:` line in `~/.cache/zeta-lab/c4-rerun-2026-10-27/watcher.log`,
+a `TERMINAL` file and `outcome.json` there. On success it downloads every
+artifact as a zip through the API and checks each zip's sha256 against
+GitHub's digest. It then runs `read_rows.py` at the run's head commit in a
+clean detached worktree, so the guard key must match the checkpoints or
+`assemble` refuses. It writes `rows.json`, `centres.json`, `read_rows.err`
+and `timings/` into the same directory, then deletes the downloads and the
+worktree; the artifacts stay on GitHub. On any other conclusion it downloads
+and reads nothing, because a re-request is the coordinator's (s11.4). The
+watcher script is outside git, in that directory.
+
+**Checked before launch:** a dry run of the same script on run
+40371181784 (9 shard artifacts, read at fb43d2578, the same closure key
+a8dbfb22...). It matched all 9 digests, and its `rows.json` and
+`centres.json` came out byte-identical to the committed
+`rows_40371181784.json` (sha256 6c367e44...) and `centres_40371181784.json`
+(sha256 1b5bf15b...). A first dry run read at that run's own commit,
+321562ce4, before `read_rows.py` existed. It logged a TERMINAL error as it
+should, and left its downloads behind, so the error path now deletes them.
+
+The outcome is not recorded yet. It belongs in a later dated section, from
+those files, with its runner times against the price of s12.
