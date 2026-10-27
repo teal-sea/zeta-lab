@@ -566,8 +566,11 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "produced from scripts/60 --tower whole at 85cabd55b: each zip's "
             "SHA-256 equals GitHub's digest, and the pilot site's regenerated "
             "sources hash as its checkpoints record; the assembly imports them "
-            "without re-checking their proofs, and no independent kernel "
-            "replay of the assembled environment has run",
+            "without re-checking their proofs. On 2026-10-27 a same-kernel "
+            "fresh replay (leanchecker --fresh Rung3Assembly.Final, Lean's own "
+            "kernel, which its docstring calls 'not an external verifier') "
+            "re-checked the assembled closure's constants and accepted; no "
+            "independent kernel has checked the whole closure",
             "the separation's LEAN_PATH joins hunt #137's oleans with this "
             "tree's through one ZetaLean overlay; the shared modules' constants "
             "are identical by CompareOleans.lean, not by byte equality",
@@ -578,9 +581,13 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "assembly imported them against this box's ZetaLean oleans of "
             "2026-10-21 through the overlay; the two were built from the same "
             "sources of the sites' import closure (unchanged since 2026-09-28 "
-            "except comments), so their constants are expected to agree, but "
-            "they were never compared; an independent replay of the assembled "
-            "environment would close this",
+            "except comments). CLOSED on 2026-10-27 by the same-kernel fresh "
+            "replay above: it re-checked, in an empty kernel environment, the "
+            "constants actually loaded through the overlay (this box's "
+            "ZetaLean, the 215 site oleans and hunt #137's closure), so every "
+            "site proof was re-checked against the ZetaLean constants the "
+            "assembly uses (receipts-replay-20261027/leanchecker-fresh."
+            "receipt.json: exit 0)",
         ),
         code_paths=(
             "hunts/rung3_ball_production/RESULTS.md",
@@ -591,6 +598,7 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "hunts/rung3_ball_production/production.py",
             "hunts/rung3_ball_production/lean/Rung3Assembly/Support.lean",
             "hunts/rung3_ball_production/lean/CompareOleans.lean",
+            "hunts/rung3_ball_production/lean/ReplayProgress.lean",
             ".github/workflows/rung3-production.yml",
             "scripts/69_rung3_ball_generate.py",
             "tests/test_rung3_ball_whole_tower.py",
@@ -619,6 +627,18 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "davenport_heilbronn_statement_of_trivial_zero print exactly "
             "propext, Classical.choice and Quot.sound, and a copy claiming "
             "DH (-2) = 0 instead is refused",
+            "leanchecker --fresh Rung3Assembly.Final (2026-10-27): the "
+            "closure's 1,569,505 constants (11,955 modules, Mathlib and hunt "
+            "#137's closure included; replay skips only unsafe and partial "
+            "ones) replayed into an empty kernel environment, exit 0 in "
+            "7 h 17 min; a missing module exits 1, and "
+            "a scratch olean with one tower radius one unit low is refused at "
+            "Prime_B_right_06_2.ev_whole (kernel application type mismatch)",
+            "con-ron --verified, a second kernel, on samples only: it accepts "
+            "the exported closure of upper_B_right_06 (61,782 declarations) and "
+            "of three centre towers, and rejects the same one-unit radius "
+            "fault at the same declaration; the full closure was not exported "
+            "or checked (projected about 1,300 core-hours)",
         ),
         author_reasoning=(
             "215 site theorems (110 big boxes bounding ||DH|| <= 2.5499 on the "

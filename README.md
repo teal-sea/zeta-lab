@@ -35,18 +35,20 @@ data is checked by the kernel. RH has been verified numerically far higher; this
 finite theorem, reviewed by no person, and says nothing about RH itself.
 
 **The Davenport-Heilbronn zero, kernel-checked** ([hunt #145](hunts/rung3_ball_production/RESULTS.md),
-rung 3 of [the Lean ladder](docs/doors/certify.md)). A Lean proof, `dh_separation_hundred`,
-that below height 100 the Davenport-Heilbronn function `DH`, which has zeta's kind of
-Dirichlet series and functional equation (`dh_analytic_half`), has a zero in the open
-critical strip off the line, while `riemannZeta` has none there (hunt #137). A zero of
-`DH` lies in the closed square of half-width 3/64 about 0.808517 + 85.699348 i
-(`dh_zero_located`; Spira's zero, 1994). Lean's kernel accepts it with zero `sorry` and
-only the three standard axioms, from 215 site theorems compiled on GitHub Actions and one
-assembly; planted one-unit faults are refused. The grade is kernel-checked, pending
-external verification: no independent replay of the assembled environment has run yet.
-The assembly also proves `davenport_heilbronn_statement`, but as defined that statement
-is also met by the trivial zero s = -1 (`lean/ZetaLean/DHTrivialZero.lean`), so the
-strip theorems carry the result.
+rung 3 of [the Lean ladder](docs/doors/certify.md)). One Lean theorem,
+`davenport_heilbronn_strip`: some entire function with zeta's kind of Dirichlet series
+and functional equation has a zero in the open critical strip, off the line. The witness
+is the Davenport-Heilbronn function `DH`, and the zero lies in the closed square of
+half-width 3/64 about 0.808517 + 85.699348 i (`dh_zero_located`; Spira's zero, 1994).
+`dh_separation_hundred` adds that it lies below height 100, where `riemannZeta` has no
+off-line zero (hunt #137). Lean's kernel accepts them with zero `sorry` and only the
+three standard axioms, from 215 site theorems compiled on GitHub Actions and one
+assembly; planted one-unit faults are refused. A fresh replay of the whole assembled
+closure by Lean's own kernel (`leanchecker --fresh`, 2026-10-27, 1.57 million constants
+in 7 h 17 min) accepts it too; that is a re-check by the same kernel, and no independent
+kernel has checked the whole closure. The grade is kernel-checked, pending external
+verification. The older `davenport_heilbronn_statement` is also met by the trivial zero
+s = -1 (`lean/ZetaLean/DHTrivialZero.lean`), so it carries none of the result.
 It shows that the functional equation alone cannot give RH. It is not progress toward RH.
 
 On 2026-10-06 OpenAI released a proof that no Dirichlet L-function, zeta

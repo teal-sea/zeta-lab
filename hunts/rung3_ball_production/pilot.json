@@ -6409,6 +6409,11 @@
    "sha256": "c763fa289c8b7285cf93dd62997e7fb2ffca155ae1b856ac7ab0a5635c41b38b",
    "bytes": 1057,
    "lines": 21
+  },
+  "Final.lean": {
+   "sha256": "27d68de56cacaff4281df3652e9b1c51f063fd001fca2c9c6c476bbef7a5f333",
+   "bytes": 237,
+   "lines": 5
   }
  },
  "whole_site": {
@@ -10909,6 +10914,503 @@
       "unsolved goals"
      ]
     }
+   }
+  },
+  "replay": {
+   "date": "2026-10-27",
+   "commit": "f9f0e04de2104b74bde62e512a1ca98892924bc7 plus the Final.lean emitter",
+   "receipts": "<cache>/rung3-ball-production-full/receipts-replay-20261027",
+   "collect": {
+    "same_artifacts_as_first": true,
+    "site_root_oleans_equal_first": true
+   },
+   "assembly_oleans_equal_strip_run": true,
+   "assemble_runs": [
+    {
+     "tag": "support",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 10.0,
+     "cpu_s": 9.5,
+     "peak_rss_bytes": 3917979648,
+     "mem_available_gib_start": 67.1,
+     "mem_available_gib_low": 66.9,
+     "load_start": 4.61
+    },
+    {
+     "tag": "assembly",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 40.0,
+     "cpu_s": 73.3,
+     "peak_rss_bytes": 18072059904,
+     "mem_available_gib_start": 66.9,
+     "mem_available_gib_low": 65.9,
+     "load_start": 5.57
+    },
+    {
+     "tag": "separation",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 20.0,
+     "cpu_s": 11.1,
+     "peak_rss_bytes": 17748992000,
+     "mem_available_gib_start": 67.2,
+     "mem_available_gib_low": 66.2,
+     "load_start": 6.38
+    },
+    {
+     "tag": "strip",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 20.0,
+     "cpu_s": 12.2,
+     "peak_rss_bytes": 17653403648,
+     "mem_available_gib_start": 67.1,
+     "mem_available_gib_low": 66.3,
+     "load_start": 7.16
+    },
+    {
+     "tag": "final",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 20.0,
+     "cpu_s": 10.8,
+     "peak_rss_bytes": 17743171584,
+     "mem_available_gib_start": 67.0,
+     "mem_available_gib_low": 66.3,
+     "load_start": 12.28
+    },
+    {
+     "tag": "axioms",
+     "returncode": 0,
+     "killed_by_guard": false,
+     "wall_s": 20.0,
+     "cpu_s": 11.6,
+     "peak_rss_bytes": 17755193344,
+     "mem_available_gib_start": 67.1,
+     "mem_available_gib_low": 66.6,
+     "load_start": 9.69
+    }
+   ],
+   "axioms": {
+    "big_bottom": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "big_top": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "big_left": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "big_right": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "big_frontier": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "deriv_bound_small": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_bottom": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_top": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_left": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_right": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "small_frontier": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "centre_small": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "dh_zero_located": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "dh_zero_located'": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "davenport_heilbronn": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "dh_separation_of": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "dh_separation_hundred": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "davenport_heilbronn_strip": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ]
+   },
+   "census": {
+    "modules": 11955,
+    "constants": 1569505,
+    "groups": {
+     "core": {
+      "modules": 1849,
+      "constants": 182964
+     },
+     "deps": {
+      "modules": 378,
+      "constants": 19389
+     },
+     "Mathlib": {
+      "modules": 8537,
+      "constants": 580690
+     },
+     "RH100": {
+      "modules": 95,
+      "constants": 24311
+     },
+     "ZetaLean": {
+      "modules": 16,
+      "constants": 733
+     },
+     "assembly": {
+      "modules": 5,
+      "constants": 31
+     }
+    },
+    "site_modules": 1075,
+    "site_constants": 761387
+   },
+   "replay_sample": {
+    "modules": 175,
+    "all_accepted": true,
+    "groups": {
+     "core": {
+      "modules": 1849,
+      "sampled": 30,
+      "constants": 182964,
+      "sample_replay_s": 2.9,
+      "estimates_s": {
+       "by_constants": 191,
+       "by_olean_bytes": 201,
+       "by_modules": 178
+      }
+     },
+     "deps": {
+      "modules": 378,
+      "sampled": 10,
+      "constants": 19389,
+      "sample_replay_s": 0.2,
+      "estimates_s": {
+       "by_constants": 4,
+       "by_olean_bytes": 6,
+       "by_modules": 9
+      }
+     },
+     "Mathlib": {
+      "modules": 8537,
+      "sampled": 60,
+      "constants": 580690,
+      "sample_replay_s": 16.2,
+      "estimates_s": {
+       "by_constants": 2725,
+       "by_olean_bytes": 2681,
+       "by_modules": 2306
+      }
+     },
+     "RH100": {
+      "modules": 95,
+      "sampled": 10,
+      "constants": 24311,
+      "sample_replay_s": 180.3,
+      "estimates_s": {
+       "by_constants": 2168,
+       "by_olean_bytes": 1964,
+       "by_modules": 1712
+      }
+     },
+     "ZetaLean": {
+      "modules": 16,
+      "sampled": 16,
+      "constants": 733,
+      "sample_replay_s": 4.1,
+      "estimates_s": {
+       "exact": 4
+      }
+     },
+     "assembly": {
+      "modules": 5,
+      "sampled": 4,
+      "constants": 31,
+      "sample_replay_s": 0.6,
+      "estimates_s": {
+       "exact": 1
+      }
+     }
+    },
+    "sites": {
+     "per_site": {
+      "centre": {
+       "replay_s": 490.3,
+       "runner_cpu_s": 1458.4,
+       "olean_bytes": 343535408
+      },
+      "B_right_06": {
+       "replay_s": 24.1,
+       "runner_cpu_s": 54.0,
+       "olean_bytes": 16758616
+      },
+      "B_bottom_19": {
+       "replay_s": 42.0,
+       "runner_cpu_s": 119.0,
+       "olean_bytes": 32860088
+      },
+      "B_bottom_06": {
+       "replay_s": 57.5,
+       "runner_cpu_s": 193.7,
+       "olean_bytes": 45080480
+      },
+      "B_top_17": {
+       "replay_s": 45.1,
+       "runner_cpu_s": 149.8,
+       "olean_bytes": 35527160
+      },
+      "g_bottom_16": {
+       "replay_s": 108.5,
+       "runner_cpu_s": 367.5,
+       "olean_bytes": 90574408
+      },
+      "g_bottom_24": {
+       "replay_s": 102.2,
+       "runner_cpu_s": 331.5,
+       "olean_bytes": 81498208
+      },
+      "g_right_24": {
+       "replay_s": 106.2,
+       "runner_cpu_s": 369.9,
+       "olean_bytes": 81235112
+      },
+      "g_right_00": {
+       "replay_s": 104.0,
+       "runner_cpu_s": 277.7,
+       "olean_bytes": 81717520
+      }
+     },
+     "ratio_replay_to_runner_cpu": 0.325,
+     "total_runner_cpu_s": 57974.7,
+     "total_olean_bytes": 15123966128,
+     "estimates_s": {
+      "by_runner_cpu": 18849,
+      "by_olean_bytes": 20194,
+      "by_runner_cpu_centre_apart": 18376
+     }
+    },
+    "projection_s": [
+     22605,
+     25325
+    ],
+    "estimate_written_h": [
+     6,
+     10
+    ],
+    "estimate_written_peak_rss_gb": [
+     18,
+     26
+    ]
+   },
+   "nonexistent_module": {
+    "exit_code": 1,
+    "message": "Could not find any oleans for: Rung3Assembly.NoSuchModule"
+   },
+   "stage_a": {
+    "exit_code": 0,
+    "stop_reason": null,
+    "start_utc": "2026-10-27T00:35:12.023665+00:00",
+    "end_utc": "2026-10-27T07:52:58.430282+00:00",
+    "wall_s": 26266.4,
+    "peak_sampled_tree_rss_kib": 22759764,
+    "min_memavailable_kib": 51670496,
+    "command": [
+     "<toolchain>/bin/leanchecker",
+     "--fresh",
+     "Rung3Assembly.Final"
+    ],
+    "stdout": "",
+    "stderr": ""
+   },
+   "olean_fault": {
+    "planted": "planted: Prime_B_right_06_2.Sq_10 radius 36391283805789411/2^63 -> 36391283805789410/2^63 at byte 62304",
+    "control_exit": 0,
+    "fault_exit": 1,
+    "refused_at": "_private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1",
+    "kernel_error": "application type mismatch",
+    "setup_miss_first_try": "uncaught exception: object file '<cache>/rung3-ball-production-replay-20261027/fault-olean/CB_right_06/Base.olean' of module CB_right_06.Base does not exist"
+   },
+   "stage_b": {
+    "decision": "stopped at the estimate: the projection exceeds 24 h of wall and the memory floor",
+    "sample_export": {
+     "declarations": 61786,
+     "bytes": 486513215,
+     "site_bytes": 14771822,
+     "base_bytes": 471741393,
+     "wall_s": 50.6,
+     "peak_rss_kib": 6965464
+    },
+    "conron_sample": {
+     "exit_code": 0,
+     "stop_reason": null,
+     "start_utc": "2026-10-27T00:20:58.602211+00:00",
+     "end_utc": "2026-10-27T00:32:34.324864+00:00",
+     "wall_s": 695.7,
+     "peak_sampled_tree_rss_kib": 2209404,
+     "min_memavailable_kib": 61339816,
+     "command": [
+      "<toolchain>/bin/con-ron",
+      "--verified",
+      "--jobs=8",
+      "--progress=1",
+      "<cache>/rung3-ball-production-replay-20261027/export-sample/B_right_06.ndjson"
+     ],
+     "lines": [
+      "con-ron: check done: 60739/60739 t=689.777s (check 641.837s)",
+      "con-ron: done: parse 4.168s, install 43.772s, check 641.837s, 8 workers t=689.777s",
+      "con-ron: accepted 61782 declarations (--verified)"
+     ]
+    },
+    "conron_centre_towers": {
+     "exit_code": 0,
+     "stop_reason": null,
+     "start_utc": "2026-10-27T00:36:18.591621+00:00",
+     "end_utc": "2026-10-27T00:47:28.848210+00:00",
+     "wall_s": 670.3,
+     "peak_sampled_tree_rss_kib": 762956,
+     "min_memavailable_kib": 66637996,
+     "command": [
+      "<toolchain>/bin/con-ron",
+      "--verified",
+      "--jobs=8",
+      "--progress=1",
+      "<cache>/rung3-ball-production-replay-20261027/export-sample/centre_towers.ndjson"
+     ],
+     "lines": [
+      "con-ron: check done: 25880/25880 t=668.877s (check 655.015s)",
+      "con-ron: done: parse 1.359s, install 12.503s, check 655.015s, 8 workers t=668.877s",
+      "con-ron: accepted 26575 declarations (--verified)"
+     ],
+     "tower_check_s": {
+      "2": 16,
+      "401": 400,
+      "1801": 648
+     }
+    },
+    "conron_fault_pair": {
+     "clean": {
+      "exit_code": 0,
+      "stop_reason": null,
+      "start_utc": "2026-10-27T00:39:16.929516+00:00",
+      "end_utc": "2026-10-27T00:40:04.069016+00:00",
+      "wall_s": 47.1,
+      "peak_sampled_tree_rss_kib": 593008,
+      "min_memavailable_kib": 66904504,
+      "command": [
+       "<toolchain>/bin/con-ron",
+       "--verified",
+       "--jobs=8",
+       "--progress=1",
+       "<cache>/rung3-ball-production-replay-20261027/export-sample/tower2_clean.ndjson"
+      ],
+      "lines": [
+       "con-ron: check done: 25866/25866 t=41.217s (check 26.134s)",
+       "con-ron: done: parse 1.376s, install 13.707s, check 26.134s, 8 workers t=41.217s",
+       "con-ron: accepted 26561 declarations (--verified)"
+      ]
+     },
+     "fault": {
+      "exit_code": 1,
+      "stop_reason": null,
+      "start_utc": "2026-10-27T00:39:16.930939+00:00",
+      "end_utc": "2026-10-27T00:39:59.028323+00:00",
+      "wall_s": 42.1,
+      "peak_sampled_tree_rss_kib": 603916,
+      "min_memavailable_kib": 66900600,
+      "command": [
+       "<toolchain>/bin/con-ron",
+       "--verified",
+       "--jobs=8",
+       "--progress=1",
+       "<cache>/rung3-ball-production-replay-20261027/export-sample/tower2_fault.ndjson"
+      ],
+      "lines": [
+       "con-ron: check failed at fold position 26589 t=39.532s (check 24.503s)",
+       "con-ron: done: parse 1.373s, install 13.656s, check 24.503s, 8 workers t=39.532s",
+       "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 26589] (--verified) t=39.902s"
+      ]
+     }
+    },
+    "projection": {
+     "export_gb": [
+      14,
+      15
+     ],
+     "export_wall_min": [
+      20,
+      30
+     ],
+     "export_peak_rss_gb": [
+      30,
+      40
+     ],
+     "conron_rss_per_export_byte": [
+      4.0,
+      6.8
+     ],
+     "conron_peak_rss_gb": [
+      56,
+      102
+     ],
+     "towers": 15608,
+     "tower_core_hours": 1295,
+     "wall_h_16_workers": 80.9,
+     "wall_h_30_workers": 43.2,
+     "machine_needed": "about 128 GB of RAM and 1,300 core-hours, e.g. 64 cores for about 20 h"
+    },
+    "nanoda": "not run"
    }
   }
  }

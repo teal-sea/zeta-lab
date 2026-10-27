@@ -30,9 +30,9 @@ Subcommands (every one fails closed with a non-zero exit):
     collect    (assembly machine) download each job's latest oleans artifact of a run,
                check its SHA-256 against GitHub's digest, unzip, delete the zip, and
                check that every site the job owns has a checkpointed root olean
-    assemble   (assembly machine) emit and compile Support, Assembly, Separation and Strip,
-               one Lean process at a time under the MemAvailable guard, then print the
-               axioms of every final declaration verbatim
+    assemble   (assembly machine) emit and compile Support, Assembly, Separation, Strip and
+               Final, one Lean process at a time under the MemAvailable guard, then print
+               the axioms of every final declaration verbatim
     strip-faults  (assembly machine, after assemble) compile scratch copies of Strip.lean:
                the unchanged copy must compile and each planted fault in the strip
                condition must be refused at davenport_heilbronn_strip
@@ -491,7 +491,7 @@ def cmd_assemble(dest: Path, overlay: Path, rh100: Path) -> None:
     recs = [run_guarded("support", [f"--root={hl}", "-o", str(asm / "Rung3Assembly" / "Support.olean"),
                                     str(hl / "Rung3Assembly" / "Support.lean")], [asm], logdir)]
     lp = [overlay, asm, out, rh100]
-    for name in ("Assembly", "Separation", "Strip"):
+    for name in ("Assembly", "Separation", "Strip", "Final"):
         recs.append(run_guarded(name.lower(), [f"--root={asm}", "-o",
                                                str(asm / "Rung3Assembly" / f"{name}.olean"),
                                                str(asm / "Rung3Assembly" / f"{name}.lean")],
@@ -499,7 +499,7 @@ def cmd_assemble(dest: Path, overlay: Path, rh100: Path) -> None:
         if recs[-1]["returncode"]:
             sys.exit(f"{name}.lean failed: see {logdir / (name.lower() + '.log')}")
     probe = asm / "PrintAxioms.lean"
-    probe.write_text("import Rung3Assembly.Separation\nimport Rung3Assembly.Strip\n" + "".join(
+    probe.write_text("import Rung3Assembly.Final\n" + "".join(
         f"#print axioms ZetaLean.DH.Rung3Assembly.Plan2.{n}\n" for n in FINAL + STRIP))
     recs.append(run_guarded("axioms", [str(probe)], lp, logdir))
     printed = (logdir / "axioms.log").read_text()

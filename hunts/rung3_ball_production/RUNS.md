@@ -576,3 +576,188 @@ artifacts:
   - hunts/rung3_ball_production/pilot.json (production.strip_assembly)
   - <cache>/rung3-ball-production-full/receipts-strip-20261026
 ```
+
+## 2026-10-27: door 1, the replay (estimate before spending, part 1: the sampling windows)
+
+The coordinator's brief of 2026-10-27: Stage A, `leanchecker --fresh` over the closure of
+all 18 final declarations, Lean's own kernel; Stage B, if it fits, an export by
+`leanexport` checked by `con-ron --verified`. Same constraints as the strip re-assembly: no
+Lake build, oleans on disk, `MemAvailable` above 20 GiB, `ulimit -s unlimited`, kills by
+recorded PID only. The height-100 `leanchecker` job has finished.
+
+No emitted module imports all 18 declarations (`Separation` lacks the strip theorem and
+`Strip` lacks `dh_separation_hundred`), so `assembly.py` now also emits `Final.lean`, which
+imports both and declares nothing. `Assembly`, `Separation` and `Strip` are emitted byte for
+byte as before. `assemble` compiles `Final` after `Strip`.
+
+`leanchecker --fresh` replays every constant the module imports, and `ZetaLean` imports
+all of `Mathlib`, so Stage A replays the whole of Mathlib as well as the sites; the export
+of Stage B holds only the constants the 18 declarations use. Neither tool reports
+progress, so the estimate is built from samples, each one Lean process, before the run:
+
+| unit | estimate |
+|---|---|
+| `collect` and `assemble` again, as on 2026-10-26, with `Final` | about 250 CPU-s, 18 GB peak RSS, 15.1 GB of disk |
+| a census of the closure's constants by origin (one import of `Final`) | about 15 CPU-s, 18 GB |
+| `leanchecker` on a module that does not exist (must exit 1) | seconds |
+| `leanchecker` without `--fresh` on the site `CB_right_06` (its own constants, replayed into its imports): a timing sample and the control for the olean fault | 1 to 3 min, about 10 GB |
+| a planted kernel-level fault: one byte of a big literal changed in a scratch copy of `CB_right_06/Primes.olean`, then `leanchecker` on that module | 1 to 3 min, about 10 GB |
+| a progress replay for a short window: a script that replays the closure module by module in import order through the same `Kernel.Environment.replay`, logging each module's time, stopped after 10 minutes | 10 min of one core, about 20 GB |
+| Stage B sample: `leanexport` of the closure of `upper_B_right_06` alone, then `con-ron --verified --jobs=8` on it | a few minutes, under 10 GB |
+
+In all, under 40 core-minutes. The full estimate follows from these samples, before the
+replay starts.
+
+### The sampling windows (measured, 2026-10-27, 00:05 to 00:33 UTC)
+
+- `collect` (same 20 digests, the 215 root oleans identical to the first receipts, every
+  root checkpoint present, 15,125,743,627 bytes) and `assemble` with `Final` (Support 9.5,
+  Assembly 73.3, Separation 11.1, Strip 12.2, Final 10.8 CPU-s; the 18 declarations print
+  the three standard axioms; Support, Assembly, Separation and Strip hash exactly as in the
+  strip receipts).
+- `leanchecker --fresh Rung3Assembly.NoSuchModule`: exit 1, "Could not find any oleans", in
+  8.8 s, which is the checker's walk of every olean on the search path.
+- **Census** (`ReplayProgress.lean`, first version): `Final`'s closure has 11,955 modules and
+  1,569,505 constants: the 215 sites 761,387 (1,075 modules), Mathlib 580,690, Lean's core
+  182,964, its dependencies 19,389, hunt #137 24,311, `ZetaLean` 733, the assembly 31.
+  That version then replayed module by module in import order to log progress, and the
+  kernel stopped it at `List.drop.eq_def`, which uses a private splitter that the
+  constant-to-module map files under a later module. Constants realized on demand are
+  filed out of dependency order, so that order is not a valid replay order; the instrument
+  was wrong, not the environment. It was rewritten to sample instead.
+- **Replay sample** (`ReplayProgress.lean sample`, seed 20261027, four streams under the
+  guard, all exit 0): each module's own constants replayed into the environment of its
+  imports, as `leanchecker` does without `--fresh`, timed apart from the import. 175
+  modules: 9 whole sites (the centre, `B_right_06` and 3 big boxes and 4 grid points at
+  random), 60 Mathlib, 30 core, 10 dependency and 10 hunt #137 modules at random, every
+  `ZetaLean` and assembly module. Every one was accepted. The centre's five modules took
+  490 s, `B_right_06`'s 24 s, a grid site about 105 s; across the 9 sites the replay is
+  0.325 of the site's runner compile CPU.
+- `leanchecker CB_right_06` without `--fresh` (the whole site, its 5 modules in parallel):
+  exit 0, 45.7 s wall, 145 CPU-s; an import-only baseline (`Rung3Assembly.Support`) costs
+  about 16 CPU-s.
+
+**Estimate for Stage A**, `leanchecker --fresh Rung3Assembly.Final`, one thread (sample
+totals scaled by constants, by olean bytes and by module count, or for sites by runner
+compile CPU and by olean bytes; the range is the spread of those estimators):
+
+| part | estimate |
+|---|---|
+| the 215 sites | 18,400 to 20,200 s |
+| Mathlib | 2,300 to 2,700 s |
+| hunt #137's modules | 1,700 to 2,200 s |
+| Lean's core and dependencies | about 200 s |
+| `ZetaLean` and the assembly | about 5 s |
+| import and the search-path walk | about 25 s |
+
+That is 6.3 to 7.0 hours from the sample. The same method would put height 100's closure
+under about 4,700 s, against its measured 6,000 s, so the estimate written down is **6 to
+10 hours** of one core. Peak RSS: the import of the closure alone is 17.9 GB (the census
+run); the kernel environment then grows by the 1.57 million replayed constants, so **18 to
+26 GB**, with `MemAvailable` expected to stay above 35 GiB. The guard is
+`guard.py` of hunt #137, copied unchanged (SHA-256 `cbdcd817bea525f0...`): no wall limit,
+SIGTERM to the checker's process group below 20 GiB, a status file every minute, a receipt
+at the end.
+
+### Stage A, launched (00:35:12 UTC)
+
+`guard.py leanchecker-fresh <receipts> -- <toolchain>/bin/leanchecker --fresh
+Rung3Assembly.Final`, with the toolchain's `bin` first on `PATH` (the checker runs `lean
+--print-prefix`) and the `LEAN_PATH` of `lean-path.txt` in the receipts: the overlay, the
+assembly, the 215 site outputs and hunt #137's oleans ahead of the paths `lake env`
+reports (read with `lake env printenv`, which builds nothing). Guard PID 308349, checker
+PID 308357, recorded in the receipts. Its outcome is below when it ends.
+
+### Planted kernel-level fault in a scratch olean (measured, 00:36 to 00:40 UTC)
+
+In a scratch copy of `CB_right_06/Primes.olean`, the radius of `Prime_B_right_06_2.Sq_10`,
+36391283805789411/2^63, was lowered by one unit. The literal is below 2^63, so the olean
+stores it as the tagged word 2n + 1; the word occurs once in the file, at byte 62304, and
+the copy differs from the original in that one byte. The scratch directory went first on
+`LEAN_PATH`, beside links to the site's other oleans. (A first try without those links
+stopped before any replay, at "object file ... CB_right_06/Base.olean does not exist",
+because Lean resolves `CB_right_06.*` in the first directory holding `CB_right_06/`; that
+was a setup miss, not a verdict.)
+
+| run | outcome |
+|---|---|
+| `leanchecker CB_right_06.Primes`, the unchanged olean | exit 0, 31.1 s wall |
+| the same, the planted copy | exit 1: "(kernel) application type mismatch" while replaying `Prime_B_right_06_2.ev_whole._proof_1_1`; the decision no longer evaluates to `true` |
+| `con-ron --verified` on the export of `Prime_B_right_06_2.pilot_contains_cpow` from the unchanged olean (26,561 declarations) | exit 0, accepted, 41 s |
+| the same from the planted copy (the two exports differ in one record, `natVal` 36391283805789411 against 36391283805789410) | exit 1, rejected: "application type mismatch" at the same `ev_whole._proof_1_1` |
+
+### Stage B: estimate, and the decision to stop there
+
+Measured samples, each under the guard:
+
+- `leanexport CB_right_06 -- ZetaLean.DH.Cert.upper_B_right_06`: 486,513,215 bytes,
+  61,786 declarations, 50.6 s, 7.0 GB peak RSS. Charging each record to the declaration it
+  is first written for: the site's own 687 declarations are 14.8 MB (0.88 bytes per byte of
+  the site's 16.8 MB of oleans), the shared base 471.7 MB.
+- `con-ron --verified --jobs=8 --progress=1` on it: **accepted 61,782 declarations**, exit
+  0, 690 s wall, 2.2 GB peak. The base checked in about 80 s; the rest was the site's 23
+  whole-tower decisions, each 16 s (p = 2) to about 265 s (p = 89), about 3,940 CPU-s in
+  all. Lean's kernel replays the same module in 16.3 s.
+- The towers p = 2, 401 and 1801 of the centre (export 150 MB, 26,575 declarations):
+  accepted, exit 0, 0.76 GB peak; the towers took about 16, 400 and 648 s.
+
+Projection for the export of the 18 declarations' closure: about 13.3 GB for the sites (by
+olean bytes) plus a base under 1.5 GB, so **14 to 15 GB**, against 0.53 GB at height 100.
+The export itself, by a line through the two `leanexport` samples (50.6 s for 486.5 MB,
+18.3 s for 150.3 MB), takes **20 to 30 minutes** at **30 to 40 GB** of RSS (the 17.9 GB
+import of `Final` plus about 0.9 bytes per export byte) and 14 to 15 GB of disk. `con-ron`
+used 4.0 to 5.2 bytes of RSS per export byte on the three samples and 6.8 at height 100, so
+**56 to 102 GB** of peak RSS. The 15,608 towers (each site uses the first T primes other than 5, T from the
+generator census), priced by interpolating the measured tower times in log p, come to
+**about 1,300 core-hours**: 81 hours of wall at `con-ron`'s default cap of 16 workers and 43
+at 30. Both the time (over 24 hours) and the memory (this box had 72 GiB available after
+Stage A, so about 52 GiB above the 20 GiB floor) exceed the brief's bounds, so Stage B
+stops at this estimate, and neither the full export nor its check was launched. It needs a
+larger machine: about 128 GB of RAM, and 1,300 core-hours, which is about 20 hours on 64
+cores if `con-ron` scales there (`--jobs` above its default cap of 16 must be set by hand). Per-site exports (about 0.5 to 0.9 GB
+each, about 3 GB of `con-ron` RSS) would remove the memory bound but not the CPU, and would
+leave the assembly's own closure to check separately. NanoDa was not run.
+
+### Stage A: the outcome (measured)
+
+The parent session was restarted at about 02:59Z and this lane's copy stopped at about
+03:35Z; the detached guard and checker were not touched and ran on. The guard's receipt
+(`<receipts>/leanchecker-fresh.receipt.json`):
+
+| | estimate | measured |
+|---|---|---|
+| exit | | **0**, stdout and stderr empty, `stop_reason` null |
+| wall, one core | 6 to 10 h | **7 h 17 min 46 s** (00:35:12 to 07:52:58 UTC, 26,266 s) |
+| peak RSS | 18 to 26 GB | **22.76 GB** (22,759,764 KiB, sampled every 5 s) |
+| lowest `MemAvailable` | above 35 GiB | **49.3 GiB** (51,670,496 KiB) |
+
+The checker binary hashes the same before and after (SHA-256 `9e36e955a251b131...`). The
+sample's projection, 22,605 to 25,325 s, fell 4 to 14 % short of the measured time; the
+widened estimate written down, 6 to 10 hours, held. `Final` imports `Separation`,
+which imports `RHHeight100.Main100`, so this replay also re-checked hunt #137's closure.
+
+Then the unpacked oleans and the sample exports
+(`<cache>/rung3-ball-production-replay-20261027`, about 16 GB) were deleted, keeping the
+receipts, the zips' digests (`collected.json`) and the exports' SHA-256.
+
+```runmanifest
+id: rung3_ball_production-2026-10-27-door1
+hunt: rung3_ball_production
+started: 2026-10-27T00:05Z
+finished: 2026-10-27T07:53Z
+ran:
+  - hunts/rung3_ball_production/production.py collect --request <receipts>/RUN_REQUEST.full.json --run 40353536947 --dest <cache>/rung3-ball-production-replay-20261027
+  - hunts/rung3_ball_production/production.py assemble --dest <cache>/rung3-ball-production-replay-20261027 --overlay <cache>/rung3-ball-production-assembly/overlay --rh100 <cache>/rh100-out
+  - <toolchain>/bin/leanchecker --fresh Rung3Assembly.NoSuchModule
+  - <toolchain>/bin/leanchecker -v CB_right_06, and leanchecker Rung3Assembly.Support twice (import baseline)
+  - lean --run hunts/rung3_ball_production/lean/ReplayProgress.lean (first version: census, then a stopped progress replay), and its sample mode in 4 guarded streams over 175 modules
+  - <toolchain>/bin/leanchecker CB_right_06.Primes on the unchanged olean and on a scratch copy with one radius literal one unit low
+  - <toolchain>/bin/leanexport CB_right_06 -- ZetaLean.DH.Cert.upper_B_right_06; leanexport Ccentre.Primes (towers 2, 401, 1801); leanexport CB_right_06.Primes (tower 2, clean and planted)
+  - <toolchain>/bin/con-ron --verified --jobs=8 --progress=1 on each of those four exports, under guard.py
+  - guard.py leanchecker-fresh <receipts> -- <toolchain>/bin/leanchecker --fresh Rung3Assembly.Final
+outcome: Stage A accepted, a same-kernel fresh replay of the closure of all 18 final declarations (1,569,505 constants, Mathlib and hunt 137 included), exit 0 in 7 h 17 min at 22.8 GB; a missing module exits 1 and a one-unit radius fault in a scratch olean is refused by the kernel at Prime_B_right_06_2.ev_whole; Stage B ran on samples only (con-ron accepted the closure of upper_B_right_06 and three centre towers, and rejected the planted fault at the same declaration) and stopped at its estimate, about 1,300 core-hours and 56 to 102 GB for the full closure
+artifacts:
+  - hunts/rung3_ball_production/pilot.json (production.replay)
+  - hunts/rung3_ball_production/lean/ReplayProgress.lean
+  - <cache>/rung3-ball-production-full/receipts-replay-20261027
+```
