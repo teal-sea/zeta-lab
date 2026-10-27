@@ -609,3 +609,123 @@ measurements, not from s11.2. Per process: 1,650 s per contended block and
 6,000 s per replay block, the worst seen rounded up, or spread replays so
 that no runner holds more than one at a time (a shard-to-job assignment
 change, same blocks). The self-stop must count from job start (s11.5).
+
+## 12. The rerun with the corrected Gauss bound (2026-10-27)
+
+**Why.** BOUNDS.md s5: the code's Gauss bound was the (n + 1)-point bound
+applied to n-point rules, so the radii of run 40371181784, and its ε_q, are
+not bounds (RESULTS.md, correction of 2026-10-27). The rerun recomputes the
+Gram and every block at **13 nodes per panel**, where the corrected bound
+equals the old 12-node radii term by term.
+
+**Who asked.** The session brief of 2026-10-27 that ordered the fix also
+ordered this relaunch on Actions. It did not go through a coordinator "go"
+(s6, s11.4). Run 40371181784 had finished, so s11.4's "no second request
+while this run is pending or running" does not bar it; this is a new request,
+not a re-run attempt of that run.
+
+**What changes against the request of s11** (every other key is the same):
+- `per_panel` and `gram_per_panel`: 13 (BOUNDS.md s5).
+- No `gram_sha256`: the Gram is recomputed, in 24 parts at `gram_procs` 2
+  per job (12 jobs). Four per job peaked at 21 to 25 GiB summed in run
+  40342895119 (s11), above a 16 GB runner.
+- **88 shards of 4 blocks in 22 jobs.** Block 16j opens shard 4j, which is
+  job j's first shard, so every runner holds exactly one dps-60 replay
+  block (s11.6: three on one runner cost up to 1.9 times).
+- max-parallel 6 for the Gram and the shards. The ruling of s6 allows 7;
+  s11.2 chose 4 while rung 3 and the Skewes run shared the pool. At launch
+  one other run was in progress.
+- The self-stop counts from job start (the defect of s11.5).
+- Only each shard's last checkpoint is uploaded, about 88 × 8.5 MB ≈
+  0.75 GB against 2.9 GB. Assemble and resume read no other.
+- The Gram must be decided positive definite in balls (merge job and every
+  setup), and replay blocks keep their own sums (RESULTS.md, correction s4).
+
+**Price, written before the spend.** Estimates built on measured runs;
+everything runs on GitHub-hosted runners of a public repository: **0 USD**.
+
+| item | basis (measured) | estimate |
+|---|---|---|
+| Gram, 24 parts | 13.1 core-hours at 12 nodes (run 40342895119); only region A grows, by 13/12 | at most 14.2 core-hours |
+| 338 blocks | 132.0 CPU core-hours at 12 nodes (run 40371181784, with three replays on some runners) | about 143 core-hours (× 13/12) |
+| 22 mode tables | 1,284 to 1,414 s each (s11.6), × 13/12 | about 9.4 core-hours |
+| **total** | | **about 167 core-hours** |
+
+Against the brief's "Gram about 13.1 core-hours plus shards about 132", the
+difference is the 13th node (13/12 of the hat work and of region A) and the
+22 table builds. Runner time: the shards at most 22 × 227 ≈ 5,000
+runner-minutes, the Gram about 12 × 75 ≈ 900. Wall: the Gram in two waves of
+at most about 75 minutes plus the merge, about 2.5 h; the shards in about four
+waves of 2.3 to 3.8 h, about 9 to 15 h; **in all about 11 to 18 hours**.
+
+**Headroom**, the preflight's rule, from the request's calibration record:
+the worst seen in s11.6 times 13/12, so 1,788 s per contended block (1,645
+seen), 6,500 s per replay block (5,935 seen), 1,532 s per table (1,414
+seen), 60 s setup and 180 s install. The worst process holds one replay and
+three ordinary blocks: 6,500 + 3 × 1,788 + 60 = **11,924 s (198.7 min)**,
+against 0.75 × 335 = 251 min. The worst job: 180 + 1,532 + 11,924 s ≈
+**227 min, 35 % under** the 350-minute cap (at least 25 % required).
+
+**Memory:** the Gram, 2 × 6.33 = 12.7 GiB per runner, under 13 (checked by
+the preflight from the request); the shards, 4 × 1.44 = 5.8 GiB; the table,
+2.80 GiB on disk.
+
+**The guard key.** `bounds.py` and `rebuild.py` are in `rebuild.py`'s import
+closure, so the key changed, as expected. The procedure is s11.6's: each
+runner reads the key from HEAD, writes it into every checkpoint, and
+`assemble` (through `read_rows.py`) refuses a checkpoint whose key differs.
+At commit fc477841b: `rebuild_digest`
+aac8a184f55cdad619ea88617ce6970efaa495f772601c729c9e1ce7ef30b1c9,
+`ts_inputs_digest`
+b2e7787bce7a77db4a1a81b9311fc75a2b9326649b88a49883bd4d737ca70eaa (the
+T_S inputs unchanged). Run 40371181784 carried a8dbfb22... with the same
+T_S digest. The rerun's logs are compared against this when it is read.
+
+**Kill conditions** (s11.3's, plus two): a Gram not decided positive
+definite in balls, in the merge job or in any setup; a Gram job over its
+memory (the preflight refuses first if the request's figures do not fit).
+
+**The request**, committed as `RUN_REQUEST.json`, sha256
+7fdc35511531c4c7f0e4a9de505bb710c201caefd784262ac7c92c3d055f96ac:
+
+```json
+{
+ "mode": "full",
+ "shards": 88,
+ "gram_parts": 24,
+ "gram_procs": 2,
+ "prepared": "prepared",
+ "nvec": 280,
+ "dps": 40,
+ "prec": 133,
+ "Kmax": 14,
+ "S_prime": 2700,
+ "delta_num": 1,
+ "delta_den": 16,
+ "block": 128,
+ "M": 34,
+ "J": 40,
+ "kb": 90,
+ "per_panel": 13,
+ "gram_per_panel": 13,
+ "cells": ["2.2", "2.5", "2.9"],
+ "Ns": [8, 16, 32],
+ "gram": "exact",
+ "gram_target_exp": 20,
+ "gram_R": 120,
+ "local_data": ["satake", [1]],
+ "replay_every": 16,
+ "replay_prec": 200,
+ "calibration": {
+  "run": 40371181784,
+  "basis": "worst seen in run 40371181784 (RUNS.md s11.6), times 13/12 for 13 nodes per panel",
+  "block_wall_s": 1788,
+  "replay_block_wall_s": 6500,
+  "setup_s": 60,
+  "table_build_s": 1532,
+  "peak_rss_gb": 1.44,
+  "table_disk_gb": 2.8,
+  "gram_peak_rss_gb": 6.33
+ }
+}
+```

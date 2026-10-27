@@ -395,3 +395,50 @@ def test_calibration_figures_and_the_full_request_headroom():
     for s in ("12,048 s (200.8 min)", "36 % under", "about 11.2 hours wall", "104 core-hours", "13.1 core-hours"):
         assert s in s11, s
 
+
+
+# --- the rerun of 2026-10-27 (RUNS.md s12): the corrected Gauss bound at 13 nodes ------------------
+
+
+def _replays_per_job(req):
+    import rebuild as R
+
+    bl, rep = R.blocks(req), req["replay_every"]
+    return [sum(1 for sh in range(4 * j, 4 * j + 4) for b in R.shard_range(len(bl), sh, req["shards"]) if b % rep == 0)
+            for j in range(req["shards"] // 4)]
+
+
+def test_the_rerun_request_and_its_plan():
+    import hashlib
+    import re
+
+    t = _read("RUNS.md")
+    s12 = t[t.index("## 12."):]
+    req = json.loads(re.findall(r"```json\n(.*?)```", s12, re.DOTALL)[-1])
+    rr = os.path.join(HERE, "RUN_REQUEST.json")
+    assert json.load(open(rr)) == req, "RUN_REQUEST.json is the request quoted in RUNS s12"
+    assert hashlib.sha256(open(rr, "rb").read()).hexdigest() in s12
+    # the corrected bound at 13 nodes, on the hat table and the Gram; the Gram is recomputed
+    assert req["per_panel"] == req["gram_per_panel"] == 13 and "gram_sha256" not in req
+    import rebuild as R
+
+    assert R._gram_key(req)["gram_per_panel"] == 13 and "gram_per_panel" not in json.load(
+        open(os.path.join(HERE, "gram.json")))["request"]  # the committed Gram is not this request's
+    # the grid is the one run 40371181784 read, so the rows are comparable cell by cell
+    for k in ("nvec", "Kmax", "S_prime", "delta_num", "delta_den", "block", "M", "J", "kb", "cells", "Ns",
+              "replay_every", "replay_prec", "dps", "prec", "gram_target_exp", "gram_R"):
+        assert req[k] == json.loads(re.findall(r"```json\n(.*?)```", t[t.index("## 11."):t.index("## 12.")],
+                                               re.DOTALL)[-1])[k], k
+    # one dps-60 replay block per runner (RUNS s11.6: three on one runner cost up to 1.9x)
+    assert req["shards"] == 88 and _replays_per_job(req) == [1] * 22
+    assert max(_replays_per_job(dict(req, shards=36))) == 3  # planted: the old split puts three on a runner
+    cal = req["calibration"]
+    assert cal["run"] == 40371181784 and cal["block_wall_s"] >= 1645 * 13 / 12 and cal["replay_block_wall_s"] >= 5935 * 13 / 12
+    assert cal["table_build_s"] >= 1414 * 13 / 12 and cal["peak_rss_gb"] >= 1.44
+    need = _worst_process_s(req, cal)
+    assert need == 6500 + 3 * 1788 + 60 == 11924
+    assert need <= 0.75 * 335 * 60 and cal["table_build_s"] + need + 180 <= 0.75 * 350 * 60
+    assert 1 - (cal["table_build_s"] + need + 180) / (350 * 60) > 0.35
+    assert req["gram_procs"] * cal["gram_peak_rss_gb"] < 13 < 4 * cal["gram_peak_rss_gb"]
+    for s in ("11,924 s (198.7 min)", "35 % under", "227 min", "about 167 core-hours", "0 USD"):
+        assert s in s12, s

@@ -1,7 +1,8 @@
 {
  "mode": "full",
- "shards": 36,
+ "shards": 88,
  "gram_parts": 24,
+ "gram_procs": 2,
  "prepared": "prepared",
  "nvec": 280,
  "dps": 40,
@@ -14,6 +15,8 @@
  "M": 34,
  "J": 40,
  "kb": 90,
+ "per_panel": 13,
+ "gram_per_panel": 13,
  "cells": ["2.2", "2.5", "2.9"],
  "Ns": [8, 16, 32],
  "gram": "exact",
@@ -22,14 +25,15 @@
  "local_data": ["satake", [1]],
  "replay_every": 16,
  "replay_prec": 200,
- "gram_sha256": "2b907a79a8a127e0626f9ade01ee7f8335761e7cbf564a48d386cb5854a94872",
  "calibration": {
-  "run": 40342895119,
-  "block_wall_s": 932,
-  "replay_block_wall_s": 3600,
+  "run": 40371181784,
+  "basis": "worst seen in run 40371181784 (RUNS.md s11.6), times 13/12 for 13 nodes per panel",
+  "block_wall_s": 1788,
+  "replay_block_wall_s": 6500,
   "setup_s": 60,
-  "table_build_s": 1200,
-  "peak_rss_gb": 1.40,
-  "table_disk_gb": 2.58
+  "table_build_s": 1532,
+  "peak_rss_gb": 1.44,
+  "table_disk_gb": 2.8,
+  "gram_peak_rss_gb": 6.33
  }
 }
