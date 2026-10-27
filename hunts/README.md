@@ -4240,16 +4240,21 @@ finite theorem says nothing above 100 or about RH itself.
 
 ### Hunt #152: a ball-arithmetic Lehman localization of a sign change of pi(x) - li(x) (`skewes_enclosure/`, opened 2026-10-26)
 
-**Status: open. Target A passed its gate; target B ran (2.2e7 zeros, complete by
-Turing count) and its gate failed: the sum at Revers's printed omega = 727.95134
-misses his S* by 0.0122. The leading hypothesis is that the printed omega is
-727.951335792 rounded. That is unresolved and needs a recompute.** On 2026-10-26, a 2e6-zero ball sum (7.5 core-hours) contained Revers's
-printed S* = -1.006553478788955. The resulting lower bound on Lehman's integral
-is positive down to eta = 1.061e-4 at omega = 727.952018, so pi(x) > li(x) for
-some x with log x in [727.9519119, 727.9521241]. Grade: a hardened computation on
-a cited derivation. Completeness rests on Arb's Turing count alone, and the
-mpmath second route covers a sample of 1150 zeros
-([RESULTS.md](skewes_enclosure/RESULTS.md)). This is not a new record. The question is whether a sign change of
+**Status: open (2026-10-27).** Three outcomes, all under the same grade: a
+hardened computation on a cited derivation (Revers Theorem 3.1 and RH to A),
+with completeness on Arb's Turing count alone and an mpmath second route on a
+sample.
+(1) Target A, 2e6 zeros: the gate passed (Revers's S* inside the ball sum), and
+pi(x) > li(x) for some x with log x in [727.9519119, 727.9521241].
+(2) Target B, 2.2e7 zeros at the printed omega = 727.95134: the gate failed
+(missing by 0.0122), recorded permanently.
+(3) The pre-registered omega-grid rerun: hypothesis H (the printed omega is
+727.951335792 rounded) is **not supported by its rule**. The gap shrinks to
+3.37e-5, still over Revers's 2.60e-5 budget, so reproducing S* stays
+unresolved. The pre-declared localization at 727.951335792 holds: pi(x) > li(x)
+for some x with log x in [727.9513199, 727.9513517], with eta = 1.59e-5, as in
+Revers ([RESULTS.md](skewes_enclosure/RESULTS.md) section 7). Neither interval is
+a new record. The question is whether a sign change of
 pi(x) - li(x) can be localized with every computed step carried by Arb balls. The
 method is Lehman's integral with Revers's 2025 error terms (arXiv:2501.04488,
 JNT 2025) over the first ~2.2e7 zeros. The day-one read of three papers found

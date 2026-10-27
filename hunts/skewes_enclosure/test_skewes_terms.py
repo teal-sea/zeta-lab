@@ -198,3 +198,33 @@ def test_omega_grid_file_is_the_preregistered_one():
     assert d["decisive"] == ["727.951335792", "727.951335426"]
     assert d["control"] == "727.95134"
     assert len(d["omegas"]) == 83 and len(set(d["omegas"])) == 83
+
+
+HERE = Path(__file__).resolve().parent
+
+
+@pytest.mark.skipif(not (HERE / "shards" / "shard_020.json").exists(), reason="shard outputs absent")
+def test_target_A_combined_result_is_pinned():
+    import combine
+
+    r = combine.combine("chao_plymen", HERE / "shards")
+    assert r["checks"]["complete"] and r["gate"]["S_star_inside_ball"]
+    assert r["lower_bounds"]["0.0001061"]["positive"]
+    assert not r["lower_bounds"]["0.000106"]["positive"]
+
+
+@pytest.mark.skipif(not (HERE / "shards_b2" / "shard_220.json").exists(), reason="B2 shards absent")
+def test_B2_preregistered_evaluation_is_pinned():
+    import evaluate_b2
+
+    r = evaluate_b2.evaluate(HERE / "shards_b2")
+    assert r["checks"]["complete"] and r["checks"]["every_shard_has_every_omega"]
+    assert r["control"]["overlaps_recorded"]
+    assert r["H_supported"] is False
+    assert not r["decisive_rule"]["727.951335426"]["meets_rule"]
+    gap = arb(r["decisive_rule"]["727.951335792"]["abs_diff_plus_rad"])
+    assert bool(gap > arb("3.3e-5")) and bool(gap < arb("3.4e-5"))
+    lb = r["lower_bounds_at_decisive_points"]["727.951335792"]
+    assert lb["0.0000159"]["positive"] and not lb["0.0000158"]["positive"]
+    assert not any(v["positive"] for v in r["lower_bounds_at_decisive_points"]["727.951335426"].values())
+    assert all(f["gamma1_fault_leaves_own_ball"] for f in r["planted_faults"].values())

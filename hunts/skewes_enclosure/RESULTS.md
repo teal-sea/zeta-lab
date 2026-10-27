@@ -1,10 +1,19 @@
 # RESULTS: `skewes_enclosure` (hunt #152)
 
-Status on 2026-10-26: **production A done, its gate passed. Production B ran
-(2.2e7 zeros) and its gate FAILED** (section 6). That attempt is unresolved:
-the leading hypothesis is a rounded omega in the source, and testing it needs a
-recompute. Nothing here is promoted: the grades below
-are this hunt's report, not a reviewer's.
+Status on 2026-10-27, three outcomes:
+
+- **Target A (Chao-Plymen, 2e6 zeros): gate passed.** pi(x) > li(x) for some x
+  with log x in [727.9519119, 727.9521241] (section 1).
+- **Target B at the printed omega = 727.95134: gate failed.** This is recorded
+  permanently in section 6.
+- **The pre-registered omega-grid rerun (B2): hypothesis H not supported by its
+  rule.** At omega = 727.951335792, the sum misses Revers's S* by 3.37e-5,
+  against a budget of 2.60e-5. The pre-declared localization at that omega
+  holds anyway: pi(x) > li(x) for some x with log x in [727.9513199, 727.9513517]
+  (section 7).
+
+Nothing here is promoted: the grades below are this hunt's report, not a
+reviewer's.
 
 ## 1. The bounded result (target A, Chao-Plymen region)
 
@@ -163,6 +172,79 @@ which side is wrong. What is known:
   enclosure-carrying measurement, and at that omega the lower bound gives no
   conclusion.
 
+## 7. The pre-registered omega-grid rerun (B2), 2026-10-27
+
+Pre-registration: `PREREG_B2.md` and `omega_grid.json`, committed alone as
+e5b33dc90 before any rerun result existed. Shards 1 to 68 come from Actions run
+40415010866, which the projection rule stopped (RUNS.md). Shards 69 to 220 come
+from run 40426999125. The computing code is byte-identical across both runs
+(SHA-256 table in RUNS.md). Evaluation: `evaluate_b2.py`, output
+`shards_b2/evaluation.json`.
+
+**Completeness**: 220/220 shards are sound, every ball is ordered and disjoint
+within and across shards, N(T) = 22,000,000 by Arb's Turing count, all 4400
+route-2 brackets show a sign change, and every shard carries all 83 omegas.
+
+**Control** at 727.95134: [-0.99067672 +/- 1.89e-9], identical to the production
+B ball. The rerun reproduces production B.
+
+**The rule** (|S - S*| + rad(S) <= B = 2.60111e-5):
+
+| omega (pre-declared) | S | distance to S* = -1.002922947193156 | rule |
+| --- | --- | --- | --- |
+| 727.951335792 (H) | [-1.00288927 +/- 5.39e-9] | 3.367e-5 | **not met** |
+| 727.951335426 (STD15's omega_0) | [-1.00136447 +/- 3.90e-9] | 1.558e-3 | not met |
+
+**H is not supported.** The rounded-omega hypothesis accounts for most of the
+production-B gap (0.0122 at the printed omega, 3.4e-5 at 727.951335792), but
+not all of it, and the rule was fixed in advance. The remaining 3.4e-5 exceeds
+even Revers's worst-case zero budget, so it is not explained by zeros accurate to
+1e-9. Candidate explanations, none tested here: further omega digits beyond
+those printed; double-precision reduction of gamma*omega ~ 7.6e9 mod 2 pi in a
+"machine computation" (Platt-Trudgian 2015 warn that this degrades relative
+accuracy to about 2^-17 at gamma = 1e9); or a different zero list or cutoff.
+Subsection 6.3 prints the sum as "S^*(\alpha,\omega,T)\geq-1.002922947193156"
+with a "\geq", and our value at 727.951335792 does satisfy that inequality. The
+inequality was not the pre-registered rule, so this is noted, not used.
+**Disposition (ALIGNMENT section 5): attempt unresolved** for reproducing
+Revers's S*. It is not a refutation of his result, whose positive conclusion
+holds at our value too (below).
+
+**Descriptive grid** (all 83 values are in `evaluation.json`, and no claim is made
+from them): S ranges from -1.00664805 to -0.99067672. No grid point meets the
+rule. The nearest, 727.951337542, is 2.88e-5 away.
+
+**Pre-declared localization at omega = 727.951335792** (alpha = 6e12,
+A = 6.85e7, T = 10379600):
+
+| eta | lower bound on I(omega, eta) |
+| --- | --- |
+| 2.28e-5 | [9.420e-5 +/- 2.0e-9] |
+| 2.0e-5 | [9.425e-5 +/- 5.7e-9] |
+| 1.8e-5 | [9.428e-5 +/- 3.9e-9] |
+| 1.6e-5 | [9.401e-5 +/- 2.7e-9] |
+| **1.59e-5** | **[5.833e-5 +/- 5.9e-9] > 0** |
+| 1.58e-5 | [-4.08588e-3 +/- 3.3e-9] < 0 |
+
+So **pi(x) > li(x) for some x with log x in [727.9513199, 727.9513517]**. The
+grade matches target A: a hardened computation on a cited derivation (Revers
+Theorem 3.1, RH to A = 6.85e7), with completeness on Arb alone and route 2
+sampled. This is the Saouter-Demichel region at Revers's narrowest eta. It is
+not a new record: Saouter-Trudgian-Demichel 2015's interval is narrower and
+lower. At omega_0 = 727.951335426 every bound is negative (about -1.43e-3), so
+nothing is claimed there. That is expected, because STD15 used alpha = 1.61e15
+and 5.25e8 zeros, not this family.
+
+**Planted faults** at both decisive points: shifting gamma_1 by 1e-6 moves S by
+7.79e-5 and out of its own ball, and dropping R4 moves the bound by 3.20e-5.
+Pinned in `test_skewes_terms.py`.
+
+**Cost**: 106.2 runner core-hours by job wall for the whole rerun, against
+a final cap of 150 (RUNS.md has the cap history and watcher incidents). The
+zeros of all 220 shards are uploaded as 90-day artifacts, and each one's
+decompressed SHA-256 equals its shard's `zeros_sha256`. A new omega or alpha
+therefore no longer needs a recompute until they expire.
+
 ## The doors
 
 **Active constraints at the optimum.** The binding quantity is the smallest
@@ -198,3 +280,17 @@ alpha or T needs more zeros, which means reading more of the same kind of data
 prime side, not more data: Saouter-Trudgian-Demichel's weighted kernel
 (1 + 2u + 9.336u^2) is one such route, and it is not computed here. This is a
 measured optimum at one parameter family, not a proved ceiling.
+
+**Doors at the Saouter-Demichel point (added 2026-10-27).** At omega =
+727.951335792, alpha = 6e12, the floor is eta = 1.59e-5. R = 2.831e-3 there:
+R1 = 2.763e-3 (98%), R6 = 3.6e-5 (which sets the eta floor, as before) and
+R4 = 3.2e-5. The constraint that dominates R is R1, which is prime-side and
+fixed by Theorem 3.1. More zeros could recover at most R4 = 3.2e-5, about half
+the 5.8e-5 margin at the floor, but they cannot move R1. That is a different
+balance from target A, where R4 was 53% of R. The frozen constants are the same, plus the
+grid spacing of 5e-8, which is descriptive only. Information class: reaching
+STD15's omega_0 needs alpha near 1.6e15 and about 5e8 zeros, which reads more of
+the same data. Lowering R1 needs new prime-side analysis (STD15's weighted
+kernel), not more data. The uploaded zero balls make any alpha <= 6e12 study on
+these 2.2e7 zeros free of isolation cost until the artifacts expire.
+

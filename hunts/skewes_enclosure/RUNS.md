@@ -300,3 +300,29 @@ Pinned in the workflow: python-flint 0.9.0, mpmath 1.3.0. The watcher now measur
   0.5 core-hours) could never be met with staggered waves, so watch5 replaces it.
   Above the cap, watch5 records the jobs in flight at the crossing, lets them
   finish, and then cancels. Only jobs started after the crossing lose work.
+
+## 2026-10-27: B2 continuation outcome (run 40426999125) and evaluation
+
+10/10 jobs succeeded between 00:32 and 06:29 UTC. **The whole B2 rerun cost 106.2
+runner core-hours by job wall**: 27.1 in run 40415010866 and 79.1 in this run,
+against a final cap of 150. Process time was 22.9 + 77.2 = 100.1 core-hours.
+Per-run runner speed: shards 1 to 68 ran at 6.9 to 18.0 ms/zero, and shards 69 to
+220 at 8.7 to 25.5 ms/zero, depending on the CPU model. That spread is the cause
+of both cap changes. `evaluate_b2.py` ran once, on all 220 shards, exactly as
+pre-registered (RESULTS.md section 7). Checksums are in `shards_b2/SHA256SUMS`.
+
+```runmanifest
+id: skewes_enclosure-2026-10-27-rerunB2-part2
+hunt: skewes_enclosure
+started: 2026-10-27T00:31:58+00:00
+finished: 2026-10-27T06:29:22+00:00
+ran:
+  - GitHub Actions skewes-enclosure run 40426999125 (RUN_REQUEST shards 69-220, omega grid)
+  - .venv/bin/python hunts/skewes_enclosure/evaluate_b2.py --shards hunts/skewes_enclosure/shards_b2 --out hunts/skewes_enclosure/shards_b2/evaluation.json
+outcome: all 220 grid shards sound and complete by Turing count; control reproduces production B; hypothesis H not supported by the pre-registered rule (gap 3.37e-5 against budget 2.60e-5); the pre-declared lower bound at omega 727.951335792 is positive down to eta 1.59e-5
+artifacts:
+  - hunts/skewes_enclosure/shards_b2/shard_001.json .. shard_220.json
+  - hunts/skewes_enclosure/shards_b2/evaluation.json
+  - hunts/skewes_enclosure/shards_b2/SHA256SUMS
+  - zeros-* artifacts of runs 40415010866 and 40426999125 (90-day retention)
+```
