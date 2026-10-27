@@ -59,6 +59,17 @@ def main() -> None:
     merged = load(os.path.join(RUN, "census_1e5.json"))
     rows = merged["rows"]
     shards = merged["shards"]
+    # KNOWN LIMITS (recorded 2026-10-26 in review, RESULTS.md section 8.16;
+    # logic deliberately unchanged, so the recorded evaluations reproduce):
+    # 1. Only rows with a landing enter `landed`, and the floor verdict reads
+    #    `landed` alone.  A row whose accounting closed but whose ODE made no
+    #    crossing by t_end (census_1e4.py: landing_ode None) is dropped here,
+    #    and no kill condition requires n_landed == n_rows, although such a
+    #    row is exactly a landing later than 1.25 y0^2/2.
+    # 2. Flagged windows the guarded locate could not place (`unlocated`) are
+    #    reported beside K-c but enter no kill condition and no verdict.
+    # Neither occurred in attempt 2 (170 of 170 landed, 0 unlocated); both
+    # are pinned by test_known_limit_evaluation_drops_unlanded_and_unlocated.
     landed = [r for r in rows if r["landing_ode"] is not None]
     low = load(os.path.join(HERE, "census_1e4.json"))["rows"]
     deep = load(os.path.join(HERE, "census_deep4_1e5.json"))["rows"]

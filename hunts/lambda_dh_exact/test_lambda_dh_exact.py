@@ -22,6 +22,12 @@ Three kinds of test, each naming the artifact it reads:
    floor. Setting ``LDH_PLANT_FAULT=1`` injects the same faults into the
    comparisons themselves, so the recomputation tests go red; that run is
    recorded in `RUNS.md` (Run 13).
+4. **Review corrections** (section 12, 2026-10-26): every decided interval the
+   record quotes contains its artifact's exact interval; the Arb-versus-iv
+   cross-check compares exact endpoints; the Euler-Maclaurin constant is
+   covered by the rounding fudge; the registered text is as registered; and
+   two known limits of the census evaluation are shown, with their absence
+   from the recorded runs.
 
 Grades are those of `RESULTS.md`: the two counts are decided, the landings
 are measured. Nothing here bears on RH (`docs/08`).
@@ -32,6 +38,7 @@ import importlib.util
 import json
 import math
 import os
+import re
 import sys
 from fractions import Fraction
 from pathlib import Path
@@ -84,6 +91,23 @@ def _maybe_plant_count(n):
     return n + 1 if (PLANT and n is not None) else n
 
 
+def floor_dp(x: Fraction, d: int) -> str:
+    """x rounded down to d decimals, as a string (the outward lower end)."""
+    return _dp(math.floor(x * 10**d), d)
+
+
+def ceil_dp(x: Fraction, d: int) -> str:
+    """x rounded up to d decimals, as a string (the outward upper end)."""
+    return _dp(math.ceil(x * 10**d), d)
+
+
+def _dp(n: int, d: int) -> str:
+    """The integer n / 10^d written exactly with d decimals (no float)."""
+    sign = "-" if n < 0 else ""
+    n = abs(n)
+    return f"{sign}{n // 10**d}.{n % 10**d:0{d}d}"
+
+
 # ---------------------------------------------------------------------------
 # 1a. step 1: the height-1e6 zero (decide_deep_zero.json)
 # ---------------------------------------------------------------------------
@@ -103,43 +127,96 @@ def test_deep_zero_decided_count_one_on_both_backends():
 
 
 def test_deep_zero_depth_interval():
-    """decide_deep_zero.json: y0 in [0.3583118516, 0.3583118665], right of the line."""
+    """decide_deep_zero.json: y0 in [0.3583118516, 0.3583118666] (outward), right of the line."""
     d = load("decide_deep_zero.json")
     lo, hi = (Fraction(x) for x in d["depth_y0_enclosure"])
     assert lo == Fraction(393968047217, 2**40) and hi == Fraction(393968063601, 2**40)
     assert interval_inside((lo, hi), (Fraction("0.35831185"), Fraction("0.35831187")))
-    assert f"{float(lo):.10f}" == "0.3583118516" and f"{float(hi):.10f}" == "0.3583118665"
+    # quoted rounded outward (2026-10-26 in review; to nearest, the upper end was 0.3583118665 < hi)
+    assert floor_dp(lo, 10) == "0.3583118516" and ceil_dp(hi, 10) == "0.3583118666"
+    assert interval_inside((lo, hi), (Fraction("0.3583118516"), Fraction("0.3583118666")))
     assert d["rectangle_right_of_half_line"] is True and d["float_datum_inside"] is True
     sl, sh = (Fraction(x) for x in d["rectangle"]["sigma"])
     assert sl > Fraction(1, 2) and sh - sl == Fraction(2, 2**27)
 
 
+def _shift_box(box: dict, part: str = "re", widths: int = 2) -> dict:
+    """The box moved along one part by `widths` times its own width there."""
+    lo, hi = box[part]
+    w = hi - lo
+    out = dict(box)
+    out[part] = (lo + widths * w, hi + widths * w)
+    return out
+
+
 def test_deep_zero_planted_faults_and_cross_check():
-    """decide_deep_zero.json: the faults decide 0, and Arb and iv enclosures intersect."""
+    """decide_deep_zero.json: the faults decide 0; Arb and iv enclosures intersect on exact endpoints.
+
+    `cross_check_exact` (Run 22, 2026-10-26 in review) stores every endpoint as an
+    exact rational; the intersection is recomputed here from those endpoints with
+    no slack. The recorded float-midpoint `cross_check` could not fail and is
+    no longer read. Planted: the iv enclosure moved by twice its width.
+    """
+    import decide_deep_zero as dd
     d = load("decide_deep_zero.json")
     f = d["faults"]
     assert f["python-flint"]["kappa_plus_1e-3"]["count"] == 0
     assert f["python-flint"]["rectangle_shifted_4_half_widths"]["count"] == 0
     assert f["mpmath.iv"]["rectangle_shifted_4_half_widths"]["count"] == 0
-    assert len(d["cross_check"]) == 3 and all(x["intersect"] for x in d["cross_check"])
+    xs = d["cross_check_exact"]
+    assert [x["s"] for x in xs] == [x["s"] for x in d["cross_check"]] and len(xs) == 3
+    run = d["cross_check_exact_run"]
+    assert run["all_intersect"] is True and run["iv_N"] == 199153 and run["iv_p"] == 293
+    for x in xs:
+        a, b = dd.box_from_json(x["arb"]), dd.box_from_json(x["iv"])
+        if PLANT:
+            b = _shift_box(b)                     # planted: one enclosure moved past itself
+        assert dd.enclosures_intersect(a, b) and x["intersect"] is True
+        for k in ("re", "im"):                    # the stored widths are the exact ones
+            assert math.isclose(x["parts"][k]["width_iv"], float(b[k][1] - b[k][0]), rel_tol=1e-12)
+            assert x["parts"][k]["midpoint_gap"] < 3e-33 < x["parts"][k]["width_iv"]
+
+
+def test_planted_fault_cross_check_shift_is_caught():
+    """enclosures_intersect rejects the recorded iv box moved by twice its width, in either part."""
+    import decide_deep_zero as dd
+    x = load("decide_deep_zero.json")["cross_check_exact"][2]
+    a, b = dd.box_from_json(x["arb"]), dd.box_from_json(x["iv"])
+    assert dd.enclosures_intersect(a, b)
+    assert not dd.enclosures_intersect(a, _shift_box(b, "re"))
+    assert not dd.enclosures_intersect(a, _shift_box(b, "im"))
+    assert not dd.enclosures_intersect(a, _shift_box(b, "re", -2))
+    # the recorded float check passes the same shifted box: why it was replaced
+    assert _old_float_check(a, _shift_box(b, "re"))
+
+
+def _old_float_check(a: dict, b: dict) -> bool:
+    """The comparison `decide_deep_zero.py` recorded before 2026-10-26: float64
+    midpoints within radii + 1e-30.  Kept here only to show that it cannot fail."""
+    ok = True
+    for k in ("re", "im"):
+        am, bm = float((a[k][0] + a[k][1]) / 2), float((b[k][0] + b[k][1]) / 2)
+        ar, br = float(a[k][1] - a[k][0]) / 2, float(b[k][1] - b[k][0]) / 2
+        ok = ok and abs(am - bm) <= ar + br + 1e-30
+    return ok
 
 
 # ---------------------------------------------------------------------------
 # 1b. step 2: the low screen, screen_hi
 # ---------------------------------------------------------------------------
 
-LOW_TABLE = {   # RESULTS.md section 8.3, gamma (4 dp) -> y0 enclosure (10 dp)
-    "240.4047": ("0.3695305722", "0.3695305871"), "783.6530": ("0.3530014427", "0.3530014576"),
-    "857.2959": ("0.3561094084", "0.3561094233"), "1092.4545": ("0.3546296115", "0.3546296264"),
-    "2442.5303": ("0.3977501475", "0.3977501624"), "2887.9392": ("0.3604422750", "0.3604422899"),
-    "3059.5187": ("0.3678568616", "0.3678568765"), "3214.1444": ("0.3612643316", "0.3612643465"),
-    "3294.6092": ("0.3603604983", "0.3603605132"), "4237.9692": ("0.3576562361", "0.3576562510"),
-    "4392.3764": ("0.3535286436", "0.3535286585"), "4935.6178": ("0.3551060613", "0.3551060762"),
-    "5090.3177": ("0.3663990727", "0.3663990876"), "5833.2823": ("0.3740914934", "0.3740915083"),
-    "5913.7059": ("0.3594353089", "0.3594353238"), "6113.9288": ("0.3581936447", "0.3581936596"),
-    "7011.5119": ("0.3662883174", "0.3662883323"), "7909.4450": ("0.3545747216", "0.3545747365"),
-    "8235.5925": ("0.3753363089", "0.3753363238"), "8561.5942": ("0.3836407511", "0.3836407660"),
-    "9694.5786": ("0.3516309903", "0.3516310052"),
+LOW_TABLE = {   # RESULTS.md section 8.3, gamma (4 dp) -> y0 enclosure (10 dp, rounded outward)
+    "240.4047": ("0.3695305721", "0.3695305871"), "783.6530": ("0.3530014426", "0.3530014576"),
+    "857.2959": ("0.3561094084", "0.3561094234"), "1092.4545": ("0.3546296114", "0.3546296264"),
+    "2442.5303": ("0.3977501475", "0.3977501625"), "2887.9392": ("0.3604422749", "0.3604422899"),
+    "3059.5187": ("0.3678568615", "0.3678568765"), "3214.1444": ("0.3612643315", "0.3612643465"),
+    "3294.6092": ("0.3603604982", "0.3603605132"), "4237.9692": ("0.3576562360", "0.3576562510"),
+    "4392.3764": ("0.3535286435", "0.3535286585"), "4935.6178": ("0.3551060612", "0.3551060763"),
+    "5090.3177": ("0.3663990726", "0.3663990877"), "5833.2823": ("0.3740914934", "0.3740915084"),
+    "5913.7059": ("0.3594353089", "0.3594353239"), "6113.9288": ("0.3581936446", "0.3581936596"),
+    "7011.5119": ("0.3662883173", "0.3662883323"), "7909.4450": ("0.3545747216", "0.3545747366"),
+    "8235.5925": ("0.3753363088", "0.3753363238"), "8561.5942": ("0.3836407511", "0.3836407661"),
+    "9694.5786": ("0.3516309902", "0.3516310052"),
 }
 
 
@@ -160,7 +237,7 @@ def test_low_zeros_decided_on_both_backends_match_table():
         assert r["python-flint"]["count"] == 1 and r["mpmath.iv"]["count"] == 1
         lo, hi = (Fraction(x) for x in r["y0_enclosure"])
         assert hi - lo == Fraction(2, 2**27)
-        got[f"{r['gamma_float']:.4f}"] = (f"{float(lo):.10f}", f"{float(hi):.10f}")
+        got[f"{r['gamma_float']:.4f}"] = (floor_dp(lo, 10), ceil_dp(hi, 10))   # outward
     assert got == LOW_TABLE
     assert max(Fraction(r["y0_enclosure"][1]) for r in d["rows"]) < Fraction(2, 5)
 
@@ -264,7 +341,7 @@ def _all_landed():
 
 
 def test_verdict_P2_refuted_decided():
-    """decide_low_zeros.json + decide_kc2.json: y_max(1e4) in [0.39775015, 0.40)."""
+    """decide_low_zeros.json + decide_kc2.json: y_max(1e4) in [0.39775014, 0.40) (lower end outward)."""
     low = load("decide_low_zeros.json")["rows"]
     best_lo = max(Fraction(r["y0_enclosure"][0]) for r in low)
     assert best_lo >= Fraction("0.39775014") and load("decide_kc2.json")["count"] == 0
@@ -301,8 +378,15 @@ def test_verdict_P3_holds_KC1_does_not_fire():
     assert all(dh[g] < 0.123 for g in small) and round(max(dh[g] for g in small), 4) == 0.1223
 
 
-def test_verdict_P4_raises_clause_fails():
-    """census_1e4.json: the best landing below 1e4 is the floor pair itself."""
+def test_verdict_P4_not_raised_within_coverage():
+    """census_1e4.json: the best landing below 1e4 is the floor pair itself.
+
+    P4 is *unresolved, evidence against* (RESULTS.md 8.7, relabelled 2026-10-26 in
+    review): its antecedent, a complete census to 1e4, was not run (y0 in
+    (0.3396, 0.35] not landed), so this shows only that, within coverage
+    y0 > 0.35, the best landing is not raised.
+    """
+    assert all(r["y0"] > 0.35 for r in load("census_1e4.json")["rows"])     # the coverage
     a, _ = _all_landed()
     best = max(a, key=lambda r: r["landing_ode"])
     assert round(best["gamma"], 2) == 240.40
@@ -322,11 +406,18 @@ def test_verdict_P6_refuted():
 
 
 def test_verdict_P8_not_observed():
-    """census_1e4.json + census_deep4_1e5.json: 0 of 29 land later than y0^2/2."""
+    """census_1e4.json: within P8's registered scope, pairs below 1e4, 0 of 21 land later than y0^2/2.
+
+    The 8 targeted pairs (and the 170 census pairs) above 1e4 lie outside that
+    scope and are checked only as a description (restricted 2026-10-26 in review;
+    this test used to pool them as 0 of 29).
+    """
     a, b = _all_landed()
-    assert len(a) + len(b) == 29
-    assert not any(r["later_than_naive"] for r in a + b)
-    assert all(r["landing_ode"] < r["landing_naive"] for r in a + b)
+    assert len(a) == 21 and all(r["gamma"] < 1e4 for r in a)
+    assert not any(r["later_than_naive"] for r in a)
+    assert all(r["landing_ode"] < r["landing_naive"] for r in a)
+    assert len(b) == 8 and all(r["gamma"] > 1e4 for r in b)                  # outside P8's scope
+    assert not any(r["later_than_naive"] for r in b)
 
 
 def test_verdict_P5_and_KC4_per_decade_maxima_fall():
@@ -966,7 +1057,7 @@ def test_census2_kill_conditions_and_verdicts_recomputed():
     low = [r for r in load("census_1e4.json")["rows"]]
     best = max(low + rows, key=lambda r: r["landing_ode"])
     assert best["gamma"] < 1e3                                                             # P5 refuted up to 1e5
-    assert not any(r["later_than_naive"] for r in rows)                                    # P8: 0 of 170
+    assert not any(r["later_than_naive"] for r in rows)   # 0 of 170 above 1e4: outside P8's registered scope, a description
 
 
 def test_census2_evaluation_record():
@@ -1008,3 +1099,223 @@ def test_census2_closest_to_the_floor_statement():
     assert all(r["landing_ode"] < 0.9 * FLOOR_MEASURED for r in rows)
     best = max(low + rows, key=lambda r: r["landing_ode"])
     assert round(best["gamma"], 2) == 2442.53 and round(100 * (1 - best["landing_ode"] / FLOOR_MEASURED), 1) == 3.1
+
+
+# ---------------------------------------------------------------------------
+# 12. review corrections (RESULTS.md section 8.16, 2026-10-26)
+# ---------------------------------------------------------------------------
+
+_NUM = r"-?\d+\.\d+"
+_QUOTED = re.compile(rf"\[({_NUM}), ({_NUM})([\]\)])")
+
+
+def _decided_intervals() -> list:
+    """Every decided interval the record quotes, exact, from its artifact: (name, (lo, hi), closed)."""
+    out = []
+    d = load("decide_deep_zero.json")
+    out.append(("1e6 sigma", tuple(Fraction(x) for x in d["rectangle"]["sigma"]), True))
+    out.append(("1e6 t", tuple(Fraction(x) for x in d["rectangle"]["t"]), True))
+    out.append(("1e6 y0", tuple(Fraction(x) for x in d["depth_y0_enclosure"]), True))
+    best = None
+    for r in load("decide_low_zeros.json")["rows"]:
+        iv = tuple(Fraction(x) for x in r["y0_enclosure"])
+        out.append((f"y0 {r['gamma_float']:.4f}", iv, True))
+        best = iv if best is None or iv[0] > best[0] else best
+    # P2: y_max(1e4) lies in [lower end of the deepest decided rectangle, 2/5), open at the
+    # top, because decide_kc2.json + kc2/below8.json decide no zero with beta >= 0.90
+    assert load("decide_kc2.json")["count"] == 0 and load("kc2/below8.json")["count"] == 0
+    out.append(("y_max(1e4)", (best[0], Fraction(2, 5)), False))
+    return out
+
+
+def _quoted_intervals(text: str):
+    """Bracketed decimal intervals with at least 8 decimals at one end: ((lo, hi, closed), raw)."""
+    for m in _QUOTED.finditer(text):
+        a, b, close = m.groups()
+        if max(len(a.split(".")[1]), len(b.split(".")[1])) < 8:
+            continue
+        yield (Fraction(a), Fraction(b), close == "]"), m.group(0)
+
+
+def _quote_contains(q: tuple, d: tuple) -> bool:
+    """The quoted interval q contains the decided interval d (each (lo, hi, closed at the top))."""
+    (qlo, qhi, qclosed), (dlo, dhi, dclosed) = q, d
+    return qlo <= dlo and (dhi < qhi or (dhi == qhi and (qclosed or not dclosed)))
+
+
+def _check_quotes(text: str):
+    """Match each quoted interval to the decided interval it quotes (nearest, within 1e-6)."""
+    decided = _decided_intervals()
+    matched, bad = [], []
+    for q, raw in _quoted_intervals(text):
+        name, d, closed = min(decided, key=lambda x: abs(q[0] - x[1][0]) + abs(q[1] - x[1][1]))
+        if abs(q[0] - d[0]) + abs(q[1] - d[1]) > Fraction(1, 10**6):
+            continue                                     # not a quotation of a decided interval
+        matched.append(name)
+        if not _quote_contains(q, (d[0], d[1], closed)):
+            bad.append((raw, name))
+    return matched, bad
+
+
+def test_quoted_decided_intervals_contain_the_artifact_intervals():
+    """RESULTS.md and the #119 case log in hunts/README.md: every quoted decided interval is an enclosure.
+
+    Each bracketed decimal interval that quotes a decided one (sections 8.1, 8.2,
+    the 21 rows of 8.3, 8.4, the P2 row of 8.7; the case log's 1e6 depth and P2)
+    must contain the exact interval in its artifact. Until 2026-10-26 (review)
+    they were rounded to nearest and every one failed on at least one side.
+    Planted: the 8.3 row for gamma = 240.4047 given one inward digit.
+    """
+    results = (HERE / "RESULTS.md").read_text()
+    readme = (HERE.parent / "README.md").read_text()
+    entry = readme[readme.index("**Resumed 2026-10-26 (compute sweep"):]
+    entry = entry[: entry.index("\n### ")]
+    if PLANT:
+        row = "| 240.4047 | [0.3695305721,"
+        assert row in results
+        results = results.replace(row, "| 240.4047 | [0.3695305722,", 1)     # planted: one inward digit
+    for text, n in ((results, 27), (entry, 2)):
+        matched, bad = _check_quotes(text)
+        assert not bad, bad
+        assert len(matched) == n, matched
+    m = re.search(r"y_max\(10\^4\) >= (\d+\.\d+)", results)     # section 8.5's one-sided bound
+    assert m and Fraction(m.group(1)) <= _decided_intervals()[-1][1][0]
+
+
+def test_planted_fault_quoted_interval_checker():
+    """_quote_contains rejects an interval quoted to nearest where that rounds inward."""
+    decided = {name: (iv, closed) for name, iv, closed in _decided_intervals()}
+    (lo, hi), _ = decided["y0 240.4047"]
+    assert _quote_contains((Fraction("0.3695305721"), Fraction("0.3695305871"), True), (lo, hi, True))
+    assert not _quote_contains((Fraction("0.3695305722"), Fraction("0.3695305871"), True), (lo, hi, True))
+    (lo, hi), _ = decided["y_max(1e4)"]
+    assert _quote_contains((Fraction("0.39775014"), Fraction("0.40"), False), (lo, hi, False))
+    assert not _quote_contains((Fraction("0.39775015"), Fraction("0.40"), False), (lo, hi, False))
+
+
+def test_em_remainder_constant_is_covered_by_the_fudge():
+    """decide_deep_zero.py docstring: the remainder constant C_p = 4 (1 - 2^-2p) zeta(2p) and the fudge.
+
+    For the Euler-Maclaurin sum through k = p - 1 the remainder weight is
+    B_2p - B~_2p(x), whose peak is (2 - 2^(1-2p)) |B_2p| (checked on a grid for
+    p = 1..5). The code's constant 4 falls short of C_p at p = 293 by under 1e-279
+    relative, inside the net 2^-50 - 2^-52 margin of `_upper`. Planted: the
+    constant the old text cited, 2 zeta(2p), in place of the code's 4.
+    """
+    from mpmath import iv, mp
+    import decide_deep_zero as dd
+    with mp.workdps(40):
+        for p in range(1, 6):
+            b = mp.bernoulli(2 * p)
+            peak = max(abs(mp.bernpoly(2 * p, mp.mpf(i) / 2000) - b) for i in range(2001))
+            assert mp.almosteq(peak, (2 - mp.mpf(2) ** (1 - 2 * p)) * abs(b), 1e-30)
+            lhs = (2 - mp.mpf(2) ** (1 - 2 * p)) * abs(b) * (2 * mp.pi) ** (2 * p) / mp.factorial(2 * p)
+            assert mp.almosteq(lhs, 4 * (1 - mp.mpf(2) ** (-2 * p)) * mp.zeta(2 * p), 1e-30)
+    p = int(math.ceil((128 * math.log(2) + 40) / (2 * math.log(1.25)))) + 4     # IvRoute at 128 bits
+    assert p == 293 == load("decide_deep_zero.json")["routes"]["mpmath.iv"]["p"]
+    with mp.workdps(700):
+        cp = 4 * (1 - mp.mpf(2) ** (-2 * p)) * mp.zeta(2 * p)
+        used = 2 * mp.zeta(2 * p) if PLANT else mp.mpf(4)          # planted: the old text's constant
+        short = cp / used - 1
+        assert short < mp.mpf(2) ** -50 - mp.mpf(2) ** -52
+        assert 0 < short < mp.mpf(10) ** -279
+    assert dd._upper(iv.mpf(1)) >= 1 + 2.0 ** -50 - 2.0 ** -52
+
+
+def test_registered_text_keeps_the_slip_and_8_9_points_at_it():
+    """MISSION.md (2026-08-18) and RESULTS.md (2026-09-12) read as registered; section 8.9 points at each.
+
+    The in-place corrections of the y0 slip inside registered text were reverted
+    on 2026-10-26 (review). The registered sentences still read 0.3695261, and
+    RESULTS.md section 8.9 names each one with its correction. Planted: the P2
+    edit put back.
+    """
+    mission = (HERE / "MISSION.md").read_text()
+    results = (HERE / "RESULTS.md").read_text()
+    reg_m = mission.split("\n## 8. Resumption")[0]
+    reg_r = results.split("\n## 8. Resumption")[0]
+    if PLANT:   # planted: the reverted in-place edit put back into the registered P2 sentence
+        reg_m = reg_m.replace("For scale: `y_max(600) = 0.3695261` today,",
+                              "For scale: `y_max(600) = 0.3695306` today (corrected\n  2026-10-26 from 0.3695261),")
+    for s in ("best measured landing 0.05765184035 at gamma = 240.4046, y0 = 0.3695261\n",
+              "| best measured landing | `0.05765184035` at `gamma = 240.4046`, `y0 = 0.3695261` | measured |",
+              "anchored at\n`y_max(600) = 0.3695261`, and maximize",
+              "For scale: `y_max(600) = 0.3695261` today, and the strip ceiling is"):
+        assert s in reg_m, s
+    for s in ("| 240.4046 | 0.3695261 | hunts/flow_repair, hunts/lambda_dh_bounds |",
+              "| the depth-law anchor | y_max(600) = 0.3695261 | stage 6, sets c_p |"):
+        assert s in reg_r, s
+    assert "0.3695306" not in reg_m + reg_r and "2026-10-26" not in reg_m + reg_r
+    s89 = results.split("### 8.9 ")[1].split("### 8.10 ")[0]
+    for pointer in ("huntspec `frontier:` line", "section 0 table", "section 5.2, C3",
+                    'P2, its "For scale" sentence', "section 4 table", "the depth-law anchor"):
+        assert pointer in s89, pointer
+
+
+def _fake_window(cz, monkeypatch, gamma: float, y0: float, tstar):
+    """census_one's float instruments replaced by a closed, consistent window (4 line zeros, 1 pair)."""
+    reals = [gamma - 30, gamma - 1, gamma + 1, gamma + 30]
+    monkeypatch.setattr(cz, "line_zeros", lambda a, b, per_gap=60: list(reals))
+    monkeypatch.setattr(cz, "count_float",
+                        lambda sig_c, a, b, pts_per_unit=32: (1, 0.0) if sig_c > 0 else (len(reals) + 2, 0.0))
+    monkeypatch.setattr(cz, "offline_zeros", lambda a, b, want, sig_in=None: [complex(0.5 + y0, gamma)])
+    monkeypatch.setattr(cz.probe, "ode_null_control",
+                        lambda *a, **k: {"tstar_ode": tstar, "slope0_ode": -1.0, "n_reals": 4, "n_pairs": 1,
+                                         "window": 40.0, "rho": 1.0, "tail_term_vs_mirror": 0.0,
+                                         "trajectory_Q": []})
+
+
+def test_known_limit_no_crossing_reads_as_not_beating_the_floor(monkeypatch):
+    """census_1e4.census_one, known limit 1 (RESULTS.md 8.16): no ODE crossing by t_end reads as not beating.
+
+    A pair that has not landed by t_end = 1.25 y0^2/2 (above the floor for
+    y0 > 0.3396) gets landing_ode None and beats_floor False. The logic is left as
+    it is; the recorded censuses never hit it (every accounted row landed).
+    Planted: one accounted row of attempt 2 with its landing removed.
+    """
+    import census_1e4 as cz
+    g, y0 = 50000.0, 0.42
+    assert 1.25 * y0 * y0 / 2 > FLOOR_MEASURED
+    _fake_window(cz, monkeypatch, g, y0, None)
+    e = cz.census_one(g, y0)
+    assert e["accounting_ok"] and e["offline_located_ok"] and e["self_found"]
+    assert e["landing_ode"] is None and e["beats_floor"] is False and e["later_than_naive"] is False
+    _fake_window(cz, monkeypatch, g, y0, 0.03)                     # the same window with a crossing
+    assert cz.census_one(g, y0)["landing_ode"] == 0.03
+    rows = (load("census_1e4.json")["rows"] + load(R2 + "census_1e5.json")["rows"]
+            + load("census_deep4_1e5.json")["rows"])
+    if PLANT:
+        rows = rows + [dict(rows[0], landing_ode=None)]            # planted: an accounted row unlanded
+    assert all(r["landing_ode"] is not None for r in rows if r["accounting_ok"])
+
+
+def test_known_limit_evaluation_drops_unlanded_and_unlocated(monkeypatch, tmp_path):
+    """evaluate_census.main, known limits 1 and 2 (RESULTS.md 8.16), on a synthetic merged census.
+
+    An accounted but unlanded row leaves the floor verdict at "no pair beats it"
+    and passes every kill condition; an unlocated window enters none. Attempt 2
+    had neither (170 of 170 landed, 0 unlocated). Planted: attempt 2 given one
+    unlanded row.
+    """
+    import evaluate_census as ec
+    deep = [r for r in load("census_deep4_1e5.json")["rows"] if r["landing_ode"] is not None]
+    oos = dict(deep[0], gamma=60000.0, landing_ode=0.03)
+    unlanded = dict(deep[0], gamma=70000.0, y0=0.42, landing_ode=None, accounting_ok=True)
+    shards = [{"shard": i, "screen_complete": True, "n_unlocated": 1 if i == 0 else 0,
+               "n_relocated_by_guard": 0, "cpu_seconds": {"census": 1.0}, "peak_rss": {"peak_gb": 0.1}}
+              for i in range(36)]
+    (tmp_path / "census_1e5.json").write_text(
+        json.dumps({"plan_sha256": PLAN_SHA, "shards": shards, "rows": deep + [oos, unlanded]}))
+    monkeypatch.setattr(ec, "RUN", str(tmp_path))
+    monkeypatch.setattr(ec, "two_sided_ratio", lambda r: {"gamma": r["gamma"], "ratio": 1.0, "gate_defect": 0.0,
+                                                          "d_L_over_h": 1.0, "d_R_over_h": 1.0})
+    ec.main()
+    e = json.loads((tmp_path / "evaluation.json").read_text())
+    assert e["n_rows"] == 10 and e["n_landed"] == 9 and e["n_unaccounted"] == 0
+    assert e["K_c_ok"] and e["census_valid"]
+    assert e["verdict_floor"] == "no pair with y0 > 0.3396 in [1e4, 1e5] beats it"     # limit 1
+    assert e["n_unlocated_windows"] == 1                                                # limit 2
+    rec, merged = load(R2 + "evaluation.json"), load(R2 + "census_1e5.json")
+    rows = merged["rows"] + ([dict(merged["rows"][0], landing_ode=None)] if PLANT else [])
+    assert rec["n_landed"] == rec["n_rows"] == len(rows)
+    assert all(r["landing_ode"] is not None for r in rows) and rec["n_unlocated_windows"] == 0

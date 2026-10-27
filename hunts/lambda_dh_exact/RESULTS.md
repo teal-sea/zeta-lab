@@ -82,7 +82,7 @@ the landing time. The two deepest depths this laboratory has located are:
 
 | height gamma | depth y0 | source |
 |---|---|---|
-| 240.4046 | 0.3695306 (corrected 2026-10-26 from 0.3695261, section 8.9) | hunts/flow_repair, hunts/lambda_dh_bounds |
+| 240.4046 | 0.3695261 | hunts/flow_repair, hunts/lambda_dh_bounds |
 | 1000459.7433532759 | 0.35831185907344154 | this hunt, `deep_zeros_1e6.json` |
 
 Shallower at four thousand times the height, which is the direction the theory
@@ -225,7 +225,7 @@ shape.
 | Frozen | Value | Where | What relaxing it trades |
 |---|---|---|---|
 | the depth-law exponent p | 0.5, 1.0, 1.5, 2.0 sampled, none fitted | `theory.py` stage 6 | Everything. Fitting it against measured depths replaces the registered range with an interval, and excludes p = 0.5 on evidence rather than on self-consistency. Costs new depths at new heights. |
-| the depth-law anchor | y_max(600) = 0.3695306 (corrected 2026-10-26 from 0.3695261, section 8.9) | stage 6, sets c_p | One data point, `flow_repair`'s deepest pair, pins the whole law. A deeper pair anywhere re-anchors it upward and raises every sup in the table. |
+| the depth-law anchor | y_max(600) = 0.3695261 | stage 6, sets c_p | One data point, `flow_repair`'s deepest pair, pins the whole law. A deeper pair anywhere re-anchors it upward and raises every sup in the table. |
 | local-gap parameter DBAR | 1.4284 | module constant, fitted as mean d/h over nine landings | Fitted, not guessed, but it is one scalar standing for all gap geometry, with nine samples and a spread of 1.335 to 1.568. Re-fitting per height, or carrying the spread rather than the mean, trades a tighter model against more parameters than nine points can support. |
 | lattice phase theta | 0.5 | `t_star_lattice` | The pair sits exactly midway between its neighbours, the most symmetric and plausibly the most favourable position. Sampling theta trades a cheap recomputation against a sup that may only fall. |
 | lattice truncation K | 6000 terms | `t_star_gap` | Pure numerics. Cheap to push; expected to move nothing, which is why it should be checked once rather than assumed. |
@@ -292,10 +292,14 @@ sign, on both backends unless one is named.
    `hunts/flow_repair/NOTES.md:111`: flow_repair's own `results.json` records
    y0 = 0.369530579640643..., its y0^2/2 = 0.0682764 in the same NOTES row
    matches 0.3695306, not 0.3695261, and the decided enclosure below is
-   [0.3695305722, 0.3695305871]. The slip is 4.5e-6 in y0, 1.2e-5 relative.
+   [0.3695305721, 0.3695305871] (rounded outward; requoted 2026-10-26 in
+   review, section 8.16). The slip is 4.5e-6 in y0, 1.2e-5 relative.
    It moves the stage-6 anchor c_p by about that much and changes no number
    this hunt reports at the digits it reports them. `theory.py` and its
-   results are left as recorded, not re-run.
+   results are left as recorded, not re-run. (Dated note, 2026-10-26 in
+   review: superseded the same day by section 8.9, which corrected the
+   inputs in `theory.py`; `theory_results.json` is still as recorded and was
+   not re-run.)
 
 ### 8.2 Step 1: the height-10^6 zero is decided
 
@@ -304,15 +308,18 @@ sign, on both backends unless one is named.
 **Decided on both backends: f has exactly one zero, counted with
 multiplicity, in the exact rectangle**
 
-    sigma in [943723861105, 943723877489] / 2^40 = [0.8583118516, 0.8583118665]
-    t     in [537117734833355, 537117734833363] / 2^29 = [1000459.74335327, 1000459.74335328]
+    sigma in [943723861105, 943723877489] / 2^40, inside [0.8583118516, 0.8583118666]
+    t     in [537117734833355, 537117734833363] / 2^29, inside [1000459.74335326, 1000459.74335329]
 
-so its depth is **y0 in [0.3583118516, 0.3583118665]**, the rectangle lies
+so its depth is **y0 in [0.3583118516, 0.3583118666]**, the rectangle lies
 wholly in Re s > 1/2, and the 2026-08-18 float location (beta
 0.8583118590734415, gamma 1000459.7433532759) is inside it. The row in
 section 2 moves from float grade to decided. Its by-symmetry partner at
 1 - beta needs no separate count (F(s) = F(1 - s), conjugate-symmetric
-coefficients).
+coefficients). (Decimals requoted 2026-10-26 in review, rounded outward. The
+first version rounded to nearest, which narrowed the upper sigma and y0
+endpoints and both t endpoints, so as printed they were not enclosures. The
+dyadic endpoints are the decided statement; section 8.16.)
 
 | | Arb (python-flint) | mpmath.iv (hand-rolled) |
 |---|---|---|
@@ -327,9 +334,23 @@ coefficients).
 The two routes share the formula f = sum a_n n^{-s} and the closed form
 kappa = sqrt(1 + phi^2) - phi (cited, Bombieri-Ghosh 2011 section 6; decided
 equal to the self-duality kappa in `hunts/lambda_dh_bounds/KAPPA-CLOSED-FORM.md`)
-and no evaluator, rounding code or error bound. Their enclosures of f
-intersect at two corners and the centre (radii 7e-33 Arb, 5e-31 iv), and they
-agree with mpmath to 1e-33 at height 1000.
+and no evaluator. (Corrected 2026-10-26 in review: this sentence first said
+"and no evaluator, rounding code or error bound". The routes do share the
+counting driver `count_zeros` in `decide_deep_zero.py`: the chord-tube bound
+M2 ell^2 / 8, the Cauchy bound on |f''|, the float conversions with their
+2^-50 fudges, and the sum of the Arg enclosures in mpmath.iv. A defect there
+would reach both routes. The clearance functions and every evaluation of f
+are separate.) Their enclosures of f intersect at two corners and the
+centre, compared on exact rational endpoints with no slack (Run 22): in the
+real part the midpoints differ by at most 2.7e-33 against widths 3.7e-33
+(Arb) and 1.04e-30 (iv), in the imaginary part by at most 1.3e-33 against
+1.4e-32 and 1.06e-30. (Corrected 2026-10-26 in review. The first check, which
+gave the same verdict, compared float64 midpoints with a slack of
+radii + 1e-30. At |f| about 1.3e-8 the float64 spacing is about 1e-24, so it
+passed exactly when the two midpoints rounded to the same double, and it
+could not fail on the property it named. A claim that the routes "agree with
+mpmath to 1e-33 at height 1000" stood here and is withdrawn: no artifact,
+test or run log backed it.)
 
 What it changes: the only evaluation datum the hunt had is no longer float
 grade. What it does not change: it is a location, not a landing time, so it
@@ -345,29 +366,29 @@ flagged window**, every one with unit float winding. `decide_low_zeros.py`
 then decided all 21 on both backends (count 1 in an exact rectangle of
 half-width 2^-27 each, `decide_low_zeros.json`):
 
-| gamma | y0 enclosure (both backends) |
+| gamma | y0 enclosure (both backends; rounded outward, requoted 2026-10-26 in review) |
 |---|---|
-| 240.4047 | [0.3695305722, 0.3695305871] |
-| 783.6530 | [0.3530014427, 0.3530014576] |
-| 857.2959 | [0.3561094084, 0.3561094233] |
-| 1092.4545 | [0.3546296115, 0.3546296264] |
-| **2442.5303** | **[0.3977501475, 0.3977501624]** |
-| 2887.9392 | [0.3604422750, 0.3604422899] |
-| 3059.5187 | [0.3678568616, 0.3678568765] |
-| 3214.1444 | [0.3612643316, 0.3612643465] |
-| 3294.6092 | [0.3603604983, 0.3603605132] |
-| 4237.9692 | [0.3576562361, 0.3576562510] |
-| 4392.3764 | [0.3535286436, 0.3535286585] |
-| 4935.6178 | [0.3551060613, 0.3551060762] |
-| 5090.3177 | [0.3663990727, 0.3663990876] |
-| 5833.2823 | [0.3740914934, 0.3740915083] |
-| 5913.7059 | [0.3594353089, 0.3594353238] |
-| 6113.9288 | [0.3581936447, 0.3581936596] |
-| 7011.5119 | [0.3662883174, 0.3662883323] |
-| 7909.4450 | [0.3545747216, 0.3545747365] |
-| 8235.5925 | [0.3753363089, 0.3753363238] |
-| 8561.5942 | [0.3836407511, 0.3836407660] |
-| 9694.5786 | [0.3516309903, 0.3516310052] |
+| 240.4047 | [0.3695305721, 0.3695305871] |
+| 783.6530 | [0.3530014426, 0.3530014576] |
+| 857.2959 | [0.3561094084, 0.3561094234] |
+| 1092.4545 | [0.3546296114, 0.3546296264] |
+| **2442.5303** | **[0.3977501475, 0.3977501625]** |
+| 2887.9392 | [0.3604422749, 0.3604422899] |
+| 3059.5187 | [0.3678568615, 0.3678568765] |
+| 3214.1444 | [0.3612643315, 0.3612643465] |
+| 3294.6092 | [0.3603604982, 0.3603605132] |
+| 4237.9692 | [0.3576562360, 0.3576562510] |
+| 4392.3764 | [0.3535286435, 0.3535286585] |
+| 4935.6178 | [0.3551060612, 0.3551060763] |
+| 5090.3177 | [0.3663990726, 0.3663990877] |
+| 5833.2823 | [0.3740914934, 0.3740915084] |
+| 5913.7059 | [0.3594353089, 0.3594353239] |
+| 6113.9288 | [0.3581936446, 0.3581936596] |
+| 7011.5119 | [0.3662883173, 0.3662883323] |
+| 7909.4450 | [0.3545747216, 0.3545747366] |
+| 8235.5925 | [0.3753363088, 0.3753363238] |
+| 8561.5942 | [0.3836407511, 0.3836407661] |
+| 9694.5786 | [0.3516309902, 0.3516310052] |
 
 **screen_hi: finished.** The sweep over [10^4, 10^5] that stopped on
 2026-08-18 at t = 82480 was resumed from its own checkpoint on a copy,
@@ -385,7 +406,8 @@ maxima, 10^4 to 10^5: 0.3906, 0.4186, 0.3871, 0.4371, 0.3946, 0.3888,
 
 **P2** registered `y_max(10^4)` in [0.40, 0.52], "below 0.40 or above 0.52
 refutes". The deepest zero below height 10^4 that the screen sees has decided
-depth y0 in [0.3977501475, 0.3977501624], at gamma = 2442.53. **P2 is
+depth y0 in [0.3977501475, 0.3977501625] (rounded outward; requoted
+2026-10-26 in review), at gamma = 2442.53. **P2 is
 refuted** (ALIGNMENT section 5, disposition 1, at the stated parameters). Its
 grade is *measured*, the grade of its weakest step: the location is decided,
 but "there is no deeper zero below 10^4" rests on the float screen at
@@ -433,7 +455,11 @@ shown non-vanishing:
 
 with the right edge Re s = 2.05 handled by the decided bound
 sum_{n>=2} |a_n| n^{-2.05} = 0.2459783663... < 1, and planted faults on
-[0.89 or 0.90, 2.05] x [2400, 2500] returning 1 and 0 as they must. So the
+[0.89 or 0.90, 2.05] x [2400, 2500] returning 1 and 0 as they must. (Two
+steps of "|t| <= 10^4", stated 2026-10-26 in review, both elementary and
+neither computed: heights t < -8 follow from t > 8 by conjugate symmetry,
+the a_n being real; and Re s > 2.05 holds no zero, since the same sum
+decreases in sigma and is already below 1 at 2.05.) So the
 second clause of kill condition 2, "no zero with y0 > 0.40 is found below
 height 10^4", now holds at **decided** grade (Arb alone; the iv route would
 cost about 120 core-hours here and was not run), and with it the refutation
@@ -493,9 +519,9 @@ percent over these 21.
 
 | item | as registered | finding | disposition, grade |
 |---|---|---|---|
-| P2 | y_max(10^4) in [0.40, 0.52] | y_max(10^4) in [0.39775015, 0.40) | **refuted**, decided (Arb), section 8.5 |
+| P2 | y_max(10^4) in [0.40, 0.52] | y_max(10^4) in [0.39775014, 0.40) (lower end rounded outward; requoted 2026-10-26 in review, it read 0.39775015) | **refuted**, decided (Arb), section 8.5 |
 | P3 | the deepest pair below 10^4 lands within [0.85, 1.25] x model | 2442.53: ODE / model = 0.986 | **holds**, measured. Its registered point (0.061084 at (0.45, 10^4)) is at the wrong depth: the deepest pair is at 0.3978 |
-| P4 | a complete census to 10^4 *raises* the best landing to [0.055, 0.079], point 0.061 | not raised; best stays 0.05765 | **refuted** in its "raises" clause, measured, coverage y0 > 0.35. The band contains the old value trivially. Derived from stage 6, already withdrawn by kill condition 2 |
+| P4 | a complete census to 10^4 *raises* the best landing to [0.055, 0.079], point 0.061 | not raised; best stays 0.05765 | **unresolved, evidence against**, measured (relabelled 2026-10-26 in review; it read "refuted in its 'raises' clause"). P4's antecedent, a *complete* census to 10^4, was not run: pairs with y0 in (0.3396, 0.35] were not landed, and neither was any shallower pair a delay could lift. Within coverage y0 > 0.35 the best landing is not raised. The band contains the old value trivially. The point estimate derives from stage 6, already withdrawn by kill condition 2 |
 | P5 | the maximizing pair has height in [10^3, 10^5] and depth in [0.40, 0.52] | below 10^4 the maximum is at height 240, depth 0.3695; the decade [10^4, 10^5] is unlanded | **unresolved** (needs the 10^5 leg); derivation withdrawn |
 | P6 | at a new quadruple d/h lands in [1.1, 1.8], not near 0.5 | 20 new pairs: 10 of 20 in band; mean 0.947, sd 0.317, range 0.101 to 1.329 | **refuted**, measured: the calibration value 1.4284 +- 0.0749 (nine flow_repair pairs) does not survive out of sample |
 | P8 | at least one pair below 10^4 lands later than its own y0^2/2 | 0 of 21 (every shave positive, minimum 15.5%) | **not observed** at this coverage, measured; unresolved for the shallower pairs it did not land. The 15% rate that would widen P1 is not approached |
@@ -512,7 +538,9 @@ so the model is a near-ceiling for the ODE here, not a central estimate.
 
 **What this hunt is entitled to say after 2026-10-26**, in addition to
 section 1, which still stands for Lambda_DH: one off-line zero at height 10^6
-and 21 below 10^4 are decided; P2 and P6 are refuted, P2 at decided grade;
+and 21 below 10^4 are decided (that the 21 are all the zeros with
+beta > 0.85 below 10^4 is measured); P2 and P6 are refuted, P2 at decided
+grade; P4 is unresolved with evidence against;
 kill condition 2 fires at decided grade, and the stage-6 depth law and every
 number derived from it are withdrawn; no landing below 10^4 beats 0.0576518
 (measured). Hunt #61's bracket is unchanged in every digit. Nothing here is
@@ -573,8 +601,12 @@ the same signature as gamma = 4935.6 below 10^4.
   peak-and-decline P5 asks for, with the peak below 10^3 rather than inside
   P5's window. The 10^4 to 10^5 entry is a targeted lower bound, so the
   decline in that decade is not shown.
-- *P8* (a pair landing later than its own y0^2/2): 0 of 8 here as well,
-  0 of 29 over sections 8.6 and 8.8. Not observed, measured.
+- *P8* (a pair landing later than its own y0^2/2): its registered scope is
+  pairs below 10^4, where it stands at 0 of 21 (section 8.6). The 8 pairs
+  here lie above 10^4, outside that scope, and 0 of 8 land later than
+  y0^2/2, a description only. (Restricted 2026-10-26 in review; it read
+  "0 of 8 here as well, 0 of 29 over sections 8.6 and 8.8. Not observed,
+  measured.")
 
 
 ### 8.9 Follow-up, 2026-10-26: pins, the slips corrected, the d/h refit
@@ -611,14 +643,49 @@ to them matches the `results.json` value:
 | 4 | 176.7025 | 0.2242763 | 0.2242577 | 0.2242577 |
 | 5 | 240.4046 | 0.3695261 | 0.3695306 | 0.3695306 |
 
-Corrected 2026-10-26, each with a dated note at the point of use, in
-`theory.py` (the calibration table `NINE` and the stage-6 anchor),
-`landing.py` (`PUBLISHED`), `landing.json` (four y0 fields plus a
-`corrections_2026_10_26` note), `MISSION.md` (section 0, the huntspec
-frontier, C3 and P2) and this file (sections 4 and the 2026-09-12 doors).
+**Where the corrections live (revised 2026-10-26 in review).** A first
+version of this follow-up also corrected the slip in place, with dated
+notes, inside the registered 2026-08-18 text of `MISSION.md` and the
+2026-09-12 text of this file. Those in-place edits are reverted, byte for
+byte, because `MISSION.md` section 8 and the opening of this section say
+that recorded text is not rewritten. The registered sentences therefore
+still read 0.3695261, and this table is where each one is corrected:
+
+| registered sentence (as recorded, still reads 0.3695261) | corrected value |
+|---|---|
+| `MISSION.md` huntspec `frontier:` line: "best measured landing 0.05765184035 at gamma = 240.4046, y0 = 0.3695261" | y0 = 0.3695306 |
+| `MISSION.md` section 0 table, row "best measured landing": "`y0 = 0.3695261`" | y0 = 0.3695306 |
+| `MISSION.md` section 5.2, C3: "anchored at `y_max(600) = 0.3695261`" | 0.3695306; the C3 table was computed with the old anchor and moves by at most 4e-6 (below) |
+| `MISSION.md` section 6, P2, its "For scale" sentence: "`y_max(600) = 0.3695261` today" | 0.3695306. P2's band [0.40, 0.52] is not touched |
+| this file, section 4 table, row "240.4046 \| 0.3695261" | 0.3695306 |
+| this file, the 2026-09-12 doors, frozen-constant row "the depth-law anchor \| y_max(600) = 0.3695261" | 0.3695306 |
+
+Pairs 2 to 4 appear in no registered sentence of either file; their only
+quotation is the slip table above.
+
+Code and data, where the corrected values stay, each with a dated note at
+the point of use:
+- `theory.py`: the calibration table `NINE` and the stage-6 anchor. This
+  changes computed values: a rerun of stage 5 gives mean d/h 1.42519 instead
+  of the recorded 1.42844, and stage 6 moves by under 4e-6 (below).
+  `theory_results.json` stays as recorded, computed with the old values.
+- `landing.py`: `PUBLISHED`. Its y0 is written into the census entries'
+  `y0` field as metadata, and `stage_fit` uses it as the depth of any pair
+  without a polished value. A future fit run therefore changes with it. No
+  recorded artifact came from `stage_fit`, and the recorded census reads
+  gamma, not y0.
+- `landing.json`: four y0 fields, plus a `corrections_2026_10_26` note.
+- `slip_effect.py`: its "recorded" branch now sets the four old values
+  explicitly (2026-10-26 in review). It had read them from `theory.NINE`,
+  which carries the corrected ones since this follow-up. A rerun would then
+  have compared corrected with corrected. `slip_effect.json` was computed
+  before `theory.py` changed, and the fixed script reproduces it (Run 22).
+
 **`hunts/flow_repair/NOTES.md` is untouched and still carries all four old
 values** (pinned by `test_flow_repair_notes_still_carries_the_old_values`).
-It belongs to another hunt.
+It belongs to another hunt. That the registered text still carries the old
+value and that this table names each sentence is pinned by
+`test_registered_text_keeps_the_slip_and_8_9_points_at_it`.
 
 What the corrections move, measured by `slip_effect.py` / `slip_effect.json`
 (recomputing stage 5 and stage 6 with old and corrected values; the
@@ -806,7 +873,7 @@ the merge job's printed hash, in an artifact zip whose digest matches.
 | **K-d** | **the 8 targeted landings replicate to 1e-6** | **fails**: 7 replicate to <= 3e-12; γ = 20011.16 is absent |
 | K-e | <= 30 core-hours | passed (11.05 core-hours; projected 9.95) |
 
-**By K-d the census is void**, so none of the five decided items is stated
+**By K-d the census is void**, so none of the five measured items is stated
 as a verdict. The computed values, all voided, are kept for the record:
 - no landing above the floor band;
 - m4 = 0.04877 at γ = 24415.48 (KC4 would not fire);
@@ -950,8 +1017,8 @@ all landed.
 |---|---|---|
 | 1. the floor in this decade | void | **no pair with y0 > 0.3396 in [10^4, 10^5] lands above 0.0576518 x 1.0004.** The largest landing is 0.04902 (γ = 20011.16, y0 0.4002). No landing exceeds 0.9 x the floor. Shaves run from 29.9 to 71.0 percent. |
 | 2. KC4 (fires iff m4 > m3 = 0.05586) | void | **does not fire up to 10^5.** m4 = 0.04902 < m3 < m2 = 0.05767, so the measured per-decade maxima fall over three decades. |
-| 3. P5 up to 10^5 | void | **refuted up to 10^5** (ALIGNMENT section 5, disposition 1, within that range). The largest measured landing below 10^5 is at height 240, depth 0.3695, outside both of P5's ranges. Beyond 10^5 it is unresolved. |
-| 4. P8 | void | **not observed**: 0 of 170 land later than y0^2/2. With the 21 below 10^4, that is 0 of 191 census landings. |
+| 3. P5 up to 10^5 | void | **refuted up to 10^5** (ALIGNMENT section 5, disposition 1, within that range). The largest measured landing below 10^5 is at height 240, depth 0.3695, outside both of P5's ranges. Beyond 10^5 it is unresolved. *Scope, stated 2026-10-26 in review:* "below 10^5" means the pairs this lab has landed there: y0 > 0.35 below 10^4, y0 > 0.3396 in [10^4, 10^5], as far as the float screens see them, plus `flow_repair`'s nine below 600; every landing is measured (ODE). *A stronger reading at the same grade:* P5 puts the maximizing pair at any height inside height [10^3, 10^5] and depth [0.40, 0.52]. No zero below 10^4 has y0 >= 0.40 (decided, Arb, section 8.5), and all 9 pairs with y0 >= 0.40 that the 0.82 screen sees in [10^4, 10^5] are landed, the largest at 0.04902, below the γ = 240 pair. So no pair of P5's region is the maximizer, wherever the maximum lies, and P5 as registered is refuted, not only up to 10^5. That reading's scope: completeness of the [10^4, 10^5] screen at y0 >= 0.40 (measured) and the ODE landings (measured). A pair of the region that the screen missed would reopen it. |
+| 4. P8 | void | **not observed** within P8's registered scope, pairs below 10^4: 0 of 21 (section 8.6), measured. The census above 10^4 lies outside that scope; there, 0 of 170 land later than y0^2/2, a description only. (Restricted 2026-10-26 in review; it read "0 of 170 land later than y0^2/2. With the 21 below 10^4, that is 0 of 191 census landings.") |
 | 5. the two-sided model, out of sample | void | **expectation met**: rms 0.154 < 0.160 over 162 new windows, 134 in [0.85, 1.25]. It is well above the in-sample 0.112, so most of section 8.11's improvement does not carry out of sample. Recorded as met, as registered, and not re-read. |
 
 **Attempt 2 against attempt 1, as a consistency check** (not part of the
@@ -969,10 +1036,103 @@ attempt 1 stays recorded as it was, and nothing here was spliced onto it.
   percent under, and nothing in [10^4, 10^5] comes within 10 percent;
 - the measured sup of landings peaks below 10^3 and falls over the next two
   decades (measured);
-- P5 is refuted up to 10^5, and KC4 does not fire up to 10^5.
+- P5 is refuted up to 10^5, and KC4 does not fire up to 10^5 (measured,
+  coverage as in item 3 of the table above; item 3 also states the stronger
+  reading of P5 and its scope).
 
 Hunt #61's bracket is unchanged in every digit. Nothing here is evidence
 about the Riemann Hypothesis (P9; `docs/08`).
+
+### 8.16 Review corrections (2026-10-26)
+
+An adversarial review of PR #357 found no defect in any decided count or
+any verdict. It did find defects in how the decided results were quoted and
+cross-checked, and in the record's own bookkeeping. The operator's rulings
+were applied as follows. **No verdict and no grade moves.** One computation
+was rerun (Run 22).
+
+1. **Decided intervals, requoted rounded outward.** The decimal renderings
+   of decided intervals had been rounded to nearest, so every one was
+   narrower than its exact interval on at least one side. As printed they
+   were not enclosures: 21 of 21 rows of the 8.3 table, the depth and both
+   coordinates in 8.2, the floor pair in 8.1, the 2442.53 depth in 8.4, the
+   P2 row of 8.7 (0.39775015 for 0.39775014...), and the case log in
+   `hunts/README.md`. All are now rounded outward. The dyadic endpoints in
+   the artifacts were always exact and are unchanged.
+   `test_quoted_decided_intervals_contain_the_artifact_intervals` parses
+   every quoted interval and checks that it contains the artifact's exact
+   interval. Under `LDH_PLANT_FAULT=1` it plants one inward digit and goes
+   red.
+2. **The Arb-versus-iv cross-check, rerun on exact endpoints** (section 8.2,
+   Run 22). The recorded check compared float64 midpoints and could not fail
+   on the property it named. On exact endpoints with no slack the enclosures
+   intersect at all three recorded points. The test reads the exact
+   endpoints and recomputes the intersection, and a planted shift of one
+   enclosure by twice its width turns it red. A sentence that the routes
+   "agree with mpmath to 1e-33 at height 1000" is withdrawn: nothing in the
+   tree backed it. The independence sentence of 8.2 now names the shared
+   counting driver `count_zeros`.
+3. **Registered text restored.** The in-place slip corrections inside
+   `MISSION.md`'s 2026-08-18 text and this file's 2026-09-12 text are
+   reverted byte for byte. Section 8.9 now holds the correction for each
+   sentence, with the sentence quoted. `slip_effect.py` was fixed so that it
+   reproduces `slip_effect.json` again (section 8.9, Run 22).
+4. **Workflow scope.** `.github/workflows/lambda-dh-census.yml` stays. Its
+   authorization and a dated scope amendment are appended to `MISSION.md`
+   section 8 and `RUNS.md`. The two `RUNS.md` statements it made false are
+   kept, each followed by a dated correction.
+5. **Labels.**
+   - P4 is *unresolved, evidence against* (8.7), since its antecedent, a
+     complete census to 10^4, was not run.
+   - P5's verdict in 8.15 now states its coverage, and also a stronger
+     reading at the same measured grade, with that reading's exact scope.
+   - P8 is restricted to its registered scope, pairs below 10^4: 0 of 21
+     (8.8, 8.15 and the doors). The pairs above 10^4 are a description only.
+   - "decided" for the census is now "measured" in 8.13 and in the doors.
+     The heading "What it decides" in the 8.12 PREREG is left as
+     registered. Its own parenthesis says "all *measured*", and 8.14 and
+     8.15 state that the 8.12 text is unchanged, so the word reads "settles,
+     at measured grade".
+6. **The Euler-Maclaurin remainder constant.** The code sums through
+   k = p - 1. The remainder of that truncation is bounded with
+   C_p = 4 (1 - 2^{-2p}) zeta(2p), about 4 (1 + 3^{-2p}). The text had cited
+   2 zeta(2p), which applies when the k = p term is included. The code's
+   constant 4 falls short of C_p by under 1e-279 relative at p = 293, and
+   the 2^-50 fudge every bound passes through covers that, so every
+   enclosure stands. Corrected in the `decide_deep_zero.py` docstring and
+   `MISSION.md` section 8, and pinned by
+   `test_em_remainder_constant_is_covered_by_the_fudge`.
+7. **Two known limits of the census evaluation, recorded and not changed.**
+   - A pair with no ODE crossing by t_end = 1.25 y0^2/2 gets
+     `beats_floor` False, and `evaluate_census.py` drops it from the landed
+     rows, although such a pair lands above the floor.
+   - Unlocated windows enter no kill condition.
+
+   Neither occurred: 170 of 170 landed, 0 unlocated. Both are commented at
+   the point of use and pinned by tests that show the behaviour and its
+   absence from the recorded runs.
+8. **Smaller fixes.**
+   - The count's docstring described the segment-ball test that Run 7
+     replaced.
+   - The steering route was mislabelled "mpmath Hurwitz zeta". It is Arb
+     midpoints: fixed in the code, with a note in the artifact.
+   - The stale line in `decide_kc2.py`.
+   - The left-edge door in the doors below needs Re s = 987086726043 / 2^40,
+     not 0.8978.
+   - 8.1's "left as recorded" now carries a dated note.
+   - The reversed sentences of the case log now carry dates.
+   - 8.5 now states the two elementary steps, conjugate symmetry and
+     Re s > 2.05, that complete "|t| <= 10^4".
+
+Left as they are, and why:
+- The mpmath.iv route never ran the perturbed-kappa planted fault that the
+  `MISSION.md` section 8 gate names (only the shifted rectangle). Closing
+  that costs one more iv head, about 6 minutes.
+- The census's per-window screen outputs live only in the Actions artifacts,
+  which expire. The merged rows and their sha256 are committed.
+- `landing.json` keeps its four hand-corrected y0 fields and its
+  `corrections_2026_10_26` note (section 8.9). Whether a recorded artifact
+  should be corrected in place is the operator's call.
 
 ### The doors (updated 2026-10-26)
 
@@ -994,7 +1154,7 @@ one the model froze at its mean.
 
 | frozen | value | where | what relaxing it trades |
 |---|---|---|---|
-| decided-count left edge | Re s = 0.90 | `decide_kc2.py` | Pushing it to 0.8978 would decide the deepest zero below 10^4 as the maximum outright, at about 2 core-hours more, and buys only a sentence P2 does not need. Genuine trade shape: no. |
+| decided-count left edge | Re s = 0.90 | `decide_kc2.py` | Pushing it to Re s = 987086726043 / 2^40 (about 0.8977501475, the left side of the decided rectangle at γ = 2442.53), with a count of exactly 1, would decide the deepest zero below 10^4 as the maximum outright, at about 2 core-hours more, and buys only a sentence P2 does not need. Genuine trade shape: no. (Corrected 2026-10-26 in review: it read "Pushing it to 0.8978", which would leave y0 in (0.3977501625, 0.3978) undecided.) |
 | candidate depth for landing | y0 > 0.35 (the 0.85 screen) | `census_1e4.py` | Screening at 0.84 closes the (0.3396, 0.35] coverage gap at about 0.5 core-hours. It can only add pairs that need a shave under 5.9 percent. |
 | census half-window | 40 | `census_1e4.py` | The ODE tail term was 0.6 percent of the mirror term at γ = 240. A wider window costs O(n^2) and is expected to move landings by less than the 0.04 percent band. |
 | rectangle half-width (decided zeros) | 2^-27 | `decide_*.py` | Pure resolution, margins 1420x to 174151x. Nothing trades. |
@@ -1036,9 +1196,9 @@ shard plan), not triggered.
 | The hunt's question: does the bracket collapse to Delta^2/2? | no landing anywhere near Delta^2/2 = 0.1924; the best is 0.0577 | 3, unresolved |
 | P1, weak form (sup t* < 0.14432) | untouched; no landing above 0.058 | 3, unresolved |
 | P1, stronger band [0.058, 0.075] | derivation withdrawn by KC2 | 3, unresolved |
-| P5 | measured maximum at height 240, outside its window | 3, unresolved (decided up to 10^5 by the census, 8.12) |
+| P5 | measured maximum at height 240, outside its window | 3, unresolved (to be settled up to 10^5, at measured grade, by the census of 8.12; it read "decided up to 10^5", corrected 2026-10-26 in review) |
 | P7 / KC3, no creation | 400 samples, not proved; not touched this wave | 3, unresolved |
-| P8 | 0 of 29 | 3, unresolved (the census raises the count) |
+| P8 | 0 of 21 below 10^4, its registered scope (the 8 landed above 10^4 lie outside it; it read "0 of 29", restricted 2026-10-26 in review) | 3, unresolved (shallower pairs below 10^4 not landed) |
 | KC4 | does not fire on what was measured | 4, paused by allocation until the census runs |
 | census over [10^4, 10^5] | prepared, not triggered | 4, paused by allocation (awaiting 'go') |
 | window gamma = 88167.40 | accounting open | 4, paused; the census re-scans it |
@@ -1071,9 +1231,9 @@ valid (section 8.15). The rows of the dispositions table that change:
 | item | state after attempt 2 | disposition |
 |---|---|---|
 | census over [10^4, 10^5] | ran valid; 170 of 170 accounted and landed | closed (its verdicts are in 8.15) |
-| P5 | refuted up to 10^5; beyond, unresolved | 1, refuted within [0, 10^5]; 3 beyond |
+| P5 | refuted up to 10^5; beyond, unresolved (measured, coverage as in 8.15 item 3; that item also states the stronger reading, refuted at any height at measured grade, with its scope) | 1, refuted within [0, 10^5]; 3 beyond |
 | KC4 | does not fire up to 10^5 | closed up to 10^5; 3, unresolved beyond |
-| P8 | 0 of 191 census landings | 3, unresolved (shallower pairs not landed) |
+| P8 | 0 of 21 below 10^4, its registered scope; 0 of 170 above 10^4 is a description outside it (it read "0 of 191 census landings", restricted 2026-10-26 in review) | 3, unresolved (shallower pairs not landed) |
 | window γ = 88167.40 | closed by the 0.5005 fallback; landed 0.0401 | closed |
 | `stage_locate` accepting out-of-box roots | repaired (box guard), tested, audited | closed |
 | two-sided frozen-neighbour model | out of sample rms 0.154, in sample 0.112 | 1 as a sub-0.08 description (unchanged); the improvement over the frozen model is mostly in-sample |

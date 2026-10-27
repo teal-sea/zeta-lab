@@ -381,6 +381,14 @@ option reading float locations from a screen artifact instead of
 runner's 6 h with a factor of 4 to spare; outcomes would be recorded here by
 artifact SHA-256.
 
+*Dated correction, 2026-10-26 (appended in review).* The parenthesis that
+opens this proposal ("the brief forbids adding one unasked; nothing in this
+PR touches `.github/`") was true when it was written and is now false. Unit 3
+added a different workflow, `.github/workflows/lambda-dh-census.yml`, in
+commit ac11243af, and the census of `RESULTS.md` sections 8.12 to 8.15 ran on
+it. Its authorization is recorded under "The 1e5 census on Actions" below.
+The proposal above was never committed, and its file name was not used.
+
 ### Census to 10^4, timed before the run
 
 Control on the floor pair (gamma = 240.4047): window accounting closes
@@ -597,6 +605,21 @@ attempt downloads its job's earlier attempts into separate directories, and
 `census_shard.py gather` keeps the most advanced copy of each shard, so a
 stale copy cannot win by download order. The shard run itself resumes: the
 screen from its checkpoint, the census by skipping landed rows.
+
+*Dated corrections, 2026-10-26 (appended in review).*
+- "`RUN_REQUEST.json`, which is *not* in the tree" was true when written and
+  is now false. The request was committed three times after the
+  coordinator's go: calibrate attempt 1 (964847327), full attempt 1
+  (790944936), and full attempt 2 (912d89a75). The tree now holds the last.
+  Runs 16, 17 and 21 record the runs those pushes triggered.
+- **Authorization of the workflow.** Adding
+  `.github/workflows/lambda-dh-census.yml` lay outside this hunt's recorded
+  write scope (`MISSION.md` section 8 and the huntspec's `agents_may_not`).
+  It was approved by the wave-1 coordinator on 2026-10-26 (held outside the
+  tree) and ratified by the operator session the same day. The scope
+  amendment is appended to `MISSION.md` section 8. This session recorded
+  the authorization as the operator session relayed it, and did not see the
+  out-of-tree approval itself.
 
 **Shard plan**: `census_plan_1e5.json`, sha256
 `461079f90cf78f9c635b44ab365d9cf956cbe8bce23532fc55c6d4eef226eaa9`. 36 shards
@@ -911,3 +934,64 @@ with planted faults.
   superset with a landing dropped, and the closest-to-floor statement).
 - Gates (without `tests/test_doors.py`): 81 passed, 3 xfailed.
   `make_context.py --check`: up to date.
+
+## Review fixes (2026-10-26): estimate before spending
+
+An adversarial review of PR #357 found that the Arb-versus-iv cross-check of
+Run 7 could not fail. The rerun on exact endpoints, timed in review on the
+same box: the iv head at height 10^6 costs about 350 s once (N = 199153), and
+the three Arb point evaluations cost a few seconds. **About 0.1 core-hours**,
+one process, `nice -n 10`, MemAvailable about 64 GiB at start (the iv head
+peaks near 0.12 GiB). The `slip_effect.py` reproduction check takes 9 s.
+
+## Run 22: the Run 7 cross-check, rerun on exact endpoints (review, 2026-10-26)
+
+```runmanifest
+id: R22-xcheck-exact
+hunt: lambda_dh_exact
+started: 2026-10-26
+finished: 2026-10-26
+outcome: completed; Arb and iv enclosures of f intersect at both recorded corners and the centre of the height-10^6 rectangle, compared on exact rational endpoints with no slack
+ran:
+  - decide_deep_zero.py --cross-check-only (one process, nice 10)
+  - slip_effect.py <scratch path> (reproduction check, output compared byte for byte)
+artifacts:
+  - decide_deep_zero.json (keys added: cross_check_exact, cross_check_exact_run, cross_check_note, steering_route_note; every recorded key unchanged)
+```
+
+iv head 347.9 s (N = 199153, p = 293, K = 14), 353.7 s in all. At each of
+the three points, the real parts overlap with a midpoint gap of at most
+2.65e-33 against widths 3.67e-33 (Arb) and 1.043e-30 (iv). The imaginary
+parts overlap with a gap of at most 1.21e-33 against 1.40e-32 and
+1.060e-30. The recorded float-midpoint `cross_check` stays in the artifact
+as it was, labelled by `cross_check_note`.
+
+`slip_effect.py`, with its "recorded" branch now setting the four old y0
+values explicitly, reproduces `slip_effect.json` byte for byte. The script
+as committed before the review read them from `theory.NINE`, which carries
+the corrected values. It would have written recorded mean d/h 1.425187, not
+1.428442 (`RESULTS.md` section 8.9).
+
+### Review fixes, test outcomes (2026-10-26)
+
+- Fast tier (`-m "not slow"`, `-n 4`): **65 passed**, 14 s. Both tiers: **68
+  passed**, 121 s.
+- `LDH_PLANT_FAULT=1`, both tiers: **30 failed, 38 passed**. These are the 24
+  planted tests of unit 4 and six new ones, each going red as planted:
+  - `test_deep_zero_planted_faults_and_cross_check` (the iv enclosure moved
+    by twice its width);
+  - `test_quoted_decided_intervals_contain_the_artifact_intervals` (one
+    inward digit);
+  - `test_em_remainder_constant_is_covered_by_the_fudge` (the old text's
+    constant 2 zeta(2p));
+  - `test_registered_text_keeps_the_slip_and_8_9_points_at_it` (the
+    reverted P2 edit put back);
+  - the two known-limit tests (an accounted row with its landing removed).
+
+  The two new checker tests (`test_planted_fault_cross_check_shift_is_caught`,
+  `test_planted_fault_quoted_interval_checker`) do not read the switch, and
+  they stay green.
+- Gates `tests/test_docs_numbering.py`, `test_hunt_probe_discipline.py`,
+  `test_doors.py`, `test_huntspec.py`, `test_hunt_doors.py`,
+  `test_hunt_numbering.py`: 87 passed, 3 xfailed. `scripts/make_context.py
+  --check`: up to date.

@@ -10,9 +10,15 @@ principle on the rectangle
 
     [0.90, 2.05] x [8, 10^4],
 
-which must hold zero zeros.  It says nothing below t = 8 (where Hunt #61's
-census and `zeta.epstein` already place no off-line zero) or at y0 in
-(0.35, 0.40), and nothing at all about where the zeros with beta < 0.90 are.
+which must hold zero zeros.  On its own it says nothing below t = 8 or at
+y0 in (0.35, 0.40), and nothing at all about where the zeros with
+beta < 0.90 are.  (Updated 2026-10-26 in review.  The line pointed below
+t = 8 to Hunt #61's census and `zeta.epstein`; that strip is now decided
+separately by `kc2/below8.py`, count 0 on [0.90, 2.05] x [-8, 8]. Heights
+t < -8 follow by conjugate symmetry, since the a_n are real. Re s > 2.05 is
+zero-free because sum_{n>=2} |a_n| n^{-sigma} decreases in sigma and is
+already below 1 at 2.05.  Together these give the statement of RESULTS.md
+section 8.5: no zero with beta >= 0.90 and |t| <= 10^4.)
 
 Edges, positively oriented:
 

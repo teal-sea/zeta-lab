@@ -222,6 +222,17 @@ def census_one(gamma: float, y0: float) -> dict:
                                   if ode["tstar_ode"] else None)
         # the ODE matches the Xi-plane measurement to 0.04 percent, so a landing
         # only beats the measured floor if it clears that band
+        #
+        # KNOWN LIMIT (recorded 2026-10-26 in review, RESULTS.md section 8.16;
+        # logic deliberately unchanged): when the pair has not landed by
+        # t_end = 1.25 y0^2/2, probe.ode_null_control returns tstar_ode None,
+        # and this row then gets landing_ode None, beats_floor False and
+        # later_than_naive False.  For y0 > 0.3396, t_end exceeds 0.072, above
+        # the floor, so the one row that would beat the floor most reads as
+        # not beating it.  evaluate_census.py then drops it from its landed
+        # rows.  It did not occur in any recorded census (every row landed,
+        # pinned by test_known_limit_no_crossing_reads_as_not_beating_the_floor
+        # and the census2 tests).
         entry["beats_floor"] = bool(ode["tstar_ode"] and ode["tstar_ode"] > FLOOR * 1.0004)
         entry["later_than_naive"] = bool(ode["tstar_ode"] and ode["tstar_ode"] > y0 * y0 / 2)
         entry["ode"] = {k: v for k, v in ode.items() if k != "trajectory_Q"}

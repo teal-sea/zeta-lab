@@ -26,10 +26,16 @@ N = (1/2pi) * (total continuous variation of arg f).  Per boundary subsegment
 exact (the `zeta.rigor._segment_delta` pattern, re-implemented here because
 hunts may not use that module's vocabulary):
 
-1. f is enclosed over the whole subsegment at once (the input is a ball or
-   interval box covering the subsegment), and the enclosure, a rectangle in C,
-   misses 0.  A convex set missing 0 lies in an open half-plane through 0, so
+1. The image of the subsegment lies in a convex set missing 0.  This is the
+   chord tube of `count_zeros` (see the comment above it): with M2 a decided
+   bound on |f''| over the rectangle, the image of a subsegment of length ell
+   lies within M2 ell^2 / 8 of the chord between the endpoint values, so a
+   decided clearance dist(0, chord) > M2 ell^2 / 8 puts it in a convex set
+   missing 0.  A convex set missing 0 lies in an open half-plane through 0, so
    the continuous variation of arg along the subsegment satisfies |D| < pi.
+   (Docstring corrected 2026-10-26 in review.  It described the segment-ball
+   test, f enclosed over the whole subsegment at once, which Run 7 in
+   `RUNS.md` replaced by the chord tube before any count was read.)
 2. With q = f(s_b)/f(s_a), a decided Re q > 0 gives |Arg q| < pi/2, and since
    D == Arg q (mod 2pi) and |D| < pi, D = Arg q exactly.
 
@@ -54,13 +60,25 @@ With X_a = 5N + a and c_a the coefficients,
              + sum_{k=1}^{p-1} B_{2k}/(2k)! 5^{2k-1} (s)_{2k-1} X_a^{-s-2k+1} ]
            + E,
 
-    |E| <= sum_a |c_a| * 2 zeta(2p)/(2pi)^{2p} * 5^{2p} |(s)_{2p}|
+    |E| <= sum_a |c_a| * C_p/(2pi)^{2p} * 5^{2p} |(s)_{2p}|
                       * X_a^{1-sigma-2p} / (5 (sigma + 2p - 1)),
+    C_p  = 4 (1 - 2^{-2p}) zeta(2p) = 4 (1 + 3^{-2p} + 5^{-2p} + ...),
 
-the Euler-Maclaurin formula for g(x) = (5x + a)^{-s} on [N, inf) with the
-remainder bounded by |B~_{2p}(x)| <= |B_{2p}| = 2 (2p)! zeta(2p)/(2pi)^{2p}
-and the integral of |g^{(2p)}| done in closed form.  2 zeta(2p) <= 2 zeta(2) <
-4 is used, so no zeta value enters the bound.
+the Euler-Maclaurin formula for g(x) = (5x + a)^{-s} on [N, inf), summed
+through k = p - 1, with the integral of |g^{(2p)}| done in closed form.  For
+that truncation the remainder is (DLMF 2.10.1) the integral over [N, inf) of
+(B_{2p} - B~_{2p}(x)) / (2p)! * g^{(2p)}(x), and
+max_x |B_{2p} - B~_{2p}(x)| = (2 - 2^{1-2p}) |B_{2p}| with
+|B_{2p}| = 2 (2p)! zeta(2p) / (2pi)^{2p}, whose product is C_p / (2pi)^{2p}
+times (2p)!.  The code (`IvRoute._tail`) uses the constant 4, which falls
+short of C_p by the relative amount 3^{-2p} + 5^{-2p} + ..., under 1e-279 at
+p = 293 (the only p this module uses at 128 bits).  Every bound passes
+through `_upper` before it enters an enclosure, and `_upper`'s relative 2^-50
+fudge leaves a relative margin of at least 6e-16 after float rounding, so the
+enclosure holds.  (Corrected 2026-10-26 in review.  The text before cited
+|B~_{2p}(x)| <= |B_{2p}| and the constant 2 zeta(2p), which bound the
+remainder of a sum that also includes the k = p term; the code was not
+changed.  Pinned by `test_em_remainder_constant_is_covered_by_the_fudge`.)
 
 The head is the expensive part (about 8e5 terms at this height), so it is
 computed once as a Taylor model about the exact rectangle centre s0:
@@ -72,8 +90,14 @@ with S = sum |a_n| n^{-sigma0} and L = log(5N) both enclosed during the same
 pass.  Every quantity is an mpmath.iv interval; d ranges over an interval box,
 so one Horner evaluation encloses the head over a whole subsegment.
 
-The two routes share the formula f = sum a_n n^{-s} and the closed form of
-kappa, and nothing else: no evaluator, no rounding code, no error bound.
+The two routes share the formula f = sum a_n n^{-s}, the closed form of
+kappa, and no evaluator.  They do share the counting driver `count_zeros`:
+the chord-tube bound M2 ell^2 / 8, the Cauchy bound on |f''|, the float
+conversions with their 2^-50 fudges (`LO`, `HI`), and the sum of the Arg
+enclosures in mpmath.iv.  A defect there would reach both routes; the
+clearance functions and everything that evaluates f are separate.
+(Corrected 2026-10-26 in review; the text before said the routes share no
+rounding code and no error bound.)
 
 Run:  .venv/bin/python hunts/lambda_dh_exact/decide_deep_zero.py [--quick]
 """
@@ -558,17 +582,153 @@ def polish(beta: float, gamma: float, prec: int = 192):
     return mp.mpc(float(sb), float(sg)), abs(val(sb, sg)), fp
 
 
+# ---------------------------------------------------------------------------
+# Arb versus iv, on exact endpoints (added 2026-10-26 in review)
+# ---------------------------------------------------------------------------
+#
+# The gate of MISSION.md section 8 asks that the iv route agree with Arb at
+# test points to within the union of their enclosures.  The first version of
+# this check compared float64 midpoints with a slack of radii + 1e-30.  At
+# |f| ~ 1e-8 the float64 spacing is about 1e-24, far above both radii (7e-33
+# and 5e-31), so it passed exactly when the two midpoints rounded to the same
+# double, and the 1e-30 slack would also have passed enclosures lying apart.
+# It could not fail on the property it named.  These functions read every
+# endpoint as an exact rational: two enclosures intersect iff, in the real
+# and in the imaginary part, lo_A <= hi_B and lo_B <= hi_A.  No float enters.
+
+def _frac_man_exp(m, e) -> Fraction:
+    m, e = int(m), int(e)
+    return Fraction(m * 2**e) if e >= 0 else Fraction(m, 2**(-e))
+
+
+def arb_box_exact(z) -> dict:
+    """Exact rational endpoints of an Arb complex ball, as {"re": (lo, hi), "im": (lo, hi)}."""
+    out = {}
+    for name, part in (("re", z.real), ("im", z.imag)):
+        out[name] = tuple(_frac_man_exp(*x.man_exp()) for x in (part.lower(), part.upper()))
+    return out
+
+
+def _frac_raw_mpf(raw) -> Fraction:
+    """A raw mpmath mpf tuple (sign, man, exp, bc) as an exact rational.
+
+    (mpmath's ``mpf.man_exp`` drops the sign, so the raw tuple is read.)
+    """
+    sign, man, exp, bc = raw
+    if man == 0:
+        if raw != (0, 0, 0, 0):
+            raise ValueError("infinite or NaN interval endpoint")
+        return Fraction(0)
+    v = _frac_man_exp(man, exp)
+    return -v if sign else v
+
+
+def iv_box_exact(z) -> dict:
+    """Exact rational endpoints of an mpmath.iv complex interval."""
+    out = {}
+    for name, part in (("re", z.real), ("im", z.imag)):
+        out[name] = tuple(_frac_raw_mpf(raw) for raw in part._mpi_)
+    return out
+
+
+def enclosures_intersect(a: dict, b: dict) -> bool:
+    """True iff the two boxes share a point: both parts overlap, endpoints exact."""
+    return all(a[k][0] <= a[k][1] and b[k][0] <= b[k][1]
+               and a[k][0] <= b[k][1] and b[k][0] <= a[k][1] for k in ("re", "im"))
+
+
+def box_to_json(box: dict) -> dict:
+    return {k: [str(box[k][0]), str(box[k][1])] for k in ("re", "im")}
+
+
+def box_from_json(d: dict) -> dict:
+    return {k: (Fraction(d[k][0]), Fraction(d[k][1])) for k in ("re", "im")}
+
+
+def cross_check_exact(arb_route, iv_route, points) -> list:
+    """Arb and iv enclosures of f at each exact point, compared on exact endpoints."""
+    rows = []
+    for (sg, tt) in points:
+        old = fctx.prec
+        fctx.prec = arb_route.prec
+        try:
+            A = arb_box_exact(arb_route.f_box(sg, sg, tt, tt))
+        finally:
+            fctx.prec = old
+        with _ivprec(iv_route.prec):
+            B = iv_box_exact(iv_route.f_box(sg, sg, tt, tt))
+        part = {}
+        for k in ("re", "im"):
+            ov = A[k][0] <= B[k][1] and B[k][0] <= A[k][1]
+            mid_gap = abs((A[k][0] + A[k][1]) / 2 - (B[k][0] + B[k][1]) / 2)
+            part[k] = {"overlap": bool(ov),
+                       "width_arb": float(A[k][1] - A[k][0]),
+                       "width_iv": float(B[k][1] - B[k][0]),
+                       "midpoint_gap": float(mid_gap)}
+        rows.append({"s": [str(sg), str(tt)], "arb": box_to_json(A), "iv": box_to_json(B),
+                     "parts": part, "intersect": enclosures_intersect(A, B)})
+    return rows
+
+
+def rerun_cross_check() -> None:
+    """Recompute the gate's cross-check on exact endpoints and add it to the artifact.
+
+    Reads the recorded rectangle from `decide_deep_zero.json`, rebuilds both
+    routes exactly as `main` builds them (Arb at 128 bits; iv at 128 bits, Taylor
+    model radius 2^-12, K = 14, about 6 minutes for the head at this height),
+    and evaluates the same three points as the recorded check: two corners and
+    the centre.  Recorded keys are kept as they are; the new ones are added.
+    """
+    with open(OUT) as fh:
+        result = json.load(fh)
+    sl, sh = (Fraction(x) for x in result["rectangle"]["sigma"])
+    tl, th = (Fraction(x) for x in result["rectangle"]["t"])
+    centre = ((sl + sh) / 2, (tl + th) / 2)
+    t0 = time.time()
+    arb_route = ArbRoute(prec=128)
+    ivr = IvRoute(prec=128, centre=centre, radius=Fraction(1, 2**12), K=14, log_every=0)
+    head = time.time() - t0
+    rows = cross_check_exact(arb_route, ivr, [(sl, tl), (sh, th), centre])
+    result["cross_check_exact"] = rows
+    result["cross_check_exact_run"] = {
+        "date": "2026-10-26", "python": platform.python_version(), "mpmath": mpmath.__version__,
+        "rigor_BACKEND": rigor.BACKEND, "iv_N": ivr.N, "iv_p": ivr.p, "iv_K": ivr.K,
+        "iv_head_seconds": round(head, 1), "seconds_total": round(time.time() - t0, 1),
+        "all_intersect": all(r["intersect"] for r in rows)}
+    result["cross_check_note"] = (
+        "Added 2026-10-26 in review (RESULTS.md section 8.16, Run 22 in RUNS.md). The recorded "
+        "'cross_check' compared float64 midpoints with a slack of radii + 1e-30, which passes "
+        "whenever the two midpoints round to the same double and so could not fail on the "
+        "property it names; it is kept as recorded. 'cross_check_exact' compares exact rational "
+        "endpoints with no slack and is the check the gate reads.")
+    result["steering_route_note"] = (
+        "Added 2026-10-26 in review: the recorded 'steering.route' label is wrong. polish() "
+        "runs Newton on Arb ball midpoints at 192 bits, not on mpmath's Hurwitz zeta at dps 40. "
+        "Steering only; nothing decided depends on it.")
+    with open(OUT, "w") as fh:
+        json.dump(result, fh, indent=2, default=str)
+    print(json.dumps(result["cross_check_exact_run"]), flush=True)
+    for r in rows:
+        print(r["s"], r["intersect"], r["parts"], flush=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true", help="Arb only, no iv head")
+    ap.add_argument("--cross-check-only", action="store_true",
+                    help="recompute the Arb-vs-iv check on exact endpoints into the existing artifact")
     ap.add_argument("--half-bits", type=int, default=27,
                     help="rectangle half-width 2^-bits (default 2^-27 ~ 7.5e-9)")
     args = ap.parse_args()
 
     print("backend", rigor.BACKEND, rigor.available_backends(), flush=True)
+    if args.cross_check_only:
+        rerun_cross_check()
+        return
     t_all = time.time()
 
-    # steering: one Newton polish with mpmath's own Hurwitz zeta (measured)
+    # steering: one Newton polish on Arb ball midpoints (measured; label corrected
+    # 2026-10-26 in review, it said mpmath's own Hurwitz zeta)
     s_pol, fabs, fp = polish(BETA_FLOAT, GAMMA_FLOAT)
     beta_c = dyadic(float(s_pol.real), 40)
     gamma_c = Fraction(round(float(s_pol.imag) * 2**30), 2**30)
@@ -585,7 +745,7 @@ def main():
         "python": platform.python_version(),
         "mpmath": mpmath.__version__,
         "rigor_BACKEND": rigor.BACKEND,
-        "steering": {"route": "mpmath Hurwitz zeta, Newton, dps 40 (measured)",
+        "steering": {"route": "Newton on Arb ball midpoints, 192 bits (measured; steering only)",
                      "s": [str(s_pol.real), str(s_pol.imag)],
                      "abs_f": float(fabs), "abs_fprime": float(abs(fp))},
         "rectangle": {"sigma": [str(beta_c - half), str(beta_c + half)],
@@ -617,16 +777,10 @@ def main():
         print("iv", r2, flush=True)
         bad_s2 = count_zeros(ivr, shifted_centre, half, R)
         result["faults"]["mpmath.iv"] = {"rectangle_shifted_4_half_widths": bad_s2}
-        # cross-check at three points: the two enclosures must intersect
-        xs = []
-        for (sg, tt) in [corners[0], corners[2], (beta_c, gamma_c)]:
-            za = arb_route.f_box(sg, sg, tt, tt)
-            zb = ivr.f_box(sg, sg, tt, tt)
-            A = arb_route.as_floats(za)
-            B = ivr.as_floats(zb)
-            ok = all(abs(A[i] - B[i]) <= A[i + 2] + B[i + 2] + 1e-30 for i in (0, 1))
-            xs.append({"s": [str(sg), str(tt)], "arb": A, "iv": B, "intersect": ok})
-        result["cross_check"] = xs
+        # cross-check at three points: the two enclosures must intersect, on exact
+        # endpoints (2026-10-26 in review; the float-midpoint version could not fail)
+        xs = cross_check_exact(arb_route, ivr, [corners[0], corners[2], (beta_c, gamma_c)])
+        result["cross_check_exact"] = xs
         print("cross", xs, flush=True)
 
     # The decided rectangle must lie in Re s > 1/2 and contain the float datum.
