@@ -1,0 +1,422 @@
+{
+ "L": "171079/100000",
+ "N": 856,
+ "Nx": 1801,
+ "prec": 256,
+ "eps_spectral": 5.982688679010783e-64,
+ "quad_bound": 6.224997741005275e-92,
+ "E_psi": 3.521553623203232e-70,
+ "dropped_l1": 1.577851234591053e-76,
+ "max_dev_K_G0_KT_from_I": 5.78962514487678e-74,
+ "assembly_unit_core_seconds": 20296.841948270798,
+ "assembly_wall_seconds": 2891.071587562561,
+ "max_entry_radius": 5.621530958310284e-70,
+ "inertia_midpoint": {
+  "neg": 1,
+  "pos": 855,
+  "undecided": 0,
+  "min_abs_pivot": 0.0005183693891582536
+ },
+ "lam_nearest_0": {
+  "lam": "-1.94308362498385e-30",
+  "residual": 4.951405000550638e-78
+ },
+ "lam_min": {
+  "lam": "-1.94308362498385e-30",
+  "residual": 3.045029905894638e-78
+ },
+ "witness": {
+  "vector_file": "witness_v856.json",
+  "digits": 40,
+  "rq_mid": "-1.94308362498385e-30",
+  "rq_rad": 3.493922837602796e-70,
+  "rq_upper_with_eps": -1.943083624983855e-30,
+  "negative": true,
+  "boundary_value_f_L": "9.03390e-15"
+ },
+ "leading_blocks": [
+  {
+   "N": 50,
+   "neg": 0,
+   "undecided": 0,
+   "lam_nearest_0": "3.60694149722e-29",
+   "residual": 5.677156946171221e-78
+  },
+  {
+   "N": 100,
+   "neg": 0,
+   "undecided": 0,
+   "lam_nearest_0": "4.06183356207e-32",
+   "residual": 5.140248147805236e-78
+  },
+  {
+   "N": 101,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-4.49000370077e-32",
+   "residual": 4.378235689154375e-78,
+   "rq_upper_with_eps": -4.4900037007714097e-32
+  },
+  {
+   "N": 102,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-5.91796712904e-32",
+   "residual": 4.2016989074071163e-78,
+   "rq_upper_with_eps": -5.91796712903637e-32
+  },
+  {
+   "N": 103,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-7.27382049588e-32",
+   "residual": 3.0561417515338985e-78,
+   "rq_upper_with_eps": -7.273820495877967e-32
+  },
+  {
+   "N": 104,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-8.71307676807e-32",
+   "residual": 5.07995572554338e-78,
+   "rq_upper_with_eps": -8.713076768071766e-32
+  },
+  {
+   "N": 105,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-8.71953794558e-32",
+   "residual": 5.61797327152122e-78,
+   "rq_upper_with_eps": -8.719537945584205e-32
+  },
+  {
+   "N": 106,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-9.98738786319e-32",
+   "residual": 6.973625045462404e-78,
+   "rq_upper_with_eps": -9.987387863188408e-32
+  },
+  {
+   "N": 107,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.01705758227e-31",
+   "residual": 4.984864524751485e-78,
+   "rq_upper_with_eps": -1.0170575822700214e-31
+  },
+  {
+   "N": 108,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.27627577206e-31",
+   "residual": 4.0797719360084837e-78,
+   "rq_upper_with_eps": -1.2762757720645334e-31
+  },
+  {
+   "N": 109,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.28877473002e-31",
+   "residual": 4.641595768792933e-78,
+   "rq_upper_with_eps": -1.2887747300152307e-31
+  },
+  {
+   "N": 110,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.49448483826e-31",
+   "residual": 4.398758129645117e-78,
+   "rq_upper_with_eps": -1.494484838259179e-31
+  },
+  {
+   "N": 120,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-6.54355502397e-31",
+   "residual": 5.370572209630753e-78,
+   "rq_upper_with_eps": -6.543555023967752e-31
+  },
+  {
+   "N": 125,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-7.71432242764e-31",
+   "residual": 7.940399391090026e-78,
+   "rq_upper_with_eps": -7.714322427636359e-31
+  },
+  {
+   "N": 130,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-8.38696320892e-31",
+   "residual": 6.564478090752992e-78,
+   "rq_upper_with_eps": -8.386963208922791e-31
+  },
+  {
+   "N": 135,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-8.78571933368e-31",
+   "residual": 4.1811880147060663e-78,
+   "rq_upper_with_eps": -8.785719333677917e-31
+  },
+  {
+   "N": 140,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.10791532674e-30",
+   "residual": 5.476539362235024e-78,
+   "rq_upper_with_eps": -1.1079153267378298e-30
+  },
+  {
+   "N": 145,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.14052430445e-30",
+   "residual": 3.449374381534675e-78,
+   "rq_upper_with_eps": -1.140524304453368e-30
+  },
+  {
+   "N": 150,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.17389383232e-30",
+   "residual": 5.902872690707605e-78,
+   "rq_upper_with_eps": -1.1738938323201025e-30
+  },
+  {
+   "N": 200,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.50638644268e-30",
+   "residual": 6.132879890993865e-78,
+   "rq_upper_with_eps": -1.5063864426812815e-30
+  },
+  {
+   "N": 250,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.67221990445e-30",
+   "residual": 6.743997747814144e-78,
+   "rq_upper_with_eps": -1.6722199044544136e-30
+  },
+  {
+   "N": 300,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.75577018147e-30",
+   "residual": 5.279330420511113e-78,
+   "rq_upper_with_eps": -1.7557701814734283e-30
+  },
+  {
+   "N": 350,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.80649513464e-30",
+   "residual": 5.344419673266214e-78,
+   "rq_upper_with_eps": -1.806495134637841e-30
+  },
+  {
+   "N": 400,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.83716565448e-30",
+   "residual": 6.689911998202651e-78,
+   "rq_upper_with_eps": -1.8371656544815623e-30
+  },
+  {
+   "N": 500,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.88543855462e-30",
+   "residual": 4.202835556032672e-78,
+   "rq_upper_with_eps": -1.8854385546244338e-30
+  },
+  {
+   "N": 550,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.89871067665e-30",
+   "residual": 4.757223834044054e-78,
+   "rq_upper_with_eps": -1.898710676653154e-30
+  },
+  {
+   "N": 600,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.90871274740e-30",
+   "residual": 5.785743235247154e-78,
+   "rq_upper_with_eps": -1.9087127474029798e-30
+  },
+  {
+   "N": 650,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.91970774253e-30",
+   "residual": 5.652880160025625e-78,
+   "rq_upper_with_eps": -1.919707742533149e-30
+  },
+  {
+   "N": 700,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.92706620081e-30",
+   "residual": 3.7766446464001525e-78,
+   "rq_upper_with_eps": -1.9270662008087606e-30
+  },
+  {
+   "N": 750,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.93323102475e-30",
+   "residual": 6.645040734589092e-78,
+   "rq_upper_with_eps": -1.933231024748604e-30
+  },
+  {
+   "N": 800,
+   "neg": 1,
+   "undecided": 0,
+   "lam": "-1.93813662196e-30",
+   "residual": 7.210351749462283e-78,
+   "rq_upper_with_eps": -1.9381366219644542e-30
+  }
+ ],
+ "v800": {
+  "Q_rq_mid": "6.36613886240e-30",
+  "Q_rq_rad": 3.4938154900276564e-70,
+  "Q_rq_lower_with_eps": 6.36613886239757e-30,
+  "positive": true,
+  "boundary_value_f_L": "4.34704e-14"
+ },
+ "vs_R800": {
+  "T": 800.0,
+  "R800_at_witness": "-2.83155721281e-30",
+  "R800_at_v800": "-4.15160674834e-30",
+  "tail_at_v800": "1.05177e-29",
+  "inertia_Q_minus_R800_midpoint": {
+   "neg": 146,
+   "pos": 710,
+   "undecided": 0,
+   "min_abs_pivot": 7.282846920678135e-63
+  },
+  "Q_minus_R800_eig_nearest_-1e-40": {
+   "lam": "8.46034e-45",
+   "residual": 2.649779327848169e-43
+  }
+ },
+ "onset": {
+  "last_block_without_negative_pivot": 100,
+  "first_block_with_one": 101,
+  "witness_file": "witness_v101.json"
+ },
+ "Q_minus_R800_shifted_counts": [
+  {
+   "sigma": "1e-66",
+   "neg": 0,
+   "pos": 856,
+   "undecided": 0
+  },
+  {
+   "sigma": "1e-64",
+   "neg": 0,
+   "pos": 856,
+   "undecided": 0
+  },
+  {
+   "sigma": "1e-62",
+   "neg": 0,
+   "pos": 856,
+   "undecided": 0
+  },
+  {
+   "sigma": "1e-60",
+   "neg": 0,
+   "pos": 856,
+   "undecided": 0
+  },
+  {
+   "sigma": "1e-55",
+   "neg": 0,
+   "pos": 856,
+   "undecided": 0
+  },
+  {
+   "sigma": "1e-50",
+   "neg": 0,
+   "pos": 856,
+   "undecided": 0
+  }
+ ],
+ "reassembled_101": {
+  "N": 101,
+  "Nx": 291,
+  "M": 201,
+  "prec": 320,
+  "seconds": 32.20204162597656,
+  "rq_mid": "-4.49000370077141e-32",
+  "rq_rad": 3.072523137569468e-75,
+  "eps": 3.155702469420285e-76,
+  "rq_upper_with_eps": -4.4900037007714097e-32
+ },
+ "assembly_q856_pkl_sha256": "04d022fba445f5094aaad8e9cedce3935902b8591ce66923a0af874a1b6c9430",
+ "grade": "hardened: ball enclosures carry every step of the witness quotients (exact Gauss sums for g, Arb-bounded Gauss-Legendre error in x, carried dropped-radius bound, dropped comb mass); inertia counts and lambda values are midpoint (measured)",
+ "responses_T800": {
+  "source": "scout.py --responses-at-state on the run-B restart state at T# = 800 (1280 bits)",
+  "responses": {
+   "leading_N_791": {
+    "n_neg": 1,
+    "lam_min": "-4.15160674834e-30"
+   },
+   "rounded_1152": {
+    "n_neg": 1,
+    "lam_min": "-4.15160674834e-30"
+   }
+  },
+  "seconds": 822.1736545562744
+ },
+ "timed_slices": [
+  {
+   "L": "171079/100000",
+   "N": 856,
+   "prec": 1280,
+   "panels": [
+    2396,
+    2400
+   ],
+   "wall_s": 132.07086205482483,
+   "cpu_s": 127.029896143,
+   "per_panel_cpu_s": 31.757474797,
+   "maxrss_gb": 0.748916,
+   "comb_terms": 22
+  },
+  {
+   "L": "8503/5000",
+   "N": 856,
+   "prec": 1280,
+   "panels": [
+    1596,
+    1600
+   ],
+   "wall_s": 131.57172656059265,
+   "cpu_s": 128.15396615699999,
+   "per_panel_cpu_s": 32.03849214525,
+   "maxrss_gb": 0.750188,
+   "comb_terms": 22
+  },
+  {
+   "L": "171079/100000",
+   "N": 1711,
+   "prec": 1280,
+   "panels": [
+    3199,
+    3200
+   ],
+   "wall_s": 127.22913217544556,
+   "cpu_s": 123.465789379,
+   "per_panel_cpu_s": 123.465791591,
+   "maxrss_gb": 2.189072,
+   "comb_terms": 22
+  }
+ ]
+}

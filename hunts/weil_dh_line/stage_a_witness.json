@@ -1,0 +1,21 @@
+{
+ "vector": "witness_v856.json",
+ "key": "v",
+ "N": 856,
+ "T": 800.0,
+ "q": 64,
+ "h": "1/2",
+ "n_y": 1500,
+ "prec": 256,
+ "beta": "0.415137840683351",
+ "rq_discrete_mid": "-2.83155721280920e-30",
+ "rq_discrete_rad": 1.0347455294128568e-72,
+ "rq_discrete_upper": -2.831557212809203e-30,
+ "rq_exact_integrals_mid": "-2.83155721280920e-30",
+ "rq_exact_integrals_upper": -2.831557212809203e-30,
+ "t_quad_bound": 8.027383146422143e-89,
+ "mass_above_T_mid": "1.4220221e-31",
+ "mass_above_T_upper": 1.4220221492891662e-31,
+ "wall_seconds": 2672.598449230194,
+ "procs": 2
+}

@@ -75,6 +75,39 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #146: the out-of-band reduction priced at the Davenport-Heilbronn line (`weil_dh_line/`, 2026-10-21)
+
+**Status: open, on a draft pull request; resumed in place on 2026-10-26 by the owner's
+decision. No-go at the gate for the searched envelopes (attempt unresolved, measured);
+K2 on DH at the DH line run on 2026-10-26 (streamed): the pipeline refuses at every
+checkpoint to `T# = 800`, so the binding kill condition did not fire (measured, stage A only).** Asks whether zeta's Weil window
+positivity can be proved with enclosures on a window where the Davenport-Heilbronn form is
+provably negative, half-width `L >= (log 30.617188)/2 = 1.7107808`, through the out-of-band
+reduction of `oob_envelope/`. The comb floor `S*_L` at `L_DH` lies in `[5.637302, 5.643859]`
+(hardened), so weak duality allows the gate `S <= about 6.2`; the best evaluable joint
+envelope found gives `6.418111`, and the best partition into three-prime clusters has the
+Arb floor `6.174396`. A measured stage-A scout at `L = 7/5` (envelope `S = 4.117981`) has
+negative pivots at `T# = 400` to `440` and none from `460` to `640`, stable under the mode
+and precision responses. K2 refuses Epstein `(1,1,6)` wherever its form is known negative,
+and DH at `L_DH` (`N = 856`, 1280 bits): one negative pivot at all 14 checkpoints with
+`beta* > 0`, `lambda_min` about `-5e-30` and shrinking in magnitude as `T#` grows.
+Nothing here is kernel-checked, no novelty is claimed, and nothing bears on RH. Record:
+`weil_dh_line/PRICE.md`, `weil_dh_line/RUNS.md`, `weil_dh_line/MISSION.md`.
+**Raised 2026-10-27 (dated addition; the entry above is left as written).** The
+`T# -> infinity` limit of the stage-A block, the DH form on the scout's even Legendre
+modes, has a negative eigenvalue on every leading block of 101 or more modes (`-1.943e-30`
+at 856; hardened, resting on enclosed Rayleigh quotients; a reviewer's separate
+implementation reproduces them). So the stage-A block refuses DH at `L_DH` at every `T#`
+and every `N >= 101` when `S` is valid (the composite is measured at that assumption,
+through two unreviewed derivations). The `T# = 800` eigenvector itself is not a witness,
+and K2 at `T# = 800` keeps its verdict with `S` understated by up to 43, so it does not
+test `S`. The responses called "mode and precision responses" above are not refinements
+(`PRICE.md` items 5 to 7).
+Later the same day `S` itself was bounded in Arb (`sup(P_DH - H) <= S + 34/5`), which
+lies inside the witness's margin for `T# >= 540` and `N >= 856`: there every numerical
+step is enclosed, and the refusal rests on two unreviewed derivations (`PRICE.md` item 7,
+link 6).
+
 ### Hunt #145: the Davenport-Heilbronn zero off the critical line, kernel-checked (`rung3_ball_production/`, 2026-10-21 to 2026-10-26)
 
 **Status: closed 2026-10-26. `dh_separation_hundred` (below height 100, `DH` has a zero

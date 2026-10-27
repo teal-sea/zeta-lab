@@ -1,0 +1,6 @@
+{"tag": "1.4", "kind": "dh", "tau": 2e-4, "method": "lse",
+ "clusters": [
+  {"primes": [2, 3, 7], "D": [6, 4, 3], "shell": null},
+  {"primes": [11], "D": [64], "shell": null},
+  {"primes": [13], "D": [64], "shell": null}
+ ]}
