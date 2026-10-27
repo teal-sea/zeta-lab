@@ -65,7 +65,11 @@ Use the root package's pinned Lean v4.35.0-rc2 and Mathlib
 `con-ron --verified` accepted the exported closure of the three final theorems:
 82,680 declarations accepted, 81,674 of 81,674 checks done, exit 0. Earlier runs of
 `con-ron`, NanoDa and `leanchecker --fresh` stopped at time or memory bounds without
-a verdict; none rejected the proof. Commands, hashes and every attempt are in
+a verdict; none rejected the proof. On 2026-10-26, rerun with no wall bound,
+`leanchecker --fresh` replayed the whole closure through Lean's own kernel from
+an empty environment and exited 0 after 1 h 40 min. That is a same-kernel
+replay, not an independent checker. NanoDa stopped again at the free-memory
+floor without a verdict. Commands, hashes and every attempt are in
 [hunt #137's RESULTS](../hunts/rh_height_lean/RESULTS.md). This is acceptance by two
 proof checkers, not review by a person.
 
