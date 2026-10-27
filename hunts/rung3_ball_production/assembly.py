@@ -22,6 +22,9 @@ Reads `lean/cert/rung3_plan2.json` alone and writes, into `--out DIR/Rung3Assemb
   `dh_zero_located`.  It imports `Assembly` alone, so `Assembly.lean` and
   `Separation.lean` keep the text they were first compiled from, and it lies outside the
   sites' import closure (`ZetaLean.BallCertSupport`), as every emitted file does.
+* `Final.lean`: no declaration; it imports `Separation` and `Strip`, so its closure holds
+  all 18 final declarations, and the replay (`leanchecker --fresh`) and the export
+  (`leanexport`) of door 1 can each name one module.
 
 None is committed.  `Assembly.lean` imports the site roots `scripts/69` emits, which are
 not `module` files, and Lean refuses a non-module import from a `module`; the tree requires
@@ -40,7 +43,7 @@ with the same statement), so the assembly body can be elaborated before producti
 exists; `--real ID ...` leaves those sites to their compiled oleans.  A stub is a test
 harness and never a proof: `#print axioms` names every stub the result rests on.
 
-    .venv/bin/python hunts/rung3_ball_production/assembly.py --out DIR          # write the three files
+    .venv/bin/python hunts/rung3_ball_production/assembly.py --out DIR          # write the four files
     .venv/bin/python hunts/rung3_ball_production/assembly.py --check            # exit 1 if the pin is stale
     .venv/bin/python hunts/rung3_ball_production/assembly.py --pin              # rewrite the pin
 """
@@ -310,6 +313,14 @@ def strip(plan: dict) -> str:
         "end ZetaLean.DH.Rung3Assembly.Plan2", ""])
 
 
+def final() -> str:
+    """The one module whose import closure holds every final declaration."""
+    return "\n".join([
+        BANNER, "import Rung3Assembly.Separation", "import Rung3Assembly.Strip", "",
+        "/-! No declarations: the top of the assembly, named by the replay and the export. -/",
+        ""])
+
+
 def strip_variants(plan: dict) -> dict[str, str]:
     """`Strip.lean` unchanged (the control) and two planted faults, each a scratch copy whose
     statement breaks the strip condition and whose proof must be refused: a real-part bound
@@ -369,7 +380,7 @@ def harness(plan: dict) -> str:
 
 def emitted(plan: dict) -> dict[str, str]:
     return {"Assembly.lean": assembly(plan), "Separation.lean": separation(),
-            "Strip.lean": strip(plan)}
+            "Strip.lean": strip(plan), "Final.lean": final()}
 
 
 def record(log: str, real: list[str], plan: dict) -> dict:
@@ -394,7 +405,8 @@ def pins(plan: dict) -> dict[str, dict]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", type=Path, help="write Rung3Assembly/{Assembly,Separation,Strip}.lean here")
+    ap.add_argument("--out", type=Path,
+                    help="write Rung3Assembly/{Assembly,Separation,Strip,Final}.lean here")
     ap.add_argument("--check", action="store_true", help="exit 1 unless pilot.json's pin matches")
     ap.add_argument("--pin", action="store_true", help="record the emitted text's SHA-256")
     ap.add_argument("--stubs", type=Path, help="also write StubSites.lean and Harness.lean here")

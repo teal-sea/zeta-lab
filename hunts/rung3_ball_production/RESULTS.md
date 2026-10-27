@@ -4,7 +4,9 @@ Hunt #145, closed 2026-10-26. Grade: **kernel-checked** (Lean 4 `v4.35.0-rc2`, M
 `065356127b1d`, zero `sorry`, only `propext`, `Classical.choice` and `Quot.sound`),
 *pending external verification*. The details below are in `PILOT.md` sections 9 to 13,
 `RUNS.md` and the `production` section of `pilot.json`. The result says nothing about RH
-(`docs/08`).
+(`docs/08`). On 2026-10-27 Lean's own kernel replayed the whole assembled closure into an
+empty environment and accepted it (`leanchecker --fresh`, section 3). That is a
+same-kernel replay, not an independent check, and it leaves the grade where it was.
 
 ## 1. The theorems, exactly as compiled
 
@@ -153,6 +155,30 @@ theorem (`pilot.json` `production.strip_assembly`, log in its receipts):
   10.8. `MemAvailable` never fell below 63.7 GiB. The Support, Assembly and Separation
   oleans hash exactly as the first assembly's, so nothing they declare moved. The
   receipts are in `<cache>/rung3-ball-production-full/receipts-strip-20261026`.
+- **Door 1, Stage A: the same-kernel fresh replay (this box, 2026-10-27, 00:35:12 to
+  07:52:58 UTC).** A third collect and assemble, as above, with one more emitted module,
+  `Final.lean`, which imports `Separation` and `Strip` and so holds all 18 final
+  declarations in its closure; the 20 digests, the 215 root oleans and the Support,
+  Assembly, Separation and Strip oleans came back byte for byte. Then
+  `leanchecker --fresh Rung3Assembly.Final` (Lean `v4.35.0-rc2`'s checker, SHA-256
+  `9e36e955a251b131...`), under a guard with no wall limit and a 20 GiB `MemAvailable`
+  floor: it loads the closure and replays its constants into an empty kernel
+  environment, sending each to the kernel (it skips only unsafe and partial constants).
+  The closure is 11,955 modules and 1,569,505 constants: the 215 sites' 761,387,
+  Mathlib's 580,690, Lean's core and dependencies' 202,353, hunt #137's 24,311 (because
+  `Separation` imports `RHHeight100.Main100`), `ZetaLean`'s 733 and the assembly's 31.
+  **Exit 0, empty output, in 7 h 17 min 46 s of one core, at 22.76 GB peak RSS**;
+  `MemAvailable` never fell below 49.3 GiB. A module that does not exist exits 1, and a
+  scratch olean with one radius literal changed is refused by the kernel (section 4).
+  The estimate written before the run, from a seeded sample of 175 modules each replayed
+  apart, was 6 to 10 hours and 18 to 26 GB. The tool's own docstring calls it "not an
+  external verifier": it re-runs the same kernel on the same constants. What it adds is
+  that every constant the assembly rests on, site proofs included, passed that kernel
+  again in one environment, from nothing, on this box, which closes the `ZetaLean` join
+  (section 5) and re-checks hunt #137's closure as well. Receipts:
+  `<cache>/rung3-ball-production-full/receipts-replay-20261027` (`leanchecker-fresh.receipt.json`,
+  the census, the sample and its estimate, every log); record: `pilot.json`
+  `production.replay`.
 
 ## 4. What the kernel refused
 
@@ -180,7 +206,19 @@ against the re-assembled environment (`production.py strip-faults`; `pilot.json`
 | `s.re < 19/25` (0.76, just left of the square's edge 0.761642) for `s.re < 1` | `linarith failed to find a contradiction` |
 | `s.re ≠ 4/5` (a line through the square) for `s.re ≠ 1/2` | `unsolved goals` |
 
-The unchanged copy, compiled the same way, was accepted. The standing test
+The unchanged copy, compiled the same way, was accepted.
+
+For door 1 a fault went into a compiled olean itself (`pilot.json`
+`production.replay.olean_fault`). In a scratch copy of the downloaded
+`CB_right_06/Primes.olean`, the radius literal of `Prime_B_right_06_2.Sq_10`,
+36391283805789411/2^63, was lowered by one unit: one byte of the file, the literal's only
+occurrence. `leanchecker CB_right_06.Primes` accepts the unchanged olean and refuses the
+copy at `Prime_B_right_06_2.ev_whole._proof_1_1` with "(kernel) application type
+mismatch", the decision no longer evaluating to `true`. Exported, the two differ in one
+record, and `con-ron --verified` accepts the clean export and rejects the planted one at
+the same declaration, with the same error.
+
+The standing test
 `tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one` passes. It is
 measured, not rigorous: the mpmath argument principle at 20 digits counts no zero with
 Re s in [0.55, 2] and 0.3 < Im s < 80.3, and one with 80.3 < Im s < 90.3. Within that
@@ -196,15 +234,20 @@ not chosen.
   that file lists the sources not searched. The zero itself is Spira's (1994), and the
   delta is its enclosure by the Lean kernel.
 - **Trust.** Each site olean was produced by the runner's kernel. The assembly imports
-  them without re-checking their proofs. No independent replay (`leanchecker`, a second
-  kernel) has run over the assembled environment; that is the first door below.
+  them without re-checking their proofs. Since 2026-10-27 the same kernel has re-checked
+  the whole assembled closure from an empty environment (section 3, door 1 Stage A). No
+  second, independent kernel has checked the whole closure: `con-ron` has checked samples
+  only (door 1 below).
 - **The ZetaLean join.** The sites were kernel-checked against each runner's own
   `ZetaLean` build at `85cabd55b`, which the workflow did not upload. The assembly
   imported them against this box's `ZetaLean` oleans of 2026-10-21, through the overlay.
   The sources of the sites' import closure have not changed since 2026-09-28 apart from
   comments, so the two builds' constants are expected to agree, but they were never
   compared. The replay would close this as well. The strip re-assembly used the same
-  `ZetaLean` oleans, unchanged, so it inherits this join and adds no new one.
+  `ZetaLean` oleans, unchanged, so it inherits this join and adds no new one. **Closed
+  on 2026-10-27**: the fresh replay re-checked, in one empty kernel environment, the
+  constants actually loaded through the overlay, so every site proof passed the kernel
+  against the `ZetaLean` constants the assembly uses.
 - The staged default of `scripts/60` cannot produce an assemblable output: its tower
   namespaces collide across sites (`PILOT.md` section 11). Only `--tower whole` can.
 
@@ -238,7 +281,21 @@ number of sites against K.
 **The information class of each door**:
 
 1. An independent kernel replay of the assembled environment, which reads more: the same
-   oleans in another checker.
+   oleans in another checker. **Stage A done, 2026-10-27**: the same-kernel fresh replay
+   (section 3) accepted the closure of all 18 final declarations; it is not the
+   independent half. **Stage B, priced, not run**: `leanexport` of that closure, checked
+   by `con-ron --verified`. On samples, `con-ron` accepted the exported closure of
+   `upper_B_right_06` (61,782 declarations, 690 s, 2.2 GB) and of the centre's towers for
+   p = 2, 401 and 1801 (26,575 declarations), and rejected the one-byte olean fault at
+   `Prime_B_right_06_2.ev_whole` (section 4). Those are second-kernel acceptances of
+   samples, not of the theorem. The whole closure would be an export of 14 to 15 GB (20
+   to 30 minutes at 30 to 40 GB, by the samples) and a `con-ron` run at 56 to 102 GB of
+   peak RSS whose 15,608 whole-tower decisions alone cost about 1,300 core-hours: each
+   took 16 s at p = 2, 400 s at p = 401 and 648 s at p = 1801, against about 1 s in Lean's
+   kernel. That is 81 hours of wall at 16 workers, past this box's 24-hour and memory
+   bounds, so it waits for a machine of about 128 GB and 64 cores (about 20 hours).
+   Exporting site by site would hold `con-ron` to about 4 GB a run but not cut the CPU, and
+   would leave the assembly's own closure to check apart. `RUNS.md` has the samples.
 2. **Done, 2026-10-26.** A bundled strip statement, inside the data the current family
    reads. The theorem, in module `Rung3Assembly.Strip`, emitted by `assembly.py`
    (`STRIP_STATEMENT`, pinned by the hunt test) and importing `Rung3Assembly.Assembly`
@@ -265,3 +322,5 @@ Doors 1 and 2 are cheapest before the site oleans' GitHub artifacts expire, abou
 2026-11-25 (30-day retention from run 40353536947). The box kept only their SHA-256 and
 the logs, so after that date both need the 215 sites compiled again, 16.1 runner
 core-hours at the measured rate. Door 2 is now done; door 1 still has that deadline.
+Door 1's Stage A is done too, so the deadline binds only its Stage B, the independent
+kernel.

@@ -345,6 +345,48 @@ def test_the_strip_reassembly_rests_on_the_standard_axioms_and_moved_nothing():
     assert "oleans on disk under <cache>/" in s["where"]
 
 
+def test_door_one_records_a_same_kernel_replay_and_a_priced_second_kernel():
+    """Door 1: `leanchecker --fresh` over the closure of all 18 declarations accepted, inside
+    the estimate written before it; it can fail (a missing module, a one-byte olean fault);
+    `con-ron` checked samples only, read the same fault, and the full run is priced, not
+    run. RESULTS.md quotes the figures and never calls the replay independent."""
+    r = PROD["replay"]
+    a = r["stage_a"]
+    assert a["command"][-2:] == ["--fresh", "Rung3Assembly.Final"]
+    assert a["exit_code"] == 0 and a["stop_reason"] is None and a["stdout"] == a["stderr"] == ""
+    lo_h, hi_h = r["replay_sample"]["estimate_written_h"]
+    assert lo_h * 3600 <= a["wall_s"] <= hi_h * 3600
+    lo_gb, hi_gb = r["replay_sample"]["estimate_written_peak_rss_gb"]
+    assert lo_gb <= a["peak_sampled_tree_rss_kib"] * 1024 / 1e9 <= hi_gb
+    assert a["min_memavailable_kib"] > 20 * 2**20
+    assert r["replay_sample"]["all_accepted"] and r["replay_sample"]["modules"] == 175
+    c = r["census"]
+    assert c["constants"] == sum(g["constants"] for g in c["groups"].values()) + c["site_constants"]
+    assert (c["modules"], c["constants"], c["site_constants"]) == (11955, 1569505, 761387)
+    assert r["collect"] == {"same_artifacts_as_first": True, "site_root_oleans_equal_first": True}
+    assert r["assembly_oleans_equal_strip_run"] is True
+    assert list(r["axioms"]) == prod.FINAL + prod.STRIP and all(map(prod.axioms_ok, r["axioms"].values()))
+    assert r["nonexistent_module"]["exit_code"] == 1
+    f = r["olean_fault"]
+    assert f["control_exit"] == 0 and f["fault_exit"] == 1
+    assert f["refused_at"].endswith("Prime_B_right_06_2.ev_whole._proof_1_1")
+    assert f["kernel_error"] == "application type mismatch"
+    b = r["stage_b"]
+    assert b["conron_sample"]["exit_code"] == 0 and b["conron_centre_towers"]["exit_code"] == 0
+    assert "accepted 61782 declarations (--verified)" in b["conron_sample"]["lines"][-1]
+    pair = b["conron_fault_pair"]
+    assert pair["clean"]["exit_code"] == 0 and pair["fault"]["exit_code"] == 1
+    assert "Prime_B_right_06_2.ev_whole._proof_1_1" in pair["fault"]["lines"][-1]
+    assert b["decision"].startswith("stopped at the estimate") and b["nanoda"] == "not run"
+    assert b["projection"]["wall_h_16_workers"] > 24
+    text = " ".join((HERE / "RESULTS.md").read_text().split())
+    for q in ("7 h 17 min 46 s", "22.76 GB peak RSS", "1,569,505 constants", "761,387",
+              "receipts-replay-20261027", "not an external verifier", "about 1,300 core-hours"):
+        assert q in text, q
+    for bad in ("independent replay accepted", "independently replayed", "independent kernel accepted"):
+        assert bad not in text, bad
+
+
 def test_the_box_faults_were_each_refused_where_planted():
     bf = PROD["box_faults"]
     assert bf["fault-tower-whole-outcome"]["refused_at"][0] == "Prime_B_right_06_2.ev_whole"

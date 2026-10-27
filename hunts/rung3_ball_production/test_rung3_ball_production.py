@@ -436,6 +436,17 @@ def test_the_strip_theorem_states_the_fixed_shape():
     assert pins["Separation.lean"]["sha256"].startswith("2ad0703b9b0ccae3")
 
 
+def test_final_is_the_one_module_over_all_18_declarations():
+    """Door 1 names one module to `leanchecker --fresh` and `leanexport`: `Final` imports the
+    two modules that between them hold every final declaration, and declares nothing."""
+    text = EMITTED["Final.lean"]
+    assert [l for l in text.splitlines() if l.startswith("import ")] == \
+        ["import Rung3Assembly.Separation", "import Rung3Assembly.Strip"]
+    assert not any(w in text for w in ("theorem", "def ", "lemma", "axiom", "sorry"))
+    assert "theorem dh_separation_hundred" in EMITTED["Separation.lean"]
+    assert "theorem davenport_heilbronn_strip" in EMITTED["Strip.lean"]
+
+
 def test_the_strip_faults_change_only_the_statement():
     """The scratch copies `production.py strip-faults` compiles: the control is the emitted
     module itself, and each fault breaks the strip condition in the statement alone."""

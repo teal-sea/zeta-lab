@@ -57,7 +57,9 @@ oleans were compiled against the module that holds it.
 
 The grade of `davenport_heilbronn_strip` and the three theorems above is
 **kernel-checked, pending external verification**. No outside mathematician has reviewed them, and no independent kernel
-has replayed the assembled environment.
+has replayed the assembled environment. Lean's own kernel did replay the whole closure
+into an empty environment on 2026-10-27 (`leanchecker --fresh`, 1.57 million constants,
+accepted in 7 h 17 min), a re-check by the same kernel rather than an independent one.
 
 ## 2. How
 
