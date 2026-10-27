@@ -30,7 +30,7 @@ KERNEL = os.path.normpath(os.path.join(HERE, "..", "kernel"))
 LANDAU = arb("0.7858")  # upper for 0.7857468704...
 #: |j_k(x)| = sqrt(pi/(2x)) |J_{k+1/2}(x)| <= JB x^{-5/6}
 JB_STR = "0.98487"  # >= sqrt(pi/2) * 0.7858 = 0.984859...
-GAUSS_CONST = arb(64) / 15  # Trefethen, SIAM Rev. 50 (2008), Thm 4.5
+GAUSS_CONST = arb(64) / 15  # the constant of the n-point bound below (n >= 2), derived in BOUNDS.md s0
 
 
 def two_pi():
@@ -231,10 +231,16 @@ def w_panel_ends(Kmax, s_max, per_panel=12):
 
 
 def gauss_panel_error(h, M, rho, n):
-    """Error of the n-point Gauss rule on a panel of width h for |f| <= M on the image of E_rho
-    (Trefethen 2008, Thm 4.5, scaled by h/2)."""
+    """Error of the n-point Gauss rule on a panel of width h for |f| <= M on the image of E_rho:
+    (h/2) (64/15) M rho^{2-2n} / (rho^2 - 1), n >= 2 (BOUNDS.md s0, derived there).
+
+    Corrected 2026-10-27: this returned (h/2) (64/15) M rho^{-2n} / (rho^2 - 1), the bound of the
+    (n+1)-point rule, rho^2 too small for n points (T_24 at n = 12 violates it for rho >= 3;
+    test_bounds.py::test_gauss_bound_holds_on_entire_functions)."""
+    if n < 2:
+        raise ValueError("the (64/15) constant needs n >= 2 nodes")
     rho = arb(rho)
-    return arb(h) / 2 * GAUSS_CONST * M * rho ** (-2 * n) / (rho * rho - 1)
+    return arb(h) / 2 * GAUSS_CONST * M * rho ** (2 - 2 * n) / (rho * rho - 1)
 
 
 def _rho_for(mid, h, rho_max=15.0):
@@ -678,6 +684,23 @@ def gram_b(modes, Kmax, M=None, m_max=None, t_max=None, R=None, target=arb(10) *
     G = arb_mat(rows)
     info = {"M": M, "m_max": m_max, "t_max": t_max, "R": R, "units": len(mine), "part": part, "nparts": nparts}
     return G, info
+
+
+def ball_pd(G):
+    """True iff the ball LDL^T of the symmetric ball matrix G has every pivot > 0, which decides positive
+    definiteness for every matrix in the ball (PREREG s1's ball Cholesky; arb_mat has no Cholesky here).
+    False means not decided (a pivot ball reaching 0), never 'indefinite'."""
+    n = G.nrows()
+    A = [[G[i, j] for j in range(i + 1)] for i in range(n)]  # lower triangle, A[i][j] for j <= i
+    for k in range(n):
+        d = A[k][k]
+        if not d > 0:
+            return False
+        for i in range(k + 1, n):
+            f, Ai = A[i][k] / d, A[i]
+            for j in range(k + 1, i + 1):
+                Ai[j] -= f * A[j][k]  # column k is not updated at this step
+    return True
 
 
 def gram_b_merge(parts):

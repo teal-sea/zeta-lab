@@ -273,7 +273,8 @@ def test_workflow_matches_the_ruling():
     assert wf["permissions"] == {"contents": "read"}
     assert wf["concurrency"]["group"] == "c4-exact-gram"
     sh = wf["jobs"]["shards"]
-    assert sh["timeout-minutes"] <= 350 and sh["strategy"]["max-parallel"] <= 4  # shared 20-job pool (RUNS s11)
+    # at most 7 parallel jobs (the coordinator's ruling, RUNS s6); 6 since the rerun of RUNS s12, 4 before
+    assert sh["timeout-minutes"] <= 350 and sh["strategy"]["max-parallel"] <= 6
     assert wf["defaults"] == {"run": {"shell": "bash"}}  # bash -eo pipefail in every run step
     for v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "FLINT_NUM_THREADS"):
         assert wf["env"][v] == "1"
@@ -287,23 +288,38 @@ def test_workflow_matches_the_ruling():
         assert hashlib.sha256(open(rr, "rb").read()).hexdigest() in _read("RUNS.md")
         req = json.load(open(rr))
         assert req["mode"] in ("calibrate", "full")
-        if req["mode"] == "full":  # the calibration's Gram, by digest (RUNS s11)
+        if "gram_sha256" in req:  # a committed Gram, by digest (RUNS s11)
             assert req["gram_sha256"] == hashlib.sha256(open(os.path.join(HERE, "gram.json"), "rb").read()).hexdigest()
     jobs = wf["jobs"]
     assert list(jobs) == ["plan", "gram", "merge", "shards"]
-    assert jobs["gram"]["timeout-minutes"] <= 350 and jobs["gram"]["strategy"]["max-parallel"] <= 4
-    # full mode never recomputes the Gram: gram and merge run in calibrate mode only
-    assert jobs["gram"]["if"] == jobs["merge"]["if"] == "needs.plan.outputs.mode == 'calibrate'"
-    assert "needs.merge.result == 'skipped' && needs.plan.outputs.mode == 'full'" in sh["if"]
-    gstep = next(s for s in sh["steps"] if s.get("name", "").startswith("the calibration's Gram"))
-    assert gstep["if"] == "needs.plan.outputs.mode == 'full'" and 'test "$got" = "$want"' in gstep["run"]
+    assert jobs["gram"]["timeout-minutes"] <= 350 and jobs["gram"]["strategy"]["max-parallel"] <= 6
+    # the Gram is recomputed unless the request names a committed one by sha256 (RUNS s12)
+    assert jobs["gram"]["if"] == jobs["merge"]["if"] == "needs.plan.outputs.gram == 'recompute'"
+    assert "needs.merge.result == 'skipped' && needs.plan.outputs.gram == 'committed'" in sh["if"]
+    assert 'print("gram=" + ("committed" if "gram_sha256" in req else "recompute"))' in text
+    gstep = next(s for s in sh["steps"] if s.get("name", "").startswith("the committed Gram"))
+    assert gstep["if"] == "needs.plan.outputs.gram == 'committed'" and 'test "$got" = "$want"' in gstep["run"]
     assert jobs["merge"]["needs"] == ["plan", "gram"] and jobs["shards"]["needs"] == ["plan", "merge"]
     assert "merge-gram" in text and "gram-part" in text and "c4-exact-gram-gram-attempt" in text
     # every directory a step writes into exists before the step, on attempt 1 too (run 40342431754)
-    gram_run = next(s for s in jobs["gram"]["steps"] if s.get("name") == "4 Gram parts")["run"]
+    gram_run = next(s for s in jobs["gram"]["steps"] if s.get("name") == "Gram parts")["run"]
     assert gram_run.index("mkdir -p prepared") < gram_run.index("prepared/gram_time_")
     tab = next(s for s in sh["steps"] if s.get("name", "").startswith("mode table"))["run"]
     assert tab.index("mkdir -p prepared") < tab.index("out_table_time")
+    # the self-stop counts from job start (RUNS s11.5): a clock step first, and every timeout reads it
+    for j in ("gram", "shards"):
+        st = jobs[j]["steps"]
+        assert st[0]["name"].startswith("job clock") and "JOB_START=$(date +%s)" in st[0]["run"]
+        runs = [x["run"] for x in st if "timeout " in x.get("run", "")]
+        assert runs and all('LEFT=$(( 335 * 60 - ($(date +%s) - JOB_START) ))' in r and 'timeout "${LEFT}s"' in r
+                            for r in runs)
+    assert "timeout 335m" not in text
+    # shards and jobs follow the request, never a constant
+    run4 = next(s for s in sh["steps"] if s.get("name") == "run 4 shards")["run"]
+    assert '--shards "$SHARDS"' in run4 and "--shards 36" not in text
+    names = [s.get("name", "") for s in sh["steps"]]
+    assert names.index("calibration record (peak RSS, per-block wall)") < names.index(
+        "keep each shard's last checkpoint only (assemble and resume read no other)")
 
 
 def test_tail_mass_and_the_aposteriori_reprice():
@@ -363,11 +379,10 @@ def test_calibration_figures_and_the_full_request_headroom():
     assert len(ordinary) == 6 and max(ordinary) == 931.8  # the four-at-once blocks; block 1 ran alone
     assert c["gram_json"]["sha256"] == "2b907a79a8a127e0626f9ade01ee7f8335761e7cbf564a48d386cb5854a94872"
     t = _read("RUNS.md")
-    s11 = t[t.index("## 11."):]
-    req = json.loads(re.findall(r"```json\n(.*?)```", s11, re.DOTALL)[-1])
-    base = json.load(open(os.path.join(HERE, "RUN_REQUEST.json")))
-    drop = {"mode", "blocks", "attempt", "gram_sha256", "calibration"}
-    assert {k: v for k, v in req.items() if k not in drop} == {k: v for k, v in base.items() if k not in drop}
+    end = t.find("## 12.")
+    s11 = t[t.index("## 11."):end if end >= 0 else None]
+    req = json.loads(re.findall(r"```json\n(.*?)```", s11, re.DOTALL)[-1])  # the request run 40371181784 ran
+    assert (req["shards"], req["S_prime"], req["nvec"], "per_panel" in req) == (36, 2700, 280, False)
     assert req["mode"] == "full" and req["gram_sha256"] == c["gram_json"]["sha256"]
     cal = req["calibration"]
     assert cal["block_wall_s"] >= max(ordinary) and cal["peak_rss_gb"] >= 1.397 and 4 * cal["peak_rss_gb"] < 13
@@ -379,3 +394,4 @@ def test_calibration_figures_and_the_full_request_headroom():
     assert cal["table_build_s"] + _worst_process_s(req, slow) > 0.75 * 350 * 60
     for s in ("12,048 s (200.8 min)", "36 % under", "about 11.2 hours wall", "104 core-hours", "13.1 core-hours"):
         assert s in s11, s
+

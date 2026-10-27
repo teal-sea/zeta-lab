@@ -31,6 +31,8 @@ RH.
   Thm 4.5). On a panel [a, b] the error scales by (b − a)/2 and E_ρ maps to
   the ellipse with semi-axes (b − a)(ρ ± 1/ρ)/4. Nodes and weights are
   arb's `legendre_p_root` balls, so the rule is the exact Gauss rule.
+  **Corrected 2026-10-27 (s5):** that is the rate of the (n + 1)-point
+  rule. The n-point bound is ρ² larger, (64/15) M ρ^{2−2n}/(ρ² − 1).
 - `test_bounds.py` spot-checks Landau and Kapteyn against arb's J_ν on grids
   (measured).
 
@@ -49,7 +51,8 @@ the integrand g(w) = η_n(w) w^{−1/2−is} satisfies, on the image ellipse,
 
 so the panel error is at most (b − a)/2 · (64/15) · that · ρ^{−24}/(ρ² − 1)
 for 12 nodes, and the hat error is norm_n times the sum over panels
-(`e3_hat_bound`).
+(`e3_hat_bound`). **Corrected 2026-10-27 (s5):** ρ^{−24} is the 13-node
+rate; for 12 nodes it is ρ^{−22}, and production now runs 13 nodes.
 
 *Proof.* |e^{2πizt}| = e^{−2π Im(z) t} ≤ e^{2π|Im z|} for |t| ≤ 1, so
 |η_n(z)| ≤ e^{2πβ}‖ξ_n‖_1 ≤ 2e^{2πβ}. |z^{−1/2−is}| = |z|^{−1/2}e^{s arg z},
@@ -295,3 +298,98 @@ rebuilt row closes (its ε_q finite) is decided by the run, not by this
 file. All of it is ordinary argument, unreviewed, on the cited inequalities
 of s0. The production cost of the Gram at 280 modes is an estimate, not a
 measurement (RUNS.md s9).
+
+## 5. Correction, 2026-10-27: the Gauss bound was the (n + 1)-point bound
+
+An adversarial review of PR #362 found that s0's (Gauss) inequality, used
+for n-point rules in P1 (s1) and in P4's quadrature (s4.1), is the bound of
+the (n + 1)-point rule. This section verifies that independently and records
+the fix. s0 to s4.6 above stay as written, apart from two dated pointers.
+The text in question, as written in s0:
+
+> **(Gauss)** For f analytic in the Bernstein ellipse E_ρ of [−1, 1] with
+> |f| ≤ M there, the n-point Gauss-Legendre error is at most
+> (64/15) M ρ^{−2n}/(ρ² − 1) (Trefethen, SIAM Rev. 50 (2008) 67–87,
+> Thm 4.5).
+
+and in s1: "so the panel error is at most (b − a)/2 · (64/15) · that ·
+ρ^{−24}/(ρ² − 1) for 12 nodes". `bounds.gauss_panel_error` coded exactly
+that, and `e3_hat_bound` and `_quad_pair_core` called it with n = 12.
+
+**The bound, derived here.** Let f = Σ a_k T_k on [−1, 1], analytic in the
+open ellipse E_ρ with |f| ≤ M there, so |a_k| ≤ 2Mρ^{−k}. The n-point rule
+G_n is exact to degree 2n − 1 and symmetric, so odd T_k contribute nothing
+to I or G_n. For even k ≥ 2n, |I(T_k) − G_n(T_k)| ≤ 2/(k² − 1) + Σ_j w_j
+= 2 + 2/(k² − 1), the weights being positive with sum 2. Hence
+
+    |I − G_n| ≤ Σ_{k even ≥ 2n} 2Mρ^{−k}(2 + 2/(k² − 1))
+              ≤ 4M · 4n²/(4n² − 1) · ρ^{2−2n}/(ρ² − 1)
+              ≤ (64/15) M ρ^{2−2n}/(ρ² − 1)        (n ≥ 2).
+
+The old formula is this bound at n + 1 nodes. It agrees with the cited
+theorem if that theorem's rule has n + 1 points, as an index counted from 0
+would give. The source was not re-read here (its PDF did not extract on the
+box), so the code now rests on the derivation above, not on the citation.
+The derivation is an ordinary argument and is unreviewed, like the rest of
+this file.
+
+**The counterexample** (measured, 256-bit balls; `test_bounds.py`).
+T_24 is entire and is the first even Chebyshev polynomial the 12-point rule
+misses; its maximum on E_ρ is (ρ^24 + ρ^{−24})/2. Its 12-point error is
+1.54. The old formula gives 0.267 at ρ = 3 and 0.0095 at ρ = 15; the
+corrected one gives 2.40 and 2.14. A non-polynomial integrand also breaks
+it: exp(3x) at 12 points, ρ = 15, errs by 9.1e−20 against an old bound of
+7.4e−21 (corrected: 1.7e−18). Over 90 cases (T_2n, exp(3x), exp(10x) and
+cos(20x), n = 2, 4, 12, 13, 16, ρ from 1.2 to 40) the old formula fails
+in 25 and the corrected one in none
+(`test_gauss_bound_holds_on_entire_functions`,
+`test_gauss_old_formula_fails_on_entire_functions`). A check of this kind
+can refute a bound, never prove it.
+
+**What it changed.** Every Gauss term the code computed was too small by
+ρ² of its panel, up to 225 at ρ = 15. At the production grid (K = 14,
+S' = 2,700), measured with the panel loops of `e3_hat_bound` and
+`_quad_pair_core`:
+
+| term | old formula, 12 nodes | corrected, 12 nodes | corrected, 13 nodes |
+|---|---|---|---|
+| E3 per hat, divided by norm_n | 4.53e−18 | 1.02e−15 | 4.53e−18 |
+| G_z quadrature on [1, 2^14], times norm_i norm_j | 5.71e−16 | 1.28e−13 | 5.71e−16 |
+| G_b region A, r_quad, times norm_i norm_j | 3.42e−15 | 7.68e−13 | 3.42e−15 |
+
+So the radii of the committed `gram.json` (run 40342895119) are not bounds.
+At (0, 0), where the quadrature term dominates, they are 9.97e−12 (G_z) and
+5.97e−11 (G_b), against about 2.2e−9 and 1.3e−8 under the corrected bound
+at 12 nodes (the review's figures). Every ball built from them, and so
+ε_q of run 40371181784, is not established as a bound (RESULTS.md,
+correction of 2026-10-27). s1's remark that the panel error "falls like
+e^{(π/2)ρ}ρ^{−24}" should read ρ^{−22} at 12 nodes. The E3 claim "below
+1e−15 per hat" (RESULTS.md, second unit) holds at 13 nodes, not at 12.
+
+**The fix.** `gauss_panel_error` returns (h/2)(64/15) M ρ^{2−2n}/(ρ² − 1)
+and refuses n < 2. Production now uses **13 nodes per panel**, in the hat
+table (request key `per_panel`) and in the Gram (`gram_per_panel`). Panels,
+ρ and M do not depend on the node count, so the corrected 13-node bound
+equals the old 12-node formula term by term
+(`test_corrected_bound_at_n_plus_one_is_the_old_formula_at_n`). The rerun's
+radii are therefore the sizes run 40371181784 carried, now as bounds, at
+13/12 of the hat products, the phases and the region-A quadrature. Requests
+without the keys mean 12 (what the earlier runs used).
+
+**Observed with it.** Under the corrected bound at 12 nodes, G_z of four
+prolates at K = 10 has radius 1.4e−10 at (0, 0), and the one-ulp float
+endpoint fault of s1.1 hides inside it. At 13 nodes the radius is 6.2e−13
+again and the planted fault is caught (`test_gram_z_is_the_identity`,
+`test_planted_float_endpoints_exclude_the_identity`).
+
+**What it did not change.** P2 (the integration-by-parts and series
+remainders), P3 (the trapezoid in s and its Poisson aliasing), P4's
+regions B and C (integration by parts) and C with m = 0 (the G_z tail), and
+the Landau tails: no Gauss rule enters them.
+
+**Also added with the rerun** (PREREG items the first run did not meet;
+RESULTS.md lists them as deviations): `ball_pd` decides positive
+definiteness of each Gram by a ball LDLᵀ (every pivot > 0) and the rebuild
+stops otherwise (in the merge job and in every process's setup); ρ is still
+formed with the ball inverse, not by triangular solves. And every replay
+block keeps its own window sum in the checkpoint (PREREG s6).

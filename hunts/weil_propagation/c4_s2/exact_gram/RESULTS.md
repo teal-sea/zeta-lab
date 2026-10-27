@@ -1,3 +1,12 @@
+**Status, 2026-10-27 (correction; everything below this paragraph is kept as written).** The
+fourth unit's reading of run 40371181784 (PREREG row D1 at every c, ε_q a bound, the counts C_N(ε))
+is **not established**. The code's Gauss bound was the (n + 1)-point bound applied to n-point rules,
+so every quadrature radius, and with them ε_q, was up to ρ² = 225 times too small (BOUNDS.md s5).
+**E2 is unresolved again** until a rerun with the corrected bound, at 13 nodes per panel, is read
+(RUNS.md s12). The rerun was launched, not read. Lines 1 and 5 below ("priced, not run"; "E2
+unresolved, paused by allocation") are the first unit's and were stale after the fourth; this
+paragraph gives the state. Nothing here is a claim about RH.
+
 1. **The exact-Gram rebuild is priced, not run.** One block (128 s-nodes, every w-node, 280 modes) costs 258 s at dps 40 and 340 s at dps 60 on one core of the box, under 0.8 GiB. The full 280-mode rebuild on the pre-registered grid (S' = 10^4) is estimated at about **155 core-hours**, including a dps-60 replay of every 16th block. It fits GitHub Actions as 7 jobs of 6 h. The products are 24 times faster per operation than the record's 200 core-hour figure assumed; the wider grid PREREG needs takes most of that back (RUNS s1, s2). Grade: measured timings, estimate by stated scaling.
 2. **The reading is fixed before any rebuilt row exists** (PREREG, commit 74c788ded): exact inertia of the rebuilt centre shifted by ε = ε_q + ε_t + ε_aux, on the full space, V_4 and the continuous windows H, with no band. Decision table: D0 (the rebuild does not close), D1 (E2 closes below 1.18e−2, a statement about the 280-mode object only), D2 (closes at or above it), D3 (with a truncation bound, a growth G = C_32 − C_16 ≥ 2 counts against bounded rank under the operator's ruling).
 3. **The (U-S) gate now refuses DH as well**, which checker/'s gate never held: a composite atom at n = 6, Λ_DH(6) = (1 + κ²)(log 2 + log 3), decided exactly, and two_adic/'s validator refuses DH's 2-adic data at degree 1. Epstein (1,1,6) (n = 6, n = 8) and W_a (n = 2) are still refused, ζ and Dedekind accepted (`test_exact_gram.py`). Grade: exact.
@@ -212,3 +221,141 @@ candidate D1 at c = 2.2, 2.5, 2.9, N = 8, 16, 32, 280 modes, S' = 2,700.
 
 A finite bound row is not a uniform statement and not an RH result; the
 allocation of the next step is the owner's.
+
+## Correction, 2026-10-27: the Gauss bound, what the fourth unit does not establish, and the rerun
+
+Everything above is kept as written. This section supersedes parts of the
+fourth unit and of the first unit's top lines, and quotes each part it
+corrects. Grade: the defect and its fix are an ordinary argument
+(unreviewed) with measured checks; the withdrawal is exact (a stated bound
+that was not one).
+
+### 1. The defect
+
+An adversarial review of PR #362 found that `bounds.gauss_panel_error`
+coded (h/2)(64/15) M ρ^{−2n}/(ρ² − 1) for the n-point Gauss rule. That is
+the bound of the (n + 1)-point rule; the n-point bound is ρ² larger. It was
+verified here independently: derived from the Chebyshev expansion, and
+broken by T_24 at 12 nodes (error 1.54 against 0.267 at ρ = 3 and 0.0095 at
+ρ = 15) and by exp(3x), a non-polynomial integrand (9.1e−20 against
+7.4e−21 at ρ = 15). BOUNDS.md s5 has the derivation, the cases and the
+fix. It entered P1 (E3, the w-quadrature of the hats) and P4's quadrature
+(G_z on [1, 2^14] and G_b's region A). At ρ = 15 it made every committed
+`gram.json` radius about 225 times too small: at (0, 0), 9.97e−12 (G_z) and
+5.97e−11 (G_b) against about 2.2e−9 and 1.3e−8 under the corrected bound at
+12 nodes.
+
+### 2. What is withdrawn
+
+The fourth unit, item 2, as written:
+
+> **PREREG row D1 at every c**: ε_q is finite, is a bound
+> (`is_bound`), and sits below the 1.18e−2 scale for every N
+
+**Corrected:** ε_q of run 40371181784 is **not established as a bound**,
+so the D1 reading and the counts of item 3 (for example 18, 18, 16 at
+c = 2.2, N = 32 and 23, 22, 20 at c = 2.9, N = 32) are not established
+either. The doors' "a ball radius of 2.9e−6" at (2.9, 32) was computed with
+the defect. The files `rows_40371181784.json` and `centres_40371181784.json`
+stay as the record of what that run computed. The defect touches radii only,
+so the centres are what the run computed; the ε in the rows file is not a
+bound. `test_read_rows.py` pins those files as a record, not as a result.
+
+The review's estimate, which is not a result of this folder: with every
+radius 225 times wider at 12 nodes (it added 224 times radius_F to ε, an
+upper estimate of the change), the worst ε is about 1.5e−3, still below the
+1.18e−2 scale, but several counts drop. At c = 2.2, N = 32 the counts would
+fall from (18, 18, 16) to about (15, 15, 13).
+
+### 3. Raised, not reworded: the rerun
+
+The corrected bound at 13 nodes equals the old formula at 12 term by term
+(same panels, ρ and M), so a rerun at 13 nodes per panel, in the hat table
+and in the Gram, carries the radii run 40371181784 reported, now as bounds,
+for 13/12 of the cost of the affected work. The Gram is recomputed: the
+committed `gram.json` is not this request's (its key has no
+`gram_per_panel`), and its radii are not bounds. The grid, the cells and the
+reading (PREREG s2 to s4, `read_rows.py`) are those of run 40371181784.
+The rerun is priced and launched in RUNS.md s12, and its outcome is
+recorded there and here when it is read. Until then E2 is **unresolved**
+(ALIGNMENT s5) and no count is stated.
+
+### 4. Three deviations from PREREG in run 40371181784
+
+The review found these. Each is recorded here; the rerun changes the second
+and the third.
+
+1. **S' = 2,700.** PREREG s1 registered S' = 10^4, with S' = 2266.1 as the
+   one alternative if a tail-mass lemma was committed before production.
+   The run used 2,700, set by the a posteriori tail (LEMMA.md s5, RUNS.md
+   s8) for the E1 target 7.0e−4, which is neither registered value. The tail
+   term is a posteriori and inside ε_q, so the deviation is in the grid, not
+   in what ε_q covers. The rerun keeps 2,700, so the deviation applies to it
+   too: at 10^4 it would cost about 5.7 times as much (blocks and w-nodes
+   both grow), and its rows would not be comparable with run 40371181784's.
+2. **The Gram inverse.** PREREG s1: "each must pass a ball Cholesky
+   (positive definiteness decided in balls) or the rebuild stops", and
+   "ρ_Q(s) = ŵ(s)* G^{−1} ŵ(s) by triangular solves with the ball Cholesky
+   factor". `rebuild.setup` used `Gz.inv()` and `Gb.inv()`. A ball inverse
+   also encloses G^{−1}, so this does not by itself invalidate ρ's
+   enclosures, but positive definiteness was never decided. The rerun
+   decides it by a ball LDLᵀ (`bounds.ball_pd`: every pivot > 0, or the
+   rebuild stops), in the merge job and in every process's setup. ρ is
+   still formed with the ball inverse; that route deviation stays.
+3. **Replay blocks' own sums.** PREREG s6: "Every 16th block (the replay
+   set, s4) also keeps its own block sum." The checkpoints kept running
+   sums only. Every block's checkpoint was uploaded, so a replay block's sum
+   could be recovered as the difference of two running sums, but it was not
+   kept as registered. The rerun keeps it in the checkpoint
+   (`replay_block_sums`), which also lets the workflow upload only each
+   shard's last checkpoint.
+
+### 5. Wording the review asked to fix
+
+Each is quoted, then corrected.
+
+- First unit, lines 1 and 5: "The exact-Gram rebuild is priced, not run"
+  and "E2 **unresolved, paused by allocation**". Both were stale after the
+  fourth unit. The status paragraph at the top of this file now gives the
+  state.
+- Fourth unit, item 2: "ε_q is finite, is a bound (`is_bound`)".
+  `is_bound` is a flag that the exact Gram provider ran, not the toy
+  `toy-region-a`. It records which provider ran and checks nothing about
+  ε_q. Whether ε_q bounds anything rests on BOUNDS.md, which this
+  correction found wrong at P1 and P4.
+- Fourth unit, item 3: "Each is an exact rational inertia; the counts on
+  V_4 are decided by ball elimination". The counts on the full space and on
+  H are exact rational inertia (LDLᵀ over ℚ). The counts on V_4 are decided
+  by ball pivots (`read_rows.v4_inertia`, at the first precision where every
+  pivot excludes 0), not exactly. "Each" wrongly covered V_4.
+- Fourth unit, doors: "This folder's reading is now a measured bound row,
+  not a ceiling". A bound row is not measured. It was a candidate bound row
+  (enclosure-carrying, resting on unreviewed derivations), and after this
+  correction it is not established.
+- `hunts/README.md`, the case-log line "ε_q is a bound, at most 9.2e−4"
+  carries a dated correction there.
+
+### 6. The self-stop and the headroom (RUNS.md s11.5, s11.6)
+
+Job 4 of run 40371181784 ended 4.2 percent under the 350-minute cap,
+against the 25 percent rule, and the self-stop started after the table
+build, so the job cap would have come first. For the rerun the self-stop
+counts from job start. The 338 blocks are cut into 88 shards of 4, so each
+of the 22 jobs holds exactly one dps-60 replay block (three per runner cost
+up to 1.9 times). The worst job is priced at 227 minutes from the worst
+blocks seen times 13/12, 35 percent under the cap (RUNS.md s12).
+
+### The doors (updated)
+
+1. **Active constraint:** the rerun. Its D0/D1/D2 reading at the corrected
+   bound decides whether E2 closes at 280 modes. After it, as before, ε_t
+   (the truncation lemma) separates D1 from D3.
+2. **Frozen constants, changed:** nodes per panel, 13 (the corrected bound
+   at 13 equals the old radii; at 12 every quadrature term is up to 225
+   times wider, which the review estimates costs several N = 32 counts;
+   genuine trade: radius against 1/12 more hat and region-A work). Shards
+   of 4 blocks with one replay per runner (more jobs and table builds
+   against contention). S' = 2,700 stays, now recorded as a deviation from
+   PREREG.
+3. **Information class:** unchanged. Every door stays inside the data the
+   construction reads.

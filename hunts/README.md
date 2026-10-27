@@ -782,6 +782,13 @@ statements about the 280-mode object R^(280) only, since the truncation
 bound ε_t is null and D3 is not read. Grade: exact inertia and ball
 enclosures, resting on unreviewed derivations (BOUNDS.md P1 to P4). No RH
 claim.
+Correction, later on 2026-10-27: "ε_q is a bound" above is withdrawn. A
+review found that the code's Gauss bound was the (n + 1)-point bound used
+for n-point rules, so the quadrature radii, and ε_q, were up to 225 times
+too small. The D1 reading and the counts above are not established, and E2
+is unresolved again. A rerun at 13 nodes per panel, where the corrected bound
+equals the old radii, was launched on Actions and has not been read
+(`exact_gram/BOUNDS.md` s5, `RESULTS.md` correction, `RUNS.md` s12).
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 

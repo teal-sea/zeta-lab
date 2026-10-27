@@ -157,6 +157,50 @@ def test_a_gram_named_by_sha256_is_fail_closed(tmp_path):
         R.setup(dict(req, gram_sha256=good))
 
 
+def test_a_gram_not_decided_positive_definite_stops_the_rebuild(tmp_path):
+    """PREREG s1 (added 2026-10-27): setup refuses a Gram whose ball LDL^T has a pivot not > 0.
+    Planted: G_z's (1, 1) entry lowered by 2, so the 2 x 2 matrix is indefinite."""
+    req = dict(REQ, prepared=str(tmp_path / "prep"))
+    R.prepare(req, req["prepared"])
+    R.setup(req)  # the toy's own Gram passes
+    g = tmp_path / "prep" / "gram.json"
+    body = json.loads(g.read_text())
+    G = R._mat_load(body["Gz"])
+    G[1, 1] = G[1, 1] - 2
+    body["Gz"] = R._mat_dump(G)
+    g.write_text(json.dumps(body))
+    with pytest.raises(ArithmeticError, match="G_z is not decided positive definite"):
+        R.setup(req)
+
+
+def test_replay_blocks_keep_their_own_sums(state, tmp_path):
+    """PREREG s6 (added 2026-10-27): every replay block keeps its own window sum in the checkpoint, and a
+    resumed shard carries the earlier ones forward. Block 0's own sum is the running sum after block 0."""
+    req = dict(REQ, replay_every=2, replay_prec=200)
+    one = R.run_shard(req, 0, 1, str(tmp_path), lambda: KEY, state=state, max_blocks=1)
+    assert set(one["replay_block_sums"]) == {"0"} and one["replay_block_sums"]["0"] == one["sums"]
+    pay = R.run_shard(req, 0, 1, str(tmp_path), lambda: KEY, state=state)  # resumes from block 0
+    assert pay["last_block"] == 3 and set(pay["replay_block_sums"]) == {"0", "2"}
+    assert pay["replay_block_sums"]["0"] == one["sums"]
+
+
+def test_node_counts_follow_the_request(state, tmp_path):
+    """per_panel and gram_per_panel reach the table, its E3 radius, the replay table and the Gram key; a
+    request without them means the pre-correction 12 (RUNS.md s12)."""
+    assert (R.per_panel(REQ), R.gram_per_panel(REQ)) == (12, 12) and "gram_per_panel" not in R._gram_key(REQ)
+    req = dict(REQ, per_panel=13, gram_per_panel=13, prepared=str(tmp_path / "prep"))
+    assert R._gram_key(req)["gram_per_panel"] == 13
+    R.prepare(req, req["prepared"])
+    assert json.load(open(tmp_path / "prep" / "table" / "meta.json"))["per_panel"] == 13
+    _, _, _, table, _ = R.setup(req)
+    assert table.per_panel == 13
+    rz13 = table.radii(14, 14, 24)[0][0]
+    rz12 = state[3].radii(14, 14, 24)[0][0]
+    assert rz13 < rz12  # one more node: the E3 part of the hat radius falls
+    with pytest.raises(ValueError, match="does not match"):  # a 13-node table is not served as a 12-node one
+        R.setup(dict(req, per_panel=12))
+
+
 # --- the disk-backed table (unit 3) ---------------------------------------------------
 
 

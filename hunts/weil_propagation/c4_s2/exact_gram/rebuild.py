@@ -393,15 +393,30 @@ def provider(name, modes, Kmax, req=None):
     req = req or {}
     if name == "exact":
         tgt = arb(10) ** (-int(req.get("gram_target_exp", 20)))
-        Gb, _ = B.gram_b(modes, Kmax, target=tgt, R=int(req.get("gram_R", 120)))
-        return B.gram_z(modes, Kmax), Gb, True
+        npp = gram_per_panel(req)
+        Gb, _ = B.gram_b(modes, Kmax, target=tgt, R=int(req.get("gram_R", 120)), per_panel=npp)
+        return B.gram_z(modes, Kmax, per_panel=npp), Gb, True
     if name == "toy-region-a":
         return B.gram_z(modes, Kmax), B.gram_b_region_a(modes, Kmax), False
     raise ValueError(f"unknown Gram provider {name!r}")
 
 
+def per_panel(req):
+    """Gauss nodes per w-panel of the hat table (P1). Requests before the correction of 2026-10-27
+    carry no key and ran 12; the corrected production request sets 13 (BOUNDS.md s0)."""
+    return int(req.get("per_panel", 12))
+
+
+def gram_per_panel(req):
+    """Gauss nodes per panel of the Gram quadrature (P4, region A and G_z on [1, 2^K]); as per_panel."""
+    return int(req.get("gram_per_panel", 12))
+
+
 def _gram_key(req):
-    return {k: req.get(k) for k in ("nvec", "dps", "Kmax", "gram", "gram_target_exp", "gram_R", "prec")}
+    k = {k: req.get(k) for k in ("nvec", "dps", "Kmax", "gram", "gram_target_exp", "gram_R", "prec")}
+    if "gram_per_panel" in req:  # absent from the requests that made the committed (pre-correction) gram.json
+        k["gram_per_panel"] = gram_per_panel(req)
+    return k
 
 
 def _mat_dump(G):
@@ -422,10 +437,13 @@ def gram_part(req, outdir, part, nparts):
             raise NotABound("gram parts are for the exact provider")
         modes = B.prolate_modes(req["nvec"], req.get("dps", 40))
         tgt = arb(10) ** (-int(req.get("gram_target_exp", 20)))
-        Gb, info = B.gram_b(modes, req["Kmax"], target=tgt, R=int(req.get("gram_R", 120)), part=part, nparts=nparts)
+        npp = gram_per_panel(req)
+        Gb, info = B.gram_b(modes, req["Kmax"], target=tgt, R=int(req.get("gram_R", 120)), part=part, nparts=nparts,
+                            per_panel=npp)
+        info["per_panel"] = npp
         body = {"request": _gram_key(req), "Gb_part": _mat_dump(Gb), "info": info}
         if part == 0:
-            body["Gz"] = _mat_dump(B.gram_z(modes, req["Kmax"]))
+            body["Gz"] = _mat_dump(B.gram_z(modes, req["Kmax"], per_panel=npp))
         os.makedirs(outdir, exist_ok=True)
         with open(os.path.join(outdir, f"gram_part{part:02d}of{nparts:02d}.json"), "w") as fh:
             json.dump(body, fh)
@@ -447,11 +465,20 @@ def merge_gram(req, outdir, nparts):
             if p == 0:
                 Gz = _mat_load(body["Gz"])
         Gb = B.gram_b_merge(parts)
+        _require_pd(Gz, Gb)
         with open(os.path.join(outdir, "gram.json"), "w") as fh:
             json.dump({"request": _gram_key(req), "Gz": _mat_dump(Gz), "Gb": _mat_dump(Gb), "is_bound": True,
                        "plan": parts[0][1]}, fh)
     finally:
         ctx.prec = old
+
+
+def _require_pd(Gz, Gb):
+    """PREREG s1: each Gram must pass a ball Cholesky (positive definiteness decided in balls) or the
+    rebuild stops. Added 2026-10-27; run 40371181784 never decided it (RESULTS.md, correction)."""
+    for name, G in (("G_z", Gz), ("G_b", Gb)):
+        if not B.ball_pd(G):
+            raise ArithmeticError(f"PREREG s1: {name} is not decided positive definite in balls; the rebuild stops")
 
 
 def prepare(req, outdir, gram=True, table=True):
@@ -468,7 +495,8 @@ def prepare(req, outdir, gram=True, table=True):
             with open(os.path.join(outdir, "gram.json"), "w") as fh:
                 json.dump({"request": _gram_key(req), "Gz": _mat_dump(Gz), "Gb": _mat_dump(Gb), "is_bound": is_bound}, fh)
         if table:
-            return DiskModeTable.build(os.path.join(outdir, "table"), modes, req["Kmax"], req["S_prime"]).disk_bytes()
+            return DiskModeTable.build(os.path.join(outdir, "table"), modes, req["Kmax"], req["S_prime"],
+                                       per_panel(req)).disk_bytes()
         return 0
     finally:
         ctx.prec = old
@@ -521,10 +549,11 @@ def setup(req):
     else:
         Gz, Gb, is_bound = provider(req["gram"], modes, req["Kmax"], req)
     if req.get("prepared"):
-        table = DiskModeTable(os.path.join(req["prepared"], "table"), modes, req["Kmax"], req["S_prime"])
+        table = DiskModeTable(os.path.join(req["prepared"], "table"), modes, req["Kmax"], req["S_prime"], per_panel(req))
     else:
-        table = ModeTable(modes, req["Kmax"], req["S_prime"])
-    Giz, Gib = Gz.inv(), Gb.inv()
+        table = ModeTable(modes, req["Kmax"], req["S_prime"], per_panel(req))
+    _require_pd(Gz, Gb)
+    Giz, Gib = Gz.inv(), Gb.inv()  # rho by the ball inverse, not the registered triangular solves (RESULTS.md)
     Cz = [modes.C(n) for n in range(modes.nvec)]
     q5 = 1 / (1 - arb(2) ** (-arb(5) / 6))
     Cb = [c * q5 for c in Cz]
@@ -558,6 +587,8 @@ def run_shard(req, shard, shards, outdir, key_fn, fault=None, state=None, max_bl
                 last = bi
                 break
         sums = {k: tuple(_deser(m) for m in v) for k, v in payload["sums"].items()} if payload else None
+        # PREREG s6: every replay block also keeps its own block sum (added 2026-10-27)
+        replay_sums = dict(payload.get("replay_block_sums", {})) if payload else {}
         mass = [arb(a, b) for a, b in payload["mass"]] if payload else [arb(0), arb(0)]
         timing = list(payload["block_seconds"]) if payload else []
         done = 0
@@ -582,6 +613,8 @@ def run_shard(req, shard, shards, outdir, key_fn, fault=None, state=None, max_bl
                 mass = [mass[0] + f * a, mass[1] + f * b]
             part = window_sums(rz, rb, ss, ws, _cells(req))
             key_s = {f"{c}|{N}": v for (c, N), v in part.items()}
+            if req.get("replay_every") and bi % req["replay_every"] == 0:
+                replay_sums[str(bi)] = {kk: [_ser(v[0]), _ser(v[1])] for kk, v in key_s.items()}
             if sums is None:
                 sums = key_s
             else:
@@ -591,7 +624,7 @@ def run_shard(req, shard, shards, outdir, key_fn, fault=None, state=None, max_bl
                        "sums": {kk: [_ser(v[0]), _ser(v[1])] for kk, v in sums.items()},
                        "mass": [[str(m.mid()), str(m.rad())] for m in mass],
                        "alias_weights": [[str(w.mid()), str(w.rad())] for w in weights],
-                       "block_seconds": timing}
+                       "block_seconds": timing, "replay_block_sums": replay_sums}
             GD.save_block(outdir, tag, bi, k, payload)
             done += 1
         return payload
@@ -603,7 +636,7 @@ def replay_check(req, modes, ss, Z, Bh):
     old = ctx.prec
     ctx.prec = req.get("replay_prec", 200)
     try:
-        t2 = StreamTable(modes, req["Kmax"], req["S_prime"])
+        t2 = StreamTable(modes, req["Kmax"], req["S_prime"], per_panel(req))
         Z2, B2 = hats_block(t2, [arb(s.mid()) if s.rad() == 0 else s for s in ss], req["M"], req["J"], req["kb"])
     finally:
         ctx.prec = old
