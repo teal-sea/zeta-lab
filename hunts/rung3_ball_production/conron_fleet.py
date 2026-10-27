@@ -991,7 +991,7 @@ class Fleet:
                 if time.time() - t0 > PROVISION_TIMEOUT_S:
                     raise RuntimeError("create timed out")
             res["booted_s"] = round(time.time() - t0, 1)
-            wd = "/data/home/zr3c"
+            wd = "/data/zr3c"
             self.ib.exec(mid, f"mkdir -p {wd}")
             for local, remote, mode in ((CONRON, f"{wd}/con-ron", "0755"),
                                         (HERE / "conron_shard.py", f"{wd}/conron_shard.py", "0644"),
