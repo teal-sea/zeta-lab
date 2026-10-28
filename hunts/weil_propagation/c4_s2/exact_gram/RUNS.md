@@ -386,6 +386,8 @@ writing a file (`assemble` already skipped them), pinned by
 
 ### 11.1 The Gram is reused, by digest
 
+**Not a bound artifact (2026-10-27):** the radii in this committed `gram.json` are not bounds under the corrected Gauss bound (BOUNDS.md s5, RESULTS.md correction s3).
+
 `gram.json` from the merge job is **20,048,277 bytes, sha256
 2b907a79a8a127e0626f9ade01ee7f8335761e7cbf564a48d386cb5854a94872**, under
 the 50 MB limit, so it is **committed** beside the request
