@@ -67,7 +67,7 @@ stays out of this file. No em dashes.
 - **Lean arm: formalised elementary number theory** (10). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
-- **Certificates, verifiers and exact arithmetic** (23). Exact rational acceptance of
+- **Certificates, verifiers and exact arithmetic** (24). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
 - **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
@@ -80,14 +80,16 @@ stays out of this file. No em dashes.
   primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (62). Surfaced by the sweep, below the bar for now.
 
-Totals: 190 entries from 72 hunts. Kinds: identity 24, lemma 48, bound 12, construction
-16, calibration 7, computational 21, control 40, obstruction 22. (Recounted from the
+Totals: 191 entries from 73 hunts. Kinds: identity 24, lemma 48, bound 12, construction
+16, calibration 7, computational 21, control 41, obstruction 22. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
 again from the entries. The seven Erdos #126 arms landed on 2026-10-21 (hunts #94, #97,
 #98, #99, #100, #106, #143) added eight items to "Seen and not admitted" and none above;
 that count was recounted from its items: 54 before them, where the line read 51. Hunt
-#140 added two on 2026-10-21, recounted again from the entries.)
+#140 added two on 2026-10-21, recounted again from the entries. Hunt #153 added one
+control on 2026-10-27, the provenance scan; that increment is this entry only,
+not a fresh recount of the other themes.)
 
 ## Prime pairs and the circle method
 
@@ -5153,6 +5155,8 @@ and the controls that separate an instrument reading from a mathematical claim.
   as nonvanishing and saturate the torus (`r_abf47b`)
 - obstruction: Stabilizer-slice orbit census: a coordinate stabilizer's orbits refine
   the full orbits and add no branches (`r_abf47b`)
+- control: Symbol-level provenance scan for zero-derived names, with planted
+  lesions and a false-positive pin (`ontology_provenance`)
 
 ### Signed-lattice binomial/trinomial sieve on a support torus
 
@@ -5844,6 +5848,35 @@ Reused in: none yet
 Why it travels: A symmetry-reduced branch search should check a proposed finer cover
 against the full group's orbits before paying for it, and any orbit census of tuples
 under a transitive group can be run on one slice.
+
+### Symbol-level provenance scan for zero-derived names
+
+control | `hunts/ontology_provenance/` | grade: measured
+
+A static read of a Python file against a named rule set of zero-derived
+quantities (ordinates, xi-phases, zero finders, zero counters, zero tables,
+ordinate statistics). `from module import name` follows that name, including
+every name the body reads, not only a call, and a from-import the name reads.
+A from-import that a file only re-exports follows its source. An attribute
+re-export (`import helper` then `f = helper.f`) does not, and RESULTS names
+that residual. `import module`
+follows the module. A name the file defines is a provider of that name, not a
+consumer of it. Dynamic execution and a name that cannot be resolved are
+undecided, never clean. The planted violations in the lesion suite must come
+back tainted, a
+clean control whose only crime is the word zero in an identifier must stay
+clean, and frame 07 (which imports only `dh_coefficient`) must not be reported
+tainted. The scan establishes name reachability. It does not establish that a
+clean frame is prime-derived, and it does not distinguish a name used to build
+an object from a name used under `__main__` to print a comparison.
+
+Evidence: hunts/ontology_provenance/RESULTS.md sections 1 to 3;
+hunts/ontology_provenance/test_provenance.py
+Prior art: unsearched. The scan implements the check `docs/09` section 5.1
+already called mechanically checkable. No novelty is claimed.
+Reused in: none yet
+Why it travels: A later frame can be checked for an ordinary zero import before
+anyone reads it as an explanation, and the lesion suite shows the check can fail.
 
 ## Zero-free half-planes, L(1, chi) and class numbers
 
