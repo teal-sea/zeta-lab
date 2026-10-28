@@ -1,0 +1,340 @@
+# The exact-Gram rebuild of Delta_T at 280 modes (hunts/weil_propagation/c4_s2/exact_gram/).
+#
+# Ruling of 2026-10-26 (exact_gram/RUNS.md s6, s8): triggered ONLY by a push to
+# hunt/c4-exact-gram that touches exact_gram/RUN_REQUEST.json, which carries
+# the run parameters; never by this file. The request is committed only after
+# the coordinator's 'go': first {"mode": "calibrate"} once P4 closes, then the
+# full run sized from the calibration numbers.
+#
+# Jobs: plan (reads the request) -> gram (P4's G_b in gram_parts parts, gram_procs per job; G_z with
+# part 0) -> merge (sums the parts into gram.json, refusing a missing one) -> shards (each job builds the
+# disk-backed mode table once on its runner's disk, checks its size, then runs 4 worker processes
+# that stream it).
+#
+# Modes (RUN_REQUEST.json "mode"):
+#   calibrate  job 0 only, 4 processes, each `blocks` blocks of its shard; per
+#              process the per-block wall time and the peak RSS (/usr/bin/time -v)
+#              go into calibration.json in the artifact.
+#   full       shards / 4 jobs x 4 processes. The Gram is recomputed (gram and merge jobs) unless the
+#              request names a committed gram.json by "gram_sha256", which is then checked here and
+#              again by rebuild.setup (fail closed). The preflight refuses (fail closed) unless the
+#              request's "calibration" record gives at least 25 % headroom for the worst shard (its
+#              replay block priced apart) inside the 335-minute self-stop and, with the install and
+#              the table build, inside the 350-minute job limit; 4 x peak RSS < 13 GB; table < 10 GB;
+#              gram_procs x the Gram's peak RSS < 13 GB.
+#
+# 2026-10-27 (RUNS.md s12): the Gram is recomputable in full mode (the Gauss bound correction of
+# BOUNDS.md s0 changed every Gram radius); shards and jobs come from the request (88 shards of 4
+# blocks, 22 jobs, so that each runner holds exactly one dps-60 replay block); the self-stop counts
+# from job start, not from the end of the table build (the defect of RUNS.md s11.5); Gram jobs run
+# gram_procs processes (2: four peaked at 21 to 25 GiB summed in run 40342895119); only each shard's
+# last checkpoint is uploaded (assemble and resume read no other).
+name: c4-exact-gram
+
+on:
+  push:
+    branches:
+      - "hunt/c4-exact-gram"
+    paths:
+      - "hunts/weil_propagation/c4_s2/exact_gram/RUN_REQUEST.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: c4-exact-gram
+  cancel-in-progress: false
+
+# GitHub runs `shell: bash` as bash -eo pipefail; a step with no shell key runs bash -e
+# without pipefail, where a failing command piped to tee passes.
+defaults:
+  run:
+    shell: bash
+
+env:
+  PYTHONUNBUFFERED: "1"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  FLINT_NUM_THREADS: "1"
+  EG: hunts/weil_propagation/c4_s2/exact_gram
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      jobs: ${{ steps.p.outputs.jobs }}
+      mode: ${{ steps.p.outputs.mode }}
+      gram: ${{ steps.p.outputs.gram }}
+      gram_jobs: ${{ steps.p.outputs.gram_jobs }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: p
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          req = json.load(open("hunts/weil_propagation/c4_s2/exact_gram/RUN_REQUEST.json"))
+          mode = req["mode"]
+          assert mode in ("calibrate", "full"), mode
+          assert req["shards"] % 4 == 0, req["shards"]
+          print("mode=" + mode)
+          print("jobs=" + json.dumps([0] if mode == "calibrate" else list(range(req["shards"] // 4))))
+          gp = req.get("gram_procs", 4)
+          assert gp in (1, 2, 4) and req["gram_parts"] % gp == 0, (gp, req["gram_parts"])
+          print("gram_jobs=" + json.dumps(list(range(req["gram_parts"] // gp))))
+          if mode == "full":  # a calibration record is required; the Gram is recomputed unless named by digest
+              assert "calibration" in req, req
+              if "gram_sha256" in req:
+                  assert len(req["gram_sha256"]) == 64, req
+          print("gram=" + ("committed" if "gram_sha256" in req else "recompute"))
+          PY
+
+  gram:
+    name: gram parts ${{ matrix.job }} (P4)
+    needs: plan
+    if: needs.plan.outputs.gram == 'recompute'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        job: ${{ fromJSON(needs.plan.outputs.gram_jobs) }}
+    steps:
+      - name: job clock (the self-stop counts from job start, RUNS.md s11.5)
+        run: echo "JOB_START=$(date +%s)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install (versions pinned in requirements.txt)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - name: resume (re-run attempts only)
+        if: ${{ fromJSON(github.run_attempt) > 1 }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: c4-exact-gram-gramparts-job${{ matrix.job }}-attempt*
+          merge-multiple: true
+          path: prepared/
+      - name: preflight (ball backend, snapshot guard, Gram memory)
+        run: |
+          python -c "from zeta import rigor; assert rigor.BACKEND == 'python-flint', rigor.BACKEND"
+          python -c "import sys; sys.path.insert(0, '$EG'); import guard; print(guard.key())"
+          python3 - <<'PY'
+          import json, os
+          req = json.load(open(os.path.join(os.environ["EG"], "RUN_REQUEST.json")))
+          cal = req.get("calibration") or {}
+          if "gram_peak_rss_gb" in cal:  # measured per Gram process (run 40342895119: 6.33 GiB)
+              assert req.get("gram_procs", 4) * cal["gram_peak_rss_gb"] < 13, cal
+          PY
+      - name: Gram parts
+        run: |
+          mkdir -p prepared  # attempt 1 has no download to create it (the defect of run 40342431754)
+          N=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['gram_parts'])")
+          GP=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json')).get('gram_procs', 4))")
+          LEFT=$(( 335 * 60 - ($(date +%s) - JOB_START) ))
+          echo "self-stop in ${LEFT}s (335 minutes from job start)"
+          for p in $(seq 0 $(( GP - 1 ))); do
+            part=$(( GP * ${{ matrix.job }} + p ))
+            /usr/bin/time -v -o "prepared/gram_time_$part.txt" timeout "${LEFT}s" \
+              python "$EG/rebuild.py" gram-part --request "$EG/RUN_REQUEST.json" --part "$part" --parts "$N" \
+              --out prepared > "prepared/gram_log_$part.txt" 2>&1 &
+          done
+          status=0
+          for job in $(jobs -p); do wait "$job" || status=$?; done
+          tail -n 3 prepared/gram_log_*.txt
+          exit $status
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c4-exact-gram-gramparts-job${{ matrix.job }}-attempt${{ github.run_attempt }}
+          path: prepared/
+          if-no-files-found: warn
+
+  merge:
+    name: merge the Gram parts
+    needs: [plan, gram]
+    if: needs.plan.outputs.gram == 'recompute'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install (versions pinned in requirements.txt)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: c4-exact-gram-gramparts-job*
+          merge-multiple: true
+          path: prepared/
+      - name: merge (refuses a missing part or a part from another request)
+        run: |
+          N=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['gram_parts'])")
+          python "$EG/rebuild.py" merge-gram --request "$EG/RUN_REQUEST.json" --parts "$N" --out prepared
+          sha256sum prepared/gram.json | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c4-exact-gram-gram-attempt${{ github.run_attempt }}
+          path: prepared/gram.json
+          if-no-files-found: error
+
+  shards:
+    name: shards ${{ matrix.job }} (4 processes, ${{ needs.plan.outputs.mode }})
+    needs: [plan, merge]
+    # merge is skipped when the request names a committed Gram; a failed or cancelled merge stops the shards
+    if: >-
+      ${{ !cancelled() && needs.plan.result == 'success' && (needs.merge.result == 'success'
+      || (needs.merge.result == 'skipped' && needs.plan.outputs.gram == 'committed')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        job: ${{ fromJSON(needs.plan.outputs.jobs) }}
+    steps:
+      - name: job clock (the self-stop counts from job start, RUNS.md s11.5)
+        run: echo "JOB_START=$(date +%s)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install (versions pinned in requirements.txt)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - uses: actions/download-artifact@v4
+        if: needs.plan.outputs.gram == 'recompute'
+        with:
+          name: c4-exact-gram-gram-attempt${{ github.run_attempt }}
+          path: prepared/
+      - name: the committed Gram (named by sha256), checked fail closed
+        if: needs.plan.outputs.gram == 'committed'
+        run: |
+          mkdir -p prepared
+          cp "$EG/gram.json" prepared/gram.json
+          want=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['gram_sha256'])")
+          got=$(sha256sum prepared/gram.json | cut -d' ' -f1)
+          echo "gram.json sha256 $got (request: $want)"
+          test "$got" = "$want"
+      - name: resume (re-run attempts only)
+        if: ${{ fromJSON(github.run_attempt) > 1 }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: c4-exact-gram-job${{ matrix.job }}-attempt*
+          merge-multiple: true
+          path: out/
+      - name: preflight (ball backend, snapshot guard, request, headroom, memory)
+        run: |
+          python - <<'PY'
+          import json, math, os, sys
+          from zeta import rigor
+          assert rigor.BACKEND == "python-flint", rigor.BACKEND
+          eg = os.environ["EG"]
+          sys.path.insert(0, eg)
+          import guard
+          k = guard.key()  # raises GuardRefused on a dirty or absent closure: fail closed
+          print("guard", k)
+          req = json.load(open(os.path.join(eg, "RUN_REQUEST.json")))
+          assert req["gram"] == "exact" and req["shards"] % 4 == 0, req
+          assert req["prepared"] == "prepared", req.get("prepared")
+          assert os.path.exists("prepared/gram.json"), "no Gram: neither recomputed nor committed"
+          if req["mode"] == "full":
+              import rebuild
+              assert hasattr(rebuild, "DiskModeTable"), "full mode needs the disk-backed mode table"
+              cal = req["calibration"]  # worst-seen prices (RUNS.md s12)
+              bl, rep = rebuild.blocks(req), req.get("replay_every") or 0
+              need = 0
+              for sh in range(req["shards"]):
+                  r = rebuild.shard_range(len(bl), sh, req["shards"])
+                  nrep = sum(1 for b in r if rep and b % rep == 0)
+                  need = max(need, (len(r) - nrep) * cal["block_wall_s"]
+                             + nrep * cal["replay_block_wall_s"] + cal["setup_s"])
+              assert need <= 0.75 * 335 * 60, f"headroom: {need:.0f} s for the worst process"
+              assert cal["table_build_s"] + need + 180 <= 0.75 * 350 * 60, f"job headroom: {need:.0f} s"
+              assert 4 * cal["peak_rss_gb"] < 13, cal
+              assert cal["table_disk_gb"] < 10, cal
+          PY
+      - name: mode table on runner disk (once per job), size checked fail closed
+        run: |
+          mkdir -p prepared out
+          SECONDS=0
+          /usr/bin/time -v -o out_table_time.txt python "$EG/rebuild.py" prepare --table-only \
+            --request "$EG/RUN_REQUEST.json" --out prepared
+          GB=$(du -sb prepared/table | awk '{print $1 / 2^30}')
+          echo "table: ${SECONDS}s, ${GB} GiB on disk" | tee -a "$GITHUB_STEP_SUMMARY"
+          python3 -c "import sys; sys.exit(0 if float('$GB') < 10 else 1)"
+      - name: run 4 shards
+        run: |
+          mkdir -p out
+          MODE=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['mode'])")
+          SHARDS=$(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['shards'])")
+          EXTRA=""
+          if [ "$MODE" = calibrate ]; then
+            EXTRA="--max-blocks $(python3 -c "import json; print(json.load(open('$EG/RUN_REQUEST.json'))['blocks'])")"
+          fi
+          LEFT=$(( 335 * 60 - ($(date +%s) - JOB_START) ))
+          echo "self-stop in ${LEFT}s (335 minutes from job start)" | tee -a "$GITHUB_STEP_SUMMARY"
+          for p in 0 1 2 3; do
+            shard=$(( 4 * ${{ matrix.job }} + p ))
+            /usr/bin/time -v -o "out/time_$shard.txt" timeout "${LEFT}s" \
+              python "$EG/rebuild.py" run --request "$EG/RUN_REQUEST.json" \
+              --shard "$shard" --shards "$SHARDS" --out out $EXTRA > "out/log_$shard.txt" 2>&1 &
+          done
+          status=0
+          for job in $(jobs -p); do wait "$job" || status=$?; done
+          tail -n 5 out/log_*.txt
+          echo "exit status $status" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit $status
+      - name: calibration record (peak RSS, per-block wall)
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import glob, json, re
+          rec = {}
+          import os
+          for f in sorted(glob.glob("out/time_*.txt")):
+              shard = int(re.search(r"time_(\d+)", f).group(1))
+              txt = open(f).read()
+              m = re.search(r"Maximum resident set size \(kbytes\): (\d+)", txt)
+              rec[shard] = {"peak_rss_gb": int(m.group(1)) / 2**20 if m else None}
+          for f in sorted(glob.glob("out/shard*_block*.json")):  # sorted: the last block's file carries all
+              body = json.load(open(f))
+              sh = int(re.search(r"shard(\d+)of", f).group(1))
+              rec.setdefault(sh, {})["block_seconds"] = body["payload"]["block_seconds"]
+          if os.path.exists("out_table_time.txt"):
+              m = re.search(r"Maximum resident set size \(kbytes\): (\d+)", open("out_table_time.txt").read())
+              rec["table_build_peak_rss_gb"] = int(m.group(1)) / 2**20 if m else None
+          if os.path.isdir("prepared/table"):
+              rec["table_disk_gb"] = sum(os.path.getsize(os.path.join("prepared/table", f))
+                                         for f in os.listdir("prepared/table")) / 2**30
+          json.dump(rec, open("out/calibration.json", "w"), indent=1)
+          print(json.dumps(rec, indent=1))
+          PY
+      - name: keep each shard's last checkpoint only (assemble and resume read no other)
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import glob, os, re
+          files = glob.glob("out/shard*_block*.json")
+          last = {}
+          for f in files:
+              m = re.search(r"(shard\d+of\d+)_block(\d+)\.json$", f)
+              if m and (m.group(1) not in last or int(m.group(2)) > last[m.group(1)][0]):
+                  last[m.group(1)] = (int(m.group(2)), f)
+          keep = {f for _, f in last.values()}
+          for f in files:
+              if f not in keep:
+                  os.remove(f)
+          print(f"kept {len(keep)} last checkpoints, removed {len(files) - len(keep)} superseded ones")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c4-exact-gram-job${{ matrix.job }}-attempt${{ github.run_attempt }}
+          path: out/
+          if-no-files-found: warn

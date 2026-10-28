@@ -1,0 +1,38 @@
+{
+ "nvec": 20,
+ "Kmax": 10,
+ "S_prime": 200.0,
+ "block": 128,
+ "nodes": 15036,
+ "balls": 315756,
+ "disk_bytes": 12630376,
+ "build_seconds": 23.440481533994898,
+ "load_average": [
+  19.91357421875,
+  25.70703125,
+  30.25390625
+ ],
+ "memory": {
+  "kind": "memory",
+  "rss_before_table_kib": 39620,
+  "rss_after_table_kib": 96484,
+  "rss_after_hats_kib": 262136,
+  "peak_rss_kib": 621892,
+  "seconds": 38.23556992597878
+ },
+ "disk": {
+  "kind": "disk",
+  "rss_before_table_kib": 39700,
+  "rss_after_table_kib": 39700,
+  "rss_after_hats_kib": 106468,
+  "peak_rss_kib": 615284,
+  "seconds": 17.211809091968462
+ },
+ "baseline280": {
+  "kind": "baseline280",
+  "rss_kib": 97500,
+  "peak_rss_kib": 615284
+ },
+ "memory_table_bytes_per_ball": 184.41054485108754,
+ "disk_hats_extra_kib": 66768
+}

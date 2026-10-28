@@ -990,6 +990,52 @@ ordinary argument, internally reviewed, pending external verification. The
 conclusion is classical (Spira 1994); only the route is the lab's.
 Lane `weil_propagation/ghost_zeros/` (2026-10-21, preregistered in its `PREREG.md`): at band N = 128, DH's even ground-state transform has exactly one zero with |Im z| <= 1/2 over the on-line gap (83.109, 87.647), real and 0.019 to 0.035 above the off-line ordinate 85.699, at each of the seven preregistered windows from c = 29 to 47, on both sides of the even sign flip at c = 30.647, and an exploratory scan finds a zero within 0.3 of that ordinate at every scan window from c = 15 on; removing the off-line quadruple's term removes it, an on-line sham does not, zeta has no zero in its gap, and Epstein (1,1,6) shows the same at its own off-line zero; hardened counts for the band-128 matrix only, no continuum or RH claim (`weil_propagation/ghost_zeros/RESULTS.md`).
 
+**Update, 2026-10-26 (`weil_propagation/c4_s2/exact_gram/`, branch
+`hunt/c4-exact-gram`).** The compute sweep resumes C4 at S = {∞, 2}, whose
+c = 2.9 negative count 4, 10, 20 at N = 8, 16, 32 is graded by a response
+band, not a bound. The exact-Gram ball rebuild that would close
+bound_quad/'s E2 is priced on the box. One 280-mode block costs 258 s at
+dps 40, and the full rebuild is estimated at about 155 core-hours, which fits
+7 GitHub Actions jobs. It has not run. Its reading and decision table were
+committed before any rebuilt row existed (`PREREG.md`). The (U-S) gate
+now also refuses Davenport-Heilbronn, by an exact composite atom at n = 6.
+A first pass at the truncation lemma finds the bound_trunc/ route obstructed
+on the full window space (at least 0.13 at 280 modes against the 1.18e−2
+scale) and open on continuous windows (0.0063). No RH claim.
+Later the same day: the a priori bounds P1 to P3 close (the s-rule was
+changed to a uniform trapezoid by a dated amendment, before any row). G_z
+closes, and its identity check caught a float-endpoint defect. G_b's
+integration-by-parts regions remain, so the run waits on them. The tail-mass
+step closes as a Poisson identity, which re-prices the rebuild at about
+28 core-hours.
+Third unit: P4 closes (G_b's integration-by-parts regions, each checked
+against quadrature with a planted fault), lifting PREREG row D0's
+precondition. A disk-backed mode table fits four workers per runner. The
+calibration run is asked for, not yet run.
+Fourth unit: the calibration ran on GitHub Actions (run 40342895119,
+success). Measured there: the Gram took 13.1 core-hours in 24 unbalanced
+parts, and an s-block of 128 nodes took 841 to 932 s with four processes
+per runner. The Gram (20 MB, by sha256) is committed for reuse. The full
+rebuild is sized from these figures at about 104 core-hours and 11 hours
+wall, and it is asked for, not yet run. No ΔT number has been read.
+2026-10-27: the full rebuild ran (run 40371181784, success, 12 h wall,
+132 CPU core-hours). The headroom rule was broken: one job ended 4 percent
+under the 350-minute cap, mostly through contention between replay blocks.
+[withdrawn 2026-10-27, see correction below] PREREG row D1 holds at c = 2.2, 2.5 and 2.9. ε_q is a bound, at most
+9.2e−4, 13 to 18 times below the 1.18e−2 scale. At c = 2.9, C_8, C_16 and
+C_32 at ε are 5, 11, 23 on the full space and 3, 8, 20 on V_4. These are
+statements about the 280-mode object R^(280) only, since the truncation
+bound ε_t is null and D3 is not read. Grade: exact inertia and ball
+enclosures, resting on unreviewed derivations (BOUNDS.md P1 to P4). No RH
+claim.
+Correction, later on 2026-10-27: "ε_q is a bound" above is withdrawn. A
+review found that the code's Gauss bound was the (n + 1)-point bound used
+for n-point rules, so the quadrature radii, and ε_q, were up to 225 times
+too small. The D1 reading and the counts above are not established, and E2
+is unresolved again. A rerun at 13 nodes per panel, where the corrected bound
+equals the old radii, was launched on Actions and has not been read
+(`exact_gram/BOUNDS.md` s5, `RESULTS.md` correction, `RUNS.md` s12).
+
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
 **Status: candidate ordinary argument with enclosure-carrying numerical steps;
