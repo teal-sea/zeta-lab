@@ -733,13 +733,23 @@ def test_census_request_valid_and_workflow_guard_rails():
 
 
 def test_census_pins_match_the_versions_that_made_the_artifacts():
-    """census_constraints.txt: exact pins, equal to this environment's (which made census_1e4)."""
+    """census_constraints.txt: exact pins, equal to this environment's where it can hold them.
+
+    The pins are the versions that made census_1e4. numpy 2.5.4 and scipy 1.18.1
+    require Python >= 3.12; the census workflow installs them under 3.12 and its
+    preflight enforces equality there. The nightly runs 3.11, where pip reaches only
+    numpy 2.4.x (full.yml, 2026-10-27: 2.4.6 != 2.5.4), so equality is asserted only
+    from 3.12 and the pin file itself is checked everywhere.
+    """
     from importlib.metadata import version
     import census_shard as cs
     pins = cs._pins()
     assert set(pins) == {"mpmath", "numpy", "python-flint", "scipy"}
+    assert all(re.fullmatch(r"\d+(\.\d+)+", v) for v in pins.values())
     if PLANT:
         pins["numpy"] = "0.0.0"      # planted: a drifted pin must be noticed
+    if sys.version_info < (3, 12) and not PLANT:
+        pytest.skip("the pins need Python >= 3.12; the census workflow's preflight enforces them there")
     assert all(version(n) == v for n, v in pins.items())
 
 
@@ -764,14 +774,22 @@ def test_census_gather_picks_the_most_advanced_copy(tmp_path):
     assert got == {"screen_c82": {"complete": True}}
 
 
-def test_census_preflight_refuses_a_wrong_plan_hash(tmp_path):
-    """census_shard.py preflight exits non-zero before any computation when the hash is wrong."""
-    import subprocess
+def test_census_preflight_refuses_a_wrong_plan_hash(tmp_path, monkeypatch):
+    """census_shard preflight refuses a wrong plan hash before any computation.
+
+    The version pins are checked first and are Python >= 3.12 versions (see the pin
+    test), so the installed versions are reported as the pins here: this test is about
+    the hash refusal, and a version mismatch on the nightly's 3.11 must not stand in for it.
+    """
+    import importlib.metadata
+    import census_shard as cs
     req = tmp_path / "req.json"
     req.write_text(json.dumps({"mode": "calibrate", "attempt": 1, "plan_sha256": "0" * 64}))
-    r = subprocess.run([sys.executable, str(HERE / "census_shard.py"), "preflight", "--request", str(req)],
-                       capture_output=True, text=True, cwd=HERE.parents[1])
-    assert r.returncode != 0 and "plan_sha256 does not match" in (r.stderr + r.stdout)
+    monkeypatch.setattr(cs, "REQUEST", str(req))
+    monkeypatch.setattr(importlib.metadata, "version", lambda name: cs._pins()[name.lower()])
+    with pytest.raises(SystemExit) as refused:
+        cs.stage_preflight()
+    assert "plan_sha256 does not match" in str(refused.value)
 
 
 def test_census_records_peak_rss_and_calib_reports_it(tmp_path):
