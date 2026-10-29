@@ -150,9 +150,14 @@ carries none of the result, and the same statement for zeta holds at s = -2. The
 came to 16.1 core-hours on GitHub Actions, not months. Each prime tower is one
 `decide +kernel` of its whole ball value (`scripts/60 --tower whole`); the 215 site
 theorems compiled in 20 jobs, and one assembly imported them all (17.9 GB). Planted
-one-unit faults are refused at the declaration they touch. No independent replay of the
-assembled environment has run yet; that, and an outside review, are what "pending
-external verification" waits for.
+one-unit faults are refused at the declaration they touch. When this section was
+written no replay of the assembled environment had run. Two did on 2026-10-27 (hunt
+#145, door 1): Lean's own kernel replayed the whole closure into an empty environment
+(`leanchecker --fresh`, 1.57 million constants, 7 h 17 min), a re-check by the same
+kernel, and the independent checker `con-ron --verified` accepted the closure split
+into 216 shards, with coverage shown and the final declarations checked in a form
+abstracted over the site theorems. An outside review is what "pending external
+verification" now waits for.
 
 The ladder and the next rung live in `HANDOFF.md`;
 `references/mathlib-open-targets.md` tracks what Mathlib itself records as
