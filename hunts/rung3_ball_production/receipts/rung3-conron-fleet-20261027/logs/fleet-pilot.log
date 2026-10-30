@@ -1,0 +1,29 @@
+2026-10-27T15:07:01Z fleet loop start 3805913
+2026-10-27T15:07:01Z site:g_left_16 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:07:21Z site:g_left_16 provision error {"error": "no zstd on the VM: {'stdout': '', 'stderr': '', 'exitCode': 1, 'timedOut': False, 'truncated': False}"}
+2026-10-27T15:07:31Z site:g_left_16 vm deleted {"vm": "m_agqx3zujld5almfm66rouoys3i", "next": "ready"}
+2026-10-27T15:07:31Z site:g_left_16 provisioning {"provider": "instabox", "attempt": 2}
+2026-10-27T15:08:29Z fleet loop start 3812131
+2026-10-27T15:08:29Z site:g_left_16 provisioning {"provider": "instabox", "attempt": 3}
+2026-10-27T15:08:49Z site:g_left_16 started {"vm": "m_agqx3z65mqivsyuzvxm5s26gye", "booted_s": 4.7, "uploaded_s": 10.0}
+2026-10-27T15:13:19Z site:B_right_06 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:13:19Z site:B_right_06#novita provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T15:13:39Z site:B_right_06#novita started {"vm": "i82yrg0r80kw8jr0kt2fq", "booted_s": 3.6, "uploaded_s": 6.9}
+2026-10-27T15:13:49Z site:B_right_06 started {"vm": "m_agqx33cjixgqa5viux3it6mlum", "booted_s": 4.6, "uploaded_s": 10.8}
+2026-10-27T15:20:21Z site:B_right_06 collected {"ok": false, "lines": ["con-ron: accepted 62005 declarations (--verified)"]}
+2026-10-27T15:20:31Z site:B_right_06 vm deleted {"vm": "m_agqx33cjixgqa5viux3it6mlum", "next": "review"}
+2026-10-27T15:21:21Z drained: nothing in flight; VMs left running for the next start
+2026-10-27T15:21:21Z fleet loop end
+2026-10-27T15:21:23Z fleet loop start 3883130
+2026-10-27T15:23:53Z drained: nothing in flight; VMs left running for the next start
+2026-10-27T15:23:53Z fleet loop end
+2026-10-27T15:23:55Z fleet loop start 3894717
+2026-10-27T15:23:55Z fault:B_right_06 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:24:25Z fault:B_right_06 started {"vm": "m_agqx35qal3s4ihnknad2uxribq", "booted_s": 4.4, "uploaded_s": 10.9}
+2026-10-27T15:28:46Z fault:B_right_06 collected {"ok": true, "lines": ["con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=190.157s"]}
+2026-10-27T15:28:56Z fault:B_right_06 vm deleted {"vm": "m_agqx35qal3s4ihnknad2uxribq", "next": "done"}
+2026-10-27T15:35:29Z site:B_right_06#novita collected {"ok": true, "lines": ["con-ron: accepted 62005 declarations (--verified)"]}
+2026-10-27T15:35:39Z site:B_right_06#novita vm deleted {"vm": "i82yrg0r80kw8jr0kt2fq", "next": "done"}
+2026-10-27T15:54:31Z site:g_left_16 collected {"ok": true, "lines": ["con-ron: accepted 66331 declarations (--verified)"]}
+2026-10-27T15:54:41Z site:g_left_16 vm deleted {"vm": "m_agqx3z65mqivsyuzvxm5s26gye", "next": "done"}
+2026-10-27T15:54:41Z fleet loop end

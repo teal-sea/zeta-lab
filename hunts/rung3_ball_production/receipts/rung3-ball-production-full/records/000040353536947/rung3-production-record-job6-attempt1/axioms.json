@@ -1,0 +1,112 @@
+{
+ "g_bottom_06": {
+  "theorem": "ZetaLean.DH.Cert.beta_g_bottom_06",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "g_bottom_01": {
+  "theorem": "ZetaLean.DH.Cert.beta_g_bottom_01",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "g_top_18": {
+  "theorem": "ZetaLean.DH.Cert.beta_g_top_18",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "g_right_08": {
+  "theorem": "ZetaLean.DH.Cert.beta_g_right_08",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "g_top_23": {
+  "theorem": "ZetaLean.DH.Cert.beta_g_top_23",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "B_left_39": {
+  "theorem": "ZetaLean.DH.Cert.upper_B_left_39",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "B_left_36": {
+  "theorem": "ZetaLean.DH.Cert.upper_B_left_36",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "B_left_14": {
+  "theorem": "ZetaLean.DH.Cert.upper_B_left_14",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "B_left_33": {
+  "theorem": "ZetaLean.DH.Cert.upper_B_left_33",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "B_top_13": {
+  "theorem": "ZetaLean.DH.Cert.upper_B_top_13",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ },
+ "B_top_20": {
+  "theorem": "ZetaLean.DH.Cert.upper_B_top_20",
+  "returncode": 0,
+  "axioms": [
+   "Classical.choice",
+   "Quot.sound",
+   "propext"
+  ],
+  "ok": true
+ }
+}

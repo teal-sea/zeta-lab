@@ -1,0 +1,50 @@
+{
+ "shard": "fault:B_right_06",
+ "start_utc": "2026-10-27T16:03:29Z",
+ "host": {
+  "nproc": 2,
+  "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+  "python": "3.11.6",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 4034448
+ },
+ "job": {
+  "shard": "fault:B_right_06",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "5ebcb288cc514c5b591a3a9907ba4d9b67498cb0b924fbd5be79b8372181ebcf",
+  "sha256_ndjson": "b31f8d7b68ea3e8bb44cec7d4fd33c951d5574be7c1ecd3ef7bb04c86c8354ac",
+  "jobs": 2
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "5ebcb288cc514c5b591a3a9907ba4d9b67498cb0b924fbd5be79b8372181ebcf"
+ },
+ "decompress_s": 0.7,
+ "sha256_export": "b31f8d7b68ea3e8bb44cec7d4fd33c951d5574be7c1ecd3ef7bb04c86c8354ac",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=2",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T16:03:30Z",
+ "exit_code": 1,
+ "wall_s": 357.9,
+ "user_s": 546.9,
+ "sys_s": 1.2,
+ "maxrss_kib": 1526688,
+ "peak_sampled_rss_kib": 1524120,
+ "verdict_lines": [
+  "con-ron: parse done: 62035 fold records \u2014 62027 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=1.706s (parse 1.706s)",
+  "con-ron: check failed at fold position 16241 t=356.910s (check 340.590s)",
+  "con-ron: done: parse 1.706s, install 14.614s, check 340.590s, 2 workers t=356.910s",
+  "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=357.456s"
+ ],
+ "stdout_tail": "",
+ "stderr_tail": "heorem Complex.cos_two_mul t=20.659s\ncon-ron: check 15040/60962 theorem _private.Mathlib.Algebra.Ring.Parity.0.Even.neg_pow._simp_1_1 t=20.669s\ncon-ron: check 15060/60962 theorem _private.Mathlib.Analysis.Complex.Trigonometric.0.Complex.cos_bound._proof_1_3 t=20.719s\ncon-ron: check 15080/60962 definition Real.pi t=20.737s\ncon-ron: check 15100/60962 definition StrictMonoOn.orderIso t=20.740s\ncon-ron: check 15120/60962 definition Lean.Grind.CommRing.Mon.denoteAsIntModule t=20.760s\ncon-ron: check 15140/60962 definition Lean.Grind.CommRing.Poly.cancelVar' t=20.769s\ncon-ron: check 15160/60962 theorem Lean.Grind.CommRing.Poly.cancelVar.eq_1 t=20.781s\ncon-ron: check 15180/60962 theorem Lean.Grind.CommRing.Stepwise.inv t=20.789s\ncon-ron: check 15200/60962 theorem Complex.sin_bound t=20.867s\ncon-ron: check 15220/60962 definition _private.Mathlib.Tactic.NormNum.Basic.0.Mathlib.Meta.NormNum.isInt_sub.match_1_1 t=20.880s\ncon-ron: check 15240/60962 theorem Real.sin_pi_div_two t=20.895s\ncon-ron: check 15260/60962 theorem intermediate_value_Icc t=20.911s\ncon-ron: check 15280/60962 definition Set.LeftInvOn t=20.916s\ncon-ron: check 15300/60962 definition _private.Mathlib.Data.Set.Function.0.Set.SurjOn.forall.match_1_1 t=20.923s\ncon-ron: check 15320/60962 theorem completeSpace_congr t=20.926s\ncon-ron: check 15340/60962 theorem RingHomInvPair.ids t=20.935s\ncon-ron: check 15360/60962 theorem Prod.instAddCommMonoid._proof_1 t=20.941s\ncon-ron: check 15380/60962 theorem Prod.subNegMonoid._proof_3 t=20.947s\ncon-ron: check 15400/60962 definition Equiv.noConfusionType t=20.963s\ncon-ron: check 15420/60962 theorem LinearEquiv.instSemilinearEquivClass t=20.972s\ncon-ron: check 15440/60962 definition _private.Mathlib.Topology.UniformSpace.Cauchy.0.CompleteSpace.prod.match_1 t=20.984s\ncon-ron: check 15460/60962 theorem CompleteSpace.prod t=20.987s\ncon-ron: check 15480/60962 theorem RCLike.norm_sq_eq_def_ax t=20.996s\ncon-ron: check 15500/60962 theorem Complex.instDenselyNormedField._proof_1 t=21.006s\ncon-ron: check 15520/60962 theorem Real.exp_injective t=21.014s\ncon-ron: check 15540/60962 theorem ZetaLean.DH.Cert.S_B_right_06.eq_1 t=21.025s\ncon-ron: check 15560/60962 theorem Rat.natCast_le_cast t=21.031s\ncon-ron: check 15580/60962 definition ZetaLean.ComplexBall.coarsenB t=21.045s\ncon-ron: check 15600/60962 definition ZetaLean.ComplexBall.powIB._f t=21.046s\ncon-ron: check 15620/60962 definition ZetaLean.Interval.logSum t=21.049s\ncon-ron: check 15640/60962 theorem ZetaLean.ComplexBall.contains_ofInterval t=21.073s\ncon-ron: check 15660/60962 theorem _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1 t=206.573s\ncon-ron: check failed at fold position 16241 t=356.910s (check 340.590s)\ncon-ron: done: parse 1.706s, install 14.614s, check 340.590s, 2 workers t=356.910s\ncon-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=357.456s\n",
+ "sha256_stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "sha256_stderr": "73be79f78e88b3dda55c4d639b68a262e2b625953e0e67546585d9c72dd03be4",
+ "end_utc": "2026-10-27T16:09:28Z",
+ "phase": "checked"
+}

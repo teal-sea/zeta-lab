@@ -1,0 +1,4 @@
+towers 15608; con-ron tower CPU, interpolated in log p: 4,662,323 s = 1,295 core-hours; floor at the p=2 cost: 69 core-hours
+  wall at 8 workers, towers only: 161.9 h (floor 8.7 h)
+  wall at 16 workers, towers only: 80.9 h (floor 4.3 h)
+  wall at 30 workers, towers only: 43.2 h (floor 2.3 h)

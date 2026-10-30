@@ -1,0 +1,51 @@
+{
+ "shard": "site:B_bottom_21",
+ "start_utc": "2026-10-27T16:04:42Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "site:B_bottom_21",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "7c0e35b07a5a20d800049786ba5f6d7912710d28f231dc495ebb9680d79ff192",
+  "sha256_ndjson": "694aaa80b83f3ea763bb733a3974c851866e2fa1ef75ba117166540e317a3a84",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "7c0e35b07a5a20d800049786ba5f6d7912710d28f231dc495ebb9680d79ff192"
+ },
+ "decompress_s": 0.4,
+ "sha256_export": "694aaa80b83f3ea763bb733a3974c851866e2fa1ef75ba117166540e317a3a84",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T16:04:43Z",
+ "exit_code": 0,
+ "wall_s": 832.5,
+ "user_s": 5636.7,
+ "sys_s": 5.8,
+ "maxrss_kib": 2336672,
+ "peak_sampled_rss_kib": 2315440,
+ "verdict_lines": [
+  "con-ron: accepted 62894 declarations (--verified)",
+  "con-ron: parse done: 62924 fold records \u2014 62916 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=2.263s (parse 2.263s)",
+  "con-ron: check done: 61851/61851 t=831.453s (check 807.888s)",
+  "con-ron: done: parse 2.263s, install 21.302s, check 807.888s, 8 workers t=831.453s"
+ ],
+ "stdout_tail": "con-ron: accepted 62894 declarations (--verified)\n",
+ "stderr_tail": "f_lt_add._simp_1 t=687.824s\ncon-ron: check 61140/61851 theorem _private.Mathlib.NumberTheory.LSeries.MellinEqDirichlet.0.hasSum_mellin._simp_1_1 t=687.868s\ncon-ron: check 61160/61851 theorem isClosed_of_spaced_out t=687.879s\ncon-ron: check 61180/61851 theorem _private.Mathlib.NumberTheory.LSeries.MellinEqDirichlet.0.hasSum_mellin._simp_1_4 t=687.895s\ncon-ron: check 61200/61851 theorem Complex.integral_cpow_mul_exp_neg_mul_Ioi t=687.910s\ncon-ron: check 61220/61851 theorem Asymptotics.IsEquivalent.refl t=687.954s\ncon-ron: check 61240/61851 theorem Real.summable_one_div_int_add_rpow t=687.973s\ncon-ron: check 61260/61851 theorem SignType.instDecidableLE._proof_5 t=687.993s\ncon-ron: check 61280/61851 theorem instDecidableEqSignType._proof_1 t=687.995s\ncon-ron: check 61300/61851 theorem SignType.instCommGroupWithZero._proof_2 t=688.008s\ncon-ron: check 61320/61851 theorem SignType.instHasDistribNeg._proof_3 t=688.018s\ncon-ron: check 61340/61851 theorem DirichletCharacter.LFunction_eq_LSeries t=688.066s\ncon-ron: check 61360/61851 theorem Nat.card_pos t=688.073s\ncon-ron: check 61380/61851 theorem orderOf_dvd_iff_pow_eq_one t=688.078s\ncon-ron: check 61400/61851 theorem Subgroup.inv_mem' t=688.081s\ncon-ron: check 61420/61851 theorem zpow_mem t=688.085s\ncon-ron: check 61440/61851 definition Fintype.ofSurjective t=688.093s\ncon-ron: check 61460/61851 definition IsOfFinOrder t=688.096s\ncon-ron: check 61480/61851 definition finEquivPowers t=688.100s\ncon-ron: check 61500/61851 theorem NoMaxOrder.infinite t=688.105s\ncon-ron: check 61520/61851 theorem injective_pow_iff_not_isOfFinOrder t=688.109s\ncon-ron: check 61540/61851 theorem Subgroup.leftCosetEquivSubgroup._proof_7 t=688.116s\ncon-ron: check 61560/61851 theorem DirichletCharacter.LSeriesSummable_of_one_lt_re t=688.122s\ncon-ron: check 61580/61851 theorem Continuous.tendsto_nhdsSet_nhds t=688.155s\ncon-ron: check 61600/61851 theorem SetRel.right_subset_comp t=688.171s\ncon-ron: check 61620/61851 theorem interior_setOfPred_eq t=688.204s\ncon-ron: check 61640/61851 theorem UniformSpace.Completion.coe_injective t=688.215s\ncon-ron: check 61660/61851 theorem FormalMultilinearSeries.instAddCommGroup._proof_1 t=688.246s\ncon-ron: check 61680/61851 theorem AnalyticAt.sub t=688.271s\ncon-ron: check 61700/61851 definition _private.Mathlib.Tactic.Ring.Basic.0.Mathlib.Tactic.Ring.cast_nnrat.match_1_1 t=688.326s\ncon-ron: check 61720/61851 definition IsRadical t=688.438s\ncon-ron: check 61740/61851 theorem Nat.decreasing_induction_of_infinite t=688.444s\ncon-ron: check 61760/61851 definition Lean.Grind.Linarith.Expr.toPolyN t=688.449s\ncon-ron: check 61780/61851 theorem Int.zero_le_ofNat t=688.457s\ncon-ron: check 61800/61851 theorem Int.toNat_natCast t=688.482s\ncon-ron: check 61820/61851 theorem IsSumSq.brecOn t=688.490s\ncon-ron: check 61840/61851 definition Rat.instSemilatticeSup t=688.568s\ncon-ron: check done: 61851/61851 t=831.453s (check 807.888s)\ncon-ron: done: parse 2.263s, install 21.302s, check 807.888s, 8 workers t=831.453s\n",
+ "sha256_stdout": "b8b5f589cd037482c28cf9c031a2f011b2c76ec32d0a3658516ae0353e4f762d",
+ "sha256_stderr": "be2adba1099749da54fe9a0acedaeff54df66218c42aa3be4fd04d173f651973",
+ "accepted_declarations": 62894,
+ "end_utc": "2026-10-27T16:18:35Z",
+ "phase": "checked"
+}

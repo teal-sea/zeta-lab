@@ -1,0 +1,2 @@
+leanchecker found a problem in CB_right_06.Primes
+uncaught exception: object file '<cache>/rung3-ball-production-replay-20261027/fault-olean/CB_right_06/Base.olean' of module CB_right_06.Base does not exist

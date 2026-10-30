@@ -1,0 +1,6662 @@
+{
+ "done": {
+  "fault:B_right_06": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12111,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 48790
+    },
+    "bytes": 486900272,
+    "declarations": 64226,
+    "exprs": 8631329,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9088550,
+    "names": 391858,
+    "records": {
+     "axiom": 3,
+     "def": 12111,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 48790
+    }
+   },
+   "utc": "2026-10-27T16:43:25Z"
+  },
+  "site:B_bottom_01": {
+   "export": {
+    "cpu_s": 50.0,
+    "killed_by_guard": false,
+    "max_rss_kib": 6999884,
+    "mem_available_low_gib": 72.1,
+    "pid": 466333,
+    "rc": 0,
+    "tag": "reexport-site-B_bottom_01",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12490,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50041
+    },
+    "bytes": 515810195,
+    "declarations": 65856,
+    "exprs": 9205145,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9666214,
+    "names": 394076,
+    "records": {
+     "axiom": 3,
+     "def": 12490,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50041
+    }
+   },
+   "utc": "2026-10-27T18:28:56Z"
+  },
+  "site:B_bottom_02": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12523,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50149
+    },
+    "bytes": 518392587,
+    "declarations": 65997,
+    "exprs": 9255119,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9716483,
+    "names": 394230,
+    "records": {
+     "axiom": 3,
+     "def": 12523,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50149
+    }
+   },
+   "utc": "2026-10-27T16:43:27Z"
+  },
+  "site:B_bottom_06": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12448,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49901
+    },
+    "bytes": 512490365,
+    "declarations": 65674,
+    "exprs": 9138146,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9598747,
+    "names": 393790,
+    "records": {
+     "axiom": 3,
+     "def": 12448,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49901
+    }
+   },
+   "utc": "2026-10-27T16:43:26Z"
+  },
+  "site:B_bottom_11": {
+   "export": {
+    "cpu_s": 51.5,
+    "killed_by_guard": false,
+    "max_rss_kib": 6990936,
+    "mem_available_low_gib": 71.2,
+    "pid": 357561,
+    "rc": 0,
+    "tag": "reexport-site-B_bottom_11",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12426,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49829
+    },
+    "bytes": 510773020,
+    "declarations": 65580,
+    "exprs": 9104785,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9565202,
+    "names": 393700,
+    "records": {
+     "axiom": 3,
+     "def": 12426,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49829
+    }
+   },
+   "utc": "2026-10-27T18:05:03Z"
+  },
+  "site:B_bottom_12": {
+   "export": {
+    "cpu_s": 49.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 6997180,
+    "mem_available_low_gib": 71.9,
+    "pid": 473040,
+    "rc": 0,
+    "tag": "reexport-site-B_bottom_12",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12468,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49968
+    },
+    "bytes": 514183786,
+    "declarations": 65761,
+    "exprs": 9172511,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9633355,
+    "names": 393946,
+    "records": {
+     "axiom": 3,
+     "def": 12468,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49968
+    }
+   },
+   "utc": "2026-10-27T18:30:35Z"
+  },
+  "site:B_bottom_13": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12382,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49684
+    },
+    "bytes": 507501270,
+    "declarations": 65391,
+    "exprs": 9039922,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9499855,
+    "names": 393405,
+    "records": {
+     "axiom": 3,
+     "def": 12382,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49684
+    }
+   },
+   "utc": "2026-10-27T16:44:12Z"
+  },
+  "site:B_bottom_14": {
+   "export": {
+    "cpu_s": 48.5,
+    "killed_by_guard": false,
+    "max_rss_kib": 6982952,
+    "mem_available_low_gib": 66.2,
+    "pid": 139515,
+    "rc": 0,
+    "tag": "reexport-site-B_bottom_14",
+    "wall_s": 50.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12391,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49715
+    },
+    "bytes": 508399592,
+    "declarations": 65431,
+    "exprs": 9057753,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9517818,
+    "names": 393497,
+    "records": {
+     "axiom": 3,
+     "def": 12391,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49715
+    }
+   },
+   "utc": "2026-10-27T17:11:23Z"
+  },
+  "site:B_bottom_15": {
+   "export": {
+    "cpu_s": 51.6,
+    "killed_by_guard": false,
+    "max_rss_kib": 6985588,
+    "mem_available_low_gib": 66.6,
+    "pid": 250756,
+    "rc": 0,
+    "tag": "reexport-site-B_bottom_15",
+    "wall_s": 54.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12391,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49715
+    },
+    "bytes": 508436757,
+    "declarations": 65431,
+    "exprs": 9057853,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9517882,
+    "names": 393461,
+    "records": {
+     "axiom": 3,
+     "def": 12391,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49715
+    }
+   },
+   "utc": "2026-10-27T17:38:48Z"
+  },
+  "site:B_bottom_17": {
+   "export": {
+    "cpu_s": 48.1,
+    "killed_by_guard": false,
+    "max_rss_kib": 6970616,
+    "mem_available_low_gib": 72.2,
+    "pid": 479174,
+    "rc": 0,
+    "tag": "reexport-site-B_bottom_17",
+    "wall_s": 50.1
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12340,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49544
+    },
+    "bytes": 504147730,
+    "declarations": 65209,
+    "exprs": 8973368,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9432870,
+    "names": 393156,
+    "records": {
+     "axiom": 3,
+     "def": 12340,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49544
+    }
+   },
+   "utc": "2026-10-27T18:32:11Z"
+  },
+  "site:B_bottom_19": {
+   "export": {
+    "cpu_s": 47.5,
+    "killed_by_guard": false,
+    "max_rss_kib": 6963748,
+    "mem_available_low_gib": 72.2,
+    "pid": 459708,
+    "rc": 0,
+    "tag": "reexport-site-B_bottom_19",
+    "wall_s": 48.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12307,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49435
+    },
+    "bytes": 501713400,
+    "declarations": 65067,
+    "exprs": 8925051,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9384256,
+    "names": 393001,
+    "records": {
+     "axiom": 3,
+     "def": 12307,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49435
+    }
+   },
+   "utc": "2026-10-27T18:27:06Z"
+  },
+  "site:B_bottom_21": {
+   "export": {
+    "cpu_s": 45.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 6964880,
+    "mem_available_low_gib": 71.3,
+    "pid": 306574,
+    "rc": 0,
+    "tag": "reexport-site-B_bottom_21",
+    "wall_s": 46.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12318,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49472
+    },
+    "bytes": 502502604,
+    "declarations": 65115,
+    "exprs": 8940685,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9400002,
+    "names": 393065,
+    "records": {
+     "axiom": 3,
+     "def": 12318,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49472
+    }
+   },
+   "utc": "2026-10-27T17:52:59Z"
+  },
+  "site:B_left_01": {
+   "export": {
+    "cpu_s": 53.4,
+    "killed_by_guard": false,
+    "max_rss_kib": 7006128,
+    "mem_available_low_gib": 66.0,
+    "pid": 145719,
+    "rc": 0,
+    "tag": "reexport-site-B_left_01",
+    "wall_s": 56.6
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12556,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50258
+    },
+    "bytes": 520708249,
+    "declarations": 66139,
+    "exprs": 9301695,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9763432,
+    "names": 394461,
+    "records": {
+     "axiom": 3,
+     "def": 12556,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50258
+    }
+   },
+   "utc": "2026-10-27T17:13:07Z"
+  },
+  "site:B_left_02": {
+   "export": {
+    "cpu_s": 52.0,
+    "killed_by_guard": false,
+    "max_rss_kib": 7007656,
+    "mem_available_low_gib": 66.2,
+    "pid": 88673,
+    "rc": 0,
+    "tag": "reexport-site-B_left_02",
+    "wall_s": 54.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12536,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50191
+    },
+    "bytes": 518990029,
+    "declarations": 66052,
+    "exprs": 9267827,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9729358,
+    "names": 394342,
+    "records": {
+     "axiom": 3,
+     "def": 12536,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50191
+    }
+   },
+   "utc": "2026-10-27T16:58:55Z"
+  },
+  "site:B_left_03": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12512,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50113
+    },
+    "bytes": 517655306,
+    "declarations": 65950,
+    "exprs": 9237221,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9698509,
+    "names": 394201,
+    "records": {
+     "axiom": 3,
+     "def": 12512,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50113
+    }
+   },
+   "utc": "2026-10-27T16:44:13Z"
+  },
+  "site:B_left_06": {
+   "export": {
+    "cpu_s": 54.4,
+    "killed_by_guard": false,
+    "max_rss_kib": 7007284,
+    "mem_available_low_gib": 67.8,
+    "pid": 257137,
+    "rc": 0,
+    "tag": "reexport-site-B_left_06",
+    "wall_s": 56.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12556,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50258
+    },
+    "bytes": 520710769,
+    "declarations": 66139,
+    "exprs": 9302050,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9763748,
+    "names": 394422,
+    "records": {
+     "axiom": 3,
+     "def": 12556,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50258
+    }
+   },
+   "utc": "2026-10-27T17:40:32Z"
+  },
+  "site:B_left_09": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12501,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50077
+    },
+    "bytes": 516806262,
+    "declarations": 65903,
+    "exprs": 9220344,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9681521,
+    "names": 394137,
+    "records": {
+     "axiom": 3,
+     "def": 12501,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50077
+    }
+   },
+   "utc": "2026-10-27T16:44:15Z"
+  },
+  "site:B_left_13": {
+   "export": {
+    "cpu_s": 50.4,
+    "killed_by_guard": false,
+    "max_rss_kib": 7005656,
+    "mem_available_low_gib": 72.3,
+    "pid": 485600,
+    "rc": 0,
+    "tag": "reexport-site-B_left_13",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12512,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50113
+    },
+    "bytes": 517431352,
+    "declarations": 65950,
+    "exprs": 9236963,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9698252,
+    "names": 394202,
+    "records": {
+     "axiom": 3,
+     "def": 12512,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50113
+    }
+   },
+   "utc": "2026-10-27T18:33:49Z"
+  },
+  "site:B_left_14": {
+   "export": {
+    "cpu_s": 51.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 7000416,
+    "mem_available_low_gib": 71.3,
+    "pid": 416740,
+    "rc": 0,
+    "tag": "reexport-site-B_left_14",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12501,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50077
+    },
+    "bytes": 516589973,
+    "declarations": 65903,
+    "exprs": 9220287,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9681427,
+    "names": 394100,
+    "records": {
+     "axiom": 3,
+     "def": 12501,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50077
+    }
+   },
+   "utc": "2026-10-27T18:17:06Z"
+  },
+  "site:B_left_16": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12479,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50005
+    },
+    "bytes": 515062601,
+    "declarations": 65809,
+    "exprs": 9190037,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9650956,
+    "names": 393973,
+    "records": {
+     "axiom": 3,
+     "def": 12479,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50005
+    }
+   },
+   "utc": "2026-10-27T16:44:18Z"
+  },
+  "site:B_left_17": {
+   "export": {
+    "cpu_s": 51.6,
+    "killed_by_guard": false,
+    "max_rss_kib": 7008772,
+    "mem_available_low_gib": 71.3,
+    "pid": 312336,
+    "rc": 0,
+    "tag": "reexport-site-B_left_17",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12556,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50258
+    },
+    "bytes": 520759639,
+    "declarations": 66139,
+    "exprs": 9303001,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9764737,
+    "names": 394460,
+    "records": {
+     "axiom": 3,
+     "def": 12556,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50258
+    }
+   },
+   "utc": "2026-10-27T17:54:36Z"
+  },
+  "site:B_left_19": {
+   "export": {
+    "cpu_s": 50.4,
+    "killed_by_guard": false,
+    "max_rss_kib": 7004636,
+    "mem_available_low_gib": 66.1,
+    "pid": 153121,
+    "rc": 0,
+    "tag": "reexport-site-B_left_19",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12501,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50077
+    },
+    "bytes": 516678639,
+    "declarations": 65903,
+    "exprs": 9222051,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9683230,
+    "names": 394139,
+    "records": {
+     "axiom": 3,
+     "def": 12501,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50077
+    }
+   },
+   "utc": "2026-10-27T17:14:52Z"
+  },
+  "site:B_left_22": {
+   "export": {
+    "cpu_s": 51.4,
+    "killed_by_guard": false,
+    "max_rss_kib": 6998392,
+    "mem_available_low_gib": 67.5,
+    "pid": 263920,
+    "rc": 0,
+    "tag": "reexport-site-B_left_22",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12501,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50077
+    },
+    "bytes": 516872876,
+    "declarations": 65903,
+    "exprs": 9221694,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9682871,
+    "names": 394137,
+    "records": {
+     "axiom": 3,
+     "def": 12501,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50077
+    }
+   },
+   "utc": "2026-10-27T17:42:12Z"
+  },
+  "site:B_left_23": {
+   "export": {
+    "cpu_s": 53.3,
+    "killed_by_guard": false,
+    "max_rss_kib": 6997760,
+    "mem_available_low_gib": 71.3,
+    "pid": 319286,
+    "rc": 0,
+    "tag": "reexport-site-B_left_23",
+    "wall_s": 54.2
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12501,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50077
+    },
+    "bytes": 516638892,
+    "declarations": 65903,
+    "exprs": 9221033,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9682213,
+    "names": 394140,
+    "records": {
+     "axiom": 3,
+     "def": 12501,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50077
+    }
+   },
+   "utc": "2026-10-27T17:56:18Z"
+  },
+  "site:B_left_25": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12523,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50149
+    },
+    "bytes": 518312897,
+    "declarations": 65997,
+    "exprs": 9254852,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9716252,
+    "names": 394266,
+    "records": {
+     "axiom": 3,
+     "def": 12523,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50149
+    }
+   },
+   "utc": "2026-10-27T16:44:59Z"
+  },
+  "site:B_left_26": {
+   "export": {
+    "cpu_s": 51.1,
+    "killed_by_guard": false,
+    "max_rss_kib": 7005204,
+    "mem_available_low_gib": 69.2,
+    "pid": 159698,
+    "rc": 0,
+    "tag": "reexport-site-B_left_26",
+    "wall_s": 52.2
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12536,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50191
+    },
+    "bytes": 519039099,
+    "declarations": 66052,
+    "exprs": 9267880,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9729372,
+    "names": 394303,
+    "records": {
+     "axiom": 3,
+     "def": 12536,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50191
+    }
+   },
+   "utc": "2026-10-27T17:16:31Z"
+  },
+  "site:B_left_28": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12574,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50320
+    },
+    "bytes": 522591754,
+    "declarations": 66219,
+    "exprs": 9339149,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9801076,
+    "names": 394571,
+    "records": {
+     "axiom": 3,
+     "def": 12574,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50320
+    }
+   },
+   "utc": "2026-10-27T16:45:01Z"
+  },
+  "site:B_left_30": {
+   "export": {
+    "cpu_s": 55.5,
+    "killed_by_guard": false,
+    "max_rss_kib": 6991464,
+    "mem_available_low_gib": 66.2,
+    "pid": 203704,
+    "rc": 0,
+    "tag": "reexport-site-B_left_30",
+    "wall_s": 58.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12479,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50005
+    },
+    "bytes": 515064364,
+    "declarations": 65809,
+    "exprs": 9189817,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9650774,
+    "names": 394011,
+    "records": {
+     "axiom": 3,
+     "def": 12479,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50005
+    }
+   },
+   "utc": "2026-10-27T17:27:44Z"
+  },
+  "site:B_left_31": {
+   "export": {
+    "cpu_s": 50.7,
+    "killed_by_guard": false,
+    "max_rss_kib": 6999456,
+    "mem_available_low_gib": 71.2,
+    "pid": 364377,
+    "rc": 0,
+    "tag": "reexport-site-B_left_31",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12479,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50005
+    },
+    "bytes": 515038383,
+    "declarations": 65809,
+    "exprs": 9189876,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9650834,
+    "names": 394012,
+    "records": {
+     "axiom": 3,
+     "def": 12479,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50005
+    }
+   },
+   "utc": "2026-10-27T18:06:41Z"
+  },
+  "site:B_left_32": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12490,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50041
+    },
+    "bytes": 515842113,
+    "declarations": 65856,
+    "exprs": 9205501,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9666570,
+    "names": 394076,
+    "records": {
+     "axiom": 3,
+     "def": 12490,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50041
+    }
+   },
+   "utc": "2026-10-27T16:45:02Z"
+  },
+  "site:B_left_33": {
+   "export": {
+    "cpu_s": 51.1,
+    "killed_by_guard": false,
+    "max_rss_kib": 7001516,
+    "mem_available_low_gib": 70.9,
+    "pid": 424877,
+    "rc": 0,
+    "tag": "reexport-site-B_left_33",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12490,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50041
+    },
+    "bytes": 515852791,
+    "declarations": 65856,
+    "exprs": 9205666,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9666735,
+    "names": 394076,
+    "records": {
+     "axiom": 3,
+     "def": 12490,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50041
+    }
+   },
+   "utc": "2026-10-27T18:18:43Z"
+  },
+  "site:B_left_36": {
+   "export": {
+    "cpu_s": 51.9,
+    "killed_by_guard": false,
+    "max_rss_kib": 7003316,
+    "mem_available_low_gib": 70.8,
+    "pid": 432530,
+    "rc": 0,
+    "tag": "reexport-site-B_left_36",
+    "wall_s": 54.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12523,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50149
+    },
+    "bytes": 518406220,
+    "declarations": 65997,
+    "exprs": 9256083,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9717484,
+    "names": 394267,
+    "records": {
+     "axiom": 3,
+     "def": 12523,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50149
+    }
+   },
+   "utc": "2026-10-27T18:20:25Z"
+  },
+  "site:B_left_37": {
+   "export": {
+    "cpu_s": 50.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 7009532,
+    "mem_available_low_gib": 65.6,
+    "pid": 270671,
+    "rc": 0,
+    "tag": "reexport-site-B_left_37",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12536,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50191
+    },
+    "bytes": 519044119,
+    "declarations": 66052,
+    "exprs": 9268910,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9730440,
+    "names": 394341,
+    "records": {
+     "axiom": 3,
+     "def": 12536,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50191
+    }
+   },
+   "utc": "2026-10-27T17:43:51Z"
+  },
+  "site:B_left_39": {
+   "export": {
+    "cpu_s": 53.2,
+    "killed_by_guard": false,
+    "max_rss_kib": 7013760,
+    "mem_available_low_gib": 72.0,
+    "pid": 439346,
+    "rc": 0,
+    "tag": "reexport-site-B_left_39",
+    "wall_s": 54.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12574,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50320
+    },
+    "bytes": 522711115,
+    "declarations": 66219,
+    "exprs": 9341879,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9803804,
+    "names": 394569,
+    "records": {
+     "axiom": 3,
+     "def": 12574,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50320
+    }
+   },
+   "utc": "2026-10-27T18:22:07Z"
+  },
+  "site:B_left_40": {
+   "export": {
+    "cpu_s": 50.6,
+    "killed_by_guard": false,
+    "max_rss_kib": 7001880,
+    "mem_available_low_gib": 67.8,
+    "pid": 95612,
+    "rc": 0,
+    "tag": "reexport-site-B_left_40",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12479,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50005
+    },
+    "bytes": 515108250,
+    "declarations": 65809,
+    "exprs": 9190913,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9651869,
+    "names": 394010,
+    "records": {
+     "axiom": 3,
+     "def": 12479,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50005
+    }
+   },
+   "utc": "2026-10-27T17:00:36Z"
+  },
+  "site:B_left_41": {
+   "export": {
+    "cpu_s": 50.2,
+    "killed_by_guard": false,
+    "max_rss_kib": 7001196,
+    "mem_available_low_gib": 66.5,
+    "pid": 166543,
+    "rc": 0,
+    "tag": "reexport-site-B_left_41",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12490,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50041
+    },
+    "bytes": 515882900,
+    "declarations": 65856,
+    "exprs": 9206047,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9667116,
+    "names": 394076,
+    "records": {
+     "axiom": 3,
+     "def": 12490,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50041
+    }
+   },
+   "utc": "2026-10-27T17:18:11Z"
+  },
+  "site:B_left_42": {
+   "export": {
+    "cpu_s": 59.0,
+    "killed_by_guard": false,
+    "max_rss_kib": 6984252,
+    "mem_available_low_gib": 65.9,
+    "pid": 277119,
+    "rc": 0,
+    "tag": "reexport-site-B_left_42",
+    "wall_s": 64.2
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12490,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50041
+    },
+    "bytes": 515877596,
+    "declarations": 65856,
+    "exprs": 9206206,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9667237,
+    "names": 394038,
+    "records": {
+     "axiom": 3,
+     "def": 12490,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50041
+    }
+   },
+   "utc": "2026-10-27T17:45:42Z"
+  },
+  "site:B_left_43": {
+   "export": {
+    "cpu_s": 55.6,
+    "killed_by_guard": false,
+    "max_rss_kib": 6998380,
+    "mem_available_low_gib": 66.1,
+    "pid": 210860,
+    "rc": 0,
+    "tag": "reexport-site-B_left_43",
+    "wall_s": 58.9
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12501,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50077
+    },
+    "bytes": 516790037,
+    "declarations": 65903,
+    "exprs": 9223407,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9684549,
+    "names": 394102,
+    "records": {
+     "axiom": 3,
+     "def": 12501,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50077
+    }
+   },
+   "utc": "2026-10-27T17:29:33Z"
+  },
+  "site:B_left_46": {
+   "export": {
+    "cpu_s": 52.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 7007336,
+    "mem_available_low_gib": 71.4,
+    "pid": 326234,
+    "rc": 0,
+    "tag": "reexport-site-B_left_46",
+    "wall_s": 54.5
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12536,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50191
+    },
+    "bytes": 519071746,
+    "declarations": 66052,
+    "exprs": 9269518,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9731049,
+    "names": 394342,
+    "records": {
+     "axiom": 3,
+     "def": 12536,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50191
+    }
+   },
+   "utc": "2026-10-27T17:58:05Z"
+  },
+  "site:B_left_47": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12556,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50258
+    },
+    "bytes": 520860650,
+    "declarations": 66139,
+    "exprs": 9304743,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9766479,
+    "names": 394460,
+    "records": {
+     "axiom": 3,
+     "def": 12556,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50258
+    }
+   },
+   "utc": "2026-10-27T16:45:08Z"
+  },
+  "site:B_left_48": {
+   "export": {
+    "cpu_s": 54.3,
+    "killed_by_guard": false,
+    "max_rss_kib": 7017400,
+    "mem_available_low_gib": 71.1,
+    "pid": 371223,
+    "rc": 0,
+    "tag": "reexport-site-B_left_48",
+    "wall_s": 54.9
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12585,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50357
+    },
+    "bytes": 523504910,
+    "declarations": 66267,
+    "exprs": 9357287,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9819327,
+    "names": 394636,
+    "records": {
+     "axiom": 3,
+     "def": 12585,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50357
+    }
+   },
+   "utc": "2026-10-27T18:08:23Z"
+  },
+  "site:B_left_49": {
+   "export": {
+    "cpu_s": 49.6,
+    "killed_by_guard": false,
+    "max_rss_kib": 6998752,
+    "mem_available_low_gib": 71.2,
+    "pid": 332967,
+    "rc": 0,
+    "tag": "reexport-site-B_left_49",
+    "wall_s": 50.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12490,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50041
+    },
+    "bytes": 515907948,
+    "declarations": 65856,
+    "exprs": 9206559,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9667628,
+    "names": 394076,
+    "records": {
+     "axiom": 3,
+     "def": 12490,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50041
+    }
+   },
+   "utc": "2026-10-27T17:59:43Z"
+  },
+  "site:B_left_50": {
+   "export": {
+    "cpu_s": 49.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 7002656,
+    "mem_available_low_gib": 71.2,
+    "pid": 378139,
+    "rc": 0,
+    "tag": "reexport-site-B_left_50",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12501,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50077
+    },
+    "bytes": 516750612,
+    "declarations": 65903,
+    "exprs": 9223499,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9684678,
+    "names": 394139,
+    "records": {
+     "axiom": 3,
+     "def": 12501,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50077
+    }
+   },
+   "utc": "2026-10-27T18:10:04Z"
+  },
+  "site:B_left_51": {
+   "export": {
+    "cpu_s": 51.1,
+    "killed_by_guard": false,
+    "max_rss_kib": 6999176,
+    "mem_available_low_gib": 66.7,
+    "pid": 102937,
+    "rc": 0,
+    "tag": "reexport-site-B_left_51",
+    "wall_s": 54.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12501,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50077
+    },
+    "bytes": 516755390,
+    "declarations": 65903,
+    "exprs": 9223362,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9684542,
+    "names": 394140,
+    "records": {
+     "axiom": 3,
+     "def": 12501,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50077
+    }
+   },
+   "utc": "2026-10-27T17:02:20Z"
+  },
+  "site:B_left_53": {
+   "export": {
+    "cpu_s": 49.5,
+    "killed_by_guard": false,
+    "max_rss_kib": 7005356,
+    "mem_available_low_gib": 71.2,
+    "pid": 385122,
+    "rc": 0,
+    "tag": "reexport-site-B_left_53",
+    "wall_s": 50.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12523,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50149
+    },
+    "bytes": 518395456,
+    "declarations": 65997,
+    "exprs": 9255885,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9717288,
+    "names": 394269,
+    "records": {
+     "axiom": 3,
+     "def": 12523,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50149
+    }
+   },
+   "utc": "2026-10-27T18:11:41Z"
+  },
+  "site:B_left_54": {
+   "export": {
+    "cpu_s": 53.5,
+    "killed_by_guard": false,
+    "max_rss_kib": 7004728,
+    "mem_available_low_gib": 66.2,
+    "pid": 218258,
+    "rc": 0,
+    "tag": "reexport-site-B_left_54",
+    "wall_s": 54.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12536,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50191
+    },
+    "bytes": 519047001,
+    "declarations": 66052,
+    "exprs": 9269031,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9730522,
+    "names": 394302,
+    "records": {
+     "axiom": 3,
+     "def": 12536,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50191
+    }
+   },
+   "utc": "2026-10-27T17:31:17Z"
+  },
+  "site:B_right_00": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12252,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49255
+    },
+    "bytes": 497651027,
+    "declarations": 64832,
+    "exprs": 8844172,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9302785,
+    "names": 392644,
+    "records": {
+     "axiom": 3,
+     "def": 12252,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49255
+    }
+   },
+   "utc": "2026-10-27T16:45:46Z"
+  },
+  "site:B_right_02": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12241,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49219
+    },
+    "bytes": 496973681,
+    "declarations": 64785,
+    "exprs": 8826901,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9285439,
+    "names": 392616,
+    "records": {
+     "axiom": 3,
+     "def": 12241,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49219
+    }
+   },
+   "utc": "2026-10-27T16:45:49Z"
+  },
+  "site:B_right_05": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12252,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49255
+    },
+    "bytes": 497692693,
+    "declarations": 64832,
+    "exprs": 8845360,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9304011,
+    "names": 392682,
+    "records": {
+     "axiom": 3,
+     "def": 12252,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49255
+    }
+   },
+   "utc": "2026-10-27T16:45:51Z"
+  },
+  "site:B_right_06": {
+   "export": {
+    "cpu_s": 43.2,
+    "killed_by_guard": false,
+    "max_rss_kib": 6924048,
+    "mem_available_low_gib": 72.5,
+    "pid": 491515,
+    "rc": 0,
+    "tag": "reexport-site-B_right_06",
+    "wall_s": 44.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12111,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 48790
+    },
+    "bytes": 486899931,
+    "declarations": 64226,
+    "exprs": 8631322,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9088543,
+    "names": 391858,
+    "records": {
+     "axiom": 3,
+     "def": 12111,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 48790
+    }
+   },
+   "utc": "2026-10-27T18:35:20Z"
+  },
+  "site:B_top_00": {
+   "export": {
+    "cpu_s": 54.4,
+    "killed_by_guard": false,
+    "max_rss_kib": 7009552,
+    "mem_available_low_gib": 67.5,
+    "pid": 225861,
+    "rc": 0,
+    "tag": "reexport-site-B_top_00",
+    "wall_s": 56.3
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12545,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50222
+    },
+    "bytes": 520007457,
+    "declarations": 66092,
+    "exprs": 9288195,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9749782,
+    "names": 394358,
+    "records": {
+     "axiom": 3,
+     "def": 12545,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50222
+    }
+   },
+   "utc": "2026-10-27T17:33:03Z"
+  },
+  "site:B_top_01": {
+   "export": {
+    "cpu_s": 52.3,
+    "killed_by_guard": false,
+    "max_rss_kib": 7007724,
+    "mem_available_low_gib": 66.3,
+    "pid": 109577,
+    "rc": 0,
+    "tag": "reexport-site-B_top_01",
+    "wall_s": 54.6
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12523,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50149
+    },
+    "bytes": 518403521,
+    "declarations": 65997,
+    "exprs": 9256364,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9717765,
+    "names": 394267,
+    "records": {
+     "axiom": 3,
+     "def": 12523,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50149
+    }
+   },
+   "utc": "2026-10-27T17:04:03Z"
+  },
+  "site:B_top_04": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12512,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50113
+    },
+    "bytes": 517594514,
+    "declarations": 65950,
+    "exprs": 9240060,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9701350,
+    "names": 394203,
+    "records": {
+     "axiom": 3,
+     "def": 12512,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50113
+    }
+   },
+   "utc": "2026-10-27T16:45:59Z"
+  },
+  "site:B_top_06": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12501,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 50077
+    },
+    "bytes": 516748364,
+    "declarations": 65903,
+    "exprs": 9223275,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9684454,
+    "names": 394139,
+    "records": {
+     "axiom": 3,
+     "def": 12501,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 50077
+    }
+   },
+   "utc": "2026-10-27T16:46:46Z"
+  },
+  "site:B_top_08": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12448,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49901
+    },
+    "bytes": 512478287,
+    "declarations": 65674,
+    "exprs": 9139142,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9599780,
+    "names": 393827,
+    "records": {
+     "axiom": 3,
+     "def": 12448,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49901
+    }
+   },
+   "utc": "2026-10-27T16:46:48Z"
+  },
+  "site:B_top_10": {
+   "export": {
+    "cpu_s": 54.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 6974036,
+    "mem_available_low_gib": 66.5,
+    "pid": 234614,
+    "rc": 0,
+    "tag": "reexport-site-B_top_10",
+    "wall_s": 58.2
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12437,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49865
+    },
+    "bytes": 511696589,
+    "declarations": 65627,
+    "exprs": 9123057,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9583585,
+    "names": 393764,
+    "records": {
+     "axiom": 3,
+     "def": 12437,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49865
+    }
+   },
+   "utc": "2026-10-27T17:34:53Z"
+  },
+  "site:B_top_11": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12402,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49751
+    },
+    "bytes": 509326455,
+    "declarations": 65478,
+    "exprs": 9076264,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9536439,
+    "names": 393560,
+    "records": {
+     "axiom": 3,
+     "def": 12402,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49751
+    }
+   },
+   "utc": "2026-10-27T16:46:50Z"
+  },
+  "site:B_top_12": {
+   "export": {
+    "cpu_s": 48.6,
+    "killed_by_guard": false,
+    "max_rss_kib": 6981680,
+    "mem_available_low_gib": 71.3,
+    "pid": 339476,
+    "rc": 0,
+    "tag": "reexport-site-B_top_12",
+    "wall_s": 50.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12391,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49715
+    },
+    "bytes": 508521799,
+    "declarations": 65431,
+    "exprs": 9060349,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9520376,
+    "names": 393459,
+    "records": {
+     "axiom": 3,
+     "def": 12391,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49715
+    }
+   },
+   "utc": "2026-10-27T18:01:21Z"
+  },
+  "site:B_top_13": {
+   "export": {
+    "cpu_s": 49.3,
+    "killed_by_guard": false,
+    "max_rss_kib": 6984096,
+    "mem_available_low_gib": 72.3,
+    "pid": 446319,
+    "rc": 0,
+    "tag": "reexport-site-B_top_13",
+    "wall_s": 50.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12402,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49751
+    },
+    "bytes": 509364140,
+    "declarations": 65478,
+    "exprs": 9076885,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9537062,
+    "names": 393562,
+    "records": {
+     "axiom": 3,
+     "def": 12402,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49751
+    }
+   },
+   "utc": "2026-10-27T18:23:45Z"
+  },
+  "site:B_top_15": {
+   "export": {
+    "cpu_s": 49.9,
+    "killed_by_guard": false,
+    "max_rss_kib": 6983732,
+    "mem_available_low_gib": 67.0,
+    "pid": 116140,
+    "rc": 0,
+    "tag": "reexport-site-B_top_15",
+    "wall_s": 52.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12391,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49715
+    },
+    "bytes": 508509313,
+    "declarations": 65431,
+    "exprs": 9060065,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9520130,
+    "names": 393497,
+    "records": {
+     "axiom": 3,
+     "def": 12391,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49715
+    }
+   },
+   "utc": "2026-10-27T17:05:42Z"
+  },
+  "site:B_top_17": {
+   "export": {
+    "cpu_s": 47.9,
+    "killed_by_guard": false,
+    "max_rss_kib": 6970092,
+    "mem_available_low_gib": 66.7,
+    "pid": 173328,
+    "rc": 0,
+    "tag": "reexport-site-B_top_17",
+    "wall_s": 50.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12327,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49503
+    },
+    "bytes": 503508267,
+    "declarations": 65155,
+    "exprs": 8960746,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9420159,
+    "names": 393121,
+    "records": {
+     "axiom": 3,
+     "def": 12327,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49503
+    }
+   },
+   "utc": "2026-10-27T17:19:49Z"
+  },
+  "site:B_top_18": {
+   "export": {
+    "cpu_s": 49.5,
+    "killed_by_guard": false,
+    "max_rss_kib": 6966680,
+    "mem_available_low_gib": 66.9,
+    "pid": 284175,
+    "rc": 0,
+    "tag": "reexport-site-B_top_18",
+    "wall_s": 50.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12327,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49503
+    },
+    "bytes": 503507427,
+    "declarations": 65155,
+    "exprs": 8960702,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9420117,
+    "names": 393123,
+    "records": {
+     "axiom": 3,
+     "def": 12327,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49503
+    }
+   },
+   "utc": "2026-10-27T17:47:24Z"
+  },
+  "site:B_top_19": {
+   "export": {
+    "cpu_s": 48.4,
+    "killed_by_guard": false,
+    "max_rss_kib": 6962336,
+    "mem_available_low_gib": 71.1,
+    "pid": 392189,
+    "rc": 0,
+    "tag": "reexport-site-B_top_19",
+    "wall_s": 50.7
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12296,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49399
+    },
+    "bytes": 500957451,
+    "declarations": 65020,
+    "exprs": 8909684,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9368742,
+    "names": 392901,
+    "records": {
+     "axiom": 3,
+     "def": 12296,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49399
+    }
+   },
+   "utc": "2026-10-27T18:13:20Z"
+  },
+  "site:B_top_20": {
+   "export": {
+    "cpu_s": 46.1,
+    "killed_by_guard": false,
+    "max_rss_kib": 6963232,
+    "mem_available_low_gib": 72.2,
+    "pid": 452820,
+    "rc": 0,
+    "tag": "reexport-site-B_top_20",
+    "wall_s": 48.1
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12307,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 49435
+    },
+    "bytes": 501765034,
+    "declarations": 65067,
+    "exprs": 8926178,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 9385384,
+    "names": 393002,
+    "records": {
+     "axiom": 3,
+     "def": 12307,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 49435
+    }
+   },
+   "utc": "2026-10-27T18:25:20Z"
+  },
+  "site:centre": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 15717,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 60797
+    },
+    "bytes": 788359079,
+    "declarations": 79839,
+    "exprs": 14413947,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 14908026,
+    "names": 413103,
+    "records": {
+     "axiom": 3,
+     "def": 15717,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 60797
+    }
+   },
+   "utc": "2026-10-27T16:47:25Z"
+  },
+  "site:g_bottom_01": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13044,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51880
+    },
+    "bytes": 559521035,
+    "declarations": 68249,
+    "exprs": 10069175,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10535897,
+    "names": 397336,
+    "records": {
+     "axiom": 3,
+     "def": 13044,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51880
+    }
+   },
+   "utc": "2026-10-27T16:47:42Z"
+  },
+  "site:g_bottom_04": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13135,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52186
+    },
+    "bytes": 567753985,
+    "declarations": 68646,
+    "exprs": 10224262,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10691884,
+    "names": 397839,
+    "records": {
+     "axiom": 3,
+     "def": 13135,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52186
+    }
+   },
+   "utc": "2026-10-27T16:47:46Z"
+  },
+  "site:g_bottom_05": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13135,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52186
+    },
+    "bytes": 567635497,
+    "declarations": 68646,
+    "exprs": 10224042,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10691664,
+    "names": 397839,
+    "records": {
+     "axiom": 3,
+     "def": 13135,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52186
+    }
+   },
+   "utc": "2026-10-27T16:47:47Z"
+  },
+  "site:g_bottom_06": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13124,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52150
+    },
+    "bytes": 566721457,
+    "declarations": 68599,
+    "exprs": 10206621,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10674170,
+    "names": 397813,
+    "records": {
+     "axiom": 3,
+     "def": 13124,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52150
+    }
+   },
+   "utc": "2026-10-27T16:48:22Z"
+  },
+  "site:g_bottom_07": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13113,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52114
+    },
+    "bytes": 565954722,
+    "declarations": 68552,
+    "exprs": 10190245,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10657647,
+    "names": 397713,
+    "records": {
+     "axiom": 3,
+     "def": 13113,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52114
+    }
+   },
+   "utc": "2026-10-27T16:48:37Z"
+  },
+  "site:g_bottom_08": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13113,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52114
+    },
+    "bytes": 565923096,
+    "declarations": 68552,
+    "exprs": 10190762,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10658202,
+    "names": 397751,
+    "records": {
+     "axiom": 3,
+     "def": 13113,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52114
+    }
+   },
+   "utc": "2026-10-27T16:48:43Z"
+  },
+  "site:g_bottom_11": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12969,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51632
+    },
+    "bytes": 553473578,
+    "declarations": 67926,
+    "exprs": 9952837,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10418795,
+    "names": 396895,
+    "records": {
+     "axiom": 3,
+     "def": 12969,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51632
+    }
+   },
+   "utc": "2026-10-27T16:48:41Z"
+  },
+  "site:g_bottom_12": {
+   "export": {
+    "cpu_s": 67.2,
+    "killed_by_guard": false,
+    "max_rss_kib": 7077644,
+    "mem_available_low_gib": 69.3,
+    "pid": 291049,
+    "rc": 0,
+    "tag": "reexport-site-g_bottom_12",
+    "wall_s": 68.6
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12969,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51632
+    },
+    "bytes": 553767607,
+    "declarations": 67926,
+    "exprs": 9953804,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10419762,
+    "names": 396895,
+    "records": {
+     "axiom": 3,
+     "def": 12969,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51632
+    }
+   },
+   "utc": "2026-10-27T17:49:20Z"
+  },
+  "site:g_bottom_13": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12958,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51596
+    },
+    "bytes": 552634423,
+    "declarations": 67879,
+    "exprs": 9936708,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10402530,
+    "names": 396806,
+    "records": {
+     "axiom": 3,
+     "def": 12958,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51596
+    }
+   },
+   "utc": "2026-10-27T16:49:15Z"
+  },
+  "site:g_bottom_14": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12958,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51596
+    },
+    "bytes": 552654964,
+    "declarations": 67879,
+    "exprs": 9936605,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10402415,
+    "names": 396794,
+    "records": {
+     "axiom": 3,
+     "def": 12958,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51596
+    }
+   },
+   "utc": "2026-10-27T16:49:32Z"
+  },
+  "site:g_bottom_15": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12949,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51564
+    },
+    "bytes": 551936377,
+    "declarations": 67838,
+    "exprs": 9920665,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10386377,
+    "names": 396737,
+    "records": {
+     "axiom": 3,
+     "def": 12949,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51564
+    }
+   },
+   "utc": "2026-10-27T16:49:37Z"
+  },
+  "site:g_bottom_16": {
+   "export": {
+    "cpu_s": 66.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 7069468,
+    "mem_available_low_gib": 66.0,
+    "pid": 179493,
+    "rc": 0,
+    "tag": "reexport-site-g_bottom_16",
+    "wall_s": 70.3
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12949,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51564
+    },
+    "bytes": 551911987,
+    "declarations": 67838,
+    "exprs": 9920135,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10385847,
+    "names": 396737,
+    "records": {
+     "axiom": 3,
+     "def": 12949,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51564
+    }
+   },
+   "utc": "2026-10-27T17:21:47Z"
+  },
+  "site:g_bottom_17": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12938,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51528
+    },
+    "bytes": 551006635,
+    "declarations": 67791,
+    "exprs": 9903859,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10369460,
+    "names": 396673,
+    "records": {
+     "axiom": 3,
+     "def": 12938,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51528
+    }
+   },
+   "utc": "2026-10-27T16:49:39Z"
+  },
+  "site:g_bottom_19": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12938,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51528
+    },
+    "bytes": 551035845,
+    "declarations": 67791,
+    "exprs": 9904027,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10369668,
+    "names": 396713,
+    "records": {
+     "axiom": 3,
+     "def": 12938,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51528
+    }
+   },
+   "utc": "2026-10-27T16:50:11Z"
+  },
+  "site:g_bottom_21": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12852,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51244
+    },
+    "bytes": 544398513,
+    "declarations": 67421,
+    "exprs": 9772285,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10237051,
+    "names": 396208,
+    "records": {
+     "axiom": 3,
+     "def": 12852,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51244
+    }
+   },
+   "utc": "2026-10-27T16:50:27Z"
+  },
+  "site:g_bottom_22": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12852,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51244
+    },
+    "bytes": 544607221,
+    "declarations": 67421,
+    "exprs": 9772486,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10237249,
+    "names": 396205,
+    "records": {
+     "axiom": 3,
+     "def": 12852,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51244
+    }
+   },
+   "utc": "2026-10-27T16:50:30Z"
+  },
+  "site:g_bottom_23": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12839,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51202
+    },
+    "bytes": 543773680,
+    "declarations": 67366,
+    "exprs": 9758901,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10223501,
+    "names": 396097,
+    "records": {
+     "axiom": 3,
+     "def": 12839,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51202
+    }
+   },
+   "utc": "2026-10-27T16:50:33Z"
+  },
+  "site:g_bottom_24": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12839,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51202
+    },
+    "bytes": 543679734,
+    "declarations": 67366,
+    "exprs": 9758490,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10223088,
+    "names": 396095,
+    "records": {
+     "axiom": 3,
+     "def": 12839,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51202
+    }
+   },
+   "utc": "2026-10-27T16:51:03Z"
+  },
+  "site:g_bottom_25": {
+   "export": {
+    "cpu_s": 59.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 7053572,
+    "mem_available_low_gib": 72.4,
+    "pid": 496827,
+    "rc": 0,
+    "tag": "reexport-site-g_bottom_25",
+    "wall_s": 60.3
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12839,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51202
+    },
+    "bytes": 543709499,
+    "declarations": 67366,
+    "exprs": 9758692,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10223330,
+    "names": 396135,
+    "records": {
+     "axiom": 3,
+     "def": 12839,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51202
+    }
+   },
+   "utc": "2026-10-27T18:37:04Z"
+  },
+  "site:g_left_00": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13013,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51777
+    },
+    "bytes": 556807468,
+    "declarations": 68115,
+    "exprs": 10018457,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10484874,
+    "names": 397165,
+    "records": {
+     "axiom": 3,
+     "def": 13013,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51777
+    }
+   },
+   "utc": "2026-10-27T16:51:20Z"
+  },
+  "site:g_left_01": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13013,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51777
+    },
+    "bytes": 556798638,
+    "declarations": 68115,
+    "exprs": 10018028,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10484432,
+    "names": 397152,
+    "records": {
+     "axiom": 3,
+     "def": 13013,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51777
+    }
+   },
+   "utc": "2026-10-27T16:51:23Z"
+  },
+  "site:g_left_03": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13031,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51839
+    },
+    "bytes": 558756715,
+    "declarations": 68195,
+    "exprs": 10053611,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10520168,
+    "names": 397225,
+    "records": {
+     "axiom": 3,
+     "def": 13031,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51839
+    }
+   },
+   "utc": "2026-10-27T16:51:26Z"
+  },
+  "site:g_left_04": {
+   "export": {
+    "cpu_s": 67.1,
+    "killed_by_guard": false,
+    "max_rss_kib": 7082696,
+    "mem_available_low_gib": 66.9,
+    "pid": 187379,
+    "rc": 0,
+    "tag": "reexport-site-g_left_04",
+    "wall_s": 68.1
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13031,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51839
+    },
+    "bytes": 558662120,
+    "declarations": 68195,
+    "exprs": 10053447,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10520040,
+    "names": 397261,
+    "records": {
+     "axiom": 3,
+     "def": 13031,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51839
+    }
+   },
+   "utc": "2026-10-27T17:23:46Z"
+  },
+  "site:g_left_05": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13044,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51880
+    },
+    "bytes": 559114676,
+    "declarations": 68249,
+    "exprs": 10067844,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10534551,
+    "names": 397321,
+    "records": {
+     "axiom": 3,
+     "def": 13044,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51880
+    }
+   },
+   "utc": "2026-10-27T16:51:56Z"
+  },
+  "site:g_left_06": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13053,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51911
+    },
+    "bytes": 560440939,
+    "declarations": 68289,
+    "exprs": 10087179,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10553995,
+    "names": 397390,
+    "records": {
+     "axiom": 3,
+     "def": 13053,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51911
+    }
+   },
+   "utc": "2026-10-27T16:52:16Z"
+  },
+  "site:g_left_07": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13053,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51911
+    },
+    "bytes": 560433246,
+    "declarations": 68289,
+    "exprs": 10087069,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10553886,
+    "names": 397391,
+    "records": {
+     "axiom": 3,
+     "def": 13053,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51911
+    }
+   },
+   "utc": "2026-10-27T16:52:19Z"
+  },
+  "site:g_left_15": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13113,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52114
+    },
+    "bytes": 565789649,
+    "declarations": 68552,
+    "exprs": 10189095,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10656495,
+    "names": 397711,
+    "records": {
+     "axiom": 3,
+     "def": 13113,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52114
+    }
+   },
+   "utc": "2026-10-27T16:52:22Z"
+  },
+  "site:g_left_16": {
+   "export": {
+    "cpu_s": 71.4,
+    "killed_by_guard": false,
+    "max_rss_kib": 7093180,
+    "mem_available_low_gib": 72.4,
+    "pid": 504057,
+    "rc": 0,
+    "tag": "reexport-site-g_left_16",
+    "wall_s": 74.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13113,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52114
+    },
+    "bytes": 565887571,
+    "declarations": 68552,
+    "exprs": 10189036,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10656437,
+    "names": 397712,
+    "records": {
+     "axiom": 3,
+     "def": 13113,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52114
+    }
+   },
+   "utc": "2026-10-27T18:39:06Z"
+  },
+  "site:g_left_17": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13124,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52150
+    },
+    "bytes": 566677599,
+    "declarations": 68599,
+    "exprs": 10205561,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10673111,
+    "names": 397814,
+    "records": {
+     "axiom": 3,
+     "def": 13124,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52150
+    }
+   },
+   "utc": "2026-10-27T16:52:50Z"
+  },
+  "site:g_left_18": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13135,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52186
+    },
+    "bytes": 567615957,
+    "declarations": 68646,
+    "exprs": 10223147,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10690808,
+    "names": 397878,
+    "records": {
+     "axiom": 3,
+     "def": 13135,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52186
+    }
+   },
+   "utc": "2026-10-27T16:53:10Z"
+  },
+  "site:g_left_19": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13146,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52222
+    },
+    "bytes": 568458587,
+    "declarations": 68693,
+    "exprs": 10239179,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10706911,
+    "names": 397902,
+    "records": {
+     "axiom": 3,
+     "def": 13146,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52222
+    }
+   },
+   "utc": "2026-10-27T16:53:14Z"
+  },
+  "site:g_left_20": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13146,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 52222
+    },
+    "bytes": 568506847,
+    "declarations": 68693,
+    "exprs": 10240106,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10707877,
+    "names": 397941,
+    "records": {
+     "axiom": 3,
+     "def": 13146,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 52222
+    }
+   },
+   "utc": "2026-10-27T16:53:19Z"
+  },
+  "site:g_left_23": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13053,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51911
+    },
+    "bytes": 560768403,
+    "declarations": 68289,
+    "exprs": 10088613,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10555428,
+    "names": 397389,
+    "records": {
+     "axiom": 3,
+     "def": 13053,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51911
+    }
+   },
+   "utc": "2026-10-27T16:53:44Z"
+  },
+  "site:g_left_25": {
+   "export": {
+    "cpu_s": 66.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 7081648,
+    "mem_available_low_gib": 72.4,
+    "pid": 511527,
+    "rc": 0,
+    "tag": "reexport-site-g_left_25",
+    "wall_s": 68.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13013,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51777
+    },
+    "bytes": 556878189,
+    "declarations": 68115,
+    "exprs": 10017833,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10484201,
+    "names": 397116,
+    "records": {
+     "axiom": 3,
+     "def": 13013,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51777
+    }
+   },
+   "utc": "2026-10-27T18:41:04Z"
+  },
+  "site:g_right_02": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12894,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51383
+    },
+    "bytes": 547778243,
+    "declarations": 67602,
+    "exprs": 9839853,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10305047,
+    "names": 396455,
+    "records": {
+     "axiom": 3,
+     "def": 12894,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51383
+    }
+   },
+   "utc": "2026-10-27T16:54:04Z"
+  },
+  "site:g_right_04": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12938,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51528
+    },
+    "bytes": 551014081,
+    "declarations": 67791,
+    "exprs": 9903648,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10369289,
+    "names": 396713,
+    "records": {
+     "axiom": 3,
+     "def": 12938,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51528
+    }
+   },
+   "utc": "2026-10-27T16:54:08Z"
+  },
+  "site:g_right_05": {
+   "export": {
+    "cpu_s": 63.5,
+    "killed_by_guard": false,
+    "max_rss_kib": 7068276,
+    "mem_available_low_gib": 72.4,
+    "pid": 518713,
+    "rc": 0,
+    "tag": "reexport-site-g_right_05",
+    "wall_s": 64.1
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12938,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51528
+    },
+    "bytes": 550981907,
+    "declarations": 67791,
+    "exprs": 9902953,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10368593,
+    "names": 396712,
+    "records": {
+     "axiom": 3,
+     "def": 12938,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51528
+    }
+   },
+   "utc": "2026-10-27T18:42:59Z"
+  },
+  "site:g_right_07": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12929,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51497
+    },
+    "bytes": 550097406,
+    "declarations": 67751,
+    "exprs": 9884195,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10349703,
+    "names": 396620,
+    "records": {
+     "axiom": 3,
+     "def": 12929,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51497
+    }
+   },
+   "utc": "2026-10-27T16:54:16Z"
+  },
+  "site:g_right_08": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12929,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51497
+    },
+    "bytes": 550056266,
+    "declarations": 67751,
+    "exprs": 9884493,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10350039,
+    "names": 396658,
+    "records": {
+     "axiom": 3,
+     "def": 12929,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51497
+    }
+   },
+   "utc": "2026-10-27T16:54:40Z"
+  },
+  "site:g_right_11": {
+   "export": {
+    "cpu_s": 62.3,
+    "killed_by_guard": false,
+    "max_rss_kib": 7057920,
+    "mem_available_low_gib": 66.0,
+    "pid": 122828,
+    "rc": 0,
+    "tag": "reexport-site-g_right_11",
+    "wall_s": 64.3
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12905,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51420
+    },
+    "bytes": 548575574,
+    "declarations": 67650,
+    "exprs": 9854098,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10319367,
+    "names": 396482,
+    "records": {
+     "axiom": 3,
+     "def": 12905,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51420
+    }
+   },
+   "utc": "2026-10-27T17:07:32Z"
+  },
+  "site:g_right_12": {
+   "export": {
+    "cpu_s": 65.8,
+    "killed_by_guard": false,
+    "max_rss_kib": 7062784,
+    "mem_available_low_gib": 66.3,
+    "pid": 241630,
+    "rc": 0,
+    "tag": "reexport-site-g_right_12",
+    "wall_s": 68.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12905,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51420
+    },
+    "bytes": 548598927,
+    "declarations": 67650,
+    "exprs": 9854591,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10319860,
+    "names": 396482,
+    "records": {
+     "axiom": 3,
+     "def": 12905,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51420
+    }
+   },
+   "utc": "2026-10-27T17:36:50Z"
+  },
+  "site:g_right_15": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12885,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51352
+    },
+    "bytes": 546961526,
+    "declarations": 67562,
+    "exprs": 9818856,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10283954,
+    "names": 396399,
+    "records": {
+     "axiom": 3,
+     "def": 12885,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51352
+    }
+   },
+   "utc": "2026-10-27T16:54:59Z"
+  },
+  "site:g_right_16": {
+   "export": {
+    "cpu_s": 60.6,
+    "killed_by_guard": false,
+    "max_rss_kib": 7060372,
+    "mem_available_low_gib": 71.3,
+    "pid": 298754,
+    "rc": 0,
+    "tag": "reexport-site-g_right_16",
+    "wall_s": 62.3
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12885,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51352
+    },
+    "bytes": 546786233,
+    "declarations": 67562,
+    "exprs": 9818558,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10283618,
+    "names": 396361,
+    "records": {
+     "axiom": 3,
+     "def": 12885,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51352
+    }
+   },
+   "utc": "2026-10-27T17:51:12Z"
+  },
+  "site:g_right_17": {
+   "export": {
+    "cpu_s": 61.0,
+    "killed_by_guard": false,
+    "max_rss_kib": 7059824,
+    "mem_available_low_gib": 71.2,
+    "pid": 346057,
+    "rc": 0,
+    "tag": "reexport-site-g_right_17",
+    "wall_s": 62.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12885,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51352
+    },
+    "bytes": 546744441,
+    "declarations": 67562,
+    "exprs": 9817710,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10282772,
+    "names": 396363,
+    "records": {
+     "axiom": 3,
+     "def": 12885,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51352
+    }
+   },
+   "utc": "2026-10-27T18:03:09Z"
+  },
+  "site:g_right_18": {
+   "export": {
+    "cpu_s": 61.1,
+    "killed_by_guard": false,
+    "max_rss_kib": 7058972,
+    "mem_available_low_gib": 71.1,
+    "pid": 399319,
+    "rc": 0,
+    "tag": "reexport-site-g_right_18",
+    "wall_s": 62.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12874,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51316
+    },
+    "bytes": 545866389,
+    "declarations": 67515,
+    "exprs": 9800316,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10265266,
+    "names": 396298,
+    "records": {
+     "axiom": 3,
+     "def": 12874,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51316
+    }
+   },
+   "utc": "2026-10-27T18:15:12Z"
+  },
+  "site:g_right_19": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12874,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51316
+    },
+    "bytes": 545837276,
+    "declarations": 67515,
+    "exprs": 9800836,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10265825,
+    "names": 396337,
+    "records": {
+     "axiom": 3,
+     "def": 12874,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51316
+    }
+   },
+   "utc": "2026-10-27T16:55:05Z"
+  },
+  "site:g_right_22": {
+   "export": {
+    "cpu_s": 57.5,
+    "killed_by_guard": false,
+    "max_rss_kib": 7058068,
+    "mem_available_low_gib": 72.4,
+    "pid": 526022,
+    "rc": 0,
+    "tag": "reexport-site-g_right_22",
+    "wall_s": 58.0
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12852,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51244
+    },
+    "bytes": 544341574,
+    "declarations": 67421,
+    "exprs": 9770093,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10234821,
+    "names": 396170,
+    "records": {
+     "axiom": 3,
+     "def": 12852,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51244
+    }
+   },
+   "utc": "2026-10-27T18:44:46Z"
+  },
+  "site:g_top_03": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13031,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51839
+    },
+    "bytes": 558771055,
+    "declarations": 68195,
+    "exprs": 10055193,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10521789,
+    "names": 397264,
+    "records": {
+     "axiom": 3,
+     "def": 13031,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51839
+    }
+   },
+   "utc": "2026-10-27T16:55:13Z"
+  },
+  "site:g_top_04": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13044,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51880
+    },
+    "bytes": 559518038,
+    "declarations": 68249,
+    "exprs": 10069862,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10536583,
+    "names": 397335,
+    "records": {
+     "axiom": 3,
+     "def": 13044,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51880
+    }
+   },
+   "utc": "2026-10-27T16:55:37Z"
+  },
+  "site:g_top_05": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13044,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51880
+    },
+    "bytes": 559780090,
+    "declarations": 68249,
+    "exprs": 10069929,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10536649,
+    "names": 397334,
+    "records": {
+     "axiom": 3,
+     "def": 13044,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51880
+    }
+   },
+   "utc": "2026-10-27T16:55:54Z"
+  },
+  "site:g_top_08": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13062,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51943
+    },
+    "bytes": 561518517,
+    "declarations": 68330,
+    "exprs": 10107715,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10574627,
+    "names": 397445,
+    "records": {
+     "axiom": 3,
+     "def": 13062,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51943
+    }
+   },
+   "utc": "2026-10-27T16:55:59Z"
+  },
+  "site:g_top_10": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12958,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51596
+    },
+    "bytes": 552716094,
+    "declarations": 67879,
+    "exprs": 9938254,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10404101,
+    "names": 396831,
+    "records": {
+     "axiom": 3,
+     "def": 12958,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51596
+    }
+   },
+   "utc": "2026-10-27T16:56:05Z"
+  },
+  "site:g_top_11": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12969,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51632
+    },
+    "bytes": 553538606,
+    "declarations": 67926,
+    "exprs": 9954077,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10420035,
+    "names": 396895,
+    "records": {
+     "axiom": 3,
+     "def": 12969,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51632
+    }
+   },
+   "utc": "2026-10-27T16:56:29Z"
+  },
+  "site:g_top_12": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12980,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51668
+    },
+    "bytes": 554588458,
+    "declarations": 67973,
+    "exprs": 9970740,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10436806,
+    "names": 396956,
+    "records": {
+     "axiom": 3,
+     "def": 12980,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51668
+    }
+   },
+   "utc": "2026-10-27T16:56:50Z"
+  },
+  "site:g_top_13": {
+   "export": {
+    "cpu_s": 65.4,
+    "killed_by_guard": false,
+    "max_rss_kib": 7070468,
+    "mem_available_low_gib": 66.9,
+    "pid": 195301,
+    "rc": 0,
+    "tag": "reexport-site-g_top_13",
+    "wall_s": 66.2
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12980,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51668
+    },
+    "bytes": 554386440,
+    "declarations": 67973,
+    "exprs": 9970664,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10436733,
+    "names": 396959,
+    "records": {
+     "axiom": 3,
+     "def": 12980,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51668
+    }
+   },
+   "utc": "2026-10-27T17:25:44Z"
+  },
+  "site:g_top_16": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13002,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51740
+    },
+    "bytes": 555983568,
+    "declarations": 68067,
+    "exprs": 10002675,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10468966,
+    "names": 397087,
+    "records": {
+     "axiom": 3,
+     "def": 13002,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51740
+    }
+   },
+   "utc": "2026-10-27T16:56:59Z"
+  },
+  "site:g_top_17": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13013,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51777
+    },
+    "bytes": 556790816,
+    "declarations": 68115,
+    "exprs": 10018002,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10484406,
+    "names": 397152,
+    "records": {
+     "axiom": 3,
+     "def": 13013,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51777
+    }
+   },
+   "utc": "2026-10-27T16:57:01Z"
+  },
+  "site:g_top_18": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 13013,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51777
+    },
+    "bytes": 556787153,
+    "declarations": 68115,
+    "exprs": 10017926,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10484330,
+    "names": 397152,
+    "records": {
+     "axiom": 3,
+     "def": 13013,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51777
+    }
+   },
+   "utc": "2026-10-27T16:57:26Z"
+  },
+  "site:g_top_23": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12874,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51316
+    },
+    "bytes": 545866953,
+    "declarations": 67515,
+    "exprs": 9801502,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10266491,
+    "names": 396337,
+    "records": {
+     "axiom": 3,
+     "def": 12874,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51316
+    }
+   },
+   "utc": "2026-10-27T16:57:48Z"
+  },
+  "site:g_top_24": {
+   "export": {
+    "cpu_s": 61.6,
+    "killed_by_guard": false,
+    "max_rss_kib": 7055332,
+    "mem_available_low_gib": 67.3,
+    "pid": 131086,
+    "rc": 0,
+    "tag": "reexport-site-g_top_24",
+    "wall_s": 64.1
+   },
+   "from": "re-export",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1160,
+     "def": 12852,
+     "induct": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "rec": 1057,
+     "thm": 51244
+    },
+    "bytes": 544290941,
+    "declarations": 67421,
+    "exprs": 9770675,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 3353,
+    "lines": 10235441,
+    "names": 396208,
+    "records": {
+     "axiom": 3,
+     "def": 12852,
+     "inductive": 1055,
+     "opaque": 46,
+     "quot": 4,
+     "thm": 51244
+    }
+   },
+   "utc": "2026-10-27T17:09:32Z"
+  },
+  "top": {
+   "from": "spool",
+   "summary": {
+    "axioms": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "by_kind": {
+     "axiom": 3,
+     "ctor": 1119,
+     "def": 12420,
+     "induct": 1026,
+     "opaque": 48,
+     "quot": 4,
+     "rec": 1028,
+     "thm": 71037
+    },
+    "bytes": 543271093,
+    "declarations": 86685,
+    "exprs": 9604339,
+    "header": {
+     "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+     },
+     "format": {
+      "version": "3.1.0"
+     },
+     "lean": {
+      "githash": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "version": "4.35.0-rc2"
+     }
+    },
+    "levels": 2696,
+    "lines": 10173606,
+    "names": 482032,
+    "records": {
+     "axiom": 3,
+     "def": 12420,
+     "inductive": 1026,
+     "opaque": 48,
+     "quot": 4,
+     "thm": 71037
+    }
+   },
+   "utc": "2026-10-27T16:43:30Z"
+  }
+ }
+}

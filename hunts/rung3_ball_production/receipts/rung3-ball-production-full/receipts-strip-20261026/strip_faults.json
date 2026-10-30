@@ -1,0 +1,45 @@
+{
+ "control": {
+  "tag": "strip-control",
+  "returncode": 0,
+  "killed_by_guard": false,
+  "wall_s": 20.0,
+  "cpu_s": 11.3,
+  "peak_rss_bytes": 17612861440,
+  "mem_available_gib_start": 66.0,
+  "mem_available_gib_low": 65.1,
+  "load_start": 19.18,
+  "refused_at": [],
+  "sha256": "c763fa289c8b7285cf93dd62997e7fb2ffca155ae1b856ac7ab0a5635c41b38b"
+ },
+ "re-below-square": {
+  "tag": "strip-re-below-square",
+  "returncode": 1,
+  "killed_by_guard": false,
+  "wall_s": 20.0,
+  "cpu_s": 11.1,
+  "peak_rss_bytes": 17611255808,
+  "mem_available_gib_start": 66.1,
+  "mem_available_gib_low": 65.1,
+  "load_start": 15.09,
+  "refused_at": [
+   "ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip"
+  ],
+  "sha256": "a32fea9d74afb5b7444d278424126f28f6cd81d5c88e2afc609e533481971bc7"
+ },
+ "line-through-square": {
+  "tag": "strip-line-through-square",
+  "returncode": 1,
+  "killed_by_guard": false,
+  "wall_s": 20.0,
+  "cpu_s": 10.3,
+  "peak_rss_bytes": 17612582912,
+  "mem_available_gib_start": 65.9,
+  "mem_available_gib_low": 64.9,
+  "load_start": 12.61,
+  "refused_at": [
+   "ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip"
+  ],
+  "sha256": "210b9905299f9775715c086149519ccfc9f97a88517b45a4639d381c59488b3a"
+ }
+}

@@ -1,0 +1,61 @@
+{
+  "root": "CB_right_06",
+  "status": "failed",
+  "manifest": "gen/CB_right_06.manifest.json",
+  "modules": [
+    {
+      "path": "CB_right_06/Base.lean",
+      "status": "ok",
+      "returncode": 0,
+      "elapsed": 5.056037779999997,
+      "user": 2.604803,
+      "system": 2.04741,
+      "peak_rss_bytes": 6997852160,
+      "source": "CB_right_06/Base.lean",
+      "olean": "/home/runner/work/zeta-lab/zeta-lab/out/CB_right_06/Base.olean",
+      "argv": [
+        "env",
+        "lean",
+        "--root",
+        "/home/runner/work/zeta-lab/zeta-lab/gen",
+        "/home/runner/work/zeta-lab/zeta-lab/gen/CB_right_06/Base.lean",
+        "-o",
+        "/home/runner/work/zeta-lab/zeta-lab/out/CB_right_06/Base.olean"
+      ],
+      "log": "/home/runner/work/zeta-lab/zeta-lab/out/logs/CB_right_06/CB_right_06__Base.lean.log",
+      "bytes": 1379,
+      "sha256": "ebbbc1466f080d4dead75b07481ba01c45a0a1baaed1637e56207fd17dcf02f1",
+      "checkpoint": "/home/runner/work/zeta-lab/zeta-lab/out/checkpoints/CB_right_06/CB_right_06__Base.lean.ok.json",
+      "root_olean": "/home/runner/work/zeta-lab/zeta-lab/gen/CB_right_06/Base.olean"
+    },
+    {
+      "path": "CB_right_06/Primes.lean",
+      "status": "failed",
+      "returncode": 1,
+      "elapsed": 12.118681386000048,
+      "user": 11.900047,
+      "system": 2.476929,
+      "peak_rss_bytes": 7178149888,
+      "source": "CB_right_06/Primes.lean",
+      "olean": "/home/runner/work/zeta-lab/zeta-lab/out/CB_right_06/Primes.olean",
+      "argv": [
+        "env",
+        "lean",
+        "--root",
+        "/home/runner/work/zeta-lab/zeta-lab/gen",
+        "/home/runner/work/zeta-lab/zeta-lab/gen/CB_right_06/Primes.lean",
+        "-o",
+        "/home/runner/work/zeta-lab/zeta-lab/out/CB_right_06/Primes.olean"
+      ],
+      "log": "/home/runner/work/zeta-lab/zeta-lab/out/logs/CB_right_06/CB_right_06__Primes.lean.log",
+      "bytes": 31461,
+      "sha256": "58d2f62b8c08fc811b1b9ec789fd51bcb9f02b8847ba01afe7efca50fd730245"
+    }
+  ],
+  "lean_path": "/home/runner/work/zeta-lab/zeta-lab/gen:/home/runner/work/zeta-lab/zeta-lab/out",
+  "elapsed": 17.177977632000022,
+  "user": 14.504850000000001,
+  "system": 4.524339,
+  "peak_rss_bytes": 7178149888,
+  "result": "/home/runner/work/zeta-lab/zeta-lab/out/results/CB_right_06.json"
+}

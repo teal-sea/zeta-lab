@@ -1,0 +1,51 @@
+{
+ "shard": "site:g_bottom_16",
+ "start_utc": "2026-10-27T16:00:16Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "site:g_bottom_16",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "01af40aadec1ef11f9a15414186eebd5d452be6646135e192ea7b76d1d5a5064",
+  "sha256_ndjson": "6706a90739486acd34cc8638e36a153b379742cbb84ee5373e186e0c084cf41a",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "01af40aadec1ef11f9a15414186eebd5d452be6646135e192ea7b76d1d5a5064"
+ },
+ "decompress_s": 1.2,
+ "sha256_export": "6706a90739486acd34cc8638e36a153b379742cbb84ee5373e186e0c084cf41a",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T16:00:17Z",
+ "exit_code": 0,
+ "wall_s": 2223.7,
+ "user_s": 16699.1,
+ "sys_s": 28.4,
+ "maxrss_kib": 2880436,
+ "peak_sampled_rss_kib": 2865360,
+ "verdict_lines": [
+  "con-ron: accepted 65617 declarations (--verified)",
+  "con-ron: parse done: 65647 fold records \u2014 65639 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=5.962s (parse 5.962s)",
+  "con-ron: check done: 64574/64574 t=2222.698s (check 2197.848s)",
+  "con-ron: done: parse 5.962s, install 18.888s, check 2197.848s, 8 workers t=2222.698s"
+ ],
+ "stdout_tail": "con-ron: accepted 65617 declarations (--verified)\n",
+ "stderr_tail": ".MellinEqDirichlet.0.hasSum_mellin._simp_1_6 t=2044.684s\ncon-ron: check 63940/64574 theorem Asymptotics.IsTheta.isBigO t=2044.710s\ncon-ron: check 63960/64574 theorem Real.summable_one_div_nat_add_rpow t=2044.729s\ncon-ron: check 63980/64574 theorem SignType.instDecidableLE._proof_9 t=2044.740s\ncon-ron: check 64000/64574 theorem SignType.instLinearOrder._proof_6 t=2044.749s\ncon-ron: check 64020/64574 theorem SignType.instCommGroupWithZero._proof_7 t=2044.755s\ncon-ron: check 64040/64574 theorem SignType.map_cast' t=2044.762s\ncon-ron: check 64060/64574 theorem one_lt_mul_of_lt_of_le t=2044.795s\ncon-ron: check 64080/64574 definition UnitsInt.fintype t=2044.801s\ncon-ron: check 64100/64574 theorem _private.Mathlib.GroupTheory.GroupAction.Defs.0.MulAction.mem_orbit_symm._simp_1_1 t=2044.805s\ncon-ron: check 64120/64574 theorem SubgroupClass.toInvMemClass t=2044.807s\ncon-ron: check 64140/64574 theorem SubgroupClass.toGroup._proof_3 t=2044.812s\ncon-ron: check 64160/64574 definition QuotientGroup.fintype t=2044.816s\ncon-ron: check 64180/64574 theorem Function.IsFixedPt.map t=2044.819s\ncon-ron: check 64200/64574 theorem finEquivPowers._proof_2 t=2044.823s\ncon-ron: check 64220/64574 theorem _private.Mathlib.GroupTheory.OrderOfElement.0.not_isOfFinOrder_of_injective_pow._simp_1_2 t=2044.826s\ncon-ron: check 64240/64574 theorem Fintype.card_prod t=2044.830s\ncon-ron: check 64260/64574 definition Subgroup.groupEquivQuotientProdSubgroup t=2044.836s\ncon-ron: check 64280/64574 theorem ZetaLean.DH.dhChar_zero t=2044.843s\ncon-ron: check 64300/64574 theorem isOpen_iff_ball_subset t=2044.866s\ncon-ron: check 64320/64574 theorem _private.Mathlib.Analysis.Analytic.Uniqueness.0.AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq._simp_1_1 t=2044.887s\ncon-ron: check 64340/64574 theorem UniformSpace.Completion.comap_coe_eq_uniformity t=2044.910s\ncon-ron: check 64360/64574 theorem instAddCommMonoidFormalMultilinearSeries._proof_2 t=2044.925s\ncon-ron: check 64380/64574 definition FormalMultilinearSeries.instAddCommGroup._aux_1 t=2044.945s\ncon-ron: check 64400/64574 theorem ZetaLean.DH.dhBlockSum_eq_DH t=2044.975s\ncon-ron: check 64420/64574 theorem ZetaLean.ComplexBall.contains_dhSumBalls t=2045.028s\ncon-ron: check 64440/64574 theorem isReduced_iff t=2045.152s\ncon-ron: check 64460/64574 theorem _private.Mathlib.Order.Basic.0.not_lt_iff_le_imp_ge._simp_1_1 t=2045.157s\ncon-ron: check 64480/64574 definition Lean.Grind.Linarith.Expr.denoteN._f t=2045.163s\ncon-ron: check 64500/64574 definition Lean.Grind.Linarith.Poly.NonnegCoeffs.casesOn t=2045.177s\ncon-ron: check 64520/64574 theorem Lean.Grind.Linarith.Expr.denoteN_toPolyN t=2045.224s\ncon-ron: check 64540/64574 definition _private.Mathlib.Algebra.Ring.SumsOfSquares.0.IsSumSq.rec'.match_1_7 t=2045.232s\ncon-ron: check 64560/64574 theorem ZetaLean.ComplexBall.le_norm_of_normLower t=2045.391s\ncon-ron: check done: 64574/64574 t=2222.698s (check 2197.848s)\ncon-ron: done: parse 5.962s, install 18.888s, check 2197.848s, 8 workers t=2222.698s\n",
+ "sha256_stdout": "70681d2fce30d67eb7ff85e3b91dfa0ea2d38475dc97964dc2eccec4bb8ea436",
+ "sha256_stderr": "9f91ac6eb050df27da853dd2e3d20b412ccdbd54136dd708bfbecc6c2e004352",
+ "accepted_declarations": 65617,
+ "end_utc": "2026-10-27T16:37:21Z",
+ "phase": "checked"
+}

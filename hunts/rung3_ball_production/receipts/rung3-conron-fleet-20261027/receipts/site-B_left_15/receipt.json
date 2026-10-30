@@ -1,0 +1,51 @@
+{
+ "shard": "site:B_left_15",
+ "start_utc": "2026-10-27T17:23:09Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "site:B_left_15",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "1b61cd679b54f069216207f0a5d2fff87e97ccdb1bf6fe10ab7dc42a127a4a6b",
+  "sha256_ndjson": "9b07ef0cee7b23ef8017846692332c58095f9f56943bff62c7105ef440336754",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "1b61cd679b54f069216207f0a5d2fff87e97ccdb1bf6fe10ab7dc42a127a4a6b"
+ },
+ "decompress_s": 0.4,
+ "sha256_export": "9b07ef0cee7b23ef8017846692332c58095f9f56943bff62c7105ef440336754",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T17:23:09Z",
+ "exit_code": 0,
+ "wall_s": 1155.2,
+ "user_s": 8713.5,
+ "sys_s": 8.3,
+ "maxrss_kib": 2402696,
+ "peak_sampled_rss_kib": 2348028,
+ "verdict_lines": [
+  "con-ron: accepted 63635 declarations (--verified)",
+  "con-ron: parse done: 63665 fold records \u2014 63657 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=2.264s (parse 2.264s)",
+  "con-ron: check done: 62592/62592 t=1154.214s (check 1132.325s)",
+  "con-ron: done: parse 2.264s, install 19.625s, check 1132.325s, 8 workers t=1154.214s"
+ ],
+ "stdout_tail": "con-ron: accepted 63635 declarations (--verified)\n",
+ "stderr_tail": "heorem ZMod.val_natCast t=1069.005s\ncon-ron: check 61960/62592 theorem Equiv.coe_fn_symm_mk t=1069.013s\ncon-ron: check 61980/62592 theorem _private.Mathlib.NumberTheory.LSeries.HurwitzZetaEven.0.HurwitzZeta.hasSum_int_evenKernel\u2080._simp_1_1 t=1069.036s\ncon-ron: check 62000/62592 theorem _private.Mathlib.NumberTheory.LSeries.AbstractFuncEq.0.WeakFEPair.f_modif_aux1._abel_1_3 t=1069.053s\ncon-ron: check 62020/62592 theorem Complex.cpow_nat_mul' t=1069.097s\ncon-ron: check 62040/62592 theorem isClosed_range_of_spaced_out t=1069.108s\ncon-ron: check 62060/62592 theorem ENNReal.tsum_coe_ne_top_iff_summable_coe t=1069.123s\ncon-ron: check 62080/62592 theorem MeasureTheory.hasSum_integral_of_summable_integral_norm t=1069.145s\ncon-ron: check 62100/62592 theorem Nat.lt_of_ceil_lt t=1069.183s\ncon-ron: check 62120/62592 theorem Asymptotics.IsEquivalent.rpow t=1069.204s\ncon-ron: check 62140/62592 theorem SignType.instDecidableLE._proof_7 t=1069.223s\ncon-ron: check 62160/62592 definition instDecidableEqSignType t=1069.229s\ncon-ron: check 62180/62592 theorem SignType.instCommGroupWithZero._proof_3 t=1069.243s\ncon-ron: check 62200/62592 theorem sign_pos t=1069.252s\ncon-ron: check 62220/62592 definition LSeriesHasSum t=1069.297s\ncon-ron: check 62240/62592 theorem Nat.card_pos_iff t=1069.302s\ncon-ron: check 62260/62592 theorem MulAction.mem_orbit t=1069.307s\ncon-ron: check 62280/62592 theorem Subgroup.instSubgroupClass t=1069.311s\ncon-ron: check 62300/62592 theorem SubgroupClass.toGroup._proof_1 t=1069.315s\ncon-ron: check 62320/62592 definition Quotient.fintype t=1069.322s\ncon-ron: check 62340/62592 definition finEquivPowers.match_3 t=1069.325s\ncon-ron: check 62360/62592 definition _private.Mathlib.GroupTheory.OrderOfElement.0.IsOfFinOrder.mem_powers_iff_mem_zpowers.match_1_1 t=1069.329s\ncon-ron: check 62380/62592 theorem Set.instInfiniteElemIoiOfNoMaxOrder t=1069.334s\ncon-ron: check 62400/62592 theorem pow_eq_pow_iff_modEq t=1069.337s\ncon-ron: check 62420/62592 theorem Subgroup.leftCosetEquivSubgroup._proof_6 t=1069.344s\ncon-ron: check 62440/62592 theorem CharP.cast_eq_mod t=1069.350s\ncon-ron: check 62460/62592 definition _private.Mathlib.Topology.UniformSpace.Uniformizable.0.UniformSpace.toCompletelyRegularSpace.match_3 t=1069.383s\ncon-ron: check 62480/62592 theorem ZetaLean.DH.DH_series_rep t=1069.398s\ncon-ron: check 62500/62592 theorem _private.Mathlib.Topology.Neighborhoods.0.isOpen_setOfPred_eventually_nhds._simp_1_1 t=1069.432s\ncon-ron: check 62520/62592 definition _private.Mathlib.Analysis.Analytic.Constructions.0.AnalyticAt.add.match_1_1 t=1069.447s\ncon-ron: check 62540/62592 definition FormalMultilinearSeries.instAddCommGroup._aux_1 t=1069.473s\ncon-ron: check 62560/62592 theorem AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq t=1069.499s\ncon-ron: check 62580/62592 definition Rat.instSemilatticeSup t=1069.558s\ncon-ron: check done: 62592/62592 t=1154.214s (check 1132.325s)\ncon-ron: done: parse 2.264s, install 19.625s, check 1132.325s, 8 workers t=1154.214s\n",
+ "sha256_stdout": "86f9a7606ceabed79b1019267127efbebeb2024b46467f2c5c970220b736c97f",
+ "sha256_stderr": "d31450c2f92e9ffc0a334ee3a9147c7157b75e3ee95c01bc989bdb0937669eae",
+ "accepted_declarations": 63635,
+ "end_utc": "2026-10-27T17:42:24Z",
+ "phase": "checked"
+}

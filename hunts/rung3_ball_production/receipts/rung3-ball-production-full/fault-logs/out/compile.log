@@ -1,0 +1,3 @@
+CB_right_06 status=failed elapsed=17.178 user=14.505 system=4.524 peak_rss=6845.6MiB
+  CB_right_06/Base.lean ok elapsed=5.056 user=2.605 system=2.047 peak_rss=6673.7MiB
+  CB_right_06/Primes.lean failed elapsed=12.119 user=11.900 system=2.477 peak_rss=6845.6MiB

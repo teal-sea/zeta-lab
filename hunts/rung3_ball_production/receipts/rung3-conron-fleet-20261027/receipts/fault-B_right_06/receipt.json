@@ -1,0 +1,50 @@
+{
+ "shard": "fault:B_right_06",
+ "start_utc": "2026-10-27T15:24:10Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "fault:B_right_06",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "5ebcb288cc514c5b591a3a9907ba4d9b67498cb0b924fbd5be79b8372181ebcf",
+  "sha256_ndjson": "b31f8d7b68ea3e8bb44cec7d4fd33c951d5574be7c1ecd3ef7bb04c86c8354ac",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "5ebcb288cc514c5b591a3a9907ba4d9b67498cb0b924fbd5be79b8372181ebcf"
+ },
+ "decompress_s": 2.4,
+ "sha256_export": "b31f8d7b68ea3e8bb44cec7d4fd33c951d5574be7c1ecd3ef7bb04c86c8354ac",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T15:24:13Z",
+ "exit_code": 1,
+ "wall_s": 190.7,
+ "user_s": 964.0,
+ "sys_s": 9.0,
+ "maxrss_kib": 2094424,
+ "peak_sampled_rss_kib": 2080396,
+ "verdict_lines": [
+  "con-ron: parse done: 62035 fold records \u2014 62027 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=6.944s (parse 6.944s)",
+  "con-ron: check failed at fold position 16241 t=189.456s (check 160.528s)",
+  "con-ron: done: parse 6.944s, install 21.984s, check 160.528s, 8 workers t=189.456s",
+  "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=190.157s"
+ ],
+ "stdout_tail": "",
+ "stderr_tail": "_simp_1 t=33.533s\ncon-ron: check 25300/60962 theorem Finset.sum_finset_product t=33.542s\ncon-ron: check 25320/60962 theorem tendsto_pow_atTop_nhds_zero_of_norm_lt_one t=33.557s\ncon-ron: check 25340/60962 theorem _private.Mathlib.Analysis.Normed.Group.InfiniteSum.0.tsum_of_nnnorm_bounded._simp_1_1 t=33.567s\ncon-ron: check 25360/60962 theorem ContinuousMultilinearMap.hasSum_eval t=33.595s\ncon-ron: check 25380/60962 definition Set.InvOn t=33.600s\ncon-ron: check 25400/60962 theorem MultilinearMap.currySumEquiv._proof_1 t=33.611s\ncon-ron: check 25420/60962 theorem ContinuousMultilinearMap.curryFinFinset_symm_apply_piecewise_const t=33.635s\ncon-ron: check 25440/60962 theorem AnalyticOn.fderivWithin t=33.672s\ncon-ron: check 25460/60962 theorem HasFTaylorSeriesUpTo.hasFTaylorSeriesUpToOn t=33.698s\ncon-ron: check 25480/60962 definition MultilinearMap.toLinearMap t=33.722s\ncon-ron: check 25500/60962 theorem List.idxOf_cons_ne t=33.736s\ncon-ron: check 25520/60962 definition _private.Init.Data.Nat.Compare.0.Nat.compare_eq_ite_lt.match_1_1 t=33.738s\ncon-ron: check 25540/60962 theorem Fin.instLinearOrderPackage._proof_10 t=33.740s\ncon-ron: check 25560/60962 theorem MultilinearMap.mkPiAlgebraFin._proof_1 t=33.744s\ncon-ron: check 25580/60962 definition RestrictScalars.algebra t=33.747s\ncon-ron: check 25600/60962 theorem Rat.instNormedField._proof_1 t=33.757s\ncon-ron: check 25620/60962 theorem isBounded_le_nhds t=33.762s\ncon-ron: check 25640/60962 theorem le_geom t=33.768s\ncon-ron: check 25660/60962 theorem _private.Mathlib.Analysis.Analytic.OfScalars.0.FormalMultilinearSeries.tendsto_succ_norm_div_norm t=33.777s\ncon-ron: check 25680/60962 theorem NNRat.instMetricSpace._proof_18 t=33.781s\ncon-ron: check 25700/60962 theorem instArchimedeanRat t=33.786s\ncon-ron: check 25720/60962 theorem Complex.exp_eq_exp_\u2102 t=33.799s\ncon-ron: check 25740/60962 theorem Asymptotics.IsLittleO.pow t=33.812s\ncon-ron: check 25760/60962 theorem Mathlib.Tactic.FieldSimp.NF.eval_cons_mul_eval_cons_neg t=33.828s\ncon-ron: check 25780/60962 theorem ContinuousLinearMap.id_apply t=33.833s\ncon-ron: check 25800/60962 theorem OrderDual.instSMulZeroClass_1._proof_1 t=33.842s\ncon-ron: check 25820/60962 theorem Real.exp_le_exp t=33.847s\ncon-ron: check 25840/60962 theorem ZetaLean.Interval.contains_log2I t=33.867s\ncon-ron: check 25860/60962 theorem Real.abs_log_sub_add_sum_range_le t=33.893s\ncon-ron: check 25880/60962 definition _private.ZetaLean.Ball.0.ZetaLean.ComplexBall.contains_powIB.match_1_1 t=33.913s\ncon-ron: check 25900/60962 definition CommCStarAlgebra.toCStarAlgebra t=33.925s\ncon-ron: check 25920/60962 theorem Mathlib.Meta.NormNum.IsNatPowT.bit1 t=33.936s\ncon-ron: check failed at fold position 16241 t=189.456s (check 160.528s)\ncon-ron: done: parse 6.944s, install 21.984s, check 160.528s, 8 workers t=189.456s\ncon-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=190.157s\n",
+ "sha256_stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "sha256_stderr": "2a21b2bbe082e746093c8113d15a3f47300c19ddae383a0062777c39f1f2b3ad",
+ "end_utc": "2026-10-27T15:27:24Z",
+ "phase": "checked"
+}

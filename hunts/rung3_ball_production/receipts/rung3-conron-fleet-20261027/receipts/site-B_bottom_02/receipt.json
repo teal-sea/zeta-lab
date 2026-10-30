@@ -1,0 +1,51 @@
+{
+ "shard": "site:B_bottom_02",
+ "start_utc": "2026-10-27T16:27:08Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "site:B_bottom_02",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "14e21fbe473df72714dbe3ea229ff0714479d9dd8d91d9996a5afb9f4ddfb23d",
+  "sha256_ndjson": "be4bc9f4ba81144ea82183913197fa47386a9e3b675bc0be12bfa4fafb5ef8d2",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "14e21fbe473df72714dbe3ea229ff0714479d9dd8d91d9996a5afb9f4ddfb23d"
+ },
+ "decompress_s": 3.8,
+ "sha256_export": "be4bc9f4ba81144ea82183913197fa47386a9e3b675bc0be12bfa4fafb5ef8d2",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T16:27:12Z",
+ "exit_code": 0,
+ "wall_s": 1454.3,
+ "user_s": 10158.6,
+ "sys_s": 17.0,
+ "maxrss_kib": 2307764,
+ "peak_sampled_rss_kib": 2283660,
+ "verdict_lines": [
+  "con-ron: accepted 63776 declarations (--verified)",
+  "con-ron: parse done: 63806 fold records \u2014 63798 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=4.736s (parse 4.736s)",
+  "con-ron: check done: 62733/62733 t=1453.142s (check 1421.920s)",
+  "con-ron: done: parse 4.736s, install 26.486s, check 1421.920s, 8 workers t=1453.142s"
+ ],
+ "stdout_tail": "con-ron: accepted 63776 declarations (--verified)\n",
+ "stderr_tail": "lassesEquiv t=1280.050s\ncon-ron: check 62120/62733 theorem LSeriesSummable_of_le_const_mul_rpow t=1280.073s\ncon-ron: check 62140/62733 definition _private.Mathlib.NumberTheory.LSeries.AbstractFuncEq.0.IsStrongFEPair.mellinConvergent.match_1_3 t=1280.092s\ncon-ron: check 62160/62733 theorem _private.Mathlib.NumberTheory.LSeries.MellinEqDirichlet.0.hasSum_mellin_pi_mul._simp_1_1 t=1280.146s\ncon-ron: check 62180/62733 theorem eq_of_uniformity_basis t=1280.156s\ncon-ron: check 62200/62733 theorem MeasureTheory.integral_comp_mul_left_Ioi t=1280.175s\ncon-ron: check 62220/62733 theorem _private.Mathlib.MeasureTheory.Integral.SetToL1.DominatedConvergence.0.MeasureTheory.setToFun_tsum._simp_1_2 t=1280.186s\ncon-ron: check 62240/62733 definition Pi.instSubtractionCommMonoid t=1280.238s\ncon-ron: check 62260/62733 theorem Filter.Tendsto.eventually_const_lt t=1280.255s\ncon-ron: check 62280/62733 theorem SignType.instDecidableLE._proof_3 t=1280.279s\ncon-ron: check 62300/62733 definition SignType.ofNat t=1280.285s\ncon-ron: check 62320/62733 theorem sign_neg t=1280.298s\ncon-ron: check 62340/62733 theorem SignType.instHasDistribNeg._proof_2 t=1280.308s\ncon-ron: check 62360/62733 theorem LSeries.term_of_ne_zero' t=1280.347s\ncon-ron: check 62380/62733 theorem _private.Mathlib.SetTheory.Cardinal.Finite.0.Nat.card_pos_iff._simp_1_3 t=1280.365s\ncon-ron: check 62400/62733 theorem orderOf_dvd_of_pow_eq_one t=1280.370s\ncon-ron: check 62420/62733 definition Subgroup.instSetLike t=1280.373s\ncon-ron: check 62440/62733 theorem SubgroupClass.instZPow._proof_1 t=1280.376s\ncon-ron: check 62460/62733 theorem Subgroup.zpowers._proof_3 t=1280.384s\ncon-ron: check 62480/62733 definition QuotientGroup.leftRelDecidable t=1280.387s\ncon-ron: check 62500/62733 theorem Function.isPeriodicPt_of_mem_periodicPts_of_isPeriodicPt_iterate t=1280.391s\ncon-ron: check 62520/62733 definition _private.Mathlib.Order.Monotone.Basic.0.Nat.exists_strictMono.match_1_1 t=1280.396s\ncon-ron: check 62540/62733 theorem Nat.ModEq.comm t=1280.399s\ncon-ron: check 62560/62733 theorem Subgroup.leftCosetEquivSubgroup._proof_7 t=1280.407s\ncon-ron: check 62580/62733 theorem pow_card_eq_one' t=1280.411s\ncon-ron: check 62600/62733 theorem CompletelyRegularSpace.completely_regular t=1280.444s\ncon-ron: check 62620/62733 theorem _private.Mathlib.Topology.UniformSpace.Uniformizable.0.UniformSpace.toCompletelyRegularSpace._simp_5 t=1280.464s\ncon-ron: check 62640/62733 theorem _private.Mathlib.Analysis.Analytic.Uniqueness.0.HasFPowerSeriesAt.apply_eq_zero._simp_1_1 t=1280.492s\ncon-ron: check 62660/62733 theorem CauchyFilter.inseparable_iff_of_le_nhds t=1280.519s\ncon-ron: check 62680/62733 theorem HasFPowerSeriesOnBall.add t=1280.550s\ncon-ron: check 62700/62733 theorem AnalyticOnNhd.sub t=1280.579s\ncon-ron: check 62720/62733 theorem Mathlib.Tactic.Linarith.le_of_eq_of_le t=1280.640s\ncon-ron: check done: 62733/62733 t=1453.142s (check 1421.920s)\ncon-ron: done: parse 4.736s, install 26.486s, check 1421.920s, 8 workers t=1453.142s\n",
+ "sha256_stdout": "24a2f446b05dd0c0ceda46fd73d4fc4530b7ed145dc9ab16afebf93007cbd373",
+ "sha256_stderr": "0d8ea0504fc875914b979d5b9fd6a8bf0cbe8279316eb6c9b0dda0e9ef02819d",
+ "accepted_declarations": 63776,
+ "end_utc": "2026-10-27T16:51:26Z",
+ "phase": "checked"
+}

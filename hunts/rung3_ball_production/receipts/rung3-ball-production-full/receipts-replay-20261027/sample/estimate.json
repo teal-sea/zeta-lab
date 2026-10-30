@@ -1,0 +1,132 @@
+{
+ "sample_modules": 175,
+ "groups": {
+  "core": {
+   "modules": 1849,
+   "sampled": 30,
+   "constants": 182964,
+   "sample_replay_s": 2.9,
+   "estimates_s": {
+    "by_constants": 191,
+    "by_olean_bytes": 201,
+    "by_modules": 178
+   }
+  },
+  "deps": {
+   "modules": 378,
+   "sampled": 10,
+   "constants": 19389,
+   "sample_replay_s": 0.2,
+   "estimates_s": {
+    "by_constants": 4,
+    "by_olean_bytes": 6,
+    "by_modules": 9
+   }
+  },
+  "Mathlib": {
+   "modules": 8537,
+   "sampled": 60,
+   "constants": 580690,
+   "sample_replay_s": 16.2,
+   "estimates_s": {
+    "by_constants": 2725,
+    "by_olean_bytes": 2681,
+    "by_modules": 2306
+   }
+  },
+  "RH100": {
+   "modules": 95,
+   "sampled": 10,
+   "constants": 24311,
+   "sample_replay_s": 180.3,
+   "estimates_s": {
+    "by_constants": 2168,
+    "by_olean_bytes": 1964,
+    "by_modules": 1712
+   }
+  },
+  "ZetaLean": {
+   "modules": 16,
+   "sampled": 16,
+   "constants": 733,
+   "sample_replay_s": 4.1,
+   "estimates_s": {
+    "exact": 4
+   }
+  },
+  "assembly": {
+   "modules": 5,
+   "sampled": 4,
+   "constants": 31,
+   "sample_replay_s": 0.6,
+   "estimates_s": {
+    "exact": 1
+   }
+  }
+ },
+ "sites": {
+  "per_site": {
+   "centre": {
+    "replay_s": 490.3,
+    "runner_cpu_s": 1458.4,
+    "olean_bytes": 343535408
+   },
+   "B_right_06": {
+    "replay_s": 24.1,
+    "runner_cpu_s": 54.0,
+    "olean_bytes": 16758616
+   },
+   "B_bottom_19": {
+    "replay_s": 42.0,
+    "runner_cpu_s": 119.0,
+    "olean_bytes": 32860088
+   },
+   "B_bottom_06": {
+    "replay_s": 57.5,
+    "runner_cpu_s": 193.7,
+    "olean_bytes": 45080480
+   },
+   "B_top_17": {
+    "replay_s": 45.1,
+    "runner_cpu_s": 149.8,
+    "olean_bytes": 35527160
+   },
+   "g_bottom_16": {
+    "replay_s": 108.5,
+    "runner_cpu_s": 367.5,
+    "olean_bytes": 90574408
+   },
+   "g_bottom_24": {
+    "replay_s": 102.2,
+    "runner_cpu_s": 331.5,
+    "olean_bytes": 81498208
+   },
+   "g_right_24": {
+    "replay_s": 106.2,
+    "runner_cpu_s": 369.9,
+    "olean_bytes": 81235112
+   },
+   "g_right_00": {
+    "replay_s": 104.0,
+    "runner_cpu_s": 277.7,
+    "olean_bytes": 81717520
+   }
+  },
+  "ratio_replay_to_runner_cpu": 0.325,
+  "total_runner_cpu_s": 57974.7,
+  "total_olean_bytes": 15123966128,
+  "estimates_s": {
+   "by_runner_cpu": 18849,
+   "by_olean_bytes": 20194,
+   "by_runner_cpu_centre_apart": 18376
+  }
+ },
+ "total_s": [
+  22605,
+  25325
+ ],
+ "total_h": [
+  6.28,
+  7.03
+ ]
+}
