@@ -13,7 +13,7 @@ finitely many overlapping terms:
 
     ||Phi_p f||^2 = (1/b) sum_{m,n>=0} p^{-(m+n)/2} (b - |m-n| log p)_+
     Q_p = (1 - 1/p) ||Phi_p f||^2
-    cost_p = log p (Q_p - 1)                      exact, rational
+    cost_p = log p (Q_p - 1)                      exact, a finite closed form
     sum_p cost_p = -prime_term                    checked to 1e-16
     W = pole + arch - sum_p cost_p
 
@@ -38,10 +38,17 @@ Two monotone facts, and they point the same way:
 - **The cost spreads.** At `b = 2` the prime side is three places (p = 2, 3, 5
   carry 98% of it). At `b = 8` it is 429 places and the top three carry 13%.
 - **The cover margin collapses.** `cover - 1` falls from 3.0e-2 to 1.6e-4 over
-  the same range, roughly like `b^{-2.5}`.
+  the same range; the local exponents between rows run from 2.2 to 5.6, and
+  about `b^{-3.8}` from `b = 2` to `b = 8` (first written "roughly like
+  `b^{-2.5}`", which the table does not support; corrected 2026-10-30).
 
 So the archimedean side is asked to cover a sum over an unbounded set of places,
-with a margin that shrinks as the test function widens. There is no finite set of
+with a margin that shrinks as the test function widens. One caution on reading
+the margin: by construction `cover - 1 = W_zeros / sum_p cost_p`, and
+`W_zeros = sum h(gamma) >= 0` because `h >= 0` and the verified zeros are on the
+line. So the margin is `W` normalized by the prime cost, not an independent
+statement about the archimedean term; its decay says `W` grows more slowly than
+the prime side does. There is no finite set of
 "important" primes doing the work, and no bounded slack.
 
 ## 3. A caveat that had to be handled, not hidden

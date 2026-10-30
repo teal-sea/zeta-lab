@@ -169,12 +169,14 @@ def main() -> dict:
     global DPS
     if len(sys.argv) > 1:
         DPS = int(sys.argv[1])
-    mp.mp.dps = DPS
     cache: dict = {}
     out = {}
     for name, sig in BASES.items():
         print(f"[{name}] sigmas={sig} dps={DPS}", flush=True)
-        out[name] = run_base(name, sig, cache)
+        # dps passed explicitly: the default was bound to DPS = 50 when run_base was
+        # defined, so `gram.py 90` used to compute every entry at 50 (review, 2026-10-30)
+        with mp.workdps(DPS):
+            out[name] = run_base(name, sig, cache, dps=DPS)
         r = out[name]
         print(
             f"  lambda_min={r['lambda_min']:+.6e} "

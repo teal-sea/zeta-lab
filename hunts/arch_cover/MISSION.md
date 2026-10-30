@@ -88,3 +88,9 @@ agents_may_not:
   - promote an observation to a result
   - use the reserved vocabulary of zeta/rigor.py
 ```
+
+*Note, 2026-10-30 (landing review).* The oracle above names the closed form
+`a gamma_1^2 / ln 10`. That form omits the pole's `e^{a/4}`, and against it the
+second kill condition fired (17.38 measured against 17.35 at `a = 0.2`). The
+form that reproduces every row is `a (gamma_1^2 + 1/4) / ln 10`; `RESULTS.md`
+section 4(b) records both. The HuntSpec is left as written.

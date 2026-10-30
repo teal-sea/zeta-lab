@@ -1,7 +1,7 @@
 {
  "broad": {
   "name": "broad",
-  "dps": 50,
+  "dps": 90,
   "sigmas": [
    0.1,
    0.15,
@@ -71,7 +71,7 @@
  },
  "plus1": {
   "name": "plus1",
-  "dps": 50,
+  "dps": 90,
   "sigmas": [
    0.1,
    0.15,
@@ -151,19 +151,19 @@
    -1.0506189287502675e-07,
    1.0000000882745161
   ],
-  "worst_entry_rel_diff": 4.479898589571788e-30,
-  "worst_entry_abs_diff": 2.4087960727664674e-47,
+  "worst_entry_rel_diff": 4.479898589571765e-30,
+  "worst_entry_abs_diff": 2.4087960727664553e-47,
   "worst_entry_scale": 5.376898660995611e-18,
   "smallest_entry": 5.376898660995611e-18,
   "n_entries": 16,
   "n_uncovered": 16,
   "largest_uncovered_scale": 0.2993960225075591,
-  "max_prime_tail": 5.167257704150835e-61,
+  "max_prime_tail": 5.167270631367049e-61,
   "max_zero_tail": 0.0
  },
  "plus2": {
   "name": "plus2",
-  "dps": 50,
+  "dps": 90,
   "sigmas": [
    0.1,
    0.15,
@@ -253,14 +253,14 @@
    4.249251206625969
   ],
   "lambda_from_zeros": [
-   5.822643798844588e-60,
+   5.822643798853674e-60,
    9.793700051955304e-24,
    3.140057133439464e-06,
    0.2384650863353062,
    4.249251206625969
   ],
   "lambda_min": 7.103229550507632e-35,
-  "lambda_min_from_zeros": 5.822643798844588e-60,
+  "lambda_min_from_zeros": 5.822643798853674e-60,
   "at_floor": true,
   "eigvec_min": [
    -8.273958075741648e-21,

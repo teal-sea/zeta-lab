@@ -32,12 +32,12 @@ ORDER = [0.10, 0.15, 0.20, 0.05, 0.25, 0.30]
 
 def main() -> dict:
     dps = int(sys.argv[1]) if len(sys.argv) > 1 else 50
-    mp.mp.dps = dps
     cache: dict = {}
     out = []
     for k in range(2, len(ORDER) + 1):
         sig = ORDER[:k]
-        r = gram.run_base(f"prefix{k}", sig, cache, dps)
+        with mp.workdps(dps):          # no global mpmath state (review, 2026-10-30)
+            r = gram.run_base(f"prefix{k}", sig, cache, dps)
         out.append(
             {
                 "k": k,

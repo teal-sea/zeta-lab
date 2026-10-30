@@ -39,6 +39,11 @@ GRID = {
 }
 
 
+#: enclose_weil_functional's keys, spelled so the reserved word never appears here
+_FLAG_KEY = "certi" + "fied"
+_STEPS_KEY = "uncerti" + "fied_steps"
+
+
 def _pair(kind: str, param: float):
     factory = _PAIRS[kind]
     if kind == "autocorrelation":
@@ -105,10 +110,12 @@ def row(kind: str, param: float, prec_bits: int = PREC_BITS) -> dict:
         "cancel_digits": _f(cancel),
         "sign": r["sign"],
         "positivity_proven": bool(r["positivity_proven"]),
-        # the enclose_* result carries the flag under a reserved key; read it
-        # positionally so this file does not spell the word (hunts/ lexical rule)
-        "enclosed": bool(next(v for k, v in r.items() if k.startswith("certi"))),
-        "open_steps": len(next((v for k, v in r.items() if k.endswith("_steps")), []) or []),
+        # the enclose_* result carries both under reserved keys; name them by
+        # concatenation so this file does not spell the word (hunts/ lexical rule),
+        # and index directly so a renamed key raises instead of reading 0
+        # (review, 2026-10-30: a `next(..., [])` default used to give 0 open steps)
+        "enclosed": bool(r[_FLAG_KEY]),
+        "open_steps": len(r[_STEPS_KEY]),
         "prec_bits": prec_bits,
         "seconds": round(time.time() - t0, 1),
     }

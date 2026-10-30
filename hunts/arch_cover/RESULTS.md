@@ -14,11 +14,9 @@ elsewhere. Grade: **measured**. No proof, no review.
 | three-piece balance | `hunts/arch_cover/balance.py` | 11 configurations, table below |
 | enclosed cover scan | `hunts/arch_cover/cover.py` | Arb at 256 bits, `rows.jsonl` |
 
-The environment note matters and is not cosmetic: a `PYTHONPATH` inherited from
-the Hermes 3.14 venv shadows the repository `.venv` and makes `import numpy`
-fail outright (the wheel is cp314, the interpreter cp312). Every command in this
-hunt runs with `PYTHONPATH` unset. With it set, `zeta.rigor` does not silently
-degrade, it crashes, which is the less dangerous failure but the noisier one.
+Every command runs from the repository root with the repository `.venv` and
+`PYTHONPATH` unset. (An operator environment note was removed at landing,
+2026-10-30: it described one machine, not the record.)
 
 ## 1. The instrument
 
@@ -68,8 +66,8 @@ is where the arithmetic side has to produce an exponentially small number.
 | gaussian a=0.005 | +2.003 | -0.928 | -1.4e-10 | +1.074 | 0.27 | 46 |
 | gaussian a=0.05 | +2.025 | -1.909 | -0.116 | +9.18e-5 | 4.34 | 7 |
 | gaussian a=0.2 | +2.103 | -1.500 | -0.603 | +8.86e-18 | 17.38 | 2 |
-| gaussian a=0.45 | +2.24 | -1.28 | -0.96 | +1.80e-39 | 39.1 | 1 |
-| gaussian a=0.65 | +2.353 | -1.113 | -1.240 | ~+5e-57 (band 7e-33) | ~56 | 1 |
+| gaussian a=0.45 | +2.238 | -1.230 | -1.008 | +1.80e-39 | 39.1 | 1 |
+| gaussian a=0.65 | +2.353 | -1.113 | -1.240 | +7.98e-57 from the zeros (enclosure band 7e-33) | 56.5 | 1 |
 | comb2 s=log2 sigma=0.01 | -1.5e-4 | +0.0642 | **+0.0174** | +0.0814 | -0.10 | 594 |
 | comb2 s=log2 sigma=0.02 | -6.1e-4 | +0.0809 | +0.0348 | +0.115 | -0.15 | 249 |
 | comb2 s=log2 sigma=0.05 | -3.8e-3 | +0.0533 | +0.0869 | +0.136 | -0.20 | 74 |
@@ -92,16 +90,27 @@ the comb are. So my opening framing, "the archimedean term must cover the
 prime side", is wrong as a general statement. What has to happen is that the
 three-term sum comes out non-negative, and the terms can carry either sign.
 
-**(b) Depth is exactly how far the test function sits from the first zero.**
+**(b) Depth is set by how far the test function sits from the first zero.**
 For the Gaussian the zero side is `W = 2 sum_rho e^{-a gamma^2} = 2 e^{-a gamma_1^2}(1 + O(e^{-a(gamma_2^2 - gamma_1^2)}))`,
-and the largest piece is `pole ~ 2 e^{a/4}`. So
+and the largest piece is `pole = 2 e^{a/4}`. So
 
-    depth = a * gamma_1^2 / ln 10 = 86.8 * a,
+    depth = a * (gamma_1^2 + 1/4) / ln 10 = 86.88 * a,
 
-with `gamma_1^2 = 199.79`. Measured against predicted: 4.34 vs 4.34 (a=0.05),
-17.38 vs 17.36 (a=0.2), 26.1 vs 26.05 (a=0.3), 39.1 vs 39.07 (a=0.45). The
-statistic carries no information beyond `h(gamma_1)/h(0)`; it is a measure of
-the gap between the test function's scale and the first zero, nothing deeper.
+with `gamma_1^2 = 199.79`. Measured against this: 4.344 vs 4.344 (a=0.05),
+17.375 vs 17.375 (a=0.2), 26.063 vs 26.063 (a=0.3), 39.094 vs 39.094 (a=0.45),
+to every digit `results.json` and a direct sum over the zeros carry. The
+statistic carries no information beyond `h(gamma_1)` against the pole term; it
+measures the gap between the test function's scale and the first zero, nothing
+deeper.
+
+*Corrected 2026-10-30, at landing.* This paragraph first gave
+`depth = a gamma_1^2 / ln 10` and "predicted" values 17.36, 26.05 and 39.07,
+which match neither that form (17.354, 26.030, 39.046) nor the measurement. The
+first form drops the pole's `e^{a/4}`. Against it, the MISSION kill condition
+"the closed form depth fails to reproduce a measured row to the printed digits"
+fired (17.38 measured against 17.35), and that was not recorded. It is recorded
+here: the condition fired against the form as first written, and the corrected
+form reproduces every row.
 
 **(c) Both difficulties are active at large `a`, contrary to a first reading of
 the small-`a` rows.** The prime side *grows* with `a` (0.116 at 0.05, 0.603 at
@@ -114,17 +123,21 @@ zero side `sum h(gamma)` is a sum of non-negative terms and never cancels at all
 
 **(d) The inequality has no uniform gap.** Along this family `W -> 0` while every
 piece stays O(1), so the bottom of the Weil form over the admissible class is 0
-and is approached, not attained away from the zeros. Consequence: no proof of
-the shape `W >= c * (something positive)` with a fixed `c` can exist. A proof
+and is approached, not attained away from the zeros. Normalized by
+`||f||^2 = (1/2 pi) int h = 1/(2 sqrt(pi a))`, the ratio `W / ||f||^2` is about
+`4 sqrt(pi a) e^{-a gamma_1^2}` and also tends to 0. Consequence: no inequality
+`W(|f^|^2) >= c ||f||^2` with a fixed `c > 0` holds over the admissible class. A proof
 must be an identity, or an inequality whose constant degenerates exactly as the
 test function concentrates away from the zeros. This is the single most useful
 constraint the measurement produces, and it is elementary once stated.
 
 **(e) The enclosed instrument has a floor at ~33 digits, set by prime
-truncation.** At `a = 0.65` the enclosure is `[-7.12e-33, +6.36e-34]`, `sign = 0`,
-and it is **identical at 256 and 512 bits**. The binding term is
+truncation.** At `a = 0.65` the enclosure is `[-7.12e-33, +6.36e-34]`, `sign = 0`.
+It was reported identical at 256 and 512 bits; only the 256-bit run is committed
+(`rows.jsonl`), so the 512-bit half of that statement is unpinned. The binding term is
 `prime_tail_bound = 7.76e-33` at the `n_max` cap of `2e6`; arithmetic precision
-is irrelevant. The true value there is about `4.8e-57`. So enclosed positivity
+is irrelevant. The value from the zeros there is `7.98e-57` (first written
+"about 4.8e-57"; corrected 2026-10-30). So enclosed positivity
 cannot be pushed past roughly 33 digits of cancellation by adding bits: it needs
 a different prime-tail argument. Every `UNPROVEN` row in `rows.jsonl` is this
 floor, not a failure of the math.
@@ -159,11 +172,39 @@ hunt, not this one; `hunts/arch_cover` measures and does not enclose
   risk in every enclosed number produced here.
 - The prime tail is truncated at a hard `n_max = 2e6`, and at narrow `h` that
   truncation, not precision, sets the enclosed floor (`prime_tail_bound =
-  7.76e-33` at `a = 0.65`). Raising `prec_bits` from 256 to 512 changes the
-  enclosure not at all. The row that reports `UNPROVEN` at `a = 0.65` is this
+  7.76e-33` at `a = 0.65`). Raising `prec_bits` from 256 to 512 was reported to
+  change the enclosure not at all; that run is not committed. The row that reports `UNPROVEN` at `a = 0.65` is this
   cap; the arithmetic is fine and the true value is ~`e-57`.
 - `cover.py`'s cover ratio is undefined when the prime side is positive; the code
   now reports `None` and `prime_positive` instead of dividing. The first version
   asserted positivity of `-prime` and died mid-scan without writing `results.json`;
   `scan()` now appends to `rows.jsonl` after every row.
 - No human has reviewed any of this.
+
+## The doors
+
+This hunt measures a ceiling, the 33-digit floor of the enclosed instrument, so
+it owes this section. The floor is a measured optimum at one cap, not a proved
+ceiling: candidate, Gaussian family `a <= 0.65`, information class the prime sum
+truncated at `n_max`, proof status none.
+
+**Active constraints at the optimum.** One binds: `prime_tail_bound` at the
+`n_max = 2e6` cap, `7.76e-33` at `a = 0.65`, against a true value of `7.98e-57`.
+Arithmetic precision does not bind (256 bits leave the enclosure unchanged on the
+committed run). The zero side does not enter the enclosure.
+
+**The frozen-constant inventory.**
+
+| constant | value | what relaxing it trades against |
+| --- | --- | --- |
+| `n_max` | 2e6 | the tail bound falls as `n_max` grows, against a prime sum whose cost grows with it; this is the door with trade shape |
+| the tail argument | the generic bound in `enclose_weil_functional` | a sharper tail estimate for Gaussian `g` would lower the floor without more primes; no cost model exists yet |
+| `prec_bits` | 256 | no trade: it does not bind |
+| the Gaussian grid | `a` up to 0.65 | beyond it the true value falls further under the floor |
+
+**The information class.** Raising `n_max` or sharpening the tail bound stays
+inside the data this family reads (primes, the archimedean integral, the pole).
+Neither reads the zeros. Reaching depth 56 at `a = 0.65` enclosed needs the tail
+of the prime sum to be bounded to about `1e-57`, which the current bound does not
+approach at any affordable `n_max`.
+

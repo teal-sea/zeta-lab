@@ -25,7 +25,7 @@ because the Fourier partner of `h_jk` is the convolution `f_j * f_k`. Both are
 closed form and `W(h_jk)` is the repository's `zeta.weil.weil_functional`. The
 `sigma_j` control the width of `h` in `r`: large `sigma` means `h` is narrow and
 misses the zeros, which is the degenerate direction measured in
-`hunts/arch_cover` (depth `= sigma^2 gamma_1^2 / ln 10`).
+`hunts/arch_cover` (depth `= sigma^2 (gamma_1^2 + 1/4) / ln 10`; first written without the `+ 1/4` from the pole term, corrected 2026-10-30).
 
 ## What is measured
 

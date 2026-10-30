@@ -30,8 +30,14 @@ side (`2 sum_{gamma>0} h_jk(gamma)`). Residuals, 15 unique entries, dps 50:
 Two things about this table, both of which constrain what can be claimed:
 
 - The residual floor is ~1e-32 absolute, and it is **the zero table's 30-digit
-  precision**, not the arithmetic side: raising dps from 50 to 90 changes every
-  number in this hunt not at all, including the residuals. So the arithmetic
+  precision**, not the arithmetic side: raising dps from 50 to 90 changes no
+  eigenvalue at any printed digit, and no residual beyond its 15th digit
+  (`results_dps90.json`). *Corrected 2026-10-30, at landing:* the first
+  `results_dps90.json` was computed at dps 50, because `run_base` took its `dps`
+  default from `DPS` when it was defined and `main()` never passed it, so the
+  file recorded `"dps": 50` for every basis. With the default passed explicitly,
+  the run was repeated at dps 90 (3 min 45 s) and the file replaced; the
+  statement above now rests on that run. So the arithmetic
   side is more accurate than the check, and the check cannot confirm entries
   below ~1e-32.
 - `(0.60,0.60)` is the exception that matters: its `prime_tail_bound` is
@@ -53,7 +59,8 @@ Two things about this table, both of which constrain what can be claimed:
 The collapse from 3.6e-7 to 3.9e-25 is **the single-element degeneracy**, not a
 collective effect: the bottom eigenvector is the coordinate vector of the
 concentrated element. That is the same direction `hunts/arch_cover` measured
-(depth `= sigma^2 gamma_1^2 / ln 10`), restated at the level of the form.
+(depth `= sigma^2 (gamma_1^2 + 1/4) / ln 10`; first written without the `+ 1/4`,
+corrected 2026-10-30), restated at the level of the form.
 
 `plus2` is not a measurement. The (0.60,0.60) entry carries 1% truncation
 uncertainty, i.e. ±1e-33, and the eigenvalue is 7e-35: the two sides disagree by
@@ -88,15 +95,22 @@ per added element at this end of the range.
 
 ## 4. What this settles
 
-`W(|f^|^2) = sum_rho |F(rho)|^2`, so `lambda_min` on a span is exactly the
-squared distance from that span to the space of functions vanishing at the
-zeros. The measurement says that distance falls geometrically with the dimension
-of a perfectly ordinary approximation space.
+`lambda_min` on a span is the minimum of `W(|f^|^2) / ||f||^2` over that span,
+and `W(|f^|^2) = sum_rho h(gamma_rho)`. If every zero is on the line this is
+`sum_gamma |F(gamma)|^2` with `F = f^`, a measure of how small an element of the
+span can be made at the zeros relative to its norm (it is not a distance, and
+reading it as `|F|^2` presupposes the zeros are on the line, which the verified
+table guarantees only to its height). The measurement says this minimum falls
+geometrically with the dimension of a perfectly ordinary approximation space.
 
-Consequence for strategy, and it is a negative one: **"establish a positive gap on
-a growing subspace, then pass to the limit" cannot work.** The gap is not a
-property of the form that survives enlargement; it is created by the choice of
-subspace and destroyed by adding dimensions. Any proof through this functional
+Consequence for strategy, and it is a negative one: **a uniform positive gap does
+not survive enlargement.** An argument that needs `lambda_min` bounded below
+independently of the subspace cannot work on these spans: the gap is created by
+the choice of subspace and destroyed by adding dimensions. Nonnegativity on each
+subspace of an exhausting sequence does pass to the limit; that weaker route is
+untouched by this measurement. (Scope corrected 2026-10-30: this paragraph first
+read "establish a positive gap on a growing subspace, then pass to the limit
+cannot work", and called `lambda_min` exactly a squared distance.) Any proof through this functional
 must handle the degeneracy explicitly (an identity, or a decomposition whose
 constant degenerates in step with the test function), which is the same
 conclusion `hunts/arch_cover` reached from the other direction, with a
@@ -111,8 +125,9 @@ is consistent with RH and with its negation on other spaces.
   `(M, G)` problem is badly conditioned by construction (entries span 1e-31 to
   1), and nothing here is enclosed.
 - Entry residuals sit at the zero table's 30-digit floor; the arithmetic side
-  agrees at dps 50 and 90 to all printed digits, so the dps-90 run is a null
-  test of the arithmetic and a positive test only of the zero table's limit.
+  agrees at dps 50 and 90 to all printed digits (the dps-90 run as repeated on
+  2026-10-30, above), so the dps-90 run is a null test of the arithmetic and a
+  positive test only of the zero table's limit.
 - `plus2` is unresolved, as stated. Do not quote its 7.1e-35 or 5.8e-60.
 - The basis is Gaussian and centred at the origin. Shifts and non-Gaussian
   elements are not measured here.

@@ -4706,48 +4706,58 @@ paragraph first ended "nothing is a result yet", which was written when the hunt
 opened.)
 
 
-### Hunt #154: the three pieces of the Weil functional and how deep they cancel (`arch_cover/`, 2026-10-30)
+### Hunt #155: the three pieces of the Weil functional and how deep they cancel (`arch_cover/`, 2026-10-30)
 
 **Status: measured, no claim promoted.** Pole, archimedean and prime pieces are
 evaluated separately with Arb enclosures for the Gaussian, Fejer and
 autocorrelation families, and each value is checked against the zero side of the
 explicit formula. The cancellation depth, the number of digits by which the three
-O(1) pieces cancel to give W, equals `a gamma_1^2 / ln 10` on the Gaussian family
-predicted against measured to the printed digits (4.34 vs 4.34, 17.38 vs 17.36,
-39.1 vs 39.07), so the statistic is exactly how far the test function sits from
-the first zero and nothing deeper. Two consequences are recorded: the prime side
+O(1) pieces cancel to give W, equals `a (gamma_1^2 + 1/4) / ln 10` on the Gaussian
+family to every recorded digit (17.375 at a = 0.2, 39.094 at a = 0.45), so the
+statistic measures how far the test function sits from the first zero and nothing
+deeper. (Corrected at landing, 2026-10-30: this entry first gave
+`a gamma_1^2 / ln 10` with "predicted" values matching neither form; against that
+form the hunt's own kill condition fired, now recorded in RESULTS.md 4(b). This
+hunt was opened as #154, which `gabcke_remainder/` holds.) Two consequences are recorded: the prime side
 grows with a where the zero sum collapses, so the hard regime sits inside the
-family, and W goes to zero with every piece at O(1), so no uniform positive lower
-bound exists. The enclosure floor is 33 digits and is set by the prime truncation
-cap, not by precision; raising the bit count changes nothing. Nothing here is
+family, and W goes to zero with every piece at O(1), so no inequality
+`W >= c ||f||^2` with fixed `c > 0` holds over the class. The enclosure floor is 33
+digits and is set by the prime truncation cap at `n_max = 2e6`, not by precision
+(the 512-bit run behind "raising the bit count changes nothing" is not committed);
+RESULTS.md ends with its doors. Nothing here is
 evidence for RH. Record: [MISSION.md](arch_cover/MISSION.md),
 [RESULTS.md](arch_cover/RESULTS.md).
 
-### Hunt #155: the Gram matrix of the Weil form and its bottom eigenvalue (`weil_gram/`, 2026-10-30)
+### Hunt #156: the Gram matrix of the Weil form and its bottom eigenvalue (`weil_gram/`, 2026-10-30)
 
 **Status: measured, no claim promoted.** The bilinear Gram `M_jk = W(h_jk)` on a
 Gaussian basis, solved against the L2 Gram as a generalized eigenproblem, with
 every entry checked against the zero side (residual at the zero table's 30 digit
-floor; a dps 50 against dps 90 run is a null test). Adding one concentrated
+floor; a dps 50 against dps 90 run is a null test, rerun at landing because the
+first "dps 90" file had been computed at dps 50). Adding one concentrated
 element drops the bottom eigenvalue by 18 orders, and the bottom eigenvector
 there is the coordinate vector, so that drop is the single element degeneracy
 `arch_cover` measured. Refining a purely broad span, where every element is
 individually healthy at 3.1e-8 or better, still drops it from 2.4e-3 to 5.0e-22
 across six dimensions, so the gap is created by the subspace choice and destroyed
-by enlargement. The recorded consequence is that establishing a gap on a growing
-subspace and passing to the limit cannot work. Nothing here is evidence for RH.
+by enlargement. The recorded consequence is that a gap bounded below uniformly in
+the subspace cannot be had on these spans; nonnegativity on each subspace of an
+exhausting sequence, which does pass to the limit, is untouched. (Scope and
+numbering corrected at landing, 2026-10-30; opened as #155.) Nothing here is evidence for RH.
 Record: [MISSION.md](weil_gram/MISSION.md), [RESULTS.md](weil_gram/RESULTS.md).
 
-### Hunt #156: the prime side split by place, exactly, for a compact test function (`weil_split/`, 2026-10-30)
+### Hunt #157: the prime side split by place, exactly, for a compact test function (`weil_split/`, 2026-10-30)
 
 **Status: measured, one exact identity, no claim promoted.** For a rectangle test
 function the shift operator has finitely many overlapping terms, so each place
-carries a rational cost and the per place sum reproduces the explicit formula
-prime term to 1e-16. Two monotone findings: the cost spreads from three places
+carries an exact closed-form cost (not rational: it carries `log p` and
+`p^{-1/2}`) and the per place sum reproduces the explicit formula prime term to
+1e-16. Two monotone findings: the cost spreads from three places
 carrying 98 percent at b=2 to 429 places with the top three carrying 13 percent at
-b=8, and the covering margin falls from 3.0e-2 to 1.6e-4 over the same range. The
-archimedean side is asked to cover an unbounded set of places with shrinking
-slack. Compact support costs a slow quadrature, so every covering ratio is quoted
+b=8, and the covering margin falls from 3.0e-2 to 1.6e-4 over the same range,
+about `b^{-3.8}`. That margin is `W_zeros` over the prime cost by construction, so
+it normalizes `W` rather than testing the archimedean term separately. (Corrected
+and renumbered at landing, 2026-10-30; opened as #156.) Compact support costs a slow quadrature, so every covering ratio is quoted
 from the verified zeros with the prime side exact, and the quadrature column is
 printed beside it rather than absorbed. Nothing here is evidence for RH. Record:
 [MISSION.md](weil_split/MISSION.md), [RESULTS.md](weil_split/RESULTS.md).
