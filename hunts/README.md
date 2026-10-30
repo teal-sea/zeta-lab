@@ -75,6 +75,16 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #154: Gabcke's remainder, opened (`gabcke_remainder/`, 2026-10-29)
+
+**Status: opened. The remainder is not proved.** The height cap on the
+kernel-checked strip proof is the order-4 Euler-Maclaurin error bar. This
+hunt is the formalization of Gabcke's explicit Riemann-Siegel remainder, the
+alternative already recorded and left unformalized by hunts #132 and #133.
+The first check is the coefficient recursion in Satz 2.1.1: Lean's kernel
+accepts the seven printed `λ_n` with no axioms. That is not the remainder
+bound. Record: `gabcke_remainder/MISSION.md`, `gabcke_remainder/RESULTS.md`.
+
 ### Hunt #153: Requirement A as a static provenance scan (`ontology_provenance/`, 2026-10-24)
 
 **Status: measured, static scan, no claim promoted.** A name and import-graph
