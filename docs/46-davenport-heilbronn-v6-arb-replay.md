@@ -27,9 +27,9 @@ here are redistributed under those terms with this attribution.
 Inputs pinned. `dh_zeros_master_v6.csv` SHA-256
 `1ce493501c9356cf7bbb433add0a5120b0fed87bc7acdbaedb93e286e8ba4050` (1,268 rows);
 `closure_table.csv` `f4c2601ee5f68eb773c3b73ee293c4b05749898e031b2135b2838cf8094aaf1a`
-(400 windows of height 50); `verify/vdh.py`
-`f8e03d7e69035682d6e574e0f3ac7b5e1b8ffb2247dbae1713efc4a97a964398`;
-`verify/vwin.py` `80b6f9919cc8a0eb1ccae5f1c9c1dd96e10c564f50e23ac60316914a7649e913`.
+(400 windows of height 50); in the Zenodo bundle's `verify/` folder (not this tree),
+`vdh.py` `f8e03d7e69035682d6e574e0f3ac7b5e1b8ffb2247dbae1713efc4a97a964398` and
+`vwin.py` `80b6f9919cc8a0eb1ccae5f1c9c1dd96e10c564f50e23ac60316914a7649e913`.
 
 Environment. Python 3.11.17, python-flint 0.9.0 (Arb/FLINT), mpmath 1.4.1,
 numpy 2.4.6, Linux x86-64, `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1`, eight
@@ -180,7 +180,7 @@ exits. `data/dh_v6_replay/receipts.tar.gz` holds the 400 window receipts, the
 
 Re-run the verifier: download the Zenodo zip, confirm its SHA-256, unzip, point
 the three path literals in `verify/*.py` at the extracted CSVs, apply
-`vdh_arb_majorant.patch` to `verify/vdh.py`, install
+`vdh_arb_majorant.patch` to the bundle's `vdh.py`, install
 `python-flint==0.9.0 numpy<3 mpmath` in a Python 3.11 environment, then run
 the package's `gates.py`, window and row drivers; the 400 windows took about
 5,600 CPU-core-seconds (wall 729 s at eight workers) and the rows about 230. The complete worker tree (drivers,
