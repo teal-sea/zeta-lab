@@ -210,7 +210,7 @@
    "what": "GitHub API record of tomoto0's commit b83a73c6 (quasi-riemann-hypothesis-7-8-verification), saved by the original lane run, first hashed in repair r4"
   },
   "guo_readme_cacbab49": {
-   "root": "/tmp/claude-1001/-Users-thomas-zeta-lab/6d3ec2ab-c21c-4ee5-9749-13037110fa30/scratchpad/verify_followups_r1/dl_guo",
+   "root": "<scratch>/verify_followups_r1/dl_guo",
    "path": "readme_cacbab49.md",
    "sha256": "5bd98faf473201cc279c293d539862bf12eee8e171ad5bca54725fb3a352448f",
    "what": "aster2024/openai-math-followups zero-free-beyond-7-8/README.md at commit cacbab49dd26305f27a6d7339b5d716f9596aadc, re-fetched by verifier r1 at 2026-10-21T15:24Z into session scratch storage"
@@ -221,19 +221,19 @@
    "what": "arXiv abstract page of 2610.26835, text, saved by the original lane run, first hashed in repair r4"
   },
   "pulls_2128": {
-   "root": "/tmp/claude-1001/-Users-thomas-zeta-lab/6d3ec2ab-c21c-4ee5-9749-13037110fa30/scratchpad/followups_repair_r4/live_dl_2126",
+   "root": "<scratch>/followups_repair_r4/live_dl_2126",
    "path": "pulls_recent.json",
    "sha256": "2bc0f9767bbe47a52bbd0fc91e698021ecb535dd0239145667112d9c57bdb29b",
    "what": "GitHub API, the ten newest pull requests of GTimG/QuasiRiemannTracker (state all, sorted by creation, descending), fetched 2026-10-21T21:28:16Z by repair r4 into session scratch storage"
   },
   "catalogue_2128": {
-   "root": "/tmp/claude-1001/-Users-thomas-zeta-lab/6d3ec2ab-c21c-4ee5-9749-13037110fa30/scratchpad/followups_repair_r4/live_dl_2126",
+   "root": "<scratch>/followups_repair_r4/live_dl_2126",
    "path": "catalogue_live.json",
    "sha256": "d83028c2b31fcef63ea264e67c8493ec8e22cd052eea7bcacde327eb59cc5532",
    "what": "gtimg.github.io/QuasiRiemannTracker/catalogue.json fetched 2026-10-21T21:28:09Z by repair r4; byte-identical to the saved catalogue"
   },
   "pr69_checks": {
-   "root": "/tmp/claude-1001/-Users-thomas-zeta-lab/6d3ec2ab-c21c-4ee5-9749-13037110fa30/scratchpad/followups_repair_r4/live_dl_2126",
+   "root": "<scratch>/followups_repair_r4/live_dl_2126",
    "path": "pr69_checkruns.json",
    "sha256": "f422a970153cb73bff7a59def3f83fa9edb531d572c0f05aa571d0ef395029f8",
    "what": "GitHub API check runs on GTimG/QuasiRiemannTracker for PR 69's head ac76d5ef6008d976a7b8f3c1d921af2317e79ce9, fetched 2026-10-21T21:38:40Z by repair r4"

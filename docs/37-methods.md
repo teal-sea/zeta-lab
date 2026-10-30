@@ -5860,7 +5860,9 @@ every name the body reads, not only a call, and a from-import the name reads.
 A from-import that a file only re-exports follows its source. An attribute
 re-export (`import helper` then `f = helper.f`) does not, and RESULTS names
 that residual. `import module`
-follows the module. A name the file defines is a provider of that name, not a
+follows the module, and a whole-module or star import of a provider, or an
+import from a laboratory directory the scan does not read, is undecided
+(closed 2026-10-30; they read clean before). A name the file defines is a provider of that name, not a
 consumer of it. Dynamic execution and a name that cannot be resolved are
 undecided, never clean. The planted violations in the lesion suite must come
 back tainted, a

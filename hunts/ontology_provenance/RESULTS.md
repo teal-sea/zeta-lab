@@ -66,7 +66,8 @@ verdict: the scan does not decide definitional use.
 
 **What the scan establishes.** Five of the fifteen files reach a zero-derived
 name: 03, 05, 06, 08 and 11. That is lexical and import-graph reachability.
-It is not the claim that six frames are built on the zeros, and it is not
+It is not the claim that five frames are built on the zeros (first written "six";
+corrected 2026-10-30), and it is not
 Requirement A rejecting them at the definition stage.
 
 On reading the five files: only 03 and 08 construct from zeros. 05 and 06
@@ -117,6 +118,17 @@ and followed `first_zeros` into `zeta.quasicrystal` and `zeta.synthesis`.
    right-hand side is an attribute, not a from-imported name, and the assigned
    name is a local definition the scanner does not follow. That is the residual
    fail-open. It is not the fifteen-frame table, and it is not closed here.
+7. **Three more forms read clean until 2026-10-30, and are now undecided.** A
+   review of the merged scan found them: a whole-module import of a provider
+   (`import zeta.core as core; core.Z(t)`), a star import of one
+   (`from zeta.core import *`), and an import from a laboratory directory the
+   scan does not read (`from scripts.helper import zero_table`). A provider holds
+   tainted names, and which of them a whole-module importer reads is not
+   resolved, so `resolve` now returns undecided for both provider forms; an
+   edge into `scripts/`, `harness/`, `tests/` or another unscanned laboratory
+   directory is undecided too. Third-party imports stay skipped. Lesion tests
+   pin all three, and they fail on the code as merged. No frame of the fifteen
+   uses these forms, so the table does not move.
 
 ## 4. The doors
 
@@ -157,7 +169,7 @@ optimized.
 | `BANNED_NAMES` and `BANNED_MODULES` | the rule set in `provenance.py` | dropping a name misses that ingredient, which is a fail-open; adding a homonym false-flags a prime-side use. The word "zero" in an identifier is already not a hit. |
 | `import module` granularity | the whole module, not the attribute | attribute tracking would clear a file that imports a tainted module only to use a clean name, and would cost a walker this hunt does not build. Fewer coarse hits, against a new miss if the walker drops a load. |
 | dynamic execution | `exec`, `eval`, `__import__`, `importlib` and `runpy` are undecided, not clean | calling them clean fails open. Resolving them means running the file, which this scan does not do. |
-| `import zeta` | not an edge into `zeta.zeros` | treating the package import as the zero module would taint every file that imports the package, including frames that never name a zero. |
+| `import zeta` | not an edge into `zeta.zeros` | `zeta/__init__.py` is itself tainted, so `import zeta; zeta.zeta(s)` already reads tainted (reachable) and `from zeta import zeta` undecided; treating the package import as the zero module adds nothing. (Corrected 2026-10-30: this row first said the opposite.) |
 | from-import re-export | followed to the source symbol | no longer frozen open. An attribute re-export, `import helper` then `f = helper.f`, is still not followed. Closing it stays inside the same AST. This hunt does not do it. |
 
 ### The information class of each door

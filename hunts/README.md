@@ -587,6 +587,9 @@ by issues #217, #218 and #219, closed by #287 and #291. `zeta/li.py`'s coefficie
 written during the `li_dh_onset` run and committed on the branch in `a9eba317a`, was not landed:
 `tests/test_li.py` states that every committed `data/li_*.json` table was checked out of band,
 and it names no check of this one. Nothing else on the branch is missing from main.
+(Stale since #348, 2026-10-26: `tests/test_li.py` no longer makes that statement, and asserts
+its absence; the committed tables are recomputed by the tests `zeta/li.py` names. The cache
+above was still not landed.)
 
 **Record (2026-09-10): three write-ups, three adversarial audits, and the pattern in what
 they caught.** Moved here from `HANDOFF.md` when that file was retired on 2026-10-22; the
