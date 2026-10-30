@@ -4679,8 +4679,12 @@ Revers ([RESULTS.md](skewes_enclosure/RESULTS.md) section 7). (Corrected
 the exact 727.951319892.) Neither interval is a new record.
 (4) Post-hoc review, 2026-10-27, measured, not pre-registered: the 3.37e-5 gap
 is twice the second-order sum S2. Revers's printed S* equals the
-Saouter-Demichel first-order value he quotes, minus S2, to 1.0e-9, where his
-Theorem 3.1 adds S2. Our first-order sum matches Saouter-Demichel's to 4.7e-8,
+Saouter-Demichel first-order value he quotes, minus S2, to 1.0e-9 (S2 over the
+first 2e4 zeros, tail estimated, not bounded), where his Theorem 3.1 adds S2.
+Read against arXiv v2 only; the published JNT version was not read. At the
+printed omega 727.95134 the corrected bound is negative, so the paper's
+localization survives only at the inferred omega (RESULTS.md section 8,
+scope corrected 2026-10-30). Our first-order sum matches Saouter-Demichel's to 4.7e-8,
 an end-to-end check of the 2.2e7 zeros. The verdict on H stands, but H's omega
 was right in substance (RESULTS.md sections 3, 7 and 8). The review also
 corrected the doors: A is a binding constant just above the R6 cliff, not a
