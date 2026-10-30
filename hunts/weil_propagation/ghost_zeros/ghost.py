@@ -652,7 +652,10 @@ def unit(kind: str, c, variant: str = "primary") -> dict:
     rec = {"kind": kind, "c": ckey(c), "c_float": float(Fraction(c)), "variant": variant, "N": N,
            "prec": prec, "L": fl(L), "eigen_method": method, "inertia_at_0": inert0, **hyp,
            "mu0": W.mu0(x).str(10, radius=True), "v_head": [fl(x[i, 0]) for i in range(6)],
-           "band_edge": 2 * math.pi * N / fl(L)}
+           "band_edge": 2 * math.pi * N / fl(L),
+           # without H1 there is no eta, the transform runs with eta = 0, and the counts
+           # below are those of F_x, not of F_v (review, 2026-10-30; consumers gate on H1)
+           "counts_are_of_F_v": hyp.get("eta") is not None}
     nx2 = W.dot(x, x)
     if kind == "dh":
         rec["Q1"] = (W.offline_quadruple(x, L, GAMMA_1, DELTA_1) / nx2).str(10, radius=True)
@@ -1317,6 +1320,7 @@ def gap2_unit(c) -> dict:
     near = min(zs, key=lambda z: abs(z["x"] - g2)) if zs else None
     nx2 = W.dot(x, x)
     return {"c": ckey(c), "H1_simple": hyp["H1_simple"], "eta": hyp.get("eta"), "rq": hyp["rq"],
+            "counts_are_of_F_v": hyp.get("eta") is not None,
             "Q2": (W.offline_quadruple(x, L, W.GAMMA_OFF2, W.DELTA_OFF2) / nx2).str(10, radius=True),
             "rects": rects, "nearest_to_gamma2": ({"x": near["x"], "lo": near["lo"], "hi": near["hi"],
                                                     "dist": near["x"] - g2} if near else None),

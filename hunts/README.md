@@ -93,7 +93,8 @@ fixed function, so its sign changes cannot depend on kappa.
 
 ### Hunt #146: the out-of-band reduction priced at the Davenport-Heilbronn line (`weil_dh_line/`, 2026-10-21)
 
-**Status: open, on a draft pull request; resumed in place on 2026-10-26 by the owner's
+**Status: open; landed on main in #356 on 2026-10-27, with the raise recorded below
+(updated 2026-10-30: this line first read "open, on a draft pull request"). Resumed in place on 2026-10-26 by the owner's
 decision. No-go at the gate for the searched envelopes (attempt unresolved, measured);
 K2 on DH at the DH line run on 2026-10-26 (streamed): the pipeline refuses at every
 checkpoint to `T# = 800`, so the binding kill condition did not fire (measured, stage A only).** Asks whether zeta's Weil window
