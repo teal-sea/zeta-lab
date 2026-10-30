@@ -28,6 +28,8 @@ Landing note, 2026-10-30 (PR #370). The run above was on the file without a `mod
 header. The header was added at landing because every tracked `.lean` file needs one
 (`tests/test_palomar_module_port.py`), and the file was not re-elaborated on this box,
 which has no Lean toolchain. The nightly `full.yml` Lean job now elaborates it and
-requires both theorems to print no axioms, so the first nightly after the landing is the
-check of the file as committed.
+requires both theorems to print no axioms. It first ran on the landing branch the same day:
+GitHub Actions run 41057260555 (`full.yml`, `lean_only`, commit b029bc2c), step "the Gabcke
+coefficient recursion" passed, so the file as committed elaborates under v4.35.0-rc2 and
+`lambda_printed` and `lambda_divides` print "does not depend on any axioms".
 
