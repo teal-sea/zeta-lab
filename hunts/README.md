@@ -4753,3 +4753,21 @@ row counts would stop at 13/15 (rows counted in full need `C₀ ≤ 0`). The Eul
 contour 17/50, the 11/12 input and Lemma plain's `κ ≥ 3/4` do not fix 7/8. 38 printed
 constants reproduced exactly; 39 citations checked against the pinned source; the moment
 lemmas' proofs not checked. See `seven_eighths_pin/RESULTS.md`.
+
+### Hunt #148: the 7/8 probe's local identity over F_q[T], and the biquadratic case (`ff_probe/`, opened 2026-10-21)
+
+**Status: closed 2026-10-26; candidate refuted at the stated parameters.** Over F_13[T]
+the biquadratic theta's degree-3 coefficients are not multiplicative up to phases (zero at
+234 of the 286 triples of linear primes, abs(H)^2 = 52 at the rest), so the quartic probe has
+no scalar local identity, and hunt #136's template prices nothing for it. The cubic control
+over F_7[T] reproduces Lemma 7.1 exactly. A PARI second implementation reproduced every
+exact number it recomputes. Carrying the verdict to S4 over Q(i) is inferred, so S4 there
+stays an unresolved attempt. See [RESULTS.md](ff_probe/RESULTS.md). The lane was resumed in
+place on 2026-10-26 by the owner's decision. A lane of the campaign the owner directed on
+2026-10-21. The workflow proposed the number 141; #138 to #144 are held for landings being
+renumbered elsewhere, so this hunt is #148. Over F_q[T] the Fourier coefficients of
+higher-order metaplectic theta functions are finite Gauss-sum expressions (Hoffstein 1992,
+Patterson 2007 and 2014) and RH is a theorem, so the question hunt #136 left open by reading,
+whether a biquadratic-theta probe with quartic averaging has a scalar local Euler identity
+like Lemma 7.1 of OpenAI's 7/8 paper, can be tested exactly. The cubic case over F_7[T] is
+the control. Nothing here bears on RH over Q (`docs/08`).

@@ -70,10 +70,11 @@ stays out of this file. No em dashes.
 - **Certificates, verifiers and exact arithmetic** (24). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
-- **Zero-free half-planes, L(1, chi) and class numbers** (3). An explicit Littlewood
+- **Zero-free half-planes, L(1, chi) and class numbers** (4). An explicit Littlewood
   bound from a fixed zero-free half-plane, the exact sieve that spends it on complete
-  class-number lists, and a way to locate the inequality that fixes a paper's
-  half-plane constant.
+  class-number lists, a way to locate the inequality that fixes a paper's
+  half-plane constant, and an exact function-field control for the Euler identities
+  that half-plane arguments rest on.
 - **Primes in short intervals and explicit formulas** (2). Smoothed explicit formulas
   with closed-form sums over zeros split at a verified height; threshold exponents for
   primes between powers under a zero-free half-plane.
@@ -81,17 +82,17 @@ stays out of this file. No em dashes.
   primorials past a verified range, and what they buy for Robin's inequality.
 - **Seen and not admitted** (62). Surfaced by the sweep, below the bar for now.
 
-Totals: 192 entries from 74 hunts. Kinds: identity 24, lemma 48, bound 12, construction
-16, calibration 7, computational 22, control 41, obstruction 22. (Recounted from the
+Totals: 193 entries from 75 hunts. Kinds: identity 24, lemma 48, bound 12, construction
+16, calibration 7, computational 22, control 42, obstruction 22. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
 again from the entries. The seven Erdos #126 arms landed on 2026-10-21 (hunts #94, #97,
 #98, #99, #100, #106, #143) added eight items to "Seen and not admitted" and none above;
 that count was recounted from its items: 54 before them, where the line read 51. Hunt
 #140 added two on 2026-10-21, recounted again from the entries. Hunt #153 added one
-control on 2026-10-27, the provenance scan. Hunt #139 added one computational entry,
-landed 2026-10-30; recounted again from the entries, counting each entry's originating
-hunt.)
+control on 2026-10-27, the provenance scan. Hunt #139 added one computational entry
+and hunt #148 one control, both landed 2026-10-30; recounted again from the entries,
+counting each entry's originating hunt.)
 
 ## Prime pairs and the circle method
 
@@ -5981,6 +5982,36 @@ margin can be read this way, the reproduction step is the control that makes the
 reading checkable without the reader being trusted, and a witness placed where the free
 parameter's coefficient vanishes turns the lower bound into the optimum, as Guo's
 section 11 does for his endpoint.
+
+### Function-field transplant of a Gauss-sum Euler identity as an exact control, with a three-prime modulus test
+
+control | `hunts/ff_probe` | grade: exact finite checks in cyclotomic arithmetic at the
+stated parameters, every exact number it recomputes (15 items) reproduced by a PARI/GP second implementation; unreviewed
+
+Move a number-field identity whose local factors are built from Gauss sums and Hecke
+characters to F_q[T] with q = 1 mod 2n. There every angular datum (the Hecke character of
+infinity type, the supplementary symbols) becomes a character of the degree, every Gauss sum
+is a finite sum, and the identity's two sides become finite sums in Q(zeta_N) that can be
+compared coefficient by coefficient, with residue symbols by resultant and by Frobenius and
+Gauss sums by enumeration and by Davenport-Hasse. For Lemma 7.1 of OpenAI's 7/8 paper over
+F_7[T] (cubic theta, sextic averaging) the closed form with the paper's six J_j equals the
+local factor by definition, and the probe's original, Poisson and Euler representations agree
+at every triple of total degree at most 6 that its selection rule leaves; the transplant
+also exposes that the correction product converges absolutely from Re x = 2/3 (derived), not
+the 7/8 the paper uses. Before pricing an identity whose input is in doubt, test it in
+modulus: an Euler product forces |K(P1 P2 P3)| = |K(P1)| |K(P2)| |K(P3)| in the principal
+row, so a theta row whose squarefree coefficients vanish at some triples of linear primes and
+not at others has no scalar local identity (the biquadratic theta over F_13[T]: zero at 234
+of the 286 triples).
+
+Evidence: hunts/ff_probe/LOCAL_IDENTITY.md sections 2 and 3; S4.md sections 3 and 4;
+VERIFICATION.md; ffprobe.py, ffprobe_pari.py, crosscheck.py, test_ffprobe.py
+Prior art: unsearched as a control; the function-field theta coefficients are Hoffstein's and
+Patterson's (hunts/ff_probe/SOURCES.md, with the errata found there)
+Reused in: none yet
+Why it travels: any proposed Euler factorization of a Gauss-sum or theta-twisted series can be
+put through an exact finite test before its analytic consequences are priced, and three
+primes refute one cheaply.
 
 ## Primes in short intervals and explicit formulas
 
