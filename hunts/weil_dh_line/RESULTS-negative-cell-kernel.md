@@ -72,6 +72,12 @@ A rounded variant (entries to multiples of 2^-112) also passes numerically: roun
 perturbation 6.3e-33 against a margin of 4.8e-32, a factor 7.7. Its compile was not
 completed; it is the fallback if the exact file ever needs to be smaller.
 
+## Axioms
+
+`#print axioms` on the final theorem reports `[propext, Classical.choice, Quot.sound]`;
+the row lemmas report `[propext, Quot.sound]`. The axiom run recompiles the file and
+takes 11 m 51 s.
+
 ## Next
 
 None required for this claim. Axiom print is running; scale-up to N = 256 or to the
