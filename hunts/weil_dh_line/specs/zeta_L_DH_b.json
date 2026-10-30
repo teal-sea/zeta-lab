@@ -1,0 +1,2 @@
+{"tag": "L_DH", "kind": "zeta", "tau": 5e-4, "method": "lse",
+ "clusters": [{"primes": [3, 13, 23], "D": [9, 6, 6], "shell": null}]}

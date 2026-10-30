@@ -1,0 +1,147 @@
+# Hunt `skewes_enclosure` (#152), production B: the 2.2e7-zero Saouter-Demichel sum.
+#
+# Each job isolates a block of 1e5-zero shards with Arb (python-flint) and
+# uploads the per-shard JSON partial sums (about 2 KB each) plus a job manifest.
+# Each shard records the SHA-256 of its zeros. Since the omega-grid rerun (B2) the
+# zeros are also uploaded, gzipped, as 90-day `zeros-*` artifacts (updated
+# 2026-10-27: this comment first said zeros were never uploaded).
+# `combine.py --target saouter_demichel` joins the 220 shards locally.
+#
+# Trigger: a push to the hunt branch that touches RUN_REQUEST.json, which names
+# the shards to run. Editing this file alone runs nothing. Never push a second
+# request while a run is running or pending: the concurrency group keeps only
+# one pending run.
+#
+# Fail-closed: the plan job validates the request (it is interpolated into a
+# shell line, so this is also the injection guard). Every job first runs a
+# smoke check against the lab box's reference and aborts on any mismatch. Each
+# block fails unless every requested shard left a sound JSON. Uploads run
+# `if: always()` so partial results survive.
+#
+# Cost (RUNS.md): 27 to 36 ms/zero near height 1e7 on the lab box, so a shard
+# takes 45 to 60 min on one core; runner speed is what the pilot measures.
+# Parallelism per job is min(nproc, floor(0.8 * MemAvailable / SHARD_RSS_KB)).
+name: skewes-enclosure
+
+on:
+  push:
+    branches:
+      - "hunt/skewes-enclosure"
+    paths:
+      - "hunts/skewes_enclosure/RUN_REQUEST.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skewes-enclosure-${{ github.ref }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    # GitHub's default `bash -e {0}` has no pipefail, so `check | tee` would take
+    # tee's exit status and the fail-closed gates would pass on failure.
+    shell: bash --noprofile --norc -eo pipefail {0}
+
+env:
+  # Peak RSS of one 64-bit shard process near height 1e7, measured on the lab
+  # box (RUNS.md, 2026-10-26), rounded up.
+  SHARD_RSS_KB: "120000"
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      blocks: ${{ steps.plan.outputs.blocks }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: plan
+        run: |
+          python3 - <<'EOF' >> "$GITHUB_OUTPUT"
+          import json, sys
+          req = json.load(open("hunts/skewes_enclosure/RUN_REQUEST.json"))
+          shards = req.get("shards")
+          per_job = req.get("shards_per_job", 16)
+          ok = (isinstance(shards, list) and shards
+                and all(type(k) is int and 1 <= k <= 220 for k in shards)
+                and len(set(shards)) == len(shards)
+                and type(per_job) is int and 1 <= per_job <= 16)
+          if not ok:
+              print("invalid RUN_REQUEST.json: shards must be distinct ints in [1, 220], "
+                    "shards_per_job an int in [1, 16]", file=sys.stderr)
+              sys.exit(1)
+          blocks = [shards[i:i + per_job] for i in range(0, len(shards), per_job)]
+          out = [{"first": b[0], "last": b[-1], "list": " ".join(map(str, b))} for b in blocks]
+          print("blocks=" + json.dumps(out))
+          EOF
+
+  shards:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        block: ${{ fromJSON(needs.plan.outputs.blocks) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install the pinned backends
+        run: pip install "python-flint==0.9.0" "mpmath==1.3.0"
+      - name: Job manifest
+        run: |
+          mkdir -p out
+          python3 - <<'EOF' > "out/manifest-${{ matrix.block.first }}-${{ matrix.block.last }}.json"
+          import json, os, platform, sys
+          import flint, mpmath
+          cpu = next((l.split(":", 1)[1].strip() for l in open("/proc/cpuinfo")
+                      if l.startswith("model name")), "unknown")
+          mem = next(l.split()[1] for l in open("/proc/meminfo") if l.startswith("MemTotal"))
+          print(json.dumps({
+              "git_sha": os.environ["GITHUB_SHA"], "run_id": os.environ["GITHUB_RUN_ID"],
+              "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "shards": "${{ matrix.block.list }}", "cpu_model": cpu,
+              "nproc": os.cpu_count(), "mem_total_kb": int(mem),
+              "python": sys.version, "python_flint": flint.__version__,
+              "mpmath": mpmath.__version__, "platform": platform.platform()}, indent=1))
+          EOF
+          cat out/manifest-*.json
+      - name: Smoke check against the lab box reference (fail-closed)
+        run: timeout 300 python3 hunts/skewes_enclosure/smoke_check.py
+      - name: Run this block's shards, each under its own timeout
+        run: |
+          avail=$(awk '/MemAvailable/ {print $2}' /proc/meminfo)
+          bymem=$(( avail * 8 / 10 / SHARD_RSS_KB ))
+          par=$(nproc); [ "$bymem" -lt "$par" ] && par=$bymem; [ "$par" -lt 1 ] && par=1
+          echo "parallelism $par (nproc $(nproc), MemAvailable ${avail} kB)" | tee -a "$GITHUB_STEP_SUMMARY"
+          mkdir -p zeros
+          printf '%s\n' ${{ matrix.block.list }} | xargs -P "$par" -I{} bash -c '
+            k={}; n0=$(( (k - 1) * 100000 + 1 )); f=$(printf "out/shard_%03d" "$k")
+            timeout --signal=INT --kill-after=2m 80m \
+              python3 -u hunts/skewes_enclosure/zero_layer.py \
+              --n0 "$n0" --num 100000 --batch 5000 --prec 64 --sample 20 \
+              --seed $((152000 + k)) --omegas hunts/skewes_enclosure/omega_grid.json \
+              --zeros-out "$(printf "zeros/zeros_%03d" "$k").txt.gz" \
+              --out "$f.json" > "$f.log" 2>&1 \
+              && echo "shard $k done" || echo "shard $k FAILED or timed out"'
+          ls -la out
+      - name: Every requested shard is sound (fail-closed)
+        shell: bash --noprofile --norc -eo pipefail {0}
+        run: python3 hunts/skewes_enclosure/check_block.py --grid-file hunts/skewes_enclosure/omega_grid.json out ${{ matrix.block.list }} | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shards-${{ matrix.block.first }}-${{ matrix.block.last }}-a${{ github.run_attempt }}
+          path: out/
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zeros-${{ matrix.block.first }}-${{ matrix.block.last }}-a${{ github.run_attempt }}
+          path: zeros/
+          compression-level: 0
+          retention-days: 90
+          if-no-files-found: warn

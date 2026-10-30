@@ -1,0 +1,767 @@
+{
+  "what": "both-backend argument-principle counts around the 21 low-screen zeros (t < 1e4, beta > 0.85)",
+  "date": "2026-10-26",
+  "half_width": "1/134217728",
+  "R": "1/8192",
+  "rows": [
+    {
+      "gamma_float": 240.4046723514407,
+      "beta_float": 0.8695305796406433,
+      "rectangle_sigma": [
+        "478029487415/549755813888",
+        "478029495607/549755813888"
+      ],
+      "rectangle_t": [
+        "33040966576737/137438953472",
+        "33040966578785/137438953472"
+      ],
+      "abs_fprime_steering": 1.5594747650746539,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 15493.029061566189,
+        "seconds": 0.03
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 145175.3819445506,
+        "seconds": 12.19
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "203151580471/549755813888",
+        "203151588663/549755813888"
+      ],
+      "y0_enclosure_float": [
+        0.36953057219034235,
+        0.36953058709150355
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 783.653006979876,
+      "beta_float": 0.8530014501385457,
+      "rectangle_sigma": [
+        "937885004745/1099511627776",
+        "937885021129/1099511627776"
+      ],
+      "rectangle_t": [
+        "26926112290869/34359738368",
+        "26926112291381/34359738368"
+      ],
+      "abs_fprime_steering": 1.844603187008677,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 14782.471273943878,
+        "seconds": 0.06
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 159853.4201386721,
+        "seconds": 11.0
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "388129190857/1099511627776",
+        "388129207241/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.35300144268785516,
+        0.35300145758901635
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 857.2958867547785,
+      "beta_float": 0.8561094158551535,
+      "rectangle_sigma": [
+        "941302249189/1099511627776",
+        "941302265573/1099511627776"
+      ],
+      "rectangle_t": [
+        "117825849490403/137438953472",
+        "117825849492451/137438953472"
+      ],
+      "abs_fprime_steering": 1.963957732225632,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 12004.409019787687,
+        "seconds": 0.06
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 178827.6097091629,
+        "seconds": 10.4
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "391546435301/1099511627776",
+        "391546451685/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.35610940840433614,
+        0.35610942330549733
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 1092.454497307247,
+      "beta_float": 0.8546296189461934,
+      "rectangle_sigma": [
+        "939675195281/1099511627776",
+        "939675211665/1099511627776"
+      ],
+      "rectangle_t": [
+        "1201166422597311/1099511627776",
+        "1201166422613695/1099511627776"
+      ],
+      "abs_fprime_steering": 1.7967442932772542,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 10016.619172082186,
+        "seconds": 0.07
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 165049.80618657346,
+        "seconds": 10.07
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "389919381393/1099511627776",
+        "389919397777/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.3546296114955112,
+        0.3546296263966724
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 2442.530292468486,
+      "beta_float": 0.8977501549769147,
+      "rectangle_sigma": [
+        "987086726043/1099511627776",
+        "987086742427/1099511627776"
+      ],
+      "rectangle_t": [
+        "1342795228878011/549755813888",
+        "1342795228886203/549755813888"
+      ],
+      "abs_fprime_steering": 2.0606376972228366,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 10454.287067925941,
+        "seconds": 0.13
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 163198.5334333596,
+        "seconds": 9.74
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "437330912155/1099511627776",
+        "437330928539/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.3977501475264944,
+        0.3977501624276556
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 2887.939189356979,
+      "beta_float": 0.8604422824143326,
+      "rectangle_sigma": [
+        "946066286353/1099511627776",
+        "946066302737/1099511627776"
+      ],
+      "rectangle_t": [
+        "1587661359499901/549755813888",
+        "1587661359508093/549755813888"
+      ],
+      "abs_fprime_steering": 2.196079887380456,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 11699.071256644474,
+        "seconds": 0.15
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 162986.50852421555,
+        "seconds": 10.05
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "396310472465/1099511627776",
+        "396310488849/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.36044227496404346,
+        0.36044228986520466
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 3059.5187286630057,
+      "beta_float": 0.8678568690240173,
+      "rectangle_sigma": [
+        "954218710545/1099511627776",
+        "954218726929/1099511627776"
+      ],
+      "rectangle_t": [
+        "840994104388807/274877906944",
+        "840994104392903/274877906944"
+      ],
+      "abs_fprime_steering": 1.6424431865919151,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 7081.247852590033,
+        "seconds": 0.16
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 161707.6990981977,
+        "seconds": 12.17
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "404462896657/1099511627776",
+        "404462913041/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.3678568615732729,
+        0.3678568764744341
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 3214.1444492221963,
+      "beta_float": 0.8612643390327228,
+      "rectangle_sigma": [
+        "946970147163/1099511627776",
+        "946970163547/1099511627776"
+      ],
+      "rectangle_t": [
+        "883497298815825/274877906944",
+        "883497298819921/274877906944"
+      ],
+      "abs_fprime_steering": 1.6810766239951178,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 6930.775578540567,
+        "seconds": 0.2
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 131243.5014270504,
+        "seconds": 9.88
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "397214333275/1099511627776",
+        "397214349659/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.36126433158187865,
+        0.36126434648303984
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 3294.609208376835,
+      "beta_float": 0.8603605057056394,
+      "rectangle_sigma": [
+        "945976371911/1099511627776",
+        "945976388295/1099511627776"
+      ],
+      "rectangle_t": [
+        "905615283395005/274877906944",
+        "905615283399101/274877906944"
+      ],
+      "abs_fprime_steering": 1.6583981885400938,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 6215.877466027168,
+        "seconds": 0.17
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 137626.05325971017,
+        "seconds": 9.94
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "396220558023/1099511627776",
+        "396220574407/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.3603604982554316,
+        0.3603605131565928
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 4237.969215003032,
+      "beta_float": 0.8576562435192578,
+      "rectangle_sigma": [
+        "29468843881/34359738368",
+        "29468844393/34359738368"
+      ],
+      "rectangle_t": [
+        "4659696430044369/1099511627776",
+        "4659696430060753/1099511627776"
+      ],
+      "abs_fprime_steering": 1.5630259242471283,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 5694.838055563611,
+        "seconds": 0.2
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 147603.90053244843,
+        "seconds": 10.85
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "12288974697/34359738368",
+        "12288975209/34359738368"
+      ],
+      "y0_enclosure_float": [
+        0.35765623606857844,
+        0.35765625096973963
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 4392.376428224192,
+      "beta_float": 0.8535286510227417,
+      "rectangle_sigma": [
+        "938464668247/1099511627776",
+        "938464684631/1099511627776"
+      ],
+      "rectangle_t": [
+        "2414734478196761/549755813888",
+        "2414734478204953/549755813888"
+      ],
+      "abs_fprime_steering": 1.9159115975680225,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 6070.060582717665,
+        "seconds": 0.21
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 150529.07392824395,
+        "seconds": 9.94
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "388708854359/1099511627776",
+        "388708870743/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.3535286435717353,
+        0.3535286584728965
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 4935.617818552427,
+      "beta_float": 0.8551060687493497,
+      "rectangle_sigma": [
+        "235049764345/274877906944",
+        "235049768441/274877906944"
+      ],
+      "rectangle_t": [
+        "5426769181748617/1099511627776",
+        "5426769181765001/1099511627776"
+      ],
+      "abs_fprime_steering": 1.0099686899848308,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 4191.360438155809,
+        "seconds": 0.24
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 163094.20225198564,
+        "seconds": 11.17
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "97610810873/274877906944",
+        "97610814969/274877906944"
+      ],
+      "y0_enclosure_float": [
+        0.35510606129901134,
+        0.35510607620017254
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 5090.317742289091,
+      "beta_float": 0.8663990801500084,
+      "rectangle_sigma": [
+        "952615854727/1099511627776",
+        "952615871111/1099511627776"
+      ],
+      "rectangle_t": [
+        "1399215886678285/274877906944",
+        "1399215886682381/274877906944"
+      ],
+      "abs_fprime_steering": 1.7509599908857698,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 5644.41752654163,
+        "seconds": 0.25
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 131053.4249051224,
+        "seconds": 10.49
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "402860040839/1099511627776",
+        "402860057223/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.366399072699096,
+        0.3663990876002572
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 5833.28231922461,
+      "beta_float": 0.8740915008927035,
+      "rectangle_sigma": [
+        "961073760779/1099511627776",
+        "961073777163/1099511627776"
+      ],
+      "rectangle_t": [
+        "6413761738079419/1099511627776",
+        "6413761738095803/1099511627776"
+      ],
+      "abs_fprime_steering": 2.0337759161217406,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 7290.650341605839,
+        "seconds": 0.27
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 163295.46897448172,
+        "seconds": 9.92
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "411317946891/1099511627776",
+        "411317963275/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.3740914934414832,
+        0.3740915083426444
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 5913.705882277348,
+      "beta_float": 0.8594353163719101,
+      "rectangle_sigma": [
+        "118119889435/137438953472",
+        "118119891483/137438953472"
+      ],
+      "rectangle_t": [
+        "3251094190401541/549755813888",
+        "3251094190409733/549755813888"
+      ],
+      "abs_fprime_steering": 2.4897486439740355,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 8374.414773453114,
+        "seconds": 0.68
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 135864.38740985267,
+        "seconds": 10.78
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "49400412699/137438953472",
+        "49400414747/137438953472"
+      ],
+      "y0_enclosure_float": [
+        0.35943530892109266,
+        0.35943532382225385
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 6113.928770325912,
+      "beta_float": 0.858193652128011,
+      "rectangle_sigma": [
+        "471796945603/549755813888",
+        "471796953795/549755813888"
+      ],
+      "rectangle_t": [
+        "6722335774359369/1099511627776",
+        "6722335774375753/1099511627776"
+      ],
+      "abs_fprime_steering": 1.5787322180105794,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 4692.535660530242,
+        "seconds": 0.28
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 142842.14442003405,
+        "seconds": 9.36
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "196919038659/549755813888",
+        "196919046851/549755813888"
+      ],
+      "y0_enclosure_float": [
+        0.35819364467715786,
+        0.35819365957831906
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 7011.511933953011,
+      "beta_float": 0.8662883248420465,
+      "rectangle_sigma": [
+        "952494077979/1099511627776",
+        "952494094363/1099511627776"
+      ],
+      "rectangle_t": [
+        "7709238899663333/1099511627776",
+        "7709238899679717/1099511627776"
+      ],
+      "abs_fprime_steering": 2.003170063230548,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 8234.280313238745,
+        "seconds": 0.31
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 162152.7228919075,
+        "seconds": 10.34
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "402738264091/1099511627776",
+        "402738280475/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.36628831739199086,
+        0.36628833229315205
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 7909.444971897661,
+      "beta_float": 0.8545747290709018,
+      "rectangle_sigma": [
+        "939614843225/1099511627776",
+        "939614859609/1099511627776"
+      ],
+      "rectangle_t": [
+        "8696526715847705/1099511627776",
+        "8696526715864089/1099511627776"
+      ],
+      "abs_fprime_steering": 1.6257887153570016,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 5793.892531947182,
+        "seconds": 0.65
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 139963.77599237583,
+        "seconds": 10.32
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "389859029337/1099511627776",
+        "389859045721/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.3545747216203381,
+        0.3545747365214993
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 8235.592508571537,
+      "beta_float": 0.8753363163316337,
+      "rectangle_sigma": [
+        "962442449829/1099511627776",
+        "962442466213/1099511627776"
+      ],
+      "rectangle_t": [
+        "1131891215598891/137438953472",
+        "1131891215600939/137438953472"
+      ],
+      "abs_fprime_steering": 2.0671772077308117,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 6835.370233124859,
+        "seconds": 0.47
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 148550.2676598296,
+        "seconds": 11.1
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "412686635941/1099511627776",
+        "412686652325/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.3753363088808328,
+        0.375336323781994
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 8561.594223356584,
+      "beta_float": 0.8836407585839785,
+      "rectangle_sigma": [
+        "121446660081/137438953472",
+        "121446662129/137438953472"
+      ],
+      "rectangle_t": [
+        "2353393100218051/274877906944",
+        "2353393100222147/274877906944"
+      ],
+      "abs_fprime_steering": 1.5029822729460232,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 5121.192166058958,
+        "seconds": 0.4
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 162747.10938894365,
+        "seconds": 9.94
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "52727183345/137438953472",
+        "52727185393/137438953472"
+      ],
+      "y0_enclosure_float": [
+        0.38364075113349827,
+        0.38364076603465946
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    },
+    {
+      "gamma_float": 9694.578557815257,
+      "beta_float": 0.8516309977396571,
+      "rectangle_sigma": [
+        "936378176397/1099511627776",
+        "936378192781/1099511627776"
+      ],
+      "rectangle_t": [
+        "333103182834299/34359738368",
+        "333103182834811/34359738368"
+      ],
+      "abs_fprime_steering": 2.1492987056755086,
+      "python-flint": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 6551.1738101782375,
+        "seconds": 0.45
+      },
+      "mpmath.iv": {
+        "status": "decided",
+        "count": 1,
+        "worst_clearance_over_tube": 150661.37104531043,
+        "seconds": 9.7
+      },
+      "both_backends_count_1": true,
+      "y0_enclosure": [
+        "386622362509/1099511627776",
+        "386622378893/1099511627776"
+      ],
+      "y0_enclosure_float": [
+        0.3516309902888679,
+        0.3516310051900291
+      ],
+      "y0_above_0.40_decided": false,
+      "y0_below_0.40_decided": true
+    }
+  ],
+  "all_decided": true,
+  "max_y0_upper": 0.3977501624276556,
+  "seconds": 270.4
+}

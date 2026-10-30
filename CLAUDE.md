@@ -74,8 +74,10 @@ python scripts/science_preflight.py          # or --allow-fallback
 ```
 
 It reports interpreter, dependencies, whether `rigor.BACKEND` is Arb, whether
-Lean can build, and **the next free `docs/` number**; it exits non-zero if the
-environment cannot support this tree's claims. Then:
+the git history is complete, whether Lean can build, and **the next free
+`docs/` number**; it exits non-zero if the environment cannot support this
+tree's claims, and warns when the history is truncated or unreadable, or when
+`--allow-fallback` accepts a degraded ball-arithmetic backend. Then:
 
 - **Guess no number and no name**: take the doc number from the preflight.
 - **An artifact is not a commit**: say files were produced, not landed; never
@@ -285,9 +287,9 @@ priority over other mechanisms; allocation is the owner's decision.
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (2189 tests, ~10-20 min)
-.venv/bin/python -m pytest -q -m "not slow"   # fast tier (2122 tests, ~3-8 min)
-.venv/bin/python scripts/run_hunt_tests.py    # every hunt's own tests, one process per directory (~30 min)
+.venv/bin/python -m pytest -q                 # full suite (3522 tests collected, 2026-10-30)
+.venv/bin/python -m pytest -q -m "not slow"   # fast tier (3441 tests; ~20 min on a CI runner)
+.venv/bin/python scripts/run_hunt_tests.py    # every hunt's own tests, one process per directory (~30-50 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
 cd lean && PATH="$HOME/.elan/bin:$PATH" lake build  # the certified arm (0 sorrys)

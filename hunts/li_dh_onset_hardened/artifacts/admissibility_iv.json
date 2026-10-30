@@ -1,0 +1,89 @@
+{
+ "generated": "2026-10-26T18:19:59",
+ "prec_bits": 128,
+ "T": "160",
+ "evaluator": "mpmath.iv",
+ "half_plane": {
+  "S(3/2)": {
+   "iv": "[0.73759064944904149607 +/- 6.29e-22]",
+   "below_1": true,
+   "meets_arb": true
+  },
+  "S(sigma_h)": {
+   "iv": "[0.41770137018341611338 +/- 3.65e-21]",
+   "below_1": true,
+   "meets_arb": true
+  },
+  "ok": true
+ },
+ "real_axis": {
+  "balls_left_of_1": 697,
+  "balls_right_of_1": 597,
+  "eps": "1/512",
+  "f(s0)": "[0.92335523610976966761 +/- 1.39e-21] + [+/- 1.23e-59]j",
+  "f(s0)_meets_arb": true,
+  "max_abs_f_on_circle_R": 1.0638382388289482,
+  "drift_bound": 0.025329481876879723,
+  "f_positive_near_1": true,
+  "ok": true
+ },
+ "box_count": {
+  "N_box_ball": "[98.000000000000000000 +/- 1e-22]",
+  "N_box": 98,
+  "meets_arb": true,
+  "top_edge_stats": {
+   "evals": 195,
+   "leaves": 98
+  }
+ },
+ "line": {
+  "points": 10241,
+  "N_line": 94,
+  "arb_misses": [],
+  "arb_miss_count": 0
+ },
+ "located": [
+  {
+   "count": 1,
+   "evals": {
+    "evals": 120,
+    "leaves": 64
+   },
+   "abs_z": "[0.999957995600177600 +/- 5.52e-19]",
+   "abs_z_meets_arb": true,
+   "label": "pair1"
+  },
+  {
+   "count": 1,
+   "evals": {
+    "evals": 624,
+    "leaves": 316
+   },
+   "abs_z": "[0.9999884276114027916 +/- 9.58e-20]",
+   "abs_z_meets_arb": true,
+   "label": "pair2"
+  }
+ ],
+ "q": 2,
+ "equality": {
+  "N_box": 98,
+  "N_line": 94,
+  "two_q": 4,
+  "closes": true
+ },
+ "faults": {
+  "drop_one_quadruple_closes": false,
+  "displaced_square": 0,
+  "displaced_square_closes": false
+ },
+ "radius": {
+  "R_a_lower": 0.9999579956001776,
+  "r_c5000_below_R_a": true
+ },
+ "rule": {
+  "conclusion_reproduced": true,
+  "balls_meet_arb_everywhere_compared": true,
+  "faults_break_it": true
+ },
+ "seconds": 533.2
+}

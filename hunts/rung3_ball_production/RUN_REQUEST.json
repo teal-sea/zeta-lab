@@ -1,0 +1,11 @@
+{
+ "mode": "fault",
+ "attempt": 2,
+ "completes_run": 40353536947,
+ "tower": "whole",
+ "plan": "lean/cert/rung3_plan2.json",
+ "fault_site": "B_right_06",
+ "lean_jobs": 1,
+ "toolchain": "leanprover/lean4:v4.35.0-rc2",
+ "mathlib": "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+}

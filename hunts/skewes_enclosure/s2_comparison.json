@@ -1,0 +1,20 @@
+{
+ "grade": "measured; post-hoc (2026-10-27), not pre-registered",
+ "n_zeros_for_S2": 20000,
+ "S2_tail_estimate_B": 2.171704420378926e-07,
+ "S2_B_at_727.951335792": "[1.68592155303e-5 +/- 4.20e-17]",
+ "S2_A_at_727.952018": "[1.59547265943e-5 +/- 4.78e-17]",
+ "S_B_at_727.951335792": "[-1.00288927 +/- 5.39e-9]",
+ "S_A": "[-1.006553479 +/- 3.85e-10]",
+ "SD_minus_S2_minus_Sstar (sign-slip identity)": "[9.96220740000e-10 +/- 1.98e-18]",
+ "SD_plus_S2_minus_Sstar (Theorem 3.1's sign)": "[3.37194272813e-5 +/- 4.20e-17]",
+ "rule_gap_S_minus_Sstar": "[3.36728742260e-5 +/- 1.07e-9]",
+ "two_S2": "[3.37184310605e-5 +/- 2.40e-17]",
+ "gap_minus_two_S2": "[-4.55568345200e-8 +/- 1.07e-9]",
+ "our_S1_minus_SD (end-to-end check of the 2.2e7 zeros)": "[-4.65530552600e-8 +/- 1.07e-9]",
+ "A_our_S1_minus_CP (CP printed to 6 decimals)": "[-4.33475594253e-7 +/- 1.34e-10]",
+ "A_S_minus_Sstar (plus S2, as Theorem 3.1)": "[3.99550000000e-11 +/- 1.34e-10]",
+ "A_S_minus_2S2_minus_Sstar (minus S2 convention)": "[-3.19094132335e-5 +/- 1.34e-10]",
+ "alt_omega_727.9513358_interpolated_S_minus_Sstar": -8.036521705889754e-07,
+ "alt_over_sign_slip_residual": 806.7009030438127
+}

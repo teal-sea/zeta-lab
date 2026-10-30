@@ -91,7 +91,7 @@
       "mean_gap_formula": 1.3934175087218406,
       "n_line_zeros": 34,
       "seconds": 84.94,
-      "y0": 0.150827
+      "y0": 0.1508301
     },
     "pair3": {
       "d_nearest": 1.8449060418972465,
@@ -140,7 +140,7 @@
       "mean_gap_formula": 1.2858432357740297,
       "n_line_zeros": 35,
       "seconds": 109.35,
-      "y0": 0.0743505
+      "y0": 0.0743561
     },
     "pair4": {
       "d_nearest": 1.4673834163937727,
@@ -189,7 +189,7 @@
       "mean_gap_formula": 1.2703496285652283,
       "n_line_zeros": 35,
       "seconds": 110.81,
-      "y0": 0.2242763
+      "y0": 0.2242577
     },
     "pair5": {
       "d_nearest": 1.3364312108195975,
@@ -243,7 +243,7 @@
       "mean_gap_formula": 1.195912412225891,
       "n_line_zeros": 40,
       "seconds": 186.15,
-      "y0": 0.3695261
+      "y0": 0.3695306
     },
     "pair6": {
       "d_nearest": 1.5021550104694938,
@@ -468,5 +468,6 @@
       "seconds": 247.26,
       "y0": 0.3158737
     }
-  }
+  },
+  "corrections_2026_10_26": "y0 of pair2..pair5 replaced (was 0.1508270, 0.0743505, 0.2242763, 0.3695261): transcription slips in hunts/flow_repair/NOTES.md section 1, which still carries them; the corrected values are flow_repair/results.json's polished y0 to 7 dp. No other field was recomputed; the y0 entered only as metadata here (the window census reads gamma). See RESULTS.md section 8.1 and slip_effect.json."
 }

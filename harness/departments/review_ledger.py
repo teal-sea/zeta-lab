@@ -540,6 +540,137 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "so the parameters are not a discovery"
         ),
     ),
+    ClaimUnderReview(
+        name="davenport-heilbronn-rung3",
+        claim=(
+            "davenport_heilbronn_strip: some entire function with the "
+            "Davenport-Heilbronn Dirichlet series and functional equation has a "
+            "zero s with 0 < Re s < 1 and Re s != 1/2 (the witness is DH; it "
+            "bundles dh_analytic_half and dh_zero_located; PR #353); "
+            "dh_separation_hundred: paired with hunt #137, below height 100 the "
+            "Davenport-Heilbronn function DH has a zero s with 0 < Re s < 1, "
+            "0 < Im s <= 100 and Re s != 1/2, and every zero of Mathlib's "
+            "riemannZeta there has Re = 1/2; dh_zero_located: a zero of DH lies "
+            "in the closed square of half-width 3/64 about 808517/10^6 + "
+            "(21424837/250000) i; read with dh_analytic_half "
+            "(lean/ZetaLean/DHAnalytic.lean), which makes DH entire with the DH "
+            "Dirichlet series for Re s > 1 and its functional equation (hunt "
+            "#145, hunts/rung3_ball_production/, PR #353, 2026-10-26). The "
+            "assembly's theorem davenport_heilbronn : "
+            "davenport_heilbronn_statement (lean/ZetaLean/DavenportHeilbronn.lean, "
+            "line 129) is not part of the claim: the statement, as defined, is "
+            "also met by the trivial zero s = -1 "
+            "(lean/ZetaLean/DHTrivialZero.lean). Grade: kernel-checked at Lean "
+            "v4.35.0-rc2 against Mathlib 065356127b1d, zero sorry, only propext, "
+            "Classical.choice and Quot.sound, pending external verification"
+        ),
+        author="hunt #145 session (rung3_ball_production, branch hunt/rung3-ball-production, 2026-10-26)",
+        assumptions=(
+            "the 215 site oleans are what GitHub Actions run 40353536947 "
+            "produced from scripts/60 --tower whole at 85cabd55b: each zip's "
+            "SHA-256 equals GitHub's digest, and the pilot site's regenerated "
+            "sources hash as its checkpoints record; the assembly imports them "
+            "without re-checking their proofs. On 2026-10-27 a same-kernel "
+            "fresh replay (leanchecker --fresh Rung3Assembly.Final, Lean's own "
+            "kernel, which its docstring calls 'not an external verifier') "
+            "re-checked the assembled closure's constants and accepted. The "
+            "same day a second kernel, con-ron --verified, accepted the closure "
+            "on a site-wise split with coverage shown (door 1 Stage B): its top "
+            "shard checks the 18 final declarations abstracted over the 435 site "
+            "theorems the assembly names (Rung3Glue.*, built by "
+            "lean/ExportShard.lean and checked by Lean's kernel first), and the "
+            "join of the 216 shards rests on kernel hashes of every exported "
+            "declaration (shard_manifest.py), not on a single run",
+            "the separation's LEAN_PATH joins hunt #137's oleans with this "
+            "tree's through one ZetaLean overlay; the shared modules' constants "
+            "are identical by CompareOleans.lean, not by byte equality",
+            "the emitted Assembly.lean and Separation.lean are not committed "
+            "(they import non-module site roots); pilot.json pins their SHA-256",
+            "the site oleans were kernel-checked against the runners' own "
+            "ZetaLean build at 85cabd55b, which was not uploaded, while the "
+            "assembly imported them against this box's ZetaLean oleans of "
+            "2026-10-21 through the overlay; the two were built from the same "
+            "sources of the sites' import closure (unchanged since 2026-09-28 "
+            "except comments). CLOSED on 2026-10-27 by the same-kernel fresh "
+            "replay above: it re-checked, in an empty kernel environment, the "
+            "constants actually loaded through the overlay (this box's "
+            "ZetaLean, the 215 site oleans and hunt #137's closure), so every "
+            "site proof was re-checked against the ZetaLean constants the "
+            "assembly uses (receipts-replay-20261027/leanchecker-fresh."
+            "receipt.json: exit 0)",
+        ),
+        code_paths=(
+            "hunts/rung3_ball_production/RESULTS.md",
+            "hunts/rung3_ball_production/PILOT.md",
+            "hunts/rung3_ball_production/RUNS.md",
+            "hunts/rung3_ball_production/pilot.json",
+            "hunts/rung3_ball_production/assembly.py",
+            "hunts/rung3_ball_production/production.py",
+            "hunts/rung3_ball_production/lean/Rung3Assembly/Support.lean",
+            "hunts/rung3_ball_production/lean/CompareOleans.lean",
+            "hunts/rung3_ball_production/lean/ReplayProgress.lean",
+            ".github/workflows/rung3-production.yml",
+            "scripts/69_rung3_ball_generate.py",
+            "tests/test_rung3_ball_whole_tower.py",
+            "lean/ZetaLean/DHAnalytic.lean",
+            "lean/ZetaLean/DHTrivialZero.lean",
+        ),
+        controls_run=(
+            "#print axioms on all 18 final declarations and on all 215 site "
+            "theorems: exactly propext, Classical.choice and Quot.sound "
+            "(RESULTS.md section 2)",
+            "planted one-unit faults refused on production output: a tower "
+            "radius at Prime_B_right_06_2.ev_whole (runner run 40372531479 and "
+            "this box), the tail radius at enc_B_right_06, M at "
+            "upper_B_right_06, and eps' at and below the bound in "
+            "centre_lt_centre, with 1/2000 and the bound plus 2^-64 accepted",
+            "the generator refuses any whole-mode tower literal that differs "
+            "from the bit-exact mirror's staged chain; the census of all 215 "
+            "sites passed it for 15,608 towers and found no repeated public "
+            "name across sites",
+            "tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one "
+            "passes: measured by the mpmath argument principle, no zero with "
+            "Re s in [0.55, 2] and 0.3 < Im s < 80.3, and one in the window "
+            "80.3 < Im s < 90.3 (non-trivial zeros only; not rigorous)",
+            "lean/ZetaLean/DHTrivialZero.lean elaborated with lake env lean "
+            "(2026-10-26): DH_neg_one, dh_trivial_zero_witness and "
+            "davenport_heilbronn_statement_of_trivial_zero print exactly "
+            "propext, Classical.choice and Quot.sound, and a copy claiming "
+            "DH (-2) = 0 instead is refused",
+            "leanchecker --fresh Rung3Assembly.Final (2026-10-27): the "
+            "closure's 1,569,505 constants (11,955 modules, Mathlib and hunt "
+            "#137's closure included; replay skips only unsafe and partial "
+            "ones) replayed into an empty kernel environment, exit 0 in "
+            "7 h 17 min; a missing module exits 1, and "
+            "a scratch olean with one tower radius one unit low is refused at "
+            "Prime_B_right_06_2.ev_whole (kernel application type mismatch)",
+            "con-ron --verified, a second kernel, on samples first: it accepts "
+            "the exported closure of upper_B_right_06 (61,782 declarations) and "
+            "of three centre towers, and rejects the same one-unit radius "
+            "fault at the same declaration",
+            "con-ron --verified on the whole closure, site by site (2026-10-27, "
+            "InstaBox VMs and Novita sandboxes, 834 core-hours, USD 8.93): all "
+            "216 shards accepted (the 215 sites, each with every constant of its "
+            "modules, and the glued top shard; 13,982,741 declarations); no "
+            "constant shared by two shards differs in kernel hash; all 435 "
+            "Rung3Glue.T definitions hash as their site theorems' types; none of "
+            "the 675,388 constants in the closure of the 18 final declarations, "
+            "computed in the real assembled environment, is unchecked; the "
+            "one-byte radius fault, exported as a whole site shard, is rejected "
+            "at Prime_B_right_06_2.ev_whole._proof_1_1 on both providers "
+            "(RESULTS.md door 1 Stage B; pilot.json production.replay."
+            "stage_b_fleet). Grade of this step: accepted by an independent "
+            "checker on a site-wise split, with coverage shown",
+        ),
+        author_reasoning=(
+            "215 site theorems (110 big boxes bounding ||DH|| <= 2.5499 on the "
+            "big square's edges, 104 grid points bounding ||DH|| from below, "
+            "the centre bounding it above) combine through norm_deriv_DH_le and "
+            "DH_lower_on_hcell/vcell into the minimum-modulus square criterion "
+            "of DHZeroCriterion.lean (restated in Support.lean); the zero is "
+            "Spira's (1994), and the delta is its enclosure by the kernel"
+        ),
+    ),
 )
 
 OUTCOMES: tuple[AttackOutcome, ...] = (

@@ -391,13 +391,14 @@ def _ball_backend():
     return _BALL_BACKEND
 
 
-def emit_site(site: dict, kind: str, arith: str = "ball") -> tuple[str, dict]:
+def emit_site(site: dict, kind: str, arith: str = "ball",
+              tower: str = "staged") -> tuple[str, dict]:
     """Emit one site, using balls by default and retaining rectangles as control."""
     if arith == "rect":
         return emit_site_rect(site, kind)
     if arith != "ball":
         raise ValueError(f"unknown arithmetic backend: {arith}")
-    return _ball_backend().emit_site_ball(site, kind)
+    return _ball_backend().emit_site_ball(site, kind, tower_mode=tower)
 
 
 def emit_site_modules(
@@ -405,14 +406,15 @@ def emit_site_modules(
     kind: str,
     arith: str = "ball",
     max_bytes: int | None = None,
+    tower: str = "staged",
 ) -> tuple[list[tuple[str, str]], dict]:
     """Emit one site as importable Lean modules under a per-file size cap."""
     if arith != "ball":
         raise ValueError("sharded emission is only implemented for --arith ball")
     backend = _ball_backend()
     if max_bytes is None:
-        return backend.emit_site_ball_modules(site, kind)
-    return backend.emit_site_ball_modules(site, kind, max_bytes=max_bytes)
+        return backend.emit_site_ball_modules(site, kind, tower_mode=tower)
+    return backend.emit_site_ball_modules(site, kind, max_bytes=max_bytes, tower_mode=tower)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -428,11 +430,16 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--arith", choices=("ball", "rect"), default="ball")
     ap.add_argument("--shard", action="store_true")
     ap.add_argument("--max-bytes", type=int, default=None, metavar="N")
+    # Opt-in: prove each prime tower by one kernel decision of the whole
+    # `dirichletTermBallB` value (hunt #145's pilot); `staged` is unchanged.
+    ap.add_argument("--tower", choices=("staged", "whole"), default="staged")
     args = ap.parse_args(argv)
     if args.max_bytes is not None:
         args.shard = True
     if args.shard and args.arith != "ball":
         raise SystemExit("sharded emission requires --arith ball")
+    if args.tower != "staged" and args.arith != "ball":
+        raise SystemExit("--tower whole requires --arith ball")
     return args
 
 
@@ -477,7 +484,7 @@ def main(argv: list[str] | None = None) -> None:
             continue
         if shard:
             files, stats = emit_site_modules(
-                site, kind, arith=arith, max_bytes=max_bytes)
+                site, kind, arith=arith, max_bytes=max_bytes, tower=args.tower)
             for rel, text in files:
                 dest = outdir / rel
                 dest.parent.mkdir(parents=True, exist_ok=True)
@@ -492,7 +499,7 @@ def main(argv: list[str] | None = None) -> None:
                   f"n_files={stats['n_files']} "
                   f"max_file_bytes={stats['max_file_bytes']}", flush=True)
             continue
-        text, stats = emit_site(site, kind, arith=arith)
+        text, stats = emit_site(site, kind, arith=arith, tower=args.tower)
         (outdir / f"C{site['id']}.lean").write_text(text)
         print(f"C{site['id']}.lean kind={kind} K={site['K']} "
               f"normLower={float(stats['normLower']):.6g} "
