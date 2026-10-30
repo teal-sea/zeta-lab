@@ -983,6 +983,13 @@ attempt 2 measures it afresh.
 evaluated mechanically on attempt 2 alone. Attempt 1 stays void, with its
 values recorded in 8.13.
 
+(Added 2026-10-30, review of PR #357.) Read attempt 2 as **pre-registered
+thresholds on an instrument fixed post hoc**. The 8.12 PREREG has no
+re-attempt clause, and the box guard was written after attempt 1's voided
+values had been seen. No verdict differs from attempt 1's voided values, so
+the fix moved no outcome, but the pre-registration covers the thresholds and
+the plan, not the code that ran.
+
 
 ### 8.15 Outcome of the 8.12 PREREG, attempt 2 (guarded code): valid
 
