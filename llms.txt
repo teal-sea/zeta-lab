@@ -19,7 +19,7 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 ## Start here
 
 - [README.md](README.md): front door, the door switchboard and quickstart.
-- [docs/README.md](docs/README.md): the index of all forty documents.
+- [docs/README.md](docs/README.md): the index of all forty-eight documents.
 - [docs/36-what-you-can-run.md](docs/36-what-you-can-run.md): the runnable
   demonstrations, the figure gallery, the repository map, the limitations.
 - [docs/doors/README.md](docs/doors/README.md): one short page per way in
@@ -38,6 +38,18 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 
 ## Current results (October 2026)
 
+- [docs/45-rh-to-height-fifty.md](docs/45-rh-to-height-fifty.md): RH to height
+  100 for Mathlib's `riemannZeta`, kernel-checked (hunt #137): every zero with
+  0 < Re < 1 and 0 < Im <= 100 is on the line and simple, exactly 29 of them.
+  A finite theorem, reviewed by no person; nothing about RH itself.
+- [docs/47-the-davenport-heilbronn-zero.md](docs/47-the-davenport-heilbronn-zero.md):
+  `davenport_heilbronn_strip`, a zero of the Davenport-Heilbronn function off
+  the line, kernel-checked (hunt #145), replayed by Lean's kernel and accepted
+  on its dependency closure by the independent `con-ron --verified`; pending
+  external verification. It shows the functional equation alone cannot give RH.
+- [hunts/li_dh_onset_hardened/RESULTS.md](hunts/li_dh_onset_hardened/RESULTS.md):
+  the first negative Li coefficient of Davenport-Heilbronn, lambda_{328997},
+  hardened (hunt #151); not kernel-checked.
 - [docs/39-built-on-the-quasi-riemann-theorem.md](docs/39-built-on-the-quasi-riemann-theorem.md):
   **start here.** Five results built here on top of OpenAI's zero-free
   half-plane Re s > 7/8 (preprint of 2026-09-30), none yet reviewed by any

@@ -287,9 +287,9 @@ priority over other mechanisms; allocation is the owner's decision.
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (2189 tests, ~10-20 min)
-.venv/bin/python -m pytest -q -m "not slow"   # fast tier (2122 tests, ~3-8 min)
-.venv/bin/python scripts/run_hunt_tests.py    # every hunt's own tests, one process per directory (~30 min)
+.venv/bin/python -m pytest -q                 # full suite (3522 tests collected, 2026-10-30)
+.venv/bin/python -m pytest -q -m "not slow"   # fast tier (3441 tests; ~20 min on a CI runner)
+.venv/bin/python scripts/run_hunt_tests.py    # every hunt's own tests, one process per directory (~30-50 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
 cd lean && PATH="$HOME/.elan/bin:$PATH" lake build  # the certified arm (0 sorrys)
