@@ -271,7 +271,8 @@ with `W_zeros = sum h(gamma)`. On this family `h >= 0`, and the zeros in the
 table are on the line, so `W_zeros >= 0` inside that table's range. The margin
 is `W` normalised by the prime cost, not an independent statement about the
 archimedean term. Its decay says `W` grows more slowly than the prime side.
-From `b = 2` to `b = 8` the margin falls from `3.04e-2` to `1.59e-4`. The
+From `b = 2` to `b = 8` the margin falls from `3.04e-2` to `1.59e-4`, though not
+step by step: on hunt #158's 0.25 grid it rises on 5 of 24 steps. The
 local exponents between rows run from 2.2 to 5.6, and the overall decay is
 about `b^{-3.8}`. The identity `cover - 1 = W_zeros / sum_p cost_p` is true by
 the definition of `cover`, so there is nothing for a literature search to find;
