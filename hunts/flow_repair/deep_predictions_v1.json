@@ -1,0 +1,110 @@
+{
+  "catalogue_input_sha256_from_source": "1ce493501c9356cf7bbb433add0a5120b0fed87bc7acdbaedb93e286e8ba4050",
+  "estimand": "Individual DH PDE heat-flow pair landing t*, not an observed column of v6; prediction conditional on depth and height.",
+  "model_parameter_mean": 1.4254886015343629,
+  "predictions": [
+    {
+      "depth": 0.397750155,
+      "height": 2442.53029247,
+      "n_v6": 107,
+      "parameter_bootstrap_95": [
+        0.05606346118896429,
+        0.05721938249177683
+      ],
+      "predicted_t": 0.056637798787422505
+    },
+    {
+      "depth": 0.3740915009,
+      "height": 5833.28231922,
+      "n_v6": 302,
+      "parameter_bootstrap_95": [
+        0.04836755303664148,
+        0.049415526435035835
+      ],
+      "predicted_t": 0.04888781224219293
+    },
+    {
+      "depth": 0.37533631633099995,
+      "height": 8235.59250857154,
+      "n_v6": 442,
+      "parameter_bootstrap_95": [
+        0.047538384695713164,
+        0.048613914644975054
+      ],
+      "predicted_t": 0.04807190549881552
+    },
+    {
+      "depth": 0.38364075858400004,
+      "height": 8561.59422335658,
+      "n_v6": 465,
+      "parameter_bootstrap_95": [
+        0.04892433377412844,
+        0.05005954349794097
+      ],
+      "predicted_t": 0.04948718969701962
+    },
+    {
+      "depth": 0.37959563674200003,
+      "height": 11535.28500893545,
+      "n_v6": 670,
+      "parameter_bootstrap_95": [
+        0.047267936193074976,
+        0.048388160858937934
+      ],
+      "predicted_t": 0.047823133187939806
+    },
+    {
+      "depth": 0.38662914280000005,
+      "height": 12313.79888236894,
+      "n_v6": 725,
+      "parameter_bootstrap_95": [
+        0.04829266498880373,
+        0.049464034290629025
+      ],
+      "predicted_t": 0.0488729395707088
+    },
+    {
+      "depth": 0.372779705918,
+      "height": 14063.59832280011,
+      "n_v6": 848,
+      "parameter_bootstrap_95": [
+        0.04549479665869904,
+        0.04657635038052011
+      ],
+      "predicted_t": 0.04603079490470072
+    },
+    {
+      "depth": 0.37418665492799996,
+      "height": 16620.3824929535,
+      "n_v6": 1028,
+      "parameter_bootstrap_95": [
+        0.04525077786733374,
+        0.04634777555977408
+      ],
+      "predicted_t": 0.045794216078945814
+    },
+    {
+      "depth": 0.373766236603,
+      "height": 17363.41322542863,
+      "n_v6": 1081,
+      "parameter_bootstrap_95": [
+        0.04505406449422359,
+        0.046149695777616385
+      ],
+      "predicted_t": 0.04559679133659336
+    },
+    {
+      "depth": 0.390630014155,
+      "height": 19239.53323332113,
+      "n_v6": 1211,
+      "parameter_bootstrap_95": [
+        0.047557790264851504,
+        0.04877045814652991
+      ],
+      "predicted_t": 0.04815788990663075
+    }
+  ],
+  "source_sha256": "180108236320f98c86855972f934077eb139b14317e3622b675eeb5f532f4a88",
+  "status": "No observed deep flow labels; neither fitted nor revised here.",
+  "version": "deep_prediction_v1"
+}
