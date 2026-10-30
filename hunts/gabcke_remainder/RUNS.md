@@ -18,8 +18,16 @@ hunt: gabcke_remainder
 started: 2026-10-29T00:20:00+00:00
 finished: 2026-10-29T00:35:00+00:00
 ran:
-  - /Users/thomas/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean hunts/gabcke_remainder/lean/Coefficients.lean
+  - lean hunts/gabcke_remainder/lean/Coefficients.lean   (toolchain leanprover/lean4:v4.35.0-rc2)
 outcome: the kernel accepts lambda_printed and lambda_divides with no axioms; the remainder bound is not proved
 artifacts:
   - hunts/gabcke_remainder/lean/Coefficients.lean
 ```
+
+Landing note, 2026-10-30 (PR #370). The run above was on the file without a `module`
+header. The header was added at landing because every tracked `.lean` file needs one
+(`tests/test_palomar_module_port.py`), and the file was not re-elaborated on this box,
+which has no Lean toolchain. The nightly `full.yml` Lean job now elaborates it and
+requires both theorems to print no axioms, so the first nightly after the landing is the
+check of the file as committed.
+

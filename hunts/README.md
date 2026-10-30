@@ -84,6 +84,9 @@ alternative already recorded and left unformalized by hunts #132 and #133.
 The first check is the coefficient recursion in Satz 2.1.1: Lean's kernel
 accepts the seven printed `λ_n` with no axioms. That is not the remainder
 bound. Record: `gabcke_remainder/MISSION.md`, `gabcke_remainder/RESULTS.md`.
+(Landed 2026-10-30. The `module` header every tracked `.lean` file needs was added
+at landing, after the recorded kernel run, and the nightly `full.yml` Lean job now
+re-elaborates the file as committed.)
 
 ### Hunt #153: Requirement A as a static provenance scan (`ontology_provenance/`, 2026-10-24)
 

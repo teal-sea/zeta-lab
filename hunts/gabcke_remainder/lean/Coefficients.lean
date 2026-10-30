@@ -7,6 +7,8 @@ values are the ones printed on pages 19–20 of the 2015 PDF. This file does
 not state the remainder bound.
 -/
 
+module
+
 def binom (n k : Nat) : Nat :=
   match k with
   | 0 => 1
