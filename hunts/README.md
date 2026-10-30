@@ -75,6 +75,17 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #158: is the covering margin's decay the same across two families? (`decay_law/`, 2026-10-30)
+
+**Status: opened, kill written before the second family.** The rectangle margin
+of hunt #157 is `W_zeros` over the prime cost, not a clean power: local
+exponents 2.23 to 5.58, endpoint exponent 3.79 from `b = 2` to `b = 8`. The
+universal reading is withdrawn if that endpoint exponent, or the endpoint
+exponent of `W_zeros`, or of the prime cost, differs from a tent family by more
+than 0.5. The tent measurement is recorded in RESULTS.md after this condition.
+Nothing here is evidence for RH. Record: [MISSION.md](decay_law/MISSION.md),
+[RESULTS.md](decay_law/RESULTS.md).
+
 ### Hunt #155: the three pieces of the Weil functional and how deep they cancel (`arch_cover/`, 2026-10-30)
 
 **Status: measured, no claim promoted.** Pole, archimedean and prime pieces are
