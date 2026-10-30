@@ -243,6 +243,11 @@ the repository.
 
 `sum_p cost_p = -prime_term` was checked to `1e-16`, the float-sum floor, at
 every `b` tested. Only primes with `log p < b` contribute, that is `p <= e^b`.
+The identity holds place by place by construction: expanding the overlap sum
+gives `cost_p = 2 log p sum_{d >= 1} p^{-d/2} g(d log p)`, the `p`-part of the
+prime term, so the check verifies the code, not mathematics. A referee
+recomputation (`hunts/weil_split/REFEREE.md`) agrees at 50 digits, and
+`hunts/weil_split/test_weil_split.py` pins it.
 
 Quoted from section 2 of `hunts/weil_split/RESULTS.md`:
 
@@ -268,8 +273,9 @@ is `W` normalised by the prime cost, not an independent statement about the
 archimedean term. Its decay says `W` grows more slowly than the prime side.
 From `b = 2` to `b = 8` the margin falls from `3.04e-2` to `1.59e-4`. The
 local exponents between rows run from 2.2 to 5.6, and the overall decay is
-about `b^{-3.8}`. The scan did not find this identity, or that measured decay,
-outside the repository.
+about `b^{-3.8}`. The identity `cover - 1 = W_zeros / sum_p cost_p` is true by
+the definition of `cover`, so there is nothing for a literature search to find;
+the scan did not find the measured decay outside the repository.
 
 The cost spreads. At `b = 2` the top three places carry share 0.977 (the hunt
 record names `p = 2, 3, 5` as carrying 98 percent). At `b = 8` there are 429
