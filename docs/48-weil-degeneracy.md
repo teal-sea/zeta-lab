@@ -317,7 +317,7 @@ Yoshida, "On Hermitian forms attached to zeta functions", Adv. Stud. Pure Math.
 21 (1992), 281-325. Yoshida's paper was not opened. Zhu, arXiv:2608.24827,
 quotes the classical range as support in `[-(log 2)/2, (log 2)/2]`, attributed
 to Yoshida and, by a different method, to Connes and Consani. Small-support
-positivity is cited here only as those two authors state it. Bombieri's
+positivity is cited here only as Bombieri and Zhu state it. Bombieri's
 attainment on each fixed window is not a uniform gap. Nonnegativity on every
 compact window is the criterion. It does not require a constant `c > 0`
 independent of the window.
