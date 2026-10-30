@@ -174,7 +174,8 @@ record of who allowed each step:
 The operator's brief of 2026-10-27 asked for the independent `con-ron --verified` check of
 the whole assembled closure, split site by site across InstaBox VMs (primary) and Novita
 sandboxes (second provider), exported on the shared box one artifact zip at a time, under a
-hard cap of USD 40, a 12-hour dead-man over every VM of the run, and the box's memory and
+hard cap of USD 40 (as run, a gate on new launches at a projected USD 36; nothing stopped
+VMs already running, see `RUNS.md`), a 12-hour dead-man over every VM of the run, and the box's memory and
 disk floors. That brief authorized, for this run only: paid cloud compute; export,
 compression and checking of all 215 sites and a top shard; a full re-collect and
 re-assembly on the box to rebuild the assembly oleans Stage A had deleted (they came back

@@ -107,9 +107,13 @@ about half a million literal facts about `DH` on the square's boundary.
 
 ## 4. Doors
 
-The first door is an independent replay of the assembled environment by a second
-checker. It is cheapest before the site oleans' GitHub artifacts expire, about
-2026-11-25; after that it needs the 16 core-hours of sites again. The door beside it, one
+The first door, a replay of the assembled environment, ran on 2026-10-27 (section 1):
+Lean's own kernel replayed the whole closure (`leanchecker --fresh`), and the independent
+`con-ron --verified` accepted the dependency closure of the 18 final declarations, split
+site by site. What remains is outside review. The receipts of both runs are on the
+operator's machine and not in this tree; the site oleans' GitHub artifacts expire about
+2026-11-25, after which a re-run needs the 16 core-hours of sites again. (Updated
+2026-10-30: this paragraph first named the replay as still to run.) The door beside it, one
 bundled theorem stating the strip result in a single declaration, is done: it is
 `davenport_heilbronn_strip` (section 1). The next is cheaper composites and terms by the same kernel decision. After
 those come Spira's next off-line zeros, at heights 114.16, 166.48 and 176.70, which need

@@ -171,9 +171,13 @@ theorem (`pilot.json` `production.strip_assembly`, log in its receipts):
   The closure is 11,955 modules and 1,569,505 constants: the 215 sites' 761,387,
   Mathlib's 580,690, Lean's core and dependencies' 202,353, hunt #137's 24,311 (because
   `Separation` imports `RHHeight100.Main100`), `ZetaLean`'s 733 and the assembly's 31.
-  **Exit 0, empty output, in 7 h 17 min 46 s of one core, at 22.76 GB peak RSS**;
+  **Exit 0, empty output, in 7 h 17 min 46 s of one core, at 23.3 GB (21.7 GiB) peak RSS**;
   `MemAvailable` never fell below 49.3 GiB. A module that does not exist exits 1, and a
   scratch olean with one radius literal changed is refused by the kernel (section 4).
+  That olean fault ran `leanchecker` without `--fresh` (the module replayed into its
+  imports); no planted fault went through `--fresh` itself, and the headline run's
+  output was empty, so its constant count is the separate census's, not the checker's.
+  (Stated 2026-10-30, review of #364.)
   The estimate written before the run, from a seeded sample of 175 modules each replayed
   apart, was 6 to 10 hours and 18 to 26 GB. The tool's own docstring calls it "not an
   external verifier": it re-runs the same kernel on the same constants. What it adds is
@@ -229,7 +233,7 @@ theorem (`pilot.json` `production.strip_assembly`, log in its receipts):
   providers (section 4). Wall: the first VM at 15:07, the last deleted at 19:12, set by
   the centre, whose shard took 3.2 hours on 8 cores (24.8 core-hours, 14.8 GB peak RSS);
   834 core-hours of `con-ron` in all. Cost: InstaBox USD 8.25 (its usage API, per
-  machine), Novita USD 0.68 at list price; 222 VMs, none left on either provider. Receipts:
+  machine), Novita USD 0.68 at list price; 222 VM creations in `vms.jsonl` (`pilot.json` counts 220, because its record skips creations with no provider id), none left on either provider. Receipts:
   `<cache>/rung3-conron-fleet-20261027` (the state files, the VM registry, every
   receipt, manifest and log); record: `pilot.json` `production.replay.stage_b_fleet`;
   `RUNS.md` has the run.

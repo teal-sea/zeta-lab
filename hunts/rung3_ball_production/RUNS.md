@@ -728,7 +728,7 @@ The parent session was restarted at about 02:59Z and this lane's copy stopped at
 |---|---|---|
 | exit | | **0**, stdout and stderr empty, `stop_reason` null |
 | wall, one core | 6 to 10 h | **7 h 17 min 46 s** (00:35:12 to 07:52:58 UTC, 26,266 s) |
-| peak RSS | 18 to 26 GB | **22.76 GB** (22,759,764 KiB, sampled every 5 s) |
+| peak RSS | 18 to 26 GB | **23.3 GB**, 21.7 GiB (22,759,764 KiB, sampled every 5 s; first recorded as "22.76 GB", the KiB count read as GB, corrected 2026-10-30) |
 | lowest `MemAvailable` | above 35 GiB | **49.3 GiB** (51,670,496 KiB) |
 
 The checker binary hashes the same before and after (SHA-256 `9e36e955a251b131...`). The
@@ -767,7 +767,10 @@ artifacts:
 The operator's brief of 2026-10-27: run `con-ron --verified` (the toolchain's second kernel,
 SHA-256 `4e5616d94374cae3...`) over the whole assembled closure, split site by site across
 InstaBox VMs (primary) and Novita sandboxes (second provider), exported on this box one
-artifact zip at a time. Hard cap USD 40 across both providers; a dead-man deletes every VM
+artifact zip at a time. Hard cap USD 40 across both providers (corrected 2026-10-30: the
+code never enforced USD 40; `HARD_CAP_USD` was defined and unused, and the only spend
+control was a gate on new launches at a projected USD 36, `STOP_LAUNCH_USD`; spend
+stayed at USD 8.93, so nothing turned on it); a dead-man deletes every VM
 of this run 12 hours after the first launch or when a stop file appears. Work directory and
 state: `<cache>/rung3-conron-fleet-20261027` (`exports.json`, `phase0.json`, `fleet.json`,
 the VM registry `vms.jsonl`, the spool, the manifests, the receipts and every log).

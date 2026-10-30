@@ -72,7 +72,6 @@ STANDARD_AXIOMS = {"propext", "Classical.choice", "Quot.sound"}
 # prices (USD), list: InstaBox per vCPU-hour and GiB-hour; Novita per vCPU-second and GiB-second
 IB_VCPU_H, IB_GIB_H = 0.004, 0.00225
 NV_VCPU_S, NV_GIB_S = 0.0000098, 0.0000032
-HARD_CAP_USD = 40.0
 STOP_LAUNCH_USD = 36.0          # no new VM once spent + projected reaches this
 DISK_FLOOR_GB = 10.0
 SPOOL_CAP_BYTES = 7 * 10**9
@@ -1314,7 +1313,11 @@ def cmd_deadman(a) -> None:
     stop_fleet(f"deadman {why}")
     ib, nv = InstaBox(), Novita()
     clean_since = None
-    rounds = DEADMAN_QUIET_S // 60 + 10
+    # A create in flight can surface up to PROVISION_TIMEOUT_S after the trigger, and the
+    # quiet window restarts then, so the budget covers both. (Review, 2026-10-30: with only
+    # DEADMAN_QUIET_S // 60 + 10 rounds, a machine surfacing after round 10 left too few
+    # rounds to see quiet, and the dead-man gave up silently with exit 0.)
+    rounds = (PROVISION_TIMEOUT_S + DEADMAN_QUIET_S) // 60 + 10
     for rnd in range(rounds):
         left = registry()
         for (prov, vid), r in left.items():
@@ -1336,13 +1339,21 @@ def cmd_deadman(a) -> None:
         except Exception as e:
             log("deadman listing error", str(e)[:300])
             stray_ib, stray_nv = [{}], []
+        # Review of #367 (2026-10-30): one API error here used to end the dead-man with
+        # VMs still running; a failed delete is logged and retried next round instead.
         for m in stray_ib:
             if m.get("id"):
                 log("deadman stray instabox", m["id"], m.get("name"))
-                ib.delete(m["id"])
+                try:
+                    ib.delete(m["id"])
+                except Exception as e:
+                    log("deadman stray error", "instabox", m["id"], str(e)[:300])
         for s in stray_nv:
             log("deadman stray novita", s.sandbox_id)
-            nv.kill(s.sandbox_id)
+            try:
+                nv.kill(s.sandbox_id)
+            except Exception as e:
+                log("deadman stray error", "novita", s.sandbox_id, str(e)[:300])
         if not registry() and not stray_ib and not stray_nv:
             if clean_since is None:
                 clean_since = time.time()
@@ -1353,6 +1364,7 @@ def cmd_deadman(a) -> None:
             clean_since = None
         time.sleep(60)
     log(f"deadman: gave up after {rounds} rounds; check by hand")
+    raise SystemExit(f"deadman gave up after {rounds} rounds with VMs possibly left")
 
 
 def cmd_sweep(a) -> None:

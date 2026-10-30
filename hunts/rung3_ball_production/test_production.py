@@ -380,7 +380,7 @@ def test_door_one_records_a_same_kernel_replay_and_a_priced_second_kernel():
     assert b["decision"].startswith("stopped at the estimate") and b["nanoda"] == "not run"
     assert b["projection"]["wall_h_16_workers"] > 24
     text = " ".join((HERE / "RESULTS.md").read_text().split())
-    for q in ("7 h 17 min 46 s", "22.76 GB peak RSS", "1,569,505 constants", "761,387",
+    for q in ("7 h 17 min 46 s", "23.3 GB (21.7 GiB) peak RSS", "1,569,505 constants", "761,387",
               "receipts-replay-20261027", "not an external verifier", "about 1,300 core-hours"):
         assert q in text, q
     for bad in ("independent replay accepted", "independently replayed", "independent kernel accepted"):

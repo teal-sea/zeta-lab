@@ -142,7 +142,8 @@ Re s ≠ 1/2, witness `DH`), in an emitted module outside the sites' import clos
 compiled by a second on-box assembly of the same 215 site oleans with the same three
 axioms (`RESULTS.md` section 1 and door 2). *Added 2026-10-27:* Lean's own kernel replayed
 the whole assembled closure into an empty environment and accepted it, and the independent
-checker `con-ron --verified` accepted it split into 216 shards on cloud VMs, with coverage
+checker `con-ron --verified` accepted the dependency closure of the 18 final declarations
+(675,388 of the 1,569,505 constants) split into 216 shards on cloud VMs, with coverage
 shown (door 1, Stages A and B); the grade stays kernel-checked, pending external
 verification. *2026-10-21 status, superseded:* open ledger
 hunt; a pilot on one shared box in one session, measured; the pilot site's two theorems
@@ -220,6 +221,8 @@ All 17 final declarations print only the three standard axioms. Four planted fau
 production output were refused: the tower radius at `ev_whole`, the tail radius at `enc_`,
 M at `upper_`, and eps' at and below the bound in `centre_lt_centre`. No independent
 kernel replay of the assembled environment has run yet; that is the first door.
+(Superseded 2026-10-27: with `davenport_heilbronn_strip` there are 18 final declarations,
+and door 1 ran, as recorded at the top of this entry.)
 
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 

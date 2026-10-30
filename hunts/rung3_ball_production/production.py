@@ -354,7 +354,9 @@ def cmd_verdict(req: dict, records: Path) -> None:
         sites.update(json.loads(p.read_text()))
     for p in sorted(records.rglob("axioms.json")):
         axioms.update(json.loads(p.read_text()))
-    for p in records.rglob("fault.json"):
+    # sorted, so the latest run's record wins, as download_records lays them out
+    # (review, 2026-10-30: an unsorted rglob picked whichever came last on disk)
+    for p in sorted(records.rglob("fault.json")):
         fault = json.loads(p.read_text())
     want = {"full": set(plan_sites()), "fault": set()}.get(req["mode"]) \
         if req["mode"] in ("full", "fault") else set(req["sites"])
@@ -490,6 +492,8 @@ def cmd_assemble(dest: Path, overlay: Path, rh100: Path) -> None:
     hl = HERE / "lean"
     recs = [run_guarded("support", [f"--root={hl}", "-o", str(asm / "Rung3Assembly" / "Support.olean"),
                                     str(hl / "Rung3Assembly" / "Support.lean")], [asm], logdir)]
+    if recs[-1]["returncode"]:          # review, 2026-10-30: a stale Support.olean went through
+        sys.exit(f"Support.lean failed: see {logdir / 'support.log'}")
     lp = [overlay, asm, out, rh100]
     for name in ("Assembly", "Separation", "Strip", "Final"):
         recs.append(run_guarded(name.lower(), [f"--root={asm}", "-o",
