@@ -43,7 +43,9 @@ referee's sums.
 | 6.0 | 79 | 20.158935 | 0.261 | 1.000791320 | 7.91e-4 | 7.8e-3 |
 | 8.0 | 429 | 48.293063 | 0.126 | 1.000158833 | 1.59e-4 | 2.2e-3 |
 
-Two monotone facts, and they point the same way:
+Two monotone facts, and they point the same way (on these five widths; *note,
+2026-10-30:* hunt #158's 0.25 grid shows the margin rising on 5 of 24 steps, so the
+second holds from `b = 2` to `b = 8`, not step by step):
 
 - **The cost spreads.** At `b = 2` the prime side is three places (p = 2, 3, 5
   carry 98% of it). At `b = 8` it is 429 places and the top three carry 13%.

@@ -9,6 +9,9 @@ rectangle table, before any tent row was computed. A quadrature check of the
 tent formulas, run while building the instrument, printed two endpoint margins
 before this file was committed. The tolerance was not changed after that print.
 The tent measurement that RESULTS.md records is a fresh run, after this block.
+*Landing note, 2026-10-30.* Those two printed margins alone give the tent's
+`alpha_m = 5.73`, so the fire on `alpha_m` was knowable when the tolerance was set.
+The kill was committed before the recorded run; it is not blind on `alpha_m`.
 
 ## The question
 
@@ -71,7 +74,8 @@ overlap. Both have `g(0) = 1`.
        g(u) = 0                        if v >= 1
 
    with `v = |u|/b`, and `h(r) = (3b/4) sinc^4(b r / 4)`. This `h` decays as
-   `1/r^4`. The nodes of `h` sit at half the rectangle's spacing. The shape is
+   `1/r^4`. The nodes of `h` sit at twice the rectangle's spacing (`r = 4 pi k / b`
+against `2 pi k / b`; corrected at landing, 2026-10-30, from "half"). The shape is
    not a rescaling of the rectangle.
 
 ## What would kill the universal reading
@@ -103,8 +107,9 @@ that it can fire on the tent.
 
 Primary grid: `b = 2 + 0.25 k` for `k = 0, ..., 24`. Twenty-five widths,
 spacing 0.25, from 2 to 8 inclusive. The spacing is just over half the
-rectangle node spacing `2π/γ_1` (about 0.444), so a zero-side oscillation is
-visible if it is there. The kill uses only the endpoints, which are on this
+rectangle node spacing `2π/γ_1` (about 0.444), so a zero-side oscillation shows
+as swings, though the grid is above its Nyquist interval (0.222) and aliases it
+rather than resolving it (corrected at landing, 2026-10-30, from "visible"). The kill uses only the endpoints, which are on this
 grid and on the landed table.
 
 ## What this may not claim

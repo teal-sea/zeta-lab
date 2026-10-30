@@ -5,7 +5,10 @@ of one ratio, on two compact families, on one window. Grade: **measured**.
 
 The kill condition in MISSION.md was committed before this table was computed.
 A quadrature check of the tent formulas printed two endpoint margins before
-that commit. The tolerance was not changed after that print. The numbers below
+that commit. The tolerance was not changed after that print. Those two margins
+alone give the tent's `alpha_m = 5.73`, so the fire on `alpha_m` was knowable when
+the tolerance was set: the kill is pre-registered against the recorded run, not
+blind on `alpha_m` (landing note, 2026-10-30). The numbers below
 are a fresh run of `hunts/decay_law/decay.py`.
 
 ## 1. The ratio, and the two families
@@ -33,7 +36,8 @@ Both families are parameterized by `b`, the length of the support of `f`, so
   `hunts/weil_split/results.json` to `1e-12` relative, at every landed width.
 - **Tent.** `f(x) = sqrt(3/b) (1 - 2|x|/b)_+` on `[-b/2, b/2]`, `g` the
   piecewise cubic in MISSION.md, `h(r) = (3b/4) sinc^4(b r / 4)`, decaying as
-  `1/r^4`. The nodes of `h` sit at half the rectangle's spacing. Not a
+  `1/r^4`. The nodes of `h` sit at twice the rectangle's spacing (`4 pi k / b`
+  against `2 pi k / b`; first written "half", corrected 2026-10-30). Not a
   rescaling of the rectangle.
 
 The per-place overlap sum equals the prime cost on every row. The largest gap
@@ -80,7 +84,8 @@ is phase-sensitive. Two checks say the fire is not that one node:
 
 ## 3. A single exponent is not a defensible summary of either family
 
-The rule was written in MISSION.md before the tent was computed: a single
+The rule was written in MISSION.md before the recorded tent run (two tent
+endpoint margins had been printed; see the opening paragraph): a single
 exponent is a defensible summary only if the local exponents on this grid span
 at most 0.5. Both families fail it.
 
@@ -106,7 +111,7 @@ are in `results.json`.
 Rectangle, span 33.5, from -11.0 to 22.6:
 
     6.2, 0.6, 5.3, 2.9, 2.0, 6.2, -4.8, 11.4, -4.3, 12.0, 0.1, 0.9,
-    2.0, 2.3, 10.6, -2.0, 13.9, -8.6, 5.8, 3.2, 7.4, 12.5, -11.0, 22.6
+    2.0, 2.3, 10.6, -2.0, 13.9, -8.6, 5.8, 3.1, 7.4, 12.5, -11.0, 22.6
 
 Tent, span 103.2, from -42.4 to 60.7:
 
@@ -115,8 +120,21 @@ Tent, span 103.2, from -42.4 to 60.7:
 
 Hunt #157's five widths gave local margin exponents from 2.23 to 5.58, and an
 endpoint ratio of about `b^{-3.8}`. That coarser grid averaged over the
-oscillation this grid resolves. The endpoint ratio is real as a ratio of two
-numbers. It is not a local decay rate.
+oscillation this grid shows. This grid does not resolve it either: the
+rectangle's `γ_1` oscillation has period 0.444 in `b`, so its Nyquist interval is
+0.222, below the 0.25 spacing, and the swings above are aliased. The endpoint
+ratio is real as a ratio of two numbers. It is not a local decay rate.
+
+On this grid the rectangle margin rises on 5 of the 24 steps (from `b` = 3.5, 4.0,
+5.75, 6.25 and 7.5). Hunt #157's "the cover margin collapses" holds as a fall from
+`b = 2` to `b = 8`, not as a monotone decay; its record carries a dated note.
+
+The endpoint statistic is itself phase-sensitive. Over the 39 grid pairs with
+`b2 / b1 >= 2.5`, the tent-minus-rectangle margin exponent runs from -0.17 to
+4.00, and 3 pairs fall inside 0.5 (for example `b` = 2.5 against 7.5). The
+tolerance's justification in MISSION.md is numerical precision, which is not the
+main uncertainty here; the least-squares fit (section 2) is what supports the fire
+on `[2, 8]`. (Added at landing, 2026-10-30.)
 
 ## 4. How the decay splits
 
@@ -130,13 +148,13 @@ piece:
 
 The prime cost grows in both families, by a factor 27.7 (rectangle) and 23.0
 (tent) from `b = 2` to `b = 8`, and it grows at every step of the grid. Its
-local exponents stay inside an interval of length 1.33 (rectangle, about -2.2
-to -3.4) and 0.57 (tent, about -2.1 to -2.7). `W` shrinks by a factor 6.9
+local exponents stay inside an interval of length 1.33 (rectangle, -2.04 to
+-3.37) and 0.57 (tent, -2.09 to -2.66). `W` shrinks by a factor 6.9
 (rectangle) and 123 (tent), and it increases on 11 of the 24 steps in each
 family.
 
-So the piece the two families share, to within the tolerance, is the prime
-cost. The piece they do not share is the zero-side sum. The margin inherits
+So on this window, `b` from 2 to 8, the piece the two families share, to within
+the tolerance, is the prime cost. The piece they do not share is the zero-side sum. The margin inherits
 that disagreement. A reading that stays inside the measurement: the fitted
 `alpha_W` is 1.03 for the rectangle, whose mean envelope scales as `1/b`, and
 3.12 for the tent, whose mean envelope scales as `1/b^3`. Those are the
@@ -144,23 +162,37 @@ envelope powers of `sinc^2` and `sinc^4`. The measurement is consistent with
 the zero-side decay tracking the decay of `h`, which is family-specific. It
 does not establish that tracking beyond these two families.
 
+*Scope, added at landing, 2026-10-30.* The sharing is a property of the window.
+By the prime number theorem `C` is about `2 int_0^b e^{u/2} g(u) du`, which is
+`8 e^{b/2} / b` for the rectangle (`C b e^{-b/2}` is 7.08 at `b = 8`, rising toward 8)
+and of order `e^{b/2} / b^3` for the tent. Neither is a power of `b`, so a log-log
+exponent of `C` depends on the window by construction: a reviewer's extension of
+the run to `b = 16` found the tent-minus-rectangle `alpha_C` growing from 0.17 on
+`[2, 8]` to 1.34 on `[10, 16]` (measured, not committed here). Heuristically the
+prefactor difference in `C` cancels the difference in the `W` envelopes, so both
+margins would decay like `e^{-b/2}`. The withdrawal of the universal reading
+above is a statement about power-law exponents on `[2, 8]`, not about the
+asymptotic rate.
+
 ## 5. The local-exponent variation is the zero side
 
 `h(γ_1)` was evaluated at the first ordinate of the same list the zero sum
-uses, not taken from a remembered constant. It matches the closed form
-`b sinc^2(b γ_1 / 2)` and `(3b/4) sinc^4(b γ_1 / 4)` at every printed digit
-of the stored rows.
+uses, not taken from a remembered constant, through the closed forms
+`b sinc^2(b γ_1 / 2)` and `(3b/4) sinc^4(b γ_1 / 4)`. (First written as
+"matches the closed form", which cannot fail: `decay.py` computes it from the
+closed form. Corrected 2026-10-30.)
 
 The first zero does not dominate the rectangle: its share of `W` runs from
-`1.4e-5` to 0.42, and the first three zeros never carry more than 0.51. The
+`1.4e-5` to 0.42, and the first three zeros never carry more than 0.515. The
 tent is often the first few zeros: the first zero's share runs from `2.6e-9`
 to 0.94, and the first three run from 0.085 to 0.986. At a node of `h(γ_1)`
 that share collapses and later zeros carry the sum.
 
 Correlation of the local margin exponents with the local exponents of
 `h(γ_1)`: 0.85 on the rectangle, 0.50 on the tent. The prime cost has no such
-swings. The variation in the local margin exponents is oscillation from the
-zero side, not a change in the rate at which the prime cost grows.
+swings on this window. The variation in the local margin exponents is
+oscillation from the zero side; the prime cost's own local exponent drifts
+slowly (section 4, the `e^{b/2}` law), which on `[2, 8]` is small next to it.
 
 ## 6. Arithmetic side against zero side
 
