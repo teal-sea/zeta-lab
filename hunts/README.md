@@ -238,6 +238,40 @@ kernel replay of the assembled environment has run yet; that is the first door.
 (Superseded 2026-10-27: with `davenport_heilbronn_strip` there are 18 final declarations,
 and door 1 ran, as recorded at the top of this entry.)
 
+### Hunt #151: where Li's criterion first fails for Davenport-Heilbronn, enclosure-carrying (`li_dh_onset_hardened/`, opened 2026-10-26)
+
+**Status: lambda_{328997}(DH) < 0 and lambda_n(DH) > 0 for every
+1 <= n < 328997, hardened (every step in Arb balls, two radii agreeing);
+pending external verification, not kernel-checked.** It answers the question #128
+(`li_dh_onset/`) priced at about 20,000 core-hours, and confirms #128's
+extrapolated n\* = 328997 exactly. The pre-registration was committed alone
+before the runs.
+- **Admissibility.** The certificate closes exactly at 128 bits. On
+  [-3/4, 7/4] x (0, 160) the argument-principle count is 98, which equals the
+  94 line sign changes plus twice the two located off-line zeros. Planted
+  faults break it. This gives R_a = |1 - 1/rho_1| = 0.99995800 and licenses
+  r = sqrt(1 - 1/c).
+- **Production.** A ball trapezoid with a rigorous aliasing bound
+  (M(rho) <= 1.0e5 from a ball arc cover) and a ball-tracked branch. Run A
+  (c = 5000, 2^21 nodes) and run B (c = 2500, 2^19 nodes) each find the first
+  negative ball at 328997, with lambda = -2379.9647... +/- 4e-27. Their balls
+  intersect at all n <= 500,000, and the xi control and the mpmath.iv node
+  check passed inside each run. Total cost 0.46 core-hours, so #128's wall was
+  a cost wall of the r <= 0.99 family.
+- **Named shared failure mode, tested 2026-10-26 (evening).** Both radii used
+  the same Arb evaluator for f. A pre-registered rerun of run B with every f and
+  log Gamma evaluation in mpmath.iv reproduces n\* = 328997 and the sign of
+  every lambda_n, n <= 500,000, and its balls intersect B's at every n. That
+  failure mode is excluded for run B's table; the grade is unchanged. The
+  admissibility certificate, the last Arb-only link, was replayed in mpmath.iv
+  under its own pre-registration. It reproduces N_box 98 = 94 + 2 x 2 and R_a,
+  with balls meeting Arb's wherever both evaluate.
+- **Prior work.** Bucur, Ernvall-Hytönen, Odžak, Smajlović 2016 computed Arb
+  tau-Li coefficients for the *associated* DH function, n <= 500.
+  arXiv:1410.4384 has no DH numerics. Johansson 2015 is zeta to n = 100,000.
+  The result is original, and novelty is not claimed (bounded search in
+  RESULTS.md). Nothing here bears on RH (`docs/08`).
+
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 
 **Status: ordinary argument with an independent model challenge (a model review, not human
@@ -530,7 +564,9 @@ computed coefficient, and explicitly not a theorem. It sharpens `hunts/jensen_cl
 
 **The wall, priced.** At `n = 328997` the family needs about 1490 working digits and 670000 nodes,
 roughly 20000 core-hours on this calibration, against every efficiency door together being worth a
-factor of 5 to 10. The direct route cannot reach the onset. Its doors also found a defect outside
+factor of 5 to 10. The direct route cannot reach the onset. (Dated pointer, 2026-10-30: hunt
+#151 reached it, lambda_{328997}(DH) < 0 with every earlier lambda_n > 0, hardened, at 0.46
+core-hours, so that sentence holds only for this hunt's r <= 0.99 family; see `li_dh_onset_hardened/`.) Its doors also found a defect outside
 the hunt: `zeta.epstein.completed_dh` costs `0.58 s` per call at 142 digits against `0.092 s` for
 the same mathematics with `kappa` cached once per process, a factor of six from a precision-keyed
 `lru_cache` receiving a precision that varies with the distance from `s` to 1.

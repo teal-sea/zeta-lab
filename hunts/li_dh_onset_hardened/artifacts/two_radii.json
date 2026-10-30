@@ -1,0 +1,9 @@
+{
+ "n_common": 500000,
+ "sha256_A": "5ebe86082023966b65f06d1c11c020bd5718b6ff7c85b8fcf0450e041f87396b",
+ "sha256_B": "b46903b3e8141688d1ca52f5733f3deb5ba999e4653eaa35ae745c2590bbd2e4",
+ "disjoint_count": 0,
+ "disjoint_first": [],
+ "max_midpoint_difference": 4.999955e-15,
+ "rule_holds": true
+}

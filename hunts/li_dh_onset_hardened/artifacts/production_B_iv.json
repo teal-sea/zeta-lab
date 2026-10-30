@@ -1,0 +1,73 @@
+{
+ "started": "2026-10-26T16:18:57",
+ "c": 2500,
+ "N": 524288,
+ "prec": 256,
+ "rho": "499977/500000",
+ "evaluator": "mpmath.iv (iv_fast.py)",
+ "seconds_phase1_wall": 13.1,
+ "M": {
+  "M_upper": 99864.93957445491,
+  "closure_contains_0": true,
+  "stats": {
+   "arcs": 15313,
+   "principal_arcs": 201,
+   "tracked_arcs": 15112,
+   "splits": 15312
+  },
+  "seconds": 3540.0
+ },
+ "stats": {
+  "principal_nodes": 1181,
+  "tracked_nodes": 260964,
+  "cover_balls": 6192,
+  "cover_splits": 34007,
+  "arc_bisections": 1436,
+  "closure_arg": "[+/- 6.90e-67]",
+  "closure_contains_0": true,
+  "seconds_sampling": 0.0,
+  "seconds_tracking": 2546.06,
+  "seconds_dft": 10.63,
+  "imag_parts_contain_0": true,
+  "worst_radius": 4.148407916044572e-15
+ },
+ "decision": {
+  "first_ball_negative_n": 328997,
+  "undecided_before": [],
+  "undecided_count": 0,
+  "smallest_lower_bound_before": 0.09763614680951967,
+  "at_n": 1,
+  "statement_established": true
+ },
+ "table": {
+  "path": "<cache>/li_dh_onset_hardened/lambda_B_iv.txt",
+  "sha256": "901380462bf4f7435bddcd510e6787e231ca09b54cfb5651d68aeadc54924aa2",
+  "bytes": 25009633
+ },
+ "comparison_with_B": {
+  "n_common": 500000,
+  "both_signs_decided": 500000,
+  "sign_disagreements": [],
+  "sign_disagreement_count": 0,
+  "named": {
+   "328996": {
+    "iv": "[1385.31521851949223176 +/- 5.89e-18]",
+    "arb_B": "[1385.31521851949223176 +/- 5.91e-18]",
+    "intersect": true
+   },
+   "328997": {
+    "iv": "[-2379.96470663976248371 +/- 5.75e-18]",
+    "arb_B": "[-2379.96470663976248371 +/- 5.77e-18]",
+    "intersect": true
+   }
+  },
+  "sample_seed": 1512026,
+  "sample_size": 1000,
+  "sample_misses": [],
+  "sample_miss_count": 0,
+  "sample_max_midpoint_difference": 4.947152868330723e-15,
+  "all_n_overlap_count": 500000
+ },
+ "seconds_total": 6114.5,
+ "finished": "2026-10-26T18:00:51"
+}
