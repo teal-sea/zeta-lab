@@ -36,9 +36,17 @@ STAGE_A = HERE / "stage_a_v800.json"
 K2_SCOUTS = HERE / "k2_scouts.json"
 
 
+#: Artifacts the plan names that no run has produced yet; only these may skip.
+#: Any other missing artifact fails (review, 2026-10-30: deleting a committed
+#: record such as arb_S_delta6.8.json used to skip its claim silently).
+NOT_YET_PRODUCED = {"joint_1.55.json", "joint_L_31.json"}
+
+
 def _load(path: Path):
     if not path.exists():
-        pytest.skip(f"{path.name} not produced yet")
+        if path.name in NOT_YET_PRODUCED:
+            pytest.skip(f"{path.name} not produced yet")
+        pytest.fail(f"{path.name} is missing: a committed record went away")
     return json.loads(path.read_text())
 
 
@@ -435,7 +443,10 @@ def test_stage_a_block_at_800_is_not_psd_with_honest_radii():
     assert (d["N"], d["T"], d["q"], d["n_y"], d["prec"]) == (856, 800.0, 64, 1500, 256)
     assert d["rq_discrete_upper"] < -4.1516067483e-30 and d["rq_discrete_rad"] < 1e-70
     assert d["rq_discrete_mid"].startswith("-4.15160674833")
-    assert d["rq_exact_integrals_upper"] < -4.1516067483e-30 and d["t_quad_bound"] < 1e-87
+    assert d["rq_exact_integrals_upper"] < -4.1516067483e-30
+    # the recorded t_quad_bound carries the old (n+1)-point rate; the corrected bound is
+    # rho^2 = 65.98 times it, 5.30e-87 (test_gauss_rate_correction_keeps_the_stage_a_records)
+    assert d["t_quad_bound"] * 65.99 < 5.31e-87
     assert abs(float(d["mass_above_T_mid"]) / 1.488346502e-30 - 1) < 1e-8
 
 
@@ -475,7 +486,7 @@ def _runs_md_hash_claims():
     for i, line in enumerate((HERE / "RUNS.md").read_text().splitlines(), 1):
         for m in re.finditer(r"hunts/weil_dh_line/([\w.]+)", line):
             hs = re.findall(r"\b[0-9a-f]{64}\b", line[m.end():])
-            if hs and (HERE / m.group(1)).exists():
+            if hs:          # a hashed artifact that went missing fails below, not here
                 out.append((i, m.group(1), hs[0]))
     return out
 
@@ -490,6 +501,7 @@ def test_runs_md_hashes_match_the_committed_artifacts(tmp_path):
     assert {"witness_q856.json", "witness_v856.json", "witness_v101.json", "stage_a_v800.json",
             "stage_a_witness.json", "joint_L_DH.json", "k2env_dh_L_DH.json"} <= names
     for line, name, h in claims:
+        assert (HERE / name).exists(), (line, name, "RUNS.md hashes a file that is not there")
         assert hashlib.sha256((HERE / name).read_bytes()).hexdigest() == h, (line, name)
     line, name, h = claims[0]
     bad = bytearray((HERE / name).read_bytes())

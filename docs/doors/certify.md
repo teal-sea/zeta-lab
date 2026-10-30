@@ -73,7 +73,7 @@ hidden.
 |---|---|
 | 1 (done) | the lab's ground-truth facts wired to their Mathlib proofs |
 | 2 (done) | the κ derivation behind the Davenport–Heilbronn counterexample |
-| 3 (done, 2026-10-26; pending external verification) | Davenport–Heilbronn itself, that zeta-shaped symmetry alone cannot give RH (`dh_separation_hundred` and `dh_zero_located`, with `dh_analytic_half`) |
+| 3 (done, 2026-10-26; pending external verification) | Davenport–Heilbronn itself, that zeta-shaped symmetry alone cannot give RH (`davenport_heilbronn_strip`, bundling `dh_analytic_half` and `dh_zero_located`; `dh_separation_hundred` adds the height-100 contrast with zeta) |
 
 Rung 3's analytic half is kernel-checked in `ZetaLean/DHAnalytic.lean`: the
 DH function built from the quartic character mod 5, entire, summing the
@@ -90,8 +90,10 @@ The topological step is also closed: `ZetaLean/DHZeroCriterion.lean` proves
 a minimum-modulus criterion (maximum modulus applied to `1/f`, no argument
 principle needed), generalises it from a disk to the frontier of any bounded
 open set, and specialises that to an axis-aligned square kept right of the
-critical line, so that `davenport_heilbronn_of_certified_square` derives the
-**full** `davenport_heilbronn_statement` from two interval inequalities:
+critical line, so that `davenport_heilbronn_of_certified_square` derives
+`davenport_heilbronn_statement` from two interval inequalities (that statement, as
+defined, is also met by the trivial zero s = -1, `ZetaLean/DHTrivialZero.lean`; the
+result is carried by `davenport_heilbronn_strip`, below):
 `‖DH‖` small at the centre, `‖DH‖` bounded below on the four boundary
 segments. A square rather than a circle because rectangle arithmetic covers
 segments without slack.
@@ -150,9 +152,15 @@ carries none of the result, and the same statement for zeta holds at s = -2. The
 came to 16.1 core-hours on GitHub Actions, not months. Each prime tower is one
 `decide +kernel` of its whole ball value (`scripts/60 --tower whole`); the 215 site
 theorems compiled in 20 jobs, and one assembly imported them all (17.9 GB). Planted
-one-unit faults are refused at the declaration they touch. No independent replay of the
-assembled environment has run yet; that, and an outside review, are what "pending
-external verification" waits for.
+one-unit faults are refused at the declaration they touch. When this section was
+written no replay of the assembled environment had run. Two did on 2026-10-27 (hunt
+#145, door 1): Lean's own kernel replayed the whole closure into an empty environment
+(`leanchecker --fresh`, 1.57 million constants, 7 h 17 min), a re-check by the same
+kernel, and the independent checker `con-ron --verified` accepted the dependency
+closure of the 18 final declarations (675,388 constants) split into 216 shards, with
+coverage shown and the final declarations checked in a form abstracted over the site
+theorems. An outside review is what "pending external
+verification" now waits for.
 
 The ladder and the next rung live in `HANDOFF.md`;
 `references/mathlib-open-targets.md` tracks what Mathlib itself records as

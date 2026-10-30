@@ -90,8 +90,12 @@ of the algorithm.
 
 ## 3. The exact evidence rung
 
-Enclosure-carrying for every numeric step of one verifier: the finite-window
-counts now carry Arb enclosures through the one step that previously did not.
+Arb enclosures now carry `M_bound`, the one step of the verifier that
+previously ran in binary64; the float-to-Arb coordinate handling and the contour
+guard choices outside it were not exhaustively audited (section 5, item 4), so the
+composite takes that weakest step: one route, the same verifier. (Corrected
+2026-10-30: this paragraph first read "enclosure-carrying for every numeric step
+of one verifier", which its own limitations contradict.)
 It stops short of the hardened rung as this repository uses it, because no
 independent route agrees with it, and far short of kernel-checked. Every
 statement below is conditional on the items in section 5.

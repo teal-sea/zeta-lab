@@ -11419,7 +11419,7 @@
      "ExportShard.lean": "18a31394eb653d698439e45211a5d30508a5cade42c00cfabd97f7aad3528681",
      "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
      "exportshard": "77102b6141bdc1bc52f8c22a960c3c0228ab11163cef670419f0a41becc241c7",
-     "toolchain": "/home/thomas/.elan/toolchains/leanprover--lean4---v4.35.0-rc2",
+     "toolchain": "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2",
      "utc": "2026-10-27T15:02:58Z",
      "conron_shard.py": "b97c0b76f967e2d3044feda4ebe159a85b190fe5aa566396bfcbd23a89c9f25e",
      "shard_manifest.py": "0918e68c82e09510239bb963e26d3e6488b3847f613dde30d464a5dd72c9e08d"

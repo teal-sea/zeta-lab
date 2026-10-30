@@ -1,5 +1,9 @@
 # MISSION: `below_seven_eighths`, pushing the zero-free half-plane under 7/8
 
+*Numbering note, 2026-10-30.* In this hunt's files "#134" names `seven_eighths_pin/`, the 13/15
+ceiling hunt, which was opened as #134 and is case-logged as hunt #139. On main, #134 is
+`gauss_positivity/`. The text below keeps the name it was written with.
+
 **Opened 2026-10-21. Hunt #136.** The owner directed the laboratory on 2026-10-21 to
 attack RH. This hunt is the campaign's first track because a fixed zero-free half-plane
 is the RH-direct quantity the field is moving right now, and the only one whose

@@ -14,7 +14,8 @@ Status on 2026-10-27, three outcomes and one post-hoc finding:
 - **Post-hoc review finding (2026-10-27, measured, not pre-registered).** The
   3.37e-5 gap is twice the second-order sum S2: Revers's printed S* for the
   Saouter-Demichel region equals Saouter-Demichel's printed first-order sum
-  minus S2, to 1.0e-9, where Theorem 3.1 adds S2. Our own first-order sum
+  minus S2, to 1.0e-9 (S2 summed over the first 2e4 zeros; its tail is
+  estimated, not bounded), where Theorem 3.1 adds S2. Our own first-order sum
   matches Saouter-Demichel's to 4.7e-8 (sections 3, 7 and 8). The
   pre-registered verdict stands.
 
@@ -48,8 +49,12 @@ Arb balls, I(727.952018, 1.061e-4) > 1.4747e-4 > 0. By the positivity argument
 in Revers's "Runs of successive integers" subsection, pi(x) > li(x) for some x with log x in
 [727.9519119, 727.9521241]. This rests on four inputs:
 
-1. **Revers 2025 Theorem 3.1** (JNT 2025, peer reviewed). It is cited, and
-   this hunt does not re-derive it. Its R1 to R6 are evaluated exactly as printed.
+1. **Revers 2025 Theorem 3.1**, read in arXiv v2 (the version published in JNT
+   2025 was not read and may differ). It is cited, and this hunt does not
+   re-derive it. It is the weakest link: the localization rests entirely on its
+   constants, which this laboratory has not reviewed, and the hunt found three
+   apparent slips in the same paper's section 6 (section 8). Its R1 to R6 are
+   evaluated exactly as printed.
    They reproduce both of his resizing tables (13 rows, `test_skewes_terms.py`).
 2. **RH to height A = 1.022e7.** Cited: Platt (2017, to 3.06e10) and
    Platt-Trudgian (2021, to 3e12).
@@ -142,7 +147,8 @@ search), which is not a literature search. No priority is claimed.
 
       Saouter-Demichel's S1 - S2 = -1.0029229462,  Revers's S* = -1.0029229472,
 
-  which agree to 1.0e-9. Theorem 3.1 adds S2, and so do our sums. At the
+  which agree to 1.0e-9 (with S2 truncated at 2e4 zeros; the tail is estimated,
+not bounded, section 7). Theorem 3.1 adds S2, and so do our sums. At the
   Chao-Plymen point Revers's S* agrees with ours, that is with +S2, to 1.7e-10
   (section 1), and his quoted Chao-Plymen value -1.006569 is our S1 to its six
   printed decimals. So the 6.3 value appears to subtract S2 where the theorem
@@ -354,11 +360,26 @@ truncated at 2e4 zeros with an estimated tail. The same subsection's table also
 has an apparent digit slip at eta = 0.0000159, and its eta = 0.0000155 row is
 the value at 0.0000156 (section 3).
 
-None of these changes the paper's conclusions. At omega = 727.951335792, Theorem
-3.1 with the correct +S2 still gives a positive lower bound at eta = 1.59e-5:
-5.83e-5 (section 7). The paper's printed S* and R give 9.20e-5 there before
-its Delta S. This lab
-does not contact authors. The note is recorded here only.
+The printed S* fits two readings: a sign slip, or S1 - |S2| used where the
+lower bound needs S1 + S2. Both give the same measured consequence, that the
+lower estimates for I in subsection 6.3 are too high by 2 S2 = 3.37e-5, and
+this note does not choose between them.
+
+Whether that changes the paper's conclusion depends on the omega read. At
+omega = 727.951335792, the value this hunt inferred and that its pre-registered
+rule did not support (section 7), Theorem 3.1 with +S2 still gives a positive
+lower bound at eta = 1.59e-5: 5.83e-5 (section 7). The paper's printed S* and
+R give 9.20e-5 there before its Delta S. At the omega printed in subsection
+6.3, 727.95134, the bound is negative at every eta in the table:
+I >= [-0.01211835 +/- 3.62e-9] at eta = 2.28e-5
+(`shards_b/combined_saouter_demichel.json`). So the conclusion survives only at
+an omega this hunt inferred post hoc. (Scope corrected 2026-10-30: this
+paragraph first read "None of these changes the paper's conclusions", without
+the printed-omega case.)
+
+Everything in this note is read against arXiv v2. The version published in J.
+Number Theory (doi 10.1016/j.jnt.2025.07.002) was not read, and may differ.
+This lab does not contact authors. The note is recorded here only.
 
 ## The doors
 

@@ -38,7 +38,9 @@ Sources read, with what was read:
 - **[Rev25]** M. Revers, *New bounds in R.S. Lehman's estimates for the difference
   pi(x) - li(x)*, arXiv:2501.04488 v2 (J. Number Theory 2025,
   doi S0022314X25002045). Read: the arXiv TeX source, Theorems 2.1 and 3.1 and
-  section 6 (numerical applications, subsections 6.1 to 6.4).
+  section 6 (numerical applications, subsections 6.1 to 6.4). The published
+  version was not read; every [Rev25] statement in this hunt is about arXiv v2,
+  and the published constants and section 6 may differ. (Added 2026-10-30.)
 
 ### (a) Novelty: did any of them carry every step in interval arithmetic?
 
@@ -111,8 +113,8 @@ the proposed first production unit.
 **GO, with the novelty claim narrowed** as in (a). Neither kill condition
 fires. What the hunt can deliver, if it succeeds: a hardened localization of a
 point x in [exp(omega - eta), exp(omega + eta)] with pi(x) > li(x), at [Rev25]'s
-parameters. It inherits the analytic inequality of [Rev25] Theorem 3.1 as a cited,
-peer-reviewed derivation that this hunt does not re-derive. It also inherits the
+parameters. It inherits the analytic inequality of [Rev25] Theorem 3.1 as a cited
+derivation, read in its arXiv v2 form, that this hunt does not re-derive. It also inherits the
 hypothesis that RH holds to height A = 6.85e7 as a cited theorem (Platt 2017,
 Platt-Trudgian 2021). The hardened grade covers the computation; the composite
 claim is "hardened computation on top of a cited derivation". That is weaker
@@ -141,7 +143,7 @@ than an interval-grade result whose analytic step was also checked here.
 
 | input | source | grade here |
 | --- | --- | --- |
-| Theorem 3.1 inequality and R1-R6 | [Rev25], peer reviewed (JNT 2025) | cited derivation, not re-derived |
+| Theorem 3.1 inequality and R1-R6 | [Rev25] arXiv v2 (published in JNT 2025; the published version was not read) | cited derivation, not re-derived |
 | RH to height A = 6.85e7 | Platt (2017, to 3.06e10), Platt-Trudgian (2021, to 3e12) | cited theorem |
 | zeros gamma_1 .. gamma_N, N = 2.2e7 | Arb `acb_dirichlet_zeta_zeros` via python-flint 0.9.0 | ball enclosures (route 1) |
 | completeness N(T) | Arb `arb.zeta_nzeros` (Turing's method) | ball arithmetic (route 1) |

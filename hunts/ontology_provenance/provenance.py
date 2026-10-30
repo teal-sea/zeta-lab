@@ -546,12 +546,29 @@ def propagate_symbol_taint(universe: dict[str, Analysis]) -> None:
                 changed = True
 
 
+#: Laboratory directories that hold Python but are outside the scanned universe
+#: (``collect`` reads only zeta/, ontology/ and hunts/). An import from one of
+#: them cannot be read, so it is undecided, not clean. Third-party and standard
+#: modules are outside the laboratory and stay skipped. (Review, 2026-10-30.)
+UNSCANNED_LAB_PACKAGES: Final = frozenset(
+    {"scripts", "harness", "tests", "meta", "dossier", "compiler", "environments",
+     "telemetry", "lean"}
+)
+
+
+def _unscanned(target: str) -> bool:
+    return target.split(".", 1)[0] in UNSCANNED_LAB_PACKAGES
+
+
 def resolve(module: str, universe: dict[str, Analysis]) -> Analysis:
     """Promote a clean module to reachable-tainted when its imports are tainted.
 
     A ``module::name`` edge follows that name's symbol status. A bare module
-    edge still follows the module verdict. An unresolved name in a tainted
-    module is undecided, not tainted: module granularity is not a verdict.
+    edge still follows the module verdict, except that a whole-module or star
+    import of a provider is undecided: which of its zero-derived names the
+    importer reads is not resolved. An unresolved name in a tainted module is
+    undecided, not tainted: module granularity is not a verdict. An edge into a
+    laboratory directory the scan does not read is undecided.
     """
     if module not in universe:
         return Analysis(path="", status=UNDECIDED, reason="not in universe")
@@ -568,6 +585,14 @@ def resolve(module: str, universe: dict[str, Analysis]) -> Analysis:
         for edge in sorted(universe.get(current, Analysis(path="")).edges):
             if _SYMBOL_EDGE in edge:
                 target, sym = edge.split(_SYMBOL_EDGE, 1)
+                if target not in universe and _unscanned(target):
+                    return Analysis(
+                        path=start.path,
+                        status=UNDECIDED,
+                        reason=f"imports {sym} from {target}, outside the scanned tree",
+                        path_to_taint=trail + [target],
+                        edges=start.edges,
+                    )
                 if (target, sym) in seen_symbols or target not in universe:
                     continue
                 seen_symbols.add((target, sym))
@@ -601,6 +626,14 @@ def resolve(module: str, universe: dict[str, Analysis]) -> Analysis:
                 continue
             target = edge
             if target not in universe:
+                if _unscanned(target):
+                    return Analysis(
+                        path=start.path,
+                        status=UNDECIDED,
+                        reason=f"imports {target}, outside the scanned tree",
+                        path_to_taint=trail + [target],
+                        edges=start.edges,
+                    )
                 continue
             if target in seen:
                 continue
@@ -620,6 +653,15 @@ def resolve(module: str, universe: dict[str, Analysis]) -> Analysis:
                     path=start.path,
                     status=UNDECIDED,
                     reason=f"reaches {dep.path} which cannot be read: {dep.reason}",
+                    path_to_taint=trail + [target],
+                    edges=start.edges,
+                )
+            if dep.status == PROVIDER or TAINTED in dep.symbols.values():
+                return Analysis(
+                    path=start.path,
+                    status=UNDECIDED,
+                    reason=(f"imports all of {dep.path}, which holds zero-derived names; "
+                            "which of them are read is not resolved"),
                     path_to_taint=trail + [target],
                     edges=start.edges,
                 )

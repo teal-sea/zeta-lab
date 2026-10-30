@@ -52,7 +52,13 @@ def evaluate(shard_dir: Path) -> dict:
         "grid_alpha_is_6e12": all(d.get("grid_alpha") == p.alpha for d in shards),
         "every_shard_has_every_omega": all(set(d["grid_sums"]) == set(omegas) for d in shards),
     }
-    checks["complete"] = checks["turing_count_N(T)"] == K * SHARD
+    # Complete means every structural check holds and Arb's count agrees: the
+    # count alone says nothing about what the shards contain. (Review, 2026-10-30.)
+    checks["complete"] = (checks["turing_count_N(T)"] == K * SHARD
+                          and checks["contiguous_indices"]
+                          and checks["ordered_within_shards"]
+                          and checks["ordered_across_shards"]
+                          and checks["last_zero_below_T"])
 
     S = {w: arb(0) for w in omegas}
     for d in shards:
@@ -109,6 +115,12 @@ def main() -> None:
         a.out.parent.mkdir(parents=True, exist_ok=True)
         a.out.write_text(text + "\n")
     print(json.dumps({k: v for k, v in res.items() if k != "descriptive_grid"}, indent=1))
+    # PREREG_B2.md: completeness first, then the control; a failure of either
+    # means nothing after it is a reading. (Review, 2026-10-30.)
+    bad = [k for k, v in res["checks"].items() if v is False]
+    if bad or not res["control"]["overlaps_recorded"]:
+        raise SystemExit(f"checks failed: {bad}, control overlaps recorded: "
+                         f"{res['control']['overlaps_recorded']}")
 
 
 if __name__ == "__main__":

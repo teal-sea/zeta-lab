@@ -164,6 +164,22 @@ entry, added as radius to every entry (asserted in code). Nodes
 are snapped to exact dyadic Bessel arguments; the shift ≤ 5.5e-75 enters the
 budget through a Cauchy bound on f'.
 
+**Correction, 2026-10-30 (review of #365).** The rate ρ^{128} above is
+Trefethen's for 65 points; the 64-point rule GL-64 has rate ρ^{126}
+(ρ^{2−2n} for n points, the defect #365 fixed in `weil_dh_line` and
+`exact_gram`). `harden.py`, `stage_b_modal.py` and `stage_b_odd_modal.py`
+now use ρ^{2q−2}, so every recorded quadrature radius was understated by
+ρ² = (1 + √2)² ≈ 5.83. Rerun under the corrected bound
+(`harden_L08_T100_sine16_gaussfix.json`, `harden_L08_T200_none_gaussfix.json`):
+eps_Q_max rises 5.76e-44 → 3.36e-43 and 4.75e-44 → 2.77e-43, and the
+hardened lower bounds are unchanged, λ_min(R_H) ≥ 1.158e-17 − ε_B and
+≥ 1.02e-17. The L = 1.19 Stage B and odd-sector Modal runs were not rerun:
+their recorded eps_Q_max (6.86e-66, 6.87e-66) become at most 4.0e-65, whose
+contribution at N = 200 is at most 200 × 4.0e-65 = 8.0e-63 in spectral norm,
+far below their gaps λ_meas − λ₀ (5.8e-50 and 3.5e-46). That is a margin
+argument, not a rerun, so those two results hold at the corrected bound by
+this estimate only.
+
 Measured λ_min(R_H) vs T# (N = 200, no error bounds), sine:32: indefinite
 (1 to 3 negative eigenvalues) for T# ≤ 60, positive from T# = 65 (2.0e-18),
 1.16e-17 at T# = 100, 1.42e-17 at T# = 200. The envelope threshold 2π e^S ≈ 30

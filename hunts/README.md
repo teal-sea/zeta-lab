@@ -93,7 +93,8 @@ fixed function, so its sign changes cannot depend on kappa.
 
 ### Hunt #146: the out-of-band reduction priced at the Davenport-Heilbronn line (`weil_dh_line/`, 2026-10-21)
 
-**Status: open, on a draft pull request; resumed in place on 2026-10-26 by the owner's
+**Status: open; landed on main in #356 on 2026-10-27, with the raise recorded below
+(updated 2026-10-30: this line first read "open, on a draft pull request"). Resumed in place on 2026-10-26 by the owner's
 decision. No-go at the gate for the searched envelopes (attempt unresolved, measured);
 K2 on DH at the DH line run on 2026-10-26 (streamed): the pipeline refuses at every
 checkpoint to `T# = 800`, so the binding kill condition did not fire (measured, stage A only).** Asks whether zeta's Weil window
@@ -142,7 +143,8 @@ Re s ≠ 1/2, witness `DH`), in an emitted module outside the sites' import clos
 compiled by a second on-box assembly of the same 215 site oleans with the same three
 axioms (`RESULTS.md` section 1 and door 2). *Added 2026-10-27:* Lean's own kernel replayed
 the whole assembled closure into an empty environment and accepted it, and the independent
-checker `con-ron --verified` accepted it split into 216 shards on cloud VMs, with coverage
+checker `con-ron --verified` accepted the dependency closure of the 18 final declarations
+(675,388 of the 1,569,505 constants) split into 216 shards on cloud VMs, with coverage
 shown (door 1, Stages A and B); the grade stays kernel-checked, pending external
 verification. *2026-10-21 status, superseded:* open ledger
 hunt; a pilot on one shared box in one session, measured; the pilot site's two theorems
@@ -220,6 +222,8 @@ All 17 final declarations print only the three standard axioms. Four planted fau
 production output were refused: the tower radius at `ev_whole`, the tail radius at `enc_`,
 M at `upper_`, and eps' at and below the bound in `centre_lt_centre`. No independent
 kernel replay of the assembled environment has run yet; that is the first door.
+(Superseded 2026-10-27: with `davenport_heilbronn_strip` there are 18 final declarations,
+and door 1 ran, as recorded at the top of this entry.)
 
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 
@@ -583,6 +587,9 @@ by issues #217, #218 and #219, closed by #287 and #291. `zeta/li.py`'s coefficie
 written during the `li_dh_onset` run and committed on the branch in `a9eba317a`, was not landed:
 `tests/test_li.py` states that every committed `data/li_*.json` table was checked out of band,
 and it names no check of this one. Nothing else on the branch is missing from main.
+(Stale since #348, 2026-10-26: `tests/test_li.py` no longer makes that statement, and asserts
+its absence; the committed tables are recomputed by the tests `zeta/li.py` names. The cache
+above was still not landed.)
 
 **Record (2026-09-10): three write-ups, three adversarial audits, and the pattern in what
 they caught.** Moved here from `HANDOFF.md` when that file was retired on 2026-10-22; the
@@ -4679,8 +4686,12 @@ Revers ([RESULTS.md](skewes_enclosure/RESULTS.md) section 7). (Corrected
 the exact 727.951319892.) Neither interval is a new record.
 (4) Post-hoc review, 2026-10-27, measured, not pre-registered: the 3.37e-5 gap
 is twice the second-order sum S2. Revers's printed S* equals the
-Saouter-Demichel first-order value he quotes, minus S2, to 1.0e-9, where his
-Theorem 3.1 adds S2. Our first-order sum matches Saouter-Demichel's to 4.7e-8,
+Saouter-Demichel first-order value he quotes, minus S2, to 1.0e-9 (S2 over the
+first 2e4 zeros, tail estimated, not bounded), where his Theorem 3.1 adds S2.
+Read against arXiv v2 only; the published JNT version was not read. At the
+printed omega 727.95134 the corrected bound is negative, so the paper's
+localization survives only at the inferred omega (RESULTS.md section 8,
+scope corrected 2026-10-30). Our first-order sum matches Saouter-Demichel's to 4.7e-8,
 an end-to-end check of the 2.2e7 zeros. The verdict on H stands, but H's omega
 was right in substance (RESULTS.md sections 3, 7 and 8). The review also
 corrected the doors: A is a binding constant just above the R6 cliff, not a

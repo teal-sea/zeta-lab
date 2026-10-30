@@ -255,7 +255,7 @@ RH (`docs/08`).
         `v^T R(T#) v <= Q_N(v) < 0` at every `T#`, where `R(T#)` is the block
         of exact integrals. The scout's discrete rule (`q = 64` on panels of
         width 1/2) differs from it by the Gauss-Legendre error, bounded only at
-        `T# = 800`, by `8.0e-89` in all, about `5e-92` a panel (item 7, stage
+        `T# = 800`, by `8.0e-89` in all (old Gauss rate; `5.30e-87` corrected, see below), about `5e-92` a panel (item 7, stage
         A); every factor of that per-panel bound except the digamma bound is
         independent of `T#`, and the digamma bound grows like `log T#`, so the
         discrete rule stays far inside `|Q_N(v)|` of the exact block for `T#`
@@ -327,7 +327,7 @@ RH (`docs/08`).
      (`stage_a_v800.json`), the stored row to all its 12 digits, so the
      `T# = 800` stage-A block is **not positive semidefinite, enclosure-carrying**
      (its least eigenvalue is at most `-4.1516067483e-30`). The exact integrals
-     of `R(800)` differ from the discrete rule by at most `8.0e-89` at this
+     of `R(800)` differ from the discrete rule by at most `8.0e-89` (old Gauss rate; `5.30e-87` corrected, see below) at this
      vector (a per-panel ellipse bound through `+-i`, inside the digamma poles
      at `+-3i/2`), so the quadrature claim of the review (about 65 orders below
      `|lambda|`, measured) is now a bound. The tail mass above 800 is

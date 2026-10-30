@@ -30,9 +30,17 @@ SCOUT = HERE / "scout_L140.json"
 K2_SCOUTS = HERE / "k2_scouts.json"
 
 
+#: Artifacts the plan names that no run has produced yet; only these may skip.
+#: Any other missing artifact fails (review, 2026-10-30: deleting a committed
+#: record such as arb_S_delta6.8.json used to skip its claim silently).
+NOT_YET_PRODUCED = {"joint_1.55.json", "joint_L_31.json"}
+
+
 def _load(path: Path):
     if not path.exists():
-        pytest.skip(f"{path.name} not produced yet")
+        if path.name in NOT_YET_PRODUCED:
+            pytest.skip(f"{path.name} not produced yet")
+        pytest.fail(f"{path.name} is missing: a committed record went away")
     return json.loads(path.read_text())
 
 

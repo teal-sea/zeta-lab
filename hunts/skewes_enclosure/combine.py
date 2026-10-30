@@ -66,7 +66,12 @@ def combine(target: str, shard_dir: Path) -> dict:
     checks["last_zero_below_T"] = bool(arb(shards[-1]["last"]) < arb(p.T))
     n_T = zl.count_below(p.T)
     checks["turing_count_N(T)"] = n_T
-    checks["complete"] = n_T == n_total
+    # Complete means every structural check holds and Arb's count agrees: the
+    # count alone says nothing about what the shards contain. (Review, 2026-10-30.)
+    checks["complete"] = (n_T == n_total and checks["contiguous_indices"]
+                          and checks["ordered_within_shards"]
+                          and checks["ordered_across_shards"]
+                          and checks["last_zero_below_T"])
     checks["route2_all_sign_changes"] = all(d["route2_sample"]["all_sign_changes"]
                                              for d in shards)
     checks["route2_sample_size"] = sum(d["route2_sample"]["size"] for d in shards)
@@ -111,6 +116,11 @@ def combine(target: str, shard_dir: Path) -> dict:
             "seconds_isolation_total": sum(d["seconds_zeros"] for d in shards)}
 
 
+def failed_checks(checks: dict) -> list[str]:
+    """Names of the boolean checks that did not hold."""
+    return [k for k, v in checks.items() if v is False]
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--target", choices=["chao_plymen", "saouter_demichel"], required=True)
@@ -122,6 +132,9 @@ def main() -> None:
     if a.out:
         a.out.write_text(text + "\n")
     print(text)
+    bad = failed_checks(res["checks"])
+    if bad:
+        raise SystemExit(f"checks failed: {bad}")
 
 
 if __name__ == "__main__":

@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import importlib.util
 import json
+
+import pytest
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -213,3 +215,45 @@ def test_deadman_writes_stop_before_deleting_and_outlasts_an_in_flight_create(tm
     assert deletes and all(stop_was_there for _, stop_was_there in deletes)
     assert {"m-early", "m-late"} <= {d for d, _ in deletes}
     assert fleet.DEADMAN_QUIET_S > fleet.PROVISION_TIMEOUT_S
+    # cmd_deadman returned rather than raising, so it saw both providers quiet: before the
+    # 2026-10-30 review this test passed through the silent give-up path.
+
+
+def test_deadman_survives_a_failing_stray_delete_and_fails_loud_when_it_gives_up(tmp_path, monkeypatch):
+    """Review of #367 (2026-10-30): a stray delete that raises must not end the dead-man,
+    and a dead-man that never sees the providers empty must exit non-zero, not 0."""
+    clock = _Clock(1_000_000.0)
+    attempts = []
+
+    class IB:
+        def delete(self, vid):
+            attempts.append(vid)
+            raise RuntimeError("provider API down")
+
+        def machine(self, vid):
+            return {"id": vid}
+
+        def list_mine(self):
+            return [{"id": "m-stuck", "name": "stuck", "state": "running"}]
+
+    class NV:
+        def kill(self, vid):
+            pass
+
+        def list_mine(self):
+            return []
+
+    monkeypatch.setattr(fleet, "RUN", tmp_path)
+    monkeypatch.setattr(fleet, "REG", tmp_path / "vms.jsonl")
+    monkeypatch.setattr(fleet, "time", clock)
+    monkeypatch.setattr(fleet, "InstaBox", IB)
+    monkeypatch.setattr(fleet, "Novita", NV)
+    monkeypatch.setattr(fleet, "log", lambda *a: None)
+
+    class A:
+        deadline = clock.t - 1
+
+    with pytest.raises(SystemExit):
+        fleet.cmd_deadman(A)
+    assert len(attempts) > 1                    # retried every round, not killed by the first error
+

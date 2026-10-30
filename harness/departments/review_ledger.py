@@ -543,6 +543,10 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
     ClaimUnderReview(
         name="davenport-heilbronn-rung3",
         claim=(
+            "davenport_heilbronn_strip: some entire function with the "
+            "Davenport-Heilbronn Dirichlet series and functional equation has a "
+            "zero s with 0 < Re s < 1 and Re s != 1/2 (the witness is DH; it "
+            "bundles dh_analytic_half and dh_zero_located; PR #353); "
             "dh_separation_hundred: paired with hunt #137, below height 100 the "
             "Davenport-Heilbronn function DH has a zero s with 0 < Re s < 1, "
             "0 < Im s <= 100 and Re s != 1/2, and every zero of Mathlib's "
@@ -612,7 +616,7 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "lean/ZetaLean/DHTrivialZero.lean",
         ),
         controls_run=(
-            "#print axioms on all 17 final declarations and on all 215 site "
+            "#print axioms on all 18 final declarations and on all 215 site "
             "theorems: exactly propext, Classical.choice and Quot.sound "
             "(RESULTS.md section 2)",
             "planted one-unit faults refused on production output: a tower "

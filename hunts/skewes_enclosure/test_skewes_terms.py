@@ -230,6 +230,24 @@ def test_B2_preregistered_evaluation_is_pinned():
     assert all(f["gamma1_fault_leaves_own_ball"] for f in r["planted_faults"].values())
 
 
+@pytest.mark.skipif(not (HERE / "shards" / "shard_020.json").exists(), reason="shard outputs absent")
+def test_combine_refuses_a_duplicated_shard(tmp_path):
+    """Planted fault: shard 10 replaced by a copy of shard 9. Arb's count still
+    agrees, so completeness must come from the structural checks."""
+    import shutil
+
+    import combine
+
+    for f in (HERE / "shards").glob("shard_*.json"):
+        shutil.copy(f, tmp_path / f.name)
+    shutil.copy(HERE / "shards" / "shard_009.json", tmp_path / "shard_010.json")
+    r = combine.combine("chao_plymen", tmp_path)
+    assert r["checks"]["turing_count_N(T)"] == 2_000_000
+    assert not r["checks"]["contiguous_indices"]
+    assert not r["checks"]["complete"]
+    assert "complete" in combine.failed_checks(r["checks"])
+
+
 # --- Added 2026-10-27, review of PR #360 -------------------------------------
 
 #: The proved intervals [omega - eta, omega + eta] of targets A and B, exact.

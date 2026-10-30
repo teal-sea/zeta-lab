@@ -145,14 +145,12 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 
 - Lean 4 + Mathlib package `ZetaLean`: theorems kernel-checked, never
   measured; zero `sorry`s required to count. Rungs 1 (ground-truth values and
-  the zero-free half-plane) and 2 (the κ derivation) are done; rung 3, the
-  Davenport–Heilbronn theorem, is mathematics-complete, analytic half,
-  square-contour minimum-modulus criterion, certified interval `exp`/`log`
-  and complex `exp`, `n^{-s}` enclosures, tail bounds at three orders
-  (`K^{-σ}`, `K^{-(σ+1)}`, `K^{-(σ+2)}`, the steeper two cut the required
-  certified terms ~800×), and worked instances (`DH(3/2 + 3i) ≠ 0`; the
-  order-2 pipeline end to end). What is left is one ~half-day offline
-  kernel run, priced in `HANDOFF.md`. Build: `cd lean && lake build`.
+  the zero-free half-plane) and 2 (the κ derivation) are done; rung 3 closed
+  on 2026-10-26: `davenport_heilbronn_strip`, a Davenport–Heilbronn zero in the
+  open critical strip, off the line, kernel-checked from 215 site theorems and
+  one assembly (`docs/47`), with the same-kernel replay and the independent
+  `con-ron --verified` acceptance recorded in hunt #145. Its grade is
+  kernel-checked, pending external verification. Build: `cd lean && lake build`.
 
 ## Optional
 

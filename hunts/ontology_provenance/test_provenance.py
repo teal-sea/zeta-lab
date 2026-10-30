@@ -393,3 +393,56 @@ def test_frame_07_is_clean_and_the_numbered_frames_match_the_reading() -> None:
     for module, status in expected.items():
         got = resolve(module, universe)
         assert got.status == status, (module, got.status, got.witness or got.reason)
+
+
+# --- review of #368 (2026-10-30): three forms that used to read clean ---------
+
+
+def _provider_universe(candidate_src: str) -> dict[str, Analysis]:
+    # a provider, as zeta.core is: it defines rs_theta, and Z reads it
+    provider = analyse_source(
+        "def rs_theta(t):\n"
+        "    return t / 2\n"
+        "def Z(t):\n"
+        "    return rs_theta(t) + 1\n"
+        "def coefficients_only(n):\n"
+        "    return n + 1\n",
+        path="lab/provider.py",
+        module="lab.provider",
+    )
+    candidate = analyse_source(candidate_src, path="lab/candidate.py", module="lab.candidate")
+    universe = {"lab.provider": provider, "lab.candidate": candidate}
+    propagate_symbol_taint(universe)
+    return universe
+
+
+@pytest.mark.parametrize(
+    "src",
+    [
+        "import lab.provider as p\nx = p.Z(5)\n",
+        "from lab.provider import *\nx = Z(5)\n",
+    ],
+)
+def test_a_whole_module_import_of_a_provider_is_not_read_clean(src: str) -> None:
+    u = _provider_universe(src)
+    assert u["lab.provider"].status == "provider" and u["lab.provider"].symbols["Z"] == TAINTED
+    got = resolve("lab.candidate", u)
+    assert got.status != CLEAN, (src, got.reason)
+
+
+def test_an_import_from_an_unscanned_lab_directory_is_undecided() -> None:
+    candidate = analyse_source(
+        "from scripts.some_helper import zero_table\nx = zero_table()\n",
+        path="lab/candidate.py",
+        module="lab.candidate",
+    )
+    got = resolve("lab.candidate", {"lab.candidate": candidate})
+    assert got.status == UNDECIDED, got.reason
+
+
+def test_a_third_party_import_still_reads_clean() -> None:
+    candidate = analyse_source(
+        "import numpy as np\nx = np.arange(3)\n", path="lab/candidate.py", module="lab.candidate"
+    )
+    assert resolve("lab.candidate", {"lab.candidate": candidate}).status == CLEAN
+
