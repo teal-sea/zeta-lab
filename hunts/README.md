@@ -4634,7 +4634,7 @@ attack RH, and this is the campaign's first track. The question is whether the z
 half-plane for every Dirichlet L-function can go below the best public abscissa, 0.8748867
 (Xu and Sang), either by strengthening the row-count inputs of OpenAI's Part II assembly,
 whose ceiling hunt #139 places at 13/15, or by a probe whose constants are not tied to the
-sextic pole. It builds on hunt #139 (`seven_eighths_pin/`, unlanded; opened as #134 on
+sextic pole. It builds on hunt #139 (`seven_eighths_pin/`, landed 2026-10-30; opened as #134 on
 `claude/hunt-134-seven-eighths-pin`), reads the pinned paper source by line number and
 checks every printed constant in exact arithmetic. Nothing here bears on real part 1/2.
 
@@ -4715,3 +4715,41 @@ estimates and costs are in [RUNS.md](skewes_enclosure/RUNS.md), and the results
 are in [RESULTS.md](skewes_enclosure/RESULTS.md). (Updated 2026-10-27: this
 paragraph first ended "nothing is a result yet", which was written when the hunt
 opened.)
+
+### Hunt #139: which step of the quasi-Riemann argument fixes the number 7/8 (`seven_eighths_pin/`, 2026-10-16)
+
+> **Landed on main 2026-10-30** (written for a landing on 2026-10-21 that waited as draft PR #325). Opened on `claude/hunt-134-seven-eighths-pin` as Hunt #134; on main #134
+> is `gauss_positivity` and #136 to #138 are held by other open hunts and landings, so this hunt is #139.
+> The prior-art search the hunt had not run was run at landing and extended the same day to the works
+> its first source names and to the follow-ups' manuscripts (`RESULTS.md` section 10). Much of the hunt
+> was already public, so it was derived here independently and is not novel. A model computation by
+> tomoto0 (7 October 2026, nine days before the hunt opened) has the target formula with its ζ_F(6z)
+> pole, the floor-row ceiling 13/15 at the same corner, and a geometry optimum near 0.87496 with the
+> zero-detected rows binding. J. Guo and B. Liu (arXiv:2610.12234), both 8 October, give the exact
+> optimum σ* = (1507 − 2√921)/1653 ≈ 0.8749570698, and Guo derives its binding bin δ* = (49 − √921)/48.
+> Z. Gao (7 October) gives 20999/24000 at b = 1/8, and Argonaut Math (7/8 − 1/4000000) and LW56e2
+> (4374785349/5000000000), both 8 October, also state boundaries below 7/8. Gao, Guo and Argonaut Math
+> carry the low-side loss accounting that the hunt marks inferred. So the scan optimum 0.874958 below is
+> a grid reproduction of σ*, and the exact bound below is valid but loose: the same one-witness program
+> at δ* returns σ* itself (pinned at landing). Not found in the sources read: the reading of 7/8 as the
+> corner of `M + ℓ ≤ 1` and per-summand losslessness, which alone forces 7/8 for every geometry; the
+> exact rational bounds; and the pricing of the row-count excess between its two ends. tomoto0's
+> bootstrap figure near 0.8745 treats the slope α as 2β* − 1, while the paper's lines 15100 to 15104 say
+> α is fixed and κ = 2β* − 1 is the dynamic parameter, and Gao, Guo and Argonaut Math keep α = 5/6. Open
+> check: Xu and Sang's 0.8748867, as hunt #136 records it, lies below σ*, so it must change an input
+> beyond the geometry; if it changed only the geometry, that would refute this hunt's bound.
+
+**Status: answered within its scope; a reading of the paper, unreviewed by any person.**
+In OpenAI's 7/8 argument the target is where the direct bound meets the Mellin signal,
+`σ₀ = 5/6 + (M − 2ℓ)/12` (ℓ the prime-slot length, M the two averaging lengths), a line
+through both stages: Part I (ℓ = 0, M = 1) gives 11/12, Part II (ℓ = 1/6, M = 5/6) gives
+7/8. The paper's geometry is the corner of two direct-bound conditions, `M + ℓ ≤ 1` (line
+8246) and per-summand losslessness of the row norm, `M − 2ℓ ≥ 1/2` (line 8306), and the
+second alone gives exactly 7/8. Relaxing it, the high side binds instead: with the paper's
+row counts, no choice of (ℓ, M, b) passes the endpoint inequality below
+`5655673/6464057 ≈ 0.874942` (exact, one witness point), and the scan optimum is 0.874958.
+The binding rows have a zero near real part 0.69 and maximal prime-slot amplitude. Perfect
+row counts would stop at 13/15 (rows counted in full need `C₀ ≤ 0`). The Euler regions, the
+contour 17/50, the 11/12 input and Lemma plain's `κ ≥ 3/4` do not fix 7/8. 38 printed
+constants reproduced exactly; 39 citations checked against the pinned source; the moment
+lemmas' proofs not checked. See `seven_eighths_pin/RESULTS.md`.
