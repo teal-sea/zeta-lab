@@ -77,14 +77,17 @@ control roles, and the checks are the ones the tree already owns:
 
 ### Hunt #158: is the covering margin's decay the same across two families? (`decay_law/`, 2026-10-30)
 
-**Status: opened, kill written before the second family.** The rectangle margin
-of hunt #157 is `W_zeros` over the prime cost, not a clean power: local
-exponents 2.23 to 5.58, endpoint exponent 3.79 from `b = 2` to `b = 8`. The
-universal reading is withdrawn if that endpoint exponent, or the endpoint
-exponent of `W_zeros`, or of the prime cost, differs from a tent family by more
-than 0.5. The tent measurement is recorded in RESULTS.md after this condition.
-Nothing here is evidence for RH. Record: [MISSION.md](decay_law/MISSION.md),
-[RESULTS.md](decay_law/RESULTS.md).
+**Status: measured, kill fired, no claim promoted.** The covering margin is
+`W_zeros` over the prime cost. On `b = 2` against `b = 8` the rectangle
+endpoint exponents are 3.790 (margin), 1.395 (zero-side sum) and -2.395 (prime
+cost). A tent of the same support width, with `h` a fourth power of a sinc,
+gives 5.731, 3.470 and -2.262. The universal reading, withdrawn if any of the
+three differs by more than 0.5, fired on the margin and on the zero-side sum.
+The prime-cost exponents differ by 0.13 and do not fire. A single power is not
+a defensible summary of either family: on the 25-point grid the local margin
+exponents span 34 and 103, and that span is the zero side oscillating, not the
+prime cost. Nothing here is evidence for RH. Record:
+[MISSION.md](decay_law/MISSION.md), [RESULTS.md](decay_law/RESULTS.md).
 
 ### Hunt #155: the three pieces of the Weil functional and how deep they cancel (`arch_cover/`, 2026-10-30)
 
