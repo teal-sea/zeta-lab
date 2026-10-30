@@ -1,0 +1,444 @@
+{"provider": "novita", "id": "isxzct3voy1ijzx5zidx4", "name": "probe", "created_utc": "2026-10-27T14:55:08Z", "shard": "probe"}
+{"provider": "novita", "id": "isxzct3voy1ijzx5zidx4", "event": "deleted", "utc": "2026-10-27T14:55:09Z"}
+{"provider": "instabox", "id": "m_agqx3zujld5almfm66rouoys3i", "name": "zr3c-site-g-left-16-a1", "shard": "site:g_left_16", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:07:02Z"}
+{"provider": "instabox", "id": "m_agqx3zujld5almfm66rouoys3i", "event": "deleted", "utc": "2026-10-27T15:07:24Z"}
+{"provider": "instabox", "id": "m_agqx3zx4edrxumpan6glszr57i", "name": "zr3c-site-g-left-16-a2", "shard": "site:g_left_16", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:07:35Z", "note": "registered by hand: the orchestrator was stopped between create and registry write"}
+{"provider": "instabox", "id": "m_agqx3zx4edrxumpan6glszr57i", "event": "deleted", "by": "hand", "utc": "2026-10-27T15:08:10Z"}
+{"provider": "instabox", "id": "m_agqx3z65mqivsyuzvxm5s26gye", "name": "zr3c-site-g-left-16-a3", "shard": "site:g_left_16", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:08:30Z"}
+{"provider": "instabox", "id": "m_agqx33cjixgqa5viux3it6mlum", "name": "zr3c-site-b-right-06-a1", "shard": "site:B_right_06", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:13:19Z"}
+{"provider": "novita", "id": "i82yrg0r80kw8jr0kt2fq", "name": "zr3c-site-b-right-06-novita-a1", "shard": "site:B_right_06#novita", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T15:13:22Z"}
+{"provider": "instabox", "id": "m_agqx33cjixgqa5viux3it6mlum", "event": "deleted", "utc": "2026-10-27T15:20:24Z"}
+{"provider": "instabox", "id": "m_agqx35qal3s4ihnknad2uxribq", "name": "zr3c-fault-b-right-06-a1", "shard": "fault:B_right_06", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:23:56Z"}
+{"provider": "instabox", "id": "m_agqx35qal3s4ihnknad2uxribq", "event": "deleted", "utc": "2026-10-27T15:28:49Z"}
+{"provider": "novita", "id": "i82yrg0r80kw8jr0kt2fq", "event": "deleted", "utc": "2026-10-27T15:35:29Z"}
+{"provider": "instabox", "id": "m_agqx3z65mqivsyuzvxm5s26gye", "event": "deleted", "utc": "2026-10-27T15:54:33Z"}
+{"provider": "instabox", "id": "m_agqx4ffk3whb3wy6rbi74bfiga", "name": "zr3c-site-centre-a1", "shard": "site:centre", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:26Z"}
+{"provider": "instabox", "id": "m_agqx4fflc4uc433kxx6hydxwny", "name": "zr3c-site-g-top-05-a1", "shard": "site:g_top_05", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:26Z"}
+{"provider": "instabox", "id": "m_agqx4ffladenggpvvnzb4h2mfu", "name": "zr3c-site-g-bottom-04-a1", "shard": "site:g_bottom_04", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:26Z"}
+{"provider": "instabox", "id": "m_agqx4fflmiapnu3oarmu5jeezq", "name": "zr3c-site-g-bottom-05-a1", "shard": "site:g_bottom_05", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:26Z"}
+{"provider": "instabox", "id": "m_agqx4fflpjp6edgu5ipntwb6py", "name": "zr3c-site-g-top-04-a1", "shard": "site:g_top_04", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:26Z"}
+{"provider": "instabox", "id": "m_agqx4fflhxhi5twcq5bra2dbyi", "name": "zr3c-site-g-left-19-a1", "shard": "site:g_left_19", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:26Z"}
+{"provider": "instabox", "id": "m_agqx4ffli5alzyvrytk4b47yoe", "name": "zr3c-site-g-left-20-a1", "shard": "site:g_left_20", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:26Z"}
+{"provider": "instabox", "id": "m_agqx4ffluwwgxst6gqhqqtlnzu", "name": "zr3c-site-g-left-23-a1", "shard": "site:g_left_23", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:26Z"}
+{"provider": "instabox", "id": "m_agqx4fh55xnq2qohico5jsdnjq", "name": "zr3c-site-g-bottom-11-a1", "shard": "site:g_bottom_11", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:47Z"}
+{"provider": "instabox", "id": "m_agqx4fh57zvusrwu26ob7o7heu", "name": "zr3c-site-g-left-25-a1", "shard": "site:g_left_25", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:57:47Z"}
+{"provider": "instabox", "id": "m_agqx4fpkadtnmoa2ckalj7fhxe", "name": "zr3c-site-g-top-03-a1", "shard": "site:g_top_03", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:58:47Z"}
+{"provider": "instabox", "id": "m_agqx4fpkcbft2ilwwsng63m2ou", "name": "zr3c-site-g-top-13-a1", "shard": "site:g_top_13", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:58:47Z"}
+{"provider": "instabox", "id": "m_agqx4fpjzlw2f2wgxy3oppt2lu", "name": "zr3c-site-g-left-04-a1", "shard": "site:g_left_04", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:58:47Z"}
+{"provider": "instabox", "id": "m_agqx4fpj3do7hbafdqwbufqrj4", "name": "zr3c-site-g-bottom-12-a1", "shard": "site:g_bottom_12", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:58:47Z"}
+{"provider": "instabox", "id": "m_agqx4fpkwgzourpnb6rqg7pq2e", "name": "zr3c-site-g-top-11-a1", "shard": "site:g_top_11", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:58:48Z"}
+{"provider": "instabox", "id": "m_agqx4fplavx35ra6zifbtmf7pe", "name": "zr3c-site-g-bottom-14-a1", "shard": "site:g_bottom_14", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:58:48Z"}
+{"provider": "instabox", "id": "m_agqx4frgjlhgzzhow3ertoh2va", "name": "zr3c-site-g-right-05-a1", "shard": "site:g_right_05", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:59:03Z"}
+{"provider": "instabox", "id": "m_agqx4frjtdsa6ln5lvlfs47tkq", "name": "zr3c-site-g-right-11-a1", "shard": "site:g_right_11", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:59:04Z"}
+{"provider": "instabox", "id": "m_agqx4frjwmyf5nljwekbofnts4", "name": "zr3c-site-g-right-12-a1", "shard": "site:g_right_12", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:59:04Z"}
+{"provider": "instabox", "id": "m_agqx4frnhekmocpv3lnfoevvhe", "name": "zr3c-site-g-bottom-13-a1", "shard": "site:g_bottom_13", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T15:59:05Z"}
+{"provider": "instabox", "id": "m_agqx4fyzmq72cnwl3hipokyhly", "name": "zr3c-site-g-bottom-16-a1", "shard": "site:g_bottom_16", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:05Z"}
+{"provider": "instabox", "id": "m_agqx4fy235tpn3uyyuzmrrrjie", "name": "zr3c-site-g-right-17-a1", "shard": "site:g_right_17", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:05Z"}
+{"provider": "instabox", "id": "m_agqx4fzlkgdu2j6ai4l57saeb4", "name": "zr3c-site-g-right-15-a1", "shard": "site:g_right_15", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:10Z"}
+{"provider": "instabox", "id": "m_agqx4fznda7xfybl24erauhxra", "name": "zr3c-site-g-right-16-a1", "shard": "site:g_right_16", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:10Z"}
+{"provider": "instabox", "id": "m_agqx4f2rfof6fphiydewgwfaim", "name": "zr3c-site-g-top-24-a1", "shard": "site:g_top_24", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:19Z"}
+{"provider": "instabox", "id": "m_agqx4f2zgtd4cjfcrb4wdlrmrq", "name": "zr3c-site-b-left-17-a1", "shard": "site:B_left_17", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:21Z"}
+{"provider": "instabox", "id": "m_agqx4f22v6m4c5vyd7vg4kkn3y", "name": "zr3c-site-b-left-06-a1", "shard": "site:B_left_06", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:22Z"}
+{"provider": "instabox", "id": "m_agqx4f25l4exx6ua4d3jvbk3ii", "name": "zr3c-site-g-bottom-25-a1", "shard": "site:g_bottom_25", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:22Z"}
+{"provider": "instabox", "id": "m_agqx4f25kpqs2yc2o3tq4aj5gq", "name": "zr3c-site-g-right-22-a1", "shard": "site:g_right_22", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:22Z"}
+{"provider": "instabox", "id": "m_agqx4f3fl7or3iga62irzln4da", "name": "zr3c-site-b-left-01-a1", "shard": "site:B_left_01", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:00:24Z"}
+{"provider": "instabox", "id": "m_agqx4gcz3cxkch6kfxngd2dvpy", "name": "zr3c-site-b-top-00-a1", "shard": "site:B_top_00", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:27Z"}
+{"provider": "instabox", "id": "m_agqx4gdjmwiagkyg6pw7fdiqlm", "name": "zr3c-site-b-left-37-a1", "shard": "site:B_left_37", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:31Z"}
+{"provider": "instabox", "id": "m_agqx4geb7bhfdrufuxlsqidpyi", "name": "zr3c-site-b-left-02-a1", "shard": "site:B_left_02", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:37Z"}
+{"provider": "instabox", "id": "m_agqx4geftvhopk3o2sb6avdnvm", "name": "zr3c-site-b-left-26-a1", "shard": "site:B_left_26", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:38Z"}
+{"provider": "instabox", "id": "m_agqx4gekz2jkrj2u3zqo676z34", "name": "zr3c-site-b-left-54-a1", "shard": "site:B_left_54", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:40Z"}
+{"provider": "instabox", "id": "m_agqx4gemvkw2hj24ygbz2nphtu", "name": "zr3c-site-b-top-01-a1", "shard": "site:B_top_01", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:40Z"}
+{"provider": "instabox", "id": "m_agqx4geoyjr2t7fk723ttd4euq", "name": "zr3c-site-b-left-13-a1", "shard": "site:B_left_13", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:41Z"}
+{"provider": "instabox", "id": "m_agqx4geqs24ntvgis6snfb5wmm", "name": "zr3c-site-b-left-19-a1", "shard": "site:B_left_19", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:41Z"}
+{"provider": "instabox", "id": "m_agqx4gev35wayahkoksmnovt4q", "name": "zr3c-site-b-left-22-a1", "shard": "site:B_left_22", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:42Z"}
+{"provider": "instabox", "id": "m_agqx4gferlai3qjim3obotdexi", "name": "zr3c-site-b-left-43-a1", "shard": "site:B_left_43", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:01:46Z"}
+{"provider": "instabox", "id": "m_agqx4gnkrm46c5ngcsp7nlvlem", "name": "zr3c-site-b-left-51-a1", "shard": "site:B_left_51", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:02:53Z"}
+{"provider": "instabox", "id": "m_agqx4gnryybmmfgxbfyqvi7k2u", "name": "zr3c-site-b-bottom-01-a1", "shard": "site:B_bottom_01", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:02:55Z"}
+{"provider": "instabox", "id": "m_agqx4gnuwkfjjdwffq5msqiawe", "name": "zr3c-site-b-left-41-a1", "shard": "site:B_left_41", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:02:56Z"}
+{"provider": "instabox", "id": "m_agqx4gn7dfzy24wryfqrsibeie", "name": "zr3c-site-b-left-42-a1", "shard": "site:B_left_42", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:02:59Z"}
+{"provider": "instabox", "id": "m_agqx4gn7qm5yxu5cngjbbzc7oa", "name": "zr3c-site-b-left-40-a1", "shard": "site:B_left_40", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:02:59Z"}
+{"provider": "instabox", "id": "m_agqx4gocw35q545jlm3hu2kmqi", "name": "zr3c-site-b-left-30-a1", "shard": "site:B_left_30", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:03:00Z"}
+{"provider": "instabox", "id": "m_agqx4godd3ch6x5wsvaztilg7a", "name": "zr3c-site-b-bottom-12-a1", "shard": "site:B_bottom_12", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:03:00Z"}
+{"provider": "instabox", "id": "m_agqx4gomxdjhqora5fae6zqxli", "name": "zr3c-site-b-top-10-a1", "shard": "site:B_top_10", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:03:02Z"}
+{"provider": "instabox", "id": "m_agqx4gpcwsvkrwcmvgn2k6yghy", "name": "zr3c-site-b-bottom-15-a1", "shard": "site:B_bottom_15", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:03:08Z"}
+{"provider": "instabox", "id": "m_agqx4gpli7vuudkald77qcymjm", "name": "zr3c-site-b-top-15-a1", "shard": "site:B_top_15", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:03:10Z"}
+{"provider": "novita", "id": "ixcxr9cmj54n3ir5qy8lr", "name": "zr3c-site-b-right-02-a1", "shard": "site:B_right_02", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T16:03:19Z"}
+{"provider": "novita", "id": "ilo8jbw20or07w3n1fbyx", "name": "zr3c-site-b-right-00-a1", "shard": "site:B_right_00", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T16:03:19Z"}
+{"provider": "novita", "id": "imh3fwm23rpyxqtwlei6p", "name": "zr3c-fault-b-right-06-novita-a1", "shard": "fault:B_right_06#novita", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T16:03:25Z"}
+{"provider": "instabox", "id": "m_agqx4gwzjg7glzrzw2y6byhejm", "name": "zr3c-site-b-bottom-14-a1", "shard": "site:B_bottom_14", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:11Z"}
+{"provider": "instabox", "id": "m_agqx4gxhm4jp7y67uxsj6zjjfm", "name": "zr3c-site-b-bottom-17-a1", "shard": "site:B_bottom_17", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:14Z"}
+{"provider": "instabox", "id": "m_agqx4gxjdwzum674oqskngi5ei", "name": "zr3c-site-b-top-18-a1", "shard": "site:B_top_18", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:15Z"}
+{"provider": "instabox", "id": "m_agqx4gxjp543ok5dguei2kxxcu", "name": "zr3c-site-b-top-17-a1", "shard": "site:B_top_17", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:15Z"}
+{"provider": "instabox", "id": "m_agqx4gyvbfy3wj2jsqfjzlxfem", "name": "zr3c-site-g-top-10-a1", "shard": "site:g_top_10", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:26Z"}
+{"provider": "instabox", "id": "m_agqx4gy6uwl22fnxywd5e56c64", "name": "zr3c-site-b-left-46-a1", "shard": "site:B_left_46", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:29Z"}
+{"provider": "instabox", "id": "m_agqx4gy6zzv5sgf43uneqztwoq", "name": "zr3c-site-b-left-23-a1", "shard": "site:B_left_23", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:29Z"}
+{"provider": "instabox", "id": "m_agqx4gzm2unxbivmqp34mxsdyq", "name": "zr3c-site-b-top-12-a1", "shard": "site:B_top_12", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:32Z"}
+{"provider": "instabox", "id": "m_agqx4gzpid5ld2ghttfeogrjy4", "name": "zr3c-site-b-bottom-21-a1", "shard": "site:B_bottom_21", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:33Z"}
+{"provider": "instabox", "id": "m_agqx4gzv6gogz5p4lnbnv7w5f4", "name": "zr3c-site-b-left-49-a1", "shard": "site:B_left_49", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:04:35Z"}
+{"provider": "instabox", "id": "m_agqx4hcbmligfhsztgkrhtkeju", "name": "zr3c-site-g-left-18-a1", "shard": "site:g_left_18", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:05:43Z"}
+{"provider": "instabox", "id": "m_agqx4hcduhiscxzyzyqidu3hiq", "name": "zr3c-site-g-top-17-a1", "shard": "site:g_top_17", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:05:44Z"}
+{"provider": "instabox", "id": "m_agqx4hcik74wzmqbsx6dxlkrby", "name": "zr3c-site-g-left-03-a1", "shard": "site:g_left_03", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:05:45Z"}
+{"provider": "instabox", "id": "m_agqx4hdmvbubwecflsrgyvxhla", "name": "zr3c-site-g-right-07-a1", "shard": "site:g_right_07", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:05:54Z"}
+{"provider": "instabox", "id": "m_agqx4hdonq5ksq5qs76j32223y", "name": "zr3c-site-g-right-18-a1", "shard": "site:g_right_18", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:05:54Z"}
+{"provider": "instabox", "id": "m_agqx4hdpcihjwwxcndbzprh74q", "name": "zr3c-site-b-left-48-a1", "shard": "site:B_left_48", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:05:55Z"}
+{"provider": "instabox", "id": "m_agqx4hd2pi7agii6tjwlcx4yve", "name": "zr3c-site-b-left-53-a1", "shard": "site:B_left_53", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:05:58Z"}
+{"provider": "instabox", "id": "m_agqx4hd25kwbrntsiyvedxhpq4", "name": "zr3c-site-b-left-50-a1", "shard": "site:B_left_50", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:05:58Z"}
+{"provider": "instabox", "id": "m_agqx4hd4yj7jp73fkvvmzpzdtu", "name": "zr3c-site-b-left-31-a1", "shard": "site:B_left_31", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:05:58Z"}
+{"provider": "instabox", "id": "m_agqx4hnxbnezlma6sytgwidhti", "name": "zr3c-site-b-bottom-11-a1", "shard": "site:B_bottom_11", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:07:19Z"}
+{"provider": "instabox", "id": "m_agqx4ho6x5jwt6wzcizrbswjbi", "name": "zr3c-site-b-top-19-a1", "shard": "site:B_top_19", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:07:29Z"}
+{"provider": "instabox", "id": "m_agqx4h4rd23hvyex6qznu7xc2y", "name": "zr3c-site-g-top-18-a1", "shard": "site:g_top_18", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:09:20Z"}
+{"provider": "instabox", "id": "m_agqx4h5zgfhyjrh7crzvd5dp3m", "name": "zr3c-site-g-bottom-06-a1", "shard": "site:g_bottom_06", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:09:30Z"}
+{"provider": "instabox", "id": "m_agqx4h5zkass3aeymvx72n52mu", "name": "zr3c-site-g-bottom-01-a1", "shard": "site:g_bottom_01", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:09:30Z"}
+{"provider": "novita", "id": "imh3fwm23rpyxqtwlei6p", "event": "deleted", "utc": "2026-10-27T16:11:01Z"}
+{"provider": "instabox", "id": "m_agqx4ikeu5jr7cfmeedesk2u3e", "name": "zr3c-site-g-right-08-a1", "shard": "site:g_right_08", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:11:12Z"}
+{"provider": "instabox", "id": "m_agqx4ike66imzs7yibmh6wuniq", "name": "zr3c-site-g-top-23-a1", "shard": "site:g_top_23", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:11:12Z"}
+{"provider": "instabox", "id": "m_agqx4ikfsyuwqd26tonetu2kxu", "name": "zr3c-site-b-left-39-a1", "shard": "site:B_left_39", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:11:12Z"}
+{"provider": "instabox", "id": "m_agqx4ivi5h5gbdn6zkmytmsxcy", "name": "zr3c-site-b-left-36-a1", "shard": "site:B_left_36", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:12:43Z"}
+{"provider": "instabox", "id": "m_agqx4ivjd3zzqvjcquhtuyj6qu", "name": "zr3c-site-b-left-14-a1", "shard": "site:B_left_14", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:12:43Z"}
+{"provider": "instabox", "id": "m_agqx4ivjtihrdxwry2432b6aiq", "name": "zr3c-site-b-left-33-a1", "shard": "site:B_left_33", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:12:43Z"}
+{"provider": "instabox", "id": "m_agqx4jaqohwoa7rhl7dghfh5dm", "name": "zr3c-site-b-top-13-a1", "shard": "site:B_top_13", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:14:15Z"}
+{"provider": "instabox", "id": "m_agqx4jaqzbcffaekzaez2v26xm", "name": "zr3c-site-b-top-20-a1", "shard": "site:B_top_20", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:14:15Z"}
+{"provider": "instabox", "id": "m_agqx4jplmgyhw7kxoq3x4il2cm", "name": "zr3c-site-g-left-05-a1", "shard": "site:g_left_05", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:16:16Z"}
+{"provider": "instabox", "id": "m_agqx4jplnknr4j4meqneeh7xde", "name": "zr3c-site-g-top-16-a1", "shard": "site:g_top_16", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:16:16Z"}
+{"provider": "instabox", "id": "m_agqx4jqtxqzo32ujrsqbfkmshq", "name": "zr3c-site-g-left-17-a1", "shard": "site:g_left_17", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:16:27Z"}
+{"provider": "instabox", "id": "m_agqx4jvrzbu6s4bipm43yiuqmy", "name": "zr3c-top-a1", "shard": "top", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:17:07Z"}
+{"provider": "instabox", "id": "m_agqx4gxjdwzum674oqskngi5ei", "event": "deleted", "utc": "2026-10-27T16:17:21Z"}
+{"provider": "instabox", "id": "m_agqx4j47bzaqczrool756jjc2u", "name": "zr3c-site-g-bottom-17-a1", "shard": "site:g_bottom_17", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:18:08Z"}
+{"provider": "instabox", "id": "m_agqx4j47vcoqyqatywyfttfh3y", "name": "zr3c-site-b-left-28-a1", "shard": "site:B_left_28", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:18:08Z"}
+{"provider": "instabox", "id": "m_agqx4j5ammxiqx5uocv5rkpepq", "name": "zr3c-site-g-right-19-a1", "shard": "site:g_right_19", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:18:08Z"}
+{"provider": "instabox", "id": "m_agqx4kidpk7lyes7h2yaxxq2ca", "name": "zr3c-site-b-left-25-a1", "shard": "site:B_left_25", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:19:39Z"}
+{"provider": "instabox", "id": "m_agqx4kifc2g374tdldpkobbw2u", "name": "zr3c-site-b-left-09-a1", "shard": "site:B_left_09", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:19:40Z"}
+{"provider": "instabox", "id": "m_agqx4gpcwsvkrwcmvgn2k6yghy", "event": "deleted", "utc": "2026-10-27T16:21:25Z"}
+{"provider": "instabox", "id": "m_agqx4kv5cf3zebnwtrtzv2spcq", "name": "zr3c-site-b-left-32-a1", "shard": "site:B_left_32", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:21:32Z"}
+{"provider": "instabox", "id": "m_agqx4gpli7vuudkald77qcymjm", "event": "deleted", "utc": "2026-10-27T16:21:35Z"}
+{"provider": "instabox", "id": "m_agqx4kxe4l3erjexw4dvljg4ne", "name": "zr3c-site-b-top-11-a1", "shard": "site:B_top_11", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:21:42Z"}
+{"provider": "instabox", "id": "m_agqx4gxjp543ok5dguei2kxxcu", "event": "deleted", "utc": "2026-10-27T16:22:35Z"}
+{"provider": "instabox", "id": "m_agqx4gwzjg7glzrzw2y6byhejm", "event": "deleted", "utc": "2026-10-27T16:22:36Z"}
+{"provider": "instabox", "id": "m_agqx4k6tykpp52wee4vwqkqvzi", "name": "zr3c-site-b-bottom-19-a1", "shard": "site:B_bottom_19", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:22:43Z"}
+{"provider": "instabox", "id": "m_agqx4gzm2unxbivmqp34mxsdyq", "event": "deleted", "utc": "2026-10-27T16:22:57Z"}
+{"provider": "instabox", "id": "m_agqx4gzpid5ld2ghttfeogrjy4", "event": "deleted", "utc": "2026-10-27T16:22:57Z"}
+{"provider": "instabox", "id": "m_agqx4gxhm4jp7y67uxsj6zjjfm", "event": "deleted", "utc": "2026-10-27T16:22:57Z"}
+{"provider": "instabox", "id": "m_agqx4le6smem22ayyz6xauyk6y", "name": "zr3c-site-g-top-12-a1", "shard": "site:g_top_12", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:23:35Z"}
+{"provider": "instabox", "id": "m_agqx4lggxvbgvclwa6db2vllpy", "name": "zr3c-site-g-top-08-a1", "shard": "site:g_top_08", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:23:46Z"}
+{"provider": "instabox", "id": "m_agqx4lgg5pdrr54ozoril247fm", "name": "zr3c-site-g-bottom-07-a1", "shard": "site:g_bottom_07", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:23:46Z"}
+{"provider": "instabox", "id": "m_agqx4lrlw67ag3takhprxexovm", "name": "zr3c-site-b-left-47-a1", "shard": "site:B_left_47", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:25:17Z"}
+{"provider": "instabox", "id": "m_agqx4ho6x5jwt6wzcizrbswjbi", "event": "deleted", "utc": "2026-10-27T16:25:56Z"}
+{"provider": "instabox", "id": "m_agqx4lwncseoem62lifd4blvkm", "name": "zr3c-site-g-bottom-15-a1", "shard": "site:g_bottom_15", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:25:58Z"}
+{"provider": "instabox", "id": "m_agqx4geftvhopk3o2sb6avdnvm", "event": "deleted", "utc": "2026-10-27T16:26:00Z"}
+{"provider": "instabox", "id": "m_agqx4geb7bhfdrufuxlsqidpyi", "event": "deleted", "utc": "2026-10-27T16:26:00Z"}
+{"provider": "instabox", "id": "m_agqx4f22v6m4c5vyd7vg4kkn3y", "event": "deleted", "utc": "2026-10-27T16:26:00Z"}
+{"provider": "instabox", "id": "m_agqx4geqs24ntvgis6snfb5wmm", "event": "deleted", "utc": "2026-10-27T16:26:03Z"}
+{"provider": "instabox", "id": "m_agqx4gemvkw2hj24ygbz2nphtu", "event": "deleted", "utc": "2026-10-27T16:26:03Z"}
+{"provider": "instabox", "id": "m_agqx4gev35wayahkoksmnovt4q", "event": "deleted", "utc": "2026-10-27T16:26:04Z"}
+{"provider": "instabox", "id": "m_agqx4lxvss3igzzve3yuheg5ym", "name": "zr3c-site-g-right-02-a1", "shard": "site:g_right_02", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:26:09Z"}
+{"provider": "instabox", "id": "m_agqx4gferlai3qjim3obotdexi", "event": "deleted", "utc": "2026-10-27T16:26:11Z"}
+{"provider": "instabox", "id": "m_agqx4gnuwkfjjdwffq5msqiawe", "event": "deleted", "utc": "2026-10-27T16:26:34Z"}
+{"provider": "instabox", "id": "m_agqx4gn7qm5yxu5cngjbbzc7oa", "event": "deleted", "utc": "2026-10-27T16:26:34Z"}
+{"provider": "instabox", "id": "m_agqx4gnkrm46c5ngcsp7nlvlem", "event": "deleted", "utc": "2026-10-27T16:26:34Z"}
+{"provider": "instabox", "id": "m_agqx4godd3ch6x5wsvaztilg7a", "event": "deleted", "utc": "2026-10-27T16:26:36Z"}
+{"provider": "instabox", "id": "m_agqx4gnryybmmfgxbfyqvi7k2u", "event": "deleted", "utc": "2026-10-27T16:26:37Z"}
+{"provider": "instabox", "id": "m_agqx4gocw35q545jlm3hu2kmqi", "event": "deleted", "utc": "2026-10-27T16:26:45Z"}
+{"provider": "instabox", "id": "m_agqx4gomxdjhqora5fae6zqxli", "event": "deleted", "utc": "2026-10-27T16:26:45Z"}
+{"provider": "instabox", "id": "m_agqx4l44cu6aux2ajpqzakwzti", "name": "zr3c-site-b-bottom-02-a1", "shard": "site:B_bottom_02", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:26:51Z"}
+{"provider": "instabox", "id": "m_agqx4mdcddj5bwoi5xytuwiq2i", "name": "zr3c-site-b-left-16-a1", "shard": "site:B_left_16", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:27:42Z"}
+{"provider": "instabox", "id": "m_agqx4meknwdlwymlu7dyisnp7y", "name": "zr3c-site-b-top-04-a1", "shard": "site:B_top_04", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:27:52Z"}
+{"provider": "instabox", "id": "m_agqx4f3fl7or3iga62irzln4da", "event": "deleted", "utc": "2026-10-27T16:27:55Z"}
+{"provider": "instabox", "id": "m_agqx4gy6zzv5sgf43uneqztwoq", "event": "deleted", "utc": "2026-10-27T16:28:06Z"}
+{"provider": "instabox", "id": "m_agqx4geoyjr2t7fk723ttd4euq", "event": "deleted", "utc": "2026-10-27T16:28:06Z"}
+{"provider": "instabox", "id": "m_agqx4mif5kzodjpoy56g4rh74a", "name": "zr3c-site-b-top-08-a1", "shard": "site:B_top_08", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:28:24Z"}
+{"provider": "instabox", "id": "m_agqx4gy6uwl22fnxywd5e56c64", "event": "deleted", "utc": "2026-10-27T16:28:36Z"}
+{"provider": "novita", "id": "if58lsd7is9w6ut2q0kdw", "name": "zr3c-site-b-right-05-a1", "shard": "site:B_right_05", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T16:29:06Z"}
+{"provider": "instabox", "id": "m_agqx4hd2pi7agii6tjwlcx4yve", "event": "deleted", "utc": "2026-10-27T16:29:36Z"}
+{"provider": "instabox", "id": "m_agqx4hd4yj7jp73fkvvmzpzdtu", "event": "deleted", "utc": "2026-10-27T16:29:37Z"}
+{"provider": "instabox", "id": "m_agqx4hd25kwbrntsiyvedxhpq4", "event": "deleted", "utc": "2026-10-27T16:29:37Z"}
+{"provider": "instabox", "id": "m_agqx4hdpcihjwwxcndbzprh74q", "event": "deleted", "utc": "2026-10-27T16:29:48Z"}
+{"provider": "instabox", "id": "m_agqx4hnxbnezlma6sytgwidhti", "event": "deleted", "utc": "2026-10-27T16:30:58Z"}
+{"provider": "instabox", "id": "m_agqx4m5hn2fomfd3dy2kvefsmq", "name": "zr3c-site-g-bottom-08-a1", "shard": "site:g_bottom_08", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:31:16Z"}
+{"provider": "instabox", "id": "m_agqx4m5iaxlcjsjnsuq2sht4mu", "name": "zr3c-site-g-left-06-a1", "shard": "site:g_left_06", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:31:17Z"}
+{"provider": "instabox", "id": "m_agqx4m5imjtisbvhk4ijjb6otq", "name": "zr3c-site-g-left-00-a1", "shard": "site:g_left_00", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:31:17Z"}
+{"provider": "instabox", "id": "m_agqx4gcz3cxkch6kfxngd2dvpy", "event": "deleted", "utc": "2026-10-27T16:31:18Z"}
+{"provider": "instabox", "id": "m_agqx4f2zgtd4cjfcrb4wdlrmrq", "event": "deleted", "utc": "2026-10-27T16:31:19Z"}
+{"provider": "instabox", "id": "m_agqx4gekz2jkrj2u3zqo676z34", "event": "deleted", "utc": "2026-10-27T16:31:20Z"}
+{"provider": "instabox", "id": "m_agqx4gn7dfzy24wryfqrsibeie", "event": "deleted", "utc": "2026-10-27T16:31:49Z"}
+{"provider": "instabox", "id": "m_agqx4jaqohwoa7rhl7dghfh5dm", "event": "deleted", "utc": "2026-10-27T16:32:39Z"}
+{"provider": "instabox", "id": "m_agqx4jaqzbcffaekzaez2v26xm", "event": "deleted", "utc": "2026-10-27T16:32:40Z"}
+{"provider": "instabox", "id": "m_agqx4nk3muz7vj6yyy4v46uxae", "name": "zr3c-site-g-bottom-19-a1", "shard": "site:g_bottom_19", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:33:08Z"}
+{"provider": "instabox", "id": "m_agqx4nk3vu2r2rfkkj3y3kx3bi", "name": "zr3c-site-g-bottom-21-a1", "shard": "site:g_bottom_21", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:33:08Z"}
+{"provider": "instabox", "id": "m_agqx4nk34sqwqx5ktxz2sm3udu", "name": "zr3c-site-g-bottom-23-a1", "shard": "site:g_bottom_23", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:33:08Z"}
+{"provider": "instabox", "id": "m_agqx4gdjmwiagkyg6pw7fdiqlm", "event": "deleted", "utc": "2026-10-27T16:33:10Z"}
+{"provider": "instabox", "id": "m_agqx4gzv6gogz5p4lnbnv7w5f4", "event": "deleted", "utc": "2026-10-27T16:33:30Z"}
+{"provider": "instabox", "id": "m_agqx4nv77qnrq4mttjz77ek35q", "name": "zr3c-site-b-left-03-a1", "shard": "site:B_left_03", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:34:39Z"}
+{"provider": "instabox", "id": "m_agqx4nwamqg2cgqyjhzz7cjqki", "name": "zr3c-site-b-top-06-a1", "shard": "site:B_top_06", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:34:39Z"}
+{"provider": "instabox", "id": "m_agqx4nwczhuijmdiv7pfnkqu6q", "name": "zr3c-site-b-bottom-06-a1", "shard": "site:B_bottom_06", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:34:40Z"}
+{"provider": "instabox", "id": "m_agqx4oblypaxshr7oi7bbeikkm", "name": "zr3c-site-b-bottom-13-a1", "shard": "site:B_bottom_13", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:36:12Z"}
+{"provider": "instabox", "id": "m_agqx4fh57zvusrwu26ob7o7heu", "event": "deleted", "utc": "2026-10-27T16:36:13Z"}
+{"provider": "instabox", "id": "m_agqx4ivjd3zzqvjcquhtuyj6qu", "event": "deleted", "utc": "2026-10-27T16:36:24Z"}
+{"provider": "instabox", "id": "m_agqx4ivi5h5gbdn6zkmytmsxcy", "event": "deleted", "utc": "2026-10-27T16:36:24Z"}
+{"provider": "instabox", "id": "m_agqx4ivjtihrdxwry2432b6aiq", "event": "deleted", "utc": "2026-10-27T16:36:25Z"}
+{"provider": "instabox", "id": "m_agqx4f25kpqs2yc2o3tq4aj5gq", "event": "deleted", "utc": "2026-10-27T16:36:36Z"}
+{"provider": "instabox", "id": "m_agqx4f25l4exx6ua4d3jvbk3ii", "event": "deleted", "utc": "2026-10-27T16:36:37Z"}
+{"provider": "instabox", "id": "m_agqx4oqn2djr546nc6ihxf6hne", "name": "zr3c-site-g-left-07-a1", "shard": "site:g_left_07", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:38:16Z"}
+{"provider": "instabox", "id": "m_agqx4oqofzv6ascyrg6z73kdhq", "name": "zr3c-site-g-left-01-a1", "shard": "site:g_left_01", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:38:16Z"}
+{"provider": "instabox", "id": "m_agqx4orv44nxhzo5mrmszeqjya", "name": "zr3c-site-g-left-15-a1", "shard": "site:g_left_15", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:38:26Z"}
+{"provider": "instabox", "id": "m_agqx4o6bcalwi4aposizwvd7ee", "name": "zr3c-site-g-right-04-a1", "shard": "site:g_right_04", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:40:07Z"}
+{"provider": "instabox", "id": "m_agqx4o6bibpmsitlnjtdlasehe", "name": "zr3c-site-g-bottom-22-a1", "shard": "site:g_bottom_22", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:40:07Z"}
+{"provider": "instabox", "id": "m_agqx4o6bsrva3gyttweri3ur2e", "name": "zr3c-site-g-bottom-24-a1", "shard": "site:g_bottom_24", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:40:07Z"}
+{"provider": "instabox", "id": "m_agqx4ikfsyuwqd26tonetu2kxu", "event": "deleted", "utc": "2026-10-27T16:40:09Z"}
+{"provider": "instabox", "id": "m_agqx4hdonq5ksq5qs76j32223y", "event": "deleted", "utc": "2026-10-27T16:40:10Z"}
+{"provider": "instabox", "id": "m_agqx4k6tykpp52wee4vwqkqvzi", "event": "deleted", "utc": "2026-10-27T16:41:10Z"}
+{"provider": "instabox", "id": "m_agqx4fpkcbft2ilwwsng63m2ou", "event": "deleted", "utc": "2026-10-27T16:41:30Z"}
+{"provider": "instabox", "id": "m_agqx4fpjzlw2f2wgxy3oppt2lu", "event": "deleted", "utc": "2026-10-27T16:41:31Z"}
+{"provider": "instabox", "id": "m_agqx4fpj3do7hbafdqwbufqrj4", "event": "deleted", "utc": "2026-10-27T16:41:32Z"}
+{"provider": "instabox", "id": "m_agqx4frjtdsa6ln5lvlfs47tkq", "event": "deleted", "utc": "2026-10-27T16:41:41Z"}
+{"provider": "instabox", "id": "m_agqx4frjwmyf5nljwekbofnts4", "event": "deleted", "utc": "2026-10-27T16:41:41Z"}
+{"provider": "instabox", "id": "m_agqx4frgjlhgzzhow3ertoh2va", "event": "deleted", "utc": "2026-10-27T16:41:42Z"}
+{"provider": "instabox", "id": "m_agqx4fy235tpn3uyyuzmrrrjie", "event": "deleted", "utc": "2026-10-27T16:41:42Z"}
+{"provider": "instabox", "id": "m_agqx4fznda7xfybl24erauhxra", "event": "deleted", "utc": "2026-10-27T16:41:42Z"}
+{"provider": "instabox", "id": "m_agqx4f2rfof6fphiydewgwfaim", "event": "deleted", "utc": "2026-10-27T16:41:52Z"}
+{"provider": "instabox", "id": "m_agqx4fyzmq72cnwl3hipokyhly", "event": "deleted", "utc": "2026-10-27T16:41:54Z"}
+{"provider": "instabox", "id": "m_agqx4pmephdshsrhdkhgyqca3m", "name": "zr3c-site-b-left-08-a1", "shard": "site:B_left_08", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:42:03Z"}
+{"provider": "instabox", "id": "m_agqx4pmertgffhrrgrq73jz3f4", "name": "zr3c-site-b-bottom-09-a1", "shard": "site:B_bottom_09", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:42:03Z"}
+{"provider": "instabox", "id": "m_agqx4pmekkbjfdcv4gaogx2dim", "name": "zr3c-site-b-bottom-00-a1", "shard": "site:B_bottom_00", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:42:03Z"}
+{"provider": "novita", "id": "ilo8jbw20or07w3n1fbyx", "event": "deleted", "utc": "2026-10-27T16:42:44Z"}
+{"provider": "novita", "id": "ixcxr9cmj54n3ir5qy8lr", "event": "deleted", "utc": "2026-10-27T16:42:44Z"}
+{"provider": "instabox", "id": "m_agqx4kidpk7lyes7h2yaxxq2ca", "event": "deleted", "utc": "2026-10-27T16:43:26Z"}
+{"provider": "instabox", "id": "m_agqx4kifc2g374tdldpkobbw2u", "event": "deleted", "utc": "2026-10-27T16:43:27Z"}
+{"provider": "instabox", "id": "m_agqx4pysrov3skgvsemsnmgxq4", "name": "zr3c-site-b-top-16-a1", "shard": "site:B_top_16", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:43:45Z"}
+{"provider": "instabox", "id": "m_agqx4kv5cf3zebnwtrtzv2spcq", "event": "deleted", "utc": "2026-10-27T16:45:17Z"}
+{"provider": "instabox", "id": "m_agqx4kxe4l3erjexw4dvljg4ne", "event": "deleted", "utc": "2026-10-27T16:45:28Z"}
+{"provider": "instabox", "id": "m_agqx4hdmvbubwecflsrgyvxhla", "event": "deleted", "utc": "2026-10-27T16:45:37Z"}
+{"provider": "instabox", "id": "m_agqx4qj4vy4rt3jeeglrqpos4u", "name": "zr3c-site-g-left-21-a1", "shard": "site:g_left_21", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:46:07Z"}
+{"provider": "instabox", "id": "m_agqx4qj5alwjoep3h6l4oqnmyy", "name": "zr3c-site-g-top-00-a1", "shard": "site:g_top_00", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:46:07Z"}
+{"provider": "instabox", "id": "m_agqx4qj5cja3vywfcchs6dr63y", "name": "zr3c-site-g-top-06-a1", "shard": "site:g_top_06", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:46:07Z"}
+{"provider": "instabox", "id": "m_agqx4mdcddj5bwoi5xytuwiq2i", "event": "deleted", "utc": "2026-10-27T16:46:11Z"}
+{"provider": "instabox", "id": "m_agqx4fflmiapnu3oarmu5jeezq", "event": "deleted", "utc": "2026-10-27T16:46:49Z"}
+{"provider": "instabox", "id": "m_agqx4fpkadtnmoa2ckalj7fhxe", "event": "deleted", "utc": "2026-10-27T16:46:49Z"}
+{"provider": "instabox", "id": "m_agqx4fflhxhi5twcq5bra2dbyi", "event": "deleted", "utc": "2026-10-27T16:46:49Z"}
+{"provider": "instabox", "id": "m_agqx4fzlkgdu2j6ai4l57saeb4", "event": "deleted", "utc": "2026-10-27T16:46:59Z"}
+{"provider": "instabox", "id": "m_agqx4fplavx35ra6zifbtmf7pe", "event": "deleted", "utc": "2026-10-27T16:47:00Z"}
+{"provider": "instabox", "id": "m_agqx4frnhekmocpv3lnfoevvhe", "event": "deleted", "utc": "2026-10-27T16:47:00Z"}
+{"provider": "instabox", "id": "m_agqx4fpkwgzourpnb6rqg7pq2e", "event": "deleted", "utc": "2026-10-27T16:47:01Z"}
+{"provider": "instabox", "id": "m_agqx4j47vcoqyqatywyfttfh3y", "event": "deleted", "utc": "2026-10-27T16:47:10Z"}
+{"provider": "instabox", "id": "m_agqx4q2ekwxeiifx2p7jzbhqce", "name": "zr3c-site-g-right-23-a1", "shard": "site:g_right_23", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:48:20Z"}
+{"provider": "instabox", "id": "m_agqx4q2eoqerraw2s7bjnk464a", "name": "zr3c-site-g-right-00-a1", "shard": "site:g_right_00", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:48:20Z"}
+{"provider": "instabox", "id": "m_agqx4q3mhprty6wain3nywbjdi", "name": "zr3c-site-g-right-06-a1", "shard": "site:g_right_06", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:48:30Z"}
+{"provider": "instabox", "id": "m_agqx4rjb5yxhz53egmc7wrp7ti", "name": "zr3c-site-b-left-24-a1", "shard": "site:B_left_24", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:50:22Z"}
+{"provider": "instabox", "id": "m_agqx4rjciyqqhaox5erjpafmha", "name": "zr3c-site-b-left-29-a1", "shard": "site:B_left_29", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:50:22Z"}
+{"provider": "instabox", "id": "m_agqx4rjchixdcwlgc62zzmvsbu", "name": "zr3c-site-b-bottom-04-a1", "shard": "site:B_bottom_04", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:50:22Z"}
+{"provider": "instabox", "id": "m_agqx4hcbmligfhsztgkrhtkeju", "event": "deleted", "utc": "2026-10-27T16:50:35Z"}
+{"provider": "instabox", "id": "m_agqx4ike66imzs7yibmh6wuniq", "event": "deleted", "utc": "2026-10-27T16:50:45Z"}
+{"provider": "instabox", "id": "m_agqx4meknwdlwymlu7dyisnp7y", "event": "deleted", "utc": "2026-10-27T16:51:34Z"}
+{"provider": "instabox", "id": "m_agqx4rvvhlhszlv2srzqbgblem", "name": "zr3c-site-b-left-55-a1", "shard": "site:B_left_55", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:52:05Z"}
+{"provider": "novita", "id": "ijlqe4ae043du8tzdhkd2", "name": "zr3c-site-b-top-22-a1", "shard": "site:B_top_22", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T16:52:06Z"}
+{"provider": "instabox", "id": "m_agqx4fflc4uc433kxx6hydxwny", "event": "deleted", "utc": "2026-10-27T16:52:07Z"}
+{"provider": "instabox", "id": "m_agqx4fh55xnq2qohico5jsdnjq", "event": "deleted", "utc": "2026-10-27T16:52:07Z"}
+{"provider": "instabox", "id": "m_agqx4mif5kzodjpoy56g4rh74a", "event": "deleted", "utc": "2026-10-27T16:52:07Z"}
+{"provider": "instabox", "id": "m_agqx4ffluwwgxst6gqhqqtlnzu", "event": "deleted", "utc": "2026-10-27T16:52:07Z"}
+{"provider": "instabox", "id": "m_agqx4fflpjp6edgu5ipntwb6py", "event": "deleted", "utc": "2026-10-27T16:52:08Z"}
+{"provider": "instabox", "id": "m_agqx4h4rd23hvyex6qznu7xc2y", "event": "deleted", "utc": "2026-10-27T16:54:09Z"}
+{"provider": "instabox", "id": "m_agqx4h5zgfhyjrh7crzvd5dp3m", "event": "deleted", "utc": "2026-10-27T16:54:19Z"}
+{"provider": "instabox", "id": "m_agqx4lrlw67ag3takhprxexovm", "event": "deleted", "utc": "2026-10-27T16:54:20Z"}
+{"provider": "instabox", "id": "m_agqx4gyvbfy3wj2jsqfjzlxfem", "event": "deleted", "utc": "2026-10-27T16:54:29Z"}
+{"provider": "instabox", "id": "m_agqx4sijlrek5kfei5dtwdjkya", "name": "zr3c-site-g-left-10-a1", "shard": "site:g_left_10", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:54:38Z"}
+{"provider": "instabox", "id": "m_agqx4sijp2d6l23lithhd5it4q", "name": "zr3c-site-g-top-14-a1", "shard": "site:g_top_14", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:54:38Z"}
+{"provider": "instabox", "id": "m_agqx4oblypaxshr7oi7bbeikkm", "event": "deleted", "utc": "2026-10-27T16:54:40Z"}
+{"provider": "instabox", "id": "m_agqx4sjrcp6oehbq25ihmkb5uu", "name": "zr3c-site-g-bottom-03-a1", "shard": "site:g_bottom_03", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:54:48Z"}
+{"provider": "instabox", "id": "m_agqx4hcduhiscxzyzyqidu3hiq", "event": "deleted", "utc": "2026-10-27T16:55:51Z"}
+{"provider": "instabox", "id": "m_agqx4hcik74wzmqbsx6dxlkrby", "event": "deleted", "utc": "2026-10-27T16:55:51Z"}
+{"provider": "instabox", "id": "m_agqx4l44cu6aux2ajpqzakwzti", "event": "deleted", "utc": "2026-10-27T16:56:03Z"}
+{"provider": "instabox", "id": "m_agqx4syoymeeggn7lpvmat3v6m", "name": "zr3c-site-g-top-19-a1", "shard": "site:g_top_19", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:56:50Z"}
+{"provider": "instabox", "id": "m_agqx4syphno2mtxxdmy7h4urhu", "name": "zr3c-site-g-bottom-20-a1", "shard": "site:g_bottom_20", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:56:50Z"}
+{"provider": "instabox", "id": "m_agqx4szwysj5e4i6iqdfckyuli", "name": "zr3c-site-g-right-24-a1", "shard": "site:g_right_24", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:57:00Z"}
+{"provider": "instabox", "id": "m_agqx4ffli5alzyvrytk4b47yoe", "event": "deleted", "utc": "2026-10-27T16:57:24Z"}
+{"provider": "instabox", "id": "m_agqx4ffladenggpvvnzb4h2mfu", "event": "deleted", "utc": "2026-10-27T16:57:24Z"}
+{"provider": "instabox", "id": "m_agqx4nwczhuijmdiv7pfnkqu6q", "event": "deleted", "utc": "2026-10-27T16:58:24Z"}
+{"provider": "instabox", "id": "m_agqx4nv77qnrq4mttjz77ek35q", "event": "deleted", "utc": "2026-10-27T16:58:28Z"}
+{"provider": "instabox", "id": "m_agqx4tgc5ugcmxu4imwwooxaru", "name": "zr3c-site-b-left-35-a1", "shard": "site:B_left_35", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:58:42Z"}
+{"provider": "instabox", "id": "m_agqx4thkc3ldqmgtjlv7v5bsda", "name": "zr3c-site-b-left-00-a1", "shard": "site:B_left_00", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:58:52Z"}
+{"provider": "instabox", "id": "m_agqx4thkq5ims7w6tn3msbwkwi", "name": "zr3c-site-b-top-02-a1", "shard": "site:B_top_02", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T16:58:52Z"}
+{"provider": "instabox", "id": "m_agqx4h5zkass3aeymvx72n52mu", "event": "deleted", "utc": "2026-10-27T16:59:34Z"}
+{"provider": "instabox", "id": "m_agqx4ttutueutrsbl2v2ovhs3y", "name": "zr3c-site-b-bottom-18-a1", "shard": "site:B_bottom_18", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:00:33Z"}
+{"provider": "novita", "id": "iyxkcbfizr78qhp801qdw", "name": "zr3c-site-b-right-03-a1", "shard": "site:B_right_03", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T17:00:33Z"}
+{"provider": "instabox", "id": "m_agqx4ikeu5jr7cfmeedesk2u3e", "event": "deleted", "utc": "2026-10-27T17:01:15Z"}
+{"provider": "instabox", "id": "m_agqx4jqtxqzo32ujrsqbfkmshq", "event": "deleted", "utc": "2026-10-27T17:01:16Z"}
+{"provider": "instabox", "id": "m_agqx4ufaycd5bcde2c6yqxm4bm", "name": "zr3c-site-g-top-09-a1", "shard": "site:g_top_09", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:02:55Z"}
+{"provider": "instabox", "id": "m_agqx4ufbvp7eezqgh6xrahldfq", "name": "zr3c-site-g-top-15-a1", "shard": "site:g_top_15", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:02:56Z"}
+{"provider": "instabox", "id": "m_agqx4j5ammxiqx5uocv5rkpepq", "event": "deleted", "utc": "2026-10-27T17:02:57Z"}
+{"provider": "instabox", "id": "m_agqx4j47bzaqczrool756jjc2u", "event": "deleted", "utc": "2026-10-27T17:02:58Z"}
+{"provider": "instabox", "id": "m_agqx4ughdcxjuydyhumcvds2ba", "name": "zr3c-site-g-bottom-09-a1", "shard": "site:g_bottom_09", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:03:05Z"}
+{"provider": "instabox", "id": "m_agqx4nwamqg2cgqyjhzz7cjqki", "event": "deleted", "utc": "2026-10-27T17:03:37Z"}
+{"provider": "instabox", "id": "m_agqx4uvbgukx2pezeyxe7spwre", "name": "zr3c-site-g-top-20-a1", "shard": "site:g_top_20", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:05:07Z"}
+{"provider": "instabox", "id": "m_agqx4uvbes4m3naur6pvfawzom", "name": "zr3c-site-g-right-25-a1", "shard": "site:g_right_25", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:05:07Z"}
+{"provider": "instabox", "id": "m_agqx4uvbjs7efpcrallc5jswu4", "name": "zr3c-site-g-right-01-a1", "shard": "site:g_right_01", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:05:07Z"}
+{"provider": "instabox", "id": "m_agqx4lwncseoem62lifd4blvkm", "event": "deleted", "utc": "2026-10-27T17:05:29Z"}
+{"provider": "instabox", "id": "m_agqx4pmertgffhrrgrq73jz3f4", "event": "deleted", "utc": "2026-10-27T17:05:39Z"}
+{"provider": "instabox", "id": "m_agqx4pmekkbjfdcv4gaogx2dim", "event": "deleted", "utc": "2026-10-27T17:05:39Z"}
+{"provider": "instabox", "id": "m_agqx4pmephdshsrhdkhgyqca3m", "event": "deleted", "utc": "2026-10-27T17:05:40Z"}
+{"provider": "instabox", "id": "m_agqx4jplmgyhw7kxoq3x4il2cm", "event": "deleted", "utc": "2026-10-27T17:06:20Z"}
+{"provider": "instabox", "id": "m_agqx4vbmc6bv7dvz2xznwzdzva", "name": "zr3c-site-b-left-05-a1", "shard": "site:B_left_05", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:06:48Z"}
+{"provider": "instabox", "id": "m_agqx4vcumec7sl3lbcxzguldke", "name": "zr3c-site-b-top-07-a1", "shard": "site:B_top_07", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:06:58Z"}
+{"provider": "instabox", "id": "m_agqx4vcuhhpmcytvqzmw5nkigq", "name": "zr3c-site-b-left-44-a1", "shard": "site:B_left_44", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:06:58Z"}
+{"provider": "instabox", "id": "m_agqx4pysrov3skgvsemsnmgxq4", "event": "deleted", "utc": "2026-10-27T17:07:22Z"}
+{"provider": "instabox", "id": "m_agqx4vnw2756r2q4wjgxeecbxe", "name": "zr3c-site-b-bottom-22-a1", "shard": "site:B_bottom_22", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:08:29Z"}
+{"provider": "novita", "id": "i3nyqv7w280hrsxydlu0m", "name": "zr3c-site-b-bottom-23-a1", "shard": "site:B_bottom_23", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T17:08:29Z"}
+{"provider": "instabox", "id": "m_agqx4lggxvbgvclwa6db2vllpy", "event": "deleted", "utc": "2026-10-27T17:08:30Z"}
+{"provider": "instabox", "id": "m_agqx4rvvhlhszlv2srzqbgblem", "event": "deleted", "utc": "2026-10-27T17:10:22Z"}
+{"provider": "instabox", "id": "m_agqx4v66xzhxfkx4p5ekzxdvr4", "name": "zr3c-site-g-left-02-a1", "shard": "site:g_left_02", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:10:50Z"}
+{"provider": "instabox", "id": "m_agqx4wagat5d5v5dpcwsqbm3iy", "name": "zr3c-site-g-bottom-10-a1", "shard": "site:g_bottom_10", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:11:00Z"}
+{"provider": "instabox", "id": "m_agqx4wagtmjfrogs7ozfuqr7ay", "name": "zr3c-site-g-left-08-a1", "shard": "site:g_left_08", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:11:00Z"}
+{"provider": "instabox", "id": "m_agqx4lxvss3igzzve3yuheg5ym", "event": "deleted", "utc": "2026-10-27T17:11:15Z"}
+{"provider": "instabox", "id": "m_agqx4jplnknr4j4meqneeh7xde", "event": "deleted", "utc": "2026-10-27T17:11:32Z"}
+{"provider": "instabox", "id": "m_agqx4nk3vu2r2rfkkj3y3kx3bi", "event": "deleted", "utc": "2026-10-27T17:12:33Z"}
+{"provider": "instabox", "id": "m_agqx4wo764ckmkmgsiy33n4hea", "name": "zr3c-site-g-top-21-a1", "shard": "site:g_top_21", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:13:01Z"}
+{"provider": "instabox", "id": "m_agqx4wpae3qvoykrm4sq7do26y", "name": "zr3c-site-g-top-25-a1", "shard": "site:g_top_25", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:13:01Z"}
+{"provider": "instabox", "id": "m_agqx4wpaf3zdgfqvi2utd4esyu", "name": "zr3c-site-g-right-20-a1", "shard": "site:g_right_20", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:13:01Z"}
+{"provider": "instabox", "id": "m_agqx4le6smem22ayyz6xauyk6y", "event": "deleted", "utc": "2026-10-27T17:13:35Z"}
+{"provider": "instabox", "id": "m_agqx4rjb5yxhz53egmc7wrp7ti", "event": "deleted", "utc": "2026-10-27T17:13:54Z"}
+{"provider": "instabox", "id": "m_agqx4rjciyqqhaox5erjpafmha", "event": "deleted", "utc": "2026-10-27T17:13:54Z"}
+{"provider": "instabox", "id": "m_agqx4rjchixdcwlgc62zzmvsbu", "event": "deleted", "utc": "2026-10-27T17:13:54Z"}
+{"provider": "instabox", "id": "m_agqx4o6bsrva3gyttweri3ur2e", "event": "deleted", "utc": "2026-10-27T17:14:15Z"}
+{"provider": "instabox", "id": "m_agqx4w4tcm7yjtqn66ggg5h3yu", "name": "zr3c-site-b-left-52-a1", "shard": "site:B_left_52", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:14:53Z"}
+{"provider": "instabox", "id": "m_agqx4w4ts5jtgp7bkjcgagaqse", "name": "zr3c-site-b-bottom-05-a1", "shard": "site:B_bottom_05", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:14:53Z"}
+{"provider": "instabox", "id": "m_agqx4w4tnmfolm7glsjkcjajma", "name": "zr3c-site-b-left-10-a1", "shard": "site:B_left_10", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:14:53Z"}
+{"provider": "novita", "id": "ijlqe4ae043du8tzdhkd2", "event": "deleted", "utc": "2026-10-27T17:15:33Z"}
+{"provider": "instabox", "id": "m_agqx4m5iaxlcjsjnsuq2sht4mu", "event": "deleted", "utc": "2026-10-27T17:15:56Z"}
+{"provider": "instabox", "id": "m_agqx4m5imjtisbvhk4ijjb6otq", "event": "deleted", "utc": "2026-10-27T17:15:56Z"}
+{"provider": "instabox", "id": "m_agqx4xi5kyshpgirafxvbkw2ae", "name": "zr3c-site-b-top-14-a1", "shard": "site:B_top_14", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:16:34Z"}
+{"provider": "instabox", "id": "m_agqx4nk34sqwqx5ktxz2sm3udu", "event": "deleted", "utc": "2026-10-27T17:17:46Z"}
+{"provider": "instabox", "id": "m_agqx4nk3muz7vj6yyy4v46uxae", "event": "deleted", "utc": "2026-10-27T17:17:49Z"}
+{"provider": "instabox", "id": "m_agqx4ttutueutrsbl2v2ovhs3y", "event": "deleted", "utc": "2026-10-27T17:18:47Z"}
+{"provider": "novita", "id": "if58lsd7is9w6ut2q0kdw", "event": "deleted", "utc": "2026-10-27T17:18:54Z"}
+{"provider": "instabox", "id": "m_agqx4x2f3d42llpcbcovmdlzta", "name": "zr3c-site-g-left-24-a1", "shard": "site:g_left_24", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:18:55Z"}
+{"provider": "instabox", "id": "m_agqx4lgg5pdrr54ozoril247fm", "event": "deleted", "utc": "2026-10-27T17:18:57Z"}
+{"provider": "instabox", "id": "m_agqx4x3mry6ccqzzpnhxzitktu", "name": "zr3c-site-g-left-14-a1", "shard": "site:g_left_14", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:19:05Z"}
+{"provider": "instabox", "id": "m_agqx4x3muot4lh7iyehh34popq", "name": "zr3c-site-g-top-07-a1", "shard": "site:g_top_07", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:19:05Z"}
+{"provider": "instabox", "id": "m_agqx4yi6h5ywev4xxa7moykisa", "name": "zr3c-site-b-top-03-a1", "shard": "site:B_top_03", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:20:56Z"}
+{"provider": "instabox", "id": "m_agqx4ykhmwxl4g7nfolhvchd34", "name": "zr3c-site-g-right-13-a1", "shard": "site:g_right_13", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:21:07Z"}
+{"provider": "instabox", "id": "m_agqx4ykhqy2h56jqv3wosxovuu", "name": "zr3c-site-g-right-03-a1", "shard": "site:g_right_03", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:21:07Z"}
+{"provider": "instabox", "id": "m_agqx4m5hn2fomfd3dy2kvefsmq", "event": "deleted", "utc": "2026-10-27T17:21:08Z"}
+{"provider": "instabox", "id": "m_agqx4tgc5ugcmxu4imwwooxaru", "event": "deleted", "utc": "2026-10-27T17:22:09Z"}
+{"provider": "instabox", "id": "m_agqx4q2eoqerraw2s7bjnk464a", "event": "deleted", "utc": "2026-10-27T17:22:19Z"}
+{"provider": "instabox", "id": "m_agqx4thkc3ldqmgtjlv7v5bsda", "event": "deleted", "utc": "2026-10-27T17:22:19Z"}
+{"provider": "instabox", "id": "m_agqx4thkq5ims7w6tn3msbwkwi", "event": "deleted", "utc": "2026-10-27T17:22:19Z"}
+{"provider": "instabox", "id": "m_agqx4ywqsgjbqqopjtjzyga24e", "name": "zr3c-site-b-left-18-a1", "shard": "site:B_left_18", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:22:47Z"}
+{"provider": "instabox", "id": "m_agqx4oqofzv6ascyrg6z73kdhq", "event": "deleted", "utc": "2026-10-27T17:22:49Z"}
+{"provider": "instabox", "id": "m_agqx4yxyc5wl6a6hl3qavhxdnm", "name": "zr3c-site-b-bottom-03-a1", "shard": "site:B_bottom_03", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:22:57Z"}
+{"provider": "instabox", "id": "m_agqx4yxzh2wxncfboe4aluiiqa", "name": "zr3c-site-b-left-15-a1", "shard": "site:B_left_15", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:22:58Z"}
+{"provider": "instabox", "id": "m_agqx4zecjw7zdbu36uprwfxz6a", "name": "zr3c-site-b-bottom-10-a1", "shard": "site:B_bottom_10", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:24:38Z"}
+{"provider": "novita", "id": "i9rsxjreaacicro3cc01y", "name": "zr3c-site-b-right-04-a1", "shard": "site:B_right_04", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T17:24:39Z"}
+{"provider": "instabox", "id": "m_agqx4o6bibpmsitlnjtdlasehe", "event": "deleted", "utc": "2026-10-27T17:24:40Z"}
+{"provider": "instabox", "id": "m_agqx4o6bcalwi4aposizwvd7ee", "event": "deleted", "utc": "2026-10-27T17:24:41Z"}
+{"provider": "instabox", "id": "m_agqx4vnw2756r2q4wjgxeecbxe", "event": "deleted", "utc": "2026-10-27T17:26:41Z"}
+{"provider": "instabox", "id": "m_agqx4zwqnirszstnwedcqc3x5u", "name": "zr3c-site-g-left-12-a1", "shard": "site:g_left_12", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:27:09Z"}
+{"provider": "instabox", "id": "m_agqx4zwqxwo4crfu3g45lm4aom", "name": "zr3c-site-g-bottom-02-a1", "shard": "site:g_bottom_02", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:27:09Z"}
+{"provider": "instabox", "id": "m_agqx4zwreozxxqfgvcaxgxuate", "name": "zr3c-site-g-top-01-a1", "shard": "site:g_top_01", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:27:09Z"}
+{"provider": "instabox", "id": "m_agqx4q2ekwxeiifx2p7jzbhqce", "event": "deleted", "utc": "2026-10-27T17:27:33Z"}
+{"provider": "instabox", "id": "m_agqx4q3mhprty6wain3nywbjdi", "event": "deleted", "utc": "2026-10-27T17:27:52Z"}
+{"provider": "instabox", "id": "m_agqx4jvrzbu6s4bipm43yiuqmy", "event": "deleted", "utc": "2026-10-27T17:28:02Z"}
+{"provider": "instabox", "id": "m_agqx4oqn2djr546nc6ihxf6hne", "event": "deleted", "utc": "2026-10-27T17:28:12Z"}
+{"provider": "instabox", "id": "m_agqx42flqyuu3dewqptlkyproi", "name": "zr3c-site-b-left-27-a1", "shard": "site:B_left_27", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:29:11Z"}
+{"provider": "instabox", "id": "m_agqx42gtejmarbykm2lm53ycbu", "name": "zr3c-site-g-right-09-a1", "shard": "site:g_right_09", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:29:21Z"}
+{"provider": "instabox", "id": "m_agqx42gthvr22md2to6wyikmii", "name": "zr3c-site-g-right-14-a1", "shard": "site:g_right_14", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:29:21Z"}
+{"provider": "instabox", "id": "m_agqx4vbmc6bv7dvz2xznwzdzva", "event": "deleted", "utc": "2026-10-27T17:30:15Z"}
+{"provider": "instabox", "id": "m_agqx4vcuhhpmcytvqzmw5nkigq", "event": "deleted", "utc": "2026-10-27T17:30:23Z"}
+{"provider": "instabox", "id": "m_agqx4vcumec7sl3lbcxzguldke", "event": "deleted", "utc": "2026-10-27T17:30:24Z"}
+{"provider": "instabox", "id": "m_agqx4qj5alwjoep3h6l4oqnmyy", "event": "deleted", "utc": "2026-10-27T17:30:34Z"}
+{"provider": "instabox", "id": "m_agqx4szwysj5e4i6iqdfckyuli", "event": "deleted", "utc": "2026-10-27T17:31:04Z"}
+{"provider": "instabox", "id": "m_agqx42uf4w3cyi2mmaghjm6hei", "name": "zr3c-site-b-left-07-a1", "shard": "site:B_left_07", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:31:12Z"}
+{"provider": "instabox", "id": "m_agqx42uf2qtkf4qr6vfdqjdk2i", "name": "zr3c-site-b-bottom-07-a1", "shard": "site:B_bottom_07", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:31:12Z"}
+{"provider": "instabox", "id": "m_agqx42uf33y2se5m7un4y7vv7q", "name": "zr3c-site-b-left-20-a1", "shard": "site:B_left_20", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:31:12Z"}
+{"provider": "novita", "id": "i3nyqv7w280hrsxydlu0m", "event": "deleted", "utc": "2026-10-27T17:31:44Z"}
+{"provider": "instabox", "id": "m_agqx43axb5nvey34recumtww4i", "name": "zr3c-site-b-top-09-a1", "shard": "site:B_top_09", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:32:55Z"}
+{"provider": "instabox", "id": "m_agqx43b6sfa5wsgvlnjbxlrvbq", "name": "zr3c-site-b-bottom-20-a1", "shard": "site:B_bottom_20", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:33:05Z"}
+{"provider": "instabox", "id": "m_agqx4orv44nxhzo5mrmszeqjya", "event": "deleted", "utc": "2026-10-27T17:33:29Z"}
+{"provider": "instabox", "id": "m_agqx4sijp2d6l23lithhd5it4q", "event": "deleted", "utc": "2026-10-27T17:33:48Z"}
+{"provider": "instabox", "id": "m_agqx4xi5kyshpgirafxvbkw2ae", "event": "deleted", "utc": "2026-10-27T17:34:50Z"}
+{"provider": "instabox", "id": "m_agqx43uonor4dgtshoh7z7a3rm", "name": "zr3c-site-g-top-02-a1", "shard": "site:g_top_02", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:35:37Z"}
+{"provider": "instabox", "id": "m_agqx43uoeeiumzu7xcsf2ldomu", "name": "zr3c-site-g-left-13-a1", "shard": "site:g_left_13", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:35:37Z"}
+{"provider": "instabox", "id": "m_agqx43vvv3afu5qqviek267xoy", "name": "zr3c-site-g-left-09-a1", "shard": "site:g_left_09", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:35:47Z"}
+{"provider": "instabox", "id": "m_agqx4qj5cja3vywfcchs6dr63y", "event": "deleted", "utc": "2026-10-27T17:35:48Z"}
+{"provider": "instabox", "id": "m_agqx4syoymeeggn7lpvmat3v6m", "event": "deleted", "utc": "2026-10-27T17:35:59Z"}
+{"provider": "instabox", "id": "m_agqx4syphno2mtxxdmy7h4urhu", "event": "deleted", "utc": "2026-10-27T17:36:00Z"}
+{"provider": "instabox", "id": "m_agqx44etkyi6q6wuybl2yrgjgi", "name": "zr3c-site-b-left-38-a1", "shard": "site:B_left_38", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:37:49Z"}
+{"provider": "instabox", "id": "m_agqx44etxmnm54s6cxfaevesuy", "name": "zr3c-site-g-right-10-a1", "shard": "site:g_right_10", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:37:49Z"}
+{"provider": "instabox", "id": "m_agqx44et4kgebk5pzivy6hzr2m", "name": "zr3c-site-g-top-22-a1", "shard": "site:g_top_22", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:37:49Z"}
+{"provider": "instabox", "id": "m_agqx4w4tcm7yjtqn66ggg5h3yu", "event": "deleted", "utc": "2026-10-27T17:38:21Z"}
+{"provider": "instabox", "id": "m_agqx4w4ts5jtgp7bkjcgagaqse", "event": "deleted", "utc": "2026-10-27T17:38:21Z"}
+{"provider": "instabox", "id": "m_agqx4w4tnmfolm7glsjkcjajma", "event": "deleted", "utc": "2026-10-27T17:38:22Z"}
+{"provider": "instabox", "id": "m_agqx4uvbes4m3naur6pvfawzom", "event": "deleted", "utc": "2026-10-27T17:39:01Z"}
+{"provider": "instabox", "id": "m_agqx4sijlrek5kfei5dtwdjkya", "event": "deleted", "utc": "2026-10-27T17:39:01Z"}
+{"provider": "novita", "id": "iyxkcbfizr78qhp801qdw", "event": "deleted", "utc": "2026-10-27T17:39:40Z"}
+{"provider": "instabox", "id": "m_agqx44sfj6ulxvabz2et7giegq", "name": "zr3c-site-b-left-12-a1", "shard": "site:B_left_12", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:39:40Z"}
+{"provider": "instabox", "id": "m_agqx44sfiij35kmytc74xyc7nu", "name": "zr3c-site-b-left-04-a1", "shard": "site:B_left_04", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:39:40Z"}
+{"provider": "instabox", "id": "m_agqx44tms5jzvltse4ql7txy3q", "name": "zr3c-site-b-left-21-a1", "shard": "site:B_left_21", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:39:50Z"}
+{"provider": "instabox", "id": "m_agqx4qj4vy4rt3jeeglrqpos4u", "event": "deleted", "utc": "2026-10-27T17:41:04Z"}
+{"provider": "instabox", "id": "m_agqx447w6dfwqdshxvorjuqcci", "name": "zr3c-site-b-bottom-16-a1", "shard": "site:B_bottom_16", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:41:31Z"}
+{"provider": "instabox", "id": "m_agqx447w4qjeutjbapyu45stsm", "name": "zr3c-site-b-top-21-a1", "shard": "site:B_top_21", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:41:31Z"}
+{"provider": "instabox", "id": "m_agqx4zecjw7zdbu36uprwfxz6a", "event": "deleted", "utc": "2026-10-27T17:42:54Z"}
+{"provider": "instabox", "id": "m_agqx45raox5k743iyhapwe6ad4", "name": "zr3c-site-g-bottom-00-a1", "shard": "site:g_bottom_00", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:43:53Z"}
+{"provider": "instabox", "id": "m_agqx45rbaserngh543fpb6wioq", "name": "zr3c-site-g-left-11-a1", "shard": "site:g_left_11", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:43:53Z"}
+{"provider": "instabox", "id": "m_agqx45sfo3cfkrea4qjdlrkgvm", "name": "zr3c-site-g-left-22-a1", "shard": "site:g_left_22", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:44:02Z"}
+{"provider": "instabox", "id": "m_agqx4uvbjs7efpcrallc5jswu4", "event": "deleted", "utc": "2026-10-27T17:44:15Z"}
+{"provider": "instabox", "id": "m_agqx4yi6h5ywev4xxa7moykisa", "event": "deleted", "utc": "2026-10-27T17:44:24Z"}
+{"provider": "instabox", "id": "m_agqx4sjrcp6oehbq25ihmkb5uu", "event": "deleted", "utc": "2026-10-27T17:44:25Z"}
+{"provider": "instabox", "id": "m_agqx46bb65u7mzzynbmhx43waa", "name": "zr3c-site-b-left-11-a1", "shard": "site:B_left_11", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:46:04Z"}
+{"provider": "instabox", "id": "m_agqx46bb5azxohfx7us2wsarl4", "name": "zr3c-site-g-bottom-18-a1", "shard": "site:g_bottom_18", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:46:04Z"}
+{"provider": "instabox", "id": "m_agqx46bccrd4mg3kiqpc2r3mxa", "name": "zr3c-site-g-right-21-a1", "shard": "site:g_right_21", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:46:04Z"}
+{"provider": "instabox", "id": "m_agqx4ywqsgjbqqopjtjzyga24e", "event": "deleted", "utc": "2026-10-27T17:46:17Z"}
+{"provider": "instabox", "id": "m_agqx4yxzh2wxncfboe4aluiiqa", "event": "deleted", "utc": "2026-10-27T17:46:27Z"}
+{"provider": "instabox", "id": "m_agqx43b6sfa5wsgvlnjbxlrvbq", "event": "deleted", "utc": "2026-10-27T17:46:28Z"}
+{"provider": "instabox", "id": "m_agqx4yxyc5wl6a6hl3qavhxdnm", "event": "deleted", "utc": "2026-10-27T17:46:34Z"}
+{"provider": "instabox", "id": "m_agqx46otfbuxz4phqwe4bznoyu", "name": "zr3c-site-b-left-45-a1", "shard": "site:B_left_45", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:47:55Z"}
+{"provider": "instabox", "id": "m_agqx46oth7rra23uwhnjqmt5aq", "name": "zr3c-site-b-left-34-a1", "shard": "site:B_left_34", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:47:55Z"}
+{"provider": "instabox", "id": "m_agqx46p2o7zlzvncd7wvbedfuy", "name": "zr3c-site-b-bottom-08-a1", "shard": "site:B_bottom_08", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:48:05Z"}
+{"provider": "instabox", "id": "m_agqx4uvbgukx2pezeyxe7spwre", "event": "deleted", "utc": "2026-10-27T17:49:30Z"}
+{"provider": "novita", "id": "ip5z1lvqly2ajdonud4ri", "name": "zr3c-site-b-right-01-a1", "shard": "site:B_right_01", "event": "created", "vcpus": 2, "mem_gib": 4, "utc": "2026-10-27T17:49:37Z"}
+{"provider": "instabox", "id": "m_agqx464ebwg2jehst4qtknikxu", "name": "zr3c-site-b-top-05-a1", "shard": "site:B_top_05", "event": "created", "vcpus": 8, "mem_gib": 16, "utc": "2026-10-27T17:49:46Z"}
+{"provider": "instabox", "id": "m_agqx43axb5nvey34recumtww4i", "event": "deleted", "utc": "2026-10-27T17:51:30Z"}
+{"provider": "instabox", "id": "m_agqx4wpae3qvoykrm4sq7do26y", "event": "deleted", "utc": "2026-10-27T17:52:11Z"}
+{"provider": "instabox", "id": "m_agqx4ufaycd5bcde2c6yqxm4bm", "event": "deleted", "utc": "2026-10-27T17:52:31Z"}
+{"provider": "instabox", "id": "m_agqx4ufbvp7eezqgh6xrahldfq", "event": "deleted", "utc": "2026-10-27T17:52:31Z"}
+{"provider": "instabox", "id": "m_agqx4ughdcxjuydyhumcvds2ba", "event": "deleted", "utc": "2026-10-27T17:52:41Z"}
+{"provider": "instabox", "id": "m_agqx447w4qjeutjbapyu45stsm", "event": "deleted", "utc": "2026-10-27T17:54:31Z"}
+{"provider": "instabox", "id": "m_agqx42uf4w3cyi2mmaghjm6hei", "event": "deleted", "utc": "2026-10-27T17:54:41Z"}
+{"provider": "instabox", "id": "m_agqx42uf33y2se5m7un4y7vv7q", "event": "deleted", "utc": "2026-10-27T17:54:41Z"}
+{"provider": "instabox", "id": "m_agqx42uf2qtkf4qr6vfdqjdk2i", "event": "deleted", "utc": "2026-10-27T17:54:41Z"}
+{"provider": "instabox", "id": "m_agqx4v66xzhxfkx4p5ekzxdvr4", "event": "deleted", "utc": "2026-10-27T17:55:11Z"}
+{"provider": "instabox", "id": "m_agqx4wpaf3zdgfqvi2utd4esyu", "event": "deleted", "utc": "2026-10-27T17:57:21Z"}
+{"provider": "instabox", "id": "m_agqx4wo764ckmkmgsiy33n4hea", "event": "deleted", "utc": "2026-10-27T17:57:21Z"}
+{"provider": "instabox", "id": "m_agqx42flqyuu3dewqptlkyproi", "event": "deleted", "utc": "2026-10-27T17:57:52Z"}
+{"provider": "instabox", "id": "m_agqx447w6dfwqdshxvorjuqcci", "event": "deleted", "utc": "2026-10-27T17:59:42Z"}
+{"provider": "instabox", "id": "m_agqx4ykhmwxl4g7nfolhvchd34", "event": "deleted", "utc": "2026-10-27T18:00:13Z"}
+{"provider": "instabox", "id": "m_agqx4wagtmjfrogs7ozfuqr7ay", "event": "deleted", "utc": "2026-10-27T18:00:33Z"}
+{"provider": "instabox", "id": "m_agqx4wagat5d5v5dpcwsqbm3iy", "event": "deleted", "utc": "2026-10-27T18:00:33Z"}
+{"provider": "instabox", "id": "m_agqx44sfiij35kmytc74xyc7nu", "event": "deleted", "utc": "2026-10-27T18:03:04Z"}
+{"provider": "instabox", "id": "m_agqx44tms5jzvltse4ql7txy3q", "event": "deleted", "utc": "2026-10-27T18:03:14Z"}
+{"provider": "instabox", "id": "m_agqx4x2f3d42llpcbcovmdlzta", "event": "deleted", "utc": "2026-10-27T18:03:15Z"}
+{"provider": "instabox", "id": "m_agqx4x3muot4lh7iyehh34popq", "event": "deleted", "utc": "2026-10-27T18:03:24Z"}
+{"provider": "instabox", "id": "m_agqx4ykhqy2h56jqv3wosxovuu", "event": "deleted", "utc": "2026-10-27T18:05:25Z"}
+{"provider": "instabox", "id": "m_agqx44etkyi6q6wuybl2yrgjgi", "event": "deleted", "utc": "2026-10-27T18:06:28Z"}
+{"provider": "instabox", "id": "m_agqx464ebwg2jehst4qtknikxu", "event": "deleted", "utc": "2026-10-27T18:07:55Z"}
+{"provider": "instabox", "id": "m_agqx44sfj6ulxvabz2et7giegq", "event": "deleted", "utc": "2026-10-27T18:08:16Z"}
+{"provider": "instabox", "id": "m_agqx42gthvr22md2to6wyikmii", "event": "deleted", "utc": "2026-10-27T18:08:26Z"}
+{"provider": "instabox", "id": "m_agqx42gtejmarbykm2lm53ycbu", "event": "deleted", "utc": "2026-10-27T18:08:26Z"}
+{"provider": "instabox", "id": "m_agqx4x3mry6ccqzzpnhxzitktu", "event": "deleted", "utc": "2026-10-27T18:08:37Z"}
+{"provider": "instabox", "id": "m_agqx46bb65u7mzzynbmhx43waa", "event": "deleted", "utc": "2026-10-27T18:09:26Z"}
+{"provider": "instabox", "id": "m_agqx46otfbuxz4phqwe4bznoyu", "event": "deleted", "utc": "2026-10-27T18:11:18Z"}
+{"provider": "instabox", "id": "m_agqx46oth7rra23uwhnjqmt5aq", "event": "deleted", "utc": "2026-10-27T18:11:18Z"}
+{"provider": "instabox", "id": "m_agqx4zwqxwo4crfu3g45lm4aom", "event": "deleted", "utc": "2026-10-27T18:11:27Z"}
+{"provider": "instabox", "id": "m_agqx4zwreozxxqfgvcaxgxuate", "event": "deleted", "utc": "2026-10-27T18:11:27Z"}
+{"provider": "instabox", "id": "m_agqx46p2o7zlzvncd7wvbedfuy", "event": "deleted", "utc": "2026-10-27T18:11:28Z"}
+{"provider": "novita", "id": "i9rsxjreaacicro3cc01y", "event": "deleted", "utc": "2026-10-27T18:13:58Z"}
+{"provider": "instabox", "id": "m_agqx4zwqnirszstnwedcqc3x5u", "event": "deleted", "utc": "2026-10-27T18:16:41Z"}
+{"provider": "instabox", "id": "m_agqx44et4kgebk5pzivy6hzr2m", "event": "deleted", "utc": "2026-10-27T18:16:51Z"}
+{"provider": "instabox", "id": "m_agqx43uoeeiumzu7xcsf2ldomu", "event": "deleted", "utc": "2026-10-27T18:19:52Z"}
+{"provider": "instabox", "id": "m_agqx43uonor4dgtshoh7z7a3rm", "event": "deleted", "utc": "2026-10-27T18:19:52Z"}
+{"provider": "instabox", "id": "m_agqx43vvv3afu5qqviek267xoy", "event": "deleted", "utc": "2026-10-27T18:20:03Z"}
+{"provider": "instabox", "id": "m_agqx44etxmnm54s6cxfaevesuy", "event": "deleted", "utc": "2026-10-27T18:22:13Z"}
+{"provider": "instabox", "id": "m_agqx45raox5k743iyhapwe6ad4", "event": "deleted", "utc": "2026-10-27T18:22:54Z"}
+{"provider": "instabox", "id": "m_agqx46bccrd4mg3kiqpc2r3mxa", "event": "deleted", "utc": "2026-10-27T18:25:03Z"}
+{"provider": "instabox", "id": "m_agqx46bb5azxohfx7us2wsarl4", "event": "deleted", "utc": "2026-10-27T18:25:13Z"}
+{"provider": "instabox", "id": "m_agqx45rbaserngh543fpb6wioq", "event": "deleted", "utc": "2026-10-27T18:28:04Z"}
+{"provider": "instabox", "id": "m_agqx45sfo3cfkrea4qjdlrkgvm", "event": "deleted", "utc": "2026-10-27T18:28:15Z"}
+{"provider": "novita", "id": "ip5z1lvqly2ajdonud4ri", "event": "deleted", "utc": "2026-10-27T18:28:32Z"}
+{"provider": "instabox", "id": "m_agqx4ffk3whb3wy6rbi74bfiga", "event": "deleted", "utc": "2026-10-27T19:12:52Z"}

@@ -1,0 +1,73 @@
+LOG [2026-10-27T14:55:35.911163] [debug] Build started
+LOG [2026-10-27T14:55:35.945984] [info] Requesting build for template: zr3c-conron-2x4
+LOG [2026-10-27T14:55:36.387615] [info] Template created with ID: 6u3xl5rrw6n31q0ac7hb, Build ID: 04bef2ca-c42b-4cf6-882b-70cfe2385449
+LOG [2026-10-27T14:55:36.387688] [info] All file uploads completed
+LOG [2026-10-27T14:55:36.387703] [info] Starting building...
+LOG [2026-10-27T14:55:36.547075] [info] Waiting for logs...
+LOG [2026-10-27T14:55:36.491810+00:00] [info] Building template 6u3xl5rrw6n31q0ac7hb/04bef2ca-c42b-4cf6-882b-70cfe2385449
+LOG [2026-10-27T14:55:36.567696+00:00] [info] CACHED [base] FROM TEMPLATE base [f1a6607b815e4ce5b4164f93ee8542e523f6f7cfaf21bdc41e7d4ab2f010db59]
+LOG [2026-10-27T14:55:36.586466+00:00] [info] [base] DEFAULT USER user [75840395c0cbf5f4d884d6ef412e0f0c44e5202f514c607e015b8bb87177e9f4]
+LOG [2026-10-27T14:55:39.358211+00:00] [debug] Updating envd to version v0.5.12
+LOG [2026-10-27T14:55:39.457710+00:00] [debug] [base] [stdout]: passwd: password changed.
+LOG [2026-10-27T14:55:39.482918+00:00] [debug] Processing layer: 762bb52a-872b-4f04-9728-27bdc75e96c6
+LOG [2026-10-27T14:55:39.740871+00:00] [debug] Saving: 762bb52a-872b-4f04-9728-27bdc75e96c6
+LOG [2026-10-27T14:55:39.756898+00:00] [info] [builder 1/1] RUN apt-get update && DEBIAN_FRONTEND=noninteractive DEBCONF_NOWARNINGS=yes apt-get install -y zstd root [90cd41c9f040fb6fbfa8a97ef0018a11de04d92e4df7ae09458da38d8201bfdf]
+LOG [2026-10-27T14:55:40.041083+00:00] [info] [builder 1/1] [stdout]: Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+LOG [2026-10-27T14:55:40.077373+00:00] [info] [builder 1/1] [stdout]: Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+LOG [2026-10-27T14:55:40.091207+00:00] [info] [builder 1/1] [stdout]: Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+LOG [2026-10-27T14:55:40.139458+00:00] [info] [builder 1/1] [stdout]: Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+LOG [2026-10-27T14:55:40.229134+00:00] [info] [builder 1/1] [stdout]: Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+LOG [2026-10-27T14:55:40.229585+00:00] [info] [builder 1/1] [stdout]: Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [358 kB]
+LOG [2026-10-27T14:55:40.856797+00:00] [info] [builder 1/1] [stdout]: Fetched 9397 kB in 1s (9568 kB/s)
+LOG [2026-10-27T14:55:40.856885+00:00] [info] [builder 1/1] [stdout]: Reading package lists...
+LOG [2026-10-27T14:55:41.140305+00:00] [info] [builder 1/1] [stdout]: Reading package lists...
+LOG [2026-10-27T14:55:41.418630+00:00] [info] [builder 1/1] [stdout]: Building dependency tree...
+LOG [2026-10-27T14:55:41.482111+00:00] [info] [builder 1/1] [stdout]: Reading state information...
+LOG [2026-10-27T14:55:41.570510+00:00] [info] [builder 1/1] [stdout]: The following NEW packages will be installed:
+LOG [2026-10-27T14:55:41.570559+00:00] [info] [builder 1/1] [stdout]: zstd
+LOG [2026-10-27T14:55:41.608068+00:00] [info] [builder 1/1] [stdout]: 0 upgraded, 1 newly installed, 0 to remove and 179 not upgraded.
+LOG [2026-10-27T14:55:41.608175+00:00] [info] [builder 1/1] [stdout]: Need to get 701 kB of archives.
+LOG [2026-10-27T14:55:41.608197+00:00] [info] [builder 1/1] [stdout]: After this operation, 2152 kB of additional disk space will be used.
+LOG [2026-10-27T14:55:41.608215+00:00] [info] [builder 1/1] [stdout]: Get:1 http://deb.debian.org/debian bookworm/main amd64 zstd amd64 1.5.4+dfsg2-5 [701 kB]
+LOG [2026-10-27T14:55:41.782555+00:00] [info] [builder 1/1] [stdout]: Fetched 701 kB in 0s (8378 kB/s)
+LOG [2026-10-27T14:55:41.803695+00:00] [info] [builder 1/1] [stdout]: Selecting previously unselected package zstd.
+LOG [2026-10-27T14:55:41.803765+00:00] [info] [builder 1/1] [stdout]: (Reading database ...
+LOG [2026-10-27T14:55:41.809471+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%
+LOG [2026-10-27T14:55:41.809708+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 45%(Reading database ... 50%(Reading database ... 55%
+LOG [2026-10-27T14:55:41.809758+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 60%
+LOG [2026-10-27T14:55:41.809814+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 65%
+LOG [2026-10-27T14:55:41.814531+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 70%
+LOG [2026-10-27T14:55:41.821889+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 75%
+LOG [2026-10-27T14:55:41.828444+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 80%
+LOG [2026-10-27T14:55:41.835361+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 85%
+LOG [2026-10-27T14:55:41.844000+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 90%
+LOG [2026-10-27T14:55:41.852776+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 95%
+LOG [2026-10-27T14:55:41.859236+00:00] [info] [builder 1/1] [stdout]: (Reading database ... 100%(Reading database ... 25971 files and directories currently installed.)
+LOG [2026-10-27T14:55:41.860188+00:00] [info] [builder 1/1] [stdout]: Preparing to unpack .../zstd_1.5.4+dfsg2-5_amd64.deb ...
+LOG [2026-10-27T14:55:41.861556+00:00] [info] [builder 1/1] [stdout]: Unpacking zstd (1.5.4+dfsg2-5) ...
+LOG [2026-10-27T14:55:41.913863+00:00] [info] [builder 1/1] [stdout]: Setting up zstd (1.5.4+dfsg2-5) ...
+LOG [2026-10-27T14:55:41.938097+00:00] [debug] Processing layer: 9ffd616a-6a1c-4730-8037-deb7a31d8690
+LOG [2026-10-27T14:55:42.324431+00:00] [debug] Saving: 9ffd616a-6a1c-4730-8037-deb7a31d8690
+LOG [2026-10-27T14:55:42.324701+00:00] [info] [finalize] Finalizing template build [2b668eb6b1922ecf11825ff655e7460cdaf05f42147c23a9f38c90c12f8c8be7]
+LOG [2026-10-27T14:55:42.784239+00:00] [debug] [config] [stdout]: Starting configuration script
+LOG [2026-10-27T14:55:42.784610+00:00] [debug] [config] [stdout]: Create default user 'user' (if doesn't exist yet)
+LOG [2026-10-27T14:55:42.815846+00:00] [debug] [config] [stdout]: adduser: The user `user' already exists.
+LOG [2026-10-27T14:55:42.817917+00:00] [debug] [config] [stdout]: Add sudo to 'user' with no password
+LOG [2026-10-27T14:55:42.828604+00:00] [debug] [config] [stdout]: passwd: password changed.
+LOG [2026-10-27T14:55:42.828813+00:00] [debug] [config] [stdout]: Give 'user' ownership to /home/user
+LOG [2026-10-27T14:55:42.831598+00:00] [debug] [config] [stdout]: Give 777 permission to /usr/local
+LOG [2026-10-27T14:55:42.897328+00:00] [debug] [config] [stdout]: Create /code directory
+LOG [2026-10-27T14:55:42.898169+00:00] [debug] [config] [stdout]: Give 777 permission to /code
+LOG [2026-10-27T14:55:42.898905+00:00] [debug] [config] [stdout]: Sync and drop caches
+LOG [2026-10-27T14:55:42.925470+00:00] [debug] [config] [stdout]: Compact memory
+LOG [2026-10-27T14:55:42.927431+00:00] [debug] [config] [stdout]: vm.compaction_proactiveness = 75
+LOG [2026-10-27T14:55:42.936197+00:00] [debug] [config] [stdout]: Finished configuration script
+LOG [2026-10-27T14:55:42.950871+00:00] [debug] Processing layer: 04bef2ca-c42b-4cf6-882b-70cfe2385449
+LOG [2026-10-27T14:55:43.135378+00:00] [debug] Saved: 762bb52a-872b-4f04-9728-27bdc75e96c6
+LOG [2026-10-27T14:55:43.177071+00:00] [debug] Saving: 04bef2ca-c42b-4cf6-882b-70cfe2385449
+LOG [2026-10-27T14:55:43.177350+00:00] [info] [optimize] Optimizing template [6f1105c3b453a2ea8284bf5576be4fc496b76d5dd6a3af1696a3e2877198faec]
+LOG [2026-10-27T14:55:45.070649+00:00] [debug] Saved: 9ffd616a-6a1c-4730-8037-deb7a31d8690
+LOG [2026-10-27T14:55:45.621579+00:00] [debug] Saved: 04bef2ca-c42b-4cf6-882b-70cfe2385449
+LOG [2026-10-27T14:55:45.699765+00:00] [info] Build finished, took 9s
+LOG [2026-10-27T14:55:46.771286] [debug] Build finished
+BUILT {"template_id": "6u3xl5rrw6n31q0ac7hb", "build_id": "04bef2ca-c42b-4cf6-882b-70cfe2385449", "alias": "zr3c-conron-2x4", "name": "zr3c-conron-2x4", "tags": "['default']"} 10.9

@@ -1,0 +1,21 @@
+leanchecker found a problem in CB_right_06.Primes
+uncaught exception: while replaying declaration '_private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1':
+(kernel) application type mismatch
+  id (Eq.refl Bool.true)
+argument has type
+  Eq Bool.true Bool.true
+but function has type
+  Eq
+      ((ZetaLean.instDecidableEqComplexBall
+            (ZetaLean.ComplexBall.dirichletTermBallB 32 20 64 2 10 2 ZetaLean.DH.Cert.Prime_B_right_06_2.S)
+            ZetaLean.DH.Cert.Prime_B_right_06_2.Sq_10).decide
+        (Eq (ZetaLean.ComplexBall.dirichletTermBallB 32 20 64 2 10 2 ZetaLean.DH.Cert.Prime_B_right_06_2.S)
+          ZetaLean.DH.Cert.Prime_B_right_06_2.Sq_10))
+      Bool.true →
+    Eq
+      ((ZetaLean.instDecidableEqComplexBall
+            (ZetaLean.ComplexBall.dirichletTermBallB 32 20 64 2 10 2 ZetaLean.DH.Cert.Prime_B_right_06_2.S)
+            ZetaLean.DH.Cert.Prime_B_right_06_2.Sq_10).decide
+        (Eq (ZetaLean.ComplexBall.dirichletTermBallB 32 20 64 2 10 2 ZetaLean.DH.Cert.Prime_B_right_06_2.S)
+          ZetaLean.DH.Cert.Prime_B_right_06_2.Sq_10))
+      Bool.true

@@ -1,0 +1,18 @@
+{
+ "site": {
+  "decls": 24,
+  "bytes": 176497
+ },
+ "base": {
+  "decls": 26555,
+  "bytes": 150113511
+ },
+ "trailing_bytes": 0,
+ "site_examples": [
+  "ZetaLean.ComplexBall.centre",
+  "ZetaLean.DH.Cert.Prime_centre_2.S",
+  "ZetaLean.DH.Cert.Prime_centre_2.Sq_10",
+  "ZetaLean.ComplexBall.recentre",
+  "ZetaLean.ComplexBall.norm_centre_sq"
+ ]
+}

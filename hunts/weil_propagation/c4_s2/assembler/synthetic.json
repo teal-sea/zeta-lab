@@ -3,7 +3,7 @@
   "kind": "synthetic",
   "ts_inputs_digest": "b2e7787bce7a77db4a1a81b9311fc75a2b9326649b88a49883bd4d737ca70eaa",
   "snapshot_sha256": "b1c6400bdfaf70ee8be7fb24218f3dec8678b2c8af25c6b3732b952ef5e1db86",
-  "python": "/Users/thomas/zeta-lab/.venv/bin/python",
+  "python": ".venv/bin/python",
   "numpy": "2.5.1",
   "seconds": 1145.9
  },

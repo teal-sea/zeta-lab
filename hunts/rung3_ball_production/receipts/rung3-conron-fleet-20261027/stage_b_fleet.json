@@ -1,0 +1,5705 @@
+{
+ "cost_usd": {
+  "instabox": 8.246,
+  "novita_list": 0.681
+ },
+ "coverage": {
+  "abstracted": 18,
+  "abstracted_with_glue_in_top": 18,
+  "by_origin": {
+   "Mathlib": {
+    "checked": 61252,
+    "closure_checked": 61252,
+    "closure_unchecked": 0,
+    "closure_via_glue": 0,
+    "constants": 580690,
+    "in_closure": 61252
+   },
+   "ZetaLean": {
+    "checked": 411,
+    "closure_checked": 411,
+    "closure_unchecked": 0,
+    "closure_via_glue": 0,
+    "constants": 733,
+    "in_closure": 411
+   },
+   "assembly": {
+    "checked": 12,
+    "closure_checked": 12,
+    "closure_unchecked": 0,
+    "closure_via_glue": 18,
+    "constants": 31,
+    "in_closure": 30
+   },
+   "core": {
+    "checked": 7869,
+    "closure_checked": 7869,
+    "closure_unchecked": 0,
+    "closure_via_glue": 0,
+    "constants": 182964,
+    "in_closure": 7869
+   },
+   "deps": {
+    "checked": 192,
+    "closure_checked": 192,
+    "closure_unchecked": 0,
+    "closure_via_glue": 0,
+    "constants": 19389,
+    "in_closure": 192
+   },
+   "hunt137": {
+    "checked": 22288,
+    "closure_checked": 22288,
+    "closure_unchecked": 0,
+    "closure_via_glue": 0,
+    "constants": 24311,
+    "in_closure": 22288
+   },
+   "sites": {
+    "checked": 761387,
+    "closure_checked": 583346,
+    "closure_unchecked": 0,
+    "closure_via_glue": 0,
+    "constants": 761387,
+    "in_closure": 583346
+   }
+  },
+  "census_constants": 1569505,
+  "clash_count": 0,
+  "clashes": [],
+  "closure_not_in_census": [],
+  "closure_size": 675388,
+  "closure_unchecked": [],
+  "closure_unchecked_count": 0,
+  "declarations_in_accepted_shards": 14462407,
+  "distinct_constants_checked": 853864,
+  "fault": {
+   "fault:B_right_06": {
+    "accepted_declarations": null,
+    "cpu_s": 973.0,
+    "exit_code": 1,
+    "expected_declarations": 62005,
+    "hashes_ok": true,
+    "host": {
+     "cpu": "AMD EPYC",
+     "mem_total_kib": 16400136,
+     "nproc": 8,
+     "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+     "python": "3.13.5"
+    },
+    "infrastructure": false,
+    "maxrss_kib": 2094424,
+    "ok": true,
+    "peak_sampled_rss_kib": 2080396,
+    "phase": "checked",
+    "verdict_lines": [
+     "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=190.157s"
+    ],
+    "wall_s": 190.7
+   },
+   "fault:B_right_06#novita": {
+    "accepted_declarations": null,
+    "cpu_s": 548.1,
+    "exit_code": 1,
+    "expected_declarations": 62005,
+    "hashes_ok": true,
+    "host": {
+     "cpu": "AMD EPYC",
+     "mem_total_kib": 4034448,
+     "nproc": 2,
+     "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+     "python": "3.11.6"
+    },
+    "infrastructure": false,
+    "maxrss_kib": 1526688,
+    "ok": true,
+    "peak_sampled_rss_kib": 1524120,
+    "phase": "checked",
+    "verdict_lines": [
+     "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=357.456s"
+    ],
+    "wall_s": 357.9
+   }
+  },
+  "glue": {
+   "absent": [],
+   "matched": 435,
+   "mismatched": [],
+   "site_theorems": 435
+  },
+  "manifests_without_kernel_hashes": [],
+  "missing": [],
+  "shards_accepted": 216,
+  "shards_expected": 216,
+  "shared_constants_differing_only_in_binder_names_or_info": 5140,
+  "utc": "2026-10-27T19:15:05Z"
+ },
+ "date": "2026-10-27",
+ "first_vm_utc": "2026-10-27T15:07:01Z",
+ "last_vm_deleted_utc": "2026-10-27T19:12:52Z",
+ "phase0": {
+  "assembled": {
+   "assembly_oleans_equal_to_receipts": [
+    "Rung3Assembly/Assembly.olean",
+    "Rung3Assembly/Final.olean",
+    "Rung3Assembly/Separation.olean",
+    "Rung3Assembly/Strip.olean",
+    "Rung3Assembly/Support.olean",
+    "Rung3Assembly/Support.olean.private",
+    "Rung3Assembly/Support.olean.server"
+   ],
+   "utc": "2026-10-27T15:11:24Z"
+  },
+  "census": {
+   "cpu_s": 1726.6,
+   "killed_by_guard": false,
+   "max_rss_kib": 16871056,
+   "mem_available_low_gib": 55.4,
+   "pid": 3827089,
+   "rc": 0,
+   "tag": "phase0-census",
+   "wall_s": 1804.3
+  },
+  "closure": {
+   "cpu_s": 264.1,
+   "killed_by_guard": false,
+   "max_rss_kib": 20531000,
+   "mem_available_low_gib": 56.0,
+   "pid": 3969008,
+   "rc": 0,
+   "tag": "phase0-closure",
+   "wall_s": 268.7
+  }
+ },
+ "registry_alive": 0,
+ "run_dir": "<cache>/rung3-conron-fleet-20261027",
+ "shards": {
+  "fault:B_right_06": {
+   "accepted": null,
+   "attempts": 1,
+   "bytes": 486900272,
+   "cpu_s": 973.0,
+   "exit_code": 1,
+   "export_wall_s": 48.1,
+   "lines": [
+    "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=190.157s"
+   ],
+   "maxrss_kib": 2094424,
+   "sha256": "b31f8d7b68ea3e8bb44cec7d4fd33c951d5574be7c1ecd3ef7bb04c86c8354ac",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 294.4,
+     "id": "m_agqx35qal3s4ihnknad2uxribq",
+     "provider": "instabox",
+     "running_s": 289,
+     "spec": "8/16",
+     "usd": 0.00545
+    }
+   ],
+   "wall_s": 190.7
+  },
+  "fault:B_right_06#novita": {
+   "accepted": null,
+   "attempts": 1,
+   "bytes": 486900272,
+   "cpu_s": 548.1,
+   "exit_code": 1,
+   "export_wall_s": 48.1,
+   "lines": [
+    "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=357.456s"
+   ],
+   "maxrss_kib": 1526688,
+   "sha256": "b31f8d7b68ea3e8bb44cec7d4fd33c951d5574be7c1ecd3ef7bb04c86c8354ac",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 811.3,
+     "id": "imh3fwm23rpyxqtwlei6p",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.02629
+    }
+   ],
+   "wall_s": 357.9
+  },
+  "site:B_bottom_00": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 516017694,
+   "cpu_s": 7907.4,
+   "exit_code": 0,
+   "export_wall_s": 52.8,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2307688,
+   "sha256": "9baa74bb67d15b8b3012b3f6128b2ec1e8f8d2676c31468870b01ef63a9046a6",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1417.1,
+     "id": "m_agqx4pmekkbjfdcv4gaogx2dim",
+     "provider": "instabox",
+     "running_s": 1413,
+     "spec": "8/16",
+     "usd": 0.02669
+    }
+   ],
+   "wall_s": 1086.4
+  },
+  "site:B_bottom_01": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515810195,
+   "cpu_s": 9089.0,
+   "exit_code": 0,
+   "export_wall_s": 60.2,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2341768,
+   "sha256": "1e2d47f12ac79625e105c1bc780bacb773db270e1c8e38314c49b0a048bf5812",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1749.2,
+     "id": "m_agqx4gnryybmmfgxbfyqvi7k2u",
+     "provider": "instabox",
+     "running_s": 1416,
+     "spec": "8/16",
+     "usd": 0.02674
+    }
+   ],
+   "wall_s": 1261.9
+  },
+  "site:B_bottom_02": {
+   "accepted": 63776,
+   "attempts": 1,
+   "bytes": 518392587,
+   "cpu_s": 10175.6,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63776 declarations (--verified)"
+   ],
+   "maxrss_kib": 2307764,
+   "sha256": "be4bc9f4ba81144ea82183913197fa47386a9e3b675bc0be12bfa4fafb5ef8d2",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1751.7,
+     "id": "m_agqx4l44cu6aux2ajpqzakwzti",
+     "provider": "instabox",
+     "running_s": 1745,
+     "spec": "8/16",
+     "usd": 0.03295
+    }
+   ],
+   "wall_s": 1454.3
+  },
+  "site:B_bottom_03": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516597676,
+   "cpu_s": 9306.8,
+   "exit_code": 0,
+   "export_wall_s": 52.1,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2335884,
+   "sha256": "2725f2c3b06a1bda2cb1e8e9810f03aadeca85edfc6dc3e13c51f9b79280a941",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1417.4,
+     "id": "m_agqx4yxyc5wl6a6hl3qavhxdnm",
+     "provider": "instabox",
+     "running_s": 1405,
+     "spec": "8/16",
+     "usd": 0.02655
+    }
+   ],
+   "wall_s": 1272.5
+  },
+  "site:B_bottom_04": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515814613,
+   "cpu_s": 8874.6,
+   "exit_code": 0,
+   "export_wall_s": 54.0,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2337900,
+   "sha256": "0648330564c27e027871247b2c3e28534d658c538a58590aa6bb13c366a98cb3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1412.3,
+     "id": "m_agqx4rjchixdcwlgc62zzmvsbu",
+     "provider": "instabox",
+     "running_s": 1409,
+     "spec": "8/16",
+     "usd": 0.02662
+    }
+   ],
+   "wall_s": 1224.1
+  },
+  "site:B_bottom_05": {
+   "accepted": 63493,
+   "attempts": 1,
+   "bytes": 513357435,
+   "cpu_s": 8773.5,
+   "exit_code": 0,
+   "export_wall_s": 56.8,
+   "lines": [
+    "con-ron: accepted 63493 declarations (--verified)"
+   ],
+   "maxrss_kib": 2320980,
+   "sha256": "527df311690858b6310604f5e142f9db1ba729316cddd34bc80b65ba5a005381",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1408.7,
+     "id": "m_agqx4w4ts5jtgp7bkjcgagaqse",
+     "provider": "instabox",
+     "running_s": 1405,
+     "spec": "8/16",
+     "usd": 0.02655
+    }
+   ],
+   "wall_s": 1236.9
+  },
+  "site:B_bottom_06": {
+   "accepted": 63453,
+   "attempts": 1,
+   "bytes": 512490365,
+   "cpu_s": 8425.5,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63453 declarations (--verified)"
+   ],
+   "maxrss_kib": 2341436,
+   "sha256": "315baeff9034173992b1f68f2cbe28c5f1a46b3c726d5b4b3b32161a68271e1f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1425.2,
+     "id": "m_agqx4nwczhuijmdiv7pfnkqu6q",
+     "provider": "instabox",
+     "running_s": 1421,
+     "spec": "8/16",
+     "usd": 0.02684
+    }
+   ],
+   "wall_s": 1161.4
+  },
+  "site:B_bottom_07": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516591897,
+   "cpu_s": 8945.3,
+   "exit_code": 0,
+   "export_wall_s": 60.4,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2306164,
+   "sha256": "273b851c7b1398ad64cf7db3e5ee62bbd28a47318e651b6296a63a7a9b3a6524",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1409.5,
+     "id": "m_agqx42uf2qtkf4qr6vfdqjdk2i",
+     "provider": "instabox",
+     "running_s": 1406,
+     "spec": "8/16",
+     "usd": 0.02655
+    }
+   ],
+   "wall_s": 1211.1
+  },
+  "site:B_bottom_08": {
+   "accepted": 63588,
+   "attempts": 1,
+   "bytes": 515020162,
+   "cpu_s": 8069.8,
+   "exit_code": 0,
+   "export_wall_s": 54.5,
+   "lines": [
+    "con-ron: accepted 63588 declarations (--verified)"
+   ],
+   "maxrss_kib": 2311200,
+   "sha256": "e26b50ceb1ca6c1a43201fb4cb1e183f0e226fe47e606383d7f7cded17388c17",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1403.1,
+     "id": "m_agqx46p2o7zlzvncd7wvbedfuy",
+     "provider": "instabox",
+     "running_s": 1400,
+     "spec": "8/16",
+     "usd": 0.02644
+    }
+   ],
+   "wall_s": 1082.7
+  },
+  "site:B_bottom_09": {
+   "accepted": 63540,
+   "attempts": 1,
+   "bytes": 514197046,
+   "cpu_s": 8840.4,
+   "exit_code": 0,
+   "export_wall_s": 52.2,
+   "lines": [
+    "con-ron: accepted 63540 declarations (--verified)"
+   ],
+   "maxrss_kib": 2320680,
+   "sha256": "14f9786c4421477cd8b9f5e464fb9fd0efa6b71bf7c97384b7a5e16b91e981d7",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1417.0,
+     "id": "m_agqx4pmertgffhrrgrq73jz3f4",
+     "provider": "instabox",
+     "running_s": 1412,
+     "spec": "8/16",
+     "usd": 0.02667
+    }
+   ],
+   "wall_s": 1228.3
+  },
+  "site:B_bottom_10": {
+   "accepted": 63406,
+   "attempts": 1,
+   "bytes": 511612656,
+   "cpu_s": 7753.8,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 63406 declarations (--verified)"
+   ],
+   "maxrss_kib": 2321248,
+   "sha256": "f7d2eb3321f70ad57dd25a7d09986f2ad29bd3a3dd5675493dff7eb990f2ba7a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1096.2,
+     "id": "m_agqx4zecjw7zdbu36uprwfxz6a",
+     "provider": "instabox",
+     "running_s": 1092,
+     "spec": "8/16",
+     "usd": 0.02063
+    }
+   ],
+   "wall_s": 1064.6
+  },
+  "site:B_bottom_11": {
+   "accepted": 63359,
+   "attempts": 1,
+   "bytes": 510773020,
+   "cpu_s": 8351.5,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 63359 declarations (--verified)"
+   ],
+   "maxrss_kib": 2402724,
+   "sha256": "3e31ea8c316eddf32389c4ab550ffa3a1e098b9bc3adda1dda3684b8a3411c01",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1419.9,
+     "id": "m_agqx4hnxbnezlma6sytgwidhti",
+     "provider": "instabox",
+     "running_s": 1416,
+     "spec": "8/16",
+     "usd": 0.02675
+    }
+   ],
+   "wall_s": 1147.4
+  },
+  "site:B_bottom_12": {
+   "accepted": 63540,
+   "attempts": 1,
+   "bytes": 514183786,
+   "cpu_s": 8583.4,
+   "exit_code": 0,
+   "export_wall_s": 58.0,
+   "lines": [
+    "con-ron: accepted 63540 declarations (--verified)"
+   ],
+   "maxrss_kib": 2350248,
+   "sha256": "f3dfbf5e2c0cb3e509e0906c5fbf3e8fbe0cda6e4e47087a729416d9be119e2c",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1747.4,
+     "id": "m_agqx4godd3ch6x5wsvaztilg7a",
+     "provider": "instabox",
+     "running_s": 1414,
+     "spec": "8/16",
+     "usd": 0.0267
+    }
+   ],
+   "wall_s": 1183.7
+  },
+  "site:B_bottom_13": {
+   "accepted": 63170,
+   "attempts": 1,
+   "bytes": 507501270,
+   "cpu_s": 7163.7,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 63170 declarations (--verified)"
+   ],
+   "maxrss_kib": 2304072,
+   "sha256": "817b42e98d36d96f190472c7e502b3175ae6199bc8bff3fed6ff563be04c50b8",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1108.9,
+     "id": "m_agqx4oblypaxshr7oi7bbeikkm",
+     "provider": "instabox",
+     "running_s": 1104,
+     "spec": "8/16",
+     "usd": 0.02086
+    }
+   ],
+   "wall_s": 961.7
+  },
+  "site:B_bottom_14": {
+   "accepted": 63210,
+   "attempts": 1,
+   "bytes": 508399592,
+   "cpu_s": 6411.9,
+   "exit_code": 0,
+   "export_wall_s": 52.1,
+   "lines": [
+    "con-ron: accepted 63210 declarations (--verified)"
+   ],
+   "maxrss_kib": 2331744,
+   "sha256": "98b2f0027f6d76012b9fd2a041296bf269ffe3013bac6635c5664e098bd5f66a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1506.8,
+     "id": "m_agqx4gwzjg7glzrzw2y6byhejm",
+     "provider": "instabox",
+     "running_s": 1101,
+     "spec": "8/16",
+     "usd": 0.02079
+    }
+   ],
+   "wall_s": 901.3
+  },
+  "site:B_bottom_15": {
+   "accepted": 63210,
+   "attempts": 1,
+   "bytes": 508436757,
+   "cpu_s": 7068.3,
+   "exit_code": 0,
+   "export_wall_s": 48.0,
+   "lines": [
+    "con-ron: accepted 63210 declarations (--verified)"
+   ],
+   "maxrss_kib": 2302108,
+   "sha256": "fd90205f54dc0d433c506f09b8b39c0a77d3b1dd7e8f47d0d790199da36ac709",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1436.5,
+     "id": "m_agqx4gpcwsvkrwcmvgn2k6yghy",
+     "provider": "instabox",
+     "running_s": 1094,
+     "spec": "8/16",
+     "usd": 0.02066
+    }
+   ],
+   "wall_s": 1033.4
+  },
+  "site:B_bottom_16": {
+   "accepted": 63257,
+   "attempts": 1,
+   "bytes": 509288455,
+   "cpu_s": 6934.7,
+   "exit_code": 0,
+   "export_wall_s": 52.3,
+   "lines": [
+    "con-ron: accepted 63257 declarations (--verified)"
+   ],
+   "maxrss_kib": 2311396,
+   "sha256": "9f954ce81b1a1e1db7a1313c0fc151f4f75c71f7e8f8bfacca0f8a023f02e3fe",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1091.6,
+     "id": "m_agqx447w6dfwqdshxvorjuqcci",
+     "provider": "instabox",
+     "running_s": 1089,
+     "spec": "8/16",
+     "usd": 0.02057
+    }
+   ],
+   "wall_s": 964.2
+  },
+  "site:B_bottom_17": {
+   "accepted": 62988,
+   "attempts": 1,
+   "bytes": 504147730,
+   "cpu_s": 5832.4,
+   "exit_code": 0,
+   "export_wall_s": 50.2,
+   "lines": [
+    "con-ron: accepted 62988 declarations (--verified)"
+   ],
+   "maxrss_kib": 2315140,
+   "sha256": "8e604ad3d50fc4ee83e84176ebf924a9c116b3a554515cbf1616889244377da8",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1528.3,
+     "id": "m_agqx4gxhm4jp7y67uxsj6zjjfm",
+     "provider": "instabox",
+     "running_s": 1120,
+     "spec": "8/16",
+     "usd": 0.02116
+    }
+   ],
+   "wall_s": 873.0
+  },
+  "site:B_bottom_18": {
+   "accepted": 62934,
+   "attempts": 1,
+   "bytes": 503399147,
+   "cpu_s": 6522.7,
+   "exit_code": 0,
+   "export_wall_s": 48.2,
+   "lines": [
+    "con-ron: accepted 62934 declarations (--verified)"
+   ],
+   "maxrss_kib": 2288612,
+   "sha256": "7549b03c9c9193a1e45de2590359b10ea34b235c1b103f4273bdbff4ea943da1",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1094.8,
+     "id": "m_agqx4ttutueutrsbl2v2ovhs3y",
+     "provider": "instabox",
+     "running_s": 1091,
+     "spec": "8/16",
+     "usd": 0.02061
+    }
+   ],
+   "wall_s": 931.2
+  },
+  "site:B_bottom_19": {
+   "accepted": 62846,
+   "attempts": 1,
+   "bytes": 501713400,
+   "cpu_s": 6008.1,
+   "exit_code": 0,
+   "export_wall_s": 48.0,
+   "lines": [
+    "con-ron: accepted 62846 declarations (--verified)"
+   ],
+   "maxrss_kib": 2319188,
+   "sha256": "7dcb30131011d89defee4c061483f4960c92c7c59f6f092a2303828603a38ded",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1106.6,
+     "id": "m_agqx4k6tykpp52wee4vwqkqvzi",
+     "provider": "instabox",
+     "running_s": 1101,
+     "spec": "8/16",
+     "usd": 0.0208
+    }
+   ],
+   "wall_s": 825.9
+  },
+  "site:B_bottom_20": {
+   "accepted": 62799,
+   "attempts": 1,
+   "bytes": 500854225,
+   "cpu_s": 4937.5,
+   "exit_code": 0,
+   "export_wall_s": 50.1,
+   "lines": [
+    "con-ron: accepted 62799 declarations (--verified)"
+   ],
+   "maxrss_kib": 2308728,
+   "sha256": "6f714b70be19b640620af86982cdffeb9faa7b0cefa7dbc72c1d1f24f870a7f2",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 803.0,
+     "id": "m_agqx43b6sfa5wsgvlnjbxlrvbq",
+     "provider": "instabox",
+     "running_s": 787,
+     "spec": "8/16",
+     "usd": 0.01487
+    }
+   ],
+   "wall_s": 696.4
+  },
+  "site:B_bottom_21": {
+   "accepted": 62894,
+   "attempts": 1,
+   "bytes": 502502604,
+   "cpu_s": 5642.5,
+   "exit_code": 0,
+   "export_wall_s": 46.0,
+   "lines": [
+    "con-ron: accepted 62894 declarations (--verified)"
+   ],
+   "maxrss_kib": 2336672,
+   "sha256": "694aaa80b83f3ea763bb733a3974c851866e2fa1ef75ba117166540e317a3a84",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1343.8,
+     "id": "m_agqx4gzpid5ld2ghttfeogrjy4",
+     "provider": "instabox",
+     "running_s": 1101,
+     "spec": "8/16",
+     "usd": 0.02081
+    }
+   ],
+   "wall_s": 832.5
+  },
+  "site:B_bottom_22": {
+   "accepted": 62934,
+   "attempts": 1,
+   "bytes": 503390082,
+   "cpu_s": 6278.7,
+   "exit_code": 0,
+   "export_wall_s": 48.0,
+   "lines": [
+    "con-ron: accepted 62934 declarations (--verified)"
+   ],
+   "maxrss_kib": 2312380,
+   "sha256": "2dca0d36bd999705b7c92715d10508aca348fc0f96a40b561991f9c9aeeed29c",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1093.3,
+     "id": "m_agqx4vnw2756r2q4wjgxeecbxe",
+     "provider": "instabox",
+     "running_s": 1089,
+     "spec": "8/16",
+     "usd": 0.02056
+    }
+   ],
+   "wall_s": 926.7
+  },
+  "site:B_bottom_23": {
+   "accepted": 62005,
+   "attempts": 1,
+   "bytes": 486795397,
+   "cpu_s": 2395.5,
+   "exit_code": 0,
+   "export_wall_s": 42.0,
+   "lines": [
+    "con-ron: accepted 62005 declarations (--verified)"
+   ],
+   "maxrss_kib": 1539696,
+   "sha256": "7d023c3eca152218a49cb7bde7df75123967d74da56e9a58e232fa4580fbd599",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1395.6,
+     "id": "i3nyqv7w280hrsxydlu0m",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.04522
+    }
+   ],
+   "wall_s": 1208.2
+  },
+  "site:B_left_00": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515799825,
+   "cpu_s": 8326.7,
+   "exit_code": 0,
+   "export_wall_s": 61.1,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2329156,
+   "sha256": "533dbb736a988f735c6f2f2aaa04fd918b61c286e4346523e9e76fe5010aac6b",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1407.7,
+     "id": "m_agqx4thkc3ldqmgtjlv7v5bsda",
+     "provider": "instabox",
+     "running_s": 1404,
+     "spec": "8/16",
+     "usd": 0.02653
+    }
+   ],
+   "wall_s": 1140.8
+  },
+  "site:B_left_01": {
+   "accepted": 63918,
+   "attempts": 1,
+   "bytes": 520708249,
+   "cpu_s": 9749.3,
+   "exit_code": 0,
+   "export_wall_s": 56.3,
+   "lines": [
+    "con-ron: accepted 63918 declarations (--verified)"
+   ],
+   "maxrss_kib": 2474520,
+   "sha256": "b95021e9f253a3ee2f021425fb8ba33e24902ca92ec764c812ddb53f114bbb41",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1827.8,
+     "id": "m_agqx4f3fl7or3iga62irzln4da",
+     "provider": "instabox",
+     "running_s": 1646,
+     "spec": "8/16",
+     "usd": 0.0311
+    }
+   ],
+   "wall_s": 1329.3
+  },
+  "site:B_left_02": {
+   "accepted": 63831,
+   "attempts": 1,
+   "bytes": 518990029,
+   "cpu_s": 10423.9,
+   "exit_code": 0,
+   "export_wall_s": 60.2,
+   "lines": [
+    "con-ron: accepted 63831 declarations (--verified)"
+   ],
+   "maxrss_kib": 2423068,
+   "sha256": "95a393000c984992679496853e5bc066a13681db3ef031b69da03adf6837e836",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1712.9,
+     "id": "m_agqx4geb7bhfdrufuxlsqidpyi",
+     "provider": "instabox",
+     "running_s": 1460,
+     "spec": "8/16",
+     "usd": 0.02758
+    }
+   ],
+   "wall_s": 1422.0
+  },
+  "site:B_left_03": {
+   "accepted": 63729,
+   "attempts": 1,
+   "bytes": 517655306,
+   "cpu_s": 8831.7,
+   "exit_code": 0,
+   "export_wall_s": 54.0,
+   "lines": [
+    "con-ron: accepted 63729 declarations (--verified)"
+   ],
+   "maxrss_kib": 2320320,
+   "sha256": "e12dd00f40e8ee8e3a3fcedb6c19a43059196444b6bad3a7aa633ad3b133439f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1429.2,
+     "id": "m_agqx4nv77qnrq4mttjz77ek35q",
+     "provider": "instabox",
+     "running_s": 1423,
+     "spec": "8/16",
+     "usd": 0.02687
+    }
+   ],
+   "wall_s": 1293.8
+  },
+  "site:B_left_04": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516631922,
+   "cpu_s": 9574.7,
+   "exit_code": 0,
+   "export_wall_s": 56.6,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2374740,
+   "sha256": "296dacf59e1b823fce7ba85a8bec5ca8cd6cc9f8563f835c0ba64f234e98533f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1403.9,
+     "id": "m_agqx44sfiij35kmytc74xyc7nu",
+     "provider": "instabox",
+     "running_s": 1401,
+     "spec": "8/16",
+     "usd": 0.02647
+    }
+   ],
+   "wall_s": 1280.4
+  },
+  "site:B_left_05": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515817345,
+   "cpu_s": 8592.2,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2311672,
+   "sha256": "e724667e041cf05d21b9b4cd09637b20f48fc2cc7bb6563c9073cac13cf27543",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1407.8,
+     "id": "m_agqx4vbmc6bv7dvz2xznwzdzva",
+     "provider": "instabox",
+     "running_s": 1404,
+     "spec": "8/16",
+     "usd": 0.02652
+    }
+   ],
+   "wall_s": 1147.3
+  },
+  "site:B_left_06": {
+   "accepted": 63918,
+   "attempts": 1,
+   "bytes": 520710769,
+   "cpu_s": 10792.8,
+   "exit_code": 0,
+   "export_wall_s": 52.9,
+   "lines": [
+    "con-ron: accepted 63918 declarations (--verified)"
+   ],
+   "maxrss_kib": 2518972,
+   "sha256": "ed33c2b7c1106579aa34046c0ab8b502048a7ea2d76dd062c5460880c8388902",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1713.2,
+     "id": "m_agqx4f22v6m4c5vyd7vg4kkn3y",
+     "provider": "instabox",
+     "running_s": 1535,
+     "spec": "8/16",
+     "usd": 0.029
+    }
+   ],
+   "wall_s": 1471.7
+  },
+  "site:B_left_07": {
+   "accepted": 63831,
+   "attempts": 1,
+   "bytes": 519015563,
+   "cpu_s": 9974.0,
+   "exit_code": 0,
+   "export_wall_s": 60.1,
+   "lines": [
+    "con-ron: accepted 63831 declarations (--verified)"
+   ],
+   "maxrss_kib": 2450868,
+   "sha256": "e3d10114865c54392b97adf448b51a24b354c27c17c8fd643a51e7ef2d64c378",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1409.5,
+     "id": "m_agqx42uf4w3cyi2mmaghjm6hei",
+     "provider": "instabox",
+     "running_s": 1406,
+     "spec": "8/16",
+     "usd": 0.02655
+    }
+   ],
+   "wall_s": 1343.3
+  },
+  "site:B_left_08": {
+   "accepted": 63729,
+   "attempts": 1,
+   "bytes": 517462234,
+   "cpu_s": 8749.0,
+   "exit_code": 0,
+   "export_wall_s": 54.2,
+   "lines": [
+    "con-ron: accepted 63729 declarations (--verified)"
+   ],
+   "maxrss_kib": 2329772,
+   "sha256": "a028fa4be68b2b4127dcfbe0941d78835fd7834bd162b312981cd6820396caaa",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1418.4,
+     "id": "m_agqx4pmephdshsrhdkhgyqca3m",
+     "provider": "instabox",
+     "running_s": 1414,
+     "spec": "8/16",
+     "usd": 0.02671
+    }
+   ],
+   "wall_s": 1209.1
+  },
+  "site:B_left_09": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516806262,
+   "cpu_s": 9539.2,
+   "exit_code": 0,
+   "export_wall_s": 54.3,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2385264,
+   "sha256": "3b348b761dccc20ebe515b48c8f1c6052724fa4d64e960c2d4cfce69b65a0544",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1428.2,
+     "id": "m_agqx4kifc2g374tdldpkobbw2u",
+     "provider": "instabox",
+     "running_s": 1423,
+     "spec": "8/16",
+     "usd": 0.02689
+    }
+   ],
+   "wall_s": 1277.7
+  },
+  "site:B_left_10": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515826857,
+   "cpu_s": 8633.9,
+   "exit_code": 0,
+   "export_wall_s": 57.8,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2292404,
+   "sha256": "bf733057e34f9aab0bcc204bcf195f1dfd3b7111cb016ff68ec7d114bd5eb196",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1409.4,
+     "id": "m_agqx4w4tnmfolm7glsjkcjajma",
+     "provider": "instabox",
+     "running_s": 1406,
+     "spec": "8/16",
+     "usd": 0.02655
+    }
+   ],
+   "wall_s": 1155.2
+  },
+  "site:B_left_11": {
+   "accepted": 64046,
+   "attempts": 1,
+   "bytes": 523375748,
+   "cpu_s": 9798.9,
+   "exit_code": 0,
+   "export_wall_s": 56.0,
+   "lines": [
+    "con-ron: accepted 64046 declarations (--verified)"
+   ],
+   "maxrss_kib": 2497428,
+   "sha256": "5881921eaf6c25df90ec5cbb9c7d2c7f91fe409cc88594d8f2b8a9822e0278d2",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1402.6,
+     "id": "m_agqx46bb65u7mzzynbmhx43waa",
+     "provider": "instabox",
+     "running_s": 1400,
+     "spec": "8/16",
+     "usd": 0.02644
+    }
+   ],
+   "wall_s": 1296.3
+  },
+  "site:B_left_12": {
+   "accepted": 63831,
+   "attempts": 1,
+   "bytes": 518977649,
+   "cpu_s": 10576.4,
+   "exit_code": 0,
+   "export_wall_s": 58.2,
+   "lines": [
+    "con-ron: accepted 63831 declarations (--verified)"
+   ],
+   "maxrss_kib": 2327464,
+   "sha256": "48858ca9c1623769061c8a4076ecd911b9a01c71948b7ea9cd1c5856a3f55d3f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1715.9,
+     "id": "m_agqx44sfj6ulxvabz2et7giegq",
+     "provider": "instabox",
+     "running_s": 1713,
+     "spec": "8/16",
+     "usd": 0.03236
+    }
+   ],
+   "wall_s": 1443.6
+  },
+  "site:B_left_13": {
+   "accepted": 63729,
+   "attempts": 1,
+   "bytes": 517431352,
+   "cpu_s": 9174.7,
+   "exit_code": 0,
+   "export_wall_s": 58.2,
+   "lines": [
+    "con-ron: accepted 63729 declarations (--verified)"
+   ],
+   "maxrss_kib": 2342032,
+   "sha256": "c2b117da64c5a7b0782798754b34791d4ae8dfbf4866287cc3db47d1041aa716",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1838.7,
+     "id": "m_agqx4geoyjr2t7fk723ttd4euq",
+     "provider": "instabox",
+     "running_s": 1581,
+     "spec": "8/16",
+     "usd": 0.02986
+    }
+   ],
+   "wall_s": 1203.8
+  },
+  "site:B_left_14": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516589973,
+   "cpu_s": 9695.0,
+   "exit_code": 0,
+   "export_wall_s": 52.3,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2290096,
+   "sha256": "71d0c899d030a54fdc99a9040d55da4bfdabcf19faae5e366aee47c84f93c5bf",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1421.8,
+     "id": "m_agqx4ivjd3zzqvjcquhtuyj6qu",
+     "provider": "instabox",
+     "running_s": 1418,
+     "spec": "8/16",
+     "usd": 0.02679
+    }
+   ],
+   "wall_s": 1290.8
+  },
+  "site:B_left_15": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515812313,
+   "cpu_s": 8721.8,
+   "exit_code": 0,
+   "export_wall_s": 52.4,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2402696,
+   "sha256": "9b07ef0cee7b23ef8017846692332c58095f9f56943bff62c7105ef440336754",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1409.8,
+     "id": "m_agqx4yxzh2wxncfboe4aluiiqa",
+     "provider": "instabox",
+     "running_s": 1405,
+     "spec": "8/16",
+     "usd": 0.02655
+    }
+   ],
+   "wall_s": 1155.2
+  },
+  "site:B_left_16": {
+   "accepted": 63588,
+   "attempts": 1,
+   "bytes": 515062601,
+   "cpu_s": 7970.1,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63588 declarations (--verified)"
+   ],
+   "maxrss_kib": 2318856,
+   "sha256": "39c05fd8b365bc7ecc64a145ea706749161269268e21d9f4e918c7f3e79e102f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1109.1,
+     "id": "m_agqx4mdcddj5bwoi5xytuwiq2i",
+     "provider": "instabox",
+     "running_s": 1104,
+     "spec": "8/16",
+     "usd": 0.02086
+    }
+   ],
+   "wall_s": 1063.7
+  },
+  "site:B_left_17": {
+   "accepted": 63918,
+   "attempts": 1,
+   "bytes": 520759639,
+   "cpu_s": 11222.2,
+   "exit_code": 0,
+   "export_wall_s": 54.0,
+   "lines": [
+    "con-ron: accepted 63918 declarations (--verified)"
+   ],
+   "maxrss_kib": 2336936,
+   "sha256": "04ee8b56d24f047a5ed78763d59497430fc58bf0e08dbb28d2452351d2811849",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2031.9,
+     "id": "m_agqx4f2zgtd4cjfcrb4wdlrmrq",
+     "provider": "instabox",
+     "running_s": 1853,
+     "spec": "8/16",
+     "usd": 0.035
+    }
+   ],
+   "wall_s": 1618.0
+  },
+  "site:B_left_18": {
+   "accepted": 63776,
+   "attempts": 1,
+   "bytes": 518392635,
+   "cpu_s": 9445.5,
+   "exit_code": 0,
+   "export_wall_s": 54.4,
+   "lines": [
+    "con-ron: accepted 63776 declarations (--verified)"
+   ],
+   "maxrss_kib": 2366308,
+   "sha256": "e94e2aec908ab7df3c3b9795de44e0169ebf51a8519dcf10afcce0465fb92710",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1409.9,
+     "id": "m_agqx4ywqsgjbqqopjtjzyga24e",
+     "provider": "instabox",
+     "running_s": 1405,
+     "spec": "8/16",
+     "usd": 0.02654
+    }
+   ],
+   "wall_s": 1342.1
+  },
+  "site:B_left_19": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516678639,
+   "cpu_s": 9863.9,
+   "exit_code": 0,
+   "export_wall_s": 54.1,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2365612,
+   "sha256": "19df148ed02ac3e9430f5b32b5dae91b647f50ba450ff51231cb0420c68417c3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1715.1,
+     "id": "m_agqx4geqs24ntvgis6snfb5wmm",
+     "provider": "instabox",
+     "running_s": 1458,
+     "spec": "8/16",
+     "usd": 0.02754
+    }
+   ],
+   "wall_s": 1351.1
+  },
+  "site:B_left_20": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515872377,
+   "cpu_s": 8761.9,
+   "exit_code": 0,
+   "export_wall_s": 58.0,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2341572,
+   "sha256": "6281324d84edd0f6031ec6be53403ccd141ad7c15dd545696106d53201cb9f10",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1409.4,
+     "id": "m_agqx42uf33y2se5m7un4y7vv7q",
+     "provider": "instabox",
+     "running_s": 1405,
+     "spec": "8/16",
+     "usd": 0.02655
+    }
+   ],
+   "wall_s": 1227.4
+  },
+  "site:B_left_21": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515908386,
+   "cpu_s": 9277.1,
+   "exit_code": 0,
+   "export_wall_s": 56.2,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2423268,
+   "sha256": "c3046d2bd12e246db828ecab38752b1e318bc30c66d4e6090c04c45e0ecf7116",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1403.8,
+     "id": "m_agqx44tms5jzvltse4ql7txy3q",
+     "provider": "instabox",
+     "running_s": 1401,
+     "spec": "8/16",
+     "usd": 0.02647
+    }
+   ],
+   "wall_s": 1231.3
+  },
+  "site:B_left_22": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516872876,
+   "cpu_s": 9821.0,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2360440,
+   "sha256": "7975c2f781d825447fbf129fd7159e21f481f0f66663e583ec15552d97c5f5dc",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1716.6,
+     "id": "m_agqx4gev35wayahkoksmnovt4q",
+     "provider": "instabox",
+     "running_s": 1458,
+     "spec": "8/16",
+     "usd": 0.02754
+    }
+   ],
+   "wall_s": 1329.4
+  },
+  "site:B_left_23": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516638892,
+   "cpu_s": 9946.5,
+   "exit_code": 0,
+   "export_wall_s": 55.5,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2366512,
+   "sha256": "4a5da773c2174c66fbfc85456cbd9ad5e6b298a9fe4c0825b88852cda42ead8d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1744.0,
+     "id": "m_agqx4gy6zzv5sgf43uneqztwoq",
+     "provider": "instabox",
+     "running_s": 1414,
+     "spec": "8/16",
+     "usd": 0.02672
+    }
+   ],
+   "wall_s": 1388.9
+  },
+  "site:B_left_24": {
+   "accepted": 63729,
+   "attempts": 1,
+   "bytes": 517472918,
+   "cpu_s": 8767.2,
+   "exit_code": 0,
+   "export_wall_s": 54.4,
+   "lines": [
+    "con-ron: accepted 63729 declarations (--verified)"
+   ],
+   "maxrss_kib": 2356676,
+   "sha256": "d0930a384c235060e20657864658d186cc35b5246f3b43aa80b0590750779d17",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1412.3,
+     "id": "m_agqx4rjb5yxhz53egmc7wrp7ti",
+     "provider": "instabox",
+     "running_s": 1409,
+     "spec": "8/16",
+     "usd": 0.02661
+    }
+   ],
+   "wall_s": 1182.3
+  },
+  "site:B_left_25": {
+   "accepted": 63776,
+   "attempts": 1,
+   "bytes": 518312897,
+   "cpu_s": 9813.3,
+   "exit_code": 0,
+   "export_wall_s": 54.0,
+   "lines": [
+    "con-ron: accepted 63776 declarations (--verified)"
+   ],
+   "maxrss_kib": 2347508,
+   "sha256": "555674ec1851262107a99f4778a2ceced28d556481132806c5f6762bb2025afc",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1427.3,
+     "id": "m_agqx4kidpk7lyes7h2yaxxq2ca",
+     "provider": "instabox",
+     "running_s": 1424,
+     "spec": "8/16",
+     "usd": 0.0269
+    }
+   ],
+   "wall_s": 1319.1
+  },
+  "site:B_left_26": {
+   "accepted": 63831,
+   "attempts": 1,
+   "bytes": 519039099,
+   "cpu_s": 9802.0,
+   "exit_code": 0,
+   "export_wall_s": 54.4,
+   "lines": [
+    "con-ron: accepted 63831 declarations (--verified)"
+   ],
+   "maxrss_kib": 2345272,
+   "sha256": "14d2fcedf7d1b4b0cfcbd7ce64cf4210fef1a76f923414ffec0a04c7db70cd9f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1712.6,
+     "id": "m_agqx4geftvhopk3o2sb6avdnvm",
+     "provider": "instabox",
+     "running_s": 1459,
+     "spec": "8/16",
+     "usd": 0.02756
+    }
+   ],
+   "wall_s": 1346.6
+  },
+  "site:B_left_27": {
+   "accepted": 63871,
+   "attempts": 1,
+   "bytes": 519871799,
+   "cpu_s": 10105.1,
+   "exit_code": 0,
+   "export_wall_s": 60.0,
+   "lines": [
+    "con-ron: accepted 63871 declarations (--verified)"
+   ],
+   "maxrss_kib": 2420712,
+   "sha256": "579de7803b2fb3085ce9efb12bac2c4356eb22a7efde73dbc32f9d595874b20a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1721.4,
+     "id": "m_agqx42flqyuu3dewqptlkyproi",
+     "provider": "instabox",
+     "running_s": 1718,
+     "spec": "8/16",
+     "usd": 0.03244
+    }
+   ],
+   "wall_s": 1402.4
+  },
+  "site:B_left_28": {
+   "accepted": 63998,
+   "attempts": 1,
+   "bytes": 522591754,
+   "cpu_s": 10094.9,
+   "exit_code": 0,
+   "export_wall_s": 54.0,
+   "lines": [
+    "con-ron: accepted 63998 declarations (--verified)"
+   ],
+   "maxrss_kib": 2369236,
+   "sha256": "aefcf5c1e0c0273db668d6a0c86dbb79706d2c9b3885452d71448493905efcc9",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1742.3,
+     "id": "m_agqx4j47vcoqyqatywyfttfh3y",
+     "provider": "instabox",
+     "running_s": 1738,
+     "spec": "8/16",
+     "usd": 0.03284
+    }
+   ],
+   "wall_s": 1434.7
+  },
+  "site:B_left_29": {
+   "accepted": 63540,
+   "attempts": 1,
+   "bytes": 514210430,
+   "cpu_s": 8072.4,
+   "exit_code": 0,
+   "export_wall_s": 54.4,
+   "lines": [
+    "con-ron: accepted 63540 declarations (--verified)"
+   ],
+   "maxrss_kib": 2353692,
+   "sha256": "60d4cfe2320a0f51d2c1cb7b01017120eb1e1080ed7dd0149119779334ddc28b",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1412.2,
+     "id": "m_agqx4rjciyqqhaox5erjpafmha",
+     "provider": "instabox",
+     "running_s": 1409,
+     "spec": "8/16",
+     "usd": 0.02662
+    }
+   ],
+   "wall_s": 1147.7
+  },
+  "site:B_left_30": {
+   "accepted": 63588,
+   "attempts": 1,
+   "bytes": 515064364,
+   "cpu_s": 7892.2,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 63588 declarations (--verified)"
+   ],
+   "maxrss_kib": 2331428,
+   "sha256": "dbe09a50682cbf1c62dec88966ede3a0d77e8c55ec2145c2c90bbc10cbd443b5",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1756.3,
+     "id": "m_agqx4gocw35q545jlm3hu2kmqi",
+     "provider": "instabox",
+     "running_s": 1421,
+     "spec": "8/16",
+     "usd": 0.02685
+    }
+   ],
+   "wall_s": 1096.1
+  },
+  "site:B_left_31": {
+   "accepted": 63588,
+   "attempts": 1,
+   "bytes": 515038383,
+   "cpu_s": 9636.4,
+   "exit_code": 0,
+   "export_wall_s": 50.1,
+   "lines": [
+    "con-ron: accepted 63588 declarations (--verified)"
+   ],
+   "maxrss_kib": 2292340,
+   "sha256": "2ea94368bc184918ee64f3c64c40e30d86b03fb9532c934282155b33cc35d084",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1419.3,
+     "id": "m_agqx4hd4yj7jp73fkvvmzpzdtu",
+     "provider": "instabox",
+     "running_s": 1414,
+     "spec": "8/16",
+     "usd": 0.02671
+    }
+   ],
+   "wall_s": 1327.6
+  },
+  "site:B_left_32": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515842113,
+   "cpu_s": 8772.7,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2361376,
+   "sha256": "eba31bd756ce564f3344306b4fc9732fa10ca018de7c504231b16ab732d7c628",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1426.1,
+     "id": "m_agqx4kv5cf3zebnwtrtzv2spcq",
+     "provider": "instabox",
+     "running_s": 1422,
+     "spec": "8/16",
+     "usd": 0.02686
+    }
+   ],
+   "wall_s": 1214.7
+  },
+  "site:B_left_33": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515852791,
+   "cpu_s": 9379.9,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2294212,
+   "sha256": "204efbd5f2560ea2d4b897307edd44de1fc3c4a34f1b93e55045d6a42e34d799",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1422.5,
+     "id": "m_agqx4ivjtihrdxwry2432b6aiq",
+     "provider": "instabox",
+     "running_s": 1419,
+     "spec": "8/16",
+     "usd": 0.02679
+    }
+   ],
+   "wall_s": 1290.1
+  },
+  "site:B_left_34": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516729968,
+   "cpu_s": 8442.0,
+   "exit_code": 0,
+   "export_wall_s": 52.5,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2409332,
+   "sha256": "a7c456381018e601a92e4956d459010f834b4d257dfe30e26e89e5f7df6202c0",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1403.2,
+     "id": "m_agqx46oth7rra23uwhnjqmt5aq",
+     "provider": "instabox",
+     "running_s": 1400,
+     "spec": "8/16",
+     "usd": 0.02644
+    }
+   ],
+   "wall_s": 1113.4
+  },
+  "site:B_left_35": {
+   "accepted": 63729,
+   "attempts": 1,
+   "bytes": 517571830,
+   "cpu_s": 10003.9,
+   "exit_code": 0,
+   "export_wall_s": 60.1,
+   "lines": [
+    "con-ron: accepted 63729 declarations (--verified)"
+   ],
+   "maxrss_kib": 2353128,
+   "sha256": "2cd655e796968c91cb78cffeea19ac0298b53da38b64de3bac8b8729fc24b8d3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1408.1,
+     "id": "m_agqx4tgc5ugcmxu4imwwooxaru",
+     "provider": "instabox",
+     "running_s": 1404,
+     "spec": "8/16",
+     "usd": 0.02652
+    }
+   ],
+   "wall_s": 1362.2
+  },
+  "site:B_left_36": {
+   "accepted": 63776,
+   "attempts": 1,
+   "bytes": 518406220,
+   "cpu_s": 9383.5,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63776 declarations (--verified)"
+   ],
+   "maxrss_kib": 2423528,
+   "sha256": "c7890083ad891d06abd1c9de2b2ac4078598accdca6baf1271890707d81ef720",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1421.9,
+     "id": "m_agqx4ivi5h5gbdn6zkmytmsxcy",
+     "provider": "instabox",
+     "running_s": 1417,
+     "spec": "8/16",
+     "usd": 0.02677
+    }
+   ],
+   "wall_s": 1294.0
+  },
+  "site:B_left_37": {
+   "accepted": 63831,
+   "attempts": 1,
+   "bytes": 519044119,
+   "cpu_s": 11181.1,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63831 declarations (--verified)"
+   ],
+   "maxrss_kib": 2389116,
+   "sha256": "65ad77a29495639dbb5213316c6c7df1b49887b5be5f35b959e77bde1eab15ad",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2142.2,
+     "id": "m_agqx4gdjmwiagkyg6pw7fdiqlm",
+     "provider": "instabox",
+     "running_s": 1896,
+     "spec": "8/16",
+     "usd": 0.03581
+    }
+   ],
+   "wall_s": 1525.2
+  },
+  "site:B_left_38": {
+   "accepted": 63871,
+   "attempts": 1,
+   "bytes": 520265549,
+   "cpu_s": 10474.5,
+   "exit_code": 0,
+   "export_wall_s": 60.6,
+   "lines": [
+    "con-ron: accepted 63871 declarations (--verified)"
+   ],
+   "maxrss_kib": 2355768,
+   "sha256": "d386d8d61342ad13bbef9308aec5d06b4d7023c4ed8681a2244bc26c41be00d3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1719.1,
+     "id": "m_agqx44etkyi6q6wuybl2yrgjgi",
+     "provider": "instabox",
+     "running_s": 1716,
+     "spec": "8/16",
+     "usd": 0.0324
+    }
+   ],
+   "wall_s": 1434.8
+  },
+  "site:B_left_39": {
+   "accepted": 63998,
+   "attempts": 1,
+   "bytes": 522711115,
+   "cpu_s": 11130.9,
+   "exit_code": 0,
+   "export_wall_s": 54.0,
+   "lines": [
+    "con-ron: accepted 63998 declarations (--verified)"
+   ],
+   "maxrss_kib": 2488648,
+   "sha256": "0a57f720a9fe38241de06f24f823b5ca115b818a4601a4cf31e0ddb90914774f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1737.9,
+     "id": "m_agqx4ikfsyuwqd26tonetu2kxu",
+     "provider": "instabox",
+     "running_s": 1735,
+     "spec": "8/16",
+     "usd": 0.03277
+    }
+   ],
+   "wall_s": 1505.9
+  },
+  "site:B_left_40": {
+   "accepted": 63588,
+   "attempts": 1,
+   "bytes": 515108250,
+   "cpu_s": 9230.0,
+   "exit_code": 0,
+   "export_wall_s": 62.5,
+   "lines": [
+    "con-ron: accepted 63588 declarations (--verified)"
+   ],
+   "maxrss_kib": 2334248,
+   "sha256": "a794b4ea59e51c4f027c4553b32279abe9a4b3a29d779460ba6afae5f7a3bc3d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1745.3,
+     "id": "m_agqx4gn7qm5yxu5cngjbbzc7oa",
+     "provider": "instabox",
+     "running_s": 1412,
+     "spec": "8/16",
+     "usd": 0.02667
+    }
+   ],
+   "wall_s": 1273.0
+  },
+  "site:B_left_41": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515882900,
+   "cpu_s": 7981.5,
+   "exit_code": 0,
+   "export_wall_s": 54.2,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2307936,
+   "sha256": "d1a5c3c04ce11c063f9b2bc6014dcd5a82c26e4d16b9a3311fb481496a29f733",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1745.3,
+     "id": "m_agqx4gnuwkfjjdwffq5msqiawe",
+     "provider": "instabox",
+     "running_s": 1415,
+     "spec": "8/16",
+     "usd": 0.02673
+    }
+   ],
+   "wall_s": 1099.7
+  },
+  "site:B_left_42": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515877596,
+   "cpu_s": 9560.6,
+   "exit_code": 0,
+   "export_wall_s": 50.3,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2305852,
+   "sha256": "ddaeef7a871b97ed8f55a495bc262462b9c5200d9351a87a7286fc763d9caedc",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2061.0,
+     "id": "m_agqx4gn7dfzy24wryfqrsibeie",
+     "provider": "instabox",
+     "running_s": 1727,
+     "spec": "8/16",
+     "usd": 0.03263
+    }
+   ],
+   "wall_s": 1396.1
+  },
+  "site:B_left_43": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516790037,
+   "cpu_s": 9393.5,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2347336,
+   "sha256": "84c38b6a1b74b662d280be5cf81a1f9cf578208771aeee691ff8edef398f9f2f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1723.1,
+     "id": "m_agqx4gferlai3qjim3obotdexi",
+     "provider": "instabox",
+     "running_s": 1462,
+     "spec": "8/16",
+     "usd": 0.02762
+    }
+   ],
+   "wall_s": 1250.1
+  },
+  "site:B_left_44": {
+   "accepted": 63729,
+   "attempts": 1,
+   "bytes": 517573360,
+   "cpu_s": 9481.7,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 63729 declarations (--verified)"
+   ],
+   "maxrss_kib": 2356528,
+   "sha256": "d0a63e6082737a4bd078aa29a39d2e1f3e44041355d0e064b70838c032847fda",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1405.6,
+     "id": "m_agqx4vcuhhpmcytvqzmw5nkigq",
+     "provider": "instabox",
+     "running_s": 1403,
+     "spec": "8/16",
+     "usd": 0.02649
+    }
+   ],
+   "wall_s": 1294.4
+  },
+  "site:B_left_45": {
+   "accepted": 63776,
+   "attempts": 1,
+   "bytes": 518359988,
+   "cpu_s": 9053.8,
+   "exit_code": 0,
+   "export_wall_s": 58.7,
+   "lines": [
+    "con-ron: accepted 63776 declarations (--verified)"
+   ],
+   "maxrss_kib": 2348444,
+   "sha256": "ba0f8b710c0e77b0e722f2880f0dd263f805969181b4fcb16a4fbd9b205161bb",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1403.1,
+     "id": "m_agqx46otfbuxz4phqwe4bznoyu",
+     "provider": "instabox",
+     "running_s": 1400,
+     "spec": "8/16",
+     "usd": 0.02645
+    }
+   ],
+   "wall_s": 1207.2
+  },
+  "site:B_left_46": {
+   "accepted": 63831,
+   "attempts": 1,
+   "bytes": 519071746,
+   "cpu_s": 9320.5,
+   "exit_code": 0,
+   "export_wall_s": 58.5,
+   "lines": [
+    "con-ron: accepted 63831 declarations (--verified)"
+   ],
+   "maxrss_kib": 2345540,
+   "sha256": "731843f34b359fbf3819c0f420baed7919006f6a9d0e441676abef59ed845d5f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1774.1,
+     "id": "m_agqx4gy6uwl22fnxywd5e56c64",
+     "provider": "instabox",
+     "running_s": 1438,
+     "spec": "8/16",
+     "usd": 0.02716
+    }
+   ],
+   "wall_s": 1247.0
+  },
+  "site:B_left_47": {
+   "accepted": 63918,
+   "attempts": 1,
+   "bytes": 520860650,
+   "cpu_s": 11370.8,
+   "exit_code": 0,
+   "export_wall_s": 54.0,
+   "lines": [
+    "con-ron: accepted 63918 declarations (--verified)"
+   ],
+   "maxrss_kib": 2440872,
+   "sha256": "10b2152e967b0ad75d20adaca92791f52d018dd6b4eaf830ffb196d519eb02d3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1743.4,
+     "id": "m_agqx4lrlw67ag3takhprxexovm",
+     "provider": "instabox",
+     "running_s": 1739,
+     "spec": "8/16",
+     "usd": 0.03285
+    }
+   ],
+   "wall_s": 1600.7
+  },
+  "site:B_left_48": {
+   "accepted": 64046,
+   "attempts": 1,
+   "bytes": 523504910,
+   "cpu_s": 9656.4,
+   "exit_code": 0,
+   "export_wall_s": 54.0,
+   "lines": [
+    "con-ron: accepted 64046 declarations (--verified)"
+   ],
+   "maxrss_kib": 2431728,
+   "sha256": "6c994c63b52d15327fbe82419269528aa5384046b7a8bf37062a414334e639cf",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1521.5,
+     "id": "m_agqx4hdpcihjwwxcndbzprh74q",
+     "provider": "instabox",
+     "running_s": 1425,
+     "spec": "8/16",
+     "usd": 0.02692
+    }
+   ],
+   "wall_s": 1264.2
+  },
+  "site:B_left_49": {
+   "accepted": 63635,
+   "attempts": 1,
+   "bytes": 515907948,
+   "cpu_s": 10171.6,
+   "exit_code": 0,
+   "export_wall_s": 56.5,
+   "lines": [
+    "con-ron: accepted 63635 declarations (--verified)"
+   ],
+   "maxrss_kib": 2363300,
+   "sha256": "4ac1a60f72736c6e68273cfe47901942769f8ae9d3d8b20a8fa7cd034f44c8ab",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2058.6,
+     "id": "m_agqx4gzv6gogz5p4lnbnv7w5f4",
+     "provider": "instabox",
+     "running_s": 1733,
+     "spec": "8/16",
+     "usd": 0.03273
+    }
+   ],
+   "wall_s": 1532.7
+  },
+  "site:B_left_50": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516750612,
+   "cpu_s": 9510.1,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2377228,
+   "sha256": "850df2245f258d9332cb9ca0fcdde3679e46f79e9e1c821bedf67f5f97e796d0",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1420.1,
+     "id": "m_agqx4hd25kwbrntsiyvedxhpq4",
+     "provider": "instabox",
+     "running_s": 1416,
+     "spec": "8/16",
+     "usd": 0.02675
+    }
+   ],
+   "wall_s": 1293.6
+  },
+  "site:B_left_51": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516755390,
+   "cpu_s": 8359.8,
+   "exit_code": 0,
+   "export_wall_s": 64.5,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2358424,
+   "sha256": "21cf84ac12fd5ef7355b3020356bfe106a4065821d82384d161329289c352ec5",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1745.8,
+     "id": "m_agqx4gnkrm46c5ngcsp7nlvlem",
+     "provider": "instabox",
+     "running_s": 1417,
+     "spec": "8/16",
+     "usd": 0.02677
+    }
+   ],
+   "wall_s": 1168.8
+  },
+  "site:B_left_52": {
+   "accepted": 63729,
+   "attempts": 1,
+   "bytes": 517552792,
+   "cpu_s": 9013.8,
+   "exit_code": 0,
+   "export_wall_s": 57.9,
+   "lines": [
+    "con-ron: accepted 63729 declarations (--verified)"
+   ],
+   "maxrss_kib": 2329532,
+   "sha256": "d8defd60d201058ee6d85f1b1652767ae373ca235e90fdea860c500018cda84f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1408.4,
+     "id": "m_agqx4w4tcm7yjtqn66ggg5h3yu",
+     "provider": "instabox",
+     "running_s": 1406,
+     "spec": "8/16",
+     "usd": 0.02655
+    }
+   ],
+   "wall_s": 1222.5
+  },
+  "site:B_left_53": {
+   "accepted": 63776,
+   "attempts": 1,
+   "bytes": 518395456,
+   "cpu_s": 8852.3,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63776 declarations (--verified)"
+   ],
+   "maxrss_kib": 2313604,
+   "sha256": "5e837940108731b5ab781559deed15838d237dc6e8aee4b9caef2a54232298eb",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1419.3,
+     "id": "m_agqx4hd2pi7agii6tjwlcx4yve",
+     "provider": "instabox",
+     "running_s": 1416,
+     "spec": "8/16",
+     "usd": 0.02676
+    }
+   ],
+   "wall_s": 1219.6
+  },
+  "site:B_left_54": {
+   "accepted": 63831,
+   "attempts": 1,
+   "bytes": 519047001,
+   "cpu_s": 10313.5,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63831 declarations (--verified)"
+   ],
+   "maxrss_kib": 2532400,
+   "sha256": "4272f5dc9da12f2ff03c68618daa1927c93beb5427e13470cd02785788feb75d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2032.5,
+     "id": "m_agqx4gekz2jkrj2u3zqo676z34",
+     "provider": "instabox",
+     "running_s": 1778,
+     "spec": "8/16",
+     "usd": 0.03359
+    }
+   ],
+   "wall_s": 1448.6
+  },
+  "site:B_left_55": {
+   "accepted": 62988,
+   "attempts": 1,
+   "bytes": 504208813,
+   "cpu_s": 6516.9,
+   "exit_code": 0,
+   "export_wall_s": 50.1,
+   "lines": [
+    "con-ron: accepted 62988 declarations (--verified)"
+   ],
+   "maxrss_kib": 2289684,
+   "sha256": "99c8d6e068ab564d7b8c1bc715d1556682dc58e3bd19b6e5b8074d7f196e8033",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1097.5,
+     "id": "m_agqx4rvvhlhszlv2srzqbgblem",
+     "provider": "instabox",
+     "running_s": 1094,
+     "spec": "8/16",
+     "usd": 0.02067
+    }
+   ],
+   "wall_s": 935.6
+  },
+  "site:B_right_00": {
+   "accepted": 62611,
+   "attempts": 1,
+   "bytes": 497651027,
+   "cpu_s": 4475.3,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 62611 declarations (--verified)"
+   ],
+   "maxrss_kib": 1540064,
+   "sha256": "7f52b9ec72c548ba1f8b258eff4cf62fea319a935cb93b3b55d194661da428ba",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2714.3,
+     "id": "ilo8jbw20or07w3n1fbyx",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.08794
+    }
+   ],
+   "wall_s": 2282.8
+  },
+  "site:B_right_01": {
+   "accepted": 62611,
+   "attempts": 1,
+   "bytes": 497810365,
+   "cpu_s": 4567.0,
+   "exit_code": 0,
+   "export_wall_s": 48.7,
+   "lines": [
+    "con-ron: accepted 62611 declarations (--verified)"
+   ],
+   "maxrss_kib": 1546612,
+   "sha256": "6c15e6237dcbc88e9a6855305a225d5887e363558f0ae2ef807a11b8833f98ba",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2337.0,
+     "id": "ip5z1lvqly2ajdonud4ri",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.07572
+    }
+   ],
+   "wall_s": 2296.7
+  },
+  "site:B_right_02": {
+   "accepted": 62564,
+   "attempts": 1,
+   "bytes": 496973681,
+   "cpu_s": 4350.3,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 62564 declarations (--verified)"
+   ],
+   "maxrss_kib": 1546220,
+   "sha256": "5c5d0ca75de73004fe244cf200233f4b225f5a65d29f6a2f03abc8f7638f1e76",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2714.2,
+     "id": "ixcxr9cmj54n3ir5qy8lr",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.08794
+    }
+   ],
+   "wall_s": 2186.1
+  },
+  "site:B_right_03": {
+   "accepted": 62564,
+   "attempts": 1,
+   "bytes": 496742233,
+   "cpu_s": 4320.7,
+   "exit_code": 0,
+   "export_wall_s": 46.0,
+   "lines": [
+    "con-ron: accepted 62564 declarations (--verified)"
+   ],
+   "maxrss_kib": 1549044,
+   "sha256": "b393d18a49d7789be16602ff3a8ce95377d109f24e6172af63a7eb8eb591f20a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2347.3,
+     "id": "iyxkcbfizr78qhp801qdw",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.07605
+    }
+   ],
+   "wall_s": 2172.0
+  },
+  "site:B_right_04": {
+   "accepted": 62659,
+   "attempts": 1,
+   "bytes": 498503024,
+   "cpu_s": 5231.2,
+   "exit_code": 0,
+   "export_wall_s": 48.2,
+   "lines": [
+    "con-ron: accepted 62659 declarations (--verified)"
+   ],
+   "maxrss_kib": 1559200,
+   "sha256": "d1872cd7e00036fa5fe5fa36c98223bc0ac18d02e2e825ad09fdd2d2f6e2db9e",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2959.9,
+     "id": "i9rsxjreaacicro3cc01y",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.0959
+    }
+   ],
+   "wall_s": 2648.6
+  },
+  "site:B_right_05": {
+   "accepted": 62611,
+   "attempts": 1,
+   "bytes": 497692693,
+   "cpu_s": 5624.9,
+   "exit_code": 0,
+   "export_wall_s": 50.1,
+   "lines": [
+    "con-ron: accepted 62611 declarations (--verified)"
+   ],
+   "maxrss_kib": 1550376,
+   "sha256": "16500acbd5e63df73ea70b37623ca2a70d1b8e626d3f42843e4a18852c79f550",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2990.4,
+     "id": "if58lsd7is9w6ut2q0kdw",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.09689
+    }
+   ],
+   "wall_s": 2894.2
+  },
+  "site:B_right_06": {
+   "accepted": 62005,
+   "attempts": 1,
+   "bytes": 486899931,
+   "cpu_s": 2240.7,
+   "exit_code": 0,
+   "export_wall_s": 46.7,
+   "lines": [
+    "con-ron: accepted 62005 declarations (--verified)"
+   ],
+   "maxrss_kib": 2313524,
+   "sha256": "a7f7b08ed08a4ade3c5eb1cc099181393d86cc9a080343c49468786f8c954d03",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 425.1,
+     "id": "m_agqx33cjixgqa5viux3it6mlum",
+     "provider": "instabox",
+     "running_s": 419,
+     "spec": "8/16",
+     "usd": 0.00792
+    }
+   ],
+   "wall_s": 367.4
+  },
+  "site:B_right_06#novita": {
+   "accepted": 62005,
+   "attempts": 1,
+   "bytes": 486899931,
+   "cpu_s": 2402.6,
+   "exit_code": 0,
+   "export_wall_s": 46.7,
+   "lines": [
+    "con-ron: accepted 62005 declarations (--verified)"
+   ],
+   "maxrss_kib": 1532612,
+   "sha256": "a7f7b08ed08a4ade3c5eb1cc099181393d86cc9a080343c49468786f8c954d03",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1329.8,
+     "id": "i82yrg0r80kw8jr0kt2fq",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.04309
+    }
+   ],
+   "wall_s": 1211.4
+  },
+  "site:B_top_00": {
+   "accepted": 63871,
+   "attempts": 1,
+   "bytes": 520007457,
+   "cpu_s": 11109.3,
+   "exit_code": 0,
+   "export_wall_s": 52.4,
+   "lines": [
+    "con-ron: accepted 63871 declarations (--verified)"
+   ],
+   "maxrss_kib": 2347860,
+   "sha256": "4015a6d02febf996001513968c2a8d04da8931bc81876be3c737f8c38799fb31",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2030.9,
+     "id": "m_agqx4gcz3cxkch6kfxngd2dvpy",
+     "provider": "instabox",
+     "running_s": 1788,
+     "spec": "8/16",
+     "usd": 0.03378
+    }
+   ],
+   "wall_s": 1478.8
+  },
+  "site:B_top_01": {
+   "accepted": 63776,
+   "attempts": 1,
+   "bytes": 518403521,
+   "cpu_s": 8704.1,
+   "exit_code": 0,
+   "export_wall_s": 60.1,
+   "lines": [
+    "con-ron: accepted 63776 declarations (--verified)"
+   ],
+   "maxrss_kib": 2347080,
+   "sha256": "a2258333045fa9fe298064df3f25824f59a54738bfc6559666333da563ca61d6",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1715.3,
+     "id": "m_agqx4gemvkw2hj24ygbz2nphtu",
+     "provider": "instabox",
+     "running_s": 1460,
+     "spec": "8/16",
+     "usd": 0.02757
+    }
+   ],
+   "wall_s": 1182.9
+  },
+  "site:B_top_02": {
+   "accepted": 63540,
+   "attempts": 1,
+   "bytes": 514369277,
+   "cpu_s": 8811.8,
+   "exit_code": 0,
+   "export_wall_s": 59.0,
+   "lines": [
+    "con-ron: accepted 63540 declarations (--verified)"
+   ],
+   "maxrss_kib": 2360932,
+   "sha256": "4dc50f22f0ddf3f6f34bd55feb7f7d26c376c1c9e94790bed1bb32bcd77e6a65",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1407.9,
+     "id": "m_agqx4thkq5ims7w6tn3msbwkwi",
+     "provider": "instabox",
+     "running_s": 1403,
+     "spec": "8/16",
+     "usd": 0.02649
+    }
+   ],
+   "wall_s": 1273.6
+  },
+  "site:B_top_03": {
+   "accepted": 63918,
+   "attempts": 1,
+   "bytes": 520829551,
+   "cpu_s": 9828.0,
+   "exit_code": 0,
+   "export_wall_s": 54.0,
+   "lines": [
+    "con-ron: accepted 63918 declarations (--verified)"
+   ],
+   "maxrss_kib": 2469484,
+   "sha256": "e8fd856fc3bdbc6ae40de05462fb34bd2d69961fcdf3e414cb626d25d730f104",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1408.8,
+     "id": "m_agqx4yi6h5ywev4xxa7moykisa",
+     "provider": "instabox",
+     "running_s": 1405,
+     "spec": "8/16",
+     "usd": 0.02655
+    }
+   ],
+   "wall_s": 1340.0
+  },
+  "site:B_top_04": {
+   "accepted": 63729,
+   "attempts": 1,
+   "bytes": 517594514,
+   "cpu_s": 8431.0,
+   "exit_code": 0,
+   "export_wall_s": 52.1,
+   "lines": [
+    "con-ron: accepted 63729 declarations (--verified)"
+   ],
+   "maxrss_kib": 2450036,
+   "sha256": "1ae671596e87a09ebaf9be2cc79396a582e5975d32a8da4b3ab19a885a725b92",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1422.5,
+     "id": "m_agqx4meknwdlwymlu7dyisnp7y",
+     "provider": "instabox",
+     "running_s": 1419,
+     "spec": "8/16",
+     "usd": 0.02681
+    }
+   ],
+   "wall_s": 1194.6
+  },
+  "site:B_top_05": {
+   "accepted": 63453,
+   "attempts": 1,
+   "bytes": 512477556,
+   "cpu_s": 7402.9,
+   "exit_code": 0,
+   "export_wall_s": 54.2,
+   "lines": [
+    "con-ron: accepted 63453 declarations (--verified)"
+   ],
+   "maxrss_kib": 2326732,
+   "sha256": "0f89ff0a8e59e7934f931d080485a0a982c79150db91be4f27f0b9260a304d2f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1089.9,
+     "id": "m_agqx464ebwg2jehst4qtknikxu",
+     "provider": "instabox",
+     "running_s": 1087,
+     "spec": "8/16",
+     "usd": 0.02053
+    }
+   ],
+   "wall_s": 1052.6
+  },
+  "site:B_top_06": {
+   "accepted": 63682,
+   "attempts": 1,
+   "bytes": 516748364,
+   "cpu_s": 10450.0,
+   "exit_code": 0,
+   "export_wall_s": 53.0,
+   "lines": [
+    "con-ron: accepted 63682 declarations (--verified)"
+   ],
+   "maxrss_kib": 2321420,
+   "sha256": "46fa1471ad2f5914d69320102db80589742580e4c4e42f3d3250bd6cc626d070",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1737.8,
+     "id": "m_agqx4nwamqg2cgqyjhzz7cjqki",
+     "provider": "instabox",
+     "running_s": 1735,
+     "spec": "8/16",
+     "usd": 0.03277
+    }
+   ],
+   "wall_s": 1516.0
+  },
+  "site:B_top_07": {
+   "accepted": 63540,
+   "attempts": 1,
+   "bytes": 514366146,
+   "cpu_s": 8921.9,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 63540 declarations (--verified)"
+   ],
+   "maxrss_kib": 2474232,
+   "sha256": "922a6c80e364081d6ad4c04b367f5621c6bbf90dade12a4e16f559804f561e27",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1406.4,
+     "id": "m_agqx4vcumec7sl3lbcxzguldke",
+     "provider": "instabox",
+     "running_s": 1403,
+     "spec": "8/16",
+     "usd": 0.02649
+    }
+   ],
+   "wall_s": 1205.3
+  },
+  "site:B_top_08": {
+   "accepted": 63453,
+   "attempts": 1,
+   "bytes": 512478287,
+   "cpu_s": 8311.4,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63453 declarations (--verified)"
+   ],
+   "maxrss_kib": 2432060,
+   "sha256": "74b35674ac4b2b175f4c5072ad4159c1bc93c942f22e673790d1d3c92f2bd02d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1423.1,
+     "id": "m_agqx4mif5kzodjpoy56g4rh74a",
+     "provider": "instabox",
+     "running_s": 1419,
+     "spec": "8/16",
+     "usd": 0.02679
+    }
+   ],
+   "wall_s": 1108.9
+  },
+  "site:B_top_09": {
+   "accepted": 63311,
+   "attempts": 1,
+   "bytes": 510049964,
+   "cpu_s": 6798.5,
+   "exit_code": 0,
+   "export_wall_s": 54.1,
+   "lines": [
+    "con-ron: accepted 63311 declarations (--verified)"
+   ],
+   "maxrss_kib": 2343408,
+   "sha256": "4c11c0055dbfe7cfda325d29de12331742e3fc0b59a2f64a2f98c2d26e1761db",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1115.4,
+     "id": "m_agqx43axb5nvey34recumtww4i",
+     "provider": "instabox",
+     "running_s": 1109,
+     "spec": "8/16",
+     "usd": 0.02095
+    }
+   ],
+   "wall_s": 930.5
+  },
+  "site:B_top_10": {
+   "accepted": 63406,
+   "attempts": 1,
+   "bytes": 511696589,
+   "cpu_s": 8557.3,
+   "exit_code": 0,
+   "export_wall_s": 55.9,
+   "lines": [
+    "con-ron: accepted 63406 declarations (--verified)"
+   ],
+   "maxrss_kib": 2323516,
+   "sha256": "0aef05f1ea53a5bff664aeb6f8054c8e837877ac1a92c8fcc2c623be6429e810",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1756.2,
+     "id": "m_agqx4gomxdjhqora5fae6zqxli",
+     "provider": "instabox",
+     "running_s": 1419,
+     "spec": "8/16",
+     "usd": 0.0268
+    }
+   ],
+   "wall_s": 1174.1
+  },
+  "site:B_top_11": {
+   "accepted": 63257,
+   "attempts": 1,
+   "bytes": 509326455,
+   "cpu_s": 8097.5,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 63257 declarations (--verified)"
+   ],
+   "maxrss_kib": 2321028,
+   "sha256": "a405bd0f05cec687d632485c3ebc31e6630f48e002d5ee033fd2c90629d77432",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1426.9,
+     "id": "m_agqx4kxe4l3erjexw4dvljg4ne",
+     "provider": "instabox",
+     "running_s": 1422,
+     "spec": "8/16",
+     "usd": 0.02687
+    }
+   ],
+   "wall_s": 1215.3
+  },
+  "site:B_top_12": {
+   "accepted": 63210,
+   "attempts": 1,
+   "bytes": 508521799,
+   "cpu_s": 6248.6,
+   "exit_code": 0,
+   "export_wall_s": 48.0,
+   "lines": [
+    "con-ron: accepted 63210 declarations (--verified)"
+   ],
+   "maxrss_kib": 2289192,
+   "sha256": "825f0eab4a5f400d3b3949240b945e7559a103accdbf7bef0a826ff10a7f8a2f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1343.8,
+     "id": "m_agqx4gzm2unxbivmqp34mxsdyq",
+     "provider": "instabox",
+     "running_s": 1099,
+     "spec": "8/16",
+     "usd": 0.02076
+    }
+   ],
+   "wall_s": 887.0
+  },
+  "site:B_top_13": {
+   "accepted": 63257,
+   "attempts": 1,
+   "bytes": 509364140,
+   "cpu_s": 6541.4,
+   "exit_code": 0,
+   "export_wall_s": 52.6,
+   "lines": [
+    "con-ron: accepted 63257 declarations (--verified)"
+   ],
+   "maxrss_kib": 2293228,
+   "sha256": "73091136e825d6cdaf3c1c5730dde02c9e4e39146ce08dc266fe7db1e3ff19e3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1104.6,
+     "id": "m_agqx4jaqohwoa7rhl7dghfh5dm",
+     "provider": "instabox",
+     "running_s": 1102,
+     "spec": "8/16",
+     "usd": 0.02082
+    }
+   ],
+   "wall_s": 940.8
+  },
+  "site:B_top_14": {
+   "accepted": 63082,
+   "attempts": 1,
+   "bytes": 505937286,
+   "cpu_s": 6905.5,
+   "exit_code": 0,
+   "export_wall_s": 48.8,
+   "lines": [
+    "con-ron: accepted 63082 declarations (--verified)"
+   ],
+   "maxrss_kib": 2316432,
+   "sha256": "c0c66024c948f4a5b8d6f7a7c5b4afaaf520e48e6c092bd0d1328acb9453facd",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1096.4,
+     "id": "m_agqx4xi5kyshpgirafxvbkw2ae",
+     "provider": "instabox",
+     "running_s": 1091,
+     "spec": "8/16",
+     "usd": 0.02062
+    }
+   ],
+   "wall_s": 968.3
+  },
+  "site:B_top_15": {
+   "accepted": 63210,
+   "attempts": 1,
+   "bytes": 508509313,
+   "cpu_s": 7455.0,
+   "exit_code": 0,
+   "export_wall_s": 52.0,
+   "lines": [
+    "con-ron: accepted 63210 declarations (--verified)"
+   ],
+   "maxrss_kib": 2414316,
+   "sha256": "3656ee749651bf88683c878cb6510cdf3bb377668a35b9036d4a91b8a13d1267",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1445.8,
+     "id": "m_agqx4gpli7vuudkald77qcymjm",
+     "provider": "instabox",
+     "running_s": 1102,
+     "spec": "8/16",
+     "usd": 0.02081
+    }
+   ],
+   "wall_s": 990.7
+  },
+  "site:B_top_16": {
+   "accepted": 63082,
+   "attempts": 1,
+   "bytes": 505887782,
+   "cpu_s": 7524.4,
+   "exit_code": 0,
+   "export_wall_s": 50.6,
+   "lines": [
+    "con-ron: accepted 63082 declarations (--verified)"
+   ],
+   "maxrss_kib": 2318776,
+   "sha256": "08fecc7fde0e9c38090f782cb2f422c391890912dffc324c8d7a3bfb9684aa14",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1417.2,
+     "id": "m_agqx4pysrov3skgvsemsnmgxq4",
+     "provider": "instabox",
+     "running_s": 1412,
+     "spec": "8/16",
+     "usd": 0.02668
+    }
+   ],
+   "wall_s": 1136.8
+  },
+  "site:B_top_17": {
+   "accepted": 62934,
+   "attempts": 1,
+   "bytes": 503508267,
+   "cpu_s": 6449.1,
+   "exit_code": 0,
+   "export_wall_s": 48.5,
+   "lines": [
+    "con-ron: accepted 62934 declarations (--verified)"
+   ],
+   "maxrss_kib": 2301648,
+   "sha256": "ef86bdabeff3dfaf3095157195b97b517649912caa8d34a3260272086b52c2f3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1505.8,
+     "id": "m_agqx4gxjp543ok5dguei2kxxcu",
+     "provider": "instabox",
+     "running_s": 1098,
+     "spec": "8/16",
+     "usd": 0.02074
+    }
+   ],
+   "wall_s": 958.5
+  },
+  "site:B_top_18": {
+   "accepted": 62934,
+   "attempts": 1,
+   "bytes": 503507427,
+   "cpu_s": 5284.4,
+   "exit_code": 0,
+   "export_wall_s": 46.0,
+   "lines": [
+    "con-ron: accepted 62934 declarations (--verified)"
+   ],
+   "maxrss_kib": 2307344,
+   "sha256": "50c09c3bf4e5f51da21d23f4b45fdb7bbd0c0ac4f29483da285867efebb27731",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1191.5,
+     "id": "m_agqx4gxjdwzum674oqskngi5ei",
+     "provider": "instabox",
+     "running_s": 783,
+     "spec": "8/16",
+     "usd": 0.01479
+    }
+   ],
+   "wall_s": 699.1
+  },
+  "site:B_top_19": {
+   "accepted": 62799,
+   "attempts": 1,
+   "bytes": 500957451,
+   "cpu_s": 6028.4,
+   "exit_code": 0,
+   "export_wall_s": 46.0,
+   "lines": [
+    "con-ron: accepted 62799 declarations (--verified)"
+   ],
+   "maxrss_kib": 2312164,
+   "sha256": "8ebb5725bb158a2de99acc0e192dcb588ab8359915de6a31c0fecb84ef9d9da7",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1107.7,
+     "id": "m_agqx4ho6x5jwt6wzcizrbswjbi",
+     "provider": "instabox",
+     "running_s": 1103,
+     "spec": "8/16",
+     "usd": 0.02083
+    }
+   ],
+   "wall_s": 869.9
+  },
+  "site:B_top_20": {
+   "accepted": 62846,
+   "attempts": 1,
+   "bytes": 501765034,
+   "cpu_s": 6131.5,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 62846 declarations (--verified)"
+   ],
+   "maxrss_kib": 2288312,
+   "sha256": "b309b65bad9f1701aad2a79f8a263cfe7f71a49c9a07b4633a46594f990199f7",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1105.7,
+     "id": "m_agqx4jaqzbcffaekzaez2v26xm",
+     "provider": "instabox",
+     "running_s": 1103,
+     "spec": "8/16",
+     "usd": 0.02083
+    }
+   ],
+   "wall_s": 911.9
+  },
+  "site:B_top_21": {
+   "accepted": 62894,
+   "attempts": 1,
+   "bytes": 502574202,
+   "cpu_s": 5387.7,
+   "exit_code": 0,
+   "export_wall_s": 50.0,
+   "lines": [
+    "con-ron: accepted 62894 declarations (--verified)"
+   ],
+   "maxrss_kib": 2288956,
+   "sha256": "7a01f01351a5c81ece3c3af982429c9c26fcb9a1d4d549ed605e518e84951f22",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 780.6,
+     "id": "m_agqx447w4qjeutjbapyu45stsm",
+     "provider": "instabox",
+     "running_s": 778,
+     "spec": "8/16",
+     "usd": 0.01469
+    }
+   ],
+   "wall_s": 747.6
+  },
+  "site:B_top_22": {
+   "accepted": 62005,
+   "attempts": 1,
+   "bytes": 486905659,
+   "cpu_s": 2359.6,
+   "exit_code": 0,
+   "export_wall_s": 46.2,
+   "lines": [
+    "con-ron: accepted 62005 declarations (--verified)"
+   ],
+   "maxrss_kib": 1526012,
+   "sha256": "cf73394de94db1984ad433abc2d0eac259d53a4d04b4430d7861bc527ac64a80",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 1408.0,
+     "id": "ijlqe4ae043du8tzdhkd2",
+     "provider": "novita",
+     "spec": "2/4",
+     "usd": 0.04562
+    }
+   ],
+   "wall_s": 1189.8
+  },
+  "site:centre": {
+   "accepted": 77618,
+   "attempts": 1,
+   "bytes": 788359079,
+   "cpu_s": 89356.6,
+   "exit_code": 0,
+   "export_wall_s": 349.9,
+   "lines": [
+    "con-ron: accepted 77618 declarations (--verified)"
+   ],
+   "maxrss_kib": 14812676,
+   "sha256": "ab267275266de12c1dbdd05b850b434b7dfff4a95e8d9b8634849559d743a320",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 11727.9,
+     "id": "m_agqx4ffk3whb3wy6rbi74bfiga",
+     "provider": "instabox",
+     "running_s": 11723,
+     "spec": "8/16",
+     "usd": 0.22143
+    }
+   ],
+   "wall_s": 11525.5
+  },
+  "site:g_bottom_00": {
+   "accepted": 65894,
+   "attempts": 1,
+   "bytes": 556825461,
+   "cpu_s": 17275.5,
+   "exit_code": 0,
+   "export_wall_s": 68.0,
+   "lines": [
+    "con-ron: accepted 65894 declarations (--verified)"
+   ],
+   "maxrss_kib": 3181880,
+   "sha256": "1148351cfcd4d58f2a523c141a7a45e492c06c73651ab0f51f12d5a25bd876bf",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2341.8,
+     "id": "m_agqx45raox5k743iyhapwe6ad4",
+     "provider": "instabox",
+     "running_s": 2337,
+     "spec": "8/16",
+     "usd": 0.04415
+    }
+   ],
+   "wall_s": 2264.9
+  },
+  "site:g_bottom_01": {
+   "accepted": 66028,
+   "attempts": 1,
+   "bytes": 559521035,
+   "cpu_s": 21384.2,
+   "exit_code": 0,
+   "export_wall_s": 68.0,
+   "lines": [
+    "con-ron: accepted 66028 declarations (--verified)"
+   ],
+   "maxrss_kib": 2857796,
+   "sha256": "d3b10d816ba9580a0bcd20737e98736ff1647ba9ed538c3ff8510f4a820184bd",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3004.3,
+     "id": "m_agqx4h5zkass3aeymvx72n52mu",
+     "provider": "instabox",
+     "running_s": 3001,
+     "spec": "8/16",
+     "usd": 0.05669
+    }
+   ],
+   "wall_s": 2815.6
+  },
+  "site:g_bottom_02": {
+   "accepted": 66149,
+   "attempts": 1,
+   "bytes": 562419716,
+   "cpu_s": 19710.8,
+   "exit_code": 0,
+   "export_wall_s": 74.0,
+   "lines": [
+    "con-ron: accepted 66149 declarations (--verified)"
+   ],
+   "maxrss_kib": 3268372,
+   "sha256": "f88cafd6d1f3d4d54a23b873a80c40f5738f1a42443fe89658cb70dbacdb9749",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2658.2,
+     "id": "m_agqx4zwqxwo4crfu3g45lm4aom",
+     "provider": "instabox",
+     "running_s": 2656,
+     "spec": "8/16",
+     "usd": 0.05016
+    }
+   ],
+   "wall_s": 2562.6
+  },
+  "site:g_bottom_03": {
+   "accepted": 66283,
+   "attempts": 1,
+   "bytes": 565041848,
+   "cpu_s": 20325.8,
+   "exit_code": 0,
+   "export_wall_s": 74.8,
+   "lines": [
+    "con-ron: accepted 66283 declarations (--verified)"
+   ],
+   "maxrss_kib": 3424656,
+   "sha256": "e3a88ca7a431f5a8f8db78feff29b62c60ab646b58470cfb4a856409cfc8eeda",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2977.8,
+     "id": "m_agqx4sjrcp6oehbq25ihmkb5uu",
+     "provider": "instabox",
+     "running_s": 2972,
+     "spec": "8/16",
+     "usd": 0.05614
+    }
+   ],
+   "wall_s": 2668.9
+  },
+  "site:g_bottom_04": {
+   "accepted": 66425,
+   "attempts": 1,
+   "bytes": 567753985,
+   "cpu_s": 24477.5,
+   "exit_code": 0,
+   "export_wall_s": 77.4,
+   "lines": [
+    "con-ron: accepted 66425 declarations (--verified)"
+   ],
+   "maxrss_kib": 3418340,
+   "sha256": "42a9d5f3e87b104f50333a0c82576b6fbab895361ce1142758f4c1ef791e2446",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3598.8,
+     "id": "m_agqx4ffladenggpvvnzb4h2mfu",
+     "provider": "instabox",
+     "running_s": 3594,
+     "spec": "8/16",
+     "usd": 0.06788
+    }
+   ],
+   "wall_s": 3363.3
+  },
+  "site:g_bottom_05": {
+   "accepted": 66425,
+   "attempts": 1,
+   "bytes": 567635497,
+   "cpu_s": 22640.9,
+   "exit_code": 0,
+   "export_wall_s": 78.0,
+   "lines": [
+    "con-ron: accepted 66425 declarations (--verified)"
+   ],
+   "maxrss_kib": 3564268,
+   "sha256": "c2036c3a76358107ed2ba9b8aea77c068a424cc4def1374bc474ed0e382d3a7e",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2964.4,
+     "id": "m_agqx4fflmiapnu3oarmu5jeezq",
+     "provider": "instabox",
+     "running_s": 2960,
+     "spec": "8/16",
+     "usd": 0.05592
+    }
+   ],
+   "wall_s": 2912.9
+  },
+  "site:g_bottom_06": {
+   "accepted": 66378,
+   "attempts": 1,
+   "bytes": 566721457,
+   "cpu_s": 19833.8,
+   "exit_code": 0,
+   "export_wall_s": 72.0,
+   "lines": [
+    "con-ron: accepted 66378 declarations (--verified)"
+   ],
+   "maxrss_kib": 3543344,
+   "sha256": "9833d0eb80f602c49d22d788d9ff00207e91ac5cf1d4f388b8e2f0fdb60a4be0",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2688.9,
+     "id": "m_agqx4h5zgfhyjrh7crzvd5dp3m",
+     "provider": "instabox",
+     "running_s": 2686,
+     "spec": "8/16",
+     "usd": 0.05074
+    }
+   ],
+   "wall_s": 2570.5
+  },
+  "site:g_bottom_07": {
+   "accepted": 66331,
+   "attempts": 1,
+   "bytes": 565954722,
+   "cpu_s": 23334.1,
+   "exit_code": 0,
+   "export_wall_s": 74.4,
+   "lines": [
+    "con-ron: accepted 66331 declarations (--verified)"
+   ],
+   "maxrss_kib": 3148028,
+   "sha256": "fcd3199db2ae2ebeb3a485854b7c59bc3b298379d243b5768af978e00e9069bb",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3311.5,
+     "id": "m_agqx4lgg5pdrr54ozoril247fm",
+     "provider": "instabox",
+     "running_s": 3308,
+     "spec": "8/16",
+     "usd": 0.06248
+    }
+   ],
+   "wall_s": 3158.5
+  },
+  "site:g_bottom_08": {
+   "accepted": 66331,
+   "attempts": 1,
+   "bytes": 565923096,
+   "cpu_s": 21022.4,
+   "exit_code": 0,
+   "export_wall_s": 72.0,
+   "lines": [
+    "con-ron: accepted 66331 declarations (--verified)"
+   ],
+   "maxrss_kib": 3397484,
+   "sha256": "4c4bd4379b0718bb9e1417f92a9e5736e535ca5d23fcbf1d5657f25d65676d6c",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2992.1,
+     "id": "m_agqx4m5hn2fomfd3dy2kvefsmq",
+     "provider": "instabox",
+     "running_s": 2989,
+     "spec": "8/16",
+     "usd": 0.05647
+    }
+   ],
+   "wall_s": 2772.9
+  },
+  "site:g_bottom_09": {
+   "accepted": 66283,
+   "attempts": 1,
+   "bytes": 565057431,
+   "cpu_s": 21682.1,
+   "exit_code": 0,
+   "export_wall_s": 74.1,
+   "lines": [
+    "con-ron: accepted 66283 declarations (--verified)"
+   ],
+   "maxrss_kib": 3286808,
+   "sha256": "287ce5703cedeb2111be3bea4a14a442f234af977a44f5a19c6d516419529670",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2976.7,
+     "id": "m_agqx4ughdcxjuydyhumcvds2ba",
+     "provider": "instabox",
+     "running_s": 2973,
+     "spec": "8/16",
+     "usd": 0.05615
+    }
+   ],
+   "wall_s": 2803.2
+  },
+  "site:g_bottom_10": {
+   "accepted": 66283,
+   "attempts": 1,
+   "bytes": 565035358,
+   "cpu_s": 21861.3,
+   "exit_code": 0,
+   "export_wall_s": 74.1,
+   "lines": [
+    "con-ron: accepted 66283 declarations (--verified)"
+   ],
+   "maxrss_kib": 3242304,
+   "sha256": "6d967ee74fea8871b66013f013dea49a5636385af0434419441d3dfb704ea0c8",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2973.1,
+     "id": "m_agqx4wagat5d5v5dpcwsqbm3iy",
+     "provider": "instabox",
+     "running_s": 2970,
+     "spec": "8/16",
+     "usd": 0.05611
+    }
+   ],
+   "wall_s": 2857.0
+  },
+  "site:g_bottom_11": {
+   "accepted": 65705,
+   "attempts": 1,
+   "bytes": 553473578,
+   "cpu_s": 20987.4,
+   "exit_code": 0,
+   "export_wall_s": 68.9,
+   "lines": [
+    "con-ron: accepted 65705 declarations (--verified)"
+   ],
+   "maxrss_kib": 3059484,
+   "sha256": "a57ae1390e849b0c8b30d786682b30573bcf95034d22d107d1d760323b62dd9b",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3280.9,
+     "id": "m_agqx4fh55xnq2qohico5jsdnjq",
+     "provider": "instabox",
+     "running_s": 3257,
+     "spec": "8/16",
+     "usd": 0.06152
+    }
+   ],
+   "wall_s": 2935.3
+  },
+  "site:g_bottom_12": {
+   "accepted": 65705,
+   "attempts": 1,
+   "bytes": 553767607,
+   "cpu_s": 19008.1,
+   "exit_code": 0,
+   "export_wall_s": 70.4,
+   "lines": [
+    "con-ron: accepted 65705 declarations (--verified)"
+   ],
+   "maxrss_kib": 2971332,
+   "sha256": "d032091a3333b604d2714dfb453c4b89f9091fc1b6c1bf2e13b64bcf0caaa200",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2645.8,
+     "id": "m_agqx4fpj3do7hbafdqwbufqrj4",
+     "provider": "instabox",
+     "running_s": 2561,
+     "spec": "8/16",
+     "usd": 0.04838
+    }
+   ],
+   "wall_s": 2520.0
+  },
+  "site:g_bottom_13": {
+   "accepted": 65658,
+   "attempts": 1,
+   "bytes": 552634423,
+   "cpu_s": 19355.6,
+   "exit_code": 0,
+   "export_wall_s": 64.4,
+   "lines": [
+    "con-ron: accepted 65658 declarations (--verified)"
+   ],
+   "maxrss_kib": 3176400,
+   "sha256": "f038db18924841e5b3732f7880ebaccb01b9e06aebbb4cfd0695a31558bdad46",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2974.1,
+     "id": "m_agqx4frnhekmocpv3lnfoevvhe",
+     "provider": "instabox",
+     "running_s": 2872,
+     "spec": "8/16",
+     "usd": 0.05425
+    }
+   ],
+   "wall_s": 2595.0
+  },
+  "site:g_bottom_14": {
+   "accepted": 65658,
+   "attempts": 1,
+   "bytes": 552654964,
+   "cpu_s": 19562.3,
+   "exit_code": 0,
+   "export_wall_s": 66.6,
+   "lines": [
+    "con-ron: accepted 65658 declarations (--verified)"
+   ],
+   "maxrss_kib": 2913572,
+   "sha256": "5c5fcea9848032d8d9a641a650be8453f8b45c8d7e1f8dbd26f857db080a5a0c",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2974.1,
+     "id": "m_agqx4fplavx35ra6zifbtmf7pe",
+     "provider": "instabox",
+     "running_s": 2889,
+     "spec": "8/16",
+     "usd": 0.05457
+    }
+   ],
+   "wall_s": 2582.9
+  },
+  "site:g_bottom_15": {
+   "accepted": 65617,
+   "attempts": 1,
+   "bytes": 551936377,
+   "cpu_s": 17467.1,
+   "exit_code": 0,
+   "export_wall_s": 64.0,
+   "lines": [
+    "con-ron: accepted 65617 declarations (--verified)"
+   ],
+   "maxrss_kib": 2982052,
+   "sha256": "d3a36cc053a71fe38b5aaabb4c23ab70e1749c0806e5377c342b5bbcd83af4c5",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2371.5,
+     "id": "m_agqx4lwncseoem62lifd4blvkm",
+     "provider": "instabox",
+     "running_s": 2367,
+     "spec": "8/16",
+     "usd": 0.04471
+    }
+   ],
+   "wall_s": 2313.5
+  },
+  "site:g_bottom_16": {
+   "accepted": 65617,
+   "attempts": 1,
+   "bytes": 551911987,
+   "cpu_s": 16727.5,
+   "exit_code": 0,
+   "export_wall_s": 68.3,
+   "lines": [
+    "con-ron: accepted 65617 declarations (--verified)"
+   ],
+   "maxrss_kib": 2880436,
+   "sha256": "6706a90739486acd34cc8638e36a153b379742cbb84ee5373e186e0c084cf41a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2668.0,
+     "id": "m_agqx4fyzmq72cnwl3hipokyhly",
+     "provider": "instabox",
+     "running_s": 2493,
+     "spec": "8/16",
+     "usd": 0.0471
+    }
+   ],
+   "wall_s": 2223.7
+  },
+  "site:g_bottom_17": {
+   "accepted": 65570,
+   "attempts": 1,
+   "bytes": 551006635,
+   "cpu_s": 17634.7,
+   "exit_code": 0,
+   "export_wall_s": 64.2,
+   "lines": [
+    "con-ron: accepted 65570 declarations (--verified)"
+   ],
+   "maxrss_kib": 2958188,
+   "sha256": "9b393a39b483f413b24c64fb4f517ae9e3694a30c304d0efd04e34cd1329158f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2690.7,
+     "id": "m_agqx4j47bzaqczrool756jjc2u",
+     "provider": "instabox",
+     "running_s": 2686,
+     "spec": "8/16",
+     "usd": 0.05073
+    }
+   ],
+   "wall_s": 2350.3
+  },
+  "site:g_bottom_18": {
+   "accepted": 65570,
+   "attempts": 1,
+   "bytes": 550997020,
+   "cpu_s": 16242.1,
+   "exit_code": 0,
+   "export_wall_s": 64.3,
+   "lines": [
+    "con-ron: accepted 65570 declarations (--verified)"
+   ],
+   "maxrss_kib": 2884712,
+   "sha256": "ba187d56b00d8c2cfbd3b3e46199782f982f8c9b74ffd3936ec02012900c3031",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2349.3,
+     "id": "m_agqx46bb5azxohfx7us2wsarl4",
+     "provider": "instabox",
+     "running_s": 2346,
+     "spec": "8/16",
+     "usd": 0.04432
+    }
+   ],
+   "wall_s": 2163.1
+  },
+  "site:g_bottom_19": {
+   "accepted": 65570,
+   "attempts": 1,
+   "bytes": 551035845,
+   "cpu_s": 18187.8,
+   "exit_code": 0,
+   "export_wall_s": 66.3,
+   "lines": [
+    "con-ron: accepted 65570 declarations (--verified)"
+   ],
+   "maxrss_kib": 2849092,
+   "sha256": "c45039f290a52fe5bf2319dec51c2b3c4f3f76b8a0fea9cdd5010c34032dc054",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2681.3,
+     "id": "m_agqx4nk3muz7vj6yyy4v46uxae",
+     "provider": "instabox",
+     "running_s": 2674,
+     "spec": "8/16",
+     "usd": 0.05051
+    }
+   ],
+   "wall_s": 2473.5
+  },
+  "site:g_bottom_20": {
+   "accepted": 65247,
+   "attempts": 1,
+   "bytes": 545203957,
+   "cpu_s": 16918.0,
+   "exit_code": 0,
+   "export_wall_s": 67.9,
+   "lines": [
+    "con-ron: accepted 65247 declarations (--verified)"
+   ],
+   "maxrss_kib": 2954324,
+   "sha256": "a77c090320b91152bc2317e8b9bd417c33b849e0624a347f1e9a4583c18e3f80",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2349.7,
+     "id": "m_agqx4syphno2mtxxdmy7h4urhu",
+     "provider": "instabox",
+     "running_s": 2346,
+     "spec": "8/16",
+     "usd": 0.04431
+    }
+   ],
+   "wall_s": 2238.7
+  },
+  "site:g_bottom_21": {
+   "accepted": 65200,
+   "attempts": 1,
+   "bytes": 544398513,
+   "cpu_s": 16245.8,
+   "exit_code": 0,
+   "export_wall_s": 64.0,
+   "lines": [
+    "con-ron: accepted 65200 declarations (--verified)"
+   ],
+   "maxrss_kib": 2742516,
+   "sha256": "b7b3392d23df6f805eb69b68fcc6346d2e36ffa5a06096eef910d3efe8dc4e8e",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2365.2,
+     "id": "m_agqx4nk3vu2r2rfkkj3y3kx3bi",
+     "provider": "instabox",
+     "running_s": 2361,
+     "spec": "8/16",
+     "usd": 0.0446
+    }
+   ],
+   "wall_s": 2160.6
+  },
+  "site:g_bottom_22": {
+   "accepted": 65200,
+   "attempts": 1,
+   "bytes": 544607221,
+   "cpu_s": 17660.2,
+   "exit_code": 0,
+   "export_wall_s": 62.9,
+   "lines": [
+    "con-ron: accepted 65200 declarations (--verified)"
+   ],
+   "maxrss_kib": 2684744,
+   "sha256": "11bbdac3b73dc3366b2d50d17f47f57bc88691de7a069ccb416da24f68280f24",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2673.4,
+     "id": "m_agqx4o6bibpmsitlnjtdlasehe",
+     "provider": "instabox",
+     "running_s": 2670,
+     "spec": "8/16",
+     "usd": 0.05043
+    }
+   ],
+   "wall_s": 2428.3
+  },
+  "site:g_bottom_23": {
+   "accepted": 65145,
+   "attempts": 1,
+   "bytes": 543773680,
+   "cpu_s": 17352.6,
+   "exit_code": 0,
+   "export_wall_s": 64.3,
+   "lines": [
+    "con-ron: accepted 65145 declarations (--verified)"
+   ],
+   "maxrss_kib": 2874660,
+   "sha256": "a03f2c75fd9e57683162bdee8c653a7f4aa78832e70f6075233777a0ab580da2",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2678.2,
+     "id": "m_agqx4nk34sqwqx5ktxz2sm3udu",
+     "provider": "instabox",
+     "running_s": 2674,
+     "spec": "8/16",
+     "usd": 0.0505
+    }
+   ],
+   "wall_s": 2418.5
+  },
+  "site:g_bottom_24": {
+   "accepted": 65145,
+   "attempts": 1,
+   "bytes": 543679734,
+   "cpu_s": 14344.1,
+   "exit_code": 0,
+   "export_wall_s": 62.0,
+   "lines": [
+    "con-ron: accepted 65145 declarations (--verified)"
+   ],
+   "maxrss_kib": 2979376,
+   "sha256": "74fbad27d3d68e350a4ca67dc1b28bd954aa80b0913cc9bfe863439f3597e798",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2047.9,
+     "id": "m_agqx4o6bsrva3gyttweri3ur2e",
+     "provider": "instabox",
+     "running_s": 2043,
+     "spec": "8/16",
+     "usd": 0.03859
+    }
+   ],
+   "wall_s": 1886.6
+  },
+  "site:g_bottom_25": {
+   "accepted": 65145,
+   "attempts": 1,
+   "bytes": 543709499,
+   "cpu_s": 14375.2,
+   "exit_code": 0,
+   "export_wall_s": 154.6,
+   "lines": [
+    "con-ron: accepted 65145 declarations (--verified)"
+   ],
+   "maxrss_kib": 2892632,
+   "sha256": "fab0a8653c459e10fd3d8adeafbbcbef03083d2c6a3e396ae933f1fca0540b66",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2350.2,
+     "id": "m_agqx4f25l4exx6ua4d3jvbk3ii",
+     "provider": "instabox",
+     "running_s": 2171,
+     "spec": "8/16",
+     "usd": 0.041
+    }
+   ],
+   "wall_s": 1874.2
+  },
+  "site:g_left_00": {
+   "accepted": 65894,
+   "attempts": 1,
+   "bytes": 556807468,
+   "cpu_s": 18407.4,
+   "exit_code": 0,
+   "export_wall_s": 68.0,
+   "lines": [
+    "con-ron: accepted 65894 declarations (--verified)"
+   ],
+   "maxrss_kib": 3055548,
+   "sha256": "45ab5ca059b3442e4549399e60db929eda1da062cbe6787fa6a6ad8fbe112aa0",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2679.7,
+     "id": "m_agqx4m5imjtisbvhk4ijjb6otq",
+     "provider": "instabox",
+     "running_s": 2674,
+     "spec": "8/16",
+     "usd": 0.05051
+    }
+   ],
+   "wall_s": 2401.2
+  },
+  "site:g_left_01": {
+   "accepted": 65894,
+   "attempts": 1,
+   "bytes": 556798638,
+   "cpu_s": 19200.6,
+   "exit_code": 0,
+   "export_wall_s": 70.0,
+   "lines": [
+    "con-ron: accepted 65894 declarations (--verified)"
+   ],
+   "maxrss_kib": 3145528,
+   "sha256": "90566286251401dceee27a9937c7d2bd6a79edbfb1fa9a25ea2bb9896c59fe0a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2673.7,
+     "id": "m_agqx4oqofzv6ascyrg6z73kdhq",
+     "provider": "instabox",
+     "running_s": 2671,
+     "spec": "8/16",
+     "usd": 0.05045
+    }
+   ],
+   "wall_s": 2545.9
+  },
+  "site:g_left_02": {
+   "accepted": 65934,
+   "attempts": 1,
+   "bytes": 557692276,
+   "cpu_s": 17998.9,
+   "exit_code": 0,
+   "export_wall_s": 68.3,
+   "lines": [
+    "con-ron: accepted 65934 declarations (--verified)"
+   ],
+   "maxrss_kib": 3178056,
+   "sha256": "8dbecd39be03aaae1bd5081ca85d4ecd222df36331ba20c3212f66fcb4158bf6",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2661.8,
+     "id": "m_agqx4v66xzhxfkx4p5ekzxdvr4",
+     "provider": "instabox",
+     "running_s": 2659,
+     "spec": "8/16",
+     "usd": 0.05023
+    }
+   ],
+   "wall_s": 2364.6
+  },
+  "site:g_left_03": {
+   "accepted": 65974,
+   "attempts": 1,
+   "bytes": 558756715,
+   "cpu_s": 20832.6,
+   "exit_code": 0,
+   "export_wall_s": 67.3,
+   "lines": [
+    "con-ron: accepted 65974 declarations (--verified)"
+   ],
+   "maxrss_kib": 2953288,
+   "sha256": "5ca36b1628c217fc63a7abde509f3c6a5672df3d31c25978e94f17c04f6ff56b",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3186.4,
+     "id": "m_agqx4hcik74wzmqbsx6dxlkrby",
+     "provider": "instabox",
+     "running_s": 3003,
+     "spec": "8/16",
+     "usd": 0.05673
+    }
+   ],
+   "wall_s": 2791.5
+  },
+  "site:g_left_04": {
+   "accepted": 65974,
+   "attempts": 1,
+   "bytes": 558662120,
+   "cpu_s": 18799.5,
+   "exit_code": 0,
+   "export_wall_s": 98.5,
+   "lines": [
+    "con-ron: accepted 65974 declarations (--verified)"
+   ],
+   "maxrss_kib": 3246164,
+   "sha256": "1340463fc9f8db4652370c3cd568c5f8ee85a6582841e5a7fddf0052295a57d3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2645.2,
+     "id": "m_agqx4fpjzlw2f2wgxy3oppt2lu",
+     "provider": "instabox",
+     "running_s": 2559,
+     "spec": "8/16",
+     "usd": 0.04834
+    }
+   ],
+   "wall_s": 2460.4
+  },
+  "site:g_left_05": {
+   "accepted": 66028,
+   "attempts": 1,
+   "bytes": 559114676,
+   "cpu_s": 21136.7,
+   "exit_code": 0,
+   "export_wall_s": 68.7,
+   "lines": [
+    "con-ron: accepted 66028 declarations (--verified)"
+   ],
+   "maxrss_kib": 3338644,
+   "sha256": "26eabbe2a171530d9782fa296572f6d2d0f92fcbc6669b11303f70bc22f8bca4",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3003.9,
+     "id": "m_agqx4jplmgyhw7kxoq3x4il2cm",
+     "provider": "instabox",
+     "running_s": 3001,
+     "spec": "8/16",
+     "usd": 0.05669
+    }
+   ],
+   "wall_s": 2755.7
+  },
+  "site:g_left_06": {
+   "accepted": 66068,
+   "attempts": 1,
+   "bytes": 560440939,
+   "cpu_s": 19225.3,
+   "exit_code": 0,
+   "export_wall_s": 70.0,
+   "lines": [
+    "con-ron: accepted 66068 declarations (--verified)"
+   ],
+   "maxrss_kib": 3097656,
+   "sha256": "f114fd7d2613600854ec7cfe97d3bce72e1ca217ce16747d45764e40cfcfe953",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2679.7,
+     "id": "m_agqx4m5iaxlcjsjnsuq2sht4mu",
+     "provider": "instabox",
+     "running_s": 2674,
+     "spec": "8/16",
+     "usd": 0.05052
+    }
+   ],
+   "wall_s": 2578.1
+  },
+  "site:g_left_07": {
+   "accepted": 66068,
+   "attempts": 1,
+   "bytes": 560433246,
+   "cpu_s": 20937.4,
+   "exit_code": 0,
+   "export_wall_s": 70.6,
+   "lines": [
+    "con-ron: accepted 66068 declarations (--verified)"
+   ],
+   "maxrss_kib": 2912116,
+   "sha256": "2928956636f232815732f392e7cd7ba8717ae34871b4ab07e5f8e26a3a097a03",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2997.0,
+     "id": "m_agqx4oqn2djr546nc6ihxf6hne",
+     "provider": "instabox",
+     "running_s": 2994,
+     "spec": "8/16",
+     "usd": 0.05656
+    }
+   ],
+   "wall_s": 2716.9
+  },
+  "site:g_left_08": {
+   "accepted": 66109,
+   "attempts": 1,
+   "bytes": 561442972,
+   "cpu_s": 21024.9,
+   "exit_code": 0,
+   "export_wall_s": 70.3,
+   "lines": [
+    "con-ron: accepted 66109 declarations (--verified)"
+   ],
+   "maxrss_kib": 3132628,
+   "sha256": "925a1dd9a16f20853440cec6a4c7a9c1ff4de39372c1d5354e1de2a9b54c14f1",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2973.0,
+     "id": "m_agqx4wagtmjfrogs7ozfuqr7ay",
+     "provider": "instabox",
+     "running_s": 2969,
+     "spec": "8/16",
+     "usd": 0.05609
+    }
+   ],
+   "wall_s": 2783.0
+  },
+  "site:g_left_09": {
+   "accepted": 66149,
+   "attempts": 1,
+   "bytes": 562368905,
+   "cpu_s": 19272.5,
+   "exit_code": 0,
+   "export_wall_s": 78.6,
+   "lines": [
+    "con-ron: accepted 66149 declarations (--verified)"
+   ],
+   "maxrss_kib": 3190688,
+   "sha256": "3aedf1e7bc549e739f4ebd846da057f1020b5c00164192d274067bda436f81dc",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2656.3,
+     "id": "m_agqx43vvv3afu5qqviek267xoy",
+     "provider": "instabox",
+     "running_s": 2653,
+     "spec": "8/16",
+     "usd": 0.05011
+    }
+   ],
+   "wall_s": 2523.5
+  },
+  "site:g_left_10": {
+   "accepted": 66149,
+   "attempts": 1,
+   "bytes": 562316540,
+   "cpu_s": 20464.2,
+   "exit_code": 0,
+   "export_wall_s": 70.8,
+   "lines": [
+    "con-ron: accepted 66149 declarations (--verified)"
+   ],
+   "maxrss_kib": 3377568,
+   "sha256": "e6e35c8da203e8fa9f9a57847895857cd3e6e12b920361c7f4e095d49583144a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2664.0,
+     "id": "m_agqx4sijlrek5kfei5dtwdjkya",
+     "provider": "instabox",
+     "running_s": 2659,
+     "spec": "8/16",
+     "usd": 0.05023
+    }
+   ],
+   "wall_s": 2617.1
+  },
+  "site:g_left_11": {
+   "accepted": 66196,
+   "attempts": 1,
+   "bytes": 563217642,
+   "cpu_s": 20183.7,
+   "exit_code": 0,
+   "export_wall_s": 72.0,
+   "lines": [
+    "con-ron: accepted 66196 declarations (--verified)"
+   ],
+   "maxrss_kib": 3321440,
+   "sha256": "c1d28348d2a7c5eeca33e409f214bf755068b037229d79c3bdf69d7c788f11da",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2652.8,
+     "id": "m_agqx45rbaserngh543fpb6wioq",
+     "provider": "instabox",
+     "running_s": 2649,
+     "spec": "8/16",
+     "usd": 0.05003
+    }
+   ],
+   "wall_s": 2598.7
+  },
+  "site:g_left_12": {
+   "accepted": 66243,
+   "attempts": 1,
+   "bytes": 564212491,
+   "cpu_s": 21465.5,
+   "exit_code": 0,
+   "export_wall_s": 72.3,
+   "lines": [
+    "con-ron: accepted 66243 declarations (--verified)"
+   ],
+   "maxrss_kib": 3010892,
+   "sha256": "e7eab6d360ca4b25fbe9702c06851594822f7de270208798e752fd32803d3929",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2972.3,
+     "id": "m_agqx4zwqnirszstnwedcqc3x5u",
+     "provider": "instabox",
+     "running_s": 2969,
+     "spec": "8/16",
+     "usd": 0.05609
+    }
+   ],
+   "wall_s": 2831.4
+  },
+  "site:g_left_13": {
+   "accepted": 66243,
+   "attempts": 1,
+   "bytes": 564007003,
+   "cpu_s": 18913.8,
+   "exit_code": 0,
+   "export_wall_s": 78.6,
+   "lines": [
+    "con-ron: accepted 66243 declarations (--verified)"
+   ],
+   "maxrss_kib": 3297188,
+   "sha256": "7bd94c5f97bfc939e08f62b583e2f0e69c9c7d9154a9226ef13e93a5df23ab62",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2655.6,
+     "id": "m_agqx43uoeeiumzu7xcsf2ldomu",
+     "provider": "instabox",
+     "running_s": 2653,
+     "spec": "8/16",
+     "usd": 0.05011
+    }
+   ],
+   "wall_s": 2453.5
+  },
+  "site:g_left_14": {
+   "accepted": 66283,
+   "attempts": 1,
+   "bytes": 564918897,
+   "cpu_s": 21216.5,
+   "exit_code": 0,
+   "export_wall_s": 72.0,
+   "lines": [
+    "con-ron: accepted 66283 declarations (--verified)"
+   ],
+   "maxrss_kib": 3063440,
+   "sha256": "cbcbaaa9c638deb2eb07f3db87c1431e113ba1a1d19ef7b2b27bb32f7ef4374f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2972.3,
+     "id": "m_agqx4x3mry6ccqzzpnhxzitktu",
+     "provider": "instabox",
+     "running_s": 2968,
+     "spec": "8/16",
+     "usd": 0.05606
+    }
+   ],
+   "wall_s": 2828.3
+  },
+  "site:g_left_15": {
+   "accepted": 66331,
+   "attempts": 1,
+   "bytes": 565789649,
+   "cpu_s": 22359.5,
+   "exit_code": 0,
+   "export_wall_s": 74.0,
+   "lines": [
+    "con-ron: accepted 66331 declarations (--verified)"
+   ],
+   "maxrss_kib": 3236892,
+   "sha256": "74e84aa8b338358ddb94188fdd1d42865c11ba6fe29b2ebc2d7c05d15c08740d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3303.6,
+     "id": "m_agqx4orv44nxhzo5mrmszeqjya",
+     "provider": "instabox",
+     "running_s": 3300,
+     "spec": "8/16",
+     "usd": 0.06233
+    }
+   ],
+   "wall_s": 3046.5
+  },
+  "site:g_left_16": {
+   "accepted": 66331,
+   "attempts": 3,
+   "bytes": 565887571,
+   "cpu_s": 19994.1,
+   "exit_code": 0,
+   "export_wall_s": 162.5,
+   "lines": [
+    "con-ron: accepted 66331 declarations (--verified)"
+   ],
+   "maxrss_kib": 3163796,
+   "sha256": "ccc8ac328196eda1cbcf4c23c30b6c8df9dc6a7bdb1dadb9ba96124b1ed4f852",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 22.8,
+     "id": "m_agqx3zujld5almfm66rouoys3i",
+     "provider": "instabox",
+     "running_s": 18,
+     "spec": "8/16",
+     "usd": 0.00034
+    },
+    {
+     "alive_s": 2764.4,
+     "id": "m_agqx3z65mqivsyuzvxm5s26gye",
+     "provider": "instabox",
+     "running_s": 2758,
+     "spec": "8/16",
+     "usd": 0.0521
+    }
+   ],
+   "wall_s": 2712.6
+  },
+  "site:g_left_17": {
+   "accepted": 66378,
+   "attempts": 1,
+   "bytes": 566677599,
+   "cpu_s": 20042.9,
+   "exit_code": 0,
+   "export_wall_s": 70.7,
+   "lines": [
+    "con-ron: accepted 66378 declarations (--verified)"
+   ],
+   "maxrss_kib": 3387404,
+   "sha256": "ccb577764adf45445d8e5772caada33b842734da6336707b2ef514dfa876d2ca",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2689.9,
+     "id": "m_agqx4jqtxqzo32ujrsqbfkmshq",
+     "provider": "instabox",
+     "running_s": 2686,
+     "spec": "8/16",
+     "usd": 0.05074
+    }
+   ],
+   "wall_s": 2636.8
+  },
+  "site:g_left_18": {
+   "accepted": 66425,
+   "attempts": 1,
+   "bytes": 567615957,
+   "cpu_s": 19761.2,
+   "exit_code": 0,
+   "export_wall_s": 74.2,
+   "lines": [
+    "con-ron: accepted 66425 declarations (--verified)"
+   ],
+   "maxrss_kib": 3490216,
+   "sha256": "cd372a78ce05b79705ff7b4f177f109de4fff43c1660feedb631f4466f6955ae",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2870.3,
+     "id": "m_agqx4hcbmligfhsztgkrhtkeju",
+     "provider": "instabox",
+     "running_s": 2688,
+     "spec": "8/16",
+     "usd": 0.05078
+    }
+   ],
+   "wall_s": 2585.9
+  },
+  "site:g_left_19": {
+   "accepted": 66472,
+   "attempts": 1,
+   "bytes": 568458587,
+   "cpu_s": 20717.3,
+   "exit_code": 0,
+   "export_wall_s": 103.5,
+   "lines": [
+    "con-ron: accepted 66472 declarations (--verified)"
+   ],
+   "maxrss_kib": 3613128,
+   "sha256": "2b39a8c08f3c45f8542b323df1a99a16f2d674ae0f42412f3f4a872e44dab4c3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2964.7,
+     "id": "m_agqx4fflhxhi5twcq5bra2dbyi",
+     "provider": "instabox",
+     "running_s": 2960,
+     "spec": "8/16",
+     "usd": 0.05592
+    }
+   ],
+   "wall_s": 2647.6
+  },
+  "site:g_left_20": {
+   "accepted": 66472,
+   "attempts": 1,
+   "bytes": 568506847,
+   "cpu_s": 24912.0,
+   "exit_code": 0,
+   "export_wall_s": 77.6,
+   "lines": [
+    "con-ron: accepted 66472 declarations (--verified)"
+   ],
+   "maxrss_kib": 3285148,
+   "sha256": "4f73611bbad7c28e062e8f6679f2c7ac1a3553c7d38010bcb0832b60fbaab832",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3599.0,
+     "id": "m_agqx4ffli5alzyvrytk4b47yoe",
+     "provider": "instabox",
+     "running_s": 3594,
+     "spec": "8/16",
+     "usd": 0.06788
+    }
+   ],
+   "wall_s": 3408.4
+  },
+  "site:g_left_21": {
+   "accepted": 66331,
+   "attempts": 1,
+   "bytes": 565889457,
+   "cpu_s": 22629.4,
+   "exit_code": 0,
+   "export_wall_s": 70.0,
+   "lines": [
+    "con-ron: accepted 66331 declarations (--verified)"
+   ],
+   "maxrss_kib": 3193528,
+   "sha256": "b7a4ec23dd425a040d1933ab10c7e5478b4adbcab22337eee421dc32353a64ca",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3298.3,
+     "id": "m_agqx4qj4vy4rt3jeeglrqpos4u",
+     "provider": "instabox",
+     "running_s": 3292,
+     "spec": "8/16",
+     "usd": 0.06218
+    }
+   ],
+   "wall_s": 2996.8
+  },
+  "site:g_left_22": {
+   "accepted": 66196,
+   "attempts": 1,
+   "bytes": 563162538,
+   "cpu_s": 19923.5,
+   "exit_code": 0,
+   "export_wall_s": 72.0,
+   "lines": [
+    "con-ron: accepted 66196 declarations (--verified)"
+   ],
+   "maxrss_kib": 3241080,
+   "sha256": "6050ff7dfdea08c759b5fd2843f3b2acaabd427f02b42cb1c1100ae3f0cd4cff",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2653.0,
+     "id": "m_agqx45sfo3cfkrea4qjdlrkgvm",
+     "provider": "instabox",
+     "running_s": 2649,
+     "spec": "8/16",
+     "usd": 0.05004
+    }
+   ],
+   "wall_s": 2626.7
+  },
+  "site:g_left_23": {
+   "accepted": 66068,
+   "attempts": 1,
+   "bytes": 560768403,
+   "cpu_s": 23128.9,
+   "exit_code": 0,
+   "export_wall_s": 158.5,
+   "lines": [
+    "con-ron: accepted 66068 declarations (--verified)"
+   ],
+   "maxrss_kib": 3103008,
+   "sha256": "43e9a979231770d076734763fbb70dc0b9258edc1ceee6ae260e1aaf0484ebeb",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3281.7,
+     "id": "m_agqx4ffluwwgxst6gqhqqtlnzu",
+     "provider": "instabox",
+     "running_s": 3278,
+     "spec": "8/16",
+     "usd": 0.06192
+    }
+   ],
+   "wall_s": 3239.7
+  },
+  "site:g_left_24": {
+   "accepted": 65934,
+   "attempts": 1,
+   "bytes": 557719031,
+   "cpu_s": 19100.0,
+   "exit_code": 0,
+   "export_wall_s": 68.2,
+   "lines": [
+    "con-ron: accepted 65934 declarations (--verified)"
+   ],
+   "maxrss_kib": 3217272,
+   "sha256": "027ad718146f63e5d4c91be99e1e31502d5f3201bf39a8b7107046e004cca92d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2660.2,
+     "id": "m_agqx4x2f3d42llpcbcovmdlzta",
+     "provider": "instabox",
+     "running_s": 2656,
+     "spec": "8/16",
+     "usd": 0.05017
+    }
+   ],
+   "wall_s": 2527.5
+  },
+  "site:g_left_25": {
+   "accepted": 65894,
+   "attempts": 1,
+   "bytes": 556878189,
+   "cpu_s": 17187.0,
+   "exit_code": 0,
+   "export_wall_s": 159.5,
+   "lines": [
+    "con-ron: accepted 65894 declarations (--verified)"
+   ],
+   "maxrss_kib": 3180668,
+   "sha256": "8254f038a27894739494937edc21dfd6543dcd6cd11ad260ee5466fa8ae0a20b",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2327.6,
+     "id": "m_agqx4fh57zvusrwu26ob7o7heu",
+     "provider": "instabox",
+     "running_s": 2304,
+     "spec": "8/16",
+     "usd": 0.04351
+    }
+   ],
+   "wall_s": 2228.6
+  },
+  "site:g_right_00": {
+   "accepted": 65145,
+   "attempts": 1,
+   "bytes": 543687785,
+   "cpu_s": 14146.7,
+   "exit_code": 0,
+   "export_wall_s": 71.6,
+   "lines": [
+    "con-ron: accepted 65145 declarations (--verified)"
+   ],
+   "maxrss_kib": 2812016,
+   "sha256": "8e41742a81bed33c7e00d6214f8a03adcd18bb775a602d39d84cf6a22e2660ed",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2039.6,
+     "id": "m_agqx4q2eoqerraw2s7bjnk464a",
+     "provider": "instabox",
+     "running_s": 2037,
+     "spec": "8/16",
+     "usd": 0.03847
+    }
+   ],
+   "wall_s": 1842.6
+  },
+  "site:g_right_01": {
+   "accepted": 65247,
+   "attempts": 1,
+   "bytes": 545124762,
+   "cpu_s": 17572.1,
+   "exit_code": 0,
+   "export_wall_s": 66.0,
+   "lines": [
+    "con-ron: accepted 65247 declarations (--verified)"
+   ],
+   "maxrss_kib": 2513524,
+   "sha256": "dfb433a32567c47184607859630104cb3f2c2877f526ea4f2ffbb326906eb734",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2348.7,
+     "id": "m_agqx4uvbjs7efpcrallc5jswu4",
+     "provider": "instabox",
+     "running_s": 2345,
+     "spec": "8/16",
+     "usd": 0.0443
+    }
+   ],
+   "wall_s": 2304.3
+  },
+  "site:g_right_02": {
+   "accepted": 65381,
+   "attempts": 1,
+   "bytes": 547778243,
+   "cpu_s": 18042.2,
+   "exit_code": 0,
+   "export_wall_s": 62.1,
+   "lines": [
+    "con-ron: accepted 65381 declarations (--verified)"
+   ],
+   "maxrss_kib": 2914952,
+   "sha256": "5b6ea83f40ddfae5ccb1965165fef6c5d948bd79a962fa4047dc9de8a28612a6",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2706.9,
+     "id": "m_agqx4lxvss3igzzve3yuheg5ym",
+     "provider": "instabox",
+     "running_s": 2701,
+     "spec": "8/16",
+     "usd": 0.05101
+    }
+   ],
+   "wall_s": 2468.4
+  },
+  "site:g_right_03": {
+   "accepted": 65483,
+   "attempts": 1,
+   "bytes": 549339592,
+   "cpu_s": 17524.8,
+   "exit_code": 0,
+   "export_wall_s": 66.2,
+   "lines": [
+    "con-ron: accepted 65483 declarations (--verified)"
+   ],
+   "maxrss_kib": 2967936,
+   "sha256": "a100151251461dee33b791cf700bcc88c51a34bb7f3de3844d94390d3e1fb18b",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2659.0,
+     "id": "m_agqx4ykhqy2h56jqv3wosxovuu",
+     "provider": "instabox",
+     "running_s": 2655,
+     "spec": "8/16",
+     "usd": 0.05015
+    }
+   ],
+   "wall_s": 2366.9
+  },
+  "site:g_right_04": {
+   "accepted": 65570,
+   "attempts": 1,
+   "bytes": 551014081,
+   "cpu_s": 18773.3,
+   "exit_code": 0,
+   "export_wall_s": 66.7,
+   "lines": [
+    "con-ron: accepted 65570 declarations (--verified)"
+   ],
+   "maxrss_kib": 3136232,
+   "sha256": "51e7ce459e4a9bfe19c93342ae8c55c5c84fc8df2b98b6cce8fd2dfbebd22bdb",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2673.9,
+     "id": "m_agqx4o6bcalwi4aposizwvd7ee",
+     "provider": "instabox",
+     "running_s": 2670,
+     "spec": "8/16",
+     "usd": 0.05044
+    }
+   ],
+   "wall_s": 2503.4
+  },
+  "site:g_right_05": {
+   "accepted": 65570,
+   "attempts": 1,
+   "bytes": 550981907,
+   "cpu_s": 19152.8,
+   "exit_code": 0,
+   "export_wall_s": 152.6,
+   "lines": [
+    "con-ron: accepted 65570 declarations (--verified)"
+   ],
+   "maxrss_kib": 3069840,
+   "sha256": "e5156a1c14d902cc7c3bcfd5d80acdbef6c18bbbf2801d3733bf691bfde36f68",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2656.0,
+     "id": "m_agqx4frgjlhgzzhow3ertoh2va",
+     "provider": "instabox",
+     "running_s": 2556,
+     "spec": "8/16",
+     "usd": 0.04828
+    }
+   ],
+   "wall_s": 2527.5
+  },
+  "site:g_right_06": {
+   "accepted": 65570,
+   "attempts": 1,
+   "bytes": 550939768,
+   "cpu_s": 17000.4,
+   "exit_code": 0,
+   "export_wall_s": 80.0,
+   "lines": [
+    "con-ron: accepted 65570 declarations (--verified)"
+   ],
+   "maxrss_kib": 2662000,
+   "sha256": "c171fdd65ebad828bda630eeeae4192af17ced3d605048f8a89d556394616e71",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2362.8,
+     "id": "m_agqx4q3mhprty6wain3nywbjdi",
+     "provider": "instabox",
+     "running_s": 2360,
+     "spec": "8/16",
+     "usd": 0.04458
+    }
+   ],
+   "wall_s": 2260.1
+  },
+  "site:g_right_07": {
+   "accepted": 65530,
+   "attempts": 1,
+   "bytes": 550097406,
+   "cpu_s": 16640.1,
+   "exit_code": 0,
+   "export_wall_s": 64.0,
+   "lines": [
+    "con-ron: accepted 65530 declarations (--verified)"
+   ],
+   "maxrss_kib": 2952352,
+   "sha256": "bfc0333f068555e98f6f49c5359d8e38a38f7fc00b042ecaf6d78cf0fdd8a4b4",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2471.6,
+     "id": "m_agqx4hdmvbubwecflsrgyvxhla",
+     "provider": "instabox",
+     "running_s": 2376,
+     "spec": "8/16",
+     "usd": 0.04488
+    }
+   ],
+   "wall_s": 2176.0
+  },
+  "site:g_right_08": {
+   "accepted": 65530,
+   "attempts": 1,
+   "bytes": 550056266,
+   "cpu_s": 20536.4,
+   "exit_code": 0,
+   "export_wall_s": 65.3,
+   "lines": [
+    "con-ron: accepted 65530 declarations (--verified)"
+   ],
+   "maxrss_kib": 3037912,
+   "sha256": "4c8da1d3f8d13a3ff0663aa23296565bcaa0259db73aaaa10484a0be9059ec2e",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3004.3,
+     "id": "m_agqx4ikeu5jr7cfmeedesk2u3e",
+     "provider": "instabox",
+     "running_s": 3001,
+     "spec": "8/16",
+     "usd": 0.05669
+    }
+   ],
+   "wall_s": 2806.2
+  },
+  "site:g_right_09": {
+   "accepted": 65483,
+   "attempts": 1,
+   "bytes": 549264098,
+   "cpu_s": 17567.2,
+   "exit_code": 0,
+   "export_wall_s": 72.3,
+   "lines": [
+    "con-ron: accepted 65483 declarations (--verified)"
+   ],
+   "maxrss_kib": 2945700,
+   "sha256": "81f6545b962a4dfee8949f6f6db67302d509ef66502c48fba81b12b6bd3004f8",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2345.0,
+     "id": "m_agqx42gtejmarbykm2lm53ycbu",
+     "provider": "instabox",
+     "running_s": 2342,
+     "spec": "8/16",
+     "usd": 0.04424
+    }
+   ],
+   "wall_s": 2309.3
+  },
+  "site:g_right_10": {
+   "accepted": 65483,
+   "attempts": 1,
+   "bytes": 549242174,
+   "cpu_s": 18039.0,
+   "exit_code": 0,
+   "export_wall_s": 70.3,
+   "lines": [
+    "con-ron: accepted 65483 declarations (--verified)"
+   ],
+   "maxrss_kib": 2926156,
+   "sha256": "7c65a44fccb1f125caf48fed84a21af05c632746c2f03c070fb949856ae763d9",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2664.8,
+     "id": "m_agqx44etxmnm54s6cxfaevesuy",
+     "provider": "instabox",
+     "running_s": 2658,
+     "spec": "8/16",
+     "usd": 0.0502
+    }
+   ],
+   "wall_s": 2375.2
+  },
+  "site:g_right_11": {
+   "accepted": 65429,
+   "attempts": 1,
+   "bytes": 548575574,
+   "cpu_s": 17443.2,
+   "exit_code": 0,
+   "export_wall_s": 70.3,
+   "lines": [
+    "con-ron: accepted 65429 declarations (--verified)"
+   ],
+   "maxrss_kib": 2892032,
+   "sha256": "0c4831b55401e3dddb8a00221363139bea39d316639ec9e736ecf44bd0c1a4c8",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2654.8,
+     "id": "m_agqx4frjtdsa6ln5lvlfs47tkq",
+     "provider": "instabox",
+     "running_s": 2555,
+     "spec": "8/16",
+     "usd": 0.04827
+    }
+   ],
+   "wall_s": 2330.9
+  },
+  "site:g_right_12": {
+   "accepted": 65429,
+   "attempts": 1,
+   "bytes": 548598927,
+   "cpu_s": 18538.9,
+   "exit_code": 0,
+   "export_wall_s": 62.0,
+   "lines": [
+    "con-ron: accepted 65429 declarations (--verified)"
+   ],
+   "maxrss_kib": 2721184,
+   "sha256": "afdd840a986b470999ad81fb1362822f229ace3aa548b98cc87a6f06124b8b16",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2654.8,
+     "id": "m_agqx4frjwmyf5nljwekbofnts4",
+     "provider": "instabox",
+     "running_s": 2555,
+     "spec": "8/16",
+     "usd": 0.04827
+    }
+   ],
+   "wall_s": 2461.4
+  },
+  "site:g_right_13": {
+   "accepted": 65381,
+   "attempts": 1,
+   "bytes": 547704251,
+   "cpu_s": 15548.0,
+   "exit_code": 0,
+   "export_wall_s": 66.0,
+   "lines": [
+    "con-ron: accepted 65381 declarations (--verified)"
+   ],
+   "maxrss_kib": 2803164,
+   "sha256": "5496a9974d3ab9666866f84a317eea0881032b11793a88dc69ab083975d93e2e",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2346.9,
+     "id": "m_agqx4ykhmwxl4g7nfolhvchd34",
+     "provider": "instabox",
+     "running_s": 2343,
+     "spec": "8/16",
+     "usd": 0.04426
+    }
+   ],
+   "wall_s": 2073.1
+  },
+  "site:g_right_14": {
+   "accepted": 65381,
+   "attempts": 1,
+   "bytes": 547719738,
+   "cpu_s": 16707.0,
+   "exit_code": 0,
+   "export_wall_s": 72.2,
+   "lines": [
+    "con-ron: accepted 65381 declarations (--verified)"
+   ],
+   "maxrss_kib": 2679704,
+   "sha256": "d4d193b8c26cfb03fa3d6c9fc12fff3db3f054ddfe418c4632ad69c3adae604d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2345.0,
+     "id": "m_agqx42gthvr22md2to6wyikmii",
+     "provider": "instabox",
+     "running_s": 2342,
+     "spec": "8/16",
+     "usd": 0.04424
+    }
+   ],
+   "wall_s": 2243.4
+  },
+  "site:g_right_15": {
+   "accepted": 65341,
+   "attempts": 1,
+   "bytes": 546961526,
+   "cpu_s": 18308.7,
+   "exit_code": 0,
+   "export_wall_s": 64.5,
+   "lines": [
+    "con-ron: accepted 65341 declarations (--verified)"
+   ],
+   "maxrss_kib": 2536880,
+   "sha256": "91a3bba58366f392720cdcce2891a1ef9dda01793ea989d6775f4b8b68b53fbf",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2972.8,
+     "id": "m_agqx4fzlkgdu2j6ai4l57saeb4",
+     "provider": "instabox",
+     "running_s": 2806,
+     "spec": "8/16",
+     "usd": 0.05301
+    }
+   ],
+   "wall_s": 2475.2
+  },
+  "site:g_right_16": {
+   "accepted": 65341,
+   "attempts": 1,
+   "bytes": 546786233,
+   "cpu_s": 17960.8,
+   "exit_code": 0,
+   "export_wall_s": 64.2,
+   "lines": [
+    "con-ron: accepted 65341 declarations (--verified)"
+   ],
+   "maxrss_kib": 3018388,
+   "sha256": "bae76db90c48a1ad5da4503ba5e4d131e6419b8d6a812fbf823bc35957868b38",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2655.6,
+     "id": "m_agqx4fznda7xfybl24erauhxra",
+     "provider": "instabox",
+     "running_s": 2488,
+     "spec": "8/16",
+     "usd": 0.04699
+    }
+   ],
+   "wall_s": 2439.1
+  },
+  "site:g_right_17": {
+   "accepted": 65341,
+   "attempts": 1,
+   "bytes": 546744441,
+   "cpu_s": 18172.6,
+   "exit_code": 0,
+   "export_wall_s": 62.0,
+   "lines": [
+    "con-ron: accepted 65341 declarations (--verified)"
+   ],
+   "maxrss_kib": 2896524,
+   "sha256": "bde87211d5db814f2227f3562d84503947100a7b91f044a75ff48957ffce711a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2655.7,
+     "id": "m_agqx4fy235tpn3uyyuzmrrrjie",
+     "provider": "instabox",
+     "running_s": 2493,
+     "spec": "8/16",
+     "usd": 0.04709
+    }
+   ],
+   "wall_s": 2364.8
+  },
+  "site:g_right_18": {
+   "accepted": 65294,
+   "attempts": 1,
+   "bytes": 545866389,
+   "cpu_s": 15149.8,
+   "exit_code": 0,
+   "export_wall_s": 62.0,
+   "lines": [
+    "con-ron: accepted 65294 declarations (--verified)"
+   ],
+   "maxrss_kib": 2759100,
+   "sha256": "6d0ffccaf313ca6f8552af94c0b8a9db70b56a08ce2ebb118eef2b2e705bb355",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2143.7,
+     "id": "m_agqx4hdonq5ksq5qs76j32223y",
+     "provider": "instabox",
+     "running_s": 2052,
+     "spec": "8/16",
+     "usd": 0.03875
+    }
+   ],
+   "wall_s": 2015.4
+  },
+  "site:g_right_19": {
+   "accepted": 65294,
+   "attempts": 1,
+   "bytes": 545837276,
+   "cpu_s": 17501.9,
+   "exit_code": 0,
+   "export_wall_s": 60.0,
+   "lines": [
+    "con-ron: accepted 65294 declarations (--verified)"
+   ],
+   "maxrss_kib": 2526204,
+   "sha256": "0228fb51ef425ddba082eea9e5fa3888fe395dc24e555c5e360e726bc0b86438",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2689.7,
+     "id": "m_agqx4j5ammxiqx5uocv5rkpepq",
+     "provider": "instabox",
+     "running_s": 2685,
+     "spec": "8/16",
+     "usd": 0.05072
+    }
+   ],
+   "wall_s": 2398.1
+  },
+  "site:g_right_20": {
+   "accepted": 65247,
+   "attempts": 1,
+   "bytes": 545030031,
+   "cpu_s": 17553.8,
+   "exit_code": 0,
+   "export_wall_s": 64.0,
+   "lines": [
+    "con-ron: accepted 65247 declarations (--verified)"
+   ],
+   "maxrss_kib": 2601032,
+   "sha256": "53aa5dbfe6b80a121171405eeea758049f91b23063089e4617f5ed6b16fe914b",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2660.6,
+     "id": "m_agqx4wpaf3zdgfqvi2utd4esyu",
+     "provider": "instabox",
+     "running_s": 2658,
+     "spec": "8/16",
+     "usd": 0.0502
+    }
+   ],
+   "wall_s": 2368.7
+  },
+  "site:g_right_21": {
+   "accepted": 65247,
+   "attempts": 1,
+   "bytes": 545034463,
+   "cpu_s": 16140.3,
+   "exit_code": 0,
+   "export_wall_s": 64.1,
+   "lines": [
+    "con-ron: accepted 65247 declarations (--verified)"
+   ],
+   "maxrss_kib": 2583072,
+   "sha256": "4ab6392c8993d01a223486e98d9900e2bce50a82825d2869b282268ca9a9e46f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2339.3,
+     "id": "m_agqx46bccrd4mg3kiqpc2r3mxa",
+     "provider": "instabox",
+     "running_s": 2336,
+     "spec": "8/16",
+     "usd": 0.04413
+    }
+   ],
+   "wall_s": 2162.5
+  },
+  "site:g_right_22": {
+   "accepted": 65200,
+   "attempts": 1,
+   "bytes": 544341574,
+   "cpu_s": 14978.3,
+   "exit_code": 0,
+   "export_wall_s": 152.3,
+   "lines": [
+    "con-ron: accepted 65200 declarations (--verified)"
+   ],
+   "maxrss_kib": 2786576,
+   "sha256": "77459e579481005785831f855b7cd398dba26d562b736804abcd9433066ced8a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2349.2,
+     "id": "m_agqx4f25kpqs2yc2o3tq4aj5gq",
+     "provider": "instabox",
+     "running_s": 2171,
+     "spec": "8/16",
+     "usd": 0.04101
+    }
+   ],
+   "wall_s": 1965.6
+  },
+  "site:g_right_23": {
+   "accepted": 65200,
+   "attempts": 1,
+   "bytes": 544313005,
+   "cpu_s": 16642.0,
+   "exit_code": 0,
+   "export_wall_s": 74.6,
+   "lines": [
+    "con-ron: accepted 65200 declarations (--verified)"
+   ],
+   "maxrss_kib": 2832428,
+   "sha256": "6072b5771d725b7f6cb8825bb5f9052b20681f9d97e2e6b1424dad6d69e43c82",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2353.4,
+     "id": "m_agqx4q2ekwxeiifx2p7jzbhqce",
+     "provider": "instabox",
+     "running_s": 2350,
+     "spec": "8/16",
+     "usd": 0.04439
+    }
+   ],
+   "wall_s": 2215.7
+  },
+  "site:g_right_24": {
+   "accepted": 65145,
+   "attempts": 1,
+   "bytes": 543631010,
+   "cpu_s": 14423.8,
+   "exit_code": 0,
+   "export_wall_s": 67.6,
+   "lines": [
+    "con-ron: accepted 65145 declarations (--verified)"
+   ],
+   "maxrss_kib": 2580984,
+   "sha256": "b6023a2c54983335f9842c2ef83f0f0bdbda1ce926530e62ce004726e3091963",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2044.2,
+     "id": "m_agqx4szwysj5e4i6iqdfckyuli",
+     "provider": "instabox",
+     "running_s": 2040,
+     "spec": "8/16",
+     "usd": 0.03854
+    }
+   ],
+   "wall_s": 1916.4
+  },
+  "site:g_right_25": {
+   "accepted": 65145,
+   "attempts": 1,
+   "bytes": 543635636,
+   "cpu_s": 13444.1,
+   "exit_code": 0,
+   "export_wall_s": 62.8,
+   "lines": [
+    "con-ron: accepted 65145 declarations (--verified)"
+   ],
+   "maxrss_kib": 2774360,
+   "sha256": "8676ad784e373593c54a7c951a5efff3ed1e42b662081d465b60b37110aeecd9",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2034.9,
+     "id": "m_agqx4uvbes4m3naur6pvfawzom",
+     "provider": "instabox",
+     "running_s": 2032,
+     "spec": "8/16",
+     "usd": 0.03839
+    }
+   ],
+   "wall_s": 1784.5
+  },
+  "site:g_top_00": {
+   "accepted": 65894,
+   "attempts": 1,
+   "bytes": 556809958,
+   "cpu_s": 19761.5,
+   "exit_code": 0,
+   "export_wall_s": 68.0,
+   "lines": [
+    "con-ron: accepted 65894 declarations (--verified)"
+   ],
+   "maxrss_kib": 3248980,
+   "sha256": "0f5eb710da25db1e9fe9998f7e82d495ee69fc9f9137f42132e21fb07c527ef8",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2668.1,
+     "id": "m_agqx4qj5alwjoep3h6l4oqnmyy",
+     "provider": "instabox",
+     "running_s": 2663,
+     "spec": "8/16",
+     "usd": 0.05031
+    }
+   ],
+   "wall_s": 2599.0
+  },
+  "site:g_top_01": {
+   "accepted": 65934,
+   "attempts": 1,
+   "bytes": 557728346,
+   "cpu_s": 19219.5,
+   "exit_code": 0,
+   "export_wall_s": 70.1,
+   "lines": [
+    "con-ron: accepted 65934 declarations (--verified)"
+   ],
+   "maxrss_kib": 2855960,
+   "sha256": "77d68064d336b3fa461d0e07491bff996447275a053a761b3875908c112bfe8d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2658.2,
+     "id": "m_agqx4zwreozxxqfgvcaxgxuate",
+     "provider": "instabox",
+     "running_s": 2653,
+     "spec": "8/16",
+     "usd": 0.05012
+    }
+   ],
+   "wall_s": 2474.1
+  },
+  "site:g_top_02": {
+   "accepted": 65934,
+   "attempts": 1,
+   "bytes": 557752497,
+   "cpu_s": 19014.4,
+   "exit_code": 0,
+   "export_wall_s": 76.5,
+   "lines": [
+    "con-ron: accepted 65934 declarations (--verified)"
+   ],
+   "maxrss_kib": 3138532,
+   "sha256": "68e851c4c1e2cb9f604dbcd767a5cba692475ff571040f5d0ac82153441408f4",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2656.0,
+     "id": "m_agqx43uonor4dgtshoh7z7a3rm",
+     "provider": "instabox",
+     "running_s": 2653,
+     "spec": "8/16",
+     "usd": 0.05011
+    }
+   ],
+   "wall_s": 2514.1
+  },
+  "site:g_top_03": {
+   "accepted": 65974,
+   "attempts": 1,
+   "bytes": 558771055,
+   "cpu_s": 20881.2,
+   "exit_code": 0,
+   "export_wall_s": 72.6,
+   "lines": [
+    "con-ron: accepted 65974 declarations (--verified)"
+   ],
+   "maxrss_kib": 3086392,
+   "sha256": "53c4a3c4c7334dfc4aace56350e6cf639eb1f03b351f17bff4eca07f4c3c1635",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2963.9,
+     "id": "m_agqx4fpkadtnmoa2ckalj7fhxe",
+     "provider": "instabox",
+     "running_s": 2879,
+     "spec": "8/16",
+     "usd": 0.05438
+    }
+   ],
+   "wall_s": 2775.4
+  },
+  "site:g_top_04": {
+   "accepted": 66028,
+   "attempts": 1,
+   "bytes": 559518038,
+   "cpu_s": 23025.3,
+   "exit_code": 0,
+   "export_wall_s": 72.4,
+   "lines": [
+    "con-ron: accepted 66028 declarations (--verified)"
+   ],
+   "maxrss_kib": 3127336,
+   "sha256": "bc6f08fa2cc75caf8e1cdaa4232e0d8291a50b444dc18fe8d7b114de5ce1376e",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3282.6,
+     "id": "m_agqx4fflpjp6edgu5ipntwb6py",
+     "provider": "instabox",
+     "running_s": 3278,
+     "spec": "8/16",
+     "usd": 0.06192
+    }
+   ],
+   "wall_s": 3145.2
+  },
+  "site:g_top_05": {
+   "accepted": 66028,
+   "attempts": 1,
+   "bytes": 559780090,
+   "cpu_s": 22574.3,
+   "exit_code": 0,
+   "export_wall_s": 73.5,
+   "lines": [
+    "con-ron: accepted 66028 declarations (--verified)"
+   ],
+   "maxrss_kib": 3280824,
+   "sha256": "4f5e592ee6bb51167c29c2f3abe6b0f4229099bc7dc76150beeb1cc77b3aafc3",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3281.4,
+     "id": "m_agqx4fflc4uc433kxx6hydxwny",
+     "provider": "instabox",
+     "running_s": 3278,
+     "spec": "8/16",
+     "usd": 0.06192
+    }
+   ],
+   "wall_s": 3172.4
+  },
+  "site:g_top_06": {
+   "accepted": 66068,
+   "attempts": 1,
+   "bytes": 560556090,
+   "cpu_s": 21561.5,
+   "exit_code": 0,
+   "export_wall_s": 66.0,
+   "lines": [
+    "con-ron: accepted 66068 declarations (--verified)"
+   ],
+   "maxrss_kib": 3222472,
+   "sha256": "8c81cd9eace4df26d7162075d9a7e56882d0de534840d3a8e258b8d62918248a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2982.1,
+     "id": "m_agqx4qj5cja3vywfcchs6dr63y",
+     "provider": "instabox",
+     "running_s": 2978,
+     "spec": "8/16",
+     "usd": 0.05626
+    }
+   ],
+   "wall_s": 2832.3
+  },
+  "site:g_top_07": {
+   "accepted": 66109,
+   "attempts": 1,
+   "bytes": 561578348,
+   "cpu_s": 19700.6,
+   "exit_code": 0,
+   "export_wall_s": 70.1,
+   "lines": [
+    "con-ron: accepted 66109 declarations (--verified)"
+   ],
+   "maxrss_kib": 3399412,
+   "sha256": "b5e2fbe021a3654c348fa34c8e523c77b7146648c88fb466ae73830f705a2f0f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2659.2,
+     "id": "m_agqx4x3muot4lh7iyehh34popq",
+     "provider": "instabox",
+     "running_s": 2656,
+     "spec": "8/16",
+     "usd": 0.05017
+    }
+   ],
+   "wall_s": 2523.4
+  },
+  "site:g_top_08": {
+   "accepted": 66109,
+   "attempts": 1,
+   "bytes": 561518517,
+   "cpu_s": 19553.6,
+   "exit_code": 0,
+   "export_wall_s": 70.4,
+   "lines": [
+    "con-ron: accepted 66109 declarations (--verified)"
+   ],
+   "maxrss_kib": 3135968,
+   "sha256": "09ce16dde28eb3138baf31e5f5101c7c85f6f973ca261aae6ef09b076faed79d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2684.7,
+     "id": "m_agqx4lggxvbgvclwa6db2vllpy",
+     "provider": "instabox",
+     "running_s": 2682,
+     "spec": "8/16",
+     "usd": 0.05066
+    }
+   ],
+   "wall_s": 2571.1
+  },
+  "site:g_top_09": {
+   "accepted": 66149,
+   "attempts": 1,
+   "bytes": 562463078,
+   "cpu_s": 20012.5,
+   "exit_code": 0,
+   "export_wall_s": 74.1,
+   "lines": [
+    "con-ron: accepted 66149 declarations (--verified)"
+   ],
+   "maxrss_kib": 3192556,
+   "sha256": "55e1645e9c78b0dbf49e3a546513917c0ebc0cc7bc79cd5993ceec5f6a7e95e7",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2977.1,
+     "id": "m_agqx4ufaycd5bcde2c6yqxm4bm",
+     "provider": "instabox",
+     "running_s": 2973,
+     "spec": "8/16",
+     "usd": 0.05615
+    }
+   ],
+   "wall_s": 2675.5
+  },
+  "site:g_top_10": {
+   "accepted": 65658,
+   "attempts": 1,
+   "bytes": 552716094,
+   "cpu_s": 20860.1,
+   "exit_code": 0,
+   "export_wall_s": 66.0,
+   "lines": [
+    "con-ron: accepted 65658 declarations (--verified)"
+   ],
+   "maxrss_kib": 2811336,
+   "sha256": "82cda7e9c9d320b0e313e130d56844cd251e655e48c2d758f8da5526254b6430",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3408.7,
+     "id": "m_agqx4gyvbfy3wj2jsqfjzlxfem",
+     "provider": "instabox",
+     "running_s": 3001,
+     "spec": "8/16",
+     "usd": 0.05668
+    }
+   ],
+   "wall_s": 2920.4
+  },
+  "site:g_top_11": {
+   "accepted": 65705,
+   "attempts": 1,
+   "bytes": 553538606,
+   "cpu_s": 20701.5,
+   "exit_code": 0,
+   "export_wall_s": 70.8,
+   "lines": [
+    "con-ron: accepted 65705 declarations (--verified)"
+   ],
+   "maxrss_kib": 3016996,
+   "sha256": "cb05f9462d9edc47315b9cac7558bef4c9d64137cee2c92444e8180fb1df990e",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2975.4,
+     "id": "m_agqx4fpkwgzourpnb6rqg7pq2e",
+     "provider": "instabox",
+     "running_s": 2889,
+     "spec": "8/16",
+     "usd": 0.05458
+    }
+   ],
+   "wall_s": 2837.9
+  },
+  "site:g_top_12": {
+   "accepted": 65752,
+   "attempts": 1,
+   "bytes": 554588458,
+   "cpu_s": 20556.5,
+   "exit_code": 0,
+   "export_wall_s": 66.1,
+   "lines": [
+    "con-ron: accepted 65752 declarations (--verified)"
+   ],
+   "maxrss_kib": 3096580,
+   "sha256": "b04339892615b93613aec27a3a96d9f27ea81fcf1b7ede63370a2d643d5be08a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3000.4,
+     "id": "m_agqx4le6smem22ayyz6xauyk6y",
+     "provider": "instabox",
+     "running_s": 2995,
+     "spec": "8/16",
+     "usd": 0.05658
+    }
+   ],
+   "wall_s": 2819.4
+  },
+  "site:g_top_13": {
+   "accepted": 65752,
+   "attempts": 1,
+   "bytes": 554386440,
+   "cpu_s": 17351.6,
+   "exit_code": 0,
+   "export_wall_s": 99.5,
+   "lines": [
+    "con-ron: accepted 65752 declarations (--verified)"
+   ],
+   "maxrss_kib": 3138748,
+   "sha256": "5edb7fc1fc5adf0c70993d425b55e032b320169e5a12400ed7481096bdb191d8",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2644.0,
+     "id": "m_agqx4fpkcbft2ilwwsng63m2ou",
+     "provider": "instabox",
+     "running_s": 2559,
+     "spec": "8/16",
+     "usd": 0.04834
+    }
+   ],
+   "wall_s": 2281.7
+  },
+  "site:g_top_14": {
+   "accepted": 65799,
+   "attempts": 1,
+   "bytes": 555223767,
+   "cpu_s": 17277.0,
+   "exit_code": 0,
+   "export_wall_s": 68.2,
+   "lines": [
+    "con-ron: accepted 65799 declarations (--verified)"
+   ],
+   "maxrss_kib": 3152720,
+   "sha256": "cd01c7d9f7b651197972213ace2eff5d8f1199610cec905da9cfa38620d8428a",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2350.4,
+     "id": "m_agqx4sijp2d6l23lithhd5it4q",
+     "provider": "instabox",
+     "running_s": 2343,
+     "spec": "8/16",
+     "usd": 0.04425
+    }
+   ],
+   "wall_s": 2285.9
+  },
+  "site:g_top_15": {
+   "accepted": 65799,
+   "attempts": 1,
+   "bytes": 555216346,
+   "cpu_s": 20664.0,
+   "exit_code": 0,
+   "export_wall_s": 70.0,
+   "lines": [
+    "con-ron: accepted 65799 declarations (--verified)"
+   ],
+   "maxrss_kib": 3107496,
+   "sha256": "49a1ffb2356cb7eed9c82135550624cacfb72bc63742f83e57646f90a22c8949",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2976.9,
+     "id": "m_agqx4ufbvp7eezqgh6xrahldfq",
+     "provider": "instabox",
+     "running_s": 2971,
+     "spec": "8/16",
+     "usd": 0.05613
+    }
+   ],
+   "wall_s": 2699.9
+  },
+  "site:g_top_16": {
+   "accepted": 65846,
+   "attempts": 1,
+   "bytes": 555983568,
+   "cpu_s": 21952.2,
+   "exit_code": 0,
+   "export_wall_s": 66.0,
+   "lines": [
+    "con-ron: accepted 65846 declarations (--verified)"
+   ],
+   "maxrss_kib": 3110072,
+   "sha256": "13e9c5f3b684144a1247efa64963ff44d0bf5f5a89da293927c1682affad8d5f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3315.7,
+     "id": "m_agqx4jplnknr4j4meqneeh7xde",
+     "provider": "instabox",
+     "running_s": 3312,
+     "spec": "8/16",
+     "usd": 0.06256
+    }
+   ],
+   "wall_s": 3058.6
+  },
+  "site:g_top_17": {
+   "accepted": 65894,
+   "attempts": 1,
+   "bytes": 556790816,
+   "cpu_s": 20652.4,
+   "exit_code": 0,
+   "export_wall_s": 68.3,
+   "lines": [
+    "con-ron: accepted 65894 declarations (--verified)"
+   ],
+   "maxrss_kib": 3214236,
+   "sha256": "ed34a912598fc6f4162ff1e278e6589f73d0791de2f85f964d66292cd94ea44f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 3186.5,
+     "id": "m_agqx4hcduhiscxzyzyqidu3hiq",
+     "provider": "instabox",
+     "running_s": 3003,
+     "spec": "8/16",
+     "usd": 0.05673
+    }
+   ],
+   "wall_s": 2738.6
+  },
+  "site:g_top_18": {
+   "accepted": 65894,
+   "attempts": 1,
+   "bytes": 556787153,
+   "cpu_s": 19494.1,
+   "exit_code": 0,
+   "export_wall_s": 66.0,
+   "lines": [
+    "con-ron: accepted 65894 declarations (--verified)"
+   ],
+   "maxrss_kib": 2913888,
+   "sha256": "ccc7ab32993587c8bf29a192636d08bfdcd23a37297d7a332affa3bb63510d8f",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2689.0,
+     "id": "m_agqx4h4rd23hvyex6qznu7xc2y",
+     "provider": "instabox",
+     "running_s": 2686,
+     "spec": "8/16",
+     "usd": 0.05074
+    }
+   ],
+   "wall_s": 2578.0
+  },
+  "site:g_top_19": {
+   "accepted": 65617,
+   "attempts": 1,
+   "bytes": 551759520,
+   "cpu_s": 16486.0,
+   "exit_code": 0,
+   "export_wall_s": 69.2,
+   "lines": [
+    "con-ron: accepted 65617 declarations (--verified)"
+   ],
+   "maxrss_kib": 2939164,
+   "sha256": "ebee0ea7839292cea7b28f158a3057b9c717d36b2136aac867e3c9390e796b50",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2348.7,
+     "id": "m_agqx4syoymeeggn7lpvmat3v6m",
+     "provider": "instabox",
+     "running_s": 2346,
+     "spec": "8/16",
+     "usd": 0.04431
+    }
+   ],
+   "wall_s": 2238.4
+  },
+  "site:g_top_20": {
+   "accepted": 65617,
+   "attempts": 1,
+   "bytes": 551745812,
+   "cpu_s": 18044.5,
+   "exit_code": 0,
+   "export_wall_s": 66.2,
+   "lines": [
+    "con-ron: accepted 65617 declarations (--verified)"
+   ],
+   "maxrss_kib": 2780248,
+   "sha256": "71c6af2b30f714da34398ad9612b3793621528ede692237a167f9087543a4190",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2664.4,
+     "id": "m_agqx4uvbgukx2pezeyxe7spwre",
+     "provider": "instabox",
+     "running_s": 2660,
+     "spec": "8/16",
+     "usd": 0.05025
+    }
+   ],
+   "wall_s": 2430.6
+  },
+  "site:g_top_21": {
+   "accepted": 65530,
+   "attempts": 1,
+   "bytes": 550096418,
+   "cpu_s": 19184.8,
+   "exit_code": 0,
+   "export_wall_s": 64.3,
+   "lines": [
+    "con-ron: accepted 65530 declarations (--verified)"
+   ],
+   "maxrss_kib": 3041856,
+   "sha256": "73756e0077b9132f035471f83458d4cf4f40a3ae338e3e35080d23ced01b5ce9",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2660.7,
+     "id": "m_agqx4wo764ckmkmgsiy33n4hea",
+     "provider": "instabox",
+     "running_s": 2657,
+     "spec": "8/16",
+     "usd": 0.0502
+    }
+   ],
+   "wall_s": 2568.8
+  },
+  "site:g_top_22": {
+   "accepted": 65381,
+   "attempts": 1,
+   "bytes": 547699506,
+   "cpu_s": 15795.2,
+   "exit_code": 0,
+   "export_wall_s": 70.5,
+   "lines": [
+    "con-ron: accepted 65381 declarations (--verified)"
+   ],
+   "maxrss_kib": 2923876,
+   "sha256": "f0d0a8df8b54aaf8800bff76d5a5cbee3fcebc7d7fae16cca1d774c804d1a498",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2342.7,
+     "id": "m_agqx44et4kgebk5pzivy6hzr2m",
+     "provider": "instabox",
+     "running_s": 2339,
+     "spec": "8/16",
+     "usd": 0.04419
+    }
+   ],
+   "wall_s": 2115.6
+  },
+  "site:g_top_23": {
+   "accepted": 65294,
+   "attempts": 1,
+   "bytes": 545866953,
+   "cpu_s": 17781.1,
+   "exit_code": 0,
+   "export_wall_s": 64.1,
+   "lines": [
+    "con-ron: accepted 65294 declarations (--verified)"
+   ],
+   "maxrss_kib": 2964428,
+   "sha256": "6f267c5fa08b20f791ea9b765bb9908edbbffffce816f5fe56ca1d12ab4b5fcb",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2373.5,
+     "id": "m_agqx4ike66imzs7yibmh6wuniq",
+     "provider": "instabox",
+     "running_s": 2370,
+     "spec": "8/16",
+     "usd": 0.04476
+    }
+   ],
+   "wall_s": 2341.6
+  },
+  "site:g_top_24": {
+   "accepted": 65200,
+   "attempts": 1,
+   "bytes": 544290941,
+   "cpu_s": 16238.8,
+   "exit_code": 0,
+   "export_wall_s": 70.3,
+   "lines": [
+    "con-ron: accepted 65200 declarations (--verified)"
+   ],
+   "maxrss_kib": 2727588,
+   "sha256": "dfb88aa839771a9caca42acfc0522f8d9455f9755bd958ad51af828a5402a094",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2664.9,
+     "id": "m_agqx4f2rfof6fphiydewgwfaim",
+     "provider": "instabox",
+     "running_s": 2489,
+     "spec": "8/16",
+     "usd": 0.04701
+    }
+   ],
+   "wall_s": 2198.1
+  },
+  "site:g_top_25": {
+   "accepted": 65145,
+   "attempts": 1,
+   "bytes": 543630086,
+   "cpu_s": 15788.0,
+   "exit_code": 0,
+   "export_wall_s": 62.0,
+   "lines": [
+    "con-ron: accepted 65145 declarations (--verified)"
+   ],
+   "maxrss_kib": 2862724,
+   "sha256": "030c5f4ced1a3a0d7c6d1674113cf377736d4a703cd1268c16f8835ba407021d",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 2350.3,
+     "id": "m_agqx4wpae3qvoykrm4sq7do26y",
+     "provider": "instabox",
+     "running_s": 2347,
+     "spec": "8/16",
+     "usd": 0.04433
+    }
+   ],
+   "wall_s": 2067.8
+  },
+  "top": {
+   "accepted": 84534,
+   "attempts": 1,
+   "bytes": 543271093,
+   "cpu_s": 32584.9,
+   "exit_code": 0,
+   "export_wall_s": 1813.0,
+   "lines": [
+    "con-ron: accepted 84534 declarations (--verified)"
+   ],
+   "maxrss_kib": 3548540,
+   "sha256": "c0e52b2de781e7b811616906e5e35980ce89328daa19a417f3abb665703ac9c7",
+   "state": "done",
+   "vms": [
+    {
+     "alive_s": 4255.7,
+     "id": "m_agqx4jvrzbu6s4bipm43yiuqmy",
+     "provider": "instabox",
+     "running_s": 4251,
+     "spec": "8/16",
+     "usd": 0.08029
+    }
+   ],
+   "wall_s": 4110.1
+  }
+ },
+ "tools": {
+  "ExportShard.lean": "18a31394eb653d698439e45211a5d30508a5cade42c00cfabd97f7aad3528681",
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "conron_shard.py": "b97c0b76f967e2d3044feda4ebe159a85b190fe5aa566396bfcbd23a89c9f25e",
+  "exportshard": "77102b6141bdc1bc52f8c22a960c3c0228ab11163cef670419f0a41becc241c7",
+  "shard_manifest.py": "0918e68c82e09510239bb963e26d3e6488b3847f613dde30d464a5dd72c9e08d",
+  "toolchain": "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2",
+  "utc": "2026-10-27T15:02:58Z"
+ },
+ "top_info": {
+  "abstracted": [
+   "ZetaLean.DH.Rung3Assembly.Plan2.big_bottom",
+   "ZetaLean.DH.Rung3Assembly.Plan2.big_right",
+   "ZetaLean.DH.Rung3Assembly.Plan2.big_left",
+   "ZetaLean.DH.Rung3Assembly.Plan2.big_top",
+   "ZetaLean.DH.Rung3Assembly.Plan2.big_frontier",
+   "ZetaLean.DH.Rung3Assembly.Plan2.centre_small",
+   "ZetaLean.DH.Rung3Assembly.Plan2.deriv_bound_small",
+   "ZetaLean.DH.Rung3Assembly.Plan2.small_right",
+   "ZetaLean.DH.Rung3Assembly.Plan2.small_left",
+   "ZetaLean.DH.Rung3Assembly.Plan2.small_top",
+   "ZetaLean.DH.Rung3Assembly.Plan2.small_bottom",
+   "ZetaLean.DH.Rung3Assembly.Plan2.small_frontier",
+   "ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn",
+   "ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located",
+   "ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip",
+   "ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_of",
+   "ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_hundred",
+   "ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located'"
+  ],
+  "export_names": [
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.big_bottom",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.big_top",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.big_left",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.big_right",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.big_frontier",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.deriv_bound_small",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.small_bottom",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.small_top",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.small_left",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.small_right",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.small_frontier",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.centre_small",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located'",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_of",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_hundred",
+   "Rung3Glue.ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip"
+  ],
+  "site_constants_reached_otherwise": 111,
+  "site_theorems": 435
+ },
+ "vms_created": 220
+}

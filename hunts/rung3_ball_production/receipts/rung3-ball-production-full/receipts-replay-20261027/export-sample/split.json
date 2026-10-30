@@ -1,0 +1,18 @@
+{
+ "site": {
+  "decls": 687,
+  "bytes": 14771822
+ },
+ "base": {
+  "decls": 61099,
+  "bytes": 471741393
+ },
+ "trailing_bytes": 0,
+ "site_examples": [
+  "ZetaLean.DH.Cert.SI_B_right_06._proof_1",
+  "ZetaLean.DH.Cert.SI_B_right_06._proof_2",
+  "ZetaLean.DH.Cert.SI_B_right_06",
+  "ZetaLean.DH.Cert.B_B_right_06",
+  "ZetaLean.DH.Cert.S_B_right_06"
+ ]
+}

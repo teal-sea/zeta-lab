@@ -1,0 +1,23 @@
+	Command being timed: "<cache>/rung3-conron-fleet-20261027/build/exportshard top Rung3Assembly.Final <cache>/rung3-conron-fleet-20261027/phase0/top-info.json ZetaLean.DH.Rung3Assembly.Plan2.big_bottom ZetaLean.DH.Rung3Assembly.Plan2.big_top ZetaLean.DH.Rung3Assembly.Plan2.big_left ZetaLean.DH.Rung3Assembly.Plan2.big_right ZetaLean.DH.Rung3Assembly.Plan2.big_frontier ZetaLean.DH.Rung3Assembly.Plan2.deriv_bound_small ZetaLean.DH.Rung3Assembly.Plan2.small_bottom ZetaLean.DH.Rung3Assembly.Plan2.small_top ZetaLean.DH.Rung3Assembly.Plan2.small_left ZetaLean.DH.Rung3Assembly.Plan2.small_right ZetaLean.DH.Rung3Assembly.Plan2.small_frontier ZetaLean.DH.Rung3Assembly.Plan2.centre_small ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located' ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_of ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_hundred ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip"
+	User time (seconds): 1778.56
+	System time (seconds): 8.67
+	Percent of CPU this job got: 98%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 30:12.18
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 17552496
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 409175
+	Voluntary context switches: 21
+	Involuntary context switches: 88414
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 64
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

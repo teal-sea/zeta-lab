@@ -1,0 +1,29 @@
+{
+  "command": [
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+    "--run",
+    "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/lean/ReplayProgress.lean",
+    "Rung3Assembly.Final",
+    "<cache>/rung3-ball-production-full/receipts-replay-20261027/window"
+  ],
+  "cwd": "<cache>/rung3-ball-production-full/receipts-replay-20261027",
+  "start_utc": "2026-10-27T00:15:48.293215+00:00",
+  "wall_limit_seconds": null,
+  "host_memavailable_floor_kib": 20971520,
+  "inputs_sha256_before": {
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+    "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/lean/ReplayProgress.lean": "349d8a409473692d93c65ba2c6c728e9ce38a8d593d631ede00a73b9d6d6e117"
+  },
+  "pid": 229520,
+  "end_utc": "2026-10-27T00:16:08.720676+00:00",
+  "exit_code": 1,
+  "stop_reason": null,
+  "peak_sampled_tree_rss_kib": 17919136,
+  "min_memavailable_kib": 68803652,
+  "inputs_sha256_after": {
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+    "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/lean/ReplayProgress.lean": "349d8a409473692d93c65ba2c6c728e9ce38a8d593d631ede00a73b9d6d6e117"
+  },
+  "stdout_sha256": "9801af8232c17e759fca954c61c6b913d96db3e7300696813ab29d3acc885673",
+  "stderr_sha256": "23fae7365e296c76c322ea4cc4270e62bd0e7fd4ae1be93812f6f09894415963"
+}

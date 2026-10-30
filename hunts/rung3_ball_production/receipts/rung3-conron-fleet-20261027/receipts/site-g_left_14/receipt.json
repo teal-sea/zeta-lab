@@ -1,0 +1,51 @@
+{
+ "shard": "site:g_left_14",
+ "start_utc": "2026-10-27T17:19:18Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "site:g_left_14",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "9abd2c57730c788e883c5ea2292619132c89d3113e028264d29f3affb699f88a",
+  "sha256_ndjson": "cbcbaaa9c638deb2eb07f3db87c1431e113ba1a1d19ef7b2b27bb32f7ef4374f",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "9abd2c57730c788e883c5ea2292619132c89d3113e028264d29f3affb699f88a"
+ },
+ "decompress_s": 0.9,
+ "sha256_export": "cbcbaaa9c638deb2eb07f3db87c1431e113ba1a1d19ef7b2b27bb32f7ef4374f",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T17:19:19Z",
+ "exit_code": 0,
+ "wall_s": 2828.3,
+ "user_s": 21201.6,
+ "sys_s": 14.9,
+ "maxrss_kib": 3063440,
+ "peak_sampled_rss_kib": 2946908,
+ "verdict_lines": [
+  "con-ron: accepted 66283 declarations (--verified)",
+  "con-ron: parse done: 66313 fold records \u2014 66305 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=3.379s (parse 3.379s)",
+  "con-ron: check done: 65240/65240 t=2827.093s (check 2794.651s)",
+  "con-ron: done: parse 3.379s, install 29.063s, check 2794.651s, 8 workers t=2827.093s"
+ ],
+ "stdout_tail": "con-ron: accepted 66283 declarations (--verified)\n",
+ "stderr_tail": "Set.indicator_smul t=2627.621s\ncon-ron: check 64640/65240 theorem rank_pos_iff_nontrivial t=2627.652s\ncon-ron: check 64660/65240 theorem Metric.isClosedEmbedding_of_pairwise_le_dist t=2627.670s\ncon-ron: check 64680/65240 theorem IsClosed.isCompletelyPseudoMetrizableSpace t=2627.681s\ncon-ron: check 64700/65240 theorem MeasureTheory.hasSum_integral_of_summable_integral_norm t=2627.705s\ncon-ron: check 64720/65240 theorem Asymptotics.IsTheta.isBigO t=2627.737s\ncon-ron: check 64740/65240 theorem Complex.Gamma_ne_zero_of_re_pos t=2627.756s\ncon-ron: check 64760/65240 definition SignType.instDecidableLE t=2627.768s\ncon-ron: check 64780/65240 theorem SignType.instLinearOrder._proof_6 t=2627.774s\ncon-ron: check 64800/65240 theorem SignType.instCommGroupWithZero._proof_7 t=2627.782s\ncon-ron: check 64820/65240 theorem SignType.coe_neg t=2627.790s\ncon-ron: check 64840/65240 theorem one_lt_mul_of_lt_of_le t=2627.824s\ncon-ron: check 64860/65240 theorem instFiniteUnits t=2627.832s\ncon-ron: check 64880/65240 theorem _private.Mathlib.GroupTheory.GroupAction.Defs.0.MulAction.mem_orbit_symm._simp_1_1 t=2627.836s\ncon-ron: check 64900/65240 theorem Subgroup.one_mem t=2627.839s\ncon-ron: check 64920/65240 theorem SubgroupClass.toGroup._proof_3 t=2627.844s\ncon-ron: check 64940/65240 definition Quotient.fintype t=2627.848s\ncon-ron: check 64960/65240 definition finEquivPowers.match_3 t=2627.851s\ncon-ron: check 64980/65240 definition _private.Mathlib.GroupTheory.OrderOfElement.0.IsOfFinOrder.mem_powers_iff_mem_zpowers.match_1_3 t=2627.854s\ncon-ron: check 65000/65240 theorem _private.Mathlib.GroupTheory.OrderOfElement.0.not_isOfFinOrder_of_injective_pow._simp_1_2 t=2627.858s\ncon-ron: check 65020/65240 theorem Fintype.card_prod t=2627.861s\ncon-ron: check 65040/65240 theorem _private.Mathlib.GroupTheory.OrderOfElement.0.orderOf_dvd_natCard._simp_1_1 t=2627.867s\ncon-ron: check 65060/65240 theorem ZetaLean.DH.dhChar_inv_zero t=2627.875s\ncon-ron: check 65080/65240 theorem _private.Mathlib.Topology.UniformSpace.Defs.0.isOpen_iff_ball_subset._simp_1_2 t=2627.900s\ncon-ron: check 65100/65240 theorem Set.mapsTo_univ._simp_1 t=2627.920s\ncon-ron: check 65120/65240 theorem HasFPowerSeriesWithinAt.isBigO_sub_partialSum_pow t=2627.949s\ncon-ron: check 65140/65240 theorem instAddCommMonoidFormalMultilinearSeries._proof_2 t=2627.960s\ncon-ron: check 65160/65240 theorem AnalyticAt.add t=2627.984s\ncon-ron: check 65180/65240 theorem _private.ZetaLean.DHTailBound2.0.ZetaLean.DH.norm_neg_sub_two t=2628.012s\ncon-ron: check 65200/65240 theorem _private.ZetaLean.BallCertSupport.0.ZetaLean.ComplexBall.contains_dhSumBalls._proof_1_5 t=2628.063s\ncon-ron: check 65220/65240 theorem ZetaLean.DH.Cert.evfun_g_left_14_545 t=2628.467s\ncon-ron: check 65240/65240 theorem _private.Cg_left_14.Primes.0.ZetaLean.DH.Cert.Prime_g_left_14_337.ev_whole._proof_1_1 t=2826.930s\ncon-ron: check done: 65240/65240 t=2827.093s (check 2794.651s)\ncon-ron: done: parse 3.379s, install 29.063s, check 2794.651s, 8 workers t=2827.093s\n",
+ "sha256_stdout": "1e2f3702d54bc2cbe50c54b54a87d7600491de231a6516aa0e94464bc1c4ed16",
+ "sha256_stderr": "3f9a28472bb3bd8911f9dca1a640c8959832adc44ac356268c2b25f2fd1465ae",
+ "accepted_declarations": 66283,
+ "end_utc": "2026-10-27T18:06:28Z",
+ "phase": "checked"
+}

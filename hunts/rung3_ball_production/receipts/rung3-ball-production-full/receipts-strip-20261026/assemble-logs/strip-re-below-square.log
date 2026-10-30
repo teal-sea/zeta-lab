@@ -1,0 +1,8 @@
+<cache>/rung3-ball-production-strip-20261026/strip-faults/Strip_re_below_square.lean:19:20: error: linarith failed to find a contradiction
+z : ℂ
+hz : DH z = 0
+h1 : 808517 / 1000000 - 3 / 64 ≤ z.re
+h2 : z.re ≤ 808517 / 1000000 + 3 / 64
+a✝ : 19 / 25 ≤ z.re
+⊢ False
+failed

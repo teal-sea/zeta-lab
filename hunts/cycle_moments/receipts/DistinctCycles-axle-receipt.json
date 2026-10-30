@@ -1,5 +1,5 @@
 {
-  "source_path": "/Users/thomas/zeta-lab/hunts/cycle_moments/DistinctCycles.lean",
+  "source_path": "hunts/cycle_moments/DistinctCycles.lean",
   "source_sha256": "81cf4d7a6d99a20504f563cfb492d7df656e71f920b0db15ca2b1e833b025597",
   "environment": "lean-4.33.0",
   "response": {

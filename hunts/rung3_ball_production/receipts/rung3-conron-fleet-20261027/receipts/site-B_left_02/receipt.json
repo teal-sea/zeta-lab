@@ -1,0 +1,51 @@
+{
+ "shard": "site:B_left_02",
+ "start_utc": "2026-10-27T16:01:47Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "site:B_left_02",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "1bf105d2b797d0d44b5d14bc59e20f3ceb49ea9eecb3a6fef35394e2675e4490",
+  "sha256_ndjson": "95a393000c984992679496853e5bc066a13681db3ef031b69da03adf6837e836",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "1bf105d2b797d0d44b5d14bc59e20f3ceb49ea9eecb3a6fef35394e2675e4490"
+ },
+ "decompress_s": 0.5,
+ "sha256_export": "95a393000c984992679496853e5bc066a13681db3ef031b69da03adf6837e836",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T16:01:48Z",
+ "exit_code": 0,
+ "wall_s": 1422.0,
+ "user_s": 10414.7,
+ "sys_s": 9.2,
+ "maxrss_kib": 2423068,
+ "peak_sampled_rss_kib": 2423480,
+ "verdict_lines": [
+  "con-ron: accepted 63831 declarations (--verified)",
+  "con-ron: parse done: 63861 fold records \u2014 63853 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=2.633s (parse 2.633s)",
+  "con-ron: check done: 62788/62788 t=1420.779s (check 1393.202s)",
+  "con-ron: done: parse 2.633s, install 24.944s, check 1393.202s, 8 workers t=1420.779s"
+ ],
+ "stdout_tail": "con-ron: accepted 63831 declarations (--verified)\n",
+ "stderr_tail": "hner.Basic.0.MeasureTheory.integral_div._simp_1_1 t=1272.083s\ncon-ron: check 62200/62788 theorem _private.Mathlib.NumberTheory.LSeries.AbstractFuncEq.0.WeakFEPair.f_modif_aux2._proof_1_5 t=1272.107s\ncon-ron: check 62220/62788 theorem NoncompactSpace.noncompact_univ t=1272.148s\ncon-ron: check 62240/62788 theorem instNeBotCocompactOfNoncompactSpace t=1272.159s\ncon-ron: check 62260/62788 definition _private.Mathlib.MeasureTheory.Constructions.Polish.StronglyMeasurable.0.MeasureTheory.StronglyMeasurable.tsum.match_1_1 t=1272.181s\ncon-ron: check 62280/62788 definition _private.Mathlib.Topology.Algebra.InfiniteSum.NatInt.0.summable_int_iff_summable_nat_and_neg.match_1_1 t=1272.224s\ncon-ron: check 62300/62788 theorem hasSum_mellin_pi_mul_sq t=1272.238s\ncon-ron: check 62320/62788 definition SignType.fin3Equiv.match_1 t=1272.268s\ncon-ron: check 62340/62788 theorem _private.Init.Data.List.Lemmas.0.List.mem_iff_getElem?._simp_1_1 t=1272.270s\ncon-ron: check 62360/62788 definition SignType.instNeg.match_1 t=1272.281s\ncon-ron: check 62380/62788 theorem SignType.instCommGroupWithZero._proof_12 t=1272.289s\ncon-ron: check 62400/62788 theorem HurwitzZeta.hasSum_int_hurwitzZetaOdd t=1272.310s\ncon-ron: check 62420/62788 definition _private.Mathlib.Algebra.Order.GroupWithZero.Basic.0.pow_lt_one\u2080.match_1_1 t=1272.340s\ncon-ron: check 62440/62788 theorem comp_mul_left t=1272.345s\ncon-ron: check 62460/62788 theorem MulAction.orbitRel._proof_2 t=1272.349s\ncon-ron: check 62480/62788 theorem InvMemClass.inv._proof_1 t=1272.352s\ncon-ron: check 62500/62788 theorem _private.Mathlib.Algebra.Group.Basic.0.zpow_add._simp_1_1 t=1272.358s\ncon-ron: check 62520/62788 theorem _private.Mathlib.GroupTheory.Coset.Defs.0.QuotientGroup.leftRel_apply._simp_1_2 t=1272.362s\ncon-ron: check 62540/62788 theorem Function.Commute.iterate_self t=1272.366s\ncon-ron: check 62560/62788 theorem Function.mem_periodicPts t=1272.372s\ncon-ron: check 62580/62788 theorem orderOf_eq_zero t=1272.375s\ncon-ron: check 62600/62788 theorem QuotientGroup.eq t=1272.380s\ncon-ron: check 62620/62788 theorem _private.Mathlib.Data.Fintype.EquivFin.0.Infinite.instNontrivial._simp_5 t=1272.386s\ncon-ron: check 62640/62788 theorem ZetaLean.DH.dhChar_three t=1272.405s\ncon-ron: check 62660/62788 theorem closure_ball_subset t=1272.427s\ncon-ron: check 62680/62788 theorem HasFPowerSeriesOnBall.changeOrigin t=1272.454s\ncon-ron: check 62700/62788 theorem ClusterPt.of_nhds_le t=1272.480s\ncon-ron: check 62720/62788 theorem instAddCommMonoidFormalMultilinearSeries._proof_8 t=1272.497s\ncon-ron: check 62740/62788 theorem FormalMultilinearSeries.instAddCommGroup._proof_8 t=1272.528s\ncon-ron: check 62760/62788 theorem _private.ZetaLean.DHTailBound2.0.ZetaLean.DH.integrableOn_rpow_shift t=1272.573s\ncon-ron: check 62780/62788 theorem ZetaLean.DH.DH_mem_of_partial_enclosure_order2_ball t=1272.653s\ncon-ron: check done: 62788/62788 t=1420.779s (check 1393.202s)\ncon-ron: done: parse 2.633s, install 24.944s, check 1393.202s, 8 workers t=1420.779s\n",
+ "sha256_stdout": "46e0eba0895f832ee3dba7e82b7aba62950cfc9efef567d34390b06a19241138",
+ "sha256_stderr": "da34f60692b5fbc72dfb3fc23c8c18ef65625e575475d8ea5983c46be30f048e",
+ "accepted_declarations": 63831,
+ "end_utc": "2026-10-27T16:25:30Z",
+ "phase": "checked"
+}

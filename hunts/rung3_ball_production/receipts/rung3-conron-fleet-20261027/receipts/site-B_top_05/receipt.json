@@ -1,0 +1,51 @@
+{
+ "shard": "site:B_top_05",
+ "start_utc": "2026-10-27T17:49:56Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "site:B_top_05",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "7aae0c14471b79ca3a25356fbf8190ee361e8938c70848a471c947289c96fee4",
+  "sha256_ndjson": "0f89ff0a8e59e7934f931d080485a0a982c79150db91be4f27f0b9260a304d2f",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "7aae0c14471b79ca3a25356fbf8190ee361e8938c70848a471c947289c96fee4"
+ },
+ "decompress_s": 0.5,
+ "sha256_export": "0f89ff0a8e59e7934f931d080485a0a982c79150db91be4f27f0b9260a304d2f",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T17:49:56Z",
+ "exit_code": 0,
+ "wall_s": 1052.6,
+ "user_s": 7396.0,
+ "sys_s": 6.9,
+ "maxrss_kib": 2326732,
+ "peak_sampled_rss_kib": 2308448,
+ "verdict_lines": [
+  "con-ron: accepted 63453 declarations (--verified)",
+  "con-ron: parse done: 63483 fold records \u2014 63475 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=2.732s (parse 2.732s)",
+  "con-ron: check done: 62410/62410 t=1051.503s (check 1028.215s)",
+  "con-ron: done: parse 2.732s, install 20.556s, check 1028.215s, 8 workers t=1051.503s"
+ ],
+ "stdout_tail": "con-ron: accepted 63453 declarations (--verified)\n",
+ "stderr_tail": "410 theorem hasDerivAt_of_tendsto_locally_uniformly_on' t=907.617s\ncon-ron: check 61740/62410 theorem DifferentiableOn.congr t=907.634s\ncon-ron: check 61760/62410 theorem Nat.mul_left_cancel_iff t=907.640s\ncon-ron: check 61780/62410 theorem ZMod.LSeriesSummable_of_one_lt_re t=907.651s\ncon-ron: check 61800/62410 theorem HurwitzZeta.hasSum_int_evenKernel\u2080 t=907.675s\ncon-ron: check 61820/62410 theorem _private.Mathlib.NumberTheory.LSeries.AbstractFuncEq.0.WeakFEPair.hasMellin._proof_1_5 t=907.722s\ncon-ron: check 61840/62410 theorem IsCompact.add t=907.734s\ncon-ron: check 61860/62410 theorem RealNormedSpace.noncompactSpace t=907.746s\ncon-ron: check 61880/62410 theorem stronglyMeasurable_of_restrict_of_restrict_compl t=907.766s\ncon-ron: check 61900/62410 theorem RCLike.norm_of_nonneg t=907.810s\ncon-ron: check 61920/62410 theorem Filter.EventuallyEq.fun_inv t=907.826s\ncon-ron: check 61940/62410 definition SignType.instLE t=907.854s\ncon-ron: check 61960/62410 theorem SignType.enumList_getElem?_ctorIdx_eq t=907.856s\ncon-ron: check 61980/62410 theorem SignType.instLinearOrder._proof_5 t=907.865s\ncon-ron: check 62000/62410 theorem SignType.instCommGroupWithZero._proof_16 t=907.875s\ncon-ron: check 62020/62410 theorem Left.sign_neg t=907.893s\ncon-ron: check 62040/62410 theorem Cardinal.toNat_eq_zero._simp_1 t=907.923s\ncon-ron: check 62060/62410 definition mul_left_iterate._f t=907.927s\ncon-ron: check 62080/62410 definition MulOpposite.instGroup t=907.931s\ncon-ron: check 62100/62410 definition Subgroup.op t=907.935s\ncon-ron: check 62120/62410 theorem zpow_sub_one t=907.942s\ncon-ron: check 62140/62410 theorem inv_mul_eq_iff_eq_mul t=907.945s\ncon-ron: check 62160/62410 theorem _private.Mathlib.Dynamics.PeriodicPts.Defs.0.Function.minimalPeriod_pos_iff_mem_periodicPts._simp_1_2 t=907.948s\ncon-ron: check 62180/62410 theorem not_injective_infinite_finite t=907.955s\ncon-ron: check 62200/62410 theorem Nat.ModEq.rfl t=907.957s\ncon-ron: check 62220/62410 theorem QuotientGroup.eq_class_eq_leftCoset t=907.963s\ncon-ron: check 62240/62410 theorem Cardinal.mk_toNat_of_infinite t=907.968s\ncon-ron: check 62260/62410 theorem _private.ZetaLean.DHAnalytic.0.ZetaLean.DH.dh_coeff_eq_char._proof_1_1 t=907.992s\ncon-ron: check 62280/62410 theorem Filter.HasBasis.biInter_mem t=908.009s\ncon-ron: check 62300/62410 theorem HasFPowerSeriesAt.congr t=908.038s\ncon-ron: check 62320/62410 theorem inseparable_iff_clusterPt_uniformity t=908.059s\ncon-ron: check 62340/62410 theorem instAddCommMonoidFormalMultilinearSeries._proof_5 t=908.078s\ncon-ron: check 62360/62410 definition _private.Mathlib.Analysis.Analytic.Constructions.0.HasFPowerSeriesAt.neg.match_1_1 t=908.110s\ncon-ron: check 62380/62410 theorem ZetaLean.ComplexInterval.norm_le_normBound t=908.156s\ncon-ron: check 62400/62410 theorem ZetaLean.ComplexBall.norm_le_of_ball_enclosure t=908.243s\ncon-ron: check done: 62410/62410 t=1051.503s (check 1028.215s)\ncon-ron: done: parse 2.732s, install 20.556s, check 1028.215s, 8 workers t=1051.503s\n",
+ "sha256_stdout": "c43c4393080d385c5bdd8f9727352e59ff3616f70df2d8c5ee3159684cb99057",
+ "sha256_stderr": "02dba5adfce26f0d0f281f60852221d1b5bf764c144b0d17a45485865e248480",
+ "accepted_declarations": 63453,
+ "end_utc": "2026-10-27T18:07:29Z",
+ "phase": "checked"
+}

@@ -1,0 +1,859 @@
+2026-10-27T15:57:25Z fleet loop start 4031895
+2026-10-27T15:57:25Z site:centre provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:25Z site:g_left_19 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:25Z site:g_left_20 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:25Z site:g_bottom_05 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:25Z site:g_bottom_04 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:25Z site:g_top_04 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:25Z site:g_left_23 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:25Z site:g_top_05 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:25Z site:g_top_03 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:25Z site:g_left_04 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_left_25 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_top_13 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_bottom_11 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_bottom_12 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_top_11 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_bottom_14 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_bottom_13 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_bottom_16 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_right_05 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_right_11 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_right_12 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:26Z site:g_right_17 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:g_right_15 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:g_right_16 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:g_top_24 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:g_right_22 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:g_bottom_25 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:B_left_01 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:B_left_17 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:B_left_06 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:B_top_00 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:B_left_37 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:B_left_02 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:27Z site:B_left_26 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_left_54 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_top_01 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_left_13 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_left_19 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_left_22 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_left_43 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_left_51 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_bottom_01 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_left_41 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_left_42 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:28Z site:B_left_40 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_left_30 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_bottom_12 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_top_10 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_bottom_15 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_top_15 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_bottom_14 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_bottom_17 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_top_18 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_top_17 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:29Z site:B_right_00 provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T15:57:30Z site:B_right_02 provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T15:57:30Z fault:B_right_06#novita provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T15:57:40Z site:g_top_10 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:57:51Z site:centre started {"vm": "m_agqx4ffk3whb3wy6rbi74bfiga", "booted_s": 2.6, "uploaded_s": 12.0}
+2026-10-27T15:57:51Z site:g_left_19 started {"vm": "m_agqx4fflhxhi5twcq5bra2dbyi", "booted_s": 3.0, "uploaded_s": 11.4}
+2026-10-27T15:57:51Z site:g_left_20 started {"vm": "m_agqx4ffli5alzyvrytk4b47yoe", "booted_s": 2.7, "uploaded_s": 11.2}
+2026-10-27T15:57:51Z site:g_bottom_05 started {"vm": "m_agqx4fflmiapnu3oarmu5jeezq", "booted_s": 3.2, "uploaded_s": 10.9}
+2026-10-27T15:57:51Z site:g_bottom_04 started {"vm": "m_agqx4ffladenggpvvnzb4h2mfu", "booted_s": 2.5, "uploaded_s": 11.1}
+2026-10-27T15:57:51Z site:g_top_04 started {"vm": "m_agqx4fflpjp6edgu5ipntwb6py", "booted_s": 2.3, "uploaded_s": 10.8}
+2026-10-27T15:57:51Z site:g_left_23 started {"vm": "m_agqx4ffluwwgxst6gqhqqtlnzu", "booted_s": 2.1, "uploaded_s": 10.7}
+2026-10-27T15:57:51Z site:g_top_05 started {"vm": "m_agqx4fflc4uc433kxx6hydxwny", "booted_s": 2.8, "uploaded_s": 10.6}
+2026-10-27T15:58:11Z site:g_left_25 started {"vm": "m_agqx4fh57zvusrwu26ob7o7heu", "booted_s": 2.1, "uploaded_s": 7.9}
+2026-10-27T15:58:11Z site:g_bottom_11 started {"vm": "m_agqx4fh55xnq2qohico5jsdnjq", "booted_s": 1.6, "uploaded_s": 7.5}
+2026-10-27T15:59:01Z site:B_left_46 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:59:02Z site:B_left_23 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:59:12Z site:g_top_03 started {"vm": "m_agqx4fpkadtnmoa2ckalj7fhxe", "booted_s": 62.4, "uploaded_s": 67.8}
+2026-10-27T15:59:12Z site:g_left_04 started {"vm": "m_agqx4fpjzlw2f2wgxy3oppt2lu", "booted_s": 63.8, "uploaded_s": 70.1}
+2026-10-27T15:59:12Z site:g_top_13 started {"vm": "m_agqx4fpkcbft2ilwwsng63m2ou", "booted_s": 63.1, "uploaded_s": 68.9}
+2026-10-27T15:59:12Z site:g_bottom_12 started {"vm": "m_agqx4fpj3do7hbafdqwbufqrj4", "booted_s": 62.8, "uploaded_s": 68.4}
+2026-10-27T15:59:12Z site:g_top_11 started {"vm": "m_agqx4fpkwgzourpnb6rqg7pq2e", "booted_s": 61.9, "uploaded_s": 67.4}
+2026-10-27T15:59:12Z site:g_bottom_14 started {"vm": "m_agqx4fplavx35ra6zifbtmf7pe", "booted_s": 61.9, "uploaded_s": 67.4}
+2026-10-27T15:59:12Z site:B_left_49 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T15:59:22Z site:g_right_05 started {"vm": "m_agqx4frgjlhgzzhow3ertoh2va", "booted_s": 1.2, "uploaded_s": 6.2}
+2026-10-27T15:59:22Z site:g_right_11 started {"vm": "m_agqx4frjtdsa6ln5lvlfs47tkq", "booted_s": 1.1, "uploaded_s": 6.1}
+2026-10-27T15:59:22Z site:g_right_12 started {"vm": "m_agqx4frjwmyf5nljwekbofnts4", "booted_s": 1.2, "uploaded_s": 6.5}
+2026-10-27T15:59:32Z site:g_bottom_13 started {"vm": "m_agqx4frnhekmocpv3lnfoevvhe", "booted_s": 62.4, "uploaded_s": 70.3}
+2026-10-27T16:00:23Z site:g_bottom_16 started {"vm": "m_agqx4fyzmq72cnwl3hipokyhly", "booted_s": 122.6, "uploaded_s": 127.9}
+2026-10-27T16:00:23Z site:g_right_17 started {"vm": "m_agqx4fy235tpn3uyyuzmrrrjie", "booted_s": 62.3, "uploaded_s": 68.3}
+2026-10-27T16:00:33Z site:g_right_15 started {"vm": "m_agqx4fzlkgdu2j6ai4l57saeb4", "booted_s": 63.0, "uploaded_s": 69.1}
+2026-10-27T16:00:33Z site:g_right_16 started {"vm": "m_agqx4fznda7xfybl24erauhxra", "booted_s": 63.7, "uploaded_s": 68.8}
+2026-10-27T16:00:33Z site:B_top_12 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:00:33Z site:B_bottom_21 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:00:43Z site:g_top_24 started {"vm": "m_agqx4f2rfof6fphiydewgwfaim", "booted_s": 63.0, "uploaded_s": 68.2}
+2026-10-27T16:00:43Z site:g_right_22 started {"vm": "m_agqx4f25kpqs2yc2o3tq4aj5gq", "booted_s": 62.6, "uploaded_s": 67.7}
+2026-10-27T16:00:43Z site:g_bottom_25 started {"vm": "m_agqx4f25l4exx6ua4d3jvbk3ii", "booted_s": 63.4, "uploaded_s": 68.5}
+2026-10-27T16:00:43Z site:B_left_01 started {"vm": "m_agqx4f3fl7or3iga62irzln4da", "booted_s": 63.2, "uploaded_s": 68.3}
+2026-10-27T16:00:43Z site:B_left_17 started {"vm": "m_agqx4f2zgtd4cjfcrb4wdlrmrq", "booted_s": 2.7, "uploaded_s": 7.9}
+2026-10-27T16:00:43Z site:B_left_06 started {"vm": "m_agqx4f22v6m4c5vyd7vg4kkn3y", "booted_s": 3.1, "uploaded_s": 8.2}
+2026-10-27T16:01:44Z site:B_top_00 started {"vm": "m_agqx4gcz3cxkch6kfxngd2dvpy", "booted_s": 62.3, "uploaded_s": 67.4}
+2026-10-27T16:01:54Z site:B_left_37 started {"vm": "m_agqx4gdjmwiagkyg6pw7fdiqlm", "booted_s": 62.3, "uploaded_s": 67.2}
+2026-10-27T16:01:54Z site:B_left_02 started {"vm": "m_agqx4geb7bhfdrufuxlsqidpyi", "booted_s": 61.9, "uploaded_s": 66.8}
+2026-10-27T16:02:04Z site:B_left_26 started {"vm": "m_agqx4geftvhopk3o2sb6avdnvm", "booted_s": 61.9, "uploaded_s": 66.9}
+2026-10-27T16:02:04Z site:B_left_54 started {"vm": "m_agqx4gekz2jkrj2u3zqo676z34", "booted_s": 62.1, "uploaded_s": 67.3}
+2026-10-27T16:02:04Z site:B_top_01 started {"vm": "m_agqx4gemvkw2hj24ygbz2nphtu", "booted_s": 62.1, "uploaded_s": 67.3}
+2026-10-27T16:02:04Z site:B_left_13 started {"vm": "m_agqx4geoyjr2t7fk723ttd4euq", "booted_s": 63.7, "uploaded_s": 69.2}
+2026-10-27T16:02:04Z site:B_left_19 started {"vm": "m_agqx4geqs24ntvgis6snfb5wmm", "booted_s": 63.2, "uploaded_s": 68.6}
+2026-10-27T16:02:04Z site:B_left_22 started {"vm": "m_agqx4gev35wayahkoksmnovt4q", "booted_s": 2.3, "uploaded_s": 7.3}
+2026-10-27T16:02:04Z site:B_left_43 started {"vm": "m_agqx4gferlai3qjim3obotdexi", "booted_s": 1.6, "uploaded_s": 6.7}
+2026-10-27T16:02:45Z site:g_left_18 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:02:45Z site:g_top_17 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:02:45Z site:g_left_03 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:03:15Z site:B_left_51 started {"vm": "m_agqx4gnkrm46c5ngcsp7nlvlem", "booted_s": 62.2, "uploaded_s": 67.3}
+2026-10-27T16:03:15Z site:B_bottom_01 started {"vm": "m_agqx4gnryybmmfgxbfyqvi7k2u", "booted_s": 61.7, "uploaded_s": 66.8}
+2026-10-27T16:03:15Z site:B_left_41 started {"vm": "m_agqx4gnuwkfjjdwffq5msqiawe", "booted_s": 62.1, "uploaded_s": 67.0}
+2026-10-27T16:03:15Z site:B_left_42 started {"vm": "m_agqx4gn7dfzy24wryfqrsibeie", "booted_s": 62.3, "uploaded_s": 67.5}
+2026-10-27T16:03:15Z site:B_left_40 started {"vm": "m_agqx4gn7qm5yxu5cngjbbzc7oa", "booted_s": 62.1, "uploaded_s": 67.5}
+2026-10-27T16:03:15Z site:B_bottom_12 started {"vm": "m_agqx4godd3ch6x5wsvaztilg7a", "booted_s": 62.0, "uploaded_s": 67.3}
+2026-10-27T16:03:25Z site:B_left_30 started {"vm": "m_agqx4gocw35q545jlm3hu2kmqi", "booted_s": 62.6, "uploaded_s": 68.1}
+2026-10-27T16:03:25Z site:B_top_10 started {"vm": "m_agqx4gomxdjhqora5fae6zqxli", "booted_s": 62.5, "uploaded_s": 67.4}
+2026-10-27T16:03:25Z site:B_bottom_15 started {"vm": "m_agqx4gpcwsvkrwcmvgn2k6yghy", "booted_s": 2.6, "uploaded_s": 7.6}
+2026-10-27T16:03:35Z site:B_top_15 started {"vm": "m_agqx4gpli7vuudkald77qcymjm", "booted_s": 1.6, "uploaded_s": 6.7}
+2026-10-27T16:03:35Z site:B_right_00 started {"vm": "ilo8jbw20or07w3n1fbyx", "booted_s": 2.9, "uploaded_s": 6.3}
+2026-10-27T16:03:35Z site:B_right_02 started {"vm": "ixcxr9cmj54n3ir5qy8lr", "booted_s": 1.8, "uploaded_s": 5.2}
+2026-10-27T16:03:35Z fault:B_right_06#novita started {"vm": "imh3fwm23rpyxqtwlei6p", "booted_s": 0.5, "uploaded_s": 4.0}
+2026-10-27T16:04:26Z site:g_right_07 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:04:26Z site:g_right_18 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:04:26Z site:B_left_48 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:04:36Z site:B_bottom_14 started {"vm": "m_agqx4gwzjg7glzrzw2y6byhejm", "booted_s": 63.3, "uploaded_s": 68.8}
+2026-10-27T16:04:36Z site:B_top_18 started {"vm": "m_agqx4gxjdwzum674oqskngi5ei", "booted_s": 61.9, "uploaded_s": 67.1}
+2026-10-27T16:04:36Z site:B_top_17 started {"vm": "m_agqx4gxjp543ok5dguei2kxxcu", "booted_s": 61.7, "uploaded_s": 67.1}
+2026-10-27T16:04:46Z site:g_top_10 started {"vm": "m_agqx4gyvbfy3wj2jsqfjzlxfem", "booted_s": 61.9, "uploaded_s": 67.2}
+2026-10-27T16:04:46Z site:B_left_23 started {"vm": "m_agqx4gy6zzv5sgf43uneqztwoq", "booted_s": 62.4, "uploaded_s": 67.5}
+2026-10-27T16:04:56Z site:B_bottom_17 started {"vm": "m_agqx4gxhm4jp7y67uxsj6zjjfm", "booted_s": 61.5, "uploaded_s": 67.0}
+2026-10-27T16:04:56Z site:B_left_49 started {"vm": "m_agqx4gzv6gogz5p4lnbnv7w5f4", "booted_s": 62.9, "uploaded_s": 67.9}
+2026-10-27T16:04:56Z site:B_top_12 started {"vm": "m_agqx4gzm2unxbivmqp34mxsdyq", "booted_s": 4.6, "uploaded_s": 9.5}
+2026-10-27T16:04:56Z site:B_bottom_21 started {"vm": "m_agqx4gzpid5ld2ghttfeogrjy4", "booted_s": 1.7, "uploaded_s": 6.5}
+2026-10-27T16:05:17Z site:B_left_46 started {"vm": "m_agqx4gy6uwl22fnxywd5e56c64", "booted_s": 70.8, "uploaded_s": 85.1}
+2026-10-27T16:05:57Z site:B_left_53 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:05:57Z site:B_left_50 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:05:57Z site:B_left_31 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:06:07Z site:g_left_18 started {"vm": "m_agqx4hcbmligfhsztgkrhtkeju", "booted_s": 61.7, "uploaded_s": 67.2}
+2026-10-27T16:06:07Z site:g_top_17 started {"vm": "m_agqx4hcduhiscxzyzyqidu3hiq", "booted_s": 64.0, "uploaded_s": 70.1}
+2026-10-27T16:06:07Z site:g_left_03 started {"vm": "m_agqx4hcik74wzmqbsx6dxlkrby", "booted_s": 62.1, "uploaded_s": 67.6}
+2026-10-27T16:06:17Z site:g_right_18 started {"vm": "m_agqx4hdonq5ksq5qs76j32223y", "booted_s": 62.2, "uploaded_s": 67.6}
+2026-10-27T16:06:17Z site:B_left_53 started {"vm": "m_agqx4hd2pi7agii6tjwlcx4yve", "booted_s": 1.6, "uploaded_s": 6.5}
+2026-10-27T16:06:17Z site:B_left_50 started {"vm": "m_agqx4hd25kwbrntsiyvedxhpq4", "booted_s": 1.9, "uploaded_s": 6.9}
+2026-10-27T16:06:17Z site:B_left_31 started {"vm": "m_agqx4hd4yj7jp73fkvvmzpzdtu", "booted_s": 3.2, "uploaded_s": 8.3}
+2026-10-27T16:06:28Z site:g_right_07 started {"vm": "m_agqx4hdmvbubwecflsrgyvxhla", "booted_s": 68.9, "uploaded_s": 76.4}
+2026-10-27T16:06:28Z site:B_left_48 started {"vm": "m_agqx4hdpcihjwwxcndbzprh74q", "booted_s": 68.1, "uploaded_s": 74.6}
+2026-10-27T16:07:18Z site:B_bottom_11 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:07:28Z site:B_top_19 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:07:38Z site:B_bottom_11 started {"vm": "m_agqx4hnxbnezlma6sytgwidhti", "booted_s": 2.1, "uploaded_s": 7.2}
+2026-10-27T16:07:49Z site:B_top_19 started {"vm": "m_agqx4ho6x5jwt6wzcizrbswjbi", "booted_s": 3.8, "uploaded_s": 8.7}
+2026-10-27T16:09:20Z site:g_top_18 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:09:30Z site:g_bottom_06 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:09:30Z site:g_bottom_01 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:09:40Z site:g_top_18 started {"vm": "m_agqx4h4rd23hvyex6qznu7xc2y", "booted_s": 1.4, "uploaded_s": 6.8}
+2026-10-27T16:09:50Z site:g_bottom_06 started {"vm": "m_agqx4h5zgfhyjrh7crzvd5dp3m", "booted_s": 1.3, "uploaded_s": 7.4}
+2026-10-27T16:09:50Z site:g_bottom_01 started {"vm": "m_agqx4h5zkass3aeymvx72n52mu", "booted_s": 2.1, "uploaded_s": 7.6}
+2026-10-27T16:11:01Z fault:B_right_06#novita collected {"ok": true, "lines": ["con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=357.456s"]}
+2026-10-27T16:11:11Z fault:B_right_06#novita vm deleted {"vm": "imh3fwm23rpyxqtwlei6p", "next": "done"}
+2026-10-27T16:11:11Z site:g_right_08 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:11:11Z site:g_top_23 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:11:11Z site:B_left_39 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:11:31Z site:g_right_08 started {"vm": "m_agqx4ikeu5jr7cfmeedesk2u3e", "booted_s": 1.7, "uploaded_s": 6.9}
+2026-10-27T16:11:31Z site:g_top_23 started {"vm": "m_agqx4ike66imzs7yibmh6wuniq", "booted_s": 1.7, "uploaded_s": 6.8}
+2026-10-27T16:11:31Z site:B_left_39 started {"vm": "m_agqx4ikfsyuwqd26tonetu2kxu", "booted_s": 1.8, "uploaded_s": 6.9}
+2026-10-27T16:12:42Z site:B_left_36 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:12:42Z site:B_left_14 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:12:42Z site:B_left_33 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:13:03Z site:B_left_36 started {"vm": "m_agqx4ivi5h5gbdn6zkmytmsxcy", "booted_s": 2.4, "uploaded_s": 8.5}
+2026-10-27T16:13:03Z site:B_left_14 started {"vm": "m_agqx4ivjd3zzqvjcquhtuyj6qu", "booted_s": 2.4, "uploaded_s": 8.6}
+2026-10-27T16:13:03Z site:B_left_33 started {"vm": "m_agqx4ivjtihrdxwry2432b6aiq", "booted_s": 2.0, "uploaded_s": 7.0}
+2026-10-27T16:14:14Z site:B_top_13 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:14:14Z site:B_top_20 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:14:35Z site:B_top_13 started {"vm": "m_agqx4jaqohwoa7rhl7dghfh5dm", "booted_s": 1.6, "uploaded_s": 6.4}
+2026-10-27T16:14:35Z site:B_top_20 started {"vm": "m_agqx4jaqzbcffaekzaez2v26xm", "booted_s": 1.3, "uploaded_s": 6.1}
+2026-10-27T16:16:16Z site:g_left_05 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:16:16Z site:g_top_16 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:16:26Z site:g_left_17 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:16:36Z site:g_left_05 started {"vm": "m_agqx4jplmgyhw7kxoq3x4il2cm", "booted_s": 1.6, "uploaded_s": 7.1}
+2026-10-27T16:16:36Z site:g_top_16 started {"vm": "m_agqx4jplnknr4j4meqneeh7xde", "booted_s": 2.5, "uploaded_s": 7.8}
+2026-10-27T16:16:46Z site:g_left_17 started {"vm": "m_agqx4jqtxqzo32ujrsqbfkmshq", "booted_s": 1.3, "uploaded_s": 6.5}
+2026-10-27T16:17:07Z top provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:17:17Z site:B_top_18 collected {"ok": true, "lines": ["con-ron: accepted 62934 declarations (--verified)"]}
+2026-10-27T16:17:27Z top started {"vm": "m_agqx4jvrzbu6s4bipm43yiuqmy", "booted_s": 3.8, "uploaded_s": 9.3}
+2026-10-27T16:17:27Z site:B_top_18 vm deleted {"vm": "m_agqx4gxjdwzum674oqskngi5ei", "next": "done"}
+2026-10-27T16:18:07Z site:g_bottom_17 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:18:07Z site:g_right_19 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:18:08Z site:B_left_28 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:18:28Z site:g_bottom_17 started {"vm": "m_agqx4j47bzaqczrool756jjc2u", "booted_s": 3.8, "uploaded_s": 9.4}
+2026-10-27T16:18:28Z site:g_right_19 started {"vm": "m_agqx4j5ammxiqx5uocv5rkpepq", "booted_s": 4.2, "uploaded_s": 10.1}
+2026-10-27T16:18:28Z site:B_left_28 started {"vm": "m_agqx4j47vcoqyqatywyfttfh3y", "booted_s": 3.0, "uploaded_s": 8.4}
+2026-10-27T16:19:39Z site:B_left_25 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:19:39Z site:B_left_09 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:19:59Z site:B_left_25 started {"vm": "m_agqx4kidpk7lyes7h2yaxxq2ca", "booted_s": 2.4, "uploaded_s": 7.6}
+2026-10-27T16:19:59Z site:B_left_09 started {"vm": "m_agqx4kifc2g374tdldpkobbw2u", "booted_s": 3.5, "uploaded_s": 10.6}
+2026-10-27T16:21:21Z site:B_bottom_15 collected {"ok": true, "lines": ["con-ron: accepted 63210 declarations (--verified)"]}
+2026-10-27T16:21:31Z site:B_bottom_15 vm deleted {"vm": "m_agqx4gpcwsvkrwcmvgn2k6yghy", "next": "done"}
+2026-10-27T16:21:31Z site:B_top_15 collected {"ok": true, "lines": ["con-ron: accepted 63210 declarations (--verified)"]}
+2026-10-27T16:21:31Z site:B_left_32 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:21:41Z site:B_top_15 vm deleted {"vm": "m_agqx4gpli7vuudkald77qcymjm", "next": "done"}
+2026-10-27T16:21:42Z site:B_top_11 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:21:52Z site:B_left_32 started {"vm": "m_agqx4kv5cf3zebnwtrtzv2spcq", "booted_s": 3.0, "uploaded_s": 8.4}
+2026-10-27T16:22:02Z site:B_top_11 started {"vm": "m_agqx4kxe4l3erjexw4dvljg4ne", "booted_s": 3.3, "uploaded_s": 8.4}
+2026-10-27T16:22:33Z site:B_bottom_14 collected {"ok": true, "lines": ["con-ron: accepted 63210 declarations (--verified)"]}
+2026-10-27T16:22:33Z site:B_top_17 collected {"ok": true, "lines": ["con-ron: accepted 62934 declarations (--verified)"]}
+2026-10-27T16:22:43Z site:B_bottom_14 vm deleted {"vm": "m_agqx4gwzjg7glzrzw2y6byhejm", "next": "done"}
+2026-10-27T16:22:43Z site:B_top_17 vm deleted {"vm": "m_agqx4gxjp543ok5dguei2kxxcu", "next": "done"}
+2026-10-27T16:22:43Z site:B_bottom_19 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:22:53Z site:B_top_12 collected {"ok": true, "lines": ["con-ron: accepted 63210 declarations (--verified)"]}
+2026-10-27T16:22:54Z site:B_bottom_17 collected {"ok": true, "lines": ["con-ron: accepted 62988 declarations (--verified)"]}
+2026-10-27T16:22:54Z site:B_bottom_21 collected {"ok": true, "lines": ["con-ron: accepted 62894 declarations (--verified)"]}
+2026-10-27T16:23:05Z site:B_bottom_19 started {"vm": "m_agqx4k6tykpp52wee4vwqkqvzi", "booted_s": 4.1, "uploaded_s": 10.3}
+2026-10-27T16:23:05Z site:B_top_12 vm deleted {"vm": "m_agqx4gzm2unxbivmqp34mxsdyq", "next": "done"}
+2026-10-27T16:23:05Z site:B_bottom_17 vm deleted {"vm": "m_agqx4gxhm4jp7y67uxsj6zjjfm", "next": "done"}
+2026-10-27T16:23:05Z site:B_bottom_21 vm deleted {"vm": "m_agqx4gzpid5ld2ghttfeogrjy4", "next": "done"}
+2026-10-27T16:23:35Z site:g_top_12 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:23:45Z site:g_bottom_07 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:23:45Z site:g_top_08 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:23:55Z site:g_top_12 started {"vm": "m_agqx4le6smem22ayyz6xauyk6y", "booted_s": 3.8, "uploaded_s": 10.5}
+2026-10-27T16:24:05Z site:g_bottom_07 started {"vm": "m_agqx4lgg5pdrr54ozoril247fm", "booted_s": 2.4, "uploaded_s": 8.6}
+2026-10-27T16:24:05Z site:g_top_08 started {"vm": "m_agqx4lggxvbgvclwa6db2vllpy", "booted_s": 2.8, "uploaded_s": 8.7}
+2026-10-27T16:25:16Z site:B_left_47 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:25:37Z site:B_left_47 started {"vm": "m_agqx4lrlw67ag3takhprxexovm", "booted_s": 3.1, "uploaded_s": 8.3}
+2026-10-27T16:25:47Z site:B_top_19 collected {"ok": true, "lines": ["con-ron: accepted 62799 declarations (--verified)"]}
+2026-10-27T16:25:57Z site:B_left_06 collected {"ok": true, "lines": ["con-ron: accepted 63918 declarations (--verified)"]}
+2026-10-27T16:25:57Z site:B_left_02 collected {"ok": true, "lines": ["con-ron: accepted 63831 declarations (--verified)"]}
+2026-10-27T16:25:57Z site:B_left_26 collected {"ok": true, "lines": ["con-ron: accepted 63831 declarations (--verified)"]}
+2026-10-27T16:25:57Z site:B_top_01 collected {"ok": true, "lines": ["con-ron: accepted 63776 declarations (--verified)"]}
+2026-10-27T16:25:57Z site:B_left_19 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T16:25:57Z site:B_left_22 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T16:25:57Z site:B_top_19 vm deleted {"vm": "m_agqx4ho6x5jwt6wzcizrbswjbi", "next": "done"}
+2026-10-27T16:25:58Z site:g_bottom_15 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:26:08Z site:B_left_43 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T16:26:08Z site:B_left_06 vm deleted {"vm": "m_agqx4f22v6m4c5vyd7vg4kkn3y", "next": "done"}
+2026-10-27T16:26:08Z site:B_left_02 vm deleted {"vm": "m_agqx4geb7bhfdrufuxlsqidpyi", "next": "done"}
+2026-10-27T16:26:08Z site:B_left_26 vm deleted {"vm": "m_agqx4geftvhopk3o2sb6avdnvm", "next": "done"}
+2026-10-27T16:26:08Z site:B_top_01 vm deleted {"vm": "m_agqx4gemvkw2hj24ygbz2nphtu", "next": "done"}
+2026-10-27T16:26:08Z site:B_left_19 vm deleted {"vm": "m_agqx4geqs24ntvgis6snfb5wmm", "next": "done"}
+2026-10-27T16:26:08Z site:B_left_22 vm deleted {"vm": "m_agqx4gev35wayahkoksmnovt4q", "next": "done"}
+2026-10-27T16:26:08Z site:g_right_02 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:26:18Z site:g_bottom_15 started {"vm": "m_agqx4lwncseoem62lifd4blvkm", "booted_s": 2.6, "uploaded_s": 8.0}
+2026-10-27T16:26:18Z site:B_left_43 vm deleted {"vm": "m_agqx4gferlai3qjim3obotdexi", "next": "done"}
+2026-10-27T16:26:28Z site:B_left_51 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T16:26:29Z site:B_bottom_01 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T16:26:29Z site:B_left_41 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T16:26:29Z site:B_left_40 collected {"ok": true, "lines": ["con-ron: accepted 63588 declarations (--verified)"]}
+2026-10-27T16:26:31Z site:B_bottom_12 collected {"ok": true, "lines": ["con-ron: accepted 63540 declarations (--verified)"]}
+2026-10-27T16:26:41Z site:g_right_02 started {"vm": "m_agqx4lxvss3igzzve3yuheg5ym", "booted_s": 4.7, "uploaded_s": 10.2}
+2026-10-27T16:26:41Z site:B_left_51 vm deleted {"vm": "m_agqx4gnkrm46c5ngcsp7nlvlem", "next": "done"}
+2026-10-27T16:26:41Z site:B_bottom_01 vm deleted {"vm": "m_agqx4gnryybmmfgxbfyqvi7k2u", "next": "done"}
+2026-10-27T16:26:41Z site:B_left_41 vm deleted {"vm": "m_agqx4gnuwkfjjdwffq5msqiawe", "next": "done"}
+2026-10-27T16:26:41Z site:B_left_40 vm deleted {"vm": "m_agqx4gn7qm5yxu5cngjbbzc7oa", "next": "done"}
+2026-10-27T16:26:41Z site:B_left_30 collected {"ok": true, "lines": ["con-ron: accepted 63588 declarations (--verified)"]}
+2026-10-27T16:26:41Z site:B_bottom_12 vm deleted {"vm": "m_agqx4godd3ch6x5wsvaztilg7a", "next": "done"}
+2026-10-27T16:26:41Z site:B_top_10 collected {"ok": true, "lines": ["con-ron: accepted 63406 declarations (--verified)"]}
+2026-10-27T16:26:51Z site:B_left_30 vm deleted {"vm": "m_agqx4gocw35q545jlm3hu2kmqi", "next": "done"}
+2026-10-27T16:26:51Z site:B_top_10 vm deleted {"vm": "m_agqx4gomxdjhqora5fae6zqxli", "next": "done"}
+2026-10-27T16:26:51Z site:B_bottom_02 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:27:21Z site:B_bottom_02 started {"vm": "m_agqx4l44cu6aux2ajpqzakwzti", "booted_s": 5.5, "uploaded_s": 11.0}
+2026-10-27T16:27:42Z site:B_left_16 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:27:52Z site:B_left_01 collected {"ok": true, "lines": ["con-ron: accepted 63918 declarations (--verified)"]}
+2026-10-27T16:27:52Z site:B_top_04 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:28:03Z site:B_left_13 collected {"ok": true, "lines": ["con-ron: accepted 63729 declarations (--verified)"]}
+2026-10-27T16:28:03Z site:B_left_16 started {"vm": "m_agqx4mdcddj5bwoi5xytuwiq2i", "booted_s": 1.4, "uploaded_s": 6.4}
+2026-10-27T16:28:03Z site:B_left_01 vm deleted {"vm": "m_agqx4f3fl7or3iga62irzln4da", "next": "done"}
+2026-10-27T16:28:03Z site:B_left_23 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T16:28:13Z site:B_top_04 started {"vm": "m_agqx4meknwdlwymlu7dyisnp7y", "booted_s": 1.8, "uploaded_s": 6.6}
+2026-10-27T16:28:13Z site:B_left_13 vm deleted {"vm": "m_agqx4geoyjr2t7fk723ttd4euq", "next": "done"}
+2026-10-27T16:28:13Z site:B_left_23 vm deleted {"vm": "m_agqx4gy6zzv5sgf43uneqztwoq", "next": "done"}
+2026-10-27T16:28:24Z site:B_top_08 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:28:34Z site:B_left_46 collected {"ok": true, "lines": ["con-ron: accepted 63831 declarations (--verified)"]}
+2026-10-27T16:28:44Z site:B_top_08 started {"vm": "m_agqx4mif5kzodjpoy56g4rh74a", "booted_s": 3.0, "uploaded_s": 7.9}
+2026-10-27T16:28:44Z site:B_left_46 vm deleted {"vm": "m_agqx4gy6uwl22fnxywd5e56c64", "next": "done"}
+2026-10-27T16:29:04Z site:B_right_05 provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T16:29:24Z site:B_right_05 started {"vm": "if58lsd7is9w6ut2q0kdw", "booted_s": 1.4, "uploaded_s": 5.1}
+2026-10-27T16:29:34Z site:B_left_53 collected {"ok": true, "lines": ["con-ron: accepted 63776 declarations (--verified)"]}
+2026-10-27T16:29:34Z site:B_left_50 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T16:29:34Z site:B_left_31 collected {"ok": true, "lines": ["con-ron: accepted 63588 declarations (--verified)"]}
+2026-10-27T16:29:45Z site:B_left_48 collected {"ok": true, "lines": ["con-ron: accepted 64046 declarations (--verified)"]}
+2026-10-27T16:29:45Z site:B_left_53 vm deleted {"vm": "m_agqx4hd2pi7agii6tjwlcx4yve", "next": "done"}
+2026-10-27T16:29:45Z site:B_left_50 vm deleted {"vm": "m_agqx4hd25kwbrntsiyvedxhpq4", "next": "done"}
+2026-10-27T16:29:45Z site:B_left_31 vm deleted {"vm": "m_agqx4hd4yj7jp73fkvvmzpzdtu", "next": "done"}
+2026-10-27T16:29:55Z site:B_left_48 vm deleted {"vm": "m_agqx4hdpcihjwwxcndbzprh74q", "next": "done"}
+2026-10-27T16:30:55Z site:B_bottom_11 collected {"ok": true, "lines": ["con-ron: accepted 63359 declarations (--verified)"]}
+2026-10-27T16:31:05Z site:B_bottom_11 vm deleted {"vm": "m_agqx4hnxbnezlma6sytgwidhti", "next": "done"}
+2026-10-27T16:31:16Z site:B_left_17 collected {"ok": true, "lines": ["con-ron: accepted 63918 declarations (--verified)"]}
+2026-10-27T16:31:16Z site:B_top_00 collected {"ok": true, "lines": ["con-ron: accepted 63871 declarations (--verified)"]}
+2026-10-27T16:31:16Z site:B_left_54 collected {"ok": true, "lines": ["con-ron: accepted 63831 declarations (--verified)"]}
+2026-10-27T16:31:16Z site:g_bottom_08 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:31:16Z site:g_left_06 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:31:16Z site:g_left_00 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:31:26Z site:B_left_17 vm deleted {"vm": "m_agqx4f2zgtd4cjfcrb4wdlrmrq", "next": "done"}
+2026-10-27T16:31:26Z site:B_top_00 vm deleted {"vm": "m_agqx4gcz3cxkch6kfxngd2dvpy", "next": "done"}
+2026-10-27T16:31:26Z site:B_left_54 vm deleted {"vm": "m_agqx4gekz2jkrj2u3zqo676z34", "next": "done"}
+2026-10-27T16:31:36Z site:g_bottom_08 started {"vm": "m_agqx4m5hn2fomfd3dy2kvefsmq", "booted_s": 1.6, "uploaded_s": 7.3}
+2026-10-27T16:31:36Z site:g_left_06 started {"vm": "m_agqx4m5iaxlcjsjnsuq2sht4mu", "booted_s": 3.8, "uploaded_s": 9.6}
+2026-10-27T16:31:36Z site:g_left_00 started {"vm": "m_agqx4m5imjtisbvhk4ijjb6otq", "booted_s": 3.1, "uploaded_s": 9.1}
+2026-10-27T16:31:47Z site:B_left_42 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T16:31:57Z site:B_left_42 vm deleted {"vm": "m_agqx4gn7dfzy24wryfqrsibeie", "next": "done"}
+2026-10-27T16:32:37Z site:B_top_13 collected {"ok": true, "lines": ["con-ron: accepted 63257 declarations (--verified)"]}
+2026-10-27T16:32:37Z site:B_top_20 collected {"ok": true, "lines": ["con-ron: accepted 62846 declarations (--verified)"]}
+2026-10-27T16:32:47Z site:B_top_13 vm deleted {"vm": "m_agqx4jaqohwoa7rhl7dghfh5dm", "next": "done"}
+2026-10-27T16:32:47Z site:B_top_20 vm deleted {"vm": "m_agqx4jaqzbcffaekzaez2v26xm", "next": "done"}
+2026-10-27T16:33:07Z site:B_left_37 collected {"ok": true, "lines": ["con-ron: accepted 63831 declarations (--verified)"]}
+2026-10-27T16:33:08Z site:g_bottom_19 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:33:08Z site:g_bottom_21 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:33:08Z site:g_bottom_23 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:33:18Z site:B_left_37 vm deleted {"vm": "m_agqx4gdjmwiagkyg6pw7fdiqlm", "next": "done"}
+2026-10-27T16:33:28Z site:g_bottom_19 started {"vm": "m_agqx4nk3muz7vj6yyy4v46uxae", "booted_s": 2.7, "uploaded_s": 7.8}
+2026-10-27T16:33:28Z site:g_bottom_21 started {"vm": "m_agqx4nk3vu2r2rfkkj3y3kx3bi", "booted_s": 3.0, "uploaded_s": 8.1}
+2026-10-27T16:33:28Z site:g_bottom_23 started {"vm": "m_agqx4nk34sqwqx5ktxz2sm3udu", "booted_s": 3.2, "uploaded_s": 8.4}
+2026-10-27T16:33:28Z site:B_left_49 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T16:33:38Z site:B_left_49 vm deleted {"vm": "m_agqx4gzv6gogz5p4lnbnv7w5f4", "next": "done"}
+2026-10-27T16:34:39Z site:B_left_03 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:34:39Z site:B_top_06 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:34:39Z site:B_bottom_06 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:34:59Z site:B_left_03 started {"vm": "m_agqx4nv77qnrq4mttjz77ek35q", "booted_s": 1.6, "uploaded_s": 6.7}
+2026-10-27T16:34:59Z site:B_top_06 started {"vm": "m_agqx4nwamqg2cgqyjhzz7cjqki", "booted_s": 2.6, "uploaded_s": 7.6}
+2026-10-27T16:34:59Z site:B_bottom_06 started {"vm": "m_agqx4nwczhuijmdiv7pfnkqu6q", "booted_s": 2.8, "uploaded_s": 7.7}
+2026-10-27T16:36:11Z site:g_left_25 collected {"ok": true, "lines": ["con-ron: accepted 65894 declarations (--verified)"]}
+2026-10-27T16:36:11Z site:B_bottom_13 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:36:21Z site:g_left_25 vm deleted {"vm": "m_agqx4fh57zvusrwu26ob7o7heu", "next": "done"}
+2026-10-27T16:36:21Z site:B_left_36 collected {"ok": true, "lines": ["con-ron: accepted 63776 declarations (--verified)"]}
+2026-10-27T16:36:21Z site:B_left_14 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T16:36:21Z site:B_left_33 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T16:36:31Z site:B_bottom_13 started {"vm": "m_agqx4oblypaxshr7oi7bbeikkm", "booted_s": 1.4, "uploaded_s": 6.4}
+2026-10-27T16:36:33Z site:g_right_22 collected {"ok": true, "lines": ["con-ron: accepted 65200 declarations (--verified)"]}
+2026-10-27T16:36:34Z site:g_bottom_25 collected {"ok": true, "lines": ["con-ron: accepted 65145 declarations (--verified)"]}
+2026-10-27T16:36:34Z site:B_left_36 vm deleted {"vm": "m_agqx4ivi5h5gbdn6zkmytmsxcy", "next": "done"}
+2026-10-27T16:36:34Z site:B_left_14 vm deleted {"vm": "m_agqx4ivjd3zzqvjcquhtuyj6qu", "next": "done"}
+2026-10-27T16:36:34Z site:B_left_33 vm deleted {"vm": "m_agqx4ivjtihrdxwry2432b6aiq", "next": "done"}
+2026-10-27T16:36:44Z site:g_right_22 vm deleted {"vm": "m_agqx4f25kpqs2yc2o3tq4aj5gq", "next": "done"}
+2026-10-27T16:36:44Z site:g_bottom_25 vm deleted {"vm": "m_agqx4f25l4exx6ua4d3jvbk3ii", "next": "done"}
+2026-10-27T16:38:15Z site:g_left_07 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:38:16Z site:g_left_01 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:38:26Z site:g_left_15 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:38:36Z site:g_left_01 started {"vm": "m_agqx4oqofzv6ascyrg6z73kdhq", "booted_s": 1.6, "uploaded_s": 7.5}
+2026-10-27T16:38:46Z site:g_left_07 started {"vm": "m_agqx4oqn2djr546nc6ihxf6hne", "booted_s": 1.3, "uploaded_s": 15.4}
+2026-10-27T16:38:46Z site:g_left_15 started {"vm": "m_agqx4orv44nxhzo5mrmszeqjya", "booted_s": 1.7, "uploaded_s": 7.3}
+2026-10-27T16:40:07Z site:g_right_18 collected {"ok": true, "lines": ["con-ron: accepted 65294 declarations (--verified)"]}
+2026-10-27T16:40:07Z site:B_left_39 collected {"ok": true, "lines": ["con-ron: accepted 63998 declarations (--verified)"]}
+2026-10-27T16:40:07Z site:g_right_04 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:40:07Z site:g_bottom_22 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:40:07Z site:g_bottom_24 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:40:17Z site:g_right_18 vm deleted {"vm": "m_agqx4hdonq5ksq5qs76j32223y", "next": "done"}
+2026-10-27T16:40:17Z site:B_left_39 vm deleted {"vm": "m_agqx4ikfsyuwqd26tonetu2kxu", "next": "done"}
+2026-10-27T16:40:27Z site:g_right_04 started {"vm": "m_agqx4o6bcalwi4aposizwvd7ee", "booted_s": 1.6, "uploaded_s": 6.7}
+2026-10-27T16:40:27Z site:g_bottom_22 started {"vm": "m_agqx4o6bibpmsitlnjtdlasehe", "booted_s": 2.6, "uploaded_s": 7.9}
+2026-10-27T16:40:27Z site:g_bottom_24 started {"vm": "m_agqx4o6bsrva3gyttweri3ur2e", "booted_s": 2.6, "uploaded_s": 8.1}
+2026-10-27T16:41:08Z site:B_bottom_19 collected {"ok": true, "lines": ["con-ron: accepted 62846 declarations (--verified)"]}
+2026-10-27T16:41:18Z site:B_bottom_19 vm deleted {"vm": "m_agqx4k6tykpp52wee4vwqkqvzi", "next": "done"}
+2026-10-27T16:41:28Z site:g_left_04 collected {"ok": true, "lines": ["con-ron: accepted 65974 declarations (--verified)"]}
+2026-10-27T16:41:28Z site:g_top_13 collected {"ok": true, "lines": ["con-ron: accepted 65752 declarations (--verified)"]}
+2026-10-27T16:41:28Z site:g_bottom_12 collected {"ok": true, "lines": ["con-ron: accepted 65705 declarations (--verified)"]}
+2026-10-27T16:41:38Z site:g_left_04 vm deleted {"vm": "m_agqx4fpjzlw2f2wgxy3oppt2lu", "next": "done"}
+2026-10-27T16:41:38Z site:g_top_13 vm deleted {"vm": "m_agqx4fpkcbft2ilwwsng63m2ou", "next": "done"}
+2026-10-27T16:41:38Z site:g_bottom_12 vm deleted {"vm": "m_agqx4fpj3do7hbafdqwbufqrj4", "next": "done"}
+2026-10-27T16:41:38Z site:g_bottom_16 collected {"ok": true, "lines": ["con-ron: accepted 65617 declarations (--verified)"]}
+2026-10-27T16:41:39Z site:g_right_05 collected {"ok": true, "lines": ["con-ron: accepted 65570 declarations (--verified)"]}
+2026-10-27T16:41:39Z site:g_right_11 collected {"ok": true, "lines": ["con-ron: accepted 65429 declarations (--verified)"]}
+2026-10-27T16:41:39Z site:g_right_12 collected {"ok": true, "lines": ["con-ron: accepted 65429 declarations (--verified)"]}
+2026-10-27T16:41:39Z site:g_right_17 collected {"ok": true, "lines": ["con-ron: accepted 65341 declarations (--verified)"]}
+2026-10-27T16:41:39Z site:g_right_16 collected {"ok": true, "lines": ["con-ron: accepted 65341 declarations (--verified)"]}
+2026-10-27T16:41:50Z site:g_right_05 vm deleted {"vm": "m_agqx4frgjlhgzzhow3ertoh2va", "next": "done"}
+2026-10-27T16:41:50Z site:g_right_11 vm deleted {"vm": "m_agqx4frjtdsa6ln5lvlfs47tkq", "next": "done"}
+2026-10-27T16:41:50Z site:g_right_12 vm deleted {"vm": "m_agqx4frjwmyf5nljwekbofnts4", "next": "done"}
+2026-10-27T16:41:50Z site:g_right_17 vm deleted {"vm": "m_agqx4fy235tpn3uyyuzmrrrjie", "next": "done"}
+2026-10-27T16:41:50Z site:g_right_16 vm deleted {"vm": "m_agqx4fznda7xfybl24erauhxra", "next": "done"}
+2026-10-27T16:41:50Z site:g_top_24 collected {"ok": true, "lines": ["con-ron: accepted 65200 declarations (--verified)"]}
+2026-10-27T16:42:00Z site:g_bottom_16 vm deleted {"vm": "m_agqx4fyzmq72cnwl3hipokyhly", "next": "done"}
+2026-10-27T16:42:00Z site:g_top_24 vm deleted {"vm": "m_agqx4f2rfof6fphiydewgwfaim", "next": "done"}
+2026-10-27T16:42:00Z drained: nothing in flight; VMs left running for the next start
+2026-10-27T16:42:00Z fleet loop end
+2026-10-27T16:42:23Z fleet loop start 19895
+2026-10-27T16:42:44Z site:B_right_00 collected {"ok": true, "lines": ["con-ron: accepted 62611 declarations (--verified)"]}
+2026-10-27T16:42:44Z site:B_right_02 collected {"ok": true, "lines": ["con-ron: accepted 62564 declarations (--verified)"]}
+2026-10-27T16:42:54Z site:B_right_00 vm deleted {"vm": "ilo8jbw20or07w3n1fbyx", "next": "done"}
+2026-10-27T16:42:54Z site:B_right_02 vm deleted {"vm": "ixcxr9cmj54n3ir5qy8lr", "next": "done"}
+2026-10-27T16:43:24Z site:B_left_25 collected {"ok": true, "lines": ["con-ron: accepted 63776 declarations (--verified)"]}
+2026-10-27T16:43:24Z site:B_left_09 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T16:43:34Z site:B_left_25 vm deleted {"vm": "m_agqx4kidpk7lyes7h2yaxxq2ca", "next": "done"}
+2026-10-27T16:43:34Z site:B_left_09 vm deleted {"vm": "m_agqx4kifc2g374tdldpkobbw2u", "next": "done"}
+2026-10-27T16:43:44Z site:B_top_16 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:44:05Z site:B_top_16 started {"vm": "m_agqx4pysrov3skgvsemsnmgxq4", "booted_s": 1.7, "uploaded_s": 6.8}
+2026-10-27T16:45:15Z site:B_left_32 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T16:45:26Z site:B_left_32 vm deleted {"vm": "m_agqx4kv5cf3zebnwtrtzv2spcq", "next": "done"}
+2026-10-27T16:45:26Z site:B_top_11 collected {"ok": true, "lines": ["con-ron: accepted 63257 declarations (--verified)"]}
+2026-10-27T16:45:36Z site:g_right_07 collected {"ok": true, "lines": ["con-ron: accepted 65530 declarations (--verified)"]}
+2026-10-27T16:45:36Z site:B_top_11 vm deleted {"vm": "m_agqx4kxe4l3erjexw4dvljg4ne", "next": "done"}
+2026-10-27T16:45:46Z site:g_right_07 vm deleted {"vm": "m_agqx4hdmvbubwecflsrgyvxhla", "next": "done"}
+2026-10-27T16:46:06Z site:B_left_16 collected {"ok": true, "lines": ["con-ron: accepted 63588 declarations (--verified)"]}
+2026-10-27T16:46:06Z site:g_left_21 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:46:06Z site:g_top_06 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:46:06Z site:g_top_00 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:46:17Z site:B_left_16 vm deleted {"vm": "m_agqx4mdcddj5bwoi5xytuwiq2i", "next": "done"}
+2026-10-27T16:46:27Z site:g_left_21 started {"vm": "m_agqx4qj4vy4rt3jeeglrqpos4u", "booted_s": 4.3, "uploaded_s": 9.7}
+2026-10-27T16:46:27Z site:g_top_06 started {"vm": "m_agqx4qj5cja3vywfcchs6dr63y", "booted_s": 2.5, "uploaded_s": 9.4}
+2026-10-27T16:46:27Z site:g_top_00 started {"vm": "m_agqx4qj5alwjoep3h6l4oqnmyy", "booted_s": 4.2, "uploaded_s": 9.6}
+2026-10-27T16:46:47Z site:g_left_19 collected {"ok": true, "lines": ["con-ron: accepted 66472 declarations (--verified)"]}
+2026-10-27T16:46:47Z site:g_bottom_05 collected {"ok": true, "lines": ["con-ron: accepted 66425 declarations (--verified)"]}
+2026-10-27T16:46:47Z site:g_top_03 collected {"ok": true, "lines": ["con-ron: accepted 65974 declarations (--verified)"]}
+2026-10-27T16:46:57Z site:g_left_19 vm deleted {"vm": "m_agqx4fflhxhi5twcq5bra2dbyi", "next": "done"}
+2026-10-27T16:46:57Z site:g_bottom_05 vm deleted {"vm": "m_agqx4fflmiapnu3oarmu5jeezq", "next": "done"}
+2026-10-27T16:46:57Z site:g_top_03 vm deleted {"vm": "m_agqx4fpkadtnmoa2ckalj7fhxe", "next": "done"}
+2026-10-27T16:46:57Z site:g_top_11 collected {"ok": true, "lines": ["con-ron: accepted 65705 declarations (--verified)"]}
+2026-10-27T16:46:57Z site:g_bottom_14 collected {"ok": true, "lines": ["con-ron: accepted 65658 declarations (--verified)"]}
+2026-10-27T16:46:57Z site:g_bottom_13 collected {"ok": true, "lines": ["con-ron: accepted 65658 declarations (--verified)"]}
+2026-10-27T16:46:57Z site:g_right_15 collected {"ok": true, "lines": ["con-ron: accepted 65341 declarations (--verified)"]}
+2026-10-27T16:47:08Z site:g_top_11 vm deleted {"vm": "m_agqx4fpkwgzourpnb6rqg7pq2e", "next": "done"}
+2026-10-27T16:47:08Z site:g_bottom_14 vm deleted {"vm": "m_agqx4fplavx35ra6zifbtmf7pe", "next": "done"}
+2026-10-27T16:47:08Z site:g_bottom_13 vm deleted {"vm": "m_agqx4frnhekmocpv3lnfoevvhe", "next": "done"}
+2026-10-27T16:47:08Z site:g_right_15 vm deleted {"vm": "m_agqx4fzlkgdu2j6ai4l57saeb4", "next": "done"}
+2026-10-27T16:47:08Z site:B_left_28 collected {"ok": true, "lines": ["con-ron: accepted 63998 declarations (--verified)"]}
+2026-10-27T16:47:18Z site:B_left_28 vm deleted {"vm": "m_agqx4j47vcoqyqatywyfttfh3y", "next": "done"}
+2026-10-27T16:48:19Z site:g_right_23 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:48:19Z site:g_right_00 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:48:29Z site:g_right_06 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:48:40Z site:g_right_23 started {"vm": "m_agqx4q2ekwxeiifx2p7jzbhqce", "booted_s": 2.9, "uploaded_s": 8.3}
+2026-10-27T16:48:40Z site:g_right_00 started {"vm": "m_agqx4q2eoqerraw2s7bjnk464a", "booted_s": 1.7, "uploaded_s": 6.9}
+2026-10-27T16:49:00Z site:g_right_06 started {"vm": "m_agqx4q3mhprty6wain3nywbjdi", "booted_s": 6.2, "uploaded_s": 12.4}
+2026-10-27T16:50:21Z site:B_left_24 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:50:22Z site:B_bottom_04 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:50:22Z site:B_left_29 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:50:32Z site:g_left_18 collected {"ok": true, "lines": ["con-ron: accepted 66425 declarations (--verified)"]}
+2026-10-27T16:50:42Z site:B_left_24 started {"vm": "m_agqx4rjb5yxhz53egmc7wrp7ti", "booted_s": 2.4, "uploaded_s": 7.3}
+2026-10-27T16:50:42Z site:B_bottom_04 started {"vm": "m_agqx4rjchixdcwlgc62zzmvsbu", "booted_s": 1.7, "uploaded_s": 6.7}
+2026-10-27T16:50:42Z site:B_left_29 started {"vm": "m_agqx4rjciyqqhaox5erjpafmha", "booted_s": 1.6, "uploaded_s": 6.7}
+2026-10-27T16:50:42Z site:g_left_18 vm deleted {"vm": "m_agqx4hcbmligfhsztgkrhtkeju", "next": "done"}
+2026-10-27T16:50:42Z site:g_top_23 collected {"ok": true, "lines": ["con-ron: accepted 65294 declarations (--verified)"]}
+2026-10-27T16:50:52Z site:g_top_23 vm deleted {"vm": "m_agqx4ike66imzs7yibmh6wuniq", "next": "done"}
+2026-10-27T16:51:32Z site:B_top_04 collected {"ok": true, "lines": ["con-ron: accepted 63729 declarations (--verified)"]}
+2026-10-27T16:51:43Z site:B_top_04 vm deleted {"vm": "m_agqx4meknwdlwymlu7dyisnp7y", "next": "done"}
+2026-10-27T16:52:03Z site:g_top_04 collected {"ok": true, "lines": ["con-ron: accepted 66028 declarations (--verified)"]}
+2026-10-27T16:52:05Z site:g_left_23 collected {"ok": true, "lines": ["con-ron: accepted 66068 declarations (--verified)"]}
+2026-10-27T16:52:05Z site:g_top_05 collected {"ok": true, "lines": ["con-ron: accepted 66028 declarations (--verified)"]}
+2026-10-27T16:52:05Z site:g_bottom_11 collected {"ok": true, "lines": ["con-ron: accepted 65705 declarations (--verified)"]}
+2026-10-27T16:52:05Z site:B_top_08 collected {"ok": true, "lines": ["con-ron: accepted 63453 declarations (--verified)"]}
+2026-10-27T16:52:05Z site:B_left_55 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:52:05Z site:B_top_22 provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T16:52:15Z site:g_top_04 vm deleted {"vm": "m_agqx4fflpjp6edgu5ipntwb6py", "next": "done"}
+2026-10-27T16:52:15Z site:g_left_23 vm deleted {"vm": "m_agqx4ffluwwgxst6gqhqqtlnzu", "next": "done"}
+2026-10-27T16:52:15Z site:g_top_05 vm deleted {"vm": "m_agqx4fflc4uc433kxx6hydxwny", "next": "done"}
+2026-10-27T16:52:15Z site:g_bottom_11 vm deleted {"vm": "m_agqx4fh55xnq2qohico5jsdnjq", "next": "done"}
+2026-10-27T16:52:15Z site:B_top_08 vm deleted {"vm": "m_agqx4mif5kzodjpoy56g4rh74a", "next": "done"}
+2026-10-27T16:52:25Z site:B_left_55 started {"vm": "m_agqx4rvvhlhszlv2srzqbgblem", "booted_s": 1.4, "uploaded_s": 6.4}
+2026-10-27T16:52:25Z site:B_top_22 started {"vm": "ijlqe4ae043du8tzdhkd2", "booted_s": 1.5, "uploaded_s": 5.4}
+2026-10-27T16:54:07Z site:g_top_18 collected {"ok": true, "lines": ["con-ron: accepted 65894 declarations (--verified)"]}
+2026-10-27T16:54:17Z site:g_bottom_06 collected {"ok": true, "lines": ["con-ron: accepted 66378 declarations (--verified)"]}
+2026-10-27T16:54:17Z site:g_top_18 vm deleted {"vm": "m_agqx4h4rd23hvyex6qznu7xc2y", "next": "done"}
+2026-10-27T16:54:17Z site:B_left_47 collected {"ok": true, "lines": ["con-ron: accepted 63918 declarations (--verified)"]}
+2026-10-27T16:54:27Z site:g_bottom_06 vm deleted {"vm": "m_agqx4h5zgfhyjrh7crzvd5dp3m", "next": "done"}
+2026-10-27T16:54:27Z site:g_top_10 collected {"ok": true, "lines": ["con-ron: accepted 65658 declarations (--verified)"]}
+2026-10-27T16:54:27Z site:B_left_47 vm deleted {"vm": "m_agqx4lrlw67ag3takhprxexovm", "next": "done"}
+2026-10-27T16:54:37Z site:g_top_10 vm deleted {"vm": "m_agqx4gyvbfy3wj2jsqfjzlxfem", "next": "done"}
+2026-10-27T16:54:37Z site:B_bottom_13 collected {"ok": true, "lines": ["con-ron: accepted 63170 declarations (--verified)"]}
+2026-10-27T16:54:37Z site:g_left_10 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:54:37Z site:g_top_14 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:54:47Z site:B_bottom_13 vm deleted {"vm": "m_agqx4oblypaxshr7oi7bbeikkm", "next": "done"}
+2026-10-27T16:54:48Z site:g_bottom_03 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:54:58Z site:g_left_10 started {"vm": "m_agqx4sijlrek5kfei5dtwdjkya", "booted_s": 3.2, "uploaded_s": 8.3}
+2026-10-27T16:54:58Z site:g_top_14 started {"vm": "m_agqx4sijp2d6l23lithhd5it4q", "booted_s": 5.9, "uploaded_s": 11.0}
+2026-10-27T16:55:08Z site:g_bottom_03 started {"vm": "m_agqx4sjrcp6oehbq25ihmkb5uu", "booted_s": 3.3, "uploaded_s": 9.7}
+2026-10-27T16:55:48Z site:g_top_17 collected {"ok": true, "lines": ["con-ron: accepted 65894 declarations (--verified)"]}
+2026-10-27T16:55:48Z site:g_left_03 collected {"ok": true, "lines": ["con-ron: accepted 65974 declarations (--verified)"]}
+2026-10-27T16:55:59Z site:g_top_17 vm deleted {"vm": "m_agqx4hcduhiscxzyzyqidu3hiq", "next": "done"}
+2026-10-27T16:55:59Z site:g_left_03 vm deleted {"vm": "m_agqx4hcik74wzmqbsx6dxlkrby", "next": "done"}
+2026-10-27T16:55:59Z site:B_bottom_02 collected {"ok": true, "lines": ["con-ron: accepted 63776 declarations (--verified)"]}
+2026-10-27T16:56:09Z site:B_bottom_02 vm deleted {"vm": "m_agqx4l44cu6aux2ajpqzakwzti", "next": "done"}
+2026-10-27T16:56:50Z site:g_top_19 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:56:50Z site:g_bottom_20 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:57:00Z site:g_right_24 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:57:10Z site:g_top_19 started {"vm": "m_agqx4syoymeeggn7lpvmat3v6m", "booted_s": 1.2, "uploaded_s": 7.4}
+2026-10-27T16:57:10Z site:g_bottom_20 started {"vm": "m_agqx4syphno2mtxxdmy7h4urhu", "booted_s": 1.6, "uploaded_s": 7.7}
+2026-10-27T16:57:20Z site:g_left_20 collected {"ok": true, "lines": ["con-ron: accepted 66472 declarations (--verified)"]}
+2026-10-27T16:57:20Z site:g_bottom_04 collected {"ok": true, "lines": ["con-ron: accepted 66425 declarations (--verified)"]}
+2026-10-27T16:57:30Z site:g_right_24 started {"vm": "m_agqx4szwysj5e4i6iqdfckyuli", "booted_s": 1.8, "uploaded_s": 11.7}
+2026-10-27T16:57:30Z site:g_left_20 vm deleted {"vm": "m_agqx4ffli5alzyvrytk4b47yoe", "next": "done"}
+2026-10-27T16:57:30Z site:g_bottom_04 vm deleted {"vm": "m_agqx4ffladenggpvvnzb4h2mfu", "next": "done"}
+2026-10-27T16:58:21Z site:B_left_03 collected {"ok": true, "lines": ["con-ron: accepted 63729 declarations (--verified)"]}
+2026-10-27T16:58:21Z site:B_bottom_06 collected {"ok": true, "lines": ["con-ron: accepted 63453 declarations (--verified)"]}
+2026-10-27T16:58:31Z site:B_left_03 vm deleted {"vm": "m_agqx4nv77qnrq4mttjz77ek35q", "next": "done"}
+2026-10-27T16:58:31Z site:B_bottom_06 vm deleted {"vm": "m_agqx4nwczhuijmdiv7pfnkqu6q", "next": "done"}
+2026-10-27T16:58:41Z site:B_left_35 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:58:51Z site:B_left_00 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:58:52Z site:B_top_02 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T16:59:02Z site:B_left_35 started {"vm": "m_agqx4tgc5ugcmxu4imwwooxaru", "booted_s": 1.6, "uploaded_s": 6.6}
+2026-10-27T16:59:12Z site:B_left_00 started {"vm": "m_agqx4thkc3ldqmgtjlv7v5bsda", "booted_s": 1.7, "uploaded_s": 6.9}
+2026-10-27T16:59:12Z site:B_top_02 started {"vm": "m_agqx4thkq5ims7w6tn3msbwkwi", "booted_s": 3.1, "uploaded_s": 8.1}
+2026-10-27T16:59:32Z site:g_bottom_01 collected {"ok": true, "lines": ["con-ron: accepted 66028 declarations (--verified)"]}
+2026-10-27T16:59:42Z site:g_bottom_01 vm deleted {"vm": "m_agqx4h5zkass3aeymvx72n52mu", "next": "done"}
+2026-10-27T17:00:32Z site:B_bottom_18 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:00:33Z site:B_right_03 provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T17:00:53Z site:B_bottom_18 started {"vm": "m_agqx4ttutueutrsbl2v2ovhs3y", "booted_s": 1.6, "uploaded_s": 6.5}
+2026-10-27T17:00:53Z site:B_right_03 started {"vm": "iyxkcbfizr78qhp801qdw", "booted_s": 0.8, "uploaded_s": 4.9}
+2026-10-27T17:01:13Z site:g_left_17 collected {"ok": true, "lines": ["con-ron: accepted 66378 declarations (--verified)"]}
+2026-10-27T17:01:13Z site:g_right_08 collected {"ok": true, "lines": ["con-ron: accepted 65530 declarations (--verified)"]}
+2026-10-27T17:01:23Z site:g_left_17 vm deleted {"vm": "m_agqx4jqtxqzo32ujrsqbfkmshq", "next": "done"}
+2026-10-27T17:01:23Z site:g_right_08 vm deleted {"vm": "m_agqx4ikeu5jr7cfmeedesk2u3e", "next": "done"}
+2026-10-27T17:02:54Z site:g_bottom_17 collected {"ok": true, "lines": ["con-ron: accepted 65570 declarations (--verified)"]}
+2026-10-27T17:02:54Z site:g_right_19 collected {"ok": true, "lines": ["con-ron: accepted 65294 declarations (--verified)"]}
+2026-10-27T17:02:54Z site:g_top_09 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:02:55Z site:g_top_15 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:03:05Z site:g_bottom_17 vm deleted {"vm": "m_agqx4j47bzaqczrool756jjc2u", "next": "done"}
+2026-10-27T17:03:05Z site:g_right_19 vm deleted {"vm": "m_agqx4j5ammxiqx5uocv5rkpepq", "next": "done"}
+2026-10-27T17:03:05Z site:g_bottom_09 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:03:15Z site:g_top_09 started {"vm": "m_agqx4ufaycd5bcde2c6yqxm4bm", "booted_s": 2.3, "uploaded_s": 7.4}
+2026-10-27T17:03:15Z site:g_top_15 started {"vm": "m_agqx4ufbvp7eezqgh6xrahldfq", "booted_s": 3.2, "uploaded_s": 8.6}
+2026-10-27T17:03:25Z site:g_bottom_09 started {"vm": "m_agqx4ughdcxjuydyhumcvds2ba", "booted_s": 2.2, "uploaded_s": 7.5}
+2026-10-27T17:03:35Z site:B_top_06 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T17:03:45Z site:B_top_06 vm deleted {"vm": "m_agqx4nwamqg2cgqyjhzz7cjqki", "next": "done"}
+2026-10-27T17:05:06Z site:g_top_20 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:05:06Z site:g_right_01 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:05:06Z site:g_right_25 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:05:26Z site:g_top_20 started {"vm": "m_agqx4uvbgukx2pezeyxe7spwre", "booted_s": 1.8, "uploaded_s": 6.7}
+2026-10-27T17:05:26Z site:g_right_01 started {"vm": "m_agqx4uvbjs7efpcrallc5jswu4", "booted_s": 1.7, "uploaded_s": 6.9}
+2026-10-27T17:05:26Z site:g_right_25 started {"vm": "m_agqx4uvbes4m3naur6pvfawzom", "booted_s": 1.2, "uploaded_s": 6.3}
+2026-10-27T17:05:26Z site:g_bottom_15 collected {"ok": true, "lines": ["con-ron: accepted 65617 declarations (--verified)"]}
+2026-10-27T17:05:36Z site:g_bottom_15 vm deleted {"vm": "m_agqx4lwncseoem62lifd4blvkm", "next": "done"}
+2026-10-27T17:05:36Z site:B_left_08 collected {"ok": true, "lines": ["con-ron: accepted 63729 declarations (--verified)"]}
+2026-10-27T17:05:36Z site:B_bottom_00 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T17:05:36Z site:B_bottom_09 collected {"ok": true, "lines": ["con-ron: accepted 63540 declarations (--verified)"]}
+2026-10-27T17:05:46Z site:B_left_08 vm deleted {"vm": "m_agqx4pmephdshsrhdkhgyqca3m", "next": "done"}
+2026-10-27T17:05:46Z site:B_bottom_00 vm deleted {"vm": "m_agqx4pmekkbjfdcv4gaogx2dim", "next": "done"}
+2026-10-27T17:05:46Z site:B_bottom_09 vm deleted {"vm": "m_agqx4pmertgffhrrgrq73jz3f4", "next": "done"}
+2026-10-27T17:06:17Z site:g_left_05 collected {"ok": true, "lines": ["con-ron: accepted 66028 declarations (--verified)"]}
+2026-10-27T17:06:27Z site:g_left_05 vm deleted {"vm": "m_agqx4jplmgyhw7kxoq3x4il2cm", "next": "done"}
+2026-10-27T17:06:47Z site:B_left_05 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:06:57Z site:B_left_44 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:06:57Z site:B_top_07 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:07:07Z site:B_left_05 started {"vm": "m_agqx4vbmc6bv7dvz2xznwzdzva", "booted_s": 1.6, "uploaded_s": 7.1}
+2026-10-27T17:07:18Z site:B_left_44 started {"vm": "m_agqx4vcuhhpmcytvqzmw5nkigq", "booted_s": 2.0, "uploaded_s": 7.2}
+2026-10-27T17:07:18Z site:B_top_07 started {"vm": "m_agqx4vcumec7sl3lbcxzguldke", "booted_s": 1.5, "uploaded_s": 6.7}
+2026-10-27T17:07:18Z site:B_top_16 collected {"ok": true, "lines": ["con-ron: accepted 63082 declarations (--verified)"]}
+2026-10-27T17:07:28Z site:B_top_16 vm deleted {"vm": "m_agqx4pysrov3skgvsemsnmgxq4", "next": "done"}
+2026-10-27T17:08:28Z site:g_top_08 collected {"ok": true, "lines": ["con-ron: accepted 66109 declarations (--verified)"]}
+2026-10-27T17:08:28Z site:B_bottom_22 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:08:28Z site:B_bottom_23 provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T17:08:38Z site:g_top_08 vm deleted {"vm": "m_agqx4lggxvbgvclwa6db2vllpy", "next": "done"}
+2026-10-27T17:08:38Z site:B_bottom_23 started {"vm": "i3nyqv7w280hrsxydlu0m", "booted_s": 0.9, "uploaded_s": 4.6}
+2026-10-27T17:08:48Z site:B_bottom_22 started {"vm": "m_agqx4vnw2756r2q4wjgxeecbxe", "booted_s": 2.6, "uploaded_s": 7.8}
+2026-10-27T17:10:19Z site:B_left_55 collected {"ok": true, "lines": ["con-ron: accepted 62988 declarations (--verified)"]}
+2026-10-27T17:10:29Z site:B_left_55 vm deleted {"vm": "m_agqx4rvvhlhszlv2srzqbgblem", "next": "done"}
+2026-10-27T17:10:49Z site:g_left_02 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:11:00Z site:g_bottom_10 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:11:00Z site:g_left_08 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:11:10Z site:g_left_02 started {"vm": "m_agqx4v66xzhxfkx4p5ekzxdvr4", "booted_s": 1.3, "uploaded_s": 6.6}
+2026-10-27T17:11:10Z site:g_right_02 collected {"ok": true, "lines": ["con-ron: accepted 65381 declarations (--verified)"]}
+2026-10-27T17:11:20Z site:g_bottom_10 started {"vm": "m_agqx4wagat5d5v5dpcwsqbm3iy", "booted_s": 1.3, "uploaded_s": 6.4}
+2026-10-27T17:11:20Z site:g_left_08 started {"vm": "m_agqx4wagtmjfrogs7ozfuqr7ay", "booted_s": 2.5, "uploaded_s": 7.8}
+2026-10-27T17:11:20Z site:g_right_02 vm deleted {"vm": "m_agqx4lxvss3igzzve3yuheg5ym", "next": "done"}
+2026-10-27T17:11:30Z site:g_top_16 collected {"ok": true, "lines": ["con-ron: accepted 65846 declarations (--verified)"]}
+2026-10-27T17:11:40Z site:g_top_16 vm deleted {"vm": "m_agqx4jplnknr4j4meqneeh7xde", "next": "done"}
+2026-10-27T17:12:30Z site:g_bottom_21 collected {"ok": true, "lines": ["con-ron: accepted 65200 declarations (--verified)"]}
+2026-10-27T17:12:40Z site:g_bottom_21 vm deleted {"vm": "m_agqx4nk3vu2r2rfkkj3y3kx3bi", "next": "done"}
+2026-10-27T17:13:01Z site:g_top_21 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:13:01Z site:g_right_20 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:13:01Z site:g_top_25 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:13:21Z site:g_top_21 started {"vm": "m_agqx4wo764ckmkmgsiy33n4hea", "booted_s": 1.9, "uploaded_s": 7.2}
+2026-10-27T17:13:21Z site:g_right_20 started {"vm": "m_agqx4wpaf3zdgfqvi2utd4esyu", "booted_s": 2.1, "uploaded_s": 7.2}
+2026-10-27T17:13:21Z site:g_top_25 started {"vm": "m_agqx4wpae3qvoykrm4sq7do26y", "booted_s": 1.5, "uploaded_s": 6.5}
+2026-10-27T17:13:31Z site:g_top_12 collected {"ok": true, "lines": ["con-ron: accepted 65752 declarations (--verified)"]}
+2026-10-27T17:13:41Z site:g_top_12 vm deleted {"vm": "m_agqx4le6smem22ayyz6xauyk6y", "next": "done"}
+2026-10-27T17:13:52Z site:B_left_24 collected {"ok": true, "lines": ["con-ron: accepted 63729 declarations (--verified)"]}
+2026-10-27T17:13:52Z site:B_bottom_04 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T17:13:52Z site:B_left_29 collected {"ok": true, "lines": ["con-ron: accepted 63540 declarations (--verified)"]}
+2026-10-27T17:14:02Z site:B_left_24 vm deleted {"vm": "m_agqx4rjb5yxhz53egmc7wrp7ti", "next": "done"}
+2026-10-27T17:14:02Z site:B_bottom_04 vm deleted {"vm": "m_agqx4rjchixdcwlgc62zzmvsbu", "next": "done"}
+2026-10-27T17:14:02Z site:B_left_29 vm deleted {"vm": "m_agqx4rjciyqqhaox5erjpafmha", "next": "done"}
+2026-10-27T17:14:12Z site:g_bottom_24 collected {"ok": true, "lines": ["con-ron: accepted 65145 declarations (--verified)"]}
+2026-10-27T17:14:22Z site:g_bottom_24 vm deleted {"vm": "m_agqx4o6bsrva3gyttweri3ur2e", "next": "done"}
+2026-10-27T17:14:52Z site:B_left_52 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:14:52Z site:B_left_10 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:14:52Z site:B_bottom_05 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:15:12Z site:B_left_52 started {"vm": "m_agqx4w4tcm7yjtqn66ggg5h3yu", "booted_s": 1.7, "uploaded_s": 6.7}
+2026-10-27T17:15:12Z site:B_left_10 started {"vm": "m_agqx4w4tnmfolm7glsjkcjajma", "booted_s": 1.7, "uploaded_s": 6.6}
+2026-10-27T17:15:12Z site:B_bottom_05 started {"vm": "m_agqx4w4ts5jtgp7bkjcgagaqse", "booted_s": 1.9, "uploaded_s": 7.2}
+2026-10-27T17:15:33Z site:B_top_22 collected {"ok": true, "lines": ["con-ron: accepted 62005 declarations (--verified)"]}
+2026-10-27T17:15:43Z site:B_top_22 vm deleted {"vm": "ijlqe4ae043du8tzdhkd2", "next": "done"}
+2026-10-27T17:15:53Z site:g_left_06 collected {"ok": true, "lines": ["con-ron: accepted 66068 declarations (--verified)"]}
+2026-10-27T17:15:53Z site:g_left_00 collected {"ok": true, "lines": ["con-ron: accepted 65894 declarations (--verified)"]}
+2026-10-27T17:16:03Z site:g_left_06 vm deleted {"vm": "m_agqx4m5iaxlcjsjnsuq2sht4mu", "next": "done"}
+2026-10-27T17:16:03Z site:g_left_00 vm deleted {"vm": "m_agqx4m5imjtisbvhk4ijjb6otq", "next": "done"}
+2026-10-27T17:16:33Z site:B_top_14 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:16:53Z site:B_top_14 started {"vm": "m_agqx4xi5kyshpgirafxvbkw2ae", "booted_s": 3.8, "uploaded_s": 10.2}
+2026-10-27T17:17:44Z site:g_bottom_19 collected {"ok": true, "lines": ["con-ron: accepted 65570 declarations (--verified)"]}
+2026-10-27T17:17:44Z site:g_bottom_23 collected {"ok": true, "lines": ["con-ron: accepted 65145 declarations (--verified)"]}
+2026-10-27T17:17:54Z site:g_bottom_19 vm deleted {"vm": "m_agqx4nk3muz7vj6yyy4v46uxae", "next": "done"}
+2026-10-27T17:17:54Z site:g_bottom_23 vm deleted {"vm": "m_agqx4nk34sqwqx5ktxz2sm3udu", "next": "done"}
+2026-10-27T17:18:44Z site:B_bottom_18 collected {"ok": true, "lines": ["con-ron: accepted 62934 declarations (--verified)"]}
+2026-10-27T17:18:54Z site:g_bottom_07 collected {"ok": true, "lines": ["con-ron: accepted 66331 declarations (--verified)"]}
+2026-10-27T17:18:54Z site:B_bottom_18 vm deleted {"vm": "m_agqx4ttutueutrsbl2v2ovhs3y", "next": "done"}
+2026-10-27T17:18:54Z site:B_right_05 collected {"ok": true, "lines": ["con-ron: accepted 62611 declarations (--verified)"]}
+2026-10-27T17:18:54Z site:g_left_24 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:19:04Z site:g_bottom_07 vm deleted {"vm": "m_agqx4lgg5pdrr54ozoril247fm", "next": "done"}
+2026-10-27T17:19:04Z site:B_right_05 vm deleted {"vm": "if58lsd7is9w6ut2q0kdw", "next": "done"}
+2026-10-27T17:19:05Z site:g_left_14 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:19:05Z site:g_top_07 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:19:15Z site:g_left_24 started {"vm": "m_agqx4x2f3d42llpcbcovmdlzta", "booted_s": 2.4, "uploaded_s": 7.5}
+2026-10-27T17:19:25Z site:g_left_14 started {"vm": "m_agqx4x3mry6ccqzzpnhxzitktu", "booted_s": 2.6, "uploaded_s": 8.9}
+2026-10-27T17:19:25Z site:g_top_07 started {"vm": "m_agqx4x3muot4lh7iyehh34popq", "booted_s": 2.0, "uploaded_s": 7.8}
+2026-10-27T17:20:56Z site:B_top_03 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:21:06Z site:g_bottom_08 collected {"ok": true, "lines": ["con-ron: accepted 66331 declarations (--verified)"]}
+2026-10-27T17:21:06Z site:g_right_03 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:21:06Z site:g_right_13 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:21:16Z site:B_top_03 started {"vm": "m_agqx4yi6h5ywev4xxa7moykisa", "booted_s": 2.7, "uploaded_s": 8.1}
+2026-10-27T17:21:16Z site:g_bottom_08 vm deleted {"vm": "m_agqx4m5hn2fomfd3dy2kvefsmq", "next": "done"}
+2026-10-27T17:21:26Z site:g_right_03 started {"vm": "m_agqx4ykhqy2h56jqv3wosxovuu", "booted_s": 2.8, "uploaded_s": 8.6}
+2026-10-27T17:21:26Z site:g_right_13 started {"vm": "m_agqx4ykhmwxl4g7nfolhvchd34", "booted_s": 2.5, "uploaded_s": 7.9}
+2026-10-27T17:22:06Z site:B_left_35 collected {"ok": true, "lines": ["con-ron: accepted 63729 declarations (--verified)"]}
+2026-10-27T17:22:16Z site:g_right_00 collected {"ok": true, "lines": ["con-ron: accepted 65145 declarations (--verified)"]}
+2026-10-27T17:22:16Z site:B_left_35 vm deleted {"vm": "m_agqx4tgc5ugcmxu4imwwooxaru", "next": "done"}
+2026-10-27T17:22:16Z site:B_left_00 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T17:22:16Z site:B_top_02 collected {"ok": true, "lines": ["con-ron: accepted 63540 declarations (--verified)"]}
+2026-10-27T17:22:26Z site:g_right_00 vm deleted {"vm": "m_agqx4q2eoqerraw2s7bjnk464a", "next": "done"}
+2026-10-27T17:22:26Z site:B_left_00 vm deleted {"vm": "m_agqx4thkc3ldqmgtjlv7v5bsda", "next": "done"}
+2026-10-27T17:22:26Z site:B_top_02 vm deleted {"vm": "m_agqx4thkq5ims7w6tn3msbwkwi", "next": "done"}
+2026-10-27T17:22:47Z site:g_left_01 collected {"ok": true, "lines": ["con-ron: accepted 65894 declarations (--verified)"]}
+2026-10-27T17:22:47Z site:B_left_18 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:22:57Z site:g_left_01 vm deleted {"vm": "m_agqx4oqofzv6ascyrg6z73kdhq", "next": "done"}
+2026-10-27T17:22:57Z site:B_bottom_03 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:22:57Z site:B_left_15 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:23:07Z site:B_left_18 started {"vm": "m_agqx4ywqsgjbqqopjtjzyga24e", "booted_s": 3.0, "uploaded_s": 8.4}
+2026-10-27T17:23:17Z site:B_bottom_03 started {"vm": "m_agqx4yxyc5wl6a6hl3qavhxdnm", "booted_s": 2.5, "uploaded_s": 7.9}
+2026-10-27T17:23:17Z site:B_left_15 started {"vm": "m_agqx4yxzh2wxncfboe4aluiiqa", "booted_s": 2.6, "uploaded_s": 8.1}
+2026-10-27T17:24:38Z site:g_right_04 collected {"ok": true, "lines": ["con-ron: accepted 65570 declarations (--verified)"]}
+2026-10-27T17:24:38Z site:g_bottom_22 collected {"ok": true, "lines": ["con-ron: accepted 65200 declarations (--verified)"]}
+2026-10-27T17:24:38Z site:B_bottom_10 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:24:38Z site:B_right_04 provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T17:24:48Z site:g_right_04 vm deleted {"vm": "m_agqx4o6bcalwi4aposizwvd7ee", "next": "done"}
+2026-10-27T17:24:48Z site:g_bottom_22 vm deleted {"vm": "m_agqx4o6bibpmsitlnjtdlasehe", "next": "done"}
+2026-10-27T17:24:48Z site:B_right_04 started {"vm": "i9rsxjreaacicro3cc01y", "booted_s": 0.9, "uploaded_s": 4.6}
+2026-10-27T17:24:58Z site:B_bottom_10 started {"vm": "m_agqx4zecjw7zdbu36uprwfxz6a", "booted_s": 2.9, "uploaded_s": 8.2}
+2026-10-27T17:26:39Z site:B_bottom_22 collected {"ok": true, "lines": ["con-ron: accepted 62934 declarations (--verified)"]}
+2026-10-27T17:26:49Z site:B_bottom_22 vm deleted {"vm": "m_agqx4vnw2756r2q4wjgxeecbxe", "next": "done"}
+2026-10-27T17:27:09Z site:g_left_12 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:27:09Z site:g_bottom_02 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:27:09Z site:g_top_01 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:27:30Z site:g_left_12 started {"vm": "m_agqx4zwqnirszstnwedcqc3x5u", "booted_s": 1.6, "uploaded_s": 6.8}
+2026-10-27T17:27:30Z site:g_bottom_02 started {"vm": "m_agqx4zwqxwo4crfu3g45lm4aom", "booted_s": 1.0, "uploaded_s": 6.3}
+2026-10-27T17:27:30Z site:g_top_01 started {"vm": "m_agqx4zwreozxxqfgvcaxgxuate", "booted_s": 3.3, "uploaded_s": 8.8}
+2026-10-27T17:27:30Z site:g_right_23 collected {"ok": true, "lines": ["con-ron: accepted 65200 declarations (--verified)"]}
+2026-10-27T17:27:40Z site:g_right_23 vm deleted {"vm": "m_agqx4q2ekwxeiifx2p7jzbhqce", "next": "done"}
+2026-10-27T17:27:50Z site:g_right_06 collected {"ok": true, "lines": ["con-ron: accepted 65570 declarations (--verified)"]}
+2026-10-27T17:28:00Z site:g_right_06 vm deleted {"vm": "m_agqx4q3mhprty6wain3nywbjdi", "next": "done"}
+2026-10-27T17:28:00Z top collected {"ok": true, "lines": ["con-ron: accepted 84534 declarations (--verified)"]}
+2026-10-27T17:28:10Z site:g_left_07 collected {"ok": true, "lines": ["con-ron: accepted 66068 declarations (--verified)"]}
+2026-10-27T17:28:10Z top vm deleted {"vm": "m_agqx4jvrzbu6s4bipm43yiuqmy", "next": "done"}
+2026-10-27T17:28:20Z site:g_left_07 vm deleted {"vm": "m_agqx4oqn2djr546nc6ihxf6hne", "next": "done"}
+2026-10-27T17:29:10Z site:B_left_27 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:29:21Z site:g_right_09 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:29:21Z site:g_right_14 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:29:31Z site:B_left_27 started {"vm": "m_agqx42flqyuu3dewqptlkyproi", "booted_s": 2.8, "uploaded_s": 7.7}
+2026-10-27T17:29:41Z site:g_right_09 started {"vm": "m_agqx42gtejmarbykm2lm53ycbu", "booted_s": 1.5, "uploaded_s": 6.9}
+2026-10-27T17:29:41Z site:g_right_14 started {"vm": "m_agqx42gthvr22md2to6wyikmii", "booted_s": 1.7, "uploaded_s": 7.2}
+2026-10-27T17:30:11Z site:B_left_05 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T17:30:21Z site:B_left_44 collected {"ok": true, "lines": ["con-ron: accepted 63729 declarations (--verified)"]}
+2026-10-27T17:30:21Z site:B_left_05 vm deleted {"vm": "m_agqx4vbmc6bv7dvz2xznwzdzva", "next": "done"}
+2026-10-27T17:30:21Z site:B_top_07 collected {"ok": true, "lines": ["con-ron: accepted 63540 declarations (--verified)"]}
+2026-10-27T17:30:31Z site:g_top_00 collected {"ok": true, "lines": ["con-ron: accepted 65894 declarations (--verified)"]}
+2026-10-27T17:30:31Z site:B_left_44 vm deleted {"vm": "m_agqx4vcuhhpmcytvqzmw5nkigq", "next": "done"}
+2026-10-27T17:30:31Z site:B_top_07 vm deleted {"vm": "m_agqx4vcumec7sl3lbcxzguldke", "next": "done"}
+2026-10-27T17:30:41Z site:g_top_00 vm deleted {"vm": "m_agqx4qj5alwjoep3h6l4oqnmyy", "next": "done"}
+2026-10-27T17:31:01Z site:g_right_24 collected {"ok": true, "lines": ["con-ron: accepted 65145 declarations (--verified)"]}
+2026-10-27T17:31:12Z site:g_right_24 vm deleted {"vm": "m_agqx4szwysj5e4i6iqdfckyuli", "next": "done"}
+2026-10-27T17:31:12Z site:B_left_07 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:31:12Z site:B_bottom_07 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:31:12Z site:B_left_20 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:31:34Z site:B_left_07 started {"vm": "m_agqx42uf4w3cyi2mmaghjm6hei", "booted_s": 1.7, "uploaded_s": 6.7}
+2026-10-27T17:31:34Z site:B_bottom_07 started {"vm": "m_agqx42uf2qtkf4qr6vfdqjdk2i", "booted_s": 1.4, "uploaded_s": 6.3}
+2026-10-27T17:31:34Z site:B_left_20 started {"vm": "m_agqx42uf33y2se5m7un4y7vv7q", "booted_s": 2.1, "uploaded_s": 7.7}
+2026-10-27T17:31:44Z site:B_bottom_23 collected {"ok": true, "lines": ["con-ron: accepted 62005 declarations (--verified)"]}
+2026-10-27T17:31:54Z site:B_bottom_23 vm deleted {"vm": "i3nyqv7w280hrsxydlu0m", "next": "done"}
+2026-10-27T17:32:55Z site:B_top_09 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:33:05Z site:B_bottom_20 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:33:25Z site:g_left_15 collected {"ok": true, "lines": ["con-ron: accepted 66331 declarations (--verified)"]}
+2026-10-27T17:33:35Z site:B_top_09 started {"vm": "m_agqx43axb5nvey34recumtww4i", "booted_s": 4.8, "uploaded_s": 23.0}
+2026-10-27T17:33:35Z site:g_left_15 vm deleted {"vm": "m_agqx4orv44nxhzo5mrmszeqjya", "next": "done"}
+2026-10-27T17:33:45Z site:B_bottom_20 started {"vm": "m_agqx43b6sfa5wsgvlnjbxlrvbq", "booted_s": 13.2, "uploaded_s": 20.0}
+2026-10-27T17:33:45Z site:g_top_14 collected {"ok": true, "lines": ["con-ron: accepted 65799 declarations (--verified)"]}
+2026-10-27T17:33:55Z site:g_top_14 vm deleted {"vm": "m_agqx4sijp2d6l23lithhd5it4q", "next": "done"}
+2026-10-27T17:34:46Z site:B_top_14 collected {"ok": true, "lines": ["con-ron: accepted 63082 declarations (--verified)"]}
+2026-10-27T17:34:56Z site:B_top_14 vm deleted {"vm": "m_agqx4xi5kyshpgirafxvbkw2ae", "next": "done"}
+2026-10-27T17:35:36Z site:g_left_13 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:35:36Z site:g_top_02 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:35:46Z site:g_top_06 collected {"ok": true, "lines": ["con-ron: accepted 66068 declarations (--verified)"]}
+2026-10-27T17:35:46Z site:g_left_09 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:35:56Z site:g_left_13 started {"vm": "m_agqx43uoeeiumzu7xcsf2ldomu", "booted_s": 1.7, "uploaded_s": 6.9}
+2026-10-27T17:35:56Z site:g_top_02 started {"vm": "m_agqx43uonor4dgtshoh7z7a3rm", "booted_s": 1.7, "uploaded_s": 6.9}
+2026-10-27T17:35:56Z site:g_top_06 vm deleted {"vm": "m_agqx4qj5cja3vywfcchs6dr63y", "next": "done"}
+2026-10-27T17:35:56Z site:g_top_19 collected {"ok": true, "lines": ["con-ron: accepted 65617 declarations (--verified)"]}
+2026-10-27T17:35:56Z site:g_bottom_20 collected {"ok": true, "lines": ["con-ron: accepted 65247 declarations (--verified)"]}
+2026-10-27T17:36:07Z site:g_left_09 started {"vm": "m_agqx43vvv3afu5qqviek267xoy", "booted_s": 1.1, "uploaded_s": 6.6}
+2026-10-27T17:36:07Z site:g_top_19 vm deleted {"vm": "m_agqx4syoymeeggn7lpvmat3v6m", "next": "done"}
+2026-10-27T17:36:07Z site:g_bottom_20 vm deleted {"vm": "m_agqx4syphno2mtxxdmy7h4urhu", "next": "done"}
+2026-10-27T17:37:49Z site:g_right_10 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:37:49Z site:g_top_22 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:37:49Z site:B_left_38 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:38:09Z site:g_top_22 started {"vm": "m_agqx44et4kgebk5pzivy6hzr2m", "booted_s": 2.0, "uploaded_s": 7.4}
+2026-10-27T17:38:09Z site:B_left_38 started {"vm": "m_agqx44etkyi6q6wuybl2yrgjgi", "booted_s": 1.6, "uploaded_s": 6.9}
+2026-10-27T17:38:19Z site:g_right_10 started {"vm": "m_agqx44etxmnm54s6cxfaevesuy", "booted_s": 6.2, "uploaded_s": 12.4}
+2026-10-27T17:38:19Z site:B_left_52 collected {"ok": true, "lines": ["con-ron: accepted 63729 declarations (--verified)"]}
+2026-10-27T17:38:19Z site:B_left_10 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T17:38:19Z site:B_bottom_05 collected {"ok": true, "lines": ["con-ron: accepted 63493 declarations (--verified)"]}
+2026-10-27T17:38:29Z site:B_left_52 vm deleted {"vm": "m_agqx4w4tcm7yjtqn66ggg5h3yu", "next": "done"}
+2026-10-27T17:38:29Z site:B_left_10 vm deleted {"vm": "m_agqx4w4tnmfolm7glsjkcjajma", "next": "done"}
+2026-10-27T17:38:29Z site:B_bottom_05 vm deleted {"vm": "m_agqx4w4ts5jtgp7bkjcgagaqse", "next": "done"}
+2026-10-27T17:38:59Z site:g_left_10 collected {"ok": true, "lines": ["con-ron: accepted 66149 declarations (--verified)"]}
+2026-10-27T17:38:59Z site:g_right_25 collected {"ok": true, "lines": ["con-ron: accepted 65145 declarations (--verified)"]}
+2026-10-27T17:39:09Z site:g_left_10 vm deleted {"vm": "m_agqx4sijlrek5kfei5dtwdjkya", "next": "done"}
+2026-10-27T17:39:09Z site:g_right_25 vm deleted {"vm": "m_agqx4uvbes4m3naur6pvfawzom", "next": "done"}
+2026-10-27T17:39:40Z site:B_right_03 collected {"ok": true, "lines": ["con-ron: accepted 62564 declarations (--verified)"]}
+2026-10-27T17:39:40Z site:B_left_12 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:39:40Z site:B_left_04 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:39:50Z site:B_right_03 vm deleted {"vm": "iyxkcbfizr78qhp801qdw", "next": "done"}
+2026-10-27T17:39:50Z site:B_left_21 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:40:00Z site:B_left_12 started {"vm": "m_agqx44sfj6ulxvabz2et7giegq", "booted_s": 1.9, "uploaded_s": 7.2}
+2026-10-27T17:40:00Z site:B_left_04 started {"vm": "m_agqx44sfiij35kmytc74xyc7nu", "booted_s": 1.4, "uploaded_s": 6.5}
+2026-10-27T17:40:10Z site:B_left_21 started {"vm": "m_agqx44tms5jzvltse4ql7txy3q", "booted_s": 1.7, "uploaded_s": 6.8}
+2026-10-27T17:41:00Z site:g_left_21 collected {"ok": true, "lines": ["con-ron: accepted 66331 declarations (--verified)"]}
+2026-10-27T17:41:10Z site:g_left_21 vm deleted {"vm": "m_agqx4qj4vy4rt3jeeglrqpos4u", "next": "done"}
+2026-10-27T17:41:31Z site:B_bottom_16 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:41:31Z site:B_top_21 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:41:51Z site:B_bottom_16 started {"vm": "m_agqx447w6dfwqdshxvorjuqcci", "booted_s": 1.6, "uploaded_s": 6.5}
+2026-10-27T17:41:51Z site:B_top_21 started {"vm": "m_agqx447w4qjeutjbapyu45stsm", "booted_s": 1.6, "uploaded_s": 6.5}
+2026-10-27T17:42:51Z site:B_bottom_10 collected {"ok": true, "lines": ["con-ron: accepted 63406 declarations (--verified)"]}
+2026-10-27T17:43:01Z site:B_bottom_10 vm deleted {"vm": "m_agqx4zecjw7zdbu36uprwfxz6a", "next": "done"}
+2026-10-27T17:43:52Z site:g_left_11 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:43:52Z site:g_bottom_00 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:44:02Z site:g_left_22 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:44:12Z site:g_left_11 started {"vm": "m_agqx45rbaserngh543fpb6wioq", "booted_s": 2.5, "uploaded_s": 7.8}
+2026-10-27T17:44:12Z site:g_bottom_00 started {"vm": "m_agqx45raox5k743iyhapwe6ad4", "booted_s": 2.3, "uploaded_s": 7.3}
+2026-10-27T17:44:12Z site:g_right_01 collected {"ok": true, "lines": ["con-ron: accepted 65247 declarations (--verified)"]}
+2026-10-27T17:44:22Z site:g_left_22 started {"vm": "m_agqx45sfo3cfkrea4qjdlrkgvm", "booted_s": 1.8, "uploaded_s": 6.9}
+2026-10-27T17:44:22Z site:g_bottom_03 collected {"ok": true, "lines": ["con-ron: accepted 66283 declarations (--verified)"]}
+2026-10-27T17:44:22Z site:g_right_01 vm deleted {"vm": "m_agqx4uvbjs7efpcrallc5jswu4", "next": "done"}
+2026-10-27T17:44:22Z site:B_top_03 collected {"ok": true, "lines": ["con-ron: accepted 63918 declarations (--verified)"]}
+2026-10-27T17:44:32Z site:g_bottom_03 vm deleted {"vm": "m_agqx4sjrcp6oehbq25ihmkb5uu", "next": "done"}
+2026-10-27T17:44:32Z site:B_top_03 vm deleted {"vm": "m_agqx4yi6h5ywev4xxa7moykisa", "next": "done"}
+2026-10-27T17:46:04Z site:g_bottom_18 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:46:04Z site:g_right_21 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:46:04Z site:B_left_11 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:46:14Z site:B_left_18 collected {"ok": true, "lines": ["con-ron: accepted 63776 declarations (--verified)"]}
+2026-10-27T17:46:24Z site:g_right_21 started {"vm": "m_agqx46bccrd4mg3kiqpc2r3mxa", "booted_s": 2.0, "uploaded_s": 7.1}
+2026-10-27T17:46:24Z site:B_left_11 started {"vm": "m_agqx46bb65u7mzzynbmhx43waa", "booted_s": 1.6, "uploaded_s": 7.4}
+2026-10-27T17:46:24Z site:B_left_18 vm deleted {"vm": "m_agqx4ywqsgjbqqopjtjzyga24e", "next": "done"}
+2026-10-27T17:46:24Z site:B_bottom_03 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T17:46:24Z site:B_left_15 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T17:46:24Z site:B_bottom_20 collected {"ok": true, "lines": ["con-ron: accepted 62799 declarations (--verified)"]}
+2026-10-27T17:46:34Z site:g_bottom_18 started {"vm": "m_agqx46bb5azxohfx7us2wsarl4", "booted_s": 1.7, "uploaded_s": 7.2}
+2026-10-27T17:46:34Z site:B_left_15 vm deleted {"vm": "m_agqx4yxzh2wxncfboe4aluiiqa", "next": "done"}
+2026-10-27T17:46:34Z site:B_bottom_20 vm deleted {"vm": "m_agqx43b6sfa5wsgvlnjbxlrvbq", "next": "done"}
+2026-10-27T17:46:44Z site:B_bottom_03 vm deleted {"vm": "m_agqx4yxyc5wl6a6hl3qavhxdnm", "next": "done"}
+2026-10-27T17:47:55Z site:B_left_45 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:47:55Z site:B_left_34 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:48:05Z site:B_bottom_08 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:48:15Z site:B_left_45 started {"vm": "m_agqx46otfbuxz4phqwe4bznoyu", "booted_s": 1.5, "uploaded_s": 6.5}
+2026-10-27T17:48:15Z site:B_left_34 started {"vm": "m_agqx46oth7rra23uwhnjqmt5aq", "booted_s": 1.7, "uploaded_s": 6.8}
+2026-10-27T17:48:25Z site:B_bottom_08 started {"vm": "m_agqx46p2o7zlzvncd7wvbedfuy", "booted_s": 1.3, "uploaded_s": 6.3}
+2026-10-27T17:49:25Z site:g_top_20 collected {"ok": true, "lines": ["con-ron: accepted 65617 declarations (--verified)"]}
+2026-10-27T17:49:35Z site:g_top_20 vm deleted {"vm": "m_agqx4uvbgukx2pezeyxe7spwre", "next": "done"}
+2026-10-27T17:49:35Z site:B_right_01 provisioning {"provider": "novita", "attempt": 1}
+2026-10-27T17:49:46Z site:B_top_05 provisioning {"provider": "instabox", "attempt": 1}
+2026-10-27T17:49:56Z site:B_right_01 started {"vm": "ip5z1lvqly2ajdonud4ri", "booted_s": 1.2, "uploaded_s": 5.1}
+2026-10-27T17:50:06Z site:B_top_05 started {"vm": "m_agqx464ebwg2jehst4qtknikxu", "booted_s": 1.8, "uploaded_s": 6.6}
+2026-10-27T17:51:27Z site:B_top_09 collected {"ok": true, "lines": ["con-ron: accepted 63311 declarations (--verified)"]}
+2026-10-27T17:51:37Z site:B_top_09 vm deleted {"vm": "m_agqx43axb5nvey34recumtww4i", "next": "done"}
+2026-10-27T17:52:07Z site:g_top_25 collected {"ok": true, "lines": ["con-ron: accepted 65145 declarations (--verified)"]}
+2026-10-27T17:52:17Z site:g_top_25 vm deleted {"vm": "m_agqx4wpae3qvoykrm4sq7do26y", "next": "done"}
+2026-10-27T17:52:27Z site:g_top_09 collected {"ok": true, "lines": ["con-ron: accepted 66149 declarations (--verified)"]}
+2026-10-27T17:52:27Z site:g_top_15 collected {"ok": true, "lines": ["con-ron: accepted 65799 declarations (--verified)"]}
+2026-10-27T17:52:37Z site:g_bottom_09 collected {"ok": true, "lines": ["con-ron: accepted 66283 declarations (--verified)"]}
+2026-10-27T17:52:37Z site:g_top_09 vm deleted {"vm": "m_agqx4ufaycd5bcde2c6yqxm4bm", "next": "done"}
+2026-10-27T17:52:37Z site:g_top_15 vm deleted {"vm": "m_agqx4ufbvp7eezqgh6xrahldfq", "next": "done"}
+2026-10-27T17:52:48Z site:g_bottom_09 vm deleted {"vm": "m_agqx4ughdcxjuydyhumcvds2ba", "next": "done"}
+2026-10-27T17:54:28Z site:B_top_21 collected {"ok": true, "lines": ["con-ron: accepted 62894 declarations (--verified)"]}
+2026-10-27T17:54:38Z site:B_left_07 collected {"ok": true, "lines": ["con-ron: accepted 63831 declarations (--verified)"]}
+2026-10-27T17:54:38Z site:B_bottom_07 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T17:54:38Z site:B_left_20 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T17:54:38Z site:B_top_21 vm deleted {"vm": "m_agqx447w4qjeutjbapyu45stsm", "next": "done"}
+2026-10-27T17:54:48Z site:B_left_07 vm deleted {"vm": "m_agqx42uf4w3cyi2mmaghjm6hei", "next": "done"}
+2026-10-27T17:54:48Z site:B_bottom_07 vm deleted {"vm": "m_agqx42uf2qtkf4qr6vfdqjdk2i", "next": "done"}
+2026-10-27T17:54:48Z site:B_left_20 vm deleted {"vm": "m_agqx42uf33y2se5m7un4y7vv7q", "next": "done"}
+2026-10-27T17:55:09Z site:g_left_02 collected {"ok": true, "lines": ["con-ron: accepted 65934 declarations (--verified)"]}
+2026-10-27T17:55:19Z site:g_left_02 vm deleted {"vm": "m_agqx4v66xzhxfkx4p5ekzxdvr4", "next": "done"}
+2026-10-27T17:57:20Z site:g_top_21 collected {"ok": true, "lines": ["con-ron: accepted 65530 declarations (--verified)"]}
+2026-10-27T17:57:20Z site:g_right_20 collected {"ok": true, "lines": ["con-ron: accepted 65247 declarations (--verified)"]}
+2026-10-27T17:57:30Z site:g_top_21 vm deleted {"vm": "m_agqx4wo764ckmkmgsiy33n4hea", "next": "done"}
+2026-10-27T17:57:30Z site:g_right_20 vm deleted {"vm": "m_agqx4wpaf3zdgfqvi2utd4esyu", "next": "done"}
+2026-10-27T17:57:50Z site:B_left_27 collected {"ok": true, "lines": ["con-ron: accepted 63871 declarations (--verified)"]}
+2026-10-27T17:58:00Z site:B_left_27 vm deleted {"vm": "m_agqx42flqyuu3dewqptlkyproi", "next": "done"}
+2026-10-27T17:59:40Z site:B_bottom_16 collected {"ok": true, "lines": ["con-ron: accepted 63257 declarations (--verified)"]}
+2026-10-27T17:59:51Z site:B_bottom_16 vm deleted {"vm": "m_agqx447w6dfwqdshxvorjuqcci", "next": "done"}
+2026-10-27T18:00:11Z site:g_right_13 collected {"ok": true, "lines": ["con-ron: accepted 65381 declarations (--verified)"]}
+2026-10-27T18:00:21Z site:g_right_13 vm deleted {"vm": "m_agqx4ykhmwxl4g7nfolhvchd34", "next": "done"}
+2026-10-27T18:00:31Z site:g_bottom_10 collected {"ok": true, "lines": ["con-ron: accepted 66283 declarations (--verified)"]}
+2026-10-27T18:00:31Z site:g_left_08 collected {"ok": true, "lines": ["con-ron: accepted 66109 declarations (--verified)"]}
+2026-10-27T18:00:41Z site:g_bottom_10 vm deleted {"vm": "m_agqx4wagat5d5v5dpcwsqbm3iy", "next": "done"}
+2026-10-27T18:00:41Z site:g_left_08 vm deleted {"vm": "m_agqx4wagtmjfrogs7ozfuqr7ay", "next": "done"}
+2026-10-27T18:03:02Z site:B_left_04 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T18:03:12Z site:g_left_24 collected {"ok": true, "lines": ["con-ron: accepted 65934 declarations (--verified)"]}
+2026-10-27T18:03:12Z site:B_left_04 vm deleted {"vm": "m_agqx44sfiij35kmytc74xyc7nu", "next": "done"}
+2026-10-27T18:03:12Z site:B_left_21 collected {"ok": true, "lines": ["con-ron: accepted 63635 declarations (--verified)"]}
+2026-10-27T18:03:22Z site:g_top_07 collected {"ok": true, "lines": ["con-ron: accepted 66109 declarations (--verified)"]}
+2026-10-27T18:03:22Z site:g_left_24 vm deleted {"vm": "m_agqx4x2f3d42llpcbcovmdlzta", "next": "done"}
+2026-10-27T18:03:22Z site:B_left_21 vm deleted {"vm": "m_agqx44tms5jzvltse4ql7txy3q", "next": "done"}
+2026-10-27T18:03:32Z site:g_top_07 vm deleted {"vm": "m_agqx4x3muot4lh7iyehh34popq", "next": "done"}
+2026-10-27T18:05:23Z site:g_right_03 collected {"ok": true, "lines": ["con-ron: accepted 65483 declarations (--verified)"]}
+2026-10-27T18:05:33Z site:g_right_03 vm deleted {"vm": "m_agqx4ykhqy2h56jqv3wosxovuu", "next": "done"}
+2026-10-27T18:06:23Z site:B_left_38 collected {"ok": true, "lines": ["con-ron: accepted 63871 declarations (--verified)"]}
+2026-10-27T18:06:33Z site:B_left_38 vm deleted {"vm": "m_agqx44etkyi6q6wuybl2yrgjgi", "next": "done"}
+2026-10-27T18:07:54Z site:B_top_05 collected {"ok": true, "lines": ["con-ron: accepted 63453 declarations (--verified)"]}
+2026-10-27T18:08:04Z site:B_top_05 vm deleted {"vm": "m_agqx464ebwg2jehst4qtknikxu", "next": "done"}
+2026-10-27T18:08:14Z site:B_left_12 collected {"ok": true, "lines": ["con-ron: accepted 63831 declarations (--verified)"]}
+2026-10-27T18:08:24Z site:g_right_09 collected {"ok": true, "lines": ["con-ron: accepted 65483 declarations (--verified)"]}
+2026-10-27T18:08:24Z site:g_right_14 collected {"ok": true, "lines": ["con-ron: accepted 65381 declarations (--verified)"]}
+2026-10-27T18:08:24Z site:B_left_12 vm deleted {"vm": "m_agqx44sfj6ulxvabz2et7giegq", "next": "done"}
+2026-10-27T18:08:34Z site:g_left_14 collected {"ok": true, "lines": ["con-ron: accepted 66283 declarations (--verified)"]}
+2026-10-27T18:08:34Z site:g_right_09 vm deleted {"vm": "m_agqx42gtejmarbykm2lm53ycbu", "next": "done"}
+2026-10-27T18:08:34Z site:g_right_14 vm deleted {"vm": "m_agqx42gthvr22md2to6wyikmii", "next": "done"}
+2026-10-27T18:08:44Z site:g_left_14 vm deleted {"vm": "m_agqx4x3mry6ccqzzpnhxzitktu", "next": "done"}
+2026-10-27T18:09:24Z site:B_left_11 collected {"ok": true, "lines": ["con-ron: accepted 64046 declarations (--verified)"]}
+2026-10-27T18:09:34Z site:B_left_11 vm deleted {"vm": "m_agqx46bb65u7mzzynbmhx43waa", "next": "done"}
+2026-10-27T18:11:15Z site:B_left_45 collected {"ok": true, "lines": ["con-ron: accepted 63776 declarations (--verified)"]}
+2026-10-27T18:11:15Z site:B_left_34 collected {"ok": true, "lines": ["con-ron: accepted 63682 declarations (--verified)"]}
+2026-10-27T18:11:25Z site:g_bottom_02 collected {"ok": true, "lines": ["con-ron: accepted 66149 declarations (--verified)"]}
+2026-10-27T18:11:25Z site:g_top_01 collected {"ok": true, "lines": ["con-ron: accepted 65934 declarations (--verified)"]}
+2026-10-27T18:11:25Z site:B_left_45 vm deleted {"vm": "m_agqx46otfbuxz4phqwe4bznoyu", "next": "done"}
+2026-10-27T18:11:25Z site:B_left_34 vm deleted {"vm": "m_agqx46oth7rra23uwhnjqmt5aq", "next": "done"}
+2026-10-27T18:11:25Z site:B_bottom_08 collected {"ok": true, "lines": ["con-ron: accepted 63588 declarations (--verified)"]}
+2026-10-27T18:11:35Z site:g_bottom_02 vm deleted {"vm": "m_agqx4zwqxwo4crfu3g45lm4aom", "next": "done"}
+2026-10-27T18:11:35Z site:g_top_01 vm deleted {"vm": "m_agqx4zwreozxxqfgvcaxgxuate", "next": "done"}
+2026-10-27T18:11:35Z site:B_bottom_08 vm deleted {"vm": "m_agqx46p2o7zlzvncd7wvbedfuy", "next": "done"}
+2026-10-27T18:13:57Z site:B_right_04 collected {"ok": true, "lines": ["con-ron: accepted 62659 declarations (--verified)"]}
+2026-10-27T18:14:08Z site:B_right_04 vm deleted {"vm": "i9rsxjreaacicro3cc01y", "next": "done"}
+2026-10-27T18:16:38Z site:g_left_12 collected {"ok": true, "lines": ["con-ron: accepted 66243 declarations (--verified)"]}
+2026-10-27T18:16:48Z site:g_left_12 vm deleted {"vm": "m_agqx4zwqnirszstnwedcqc3x5u", "next": "done"}
+2026-10-27T18:16:49Z site:g_top_22 collected {"ok": true, "lines": ["con-ron: accepted 65381 declarations (--verified)"]}
+2026-10-27T18:16:59Z site:g_top_22 vm deleted {"vm": "m_agqx44et4kgebk5pzivy6hzr2m", "next": "done"}
+2026-10-27T18:19:49Z site:g_left_13 collected {"ok": true, "lines": ["con-ron: accepted 66243 declarations (--verified)"]}
+2026-10-27T18:19:49Z site:g_top_02 collected {"ok": true, "lines": ["con-ron: accepted 65934 declarations (--verified)"]}
+2026-10-27T18:20:00Z site:g_left_13 vm deleted {"vm": "m_agqx43uoeeiumzu7xcsf2ldomu", "next": "done"}
+2026-10-27T18:20:00Z site:g_left_09 collected {"ok": true, "lines": ["con-ron: accepted 66149 declarations (--verified)"]}
+2026-10-27T18:20:00Z site:g_top_02 vm deleted {"vm": "m_agqx43uonor4dgtshoh7z7a3rm", "next": "done"}
+2026-10-27T18:20:10Z site:g_left_09 vm deleted {"vm": "m_agqx43vvv3afu5qqviek267xoy", "next": "done"}
+2026-10-27T18:22:10Z site:g_right_10 collected {"ok": true, "lines": ["con-ron: accepted 65483 declarations (--verified)"]}
+2026-10-27T18:22:20Z site:g_right_10 vm deleted {"vm": "m_agqx44etxmnm54s6cxfaevesuy", "next": "done"}
+2026-10-27T18:22:51Z site:g_bottom_00 collected {"ok": true, "lines": ["con-ron: accepted 65894 declarations (--verified)"]}
+2026-10-27T18:23:01Z site:g_bottom_00 vm deleted {"vm": "m_agqx45raox5k743iyhapwe6ad4", "next": "done"}
+2026-10-27T18:25:01Z site:g_right_21 collected {"ok": true, "lines": ["con-ron: accepted 65247 declarations (--verified)"]}
+2026-10-27T18:25:11Z site:g_bottom_18 collected {"ok": true, "lines": ["con-ron: accepted 65570 declarations (--verified)"]}
+2026-10-27T18:25:11Z site:g_right_21 vm deleted {"vm": "m_agqx46bccrd4mg3kiqpc2r3mxa", "next": "done"}
+2026-10-27T18:25:21Z site:g_bottom_18 vm deleted {"vm": "m_agqx46bb5azxohfx7us2wsarl4", "next": "done"}
+2026-10-27T18:28:02Z site:g_left_11 collected {"ok": true, "lines": ["con-ron: accepted 66196 declarations (--verified)"]}
+2026-10-27T18:28:12Z site:g_left_22 collected {"ok": true, "lines": ["con-ron: accepted 66196 declarations (--verified)"]}
+2026-10-27T18:28:12Z site:g_left_11 vm deleted {"vm": "m_agqx45rbaserngh543fpb6wioq", "next": "done"}
+2026-10-27T18:28:22Z site:g_left_22 vm deleted {"vm": "m_agqx45sfo3cfkrea4qjdlrkgvm", "next": "done"}
+2026-10-27T18:28:32Z site:B_right_01 collected {"ok": true, "lines": ["con-ron: accepted 62611 declarations (--verified)"]}
+2026-10-27T18:28:42Z site:B_right_01 vm deleted {"vm": "ip5z1lvqly2ajdonud4ri", "next": "done"}
+2026-10-27T19:12:48Z site:centre collected {"ok": true, "lines": ["con-ron: accepted 77618 declarations (--verified)"]}
+2026-10-27T19:12:59Z site:centre vm deleted {"vm": "m_agqx4ffk3whb3wy6rbi74bfiga", "next": "done"}
+2026-10-27T19:12:59Z fleet loop end

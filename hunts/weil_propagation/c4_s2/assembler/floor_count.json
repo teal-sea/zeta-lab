@@ -21,7 +21,7 @@
    1,
    1000000000
   ],
-  "python": "/Users/thomas/zeta-lab/.venv/bin/python",
+  "python": ".venv/bin/python",
   "sonin_sha256": "23d2816e38740f4ca9a5c32ae3afbed8e650dc66a988174b4fb6ecbc65d994c8",
   "checker_q_sha256": "f9409d5f1cd23594b95e613a94e122fcd9424e1ae2f72e51b11b002493e54ed0"
  },

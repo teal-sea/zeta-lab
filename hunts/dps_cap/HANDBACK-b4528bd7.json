@@ -10,7 +10,7 @@
     "state_at_close": "working",
     "verdict": null,
     "why_no_verdict": "fulcrum_support_wait returned state 'working' on roughly 40 polls across about 24 hours, from a run whose stated budget was 20 minutes. No support/22d8a969 branch appeared on origin and no worktree for it appeared locally, which is consistent with the run having been registered but never launched. There is no finding on the table, so there is nothing to ACCEPT or REJECT. Saying either would be inventing a second opinion, and the point of asking for one was to not do that.",
-    "what_would_settle_it": "launch the support run (the payload and brief were written: /Users/thomas/fulcrum/briefs/support-22d8a969.md), or re-request the check from a worker that is actually started"
+    "what_would_settle_it": "launch the support run (the payload and brief were written: ~/fulcrum/briefs/support-22d8a969.md), or re-request the check from a worker that is actually started"
   },
   "operator_decision_required": null,
   "threads": [
@@ -37,5 +37,5 @@
       "first_step": "a helper that takes the expected magnitude and the working dps and raises rather than returning the round-off floor, tried first on epstein_completed with no change to its signature"
     }
   ],
-  "notes_for_operator": "Two frictions worth knowing, neither of them mathematical. First, this worktree has no .venv and the sandbox blocks reading /Users/thomas/Zeta/.venv, so the measurement ran on a scratch interpreter with mpmath 1.4.1, numpy and scipy installed to /tmp/pylibs and the repo root on sys.path; the imported module is this tree's zeta/epstein.py, confirmed in results.json. The numbers are unaffected but a fresh worktree cannot run the documented .venv/bin/python command. Second, fulcrum_support returned ok with a brief, a payload and a branch name, and its own 'next' field says 'launch it, then attach its channel'. Nothing appears to have launched. If support runs need an operator step to start, a parent told to poll until ready will poll forever, which is what happened here."
+  "notes_for_operator": "Two frictions worth knowing, neither of them mathematical. First, this worktree has no .venv and the sandbox blocks reading ~/Zeta/.venv, so the measurement ran on a scratch interpreter with mpmath 1.4.1, numpy and scipy installed to /tmp/pylibs and the repo root on sys.path; the imported module is this tree's zeta/epstein.py, confirmed in results.json. The numbers are unaffected but a fresh worktree cannot run the documented .venv/bin/python command. Second, fulcrum_support returned ok with a brief, a payload and a branch name, and its own 'next' field says 'launch it, then attach its channel'. Nothing appears to have launched. If support runs need an operator step to start, a parent told to poll until ready will poll forever, which is what happened here."
 }

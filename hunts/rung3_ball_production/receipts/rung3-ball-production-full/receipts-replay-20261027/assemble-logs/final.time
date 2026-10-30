@@ -1,0 +1,23 @@
+	Command being timed: "lean --root=<cache>/rung3-ball-production-replay-20261027/asm -o <cache>/rung3-ball-production-replay-20261027/asm/Rung3Assembly/Final.olean <cache>/rung3-ball-production-replay-20261027/asm/Rung3Assembly/Final.lean"
+	User time (seconds): 6.42
+	System time (seconds): 4.36
+	Percent of CPU this job got: 90%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:11.91
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 17327316
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 369908
+	Voluntary context switches: 489
+	Involuntary context switches: 1112
+	Swaps: 0
+	File system inputs: 5856
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

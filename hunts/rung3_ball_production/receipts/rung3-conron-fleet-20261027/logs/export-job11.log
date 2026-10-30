@@ -1,0 +1,40 @@
+2026-10-27T15:06:02Z ran {"tag": "export-site-g_left_23", "rc": 0, "killed_by_guard": false, "wall_s": 158.5, "cpu_s": 79.7, "max_rss_kib": 7071392, "mem_available_low_gib": 67.1, "pid": 3789788}
+2026-10-27T15:06:06Z ran {"tag": "export-site-g_left_25", "rc": 0, "killed_by_guard": false, "wall_s": 159.5, "cpu_s": 78.3, "max_rss_kib": 7066972, "mem_available_low_gib": 67.1, "pid": 3789909}
+2026-10-27T15:06:12Z ran {"tag": "export-site-g_left_16", "rc": 0, "killed_by_guard": false, "wall_s": 162.5, "cpu_s": 80.6, "max_rss_kib": 7083724, "mem_available_low_gib": 67.1, "pid": 3790172}
+2026-10-27T15:06:43Z spooled site:g_left_23 560768403 73849667
+2026-10-27T15:06:47Z spooled site:g_left_25 556878189 73393184
+2026-10-27T15:06:53Z spooled site:g_left_16 565887571 74549567
+2026-10-27T15:09:18Z ran {"tag": "export-site-g_right_05", "rc": 0, "killed_by_guard": false, "wall_s": 152.6, "cpu_s": 77.5, "max_rss_kib": 7047264, "mem_available_low_gib": 55.8, "pid": 3804511}
+2026-10-27T15:09:22Z ran {"tag": "export-site-g_right_22", "rc": 0, "killed_by_guard": false, "wall_s": 152.3, "cpu_s": 76.7, "max_rss_kib": 7031272, "mem_available_low_gib": 55.8, "pid": 3804862}
+2026-10-27T15:09:30Z ran {"tag": "export-site-g_bottom_25", "rc": 0, "killed_by_guard": false, "wall_s": 154.6, "cpu_s": 75.4, "max_rss_kib": 7018744, "mem_available_low_gib": 55.8, "pid": 3805651}
+2026-10-27T15:10:01Z spooled site:g_right_05 550981907 72615649
+2026-10-27T15:10:04Z spooled site:g_right_22 544341574 71753936
+2026-10-27T15:10:11Z spooled site:g_bottom_25 543709499 71665886
+2026-10-27T15:11:02Z ran {"tag": "export-site-B_left_13", "rc": 0, "killed_by_guard": false, "wall_s": 58.2, "cpu_s": 56.7, "max_rss_kib": 7000256, "mem_available_low_gib": 55.7, "pid": 3820819}
+2026-10-27T15:11:07Z ran {"tag": "export-site-B_bottom_01", "rc": 0, "killed_by_guard": false, "wall_s": 60.2, "cpu_s": 57.0, "max_rss_kib": 6993428, "mem_available_low_gib": 55.5, "pid": 3821072}
+2026-10-27T15:11:12Z ran {"tag": "export-site-B_bottom_12", "rc": 0, "killed_by_guard": false, "wall_s": 58.0, "cpu_s": 54.8, "max_rss_kib": 6991308, "mem_available_low_gib": 55.6, "pid": 3821992}
+2026-10-27T15:11:39Z spooled site:B_left_13 517431352 68232574
+2026-10-27T15:11:44Z spooled site:B_bottom_01 515810195 68059377
+2026-10-27T15:11:50Z spooled site:B_bottom_12 514183786 67811561
+2026-10-27T15:12:32Z ran {"tag": "export-site-B_bottom_17", "rc": 0, "killed_by_guard": false, "wall_s": 50.2, "cpu_s": 49.3, "max_rss_kib": 6971660, "mem_available_low_gib": 56.9, "pid": 3828446}
+2026-10-27T15:12:34Z ran {"tag": "export-site-B_right_06", "rc": 0, "killed_by_guard": false, "wall_s": 46.7, "cpu_s": 44.7, "max_rss_kib": 6921872, "mem_available_low_gib": 56.9, "pid": 3828750}
+2026-10-27T15:13:09Z spooled site:B_bottom_17 504147730 66508047
+2026-10-27T15:13:10Z spooled site:B_right_06 486899931 64212404
+2026-10-27T15:14:05Z ran {"tag": "export-fault-B_right_06", "rc": 0, "killed_by_guard": false, "wall_s": 50.9, "cpu_s": 47.0, "max_rss_kib": 6922692, "mem_available_low_gib": 57.7, "pid": 3834710}
+Traceback (most recent call last):
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/conron_fleet.py", line 1242, in <module>
+    info = json.loads((PHASE0 / "top-info.json").read_text())
+    ^^^^^^
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/conron_fleet.py", line 1237, in main
+    def cmd_coverage(a) -> None:
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/conron_fleet.py", line 723, in cmd_export
+    f.result()
+    ^^^^^^
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/conron_fleet.py", line 707, in one
+    rc2 = timed([str(EXPORTER), "site", sid], f"export-{slug}-clean-again", clean, lp)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [[1361972, '{"ie":1249126,"natVal":"36391283805789411"}\n', '{"ie":1249126,"natVal":"36391283805789410"}\n'], [2839982, '{"app":{"arg":1249129,"fn":632300},"ie":2644971}\n', '{"ie":2644971,"natVal":"36391283805789411"}\n'], [2839983, '{"app":{"arg":1249014,"fn":2644971},"ie":2644972}\n', '{"app":{"arg":2644971,"fn":103638},"ie":2644972}\n'], [2839984, '{"app":{"arg":2644972,"fn":2644970},"ie":2644973}\n', '{"app":{"arg":2644971,"fn":103640},"ie":2644973}\n'], [2839985, '{"app":{"arg":2644973,"fn":732212},"ie":2644974}\n', '{"app":{"arg":2644973,"fn":2644972},"ie":2644974}\n'], [2839986, '{"app":{"arg":2644974,"fn":2644965},"ie":2644975}\n', '{"app":{"arg":2644974,"fn":632300},"ie":2644975}\n']]
+2026-10-27T15:22:57Z ran {"tag": "export-fault-B_right_06", "rc": 0, "killed_by_guard": false, "wall_s": 48.1, "cpu_s": 46.3, "max_rss_kib": 6921632, "mem_available_low_gib": 58.2, "pid": 3887795}
+2026-10-27T15:23:33Z spooled fault:B_right_06 486900272 64216361
+2026-10-27T15:23:34Z export done

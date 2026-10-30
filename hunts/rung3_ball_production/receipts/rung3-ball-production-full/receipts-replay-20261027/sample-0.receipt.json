@@ -1,0 +1,34 @@
+{
+  "command": [
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+    "--run",
+    "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/lean/ReplayProgress.lean",
+    "sample",
+    "<cache>/rung3-ball-production-full/receipts-replay-20261027/sample/stream0.tsv",
+    "Ccentre",
+    "Ccentre.Base",
+    "Ccentre.Composites",
+    "Ccentre.Primes",
+    "Ccentre.Terms"
+  ],
+  "cwd": "<cache>/rung3-ball-production-full/receipts-replay-20261027",
+  "start_utc": "2026-10-27T00:18:22.153694+00:00",
+  "wall_limit_seconds": null,
+  "host_memavailable_floor_kib": 20971520,
+  "inputs_sha256_before": {
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+    "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/lean/ReplayProgress.lean": "576fec81bc0aa5de02ebc99d09b36a1aafa15fe1e223b0b6eb13e2eaf5f4a669"
+  },
+  "pid": 239686,
+  "end_utc": "2026-10-27T00:27:15.270014+00:00",
+  "exit_code": 0,
+  "stop_reason": null,
+  "peak_sampled_tree_rss_kib": 8949592,
+  "min_memavailable_kib": 61344128,
+  "inputs_sha256_after": {
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+    "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/lean/ReplayProgress.lean": "576fec81bc0aa5de02ebc99d09b36a1aafa15fe1e223b0b6eb13e2eaf5f4a669"
+  },
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

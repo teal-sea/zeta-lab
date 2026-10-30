@@ -1,0 +1,29 @@
+{
+  "command": [
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/con-ron",
+    "--verified",
+    "--jobs=8",
+    "--progress=1",
+    "<cache>/rung3-ball-production-replay-20261027/export-sample/tower2_fault.ndjson"
+  ],
+  "cwd": "<cache>/rung3-ball-production-full/receipts-replay-20261027",
+  "start_utc": "2026-10-27T00:39:16.930939+00:00",
+  "wall_limit_seconds": null,
+  "host_memavailable_floor_kib": 20971520,
+  "inputs_sha256_before": {
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+    "<cache>/rung3-ball-production-replay-20261027/export-sample/tower2_fault.ndjson": "06978b5407345da0d7c7e34cd47e753341d1768cd4f92fe29c3fe85fb39d9d91"
+  },
+  "pid": 324731,
+  "end_utc": "2026-10-27T00:39:59.028323+00:00",
+  "exit_code": 1,
+  "stop_reason": null,
+  "peak_sampled_tree_rss_kib": 603916,
+  "min_memavailable_kib": 66900600,
+  "inputs_sha256_after": {
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+    "<cache>/rung3-ball-production-replay-20261027/export-sample/tower2_fault.ndjson": "06978b5407345da0d7c7e34cd47e753341d1768cd4f92fe29c3fe85fb39d9d91"
+  },
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "5b159044517750661dd857f513dea182a3f9b9ccc5c9b91d71dce55e93c1ced2"
+}

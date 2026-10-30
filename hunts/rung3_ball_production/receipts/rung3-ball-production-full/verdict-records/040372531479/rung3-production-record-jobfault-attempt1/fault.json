@@ -1,0 +1,12 @@
+{
+ "compile_returncode": 1,
+ "site_status": "failed",
+ "failed_modules": [
+  "CB_right_06/Primes.lean"
+ ],
+ "error_decls": [
+  "Prime_B_right_06_2.ev_whole",
+  "ZetaLean.DH.Cert.hp_B_right_06_2"
+ ],
+ "refused_at_ev_whole": true
+}

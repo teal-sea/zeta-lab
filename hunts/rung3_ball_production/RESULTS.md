@@ -127,6 +127,11 @@ theorem (`pilot.json` `production.strip_assembly`, log in its receipts):
 
 ## 3. How it was built
 
+Every receipt cited below as `<cache>/rung3-ball-production-full/...` or
+`<cache>/rung3-conron-fleet-20261027` is in `receipts/` under the same name (added
+2026-10-30, home paths scrubbed, large files kept as digests; `receipts/README.md`).
+The site oleans' GitHub artifacts expire on 2026-11-25.
+
 - **Sites (GitHub Actions, run 40353536947 at `85cabd55b`).** 20 jobs compiled all 215
   sites of plan v2 under `scripts/60 --tower whole`, one Lean process per job. All 215
   were `ok` and all 215 axiom audits were clean, in 16.1 runner core-hours. The oleans
