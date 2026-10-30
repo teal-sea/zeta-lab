@@ -23,6 +23,16 @@ geometric sum beyond that. The check `sum_p cost_p = -prime_term` passes at ever
 decomposition is the same object `zeta.weil` computes, split by place rather than
 asserted.
 
+*Scope note, 2026-10-30 (landing of the referee check, `REFEREE.md`).* The identity
+holds place by place by construction. Expanding the overlap sum,
+`Q_p = (1/b) sum_{d in Z} p^{-|d|/2} (b - |d| log p)_+`, so
+`cost_p = 2 log p sum_{d >= 1} p^{-d/2} g(d log p)`, which is exactly the `p`-part
+of `-prime_term`. `sum_p cost_p = -prime_term` is therefore the prime sum regrouped
+by prime: the `1e-16` check verifies the implementation, not a mathematical fact,
+and "one exact identity" in the grade line means this regrouping.
+`test_weil_split.py` pins it place by place at 50 digits, together with the
+referee's sums.
+
 ## 2. Where the cost sits
 
 | b | primes contributing | sum of cost | top-3 share | cover `(pole+arch)/cost` | margin | quad-vs-zero |
