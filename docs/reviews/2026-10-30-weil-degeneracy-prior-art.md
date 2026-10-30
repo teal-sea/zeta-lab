@@ -35,7 +35,8 @@ the Riemann Hypothesis", state Weil's formula as a sum over `n` of
 `Lambda(n)` times a test function, plus an archimedean integral, and then:
 "The terms in the right-hand side of the equation can be written as a sum of
 terms of local nature, associated to the absolute values of the underlying
-number field." That sentence supports a place split. It does not write
+number field, or function field in the case of curves over a field of
+positive characteristic." That sentence supports a place split. It does not write
 `Phi_p` or `(1 - 1/p) ||.||^2`. The same notes cite Weil, "Sur les 'formules
 explicites' de la théorie des nombres premiers", Lund 1952, which was not
 opened.

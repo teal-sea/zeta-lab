@@ -75,9 +75,10 @@ and a quadratic form as pole terms minus an archimedean distribution minus
 `sum_p W_p`, labeled as Bombieri's form of the explicit formula. Bombieri's
 Clay notes say: "The terms in the right-hand side of the equation can be
 written as a sum of terms of local nature, associated to the absolute values
-of the underlying number field." That sentence supports a place split. It does
-not write the shift-norm cost in section 2.3. That cost is not presented here
-as standard notation.
+of the underlying number field, or function field in the case of curves over
+a field of positive characteristic." That sentence supports a place split. It
+does not write the shift-norm cost in section 2.3. That cost is not presented
+here as standard notation.
 
 ## 2. Three measurements
 
