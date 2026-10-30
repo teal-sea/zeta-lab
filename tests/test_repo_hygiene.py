@@ -11,6 +11,7 @@ below rather than hidden in the pattern.
 
 from __future__ import annotations
 
+import hashlib
 import re
 import subprocess
 from pathlib import Path
@@ -37,7 +38,12 @@ _PLACEHOLDER_USERS = frozenset(
     {"someone", "somebody", "user", "username", "you", "me", "name", "example", "USER", "runner"}
 )
 
-_TEXT_SUFFIXES = {".py", ".md", ".txt", ".lean", ".toml", ".jsonl", ".yaml", ".yml", ".sh"}
+# Throwaway VM accounts, not anyone's machine. `zr3c` is the account on the rung-3
+# con-ron fleet's VMs (`conron_fleet.NAME_PREFIX`), deleted when each shard ended;
+# its receipts record the working directory `/data/home/zr3c`.
+_VM_ACCOUNTS = frozenset({"zr3c"})
+
+_TEXT_SUFFIXES = {".py", ".md", ".txt", ".lean", ".toml", ".json", ".jsonl", ".yaml", ".yml", ".sh"}
 
 _SKIP_DIRS = {".git", ".venv", "data", "figures", "__pycache__", ".pytest_cache", ".lake"}
 
@@ -52,6 +58,30 @@ _SKIP_DIRS = {".git", ".venv", "data", "figures", "__pycache__", ".pytest_cache"
 _PINNED_BLIND_MODULES = frozenset(
     f"harness/blind_authoring_2026_08_09/party{i:02d}/department.py" for i in range(1, 11)
 )
+
+# JSON records carried for the same reason: each is pinned where scrubbing it would
+# break the pin, and the value is the pin. The other eleven JSON files that carried a
+# home path when `.json` joined this rule (2026-10-30) were not pinned, and were scrubbed.
+_PINNED_RECORDS = {
+    # Rebuilt from git history and compared row for row; the path is in a commit message.
+    "hunts/claim_halflife/artifacts/corpus.json":
+        "hunts/claim_halflife/test_claim_halflife.py",
+    # `CHECKSUMS.sha256` records the imported snapshot (`RESULTS.md`, reproduction).
+    "hunts/oct08_extensions/routes/class-structure/manifest.json":
+        "hunts/oct08_extensions/CHECKSUMS.sha256",
+    "hunts/oct08_extensions/routes/dft-central-compression/manifest.json":
+        "hunts/oct08_extensions/CHECKSUMS.sha256",
+    "hunts/oct08_extensions/routes/dft/manifest.json":
+        "hunts/oct08_extensions/CHECKSUMS.sha256",
+    # The snapshot and the cells whose SHA-256 the assembler and bound records carry.
+    "hunts/weil_propagation/c4_s2/checker/checker_ts_snapshot.json":
+        "hunts/weil_propagation/c4_s2/assembler/synthetic.json",
+    "hunts/weil_propagation/c4_s2/checker/checker_ts_cells.json":
+        "hunts/weil_propagation/c4_s2/checker/checker_inertia.json",
+    # Its digest is in the run's telemetry log.
+    "hunts/support_e6241336/HANDBACK.json":
+        "telemetry/runs/e6241336-aa69-4345-95e4-979ef3a19c8c.jsonl",
+}
 
 
 def _tracked_text_files() -> list[Path]:
@@ -74,7 +104,7 @@ def _tracked_text_files() -> list[Path]:
 def _leaks(text: str) -> list[tuple[int, str]]:
     found = []
     for match in _REAL_HOME.finditer(text):
-        if match.group("user") in _PLACEHOLDER_USERS:
+        if match.group("user") in _PLACEHOLDER_USERS | _VM_ACCOUNTS:
             continue
         found.append((text.count("\n", 0, match.start()) + 1, match.group(0)))
     return found
@@ -84,7 +114,7 @@ def test_no_machine_local_path_outside_the_pinned_blind_modules() -> None:
     offenders = []
     for path in _tracked_text_files():
         rel = path.relative_to(_REPO_ROOT).as_posix()
-        if rel in _PINNED_BLIND_MODULES:
+        if rel in _PINNED_BLIND_MODULES or rel in _PINNED_RECORDS:
             continue
         try:
             text = path.read_text(encoding="utf-8")
@@ -124,6 +154,24 @@ def test_the_exempted_files_are_the_reason_the_exemption_exists() -> None:
     assert any(
         _leaks((_REPO_ROOT / rel).read_text(encoding="utf-8")) for rel in _PINNED_BLIND_MODULES
     ), "no pinned module carries a machine-local path, delete the exemption"
+
+
+def test_each_pinned_record_still_leaks_and_is_still_pinned() -> None:
+    """Same discipline as the blind modules: an exemption dies with its reason.
+
+    A record that no longer carries a path, or whose pin no longer names it,
+    should be scrubbed and dropped from the list.
+    """
+    for rel, pin in sorted(_PINNED_RECORDS.items()):
+        record = _REPO_ROOT / rel
+        assert record.is_file(), f"exempted record no longer exists: {rel}"
+        assert _leaks(record.read_text(encoding="utf-8")), f"{rel} is clean, delete its exemption"
+        pin_text = (_REPO_ROOT / pin).read_text(encoding="utf-8")
+        if rel.endswith("corpus.json"):
+            assert "corpus.json" in pin_text, f"{pin} no longer rebuilds {rel}"
+            continue
+        digest = hashlib.sha256(record.read_bytes()).hexdigest()
+        assert digest in pin_text, f"{pin} no longer carries the SHA-256 of {rel}"
 
 
 def _home(user: str, style: str = "mac") -> str:

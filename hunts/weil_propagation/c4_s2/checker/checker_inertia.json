@@ -23,7 +23,7 @@
    256,
    512
   ],
-  "python": "/Users/thomas/zeta-lab/.venv/bin/python",
+  "python": ".venv/bin/python",
   "numpy": "2.5.1",
   "seconds": 115.4
  },
