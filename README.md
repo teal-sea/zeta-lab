@@ -68,8 +68,8 @@ product and says nothing about RH.
 The rest of the October record, each with its grade and its doors, is in the case log at
 the top of [`hunts/README.md`](hunts/README.md). That includes measured and hardened
 studies of the Weil functional at the Davenport-Heilbronn line (hunt #146 and the
-`weil_propagation` lanes), two probes of where OpenAI's 7/8 comes from (hunts #139 and
-#148), a ball-arithmetic localization of a sign change of pi(x) - li(x) at published
+`weil_propagation` lanes) and of how its arithmetic side degenerates (hunts #155 to
+#157, measured), two probes of where OpenAI's 7/8 comes from (hunts #139 and #148), a ball-arithmetic localization of a sign change of pi(x) - li(x) at published
 parameters (hunt #152, not a new record), and the opening of Gabcke's Riemann-Siegel
 remainder for Lean (hunt #154).
 
