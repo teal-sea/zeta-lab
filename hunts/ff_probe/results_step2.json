@@ -1,0 +1,384 @@
+{
+ "C_p_values": {
+  "checked": 720,
+  "mismatches": 0
+ },
+ "F_routes": {
+  "checked": 30576,
+  "mismatches_vs_brute": {
+   "def": 0,
+   "local": 0
+  }
+ },
+ "K_multiplicative": [
+  {
+   "checked": 120344,
+   "max_deg_A": 3,
+   "max_deg_a": 1,
+   "max_deg_s": 1,
+   "mismatches": 0,
+   "nonzero": 72319,
+   "rows": [
+    "1",
+    "3",
+    "x + 1",
+    "x^2 + 4*x + 4",
+    "x^2 + 1",
+    "x^2 + 3*x + 2",
+    "x^3 + x^2 + 5*x + 6",
+    "2*x^5 + 3*x^4 + 6*x^3 + 6*x^2 + 3*x + 2"
+   ]
+  },
+  {
+   "checked": 44247,
+   "max_deg_A": 2,
+   "max_deg_a": 1,
+   "max_deg_s": 2,
+   "mismatches": 0,
+   "nonzero": 29134,
+   "rows": [
+    "1",
+    "3",
+    "x + 1"
+   ]
+  }
+ ],
+ "lemma_7_1_local": {
+  "bound_deg1": [
+   13,
+   3,
+   2
+  ],
+  "bound_deg2": [
+   13,
+   2,
+   2
+  ],
+  "checked": 72,
+  "mismatches": 0
+ },
+ "phase_identities": {
+  "G_refinement_all_pairs": {
+   "checked": 3249,
+   "mismatches": 0
+  },
+  "Gamma_closed_form": {
+   "checked": 400,
+   "mismatches": 0
+  },
+  "lambda_alpha": {
+   "N": 84,
+   "abs": 0.9999999999999998,
+   "im": 0.9819805060619655,
+   "poly": "2/7*x^23 + 1/7*x^21 + 4/7*x^19 + 4/7*x^17 + (-2/7)*x^15 + (-4/7)*x^13 + 2/7*x^11 + 1/7*x^7 + (-4/7)*x^3 + 2/7*x",
+   "re": -0.18898223650461343
+  },
+  "prime_phases": {
+   "checked": 27,
+   "mismatches": 0
+  },
+  "reciprocity": {
+   "checked": 2688,
+   "mismatches": 0
+  },
+  "signal": {
+   "checked": 343,
+   "mismatches": {
+    "G_squarefree": 0,
+    "gamma1_gamma2": 0,
+    "gamma2_cubed": 0
+   }
+  }
+ },
+ "probe_representations": [
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 0.0,
+   "triple": [
+    0,
+    0,
+    1
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 0.5,
+   "triple": [
+    0,
+    0,
+    2
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 0.1,
+   "triple": [
+    1,
+    0,
+    2
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 0.0,
+   "triple": [
+    0,
+    1,
+    1
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 2.0,
+   "triple": [
+    0,
+    1,
+    2
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 0.3,
+   "triple": [
+    1,
+    1,
+    2
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 26.2,
+   "triple": [
+    0,
+    0,
+    3
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 4.0,
+   "triple": [
+    1,
+    0,
+    3
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 1.1,
+   "triple": [
+    2,
+    0,
+    3
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 0.3,
+   "triple": [
+    0,
+    2,
+    1
+   ],
+   "value": {
+    "N": 84,
+    "abs": 10584.0,
+    "im": -4090.8596540828985,
+    "poly": "9072*x^23 + 3024*x^21 + (-7560)*x^19 + (-7560)*x^17 + 1512*x^13 + 7560*x^11 + (-7560)*x^9 + (-6048)*x^7 + (-1512)*x^5 + 1512*x",
+    "re": -9761.450880406905
+   },
+   "zero": false
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 8.3,
+   "triple": [
+    0,
+    2,
+    2
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 11.3,
+   "triple": [
+    1,
+    1,
+    3
+   ],
+   "value": {
+    "N": 84,
+    "abs": 0.0,
+    "im": 0.0,
+    "poly": "0",
+    "re": 0.0
+   },
+   "zero": true
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 67.3,
+   "triple": [
+    0,
+    3,
+    2
+   ],
+   "value": {
+    "N": 84,
+    "abs": 186859.14699580532,
+    "im": 127428.19254183248,
+    "poly": "(-162288)*x^23 + (-81144)*x^21 + (-33516)*x^19 + 209916*x^17 + 162288*x^15 + (-81144)*x^13 + (-47628)*x^11 + 128772*x^9 + 128772*x^7 + 128772*x^5 + (-95256)*x^3 + (-176400)*x",
+    "re": 136668.93049088243
+   },
+   "zero": false
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 21.7,
+   "triple": [
+    1,
+    3,
+    2
+   ],
+   "value": {
+    "N": 84,
+    "abs": 1317017.0959801546,
+    "im": 904320.5587383213,
+    "poly": "(-1143072)*x^23 + (-571536)*x^21 + (-232848)*x^19 + 1481760*x^17 + 1143072*x^15 + (-571536)*x^13 + (-338688)*x^11 + 910224*x^9 + 910224*x^7 + 910224*x^5 + (-677376)*x^3 + (-1248912)*x",
+    "re": 957464.5466789934
+   },
+   "zero": false
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 312.7,
+   "triple": [
+    3,
+    0,
+    5
+   ],
+   "value": {
+    "N": 84,
+    "abs": 28.324648528899953,
+    "im": 9.563576263709342,
+    "poly": "24/7*x^21 + 108/7*x^19 + 36/7*x^17 + (-144/7)*x^13 + (-36/7)*x^11 + 108/7*x^9 + 60/7*x^7 + (-108/7)*x^5 + (-144/7)*x",
+    "re": -26.661277601306534
+   },
+   "zero": false
+  },
+  {
+   "direct_eq_poisson": true,
+   "poisson_eq_euler": true,
+   "seconds": 446.6,
+   "triple": [
+    4,
+    0,
+    5
+   ],
+   "value": {
+    "N": 84,
+    "abs": 293.99999999999994,
+    "im": -269.2281354244732,
+    "poly": "(-114)*x^21 + (-222)*x^19 + 120*x^17 + 102*x^13 + (-120)*x^11 + (-222)*x^9 + 6*x^7 + 222*x^5 + 102*x",
+    "re": 118.11947805447453
+   },
+   "zero": false
+  }
+ ],
+ "seconds": 2582.5
+}

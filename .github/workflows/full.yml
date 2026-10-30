@@ -216,6 +216,26 @@ jobs:
             *) echo "::error::mertens_second_theorem does not rest on exactly [propext, Classical.choice, Quot.sound]"; exit 1 ;;
           esac
 
+      - name: the Gabcke coefficient recursion (hunts/gabcke_remainder)
+        # A core-only file with no imports. Its RUNS.md records one kernel check
+        # on the operator's machine, before the `module` header was added at
+        # landing; this re-runs it on the file as committed, every night.
+        working-directory: lean
+        run: |
+          set -o pipefail
+          lake env lean ../hunts/gabcke_remainder/lean/Coefficients.lean 2>&1 | tee gabcke.txt
+          # Both theorems must print, and print no axioms; a guard that matches
+          # nothing fails rather than passes.
+          clean=$(grep -c 'does not depend on any axioms' gabcke.txt || true)
+          if [ "${clean}" -ne 2 ]; then
+            echo "::error::expected 2 axiom-free theorems in Coefficients.lean, saw ${clean}"
+            exit 1
+          fi
+          if grep -qi 'sorry' gabcke.txt; then
+            echo "::error::a sorry appears in Coefficients.lean"
+            exit 1
+          fi
+
       - name: no sorrys in the certified arm
         working-directory: lean
         run: |

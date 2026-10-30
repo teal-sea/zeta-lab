@@ -75,6 +75,19 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #154: Gabcke's remainder, opened (`gabcke_remainder/`, 2026-10-29)
+
+**Status: opened. The remainder is not proved.** The height cap on the
+kernel-checked strip proof is the order-4 Euler-Maclaurin error bar. This
+hunt is the formalization of Gabcke's explicit Riemann-Siegel remainder, the
+alternative already recorded and left unformalized by hunts #132 and #133.
+The first check is the coefficient recursion in Satz 2.1.1: Lean's kernel
+accepts the seven printed `λ_n` with no axioms. That is not the remainder
+bound. Record: `gabcke_remainder/MISSION.md`, `gabcke_remainder/RESULTS.md`.
+(Landed 2026-10-30. The `module` header every tracked `.lean` file needs was added
+at landing, after the recorded kernel run; `full.yml`'s Lean job re-elaborates the file
+as committed, first in run 41057260555, where both theorems printed no axioms.)
+
 ### Hunt #153: Requirement A as a static provenance scan (`ontology_provenance/`, 2026-10-24)
 
 **Status: measured, static scan, no claim promoted.** A name and import-graph
@@ -224,6 +237,40 @@ M at `upper_`, and eps' at and below the bound in `centre_lt_centre`. No indepen
 kernel replay of the assembled environment has run yet; that is the first door.
 (Superseded 2026-10-27: with `davenport_heilbronn_strip` there are 18 final declarations,
 and door 1 ran, as recorded at the top of this entry.)
+
+### Hunt #151: where Li's criterion first fails for Davenport-Heilbronn, enclosure-carrying (`li_dh_onset_hardened/`, opened 2026-10-26)
+
+**Status: lambda_{328997}(DH) < 0 and lambda_n(DH) > 0 for every
+1 <= n < 328997, hardened (every step in Arb balls, two radii agreeing);
+pending external verification, not kernel-checked.** It answers the question #128
+(`li_dh_onset/`) priced at about 20,000 core-hours, and confirms #128's
+extrapolated n\* = 328997 exactly. The pre-registration was committed alone
+before the runs.
+- **Admissibility.** The certificate closes exactly at 128 bits. On
+  [-3/4, 7/4] x (0, 160) the argument-principle count is 98, which equals the
+  94 line sign changes plus twice the two located off-line zeros. Planted
+  faults break it. This gives R_a = |1 - 1/rho_1| = 0.99995800 and licenses
+  r = sqrt(1 - 1/c).
+- **Production.** A ball trapezoid with a rigorous aliasing bound
+  (M(rho) <= 1.0e5 from a ball arc cover) and a ball-tracked branch. Run A
+  (c = 5000, 2^21 nodes) and run B (c = 2500, 2^19 nodes) each find the first
+  negative ball at 328997, with lambda = -2379.9647... +/- 4e-27. Their balls
+  intersect at all n <= 500,000, and the xi control and the mpmath.iv node
+  check passed inside each run. Total cost 0.46 core-hours, so #128's wall was
+  a cost wall of the r <= 0.99 family.
+- **Named shared failure mode, tested 2026-10-26 (evening).** Both radii used
+  the same Arb evaluator for f. A pre-registered rerun of run B with every f and
+  log Gamma evaluation in mpmath.iv reproduces n\* = 328997 and the sign of
+  every lambda_n, n <= 500,000, and its balls intersect B's at every n. That
+  failure mode is excluded for run B's table; the grade is unchanged. The
+  admissibility certificate, the last Arb-only link, was replayed in mpmath.iv
+  under its own pre-registration. It reproduces N_box 98 = 94 + 2 x 2 and R_a,
+  with balls meeting Arb's wherever both evaluate.
+- **Prior work.** Bucur, Ernvall-Hytönen, Odžak, Smajlović 2016 computed Arb
+  tau-Li coefficients for the *associated* DH function, n <= 500.
+  arXiv:1410.4384 has no DH numerics. Johansson 2015 is zeta to n = 100,000.
+  The result is original, and novelty is not claimed (bounded search in
+  RESULTS.md). Nothing here bears on RH (`docs/08`).
 
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 
@@ -517,7 +564,9 @@ computed coefficient, and explicitly not a theorem. It sharpens `hunts/jensen_cl
 
 **The wall, priced.** At `n = 328997` the family needs about 1490 working digits and 670000 nodes,
 roughly 20000 core-hours on this calibration, against every efficiency door together being worth a
-factor of 5 to 10. The direct route cannot reach the onset. Its doors also found a defect outside
+factor of 5 to 10. The direct route cannot reach the onset. (Dated pointer, 2026-10-30: hunt
+#151 reached it, lambda_{328997}(DH) < 0 with every earlier lambda_n > 0, hardened, at 0.46
+core-hours, so that sentence holds only for this hunt's r <= 0.99 family; see `li_dh_onset_hardened/`.) Its doors also found a defect outside
 the hunt: `zeta.epstein.completed_dh` costs `0.58 s` per call at 142 digits against `0.092 s` for
 the same mathematics with `kappa` cached once per process, a factor of six from a precision-keyed
 `lru_cache` receiving a precision that varies with the distance from `s` to 1.
@@ -4634,7 +4683,7 @@ attack RH, and this is the campaign's first track. The question is whether the z
 half-plane for every Dirichlet L-function can go below the best public abscissa, 0.8748867
 (Xu and Sang), either by strengthening the row-count inputs of OpenAI's Part II assembly,
 whose ceiling hunt #139 places at 13/15, or by a probe whose constants are not tied to the
-sextic pole. It builds on hunt #139 (`seven_eighths_pin/`, unlanded; opened as #134 on
+sextic pole. It builds on hunt #139 (`seven_eighths_pin/`, landed 2026-10-30; opened as #134 on
 `claude/hunt-134-seven-eighths-pin`), reads the pinned paper source by line number and
 checks every printed constant in exact arithmetic. Nothing here bears on real part 1/2.
 
@@ -4715,3 +4764,107 @@ estimates and costs are in [RUNS.md](skewes_enclosure/RUNS.md), and the results
 are in [RESULTS.md](skewes_enclosure/RESULTS.md). (Updated 2026-10-27: this
 paragraph first ended "nothing is a result yet", which was written when the hunt
 opened.)
+
+### Hunt #139: which step of the quasi-Riemann argument fixes the number 7/8 (`seven_eighths_pin/`, 2026-10-16)
+
+> **Landed on main 2026-10-30** (written for a landing on 2026-10-21 that waited as draft PR #325). Opened on `claude/hunt-134-seven-eighths-pin` as Hunt #134; on main #134
+> is `gauss_positivity` and #136 to #138 are held by other open hunts and landings, so this hunt is #139.
+> The prior-art search the hunt had not run was run at landing and extended the same day to the works
+> its first source names and to the follow-ups' manuscripts (`RESULTS.md` section 10). Much of the hunt
+> was already public, so it was derived here independently and is not novel. A model computation by
+> tomoto0 (7 October 2026, nine days before the hunt opened) has the target formula with its ζ_F(6z)
+> pole, the floor-row ceiling 13/15 at the same corner, and a geometry optimum near 0.87496 with the
+> zero-detected rows binding. J. Guo and B. Liu (arXiv:2610.12234), both 8 October, give the exact
+> optimum σ* = (1507 − 2√921)/1653 ≈ 0.8749570698, and Guo derives its binding bin δ* = (49 − √921)/48.
+> Z. Gao (7 October) gives 20999/24000 at b = 1/8, and Argonaut Math (7/8 − 1/4000000) and LW56e2
+> (4374785349/5000000000), both 8 October, also state boundaries below 7/8. Gao, Guo and Argonaut Math
+> carry the low-side loss accounting that the hunt marks inferred. So the scan optimum 0.874958 below is
+> a grid reproduction of σ*, and the exact bound below is valid but loose: the same one-witness program
+> at δ* returns σ* itself (pinned at landing). Not found in the sources read: the reading of 7/8 as the
+> corner of `M + ℓ ≤ 1` and per-summand losslessness, which alone forces 7/8 for every geometry; the
+> exact rational bounds; and the pricing of the row-count excess between its two ends. tomoto0's
+> bootstrap figure near 0.8745 treats the slope α as 2β* − 1, while the paper's lines 15100 to 15104 say
+> α is fixed and κ = 2β* − 1 is the dynamic parameter, and Gao, Guo and Argonaut Math keep α = 5/6. Open
+> check: Xu and Sang's 0.8748867, as hunt #136 records it, lies below σ*, so it must change an input
+> beyond the geometry; if it changed only the geometry, that would refute this hunt's bound.
+
+**Status: answered within its scope; a reading of the paper, unreviewed by any person.**
+In OpenAI's 7/8 argument the target is where the direct bound meets the Mellin signal,
+`σ₀ = 5/6 + (M − 2ℓ)/12` (ℓ the prime-slot length, M the two averaging lengths), a line
+through both stages: Part I (ℓ = 0, M = 1) gives 11/12, Part II (ℓ = 1/6, M = 5/6) gives
+7/8. The paper's geometry is the corner of two direct-bound conditions, `M + ℓ ≤ 1` (line
+8246) and per-summand losslessness of the row norm, `M − 2ℓ ≥ 1/2` (line 8306), and the
+second alone gives exactly 7/8. Relaxing it, the high side binds instead: with the paper's
+row counts, no choice of (ℓ, M, b) passes the endpoint inequality below
+`5655673/6464057 ≈ 0.874942` (exact, one witness point), and the scan optimum is 0.874958.
+The binding rows have a zero near real part 0.69 and maximal prime-slot amplitude. Perfect
+row counts would stop at 13/15 (rows counted in full need `C₀ ≤ 0`). The Euler regions, the
+contour 17/50, the 11/12 input and Lemma plain's `κ ≥ 3/4` do not fix 7/8. 38 printed
+constants reproduced exactly; 39 citations checked against the pinned source; the moment
+lemmas' proofs not checked. See `seven_eighths_pin/RESULTS.md`.
+
+### Hunt #148: the 7/8 probe's local identity over F_q[T], and the biquadratic case (`ff_probe/`, opened 2026-10-21)
+
+**Status: closed 2026-10-26; candidate refuted at the stated parameters.** Over F_13[T]
+the biquadratic theta's degree-3 coefficients are not multiplicative up to phases (zero at
+234 of the 286 triples of linear primes, abs(H)^2 = 52 at the rest), so the quartic probe has
+no scalar local identity, and hunt #136's template prices nothing for it. The cubic control
+over F_7[T] reproduces Lemma 7.1 exactly. A PARI second implementation reproduced every
+exact number it recomputes. Carrying the verdict to S4 over Q(i) is inferred, so S4 there
+stays an unresolved attempt. See [RESULTS.md](ff_probe/RESULTS.md). The lane was resumed in
+place on 2026-10-26 by the owner's decision. A lane of the campaign the owner directed on
+2026-10-21. The workflow proposed the number 141; #138 to #144 are held for landings being
+renumbered elsewhere, so this hunt is #148. Over F_q[T] the Fourier coefficients of
+higher-order metaplectic theta functions are finite Gauss-sum expressions (Hoffstein 1992,
+Patterson 2007 and 2014) and RH is a theorem, so the question hunt #136 left open by reading,
+whether a biquadratic-theta probe with quartic averaging has a scalar local Euler identity
+like Lemma 7.1 of OpenAI's 7/8 paper, can be tested exactly. The cubic case over F_7[T] is
+the control. Nothing here bears on RH over Q (`docs/08`).
+
+### Hunt #142: controls for the F1 discovery engine (`f1_engine_controls/`, opened 2026-08-21, landed 2026-10-30)
+
+Opened as Hunt #64 on 2026-08-21, on a branch that never reached `main`. #64 is
+`r_b9552d` run 2, #136 and #137 are held by open hunt branches, and #138 to
+#141 by four other landings of 2026-10-21, so this entry is #142.
+
+**Status: closed (2026-10-21), measured; three of the five critiques measured and
+pinned, two left as judgments. Nothing promoted.**
+`docs/15-the-f1-discovery-engine.md` closes with a Reality Check of five
+critiques that dial the document's own rhetoric back. Nothing in the tree
+tested them. Three make checkable assertions, and measuring them moved two.
+
+- **The ln 2 degeneracy** in `ontology/04_transcendental_matrix.py` is a
+  truncation artifact, as claimed, but its multiplicity is the kernel
+  dimension of a hub incidence matrix on the dead-end nodes `2u <= N < 3u`,
+  not the quoted `pi(N/2) - pi(N/3) - 1`. That formula is the special case in
+  which every dead end is prime, and it undercounts from `N = 338`, where the
+  semiprimes `121, 143, 169` first close a pattern over the hubs `11, 13`.
+  Checked at all 251 sizes `N = 10 … 260`, and on a coarser scan to
+  `N = 800`, with no disagreement.
+- **The density failure** is 159 modes below zeta's first ordinate at 400
+  nodes, against none, and refinement widens the gap rather than closing it:
+  low modes accumulate like `0.35 N` while the top of the spectrum creeps
+  like `log N`.
+- **The imposter gauntlet** criticism lands on the operator, which takes only
+  its truncation, and misses the predicate, which consults its input: it
+  rejects the three linear-combination rivals of `zeta.epstein.battery`
+  (`shift=None`). What is actually false in `07`'s conclusion is "immune to
+  false positives": the battery's own Euler-product rival, the shifted
+  product `W_a`, passes the predicate (default battery: `distinguishes:
+  False`, `shared_with: ('shifted_product',)`), and so do the two mod-5
+  L-functions that make up Davenport-Heilbronn. It separates Euler products
+  from linear combinations of them rather than singling out zeta. The third
+  kill condition in `MISSION.md` was written when the standing battery was
+  the three linear-combination rivals, and as literally worded it fires on
+  today's default battery; `RESULTS.md` records both readings and leaves the
+  condition as written.
+
+Reality Check items 1 and 3 (a toy computation; `F_1` geometry is
+speculative) are judgments, not measurements, and stand as written. The
+stale `discovery/` paths in `docs/15` and `docs/09` are repaired, and
+`tests/test_docs_paths.py` now fails when `docs/` cites a Python file that is
+not there. Run against `main` as it stood before this landing, it read 255
+backticked `.py` citations in `docs/` and failed on exactly one, `docs/15`'s
+`discovery/01_f1_geometry.py`. Pinned by `tests/test_f1_engine_controls.py`;
+`docs/15` carries the corrections, and `docs/37-methods.md` carries the guard.
+Nothing here is about zeta, so nothing here goes to the funnel or the battery.
