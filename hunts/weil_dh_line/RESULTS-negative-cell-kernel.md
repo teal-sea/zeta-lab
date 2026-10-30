@@ -52,8 +52,27 @@ which is cited and not formalized. The statement is about c = 55, not about the 
   certificate.
 - Not touched: the nesting argument, the continuum form, N = 256.
 
+## The cell itself, now kernel-checked
+
+The 65-mode certificate at (1541/50, 64) is built and checked. Shape of the proof:
+
+- entries: exact rational midpoints scaled by `L = 2^269` to integers;
+- vector: bottom eigenvector at 120 dps, rounded at 40 decimal places;
+- proof: `Cert65Rows.lean`, 65 row theorems `row_i : sum_j B_ij u_j = (literal)`, each
+  by `norm_num` on 65 terms, plus one final theorem summing the row values;
+- result: the signed sum is `-4.59e129`, compile time **12 m 22 s**, exit 0.
+
+Two cheaper-looking encodings failed first and are recorded: the single 2145-term
+`norm_num` hit the heartbeat limit at 200k and then timed out at 15 minutes with a
+raised limit; a 65-row statement whose goal repeated all 4225 terms blew the heartbeat
+budget during elaboration. Splitting into 65 small theorems is what made the kernel
+check practical.
+
+A rounded variant (entries to multiples of 2^-112) also passes numerically: rounding
+perturbation 6.3e-33 against a margin of 4.8e-32, a factor 7.7. Its compile was not
+completed; it is the fallback if the exact file ever needs to be smaller.
+
 ## Next
 
-Build the 65-mode integer certificate at (1541/50, 64) and time `norm_num`; if the
-compile is prohibitive, look for a window closer to the cell where a small principal
-minor is already negative (none found at c ≤ 50).
+None required for this claim. Axiom print is running; scale-up to N = 256 or to the
+other window endpoints would repeat the same pipeline.
