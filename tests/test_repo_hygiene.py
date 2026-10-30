@@ -45,6 +45,8 @@ _VM_ACCOUNTS = frozenset({"zr3c"})
 
 _TEXT_SUFFIXES = {".py", ".md", ".txt", ".lean", ".toml", ".json", ".jsonl", ".yaml", ".yml", ".sh"}
 
+# "data" matches at any depth, so `hunts/*/data/` is unguarded too: on 2026-10-30
+# `hunts/r_0dfb8d/data/survey.json` carried a home path, pinned by a telemetry log.
 _SKIP_DIRS = {".git", ".venv", "data", "figures", "__pycache__", ".pytest_cache", ".lake"}
 
 # The one exception, and it is not a lapse.
