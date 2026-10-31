@@ -17,6 +17,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import math
+import re
 from fractions import Fraction as F
 from pathlib import Path
 from types import SimpleNamespace
@@ -78,11 +79,78 @@ def _lower_norm_proof(expr: str, value, simp: str = "") -> tuple[F, str]:
     return lo, proof
 
 
-def _tower_fragment(prime: int, S, namespace: str) -> tuple[str, object]:
+TOWER_MODES = ("staged", "whole")
+
+
+def _tower_fragment(prime: int, S, namespace: str,
+                    tower_mode: str = "staged") -> tuple[str, object]:
+    """One prime tower.  ``staged`` (the default) is script 68's literal chain;
+    ``whole`` proves the same ball by one kernel decision, see ``_whole_tower``."""
+    if tower_mode not in TOWER_MODES:
+        raise ValueError(f"unknown tower mode: {tower_mode}")
     text, stats = tower.render_prime_tower(prime, S=S)
+    if tower_mode == "whole":
+        return _whole_tower(prime, S, namespace, stats["final"]), stats["final"]
     marker = "namespace ZetaLean.Rung3TowerPilot\n\n"
     body = text.split(marker, 1)[1].rsplit("\nend ZetaLean.Rung3TowerPilot", 1)[0]
     return f"namespace {namespace}\n\n{body}\n\nend {namespace}\n", stats["final"]
+
+
+def _whole_tower(prime: int, S, namespace: str, staged_final) -> str:
+    """The tower as one ``decide +kernel`` of ``dirichletTermBallB ... = Sq_kE`` plus
+    ``contains_dirichletTermBallB``.  It exports the names the staged fragment does
+    (``S``, ``Sq_kE``, ``pilot_contains_cpow``), so callers are unchanged.  The literal
+    is the mirror's ``dirichletTermBox2``, which must equal the staged chain's last
+    ball bit for bit; hunt #145 measured 3 to 6 CPU-s per tower against about 66 staged.
+    """
+    kL = prime.bit_length()
+    final = ball.dirichletTermBox2(NLOG, NEXP, P, kL, KE, prime, S)
+    if (final.cre, final.cim, final.rad) != (staged_final.cre, staged_final.cim, staged_final.rad):
+        raise AssertionError(f"whole-tower mirror disagrees with the staged chain at {prime}")
+    args = f"{NLOG} {NEXP} {P} {kL} {KE} {prime} S"
+    return "\n".join([
+        f"namespace {namespace}", "",
+        f"def S : ComplexBall := {lit(S)}",
+        f"def Sq_{KE} : ComplexBall := {lit(final)}", "",
+        f"private lemma ev_whole : dirichletTermBallB {args} = Sq_{KE} := by",
+        "  decide +kernel", "",
+        "theorem pilot_contains_cpow {s : ℂ} (hS : S.contains s) :",
+        f"    Sq_{KE}.contains ((({prime} : ℕ) : ℂ) ^ (-s)) := by",
+        f"  have h := contains_dirichletTermBallB (nLog := {NLOG}) (nExp := {NEXP}) (p := {P})",
+        f"    (kL := {kL}) (kE := {KE}) (by norm_num) (m := {prime}) (by norm_num) hS",
+        "    (by norm_num) (by norm_num) (by decide +kernel)",
+        "  rwa [ev_whole] at h", "",
+        f"end {namespace}", ""])
+
+
+def tower_namespace(sid: str, prime: int, tower_mode: str = "staged") -> str:
+    """The namespace a prime tower's declarations live in.  ``staged`` keeps the
+    historical ``Prime_<p>``, which is not site-qualified: two staged sites sharing a
+    prime declare the same names and cannot be imported together.  ``whole`` qualifies
+    it by site, so the assembly can import every site root in one environment."""
+    return f"Prime_{sid}_{prime}" if tower_mode == "whole" else f"Prime_{prime}"
+
+
+_DECL = re.compile(r"^(?:noncomputable )?(?:def|theorem|lemma|abbrev|instance) ([^\s:({\[]+)")
+
+
+def public_declarations(files: list[tuple[str, str]]) -> list[str]:
+    """Fully qualified names of the non-private declarations in emitted site files.
+
+    Two site roots can be imported into one environment only if these are disjoint."""
+    names = []
+    for _, text in files:
+        stack: list[str] = []
+        for line in text.split("\n"):
+            if line.startswith("namespace "):
+                stack.append(line.split()[1])
+            elif line.startswith("end ") and stack and line.split()[1] == stack[-1]:
+                stack.pop()
+            else:
+                m = _DECL.match(line)
+                if m:
+                    names.append(".".join(stack + [m.group(1)]))
+    return names
 
 
 def _needed_powers(N: int) -> list[int]:
@@ -99,7 +167,7 @@ def module_root(sid: str) -> str:
     return f"C{sid}"
 
 
-def _prepare_site(site: dict, kind: str) -> SimpleNamespace:
+def _prepare_site(site: dict, kind: str, tower_mode: str = "staged") -> SimpleNamespace:
     sid = site["id"]
     K, N = int(site["K"]), 5 * int(site["K"])
     relo, rehi = F(site["re_lo"]), F(site["re_hi"])
@@ -124,7 +192,8 @@ def _prepare_site(site: dict, kind: str) -> SimpleNamespace:
         else:
             f = ball._spf(m)
             if f == m:
-                fragment, value = _tower_fragment(m, Sval, f"Prime_{m}")
+                fragment, value = _tower_fragment(m, Sval, tower_namespace(sid, m, tower_mode),
+                                                  tower_mode)
                 prime_fragments[m] = fragment
                 pow_kind[m] = ("prime",)
             else:
@@ -182,7 +251,7 @@ def _prepare_site(site: dict, kind: str) -> SimpleNamespace:
         relo=relo, rehi=rehi, imlo=imlo, imhi=imhi, tail_r=tail_r,
         SI=SI, SB=SB, Sval=Sval, half_width=half_width,
         pow_values=pow_values, pow_kind=pow_kind, pow_order=pow_order,
-        prime_fragments=prime_fragments, term_values=term_values,
+        prime_fragments=prime_fragments, term_values=term_values, tower_mode=tower_mode,
         partial=partial, m1=m1, m2=m2, m3=m3, m4=m4,
         pair=pair, block=block, five_one_sub=five_one_sub, anti_v=anti_v,
         anti_pair=anti_pair, anti_sum=anti_sum, anti=anti,
@@ -190,8 +259,9 @@ def _prepare_site(site: dict, kind: str) -> SimpleNamespace:
     )
 
 
-def emit_site_ball(site: dict, kind: str) -> tuple[str, dict]:
-    b = _prepare_site(site, kind)
+def emit_site_ball(site: dict, kind: str,
+                   tower_mode: str = "staged") -> tuple[str, dict]:
+    b = _prepare_site(site, kind, tower_mode)
     sid, K, N = b.sid, b.K, b.N
     relo, rehi, imlo, imhi = b.relo, b.rehi, b.imlo, b.imhi
     tail_r, SI, SB = b.tail_r, b.SI, b.SB
@@ -246,10 +316,11 @@ def emit_site_ball(site: dict, kind: str) -> tuple[str, dict]:
         elif mode[0] == "prime":
             a(f"private lemma hp_{sid}_{m} {{s : ℂ}} (hS : {SB}.contains s) :")
             a(f"    {name}.contains ((({m} : ℕ) : ℂ) ^ (-s)) := by")
-            a(f"  have hSp : Prime_{m}.S.contains s := by")
-            a(f"    simpa [Prime_{m}.S, {SB}] using hS")
-            a(f"  have h := Prime_{m}.pilot_contains_cpow hSp")
-            a(f"  simpa [{name}, Prime_{m}.Sq_{KE}] using h")
+            ns = tower_namespace(sid, m, b.tower_mode)
+            a(f"  have hSp : {ns}.S.contains s := by")
+            a(f"    simpa [{ns}.S, {SB}] using hS")
+            a(f"  have h := {ns}.pilot_contains_cpow hSp")
+            a(f"  simpa [{name}, {ns}.Sq_{KE}] using h")
         else:
             _, left, right = mode
             left_name, right_name = f"Pow_{sid}_{left}", f"Pow_{sid}_{right}"
@@ -723,10 +794,11 @@ def _pow_block(b: SimpleNamespace, m: int, exported: bool) -> str:
     elif mode[0] == "prime":
         a(f"{kw} hp_{sid}_{m} {{s : ℂ}} (hS : {SB}.contains s) :")
         a(f"    {name}.contains ((({m} : ℕ) : ℂ) ^ (-s)) := by")
-        a(f"  have hSp : Prime_{m}.S.contains s := by")
-        a(f"    simpa [Prime_{m}.S, {SB}] using hS")
-        a(f"  have h := Prime_{m}.pilot_contains_cpow hSp")
-        a(f"  simpa [{name}, Prime_{m}.Sq_{KE}] using h")
+        ns = tower_namespace(sid, m, b.tower_mode)
+        a(f"  have hSp : {ns}.S.contains s := by")
+        a(f"    simpa [{ns}.S, {SB}] using hS")
+        a(f"  have h := {ns}.pilot_contains_cpow hSp")
+        a(f"  simpa [{name}, {ns}.Sq_{KE}] using h")
     else:
         _, left, right = mode
         left_name, right_name = f"Pow_{sid}_{left}", f"Pow_{sid}_{right}"
@@ -1015,6 +1087,7 @@ def emit_site_ball_modules(
     kind: str,
     *,
     max_bytes: int = MAX_SHARD_BYTES,
+    tower_mode: str = "staged",
 ) -> tuple[list[tuple[str, str]], dict]:
     """Emit one site as importable Lean modules with a size cap per file.
 
@@ -1024,7 +1097,7 @@ def emit_site_ball_modules(
     """
     if max_bytes <= 0:
         raise ValueError("max_bytes must be positive")
-    b = _prepare_site(site, kind)
+    b = _prepare_site(site, kind, tower_mode)
     root = module_root(b.sid)
     files: list[tuple[str, str]] = []
 

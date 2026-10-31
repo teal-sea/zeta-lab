@@ -1,0 +1,127 @@
+{
+ "runs": [
+  40353536947
+ ],
+ "artifacts": [
+  {
+   "job": 0,
+   "artifact": "rung3-production-job0-attempt1",
+   "sha256": "d3529827ebaa185f89a2b4177585fe0c4284b3b5fe48d13f3f951680975dc288",
+   "bytes": 246439965
+  },
+  {
+   "job": 1,
+   "artifact": "rung3-production-job1-attempt1",
+   "sha256": "dcd122bdf302b934f6a15038565e94f296e07b1993c88b6b9b88764f9576e92e",
+   "bytes": 237859666
+  },
+  {
+   "job": 2,
+   "artifact": "rung3-production-job2-attempt1",
+   "sha256": "880f1ce17165bb961733da36563efd8f80ef5d377bc03049a98215a5dd94900b",
+   "bytes": 236248325
+  },
+  {
+   "job": 3,
+   "artifact": "rung3-production-job3-attempt1",
+   "sha256": "9d90ad72f8b5ba5655685d2516259dbf35705e199387a2f4f84d064d54b888f5",
+   "bytes": 238729992
+  },
+  {
+   "job": 4,
+   "artifact": "rung3-production-job4-attempt1",
+   "sha256": "ff51c1552adc35becebbcd545f71892fd3bf9add52ac96d21b9e969c05c8c955",
+   "bytes": 237546124
+  },
+  {
+   "job": 5,
+   "artifact": "rung3-production-job5-attempt1",
+   "sha256": "59631fb8b85355c1020a4e36ac4b781f3bc3ff650248da141a6872a7e4c8caf0",
+   "bytes": 236769082
+  },
+  {
+   "job": 6,
+   "artifact": "rung3-production-job6-attempt1",
+   "sha256": "fa50916825dfc23ccecd6804b108d86e96ed1c3af4bc18768f44c110cf5a1d1e",
+   "bytes": 238446747
+  },
+  {
+   "job": 7,
+   "artifact": "rung3-production-job7-attempt1",
+   "sha256": "d7b6a9052a648fbc2750032a5e821e3960ab3aeb61137f1dcb34228d332275af",
+   "bytes": 238136770
+  },
+  {
+   "job": 8,
+   "artifact": "rung3-production-job8-attempt1",
+   "sha256": "036b6f3133773c0918245050a71693dcc74d01febed6c35c5ed66158709a017a",
+   "bytes": 237429583
+  },
+  {
+   "job": 9,
+   "artifact": "rung3-production-job9-attempt1",
+   "sha256": "fa5a3eda2e1d8c046e4a0dc4337991573bb3e2730a5a7606a661cf29ba379bbb",
+   "bytes": 232090899
+  },
+  {
+   "job": 10,
+   "artifact": "rung3-production-job10-attempt1",
+   "sha256": "b7be88a89a44a9b9ee6767280ccabf82b4d2fb1d2e8173f08a2a168fdd79de88",
+   "bytes": 231434354
+  },
+  {
+   "job": 11,
+   "artifact": "rung3-production-job11-attempt1",
+   "sha256": "8b9223aadb0fb48929beab7b5f57a8c5d4dfed12ea9dd87fb48ed7899e9deabe",
+   "bytes": 237232980
+  },
+  {
+   "job": 12,
+   "artifact": "rung3-production-job12-attempt1",
+   "sha256": "546c7c089fcd39791d341453edbf99822f181732eca2e2c595049e065709001b",
+   "bytes": 236120198
+  },
+  {
+   "job": 13,
+   "artifact": "rung3-production-job13-attempt1",
+   "sha256": "2816ed12887824dfb78753d317f1298b3a98e478eca9a6f635bc76cd9c7044fe",
+   "bytes": 241223011
+  },
+  {
+   "job": 14,
+   "artifact": "rung3-production-job14-attempt1",
+   "sha256": "bd69ffd751313ff36c93383cf6b47b5a8a274005ab4316ad4691ba0801b7bfe9",
+   "bytes": 236405705
+  },
+  {
+   "job": 15,
+   "artifact": "rung3-production-job15-attempt1",
+   "sha256": "5bae85033ade35cf6eccce3c27738db31f5a92a7e5294c75cb63c6b1b857c700",
+   "bytes": 231790264
+  },
+  {
+   "job": 16,
+   "artifact": "rung3-production-job16-attempt1",
+   "sha256": "c5c060f72fe95e90e416733a3393412013852932887535a3757b5cde1944ab63",
+   "bytes": 237712357
+  },
+  {
+   "job": 17,
+   "artifact": "rung3-production-job17-attempt1",
+   "sha256": "fbe61ece70fa4d6245fcc59ecbc9e664a59462a790d9e00d1eb7ceb0785470f4",
+   "bytes": 236821481
+  },
+  {
+   "job": 18,
+   "artifact": "rung3-production-job18-attempt1",
+   "sha256": "2660886cefe76209181e5ae95443a9ad95f69fdf032fa0308989a5a6d7c02e53",
+   "bytes": 238255259
+  },
+  {
+   "job": 19,
+   "artifact": "rung3-production-job19-attempt1",
+   "sha256": "ce8219a21ae267bcbc522fb47e4ad97c9ab7fd07c56f6c908e741b61244cb6c3",
+   "bytes": 237953702
+  }
+ ]
+}

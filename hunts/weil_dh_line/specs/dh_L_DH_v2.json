@@ -1,0 +1,7 @@
+{"tag": "L_DH", "kind": "dh", "tau": 5e-4, "method": "lse",
+ "clusters": [
+  {"primes": [2, 3, 7], "D": [6, 4, 3], "shell": null},
+  {"primes": [2, 13], "D": [16, 12], "shell": null, "weights": {"13": "1", "26": "1"}},
+  {"primes": [11, 19, 29], "D": [6, 6, 6], "shell": null},
+  {"primes": [17, 23], "D": [12, 12], "shell": null}
+ ]}

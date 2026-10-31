@@ -1,0 +1,21 @@
+{
+ "vector": "v800_T800.json",
+ "key": "x",
+ "N": 856,
+ "T": 800.0,
+ "q": 64,
+ "h": "1/2",
+ "n_y": 1500,
+ "prec": 256,
+ "beta": "0.415137840683351",
+ "rq_discrete_mid": "-4.15160674833728e-30",
+ "rq_discrete_rad": 1.0347524429862679e-72,
+ "rq_discrete_upper": -4.1516067483372775e-30,
+ "rq_exact_integrals_mid": "-4.15160674833728e-30",
+ "rq_exact_integrals_upper": -4.1516067483372775e-30,
+ "t_quad_bound": 8.027383146422143e-89,
+ "mass_above_T_mid": "1.4883465e-30",
+ "mass_above_T_upper": 1.4883465016899499e-30,
+ "wall_seconds": 2633.2122769355774,
+ "procs": 2
+}

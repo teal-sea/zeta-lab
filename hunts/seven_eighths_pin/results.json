@@ -1,0 +1,511 @@
+{
+ "reproductions": [
+  {
+   "name": "h = 13/16",
+   "cite": "geometry",
+   "line": 6860,
+   "got": "13/16",
+   "want": "13/16",
+   "ok": true
+  },
+  {
+   "name": "l_x = 17/48",
+   "cite": "l_x",
+   "line": 6861,
+   "got": "17/48",
+   "want": "17/48",
+   "ok": true
+  },
+  {
+   "name": "M + ell = 1",
+   "cite": "M",
+   "line": 6864,
+   "got": "1",
+   "want": "1",
+   "ok": true
+  },
+  {
+   "name": "C_II shift 11/16",
+   "cite": "C_II",
+   "line": 6835,
+   "got": "11/16",
+   "want": "11/16",
+   "ok": true
+  },
+  {
+   "name": "C_II(s) = l_x/2 + s - 1 + h/6",
+   "cite": "C_form",
+   "line": 8641,
+   "got": "11/16",
+   "want": "11/16",
+   "ok": true
+  },
+  {
+   "name": "low exponent 3/16",
+   "cite": "low_II",
+   "line": 8570,
+   "got": "3/16",
+   "want": "3/16",
+   "ok": true
+  },
+  {
+   "name": "target 7/8 from C_II(7/8) = 3/16",
+   "cite": "C_match",
+   "line": 8642,
+   "got": "7/8",
+   "want": "7/8",
+   "ok": true
+  },
+  {
+   "name": "target closed form 5/6 + (M - 2 ell)/12",
+   "cite": "C_match",
+   "line": 8642,
+   "got": "7/8",
+   "want": "7/8",
+   "ok": true
+  },
+  {
+   "name": "Part I target 11/12 (ell = b = 0, M = 1)",
+   "cite": "C_I",
+   "line": 190,
+   "got": "11/12",
+   "want": "11/12",
+   "ok": true
+  },
+  {
+   "name": "Part I shift 2/3",
+   "cite": "C_I",
+   "line": 190,
+   "got": "2/3",
+   "want": "2/3",
+   "ok": true
+  },
+  {
+   "name": "Part I low exponent 1/4",
+   "cite": "low_I",
+   "line": 3717,
+   "got": "1/4",
+   "want": "1/4",
+   "ok": true
+  },
+  {
+   "name": "row loss (d - 1/6)/4 at d = 0 is clipped to 0",
+   "cite": "row_loss",
+   "line": 8306,
+   "got": "0",
+   "want": "0",
+   "ok": true
+  },
+  {
+   "name": "row loss at d = ell is exactly 0",
+   "cite": "row_loss",
+   "line": 8306,
+   "got": "0",
+   "want": "0",
+   "ok": true
+  },
+  {
+   "name": "C_0 = -1/48",
+   "cite": "C_0",
+   "line": 15734,
+   "got": "-1/48",
+   "want": "-1/48",
+   "ok": true
+  },
+  {
+   "name": "C_0 closed form",
+   "cite": "C_0",
+   "line": 15734,
+   "got": "-1/48",
+   "want": "-1/48",
+   "ok": true
+  },
+  {
+   "name": "delta coefficient 2/3",
+   "cite": "C_0",
+   "line": 15734,
+   "got": "2/3",
+   "want": "2/3",
+   "ok": true
+  },
+  {
+   "name": "q coefficient 1/6",
+   "cite": "C_0",
+   "line": 15734,
+   "got": "1/6",
+   "want": "1/6",
+   "ok": true
+  },
+  {
+   "name": "floor bound -7/1200",
+   "cite": "floor",
+   "line": 15847,
+   "got": "-7/1200",
+   "want": "-7/1200",
+   "ok": true
+  },
+  {
+   "name": "large-delta endpoint -1/48 - delta/16 at delta = 5/6",
+   "cite": "large_delta",
+   "line": 15945,
+   "got": "-7/96",
+   "want": "-7/96",
+   "ok": true
+  },
+  {
+   "name": "intermediate constant -529/2400",
+   "cite": "intermediate",
+   "line": 16159,
+   "got": "-529/2400",
+   "want": "-529/2400",
+   "ok": true
+  },
+  {
+   "name": "intermediate slope 25/96",
+   "cite": "intermediate",
+   "line": 16159,
+   "got": "25/96",
+   "want": "25/96",
+   "ok": true
+  },
+  {
+   "name": "intermediate at delta = 5/6 is -49/14400",
+   "cite": "intermediate_end",
+   "line": 16160,
+   "got": "-49/14400",
+   "want": "-49/14400",
+   "ok": true
+  },
+  {
+   "name": "small-row margin -79/800",
+   "cite": "small",
+   "line": 15878,
+   "got": "-79/800",
+   "want": "-79/800",
+   "ok": true
+  },
+  {
+   "name": "small-row saving 63/800",
+   "cite": "small_saving",
+   "line": 15886,
+   "got": "-63/800",
+   "want": "-63/800",
+   "ok": true
+  },
+  {
+   "name": "principal margin m_w = l_y/20",
+   "cite": "m_w",
+   "line": 15674,
+   "got": "23/960",
+   "want": "23/960",
+   "ok": true
+  },
+  {
+   "name": "principal margin m_z = h/600",
+   "cite": "m_z",
+   "line": 15675,
+   "got": "13/9600",
+   "want": "13/9600",
+   "ok": true
+  },
+  {
+   "name": "large-row B_0 = l_x/2 + 1 + l_y",
+   "cite": "B_0",
+   "line": 15900,
+   "got": "53/32",
+   "want": "53/32",
+   "ok": true
+  },
+  {
+   "name": "high margin factor 1 - h/4",
+   "cite": "m_hi",
+   "line": 16101,
+   "got": "51/64",
+   "want": "51/64",
+   "ok": true
+  },
+  {
+   "name": "slot supply ell/h = 8/39",
+   "cite": "supply",
+   "line": 16116,
+   "got": "8/39",
+   "want": "8/39",
+   "ok": true
+  },
+  {
+   "name": "supply excess 8/39 - 7/37",
+   "cite": "supply_839",
+   "line": 16271,
+   "got": "23/1443",
+   "want": "23/1443",
+   "ok": true
+  },
+  {
+   "name": "extension ceiling 5 ell - h = 1/48",
+   "cite": "zeta",
+   "line": 16123,
+   "got": "1/48",
+   "want": "1/48",
+   "ok": true
+  },
+  {
+   "name": "supply excess 1/5 - 7/37",
+   "cite": "supply_15",
+   "line": 16126,
+   "got": "2/185",
+   "want": "2/185",
+   "ok": true
+  },
+  {
+   "name": "D_x at c = 4/9 equals (37 + 34y)/18",
+   "cite": "D_x",
+   "line": 16015,
+   "got": "True",
+   "want": "True",
+   "ok": true
+  },
+  {
+   "name": "P_x at c = 4/9 equals (7 + 18y + 8y^2)/9",
+   "cite": "P_x",
+   "line": 16016,
+   "got": "True",
+   "want": "True",
+   "ok": true
+  },
+  {
+   "name": "e(r) slope: 1 - alpha + alpha r = (1 + 5r)/6",
+   "cite": "e_r",
+   "line": 15300,
+   "got": "True",
+   "want": "True",
+   "ok": true
+  },
+  {
+   "name": "-E_* transcription equals the closed form (100 points)",
+   "cite": "R_star",
+   "line": 16019,
+   "got": "True",
+   "want": "True",
+   "ok": true
+  },
+  {
+   "name": "completed-square identity of the certificate",
+   "cite": "cert_identity",
+   "line": 16048,
+   "got": "True",
+   "want": "True",
+   "ok": true
+  },
+  {
+   "name": "worst point delta = 79/204, x = 1/2: -E_* = 7/30672 >= 49/440640",
+   "cite": "cert_bound",
+   "line": 16000,
+   "got": "(Fraction(7, 30672), True)",
+   "want": "(Fraction(7, 30672), True)",
+   "ok": true
+  }
+ ],
+ "citations_failed": [],
+ "floor_corner": {
+  "ell": "1/5",
+  "M": "4/5",
+  "b": "0",
+  "sigma0": "13/15",
+  "C_0": "0",
+  "dual_slack": "0",
+  "d0_lossless_slack": "0"
+ },
+ "robust_bound": {
+  "sigma0": "5655673/6464057",
+  "float": 0.8749416968321907,
+  "delta": "223/576",
+  "x": "1/2"
+ },
+ "gram_limited_bound": {
+  "sigma0": "44117/50422",
+  "float": 0.8749553766213161,
+  "delta": "7/18",
+  "x": "1/2"
+ },
+ "excess_curve": [
+  {
+   "lam": 1.0,
+   "ell": 0.1668360183104582,
+   "b": 0.12,
+   "sigma0": 0.8749576620890521
+  },
+  {
+   "lam": 0.75,
+   "ell": 0.175244612047932,
+   "b": 0.1,
+   "sigma0": 0.8728555136546836
+  },
+  {
+   "lam": 0.5,
+   "ell": 0.18359977003954236,
+   "b": 0.07,
+   "sigma0": 0.870766724156781
+  },
+  {
+   "lam": 0.25,
+   "ell": 0.1918635856001174,
+   "b": 0.04,
+   "sigma0": 0.8687007702666373
+  },
+  {
+   "lam": 0.0,
+   "ell": 0.19999999999999715,
+   "b": 0.0,
+   "sigma0": 0.8666666666666674
+  }
+ ],
+ "endpoint_scan": [
+  {
+   "b": 0.0,
+   "ell_max_c_fixed": 0.16393584605945932,
+   "sigma0_c_fixed": 0.8756827051518018,
+   "ell_max_c_tied": 0.1639332154460575,
+   "sigma0_c_tied": 0.8756833628051522
+  },
+  {
+   "b": 0.01,
+   "ell_max_c_fixed": 0.1643745514821135,
+   "sigma0_c_fixed": 0.8755730287961383,
+   "ell_max_c_tied": 0.16437228837414042,
+   "sigma0_c_tied": 0.8755735945731316
+  },
+  {
+   "b": 0.02,
+   "ell_max_c_fixed": 0.16477902717084872,
+   "sigma0_c_fixed": 0.8754719098739544,
+   "ell_max_c_tied": 0.1647771180505842,
+   "sigma0_c_tied": 0.8754723871540205
+  },
+  {
+   "b": 0.03,
+   "ell_max_c_fixed": 0.16514887255216448,
+   "sigma0_c_fixed": 0.8753794485286255,
+   "ell_max_c_tied": 0.1651473046011176,
+   "sigma0_c_tied": 0.8753798405163873
+  },
+  {
+   "b": 0.04,
+   "ell_max_c_fixed": 0.16548366371703765,
+   "sigma0_c_fixed": 0.8752957507374072,
+   "ell_max_c_tied": 0.1654824163148476,
+   "sigma0_c_tied": 0.8752960625879547
+  },
+  {
+   "b": 0.05,
+   "ell_max_c_fixed": 0.16578294994041726,
+   "sigma0_c_fixed": 0.8752209291815624,
+   "ell_max_c_tied": 0.16578199975919716,
+   "sigma0_c_tied": 0.8752211667268673
+  },
+  {
+   "b": 0.06,
+   "ell_max_c_fixed": 0.16604619955909075,
+   "sigma0_c_fixed": 0.875155116776894,
+   "ell_max_c_tied": 0.16604552101843667,
+   "sigma0_c_tied": 0.8751552864120574
+  },
+  {
+   "b": 0.07,
+   "ell_max_c_fixed": 0.166272906954471,
+   "sigma0_c_fixed": 0.8750984399280489,
+   "ell_max_c_tied": 0.16627246945873114,
+   "sigma0_c_tied": 0.8750985493019838
+  },
+  {
+   "b": 0.08,
+   "ell_max_c_fixed": 0.1664624782258855,
+   "sigma0_c_fixed": 0.8750510471101952,
+   "ell_max_c_tied": 0.1664622481486291,
+   "sigma0_c_tied": 0.8750511046295093
+  },
+  {
+   "b": 0.09,
+   "ell_max_c_fixed": 0.1666142815113006,
+   "sigma0_c_fixed": 0.8750130962888415,
+   "ell_max_c_tied": 0.16661422173633156,
+   "sigma0_c_tied": 0.8750131112325837
+  },
+  {
+   "b": 0.1,
+   "ell_max_c_fixed": 0.16672763768536072,
+   "sigma0_c_fixed": 0.8749847572453264,
+   "ell_max_c_tied": 0.16672770800177264,
+   "sigma0_c_tied": 0.8749847396662235
+  },
+  {
+   "b": 0.11,
+   "ell_max_c_fixed": 0.16680180151611945,
+   "sigma0_c_fixed": 0.8749662162876368,
+   "ell_max_c_tied": 0.16680195872970244,
+   "sigma0_c_tied": 0.8749661769842411
+  },
+  {
+   "b": 0.12,
+   "ell_max_c_fixed": 0.1668360183104582,
+   "sigma0_c_fixed": 0.8749576620890521,
+   "ell_max_c_tied": 0.16683621667708054,
+   "sigma0_c_tied": 0.8749576124973965
+  },
+  {
+   "b": 0.13,
+   "ell_max_c_fixed": 0.16682940728062473,
+   "sigma0_c_fixed": 0.8749593148465105,
+   "ell_max_c_tied": 0.16682959880252501,
+   "sigma0_c_tied": 0.8749592669660353
+  },
+  {
+   "b": 0.14,
+   "ell_max_c_fixed": 0.1667810840159773,
+   "sigma0_c_fixed": 0.8749713956626723,
+   "ell_max_c_tied": 0.16678121902013882,
+   "sigma0_c_tied": 0.8749713619116319
+  },
+  {
+   "b": 0.15,
+   "ell_max_c_fixed": 0.16669004308232044,
+   "sigma0_c_fixed": 0.8749941558960865,
+   "ell_max_c_tied": 0.16669007065790276,
+   "sigma0_c_tied": 0.874994149002191
+  },
+  {
+   "b": 0.16,
+   "ell_max_c_fixed": 0.16655521041819976,
+   "sigma0_c_fixed": 0.8750278640621167,
+   "ell_max_c_tied": 0.16655507924922547,
+   "sigma0_c_tied": 0.8750278968543602
+  },
+  {
+   "b": 0.17,
+   "ell_max_c_fixed": 0.16637292882656138,
+   "sigma0_c_fixed": 0.8750734344600263,
+   "ell_max_c_tied": 0.1663725891826772,
+   "sigma0_c_tied": 0.8750735193709973
+  },
+  {
+   "b": 0.18,
+   "ell_max_c_fixed": 0.16607449007239128,
+   "sigma0_c_fixed": 0.8751480441485688,
+   "ell_max_c_tied": 0.166073872161212,
+   "sigma0_c_tied": 0.8751481986263636
+  }
+ ],
+ "endpoint_best_c_fixed": {
+  "b": 0.12,
+  "ell_max_c_fixed": 0.1668360183104582,
+  "sigma0_c_fixed": 0.8749576620890521,
+  "ell_max_c_tied": 0.16683621667708054,
+  "sigma0_c_tied": 0.8749576124973965
+ },
+ "endpoint_best_c_tied": {
+  "b": 0.12,
+  "ell_max_c_fixed": 0.1668360183104582,
+  "sigma0_c_fixed": 0.8749576620890521,
+  "ell_max_c_tied": 0.16683621667708054,
+  "sigma0_c_tied": 0.8749576124973965
+ }
+}

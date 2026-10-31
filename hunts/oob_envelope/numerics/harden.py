@@ -153,7 +153,8 @@ def main():
         dg = digamma_rect_bound(c0 - a_e, c0 + a_e, b_e)
         sym_b = dg + logpi + comb_bound + H_bound + abs(beta)
         M = sym_b * 4 * La * (2 * La * b_e).exp()
-        E_per_unit += ha / 2 * 64 * M / (15 * (rho ** 2 - 1) * rho ** (2 * args.q))
+        # n-point Gauss rate is rho^(2-2n): Trefethen's rho^(-2n) is for n+1 points (#365; here 2026-10-30)
+        E_per_unit += ha / 2 * 64 * M / (15 * (rho ** 2 - 1) * rho ** (2 * args.q - 2))
         shift_term += ha * M / arb("0.1") * shift
     E_unit = (E_per_unit + shift_term) / arb.pi()
     eps_Q = [[(E_unit * (nus[i] * nus[j]).sqrt()).upper() for j in range(N)] for i in range(N)]

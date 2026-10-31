@@ -75,6 +75,280 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #158: is the covering margin's decay the same across two families? (`decay_law/`, 2026-10-30)
+
+**Status: measured, kill fired, no claim promoted.** The covering margin is
+`W_zeros` over the prime cost. On `b = 2` against `b = 8` the rectangle
+endpoint exponents are 3.790 (margin), 1.395 (zero-side sum) and -2.395 (prime
+cost). A tent of the same support width, with `h` a fourth power of a sinc,
+gives 5.731, 3.470 and -2.262. The universal reading, withdrawn if any of the
+three differs by more than 0.5, fired on the margin and on the zero-side sum.
+The prime-cost exponents differ by 0.13 and do not fire. A single power is not
+a defensible summary of either family: on the 25-point grid the local margin
+exponents span 34 and 103, and that span is the zero side oscillating, not the
+prime cost. All of this is on the window `b` from 2 to 8: by the prime number
+theorem the prime cost grows like `e^{b/2}` times a family-dependent power, so
+log-log exponents depend on the window, and heuristically both margins decay like
+`e^{-b/2}`. The kill was committed before the recorded run but after two tent
+margins were printed, so it was not blind on the margin exponent. (Scope added at
+landing, 2026-10-30.) Nothing here is evidence for RH. Record:
+[MISSION.md](decay_law/MISSION.md), [RESULTS.md](decay_law/RESULTS.md).
+
+### Hunt #155: the three pieces of the Weil functional and how deep they cancel (`arch_cover/`, 2026-10-30)
+
+**Status: measured, no claim promoted.** Pole, archimedean and prime pieces are
+evaluated separately with Arb enclosures for the Gaussian, Fejer and
+autocorrelation families, and each value is checked against the zero side of the
+explicit formula. The cancellation depth, the number of digits by which the three
+O(1) pieces cancel to give W, equals `a (gamma_1^2 + 1/4) / ln 10` on the Gaussian
+family to every recorded digit (17.375 at a = 0.2, 39.094 at a = 0.45), so the
+statistic measures how far the test function sits from the first zero and nothing
+deeper. (Corrected at landing, 2026-10-30: this entry first gave
+`a gamma_1^2 / ln 10` with "predicted" values matching neither form; against that
+form the hunt's own kill condition fired, now recorded in RESULTS.md 4(b). This
+hunt was opened as #154, which `gabcke_remainder/` holds.) Two consequences are recorded: the prime side
+grows with a where the zero sum collapses, so the hard regime sits inside the
+family, and W goes to zero with every piece at O(1), so no inequality
+`W >= c ||f||^2` with fixed `c > 0` holds over the class. The enclosure floor is 33
+digits and is set by the prime truncation cap at `n_max = 2e6`, not by precision
+(the 512-bit run behind "raising the bit count changes nothing" is not committed);
+RESULTS.md ends with its doors. Nothing here is
+evidence for RH. Record: [MISSION.md](arch_cover/MISSION.md),
+[RESULTS.md](arch_cover/RESULTS.md).
+
+### Hunt #156: the Gram matrix of the Weil form and its bottom eigenvalue (`weil_gram/`, 2026-10-30)
+
+**Status: measured, no claim promoted.** The bilinear Gram `M_jk = W(h_jk)` on a
+Gaussian basis, solved against the L2 Gram as a generalized eigenproblem, with
+every entry checked against the zero side (residual at the zero table's 30 digit
+floor; a dps 50 against dps 90 run is a null test, rerun at landing because the
+first "dps 90" file had been computed at dps 50). Adding one concentrated
+element drops the bottom eigenvalue by 18 orders, and the bottom eigenvector
+there is the coordinate vector, so that drop is the single element degeneracy
+`arch_cover` measured. Refining a purely broad span, where every element is
+individually healthy at 3.1e-8 or better, still drops it from 2.4e-3 to 5.0e-22
+across six dimensions, so the gap is created by the subspace choice and destroyed
+by enlargement. The recorded consequence is that a gap bounded below uniformly in
+the subspace cannot be had on these spans; nonnegativity on each subspace of an
+exhausting sequence, which does pass to the limit, is untouched. (Scope and
+numbering corrected at landing, 2026-10-30; opened as #155.) Nothing here is evidence for RH.
+Record: [MISSION.md](weil_gram/MISSION.md), [RESULTS.md](weil_gram/RESULTS.md).
+
+### Hunt #157: the prime side split by place, exactly, for a compact test function (`weil_split/`, 2026-10-30)
+
+**Status: measured, one exact identity, no claim promoted.** For a rectangle test
+function the shift operator has finitely many overlapping terms, so each place
+carries an exact closed-form cost (not rational: it carries `log p` and
+`p^{-1/2}`) and the per place sum reproduces the explicit formula prime term to
+1e-16 (that identity holds place by place by construction, a regrouping of the prime
+sum; see RESULTS.md). Two findings on five widths, monotone there (hunt #158's denser
+grid shows the margin rising on 5 of 24 steps): the cost spreads from three places
+carrying 98 percent at b=2 to 429 places with the top three carrying 13 percent at
+b=8, and the covering margin falls from 3.0e-2 to 1.6e-4 over the same range,
+about `b^{-3.8}`. That margin is `W_zeros` over the prime cost by construction, so
+it normalizes `W` rather than testing the archimedean term separately. (Corrected
+and renumbered at landing, 2026-10-30; opened as #156.) Compact support costs a slow quadrature, so every covering ratio is quoted
+from the verified zeros with the prime side exact, and the quadrature column is
+printed beside it rather than absorbed. Nothing here is evidence for RH. Record:
+[MISSION.md](weil_split/MISSION.md), [RESULTS.md](weil_split/RESULTS.md).
+
+### Hunt #154: Gabcke's remainder, opened (`gabcke_remainder/`, 2026-10-29)
+
+**Status: opened. The remainder is not proved.** The height cap on the
+kernel-checked strip proof is the order-4 Euler-Maclaurin error bar. This
+hunt is the formalization of Gabcke's explicit Riemann-Siegel remainder, the
+alternative already recorded and left unformalized by hunts #132 and #133.
+The first check is the coefficient recursion in Satz 2.1.1: Lean's kernel
+accepts the seven printed `λ_n` with no axioms. That is not the remainder
+bound. Record: `gabcke_remainder/MISSION.md`, `gabcke_remainder/RESULTS.md`.
+(Landed 2026-10-30. The `module` header every tracked `.lean` file needs was added
+at landing, after the recorded kernel run; `full.yml`'s Lean job re-elaborates the file
+as committed, first in run 41057260555, where both theorems printed no axioms.)
+
+### Hunt #153: Requirement A as a static provenance scan (`ontology_provenance/`, 2026-10-24)
+
+**Status: measured, static scan, no claim promoted.** A name and import-graph
+scan of whether a proposed frame reaches a zero-derived name (`docs/09` section
+5.1, Requirement A). It is a floor, not a proof that a clean frame is
+prime-derived. Of the fifteen numbered ontology frames, the scan flags five
+files as reaching a zero-derived name. Reading those files: two construct from
+zeros (03, 08); two build from primes and mention zeros only as a printed
+comparison (05, 06); one compares GUE spacings with zero spacings (11). Frame
+07 imports only `dh_coefficient` and is clean at symbol granularity. Nothing
+here is evidence for RH. Record: `ontology_provenance/MISSION.md`,
+`ontology_provenance/RESULTS.md`. The same change records an additional defect
+in `factorization_vs_position/DIAGNOSIS.md`, independent of the Hunt #2
+withdrawal: the kappa scanner's output is `(1 + 0.284079*kappa)` times one
+fixed function, so its sign changes cannot depend on kappa.
+
+### Hunt #146: the out-of-band reduction priced at the Davenport-Heilbronn line (`weil_dh_line/`, 2026-10-21)
+
+**Status: open; landed on main in #356 on 2026-10-27, with the raise recorded below
+(updated 2026-10-30: this line first read "open, on a draft pull request"). Resumed in place on 2026-10-26 by the owner's
+decision. No-go at the gate for the searched envelopes (attempt unresolved, measured);
+K2 on DH at the DH line run on 2026-10-26 (streamed): the pipeline refuses at every
+checkpoint to `T# = 800`, so the binding kill condition did not fire (measured, stage A only).** Asks whether zeta's Weil window
+positivity can be proved with enclosures on a window where the Davenport-Heilbronn form is
+provably negative, half-width `L >= (log 30.617188)/2 = 1.7107808`, through the out-of-band
+reduction of `oob_envelope/`. The comb floor `S*_L` at `L_DH` lies in `[5.637302, 5.643859]`
+(hardened), so weak duality allows the gate `S <= about 6.2`; the best evaluable joint
+envelope found gives `6.418111`, and the best partition into three-prime clusters has the
+Arb floor `6.174396`. A measured stage-A scout at `L = 7/5` (envelope `S = 4.117981`) has
+negative pivots at `T# = 400` to `440` and none from `460` to `640`, stable under the mode
+and precision responses. K2 refuses Epstein `(1,1,6)` wherever its form is known negative,
+and DH at `L_DH` (`N = 856`, 1280 bits): one negative pivot at all 14 checkpoints with
+`beta* > 0`, `lambda_min` about `-5e-30` and shrinking in magnitude as `T#` grows.
+Nothing here is kernel-checked, no novelty is claimed, and nothing bears on RH. Record:
+`weil_dh_line/PRICE.md`, `weil_dh_line/RUNS.md`, `weil_dh_line/MISSION.md`.
+**Raised 2026-10-27 (dated addition; the entry above is left as written).** The
+`T# -> infinity` limit of the stage-A block, the DH form on the scout's even Legendre
+modes, has a negative eigenvalue on every leading block of 101 or more modes (`-1.943e-30`
+at 856; hardened, resting on enclosed Rayleigh quotients; a reviewer's separate
+implementation reproduces them). So the stage-A block refuses DH at `L_DH` at every `T#`
+and every `N >= 101` when `S` is valid (the composite is measured at that assumption,
+through two unreviewed derivations). The `T# = 800` eigenvector itself is not a witness,
+and K2 at `T# = 800` keeps its verdict with `S` understated by up to 43, so it does not
+test `S`. The responses called "mode and precision responses" above are not refinements
+(`PRICE.md` items 5 to 7).
+Later the same day `S` itself was bounded in Arb (`sup(P_DH - H) <= S + 34/5`), which
+lies inside the witness's margin for `T# >= 540` and `N >= 856`: there every numerical
+step is enclosed, and the refusal rests on two unreviewed derivations (`PRICE.md` item 7,
+link 6).
+
+### Hunt #145: the Davenport-Heilbronn zero off the critical line, kernel-checked (`rung3_ball_production/`, 2026-10-21 to 2026-10-26)
+
+**Status: closed 2026-10-26. `dh_separation_hundred` (below height 100, `DH` has a zero
+in the open strip off the line and `riemannZeta` has none, from hunt #137's RH to height
+100) and `dh_zero_located` (a zero of `DH` in the plan's closed square), read with
+`dh_analytic_half`, are kernel-checked (Lean v4.35.0-rc2, Mathlib 065356127b1d, zero
+`sorry`, only `propext`, `Classical.choice` and `Quot.sound`), pending external
+verification. The assembly's `davenport_heilbronn : davenport_heilbronn_statement` is
+weaker: the statement, as defined, is also met by the trivial zero s = -1
+(`lean/ZetaLean/DHTrivialZero.lean`, found by the PR #353 review). Original;
+searched-and-absent in `PRIOR_ART.md`, not a novelty claim; nothing here bears on RH.**
+`RESULTS.md` states the theorems as compiled. *Added 2026-10-26:* one theorem now carries
+the strip result, `davenport_heilbronn_strip` (an entire function with the
+Davenport-Heilbronn series and functional equation has a zero s with 0 < Re s < 1 and
+Re s ≠ 1/2, witness `DH`), in an emitted module outside the sites' import closure,
+compiled by a second on-box assembly of the same 215 site oleans with the same three
+axioms (`RESULTS.md` section 1 and door 2). *Added 2026-10-27:* Lean's own kernel replayed
+the whole assembled closure into an empty environment and accepted it, and the independent
+checker `con-ron --verified` accepted the dependency closure of the 18 final declarations
+(675,388 of the 1,569,505 constants) split into 216 shards on cloud VMs, with coverage
+shown (door 1, Stages A and B); the grade stays kernel-checked, pending external
+verification. *2026-10-21 status, superseded:* open ledger
+hunt; a pilot on one shared box in one session, measured; the pilot site's two theorems
+kernel-checked and its planted faults refused; no production shard launched;
+`davenport_heilbronn` unproved, and no file emitted the assembly module that would prove
+it; nothing promoted; no novelty claimed. The `rung3-pilot` lane of the campaign
+the owner directed on 2026-10-21 (route 3). The task proposed #138; the launching workflow
+reserved #138 to #144 for landings it is renumbering and assigned #145. Lean `v4.35.0-rc2`
+against Mathlib `065356127b1d`, fetched fresh into the worktree's own `lean/.lake` (nine
+packages, each its own git toplevel at its manifest revision), with the 15 `ZetaLean`
+modules the certificate imports built from source. `scripts/72` is `main`'s: the two fixes
+this lane first cherry-picked landed in PR #323 with a resume fix (`571857a47`), the
+branch merged `origin/main`, and `tests/test_rung3_ball_compile.py` passes (22). On the
+swarm box (32 vCPU Haswell, shared with other workflows; the 1-minute load ran from about
+30 to 160 during the session), `B_right_06` (K = 17: 23 prime towers, 48 composites, 10
+modules) was generated by `scripts/60 --arith ball --shard --only B_right_06` and compiled
+by `scripts/72 --jobs 1 --module-jobs 1`: every module exit 0, and `upper_B_right_06` and
+`enc_B_right_06` print only `propext`, `Classical.choice` and `Quot.sound`. Planted in
+copies: a prime-tower radius one unit of 2^-64 low, the tail radius just under its bound
+and `M` just under the enclosure's bound are each refused at the named declaration, with
+only the touched module recompiled; eps' in the centre theorem's last step (the enclosure
+taken as a hypothesis, the centre itself not compiled) is accepted at 1/2000 and at the
+next multiple of 2^-64 above the bound, and refused at the bound and at 1/4000. The
+kernel-accepted `B` literal equals `scripts/65`'s ball once 1^(-s) is seeded as the exact
+ball (1, 0, 0), as the generator does; `scripts/65`'s own figure is wider by exactly
+738083614955/2^64, so the mirror is conservative here. A first attempt, interrupted
+mid-site when its session ended, is kept as a replay check: its four compiled modules have
+this run's sources byte for byte, and their CPU agrees within the spread `PILOT.md` shows.
+Costs, net of import: 2.09 CPU-s per tower atom for `scripts/68`'s p = 2 tower and 2.42 in
+the site's five prime shards, against the 1.2504 that `scripts/67` records from
+`v4.33.0-rc2` on a machine the record does not name; 0.674 per composite in the site
+against 0.55; about 10 CPU-s to import the certificate's support modules; peak RSS 7.8 GiB
+per process, at most 1.9 GiB of it anonymous. Projected to the 215 sites: 350 to 416
+core-hours (towers priced flat or per byte of their text; the flat price is the better
+supported, since a p = 1801 tower cost close to what a p = 2 tower does with three times
+the text, but the request keeps the larger by a rule recorded before that run;
+`scripts/67` records 175.0 atom-only), so 13 hours of wall clock at 24 processes on this
+box if it were free, and 26 hours at 16 processes holding one core each. What binds, in
+`OWNER_MEMO.md`: CPU on a shared box; 123 to 146 GB of oleans against 24 GB free on its
+disk; and an assembly that, as the sites are generated today, would import all of them, at
+the pilot's 0.66 bytes of RSS per olean byte 81 to 96 GB in one process (untested). The
+memo asks for a production window and launches nothing. No method here meets the bar of
+`docs/37`.
+
+*Resumed 2026-10-26 by the owner's decision, which granted the production window on cloud
+compute; production waits for funding and none was launched.* Measured, one process:
+proving a prime tower through one `decide +kernel` of the whole `dirichletTermBallB`
+value plus `contains_dirichletTermBallB` cost 3.4 CPU-s net at p = 2 and 5.3 at p = 1801
+on a box ball. That meets the threshold of 10 recorded in advance. The staged tower with
+`decide +kernel` in place of `norm_num` did not meet it (43.4 CPU-s, against 66.1 under
+`norm_num`). Both planted one-unit faults were refused. Extrapolated, production with
+whole-decision towers comes to 50 to 58 core-hours instead of 416, which needs a change to
+`scripts/69` outside this hunt. `assembly.py` emits the module that would prove
+`davenport_heilbronn` from the 215 site theorems, with a located zero and a separation
+lemma against hunt #137's RH to height 100. Its body elaborated against 214 stub site
+interfaces and `B_right_06`'s real oleans, and rests only on the standard axioms and the
+stubs; `davenport_heilbronn` stays unproved. `PRODUCTION.md` is the runbook.
+In a follow-up the same day, under a scope extension from the coordinator,
+`scripts/60`/`69` gained an opt-in `--tower whole` mode; the default output is
+byte-identical. The pilot site recompiled in it end to end (measured): 163.6 CPU-s and
+16.8 MB of oleans, against 1,861 CPU-s and 180 MB staged. Two one-unit tower faults were
+refused. Extrapolated from that site, production comes to 29.8 core-hours and 14.8 to
+16.0 GB of oleans, with an assembly import of about 17 to 18 GB of RSS. On those
+projections the sites fit GitHub Actions shards and the assembly fits one 32 GB machine.
+*Closed the same day.* The whole-mode tower namespaces were first site-qualified
+(`Prime_<sid>_<p>`), because two site roots could not be imported together; the staged
+default keeps that collision by ruling. `.github/workflows/rung3-production.yml` then
+compiled all 215 sites on GitHub Actions (run 40353536947: 215/215 sites, every site
+theorem on the three standard axioms, 16.1 runner core-hours, 15.1 GB of oleans). Its fault
+job left no verdict (GitHub's `bash -e`), and after the fix the fault ran alone (run
+40372531479: refused at `Prime_B_right_06_2.ev_whole`). The pair counts. On this box, from
+oleans on `/dev/shm` with every zip checked against GitHub's digest, the assembly compiled
+(85.3 CPU-s, 17.87 GB peak), and so did the separation against `RHHeight100.rh_height_hundred`.
+All 17 final declarations print only the three standard axioms. Four planted faults on
+production output were refused: the tower radius at `ev_whole`, the tail radius at `enc_`,
+M at `upper_`, and eps' at and below the bound in `centre_lt_centre`. No independent
+kernel replay of the assembled environment has run yet; that is the first door.
+(Superseded 2026-10-27: with `davenport_heilbronn_strip` there are 18 final declarations,
+and door 1 ran, as recorded at the top of this entry.)
+
+### Hunt #151: where Li's criterion first fails for Davenport-Heilbronn, enclosure-carrying (`li_dh_onset_hardened/`, opened 2026-10-26)
+
+**Status: lambda_{328997}(DH) < 0 and lambda_n(DH) > 0 for every
+1 <= n < 328997, hardened (every step in Arb balls, two radii agreeing);
+pending external verification, not kernel-checked.** It answers the question #128
+(`li_dh_onset/`) priced at about 20,000 core-hours, and confirms #128's
+extrapolated n\* = 328997 exactly. The pre-registration was committed alone
+before the runs.
+- **Admissibility.** The certificate closes exactly at 128 bits. On
+  [-3/4, 7/4] x (0, 160) the argument-principle count is 98, which equals the
+  94 line sign changes plus twice the two located off-line zeros. Planted
+  faults break it. This gives R_a = |1 - 1/rho_1| = 0.99995800 and licenses
+  r = sqrt(1 - 1/c).
+- **Production.** A ball trapezoid with a rigorous aliasing bound
+  (M(rho) <= 1.0e5 from a ball arc cover) and a ball-tracked branch. Run A
+  (c = 5000, 2^21 nodes) and run B (c = 2500, 2^19 nodes) each find the first
+  negative ball at 328997, with lambda = -2379.9647... +/- 4e-27. Their balls
+  intersect at all n <= 500,000, and the xi control and the mpmath.iv node
+  check passed inside each run. Total cost 0.46 core-hours, so #128's wall was
+  a cost wall of the r <= 0.99 family.
+- **Named shared failure mode, tested 2026-10-26 (evening).** Both radii used
+  the same Arb evaluator for f. A pre-registered rerun of run B with every f and
+  log Gamma evaluation in mpmath.iv reproduces n\* = 328997 and the sign of
+  every lambda_n, n <= 500,000, and its balls intersect B's at every n. That
+  failure mode is excluded for run B's table; the grade is unchanged. The
+  admissibility certificate, the last Arb-only link, was replayed in mpmath.iv
+  under its own pre-registration. It reproduces N_box 98 = 94 + 2 x 2 and R_a,
+  with balls meeting Arb's wherever both evaluate.
+- **Prior work.** Bucur, Ernvall-Hytönen, Odžak, Smajlović 2016 computed Arb
+  tau-Li coefficients for the *associated* DH function, n <= 500.
+  arXiv:1410.4384 has no DH numerics. Johansson 2015 is zeta to n = 100,000.
+  The result is original, and novelty is not claimed (bounded search in
+  RESULTS.md). Nothing here bears on RH (`docs/08`).
+
 ### Hunt #138: complete Mobius orbits at fixed P change the majorant's constant, not its order (`mobius_orbits/`, 2026-09-26)
 
 **Status: ordinary argument with an independent model challenge (a model review, not human
@@ -367,7 +641,9 @@ computed coefficient, and explicitly not a theorem. It sharpens `hunts/jensen_cl
 
 **The wall, priced.** At `n = 328997` the family needs about 1490 working digits and 670000 nodes,
 roughly 20000 core-hours on this calibration, against every efficiency door together being worth a
-factor of 5 to 10. The direct route cannot reach the onset. Its doors also found a defect outside
+factor of 5 to 10. The direct route cannot reach the onset. (Dated pointer, 2026-10-30: hunt
+#151 reached it, lambda_{328997}(DH) < 0 with every earlier lambda_n > 0, hardened, at 0.46
+core-hours, so that sentence holds only for this hunt's r <= 0.99 family; see `li_dh_onset_hardened/`.) Its doors also found a defect outside
 the hunt: `zeta.epstein.completed_dh` costs `0.58 s` per call at 142 digits against `0.092 s` for
 the same mathematics with `kappa` cached once per process, a factor of six from a precision-keyed
 `lru_cache` receiving a precision that varies with the distance from `s` to 1.
@@ -425,6 +701,108 @@ Front door: `docs/40`. Nothing bears on RH (`docs/08`).
 renumbered there to #124 on 2026-09-16 after main took #119 for `lambda_dh_exact`, and landed as
 #127 because main had since taken #124 to #126. Its front door, numbered 38 on the branch, is
 `docs/40`. The rest of that branch is not landed.
+
+**Note, 2026-10-21.** "The rest of that branch is not landed" went stale the same day: the
+branch's other four hunts landed on 2026-10-10 as #128 to #131 (`li_dh_onset`, `epstein_height`,
+`quotient_exponent` and `claim_halflife`, in #298 to #301), each with its own renumbering note
+above. What the branch still held after that is settled by the landing of 2026-10-21 (#333).
+Its shallow-clone check in `scripts/science_preflight.py` landed, with the path that failed open
+fixed. Of its four `HANDOFF.md` records, the one on the three adversarial audits landed verbatim
+with a dated note (below, since `HANDOFF.md` is retired), and the other three are superseded
+by issues #217, #218 and #219, closed by #287 and #291. `zeta/li.py`'s coefficient cache `data/li_gamma_dps60_methodintegral_n128.json`,
+written during the `li_dh_onset` run and committed on the branch in `a9eba317a`, was not landed:
+`tests/test_li.py` states that every committed `data/li_*.json` table was checked out of band,
+and it names no check of this one. Nothing else on the branch is missing from main.
+(Stale since #348, 2026-10-26: `tests/test_li.py` no longer makes that statement, and asserts
+its absence; the committed tables are recomputed by the tests `zeta/li.py` names. The cache
+above was still not landed.)
+
+**Record (2026-09-10): three write-ups, three adversarial audits, and the pattern in what
+they caught.** Moved here from `HANDOFF.md` when that file was retired on 2026-10-22; the
+text below is as it landed there, including its landing note.
+
+- **Believed:** that a hunt which measures carefully, states its grade, records
+  its controls and ends with a doors section has done the work. Four hunts in one
+  session did all of that.
+- **Invalidated by:** giving three of them to separate agents with no part in
+  producing the result, told to break the claim rather than review it. **All
+  three claims survived. All three write-ups needed correcting**, and the
+  corrections were not typographical:
+  - `euler_defect_axis`: eleven overclaims, including a residual presented as an
+    independent oracle when `R = |1 - a(1)| max|c(n)|` identically, and rows
+    called empty that are exactly the composite defect of `1 + Z_Q(s)`.
+  - `quotient_exponent`: the headline. It compared a three-parameter free fit
+    against a one-parameter reading of a conjecture whose own source states it
+    with a moving constant. Fitted like for like, the conjectured exponents win
+    with one parameter fewer. Its stated reason for reformulating the programme
+    was also false: the form it replaced returns the same optimum to `2.7e-14`.
+  - `epstein_height`: the guard. Six planted faults, all passing, and a call it
+    allows returns `0.59` of the 4 digits it promised, because every rung held
+    the form fixed and so tested the leading term rather than the term the hunt
+    had just derived. Its title was wrong too: `zeta/heatflow.py` and
+    `zeta/core.py` already carry this kind of guard.
+- **The pattern, which is the reason this is a record and not three notes.**
+  Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+  error. Every number in all three hunts reproduced. What failed each time was a
+  **comparison or a control**: a residual compared against something algebraically
+  forced to agree with it; a model compared against a version of its rival with
+  fewer degrees of freedom; a guard compared against faults that all varied the
+  same thing. A laboratory that checks its numbers and not its comparisons will
+  pass its own review every time.
+- **Now caught by:** nothing mechanical, and that is the honest state. What
+  worked is a separate agent, the write-up, the repository, and an instruction to
+  break it rather than read it. Three for three. The cheapest version of the
+  lesson, which does generalise: **when a control agrees with the thing it is
+  controlling, ask whether it could have disagreed.** Two of the three failures
+  are that question unasked.
+- **Justified conclusion:** the four control roles this tree already names
+  (rival, decoy, lesion, precision response) are about the *claim*. Nothing in
+  them looks at the *argument for* the claim, and all three failures here were
+  there. `hunts/*/AUDIT.md` carries each audit verbatim, including the attacks
+  that failed, because a list of only the hits reads as a review.
+
+> **Note on landing this record, 2026-10-21.** Ported verbatim from the
+> unmerged branch `claude/repo-hunt-content-2smbid` (commit `57cb2a5`). Its
+> three hunts are on main as #127 (`euler_defect_axis`, front door `docs/40`),
+> #129 (`epstein_height`, `docs/41`) and #130 (`quotient_exponent`,
+> `docs/42`). Read against their audits (`hunts/*/AUDIT.md`), three sentences
+> of the pattern paragraph do not hold as written:
+>
+> - "Not one of the eleven-plus-four-plus-eleven corrections was an arithmetic
+>   error." Two of `euler_defect_axis`'s eleven overclaims are miscounts:
+>   "forms in the published table 44" with "forms whose a(1) equals 0: 30",
+>   and "all thirty of the others", where the artifact holds 41 forms, 27 of
+>   them non-principal. Replacing those counts is the first item under that
+>   audit's "Corrections required", from its attack 7 ("check the write-up's
+>   own arithmetic", outcome PARTIAL BREAK). `quotient_exponent`'s audit also
+>   required a count fix ("the 21 positive rows", where `artifacts/fit.json`
+>   holds 20) and a memory figure twice what its own formula gives (`3.2 GB`
+>   for `1.6 GB`), though neither is among the four attacks its summary says
+>   landed. (`epstein_height`'s eleven is its audit's summary line, "Eleven
+>   landed"; ten of its seventeen attack headings read BROKE IT, and attack 3,
+>   headed held, also led to a correction.)
+> - "Every number in all three hunts reproduced." The counts above did not.
+>   The headline measurements did reproduce, in the audits and again in main's
+>   2026-10-10 landing re-runs (the probes' artifacts, the Epstein grid, the LP
+>   values). Some secondary figures did not reproduce as printed, in all three
+>   hunts, and each is marked where it is stated: one count in
+>   `euler_defect_axis` (`RESULTS.md` section 2, `docs/40` section 3), four
+>   numbers in `epstein_height` (two of them in `docs/41` section 3) and four
+>   on `quotient_exponent`'s result page (noted in `docs/42` section 5).
+> - "What failed each time was a **comparison or a control**". True of the
+>   failure the record names in each hunt (the residual, the model comparison,
+>   the guard's fault ladder), not of every correction: the miscounts are
+>   counting errors, and `epstein_height`'s audit (attack 8) also found a step
+>   in `law.py`'s derivation that cancelled a real term against nothing.
+>
+> So read the pattern as describing each hunt's main failure, not every
+> correction: the audits caught arithmetic too. One figure in the record is
+> also tighter than its source: "the same optimum to `2.7e-14`" is the
+> `N = 10^3` row, and over the four diagonal cutoffs the relative difference
+> runs from `2.4e-14` to `7.0e-14` (`hunts/quotient_exponent/RESULTS.md`
+> section 2). The branch's other three `HANDOFF.md` records of that day are
+> not ported: issues #217, #218 and #219, closed by #287 and #291, supersede
+> them.
 
 ### Robin's inequality for 25-free integers (`robin_tfree/`, 2026-10-04)
 
@@ -743,6 +1121,53 @@ negative even-sector eigenvalue at `(c, N) = (31, 60)`) plus a Guinand-Weil
 dictionary argued for DH, which together force an off-line DH zero. Grade:
 ordinary argument, internally reviewed, pending external verification. The
 conclusion is classical (Spira 1994); only the route is the lab's.
+Lane `weil_propagation/ghost_zeros/` (2026-10-21, preregistered in its `PREREG.md`): at band N = 128, DH's even ground-state transform has exactly one zero with |Im z| <= 1/2 over the on-line gap (83.109, 87.647), real and 0.019 to 0.035 above the off-line ordinate 85.699, at each of the seven preregistered windows from c = 29 to 47, on both sides of the even sign flip at c = 30.647, and an exploratory scan finds a zero within 0.3 of that ordinate at every scan window from c = 15 on; removing the off-line quadruple's term removes it, an on-line sham does not, zeta has no zero in its gap, and Epstein (1,1,6) shows the same at its own off-line zero; hardened counts for the band-128 matrix only, no continuum or RH claim (`weil_propagation/ghost_zeros/RESULTS.md`).
+
+**Update, 2026-10-26 (`weil_propagation/c4_s2/exact_gram/`, branch
+`hunt/c4-exact-gram`).** The compute sweep resumes C4 at S = {∞, 2}, whose
+c = 2.9 negative count 4, 10, 20 at N = 8, 16, 32 is graded by a response
+band, not a bound. The exact-Gram ball rebuild that would close
+bound_quad/'s E2 is priced on the box. One 280-mode block costs 258 s at
+dps 40, and the full rebuild is estimated at about 155 core-hours, which fits
+7 GitHub Actions jobs. It has not run. Its reading and decision table were
+committed before any rebuilt row existed (`PREREG.md`). The (U-S) gate
+now also refuses Davenport-Heilbronn, by an exact composite atom at n = 6.
+A first pass at the truncation lemma finds the bound_trunc/ route obstructed
+on the full window space (at least 0.13 at 280 modes against the 1.18e−2
+scale) and open on continuous windows (0.0063). No RH claim.
+Later the same day: the a priori bounds P1 to P3 close (the s-rule was
+changed to a uniform trapezoid by a dated amendment, before any row). G_z
+closes, and its identity check caught a float-endpoint defect. G_b's
+integration-by-parts regions remain, so the run waits on them. The tail-mass
+step closes as a Poisson identity, which re-prices the rebuild at about
+28 core-hours.
+Third unit: P4 closes (G_b's integration-by-parts regions, each checked
+against quadrature with a planted fault), lifting PREREG row D0's
+precondition. A disk-backed mode table fits four workers per runner. The
+calibration run is asked for, not yet run.
+Fourth unit: the calibration ran on GitHub Actions (run 40342895119,
+success). Measured there: the Gram took 13.1 core-hours in 24 unbalanced
+parts, and an s-block of 128 nodes took 841 to 932 s with four processes
+per runner. The Gram (20 MB, by sha256) is committed for reuse. The full
+rebuild is sized from these figures at about 104 core-hours and 11 hours
+wall, and it is asked for, not yet run. No ΔT number has been read.
+2026-10-27: the full rebuild ran (run 40371181784, success, 12 h wall,
+132 CPU core-hours). The headroom rule was broken: one job ended 4 percent
+under the 350-minute cap, mostly through contention between replay blocks.
+[withdrawn 2026-10-27, see correction below] PREREG row D1 holds at c = 2.2, 2.5 and 2.9. ε_q is a bound, at most
+9.2e−4, 13 to 18 times below the 1.18e−2 scale. At c = 2.9, C_8, C_16 and
+C_32 at ε are 5, 11, 23 on the full space and 3, 8, 20 on V_4. These are
+statements about the 280-mode object R^(280) only, since the truncation
+bound ε_t is null and D3 is not read. Grade: exact inertia and ball
+enclosures, resting on unreviewed derivations (BOUNDS.md P1 to P4). No RH
+claim.
+Correction, later on 2026-10-27: "ε_q is a bound" above is withdrawn. A
+review found that the code's Gauss bound was the (n + 1)-point bound used
+for n-point rules, so the quadrature radii, and ε_q, were up to 225 times
+too small. The D1 reading and the counts above are not established, and E2
+is unresolved again. A rerun at 13 nodes per panel, where the corrected bound
+equals the old radii, was launched on Actions and has not been read
+(`exact_gram/BOUNDS.md` s5, `RESULTS.md` correction, `RUNS.md` s12).
 
 ### Second Davenport-Heilbronn heat flow (`dh_minus_heat/`)
 
@@ -886,6 +1311,23 @@ identity-plus-heuristic is the one statement recorded as worth proving. The Gold
 analogue is Bhowmik, Halupczok, Matsumoto and Suzuki (Mathematika 2019); nothing here is
 claimed new.
 
+**Later passes, noted 2026-10-21.** The status line above covers the first two passes
+only. The third pass (2026-09-06, `RESULTS.md` sections 14 to 19, audited in `REFEREE.md`)
+proves Theorem A, T(N) = I(N) + O(N^{Theta + Theta_chi} log^4 N) under no hypothesis,
+whose interesting case is conditional on RH for zeta and for L(s, chi_3), and Theorem B,
+E(N) = Omega(N^{1 + 2 Theta_chi - eps}), unconditional and informative only if GRH fails
+for L(s, chi_3). Both are written proofs on cited lemmas, corrected and independently
+audited, not kernel-checked and not claimed novel. The fourth pass (2026-09-20,
+`FINAL_ACCEPTANCE.md`) found no new bound and is an attempt unresolved.
+`THEOREM_B_FORMULA_REPAIR.md` (2026-09-20, landed 2026-10-21) replaces the defective zero
+expansion of `THEOREM_B_SEQUENCE.md` with a truncated explicit formula, Proposition 3,
+derived, reviewed at `95ae36b` (finding R1 against its statement), revised, and cleared
+by a targeted follow-up review of `3006ef2`. Its Theorem 4 removes Theorem B's
+eps along a closed-form sequence only under an isolated witness zero, which implies that
+GRH fails for L(s, chi_3), and Theta < Theta_chi; the unconditional case is unresolved.
+This note does not index every file in the directory. Nothing here bears on RH
+(`docs/08`).
+
 ### Hunt #119: is Lambda_DH exactly Delta^2/2? (`lambda_dh_exact/`)
 
 **Status: OPEN, theory phase only (2026-08-18).** Asks whether Hunt #61's
@@ -938,6 +1380,81 @@ screen flags is [228, 248], which holds the pair at gamma = 240.4046 that
 **Renumbered from #52 on 2026-09-12.** The hunt was opened on a branch that
 had not yet seen this case log's growth past #52, and main took that number
 for `r_e2ee73/` first; the directory name never changed.
+
+**Resumed 2026-10-26 (compute sweep, branch `hunt/lambda-dh-exact-resume`),
+same number.** First wave in the recorded resume order: decide the
+height-10^6 zero on both ball backends, run `stage_locate` on the low screen's
+21 windows and give `screen_hi` an explicit artifact state, evaluate P2 and
+kill condition 2 as written, then price the census to 10^4 and 10^5 before
+spending on it. Scope and gates are appended to `MISSION.md` section 8;
+outcomes are appended to `RESULTS.md` as dated sections. Correction recorded
+on resumption: the decided floor is 36/625 = 0.0576; 0.05765 is a measured
+landing, not a decided one.
+
+**Status after the first resumed wave (2026-10-26): OPEN, Lambda_DH bracket
+unchanged.** *Decided, both ball backends* (Arb and a hand-rolled mpmath.iv
+Euler-Maclaurin, argument-principle counts of exactly one zero in exact
+rectangles, planted faults flipping the 10^6 count and, in the tests, one
+recounted low zero): the height-10^6 zero, y0 in [0.3583118516, 0.3583118666]
+(rounded outward), and each of the 21 zeros with beta > 0.85 that the float
+screen found below 10^4. That these 21 are all such zeros is measured, not
+decided.
+*Decided, Arb only*: no zero with beta >= 0.90 for |t| <= 10^4. So **P2 is
+refuted** (y_max(10^4) is in [0.39775014, 0.40), against [0.40, 0.52]) and
+**kill condition 2 fires**, withdrawing the stage-6 depth law and P1's
+stronger band, P4's point and P5's location, which were derived from it.
+*Measured* (N-body ODE landings, control +0.024 percent on the floor pair,
+21 of 21 windows accounted): no pair below 10^4 lands above 0.0576518; P3
+holds (0.986 of the model at the deepest pair); **P6 is refuted** (d/h mean
+0.95, 10 of 20 new pairs in [1.1, 1.8]); P8 is not observed (0 of 21); kill
+condition 1 does not fire. `screen_hi` was finished on a copy (111 zeros in
+[10^4, 10^5], deepest y0 0.437 at gamma 49688, measured), and the recorded
+`complete: false` artifact is marked superseded. A targeted check (not a census) landed eight of the nine pairs with y0 > 0.40 in [10^4, 10^5]: best 0.04902, none near the floor, so P5 stays unresolved with measured evidence against and kill condition 4 does not fire on what was measured (as of that check, 2026-10-26; the census below supersedes both). A slip
+inherited from `flow_repair/NOTES.md` (y0 = 0.3695261 for the floor pair;
+the value is 0.3695306) is recorded, not propagated (first wave, 2026-10-26;
+the follow-up below corrected it in this hunt's code and data, and `RESULTS.md`
+section 8.9 holds the corrections). The full 10^5 census
+(about 15 core-hours) is estimated and not run (first wave, 2026-10-26; it ran
+later that day, below). *Follow-up, same day:* `test_lambda_dh_exact.py` pins every decided and measured number of `RESULTS.md` section 8 and every verdict against its artifact, with real two-backend and Arb recomputations whose planted faults are shown red (31 fast tests, 32 in both tiers). Three more slips of the same kind (pairs 2 to 4) were found and all four corrected in this hunt's files; `flow_repair/NOTES.md` still carries them. The per-pair d/h refit of the shave model fails as a plug-in (rms 0.393 against the frozen 0.160), and the d/h it would need tracks the measured one at r = 0.967, pointing to a two-sided gap (measured). *Units 3 and 4, same day:* the two-sided gap, run against its pre-registration, improves on the frozen model but does not pass (rms 0.112; out of sample 0.154). The census over [10^4, 10^5] ran on GitHub Actions. Attempt 1 was void by its own kill condition K-d, which exposed `stage_locate` accepting roots outside the counted box (16 of 282). Attempt 2, on guarded code, was valid: 170 of 170 pairs accounted and landed, none above 0.0576518 (largest 0.04902). KC4 does not fire up to 10^5, P5 is refuted up to 10^5 (within the screens' coverage; `RESULTS.md` section 8.15 states the scope and a stronger reading) and P8 is not observed (0 of 21 below 10^4, its registered scope; this read 0 of 191, which pooled 170 pairs above 10^4), all measured. The audit under the guard changed one recorded root (screen_hi) and no claim. *Review, same day (`RESULTS.md` section 8.16):* every decided decimal interval is requoted rounded outward (printed to nearest, several were not enclosures); the Arb-versus-iv cross-check of the 10^6 zero is rerun on exact endpoints, because the recorded float version could not fail, and the enclosures intersect at all three points; the in-place slip corrections to registered text are reverted, with the corrections kept in `RESULTS.md` section 8.9; P4 is unresolved with evidence against; and two latent fail-open paths in the census evaluation are recorded as known limits. No verdict moves.
+
+### Hunt #144: a finite reversal-closed adversary excludes the recorded pressure target (`reversal_minimax/`, 2026-09-04)
+
+*Numbered on landing, 2026-10-21.* Opened unnumbered on 2026-09-04, when
+this entry read "Reversal minimax probe", and landed by merge from
+`docs/simple-zero-research-target`, so its commits `7415efa1b`, `1c4625b04`
+and `43217587d` keep their hashes. #136 to #143 were held by other open
+hunts and same-day landings (this landing first took #143, which a
+concurrent landing of `support_fcffa3b9/` had also taken), so this
+entry takes #144.
+
+**Status: candidate refuted at the stated scope (`ALIGNMENT.md` section 5,
+disposition 1); hardened numerical leaves inside an unreviewed ordinary
+derivation, pending external verification. No new zeta proportion is
+claimed.** Whole-laboratory structural scout of the pressure optimization's
+reversal symmetry. At AMTOPA's fixed 17-term window and total pressure
+B = 93/23000, a finite mixed adversary (seven rational gap vectors from
+`amtopa_ceiling/`'s saved 2,200-cut pool, each with its reversal) bounds the
+supremum over the whole pair-weight and pressure polytope of inf_g F by
+182022320819207/23000000000000000, below 0.007914014. That excludes
+`amtopa_ceiling/`'s recorded endpoint 0.007916857810 and the targets
+19791/2500000 and 19786/2500000, for asymmetric coefficients too, and only
+for that window and B. The leaves carry Arb enclosures at 128 and 256 bits,
+agree with an independent mpmath quadrature at all 148 distances, and
+combine in exact rational arithmetic. `Symmetry.lean` (the averaging and
+budget deductions) has never been run through Lean, so nothing here is
+kernel-checked. `amtopa_ceiling/` section 7.7 withdrew the same endpoint on
+2026-09-06 by a different route; this bound agrees with that hunt's later
+bracket [0.0079107, 0.0079111939]; it is looser than that bracket's upper
+end, a float LP value, but enclosure-carrying. A counting audit shows the
+bridge's early span estimate overcharges pressure: an interior gap lies in
+(n-1)(m-n+1) local windows across all blocks, but the estimate charges it
+(n-1)(m-1) times. Its projected gains, 5/904171
+on the registered four-point coefficient and 80/14366681 on main's later
+m = 432 build, which still uses the coarse count, are candidates awaiting a
+replacement assembly. `RESEARCH_TARGET.md` records a proposed
+higher-correlation direction and the elementary bound H*m/(m-1) on the
+capped assembly. See [the results, the counting audit and the
+doors](reversal_minimax/RESULTS.md).
 
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
@@ -3288,6 +3805,23 @@ which says the 344-cell table was never put to the kernel: it was, on
 measured, one route, and the route is a model of the kernel. Nothing here bears
 on RH.
 
+**Run 2 (7b33f41e, 2026-08-19):** a reproduction under the same brief. After
+e585b52cb (2026-08-15) switched `o9_leaf.leaves()` and `build()` to the
+kernel-leaf mirror, run 1's probe silently lost its Arb baseline (it printed
+476 baseline cells, width ratios of 1.0 and 0 failures). Run 2 repaired it on
+`o9_leaf.leaves_arb`, and the repaired probe writes `results-7b33f41e.json`,
+leaving run 1's `results.json` and `HANDBACK.json` as they were. Every number
+that decides anything reproduced (344 cells at depth 20, minimum margin
+3632804926 ulp, all seven width ratios, 85 of 344 failing, 9/9 chunks, 476 cells
+at depth 22). The low digits of the failing-cell Arb margins are
+environment-dependent, and the cause is not identified: on a 2026-10-21 rerun
+machine (Linux x86_64) six of them differ from run 2's record by at most 56
+units on the `2^64` scale, with no verdict change, identically under
+python-flint 0.5.0, 0.6.0, 0.7.1, 0.8.0 and 0.9.0 and under run 1's and run 2's
+own code, and run 2's platform is not recorded. The "0.6 s end to end" runtime
+in `RESULTS.md` is out of date. Status stays settled; the grade stays measured,
+rung 1.
+
 ### Hunt #14: gate-5 property 6 is vacuous (`gate5_p6_b/`)
 
 **Status: probe, complete. VACUOUS, with the parameters committed before the
@@ -4211,6 +4745,25 @@ Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival ga
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
 
+### Hunt #136: pushing the zero-free half-plane under 7/8 (`below_seven_eighths/`, opened 2026-10-21)
+
+**Status: paused by allocation (proposed 2026-10-26; the owner decides). No improvement of
+the half-plane is claimed.** The first wave (2026-10-21) found no row-count sharpening that
+gains at the paper's inputs (part (a), attempt unresolved), priced but did not prove probes
+of lower order (part (b), attempt unresolved), and checked the Euler-product step exactly on
+stated ranges. By 2026-10-26 the smallest bound merged on QuasiRiemannTracker was 0.8746075
+(PR 76), on tracker entries that keep the 13/15 floor model's geometry as far as their Lean
+sources were read (inferred). The kill condition is not triggered, because the hunt has no
+candidate to match. See the dated disposition section of `MISSION.md`.
+The owner directed the laboratory on 2026-10-21 to
+attack RH, and this is the campaign's first track. The question is whether the zero-free
+half-plane for every Dirichlet L-function can go below the best public abscissa, 0.8748867
+(Xu and Sang), either by strengthening the row-count inputs of OpenAI's Part II assembly,
+whose ceiling hunt #139 places at 13/15, or by a probe whose constants are not tied to the
+sextic pole. It builds on hunt #139 (`seven_eighths_pin/`, landed 2026-10-30; opened as #134 on
+`claude/hunt-134-seven-eighths-pin`), reads the pinned paper source by line number and
+checks every printed constant in exact arithmetic. Nothing here bears on real part 1/2.
+
 ### Hunt #137: a kernel-checked RH to finite height for Mathlib's zeta (`rh_height_lean/`, opened 2026-10-21)
 
 **Status: both targets closed by a clean Lean-kernel build; independent
@@ -4275,3 +4828,158 @@ Euler-mollified lower bound; Davenport-Heilbronn fails the first (zero 0.8085 +
 85.699i), so the structural DH gate passes. Every quotation is re-read from hashed
 sources, and every date, name and count in the notes is tied to its source, by
 `test_chain.py`. `CHAIN.md`, `REDUCTION.md`. Nothing here bears on RH (`docs/08`).
+
+### Hunt #152: a ball-arithmetic Lehman localization of a sign change of pi(x) - li(x) (`skewes_enclosure/`, opened 2026-10-26)
+
+**Status: open (2026-10-27).** Three outcomes, (1) to (3), all under the same
+grade: a hardened computation on a cited derivation (Revers Theorem 3.1 and RH
+to A), with rigorous completeness on Arb's Turing count alone, mpmath `nzeros`
+agreeing on N(T) at float grade, and an mpmath second route for the zeros on a
+sample. Item (4) is a post-hoc observation at measured grade.
+(1) Target A, 2e6 zeros: the gate passed (Revers's S* inside the ball sum), and
+pi(x) > li(x) for some x with log x in [727.9519119, 727.9521241].
+(2) Target B, 2.2e7 zeros at the printed omega = 727.95134: the gate failed
+(missing by 0.0122), recorded permanently.
+(3) The pre-registered omega-grid rerun: hypothesis H (the printed omega is
+727.951335792 rounded) is **not supported by its rule**. The gap shrinks to
+3.37e-5, still over Revers's 2.60e-5 budget, so reproducing S* stays
+unresolved. The pre-declared localization at 727.951335792 holds: pi(x) > li(x)
+for some x with log x in [727.951319892, 727.9513517], with eta = 1.59e-5, as in
+Revers ([RESULTS.md](skewes_enclosure/RESULTS.md) section 7). (Corrected
+2026-10-27: the lower end was first quoted as 727.9513199, rounded inward from
+the exact 727.951319892.) Neither interval is a new record.
+(4) Post-hoc review, 2026-10-27, measured, not pre-registered: the 3.37e-5 gap
+is twice the second-order sum S2. Revers's printed S* equals the
+Saouter-Demichel first-order value he quotes, minus S2, to 1.0e-9 (S2 over the
+first 2e4 zeros, tail estimated, not bounded), where his Theorem 3.1 adds S2.
+Read against arXiv v2 only; the published JNT version was not read. At the
+printed omega 727.95134 the corrected bound is negative, so the paper's
+localization survives only at the inferred omega (RESULTS.md section 8,
+scope corrected 2026-10-30). Our first-order sum matches Saouter-Demichel's to 4.7e-8,
+an end-to-end check of the 2.2e7 zeros. The verdict on H stands, but H's omega
+was right in substance (RESULTS.md sections 3, 7 and 8). The review also
+corrected the doors: A is a binding constant just above the R6 cliff, not a
+free door. The question is whether a sign change of
+pi(x) - li(x) can be localized with every computed step carried by Arb balls. The
+method is Lehman's integral with Revers's 2025 error terms (arXiv:2501.04488,
+JNT 2025) over the first ~2.2e7 zeros. The day-one read of three papers found
+that Saouter-Trudgian-Demichel 2015 (submitted version) and Revers 2025 sum
+their zeros in floating point. Both use an analytic zero-error budget, and
+neither cites a rigorous zero source. Platt-Trudgian 2015 already carried the
+analogous theta(x) - x sum in MPFI interval arithmetic with rigorous zeros, so
+the method is not new to interval arithmetic and no novelty is claimed.
+`skewes_terms.py` reproduces the R column of both of Revers's section-6
+resizing tables from Theorem 3.1. It also found that the row printed as
+eta = 1.55e-5 is the value at eta = 1.56e-5, a label slip with no effect on the
+paper's conclusion. The day-one expected margin at the Saouter-Demichel
+parameters was about 1.28e-4, from Revers's printed S*, and the zero precision
+it needs (~62 bits) is far inside what Arb isolation delivers. The measured
+margin at omega = 727.951335792 and eta = 2.28e-5 is 9.42e-5. Unit timings,
+estimates and costs are in [RUNS.md](skewes_enclosure/RUNS.md), and the results
+are in [RESULTS.md](skewes_enclosure/RESULTS.md). (Updated 2026-10-27: this
+paragraph first ended "nothing is a result yet", which was written when the hunt
+opened.)
+
+### Hunt #139: which step of the quasi-Riemann argument fixes the number 7/8 (`seven_eighths_pin/`, 2026-10-16)
+
+> **Landed on main 2026-10-30** (written for a landing on 2026-10-21 that waited as draft PR #325). Opened on `claude/hunt-134-seven-eighths-pin` as Hunt #134; on main #134
+> is `gauss_positivity` and #136 to #138 are held by other open hunts and landings, so this hunt is #139.
+> The prior-art search the hunt had not run was run at landing and extended the same day to the works
+> its first source names and to the follow-ups' manuscripts (`RESULTS.md` section 10). Much of the hunt
+> was already public, so it was derived here independently and is not novel. A model computation by
+> tomoto0 (7 October 2026, nine days before the hunt opened) has the target formula with its ζ_F(6z)
+> pole, the floor-row ceiling 13/15 at the same corner, and a geometry optimum near 0.87496 with the
+> zero-detected rows binding. J. Guo and B. Liu (arXiv:2610.12234), both 8 October, give the exact
+> optimum σ* = (1507 − 2√921)/1653 ≈ 0.8749570698, and Guo derives its binding bin δ* = (49 − √921)/48.
+> Z. Gao (7 October) gives 20999/24000 at b = 1/8, and Argonaut Math (7/8 − 1/4000000) and LW56e2
+> (4374785349/5000000000), both 8 October, also state boundaries below 7/8. Gao, Guo and Argonaut Math
+> carry the low-side loss accounting that the hunt marks inferred. So the scan optimum 0.874958 below is
+> a grid reproduction of σ*, and the exact bound below is valid but loose: the same one-witness program
+> at δ* returns σ* itself (pinned at landing). Not found in the sources read: the reading of 7/8 as the
+> corner of `M + ℓ ≤ 1` and per-summand losslessness, which alone forces 7/8 for every geometry; the
+> exact rational bounds; and the pricing of the row-count excess between its two ends. tomoto0's
+> bootstrap figure near 0.8745 treats the slope α as 2β* − 1, while the paper's lines 15100 to 15104 say
+> α is fixed and κ = 2β* − 1 is the dynamic parameter, and Gao, Guo and Argonaut Math keep α = 5/6. Open
+> check: Xu and Sang's 0.8748867, as hunt #136 records it, lies below σ*, so it must change an input
+> beyond the geometry; if it changed only the geometry, that would refute this hunt's bound.
+
+**Status: answered within its scope; a reading of the paper, unreviewed by any person.**
+In OpenAI's 7/8 argument the target is where the direct bound meets the Mellin signal,
+`σ₀ = 5/6 + (M − 2ℓ)/12` (ℓ the prime-slot length, M the two averaging lengths), a line
+through both stages: Part I (ℓ = 0, M = 1) gives 11/12, Part II (ℓ = 1/6, M = 5/6) gives
+7/8. The paper's geometry is the corner of two direct-bound conditions, `M + ℓ ≤ 1` (line
+8246) and per-summand losslessness of the row norm, `M − 2ℓ ≥ 1/2` (line 8306), and the
+second alone gives exactly 7/8. Relaxing it, the high side binds instead: with the paper's
+row counts, no choice of (ℓ, M, b) passes the endpoint inequality below
+`5655673/6464057 ≈ 0.874942` (exact, one witness point), and the scan optimum is 0.874958.
+The binding rows have a zero near real part 0.69 and maximal prime-slot amplitude. Perfect
+row counts would stop at 13/15 (rows counted in full need `C₀ ≤ 0`). The Euler regions, the
+contour 17/50, the 11/12 input and Lemma plain's `κ ≥ 3/4` do not fix 7/8. 38 printed
+constants reproduced exactly; 39 citations checked against the pinned source; the moment
+lemmas' proofs not checked. See `seven_eighths_pin/RESULTS.md`.
+
+### Hunt #148: the 7/8 probe's local identity over F_q[T], and the biquadratic case (`ff_probe/`, opened 2026-10-21)
+
+**Status: closed 2026-10-26; candidate refuted at the stated parameters.** Over F_13[T]
+the biquadratic theta's degree-3 coefficients are not multiplicative up to phases (zero at
+234 of the 286 triples of linear primes, abs(H)^2 = 52 at the rest), so the quartic probe has
+no scalar local identity, and hunt #136's template prices nothing for it. The cubic control
+over F_7[T] reproduces Lemma 7.1 exactly. A PARI second implementation reproduced every
+exact number it recomputes. Carrying the verdict to S4 over Q(i) is inferred, so S4 there
+stays an unresolved attempt. See [RESULTS.md](ff_probe/RESULTS.md). The lane was resumed in
+place on 2026-10-26 by the owner's decision. A lane of the campaign the owner directed on
+2026-10-21. The workflow proposed the number 141; #138 to #144 are held for landings being
+renumbered elsewhere, so this hunt is #148. Over F_q[T] the Fourier coefficients of
+higher-order metaplectic theta functions are finite Gauss-sum expressions (Hoffstein 1992,
+Patterson 2007 and 2014) and RH is a theorem, so the question hunt #136 left open by reading,
+whether a biquadratic-theta probe with quartic averaging has a scalar local Euler identity
+like Lemma 7.1 of OpenAI's 7/8 paper, can be tested exactly. The cubic case over F_7[T] is
+the control. Nothing here bears on RH over Q (`docs/08`).
+
+### Hunt #142: controls for the F1 discovery engine (`f1_engine_controls/`, opened 2026-08-21, landed 2026-10-30)
+
+Opened as Hunt #64 on 2026-08-21, on a branch that never reached `main`. #64 is
+`r_b9552d` run 2, #136 and #137 are held by open hunt branches, and #138 to
+#141 by four other landings of 2026-10-21, so this entry is #142.
+
+**Status: closed (2026-10-21), measured; three of the five critiques measured and
+pinned, two left as judgments. Nothing promoted.**
+`docs/15-the-f1-discovery-engine.md` closes with a Reality Check of five
+critiques that dial the document's own rhetoric back. Nothing in the tree
+tested them. Three make checkable assertions, and measuring them moved two.
+
+- **The ln 2 degeneracy** in `ontology/04_transcendental_matrix.py` is a
+  truncation artifact, as claimed, but its multiplicity is the kernel
+  dimension of a hub incidence matrix on the dead-end nodes `2u <= N < 3u`,
+  not the quoted `pi(N/2) - pi(N/3) - 1`. That formula is the special case in
+  which every dead end is prime, and it undercounts from `N = 338`, where the
+  semiprimes `121, 143, 169` first close a pattern over the hubs `11, 13`.
+  Checked at all 251 sizes `N = 10 … 260`, and on a coarser scan to
+  `N = 800`, with no disagreement.
+- **The density failure** is 159 modes below zeta's first ordinate at 400
+  nodes, against none, and refinement widens the gap rather than closing it:
+  low modes accumulate like `0.35 N` while the top of the spectrum creeps
+  like `log N`.
+- **The imposter gauntlet** criticism lands on the operator, which takes only
+  its truncation, and misses the predicate, which consults its input: it
+  rejects the three linear-combination rivals of `zeta.epstein.battery`
+  (`shift=None`). What is actually false in `07`'s conclusion is "immune to
+  false positives": the battery's own Euler-product rival, the shifted
+  product `W_a`, passes the predicate (default battery: `distinguishes:
+  False`, `shared_with: ('shifted_product',)`), and so do the two mod-5
+  L-functions that make up Davenport-Heilbronn. It separates Euler products
+  from linear combinations of them rather than singling out zeta. The third
+  kill condition in `MISSION.md` was written when the standing battery was
+  the three linear-combination rivals, and as literally worded it fires on
+  today's default battery; `RESULTS.md` records both readings and leaves the
+  condition as written.
+
+Reality Check items 1 and 3 (a toy computation; `F_1` geometry is
+speculative) are judgments, not measurements, and stand as written. The
+stale `discovery/` paths in `docs/15` and `docs/09` are repaired, and
+`tests/test_docs_paths.py` now fails when `docs/` cites a Python file that is
+not there. Run against `main` as it stood before this landing, it read 255
+backticked `.py` citations in `docs/` and failed on exactly one, `docs/15`'s
+`discovery/01_f1_geometry.py`. Pinned by `tests/test_f1_engine_controls.py`;
+`docs/15` carries the corrections, and `docs/37-methods.md` carries the guard.
+Nothing here is about zeta, so nothing here goes to the funnel or the battery.

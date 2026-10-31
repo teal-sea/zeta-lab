@@ -1,0 +1,3 @@
+artifacts/big/
+artifacts/ckpt_*/
+artifacts/production_smoke.json

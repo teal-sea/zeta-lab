@@ -1,0 +1,25 @@
+{
+  "rectangle": [
+    [
+      "9/10",
+      "41/20"
+    ],
+    [
+      "8",
+      "10000"
+    ]
+  ],
+  "winding": {
+    "mid": "1.29033918017671181410754854824e-12",
+    "rad": 6.725139793195643e-12,
+    "lo": -5.434800613018931e-12,
+    "hi": 8.015478973372354e-12
+  },
+  "count": 0,
+  "status": "decided",
+  "left_edge_seconds": 6579.0,
+  "left_edge_point_evals": 448092,
+  "left_edge_min_margin": 1.0000006549250433,
+  "backend": "python-flint",
+  "prec": 96
+}

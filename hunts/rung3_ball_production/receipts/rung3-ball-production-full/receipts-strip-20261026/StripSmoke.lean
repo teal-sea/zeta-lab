@@ -1,0 +1,31 @@
+import Mathlib
+import ZetaLean.DHAnalytic
+
+open Set ZetaLean.DH
+
+namespace ZetaLean.DH.Rung3Assembly.Plan2
+/-- SCRATCH STUB for a syntax smoke only: dh_zero_located's statement as an axiom. -/
+axiom dh_zero_located : ∃ z : ℂ, DH z = 0 ∧
+    z.re ∈ Icc ((808517/1000000 - 3/64 : ℚ) : ℝ) ((808517/1000000 + 3/64 : ℚ) : ℝ) ∧ z.im ∈ Icc ((21424837/250000 - 3/64 : ℚ) : ℝ) ((21424837/250000 + 3/64 : ℚ) : ℝ)
+end ZetaLean.DH.Rung3Assembly.Plan2
+
+open ZetaLean.DH
+
+namespace ZetaLean.DH.Rung3Assembly.Plan2
+
+/-- The Davenport-Heilbronn theorem in the critical strip: some entire function with the
+Davenport-Heilbronn Dirichlet series for `Re s > 1` and its functional equation has a
+zero `s` with `0 < s.re < 1` and `s.re ≠ 1/2`.  The witness is `f = DH`, through the
+three theorems `dh_analytic_half` bundles, and `s` is the zero of `dh_zero_located`,
+whose real part lies in `[380821/500000, 26731/31250]`. -/
+theorem davenport_heilbronn_strip :
+    ∃ (f : ℂ → ℂ) (s : ℂ), Differentiable ℂ f ∧ dh_series_rep f ∧ dh_functional_eq f ∧
+      f s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ s.re ≠ 1/2 := by
+  obtain ⟨z, hz, ⟨h1, h2⟩, -⟩ := dh_zero_located
+  push_cast at h1 h2
+  exact ⟨DH, z, DH_differentiable, DH_series_rep, DH_functional_eq, hz,
+    by linarith, by linarith, fun h => by rw [h] at h1; norm_num at h1⟩
+
+end ZetaLean.DH.Rung3Assembly.Plan2
+
+#print axioms ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip

@@ -33,7 +33,12 @@ jobs:
     # On the schedule `inputs` is empty, so this is true and the job runs.
     if: ${{ !inputs.lean_only }}
     runs-on: ubuntu-latest
-    timeout-minutes: 90   # suite 10-20 min, then the hunts about 30
+    # 2026-10-27 took 22 min for the suite and 27 for the hunts; 2026-10-28 and
+    # 2026-10-29 took 39 for the suite and were killed here 50 minutes into the
+    # hunts, with unchanged hunt directories running 1.75 times slower, so 90
+    # left no room for a slow runner plus the hunts added since. Each kill gave no
+    # verdict (`full-suite-verdict` below turns that into a failure, correctly).
+    timeout-minutes: 150   # suite 20-40 min, then the hunts 30-70
     steps:
       - uses: actions/checkout@v4
         with:
@@ -67,7 +72,10 @@ jobs:
       # the tree. They run here, one process per directory (see the script
       # for why), after the suite and even when it failed, so this job's
       # verdict covers both and the step name says which one broke.
-      # About 30 minutes on 4 cores (2026-10-10), 20 of them hunts/frontier_math.
+      # About 30 minutes on 4 cores (2026-10-10), 20 of them hunts/frontier_math;
+      # 27 minutes on 2026-10-27 (48 directories, 11 minutes in frontier_math),
+      # and 50 or more on 2026-10-29 (20 minutes in frontier_math; 56 directories
+      # now).
       - name: hunts' own tests
         if: ${{ !cancelled() }}
         run: python scripts/run_hunt_tests.py
@@ -207,6 +215,26 @@ jobs:
             *"${want}"*) echo "mertens_second_theorem: the three standard axioms, nothing else" ;;
             *) echo "::error::mertens_second_theorem does not rest on exactly [propext, Classical.choice, Quot.sound]"; exit 1 ;;
           esac
+
+      - name: the Gabcke coefficient recursion (hunts/gabcke_remainder)
+        # A core-only file with no imports. Its RUNS.md records one kernel check
+        # on the operator's machine, before the `module` header was added at
+        # landing; this re-runs it on the file as committed, every night.
+        working-directory: lean
+        run: |
+          set -o pipefail
+          lake env lean ../hunts/gabcke_remainder/lean/Coefficients.lean 2>&1 | tee gabcke.txt
+          # Both theorems must print, and print no axioms; a guard that matches
+          # nothing fails rather than passes.
+          clean=$(grep -c 'does not depend on any axioms' gabcke.txt || true)
+          if [ "${clean}" -ne 2 ]; then
+            echo "::error::expected 2 axiom-free theorems in Coefficients.lean, saw ${clean}"
+            exit 1
+          fi
+          if grep -qi 'sorry' gabcke.txt; then
+            echo "::error::a sorry appears in Coefficients.lean"
+            exit 1
+          fi
 
       - name: no sorrys in the certified arm
         working-directory: lean

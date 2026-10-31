@@ -1,0 +1,82 @@
+{
+ "utc": "2026-10-27T19:15:05Z",
+ "shards_expected": 216,
+ "shards_accepted": 216,
+ "missing": [],
+ "fault": {
+  "fault:B_right_06": {
+   "accepted_declarations": null,
+   "cpu_s": 973.0,
+   "exit_code": 1,
+   "expected_declarations": 62005,
+   "hashes_ok": true,
+   "host": {
+    "cpu": "AMD EPYC",
+    "mem_total_kib": 16400136,
+    "nproc": 8,
+    "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+    "python": "3.13.5"
+   },
+   "infrastructure": false,
+   "maxrss_kib": 2094424,
+   "ok": true,
+   "peak_sampled_rss_kib": 2080396,
+   "phase": "checked",
+   "verdict_lines": [
+    "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=190.157s"
+   ],
+   "wall_s": 190.7
+  },
+  "fault:B_right_06#novita": {
+   "accepted_declarations": null,
+   "cpu_s": 548.1,
+   "exit_code": 1,
+   "expected_declarations": 62005,
+   "hashes_ok": true,
+   "host": {
+    "cpu": "AMD EPYC",
+    "mem_total_kib": 4034448,
+    "nproc": 2,
+    "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+    "python": "3.11.6"
+   },
+   "infrastructure": false,
+   "maxrss_kib": 1526688,
+   "ok": true,
+   "peak_sampled_rss_kib": 1524120,
+   "phase": "checked",
+   "verdict_lines": [
+    "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=357.456s"
+   ],
+   "wall_s": 357.9
+  }
+ },
+ "declarations_in_accepted_shards": 14462407,
+ "distinct_constants_checked": 853864,
+ "clashes": [],
+ "clash_count": 0,
+ "shared_constants_differing_only_in_binder_names_or_info": 5140,
+ "manifests_without_kernel_hashes": [],
+ "glue": {
+  "site_theorems": 435,
+  "matched": 435,
+  "mismatched": [],
+  "absent": []
+ },
+ "abstracted": 18,
+ "abstracted_with_glue_in_top": 18,
+ "closure_size": 675388,
+ "closure_not_in_census": [],
+ "census_constants": 1569505,
+ "closure_unchecked": [],
+ "closure_unchecked_count": 0
+}
+| origin | constants | in the closure of the 18 | checked by con-ron | closure, checked | closure, via glue | closure, unchecked |
+|---|---|---|---|---|---|---|
+| sites | 761,387 | 583,346 | 761,387 | 583,346 | 0 | 0 |
+| Mathlib | 580,690 | 61,252 | 61,252 | 61,252 | 0 | 0 |
+| core | 182,964 | 7,869 | 7,869 | 7,869 | 0 | 0 |
+| deps | 19,389 | 192 | 192 | 192 | 0 | 0 |
+| hunt137 | 24,311 | 22,288 | 22,288 | 22,288 | 0 | 0 |
+| ZetaLean | 733 | 411 | 411 | 411 | 0 | 0 |
+| assembly | 31 | 30 | 12 | 12 | 18 | 0 |

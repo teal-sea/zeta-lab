@@ -1,0 +1,30 @@
+Traceback (most recent call last):
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/conron_fleet.py", line 1357, in <module>
+    if a.cmd in ("phase0", "export", "run", "deadman"):
+    ^^^^^^
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/conron_fleet.py", line 1352, in main
+    s = sub.add_parser("sweep")
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/conron_fleet.py", line 557, in cmd_phase0
+    assert r.returncode == 0, r.stderr[-2000:]
+           ^^^^^^^^^^^^^^^^^
+AssertionError: Traceback (most recent call last):
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/production.py", line 597, in <module>
+    main()
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/production.py", line 587, in main
+    cmd_assemble(args.dest.resolve(), args.overlay.resolve(), args.rh100.resolve())
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/production.py", line 491, in cmd_assemble
+    recs = [run_guarded("support", [f"--root={hl}", "-o", str(asm / "Rung3Assembly" / "Support.olean"),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/production.py", line 462, in run_guarded
+    proc = subprocess.Popen(cmd, cwd=LEAN, stdout=log, stderr=subprocess.STDOUT)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'lake'
+
+2026-10-27T15:41:28Z ran {"tag": "phase0-census", "rc": 0, "killed_by_guard": false, "wall_s": 1804.3, "cpu_s": 1726.6, "max_rss_kib": 16871056, "mem_available_low_gib": 55.4, "pid": 3827089}
+2026-10-27T15:46:03Z ran {"tag": "phase0-closure", "rc": 0, "killed_by_guard": false, "wall_s": 268.7, "cpu_s": 264.1, "max_rss_kib": 20531000, "mem_available_low_gib": 56.0, "pid": 3969008}
+2026-10-27T16:16:17Z ran {"tag": "phase0-top", "rc": 0, "killed_by_guard": false, "wall_s": 1813.0, "cpu_s": 1787.2, "max_rss_kib": 17552496, "mem_available_low_gib": 55.7, "pid": 3987418}
+2026-10-27T16:16:59Z phase0 done

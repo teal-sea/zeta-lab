@@ -27,9 +27,51 @@ separate repository; this one holds the record, not the presentation of it.
 `riemannZeta`: every zero with 0 < Re rho < 1 and 0 < Im rho <= 100 lies on the
 critical line and is simple, and there are exactly 29 of them. Lean's kernel accepts
 it from a clean build with zero `sorry` and only the three standard axioms, and the
-independent checker `con-ron --verified` accepts the exported proof as well. No
-outside computation is taken on trust. RH has been verified numerically far higher;
-this is a finite theorem and says nothing about RH itself.
+independent checker `con-ron --verified` accepts the exported proof as well. A fresh
+replay of the whole closure by Lean's own kernel (`leanchecker --fresh`, rerun without a
+time cap on 2026-10-26) accepts it too. The independent NanoDa kernel stopped at the
+laboratory's memory cap without a verdict. No outside computation enters as an axiom or hypothesis; generated numerical
+data is checked by the kernel. RH has been verified numerically far higher; this is a
+finite theorem, reviewed by no person, and says nothing about RH itself.
+
+**The Davenport-Heilbronn zero, kernel-checked** ([hunt #145](hunts/rung3_ball_production/RESULTS.md),
+rung 3 of [the Lean ladder](docs/doors/certify.md)). One Lean theorem,
+`davenport_heilbronn_strip`: some entire function with zeta's kind of Dirichlet series
+and functional equation has a zero in the open critical strip, off the line. The witness
+is the Davenport-Heilbronn function `DH`, and the zero lies in the closed square of
+half-width 3/64 about 0.808517 + 85.699348 i (`dh_zero_located`; Spira's zero, 1994).
+`dh_separation_hundred` adds that it lies below height 100, where `riemannZeta` has no
+off-line zero (hunt #137). Lean's kernel accepts them with zero `sorry` and only the
+three standard axioms, from 215 site theorems compiled on GitHub Actions and one
+assembly; planted one-unit faults are refused. A fresh replay of the whole assembled
+closure by Lean's own kernel (`leanchecker --fresh`, 2026-10-27, 1.57 million constants
+in 7 h 17 min) accepts it too; that is a re-check by the same kernel. The independent
+checker `con-ron --verified` accepts the dependency closure of the 18 final declarations
+(675,388 constants), split site by site, with coverage shown (216 shards; the final
+declarations checked in a form abstracted over the site theorems). The constants outside
+that closure were replayed only by Lean's own kernel. The grade is kernel-checked, pending
+external verification. The older `davenport_heilbronn_statement` is also met by the trivial zero
+s = -1 (`lean/ZetaLean/DHTrivialZero.lean`), so it carries none of the result.
+It shows that the functional equation alone cannot give RH. It is not progress toward RH.
+
+**Where Li's criterion first fails for Davenport-Heilbronn** ([hunt #151](hunts/li_dh_onset_hardened/RESULTS.md)).
+lambda_{328997}(DH) < 0, and lambda_n(DH) > 0 for every 1 <= n < 328997: the first
+negative Li coefficient of `DH`, at exactly the index hunt #128 extrapolated, in 0.46
+core-hours against #128's estimate of 20,000. Every step carries an Arb ball, and two
+radii agree at every n <= 500,000, so the grade is hardened. A pre-registered rerun with
+an mpmath.iv evaluator that shares no evaluation code with Arb reproduces the same n* and
+every sign. What both routes still share (the DFT, the aliasing bound, the tracking, the
+admissibility certificate) is named in its record. It is not kernel-checked and not
+reviewed outside this lab. Like the result above, it is about a function with no Euler
+product and says nothing about RH.
+
+The rest of the October record, each with its grade and its doors, is in the case log at
+the top of [`hunts/README.md`](hunts/README.md). That includes measured and hardened
+studies of the Weil functional at the Davenport-Heilbronn line (hunt #146 and the
+`weil_propagation` lanes) and of how its arithmetic side degenerates (hunts #155 to
+#157, measured), two probes of where OpenAI's 7/8 comes from (hunts #139 and #148), a ball-arithmetic localization of a sign change of pi(x) - li(x) at published
+parameters (hunt #152, not a new record), and the opening of Gabcke's Riemann-Siegel
+remainder for Lean (hunt #154).
 
 On 2026-10-06 OpenAI released a proof that no Dirichlet L-function, zeta
 included, has a zero with real part above 7/8. This laboratory rebuilt its Lean
@@ -78,7 +120,7 @@ standing list of limitations are in
 [`docs/36-what-you-can-run.md`](docs/36-what-you-can-run.md). The docs are a
 single course and `00 → 01 → 02 → 03 → 04` is one argument: start at
 [`docs/00-orientation.md`](docs/00-orientation.md), and
-[`docs/README.md`](docs/README.md) lists all forty with one line each.
+[`docs/README.md`](docs/README.md) lists all forty-eight with one line each.
 
 ## Quickstart
 
@@ -231,9 +273,9 @@ Continuous integration runs on every push, in three tiers cut by measured cost:
 
 | tier | when | what | cost |
 |---|---|---|---|
-| `checks` | every push and PR | 342 tests, **stdlib + pytest only**, no numpy, scipy, mpmath, no editable install, plus `make_context.py --check` | ~7 s |
+| `checks` | every push and PR | 371 tests, **stdlib + pytest only**, no numpy, scipy, mpmath, no editable install, plus `make_context.py --check` | ~7 s |
 | `tests` | PRs and pushes to `main` | the fast tier with the real dependency set; asserts `rigor.BACKEND` is genuinely Arb before running, because the mpmath fallback silently drops the cross-check that licenses the word *certified* | ~20 min |
-| `full` | nightly, and on demand | the complete suite including slow, plus the Lean arm as its own job with a zero-`sorry` scan | up to an hour |
+| `full` | nightly, and on demand | the complete suite including slow, plus every hunt's own tests and the Lean arm as its own job with a zero-`sorry` scan | about 50 to 100 minutes, measured on 2026-10-27 and 2026-10-29 (150-minute limit) |
 
 That CI is young and has already earned its place: its first complete run found
 a `PROVED` formal record citing a kernel build older than the file it certified,

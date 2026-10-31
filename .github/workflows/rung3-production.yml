@@ -1,0 +1,243 @@
+# Rung 3 production: the 215 sites of plan v2 (lean/cert/rung3_plan2.json), each
+# compiled to a kernel-checked site theorem under `scripts/60 --tower whole`
+# (hunts/rung3_ball_production/, PRODUCTION.md; PILOT.md section 9).
+#
+# Triggered ONLY by a push to hunt/rung3-ball-production that touches
+# hunts/rung3_ball_production/RUN_REQUEST.json, which carries the run parameters;
+# never by this file. The request is committed only after the coordinator's 'go':
+# first {"mode": "calibrate"}, then the full run.
+#
+# Modes (RUN_REQUEST.json "mode"; production.py validates the request):
+#   calibrate  job 0 only: request["sites"] (the centre, K = 361, the largest site,
+#              and one small site), one Lean process at a time, so each site's CPU,
+#              wall, peak RSS and olean bytes are clean (sites.json in the artifact).
+#   full       request["jobs"] jobs (about 20), sites assigned by projected CPU
+#              (pilot.json whole_projection; about 1.5 core-hours each at the shared
+#              box's rates, every job under 4 h projected), plus the job "fault":
+#              one site with its Prime_<site>_2 radius one unit of 2^-64 low, which the kernel
+#              must refuse at that tower's ev_whole. The verdict job counts the run
+#              only if all 215 sites compiled, every site theorem's axioms are exactly
+#              propext, Classical.choice and Quot.sound, and the fault was refused.
+#   fault      the job "fault" alone, completing a full run whose fault job left no
+#              verdict ("completes_run"); `production.py verdict --runs <full> <fault>`
+#              then takes the sites and axioms from the one and the fault from the other.
+#
+# Each job builds a FRESH lean/.lake with `lake exe cache get` (never a copied
+# .lake: CLAUDE.md compute rule 7); only elan's toolchains and Mathlib's
+# downloaded olean archives (~/.cache/mathlib, keyed on the pinned revision) are
+# cached. Compiles stop themselves at 300 minutes so the artifacts upload inside
+# the 350-minute limit; a re-run attempt downloads this job's earlier artifacts
+# and scripts/72 resumes from their checkpoints.
+name: rung3-production
+
+on:
+  push:
+    branches:
+      - "hunt/rung3-ball-production"
+    paths:
+      - "hunts/rung3_ball_production/RUN_REQUEST.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rung3-production
+  cancel-in-progress: false
+
+env:
+  PYTHONUNBUFFERED: "1"
+  HUNT: hunts/rung3_ball_production
+  REQ: hunts/rung3_ball_production/RUN_REQUEST.json
+  MATHLIB_REV: 065356127b1dc0016f66b7283ce0ce2c4055aa55
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      jobs: ${{ steps.p.outputs.jobs }}
+      mode: ${{ steps.p.outputs.mode }}
+      lean_jobs: ${{ steps.p.outputs.lean_jobs }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - id: p
+        run: |
+          set -euo pipefail
+          python "$HUNT/production.py" plan --request "$REQ" > plan.txt
+          cat plan.txt
+          sed -n 's/^mode=/mode=/p; s/^jobs=/jobs=/p' plan.txt >> "$GITHUB_OUTPUT"
+          sed -n 's/^lean_jobs=/lean_jobs=/p' plan.txt >> "$GITHUB_OUTPUT"
+
+  sites:
+    name: sites ${{ matrix.job }} (${{ needs.plan.outputs.mode }})
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        job: ${{ fromJSON(needs.plan.outputs.jobs) }}
+    env:
+      JOB: ${{ matrix.job }}
+      LEAN_JOBS: ${{ needs.plan.outputs.lean_jobs }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+
+      - name: free runner disk
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h /
+
+      - name: cache elan toolchains and Mathlib's downloaded olean archives
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan
+            ~/.cache/mathlib
+          key: rung3-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain') }}-mathlib-${{ env.MATHLIB_REV }}
+
+      - name: install elan
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: fresh lean/.lake from the Mathlib cache
+        working-directory: lean
+        run: |
+          set -euo pipefail
+          test ! -e .lake || { echo "::error::lean/.lake exists before the fetch"; exit 1; }
+          lake --version
+          /usr/bin/time -v lake exe cache get 2>&1 | tail -15
+          df -h /
+
+      - name: preflight (fail closed)
+        run: |
+          set -euo pipefail
+          python "$HUNT/production.py" toplevels
+          python "$HUNT/production.py" preflight --request "$REQ"
+
+      - name: the ZetaLean closure the sites import
+        working-directory: lean
+        run: |
+          set -euo pipefail
+          /usr/bin/time -v lake build ZetaLean.BallCertSupport ZetaLean.BallTerm 2>&1 | tail -25
+
+      - name: resume (re-run attempts only)
+        if: ${{ fromJSON(github.run_attempt) > 1 && matrix.job != 'fault' }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: rung3-production-job${{ matrix.job }}-attempt*
+          merge-multiple: true
+          path: .                 # the artifact holds out/ and gen/*.manifest.json
+
+      - name: generate this job's sites (--tower whole)
+        if: ${{ matrix.job != 'fault' }}
+        run: |
+          set -euo pipefail
+          python "$HUNT/production.py" sites --request "$REQ" --job "$JOB" | tee sites.txt
+          python "$HUNT/production.py" generate --request "$REQ" --job "$JOB" --gen gen
+          ls gen/*.manifest.json | wc -l
+
+      - name: compile (scripts/72, resume-safe)
+        if: ${{ matrix.job != 'fault' }}
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          /usr/bin/time -v -o out/time_compile.txt timeout 300m \
+            python scripts/72_rung3_ball_compile.py --lean-project lean --output-root out \
+            --jobs "$LEAN_JOBS" --module-jobs 1 gen/*.manifest.json 2>&1 | tee out/compile.log
+          df -h /
+
+      - name: axioms of every site theorem (exactly the three standard ones)
+        if: ${{ matrix.job != 'fault' }}
+        run: python "$HUNT/production.py" axioms --request "$REQ" --job "$JOB" --gen gen --out out
+
+      - name: plant the fault (one unit of 2^-64 off a tower radius)
+        if: ${{ matrix.job == 'fault' }}
+        run: python "$HUNT/production.py" fault --request "$REQ" --gen gen
+
+      - name: compile the faulted site (must be refused)
+        if: ${{ matrix.job == 'fault' }}
+        # GitHub runs `bash -e {0}`: the compile is meant to fail, so -e is suspended
+        # around it and its exit captured; `refused` then decides (run 40353536947 lost
+        # its fault verdict to -e, PILOT.md section 13).
+        run: |
+          set -u
+          mkdir -p out
+          set +e
+          python scripts/72_rung3_ball_compile.py --lean-project lean --output-root out \
+            --jobs 1 --module-jobs 1 gen/*.manifest.json 2>&1 | tee out/compile.log
+          rc=${PIPESTATUS[0]}
+          set -e
+          python "$HUNT/production.py" refused --request "$REQ" --gen gen --out out --rc "$rc"
+
+      - name: per-site record (CPU, wall, peak RSS, olean bytes)
+        if: always()
+        run: |
+          mkdir -p out
+          if [ "$JOB" != fault ]; then
+            python "$HUNT/production.py" record --request "$REQ" --job "$JOB" --out out || true
+          fi
+          mkdir -p record
+          cp "$REQ" record/
+          cp out/sites.json out/axioms.json out/fault.json out/time_compile.txt record/ 2>/dev/null || true
+          cp gen/*.manifest.json record/ 2>/dev/null || true
+
+      - name: upload oleans, checkpoints, manifests and logs
+        if: ${{ always() && matrix.job != 'fault' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: rung3-production-job${{ matrix.job }}-attempt${{ github.run_attempt }}
+          path: |
+            out/
+            gen/*.manifest.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: upload the fault job's logs (the refusing declaration, the planted source)
+        if: ${{ always() && matrix.job == 'fault' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: rung3-production-fault-logs-attempt${{ github.run_attempt }}
+          path: |
+            out/compile.log
+            out/logs/
+            out/results/
+            out/fault.json
+            gen/*/Primes.lean
+            gen/*.manifest.json
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: upload the record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rung3-production-record-job${{ matrix.job }}-attempt${{ github.run_attempt }}
+          path: record/
+          if-no-files-found: warn
+
+  verdict:
+    needs: [plan, sites]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: rung3-production-record-*
+          path: records/
+      - name: count the run (all sites ok, every audit clean, the fault refused)
+        run: python "$HUNT/production.py" verdict --request "$REQ" --records records

@@ -1,0 +1,131 @@
+{
+ "abstracted": 18,
+ "abstracted_with_glue_in_top": 18,
+ "by_origin": {
+  "Mathlib": {
+   "checked": 61252,
+   "closure_checked": 61252,
+   "closure_unchecked": 0,
+   "closure_via_glue": 0,
+   "constants": 580690,
+   "in_closure": 61252
+  },
+  "ZetaLean": {
+   "checked": 411,
+   "closure_checked": 411,
+   "closure_unchecked": 0,
+   "closure_via_glue": 0,
+   "constants": 733,
+   "in_closure": 411
+  },
+  "assembly": {
+   "checked": 12,
+   "closure_checked": 12,
+   "closure_unchecked": 0,
+   "closure_via_glue": 18,
+   "constants": 31,
+   "in_closure": 30
+  },
+  "core": {
+   "checked": 7869,
+   "closure_checked": 7869,
+   "closure_unchecked": 0,
+   "closure_via_glue": 0,
+   "constants": 182964,
+   "in_closure": 7869
+  },
+  "deps": {
+   "checked": 192,
+   "closure_checked": 192,
+   "closure_unchecked": 0,
+   "closure_via_glue": 0,
+   "constants": 19389,
+   "in_closure": 192
+  },
+  "hunt137": {
+   "checked": 22288,
+   "closure_checked": 22288,
+   "closure_unchecked": 0,
+   "closure_via_glue": 0,
+   "constants": 24311,
+   "in_closure": 22288
+  },
+  "sites": {
+   "checked": 761387,
+   "closure_checked": 583346,
+   "closure_unchecked": 0,
+   "closure_via_glue": 0,
+   "constants": 761387,
+   "in_closure": 583346
+  }
+ },
+ "census_constants": 1569505,
+ "clash_count": 0,
+ "clashes": [],
+ "closure_not_in_census": [],
+ "closure_size": 675388,
+ "closure_unchecked": [],
+ "closure_unchecked_count": 0,
+ "declarations_in_accepted_shards": 14462407,
+ "distinct_constants_checked": 853864,
+ "fault": {
+  "fault:B_right_06": {
+   "accepted_declarations": null,
+   "cpu_s": 973.0,
+   "exit_code": 1,
+   "expected_declarations": 62005,
+   "hashes_ok": true,
+   "host": {
+    "cpu": "AMD EPYC",
+    "mem_total_kib": 16400136,
+    "nproc": 8,
+    "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+    "python": "3.13.5"
+   },
+   "infrastructure": false,
+   "maxrss_kib": 2094424,
+   "ok": true,
+   "peak_sampled_rss_kib": 2080396,
+   "phase": "checked",
+   "verdict_lines": [
+    "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=190.157s"
+   ],
+   "wall_s": 190.7
+  },
+  "fault:B_right_06#novita": {
+   "accepted_declarations": null,
+   "cpu_s": 548.1,
+   "exit_code": 1,
+   "expected_declarations": 62005,
+   "hashes_ok": true,
+   "host": {
+    "cpu": "AMD EPYC",
+    "mem_total_kib": 4034448,
+    "nproc": 2,
+    "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+    "python": "3.11.6"
+   },
+   "infrastructure": false,
+   "maxrss_kib": 1526688,
+   "ok": true,
+   "peak_sampled_rss_kib": 1524120,
+   "phase": "checked",
+   "verdict_lines": [
+    "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=357.456s"
+   ],
+   "wall_s": 357.9
+  }
+ },
+ "glue": {
+  "absent": [],
+  "matched": 435,
+  "mismatched": [],
+  "site_theorems": 435
+ },
+ "manifests_without_kernel_hashes": [],
+ "missing": [],
+ "shards_accepted": 216,
+ "shards_expected": 216,
+ "shared_constants_differing_only_in_binder_names_or_info": 5140,
+ "utc": "2026-10-27T19:15:05Z"
+}

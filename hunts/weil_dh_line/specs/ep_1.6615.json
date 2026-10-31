@@ -1,0 +1,7 @@
+{"tag": "16615/10000", "kind": "epstein", "tau": 2e-4, "method": "lse",
+ "clusters": [
+  {"primes": [2, 3], "D": [12, 8], "shell": null},
+  {"primes": [2, 13], "D": [8, 6], "shell": null, "weights": {"26": "1"}},
+  {"primes": [5], "D": [64], "shell": null},
+  {"primes": [23], "D": [64], "shell": null}
+ ]}

@@ -444,6 +444,90 @@ def winding_check(rho: complex, h: float = 0.02) -> tuple[int, float]:
     return int(round(w)), abs(w - round(w))
 
 
+# The box guard (added 2026-10-26, hunt #119 unit 4; RESULTS.md section 8.13).
+# Until then stage_locate accepted any root whose height fell near the window,
+# so a root with beta below SIGMA_C (outside the box the count was taken on)
+# could stand in for the window's true zero: 16 of 282 census roots and 1 of
+# the 0.85 screen_hi roots. A root is now accepted only inside the counted box,
+# and a refused one triggers a search constrained to the box.
+
+BOX_TOL = 1e-9
+
+
+def in_box(rho: complex, ta: float, tb: float) -> bool:
+    """The counted box: SIGMA_C < beta < SIGMA_R and ta <= t <= tb."""
+    return (SIGMA_C < rho.real < SIGMA_R) and (ta - BOX_TOL <= rho.imag <= tb + BOX_TOL)
+
+
+def newton_in_box(seed: complex, ta: float, tb: float, iters: int = 60):
+    """Newton on the fast evaluator, abandoned (None) as soon as it leaves the box."""
+    z = complex(seed)
+    h = 1e-6
+    for _ in range(iters):
+        if not in_box(z, ta, tb):
+            return None
+        fz = f_one(z)
+        if abs(fz) < 1e-15:
+            return z
+        d = (f_one(z + h) - f_one(z - h)) / (2 * h)
+        if d == 0 or not np.isfinite(abs(d)):
+            return None
+        step = fz / d
+        if abs(step) > 0.5:
+            step *= 0.5 / abs(step)
+        z = z - step
+        if abs(step) < 1e-15:
+            break
+    return z if in_box(z, ta, tb) else None
+
+
+def locate_in_box(ta: float, tb: float, want: int, exclude=(), nsig: int = 24, step: float = 0.05):
+    """Up to ``want`` distinct roots strictly inside the box, from grid minima of |f|."""
+    xs = np.linspace(SIGMA_C + 0.005, min(1.15, SIGMA_R - 0.005), nsig)
+    npts = max(3, int((tb - ta) / step) + 1)
+    dt = (tb - ta) / (npts - 1)
+    grid = np.array([np.abs(f_vline(float(x), ta, dt, npts)) for x in xs])
+    cand = []
+    for i in range(len(xs)):
+        for j in range(npts):
+            lo_i, hi_i = max(0, i - 1), min(len(xs), i + 2)
+            lo_j, hi_j = max(0, j - 1), min(npts, j + 2)
+            if grid[i, j] <= grid[lo_i:hi_i, lo_j:hi_j].min():
+                cand.append((grid[i, j], complex(xs[i], ta + dt * j)))
+    cand.sort(key=lambda c: c[0])
+    found = []
+    for _, seed in cand[:60]:
+        z = newton_in_box(seed, ta, tb)
+        if z is None or abs(f_one(z)) > 1e-9:
+            continue
+        if any(abs(z - w) < 1e-6 for w in list(found) + list(exclude)):
+            continue
+        found.append(z)
+        if len(found) >= want:
+            break
+    return found
+
+
+def locate_part(pa: float, pb: float, want: int, have=(), done=(), first=None):
+    """Guarded location of ``want`` zeros in the part [pa, pb] of a flagged window.
+
+    The unconstrained first attempt (``locate_in``, or ``first`` when given, which
+    is how the tests plant a root outside the box) is accepted only inside the
+    box; otherwise it is recorded as refused and the box-constrained search
+    supplies the roots. Returns (roots, refused or None).
+    """
+    got, refused = [], None
+    rho = locate_in(pa, pb) if first is None else complex(first)
+    if in_box(rho, pa, pb) and round(rho.imag, 3) not in done and \
+            not any(abs(rho - w) < 1e-6 for w in have):
+        got.append(rho)
+    else:
+        refused = {"gamma": rho.imag, "beta": rho.real}
+    if len(got) + len(have) < want:
+        got += locate_in_box(pa, pb, want - len(got) - len(have), exclude=list(got) + list(have))
+    return got, refused
+
+
 def stage_locate(out: str, key: str = "screen") -> None:
     started = time.time()
     data = load(out)
@@ -453,6 +537,7 @@ def stage_locate(out: str, key: str = "screen") -> None:
           f"{sum(h['count'] for h in hits)} zeros with beta > {SIGMA_C}", flush=True)
     b = {row[0]: (row[1], row[2]) for row in scan["boundaries"]}
     zeros = data.get("zeros", [])
+    unlocated = data.get("unlocated", [])
     done = {round(z["gamma"], 3) for z in zeros}
     for h in hits:
         ta, tb = h["t_lo"], h["t_hi"]
@@ -460,12 +545,13 @@ def stage_locate(out: str, key: str = "screen") -> None:
         wb, _ = b[tb]
         parts = split_window(ta, wa, ua, tb, wb, h["count"])
         for (pa, pb, n) in parts:
-            for _ in range(max(1, n)):
-                rho = locate_in(pa, pb)
-                if not (pa - 0.5 <= rho.imag <= pb + 0.5):
-                    continue
-                if round(rho.imag, 3) in done:
-                    continue
+            want = max(1, n)
+            have = [complex(z["beta"], z["gamma"]) for z in zeros
+                    if in_box(complex(z["beta"], z["gamma"]), pa, pb)]
+            if len(have) >= want:
+                continue
+            got, refused = locate_part(pa, pb, want, have, done)
+            for rho in got:
                 wind, defect = winding_check(rho)
                 res = abs(f_one(rho))
                 zeros.append({
@@ -475,12 +561,15 @@ def stage_locate(out: str, key: str = "screen") -> None:
                     "winding": wind, "winding_defect": defect,
                     "box": [pa, pb], "screen_window": [ta, tb],
                     "route": "float64 Euler-Maclaurin + Newton",
+                    "guard": {"first_root_refused": refused, "relocated_in_box": refused is not None},
                 })
                 done.add(round(rho.imag, 3))
-                break
-        save({"zeros": sorted(zeros, key=lambda z: z["gamma"]),
+            if len(got) + len(have) < want:
+                unlocated.append({"window": [ta, tb], "part": [pa, pb], "want": want,
+                                  "found": len(got) + len(have), "refused": refused})
+        save({"zeros": sorted(zeros, key=lambda z: z["gamma"]), "unlocated": unlocated,
               "locate_seconds": round(time.time() - started, 1)}, out)
-        print(f"located through t={tb:.0f} ({len(zeros)} zeros)", flush=True)
+        print(f"located through t={tb:.0f} ({len(zeros)} zeros, {len(unlocated)} unlocated)", flush=True)
 
 
 # ---------------------------------------------------------------------------

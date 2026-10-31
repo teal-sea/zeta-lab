@@ -1,0 +1,28 @@
+{
+ "generated": "2026-10-26T13:41:39",
+ "c": 5000,
+ "N": 131072,
+ "n_max": 5000,
+ "prec": 192,
+ "rho": "499977/500000",
+ "M_upper": 101111.37730589996,
+ "stats": {
+  "principal_nodes": 209,
+  "tracked_nodes": 65328,
+  "cover_balls": 2189,
+  "cover_splits": 13236,
+  "arc_bisections": 1720,
+  "closure_arg": "[+/- 2.54e-49]",
+  "closure_contains_0": true,
+  "seconds_sampling": 71.41,
+  "seconds_tracking": 18.03,
+  "seconds_dft": 1.95,
+  "imag_parts_contain_0": true,
+  "worst_radius": 536573.65625
+ },
+ "seconds_total": 91.6,
+ "midpoint_vs_128_table_max_abs": 0.05664195880434613,
+ "at_n": 5000,
+ "radius_at_n_1": 85.26863121986389,
+ "radius_at_n_max": 536573.65625
+}

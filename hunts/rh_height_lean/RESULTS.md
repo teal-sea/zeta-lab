@@ -142,6 +142,31 @@ This is second-kernel acceptance of that export, not a separate NanoDa success,
 outside review, a new proof of unbounded RH, or publication. The raw receipt
 and logs are durable locally and not part of the earlier evidence manifest.
 
+**Reruns without a wall bound, 2026-10-26.** Both inconclusive checkers were
+rerun on the swarm box with no wall limit, an unlimited stack, and one stop
+rule: a 20 GiB host MemAvailable floor. The inputs matched their recorded
+SHA-256 hashes: the export (`16ad4200…`), `nanoda_bin` (`8241c5e6…`),
+`leanchecker` (`9e36e955…`) and `Main100.olean` (`c78cddfd…`). The other 101
+project objects matched `object-hashes.txt`. The Mathlib and dependency
+objects came from a build at the same pinned revisions.
+
+- **`leanchecker --fresh RHHeight100.Main100` exited 0** after 1 h 39 min 41 s,
+  at a peak sampled RSS of 8,485,968 KiB. `--fresh` imports the module and
+  replays every constant of its closure, Mathlib included, into an empty kernel
+  environment. A kernel rejection raises and exits non-zero (a missing module
+  was shown to exit 1), and success is silent. This is a fresh replay by
+  Lean's own kernel, which its docstring calls "not an external verifier". It
+  is not a third independent checker.
+- **NanoDa stopped again without a verdict.** Its config was unchanged apart
+  from paths: standard axioms only, unpermitted axioms a hard error. It hit the
+  memory floor after 24 min 20 s at 44,674,696 KiB, still growing. A NanoDa
+  verdict needs a machine with more free memory.
+
+The receipts and every attempt are in the local rerun directory
+`rh100-rerun-20261026`, which is not published. The attempts include a launch
+without `lean` on PATH, a NanoDa stack overflow under the 8 MB default stack,
+and a memory-floor stop.
+
 **Reproduction from this checkout** (requires the pinned Lean/Mathlib dependency
 objects in `lean/.lake`; `OUT` must be a fresh writable directory):
 
@@ -218,6 +243,9 @@ this is a search record, not a novelty claim.
 
 - Independent `con-ron --verified` replay is complete. Earlier NanoDa and
   bounded checker attempts remain inconclusive; no NanoDa verdict is claimed.
+- 2026-10-26: `leanchecker --fresh` completed with exit 0 when rerun without a
+  wall bound (see "Reruns without a wall bound"). NanoDa still has no verdict;
+  it needs more free memory than the swarm box can give it.
 - The local proof and checker-attempt evidence is preserved at
   `<bundle>`, but has not been
   published. Publication remains an owner decision.

@@ -1,5 +1,5 @@
 {
-  "source_path": "/Users/thomas/zeta-lab/hunts/cycle_moments/QuarticScore.lean",
+  "source_path": "hunts/cycle_moments/QuarticScore.lean",
   "source_sha256": "d92922c39a6934ddbc31b4e1ff96950df059da18ef1b7a72efe92f6e912b8049",
   "environment": "lean-4.33.0",
   "response": {

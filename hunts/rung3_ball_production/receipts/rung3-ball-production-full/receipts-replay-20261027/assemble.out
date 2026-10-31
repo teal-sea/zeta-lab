@@ -1,0 +1,30 @@
+wrote Assembly.lean sha256=5ae46eb4a6030349
+wrote Separation.lean sha256=2ad0703b9b0ccae3
+wrote Strip.lean sha256=c763fa289c8b7285
+wrote Final.lean sha256=27d68de56cacaff4
+{"tag": "support", "returncode": 0, "killed_by_guard": false, "wall_s": 10.0, "cpu_s": 9.5, "peak_rss_bytes": 3917979648, "mem_available_gib_start": 67.1, "mem_available_gib_low": 66.9, "load_start": 4.61}
+{"tag": "assembly", "returncode": 0, "killed_by_guard": false, "wall_s": 40.0, "cpu_s": 73.3, "peak_rss_bytes": 18072059904, "mem_available_gib_start": 66.9, "mem_available_gib_low": 65.9, "load_start": 5.57}
+{"tag": "separation", "returncode": 0, "killed_by_guard": false, "wall_s": 20.0, "cpu_s": 11.1, "peak_rss_bytes": 17748992000, "mem_available_gib_start": 67.2, "mem_available_gib_low": 66.2, "load_start": 6.38}
+{"tag": "strip", "returncode": 0, "killed_by_guard": false, "wall_s": 20.0, "cpu_s": 12.2, "peak_rss_bytes": 17653403648, "mem_available_gib_start": 67.1, "mem_available_gib_low": 66.3, "load_start": 7.16}
+{"tag": "final", "returncode": 0, "killed_by_guard": false, "wall_s": 20.0, "cpu_s": 10.8, "peak_rss_bytes": 17743171584, "mem_available_gib_start": 67.0, "mem_available_gib_low": 66.3, "load_start": 12.28}
+{"tag": "axioms", "returncode": 0, "killed_by_guard": false, "wall_s": 20.0, "cpu_s": 11.6, "peak_rss_bytes": 17755193344, "mem_available_gib_start": 67.1, "mem_available_gib_low": 66.6, "load_start": 9.69}
+'ZetaLean.DH.Rung3Assembly.Plan2.big_bottom' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.big_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.big_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.big_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.big_frontier' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.deriv_bound_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.small_bottom' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.small_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.small_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.small_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.small_frontier' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.centre_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.dh_zero_located'' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_of' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.dh_separation_hundred' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+rc=0

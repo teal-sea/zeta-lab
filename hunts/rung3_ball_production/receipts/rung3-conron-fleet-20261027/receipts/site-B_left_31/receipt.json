@@ -1,0 +1,51 @@
+{
+ "shard": "site:B_left_31",
+ "start_utc": "2026-10-27T16:06:09Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "site:B_left_31",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "f571b26bcf85cdad357ff7e2f305f0bd9ab0652377d46bbc8ed641848b2e9f6d",
+  "sha256_ndjson": "2ea94368bc184918ee64f3c64c40e30d86b03fb9532c934282155b33cc35d084",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "f571b26bcf85cdad357ff7e2f305f0bd9ab0652377d46bbc8ed641848b2e9f6d"
+ },
+ "decompress_s": 0.5,
+ "sha256_export": "2ea94368bc184918ee64f3c64c40e30d86b03fb9532c934282155b33cc35d084",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T16:06:10Z",
+ "exit_code": 0,
+ "wall_s": 1327.6,
+ "user_s": 9627.0,
+ "sys_s": 9.4,
+ "maxrss_kib": 2292340,
+ "peak_sampled_rss_kib": 2280184,
+ "verdict_lines": [
+  "con-ron: accepted 63588 declarations (--verified)",
+  "con-ron: parse done: 63618 fold records \u2014 63610 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=2.610s (parse 2.610s)",
+  "con-ron: check done: 62545/62545 t=1326.333s (check 1302.451s)",
+  "con-ron: done: parse 2.610s, install 21.272s, check 1302.451s, 8 workers t=1326.333s"
+ ],
+ "stdout_tail": "con-ron: accepted 63588 declarations (--verified)\n",
+ "stderr_tail": "hlib.MeasureTheory.Integral.Bochner.Basic.0.MeasureTheory.integral_div._simp_1_1 t=1190.493s\ncon-ron: check 61960/62545 theorem _private.Mathlib.NumberTheory.LSeries.AbstractFuncEq.0.WeakFEPair.f_modif_aux2._proof_1_4 t=1190.523s\ncon-ron: check 61980/62545 theorem noncompact_univ t=1190.554s\ncon-ron: check 62000/62545 theorem MeasureTheory.measure_univ_of_isAddLeftInvariant t=1190.565s\ncon-ron: check 62020/62545 definition _private.Mathlib.MeasureTheory.Function.StronglyMeasurable.Basic.0.stronglyMeasurable_of_stronglyMeasurable_union_cover.match_1_1 t=1190.585s\ncon-ron: check 62040/62545 theorem summable_int_iff_summable_nat_and_neg t=1190.632s\ncon-ron: check 62060/62545 theorem Filter.EventuallyEq.inv t=1190.645s\ncon-ron: check 62080/62545 definition SignType.cast t=1190.676s\ncon-ron: check 62100/62545 theorem _private.Init.Data.List.Lemmas.0.List.mem_iff_getElem?._simp_1_1 t=1190.679s\ncon-ron: check 62120/62545 definition SignType.instNeg.match_1 t=1190.690s\ncon-ron: check 62140/62545 theorem SignType.instCommGroupWithZero._proof_13 t=1190.699s\ncon-ron: check 62160/62545 theorem _private.Mathlib.Basic.Sign.Defs.0.Left.sign_neg._simp_1_2 t=1190.721s\ncon-ron: check 62180/62545 theorem one_le_pow_iff_of_nonneg t=1190.760s\ncon-ron: check 62200/62545 theorem mul_left_iterate t=1190.765s\ncon-ron: check 62220/62545 theorem _private.Mathlib.GroupTheory.GroupAction.Defs.0.MulAction.orbitRel._proof_1 t=1190.768s\ncon-ron: check 62240/62545 definition InvMemClass.inv t=1190.771s\ncon-ron: check 62260/62545 definition SubgroupClass.toGroup t=1190.777s\ncon-ron: check 62280/62545 definition Subgroup.equivOp t=1190.782s\ncon-ron: check 62300/62545 theorem Function.Commute.iterate_self t=1190.786s\ncon-ron: check 62320/62545 theorem _private.Mathlib.GroupTheory.OrderOfElement.0.isOfFinOrder_iff_pow_eq_one._simp_1_2 t=1190.793s\ncon-ron: check 62340/62545 theorem orderOf_eq_zero_iff t=1190.796s\ncon-ron: check 62360/62545 theorem Subgroup.groupEquivQuotientProdSubgroup._proof_1 t=1190.801s\ncon-ron: check 62380/62545 theorem Cardinal.aleph0_le_mk._simp_1 t=1190.807s\ncon-ron: check 62400/62545 theorem ZetaLean.DH.dhChar_inv_four t=1190.831s\ncon-ron: check 62420/62545 definition _private.Mathlib.Order.Filter.Bases.Basic.0.Filter.HasBasis.biInf_mem.match_1_1 t=1190.851s\ncon-ron: check 62440/62545 theorem HasFPowerSeriesOnBall.hasSum_sub t=1190.883s\ncon-ron: check 62460/62545 theorem HasFPowerSeriesWithinAt.isBigO_sub_partialSum_pow t=1190.919s\ncon-ron: check 62480/62545 theorem instAddCommMonoidFormalMultilinearSeries._proof_4 t=1190.933s\ncon-ron: check 62500/62545 theorem FormalMultilinearSeries.instAddCommGroup._proof_9 t=1190.965s\ncon-ron: check 62520/62545 theorem _private.ZetaLean.IntervalCExp.0.ZetaLean.abs_le_max_abs_endpoints t=1191.011s\ncon-ron: check 62540/62545 theorem ZetaLean.DH.DH_tail_bound_order2 t=1191.095s\ncon-ron: check done: 62545/62545 t=1326.333s (check 1302.451s)\ncon-ron: done: parse 2.610s, install 21.272s, check 1302.451s, 8 workers t=1326.333s\n",
+ "sha256_stdout": "c7706f5da8d649f5b7b802a56ad73ba414d3ac0cbddbe604b9e0d0d360c49888",
+ "sha256_stderr": "598230ecfa28642709c952a38c9a0a63353633a3e79b5d2a6169e0b026bd02eb",
+ "accepted_declarations": 63588,
+ "end_utc": "2026-10-27T16:28:18Z",
+ "phase": "checked"
+}

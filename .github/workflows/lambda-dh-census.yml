@@ -1,0 +1,169 @@
+# Hunt #119 lambda_dh_exact: the landing census over [1e4, 1e5] (hunts/lambda_dh_exact/).
+#
+# Triggered ONLY by a push to hunt/lambda-dh-exact-resume that touches
+# hunts/lambda_dh_exact/RUN_REQUEST.json; never by this file. The request is
+# committed only after the coordinator's 'go' (RUNS.md, "The 1e5 census on
+# Actions"): first {"mode": "calibrate"}, then {"mode": "full"} sized from the
+# calibration. The pre-registration is RESULTS.md section 8.12.
+#
+# RUN_REQUEST.json: {"mode": "calibrate" | "full", "attempt": <int>,
+#                    "plan_sha256": <sha256 of census_plan_1e5.json>,
+#                    "calibrate_shard": <int, calibrate mode, default 18>}
+#
+# Jobs: plan (reads the request) -> shards (each job: fail-closed preflight,
+# then 4 shards of census_plan_1e5.json in 4 processes, or shard 0 alone in
+# calibrate mode) -> merge (full mode; refuses a missing shard or one from
+# another plan).
+#
+# Modes:
+#   calibrate  job 0 runs one shard alone ("calibrate_shard", default 18 =
+#              [55000, 57500], mid-decade height and mean zero density; one
+#              process, so its CPU seconds are not shared) and writes calibration.json: CPU seconds per
+#              screened 20-unit window and per census window, and the
+#              projected core-hours for all 36 shards.
+#   full       9 jobs x 4 processes = 36 shards, max-parallel 4.
+#
+# Resume: census_shard.py run is idempotent (the screen resumes from its
+# checkpoint, the census skips rows already landed). A re-run attempt
+# downloads this job's artifacts from the earlier attempts of the same request
+# and continues. Artifact names carry the request's "attempt" and
+# github.run_attempt, so no two attempts collide.
+name: lambda-dh-census
+
+on:
+  push:
+    branches:
+      - "hunt/lambda-dh-exact-resume"
+    paths:
+      - "hunts/lambda_dh_exact/RUN_REQUEST.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lambda-dh-census
+  cancel-in-progress: false
+
+# bash -eo pipefail for every run step: a failing command piped into tee
+# (the calibration record) must fail its step, not go green with no numbers
+defaults:
+  run:
+    shell: bash
+
+env:
+  PYTHONUNBUFFERED: "1"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  FLINT_NUM_THREADS: "1"
+  LD: hunts/lambda_dh_exact
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      mode: ${{ steps.p.outputs.mode }}
+      jobs: ${{ steps.p.outputs.jobs }}
+      req: ${{ steps.p.outputs.req }}
+      cal: ${{ steps.p.outputs.cal }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: p
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          req = json.load(open("hunts/lambda_dh_exact/RUN_REQUEST.json"))
+          plan = json.load(open("hunts/lambda_dh_exact/census_plan_1e5.json"))
+          mode = req["mode"]
+          assert mode in ("calibrate", "full"), mode
+          assert isinstance(req["attempt"], int) and req["attempt"] >= 1, req
+          assert len(plan["shards"]) == 36, len(plan["shards"])
+          print("mode=" + mode)
+          print("req=" + str(req["attempt"]))
+          cal = int(req.get("calibrate_shard", 18))
+          assert 0 <= cal < 36, cal
+          print("cal=" + str(cal))
+          print("jobs=" + json.dumps([0] if mode == "calibrate" else list(range(9))))
+          PY
+
+  shards:
+    name: shards ${{ matrix.job }} (${{ needs.plan.outputs.mode }})
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        job: ${{ fromJSON(needs.plan.outputs.jobs) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install (exact versions from census_constraints.txt)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -c "$LD/census_constraints.txt" -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check --no-deps -e .
+      - name: resume (re-run attempts only)
+        if: ${{ fromJSON(github.run_attempt) > 1 }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: lambda-dh-census-r${{ needs.plan.outputs.req }}-job${{ matrix.job }}-attempt*
+          path: prior/
+      - name: gather the most advanced copy of each shard (re-run attempts only)
+        if: ${{ fromJSON(github.run_attempt) > 1 }}
+        run: python "$LD/census_shard.py" gather --src prior --out out
+      - name: preflight (fail closed; pins, ball backend, plan hash, smoke row)
+        run: python "$LD/census_shard.py" preflight
+      - name: run shards
+        run: |
+          mkdir -p out
+          if [ "${{ needs.plan.outputs.mode }}" = calibrate ]; then
+            SHARDS="${{ needs.plan.outputs.cal }}"
+          else
+            SHARDS="$(( 4 * ${{ matrix.job }} )) $(( 4 * ${{ matrix.job }} + 1 )) $(( 4 * ${{ matrix.job }} + 2 )) $(( 4 * ${{ matrix.job }} + 3 ))"
+          fi
+          for s in $SHARDS; do
+            timeout 335m python "$LD/census_shard.py" run --shard "$s" --out out > "out/log_$s.txt" 2>&1 &
+          done
+          status=0
+          for j in $(jobs -p); do wait "$j" || status=$?; done
+          tail -n 3 out/log_*.txt
+          echo "exit status $status" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit $status
+      - name: calibration record (calibrate mode)
+        if: ${{ always() && needs.plan.outputs.mode == 'calibrate' }}
+        run: |
+          python "$LD/census_shard.py" calib --shard "${{ needs.plan.outputs.cal }}" --out out | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lambda-dh-census-r${{ needs.plan.outputs.req }}-job${{ matrix.job }}-attempt${{ github.run_attempt }}
+          path: out/
+          if-no-files-found: warn
+
+  merge:
+    name: merge the 36 shards
+    needs: [plan, shards]
+    if: ${{ needs.plan.outputs.mode == 'full' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: lambda-dh-census-r${{ needs.plan.outputs.req }}-job*
+          path: prior/
+      - name: merge (most advanced copy per shard; refuses a missing shard or one from another plan)
+        run: |
+          python "$LD/census_shard.py" gather --src prior --out out
+          python "$LD/census_shard.py" merge --out out
+          sha256sum out/census_1e5.json | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lambda-dh-census-r${{ needs.plan.outputs.req }}-merged-attempt${{ github.run_attempt }}
+          path: out/census_1e5.json
+          if-no-files-found: error

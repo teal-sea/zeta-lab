@@ -279,6 +279,15 @@ conditioned); it was not run, by allocation (its cost, s2.8).
   |s| |y|/w ≤ πb on an ellipse of semi-minor axis bh/2. So each 12-node panel
   has a Gauss–Legendre bound (64/15) M ρ_B^{−24}/(ρ_B² − 1) · h/2 with
   explicit M. This is a derivation plan; it was not evaluated.
+  **Correction, 2026-10-27:** ρ_B^{−24} is the rate of the 13-point rule.
+  For 12 nodes the bound is (64/15) M ρ_B^{−22}/(ρ_B² − 1) · h/2, that is
+  ρ_B² larger: for f analytic in E_ρ with |f| ≤ M, the n-point rule errs by
+  at most Σ_{k even ≥ 2n} 2Mρ^{−k}(2 + 2/(k² − 1)) ≤ (64/15) M ρ^{2−2n}/(ρ² − 1)
+  for n ≥ 2. T_24, entire, breaks the line as written: its 12-point error is
+  1.54, against 0.267 at ρ = 3 and 0.0095 at ρ = 15 from the old rate (2.40
+  and 2.14 from the corrected one). Found by a review of PR #362, where
+  `exact_gram/bounds.py` had coded this plan; the fix, its derivation and its
+  tests are there (`exact_gram/BOUNDS.md` s5).
 - **E4 (tail series).** For polynomial ξ the 1/w expansion of F ξ is exact
   and finite; the code keeps 14 derivatives and 25 asymptotic terms of
   ∫_W^∞ e^{iaw} w^β dw. The omitted derivative terms are computable from the

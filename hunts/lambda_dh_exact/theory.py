@@ -40,10 +40,14 @@ FLOOR = 0.0576518                           # best measured landing, flow_repair
 DBAR = 1.4284                               # local-gap parameter, fitted in stage 5
 
 # flow_repair NOTES.md section 1: gamma, y0, measured t*
+# Corrected 2026-10-26: y0 of pairs 2 to 5 were transcription slips inherited from
+# hunts/flow_repair/NOTES.md (was 0.1508270, 0.0743505, 0.2242763, 0.3695261);
+# these are flow_repair/results.json's polished values to 7 dp. theory_results.json
+# was computed with the old values; slip_effect.json measures the difference.
 NINE = [
-    (85.6993, 0.3085172, 0.04412634450), (114.1633, 0.1508270, 0.01112958794),
-    (166.4793, 0.0743505, 0.00274784849), (176.7025, 0.2242763, 0.02366473172),
-    (240.4046, 0.3695261, 0.05765184035), (320.8765, 0.3195496, 0.04468146893),
+    (85.6993, 0.3085172, 0.04412634450), (114.1633, 0.1508301, 0.01112958794),
+    (166.4793, 0.0743561, 0.00274784849), (176.7025, 0.2242577, 0.02366473172),
+    (240.4046, 0.3695306, 0.05765184035), (320.8765, 0.3195496, 0.04468146893),
     (331.0503, 0.2682231, 0.03217819397), (366.6409, 0.1285081, 0.00803041920),
     (411.7967, 0.3158737, 0.04265328332),
 ]
@@ -278,11 +282,11 @@ def stage6():
     gmin = 85.6993
     ceil = t_star_gap(DELTA, gmin)
     print(f"   C2 ceiling: t*(Delta, gamma={gmin}) = {ceil:.8f} = {ceil/UPPER:.2%} of Delta^2/2")
-    print("   C3 sup, under y_max(gamma) = Delta (1 - c_p / L(gamma)^p) anchored at y_max(600)=0.3695261")
+    print("   C3 sup, under y_max(gamma) = Delta (1 - c_p / L(gamma)^p) anchored at y_max(600)=0.3695306")
     sup = {}
     grid = (600, 3e3, 1e4, 1e5, 1e6, 1e8, 1e12, 1e20)
     for p in (0.5, 1.0, 1.5, 2.0):
-        cp = (1 - 0.3695261 / DELTA) * L(600) ** p
+        cp = (1 - 0.3695306 / DELTA) * L(600) ** p  # anchor corrected 2026-10-26, was 0.3695261
         rows = [(g, DELTA * (1 - cp / L(g) ** p)) for g in grid]
         rows = [(g, y, t_star_gap(y, g)) for g, y in rows if y > 0]
         best = max(rows, key=lambda r: r[2])

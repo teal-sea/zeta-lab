@@ -57,12 +57,19 @@ jobs:
       # Restore BEFORE installing elan, which is the order `full.yml` uses: the
       # cache carries the toolchain itself, and elan-init with
       # `--default-toolchain none` is then a no-op over it.
+      #
+      # Since the Lean 4.35.0-rc2 port, Zeta23 is the copy vendored at
+      # `lean/vendor/zeta23`, required by path. Lake builds a path dependency in
+      # that package's own `.lake`, not under `lean/bridge/.lake`, so it is
+      # cached here as `palomar-port.yml` caches it; without it every run
+      # rebuilds Zeta23.
       - name: restore elan and lake
         uses: actions/cache/restore@v4
         id: lakecache
         with:
           path: |
             ~/.elan
+            lean/vendor/zeta23/.lake
             lean/bridge/.lake
           key: three-point-${{ runner.os }}-${{ hashFiles('lean/bridge/lake-manifest.json', 'lean/bridge/lean-toolchain') }}-${{ github.run_id }}
           restore-keys: |
@@ -81,11 +88,13 @@ jobs:
           lake --version
 
       - name: mathlib olean cache
-        # Mathlib is pinned at 51e6992efd06126df61a496bebf8f49482a4e129, a real
-        # master commit (2026-08-03, "chore: bump toolchain to v4.33.0-rc2"), so
-        # the upstream olean cache exists for it. Without this the runner
-        # compiles Mathlib from source and the loop is unusable. Not fatal if it
-        # fails: the build below just becomes very slow.
+        # Mathlib is pinned at 065356127b1dc0016f66b7283ce0ce2c4055aa55, a real
+        # master commit (2026-09-16, "chore: bump toolchain to v4.35.0-rc2
+        # (#43874)"), so the upstream olean cache exists for it. Before the Lean
+        # 4.35.0-rc2 port the pin was 51e6992efd06, the v4.33.0-rc2 bump of
+        # 2026-08-03. Without this the runner compiles Mathlib from source and
+        # the loop is unusable. Not fatal if it fails: the build below just
+        # becomes very slow.
         run: lake exe cache get || echo "::warning::mathlib cache get failed, falling back to source build"
 
       - name: dependencies (Zeta23 upstream, then the bridge development)
@@ -101,6 +110,7 @@ jobs:
         with:
           path: |
             ~/.elan
+            lean/vendor/zeta23/.lake
             lean/bridge/.lake
           key: three-point-${{ runner.os }}-${{ hashFiles('lean/bridge/lake-manifest.json', 'lean/bridge/lean-toolchain') }}-${{ github.run_id }}
 
@@ -185,12 +195,14 @@ jobs:
                    Zeta23Ext.Bridge.ThreePoint.Phi_three \
                    Zeta23Ext.Bridge.ThreePoint.three_point_bound \
                    Zeta23Ext.Bridge.ThreePoint.three_point_bound_ratio \
+                   Zeta23Ext.Bridge.ThreePoint.three_point_bound_cumulative \
                    Zeta23Ext.Bridge.FourPoint.F4_eq \
                    Zeta23Ext.Bridge.FourPoint.cover1 \
                    Zeta23Ext.Bridge.FourPoint.four_point_cert \
                    Zeta23Ext.Bridge.FourPoint.Phi_four \
                    Zeta23Ext.Bridge.FourPoint.four_point_bound \
                    Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio \
+                   Zeta23Ext.Bridge.FourPoint.four_point_bound_cumulative \
                    Zeta23Ext.PalomarV2.n_point_bound \
                    Zeta23Ext.PalomarV2.eight_point_bound \
                    Zeta23Ext.PalomarV2.eight_point_bound_ratio \
@@ -203,7 +215,7 @@ jobs:
               exit 1
             fi
           done
-          echo "axiom audit clean: nineteen declarations, all [propext, Classical.choice, Quot.sound]"
+          echo "axiom audit clean: twenty-one declarations, all [propext, Classical.choice, Quot.sound]"
 
       - name: the Challenge carries exactly seven sorrys, the Solution none
         working-directory: .
@@ -254,5 +266,6 @@ jobs:
         with:
           path: |
             ~/.elan
+            lean/vendor/zeta23/.lake
             lean/bridge/.lake
           key: three-point-${{ runner.os }}-${{ hashFiles('lean/bridge/lake-manifest.json', 'lean/bridge/lean-toolchain') }}-${{ github.run_id }}-final

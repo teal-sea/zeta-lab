@@ -43,6 +43,8 @@ def test_all_submitted_lean_files_have_module_headers_and_fit_the_line_cap():
     assert QRH_LEGACY_FILES <= set(files)
     assert (ROOT / "lean/qrh/lean-toolchain").read_text().strip() == "leanprover/lean4:v4.34.1"
     for name in files:
+        if "receipts" in Path(name).parts:
+            continue  # a copy of what a run compiled, kept as its record, not a source
         path = ROOT / name
         assert not path.is_symlink(), name
         source = path.read_text()

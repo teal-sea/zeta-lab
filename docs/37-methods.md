@@ -67,27 +67,33 @@ stays out of this file. No em dashes.
 - **Lean arm: formalised elementary number theory** (10). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
-- **Certificates, verifiers and exact arithmetic** (23). Exact rational acceptance of
+- **Certificates, verifiers and exact arithmetic** (24). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
-- **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
-  bound from a fixed zero-free half-plane, and the exact sieve that spends it on
-  complete class-number lists.
+- **Zero-free half-planes, L(1, chi) and class numbers** (4). An explicit Littlewood
+  bound from a fixed zero-free half-plane, the exact sieve that spends it on complete
+  class-number lists, a way to locate the inequality that fixes a paper's
+  half-plane constant, and an exact function-field control for the Euler identities
+  that half-plane arguments rest on.
 - **Primes in short intervals and explicit formulas** (2). Smoothed explicit formulas
   with closed-form sums over zeros split at a verified height; threshold exponents for
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (62). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (64). Surfaced by the sweep, below the bar for now.
 
-Totals: 190 entries from 72 hunts. Kinds: identity 24, lemma 48, bound 12, construction
-16, calibration 7, computational 21, control 40, obstruction 22. (Recounted from the
+Totals: 194 entries from 76 hunts. Kinds: identity 24, lemma 48, bound 12, construction
+16, calibration 7, computational 22, control 43, obstruction 22. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
 again from the entries. The seven Erdos #126 arms landed on 2026-10-21 (hunts #94, #97,
 #98, #99, #100, #106, #143) added eight items to "Seen and not admitted" and none above;
 that count was recounted from its items: 54 before them, where the line read 51. Hunt
-#140 added two on 2026-10-21, recounted again from the entries.)
+#140 added two on 2026-10-21, recounted again from the entries. Hunt #153 added one
+control on 2026-10-27, the provenance scan. Landed 2026-10-30: hunt #139 one
+computational entry, hunt #148 one control, and hunt #142 one control, with it and the
+`frontier_math` gap A landing adding one item each to "Seen and not admitted";
+recounted again from the entries and items, counting each entry's originating hunt.)
 
 ## Prime pairs and the circle method
 
@@ -5153,6 +5159,11 @@ and the controls that separate an instrument reading from a mathematical claim.
   as nonvanishing and saturate the torus (`r_abf47b`)
 - obstruction: Stabilizer-slice orbit census: a coordinate stabilizer's orbits refine
   the full orbits and add no branches (`r_abf47b`)
+- control: Symbol-level provenance scan for zero-derived names, with planted
+  lesions and a false-positive pin (`ontology_provenance`)
+
+- control: Cited-path guard for the reading course: every backticked `.py` path in
+  `docs/` must exist (`f1_engine_controls`)
 
 ### Signed-lattice binomial/trinomial sieve on a support torus
 
@@ -5659,7 +5670,9 @@ lines 108-128
 Prior art: unsearched
 Reused in: scripts/60_rung3_generate.py and scripts/65_rung3_full_validation.py
 (generator assertion and validation verdict changed); docs/25 section 4.3 prediction
-refuted
+refuted; hunt #145's production run, whose 104 grid sites carry beta read off the
+enclosure, and whose assembly takes each beta from the site theorem's type and checks
+eps' + L h/2 <= beta by `norm_num` (`hunts/rung3_ball_production/assembly.py`)
 Why it travels: Any certificate pipeline that copies a numerically fitted constant into
 a proof obligation has this failure mode; the fix (read the constant off the enclosure,
 assert the consuming inequality at generation) is generic.
@@ -5709,9 +5722,18 @@ lean/HardyFirstZero/Boxes.lean; gen_boxes.py
 Prior art: the staged literal pipeline of `scripts/60_rung3_generate.py` and
 `scripts/69_rung3_ball_generate.py` is the same idea with `norm_num`; `decide +kernel` is
 the change
-Reused in: none yet
-Why it travels: The Davenport-Heilbronn certificate's per-term cost model rests on
-`norm_num`; if `decide +kernel` holds its speed at that height it reprices the run.
+Reused in: `hunts/rung3_ball_production/` (hunt #145, 2026-10-26). There each prime tower
+of the Davenport-Heilbronn certificate is one `decide +kernel` of the whole
+`dirichletTermBallB` value at the DH height (`nLog = 32`, `nExp = 20`, `p = 64`,
+`kE = 10`), plus `contains_dirichletTermBallB`: 3.4 to 5.3 CPU-s per tower in standalone
+files and 1.19 in situ, against about 66 for the staged `norm_num` tower. It became
+`scripts/60 --tower whole`, and production compiled in 16.1 runner core-hours instead
+of the 416 projected (its `PILOT.md` sections 7, 9 and 12). That instance decides one
+whole tower, not one per box: at this height a single tower fits the kernel's budget,
+where the 29-box sum above did not.
+Why it travels: It did reprice the Davenport-Heilbronn run. Any recursive enclosure
+whose value the kernel can reduce in seconds is cheaper decided whole, with its
+containment lemma, than staged literal by literal under `norm_num`.
 
 ### Parametric interval Krawczyk for a matching system over a cover of a uniformity parameter
 
@@ -5834,6 +5856,67 @@ Why it travels: A symmetry-reduced branch search should check a proposed finer c
 against the full group's orbits before paying for it, and any orbit census of tuples
 under a transitive group can be run on one slice.
 
+### Symbol-level provenance scan for zero-derived names
+
+control | `hunts/ontology_provenance/` | grade: measured
+
+A static read of a Python file against a named rule set of zero-derived
+quantities (ordinates, xi-phases, zero finders, zero counters, zero tables,
+ordinate statistics). `from module import name` follows that name, including
+every name the body reads, not only a call, and a from-import the name reads.
+A from-import that a file only re-exports follows its source. An attribute
+re-export (`import helper` then `f = helper.f`) does not, and RESULTS names
+that residual. `import module`
+follows the module, and a whole-module or star import of a provider, or an
+import from a laboratory directory the scan does not read, is undecided
+(closed 2026-10-30; they read clean before). A name the file defines is a provider of that name, not a
+consumer of it. Dynamic execution and a name that cannot be resolved are
+undecided, never clean. The planted violations in the lesion suite must come
+back tainted, a
+clean control whose only crime is the word zero in an identifier must stay
+clean, and frame 07 (which imports only `dh_coefficient`) must not be reported
+tainted. The scan establishes name reachability. It does not establish that a
+clean frame is prime-derived, and it does not distinguish a name used to build
+an object from a name used under `__main__` to print a comparison.
+
+Evidence: hunts/ontology_provenance/RESULTS.md sections 1 to 3;
+hunts/ontology_provenance/test_provenance.py
+Prior art: unsearched. The scan implements the check `docs/09` section 5.1
+already called mechanically checkable. No novelty is claimed.
+Reused in: none yet
+Why it travels: A later frame can be checked for an ordinary zero import before
+anyone reads it as an explanation, and the lesion suite shows the check can fail.
+
+### Cited-path guard for the reading course: every backticked `.py` path in `docs/` must exist
+
+control | `hunts/f1_engine_controls/` | grade: exact finite check (a lexical scan of
+`docs/`; it caught one real stale citation on `main`)
+
+A document in `docs/` that cites a repository-relative Python file is an instruction to a
+reader, and nothing else in the tree resolves it: `scripts/make_context.py --check`
+indexes what exists rather than what is cited, and the site generator publishes prose
+without following its paths. The guard collects every backticked path with a directory
+component and a `.py` suffix in `docs/**/*.md` and fails naming each one that does not
+exist, and a second test requires the scan to find more than 50 citations, so a drifted
+pattern cannot pass by matching nothing. The scope is deliberately narrow, `.py` only and
+`docs/` only, so the rule carries no allowlist: Lean, Markdown and JSON paths in `docs/`
+are often relative to a package root, and hunt write-ups legitimately name files that
+never existed, such as the planted paths of a guard audit. Run against `main` as it stood
+before the hunt landed (2026-10-21), it read 255 citations of 101 distinct paths and
+failed on exactly one, `docs/15` citing discovery/01_f1_geometry.py (written here without
+backticks, since the guard reads this file too), stranded by the rename of `discovery/`
+to `ontology/`.
+
+Evidence: tests/test_docs_paths.py (module docstring, both tests);
+hunts/f1_engine_controls/RESULTS.md 'Disposition'; the correction notice at the head of
+docs/15-the-f1-discovery-engine.md
+Prior art: unsearched; link checking of documentation is standard practice, and the
+narrow scope that removes the allowlist is this tree's choice
+Reused in: it runs in the fast tier, so every later change to `docs/` passes through it
+Why it travels: A directory rename strands citations in prose that no index reads. A guard
+with one rule and no exceptions has nothing to rot, and the drift test stops it passing
+for the wrong reason.
+
 ## Zero-free half-planes, L(1, chi) and class numbers
 
 ### Two-cutoff Littlewood bound for log L(1, chi) under a zero-free half-plane, with Hadamard positivity for the zero sum
@@ -5886,6 +5969,83 @@ Reused in: none yet
 Why it travels: any explicit bound |D| <= D(h) (from a zero-free region, GRH, or a
 future theorem) becomes a complete class-number list by this sieve at cost about
 X * H additions, without a conditional class-group algorithm.
+
+### Locating the inequality that fixes a paper's constant: reproduce at the paper's values, then bound by one witness point
+
+computational technique | `hunts/seven_eighths_pin` | grade: exact rational arithmetic
+on formulas transcribed from the paper (38 printed constants reproduced, planted faults
+caught); the general-parameter readings that change which inequality is used are inferred
+
+To find what fixes a constant like the 7/8 of a zero-free half-plane: rewrite the
+final assembly's inequalities as functions of the parameters the paper chose (here the
+prime-slot length, the two averaging lengths, their offset), and evaluate each at the
+paper's values against the number it prints, so that a transcription error fails a test
+before any conclusion is drawn. Then use the shape of the binding inequality: at one
+fixed point of its inner variables it and the target are affine in the free parameters,
+so a two-variable linear program at that point gives an exact lower bound on the target
+over every parameter choice, and a constant-target direction with positive slope shows
+which boundary the optimum sits on. Here it gave target = 5/6 + (M - 2 ell)/12 through
+both stages of the argument, the corner M + ell = 1, M - 2 ell = 1/2 at the paper's
+geometry, and the exact bound 5655673/6464057 for every geometry with the paper's row
+counts; scaling the row-count excess to zero priced the whole input at 13/15. That bound
+is valid but loose: at the witness where the offset's coefficient vanishes, delta* =
+(49 - sqrt 921)/48, the same program returns sigma* = (1507 - 2 sqrt 921)/1653, the
+published optimum of the geometry (checked at landing on 2026-10-21, pinned to 35 digits).
+
+Evidence: RESULTS.md sections 2 to 6 and 10; `probe.py` (reproductions,
+`robust_single_point_bound`); `test_seven_eighths_pin.py` (the landing checks)
+Prior art: searched at landing on 2026-10-21 and found. Most of what the method gave here
+was public before the hunt opened (2026-10-16) and was derived here independently, so it
+is not novel. tomoto0 (github.com/tomoto0/quasi-riemann-hypothesis-7-8-verification,
+commit b83a73c6cb62, 7 October 2026) had already rebuilt the final section's inequalities
+as functions of the geometry, reproduced the printed margins, and found the target
+1 - h/6 + b/12, the floor-row ceiling 13/15 at the same corner and a geometry optimum near
+0.87496 with the zero-detected rows binding. J. Guo
+(github.com/aster2024/openai-math-followups, zero-free-beyond-7-8, commit 5750cc81e489)
+and B. Liu (arXiv:2610.12234), both 8 October, give the exact optimum
+sigma* = (1507 - 2 sqrt 921)/1653; Guo's sections 8 and 11 derive its binding bin from the
+vanishing coefficient of the offset and use that bin as a one-witness obstruction. Z. Gao
+(7 October, 20999/24000), Argonaut Math and LW56e2 (8 October) also state boundaries below
+7/8. Not found in the sources read (RESULTS.md section 10 lists them): the corner reading,
+M + ell <= 1 with per-summand losslessness M - 2 ell >= 1/2, which alone forces 7/8; the
+exact rational one-witness bounds; and the pricing of the row-count excess between its two
+ends. Liu's note itself was not read
+Reused in: none yet
+Why it travels: any long proof whose final section combines fixed exponents into one
+margin can be read this way, the reproduction step is the control that makes the
+reading checkable without the reader being trusted, and a witness placed where the free
+parameter's coefficient vanishes turns the lower bound into the optimum, as Guo's
+section 11 does for his endpoint.
+
+### Function-field transplant of a Gauss-sum Euler identity as an exact control, with a three-prime modulus test
+
+control | `hunts/ff_probe` | grade: exact finite checks in cyclotomic arithmetic at the
+stated parameters, every exact number it recomputes (15 items) reproduced by a PARI/GP second implementation; unreviewed
+
+Move a number-field identity whose local factors are built from Gauss sums and Hecke
+characters to F_q[T] with q = 1 mod 2n. There every angular datum (the Hecke character of
+infinity type, the supplementary symbols) becomes a character of the degree, every Gauss sum
+is a finite sum, and the identity's two sides become finite sums in Q(zeta_N) that can be
+compared coefficient by coefficient, with residue symbols by resultant and by Frobenius and
+Gauss sums by enumeration and by Davenport-Hasse. For Lemma 7.1 of OpenAI's 7/8 paper over
+F_7[T] (cubic theta, sextic averaging) the closed form with the paper's six J_j equals the
+local factor by definition, and the probe's original, Poisson and Euler representations agree
+at every triple of total degree at most 6 that its selection rule leaves; the transplant
+also exposes that the correction product converges absolutely from Re x = 2/3 (derived), not
+the 7/8 the paper uses. Before pricing an identity whose input is in doubt, test it in
+modulus: an Euler product forces |K(P1 P2 P3)| = |K(P1)| |K(P2)| |K(P3)| in the principal
+row, so a theta row whose squarefree coefficients vanish at some triples of linear primes and
+not at others has no scalar local identity (the biquadratic theta over F_13[T]: zero at 234
+of the 286 triples).
+
+Evidence: hunts/ff_probe/LOCAL_IDENTITY.md sections 2 and 3; S4.md sections 3 and 4;
+VERIFICATION.md; ffprobe.py, ffprobe_pari.py, crosscheck.py, test_ffprobe.py
+Prior art: unsearched as a control; the function-field theta coefficients are Hoffstein's and
+Patterson's (hunts/ff_probe/SOURCES.md, with the errata found there)
+Reused in: none yet
+Why it travels: any proposed Euler factorization of a Gauss-sum or theta-twisted series can be
+put through an exact finite test before its analytic consequences are priced, and three
+primes refute one cheaply.
 
 ## Primes in short intervals and explicit formulas
 
@@ -6216,3 +6376,18 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   two-term count N_2^(N)(k), 2, 4, 5, 6, 8 against 1, 7, 32, 75, 141 for k = 1..5,
   measures what the two-anchor reduction discards (`hunts/support_6da47ca3/`,
   computational): measured, bounded boxes, lower bounds only; not carried.
+- Dead-end kernel law for a degenerate eigenvalue of a prime graph: in the antisymmetric
+  matrix of `ontology/04_transcendental_matrix.py`, the nodes `u` with `2u <= N < 3u` carry
+  a private `ln 2` rung, so the multiplicity of `i ln 2` is `dim ker C` for the incidence
+  matrix of those nodes against the hubs `u/q` below them; `pi(N/2) - pi(N/3) - 1` is the
+  case where every such node is prime, and it first undercounts at `N = 338`
+  (`hunts/f1_engine_controls/`, lemma): derivation self-reviewed, measured against the
+  eigenvalue count at every `N` from 10 to 260 and on a coarser scan to 800; used only
+  inside its hunt.
+- Repair-and-scale verification of an SDP solved against a sampled constraint: project the
+  Gram matrix onto the positive-semidefinite cone, then take the largest scale keeping
+  `uhat <= M` on a grid two orders of magnitude finer than the solve grid; where `M`
+  vanishes any positive `uhat` forces the scale to 0, so the scale is the verdict, and the
+  case whose answer is proved must come back at scale 1 first. A scale-0 verdict at solver
+  tolerance leaves the question undecided rather than answered
+  (`hunts/frontier_math/sparse_sdp.py`, control): measured; used only inside its hunt.

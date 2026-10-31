@@ -370,3 +370,75 @@ non-enclosing computations. The repository governance selection passed
 335 tests, and the relevant hunt/door selection passed 7 tests with 4 slow
 tests deselected. `make_context.py --check` and `git diff --check` passed.
 No stronger asymptotic, novelty claim, formal proof, or RH proof is recorded.
+
+## 2026-09-20, the truncated-formula checks, with their re-run at landing (2026-10-21)
+
+`THEOREM_B_FORMULA_REPAIR.md` section 9 and `THEOREM_B_FORMULA_REVIEW.md` record these
+runs; this entry was added when the work landed. The author's `formula_repair_checks.py`
+runs eight checks, C1 to C8, at mp.dps = 60, in about 3 s by the author's account. The
+reviewer's `formula_review_checks.py` runs five second-method checks at mp.dps = 30, and
+the author did not run it. Both first ran on 2026-09-20 with the main checkout's
+interpreter. Nothing checkpoints because nothing runs long enough to need it. At landing
+both were re-run from the repository root with Python 3.12.3 and mpmath 1.3.0, taking
+6.3 s and 91 s of wall time, and both results files came back byte for byte unchanged.
+Later that day one docstring line of `formula_review_checks.py` was changed to drop a
+machine-specific path (its header records the change), and both scripts were run again,
+in 51 s and 420 s of wall time on a shared machine at load average about 67; both results
+files again came back byte for byte unchanged. Every check is a finite floating-point
+evaluation and is not proof. One reading note: the review text gives the real-line scan
+minimum as "~0.36", while the reviewer's JSON records 0.33412327, which fits
+L(0, chi_3) = 1/3 (C2) as s -> 0+. The review text is left as written.
+
+```runmanifest
+id: prime_pair_error-2026-09-20-formula-repair-checks
+hunt: prime_pair_error
+started: 2026-09-20
+finished: 2026-09-20
+ran:
+  - the main checkout's .venv/bin/python hunts/prime_pair_error/formula_repair_checks.py (author, Python 3.13.14, mpmath 1.3.0)
+  - the main checkout's .venv/bin/python hunts/prime_pair_error/formula_review_checks.py (reviewer, once in each of the two review rounds)
+outcome: All eight author checks and all five reviewer checks pass, NOT proof. Lemma 0 holds to 2.4e-58 at every integer x <= 200; L(s, chi_3) vanishes at s = -1, -3, -5 and not at 0, -2, -4; the s = -1 double pole has leading coefficient 1 and linear coefficient nu = 0.643831644563 by finite differences and again by Cauchy integrals; mu_1 = -0.474099413336; |c(rho)| gamma runs from 0.4915 to 0.4998 over 21 located ordinates; with C_1 omitted, the truncation-error bound over the signal (beta_0 = 0.6) grows to 2.6e43 at T = x^0.1, while at T = x^0.45 its first tabulated value below 1 is 0.073 at x = 1e128; Lemma 1's grouped series stays inside its tail bound with no negative bracket; the 21 inherited ordinates sit near genuine zeros (max |L| 1.6e-14), completeness not proved.
+artifacts:
+  - hunts/prime_pair_error/results_formula_repair_checks.json
+  - hunts/prime_pair_error/results_formula_review_checks.json
+```
+
+```runmanifest
+id: prime_pair_error-2026-10-21-formula-checks-landing-rerun
+hunt: prime_pair_error
+started: 2026-10-21
+finished: 2026-10-21
+ran:
+  - .venv/bin/python hunts/prime_pair_error/formula_repair_checks.py
+  - .venv/bin/python hunts/prime_pair_error/formula_review_checks.py
+outcome: Re-run at landing with Python 3.12.3 and mpmath 1.3.0, 6.3 s and 91 s of wall time; every check passes again and both results JSON files are reproduced byte for byte, so git diff is empty after the run. Run again after the one-line docstring edit to formula_review_checks.py, in 51 s and 420 s of wall time under load, with the same outcome. A reproduction on one machine, not a new measurement.
+artifacts:
+  - hunts/prime_pair_error/results_formula_repair_checks.json
+  - hunts/prime_pair_error/results_formula_review_checks.json
+```
+
+## 2026-10-21, the inherited zero list misses one zero (at landing)
+
+The independent verification of this landing reported that
+`results_landau_zero_probe.json` misses a zero of L(s, chi_3) at gamma = 50.3751386506,
+found by a step-0.01 sign-change scan of the Hardy-type function in mpmath. The checks
+below were run by hand to test that report by routes that share no code with mpmath, and
+to find why the probe missed the zero. They took seconds, and no test pins them. The
+correction they support is recorded at the end of section 8 of
+`THEOREM_B_FORMULA_REPAIR.md` and in section 6 of `THEOREM_B_SEQUENCE.md`; the probe and
+its results file are left as they are.
+
+```runmanifest
+id: prime_pair_error-2026-10-21-landau-zero-list-audit
+hunt: prime_pair_error
+started: 2026-10-21
+finished: 2026-10-21
+ran:
+  - .venv/bin/python -c "import cypari2; P = cypari2.Pari(); print(P.lfunzeros(P.lfuncreate(-3), 60))" (PARI/GP 2.17.2 through cypari2; lfuncreate(-3) is L(s, (-3/.)) = L(s, chi_3))
+  - python-flint 0.9.0 at 200 bits, Lambda(1/2 + it) = (3/pi)^((s+1)/2) Gamma((s+1)/2) L(s, chi_3) with L from acb.dirichlet_l(s, dirichlet_char(3, 2)), at t = 50.37 and t = 50.38
+  - mpmath 1.3.0 at dps 30, |L(1/2 + it, chi_3)| on the probe's grid t = 49.75, 50.0, 50.25, 50.5, 50.75, 51.0
+outcome: PARI returns 22 zeros up to height 60, the 21 listed ordinates and gamma = 50.3751386506. Ball arithmetic gives Lambda(1/2 + 50.37i) in [-8.1504288e-19 +/- 1.7e-27] and Lambda(1/2 + 50.38i) in [7.6373067e-19 +/- 1.4e-27]; Lambda is real on the critical line because the root number is 1, so an unlisted zero with 50.37 < t < 50.38 exists. On the probe's step-0.25 grid the local minimum near it is |L| = 0.538 at t = 50.5, above the probe's 0.5 cutoff for candidates, which is why the probe never refined it. The existence of the unlisted zero is hardened; exactly 22 zeros to height 60 is measured by two routes and not proved.
+artifacts:
+  - hunts/prime_pair_error/THEOREM_B_FORMULA_REPAIR.md
+  - hunts/prime_pair_error/THEOREM_B_SEQUENCE.md
+```
