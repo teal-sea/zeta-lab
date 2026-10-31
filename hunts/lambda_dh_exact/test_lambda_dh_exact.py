@@ -384,13 +384,34 @@ def test_verdict_P4_not_raised_within_coverage():
     P4 is *unresolved, evidence against* (RESULTS.md 8.7, relabelled 2026-10-26 in
     review): its antecedent, a complete census to 1e4, was not run (y0 in
     (0.3396, 0.35] not landed), so this shows only that, within coverage
-    y0 > 0.35, the best landing is not raised.
+    y0 > 0.35, the best landing is not raised. Superseded by the complete census
+    (RESULTS.md 8.17, 2026-10-31; the next test).
     """
     assert all(r["y0"] > 0.35 for r in load("census_1e4.json")["rows"])     # the coverage
     a, _ = _all_landed()
     best = max(a, key=lambda r: r["landing_ode"])
     assert round(best["gamma"], 2) == 240.40
     assert none_beats_floor([r["landing_ode"] for r in a if r is not best])
+
+
+def test_verdict_P4_refuted_on_the_complete_census():
+    """RESULTS.md 8.17: flow_repair's census_sweep.jsonl lands every v6 pair below 1e4
+    with the same ODE; the best is still the floor pair, the runner-up 3.1% below."""
+    with open(HERE.parent / "flow_repair" / "census_sweep.jsonl") as fh:
+        rows = [json.loads(line) for line in fh]
+    low = [r for r in rows if r["gamma"] < 1e4]
+    assert len(low) == 567 and not any(r["edge"] for r in low)
+    assert sum(0.3396 < r["y0"] <= 0.35 for r in low) == 5           # the band 8.7 lacked
+    best, second = sorted(low, key=lambda r: -r["tstar_ode"])[:2]
+    assert round(best["gamma"], 2) == 240.40 and round(best["tstar_ode"], 8) == 0.05766566
+    assert round(second["gamma"], 2) == 2442.53 and 1 - second["tstar_ode"] / best["tstar_ode"] > 0.03
+    a, _ = _all_landed()                                               # agrees with this hunt's own census
+    mine = {round(r["gamma"], 2): r["landing_ode"] for r in a}
+    for r in low:
+        if round(r["gamma"], 2) in mine:
+            assert abs(r["tstar_ode"] / mine[round(r["gamma"], 2)] - 1) < 1e-5
+    margin = min(1 - r["tstar_ode"] / r["isolated_y0sq_half"] for r in low)
+    assert 0 < margin < 4e-4          # P8 left open: the closest margin is below the ODE-flow match
 
 
 def test_verdict_P6_refuted():

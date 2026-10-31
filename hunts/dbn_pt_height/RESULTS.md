@@ -135,7 +135,9 @@ to this lab. It is not claimed novel: the search behind it was the newest 60
 de Bruijn-Newman abstracts on arXiv and an author search, abstracts only
 (`CHAIN.md`, section 4). `CLAUDE.md` routes such an observation to a public
 GitHub issue; none was opened, and whether to raise it outside this repository
-is the owner's decision.
+is the owner's decision. *Owner decision, 2026-10-31:* not raised outside this
+repository for now. Its source ties are cache only and have not been re-run
+on another machine.
 
 ## 4. The Davenport-Heilbronn gate: what it catches, and what rests on it
 

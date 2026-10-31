@@ -1266,3 +1266,26 @@ moving-neighbour model is inside the data the census already holds. It is
 the cheapest door, and the one that says whether any model of this family
 can extrapolate to depths near Delta.
 
+
+### 8.17 P4 against the complete census below 10^4 (added 2026-10-31)
+
+Added by the owner's decision of 2026-10-31. The text above is left as
+written. P4's antecedent, a complete census to 10^4, was the reason 8.7
+graded it *unresolved, evidence against*. `hunts/flow_repair/census_sweep.py`
+(`flow_repair/NOTES.md` section 7) has since landed every pair of the v6
+census with the same ODE. That covers all 567 pairs below 10^4, the 5 with
+y0 in (0.3396, 0.35] and the 541 shallower ones among them. The best landing
+below 10^4 is still the floor pair at height 240.40 (ODE 0.05766566). The
+runner-up is the pair at height 2442.53 (0.05586457), 3.1 percent below it.
+So the best landing is not raised.
+
+**P4: refuted**, measured. That is a float ODE landing on every pair, and the
+completeness is the v6 census's, replayed by one route in `docs/46`, which
+stops short of hardened. Pinned by
+`test_lambda_dh_exact.py::test_verdict_P4_refuted_on_the_complete_census`.
+
+P8 is left as 8.16 has it. The same sweep has no pair below 10^4 landing
+later than its own y0^2/2. But its closest margins sit at the shallowest
+pairs, 0.016 percent at height 5861.53 with y0 = 0.0061. That is below the
+0.04 percent to which the ODE was matched to the flow (`flow_repair/NOTES.md`
+section 3), so the ODE cannot settle P8's sign there.
