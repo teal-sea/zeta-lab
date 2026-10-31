@@ -258,5 +258,80 @@ def main() -> None:  # pragma: no cover - the gate run itself, recorded in RUNS.
         out_path.write_text(json.dumps(res, indent=1, default=str) + "\n")
 
 
+# --------------------------------------------------------------------------- #
+#  Stage 2 (DH_GATE_PREREG_2.md, added 2026-10-31).  Everything above this line
+#  is stage 1 as preregistered at 2ba8cbba3 and is not changed: its boxes, its
+#  parameters, its decision table and its verdict rule.  Stage 2 adds two boxes
+#  at hunt #61's close zero pair (z = 480.6903 +- 0.0204i, wide t = 144/625),
+#  placed so that one segment of the four-point mesh of the ``no_margin`` fault
+#  is centred over the pair: the zeros on one side of that segment subtend
+#  about 296 degrees, more than the half turn a principal argument can carry.
+# --------------------------------------------------------------------------- #
+
+GATE_BOXES_2 = {
+    "Z5": {"t": _F("144/625"), "box": (_F("48039/100"), _F("48119/100"), _F("1/100"), _F("3/100")),
+           "kind": "zero", "why": "hunt #61's zero 480.6903 + 0.0204i; top edge 0.0096 above it"},
+    "C3": {"t": _F("144/625"), "box": (_F("48039/100"), _F("48119/100"), _F("3/100"), _F("1/5")),
+           "kind": "control", "why": "above Z5; bottom edge 0.0096 above the zero, 0.0504 above its conjugate"},
+}
+
+
+def run_stage2_boxes(names: list[str]) -> dict[str, Any]:
+    """Truth and every run (clean and each fault) on the named stage-2 boxes; no verdicts."""
+    part: dict[str, Any] = {"truth": {}, "outputs": {}}
+    for name in names:
+        g = GATE_BOXES_2[name]
+        part["truth"][name] = truth(g["box"], g["t"])
+        print(name, "truth", part["truth"][name], flush=True)
+        for fault in (None,) + FAULTS:
+            key = fault or "clean"
+            r = dh_barrier(g["box"], g["t"], faults=frozenset([fault]) if fault else frozenset())
+            part["outputs"].setdefault(key, {})[name] = r
+            print(name, key, r["winding"], r["n_evaluations"], r["seconds"], flush=True)
+    return part
+
+
+def assemble_stage2(parts: list[dict[str, Any]]) -> dict[str, Any]:
+    """The stage-2 record from per-box parts: rows and verdicts by the stage-1 rules, unchanged."""
+    res: dict[str, Any] = {"preregistration": "DH_GATE_PREREG_2.md", "truth": {}, "runs": {}}
+    outputs: dict[str, dict[str, Any]] = {}
+    for p in parts:
+        res["truth"].update(p["truth"])
+        for key, by_box in p["outputs"].items():
+            outputs.setdefault(key, {}).update(by_box)
+    assert set(res["truth"]) == set(GATE_BOXES_2), "stage 2 needs every one of its boxes"
+    for key in ("clean",) + FAULTS:
+        rows = {}
+        for name, g in GATE_BOXES_2.items():
+            tr = res["truth"][name]
+            rows[name] = classify(g["kind"], tr["N"] if tr["status"] == "decided" else None,
+                                  outputs[key][name]["winding"])
+        res["runs"][key] = {"rows": rows, "verdict": verdict(rows), "outputs": outputs[key]}
+    return res
+
+
+def combined_verdicts(stage1: dict[str, Any], stage2: dict[str, Any]) -> dict[str, str]:
+    """The preregistered verdict rule over the union of both stages' rows, per run."""
+    return {key: verdict({**stage1["runs"][key]["rows"], **stage2["runs"][key]["rows"]})
+            for key in stage1["runs"]}
+
+
+def main_stage2(argv: list[str]) -> None:  # pragma: no cover - the stage-2 run, recorded in RUNS.md (E8)
+    """``dh_gate.py stage2 PART.json BOX...`` runs boxes; ``dh_gate.py stage2 OUT.json --assemble PART...``
+    writes the record."""
+    out_path = Path(argv[0])
+    if argv[1] == "--assemble":
+        parts = [json.loads(Path(p).read_text()) for p in argv[2:]]
+        res = assemble_stage2(parts)
+        for key, run in res["runs"].items():
+            print(key, run["verdict"], run["rows"], flush=True)
+    else:
+        res = run_stage2_boxes(argv[1:])
+    out_path.write_text(json.dumps(res, indent=1, default=str) + "\n")
+
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "stage2":
+        main_stage2(sys.argv[2:])
+    else:
+        main()

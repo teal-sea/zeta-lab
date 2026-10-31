@@ -320,6 +320,22 @@ artifacts:
 outcome: clean pipeline PASS; must-catch faults one_corner and main_terms_only caught (FAIL); no_margin and no_M2 not caught; narrow_frame caught, against its preregistered expectation
 ```
 
+### E8. Stage 2 of the DH gate, at landing (2026-10-31)
+
+Added at landing by a session other than the lanes' author, to answer the
+owner's open question whether the gate is enough. Stage 1 (E7) is not changed
+or rerun. `evaluator/DH_GATE_PREREG_2.md` says why `no_margin` and `no_M2`
+could not show on the stage-1 boxes and preregisters two boxes at hunt #61's
+close zero pair, Z5 and C3, with the predictions.
+
+- **Estimate before the run** (from E7's Z1 and C1, same t and height): truth
+  5 to 10 s, clean 15 to 40 s, `narrow_frame` up to about 170 s, the other
+  faults under 20 s each; about four to five minutes per box, two boxes as two
+  processes at nice 10 on a 4-core machine, under ten minutes of wall time.
+  Below one core-hour, so it runs without asking.
+- Before the preregistration commit, only point evaluations were made on
+  stage-2 points (listed in the preregistration).
+
 ## Chain lane (`MISSION.md`, `CHAIN.md`, `REDUCTION.md`, `chain.json`, `sources.json`)
 
 ### C1. Sourcing and reading (2026-10-21 16:23 to 17:23 UTC)

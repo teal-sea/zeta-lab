@@ -30,8 +30,46 @@ D1 = (F(1, 10), (F(600), F("6005/10"), F("1/10"), F("3/10")))
 
 def test_development_boxes_are_not_gate_boxes() -> None:
     for t, box in (D0, D1):
-        for g in G.GATE_BOXES.values():
+        for g in (*G.GATE_BOXES.values(), *G.GATE_BOXES_2.values()):
             assert not (g["t"] == t and g["box"] == box)
+
+
+def test_stage2_adds_boxes_and_changes_no_stage1_box() -> None:
+    """DH_GATE_PREREG_2.md: stage 2 adds Z5 and C3 and leaves stage 1's six boxes as preregistered."""
+    assert set(G.GATE_BOXES) == {"Z1", "Z2", "Z3", "Z4", "C1", "C2"}
+    assert set(G.GATE_BOXES_2) == {"Z5", "C3"} and not set(G.GATE_BOXES) & set(G.GATE_BOXES_2)
+    assert G.GATE_BOXES["Z1"]["box"] == (F("245909/512"), F("123159/256"), F("3/512"), F("35/512"))
+    z5, c3 = G.GATE_BOXES_2["Z5"], G.GATE_BOXES_2["C3"]
+    assert z5["t"] == c3["t"] == F(144, 625)
+    assert z5["box"] == (F("48039/100"), F("48119/100"), F("1/100"), F("3/100"))
+    assert c3["box"] == (F("48039/100"), F("48119/100"), F("3/100"), F("1/5"))
+    # hunt #61's zero, wide frame, sits mid-segment of the four-point mesh and between Z5's edges
+    x0, y0 = 2 * F("240.3451714460939"), 2 * F("0.01018313776460141")
+    x_lo, x_hi, y_lo, y_hi = z5["box"]
+    step = (x_hi - x_lo) / 4
+    assert abs(x0 - (x_lo + step + step / 2)) < F(1, 1000) and y_lo < y0 < y_hi
+
+
+def test_stage2_assembly_applies_the_stage1_rules() -> None:
+    """The assembly on synthetic outputs: rows and verdicts follow classify and verdict unchanged."""
+    runs = ("clean",) + G.FAULTS
+    w = {"clean": (1, 0), "no_margin": (0, 1), "one_corner": (0, 0)}
+    part_z = {"truth": {"Z5": {"status": "decided", "N": 1}},
+              "outputs": {k: {"Z5": {"winding": w.get(k, (1, 0))[0]}} for k in runs}}
+    part_c = {"truth": {"C3": {"status": "decided", "N": 0}},
+              "outputs": {k: {"C3": {"winding": w.get(k, (1, 0))[1]}} for k in runs}}
+    res = G.assemble_stage2([part_z, part_c])
+    assert res["preregistration"] == "DH_GATE_PREREG_2.md"
+    assert res["runs"]["clean"]["rows"] == {"Z5": "REFUSE", "C3": "DISCRIMINATES"}
+    assert res["runs"]["clean"]["verdict"] == "PASS"
+    assert res["runs"]["no_margin"]["rows"] == {"Z5": "ACCEPT", "C3": "INCONSISTENT"}
+    assert res["runs"]["no_margin"]["verdict"] == "FAIL"
+    assert res["runs"]["one_corner"]["verdict"] == "FAIL"
+    stage1 = {"runs": {k: {"rows": {"Z1": "REFUSE", "C1": "DISCRIMINATES"}} for k in runs}}
+    comb = G.combined_verdicts(stage1, res)
+    assert comb["clean"] == "PASS" and comb["no_margin"] == "FAIL"
+    with pytest.raises(AssertionError):
+        G.assemble_stage2([part_z])
 
 
 def test_truth_on_the_development_boxes() -> None:
