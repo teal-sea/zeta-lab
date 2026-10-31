@@ -335,6 +335,56 @@ close zero pair, Z5 and C3, with the predictions.
   Below one core-hour, so it runs without asking.
 - Before the preregistration commit, only point evaluations were made on
   stage-2 points (listed in the preregistration).
+- **The run.** The preregistration commit is de7cd593a. The two boxes ran
+  from it as two processes at nice 10 (load about 1.4 at launch), from
+  03:07:00Z to 03:08:38Z: about 100 s of wall time against the estimate of
+  under ten minutes. `narrow_frame` spent its 600 evaluations in about 65 s
+  per box, not the 170 s estimated from E7. The per-box parts were assembled
+  into `evaluator/dh_gate_stage2_results.json` by the stage-1 rules.
+- **Truth:** one zero in Z5, none in C3, as expected.
+- **Every preregistered prediction held.**
+  - Clean: PASS. Z5 REFUSE (decided winding 1, 146 evaluations), C3
+    DISCRIMINATES (decided 0, 104).
+  - `no_margin`: **FAIL, caught.** Z5 ACCEPT (winding 0) and C3 INCONSISTENT
+    (winding 1), each from its 16 mesh points.
+  - `no_M2`: PASS, not caught (Z5 winding 1, C3 winding 0).
+  - `one_corner` and `main_terms_only`: FAIL (Z5 ACCEPT).
+  - `narrow_frame`: INCONCLUSIVE on stage 2 alone (both boxes out of budget);
+    FAIL combined with stage 1.
+- **Combined with stage 1's recorded rows** (not rerun): clean PASS;
+  `one_corner`, `main_terms_only`, `no_margin` and `narrow_frame` FAIL;
+  `no_M2` PASS.
+- **A correction to E7, dated 2026-10-31.** E7 gives as the reason
+  `no_margin` and `no_M2` pass that "on these boxes |H| on the boundary is far
+  above any margin". That is not the operative reason: the clean rule refined
+  on Z1, Z3 and Z4 (133, 39 and 36 evaluations from 32 initial points), so the
+  margin did bind there. The count survived the faults because a principal
+  argument goes wrong only where zeros on one side of a segment subtend more
+  than a half turn, and on the stage-1 boxes none did; on Z1 only because the
+  pair's abscissa falls on a vertex of the four-point mesh
+  (`evaluator/DH_GATE_PREREG_2.md`, "Why a second stage"). E7's text is left
+  as written.
+- **What stays uncaught.** `no_M2` passes both stages, as predicted: near an
+  isolated zero or a close pair H is close to quadratic, the endpoint maximum
+  of |H'| already bounds |H'| on a short segment, and the dropped M2 h/2 term
+  changes no decision. An outcome check on boxes the truth step can decide is
+  not expected to see it; seeing it needs an audit of each accepted segment's
+  inequality, which this gate does not do (for zeta, `_audit_barrier` in
+  `evaluator/test_effective.py` does that on two rectangles).
+
+```runmanifest
+id: dbn_pt_height-2026-10-31-evaluator-dh-gate-stage2
+hunt: dbn_pt_height
+started: 2026-10-31T03:07Z
+finished: 2026-10-31T03:09Z
+ran:
+  - .venv/bin/python hunts/dbn_pt_height/evaluator/dh_gate.py stage2 <scratchpad>/part_Z5.json Z5 (commit de7cd593a)
+  - .venv/bin/python hunts/dbn_pt_height/evaluator/dh_gate.py stage2 <scratchpad>/part_C3.json C3 (commit de7cd593a, in parallel)
+  - .venv/bin/python hunts/dbn_pt_height/evaluator/dh_gate.py stage2 hunts/dbn_pt_height/evaluator/dh_gate_stage2_results.json --assemble <scratchpad>/part_Z5.json <scratchpad>/part_C3.json
+artifacts:
+  - hunts/dbn_pt_height/evaluator/dh_gate_stage2_results.json
+outcome: every stage-2 prediction held; clean PASS; no_margin caught (Z5 ACCEPT, C3 INCONSISTENT); no_M2 not caught; one_corner and main_terms_only FAIL; narrow_frame INCONCLUSIVE alone and FAIL combined
+```
 
 ## Chain lane (`MISSION.md`, `CHAIN.md`, `REDUCTION.md`, `chain.json`, `sources.json`)
 

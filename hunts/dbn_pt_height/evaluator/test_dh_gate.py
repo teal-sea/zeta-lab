@@ -102,7 +102,13 @@ def test_permissive_faults_call_the_development_zero_free(fault: str) -> None:
 def test_margin_faults_are_invisible_on_a_clean_box(fault: str) -> None:
     """Measured on D0: weakening the margin does not change the count here,
     because |H| on the boundary is far above any margin.  The gate records
-    these two as possibly not caught, which is what this shows."""
+    these two as possibly not caught, which is what this shows.
+
+    Corrected 2026-10-31 (DH_GATE_PREREG_2.md): the reason given above is not
+    the operative one.  The clean rule refines on D0 (44 evaluations from 32
+    initial points), so the margin does bind there.  The count survives because
+    D0 holds one zero, and one zero subtends less than a half turn at any
+    segment, so the principal arguments sum to the right integer anyway."""
     r = G.dh_barrier(D0[1], D0[0], faults=frozenset([fault]))
     assert r["winding"] == 1
 
@@ -161,3 +167,30 @@ def test_the_recorded_gate_run_is_the_preregistered_one() -> None:
             g = G.GATE_BOXES[box]
             assert G.classify(g["kind"], d["truth"][box]["N"], run["outputs"][box]["winding"]) == row
     assert all(o["winding"] == 1 for b, o in d["runs"]["clean"]["outputs"].items() if b.startswith("Z"))
+
+
+def test_the_recorded_stage2_run_is_the_preregistered_one() -> None:
+    """dh_gate_stage2_results.json holds the run of RUNS.md E8 (DH_GATE_PREREG_2.md):
+    its two boxes, every run, the verdicts by the stage-1 rule, and the
+    combined verdicts with stage 1's recorded rows."""
+    import json
+
+    d = json.loads((HERE / "dh_gate_stage2_results.json").read_text())
+    assert d["preregistration"] == "DH_GATE_PREREG_2.md"
+    assert set(d["truth"]) == set(G.GATE_BOXES_2)
+    assert {k: (v["status"], v["N"]) for k, v in d["truth"].items()} == {"Z5": ("decided", 1), "C3": ("decided", 0)}
+    assert set(d["runs"]) == {"clean", *G.FAULTS}
+    want = {"clean": "PASS", "one_corner": "FAIL", "main_terms_only": "FAIL",
+            "no_margin": "FAIL", "no_M2": "PASS", "narrow_frame": "INCONCLUSIVE"}
+    assert {k: v["verdict"] for k, v in d["runs"].items()} == want
+    assert d["runs"]["no_margin"]["rows"] == {"Z5": "ACCEPT", "C3": "INCONSISTENT"}  # the preregistered prediction
+    assert d["runs"]["clean"]["rows"] == {"Z5": "REFUSE", "C3": "DISCRIMINATES"}
+    for k, run in d["runs"].items():
+        assert G.verdict(run["rows"]) == run["verdict"]
+        for box, row in run["rows"].items():
+            g = G.GATE_BOXES_2[box]
+            assert G.classify(g["kind"], d["truth"][box]["N"], run["outputs"][box]["winding"]) == row
+    assert G.assemble_stage2([{"truth": d["truth"], "outputs": {k: r["outputs"] for k, r in d["runs"].items()}}]) == d
+    s1 = json.loads((HERE / "dh_gate_results.json").read_text())
+    assert G.combined_verdicts(s1, d) == {"clean": "PASS", "one_corner": "FAIL", "main_terms_only": "FAIL",
+                                          "no_margin": "FAIL", "no_M2": "PASS", "narrow_frame": "FAIL"}

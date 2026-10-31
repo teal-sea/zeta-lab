@@ -292,5 +292,12 @@ the mesh.
   on six boxes; a one-corner check and a main-terms-only evaluation fail it.
   It exercises the barrier rule only. Theorem 1.3's error terms and the
   Euler-mollified sweep are not tested by it (`DH.md`).
+  *Added 2026-10-31, at landing:* a second, separately preregistered stage
+  (`DH_GATE_PREREG_2.md`, `../RUNS.md` E8) adds two boxes at a close zero pair;
+  there a margin-free count is caught, and dropping the second-derivative term
+  of D is still not. The gate runs `dh_gate.dh_barrier`, a copy of
+  `barrier_rectangle`'s rule, not `barrier_rectangle` itself, so for zeta the
+  margin's soundness rests on `_audit_barrier` (two rectangles, finitely many
+  points), not on the gate.
 - The methods index `docs/37-methods.md` has no entry for this instrument;
   adding one is outside this lane's write scope.

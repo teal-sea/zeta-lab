@@ -19,6 +19,28 @@ done differently from the plan written earlier the same day:
 - Step 5: `dh_gate.dh_barrier` is `effective.barrier_rectangle`'s rule with the
   function swapped.
 
+**Stage 2, added at landing (2026-10-31; `DH_GATE_PREREG_2.md`, `../RUNS.md`
+E8).** Stage 1 cannot see `no_margin` or `no_M2`, and the reason E7 gives is
+not the operative one: a margin-free count goes wrong only where zeros on one
+side of a segment subtend more than a half turn, and no stage-1 segment met
+that. Two boxes at hunt #61's close zero pair (Z5, C3), preregistered before
+any box decision, put one four-point segment over the pair. Every prediction
+held: the clean rule still refuses Z5 and decides C3, and `no_margin` is now
+caught (Z5 ACCEPT, C3 INCONSISTENT). `no_M2` is still not caught, as
+predicted: near an isolated zero or a close pair the endpoint maximum of |H'|
+already bounds |H'| on a short segment, so no box the truth step can decide is
+expected to expose it. What the gate does and does not catch, after both
+stages:
+
+- caught: a one-corner check, a main-terms-only evaluation, a margin-free
+  count (on the stage-2 boxes only), and the frame fault;
+- not caught: dropping the second-derivative term of D. Only a per-segment
+  audit could see that; the gate checks outcomes, not inequalities;
+- not exercised at all: `effective.py`'s own code for zeta (the gate runs
+  `dh_barrier`, a copy of the rule with DH's H and D), Theorem 1.3's error
+  terms (on DH, E = 0), and the Euler-mollified sweep (DH has no Euler
+  product).
+
 What follows is the plan as first written. Nothing here is a statement about
 any de Bruijn-Newman constant.
 
