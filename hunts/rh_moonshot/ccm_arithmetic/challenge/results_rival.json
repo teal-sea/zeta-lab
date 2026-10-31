@@ -1,0 +1,72 @@
+{
+  "cells": [
+    {
+      "band": 64,
+      "c": "31",
+      "kind": "dh",
+      "lambda_1": "-3.809628551006827e-30",
+      "lambda_1_numpy": "-2.7566253838392484e-15",
+      "radical_misfit": "0.000113323990464075"
+    },
+    {
+      "band": 64,
+      "c": "33",
+      "kind": "dh",
+      "lambda_1": "-1.531230134619622e-23",
+      "lambda_1_numpy": "-1.1356635495416873e-15",
+      "radical_misfit": "0.9999033630510974"
+    },
+    {
+      "band": 32,
+      "c": "29",
+      "kind": "epstein",
+      "lambda_1": "0.0005679762325516534",
+      "lambda_1_numpy": "5.6797623255152229e-04"
+    },
+    {
+      "band": 32,
+      "c": "29.5",
+      "kind": "epstein",
+      "lambda_1": "-0.002045659166301485",
+      "lambda_1_numpy": "-2.0456591663037334e-03"
+    },
+    {
+      "band": 32,
+      "c": "2",
+      "kind": "wa",
+      "lambda_1": "0.002450607259226494",
+      "lambda_1_numpy": "2.4506072592265864e-03",
+      "radical_misfit": "0.1877794832369723"
+    },
+    {
+      "band": 32,
+      "c": "3",
+      "kind": "wa",
+      "lambda_1": "-0.0007055346303098329",
+      "lambda_1_numpy": "-7.0553463030957413e-04",
+      "radical_misfit": "0.9987359365546526"
+    },
+    {
+      "band": 32,
+      "c": "13",
+      "delta": "0.1",
+      "kind": "zeta_shift_recentered",
+      "lambda_1": "2.258931190572945e-49",
+      "lambda_1_numpy": "-1.4025498905815245e-15",
+      "radical_misfit": "0.0002269225529380233",
+      "symmetry_center": "0.6"
+    }
+  ],
+  "parameters": {
+    "matrix_dps": 70,
+    "radical_dps": 50
+  },
+  "shifted_zeta_normalization": {
+    "actual_center": "0.6",
+    "actual_defect": "2.08809742976e-53",
+    "delta": "0.1",
+    "fixed_center_defect": "0.0103207777726",
+    "fixed_even_defect_at_first_node": "0.00988960093269",
+    "recentered_even_defect_at_first_node": "3.58213326276e-62"
+  }
+}

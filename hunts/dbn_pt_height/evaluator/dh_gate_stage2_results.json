@@ -1,0 +1,207 @@
+{
+ "preregistration": "DH_GATE_PREREG_2.md",
+ "truth": {
+  "Z5": {
+   "status": "decided",
+   "N": 1,
+   "n_segments": 89,
+   "wall_seconds": 4.1
+  },
+  "C3": {
+   "status": "decided",
+   "N": 0,
+   "n_segments": 64,
+   "wall_seconds": 3.1
+  }
+ },
+ "runs": {
+  "clean": {
+   "rows": {
+    "Z5": "REFUSE",
+    "C3": "DISCRIMINATES"
+   },
+   "verdict": "PASS",
+   "outputs": {
+    "Z5": {
+     "winding": 1,
+     "winding_ball": "[1.00000 +/- 3e-11]",
+     "n_evaluations": 146,
+     "n_segments": 146,
+     "n_failed": 0,
+     "M2": "[2.728e-79 +/- 4.80e-83]",
+     "seconds": 15.42,
+     "faults": []
+    },
+    "C3": {
+     "winding": 0,
+     "winding_ball": "[+/- 6.95e-44]",
+     "n_evaluations": 104,
+     "n_segments": 104,
+     "n_failed": 0,
+     "M2": "[2.795e-79 +/- 1.17e-83]",
+     "seconds": 10.96,
+     "faults": []
+    }
+   }
+  },
+  "one_corner": {
+   "rows": {
+    "Z5": "ACCEPT",
+    "C3": "DISCRIMINATES"
+   },
+   "verdict": "FAIL",
+   "outputs": {
+    "Z5": {
+     "winding": 0,
+     "n_evaluations": 1,
+     "n_failed": 0,
+     "seconds": 0.12,
+     "faults": [
+      "one_corner"
+     ]
+    },
+    "C3": {
+     "winding": 0,
+     "n_evaluations": 1,
+     "n_failed": 0,
+     "seconds": 0.1,
+     "faults": [
+      "one_corner"
+     ]
+    }
+   }
+  },
+  "no_margin": {
+   "rows": {
+    "Z5": "ACCEPT",
+    "C3": "INCONSISTENT"
+   },
+   "verdict": "FAIL",
+   "outputs": {
+    "Z5": {
+     "winding": 0,
+     "winding_ball": "[+/- 8.37e-46]",
+     "n_evaluations": 16,
+     "n_segments": 16,
+     "n_failed": 0,
+     "M2": "[2.728e-79 +/- 4.80e-83]",
+     "seconds": 1.57,
+     "faults": [
+      "no_margin"
+     ]
+    },
+    "C3": {
+     "winding": 1,
+     "winding_ball": "[1.00000 +/- 3e-11]",
+     "n_evaluations": 16,
+     "n_segments": 16,
+     "n_failed": 0,
+     "M2": "[2.795e-79 +/- 1.17e-83]",
+     "seconds": 1.66,
+     "faults": [
+      "no_margin"
+     ]
+    }
+   }
+  },
+  "narrow_frame": {
+   "rows": {
+    "Z5": "REFUSE_WEAK",
+    "C3": "NON_DISCRIMINATING"
+   },
+   "verdict": "INCONCLUSIVE",
+   "outputs": {
+    "Z5": {
+     "winding": null,
+     "winding_ball": null,
+     "n_evaluations": 600,
+     "n_segments": 0,
+     "n_failed": 621,
+     "M2": "[7.805e-160 +/- 6.05e-165]",
+     "seconds": 64.26,
+     "faults": [
+      "narrow_frame"
+     ]
+    },
+    "C3": {
+     "winding": null,
+     "winding_ball": null,
+     "n_evaluations": 600,
+     "n_segments": 0,
+     "n_failed": 621,
+     "M2": "[8.781e-160 +/- 3.41e-164]",
+     "seconds": 65.11,
+     "faults": [
+      "narrow_frame"
+     ]
+    }
+   }
+  },
+  "main_terms_only": {
+   "rows": {
+    "Z5": "ACCEPT",
+    "C3": "DISCRIMINATES"
+   },
+   "verdict": "FAIL",
+   "outputs": {
+    "Z5": {
+     "winding": 0,
+     "winding_ball": "[+/- 3.90e-124]",
+     "n_evaluations": 77,
+     "n_segments": 77,
+     "n_failed": 0,
+     "M2": "[2.728e-79 +/- 4.80e-83]",
+     "seconds": 7.59,
+     "faults": [
+      "main_terms_only"
+     ]
+    },
+    "C3": {
+     "winding": 0,
+     "winding_ball": "[+/- 1.68e-124]",
+     "n_evaluations": 61,
+     "n_segments": 61,
+     "n_failed": 0,
+     "M2": "[2.795e-79 +/- 1.17e-83]",
+     "seconds": 5.8,
+     "faults": [
+      "main_terms_only"
+     ]
+    }
+   }
+  },
+  "no_M2": {
+   "rows": {
+    "Z5": "REFUSE",
+    "C3": "DISCRIMINATES"
+   },
+   "verdict": "PASS",
+   "outputs": {
+    "Z5": {
+     "winding": 1,
+     "winding_ball": "[1.00000 +/- 3e-11]",
+     "n_evaluations": 54,
+     "n_segments": 54,
+     "n_failed": 0,
+     "M2": "0",
+     "seconds": 5.44,
+     "faults": [
+      "no_M2"
+     ]
+    },
+    "C3": {
+     "winding": 0,
+     "winding_ball": "[+/- 1.77e-44]",
+     "n_evaluations": 42,
+     "n_segments": 42,
+     "n_failed": 0,
+     "M2": "0",
+     "seconds": 4.4,
+     "faults": [
+      "no_M2"
+     ]
+    }
+   }
+  }
+ }
+}

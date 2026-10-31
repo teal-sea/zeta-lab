@@ -1,0 +1,351 @@
+{
+ "c": 13,
+ "N": 32,
+ "q": 2,
+ "prec": 700,
+ "lambda1": "[2.258931191e-49 +/- 4.26e-59]",
+ "lambda2": "[1.010065867e-42 +/- 2.36e-52]",
+ "dlam_dy": "[0.5402893560 +/- 1.93e-11]",
+ "frobenius_dA": "[154.091 +/- 1.76e-4]",
+ "eps_positivity_scale": "[4.18097e-49 +/- 4.44e-55]",
+ "eps_gap_scale": "[6.55500e-45 +/- 1.87e-51]",
+ "runs": [
+  {
+   "eps": "-1e-60",
+   "lambda1": "[2.2589312e-49 +/- 9.44e-58]",
+   "lambda2": "[1.0100659e-42 +/- 3.33e-50]",
+   "predicted_lambda1": "[2.2589312e-49 +/- 9.44e-58]",
+   "ldl_inertia_at_0": [
+    33,
+    0,
+    true
+   ],
+   "proj_residual_R4": "2.25249e-19",
+   "misfit0": "0.000226923",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "+1e-60",
+   "lambda1": "[2.2589312e-49 +/- 9.43e-58]",
+   "lambda2": "[1.0100659e-42 +/- 3.33e-50]",
+   "predicted_lambda1": "[2.2589312e-49 +/- 9.43e-58]",
+   "ldl_inertia_at_0": [
+    33,
+    0,
+    true
+   ],
+   "proj_residual_R4": "2.25249e-19",
+   "misfit0": "0.000226923",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "-1e-55",
+   "lambda1": "[2.2589307e-49 +/- 4.98e-57]",
+   "lambda2": "[1.0100659e-42 +/- 3.33e-50]",
+   "predicted_lambda1": "[2.2589307e-49 +/- 4.98e-57]",
+   "ldl_inertia_at_0": [
+    33,
+    0,
+    true
+   ],
+   "proj_residual_R4": "2.25249e-19",
+   "misfit0": "0.000226923",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "+1e-55",
+   "lambda1": "[2.2589317e-49 +/- 3.09e-57]",
+   "lambda2": "[1.0100659e-42 +/- 3.33e-50]",
+   "predicted_lambda1": "[2.2589317e-49 +/- 3.09e-57]",
+   "ldl_inertia_at_0": [
+    33,
+    0,
+    true
+   ],
+   "proj_residual_R4": "2.25249e-19",
+   "misfit0": "0.000226923",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "-1e-50",
+   "lambda1": "[2.2049023e-49 +/- 4.69e-57]",
+   "lambda2": "[1.0100659e-42 +/- 1.38e-50]",
+   "predicted_lambda1": "[2.2049023e-49 +/- 4.51e-57]",
+   "ldl_inertia_at_0": [
+    33,
+    0,
+    true
+   ],
+   "proj_residual_R4": "2.25239e-19",
+   "misfit0": "0.000226922",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "+1e-50",
+   "lambda1": "[2.3129601e-49 +/- 2.44e-57]",
+   "lambda2": "[1.0100658e-42 +/- 4.73e-50]",
+   "predicted_lambda1": "[2.3129601e-49 +/- 2.62e-57]",
+   "ldl_inertia_at_0": [
+    33,
+    0,
+    true
+   ],
+   "proj_residual_R4": "2.25259e-19",
+   "misfit0": "0.000226923",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "-1e-48",
+   "lambda1": "[-3.1439807e-49 +/- 2.88e-57]",
+   "lambda2": "[1.0100678e-42 +/- 1.83e-50]",
+   "predicted_lambda1": "[-3.1439624e-49 +/- 3.04e-57]",
+   "ldl_inertia_at_0": [
+    32,
+    1,
+    true
+   ],
+   "proj_residual_R4": "2.2428e-19",
+   "misfit0": "0.000226882",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "+1e-48",
+   "lambda1": "[7.6618064e-49 +/- 8.47e-58]",
+   "lambda2": "[1.0100639e-42 +/- 1.54e-50]",
+   "predicted_lambda1": "[7.6618248e-49 +/- 4.93e-57]",
+   "ldl_inertia_at_0": [
+    33,
+    0,
+    true
+   ],
+   "proj_residual_R4": "2.2622e-19",
+   "misfit0": "0.000226963",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "-1e-46",
+   "lambda1": "[-5.3821397e-47 +/- 1.20e-55]",
+   "lambda2": "[1.0102610e-42 +/- 2.93e-50]",
+   "predicted_lambda1": "[-5.3803042e-47 +/- 4.83e-55]",
+   "ldl_inertia_at_0": [
+    32,
+    1,
+    true
+   ],
+   "proj_residual_R4": "1.38819e-19",
+   "misfit0": "0.000222881",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "+1e-46",
+   "lambda1": "[5.4236465e-47 +/- 2.61e-56]",
+   "lambda2": "[1.0098707e-42 +/- 4.11e-50]",
+   "predicted_lambda1": "[5.4254829e-47 +/- 2.80e-55]",
+   "ldl_inertia_at_0": [
+    33,
+    0,
+    true
+   ],
+   "proj_residual_R4": "3.3279e-19",
+   "misfit0": "0.000231002",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "-1e-44",
+   "lambda1": "[-5.5818083e-45 +/- 2.39e-53]",
+   "lambda2": "[1.0297594e-42 +/- 1.97e-50]",
+   "predicted_lambda1": "[-5.4026677e-45 +/- 3.30e-53]",
+   "ldl_inertia_at_0": [
+    32,
+    1,
+    true
+   ],
+   "proj_residual_R4": "9.10205e-17",
+   "misfit0": "3.7225e-6",
+   "sturm_extra_zeros": 1
+  },
+  {
+   "eps": "+1e-44",
+   "lambda1": "[5.2149202e-45 +/- 2.18e-53]",
+   "lambda2": "[9.9073965e-43 +/- 2.80e-51]",
+   "predicted_lambda1": "[5.4031195e-45 +/- 4.67e-53]",
+   "ldl_inertia_at_0": [
+    33,
+    0,
+    true
+   ],
+   "proj_residual_R4": "1.20814e-16",
+   "misfit0": "0.000833971",
+   "sturm_extra_zeros": 0
+  },
+  {
+   "eps": "-1e-42",
+   "lambda1": "[-1.0075074e-42 +/- 1.07e-50]",
+   "lambda2": "[3.4287203e-42 +/- 2.55e-50]",
+   "predicted_lambda1": "[-5.4028913e-43 +/- 1.27e-52]",
+   "ldl_inertia_at_0": [
+    32,
+    1,
+    true
+   ],
+   "proj_residual_R4": "6.08332e-14",
+   "misfit0": "0.0962525",
+   "sturm_extra_zeros": 1
+  },
+  {
+   "eps": "+1e-42",
+   "lambda1": "[-1.7507826e-42 +/- 2.99e-51]",
+   "lambda2": "[1.3496917e-42 +/- 2.85e-51]",
+   "predicted_lambda1": "[5.4028958e-43 +/- 1.92e-51]",
+   "ldl_inertia_at_0": [
+    32,
+    1,
+    true
+   ],
+   "proj_residual_R4": "4.28051e-13",
+   "misfit0": "0.752063",
+   "sturm_extra_zeros": 1
+  },
+  {
+   "eps": "-1e-40",
+   "lambda1": "[-1.1384924e-40 +/- 1.53e-48]",
+   "lambda2": "[2.5592371e-40 +/- 1.97e-48]",
+   "predicted_lambda1": "[-5.4028935e-41 +/- 3.77e-49]",
+   "ldl_inertia_at_0": [
+    32,
+    1,
+    true
+   ],
+   "proj_residual_R4": "9.77663e-14",
+   "misfit0": "0.15083",
+   "sturm_extra_zeros": 1
+  },
+  {
+   "eps": "+1e-40",
+   "lambda1": "[-2.5433038e-40 +/- 1.48e-48]",
+   "lambda2": "[1.1417454e-40 +/- 3.06e-48]",
+   "predicted_lambda1": "[5.4028936e-41 +/- 1.73e-49]",
+   "ldl_inertia_at_0": [
+    32,
+    1,
+    true
+   ],
+   "proj_residual_R4": "4.30886e-13",
+   "misfit0": "0.847755",
+   "sturm_extra_zeros": 1
+  },
+  {
+   "eps": "-1e-36",
+   "lambda1": "[-2.7678359e-36 +/- 2.43e-44]",
+   "lambda2": "[-1.0857428e-36 +/- 1.17e-44]",
+   "predicted_lambda1": "[-5.4028936e-37 +/- 3.99e-45]",
+   "ldl_inertia_at_0": [
+    31,
+    2,
+    true
+   ],
+   "proj_residual_R4": "2.0036e-8",
+   "misfit0": "0.998178",
+   "sturm_extra_zeros": 2
+  },
+  {
+   "eps": "+1e-36",
+   "lambda1": "[-3.0850779e-36 +/- 1.61e-44]",
+   "lambda2": "[1.1085205e-36 +/- 5.18e-45]",
+   "predicted_lambda1": "[5.4028936e-37 +/- 3.99e-45]",
+   "ldl_inertia_at_0": [
+    32,
+    1,
+    true
+   ],
+   "proj_residual_R4": "1.70344e-9",
+   "misfit0": "0.874168",
+   "sturm_extra_zeros": 2
+  },
+  {
+   "eps": "-1e-30",
+   "lambda1": "[-3.5693136e-30 +/- 1.92e-38]",
+   "lambda2": "[-1.1036619e-30 +/- 4.87e-38]",
+   "predicted_lambda1": "[-5.4028936e-31 +/- 3.99e-39]",
+   "ldl_inertia_at_0": [
+    31,
+    2,
+    true
+   ],
+   "proj_residual_R4": "2.46729e-6",
+   "misfit0": "0.999868",
+   "sturm_extra_zeros": 2
+  },
+  {
+   "eps": "+1e-30",
+   "lambda1": "[-4.4756982e-30 +/- 4.45e-38]",
+   "lambda2": "[-1.5442723e-30 +/- 4.05e-38]",
+   "predicted_lambda1": "[5.4028936e-31 +/- 3.99e-39]",
+   "ldl_inertia_at_0": [
+    31,
+    2,
+    true
+   ],
+   "proj_residual_R4": "3.60096e-5",
+   "misfit0": "0.926183",
+   "sturm_extra_zeros": 3
+  },
+  {
+   "eps": "-1e-20",
+   "lambda1": "[-6.9356763e-20 +/- 1.31e-29]",
+   "lambda2": "[-2.3055654e-20 +/- 3.67e-28]",
+   "predicted_lambda1": "[-5.4028936e-21 +/- 3.99e-29]",
+   "ldl_inertia_at_0": [
+    29,
+    4,
+    true
+   ],
+   "proj_residual_R4": "0.00749938",
+   "misfit0": "0.991531",
+   "sturm_extra_zeros": 4
+  },
+  {
+   "eps": "+1e-20",
+   "lambda1": "[-6.7016159e-20 +/- 7.13e-29]",
+   "lambda2": "[-4.4841998e-20 +/- 3.97e-28]",
+   "predicted_lambda1": "[5.4028936e-21 +/- 3.99e-29]",
+   "ldl_inertia_at_0": [
+    31,
+    2,
+    true
+   ],
+   "proj_residual_R4": "0.234839",
+   "misfit0": "0.990709",
+   "sturm_extra_zeros": 5
+  },
+  {
+   "eps": "-1e-10",
+   "lambda1": "[-8.7894573e-10 +/- 1.11e-18]",
+   "lambda2": "[-7.5566116e-10 +/- 3.84e-18]",
+   "predicted_lambda1": "[-5.4028936e-11 +/- 3.99e-19]",
+   "ldl_inertia_at_0": [
+    28,
+    5,
+    true
+   ],
+   "proj_residual_R4": "0.515777",
+   "misfit0": "0.999845",
+   "sturm_extra_zeros": 8
+  },
+  {
+   "eps": "+1e-10",
+   "lambda1": "[-9.8523129e-10 +/- 2.22e-18]",
+   "lambda2": "[-8.1084936e-10 +/- 2.79e-18]",
+   "predicted_lambda1": "[5.4028936e-11 +/- 3.99e-19]",
+   "ldl_inertia_at_0": [
+    29,
+    4,
+    true
+   ],
+   "proj_residual_R4": "0.553881",
+   "misfit0": "0.999952",
+   "sturm_extra_zeros": 7
+  }
+ ],
+ "elapsed_s": 72.6
+}
