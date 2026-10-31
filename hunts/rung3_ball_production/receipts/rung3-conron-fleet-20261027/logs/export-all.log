@@ -1,0 +1,414 @@
+2026-10-27T15:25:58Z ran {"tag": "export-site-g_right_11", "rc": 0, "killed_by_guard": false, "wall_s": 70.3, "cpu_s": 66.7, "max_rss_kib": 7055204, "mem_available_low_gib": 56.1, "pid": 3899099}
+2026-10-27T15:26:04Z ran {"tag": "export-site-g_top_24", "rc": 0, "killed_by_guard": false, "wall_s": 70.3, "cpu_s": 67.8, "max_rss_kib": 7052984, "mem_available_low_gib": 56.1, "pid": 3899435}
+2026-10-27T15:26:44Z spooled site:g_right_11 548575574 72331153
+2026-10-27T15:26:44Z spooled site:g_top_24 544290941 71766863
+2026-10-27T15:27:47Z ran {"tag": "export-site-B_left_02", "rc": 0, "killed_by_guard": false, "wall_s": 60.2, "cpu_s": 56.9, "max_rss_kib": 7001096, "mem_available_low_gib": 55.5, "pid": 3906485}
+2026-10-27T15:27:50Z ran {"tag": "export-site-B_top_01", "rc": 0, "killed_by_guard": false, "wall_s": 60.1, "cpu_s": 57.1, "max_rss_kib": 7005160, "mem_available_low_gib": 55.6, "pid": 3906704}
+2026-10-27T15:28:28Z spooled site:B_left_02 518990029 68441142
+2026-10-27T15:28:32Z spooled site:B_top_01 518403521 68388033
+2026-10-27T15:29:35Z ran {"tag": "export-site-B_left_51", "rc": 0, "killed_by_guard": false, "wall_s": 64.5, "cpu_s": 55.4, "max_rss_kib": 6996728, "mem_available_low_gib": 55.4, "pid": 3913645}
+2026-10-27T15:29:37Z ran {"tag": "export-site-B_left_40", "rc": 0, "killed_by_guard": false, "wall_s": 62.5, "cpu_s": 54.4, "max_rss_kib": 6997712, "mem_available_low_gib": 55.4, "pid": 3913976}
+2026-10-27T15:30:14Z spooled site:B_left_51 516755390 68150652
+2026-10-27T15:30:15Z spooled site:B_left_40 515108250 67931431
+2026-10-27T15:30:41Z ran {"tag": "export-site-centre", "rc": 0, "killed_by_guard": false, "wall_s": 349.9, "cpu_s": 329.4, "max_rss_kib": 7690736, "mem_available_low_gib": 55.4, "pid": 3899256}
+2026-10-27T15:31:09Z ran {"tag": "export-site-B_top_15", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 51.1, "max_rss_kib": 6984300, "mem_available_low_gib": 56.4, "pid": 3921860}
+2026-10-27T15:31:10Z ran {"tag": "export-site-B_right_02", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 48.1, "max_rss_kib": 6944472, "mem_available_low_gib": 56.5, "pid": 3922357}
+2026-10-27T15:31:37Z spooled site:centre 788359079 102632069
+2026-10-27T15:31:46Z spooled site:B_right_02 496973681 65505524
+2026-10-27T15:31:47Z spooled site:B_top_15 508509313 67076263
+2026-10-27T15:33:51Z ran {"tag": "export-site-g_left_04", "rc": 0, "killed_by_guard": false, "wall_s": 98.5, "cpu_s": 71.4, "max_rss_kib": 7077868, "mem_available_low_gib": 55.5, "pid": 3930048}
+2026-10-27T15:33:53Z ran {"tag": "export-site-g_left_19", "rc": 0, "killed_by_guard": false, "wall_s": 103.5, "cpu_s": 76.8, "max_rss_kib": 7101152, "mem_available_low_gib": 55.5, "pid": 3929888}
+2026-10-27T15:33:55Z ran {"tag": "export-site-g_top_13", "rc": 0, "killed_by_guard": false, "wall_s": 99.5, "cpu_s": 68.3, "max_rss_kib": 7074604, "mem_available_low_gib": 55.5, "pid": 3930257}
+2026-10-27T15:34:34Z spooled site:g_left_19 568458587 74852863
+2026-10-27T15:34:35Z spooled site:g_left_04 558662120 73634722
+2026-10-27T15:34:36Z spooled site:g_top_13 554386440 73061170
+2026-10-27T15:35:40Z ran {"tag": "export-site-B_left_01", "rc": 0, "killed_by_guard": false, "wall_s": 56.3, "cpu_s": 53.9, "max_rss_kib": 7008652, "mem_available_low_gib": 55.9, "pid": 3941207}
+2026-10-27T15:35:45Z ran {"tag": "export-site-g_right_15", "rc": 0, "killed_by_guard": false, "wall_s": 64.5, "cpu_s": 62.1, "max_rss_kib": 7055848, "mem_available_low_gib": 55.8, "pid": 3941011}
+2026-10-27T15:35:46Z ran {"tag": "export-site-g_bottom_16", "rc": 0, "killed_by_guard": false, "wall_s": 68.3, "cpu_s": 66.3, "max_rss_kib": 7070060, "mem_available_low_gib": 55.9, "pid": 3940817}
+2026-10-27T15:36:19Z spooled site:B_left_01 520708249 68675010
+2026-10-27T15:36:25Z spooled site:g_right_15 546961526 72063367
+2026-10-27T15:36:27Z spooled site:g_bottom_16 551911987 72744483
+2026-10-27T15:37:16Z ran {"tag": "export-site-B_left_26", "rc": 0, "killed_by_guard": false, "wall_s": 54.4, "cpu_s": 53.4, "max_rss_kib": 7002052, "mem_available_low_gib": 56.3, "pid": 3948304}
+2026-10-27T15:37:22Z ran {"tag": "export-site-B_left_19", "rc": 0, "killed_by_guard": false, "wall_s": 54.1, "cpu_s": 52.5, "max_rss_kib": 6999760, "mem_available_low_gib": 56.3, "pid": 3948752}
+2026-10-27T15:37:25Z ran {"tag": "export-site-B_left_41", "rc": 0, "killed_by_guard": false, "wall_s": 54.2, "cpu_s": 52.2, "max_rss_kib": 6998624, "mem_available_low_gib": 56.4, "pid": 3948977}
+2026-10-27T15:37:54Z spooled site:B_left_26 519039099 68444396
+2026-10-27T15:38:01Z spooled site:B_left_19 516678639 68140438
+2026-10-27T15:38:03Z spooled site:B_left_41 515882900 68024040
+2026-10-27T15:38:49Z ran {"tag": "export-site-B_bottom_14", "rc": 0, "killed_by_guard": false, "wall_s": 52.1, "cpu_s": 51.3, "max_rss_kib": 6984160, "mem_available_low_gib": 57.7, "pid": 3954741}
+2026-10-27T15:38:53Z ran {"tag": "export-site-B_top_17", "rc": 0, "killed_by_guard": false, "wall_s": 48.5, "cpu_s": 47.5, "max_rss_kib": 6971960, "mem_available_low_gib": 57.7, "pid": 3955329}
+2026-10-27T15:39:25Z spooled site:B_bottom_14 508399592 67063884
+2026-10-27T15:39:29Z spooled site:B_top_17 503508267 66414215
+2026-10-27T15:40:57Z ran {"tag": "export-site-g_bottom_11", "rc": 0, "killed_by_guard": false, "wall_s": 68.9, "cpu_s": 67.4, "max_rss_kib": 7071048, "mem_available_low_gib": 55.9, "pid": 3962049}
+2026-10-27T15:40:58Z ran {"tag": "export-site-g_top_03", "rc": 0, "killed_by_guard": false, "wall_s": 72.6, "cpu_s": 68.1, "max_rss_kib": 7077196, "mem_available_low_gib": 55.9, "pid": 3961916}
+2026-10-27T15:41:00Z ran {"tag": "export-site-g_left_20", "rc": 0, "killed_by_guard": false, "wall_s": 77.6, "cpu_s": 74.9, "max_rss_kib": 7097684, "mem_available_low_gib": 55.8, "pid": 3961663}
+2026-10-27T15:41:37Z spooled site:g_bottom_11 553473578 72998261
+2026-10-27T15:41:38Z spooled site:g_top_03 558771055 73629690
+2026-10-27T15:41:41Z spooled site:g_left_20 568506847 74885630
+2026-10-27T15:42:38Z ran {"tag": "export-site-B_top_00", "rc": 0, "killed_by_guard": false, "wall_s": 52.4, "cpu_s": 50.2, "max_rss_kib": 7007804, "mem_available_low_gib": 56.3, "pid": 3969708}
+2026-10-27T15:42:44Z ran {"tag": "export-site-g_bottom_13", "rc": 0, "killed_by_guard": false, "wall_s": 64.4, "cpu_s": 63.9, "max_rss_kib": 7067044, "mem_available_low_gib": 56.3, "pid": 3969408}
+2026-10-27T15:42:45Z ran {"tag": "export-site-g_right_12", "rc": 0, "killed_by_guard": false, "wall_s": 62.0, "cpu_s": 61.3, "max_rss_kib": 7067300, "mem_available_low_gib": 56.3, "pid": 3969537}
+2026-10-27T15:43:14Z spooled site:B_top_00 520007457 68571438
+2026-10-27T15:43:23Z spooled site:g_bottom_13 552634423 72875884
+2026-10-27T15:43:24Z spooled site:g_right_12 548598927 72319990
+2026-10-27T15:44:09Z ran {"tag": "export-site-B_left_54", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 51.2, "max_rss_kib": 7006392, "mem_available_low_gib": 56.1, "pid": 3975749}
+2026-10-27T15:44:18Z ran {"tag": "export-site-B_left_43", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 50.0, "max_rss_kib": 7002280, "mem_available_low_gib": 56.0, "pid": 3976345}
+2026-10-27T15:44:19Z ran {"tag": "export-site-B_left_30", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 49.6, "max_rss_kib": 6996568, "mem_available_low_gib": 56.1, "pid": 3976451}
+2026-10-27T15:44:46Z spooled site:B_left_54 519047001 68458643
+2026-10-27T15:44:54Z spooled site:B_left_43 516790037 68147157
+2026-10-27T15:44:55Z spooled site:B_left_30 515064364 67908893
+2026-10-27T15:45:45Z ran {"tag": "export-site-B_top_10", "rc": 0, "killed_by_guard": false, "wall_s": 55.9, "cpu_s": 52.7, "max_rss_kib": 6992664, "mem_available_low_gib": 57.6, "pid": 3981758}
+2026-10-27T15:45:48Z ran {"tag": "export-site-B_right_00", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 50.8, "max_rss_kib": 6947372, "mem_available_low_gib": 57.6, "pid": 3982358}
+2026-10-27T15:46:28Z spooled site:B_top_10 511696589 67464608
+2026-10-27T15:46:31Z spooled site:B_right_00 497651027 65632188
+2026-10-27T15:47:57Z ran {"tag": "export-site-g_bottom_12", "rc": 0, "killed_by_guard": false, "wall_s": 70.4, "cpu_s": 67.0, "max_rss_kib": 7072468, "mem_available_low_gib": 56.0, "pid": 3990610}
+2026-10-27T15:48:05Z ran {"tag": "export-site-g_top_04", "rc": 0, "killed_by_guard": false, "wall_s": 72.4, "cpu_s": 70.3, "max_rss_kib": 7082728, "mem_available_low_gib": 56.0, "pid": 3991031}
+2026-10-27T15:48:07Z ran {"tag": "export-site-g_bottom_04", "rc": 0, "killed_by_guard": false, "wall_s": 77.4, "cpu_s": 75.2, "max_rss_kib": 7096456, "mem_available_low_gib": 56.0, "pid": 3990860}
+2026-10-27T15:48:36Z spooled site:g_bottom_12 553767607 72947110
+2026-10-27T15:48:45Z spooled site:g_top_04 559518038 73766081
+2026-10-27T15:48:48Z spooled site:g_bottom_04 567753985 74800574
+2026-10-27T15:49:44Z ran {"tag": "export-site-B_left_06", "rc": 0, "killed_by_guard": false, "wall_s": 52.9, "cpu_s": 52.7, "max_rss_kib": 7007388, "mem_available_low_gib": 55.9, "pid": 3998833}
+2026-10-27T15:49:46Z ran {"tag": "export-site-g_bottom_14", "rc": 0, "killed_by_guard": false, "wall_s": 66.6, "cpu_s": 65.5, "max_rss_kib": 7069204, "mem_available_low_gib": 55.9, "pid": 3997973}
+2026-10-27T15:49:52Z ran {"tag": "export-site-g_right_16", "rc": 0, "killed_by_guard": false, "wall_s": 64.2, "cpu_s": 61.8, "max_rss_kib": 7060160, "mem_available_low_gib": 56.0, "pid": 3998591}
+2026-10-27T15:50:21Z spooled site:B_left_06 520710769 68664723
+2026-10-27T15:50:24Z spooled site:g_bottom_14 552654964 72858790
+2026-10-27T15:50:30Z spooled site:g_right_16 546786233 72090911
+2026-10-27T15:51:16Z ran {"tag": "export-site-B_left_37", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 50.5, "max_rss_kib": 7004696, "mem_available_low_gib": 56.2, "pid": 4004999}
+2026-10-27T15:51:19Z ran {"tag": "export-site-B_left_22", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 50.3, "max_rss_kib": 7001220, "mem_available_low_gib": 56.2, "pid": 4005187}
+2026-10-27T15:51:23Z ran {"tag": "export-site-B_left_42", "rc": 0, "killed_by_guard": false, "wall_s": 50.3, "cpu_s": 48.8, "max_rss_kib": 6999832, "mem_available_low_gib": 56.2, "pid": 4005576}
+2026-10-27T15:51:53Z spooled site:B_left_37 519044119 68436538
+2026-10-27T15:51:57Z spooled site:B_left_22 516872876 68107161
+2026-10-27T15:52:00Z spooled site:B_left_42 515877596 68053745
+2026-10-27T15:52:44Z ran {"tag": "export-site-B_bottom_15", "rc": 0, "killed_by_guard": false, "wall_s": 48.0, "cpu_s": 47.6, "max_rss_kib": 6986540, "mem_available_low_gib": 57.5, "pid": 4010384}
+2026-10-27T15:52:46Z ran {"tag": "export-site-B_top_18", "rc": 0, "killed_by_guard": false, "wall_s": 46.0, "cpu_s": 45.4, "max_rss_kib": 6967564, "mem_available_low_gib": 57.6, "pid": 4010597}
+2026-10-27T15:53:21Z spooled site:B_bottom_15 508436757 67058040
+2026-10-27T15:53:22Z spooled site:B_top_18 503507427 66416760
+2026-10-27T15:54:51Z ran {"tag": "export-site-g_top_05", "rc": 0, "killed_by_guard": false, "wall_s": 73.5, "cpu_s": 70.7, "max_rss_kib": 7083660, "mem_available_low_gib": 56.0, "pid": 4016916}
+2026-10-27T15:54:51Z ran {"tag": "export-site-g_top_11", "rc": 0, "killed_by_guard": false, "wall_s": 70.8, "cpu_s": 66.5, "max_rss_kib": 7074100, "mem_available_low_gib": 56.0, "pid": 4017045}
+2026-10-27T15:55:01Z ran {"tag": "export-site-g_bottom_05", "rc": 0, "killed_by_guard": false, "wall_s": 78.0, "cpu_s": 74.9, "max_rss_kib": 7099388, "mem_available_low_gib": 56.0, "pid": 4017284}
+2026-10-27T15:55:32Z spooled site:g_top_11 553538606 72982430
+2026-10-27T15:55:32Z spooled site:g_top_05 559780090 73719214
+2026-10-27T15:55:42Z spooled site:g_bottom_05 567635497 74775412
+2026-10-27T15:56:39Z ran {"tag": "export-site-B_left_17", "rc": 0, "killed_by_guard": false, "wall_s": 54.0, "cpu_s": 52.4, "max_rss_kib": 7009852, "mem_available_low_gib": 55.9, "pid": 4025333}
+2026-10-27T15:56:40Z ran {"tag": "export-site-g_right_17", "rc": 0, "killed_by_guard": false, "wall_s": 62.0, "cpu_s": 60.7, "max_rss_kib": 7056744, "mem_available_low_gib": 55.9, "pid": 4024925}
+2026-10-27T15:56:41Z ran {"tag": "export-site-g_top_10", "rc": 0, "killed_by_guard": false, "wall_s": 66.0, "cpu_s": 64.4, "max_rss_kib": 7072384, "mem_available_low_gib": 55.9, "pid": 4024721}
+2026-10-27T15:57:19Z spooled site:B_left_17 520759639 68678935
+2026-10-27T15:57:22Z spooled site:g_right_17 546744441 72085141
+2026-10-27T15:57:25Z spooled site:g_top_10 552716094 72880005
+2026-10-27T15:58:21Z ran {"tag": "export-site-B_left_46", "rc": 0, "killed_by_guard": false, "wall_s": 58.5, "cpu_s": 54.1, "max_rss_kib": 7006964, "mem_available_low_gib": 56.2, "pid": 4031730}
+2026-10-27T15:58:21Z ran {"tag": "export-site-B_left_23", "rc": 0, "killed_by_guard": false, "wall_s": 55.5, "cpu_s": 51.8, "max_rss_kib": 6999076, "mem_available_low_gib": 56.2, "pid": 4032052}
+2026-10-27T15:58:25Z ran {"tag": "export-site-B_left_49", "rc": 0, "killed_by_guard": false, "wall_s": 56.5, "cpu_s": 54.0, "max_rss_kib": 6998592, "mem_available_low_gib": 56.2, "pid": 4032379}
+2026-10-27T15:58:57Z spooled site:B_left_23 516638892 68135678
+2026-10-27T15:58:58Z spooled site:B_left_46 519071746 68442307
+2026-10-27T15:59:02Z spooled site:B_left_49 515907948 68038493
+2026-10-27T15:59:48Z ran {"tag": "export-site-B_top_12", "rc": 0, "killed_by_guard": false, "wall_s": 48.0, "cpu_s": 47.5, "max_rss_kib": 6985304, "mem_available_low_gib": 57.6, "pid": 4038001}
+2026-10-27T15:59:49Z ran {"tag": "export-site-B_bottom_21", "rc": 0, "killed_by_guard": false, "wall_s": 46.0, "cpu_s": 44.9, "max_rss_kib": 6964612, "mem_available_low_gib": 57.6, "pid": 4038129}
+2026-10-27T16:00:26Z spooled site:B_bottom_21 502502604 66268292
+2026-10-27T16:00:26Z spooled site:B_top_12 508521799 67082363
+2026-10-27T16:01:52Z ran {"tag": "export-site-g_left_03", "rc": 0, "killed_by_guard": false, "wall_s": 67.3, "cpu_s": 66.3, "max_rss_kib": 7089444, "mem_available_low_gib": 55.8, "pid": 4045055}
+2026-10-27T16:01:56Z ran {"tag": "export-site-g_left_18", "rc": 0, "killed_by_guard": false, "wall_s": 74.2, "cpu_s": 72.4, "max_rss_kib": 7097908, "mem_available_low_gib": 55.8, "pid": 4044825}
+2026-10-27T16:01:56Z ran {"tag": "export-site-g_top_17", "rc": 0, "killed_by_guard": false, "wall_s": 68.3, "cpu_s": 66.0, "max_rss_kib": 7081952, "mem_available_low_gib": 55.8, "pid": 4045265}
+2026-10-27T16:02:36Z spooled site:g_left_18 567615957 74752364
+2026-10-27T16:02:36Z spooled site:g_left_03 558756715 73660004
+2026-10-27T16:02:36Z spooled site:g_top_17 556790816 73396278
+2026-10-27T16:03:39Z ran {"tag": "export-site-B_left_48", "rc": 0, "killed_by_guard": false, "wall_s": 54.0, "cpu_s": 53.0, "max_rss_kib": 7017128, "mem_available_low_gib": 55.9, "pid": 4052587}
+2026-10-27T16:03:43Z ran {"tag": "export-site-g_right_07", "rc": 0, "killed_by_guard": false, "wall_s": 64.0, "cpu_s": 63.1, "max_rss_kib": 7064180, "mem_available_low_gib": 55.9, "pid": 4052277}
+2026-10-27T16:03:44Z ran {"tag": "export-site-g_right_18", "rc": 0, "killed_by_guard": false, "wall_s": 62.0, "cpu_s": 60.6, "max_rss_kib": 7053868, "mem_available_low_gib": 55.9, "pid": 4052441}
+2026-10-27T16:04:18Z spooled site:B_left_48 523504910 69031672
+2026-10-27T16:04:23Z spooled site:g_right_07 550097406 72525616
+2026-10-27T16:04:23Z spooled site:g_right_18 545866389 71961639
+2026-10-27T16:05:13Z ran {"tag": "export-site-B_left_53", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 51.0, "max_rss_kib": 7001448, "mem_available_low_gib": 56.1, "pid": 4058660}
+2026-10-27T16:05:18Z ran {"tag": "export-site-B_left_50", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 50.7, "max_rss_kib": 7002964, "mem_available_low_gib": 56.1, "pid": 4058878}
+2026-10-27T16:05:19Z ran {"tag": "export-site-B_left_31", "rc": 0, "killed_by_guard": false, "wall_s": 50.1, "cpu_s": 49.8, "max_rss_kib": 6998696, "mem_available_low_gib": 56.1, "pid": 4059067}
+2026-10-27T16:05:48Z spooled site:B_left_53 518395456 68358689
+2026-10-27T16:05:54Z spooled site:B_left_50 516750612 68170251
+2026-10-27T16:05:55Z spooled site:B_left_31 515038383 67930048
+2026-10-27T16:06:41Z ran {"tag": "export-site-B_bottom_11", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 48.5, "max_rss_kib": 6990468, "mem_available_low_gib": 57.6, "pid": 4064426}
+2026-10-27T16:06:43Z ran {"tag": "export-site-B_top_19", "rc": 0, "killed_by_guard": false, "wall_s": 46.0, "cpu_s": 45.5, "max_rss_kib": 6963148, "mem_available_low_gib": 57.6, "pid": 4064686}
+2026-10-27T16:07:17Z spooled site:B_bottom_11 510773020 67360728
+2026-10-27T16:07:20Z spooled site:B_top_19 500957451 66071566
+2026-10-27T16:08:39Z ran {"tag": "export-site-g_top_18", "rc": 0, "killed_by_guard": false, "wall_s": 66.0, "cpu_s": 65.2, "max_rss_kib": 7079968, "mem_available_low_gib": 56.0, "pid": 4070989}
+2026-10-27T16:08:44Z ran {"tag": "export-site-g_bottom_01", "rc": 0, "killed_by_guard": false, "wall_s": 68.0, "cpu_s": 66.4, "max_rss_kib": 7084580, "mem_available_low_gib": 56.1, "pid": 4071211}
+2026-10-27T16:08:51Z ran {"tag": "export-site-g_bottom_06", "rc": 0, "killed_by_guard": false, "wall_s": 72.0, "cpu_s": 70.2, "max_rss_kib": 7098400, "mem_available_low_gib": 56.0, "pid": 4071446}
+2026-10-27T16:09:17Z spooled site:g_top_18 556787153 73405723
+2026-10-27T16:09:22Z spooled site:g_bottom_01 559521035 73732417
+2026-10-27T16:09:30Z spooled site:g_bottom_06 566721457 74667291
+2026-10-27T16:10:26Z ran {"tag": "export-site-g_right_08", "rc": 0, "killed_by_guard": false, "wall_s": 65.3, "cpu_s": 62.7, "max_rss_kib": 7069792, "mem_available_low_gib": 56.0, "pid": 4077541}
+2026-10-27T16:10:27Z ran {"tag": "export-site-B_left_39", "rc": 0, "killed_by_guard": false, "wall_s": 54.0, "cpu_s": 52.1, "max_rss_kib": 7013072, "mem_available_low_gib": 56.1, "pid": 4078416}
+2026-10-27T16:10:29Z ran {"tag": "export-site-g_top_23", "rc": 0, "killed_by_guard": false, "wall_s": 64.1, "cpu_s": 63.2, "max_rss_kib": 7058748, "mem_available_low_gib": 56.1, "pid": 4077898}
+2026-10-27T16:11:02Z spooled site:B_left_39 522711115 68935136
+2026-10-27T16:11:04Z spooled site:g_right_08 550056266 72477536
+2026-10-27T16:11:07Z spooled site:g_top_23 545866953 71953571
+2026-10-27T16:11:58Z ran {"tag": "export-site-B_left_36", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 51.2, "max_rss_kib": 7001860, "mem_available_low_gib": 56.1, "pid": 4084265}
+2026-10-27T16:12:01Z ran {"tag": "export-site-B_left_14", "rc": 0, "killed_by_guard": false, "wall_s": 52.3, "cpu_s": 49.9, "max_rss_kib": 7003088, "mem_available_low_gib": 56.2, "pid": 4084378}
+2026-10-27T16:12:02Z ran {"tag": "export-site-B_left_33", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 49.5, "max_rss_kib": 6999352, "mem_available_low_gib": 56.1, "pid": 4084536}
+2026-10-27T16:12:36Z spooled site:B_left_36 518406220 68366200
+2026-10-27T16:12:38Z spooled site:B_left_33 515852791 68025658
+2026-10-27T16:12:39Z spooled site:B_left_14 516589973 68127122
+2026-10-27T16:13:31Z ran {"tag": "export-site-B_top_13", "rc": 0, "killed_by_guard": false, "wall_s": 52.6, "cpu_s": 49.5, "max_rss_kib": 6986232, "mem_available_low_gib": 57.7, "pid": 4090145}
+2026-10-27T16:13:32Z ran {"tag": "export-site-B_top_20", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 47.2, "max_rss_kib": 6964032, "mem_available_low_gib": 57.7, "pid": 4090408}
+2026-10-27T16:14:09Z spooled site:B_top_20 501765034 66183000
+2026-10-27T16:14:10Z spooled site:B_top_13 509364140 67187671
+2026-10-27T16:15:33Z ran {"tag": "export-site-g_left_05", "rc": 0, "killed_by_guard": false, "wall_s": 68.7, "cpu_s": 67.4, "max_rss_kib": 7082652, "mem_available_low_gib": 55.7, "pid": 4096849}
+2026-10-27T16:15:34Z ran {"tag": "export-site-g_top_16", "rc": 0, "killed_by_guard": false, "wall_s": 66.0, "cpu_s": 64.6, "max_rss_kib": 7077472, "mem_available_low_gib": 55.7, "pid": 4097047}
+2026-10-27T16:15:41Z ran {"tag": "export-site-g_left_17", "rc": 0, "killed_by_guard": false, "wall_s": 70.7, "cpu_s": 70.3, "max_rss_kib": 7104040, "mem_available_low_gib": 55.7, "pid": 4097169}
+2026-10-27T16:16:13Z spooled site:g_top_16 555983568 73297001
+2026-10-27T16:16:14Z spooled site:g_left_05 559114676 73771360
+2026-10-27T16:16:22Z spooled site:g_left_17 566677599 74646439
+2026-10-27T16:17:19Z ran {"tag": "export-site-B_left_28", "rc": 0, "killed_by_guard": false, "wall_s": 54.0, "cpu_s": 52.8, "max_rss_kib": 7013936, "mem_available_low_gib": 56.9, "pid": 4104479}
+2026-10-27T16:17:19Z ran {"tag": "export-site-g_right_19", "rc": 0, "killed_by_guard": false, "wall_s": 60.0, "cpu_s": 58.8, "max_rss_kib": 7057684, "mem_available_low_gib": 56.8, "pid": 4104307}
+2026-10-27T16:17:21Z ran {"tag": "export-site-g_bottom_17", "rc": 0, "killed_by_guard": false, "wall_s": 64.2, "cpu_s": 63.4, "max_rss_kib": 7070400, "mem_available_low_gib": 56.9, "pid": 4104028}
+2026-10-27T16:17:58Z spooled site:B_left_28 522591754 68914608
+2026-10-27T16:18:00Z spooled site:g_right_19 545837276 71972955
+2026-10-27T16:18:02Z spooled site:g_bottom_17 551006635 72630521
+2026-10-27T16:18:55Z ran {"tag": "export-site-B_left_25", "rc": 0, "killed_by_guard": false, "wall_s": 54.0, "cpu_s": 52.4, "max_rss_kib": 7005104, "mem_available_low_gib": 70.7, "pid": 4111089}
+2026-10-27T16:18:58Z ran {"tag": "export-site-B_left_09", "rc": 0, "killed_by_guard": false, "wall_s": 54.3, "cpu_s": 52.3, "max_rss_kib": 7001892, "mem_available_low_gib": 70.7, "pid": 4111243}
+2026-10-27T16:18:59Z ran {"tag": "export-site-B_left_32", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 51.4, "max_rss_kib": 6998828, "mem_available_low_gib": 70.7, "pid": 4111703}
+2026-10-27T16:19:31Z spooled site:B_left_25 518312897 68362674
+2026-10-27T16:19:34Z spooled site:B_left_09 516806262 68119468
+2026-10-27T16:19:34Z spooled site:B_left_32 515842113 68024964
+2026-10-27T16:20:24Z ran {"tag": "export-site-B_top_11", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 48.5, "max_rss_kib": 6984888, "mem_available_low_gib": 72.3, "pid": 4117014}
+2026-10-27T16:20:25Z ran {"tag": "export-site-B_bottom_19", "rc": 0, "killed_by_guard": false, "wall_s": 48.0, "cpu_s": 46.0, "max_rss_kib": 6963252, "mem_available_low_gib": 72.4, "pid": 4117365}
+2026-10-27T16:21:01Z spooled site:B_top_11 509326455 67194072
+2026-10-27T16:21:03Z spooled site:B_bottom_19 501713400 66158677
+2026-10-27T16:21:19Z waiting: spool room for site:g_bottom_07
+2026-10-27T16:21:19Z waiting: spool room for site:g_top_12
+2026-10-27T16:21:19Z waiting: spool room for site:g_top_08
+2026-10-27T16:22:51Z ran {"tag": "export-site-g_top_12", "rc": 0, "killed_by_guard": false, "wall_s": 66.1, "cpu_s": 64.6, "max_rss_kib": 7073268, "mem_available_low_gib": 70.6, "pid": 4125561}
+2026-10-27T16:22:56Z ran {"tag": "export-site-g_bottom_07", "rc": 0, "killed_by_guard": false, "wall_s": 74.4, "cpu_s": 71.8, "max_rss_kib": 7094016, "mem_available_low_gib": 70.6, "pid": 4125328}
+2026-10-27T16:22:58Z ran {"tag": "export-site-g_top_08", "rc": 0, "killed_by_guard": false, "wall_s": 70.4, "cpu_s": 68.1, "max_rss_kib": 7089864, "mem_available_low_gib": 70.6, "pid": 4125611}
+2026-10-27T16:23:31Z spooled site:g_top_12 554588458 73053014
+2026-10-27T16:23:36Z spooled site:g_bottom_07 565954722 74581719
+2026-10-27T16:23:37Z spooled site:g_top_08 561518517 73989631
+2026-10-27T16:24:36Z ran {"tag": "export-site-B_left_47", "rc": 0, "killed_by_guard": false, "wall_s": 54.0, "cpu_s": 52.2, "max_rss_kib": 7008532, "mem_available_low_gib": 70.7, "pid": 4133222}
+2026-10-27T16:24:38Z ran {"tag": "export-site-g_bottom_15", "rc": 0, "killed_by_guard": false, "wall_s": 64.0, "cpu_s": 62.5, "max_rss_kib": 7069276, "mem_available_low_gib": 70.7, "pid": 4132629}
+2026-10-27T16:24:41Z ran {"tag": "export-site-g_right_02", "rc": 0, "killed_by_guard": false, "wall_s": 62.1, "cpu_s": 61.4, "max_rss_kib": 7062344, "mem_available_low_gib": 70.7, "pid": 4132970}
+2026-10-27T16:25:12Z spooled site:B_left_47 520860650 68663325
+2026-10-27T16:25:17Z spooled site:g_bottom_15 551936377 72757852
+2026-10-27T16:25:17Z waiting: spool room for site:B_top_04
+2026-10-27T16:25:20Z spooled site:g_right_02 547778243 72243029
+2026-10-27T16:25:20Z waiting: spool room for site:B_left_16
+2026-10-27T16:26:08Z ran {"tag": "export-site-B_bottom_02", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 50.2, "max_rss_kib": 7005644, "mem_available_low_gib": 73.5, "pid": 4139327}
+2026-10-27T16:26:44Z spooled site:B_bottom_02 518392587 68356894
+2026-10-27T16:26:55Z ran {"tag": "export-site-B_left_16", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 50.4, "max_rss_kib": 6997300, "mem_available_low_gib": 71.8, "pid": 4142325}
+2026-10-27T16:27:12Z ran {"tag": "export-site-B_top_04", "rc": 0, "killed_by_guard": false, "wall_s": 52.1, "cpu_s": 51.2, "max_rss_kib": 7004264, "mem_available_low_gib": 71.8, "pid": 4143489}
+2026-10-27T16:27:32Z spooled site:B_left_16 515062601 67930038
+2026-10-27T16:27:39Z ran {"tag": "export-site-B_top_08", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 50.0, "max_rss_kib": 6994428, "mem_available_low_gib": 71.9, "pid": 4145100}
+2026-10-27T16:27:50Z spooled site:B_top_04 517594514 68245894
+2026-10-27T16:28:17Z spooled site:B_top_08 512478287 67596063
+2026-10-27T16:28:25Z ran {"tag": "export-site-B_right_05", "rc": 0, "killed_by_guard": false, "wall_s": 50.1, "cpu_s": 47.7, "max_rss_kib": 6949332, "mem_available_low_gib": 72.5, "pid": 4148050}
+2026-10-27T16:28:59Z spooled site:B_right_05 497692693 65641986
+2026-10-27T16:30:28Z ran {"tag": "export-site-g_left_00", "rc": 0, "killed_by_guard": false, "wall_s": 68.0, "cpu_s": 66.7, "max_rss_kib": 7078896, "mem_available_low_gib": 70.4, "pid": 4154939}
+2026-10-27T16:30:29Z ran {"tag": "export-site-g_bottom_08", "rc": 0, "killed_by_guard": false, "wall_s": 72.0, "cpu_s": 71.3, "max_rss_kib": 7096664, "mem_available_low_gib": 70.4, "pid": 4154741}
+2026-10-27T16:30:33Z ran {"tag": "export-site-g_left_06", "rc": 0, "killed_by_guard": false, "wall_s": 70.0, "cpu_s": 68.2, "max_rss_kib": 7085072, "mem_available_low_gib": 70.4, "pid": 4155091}
+2026-10-27T16:31:09Z spooled site:g_left_00 556807468 73391121
+2026-10-27T16:31:09Z spooled site:g_bottom_08 565923096 74544043
+2026-10-27T16:31:13Z spooled site:g_left_06 560440939 73877544
+2026-10-27T16:32:18Z ran {"tag": "export-site-g_bottom_19", "rc": 0, "killed_by_guard": false, "wall_s": 66.3, "cpu_s": 64.3, "max_rss_kib": 7069916, "mem_available_low_gib": 70.4, "pid": 4162145}
+2026-10-27T16:32:19Z ran {"tag": "export-site-g_bottom_21", "rc": 0, "killed_by_guard": false, "wall_s": 64.0, "cpu_s": 60.9, "max_rss_kib": 7056828, "mem_available_low_gib": 70.5, "pid": 4162354}
+2026-10-27T16:32:22Z ran {"tag": "export-site-g_bottom_23", "rc": 0, "killed_by_guard": false, "wall_s": 64.3, "cpu_s": 62.1, "max_rss_kib": 7053888, "mem_available_low_gib": 70.4, "pid": 4162479}
+2026-10-27T16:32:58Z spooled site:g_bottom_21 544398513 71762659
+2026-10-27T16:32:59Z spooled site:g_bottom_19 551035845 72639705
+2026-10-27T16:33:00Z spooled site:g_bottom_23 543773680 71694678
+2026-10-27T16:33:55Z ran {"tag": "export-site-B_left_03", "rc": 0, "killed_by_guard": false, "wall_s": 54.0, "cpu_s": 52.0, "max_rss_kib": 7001448, "mem_available_low_gib": 70.7, "pid": 4169670}
+2026-10-27T16:33:57Z ran {"tag": "export-site-B_top_06", "rc": 0, "killed_by_guard": false, "wall_s": 53.0, "cpu_s": 50.9, "max_rss_kib": 6998760, "mem_available_low_gib": 70.7, "pid": 4169916}
+2026-10-27T16:33:59Z ran {"tag": "export-site-B_bottom_06", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 50.5, "max_rss_kib": 6991348, "mem_available_low_gib": 70.7, "pid": 4170102}
+2026-10-27T16:34:33Z spooled site:B_left_03 517655306 68216472
+2026-10-27T16:34:37Z spooled site:B_bottom_06 512490365 67600864
+2026-10-27T16:34:38Z spooled site:B_top_06 516748364 68153637
+2026-10-27T16:35:26Z ran {"tag": "export-site-B_bottom_13", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 48.0, "max_rss_kib": 6983512, "mem_available_low_gib": 73.5, "pid": 4176048}
+2026-10-27T16:36:03Z spooled site:B_bottom_13 507501270 66938515
+2026-10-27T16:37:31Z ran {"tag": "export-site-g_left_07", "rc": 0, "killed_by_guard": false, "wall_s": 70.6, "cpu_s": 68.2, "max_rss_kib": 7085920, "mem_available_low_gib": 70.2, "pid": 4183501}
+2026-10-27T16:37:32Z ran {"tag": "export-site-g_left_15", "rc": 0, "killed_by_guard": false, "wall_s": 74.0, "cpu_s": 72.2, "max_rss_kib": 7099380, "mem_available_low_gib": 70.2, "pid": 4183355}
+2026-10-27T16:37:34Z ran {"tag": "export-site-g_left_01", "rc": 0, "killed_by_guard": false, "wall_s": 70.0, "cpu_s": 68.0, "max_rss_kib": 7080048, "mem_available_low_gib": 70.2, "pid": 4183641}
+2026-10-27T16:38:12Z spooled site:g_left_07 560433246 73844415
+2026-10-27T16:38:15Z spooled site:g_left_01 556798638 73417330
+2026-10-27T16:38:16Z spooled site:g_left_15 565789649 74529656
+2026-10-27T16:39:21Z ran {"tag": "export-site-g_bottom_22", "rc": 0, "killed_by_guard": false, "wall_s": 62.9, "cpu_s": 60.9, "max_rss_kib": 7053652, "mem_available_low_gib": 70.1, "pid": 4191656}
+2026-10-27T16:39:22Z ran {"tag": "export-site-g_right_04", "rc": 0, "killed_by_guard": false, "wall_s": 66.7, "cpu_s": 65.0, "max_rss_kib": 7069444, "mem_available_low_gib": 70.1, "pid": 4191475}
+2026-10-27T16:39:23Z ran {"tag": "export-site-g_bottom_24", "rc": 0, "killed_by_guard": false, "wall_s": 62.0, "cpu_s": 61.4, "max_rss_kib": 7051972, "mem_available_low_gib": 70.1, "pid": 4191849}
+2026-10-27T16:40:02Z spooled site:g_bottom_22 544607221 71770033
+2026-10-27T16:40:03Z spooled site:g_right_04 551014081 72656171
+2026-10-27T16:40:04Z spooled site:g_bottom_24 543679734 71665305
+2026-10-27T16:40:59Z ran {"tag": "export-site-B_left_08", "rc": 0, "killed_by_guard": false, "wall_s": 54.2, "cpu_s": 52.2, "max_rss_kib": 7001492, "mem_available_low_gib": 67.5, "pid": 5934}
+2026-10-27T16:41:01Z ran {"tag": "export-site-B_bottom_00", "rc": 0, "killed_by_guard": false, "wall_s": 52.8, "cpu_s": 51.9, "max_rss_kib": 6998240, "mem_available_low_gib": 67.4, "pid": 6185}
+2026-10-27T16:41:03Z ran {"tag": "export-site-B_bottom_09", "rc": 0, "killed_by_guard": false, "wall_s": 52.2, "cpu_s": 51.1, "max_rss_kib": 6997460, "mem_available_low_gib": 67.5, "pid": 6363}
+2026-10-27T16:41:52Z spooled site:B_left_08 517462234 68259303
+2026-10-27T16:41:54Z spooled site:B_bottom_00 516017694 68006612
+2026-10-27T16:41:55Z spooled site:B_bottom_09 514197046 67827222
+2026-10-27T16:42:46Z ran {"tag": "export-site-B_top_16", "rc": 0, "killed_by_guard": false, "wall_s": 50.6, "cpu_s": 48.8, "max_rss_kib": 6983228, "mem_available_low_gib": 71.0, "pid": 15303}
+2026-10-27T16:43:37Z spooled site:B_top_16 505887782 66723029
+2026-10-27T16:44:59Z ran {"tag": "export-site-g_top_00", "rc": 0, "killed_by_guard": false, "wall_s": 68.0, "cpu_s": 65.6, "max_rss_kib": 7084036, "mem_available_low_gib": 63.6, "pid": 27640}
+2026-10-27T16:45:03Z ran {"tag": "export-site-g_top_06", "rc": 0, "killed_by_guard": false, "wall_s": 66.0, "cpu_s": 65.1, "max_rss_kib": 7087932, "mem_available_low_gib": 63.6, "pid": 27972}
+2026-10-27T16:45:04Z ran {"tag": "export-site-g_left_21", "rc": 0, "killed_by_guard": false, "wall_s": 70.0, "cpu_s": 69.5, "max_rss_kib": 7096284, "mem_available_low_gib": 63.5, "pid": 27794}
+2026-10-27T16:45:56Z spooled site:g_top_00 556809958 73380375
+2026-10-27T16:46:02Z spooled site:g_left_21 565889457 74564488
+2026-10-27T16:46:04Z spooled site:g_top_06 560556090 73859233
+2026-10-27T16:47:19Z ran {"tag": "export-site-g_right_06", "rc": 0, "killed_by_guard": false, "wall_s": 80.0, "cpu_s": 71.2, "max_rss_kib": 7062100, "mem_available_low_gib": 63.8, "pid": 37228}
+2026-10-27T16:47:19Z ran {"tag": "export-site-g_right_00", "rc": 0, "killed_by_guard": false, "wall_s": 71.6, "cpu_s": 68.6, "max_rss_kib": 7055180, "mem_available_low_gib": 63.8, "pid": 38030}
+2026-10-27T16:47:19Z ran {"tag": "export-site-g_right_23", "rc": 0, "killed_by_guard": false, "wall_s": 74.6, "cpu_s": 67.3, "max_rss_kib": 7051584, "mem_available_low_gib": 63.8, "pid": 37705}
+2026-10-27T16:48:18Z spooled site:g_right_23 544313005 71761207
+2026-10-27T16:48:18Z spooled site:g_right_00 543687785 71678312
+2026-10-27T16:48:20Z spooled site:g_right_06 550939768 72632263
+2026-10-27T16:49:15Z ran {"tag": "export-site-B_left_24", "rc": 0, "killed_by_guard": false, "wall_s": 54.4, "cpu_s": 52.2, "max_rss_kib": 7000436, "mem_available_low_gib": 64.7, "pid": 47600}
+2026-10-27T16:49:18Z ran {"tag": "export-site-B_bottom_04", "rc": 0, "killed_by_guard": false, "wall_s": 54.0, "cpu_s": 50.9, "max_rss_kib": 6998528, "mem_available_low_gib": 64.7, "pid": 47818}
+2026-10-27T16:49:21Z ran {"tag": "export-site-B_left_29", "rc": 0, "killed_by_guard": false, "wall_s": 54.4, "cpu_s": 52.0, "max_rss_kib": 6995328, "mem_available_low_gib": 64.7, "pid": 47987}
+2026-10-27T16:50:14Z spooled site:B_left_24 517472918 68247086
+2026-10-27T16:50:15Z spooled site:B_bottom_04 515814613 68034650
+2026-10-27T16:50:19Z spooled site:B_left_29 514210430 67825482
+2026-10-27T16:51:06Z ran {"tag": "export-site-B_top_22", "rc": 0, "killed_by_guard": false, "wall_s": 46.2, "cpu_s": 43.8, "max_rss_kib": 6923516, "mem_available_low_gib": 65.9, "pid": 56057}
+2026-10-27T16:51:07Z ran {"tag": "export-site-B_left_55", "rc": 0, "killed_by_guard": false, "wall_s": 50.1, "cpu_s": 47.5, "max_rss_kib": 6967788, "mem_available_low_gib": 65.8, "pid": 55666}
+2026-10-27T16:51:59Z spooled site:B_top_22 486905659 64206345
+2026-10-27T16:52:02Z spooled site:B_left_55 504208813 66499653
+2026-10-27T16:53:28Z ran {"tag": "export-site-g_left_10", "rc": 0, "killed_by_guard": false, "wall_s": 70.8, "cpu_s": 69.6, "max_rss_kib": 7089284, "mem_available_low_gib": 62.6, "pid": 64862}
+2026-10-27T16:53:28Z ran {"tag": "export-site-g_top_14", "rc": 0, "killed_by_guard": false, "wall_s": 68.2, "cpu_s": 65.8, "max_rss_kib": 7079912, "mem_available_low_gib": 62.6, "pid": 65106}
+2026-10-27T16:53:38Z ran {"tag": "export-site-g_bottom_03", "rc": 0, "killed_by_guard": false, "wall_s": 74.8, "cpu_s": 72.0, "max_rss_kib": 7096040, "mem_available_low_gib": 62.6, "pid": 65246}
+2026-10-27T16:54:31Z spooled site:g_left_10 562316540 74103380
+2026-10-27T16:54:31Z spooled site:g_top_14 555223767 73169617
+2026-10-27T16:54:40Z spooled site:g_bottom_03 565041848 74418603
+2026-10-27T16:55:43Z ran {"tag": "export-site-g_top_19", "rc": 0, "killed_by_guard": false, "wall_s": 69.2, "cpu_s": 64.8, "max_rss_kib": 7068404, "mem_available_low_gib": 62.7, "pid": 74928}
+2026-10-27T16:55:45Z ran {"tag": "export-site-g_bottom_20", "rc": 0, "killed_by_guard": false, "wall_s": 67.9, "cpu_s": 63.6, "max_rss_kib": 7050512, "mem_available_low_gib": 62.8, "pid": 75161}
+2026-10-27T16:55:51Z ran {"tag": "export-site-g_right_24", "rc": 0, "killed_by_guard": false, "wall_s": 67.6, "cpu_s": 63.3, "max_rss_kib": 7051596, "mem_available_low_gib": 62.8, "pid": 75567}
+2026-10-27T16:56:41Z spooled site:g_top_19 551759520 72739729
+2026-10-27T16:56:43Z spooled site:g_bottom_20 545203957 71877745
+2026-10-27T16:56:50Z spooled site:g_right_24 543631010 71708738
+2026-10-27T16:57:44Z ran {"tag": "export-site-B_left_35", "rc": 0, "killed_by_guard": false, "wall_s": 60.1, "cpu_s": 57.0, "max_rss_kib": 6999412, "mem_available_low_gib": 65.4, "pid": 83770}
+2026-10-27T16:57:48Z ran {"tag": "export-site-B_left_00", "rc": 0, "killed_by_guard": false, "wall_s": 61.1, "cpu_s": 55.8, "max_rss_kib": 6996492, "mem_available_low_gib": 65.6, "pid": 84027}
+2026-10-27T16:57:52Z ran {"tag": "export-site-B_top_02", "rc": 0, "killed_by_guard": false, "wall_s": 59.0, "cpu_s": 54.2, "max_rss_kib": 6996608, "mem_available_low_gib": 65.6, "pid": 84317}
+2026-10-27T16:58:38Z spooled site:B_left_35 517571830 68257721
+2026-10-27T16:58:44Z spooled site:B_left_00 515799825 68025708
+2026-10-27T16:58:46Z spooled site:B_top_02 514369277 67828151
+2026-10-27T16:59:29Z ran {"tag": "export-site-B_bottom_18", "rc": 0, "killed_by_guard": false, "wall_s": 48.2, "cpu_s": 47.2, "max_rss_kib": 6968604, "mem_available_low_gib": 68.1, "pid": 91568}
+2026-10-27T16:59:33Z ran {"tag": "export-site-B_right_03", "rc": 0, "killed_by_guard": false, "wall_s": 46.0, "cpu_s": 45.1, "max_rss_kib": 6948516, "mem_available_low_gib": 68.1, "pid": 91721}
+2026-10-27T17:00:23Z spooled site:B_bottom_18 503399147 66385888
+2026-10-27T17:00:25Z spooled site:B_right_03 496742233 65501776
+2026-10-27T17:01:54Z ran {"tag": "export-site-g_top_15", "rc": 0, "killed_by_guard": false, "wall_s": 70.0, "cpu_s": 68.1, "max_rss_kib": 7078100, "mem_available_low_gib": 66.7, "pid": 100085}
+2026-10-27T17:01:55Z ran {"tag": "export-site-g_top_09", "rc": 0, "killed_by_guard": false, "wall_s": 74.1, "cpu_s": 72.0, "max_rss_kib": 7098572, "mem_available_low_gib": 66.7, "pid": 99919}
+2026-10-27T17:02:01Z ran {"tag": "export-site-g_bottom_09", "rc": 0, "killed_by_guard": false, "wall_s": 74.1, "cpu_s": 70.6, "max_rss_kib": 7093360, "mem_available_low_gib": 66.7, "pid": 100138}
+2026-10-27T17:02:52Z spooled site:g_top_15 555216346 73172253
+2026-10-27T17:02:53Z spooled site:g_top_09 562463078 74114855
+2026-10-27T17:02:59Z spooled site:g_bottom_09 565057431 74419498
+2026-10-27T17:04:01Z ran {"tag": "export-site-g_top_20", "rc": 0, "killed_by_guard": false, "wall_s": 66.2, "cpu_s": 64.8, "max_rss_kib": 7070760, "mem_available_low_gib": 66.3, "pid": 108647}
+2026-10-27T17:04:04Z ran {"tag": "export-site-g_right_01", "rc": 0, "killed_by_guard": false, "wall_s": 66.0, "cpu_s": 64.6, "max_rss_kib": 7053652, "mem_available_low_gib": 66.3, "pid": 108812}
+2026-10-27T17:04:05Z ran {"tag": "export-site-g_right_25", "rc": 0, "killed_by_guard": false, "wall_s": 62.8, "cpu_s": 61.1, "max_rss_kib": 7051808, "mem_available_low_gib": 66.3, "pid": 109031}
+2026-10-27T17:04:57Z spooled site:g_top_20 551745812 72737418
+2026-10-27T17:04:58Z spooled site:g_right_01 545124762 71895738
+2026-10-27T17:05:03Z spooled site:g_right_25 543635636 71687360
+2026-10-27T17:05:50Z ran {"tag": "export-site-B_left_44", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 49.3, "max_rss_kib": 7002624, "mem_available_low_gib": 67.0, "pid": 116792}
+2026-10-27T17:05:55Z ran {"tag": "export-site-B_left_05", "rc": 0, "killed_by_guard": false, "wall_s": 52.0, "cpu_s": 49.9, "max_rss_kib": 6998644, "mem_available_low_gib": 67.1, "pid": 116898}
+2026-10-27T17:05:56Z ran {"tag": "export-site-B_top_07", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 49.7, "max_rss_kib": 6996848, "mem_available_low_gib": 67.1, "pid": 117160}
+2026-10-27T17:06:47Z spooled site:B_left_05 515817345 68037930
+2026-10-27T17:06:47Z spooled site:B_left_44 517573360 68275147
+2026-10-27T17:06:48Z spooled site:B_top_07 514366146 67825320
+2026-10-27T17:07:35Z ran {"tag": "export-site-B_bottom_23", "rc": 0, "killed_by_guard": false, "wall_s": 42.0, "cpu_s": 41.7, "max_rss_kib": 6926084, "mem_available_low_gib": 68.0, "pid": 124441}
+2026-10-27T17:07:38Z ran {"tag": "export-site-B_bottom_22", "rc": 0, "killed_by_guard": false, "wall_s": 48.0, "cpu_s": 47.0, "max_rss_kib": 6972976, "mem_available_low_gib": 68.0, "pid": 124234}
+2026-10-27T17:08:24Z spooled site:B_bottom_23 486795397 64204185
+2026-10-27T17:08:28Z spooled site:B_bottom_22 503390082 66375100
+2026-10-27T17:09:51Z ran {"tag": "export-site-g_left_02", "rc": 0, "killed_by_guard": false, "wall_s": 68.3, "cpu_s": 67.1, "max_rss_kib": 7084772, "mem_available_low_gib": 66.7, "pid": 132078}
+2026-10-27T17:09:56Z ran {"tag": "export-site-g_left_08", "rc": 0, "killed_by_guard": false, "wall_s": 70.3, "cpu_s": 68.3, "max_rss_kib": 7087504, "mem_available_low_gib": 66.8, "pid": 132217}
+2026-10-27T17:10:03Z ran {"tag": "export-site-g_bottom_10", "rc": 0, "killed_by_guard": false, "wall_s": 74.1, "cpu_s": 73.2, "max_rss_kib": 7095540, "mem_available_low_gib": 66.7, "pid": 132334}
+2026-10-27T17:10:48Z spooled site:g_left_02 557692276 73501066
+2026-10-27T17:10:54Z spooled site:g_left_08 561442972 73998248
+2026-10-27T17:10:59Z spooled site:g_bottom_10 565035358 74445841
+2026-10-27T17:11:55Z ran {"tag": "export-site-g_top_21", "rc": 0, "killed_by_guard": false, "wall_s": 64.3, "cpu_s": 63.3, "max_rss_kib": 7067776, "mem_available_low_gib": 66.5, "pid": 140476}
+2026-10-27T17:12:01Z ran {"tag": "export-site-g_right_20", "rc": 0, "killed_by_guard": false, "wall_s": 64.0, "cpu_s": 62.1, "max_rss_kib": 7059300, "mem_available_low_gib": 66.5, "pid": 140884}
+2026-10-27T17:12:04Z ran {"tag": "export-site-g_top_25", "rc": 0, "killed_by_guard": false, "wall_s": 62.0, "cpu_s": 60.8, "max_rss_kib": 7051276, "mem_available_low_gib": 66.4, "pid": 141216}
+2026-10-27T17:12:53Z spooled site:g_top_21 550096418 72507100
+2026-10-27T17:12:57Z spooled site:g_right_20 545030031 71847434
+2026-10-27T17:13:00Z spooled site:g_top_25 543630086 71664879
+2026-10-27T17:13:54Z ran {"tag": "export-site-B_left_52", "rc": 0, "killed_by_guard": false, "wall_s": 57.9, "cpu_s": 54.6, "max_rss_kib": 7000808, "mem_available_low_gib": 66.1, "pid": 148683}
+2026-10-27T17:13:58Z ran {"tag": "export-site-B_left_10", "rc": 0, "killed_by_guard": false, "wall_s": 57.8, "cpu_s": 52.8, "max_rss_kib": 6996952, "mem_available_low_gib": 66.1, "pid": 148928}
+2026-10-27T17:14:00Z ran {"tag": "export-site-B_bottom_05", "rc": 0, "killed_by_guard": false, "wall_s": 56.8, "cpu_s": 52.9, "max_rss_kib": 6990900, "mem_available_low_gib": 66.1, "pid": 149062}
+2026-10-27T17:14:46Z spooled site:B_left_52 517552792 68243468
+2026-10-27T17:14:51Z spooled site:B_left_10 515826857 68018039
+2026-10-27T17:14:51Z spooled site:B_bottom_05 513357435 67699243
+2026-10-27T17:15:38Z ran {"tag": "export-site-B_top_14", "rc": 0, "killed_by_guard": false, "wall_s": 48.8, "cpu_s": 47.5, "max_rss_kib": 6980792, "mem_available_low_gib": 69.2, "pid": 156415}
+2026-10-27T17:16:28Z spooled site:B_top_14 505937286 66709418
+2026-10-27T17:17:53Z ran {"tag": "export-site-g_left_24", "rc": 0, "killed_by_guard": false, "wall_s": 68.2, "cpu_s": 67.4, "max_rss_kib": 7079532, "mem_available_low_gib": 66.5, "pid": 164128}
+2026-10-27T17:18:00Z ran {"tag": "export-site-g_left_14", "rc": 0, "killed_by_guard": false, "wall_s": 72.0, "cpu_s": 70.1, "max_rss_kib": 7095716, "mem_available_low_gib": 66.5, "pid": 164444}
+2026-10-27T17:18:01Z ran {"tag": "export-site-g_top_07", "rc": 0, "killed_by_guard": false, "wall_s": 70.1, "cpu_s": 67.5, "max_rss_kib": 7088896, "mem_available_low_gib": 66.5, "pid": 164620}
+2026-10-27T17:18:50Z spooled site:g_left_24 557719031 73512729
+2026-10-27T17:18:57Z spooled site:g_left_14 564918897 74406873
+2026-10-27T17:18:58Z spooled site:g_top_07 561578348 73995100
+2026-10-27T17:19:57Z ran {"tag": "export-site-B_top_03", "rc": 0, "killed_by_guard": false, "wall_s": 54.0, "cpu_s": 51.9, "max_rss_kib": 7009192, "mem_available_low_gib": 66.7, "pid": 173614}
+2026-10-27T17:19:59Z ran {"tag": "export-site-g_right_03", "rc": 0, "killed_by_guard": false, "wall_s": 66.2, "cpu_s": 63.4, "max_rss_kib": 7061168, "mem_available_low_gib": 66.7, "pid": 172950}
+2026-10-27T17:20:06Z ran {"tag": "export-site-g_right_13", "rc": 0, "killed_by_guard": false, "wall_s": 66.0, "cpu_s": 63.4, "max_rss_kib": 7064252, "mem_available_low_gib": 66.6, "pid": 173386}
+2026-10-27T17:20:55Z spooled site:B_top_03 520829551 68678622
+2026-10-27T17:20:58Z spooled site:g_right_03 549339592 72414486
+2026-10-27T17:21:04Z spooled site:g_right_13 547704251 72198540
+2026-10-27T17:21:53Z ran {"tag": "export-site-B_left_18", "rc": 0, "killed_by_guard": false, "wall_s": 54.4, "cpu_s": 52.1, "max_rss_kib": 7002344, "mem_available_low_gib": 66.7, "pid": 180905}
+2026-10-27T17:21:53Z ran {"tag": "export-site-B_bottom_03", "rc": 0, "killed_by_guard": false, "wall_s": 52.1, "cpu_s": 51.9, "max_rss_kib": 7002672, "mem_available_low_gib": 66.6, "pid": 181076}
+2026-10-27T17:21:59Z ran {"tag": "export-site-B_left_15", "rc": 0, "killed_by_guard": false, "wall_s": 52.4, "cpu_s": 50.0, "max_rss_kib": 6998280, "mem_available_low_gib": 66.6, "pid": 181399}
+2026-10-27T17:22:47Z spooled site:B_left_18 518392635 68356462
+2026-10-27T17:22:47Z spooled site:B_bottom_03 516597676 68119515
+2026-10-27T17:22:53Z spooled site:B_left_15 515812313 68018329
+2026-10-27T17:23:40Z ran {"tag": "export-site-B_bottom_10", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 48.3, "max_rss_kib": 6990960, "mem_available_low_gib": 67.5, "pid": 188276}
+2026-10-27T17:23:41Z ran {"tag": "export-site-B_right_04", "rc": 0, "killed_by_guard": false, "wall_s": 48.2, "cpu_s": 46.7, "max_rss_kib": 6951132, "mem_available_low_gib": 67.5, "pid": 188350}
+2026-10-27T17:24:32Z spooled site:B_bottom_10 511612656 67468728
+2026-10-27T17:24:33Z spooled site:B_right_04 498503024 65751399
+2026-10-27T17:26:02Z ran {"tag": "export-site-g_left_12", "rc": 0, "killed_by_guard": false, "wall_s": 72.3, "cpu_s": 70.9, "max_rss_kib": 7088292, "mem_available_low_gib": 66.7, "pid": 196192}
+2026-10-27T17:26:03Z ran {"tag": "export-site-g_top_01", "rc": 0, "killed_by_guard": false, "wall_s": 70.1, "cpu_s": 68.6, "max_rss_kib": 7079356, "mem_available_low_gib": 66.7, "pid": 196346}
+2026-10-27T17:26:09Z ran {"tag": "export-site-g_bottom_02", "rc": 0, "killed_by_guard": false, "wall_s": 74.0, "cpu_s": 72.2, "max_rss_kib": 7089988, "mem_available_low_gib": 66.7, "pid": 196506}
+2026-10-27T17:27:00Z spooled site:g_left_12 564212491 74294966
+2026-10-27T17:27:02Z spooled site:g_top_01 557728346 73514864
+2026-10-27T17:27:09Z spooled site:g_bottom_02 562419716 74137945
+2026-10-27T17:28:12Z ran {"tag": "export-site-B_left_27", "rc": 0, "killed_by_guard": false, "wall_s": 60.0, "cpu_s": 58.5, "max_rss_kib": 6983848, "mem_available_low_gib": 66.4, "pid": 205616}
+2026-10-27T17:28:15Z ran {"tag": "export-site-g_right_09", "rc": 0, "killed_by_guard": false, "wall_s": 72.3, "cpu_s": 69.0, "max_rss_kib": 7060328, "mem_available_low_gib": 66.4, "pid": 204834}
+2026-10-27T17:28:18Z ran {"tag": "export-site-g_right_14", "rc": 0, "killed_by_guard": false, "wall_s": 72.2, "cpu_s": 70.3, "max_rss_kib": 7045688, "mem_available_low_gib": 66.4, "pid": 205212}
+2026-10-27T17:29:07Z spooled site:B_left_27 519871799 68547736
+2026-10-27T17:29:14Z spooled site:g_right_09 549264098 72404712
+2026-10-27T17:29:16Z spooled site:g_right_14 547719738 72202333
+2026-10-27T17:30:10Z ran {"tag": "export-site-B_left_07", "rc": 0, "killed_by_guard": false, "wall_s": 60.1, "cpu_s": 56.7, "max_rss_kib": 7003992, "mem_available_low_gib": 66.5, "pid": 213208}
+2026-10-27T17:30:18Z ran {"tag": "export-site-B_bottom_07", "rc": 0, "killed_by_guard": false, "wall_s": 60.4, "cpu_s": 57.1, "max_rss_kib": 6992264, "mem_available_low_gib": 66.4, "pid": 213722}
+2026-10-27T17:30:18Z ran {"tag": "export-site-B_left_20", "rc": 0, "killed_by_guard": false, "wall_s": 58.0, "cpu_s": 55.9, "max_rss_kib": 6980732, "mem_available_low_gib": 66.5, "pid": 213893}
+2026-10-27T17:31:04Z spooled site:B_left_07 519015563 68450814
+2026-10-27T17:31:11Z spooled site:B_bottom_07 516591897 68132201
+2026-10-27T17:31:11Z spooled site:B_left_20 515872377 68053141
+2026-10-27T17:32:01Z ran {"tag": "export-site-B_top_09", "rc": 0, "killed_by_guard": false, "wall_s": 54.1, "cpu_s": 52.2, "max_rss_kib": 6985292, "mem_available_low_gib": 67.7, "pid": 221361}
+2026-10-27T17:32:04Z ran {"tag": "export-site-B_bottom_20", "rc": 0, "killed_by_guard": false, "wall_s": 50.1, "cpu_s": 48.8, "max_rss_kib": 6959408, "mem_available_low_gib": 67.7, "pid": 221906}
+2026-10-27T17:32:54Z spooled site:B_top_09 510049964 67272894
+2026-10-27T17:32:57Z spooled site:B_bottom_20 500854225 66045070
+2026-10-27T17:34:30Z ran {"tag": "export-site-g_left_13", "rc": 0, "killed_by_guard": false, "wall_s": 78.6, "cpu_s": 77.3, "max_rss_kib": 7085340, "mem_available_low_gib": 66.5, "pid": 230784}
+2026-10-27T17:34:31Z ran {"tag": "export-site-g_top_02", "rc": 0, "killed_by_guard": false, "wall_s": 76.5, "cpu_s": 74.1, "max_rss_kib": 7077992, "mem_available_low_gib": 66.5, "pid": 231096}
+2026-10-27T17:34:36Z ran {"tag": "export-site-g_left_09", "rc": 0, "killed_by_guard": false, "wall_s": 78.6, "cpu_s": 76.8, "max_rss_kib": 7087908, "mem_available_low_gib": 66.5, "pid": 231420}
+2026-10-27T17:35:29Z spooled site:g_left_13 564007003 74307847
+2026-10-27T17:35:29Z spooled site:g_top_02 557752497 73517014
+2026-10-27T17:35:40Z spooled site:g_left_09 562368905 74116058
+2026-10-27T17:36:42Z ran {"tag": "export-site-g_right_10", "rc": 0, "killed_by_guard": false, "wall_s": 70.3, "cpu_s": 68.6, "max_rss_kib": 7059536, "mem_available_low_gib": 66.3, "pid": 240946}
+2026-10-27T17:36:44Z ran {"tag": "export-site-B_left_38", "rc": 0, "killed_by_guard": false, "wall_s": 60.6, "cpu_s": 57.7, "max_rss_kib": 7005396, "mem_available_low_gib": 66.3, "pid": 241668}
+2026-10-27T17:36:45Z ran {"tag": "export-site-g_top_22", "rc": 0, "killed_by_guard": false, "wall_s": 70.5, "cpu_s": 67.7, "max_rss_kib": 7059168, "mem_available_low_gib": 66.3, "pid": 241071}
+2026-10-27T17:37:39Z spooled site:B_left_38 520265549 68546249
+2026-10-27T17:37:42Z spooled site:g_right_10 549242174 72420233
+2026-10-27T17:37:42Z spooled site:g_top_22 547699506 72229265
+2026-10-27T17:38:40Z ran {"tag": "export-site-B_left_12", "rc": 0, "killed_by_guard": false, "wall_s": 58.2, "cpu_s": 56.8, "max_rss_kib": 7003276, "mem_available_low_gib": 66.6, "pid": 249629}
+2026-10-27T17:38:42Z ran {"tag": "export-site-B_left_04", "rc": 0, "killed_by_guard": false, "wall_s": 56.6, "cpu_s": 54.4, "max_rss_kib": 6999960, "mem_available_low_gib": 66.6, "pid": 249851}
+2026-10-27T17:38:44Z ran {"tag": "export-site-B_left_21", "rc": 0, "killed_by_guard": false, "wall_s": 56.2, "cpu_s": 55.1, "max_rss_kib": 6996544, "mem_available_low_gib": 66.6, "pid": 250104}
+2026-10-27T17:39:36Z spooled site:B_left_12 518977649 68438688
+2026-10-27T17:39:36Z spooled site:B_left_04 516631922 68125898
+2026-10-27T17:39:40Z spooled site:B_left_21 515908386 68038520
+2026-10-27T17:40:31Z ran {"tag": "export-site-B_bottom_16", "rc": 0, "killed_by_guard": false, "wall_s": 52.3, "cpu_s": 50.2, "max_rss_kib": 6986436, "mem_available_low_gib": 67.8, "pid": 257361}
+2026-10-27T17:40:32Z ran {"tag": "export-site-B_top_21", "rc": 0, "killed_by_guard": false, "wall_s": 50.0, "cpu_s": 48.1, "max_rss_kib": 6964884, "mem_available_low_gib": 67.8, "pid": 257524}
+2026-10-27T17:41:22Z spooled site:B_top_21 502574202 66274543
+2026-10-27T17:41:23Z spooled site:B_bottom_16 509288455 67160236
+2026-10-27T17:42:48Z ran {"tag": "export-site-g_bottom_00", "rc": 0, "killed_by_guard": false, "wall_s": 68.0, "cpu_s": 67.0, "max_rss_kib": 7079248, "mem_available_low_gib": 66.1, "pid": 265140}
+2026-10-27T17:42:55Z ran {"tag": "export-site-g_left_11", "rc": 0, "killed_by_guard": false, "wall_s": 72.0, "cpu_s": 70.6, "max_rss_kib": 7092292, "mem_available_low_gib": 66.2, "pid": 265291}
+2026-10-27T17:42:58Z ran {"tag": "export-site-g_left_22", "rc": 0, "killed_by_guard": false, "wall_s": 72.0, "cpu_s": 70.1, "max_rss_kib": 7090508, "mem_available_low_gib": 66.1, "pid": 265373}
+2026-10-27T17:43:44Z spooled site:g_bottom_00 556825461 73373293
+2026-10-27T17:43:50Z spooled site:g_left_11 563217642 74183646
+2026-10-27T17:43:54Z spooled site:g_left_22 563162538 74176502
+2026-10-27T17:44:52Z ran {"tag": "export-site-g_bottom_18", "rc": 0, "killed_by_guard": false, "wall_s": 64.3, "cpu_s": 63.7, "max_rss_kib": 7060080, "mem_available_low_gib": 66.5, "pid": 273695}
+2026-10-27T17:44:53Z ran {"tag": "export-site-B_left_11", "rc": 0, "killed_by_guard": false, "wall_s": 56.0, "cpu_s": 54.8, "max_rss_kib": 7010452, "mem_available_low_gib": 66.4, "pid": 274356}
+2026-10-27T17:44:58Z ran {"tag": "export-site-g_right_21", "rc": 0, "killed_by_guard": false, "wall_s": 64.1, "cpu_s": 63.2, "max_rss_kib": 7055016, "mem_available_low_gib": 66.5, "pid": 274220}
+2026-10-27T17:45:54Z spooled site:B_left_11 523375748 69005307
+2026-10-27T17:45:57Z spooled site:g_bottom_18 550997020 72677220
+2026-10-27T17:46:03Z spooled site:g_right_21 545034463 71853446
+2026-10-27T17:46:54Z ran {"tag": "export-site-B_left_34", "rc": 0, "killed_by_guard": false, "wall_s": 52.5, "cpu_s": 52.1, "max_rss_kib": 6998052, "mem_available_low_gib": 66.9, "pid": 281966}
+2026-10-27T17:46:56Z ran {"tag": "export-site-B_left_45", "rc": 0, "killed_by_guard": false, "wall_s": 58.7, "cpu_s": 56.9, "max_rss_kib": 7000328, "mem_available_low_gib": 66.9, "pid": 281848}
+2026-10-27T17:47:01Z ran {"tag": "export-site-B_bottom_08", "rc": 0, "killed_by_guard": false, "wall_s": 54.5, "cpu_s": 52.9, "max_rss_kib": 6999576, "mem_available_low_gib": 66.9, "pid": 282656}
+2026-10-27T17:47:49Z spooled site:B_left_34 516729968 68141271
+2026-10-27T17:47:50Z spooled site:B_left_45 518359988 68356875
+2026-10-27T17:47:55Z spooled site:B_bottom_08 515020162 67932292
+2026-10-27T17:48:44Z ran {"tag": "export-site-B_right_01", "rc": 0, "killed_by_guard": false, "wall_s": 48.7, "cpu_s": 46.7, "max_rss_kib": 6949800, "mem_available_low_gib": 68.3, "pid": 289469}
+2026-10-27T17:48:46Z ran {"tag": "export-site-B_top_05", "rc": 0, "killed_by_guard": false, "wall_s": 54.2, "cpu_s": 53.7, "max_rss_kib": 6991524, "mem_available_low_gib": 68.2, "pid": 289241}
+2026-10-27T17:49:35Z spooled site:B_right_01 497810365 65606388
+2026-10-27T17:49:38Z spooled site:B_top_05 512477556 67585831
+2026-10-27T17:49:38Z export done

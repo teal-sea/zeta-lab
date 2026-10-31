@@ -1,0 +1,22 @@
+{
+  "command": [
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/con-ron",
+    "--verified",
+    "--jobs=8",
+    "--progress=1",
+    "<cache>/rung3-ball-production-replay-20261027/export-sample/B_right_06.ndjson"
+  ],
+  "cwd": "<cache>/rung3-ball-production-full/receipts-replay-20261027",
+  "start_utc": "2026-10-27T00:20:58.602211+00:00",
+  "wall_limit_seconds": null,
+  "host_memavailable_floor_kib": 20971520,
+  "inputs_sha256_before": {
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+    "<cache>/rung3-ball-production-replay-20261027/export-sample/B_right_06.ndjson": "bc13524f33e1320ad462621b1862d18ab4bf292ffea197df928a7de726099df3"
+  },
+  "pid": 250191,
+  "now_utc": "2026-10-27T00:32:23.842952+00:00",
+  "running": true,
+  "peak_sampled_tree_rss_kib": 2209404,
+  "min_memavailable_kib": 61339816
+}

@@ -1,0 +1,23 @@
+	Command being timed: "timeout 300m python scripts/72_rung3_ball_compile.py --lean-project lean --output-root out --jobs 1 --module-jobs 1 gen/CB_bottom_03.manifest.json gen/CB_bottom_10.manifest.json gen/CB_left_15.manifest.json gen/CB_left_18.manifest.json gen/CB_right_04.manifest.json gen/CB_top_03.manifest.json gen/Cg_left_14.manifest.json gen/Cg_left_24.manifest.json gen/Cg_right_03.manifest.json gen/Cg_right_13.manifest.json gen/Cg_top_07.manifest.json"
+	User time (seconds): 3115.53
+	System time (seconds): 177.35
+	Percent of CPU this job got: 234%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 23:24.94
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 7791132
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 728
+	Minor (reclaiming a frame) page faults: 12829572
+	Voluntary context switches: 6477813
+	Involuntary context switches: 1100415
+	Swaps: 0
+	File system inputs: 207336
+	File system outputs: 1480784
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

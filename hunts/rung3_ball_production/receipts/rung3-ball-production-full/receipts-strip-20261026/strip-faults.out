@@ -1,0 +1,5 @@
+{"tag": "strip-control", "returncode": 0, "killed_by_guard": false, "wall_s": 20.0, "cpu_s": 11.3, "peak_rss_bytes": 17612861440, "mem_available_gib_start": 66.0, "mem_available_gib_low": 65.1, "load_start": 19.18}
+{"tag": "strip-re-below-square", "returncode": 1, "killed_by_guard": false, "wall_s": 20.0, "cpu_s": 11.1, "peak_rss_bytes": 17611255808, "mem_available_gib_start": 66.1, "mem_available_gib_low": 65.1, "load_start": 15.09}
+{"tag": "strip-line-through-square", "returncode": 1, "killed_by_guard": false, "wall_s": 20.0, "cpu_s": 10.3, "peak_rss_bytes": 17612582912, "mem_available_gib_start": 65.9, "mem_available_gib_low": 64.9, "load_start": 12.61}
+{"control": [0, []], "re-below-square": [1, ["ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip"]], "line-through-square": [1, ["ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip"]]}
+rc=0

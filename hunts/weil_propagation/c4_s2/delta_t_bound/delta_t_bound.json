@@ -7,7 +7,7 @@
   "quad_commit": "3be0dce",
   "trunc_json_sha256": "234023f5a1692dd48a03f84ca8c30ed82a66c414afbf9e24e96e03fb71f350ea",
   "quad_json_sha256": "9a732878512d02f80f0f83ce722db444a948554de4420cfe8c2f56c9e08ed955",
-  "python": "/Users/thomas/zeta-lab/.venv/bin/python",
+  "python": ".venv/bin/python",
   "numpy": "2.5.1",
   "seconds": 15.7
  },

@@ -4,8 +4,8 @@
   "max_attempts": 2,
   "defaults": { "model": "opus" },
   "sandbox": {
-    "repo": "/Users/thomas/Zeta",
-    "root": "/Users/thomas/ostoyae-worktrees",
+    "repo": "~/Zeta",
+    "root": "~/ostoyae-worktrees",
     "base": "main",
     "port_base": 4210,
     "link": [
@@ -13,9 +13,9 @@
       "hunts/frontier_math/zeta23ext/.lake/packages"
     ],
     "tools": [
-      { "cmd": "bash /Users/thomas/Ostoyae/bin/ask-axle",
+      { "cmd": "bash ~/Ostoyae/bin/ask-axle",
         "what": "check a Mathlib-only Lean statement or file at lean-4.33.0 in milliseconds: exit 0 elaborates, 1 errors on stdout, 3 unreachable (which is NOT a compile failure). It cannot see the bridge package's types; for those use lake env lean inside lean/bridge." },
-      { "cmd": "bash /Users/thomas/Ostoyae/bin/fetch-paper",
+      { "cmd": "bash ~/Ostoyae/bin/fetch-paper",
         "what": "read an arXiv paper as text by id: 2306.04799 is BGSTB (the out-of-band positivity, Theorem 1); read the paper before you rely on it or on CGdL." }
     ]
   },

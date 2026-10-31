@@ -1,0 +1,137 @@
+{
+ "utc": "2026-10-27T18:46:49Z",
+ "shards_expected": 216,
+ "shards_accepted": 215,
+ "missing": [
+  "site:centre"
+ ],
+ "fault": {
+  "fault:B_right_06": {
+   "accepted_declarations": null,
+   "cpu_s": 973.0,
+   "exit_code": 1,
+   "expected_declarations": 62005,
+   "hashes_ok": true,
+   "host": {
+    "cpu": "AMD EPYC",
+    "mem_total_kib": 16400136,
+    "nproc": 8,
+    "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+    "python": "3.13.5"
+   },
+   "infrastructure": false,
+   "maxrss_kib": 2094424,
+   "ok": true,
+   "peak_sampled_rss_kib": 2080396,
+   "phase": "checked",
+   "verdict_lines": [
+    "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=190.157s"
+   ],
+   "wall_s": 190.7
+  },
+  "fault:B_right_06#novita": {
+   "accepted_declarations": null,
+   "cpu_s": 548.1,
+   "exit_code": 1,
+   "expected_declarations": 62005,
+   "hashes_ok": true,
+   "host": {
+    "cpu": "AMD EPYC",
+    "mem_total_kib": 4034448,
+    "nproc": 2,
+    "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+    "python": "3.11.6"
+   },
+   "infrastructure": false,
+   "maxrss_kib": 1526688,
+   "ok": true,
+   "peak_sampled_rss_kib": 1524120,
+   "phase": "checked",
+   "verdict_lines": [
+    "con-ron: rejected: application type mismatch [at thm _private.CB_right_06.Primes.0.ZetaLean.DH.Cert.Prime_B_right_06_2.ev_whole._proof_1_1, fold position 16241] (--verified) t=357.456s"
+   ],
+   "wall_s": 357.9
+  }
+ },
+ "declarations_in_accepted_shards": 14382568,
+ "distinct_constants_checked": 837346,
+ "clashes": [],
+ "clash_count": 0,
+ "shared_constants_differing_only_in_binder_names_or_info": 5140,
+ "manifests_without_kernel_hashes": [],
+ "glue": {
+  "site_theorems": 435,
+  "matched": 434,
+  "mismatched": [],
+  "absent": [
+   "ZetaLean.DH.Cert.centre_lt_centre"
+  ]
+ },
+ "abstracted": 18,
+ "abstracted_with_glue_in_top": 18,
+ "closure_size": 675388,
+ "closure_not_in_census": [],
+ "census_constants": 1569505,
+ "closure_unchecked": [
+  "ZetaLean.DH.Cert.hterm_centre_298",
+  "ZetaLean.DH.Cert.evpow_centre_1037",
+  "ZetaLean.DH.Cert.evfun_centre_355",
+  "ZetaLean.DH.Cert.evfun_centre_515",
+  "ZetaLean.DH.Cert.Pow_centre_901",
+  "ZetaLean.DH.Cert.evfun_centre_99",
+  "ZetaLean.DH.Cert.evfun_centre_1022",
+  "ZetaLean.DH.Cert.Term_centre_322",
+  "_private.Ccentre.Primes.0.ZetaLean.DH.Cert.Prime_centre_149.ev_whole._proof_1_1",
+  "ZetaLean.DH.Cert.Term_centre_1198",
+  "ZetaLean.DH.Cert.evterm_centre_832",
+  "ZetaLean.DH.Cert.hp_centre_1064",
+  "ZetaLean.DH.Cert.hterm_centre_734",
+  "ZetaLean.DH.Cert.Term_centre_1363",
+  "ZetaLean.DH.Cert.Pow_centre_1186",
+  "ZetaLean.DH.Cert.Prime_centre_1487.S",
+  "ZetaLean.DH.Cert.Prime_centre_739.pilot_contains_cpow._proof_1_1",
+  "ZetaLean.DH.Cert.evterm_centre_757",
+  "_private.Ccentre.Primes.0.ZetaLean.DH.Cert.Prime_centre_569.ev_whole",
+  "ZetaLean.DH.Cert.evfun_centre_1023",
+  "ZetaLean.DH.Cert.hterm_centre_125",
+  "ZetaLean.DH.Cert.evfun_centre_607",
+  "ZetaLean.DH.Cert.evfun_centre_1783",
+  "ZetaLean.DH.Cert.Term_centre_1413",
+  "ZetaLean.DH.Cert.evterm_centre_541",
+  "ZetaLean.DH.Cert.evpow_centre_1344",
+  "ZetaLean.DH.Cert.Pow_centre_24",
+  "_private.Ccentre.Primes.0.ZetaLean.DH.Cert.Prime_centre_79.ev_whole",
+  "ZetaLean.DH.Cert.evfun_centre_1633",
+  "ZetaLean.DH.Cert.hterm_centre_351",
+  "ZetaLean.DH.Cert.Term_centre_702",
+  "ZetaLean.DH.Cert.Term_centre_1579",
+  "ZetaLean.DH.Cert.evpow_centre_738",
+  "ZetaLean.DH.Cert.Term_centre_371",
+  "ZetaLean.DH.Cert.Term_centre_423",
+  "ZetaLean.DH.Cert.hp_centre_1178",
+  "ZetaLean.DH.Cert.evfun_centre_743",
+  "ZetaLean.DH.Cert.hterm_centre_250",
+  "ZetaLean.DH.Cert.Term_centre_1668",
+  "ZetaLean.DH.Cert.Prime_centre_487.pilot_contains_cpow",
+  "ZetaLean.DH.Cert.Term_centre_1796",
+  "ZetaLean.DH.Cert.Pow_centre_1339",
+  "ZetaLean.DH.Cert.Term_centre_1766",
+  "ZetaLean.DH.Cert.hp_centre_1204",
+  "ZetaLean.DH.Cert.evfun_centre_863",
+  "ZetaLean.DH.Cert.evpow_centre_1253",
+  "ZetaLean.DH.Cert.evterm_centre_1694",
+  "ZetaLean.DH.Cert.evfun_centre_379",
+  "ZetaLean.DH.Cert.hterm_centre_1500",
+  "ZetaLean.DH.Cert.evterm_centre_1386"
+ ],
+ "closure_unchecked_count": 12696
+}
+| origin | constants | in the closure of the 18 | checked by con-ron | closure, checked | closure, via glue | closure, unchecked |
+|---|---|---|---|---|---|---|
+| sites | 761,387 | 583,346 | 744,870 | 570,651 | 0 | 12,695 |
+| Mathlib | 580,690 | 61,252 | 61,252 | 61,252 | 0 | 0 |
+| core | 182,964 | 7,869 | 7,869 | 7,869 | 0 | 0 |
+| deps | 19,389 | 192 | 192 | 192 | 0 | 0 |
+| hunt137 | 24,311 | 22,288 | 22,288 | 22,288 | 0 | 0 |
+| ZetaLean | 733 | 411 | 410 | 410 | 0 | 1 |
+| assembly | 31 | 30 | 12 | 12 | 18 | 0 |

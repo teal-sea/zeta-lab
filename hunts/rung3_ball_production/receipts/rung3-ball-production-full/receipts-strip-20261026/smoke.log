@@ -1,0 +1,5 @@
+'ZetaLean.DH.Rung3Assembly.Plan2.davenport_heilbronn_strip' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ Rung3Assembly.Plan2.dh_zero_located]
+5.80+3.04_cpu_8.87_wall_6734120_kb

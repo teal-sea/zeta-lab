@@ -75,6 +75,25 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #158: is the covering margin's decay the same across two families? (`decay_law/`, 2026-10-30)
+
+**Status: measured, kill fired, no claim promoted.** The covering margin is
+`W_zeros` over the prime cost. On `b = 2` against `b = 8` the rectangle
+endpoint exponents are 3.790 (margin), 1.395 (zero-side sum) and -2.395 (prime
+cost). A tent of the same support width, with `h` a fourth power of a sinc,
+gives 5.731, 3.470 and -2.262. The universal reading, withdrawn if any of the
+three differs by more than 0.5, fired on the margin and on the zero-side sum.
+The prime-cost exponents differ by 0.13 and do not fire. A single power is not
+a defensible summary of either family: on the 25-point grid the local margin
+exponents span 34 and 103, and that span is the zero side oscillating, not the
+prime cost. All of this is on the window `b` from 2 to 8: by the prime number
+theorem the prime cost grows like `e^{b/2}` times a family-dependent power, so
+log-log exponents depend on the window, and heuristically both margins decay like
+`e^{-b/2}`. The kill was committed before the recorded run but after two tent
+margins were printed, so it was not blind on the margin exponent. (Scope added at
+landing, 2026-10-30.) Nothing here is evidence for RH. Record:
+[MISSION.md](decay_law/MISSION.md), [RESULTS.md](decay_law/RESULTS.md).
+
 ### Hunt #155: the three pieces of the Weil functional and how deep they cancel (`arch_cover/`, 2026-10-30)
 
 **Status: measured, no claim promoted.** Pole, archimedean and prime pieces are
@@ -121,7 +140,9 @@ Record: [MISSION.md](weil_gram/MISSION.md), [RESULTS.md](weil_gram/RESULTS.md).
 function the shift operator has finitely many overlapping terms, so each place
 carries an exact closed-form cost (not rational: it carries `log p` and
 `p^{-1/2}`) and the per place sum reproduces the explicit formula prime term to
-1e-16. Two monotone findings: the cost spreads from three places
+1e-16 (that identity holds place by place by construction, a regrouping of the prime
+sum; see RESULTS.md). Two findings on five widths, monotone there (hunt #158's denser
+grid shows the margin rising on 5 of 24 steps): the cost spreads from three places
 carrying 98 percent at b=2 to 429 places with the top three carrying 13 percent at
 b=8, and the covering margin falls from 3.0e-2 to 1.6e-4 over the same range,
 about `b^{-3.8}`. That margin is `W_zeros` over the prime cost by construction, so

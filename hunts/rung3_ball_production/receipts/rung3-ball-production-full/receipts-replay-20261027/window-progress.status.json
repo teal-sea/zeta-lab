@@ -1,0 +1,22 @@
+{
+  "command": [
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+    "--run",
+    "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/lean/ReplayProgress.lean",
+    "Rung3Assembly.Final",
+    "<cache>/rung3-ball-production-full/receipts-replay-20261027/window"
+  ],
+  "cwd": "<cache>/rung3-ball-production-full/receipts-replay-20261027",
+  "start_utc": "2026-10-27T00:15:48.293215+00:00",
+  "wall_limit_seconds": null,
+  "host_memavailable_floor_kib": 20971520,
+  "inputs_sha256_before": {
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+    "<repo>/.claude/worktrees/rung3-ball-production/hunts/rung3_ball_production/lean/ReplayProgress.lean": "349d8a409473692d93c65ba2c6c728e9ce38a8d593d631ede00a73b9d6d6e117"
+  },
+  "pid": 229520,
+  "now_utc": "2026-10-27T00:15:48.398491+00:00",
+  "running": true,
+  "peak_sampled_tree_rss_kib": 53012,
+  "min_memavailable_kib": 70588872
+}

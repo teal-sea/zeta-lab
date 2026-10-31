@@ -1,0 +1,9 @@
+/home/runner/work/zeta-lab/zeta-lab/gen/CB_right_06/Base.lean:19:20: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/home/runner/work/zeta-lab/zeta-lab/gen/CB_right_06/Base.lean:22:31: warning: Variable name `hS` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hS
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

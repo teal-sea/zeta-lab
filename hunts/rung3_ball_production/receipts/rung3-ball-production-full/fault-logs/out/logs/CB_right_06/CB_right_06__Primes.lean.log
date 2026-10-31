@@ -1,0 +1,40 @@
+/home/runner/work/zeta-lab/zeta-lab/gen/CB_right_06/Primes.lean:17:2: error: Tactic `decide` failed to reduce
+  @decide (dirichletTermBallB 32 20 64 2 10 2 S = Sq_10)
+    (instDecidableEqComplexBall (dirichletTermBallB 32 20 64 2 10 2 S) Sq_10)
+to `true` or `false`.
+
+Reduction got stuck at
+  match
+    ((↑(round
+              ((mulA 64
+                    (sqIter 64 9
+                      (coarsenB 64
+                        (expSmallB 20 64
+                          (smulQ (1 / 2 ^ 10) (mulA 64 S.neg (ofRealInterval (Interval.logQ 32 2 ↑2)))))))
+                    (sqIter 64 9
+                      (coarsenB 64
+                        (expSmallB 20 64
+                          (smulQ (1 / 2 ^ 10) (mulA 64 S.neg (ofRealInterval (Interval.logQ 32 2 ↑2)))))))).cre *
+                2 ^ 64))).mul
+        (2 ^ 64).inv).num,
+    ((-8957109190050697591).mul (Rat.inv 18446744073709551616)).num with
+  | Int.ofNat a, Int.ofNat b =>
+    match decEq a b with
+    | { decide := true, reflects_decide := h } => isTrue ⋯
+    | { decide := false, reflects_decide := h } => isFalse ⋯
+  | Int.ofNat a, Int.negSucc a_1 => isFalse ⋯
+  | Int.negSucc a, Int.ofNat a_1 => isFalse ⋯
+  | Int.negSucc a, Int.negSucc b =>
+    match decEq a b with
+    | { decide := true, reflects_decide := h } => isTrue ⋯
+    | { decide := false, reflects_decide := h } => isFalse ⋯
+/home/runner/work/zeta-lab/zeta-lab/gen/CB_right_06/Primes.lean:34:2: error: Type mismatch: After simplification, term
+  h
+ has type
+  { cre := -8957109190050697591 / 18446744073709551616, cim := -40566407504819773 / 576460752303423488,
+        rad := 72782567611578821 / 18446744073709551616 }.contains
+    (2 ^ (-s))
+but is expected to have type
+  { cre := -8957109190050697591 / 18446744073709551616, cim := -40566407504819773 / 576460752303423488,
+        rad := 36391283805789411 / 9223372036854775808 }.contains
+    (2 ^ (-s))

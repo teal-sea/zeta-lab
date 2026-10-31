@@ -1,0 +1,7 @@
+{
+ "shard": "site:B_bottom_07",
+ "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+ "sha256_zst": "c44a1a2feec1d0f46742d50fd12602111cc63e1a581eb43fd08856e22aeccc55",
+ "sha256_ndjson": "273b851c7b1398ad64cf7db3e5ee62bbd28a47318e651b6296a63a7a9b3a6524",
+ "jobs": 8
+}

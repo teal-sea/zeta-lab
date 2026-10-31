@@ -1,0 +1,49 @@
+{
+  "source_format_version": 2,
+  "root": "Ccentre",
+  "id": "centre",
+  "kind": "centre",
+  "K": 361,
+  "normLower": "0",
+  "normBound": "189060531856467042387077332600474965923360621940917555215359/490398573077084434674671048688098938757996519098752696320000000",
+  "prime_towers": 278,
+  "n_files": 5,
+  "max_file_bytes": 1852712,
+  "max_bytes": 2000000,
+  "sharded": true,
+  "modules": [
+    {
+      "path": "Ccentre/Base.lean",
+      "bytes": 1292,
+      "depends": []
+    },
+    {
+      "path": "Ccentre/Primes.lean",
+      "bytes": 361627,
+      "depends": [
+        "Ccentre/Base.lean"
+      ]
+    },
+    {
+      "path": "Ccentre/Composites.lean",
+      "bytes": 1269115,
+      "depends": [
+        "Ccentre/Primes.lean"
+      ]
+    },
+    {
+      "path": "Ccentre/Terms.lean",
+      "bytes": 1852712,
+      "depends": [
+        "Ccentre/Composites.lean"
+      ]
+    },
+    {
+      "path": "Ccentre.lean",
+      "bytes": 518633,
+      "depends": [
+        "Ccentre/Terms.lean"
+      ]
+    }
+  ]
+}

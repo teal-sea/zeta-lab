@@ -1,0 +1,49 @@
+{
+  "source_format_version": 2,
+  "root": "Cg_left_14",
+  "id": "g_left_14",
+  "kind": "grid",
+  "K": 110,
+  "normLower": "5643316983082539187448695585599685167379057722523948070644191/122599643269271108668667762172024734689499129774688174080000000",
+  "normBound": "9191097975800224324748232547061312779025501158721154009355809/122599643269271108668667762172024734689499129774688174080000000",
+  "prime_towers": 100,
+  "n_files": 5,
+  "max_file_bytes": 579418,
+  "max_bytes": 2000000,
+  "sharded": true,
+  "modules": [
+    {
+      "path": "Cg_left_14/Base.lean",
+      "bytes": 1349,
+      "depends": []
+    },
+    {
+      "path": "Cg_left_14/Primes.lean",
+      "bytes": 133644,
+      "depends": [
+        "Cg_left_14/Base.lean"
+      ]
+    },
+    {
+      "path": "Cg_left_14/Composites.lean",
+      "bytes": 389822,
+      "depends": [
+        "Cg_left_14/Primes.lean"
+      ]
+    },
+    {
+      "path": "Cg_left_14/Terms.lean",
+      "bytes": 579418,
+      "depends": [
+        "Cg_left_14/Composites.lean"
+      ]
+    },
+    {
+      "path": "Cg_left_14.lean",
+      "bytes": 174337,
+      "depends": [
+        "Cg_left_14/Terms.lean"
+      ]
+    }
+  ]
+}

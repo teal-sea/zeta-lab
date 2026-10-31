@@ -1,0 +1,51 @@
+{
+ "shard": "top",
+ "start_utc": "2026-10-27T16:17:20Z",
+ "host": {
+  "nproc": 8,
+  "platform": "Linux-6.18.54-instabox-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "cpu": "AMD EPYC",
+  "mem_total_kib": 16400136
+ },
+ "job": {
+  "shard": "top",
+  "sha256_conron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "sha256_zst": "43316b3ecd07aa3f2592d01c42572b474014fb8b4e5cb27242136b37dc204dc7",
+  "sha256_ndjson": "c0e52b2de781e7b811616906e5e35980ce89328daa19a417f3abb665703ac9c7",
+  "jobs": 8
+ },
+ "sha256_inputs": {
+  "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef",
+  "shard.ndjson.zst": "43316b3ecd07aa3f2592d01c42572b474014fb8b4e5cb27242136b37dc204dc7"
+ },
+ "decompress_s": 0.5,
+ "sha256_export": "c0e52b2de781e7b811616906e5e35980ce89328daa19a417f3abb665703ac9c7",
+ "command": [
+  "./con-ron",
+  "--verified",
+  "--jobs=8",
+  "--progress=20",
+  "shard.ndjson"
+ ],
+ "check_start_utc": "2026-10-27T16:17:21Z",
+ "exit_code": 0,
+ "wall_s": 4110.1,
+ "user_s": 32467.9,
+ "sys_s": 117.0,
+ "maxrss_kib": 3548540,
+ "peak_sampled_rss_kib": 3548756,
+ "verdict_lines": [
+  "con-ron: accepted 84534 declarations (--verified)",
+  "con-ron: parse done: 84564 fold records \u2014 84556 declarations after the 8 built-in prelude records (8 stream copies of prelude records dropped) t=2.553s (parse 2.553s)",
+  "con-ron: check done: 83520/83520 t=4108.978s (check 4089.388s)",
+  "con-ron: done: parse 2.553s, install 17.037s, check 4089.388s, 8 workers t=4108.978s"
+ ],
+ "stdout_tail": "con-ron: accepted 84534 declarations (--verified)\n",
+ "stderr_tail": "253s\ncon-ron: check 82900/83520 theorem RHHeight100.I9883.tA_eq_17 t=3896.082s\ncon-ron: check 82920/83520 theorem RHHeight100.I9883.tA_mem_117 t=3900.773s\ncon-ron: check 82940/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tA_eq_57._proof_1_1 t=3903.473s\ncon-ron: check 82960/83520 theorem RHHeight100.I9883.tA_mem_14 t=3917.808s\ncon-ron: check 82980/83520 theorem RHHeight100.I9883.tA_mem_109 t=3921.673s\ncon-ron: check 83000/83520 theorem RHHeight100.I9883.tA_eq_53 t=3925.756s\ncon-ron: check 83020/83520 theorem RHHeight100.I9883.tA_eq_103 t=3926.154s\ncon-ron: check 83040/83520 theorem RHHeight100.I9883.tA_eq_99 t=3931.971s\ncon-ron: check 83060/83520 theorem RHHeight100.I9883.tA_eq_24 t=3950.990s\ncon-ron: check 83080/83520 theorem RHHeight100.I9883.tA_mem_94 t=3959.905s\ncon-ron: check 83100/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tA_mem_89._proof_1_1 t=3960.273s\ncon-ron: check 83120/83520 theorem RHHeight100.I9883.tA_mem_86 t=3968.578s\ncon-ron: check 83140/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tA_eq_81._proof_1_1 t=3969.771s\ncon-ron: check 83160/83520 theorem RHHeight100.I9883.tA_eq_78 t=3974.652s\ncon-ron: check 83180/83520 theorem RHHeight100.I9883.tA_mem_73 t=3975.087s\ncon-ron: check 83200/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tA_eq_68._proof_1_1 t=3980.501s\ncon-ron: check 83220/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tA_eq_16._proof_1_1 t=3985.835s\ncon-ron: check 83240/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tB_eq_82._proof_1_1 t=3992.836s\ncon-ron: check 83260/83520 theorem RHHeight100.I9883.tB_eq_9 t=4014.069s\ncon-ron: check 83280/83520 theorem RHHeight100.I9883.tB_mem_80 t=4015.108s\ncon-ron: check 83300/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tB_eq_5._proof_1_1 t=4023.483s\ncon-ron: check 83320/83520 theorem RHHeight100.I9883.tB_mem_75 t=4028.466s\ncon-ron: check 83340/83520 theorem RHHeight100.I9883.tB_mem_72 t=4030.664s\ncon-ron: check 83360/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tB_eq_34._proof_1_1 t=4032.303s\ncon-ron: check 83380/83520 theorem RHHeight100.I9883.tB_mem_65 t=4046.660s\ncon-ron: check 83400/83520 theorem RHHeight100.I9883.tB_mem_21 t=4046.911s\ncon-ron: check 83420/83520 theorem RHHeight100.I9883.tB_mem_30 t=4055.270s\ncon-ron: check 83440/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tB_eq_14._proof_1_1 t=4061.469s\ncon-ron: check 83460/83520 theorem RHHeight100.I9883.tB_mem_52 t=4070.138s\ncon-ron: check 83480/83520 theorem RHHeight100.I9883.tB_mem_24 t=4070.391s\ncon-ron: check 83500/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tB_mem_43._proof_1_1 t=4077.581s\ncon-ron: check 83520/83520 theorem _private.RHHeight100.Box9883.0.RHHeight100.I9883.tB_eq_43._proof_1_1 t=4108.651s\ncon-ron: check done: 83520/83520 t=4108.978s (check 4089.388s)\ncon-ron: done: parse 2.553s, install 17.037s, check 4089.388s, 8 workers t=4108.978s\n",
+ "sha256_stdout": "44de0760d53bc34e0205d01d23e7537beb5c4ea5d4bdb473cf91620815ee9f81",
+ "sha256_stderr": "7635720e0f5eec2cb38799cbfd7ef9ff9075ebe479353d27037ad70197f6d5a5",
+ "accepted_declarations": 84534,
+ "end_utc": "2026-10-27T17:25:51Z",
+ "phase": "checked"
+}

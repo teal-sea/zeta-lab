@@ -1,0 +1,2 @@
+uncaught exception: while replaying declaration 'List.drop.eq_def':
+(kernel) unknown constant '_private.Init.Data.List.TakeDrop.0.List.take.match_1.splitter'

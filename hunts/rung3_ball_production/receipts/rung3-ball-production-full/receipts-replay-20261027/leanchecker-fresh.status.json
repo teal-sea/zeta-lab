@@ -1,0 +1,19 @@
+{
+  "command": [
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/leanchecker",
+    "--fresh",
+    "Rung3Assembly.Final"
+  ],
+  "cwd": "<cache>/rung3-ball-production-full/receipts-replay-20261027",
+  "start_utc": "2026-10-27T00:35:12.023665+00:00",
+  "wall_limit_seconds": null,
+  "host_memavailable_floor_kib": 20971520,
+  "inputs_sha256_before": {
+    "~/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/leanchecker": "9e36e955a251b1313c8eb5b7fa101282d51df109d34d8bb7c1cfdf51985aba29"
+  },
+  "pid": 308357,
+  "now_utc": "2026-10-27T07:52:02.392853+00:00",
+  "running": true,
+  "peak_sampled_tree_rss_kib": 22759764,
+  "min_memavailable_kib": 51670496
+}
