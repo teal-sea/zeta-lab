@@ -44,4 +44,5 @@ inputs.
 sign scan and argument principle, as `stage_ode` does; near height 20,000
 that cost 7 to 12 CPU hours a pair (16 pairs in 12 hours on 16 cores) and was
 stopped. Its 16 landings agree with the receipt-built ones to 2.6e-6 outside
-the three edge pairs.
+the three edge pairs. Those 16 landings are not committed, so this agreement
+cannot be rechecked from the tree (noted at landing, 2026-10-31).

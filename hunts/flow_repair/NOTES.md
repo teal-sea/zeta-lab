@@ -248,6 +248,8 @@ the measured flow only up to height 412; above that it is the model alone.
 receipts in `data/dh_v6_replay/receipts.tar.gz` (25,078 on-line ordinates;
 window closure exact in all 400 windows, `docs/46`), the pairs from the
 census table in the same tarball, both read after the manifest hash check.
+Completeness is the census's own: `docs/46` replayed it by one route, the
+author's verifier, which stops short of hardened (its section 3).
 The dynamics are a numpy transcription of `probe.ode_null_control`, same
 window ±40, 800 RK4 steps, mirrors, tail and t_end. The full census takes
 about three minutes on 16 cores (`RUNS.md`).
@@ -274,17 +276,35 @@ are shallow, landing near 0.01. The latest landings:
 | 4 | 12 | 531.28 | 0.34695 | 0.05033976 | 0.0601885 | 16.36% |
 | 5 | 21 | 783.65 | 0.35300 | 0.05000168 | 0.0623050 | 19.75% |
 
-The pair at height 240.4 lands last of all 1,265 non-edge pairs, so P4's
-winner stands across the census, extending `hunts/lambda_dh_exact`'s census
-of the 21 pairs with β > 0.85 below 10^4 (its RESULTS.md section 8.6) to
-every depth below 20,000. The deepest pair (height 2442.53) has the largest
-isolated estimate and is shaved 29.4% into second place.
+In the ODE model, the pair at height 240.4 lands last of all 1,265 non-edge
+pairs, so P4's winner stands across the census, extending
+`hunts/lambda_dh_exact`'s census of the 21 pairs with β > 0.85 below 10^4 (its
+RESULTS.md section 8.6) to every depth below 20,000. The deepest pair (height
+2442.53) has the largest isolated estimate and is shaved 29.4% into second
+place.
 
-**The frozen deep predictions.** `deep_predictions_v1.json` (SHA-256
+*Added at landing, 2026-10-31.* This sweep is also the antecedent that
+`hunts/lambda_dh_exact`'s own P4 ("a complete census to 10^4 raises the best
+landing") lacked: its RESULTS.md section 8.7 grades it "unresolved, evidence
+against" because pairs with y0 at most 0.35 were never landed. With every v6
+pair below 10^4 landed by the same ODE, the best landing is not raised. That
+verdict belongs to that hunt and is not changed here.
+
+**The deep predictions file.** `deep_predictions_v1.json` (SHA-256
 2616116f…) holds a crowding-model refit's predictions for the ten pairs with
-y0 > 0.37, written before any of them was landed. Its estimand is the flow
-landing; it is compared here with the ODE landing, which §3 tied to the flow
-only below height 412.
+y0 > 0.37. Its estimand is the flow landing; it is compared here with the ODE
+landing, which §3 tied to the flow only below height 412.
+
+*Corrected at landing, 2026-10-31.* This paragraph first called the file
+frozen and said it was written before any of the ten was landed. The tree
+supports neither. The file first appears in the commit that compares it,
+with no timestamp, and neither its source (`source_sha256` 18010823…) nor
+the refit's code is committed, so the predictions cannot be reproduced from
+here. The ODE landings of all ten pairs had been in the tree since
+2026-10-26 (`hunts/lambda_dh_exact/census_1e4.json` and
+`census_runs/full_r2/census_1e5.json`), and this sweep reproduces them to
+1e-5 (`test_census_sweep.py`). Read the table as a measured disagreement
+between a committed file and the ODE, not as a blind test of the model.
 
 | v6 n | height γ | y0 | t\*_ODE | predicted | over |
 |------|----------|----|---------|-----------|------|

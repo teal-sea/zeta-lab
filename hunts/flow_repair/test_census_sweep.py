@@ -9,7 +9,7 @@ What is checked, each against something that can fail:
 3. The committed ``census_sweep.jsonl`` is complete (ids 1..1268, finite) and
    recomputes bit for bit; every pair lands before its isolated y0^2/2.
 4. The numbers NOTES.md section 7 quotes: the census-wide latest landing,
-   the runner-up, and the deep-ten comparison with the frozen predictions.
+   the runner-up, and the deep-ten comparison with the predictions file.
 5. Lesion: dropping one on-line zero from a window moves the landing by far
    more than the tolerances above, so check 2 is not vacuous.
 6. Agreement with ``hunts/lambda_dh_exact``, which landed the same model on
@@ -96,6 +96,9 @@ def test_agrees_with_lambda_dh_exact_censuses():
         r = min(ROWS.values(), key=lambda r: abs(r["gamma"] - x["gamma"]))
         assert abs(r["gamma"] - x["gamma"]) < 1e-4
         assert r["tstar_ode"] == pytest.approx(x["landing_ode"], rel=1e-5)
+    # NOTES.md section 7: all ten predicted pairs had ODE landings in the tree before this sweep
+    for p in PRED["predictions"]:
+        assert min(abs(x["gamma"] - p["height"]) for x in theirs) < 1e-4
 
 
 def test_lesion_missing_online_zero_is_visible():
