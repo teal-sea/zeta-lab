@@ -214,6 +214,11 @@ Later the same day `S` itself was bounded in Arb (`sup(P_DH - H) <= S + 34/5`), 
 lies inside the witness's margin for `T# >= 540` and `N >= 856`: there every numerical
 step is enclosed, and the refusal rests on two unreviewed derivations (`PRICE.md` item 7,
 link 6).
+**Added 2026-10-31.** The algebraic step of the DH negative-cell certificate at
+`(c, N) = (1541/50, 64)` is kernel-checked (`Cert65.lean`, `decide +kernel`, built in CI;
+`RESULTS-negative-cell-kernel.md`): for the integer midpoint matrix and the listed vector the
+quadratic form is negative with margin far above the Arb radii. The statement about the DH form
+itself stays hardened, since the Arb enclosure and the perturbation bound are outside Lean.
 
 ### Hunt #145: the Davenport-Heilbronn zero off the critical line, kernel-checked (`rung3_ball_production/`, 2026-10-21 to 2026-10-26)
 
