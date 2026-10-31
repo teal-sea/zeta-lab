@@ -26,8 +26,8 @@ import gen_cert_lean as gen  # noqa: E402  (a failed import must fail, not skip)
 
 
 def _parse(text: str) -> dict:
-    rows = re.search(r"def B : List \(List Int\) :=\s*\[(.*?)\]\]", text, re.S).group(1) + "]"
-    B = [[int(x) for x in r.split(",")] for r in re.findall(r"\[([^\[\]]*)\]", rows)]
+    rows = dict(re.findall(r"def row(\d+) : List Int := \[([^\]]*)\]", text))
+    B = [[int(x) for x in rows[str(i)].split(",")] for i in range(len(rows))]
     u = [int(x) for x in re.search(r"def u : List Int := \[([^\]]*)\]", text).group(1).split(",")]
     num = lambda name: int(re.search(rf"def {name} : Int := (-?\d+)", text).group(1))  # noqa: E731
     return {"B": B, "u": u, "eNum": num("eNum"), "eDen": num("eDen"), "L": num("L")}
@@ -87,8 +87,8 @@ def test_a_planted_digit_in_the_lean_data_is_caught(built):
     i, j = 5, 9
     old = str(d["B"][i][j])
     new = old[:-1] + str((int(old[-1]) + 1) % 10)
-    rows = text.split("def B : List (List Int) :=", 1)
-    faulted = rows[0] + "def B : List (List Int) :=" + rows[1].replace(old, new, 1)
+    head, tail = text.split("def row5 : List Int :=", 1)
+    faulted = head + "def row5 : List Int :=" + tail.replace(old, new, 1)
     f = _parse(faulted)
     assert f["B"] != d["B"]
     assert not all(f["B"][a][b] == f["B"][b][a] for a in range(65) for b in range(65)) or \

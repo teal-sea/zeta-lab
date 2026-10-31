@@ -1,7 +1,7 @@
 {
  "cell": {
   "lean": "Cert65.lean",
-  "lean_sha256": "8f70a52563d5a456717e046cbced3ec82da2d68710b3672f050488f9272afbdd",
+  "lean_sha256": "c78e6af2feb60b7919726654befe594367d75fa5f299a3c199b349628ae258e2",
   "c": "1541/50",
   "N": 64,
   "modes": [
@@ -148,7 +148,7 @@
  },
  "smoke_2x2": {
   "lean": "Cert2x2.lean",
-  "lean_sha256": "f5080497438d5f9bb063129a89bbf6aa42da90c42b7e3257037fd31cdff47a40",
+  "lean_sha256": "b78db784a12ec73d4c1c897995ab789378a351248cee0cb6d9fd36272b9f9444",
   "c": "55",
   "N": 64,
   "modes": [

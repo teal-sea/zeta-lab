@@ -119,7 +119,12 @@ def _lean_list(xs) -> str:
 
 
 def lean_file(cert, ns: str, doc: str) -> str:
-    rows = ",\n    ".join(_lean_list(r) for r in cert["B"])
+    # One `def` per row, each typed `List Int`: a single nested 65 x 65 literal ran out
+    # of heartbeats resolving its numerals' types (CI run 41162632952, 2026-10-31).
+    row_defs = "\n\n".join(
+        f"set_option maxHeartbeats 2000000 in\ndef row{i} : List Int := {_lean_list(r)}"
+        for i, r in enumerate(cert["B"]))
+    rows = ", ".join(f"row{i}" for i in range(len(cert["B"])))
     n = len(cert["u"])
     e = cert["e"]
     return f'''/-
@@ -137,9 +142,10 @@ def dot (x y : List Int) : Int := (List.zipWith (· * ·) x y).foldl (· + ·) 0
 /-- The quadratic form `u^T B u`, with `B` given by its rows. -/
 def qf (B : List (List Int)) (u : List Int) : Int := dot u (B.map (fun row => dot row u))
 
-/-- `L` times the exact Arb midpoints of the Gram entries (`L = {cert["L"]}`). -/
-def B : List (List Int) :=
-  [{rows}]
+{row_defs}
+
+/-- `L` times the exact Arb midpoints of the Gram entries (`L = {cert["L"]}`), by rows. -/
+def B : List (List Int) := [{rows}]
 
 /-- The test vector. -/
 def u : List Int := {_lean_list(cert["u"])}
