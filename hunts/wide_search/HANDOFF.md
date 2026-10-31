@@ -202,8 +202,8 @@ much less striking than k=1.
 - **No Lean toolchain on this machine** and the disk was at 90% (21 GB free).
   Installing elan + Mathlib would consume most of it. Deferred deliberately; do
   it only if something formalizable actually exists.
-- `gh` is authenticated as `tlince`, which **cannot merge** in this repo. Use
-  `gh auth switch --user teal-sea`, then switch back.
+- `gh` may be authenticated as an account that **cannot merge** in this repo.
+  Use `gh auth switch --user teal-sea`, then switch back.
 - The lexical ban under `hunts/` is machine-enforced by
   `tests/test_hunt_probe_discipline.py` on the reserved word that
   `zeta/rigor.py` owns, which this file therefore cannot spell. It is a
