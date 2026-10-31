@@ -1,0 +1,683 @@
+# Bounded outcome
+
+The hunt was opened on 2026-09-12. Sections 1 to 3 are three findings from
+that day, all reading and measurement rather than new mathematics, which
+between them killed the plan the hunt was opened for and reordered its
+routes. Sections 4 to 9 record what followed on 2026-09-12 and 2026-09-13:
+two literature searches and the gate audit, the configuration LP (built, its
+control run, the sweep not dispatched), and exact lower bounds for one window
+per bandwidth. Section 10 records the one piece of new mathematics the hunt
+attempted, `PROOF-DRAFT.md`, and its status, which is **candidate**, not
+result.
+
+Grades: the proof draft is an **unreviewed ordinary derivation**, a
+candidate; the constants in §9 are **hardened** lower bounds for the stated
+windows, while the optimum at each bandwidth stays **float grade**; the three
+findings are **derived and measured**. A sentence that combines the draft with
+a §9 number takes the draft's grade. Nothing here is kernel-checked by this
+hunt, and nothing here bears on RH (`docs/08`).
+
+`MISSION.md` carries the routes. This file records what was established and
+at what grade.
+
+## 1. Finding one: the tree already computes Wang's curve
+
+Biao Wang's arXiv:2609.07918 Theorem 1.1 bounds the proportion of simple
+on-line zeros in `(T, T + T^theta]` below by
+`c(theta) = 2 - theta/2 - (1/sqrt 2) cot(theta/sqrt 2)`.
+`hunts/frontier_map/frontier.py:zeta_H_closed(lam)`, taken from the source
+paper's eq. (7.4), computes the same function of bandwidth. Measured equal to
+1e-16 at five bandwidths, and the lab's curve crosses zero at
+`0.5501939647441547` against Wang's printed `theta_0 = 0.550193964744154`.
+The same module's `Hd = (1 + H)/2` is Wang's distinct companion. **Both
+constants in Wang's Theorem 1.1 were already being computed here.**
+
+What Wang adds is that the dial is physical. `frontier.py` holds bandwidth as
+"exactly one dial, capped at 1 by the Rudnick-Sarnak / Montgomery support
+restriction", a hypothetical, since the whole game was pushing it up. His
+Theorem 2.2, an unconditional short-interval pair-correlation formula valid
+for `supp g` in `[-lambda, lambda]` with `lambda < theta` strictly, says
+bandwidth theta is exactly what counting in an interval of length `T^theta`
+buys. The lab's dial and his exponent are the same number.
+
+Every constant printed in both papers reproduces: `verify.py` checks `C_MT`,
+both global proportions, `c(3/4)`, `d(3/4)`, `theta_0`, `theta_d`, Wang's
+stated `c'(theta)`, and the closed form of the variational minimum against an
+independent Nystrom solve at six bandwidths.
+
+## 2. Finding two: the transplant is dead, and the reason is the second moment
+
+Substituting `c(theta)` into the two kernel-checked bridges fails. In the
+coordinate the problem is affine in, `R = 2 - c`, which is the normalized
+second moment, `Phi_3` reads `R -> 1.001343 R - 0.002019`. The certificate
+buys a fixed absolute `0.002019` and pays a **relative 0.134% of whatever
+second moment it consumes**, and `R(theta) = 1/theta + theta/3 - ...` diverges
+like `1/theta`. So the overhead is proportional to the one quantity that blows
+up in a short window, and break-even is at `theta = 0.8082`. **No
+re-optimization repairs that**, which is why §3 matters.
+
+Independently the transplant has no analytic footing: the band is
+`(-theta, theta)`, open and strict, while the bridges read `[-1, 1]` with no
+free half-length anywhere in `famlib.py`; and the bridges are dyadic, with 21
+occurrences of `2 * T` in `Bridge/Main.lean` alone (**corrected 2026-10-21**:
+21 is the number of lines of `lean/bridge/Zeta23Ext/Bridge/Main.lean` that
+contain `2 * T`; the occurrences number 28) and `S8`, `S9` and `S15`
+all absorbing errors against `N(T, 2T)`. A per-block error absorbed against
+`N(T, 2T)` and reappearing against `T^theta log T` **carries a hidden
+`T^(1-theta)`**, and that hazard recurs on every route here.
+
+## 3. Finding three: window shape is worth nothing in a short interval
+
+Measured in `landscape.py`. Writing the functional as
+`R = A(phi)/lambda + lambda B(phi)` with `A = int phi^2/(int phi)^2 >= 1` by
+Cauchy-Schwarz, equality iff `phi` is flat, the flat window gives
+`R = 1/lambda + lambda/3` **exactly** (verified), whose threshold is the root
+of `theta^2 - 6 theta + 3`, that is `3 - sqrt 6 = 0.5505102572`.
+
+Against Wang's optimal-window `theta_0 = 0.5501939647`, **the entire value of
+the Montgomery-Taylor window over a flat one is 3.2e-4 of threshold.** The
+flat-minus-optimal gap is about `lambda^3/180`: measured `0.00122` at
+`lambda = 0.6` against `0.00120`, and `0.00583` at `lambda = 1` against
+`0.00556`. The optimal window flattens as bandwidth shrinks.
+
+At `theta = 0.55` the whole window-shape game is therefore worth about `9e-4`,
+and an n-point family whose bandwidth-one share of it is `2.4e-4` is worth
+roughly `4e-5`. **Wang's `c(theta)` already is the re-optimization.**
+
+## 4. What was checked on 2026-09-12, recorded in full
+
+`CLAUDE.md`: where a search has actually been run, say what was searched and
+what it found. §4.1 and §4.2 are literature searches and §4.3 is the gating
+audit of the Lean development. All three were run by delegated sessions; every query string and every paper opened is listed so that each
+absence is a documented absence rather than an unrun check. The arXiv API
+returned HTTP 503 or 429 for most of the day, so the API queries listed as
+unrun were substituted by the arXiv web search UI and listing pages.
+
+### 4.1 Short-interval proportions for zeros of xi-prime
+
+**Verdict: not in the literature.** No paper states a proportion of simple,
+or critical, zeros of `xi'` (or of `xi^(k)`, `zeta^(k)`) in
+`(T, T + T^theta]` as a function of theta, conditional or unconditional.
+
+> **Rescoped 2026-10-21, on landing.** The verdict above states an absence
+> as fact, and the search behind it supports less. This section records six
+> sources it did not open (under "Not opened, blocked", below), eight arXiv
+> API queries that returned HTTP 503 and two Semantic Scholar searches that
+> returned HTTP 429, none of which ran. Read the verdict as "not found in the
+> logged search", the scope §4.2's verdict carries. The same scope applies,
+> below, to "Nowhere in print" for the `xi'` prime side and to Hardy's `Z'`
+> being "equally absent from the short-interval literature". Of the wording
+> in the next paragraph, "never 'first short-interval statement'" stands,
+> since it rests on Conrey and Rezvyakova, who were found and read. "First
+> power-length statement, as a function of theta" rests on this verdict, so
+> until the unopened sources and the unrun queries are checked it supports no
+> more than "no earlier power-length statement was found in the logged
+> search".
+
+**The near-miss.** Conrey (JNT 17 (1983)) and Rezvyakova (Izv. Math. 69
+(2005), 70 (2006)) work in sub-dyadic windows `U = T (log(T/2 pi))^(-10)`:
+on-line proportion of `xi^(k)` zeros above `1 - (3/5) k^(-2)`, simple
+on-line above `1 - ((e^2 + 2)/16) k^(-2)`, uniformly in `k` up to
+`(1/2) log log T / log log log T`; about `0.413` at `k = 1`. So the claim, if
+the route succeeds, is "first power-length statement, as a function of
+theta", never "first short-interval statement".
+
+**What was found, per paper.** Farmer-Gonek-Lee (JLMS 90 (2014),
+arXiv:0803.0425): RH throughout, `F_1` on `0 < gamma <= T`, Corollary 1.3
+gives `0.8584` simple under RH, no short intervals; nineteen citing papers on
+Semantic Scholar, none short-interval. Alpöge-Furman (arXiv:2608.13637 v2):
+Remark 7.1 gives `0.85838 / 0.92919` flat and `0.86864 / 0.93432` quartic,
+unconditional, dyadic `(T, 2T)`, and cites FGL only as comparator; Remark 6.1
+states `H(lambda) = 2 - 1/lambda - lambda/3` for the flat window with "no
+`lambda < 1` improves the constants". Wang (arXiv:2609.07918): zeta only, no
+derivative anywhere. Lamzouri (arXiv:2609.02882 v1, v2): zeta only. Chirre,
+Gonçalves, de Laat (arXiv:1810.08843): Corollary 7, `0.8825 / 0.9412` for
+`xi'` under RH, full range. Bui (arXiv:0903.4006): `xi'` gaps under RH. Bian
+(Rochester thesis 2008): pair correlation of `xi^(k)` zeros, full range.
+Sodin (arXiv:1611.10037): microscopic clustering under RH. Malik-Roy (Forum
+Math. 32 (2020)): explicit formula and zero density for `xi^(m)`, no
+proportion. Ki-Lee (Funct. Approx. 47 (2012)) and Das-Pujahari
+(arXiv:2104.10243): `zeta^(k)` in `(T, T + T^a]`, `a > 1/2`, horizontal
+sums only. Steuding (Acta Math. Hungar. 96 (2002)): zeta, `H >= T^0.552`,
+Levinson method, no theta-curve. Karatsuba (1984): zeta, odd-order zeros,
+`H >= T^(27/82 + eps)`. Wu (arXiv:1206.3737): `0.86957` on-line for `xi'`
+unconditionally, per AF's citation; §3 not opened. Hua-Yang
+(arXiv:2608.16034): Dirichlet family average, not single-function.
+Baluyot-Goldston-Suriajaya-Turnage-Butterbaugh (arXiv:2501.14545 v3, revised
+2026-09-01): no short intervals, no derivatives. Goldston-Lee-Schettler-
+Suriajaya (arXiv:2507.06823) and Goldston-Suriajaya (arXiv:2511.20059):
+expository, none. Of 191 `math.NT` listings 2026-09-05 to 2026-09-12, only
+Wang concerns short-interval zeros. Semantic Scholar: 0 citations of Wang, 1
+of Lamzouri, 3 of Alpöge-Furman.
+
+**Where the xi-prime input lives.** Nowhere in print. Alpöge-Furman's Remark
+7.1 says only "the argument of §§4-6 gives, unconditionally"; their §5 is
+written for zeta. The unconditional `xi'` prime side exists only as Lean code
+in `anthropics/formal-math`, `zeta23/Zeta23/XiPrime/` (formerly
+`anthropics/zeta-23-lean`), citing an unpublished write-up `[XF']`:
+coefficient family `b_N = C(N; L_T)`, `L_T = l/2 + i pi/4`, density `D_1`;
+`XiEF`, the entrywise explicit formula with error
+`C T^(-delta) (min(1, |tau_k - tau_l|^(-2)) + 1/T)`,
+`delta = (1 - 3 lambda/4)/2`; `CoeffMoments`, the two prime-side moments with
+`N = N(T, 2T)`, proved for every `lambda` in `(0, 1)` as
+`xiDeriv_fixedLamBounds`. That pair is the `xi'` analogue of BGSTB's Lemma 5
+and the object a short-interval theorem must localize. Also formalized there:
+Hardy's `Z'` at `0.85838 / 0.92919`, equally absent from the short-interval
+literature.
+
+**Not opened, blocked:** Steuding 2002 text (Springer SSO); Chaubey-Malik-
+Robles-Zaharescu (JMAA 2017, ScienceDirect 403), which concerns combinations
+of `xi^(k)` on the line and by title not short intervals, unverified;
+Levinson-Montgomery 1974; Karatsuba 1984; Wu 2015 §3; the `[XF']` write-up.
+
+**WebSearch queries run (34), verbatim:**
+1. "zeros of the derivative of the Riemann xi-function" simple zeros proportion critical line
+2. "xi'" zeros "short intervals" critical line derivative Riemann xi-function
+3. "zeros of derivatives of Riemann's xi-function" Conrey 1983 proportion critical line
+4. Farmer Gonek Lee pair correlation zeros derivative xi function simple zeros proportion cited by
+5. Bian Bui correlations zeros of xi' derivative Riemann xi-function alternative hypothesis arXiv
+6. "simple zeros" "short intervals" derivative zeta function "zeta'" OR "xi'" arXiv 2026
+7. "2609.07918" OR "Biao Wang" "short intervals" simple critical zeros distinct zeros Riemann zeta
+8. Conrey 1983 "Zeros of derivatives of Riemann's xi-function on the critical line" 81.37% xi' 0.7987 simple zeros xi^(k) proportion table
+9. Ki Lee "zeros of the derivatives of the Riemann zeta function" OR "zeros of derivatives" xi-function critical line proportion arXiv
+10. Levinson Montgomery 1974 "Zeros of the derivatives of the Riemann zeta-function" Acta Math zeta' left of critical line
+11. Karatsuba "short intervals" critical line zeros derivative "zeta" "Hardy function" Z'(t) OR "derivative" short interval zeros
+12. pair correlation "short intervals" zeros zeta "T^theta" Montgomery unconditional Baluyot Goldston Suriajaya Turnage-Butterbaugh short interval
+13. "pair correlation" upper bound "proportion of simple zeros" best possible limit "form factor" bandwidth "cannot exceed" Montgomery method optimal
+14. Bian Bui "zeros of the derivative" xi-function correlations "alternative hypothesis" 2020 OR 2021 OR 2022 OR 2023 OR 2024 OR 2025
+15. Wu "Distinct zeros of the Riemann zeta-function" Quart. J. Math. 66 2015 xi' critical line 0.86957 unconditional
+16. arXiv September 2026 "short intervals" zeros Dirichlet L-functions simple critical "Lamzouri" OR "Alpöge" OR "Furman" new proof extension
+17. Malik Roy "On the distribution of zeros of derivatives of the Riemann xi-function" Forum Math 2019 abstract short intervals zero density
+18. Steuding 2002 "On simple zeros of the Riemann zeta-function in short intervals on the critical line" T^{0.552} positive proportion Acta Math Hungar abstract
+19. "zeros of \xi'" OR "zeros of xi'" OR "xi-prime" simple critical line unconditional 2024 OR 2025 OR 2026 arXiv Levinson method derivative xi proportion improve Conrey
+20. Das Pujahari "Zeros of higher derivatives of Riemann zeta function" short intervals mollifier T^theta proportion zeros critical line derivative
+21. "Lean" "Zeta23" OR "xiDeriv_simple_on_line" OR "Alpöge Furman" GitHub formalization zeta zeros simple critical line
+22. Ge "zeros of the derivative of the Riemann zeta function" OR "zeta'" critical line proportion arXiv 2017 OR 2018 OR 2019 "left of the critical line" OR "near the critical line"
+23. Suriajaya "zeros of the derivatives" OR "zeros of the k-th derivative" Riemann zeta function OR xi function critical line arXiv 1310.6489 OR 1308.5116
+24. "Chirre" "Gonçalves" "de Laat" "Pair correlation estimates for the zeros of the zeta function via semidefinite programming" xi' 0.8825 0.9412 Corollary 7 derivative
+25. "zeros" "in short intervals" "derivative" "Riemann xi" OR "xi-function" OR "completed zeta" theorem proportion critical line
+26. Rezvyakova "zeros of the derivatives of the Riemann" xi-function Izvestiya Mathematics 2005 short intervals critical line
+27. Rezvyakova "simple zeros of derivatives of the Riemann" xi-function Izv. Math. 70 2006
+28. Karatsuba school "derivatives of the Riemann xi-function" OR "derivative of the Riemann xi-function" zeros "short intervals" critical line Rezvyakova OR Karatsuba OR Voronin proportion
+29. "Zeros of the derivatives of the Riemann xi-function" Rezvyakova Izvestiya OR "Izv. Math." OR mathnet.ru abstract proportion 1-(3/5)k^-2 OR "on the critical line"
+30. "xi^{(k)}" OR "xi^{(k)}" zeros "critical line" proportion "short" Chaubey Malik OR Rezvyakova OR "normalized combinations" arXiv
+31. "pair correlation" zeros "short intervals" "T^{theta}" OR "T^theta" simple zeros proportion Dirichlet L-function OR "L-functions" 2026 arXiv Montgomery short interval theorem
+32. Karatsuba "zeros of the function" "short intervals of the critical line" derivative "Z^{(k)}" OR "derivatives of Hardy's function" proportion simple zeros short interval T^{27/82} Izvestiya
+33. Conrey 1983 "at least 81.37%" OR "81.37" zeros "xi'" critical line "J. Number Theory 16"
+34. "Hardy's function" OR "Hardy's Z-function" derivative "Z'" zeros simple "short intervals" OR "short interval" proportion critical line stationary points
+
+**Other lookups:** Semantic Scholar citations of arXiv:0803.0425 (19),
+2608.13637 (3), 2609.02882 (1), 2609.07918 (0); S2 searches for Rezvyakova
+(5 hits), Steuding 2002 and Ki-Lee 2012 (HTTP 429, unrun); zbMATH
+`au:Steuding & ti:short intervals` (4); Crossref record for Steuding 2002;
+mathnet.ru abstracts and Russian full texts of Rezvyakova 2005 and 2006;
+arXiv web UI searches for `"short intervals" zeros` (Aug-Sep 2026, 1 hit,
+Wang), `"short intervals" zeros derivative` (12), `"xi-function" derivative
+zeros` (14), `"derivatives of the Riemann" zeros "critical line"` (11),
+`"simple zeros" "short intervals"` (0), `"pair correlation" "short
+intervals" zeros` (5); arXiv `list/math.NT/pastweek` (191 entries, titles
+scanned). Eight arXiv API queries returned HTTP 503 and are unrun; their
+strings are in the delegated session's log.
+
+### 4.2 Upper bounds on Montgomery's form factor beyond the band
+
+**Verdict: no result in the searched literature gives a `T`-independent
+upper bound on `F` over any interval beyond `alpha = 1` unconditionally.
+Under RH, integrated bounds exist but tend to a positive constant rather than
+to zero as the interval shrinks, so none found has the shape `B delta` the
+pricing in §8 of `MISSION.md` needs.** That is an absence in the searched
+literature, not a proof that no such bound exists; the band-edge attempt is
+unresolved, with two restricted classes of argument obstructed (below).
+
+**Unconditionally:** `F >= 0` (positive definiteness; Carneiro-Chandee-
+Chirre-Milinovich arXiv:2108.09258 §1.2) and `F(alpha) <= F(0) ~ log T`
+(Goldston, math/0412313, (6.2)). BGSTB (arXiv:2306.04799) stop at
+`alpha = 1`. Fujii and Tsang (restated in arXiv:2503.15449 §6) give
+unconditional Fejér-weighted averages inside the band only. Unconditional
+prime-variance bounds (Brun-Titchmarsh; Zaccagnini, Acta Arith. 84 (1998),
+via arXiv:1603.02952 §3.2) are of the `H^2 x` shape, not `H x log(x/H)`.
+
+**Under RH:** Goldston's Notes Lemma 1: `integral_B^(B+1) F <= 3` for any
+`B`. Carneiro-Chandee-Chirre-Milinovich Theorem 10:
+`integral_1^(1+delta) F <= 7/8 + (5/4) delta + O(delta^2) + o(1)`, and their
+(2.27): "we cannot rule out the existence of delta spikes in `F(alpha)` for
+`|alpha| >= 1`" (Baluyot, JNT 169 (2016), studies the connection to the
+alternative hypothesis). Carneiro-Milinovich-Ramos (arXiv:2310.01913):
+`0.9303 < (1/l) integral_b^(b+l) F < 1.3208` for long intervals. Pointwise,
+nothing: Heath-Brown (Acta Arith. 41 (1982)) and Goldston-Suriajaya
+(arXiv:2205.06503) carry `F(alpha) << 1` just past 1 as an unproved
+hypothesis, the latter writing "there is probably no hope of proving any of
+these conjectures at present". Chirre-Gonçalves-de Laat (arXiv:1810.08843,
+Lemma 8) use only `F >= 0` beyond the band; Carneiro-Chandee-Littmann-
+Milinovich (arXiv:1406.5462) likewise. Montgomery 1973 §3 already names the
+obstruction: for `1 <= alpha < 2` the program needs "a reasonable hypothesis
+as to the size of the differences `sum_{n<=y} Lambda(n) Lambda(n+h) - c(h) y`".
+
+**Under stronger hypotheses:** only lower bounds (Goldston-Gonek-Özlük-
+Snyder, Proc. LMS 80 (2000), `F >= 3/2 - |alpha| - eps` under GRH; Walker
+arXiv:2101.04418 under an `AP(theta)` conjecture) or full asymptotics under
+Hardy-Littlewood with power saving (Bolanz 1987; Goldston's Notes (6.3)).
+
+**The obstruction past `alpha = 1` is not RH.** `F(alpha) - alpha` is the
+difference of two terms of size about `T^alpha` whose cancellation to
+`O(T log T)` needs the prime-pair correlations to relative error
+`O(T^(1-alpha) log T)`. Sieve constants (Bombieri-Davenport 4; Wu 2004
+3.3995; Lichtman arXiv:2109.02851 3.2996; never below 2 by parity) leave a
+residual `(c - 1) T^alpha` against `T log T`; at `alpha = 1.05`,
+`log T = 100`, `c = 2`, the residual is already 1.4 times the main term.
+Montgomery-Soundararajan (math/0409258) is the second-order singular-series
+input that would be needed. The one-line test for any phase-dropping draft:
+an argument that drops the phases beyond the band proves the same bound at
+`b = 0`, where `integral_(-delta/2)^(delta/2) F >= 1 + o(1)`. Both
+obstructions, sieve and phase-dropping, are derived here and unreviewed, and
+each covers only its own class.
+
+**WebSearch queries run (21), verbatim:**
+1. Montgomery pair correlation form factor F(alpha) upper bound alpha > 1 unconditional
+2. Goldston "On the pair correlation conjecture for zeros of the Riemann zeta-function" 1988 F(alpha) 3/2 - alpha
+3. "pair correlation" zeros zeta "beyond the band" OR "outside the band" F(alpha) alpha > 1 upper bound RH
+4. Goldston Gonek Ozluk Snyder "On the pair correlation of zeros of the Riemann zeta-function" Proc London Math Soc 2000 F(alpha) lower bound 1 < alpha < 3/2
+5. Carneiro Chandee Littmann Milinovich "Hilbert spaces and the pair correlation of zeros" F(alpha) integral upper bound A - 1/2
+6. Goldston Montgomery "Pair correlation of zeros and primes in short intervals" variance equivalent unconditional upper bound variance primes short intervals
+7. "F(\alpha" "\alpha > 1" "sieve" "Lambda(n)Lambda(n+h)" pair correlation upper bound zeta zeros
+8. Goldston 1988 Crelle "pair correlation conjecture" "F(alpha" lower bound RH "3/2" OR "A - 1/2" integral of F Lemma A
+9. Saffari Vaughan unconditional variance primes short intervals mean square upper bound delta x^2 log^2
+10. Montgomery Soundararajan "Primes in short intervals" variance singular series sum (H-h) S(h) = H^2/2 - H log H /2
+11. Goldston Gonek "A note on the number of primes in short intervals" 1990 F(alpha) upper bound integral pair correlation RH
+12. Baluyot "alternative hypothesis" pair correlation zeros zeta F(alpha) delta spikes Montgomery function
+13. Selberg sieve upper bound twin primes "8" prod (1-1/(p-1)^2) x/(log x)^2 Bombieri Davenport constant 4 times Hardy-Littlewood Lambda(n)Lambda(n+h) <=
+14. Fujii unconditional pair correlation zeros Riemann zeta "On the zeros of Dirichlet L-functions" OR "distribution of the zeros" sum over pairs of zeros unconditional Montgomery F
+15. Baluyot "On the pair correlation conjecture and the alternative hypothesis" Journal of Number Theory 2016 abstract F(alpha) spikes
+16. Saffari Vaughan 1977 "On the fractional parts of x/n and related sequences II" Selberg integral unconditional o(x^3 theta^2) range x^{-5/6}
+17. "F(\alpha" OR "F(alpha" "alpha >= 1" OR "alpha > 1" "unconditionally" pair correlation zeta zeros upper bound form factor beyond band zero-density
+18. Heath-Brown 1982 "Gaps between primes, and the pair correlation of zeros of the zeta-function" hypothesis F(x,T) = o(T log^2 T) T <= x <= T^M
+19. Goldston Suriajaya "Fujii" prime number theorem error "F(x,T) << T log x" "T <= x <= T log T" x^{1/2}(log x)^{3/2} arXiv
+20. Montgomery 1973 "pair correlation of zeros of the zeta function" F(alpha) "alpha > 1" what Montgomery proved Hardy-Littlewood conjecture strong error term "1 <= alpha <= 2"
+21. Carneiro Chirre Milinovich "Bandlimited approximations and estimates for the Riemann zeta-function" arXiv Publicacions Matematiques 2019 abstract
+
+**Papers opened, full text:** arXiv:2108.09258, 2502.05106, 1810.08843,
+2306.04799, math/0412313, 2205.06503, 2501.14545, 2310.01913, 1311.0597,
+2101.04418, 1406.5462, 1604.06124, 2208.02359, math/0305340, 1603.02952,
+2412.20099, 2511.20059, 2503.15449, 2507.06823, 2108.10238, math/0409258,
+2109.02851, Montgomery 1973 (scan). **Abstract only:** Goldston-Gonek-
+Özlük-Snyder 2000; Baluyot 2016; Carneiro-Chirre-Milinovich 2019
+(arXiv:1710.10362). **Not opened, quoted second-hand:** Goldston 1981,
+Goldston-Gonek 1990, Goldston-Gonek-Montgomery 2001, Heath-Brown 1982,
+Saffari-Vaughan 1977, Halberstam-Richert.
+
+### 4.3 The gate: the dyadic audit of the xi-prime development
+
+**Verdict: PASS WITH CONDITIONS.** Full report in `AUDIT-dyadic.md`, kept
+verbatim. Read against `anthropics/formal-math` commit `fbdc36bb` and Wang
+arXiv:2609.07918v1, statement by statement down to the interface
+propositions, with 35 proof steps, 10 interface statements and 7 definitions
+inventoried by file and line and each classified. No step uses the dyadic
+structure to produce a main term. Every dyadic use is either cosmetic or an
+error absorption with a named exponent: `c = lambda` for the seven
+Montgomery-Vaughan and grid-end remainders (one mechanism, Wang's own
+condition `lambda < theta`), `c = lambda/2` for three remainders implied by
+it, `c = 1/2` for the end strips with `D0 = sqrt T` (free for
+`theta > 0.51332`, or re-choose `D0`), `c = 0` for `O(log T)`, and pure
+height power savings elsewhere.
+
+**The hazard the brief named is refuted.** The corrections in
+`D_1(s) = s - 4s^2 + ...` reach the certificate only through hypothesis (H3),
+an arithmetic identity with no interval and no `2T` anywhere under `Coeff/`.
+
+**A correction to the brief's framing, now applied in `MISSION.md` §6.2.**
+The kernel-checked development uses no zeta pair-correlation input and no
+transfer from zeta zeros; it treats `xi'` zeros directly. Wang's Theorem 2.2
+is therefore the template for localizing the `xi'` second moment, not an
+input to it.
+
+**What is missing is two statements, not an argument**: the short-window
+zero count `N_xi'(T, T+H) = H L/2pi + O(H + log T)` and the two short-window
+`mu`-integrals, each a corollary of lemmas already in the tree. The seven
+conditions and the eight-step proof outline are in `MISSION.md` §6.2 and
+`AUDIT-dyadic.md` §6, read with §D of `AUDIT-dyadic-adversarial.md`, a
+second session told to break the verdict, which confirmed it, opened all 78
+citations, reworded conditions 3 and 4, and listed eight corrections to the
+outline. The Hardy `Z'` arm carries the same verdict verbatim.
+
+## 5. Two readings withdrawn the same day
+
+Recorded rather than deleted.
+
+**Withdrawn: that the closed form of the variational minimum was this hunt's
+finding.** It was derived here before the paper was read, and it is Wang's
+published Proposition 4.1 equation (4.2) with a uniqueness proof the
+re-derivation does not have. It is also already in this tree as
+`frontier.py:zeta_H_closed`. `verify.py` keeps the derivation as a cross-check
+of the paper, not as output.
+
+**Withdrawn: that `PALOMAR-2026-08-21-000004` is the `lambda = 1` case of
+Wang's Proposition 4.1.** It is not. Two different constants in this tree are
+both called `c*`: the zeta one has kernel `|alpha|` with
+`1/c*_1 = 1.3274992963205884` and is Wang's; the `xi'` one in
+`lean/ZetaLean/Pub1/Setting.lean` has the Farmer-Gonek-Lee kernel `F_1` with
+`H* = 0.8686415005` and is a different object. The withdrawn reading conflated
+them, and would have sent a session to formalize a generalization of the wrong
+theorem. It is the more instructive of the two.
+
+A third recommendation, re-optimizing the certificate window at each
+bandwidth, was written into an earlier draft and is killed by §3 rather than
+withdrawn on a reading error.
+
+## 6. Corrections owed to the tree
+
+None of them this hunt's mathematics; fixes assigned in `MISSION.md` §11,
+which now lists six, the two added by the searches being that
+`hunts/wide_search/RESULTS-xiprime.md` cites Alpöge-Furman Remark 7.3 where
+the paper says 7.1, and that the Lean dependency cited as
+`anthropics/zeta-23-lean` now lives at `anthropics/formal-math`, `zeta23/`.
+`docs/35` predated hunt #118's closure and read as an open opportunity; that
+one is done, corrected on main in PR #286 (2026-10-09), and the rest were
+still open when this hunt landed (2026-10-21). `docs/35` and
+`hunts/outband_intake/RESULTS.md` disagree on the measurement,
+`+0.0068` with error `2.2e-3` against `+0.0065` with `1.8e-3`.
+`references/papers.md` has **no entry at all** for Baluyot, Goldston,
+Suriajaya and Turnage-Butterbaugh, though their Lemma 5 is the arithmetic
+engine of this whole line of work. And
+`hunts/frontier_map/RESULTS-frontier-map.md` should record that its landscape
+now has a theorem attached at each bandwidth.
+
+## 7. Reproduction
+
+```bash
+.venv/bin/python hunts/short_interval/verify.py      # the papers' constants
+.venv/bin/python hunts/short_interval/landscape.py   # both landscapes, the band price
+```
+
+Both are stdlib only, so they also run under a bare `python3` during triage.
+`verify.py` exits non-zero if any constant drifts from what the papers print
+or from what `frontier.py` computes. `landscape.py` runs pure-Python solves at
+`n = 120` to `200` and carries about `1e-5`; it prints the zeta control at
+every step so that error is visible rather than assumed. Anything needing more
+than four digits should be re-run on the repository's numpy path or with ball
+arithmetic.
+
+## 8. Ceiling computation, built and not yet run
+
+**Built 2026-09-12, control run locally, sweep not dispatched.** Every number
+in this section comes from the two runs in `RUNS.md`'s manifest
+`short_interval-2026-09-12-ceiling-theta-control` or from the file cited
+beside it.
+
+**What was built.** `ceiling_theta.py` is `hunts/frontier_math/
+configuration_lp.py` with the band `[-1, 1]` replaced by `[-theta, theta]`.
+The band edge was a literal `1` in exactly two places of the original, the
+alpha grid `arange(J+1)/J` and the out-of-band start `1.0 + ...`; both are
+now `theta`, the data row `R2hat(alpha) = delta(alpha) + |alpha|` keeps its
+form, and there is no window or Fourier-support cap in this LP to move (the
+window is its dual). The solver is copied rather than imported because the
+original is another hunt's cited instrument, and the copy returns the dual
+marginals on the data rows, which the original discards. One JSON per theta,
+checkpointed per rung, in `artifacts/`; `--collect` prints the table. The
+workflow `.github/workflows/hunt-short-interval-ceiling.yml` runs one job per
+theta on the default grid `1.0, 0.95, ..., 0.55`, each on the six-rung ladder
+`X = 40 ... 320` that `outband_intake` recorded, each under the 20-minute cap
+by the estimate in `RUNS.md` (worst cell 255 s here), plus a control job and
+a collect job.
+
+**The control result, and it changes what §7 of `MISSION.md` can buy.** Three
+checks ran at `theta = 1`:
+
+1. The solver reduces to `configuration_lp.solve`: same value to the last
+   bit at `X = 40, J = 200`.
+2. All six recorded in-band rungs (`outband_intake/artifacts/
+   lane-a-control-inband*.json`) reproduce to `1e-12`.
+3. The ladder `0.6793882, 0.6775676, 0.6768963, 0.6764627, 0.6759394,
+   0.6756339` extrapolates by `refit.py`'s free fit `a + b X^(-p)` to
+   `0.6740762` (`p = 0.584`). That is `+0.0016` above the Montgomery-Taylor
+   record `0.6725007036794116`, inside the `0.0018` method error, and
+   `-0.0078` below the configuration ceiling `0.6818286874638`, **which is
+   not reproduced**.
+
+This is not a defect in the parameterization. It is what
+`hunts/frontier_math/RESULTS-frontier-math.md` §1 measured for this LP at
+bandwidth one: the type structure eliminates exactly, the value is `2 - sup D`,
+the Montgomery-Taylor dual, and "the ceiling gap (0.6725007, 0.68185) is *not*
+about the pair measure at all, it measures what configuration realizability
+adds beyond measure positivity". `outband_intake/inband_control.py` already
+uses that known limit as its calibration. The ceiling `0.6818286874638` is the
+simple fraction of an extremal **law on marked periodic configurations**
+(`Zeta23/PairCeiling/LawN256.lean`), whose exact-rational certificate is not
+public and which nothing in this tree recomputes
+(`hunts/wide_search/RESULTS-pair-ceiling.md`). So `MISSION.md` §7 names the
+right object and the wrong machinery: the measure-level LP has **zero
+headroom over the landscape at every bandwidth**, and the theta sweep built
+here can only measure how it converges to Wang's `c(theta)`, which is a
+control on the landscape and not the ceiling.
+
+Measured at `theta = 0.55`, where `c(0.55) = -0.000577`: the ladder descends
+`0.0581590 -> 0.0103512` at `X = 320` and extrapolates to `0.000689`, that is,
+to the floor `p_1 >= 0` the LP carries, consistent with zero headroom there
+too. The ratio column `(value - c(theta)) / 0.00932798` that §7 asks for is
+therefore, for this instrument, a measure of discretization residual
+(`0.17` at `theta = 1`, `0.14` at `0.55`, both extrapolated) and says nothing
+about whether the *configuration* headroom scales like `theta^3`. That
+prediction stays open.
+
+**What measuring the ceiling at bandwidth theta actually needs**, stated so the
+next session does not rebuild this file: a primal over realizable
+configurations, that is, a law on marked periodic configurations of period
+`N` whose form factor matches `j/N` for `j <= theta N` and minimises the simple
+fraction, the `LawN256` construction with the data cut at `theta`. That is a
+column-generation problem over configurations, not a band parameter, and its
+bandwidth-one instance is the one the authors built with a private artifact.
+The workflow and the collect table here stay useful for it only as the
+landscape control every such run should carry.
+
+**Dispatch**, if the landscape control is wanted on Actions anyway:
+
+```bash
+gh workflow run hunt-short-interval-ceiling.yml --ref <branch>
+gh workflow run hunt-short-interval-ceiling.yml --ref <branch> \
+  -f thetas='[1.0, 0.8, 0.6]' -f rungs='40,80,120,160'      # a cheaper grid
+```
+
+Not dispatched. Nothing in this section is a result, and nothing here bears
+on RH (`docs/08`).
+
+## 9. Enclosed bandwidth-theta constants
+
+**Run 2026-09-12, manifest `short_interval-2026-09-12-enclose-theta` in
+`RUNS.md`. Every number below is printed by that run and stored in
+`artifacts/enclose-theta.json`.** This discharges condition 5 of the gate in
+`MISSION.md` §6.2, "bandwidth-theta decimals must be enclosed by ball
+arithmetic before any number is stated", and it does so one rung stronger
+than the condition asks: the bounds are **exact rationals plus a proved tail
+bound**, with no floating point on the load-bearing path. Ball arithmetic
+(Arb via `python-flint` 0.9.0, cross-checked against `mpmath.iv`, both with
+exact endpoint extraction) enters only the zeta control, where Wang's
+`c(theta)` is transcendental.
+
+**Grade: hardened.** Not kernel-checked. Nothing here bears on RH.
+
+**What is bounded, and what is not.** For an even polynomial window `v` on
+`[-1/2, 1/2]` with rational coefficients, every integral in
+
+    R_theta(v) = [ int v^2 + theta iint F(theta (s-s')) v v ] / ( theta (int v)^2 )
+
+is an exact rational, for both `F(x) = |x|` (zeta) and Farmer-Gonek-Lee's
+`F_1` (xi'), the latter truncated at `k = M = 20` with the omitted tail bounded
+above by `theta^(2M+3) rho_M (int v^2)/(int v)^2`, `rho_M = 45088768/2828846926`
+(about `1.6e-20`; the fraction is mistranscribed, see the 2026-10-21 note after
+this paragraph), the geometric majorant of `hunts/wide_search/
+certify_bound.py` carrying the extra `theta^(2M+3)` because
+`|theta (s-s')| <= theta <= 1`, and Cauchy-Schwarz on `|I| = 1` in place of
+any positivity assumption on `v`. The bound `2 - R_theta(v)` is a valid lower
+bound on the optimum for **every** admissible `v`, so the table below states
+**lower bounds for one degree-6 even polynomial window each, and not the
+optimum**. The window at each bandwidth is the degree-6 minimizer from a
+4 x 4 float linear solve, normalized to `v(0) = 1` and rounded to
+denominators at most 1000; how it was chosen carries no proof weight and a
+poor choice only loosens the bound. The zeta column shows how little that
+costs: the degree-6 polynomial sits within `6e-12` of Wang's optimum at every
+bandwidth.
+
+> **Corrected 2026-10-21, on landing.** The fraction printed above,
+> `rho_M = 45088768/2828846926`, lost 18 digits of its denominator in
+> transcription and is about `0.016`. The constant that
+> `enclose_theta.tail_bound(20)` computes, and that
+> `artifacts/enclose-theta.json` stores under `tail_bound`, is
+> `rho_M = 45088768/2828846926917599723269509375`, about `1.594e-20`, the
+> value the parenthetical gives. Summed exactly, the tail `sum_{k>20} a_k` is
+> `1.593747e-20`, so that constant is a valid majorant with relative slack
+> `9.1e-5`, and no bound in the table moves. `test_short_interval.py` pins
+> this note's fraction against the artifact and the code.
+
+Bounds are truncated downward at twelve decimals, never rounded. The
+`c(theta)` column is the lower end of the Arb enclosure, truncated at ten.
+
+| theta | zeta, this window | Wang `c(theta)`, enclosed | `c(theta) - bound` | xi', this window | xi' window `(c1, c2, c3)`, `v = 1 + c1 s^2 + c2 s^4 + c3 s^6` |
+|---|---|---|---|---|---|
+| 1.00 | 0.672500703679 | 0.6725007036 | 1.5e-13 | **0.868641500514** | -38/121, -2954/785, -678/695 |
+| 0.95 | 0.635679331247 | 0.6356793312 | 3.6e-15 | **0.837728309542** | -128/715, -2192/739, -565/834 |
+| 0.90 | 0.593101699738 | 0.5931016997 | 8.7e-16 | **0.797031595529** | -5/72, -1943/844, -436/947 |
+| 0.85 | 0.543729667389 | 0.5437296673 | 8.5e-15 | **0.745633583872** | 3/238, -350/199, -264/863 |
+| 0.80 | 0.486267332286 | 0.4862673322 | 8.3e-17 | **0.682544134733** | 66/971, -895/677, -103/519 |
+| 0.75 | 0.419075012975 | 0.4190750129 | 1.6e-15 | **0.606552171231** | 25/251, -464/475, -33/263 |
+| 0.70 | 0.340046373600 | 0.3400463736 | 1.1e-13 | **0.516050543399** | 20/179, -304/429, -32/415 |
+| 0.65 | 0.246428847416 | 0.2464288474 | 6.0e-13 | **0.408816402390** | 107/981, -68/135, -33/719 |
+| 0.60 | 0.134554281899 | 0.1345542819 | 6.0e-12 | **0.281713596967** | 57/592, -169/483, -26/987 |
+| 0.55 | -0.000577327056 | -0.0005773271 | 2.5e-12 | **0.130258286830** | 37/477, -31/131, -1/69 |
+
+The zeta row at `0.55` is negative, as Wang's curve is there (`theta_0 =
+0.55019`), and is recorded because the control must hold at a vacuous
+bandwidth as well as a useful one. The tail bound is `1.6e-20` at `theta = 1`
+and falls to `1.1e-31` at `0.55`; it never touches the twelfth decimal.
+
+**Controls, all passed in the same run.**
+
+1. **Zeta against Wang's closed form, exactly.** At every theta the rational
+   bound is `<=` the lower end of the enclosure of `c(theta) = 2 - theta/2 -
+   cot(theta/sqrt 2)/sqrt 2`, and the upper end minus the bound is at most
+   `6.0e-12`, against the `1e-3` the control demands. The enclosure width is
+   `1e-30`. Had the bound exceeded `c(theta)` anywhere the instrument would be
+   wrong, since `c(theta)` is the optimum over all windows.
+2. **The published windows at `theta = 1`, xi'.** The source paper's quartic
+   `1 - (7/100)(2s)^2 - (51/200)(2s)^4` gives `0.868640515166 >= 0.86864`,
+   and the flat window gives `0.858384054709 >= 0.85838` (Alpoge-Furman
+   Remark 7.1). Both are exact rational comparisons.
+3. **The float landscape lies above the enclosed bounds.** `landscape.py`'s
+   optimal-window values, which are over all windows and carry a
+   discretization error of order `1e-5`, exceed the polynomial bounds by
+   `+3.7e-6` at `0.55` (`0.130262`), `+4.4e-6` at `0.60` (`0.281718`) and
+   `+9.9e-6` at `0.80` (`0.682554`). Positive, and small, as they must be.
+
+Also checked by the run: the exact moment matrices `iint |s-t|^m s^(2i)
+t^(2j)` agree with sympy at six entries; the flat window gives
+`R = 1/theta + theta/3` for zeta exactly at every theta; and the degree-6 xi'
+bound at `theta = 1` sits `1.6e-11` below the laboratory's full-window
+`H* = 0.8686415005` (`hunts/wide_search/RESULTS-xiprime.md`), below it as a
+one-window bound must be. The `theta = 0.75` and `0.90` rows agree with the
+float `H*` column of that file's lambda table (`0.6065522`, `0.7970316`) to
+the digits it prints.
+
+**What this changes in §6.2.** Condition 5 is met for the ten bandwidths
+above. What the paper may state, once the localization is written, is
+"at least `0.281713` of the zeros of `xi'` in `(T, T + T^0.6]` are simple and
+on the line", and likewise per row, each as a bound and not as the constant.
+The localization has since been drafted (§10) and is unreviewed, so today
+such a sentence is a candidate statement, not a theorem.
+The optimum at each theta is still float grade; enclosing it would need the
+`certify_bound.py` two-sided argument with the coercivity constant `9/5`
+re-derived at bandwidth theta, which nothing here does.
+
+Reproduce, from the repo root, in about two seconds:
+
+```bash
+.venv/bin/python hunts/short_interval/enclose_theta.py
+```
+
+Exit code 0 iff every control passes.
+
+## 10. The proof draft, and its status
+
+`PROOF-DRAFT.md`, 2131 lines, written 2026-09-12 and revised 2026-09-13
+against the adversarial re-audit, is the one piece of new mathematics this
+hunt attempted. It follows the eight-step outline of `AUDIT-dyadic.md` §6,
+with the corrections of `AUDIT-dyadic-adversarial.md` §D folded in, and
+states two theorems for the zeros of `xi'` in `I = (T, T + T^theta]`,
+`0 < theta < 1`, unconditionally as stated:
+
+- **Theorem A** (fixed bandwidth `0 < lambda < theta`): for every admissible
+  window `v` and every `eps > 0`, for all large `T`, at least
+  `(2 - kappaXi(lambda, v) - eps) N_xi'(I)` of the zeros in `I` are simple
+  and on the line, and at least `(3/2 - kappaXi(lambda, v)/2 - eps) N_xi'(I)`
+  are distinct.
+- **Theorem B** (bandwidth theta): the corresponding liminf proportions are
+  at least `2 - kappaXi(theta, v)` and `3/2 - kappaXi(theta, v)/2`.
+
+The draft's §11 carries the same statements to the simple stationary points
+of Hardy's `Z` by substitution. By its own tagging it quotes 14 statements
+unchanged from the dyadic development in `anthropics/formal-math` at
+`fbdc36bb`, which that tree states as kernel-checked (no build was run here),
+writes out proofs of 26 short-window statements at the level of Wang's paper,
+and asserts none without a written proof. The constant is carried as a
+symbol, and §9 supplies lower bounds for it.
+
+**Status: candidate.** Theorems A and B are an ordinary mathematical
+derivation by this hunt's own sessions, and no review of the draft itself is
+recorded. The adversarial pass attacked the gate audit, not the draft; its
+corrections were forwarded to the drafting session before the draft was
+finished. The theorems are not refereed and not kernel-checked (only the 14
+quoted statements carry that grade, and only in their dyadic form), and they
+are pending external verification. A sentence such as "at least `0.281713`
+of the zeros of `xi'` in `(T, T + T^0.6]` are simple and on the line"
+combines the draft with a §9 constant, so it takes the draft's grade: a
+candidate resting on hardened constants. Nothing here bears on RH.
+
+What would raise the grade is a review of the 26 new proofs by a reader who
+did not write them, starting with Proposition 6.1 and Lemma 6.2, whose
+`Ends E1/E2` route the gate audit did not re-derive (`PROOF-DRAFT.md`,
+Status, remark 2); or a Lean port, which the draft's §12 sizes at about forty
+touch points and which must thread the range through `PrimeSide.Setting`.
+
+The draft's §10 states its claim "in the form the literature search of
+`RESULTS.md` §4.1 licenses", as a "First power-length statement" for the
+zeros of `xi'`, and `AUDIT-dyadic.md` §6, step 8, recommends the same
+wording. Both files are kept verbatim. Since the §4.1 verdict was rescoped on
+2026-10-21 to "not found in the logged search", read that wording as no more
+than "no earlier power-length statement was found in the logged search" until
+the unopened sources and the unrun queries of §4.1 are checked.
+
+## The doors
+
+Preliminary: this hunt has measured no ceiling of its own, so the inventory is
+what §1 to §4 expose. `MISSION.md` §13 carries the full version with the
+information-class column. **Active constraint at the optimum**: one,
+bandwidth, with shadow price `c'(1) = (3/2 - H)^2 = 0.6847550854111` per unit
+at bandwidth one (`MISSION.md` §13); §8 adds that the measure-level LP has no
+active constraint beyond the band data at any theta, which is why it sits on
+the landscape. The ranked frozen-constant summary is:
+
+1. **The band edge at 1**, frozen by the absence of an unconditional upper
+   bound on `F` beyond it rather than by choice. Priced as worth more than
+   everything else here combined, and **not opened by the literature search
+   in §4.2**: no unconditional bound was found, sieve bounds on the
+   prime-pair correlations stop at a parity-limited constant factor at
+   second order, phase-dropping arguments cannot give `B delta < 1`, and even
+   under RH the best integrated bound found tends to `7/8` rather than to
+   zero. The two class obstructions are derived here and unreviewed. Would
+   leave the information class; the attempt is unresolved, not shown
+   impossible.
+2. **The kernel**, fixed to `|alpha|` on the zeta arm while the tree also
+   computes the `F_1` landscape that Wang does not. Leaves the class.
+3. **The dyadic counting range**, frozen in the Lean development by what
+   was available to formalize. For the `xi'` arm, priced exactly by §4.3:
+   two exponent conditions, two missing statements, forty touch points, no
+   mathematics in the way. Stays in the class.
+4. **The window shape.** Closed by the measurement in §3, and listed so
+   nobody opens it again.
+5. **The window's single frequency `sqrt 2`.** `hunts/amtopa_ceiling` proved
+   the `2 j pi` harmonics exactly M-orthogonal to it at bandwidth one, so the
+   window maximum over the whole coefficient space is the pure `sqrt 2` value.
+   Whether that survives at bandwidth theta is unchecked and cheap, though §3
+   bounds the prize.
+
+Doors 3, 4 and 5 sit under the configuration ceiling, which is itself a
+bandwidth-one number (`0.6818286874638`) and **unmeasured at bandwidth
+theta**. Measuring it is `MISSION.md` §7 and it is the stopping criterion for
+this whole axis.

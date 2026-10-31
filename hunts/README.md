@@ -1612,6 +1612,242 @@ lattice-spacing artifact (stable from h = 1/16 to 1/64), and every finite-X kern
 included, is negative beyond X. Worked as a node board from `board.json`; the first task is the
 numerical falsifier, which #110 ran but did not commit. Either answer closes the hunt.
 
+### Hunt #141: the bandwidth dial was physical all along (`short_interval/`, opened 2026-09-12)
+
+*Renumbered on landing: opened on branch `claude/email-check-4vxjvb` as #119,
+which main had taken for `lambda_dh_exact`. Of the next numbers, #138 and
+#139 went to other landings the same day (`mobius_orbits/` and
+`seven_eighths_pin/`, on their landing branches) and #140 was left to the
+landings still in flight, so this entry takes #141.* Landed 2026-10-31 (prepared for a landing on 2026-10-21 that waited as draft PR #330) by
+path from that branch at `4336606`, not by merge.
+
+**Status: open, draft stage; nothing here is promoted.** Grades: Theorems A
+and B of `short_interval/PROOF-DRAFT.md`, an unconditional short-interval
+proportion of simple on-line and of distinct zeros of `xi'`, are a
+**candidate**: an ordinary derivation by the hunt's own sessions, unreviewed
+(the adversarial pass reviewed the gate audit, not the draft), not refereed,
+not kernel-checked, pending external verification. The constants are
+**hardened** (exact rationals plus a proved series tail, with an
+enclosure-carrying control) for one degree-6 window per bandwidth; the
+optimum at each bandwidth is **float grade**. The three findings are
+**measured** or **derived**. Dispositions: two routes closed on analysis (the
+`Phi_3`/`Phi_4` transplant and window re-optimization); the band-edge route
+**unresolved**, since the logged search found no unconditional upper bound on
+`F` beyond the band and the hunt's own unreviewed arguments obstruct only two
+restricted classes (phase-dropping and sieve arguments), which does not show
+that no bound exists; the configuration-ceiling route re-scoped and not run,
+because the LP in this tree measures the window optimum.
+
+Opened 2026-09-12 after Biao Wang's arXiv:2609.07918
+(posted 2026-09-07) reached the laboratory five days late and by way of an
+unsolicited email from a member of the public (name withheld pending their
+consent, 2026-10-30), rather than any mechanism in this tree
+(`short_interval/CORRESPONDENCE.md` records and credits their two contributions). Wang proves
+unconditionally that zeros in `(T, T + T^theta]`, `0 < theta < 1`, are simple
+and on the line in proportion at least `c(theta) = 2 - C_theta` and distinct in
+proportion at least `3/2 - C_theta/2`, with
+`C_theta = theta/2 + (1/sqrt 2) cot(theta/sqrt 2)`.
+
+**Finding one, measured: the tree already computes his curve.**
+`hunts/frontier_map/frontier.py:zeta_H_closed`, taken from the source paper's
+eq. (7.4), equals Wang's `c(theta)` to 1e-16 at five bandwidths and crosses
+zero at `0.5501939647441547`, his printed `theta_0`. The same module's
+`Hd = (1 + H)/2` is his distinct companion. **Both constants in his Theorem 1.1
+were already being computed here.** What his Theorem 2.2 adds is that the dial
+is physical: `frontier.py` holds bandwidth as a hypothetical "capped at 1 by
+the Rudnick-Sarnak / Montgomery support restriction", and Theorem 2.2 (valid
+for `supp g` in `[-lambda, lambda]` with `lambda < theta` strictly, the
+counterpart of BGSTB's Lemma 5) says bandwidth theta is exactly what counting
+in an interval of length `T^theta` buys. **The lab's dial and his exponent are
+the same number.** A reading of existing material, not a new result.
+
+**Finding two, closed on analysis: substituting `c(theta)` into `Phi_3` and
+`Phi_4` is dead, and the reason is the second moment.** In the coordinate the
+problem is affine in, `R = 2 - c`, which is the normalized second moment,
+`Phi_3` reads `R -> 1.001343 R - 0.002019`: a fixed absolute gain against a
+**relative 0.134% of whatever second moment it consumes**, while
+`R(theta) = 1/theta + theta/3 - ...` diverges like `1/theta`. The overhead is
+proportional to the one quantity that blows up in a short window, break-even
+is `theta = 0.8082`, and no re-optimization repairs it. Independently there is
+no analytic footing: the band is `(-theta, theta)` open and strict while the
+bridges read `[-1, 1]` with no free half-length in `famlib.py`, and the
+bridges are dyadic, 21 occurrences of `2 * T` in `Bridge/Main.lean` alone
+(**corrected 2026-10-21**: 21 lines, 28 occurrences) with
+`S8`, `S9` and `S15` absorbing errors against `N(T, 2T)`. **A per-block error
+absorbed against `N(T,2T)` and reappearing against `T^theta log T` carries a
+hidden `T^(1-theta)`**, and that hazard recurs on every route here.
+
+**Finding three, measured: window shape is worth nothing.** Writing the
+functional as `R = A(phi)/lambda + lambda B(phi)` with
+`A = int phi^2/(int phi)^2 >= 1` by Cauchy-Schwarz, flat iff equality, the flat
+window gives `R = 1/lambda + lambda/3` exactly, threshold the root of
+`theta^2 - 6 theta + 3 = 0`, that is `3 - sqrt 6 = 0.5505102572`. Against
+Wang's optimal `0.5501939647`, **the entire value of the Montgomery-Taylor
+window over a flat one is 3.2e-4 of threshold**, with the gap scaling as
+`lambda^3/180` (measured). So at `theta = 0.55` the whole window-shape game is
+worth about `9e-4` and an n-point share of it about `4e-5`. **Wang's `c(theta)`
+already is the re-optimization.** This kills a recommendation an earlier draft
+of the brief made.
+
+**The routes, ranked in `MISSION.md`.** (1) **The xi-prime arm**, the one place
+the tree holds something the field does not: `frontier_map` computes the
+Farmer-Gonek-Lee `F_1` landscape too and **Wang does only zeta**. Measured with
+`F_1` calibrated against two published Alpöge-Furman Remark 7.1 figures
+(`0.858384` against `0.85838`, `0.929192` against `0.92919`), the `xi'` curve
+sits `+0.11` to `+0.20` above zeta at every bandwidth and stays non-vacuous to
+`0.51332` where zeta dies at `0.55019`. Gated on a dyadic-average audit of the
+`xi'` derivation. (2) **The bandwidth-theta configuration ceiling**, computed
+nowhere; the bandwidth-one number is `0.6818286874638` against a window optimum
+of `0.6725007`, headroom `0.00933`, and the theta version is the stopping
+criterion for the whole axis and the best formalization target, since a cap is
+what this lab produces and others do not. (3) **The price of the band edge**,
+below. **Corrected 2026-10-21**: withdrawn, "and the best formalization
+target, since a cap is what this lab produces and others do not". Others do
+produce one: Alpöge-Furman arXiv:2608.13637v2 §7.2 gives the bandwidth-one
+ceiling `p_0 <= 0.6818287` (`MISSION.md` §7, checked against the paper the
+same day). What holds is that the logged search found no bandwidth-theta
+ceiling, and which target to formalize is an allocation decision, not part of
+this record. "Computed nowhere" and "the one place the tree holds something
+the field does not" carry the scope of the search verdict below: not found in
+the logged search.
+
+**A door nobody had priced.** `hunts/outband_certificate/RESULTS.md` states the
+reason for bandwidth one: "`F` has no unconditional upper bound outside the
+band, so bandwidth one is forced". That names the input and does not price it.
+Priced in `landscape.py` by capping `F <= B` beyond the band and **checking the
+minimizer's sign**, since a sign-changing minimizer is outside Lamzouri's class
+and its value is not a bound: `B = 2` at `L = 1.2` gives `0.760859`, and
+`B = 20` on a sliver of width `0.05` still gains `0.0142` against the `0.00933`
+headroom (**corrected 2026-10-21**: `0.0141`; `landscape.py` gives `0.686561`
+for that cell against the baseline `0.672508`, a gain of `0.01405`, or
+`0.01406` against the exact `0.6725007`, still above the headroom, and
+`test_short_interval.py` now pins it). Mechanism: a linear shadow price,
+`c'(1) = (1/2)cot^2(1/sqrt 2) = (3/2 - H)^2 = 0.6847550854111`, against
+quadratically small out-of-band mass. **Not established: that a constant `B`
+exists unconditionally.** Positive definiteness gives only `F(alpha) <= F(0)`,
+which grows like `log T`. Note the direction, which hunts #110 and #118 had the
+other way round: they priced out-of-band **positivity**, a lower bound, and this
+method needs an **upper** one, so positivity is wrong-signed information and the
+`+0.0068` is best read as the price of removing RH. Hunt #118's closure stands
+and `MISSION.md` §10 says so; §8 is a different object.
+
+**Three readings retracted the same day**, kept in `RESULTS.md` §5 rather than
+deleted: that the closed form was the hunt's finding (it is Wang's Proposition
+4.1 (4.2), and already in the tree); that `PALOMAR-2026-08-21-000004` is its
+`lambda = 1` case (it is not, and the error conflated the tree's two different
+constants both named `c*`, the zeta one with kernel `|alpha|` and the `xi'` one
+with `F_1`, which would have sent a session to formalize a generalization of
+the wrong theorem); and the window re-optimization killed by finding three.
+
+**Corrections owed the tree**, with fixes in `MISSION.md` §11: `docs/35`
+predated hunt #118's closure and read as open (done: corrected on main in
+PR #286, 2026-10-09); `docs/35` and
+`hunts/outband_intake/RESULTS.md` disagree (`+0.0068` with error `2.2e-3`
+against `+0.0065` with `1.8e-3`); `references/papers.md` carries **no entry at
+all** for Baluyot, Goldston, Suriajaya and Turnage-Butterbaugh, whose Lemma 5
+is the arithmetic engine of this whole line of work; and
+`hunts/frontier_map/RESULTS-frontier-map.md` should record that its landscape
+now has a theorem attached at each bandwidth.
+
+**Two literature searches, run the same day and logged in full in
+`RESULTS.md` §4** (34 and 21 query strings, about fifty papers opened,
+citation graphs from Semantic Scholar). *Xi-prime in short intervals:* **not
+in the literature** as a function of theta, conditional or unconditional;
+the near-miss is Conrey 1983 and Rezvyakova 2005/2006, who already work in
+sub-dyadic windows `U = T (log T)^(-10)` with simple on-line proportion
+about `0.413` at `k = 1`, so the honest claim if the route succeeds is "first
+power-length statement, as a function of theta", never "first
+short-interval". The `xi'` prime side has **no published statement**; it
+exists only as Lean code (`anthropics/formal-math`, `zeta23/Zeta23/XiPrime/`,
+`XiEF` and `CoeffMoments`, dyadic, every `lambda < 1`), citing an unpublished
+write-up, and that pair is what a short-interval theorem must localize the
+way Wang localized BGSTB's Lemmas 3 to 5. *Upper bounds on `F` beyond the
+band:* **none unconditionally** beyond `F <= F(0) ~ log T`; under RH the best
+integrated bound (Carneiro-Chandee-Chirre-Milinovich arXiv:2108.09258 Thm 10)
+is `7/8 + (5/4) delta + ...`, which tends to `7/8` and not to zero because
+delta spikes in `F` past the band cannot be ruled out. The obstruction the
+hunt derives for sieve arguments past `alpha = 1` is prime-pair correlations
+at second order, blocked by parity in every sieve, and phase-dropping
+arguments cannot give `B delta < 1`. **So the band-edge door is priced and
+unopened**: no bound was found, which leaves the attempt unresolved rather
+than shows it impossible, and the two class obstructions are derived here
+and unreviewed. The price is kept so the next person to derive it knows what
+is behind the door and which arguments cannot open it. **Corrected
+2026-10-21**: the `xi'` verdict, "not in the literature", states an absence
+the search does not establish, and is rescoped to "not found in the logged
+search", as the band-edge verdict already was: the search did not open six
+sources, and eight arXiv API queries and two Semantic Scholar searches never
+ran (`RESULTS.md` §4.1). "No published statement" for the `xi'` prime side
+carries the same scope, and so does "first power-length statement", which
+until those checks are made supports no more than "no earlier power-length
+statement was found"; "never 'first short-interval'" stands, since it rests
+on papers that were found and read.
+
+**The gate passed, 2026-09-12, with conditions** (`hunts/short_interval/AUDIT-dyadic.md`,
+kept verbatim). A statement-by-statement audit of `anthropics/formal-math`
+at commit `fbdc36bb` inventoried every dyadic use in the `xi'` development
+(35 proof steps, 10 interface statements, 7 definitions) and found none that
+uses the dyadic structure to produce a main term: every use is cosmetic or an
+absorption with a named exponent, the exponents being exactly Wang's own
+condition `lambda < theta` and the end-strip condition `theta > 1/2` (free in
+the whole non-vacuous range). **The hazard the brief named is refuted**: the
+`D_1` corrections enter through a range-free arithmetic identity. One
+framing correction to the brief: the development uses no zeta
+pair-correlation input at all, so Wang's Theorem 2.2 is the template for
+localizing the `xi'` second moment, not an input to it. Missing are two
+statements whose proofs already exist (the short-window zero count and the
+short-window `mu`-integrals), and the bandwidth-theta constants must be
+enclosed by ball arithmetic before any number is stated. The eight-step
+proof outline, each step naming the Lean lemma it localizes, is in the
+audit's §6.
+
+**The audit was attacked and held, and the proof was drafted, same day.**
+`AUDIT-dyadic-adversarial.md`: a second session told to break the verdict
+opened all 78 citations (all correct), built the import graph and grepped
+every reachable file for the range, re-derived every exponent, and confirmed
+the verdict, while rewording two conditions (the grid size is consumed
+two-sidedly by `riemann_sum_monotone` and `tau_d_gt`; the interface consumes
+the count to within `O(log T)` of the `mu`-integral, not Wang's form) and
+listing eight corrections to the outline. `PROOF-DRAFT.md`, 2131 lines,
+follows the outline with those corrections folded in. By its own tagging it
+uses 14 statements from the upstream dyadic tree, which that tree states as
+kernel-checked (no build was run here), writes out proofs of 26 new
+short-window statements at the level of Wang's paper, and asserts none
+without a written proof; the constant is carried as a symbol. No review of
+the draft itself is recorded. `enclose_theta.py` supplies that constant at
+hardened grade: exact rationals plus a proved series tail, no floating point on the
+load-bearing path, for one degree-6 polynomial window per bandwidth, with the
+zeta control sitting within `6e-12` of Wang's closed form at all ten
+bandwidths and the source paper's published `xi'` figures reproduced from
+below. The `xi'` lower bounds run from `0.868641500514` at `theta = 1` to
+`0.130258286830` at `0.55`. Not a result: a candidate, unreviewed, not
+refereed, not kernel-checked beyond the quoted statements, and the optimum at
+each bandwidth stays float grade; a sentence combining the draft with one of
+these numbers takes the draft's grade (`RESULTS.md` §10). A Lean port would
+touch about forty places and must thread the range through
+`PrimeSide.Setting`, per the draft's §12.
+
+**Route two re-scoped.** `ceiling_theta.py` parameterized the measure-level
+LP by band width and its control showed that LP reproduces the window
+optimum, not the configuration ceiling, whose certificate is not public;
+the workflow is written and deliberately not dispatched.
+
+**What landed and what did not.** Landed: the hunt directory, its
+manual-dispatch workflow `hunt-short-interval-ceiling.yml`, the credit entries
+in `harness/departments/review_ledger.py` and `graveyard_ledger.py`, one
+`meta/interventions.jsonl` entry, and `short_interval/test_short_interval.py`,
+added on landing, which re-evaluates the exact bounds and pins the numbers
+the hunt computes and quotes, for `scripts/run_hunt_tests.py`; counts and
+figures quoted from the audits, the search logs, papers and other hunts are
+cited, not recomputed. `CORRESPONDENCE.md` was cut to the
+credit. Not landed, and held on the source branch: the arXiv literature
+monitor (script, tests on placeholder fixtures, a scheduled workflow) and its
+brief, pending an operator decision on where the monitor lives and real
+fixture recordings, and operating configuration that does not belong in the
+public record.
+
+Nothing here bears on RH (`docs/08`).
+
 ### Hunt #110: the free out-of-band fact is worth 0.005 to 0.009 and no certificate can spend it (`outband_intake/`)
 
 **Status: probe, complete. GAP, not a barrier.** BGSTB 2023 (arXiv:2306.04799,
