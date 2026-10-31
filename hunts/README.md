@@ -4810,7 +4810,14 @@ and van Suijlekom's theorem, met by DH), its convergence step unresolved and mer
 abscissa increasing to 1; composite grade inferred). Kept regardless of RH: five off-line
 zeros of the Epstein zeta of x^2 + xy + 6y^2 below height 60.5, four of them new to this
 tree, all measured and none enclosed; W_{1/4}'s first negative Li coefficient at n = 8260;
-and zeta(s - delta), whose lambda_n are all positive while it violates RH. The owner directed this hunt on 2026-10-21 as a genuine attempt at RH itself,
+and zeta(s - delta), whose lambda_n are all positive while it violates RH.
+*Corrected 2026-10-31 (`rh_moonshot/RESULTS.md` section 10):* step 2 is not measured to
+hold on that grid; capture and the on-line zero match are, while the off-axis error on
+Im z = 0.45 is 7.3e-2 at best and not seen to decay. `spectral_operator`'s run-time
+provenance traps first ran with their Arb part set on 2026-10-31, with the same null
+result; the challenge test counts first reported did not reproduce (73 of 80 passed).
+
+The owner directed this hunt on 2026-10-21 as a genuine attempt at RH itself,
 beside the campaign's other tracks. It asks whether any of six materially different
 mechanisms can be pushed to a construction that proves RH, or else to a precisely located
 obstruction: `ccm_arithmetic` (step 2 of Connes, Consani and Moscovici, the convergence of

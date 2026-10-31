@@ -153,6 +153,9 @@ Grades: (a) derived, reviewed by a second session (the circularity challenger re
 the converse); (b) derived, self-reviewed, conditional on the 7/8 strip; zeta's 2828
 grid points hardened at the points, a sampled statement; B2 cited from an abstract.
 Composite: derived, conditional on the 7/8 strip.
+*(Corrected 2026-10-31: 2827 of the 2828 points are hardened; at the removable point
+s = 1 (h = 3/10, y = 1/5, x = 0) the Arb ball is undecided and the negative sign is the
+mpmath route's alone, so measured, as `de_branges/NOTES.md` says. Section 10.)*
 
 ## 3. `li_arithmetic`: a uniform bound on Li's arithmetic part
 
@@ -276,6 +279,9 @@ and theta functions, every zero-like module constant on the definition path pois
 (including DH's off-line ordinates, which `wp_common` carries), every file open logged.
 Nothing fired, nothing was touched, no file was opened, for zeta and for DH; both
 planted controls were caught. The 4e-41 match is therefore an output, not imported zeros.
+*(Corrected 2026-10-31: the Arb traps were not set in the run the challenger recorded; the
+committed trap code could not set them, nor complete that run. Re-run on 2026-10-31 with
+every trap set: the same null result. Section 10.)*
 P2: self-adjointness is Connes and van Suijlekom's theorem with no arithmetic input.
 P3: a second eigensolver agrees.
 
@@ -292,6 +298,8 @@ The mechanism is not ranked separately below, because its only open step is
 Grades: even-simplicity hardened, band-level (the C1 caveat applies); self-adjointness
 cited, checked numerically to 1e-60; spectrum against zeros measured (float-grade
 eigenvector, 42-digit targets); provenance clean by three methods. Composite: measured.
+*(Corrected 2026-10-31: of the three methods, the run-time traps first ran with their Arb
+part set on 2026-10-31; section 10.)*
 
 ## 6. `probe_tower`: probes of growing degree in the 7/8 assembly
 
@@ -337,6 +345,9 @@ whether the missing step is known to be as hard as RH.
    discriminating step the hunt located by computation on every rival rather than by an
    equivalence. Against it: C1 (positivity is band-level and falling in N), the vacuous
    perturbative bounds, and the risk that capture is Weil positivity in disguise.
+   *(Corrected 2026-10-31: "measured to hold for zeta on every cell to c = 60" overstates
+   the grid. Capture and the on-line zero match are measured there; the convergence, in
+   the form Hurwitz needs, is not. Section 10.)*
 2. **`li_arithmetic`.** The target is RH-equivalent by construction, and every
    absolute-value route fails by factors from 11.5 to 1.6e4 on the measured range. What
    is missing is a signed cancellation estimate that uses unitarity and the functional
@@ -434,10 +445,67 @@ kernel-checked, and none is claimed novel in the literature unless a search is s
    with poisoned constants, so its 4e-41 agreement with zeta's first zero (and 4.6e-40 for
    46 zeros below 138 at (60, 100)) is an output of primes up to c, the pole and the
    archimedean place. Measured; a reproduction of CCM, no novelty claimed.
+   *(Corrected 2026-10-31: in the run first recorded, the run-time method lacked its Arb
+   traps; the re-run with every trap set gives the same result. Section 10.)*
 9. **A citation in this tree is wrong** (`de_branges/NOTES.md` section 1, confirmed by the
    circularity challenger): `hunts/rogue_frontier/FRONTIER_MAP.md`, territory F, gives
    Lagarias's 2006 chapter a wrong title and an equivalence it does not state. That file
    is outside this hunt's scope; the operator holds the correction.
+
+## 10. Corrections (2026-10-31)
+
+Added by the session landing this hunt (`land-361`), which built, challenged and
+synthesized none of it, after checking the synthesis's claims against their artifacts.
+The text above is left as written, with a dated pointer at each place corrected.
+
+1. **The Arb traps of `spectral_operator`'s P1 were not active in the recorded run.**
+   `circ_spo.py` as committed set them by `setattr` on python-flint's `acb` and `arb`,
+   which are immutable extension types: the call raises TypeError in every release
+   checked (0.5.0, 0.6.0, 0.7.1, 0.8.0, 0.9.0), each of which has all three routines.
+   It sat outside the try/finally, so no run of that code reached the definition path
+   with the Arb traps set, and the planted control could not run either. The trap now
+   replaces the type wherever a pure-Python module names it, sets everything inside the
+   try/finally, and is checked by a planted Arb fault (seven calls, all stopped) and by a
+   source check for the one route it cannot see. **Re-run on 2026-10-31 with every trap
+   set** (28 routines, the three Arb ones among them): no trap fired, no poisoned
+   constant was touched, no file was opened, for zeta and for DH; both planted controls
+   caught. So P1, section 5's "provenance clean by three methods" and item 8 of section 9
+   stand, now on a run in which every trap they name was set; grade unchanged, measured.
+   Details, the evidence and a run manifest: `spectral_operator/challenge/CHALLENGE_circularity.md`,
+   "Correction (2026-10-31)". The same page corrects P3: the first eigenvalue at (13, 16)
+   differs from gamma_1 by -1.41e-17, not -8.5e-16 (the reference was held at 53 bits).
+2. **`ccm_arithmetic`'s step 2 is not "measured to hold for zeta on every cell to
+   c = 60"** (section 7, item 1, and the case-log entry). A convergence statement cannot
+   be measured to hold on finitely many cells, and the grid does not show its
+   distinguishing part. From `ccm_arithmetic/data/measure_zeta.json` (30 cells,
+   c <= 60, N <= 128): capture holds on every cell (dist^2 to R_4 at most 8.3e-11); every
+   zero of Xi below the band cutoff is matched by a real zero of F_v on the 24 cells with
+   c >= 13 (to 7.8e-16 where N >= 64), and on the six cells at c = 6 and 9 only 6 to 18 of
+   them are; and on Im z = 0.45, inside the neighbourhood of |Im z| < 1/2 on which Hurwitz
+   needs locally uniform convergence, the relative error is 7.3e-2 at best over the 30
+   cells, and at N = 128 it rises again from 7.3e-2 (c = 50) to 0.27 (c = 60). Read
+   section 7's item 1 as: "capture and the on-line zero match are measured on the grid;
+   the convergence is not, and its off-axis part is not seen to decay". Section 1's
+   grades already say this; the ranking is left as the synthesis wrote it, and whether it
+   survives this reading is the owner's call. Pinned in
+   `ccm_arithmetic/test_ccm_arithmetic_data.py`.
+3. **The run record's test counts did not reproduce.** "Every challenge directory (80
+   tests) ... pass": on 2026-10-31 (python-flint 0.9.0), before the fix in item 1, 73 of
+   the 80 passed and 7 in `spectral_operator/challenge` failed; the mechanisms' own 166
+   gave 165 passed and 1 skipped (`probe_tower`'s citation check, which needs a pinned
+   copy of OpenAI's paper that is not in the tree). After the fix the challenge
+   directories hold 83 tests and all pass.
+4. **One of `de_branges`'s 2828 zeta grid points is measured, not hardened** (section 2,
+   grades). `de_branges/data/grid_zeta.json` records 0 positive and 1 undecided Arb sign,
+   at s = 1 (h = 3/10, y = 1/5, x = 0), where the mpmath route gives -0.0055; the NOTES
+   disclose it. Pinned by `test_de_branges.py` (at most one undecided per h).
+
+Checked and left as written: the W_{1/4} sign at n = 8260 (two Cauchy radii agree to
+2.6e-48 relative, the zero-side route gives -122.3158, `li_arithmetic/artifacts/wa_quarter.json`);
+the spectral cells' numbers (46 = 46 eigenvalues against transform zeros within 2.0e-26 at
+(60, 100), `spectral_operator/data/`); the W_{1/4} dial bracket (2.3887, 2.3906), which is
+band-level at N = 32 (`ccm_arithmetic/data/wa_dial.json`); and the bounded verdict itself,
+"no route to RH was established in the searched set", which claims no more than its scope.
 
 ## The doors
 
@@ -528,3 +596,6 @@ artifacts:
   - hunts/rh_moonshot/RESULTS.md
   - hunts/rh_moonshot/de_branges/NOTES.md (dated correction appended)
 ```
+
+*Corrected 2026-10-31: the outcome's test counts did not reproduce; 73 of the 80 challenge
+tests passed and the mechanisms' 166 gave 165 passed and 1 skipped. Section 10, item 3.*

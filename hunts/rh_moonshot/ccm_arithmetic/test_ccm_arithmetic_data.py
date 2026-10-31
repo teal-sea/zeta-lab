@@ -52,6 +52,20 @@ def test_zeta_grid_structure():
     assert float(z["60:128"]["capture_m2"]["mu"]) < 1.3e-169
 
 
+def test_zeta_grid_measures_capture_not_the_convergence():
+    """Pins ../RESULTS.md section 10, item 2 (2026-10-31): the off-axis error on
+    Im z = 0.45 is never below 7.3e-2 and turns back up at N = 128; the zero match
+    is complete only for c >= 13."""
+    z = _cells("zeta")
+    rel = {k: float(r["compact"]["0.45"]["rel"]) for k, r in z.items()}
+    assert min(rel, key=rel.get) == "50:128" and 7.27e-2 < rel["50:128"] < 7.28e-2
+    assert 0.273 < rel["60:128"] < 0.274
+    full = [k for k, r in z.items() if r["zeros"]["n_matched_1e-8"] == r["zeros"]["n_Xi"]]
+    assert len(full) == 24 and all(_c(z[k]) >= 13 for k in full)
+    low = [r["zeros"]["n_matched_1e-8"] for r in z.values() if _c(r) < 13]
+    assert len(low) == 6 and min(low) == 6 and max(low) == 18
+
+
 def test_zeta_compact_error_at_fixed_band_turns_back():
     z = _cells("zeta")
     row = sorted((r for r in z.values() if r["N"] == 32), key=_c)
