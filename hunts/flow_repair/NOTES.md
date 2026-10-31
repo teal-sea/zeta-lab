@@ -235,6 +235,98 @@ polynomials undergoing the heat flow" (arXiv:2308.11685, 2023). The
 their universality on a non-polynomial (DH) case. Both added to
 `references/papers.md` §6.
 
+## 7. The v6 census sweep: every off-line pair below height 20,000 (2026-10-30)
+
+Added after the original record; nothing above changes. `census_sweep.py`
+lands all 1,268 off-line pairs of the Davenport-Heilbronn v6 census (Nathan
+Berzai, Zenodo 10.5281/zenodo.23585903, data CC-BY-4.0) with §3's null
+control, raw numbers in `census_sweep.jsonl`, pins in `test_census_sweep.py`.
+Grade: **measured**, a float ODE model of zero motion. §3 compared it with
+the measured flow only up to height 412; above that it is the model alone.
+
+**Inputs, no zero search.** The window zeros come from the replayed census
+receipts in `data/dh_v6_replay/receipts.tar.gz` (25,078 on-line ordinates;
+window closure exact in all 400 windows, `docs/46`), the pairs from the
+census table in the same tarball, both read after the manifest hash check.
+Completeness is the census's own: `docs/46` replayed it by one route, the
+author's verifier, which stops short of hardened (its section 3).
+The dynamics are a numpy transcription of `probe.ode_null_control`, same
+window ±40, 800 RK4 steps, mirrors, tail and t_end. The full census takes
+about three minutes on 16 cores (`RUNS.md`).
+
+**Checks.** The transcription equals `ode_null_control` on identical inputs
+to 1e-13. Pairs 1 to 5 from the receipts reproduce §3's `results.json`
+landings to 5e-8 relative with identical zero counts. `hunts/lambda_dh_exact`
+landed the same model on windows it built itself (sign scan, located
+off-line zeros, closed strip counts): its 21 pairs below 10^4 agree to
+1.1e-6 and its 19 pairs in [10^4, 2·10^4] to 4.3e-6. Deleting one on-line
+zero next to pair 5 moves its landing by more than 1e-4, so the
+reproduction check can fail.
+
+**Results.** 1,268 of 1,268 pairs land, every one before its isolated
+y0²/2. Three pairs (v6 ranks 1266 to 1268) are flagged `edge`: their window
+runs past the census top, which lacks the zeros above 20,000. All three
+are shallow, landing near 0.01. The latest landings:
+
+| rank | v6 n | height γ | y0 | t\*_ODE | y0²/2 | shave |
+|------|------|----------|----|---------|-------|-------|
+| 1 | 5 | 240.40 | 0.36953 | 0.05766566 | 0.0682764 | 15.54% |
+| 2 | 107 | 2442.53 | 0.39775 | 0.05586457 | 0.0791026 | 29.38% |
+| 3 | 24 | 857.30 | 0.35611 | 0.05065116 | 0.0634070 | 20.12% |
+| 4 | 12 | 531.28 | 0.34695 | 0.05033976 | 0.0601885 | 16.36% |
+| 5 | 21 | 783.65 | 0.35300 | 0.05000168 | 0.0623050 | 19.75% |
+
+In the ODE model, the pair at height 240.4 lands last of all 1,265 non-edge
+pairs, so P4's winner stands across the census, extending
+`hunts/lambda_dh_exact`'s census of the 21 pairs with β > 0.85 below 10^4 (its
+RESULTS.md section 8.6) to every depth below 20,000. The deepest pair (height
+2442.53) has the largest isolated estimate and is shaved 29.4% into second
+place.
+
+*Added at landing, 2026-10-31.* This sweep is also the antecedent that
+`hunts/lambda_dh_exact`'s own P4 ("a complete census to 10^4 raises the best
+landing") lacked: its RESULTS.md section 8.7 grades it "unresolved, evidence
+against" because pairs with y0 at most 0.35 were never landed. With every v6
+pair below 10^4 landed by the same ODE, the best landing is not raised. That
+verdict belongs to that hunt and is not changed here.
+
+**The deep predictions file.** `deep_predictions_v1.json` (SHA-256
+2616116f…) holds a crowding-model refit's predictions for the ten pairs with
+y0 > 0.37. Its estimand is the flow landing; it is compared here with the ODE
+landing, which §3 tied to the flow only below height 412.
+
+*Corrected at landing, 2026-10-31.* This paragraph first called the file
+frozen and said it was written before any of the ten was landed. The tree
+supports neither. The file first appears in the commit that compares it,
+with no timestamp, and neither its source (`source_sha256` 18010823…) nor
+the refit's code is committed, so the predictions cannot be reproduced from
+here. The ODE landings of all ten pairs had been in the tree since
+2026-10-26 (`hunts/lambda_dh_exact/census_1e4.json` and
+`census_runs/full_r2/census_1e5.json`), and this sweep reproduces them to
+1e-5 (`test_census_sweep.py`). Read the table as a measured disagreement
+between a committed file and the ODE, not as a blind test of the model.
+
+| v6 n | height γ | y0 | t\*_ODE | predicted | over |
+|------|----------|----|---------|-----------|------|
+| 107 | 2442.53 | 0.39775 | 0.0558646 | 0.0566378 | 1.38% |
+| 302 | 5833.28 | 0.37409 | 0.0475998 | 0.0488878 | 2.71% |
+| 442 | 8235.59 | 0.37534 | 0.0466194 | 0.0480719 | 3.12% |
+| 465 | 8561.59 | 0.38364 | 0.0434682 | 0.0494872 | 13.85% |
+| 670 | 11535.29 | 0.37960 | 0.0414844 | 0.0478231 | 15.28% |
+| 725 | 12313.80 | 0.38663 | 0.0466823 | 0.0488729 | 4.69% |
+| 848 | 14063.60 | 0.37278 | 0.0427576 | 0.0460308 | 7.66% |
+| 1028 | 16620.38 | 0.37419 | 0.0444943 | 0.0457942 | 2.92% |
+| 1081 | 17363.41 | 0.37377 | 0.0350859 | 0.0455968 | 29.96% |
+| 1211 | 19239.53 | 0.39063 | 0.0424246 | 0.0481579 | 13.51% |
+
+All ten predictions are too high and none lands inside its parameter-only
+95% band: mean overprediction 9.51%, maximum 29.96%. The bands carry
+parameter uncertainty only, not model error, so the miss points at the
+model's form rather than its fitted constant (a reading, not a test).
+
+Scope: one census to height 20,000, a measured maximum over 1,265 pairs,
+a floor for Λ_DH as in §1 and never its value.
+
 ## Standing-checklist accounting
 
 - **Rival**: this hunt runs *on* the rival, and the rival-as-validation

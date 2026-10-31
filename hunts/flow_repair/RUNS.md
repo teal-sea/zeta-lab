@@ -31,3 +31,18 @@ host's re-run bit for bit. Comparison: flow_repair 12 stages, 370 fields,
 364 identical, 6 changed (validate's evenness defect, NOTES.md
 "Correction"); jensen_clock 4 stage blocks, 71 fields, all identical.
 Reports: `rerun_2026-10-19.json` here and in `hunts/jensen_clock/`.
+
+## 2026-10-30: the v6 census sweep (NOTES.md section 7)
+
+**Unit.** One pair, `census_sweep.land`: 0.7 s at height 240 (65 window
+zeros) to about 4 s near height 20,000 (113 zeros, 4 neighbouring pairs), one
+core. The pure-Python `ode_null_control` takes 7 s and 27 s on the same
+inputs.
+
+**Run.** `census_sweep.py --procs 16` on a 32-core host: 1,268 pairs,
+203 s wall, 2,138 CPU-s. A first version re-found each window's zeros by
+sign scan and argument principle, as `stage_ode` does; near height 20,000
+that cost 7 to 12 CPU hours a pair (16 pairs in 12 hours on 16 cores) and was
+stopped. Its 16 landings agree with the receipt-built ones to 2.6e-6 outside
+the three edge pairs. Those 16 landings are not committed, so this agreement
+cannot be rechecked from the tree (noted at landing, 2026-10-31).

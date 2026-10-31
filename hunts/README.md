@@ -4683,6 +4683,18 @@ over infinitely many from below and say nothing about Λ_DH itself. Spine
 candidate recorded in `flow_repair/NOTES.md`: a Φ-parametric entry point for
 `zeta/heatflow.py` (a `zeta/` change, not this hunt's).
 
+*Follow-up, 2026-10-30, landed 2026-10-31 (#383).* `census_sweep.py` lands all
+1,268 off-line pairs of the DH v6 census below height 20,000 with the null
+control, reading window zeros from the replayed receipts (`docs/46`, one
+route). In the ODE model the height-240 pair still lands last (0.05766566)
+and the deepest pair, at height 2442.53, second (0.05586457). Measured; above
+height 412 these are model values. The ten deepest pairs land below an
+uncommitted crowding-model refit's predictions (0 of 10 inside their bands);
+their ODE landings were already in the tree, so this is no blind test. The
+sweep also supplies the complete census below 10^4 that
+`lambda_dh_exact/`'s P4 lacked, without raising the best landing; that
+verdict is left to its hunt. `flow_repair/NOTES.md` section 7.
+
 ### Hunt #3: the closest call (`lehmer_pair/`)
 
 **Status: probe, complete. Instrument kept; no claim promoted; the headline
