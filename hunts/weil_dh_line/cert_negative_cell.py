@@ -49,31 +49,31 @@ def main():
     A = [[frac_of(M[i, j]) for j in range(n)] for i in range(n)]
     asym = max(abs(A[i][j] - A[j][i]) for i in range(n) for j in range(n))
     e_rad = max(sum(rad_upper(M[i, j]) for j in range(n)) for i in range(n))
-    mp.mp.dps = 120
-    Am = mp.matrix(n, n)
-    for i in range(n):
-        for j in range(n):
-            Am[i, j] = mp.mpf(A[i][j].numerator) / A[i][j].denominator
-    E, V = mp.eigsy(Am)
-    lam = [E[i] for i in range(n)]
-    print(json.dumps({"n": n, "asym": str(asym), "e_rad": float(e_rad),
-                      "lambda_min": float(min(lam)), "lambda_max": float(max(lam))}))
-    kmin = min(range(n), key=lambda i: E[i])
-    v = [V[i, kmin] for i in range(n)]
-    order = sorted(range(n), key=lambda i: -abs(v[i]))
-    for k in (65, 40, 24, 16, 12, 8, 6, 4):
-        idx = order[:k]
-        u = [v[i] if i in set(idx) else mp.mpf(0) for i in range(n)]
-        D = 10 ** 30
-        wr = [Fraction(int(mp.nint(u[i] * D)), D) for i in range(n)]
-        num = sum(wr[i] * wr[j] * A[i][j] for i in range(n) for j in range(n))
-        den = sum(wr[i] * wr[i] for i in range(n))
-        rq = num / den
-        ok = rq + e_rad < 0
-        print(json.dumps({"support": k, "rq": float(rq), "margin": float(-(rq + e_rad)),
-                          "passes": ok}))
-        if ok and k <= 16:
-            break
+    with mp.workdps(120):  # no global mpmath state (review, 2026-10-30)
+        Am = mp.matrix(n, n)
+        for i in range(n):
+            for j in range(n):
+                Am[i, j] = mp.mpf(A[i][j].numerator) / A[i][j].denominator
+        E, V = mp.eigsy(Am)
+        lam = [E[i] for i in range(n)]
+        print(json.dumps({"n": n, "asym": str(asym), "e_rad": float(e_rad),
+                          "lambda_min": float(min(lam)), "lambda_max": float(max(lam))}))
+        kmin = min(range(n), key=lambda i: E[i])
+        v = [V[i, kmin] for i in range(n)]
+        order = sorted(range(n), key=lambda i: -abs(v[i]))
+        for k in (65, 40, 24, 16, 12, 8, 6, 4):
+            idx = order[:k]
+            u = [v[i] if i in set(idx) else mp.mpf(0) for i in range(n)]
+            D = 10 ** 30
+            wr = [Fraction(int(mp.nint(u[i] * D)), D) for i in range(n)]
+            num = sum(wr[i] * wr[j] * A[i][j] for i in range(n) for j in range(n))
+            den = sum(wr[i] * wr[i] for i in range(n))
+            rq = num / den
+            ok = rq + e_rad < 0
+            print(json.dumps({"support": k, "rq": float(rq), "margin": float(-(rq + e_rad)),
+                              "passes": ok}))
+            if ok and k <= 16:
+                break
 
 
 if __name__ == "__main__":

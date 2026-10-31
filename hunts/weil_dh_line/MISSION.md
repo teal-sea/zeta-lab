@@ -10,7 +10,9 @@ is a result until the case log in `hunts/README.md` says how it ended.
 
 Grades used here are the three rungs of `CLAUDE.md`: *measured* (one route, float
 grade), *hardened* (independent routes agree, or ball enclosures carry every step)
-and *kernel-checked*. Nothing here is kernel-checked. The reserved enclosure word
+and *kernel-checked*. Nothing here was kernel-checked until 2026-10-30, when
+`Cert2x2.lean` and `Cert65.lean` (the algebraic step of the negative-cell
+certificate only; see `RESULTS-negative-cell-kernel.md`) were built in CI. The reserved enclosure word
 that `CLAUDE.md` gives to `zeta/rigor.py` and the Lean arm appears nowhere in this
 directory.
 

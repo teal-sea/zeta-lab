@@ -45,30 +45,30 @@ def one(c: Fraction, N: int = 64):
     n = M.nrows()
     A = [[frac_of(M[i, j]) for j in range(n)] for i in range(n)]
     e_rad = max(sum(rad_upper(M[i, j]) for j in range(n)) for i in range(n))
-    mp.mp.dps = 80
-    Am = mp.matrix(n, n)
-    for i in range(n):
-        for j in range(n):
-            Am[i, j] = mp.mpf(A[i][j].numerator) / A[i][j].denominator
-    E, V = mp.eigsy(Am)
-    kmin = min(range(n), key=lambda i: E[i])
-    lam = E[kmin]
-    v = [V[i, kmin] for i in range(n)]
-    order = sorted(range(n), key=lambda i: -abs(v[i]))
-    best = None
-    for k in (65, 48, 32, 24, 16, 12, 8):
-        idx = set(order[:k])
-        u = [v[i] if i in idx else mp.mpf(0) for i in range(n)]
-        D = 10 ** 40
-        wr = [Fraction(int(mp.nint(u[i] * D)), D) for i in range(n)]
-        num = sum(wr[i] * wr[j] * A[i][j] for i in range(n) for j in range(n))
-        den = sum(wr[i] * wr[i] for i in range(n))
-        rq = num / den
-        if rq + e_rad < 0:
-            best = k
-            break
-    return {"c": str(c), "n": n, "lambda_min": float(lam),
-            "e_rad": float(e_rad), "min_support_passing": best}
+    with mp.workdps(80):  # no global mpmath state (review, 2026-10-30)
+        Am = mp.matrix(n, n)
+        for i in range(n):
+            for j in range(n):
+                Am[i, j] = mp.mpf(A[i][j].numerator) / A[i][j].denominator
+        E, V = mp.eigsy(Am)
+        kmin = min(range(n), key=lambda i: E[i])
+        lam = E[kmin]
+        v = [V[i, kmin] for i in range(n)]
+        order = sorted(range(n), key=lambda i: -abs(v[i]))
+        best = None
+        for k in (65, 48, 32, 24, 16, 12, 8):
+            idx = set(order[:k])
+            u = [v[i] if i in idx else mp.mpf(0) for i in range(n)]
+            D = 10 ** 40
+            wr = [Fraction(int(mp.nint(u[i] * D)), D) for i in range(n)]
+            num = sum(wr[i] * wr[j] * A[i][j] for i in range(n) for j in range(n))
+            den = sum(wr[i] * wr[i] for i in range(n))
+            rq = num / den
+            if rq + e_rad < 0:
+                best = k
+                break
+        return {"c": str(c), "n": n, "lambda_min": float(lam),
+                "e_rad": float(e_rad), "min_support_passing": best}
 
 
 def main():

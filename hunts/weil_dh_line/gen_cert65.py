@@ -1,4 +1,7 @@
-"""Generate the 65-mode integer certificate at (c, N) = (1541/50, 64).
+"""Superseded 2026-10-30 by gen_cert_lean.py (Cert65.lean, decide +kernel, built in CI).
+Kept as the record of the single 2145-term norm_num, which hit the heartbeat limit.
+
+Generate the 65-mode integer certificate at (c, N) = (1541/50, 64).
 
 Produces hunts/weil_dh_line/Cert65.lean with the quadratic form of the signed
 integer matrix B = L * A (L the common denominator of the dyadic midpoints) and
@@ -55,30 +58,30 @@ def main():
     B = [[int(A[i][j] * L) for j in range(n)] for i in range(n)]
     assert all(A[i][j] * L == B[i][j] for i in range(n) for j in range(n))
 
-    mp.mp.dps = 120
-    Am = mp.matrix(n, n)
-    for i in range(n):
-        for j in range(n):
-            Am[i, j] = mp.mpf(A[i][j].numerator) / A[i][j].denominator
-    E, V = mp.eigsy(Am)
-    kmin = min(range(n), key=lambda i: E[i])
-    v = [V[i, kmin] for i in range(n)]
-    D = 10 ** 40
-    u = [int(mp.nint(x * D)) for x in v]
+    with mp.workdps(120):  # no global mpmath state (review, 2026-10-30)
+        Am = mp.matrix(n, n)
+        for i in range(n):
+            for j in range(n):
+                Am[i, j] = mp.mpf(A[i][j].numerator) / A[i][j].denominator
+        E, V = mp.eigsy(Am)
+        kmin = min(range(n), key=lambda i: E[i])
+        v = [V[i, kmin] for i in range(n)]
+        D = 10 ** 40
+        u = [int(mp.nint(x * D)) for x in v]
 
-    total = sum(u[i] * u[j] * B[i][j] for i in range(n) for j in range(n))
-    norm = sum(x * x for x in u)
-    print(json.dumps({"n": n, "L_bits": L.bit_length(), "lambda_min": float(E[kmin]),
-                      "uTw": float(Fraction(total, norm * L)), "total_negative": total < 0}))
+        total = sum(u[i] * u[j] * B[i][j] for i in range(n) for j in range(n))
+        norm = sum(x * x for x in u)
+        print(json.dumps({"n": n, "L_bits": L.bit_length(), "lambda_min": float(E[kmin]),
+                          "uTw": float(Fraction(total, norm * L)), "total_negative": total < 0}))
 
-    terms = []
-    for i in range(n):
-        for j in range(i, n):
-            coef = B[i][j] if i == j else 2 * B[i][j]
-            terms.append(f"({coef}) * ({u[i]}) * ({u[j]})")
-    body = " + ".join(terms)
+        terms = []
+        for i in range(n):
+            for j in range(i, n):
+                coef = B[i][j] if i == j else 2 * B[i][j]
+                terms.append(f"({coef}) * ({u[i]}) * ({u[j]})")
+        body = " + ".join(terms)
 
-    lean = f'''/-
+        lean = f'''/-
 Kernel certificate for the band-64 even Davenport–Heilbronn form at window
 c = 1541/50 (30.82), the cell where the form first turns negative.
 

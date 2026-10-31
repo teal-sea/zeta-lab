@@ -1,8 +1,9 @@
 """Step 0 for DESIGN-kernel-negative-cell: find the smallest band where the DH
 form is negative at the cell's window endpoints.
 
-Ball LDL^T inertia at c in {30.62, 30.82} for N in {8, 16, 24, 32}, even and odd
-sectors. No claim is made here: this only locates the smallest matrix a rational
+Ball LDL^T inertia at c in {30.62, 30.82} for N in {40, 48, 56, 64, 80, 96}, even
+and odd sectors (first planned as N in {8, 16, 24, 32}; the code runs the larger set,
+corrected 2026-10-30). No claim is made here: this only locates the smallest matrix a rational
 certificate could be built on.
 """
 from __future__ import annotations
