@@ -8,7 +8,8 @@ in `MISSION.md` (section "Challenge-phase scoring rubric", 2026-10-26).
 
 Files here: `circ_spo.py` (a run-time provenance trap around the builder's definition path,
 a planted control, and the spectrum by a second eigensolver),
-`test_spectral_operator_challenge_circularity.py` (9 tests), this page.
+`test_spectral_operator_challenge_circularity.py` (9 tests), this page. *(2026-10-31: 12
+tests now; see "Correction (2026-10-31)" at the end.)*
 
 Grades as in `MISSION.md`. Nothing written here is kernel-checked.
 
@@ -61,6 +62,12 @@ confirmed by an independent method that is stronger than the builder's:
   file opens, and the literal scan). The 4.3e-41 agreement with the zeros is therefore
   not zero-importing: the operator is built from the primes up to c, the archimedean
   place and the pole, and the zeros it reproduces are an output.
+
+  *Corrected 2026-10-31: the traps on Arb's `zeta_zero`, `zeta_zeros` and `zeta_nzeros`
+  named above were not set in the run recorded here; the committed `circ_spo.py` could
+  not set them, and as committed it could not complete this run or the planted control.
+  P1 was re-run on 2026-10-31 with every trap set, with the same null result. See
+  "Correction (2026-10-31)" at the end.*
 - **P2 (the arithmetic-free step is published).** Connes and van Suijlekom prove the
   real-zeros statement for any real distribution under simplicity, isolation and
   evenness (arXiv 2511.23257, Commun. Math. Phys. 406 (2025) 312), and CCM's operator
@@ -71,7 +78,8 @@ confirmed by an independent method that is stronger than the builder's:
   `acb_mat.eig` and the secular equation): at (13, 16) the largest imaginary part is
   1.8e-45 for zeta and 7.3e-58 for DH, and zeta's lowest positive eigenvalue is
   14.1347251417347, against gamma_1 = 14.134725141734694 (difference -8.5e-16 at this
-  small band).
+  small band). *(Corrected 2026-10-31: the difference is -1.41e-17; -8.5e-16 was the
+  reference gamma_1 held at 53 bits. See the correction at the end.)*
 
 ## Scorecard
 
@@ -153,3 +161,84 @@ artifacts:
 
 Compute: about 55 s of one core for the script (most of it computing 200 zeta ordinates for the scan). Times are read from the clock, except
 `started`, which is approximate (to about 5 minutes).
+
+## Correction (2026-10-31)
+
+Added by the session landing hunt #150 (`land-361`), which neither built nor challenged
+this mechanism. The text above is left as written; this section says what ran.
+
+**The Arb traps were not active in the run recorded above.** `circ_spo.py` as committed
+at `264a74658` (its only commit before this correction) set them with
+`setattr(flint.acb, "zeta_zero", ...)`. python-flint's `acb` and `arb` are static
+extension types (`PyType_Ready`, no heap type), and that call raises TypeError ("cannot
+set 'zeta_zero' attribute of immutable type") in every release checked on 2026-10-31:
+0.5.0, 0.6.0, 0.7.1 and 0.8.0 (Python 3.12) and 0.9.0 (Python 3.13). Each of them has
+all three routines, so the loop always reaches the call; `requirements.txt` asks for
+python-flint >= 0.6. The call sat outside the try/finally, so `traps()` raised before
+the definition path ran and left the mpmath and `zeta.zeros` traps set before it in
+place. Under that code no run reaches the build with the Arb traps set, and the planted
+control (which enters the same `traps()`) cannot run either. So the recorded "no trap
+fired" for Arb's routines did not come from an active trap. What produced the recorded
+outcome is not recorded: no output of the script is committed and the campaign box's
+python-flint version is not stated. With the committed code, 7 of this file's 9 tests
+fail (reproduced 2026-10-31, python-flint 0.9.0): both provenance tests, the planted
+literal, the planted control, the trap removal and both spectrum tests.
+
+**The fix (`circ_spo.py`, 2026-10-31).** The trap replaces the type, not its
+attribute: a `TrappedFlintType` stand-in is bound at every module-level name that holds
+`flint.acb` or `flint.arb` in a loaded pure-Python module (the package's own `flint.acb`,
+and `spo_common`, `ccm_common`, `enclosures` and `wp_common`, which import them;
+`galerkin` imports neither). Objects the stand-in builds are of a subclass whose zero
+routines are traps, so `arb(T).zeta_nzeros()` is caught. Every trap, mpmath's included,
+also replaces module-level aliases of its routine. All traps are set inside the
+try/finally, and a module first imported while they are set is restored afterwards.
+One route stays outside: a call through an object flint returned from arithmetic
+(`(x + y).zeta_zero(1)`). `zero_routine_mentions` checks that no path module's source
+names an Arb zero routine at all, and none does.
+
+Checks of the fix, 2026-10-31. A planted Arb fault (`planted_arb_control`): seven calls
+through names bound before the traps were set, while they were set, through
+`spo_common.acb` and `enclosures.arb`, and through an instance the stand-in built; all
+seven are stopped. Planting each of three faults in the trap (the stand-in building
+plain flint objects; no Arb routines; no alias sweep) lets 3, 7 and 7 of the seven calls
+through, so the control can fail. The trapped and untrapped builds of the zeta and DH
+cells at (13, 12) are equal entry by entry (D' and eps_N), so the stand-in does not
+change the path. A failure while setting the traps now leaves none set (tested).
+
+**P1 re-run with every trap set** (2026-10-31, Python 3.13.17, python-flint 0.9.0; the
+script's `main`, cells (13, 16) for zeta and DH). 28 zero routines trapped, the three
+Arb ones among them; the flint types replaced at the 10 bindings above; the seven
+zero-like constants poisoned; file opens logged. For zeta and for DH: **no trap fired,
+no poisoned constant was touched, no file was opened.** The planted comparison routine
+is caught (`mpmath.zetazero`), the planted Arb fault is caught on all seven calls, and no
+path module names an Arb zero routine. The literal scan is unchanged (4 literals, 5
+module-level names). P1's conclusion stands, now on a run in which every trap it names
+was set. Grade unchanged: measured (one run, one machine).
+
+**P3.** "difference -8.5e-16 at this small band" is an artifact: `circ_spo.GAMMA_1` was
+built at mpmath's default 53 bits, which rounds gamma_1 up by 8.41e-16. Built at 40
+digits, the difference at (13, 16) is -1.41e-17 (pinned in the test file). The other P3
+numbers reproduce: largest imaginary part 1.8e-45 (zeta) and 7.3e-58 (DH), lowest
+positive eigenvalue 14.1347251417347.
+
+**Tests.** This file now has 12 tests (3 added: the planted Arb fault, a failed
+installation, the source check), the directory 21; all pass. The synthesis's "80
+challenge tests passed" (`RESULTS.md`, run record) did not reproduce: before this fix
+73 of the 80 passed and these 7 failed.
+
+```runmanifest
+id: rh_moonshot-spectral_operator-2026-10-31-p1-rerun
+hunt: rh_moonshot
+started: 2026-10-31T03:10+00:00
+finished: 2026-10-31T03:11+00:00
+ran:
+  - .venv/bin/python hunts/rh_moonshot/spectral_operator/challenge/circ_spo.py
+  - .venv/bin/python -m pytest -q -n0 -p no:cacheprovider hunts/rh_moonshot/spectral_operator/challenge/test_rival_gate.py hunts/rh_moonshot/spectral_operator/challenge/test_spectral_operator_challenge_circularity.py
+outcome: with the Arb traps set by type replacement and every trap set inside the try/finally, no trap fired, no poisoned constant was touched and no file was opened for zeta or DH; the planted comparison routine and all seven planted Arb calls were caught; 21 tests pass; the P3 difference is -1.41e-17, not -8.5e-16
+artifacts:
+  - hunts/rh_moonshot/spectral_operator/challenge/circ_spo.py
+  - hunts/rh_moonshot/spectral_operator/challenge/test_spectral_operator_challenge_circularity.py
+  - hunts/rh_moonshot/spectral_operator/challenge/CHALLENGE_circularity.md
+```
+
+Compute: 29 s of one core for the script, 37 s for the tests; times read from the clock.

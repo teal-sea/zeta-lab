@@ -24,12 +24,52 @@ _RESERVED = "cert" + "ified"
 _EM_DASH = chr(0x2014)
 
 
+_ARB_TRAPS = {"flint.acb.zeta_zero", "flint.acb.zeta_zeros", "flint.arb.zeta_nzeros"}
+
+
 @pytest.mark.parametrize("kind", ["zeta", "dh"])
 def test_definition_path_reads_no_zero_at_run_time(kind):
     r = cs.provenance_report(kind, 13, 12)
     assert r["hits"] == []
     assert r["zero_files"] == []
     assert "wp_common.GAMMA_OFF" in r["poisoned"]
+    # the Arb traps are really set (2026-10-31): on the type wherever a path module names it
+    assert _ARB_TRAPS <= set(r["installed"])
+    for site in ("flint.acb", "flint.arb", "spo_common.acb", "spo_common.arb", "enclosures.acb",
+                 "enclosures.arb", "wp_common.acb", "wp_common.arb", "ccm_common.acb", "ccm_common.arb"):
+        assert site in r["rebound"], site
+
+
+def test_planted_arb_fault_is_caught():
+    """Functions that really call Arb's zero routines must be stopped (2026-10-31)."""
+    r = cs.planted_arb_control()
+    assert r["escaped"] == []
+    assert len(r["log"]) == 7
+    assert {label for _, label in r["log"]} == _ARB_TRAPS
+    assert r["restored"]
+
+
+def test_a_failed_install_leaves_no_trap_behind():
+    import flint
+    import wp_common as WP
+
+    with pytest.raises(AttributeError):
+        with cs.traps(extra=[("wp_common", "NO_SUCH_CONSTANT")]):
+            pass
+    assert cs.S.acb is flint.acb and isinstance(flint.acb, type)
+    assert isinstance(WP.GAMMA_OFF, str)
+    with mp.workdps(15):
+        assert abs(mp.im(mp.zetazero(1)) - cs.GAMMA_1) < 1e-10
+
+
+def test_no_path_module_names_an_arb_zero_routine():
+    """The traps do not see a call through an object flint returned; none is written."""
+    import tempfile
+
+    assert cs.zero_routine_mentions() == []
+    f = Path(tempfile.mkdtemp()) / "instance_call.py"
+    f.write_text("def g(x, y):\n    return (x + y).zeta_zero(1)\n", encoding="utf-8")
+    assert cs.zero_routine_mentions([("instance_call", str(f))]) == [("instance_call", 2)]
 
 
 def test_every_zero_like_literal_on_the_path_is_text_or_poisoned():
@@ -58,6 +98,7 @@ def test_planted_control_is_caught():
 
 
 def test_traps_are_removed_afterwards():
+    import flint
     import zeta.core as ZC
     import wp_common as WP
 
@@ -65,6 +106,7 @@ def test_traps_are_removed_afterwards():
         pass
     assert isinstance(WP.GAMMA_OFF, str)
     assert callable(ZC.xi) and ZC.xi.__module__ == "zeta.core"
+    assert cs.S.acb is flint.acb and cs.S.arb is flint.arb and WP.arb is flint.arb
     with mp.workdps(15):
         assert abs(mp.im(mp.zetazero(1)) - cs.GAMMA_1) < 1e-10
 
@@ -76,6 +118,8 @@ def test_spectrum_by_mpmath_is_real_and_starts_at_gamma_1():
         assert max(abs(mp.im(z)) for z in spec) < mp.mpf(10) ** -30
         pos = sorted(mp.re(z) for z in spec if mp.re(z) > 1)
         assert abs(pos[0] - cs.GAMMA_1) < mp.mpf(10) ** -12
+        # 2026-10-31: -1.41e-17 at (13, 16); the -8.5e-16 first recorded was GAMMA_1 held at 53 bits
+        assert abs(pos[0] - cs.GAMMA_1) < 2 * mp.mpf(10) ** -17
 
 
 def test_dh_spectrum_is_real_too():

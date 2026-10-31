@@ -10,7 +10,8 @@ This module checks provenance at run time instead:
   call: mpmath's ``zetazero``, ``siegelz``, ``siegeltheta``, ``grampoint``,
   ``nzeros`` (on ``mp`` and on the module); Arb's ``zeta_zero``, ``zeta_zeros``
   and ``zeta_nzeros``; every public function of ``zeta.zeros``; ``zeta.core.xi`` and
-  ``rs_theta``; ``zeta.statistics.riemann_siegel_theta``;
+  ``rs_theta``; ``zeta.statistics.riemann_siegel_theta``; and every module-level
+  alias of one of these in a loaded pure-Python module;
 * every module-level constant of ``wp_common`` and ``enclosures`` whose name
   mentions a zero, an ordinate or an offset is replaced by a poisoned value
   that records any arithmetic, comparison or conversion on it;
@@ -23,6 +24,24 @@ zeta and DH. A planted control calls the comparison routine
 It also recomputes the spectrum of D' with mpmath's eigensolver, a route the
 builder does not use (they use ``acb_mat.eig`` and the secular equation).
 Writes nothing into the tree.
+
+Arb's routines need their own kind of trap (corrected 2026-10-31). python-flint's
+``acb`` and ``arb`` are static extension types: ``setattr(flint.acb, "zeta_zero",
+...)`` raises TypeError in every release from 0.5.0 to 0.9.0. The version of
+this module committed on 2026-10-26 did exactly that, outside its try/finally,
+so it never installed the Arb traps and left the traps set before it in place
+(``CHALLENGE_circularity.md``, correction of 2026-10-31). The trap now replaces
+the type, not its attribute: a ``TrappedFlintType`` stand-in is bound at every
+module-level name that holds ``flint.acb`` or ``flint.arb`` in a loaded
+pure-Python module, among them ``spo_common``'s ``from flint import acb`` and
+``flint.acb`` on the package (so a module first imported during the run binds
+the stand-in too). Objects the stand-in builds are of a subclass of the real
+type whose zero routines are traps, so ``arb(T).zeta_nzeros()`` is caught.
+Objects flint returns from arithmetic are of the real type, so a call through
+one of them (``(x + y).zeta_zero(1)``) is not seen; ``zero_routine_mentions``
+checks that no module on the definition path names those routines at all.
+``planted_arb_control`` is the planted fault that must be caught. Installation
+is exception-safe: a failure while installing removes every trap already set.
 """
 from __future__ import annotations
 
@@ -33,6 +52,7 @@ import os
 import re
 import sys
 import tempfile
+import types
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -54,7 +74,8 @@ import zeta.core as ZC  # noqa: E402
 import zeta.statistics as ZS  # noqa: E402
 import zeta.zeros as ZZ  # noqa: E402
 
-GAMMA_1 = mp.mpf("14.134725141734693790457251983562")
+with mp.workdps(40):  # built at 40 digits: at mpmath's default 53 bits it keeps only 16
+    GAMMA_1 = mp.mpf("14.134725141734693790457251983562")
 _CONST = re.compile(r"(ZERO|GAMMA|DELTA|RHO|ORDINATE|OFF)", re.I)
 
 
@@ -76,14 +97,88 @@ class Poison:
         return "Poison(%s)" % self._name
 
 
+#: Arb's zero routines, by the python-flint type that carries them
+ARB_ZERO_ROUTINES = (("acb", ("zeta_zero", "zeta_zeros")), ("arb", ("zeta_nzeros",)))
+
+
+class TrappedFlintType:
+    """Stands in for an immutable python-flint type while the traps are set.
+
+    Calling it builds an instance of a subclass of the real type whose zero
+    routines are traps (so ``arb(T).zeta_nzeros()``, the only way that routine
+    is called, is caught); the value is the real type's. ``isinstance`` and
+    ``issubclass`` answer as for the real type, and every other attribute is
+    the real type's. Objects that flint itself returns (sums, products, matrix
+    entries) are of the real type and are not trapped.
+    """
+
+    def __init__(self, real, routines: dict):
+        self._real = real
+        self._routines = routines
+        self._made = type(real.__name__, (real,), dict(routines))
+
+    def __call__(self, *a, **k):
+        return self._made(*a, **k)
+
+    def __getattr__(self, name):
+        d = object.__getattribute__(self, "__dict__")
+        if "_real" not in d:
+            raise AttributeError(name)
+        if name in d["_routines"]:
+            return d["_routines"][name]
+        return getattr(d["_real"], name)
+
+    def __instancecheck__(self, obj):
+        return isinstance(obj, self._real)
+
+    def __subclasscheck__(self, cls):
+        return issubclass(cls, self._real)
+
+    def __repr__(self):
+        return "TrappedFlintType(%s)" % self._real.__name__
+
+
+def _python_modules() -> list:
+    """Loaded modules whose source is a .py file (extension modules are left alone)."""
+    out = []
+    for mod in list(sys.modules.values()):
+        if not isinstance(mod, types.ModuleType):
+            continue
+        try:
+            f = getattr(mod, "__file__", None) or ""
+        except Exception:
+            continue
+        if isinstance(f, str) and f.endswith(".py"):
+            out.append(mod)
+    return out
+
+
+def module_bindings(targets: dict) -> list:
+    """(module, name, key) for each module-level name, in a loaded pure-Python
+    module, bound to one of ``targets`` (a dict keyed by ``id`` of the object)."""
+    out = []
+    for mod in _python_modules():
+        for name, v in list(vars(mod).items()):
+            if id(v) in targets:
+                out.append((mod, name, id(v)))
+    return out
+
+
 @contextmanager
 def traps(extra=()):
+    """Set every trap; remove them all on exit, or on any failure while setting them."""
     log: list = []
     saved: list = []
+    installed: list = []  # labels of the zero routines trapped
+    rebound: list = []  # "module.name" for each module-level alias replaced
+    replace: dict = {}  # id(real object) -> (real object, its replacement)
+    opened: list = []
+    poisoned: list = []
 
     def patch(obj, name, value):
-        saved.append((obj, name, getattr(obj, name)))
+        old = getattr(obj, name)
         setattr(obj, name, value)
+        saved.append((obj, name, old))
 
     def trap(label):
         def f(*a, **k):
@@ -91,39 +186,7 @@ def traps(extra=()):
             raise RuntimeError("zero source called: " + label)
         return f
 
-    import mpmath
-
-    for name in ("zetazero", "siegelz", "siegeltheta", "grampoint", "nzeros"):
-        patch(mp, name, trap("mpmath." + name))
-        patch(mpmath, name, trap("mpmath module " + name))
-    for name in dir(ZZ):
-        if not name.startswith("_") and callable(getattr(ZZ, name)) and getattr(getattr(ZZ, name), "__module__", "") == ZZ.__name__:
-            patch(ZZ, name, trap("zeta.zeros." + name))
-    import flint
-
-    for cls in (flint.acb, flint.arb):
-        for name in dir(cls):
-            if name in ("zeta_zero", "zeta_zeros", "zeta_nzeros"):
-                patch(cls, name, trap("flint.%s.%s" % (cls.__name__, name)))
-    patch(ZC, "xi", trap("zeta.core.xi"))
-    patch(ZC, "rs_theta", trap("zeta.core.rs_theta"))
-    patch(ZS, "riemann_siegel_theta", trap("zeta.statistics.riemann_siegel_theta"))
-    poisoned = []
-    for mod in (WP, EN):
-        for name in list(vars(mod)):
-            v = getattr(mod, name)
-            if name.isupper() and _CONST.search(name) and isinstance(v, (str, int, float)):
-                patch(mod, name, Poison(mod.__name__ + "." + name, log))
-                poisoned.append(mod.__name__ + "." + name)
-    import importlib
-
-    for modname, name in extra:
-        mod = importlib.import_module(modname)
-        if mod.__name__ + "." + name not in poisoned:
-            patch(mod, name, Poison(mod.__name__ + "." + name, log))
-            poisoned.append(mod.__name__ + "." + name)
-    opened: list = []
-    real_open, real_io_open, real_np_load = builtins.open, io.open, np.load
+    real_open, real_np_load = builtins.open, np.load
 
     def logged_open(file, *a, **k):
         opened.append(str(file))
@@ -133,15 +196,60 @@ def traps(extra=()):
         opened.append(str(file))
         return real_np_load(file, *a, **k)
 
-    builtins.open = logged_open
-    io.open = logged_open
-    np.load = logged_np_load
     try:
-        yield {"log": log, "opened": opened, "poisoned": poisoned}
+        import importlib
+
+        import flint
+        import mpmath
+
+        owned = []
+        for name in ("zetazero", "siegelz", "siegeltheta", "grampoint", "nzeros"):
+            owned.append((mp, name, "mpmath." + name))
+            owned.append((mpmath, name, "mpmath module " + name))
+        for name in dir(ZZ):
+            if not name.startswith("_") and callable(getattr(ZZ, name)) and getattr(getattr(ZZ, name), "__module__", "") == ZZ.__name__:
+                owned.append((ZZ, name, "zeta.zeros." + name))
+        owned += [(ZC, "xi", "zeta.core.xi"), (ZC, "rs_theta", "zeta.core.rs_theta"),
+                  (ZS, "riemann_siegel_theta", "zeta.statistics.riemann_siegel_theta")]
+        for owner, name, label in owned:
+            real = getattr(owner, name)
+            t = trap(label)
+            replace.setdefault(id(real), (real, t))
+            patch(owner, name, t)
+            installed.append(label)
+        # Arb: the types are immutable, so the type itself is replaced wherever it is named
+        for tname, routines in ARB_ZERO_ROUTINES:
+            real = getattr(flint, tname)
+            labels = {r: "flint.%s.%s" % (tname, r) for r in routines if hasattr(real, r)}
+            stand_in = TrappedFlintType(real, {r: trap(lab) for r, lab in labels.items()})
+            replace[id(real)] = (real, stand_in)
+            installed += list(labels.values())
+        for mod, name, key in module_bindings(replace):
+            patch(mod, name, replace[key][1])
+            rebound.append(mod.__name__ + "." + name)
+        for mod in (WP, EN):
+            for name in list(vars(mod)):
+                v = getattr(mod, name)
+                if name.isupper() and _CONST.search(name) and isinstance(v, (str, int, float)):
+                    patch(mod, name, Poison(mod.__name__ + "." + name, log))
+                    poisoned.append(mod.__name__ + "." + name)
+        for modname, name in extra:
+            mod = importlib.import_module(modname)
+            if mod.__name__ + "." + name not in poisoned:
+                patch(mod, name, Poison(mod.__name__ + "." + name, log))
+                poisoned.append(mod.__name__ + "." + name)
+        patch(builtins, "open", logged_open)
+        patch(io, "open", logged_open)
+        patch(np, "load", logged_np_load)
+        yield {"log": log, "opened": opened, "poisoned": poisoned,
+               "installed": installed, "rebound": rebound}
     finally:
-        builtins.open, io.open, np.load = real_open, real_io_open, real_np_load
         for obj, name, value in reversed(saved):
             setattr(obj, name, value)
+        # a module first imported while the traps were set may hold a stand-in or a trap
+        back = {id(new): real for real, new in replace.values()}
+        for mod, name, key in module_bindings(back):
+            setattr(mod, name, back[key])
 
 
 def build(kind: str, c, N: int) -> dict:
@@ -224,7 +332,8 @@ def provenance_report(kind: str, c=13, N: int = 16) -> dict:
         cell = build(kind, c, N)
     zero_files = [f for f in t["opened"] if re.search(r"zero|gram|xi_cache|radical", os.path.basename(f), re.I)]
     return {"hits": t["log"], "opened": t["opened"], "zero_files": zero_files,
-            "poisoned": t["poisoned"], "cell": cell}
+            "poisoned": t["poisoned"], "installed": t["installed"],
+            "rebound": t["rebound"], "cell": cell}
 
 
 def planted_control() -> list:
@@ -236,6 +345,98 @@ def planted_control() -> list:
         except RuntimeError:
             pass
     return t["log"]
+
+
+_PLANTED_ARB_FAULT = '''\
+"""Planted fault for the Arb traps: binds python-flint's types at import, as
+spo_common does, and calls Arb's zero routines through them."""
+import flint
+from flint import acb, arb
+
+
+def by_bound_name():
+    return acb.zeta_zero(1)
+
+
+def by_package():
+    return flint.acb.zeta_zeros(1, 2)
+
+
+def by_count():
+    return arb(15).zeta_nzeros()
+
+
+def by_instance():
+    return acb(1).zeta_zero(1)
+'''
+
+
+def _load_scratch(name: str, source: str):
+    """Import ``source`` as module ``name`` from a fresh temporary directory."""
+    import importlib.util
+
+    path = Path(tempfile.mkdtemp()) / (name + ".py")
+    path.write_text(source, encoding="utf-8")
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def planted_arb_control() -> dict:
+    """Functions that really call Arb's zero routines, run under the traps.
+
+    One scratch module is imported before the traps are set (as ``spo_common``
+    is), one while they are set (as a lazily imported helper would be), and the
+    names the definition path itself binds (``spo_common.acb``,
+    ``enclosures.arb``) are called through directly. Returns the trap log, the
+    calls that returned instead of being stopped (must be empty), and whether
+    every binding is the real flint type again afterwards."""
+    import flint
+
+    names = ("planted_arb_fault_early", "planted_arb_fault_late")
+    early = _load_scratch(names[0], _PLANTED_ARB_FAULT)
+    calls = {
+        "early: acb.zeta_zero": early.by_bound_name,
+        "early: flint.acb.zeta_zeros": early.by_package,
+        "early: arb.zeta_nzeros": early.by_count,
+        "early: acb(1).zeta_zero": early.by_instance,
+        "spo_common.acb.zeta_zero": lambda: S.acb.zeta_zero(1),
+        "enclosures.arb.zeta_nzeros": lambda: EN.arb(15).zeta_nzeros(),
+    }
+    escaped = []
+    try:
+        with traps() as t:
+            late = _load_scratch(names[1], _PLANTED_ARB_FAULT)
+            calls["late: acb.zeta_zero"] = late.by_bound_name
+            for label, fn in calls.items():
+                try:
+                    fn()
+                    escaped.append(label)
+                except RuntimeError:
+                    pass
+        restored = all(m.acb is flint.acb and m.arb is flint.arb for m in (early, late, S, EN, WP))
+    finally:
+        for name in names:
+            sys.modules.pop(name, None)
+    return {"log": t["log"], "escaped": escaped, "restored": restored, "installed": t["installed"]}
+
+
+_ZERO_ROUTINE_NAME = re.compile(r"\bzeta_n?zeros?\b")
+
+
+def zero_routine_mentions(files=None) -> list:
+    """(module, line) for each mention of an Arb zero-routine name in the source
+    of the path modules. The traps cannot see a call made through an ``acb`` or
+    ``arb`` instance (``z.zeta_zero(1)``); such a call names the routine in the
+    source, unless the name is built at run time."""
+    hits = []
+    for name, f in (files or path_modules()):
+        for lineno, line in enumerate(Path(f).read_text(encoding="utf-8").splitlines(), 1):
+            if _ZERO_ROUTINE_NAME.search(line):
+                hits.append((name, lineno))
+    return hits
 
 
 _DECIMAL = re.compile(r"(?<![\w.])-?\d+\.\d{4,}")
@@ -309,13 +510,19 @@ def main() -> int:
         r = provenance_report(kind)
         print(kind, "trap hits:", r["hits"], "| files opened:", r["opened"], "| zero-like files:", r["zero_files"])
         print("   poisoned constants:", r["poisoned"])
+        print("   zero routines trapped:", r["installed"])
+        print("   aliases rebound:", r["rebound"])
         spec = spectrum_mpmath(r["cell"])
-        im = max(abs(mp.im(z)) for z in spec)
-        pos = sorted(mp.re(z) for z in spec if mp.re(z) > 1)
-        print("   mpmath eig: max |Im| = %s, lowest positive eigenvalues %s" % (mp.nstr(im, 5), [mp.nstr(x, 15) for x in pos[:3]]))
-        if kind == "zeta":
-            print("   first eigenvalue minus gamma_1:", mp.nstr(pos[0] - GAMMA_1, 5))
+        with mp.workdps(60):
+            im = max(abs(mp.im(z)) for z in spec)
+            pos = sorted(mp.re(z) for z in spec if mp.re(z) > 1)
+            print("   mpmath eig: max |Im| = %s, lowest positive eigenvalues %s" % (mp.nstr(im, 5), [mp.nstr(x, 15) for x in pos[:3]]))
+            if kind == "zeta":
+                print("   first eigenvalue minus gamma_1 (60 digits):", mp.nstr(pos[0] - GAMMA_1, 5))
     print("planted control (comparison routine under traps):", planted_control())
+    arb_ctl = planted_arb_control()
+    print("planted Arb control: log", arb_ctl["log"], "| escaped", arb_ctl["escaped"], "| restored", arb_ctl["restored"])
+    print("Arb zero-routine names in the path modules' source:", zero_routine_mentions())
     hits, names = scan_once()
     print("modules on the path:", [n for n, _ in path_modules()])
     for h in hits:
