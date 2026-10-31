@@ -1,0 +1,353 @@
+{
+  "exact": {
+    "1": {
+      "pole": "1",
+      "balanced": "1/2",
+      "paper_geometry": "1/4",
+      "region_two_contains_pole": true
+    },
+    "2": {
+      "pole": "1/2",
+      "balanced": "3/4",
+      "paper_geometry": "5/8",
+      "region_two_contains_pole": true,
+      "wall_dual": "0",
+      "wall_floor_limit": "3/5",
+      "wall_floor_paper_bin": "39/64",
+      "wall_corner": "5/8",
+      "price_common": "1/8",
+      "price_floor": "1/6",
+      "price_dual": "1/2",
+      "price_total": "2/7",
+      "price_per_summand": "1/2"
+    },
+    "3": {
+      "pole": "1/3",
+      "balanced": "5/6",
+      "paper_geometry": "3/4",
+      "region_two_contains_pole": true,
+      "wall_dual": "1/3",
+      "wall_floor_limit": "11/15",
+      "wall_floor_paper_bin": "71/96",
+      "wall_corner": "3/4",
+      "price_common": "7/16",
+      "price_floor": "7/12",
+      "price_dual": "7/4",
+      "price_total": "1",
+      "price_per_summand": "3/2"
+    },
+    "4": {
+      "pole": "1/4",
+      "balanced": "7/8",
+      "paper_geometry": "13/16",
+      "region_two_contains_pole": true,
+      "wall_dual": "1/2",
+      "wall_floor_limit": "4/5",
+      "wall_floor_paper_bin": "103/128",
+      "wall_corner": "13/16",
+      "price_common": "3/4",
+      "price_floor": "1",
+      "price_dual": "3",
+      "price_total": "12/7",
+      "price_per_summand": "5/2"
+    },
+    "5": {
+      "pole": "1/5",
+      "balanced": "9/10",
+      "paper_geometry": "17/20",
+      "region_two_contains_pole": true,
+      "wall_dual": "3/5",
+      "wall_floor_limit": "21/25",
+      "wall_floor_paper_bin": "27/32",
+      "wall_corner": "17/20",
+      "price_common": "17/16",
+      "price_floor": null,
+      "price_dual": "17/4",
+      "price_total": "17/7",
+      "price_per_summand": "7/2"
+    },
+    "6": {
+      "pole": "1/6",
+      "balanced": "11/12",
+      "paper_geometry": "7/8",
+      "region_two_contains_pole": true,
+      "wall_dual": "2/3",
+      "wall_floor_limit": "13/15",
+      "wall_floor_paper_bin": "167/192",
+      "wall_corner": "7/8",
+      "price_common": "11/8",
+      "price_floor": null,
+      "price_dual": "11/2",
+      "price_total": "22/7",
+      "price_per_summand": "9/2"
+    },
+    "7": {
+      "pole": "1/7",
+      "balanced": "13/14",
+      "paper_geometry": "25/28",
+      "region_two_contains_pole": false,
+      "wall_dual": "5/7",
+      "wall_floor_limit": "31/35",
+      "wall_floor_paper_bin": "199/224",
+      "wall_corner": "25/28",
+      "price_common": "27/16",
+      "price_floor": null,
+      "price_dual": "27/4",
+      "price_total": "27/7",
+      "price_per_summand": "11/2"
+    },
+    "8": {
+      "pole": "1/8",
+      "balanced": "15/16",
+      "paper_geometry": "29/32",
+      "region_two_contains_pole": false,
+      "wall_dual": "3/4",
+      "wall_floor_limit": "9/10",
+      "wall_floor_paper_bin": "231/256",
+      "wall_corner": "29/32",
+      "price_common": "2",
+      "price_floor": null,
+      "price_dual": "8",
+      "price_total": "32/7",
+      "price_per_summand": "13/2"
+    },
+    "12": {
+      "pole": "1/12",
+      "balanced": "23/24",
+      "paper_geometry": "15/16",
+      "region_two_contains_pole": false,
+      "wall_dual": "5/6",
+      "wall_floor_limit": "14/15",
+      "wall_floor_paper_bin": "359/384",
+      "wall_corner": "15/16",
+      "price_common": "4",
+      "price_floor": null,
+      "price_dual": "13",
+      "price_total": "52/7",
+      "price_per_summand": "21/2"
+    },
+    "24": {
+      "pole": "1/24",
+      "balanced": "47/48",
+      "paper_geometry": "31/32",
+      "region_two_contains_pole": false,
+      "wall_dual": "11/12",
+      "wall_floor_limit": "29/30",
+      "wall_floor_paper_bin": "743/768",
+      "wall_corner": "31/32",
+      "price_common": "10",
+      "price_floor": null,
+      "price_dual": "28",
+      "price_total": "16",
+      "price_per_summand": "45/2"
+    },
+    "100": {
+      "pole": "1/100",
+      "balanced": "199/200",
+      "paper_geometry": "397/400",
+      "region_two_contains_pole": false,
+      "wall_dual": "49/50",
+      "wall_floor_limit": "124/125",
+      "wall_floor_paper_bin": "127/128",
+      "wall_corner": "397/400",
+      "price_common": "48",
+      "price_floor": null,
+      "price_dual": "123",
+      "price_total": "492/7",
+      "price_per_summand": "197/2"
+    }
+  },
+  "doors": {
+    "2": {
+      "floor_and_loss_gain": {
+        "0": "3/5",
+        "1/6": "11/20",
+        "1": "3/10",
+        "2": "0"
+      },
+      "floor_gain_with_loss_held": {
+        "0": "3/5",
+        "1/6": "3/5",
+        "1": "3/5"
+      },
+      "dual_gain": {
+        "0": "3/5",
+        "1": "2/5",
+        "11/2": "-1/2"
+      }
+    },
+    "6": {
+      "floor_and_loss_gain": {
+        "0": "13/15",
+        "1/6": "17/20",
+        "1": "23/30",
+        "2": "2/3"
+      },
+      "floor_gain_with_loss_held": {
+        "0": "13/15",
+        "1/6": "13/15",
+        "1": "13/15"
+      },
+      "dual_gain": {
+        "0": "13/15",
+        "1": "4/5",
+        "11/2": "1/2"
+      }
+    }
+  },
+  "symbolic": {
+    "weight_equals_line_5588": true,
+    "target_closed_form": true,
+    "target_free_of_b": true,
+    "contour_cancels_at_d_equals_h": true,
+    "floor_closed_form": true,
+    "floor_dual_multiplier_identity": true,
+    "increment_formula": true,
+    "line_15729_equals_line_15732_at_k6": true
+  },
+  "citations": {
+    "sha256_ok": true,
+    "checked": 49,
+    "missing": []
+  },
+  "dh_zero": {
+    "rho": [
+      0.8085171824566374,
+      85.6993484853776
+    ],
+    "abs_dh_direct": 6.5012746376109975e-40,
+    "abs_dh_combo": 6.4950183954480365e-40,
+    "abs_L_chi": 0.7021973458181872,
+    "abs_L_chibar": 0.7021973458181872,
+    "abs_probe_reciprocal": 0.7783183190311455,
+    "abs_H": 5.055191799621483e-40,
+    "abs_H_minus_1": 1.0,
+    "abs_H_closed_minus_1": 1.0,
+    "abs_H_closed": 5.096554289180322e-40
+  },
+  "dh_moebius": {
+    "n_max": 20000,
+    "s": 2.0,
+    "direct_sum": 0.9755806879773585,
+    "linear_combination_of_reciprocals": 0.9755806814625994,
+    "imag_linear": 0.0,
+    "reciprocal_of_dh": 0.9999316668599545,
+    "gap_direct_vs_linear": 6.5147591765679636e-09,
+    "gap_direct_vs_reciprocal": 0.024350978882595964,
+    "zeta_control_gap": 6.925610740449173e-08,
+    "tail_bound": 5e-05
+  },
+  "dh_scan_7_8_deleted_upto_1": {
+    "sigma": 0.875,
+    "t_range": [
+      1.0,
+      300.0
+    ],
+    "step": 0.25,
+    "deleted_primes": [],
+    "points": 1197,
+    "max_abs_H_minus_1": 3.6823240790345153,
+    "argmax_t": 256.0,
+    "points_over_half": 572
+  },
+  "dh_scan_7_8_deleted_upto_3": {
+    "sigma": 0.875,
+    "t_range": [
+      1.0,
+      300.0
+    ],
+    "step": 0.25,
+    "deleted_primes": [
+      2,
+      3
+    ],
+    "points": 1197,
+    "max_abs_H_minus_1": 0.27569093388962074,
+    "argmax_t": 178.0,
+    "points_over_half": 0
+  },
+  "dh_scan_7_8_deleted_upto_100": {
+    "sigma": 0.875,
+    "t_range": [
+      1.0,
+      300.0
+    ],
+    "step": 0.25,
+    "deleted_primes": [
+      2,
+      3,
+      5,
+      7,
+      11,
+      13,
+      17,
+      19,
+      23,
+      29,
+      31,
+      37,
+      41,
+      43,
+      47,
+      53,
+      59,
+      61,
+      67,
+      71,
+      73,
+      79,
+      83,
+      89,
+      97
+    ],
+    "points": 1197,
+    "max_abs_H_minus_1": 0.018245859137110187,
+    "argmax_t": 100.5,
+    "points_over_half": 0
+  },
+  "epstein_zero": {
+    "rho": [
+      0.9532604747946607,
+      16.290215720390393
+    ],
+    "abs_Z116": 3.0701926531884743e-29,
+    "abs_Z213": 1.4560028047878968,
+    "abs_zeta_K_lattice": 1.4560028047878968,
+    "zeta_K_two_route_gap": 5.20915490528518e-27,
+    "abs_L_psi": 0.7280014023939484,
+    "abs_H1": 1.4163053004356696,
+    "abs_Hpsi": 1.0963142285209897,
+    "abs_probe_reciprocal": 0.7034940071069753,
+    "abs_H_E": 1.0799310660909778e-29,
+    "abs_H_E_minus_1": 1.0,
+    "p_max": 10000
+  },
+  "wa_zero": {
+    "deletions": {
+      "1": {
+        "abs_H": 0.7709814855185011,
+        "abs_H_minus_1": 0.23597289672878174
+      },
+      "10": {
+        "abs_H": 0.9992004798807156,
+        "abs_H_minus_1": 0.0017088806242689088
+      },
+      "100": {
+        "abs_H": 0.9978009561080373,
+        "abs_H_minus_1": 0.002384491627986146
+      }
+    },
+    "s1": [
+      0.75,
+      14.134725141734695
+    ],
+    "abs_W_a": 1.695751572956598e-21,
+    "omitted_factor_bound": 0.006364852344668222
+  },
+  "wa_moebius": {
+    "direct_sum": 0.6694919175610715,
+    "H_over_W": 0.6694919174581884,
+    "gap": 1.0288314644668617e-10,
+    "n_max": 20000
+  }
+}

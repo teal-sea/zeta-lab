@@ -1,0 +1,76 @@
+{
+  "cells": [
+    {
+      "band": 40,
+      "c": "13",
+      "commutator_defect": "2.0242827976679e-55",
+      "distance_to_off_line_zero": "0.45647756999337",
+      "epsilon": "9.45606331624324317e-11",
+      "even_gap": "1.16743757395679982e-7",
+      "kind": "dh",
+      "max_abs_spectrum_imag": "0.0",
+      "nearest_real_spectral_point": "85.362912874843",
+      "off_line_zero_ordinate": "85.6993484853775922",
+      "off_line_zero_real_offset": "0.30851718245664",
+      "positive_spectrum_count": 40,
+      "spectrum_max": "109.76062234248",
+      "symmetry_center": "0.5"
+    },
+    {
+      "band": 20,
+      "c": "13",
+      "commutator_defect": "6.0472081627097e-60",
+      "distance_to_off_line_zero": "0.67317984218483",
+      "epsilon": "0.352638381190621255",
+      "even_gap": "0.888998489033791321",
+      "kind": "epstein",
+      "max_abs_spectrum_imag": "0.0",
+      "nearest_real_spectral_point": "16.787936567771",
+      "off_line_zero_ordinate": "16.2902157204",
+      "off_line_zero_real_offset": "0.4532604748",
+      "positive_spectrum_count": 20,
+      "spectrum_max": "49.917907347535",
+      "symmetry_center": "0.5"
+    },
+    {
+      "band": 8,
+      "c": "2",
+      "commutator_defect": "1.2010427495289e-59",
+      "distance_to_off_line_zero": "0.34362409652796",
+      "epsilon": "0.00261768558094669815",
+      "even_gap": "0.17805736552302542",
+      "kind": "wa",
+      "max_abs_spectrum_imag": "0.0",
+      "nearest_real_spectral_point": "14.370473990543",
+      "off_line_zero_ordinate": "14.1347251417346938",
+      "off_line_zero_real_offset": "0.25",
+      "positive_spectrum_count": 8,
+      "spectrum_max": "77.740875665556",
+      "symmetry_center": "0.5"
+    },
+    {
+      "band": 16,
+      "c": "13",
+      "commutator_defect": "2.3150681031205e-104",
+      "distance_to_off_line_zero": "3.5539369034568e-29",
+      "epsilon": "8.56862747807244431e-35",
+      "even_gap": "8.60834077616982704e-32",
+      "kind": "zeta_shift_recentered",
+      "max_abs_spectrum_imag": "6.0345396829604e-105",
+      "nearest_real_spectral_point": "14.134725141735",
+      "off_line_zero_ordinate": "14.1347251417346938",
+      "off_line_zero_real_offset": "0.0",
+      "positive_spectrum_count": 17,
+      "spectrum_max": "559.97570719001",
+      "symmetry_center": "0.6"
+    }
+  ],
+  "parameters": {
+    "matrix_dps": 60,
+    "shift_delta": "0.1"
+  },
+  "shifted_zeta": {
+    "fixed_half_symmetry_defect": "0.010320777772574",
+    "recentered_matrix_defect": "1.5557538194653e-61"
+  }
+}

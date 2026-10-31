@@ -1,0 +1,89 @@
+{
+  "W_1_4": {
+    "correction_minus_1_at_zero": "0.235972896729",
+    "local_root_moduli_at_2": [
+      "1.18920711500272107",
+      "0.840896415253714543"
+    ],
+    "prime_limit": 100000,
+    "zero_residual": "3.61812771902e-35"
+  },
+  "davenport_heilbronn": {
+    "H_minus_1_at_zero": "1.0",
+    "constituent_reciprocals_s2": "(0.975580681462599327 + 0.0j)",
+    "row_to_constituents_gap": "6.51475917849e-9",
+    "row_to_scalar_reciprocal_gap": "0.0243509788826",
+    "squarefree_row_s2": "0.975580687977358506",
+    "zero_residual": "5.01018988234e-49"
+  },
+  "epstein_1_1_6": {
+    "coefficient_defect_2_3": "2.0",
+    "zero_residual": "4.30212194893e-11"
+  },
+  "parameters": {
+    "dps": 50,
+    "squarefree_limit": 20000
+  },
+  "template": {
+    "best_floor_wall_k_ge_2": "3/5",
+    "formal_k1_balanced": "1/2",
+    "paper_increment_k6_to_k7": "1/56",
+    "paper_k6": "7/8",
+    "rows": {
+      "100": {
+        "dual_length_wall": "49/50",
+        "floor_wall_limit": "124/125",
+        "paper_geometry": "397/400"
+      },
+      "12": {
+        "dual_length_wall": "5/6",
+        "floor_wall_limit": "14/15",
+        "paper_geometry": "15/16"
+      },
+      "2": {
+        "dual_length_wall": "0",
+        "floor_wall_limit": "3/5",
+        "paper_geometry": "5/8"
+      },
+      "3": {
+        "dual_length_wall": "1/3",
+        "floor_wall_limit": "11/15",
+        "paper_geometry": "3/4"
+      },
+      "4": {
+        "dual_length_wall": "1/2",
+        "floor_wall_limit": "4/5",
+        "paper_geometry": "13/16"
+      },
+      "5": {
+        "dual_length_wall": "3/5",
+        "floor_wall_limit": "21/25",
+        "paper_geometry": "17/20"
+      },
+      "6": {
+        "dual_length_wall": "2/3",
+        "floor_wall_limit": "13/15",
+        "paper_geometry": "7/8"
+      },
+      "7": {
+        "dual_length_wall": "5/7",
+        "floor_wall_limit": "31/35",
+        "paper_geometry": "25/28"
+      },
+      "8": {
+        "dual_length_wall": "3/4",
+        "floor_wall_limit": "9/10",
+        "paper_geometry": "29/32"
+      }
+    }
+  },
+  "zeta_shift_delta_0_1": {
+    "actual_symmetry_center": "0.6",
+    "delta": "0.1",
+    "local_modulus_at_2": "1.07177346253629317",
+    "reciprocal_s2": "0.571511380120929532",
+    "squarefree_row_s2": "0.57151156686610629",
+    "truncation_gap": "1.86745176757e-7",
+    "zero_residual": "5.18930729997e-32"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "parameters": {
+    "defect_y": "0.05",
+    "dps": 50,
+    "shift_delta": "0.1"
+  },
+  "rivals": {
+    "W_1_4": {
+      "control_defect": "-63.336207588322219641",
+      "failure_defect": "62.923988502644232857",
+      "h_control": "0.3",
+      "h_failure": "0.2",
+      "symmetry_defects": {
+        "fixed_half": "9.6226299881119e-54"
+      },
+      "x": "14.1347251417346938",
+      "y": "0.05",
+      "zero_real_part": "0.75",
+      "zero_residual": "3.6181277190219e-35"
+    },
+    "davenport_heilbronn": {
+      "control_defect": "-2.1334132025776454372",
+      "failure_defect": "2.3441483868663243899",
+      "h_control": "0.375",
+      "h_failure": "0.25",
+      "symmetry_defects": {
+        "fixed_half": "1.8649782577962e-53"
+      },
+      "x": "85.6993484853775922",
+      "y": "0.05",
+      "zero_real_part": "0.808517182456637386",
+      "zero_residual": "5.1242225330425e-77"
+    },
+    "epstein_1_1_6": {
+      "control_defect": "-3.5506433820889641886",
+      "failure_defect": "1.3494121383316399218",
+      "h_control": "0.5",
+      "h_failure": "0.375",
+      "symmetry_defects": {
+        "fixed_half": "6.6261400821116e-56"
+      },
+      "x": "16.2902157204",
+      "y": "0.05",
+      "zero_real_part": "0.9532604748",
+      "zero_residual": "2.2764622381728e-21"
+    },
+    "zeta_shift_delta_0_1": {
+      "control_defect": "-63.150172698616547874",
+      "failure_defect": "63.150172698616547874",
+      "h_control": "0.15",
+      "h_failure": "0.05",
+      "symmetry_defects": {
+        "actual_center_0_6": "6.9050155352592e-53",
+        "fixed_half": "0.010320777772574"
+      },
+      "x": "14.1347251417346938",
+      "y": "0.05",
+      "zero_real_part": "0.6",
+      "zero_residual": "5.1893072999725e-32"
+    }
+  },
+  "zeta_control": {
+    "defect": "-1.0992890467837299957",
+    "h": "0.1",
+    "x": "14.1347251417346938"
+  }
+}

@@ -5032,6 +5032,56 @@ and hunts #132 and #133's first ten located zeros plus nineteen new boxes.
 The novelty search in RESULTS.md is bounded and makes no priority claim. This
 finite theorem says nothing above 100 or about RH itself.
 
+### Hunt #150: six RH-direct mechanisms, each pushed to a construction or a located obstruction (`rh_moonshot/`, opened 2026-10-21)
+
+**Status: first wave reported 2026-10-26 (construction, two challenges, synthesis in
+`rh_moonshot/RESULTS.md`); no route to RH was established in the searched set under the
+stated inputs, and continuing any mechanism is the owner's call.** Dispositions:
+`ccm_arithmetic` alive (CCM step 2 measured to hold for zeta on c <= 60, N <= 128, with
+every rival losing capture at a located window; its positivity is band-level and
+measured, and whether capture is Weil positivity restated is open); `de_branges`
+unresolved, recorded as a reformulation (for the Lagarias family E_h the Hermite-Biehler
+property is exactly a zero-free half-plane); `li_arithmetic` unresolved, the target a
+reformulation, with two absolute-value bounds refuted and W_{1/4} refuting the coarse
+Euler-product package at n = 8260 (hardened); `positivity_geometry` unresolved, with its
+golden fake over F_5 a refutation of one function-field implication (derived,
+self-reviewed); `spectral_operator`'s self-adjointness restricted class obstructed (Connes
+and van Suijlekom's theorem, met by DH), its convergence step unresolved and merged with
+`ccm_arithmetic`; `probe_tower` restricted class obstructed (the order-k template, its
+abscissa increasing to 1; composite grade inferred). Kept regardless of RH: five off-line
+zeros of the Epstein zeta of x^2 + xy + 6y^2 below height 60.5, four of them new to this
+tree, all measured and none enclosed; W_{1/4}'s first negative Li coefficient at n = 8260;
+and zeta(s - delta), whose lambda_n are all positive while it violates RH.
+*Corrected 2026-10-31 (`rh_moonshot/RESULTS.md` section 10):* step 2 is not measured to
+hold on that grid; capture and the on-line zero match are, while the off-axis error on
+Im z = 0.45 is 7.3e-2 at best and not seen to decay. `spectral_operator`'s run-time
+provenance traps first ran with their Arb part set on 2026-10-31, with the same null
+result; the challenge test counts first reported did not reproduce (73 of 80 passed).
+
+The owner directed this hunt on 2026-10-21 as a genuine attempt at RH itself,
+beside the campaign's other tracks. It asks whether any of six materially different
+mechanisms can be pushed to a construction that proves RH, or else to a precisely located
+obstruction: `ccm_arithmetic` (step 2 of Connes, Consani and Moscovici, the convergence of
+the truncated Weil ground state's transform to Xi), `de_branges` (a Hermite-Biehler
+structure built from xi and the Euler product, set against the condition Conrey and Li
+refuted), `li_arithmetic` (a uniform bound on the arithmetic part of the Bombieri-Lagarias
+split of lambda_n), `positivity_geometry` (an arithmetic analogue of the Hodge index step
+in Weil's proof for curves, tested exactly on curves over F_p), `spectral_operator` (a
+finite-rank Hilbert-Polya candidate against the first 100 zeros) and `probe_tower` (theta
+probes of growing degree in place of the cubic-theta probe of OpenAI's 7/8 proof, asking
+whether the zero-free abscissa can tend to 1/2). Each construction names the step where
+zeta's Euler product or multiplicativity enters and tests it on Davenport-Heilbronn,
+Epstein (1,1,6) and W_a where they apply, since a construction that also works for a
+function with off-line zeros cannot prove RH; two sessions that did not build it then
+challenge it, one at that rival gate and one for circularity and known obstructions. The
+dead routes it starts from are the record's refuted forms, listed in `MISSION.md`, among
+them EPP/Herglotz (refuted by W_a), `weil_propagation`'s C1 and C3 (refuted by DH) and C2
+(refuted by Epstein (1,1,6)), Jensen wedges that exclude n = 0, and heat-flow clocks that
+read only the zero configuration. #150 was assigned by the campaign; several numbers
+between #138 and #150 are held by landings in open pull requests and by hunts on other
+branches. No claim about RH is made, and a finished construction would still owe its
+complete chain and its review (`docs/08`).
+
 ### Hunt #152: a ball-arithmetic Lehman localization of a sign change of pi(x) - li(x) (`skewes_enclosure/`, opened 2026-10-26)
 
 **Status: open (2026-10-27).** Three outcomes, (1) to (3), all under the same
