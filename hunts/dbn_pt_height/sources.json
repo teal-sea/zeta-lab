@@ -1,0 +1,648 @@
+{
+ "hunt": "dbn_pt_height",
+ "lane": "chain",
+ "cache_root": "<cache>/dbn",
+ "written_utc": "2026-10-21",
+ "sources": {
+  "PT_EPRINT": {
+   "kind": "file",
+   "url": "https://arxiv.org/e-print/2004.09765v1",
+   "retrieved_utc": "2026-10-21T16:24:28Z",
+   "sha256": "c4f13cdfca711d2bf90a097147be2a094ff175b0b161647359e174633fd8bf86",
+   "bytes": 9536,
+   "cache_path": "chain-arxiv-2004.09765v1/eprint-2004.09765v1",
+   "note": "arXiv e-print of Platt-Trudgian 2004.09765v1 (gzip of one TeX file; the only arXiv version)"
+  },
+  "PT_TEX": {
+   "kind": "derived",
+   "url": "derived from PT_EPRINT by gunzip",
+   "retrieved_utc": "2026-10-21T16:24:28Z",
+   "sha256": "c6c29099c943dd2c74ee1b9dc6efc373d3102269bf41b14494687ced8225a75c",
+   "bytes": 24571,
+   "cache_path": "chain-arxiv-2004.09765v1/extracted/Platt_Trudgian_PartialRH_Submitted.tex",
+   "note": "the TeX file inside PT_EPRINT (gunzip)"
+  },
+  "P15V2_EPRINT": {
+   "kind": "file",
+   "url": "https://arxiv.org/e-print/1904.12438v2",
+   "retrieved_utc": "2026-10-21T16:24:28Z",
+   "sha256": "1be3bc38d203ad0142f1c97c267c7deaa06b84c97716c9a1ec1f56456d826863",
+   "bytes": 2229636,
+   "cache_path": "chain-arxiv-1904.12438v2/eprint-1904.12438v2",
+   "note": "arXiv e-print of Polymath 15, 1904.12438v2 (tar.gz)"
+  },
+  "P15V2_TEX": {
+   "kind": "derived",
+   "url": "derived from P15V2_EPRINT by tar -x",
+   "retrieved_utc": "2026-10-21T16:24:28Z",
+   "sha256": "560a28fe31bec92dd793820222e9e73a1fc6958a08344033a946b2ccaba225e5",
+   "bytes": 170017,
+   "cache_path": "chain-arxiv-1904.12438v2/extracted/debruijn.tex",
+   "note": "debruijn.tex inside P15V2_EPRINT"
+  },
+  "P15V1_EPRINT": {
+   "kind": "file",
+   "url": "https://arxiv.org/e-print/1904.12438v1",
+   "retrieved_utc": "2026-10-21T16:24:30Z",
+   "sha256": "385abb07ecafa250723efee77e98dd9f0304ef86f43e5c4088515c96cb70beca",
+   "bytes": 2229681,
+   "cache_path": "chain-arxiv-1904.12438v1/eprint-1904.12438v1",
+   "note": "arXiv e-print of Polymath 15, 1904.12438v1 (tar.gz), read for the v1 to v2 comparison"
+  },
+  "P15V1_TEX": {
+   "kind": "derived",
+   "url": "derived from P15V1_EPRINT by tar -x",
+   "retrieved_utc": "2026-10-21T16:24:30Z",
+   "sha256": "3f54d0a68bbe1a207c2cb37749bc2951552a8613f1b765f13c5819d51f9252f5",
+   "bytes": 170746,
+   "cache_path": "chain-arxiv-1904.12438v1/extracted/debruijn.tex",
+   "note": "debruijn.tex inside P15V1_EPRINT"
+  },
+  "ABS_P15": {
+   "kind": "file",
+   "url": "https://arxiv.org/abs/1904.12438",
+   "retrieved_utc": "2026-10-21T16:23:42Z",
+   "sha256": "a28f5a30278683d1fc01f211ee8f5d64933db95d27d5405167153e0252a6857a",
+   "bytes": 42725,
+   "cache_path": "chain-arxiv-abs/abs-1904.12438.html",
+   "note": "arXiv abstract page of 1904.12438 (version history, comments field)"
+  },
+  "ABS_PT": {
+   "kind": "file",
+   "url": "https://arxiv.org/abs/2004.09765",
+   "retrieved_utc": "2026-10-21T16:23:42Z",
+   "sha256": "a80d74a89c3f7424db95ea04893685a1821c4804f55a1c6cb08e5a3b56807c6c",
+   "bytes": 39782,
+   "cache_path": "chain-arxiv-abs/abs-2004.09765.html",
+   "note": "arXiv abstract page of 2004.09765 (one version only)"
+  },
+  "RMS_PDF_URL": {
+   "kind": "file",
+   "url": "https://link.springer.com/content/pdf/10.1007/s40687-019-0193-1.pdf",
+   "retrieved_utc": "2026-10-21T16:27:39Z",
+   "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+   "bytes": 3038,
+   "cache_path": "chain-rms-2019-s40687-019-0193-1/springer-pdf-url-returned-js-challenge.html",
+   "note": "the publisher PDF URL of Res. Math. Sci. 6:31 (2019) returned a JavaScript client challenge page, not the PDF; the published full text was not accessed"
+  },
+  "RMS_HTML": {
+   "kind": "file",
+   "url": "https://link.springer.com/article/10.1007/s40687-019-0193-1",
+   "retrieved_utc": "2026-10-21T16:29:00Z",
+   "sha256": "0f17edd879d59a3b64c3dcf6e237c06b62f71307a6242c7ce169451cc6651b29",
+   "bytes": 313694,
+   "cache_path": "chain-rms-2019-s40687-019-0193-1/springer-article-page.html",
+   "note": "the publisher article page: abstract, figure list and footnotes only (subscription preview); no body text"
+  },
+  "DBN_GH_WIKI": {
+   "kind": "file",
+   "url": "https://github.com/km-git-acc/dbn_upper_bound/wiki",
+   "retrieved_utc": "2026-10-21T16:31:14Z",
+   "sha256": "0886b83e7032e334645118209af4cc42c0e3a8bef8dc029db0365e447917b4f5",
+   "bytes": 175494,
+   "cache_path": "chain-github-dbn_upper_bound-wiki/github-wiki-page.html",
+   "note": "github.com/km-git-acc/dbn_upper_bound/wiki: the wiki has no pages (the git wiki repository does not exist)"
+  },
+  "DBN_ISSUES_P1": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues?state=all&per_page=100&page=1",
+   "retrieved_utc": "2026-10-21T16:54:46Z",
+   "sha256": "983e332dfe555eac507da4b44b01fc5070c8ad81ff53a2deaf2d4566319550db",
+   "bytes": 449688,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issues-p1.json",
+   "note": "issue and PR list, page 1 (GitHub REST API)"
+  },
+  "DBN_ISSUES_P2": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues?state=all&per_page=100&page=2",
+   "retrieved_utc": "2026-10-21T16:54:47Z",
+   "sha256": "bd2f9141f56de5ca6bee94ddda44775d2730d5e4ae9d32c6a0ea71bad91d585c",
+   "bytes": 218287,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issues-p2.json",
+   "note": "issue and PR list, page 2 (GitHub REST API)"
+  },
+  "DBN_I131": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/131/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T16:55:00Z",
+   "sha256": "d52df1d593b4ee2364dd55b6718634c0bd982b3c4af152f2f8fbcf73e987e2c9",
+   "bytes": 64794,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issue131-comments.json",
+   "note": "comments of issue #131, Finalising write-up of the Dirichlet bound numerics and the RH-conditional DBN-results"
+  },
+  "DBN_I81_P1": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/81/comments?per_page=100&page=1",
+   "retrieved_utc": "2026-10-21T16:55:00Z",
+   "sha256": "7db25f93f7bd45717a2ede1da1a7f9118dc9824dfb7f3e3dd5f5e11b5bb532de",
+   "bytes": 336595,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issue81-comments-p1.json",
+   "note": "comments of issue #81, Conditional dbn bounds, page 1"
+  },
+  "DBN_I81_P2": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/81/comments?per_page=100&page=2",
+   "retrieved_utc": "2026-10-21T16:55:01Z",
+   "sha256": "9873587682ba28033d2070d1e94b3015183f4b2c9e7596525e09bc34437412e6",
+   "bytes": 332749,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issue81-comments-p2.json",
+   "note": "comments of issue #81, Conditional dbn bounds, page 2"
+  },
+  "DBN_I81_P3": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/81/comments?per_page=100&page=3",
+   "retrieved_utc": "2026-10-21T16:55:02Z",
+   "sha256": "bfc3cf317a84d1a73d31304f90417007e7ffefd094d3c96e969d1f7c97f755e3",
+   "bytes": 334801,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issue81-comments-p3.json",
+   "note": "comments of issue #81, Conditional dbn bounds, page 3"
+  },
+  "DBN_I81_P4": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/81/comments?per_page=100&page=4",
+   "retrieved_utc": "2026-10-21T16:55:02Z",
+   "sha256": "85e29c57054e0ccce46b8bed7ac718f5ac0f8ba9f4aaf6cac931a4ce0a6ce327",
+   "bytes": 131231,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issue81-comments-p4.json",
+   "note": "comments of issue #81, Conditional dbn bounds, page 4"
+  },
+  "DBN_I113_P1": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/113/comments?per_page=100&page=1",
+   "retrieved_utc": "2026-10-21T16:55:03Z",
+   "sha256": "b53472d3d061daba214480e5fcd5de50b018cd357e064883f6e423b6fedd0580",
+   "bytes": 396778,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issue113-comments-p1.json",
+   "note": "comments of issue #113, Next steps after conditional DBN <= 0.11, page 1"
+  },
+  "DBN_I113_P2": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/113/comments?per_page=100&page=2",
+   "retrieved_utc": "2026-10-21T16:55:03Z",
+   "sha256": "b9399a239ac0af5775b454b99101337d3530109012f6494ee1ea620c72f0e294",
+   "bytes": 306305,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issue113-comments-p2.json",
+   "note": "comments of issue #113, Next steps after conditional DBN <= 0.11, page 2"
+  },
+  "DBN_I113_P3": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/113/comments?per_page=100&page=3",
+   "retrieved_utc": "2026-10-21T16:55:04Z",
+   "sha256": "820918815bee99c7cff7e86208565e2fa65abd7ecd1e0429b0bb643d5571a2bb",
+   "bytes": 21308,
+   "cache_path": "chain-github-dbn_upper_bound-issues/issue113-comments-p3.json",
+   "note": "comments of issue #113, Next steps after conditional DBN <= 0.11, page 3"
+  },
+  "WIKI_ZFR_LIVE": {
+   "kind": "file",
+   "url": "http://michaelnielsen.org/polymath1/index.php?title=Zero-free_regions&action=raw",
+   "retrieved_utc": "2026-10-21T16:35:39Z",
+   "sha256": "d5a89e26beae0bc03ad18a0b0d1d3d75f87c32047879d25da11970cb5c4662a3",
+   "bytes": 315,
+   "cache_path": "chain-polymath-wiki/Zero-free_regions.live-404.html",
+   "note": "live Polymath wiki, Zero-free regions page: HTTP 404 on 2026-10-21"
+  },
+  "WIKI_MAIN_LIVE": {
+   "kind": "file",
+   "url": "http://michaelnielsen.org/polymath1/index.php?title=De_Bruijn-Newman_constant&action=raw",
+   "retrieved_utc": "2026-10-21T16:35:39Z",
+   "sha256": "d5a89e26beae0bc03ad18a0b0d1d3d75f87c32047879d25da11970cb5c4662a3",
+   "bytes": 315,
+   "cache_path": "chain-polymath-wiki/De_Bruijn-Newman_constant.live-404.html",
+   "note": "live Polymath wiki, main dBN page: HTTP 404 on 2026-10-21"
+  },
+  "WIKI_ZFR_20180418": {
+   "kind": "file",
+   "url": "http://web.archive.org/web/20180418031810id_/http://michaelnielsen.org/polymath1/index.php?title=Zero-free_regions",
+   "retrieved_utc": "2026-10-21T16:37:10Z",
+   "sha256": "c93f901965895f8ebc2eb5490a4ffed0f4eb6a7ba2cc67699deea610f569b185",
+   "bytes": 28039,
+   "cache_path": "chain-polymath-wiki/wb-20180418-Zero-free_regions.html",
+   "note": "Wayback snapshot 20180418031810 of the Zero-free regions page"
+  },
+  "WIKI_ZFR_20180612": {
+   "kind": "file",
+   "url": "http://web.archive.org/web/20180612140037id_/http://michaelnielsen.org/polymath1/index.php?title=Zero-free_regions",
+   "retrieved_utc": "2026-10-21T16:37:10Z",
+   "sha256": "5eaed20f34262d086218ceb485bf472c9fbcb37b67bc14b7b074d1b3eba153df",
+   "bytes": 30222,
+   "cache_path": "chain-polymath-wiki/wb-20180612-Zero-free_regions.html",
+   "note": "Wayback snapshot 20180612140037 of the Zero-free regions page"
+  },
+  "WIKI_ZFR_20200122": {
+   "kind": "file",
+   "url": "http://web.archive.org/web/20200122205316id_/http://michaelnielsen.org/polymath1/index.php?title=Zero-free_regions",
+   "retrieved_utc": "2026-10-21T16:37:14Z",
+   "sha256": "8adb4418bd495508abd62262345332875266bcb5560c3bb805b7a7c271860c5f",
+   "bytes": 6583,
+   "cache_path": "chain-polymath-wiki/wb-20200122-Zero-free_regions.html",
+   "note": "Wayback snapshot 20200122205316 (served gzip-encoded; kept as received, not read)"
+  },
+  "WIKI_ZFR_20251012": {
+   "kind": "file",
+   "url": "http://web.archive.org/web/20251012043020id_/https://michaelnielsen.org/polymath/index.php?title=Zero-free_regions",
+   "retrieved_utc": "2026-10-21T16:37:14Z",
+   "sha256": "cc4b84d0463ffe6f528c059b6e8c11f47af2f3364a41c6aca964633d81297dd0",
+   "bytes": 34033,
+   "cache_path": "chain-polymath-wiki/wb-20251012-Zero-free_regions.html",
+   "note": "Wayback snapshot 20251012043020 of the moved page (oldid 10781)"
+  },
+  "WIKI_MAIN_20260816": {
+   "kind": "file",
+   "url": "http://web.archive.org/web/20260816030243id_/https://michaelnielsen.org/polymath/index.php?title=De_Bruijn-Newman_constant",
+   "retrieved_utc": "2026-10-21T16:38:37Z",
+   "sha256": "5c0cb23f5993e8b0959e405b5e805411ddf8e7e024e2512d256372b1720090f7",
+   "bytes": 37161,
+   "cache_path": "chain-polymath-wiki/wb-20260816-De_Bruijn-Newman_constant.html",
+   "note": "Wayback snapshot 20260816030243 of the main dBN wiki page (oldid 11185)"
+  },
+  "WIKI_ESTSUM_20250822": {
+   "kind": "file",
+   "url": "http://web.archive.org/web/20250822205424id_/https://michaelnielsen.org/polymath/index.php?title=Estimating_a_sum",
+   "retrieved_utc": "2026-10-21T16:56:06Z",
+   "sha256": "3e0b3a851430321567e3755cd1ba65ef1d74c26e57768a5fbb5b2d06d86b2cee",
+   "bytes": 32097,
+   "cache_path": "chain-polymath-wiki/wb-20250822-Estimating_a_sum.html",
+   "note": "Wayback snapshot 20250822205424 of the wiki page Estimating a sum (oldid 10897)"
+  },
+  "BLOG_9": {
+   "kind": "file",
+   "url": "https://terrytao.wordpress.com/2018/05/04/polymath15-ninth-thread-going-below-0-22/",
+   "retrieved_utc": "2026-10-21T16:39:00Z",
+   "sha256": "97110f743a92889e2a606c3ebc48045fc82d8d66f1d30b339d593e3c407659fc",
+   "bytes": 492612,
+   "cache_path": "chain-tao-blog/ninth-thread-2018-05-04.html",
+   "note": "Polymath15 ninth thread with comments"
+  },
+  "BLOG_10_ID404": {
+   "kind": "file",
+   "url": "https://terrytao.wordpress.com/10725",
+   "retrieved_utc": "2026-10-21T16:38:59Z",
+   "sha256": "f4912289393c18a18b22be349a5298b44603817ac4d74f6a01f8cebaac0ad7a0",
+   "bytes": 50138,
+   "cache_path": "chain-tao-blog/tenth-thread-postid-10725-404.html",
+   "note": "the wiki's short link to the tenth thread returned 404"
+  },
+  "BLOG_10": {
+   "kind": "file",
+   "url": "https://terrytao.wordpress.com/2018/09/06/polymath15-tenth-thread-numerics-update/",
+   "retrieved_utc": "2026-10-21T16:39:11Z",
+   "sha256": "6fd3356790bcfe126b06b4228b325dab80e16be4d1ec791e2af3b3920467cbc0",
+   "bytes": 649535,
+   "cache_path": "chain-tao-blog/tenth-thread-2018-09-06.html",
+   "note": "Polymath15 tenth thread with comments, including the 2024 comments"
+  },
+  "BLOG_11": {
+   "kind": "file",
+   "url": "https://terrytao.wordpress.com/2018/12/28/polymath-15-eleventh-thread-writing-up-the-results-and-exploring-negative-t/",
+   "retrieved_utc": "2026-10-21T16:38:59Z",
+   "sha256": "7cea6ed8e9ea14b6cd1cf62a9fa2f5a1ab2f93671dcc41cd7025d7b111354cc9",
+   "bytes": 525272,
+   "cache_path": "chain-tao-blog/eleventh-thread-2018-12-28.html",
+   "note": "Polymath15 eleventh thread with comments"
+  },
+  "BLOG_PAPER": {
+   "kind": "file",
+   "url": "https://terrytao.wordpress.com/2019/04/30/11075/",
+   "retrieved_utc": "2026-10-21T16:39:00Z",
+   "sha256": "06ed7fd556711f6ef5247041dbcb1c7f8e352125c24b1e4fff78032db59017d1",
+   "bytes": 410069,
+   "cache_path": "chain-tao-blog/paper-post-2019-04-30.html",
+   "note": "the 2019-04-30 post announcing the paper, with the 2020 and 2026 comments"
+  },
+  "OPT_21A": {
+   "kind": "file",
+   "url": "https://github.com/teorth/optimizationproblems/blob/46dbf03669219cb2bcf33fd5bbf65209d137f994/constants/21a.md",
+   "retrieved_utc": "2026-10-21T16:41:02Z",
+   "sha256": "e8b198b124d2ba9af2cae5d54b331ae02410263107ca6000197026000a5c3bef",
+   "bytes": 6986,
+   "cache_path": "chain-github-optimizationproblems/repo/constants/21a.md",
+   "note": "teorth/optimizationproblems constants/21a.md at clone HEAD 46dbf03669219cb2bcf33fd5bbf65209d137f994"
+  },
+  "PR208": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/208",
+   "retrieved_utc": "2026-10-21T16:41:20Z",
+   "sha256": "8e8d4eed2a26f2f2fd8e5ef8da2e87e3874cf0c506fcad59cdf27bf920007205",
+   "bytes": 23830,
+   "cache_path": "chain-github-optimizationproblems/api/pr208.json",
+   "note": "PR #208 metadata and body (GitHub REST API)"
+  },
+  "PR208_FILES": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/208/files?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:20Z",
+   "sha256": "0c1bf7687babd388e9395e0e784be6a3242d63f2608c829843338d6b4fa13f38",
+   "bytes": 5051,
+   "cache_path": "chain-github-optimizationproblems/api/pr208-files.json",
+   "note": "PR #208 changed files (GitHub REST API)"
+  },
+  "PR208_ISSUE_COMMENTS": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/issues/208/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:20Z",
+   "sha256": "2ba33ca0557f1bb5b7ba88d67f9d0093c7185a36ec51fe2b7bd9372d3e001d6d",
+   "bytes": 5,
+   "cache_path": "chain-github-optimizationproblems/api/pr208-issue-comments.json",
+   "note": "PR #208 conversation comments (GitHub REST API)"
+  },
+  "PR208_REVIEW_COMMENTS": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/208/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:21Z",
+   "sha256": "2ba33ca0557f1bb5b7ba88d67f9d0093c7185a36ec51fe2b7bd9372d3e001d6d",
+   "bytes": 5,
+   "cache_path": "chain-github-optimizationproblems/api/pr208-review-comments.json",
+   "note": "PR #208 review comments (GitHub REST API)"
+  },
+  "PR208_REVIEWS": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/208/reviews?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:21Z",
+   "sha256": "2ba33ca0557f1bb5b7ba88d67f9d0093c7185a36ec51fe2b7bd9372d3e001d6d",
+   "bytes": 5,
+   "cache_path": "chain-github-optimizationproblems/api/pr208-reviews.json",
+   "note": "PR #208 reviews (GitHub REST API)"
+  },
+  "PR208_COMMITS": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/208/commits?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:21Z",
+   "sha256": "981efdff936930cc4aa86f1220c4981139e4a486623e71ae5407a3f1b91de823",
+   "bytes": 8346,
+   "cache_path": "chain-github-optimizationproblems/api/pr208-commits.json",
+   "note": "PR #208 commits (GitHub REST API)"
+  },
+  "PR210": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/210",
+   "retrieved_utc": "2026-10-21T16:41:22Z",
+   "sha256": "76fa9ef7dff4f4805990398080b62a378749be0611eece7271984f7565535895",
+   "bytes": 24800,
+   "cache_path": "chain-github-optimizationproblems/api/pr210.json",
+   "note": "PR #210 metadata and body (GitHub REST API)"
+  },
+  "PR210_FILES": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/210/files?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:22Z",
+   "sha256": "45abbcc5eb357683d13d7976928d088dfa0e711284b2592d2bb158823f2c0fb3",
+   "bytes": 5887,
+   "cache_path": "chain-github-optimizationproblems/api/pr210-files.json",
+   "note": "PR #210 changed files (GitHub REST API)"
+  },
+  "PR210_ISSUE_COMMENTS": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/issues/210/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:23Z",
+   "sha256": "f32a8bfdeafbb265ded73960d347bb5e429ff5b5333f892a2bfbf1f26f329976",
+   "bytes": 3394,
+   "cache_path": "chain-github-optimizationproblems/api/pr210-issue-comments.json",
+   "note": "PR #210 conversation comments (GitHub REST API)"
+  },
+  "PR210_REVIEW_COMMENTS": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/210/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:23Z",
+   "sha256": "2ba33ca0557f1bb5b7ba88d67f9d0093c7185a36ec51fe2b7bd9372d3e001d6d",
+   "bytes": 5,
+   "cache_path": "chain-github-optimizationproblems/api/pr210-review-comments.json",
+   "note": "PR #210 review comments (GitHub REST API)"
+  },
+  "PR210_REVIEWS": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/210/reviews?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:23Z",
+   "sha256": "2ba33ca0557f1bb5b7ba88d67f9d0093c7185a36ec51fe2b7bd9372d3e001d6d",
+   "bytes": 5,
+   "cache_path": "chain-github-optimizationproblems/api/pr210-reviews.json",
+   "note": "PR #210 reviews (GitHub REST API)"
+  },
+  "PR210_COMMITS": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/teorth/optimizationproblems/pulls/210/commits?per_page=100",
+   "retrieved_utc": "2026-10-21T16:41:24Z",
+   "sha256": "0cf523e24bf15621a7709e54b671768a109664fdfee60cd1ace0235d12b81fb1",
+   "bytes": 12529,
+   "cache_path": "chain-github-optimizationproblems/api/pr210-commits.json",
+   "note": "PR #210 commits (GitHub REST API)"
+  },
+  "ZEN_RECORD": {
+   "kind": "file",
+   "url": "https://zenodo.org/api/records/21175533",
+   "retrieved_utc": "2026-10-21T16:41:52Z",
+   "sha256": "e9a76e1d39218a970be7d65a8f15c8672d939a5249b0dc03a9cb2838f665dfbb",
+   "bytes": 8488,
+   "cache_path": "chain-zenodo-21175533/record-21175533.json",
+   "note": "Zenodo record 21175533 metadata (REST API); its title is not copied here because it carries the reserved stem"
+  },
+  "ZEN_PDF": {
+   "kind": "file",
+   "url": "https://zenodo.org/api/records/21175533/files/main.pdf/content",
+   "retrieved_utc": "2026-10-21T16:42:06Z",
+   "sha256": "10648df3b7222397d88ec5c32681138898c198122cf002e4fb08eac60c9a2477",
+   "bytes": 239740,
+   "cache_path": "chain-zenodo-21175533/main.pdf",
+   "note": "Zenodo record 21175533 file 1, the paper PDF (md5 matches the record); not read, no PDF text tool on this box"
+  },
+  "ZEN_ZIP": {
+   "kind": "file",
+   "url": "https://zenodo.org/api/records/21175533 (files[1], links.self)",
+   "retrieved_utc": "2026-10-21T16:44:01Z",
+   "sha256": "d6f76c7351a8b1be0ae09de27f2a1720eeafa105eba3035a05823bf1a9563957",
+   "bytes": 196150822,
+   "cache_path": "chain-zenodo-21175533/record-file-2.zip",
+   "note": "Zenodo record 21175533 file 2, the 196150822-byte archive (md5 70afd79715d3c3e82c68d62395d468a3 matches the record); stored here under a neutral name because its file key carries the reserved stem; extracted under chain-zenodo-21175533/extracted with no symlinks or parent paths, and its own MANIFEST.sha256 checks clean",
+   "members_root": "chain-zenodo-21175533/extracted"
+  },
+  "ZEN_VERSIONS": {
+   "kind": "file",
+   "url": "https://zenodo.org/api/records/21175533/versions?allversions=true&size=25",
+   "retrieved_utc": "2026-10-21T16:50:38Z",
+   "sha256": "06947f458325debe855709f30f2a29073190b3569f58c345e8d26b2f6ffe6dbb",
+   "bytes": 16510,
+   "cache_path": "chain-zenodo-21175533/versions.json",
+   "note": "all versions of the concept: 20724170 (0.1965) and 21175533 (0.1875)"
+  },
+  "KOR_V1_META": {
+   "kind": "file",
+   "url": "https://zenodo.org/api/records/22337308",
+   "retrieved_utc": "2026-10-21T16:54:24Z",
+   "sha256": "a0544e45d1fa9ac17f7c829de02e83fd5ff001aec3a3195b6fe998f25841307e",
+   "bytes": 6865,
+   "cache_path": "chain-zenodo-kornaus-meta/record-22337308.json",
+   "note": "Zenodo record 22337308 (Kornaus v1.0) metadata"
+  },
+  "KOR_V11_META": {
+   "kind": "file",
+   "url": "https://zenodo.org/api/records/22658444",
+   "retrieved_utc": "2026-10-21T16:54:23Z",
+   "sha256": "f72093b767fe62b1ba8c99789c3cd8c2929fae50c829b725385fcf8c0d5782e5",
+   "bytes": 5936,
+   "cache_path": "chain-zenodo-kornaus-meta/record-22658444.json",
+   "note": "Zenodo record 22658444 (Kornaus v1.1) metadata"
+  },
+  "KOR_V11_PDF": {
+   "kind": "file",
+   "url": "https://zenodo.org/api/records/22658444/files/Collision_Exclusion_in_the_de_Bruijn_Newman_Heat_Flow_v1.1%20(6).pdf/content",
+   "retrieved_utc": "2026-10-21T17:01:35Z",
+   "sha256": "f85a37a8f7cf40a402e82aa2fb8f5c922c9920ee5b4a04ef985090777c49ac37",
+   "bytes": 496374,
+   "cache_path": "chain-zenodo-kornaus-22658444-pdf/kornaus-v1.1.pdf",
+   "note": "Kornaus v1.1 paper PDF (md5 matches the record); hashed, not read (no PDF text tool on this box); superseded for reading by KOR_V11_TEX, whose anchor statements were also checked against this PDF in the session's PDF reader"
+  },
+  "ARXIV_SEARCH": {
+   "kind": "file",
+   "url": "http://export.arxiv.org/api/query?search_query=abs:%22de+Bruijn-Newman%22&sortBy=submittedDate&sortOrder=descending&max_results=60",
+   "retrieved_utc": "2026-10-21T16:57:19Z",
+   "sha256": "40e026af0e79c9fe482a46a87aee882708abbf422aa6b7c5f9dc4bd576cd4d65",
+   "bytes": 29101,
+   "cache_path": "chain-arxiv-search/dbn-abs-newest60.xml",
+   "note": "arXiv API: newest 60 abstracts containing de Bruijn-Newman"
+  },
+  "ARXIV_AU": {
+   "kind": "file",
+   "url": "http://export.arxiv.org/api/query?search_query=au:Imparato&max_results=20",
+   "retrieved_utc": "2026-10-21T16:57:23Z",
+   "sha256": "019051a848a67575f055d2fa7dc01603339922a712e2c09531fbd5433d175bbf",
+   "bytes": 35429,
+   "cache_path": "chain-arxiv-search/au-imparato.xml",
+   "note": "arXiv API: author search Imparato (no dBN paper)"
+  },
+  "DBN_REPO": {
+   "kind": "git",
+   "url": "https://github.com/km-git-acc/dbn_upper_bound.git",
+   "retrieved_utc": "2026-10-21T16:30:49Z",
+   "head": "5fde84e11ba80adad5c225a4eaa0a28b68dc925d",
+   "cache_path": "chain-github-dbn_upper_bound/repo",
+   "note": "full clone, 768 commits; the public code of the project"
+  },
+  "OPT_REPO": {
+   "kind": "git",
+   "url": "https://github.com/teorth/optimizationproblems.git",
+   "retrieved_utc": "2026-10-21T16:41:02Z",
+   "head": "46dbf03669219cb2bcf33fd5bbf65209d137f994",
+   "cache_path": "chain-github-optimizationproblems/repo",
+   "note": "full clone of the catalogue"
+  },
+  "FORK_REPO": {
+   "kind": "git",
+   "url": "https://github.com/463464q435q43/optimizationproblems.git",
+   "retrieved_utc": "2026-10-21T16:50:50Z",
+   "head": "02691eef8025362ef0ab97b0575f9c2eeb646758",
+   "cache_path": "chain-github-fork-463464q435q43/repo.git",
+   "note": "no-checkout clone of the fork that carries the 0.16 and 0.1595 bundles; pinned commits 6baae4c15dccec1e94ac011de399ec382fcea7b6 (0.16) and cc8107854fedd5a96d7eb695178f405568712f35 (0.1595) were exported with git archive into at-6baae4c and at-cc81078; both bundles' own MANIFEST.sha256 check clean"
+  },
+  "LAB_EPSTEIN": {
+   "kind": "repo",
+   "url": "zeta/epstein.py in this repository at fb647bfc7",
+   "note": "the laboratory's pinned Davenport-Heilbronn off-line zero, OFFLINE_ZERO_RE and OFFLINE_ZERO_IM, pinned by tests/test_epstein.py"
+  },
+  "FORK_0160": {
+   "kind": "export",
+   "url": "https://github.com/463464q435q43/optimizationproblems.git",
+   "retrieved_utc": "2026-10-21T16:50:50Z",
+   "commit": "6baae4c15dccec1e94ac011de399ec382fcea7b6",
+   "cache_path": "chain-github-fork-463464q435q43/at-6baae4c",
+   "note": "git archive of the pinned commit; members are cited by basename and SHA-256 only"
+  },
+  "FORK_01595": {
+   "kind": "export",
+   "url": "https://github.com/463464q435q43/optimizationproblems.git",
+   "retrieved_utc": "2026-10-21T16:50:50Z",
+   "commit": "cc8107854fedd5a96d7eb695178f405568712f35",
+   "cache_path": "chain-github-fork-463464q435q43/at-cc81078",
+   "note": "git archive of the pinned commit; members are cited by basename and SHA-256 only"
+  },
+  "DBN_I107": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/107/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T22:08:12Z",
+   "sha256": "df577d88cd0a3a3f0051253bf6c843d24930931ffa9b9554339200143abb4b57",
+   "bytes": 74790,
+   "cache_path": "chain-r2-issues/issue107-comments.json",
+   "note": "comments of issue #107, Corrections to figures (30 comments, one page)"
+  },
+  "DBN_I118": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/118/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T22:08:12Z",
+   "sha256": "86cf141278b2c59843576b3bf14d4abbf82b009e89655dbd3cd02d68fe1b18e0",
+   "bytes": 74764,
+   "cache_path": "chain-r2-issues/issue118-comments.json",
+   "note": "comments of issue #118, Writing up the barrier computation (26 comments, one page)"
+  },
+  "DBN_I126_P1": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/126/comments?per_page=100",
+   "retrieved_utc": "2026-10-21T22:08:13Z",
+   "sha256": "273f074180081faf9c50827356150d0293193832db7bb92d27f2666710c873b7",
+   "bytes": 280646,
+   "cache_path": "chain-r2-issues/issue126-comments.json",
+   "note": "comments of issue #126, Help need for evaluation of latest wiki page equations, page 1 of 2"
+  },
+  "DBN_I126_P2": {
+   "kind": "file",
+   "url": "https://api.github.com/repos/km-git-acc/dbn_upper_bound/issues/126/comments?per_page=100&page=2",
+   "retrieved_utc": "2026-10-21T22:10:18Z",
+   "sha256": "4e501f5c8797e1a157384a84dc356c5542a82ae206ee336af177dbc1ca76fb8a",
+   "bytes": 139669,
+   "cache_path": "chain-r2-issues/issue126-comments-p2.json",
+   "note": "comments of issue #126, page 2 of 2 (154 comments in all)"
+  },
+  "REF_REPORT1": {
+   "kind": "file",
+   "url": "https://terrytao.files.wordpress.com/2019/07/de-bruijn-newman-report.pdf",
+   "retrieved_utc": "2026-10-21T22:08:06Z",
+   "sha256": "e8abfedc0cf4ccf083b1ec17933c7ffbeada7545a3c101a05d232146e6a47cd3",
+   "bytes": 107497,
+   "cache_path": "chain-r2-referee/de-bruijn-newman-report.pdf",
+   "note": "the first 2019 referee report on the Polymath 15 paper, linked from paper-post comment 518938; one page; read in the session's PDF reader, not re-read by test_chain.py"
+  },
+  "REF_REPORT2": {
+   "kind": "file",
+   "url": "https://terrytao.files.wordpress.com/2019/07/condensed-review.pdf",
+   "retrieved_utc": "2026-10-21T22:08:06Z",
+   "sha256": "c841b0910ea2d5daf7d78fa2eba5a2e372e2a4ac56d2bef0fa6a191d1b80d4fd",
+   "bytes": 161986,
+   "cache_path": "chain-r2-referee/condensed-review.pdf",
+   "note": "the second 2019 referee report, linked from the same comment; three pages, a numbered list of corrections; read in the session's PDF reader, not re-read by test_chain.py"
+  },
+  "BLOG_10_TABLE": {
+   "kind": "file",
+   "url": "https://terrytao.wordpress.com/wp-content/uploads/2018/09/numerics5.png",
+   "retrieved_utc": "2026-10-21T22:08:14Z",
+   "sha256": "040d9323715281c5d6fba5a3a395484eb4c8e024f083739b77486d696e3e4702",
+   "bytes": 114450,
+   "cache_path": "chain-r2-blogimg/numerics5.png",
+   "note": "the results table of the tenth-thread post (an image, 1079 by 537 pixels); read in the session's image reader, not re-read by test_chain.py"
+  },
+  "KOR_V11_ZIP": {
+   "kind": "file",
+   "url": "https://zenodo.org/api/records/22658444/files/Zenodo_T020_v1.1_FINAL_SUBMISSION%20(10).zip/content",
+   "retrieved_utc": "2026-10-21T22:11:54Z",
+   "sha256": "63cc29bd7cd998f736c13632712851f179c528c69c51bed2862551606651c176",
+   "bytes": 4516835,
+   "cache_path": "chain-r2-kornaus-v11-zip/kornaus-v1.1-submission.zip",
+   "note": "the submission archive of Zenodo record 22658444 (the 0.172422 package, version 1.1), stored under a neutral name; its md5 matches the record's checksum; 20 entries, no symlinks or parent paths; extracted under chain-r2-kornaus-v11-zip/extracted"
+  },
+  "KOR_V11_TEX": {
+   "kind": "derived",
+   "url": "derived from KOR_V11_ZIP by unzip",
+   "retrieved_utc": "2026-10-21T22:12:00Z",
+   "sha256": "cb79cfa1b9bd4a7a9114558a30c81c8ef95d80cda58e81f6ccc7ec753f7da4e4",
+   "bytes": 51016,
+   "cache_path": "chain-r2-kornaus-v11-zip/extracted/Zenodo_T020_v1.1_FINAL_SUBMISSION/Collision_Exclusion_in_the_de_Bruijn_Newman_Heat_Flow_v1.1.tex",
+   "note": "the TeX source of the 0.172422 paper, version 1.1, dated 8 September 2026 in its own text"
+  },
+  "ARXIV_2610_32694": {
+   "kind": "file",
+   "url": "https://arxiv.org/abs/2610.32694",
+   "retrieved_utc": "2026-10-26T12:59:27Z",
+   "sha256": "e9775f0ddaad95531d87dca3136693f3fc871d74420ac1aafe204113f2ba7cab",
+   "bytes": 78633,
+   "cache_path": "chain-r3-arxiv-2610.32694/abs.html",
+   "note": "arXiv abstract page of 2610.32694 (Planat, version of 2026/10/23); only the abstract was read"
+  }
+ }
+}

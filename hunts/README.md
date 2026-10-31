@@ -5082,6 +5082,58 @@ between #138 and #150 are held by landings in open pull requests and by hunts on
 branches. No claim about RH is made, and a finished construction would still owe its
 complete chain and its review (`docs/08`).
 
+### Hunt #147: the de Bruijn-Newman chain at the verified height (`dbn_pt_height/`, opened 2026-10-21)
+
+**Status: closed at landing, 2026-10-31; no claim promoted, no Lambda bound stated. A
+reading of published sources, graded as what they show, plus a hunt instrument; the step
+it found not carried out is an attempt unresolved, not refuted, and the lab's own sweep
+to close it was never run (paused by allocation). Record:
+[RESULTS.md](dbn_pt_height/RESULTS.md).** (Updated at landing: this line first read
+"open", with the chain lane's sourcing done and repaired after an adversarial
+review (2026-10-21), and the lanes resumed in place on 2026-10-26 to document the
+evaluator's large-x containment checks and to build, preregister and run the
+Davenport-Heilbronn refusal gate. It also said the barrier rule refuses every box holding
+a DH zero; it refuses the gate boxes that hold one.) The task that opened this hunt
+proposed #140; the campaign orchestrator assigned #147 because #138 to #144 are held for
+landings being renumbered, and #140 is already printed by the ref
+`land/krenn-gu-orbits-20261021`. Reading only, no Lambda bound stated. Platt and Trudgian
+(arXiv:2004.09765) take Lambda <= 0.2 from Polymath 15's Table 1, row 2 (X = 5e12 +
+194858, t0 = 0.186, y0 = 0.16733, N0 = 630783). In the Polymath record that row's
+asymptotic-region hypothesis was evaluated **only at N = N0 and y = y0**: the table's
+lower bound 0.0376 is the Euler-2 bound there, the paper (v1 and v2) says the authors
+"expect to be able to verify" the rest, no sweep at row 2's parameters exists at any
+commit of the project repository, and in issue #131 on 2019-04-15 Terence Tao wrote that
+N0 alone is not quite enough, that it should not be a problem because the bounds get
+easier with N and the margin is conservative (a heuristic), and that he was not concerned
+about verifying it carefully. The only reported full sweep is a blog comment of 5 July
+2024 by a reader outside the project, with unpublished code and no stated precision or
+y-range. Disposition: a gap in the published chain, attempt unresolved, not a refutation.
+Two unpublished 2018 parameter points, (0.17, 0.2) at row 2's X and (0.18, 0.2) at X =
+10^12 + 46880, have a barrier and a finite sweep at y = y0; their open steps are the
+y-direction and the region past the last swept N, and closing them would give 0.19 or
+0.20 at Platt and Trudgian's height without row 2. The same Section 10 sentence swaps
+the hypothesis labels of Theorem 1.2, in both arXiv versions, and the swap recurs in the
+0.1875 bundle. The task's four "0.1875" pieces (collision exclusion, interior, exterior
+to 66476100549959, tail) are the 0.16 package's modules; the 0.1875 package itself
+instantiates the Polymath criterion at X = 6000000185827, and its finite-window leg
+consumes a banked lower bound that is cited and not reproduced (a producer ships, its
+run does not). Both the 0.16 and the 0.1595 rows depend on it through the anchor 3/16;
+the 0.172422 row, in the version the catalogue cites, derives its own 0.2 anchor (an
+unrefereed claim) and depends on neither. The zeta-specific inputs are the verification height and the
+Euler-mollified lower bound; Davenport-Heilbronn fails the first (zero 0.8085 +
+85.699i), so the structural DH gate passes. Where the download cache exists, every
+quotation is re-read from hashed sources, and every date, name and count in the notes is
+tied to its source, by `test_chain.py` (corrected at landing: no CI runner has the cache,
+so there those checks skip and the notes are checked against `chain.json` and their
+arithmetic only). `CHAIN.md`, `REDUCTION.md`. Nothing here bears on RH (`docs/08`).
+At landing, a second, separately preregistered stage of the DH gate, at a close pair of
+DH zeros, catches a margin-free count that the first stage could not see; dropping the
+second-derivative term of the derivative bound is still not caught, and only a
+per-segment audit could see it (`evaluator/DH_GATE_PREREG_2.md`, `RUNS.md` E8). The gate
+tests the barrier rule only, not Theorem 1.3's error terms or the Euler-mollified sweep,
+and nothing in this hunt's findings rests on it. `RESULTS.md` separates what was read
+from what the lab computed and gives each finding its grade.
+
 ### Hunt #152: a ball-arithmetic Lehman localization of a sign change of pi(x) - li(x) (`skewes_enclosure/`, opened 2026-10-26)
 
 **Status: open (2026-10-27).** Three outcomes, (1) to (3), all under the same

@@ -1,0 +1,3739 @@
+{
+ "hunt": "dbn_pt_height",
+ "hunt_number": 147,
+ "lane": "chain",
+ "written": "2026-10-21",
+ "branch_base": "fb647bfc7",
+ "how_to_read": "Each quote is an exact substring of the cited source at the cited locator, after collapsing runs of whitespace; HTML and JSON sources are compared after removing tags and decoding entities. test_chain.py re-reads every quote from the cached file whose SHA-256 is in sources.json, and re-derives every identity below. Grades: measured, hardened, kernel-checked; a statement read in a source carries the grade of what the source shows.",
+ "row2": {
+  "X": "5000000194858",
+  "t0": "186/1000",
+  "y0": "16733/100000",
+  "N0": 630783,
+  "table_Lambda": "0.20",
+  "table_winding_number": 0,
+  "table_f_lower_bound": "0.0376",
+  "quotes": [
+   "P8",
+   "P9"
+  ]
+ },
+ "pt2021": {
+  "height": "3000175332800",
+  "quotes": [
+   "PT1",
+   "PT3",
+   "PT4"
+  ]
+ },
+ "identities": [
+  {
+   "id": "row2_lambda",
+   "claim": "t0 + y0^2/2 = 3999993289/20000000000 = 0.19999966445 <= 1/5",
+   "where": "CHAIN.md section 1"
+  },
+  {
+   "id": "row2_height",
+   "claim": "X/2 = 2500000097429 <= 3000175332800 with margin 500175235371; PT's printed threshold 2.51e12 lies between X/2 and the height",
+   "where": "CHAIN.md section 1"
+  },
+  {
+   "id": "row2_N_constant",
+   "claim": "floor(sqrt(x/(4 pi) + t/16)) = 630783 for x in [X, X+1] and t in [0, 0.186], decided by mpmath iv and by python-flint Arb at 256 bits, which must agree (endpoints and monotonicity)",
+   "where": "CHAIN.md section 1"
+  },
+  {
+   "id": "site_1875_lambda",
+   "claim": "1680/10^4 + (39/1000)/2 = 3/16",
+   "where": "REDUCTION.md part A"
+  },
+  {
+   "id": "site_1875_height",
+   "claim": "X'/2 = 6000000185827/2 and 3000175332800 - X'/2 = 350479773/2",
+   "where": "REDUCTION.md part A"
+  },
+  {
+   "id": "site_1875_slab_floor",
+   "claim": "(33/200)^2 = 1089/40000 <= 39/1000 with margin 471/40000",
+   "where": "REDUCTION.md part A"
+  },
+  {
+   "id": "site_N_constant",
+   "claim": "floor(sqrt(x/(4 pi) + t/16)) = 690988 for x in [X', X'+1] and t in [0, 0.1809]",
+   "where": "REDUCTION.md part A"
+  },
+  {
+   "id": "ce_walls",
+   "claim": "with s_n(t) = 4 pi (n^2 - t/16), C = 690988, H = 2299999, J = 2300000: s_C(4/25) < X' < s_{C+1}(3/16) and s_H(4/25) < W < s_J(3/16) < W + 1 for W = 66476100549959 = floor(s_J(3/16))",
+   "where": "REDUCTION.md part B"
+  },
+  {
+   "id": "ce_bands",
+   "claim": "4/25 = 0.16 < 3/16, 319/2000 = 0.1595 < 4/25, and both bands sit inside [0, 3/16]",
+   "where": "REDUCTION.md part B"
+  },
+  {
+   "id": "rung_019",
+   "claim": "0.17 + 0.2^2/2 = 0.19: the 2018 point at row 2's X, the only repository sweep starting at N = 630783",
+   "where": "CHAIN.md sections 2 and 2a"
+  },
+  {
+   "id": "dh_zero",
+   "claim": "|F_DH(rho)| < 1e-20 at the pinned rho (zeta/epstein.py dh_f, dps 40), Re rho - 1/2 > 0.3",
+   "where": "REDUCTION.md part D"
+  },
+  {
+   "id": "dh_fails_height",
+   "claim": "(1 + y0)/2 < Re rho_DH <= 1 and 0 < Im rho_DH <= X/2 for (X, y0) = row 2 and for the 0.1875 site; wide-frame image z = 2 Im rho - i (2 Re rho - 1) has 0 < Re z <= X and Im z != 0",
+   "where": "REDUCTION.md part D"
+  },
+  {
+   "id": "rung_020",
+   "claim": "0.18 + 0.2^2/2 = 1/5 at X = 10^12 + 46880, with X/2 = 500000023440 and 3000175332800 - X/2 = 2500175309360; N = 282094 on its barrier slab",
+   "where": "CHAIN.md section 2a"
+  }
+ ],
+ "verdict_row2": {
+  "question": "Was Theorem 1.2 hypothesis (ii) (asymptotic zero-free region at t0) verified at row 2 over all N >= N0 and its y-range, or only at N0?",
+  "answer": "Only at N = N0 and y = y0 in the Polymath record (paper, repository at every commit, wiki, issue threads). The author's stated reason for not verifying the rest is a heuristic about N (I1, I10). The only report of a sweep over all N >= N0 at row 2's parameters is a blog comment of 5 July 2024 by a reader outside the project, with unpublished code, no stated precision, no stated y-range and no stated threshold in the bounded range, assuming the barrier's winding number (B14).",
+  "grade_of_hypothesis": "not established in the published record; at most measured (one float route, unpublished, by a third party)",
+  "disposition": "attempt unresolved in the published chain (ALIGNMENT.md section 5, case 3); no evidence that the hypothesis is false",
+  "evidence_only_at_N0": [
+   "P8",
+   "P10",
+   "P11",
+   "P12",
+   "R1",
+   "R2",
+   "R5",
+   "I1",
+   "I2",
+   "I3",
+   "I4",
+   "I6",
+   "I7",
+   "I15",
+   "I16",
+   "I17",
+   "W1"
+  ],
+  "evidence_project_intent": [
+   "B7",
+   "B8",
+   "P7",
+   "I11",
+   "I14"
+  ],
+  "claimed_full_sweep": [
+   "B1",
+   "B2",
+   "B12",
+   "B14"
+  ],
+  "same_exchange_context": [
+   "B13",
+   "B3",
+   "B15",
+   "B5",
+   "B16",
+   "B6",
+   "B4",
+   "B11"
+  ],
+  "budget_reused_from_the_022_proof": [
+   "P21",
+   "P22"
+  ],
+  "counter_claim_examined": [
+   "I8",
+   "W3",
+   "W4"
+  ],
+  "y_direction_caveat": [
+   "I5",
+   "I12",
+   "I13",
+   "Z15"
+  ],
+  "downstream_attribution": [
+   "Z11",
+   "Z13",
+   "K1",
+   "K2",
+   "K4",
+   "K5",
+   "K6",
+   "C12"
+  ],
+  "margins_reported_by_others": [
+   "P9",
+   "Z19"
+  ],
+  "headline": "Row 2's asymptotic-region hypothesis was evaluated in the Polymath record only at N = N0 = 630783 and y = y0 = 0.16733, never over all N >= N0 or over its y-range.",
+  "author_heuristic": [
+   "I1",
+   "I10"
+  ],
+  "author_later_statement": [
+   "B9"
+  ],
+  "referee_reports": [
+   "B17"
+  ],
+  "alternative_2018_routes": [
+   "T1",
+   "T2",
+   "T3",
+   "T4",
+   "R5",
+   "R7",
+   "R8",
+   "R9",
+   "R10",
+   "R11"
+  ]
+ },
+ "label_swap": {
+  "theorem_1_2": [
+   "P2",
+   "P3",
+   "P4"
+  ],
+  "section_10_swapped": [
+   "P12",
+   "P13"
+  ],
+  "same_in_v1": [
+   "V1A",
+   "V1C"
+  ],
+  "consistent_elsewhere_in_v2": [
+   "P6",
+   "P16"
+  ],
+  "proof_label_fixed_between_versions": [
+   "V1B",
+   "P15"
+  ],
+  "downstream_bundle": [
+   "Z32",
+   "Z14",
+   "Z33",
+   "Z12",
+   "Z11",
+   "Z16"
+  ],
+  "referee_report_link": [
+   "B17"
+  ]
+ },
+ "not_accessed": [
+  {
+   "what": "Res. Math. Sci. 6:31 (2019) published full text",
+   "why": "the PDF URL returned a JavaScript client challenge and the article page is a subscription preview",
+   "sources": [
+    "RMS_PDF_URL",
+    "RMS_HTML"
+   ],
+   "mitigation": [
+    "ABS1"
+   ]
+  },
+  {
+   "what": "Platt-Trudgian, Bull. London Math. Soc. 53 (2021) 792-797, published text",
+   "why": "closed access (OpenAlex oa_status closed); only arXiv v1 exists",
+   "sources": [
+    "ABS_PT"
+   ]
+  },
+  {
+   "what": "K. Broughan, Equivalents of the Riemann Hypothesis, chapter on the dBN upper bound (doi 10.1017/9781009384780.007), described in a 2024 comment as a rewrite and verification of the Polymath15 work",
+   "why": "closed access; whether it treats row 2's right region is unknown",
+   "sources": [
+    "BLOG_10"
+   ],
+   "mitigation": [
+    "B11"
+   ]
+  },
+  {
+   "what": "the website named in the 4 July 2024 comment",
+   "why": "not fetched: it is an application site, not a deposit; the 4 July 2024 comment that names it was posted as Anonymous and speaks of floating point",
+   "sources": [
+    "BLOG_10"
+   ]
+  },
+  {
+   "what": "the PDF of Zenodo record 21175533",
+   "why": "hashed, not read; the bundle describes it as the 0.1965 paper (Z31), and the 0.1875 claim was read in the bundle's assembly writeup",
+   "sources": [
+    "ZEN_PDF"
+   ]
+  }
+ ],
+ "reduction_1875": [
+  {
+   "id": "A0",
+   "lemma": "Upper bound criterion: (i) RH to X/2, (ii) asymptotic zero-free region at t0, (iii) barrier imply Lambda <= t0 + y0^2/2",
+   "source": "Polymath 15 Theorem 1.2, proof in its Section 3 with de Bruijn 1950 Theorem 13; refereed",
+   "quotes": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "Z14"
+   ],
+   "gaps": [
+    "the bundle's instantiation at the 0.2 row swaps the (ii)/(iii) labels and attributes row 2's right region to a sweep the Polymath record does not contain"
+   ],
+   "gap_quotes": [
+    "Z11",
+    "Z12"
+   ]
+  },
+  {
+   "id": "A1",
+   "lemma": "Effective approximation H_t/B_t = f_t + O(e_A + e_B + e_C0) with explicit error bounds",
+   "source": "Polymath 15 Theorem 1.3; refereed; transcribed by the bundle's error-terms audit",
+   "quotes": [
+    "Z19"
+   ],
+   "gaps": [
+    "the project's own PARI code uses a sub-term smaller than the published one (harmless at these parameters per the audit, which this lane did not rerun)"
+   ],
+   "gap_quotes": [
+    "Z20"
+   ]
+  },
+  {
+   "id": "A2",
+   "lemma": "Hypothesis (i): RH verified to X'/2 = 3000000092913.5",
+   "source": "Platt-Trudgian 2021 Theorem 1; refereed",
+   "quotes": [
+    "Z3",
+    "PT1"
+   ],
+   "gaps": [],
+   "zeta_specific": "verification height"
+  },
+  {
+   "id": "A3",
+   "lemma": "Hypothesis (iii): boundary winding 0 on [X', X'+1] x [33/200, 1] for all t in [0, 1809/10^4], plus N-constancy on the slab",
+   "source": "the bundle's barrier-slab leg (output of the Polymath C barrier code at the 6e12 site), corner-audit second line, site-glue leg",
+   "quotes": [
+    "Z4",
+    "R6"
+   ],
+   "gaps": [
+    "a barrier computation outside any refereed record; issue 151 reports a typo in the paper's printed barrier condition and says the production code does not consume it"
+   ],
+   "gap_quotes": [
+    "I9"
+   ]
+  },
+  {
+   "id": "A4",
+   "lemma": "Hypothesis (ii), finite windows N in [690988, 2745000], all y in [sqrt(39/1000), sqrt(1-2t)], t tile [1680, 1685]/10^4",
+   "source": "the bundle's lwin2_compose leg, which composes a banked Euler-3 L-type lower bound (mollifier {1,2,3,6}) of at least 19/200 on eleven t-tiles [1640+5k, 1645+5k]/10^4",
+   "quotes": [
+    "Z5",
+    "Z21",
+    "Z9",
+    "Z28"
+   ],
+   "gaps": [
+    "the banked lower bound over about two million windows is cited and not reproduced: a parametric producer that could regenerate it ships (Z24, Z25, Z26), but its invocation for the lwin2 tiles and its output are absent; the only run script and every compressed log belong to runs at t = 0.1770, 0.1775 or the box between them (Z27, Z22, Z29, Z30)"
+   ],
+   "gap_quotes": [
+    "Z8",
+    "Z10",
+    "Z17",
+    "Z22",
+    "Z24",
+    "Z25",
+    "Z26",
+    "Z27",
+    "Z29",
+    "Z30"
+   ],
+   "lwin2_naming_members": [
+    "ASSEMBLY_1875.md",
+    "ASSEMBLY_1891.md",
+    "LWIN2_COMPOSE.md",
+    "MANIFEST.sha256",
+    "OPTCOEFF_YTAIL_NMID1680.md",
+    "README.md",
+    "THEOREM_MAP.json",
+    "THEOREM_MAP.md",
+    "assembly1875_1891_secondline.py",
+    "check_bundle.sh",
+    "fill_attempt_log.txt",
+    "live_run.log",
+    "run_log.txt",
+    "verify.sh",
+    "verify_assembly_18634552_fillattempt.py",
+    "verify_assembly_1875.py",
+    "verify_assembly_1891.py",
+    "verify_clean_copy_log.txt",
+    "verify_clean_copy_log2.txt",
+    "verify_log.txt",
+    "verify_lwin2_compose.py",
+    "verify_optcoeff_ytail_nmid1680.py",
+    "verify_run_log_tmpcopy.txt",
+    "verify_run_log_tmpcopy2.txt"
+   ],
+   "zeta_specific": "Euler-mollified lower bound",
+   "producer": {
+    "basename": "lemma_sweep_L_tbox.c",
+    "quotes": [
+     "Z24",
+     "Z25",
+     "Z26"
+    ],
+    "shipped_run": "t in [1770, 1775]/10000, y^2 = 39/1000, type 2 (Z27)"
+   },
+   "cap_naming_members": [
+    "ASSEMBLY_1875.md",
+    "ASSEMBLY_1891.md",
+    "FINWIN_YBIND.md",
+    "LRESID_COMPOSE.md",
+    "LWIN2_COMPOSE.md",
+    "OPTCOEFF_YTAIL_NMID1680.md",
+    "README.md",
+    "THEOREM_MAP.json",
+    "THEOREM_MAP.md",
+    "assembly1875_1891_secondline.py",
+    "fill_attempt_log.txt",
+    "live_run.log",
+    "run_log.txt",
+    "verify.sh",
+    "verify_assembly_18634552_fillattempt.py",
+    "verify_assembly_1875.py",
+    "verify_assembly_1891.py",
+    "verify_clean_copy_log.txt",
+    "verify_clean_copy_log2.txt",
+    "verify_finwin_ybind.py",
+    "verify_log.txt",
+    "verify_lresid_compose.py",
+    "verify_lwin2_compose.py",
+    "verify_optcoeff_ytail_nmid1680.py",
+    "verify_run_log_tmpcopy.txt",
+    "verify_run_log_tmpcopy2.txt",
+    "windowleft_extension.py"
+   ],
+   "compressed_logs": {
+    "Lbox_e2_shard0.log.gz": "tbox_header",
+    "L_e2_t1770_shard0.log.gz": "file_name",
+    "L_e2_t1775_shard0.log.gz": "file_name",
+    "Lbox_e2_shard1.log.gz": "tbox_header",
+    "L_e2_t1770_shard1.log.gz": "file_name",
+    "L_e2_t1775_shard1.log.gz": "file_name",
+    "Lbox_e2_shard2.log.gz": "tbox_header",
+    "L_e2_t1770_shard2.log.gz": "file_name",
+    "L_e2_t1775_shard2.log.gz": "file_name",
+    "Lbox_e2_shard3.log.gz": "tbox_header",
+    "L_e2_t1770_shard3.log.gz": "file_name",
+    "L_e2_t1775_shard3.log.gz": "file_name",
+    "Lbox_e2_shard4.log.gz": "tbox_header",
+    "L_e2_t1770_shard4.log.gz": "file_name",
+    "L_e2_t1775_shard4.log.gz": "file_name",
+    "Lbox_e2_shard5.log.gz": "tbox_header",
+    "L_e2_t1770_shard5.log.gz": "file_name",
+    "L_e2_t1775_shard5.log.gz": "file_name",
+    "Lbox_e2_shard6.log.gz": "tbox_header",
+    "L_e2_t1770_shard6.log.gz": "file_name",
+    "L_e2_t1775_shard6.log.gz": "file_name",
+    "Lbox_e2_shard7.log.gz": "tbox_header",
+    "L_e2_t1770_shard7.log.gz": "file_name",
+    "L_e2_t1775_shard7.log.gz": "file_name",
+    "driver.log.gz": "driver",
+    "lemma1965_m3_shardA.log.gz": {
+     "quote": "Z29",
+     "dir": "lemma1965_package"
+    },
+    "lemma1965_m3_shardB.log.gz": {
+     "quote": "Z29",
+     "dir": "lemma1965_package"
+    },
+    "lemma1965_m3_shardC.log.gz": {
+     "quote": "Z29",
+     "dir": "lemma1965_package"
+    },
+    "lemma_m3_row1775_shardA.log.gz": "file_name",
+    "lemma_m3_row1775_shardB.log.gz": "file_name",
+    "sweep_chunk1.log.gz": {
+     "quote": "Z30",
+     "dir": "sweep_package"
+    },
+    "sweep_chunk2.log.gz": {
+     "quote": "Z30",
+     "dir": "sweep_package"
+    },
+    "sweep_chunk3.log.gz": {
+     "quote": "Z30",
+     "dir": "sweep_package"
+    },
+    "sweep_chunk4.log.gz": {
+     "quote": "Z30",
+     "dir": "sweep_package"
+    }
+   },
+   "compressed_log_count": 34
+  },
+  {
+   "id": "A5",
+   "lemma": "Hypothesis (ii), tail N >= 2745000 on the band [1680, 1696]/10^4, full y-range",
+   "source": "recomputed live inside the bundle's assembly script (the optcoeff_ytail device with the cutoff as a parameter)",
+   "quotes": [
+    "Z6"
+   ],
+   "gaps": [
+    "the package's own monotonicity lemma and tail device, unrefereed"
+   ],
+   "gap_quotes": [
+    "Z6"
+   ],
+   "zeta_specific": "Euler-mollified lower bound"
+  },
+  {
+   "id": "A6",
+   "lemma": "y-transfer: a sweep at y = y0 covers all y in [y0, y_max]",
+   "source": "the bundle's y_reduction Theorem 1, the package's own lemma",
+   "quotes": [
+    "Z15"
+   ],
+   "gaps": [
+    "own lemma, unrefereed; the Polymath project found the earlier y-monotonicity assumption false in 2019"
+   ],
+   "gap_quotes": [
+    "I5"
+   ]
+  },
+  {
+   "id": "A7",
+   "lemma": "Composition: Lambda <= 1680/10^4 + (39/1000)/2 = 3/16 at X' = 6000000185827, sole RH input PT2021",
+   "source": "the bundle's assembly_1875 leg",
+   "quotes": [
+    "Z1",
+    "Z2",
+    "Z7"
+   ],
+   "gaps": [
+    "self-archived and unrefereed; the catalogue marks every row below 0.2 as not refereed and not independently replayed"
+   ],
+   "gap_quotes": [
+    "C2"
+   ]
+  }
+ ],
+ "reduction_ce": [
+  {
+   "id": "B0",
+   "rows": [
+    "0.16",
+    "0.1595"
+   ],
+   "lemma": "Anchor Lambda <= b = 3/16",
+   "source": "bank line V1-H-213, which is the assembly_1875 package (part A)",
+   "quotes": [
+    "F5",
+    "F17",
+    "G7",
+    "C3",
+    "C4",
+    "C5",
+    "C8"
+   ],
+   "gaps": [
+    "cited, not re-verified in the 0.16 bundle; the bundle's frozen copy differs from the Zenodo writeup in one word at line 74, a substitution (campaign-targeted in the Zenodo writeup, operator-targeted in the copy) with no mathematical content"
+   ],
+   "gap_quotes": [
+    "F15",
+    "F18",
+    "Z23"
+   ]
+  },
+  {
+   "id": "B1",
+   "rows": [
+    "0.16",
+    "0.1595"
+   ],
+   "lemma": "Collision exclusion: if a <= Lambda <= b with a > 0 then H_Lambda has a multiple real zero, via a uniform remote tail (every zero with |Re z| >= 4 pi exp(128/r) + 1 is real and simple for t in [r, 1/2])",
+   "source": "bank lines 590 and 588, proof shipped as frozen text",
+   "quotes": [
+    "F4"
+   ],
+   "gaps": [
+    "own theorem with an explicit constant, unrefereed; the published Polymath Theorem 1.5 (distribution of zeroes) has only unspecified absolute constants"
+   ],
+   "gap_quotes": [
+    "P19"
+   ]
+  },
+  {
+   "id": "B2",
+   "rows": [
+    "0.16",
+    "0.1595"
+   ],
+   "lemma": "Interior x in [0, X']: PT2021 at X'/2 makes every zero of H_0 with |Re z| <= X' real; a compact separator and Hermite propagation keep them real on [0, b] and simple on (0, b]",
+   "source": "bank lines 590, 617, 599",
+   "quotes": [
+    "F6"
+   ],
+   "gaps": [
+    "own lemmas, unrefereed"
+   ],
+   "gap_quotes": [
+    "F6"
+   ],
+   "zeta_specific": "verification height"
+  },
+  {
+   "id": "B3",
+   "rows": [
+    "0.16",
+    "0.1595"
+   ],
+   "lemma": "Separator: H_t(+-X' + iy) != 0 for t in [0, b], |y| <= 1, normalized modulus above 7/800",
+   "source": "bank lines 596 and 616, a frozen numerical summary",
+   "quotes": [
+    "F7"
+   ],
+   "gaps": [
+    "numerical production not rerun by the bundle"
+   ],
+   "gap_quotes": [
+    "F13"
+   ]
+  },
+  {
+   "id": "B4",
+   "rows": [
+    "0.16"
+   ],
+   "lemma": "Exterior [X', W], W = 66476100549959: no multiple real zero on the closed band, from a weighted Gram inequality on the four-prime torus 2, 3, 5, 7 at (4/25, X', 690988), carried to every index N in [690988, 2299999] and lifted to H_t",
+   "source": "bank lines 767, 774, 720, 733, 744, 754, 738, 710, 725",
+   "quotes": [
+    "F8",
+    "F9",
+    "F12",
+    "C6"
+   ],
+   "gaps": [
+    "source productions not rerun",
+    "bank authentication left to an external verifier",
+    "external audits open and release held at the snapshot"
+   ],
+   "gap_quotes": [
+    "F13",
+    "F14",
+    "F3"
+   ],
+   "zeta_specific": "Euler-mollified lower bound"
+  },
+  {
+   "id": "B5",
+   "rows": [
+    "0.16"
+   ],
+   "lemma": "Tail [W, infinity): real-axis jet reserve for every N >= 2299999 with no terminal cutoff, Euler13 witness",
+   "source": "bank lines 729 and 772",
+   "quotes": [
+    "F10",
+    "F11"
+   ],
+   "gaps": [
+    "frozen output, not rerun"
+   ],
+   "gap_quotes": [
+    "F13"
+   ],
+   "zeta_specific": "Euler-mollified lower bound"
+  },
+  {
+   "id": "B6",
+   "rows": [
+    "0.1595"
+   ],
+   "lemma": "One exterior x >= X' for every N >= 690988 with no terminal cutoff (replaces B4 and B5)",
+   "source": "bank lines 782, 767, 774, 744, 754, 771, 779, 710, 725: line 782 on top of the banked 767 source and 774 contraction, forward heat 744 and 754, real lift 771 audited 779 with the 710 and 725 errors",
+   "quotes": [
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "C7"
+   ],
+   "gaps": [
+    "the source coefficients and torus-leaf proofs remain banked inputs",
+    "hash commitments are not proofs of acceptance",
+    "reviews open and release held"
+   ],
+   "gap_quotes": [
+    "G4",
+    "G8",
+    "G1",
+    "G9"
+   ],
+   "zeta_specific": "Euler-mollified lower bound"
+  },
+  {
+   "id": "B7",
+   "rows": [
+    "0.16",
+    "0.1595"
+   ],
+   "lemma": "Coverage: the modules' boxes union to the closed band times [0, infinity), negative x by evenness",
+   "source": "the bundles' coverage checks",
+   "quotes": [
+    "F12",
+    "G6"
+   ],
+   "gaps": [],
+   "gap_quotes": []
+  }
+ ],
+ "outside_review": [
+  "C9",
+  "C10",
+  "C11"
+ ],
+ "dependencies": [
+  {
+   "row": "0.2",
+   "anchor": "Polymath 15 Table 1 row 2 plus PT2021",
+   "uses_1875_reduction": false,
+   "inherits_row2_gap": true,
+   "quotes": [
+    "PT3",
+    "C1"
+   ]
+  },
+  {
+   "row": "0.1875",
+   "anchor": "its own site X' = 6000000185827",
+   "uses_1875_reduction": true,
+   "inherits_row2_gap": false,
+   "quotes": [
+    "Z2",
+    "Z7"
+   ]
+  },
+  {
+   "row": "0.16",
+   "anchor": "Lambda <= 3/16",
+   "uses_1875_reduction": true,
+   "inherits_row2_gap": false,
+   "quotes": [
+    "C3",
+    "C5",
+    "F5"
+   ]
+  },
+  {
+   "row": "0.1595",
+   "anchor": "Lambda <= 3/16",
+   "uses_1875_reduction": true,
+   "inherits_row2_gap": false,
+   "quotes": [
+    "C4",
+    "C8",
+    "G7"
+   ]
+  },
+  {
+   "row": "0.172422",
+   "anchor": "version 1 (Zenodo 22337308, 5 September 2026) states the published Lambda <= 0.2; version 1.1 (Zenodo 22658444, 8 September 2026, the version the catalogue cites) proves its own Lambda <= 0.2 from its separator, its tail theorem and Platt-Trudgian's height",
+   "uses_1875_reduction": false,
+   "inherits_row2_gap": false,
+   "quotes": [
+    "K1",
+    "K2",
+    "K3",
+    "K4",
+    "K5",
+    "K6",
+    "K7",
+    "C12"
+   ],
+   "note": "corrected in the repair: the first pass read only the version 1 record and the announcement and said the row inherits the row-2 gap; version 1.1 removes the published 0.2 as a logical dependency. The catalogue note C2 (all three 0.16-range packages descend from the 0.1875 row) does not hold for this row in either version, if this is the third package it means"
+  }
+ ],
+ "zeta_specific_inputs": [
+  {
+   "name": "verification height",
+   "statement": "RH verified to height X/2 (Platt-Trudgian 2021, T = 3000175332800)",
+   "enters": [
+    "row 2 hypothesis (i)",
+    "A2",
+    "B2"
+   ],
+   "quotes": [
+    "PT1",
+    "P2",
+    "Z3",
+    "F6"
+   ],
+   "DH": "fails: the Davenport-Heilbronn zero lies in the excluded region"
+  },
+  {
+   "name": "Euler-mollified lower bound",
+   "statement": "a lower bound for the Riemann-Siegel-type approximation f_t to the right of the barrier, obtained after an Euler-product mollifier",
+   "enters": [
+    "row 2 hypothesis (ii) (Lemma trib2, Euler 2, at N0)",
+    "A4",
+    "A5",
+    "B4",
+    "B5",
+    "B6"
+   ],
+   "quotes": [
+    "P11",
+    "P18",
+    "P20",
+    "Z21",
+    "F9",
+    "F11"
+   ],
+   "DH": "not tested in this lane"
+  }
+ ],
+ "dh_gate": {
+  "zero_re": "0.80851718245663738555335196060684412785067026830502",
+  "zero_im": "85.699348485377592171929267708941729037987829423408",
+  "quotes": [
+   "L1",
+   "L2"
+  ],
+  "wide_frame_z_re": "171.398696970755184343858535417883458075975658846816",
+  "wide_frame_z_im_abs": "0.61703436491327477110670392121368825570134053661004",
+  "fails_input": "verification height",
+  "passes_gate": true
+ },
+ "searched": [
+  {
+   "where": "arXiv TeX of 1904.12438 v1 and v2, of 2004.09765 v1",
+   "found": "Table 1 bound at N = N0 only; expect-to-verify sentence in both versions"
+  },
+  {
+   "where": "github.com/km-git-acc/dbn_upper_bound, all 778 commits on all refs (768 on master), all issues and pull requests (151), comments of issues 81, 107, 113, 118, 126, 131",
+   "found": "no row-2 sweep at any commit; the 2018 points at (0.17, 0.2) and (0.18, 0.2) with a barrier and a finite sweep at y = y0; the 2019-04-15 statement and its heuristic reason"
+  },
+  {
+   "where": "the project wiki (live site 404; Wayback snapshots of Zero-free regions, the main page and Estimating a sum) and the empty GitHub wiki",
+   "found": "no conditional rows; main page says may be improved to 0.20"
+  },
+  {
+   "where": "the blog: ninth, tenth and eleventh threads and the 2019 paper post, all comments, the tenth-thread post body and its results table",
+   "found": "the July 2024 check and the thread it sits in; the 2018 announcement of 0.19 at the Gourdon-Demichel height; the April 2020 statement that Platt-Trudgian improves 0.22 to 0.20"
+  },
+  {
+   "where": "teorth/optimizationproblems constants/21a.md with PRs 208 and 210 and their comments",
+   "found": "rows, anchors and an outside reader's refusal of the 0.1595 package"
+  },
+  {
+   "where": "Zenodo 21175533 (record, versions, archive) and the fork commits 6baae4c and cc81078",
+   "found": "the 0.1875 reduction and the collision-exclusion modules; no re-verification of row 2"
+  },
+  {
+   "where": "arXiv API: newest 60 abstracts with de Bruijn-Newman; author Imparato",
+   "found": "six 2024 to 2026 papers, none about row 2 in its abstract (abstracts only were read); no paper by the 2024 commenter"
+  },
+  {
+   "where": "Crossref and OpenAlex for the published Polymath and Platt-Trudgian papers",
+   "found": "Polymath published version blocked by a client challenge; Platt-Trudgian published version closed"
+  },
+  {
+   "where": "the two 2019 referee reports linked from paper-post comment 518938",
+   "found": "neither raises N >= N0 or the Section 10 label swap (read in the PDF reader)"
+  },
+  {
+   "where": "Zenodo 22337308 and 22658444 and the TeX of the 0.172422 paper, version 1.1",
+   "found": "version 1 states the published 0.2 as its anchor; version 1.1 proves its own"
+  }
+ ],
+ "quotes": [
+  {
+   "id": "PT1",
+   "source": "PT_TEX",
+   "text": "The Riemann hypothesis is true up to height $3\\,000\\,175\\,332\\,800$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     62,
+     62
+    ]
+   }
+  },
+  {
+   "id": "PT2",
+   "source": "PT_TEX",
+   "text": "The 15th Polymath Project \\cite{Poly} contains some calculations with the de Bruijn--Newman constant: the authors prove that $\\Lambda \\leq 0.22$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     144,
+     144
+    ]
+   }
+  },
+  {
+   "id": "PT3",
+   "source": "PT_TEX",
+   "text": "The second row in Table 1 on page 65 of \\cite{Poly} shows\\footnote{Note that the $X$ in Table 1 corresponds to $2H$. } that one may take $\\Lambda \\leq 0.2$ provided one has shown $H> 2.51\\cdot 10^{12}$. This leads to the following.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     144,
+     144
+    ]
+   }
+  },
+  {
+   "id": "PT4",
+   "source": "PT_TEX",
+   "text": "We have $\\Lambda \\leq 0.2.$",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     146,
+     146
+    ]
+   }
+  },
+  {
+   "id": "PT5",
+   "source": "PT_TEX",
+   "text": "The next entry in Table 1 of \\cite{Poly} is conditional on taking $H$ a little higher than $10^{13}$, which of course, is not achieved by Theorem \\ref{bank}.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     149,
+     149
+    ]
+   }
+  },
+  {
+   "id": "PT6",
+   "source": "PT_TEX",
+   "text": "it is possible that some extra decimals could be wrought out of the calculation. We have not pursued this.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     149,
+     149
+    ]
+   }
+  },
+  {
+   "id": "P1",
+   "source": "P15V2_TEX",
+   "text": "\\begin{theorem}[Upper bound criterion]\\label{ubc-0}  Suppose that $t_0, X > 0$ and $0 < y_0 \\leq 1$ obey the following hypotheses:",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     145,
+     145
+    ]
+   }
+  },
+  {
+   "id": "P2",
+   "source": "P15V2_TEX",
+   "text": "\\item[(i)]  (Numerical verification of RH at initial time $0$) There are no zeroes $\\zeta(\\sigma+iT) = 0$ with $\\frac{1+y_0}{2} \\leq \\sigma \\leq 1$ and $0 \\leq T \\leq \\frac{X}{2}$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     147,
+     147
+    ]
+   }
+  },
+  {
+   "id": "P3",
+   "source": "P15V2_TEX",
+   "text": "\\item[(ii)]  (Asymptotic zero-free region at final time $t_0$) There are no zeroes $H_{t_0}(x+iy)=0$ with $x \\geq X+\\sqrt{1-y_0^2}$ and $y_0 \\leq y \\leq \\sqrt{1-2t_0}$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     148,
+     148
+    ]
+   }
+  },
+  {
+   "id": "P4",
+   "source": "P15V2_TEX",
+   "text": "\\item[(iii)]  (Barrier at intermediate times) There are no zeroes $H_{t}(x+iy)=0$ with $X \\leq x \\leq X+\\sqrt{1-y_0^2}$, $\\sqrt{y_0^2+2(t_0-t)} \\leq y \\leq \\sqrt{1-2t}$, and $0 \\leq t \\leq t_0$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     149,
+     149
+    ]
+   }
+  },
+  {
+   "id": "P5",
+   "source": "P15V2_TEX",
+   "text": "Then $\\Lambda \\leq t_0 + \\frac{1}{2} y_0^2$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     151,
+     151
+    ]
+   }
+  },
+  {
+   "id": "P6",
+   "source": "P15V2_TEX",
+   "text": "(The hypothesis (iii) is also verified numerically, but can be done quite quickly compared to (ii), and so does not present the main bottleneck to further improvements to Theorem \\ref{new-upper}.)",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     165,
+     165
+    ]
+   }
+  },
+  {
+   "id": "P7",
+   "source": "P15V2_TEX",
+   "text": "The table below collects some numerical results verifying the second two hypotheses of Theorem \\ref{ubc-0} for larger values of $X$, and smaller values of $t_0,y_0$, than were considered in Section \\ref{newup-sec}.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1940,
+     1940
+    ]
+   }
+  },
+  {
+   "id": "P8",
+   "source": "P15V2_TEX",
+   "text": "$X$ & $t_{0}$ & $y_{0}$ & $\\Lambda$ & $\\textbf{Winding Number}$ & $N_{0}$ & $|f_t(x+iy)|$ lower bound\\\\",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1947,
+     1947
+    ]
+   }
+  },
+  {
+   "id": "P9",
+   "source": "P15V2_TEX",
+   "text": "$5 \\times 10^{12} + 194858$ & 0.186 & 0.16733 & 0.20 & 0 & 630783 & 0.0376\\\\",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1950,
+     1950
+    ]
+   }
+  },
+  {
+   "id": "P10",
+   "source": "P15V2_TEX",
+   "text": "One first located parameters $t_0, y_0, N_0$ (with the quantity $\\Lambda = t_0 + \\frac{1}{2} y_0^2$ as small as possible) for which one could obtain a good lower bound for $f_{t_0}(x+iy_0)$ when $x=N_0$; we arbitrarily chose a target lower bound of $|f_{t_0}(x+iy_0)| \\geq 0.03$ to provide an adequate safety margin.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1965,
+     1965
+    ]
+   }
+  },
+  {
+   "id": "P11",
+   "source": "P15V2_TEX",
+   "text": "Using this lemma to lower bound $|\\sum_{n=1}^N \\beta_n|$ and upper bound $|\\sum_{n=1}^N \\alpha_n|$, and then using the triangle inequality, yields a lower bound on $|f_{t_0}(x+iy_0)|$ when $N=N_0$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1994,
+     1994
+    ]
+   }
+  },
+  {
+   "id": "P12",
+   "source": "P15V2_TEX",
+   "text": "By working in intervals $N \\in [N_-,N_+]$ for some finite number of intervals $[N_-,N_+]$ covering $[N_0,N_1]$ for some large $N_1$ as in Section \\ref{b-bound}, and then using a crude triangle inequality bound for $N \\geq N_1$ as in Section \\ref{c-bound}, we thus (in view of the conservative safety margin in our lower bounds for $|f_{t_0}(x+iy_0)|$) expect to be able to verify the hypothesis in Theorem \\ref{ubc-0}(iii) for any choice of parameters $t_0, y_0, N_0$ as above.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     2002,
+     2002
+    ]
+   }
+  },
+  {
+   "id": "P13",
+   "source": "P15V2_TEX",
+   "text": "The main remaining difficulty is then to verify the barrier hypothesis (Theorem \\ref{ubc-0}(ii)).",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     2002,
+     2002
+    ]
+   }
+  },
+  {
+   "id": "P14",
+   "source": "P15V2_TEX",
+   "text": "All barrier runs generated a winding number of zero for each rectangle and the scripts completed successfully without any errors.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     2010,
+     2010
+    ]
+   }
+  },
+  {
+   "id": "P15",
+   "source": "P15V2_TEX",
+   "text": "The right side $x=X$ of this boundary is ruled out by hypothesis (iii)",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     462,
+     462
+    ]
+   }
+  },
+  {
+   "id": "P16",
+   "source": "P15V2_TEX",
+   "text": "By Theorem \\ref{Zero}, one can verify the second hypothesis of Theorem \\ref{ubc-0} when $X \\geq \\exp(C/t_0)$ for a large constant $C$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1936,
+     1936
+    ]
+   }
+  },
+  {
+   "id": "P17",
+   "source": "P15V2_TEX",
+   "text": "Write $N_0 \\coloneqq 69098$ and $N_1 \\coloneqq 1.5 \\times 10^6$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1224,
+     1224
+    ]
+   }
+  },
+  {
+   "id": "P21",
+   "source": "P15V2_TEX",
+   "text": "\\frac{H_t(x+iy)}{B_t(x+iy)} = f_t(x+iy) + O_{\\leq}( 1.25 \\times 10^{-3} ).",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1242,
+     1242
+    ]
+   }
+  },
+  {
+   "id": "P22",
+   "source": "P15V2_TEX",
+   "text": "\\item[(c)]  When $N \\geq N_1$, $t = 0.2$, and $0.2 \\leq y \\leq 1$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1229,
+     1229
+    ]
+   }
+  },
+  {
+   "id": "V1A",
+   "source": "P15V1_TEX",
+   "text": "expect to be able to verify the hypothesis in Theorem \\ref{ubc-0}(iii) for any choice of parameters $t_0, y_0, N_0$ as above.  The main remaining difficulty is then to verify the barrier hypothesis (Theorem \\ref{ubc-0}(ii)).",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     2004,
+     2004
+    ]
+   }
+  },
+  {
+   "id": "V1B",
+   "source": "P15V1_TEX",
+   "text": "The right side $x=X$ of this boundary is ruled out by hypothesis (ii)",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     461,
+     461
+    ]
+   }
+  },
+  {
+   "id": "V1C",
+   "source": "P15V1_TEX",
+   "text": "\\item[(ii)]  (Asymptotic zero-free region at final time $t_0$) There are no zeroes $H_{t_0}(x+iy)=0$ with $x \\geq X+\\sqrt{1-y_0^2}$ and $y_0 \\leq y \\leq \\sqrt{1-2t_0}$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     149,
+     149
+    ]
+   }
+  },
+  {
+   "id": "ABS1",
+   "source": "ABS_P15",
+   "text": "This is the final version, incorporating referee comments and corrections",
+   "kind": "html_page",
+   "locator": {
+    "page": true
+   }
+  },
+  {
+   "id": "R1",
+   "source": "DBN_REPO",
+   "text": "Our conclusions are summarised in the table below, with the Moll2 bound describing the lower bound on $|f_t(x+iy)|$ obtained by using the Euler mollifier $E_{t,2}(x+iy)$, and $N_a$ the initial value of $N$ at the point $X$.",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "7eff6114efd97ed8de58d31503a6e4b464d61c18",
+    "path": "Writeup/further.tex",
+    "lines": [
+     7,
+     7
+    ]
+   }
+  },
+  {
+   "id": "R2",
+   "source": "DBN_REPO",
+   "text": "expect to be able to verify the hypothesis in Theorem \\ref{ubc-0}(iii) for any choice of parameters $t_0, y_0, N_0$ as above.",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "4a460d9b85198c78e6314f30718314160e2b1473",
+    "path": "Writeup/further.tex",
+    "lines": [
+     69,
+     69
+    ]
+   }
+  },
+  {
+   "id": "R3",
+   "source": "DBN_REPO",
+   "text": "Processing the barrier for X= 5000000194858...5000000194859 (N = 630783), y0 = 0.16733...1 , t = 0...0.186",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "5fde84e11ba80adad5c225a4eaa0a28b68dc925d",
+    "path": "output/windingnumbers/windnum_nolemma_x5000000194858_y_0.16733_1_t_0_0.186.txt",
+    "lines": [
+     4,
+     4
+    ]
+   }
+  },
+  {
+   "id": "R4",
+   "source": "DBN_REPO",
+   "text": "Overall winding number: 0.000000",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "5fde84e11ba80adad5c225a4eaa0a28b68dc925d",
+    "path": "output/windingnumbers/windnum_nolemma_x5000000194858_y_0.16733_1_t_0_0.186.txt",
+    "lines": [
+     442,
+     442
+    ]
+   }
+  },
+  {
+   "id": "R5",
+   "source": "DBN_REPO",
+   "text": "630783, 0.1535925023, 1.740023267e-05, (init)",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "5fde84e11ba80adad5c225a4eaa0a28b68dc925d",
+    "path": "output/eulerbounds/lemmasawtooth_bounds_t_0.17_y_0.2_N_630783_15mil_moll_2,3,5.txt",
+    "lines": [
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "id": "R6",
+   "source": "DBN_REPO",
+   "text": "Processing the barrier for X= 6000000185827...6000000185828 (N = 690988), y0 = 0.1809...1 , t = 0...0.1809",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "5fde84e11ba80adad5c225a4eaa0a28b68dc925d",
+    "path": "output/windingnumbers/windnum_nolemma_x6000000185827_y_0.1809_1_t_0_0.1809.txt",
+    "lines": [
+     4,
+     4
+    ]
+   }
+  },
+  {
+   "id": "I1",
+   "source": "DBN_I131",
+   "text": "It is technically true that in order to properly clear out the region to the right of the barrier, it's not quite enough to do the calculation at N_0; one should start clearing out intervals as in what we now do in Section 8.5, then do an analytic calculation past some extremely large cutoff N_1, but given how the bounds always get easier as N increases, and the conservative safety margin we have in the lower bound for f_t, this should not be a problem and I am not really concerned about verifying this carefully  (though it would not be too difficult to do if, say, a referee insists on it).",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 483072037,
+    "author": "teorth",
+    "created_at": "2019-04-15T00:22:23Z"
+   }
+  },
+  {
+   "id": "I2",
+   "source": "DBN_I131",
+   "text": "I am not really concerned about verifying this carefully  (though it would not be too difficult to do if, say, a referee insists on it).",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 483072037,
+    "author": "teorth",
+    "created_at": "2019-04-15T00:22:23Z"
+   }
+  },
+  {
+   "id": "I3",
+   "source": "DBN_I131",
+   "text": "we could select Barrier locations where `N_1` was already sufficiently positive and no further verification work beyond the Barrier would be required.",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 482898695,
+    "author": "rudolph-git-acc",
+    "created_at": "2019-04-13T23:39:25Z"
+   }
+  },
+  {
+   "id": "I4",
+   "source": "DBN_I131",
+   "text": "is it actually correct to assume that an analytical proof of non-vanishing will always exist beyond the point at which a prime 2 (i.e. mollified) Triangle bound has become sufficiently positive?",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 483036121,
+    "author": "rudolph-git-acc",
+    "created_at": "2019-04-14T18:30:42Z"
+   }
+  },
+  {
+   "id": "I5",
+   "source": "DBN_I131",
+   "text": "the Lemma bound is in fact not monotone in y as previously thought",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 481039999,
+    "author": "teorth",
+    "created_at": "2019-04-08T23:08:02Z"
+   }
+  },
+  {
+   "id": "I6",
+   "source": "DBN_ISSUES_P1",
+   "text": "can be made positive already at the location of the Barrier",
+   "kind": "json_issue_body",
+   "locator": {
+    "issue": 131,
+    "author": "rudolph-git-acc",
+    "created_at": "2019-01-25T23:30:19Z"
+   }
+  },
+  {
+   "id": "I7",
+   "source": "DBN_I81_P4",
+   "text": "5E+12 | 630783 | 0.20 | 0.186 | 0.167332 | 0.037612",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 419641798,
+    "author": "km-git-acc",
+    "created_at": "2018-09-08T13:22:49Z"
+   }
+  },
+  {
+   "id": "I8",
+   "source": "DBN_I113_P2",
+   "text": "the triangle bound we calculate always stays positive since it is an asymptotic estimate and is guaranteed to be positive by a lemma",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 451748000,
+    "author": "km-git-acc",
+    "created_at": "2019-01-06T14:59:30Z"
+   }
+  },
+  {
+   "id": "B1",
+   "source": "BLOG_10",
+   "text": "We checked the calculations using parameters N0=630783 N1=5000000, t0=0.186, y0=0.16733 as per the paper.",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685281",
+    "author": "Fabrice Imparato",
+    "date": "5 July, 2024",
+    "parent": "comment-685279"
+   }
+  },
+  {
+   "id": "B2",
+   "source": "BLOG_10",
+   "text": "until we reached N1=5000000 using Lemma 10.1 based on Euler 2 mollifier",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685281",
+    "author": "Fabrice Imparato",
+    "date": "5 July, 2024",
+    "parent": "comment-685279"
+   }
+  },
+  {
+   "id": "B3",
+   "source": "BLOG_10",
+   "text": "we used Python code on orderai.azurewebsites.net with 15 to 17 digits float",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685274",
+    "author": "Anonymous",
+    "date": "4 July, 2024",
+    "parent": "comment-685255"
+   }
+  },
+  {
+   "id": "B4",
+   "source": "BLOG_10",
+   "text": "It may be related with an issue we found in a previous version of the argument which should now be fixed",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685279",
+    "author": "Terence Tao",
+    "date": "5 July, 2024",
+    "parent": "comment-685274"
+   }
+  },
+  {
+   "id": "B5",
+   "source": "BLOG_10",
+   "text": "Great and thanks for the efforts you put into this detailed verification.",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685289",
+    "author": "Rudolph",
+    "date": "7 July, 2024",
+    "parent": "comment-685288"
+   }
+  },
+  {
+   "id": "B6",
+   "source": "BLOG_10",
+   "text": "Unfortunately I am stuck with the numerical verification of claim (93)",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685241",
+    "author": "Fabrice Imparato",
+    "date": "28 June, 2024",
+    "parent": null
+   }
+  },
+  {
+   "id": "B7",
+   "source": "BLOG_9",
+   "text": "and then to have a final section with some further conditional results, and here perhaps we do not need to provide as many details.",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-502226",
+    "author": "Terence Tao",
+    "date": "4 July, 2018",
+    "parent": "comment-502183"
+   }
+  },
+  {
+   "id": "B8",
+   "source": "BLOG_11",
+   "text": "Then the paper should be largely completed except perhaps for the final section on conditional results.",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-514865",
+    "author": "Terence Tao",
+    "date": "12 April, 2019",
+    "parent": "comment-514823"
+   }
+  },
+  {
+   "id": "B9",
+   "source": "BLOG_PAPER",
+   "text": "which, among other things, immediately improves the upper bound \\Lambda \\leq 0.22 in the Polymath15 paper to \\Lambda \\leq 0.20",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-554457",
+    "author": "Terence Tao",
+    "date": "22 April, 2020",
+    "parent": null,
+    "alt": true
+   }
+  },
+  {
+   "id": "B10",
+   "source": "BLOG_PAPER",
+   "text": "This is not so difficult to pursue.",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-556524",
+    "author": "Rudolph",
+    "date": "1 May, 2020",
+    "parent": "comment-554457"
+   }
+  },
+  {
+   "id": "B11",
+   "source": "BLOG_10",
+   "text": "In chapter 6 he shares a rewrite and verification of the Polymath15 work.",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685289",
+    "author": "Rudolph",
+    "date": "7 July, 2024",
+    "parent": "comment-685288"
+   }
+  },
+  {
+   "id": "B12",
+   "source": "BLOG_10",
+   "text": "In the unbounded region, N1>5000000, we checked |ft(x + iy| > 1.25 × 10−3 using Lemma 8.2.",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685281",
+    "author": "Fabrice Imparato",
+    "date": "5 July, 2024",
+    "parent": "comment-685279"
+   }
+  },
+  {
+   "id": "B13",
+   "source": "BLOG_10",
+   "text": "The sum Y in Lemma 8.5 does appear too large",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685274",
+    "author": "Anonymous",
+    "date": "4 July, 2024",
+    "parent": "comment-685255"
+   }
+  },
+  {
+   "id": "W1",
+   "source": "WIKI_ZFR_20251012",
+   "text": "This page was last edited on 10 May 2018, at 17:44.",
+   "kind": "html_page",
+   "locator": {
+    "page": true
+   }
+  },
+  {
+   "id": "W2",
+   "source": "WIKI_MAIN_20260816",
+   "text": "but with the recent numerical verification of RH in https://arxiv.org/abs/2004.09765 this may be improved to",
+   "kind": "html_page",
+   "locator": {
+    "page": true
+   }
+  },
+  {
+   "id": "W3",
+   "source": "WIKI_ESTSUM_20250822",
+   "text": "The summand is monotone decreasing in N so we can majorise it by N/2 times the value at N/2",
+   "kind": "html_page",
+   "locator": {
+    "page": true
+   }
+  },
+  {
+   "id": "W4",
+   "source": "WIKI_ESTSUM_20250822",
+   "text": "Euler2 mollifier in the toy model",
+   "kind": "html_page",
+   "locator": {
+    "page": true
+   }
+  },
+  {
+   "id": "W5",
+   "source": "DBN_GH_WIKI",
+   "text": "Welcome to the dbn_upper_bound wiki!",
+   "kind": "html_page",
+   "locator": {
+    "page": true
+   }
+  },
+  {
+   "id": "C1",
+   "source": "OPT_21A",
+   "text": "| 0.2 | [PT2021] |  |",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     22,
+     22
+    ]
+   }
+  },
+  {
+   "id": "C2",
+   "source": "OPT_21A",
+   "text": "The last refereed bound is $0.2$ [PT2021]. The three $0.16$-range packages all descend from the $0.1875$ row, which they take as their starting point, so they are not independent of it.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     43,
+     43
+    ]
+   }
+  },
+  {
+   "id": "C3",
+   "source": "OPT_21A",
+   "text": "no multiple real zero for t in [4/25, 3/16], anchored at the 0.1875 row; same barrier site, sole RH input [PT2021]",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     26,
+     26
+    ]
+   }
+  },
+  {
+   "id": "C4",
+   "source": "OPT_21A",
+   "text": "no multiple real zero for t in [319/2000, 3/16], anchored at the 0.1875 row; same barrier site, sole RH input [PT2021]",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     27,
+     27
+    ]
+   }
+  },
+  {
+   "id": "C5",
+   "source": "PR208",
+   "text": "With the existing bound Λ ≤ 3/16 ([MI2026b], the 0.1875 row) this gives Λ < 4/25.",
+   "kind": "json_field",
+   "locator": {
+    "field": "body"
+   }
+  },
+  {
+   "id": "C6",
+   "source": "PR208",
+   "text": "with three modules (interior x ≤ X, exterior X ≤ x ≤ 66476100549959, tail beyond) whose union is checked in exact arithmetic.",
+   "kind": "json_field",
+   "locator": {
+    "field": "body"
+   }
+  },
+  {
+   "id": "C7",
+   "source": "PR210",
+   "text": "with two modules (interior x ≤ X, exterior x ≥ X with every index N ≥ 690988 and no terminal cutoff) whose union is checked in exact arithmetic.",
+   "kind": "json_field",
+   "locator": {
+    "field": "body"
+   }
+  },
+  {
+   "id": "C8",
+   "source": "PR210",
+   "text": "With the existing bound Λ ≤ 3/16 ([MI2026b], the 0.1875 row) this gives Λ < 319/2000.",
+   "kind": "json_field",
+   "locator": {
+    "field": "body"
+   }
+  },
+  {
+   "id": "C9",
+   "source": "PR210_ISSUE_COMMENTS",
+   "text": "no function in the five scripts evaluates ζ, H_t or the 690,988-term Dirichlet polynomial",
+   "kind": "json_comment_list",
+   "locator": {
+    "index": 0,
+    "author": "carlostoledo1891",
+    "created_at": "2026-10-15T23:43:47Z"
+   }
+  },
+  {
+   "id": "C10",
+   "source": "PR210_ISSUE_COMMENTS",
+   "text": "and the anchor Λ ≤ 3/16 is your own July row.",
+   "kind": "json_comment_list",
+   "locator": {
+    "index": 0,
+    "author": "carlostoledo1891",
+    "created_at": "2026-10-15T23:43:47Z"
+   }
+  },
+  {
+   "id": "C11",
+   "source": "PR208",
+   "text": "A passing run is a mechanical check, not a referee's verdict",
+   "kind": "json_field",
+   "locator": {
+    "field": "body"
+   }
+  },
+  {
+   "id": "Z1",
+   "source": "ZEN_ZIP",
+   "text": "> **Λ ≤ t₀ + y₀²/2 = 1680/10⁴ + (39/1000)/2 = 1875/10⁴ = 3/16 = 0.1875",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY_1875.md",
+    "sha256": "f1a60c19c9c5f632512b9466042d3aef4089b49e9d9670de7a8bffb22894d596",
+    "lines": [
+     12,
+     12
+    ]
+   }
+  },
+  {
+   "id": "Z2",
+   "source": "ZEN_ZIP",
+   "text": "> **unconditionally**, at the campaign site X = 6000000185827,",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY_1875.md",
+    "sha256": "f1a60c19c9c5f632512b9466042d3aef4089b49e9d9670de7a8bffb22894d596",
+    "lines": [
+     14,
+     14
+    ]
+   }
+  },
+  {
+   "id": "Z3",
+   "source": "ZEN_ZIP",
+   "text": "- **(i)** PT2021 (arXiv:2004.09765) T_PT = 3000175332800 ≥ X/2 = 3000000092913.5, exact margin 350479773/2",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY_1875.md",
+    "sha256": "f1a60c19c9c5f632512b9466042d3aef4089b49e9d9670de7a8bffb22894d596",
+    "lines": [
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "id": "Z4",
+   "source": "ZEN_ZIP",
+   "text": "boundary-winding 0 on [X, X+1] × [33/200, 1] for ALL real t ∈ [0, 1809/10⁴]",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY_1875.md",
+    "sha256": "f1a60c19c9c5f632512b9466042d3aef4089b49e9d9670de7a8bffb22894d596",
+    "lines": [
+     34,
+     35
+    ]
+   }
+  },
+  {
+   "id": "Z5",
+   "source": "ZEN_ZIP",
+   "text": "- **(ii-a)** N ∈ [690988, 2745000], ALL real y ∈ [√(39/1000), √(1−2t)] = the VERIFIED dbn_prover-s35 FOUNDATION lwin2_compose",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY_1875.md",
+    "sha256": "f1a60c19c9c5f632512b9466042d3aef4089b49e9d9670de7a8bffb22894d596",
+    "lines": [
+     44,
+     45
+    ]
+   }
+  },
+  {
+   "id": "Z6",
+   "source": "ZEN_ZIP",
+   "text": "- **(ii-b = §T, LIVE)** N ≥ 2745000: the P1113 tail closure at cutoff",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY_1875.md",
+    "sha256": "f1a60c19c9c5f632512b9466042d3aef4089b49e9d9670de7a8bffb22894d596",
+    "lines": [
+     50,
+     50
+    ]
+   }
+  },
+  {
+   "id": "Z7",
+   "source": "ZEN_ZIP",
+   "text": "hypothesis (i) via PT2021 (X/2 ≤ T_PT, gate G3).",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY_1875.md",
+    "sha256": "f1a60c19c9c5f632512b9466042d3aef4089b49e9d9670de7a8bffb22894d596",
+    "lines": [
+     90,
+     90
+    ]
+   }
+  },
+  {
+   "id": "Z8",
+   "source": "ZEN_ZIP",
+   "text": "## Citations (banked verified facts consumed; none re-proved)",
+   "kind": "bundle",
+   "locator": {
+    "basename": "LWIN2_COMPOSE.md",
+    "sha256": "d10488fc50322e47c10c768a1f39cb325deed5e9e5d7bed798221b9933ec35de",
+    "lines": [
+     124,
+     124
+    ]
+   }
+  },
+  {
+   "id": "Z9",
+   "source": "ZEN_ZIP",
+   "text": "- strip_economics-s26 lwin2 (FOUNDATION, banked 2026-07-02): the per-tile L ≥ 19/200 staircase floors, exact tiles, exact Nc integers, exact height.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "LWIN2_COMPOSE.md",
+    "sha256": "d10488fc50322e47c10c768a1f39cb325deed5e9e5d7bed798221b9933ec35de",
+    "lines": [
+     126,
+     127
+    ]
+   }
+  },
+  {
+   "id": "Z10",
+   "source": "ZEN_ZIP",
+   "text": "The conclusion is conditional on the cited banked facts exactly as listed",
+   "kind": "bundle",
+   "locator": {
+    "basename": "LWIN2_COMPOSE.md",
+    "sha256": "d10488fc50322e47c10c768a1f39cb325deed5e9e5d7bed798221b9933ec35de",
+    "lines": [
+     181,
+     181
+    ]
+   }
+  },
+  {
+   "id": "Z11",
+   "source": "ZEN_ZIP",
+   "text": "(iii) the zero-free right region at y₀: no zeros H_{t₀}(x+iy) = 0, x ≥ X + √(1−y₀²), y₀ ≤ y ≤ √(1−2t₀) (Polymath 15 Lemma-bound sweep, Table 1 row 2).",
+   "kind": "bundle",
+   "locator": {
+    "basename": "THEOREM_LAMBDA_CRITERION.md",
+    "sha256": "9a187fc6e27b92d8735808848ca58b1961c5cddb0bc90c0d85b2e62365770371",
+    "lines": [
+     126,
+     127
+    ]
+   }
+  },
+  {
+   "id": "Z12",
+   "source": "ZEN_ZIP",
+   "text": "(ii) H_t(x+iy) ≠ 0 on the barrier slab x ∈ [X, X+1], y ∈ [y₀, 1], t ∈ [0, t₀]",
+   "kind": "bundle",
+   "locator": {
+    "basename": "THEOREM_LAMBDA_CRITERION.md",
+    "sha256": "9a187fc6e27b92d8735808848ca58b1961c5cddb0bc90c0d85b2e62365770371",
+    "lines": [
+     122,
+     122
+    ]
+   }
+  },
+  {
+   "id": "Z13",
+   "source": "ZEN_ZIP",
+   "text": "deliverables (Polymath artifacts for §2; the producer/the independent verifier for §3).",
+   "kind": "bundle",
+   "locator": {
+    "basename": "THEOREM_LAMBDA_CRITERION.md",
+    "sha256": "9a187fc6e27b92d8735808848ca58b1961c5cddb0bc90c0d85b2e62365770371",
+    "lines": [
+     188,
+     188
+    ]
+   }
+  },
+  {
+   "id": "Z14",
+   "source": "ZEN_ZIP",
+   "text": "(ii) *(Asymptotic zero-free region at time t₀)* There are no zeros H_{t₀}(x+iy) = 0 with",
+   "kind": "bundle",
+   "locator": {
+    "basename": "THEOREM_LAMBDA_CRITERION.md",
+    "sha256": "9a187fc6e27b92d8735808848ca58b1961c5cddb0bc90c0d85b2e62365770371",
+    "lines": [
+     55,
+     55
+    ]
+   }
+  },
+  {
+   "id": "Z15",
+   "source": "ZEN_ZIP",
+   "text": "Flagged as an open uncertainty in our earlier draft: without a y-monotonicity argument the sweep does not by itself give hypothesis (ii).",
+   "kind": "bundle",
+   "locator": {
+    "basename": "Y_REDUCTION.md",
+    "sha256": "93a6e0c465d5aaaef5f1412899bcaee7f405060c84c021b6230da2b243d13f08",
+    "lines": [
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "id": "Z16",
+   "source": "ZEN_ZIP",
+   "text": "uses the OPPOSITE numbering",
+   "kind": "bundle",
+   "locator": {
+    "basename": "README.md",
+    "sha256": "6a7c97566538afead4c785b4b862b9c28bc1d396514ea9d52ce879bb1bf8ef2d",
+    "lines": [
+     229,
+     229
+    ]
+   }
+  },
+  {
+   "id": "Z17",
+   "source": "ZEN_ZIP",
+   "text": "**Every claim can be re-verified from this bundle alone,",
+   "kind": "bundle",
+   "locator": {
+    "basename": "README.md",
+    "sha256": "6a7c97566538afead4c785b4b862b9c28bc1d396514ea9d52ce879bb1bf8ef2d",
+    "lines": [
+     40,
+     40
+    ]
+   }
+  },
+  {
+   "id": "Z18",
+   "source": "ZEN_ZIP",
+   "text": "on the full N = 630783 window gives ub(Q) <= −1.884711403e-1",
+   "kind": "bundle",
+   "locator": {
+    "basename": "WRITEUP.md",
+    "sha256": "1abd51fdcb934b7b33a8439299375fb9195de286297274a0e8cd5d631ef78579",
+    "lines": [
+     34,
+     35
+    ]
+   }
+  },
+  {
+   "id": "Z22",
+   "source": "ZEN_ZIP",
+   "text": "L-type Euler-2 t-BOX full-grid sweep (box-uniform over t in [0.1770, 0.1775])",
+   "kind": "bundle",
+   "locator": {
+    "basename": "PRODUCER_README.md",
+    "sha256": "513ada0ea5be1d54d20d6f82057d6a06cfad0dc384da0479a1ed9d2ea33ec637",
+    "lines": [
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "id": "F1",
+   "source": "FORK_0160",
+   "text": "Let a=4/25, b=3/16, X=6000000185827, C=690988, H=2299999,",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     5,
+     5
+    ]
+   }
+  },
+  {
+   "id": "F2",
+   "source": "FORK_0160",
+   "text": "Lambda<4/25. The SOLE finite RH input is PT2021 (arXiv:2004.09765),",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     13,
+     13
+    ]
+   }
+  },
+  {
+   "id": "F3",
+   "source": "FORK_0160",
+   "text": "The designated external record-use audits of767's COMPLETE Gram source, 774's recovery/adoption and THIS final composition remain OPEN at the captured snapshot. Record release is HELD.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     27,
+     29
+    ]
+   }
+  },
+  {
+   "id": "F4",
+   "source": "FORK_0160",
+   "text": "Memory590 proves the positive-stall theorem, independently audited588.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     37,
+     37
+    ]
+   }
+  },
+  {
+   "id": "F5",
+   "source": "FORK_0160",
+   "text": "V1-H-213 supplies Lambda<=b.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     61,
+     61
+    ]
+   }
+  },
+  {
+   "id": "F6",
+   "source": "FORK_0160",
+   "text": "PT2021 initializes reality in |Re z|<=X at t=0.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     69,
+     69
+    ]
+   }
+  },
+  {
+   "id": "F7",
+   "source": "FORK_0160",
+   "text": "Memory596, with the COMPLETE external numerical line616, proves H_t(+-X+i*y)!=0 for EVERY t in CLOSED[0,b] and EVERY |y|<=1;",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     104,
+     105
+    ]
+   }
+  },
+  {
+   "id": "F8",
+   "source": "FORK_0160",
+   "text": "Memory774 proves, on the EXACT CLOSED rectangle[a,b]x[X,W], for each",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     116,
+     116
+    ]
+   }
+  },
+  {
+   "id": "F9",
+   "source": "FORK_0160",
+   "text": "At SINGLETON(a,X,C),767 supplies the full-prime-torus floor>1/10 AND a STRONGER normalized Gram inequality on the four-prime torus2,3,5,7:",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     128,
+     129
+    ]
+   }
+  },
+  {
+   "id": "F10",
+   "source": "FORK_0160",
+   "text": "Memory729, externally audited772, proves for EVERY t in CLOSED[a,b],",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     221,
+     221
+    ]
+   }
+  },
+  {
+   "id": "F11",
+   "source": "FORK_0160",
+   "text": "Its current-time Euler13 witness uses the complete variable-phase mass,",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     227,
+     227
+    ]
+   }
+  },
+  {
+   "id": "F12",
+   "source": "FORK_0160",
+   "text": "COVER module=exterior t=[4/25,3/16] x=[6000000185827,66476100549959]",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "a6c620eb9ffd110b641982129b1173bc4c7aa4262afc2f12ab08a2451f81773c",
+    "lines": [
+     248,
+     248
+    ]
+   }
+  },
+  {
+   "id": "F13",
+   "source": "FORK_0160",
+   "text": "the underlying new coefficient/Fourier/Taylor productions are NOT rerun.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "QUANTIFIER_AUDIT.md",
+    "sha256": "722bb0eddbd53e48b6a5f415f285c41b56198c83bbeb4403c7693c7880da0397",
+    "lines": [
+     37,
+     37
+    ]
+   }
+  },
+  {
+   "id": "F14",
+   "source": "FORK_0160",
+   "text": "Bank authentication is the external verifier's job; equal local digests alone prove no execution provenance.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "QUANTIFIER_AUDIT.md",
+    "sha256": "722bb0eddbd53e48b6a5f415f285c41b56198c83bbeb4403c7693c7880da0397",
+    "lines": [
+     40,
+     41
+    ]
+   }
+  },
+  {
+   "id": "F15",
+   "source": "FORK_0160",
+   "text": "The anchor is cited, not re-verified here.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "README.md",
+    "sha256": "102b51a6faac2aa9d57b70038f14fb8b82903c26449b1fe3e443c5f9fc61946d",
+    "lines": [
+     38,
+     38
+    ]
+   }
+  },
+  {
+   "id": "F16",
+   "source": "FORK_0160",
+   "text": "Heavy computations accepted earlier in the campaign are not re-run:",
+   "kind": "bundle",
+   "locator": {
+    "basename": "README.md",
+    "sha256": "102b51a6faac2aa9d57b70038f14fb8b82903c26449b1fe3e443c5f9fc61946d",
+    "lines": [
+     36,
+     36
+    ]
+   }
+  },
+  {
+   "id": "F17",
+   "source": "FORK_0160",
+   "text": "[V1-H-213 dbn_prover-s37 2026-07-03] FOUNDATION. PACKAGE assembly_1875",
+   "kind": "bundle",
+   "locator": {
+    "basename": "CITATIONS.json",
+    "sha256": "ef9111d59d67d50a6efd2f1411f4d2775b00549d55e38a5dc65a3a9aef645959",
+    "lines": [
+     7,
+     7
+    ]
+   }
+  },
+  {
+   "id": "F18",
+   "source": "FORK_0160",
+   "text": "- The operator-targeted 0.18634552 pathway (y₀' = 413/2500 at",
+   "kind": "bundle",
+   "locator": {
+    "basename": "anchor.txt",
+    "sha256": "874957ddc1caa202aeffa7573013dc161854c39b3f832d367fd5cd008e9ccb54",
+    "lines": [
+     74,
+     74
+    ]
+   }
+  },
+  {
+   "id": "G1",
+   "source": "FORK_01595",
+   "text": "This is a mathematical composition, NOT a released record candidate.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "70b7411e2129ab4a182935e6be7a1772bc152b66a630e80f1594f409e8c34025",
+    "lines": [
+     3,
+     3
+    ]
+   }
+  },
+  {
+   "id": "G2",
+   "source": "FORK_01595",
+   "text": "a=319/2000, b=3/16, a_src=4/25, h=a_src-a=1/2000,",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "70b7411e2129ab4a182935e6be7a1772bc152b66a630e80f1594f409e8c34025",
+    "lines": [
+     11,
+     11
+    ]
+   }
+  },
+  {
+   "id": "G3",
+   "source": "FORK_01595",
+   "text": "Memory782 proves the required whole-half-line theorem at the EARLIER time",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "70b7411e2129ab4a182935e6be7a1772bc152b66a630e80f1594f409e8c34025",
+    "lines": [
+     89,
+     89
+    ]
+   }
+  },
+  {
+   "id": "G4",
+   "source": "FORK_01595",
+   "text": "The complete source coefficients, inverse/Fourier construction and numerical torus-leaf proofs remain banked767 inputs.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "70b7411e2129ab4a182935e6be7a1772bc152b66a630e80f1594f409e8c34025",
+    "lines": [
+     120,
+     122
+    ]
+   }
+  },
+  {
+   "id": "G5",
+   "source": "FORK_01595",
+   "text": "consumes NO729/772 practical Euler tail.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "70b7411e2129ab4a182935e6be7a1772bc152b66a630e80f1594f409e8c34025",
+    "lines": [
+     235,
+     235
+    ]
+   }
+  },
+  {
+   "id": "G6",
+   "source": "FORK_01595",
+   "text": "COVER module=exterior t=[319/2000,3/16] x=[6000000185827,inf]",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "70b7411e2129ab4a182935e6be7a1772bc152b66a630e80f1594f409e8c34025",
+    "lines": [
+     256,
+     256
+    ]
+   }
+  },
+  {
+   "id": "G7",
+   "source": "FORK_01595",
+   "text": "If Lambda>=a, the anchor V1-H-213 (independent V1-H-220) gives",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "70b7411e2129ab4a182935e6be7a1772bc152b66a630e80f1594f409e8c34025",
+    "lines": [
+     276,
+     276
+    ]
+   }
+  },
+  {
+   "id": "G8",
+   "source": "FORK_01595",
+   "text": "Hash commitments identify accepted inputs; they are not proofs of bank acceptance or numerical inequalities.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "70b7411e2129ab4a182935e6be7a1772bc152b66a630e80f1594f409e8c34025",
+    "lines": [
+     300,
+     301
+    ]
+   }
+  },
+  {
+   "id": "G9",
+   "source": "FORK_01595",
+   "text": "Therefore candidate release is HELD.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY.md",
+    "sha256": "70b7411e2129ab4a182935e6be7a1772bc152b66a630e80f1594f409e8c34025",
+    "lines": [
+     306,
+     306
+    ]
+   }
+  },
+  {
+   "id": "P18",
+   "source": "P15V2_TEX",
+   "text": "f_t(x+iy) \\propto \\prod_{p \\leq P} \\left(1 - \\frac{b_p^t}{p^s}\\right)^{-1}.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1170,
+     1170
+    ]
+   }
+  },
+  {
+   "id": "P19",
+   "source": "P15V2_TEX",
+   "text": "let $C>0$ be a sufficiently large absolute constant, and let $c>0$ be a sufficiently small absolute constant.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     298,
+     298
+    ]
+   }
+  },
+  {
+   "id": "P20",
+   "source": "P15V2_TEX",
+   "text": "we introduce an\\footnote{In the literature one also sees other choices of mollifier than this Euler product used",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     1574,
+     1574
+    ]
+   }
+  },
+  {
+   "id": "Z19",
+   "source": "ZEN_ZIP",
+   "text": "| 0.20-row barrier corner | (5×10¹²+194858, 0.16733, 0.186) | 630783 | 4.4575e-12 | 1.0306e-7 | 1.0307e-7 |",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ERROR_TERMS_AUDIT.md",
+    "sha256": "da91b3dada1d8f60d7da190361b6c75afb0e7889d030c8eddeb189e10e85d20d",
+    "lines": [
+     75,
+     75
+    ]
+   }
+  },
+  {
+   "id": "Z20",
+   "source": "ZEN_ZIP",
+   "text": "deviates from Proposition 6.6(vi)'s displayed `6.92/(x − 12)`.",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ERROR_TERMS_AUDIT.md",
+    "sha256": "da91b3dada1d8f60d7da190361b6c75afb0e7889d030c8eddeb189e10e85d20d",
+    "lines": [
+     92,
+     92
+    ]
+   }
+  },
+  {
+   "id": "Z21",
+   "source": "ZEN_ZIP",
+   "text": "for the pinned pari L-type Euler-3 functional (mollifier {1,2,3,6}) at",
+   "kind": "bundle",
+   "locator": {
+    "basename": "LWIN2_COMPOSE.md",
+    "sha256": "d10488fc50322e47c10c768a1f39cb325deed5e9e5d7bed798221b9933ec35de",
+    "lines": [
+     16,
+     17
+    ]
+   }
+  },
+  {
+   "id": "I9",
+   "source": "DBN_ISSUES_P1",
+   "text": "so the actual verification never consumed the printed inequality.",
+   "kind": "json_issue_body",
+   "locator": {
+    "issue": 151,
+    "author": "korciuch",
+    "created_at": "2026-07-21T03:01:24Z"
+   }
+  },
+  {
+   "id": "K1",
+   "source": "KOR_V1_META",
+   "text": "Together with the published bound Λ ≤ 0 . 2, this yields Λ < 0 . 172422",
+   "kind": "json_field",
+   "locator": {
+    "field": "metadata.description"
+   }
+  },
+  {
+   "id": "K2",
+   "source": "BLOG_PAPER",
+   "text": "Combined with the published Platt–Trudgian/Polymath15 anchor Λ≤0.2",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-694208",
+    "author": "Anonymous",
+    "date": "5 September, 2026",
+    "parent": null
+   }
+  },
+  {
+   "id": "L1",
+   "source": "LAB_EPSTEIN",
+   "text": "\"0.80851718245663738555335196060684412785067026830502\"",
+   "kind": "repo",
+   "locator": {
+    "path": "zeta/epstein.py",
+    "lines": [
+     207,
+     207
+    ]
+   }
+  },
+  {
+   "id": "L2",
+   "source": "LAB_EPSTEIN",
+   "text": "\"85.699348485377592171929267708941729037987829423408\"",
+   "kind": "repo",
+   "locator": {
+    "path": "zeta/epstein.py",
+    "lines": [
+     210,
+     210
+    ]
+   }
+  },
+  {
+   "id": "I10",
+   "source": "DBN_I131",
+   "text": "but given how the bounds always get easier as N increases, and the conservative safety margin we have in the lower bound for f_t, this should not be a problem",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 483072037,
+    "author": "teorth",
+    "created_at": "2019-04-15T00:22:23Z"
+   }
+  },
+  {
+   "id": "I11",
+   "source": "DBN_I131",
+   "text": "and maybe we don't need to do them if we just want to give a tentative indication of what conditional results ought to be possible with our approach",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 482761079,
+    "author": "teorth",
+    "created_at": "2019-04-13T00:43:47Z"
+   }
+  },
+  {
+   "id": "I12",
+   "source": "DBN_I131",
+   "text": "There is a somewhat serious issue in the verification of what is now (ii) - the region where N is between 69098 and 1.5 x 10^6 arising from the fact that the Lemma bound is in fact not monotone in y as previously thought",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 481039999,
+    "author": "teorth",
+    "created_at": "2019-04-08T23:08:02Z"
+   }
+  },
+  {
+   "id": "I13",
+   "source": "DBN_I131",
+   "text": "One does also have to treat the other three sides of the rectangle than just the most important lower side (in which y=0.2)",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 482697410,
+    "author": "teorth",
+    "created_at": "2019-04-12T19:36:52Z"
+   }
+  },
+  {
+   "id": "I14",
+   "source": "DBN_I131",
+   "text": "The output here is pretty close to the output from the old abbeff_largex_ep_bound data so I would imagine that all the conditional results you've obtained would also go through.",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 482761079,
+    "author": "teorth",
+    "created_at": "2019-04-13T00:43:47Z"
+   }
+  },
+  {
+   "id": "I15",
+   "source": "DBN_I107",
+   "text": "Both DBN-cases have a Triangle bound that is already positive at the Barrier location, so no further numerical work is required beyond the verification that no zeros have passed the Barrier itself.",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 428755573,
+    "author": "rudolph-git-acc",
+    "created_at": "2018-10-10T22:31:13Z"
+   }
+  },
+  {
+   "id": "I16",
+   "source": "DBN_I118",
+   "text": "You've mentioned that for some ranges of parameters we can actually skip this step - I take it though that for the original unconditional bound of 0.22 this step is still needed?",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 449131760,
+    "author": "teorth",
+    "created_at": "2018-12-20T20:52:30Z"
+   }
+  },
+  {
+   "id": "I17",
+   "source": "DBN_I118",
+   "text": "we unfortunately can't skip the 'lower Lemma bound > error upper bound' verification step",
+   "kind": "json_comment",
+   "locator": {
+    "comment_id": 449140766,
+    "author": "rudolph-git-acc",
+    "created_at": "2018-12-20T21:27:31Z"
+   }
+  },
+  {
+   "id": "B14",
+   "source": "BLOG_10",
+   "text": "assuming a winding number of zero at the barrier location, which is the step requiring the most CPU",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685281",
+    "author": "Fabrice Imparato",
+    "date": "5 July, 2024",
+    "parent": "comment-685279"
+   }
+  },
+  {
+   "id": "B15",
+   "source": "BLOG_10",
+   "text": "We got what went wrong with our calculation.",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685288",
+    "author": "Fabrice Imparato",
+    "date": "6 July, 2024",
+    "parent": null
+   }
+  },
+  {
+   "id": "B16",
+   "source": "BLOG_10",
+   "text": "Glad to hear that the numerical discrepancy has now been resolved!",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-685292",
+    "author": "Terence Tao",
+    "date": "7 July, 2024",
+    "parent": "comment-685288"
+   }
+  },
+  {
+   "id": "B17",
+   "source": "BLOG_PAPER",
+   "text": "we received two positive referee reports on the paper with some minor corrections suggested at",
+   "kind": "html_comment",
+   "locator": {
+    "anchor": "comment-518938",
+    "author": "Terence Tao",
+    "date": "25 July, 2019",
+    "parent": null
+   }
+  },
+  {
+   "id": "T1",
+   "source": "BLOG_10",
+   "text": "Using the verification up to height 2.5 \\times 10^{12} claimed by Gourdon-Demichel, this improves slightly to \\Lambda \\leq 0.19",
+   "kind": "html_page",
+   "locator": {
+    "page": true,
+    "lines": [
+     218,
+     218
+    ],
+    "alt": true
+   }
+  },
+  {
+   "id": "T2",
+   "source": "BLOG_10",
+   "text": "The Lemma bound only needs to be verified for the line segment y=y_0, t=t_0, N_a \\leq N(x) \\leq N_b , since the Lemma bound monotonically increases when y goes to 1.",
+   "kind": "html_page",
+   "locator": {
+    "page": true,
+    "lines": [
+     263,
+     263
+    ],
+    "alt": true
+   }
+  },
+  {
+   "id": "T3",
+   "source": "BLOG_10",
+   "text": "This has to be done numerically up to a certain point N=N_b , after which analytical proof takes over.",
+   "kind": "html_page",
+   "locator": {
+    "page": true,
+    "lines": [
+     233,
+     233
+    ],
+    "alt": true
+   }
+  },
+  {
+   "id": "T4",
+   "source": "BLOG_10",
+   "text": "The best bound for \\Lambda now depends on the height to which one is willing to assume the Riemann hypothesis.",
+   "kind": "html_page",
+   "locator": {
+    "page": true,
+    "lines": [
+     218,
+     218
+    ],
+    "alt": true
+   }
+  },
+  {
+   "id": "R7",
+   "source": "DBN_REPO",
+   "text": "Processing the barrier for X= 5000000194858...5000000194859 (N = 630783), y0 = 0.2...1 , t = 0...0.17",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "e8cd27bc64e5bd11f14acb01dea745b965aaf8b4",
+    "path": "output/windingnumbers/windnum_summary_x10e12X5+194858_y_0.2_1_t_0_0.17.txt",
+    "lines": [
+     4,
+     4
+    ]
+   }
+  },
+  {
+   "id": "R8",
+   "source": "DBN_REPO",
+   "text": "Overall winding number: 0.000000",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "e8cd27bc64e5bd11f14acb01dea745b965aaf8b4",
+    "path": "output/windingnumbers/windnum_summary_x10e12X5+194858_y_0.2_1_t_0_0.17.txt",
+    "lines": [
+     360,
+     360
+    ]
+   }
+  },
+  {
+   "id": "R9",
+   "source": "DBN_REPO",
+   "text": "Processing the barrier for X= 1000000046880...1000000046881 (N = 282094), y0 = 0.2...1 , t = 0...0.18",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "97a8088a1178fa8523d2c731caed548dfa73daf1",
+    "path": "output/windingnumbers/windnum_summary_x10e12+46880_y_0.2_1_t_0_0.18.txt",
+    "lines": [
+     4,
+     4
+    ]
+   }
+  },
+  {
+   "id": "R10",
+   "source": "DBN_REPO",
+   "text": "Overall winding number: 0.000000",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "97a8088a1178fa8523d2c731caed548dfa73daf1",
+    "path": "output/windingnumbers/windnum_summary_x10e12+46880_y_0.2_1_t_0_0.18.txt",
+    "lines": [
+     281,
+     281
+    ]
+   }
+  },
+  {
+   "id": "R11",
+   "source": "DBN_REPO",
+   "text": "282094, 0.09588421114, 7.461781092e-05, (init)",
+   "kind": "gitfile",
+   "locator": {
+    "commit": "6b9a1e85ae07ecc90da6a34209669ff37e856d8a",
+    "path": "output/eulerbounds/lemmasawtooth_bounds_t_0.18_y_0.2_N_282094_13mil_moll_2,3,5.txt",
+    "lines": [
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "id": "K3",
+   "source": "KOR_V11_META",
+   "text": "leaving the claimed endpoint Λ < 0.172422 unchanged",
+   "kind": "json_field",
+   "locator": {
+    "field": "metadata.description"
+   }
+  },
+  {
+   "id": "K4",
+   "source": "KOR_V11_TEX",
+   "text": "giving a self-contained anchor $\\Lam\\le0.2$ from the same released machinery together with the Platt--Trudgian finite-height verification at $t=0$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     41,
+     41
+    ]
+   }
+  },
+  {
+   "id": "K5",
+   "source": "KOR_V11_TEX",
+   "text": "Proposition~\\ref{prop:selfanchor} below proves that anchor from the released separator and FW-5.17 machinery, so the final argument does not depend logically on an external assertion $\\Lam\\le0.2$.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     92,
+     92
+    ]
+   }
+  },
+  {
+   "id": "K6",
+   "source": "KOR_V11_TEX",
+   "text": "The historically recorded $0.2$ bound remains useful context, but Proposition~\\ref{prop:selfanchor} removes it as a logical dependency of Corollary~\\ref{cor:main}.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     830,
+     830
+    ]
+   }
+  },
+  {
+   "id": "K7",
+   "source": "KOR_V11_TEX",
+   "text": "Platt and Trudgian verified the Riemann hypothesis through height $3{,}000{,}175{,}332{,}800$ and recorded the resulting bound $\\Lam\\le0.2$ in Corollary~2 of their paper \\cite{PlattTrudgian}.",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     61,
+     61
+    ]
+   }
+  },
+  {
+   "id": "C12",
+   "source": "OPT_21A",
+   "text": "[Zenodo 22658444](https://zenodo.org/records/22658444) (v2, 8 September 2026; v1 of 5 September is [22337308](https://zenodo.org/records/22337308))",
+   "kind": "line",
+   "locator": {
+    "lines": [
+     64,
+     64
+    ]
+   }
+  },
+  {
+   "id": "Z23",
+   "source": "ZEN_ZIP",
+   "text": "- The campaign-targeted 0.18634552 pathway (y₀' = 413/2500 at",
+   "kind": "bundle",
+   "locator": {
+    "basename": "ASSEMBLY_1875.md",
+    "sha256": "f1a60c19c9c5f632512b9466042d3aef4089b49e9d9670de7a8bffb22894d596",
+    "lines": [
+     74,
+     74
+    ]
+   }
+  },
+  {
+   "id": "Z24",
+   "source": "ZEN_ZIP",
+   "text": "Usage: lemma_sweep_L_tbox Nstart Nend tlo_num thi_num t_den y2num y2den mtype prec K hw mode [stride]",
+   "kind": "bundle",
+   "locator": {
+    "basename": "lemma_sweep_L_tbox.c",
+    "sha256": "7c3ab894a49d7e7e255a1dd106743458388b1e04d3af8235e9b3f2ebe3a66e89",
+    "lines": [
+     92,
+     92
+    ]
+   }
+  },
+  {
+   "id": "Z25",
+   "source": "ZEN_ZIP",
+   "text": "static ulong DVEC3[4] = {1,2,3,6};",
+   "kind": "bundle",
+   "locator": {
+    "basename": "lemma_sweep_L_tbox.c",
+    "sha256": "7c3ab894a49d7e7e255a1dd106743458388b1e04d3af8235e9b3f2ebe3a66e89",
+    "lines": [
+     103,
+     103
+    ]
+   }
+  },
+  {
+   "id": "Z26",
+   "source": "ZEN_ZIP",
+   "text": "abbeff_largex_ep_bound(N,y,t,\"L\",mtype,\"normal\",\"no\") functional",
+   "kind": "bundle",
+   "locator": {
+    "basename": "lemma_sweep_L_tbox.c",
+    "sha256": "7c3ab894a49d7e7e255a1dd106743458388b1e04d3af8235e9b3f2ebe3a66e89",
+    "lines": [
+     22,
+     22
+    ]
+   }
+  },
+  {
+   "id": "Z27",
+   "source": "ZEN_ZIP",
+   "text": "$BIN $a $b 1770 1775 10000 39 1000 2 96 12 0.02 t > \"$OUT/Lbox_e2_shard$i.log\" 2>&1 &",
+   "kind": "bundle",
+   "locator": {
+    "basename": "run_ltbox_shards.sh",
+    "sha256": "e8cf8164731b264d88987cd9220284fe3b4b45c0481629d4b196538bb7160af4",
+    "lines": [
+     15,
+     15
+    ]
+   }
+  },
+  {
+   "id": "Z28",
+   "source": "ZEN_ZIP",
+   "text": "half-width tiles [1640+5k, 1645+5k]/10⁴, k = 0..10 (union EXACTLY [1640/10⁴, 1695/10⁴]",
+   "kind": "bundle",
+   "locator": {
+    "basename": "LWIN2_COMPOSE.md",
+    "sha256": "d10488fc50322e47c10c768a1f39cb325deed5e9e5d7bed798221b9933ec35de",
+    "lines": [
+     19,
+     20
+    ]
+   }
+  },
+  {
+   "id": "Z29",
+   "source": "ZEN_ZIP",
+   "text": "#   ./lemma_sweep_arb 690988 1690988 1770 10000 39 1000 3 96 12 0.02 t > 1965A.log",
+   "kind": "bundle",
+   "locator": {
+    "basename": "verify_lemma1965.sh",
+    "sha256": "0be98c5b5fdda0e080e8a3793866a45ce598a823801c73fd339b31f91f14cc7f",
+    "lines": [
+     11,
+     11
+    ]
+   }
+  },
+  {
+   "id": "Z30",
+   "source": "ZEN_ZIP",
+   "text": "# 0.197 parameters (t=0.1775, y=sqrt(0.039), erfi-tail Euler-2 selection bound).",
+   "kind": "bundle",
+   "locator": {
+    "basename": "verify_sweep.sh",
+    "sha256": "4d0dec9c73b677f3cfdc1fb028c99717fc90a34d6a7846079eca7013b4ac9e70",
+    "lines": [
+     3,
+     3
+    ]
+   }
+  },
+  {
+   "id": "Z31",
+   "source": "ZEN_ZIP",
+   "text": "upper bound Λ ≤ 0.1965 for the de Bruijn–Newman constant",
+   "kind": "bundle",
+   "locator": {
+    "basename": "README.md",
+    "sha256": "57d32384d274a0f54e8e0b6a1aaa0404dc2c82538c814a4ad725b77d54136e19",
+    "lines": [
+     3,
+     4
+    ]
+   }
+  },
+  {
+   "id": "Z32",
+   "source": "ZEN_ZIP",
+   "text": "**Theorem 1.1** (Upper bound criterion; 1904.12438 Theorem 1.2).",
+   "kind": "bundle",
+   "locator": {
+    "basename": "THEOREM_LAMBDA_CRITERION.md",
+    "sha256": "9a187fc6e27b92d8735808848ca58b1961c5cddb0bc90c0d85b2e62365770371",
+    "lines": [
+     50,
+     50
+    ]
+   }
+  },
+  {
+   "id": "Z33",
+   "source": "ZEN_ZIP",
+   "text": "**Theorem 2.1** (instantiated criterion; RH-height dependency explicit).",
+   "kind": "bundle",
+   "locator": {
+    "basename": "THEOREM_LAMBDA_CRITERION.md",
+    "sha256": "9a187fc6e27b92d8735808848ca58b1961c5cddb0bc90c0d85b2e62365770371",
+    "lines": [
+     114,
+     114
+    ]
+   }
+  },
+  {
+   "id": "Z34",
+   "source": "ZEN_ZIP",
+   "text": "A *standard window majorant* at window N is any finite sum",
+   "kind": "bundle",
+   "locator": {
+    "basename": "Y_REDUCTION.md",
+    "sha256": "93a6e0c465d5aaaef5f1412899bcaee7f405060c84c021b6230da2b243d13f08",
+    "lines": [
+     40,
+     40
+    ]
+   }
+  },
+  {
+   "id": "AX1",
+   "source": "ARXIV_2610_32694",
+   "text": "bounds the de Bruijn--Newman constant by $\\Lambda\\le433/2500=0.1732$ without a QRH assumption.",
+   "kind": "html_page",
+   "locator": {
+    "lines": [
+     121,
+     121
+    ]
+   }
+  }
+ ],
+ "numbering": {
+  "proposed": 140,
+  "assigned": 147,
+  "reserved": "138 to 144",
+  "printed_by": "land/krenn-gu-orbits-20261021"
+ },
+ "dois": {
+  "ZEN_RECORD": "10.5281/zenodo.21175533",
+  "KOR_V1_META": "10.5281/zenodo.22337308",
+  "KOR_V11_META": "10.5281/zenodo.22658444"
+ },
+ "people": {
+  "Tao": [
+   "teorth",
+   "Terence Tao"
+  ],
+  "Rudolph": [
+   "rudolph-git-acc",
+   "Rudolph"
+  ],
+  "Muchhal": [
+   "km-git-acc"
+  ],
+  "Imparato": [
+   "Fabrice Imparato"
+  ],
+  "Anonymous": [
+   "Anonymous"
+  ]
+ },
+ "routes_2018": [
+  {
+   "id": "r019",
+   "X": "5000000194858",
+   "t0": "0.17",
+   "y0": "0.2",
+   "Lambda": "0.19",
+   "rh_height_needed": "2500000097429",
+   "barrier_commit": "e8cd27bc64e5bd11f14acb01dea745b965aaf8b4",
+   "barrier_path": "output/windingnumbers/windnum_summary_x10e12X5+194858_y_0.2_1_t_0_0.17.txt",
+   "sweep_commit": "ae36498ade720ee4946b46e8c55827beedd3d782",
+   "sweep_path": "output/eulerbounds/lemmasawtooth_bounds_t_0.17_y_0.2_N_630783_15mil_moll_2,3,5.txt",
+   "sweep": {
+    "N_first": 630783,
+    "N_last": 15000000,
+    "min_bound": 0.03028099814,
+    "min_at_N": 1650000,
+    "max_error": 1.740023267e-05,
+    "rows": 1439
+   },
+   "path_regex": "(x10e12X5\\+194858|_0\\.17[_.])",
+   "files_in_history": [
+    "output/eulerbounds/lemmasawtooth_bounds_t_0.17_y_0.2_N_630783_15mil_moll_2,3,5.txt",
+    "output/storedsums/singlemat/SingleStoredSums_x10e12X5+194858_dig_20.txt",
+    "output/windingnumbers/SingleStoredSums_x10e12X5+194858_dig_20.txt",
+    "output/windingnumbers/windnum_summary_x10e12X5+194858_y_0.2_1_t_0_0.17.txt"
+   ],
+   "quotes": [
+    "R7",
+    "R8",
+    "R5",
+    "T1"
+   ],
+   "open_steps": [
+    "the y-direction above y0 (T2, I12, I13)",
+    "the region past N = 15000000 (T3)"
+   ]
+  },
+  {
+   "id": "r020",
+   "X": "1000000046880",
+   "t0": "0.18",
+   "y0": "0.2",
+   "Lambda": "0.20",
+   "rh_height_needed": "500000023440",
+   "barrier_commit": "97a8088a1178fa8523d2c731caed548dfa73daf1",
+   "barrier_path": "output/windingnumbers/windnum_summary_x10e12+46880_y_0.2_1_t_0_0.18.txt",
+   "sweep_commit": "6b9a1e85ae07ecc90da6a34209669ff37e856d8a",
+   "sweep_path": "output/eulerbounds/lemmasawtooth_bounds_t_0.18_y_0.2_N_282094_13mil_moll_2,3,5.txt",
+   "sweep": {
+    "N_first": 282094,
+    "N_last": 13000000,
+    "min_bound": 0.03005127217,
+    "min_at_N": 400000,
+    "max_error": 7.461781092e-05,
+    "rows": 1275
+   },
+   "path_regex": "(46880|_0\\.18[_.])",
+   "files_in_history": [
+    "output/eulerbounds/lemmasawtooth_bounds_t_0.18_y_0.2_N_282094_13mil_moll_2,3,5.txt",
+    "output/storedsums/dualmat/StoredSums_x10e12+46880_y02_dig_20.txt",
+    "output/storedsums/singlemat/SingleStoredSums_x10e12+46880_dig_20.txt",
+    "output/storedsums/singlemat/SingleStoredSums_x10e12+46880_y02_dig_20.txt",
+    "output/windingnumbers/windnum_summary_x10e12+46880_y_0.2_1_t_0_0.18.txt"
+   ],
+   "quotes": [
+    "R9",
+    "R10",
+    "R11"
+   ],
+   "open_steps": [
+    "the y-direction above y0 (T2, I12, I13)",
+    "the region past N = 13000000 (T3)"
+   ]
+  }
+ ],
+ "read_not_reverified": [
+  {
+   "source": "REF_REPORT1",
+   "read": "one page of typographical and minor corrections; nothing on the conditional section, on N >= N0 or on Section 10"
+  },
+  {
+   "source": "REF_REPORT2",
+   "read": "general comments and a numbered list of corrections; the item at Page 15, line 17 asks for hypothesis (iii) instead of (ii) (the proof-label fix between v1 and v2); another item cites page 65, inside Section 10; nothing on N >= N0 or on the Section 10 label swap"
+  },
+  {
+   "source": "BLOG_10_TABLE",
+   "read": "a row for Lambda 0.19 at x = 5.00E+12 with barrier offset 194858, t0 0.17, y0 0.20, winding number 0, RH verified marked tentative (Gourdon-Demichel); a row for Lambda 0.20 at x = 1.00E+12 with offset 46880, t0 0.18, y0 0.20, winding number 0, marked tentative"
+  }
+ ],
+ "roundings": [
+  {
+   "value": "1.03e-7",
+   "of": "1.0307e-7",
+   "quote": "Z19",
+   "where": "CHAIN.md, REDUCTION.md: the error budget at the row-2 barrier corner"
+  },
+  {
+   "value": "6.0e12",
+   "of": "6000000185827",
+   "where": "REDUCTION.md part 0: the task's interior bound, X'"
+  },
+  {
+   "value": "6.65e13",
+   "of": "66476100549959",
+   "where": "REDUCTION.md part 0: the task's exterior end, W"
+  },
+  {
+   "value": "0.8085",
+   "of": "0.80851718245663738555335196060684412785067026830502",
+   "where": "REDUCTION.md, the case log: Re rho of the DH zero"
+  },
+  {
+   "value": "85.699",
+   "of": "85.699348485377592171929267708941729037987829423408",
+   "where": "REDUCTION.md, the case log: Im rho of the DH zero"
+  },
+  {
+   "value": "0.80851718245663738555",
+   "of": "0.80851718245663738555335196060684412785067026830502",
+   "mode": "truncate",
+   "where": "REDUCTION.md part D"
+  },
+  {
+   "value": "85.699348485377592171929",
+   "of": "85.699348485377592171929267708941729037987829423408",
+   "mode": "truncate",
+   "where": "REDUCTION.md part D"
+  },
+  {
+   "value": "171.4",
+   "of": "171.398696970755184343858535417883458075975658846816",
+   "where": "REDUCTION.md part D: Re z in the wide frame"
+  },
+  {
+   "value": "0.617",
+   "of": "0.61703436491327477110670392121368825570134053661004",
+   "where": "REDUCTION.md part D: |Im z| in the wide frame"
+  }
+ ],
+ "facts": [
+  {
+   "id": "C01",
+   "file": "CHAIN.md",
+   "kind": "self_date",
+   "phrase": "Chain lane of hunt #147, written 2026-10-21"
+  },
+  {
+   "id": "C02",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "On 2019-04-15 Terence Tao wrote in issue #131",
+   "quote": "I1",
+   "name": "Tao",
+   "date": "2019-04-15"
+  },
+  {
+   "id": "C03",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "On 22 April 2020 Tao wrote on the blog",
+   "quote": "B9",
+   "name": "Tao",
+   "date": "2020-04-22"
+  },
+  {
+   "id": "C04",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "a blog comment of 5 July 2024 by Fabrice Imparato",
+   "quote": "B1",
+   "name": "Imparato",
+   "date": "2024-07-05"
+  },
+  {
+   "id": "C05",
+   "file": "CHAIN.md",
+   "kind": "outsider",
+   "phrase": "Fabrice Imparato, a reader outside the project",
+   "who": "Imparato",
+   "json_sources": [
+    "DBN_ISSUES_P1",
+    "DBN_ISSUES_P2",
+    "DBN_I131",
+    "DBN_I81_P1",
+    "DBN_I81_P2",
+    "DBN_I81_P3",
+    "DBN_I81_P4",
+    "DBN_I113_P1",
+    "DBN_I113_P2",
+    "DBN_I113_P3",
+    "DBN_I107",
+    "DBN_I118",
+    "DBN_I126_P1",
+    "DBN_I126_P2"
+   ],
+   "blog_sources": [
+    "BLOG_9",
+    "BLOG_10",
+    "BLOG_11",
+    "BLOG_PAPER"
+   ]
+  },
+  {
+   "id": "C06",
+   "file": "CHAIN.md",
+   "kind": "commit_date",
+   "phrase": "commit `4a460d9` (2019-04-14)",
+   "source": "DBN_REPO",
+   "commit": "4a460d9b85198c78e6314f30718314160e2b1473",
+   "date": "2019-04-14"
+  },
+  {
+   "id": "C07",
+   "file": "CHAIN.md",
+   "kind": "commit_date",
+   "phrase": "`7eff611` (2019-04-13)",
+   "source": "DBN_REPO",
+   "commit": "7eff6114efd97ed8de58d31503a6e4b464d61c18",
+   "date": "2019-04-13"
+  },
+  {
+   "id": "C08",
+   "file": "CHAIN.md",
+   "kind": "git_count",
+   "phrase": "in all 778 commits on all refs (768 on master)",
+   "source": "DBN_REPO",
+   "counts": {
+    "all": 778,
+    "master": 768
+   }
+  },
+  {
+   "id": "C09",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "Issue #131 (opened 2019-01-25)",
+   "quote": "I6",
+   "date": "2019-01-25"
+  },
+  {
+   "id": "C10",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "on 2018-10-10, for two other conditional cases, Rudolph Dwars wrote",
+   "quote": "I15",
+   "name": "Rudolph",
+   "date": "2018-10-10"
+  },
+  {
+   "id": "C11",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "On 2018-12-20 Tao asked",
+   "quote": "I16",
+   "name": "Tao",
+   "date": "2018-12-20"
+  },
+  {
+   "id": "C12",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "Rudolph Dwars replied the same day",
+   "quote": "I17",
+   "name": "Rudolph",
+   "on": "2018-12-20"
+  },
+  {
+   "id": "C13",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "On 2019-04-13 Rudolph Dwars confirmed",
+   "quote": "I3",
+   "name": "Rudolph",
+   "date": "2019-04-13"
+  },
+  {
+   "id": "C14",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "On 2019-04-14 he asked",
+   "quote": "I4",
+   "author_is": "Rudolph",
+   "date": "2019-04-14"
+  },
+  {
+   "id": "C15",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "Tao answered on 2019-04-15 (comment 483072037)",
+   "quote": "I1",
+   "name": "Tao",
+   "date": "2019-04-15"
+  },
+  {
+   "id": "C16",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "on 2019-04-13, Tao had written",
+   "quote": "I11",
+   "name": "Tao",
+   "date": "2019-04-13"
+  },
+  {
+   "id": "C17",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "posted by Kalpesh Muchhal on 2018-09-08",
+   "quote": "I7",
+   "name": "Muchhal",
+   "date": "2018-09-08"
+  },
+  {
+   "id": "C18",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "Tao's plans treated the conditional section as secondary: on 4 July 2018",
+   "quote": "B7",
+   "name": "Tao",
+   "date": "2018-07-04"
+  },
+  {
+   "id": "C19",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "and on 12 April 2019 that it was the part still unfinished",
+   "quote": "B8",
+   "author_is": "Tao",
+   "date": "2019-04-12"
+  },
+  {
+   "id": "C20",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "On 22 April 2020 Tao wrote that the Platt-Trudgian verification",
+   "quote": "B9",
+   "name": "Tao",
+   "date": "2020-04-22"
+  },
+  {
+   "id": "C21",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "the 2019-04-15 comment above",
+   "quote": "I1",
+   "date": "2019-04-15"
+  },
+  {
+   "id": "C22",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "On 2019-01-06 Kalpesh Muchhal wrote",
+   "quote": "I8",
+   "name": "Muchhal",
+   "date": "2019-01-06"
+  },
+  {
+   "id": "C23",
+   "file": "CHAIN.md",
+   "kind": "quote_text",
+   "phrase": "was last edited on 10 May 2018",
+   "quote": "W1"
+  },
+  {
+   "id": "C24",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "comment 685281 of 5 July 2024, Fabrice Imparato wrote",
+   "quote": "B1",
+   "name": "Imparato",
+   "date": "2024-07-05"
+  },
+  {
+   "id": "C25",
+   "file": "CHAIN.md",
+   "kind": "outsider",
+   "phrase": "His name occurs nowhere in the project's issue records read here (every issue and pull-request body, and the comments of six issues), and no blog comment under it predates 2024; his first, in the threads read here, is of 28 June 2024",
+   "who": "Imparato",
+   "date": "2024-06-28",
+   "json_sources": [
+    "DBN_ISSUES_P1",
+    "DBN_ISSUES_P2",
+    "DBN_I131",
+    "DBN_I81_P1",
+    "DBN_I81_P2",
+    "DBN_I81_P3",
+    "DBN_I81_P4",
+    "DBN_I113_P1",
+    "DBN_I113_P2",
+    "DBN_I113_P3",
+    "DBN_I107",
+    "DBN_I118",
+    "DBN_I126_P1",
+    "DBN_I126_P2"
+   ],
+   "blog_sources": [
+    "BLOG_9",
+    "BLOG_10",
+    "BLOG_11",
+    "BLOG_PAPER"
+   ]
+  },
+  {
+   "id": "C26",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "posted as Anonymous on 4 July 2024 in reply to Tao",
+   "quote": "B3",
+   "name": "Anonymous",
+   "date": "2024-07-04",
+   "parent": "comment-685255",
+   "parent_name": "Tao"
+  },
+  {
+   "id": "C27",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "Rudolph Dwars's reply of 7 July 2024",
+   "quote": "B5",
+   "name": "Rudolph",
+   "date": "2024-07-07",
+   "parent": "comment-685288"
+  },
+  {
+   "id": "C28",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "Fabrice Imparato's comment of 6 July 2024",
+   "quote": "B15",
+   "name": "Imparato",
+   "date": "2024-07-06"
+  },
+  {
+   "id": "C29",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "Tao's reply of 7 July 2024 to the same comment closed the exchange",
+   "quote": "B16",
+   "name": "Tao",
+   "date": "2024-07-07",
+   "parent": "comment-685288"
+  },
+  {
+   "id": "C30",
+   "file": "CHAIN.md",
+   "kind": "no_reply",
+   "phrase": "No project member replied to comment 685281",
+   "source": "BLOG_10",
+   "anchor": "comment-685281"
+  },
+  {
+   "id": "C31",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "on 2019-04-08 Tao reported that the Lemma bound",
+   "quote": "I5",
+   "name": "Tao",
+   "date": "2019-04-08"
+  },
+  {
+   "id": "C32",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "On 25 July 2019 Tao linked two referee reports",
+   "quote": "B17",
+   "name": "Tao",
+   "date": "2019-07-25"
+  },
+  {
+   "id": "C33",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "2019-04-08 Tao reported a",
+   "quote": "I12",
+   "name": "Tao",
+   "date": "2019-04-08"
+  },
+  {
+   "id": "C34",
+   "file": "CHAIN.md",
+   "kind": "quote_meta",
+   "phrase": "the 2019-04-15 statement",
+   "quote": "I1",
+   "date": "2019-04-15"
+  },
+  {
+   "id": "C35",
+   "file": "CHAIN.md",
+   "kind": "issue_count",
+   "phrase": "151 issues and pull requests",
+   "sources": [
+    "DBN_ISSUES_P1",
+    "DBN_ISSUES_P2"
+   ],
+   "value": 151
+  },
+  {
+   "id": "C36",
+   "file": "CHAIN.md",
+   "kind": "git_count",
+   "phrase": "778 commits on all refs, 151",
+   "source": "DBN_REPO",
+   "counts": {
+    "all": 778
+   }
+  },
+  {
+   "id": "C37",
+   "file": "CHAIN.md",
+   "kind": "sweep_2018",
+   "phrase": "0.03028099814 at N = 1650000, error column at most 1.740023267e-05",
+   "route": "r019"
+  },
+  {
+   "id": "C38",
+   "file": "CHAIN.md",
+   "kind": "sweep_2018",
+   "phrase": "0.03005127217 at N = 400000, error column at most 7.461781092e-05",
+   "route": "r020"
+  },
+  {
+   "id": "C39",
+   "file": "CHAIN.md",
+   "kind": "quote_text",
+   "phrase": "with 15 to 17 digits float",
+   "quote": "B3"
+  },
+  {
+   "id": "C40",
+   "file": "CHAIN.md",
+   "kind": "sweep_2018",
+   "phrase": "N from 630783 to 15000000",
+   "route": "r019"
+  },
+  {
+   "id": "C41",
+   "file": "CHAIN.md",
+   "kind": "sweep_2018",
+   "phrase": "N from 282094 to 13000000",
+   "route": "r020"
+  },
+  {
+   "id": "C42",
+   "file": "CHAIN.md",
+   "kind": "arith",
+   "phrase": "(t0, y0) = (0.17, 0.2) at row 2's own X, which gives 0.19",
+   "t0": "0.17",
+   "y0": "0.2",
+   "Lambda": "0.19"
+  },
+  {
+   "id": "C43",
+   "file": "CHAIN.md",
+   "kind": "arith",
+   "phrase": "(t0, y0) = (0.18, 0.2) at X = 10^12 + 46880, which gives 0.20",
+   "t0": "0.18",
+   "y0": "0.2",
+   "Lambda": "0.20"
+  },
+  {
+   "id": "C44",
+   "file": "CHAIN.md",
+   "kind": "arith",
+   "phrase": "(0.17, 0.2) at X = 5000000194858, Lambda 0.19",
+   "t0": "0.17",
+   "y0": "0.2",
+   "Lambda": "0.19"
+  },
+  {
+   "id": "C45",
+   "file": "CHAIN.md",
+   "kind": "arith",
+   "phrase": "(0.18, 0.2) at X = 1000000046880, Lambda 0.20",
+   "t0": "0.18",
+   "y0": "0.2",
+   "Lambda": "0.20"
+  },
+  {
+   "id": "R01",
+   "file": "REDUCTION.md",
+   "kind": "self_date",
+   "phrase": "Chain lane of hunt #147, 2026-10-21"
+  },
+  {
+   "id": "R02",
+   "file": "REDUCTION.md",
+   "kind": "quote_meta",
+   "phrase": "(PR 210, 2026-10-15)",
+   "quote": "C9",
+   "date": "2026-10-15"
+  },
+  {
+   "id": "R03",
+   "file": "REDUCTION.md",
+   "kind": "json_date",
+   "phrase": "Its first record, created on 5 September 2026",
+   "source": "KOR_V1_META",
+   "field": "created",
+   "date": "2026-09-05"
+  },
+  {
+   "id": "R04",
+   "file": "REDUCTION.md",
+   "kind": "quote_meta",
+   "phrase": "as did its announcement on the blog that day",
+   "quote": "K2",
+   "on": "2026-09-05"
+  },
+  {
+   "id": "R05",
+   "file": "REDUCTION.md",
+   "kind": "json_date",
+   "phrase": "whose record was created on 8 September 2026",
+   "source": "KOR_V11_META",
+   "field": "created",
+   "date": "2026-09-08"
+  },
+  {
+   "id": "R06",
+   "file": "REDUCTION.md",
+   "kind": "quote_text",
+   "phrase": "19/200",
+   "quote": "Z9"
+  },
+  {
+   "id": "H01",
+   "file": "hunts/README.md",
+   "kind": "self_date",
+   "phrase": "opened 2026-10-21"
+  },
+  {
+   "id": "H02",
+   "file": "hunts/README.md",
+   "kind": "self_date",
+   "phrase": "adversarial review (2026-10-21)"
+  },
+  {
+   "id": "H03",
+   "file": "hunts/README.md",
+   "kind": "quote_meta",
+   "phrase": "in issue #131 on 2019-04-15 Terence Tao wrote",
+   "quote": "I1",
+   "name": "Tao",
+   "date": "2019-04-15"
+  },
+  {
+   "id": "H04",
+   "file": "hunts/README.md",
+   "kind": "quote_meta",
+   "phrase": "a blog comment of 5 July 2024",
+   "quote": "B1",
+   "date": "2024-07-05"
+  },
+  {
+   "id": "H05",
+   "file": "hunts/README.md",
+   "kind": "outsider",
+   "phrase": "by a reader outside the project",
+   "who": "Imparato",
+   "json_sources": [
+    "DBN_ISSUES_P1",
+    "DBN_ISSUES_P2",
+    "DBN_I131",
+    "DBN_I81_P1",
+    "DBN_I81_P2",
+    "DBN_I81_P3",
+    "DBN_I81_P4",
+    "DBN_I113_P1",
+    "DBN_I113_P2",
+    "DBN_I113_P3",
+    "DBN_I107",
+    "DBN_I118",
+    "DBN_I126_P1",
+    "DBN_I126_P2"
+   ],
+   "blog_sources": [
+    "BLOG_9",
+    "BLOG_10",
+    "BLOG_11",
+    "BLOG_PAPER"
+   ]
+  },
+  {
+   "id": "R07",
+   "file": "REDUCTION.md",
+   "kind": "resumed_date",
+   "phrase": "## F. Context recorded on 2026-10-26"
+  },
+  {
+   "id": "R08",
+   "file": "REDUCTION.md",
+   "kind": "json_date",
+   "phrase": "was merged on 2026-10-18 (UTC)",
+   "source": "PR210",
+   "field": "merged_at",
+   "date": "2026-10-18"
+  },
+  {
+   "id": "H06",
+   "file": "hunts/README.md",
+   "kind": "resumed_date",
+   "phrase": "resumed in place on 2026-10-26"
+  },
+  {
+   "id": "L01",
+   "file": "CHAIN.md",
+   "kind": "landed_date",
+   "phrase": "Added at landing, 2026-10-31"
+  },
+  {
+   "id": "L02",
+   "file": "REDUCTION.md",
+   "kind": "landed_date",
+   "phrase": "Added at landing, 2026-10-31"
+  },
+  {
+   "id": "L03",
+   "file": "hunts/README.md",
+   "kind": "landed_date",
+   "phrase": "closed at landing, 2026-10-31"
+  }
+ ],
+ "resumed": "2026-10-26",
+ "landed": "2026-10-31"
+}
