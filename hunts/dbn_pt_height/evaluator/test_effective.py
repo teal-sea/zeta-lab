@@ -1133,7 +1133,8 @@ def test_polymath_row2_barrier_log_as_recorded() -> None:
     assert ref["path"].startswith("<cache>/dbn/")  # recorded without the operator's home
     path = DBN_CACHE / ref["path"][len("<cache>/dbn/"):]
     if not path.exists():
-        pytest.skip("downloaded Polymath log not present on this machine")
+        pytest.skip("source tie NOT checked: the downloaded Polymath log is absent on this machine (as in CI); "
+                    "this comparison runs only where the cache exists (../RESULTS.md, section 6)")
     raw = path.read_bytes()
     assert hashlib.sha256(raw).hexdigest() == ref["sha256"]
     text = raw.decode("utf-8", "replace")
@@ -1219,7 +1220,8 @@ def test_arxiv_source_hash_when_present() -> None:
 
     src = DBN_CACHE / "evaluator-arxiv-1904.12438v2" / "source.bin"
     if not src.exists():
-        pytest.skip("downloaded arXiv source not present on this machine")
+        pytest.skip("source tie NOT checked: the downloaded arXiv source is absent on this machine (as in CI); "
+                    "its digest is checked only where the cache exists (../RESULTS.md, section 6)")
     assert hashlib.sha256(src.read_bytes()).hexdigest() == (
         "1be3bc38d203ad0142f1c97c267c7deaa06b84c97716c9a1ec1f56456d826863"
     )

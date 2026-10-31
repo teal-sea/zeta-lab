@@ -11,7 +11,14 @@ What is pinned here.
    author, date and parent are read from the page, a GitHub comment id with
    its author and time, or a bundle member found by basename and SHA-256.
    When the cache is absent the re-reading tests skip and say so; the shape,
-   arithmetic and prose checks still run.
+   arithmetic and prose checks still run.  **This is the situation in CI**
+   (added 2026-10-31, at landing): the cache holds third-party documents and
+   is not committed, so there every test that reads a source skips with the
+   reason ``SKIP_REASON`` below, and what CI checks is that the notes agree with
+   the committed record (`chain.json`, `sources.json`) and that the stated
+   arithmetic holds, not that the committed record agrees with its sources.
+   A claim whose only check is a skipped test is checked only where the cache
+   exists; `RESULTS.md` (section 6) says which claims those are.
 2. **Every stated identity is re-derived**, in exact rationals or in interval
    arithmetic, by two backends that must agree (mpmath `iv` and python-flint
    Arb, 256 bits), never read back from the JSON.
@@ -68,13 +75,15 @@ QUOTES = {q["id"]: q for q in CHAIN["quotes"]}
 FACTS = CHAIN["facts"]
 PEOPLE = CHAIN["people"]
 
-OWN_FILES = ["MISSION.md", "CHAIN.md", "REDUCTION.md", "chain.json", "sources.json", "test_chain.py"]
+OWN_FILES = ["MISSION.md", "CHAIN.md", "REDUCTION.md", "RESULTS.md", "chain.json", "sources.json", "test_chain.py"]
 STEM = "cert" + "if"
 EM_DASH = "\u2014"
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 
-needs_cache = pytest.mark.skipif(not CACHE.is_dir(), reason="download cache not present on this machine")
+SKIP_REASON = ("source tie NOT checked: the download cache is absent on this machine (as in CI), so this claim "
+               "is checked only where the cache exists (RESULTS.md, section 6)")
+needs_cache = pytest.mark.skipif(not CACHE.is_dir(), reason=SKIP_REASON)
 
 
 def norm(s: str) -> str:
@@ -240,6 +249,21 @@ def test_citation_tags_are_well_formed() -> None:
     for name in NOTES_REGISTERED:
         for tag in re.findall(r"\[Q:([^\]]*)\]", _unticked(name)):
             assert re.fullmatch(r"[A-Z][A-Z0-9]*\d[A-Z0-9]*", tag), f"{name}: malformed citation [Q:{tag}]"
+
+
+def test_results_md_citations_resolve() -> None:
+    """RESULTS.md (written at landing, 2026-10-31) cites quotations by tag and sources by
+    digest prefix: every tag must exist, and every `sha256:` prefix must begin a digest
+    this hunt records (chain.json, sources.json, or the evaluator's notes)."""
+    text = (HERE / "RESULTS.md").read_text(encoding="utf-8")
+    tags = set(re.findall(r"\[Q:([A-Z0-9]+)\]", re.sub(r"`[^`\n]*`", " ", text)))  # backticks explain, not cite
+    assert tags and not sorted(t for t in tags if t not in QUOTES)
+    blob = "\n".join(p.read_text(encoding="utf-8") for p in
+                     [HERE / "chain.json", HERE / "sources.json", *sorted((HERE / "evaluator").glob("*.md"))])
+    digests = set(re.findall(r"\b[0-9a-f]{64}\b", blob))
+    cited = re.findall(r"sha256:([0-9a-f]+)", text)
+    assert cited and all(len(c) >= 12 for c in cited)
+    assert not [c for c in cited if not any(d.startswith(c) for d in digests)]
 
 
 # ---------------------------------------------------------------------------
@@ -430,6 +454,8 @@ def _check_fact(f: dict) -> None:
         assert CHAIN["written"] in f["phrase"]
     elif kind == "resumed_date":
         assert CHAIN["resumed"] in f["phrase"]
+    elif kind == "landed_date":  # 2026-10-31: the landing session's dated notes
+        assert CHAIN["landed"] in f["phrase"]
     elif kind == "arith":
         assert F(f["t0"]) + F(f["y0"]) ** 2 / 2 == F(f["Lambda"]), f"{f['id']}: t0 + y0^2/2"
         for key in ("t0", "y0", "Lambda"):
@@ -445,8 +471,9 @@ def _check_fact(f: dict) -> None:
 @pytest.mark.parametrize("fid", [f["id"] for f in FACTS])
 def test_fact_holds_in_the_evidence(fid: str) -> None:
     f = next(f for f in FACTS if f["id"] == fid)
-    if f["kind"] not in {"quote_text", "quote_count", "self_date", "resumed_date", "arith"} and not CACHE.is_dir():
-        pytest.skip("download cache not present on this machine")
+    if f["kind"] not in {"quote_text", "quote_count", "self_date", "resumed_date", "landed_date", "arith"} \
+            and not CACHE.is_dir():
+        pytest.skip(SKIP_REASON)
     _check_fact(f)
 
 
@@ -657,9 +684,12 @@ def _check(q: dict) -> None:
         raise AssertionError(f"unknown quotation kind {kind}")
 
 
-@needs_cache
 @pytest.mark.parametrize("qid", sorted(QUOTES))
 def test_quotation_is_in_its_hashed_source(qid: str) -> None:
+    """A quotation of this repository's own file (kind ``repo``) needs no cache and
+    runs everywhere (2026-10-31: it was skipped with the rest until landing)."""
+    if QUOTES[qid]["kind"] != "repo" and not CACHE.is_dir():
+        pytest.skip(SKIP_REASON)
     _check(QUOTES[qid])
 
 

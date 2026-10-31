@@ -7,6 +7,17 @@ renumbered elsewhere (#140 itself is already printed by the ref
 `land/krenn-gu-orbits-20261021`). Nothing in this directory is a result until
 the case log in `hunts/README.md` says how it ended.
 
+**How it ended (added at landing, 2026-10-31).** Closed, with `RESULTS.md`,
+which gives each part of the question below its disposition and each finding
+its grade. Row 2's asymptotic-region step was found evaluated only at N = N0
+and y = y0 in the sources read: an attempt unresolved in the published chain,
+not a refutation. The lab's own sweep to close it was never run (paused by
+allocation). The 0.1875 reduction, the rows that depend on it and its
+zeta-specific inputs are answered as readings of the sources. The
+Davenport-Heilbronn gate gained a second preregistered stage at landing. No
+Lambda bound is stated, nothing is promoted, and the source ties are checked
+only where the download cache exists, which CI lacks.
+
 Two lanes share this directory. The **chain lane** (this file's author) reads
 and sources: it owns `MISSION.md`, `CHAIN.md`, `REDUCTION.md`, `chain.json`,
 `sources.json`, the case-log entry, and its own entries in `RUNS.md`. The

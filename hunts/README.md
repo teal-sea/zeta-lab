@@ -4793,11 +4793,16 @@ finite theorem says nothing above 100 or about RH itself.
 
 ### Hunt #147: the de Bruijn-Newman chain at the verified height (`dbn_pt_height/`, opened 2026-10-21)
 
-**Status: open. The chain lane's sourcing is done and was repaired after an adversarial
-review (2026-10-21); resumed in place on 2026-10-26, when the evaluator's large-x
-containment checks were documented and the Davenport-Heilbronn refusal gate was built,
-preregistered and run: the barrier rule refuses every box holding a DH zero and decides
-both controls, and a one-corner check is caught accepting them (`evaluator/DH.md`).** The task that opened this hunt
+**Status: closed at landing, 2026-10-31; no claim promoted, no Lambda bound stated. A
+reading of published sources, graded as what they show, plus a hunt instrument; the step
+it found not carried out is an attempt unresolved, not refuted, and the lab's own sweep
+to close it was never run (paused by allocation). Record:
+[RESULTS.md](dbn_pt_height/RESULTS.md).** (Updated at landing: this line first read
+"open", with the chain lane's sourcing done and repaired after an adversarial
+review (2026-10-21), and the lanes resumed in place on 2026-10-26 to document the
+evaluator's large-x containment checks and to build, preregister and run the
+Davenport-Heilbronn refusal gate. It also said the barrier rule refuses every box holding
+a DH zero; it refuses the gate boxes that hold one.) The task that opened this hunt
 proposed #140; the campaign orchestrator assigned #147 because #138 to #144 are held for
 landings being renumbered, and #140 is already printed by the ref
 `land/krenn-gu-orbits-20261021`. Reading only, no Lambda bound stated. Platt and Trudgian
@@ -4825,9 +4830,18 @@ run does not). Both the 0.16 and the 0.1595 rows depend on it through the anchor
 the 0.172422 row, in the version the catalogue cites, derives its own 0.2 anchor (an
 unrefereed claim) and depends on neither. The zeta-specific inputs are the verification height and the
 Euler-mollified lower bound; Davenport-Heilbronn fails the first (zero 0.8085 +
-85.699i), so the structural DH gate passes. Every quotation is re-read from hashed
-sources, and every date, name and count in the notes is tied to its source, by
-`test_chain.py`. `CHAIN.md`, `REDUCTION.md`. Nothing here bears on RH (`docs/08`).
+85.699i), so the structural DH gate passes. Where the download cache exists, every
+quotation is re-read from hashed sources, and every date, name and count in the notes is
+tied to its source, by `test_chain.py` (corrected at landing: no CI runner has the cache,
+so there those checks skip and the notes are checked against `chain.json` and their
+arithmetic only). `CHAIN.md`, `REDUCTION.md`. Nothing here bears on RH (`docs/08`).
+At landing, a second, separately preregistered stage of the DH gate, at a close pair of
+DH zeros, catches a margin-free count that the first stage could not see; dropping the
+second-derivative term of the derivative bound is still not caught, and only a
+per-segment audit could see it (`evaluator/DH_GATE_PREREG_2.md`, `RUNS.md` E8). The gate
+tests the barrier rule only, not Theorem 1.3's error terms or the Euler-mollified sweep,
+and nothing in this hunt's findings rests on it. `RESULTS.md` separates what was read
+from what the lab computed and gives each finding its grade.
 
 ### Hunt #152: a ball-arithmetic Lehman localization of a sign change of pi(x) - li(x) (`skewes_enclosure/`, opened 2026-10-26)
 

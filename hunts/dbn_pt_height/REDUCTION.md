@@ -5,7 +5,10 @@ review. Reading only; every citation `[Q:ID]` is re-read from its hashed source
 by `test_chain.py` (see CHAIN.md, "How to read this file"). Bundle members are
 cited by basename, line and SHA-256 (all in `chain.json`); their directory
 names are not written here because they carry the stem this tree reserves for
-`zeta/rigor.py`.
+`zeta/rigor.py`. Added at landing, 2026-10-31: that re-reading runs only where
+the download cache exists, and no CI runner has it, so on CI every citation
+here is checked against `chain.json`, not against its source (`RESULTS.md`,
+section 6).
 
 ## 0. Which reduction is which
 

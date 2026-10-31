@@ -3714,7 +3714,26 @@
    "file": "hunts/README.md",
    "kind": "resumed_date",
    "phrase": "resumed in place on 2026-10-26"
+  },
+  {
+   "id": "L01",
+   "file": "CHAIN.md",
+   "kind": "landed_date",
+   "phrase": "Added at landing, 2026-10-31"
+  },
+  {
+   "id": "L02",
+   "file": "REDUCTION.md",
+   "kind": "landed_date",
+   "phrase": "Added at landing, 2026-10-31"
+  },
+  {
+   "id": "L03",
+   "file": "hunts/README.md",
+   "kind": "landed_date",
+   "phrase": "closed at landing, 2026-10-31"
   }
  ],
- "resumed": "2026-10-26"
+ "resumed": "2026-10-26",
+ "landed": "2026-10-31"
 }

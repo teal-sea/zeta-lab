@@ -18,6 +18,12 @@ checks against the source. Three items were read in the session's PDF or image
 reader and cannot be re-read by the test; each is marked where it is used.
 Grades are this tree's: *measured*, *hardened*, *kernel-checked*. A statement
 read in a source carries the grade of what that source shows.
+Added at landing, 2026-10-31: the re-reading runs only where the download
+cache exists, and no CI runner has it. There the tests that read a source
+skip, and what is checked is that this file agrees with `chain.json` and that
+its arithmetic holds; every quotation, date, name and count below is tied to
+its source only by a run on a machine that holds the cache (`RESULTS.md`,
+section 6).
 
 ## Verdict
 
