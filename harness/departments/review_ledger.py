@@ -698,10 +698,9 @@ OUTCOMES: tuple[AttackOutcome, ...] = (
         claim_name="blockpos-0.672529",
         role="white-box",
         attacker=(
-            "a member of the public (name withheld pending their consent, "
-            "2026-10-30), with an instance of ChatGPT they call C.A.T., "
-            "unsolicited, via the zeta.teal-sea.com contact form, 2026-09-08 "
-            "and 2026-09-09"
+            "Luke Kenneth Casson Leighton, with an instance of ChatGPT they "
+            "call C.A.T., unsolicited, via the zeta.teal-sea.com contact "
+            "form, 2026-09-08 and 2026-09-09"
         ),
         findings=(
             "the generalization, which this ledger did not have: do not "

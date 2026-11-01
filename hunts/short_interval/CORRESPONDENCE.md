@@ -1,10 +1,11 @@
 # The outside contribution that opened this hunt
 
-*Landing note, 2026-10-30.* The correspondent's name and account handle are
-withheld: this record quotes private contact-form messages, and the tree holds no
-record of their consent to being named. If they consent, the name goes back in
-the "Who" section, in `MISSION.md`, in the case-log entry and in the review
-ledger's attacker field, which is the credit this record was written to give.
+*Landing note, 2026-10-30; name restored 2026-11-01.* At landing the
+correspondent's name and account handle were withheld, because this record
+quotes private contact-form messages and the tree held no record of their
+consent to being named. They were restored on the owner's instruction on
+2026-11-01, here, in `MISSION.md`, in the case-log entry and in the review
+ledger's attacker field.
 
 **Recorded 2026-09-14, shortened on landing (2026-10-21) to the credit and
 the two contributions.** A record of unsolicited correspondence from a member
@@ -13,8 +14,8 @@ because this hunt exists because of it. Nothing here is a mathematical result.
 
 ## Who
 
-**A member of the public** (name withheld, see the note above), working with an
-instance of ChatGPT they call C.A.T. They reached the laboratory through the
+**Luke Kenneth Casson Leighton**, working with an instance of ChatGPT they call
+C.A.T., writing from `gitlab.com/d12rg`. They reached the laboratory through the
 contact form on `zeta.teal-sea.com` on 2026-09-08, having read the published
 account of the withdrawn zero-proportion candidates. They had no prior
 connection to this laboratory and were not asked to write.
@@ -29,7 +30,7 @@ uses `u u^T`, an off-line pair is the hyperbolic block `2m(xx^T - yy^T)`, and
 an exact Gaussian-integer witness gives `tr(P1 Q') = -2`
 (`hunts/frontier_math/CLEAN-KILL-REPORT.md`).
 
-The correspondent wrote to say they had hit the same structural failure
+Leighton wrote to say they had hit the same structural failure
 repeatedly in independent work, and to state the rule they had adopted for it:
 
 > Do not square, Hermitianize, or pass to a positive quadratic object until
@@ -65,12 +66,12 @@ a statement about a quotient being nearly faithful; and hunt #118's closure
 of the out-of-band route turns on an orientation fact, that a real even
 spectral profile's autocorrelation is strictly positive just inside its
 support edge and the lemma is false for odd factors. Neither was derived from
-the correspondent's rule, and neither is evidence for it. They are recorded here
+Leighton's rule, and neither is evidence for it. They are recorded here
 because a rule that never touches the work is not a rule.
 
 ### 2. Wang's short-interval paper, 2026-09-12
 
-On 2026-09-12 the correspondent forwarded a note from C.A.T. observing that the
+On 2026-09-12 Leighton forwarded a note from C.A.T. observing that the
 constant in Biao Wang's arXiv:2609.07918 looked familiar, because `c(1)` is
 the Montgomery-Taylor constant.
 
@@ -89,8 +90,9 @@ as an intervention caught by an outsider, with the missing capability named.
 
 ## Not evaluated
 
-Their wider programme, set out in their public repositories, was not
-evaluated here, and nothing in this tree rests on it.
+Their wider programme, set out in their public repositories under
+`gitlab.com/d12rg`, was not evaluated here, and nothing in this tree rests on
+it.
 
 Recording what was not used is part of the credit, not a qualification of it.
 The two contributions above are real, and this laboratory is better off for

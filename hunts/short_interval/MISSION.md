@@ -56,9 +56,9 @@ Biao Wang (Yunnan University) posted arXiv:2609.07918 on 2026-09-07: zeros in
 `c(theta)`, and distinct in proportion at least `d(theta) = (1 + c(theta))/2`,
 unconditionally, for every fixed `0 < theta < 1`. The laboratory did not
 notice for five days and then heard about it from an unsolicited email
-from a member of the public with no prior connection to this laboratory
-(name withheld pending their consent, 2026-10-30), writing through the contact
-form on `zeta.teal-sea.com`. `CORRESPONDENCE.md` records and credits what they
+from Luke Kenneth Casson Leighton, a member of the public with no prior
+connection to this laboratory, writing through the contact form on
+`zeta.teal-sea.com`. `CORRESPONDENCE.md` records and credits what they
 contributed, in both parts. The half that is this tree's failure, that nothing
 here watched the literature, is recorded in `meta/interventions.jsonl`. The
 literature monitor built in response was not landed with this hunt; it is held

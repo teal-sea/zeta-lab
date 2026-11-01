@@ -1111,7 +1111,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/review_ledger.py`, The repository's standing-review ledger, real claims, real attacks.
 
-*941 lines*
+*940 lines*
 
 Constants: `CLAIMS`, `OUTCOMES`
 
