@@ -56,7 +56,8 @@ def main() -> int:
             "lo": [w["t_lo"] for w in d["windows"]], "hi": [w["t_hi"] for w in d["windows"]],
             "n": [w["n_gaps"] for w in d["windows"]],
             "ex": d["excess_pV"], "se": d["excess_pV_se"],
-            "fit": d["fits"]["1/log^2, no intercept"],
+            "fit": d["fits"]["1/log, no intercept"],
+            "fit2": d["fits"]["1/log^2, no intercept"],
         }
     html = TEMPLATE.replace("/*DATA*/null", json.dumps(data))
     out = HERE / "viz.html"
@@ -131,8 +132,9 @@ degree-2 nodes.</p>
 <details><summary>Table view</summary><table id="t2"></table></details>
 
 <h2>3. The wrong side of GUE <span class="tag">OBSERVED</span></h2>
-<p>Fraction pV of gaps that are local minima. Finite-size CUE(N) random matrices approach the GUE value
-from below as N grows. The zeros sit above it, 9 standard errors out, where no CUE(N) goes.</p>
+<p>Fraction pV of gaps that are local minima. Finite-size CUE(N) random matrices never exceed the GUE
+value (below it at N = 4 and 6, flat within errors from N = 7 up). The zeros sit 7 to 11 standard errors
+above it, where no CUE(N) goes.</p>
 <div class="legend"><span><i style="background:var(--series-3)"></i>CUE(N), x = 1/N&sup2;</span>
 <span><i style="background:var(--series-2)"></i>GUE (N = &infin;)</span><span><i style="background:var(--series-1)"></i>zeta, T &le; 10<sup>5</sup></span></div>
 <figure><svg id="g3" viewBox="0 0 940 330" role="img" aria-label="pV against 1/N squared"></svg></figure>
@@ -243,18 +245,18 @@ const f5 = v => v.toFixed(5);
 (() => { const H = D.height, note = document.getElementById("hnote");
   if (!H) { note.textContent = "Pending: the zeros up to 10^6 were still being scanned when this page was built.";
     document.getElementById("g4f").style.display = "none"; return; }
-  note.innerHTML = "Excess pV(zeta) &minus; pV(GUE) in height windows of the zeros up to 10<sup>6</sup>, against 1/log&sup2;(T/2&pi;). The line is the weighted fit through the origin.";
-  const svg = document.getElementById("g4"), xs = H.L.map(L => 1 / (L * L));
+  note.innerHTML = "Excess pV(zeta) &minus; pV(GUE) in height windows of the zeros up to 10<sup>6</sup>, against 1/log(T/2&pi;) (GUE value of this run, 0.35141). Dashed: weighted fit c/log(T/2&pi;) through the origin. A pure 1/log&sup2; decay fits badly (&chi;&sup2; = " + H.fit2.chi2.toFixed(1) + " on 6 dof). It fades, slowly.";
+  const svg = document.getElementById("g4"), xs = H.L.map(L => 1 / L);
   const x0 = 80, x1 = 900, y0 = 270, y1 = 20, xmax = Math.max(...xs) * 1.08;
   const ymax = Math.max(...H.ex.map((e, i) => e + 2 * H.se[i])) * 1.1, ymin = Math.min(0, ...H.ex.map((e, i) => e - 2 * H.se[i])) * 1.1;
   const X = lin(0, xmax, x0, x1), Y = lin(ymin, ymax, y0, y1);
   const yt = []; for (let v = 0; v <= ymax; v += 0.002) yt.push([Y(v), v]);
-  axes(svg, x0, x1, y0, y1, yt, v => v.toFixed(3), [0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04].filter(v => v <= xmax).map(v => [X(v), v]), v => v.toFixed(3), "pV excess over GUE", "1 / log²(T/2π)");
+  axes(svg, x0, x1, y0, y1, yt, v => v.toFixed(3), [0, 0.04, 0.08, 0.12, 0.16].filter(v => v <= xmax).map(v => [X(v), v]), v => v.toFixed(2), "pV excess over GUE", "1 / log(T/2π)");
   const a = H.fit.coef[0]; el(svg, "line", {x1: X(0), x2: X(xmax), y1: Y(0), y2: Y(a * xmax), stroke: "var(--series-2)", "stroke-width": 2, "stroke-dasharray": "6 4"});
   xs.forEach((x, i) => { el(svg, "line", {x1: X(x), x2: X(x), y1: Y(H.ex[i] - 2 * H.se[i]), y2: Y(H.ex[i] + 2 * H.se[i]), stroke: "var(--series-1)", "stroke-width": 2});
     const m = el(svg, "circle", {cx: X(x), cy: Y(H.ex[i]), r: 5.5, fill: "var(--series-1)", stroke: "var(--surface-2)", "stroke-width": 2});
     hover(m, `T in [${H.lo[i].toExponential(0)}, ${H.hi[i].toExponential(0)})<br>${H.n[i].toLocaleString()} gaps<br>excess ${H.ex[i].toFixed(5)} &plusmn; ${H.se[i].toFixed(5)}`); });
-  el(svg, "text", {x: X(xmax) - 6, y: Y(a * xmax) - 8, "text-anchor": "end"}, `fit: excess = ${a.toFixed(3)} / log²(T/2π), χ² = ${H.fit.chi2.toFixed(1)} on ${H.fit.dof} dof`);
+  el(svg, "text", {x: X(xmax) - 6, y: Y(a * xmax) - 8, "text-anchor": "end"}, `fit: excess = ${a.toFixed(4)} / log(T/2π), χ² = ${H.fit.chi2.toFixed(1)} on ${H.fit.dof} dof`);
 })();
 
 // 5. arrow of time

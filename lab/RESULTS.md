@@ -184,9 +184,58 @@ N >= 8 the coefficient is -0.012 ± 0.010, so the sign is not established, only 
 leading correction is too small to give +0.004. Experiment D measures the trend with
 height.
 
-## 6. Experiment D: height dependence
+## 6. OBSERVED: experiment D, the excess fades, slowly
 
-PENDING (written when the 10^6 scan lands).
+Zeros to 10^6: `lab/scan_zeros.py 1000000`, 1,747,146 zeros in 5,809 s; block test passes
+(6,988 blocks of 250, means in [0.491, 0.509], max |D_n - 1/2| = 1.332). Seven height
+windows, error bars from blocks of 2000 gaps. Command: `lab/exp_d_height.py`, numbers in
+`lab/results/exp_d.json`. Excess below is against the verification's sine-process value
+0.35118 ± 0.00006 (section 7); the run's own GUE sample, 0.35141 ± 0.00022, gives the same
+conclusions.
+
+| T window | gaps | log(T/2pi) | pV | excess | Gaussian-model excess | var | rho1 |
+|---|---|---|---|---|---|---|---|
+| [0, 1e4) | 10,142 | 6.76 | 0.35523 ± 0.00146 | 0.00405 | 0.00271 | 0.1542 | -0.369 |
+| [1e4, 3e4) | 25,531 | 8.08 | 0.35434 ± 0.00115 | 0.00316 | 0.00286 | 0.1599 | -0.359 |
+| [3e4, 1e5) | 102,396 | 9.26 | 0.35534 ± 0.00042 | 0.00416 | 0.00281 | 0.1625 | -0.354 |
+| [1e5, 2e5) | 160,131 | 10.08 | 0.35467 ± 0.00033 | 0.00349 | 0.00278 | 0.1643 | -0.352 |
+| [2e5, 4e5) | 342,326 | 10.78 | 0.35459 ± 0.00024 | 0.00341 | 0.00270 | 0.1656 | -0.350 |
+| [4e5, 7e5) | 542,740 | 11.38 | 0.35445 ± 0.00021 | 0.00327 | 0.00260 | 0.1665 | -0.348 |
+| [7e5, 1e6) | 563,879 | 11.82 | 0.35430 ± 0.00022 | 0.00312 | 0.00254 | 0.1671 | -0.347 |
+| GUE (tridiagonal) | 800,000 | inf | 0.35141 ± 0.00022 | | | 0.1795 | -0.309 |
+
+The "Gaussian-model excess" is 1/4 + arcsin(r)/(2pi) with r = (1 - 2rho1 + rho2)/(2(1 - rho1)),
+minus the same formula for GUE (0.35012): the share of pV a Gaussian sequence with the same
+lag correlations would have. It is a heuristic, since the gaps are not Gaussian.
+
+Findings, all **OBSERVED**:
+1. **The excess shrinks with height**: 0.00416 in [3e4, 1e5) to 0.00312 in [7e5, 1e6), a fall
+   of 0.00104 ± 0.00047 (2.2 sigma). Every window from 3e4 up stays 8 to 10 sigma above GUE.
+   The flat-or-rising pattern inside T <= 10^5 (section 7, point 3) was noise.
+2. **Decay law.** Weighted fits of the excess against x over the seven windows:
+
+   | model | coefficient | chi^2 / dof |
+   |---|---|---|
+   | c / log(T/2pi) | c = 0.0365 ± 0.0013 | **2.8 / 6** |
+   | c / log^2(T/2pi) | c = 0.383 ± 0.014 | **20.5 / 6** (p ≈ 0.002) |
+   | c / log^2 + b | b = 0.0024 ± 0.0006 | 2.3 / 5 |
+   | c / log + b | b = 0.0011 ± 0.0012 | 2.0 / 5 |
+
+   A pure 1/log^2 decay is rejected; 1/log fits. A 1/log^2 law survives only with a floor
+   b that never decays, which would contradict GUE universality for pV. So over
+   log(T/2pi) = 6.8 to 11.8 the excess behaves like 1/log(T/2pi), not like the 1/log^2
+   leading correction of the effective-size picture. Five units of log is a short lever
+   arm: this is a fit preference, not a law.
+3. **The correlations carry most of it, at every height.** The Gaussian model accounts for
+   0.0025 to 0.0029 of the excess, and the residual falls from about 0.0013 to 0.0006. The
+   variance (0.154 to 0.167, GUE 0.180) and rho1 (-0.369 to -0.347, GUE -0.309) relax
+   toward GUE over the same range. rho2 and rho3 are already at their GUE values above
+   T = 10^5.
+
+**GUESS.** The excess is the ordinal shadow of the zeros' finite-height rigidity and goes
+to zero, roughly like 1/log(T/2pi): about 0.036/log(T/2pi), so halving it would take
+log(T/2pi) near 23, T near 10^11. Whether "1/log, not 1/log^2" is real or an artefact of the
+short height range is the open question this lab leaves.
 
 ## 7. Independent verification (three agents, own code, nothing imported from lab/)
 

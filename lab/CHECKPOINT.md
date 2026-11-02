@@ -15,10 +15,16 @@ rules) and `lab/RESULTS.md` (everything measured, with labels and commands) firs
 | Exp B arrow of time | done: Conjecture B survives |
 | Exp C effective CUE size | done: Conjecture C FALSIFIED |
 | Independent verification (3 agents) | done, all confirmed; folded into RESULTS section 7 |
-| Zeros to 10^6 (`scan_zeros.py 1000000`) | **RUNNING** at checkpoint time (91+ min, nohup, PID of `lab/.venv/bin/python lab/scan_zeros.py 1000000`), writes `lab/data/zeros_T1000000.npz` and `lab/data_scan_T1e6.log` |
-| Exp D height dependence | **PENDING**: a detached chain (`lab/logs/chain.log`) runs `exp_d_height.py` then `make_viz.py` when the scan log gets `exit=0`; output `lab/logs/exp_d_height.log`, `lab/results/exp_d.json` |
-| RESULTS section 6 | **PENDING**: write it from `exp_d.json` |
-| `viz.html` height panel | rebuilt automatically by the chain |
+| Zeros to 10^6 (`scan_zeros.py 1000000`) | done: 1,747,146 zeros, 5,809 s, block test passes (`lab/data/zeros_T1000000.npz`, gitignored) |
+| Exp D height dependence | done (2026-11-02 03:07 UTC): excess fades, fits c/log(T/2pi) (chi^2 2.8/6), pure 1/log^2 rejected (20.5/6) |
+| RESULTS section 6 | done |
+| `viz.html` height panel | done, plotted against 1/log(T/2pi) |
+
+**Update 2026-11-02 13:30 UTC: the lab is closed out.** The open question below is answered
+in its first branch (the excess decays with the correlations), with one leftover: the decay
+looks like 1/log, not 1/log^2, over a short height range. The next step for anyone
+continuing: zeros near 10^8 to 10^9 (or Odlyzko's tables near 10^12 and above, if
+available offline) to lengthen the lever arm on that fit.
 
 ## How to resume
 
