@@ -1,0 +1,2 @@
+{"t_max": 1000000.0, "zeros": 1747146, "seconds": 5809.5, "first": 14.134725141734695, "last": 999999.7934171271, "blocks_of_250": 6988, "block_mean_D_min": 0.491, "block_mean_D_max": 0.5091, "max_abs_D_minus_half": 1.332, "complete_by_block_test": true, "saved": "lab/data/zeros_T1000000.npz"}
+exit=0
