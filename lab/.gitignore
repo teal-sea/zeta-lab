@@ -1,0 +1,5 @@
+# Large or regenerable outputs: rebuild with the commands in RESULTS.md
+.venv/
+data/*.npz
+__pycache__/
+.hypothesis/

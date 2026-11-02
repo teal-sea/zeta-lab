@@ -1,0 +1,8 @@
+family                              gaps  segs     d2 mean        se      z signflip p  KL(out||in)
+zeta_T1e5                         138068    69     0.00883   0.01153    0.8     0.4365     8.05e-05
+zeta_shuffled                     138068    69     0.00901   0.01104    0.8     0.4173     3.37e-05
+gue_tridiag                       140000    70     0.00681   0.01194    0.6     0.5700     7.40e-05
+planted_irreversible_ar1_exp      138068    69    -1.39268   0.01610  -86.5     0.0000     1.44e-01
+planted_reversible_ar1_gauss      138068    69    -0.00616   0.01380   -0.4     0.6542     2.48e-05
+26.7 s
+exit=0
