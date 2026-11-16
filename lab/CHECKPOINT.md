@@ -1,7 +1,7 @@
 # Checkpoint: zero visibility (for the next session)
 
 Written 2026-11-02 ~02:55 UTC. Branch `mad/zero-visibility`, worktree
-`/home/thomas/zeta-lab/.claude/worktrees/mad-zero-visibility` (on the Linux box),
+`.claude/worktrees/mad-zero-visibility` (on the Linux box),
 pushed to `origin/mad/zero-visibility`. Not merged; not a PR. Read `lab/MISSION.md` (scope,
 rules) and `lab/RESULTS.md` (everything measured, with labels and commands) first.
 
@@ -29,7 +29,7 @@ available offline) to lengthen the lever arm on that fit.
 ## How to resume
 
 ```bash
-cd /home/thomas/zeta-lab/.claude/worktrees/mad-zero-visibility
+cd .claude/worktrees/mad-zero-visibility
 cat lab/data_scan_T1e6.log lab/logs/exp_d_height.log      # did they finish?
 ps -eo etime,args | grep -E 'scan_zeros|exp_d' | grep -v grep
 # if the scan died or the box rebooted (lab/.venv is local, rebuild if missing):
