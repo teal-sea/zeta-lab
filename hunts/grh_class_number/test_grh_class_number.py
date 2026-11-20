@@ -146,6 +146,7 @@ def test_the_cover_is_valid_but_stalled_below_log_49():
     L = [x['L_lower'] for x in cells]
     ups = [i for i in range(1, len(L)) if L[i] > L[i - 1]]
     assert [cells[i]['q_lo'] for i in ups] == [4967973832]
+    assert 1.0076 < L[ups[0]] / L[ups[0] - 1] < 1.0077
     later = [max(L[i + 1:], default=0) for i in range(len(L))]
     assert sum(1 for i in range(len(L)) if later[i] > L[i]) == 76
     # and h_lower, which the table reads, is nondecreasing all the same
@@ -191,6 +192,22 @@ def test_the_lls_route_door_is_measured_not_adopted():
     cell = controls.cell_of(_load('dtable_grh.json')['intervals'], 10**10)
     assert v == pytest.approx(0.13671, abs=2e-5)
     assert 1.10 < v / cell['L_lower'] < 1.11
+
+
+def test_the_lls_route_door_across_the_range():
+    """The quoted factors 1.07 to 1.16 between 10^4 and 10^50 (float)."""
+    dt = _load('dtable_grh.json')
+    rows = dt['intervals'] + dt['bridge_intervals']
+    ratios = {}
+    for e in (4, 6, 8, 10, 11, 20, 50):
+        v, _ = lls_route.optimise(10.0**e)
+        cell = next(c for c in rows if c['q_hi'] >= 10**e)
+        ratios[e] = math.exp(v) / cell['L_lower']
+    assert 1.15 < ratios[4] < 1.16 and 1.06 < ratios[50] < 1.07
+    assert all(1.06 < r < 1.16 for r in ratios.values())
+    s = _load(f'search_H{H}.json')
+    even_above = sum(s['count_by_h'][str(h)] for h in range(2002, H + 1, 2))
+    assert even_above == 78323558
 
 
 def test_theorem_a_tail_and_cover():
@@ -435,6 +452,9 @@ def test_the_full_range_sweep_record():
     assert sum(zone['listed'] for zone in z.values()) == s['found']
     assert sum(zone['fundamental'] for zone in z.values()) == s['stats']['fundamental']
     assert c['reviewer_run']['above_X_against_D_GRH_table']['violations'] == 0
+    assert sum(zone['pari_unlisted'] for zone in z.values()) == 5358520
+    assert z['fullzone']['pari_listed'] == 2                # |D| = 3 and 4, by their unit factor
+    assert z['fullzone_b']['pari_listed'] == z['filterzone']['pari_listed'] == 0
     assert c['missing_total'] == 0 and c['wrong_total'] == 0
     for tag, r in c['rerun_reproduces_reviewer'].items():
         assert r['rows'] > 0 and r['identical_rows'] == r['rows'], tag
@@ -445,6 +465,7 @@ def test_the_list_equals_molteni_per_field_file_for_h_le_2000():
     assert m['sha256_matches_record'] and m['lines'] == 2000
     assert m['h_with_different_sets'] == []
     assert m['fields_in_file'] == m['fields_in_list_h_le_2000'] == 16453493
+    assert m['even_h_above_1500_fields'] == 6491770
     assert controls.GGLM_TABLE1[2000] == (16453493, 1062350083)
 
 

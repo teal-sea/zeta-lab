@@ -222,7 +222,9 @@ def prime_sum_log_p2(p):
             return result(False, P, witness=dict(set=f"all primes <= {P}", sum_lower=lo(S), K=float(K)))
         ok = bool(total <= A(K))
     return result(True if ok else None, P, margin=float(K) - up(total), tightest=dict(set="all primes"),
-                  sharp=[lo(S), up(total)], slack=[float(K) / up(total), float(K) / lo(S)],
+                  sharp=[lo(S), up(total)], slack=[float(K) / up(total), float(K) / lo(S)], tail_covered=ok,
+                  cover_basis="every finite set of primes: the terms are positive, so each finite sum is at most the "
+                              "partial sum to P plus the integral tail bound (log P + 1)/P",
                   notes="complete: the terms are positive, so the supremum over finite sets is the full series, "
                         "enclosed between the partial sum to P and that plus (log P + 1)/P")
 

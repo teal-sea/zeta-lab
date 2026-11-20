@@ -6,11 +6,12 @@ kernel replay is a separate hunt (`hunts/alpoge_replay/`, on another branch)
 and is pending; nothing here is a verdict on it. Nothing is promoted. The
 atlas is original to the lab and claims no novelty.
 
-One shared test is red with this hunt in the tree and this hunt cannot make
-it green: `tests/test_hunt_probe_discipline.py` fails in
+One shared test was red while this hunt was being built, and the hunt could
+not make it green: `tests/test_hunt_probe_discipline.py` failed in
 `test_every_hunt_directory_is_covered_by_the_case_log` until
-`hunts/README.md` gains entries for the hunts opened today. That file is
-shared and outside what this hunt may write.
+`hunts/README.md` gained entries for the hunts opened that day. That file is
+shared and outside what this hunt may write. The entries were added the same
+day when the hunts were landed, and the test passes.
 
 Three labels are used. **T**: text-level reading, quotes replayable. The
 claim is "the archive states X at `path:line`", recorded in `quotes.json`.
@@ -132,6 +133,30 @@ the next, so two runs could keep different directories at the cut. The
 first version had the same defect and no test that could see it.
 `recount.py` now breaks ties by name. No number printed in the atlas was
 affected.
+
+The repair was cut off once by a usage limit and finished by a second pass
+the same day. That pass re-checked every row above against the files and
+against the reviewers' reports, reran `verify_quotes.py` against the archive
+(238 citations, all matching) and the full archive-gated tests, recount
+included. It found two places the first repair pass had missed and fixed
+them:
+
+- F9: the timeline table of ATLAS section 6 still said "Not in the archive"
+  in the row for item 3, beside the corrected finding below the table. The
+  row now says "not located under any notation searched" and points to the
+  searches and to `gauss_core`.
+- F7 and N10: item 8 kept two links that rest on a letter or a name, and
+  items 7, 10, 13, 15 and 16 lean on names for the link to the note. They
+  keep their stated grades (A and N say "by area" and "by name"), and every
+  name-resting link is now also an open question (ATLAS question 19), so
+  that no reading stands on a name without being marked open.
+- The tie-break fix of the next paragraph had been made in `recount.py`
+  but `stats.json` had not been rebuilt with it when the first pass was
+  cut off, so the archive-gated test of the whole table failed in
+  `import_closures`. The table was rebuilt from a fresh recount; only
+  directories tied at the cut of four closure lists changed, no module or
+  line count did, and a second fresh recount in a new process then matched
+  it in every field.
 
 What the reviews confirmed and this revision did not change: all 168
 citations of the first version replayed, and one reviewer compared every

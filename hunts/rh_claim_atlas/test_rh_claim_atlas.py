@@ -1038,3 +1038,12 @@ def test_a_fresh_recount_rebuilds_the_whole_table(tmp_path):
     done = subprocess.run([sys.executable, "-I", str(HERE / "build_stats.py"), str(recount), str(ledger), "--check"],
                           capture_output=True, text=True)
     assert done.returncode == 0, done.stdout
+
+
+def test_the_citation_count_in_results_is_the_count_in_quotes_json():
+    # the second repair pass quotes how many citations it replayed
+    m = re.search(r"\((\d+) citations, all matching\)", RESULTS)
+    assert m and int(m.group(1)) == len(ENTRIES)
+    # the name-resting links of section 6 are an open question, not a reading
+    assert "19. The links of section 6 that rest on a name" in ATLAS
+    assert "Not in the archive." not in ATLAS

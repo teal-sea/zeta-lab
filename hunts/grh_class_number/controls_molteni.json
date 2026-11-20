@@ -1,0 +1,14 @@
+{
+ "file": {
+  "name": "classes-list-2000.txt",
+  "bytes": 165368321,
+  "sha256": "2900aabef20e51511cbe0cbb1c7519f6788dfbd9a17b172626dcee70b302cb12"
+ },
+ "sha256_matches_record": true,
+ "lines": 2000,
+ "fields_in_file": 16453493,
+ "fields_in_list_h_le_2000": 16453493,
+ "h_with_different_sets": [],
+ "even_h_above_1500_fields": 6491770,
+ "seconds": 40.5
+}

@@ -75,6 +75,90 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #163: the class-number lists for h <= 5000 under GRH for chi_D (`grh_class_number/`, opened 2026-11-20)
+
+**Status: candidate, pending external review; proved given GRH for the real
+primitive characters chi_D (hypothesis H(1/2), not a theorem), by the
+sibling hunt's unreviewed written proof, audited line by line at sigma0 = 1/2,
+with every constant evaluated in Arb.** The two-cutoff Littlewood bound of
+`qrh_class_number/` at abscissa 1/2 gives L(1, chi_D) >= 1/(3 log log |D|) for
+every negative fundamental D other than -3 and -4, and a gap-free Arb cover
+gives D_GRH(h) for h <= 10 000 (D_GRH(100) = 5 554 909,
+D_GRH(5000) = 16 396 235 837). That table is a valid cutoff, but review found
+the cover stalled on 514 cells, so it is 1 to 2% weaker than Theorem B allows
+for about 400 < h <= 2760; the search range is unaffected. An exact
+reduced-form search over all 4 983 858 175 fundamental discriminants below
+D_GRH(5000) (1.69 CPU-hours, no GRH) lists 102 746 940 fields with
+h <= 5000, the largest D = -6 912 348 787 (h = 4967). The list is
+conditional on H(1/2) only for |D| > 16 396 235 837. Against the published
+frontier (Garcia, Grenie, Lee, Molteni, arXiv:2610.14257, every h <= 2000
+under GRH) the delta is the range 2000 < h <= 5000 (86 293 447 fields). For
+h <= 2000 the list equals their Table 1 and their per-field file, field by
+field. Whether their list also rests on a further GRH, through PARI's
+class-group routine, is unresolved. Other controls: Watkins for h <= 100;
+Holmin-Kurlberg for all 2500 odd h < 5000; the sibling's h <= 1500 lists
+(same sha256); PARI on samples and windows; and the exact L(1, chi_D) of
+every listed field, at least 1.449 above the bound. That 1.449 is also the
+floor below which this control is blind: it cannot see the zero term
+dropped. The control for the even h above 2000 is an independent full-range
+sweep (truncated Euler products plus PARI, sharing no code with the search),
+run by a reviewer and partly rerun here. It is a detector, not a proof, and
+found nothing missing or wrong.
+
+Attacked 2026-11-20 by two independent review passes, proof and
+computation. Both verdicts were "holds". Eleven findings (two major, nine
+minor) were all dispositioned in RESULTS.md section 9 and none were
+dismissed. The top door is a different classical route: the LLS route
+evaluated numerically, measured 7 to 16% stronger in L (float grade, not
+adopted). The archive of 2026-11-20 would discharge the hypothesis only by a
+kernel check; its replay (`alpoge_replay/`) is pending. See
+`grh_class_number/RESULTS.md`.
+
+### Hunt #162: the readable statements of the claimed RH archive, tested (`rh_claim_statements/`, opened 2026-11-20)
+
+**Status: closed as a falsification attempt, reviewed (2026-11-20). No statement failed.** On 2026-11-20 Levent Alpoge posted a claimed Lean 4 proof of RH and of GRH for Dirichlet L-functions (175,187 files, Mathlib pinned at `0df444a`). No kernel has checked it, and another session owns the replay, which is pending. This hunt read the archive as text only. It took 79 intermediate statements written in Mathlib's vocabulary: zeta, Gamma and L-function bounds, Chebyshev-type constants, quadric point counts over finite fields, 11 explicit primes, and sharp elementary inequalities. Each statement was transcribed with Lean's conventions made explicit: junk values, truncated subtraction, big-operator precedence, casts. Every identifier was resolved to its Mathlib definition site, and a scan of archive declarations, notation and instances showed that nothing captures one. Each statement was tested by exact arithmetic or Arb ball arithmetic, and the same test had to reject at least one one-change mutant with a witness.
+
+Outcome: all 79 hold in the sense of their grade. 10 are complete covers, hardened given Arb and one cited classical bound for each non-compact domain. 15 are exact on a finite domain. 54 are measured: on a stated range of an unbounded domain, or, for the limit C12 and the identities C11 and C79, to a stated width. All 98 mutants were rejected. Doubling the working precision moved no verdict. Survival says nothing about the main claim: every statement is classical or an explicit finite computation. The archive's strength enters through `def ... : Prop` layers that this hunt did not read, and the doors name unfolding them as the next information class.
+
+17 of the 68 statements that are not explicit primes are loose by a factor of 2 or more. The tightest is pi(m) log m < 1.26 m below 2^17, which holds with a 0.4 percent margin at m = 113. Decoys (Hurwitz zeta, random plus/minus 1 sequences, Cramer random sets) show that the sharp tests are not vacuous.
+
+Review (two attackers, both "holds"; [RESULTS.md](rh_claim_statements/RESULTS.md) section 11):
+- Neither attacker found a transcription error or a wrong verdict, and an independent text-level reading matched all 79 statements.
+- Fixed: C11 and C79 were regraded from exact to measured, because their exact step is Euler's formula, which is the archive's own proof input.
+- Fixed: a complete cover must now be earned by the test (it must report `tail_covered`), not set by the ledger.
+- Fixed: C17 became a complete cover through the Euler-product floor.
+- Corrected in place: a typed sentence wrongly called C17 with constant 17 false. It is true, and the smallest false integer constant is 16.
+- Overstatement withdrawn: the C15 strip edge is resolved only to about 0.03 at height 200, since false edges of 5.52 and 5.51 pass. The measured rejection resolution of every sharp claim is now in section 4.
+- Wording fixed: shared classical inputs (Euler's formula, the reflection formula, the functional equation) are named per claim.
+
+Unit timings, estimates and manifests are in [RUNS.md](rh_claim_statements/RUNS.md).
+
+### Hunt #161: the one inequality a posted RH claim rests on, measured (`rh_claim_interface/`, opened 2026-11-20)
+
+**Status: open, measured, revised the same day after two independent reviews (both "holds", twelve findings, all reproduced, none rejected) and a second repair pass.** No claim is promoted. Nothing here evaluates the posted Lean archive's proof, and nothing here is evidence for RH. The kernel replay belongs to a separate hunt and is pending.
+
+The archive states that its RH and GRH chain funnels into one windowed bound: Gm(y) <= C y^theta on [Y, Y^(3/2)] with C = 1, for a smoothed von Mangoldt sum G(y) = sum_{n<=y} Lambda(n)(y/n - 1) - y log y + (1 + gamma) y and its character analogues. The transcription is quoted with path, line and file hash in `transcription.json` (grade: text).
+
+What the hunt found:
+
+(1) The identity G(y) = sum_rho y^rho/(rho(1-rho)) + log 2pi + T(y) is Lemma 2.1 of O. Ramare's corrigendum (Acta Arith. 211 (2023) 93-96), multiplied by y: zero delta. The first version missed the corrigendum and presented the sign as its own finding. That wording is recorded and withdrawn. Recalibrated here at float grade: with 20000 zeros the defect is at most 0.082 of the exact tail budget. Arb decides only the coarse inequality at 4 points.
+
+(2) Under RH, |G - log 2pi - T| <= c0 sqrt(y) with c0 = 2 + gamma - log 4pi. Over 2 <= y <= 10^9 the float scan reaches 0.5346 c0 above and -0.4910 c0 below. Both extreme values are hardened in Arb at 128 and 192 bits.
+
+(3) Without RH, Ramare 2013 Theorem 1.1 (read, not re-proved) already makes G(y) <= sqrt(y) a theorem on [8950, 8.2 * 10^22]. A derivation here with a float-grade weight extends this to 4.2 * 10^23. A single planted quadruple at height 3 * 10^12 would act only near 10^49. So a scan tests the instrument and the transcription, not RH.
+
+(4) The 35 levels of conductor at most 20 stay within 0.7180 of the GRH envelope up to 10^7.
+
+(5) Rivals: Davenport-Heilbronn, Epstein (1,1,6) and the shifted product fail the type, and Epstein (2,1,3) is undefined for the claim. Within reach the inequality does not separate zeta from Davenport-Heilbronn.
+
+(6) A side observation, float grade and unreviewed: Lemma 4.2 of the 2013 paper, as the author copy prints it, is exceeded by the listed zeros at T = 1000.
+
+Every numeric token of RESULTS.md is pinned with its exact count, and a mutation test shows the pins fail on a changed number. See [RESULTS.md](rh_claim_interface/RESULTS.md), section "Review findings and dispositions", and [RUNS.md](rh_claim_interface/RUNS.md).
+
+### Hunt #160: a day-one atlas of the Alpoge Lean archive (`rh_claim_atlas/`, 2026-11-20)
+
+**Status: built, text-level reading with replayable quotes, attacked by two reviewers and revised; no verdict, nothing promoted.** A text-level map of the 175,187-file archive posted as a Lean 4 proof of RH and GRH for Dirichlet L-functions. No Lean was run and no verdict is given; the kernel replay is `hunts/alpoge_replay/` and is pending. The archive states the five theorems of `Main.lean` from one Prop, `EveryCharacter` (L(s, χ) ≠ 0 for Re s > 1/2), down an eleven-node spine to a windowed, one-sided Landau lemma (closure: 28 modules, 2,396 lines). That lemma consumes one inequality, supplied under two analytic hypotheses (`EAtH`, `CoreAtH`). The Euler product enters through two different Mathlib identities, one for χ ≠ 1 and one for zeta. The functional equation reflects zeros in the three top files, but the supply chain of S6 calls it twice. The atlas also gives whole-tree statistics, misleading names, by-products and audit targets: kexactB is reached on 469 lines in 72 files through five macros. 238 citations are replayable by hash (`verify_quotes.py`), and `recount.py`, `ledger_count.py` and `build_stats.py` regenerate every count; an archive-gated test rebuilds the whole table. Two reviewers attacked the first version (20 findings, all real). Two sentences were contradicted by archive text and are withdrawn in place (kill condition 2 met for those sentences; the owner decides whether more should retire). Grade: text-level (T) and measured counts (M); the rival paragraph is an untested lab reading (R). Nothing promoted, no novelty claimed. See [ATLAS.md](rh_claim_atlas/ATLAS.md) and [RESULTS.md](rh_claim_atlas/RESULTS.md).
+
 ### Hunt #158: is the covering margin's decay the same across two families? (`decay_law/`, 2026-10-30)
 
 **Status: measured, kill fired, no claim promoted.** The covering margin is

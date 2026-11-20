@@ -2,8 +2,8 @@
  "meta": {
   "level": "full",
   "prec_scale": 1,
-  "started": "2026-11-20T17:56:06+0000",
-  "finished": "2026-11-20T17:59:27+0000",
+  "started": "2026-11-20T20:51:24+0000",
+  "finished": "2026-11-20T20:54:25+0000",
   "environment": {
    "python": "3.13.18",
    "python_flint": "0.9.0",
@@ -21,14 +21,14 @@
   "fail": [],
   "undecided": [],
   "by_grade": {
-   "complete_cover": 9,
-   "exact_finite": 17,
-   "measured_range": 53
+   "complete_cover": 10,
+   "exact_finite": 15,
+   "measured_range": 54
   },
   "mutants": 98,
   "mutants_rejected": 98,
   "mutants_not_rejected": [],
-  "seconds": 200.7
+  "seconds": 181.0
  },
  "claims": [
   {
@@ -61,7 +61,9 @@
    ],
    "tight": true,
    "witness": null,
-   "seconds": 0.105,
+   "tail_covered": true,
+   "cover_basis": "compact domain: the whole circle is covered by arcs",
+   "seconds": 0.097,
    "mutants": [
     {
      "id": "C01-m1",
@@ -76,7 +78,7 @@
       ],
       "ratio_lower": 1.0001599559430754
      },
-     "seconds": 0.047
+     "seconds": 0.042
     }
    ]
   },
@@ -111,7 +113,7 @@
    "tested_range": "2.0 < |t| <= 200 (t < 0 by conjugation)",
    "re_margin": 0.0,
    "witness": null,
-   "seconds": 6.006,
+   "seconds": 5.46,
    "mutants": [
     {
      "id": "C02-m1",
@@ -142,7 +144,7 @@
       ],
       "ratio_lower": 1.0060460670799571
      },
-     "seconds": 5.981
+     "seconds": 5.488
     }
    ]
   },
@@ -176,7 +178,7 @@
    "tight": true,
    "witness": null,
    "tested_range": "1.0 <= sigma <= 1.2, 2.0 <= t <= 200 (t < 0 by conjugation)",
-   "seconds": 5.914,
+   "seconds": 5.313,
    "mutants": [
     {
      "id": "C03-m1",
@@ -191,7 +193,7 @@
       ],
       "ratio_lower": 1.0427543261670305
      },
-     "seconds": 7.272
+     "seconds": 6.551
     },
     {
      "id": "C03-m2",
@@ -206,7 +208,7 @@
       ],
       "ratio_lower": 1.3310281353996207
      },
-     "seconds": 0.777
+     "seconds": 0.726
     }
    ]
   },
@@ -242,7 +244,7 @@
    "fe_defect_at_samples": 8.064518683431899e-11,
    "direct_samples": 20,
    "tested_range": "0.5 <= Re w <= 5.0, |Im w| <= 100",
-   "seconds": 0.154,
+   "seconds": 0.149,
    "mutants": [
     {
      "id": "C04-m1",
@@ -257,7 +259,7 @@
       ],
       "ratio_lower": 147.9651869053666
      },
-     "seconds": 0.121
+     "seconds": 0.113
     },
     {
      "id": "C04-m2",
@@ -272,7 +274,7 @@
       ],
       "ratio_lower": 1.0002978709380945
      },
-     "seconds": 0.183
+     "seconds": 0.132
     }
    ]
   },
@@ -306,7 +308,7 @@
    "tight": true,
    "witness": null,
    "tested_range": "0 < Re s <= 16.0, |Im s| <= 100 (Im < 0 by conjugation)",
-   "seconds": 16.427,
+   "seconds": 15.058,
    "mutants": [
     {
      "id": "C05-m1",
@@ -321,7 +323,7 @@
       ],
       "ratio_lower": 1.010094414563862
      },
-     "seconds": 16.942
+     "seconds": 15.06
     }
    ]
   },
@@ -375,7 +377,7 @@
     "100": 0.4999869792110917,
     "1000": 0.4999986979167121
    },
-   "seconds": 9.09,
+   "seconds": 8.149,
    "mutants": [
     {
      "id": "C06-m1",
@@ -391,7 +393,7 @@
       "ratio_lower": 1.0098778722824038,
       "M": 2
      },
-     "seconds": 2.542
+     "seconds": 2.348
     }
    ]
   },
@@ -420,9 +422,10 @@
     0.12769506638869668
    ],
    "tail_covered": true,
+   "cover_basis": "Arb cover of |t| <= T; beyond, the cited Euler-product floor",
    "witness": null,
    "tested_range": "|t| <= 200 by cover; all t by the Euler-product floor",
-   "seconds": 0.171,
+   "seconds": 0.159,
    "mutants": [
     {
      "id": "C07-m1",
@@ -433,7 +436,7 @@
      "witness": {
       "t": 0.0625
      },
-     "seconds": 0.151
+     "seconds": 0.139
     }
    ]
   },
@@ -455,8 +458,10 @@
    "slack": null,
    "notes": "sign enclosure on (a, 3/4]; on |s - 1| <= 5/16 the entire function (s-1)f(s) stays within distance < 1 of its value 1 at s = 1 (maximum principle on the circle), so f has no zero there; the infimum of |f| is approached at the left end",
    "inf_abs_value_lower": 0.4999186156710165,
+   "tail_covered": true,
+   "cover_basis": "bounded interval: sign enclosure on (a, b] (b < 1) or on (a, 3/4] plus the disc |s - 1| <= 5/16",
    "near_one_sup_of_h_minus_1": 0.19733921651865108,
-   "seconds": 0.188,
+   "seconds": 0.173,
    "mutants": [
     {
      "id": "C08-m1",
@@ -489,12 +494,14 @@
    "sharp_constant": null,
    "slack": null,
    "notes": "first conjunct as in riemannZeta_ne_zero_of_mem_Ioo; second: L(0, chi) = 0 exactly, so inf |L| over sigma > 0 is 0 and the hypothesis 0 < sigma is sharp; L' > 0 on [0, 1/8], sign enclosure on [1/8, 2], |L - 1| <= zeta(2) - 1 beyond",
+   "tail_covered": true,
+   "cover_basis": "zeta as C08; chi_8 on [0, 2] by enclosures, beyond 2 by |L - 1| <= zeta(2) - 1 < 1 (Dirichlet series)",
    "zeta_inf_abs_lower": 0.4999186156710165,
    "chi8": {
     "inf_on_delta_2": 0.06197447610427654,
     "derivative_lower_near_0": 0.8111764784686127
    },
-   "seconds": 0.287,
+   "seconds": 0.261,
    "mutants": [
     {
      "id": "C09-m1",
@@ -506,7 +513,7 @@
       "sigma": 0,
       "why": "L(1-k, chi) = -B_{k,chi}/k = 0 by exact rational arithmetic"
      },
-     "seconds": 0.189
+     "seconds": 0.176
     }
    ]
   },
@@ -526,7 +533,7 @@
    "slack": null,
    "notes": "exact Bernoulli numbers (FLINT, checked against an own recurrence to index 60 and against Arb's zeta at the first points)",
    "tested_range": "0 <= m <= 3000",
-   "seconds": 3.32,
+   "seconds": 3.071,
    "mutants": [
     {
      "id": "C10-m1",
@@ -547,16 +554,17 @@
    "id": "C11",
    "name": "riemannZeta_six",
    "topic": "zeta",
-   "grade": "exact_finite",
+   "grade": "measured_range",
    "holds": true,
    "cases": 2000,
    "margin": 0.0,
    "tightest": null,
    "sharp_constant": "945",
    "slack": 1.0,
-   "notes": "an identity: the rational coefficient is exact under Euler's formula for zeta(2k); independently the value lies in a partial-sum bracket of the stated width",
+   "notes": "an identity, measured: the rational coefficient is exact given Euler's formula for zeta(2k) (Mathlib riemannZeta_two_mul_nat / hasSum_zeta_two, the same input the archive's proof uses), and the independent partial-sum bracket cannot decide an identity",
    "bracket_width": 1.5601589816430868e-20,
    "exact_coefficient": "1/945",
+   "tested_range": "an identity: the claimed value lies in a partial-sum bracket of width 1.6e-20 (2000 terms); the rational coefficient is exact only given Euler's formula",
    "seconds": 0.001,
    "mutants": [
     {
@@ -662,7 +670,9 @@
     0.835642743855868
    ],
    "tested_range": "direct Gamma cover |t| <= 200; every t by the closed form",
-   "seconds": 0.126,
+   "tail_covered": true,
+   "cover_basis": "every t by the closed form from the reflection formula Gamma(z) Gamma(1-z) = pi/sin(pi z), a cited theorem (Mathlib Complex.Gamma_mul_Gamma_one_sub; the archive's proof uses it too); C13, the same identity, is only sampled in this hunt",
+   "seconds": 0.117,
    "mutants": [
     {
      "id": "C14-m1",
@@ -674,7 +684,7 @@
       "t": 5.875,
       "ratio_lower": 1.0026513098523981
      },
-     "seconds": 0.014
+     "seconds": 0.013
     }
    ]
   },
@@ -709,7 +719,7 @@
    "limit_ratio_at_edge": 0.8355427582103335,
    "witness": null,
    "tested_range": "0.5 <= Re w <= 5.5, |Im w| <= 200 (Im < 0 by conjugation)",
-   "seconds": 0.14,
+   "seconds": 0.129,
    "mutants": [
     {
      "id": "C15-m1",
@@ -724,7 +734,7 @@
       ],
       "ratio_lower": 1.0155982753316726
      },
-     "seconds": 0.133
+     "seconds": 0.121
     },
     {
      "id": "C15-m2",
@@ -739,7 +749,7 @@
       ],
       "ratio_lower": 1.9074848413252985
      },
-     "seconds": 0.06
+     "seconds": 0.055
     }
    ]
   },
@@ -760,7 +770,7 @@
    "slack": 48.36798304624571,
    "notes": "L(1,chi) by the digamma formula for the primitive character times exact Euler factors; the enumeration and the values agree with Arb's Dirichlet characters for small q",
    "tested_range": "every real non-principal character mod q for 3 <= q <= 2000",
-   "seconds": 3.745,
+   "seconds": 3.449,
    "mutants": [
     {
      "id": "C16-m1",
@@ -773,7 +783,7 @@
       "d": -3,
       "K_times_qplus1_times_L": 0.9673596609249162
      },
-     "seconds": 1.882
+     "seconds": 1.707
     }
    ]
   },
@@ -781,22 +791,40 @@
    "id": "C17",
    "name": "dhl_inv",
    "topic": "L",
-   "grade": "measured_range",
+   "grade": "complete_cover",
    "holds": true,
    "cases": 14602,
-   "margin": 0.879056478035636,
+   "margin": 0.3756586072137279,
    "tightest": {
-    "M": 13,
-    "conrey": 6,
-    "t": 35.5625,
-    "lo": 0.12047866934919053
+    "where": "t -> infinity along a Kronecker sequence (not attained)",
+    "on_range": {
+     "M": 13,
+     "conrey": 6,
+     "t": 35.5625,
+     "lo": 0.12047866934919053
+    }
    },
-   "sharp_constant": 3.144531571073464,
-   "slack": 8.268322137126534,
-   "notes": "the infimum over all characters and t is zeta(2 sigma)/zeta(sigma) (Euler product), approached only when chi(p) p^-it is near -1 for many primes at once; no finite search of this size comes near it",
+   "sharp_constant": [
+    16.232876212443006,
+    16.23287621244307
+   ],
+   "slack": [
+    1.6016878130364898,
+    1.6016878130364962
+   ],
+   "notes": "the infimum over all characters and t is zeta(2 sigma)/zeta(sigma) (Euler product; for psi principal it is approached by Kronecker's theorem, not attained); the search on the range comes nowhere near it (smallest |L| found 0.318 against 0.0616)",
+   "margin_on_range": 0.879056478035636,
+   "sharp_on_range": 3.144531571073464,
+   "slack_on_range": 8.268322137126534,
    "theoretical_sharp": 16.23287621244304,
-   "tested_range": "every character mod M <= 16, 0 <= t <= 40 (t < 0 via the conjugate character)",
-   "seconds": 73.202,
+   "euler_floor": [
+    0.061603377424480375,
+    0.061603377424480625
+   ],
+   "tail_covered": true,
+   "cover_basis": "every M, psi and t by the Euler-product floor |L(sigma + it, psi)| >= zeta(2 sigma)/zeta(sigma), sigma > 1 (a cited classical bound; Mathlib's LFunction equals the L-series for Re s > 1, DirichletCharacter.LSeries_eulerProduct); the search on the range is a second route",
+   "tested_range": "every character mod M <= 16, 0 <= t <= 40 (t < 0 via the conjugate character); every M, psi, t by the Euler-product floor",
+   "seconds": 64.992,
    "mutants": [
     {
      "id": "C17-m1",
@@ -810,7 +838,7 @@
       "t": 14.25,
       "ratio_lower": 1.1192033787002753
      },
-     "seconds": 0.044
+     "seconds": 0.043
     },
     {
      "id": "C17-m2",
@@ -824,7 +852,7 @@
       "t": 14.125,
       "ratio_lower": 4.990199203708073
      },
-     "seconds": 0.047
+     "seconds": 0.053
     }
    ]
   },
@@ -848,7 +876,7 @@
    "slack": 45.56249999999991,
    "notes": "samples only, both sides evaluated directly; no functional equation assumed",
    "tested_range": "every primitive character of conductor <= 30 at nine sample points",
-   "seconds": 1.914,
+   "seconds": 1.789,
    "mutants": [
     {
      "id": "C18-m1",
@@ -866,7 +894,7 @@
       "lhs": 1863540.5096562055,
       "rhs": 1318610.4127317674
      },
-     "seconds": 0.211
+     "seconds": 0.198
     }
    ]
   },
@@ -917,7 +945,7 @@
    "notes": "L(0,chi) = 0 by exact arithmetic in the cyclotomic integers; order exactly 1 because the Arb enclosure of L'(0,chi) excludes 0",
    "min_abs_derivative": 0.4812118250596025,
    "tested_range": "every primitive non-principal even character of conductor <= 80",
-   "seconds": 0.726,
+   "seconds": 0.632,
    "mutants": [
     {
      "id": "C20-m1",
@@ -934,7 +962,7 @@
       ],
       "why": "sum chi(b) b is nonzero in Z[zeta], exact reduction mod the cyclotomic polynomial"
      },
-     "seconds": 0.667
+     "seconds": 0.632
     }
    ]
   },
@@ -953,7 +981,7 @@
    "sharp_constant": 1.2550587129324822,
    "slack": 1.0039370963418695,
    "notes": "every integer of the stated range, each strict inequality decided by an Arb enclosure of log m",
-   "seconds": 0.121,
+   "seconds": 0.119,
    "mutants": [
     {
      "id": "C21-m1",
@@ -987,7 +1015,7 @@
    "slack": 4,
    "notes": "exact integers; the additive constant could be lowered by `slack` on this range",
    "tested_range": "6 <= s <= 10000000",
-   "seconds": 0.22,
+   "seconds": 0.244,
    "mutants": [
     {
      "id": "C22-m1",
@@ -1001,7 +1029,7 @@
       "lhs": 12,
       "rhs": 11
      },
-     "seconds": 0.147
+     "seconds": 0.158
     }
    ]
   },
@@ -1021,7 +1049,7 @@
    "slack": 4,
    "notes": "exact integers; the additive constant could be lowered by `slack` on this range",
    "tested_range": "6 <= s <= 10000000",
-   "seconds": 0.144,
+   "seconds": 0.152,
    "mutants": [
     {
      "id": "C23-m1",
@@ -1054,7 +1082,7 @@
    "slack": null,
    "notes": "exact big integers; margin is the difference of bit lengths",
    "tested_range": "3 <= n <= 4000",
-   "seconds": 1.454,
+   "seconds": 1.418,
    "mutants": [
     {
      "id": "C24-m1",
@@ -1086,7 +1114,7 @@
    "slack": 2.939586579987457,
    "notes": "the 64 tightest N by exact rational sums against Arb; the rest by float64 prefix sums, whose rounding error (< 1e-9) is far below their margin",
    "tested_range": "100 <= N <= 10000000",
-   "seconds": 0.8,
+   "seconds": 0.681,
    "mutants": [
     {
      "id": "C25-m1",
@@ -1099,7 +1127,7 @@
       "sum_times_K_logN": 0.0,
       "why": "exact rational sum against an Arb enclosure of 1/(K log N)"
      },
-     "seconds": 0.005
+     "seconds": 0.004
     },
     {
      "id": "C25-m2",
@@ -1112,7 +1140,7 @@
       "sum_times_K_logN": 0.9406677055959863,
       "why": "exact rational sum against an Arb enclosure of 1/(K log N)"
      },
-     "seconds": 0.004
+     "seconds": 0.003
     }
    ]
   },
@@ -1132,7 +1160,7 @@
    "slack": 2.2375427688335403,
    "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
    "tested_range": "1 <= N <= 2000000",
-   "seconds": 0.087,
+   "seconds": 0.079,
    "mutants": [
     {
      "id": "C26-m1",
@@ -1165,7 +1193,7 @@
    "slack": 2.0,
    "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
    "tested_range": "1 <= N <= 2000000",
-   "seconds": 0.092,
+   "seconds": 0.083,
    "mutants": [
     {
      "id": "C27-m1",
@@ -1202,7 +1230,9 @@
     1.0129975816071985
    ],
    "notes": "complete: the terms are positive, so the supremum over finite sets is the full series, enclosed between the partial sum to P and that plus (log P + 1)/P",
-   "seconds": 0.451,
+   "tail_covered": true,
+   "cover_basis": "every finite set of primes: the terms are positive, so each finite sum is at most the partial sum to P plus the integral tail bound (log P + 1)/P",
+   "seconds": 0.439,
    "mutants": [
     {
      "id": "C28-m1",
@@ -1215,7 +1245,7 @@
       "sum_lower": 0.4930910093659896,
       "K": 0.493
      },
-     "seconds": 0.41
+     "seconds": 0.407
     }
    ]
   },
@@ -1265,7 +1295,7 @@
    "slack": 1.3868718561411817,
    "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
    "tested_range": "0 <= N <= 2000000",
-   "seconds": 0.096,
+   "seconds": 0.101,
    "mutants": [
     {
      "id": "C30-m1",
@@ -1278,7 +1308,7 @@
       "lhs": 5.3471075307174685,
       "rhs": 4.852030263919617
      },
-     "seconds": 0.002
+     "seconds": 0.003
     }
    ]
   },
@@ -1302,7 +1332,7 @@
    "slack": 1.0,
    "notes": "log n! = sum_p v_p(n!) log p, so the comparison is exact in the integer coefficients (Arb only if signs are mixed); equality exactly when n < 4",
    "tested_range": "0 <= n <= 5000",
-   "seconds": 0.166,
+   "seconds": 0.202,
    "mutants": [
     {
      "id": "C31-m1",
@@ -1348,7 +1378,7 @@
     "own_trial_division_to_sqrt": true
    },
    "digits": 8,
-   "seconds": 0.02,
+   "seconds": 0.019,
    "mutants": [
     {
      "id": "C32-m1",
@@ -1416,7 +1446,7 @@
     "own_trial_division_to_sqrt": true
    },
    "digits": 9,
-   "seconds": 0.009,
+   "seconds": 0.008,
    "mutants": [
     {
      "id": "C34-m1",
@@ -1450,7 +1480,7 @@
     "own_trial_division_to_sqrt": true
    },
    "digits": 10,
-   "seconds": 0.009,
+   "seconds": 0.008,
    "mutants": [
     {
      "id": "C35-m1",
@@ -1518,7 +1548,7 @@
     "own_trial_division_to_sqrt": true
    },
    "digits": 9,
-   "seconds": 0.009,
+   "seconds": 0.008,
    "mutants": [
     {
      "id": "C37-m1",
@@ -1586,7 +1616,7 @@
     "own_trial_division_to_sqrt": true
    },
    "digits": 15,
-   "seconds": 0.18,
+   "seconds": 0.143,
    "mutants": [
     {
      "id": "C39-m1",
@@ -1598,7 +1628,7 @@
       "miller_rabin_witness": 3,
       "small_factor": 3
      },
-     "seconds": 0.044
+     "seconds": 0.041
     }
    ]
   },
@@ -1688,7 +1718,7 @@
     "own_lucas_n_minus_1": true
    },
    "digits": 116,
-   "seconds": 0.157,
+   "seconds": 0.155,
    "mutants": [
     {
      "id": "C42-m1",
@@ -1700,7 +1730,7 @@
       "miller_rabin_witness": 3,
       "small_factor": 3
      },
-     "seconds": 0.013
+     "seconds": 0.012
     }
    ]
   },
@@ -1717,7 +1747,7 @@
    "slack": 1.0,
    "notes": "exact integers: Phi_m(1) is p when m is a power of the prime p and 1 otherwise; polynomial route to M_poly, divisor-product route beyond",
    "tested_range": "2 <= m <= 6000",
-   "seconds": 0.719,
+   "seconds": 0.678,
    "mutants": [
     {
      "id": "C43-m1",
@@ -1747,7 +1777,7 @@
    "slack": 1.0,
    "notes": "exact rational coefficients of log p on both sides",
    "tested_range": "1 <= N <= 4000, every m | N",
-   "seconds": 0.296,
+   "seconds": 0.261,
    "mutants": [
     {
      "id": "C44-m1",
@@ -1781,7 +1811,7 @@
    "slack": 1.0,
    "notes": "exact int64 sieve",
    "tested_range": "2 <= N <= 10000000",
-   "seconds": 2.374,
+   "seconds": 2.219,
    "mutants": [
     {
      "id": "C45-m1",
@@ -1796,7 +1826,7 @@
       "omega": 1,
       "phi": 1
      },
-     "seconds": 0.044
+     "seconds": 0.043
     },
     {
      "id": "C45-m2",
@@ -1811,7 +1841,7 @@
       "omega": 0,
       "phi": 1
      },
-     "seconds": 0.043
+     "seconds": 0.041
     }
    ]
   },
@@ -1838,7 +1868,7 @@
     ]
    },
    "tested_range": "n = 2: p <= 2000000; 3 <= n <= 7: p <= 5000",
-   "seconds": 1.551,
+   "seconds": 1.468,
    "mutants": [
     {
      "id": "C46-m1",
@@ -1875,7 +1905,7 @@
    "slack": 1.0,
    "notes": "exact int64 sieve; equality at the listed n",
    "tested_range": "0 <= n <= 10000000",
-   "seconds": 1.475,
+   "seconds": 1.663,
    "mutants": [
     {
      "id": "C47-m1",
@@ -1913,7 +1943,7 @@
    "slack": 1.0,
    "notes": "exact; the list of k with phi(k) <= b is complete on the range",
    "tested_range": "1 <= k <= 10000000",
-   "seconds": 1.192,
+   "seconds": 1.236,
    "mutants": [
     {
      "id": "C48-m1",
@@ -1925,7 +1955,7 @@
       "k": 4,
       "phi": 2
      },
-     "seconds": 0.025
+     "seconds": 0.023
     },
     {
      "id": "C48-m2",
@@ -1937,7 +1967,7 @@
       "k": 5,
       "phi": 4
      },
-     "seconds": 0.025
+     "seconds": 0.023
     }
    ]
   },
@@ -1985,7 +2015,7 @@
    "slack": 1.0,
    "notes": "exact integers",
    "tested_range": "1 <= n <= 5000, 0 <= K <= 6",
-   "seconds": 0.053,
+   "seconds": 0.049,
    "mutants": [
     {
      "id": "C49-m1",
@@ -2033,7 +2063,7 @@
    "slack": 1.0,
    "notes": "exact rationals",
    "tested_range": "0 <= Q <= 400, 1 <= q <= 210",
-   "seconds": 0.272,
+   "seconds": 0.248,
    "mutants": [
     {
      "id": "C50-m1",
@@ -2069,7 +2099,7 @@
    "slack": 1.0833333333333333,
    "notes": "exact enumeration of F_q^(2M); every symmetric B with det != 0 when there are at most `limit` of them, else a seeded random sample",
    "tested_range": "(q, M, number of matrices tried): [[3, 1, 400], [5, 1, 400], [7, 1, 400], [11, 1, 2000], [13, 1, 3000], [3, 2, 600], [5, 2, 120], [7, 2, 30], [3, 3, 60]]",
-   "seconds": 0.131,
+   "seconds": 0.121,
    "mutants": [
     {
      "id": "C51-m1",
@@ -2117,7 +2147,7 @@
    "slack": 1.12890625,
    "notes": "exact enumeration; the ratio (1 - 1/q)^2 at beta = 0 on a hyperbolic plane tends to 1 with q",
    "tested_range": "(q, n, number of matrices tried): [[3, 1, 100], [3, 2, 100], [3, 3, 800], [5, 1, 10], [5, 2, 200], [5, 3, 600], [7, 1, 10], [7, 2, 400], [7, 3, 200], [11, 2, 2000], [13, 2, 3000], [17, 2, 5000], [3, 4, 400], [3, 5, 60], [5, 4, 40]]",
-   "seconds": 0.334,
+   "seconds": 0.293,
    "mutants": [
     {
      "id": "C52-m1",
@@ -2143,7 +2173,7 @@
       "lhs": 16,
       "rhs": "25/2"
      },
-     "seconds": 0.009
+     "seconds": 0.012
     }
    ]
   },
@@ -2165,7 +2195,7 @@
    "slack": 1.0,
    "notes": "exact enumeration of F_q^(2M); every symmetric B with det != 0 when there are at most `limit` of them, else a seeded random sample",
    "tested_range": "(q, M, number of matrices tried): [[3, 1, 400], [5, 1, 400], [7, 1, 400], [11, 1, 2000], [13, 1, 3000], [3, 2, 600], [5, 2, 120], [7, 2, 30], [3, 3, 60]]",
-   "seconds": 0.13,
+   "seconds": 0.118,
    "mutants": [
     {
      "id": "C53-m1",
@@ -2234,7 +2264,7 @@
    "slack": 1.0,
    "notes": "exact: the norm x * x^q tabulated on the field, then convolved M times over its additive group",
    "tested_range": "(p, e, M up to): [[2, 1, 6], [3, 1, 5], [5, 1, 4], [7, 1, 3], [11, 1, 2]], q = p^e, field of q^2 elements",
-   "seconds": 0.058,
+   "seconds": 0.05,
    "mutants": [
     {
      "id": "C54-m1",
@@ -2266,7 +2296,7 @@
    "slack": 1.0,
    "notes": "exact, characteristic 2 included",
    "tested_range": "(p, e, M up to): [[2, 1, 6], [3, 1, 5], [2, 2, 4], [5, 1, 4], [7, 1, 4], [2, 3, 3], [3, 2, 3], [11, 1, 3], [13, 1, 3], [5, 2, 2], [3, 3, 2]]",
-   "seconds": 0.007,
+   "seconds": 0.006,
    "mutants": [
     {
      "id": "C55-m1",
@@ -2365,7 +2395,7 @@
     ]
    ],
    "tested_range": "(p, e, m up to): [[2, 1, 3], [3, 1, 2], [5, 1, 2], [7, 1, 2]]",
-   "seconds": 1.342,
+   "seconds": 1.456,
    "mutants": [
     {
      "id": "C56-m1",
@@ -2402,7 +2432,7 @@
    "notes": "the count is the necklace formula, validated by Frobenius-orbit enumeration on ten explicit fields",
    "brute_force_fields": 10,
    "tested_range": "primes 5 <= g <= 200, 1 <= d <= 60",
-   "seconds": 0.76,
+   "seconds": 0.663,
    "mutants": [
     {
      "id": "C57-m1",
@@ -2416,7 +2446,7 @@
       "lhs": 8,
       "rhs": 8
      },
-     "seconds": 0.747
+     "seconds": 0.655
     }
    ]
   },
@@ -2433,7 +2463,7 @@
    "slack": 1.0,
    "notes": "exact enumeration of squares",
    "tested_range": "primes 3 <= p <= 20000",
-   "seconds": 1.158,
+   "seconds": 1.109,
    "mutants": [
     {
      "id": "C58-m1",
@@ -2469,7 +2499,7 @@
    "slack": 1.0,
    "notes": "exact enumeration",
    "tested_range": "195 moduli, 1 <= d <= 60",
-   "seconds": 0.659,
+   "seconds": 0.63,
    "mutants": [
     {
      "id": "C59-m1",
@@ -2483,7 +2513,7 @@
       "count": 4,
       "bound": 2
      },
-     "seconds": 0.012
+     "seconds": 0.011
     }
    ]
   },
@@ -2504,7 +2534,7 @@
    "slack": 1.0,
    "notes": "exact enumeration",
    "tested_range": "14 moduli, 1 <= d <= 64",
-   "seconds": 0.288,
+   "seconds": 0.28,
    "mutants": [
     {
      "id": "C60-m1",
@@ -2568,7 +2598,9 @@
    "slack": 1.103638323514327,
    "notes": "complete: convexity on [-1/4, 1/4] with g(0) = g'(0) = 0, sign enclosure elsewhere; the largest admissible coefficient is (e^-R - 1 + R)/R^2",
    "min_away_from_0": 0.00022775360654724624,
-   "seconds": 0.0,
+   "tail_covered": true,
+   "cover_basis": "compact domain [-R, R]: convexity near 0 and sign enclosures elsewhere",
+   "seconds": 0.001,
    "mutants": [
     {
      "id": "C62-m1",
@@ -2612,7 +2644,7 @@
    "slack": 1.0,
    "notes": "r = 0 exact; r >= 1 by Arb on the logarithm; equality at (n, r) = (1, 0)",
    "tested_range": "1 <= n <= 5000",
-   "seconds": 8.059,
+   "seconds": 6.667,
    "mutants": [
     {
      "id": "C63-m1",
@@ -2661,7 +2693,7 @@
    "slack": 1.0,
    "notes": "exact integers",
    "tested_range": "0 <= n <= 3000",
-   "seconds": 0.389,
+   "seconds": 0.319,
    "mutants": [
     {
      "id": "C64-m1",
@@ -2801,7 +2833,7 @@
    "slack": 1.0,
    "notes": "exact rationals; equality at n = p^k - 1 (all digits p - 1)",
    "tested_range": "p in [2, 3, 5, 7, 11, 13, 47, 101], 0 <= n <= 200000",
-   "seconds": 3.841,
+   "seconds": 3.483,
    "mutants": [
     {
      "id": "C66-m1",
@@ -2889,7 +2921,7 @@
    "slack": 1.0,
    "notes": "exact integers",
    "tested_range": "p in [2, 3, 5, 7, 11, 13], 0 <= n <= 600, 0 <= k <= n + 2",
-   "seconds": 3.006,
+   "seconds": 2.59,
    "mutants": [
     {
      "id": "C67-m1",
@@ -2972,7 +3004,7 @@
    "slack": 1.0,
    "notes": "exact rationals; equality at k = l^j",
    "tested_range": "l in [2, 3, 5, 7, 11, 13, 47, 101], 1 <= k <= 200000",
-   "seconds": 1.384,
+   "seconds": 1.089,
    "mutants": [
     {
      "id": "C68-m1",
@@ -3020,7 +3052,7 @@
    "slack": 1.0,
    "notes": "exact counts by recursion on floor(M/a); equality for n = 0 and for M = 1",
    "tested_range": "0 <= n <= 5, 1 <= M <= 3000",
-   "seconds": 0.201,
+   "seconds": 0.192,
    "mutants": [
     {
      "id": "C69-m1",
@@ -3071,7 +3103,7 @@
    "slack": 1.0000000000009095,
    "notes": "exact rationals; the ratio tends to 1 for p = 2, x <= 2, N -> infinity and is not attained",
    "tested_range": "p in {2,3,5,7,11}, N <= 40, x on a rational grid in [0, 2048]",
-   "seconds": 0.151,
+   "seconds": 0.14,
    "mutants": [
     {
      "id": "C70-m1",
@@ -3124,7 +3156,7 @@
    "slack": 1.0,
    "notes": "N = 0, 1 exact (log 0 = log 1 = 0); N >= 2 by Arb; equality at N = 1",
    "tested_range": "0 <= N <= 1000000",
-   "seconds": 1.384,
+   "seconds": 1.343,
    "mutants": [
     {
      "id": "C71-m1",
@@ -3160,7 +3192,9 @@
     0.19536681481307536,
     0.19536781459977315
    ],
-   "seconds": 0.045,
+   "tail_covered": true,
+   "cover_basis": "Arb cover of [0, T]; beyond T, t^E e^-t is decreasing (derivative (E - t) t^(E-1) e^-t < 0 for t > E)",
+   "seconds": 0.044,
    "mutants": [
     {
      "id": "C72-m1",
@@ -3194,7 +3228,9 @@
     0.19536681481307536,
     0.19536781459977315
    ],
-   "seconds": 0.046,
+   "tail_covered": true,
+   "cover_basis": "Arb cover of [0, T]; beyond T, t^E e^-t is decreasing (derivative (E - t) t^(E-1) e^-t < 0 for t > E)",
+   "seconds": 0.044,
    "mutants": [
     {
      "id": "C73-m1",
@@ -3229,7 +3265,7 @@
    "slack": 0.0,
    "notes": "exact rationals, sigNOK unfolded; `slack` is how far the additive constant could drop",
    "tested_range": "3 <= l <= 13, g <= 13, h <= 49, j <= 4, three ell, four (r, kappa, R, K)",
-   "seconds": 3.598,
+   "seconds": 3.216,
    "mutants": [
     {
      "id": "C74-m1",
@@ -3251,7 +3287,7 @@
       "lhs": "32",
       "rhs": "94/3"
      },
-     "seconds": 0.003
+     "seconds": 0.002
     },
     {
      "id": "C74-m2",
@@ -3296,7 +3332,7 @@
    "slack": 0.25,
    "notes": "exact rationals, sigE and Mpar unfolded",
    "tested_range": "3 <= l <= 13, g <= 13, h <= 49, j <= 4",
-   "seconds": 0.272,
+   "seconds": 0.292,
    "mutants": [
     {
      "id": "C75-m1",
@@ -3332,7 +3368,7 @@
    "slack": 1,
    "notes": "exact integers",
    "tested_range": "primes 5 <= p < 60, 1 <= s <= 200000",
-   "seconds": 0.386,
+   "seconds": 0.349,
    "mutants": [
     {
      "id": "C76-m1",
@@ -3396,7 +3432,7 @@
    "slack": 1.0,
    "notes": "exact integers",
    "tested_range": "0 <= B, z, l <= 24",
-   "seconds": 0.026,
+   "seconds": 0.025,
    "mutants": [
     {
      "id": "C78-m1",
@@ -3419,17 +3455,18 @@
    "id": "C79",
    "name": "hasSum_inv_succ_sq",
    "topic": "zeta",
-   "grade": "exact_finite",
+   "grade": "measured_range",
    "holds": true,
    "cases": 1000000,
    "margin": 0.0,
    "tightest": null,
    "sharp_constant": "6",
    "slack": 1.0,
-   "notes": "an identity: the rational coefficient is exact under Euler's formula for zeta(2k); independently the value lies in a partial-sum bracket of the stated width",
+   "notes": "an identity, measured: the rational coefficient is exact given Euler's formula for zeta(2k) (Mathlib riemannZeta_two_mul_nat / hasSum_zeta_two, the same input the archive's proof uses), and the independent partial-sum bracket cannot decide an identity",
    "bracket_width": 9.99999000001002e-13,
    "exact_coefficient": "1/6",
-   "seconds": 0.289,
+   "tested_range": "an identity: the claimed value lies in a partial-sum bracket of width 1e-12 (1000000 terms); the rational coefficient is exact only given Euler's formula",
+   "seconds": 0.272,
    "mutants": [
     {
      "id": "C79-m1",
@@ -3442,7 +3479,7 @@
       "bracket_width": 9.99999000001002e-13,
       "exact_coefficient": "1/6"
      },
-     "seconds": 0.301
+     "seconds": 0.272
     }
    ]
   }

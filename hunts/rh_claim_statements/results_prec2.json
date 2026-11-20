@@ -2,8 +2,8 @@
  "meta": {
   "level": "full",
   "prec_scale": 2,
-  "started": "2026-11-20T17:59:28+0000",
-  "finished": "2026-11-20T18:04:24+0000",
+  "started": "2026-11-20T20:54:30+0000",
+  "finished": "2026-11-20T20:58:16+0000",
   "environment": {
    "python": "3.13.18",
    "python_flint": "0.9.0",
@@ -21,14 +21,14 @@
   "fail": [],
   "undecided": [],
   "by_grade": {
-   "complete_cover": 9,
-   "exact_finite": 5,
-   "measured_range": 22
+   "complete_cover": 10,
+   "exact_finite": 3,
+   "measured_range": 23
   },
   "mutants": 0,
   "mutants_rejected": 0,
   "mutants_not_rejected": [],
-  "seconds": 295.8
+  "seconds": 226.1
  },
  "claims": [
   {
@@ -61,7 +61,9 @@
    ],
    "tight": true,
    "witness": null,
-   "seconds": 0.214
+   "tail_covered": true,
+   "cover_basis": "compact domain: the whole circle is covered by arcs",
+   "seconds": 0.191
   },
   {
    "id": "C02",
@@ -94,7 +96,7 @@
    "tested_range": "2.0 < |t| <= 200 (t < 0 by conjugation)",
    "re_margin": 0.0,
    "witness": null,
-   "seconds": 9.435
+   "seconds": 8.458
   },
   {
    "id": "C03",
@@ -126,7 +128,7 @@
    "tight": true,
    "witness": null,
    "tested_range": "1.0 <= sigma <= 1.2, 2.0 <= t <= 200 (t < 0 by conjugation)",
-   "seconds": 9.421
+   "seconds": 8.418
   },
   {
    "id": "C04",
@@ -160,7 +162,7 @@
    "fe_defect_at_samples": 8.195438311765494e-30,
    "direct_samples": 20,
    "tested_range": "0.5 <= Re w <= 5.0, |Im w| <= 100",
-   "seconds": 0.303
+   "seconds": 0.191
   },
   {
    "id": "C05",
@@ -192,7 +194,7 @@
    "tight": true,
    "witness": null,
    "tested_range": "0 < Re s <= 16.0, |Im s| <= 100 (Im < 0 by conjugation)",
-   "seconds": 31.973
+   "seconds": 27.61
   },
   {
    "id": "C06",
@@ -244,7 +246,7 @@
     "100": 0.4999869792110917,
     "1000": 0.4999986979167121
    },
-   "seconds": 20.016
+   "seconds": 13.811
   },
   {
    "id": "C07",
@@ -271,9 +273,10 @@
     0.12769200908951486
    ],
    "tail_covered": true,
+   "cover_basis": "Arb cover of |t| <= T; beyond, the cited Euler-product floor",
    "witness": null,
    "tested_range": "|t| <= 200 by cover; all t by the Euler-product floor",
-   "seconds": 0.301
+   "seconds": 0.247
   },
   {
    "id": "C08",
@@ -293,8 +296,10 @@
    "slack": null,
    "notes": "sign enclosure on (a, 3/4]; on |s - 1| <= 5/16 the entire function (s-1)f(s) stays within distance < 1 of its value 1 at s = 1 (maximum principle on the circle), so f has no zero there; the infimum of |f| is approached at the left end",
    "inf_abs_value_lower": 0.49991841323932373,
+   "tail_covered": true,
+   "cover_basis": "bounded interval: sign enclosure on (a, b] (b < 1) or on (a, 3/4] plus the disc |s - 1| <= 5/16",
    "near_one_sup_of_h_minus_1": 0.1973384112831708,
-   "seconds": 0.443
+   "seconds": 0.372
   },
   {
    "id": "C09",
@@ -310,12 +315,14 @@
    "sharp_constant": null,
    "slack": null,
    "notes": "first conjunct as in riemannZeta_ne_zero_of_mem_Ioo; second: L(0, chi) = 0 exactly, so inf |L| over sigma > 0 is 0 and the hypothesis 0 < sigma is sharp; L' > 0 on [0, 1/8], sign enclosure on [1/8, 2], |L - 1| <= zeta(2) - 1 beyond",
+   "tail_covered": true,
+   "cover_basis": "zeta as C08; chi_8 on [0, 2] by enclosures, beyond 2 by |L - 1| <= zeta(2) - 1 < 1 (Dirichlet series)",
    "zeta_inf_abs_lower": 0.49991841323932373,
    "chi8": {
     "inf_on_delta_2": 0.061978289228755375,
     "derivative_lower_near_0": 0.8097722056105593
    },
-   "seconds": 0.78
+   "seconds": 0.56
   },
   {
    "id": "C10",
@@ -333,22 +340,23 @@
    "slack": null,
    "notes": "exact Bernoulli numbers (FLINT, checked against an own recurrence to index 60 and against Arb's zeta at the first points)",
    "tested_range": "0 <= m <= 3000",
-   "seconds": 4.739
+   "seconds": 3.159
   },
   {
    "id": "C11",
    "name": "riemannZeta_six",
    "topic": "zeta",
-   "grade": "exact_finite",
+   "grade": "measured_range",
    "holds": true,
    "cases": 2000,
    "margin": 0.0,
    "tightest": null,
    "sharp_constant": "945",
    "slack": 1.0,
-   "notes": "an identity: the rational coefficient is exact under Euler's formula for zeta(2k); independently the value lies in a partial-sum bracket of the stated width",
+   "notes": "an identity, measured: the rational coefficient is exact given Euler's formula for zeta(2k) (Mathlib riemannZeta_two_mul_nat / hasSum_zeta_two, the same input the archive's proof uses), and the independent partial-sum bracket cannot decide an identity",
    "bracket_width": 1.5601589816430868e-20,
    "exact_coefficient": "1/945",
+   "tested_range": "an identity: the claimed value lies in a partial-sum bracket of width 1.6e-20 (2000 terms); the rational coefficient is exact only given Euler's formula",
    "seconds": 0.001
   },
   {
@@ -372,7 +380,7 @@
    },
    "witness": null,
    "tested_range": "radii 1e-2 .. 1e-16, four directions",
-   "seconds": 0.008
+   "seconds": 0.007
   },
   {
    "id": "C13",
@@ -409,7 +417,9 @@
     0.8356427252294165
    ],
    "tested_range": "direct Gamma cover |t| <= 200; every t by the closed form",
-   "seconds": 0.608
+   "tail_covered": true,
+   "cover_basis": "every t by the closed form from the reflection formula Gamma(z) Gamma(1-z) = pi/sin(pi z), a cited theorem (Mathlib Complex.Gamma_mul_Gamma_one_sub; the archive's proof uses it too); C13, the same identity, is only sampled in this hunt",
+   "seconds": 0.469
   },
   {
    "id": "C15",
@@ -442,7 +452,7 @@
    "limit_ratio_at_edge": 0.8355427582103335,
    "witness": null,
    "tested_range": "0.5 <= Re w <= 5.5, |Im w| <= 200 (Im < 0 by conjugation)",
-   "seconds": 1.04
+   "seconds": 0.885
   },
   {
    "id": "C16",
@@ -461,28 +471,46 @@
    "slack": 48.36798304624571,
    "notes": "L(1,chi) by the digamma formula for the primitive character times exact Euler factors; the enumeration and the values agree with Arb's Dirichlet characters for small q",
    "tested_range": "every real non-principal character mod q for 3 <= q <= 2000",
-   "seconds": 8.52
+   "seconds": 6.268
   },
   {
    "id": "C17",
    "name": "dhl_inv",
    "topic": "L",
-   "grade": "measured_range",
+   "grade": "complete_cover",
    "holds": true,
    "cases": 17450,
-   "margin": 0.8790253490442408,
+   "margin": 0.3756586072137279,
    "tightest": {
-    "M": 13,
-    "conrey": 6,
-    "t": 35.5625,
-    "lo": 0.12047866934919053
+    "where": "t -> infinity along a Kronecker sequence (not attained)",
+    "on_range": {
+     "M": 13,
+     "conrey": 6,
+     "t": 35.5625,
+     "lo": 0.12047866934919053
+    }
    },
-   "sharp_constant": 3.14534092484974,
-   "slack": 8.266194546539364,
-   "notes": "the infimum over all characters and t is zeta(2 sigma)/zeta(sigma) (Euler product), approached only when chi(p) p^-it is near -1 for many primes at once; no finite search of this size comes near it",
+   "sharp_constant": [
+    16.232876212443006,
+    16.23287621244307
+   ],
+   "slack": [
+    1.6016878130364898,
+    1.6016878130364962
+   ],
+   "notes": "the infimum over all characters and t is zeta(2 sigma)/zeta(sigma) (Euler product; for psi principal it is approached by Kronecker's theorem, not attained); the search on the range comes nowhere near it (smallest |L| found 0.318 against 0.0616)",
+   "margin_on_range": 0.8790253490442408,
+   "sharp_on_range": 3.14534092484974,
+   "slack_on_range": 8.266194546539364,
    "theoretical_sharp": 16.23287621244304,
-   "tested_range": "every character mod M <= 16, 0 <= t <= 40 (t < 0 via the conjugate character)",
-   "seconds": 189.396
+   "euler_floor": [
+    0.061603377424480375,
+    0.061603377424480625
+   ],
+   "tail_covered": true,
+   "cover_basis": "every M, psi and t by the Euler-product floor |L(sigma + it, psi)| >= zeta(2 sigma)/zeta(sigma), sigma > 1 (a cited classical bound; Mathlib's LFunction equals the L-series for Re s > 1, DirichletCharacter.LSeries_eulerProduct); the search on the range is a second route",
+   "tested_range": "every character mod M <= 16, 0 <= t <= 40 (t < 0 via the conjugate character); every M, psi, t by the Euler-product floor",
+   "seconds": 139.958
   },
   {
    "id": "C18",
@@ -504,7 +532,7 @@
    "slack": 45.56249999999991,
    "notes": "samples only, both sides evaluated directly; no functional equation assumed",
    "tested_range": "every primitive character of conductor <= 30 at nine sample points",
-   "seconds": 3.993
+   "seconds": 3.663
   },
   {
    "id": "C19",
@@ -539,7 +567,7 @@
    "notes": "L(0,chi) = 0 by exact arithmetic in the cyclotomic integers; order exactly 1 because the Arb enclosure of L'(0,chi) excludes 0",
    "min_abs_derivative": 0.4812118250596025,
    "tested_range": "every primitive non-principal even character of conductor <= 80",
-   "seconds": 1.332
+   "seconds": 1.207
   },
   {
    "id": "C21",
@@ -556,7 +584,7 @@
    "sharp_constant": 1.2550587129324822,
    "slack": 1.0039370963418695,
    "notes": "every integer of the stated range, each strict inequality decided by an Arb enclosure of log m",
-   "seconds": 0.161
+   "seconds": 0.135
   },
   {
    "id": "C25",
@@ -573,7 +601,7 @@
    "slack": 2.939586579987457,
    "notes": "the 64 tightest N by exact rational sums against Arb; the rest by float64 prefix sums, whose rounding error (< 1e-9) is far below their margin",
    "tested_range": "100 <= N <= 10000000",
-   "seconds": 0.983
+   "seconds": 0.724
   },
   {
    "id": "C26",
@@ -591,7 +619,7 @@
    "slack": 2.2375427688335403,
    "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
    "tested_range": "1 <= N <= 2000000",
-   "seconds": 0.093
+   "seconds": 0.079
   },
   {
    "id": "C27",
@@ -609,7 +637,7 @@
    "slack": 2.0,
    "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
    "tested_range": "1 <= N <= 2000000",
-   "seconds": 0.099
+   "seconds": 0.084
   },
   {
    "id": "C28",
@@ -631,7 +659,9 @@
     1.0129975816071985
    ],
    "notes": "complete: the terms are positive, so the supremum over finite sets is the full series, enclosed between the partial sum to P and that plus (log P + 1)/P",
-   "seconds": 0.671
+   "tail_covered": true,
+   "cover_basis": "every finite set of primes: the terms are positive, so each finite sum is at most the partial sum to P plus the integral tail bound (log P + 1)/P",
+   "seconds": 0.597
   },
   {
    "id": "C29",
@@ -665,7 +695,7 @@
    "slack": 1.3868718561411817,
    "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
    "tested_range": "0 <= N <= 2000000",
-   "seconds": 0.1
+   "seconds": 0.089
   },
   {
    "id": "C31",
@@ -687,7 +717,7 @@
    "slack": 1.0,
    "notes": "log n! = sum_p v_p(n!) log p, so the comparison is exact in the integer coefficients (Arb only if signs are mixed); equality exactly when n < 4",
    "tested_range": "0 <= n <= 5000",
-   "seconds": 0.173
+   "seconds": 0.164
   },
   {
    "id": "C62",
@@ -705,6 +735,8 @@
    "slack": 1.103638323514327,
    "notes": "complete: convexity on [-1/4, 1/4] with g(0) = g'(0) = 0, sign enclosure elsewhere; the largest admissible coefficient is (e^-R - 1 + R)/R^2",
    "min_away_from_0": 0.00022775360654724624,
+   "tail_covered": true,
+   "cover_basis": "compact domain [-R, R]: convexity near 0 and sign enclosures elsewhere",
    "seconds": 0.0
   },
   {
@@ -723,7 +755,7 @@
    "slack": 1.0,
    "notes": "r = 0 exact; r >= 1 by Arb on the logarithm; equality at (n, r) = (1, 0)",
    "tested_range": "1 <= n <= 5000",
-   "seconds": 8.442
+   "seconds": 6.504
   },
   {
    "id": "C65",
@@ -770,7 +802,7 @@
    "slack": 1.0,
    "notes": "exact counts by recursion on floor(M/a); equality for n = 0 and for M = 1",
    "tested_range": "0 <= n <= 5, 1 <= M <= 3000",
-   "seconds": 0.241
+   "seconds": 0.198
   },
   {
    "id": "C71",
@@ -791,7 +823,7 @@
    "slack": 1.0,
    "notes": "N = 0, 1 exact (log 0 = log 1 = 0); N >= 2 by Arb; equality at N = 1",
    "tested_range": "0 <= N <= 1000000",
-   "seconds": 1.895
+   "seconds": 1.64
   },
   {
    "id": "C72",
@@ -811,7 +843,9 @@
     0.19536681481307536,
     0.1953678145997625
    ],
-   "seconds": 0.05
+   "tail_covered": true,
+   "cover_basis": "Arb cover of [0, T]; beyond T, t^E e^-t is decreasing (derivative (E - t) t^(E-1) e^-t < 0 for t > E)",
+   "seconds": 0.052
   },
   {
    "id": "C73",
@@ -831,23 +865,26 @@
     0.19536681481307536,
     0.1953678145997625
    ],
+   "tail_covered": true,
+   "cover_basis": "Arb cover of [0, T]; beyond T, t^E e^-t is decreasing (derivative (E - t) t^(E-1) e^-t < 0 for t > E)",
    "seconds": 0.049
   },
   {
    "id": "C79",
    "name": "hasSum_inv_succ_sq",
    "topic": "zeta",
-   "grade": "exact_finite",
+   "grade": "measured_range",
    "holds": true,
    "cases": 1000000,
    "margin": 0.0,
    "tightest": null,
    "sharp_constant": "6",
    "slack": 1.0,
-   "notes": "an identity: the rational coefficient is exact under Euler's formula for zeta(2k); independently the value lies in a partial-sum bracket of the stated width",
+   "notes": "an identity, measured: the rational coefficient is exact given Euler's formula for zeta(2k) (Mathlib riemannZeta_two_mul_nat / hasSum_zeta_two, the same input the archive's proof uses), and the independent partial-sum bracket cannot decide an identity",
    "bracket_width": 9.99999000001002e-13,
    "exact_coefficient": "1/6",
-   "seconds": 0.334
+   "tested_range": "an identity: the claimed value lies in a partial-sum bracket of width 1e-12 (1000000 terms); the rational coefficient is exact only given Euler's formula",
+   "seconds": 0.323
   }
  ]
 }

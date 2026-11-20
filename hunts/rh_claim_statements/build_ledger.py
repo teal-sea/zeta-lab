@@ -74,9 +74,12 @@ def statement(lines, line):
 
 
 def context(lines, line):
-    """Namespace stack, opens, variables and notation in force at `line` (text level)."""
+    """Namespace stack, opens, variables and notation in force at `line` (text level).
+
+    Global (non-local, non-scoped) instances declared earlier in the file stay in force after the
+    section or namespace that declares them closes, so they are collected in one flat list."""
     stack = [dict(kind="file", name="", opens=[], variables=[], notations=[], other=[])]
-    imports, i = [], 0
+    imports, instances, i = [], [], 0
     while i < line - 1:
         raw = lines[i]; s = raw.strip()
         if raw[:1] in (" ", "\t") or not s:
@@ -105,6 +108,9 @@ def context(lines, line):
             stack[-1]["notations"].append(f"{s}  [line {i + 1}]")
         elif s.startswith(("attribute [local", "local instance", "universe", "set_option autoImplicit")):
             stack[-1]["other"].append(f"{s}  [line {i + 1}]")
+        elif (re.match(r"(@\[[^\]]*\]\s*)*((private|protected|noncomputable|public)\s+)*instance\b", s)
+              or s.startswith("attribute [instance")):
+            instances.append(f"{s}  [line {i + 1}]")
         i += 1
     pre, j = [], line - 2
     while j >= 0 and lines[j].strip().startswith(("open ", "set_option", "@[", "omit", "include")):
@@ -115,6 +121,7 @@ def context(lines, line):
                 variables=[v for e in stack for v in e["variables"]],
                 notations=[v for e in stack for v in e["notations"]],
                 local_overrides=[v for e in stack for v in e["other"] if not v.startswith("universe")],
+                instances=instances,
                 directly_above=pre)
 
 
@@ -380,6 +387,7 @@ def main():
             file_sha256=hashlib.sha256(raw.encode("utf-8")).hexdigest(),
             context=dict(namespace=ctx["namespace"], opens=ctx["opens"], variables=ctx["variables"],
                          notations=ctx["notations"], local_overrides=ctx["local_overrides"],
+                         global_instances_in_file=ctx["instances"],
                          directly_above=ctx["directly_above"], imports=ctx["imports"][:8],
                          imports_total=len(ctx["imports"])),
             bound_variables=bound, identifiers=ids, notation=symbols,

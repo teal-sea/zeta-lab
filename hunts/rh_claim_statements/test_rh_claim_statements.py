@@ -157,6 +157,93 @@ def test_precision_response():
             assert r["margin"] == pytest.approx(a["margin"], rel=1e-6, abs=tol), r["id"]
 
 
+# ------------------------------------------------------------------ review findings (2026-11-20)
+
+REVIEW = json.loads((HERE / "review.json").read_text(encoding="utf-8"))
+
+
+def test_a_complete_cover_is_earned_by_the_test_not_the_ledger():
+    """Every recorded complete cover reports tail_covered True; a test that is silent about its tail is downgraded."""
+    for r in RESULTS["claims"]:
+        if r["grade"] == "complete_cover":
+            assert r.get("tail_covered") is True and r.get("cover_basis"), r["id"]
+    c = BY_ID["C72"]
+    orig = runner.MODULES["analytic"].exp_power
+    try:
+        def silent(p):
+            r = orig(p); r.pop("tail_covered", None); return r
+        runner.MODULES["analytic"].exp_power = silent
+        assert runner.run_claim(c, with_mutants=False)["grade"] == "measured_range"
+        runner.MODULES["analytic"].exp_power = lambda p: dict(orig(p), tail_covered=None)
+        assert runner.run_claim(c, with_mutants=False)["grade"] == "measured_range"
+    finally:
+        runner.MODULES["analytic"].exp_power = orig
+    assert runner.run_claim(c, with_mutants=False)["grade"] == "complete_cover"
+
+
+def test_identities_are_measured_not_exact():
+    """C11 and C79: a partial-sum bracket cannot decide an identity, and Euler's formula is the archive's own input."""
+    for cid in ("C11", "C79"):
+        assert BY_ID[cid]["grade_if_it_holds"] == "measured_range"
+        assert "shared" in BY_ID[cid]["test"]["route"]
+    assert RESULTS["summary"]["by_grade"] == {"complete_cover": 10, "exact_finite": 15, "measured_range": 54}
+
+
+def test_c17_constant_seventeen_is_true_and_sixteen_is_false():
+    """The Euler floor zeta(2 sigma)/zeta(sigma) at sigma = 26/25 decides C17 for every constant K."""
+    with ctx.workprec(128):
+        s = arb(26) / 25
+        fl = (2 * s).zeta() / s.zeta()
+        assert 17 * fl > 1 > 16 * fl and 26 * fl > 1.6
+    rec = next(r for r in RESULTS["claims"] if r["id"] == "C17")
+    assert rec["grade"] == "complete_cover" and 0.06160337 < rec["euler_floor"][0] <= rec["euler_floor"][1] < 0.06160338
+    rows = {r["override"]["K"]: r for r in REVIEW["resolution"] if r["claim"] == "C17"}
+    assert rows["17"]["statement_true"] and rows["17"]["tail_covered"] is True
+    # K = 16 is false, and the search cannot see it: it holds on the range and only loses the complete-cover grade
+    assert not rows["16"]["statement_true"] and rows["16"]["holds"] is True and rows["16"]["tail_covered"] is False
+
+
+def test_c15_edge_resolution_is_what_results_md_says():
+    e = REVIEW["c15_edge"]["test_at_T_200"]
+    assert e["555/100"]["holds"] is False and e["56/10"]["holds"] is False and e["6"]["holds"] is False
+    assert e["552/100"]["holds"] is True and e["551/100"]["holds"] is True       # false statements the test cannot see
+    far = REVIEW["c15_edge"]["ratio_lower_far_above_T"]
+    assert far["sigma=5.52, t=10000"] > 1 and far["sigma=5.51, t=1e+12"] > 1 and far["sigma=5.5, t=1e+12"] < 1
+    with ctx.workprec(128):
+        w = acb(arb("5.52"), arb(10 ** 4))
+        v = (w.lgamma().real + arb.pi() * 10 ** 4 / 2 - arb(3).log() - 5 * arb((w + 1).abs_upper()).log()).exp()
+        assert v > 1
+
+
+def test_resolution_rows_never_accept_a_false_statement_at_a_grade_that_claims_it():
+    for r in REVIEW["resolution"]:
+        if r["statement_true"]:
+            assert r["holds"] is not False, r                      # a true statement is never rejected
+        elif r["holds"] is True:
+            # only a measured grade may pass a false statement, and only C17 K = 16 does
+            assert (r["claim"], r["override"]) == ("C17", {"K": "16"}) and r["tail_covered"] is False, r
+    c28 = REVIEW["c28_series"]["value"]
+    assert 0.4930911 < c28[0] <= c28[1] < 0.4930912
+    rec = next(r for r in RESULTS["claims"] if r["id"] == "C28")
+    assert rec["sharp_constant"][0] <= c28[0] and c28[1] <= rec["sharp_constant"][1]
+
+
+def test_section_8_radii_and_section_9_deltas_recompute():
+    from hunts.rh_claim_statements import review
+    radii = review.wide_ball_radii()
+    for k, v in REVIEW["wide_ball_radii"].items():
+        assert radii[k]["direct"] == pytest.approx(v["direct"], rel=1e-6)
+        assert radii[k]["taylor_model"] == pytest.approx(v["taylor_model"], rel=1e-6)
+        assert radii[k]["taylor_model"] < 0.4 * radii[k]["direct"]
+    d = review.precision_deltas()
+    assert json.loads(json.dumps(d)) == REVIEW["precision_deltas"]
+    assert d["largest_upper_end_move"][0] == "C06" and d["largest_upper_end_move"][1] < 2e-3
+
+
+def test_c19_records_its_file_level_instance():
+    assert any("Fact (Nat.Prime 7)" in x for x in BY_ID["C19"]["context"]["global_instances_in_file"])
+
+
 # ------------------------------------------------------------------ the instruments see red
 
 def test_taylor_model_encloses_zeta_and_its_derivative():

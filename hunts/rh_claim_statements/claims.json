@@ -120,6 +120,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.LandauZeroFreeBounds.SameCharacterLFunctionOne",
@@ -209,6 +210,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.ZeroFreeRegion.LogDerivRegion"
@@ -336,6 +338,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.ZeroFreeRegion.LogDerivRegion"
@@ -476,6 +479,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -543,7 +547,7 @@
      "E": 5,
      "T": 64
     },
-    "route": "cover of |2 (2 pi)^-w cos(pi w/2) Gamma(w)| / (6|w+1|^5) on the rectangle (functional equation), plus the literal inequality at 20 points"
+    "route": "cover of |2 (2 pi)^-w cos(pi w/2) Gamma(w)| / (6|w+1|^5) on the rectangle, plus the literal inequality at 20 points. Shared classical input: the functional equation (Mathlib riemannZeta_one_sub), which the archive's proof also goes through (norm_L_one_sub_le, ZMod.LFunction_one_sub); only the 20 literal points avoid it"
    },
    "mutants": [
     {
@@ -596,6 +600,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -694,6 +699,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -819,6 +825,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -878,7 +885,7 @@
      "a": "3/2",
      "T": 30
     },
-    "route": "Arb cover of |t| <= T; every t by |zeta(3/2+it)| >= zeta(3)/zeta(3/2) (Euler product) and |s - 1| >= 1/2"
+    "route": "Arb cover of |t| <= T; every t by |zeta(3/2+it)| >= zeta(3)/zeta(3/2) and |s - 1| >= 1/2. Cited classical input: the Euler-product floor |zeta(s)| >= zeta(2 sigma)/zeta(sigma) for sigma > 1 (Mathlib riemannZeta_eulerProduct)"
    },
    "mutants": [
     {
@@ -915,6 +922,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -998,6 +1006,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -1076,7 +1085,7 @@
      "zeta_a": "0",
      "chi8_a": "0"
     },
-    "route": "as C08; for chi_8: L(0) = 0 exactly and L' > 0 on [0, 1/8] (Taylor model at 0), sign enclosure on [1/8, 2], |L - 1| <= zeta(2) - 1 beyond"
+    "route": "as C08; for chi_8: L(0) = 0 exactly and L' > 0 on [0, 1/8] (Taylor model at 0), sign enclosure on [1/8, 2], |L - 1| <= zeta(2) - 1 beyond. Cited classical input for the tail: L equals its absolutely convergent Dirichlet series for sigma > 1"
    },
    "mutants": [
     {
@@ -1113,6 +1122,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.ZetaRealNonvanish"
@@ -1196,6 +1206,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -1232,9 +1243,9 @@
     "x ^ (n : N) is the monoid power, with x ^ 0 = 1 (so 0 ^ 0 = 1)",
     "numerals and casts are exact: 1.26 is 126/100, and 3 / 5 in R is the rational 3/5"
    ],
-   "quantifiers": "none (one identity)",
-   "domain": "finite",
-   "grade_if_it_holds": "exact_finite",
+   "quantifiers": "none (one identity between real numbers)",
+   "domain": "identity",
+   "grade_if_it_holds": "measured_range",
    "sharpness": "identity",
    "test": {
     "fn": "analytic.zeta_even_value",
@@ -1248,7 +1259,7 @@
      "D": "945",
      "N": 2000
     },
-    "route": "exact: (-1)^(k+1) B_2k 2^(2k-1)/(2k)! = 1/945 (Euler); independent bracket S_N + 1/(5(N+1)^5) < zeta(6) < S_N + 1/(5N^5) of width 1.6e-20"
+    "route": "measured: the bracket S_N + 1/(5(N+1)^5) < zeta(6) < S_N + 1/(5N^5) of width 1.6e-20 contains pi^6/945 (a bracket cannot decide an identity); the coefficient (-1)^(k+1) B_2k 2^(2k-1)/(2k)! = 1/945 is exact given Euler's formula, which is the archive's own proof step (riemannZeta_two_mul_nat, JInvariant.lean:46), so it is shared, not independent"
    },
    "mutants": [
     {
@@ -1285,6 +1296,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -1389,6 +1401,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -1488,6 +1501,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -1557,7 +1571,7 @@
      "K": "3",
      "T": 30
     },
-    "route": "closed form 2 pi/(1 + e^(-2 pi |t|)) < 2 pi < 9 for every t (reflection formula, C13); direct Gamma cover on |t| <= T in mean value form"
+    "route": "closed form 2 pi/(1 + e^(-2 pi |t|)) < 2 pi < 9 for every t, from the reflection formula as a cited theorem (Mathlib Complex.Gamma_mul_Gamma_one_sub; the archive's proof uses the same theorem, LGrowthGamma.lean:35); C13, the same identity, is graded only as sampled here; independent second route: direct Gamma cover on |t| <= T in mean value form"
    },
    "mutants": [
     {
@@ -1594,6 +1608,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -1731,6 +1746,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.ExceptionalCharacterBounds.EffAbel",
@@ -1843,6 +1859,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.PNTDHLocalA"
@@ -1902,8 +1919,8 @@
    ],
    "quantifiers": "all moduli, all characters (principal included), all real t (unbounded)",
    "domain": "unbounded",
-   "grade_if_it_holds": "measured_range",
-   "sharpness": "theoretical slack 1.60 (the infimum over all characters and t is zeta(52/25)/zeta(26/25) = 0.0616); the smallest value on the tested range is 0.318, so no mutant near 26 can be rejected by a search of this size",
+   "grade_if_it_holds": "complete_cover",
+   "sharpness": "slack 1.60: the infimum over all characters and t is zeta(52/25)/zeta(26/25) = 0.0616, so every constant >= 16.233 gives a true statement and every constant < 16.233 a false one (Kronecker; the infimum is approached, not attained); the smallest value on the searched range is 0.318, so no false mutant near the sharp constant can be rejected by a search of this size",
    "test": {
     "fn": "analytic.l_inverse_line",
     "params": {
@@ -1918,7 +1935,7 @@
      "M_max": 5,
      "T": 16
     },
-    "route": "for every character mod M <= 16: branch and bound on t in [0, T] with Taylor models of L"
+    "route": "every M, psi and t by the Euler-product floor |L(26/25 + it, psi)| >= zeta(52/25)/zeta(26/25) = 0.0616 (Arb), a cited classical bound (Mathlib DirichletCharacter.LSeries_eulerProduct, valid for Re s > 1), and 26 * 0.0616 = 1.60 >= 1; second route on a range: for every character mod M <= 16, branch and bound on t in [0, T] with Taylor models of L"
    },
    "mutants": [
     {
@@ -1973,6 +1990,7 @@
     ],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -2094,6 +2112,9 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [
+     "instance : Fact (Nat.Prime 7) := ⟨by norm_num⟩  [line 110]"
+    ],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -2195,6 +2216,7 @@
     ],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -2311,6 +2333,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -2415,6 +2438,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -2499,6 +2523,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -2583,6 +2608,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -2712,6 +2738,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -2839,6 +2866,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.AutomorphicArithmetic.DedekindLFunctions.LandauZeroFreeCriterion"
@@ -2943,6 +2971,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.AutomorphicArithmetic.DedekindLFunctions.LandauZeroFreeCriterion"
@@ -3044,6 +3073,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -3145,6 +3175,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.ReducedBasisStatement"
@@ -3373,6 +3404,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds",
@@ -3480,6 +3512,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.LogFactorialBounds.LocalFactorSplitDv",
@@ -3592,6 +3625,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -3668,6 +3702,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -3744,6 +3779,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -3820,6 +3856,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -3896,6 +3933,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -3995,6 +4033,10 @@
     ],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [
+     "instance fin_KQ (d : ℕ) : FiniteDimensional ℚ (KQ d) := fin_sqQ _  [line 14]",
+     "instance normal_KQ (d : ℕ) : Normal ℚ (KQ d) := normal_sqQ _  [line 16]"
+    ],
     "directly_above": [
      "set_option maxRecDepth 100000 in"
     ],
@@ -4080,6 +4122,7 @@
     ],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [
      "set_option maxRecDepth 1000000 in"
     ],
@@ -4162,6 +4205,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -4239,6 +4283,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -4311,6 +4356,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -4383,6 +4429,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -4473,6 +4520,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -4586,6 +4634,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -4697,6 +4746,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -4808,6 +4858,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -4909,6 +4960,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -5006,6 +5058,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.NearSplit",
@@ -5115,6 +5168,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [
      "open Complex DirichletCharacter ArithmeticFunction MeasureTheory Filter Topology in"
     ],
@@ -5229,6 +5283,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [
      "open Complex DirichletCharacter ArithmeticFunction MeasureTheory Filter Topology in"
     ],
@@ -5351,6 +5406,7 @@
     ],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -5584,6 +5640,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -5861,6 +5918,7 @@
     ],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.WeilBound.CoreStatements.AutomorphicKernels.UnitarySchrodingerModel.UnitarySchrodingerLemmas.LowRankSiegelDensities.OneVecBinaryMassOf",
@@ -6083,6 +6141,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.MassSt"
@@ -6258,6 +6317,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.MassSt"
@@ -6472,6 +6532,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.CardSumNormFibres"
@@ -6665,6 +6726,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -6809,6 +6871,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -6945,6 +7008,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -7055,6 +7119,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -7157,6 +7222,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -7261,6 +7327,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.LogSumExpBounds.NuclearBound"
@@ -7361,6 +7428,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IdealCounting.ClassA",
@@ -7470,6 +7538,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IdealCounting.ClassA",
@@ -7551,6 +7620,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds",
@@ -7666,6 +7736,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.MahlerMeasure.StatementTM",
@@ -7814,6 +7885,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.MahlerMeasure.StatementTM",
@@ -7944,6 +8016,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.GaussJetBounds.GaussJetProofs.LogarithmWeightComparison",
@@ -8077,6 +8150,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib"
@@ -8218,6 +8292,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds",
@@ -8336,6 +8411,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.LogVandermondeBounds.LogVandermondeVariationUnbounded",
@@ -8431,6 +8507,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds",
@@ -8542,6 +8619,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Mathlib",
@@ -8623,6 +8701,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.GaussValuationBounds.GaussValueContraction.ExponentSumIdentity",
@@ -8763,6 +8842,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.TruncatedSeriesCounting.AprimeArith"
@@ -8867,6 +8947,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.GrowthSums.StatementC",
@@ -8964,6 +9045,7 @@
     ],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.MahlerMeasure.HasOrder",
@@ -9065,6 +9147,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.MahlerMeasure.LevelSum"
@@ -9159,6 +9242,7 @@
     "variables": [],
     "notations": [],
     "local_overrides": [],
+    "global_instances_in_file": [],
     "directly_above": [],
     "imports": [
      "Formalism.LogVandermondeBounds.VandPlace"
@@ -9197,9 +9281,9 @@
    "conventions": [
     "x ^ (n : N) is the monoid power, with x ^ 0 = 1 (so 0 ^ 0 = 1)"
    ],
-   "quantifiers": "none (one identity)",
-   "domain": "finite",
-   "grade_if_it_holds": "exact_finite",
+   "quantifiers": "none (one identity: a HasSum over all of N)",
+   "domain": "identity",
+   "grade_if_it_holds": "measured_range",
    "sharpness": "identity",
    "test": {
     "fn": "analytic.zeta_even_value",
@@ -9213,7 +9297,7 @@
      "D": "6",
      "N": 50000
     },
-    "route": "exact: B_2 = 1/6 gives the coefficient 1/6 (Euler); independent bracket S_N + 1/(N+1) < sum < S_N + 1/N of width 1e-12"
+    "route": "measured: the bracket S_N + 1/(N+1) < sum < S_N + 1/N of width 1e-12 contains pi^2/6 (a bracket cannot decide an identity, and the N terms are not instances of a finite domain); the coefficient B_2 = 1/6 is exact given Euler's formula, the archive's own proof input (hasSum_zeta_two, LogRatioLowerBoundOfLogVandermondeGap.lean:8), so it is shared"
    },
    "mutants": [
     {

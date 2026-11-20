@@ -935,7 +935,7 @@ evidence only. **0**: not located.
 |---|---|---|---|
 | 1 | Stepanov determinant (10/6) | 0 | The string "Stepanov" occurs in no file. Nothing was found that ties a determinant statement to the item. |
 | 2 | `D^p ≡ 0` on a CM curve, divisibility by `p^(a/p + a/p³ + …)` (10/9) | Q, in part | The exponent shape is quoted below (`vonMangoldtClassSum`, odd `i` only) and is the per-prime term of `ASK` (section 4). The statement about the invariant derivation itself was not located. |
-| 3 | `qN = M^k + R`, the path quadric (10/19) | 0 | Not in the archive. See the finding below the table. |
+| 3 | `qN = M^k + R`, the path quadric (10/19) | 0 | Not located under any notation searched; the searches are listed in the finding below the table, with `gauss_core` as the nearest skeleton. |
 | 4 | `W(1_S) ≥ 0` via a determinant (10/6) | A | No explicit-formula functional is defined: "Guinand" occurs in no file, and the only identifiers containing `weil_functional` are `linear_weil_functional_*`, in 9 files under `AVT/Proofs`, none of which mentions `riemannZeta` or `vonMangoldt`. The role is played by the one-sided bound `ASK ≤ MAIN + error` (section 4). |
 | 5 | switch to `Σ_{n≤X} Λ(n)(X/n − 1) − X log X + (1+γ)X` (10/20) | Q | `Formalism/StatementOC.lean:11-13`, quoted in S10: this expression exactly. |
 | 6 | a one-sided inequality "gives `> 1 − η`" (10/8) | Q, in shape | `ZetaLandau`, quoted below: a one-sided `x^θ` bound on `Gz` gives zero-freeness for `Re s > θ`. The literal two-step test function of the note was not found. |
@@ -1967,6 +1967,15 @@ and say so. The rest are not answered by a text-level reading.
     and of the 16 files with `run_tac`, act on a goal or on the environment
     from meta-level code, and what do they do? Only the ones named in 10.1
     and 10.2 were read.
+19. The links of section 6 that rest on a name or a letter and have no
+    quoted statement behind them, moved here so that no reading stands on
+    a name alone: is the `m` of `ChainTied` (an existential) the `D.R.m` of
+    `LiftChain`, and is `vth` a theta lift (item 8)? Does `DIV` encode a
+    divisibility bound for the lifts (item 10)? Is `SlopeIneq` a numeric
+    shadow of a Bost-type slope inequality (item 13)? Does `Interlace` bear
+    on Gan-Gross-Prasad periods (item 7)? Do the directories cited for
+    items 15 and 16 hold what their names say? Each needs a statement read
+    and quoted before it can be graded above a name.
 
 ## 12. How to replay this atlas
 

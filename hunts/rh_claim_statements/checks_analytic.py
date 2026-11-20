@@ -63,6 +63,7 @@ def zeta_circle(p):
                   sharp=_sharp(res, K) if v else None, slack=[1 / res["hi"], 1 / res["lo"]] if v else None,
                   sup_ratio=[res["lo"], res["hi"]], tight=res["tight"],
                   witness=dict(s=spt, ratio_lower=res["lo"]) if v is False else None,
+                  tail_covered=True, cover_basis="compact domain: the whole circle is covered by arcs",
                   notes="the whole circle is covered by arcs; sup |zeta| on it is K times sup_ratio")
 
 
@@ -310,10 +311,11 @@ def zeta1_lower(p):
     v = verdict_from_sup(res)
     grade_note = ("every t: the elementary floor (a-1) zeta(2a)/zeta(a) = %.6f is at least c"
                   % float(floor_all_t.mid())) if tail_ok else "tail not covered by the elementary floor"
-    return result(v if (v is not True or tail_ok) else True, res["boxes"], margin=None if v is False else 1 - res["hi"],
+    return result(v, res["boxes"], margin=None if v is False else 1 - res["hi"],
                   tightest=dict(t=res["argmax"][0]), sharp=[float(c) / res["hi"], float(c) / res["lo"]],
                   slack=[1 / res["hi"], 1 / res["lo"]], sup_ratio=[res["lo"], res["hi"]],
-                  tail_covered=tail_ok, witness=dict(t=res["argmax"][0]) if v is False else None,
+                  tail_covered=tail_ok, cover_basis="Arb cover of |t| <= T; beyond, the cited Euler-product floor",
+                  witness=dict(t=res["argmax"][0]) if v is False else None,
                   tested_range=f"|t| <= {T} by cover; all t by the Euler-product floor" if tail_ok else f"|t| <= {T}",
                   notes=grade_note)
 
@@ -388,7 +390,8 @@ def real_nonvanishing(p):
             n += near_one["boxes"]
     ok = near_one is None or near_one["hi"] < 1
     return result(True if ok else None, n, margin=min_abs, tightest=dict(interval=where),
-                  inf_abs_value_lower=min_abs,
+                  inf_abs_value_lower=min_abs, tail_covered=bool(ok),
+                  cover_basis="bounded interval: sign enclosure on (a, b] (b < 1) or on (a, 3/4] plus the disc |s - 1| <= 5/16",
                   near_one_sup_of_h_minus_1=None if near_one is None else near_one["hi"],
                   notes="sign enclosure on (a, 3/4]; on |s - 1| <= 5/16 the entire function (s-1)f(s) stays "
                         "within distance < 1 of its value 1 at s = 1 (maximum principle on the circle), so f "
@@ -490,7 +493,7 @@ def chi8_real_nonvanishing(p):
         # (iii) sigma >= 2: |L - 1| <= zeta(2) - 1 < 1
         tail = arb(2).zeta() - 1
         ok_tail = bool(tail < 1)
-    return result(True if ok_tail else None, n, margin=0.0, tightest=dict(sigma="-> 0+"),
+    return result(True if ok_tail else None, n, margin=0.0, tightest=dict(sigma="-> 0+"), tail_covered=ok_tail,
                   inf_on_delta_2=m, derivative_lower_near_0=d_lo, route_defect=dmax,
                   notes="L(0, chi) = 0 exactly, so inf |L| over sigma > 0 is 0 and the hypothesis "
                         "0 < sigma is sharp; L' > 0 on [0, 1/8], sign enclosure on [1/8, 2], "
@@ -658,8 +661,11 @@ def zeta_even_value(p):
                                              bracket_width=width, exact_coefficient=str(coeff)))
     return result(True if (exact and inside and arb_ok) else None, N, margin=0.0, bracket_width=width,
                   exact_coefficient=str(coeff), sharp=str(1 / coeff), slack=1.0,
-                  notes="an identity: the rational coefficient is exact under Euler's formula for zeta(2k); "
-                        "independently the value lies in a partial-sum bracket of the stated width")
+                  tested_range=f"an identity: the claimed value lies in a partial-sum bracket of width {width:.2g} "
+                               f"({N} terms); the rational coefficient is exact only given Euler's formula",
+                  notes="an identity, measured: the rational coefficient is exact given Euler's formula for zeta(2k) "
+                        "(Mathlib riemannZeta_two_mul_nat / hasSum_zeta_two, the same input the archive's proof "
+                        "uses), and the independent partial-sum bracket cannot decide an identity")
 
 
 def zeta_logderiv_limit(p):
@@ -735,6 +741,10 @@ def gamma_half_line(p):
                   tightest=dict(t="-> infinity"), sharp=float(closed_sup.mid()),
                   slack=float(K) / float(closed_sup.mid()), sup_ratio_on_range=[res["lo"], res["hi"]],
                   tested_range=f"direct Gamma cover |t| <= {T}; every t by the closed form",
+                  tail_covered=closed_ok,
+                  cover_basis="every t by the closed form from the reflection formula Gamma(z) Gamma(1-z) = pi/sin(pi z), "
+                              "a cited theorem (Mathlib Complex.Gamma_mul_Gamma_one_sub; the archive's proof uses it too); "
+                              "C13, the same identity, is only sampled in this hunt",
                   notes="|Gamma(1/2+it)|^2 e^(pi|t|) = 2 pi/(1 + e^(-2 pi |t|)) < 2 pi (reflection formula), "
                         "so the supremum sqrt(2 pi) is approached and not attained")
 
@@ -859,13 +869,31 @@ def l_inverse_line(p):
                     return result(None, n, notes=f"undecided at M={M}, n={a}")
                 if res["hi"] > worst:
                     worst, where = res["hi"], dict(M=M, conrey=a, t=res["argmax"][0], lo=res["lo"])
-        theory = A(sg).zeta() / (2 * A(sg)).zeta() if sg > 1 else None
-    return result(True, n, margin=1 - worst, tightest=where, sharp=float(K) * worst, slack=1 / worst,
+        # every M, every psi, every t: for Re s = sigma > 1 the Euler product gives
+        # |L(s, psi)| >= prod_p (1 + p^-sigma)^-1 = zeta(2 sigma)/zeta(sigma)  (a cited classical bound)
+        floor = (2 * A(sg)).zeta() / A(sg).zeta() if sg > 1 else None
+        floor_ok = floor is not None and bool(A(K) * floor >= 1)
+        theory = 1 / floor if floor is not None else None
+    if floor_ok:
+        sharp, slack = [lo(theory), up(theory)], [float(K) * lo(floor), float(K) * up(floor)]
+        margin = 1 - up(1 / (A(K) * floor))          # sup over the whole domain of 1/(K |L|) is 1/(K floor)
+    else:
+        sharp, slack, margin = float(K) * worst, 1 / worst, 1 - worst
+    return result(True, n, margin=margin, tightest=where if not floor_ok else dict(where="t -> infinity along a Kronecker sequence (not attained)", on_range=where),
+                  sharp=sharp, slack=slack,
+                  margin_on_range=1 - worst, sharp_on_range=float(K) * worst, slack_on_range=1 / worst,
                   theoretical_sharp=None if theory is None else float(theory.mid()),
-                  tested_range=f"every character mod M <= {Mmax}, 0 <= t <= {T} (t < 0 via the conjugate character)",
-                  notes="the infimum over all characters and t is zeta(2 sigma)/zeta(sigma) (Euler product), "
-                        "approached only when chi(p) p^-it is near -1 for many primes at once; no finite "
-                        "search of this size comes near it")
+                  euler_floor=None if floor is None else [lo(floor), up(floor)],
+                  tail_covered=floor_ok,
+                  cover_basis=("every M, psi and t by the Euler-product floor |L(sigma + it, psi)| >= zeta(2 sigma)/zeta(sigma), "
+                               "sigma > 1 (a cited classical bound; Mathlib's LFunction equals the L-series for Re s > 1, "
+                               "DirichletCharacter.LSeries_eulerProduct); the search on the range is a second route")
+                  if floor_ok else "search on the range only; the Euler floor does not reach 1/K",
+                  tested_range=f"every character mod M <= {Mmax}, 0 <= t <= {T} (t < 0 via the conjugate character)"
+                  + ("; every M, psi, t by the Euler-product floor" if floor_ok else ""),
+                  notes="the infimum over all characters and t is zeta(2 sigma)/zeta(sigma) (Euler product; for psi "
+                        "principal it is approached by Kronecker's theorem, not attained); the search on the range "
+                        "comes nowhere near it (smallest |L| found 0.318 against 0.0616)")
 
 
 # ---------------------------------------------------------------------------
@@ -942,7 +970,8 @@ def exp_ge_quad(p):
         zR = -A(R)                                        # (e^z - 1 - z)/z^2 increases in z: least at z = -R
         sharp = (zR.exp() - 1 - zR) / (zR * zR)
     return result(True, n, margin=0.0, tightest=dict(z=0, kind="double zero"), sharp=float(sharp.mid()),
-                  slack=float(sharp.mid()) / float(c), min_away_from_0=m,
+                  slack=float(sharp.mid()) / float(c), min_away_from_0=m, tail_covered=True,
+                  cover_basis="compact domain [-R, R]: convexity near 0 and sign enclosures elsewhere",
                   notes="complete: convexity on [-1/4, 1/4] with g(0) = g'(0) = 0, sign enclosure elsewhere; "
                         "the largest admissible coefficient is (e^-R - 1 + R)/R^2")
 
@@ -976,7 +1005,8 @@ def exp_power(p):
         return result(False, res["boxes"], witness=dict(t=res["argmax"][0], ratio_lower=res["lo"]))
     return result(True if (v and lit_ok) else None, res["boxes"] + n, margin=1 - res["hi"],
                   tightest=dict(t=res["argmax"][0]), sharp=float(peak.mid()), slack=float(K) / float(peak.mid()),
-                  sup_ratio=[res["lo"], res["hi"]],
+                  sup_ratio=[res["lo"], res["hi"]], tail_covered=bool(E <= T),
+                  cover_basis="Arb cover of [0, T]; beyond T, t^E e^-t is decreasing (derivative (E - t) t^(E-1) e^-t < 0 for t > E)",
                   notes="complete: cover of [0, T] and t^E e^-t is decreasing beyond t = E <= T; "
                         "the smallest admissible constant is (E/e)^E")
 
@@ -1074,6 +1104,8 @@ def no_real_zero(p):
     if r2["holds"] is not True:
         return dict(r2, part="L(sigma, chi_8)")
     return result(True, r1["cases"] + r2["cases"], margin=0.0, tightest=dict(sigma="-> 0+ for chi_8"),
+                  tail_covered=bool(r1.get("tail_covered") is True and r2.get("tail_covered") is True),
+                  cover_basis="zeta as C08; chi_8 on [0, 2] by enclosures, beyond 2 by |L - 1| <= zeta(2) - 1 < 1 (Dirichlet series)",
                   zeta_inf_abs_lower=r1["margin"], chi8=dict(inf_on_delta_2=r2["inf_on_delta_2"],
                                                            derivative_lower_near_0=r2["derivative_lower_near_0"]),
                   notes="first conjunct as in riemannZeta_ne_zero_of_mem_Ioo; second: " + r2["notes"])

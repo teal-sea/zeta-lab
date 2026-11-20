@@ -152,6 +152,8 @@ def summarise_rows(rows) -> dict:
 
 
 def _compact(r):
+    if r.get('min_h_unlisted') == 10**9:        # the reviewer's sentinel for "no candidate"
+        r = dict(r, min_h_unlisted=None)
     return {k: r.get(k) for k in ('lo', 'hi', 'fundamental', 'listed', 'pari_unlisted', 'pari_listed',
                                   'min_h_unlisted', 'log_ratio_min', 'log_ratio_max')} | {
         'missing': len(r['MISSING']), 'wrong': len(r['WRONG'])}
@@ -172,7 +174,7 @@ def record(reviewer_dir: Path, rerun_dir: Path):
                  'fundamental': sum(r['fundamental'] for r in c), 'pari': sum(r['pari'] for r in c),
                  'violations': sum(len(r['VIOLATIONS']) for r in c),
                  'smallest_h_over_hmax': min((r['smallest_h_over_hmax'] for r in c
-                                              if r['smallest_h_over_hmax']), key=lambda t: t[0])}
+                                              if r['smallest_h_over_hmax']), key=lambda t: t[0], default=None)}
     rerun = {}
     for tag, name, P, tol in (('first_chunk', 'sweep_rerun.jsonl', 20000, 0.025),
                               ('fullzone_b', 'sweep_rerun_b.jsonl', 20000, 0.025),

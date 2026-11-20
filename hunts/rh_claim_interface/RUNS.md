@@ -282,7 +282,28 @@ artifacts:
   - hunts/rh_claim_interface/frontier.json
 ```
 
-REVIEW_TESTS_MANIFEST
+**Second repair pass.** The first repair pass of the review round was cut off
+by a usage limit before its test-file changes were written. The second pass
+ran no new numerics: it timed the reach check once in scratch (1.8 s for the
+three plants at `gamma0` = 370, 407 and 444 on the prime side to `10^7`,
+reproducing 5553908 for 407 and no flag for 444) and moved it into the test
+suite, and re-extracted the text of Lemma 4.2 from the 2013 author copy in
+scratch (sha256 as in `frontier.json`). No JSON in this directory changed.
+
+```runmanifest
+id: rh_claim_interface-2026-11-20-review-tests
+hunt: rh_claim_interface
+started: 2026-11-20T20:17:21+00:00
+finished: 2026-11-20T20:19:04+00:00
+ran:
+  - .venv/bin/python -m pytest -q -n0 tests/test_hunt_probe_discipline.py tests/test_huntspec.py tests/test_docs_numbering.py tests/test_doors.py
+  - .venv/bin/python scripts/make_context.py --check
+  - .venv/bin/python -m pytest -q -n0 hunts/rh_claim_interface --durations=5
+outcome: the hunt's 31 tests pass in 14.4 s (slowest, the Arb zero side with planted faults, 4.7 s); of the 34 repository tests named, 33 pass and the case-log coverage test fails, as before, because hunts/README.md has no entry yet for this directory or for others opened in the same session; CONTEXT.md is up to date
+artifacts:
+  - hunts/rh_claim_interface/test_rh_claim_interface.py
+  - hunts/rh_claim_interface/RESULTS.md
+```
 
 ## What was not run
 

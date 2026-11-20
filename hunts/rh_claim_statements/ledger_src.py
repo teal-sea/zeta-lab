@@ -238,7 +238,9 @@ claim(id="C04", name="zeta_one_sub_le", path=_EF + "LGrowthZeta.lean", line=12, 
       domain="unbounded", grade="measured_range",
       test=T("analytic.zeta_one_sub", dict(sigma_lo="1/2", sigma_hi="5", K="6", E=5, T=100),
              fast=dict(sigma_lo="1/2", sigma_hi="5", K="6", E=5, T=64),
-             route="cover of |2 (2 pi)^-w cos(pi w/2) Gamma(w)| / (6|w+1|^5) on the rectangle (functional equation), plus the literal inequality at 20 points"),
+             route="cover of |2 (2 pi)^-w cos(pi w/2) Gamma(w)| / (6|w+1|^5) on the rectangle, plus the literal inequality at 20 points. "
+                   "Shared classical input: the functional equation (Mathlib riemannZeta_one_sub), which the archive's proof also goes through "
+                   "(norm_L_one_sub_le, ZMod.LFunction_one_sub); only the 20 literal points avoid it"),
       mutants=[Mu("strip", ("(h2 : w.re ≤ 5)", "(h2 : w.re ≤ 12)"), dict(sigma_hi="12"),
                   "on Re w = 12 the quotient grows like (|Im w|/2 pi)^11.5, faster than |w+1|^5", kind="hypothesis"),
                Mu("K", ("≤ 6 * ‖w + 1‖ ^ 5", "≤ 13 / 100 * ‖w + 1‖ ^ 5"), dict(K="13/100"), "at w = 1/2 the quotient is 1 and 6 (3/2)^5 times the ratio is 0.1317")],
@@ -273,7 +275,8 @@ claim(id="C07", name="le_norm_zeta₁", path=_GI + "LogDerivRiemannZetaLocalZero
       extra_conv=["riemannZeta₁ is Mathlib's entire function 1 + (s-1) riemannZeta₀ s, with riemannZeta s = (s-1)⁻¹ riemannZeta₁ s for s != 1 (ZetaAsymp.lean:536, :548)"],
       quant="all real t (unbounded)", domain="unbounded", grade="complete_cover",
       test=T("analytic.zeta1_lower", dict(c="1/6", a="3/2", T=200), fast=dict(c="1/6", a="3/2", T=30),
-             route="Arb cover of |t| <= T; every t by |zeta(3/2+it)| >= zeta(3)/zeta(3/2) (Euler product) and |s - 1| >= 1/2"),
+             route="Arb cover of |t| <= T; every t by |zeta(3/2+it)| >= zeta(3)/zeta(3/2) and |s - 1| >= 1/2. "
+                   "Cited classical input: the Euler-product floor |zeta(s)| >= zeta(2 sigma)/zeta(sigma) for sigma > 1 (Mathlib riemannZeta_eulerProduct)"),
       mutants=[Mu("c", ("1 / 6 ≤", "131 / 100 ≤"), dict(c="131/100"), "|zeta_1(3/2)| = zeta(3/2)/2 = 1.3062")],
       sharpness="loose: the infimum is 1.3062 at t = 0, 7.8 times the stated 1/6")
 
@@ -292,7 +295,8 @@ claim(id="C09", name="no_real_zero", path="Development/AbelianVarietyTheory/Proo
       quant="first conjunct: sigma in (0, 1); second: the one character, all real sigma > 0 (unbounded)",
       domain="unbounded", grade="complete_cover",
       test=T("analytic.no_real_zero", dict(zeta_a="0", chi8_a="0"),
-             route="as C08; for chi_8: L(0) = 0 exactly and L' > 0 on [0, 1/8] (Taylor model at 0), sign enclosure on [1/8, 2], |L - 1| <= zeta(2) - 1 beyond"),
+             route="as C08; for chi_8: L(0) = 0 exactly and L' > 0 on [0, 1/8] (Taylor model at 0), sign enclosure on [1/8, 2], |L - 1| <= zeta(2) - 1 beyond. "
+                   "Cited classical input for the tail: L equals its absolutely convergent Dirichlet series for sigma > 1"),
       mutants=[Mu("closed", ("∀ σ : ℝ, 0 < σ → DirichletCharacter.LFunction χ σ ≠ 0", "∀ σ : ℝ, 0 ≤ σ → DirichletCharacter.LFunction χ σ ≠ 0"),
                   dict(chi8_closed=True), "L(0, chi_8) = -B_{1,chi} = 0 for an even character", kind="inequality")],
       sharpness="sharp in the hypothesis: L(sigma, chi_8) -> 0 as sigma -> 0+")
@@ -306,9 +310,11 @@ claim(id="C10", name="zeta_neg_odd_ne_zero", path="Formalism/ZetaNonvanishing/RH
       sharpness="a nonvanishing statement: the smallest |zeta(-(2m+1))| is 1/252 at m = 2")
 
 claim(id="C11", name="riemannZeta_six", path="GroundTheory/GlobalFields/ComplexMultiplication/JInvariant.lean", line=45, topic="zeta",
-      math="zeta(6) = pi^6 / 945.", conv=["npow", "cast"], quant="none (one identity)", domain="finite", grade="exact_finite",
+      math="zeta(6) = pi^6 / 945.", conv=["npow", "cast"], quant="none (one identity between real numbers)", domain="identity", grade="measured_range",
       test=T("analytic.zeta_even_value", dict(k=3, D="945", N=2000),
-             route="exact: (-1)^(k+1) B_2k 2^(2k-1)/(2k)! = 1/945 (Euler); independent bracket S_N + 1/(5(N+1)^5) < zeta(6) < S_N + 1/(5N^5) of width 1.6e-20"),
+             route="measured: the bracket S_N + 1/(5(N+1)^5) < zeta(6) < S_N + 1/(5N^5) of width 1.6e-20 contains pi^6/945 (a bracket cannot decide an identity); "
+                   "the coefficient (-1)^(k+1) B_2k 2^(2k-1)/(2k)! = 1/945 is exact given Euler's formula, which is the archive's own proof step "
+                   "(riemannZeta_two_mul_nat, JInvariant.lean:46), so it is shared, not independent"),
       mutants=[Mu("D", ("/ 945", "/ 946"), dict(D="946"), "pi^6/946 lies outside the partial-sum bracket")],
       sharpness="identity")
 
@@ -332,7 +338,9 @@ claim(id="C14", name="half_line", path=_EF + "LGrowthGamma.lean", line=45, topic
       math="For every real t: |Gamma(1/2 + it)| exp(pi |t| / 2) <= 3.",
       conv=["norm", "abs", "gamma"], quant="all real t (unbounded)", domain="unbounded", grade="complete_cover",
       test=T("analytic.gamma_half_line", dict(K="3", T=200), fast=dict(K="3", T=30),
-             route="closed form 2 pi/(1 + e^(-2 pi |t|)) < 2 pi < 9 for every t (reflection formula, C13); direct Gamma cover on |t| <= T in mean value form"),
+             route="closed form 2 pi/(1 + e^(-2 pi |t|)) < 2 pi < 9 for every t, from the reflection formula as a cited theorem "
+                   "(Mathlib Complex.Gamma_mul_Gamma_one_sub; the archive's proof uses the same theorem, LGrowthGamma.lean:35); "
+                   "C13, the same identity, is graded only as sampled here; independent second route: direct Gamma cover on |t| <= T in mean value form"),
       mutants=[Mu("K", ("≤ 3", "≤ 5 / 2"), dict(K="5/2"), "the left side tends to sqrt(2 pi) = 2.5066")],
       sharpness="slack 1.197: the supremum sqrt(2 pi) is approached as |t| grows")
 
@@ -362,13 +370,16 @@ claim(id="C16", name="lfunction_one_lower_bound", path=_JC + "ExceptionalCharact
 
 claim(id="C17", name="dhl_inv", path=_JC + "PNTDHLocalB.lean", line=66, topic="L",
       math="For every M >= 1, every Dirichlet character psi mod M and every real t: 1 <= 26 |L(26/25 + it, psi)|.",
-      conv=["L", "norm", "cast"], quant="all moduli, all characters (principal included), all real t (unbounded)", domain="unbounded", grade="measured_range",
+      conv=["L", "norm", "cast"], quant="all moduli, all characters (principal included), all real t (unbounded)", domain="unbounded", grade="complete_cover",
       test=T("analytic.l_inverse_line", dict(K="26", sigma="26/25", M_max=16, T=40), fast=dict(K="26", sigma="26/25", M_max=5, T=16),
-             route="for every character mod M <= 16: branch and bound on t in [0, T] with Taylor models of L"),
+             route="every M, psi and t by the Euler-product floor |L(26/25 + it, psi)| >= zeta(52/25)/zeta(26/25) = 0.0616 (Arb), a cited classical bound "
+                   "(Mathlib DirichletCharacter.LSeries_eulerProduct, valid for Re s > 1), and 26 * 0.0616 = 1.60 >= 1; "
+                   "second route on a range: for every character mod M <= 16, branch and bound on t in [0, T] with Taylor models of L"),
       mutants=[Mu("K", ("1 ≤ 26 *", "1 ≤ 5 / 2 *"), dict(K="5/2"), "|zeta(26/25 + 14.1i)| = 0.336 < 0.4"),
                Mu("abscissa", ("(26 / 25 : ℂ)", "(1 / 2 : ℂ)"), dict(sigma="1/2"), "zeta vanishes on the line 1/2")],
-      sharpness="theoretical slack 1.60 (the infimum over all characters and t is zeta(52/25)/zeta(26/25) = 0.0616); "
-                "the smallest value on the tested range is 0.318, so no mutant near 26 can be rejected by a search of this size")
+      sharpness="slack 1.60: the infimum over all characters and t is zeta(52/25)/zeta(26/25) = 0.0616, so every constant >= 16.233 "
+                "gives a true statement and every constant < 16.233 a false one (Kronecker; the infimum is approached, not attained); "
+                "the smallest value on the searched range is 0.318, so no false mutant near the sharp constant can be rejected by a search of this size")
 
 claim(id="C18", name="norm_L_one_sub_le", path=_EF + "LGrowthFE.lean", line=49, topic="L",
       math="For N >= 1, chi a primitive Dirichlet character mod N, and w with 1/2 <= Re w <= 5 (and w != 1 when N = 1): |L(1 - w, chi)| <= 6 N^5 |w + 1|^5 |L(w, chi^-1)|.",
@@ -841,8 +852,9 @@ claim(id="C78", name="altVand", path="Formalism/MahlerMeasure/MahlerMeasureProof
       sharpness="identity")
 
 claim(id="C79", name="hasSum_inv_succ_sq", path="Formalism/LogVandermondeBounds/LogVandermondeProofs/LogRatioLowerBoundOfLogVandermondeGap.lean", line=7, topic="zeta",
-      math="sum_{n=0}^{oo} 1/(n+1)^2 = pi^2/6 (the series converges to that value).", conv=["npow"], quant="none (one identity)", domain="finite", grade="exact_finite",
+      math="sum_{n=0}^{oo} 1/(n+1)^2 = pi^2/6 (the series converges to that value).", conv=["npow"], quant="none (one identity: a HasSum over all of N)", domain="identity", grade="measured_range",
       test=T("analytic.zeta_even_value", dict(k=1, D="6", N=1000000), fast=dict(k=1, D="6", N=50000),
-             route="exact: B_2 = 1/6 gives the coefficient 1/6 (Euler); independent bracket S_N + 1/(N+1) < sum < S_N + 1/N of width 1e-12"),
+             route="measured: the bracket S_N + 1/(N+1) < sum < S_N + 1/N of width 1e-12 contains pi^2/6 (a bracket cannot decide an identity, and the N terms are not instances of a finite domain); "
+                   "the coefficient B_2 = 1/6 is exact given Euler's formula, the archive's own proof input (hasSum_zeta_two, LogRatioLowerBoundOfLogVandermondeGap.lean:8), so it is shared"),
       mutants=[Mu("D", ("(Real.pi ^ 2 / 6)", "(Real.pi ^ 2 / 7)"), dict(D="7"), "pi^2/7 lies outside the partial-sum bracket")],
       sharpness="identity")

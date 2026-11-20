@@ -2697,12 +2697,12 @@
     "Development/AutomorphicArithmetic/DedekindLFunctions": 35,
     "Development/AutomorphicArithmetic/IntegralCasts": 16,
     "Development/AutomorphicArithmetic/PrimitiveCosets": 19,
+    "Formalism/CMTypeGalois/CMTypeFrobenius": 11,
     "Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs": 24,
     "Formalism/GradedWeylDivisibility/FockSpaceTableaux": 90,
     "Formalism/HarderNarasimhan/HarderNarasimhanProofs": 32,
     "Formalism/HermitianLattices/HermitianLatticesProofs": 28,
     "Formalism/LatticeSlopes/LatticeSlopesProofs": 15,
-    "Formalism/LatticeTheta/LatticeThetaProofs": 11,
     "Formalism/RealPlaceAnalysis/RealPlaceTaylor": 30,
     "Formalism/SatakeDualWeyl/AdelicIwasawaHecke": 74,
     "Formalism/SharpRestriction/RamificationFrobenius": 13
@@ -2721,15 +2721,15 @@
    "by_depth3_dir": {
     "Development/AutomorphicArithmetic/DedekindLFunctions": 32,
     "Development/AutomorphicArithmetic/PrimitiveCosets": 6,
+    "Formalism/CorankShare/StatementFR": 1,
     "Formalism/DefsOC": 1,
+    "Formalism/FrobeniusOrbits/DiscrMaximalRealCyclotomic": 1,
     "Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs": 12,
-    "Formalism/FrobeniusOrbits/HostOrbitCountSg": 1,
-    "Formalism/FrobeniusOrbits/HostOrbitsPlaces": 1,
+    "Formalism/FrobeniusOrbits/HostDiffSupport": 1,
     "Formalism/RankGapBounds/RankGapProofs": 2,
     "Formalism/SharpRestriction/RamificationFrobenius": 8,
     "Formalism/SizeWindowBrackets/ChainSlopeWindows": 7,
     "Formalism/TameInertiaTowers/CentralOrderTwo": 10,
-    "Formalism/ThickAverageLoss/Statement": 1,
     "Formalism/ThickAverageLoss/ThickAverageProofs": 2
    },
    "lines": 23723,
@@ -2757,35 +2757,35 @@
   "Formalism.ZetaNonvanishing.ZetaLandau": {
    "by_depth3_dir": {
     "Formalism/DefsOC": 1,
+    "Formalism/Statement": 1,
     "Formalism/StatementOC": 1,
     "Formalism/StatementU": 1,
     "Formalism/ZetaNonvanishing/Assembly": 1,
+    "Formalism/ZetaNonvanishing/LandauEq": 1,
     "Formalism/ZetaNonvanishing/LandauLemma": 1,
+    "Formalism/ZetaNonvanishing/LogDerivZeroFree": 1,
+    "Formalism/ZetaNonvanishing/MeasurableGchi": 1,
     "Formalism/ZetaNonvanishing/MellinDeriv": 1,
     "Formalism/ZetaNonvanishing/MellinElem": 1,
-    "Formalism/ZetaNonvanishing/MellinSAux": 1,
-    "Formalism/ZetaNonvanishing/OfRealNeOfRealOfLt": 1,
-    "Formalism/ZetaNonvanishing/RiemannZetaOneNeZeroOfRealMemIoo": 1,
-    "Formalism/ZetaNonvanishing/ZetaLandau": 1,
-    "Formalism/ZetaRealNonvanish": 1
+    "Formalism/ZetaNonvanishing/MellinSAux": 1
    },
    "lines": 2338,
    "modules": 18
   },
   "ReciprocityTheory.Chebotarev.StatementHolds": {
    "by_depth3_dir": {
+    "ReciprocityTheory/Chebotarev/AbsLogSubLogLeOfHalf": 1,
+    "ReciprocityTheory/Chebotarev/AbsProdSubProdLeSumAbsSub": 1,
+    "ReciprocityTheory/Chebotarev/CTrick": 1,
+    "ReciprocityTheory/Chebotarev/CasimirPowerSurjectiveSymmetric": 1,
+    "ReciprocityTheory/Chebotarev/ChebyshevLambdaSubPsiBounded": 1,
+    "ReciprocityTheory/Chebotarev/CrossFix": 1,
+    "ReciprocityTheory/Chebotarev/CrossFrobE": 1,
+    "ReciprocityTheory/Chebotarev/CrossGal": 1,
+    "ReciprocityTheory/Chebotarev/CrossLift": 1,
     "ReciprocityTheory/Chebotarev/CrossRes": 1,
-    "ReciprocityTheory/Chebotarev/EulerFac": 1,
-    "ReciprocityTheory/Chebotarev/LatSum": 1,
-    "ReciprocityTheory/Chebotarev/PowerSeriesDiagonalLinear": 1,
-    "ReciprocityTheory/Chebotarev/PrimeCont": 1,
-    "ReciprocityTheory/Chebotarev/RpowNegFinrankSubOne": 1,
-    "ReciprocityTheory/Chebotarev/SplitA": 1,
-    "ReciprocityTheory/Chebotarev/SplitC": 1,
-    "ReciprocityTheory/Chebotarev/SplitDef": 1,
-    "ReciprocityTheory/Chebotarev/SplitEA": 1,
-    "ReciprocityTheory/Chebotarev/Support": 1,
-    "ReciprocityTheory/Chebotarev/TendstoLogOneDivSubOne": 1
+    "ReciprocityTheory/Chebotarev/CycOrth": 1,
+    "ReciprocityTheory/Chebotarev/CycStatement": 1
    },
    "lines": 4382,
    "modules": 47
@@ -3262,5 +3262,5 @@
    "match": true
   }
  ],
- "recount_seconds": 304.7
+ "recount_seconds": 233.8
 }

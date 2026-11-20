@@ -23,9 +23,9 @@ the stalled cover cells correctly (the table D_GRH(h) is a valid cutoff
 everywhere, and 1 to 2% weaker than Theorem B allows for about
 400 < h <= 2760), and the first door is now a different classical route that
 measures 7 to 16% stronger in L than Theorem B (float grade, not adopted).
-Hand-back is blocked on one shared-file item outside this directory: the
-case-log entry for this hunt in `hunts/README.md`, which the orchestrator
-adds.
+Hand-back was blocked on one shared-file item outside this directory, the
+case-log entry for this hunt in `hunts/README.md`. That entry was added the
+same day when the hunt was landed, and the case-log test passes.
 
 ## 0. The hypothesis
 
@@ -648,7 +648,7 @@ PARI. It shares no code with `cn.c` or `cnx.c`. The reviewer ran it over the
 whole range: 4 983 858 175 fundamental discriminants, every listed entry
 inside tolerance except |D| = 3 and 4 (their unit factor), 5 358 520
 unlisted candidates sent to PARI, smallest class number among them 5001. The
-repair rerun with the committed code (about 15 CPU-minutes, `RUNS.md`)
+repair rerun with the committed code (536 s recorded, `RUNS.md`)
 reproduced the reviewer's rows exactly on [3, 5 * 10^7] and on
 [1.5 * 10^9, 16 396 235 837], which holds the whole filter zone. It is a
 detector and a cross-check, not a bound: the truncated product has no error
@@ -679,14 +679,19 @@ and are quoted here from its notes; this hunt did not re-read them. Watkins
   ln ln |Delta| under GRH, with cutoffs (1, 1 592), (100, 19 124 734),
   (2000, 8 213 527 466), and the complete list of imaginary quadratic fields
   with class number <= 2000 under GRH, with data, computed with PARI/GP.
-  **This is the published frontier found for complete lists over all h.**
-  *Delta:* the cutoffs here are 399, 5 554 909 and 2 576 135 045 (4.0, 3.4
-  and 3.2 times smaller); the lists here go on to h = 5000
-  (102 746 940 fields against their 16 453 493, so 86 293 447 fields with
-  2000 < h <= 5000); the class numbers here come from exact reduced-form
-  counting, which assumes nothing; and all 20 rows of their Table 1 (count
-  and largest discriminant for h <= 100, 200, ..., 2000) are reproduced
-  exactly.
+  **This is the published frontier found for complete lists over all h:
+  every h <= 2000 under GRH.** Their Table 1 rows for 500, 1000, 1500 and
+  2000 were re-read from the PDF by the orchestrator on 2026-11-20, all 20
+  rows were checked against it by the computation reviewer, and their
+  per-field data file equals the list here for every h <= 2000.
+  *Delta:* the range **2000 < h <= 5000** (86 293 447 fields), under the
+  same kind of hypothesis. Below 2000 nothing is new in the lists; the
+  cutoffs here are smaller (399, 5 554 909 and 2 576 135 045 against their
+  1 592, 19 124 734 and 8 213 527 466), and the class numbers here come from
+  exact reduced-form counting, which assumes nothing. Whether their list
+  below their cutoff depends on a further GRH, through PARI's class-group
+  routine (`quadclassunit`, whose output is GRH-conditional by default), is
+  unresolved here: their notes were not re-read for it.
 - **Cremona and Sutherland**, arXiv:2301.11169v4 (notes): Proposition 19
   (the cutoff 1 629 085 093 for h <= 1000, from Languasco-Trudgian) and
   section 5: 4 115 897 fundamental discriminants with h <= 1000, the largest
@@ -712,7 +717,9 @@ and are quoted here from its notes; this hunt did not re-read them. Watkins
 
 Not found: a complete list over all h above 2000 under any hypothesis, or an
 explicit GRH lower bound for L(1, chi_D) at finite q stronger than
-Languasco-Trudgian. Absence in this search is a statement about the search,
+Languasco-Trudgian in published form (the LLS route evaluated numerically,
+door 1, is stronger than both, but was derived by this lab's reviewer, not
+found in print). Absence in this search is a statement about the search,
 not a novelty claim. Within the searched set, **the table D_GRH(h), the
 constant 1/3 of Theorem A and the GRH-conditional lists for
 2000 < h <= 5000 are original to this hunt (provenance)**, at the grade
@@ -730,10 +737,12 @@ stated at the top, and pending external review.
 - **Formalisation.** Nothing here is in Lean; the Arb evaluation is the
   numerical layer, not a kernel check.
 - **Even h above 2000 have no outside table.** For odd h every count is
-  compared with Holmin-Kurlberg, and up to 2000 with Garcia-Grenie-Lee-
-  Molteni. For even h in (2000, 5000] the evidence is internal: the same
-  code path as the odd h, the windows against PARI and against the sibling's
-  exact count, and the stream recomputation.
+  compared with Holmin-Kurlberg, and up to 2000 every field with Molteni's
+  file. For even h in (2000, 5000] (78 323 558 fields, 76% of the list) the
+  evidence is the same code path as the odd h, the windows against PARI and
+  against the sibling's exact count, the stream recomputation and, since
+  review, the full-range independent sweep with PARI on every candidate; a
+  detector and a cross-check, not a table and not a proof.
 - **PARI is a cross-check, not an oracle.** `qfbclassno` is documented as
   not rigorous for every discriminant; `lfunzeros` finds zeros on the line
   and does not prove it has all of them.
@@ -741,8 +750,40 @@ stated at the top, and pending external review.
   orders) and only class numbers, not class-group structures.
 - **The full lists are not committed** (1.5 GB); their sha256 and the
   commands that regenerate them are.
-- **The literature was not re-read here**, and the Mosunov-Jacobson data
-  and the Molteni data file were not downloaded.
+- **The literature was not re-read here** (beyond the four Table 1 rows
+  re-read by the orchestrator), and the Mosunov-Jacobson data were not
+  downloaded. Molteni's data file was fetched by the computation reviewer
+  and is compared here, not committed (165 MB; its sha256 is).
+- **The cover was not re-optimised.** The stalled cells of section 2.6 stay
+  in `dtable_grh.json`; a multi-start cover would shrink D_GRH(h) by 1 to 2%
+  for about 400 < h <= 2760 and change nothing in the search.
+- **The LLS route (door 1) was not derived here**: it is the reviewer's
+  derivation, evaluated in float, with no enclosure and no written proof in
+  this hunt.
+- **Hand-back was blocked on the case log** (closed the same day):
+  `hunts/README.md` had no entry for this hunt while it was being built. The
+  entry was added when the hunt was landed, and the standing discipline test
+  for the case log passes.
+
+## 9. Review findings and dispositions
+
+Two independent attack passes on 2026-11-20, one on the proof (P) and one on
+the computation (C). Both verdicts: holds. Every finding is kept here with
+what was done; none was dismissed.
+
+| # | severity | finding | disposition |
+| --- | --- | --- | --- |
+| C1 | major | The standing test `test_every_hunt_directory_is_covered_by_the_case_log` is red: `hunts/README.md` has no case-log entry for this hunt. | Real, reproduced. Not fixable inside this directory (shared file); the orchestrator adds the entry. Stated at the top and in section 8. |
+| C2 | major | Evidence gap: the 78 323 558 fields with even h in (2000, 5000] are backed by no outside table, and the search-side plant (h = 4999) sits at the one parity a table can catch; h = 4998, 3000, 2002 pass every table comparison. | Real, reproduced: the even-h plants now have a test that pins their blindness to the tables. Fixed by committing the reviewer's full-range sweep (`sweep.py`, `lsieve.c`) with its recorded outcome (`controls_sweep.json`, labelled the reviewer's run), rerunning it with the committed code on [3, 5 * 10^7] and [1.5 * 10^9, X] (rows reproduced exactly), and a test in which the sweep catches an even-h drop on a window and misses a shift inside its tolerance. No missing field, no wrong class number. |
+| C3 | minor | Molteni's per-field file was not used; it agrees completely. | Real. Compared here field by field for every h <= 2000 (`controls.molteni`, `controls_molteni.json`, sha256 recorded, a test): identical. Section 8 no longer says the file was not downloaded. |
+| C4 | minor | The sign plant is sized at twice the zero term; control (a) is blind below a factor 1.449 in L, including dropping the zero term. | Real, reproduced exactly (1.1206 with the zero term dropped, 1.2816 halved). The floor and both uncaught plants are now in `controls_fault.json`, section 6 and a test. |
+| C5 | minor | `RUNS.md`: the estimate heading's time was changed from 16:53Z to 16:52Z after the run without a note. | Real. Restored to the time first written, with a note, and the driver log's plan line (printed at launch, 16:52:53Z) cited with its sha256 as the launch-time record. |
+| C6 | minor | "Byte-identical to cn.c" holds only after sorting cn.c's output and dropping its stats line. | Real. Now "identical as sorted lists", in section 5 and `RUNS.md`. |
+| C7 | minor | Much of the run record lives only in the scratchpad; exit status is per worker. | Real. The per-chunk stats table, the driver log lines and the sha256 of the driver, CPU and worker logs and plans are committed in `search_chunks.json`; the lists stay out (1.5 GB). |
+| P1 | minor | The explicit formula (2.1) is quoted, not derived; supported only by measurement. | Real. The contour shift is written out in (2.1) with its estimates and the Davenport chapters; the reviewer's independent measurement at three new characters is recorded as the reviewer's run. The grade is unchanged: a written derivation, unreviewed by a human. |
+| P2 | minor | The cover is stalled on about 500 cells; D_GRH(h) is valid but 1 to 2% too large for about 400 < h <= 2760; section 2.6 misdescribed the optimiser. | Real, reproduced: warm start confirmed in `explicit.cover`; 514 cells with y < 49 between 2.99 * 10^7 and 4 967 973 832, the restart at 10^9 (0.12617 against 0.12545 in Arb), the single jump and the 76 cells beaten by later cells, all pinned by a test. Section 2.6 and the typical-parameters line corrected; the earlier sentence is withdrawn there. Not regenerated (the claim, a valid cutoff, stands; Corollary D is untouched); the reviewer's restarted table is recorded as the reviewer's run. |
+| P3 | minor | The LLS route itself, evaluated numerically, beats Theorem B; the door list missed it. | Real, reproduced with the reviewer's script, now `lls_route.py` (float grade): at q = 10^4, 10^6, 10^8, 10^10, 10^11, 10^20, 10^50 it gives 0.17021, 0.15412, 0.14392, 0.13671, 0.13376, 0.11736, 0.09762 against 0.14729, 0.13672, 0.12875, 0.12356, 0.12117, 0.10744, 0.09138 here, factors 1.16, 1.13, 1.12, 1.11, 1.10, 1.09, 1.07 (pinned by tests: the value at 10^10, and every factor between 1.06 and 1.16). Recorded as the first door; control (b) now says the margin is over the closed form only. Not adopted: no theorem changes. |
+| P4 | minor | Small inaccuracies: the cell ratio (1.0198, not 1.01), the Theorem A cover description (39 cells below 1/3 up to 22 786, 124 above), the Rosser-Schoenfeld equation label, and the discharge condition. | Real. (1) and (2) corrected and pinned by a test. (3) This RESULTS.md gave no equation number; it now cites Theorem 5 and says the label was not confirmed, and the inequality is measured at every prime from 286 to 3 * 10^6 (a test; it fails at 283). The sibling's text, which says (3.20), is not edited from here. (4) Section 0 now states the discharge condition in the ladder's terms. |
 
 ## The doors
 
@@ -752,6 +793,20 @@ fits it, not at a mathematical wall. What binds, and what would move it:
 1. **Active constraints at the optimum**, ranked by shadow price at the
    h = 5000 cutoff (q = 1.64 * 10^10, where log L >= M - E with
    M = -1.8505, E = 0.2448).
+   **(0) First door, found in review: a different route.** The route of
+   Lamzouri, Li and Soundararajan (a single Cesaro cutoff, the zeros entering
+   only through F = sum_rho Re 1/rho, F bounded with the (1 - n/x) kernel, the
+   worst character prime by prime), evaluated numerically and optimised over
+   its two cutoffs instead of in closed form, gives a lower bound for L that
+   is 7 to 16% larger than Theorem B between 10^4 and 10^50 (factor 1.11 at
+   10^10; all pinned by tests; `lls_route.py`, float grade). It exists only at abscissa
+   1/2. The proof reviewer estimates it would move D_GRH(5000) from
+   1.64 * 10^10 to about 1.33 * 10^10, a factor about 0.81 in D, and found
+   no violation against the exact L at the largest |D| of every h (smallest
+   ratio 1.263; reviewer's run, not repeated). It is not adopted: it has no
+   enclosure and no written proof here. A measured optimum is not a proved
+   ceiling, and this door shows that Theorem B's family was not the best
+   classical one at 1/2.
    (a) The abscissa is no longer a door: 1/2 is the end of that line, and
    moving from 7/8 to it paid a factor 2.5 to 2.9 in L and 8.1 to 8.8 in
    D(h), as the sibling predicted. (b) The zero term E: dropping it
@@ -776,7 +831,10 @@ fits it, not at a mathematical wall. What binds, and what would move it:
    (a possible gain for small h only, not measured; not relaxed because the
    sibling is imported unchanged). The grid steps 1/2000, 1/500, 1/100 and
    the tail point u = 6 (0.09% in R, measured against adaptive quadrature;
-   no trade shape). The prime-power truncation at k = 5 (none).
+   no trade shape). The cover's warm start (a frozen procedure, not a
+   number: a multi-start costs about one more Arb evaluation per cell and
+   buys 1 to 2% in D_GRH(h) for about 400 < h <= 2760, the reviewer's
+   measurement; no trade shape beyond Arb time). The prime-power truncation at k = 5 (none).
    T_EXACT = 10^7 (irrelevant at 1/2: x is below 10^4). The cover ratio 1.01
    (at most 1% in D_GRH; a trade against Arb time, 80 s now). The bridge
    ratio 1.02 and the tail point Q1 = 10^50 with eta = 1/4, delta = 1/10
@@ -791,7 +849,8 @@ fits it, not at a mathematical wall. What binds, and what would move it:
    20 000 without widening them).
 3. **Information class of each door.**
    *Stays inside the data the method reads (GRH for chi_D and the primes):*
-   a weight whose transform is nonnegative on the critical line. Under GRH
+   door (0), the LLS route evaluated numerically, which reads exactly the
+   same data; and a weight whose transform is nonnegative on the critical line. Under GRH
    every zero is at 1/2 + i gamma, so such a weight makes every zero
    contribute with one sign and the zero sum could be dropped instead of
    bounded: that is door (b) above, it exists only at abscissa 1/2 (off the

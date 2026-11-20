@@ -2,17 +2,17 @@
 
 ## Baseline
 
-Checkout `/home/user/zeta-lab`, branch `claude/sweet-planck-pf4oco` at
+Checkout of zeta-lab, branch `claude/sweet-planck-pf4oco` at
 `a401821c`. `zeta.rigor.BACKEND` is `python-flint` (backends
 `['mpmath.iv', 'python-flint']`). cypari2 is importable. gcc 13.3 compiles
 `cnx.c` (`-O3 -march=native`, AVX-512BW present). Four cores and 15 GB, shared
 with other sessions that are reading an archive; at most three search
-processes at a time, each under 3 GB. `SCRATCH` below is
-`/tmp/claude-0/-home-user-zeta-lab/0611ad8c-0964-51e2-b6c9-1e1cf6364191/scratchpad/grh_class_number`:
+processes at a time, each under 3 GB. `SCRATCH` below is the session
+scratchpad's `grh_class_number/` directory:
 the full lists live there and are not committed; each is identified by its
 sha256.
 
-## Unit timings and estimates, written before the scaled run (2026-11-20T16:52Z)
+## Unit timings and estimates, written before the scaled run (2026-11-20T16:53Z)
 
 **Bound side** (Arb, 128 bits, sigma0 = 1/2). The fine cover of
 `[10^2, 10^11]` at ratio 1.01 (2041 cells) took 79.7 s, the log-scale bridge
@@ -44,7 +44,17 @@ allows about H = 3000 (an estimate, not run).
 run, but its rows for 2*10^9 and 10^10 were read into this table only after
 the run, and the paragraph above was reworded then from "almost every
 discriminant survives ... more than 20 s per 10^6". The conclusion, the
-decision below and the estimate of 6505 CPU-seconds are as first written.)
+decision below and the estimate of 6505 CPU-seconds are as first written.
+A second edit, disclosed after review: the time in this section's heading was
+changed after the run from 16:53Z to 16:52Z without a note, and is restored
+here to what was first written. The heading time is approximate either way;
+the launch-time record of the estimate is the driver's plan line, printed at
+launch (16:52:53Z) and kept in `SCRATCH/search5000.driver.log`:
+"194 chunks: 60 full (est 1802 s), 134 filter (est 4703 s); total est 6505
+CPU-s; per worker [2165, 2169, 2171]" (the log's sha256 is in
+`search_chunks.json`). Only the search is a scaled run; the 15-minute
+bound-controls batch and the 17-minute `cn.c` unit batch carry no prior
+estimate.)
 
 **Decision, before the scaled run.** Keep H = 5000 and replace the driver, not
 the arithmetic: `cnx.c` includes `cn.c` unchanged and adds cache-sized blocks,
@@ -55,12 +65,12 @@ core, on ranges of 10^7 or 2*10^7 (seconds per 10^6 of range):
 
 | at | mode | per 10^6 | compared with |
 | --- | --- | --- | --- |
-| 3 | full | 0.06 | `cn.c` output, byte-identical |
-| 10^7 | full | 0.08 | `cn.c` output, byte-identical |
-| 10^8 | full | 0.28 | `cn.c` output, byte-identical |
-| 5*10^8 | full | 0.35 | `cn.c` output, byte-identical (1 263 806 fields) |
+| 3 | full | 0.06 | `cn.c` output, identical as sorted lists |
+| 10^7 | full | 0.08 | `cn.c` output, identical as sorted lists |
+| 10^8 | full | 0.28 | `cn.c` output, identical as sorted lists |
+| 5*10^8 | full | 0.35 | `cn.c` output, identical as sorted lists (1 263 806 fields) |
 | 10^9 | full | 0.50 | |
-| 2*10^9 | full | 0.78 | `cn.c` output, byte-identical (68 820 fields) |
+| 2*10^9 | full | 0.78 | `cn.c` output, identical as sorted lists (68 820 fields) |
 | 3*10^9 | full | 0.79 | filter mode, byte-identical |
 | 3*10^9 | filter, all a | 0.87 | 8 188 survivors per 10^7 |
 | 4*10^9 | full / filter all a / filter A0 = 28000 | 1.15 / 0.65 / 0.64 | |
@@ -147,7 +157,7 @@ ran:
   - hunts/grh_class_number/build/cnx 5000 PLAN on 33 unit ranges in both modes, compared with cn.c output on four of them
   - CNX_CHECK_STREAM=40 hunts/grh_class_number/build/cnx 5000 PLAN on four filter windows
   - CNX_CHECK_FULL=1 hunts/grh_class_number/build/cnx 5000 PLAN on four mode 1 windows
-outcome: mode 1 output is byte-identical to cn.c on five ranges (2946395 fields) and to mode 0 at 3*10^9, 28496 sampled streamed counts and 212769 enumerated class numbers recompute equal, and the unit timings give an estimate of 6505 CPU-seconds for H 5000
+outcome: mode 1 output is identical, as sorted lists, to cn.c on five ranges (2946395 fields) and to mode 0 at 3*10^9, 28496 sampled streamed counts and 212769 enumerated class numbers recompute equal, and the unit timings give an estimate of 6505 CPU-seconds for H 5000
 artifacts:
 ```
 
@@ -206,3 +216,49 @@ artifacts:
   - hunts/grh_class_number/theorem_a_small.json
   - hunts/grh_class_number/controls_pari.json
 ```
+
+## Review repair pass (2026-11-20, evening)
+
+Two attack passes reviewed the hunt (RESULTS.md section 9). The repair pass
+used one core. Its only scaled work is a partial rerun of the computation
+reviewer's independent sweep with the code now committed (`sweep.py`,
+`lsieve.c`). Estimate, from the reviewer's recorded per-chunk seconds and
+one unit timed here ([3, 5*10^7], 12.3 s): [1.5*10^9, 3*10^9] about 394 s and
+[3*10^9, X] about 442 s, so about 14 CPU-minutes (measured: 271 s and 253 s,
+plus 12 s for the unit); the whole range, about 30
+CPU-minutes with the first half of the mode-1 zone, was over the pass's
+budget of about 25, so that half is recorded from the reviewer's run only.
+Everything else was small: Molteni's file against the lists (about one
+minute, reading the chunk files up to 1.1*10^9), the fault control with two
+more plants (seconds), the cross-checks again (seconds), the tests.
+
+The per-chunk record of the H = 5000 run (`search_chunks.json`) now carries
+the stats of all 194 chunks, the driver log lines, the run start and end, the
+count of worker-log chunk lines (194, one per planned chunk) and the sha256
+of the driver, CPU and worker logs and plans, which stay in `SCRATCH`.
+
+```runmanifest
+id: grh_class_number-2026-11-20-review-repair
+hunt: grh_class_number
+started: 2026-11-20T20:05:00Z
+finished: 2026-11-20T20:26:00Z
+ran:
+  - .venv/bin/python -m hunts.grh_class_number.sweep run SCRATCH/search5000 3 50000002 50000000 20000 0.025 SCRATCH/repair/sweep_rerun.jsonl
+  - .venv/bin/python -m hunts.grh_class_number.sweep run SCRATCH/search5000 1500000003 3000000000 50000000 20000 0.025 SCRATCH/repair/sweep_rerun_b.jsonl
+  - .venv/bin/python -m hunts.grh_class_number.sweep run SCRATCH/search5000 3000000001 16396235837 100000000 3000 0.06 SCRATCH/repair/sweep_rerun_filter.jsonl
+  - .venv/bin/python -m hunts.grh_class_number.sweep record SCRATCH_REVIEWER SCRATCH/repair
+  - .venv/bin/python -m hunts.grh_class_number.controls molteni SCRATCH_REVIEWER/dl_molteni/classes-list-2000.txt SCRATCH/search5000
+  - .venv/bin/python -m hunts.grh_class_number.controls fault
+  - .venv/bin/python -m hunts.grh_class_number.controls crosschecks
+outcome: the committed sweep reproduces all 165 of the reviewer's rows it reran ([3, 5*10^7] and [1.5*10^9, 16396235837], 536 s recorded) with no missing field and no wrong class number; the list equals Molteni's per-field file for every h at most 2000 (16453493 fields); dropping or halving the zero term stays under control (a)'s floor of 1.449; the cross-checks are unchanged
+artifacts:
+  - hunts/grh_class_number/controls_sweep.json
+  - hunts/grh_class_number/controls_molteni.json
+  - hunts/grh_class_number/controls_fault.json
+  - hunts/grh_class_number/crosschecks.json
+  - hunts/grh_class_number/search_chunks.json
+```
+
+`SCRATCH_REVIEWER` is the computation reviewer's directory in the same
+session scratchpad (`attack-computation/`), where its own run's jsonl files
+and Molteni's file live.

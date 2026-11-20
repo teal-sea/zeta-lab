@@ -2,7 +2,7 @@
 
 ## Baseline
 
-Checkout `/home/user/zeta-lab`, branch `claude/sweet-planck-pf4oco`, opened at
+Checkout: the zeta-lab repository root, branch `claude/sweet-planck-pf4oco`, opened at
 `c6fbf9fb` (other sessions committed checkpoints to the same branch while this
 hunt ran; none of them touches the instruments here). `zeta.rigor.BACKEND` is
 `python-flint` (backends `['mpmath.iv', 'python-flint']`). python-flint 0.9.0,
@@ -32,6 +32,14 @@ Run from `ARCH` with `rg -j1`. Each is one pass over 175,187 files.
    Those whose namespace is opened by a claim's file were listed by a scratch
    script (`SCRATCH/tools/shadow.py`); they are instances on archive-local
    types, reachable from C37, C38, C39 and C52 only.
+4. Global instances whose class arguments are basic types (added at review),
+   1.2 s, 262 lines:
+   `rg -j1 -n --no-heading "^\s*(@\[[^\]]*\]\s*)*((private|protected|noncomputable|public)\s+)*instance\b[^:]*:\s*[A-Za-z.]+\s+(ℝ|ℂ|ℕ|ℤ|ℚ|Real|Complex|Nat|Int|Rat|\(ZMod|\(DirichletCharacter)\b" -g '*.lean' . > SCRATCH/tools/global_inst_scan.txt`
+   Filtered (scratch `python3 -I`) to those whose every class argument is one
+   of ℝ, ℂ, ℕ, ℤ, ℚ: one line, `instance : ArithBase ℤ ℚ`
+   (`NormNatCastPadicAlgClOfCoprime.lean:378`), an archive-local class that no
+   statement uses. The others are instances on archive-local types
+   (`Module ℝ X` and the like).
 
 The lakefile (`ARCH/../lakefile.toml`) sets `autoImplicit = false` and
 `relaxedAutoImplicit = false`. `rg -c autoImplicit` over the files of the 79
@@ -56,7 +64,19 @@ Two timings changed the design before the recorded run:
   series). It was replaced by covers for M = 2, 3, 10 and 29 sample points
   for M = 100 and 1000.
 
-Total compute for the hunt, development runs included: about 25 CPU-minutes.
+Total compute for the hunt, development runs included: about 25 CPU-minutes
+before review, about 9 more for the review repairs (two reruns, `review.py`,
+tests), so about 34 in all.
+
+No estimate was written before the first precision run (manifest
+`rh_claim_statements-2026-11-20-precision`, 4 min 57 s, longer than the full
+run). The omission is recorded, not repaired after the fact.
+
+Before the post-review reruns the estimates were taken from the recorded runs
+(they were not written down before launch, which is recorded here too): full
+run 3 to 4 minutes, precision run about 5 minutes, `review.py` about 1 to 2
+minutes (C05 three times at 15 s, C02 not rerun, C17 at fast parameters).
+Measured: 3 min 2 s, 3 min 47 s and 36 s.
 
 ## Run manifests
 
@@ -118,5 +138,66 @@ ran:
   - RH_CLAIM_ARCHIVE=ARCH .venv/bin/python -m pytest -q -n0 hunts/rh_claim_statements -k "archive or ledger or mutant_is_one"
   - .venv/bin/python scripts/make_context.py --check
 outcome: 216 passed, 1 skipped and 1 failed in 22 s; the failure is test_every_hunt_directory_is_covered_by_the_case_log, which stops at the first hunt directory without a case-log entry in hunts/README.md (grh_class_number, another session's) and will keep failing for this directory until the entry handed back with this hunt is added, since this hunt may not edit that file; the hunt's own 194 tests pass (76 fast-tier claims, 98 mutants, ledger, recorded run, precision response, planted faults, decoys), and with the archive path set the statement and file hashes of all 79 claims match; the tests leave the git tree unchanged and CONTEXT.md is up to date
+artifacts:
+```
+
+```runmanifest
+id: rh_claim_statements-2026-11-20-review-ledger
+hunt: rh_claim_statements
+started: 2026-11-20T20:50:00+00:00
+finished: 2026-11-20T20:50:02+00:00
+ran:
+  - .venv/bin/python -I hunts/rh_claim_statements/build_ledger.py --arch ARCH --mathlib MATHLIB --decl-index SCRATCH/tools/decl_index.txt --notation-scan SCRATCH/tools/notation_scan.txt (first to SCRATCH: reproduced the recorded claims.json byte for byte, sha256 512bfa1d...; then into the tree after the review edits)
+outcome: (start and finish times approximate, the rebuild was not timed; it takes about 1 s) 79 statements and 98 mutants; C11 and C79 regraded to measured, C17 to complete cover, routes name shared classical inputs, context records global instances (C19, C37); every identifier resolved and the capture check unchanged; claims.json sha256 de9e65e8bd187a06ea382ca5b2b52bf2b9c8495e74b73ff1dd3a646e13400849
+artifacts:
+  - hunts/rh_claim_statements/claims.json
+```
+
+```runmanifest
+id: rh_claim_statements-2026-11-20-review-full
+hunt: rh_claim_statements
+started: 2026-11-20T20:51:24+00:00
+finished: 2026-11-20T20:54:26+00:00
+ran:
+  - .venv/bin/python -m hunts.rh_claim_statements.runner --decoys
+outcome: 79 of 79 statements hold in the sense of their grade (10 complete covers, 15 exact on a finite domain, 54 measured), none fails and none is undecided; 98 of 98 mutants rejected with a witness; every verdict of the first full run reproduced; 181.0 s in the checks, 3 min 2 s of wall clock on one core; supersedes rh_claim_statements-2026-11-20-full as results.json
+artifacts:
+  - hunts/rh_claim_statements/results.json
+```
+
+```runmanifest
+id: rh_claim_statements-2026-11-20-review-precision
+hunt: rh_claim_statements
+started: 2026-11-20T20:54:30+00:00
+finished: 2026-11-20T20:58:17+00:00
+ran:
+  - .venv/bin/python -m hunts.rh_claim_statements.runner --prec-scale 2 --no-mutants --only C01,C02,C03,C04,C05,C06,C07,C08,C09,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,C21,C25,C26,C27,C28,C29,C30,C31,C62,C63,C65,C69,C71,C72,C73,C79 --out hunts/rh_claim_statements/results_prec2.json
+outcome: all 36 hold again with every working precision doubled; the largest supremum upper-end move is 1.894e-4 (C06), the largest other margin move 3.113e-5 (C17, on its search range) and 2.0e-7 (C08); 3 min 47 s of wall clock; supersedes rh_claim_statements-2026-11-20-precision as results_prec2.json
+artifacts:
+  - hunts/rh_claim_statements/results_prec2.json
+```
+
+```runmanifest
+id: rh_claim_statements-2026-11-20-review-numbers
+hunt: rh_claim_statements
+started: 2026-11-20T20:58:20+00:00
+finished: 2026-11-20T20:58:56+00:00
+ran:
+  - .venv/bin/python -m hunts.rh_claim_statements.review
+outcome: the C17 floor 0.0616034 (17 true, 16 false), the C28 series 0.4930911094 by a second route, the C15 edge resolution (5.55 rejected, 5.52 and 5.51 pass on Im w <= 200 and are false), 21 weakened constants (no true statement rejected; one false statement, C17 with 16, passes at the measured grade), the section 8 radii and the section 9 deltas; 36 s
+artifacts:
+  - hunts/rh_claim_statements/review.json
+```
+
+```runmanifest
+id: rh_claim_statements-2026-11-20-review-tests
+hunt: rh_claim_statements
+started: 2026-11-20T21:10:00+00:00
+finished: 2026-11-20T21:12:00+00:00
+ran:
+  - .venv/bin/python -m pytest -q -n0 hunts/rh_claim_statements tests/test_hunt_probe_discipline.py tests/test_huntspec.py tests/test_docs_numbering.py tests/test_doors.py
+  - RH_CLAIM_ARCHIVE=ARCH .venv/bin/python -m pytest -q -n0 hunts/rh_claim_statements -k archive
+  - .venv/bin/python scripts/make_context.py --check
+outcome: (times approximate) the hunt's own tests: 201 passed and 1 skipped (the archive re-read, which passes when ARCH is set); the seven added tests pin the earned complete-cover grade (with a planted silent check), the regrade of C11 and C79, the C17 floor (17 true, 16 false), the C15 edge resolution, the resolution rows, the section 8 and 9 numbers and C19's instance; of the standing tests only test_every_hunt_directory_is_covered_by_the_case_log fails, at grh_class_number, as before and for the reason recorded in rh_claim_statements-2026-11-20-tests; the section 3 table is byte-identical to report.py output; CONTEXT.md is up to date
 artifacts:
 ```

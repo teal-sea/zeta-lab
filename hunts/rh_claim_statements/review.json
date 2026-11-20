@@ -1,0 +1,440 @@
+{
+ "c17_floor": {
+  "floor": [
+   0.0616033774244805,
+   0.0616033774244805
+  ],
+  "inverse": [
+   16.23287621244304,
+   16.23287621244304
+  ],
+  "K=16": {
+   "K_times_floor": [
+    0.985654038791688,
+    0.985654038791688
+   ],
+   "statement_true": false,
+   "statement_false": true
+  },
+  "K=17": {
+   "K_times_floor": [
+    1.0472574162161685,
+    1.0472574162161685
+   ],
+   "statement_true": true,
+   "statement_false": false
+  },
+  "K=26": {
+   "K_times_floor": [
+    1.601687813036493,
+    1.601687813036493
+   ],
+   "statement_true": true,
+   "statement_false": false
+  },
+  "reading": "the infimum of |L(26/25 + it, psi)| over all psi and t is the floor (Euler product; for the principal character it is approached by Kronecker's theorem and not attained), so K * floor >= 1 makes the statement true and K * floor < 1 makes it false"
+ },
+ "c28_series": {
+  "value": [
+   0.49309110936876444,
+   0.49309110936876444
+  ],
+  "route": "Moebius inversion of log zeta, Arb, k <= 60 plus a tail radius 2^-119"
+ },
+ "c15_edge": {
+  "test_at_T_200": {
+   "6": {
+    "holds": false,
+    "tail_covered": null,
+    "rejected": true,
+    "witness": {
+     "w": [
+      5.65625,
+      199.75
+     ],
+     "ratio_lower": 1.9074848413252985
+    },
+    "sup_ratio": [
+     1.9074848413252985,
+     Infinity
+    ],
+    "seconds": 0.06
+   },
+   "56/10": {
+    "holds": false,
+    "tail_covered": null,
+    "rejected": true,
+    "witness": {
+     "w": [
+      5.5601562499999995,
+      199.9375
+     ],
+     "ratio_lower": 1.1466896276807217
+    },
+    "sup_ratio": [
+     1.1466896276807217,
+     Infinity
+    ],
+    "seconds": 0.12
+   },
+   "555/100": {
+    "holds": false,
+    "tail_covered": null,
+    "rejected": true,
+    "witness": {
+     "w": [
+      5.54013671875,
+      199.984375
+     ],
+     "ratio_lower": 1.0313164243202504
+    },
+    "sup_ratio": [
+     1.0313164243202504,
+     Infinity
+    ],
+    "seconds": 0.12
+   },
+   "552/100": {
+    "holds": true,
+    "tail_covered": null,
+    "rejected": false,
+    "witness": null,
+    "sup_ratio": [
+     0.926211415301612,
+     0.9269634764641542
+    ],
+    "seconds": 0.13
+   },
+   "551/100": {
+    "holds": true,
+    "tail_covered": null,
+    "rejected": false,
+    "witness": null,
+    "sup_ratio": [
+     0.8784209994011647,
+     0.8791328240185994
+    ],
+    "seconds": 0.12
+   }
+  },
+  "ratio_lower_far_above_T": {
+   "sigma=5.52, t=10000": 1.0045424839106265,
+   "sigma=5.52, t=100000": 1.0518860019683844,
+   "sigma=5.51, t=1e+12": 1.1014598713627788,
+   "sigma=5.5, t=1e+12": 0.8355427582103335
+  },
+  "reading": "on Re w = sigma_hi > 11/2 the ratio grows like |Im w|^(sigma_hi - 11/2); the test sees an edge error only once that growth shows below |Im w| = 200"
+ },
+ "resolution": [
+  {
+   "claim": "C21",
+   "override": {
+    "K": "12550588/10000000"
+   },
+   "statement_true": true,
+   "why": "max of pi(m) log m / m below 2^17 is 1.25505871 (m = 113)",
+   "test_returns": "holds",
+   "correct": true,
+   "holds": true,
+   "tail_covered": null,
+   "seconds": 0.11
+  },
+  {
+   "claim": "C21",
+   "override": {
+    "K": "125505871/100000000"
+   },
+   "statement_true": false,
+   "why": "below the maximum at m = 113",
+   "test_returns": "rejected with a witness",
+   "correct": true,
+   "holds": false,
+   "tail_covered": null,
+   "seconds": 0.0
+  },
+  {
+   "claim": "C01",
+   "override": {
+    "K": "1460355/1000000"
+   },
+   "statement_true": true,
+   "why": "sup |zeta| on the circle is |zeta(1/2)| = 1.4603545",
+   "test_returns": "undecided",
+   "correct": false,
+   "holds": null,
+   "tail_covered": true,
+   "seconds": 0.12
+  },
+  {
+   "claim": "C01",
+   "override": {
+    "K": "1460354/1000000"
+   },
+   "statement_true": false,
+   "why": "below |zeta(1/2)|",
+   "test_returns": "rejected with a witness",
+   "correct": true,
+   "holds": false,
+   "tail_covered": true,
+   "seconds": 0.1
+  },
+  {
+   "claim": "C28",
+   "override": {
+    "K": "4930928/10000000"
+   },
+   "statement_true": true,
+   "why": "above the enclosure [0.4930910, 0.4930927] of the series",
+   "test_returns": "holds",
+   "correct": true,
+   "holds": true,
+   "tail_covered": true,
+   "seconds": 0.44
+  },
+  {
+   "claim": "C28",
+   "override": {
+    "K": "4930920/10000000"
+   },
+   "statement_true": true,
+   "why": "the series is 0.4930911094 (c28_series below; the reviewer found the same)",
+   "test_returns": "undecided",
+   "correct": false,
+   "holds": null,
+   "tail_covered": false,
+   "seconds": 0.46
+  },
+  {
+   "claim": "C28",
+   "override": {
+    "K": "4930911/10000000"
+   },
+   "statement_true": false,
+   "why": "the series is 0.4930911094 (c28_series), above 0.4930911",
+   "test_returns": "undecided",
+   "correct": false,
+   "holds": null,
+   "tail_covered": false,
+   "seconds": 0.4
+  },
+  {
+   "claim": "C28",
+   "override": {
+    "K": "4930909/10000000"
+   },
+   "statement_true": false,
+   "why": "below the partial sum over primes <= 10^7",
+   "test_returns": "rejected with a witness",
+   "correct": true,
+   "holds": false,
+   "tail_covered": null,
+   "seconds": 0.4
+  },
+  {
+   "claim": "C62",
+   "override": {
+    "c": "3678794/10000000"
+   },
+   "statement_true": true,
+   "why": "the largest admissible coefficient is 1/e = 0.36787944",
+   "test_returns": "holds",
+   "correct": true,
+   "holds": true,
+   "tail_covered": true,
+   "seconds": 0.0
+  },
+  {
+   "claim": "C62",
+   "override": {
+    "c": "3678795/10000000"
+   },
+   "statement_true": false,
+   "why": "above 1/e",
+   "test_returns": "rejected with a witness",
+   "correct": true,
+   "holds": false,
+   "tail_covered": null,
+   "seconds": 0.0
+  },
+  {
+   "claim": "C07",
+   "override": {
+    "c": "1306/1000"
+   },
+   "statement_true": true,
+   "why": "the infimum of |zeta_1(3/2 + it)| is 1.30619 at t = 0",
+   "test_returns": "holds on the range only (would be graded measured, not complete cover)",
+   "correct": true,
+   "holds": true,
+   "tail_covered": false,
+   "seconds": 0.17
+  },
+  {
+   "claim": "C07",
+   "override": {
+    "c": "13063/10000"
+   },
+   "statement_true": false,
+   "why": "above 1.30619",
+   "test_returns": "rejected with a witness",
+   "correct": true,
+   "holds": false,
+   "tail_covered": false,
+   "seconds": 0.14
+  },
+  {
+   "claim": "C16",
+   "override": {
+    "K": "4134/10000"
+   },
+   "statement_true": false,
+   "why": "the binding case is q = 3 with sharp constant 0.41350",
+   "test_returns": "rejected with a witness",
+   "correct": true,
+   "holds": false,
+   "tail_covered": null,
+   "seconds": 1.73
+  },
+  {
+   "claim": "C70",
+   "override": {
+    "K": "1999999/1000000"
+   },
+   "statement_true": false,
+   "why": "the ratio tends to 1 from below along x = 1/8, p = 2",
+   "test_returns": "rejected with a witness",
+   "correct": true,
+   "holds": false,
+   "tail_covered": null,
+   "seconds": 0.0
+  },
+  {
+   "claim": "C74",
+   "override": {
+    "const": "1749/1000"
+   },
+   "statement_true": false,
+   "why": "equality at (l, g, h, j) = (3, 0, 6, 1) with 7/4",
+   "test_returns": "rejected with a witness",
+   "correct": true,
+   "holds": false,
+   "tail_covered": null,
+   "seconds": 0.0
+  },
+  {
+   "claim": "C05",
+   "override": {
+    "c": "4999/10000"
+   },
+   "statement_true": false,
+   "why": "the ratio tends to 1/2 as s -> 0+, so any c < 1/2 is false",
+   "test_returns": "undecided",
+   "correct": false,
+   "holds": null,
+   "tail_covered": null,
+   "seconds": 14.9
+  },
+  {
+   "claim": "C05",
+   "override": {
+    "c": "49999/100000"
+   },
+   "statement_true": false,
+   "why": "as above",
+   "test_returns": "undecided",
+   "correct": false,
+   "holds": null,
+   "tail_covered": null,
+   "seconds": 15.15
+  },
+  {
+   "claim": "C65",
+   "override": {
+    "K": "3999/1000"
+   },
+   "statement_true": false,
+   "why": "equality at v = lam = 1 needs K >= 4",
+   "test_returns": "rejected with a witness",
+   "correct": true,
+   "holds": false,
+   "tail_covered": null,
+   "seconds": 0.0
+  },
+  {
+   "claim": "C65",
+   "override": {
+    "e_rhs": "3901/10000"
+   },
+   "statement_true": false,
+   "why": "the exact reduction needs e_lam <= 1 - e_rhs, and 0.61 > 0.6099",
+   "test_returns": "undecided",
+   "correct": false,
+   "holds": null,
+   "tail_covered": null,
+   "seconds": 0.0
+  },
+  {
+   "claim": "C17",
+   "override": {
+    "K": "17"
+   },
+   "statement_true": true,
+   "why": "17 * zeta(52/25)/zeta(26/25) = 1.047 >= 1",
+   "test_returns": "holds",
+   "correct": true,
+   "holds": true,
+   "tail_covered": true,
+   "seconds": 0.67
+  },
+  {
+   "claim": "C17",
+   "override": {
+    "K": "16"
+   },
+   "statement_true": false,
+   "why": "16 * zeta(52/25)/zeta(26/25) = 0.986 < 1, and the floor is approached (Kronecker)",
+   "test_returns": "holds on the range only (would be graded measured, not complete cover)",
+   "correct": false,
+   "holds": true,
+   "tail_covered": false,
+   "seconds": 0.67
+  }
+ ],
+ "wide_ball_radii": {
+  "0.5+3.0i, half-width 0.04": {
+   "direct": 0.5584831833839417,
+   "taylor_model": 0.01083218795247376
+  },
+  "0.2+0.1i, half-width 0.04": {
+   "direct": 3.127629928290844,
+   "taylor_model": 0.08780790539458394
+  },
+  "0.6+14.1i, half-width 0.1": {
+   "direct": 1.2119702640920877,
+   "taylor_model": 0.09635669668205082
+  },
+  "1.05+0.35i, half-width 0.02": {
+   "direct": 0.6278935968875885,
+   "taylor_model": 0.22727988637052476
+  }
+ },
+ "precision_deltas": {
+  "largest_upper_end_move": [
+   "C06",
+   0.0001893926476806973
+  ],
+  "largest_lower_end_move": [
+   "C15",
+   1.1102230246251565e-16
+  ],
+  "largest_other_margin_move": [
+   "C17",
+   3.112899139523506e-05
+  ],
+  "other_margin_moves": {
+   "C17": 3.112899139523506e-05,
+   "C08": 2.0243169274181128e-07
+  }
+ },
+ "seconds": 36.0
+}

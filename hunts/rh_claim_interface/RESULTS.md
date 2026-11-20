@@ -776,8 +776,9 @@ title search returns first.
 - The first lesion run let the BLAS library use more than one core for about
   half a minute; later runs were pinned to one thread (`RUNS.md`).
 - `tests/test_hunt_probe_discipline.py::test_every_hunt_directory_is_covered_by_the_case_log`
-  fails until the case-log entry returned with this hunt is placed in
-  `hunts/README.md`, which this hunt may not edit.
+  failed until the case-log entry returned with this hunt was placed in
+  `hunts/README.md`, which this hunt may not edit. The entry was added the
+  same day when the hunt was landed, and the test passes.
 
 ## Review findings and dispositions
 
@@ -795,8 +796,8 @@ Where a reviewer's own detail did not reproduce exactly, that is said.
 | R1.4 | minor | three statements at `y = 1` were algebraic tautologies presented as calibration | the algebra `defect(1) = c0 - partial sum` | fixed: relabelled in item 3, section 3, section 5 and the doors; "calibrated to 30 digits by Arb" withdrawn; the tautological planted fault replaced |
 | R1.5 | minor | rivals: (2,1,3) missing; onset law quoted only where it fits; nonvanishing is not a hypothesis; the inequality is not "not shared by the rivals" | reading `zeta.epstein.battery`; `rivals.json`; `lemmaL.lean:18-19` | fixed: battery run on all four with (2,1,3) recorded as undefined; all three onsets printed with a measured attribution; hypothesis list restructured; checklist item 1 reworded |
 | R1.6 | minor | transcription: the `theta` gloss; unsigned `eD`, `eL`; `ramp` and `Deduction.Gchi` not quoted; "y" for an integer scan | reading `TopWin.lean:26-28` and `68-81`, `CharFamily.lean:10-19` and the three bridging statements | fixed: seven quotes and three glosses added to `transcription.json`, section 1 corrected, item 4 says integers |
-| R2.1 | minor | the pins were substring checks; ten altered numbers passed all 25 tests | altering the same kinds of number in a scratch copy of the first version: 25 passed | fixed: exact-count phrase pins and a mutation test over every pinned number; the test docstring now says what is and is not pinned |
-| R2.2 | minor | no test executed the Arb zero side; the Arb spot check is coarse; the `y = 1` ratio cannot fail | flipping the sign and dropping `T` inside `zeta_zero_side_arb` in the scratch copy: 25 passed; budget over defect 2510, 822, 97, 205 | fixed: a test now runs the route and plants faults at the Arb level; the resolution is printed next to the claim |
+| R2.1 | minor | the pins were substring checks; ten altered numbers passed all 25 tests | altering the same kinds of number in a scratch copy of the first version: 25 passed | fixed (in the second pass, P2.2): every numeric token of this file is listed with its exact count, computed from the data or frozen with a stated kind, and a mutation test changes each occurrence and requires a failure; new phrase pins for the frontier, the Epstein table and the reach; the test docstring now says what is and is not pinned |
+| R2.2 | minor | no test executed the Arb zero side; the Arb spot check is coarse; the `y = 1` ratio cannot fail | flipping the sign and dropping `T` inside `zeta_zero_side_arb` in the scratch copy: 25 passed; budget over defect 2510, 822, 97, 205 | fixed: a test now runs the route and plants faults at the Arb level (written in the second pass, P2.2); the resolution is printed next to the claim and pinned |
 | R2.4 | minor | the Epstein onset at 0.6 was quoted with its prediction, the one at 0.55 without | `rivals.json` | fixed with R1.5 |
 | R2.5 | minor | "written before the scaled runs" is not evidenced; no unit for two stages | the logs and the file times | downgraded in `RUNS.md`; review-round estimates were logged with a time stamp before each run |
 | R2.6 | minor | the closed-form reach (1170, 18.5) is loose by tens of percent | the prime side to `10^7`: a plant at 407 is flagged where the closed form gives 370 | fixed: section 6 and checklist item 3 reworded |

@@ -67,10 +67,10 @@ stays out of this file. No em dashes.
 - **Lean arm: formalised elementary number theory** (10). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
-- **Certificates, verifiers and exact arithmetic** (24). Exact rational acceptance of
+- **Certificates, verifiers and exact arithmetic** (26). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
-- **Zero-free half-planes, L(1, chi) and class numbers** (4). An explicit Littlewood
+- **Zero-free half-planes, L(1, chi) and class numbers** (5). An explicit Littlewood
   bound from a fixed zero-free half-plane, the exact sieve that spends it on complete
   class-number lists, a way to locate the inequality that fixes a paper's
   half-plane constant, and an exact function-field control for the Euler identities
@@ -80,7 +80,7 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (64). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (65). Surfaced by the sweep, below the bar for now.
 
 Totals: 194 entries from 76 hunts. Kinds: identity 24, lemma 48, bound 12, construction
 16, calibration 7, computational 22, control 43, obstruction 22. (Recounted from the
@@ -5917,6 +5917,61 @@ Why it travels: A directory rename strands citations in prose that no index read
 with one rule and no exceptions has nothing to rot, and the drift test stops it passing
 for the wrong reason.
 
+### Testing the readable statements of an untrusted formal archive: verbatim ledger, explicit Lean conventions, one-change mutants and a measured resolution
+
+control / computational technique | `hunts/rh_claim_statements` | grade: per statement as recorded (10 hardened complete covers, each resting on Arb plus one cited classical bound; 15 exact on a finite domain; 54 measured). The reading of the Lean text is at text level, with one independent second reading by review. Nothing was elaborated.
+
+When a long formal proof posted by someone else has not been kernel-checked, its statements written in the library's own vocabulary are cheap refutation targets, because a statement that is false as the prover reads it cannot be accepted by a kernel. The method has five steps:
+
+1. Extract each statement verbatim, from the declaration keyword to the first top-level `:=`, with its hash and its file's hash. Record the namespace, opens, variables, notation and global instances in force.
+2. Resolve every identifier to its definition site at the pinned library revision. Run a capture scan, which checks that no archive declaration, notation or instance can rebind a library name. Transcribe the statement with the prover's conventions written out: junk values, truncated subtraction, big-operator precedence, casts.
+3. Test each statement at the strongest available grade. Use exact arithmetic on finite domains. Use complete ball-arithmetic covers on compact domains, where Taylor models with a Cauchy remainder beat direct evaluation on wide balls by 5 to 50 times. On non-compact domains, use one cited classical bound, and have the test report that it covers the tail rather than letting the ledger assert it.
+4. Require the same test to reject, with a witness, a one-change mutant of each statement.
+5. After the run, weaken the sharp constants step by step through the same tests, to measure the resolution: what size of error the instrument can actually see.
+
+Step 5 corrected two overstatements here. The C15 strip edge was believed exact, but the test resolves it only to about 0.03 at height 200. A typed sentence called a true C17 mutant false.
+
+Evidence: RESULTS.md sections 1 to 6 and 11; `build_ledger.py` (extraction, resolution, capture), `runner.py` (the earned complete-cover grade), `review.py` (the resolution table); `test_rh_claim_statements.py`, which includes planted faults in every instrument and a planted silent check.
+Prior art: unsearched.
+Reused in: none yet.
+Why it travels: any unreviewed formal artifact (a Lean, Coq or Isabelle development) exposes some statements in its library's vocabulary. The method costs minutes of one core. It can only refute, never support, and the resolution step stops a passed test from being read as more than the instrument can see.
+
+### Replayable citations for a text-level reading of an unbuilt proof archive: every cited line range carries a sha256, and names are never evidence
+
+control | `hunts/rh_claim_atlas/` | grade: exact finite check (hash comparison of cited
+line ranges; each planted fault shown red on a fixture tree)
+
+When a large formal artifact arrives that cannot be built on day one (here 175,187 Lean
+files with no comments and machine-generated names), a reading of it is worth what a second
+reader can find again. The control has three parts. First, the reading document is the
+source of truth for what is cited: a citation is a backticked `path:first-last`, a displayed
+quote is a fenced block whose preceding line carries exactly one citation and whose text
+must equal the cited lines, and a builder turns the document into a ledger holding the
+sha256 of each cited range, refusing any block that differs from the tree. A test requires
+the citations of the document and the entries of the ledger to be equal as sets in both
+directions. Second, a standalone standard-library verifier recomputes every hash against any
+unpacked copy and exits non-zero on a changed line, a shifted line, a short or missing file,
+or a quote edited inside the ledger; a test plants each of these on a fixture tree. Third,
+earlier readers' notes are leads and names are never evidence: a claim is kept only if the
+lines are opened again. In this hunt that rule reversed three things a name or a
+recollection had suggested (a spine term that looked like an exponent 2/3 and is about the
+primes 2 and 3; a reported absence of any K-theory object that missed a 286-file directory;
+an import-edge count that counted repeated import lines). The ledger did not protect the
+readings built on the quotes: two reviewers found two sentences contradicted by archive text
+the first version had not opened, and both were withdrawn in place. After review the ledger
+holds 238 citations and an archive-gated test rebuilds the statistics table.
+
+Evidence: hunts/rh_claim_atlas/verify_quotes.py and make_quotes.py; hunts/rh_claim_atlas/test_rh_claim_atlas.py
+(the fixture tests and the two-way set equality); hunts/rh_claim_atlas/RESULTS.md, "Review findings and dispositions"
+Prior art: unsearched; hashing quoted source and checking quotations mechanically are
+standard ideas
+Reused in: none yet
+Why it travels: between the announcement of a formal proof and its kernel replay, a
+text-level reading is the only thing a lab has, and without a ledger it decays into
+recollection the first time scratch storage is swept. With one, a pass says exactly one
+thing, that the cited text is what was read; it says nothing about whether the reading
+follows from it, which is what the review is for.
+
 ## Zero-free half-planes, L(1, chi) and class numbers
 
 ### Two-cutoff Littlewood bound for log L(1, chi) under a zero-free half-plane, with Hadamard positivity for the zero sum
@@ -6046,6 +6101,38 @@ Reused in: none yet
 Why it travels: any proposed Euler factorization of a Gauss-sum or theta-twisted series can be
 put through an exact finite test before its analytic consequences are priced, and three
 primes refute one cheaply.
+
+### Euler-product completeness sweep for a class-number list (a detector, sharing no code with the list)
+
+computational | `hunts/grh_class_number` | grade: a cross-check, not a bound; PARI
+`qfbclassno` is the second opinion, not an oracle of record
+
+For every fundamental -n in a range, `lsieve.c` sieves the fundamental
+discriminants itself, in three progressions with odd-square sieving, and
+estimates h(-n) by sqrt(n)/pi times the Euler product over p <= P, using
+cached periodic patterns of -log(1 - chi(p)/p) per prime. Every n whose
+estimate is at most H e^tol must either be listed with a class number within
+e^(+-tol), or is sent to PARI. A PARI class number <= H for an unlisted n is
+a missing field. A listed n outside tolerance, or not flagged at all, is
+checked too. Settings were P = 20 000 and tol = 2.5% below 3 * 10^9, and
+P = 3000 and tol = 6% above. Over all 4.98 * 10^9 fundamental discriminants
+below 1.64 * 10^10 for H = 5000 it took about 30 CPU-minutes, about half of
+that in PARI on 5.36 * 10^6 candidates, and found no missing field and no
+wrong class number. The sweep catches a dropped field at any h, which
+matters where no published table exists (even h above 2000). It cannot see a
+class number wrong by less than the tolerance, or a field whose truncated
+product overshoots its true class number by more than e^tol beyond H. The
+companion test plants both cases and names them.
+
+Evidence: RESULTS.md sections 6 and 9; `sweep.py`; `lsieve.c`;
+`controls_sweep.json`; `test_grh_class_number.py`
+Prior art: truncated Euler products as class-number estimators are classical;
+unsearched as a completeness control
+Reused in: none yet
+Why it travels: any complete list of arithmetic objects indexed by a
+discriminant, with a fast analytic estimate of the counted quantity, gets a
+full-range completeness check that is independent of the program that made
+the list, at the cost of PARI on the near-threshold candidates.
 
 ## Primes in short intervals and explicit formulas
 
@@ -6391,3 +6478,11 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   case whose answer is proved must come back at scale 1 first. A scale-0 verdict at solver
   tolerance leaves the question undecided rather than answered
   (`hunts/frontier_math/sparse_sdp.py`, control): measured; used only inside its hunt.
+- Exact tail budget for a truncated zero sum from a closed-form constant: in the identity
+  G(y) = sum_rho y^rho/(rho(1-rho)) + log 2pi + T(y) (Ramare, Acta Arith. 211 (2023),
+  Lemma 2.1, times y) the weights sum to c0 = 2 + gamma - log 4pi, so (c0 - partial sum)
+  sqrt(y) bounds the truncation with no density estimate when the unlisted zeros are on the
+  line, and the same number checks the zero list for a missing zero. The value at y = 1
+  calibrates nothing: defect equals budget there for any zero list
+  (`hunts/rh_claim_interface/`, technique): measured, float grade, Arb deciding the coarse
+  inequality at four points; used only inside its hunt.

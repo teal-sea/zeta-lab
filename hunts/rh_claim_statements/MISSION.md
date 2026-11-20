@@ -19,8 +19,11 @@ entirely in Mathlib's vocabulary: bounds for zeta on a circle, explicit
 Chebyshev constants, point counts on quadrics over finite fields, explicit
 primes. A statement that is false as Lean reads it cannot be accepted by a
 kernel. So each readable statement is a cheap test of the whole claim, and
-each survivor is a fact this lab has checked by a route that shares nothing
-with the archive.
+each survivor is a fact this lab has checked by its own code, sharing no code
+with the archive. Shared mathematics is another matter: where a check rests on
+a classical theorem that the archive's proof also uses (Euler's formula for
+C11 and C79, the reflection formula for C14, the functional equation for C04),
+the claim's route says so (amended after review, RESULTS.md section 11).
 
 The question is narrow: **do these statements survive independent exact and
 ball-arithmetic testing?** A survivor says nothing about the main claim. A true

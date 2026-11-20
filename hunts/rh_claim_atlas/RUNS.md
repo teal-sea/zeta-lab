@@ -213,13 +213,13 @@ artifacts:
 ```runmanifest
 id: rh_claim_atlas-2026-11-20-recount-deterministic
 hunt: rh_claim_atlas
-started: RECOUNT5_STARTED
-finished: RECOUNT5_FINISHED
+started: 2026-11-20T20:26:20+00:00
+finished: 2026-11-20T20:30:14+00:00
 ran:
   - .venv/bin/python -I hunts/rh_claim_atlas/recount.py ARCH --out SCRATCH/recount5.json (the arguments recorded in stats.json, recount_arguments)
   - .venv/bin/python -I hunts/rh_claim_atlas/build_stats.py SCRATCH/recount5.json SCRATCH/ledger.json
   - .venv/bin/python -I hunts/rh_claim_atlas/build_stats.py SCRATCH/recount5.json SCRATCH/ledger.json --check
-outcome: RECOUNT5_OUTCOME
+outcome: the first attempt, started 18:21 by the first repair pass, was cut off by a usage limit and left stats.json with ties at the cut of import_closures broken by the set order of an older process; a full archive-gated run at 20:21 duly failed in that one field (31 passed, 1 failed). The second repair pass reran the recount and the ledger count (234 s together), rebuilt stats.json and checked it; only the by_depth3_dir lists of four closures changed, in entries tied at the cut; every module count and line count is unchanged and no directory name that changed is printed in ATLAS.md or RESULTS.md
 artifacts:
   - hunts/rh_claim_atlas/stats.json
 ```
@@ -227,13 +227,13 @@ artifacts:
 ```runmanifest
 id: rh_claim_atlas-2026-11-20-tests-revision
 hunt: rh_claim_atlas
-started: TESTS_STARTED
-finished: TESTS_FINISHED
+started: 2026-11-20T20:30:35+00:00
+finished: 2026-11-20T20:34:28+00:00
 ran:
   - RH_CLAIM_ARCHIVE=ARCH RH_CLAIM_MATHLIB=MATHLIB RH_CLAIM_RECOUNT=1 .venv/bin/python -m pytest -q -n0 hunts/rh_claim_atlas
   - .venv/bin/python -m pytest -q -n0 hunts/rh_claim_atlas
   - .venv/bin/python -m pytest -q -n0 tests/test_hunt_probe_discipline.py tests/test_huntspec.py
-outcome: TESTS_OUTCOME
+outcome: with the archive and the recount, 33 passed in 233 s, the recount run in a fresh process, so the tie-break no longer depends on set order; without the archive, 30 passed and 3 skipped (the three archive-gated tests); of the shared tests, test_huntspec passes and test_hunt_probe_discipline fails only in test_every_hunt_directory_is_covered_by_the_case_log, as disclosed
 artifacts:
 ```
 

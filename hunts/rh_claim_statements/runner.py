@@ -1,7 +1,7 @@
 """Run every test of claims.json, and every mutant, and write results.json.
 
     .venv/bin/python -m hunts.rh_claim_statements.runner                 # the recorded run
-    .venv/bin/python -m hunts.rh_claim_statements.runner --level fast --out /tmp/fast.json
+    .venv/bin/python -m hunts.rh_claim_statements.runner --level fast --out SCRATCH/fast.json
     .venv/bin/python -m hunts.rh_claim_statements.runner --prec-scale 2 --out hunts/rh_claim_statements/results_prec2.json
     .venv/bin/python -m hunts.rh_claim_statements.runner --only C01,C21
 
@@ -10,6 +10,10 @@ False: a rigorous counterexample; None: undecided somewhere), the grade, the
 margin, the tightest point, the smallest constant the test would still accept
 (`sharp_constant`) and the slack. A mutant's record carries `rejected`, which
 is True only when the same test returns a rigorous counterexample for it.
+
+A claim the ledger grades `complete_cover` keeps that grade only if its test returns
+`tail_covered` True (for a compact domain: the whole domain is covered); otherwise
+it is recorded as `measured_range`.
 
 The archive is not needed and not touched: everything comes from claims.json.
 """
@@ -68,7 +72,9 @@ def run_claim(claim, level="full", with_mutants=True):
     else:
         r = run_check(claim["test"]["fn"], params)
         grade = claim["grade_if_it_holds"] if r["holds"] is True else None
-        if grade == "complete_cover" and r.get("tail_covered") is False:
+        # a complete cover must be earned by the test: it has to report that every point of the stated
+        # domain outside its computed cover is accounted for (tail_covered True); anything else downgrades
+        if grade == "complete_cover" and r.get("tail_covered") is not True:
             grade = "measured_range"
         rec = dict(id=claim["id"], name=claim["name"], topic=claim["topic"], grade=grade, **r)
     if with_mutants:

@@ -2,8 +2,9 @@
 
 Opened 2026-11-20. Status: built the same day, attacked by two reviewers
 and revised the same day; text-level reading, nothing promoted. The number
-#160 is provisional: the case log in `hunts/README.md` is a shared file this
-hunt may not edit, and it has no entry for this hunt yet.
+#160 was provisional while the hunt was being built, because the case log in
+`hunts/README.md` is a shared file this hunt may not edit. The entry was added
+the same day when the hunt was landed.
 
 Review met the second kill condition below for two sentences of the first
 version: a reading contradicted by archive text (ATLAS S4, on the ledger,
