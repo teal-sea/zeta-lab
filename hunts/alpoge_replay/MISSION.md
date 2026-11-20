@@ -33,7 +33,7 @@ Text-level facts, read on 2026-11-20 from the joined archive
 | not in it | Dedekind zeta functions (the note says the extended hypothesis is expected, not done) |
 | words absent from every file | `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`, `implemented_by`, `extern`, `#eval`, `skipKernelTC` |
 | notation | 1,722 declarations, every one `local` or `scoped`; none can reach `Main.lean` |
-| metaprogramming | five `run_cmd` lines that add names to a suggestion deny-list; three small elaborators (`kexactB`, `kcopy`, `cpt_copy_thms`) and two unification hints, used in about fifty files, all of which hand a term to the kernel without the elaborator's own check |
+| metaprogramming | five `run_cmd` lines that add names to a suggestion deny-list; three small elaborators (`kexactB`, `kcopy`, `cpt_copy_thms`) and two unification hints, all of which hand a term to the kernel without the elaborator's own check. `kexactB` is reached on 469 lines in 72 files once its five macros (`kc%`, `kq%`, `kd%`, `tr_via`, `tr_clause`) are counted; `kcopy` appears in 4 files and `cpt_copy_thms` in 2. This row first said about fifty files, which counted the literal name only; the count of 72 came from the readers of hunt #160 and was confirmed here |
 
 The last row matters for what a replay means. In those files the elaborator is
 bypassed on purpose and the kernel is the only checker.
