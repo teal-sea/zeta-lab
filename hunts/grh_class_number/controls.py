@@ -543,31 +543,32 @@ def pari(outdir: Path):
                45 * 10**8, 7 * 10**9, 9 * 10**9, 11 * 10**9, 13 * 10**9, X - 3000]
     W = 3000
     n_random, bad_random, n_win, bad_win, win_listed = 0, [], 0, [], 0
+    listed = {w: {} for w in windows}                 # a window may cross a chunk boundary
     for lo, hi, mode, a0, _ in cs:
         path = search.chunk_path(outdir, lo, hi)
-        need = [w for w in windows if lo <= w <= hi]
-        take = 4
-        raw_empty = path.stat().st_size == 0
-        arr = (np.zeros((0, 2), dtype=np.int64) if raw_empty
-               else np.fromfile(path, dtype=np.int64, sep=' ').reshape(-1, 2))
-        if len(arr):
-            for i in rng.sample(range(len(arr)), min(take, len(arr))):
-                n, h = int(arr[i, 0]), int(arr[i, 1])
-                n_random += 1
-                if pari_h(n) != h:
-                    bad_random.append((n, h))
-        for w in need:
-            assert w + W <= hi, 'window crosses a chunk'
-            listed = {int(n): int(h) for n, h in arr[(arr[:, 0] >= w) & (arr[:, 0] <= w + W)]}
-            win_listed += len(listed)
-            for n in range(w, w + W + 1):
-                if not is_fund(n):
-                    assert n not in listed
-                    continue
-                n_win += 1
-                hp = pari_h(n)
-                if (listed.get(n) != hp) if hp <= H else (n in listed):
-                    bad_win.append((n, hp, listed.get(n)))
+        if path.stat().st_size == 0:
+            continue
+        arr = np.fromfile(path, dtype=np.int64, sep=' ').reshape(-1, 2)
+        for i in rng.sample(range(len(arr)), min(6, len(arr))):
+            n, h = int(arr[i, 0]), int(arr[i, 1])
+            n_random += 1
+            if pari_h(n) != h:
+                bad_random.append((n, h))
+        for w in windows:
+            if w <= hi and w + W >= lo:
+                sel = arr[(arr[:, 0] >= w) & (arr[:, 0] <= w + W)]
+                listed[w].update({int(n): int(h) for n, h in sel})
+    for w in windows:
+        assert w >= 3 and w + W <= X
+        win_listed += len(listed[w])
+        for n in range(w, w + W + 1):
+            if not is_fund(n):
+                assert n not in listed[w]
+                continue
+            n_win += 1
+            hp = pari_h(n)
+            if (listed[w].get(n) != hp) if hp <= H else (n in listed[w]):
+                bad_win.append((n, hp, listed[w].get(n)))
     # (iii) just above D_GRH(h): no class number <= h
     above = {}
     for h in (1, 2, 3, 10, 100, 500, 1000, 2000, 3000, 4000, 5000, 10000):

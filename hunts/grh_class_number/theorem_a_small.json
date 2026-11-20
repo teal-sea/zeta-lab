@@ -1,0 +1,17 @@
+{
+ "range": [
+  3,
+  3000000
+ ],
+ "fundamental_discriminants": 911878,
+ "largest_class_number": 3464,
+ "discriminants_with_L_loglog_below_one_third": [
+  3,
+  4
+ ],
+ "min_L_loglog_from_7": 0.40060309084631673,
+ "attained_at_absD": 163,
+ "sha256_list": "dfe9943a21db17ade031ac4d3f1920b8648f29f8972f131093c25866b3d387a1",
+ "sibling_sha256_full_list": "dfe9943a21db17ade031ac4d3f1920b8648f29f8972f131093c25866b3d387a1",
+ "equal_to_sibling_full_list": true
+}

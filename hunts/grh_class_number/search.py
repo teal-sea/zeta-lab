@@ -141,6 +141,27 @@ def read_stats(path: Path):
     return st, hist
 
 
+def count_fundamental(lo: int, hi: int) -> int:
+    """Number of n in [lo, hi] with -n a fundamental discriminant (numpy sieve)."""
+    if hi < lo:
+        return 0
+    n = np.arange(lo, hi + 1, dtype=np.int64)
+    ok = np.ones(len(n), dtype=bool)
+    r = int(math.isqrt(hi))
+    small = np.ones(r + 1, dtype=bool)
+    small[:2] = False
+    for p in range(2, int(r**0.5) + 1):
+        if small[p]:
+            small[p * p::p] = False
+    for p in np.nonzero(small)[0].tolist():
+        if p == 2:
+            continue
+        p2 = p * p
+        ok[(-lo) % p2::p2] = False
+    r16 = n % 16
+    return int(np.count_nonzero(ok & ((n % 4 == 3) | (r16 == 4) | (r16 == 8))))
+
+
 def _digest_rows(n: np.ndarray, h: np.ndarray) -> bytes:
     return ''.join(f'{a} {b}\n' for a, b in zip(n.tolist(), h.tolist())).encode()
 
@@ -234,6 +255,13 @@ def summarise(H: int, X: int, outdir: Path):
             x_ctrl = c['q_hi']
         else:
             break
+    n_all = 0
+    for lo, hi, mode, a0, _ in cs:
+        if hi <= x_ctrl:
+            n_all += read_stats(chunk_path(outdir, lo, hi))[0]['fundamental']
+        elif lo <= x_ctrl:
+            n_all += count_fundamental(lo, x_ctrl)
+    n_all -= count_fundamental(3, cell_first - 1)
     k_w = bisect.bisect_left(cell_hi.tolist(), worst[1])
     summary = {
         'H': H, 'X': X, 'chunks': len(cs),
@@ -249,8 +277,8 @@ def summarise(H: int, X: int, outdir: Path):
         'max_absD_by_h': {str(h): int(maxn[h]) for h in range(1, H + 1)},
         'max_squarefree_k_by_h': {str(h): int(maxk[h]) for h in range(1, H + 1)},
         'max_absD_overall': int(maxn.max()),
-        'chunk_cpu_seconds_by_zone': {k: round(v, 1) for k, v in zone_seconds.items()},
-        'chunk_cpu_seconds_total': round(sum(zone_seconds.values()), 1),
+        'chunk_wall_seconds_by_zone': {k: round(v, 1) for k, v in zone_seconds.items()},
+        'chunk_wall_seconds_total': round(sum(zone_seconds.values()), 1),
         'cn_c_sha256': hashlib.sha256((SIBLING / 'cn.c').read_bytes()).hexdigest(),
         'cnx_c_sha256': hashlib.sha256(SRC.read_bytes()).hexdigest(),
     }
@@ -264,7 +292,7 @@ def summarise(H: int, X: int, outdir: Path):
                          'L_lower_bound': cells[k_w]['L_lower']},
         'margin_histogram_bins_of_0.05_from_1': margins_hist.tolist(),
         'all_discriminants_range': [cell_first, x_ctrl],
-        'all_discriminants_count': None,
+        'all_discriminants_count': n_all,
         'all_discriminants_note': 'for |D| <= x_ctrl an unlisted fundamental discriminant has h > H while '
                                   'sqrt|D| * bound / pi <= H, so the bound holds there too',
     }

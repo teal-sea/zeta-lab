@@ -99,15 +99,39 @@ The sibling hunt's door analysis predicted a factor "about 8".
 |D| > 16 396 235 837, the imaginary quadratic fields of class number h are
 exactly those found by the search of section 5, for every h <= 5000:
 
-@@COROLLARY@@
+- there are 102 746 940 fields in all; the largest discriminant is
+  D = -6 912 348 787 (h = 4967); every h <= 5000 occurs; 9 681 947 of the
+  fields have odd class number and 93 064 993 even;
+- 86 293 447 of them have 2000 < h <= 5000, beyond every complete list found
+  in the literature (section 7);
+- for h <= 2000 the list has 16 453 493 fields, the largest
+  D = -1 062 350 083, the same count and the same largest discriminant as
+  the GRH list of Garcia, Grenie, Lee and Molteni, in each of the 20 rows of
+  their table;
+- for every odd h < 5000 the count equals the GRH-conditional count of
+  Holmin and Kurlberg (2500 values of h, computed by a different method);
+- for h <= 1500 the list is line for line the sibling hunt's list under the
+  7/8 half-plane (same sha256), and for h <= 100 it is Watkins'.
+
+The full list is reproducible with
+`python -m hunts.grh_class_number.search run 5000 16396235837 OUTDIR` and
+`... summarise 5000 16396235837 OUTDIR`; its sorted text ("|D| h" per line,
+1.5 GB) has sha256
+`7bc67e064addc52f724682806b42894e8267556a4a949b7918edfd106ae6b421`. The
+sub-lists have sha256 `07100ea3589ab2b490122fa69b438cd5393bdcd2e547dfc29bb3b5c86f9f24c0`
+(h <= 2000), `c373d7c67bbecb922878481c50e6273f03ed07b93fc968a458bb0bf5389ee101`
+(h <= 1500) and `075a201c8e7cce6c0b6013423a5d96c6308452afab2fa79882388fc46d8b0c45`
+(h <= 1000); the last two are the sibling hunt's hashes. The counts F(h), the
+largest |D| and the largest squarefree k for each h are in
+`search_H5000.json`.
 
 ## 2. The proof audit at sigma0 = 1/2
 
 The sibling's proof (its RESULTS.md, section 2) is written for a general
 abscissa sigma0 with eps0 = 1 - sigma0, and its code takes sigma0 as a
-parameter. A parameter that was only ever exercised at 7/8 is not a proof at
-1/2, so every step is restated here for sigma0 = 1/2, with what it uses and
-what was checked. Verdict first:
+parameter. A parameter that was exercised at 1/2 only as one calibration row
+is not a proof at 1/2, so every step is restated here for sigma0 = 1/2, with
+what it uses and what was checked. Verdict first:
 
 | step | uses | where sigma0 enters | at sigma0 = 1/2 |
 | --- | --- | --- | --- |
@@ -160,8 +184,9 @@ side minus the prime sum, computed from the exact class number, was compared
 with the signed zero expression for E computed from the zeros of
 L(s, chi_D) given by PARI `lfunzeros` up to height 100 to 400. The defect is
 at most 7 * 10^-6, below the estimated truncation tail (2 * 10^-4 to
-10^-3) and far below the trivial-zero term (about 10^-4 at y = 31), so both
-signs and the trivial zeros are confirmed (`controls_zero_term.json`).
+10^-3) and below the trivial-zero part of E (1.3 to 2.5 * 10^-5; at
+D = -163 the defect is eight times smaller than it), so the signs of both
+sums are confirmed (`controls_zero_term.json`, table in section 6).
 
 **(2.3) Positivity.** With xi(s, chi) = (q/pi)^((s+1)/2) Gamma((s+1)/2)
 L(s, chi), Hadamard's product and Re B(chi) = -sum_rho Re(1/rho) give, for
@@ -217,8 +242,8 @@ series with nonincreasing terms), where it is at least
 a_4 = 1/(4p^4) for p^4 <= y, a_3 <= 1/(3p^3), a_5 <= 1/(5p^5); and
 sum_p w(p)/p = (1/(b-a)) int_a^b S(e^u) du. This is M(a, b). *Audit:* no
 sigma0, no zeros. *Measured:* the true prime sum exceeds M at all seven
-characters, by 0.23 at the extremal discriminants and by 2.4 to 3.0 at the
-two with large class number.
+characters, by 0.23 to 0.27 at the three extremal discriminants and by 2.4
+to 3.0 at the two with large class number.
 
 **(2.6) Evaluation.** As in the sibling's (2.6), through its `lbound.py`
 unchanged: prime sums exact below 10^7 and Rosser-Schoenfeld above; both
@@ -227,9 +252,10 @@ integrals in R as upper Riemann sums on a fixed rational grid, valid because
 sum_p log p / (p^sigma + 1) is decreasing; the tail u >= 6 in closed form.
 *Audit:* the monotonicity of the weights holds for every eps0 > 0. Two
 guards of the code, harmless at 7/8, now bind, and both cost sharpness and
-never validity: the split point is restricted to delta <= 1/2 (binding on
-the 8 cells with q <= 108), and the lower cutoff to y > 30 (binding on 1311
-cells, up to q = 7.0 * 10^7, where the optimiser would take y smaller).
+never validity: the split point is restricted to delta <= 1/2 (the
+optimiser sits on that cap on the 8 cells with q <= 115), and the lower
+cutoff to y > 30 (it sits on that floor on 1311 cells, up to
+q = 7.0 * 10^7).
 The float optimiser was started from five different points at nine values
 of q between 10^3 and 10^12: the default start gave the best value every
 time (two other starts stalled 0.002 and 0.006 lower in log L at 10^8 and
@@ -239,8 +265,8 @@ Typical parameters at 1/2 (verified cells): at q = 10^9, y = e^3.54 = 34,
 x = e^7.48 = 1770, delta = 0.2245, M = -1.8075, E = 0.2683,
 L(1, chi) >= 0.12545; at q = 1.64 * 10^10, y = e^3.9, x = e^7.7,
 M = -1.8505, E = 0.2448, L >= 0.12304. At 7/8 the same q needed
-x = e^23. The cutoff is now a power of log q near 2.4, as Littlewood's
-argument says it should be near 2.
+x = e^23. The cutoff is now (log q)^2.45; Littlewood's argument puts it
+near (log q)^2.
 
 ## 3. Proof of Theorem C
 
@@ -303,16 +329,17 @@ side is 0.65).
 be: the zero term is of order 1/(eta a^2) and a is 2 log log q instead of
 8 log log q. At 10^50 it costs 0.057 in log L, and with kappa = 0.116 the
 constant is 0.3857, which is 83.5% of Littlewood's limit 0.4618; at
-Q1 = 10^200 the same family gives 0.3973 (measured in Arb, not used).
+Q1 = 10^200 the family with delta = 1/25 gives 0.3973 (computed in Arb
+while choosing the parameters; not committed, not used).
 
 ## 5. The class-number computation
 
 Exact integer arithmetic, no GRH, no floating point in any decision.
 
 **Why not the sibling's program as it stands.** `cn.c` was timed first at
-H = 5000 (RUNS.md): 23.6 s per 10^6 of range at 5 * 10^8, more than 20
-CPU-hours for the whole range. Its streamed filter was tuned for H <= 1500,
-and every listed field pays a scalar exact count of 40 to 110 microseconds;
+H = 5000 (RUNS.md): 23.6 s per 10^6 of range at 5 * 10^8 and 17.5 at
+2 * 10^9, more than 20 CPU-hours for the whole range. Its streamed filter was tuned for H <= 1500,
+and every listed field pays a scalar exact count of 10 to 110 microseconds;
 at H = 5000 the list has 10^8 fields. `cnx.c` keeps the arithmetic and
 replaces the driver: it includes `cn.c` unchanged (its `build_pattern`,
 `chi`, `r_of`, `exact_h` are the sibling's own code) and adds three things.
@@ -344,8 +371,9 @@ replaces the driver: it includes `cn.c` unchanged (its `build_pattern`,
 
 **Checks of the new driver.** Mode 1 against brute-force reduced-form
 counting for every fundamental |D| <= 6000; mode 1 output byte-identical to
-`cn.c` output on [3, 2 * 10^6], [10^7, 1.2 * 10^7], [10^8, 1.02 * 10^8] and
-[5 * 10^8, 5.2 * 10^8] (2 877 575 fields); every mode 1 class number against
+`cn.c` output on [3, 2 * 10^6], [10^7, 1.2 * 10^7], [10^8, 1.02 * 10^8],
+[5 * 10^8, 5.2 * 10^8] and [2 * 10^9, 2.02 * 10^9] (2 946 395 fields); every
+mode 1 class number against
 `exact_h` on four windows up to 2.9 * 10^9 (212 769 discriminants,
 `CNX_CHECK_FULL=1`); mode 1 against mode 0 on [3 * 10^9, 3.002 * 10^9]
 (byte-identical, 1019 fields); 28 496 sampled streamed counts in four
@@ -353,12 +381,50 @@ windows between 3.2 * 10^9 and 1.4 * 10^10 recomputed with Jacobi symbols
 and no patterns (`CNX_CHECK_STREAM`). The completed run is then checked
 against every outside table (section 6).
 
-@@RUN@@
+**The run** (`search.py run 5000 16396235837`, three workers, 42.6 minutes
+of wall clock, 1.69 CPU-hours against an estimate of 1.81 written before
+launch): 194 chunks, every one a checkpoint. 4 983 858 175 fundamental
+discriminants with |D| <= D_GRH(5000) = 16 396 235 837. Below 3 * 10^9
+(60 chunks, mode 1) every class number was computed and 102 516 219 are at
+most 5000. Above (134 chunks, mode 0) 881 843 discriminants survived the
+filter and 230 721 of them have h <= 5000. The summary recounts everything
+from the list files with numpy, independently of the C program's own
+histogram, and the two agree.
+
+| h range | fields | largest abs(D) | its h | D_GRH(h_max) | D_GRH(h_max) / largest |
+| --- | --- | --- | --- | --- | --- |
+| h <= 100 | 42 272 | 2 383 747 | 98 | 5 554 909 | 2.33 |
+| h <= 200 | 167 157 | 8 377 363 | 198 | 23 048 174 | 2.75 |
+| h <= 500 | 1 028 749 | 55 171 603 | 494 | 151 139 146 | 2.74 |
+| h <= 1000 | 4 115 897 | 227 932 027 | 996 | 620 886 399 | 2.72 |
+| h <= 1500 | 9 245 562 | 562 394 347 | 1489 | 1 432 212 849 | 2.55 |
+| h <= 2000 | 16 453 493 | 1 062 350 083 | 1978 | 2 576 135 045 | 2.42 |
+| h <= 2500 | 25 708 497 | 1 595 778 787 | 2496 | 4 071 475 474 | 2.55 |
+| h <= 3000 | 36 993 853 | 2 562 211 723 | 2976 | 5 767 663 399 | 2.25 |
+| h <= 3500 | 50 299 869 | 3 495 584 467 | 3477 | 7 930 195 043 | 2.27 |
+| h <= 4000 | 65 772 833 | 4 522 161 403 | 3996 | 10 374 351 574 | 2.29 |
+| h <= 4500 | 83 205 069 | 5 683 027 267 | 4465 | 13 172 673 663 | 2.32 |
+| h <= 5000 | 102 746 940 | 6 912 348 787 | 4967 | 16 396 235 837 | 2.37 |
+
+The last column is the price of the analytic bound: the search goes about
+2.4 times further than the last field it finds. Under the 7/8 half-plane
+that factor was 24.
 
 ## 6. Controls
 
 **(a) The bound against exact L(1, chi_D). Any violation kills the hunt.**
-@@CONTROL_A@@
+For every listed field with |D| >= 100 (102 746 909 fields) the exact
+L(1, chi_D) = pi h / sqrt|D| was compared with the Arb-enclosed lower bound
+of the `dtable_grh.json` cell containing |D|. No violation. The smallest
+ratio exact / bound is **1.449**, at D = -6 623 767 483 (h = 4656,
+L = 0.17973 against the bound 0.12402); one field is below 1.45, 20 are
+below 1.50 and 472 below 1.60 (`controls_exact_l.json`). And because every
+unlisted fundamental discriminant below 16 233 896 868 has h > 5000 while
+sqrt|D| * bound / pi is at most 5000 there, the bound holds at **every one
+of the 4 934 512 971 fundamental discriminants with
+100 <= |D| <= 16 233 896 868**, not only at the listed ones. Under the 7/8
+half-plane the same control had a margin of 3.9; at 1/2 it has 1.45, so it
+is a much sharper test of the proof than it was, and it passes.
 
 **The two halves separately, against real zeros** (`controls_zero_term.json`;
 measured, not an enclosure). The composite control (a) cannot tell a bound
@@ -434,10 +500,36 @@ points) the three values at 1/2, 3/4 and 7/8 are strictly ordered, as
 R(t, delta) decreasing in eps0 requires.
 
 **(d) A planted fault** (`controls_fault.json`).
-@@CONTROL_D@@
+The zero term was given the wrong sign, exp(M + E) in place of exp(M - E),
+and the result compared with the exact L(1, chi_D) at the largest |D| of
+every h <= 5000. With the fault 2724 of the 5000 values fall below the
+"bound" (the clearest: D = -3 416 131 987, h = 3377, L = 0.18152 against
+0.21185, recomputed in Arb); without it none does. The control goes red. A
+second plant, on the search side: removing one field with h = 4999 from the
+counts is caught by the Holmin-Kurlberg comparison (a test).
 
 **Class numbers.**
-@@CONTROL_CN@@
+`crosschecks.json`, `controls_pari.json`, `theorem_a_small.json`.
+
+| against | what | result |
+| --- | --- | --- |
+| sibling hunt, H = 1500 run to 1.24 * 10^10 | all 1500 counts and largest abs(D); sha256 of the h <= 1500, h <= 1000 and h <= 100 lists | identical |
+| sibling hunt, every abs(D) <= 3 * 10^6 | the 911 878 class numbers, as one sha256 | identical |
+| Watkins (OEIS A046125, A038552) | 100 counts and largest squarefree k | identical (42 272 fields) |
+| Holmin and Kurlberg, GRH | F(h) for all 2500 odd h < 5000 | identical (9 681 947 fields, 8 686 050 of them with h > 1500) |
+| Garcia, Grenie, Lee, Molteni, GRH | 20 cumulative counts and largest discriminants, h <= 100, ..., 2000 | identical (16 453 493 fields) |
+| Cremona and Sutherland, GRH | 4 115 897 fields with h <= 1000, largest 227 932 027 (h = 996) | identical |
+| PARI `qfbclassno` | the largest abs(D) of every h <= 5000 | 5000 of 5000 agree |
+| PARI | 577 random list entries | all agree |
+| PARI | every fundamental abs(D) in 13 windows of width 3000 from 2 * 10^6 to the end of the range, one across the mode switch at 3 * 10^9 (11 856 discriminants, 2051 of them listed) | the same fields with the same h |
+| PARI | the 600 fundamental abs(D) just above D_GRH(h), h = 1, 2, 3, 10, 100, 500, 1000, 2000, 3000, 4000, 5000, 10 000 | no class number <= h (smallest above D_GRH(5000): 11 082) |
+
+The sibling's lists were computed by a different program path (its scalar
+exact count on every survivor), the Holmin-Kurlberg and Garcia-Grenie-Lee-
+Molteni tables by PARI on other machines. The Garcia-Grenie-Lee-Molteni and
+Cremona-Sutherland numbers are transcriptions from this workflow's
+literature notes, not re-read here. For even h between 2002 and 5000 no
+outside table exists: see section 8.
 
 ## 7. The delta against the literature
 
@@ -466,7 +558,7 @@ and are quoted here from its notes; this hunt did not re-read them. Watkins
   **This is the published frontier found for complete lists over all h.**
   *Delta:* the cutoffs here are 399, 5 554 909 and 2 576 135 045 (4.0, 3.4
   and 3.2 times smaller); the lists here go on to h = 5000
-  (@@N5000@@ fields against their 16 453 493, so @@NABOVE@@ fields with
+  (102 746 940 fields against their 16 453 493, so 86 293 447 fields with
   2000 < h <= 5000); the class numbers here come from exact reduced-form
   counting, which assumes nothing; and all 20 rows of their Table 1 (count
   and largest discriminant for h <= 100, 200, ..., 2000) are reproduced
@@ -485,8 +577,9 @@ and are quoted here from its notes; this hunt did not re-read them. Watkins
 - **Holmin, Jones, Kurlberg, McLeman, Petersen**, arXiv:1510.04387 (notes):
   F(h) for every odd h < 10^6 under GRH, used twice (the cutoff, and PARI's
   `quadclassunit0`). *Delta:* all 2500 odd h < 5000 agree (9 681 947
-  fields), 1750 of them beyond the sibling hunt's range, by a computation
-  that uses GRH only for the cutoff; and this hunt adds every even h.
+  fields; 1750 of those values of h are beyond the sibling hunt's range),
+  by a computation that uses GRH only for the cutoff; and this hunt adds
+  every even h.
 - **Watkins (2004)** (secondary): the unconditional lists for h <= 100.
   Reproduced (42 272 fields, all 100 counts and largest discriminants).
 - **`hunts/qrh_class_number`** (this lab, 2026-10-08): the 7/8 half-plane,
@@ -522,7 +615,7 @@ stated at the top, and pending external review.
   and does not prove it has all of them.
 - **Orders and group structures.** Only fundamental discriminants (maximal
   orders) and only class numbers, not class-group structures.
-- **The full lists are not committed** (about 1.6 GB); their sha256 and the
+- **The full lists are not committed** (1.5 GB); their sha256 and the
   commands that regenerate them are.
 - **The literature was not re-read here**, and the Mosunov-Jacobson data
   and the Molteni data file were not downloaded.
@@ -546,28 +639,29 @@ fits it, not at a mathematical wall. What binds, and what would move it:
    majorant. (c) The worst-case prime sum M, which lets chi(p) = -1 at every
    prime up to x = 2200: at the extremal discriminants the true prime sum is
    0.23 above M, a factor 1.26 in L and 0.63 in D. (b) and (c) together are
-   the whole measured margin, L_exact / L_bound = @@WORST@@ at worst, and
+   the whole measured margin, L_exact / L_bound = 1.449 at worst, and
    they are about equal. (d) On the computation side the cost grows like
    H^3: mode 1 like X^(3/2), the filter like X * H. H = 5000 cost
-   @@CPU@@ CPU-hours; H = 10 000 (X = 6.7 * 10^10) extrapolates to about 8
+   1.7 CPU-hours; H = 10 000 (X = 6.7 * 10^10) extrapolates to about 8
    times that.
 2. **Frozen-constant inventory.** sigma0 = 1/2 (the hypothesis; cannot
    move). The trapezoid weight with two cutoffs (a genuine trade: more
-   cutoffs spread the y-term of E, which is 90% of E, at a cost in M). The
-   guards y > 30 and delta <= 1/2 of the sibling's `lbound.py`, which now
-   bind for q <= 7.0 * 10^7 and q <= 108 (genuine trade for small h only:
-   they are why D_GRH(1) = 399 and not lower; not relaxed because the
+   cutoffs spread the y-term of E, which is 81 to 92% of E at the sampled
+   characters, at a cost in M). The guards y > 30 and delta <= 1/2 of the
+   sibling's `lbound.py`, which now bind for q <= 7.0 * 10^7 and q <= 115
+   (a possible gain for small h only, not measured; not relaxed because the
    sibling is imported unchanged). The grid steps 1/2000, 1/500, 1/100 and
    the tail point u = 6 (0.09% in R, measured against adaptive quadrature;
-   no trade shape). The prime-power
-   truncation at k = 5 (none). T_EXACT = 10^7 (irrelevant at 1/2: x is below
-   10^4). The cover ratio 1.01 (at most 1% in D_GRH; a trade against Arb
-   time, 80 s now). The bridge ratio 1.02 and the tail point Q1 = 10^50 with
-   eta = 1/4, delta = 1/10 (these set 0.3857; 0.3973 needs 10^200; a genuine
-   trade between the constant and the size of the cover). The constant 1/3
-   of Theorem A (binding at q = 22 786, where the cover gives 0.3335 and the
-   exact range above it is not used; with exact values to 10^8 the cover
-   would support 0.37). In the search: the block size 2^19, the mode switch
+   no trade shape). The prime-power truncation at k = 5 (none).
+   T_EXACT = 10^7 (irrelevant at 1/2: x is below 10^4). The cover ratio 1.01
+   (at most 1% in D_GRH; a trade against Arb time, 80 s now). The bridge
+   ratio 1.02 and the tail point Q1 = 10^50 with eta = 1/4, delta = 1/10
+   (these set 0.3857; 0.3973 needs 10^200; a genuine trade between the
+   constant and the size of the cover). The constant 1/3 of Theorem A
+   (binding at q = 22 786, where the cover gives 0.3335 and the exact values
+   above 22 786 are not used; with exact values to 10^8 the fine cover reads
+   about 0.37, not run as a statement). In the search: the block size 2^19,
+   the mode switch
    at 3 * 10^9 and the composite caps A0 per zone (speed only, never
    correctness), and the uint16 counters that saturate at 65 535 (H at most
    20 000 without widening them).

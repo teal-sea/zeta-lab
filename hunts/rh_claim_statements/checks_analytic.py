@@ -271,7 +271,7 @@ def zeta_partial_sum(p):
                 return _inf_ball()
             geo = arb(x1) / (arb(x1) ** 2 + arb(y0) ** 2).sqrt() if y0 else arb(1)
             return ball(0.0, up(tb[0].abs_upper() * geo / A(c)))
-        boxes = C.boxes2((0.0, float(s1)), (0.0, T), 16, max(4, int(4 * T)))
+        boxes = C.boxes2((0.0, float(s1)), (0.0, T), max(16, int(4 * float(s1))), max(4, int(4 * T)))
         res = sup_bnb(f, boxes, tol=p.get("tol", 2e-3), stop_above=1.0,
                       max_boxes=p.get("max_boxes", 200000),
                       probes=lambda b: [(0.5 * (b[0][0] + b[0][1]), b[1][0])])     # the edge nearest the real axis
@@ -448,7 +448,7 @@ def chi8_real_nonvanishing(p):
     with ctx.workprec(C.bits(p)):
         # route check: flint's L against the Hurwitz formula
         dmax = 0.0
-        for x in ("1/3", "1", "3/2"):
+        for x in ("1/3", "3/2", "3"):
             s = acb(A(x))
             dmax = max(dmax, up((ch.l(s) - _l_hurwitz(8, vals, s)).abs_upper()))
         if a < 0 or (a == 0 and closed):
@@ -1017,3 +1017,42 @@ def thin_ptw(p):
                   notes="exact reduction: the statement for every c > 0 is equivalent to K >= 4 and "
                         "e_lam <= 1 - e_rhs (with e_lam >= 1/2), compared as rationals; the literal "
                         "inequality is evaluated in Arb on a grid reaching v = e^400")
+
+
+# ---------------------------------------------------------------------------
+# wrappers for statements with several parts
+# ---------------------------------------------------------------------------
+
+def zeta_partial_sums(p):
+    """Z06 over a list of M; the worst case is reported."""
+    out, cases, worst = None, 0, None
+    per_M = {}
+    for M in p["Ms"]:
+        q = dict(p); q["M"] = M
+        r = zeta_partial_sum(q)
+        cases += r["cases"]
+        per_M[str(M)] = r.get("sup_ratio")
+        if r["holds"] is not True:
+            r = dict(r); r["cases"] = cases; r["per_M"] = per_M
+            if r.get("witness"):
+                r["witness"] = dict(r["witness"], M=M)
+            return r
+        if worst is None or r["sup_ratio"][1] > worst["sup_ratio"][1]:
+            worst = dict(r, M=M)
+    worst = dict(worst); worst["cases"] = cases; worst["per_M"] = per_M
+    worst["tightest"] = dict(worst["tightest"], M=worst["M"])
+    return worst
+
+
+def no_real_zero(p):
+    """Both conjuncts of the archive's no_real_zero: zeta on (0,1), and L(sigma, chi_8) for sigma > 0."""
+    r1 = real_nonvanishing(dict(p, a=p["zeta_a"], b="1"))
+    if r1["holds"] is not True:
+        return dict(r1, part="zeta on the interval")
+    r2 = chi8_real_nonvanishing(dict(p, a=p["chi8_a"], closed=p.get("chi8_closed", False)))
+    if r2["holds"] is not True:
+        return dict(r2, part="L(sigma, chi_8)")
+    return result(True, r1["cases"] + r2["cases"], margin=0.0, tightest=dict(sigma="-> 0+ for chi_8"),
+                  zeta_inf_abs_lower=r1["margin"], chi8=dict(inf_on_delta_2=r2["inf_on_delta_2"],
+                                                           derivative_lower_near_0=r2["derivative_lower_near_0"]),
+                  notes="first conjunct as in riemannZeta_ne_zero_of_mem_Ioo; second: " + r2["notes"])

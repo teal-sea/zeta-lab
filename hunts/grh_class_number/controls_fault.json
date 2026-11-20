@@ -1,0 +1,15 @@
+{
+ "fault": "zero term with the wrong sign: exp(M + E) in place of exp(M - E)",
+ "pairs_checked": "the largest |D| of every h <= 5000",
+ "violations_with_fault": 2724,
+ "violations_without_fault": 0,
+ "clearest_violation": {
+  "absD": 3416131987,
+  "h": 3377,
+  "L_exact": 0.18151545656444468,
+  "faulty_bound": 0.21184988173955108,
+  "ratio": 0.8568116964426743
+ },
+ "faulty_bound_recomputed_in_arb": 0.21184988173955102,
+ "control_goes_red": true
+}

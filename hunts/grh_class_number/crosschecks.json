@@ -1,0 +1,31 @@
+{
+ "sibling_H1500": {
+  "h_compared": 1500,
+  "mismatches": [],
+  "sha256_h_le_1500_equal": true,
+  "sha256_h_le_1000_equal": true,
+  "sha256_h_le_100_equal": true
+ },
+ "watkins_h_le_100": {
+  "mismatches": [],
+  "total": 42272,
+  "watkins_total": 42272
+ },
+ "holmin_kurlberg_odd": {
+  "odd_h_compared": 2500,
+  "mismatches": [],
+  "fields_with_odd_h": 9681947,
+  "of_which_h_above_1500": 8686050
+ },
+ "gglm_table1_h_le_2000": {
+  "rows_compared": 20,
+  "mismatches": [],
+  "provenance": "transcribed from the literature notes, not re-read"
+ },
+ "cremona_sutherland_h_le_1000": {
+  "count_equal": true,
+  "largest_equal": true
+ },
+ "every_h_occurs": true,
+ "all_agree": true
+}
