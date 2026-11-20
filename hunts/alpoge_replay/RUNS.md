@@ -109,3 +109,29 @@ Re-simulated with the measured cost (5.47 s + 0.583 s per KB, 433 CPU-hours):
 shards, so the chain runs at twelve. With about fifteen minutes of setup,
 restore and merge per round that is about 17.5 hours, if modules higher in
 the graph cost what leaves cost. That last condition is not measured.
+
+### Pilot round 2, 2026-11-20, run 44781165276
+
+Dispatched by round 1's merge job at 17:13:16Z, same settings, merged 17:25Z,
+stopped at `max_round=2` as set.
+
+| | |
+| --- | --- |
+| planned / built | 621 / 539 modules; 1,562 of 175,187 in all (0.89%) |
+| failures | 0 failed, 0 crashed, 0 `declaration uses 'sorry'` lines, 0 modules rebuilt outside their shard |
+| timings | all 539 timed, mean 9.00 s, slowest 141 s |
+| cost against depth | mean seconds per module over the 1,362 timed so far, by level in the import graph: 10.8, 9.8, 7.6, 8.8, 8.4 at levels 1 to 5 and 10.0 at level 6 and above. Flat so far, on a sample that reaches only the bottom of a graph 203 levels deep |
+| bundle | 119.2 MB, artifact 14652084151; state artifact 14652239123 |
+
+### The full chain, launched 2026-11-20 17:29Z
+
+Epoch `p1`, from round 3 and state artifact 14652239123: twelve shards, sixty
+build minutes, `compress_fs` on, `chain` on, `max_round=60`. Each round's
+merge job dispatches the next; the round that builds `Main` dispatches the
+verdict job instead. Rounds are appended below as they merge.
+
+| round | run | merged (UTC) | built | total | % | failed | crashed | rebuilt outside shard | mean s per module | note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | 44775351495 | 16:53 | 491 | 491 | 0.28 | 0 | 0 | 0 | 9.96 | pilot, 4 shards x 6 min |
+| 1 | 44778953944 | 17:13 | 532 | 1,023 | 0.58 | 0 | 0 | 0 | 9.70 | pilot |
+| 2 | 44781165276 | 17:25 | 539 | 1,562 | 0.89 | 0 | 0 | 0 | 9.00 | pilot |

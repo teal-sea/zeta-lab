@@ -24,6 +24,9 @@
 # Nothing here is a claim until the logs say so, and a green round is not a
 # verdict: only the verdict mode's axiom printout is.
 name: replay-alpoge-rh
+# The run title carries the round and the state it starts from, so the newest
+# run names the artifact that holds everything merged so far.
+run-name: alpoge ${{ inputs.epoch || 'p1' }} ${{ inputs.mode || 'round' }} r${{ inputs.round || '0' }} from state ${{ inputs.state_id || 'none' }} (${{ inputs.shards || '4' }}x${{ inputs.build_minutes || '6' }}min)
 
 on:
   # Dispatch only. A workflow that exists only on a feature branch cannot be
